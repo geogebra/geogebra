@@ -878,7 +878,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 				ignoreSetAssignment = true;
 				twinGeo.rename(assignmentVar);
 			}
-			cons.putCasCellLabel(this, assignmentVar);
+			if (!isOutputEmpty()) {
+				cons.putCasCellLabel(this, assignmentVar);
+			}
 		} else {
 			// remove twinGeo if we had one
 			setTwinGeo(null);

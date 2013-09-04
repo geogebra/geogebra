@@ -41,7 +41,7 @@ public class CASInputHandler {
 	 * @param params
 	 *            optional command parameters like "x"
 	 */
-	public void processCurrentRow(String ggbcmd, String[] params) {
+	public void processCurrentRow(String ggbcmd) {
 		// check if text cell
 		int selRow = consoleTable.getSelectedRow();
 		if (selRow < 0) return;
@@ -231,7 +231,7 @@ public class CASInputHandler {
 					}
 					newRowValue.setInput(sb.toString());
 					casView.insertRow(newRowValue, true);
-					processCurrentRow(ggbcmd1, params);
+					processCurrentRow(ggbcmd1);
 				}
 
 				return;
@@ -254,7 +254,8 @@ public class CASInputHandler {
 				sb.append(ggbcmd);
 				sb.append("[");
 				sb.append(evalText);
-				if (params != null && !StringUtil.representsMultipleExpressions(evalText)) {
+				// we don't need this since we don't have params
+				/*if (params != null && !StringUtil.representsMultipleExpressions(evalText)) {
 					StringBuilder paramSB = new StringBuilder();
 					for (int i = 0; i < params.length; i++) {
 						paramSB.append(", ");
@@ -263,7 +264,7 @@ public class CASInputHandler {
 					}
 					paramString = paramSB.substring(2);
 					sb.append(paramSB);
-				}
+				}*/
 				sb.append("]");
 				evalText = sb.toString();
 			}

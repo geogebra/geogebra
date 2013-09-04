@@ -115,7 +115,7 @@ public abstract class CASView implements View{
 		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
 			// no parameters, keep mode
 			backToEvaluate = false;
-			processInput(command, null);
+			processInput(command);
 			break;
 		case EuclidianConstants.MODE_CAS_EXPAND:
 		case EuclidianConstants.MODE_CAS_FACTOR:
@@ -124,7 +124,7 @@ public abstract class CASView implements View{
 		case EuclidianConstants.MODE_CAS_SOLVE:
 			
 			// no parameters
-			processInput(command, null);
+			processInput(command);
 			break;
 		case EuclidianConstants.MODE_DELETE:
 			// make sure we don't switch to evaluate if delete tool is used in EV
@@ -137,8 +137,7 @@ public abstract class CASView implements View{
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 		case EuclidianConstants.MODE_CAS_INTEGRAL:
-			// parameter will come from evalText
-			processInput(command, null);
+			processInput(command);
 			break;
 		default:
 			backToEvaluate = false;
@@ -246,8 +245,8 @@ public abstract class CASView implements View{
 	 * @param ggbcmd command name
 	 * @param params parameters
 	 */
-	public void processInput(String ggbcmd, String[] params) {
-		getInputHandler().processCurrentRow(ggbcmd, params);
+	public void processInput(String ggbcmd) {
+		getInputHandler().processCurrentRow(ggbcmd);
 		getApp().storeUndoInfo();
 	}
 	
