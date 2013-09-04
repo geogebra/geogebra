@@ -1,6 +1,8 @@
 @charset "utf-8";
 
 body {
+	-webkit-user-select: none;
+	
 	margin: 0px;
 	padding: 0px;
 	font-size: 15px;
