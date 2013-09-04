@@ -5,7 +5,7 @@ import geogebra.common.gui.dialog.options.OptionsDefaults;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.dialog.PropertiesPanel;
+import geogebra.gui.dialog.PropertiesPanelD;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
@@ -46,7 +46,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	/**
 	 * The panel with the tabs for the different properties.
 	 */
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 
 	/**
 	 * A tree with the different available object types to which new default
@@ -145,7 +145,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 
 		// create the properties panel
 		GeoGebraColorChooser colorChooser = new GeoGebraColorChooser(app);
-		propPanel = new PropertiesPanel(app, colorChooser, true);
+		propPanel = new PropertiesPanelD(app, colorChooser, true);
 		propPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		propPanel.updateSelection(new Object[] { defaults
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });

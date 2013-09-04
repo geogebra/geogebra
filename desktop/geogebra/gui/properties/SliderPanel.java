@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
-import geogebra.gui.dialog.PropertiesPanel;
+import geogebra.gui.dialog.PropertiesPanelD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 
@@ -59,14 +59,14 @@ public class SliderPanel extends JPanel implements ActionListener,
 	private AnimationStepPanel stepPanel;
 	private AnimationSpeedPanel speedPanel;
 	private Kernel kernel;
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 	private JPanel intervalPanel, sliderPanel, animationPanel;
 	private boolean useTabbedPane, includeRandom;
 	private boolean actionPerforming;
 	
 	private boolean widthUnit = false;
 
-	public SliderPanel(AppD app, PropertiesPanel propPanel,
+	public SliderPanel(AppD app, PropertiesPanelD propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		kernel = app.getKernel();

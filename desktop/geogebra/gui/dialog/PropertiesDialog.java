@@ -81,7 +81,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	private Kernel kernel;
 	private JTreeGeoElements geoTree;
 	private JButton closeButton, defaultsButton, delButton;
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 	private GeoGebraColorChooser colChooser;
 
 	// stop slider increment being less than 0.00000001
@@ -189,7 +189,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		// colChooser
 		// when a file is loaded
 		if (propPanel == null) {
-			propPanel = new PropertiesPanel(app, colChooser, false);
+			propPanel = new PropertiesPanelD(app, colChooser, false);
 			propPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		}
 		selectionChanged(); // init propPanel
@@ -216,7 +216,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		app.setComponentOrientation(this);
 	}
 
-	public PropertiesPanel getPropertiesPanel() {
+	public PropertiesPanelD getPropertiesPanel() {
 		return propPanel;
 	}
 

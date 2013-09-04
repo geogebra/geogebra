@@ -15,7 +15,7 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.dialog.PropertiesPanel;
+import geogebra.gui.dialog.PropertiesPanelD;
 import geogebra.gui.view.algebra.AlgebraTree;
 import geogebra.gui.view.algebra.AlgebraTreeController;
 import geogebra.main.AppD;
@@ -38,7 +38,7 @@ public class OptionsObjectD extends
 		geogebra.common.gui.dialog.options.OptionsObject implements
 		OptionPanelD, SetLabels {
 
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 	private GeoGebraColorChooser colChooser;
 
 	private AlgebraTree tree;
@@ -89,7 +89,7 @@ public class OptionsObjectD extends
 		// colChooser
 		// when a file is loaded
 		if (propPanel == null) {
-			propPanel = new PropertiesPanel((AppD) app, colChooser, false);
+			propPanel = new PropertiesPanelD((AppD) app, colChooser, false);
 			propPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		}
 

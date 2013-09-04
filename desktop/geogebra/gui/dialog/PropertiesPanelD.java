@@ -160,7 +160,7 @@ import javax.swing.event.ChangeListener;
  * @see #update(Graphics) PropertiesPanel
  * @author Markus Hohenwarter
  */
-public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
+public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	AppD app;
@@ -248,7 +248,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	 * @param colChooser
 	 * @param isDefaults
 	 */
-	public PropertiesPanel(AppD app, GeoGebraColorChooser colChooser,
+	public PropertiesPanelD(AppD app, GeoGebraColorChooser colChooser,
 			boolean isDefaults) {
 		this.isDefaults = isDefaults;
 
@@ -7206,9 +7206,9 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	private JTextField tfCondition;
 
 	private Kernel kernel;
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 
-	public ShowConditionPanel(AppD app, PropertiesPanel propPanel) {
+	public ShowConditionPanel(AppD app, PropertiesPanelD propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
 
@@ -7287,7 +7287,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 			cond = null;
 		} else {
 
-			strCond = PropertiesPanel.replaceEqualsSigns(strCond);
+			strCond = PropertiesPanelD.replaceEqualsSigns(strCond);
 
 			cond = kernel.getAlgebraProcessor().evaluateToBoolean(strCond);
 		}
@@ -7369,9 +7369,9 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			defaultA = "1";
 
 	private Kernel kernel;
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 
-	public ColorFunctionPanel(AppD app, PropertiesPanel propPanel) {
+	public ColorFunctionPanel(AppD app, PropertiesPanelD propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
 
@@ -7627,10 +7627,10 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		String strBlue = tfBlue.getText();
 		String strAlpha = tfAlpha.getText();
 
-		strRed = PropertiesPanel.replaceEqualsSigns(strRed);
-		strGreen = PropertiesPanel.replaceEqualsSigns(strGreen);
-		strBlue = PropertiesPanel.replaceEqualsSigns(strBlue);
-		strAlpha = PropertiesPanel.replaceEqualsSigns(strAlpha);
+		strRed = PropertiesPanelD.replaceEqualsSigns(strRed);
+		strGreen = PropertiesPanelD.replaceEqualsSigns(strGreen);
+		strBlue = PropertiesPanelD.replaceEqualsSigns(strBlue);
+		strAlpha = PropertiesPanelD.replaceEqualsSigns(strAlpha);
 
 		if ((strRed == null || strRed.trim().length() == 0)
 				&& (strGreen == null || strGreen.trim().length() == 0)
@@ -7741,9 +7741,9 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private Kernel kernel;
 	private AppD app;
-	private PropertiesPanel propPanel;
+	private PropertiesPanelD propPanel;
 
-	public GraphicsViewLocationPanel(AppD app, PropertiesPanel propPanel) {
+	public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
 		this.app = app;
 		kernel = app.getKernel();
 		this.propPanel = propPanel;

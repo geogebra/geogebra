@@ -21,7 +21,7 @@ class IneqStylePanel extends JPanel implements ItemListener,
 	/**
 	 * 
 	 */
-	private final PropertiesPanel propertiesPanel;
+	private final PropertiesPanelD propertiesPanel;
 	/**
 	 * 
 	 */
@@ -29,7 +29,7 @@ class IneqStylePanel extends JPanel implements ItemListener,
 	private Object[] geos; // currently selected geos
 	private JCheckBox showOnAxis;
 
-	public IneqStylePanel(PropertiesPanel propertiesPanel) {
+	public IneqStylePanel(PropertiesPanelD propertiesPanel) {
 		super(new FlowLayout(FlowLayout.LEFT));
 		this.propertiesPanel = propertiesPanel;
 
