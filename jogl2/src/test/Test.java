@@ -1,6 +1,6 @@
 package test;
 
-
+/*
 
 import geogebra3D.euclidian3D.opengl.Animator;
 import geogebra3D.euclidian3D.opengl.Component3D;
@@ -124,4 +124,4 @@ public class Test implements GLEventListener {
         gl.glEnd(); 
     } 
 	
-}
+}*/
