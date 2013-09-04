@@ -58,11 +58,23 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	 */
 	public GGraphics2DW(Canvas canvas) {
 		this.canvas = canvas;
+		setDirection();
+		
 		this.context = canvas.getContext2d();
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
 	}
 	
+	/**
+	 * If we allow right-to left direction
+	 * * checkboxes have their labels to the right
+	 * * labels are drawn to the right, hence the check to fit in screen will probably fail
+	 * * labels are malformed, eg )A=(1,2
+	 */
+	private void setDirection() {
+		this.canvas.getElement().setDir("ltr");
+    }
+
 	public GGraphics2DW(Canvas canvas, boolean resetColor) {
 		this(canvas);
 		if(resetColor){

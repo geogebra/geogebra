@@ -137,6 +137,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 		se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
+		se.setDir("ltr");
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
 		ihtml.addClickHandler(this);
