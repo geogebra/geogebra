@@ -132,6 +132,8 @@ public class GeoGebraColorConstants {
 	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype.newColor(102, 102, 255);
 	/** undefined objects */
 	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY3;
+	/** local objects (local variables, blue) */
+	public static final GColor LOCAL_OBJECT_COLOR = AwtFactory.prototype.newColor(0, 102, 255);
 	/** unbalanced brackets */
 	public static final GColor UNBALANCED_BRACKET_COLOR = RED;
 	/** balanced bracket (green) */
