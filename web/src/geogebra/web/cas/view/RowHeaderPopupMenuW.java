@@ -22,18 +22,26 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 		initMenu();
 	}
 
-	private void initMenu(){		
-		addItem(new MenuItem("InsertAbove", new ScheduledCommand(){
-			public void execute() {
-	            actionPerformed("insertAbove");
-            }
-		}));
+	private void initMenu(){
+		//"Insert Above" menuitem
+		MenuItem miInsertAbove = new MenuItem(app.getMenu("InsertAbove"),
+		        new ScheduledCommand() {
+			        public void execute() {
+				        actionPerformed("insertAbove");
+			        }
+		        });
+		addItem(miInsertAbove);
+		miInsertAbove.addStyleName("mi_no_image");
 		
-		addItem(new MenuItem("InsertBelow", new ScheduledCommand(){
-			public void execute() {
-	            actionPerformed("insertBelow");
-            }
-		}));
+		//"Insert Below" menuitem
+		MenuItem miInsertBelow = new MenuItem("InsertBelow",
+		        new ScheduledCommand() {
+			        public void execute() {
+				        actionPerformed(app.getMenu("insertBelow"));
+			        }
+		        });
+		addItem(miInsertBelow);
+		miInsertBelow.addStyleName("mi_no_image");
 /*		
 		addItem(new MenuItem("Delete", new ScheduledCommand(){
 			public void execute() {
