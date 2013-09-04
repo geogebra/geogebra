@@ -1771,12 +1771,12 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 .cas_header{
 	width: 1px;
-	padding-left: 5px;
-	padding-right: 5px;
 }
 
 .cas_header table td{
 	text-align: center;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 /*=========== SignInDialog =============*/
