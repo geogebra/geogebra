@@ -263,20 +263,20 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	public void setLabels(){
 		super.setLabels();
-		btnShowPlane.setToolTipText(app.getPlainTooltip("stylebar.xOyPlane"));
-		btnRotateView.setToolTipText(app.getPlainTooltip("stylebar.RotateView"));
-		btnViewDefault.setToolTipText(app.getPlainTooltip("stylebar.ViewDefault"));
-		btnViewXY.setToolTipText(app.getPlainTooltip("stylebar.ViewXY"));
-		btnViewXZ.setToolTipText(app.getPlainTooltip("stylebar.ViewXZ"));
-		btnViewYZ.setToolTipText(app.getPlainTooltip("stylebar.ViewYZ"));
-		btnClipping.setToolTipText(app.getPlainTooltip("stylebar.Clipping"));
-		btnViewProjection.setToolTipText(app.getPlainTooltip("stylebar.ViewProjection"));
+		btnShowPlane.setToolTipText(loc.getPlainTooltip("stylebar.xOyPlane"));
+		btnRotateView.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
+		btnViewDefault.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
+		btnViewXY.setToolTipText(loc.getPlainTooltip("stylebar.ViewXY"));
+		btnViewXZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewXZ"));
+		btnViewYZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewYZ"));
+		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
+		btnViewProjection.setToolTipText(loc.getPlainTooltip("stylebar.ViewProjection"));
 		btnViewProjection.setToolTipArray(
 				new String[] {
-						app.getPlainTooltip("stylebar.ParallelProjection"),
-						app.getPlainTooltip("stylebar.PerspectiveProjection"),
-						app.getPlainTooltip("stylebar.AnaglyphProjection"),
-						app.getPlainTooltip("stylebar.ObliqueProjection")
+						loc.getPlainTooltip("stylebar.ParallelProjection"),
+						loc.getPlainTooltip("stylebar.PerspectiveProjection"),
+						loc.getPlainTooltip("stylebar.AnaglyphProjection"),
+						loc.getPlainTooltip("stylebar.ObliqueProjection")
 				});
 		
 		//btnViewProjection.setSelectedIndex(getView().getProjection());

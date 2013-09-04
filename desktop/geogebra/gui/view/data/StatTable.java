@@ -2,6 +2,7 @@ package geogebra.gui.view.data;
 
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -54,11 +55,12 @@ public class StatTable extends JScrollPane {
 	private HashMap<Point, MyComboBoxRenderer> comboBoxRendererMap;
 	private ActionListener al;
 	AppD app;
+	final LocalizationD loc;
 
 	public StatTable(AppD app) {
 
 		this.app = app;
-
+		this.loc = app.getLocalization();
 		// create and initialize the table
 		initTable();
 
@@ -482,7 +484,7 @@ public class StatTable extends JScrollPane {
 
 			setLayout(new BorderLayout());
 			comboBox = new JComboBox(items);
-			add(comboBox, app.borderEast());
+			add(comboBox, loc.borderEast());
 			if (text != null) {
 				label = new JLabel(text);
 				add(label, BorderLayout.CENTER);

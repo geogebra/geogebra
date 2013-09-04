@@ -70,7 +70,7 @@ public abstract class CASTableCell extends JPanel {
 		JPanel northPanel = new JPanel(new BorderLayout());
 		northPanel.setBackground(this.getBackground());
 		northPanel.add(dummyField, BorderLayout.CENTER);
-		northPanel.add(inputPanel, app.borderWest());
+		northPanel.add(inputPanel, app.getLocalization().borderWest());
 		dummyField.setVisible(false);
 		
 		outputPanel = new CASOutputPanel(view.getApp());

@@ -24,6 +24,7 @@ import geogebra.common.main.SpreadsheetTraceManager;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -77,7 +78,7 @@ implements
 	{
 	private static final long serialVersionUID = 1L;
 	// external components
-	private AppD app;
+	private final AppD app;
 	private SpreadsheetView view;
 	private SpreadsheetTraceManager traceManager;
 	
@@ -111,6 +112,7 @@ implements
 	private CellRange newTraceLocation;
 	private boolean isIniting = false;
 	private JLabel lblStartRow;
+	private final LocalizationD loc;
 	
 	
 	
@@ -120,6 +122,7 @@ implements
 		super(app.getFrame());
 		
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.view = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();	
 		geo = selectedGeo;
 		traceManager = app.getTraceManager();
@@ -232,7 +235,7 @@ implements
 		//TODO use a set labels method for language support
 		
 		try {
-			setTitle(app.getMenu("RecordToSpreadsheet"));			
+			setTitle(loc.getMenu("RecordToSpreadsheet"));			
 			BorderLayout thisLayout = new BorderLayout();			
 			getContentPane().setLayout(thisLayout);
 						
@@ -302,7 +305,7 @@ implements
 	private JPanel buildLocationPanel() {
 		
 		// start row panel
-		lblStartRow = new JLabel(app.getMenu("StartRow"+": "));
+		lblStartRow = new JLabel(loc.getMenu("StartRow"+": "));
 		firstRowField = new MyTextField(app);
 		firstRowField.setColumns(3);
 		firstRowField.addActionListener(this);
@@ -315,7 +318,7 @@ implements
 		
 		
         // row limit panel
-		cbRowLimit = new JCheckBox(app.getMenu("RowLimit"+": "));  
+		cbRowLimit = new JCheckBox(loc.getMenu("RowLimit"+": "));  
 		cbRowLimit.addActionListener(this);
 
 		numRowsField = new MyTextField(app);
@@ -335,7 +338,7 @@ implements
 		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));	
 		locationPanel.setMinimumSize(new Dimension(200, 30));
 		
-		locationTitle = BorderFactory.createTitledBorder(app.getPlain("Location"));     
+		locationTitle = BorderFactory.createTitledBorder(loc.getPlain("Location"));     
 		locationPanel.setBorder(BorderFactory.createTitledBorder(locationTitle));
 		
 		locationPanel.add(startRowPanel);
@@ -354,9 +357,9 @@ implements
 				.getPlain("TraceMode"));
 		pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
 
-		traceModeValues = new JRadioButton(app.getPlain(""));
+		traceModeValues = new JRadioButton(loc.getPlain(""));
 		traceModeValues.addActionListener(this);
-		traceModeCopy = new JRadioButton(app.getPlain(""));
+		traceModeCopy = new JRadioButton(loc.getPlain(""));
 		traceModeCopy.addActionListener(this);
 		ButtonGroup group = new ButtonGroup();
 		group.add(traceModeValues);
@@ -376,18 +379,18 @@ implements
 		//optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));	
 		
 		
-		optionsTitle = BorderFactory.createTitledBorder(app.getPlain("Options"));     
+		optionsTitle = BorderFactory.createTitledBorder(loc.getPlain("Options"));     
 		optionsPanel.setBorder(BorderFactory.createTitledBorder(optionsTitle));
 					
-        cbShowLabel = new JCheckBox(app.getPlain("ShowLabel"));  
+        cbShowLabel = new JCheckBox(loc.getPlain("ShowLabel"));  
         cbShowLabel.addActionListener(this);        
         optionsPanel.add(cbShowLabel);
                     
-        cbTraceList = new JCheckBox(app.getMenu("TraceToList"));  
+        cbTraceList = new JCheckBox(loc.getMenu("TraceToList"));  
         cbTraceList.addActionListener(this);        
         optionsPanel.add(cbTraceList);
      
-		cbResetColumns = new JCheckBox(app.getMenu("ColumnReset"));  
+		cbResetColumns = new JCheckBox(loc.getMenu("ColumnReset"));  
 		cbResetColumns.addActionListener(this);   
 		optionsPanel.add(cbResetColumns);
 		
@@ -419,10 +422,10 @@ implements
 		leftButtonPanel.add(btErase);
 		
 		
-		btClose = new JButton(app.getMenu("Close"));
+		btClose = new JButton(loc.getMenu("Close"));
 		btClose.addActionListener(this);
 		
-		btCancel = new JButton(app.getPlain("Cancel"));
+		btCancel = new JButton(loc.getPlain("Cancel"));
 		btCancel.addActionListener(this);
 		JPanel closeCancelPanel = new JPanel();
 		closeCancelPanel.add(btCancel);
@@ -430,16 +433,16 @@ implements
 		
 		
 		promptPanel = new JPanel(new BorderLayout());			
-		prompt = new JLabel(app.getMenu("SelectAnObjectToTrace"));
+		prompt = new JLabel(loc.getMenu("SelectAnObjectToTrace"));
 		prompt.setHorizontalAlignment(SwingConstants.CENTER);
 		prompt.setVerticalAlignment(SwingConstants.CENTER);
 		promptPanel.add(prompt, BorderLayout.CENTER);
 		promptPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		//promptPanel.setVisible(false);
 		
-		buttonPanel.add(closeCancelPanel, app.borderEast());
+		buttonPanel.add(closeCancelPanel, loc.borderEast());
 		//buttonPanel.add(promptPanel, BorderLayout.CENTER);	
-		buttonPanel.add(leftButtonPanel, app.borderWest());
+		buttonPanel.add(leftButtonPanel, loc.borderWest());
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));	
 		//buttonPanel.setPreferredSize(new Dimension(400,50));
 		

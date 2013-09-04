@@ -28,6 +28,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -147,6 +148,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	HashMap<Integer, Integer> lineStyleMap;
 
 	HashMap<Integer, Integer> pointStyleMap;
+	protected final LocalizationD loc;
 
 	/*************************************************
 	 * Constructs a styleBar
@@ -161,6 +163,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		this.ev = ev;
 		ec = (EuclidianControllerD) ev.getEuclidianController();
 		app = (AppD) ev.getApplication();
+		this.loc = app.getLocalization();
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
@@ -730,12 +733,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// caption style button
 
-		String[] captionArray = new String[] { app.getPlain("stylebar.Hidden"), // index
+		String[] captionArray = new String[] { loc.getPlain("stylebar.Hidden"), // index
 																				// 4
-				app.getPlain("Name"), // index 0
-				app.getPlain("NameAndValue"), // index 1
-				app.getPlain("Value"), // index 2
-				app.getPlain("Caption") // index 3
+				loc.getPlain("Name"), // index 0
+				loc.getPlain("NameAndValue"), // index 1
+				loc.getPlain("Value"), // index 2
+				loc.getPlain("Caption") // index 3
 		};
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
@@ -932,7 +935,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 							setToolTipText(app
 									.getPlain("stylebar.ColorTransparency"));
 						else
-							setToolTipText(app.getPlain("stylebar.Color"));
+							setToolTipText(loc.getPlain("stylebar.Color"));
 
 						setSliderValue(Math.round(alpha * 100));
 
@@ -1106,7 +1109,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight) {
@@ -1137,7 +1140,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// italic text button
 		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
-				app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight) {
 
@@ -1498,35 +1501,35 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		initGUI();
 		updateStyleBar();
 
-		btnShowGrid.setToolTipText(app.getPlainTooltip("stylebar.Grid"));
-		btnShowAxes.setToolTipText(app.getPlainTooltip("stylebar.Axes"));
+		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
+		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 
-		btnLabelStyle.setToolTipText(app.getPlainTooltip("stylebar.Label"));
+		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
 
-		btnColor.setToolTipText(app.getPlainTooltip("stylebar.Color"));
-		btnBgColor.setToolTipText(app.getPlainTooltip("stylebar.BgColor"));
+		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
+		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
 
-		btnLineStyle.setToolTipText(app.getPlainTooltip("stylebar.LineStyle"));
+		btnLineStyle.setToolTipText(loc.getPlainTooltip("stylebar.LineStyle"));
 		btnPointStyle
-				.setToolTipText(app.getPlainTooltip("stylebar.PointStyle"));
+				.setToolTipText(loc.getPlainTooltip("stylebar.PointStyle"));
 
-		btnTextColor.setToolTipText(app.getPlainTooltip("stylebar.TextColor"));
-		btnTextSize.setToolTipText(app.getPlainTooltip("stylebar.TextSize"));
-		btnBold.setToolTipText(app.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(app.getPlainTooltip("stylebar.Italic"));
-		btnTableTextJustify.setToolTipText(app
+		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
+		btnTextSize.setToolTipText(loc.getPlainTooltip("stylebar.TextSize"));
+		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		btnTableTextJustify.setToolTipText(loc
 				.getPlainTooltip("stylebar.Align"));
-		btnTableTextBracket.setToolTipText(app
+		btnTableTextBracket.setToolTipText(loc
 				.getPlainTooltip("stylebar.Bracket"));
-		btnTableTextLinesV.setToolTipText(app
+		btnTableTextLinesV.setToolTipText(loc
 				.getPlainTooltip("stylebar.VerticalLine"));
-		btnTableTextLinesH.setToolTipText(app
+		btnTableTextLinesH.setToolTipText(loc
 				.getPlainTooltip("stylebar.HorizontalLine"));
 		
-		btnPen.setToolTipText(app.getPlainTooltip("stylebar.Pen"));
-		btnFixPosition.setToolTipText(app.getPlain("AbsoluteScreenLocation"));
+		btnPen.setToolTipText(loc.getPlainTooltip("stylebar.Pen"));
+		btnFixPosition.setToolTipText(loc.getPlainTooltip("AbsoluteScreenLocation"));
 		
-		btnDeleteSize.setToolTipText(app.getPlain("Size"));
+		btnDeleteSize.setToolTipText(loc.getPlainTooltip("Size"));
 
 	}
 

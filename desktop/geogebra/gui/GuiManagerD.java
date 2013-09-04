@@ -1035,7 +1035,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			String flag = StringUtil.toLowerCase(country)+".png";
 			JMenuItem jj = new JMenuItem((app).getFlagIcon(flag));
 			jj.setAlignmentX(100);
-			menuBar2.add(jj, app.borderEast());
+			menuBar2.add(jj, app.getLocalization().borderEast());
 
 			
 		}

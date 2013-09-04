@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,10 +41,12 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 	protected boolean isResizing = false;
 
 	private int overTraceButtonColumn = -1;
+	private final LocalizationD loc;
 
 	public SpreadsheetColumnController(AppD app, MyTableD table) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.table = table;
 		this.view = table.getView();
@@ -469,15 +472,15 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			if (overTraceButtonColumn == colIndex) {
 				btnTrace.setIcon(traceRollOverIcon);
-				setToolTipText(app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
+				setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet"));
 			} else
 				btnTrace.setIcon(traceIcon);
 
 			if (app.getTraceManager().isTraceColumn(colIndex)) {
-				this.add(btnTrace, app.borderWest());
+				this.add(btnTrace, loc.borderWest());
 			} else {
-				if (layout.getLayoutComponent(app.borderWest()) != null) {
-					this.remove(layout.getLayoutComponent(app.borderWest()));
+				if (layout.getLayoutComponent(loc.borderWest()) != null) {
+					this.remove(layout.getLayoutComponent(loc.borderWest()));
 				}
 			}
 

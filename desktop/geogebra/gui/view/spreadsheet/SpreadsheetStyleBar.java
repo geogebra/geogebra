@@ -8,6 +8,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,11 +42,13 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
+	private LocalizationD loc;
 
 	public SpreadsheetStyleBar(SpreadsheetView view) {
 
 		this.view = view;
 		this.app = view.getApplication();
+		this.loc = app.getLocalization();
 		this.table = (MyTableD) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
 		this.selectedCells = table.selectedCellRanges;
@@ -87,7 +90,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		// btnFormulaBar.setSelectedIcon(app.getImageIcon("formula_bar_hide.png"));
 		btnFormulaBar.addActionListener(this);
 
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight);
@@ -95,7 +98,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnBold.setPreferredSize(iconDimension);
 
 		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
-				app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight);
 		btnItalic.addActionListener(this);
@@ -151,24 +154,24 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 	public void setLabels() {
 
-		btnFormulaBar.setToolTipText(app.getMenu("ShowInputField"));
-		btnBold.setToolTipText(app.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(app.getPlainTooltip("stylebar.Italic"));
-		btnBorderStyle.setToolTipText(app.getPlainTooltip("stylebar.Border"));
-		btnBgColor.setToolTipText(app.getPlainTooltip("stylebar.BgColor"));
-		btnLeftAlign.setToolTipText(app.getPlainTooltip("stylebar.AlignLeft"));
-		btnCenterAlign.setToolTipText(app
+		btnFormulaBar.setToolTipText(loc.getMenu("ShowInputField"));
+		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		btnBorderStyle.setToolTipText(loc.getPlainTooltip("stylebar.Border"));
+		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
+		btnLeftAlign.setToolTipText(loc.getPlainTooltip("stylebar.AlignLeft"));
+		btnCenterAlign.setToolTipText(loc
 				.getPlainTooltip("stylebar.AlignCenter"));
 		btnRightAlign
-				.setToolTipText(app.getPlainTooltip("stylebar.AlignRight"));
+				.setToolTipText(loc.getPlainTooltip("stylebar.AlignRight"));
 
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold.setIcon(boldIcon);
 
 		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
-				app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic.setIcon(italicIcon);
 	}

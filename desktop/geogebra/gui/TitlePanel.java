@@ -20,6 +20,7 @@ import geogebra.gui.inputfield.MyFormattedTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -55,10 +56,11 @@ public class TitlePanel extends JPanel {
 	private ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
 
 	private Construction cons;
-
+	private LocalizationD loc;
 	public TitlePanel(AppD app) {
 		cons = app.getKernel().getConstruction();
-
+		loc = app.getLocalization();
+		
 		setLayout(new BorderLayout(5, 5));
 		titleField = new MyTextField(app);
 		authorField = new MyTextField(app);
@@ -71,21 +73,21 @@ public class TitlePanel extends JPanel {
 		updateData();
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(app.getPlain("Title") + ": "), app.borderWest());
+		p.add(new JLabel(loc.getPlain("Title") + ": "), loc.borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		add(p, BorderLayout.NORTH);
 
 		p = new JPanel(new BorderLayout(5, 5));
 		JPanel p1 = new JPanel(new BorderLayout());
-		p1.add(new JLabel(app.getPlain("Author") + ": "), app.borderWest());
+		p1.add(new JLabel(loc.getPlain("Author") + ": "), loc.borderWest());
 		p1.add(authorField, BorderLayout.CENTER);
 		p.add(p1, BorderLayout.CENTER);
 
 		p1 = new JPanel(new BorderLayout());
-		p1.add(new JLabel(app.getPlain("Date") + ": "), app.borderWest());
+		p1.add(new JLabel(loc.getPlain("Date") + ": "), loc.borderWest());
 		p1.add(dateField, BorderLayout.CENTER);
 
-		p.add(p1, app.borderEast());
+		p.add(p1, loc.borderEast());
 		add(p, BorderLayout.CENTER);
 
 		setBorder(BorderFactory.createCompoundBorder(BorderFactory

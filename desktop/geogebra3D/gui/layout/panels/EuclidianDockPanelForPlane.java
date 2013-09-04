@@ -38,7 +38,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		
 		
 		
-		this.app = app;
+		setApp(app);
 		this.view = view;
 		view.setDockPanel(this);
 		

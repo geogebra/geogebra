@@ -23,7 +23,7 @@ public class AssignmentDockPanel extends DockPanel {
 			'Q' // ctrl-shift-Q
 		);
 		
-		this.app = app;
+		setApp(app);
 		this.setOpenInFrame(false);
 	}
 

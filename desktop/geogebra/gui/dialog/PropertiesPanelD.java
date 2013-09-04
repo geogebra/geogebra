@@ -89,6 +89,7 @@ import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -164,7 +165,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	AppD app;
-	Localization loc;
+	LocalizationD loc;
 	private Kernel kernel;
 	private GeoGebraColorChooser colChooser;
 
@@ -1336,7 +1337,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// put the sub-panels together
 			setLayout(new BorderLayout());
 			add(colorChooserContainer, BorderLayout.NORTH);
-			add(southPanel, app.borderWest());
+			add(southPanel, loc.borderWest());
 		}
 		/**
 		 * Extended JPanel that draws a preview rectangle filled with the color
@@ -1725,7 +1726,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				}
 				selectionBarButtons[0].setText(app.getPlain("AllBars"));
 				selectionBarButtons[selectedBarButton].setSelected(true);
-				add(barsPanel, app.borderEast());
+				add(barsPanel, loc.borderEast());
 			}
 		}
 
@@ -3748,21 +3749,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			clickScriptPanel
-					.add(clickDialog.getButtonPanel(), app.borderEast());
+					.add(clickDialog.getButtonPanel(), loc.borderEast());
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
 			updateScriptPanel.add(
 					updateDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
-					app.borderEast());
+					loc.borderEast());
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
 			globalScriptPanel.add(
 					globalDialog.getInputPanel(row, column, true),
 					BorderLayout.NORTH);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
-					app.borderEast());
+					loc.borderEast());
 
 			add(tabbedPane, BorderLayout.CENTER);
 
@@ -7459,42 +7460,42 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		AppD app = (AppD) kernel.getApplication();
+		Localization loc = kernel.getLocalization();
 
 		setBorder(BorderFactory
-				.createTitledBorder(app.getMenu("DynamicColors")));
+				.createTitledBorder(loc.getMenu("DynamicColors")));
 
 		if (allowSetComboBoxLabels) {
 			cbColorSpace.removeActionListener(this);
 			cbColorSpace.removeAllItems();
-			cbColorSpace.addItem(app.getMenu("RGB"));
-			cbColorSpace.addItem(app.getMenu("HSV"));
-			cbColorSpace.addItem(app.getMenu("HSL"));
+			cbColorSpace.addItem(loc.getMenu("RGB"));
+			cbColorSpace.addItem(loc.getMenu("HSV"));
+			cbColorSpace.addItem(loc.getMenu("HSL"));
 			cbColorSpace.addActionListener(this);
 		}
 		allowSetComboBoxLabels = true;
 
 		switch (colorSpace) {
 		case GeoElement.COLORSPACE_RGB:
-			nameLabelR.setText(app.getMenu("Red") + ":");
-			nameLabelG.setText(app.getMenu("Green") + ":");
-			nameLabelB.setText(app.getMenu("Blue") + ":");
+			nameLabelR.setText(loc.getMenu("Red") + ":");
+			nameLabelG.setText(loc.getMenu("Green") + ":");
+			nameLabelB.setText(loc.getMenu("Blue") + ":");
 			break;
 		case GeoElement.COLORSPACE_HSB:
-			nameLabelR.setText(app.getMenu("Hue") + ":");
-			nameLabelG.setText(app.getMenu("Saturation") + ":");
-			nameLabelB.setText(app.getMenu("Value") + ":");
+			nameLabelR.setText(loc.getMenu("Hue") + ":");
+			nameLabelG.setText(loc.getMenu("Saturation") + ":");
+			nameLabelB.setText(loc.getMenu("Value") + ":");
 			break;
 		case GeoElement.COLORSPACE_HSL:
-			nameLabelR.setText(app.getMenu("Hue") + ":");
-			nameLabelG.setText(app.getMenu("Saturation") + ":");
-			nameLabelB.setText(app.getMenu("Lightness") + ":");
+			nameLabelR.setText(loc.getMenu("Hue") + ":");
+			nameLabelG.setText(loc.getMenu("Saturation") + ":");
+			nameLabelB.setText(loc.getMenu("Lightness") + ":");
 			break;
 		}
 
-		nameLabelA.setText(app.getMenu("Opacity") + ":");
+		nameLabelA.setText(loc.getMenu("Opacity") + ":");
 
-		btRemove.setToolTipText(app.getPlainTooltip("Remove"));
+		btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 	}
 
 	public JPanel update(Object[] geos) {

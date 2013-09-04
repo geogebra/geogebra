@@ -26,6 +26,7 @@ import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
@@ -62,6 +63,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	private JLabel inputLabel;
 	private JToggleButton btnHelpToggle;
 	private InputPanelD inputPanel;
+	private LocalizationD loc;
 
 
 	/***********************************************************
@@ -69,7 +71,8 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	 * @param app 
 	 */
 	public AlgebraInput(AppD app) {		
-		this.app = app;		
+		this.app = app;
+		this.loc = app.getLocalization();
 
 		app.removeTraversableKeys(this);
 
@@ -127,11 +130,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		// create sub-panels				 		
 		JPanel labelPanel = new JPanel(new BorderLayout());
 		
-		labelPanel.add(inputLabel, app.borderEast());
+		labelPanel.add(inputLabel, loc.borderEast());
 
 		JPanel eastPanel = new JPanel(new BorderLayout());
 		if (app.showInputHelpToggle()) {
-			eastPanel.add(btnHelpToggle, app.borderWest());
+			eastPanel.add(btnHelpToggle, loc.borderWest());
 		}
 		
 		labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10, 0, 2));
@@ -139,9 +142,9 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputPanel.setBorder(BorderFactory.createEmptyBorder(2,0,2,0));
 		
 		setLayout(new BorderLayout(0,0));
-		add(labelPanel, app.borderWest());
+		add(labelPanel, loc.borderWest());
 		add(inputPanel, BorderLayout.CENTER);
-		add(eastPanel, app.borderEast());
+		add(eastPanel, loc.borderEast());
 
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		setLabels();

@@ -3154,10 +3154,6 @@ public abstract class App implements UpdateSelection{
 	public final String getPlain(String key){
 		return getLocalization().getPlain(key);
 	}
-	
-	public final String getPlainTooltip(String key){
-		return getLocalization().getPlainTooltip(key);
-	}
 
 	@Deprecated
 	public final ArrayList<GeoElement> getSelectedGeos() {

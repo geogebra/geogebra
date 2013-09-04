@@ -51,6 +51,8 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	JCheckBoxMenuItem miShowOnlyBreakpoints;
 	/** Item for Colorful protocol option */
 	JCheckBoxMenuItem miColorfulConstructionProtocol;
+
+	private Localization loc;
 	
 	
 	/**
@@ -61,6 +63,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	public ConstructionProtocolStyleBar(ConstructionProtocolViewD cpView, AppD app) {
 		this.cpView = cpView;
 		this.app = app;
+		this.loc = app.getLocalization();
 		
 		setFloatable(false);
 		
@@ -123,7 +126,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		btnOptions.setStandardButton(true);  // mouse clicks over total button region
 		btnOptions.setIcon(app.getImageIcon("document-properties.png"));
 		
-		miShowOnlyBreakpoints = new JCheckBoxMenuItem(app.getPlain("ShowOnlyBreakpoints"));
+		miShowOnlyBreakpoints = new JCheckBoxMenuItem(loc.getPlain("ShowOnlyBreakpoints"));
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
 		miShowOnlyBreakpoints.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -134,7 +137,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		});
 		btnOptions.addPopupMenuItem(miShowOnlyBreakpoints);
 		
-		miColorfulConstructionProtocol = new JCheckBoxMenuItem(app.getPlain("ColorfulConstructionProtocol"));
+		miColorfulConstructionProtocol = new JCheckBoxMenuItem(loc.getPlain("ColorfulConstructionProtocol"));
 		miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
 		miColorfulConstructionProtocol.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +152,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		//export button
 		
 		btnExport = new JButton(app.getImageIcon("text-html.png"));
-		btnExport.setToolTipText(app.getPlainTooltip("ExportAsWebpage"));
+		btnExport.setToolTipText(loc.getPlainTooltip("ExportAsWebpage"));
 		btnExport.addActionListener(this);
 		add(btnExport);
 		
@@ -157,7 +160,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 
 		//print button
 		btnPrint = new JButton(app.getImageIcon("document-print-preview.png"));
-		btnPrint.setToolTipText(app.getPlainTooltip("Print"));
+		btnPrint.setToolTipText(loc.getPlainTooltip("Print"));
 		btnPrint.addActionListener(this);
 		add(btnPrint);
 		
@@ -165,7 +168,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		
 		//Help button
 		btnHelp = new JButton(app.getImageIcon("help.png"));
-		//btnHelp.setToolTipText(app.getPlainTooltip("FastHelp"));
+		//btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -187,7 +190,6 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	 * Set the tool tip texts (used for language change, and at initialization labels).
 	 */
 	public void setLabels() {
-		Localization loc = app.getLocalization();
 		btnColumns.setToolTipText(loc.getMenuTooltip("Columns"));
 		btnOptions.setToolTipText(loc.getMenuTooltip("Options"));
 		btnExport.setToolTipText(loc.getPlainTooltip("ExportAsWebpage"));

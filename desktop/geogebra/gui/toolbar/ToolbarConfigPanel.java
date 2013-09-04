@@ -16,6 +16,7 @@ import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -68,7 +69,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	private JList toolList;	
 	private DefaultListModel toolListModel;
 	private AppD app;	
-	
+	private LocalizationD loc;
 	/**
 	 * Creates new toolbar config panel.
 	 * @param app application
@@ -76,7 +77,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	public ToolbarConfigPanel(AppD app) {
 		super();	
 		this.app = app;			
-		
+		this.loc = app.getLocalization();
 		selectionPanel = new JPanel();
 		selectionPanel.setLayout(new BorderLayout(5, 5));
 		selectionPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,25 +100,25 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		scrollSpacePanel.add(configScrollPane, BorderLayout.CENTER); //
 		JPanel scrollPanel = new JPanel();
 		scrollPanel.setLayout(new BorderLayout(0, 0));
-		scrollPanel.setBorder(new TitledBorder(app.getMenu("Toolbar")));
+		scrollPanel.setBorder(new TitledBorder(loc.getMenu("Toolbar")));
 		scrollPanel.add(scrollSpacePanel, BorderLayout.CENTER);
 				
 		scrollPanel.setPreferredSize(new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
 		//
-		selectionPanel.add(scrollPanel, app.borderWest());
+		selectionPanel.add(scrollPanel, loc.borderWest());
 		//
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 		buttonPanel.add(Box.createVerticalGlue());
 		
-		insertButton = new JButton("< " + app.getPlain("Insert"));		
+		insertButton = new JButton("< " + loc.getPlain("Insert"));		
 		insertButton.addActionListener(this);
 		insertButton.setAlignmentX(CENTER_ALIGNMENT);
 		buttonPanel.add(insertButton);
 		buttonPanel.add(Box.createVerticalStrut(10));
 		
-		deleteButton = new javax.swing.JButton(app.getPlain("Remove") + " >");		
+		deleteButton = new javax.swing.JButton(loc.getPlain("Remove") + " >");		
 		deleteButton.addActionListener(this);
 		deleteButton.setAlignmentX(CENTER_ALIGNMENT);
 		buttonPanel.add(deleteButton);		
@@ -129,11 +130,11 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		
 		//		
 		JPanel upDownPanel = new JPanel();
-		moveUpButton = new javax.swing.JButton("\u25b2 " + app.getPlain("Up"));	
+		moveUpButton = new javax.swing.JButton("\u25b2 " + loc.getPlain("Up"));	
 		moveUpButton.addActionListener(this);
 		upDownPanel.add(moveUpButton);
 		//
-		moveDownButton = new javax.swing.JButton("\u25bc " + app.getPlain("Down"));		
+		moveDownButton = new javax.swing.JButton("\u25bc " + loc.getPlain("Down"));		
 		moveDownButton.addActionListener(this);
 		upDownPanel.add(moveDownButton);
 		
@@ -152,7 +153,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		selectionPanel.add(tempPanel, BorderLayout.CENTER);
 		JPanel modePanel = new JPanel();
 		modePanel.setLayout(new BorderLayout(0, 0));
-		modePanel.setBorder(new TitledBorder(app.getMenu("Tools")));
+		modePanel.setBorder(new TitledBorder(loc.getMenu("Tools")));
 		
 		ListSelectionModel lsm = toolList.getSelectionModel();
 		lsm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);

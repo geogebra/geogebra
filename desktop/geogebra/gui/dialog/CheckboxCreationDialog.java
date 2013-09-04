@@ -20,6 +20,7 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -59,6 +60,8 @@ public class CheckboxCreationDialog extends JDialog implements
 	private AppD app;
 	private GeoBoolean geoBoolean;
 
+	private LocalizationD loc;
+
 	/**
 	 * Input Dialog for a GeoText object
 	 */
@@ -66,11 +69,12 @@ public class CheckboxCreationDialog extends JDialog implements
 			GeoBoolean geoBoolean) {
 		super(app.getFrame(), false);
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.location = location;
 		this.geoBoolean = geoBoolean;
 
 		initLists();
-		createGUI(app.getMenu("ShowCheckBox"));
+		createGUI(loc.getMenu("ShowCheckBox"));
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 	}
@@ -128,7 +132,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		setResizable(true);
 
 		// create caption panel
-		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption") + ":");
+		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelD ip = new InputPanelD(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
@@ -143,14 +147,14 @@ public class CheckboxCreationDialog extends JDialog implements
 		captionPanel.add(ip);
 
 		// list panel
-		JPanel listPanel = ToolCreationDialog.createInputOutputPanel(app,
+		JPanel listPanel = ToolCreationDialog.createInputOutputPanel(loc,
 				listModel, comboModel, false, false, null);
 
 		// buttons
-		btApply = new JButton(app.getPlain("Apply"));
+		btApply = new JButton(loc.getPlain("Apply"));
 		btApply.setActionCommand("Apply");
 		btApply.addActionListener(this);
-		btCancel = new JButton(app.getPlain("Cancel"));
+		btCancel = new JButton(loc.getPlain("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
 		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

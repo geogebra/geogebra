@@ -69,6 +69,7 @@ import geogebra.gui.util.ListSeparatorRenderer;
 import geogebra.gui.view.data.PlotPanelEuclidianView;
 import geogebra.gui.view.data.PlotSettings;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -119,7 +120,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private boolean hasIntegral = true;
 
 	// ggb fields
-	private AppD app;
+	private final AppD app;
+	private final LocalizationD loc;
 	private Construction cons;
 	private Kernel kernel;
 	private ProbabilityManager probManager;
@@ -245,6 +247,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		isIniting = true;
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		cons = kernel.getConstruction();
 
@@ -263,8 +266,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 		statCalculator = new StatisticsCalculator(app);
 
 		tabbedPane = new JTabbedPane();
-		tabbedPane.addTab(app.getMenu("Distribution"), probCalcPanel);
-		tabbedPane.addTab(app.getMenu("Statistics"), statCalculator);
+		tabbedPane.addTab(loc.getMenu("Distribution"), probCalcPanel);
+		tabbedPane.addTab(loc.getMenu("Statistics"), statCalculator);
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
@@ -574,7 +577,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// distribution combo box panel
 		JPanel cbPanel = new JPanel(new BorderLayout());
-		cbPanel.add(comboDistribution, app.borderWest());
+		cbPanel.add(comboDistribution, loc.borderWest());
 
 		// parameter panel
 		JPanel parameterPanel = new JPanel(
@@ -597,9 +600,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.add(LayoutUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
-				app.borderWest());
+				loc.borderWest());
 		p.add(LayoutUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
-				Box.createHorizontalStrut(10)), app.borderEast());
+				Box.createHorizontalStrut(10)), loc.borderEast());
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -627,7 +630,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// create low point
 
-		GeoAxis path = (GeoAxis) kernel.lookupLabel(app.getPlain("xAxis"));
+		GeoAxis path = (GeoAxis) kernel.lookupLabel(loc.getPlain("xAxis"));
 
 		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, path, 0d, 0d);
 		cons.removeFromConstructionList(algoLow);
@@ -1525,7 +1528,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			highPoint.setEuclidianVisible(showProbGeos);
 			fldLow.setVisible(true);
 			fldHigh.setVisible(true);
-			lblBetween.setText(app.getMenu("XBetween"));
+			lblBetween.setText(loc.getMenu("XBetween"));
 
 			low = plotSettings.xMin + 0.4
 					* (plotSettings.xMax - plotSettings.xMin);
@@ -1539,7 +1542,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			highPoint.setEuclidianVisible(showProbGeos);
 			fldLow.setVisible(false);
 			fldHigh.setVisible(true);
-			lblBetween.setText(app.getMenu("XLessThanOrEqual"));
+			lblBetween.setText(loc.getMenu("XLessThanOrEqual"));
 
 			if (oldProbMode == PROB_RIGHT) {
 				high = low;
@@ -1558,7 +1561,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			highPoint.setEuclidianVisible(false);
 			fldLow.setVisible(true);
 			fldHigh.setVisible(false);
-			lblBetween.setText(app.getMenu("LessThanOrEqualToX"));
+			lblBetween.setText(loc.getMenu("LessThanOrEqualToX"));
 
 			if (oldProbMode == PROB_LEFT) {
 				low = high;
@@ -1798,21 +1801,21 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	public void setLabels() {
 
-		tabbedPane.setTitleAt(0, app.getMenu("Distribution"));
+		tabbedPane.setTitleAt(0, loc.getMenu("Distribution"));
 
 		statCalculator.setLabels();
-		tabbedPane.setTitleAt(1, app.getMenu("Statistics"));
+		tabbedPane.setTitleAt(1, loc.getMenu("Statistics"));
 
 		setLabelArrays();
 
-		lblDist.setText(app.getMenu("Distribution") + ": ");
-		lblProb.setText(app.getMenu("Probability") + ": ");
+		lblDist.setText(loc.getMenu("Distribution") + ": ");
+		lblProb.setText(loc.getMenu("Probability") + ": ");
 
 		setProbabilityComboBoxMenu();
 
-		lblBetween.setText(app.getMenu("XBetween")); // <= X <=
-		lblEndProbOf.setText(app.getMenu("EndProbabilityOf") + " = ");
-		lblProbOf.setText(app.getMenu("ProbabilityOf"));
+		lblBetween.setText(loc.getMenu("XBetween")); // <= X <=
+		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
+		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
 
 		setDistributionComboBoxMenu();
 
@@ -1821,11 +1824,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 		if (styleBar != null)
 			styleBar.setLabels();
 
-		btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+		btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
 
-		btnIntervalLeft.setToolTipText(app.getMenu("LeftProb"));
-		btnIntervalRight.setToolTipText(app.getMenu("RightProb"));
-		btnIntervalBetween.setToolTipText(app.getMenu("IntervalProb"));
+		btnIntervalLeft.setToolTipText(loc.getMenu("LeftProb"));
+		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
+		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 
 	}
 
@@ -1841,11 +1844,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 		comboProbType.removeActionListener(this);
 		comboProbType.removeAllItems();
 		if (isCumulative)
-			comboProbType.addItem(app.getMenu("LeftProb"));
+			comboProbType.addItem(loc.getMenu("LeftProb"));
 		else {
-			comboProbType.addItem(app.getMenu("IntervalProb"));
-			comboProbType.addItem(app.getMenu("LeftProb"));
-			comboProbType.addItem(app.getMenu("RightProb"));
+			comboProbType.addItem(loc.getMenu("IntervalProb"));
+			comboProbType.addItem(loc.getMenu("LeftProb"));
+			comboProbType.addItem(loc.getMenu("RightProb"));
 		}
 		comboProbType.addActionListener(this);
 
@@ -2436,7 +2439,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// some commented out code removed 2012-3-1
 
 			// create low point
-			expr = "Point[" + app.getPlain("xAxis") + "]";
+			expr = "Point[" + loc.getPlain("xAxis") + "]";
 			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr, false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);

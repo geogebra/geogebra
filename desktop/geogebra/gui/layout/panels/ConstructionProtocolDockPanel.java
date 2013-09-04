@@ -25,7 +25,7 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 			'L' // ctrl-shift-L
 		);
 		
-		this.app = app;
+		setApp(app);
 		this.setShowStyleBar(true);
 	}
 

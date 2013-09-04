@@ -10,6 +10,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.data.DataAnalysisViewD.Regression;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,6 +39,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
+	private final LocalizationD loc;
 	private DataAnalysisViewD statDialog;
 
 	// regression panel objects
@@ -64,6 +66,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	public RegressionPanel(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.statDialog = statDialog;
 		this.setLayout(new BorderLayout());
 		this.add(createRegressionPanel(), BorderLayout.CENTER);
@@ -117,8 +120,8 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		// put it all together
 		regressionPanel = new JPanel(new BorderLayout(30, 0));
 		regressionPanel.add(modelPanel, BorderLayout.CENTER);
-		regressionPanel.add(cbPanel, app.borderWest());
-		regressionPanel.setBorder(BorderFactory.createTitledBorder(app
+		regressionPanel.add(cbPanel, loc.borderWest());
+		regressionPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getMenu("RegressionModel")));
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -149,7 +152,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		p.add(fldOutputY);
 
 		predictionPanel = new JPanel(new BorderLayout());
-		predictionPanel.add(p, app.borderWest());
+		predictionPanel.add(p, loc.borderWest());
 
 	}
 

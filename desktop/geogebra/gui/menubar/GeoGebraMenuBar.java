@@ -10,6 +10,7 @@ import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -47,7 +48,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 	private BaseMenu fileMenu, editMenu, viewMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
 
-	private AppD app;
+	private final AppD app;
 	private LayoutD layout;
 
 
@@ -378,7 +379,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 */
 	public static void showAboutDialog(final AppD app) {
 		
-
+		final LocalizationD loc = app.getLocalization();
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html><b>");
 		appendVersion(sb, app);
@@ -413,7 +414,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		if (AppD.hasFullPermissions()) { 
 			// copy system information to clipboard
 		
-			systemInfoPanel.add(new JButton(new AbstractAction(app.getPlain("SystemInformation")) {
+			systemInfoPanel.add(new JButton(new AbstractAction(loc.getPlain("SystemInformation")) {
 	
 				private static final long serialVersionUID = 1L;
 	
@@ -421,9 +422,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 	
 					copyDebugInfoToClipboard(app);
 					
-					app.showMessage(app.getPlain("SystemInformationMessage"));
+					app.showMessage(loc.getPlain("SystemInformationMessage"));
 				}
-			}), app.borderEast());
+			}), loc.borderEast());
 		
 		}
 
@@ -435,7 +436,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 				JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
 
 		final JDialog dialog = infoPane.createDialog(app.getMainComponent(),
-				app.getMenu("AboutLicense"));
+				loc.getMenu("AboutLicense"));
 
 		dialog.setVisible(true);
 	}

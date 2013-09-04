@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -60,6 +61,8 @@ public class DataPanel extends JPanel implements ActionListener,
 	private JLabel lblHeader;
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
+	private LocalizationD loc;
+
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
@@ -71,6 +74,7 @@ public class DataPanel extends JPanel implements ActionListener,
 	 */
 	public DataPanel(AppD app, DataAnalysisViewD statDialog) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.daView = statDialog;
 		this.statController = statDialog.getController();
 
@@ -152,7 +156,7 @@ public class DataPanel extends JPanel implements ActionListener,
 
 		Corner upperLeftCorner = new Corner();
 		upperLeftCorner.setLayout(new BorderLayout());
-		upperLeftCorner.add(btnEnableAll, app.borderWest());
+		upperLeftCorner.add(btnEnableAll, loc.borderWest());
 
 		upperLeftCorner.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 1, TABLE_GRID_COLOR),
@@ -186,7 +190,7 @@ public class DataPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		lblHeader.setText(app.getMenu("Data"));
+		lblHeader.setText(loc.getMenu("Data"));
 	}
 
 	public void updatePanel() {
@@ -257,18 +261,18 @@ public class DataPanel extends JPanel implements ActionListener,
 			if (daView.getDataSource().isPointData()) {
 
 				dataTable.getColumnModel().getColumn(0)
-						.setHeaderValue(app.getMenu("Column.X"));
+						.setHeaderValue(loc.getMenu("Column.X"));
 				dataTable.getColumnModel().getColumn(1)
-						.setHeaderValue(app.getMenu("Column.Y"));
+						.setHeaderValue(loc.getMenu("Column.Y"));
 			} else {
 				dataTable
 						.getColumnModel()
 						.getColumn(0)
-						.setHeaderValue(app.getMenu("Column.X") + ": " + titleX);
+						.setHeaderValue(loc.getMenu("Column.X") + ": " + titleX);
 				dataTable
 						.getColumnModel()
 						.getColumn(1)
-						.setHeaderValue(app.getMenu("Column.Y") + ": " + titleY);
+						.setHeaderValue(loc.getMenu("Column.Y") + ": " + titleY);
 			}
 
 			updateSelectionList(dataArray);

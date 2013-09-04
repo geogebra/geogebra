@@ -5,7 +5,6 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathRegionHandling;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -58,7 +57,7 @@ public class OptionsAdvancedD extends
 	 * Application object.
 	 */
 	private AppD app;
-	private Localization loc;
+	private LocalizationD loc;
 
 	/**
 	 * Settings for all kind of application components.
@@ -321,8 +320,8 @@ public class OptionsAdvancedD extends
 		guiPanelEast.setLayout(new BoxLayout(guiPanelEast, BoxLayout.Y_AXIS));
 		JPanel twoColumns = new JPanel();
 		twoColumns.setLayout(new BorderLayout());
-		twoColumns.add(guiPanelEast, app.borderEast());
-		twoColumns.add(guiPanelWest, app.borderWest());
+		twoColumns.add(guiPanelEast, loc.borderEast());
+		twoColumns.add(guiPanelWest, loc.borderWest());
 		twoColumns.setAlignmentX(Component.LEFT_ALIGNMENT);
 		miscPanel.add(twoColumns);
 

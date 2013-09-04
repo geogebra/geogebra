@@ -459,4 +459,34 @@ public class LocalizationD extends Localization {
 			return rbcommand == null;
 		}
 
+		/**
+		 * 
+		 * return East/West as appropriate for eg Hebrew / Arabic
+		 * 
+		 * return String rather than app.borderEast() so we're not dependent on awt
+		 */
+		public String borderEast() {
+			// return app.borderEast();
+			if (isRightToLeftReadingOrder()) {
+				return "West";
+			} else {
+				return "East";
+			}
+		}
+
+		/**
+		 * 
+		 * return East/West as appropriate for eg Hebrew / Arabic
+		 * 
+		 * return String rather than app.borderWest() so we're not dependent on awt
+		 */
+		public String borderWest() {
+			// return app.borderWest();
+			if (!isRightToLeftReadingOrder()) {
+				return "West";
+			} else {
+				return "East";
+			}
+		}
+
 }

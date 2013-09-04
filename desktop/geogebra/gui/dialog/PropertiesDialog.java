@@ -29,6 +29,7 @@ import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraTree;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -77,7 +78,8 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	private static final long serialVersionUID = 1L;
-	AppD app;
+	final AppD app;
+	final LocalizationD loc;
 	private Kernel kernel;
 	private JTreeGeoElements geoTree;
 	private JButton closeButton, defaultsButton, delButton;
@@ -100,6 +102,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	public PropertiesDialog(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -167,8 +170,8 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		JPanel buttonPanel = new JPanel(new BorderLayout());
 		JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		buttonPanel.add(rightButtonPanel, app.borderEast());
-		buttonPanel.add(leftButtonPanel, app.borderWest());
+		buttonPanel.add(rightButtonPanel, loc.borderEast());
+		buttonPanel.add(leftButtonPanel, loc.borderWest());
 
 		// left buttons
 		if (app.letDelete())
@@ -231,12 +234,12 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	 * TODO Create "Apply Defaults" phrase (F.S.)
 	 */
 	public void setLabels() {
-		setTitle(app.getPlain("Properties"));
-		geoTree.root.setUserObject(app.getPlain("Objects"));
+		setTitle(loc.getPlain("Properties"));
+		geoTree.root.setUserObject(loc.getPlain("Objects"));
 
-		delButton.setText(app.getPlain("Delete"));
-		closeButton.setText(app.getMenu("Close"));
-		defaultsButton.setText(app.getMenu("ApplyDefaults"));
+		delButton.setText(loc.getPlain("Delete"));
+		closeButton.setText(loc.getMenu("Close"));
+		defaultsButton.setText(loc.getMenu("ApplyDefaults"));
 
 		geoTree.setLabels();
 		propPanel.setLabels();
@@ -549,11 +552,11 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		}
 
 		public void setLabels() {
-			root.setUserObject(app.getPlain("Objects"));
+			root.setUserObject(loc.getPlain("Objects"));
 
 			// iterate through all type nodes and update the labels
 			for (String key : typeNodesMap.keySet()) {
-				typeNodesMap.get(key).setUserObject(app.getPlain(key));
+				typeNodesMap.get(key).setUserObject(loc.getPlain(key));
 			}
 		}
 

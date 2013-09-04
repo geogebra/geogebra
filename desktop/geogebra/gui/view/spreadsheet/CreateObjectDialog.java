@@ -163,10 +163,10 @@ public class CreateObjectDialog extends InputDialogD implements
 			objectType = TYPE_LIST;
 			typePanel = new JPanel(new BorderLayout());
 			typePanel.add(lblObject, BorderLayout.NORTH);
-			typePanel.add(typeList, app.borderWest());
+			typePanel.add(typeList, loc.borderWest());
 			typeList.setBorder(BorderFactory.createEmptyBorder(6, 2, 2, 2));
 			typePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			optionPane.add(typePanel, app.borderWest());
+			optionPane.add(typePanel, loc.borderWest());
 		}
 
 		namePanel = new JPanel(new BorderLayout());
@@ -185,7 +185,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		previewPanel.setBackground(this.wrappedDialog.getBackground());
 
 		JPanel op = new JPanel(new BorderLayout());
-		op.add(p, app.borderWest());
+		op.add(p, loc.borderWest());
 		op.add(previewPanel, BorderLayout.CENTER);
 
 		previewPanel.setPreferredSize(new Dimension(200,

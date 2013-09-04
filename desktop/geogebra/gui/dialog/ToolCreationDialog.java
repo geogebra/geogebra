@@ -24,6 +24,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -64,7 +65,8 @@ import javax.swing.event.ListDataListener;
 public class ToolCreationDialog extends javax.swing.JDialog implements
 		GeoElementSelectionListener {
 	private static final long serialVersionUID = 1L;
-	private AppD app;
+	private final AppD app;
+	private final LocalizationD loc;
 	private JTabbedPane tabbedPane;
 	private ToolNameIconPanel namePanel;
 
@@ -85,7 +87,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	public ToolCreationDialog(AppD app) {
 		super(app.getFrame());
 		this.app = app;
-		
+		this.loc = app.getLocalization();
 		initLists();
 		initGUI();
 		Macro appMacro = app.getMacro();
@@ -409,14 +411,14 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			getContentPane().add(navPanel, BorderLayout.SOUTH);
 
 			// output and input panel
-			JPanel outputPanel = createInputOutputPanel(app, outputList,
+			JPanel outputPanel = createInputOutputPanel(loc, outputList,
 					cbOutputAddList, true, false, null);
-			JPanel inputPanel = createInputOutputPanel(app, inputList,
+			JPanel inputPanel = createInputOutputPanel(loc, inputList,
 					cbInputAddList, true, false, null);
 
-			tabbedPane.addTab(app.getMenu("OutputObjects"), null, outputPanel,
+			tabbedPane.addTab(loc.getMenu("OutputObjects"), null, outputPanel,
 					null);
-			tabbedPane.addTab(app.getMenu("InputObjects"), null, inputPanel,
+			tabbedPane.addTab(loc.getMenu("InputObjects"), null, inputPanel,
 					null);
 
 			// name & icon
@@ -544,7 +546,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 *            list model containing the input/output GeoElements
 	 * @return Panel with the list, buttons and comboBox
 	 */
-	public static JPanel createInputOutputPanel(AppD app,
+	public static JPanel createInputOutputPanel(LocalizationD loc,
 			final DefaultListModel listModel,
 			final DefaultComboBoxModel cbModel, boolean showUpDownButtons,
 			boolean allowMultiple, ActionListener listener) {
@@ -553,7 +555,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		// NORTH: text
-		JLabel labelAddOutput = new JLabel(app.getMenu("Tool.SelectObjects"));
+		JLabel labelAddOutput = new JLabel(loc.getMenu("Tool.SelectObjects"));
 		panel.add(labelAddOutput, BorderLayout.NORTH);
 
 		// CENTER: combobox, list and some buttons on the right
@@ -585,7 +587,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		// list to show selected geos
 		JList list = new JList(listModel);
 		panel.add(
-				createListUpDownRemovePanel(app, list, cbAdd, true,
+				createListUpDownRemovePanel(loc, list, cbAdd, true,
 						showUpDownButtons, allowMultiple, listener),
 				BorderLayout.CENTER);
 
@@ -613,7 +615,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 *            if null)
 	 * @return Panel with the list, buttons and comboBox
 	 */
-	public static JPanel createListUpDownRemovePanel(AppD app,
+	public static JPanel createListUpDownRemovePanel(LocalizationD loc,
 			final JList list, final JComboBox cbAdd, boolean showRemoveButton,
 			boolean showUpDownButtons, final boolean allowMultiple,
 			ActionListener listener) {
@@ -636,10 +638,10 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		final JButton btUp = new JButton("\u25b2");
 		btUp.setVisible(showUpDownButtons);
-		btUp.setToolTipText(app.getPlainTooltip("Up"));
+		btUp.setToolTipText(loc.getPlainTooltip("Up"));
 		final JButton btDown = new JButton("\u25bc");
 		btDown.setVisible(showUpDownButtons);
-		btDown.setToolTipText(app.getPlainTooltip("Down"));
+		btDown.setToolTipText(loc.getPlainTooltip("Down"));
 		if (cbAdd != null)
 			outputButtonPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 		outputButtonPanel.add(btUp);
@@ -648,10 +650,10 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		final JButton btRemove = new JButton("\u2718");
 		btRemove.setVisible(showRemoveButton);
-		btRemove.setToolTipText(app.getPlainTooltip("Remove"));
+		btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		outputButtonPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 		outputButtonPanel.add(btRemove);
-		centerPanel.add(outputButtonPanel, app.borderEast());
+		centerPanel.add(outputButtonPanel, loc.borderEast());
 
 		// listener for buttons
 		ActionListener ac = new ActionListener() {

@@ -20,7 +20,7 @@ public class PythonDockPanel extends DockPanel {
 				4, 									// menu order
 				'Y'									// menu shortcut
 		);
-		this.app = app;
+		setApp(app);
 	}
 	@Override
 	protected JComponent loadComponent() {

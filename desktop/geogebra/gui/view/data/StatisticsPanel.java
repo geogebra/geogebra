@@ -170,7 +170,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		createInferenceTypeComboBox();
 
 		selectionPanel = new JPanel(new BorderLayout());
-		selectionPanel.add(cbInferenceMode, app.borderWest());
+		selectionPanel.add(cbInferenceMode, app.getLocalization().borderWest());
 	}
 
 	private ANOVATable getAnovaTable() {

@@ -29,7 +29,7 @@ public class AppD2 {
 	public static void initToolbar(AppD app, int toolbarPosition, boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel, JPanel southPanel, JPanel westPanel) {
 		
 		GuiManagerD guiManager = getGuiManager(app);
-		
+		LocalizationD loc = app.getLocalization();
 		// initialize toolbar panel even if it's not used (hack)
 		guiManager.getToolbarPanelContainer();
 
@@ -46,13 +46,13 @@ public class AppD2 {
 			southPanel.add(toolBarContainer, BorderLayout.NORTH);
 			break;
 		case SwingConstants.EAST:
-			eastPanel.add(toolBarContainer, app.borderEast());
+			eastPanel.add(toolBarContainer, loc.borderEast());
 			if (showToolBarHelp && helpPanel != null) {
 				northPanel.add(helpPanel, BorderLayout.NORTH);
 			}
 			break;
 		case SwingConstants.WEST:
-			westPanel.add(toolBarContainer, app.borderWest());
+			westPanel.add(toolBarContainer, loc.borderWest());
 			if (showToolBarHelp && helpPanel != null) {
 				northPanel.add(helpPanel, BorderLayout.NORTH);
 			}

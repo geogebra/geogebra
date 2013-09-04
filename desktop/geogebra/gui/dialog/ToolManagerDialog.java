@@ -20,6 +20,7 @@ import geogebra.common.main.App;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -55,6 +56,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 	private static final long serialVersionUID = 1L;
 
 	AppD app;
+	final LocalizationD loc;
 	private DefaultListModel toolsModel;
 
 	public ToolManagerDialog(AppD app) {
@@ -62,6 +64,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		setModal(true);
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		initGUI();
 	}
 
@@ -103,10 +106,10 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 		// ARE YOU SURE ?
 		// Michael Borcherds 2008-05-04
-		Object[] options = { app.getMenu("DeleteTool"),
-				app.getMenu("DontDeleteTool") };
+		Object[] options = { loc.getMenu("DeleteTool"),
+				loc.getMenu("DontDeleteTool") };
 		int returnVal = JOptionPane.showOptionDialog(this,
-				app.getMenu("Tool.DeleteQuestion"), app.getPlain("Question"),
+				loc.getMenu("Tool.DeleteQuestion"), loc.getPlain("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[1]);
 		if (returnVal == 1)
@@ -157,14 +160,14 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 	private void initGUI() {
 		try {
-			setTitle(app.getMenu("Tool.Manage"));
+			setTitle(loc.getMenu("Tool.Manage"));
 
 			JPanel panel = new JPanel(new BorderLayout(5, 5));
 			setContentPane(panel);
 			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 			JPanel toolListPanel = new JPanel(new BorderLayout(5, 5));
-			toolListPanel.setBorder(BorderFactory.createTitledBorder(app
+			toolListPanel.setBorder(BorderFactory.createTitledBorder(loc
 					.getMenu("Tools")));
 			getContentPane().add(toolListPanel, BorderLayout.NORTH);
 
@@ -175,7 +178,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			toolList.setVisibleRowCount(6);
 
 			JPanel centerPanel = ToolCreationDialog
-					.createListUpDownRemovePanel(app, toolList, null, false,
+					.createListUpDownRemovePanel(loc, toolList, null, false,
 							true, false, null);
 
 			// JScrollPane jScrollPane1 = new JScrollPane(toolList);
@@ -189,19 +192,19 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 			final JButton btDelete = new JButton();
 			toolButtonPanel.add(btDelete);
-			btDelete.setText(app.getPlain("Delete"));
+			btDelete.setText(loc.getPlain("Delete"));
 
 			final JButton btOpen = new JButton();
 			toolButtonPanel.add(btOpen);
-			btOpen.setText(app.getPlain("Open"));
+			btOpen.setText(loc.getPlain("Open"));
 
 			final JButton btSave = new JButton();
 			toolButtonPanel.add(btSave);
-			btSave.setText(app.getMenu("SaveAs") + " ...");
+			btSave.setText(loc.getMenu("SaveAs") + " ...");
 
 			final JButton btShare = new JButton();
 			toolButtonPanel.add(btShare);
-			btShare.setText(app.getMenu("Share") + " ...");
+			btShare.setText(loc.getMenu("Share") + " ...");
 
 			// name & icon
 			final ToolNameIconPanel namePanel = new ToolNameIconPanel(app, true);
@@ -213,7 +216,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			FlowLayout closePanelLayout = new FlowLayout();
 			closePanelLayout.setAlignment(FlowLayout.RIGHT);
 			closePanel.setLayout(closePanelLayout);
-			final JButton btClose = new JButton(app.getMenu("Close"));
+			final JButton btClose = new JButton(loc.getMenu("Close"));
 			closePanel.add(btClose);
 			panel.add(closePanel, BorderLayout.SOUTH);
 
@@ -446,7 +449,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 		File file = app.getGuiManager().showSaveDialog(
 				AppD.FILE_EXT_GEOGEBRA_TOOL, null,
-				app.getPlain("ApplicationName") + " " + app.getMenu("Tools"),
+				loc.getPlain("ApplicationName") + " " + loc.getMenu("Tools"),
 				true, false);
 		if (file == null)
 			return;

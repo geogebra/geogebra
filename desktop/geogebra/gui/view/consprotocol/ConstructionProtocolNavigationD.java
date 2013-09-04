@@ -21,6 +21,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.javax.swing.GPanelD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.Component;
 import java.awt.Cursor;
@@ -66,6 +67,7 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 	 * ConstructionProtocolNavigation panel
 	 */
 	private JPanel implPanel;
+	private LocalizationD loc;
 	
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
@@ -73,8 +75,9 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 	 */
 	public ConstructionProtocolNavigationD(AppD app) {
 		implPanel = new JPanel();
-		this.app = app;			
-				
+		this.app = app;
+		this.loc = app.getLocalization();
+
 		SpinnerModel model =
 	        new SpinnerNumberModel(2, //initial value
 	                               0.25, //min
@@ -206,9 +209,9 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 	@Override
 	public void setLabels() {
 		if (btPlay != null)
-			btPlay.setText(app.getPlain("Play"));
+			btPlay.setText(loc.getPlain("Play"));
 		if (btOpenWindow != null)
-			btOpenWindow.setToolTipText(app.getPlainTooltip("ConstructionProtocol"));
+			btOpenWindow.setToolTipText(loc.getPlainTooltip("ConstructionProtocol"));
 	}
 	
 	/**
@@ -308,7 +311,7 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 			app.startDispatchingEventsTo(btPlay);
 			isPlaying = true;
 			btPlay.setIcon(new ImageIcon(app.getPauseImage()));
-			btPlay.setText(app.getPlain("Pause"));
+			btPlay.setText(loc.getPlain("Pause"));
 			setComponentsEnabled(false);
 			app.setWaitCursor();
 			
@@ -326,7 +329,7 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 			app.stopDispatchingEvents();
 			isPlaying = false;
 			btPlay.setIcon(new ImageIcon(app.getPlayImage()));
-			btPlay.setText(app.getPlain("Play"));
+			btPlay.setText(loc.getPlain("Play"));
 			setComponentsEnabled(true);
 			app.setDefaultCursor();
         }

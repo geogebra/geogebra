@@ -29,7 +29,7 @@ public class SpreadsheetDockPanel extends DockPanel {
 			'S'									// menu shortcut
 		);
 		
-		this.app = app;
+		setApp(app);
 	}
 
 	private GuiManagerD getGuiManager(){

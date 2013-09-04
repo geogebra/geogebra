@@ -32,7 +32,7 @@ public class ErrorDockPanel extends DockPanel {
 		
 		//setVisible(false);
 		
-		this.app = app;
+		setApp(app);
 	}
 
 	@Override

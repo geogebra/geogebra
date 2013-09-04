@@ -110,8 +110,8 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	@Override
 	public void setLabels(){
 		super.setLabels();
-		btnCenterAndOrientation.setToolTipText(app.getPlainTooltip("stylebar.Orientation"));
-		btnFitScale.setToolTipText(app.getPlainTooltip("stylebar.FitScale"));
+		btnCenterAndOrientation.setToolTipText(loc.getPlainTooltip("stylebar.Orientation"));
+		btnFitScale.setToolTipText(loc.getPlainTooltip("stylebar.FitScale"));
 		
 	}
 	

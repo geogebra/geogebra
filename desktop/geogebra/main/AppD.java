@@ -2615,16 +2615,16 @@ public class AppD extends App implements KeyEventDispatcher {
 			// (this puts them outside, not sandwiched between north/south)
 			JPanel mainPanel = new JPanel(new BorderLayout());
 			mainPanel.add(northSouthCenter, BorderLayout.CENTER);
-			mainPanel.add(eastPanel, borderEast());
-			mainPanel.add(westPanel, borderWest());
+			mainPanel.add(eastPanel, getLocalization().borderEast());
+			mainPanel.add(westPanel, getLocalization().borderWest());
 
 			applicationPanel.add(mainPanel, BorderLayout.CENTER);
 
 			if (showDockBar && !isApplet()) {
 				if (dockBar.isEastOrientation())
-					applicationPanel.add((Component) dockBar, borderEast());
+					applicationPanel.add((Component) dockBar, getLocalization().borderEast());
 				else {
-					applicationPanel.add((Component) dockBar, borderWest());
+					applicationPanel.add((Component) dockBar, getLocalization().borderWest());
 				}
 			}
 
@@ -4657,35 +4657,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return in.readLine(); // the last line will never get a "\n" on its end
 	}
 
-	/**
-	 * 
-	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
-	 * return String rather than app.borderEast() so we're not dependent on awt
-	 */
-	public String borderEast() {
-		// return app.borderEast();
-		if (getLocalization().isRightToLeftReadingOrder()) {
-			return "West";
-		} else {
-			return "East";
-		}
-	}
-
-	/**
-	 * 
-	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
-	 * return String rather than app.borderWest() so we're not dependent on awt
-	 */
-	public String borderWest() {
-		// return app.borderWest();
-		if (!getLocalization().isRightToLeftReadingOrder()) {
-			return "West";
-		} else {
-			return "East";
-		}
-	}
+	
 
 	/**
 	 * 

@@ -13,6 +13,7 @@ import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 import geogebra.main.GuiManagerInterfaceD;
+import geogebra.main.LocalizationD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -54,6 +55,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	private boolean needUndo = false;
 
 	private ArrayList<GeoElement> selectedRows;
+	private LocalizationD loc;
 
 	/**
 	 * @param view
@@ -64,6 +66,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	public CASStyleBar(CASViewD view, AppD app) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.casView = view;
 
 		selectedRows = new ArrayList<GeoElement>();
@@ -470,11 +473,11 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	public void setLabels() {
 		initGUI();
 
-		btnUseAsText.setToolTipText(app.getPlainTooltip("stylebar.UseAsText"));
-		btnTextColor.setToolTipText(app.getPlainTooltip("stylebar.TextColor"));
-		btnTextSize.setToolTipText(app.getPlainTooltip("stylebar.TextSize"));
-		btnBold.setToolTipText(app.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(app.getPlainTooltip("stylebar.Italic"));
+		btnUseAsText.setToolTipText(loc.getPlainTooltip("stylebar.UseAsText"));
+		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
+		btnTextSize.setToolTipText(loc.getPlainTooltip("stylebar.TextSize"));
+		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 	}
 
 }

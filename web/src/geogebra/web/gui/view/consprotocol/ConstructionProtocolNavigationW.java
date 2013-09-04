@@ -171,7 +171,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			btPlay.setHTML(playImage.toString()+btPlayText);
 		}
 		if (btOpenWindow != null){
-			btOpenWindow.setTitle(app.getPlainTooltip("ConstructionProtocol"));
+			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
 		}
 	}
 	

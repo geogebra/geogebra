@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -82,6 +83,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	private boolean isZProcedure;
 	
 	private int selectedPlot = StatisticsPanel.INFER_TINT;
+	private LocalizationD loc;
 
 	
 	/***************************************
@@ -91,6 +93,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 		isIniting = true;
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.statDialog = statDialog;
 		
@@ -244,44 +247,44 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 		switch (selectedPlot){
 		case StatisticsPanel.INFER_ZTEST:
-			nameList.add(app.getMenu("PValue"));
-			nameList.add(app.getMenu("ZStatistic")); 
-			nameList.add(app.getMenu(""));
-			nameList.add(app.getMenu("Length.short"));
-			nameList.add(app.getMenu("Mean"));
+			nameList.add(loc.getMenu("PValue"));
+			nameList.add(loc.getMenu("ZStatistic")); 
+			nameList.add(loc.getMenu(""));
+			nameList.add(loc.getMenu("Length.short"));
+			nameList.add(loc.getMenu("Mean"));
 
 			break;
 
 		case StatisticsPanel.INFER_TTEST:
-			nameList.add(app.getMenu("PValue"));
-			nameList.add(app.getMenu("TStatistic"));
-			nameList.add(app.getMenu("DegreesOfFreedom.short"));
-			nameList.add(app.getMenu("StandardError.short"));
-			nameList.add(app.getMenu(""));
-			nameList.add(app.getMenu("Length.short"));
-			nameList.add(app.getMenu("Mean"));
+			nameList.add(loc.getMenu("PValue"));
+			nameList.add(loc.getMenu("TStatistic"));
+			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
+			nameList.add(loc.getMenu("StandardError.short"));
+			nameList.add(loc.getMenu(""));
+			nameList.add(loc.getMenu("Length.short"));
+			nameList.add(loc.getMenu("Mean"));
 			break;
 
 		case StatisticsPanel.INFER_ZINT:
-			nameList.add(app.getMenu("Interval"));
-			nameList.add(app.getMenu("LowerLimit"));
-			nameList.add(app.getMenu("UpperLimit"));
-			nameList.add(app.getMenu("MarginOfError"));
-			nameList.add(app.getMenu(""));
-			nameList.add(app.getMenu("Length.short"));
-			nameList.add(app.getMenu("Mean"));
+			nameList.add(loc.getMenu("Interval"));
+			nameList.add(loc.getMenu("LowerLimit"));
+			nameList.add(loc.getMenu("UpperLimit"));
+			nameList.add(loc.getMenu("MarginOfError"));
+			nameList.add(loc.getMenu(""));
+			nameList.add(loc.getMenu("Length.short"));
+			nameList.add(loc.getMenu("Mean"));
 			break;
 
 		case StatisticsPanel.INFER_TINT:
-			nameList.add(app.getMenu("Interval"));
-			nameList.add(app.getMenu("LowerLimit"));
-			nameList.add(app.getMenu("UpperLimit"));
-			nameList.add(app.getMenu("MarginOfError"));
-			nameList.add(app.getMenu("DegreesOfFreedom.short"));
-			nameList.add(app.getMenu("StandardError.short"));
-			nameList.add(app.getMenu(""));
-			nameList.add(app.getMenu("Length.short"));
-			nameList.add(app.getMenu("Mean"));
+			nameList.add(loc.getMenu("Interval"));
+			nameList.add(loc.getMenu("LowerLimit"));
+			nameList.add(loc.getMenu("UpperLimit"));
+			nameList.add(loc.getMenu("MarginOfError"));
+			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
+			nameList.add(loc.getMenu("StandardError.short"));
+			nameList.add(loc.getMenu(""));
+			nameList.add(loc.getMenu("Length.short"));
+			nameList.add(loc.getMenu("Mean"));
 			break;
 		}
 
@@ -357,13 +360,13 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	public void setLabels() {
 
-		lblHypParameter.setText(app.getMenu("HypothesizedMean.short") + " = " );
-		lblNull.setText(app.getMenu("NullHypothesis") + ": ");
-		lblTailType.setText(app.getMenu("AlternativeHypothesis") + ": ");
-		lblConfLevel.setText(app.getMenu("ConfidenceLevel") + ": ");
-		lblResultHeader.setText(app.getMenu("Result") + ": ");
-		lblSigma.setText(app.getMenu("StandardDeviation.short") + " = ");
-		btnCalculate.setText(app.getMenu("Calculate"));
+		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = " );
+		lblNull.setText(loc.getMenu("NullHypothesis") + ": ");
+		lblTailType.setText(loc.getMenu("AlternativeHypothesis") + ": ");
+		lblConfLevel.setText(loc.getMenu("ConfidenceLevel") + ": ");
+		lblResultHeader.setText(loc.getMenu("Result") + ": ");
+		lblSigma.setText(loc.getMenu("StandardDeviation.short") + " = ");
+		btnCalculate.setText(loc.getMenu("Calculate"));
 		repaint();
 	}
 
@@ -400,9 +403,9 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 		cbAltHyp.removeActionListener(this);
 		cbAltHyp.removeAllItems();
-		cbAltHyp.addItem(app.getMenu("HypothesizedMean.short") + " " + tail_right + " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(app.getMenu("HypothesizedMean.short") + " " + tail_left + " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(app.getMenu("HypothesizedMean.short") + " " + tail_two + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_right + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_left + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two + " " + statDialog.format(hypMean));
 
 		if(tail == tail_right)
 			cbAltHyp.setSelectedIndex(0);
@@ -620,9 +623,9 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 		if(south != null)
 			p.add(south, BorderLayout.SOUTH);
 		if(west != null)
-			p.add(west, app.borderWest());
+			p.add(west, loc.borderWest());
 		if(east != null)
-			p.add(east, app.borderEast());
+			p.add(east, loc.borderEast());
 
 		//	p.setBackground(Color.white);
 		return p;

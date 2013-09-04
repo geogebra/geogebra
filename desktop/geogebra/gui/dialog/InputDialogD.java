@@ -19,7 +19,6 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
@@ -28,6 +27,7 @@ import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -50,7 +50,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		WindowFocusListener, VirtualKeyboardListener, UpdateFonts {
 
 	protected AppD app;
-	protected final Localization loc;
+	protected final LocalizationD loc;
 
 	protected GeoElement geo;
 
@@ -193,7 +193,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	 * @param frame
 	 * @param modal
 	 */
-	protected InputDialogD(JFrame frame, boolean modal,Localization loc) {
+	protected InputDialogD(JFrame frame, boolean modal,LocalizationD loc) {
 		this.loc = loc;
 		this.wrappedDialog = new JDialog(frame, modal);
 	}
@@ -258,8 +258,8 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		btPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		btPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonsPanel = new JPanel(new BorderLayout(5, 5));
-		buttonsPanel.add(btPanel2, app.borderWest()); // used for Help or
-		buttonsPanel.add(btPanel, app.borderEast());
+		buttonsPanel.add(btPanel2, loc.borderWest()); // used for Help or
+		buttonsPanel.add(btPanel, loc.borderEast());
 
 		// add buttons to panels
 		loadBtPanel(showApply);

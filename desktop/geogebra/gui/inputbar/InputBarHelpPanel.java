@@ -12,6 +12,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.SelectionTable;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -97,6 +98,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private JLabel syntaxLabel;
 	private JButton btnPaste;
 	private JScrollPane scroller;
+	private LocalizationD loc;
 
 	/***************************************************
 	 * Constructor
@@ -104,6 +106,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	public InputBarHelpPanel(AppD app) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		thisPanel = this;
 		this.setOpaque(true);
 		// this.setBackground(Color.blue);
@@ -134,7 +137,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		titleLabel = new JLabel();
 		// titleLabel.setForeground(Color.darkGray);
 
-		titlePanel.add(titleLabel, app.borderWest());
+		titlePanel.add(titleLabel, loc.borderWest());
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(scroller, BorderLayout.CENTER);
@@ -176,7 +179,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		syntaxLabel = new JLabel();
 		syntaxLabel.setForeground(Color.darkGray);
-		titlePanel.add(syntaxLabel, app.borderWest());
+		titlePanel.add(syntaxLabel, loc.borderWest());
 
 		syntaxHelpPanel = new JPanel(new BorderLayout());
 		JScrollPane scroller = new JScrollPane(helpTextPane);
@@ -221,8 +224,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		rightPanel.add(btnRefresh);
 
 		JPanel buttonPanel = new JPanel(new BorderLayout());
-		buttonPanel.add(leftPanel, app.borderWest());
-		buttonPanel.add(rightPanel, app.borderEast());
+		buttonPanel.add(leftPanel, loc.borderWest());
+		buttonPanel.add(rightPanel, loc.borderEast());
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
@@ -282,14 +285,14 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		fcnTree.setRowHeight(-1);
 
 		JPanel fPanel = new JPanel(new BorderLayout());
-		fPanel.add(Box.createRigidArea(new Dimension(35, 1)), app.borderWest());
+		fPanel.add(Box.createRigidArea(new Dimension(35, 1)), loc.borderWest());
 		fPanel.add(functionTable, BorderLayout.CENTER);
 		fPanel.setBackground(bgColor);
 
 		tablePanel = new JPanel(new BorderLayout());
 		tablePanel.add(fcnTree, BorderLayout.NORTH);
 
-		tablePanel.add(fPanel, app.borderWest());
+		tablePanel.add(fPanel, loc.borderWest());
 		functionTable.setAlignmentX(LEFT_ALIGNMENT);
 
 		tablePanel.setBackground(bgColor);

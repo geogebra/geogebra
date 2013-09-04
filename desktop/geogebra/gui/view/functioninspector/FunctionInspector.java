@@ -189,7 +189,7 @@ KeyListener, SpecialNumberFormatInterface {
 
 		// setup InputDialog GUI
 		isIniting = true;
-		String title = app.getMenu("FunctionInspector");
+		String title = loc.getMenu("FunctionInspector");
 		createGUI(title, "", false, 16, 1, false, false, false, showApply, DialogType.TextArea);
 		this.btOK.setVisible(false);
 		this.btCancel.setVisible(false);
@@ -258,7 +258,7 @@ KeyListener, SpecialNumberFormatInterface {
 
 		headerPanel = new JPanel(new BorderLayout());
 		headerPanel.add(lblGeoName, BorderLayout.CENTER);	
-		headerPanel.add(helpPanel,app.borderEast());
+		headerPanel.add(helpPanel,loc.borderEast());
 		headerPanel.setBorder(BorderFactory.createEmptyBorder(2,5,2,2));
 	}
 
@@ -320,8 +320,8 @@ KeyListener, SpecialNumberFormatInterface {
 		// create the panel
 		
 		JPanel northPanel = new JPanel(new BorderLayout());
-		northPanel.add(tb1,app.borderWest());
-		northPanel.add(tb2,app.borderEast());
+		northPanel.add(tb1,loc.borderWest());
+		northPanel.add(tb2,loc.borderEast());
 
 		JPanel southPanel = new JPanel(new BorderLayout());
 		southPanel.add(toggleGraphicsPanel,BorderLayout.CENTER);
@@ -426,10 +426,10 @@ KeyListener, SpecialNumberFormatInterface {
 
 	private void createBtnAddColumn() {
 		columnNames = new String[4];
-		columnNames[COL_DERIVATIVE] =	app.getPlain("fncInspector.Derivative");
-		columnNames[COL_DERIVATIVE2] =	app.getPlain("fncInspector.Derivative2");
-		columnNames[COL_CURVATURE] =	app.getPlain("fncInspector.Curvature");
-		columnNames[COL_DIFFERENCE] =	app.getPlain("fncInspector.Difference");
+		columnNames[COL_DERIVATIVE] =	loc.getPlain("fncInspector.Derivative");
+		columnNames[COL_DERIVATIVE2] =	loc.getPlain("fncInspector.Derivative2");
+		columnNames[COL_CURVATURE] =	loc.getPlain("fncInspector.Curvature");
+		columnNames[COL_DIFFERENCE] =	loc.getPlain("fncInspector.Difference");
 		btnAddColumn = new PopupMenuButton(app, columnNames, -1, 1, 
 				new Dimension(0, 18), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
@@ -443,29 +443,29 @@ KeyListener, SpecialNumberFormatInterface {
 
 	public void setLabels() {
 
-		wrappedDialog.setTitle(app.getMenu("FunctionInspector"));
-		lblStep.setText(app.getMenu("Step") + ":");		
+		wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
+		lblStep.setText(loc.getMenu("Step") + ":");		
 		lblInterval.setText(" \u2264 x \u2264 " );	// <= x <=
 
 		// header text
-		String[] intervalColumnNames = {app.getPlain("fncInspector.Property"), app.getPlain("fncInspector.Value")};
+		String[] intervalColumnNames = {loc.getPlain("fncInspector.Property"), loc.getPlain("fncInspector.Value")};
 		modelInterval.setColumnIdentifiers(intervalColumnNames);
 
-		tabPanel.setTitleAt(1, app.getPlain("fncInspector.Points"));
-		tabPanel.setTitleAt(0, app.getPlain("fncInspector.Interval"));
+		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
+		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
 		lblGeoName.setText(getTitleString());
 
 
 		//tool tips
-		btnHelp.setToolTipText(app.getPlain("ShowOnlineHelp"));
-		btnOscCircle.setToolTipText(app.getPlainTooltip("fncInspector.showOscCircle"));
-		btnXYSegments.setToolTipText(app.getPlainTooltip("fncInspector.showXYLines"));
-		btnTable.setToolTipText(app.getPlainTooltip("fncInspector.showTable"));
-		btnTangent.setToolTipText(app.getPlainTooltip("fncInspector.showTangent"));
-		btnAddColumn.setToolTipText(app.getPlainTooltip("fncInspector.addColumn"));
-		btnRemoveColumn.setToolTipText(app.getPlainTooltip("fncInspector.removeColumn"));
-		fldStep.setToolTipText(app.getPlainTooltip("fncInspector.step"));
-		lblStep.setToolTipText(app.getPlainTooltip("fncInspector.step"));	
+		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
+		btnOscCircle.setToolTipText(loc.getPlainTooltip("fncInspector.showOscCircle"));
+		btnXYSegments.setToolTipText(loc.getPlainTooltip("fncInspector.showXYLines"));
+		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
+		btnTangent.setToolTipText(loc.getPlainTooltip("fncInspector.showTangent"));
+		btnAddColumn.setToolTipText(loc.getPlainTooltip("fncInspector.addColumn"));
+		btnRemoveColumn.setToolTipText(loc.getPlainTooltip("fncInspector.removeColumn"));
+		fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
+		lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));	
 
 
 		// add/remove extra column buttons
@@ -486,7 +486,7 @@ KeyListener, SpecialNumberFormatInterface {
 	private String getTitleString(){
 
 		if(selectedGeo == null)
-			return app.getMenu("SelectObject");
+			return loc.getMenu("SelectObject");
 		return selectedGeo.getAlgebraDescriptionDefault();
 	}
 
@@ -699,7 +699,7 @@ KeyListener, SpecialNumberFormatInterface {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (count) {
 		case 0: 
-			value.add(app.getPlain("fncInspector.NoRoots"));
+			value.add(loc.getPlain("fncInspector.NoRoots"));
 			value2.add(null);
 			break;
 		case 1: 
@@ -708,7 +708,7 @@ KeyListener, SpecialNumberFormatInterface {
 			value2.add(r);
 			break;
 		default: 
-			value.add(app.getPlain("fncInspector.MultipleRoots"));
+			value.add(loc.getPlain("fncInspector.MultipleRoots"));
 			value2.add(null);
 
 		}
@@ -1552,11 +1552,11 @@ KeyListener, SpecialNumberFormatInterface {
 
 		btnOptions.removeAllMenuItems();
 
-		btnOptions.setToolTipText(app.getMenu("Options"));
+		btnOptions.setToolTipText(loc.getMenu("Options"));
 
 
 		// copy to spreadsheet
-		JMenuItem mi = new JMenuItem(app.getMenu("CopyToSpreadsheet"));
+		JMenuItem mi = new JMenuItem(loc.getMenu("CopyToSpreadsheet"));
 		mi.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {

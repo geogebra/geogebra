@@ -3,7 +3,6 @@ package geogebra.gui.layout;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -11,6 +10,7 @@ import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.toolbar.ToolbarD;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -73,7 +73,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 	protected DockManager dockManager;
 	protected AppD app;
-	protected Localization loc;
+	protected LocalizationD loc;
 
 	/**
 	 * The ID of this dock panel.
@@ -343,6 +343,10 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		setLayout(new BorderLayout());
 	}
 
+	protected void setApp(AppD app){
+		this.app = app;
+		this.loc = app.getLocalization();
+	}
 	/**
 	 * @return The icon of the menu item, if this method was not overwritten it
 	 *         will return the empty icon or null for Win Vista / 7 to prevent
@@ -351,9 +355,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public ImageIcon getIcon() {
 		if (AppD.WINDOWS_VISTA_OR_LATER) {
 			return null;
-		} else {
-			return app.getEmptyIcon();
 		}
+		return app.getEmptyIcon();
 	}
 
 	/**
@@ -435,8 +438,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 */
 	public void register(DockManager dockManager) {
 		this.dockManager = dockManager;
-		this.app = dockManager.getLayout().getApplication();
-		this.loc = app.getLocalization();
+		setApp(dockManager.getLayout().getApplication());
 		// create buttons for the panels
 		createButtons();
 
@@ -477,17 +479,17 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		p.add(Box.createHorizontalStrut(4));
 
 		styleBarButtonPanel.add(p, BorderLayout.NORTH);
-		styleBarPanel.add(styleBarButtonPanel, app.borderWest());
+		styleBarPanel.add(styleBarButtonPanel, loc.borderWest());
 		styleBarPanel.add(LayoutUtil.flowPanelRight(0, 0, 4, unwindowButton2),
-				app.borderEast());
+				loc.borderEast());
 
 		// construct the title panel and add all elements
 		titlePanel = new JPanel();
 		titlePanel.setBorder(panelBorder);
 		titlePanel.setLayout(new BorderLayout());
 
-		titlePanel.add(createFocusPanel(), app.borderWest());
-		titlePanel.add(buttonPanel, app.borderEast());
+		titlePanel.add(createFocusPanel(), loc.borderWest());
+		titlePanel.add(buttonPanel, loc.borderEast());
 		titlePanel.addMouseListener(this); // dragging to reconfigure
 		titlePanel.addMouseListener(new MyButtonHider());
 

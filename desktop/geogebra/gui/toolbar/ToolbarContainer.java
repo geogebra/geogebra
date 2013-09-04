@@ -3,7 +3,6 @@ package geogebra.gui.toolbar;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
@@ -12,6 +11,7 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -60,7 +60,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Application instance.
 	 */
 	AppD app;
-	Localization loc;
+	LocalizationD loc;
 	
 
 	/**
@@ -182,8 +182,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// add glue panel and button panel according to the orientation
 		if (orientation == SwingConstants.NORTH
 				|| orientation == SwingConstants.SOUTH) {
-			add(gluePanel, app.borderWest());
-			add(getGridButtonPanel(), app.borderEast());
+			add(gluePanel, loc.borderWest());
+			add(getGridButtonPanel(), loc.borderEast());
 		}else{
 			add(gluePanel, BorderLayout.NORTH);
 			add(getGridButtonPanel(), BorderLayout.SOUTH);
@@ -231,21 +231,21 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		myToolbar.buildGui();
 
 		showHelpBar = !showHelpBar;
-		this.remove(((BorderLayout) getLayout()).getLayoutComponent(app
+		this.remove(((BorderLayout) getLayout()).getLayoutComponent(loc
 				.borderWest()));
 		if (((BorderLayout) getLayout())
 				.getLayoutComponent(BorderLayout.CENTER) != null)
 			this.remove(((BorderLayout) getLayout())
 					.getLayoutComponent(BorderLayout.CENTER));
 		if (showHelpBar) {
-			this.add(myToolbar, app.borderWest());
+			this.add(myToolbar, loc.borderWest());
 			this.add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			this.revalidate();
 			updateHelpText();
 			toolbarHelpPanel.revalidate();
 			toolbarHelpPanel.repaint();
 		} else {
-			this.add(gluePanel, app.borderWest());
+			this.add(gluePanel, loc.borderWest());
 			this.revalidate();
 		}
 
@@ -268,7 +268,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		}
 
 		JPanel p = new JPanel(new BorderLayout());
-		p.add(modeNameLabel, app.borderWest());
+		p.add(modeNameLabel, loc.borderWest());
 
 		if (isMain) {
 			JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -276,7 +276,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					|| orientation == SwingConstants.WEST) {
 				// p2.add(undoPanel);
 			}
-			p.add(p2, app.borderEast());
+			p.add(p2, loc.borderEast());
 
 		}
 
@@ -320,7 +320,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
-		btnProperties.setToolTipText(app.getPlainTooltip("Preferences"));
+		btnProperties.setToolTipText(loc.getPlainTooltip("Preferences"));
 		btnProperties.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {

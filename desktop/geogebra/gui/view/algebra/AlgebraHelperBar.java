@@ -3,6 +3,7 @@ package geogebra.gui.view.algebra;
 import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -49,6 +50,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 	private JPopupMenu menu;
 
+	private LocalizationD loc;
+
 	/**
 	 * Button to toggle LaTeX rendering
 	 */
@@ -63,7 +66,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	public AlgebraHelperBar(AlgebraViewD algebraView, AppD app) {
 		this.algebraView = algebraView;
 		this.app = app;
-
+		this.loc = app.getLocalization();
 		setFloatable(false);
 
 		addButtons();
@@ -109,9 +112,9 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * Update the tool tip texts (used for language change).
 	 */
 	public void updateLabels() {
-		toggleAuxiliary.setToolTipText(app.getPlainTooltip("AuxiliaryObjects"));
+		toggleAuxiliary.setToolTipText(loc.getPlainTooltip("AuxiliaryObjects"));
 
-		toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("SortObjectsBy"));
+		toggleTypeTreeMode.setToolTipText(loc.getPlainTooltip("SortObjectsBy"));
 		buildMenu();
 
 	}

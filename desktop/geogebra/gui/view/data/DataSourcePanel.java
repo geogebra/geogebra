@@ -7,6 +7,7 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 import geogebra.util.Validation;
 
 import java.awt.BorderLayout;
@@ -66,7 +67,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	private static final long serialVersionUID = 1L;
 
 	private static final int MINIMUM_ROW = 8;
-	private AppD app;
+	private final AppD app;
+	private final LocalizationD loc;
 	private DataAnalysisViewD dataView;
 	private JDialog invoker;
 
@@ -106,6 +108,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	public DataSourcePanel(AppD app, JDialog invoker, int mode) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.invoker = invoker;
 		this.mode = mode;
 		dataSource = new DataSource(app);
@@ -212,11 +215,11 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		controlPanel.removeAll();
 		if (mode == DataAnalysisViewD.MODE_MULTIVAR) {
 			controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnAdd, btnDelete),
-					app.borderWest());
+					loc.borderWest());
 		}
 
 		controlPanel.add(LayoutUtil.flowPanel(0, 0, 0, btnOptions),
-				app.borderEast());
+				loc.borderEast());
 
 	}
 
@@ -231,24 +234,24 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	public void setLabels() {
 
-		lblStart.setText(app.getMenu("Start") + ":");
-		lblWidth.setText(app.getMenu("Width") + ":");
+		lblStart.setText(loc.getMenu("Start") + ":");
+		lblWidth.setText(loc.getMenu("Width") + ":");
 
-		btnOptions.setToolTipText(app.getMenu("Options"));
-		btnClear.setToolTipText(app.getMenu("ClearColumns"));
-		btnDelete.setToolTipText(app.getPlain("fncInspector.removeColumn"));
-		btnAdd.setToolTipText(app.getPlain("fncInspector.addColumn"));
+		btnOptions.setToolTipText(loc.getMenu("Options"));
+		btnClear.setToolTipText(loc.getMenu("ClearColumns"));
+		btnDelete.setToolTipText(loc.getPlain("fncInspector.removeColumn"));
+		btnAdd.setToolTipText(loc.getPlain("fncInspector.addColumn"));
 
 	}
 
 	private String[] getDataTypeLabels() {
 		if (mode == DataAnalysisViewD.MODE_ONEVAR) {
-			String[] dataTypeLabels = { app.getMenu("Number"),
-					app.getMenu("Text") };
+			String[] dataTypeLabels = { loc.getMenu("Number"),
+					loc.getMenu("Text") };
 			return dataTypeLabels;
 		} else if (mode == DataAnalysisViewD.MODE_REGRESSION) {
-			String[] dataTypeLabels = { app.getMenu("Numbers"),
-					app.getMenu("Points") };
+			String[] dataTypeLabels = { loc.getMenu("Numbers"),
+					loc.getMenu("Points") };
 			return dataTypeLabels;
 		}
 		return null;

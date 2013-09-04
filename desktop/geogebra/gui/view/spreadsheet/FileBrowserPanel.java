@@ -4,6 +4,7 @@ import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -96,6 +97,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 	public final static int MODE_FILE = 1;
 	public final static int MODE_HTML = 2;
 	private int mode;
+	private final LocalizationD loc;
 
 	/**
 	 * Constructs a file browser panel with an empty file tree. Use setRoot() to
@@ -106,6 +108,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		this.view = view;
 		browserPanel = this;
 		app = view.getApplication();
+		loc = app.getLocalization();
 
 		xmlParser = new QDParser();
 		handler = new MyFileTreeHandler();
@@ -158,7 +161,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
-		// menuButton = new JButton(app.getMenu("Load")+ "...");
+		// menuButton = new JButton(loc.getMenu("Load")+ "...");
 		menuButton = new JButton(dropDownIcon(
 				app.getImageIcon("aux_folder.gif"), this.getBackground()));
 		// menuButton = new JButton(app.getImageIcon("aux_folder.gif"));
@@ -177,8 +180,8 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 		buttonPanel.add(minimizeButton);
 
 		JPanel header = new JPanel(new BorderLayout());
-		header.add(toolbar, app.borderWest());
-		header.add(buttonPanel, app.borderEast());
+		header.add(toolbar, loc.borderWest());
+		header.add(buttonPanel, loc.borderEast());
 		// header.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 		// .createEtchedBorder(), BorderFactory.createEmptyBorder(2, 5, 2,5)));
 
@@ -205,7 +208,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			setBackground(bgColor);
 			setFont(app.getPlainFont());
 
-			menuItem = new JMenuItem(app.getMenu("SaveToXML") + "...",
+			menuItem = new JMenuItem(loc.getMenu("SaveToXML") + "...",
 					app.getEmptyIcon());
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -236,7 +239,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			setBackground(bgColor);
 			setFont(app.getPlainFont());
 
-			menuItem = new JMenuItem(app.getMenu("OpenFileFolder") + "...",
+			menuItem = new JMenuItem(loc.getMenu("OpenFileFolder") + "...",
 					app.getImageIcon("document-open.png"));
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -253,7 +256,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 			add(menuItem);
 			menuItem.setBackground(bgColor);
 
-			menuItem = new JMenuItem(app.getMenu("OpenFromWebpage") + "...",
+			menuItem = new JMenuItem(loc.getMenu("OpenFromWebpage") + "...",
 					app.getImageIcon("wiki.png"));
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -284,7 +287,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener,
 
 			addSeparator();
 
-			menuItem = new JMenuItem(app.getMenu("SaveToXML") + "...",
+			menuItem = new JMenuItem(loc.getMenu("SaveToXML") + "...",
 					app.getEmptyIcon());
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {

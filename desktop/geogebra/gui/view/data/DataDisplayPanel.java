@@ -12,6 +12,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.data.DataAnalysisViewD.Regression;
 import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
+import geogebra.main.LocalizationD;
 import geogebra.util.Validation;
 
 import java.awt.BorderLayout;
@@ -68,6 +69,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	// ggb fields
 	private AppD app;
+	private final LocalizationD loc;
 	private DataAnalysisViewD daView;
 	private StatGeo statGeo;
 
@@ -171,6 +173,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		this.daView = daView;
 		this.app = daView.getApp();
+		this.loc = app.getLocalization();
 		this.statGeo = daView.getStatGeo();
 		plotGeoList = new ArrayList<GeoElement>();
 
@@ -256,10 +259,10 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			// control panel
 			controlPanel = new JPanel(new BorderLayout(0, 0));
-			controlPanel.add(flowPanel(cbDisplayType), app.borderWest());
+			controlPanel.add(flowPanel(cbDisplayType), loc.borderWest());
 			controlPanel.add(controlCards, BorderLayout.CENTER);
 			controlPanel.add(flowPanelRight(btnOptions, btnExport),
-					app.borderEast());
+					loc.borderEast());
 		}
 
 		plotPanel = new PlotPanelEuclidianView(app.getKernel(),
@@ -316,7 +319,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			mainPanel.add(controlPanel, BorderLayout.NORTH);
 		}
 		mainPanel.add(displayCardPanel, BorderLayout.CENTER);
-		mainPanel.add(optionsPanel, app.borderEast());
+		mainPanel.add(optionsPanel, loc.borderEast());
 
 		this.setLayout(new BorderLayout(0, 0));
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -332,18 +335,18 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	public void setLabels() {
 
 		createDisplayTypeComboBox();
-		sliderNumClasses.setToolTipText(app.getMenu("Classes"));
-		fldNumClasses.setToolTipText(app.getMenu("Classes"));
-		lblStart.setText(app.getMenu("Start") + " ");
-		lblWidth.setText(app.getMenu("Width") + " ");
+		sliderNumClasses.setToolTipText(loc.getMenu("Classes"));
+		fldNumClasses.setToolTipText(loc.getMenu("Classes"));
+		lblStart.setText(loc.getMenu("Start") + " ");
+		lblWidth.setText(loc.getMenu("Width") + " ");
 		if (mode == DataAnalysisViewD.MODE_REGRESSION) {
-			lblTitleX.setText(app.getMenu("Column.X") + ": ");
-			lblTitleY.setText(app.getMenu("Column.Y") + ": ");
+			lblTitleX.setText(loc.getMenu("Column.X") + ": ");
+			lblTitleY.setText(loc.getMenu("Column.Y") + ": ");
 		}
-		lblAdjust.setText(app.getMenu("Adjustment") + ": ");
+		lblAdjust.setText(loc.getMenu("Adjustment") + ": ");
 
 		optionsPanel.setLabels();
-		btnOptions.setToolTipText(app.getMenu("Options"));
+		btnOptions.setToolTipText(loc.getMenu("Options"));
 
 	}
 
