@@ -236,13 +236,18 @@ public class ColorProvider {
 	
 	// MyMatchResult and MyLabelParamRegExp are
 	// inner classes used for matching labels/functions/commands
-	private class MyMatchResult extends MatchResult {
+	private class MyMatchResult {
 
+		int index;
+		String input;
+		List<String> groups;
 		private boolean isCommand;
 		
 		public MyMatchResult(int index, String input, List<String> groups, boolean isCommand) {
-			super(index, input, groups);
-			this.setCommand(isCommand);
+			this.index = index;
+			this.input = input;
+			this.groups = groups;
+			setCommand(isCommand);
 		}
 
 		public boolean isCommand() {
@@ -251,6 +256,18 @@ public class ColorProvider {
 
 		public void setCommand(boolean isCommand) {
 			this.isCommand = isCommand;
+		}
+		
+		public int getIndex() {
+			return index;
+		}
+		
+		public String getGroup(int i) {
+			return groups.get(i);
+		}
+		
+		public String getInput() {
+			return input;
 		}
 		
 	}
