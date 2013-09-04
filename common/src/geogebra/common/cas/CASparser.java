@@ -229,8 +229,10 @@ public class CASparser implements CASParserInterface{
 					}
 					else if (replaceUnicode && c > 127 && c != Unicode.angle) {
 						appendcode(replaceIndices, c);
-					} else if (c == '\'') {
-						appendcode(replaceIndices, c);
+					
+					// ' replaced in StringTemplate.addTempVariablePrefix() so that x', y' work	#3607
+					//} else if (c == '\'') {
+					//	appendcode(replaceIndices, c);
 					} else {
 						replaceIndices.append(c);
 					}

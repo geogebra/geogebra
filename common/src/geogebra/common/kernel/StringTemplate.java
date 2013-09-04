@@ -538,7 +538,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 	 */
 	private String addTempVariablePrefix(final String label) {
 		
-		// TODO: experimental
 		// keep x, y, z so that x^2+y^2=1 works in Giac
 		if (getStringType().equals(StringType.GIAC) && ("x".equals(label) || "y".equals(label) || "y'".equals(label) || "y''".equals(label) || "z".equals(label))) {
 			return label;
@@ -547,7 +546,11 @@ public class StringTemplate implements ExpressionNodeConstants{
 		StringBuilder sb = new StringBuilder();
 		// TMP_VARIABLE_PREFIX + label
 		sb.append(Kernel.TMP_VARIABLE_PREFIX);
-		sb.append(label);
+		
+		// make sure gbtmpvarp' not interpreted as derivative
+		// #3607
+		sb.append(label.replaceAll("'", "unicode39u"));
+		
 		return sb.toString();
 	}
 	
