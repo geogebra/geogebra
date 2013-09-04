@@ -1465,11 +1465,9 @@ public class TouchModel {
 		return true;
 	}
 
-	void optionsClosed() {
-		if (this.storeOnClose) {
-			this.storeOnClose = false;
-			this.app.storeUndoInfo();
-		}
+	private void stopCollecting() {
+		this.app.getEuclidianView1().getEuclidianController()
+				.stopCollectingMinorRepaints();
 	}
 
 	public void redefine(final GeoElement geo) {
@@ -1643,12 +1641,25 @@ public class TouchModel {
 		this.createPreviewObject(false);
 	}
 
-	private void stopCollecting() {
-		this.app.getEuclidianView1().getEuclidianController()
-				.stopCollectingMinorRepaints();
+	/**
+	 * the next call of optionsClosed() will create an undo-point, if there is a
+	 * GeoElement selected (otherwise there was no change)
+	 */
+	public void setStoreOnClose() {
+		// should remain true if already set to true
+		if (this.getTotalNumber() > 0) {
+			this.storeOnClose = true;
+		}
 	}
 
-	public void storeOnClose() {
-		this.storeOnClose = true;
+	/**
+	 * creates an undo-point, if there were any changes
+	 */
+	void onOptionsClosed() {
+		if (this.storeOnClose) {
+			this.storeOnClose = false;
+			this.app.storeUndoInfo();
+		}
 	}
+
 }

@@ -51,7 +51,7 @@ class LineStyleBar extends FlowPanel {
 
 					LineStyleBar.this.touchModel.getGuiModel().setLineStyle(
 							index);
-					LineStyleBar.this.touchModel.storeOnClose();
+					LineStyleBar.this.touchModel.setStoreOnClose();
 				}
 			});
 			this.buttonPanel.add(lineStyle[i]);
@@ -82,7 +82,7 @@ class LineStyleBar extends FlowPanel {
 						.getSelectedGeos(), event.getValue().intValue());
 				LineStyleBar.this.touchModel.getGuiModel().setLineSize(
 						event.getValue().intValue());
-				LineStyleBar.this.touchModel.storeOnClose();
+				LineStyleBar.this.touchModel.setStoreOnClose();
 
 			}
 		});

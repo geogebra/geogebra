@@ -99,7 +99,7 @@ public class GuiModel {
 			this.styleBarOptionShown = OptionType.None;
 
 			if (this.touchModel != null) {
-				this.touchModel.optionsClosed();
+				this.touchModel.onOptionsClosed();
 			}
 		}
 	}
@@ -162,7 +162,7 @@ public class GuiModel {
 
 		if (fillable.size() > 0 && StyleBarStatic.applyAlpha(fillable, a)) {
 			fillable.get(0).updateRepaint();
-			this.touchModel.storeOnClose();
+			this.touchModel.setStoreOnClose();
 		}
 	}
 

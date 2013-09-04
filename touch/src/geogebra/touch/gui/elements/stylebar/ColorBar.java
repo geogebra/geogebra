@@ -94,7 +94,7 @@ class ColorBar extends FlowPanel {
 				ColorBar.this.touchModel.lastSelected().updateRepaint();
 			}
 
-			ColorBar.this.touchModel.storeOnClose();
+			ColorBar.this.touchModel.setStoreOnClose();
 		}
 
 		@Override
