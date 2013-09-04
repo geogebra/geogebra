@@ -6,6 +6,7 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -80,6 +81,10 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onMouseDown(MouseDownEvent event) {
+		
+		//Remove context menu (or other popups), if it's visible.
+		((GuiManagerW)app.getGuiManager()).removePopup();
+		
 		CASTableW table = view.getConsoleTable();
 		GPoint p = table.getPointForEvent(event);
 		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER) {
