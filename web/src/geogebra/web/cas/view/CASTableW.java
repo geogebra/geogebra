@@ -28,8 +28,9 @@ public class CASTableW extends Grid implements CASTable {
 	private AppW app;
 	private int[] selectedRows = new int[0];
 	private CASTableControllerW ml;
+	private CASViewW view;
 
-	public CASTableW(AppW app, CASTableControllerW ml) {
+	public CASTableW(AppW app, CASTableControllerW ml, CASViewW casViewW) {
 		super(0, 2);
 		this.app = app;
 		this.ml = ml;
@@ -38,6 +39,7 @@ public class CASTableW extends Grid implements CASTable {
 		        MyTableW.TABLE_GRID_COLOR.toString());
 		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		insertRow(0, null, false);
+		view = casViewW;
 	}
 
 	public void setLabels() {
@@ -77,8 +79,8 @@ public class CASTableW extends Grid implements CASTable {
 		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
 		this.setWidget(n, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		
-		//Let increase the labels below the n. row.
 		if (n < getRowCount()-1){
+			//Let increase the labels below the n. row.
 			RowHeaderWidget nextHeader;
 			for(int i=n+1; i<getRowCount(); i++){
 				nextHeader = (RowHeaderWidget) this.getWidget(i, COL_CAS_HEADER);
@@ -206,6 +208,10 @@ public class CASTableW extends Grid implements CASTable {
         .getElement(rowNumber, COL_CAS_HEADER)
         .getStyle()
         .setBackgroundColor(color.toString());
+    }
+
+	public CASViewW getCASView() {
+	    return view;
     }
 
 }

@@ -34,6 +34,13 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 	            actionPerformed("insertBelow");
             }
 		}));
+/*		
+		addItem(new MenuItem("Delete", new ScheduledCommand(){
+			public void execute() {
+	            actionPerformed("delete");
+            }
+		}));
+*/
 
 	}
 	
@@ -54,9 +61,9 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 //			table.insertRow(table.getRowCount(), null, true);
 			undoNeeded = true;
 		}
-//		else if (ac.equals("delete")) {
-//			undoNeeded = table.getCASView().deleteCasCells(selRows);
-//		}
+		else if (ac.equals("delete")) {
+			undoNeeded = table.getCASView().deleteCasCells(selRows);
+		}
 //		else if(ac.equals("useAsText")) {
 //			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);
 //			casCell2.setUseAsText(cbUseAsText.isSelected());
