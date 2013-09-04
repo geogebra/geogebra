@@ -59,7 +59,7 @@ public class GeoElementGraphicsAdapter extends
 	    	return;
 	    }
 	    int index = imageFileName.lastIndexOf('/');
-	    String fn = imageFileName.substring(index+1,imageFileName.length()-ext.length())+".png";
+	    String fn = imageFileName.substring(index+1,imageFileName.length()-ext.length()-1)+".png";
 	    MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 	    imageFileName = md5e.encrypt(fn)+"/"+fn;
     }
