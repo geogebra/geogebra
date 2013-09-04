@@ -7657,8 +7657,12 @@ namespace giac {
   static gen monomial_degree(const gen & a){
     if (a.type<_IDNT)
       return 0;
-    if (a.type==_IDNT)
+    if (a.type==_IDNT){
+      // detect constants of integration
+      if (strlen(a._IDNTptr->id_name)>=3 && a._IDNTptr->id_name[0]=='c' && a._IDNTptr->id_name[1]=='_')
+	return 0;
       return 1;
+    }
     if (a.type!=_SYMB)
       return 0;
     if (a._SYMBptr->sommet==at_pow && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)

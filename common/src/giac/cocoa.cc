@@ -5299,7 +5299,7 @@ namespace giac {
     }
     if (debug_infolevel>0)
       cerr << "Number of critical pairs to check " << tocheck.size() << endl;
-#if 1 // modular check is slow
+#if 0 // modular check is slow
     return checkf4(tocheck,res,G,-1); 
 #endif
     // integer check
@@ -5503,8 +5503,10 @@ namespace giac {
 	  epsp=termsmin;
 	if (eps<=0 || std::log10(eps)<=-epsp){
 	  G.clear();
-	  //if (!is_gbasis(vtmp))
-	    in_gbasis(vtmp,G,0,true);
+	  if (!is_gbasis(vtmp)){
+	    ok=false;
+	    break; // in_gbasis(vtmp,G,0,true);
+	  }
 	  // FIXME replace by a quicker check with f4 on all spolys
 	  // and rewrite as a linear system 
 	}

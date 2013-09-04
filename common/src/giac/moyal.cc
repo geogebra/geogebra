@@ -67,10 +67,19 @@ namespace giac {
   double upper_incomplete_gammad(double s,double z,bool regularize){
     // returns -1 if continued fraction expansion is not convergent
     // if s is a small integer = poisson_cdf(z,s-1)*Gamma(s)
-    if (s==int(s) && s>0 && s<300)
+    if (s==int(s) && s>0)
       return regularize?poisson_cdf(z,int(s-1)):poisson_cdf(z,int(s-1))*std::exp(lngamma(s));
+#if 0 // not tested
     // if z large Gamma(s,z) = z^(s-1)*exp(z)*[1 + (s-1)/z + (s-1)*(s-2)/z^2 +...
-
+    if (s>100 && std::abs(z)>1.1*s){
+      long_double res=1,pi=1,S=s-1,Z=z;
+      for (;pi>1e-17;--S){
+	pi *= S/Z;
+	res += pi;
+      }
+      return pi*std::exp(z-(s-1)*std::log(z));
+    }
+#endif
     // int_z^inf t^(s-1) exp(-t) dt
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // a1=1, a2=1-s, a3=1, a_{m+2}=a_m+1
@@ -1038,10 +1047,31 @@ namespace giac {
   static define_unary_function_eval (__POISSON,&_poisson,_POISSON_s);
   define_unary_function_ptr5( at_POISSON ,alias_at_POISSON,&__POISSON,0,true);
 
+  // exp(-lambda)*sum(lambda^k/k!,k=0..x)
+  // or 1-exp(-lambda)*sum(lambda^k/k!,k=x+1..inf)
   double poisson_cdf(double lambda,double x){
     long_double N=lambda;
     long_double res=0,prod=1;
     int fx=int(std::floor(x));
+    if (fx>=lambda){
+      for (int i=fx+1;prod>1e-17;){
+	res += prod;
+	prod *= N;
+	++i;
+	prod /= long_double(i);
+      }
+      res *= std::exp(-N+(fx+1)*std::log(N)-lngamma(fx+2.));
+      return 1-res; 
+    }
+#if 1
+    for (int i=fx;i>=0 && prod>1e-17;--i){
+      res += prod;
+      prod /= N;
+      prod *= long_double(i);
+    }
+    res *= std::exp(-N+fx*std::log(N)-lngamma(fx+1.));    
+    return res;
+#else
     for (int i=0;i<=fx;){
       res += prod;
       prod *= N;
@@ -1050,11 +1080,12 @@ namespace giac {
     }
     res *= std::exp(-N);
     return res;
+#endif
   }
   gen poisson_cdf(const gen & lambda_,const gen & x,GIAC_CONTEXT){
     gen fx=_floor(x,contextptr);
     gen lambda=evalf_double(lambda_,1,contextptr);
-    if (fx.type==_INT_ && fx.val>=0 && fx.val<=300 && lambda.type==_DOUBLE_)
+    if (fx.type==_INT_ && fx.val>=0 && lambda.type==_DOUBLE_)
       return poisson_cdf(lambda._DOUBLE_val,fx.val);
     if (is_zero(fx-x))
       return _upper_incomplete_gamma(makesequence(x+1,lambda,1),contextptr);
