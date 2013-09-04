@@ -197,7 +197,7 @@ public class CASInputHandler {
 					}
 				/* Otherwise set the evaluation text to input */ 
 				} else {
-					cellValue.setProcessingInformation(prefix, inVE.toString(StringTemplate.numericDefault), postfix);
+					cellValue.setProcessingInformation(prefix, cellValue.getInput(StringTemplate.defaultTemplate), postfix);
 				}
 				if (isKeepInput || isEvaluate || isNumeric) {
 					cellValue.setEvalCommand(ggbcmd);
