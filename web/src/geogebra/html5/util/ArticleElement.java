@@ -2,6 +2,7 @@ package geogebra.html5.util;
 
 import geogebra.html5.main.AppWeb;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,7 +24,6 @@ public final class ArticleElement extends Element {
 	}
 
 	protected ArticleElement() {
-
 	}
 
 	public void add(Widget w) {
@@ -247,6 +247,73 @@ public final class ArticleElement extends Element {
 		}
 		return false;
 	 }-*/;
+	
+	private static native String getTransform(JavaScriptObject style) /*-{
+	return 	style.transform ||
+			style.webkitTransform ||
+			style.MozTransform ||
+			style.msTransform ||
+			style.oTransform ||
+			"";
+	}-*/;
+
+
+	
+	private float getEnvScaleX() {		
+		return envScale("x");
+	};
+	
+	
+	private float getEnvScaleY() {
+		return envScale("y");
+	}
+
+	private native float envScale(String type) /*-{
+		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
+			style = $wnd.getComputedStyle(this),
+			transform,
+			matches;
+		if (style) {
+			transform = @geogebra.html5.util.ArticleElement::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
+			matches = transform.match(matrixRegex); 
+			if (matches && matches.length) {
+				if (type === "x") {
+					return $wnd.parseFloat(matches[1]);
+				} else {
+					return $wnd.parseFloat(matches[2]);
+				}
+		   	} else if (transform.indexOf("scale") === 0) {
+		   		return $wnd.parseFloat(transform.substr(transform.indexOf("(") + 1));
+			}
+		   		
+		}
+		return 1;		
+	}-*/;
+	
+	/**
+	 * @return the CSS scale attached to the article element
+	 */
+	public float getScaleX() {
+		//no instance fields in subclasses of Element, so no way to asign it to a simple field
+		if (this.getAttribute("data-scaley").equals("")) {
+			this.setAttribute("data-scaley", String.valueOf(getEnvScaleY()));
+		}
+		return Float.parseFloat(this.getAttribute("data-scaley"));
+	}
+	
+	/**
+	 * @return the CSS scale attached to the article element
+	 * 
+	 */
+	public float getScaleY() {
+		//no instance fields in subclasses of Element, so no way to asign it to a simple field
+		if (this.getAttribute("data-scalex").equals("")) {
+			this.setAttribute("data-scalex", String.valueOf(getEnvScaleY()));
+		}
+		return Float.parseFloat(this.getAttribute("data-scalex"));
+	}
+
+	
 	
 	
 }

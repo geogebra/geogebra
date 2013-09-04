@@ -22,7 +22,6 @@ import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -226,8 +225,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    style.setHeightScale(getEnvHeightScale());
 	    style.setxOffset(getEnvXoffset());
 	    style.setyOffset(getEnvYoffset());
-	    style.setScaleX(getEnvScaleX());
-	    style.setScaleY(getEnvScaleY());
+	    style.setScaleX(((AppW) app).getArticleElement().getScaleX());
+	    style.setScaleY(((AppW) app).getArticleElement().getScaleY());
 	    style.setScrollLeft(Window.getScrollLeft());
 	    style.setScrollTop(Window.getScrollTop());
     }
@@ -270,45 +269,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return ((EuclidianViewW) view).getAbsoluteTop() - Window.getScrollTop();
 	}
 	
-	private static native String getTransform(JavaScriptObject style) /*-{
-		return 	style.transform ||
-				style.webkitTransform ||
-				style.MozTransform ||
-				style.msTransform ||
-				style.oTransform ||
-				"";
-	}-*/;
 	
-	
-	private float getEnvScaleX() {		
-		return envScale("x");
-	};
-	
-	private native float envScale(String type) /*-{
-		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
-			style = $wnd.getComputedStyle($doc.querySelector(".geogebraweb")),
-			transform,
-			matches;
-		if (style) {
-			transform = @geogebra.web.euclidian.EuclidianControllerW::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
-			matches = transform.match(matrixRegex); 
-			if (matches && matches.length) {
-				if (type === "x") {
-					return $wnd.parseFloat(matches[1]);
-				} else {
-					return $wnd.parseFloat(matches[2]);
-				}
-		   	} else if (transform.indexOf("scale") === 0) {
-		   		return $wnd.parseFloat(transform.substr(transform.indexOf("(") + 1));
-			}
-		   		
-		}
-		return 1;		
-	}-*/;
-
-	private float getEnvScaleY() {
-		return envScale("y");
-	}
 	
 
 	private boolean EuclidianOffsetsInited = false;
