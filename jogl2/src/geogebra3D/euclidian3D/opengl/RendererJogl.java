@@ -54,8 +54,8 @@ public class RendererJogl {
 
 		
 		//anti-aliasing
-		caps.setSampleBuffers(true);
-		caps.setNumSamples(4);    	
+		//caps.setSampleBuffers(true);
+		//caps.setNumSamples(4);    	
 		
 		//avoid flickering
 		//caps.setDoubleBuffered(true);
