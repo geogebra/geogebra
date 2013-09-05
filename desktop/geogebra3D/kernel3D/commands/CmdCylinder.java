@@ -51,9 +51,10 @@ public class CmdCylinder extends CommandProcessor{
 	    		return ret;
 	    	}
 
-	    	if (!ok[0])
-	    		throw argErr(arg[0]); 
-	    	throw argErr(arg[1]);
+	    	if (!ok[0]) {
+	    		throw argErr(arg[0], c); 
+	    	}
+	    	throw argErr(arg[1], c);
 
 	    
 	    case 3 :
@@ -82,16 +83,17 @@ public class CmdCylinder extends CommandProcessor{
     					(GeoPointND) arg[1],
     					(GeoNumberValue) arg[2]);
 	    	}else{
-	    		if (!ok[0])
-	    			throw argErr(arg[0]);
-	    		else if (!ok[1])
-	    			throw argErr(arg[1]);
-	    		else
-	    			throw argErr(arg[2]);
+	    		if (!ok[0]) {
+	    			throw argErr(arg[0], c);
+	    		} else if (!ok[1]) {
+	    			throw argErr(arg[1], c);
+	    		} else {
+	    			throw argErr(arg[2], c);
+	    		}
 	    	}
 
 	    default :
-	    	throw argNumErr(n);
+	    	throw argNumErr(n, c);
 	    }
 	    
 
@@ -99,17 +101,17 @@ public class CmdCylinder extends CommandProcessor{
 	
 	//overridded by CmdCylinderInfinite
 	
-	protected GeoElement[] cylinderPointPointRadius(Command c, GeoPointND p1, GeoPointND p2, NumberValue r){
+	protected GeoElement[] cylinderPointPointRadius(Command c, GeoPointND p1, GeoPointND p2, NumberValue r) {
 		return kernelA.getManager3D().CylinderLimited(
-				c.getLabels(),p1,p2,r);
+				c.getLabels(), p1, p2, r);
 	}
 	
-	protected MyError argErr(GeoElement geo){
-		return argErr(app,"Cylinder",geo);
+	protected MyError argErr(GeoElement geo, Command c) {
+		return argErr(app, c.getName(), geo);
 	}
 	
-	protected MyError argNumErr(int n){
-		return argNumErr(app,"Cylinder",n);
+	protected MyError argNumErr(int n, Command c) {
+		return argNumErr(app, c.getName(), n);
 	}
 	
 }
