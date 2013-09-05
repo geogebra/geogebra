@@ -2,6 +2,7 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.html5.awt.GGraphics2DW;
 
 import java.util.LinkedList;
 
@@ -46,8 +47,7 @@ public class MouseEventW extends AbstractEvent {
 
 	@Override
 	public GPoint getPoint() {
-		return new GPoint(Math.round((event.getClientX() - off.getXoffset()) * (1 / off.getScaleX()) * (1 / off.getWidthScale())),
-				Math.round((event.getClientY() - off.getYoffset())  * (1 / off.getScaleY()) * (1 / off.getHeightScale())));
+		return new GPoint(getX(), getY());
 	}
 
 	public native int getOffsetX() /*-{
@@ -94,12 +94,18 @@ public class MouseEventW extends AbstractEvent {
 
 	@Override
 	public int getX() {
-		return Math.round((event.getClientX() - off.getXoffset()) * (1 / off.getScaleX()) * (1 / off.getWidthScale()));
+		return Math.round((event.getClientX() - off.getXoffset()) *
+							(1 / off.getScaleX()) *
+								(1 / off.getWidthScale())
+									* GGraphics2DW.devicePixelRatio); //Gabor: this is not good
 	}
 
 	@Override
 	public int getY() {
-		return Math.round((event.getClientY() - off.getYoffset())  * (1 / off.getScaleY()) * (1 / off.getHeightScale()));
+		return Math.round((event.getClientY() - off.getYoffset())  *
+					(1 / off.getScaleY()) *
+						(1 / off.getHeightScale())
+							* GGraphics2DW.devicePixelRatio); //Gabor: this is not good
 	}
 
 	@Override

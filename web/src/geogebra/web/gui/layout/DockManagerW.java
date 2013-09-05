@@ -175,7 +175,7 @@ public class DockManagerW implements  SetLabels {
 
 			// construct the split panes
 			for(int i = 0; i < spData.length; ++i) {
-				splitPanes[i] = new DockSplitPaneW(spData[i].getOrientation());
+				splitPanes[i] = new DockSplitPaneW(spData[i].getOrientation(), app);
 				spw.put(splitPanes[i], 0);
 				sph.put(splitPanes[i], 0);
 			}
@@ -521,7 +521,7 @@ public class DockManagerW implements  SetLabels {
 		source.setVisible(true);
 		
 		// Add the source panel at the new position
-		DockSplitPaneW newSplitPane = new DockSplitPaneW();
+		DockSplitPaneW newSplitPane = new DockSplitPaneW(app);
 		int dndRegion = dndState.getRegion();
 		
 		// Determine the orientation of the new split pane
@@ -774,7 +774,7 @@ public class DockManagerW implements  SetLabels {
 			int size = panel.getEmbeddedSize();
 			int lastPos = locations[locations.length - 1];
 			
-			DockSplitPaneW newSplitPane = new DockSplitPaneW();
+			DockSplitPaneW newSplitPane = new DockSplitPaneW(app);
 			
 			
 			if(lastPos == 0 || lastPos == 2) {
@@ -1587,7 +1587,7 @@ public class DockManagerW implements  SetLabels {
 	 */
 	public void kickstartRoot(Panel panel) {
 		if (rootPane == null)
-			rootPane = new DockSplitPaneW();
+			rootPane = new DockSplitPaneW(app);
 		if (rootPane.getParent() == null)
 			panel.add(rootPane);
 	}

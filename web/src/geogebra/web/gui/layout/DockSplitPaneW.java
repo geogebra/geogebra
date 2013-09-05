@@ -34,11 +34,15 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 	private double resizeWeight;
 	private int dividerLocation;
 
+	private AppW app;
+
+	private boolean splittersFrozen = false;
+
 	/*********************************************
 	 * Constructs a DockSplitPaneW with default horizontal orientation
 	 */
-	public DockSplitPaneW() {
-		this(HORIZONTAL_SPLIT);
+	public DockSplitPaneW(AppW app) {
+		this(HORIZONTAL_SPLIT, app);
 	}
 
 	/*********************************************
@@ -46,8 +50,9 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 	 * 
 	 * @param newOrientation
 	 */
-	public DockSplitPaneW(int newOrientation) {
+	public DockSplitPaneW(int newOrientation, AppW app) {
 
+		this.app = app;
 		setOrientation(newOrientation);
 		setResizeWeight(0.5);
 		dividerVisible = false;
@@ -488,7 +493,37 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 			((DockSplitPaneW)getLeftComponent()).updateDumb();
 		if (getRightComponent() instanceof DockSplitPaneW)
 			((DockSplitPaneW)getRightComponent()).updateDumb();
+		
+		if (app.getArticleElement().getScaleX() != 1.0 ||
+				app.getArticleElement().getScaleY() != 1.0) {
+			freezeSplitters();
+		}
     }
+	
+	private native void freezeSplitters() /*-{
+		function removeEvents(nodes) {
+			var node,
+				clone,
+				parent,
+				i,
+				l;
+			for (i = 0, l = nodes.length; i < l; i += 1) {
+				node = nodes[i];
+				clone = node.cloneNode(true);
+				parent = node.parentNode;
+				parent.replaceChild(clone, node);
+			}
+		}
+		var splitlayoutpanel = this.@geogebra.web.gui.layout.DockSplitPaneW::getElement()(),
+			vpanels = splitlayoutpanel.getElementsByClassName("gwt-SplitLayoutPanel-HDragger"),
+			hpanels = splitlayoutpanel.getElementsByClassName("gwt-SplitLayoutPanel-VDragger");
+		if(vpanels && vpanels.length) {
+			removeEvents(vpanels);
+		}
+		if (hpanels && hpanels.length) {
+			removeEvents(hpanels);
+		}
+	}-*/;
 
 	public void updateDumb() {
 

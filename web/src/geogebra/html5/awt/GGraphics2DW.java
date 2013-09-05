@@ -52,6 +52,11 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	GPaint currentPaint = new GColorW(255,255,255,255);
 	private JsArrayNumber jsarrn;
+	
+	/**
+	 * the pixel ratio of the canvas.
+	 */
+	public static int devicePixelRatio = -1;
 
 	/**
 	 * @param canvas
@@ -63,8 +68,25 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		this.context = canvas.getContext2d();
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
+		devicePixelRatio = checkPixelRatio(canvas.getElement());
+		
 	}
 	
+	private native int checkPixelRatio(Element canvas) /*-{
+	    var devicePixelRatio = window.devicePixelRatio || 1,
+	    	context = canvas.getContext("2d"),
+	    	backingStorePixelRatio = context.webkitBackingStorePixelRatio
+	        	|| context.mozBackingStorePixelRatio
+	        	|| context.msBackingStorePixelRatio
+	        	|| context.oBackingStorePixelRatio
+	        	|| context.backingStorePixelRatio
+	        	|| 1;
+	
+	    pixelRatio = devicePixelRatio / backingStorePixelRatio;
+	    canvas.webcodePixelRatio = pixelRatio;
+	    return pixelRatio;
+   	}-*/;
+
 	/**
 	 * If we allow right-to left direction
 	 * * checkboxes have their labels to the right
@@ -430,8 +452,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
 	public void scale(double sx, double sy) {
-		context.scale(sx, sy);
-		savedTransform.scale(sx, sy);
+		context.scale(sx * devicePixelRatio, sy * devicePixelRatio);
+		savedTransform.scale(sx * devicePixelRatio, sy * devicePixelRatio);
 	}
 
 	
@@ -563,8 +585,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 	
 	public void setCoordinateSpaceSize(int width, int height) {
-		canvas.setCoordinateSpaceWidth(width);
-		canvas.setCoordinateSpaceHeight(height);
+		canvas.setCoordinateSpaceWidth(width * devicePixelRatio);
+		canvas.setCoordinateSpaceHeight(height * devicePixelRatio);
 		this.updateCanvasColor();
 	}
 
@@ -779,12 +801,12 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	public void setWidth(int w) {
-		canvas.setWidth(w+"px");
+		canvas.setWidth(w +"px");
 	}
 
 
 	public void setHeight(int h) {
-		canvas.setHeight(h+"px");
+		canvas.setHeight(h +"px");
 	}
 
 
