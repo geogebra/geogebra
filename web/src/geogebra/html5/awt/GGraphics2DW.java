@@ -56,7 +56,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	/**
 	 * the pixel ratio of the canvas.
 	 */
-	public static int devicePixelRatio = -1;
+	public static int devicePixelRatio = 1;
 
 	/**
 	 * @param canvas
@@ -68,7 +68,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		this.context = canvas.getContext2d();
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
-		devicePixelRatio = checkPixelRatio(canvas.getElement());
+		//TODO put this back in
+		//devicePixelRatio = checkPixelRatio(canvas.getElement());
 		
 	}
 	
