@@ -244,7 +244,7 @@ public class CASTableD extends JTable implements CASTable {
 					getEditor().insertText("$" + (getClickedRow() + 1));
 				}
 				// output panel click
-				else if (isOutputPanelClicked(e.getPoint()) && !clickedCell.isOutputEmpty()) {
+				else if (isOutputPanelClicked(e.getPoint()) && clickedCell.showOutput() && !clickedCell.isOutputEmpty()) {
 					if (!clickedCell.isError())
 						getEditor().insertText(
 								view.getRowOutputValue(getClickedRow()));
@@ -286,7 +286,7 @@ public class CASTableD extends JTable implements CASTable {
 				repaint();
 			}
 			highlight = e.isAltDown()
-					|| (isOutputRollOver
+					|| (isOutputRollOver && getGeoCasCell(row).showOutput()
 							&& getGeoCasCell(row).getLaTeXOutput() != null && getGeoCasCell(
 							row).getLaTeXOutput().length() > 0);
 			if(isOutputRollOver){
