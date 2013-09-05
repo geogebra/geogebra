@@ -32,6 +32,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
@@ -83,7 +84,7 @@ public class TouchModel {
 		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
 
-	private static void addAll(final ArrayList<GeoElement> newGeoElements,
+	private static void addAll(final ArrayList<GeoElementND> newGeoElements,
 			final GeoElement[] regularPolygon) {
 		for (final GeoElement geo : regularPolygon) {
 			newGeoElements.add(geo);
@@ -386,7 +387,7 @@ public class TouchModel {
 	private void handleDraw(final Point2D pointRW,
 			final boolean singlePointForIntersection) {
 		boolean draw = true;
-		final ArrayList<GeoElement> newElements = new ArrayList<GeoElement>();
+		final ArrayList<GeoElementND> newElements = new ArrayList<GeoElementND>();
 
 		switch (this.command) {
 		case LineThroughTwoPoints:
@@ -785,7 +786,7 @@ public class TouchModel {
 		{
 			resetSelection();
 
-			for (final GeoElement geo : newElements) {
+			for (final GeoElementND geo : newElements) {
 				select(geo);
 			}
 
@@ -1174,7 +1175,7 @@ public class TouchModel {
 		final String signedInput = this.inputDialog.isClockwise() ? "-("
 				+ input + ")" : input;
 
-		final ArrayList<GeoElement> newGeoElements = new ArrayList<GeoElement>();
+		final ArrayList<GeoElementND> newGeoElements = new ArrayList<GeoElementND>();
 
 		final GeoElement[] result = this.kernel.getAlgebraProcessor()
 				.processAlgebraCommand(signedInput, false);
@@ -1223,7 +1224,7 @@ public class TouchModel {
 		}
 
 		resetSelection();
-		for (final GeoElement g : newGeoElements) {
+		for (final GeoElementND g : newGeoElements) {
 			this.select(g);
 		}
 
@@ -1505,12 +1506,12 @@ public class TouchModel {
 	 * @param geo
 	 *            the element to be selected
 	 */
-	public void select(final GeoElement geo) {
+	public void select(final GeoElementND geo) {
 		if (geo == null || this.selectedElements.indexOf(geo) != -1) {
 			return;
 		}
-		geo.setSelected(true);
-		this.selectedElements.add(geo);
+		geo.toGeoElement().setSelected(true);
+		this.selectedElements.add(geo.toGeoElement());
 	}
 
 	private boolean select(final Hits hits, final Test geoclass, final int max) {
