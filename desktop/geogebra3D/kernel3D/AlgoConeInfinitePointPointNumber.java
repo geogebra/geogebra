@@ -27,7 +27,7 @@ public class AlgoConeInfinitePointPointNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "ConeInfiniteFromQuadricPointsABNumberC";
+		return "ConeInfinitePointsABNumberC";
 	}
 	
 	@Override

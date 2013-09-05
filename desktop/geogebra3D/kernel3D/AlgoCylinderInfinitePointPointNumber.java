@@ -27,7 +27,7 @@ public class AlgoCylinderInfinitePointPointNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "CylinderInfiniteFromQuadricPointsABNumberC";
+		return "CylinderInfinitePointsABNumberC";
 	}
 	
 

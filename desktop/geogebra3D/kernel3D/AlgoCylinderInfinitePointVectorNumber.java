@@ -28,7 +28,7 @@ public class AlgoCylinderInfinitePointVectorNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "CylinderInfiniteFromQuadricPointAVectorBNumberC";
+		return "CylinderInfinitePointAVectorBNumberC";
 	}
 	
 	@Override

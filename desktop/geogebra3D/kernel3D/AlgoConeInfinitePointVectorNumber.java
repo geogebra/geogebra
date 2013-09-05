@@ -28,7 +28,7 @@ public class AlgoConeInfinitePointVectorNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "ConeInfiniteFromQuadricPointAVectorBNumberC";
+		return "ConeInfinitePointAVectorBNumberC";
 	}
 	
 	@Override
