@@ -1610,15 +1610,18 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
+					if (geos.length == 0 && evalVE.isTopLevelCommand() && "Delete".equals(evalVE.getTopLevelCommand().getName())) {
+						geos = new GeoElement[] {new GeoBoolean(cons, true)};
+					}
 					success = true;
 					result = geos[0]
 							.toValueString(StringTemplate.numericNoLocal);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					if (parentAlgo != null) {
 						parentAlgo.remove();
+						//make sure fallback algos are synced with CAS, but not printed in XML (#2688)
+						parentAlgo.setPrintedInXML(false);
 					}
-					//make sure fallback algos are synced with CAS, but not printed in XML (#2688)
-					parentAlgo.setPrintedInXML(false);
 					outputVE = new ExpressionNode(kernel, geos[0]);
 					outputVE.setAssignmentType(getInputVE().getAssignmentType());
 					// geos[0].addCasAlgoUser();
