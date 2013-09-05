@@ -195,7 +195,7 @@ public class EuclidianDraw {
 			} else if (algo instanceof AlgoBarChart) {
 				d = new DrawBarGraph(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoCasCellInterface) {
-				ValidExpression ve = (ValidExpression) ((AlgoCasCellInterface) algo).getCasCell().getInputVE().unwrap();
+				ValidExpression ve = ((AlgoCasCellInterface) algo).getCasCell().getInputVE();
 				if (ve.isTopLevelCommand()) {
 					Command cmd = ve.getTopLevelCommand();
 					String name = cmd.getName();

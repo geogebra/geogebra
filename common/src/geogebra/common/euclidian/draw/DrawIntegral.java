@@ -19,13 +19,12 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import geogebra.common.kernel.AlgoCasCellInterface;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
@@ -77,9 +76,9 @@ public class DrawIntegral extends Drawable {
 	}
 	
 	private void initFromCasObject() {
-		AlgoElement algo = n.getDrawAlgorithm();
-		GeoCasCell cell = (GeoCasCell) algo.getOutput(0);
-		Command cmd = ((ValidExpression) cell.getInputVE().unwrap()).getTopLevelCommand();
+		AlgoCasCellInterface algo = (AlgoCasCellInterface) n.getDrawAlgorithm();
+		GeoCasCell cell = algo.getCasCell();
+		Command cmd = cell.getInputVE().getTopLevelCommand();
 		Kernel kernel = cmd.getKernel();
 		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0)));
 		a = new MyDouble(cmd.getKernel(), cmd.getArgument(1).evaluateDouble());
