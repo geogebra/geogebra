@@ -48,14 +48,16 @@ public class RendererJogl {
 		
 		caps = new GLCapabilities(GLProfile.getDefault());
 		
+		//System.out.println("sample buffers : "+caps.getSampleBuffers());
+		
 		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
 		
 		//caps.setAlphaBits(8);
 
 		
 		//anti-aliasing
-		//caps.setSampleBuffers(true);
-		//caps.setNumSamples(4);    	
+		caps.setSampleBuffers(true);
+		caps.setNumSamples(4);    	
 		
 		//avoid flickering
 		//caps.setDoubleBuffered(true);
