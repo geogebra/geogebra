@@ -29,6 +29,6 @@ public class AlgoCenterConic3D extends AlgoCenterConic{
 
     @Override
 	protected void setCoords(double x, double y){
-    	((GeoPoint3D) midpoint).setCoords(c.getCoordSys().getPoint(x, y));
+    	((GeoPoint3D) midpoint).setCoords(((GeoConicND) c).getCoordSys().getPoint(x, y));
     }
 }

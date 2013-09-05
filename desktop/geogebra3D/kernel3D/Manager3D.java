@@ -222,6 +222,13 @@ public class Manager3D implements Manager3DInterface {
 		
 	}
 	
+	public GeoPointND CenterQuadric(String label, GeoQuadricND quadric){
+		AlgoCenterQuadric algo = new AlgoCenterQuadric(cons, label, (GeoQuadric3D) quadric);
+		return algo.getPoint();
+		
+	}
+
+	
 	
 	/** Segment3D label linking points v1 and v2 */
 	/*

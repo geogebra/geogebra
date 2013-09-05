@@ -101,6 +101,14 @@ public interface Manager3DInterface {
 	 */
 	public GeoPointND Center(String label, GeoConicND conic);
 	
+	/**
+	 * Center of quadric
+	 * @param label
+	 * @param quadric
+	 * @return center
+	 */
+	public GeoPointND CenterQuadric(String label, GeoQuadricND quadric);
+	
 
 	/** Segment3D label linking points v1 and v2 */
 	/*

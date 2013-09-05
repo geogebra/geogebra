@@ -1,11 +1,16 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdMidpoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.MyError;
+import geogebra3D.kernel3D.GeoQuadric3D;
+import geogebra3D.kernel3D.GeoQuadric3DPart;
 
 
 
@@ -17,29 +22,28 @@ public class CmdMidpoint3D extends CmdMidpoint {
 		
 	}
 	
-	/*
+	
 	@Override
 	public GeoElement[] process(Command c) throws MyError {	
 
-
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-
-
-		switch (n) {
-		
-		case 1:
-			break;
+		if (n == 1) {
+			arg = resArgs(c);
 			
+			//center of sphere, infinite cone
+			if ((arg[0] instanceof GeoQuadric3D) && !(arg[0] instanceof GeoQuadric3DPart)) {
+				GeoElement[] ret = { (GeoElement) kernelA.getManager3D().CenterQuadric(c.getLabel(), (GeoQuadricND) arg[0]) };
+				return ret;
+			}
 
 		}
 
 
 		return super.process(c);
 	}
-	 */
+	
 	
 	@Override
 	protected GeoElement[] segment(String label, GeoSegmentND segment){
