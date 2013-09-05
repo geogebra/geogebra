@@ -549,11 +549,12 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 			
 			if (MAC_OS) {
+				String path = System.getProperty("user.home") + "/Documents";
 				if (currentPath == null) {
-					currentPath = new File(System.getProperty("user.home") + "/Documents");
+					currentPath = new File(path);
 				}
 				if (currentImagePath == null) {
-					currentImagePath = new File(System.getProperty("user.home") + "/Pictures");
+					currentImagePath = new File(path);
 				}
 			}
 		}
