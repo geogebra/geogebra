@@ -30,6 +30,7 @@ import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawTurtle;
 import geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import geogebra.common.euclidian.draw.DrawVector;
+import geogebra.common.kernel.AlgoCasCellInterface;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
@@ -38,14 +39,13 @@ import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransferFunction;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -185,7 +185,7 @@ public class EuclidianDraw {
 			} else if (algo instanceof AlgoSlope) {
 				d = new DrawSlope(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoIntegralDefinite) {
-				d = new DrawIntegral(ev, (GeoNumeric) geo);
+				d = new DrawIntegral(ev, (GeoNumeric) geo, false);
 			} else if (algo instanceof AlgoIntegralFunctions) {
 				d = new DrawIntegralFunctions(ev, (GeoNumeric) geo, false);
 			} else if (algo instanceof AlgoFunctionAreaSums) {
@@ -194,10 +194,16 @@ public class EuclidianDraw {
 				d = new DrawBoxPlot(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBarChart) {
 				d = new DrawBarGraph(ev, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoDependentCasCell) {
-				ValidExpression ve = (ValidExpression) ((GeoCasCell)algo.getOutput(0)).getInputVE().unwrap();
-				if (ve.isTopLevelCommand() && ve.getTopLevelCommand().getName().equals("IntegralBetween")) {
-					d = new DrawIntegralFunctions(ev, (GeoNumeric) geo, true);
+			} else if (algo instanceof AlgoCasCellInterface) {
+				ValidExpression ve = (ValidExpression) ((AlgoCasCellInterface) algo).getCasCell().getInputVE().unwrap();
+				if (ve.isTopLevelCommand()) {
+					Command cmd = ve.getTopLevelCommand();
+					String name = cmd.getName();
+					if ("IntegralBetween".equals(name) && cmd.getArgumentNumber() == 4) {
+						d = new DrawIntegralFunctions(ev, (GeoNumeric) geo, true);
+					} else if ("Integral".equals(name) && cmd.getArgumentNumber() == 3) {
+						d = new DrawIntegral(ev, (GeoNumeric) geo, true);
+					}
 				}
 			}
 			if (d != null) {

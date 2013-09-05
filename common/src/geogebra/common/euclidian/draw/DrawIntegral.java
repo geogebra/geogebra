@@ -20,8 +20,14 @@ import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -38,17 +44,20 @@ public class DrawIntegral extends Drawable {
 	private NumberValue a, b;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible;
+	private boolean isCasObject;
 
 	/**
 	 * Creates new drawable for integral
 	 * 
 	 * @param view view
 	 * @param n integral
+	 * @param casObject true if n was created from a GeoCasCell
 	 */
-	public DrawIntegral(EuclidianView view, GeoNumeric n) {
+	public DrawIntegral(EuclidianView view, GeoNumeric n, boolean casObject) {
 		this.view = view;
 		this.n = n;
 		geo = n;
+		isCasObject = casObject;
 
 		n.setDrawable(true);
 
@@ -57,10 +66,24 @@ public class DrawIntegral extends Drawable {
 	}
 
 	private void init() {
+		if (isCasObject) {
+			initFromCasObject();
+			return;
+		}
 		AlgoIntegralDefinite algo = (AlgoIntegralDefinite) n.getDrawAlgorithm();
 		f = algo.getFunction();
 		a = algo.getA();
 		b = algo.getB();
+	}
+	
+	private void initFromCasObject() {
+		AlgoElement algo = n.getDrawAlgorithm();
+		GeoCasCell cell = (GeoCasCell) algo.getOutput(0);
+		Command cmd = ((ValidExpression) cell.getInputVE().unwrap()).getTopLevelCommand();
+		Kernel kernel = cmd.getKernel();
+		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0)));
+		a = new MyDouble(cmd.getKernel(), cmd.getArgument(1).evaluateDouble());
+		b = new MyDouble(cmd.getKernel(), cmd.getArgument(2).evaluateDouble());
 	}
 
 	@Override

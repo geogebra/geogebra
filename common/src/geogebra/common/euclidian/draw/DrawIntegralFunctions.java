@@ -20,13 +20,13 @@ import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -45,6 +45,7 @@ public class DrawIntegralFunctions extends Drawable {
 
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible;
+	private boolean isCasObject;
 	
 
 	/**
@@ -52,23 +53,26 @@ public class DrawIntegralFunctions extends Drawable {
 	 * 
 	 * @param view view
 	 * @param n integral between functions
+	 * @param casObject true if n was created from a GeoCasCell
 	 */
 	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n, boolean casObject) {
 		this.view = view;
 		this.n = n;
 		geo = n;
+		isCasObject = casObject;
 
 		n.setDrawable(true);
-		if (casObject) {
-			initFromCasObject();
-		} else {
-			init();
-		}
+
+		init();
 
 		update();
 	}
 
 	private void init() {
+		if (isCasObject) {
+			initFromCasObject();
+			return;
+		}
 		AlgoIntegralFunctions algo = (AlgoIntegralFunctions) n
 				.getDrawAlgorithm();
 		f = algo.getF();
@@ -78,7 +82,7 @@ public class DrawIntegralFunctions extends Drawable {
 	}
 	
 	private void initFromCasObject() {
-		AlgoDependentCasCell algo = (AlgoDependentCasCell) n
+		AlgoElement algo = n
 				.getDrawAlgorithm();
 		GeoCasCell cell = (GeoCasCell) algo.getOutput(0);
 		Command cmd = ((ValidExpression) cell.getInputVE().unwrap()).getTopLevelCommand();
