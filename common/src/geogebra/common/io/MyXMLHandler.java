@@ -3892,6 +3892,8 @@ public class MyXMLHandler implements DocHandler {
 			if (eval != null) {
 				geoCasCell.setProcessingInformation(prefix, eval, postfix);
 			}
+			String evalCmd = attrs.get("evalCmd");
+			geoCasCell.setEvalCommand(evalCmd);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

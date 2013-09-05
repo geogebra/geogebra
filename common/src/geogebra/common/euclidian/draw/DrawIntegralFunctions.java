@@ -19,8 +19,15 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
+import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.cas.AlgoDependentCasCell;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -38,6 +45,7 @@ public class DrawIntegralFunctions extends Drawable {
 
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible;
+	
 
 	/**
 	 * Creates drawable for integral between two functions
@@ -45,14 +53,17 @@ public class DrawIntegralFunctions extends Drawable {
 	 * @param view view
 	 * @param n integral between functions
 	 */
-	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n) {
+	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n, boolean casObject) {
 		this.view = view;
 		this.n = n;
 		geo = n;
 
 		n.setDrawable(true);
-
-		init();
+		if (casObject) {
+			initFromCasObject();
+		} else {
+			init();
+		}
 
 		update();
 	}
@@ -64,6 +75,18 @@ public class DrawIntegralFunctions extends Drawable {
 		g = algo.getG();
 		a = algo.getA();
 		b = algo.getB();
+	}
+	
+	private void initFromCasObject() {
+		AlgoDependentCasCell algo = (AlgoDependentCasCell) n
+				.getDrawAlgorithm();
+		GeoCasCell cell = (GeoCasCell) algo.getOutput(0);
+		Command cmd = ((ValidExpression) cell.getInputVE().unwrap()).getTopLevelCommand();
+		Kernel kernel = cmd.getKernel();
+		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0)));
+		g = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(1)));
+		a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).evaluateDouble());
+		b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).evaluateDouble());
 	}
 
 	@Override

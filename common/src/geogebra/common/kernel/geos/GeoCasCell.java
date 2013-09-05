@@ -1927,6 +1927,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 						StringUtil.encodeXML(sb, postfix);
 						sb.append("\" ");
 					}
+					
+					sb.append("evalCmd=\"");
+					StringUtil.encodeXML(sb, evalCmd);
+					sb.append("\"");
 				}
 				
 				if (pointList) {

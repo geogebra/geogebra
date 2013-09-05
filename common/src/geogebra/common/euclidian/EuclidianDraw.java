@@ -39,10 +39,13 @@ import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransferFunction;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -184,14 +187,19 @@ public class EuclidianDraw {
 			} else if (algo instanceof AlgoIntegralDefinite) {
 				d = new DrawIntegral(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoIntegralFunctions) {
-				d = new DrawIntegralFunctions(ev, (GeoNumeric) geo);
+				d = new DrawIntegralFunctions(ev, (GeoNumeric) geo, false);
 			} else if (algo instanceof AlgoFunctionAreaSums) {
 				d = new DrawUpperLowerSum(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBoxPlot) {
 				d = new DrawBoxPlot(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBarChart) {
 				d = new DrawBarGraph(ev, (GeoNumeric) geo);
-			} 
+			} else if (algo instanceof AlgoDependentCasCell) {
+				ValidExpression ve = (ValidExpression) ((GeoCasCell)algo.getOutput(0)).getInputVE().unwrap();
+				if (ve.isTopLevelCommand() && ve.getTopLevelCommand().getName().equals("IntegralBetween")) {
+					d = new DrawIntegralFunctions(ev, (GeoNumeric) geo, true);
+				}
+			}
 			if (d != null) {
 				if (!geo.isColorSet()) {
 					ConstructionDefaults consDef = geo.getConstruction()
