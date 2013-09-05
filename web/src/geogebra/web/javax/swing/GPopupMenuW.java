@@ -114,29 +114,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	}
 	
 	public void show(Canvas c, int x, int y) {
-		
-			
-		int xr = (int) (x * ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleX()) + c.getAbsoluteLeft();
-		int yr = (int) (y * ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleY()) + c.getAbsoluteTop();
-		
-		
-		
-		//c.getAbsoluteRight() - wrappedPopup.getOffsetWidth())
-		//wrappedPopup.setPopupPosition(xr, yr);
-		popupPanel.show();
-		
-		
-		App.debug("x: " + x);
-		App.debug("y: " + y);
-		App.debug("xr: " + xr);
-		App.debug("yr: " + yr);
-		App.debug("wrappedPopup.getOffsetWidth(): " + popupPanel.getOffsetWidth());
-		App.debug("c.getOffsetWidth(): " + c.getOffsetWidth());
-		App.debug("c.getAbsoluteLeft(): " + c.getAbsoluteLeft());
-		
-		//Gabor: not sure why Math.min needed...popupPanel.setPopupPosition(Math.min(xr, c.getAbsoluteLeft() + c.getOffsetWidth() - popupPanel.getOffsetWidth()), yr);
-
-		popupPanel.setPopupPosition(xr, yr);
+		show(new GPoint(c.getAbsoluteLeft()+x, c.getAbsoluteTop()+y));
 	}
 	
 	public void removeFromDOM(){
