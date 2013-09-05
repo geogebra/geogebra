@@ -17,17 +17,20 @@ public class CmdConeInfinite extends CmdCone {
 	}
 
 	
+	@Override
 	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1, GeoPointND p2, NumberValue r){
 		return new GeoElement[] {kernelA.getManager3D().Cone(
-				c.getLabel(),p1,p2,r)};
+				c.getLabel(), p1, p2, r)};
 	}
 	
-	protected MyError argErr(GeoElement geo){
-		return argErr(app,"ConeInfinite",geo);
+	@Override
+	protected MyError argErr(GeoElement geo, Command c) {
+		return argErr(app, c.getName(), geo);
 	}
 	
-	protected MyError argNumErr(int n){
-		return argNumErr(app,"ConeInfinite",n);
+	@Override
+	protected MyError argNumErr(int n, Command c) {
+		return argNumErr(app, c.getName(), n);
 	}
 	
 }

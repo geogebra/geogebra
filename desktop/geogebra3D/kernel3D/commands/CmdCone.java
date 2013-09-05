@@ -41,9 +41,11 @@ public class CmdCone extends CommandProcessor {
 	    				c.getLabels(),(GeoConicND) arg[0], (GeoNumberValue) arg[1]);
 	    	}
 
-	    	if (!ok[0])
-	    		throw argErr(arg[0]);
-	    	throw argErr(arg[1]);
+	    	if (!ok[0]) {
+	    		throw argErr(arg[0], c);
+	    	}
+	    	
+	    	throw argErr(arg[1], c);
 
 	    
 	    case 3 :
@@ -86,15 +88,15 @@ public class CmdCone extends CommandProcessor {
 	    		return ret;
 	    	}else{
 	    		if (!ok[0])
-	    			throw argErr(arg[0]);
+	    			throw argErr(arg[0], c);
 	    		else if (!ok[1])
-	    			throw argErr(arg[1]);
+	    			throw argErr(arg[1], c);
 	    		else
-	    			throw argErr(arg[2]);
+	    			throw argErr(arg[2], c);
 	    	}
 
 	    default :
-	    	throw argNumErr(n);
+	    	throw argNumErr(n, c);
 	    }
 	    
 
@@ -109,12 +111,12 @@ public class CmdCone extends CommandProcessor {
 				c.getLabels(),p1,p2,r);
 	}
 	
-	protected MyError argErr(GeoElement geo){
-		return argErr(app,"Cone",geo);
+	protected MyError argErr(GeoElement geo, Command c){
+		return argErr(app, c.getName(), geo);
 	}
 	
-	protected MyError argNumErr(int n){
-		return argNumErr(app,"Cone",n);
+	protected MyError argNumErr(int n, Command c){
+		return argNumErr(app, c.getName(), n);
 	}
 	
 }
