@@ -547,6 +547,15 @@ public class AppD extends App implements KeyEventDispatcher {
 			if (!fileLoaded && !ggtloading) {
 				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 			}
+			
+			if (MAC_OS) {
+				if (currentPath == null) {
+					currentPath = new File(System.getProperty("user.home") + "/Documents");
+				}
+				if (currentImagePath == null) {
+					currentImagePath = new File(System.getProperty("user.home") + "/Pictures");
+				}
+			}
 		}
 
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
