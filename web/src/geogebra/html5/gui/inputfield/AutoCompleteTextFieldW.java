@@ -1101,10 +1101,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		return textField;
 	}
 	
-	public void removeSymbolButton(){
-		remove(showSymbolButton);
-	}
-	
 	  /**
 	   * Ticket #1167 Auto-completes input; 
 	   * <br>

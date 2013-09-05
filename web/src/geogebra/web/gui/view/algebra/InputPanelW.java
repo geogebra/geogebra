@@ -68,7 +68,6 @@ public class InputPanelW extends HorizontalPanel {
 			textComponent = new AutoCompleteTextFieldW(columns, app);
 			
 			textComponent.setShowSymbolTableIcon(showSymbolPopup);
-			//if (!showSymbolPopup) textComponent.removeSymbolButton();
 //		}
 
 //		textComponent.addFocusListener(this);
