@@ -27,12 +27,12 @@ public class AlgoConeInfinitePointPointNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "ConeInfinitePointsABNumberC";
+		return "InfiniteConePointsABNumberC";
 	}
 	
 	@Override
 	public Commands getClassName() {
-		return Commands.ConeInfinite;
+		return Commands.InfiniteCone;
 	}
 
 }

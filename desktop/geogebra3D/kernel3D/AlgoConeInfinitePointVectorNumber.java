@@ -28,12 +28,12 @@ public class AlgoConeInfinitePointVectorNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "ConeInfinitePointAVectorBNumberC";
+		return "InfiniteConePointAVectorBNumberC";
 	}
 	
 	@Override
 	public Commands getClassName() {
-		return Commands.ConeInfinite;
+		return Commands.InfiniteCone;
 	}
 
 }

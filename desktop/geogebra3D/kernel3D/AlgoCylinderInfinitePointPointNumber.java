@@ -27,13 +27,13 @@ public class AlgoCylinderInfinitePointPointNumber extends
 	
 	@Override
 	final protected String getPlainName(){
-		return "CylinderInfinitePointsABNumberC";
+		return "InfiniteCylinderPointsABNumberC";
 	}
 	
 
 	@Override
 	public Commands getClassName() {
-		return Commands.CylinderInfinite;
+		return Commands.InfiniteCylinder;
 	}
 	
 
