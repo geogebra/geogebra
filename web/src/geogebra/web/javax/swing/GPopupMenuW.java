@@ -203,7 +203,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	                	xCord = getRightSubPopupXCord();
 	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()) xCord = getLeftSubPopupXCord();
 	                }
-	                yCord = newItem.getAbsoluteTop();
+	                yCord = Math.min(newItem.getAbsoluteTop(), Window.getClientHeight()-getSubPopupHeight());
 	                subPopup.showAtPoint(new GPoint(xCord,yCord));
                 }	
 			};
@@ -233,6 +233,18 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
         width = subPopup.popupPanel.getOffsetWidth();
         if (!shown) subPopup.popupPanel.hide();
         return width;
+	}
+
+	/**
+	 * @return the height of the submenu.
+	 */
+	public int getSubPopupHeight(){
+		int ret;
+		boolean shown = subPopup.popupPanel.isShowing();
+    	if (!shown) subPopup.popupPanel.show();
+        ret = subPopup.popupPanel.getOffsetHeight();
+        if (!shown) subPopup.popupPanel.hide();
+        return ret;
 	}
 	
 	/**
