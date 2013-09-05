@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 
@@ -14,7 +15,6 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.text.JTextComponent;
 /**
  * CAS cell component
  */
@@ -210,7 +210,7 @@ public abstract class CASTableCell extends JPanel {
 	/**
 	 * @return input component
 	 */
-	public JTextComponent getInputArea() {
+	public AutoCompleteTextFieldD getInputArea() {
 		return inputPanel.getInputArea();
 	}
 

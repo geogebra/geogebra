@@ -9,7 +9,6 @@ import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.text.JTextComponent;
 /**
  * This panel is for the input.
  */
@@ -57,7 +56,7 @@ public class CASInputPanel extends JPanel {
 	/**
 	 * @return input component
 	 */
-	public JTextComponent getInputArea() {
+	public AutoCompleteTextFieldD getInputArea() {
 		return inputArea;
 	}
 

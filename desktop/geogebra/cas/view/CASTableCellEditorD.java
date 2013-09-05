@@ -51,11 +51,15 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 			this.cellValue = (GeoCasCell) value;
 			this.table = casTable;
 			inputOnEditingStart = cellValue.getInput(StringTemplate.defaultTemplate);
-			setValue(cellValue);				
+			setValue(cellValue);
+			
+			boolean isUseAsText = cellValue.isUseAsText();
+			getInputArea().enableColoring(!isUseAsText);
+			getInputArea().setAutoComplete(!isUseAsText);
 							
 			// update font and row height
 			setFont(view.getCASViewComponent().getFont());
-			updateTableRowHeight(casTable, row);				
+			updateTableRowHeight(casTable, row);
 			
 			// Set width of editor to the width of the table column.
 			// This will allow scrolling of strings that are wider than the cell. 

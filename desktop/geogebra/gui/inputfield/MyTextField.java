@@ -68,6 +68,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	private Border defaultBorder;
 
 	private boolean enableColoring = true;
+	private boolean isColoringLabels;
 	
 	// matched brackets color = cyan (better contrast than "Light sea green")
 	private static GColor COLOR_MATCHED = GeoGebraColorConstants.BALANCED_BRACKET_COLOR;
@@ -155,6 +156,13 @@ public class MyTextField extends JTextField implements ActionListener,
 			return;
 		}
 		ip.setIsCasInput(isCasInput);
+	}
+	
+	/**
+	 * @param val true if labels should be coloured
+	 */
+	public void setColoringLabels(boolean val) {
+		this.isColoringLabels = val;
 	}
 
 	// ====================================================
@@ -406,7 +414,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		g2.fillRect(insets.left, insets.top, width, height);
 
 		// set the text for checking labels
-		if (ip != null) {
+		if (ip != null && isColoringLabels) {
 			ip.setText(text);
 		}
 		
@@ -432,7 +440,7 @@ public class MyTextField extends JTextField implements ActionListener,
 			if (fg == null) {
 				if (textMode || text.charAt(i) == '\"') {
 					fg = GeoGebraColorConstants.INPUT_TEXT_COLOR;
-				} else if (ip != null) {
+				} else if (ip != null && isColoringLabels) {
 					fg = ip.getColor(i);
 					// g2.setColor(GColorD.getAwtColor(ip.getColor(i)));
 				} else {
