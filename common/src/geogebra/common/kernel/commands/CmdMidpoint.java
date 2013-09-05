@@ -75,8 +75,14 @@ public class CmdMidpoint extends CommandProcessor {
 		return ret;
 	}
 	
+	/**
+	 * 
+	 * @param label
+	 * @param conic
+	 * @return midpoint for conic
+	 */
 	protected GeoElement[] conic(String label, GeoConicND conic){
-		GeoElement[] ret = { getAlgoDispatcher().Center(label, conic) };
+		GeoElement[] ret = { (GeoElement) getAlgoDispatcher().Center(label, conic) };
 		return ret;
 	}
 	

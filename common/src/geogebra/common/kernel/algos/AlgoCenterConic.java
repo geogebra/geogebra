@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -33,17 +34,26 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
  */
 public class AlgoCenterConic extends AlgoElement {
 
-    private GeoConicND c; // input
-    private GeoPoint midpoint; // output                 
+    protected GeoConicND c; // input
+    protected GeoPointND midpoint; // output                 
 
     public AlgoCenterConic(Construction cons, String label, GeoConicND c) {
         super(cons);
         this.c = c;
-        midpoint = new GeoPoint(cons);
+        midpoint = newGeoPoint(cons);
         setInputOutput(); // for AlgoElement
 
         compute();
         midpoint.setLabel(label);
+    }
+    
+    /**
+     * 
+     * @param cons
+     * @return new GeoPoint
+     */
+    public GeoPointND newGeoPoint(Construction cons){
+    	return new GeoPoint(cons);
     }
 
     @Override
@@ -63,14 +73,14 @@ public class AlgoCenterConic extends AlgoElement {
         input[0] = c;
 
         super.setOutputLength(1);
-        super.setOutput(0, midpoint);
+        super.setOutput(0, (GeoElement) midpoint);
         setDependencies(); // done by AlgoElement
     }
 
     GeoConicND getConic() {
         return c;
     }
-    public GeoPoint getPoint() {
+    public GeoPointND getPoint() {
         return midpoint;
     }
 
@@ -87,13 +97,22 @@ public class AlgoCenterConic extends AlgoElement {
             case GeoConicNDConstants.CONIC_HYPERBOLA :
             case GeoConicNDConstants.CONIC_SINGLE_POINT :
             case GeoConicNDConstants.CONIC_INTERSECTING_LINES :
-                midpoint.setCoords(c.b.getX(), c.b.getY(), 1.0d);
+                setCoords(c.b.getX(), c.b.getY());
                 break;
 
             default :
                 // midpoint undefined
                 midpoint.setUndefined();
         }
+    }
+    
+    /**
+     * set the coords of the midpoint
+     * @param x
+     * @param y
+     */
+    protected void setCoords(double x, double y){
+    	midpoint.setCoords(x, y, 1.0d);
     }
 
     @Override

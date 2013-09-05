@@ -253,4 +253,16 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		return super.midpoint(segment);
 
 	}
+	
+	
+	@Override
+	protected GeoElement midpoint(GeoConicND conic){	
+
+		if (((GeoElement) conic).isGeoElement3D()) {
+			return (GeoElement) kernel.getManager3D().Center(null, conic);
+		} 
+
+		return super.midpoint(conic);
+
+	}
 }

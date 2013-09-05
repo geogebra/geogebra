@@ -2632,10 +2632,9 @@ public abstract class EuclidianController {
 			return ret;
 		} else if (selConics() == 1) {
 			// fetch the selected segment
-			GeoConic[] conics = getSelectedConics();
-			checkZooming(); 
-			
-			ret[0] = getAlgoDispatcher().Center(null, conics[0]);
+			GeoConicND[] conics = getSelectedConicsND();
+			checkZooming(); 			
+			ret[0] = midpoint(conics[0]);
 			return ret;
 		}
 		return null;
@@ -2662,6 +2661,17 @@ public abstract class EuclidianController {
 	protected GeoElement midpoint(GeoSegmentND segment){	
 
 		return getAlgoDispatcher().Midpoint(null, (GeoSegment) segment);
+
+	}
+
+	/**
+	 * 
+	 * @param conic
+	 * @return center of conic
+	 */
+	protected GeoElement midpoint(GeoConicND conic){	
+
+		return (GeoElement) getAlgoDispatcher().Center(null, conic);
 
 	}
 

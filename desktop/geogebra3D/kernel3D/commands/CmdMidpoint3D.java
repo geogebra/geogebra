@@ -3,6 +3,7 @@ package geogebra3D.kernel3D.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CmdMidpoint;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
@@ -51,6 +52,19 @@ public class CmdMidpoint3D extends CmdMidpoint {
 		return super.segment(label, segment);
 	}
 	
+	
+	
+	@Override
+	protected GeoElement[] conic(String label, GeoConicND conic){
+		
+		if (conic.isGeoElement3D()){
+			GeoElement[] ret = { (GeoElement) kernelA.getManager3D().Center(label, conic) };
+			return ret;
+		}
+		
+		return super.conic(label, conic);
+		
+	}
 	
 	@Override
 	protected GeoElement[] twoPoints(String label, GeoPointND p1, GeoPointND p2){

@@ -91,6 +91,16 @@ public interface Manager3DInterface {
 	 * @return midpoint
 	 */
 	public GeoPointND Midpoint(String label, GeoSegmentND segment);
+	
+	
+	/**
+	 * Center of conic
+	 * @param label
+	 * @param conic
+	 * @return center
+	 */
+	public GeoPointND Center(String label, GeoConicND conic);
+	
 
 	/** Segment3D label linking points v1 and v2 */
 	/*

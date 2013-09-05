@@ -214,6 +214,15 @@ public class Manager3D implements Manager3DInterface {
 
 	}
 
+	
+	public GeoPointND Center(String label, GeoConicND conic){
+		
+		AlgoCenterConic3D algo = new AlgoCenterConic3D(cons, label, conic);
+		return algo.getPoint();
+		
+	}
+	
+	
 	/** Segment3D label linking points v1 and v2 */
 	/*
 	 * final public GeoSegment3D Segment3D(String label, Ggb3DVector v1,
