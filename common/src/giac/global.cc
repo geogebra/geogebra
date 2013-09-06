@@ -1452,11 +1452,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
   volatile bool ctrl_c=false,interrupted=false;
 #ifdef GIAC_HAS_STO_38
-  const double powlog2float=1e4;
-  const int MPZ_MAXLOG2=8000; // max 2^8000 about 1K
+  double powlog2float=1e4;
+  int MPZ_MAXLOG2=8000; // max 2^8000 about 1K
 #else
-  const double powlog2float=1e8;
-  const int MPZ_MAXLOG2=80000000; // 100 millions bits
+  double powlog2float=1e8;
+  int MPZ_MAXLOG2=80000000; // 100 millions bits
 #endif
 
 
@@ -4468,6 +4468,8 @@ unsigned int ConvertUTF8toUTF16 (
     all_trig_sol(on,contextptr);
     withsqrt(!on,contextptr);
     calc_mode(on?1:0,contextptr);
+    powlog2float=3e4;
+    MPZ_MAXLOG2=33300;
 #ifdef TIMEOUT
     caseval_maxtime=5;
     caseval_n=0;

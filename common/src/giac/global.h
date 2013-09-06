@@ -198,8 +198,8 @@ namespace giac {
   extern double caseval_maxtime;
   extern int caseval_n,caseval_mod,caseval_unitialized;
 #endif
-  extern const double powlog2float;
-  extern const int MPZ_MAXLOG2;
+  extern double powlog2float;
+  extern int MPZ_MAXLOG2;
 
 #ifdef WITH_MYOSTREAM
   // replacement for std::cerr

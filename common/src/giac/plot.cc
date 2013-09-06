@@ -8480,7 +8480,9 @@ namespace giac {
 	  if (sol.type==_VECT && !is_undef(sol)){
 	    vecteur res;
 	    for (unsigned i=0;i<sol._VECTptr->size();++i){
-	      res.push_back(subst(droite,xy,(*sol._VECTptr)[i],false,contextptr));
+	      gen soli=normal((*sol._VECTptr)[i],contextptr);
+	      gen derp=subst(makevecteur(-der._VECTptr->back(),der._VECTptr->front()),xy,soli,false,contextptr);
+	      res.push_back(_droite(makesequence(soli,derp),contextptr));
 	    }
 	    if (res.size()==1)
 	      return res.front();
