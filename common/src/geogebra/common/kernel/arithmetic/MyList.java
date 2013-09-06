@@ -1054,8 +1054,8 @@ public class MyList extends ValidExpression implements ListValue,
 		if(t.check(this))
 			return true;
 		for(int i=0;i<size();i++){
-			if(t.check(getListElement(i))){
-					return true;
+			if((getListElement(i)).inspect(t)){
+				return true;
 			}
 		}
 		return false;

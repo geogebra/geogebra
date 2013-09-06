@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -713,6 +714,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 			}
 		}
+		
+		useGeoGebraFallback = useGeoGebraFallback || ve.inspect(Inspecting.textFinder);
 
 		// get all used GeoElement variables
 		// check for function

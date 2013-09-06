@@ -4,6 +4,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.plugin.Operation;
 
@@ -189,6 +190,16 @@ public interface Inspecting {
 			return (!geo.isIndependent() 
 					|| geo.isLabelSet() || geo.isLocalVariable() || v instanceof GeoDummyVariable
 					|| geo.isRandomGeo()) ;
+		}
+	};
+	
+	/**
+	 * returns true if strings have been found in the expression (MyStringBuffer || GeoText)
+	 */
+	public static Inspecting textFinder = new Inspecting() {
+		
+		public boolean check(ExpressionValue v) {
+			return (v instanceof GeoText || v instanceof MyStringBuffer);
 		}
 	};
 	
