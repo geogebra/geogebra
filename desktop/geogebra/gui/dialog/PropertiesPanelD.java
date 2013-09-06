@@ -1823,7 +1823,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
 		private JCheckBox showLabelCB;
-		private JComboBox<String> labelModeCB;
+		private JComboBox labelModeCB;
 		private boolean showNameValueComboBox;
 
 		public LabelPanel() {
