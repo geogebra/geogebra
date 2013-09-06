@@ -437,6 +437,10 @@ public abstract class AppWeb extends App implements SetLabels{
 
 		public void beforeLoadFile() {
 			startCollectingRepaints();
+			//make sure the image manager will not wait for images from the *old* file
+			if(this.getImageManager()!=null){
+				this.getImageManager().reset();
+			}
 			getEuclidianView1().setReIniting(true);
 		}
 		
