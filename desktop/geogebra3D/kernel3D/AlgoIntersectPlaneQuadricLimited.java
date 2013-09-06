@@ -157,7 +157,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
-      			*/
+      	*/		
 
     	switch (conic.getType()) {
     	case GeoConicNDConstants.CONIC_CIRCLE:
@@ -281,8 +281,16 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	
 		//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
 		double parameter = -(ql.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), ql.getEigenvec3D(2))[1]).getZ();
-			//check if parameter is between quadric min and max
-		return Kernel.isGreater(ql.getBottomParameter(), parameter) || Kernel.isGreater(parameter, ql.getTopParameter());
+
+		//check if parameter is between quadric min and max
+		double min = ql.getBottomParameter();
+		double max = ql.getTopParameter();
+		if (min > max){
+			double m = min;
+			min = max;
+			max = m;
+		}
+		return Kernel.isGreater(min, parameter) || Kernel.isGreater(parameter, max);
 
     }
     
