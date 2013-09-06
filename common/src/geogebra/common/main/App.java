@@ -331,6 +331,8 @@ public abstract class App implements UpdateSelection{
 
 	protected AlgoKimberlingWeightsInterface kimberlingw = null;
 
+	protected AlgoCubicSwitchInterface cubicw = null;
+
 
 	/**
 	 * We need this method so that we can override it using more powerful
@@ -3317,4 +3319,22 @@ public abstract class App implements UpdateSelection{
 	 * @return
 	 */
 	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
+
+	/**
+	 * This method is to be overridden in subclasses
+	 * In Web, this can run in asyncronous mode
+	 *
+	 * @return AlgoCubicSwitchInterface
+	 */
+	public abstract AlgoCubicSwitchInterface getAlgoCubicSwitch();
+
+	/**
+	 * Needed for running part of AlgoKimberling async
+	 * @param k
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @return
+	 */
+	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
 }

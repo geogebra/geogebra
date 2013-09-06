@@ -39,11 +39,14 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.AlgoCubicSwitchInterface;
+import geogebra.common.main.AlgoCubicSwitchParams;
 import geogebra.common.main.AlgoKimberlingWeightsInterface;
 import geogebra.common.main.AlgoKimberlingWeightsParams;
 import geogebra.common.main.App;
@@ -4963,5 +4966,16 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
 		return getAlgoKimberlingWeights().weight(kw);
+	}
+
+	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
+		if (cubicw != null) {
+			return cubicw;
+		}
+		return (cubicw = new AlgoCubicSwitch());
+	}
+
+	public String cubicSwitch(AlgoCubicSwitchParams kw) {
+		return getAlgoCubicSwitch().getEquation(kw);
 	}
 }

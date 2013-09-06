@@ -11,9 +11,12 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.main.AlgoCubicSwitchInterface;
+import geogebra.common.main.AlgoCubicSwitchParams;
 import geogebra.common.main.AlgoKimberlingWeightsInterface;
 import geogebra.common.main.AlgoKimberlingWeightsParams;
 import geogebra.common.main.App;
@@ -804,10 +807,47 @@ public abstract class AppWeb extends App implements SetLabels{
 		}
 	}-*/;
 
+	@Override
 	public native double kimberlingWeight(AlgoKimberlingWeightsParams kparams) /*-{
 
 		if ($wnd.geogebraKimberlingWeight) {
 			return $wnd.geogebraKimberlingWeight(kparams);
+		}
+
+		// should not execute!
+		return 0;
+
+	}-*/;
+
+	@Override
+	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
+		if (cubicw != null) {
+			return cubicw;
+		}
+	    GWT.runAsync(new RunAsyncCallback() {
+			public void onSuccess() {
+				cubicw = new AlgoCubicSwitch();
+				setCubicSwitchFunction(cubicw);
+				kernel.updateConstruction();
+			}
+			public void onFailure(Throwable reason) {
+				App.debug("AlgoKimberlingWeights loading failure");
+			}
+		});
+		return cubicw;
+	}
+
+	public native void setCubicSwitchFunction(AlgoCubicSwitchInterface cubicw) /*-{
+		$wnd.geogebraCubicSwitch = function(obj) {
+			return cubicw.@geogebra.common.main.AlgoCubicSwitchInterface::getEquation(Lgeogebra/common/main/AlgoCubicSwitchParams;)(obj);
+		}
+	}-*/;
+
+	@Override
+	public native String cubicSwitch(AlgoCubicSwitchParams kparams) /*-{
+
+		if ($wnd.geogebraCubicSwitch) {
+			return $wnd.geogebraCubicSwitch(kparams);
 		}
 
 		// should not execute!
