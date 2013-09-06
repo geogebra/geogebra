@@ -581,7 +581,12 @@ public class Ggb2giac {
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4", // %1=exponent
 				"if %3=true then harmonic(%1,%2)/harmonic(%1,%0) else 1/((%2)^%1*harmonic(%1,%0)) fi");
-
+		// TODO check if it's easier to implement with giac's zip command
+		p("Zip.N",
+				"[[ggbans(l):=begin local len,res,sbl,xpr,k,j;xpr:=l[0];len:=length(l[2]);res:={};" +
+				"for k from 4 to length(l)-1 step +2 do len:=min(len,length(l[k])); od;" +
+				"for k from 0 to len-1 do sbl:={};for j from 2 to length(l)-1 step +2 do" +
+				"sbl:=append(sbl, l[j-1]=l[j][k]);od;res:=append(res, subst(xpr,sbl));od; res; end],ggbans(%)][1]");
 		// SolveCubic[x^3+3x^2+x-1]
 		// SolveCubic[x^3+3x^2+x-2]
 		// SolveCubic[x^3+3x^2+x-3]
