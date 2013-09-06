@@ -8137,6 +8137,12 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				5, 5, // initX, initY
 				5, 5); // xPad, yPad
 	}
+	
+	/**
+	 * current geo on which focus lost shouls apply
+	 * (may be different to current geo, due to threads)
+	 */
+	private GeoElement currentGeoForFocusLost = null;
 
 	public JPanel update(Object[] geos) {
 
@@ -8170,6 +8176,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			// currentGeo=null;
 			return null;
 		}
+		
 
 		// NAME
 		tfName.removeActionListener(this);
@@ -8178,6 +8185,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		GeoElement geo0 = (GeoElement) geos[0];
 		tfName.setText(geo0.getLabel(StringTemplate.editTemplate));
 
+		// if a focus lost is called in between, we keep the current definition text
+		redefinitionForFocusLost = tfDefinition.getText();
 		currentGeo = geo0;
 		nameInputHandler.setGeoElement(geo0);
 		defInputHandler.setGeoElement(geo0);
@@ -8225,12 +8234,14 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		return this;
 	}
 
+	private String redefinitionForFocusLost = "";
+	
 	public void updateDef(GeoElement geo) {
 
 		// do nothing if called by doActionPerformed
 		if (actionPerforming)
 			return;
-
+		
 		tfDefinition.removeActionListener(this);
 		defInputHandler.setGeoElement(geo);
 		tfDefinition.setText(getDefText(geo));
@@ -8281,7 +8292,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			currentGeo.updateRepaint();
 		} else if (source == tfDefinition) {
 			String strDefinition = tfDefinition.getText();
-
+			
 			if (!strDefinition.equals(getDefText(currentGeo))) {
 
 				if (defInputHandler.processInput(strDefinition)) {
@@ -8310,10 +8321,12 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	}
 
 	public void focusGained(FocusEvent arg0) {
+		//started to type something : store current geo if focus lost
+		currentGeoForFocusLost = currentGeo;
 	}
 
 	public void focusLost(FocusEvent e) {
-
+		
 		if (actionPerforming)
 			return;
 
@@ -8326,12 +8339,25 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				return;
 			}
 
-			String strDefinition = tfDefinition.getText();
-			if (!strDefinition.equals(getDefText(currentGeo))) {
-				tfDefinition.setText(strDefinition);
-				if (defInputHandler.processInput(strDefinition))
-					// if succeeded, switch current geo
-					currentGeo = defInputHandler.getGeoElement();
+			if (currentGeo == currentGeoForFocusLost){
+				String strDefinition = tfDefinition.getText();
+				if (!strDefinition.equals(getDefText(currentGeo))) {
+					tfDefinition.setText(strDefinition);
+					defInputHandler.setGeoElement(currentGeoForFocusLost);
+					if (defInputHandler.processInput(strDefinition))
+						// if succeeded, switch current geo
+						currentGeo = defInputHandler.getGeoElement();
+				}
+			}else{
+				String strDefinition = redefinitionForFocusLost;
+				if (!strDefinition.equals(getDefText(currentGeoForFocusLost))) {
+					//redefine current geo for focus lost
+					defInputHandler.setGeoElement(currentGeoForFocusLost);
+					defInputHandler.processInput(strDefinition);
+					
+					//restore "real" current geo
+					defInputHandler.setGeoElement(currentGeo);
+				}
 			}
 
 			SwingUtilities.invokeLater(doActionStopped);
