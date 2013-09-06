@@ -35,6 +35,8 @@ import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsParams;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
@@ -329,8 +331,7 @@ public abstract class App implements UpdateSelection{
 
 	private String scriptingLanguage;
 
-
-
+	protected AlgoKimberlingWeightsInterface kimberlingw = null;
 
 
 	/**
@@ -3300,5 +3301,22 @@ public abstract class App implements UpdateSelection{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	/**
+	 * This method is to be overridden in subclasses
+	 * In Web, this can run in asyncronous mode
+	 *
+	 * @return AlgoKimberlingWeightsInterface
+	 */
+	public abstract AlgoKimberlingWeightsInterface getAlgoKimberlingWeights();
+
+	/**
+	 * Needed for running part of AlgoKimberling async
+	 * @param k
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @return
+	 */
+	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
 }

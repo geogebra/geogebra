@@ -39,6 +39,9 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsParams;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -4949,5 +4952,16 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public double getMillisecondTime() {
 		return System.nanoTime() / 1000000d;
+	}
+
+	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
+		if (kimberlingw != null) {
+			return kimberlingw;
+		}
+		return (kimberlingw = new AlgoKimberlingWeights());
+	}
+
+	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
+		return getAlgoKimberlingWeights().weight(kw);
 	}
 }

@@ -11,6 +11,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface;
+import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsParams;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
@@ -48,6 +51,7 @@ import java.util.Map.Entry;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
@@ -775,5 +779,39 @@ public abstract class AppWeb extends App implements SetLabels{
 		public boolean isAllowedSymbolTables(){
 			return allowSymbolTables;
 		}
-	
+
+	@Override
+	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
+		if (kimberlingw != null) {
+			return kimberlingw;
+		}
+	    GWT.runAsync(new RunAsyncCallback() {
+			public void onSuccess() {
+				kimberlingw = new AlgoKimberlingWeights();
+				setKimberlingWeightFunction(kimberlingw);
+				kernel.updateConstruction();
+			}
+			public void onFailure(Throwable reason) {
+				App.debug("AlgoKimberlingWeights loading failure");
+			}
+		});
+		return kimberlingw;
+	}
+
+	public native void setKimberlingWeightFunction(AlgoKimberlingWeightsInterface kimberlingw) /*-{
+		$wnd.geogebraKimberlingWeight = function(obj) {
+			return kimberlingw.@geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface::weight(Lgeogebra/common/kernel/barycentric/AlgoKimberlingWeightsParams;)(obj);
+		}
+	}-*/;
+
+	public native double kimberlingWeight(AlgoKimberlingWeightsParams kparams) /*-{
+
+		if ($wnd.geogebraKimberlingWeight) {
+			return $wnd.geogebraKimberlingWeight(kparams);
+		}
+
+		// should not execute!
+		return 0;
+
+	}-*/;
 }
