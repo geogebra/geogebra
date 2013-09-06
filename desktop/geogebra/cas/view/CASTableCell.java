@@ -45,6 +45,7 @@ public abstract class CASTableCell extends JPanel {
 		setBackground(Color.white);
 
 		inputPanel = new CASInputPanel(app);
+		inputPanel.getInputArea().setColoringLabels(true);
 		dummyField = new MyTextField(app);
 		
 		// The inputPanel needs to have variable width so that it fits the

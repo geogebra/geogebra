@@ -100,6 +100,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.setDragEnabled(true);
 		inputField.setDropTarget(new DropTarget(this,
 				new AlgebraInputDropTargetListener(app, inputField)));
+		inputField.setColoringLabels(true);
 		
 		updateFonts();
 

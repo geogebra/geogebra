@@ -99,7 +99,7 @@ public class DrawIntegralFunctions extends Drawable {
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(n);
 
-		if (n.isAlgoMacroOutput())
+		if (n.isAlgoMacroOutput() || isCasObject)
 			init();
 
 		// init gp
