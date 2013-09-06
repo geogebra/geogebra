@@ -275,7 +275,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		if (equalMin){
 			GeoElement min0 = num0.getIntervalMinObject();
 			if (onlyAngles && (min0 == null ||(!min0.isLabelSet() && min0.isIndependent()))){				
-				min.setText(app.getKernel().formatAngle(num0.getIntervalMin(),highPrecision).toString());			
+				min.setText(app.getKernel().formatAngle(num0.getIntervalMin(), highPrecision, (GeoAngle)min0).toString());			
 			}else
 				min.setText(min0.getLabel(highPrecision));
 		} else {
@@ -285,7 +285,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		if (equalMax){
 			GeoElement max0 = num0.getIntervalMaxObject();
 			if (onlyAngles &&  (max0 == null ||(!max0.isLabelSet() && max0.isIndependent()) ))
-				max.setText(app.getKernel().formatAngle(num0.getIntervalMax(),highPrecision).toString());
+				max.setText(app.getKernel().formatAngle(num0.getIntervalMax(), highPrecision, (GeoAngle)max0).toString());
 			else
 				max.setText(max0.getLabel(highPrecision));
 		} else {
@@ -423,7 +423,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
         	GeoElement stepGeo = geo0.getAnimationStepObject();
 			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent())))
 				inc.setText(
-					app.getKernel().formatAngle(geo0.getAnimationStep(),highPrecision).toString());
+					app.getKernel().formatAngle(geo0.getAnimationStep(), highPrecision, (GeoAngle)geo0).toString());
 			else
 				inc.setText(stepGeo.getLabel(highPrecision));
         }
