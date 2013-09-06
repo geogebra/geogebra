@@ -173,7 +173,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		// standard case
-		if ("".equals(result)) {
+		if (result.isEmpty()) {
 			return null;
 		}
 		return toGeoGebraString(result, arbconst, tpl);
