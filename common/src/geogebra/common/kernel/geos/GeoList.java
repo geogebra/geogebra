@@ -38,6 +38,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.App;
@@ -873,12 +874,12 @@ AngleProperties {
 		}
 				
 		// AngleProperties
-		if (angleStyle != GeoAngle.ANGLE_ISANTICLOCKWISE) {
+		if (angleStyle != AngleStyle.ANTICLOCKWISE) {
 			sb.append("\t<allowReflexAngle val=\"");
-			sb.append(angleStyle != GeoAngle.ANGLE_ISNOTREFLEX);
+			sb.append(angleStyle != AngleStyle.NOTREFLEX);
 			sb.append("\"/>\n");
 		}
-		if (angleStyle == GeoAngle.ANGLE_ISREFLEX) {
+		if (angleStyle == AngleStyle.ISREFLEX) {
 			sb.append("\t<forceReflexAngle val=\"");
 			sb.append(true);
 			sb.append("\"/>\n");
@@ -2617,43 +2618,40 @@ AngleProperties {
 		return false;
 	}
 
-	private int angleStyle = GeoAngle.ANGLE_ISANTICLOCKWISE;
+	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 	private boolean emphasizeRightAngle = true;
 	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 
-	/**
-	 * @param index index of currently used interval
-	 */
-	public void setAngleInterval(int index){
-		setAngleStyle(GeoAngle.INTERVAL_TO_STYLE[index]);
+	public void setAngleStyle(int style) {
+		setAngleStyle(AngleStyle.getStyle(style));
 	}
-	
+
 	/**
 	 * Changes angle style and recomputes the value from raw.
 	 * See GeoAngle.ANGLE_*
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
-	public void setAngleStyle(int angleStyle) {
-		int newAngleStyle = angleStyle;
+	public void setAngleStyle(AngleStyle angleStyle) {
+		AngleStyle newAngleStyle = angleStyle;
 		if (newAngleStyle == this.angleStyle)
 			return;
 
 		this.angleStyle = newAngleStyle;
 		switch (newAngleStyle) {
-		case GeoAngle.ANGLE_ISCLOCKWISE:
-			newAngleStyle = GeoAngle.ANGLE_ISCLOCKWISE;
+		//case GeoAngle.ANGLE_ISCLOCKWISE:
+		//	newAngleStyle = GeoAngle.ANGLE_ISCLOCKWISE;
+		//	break;
+
+		case NOTREFLEX:
+			newAngleStyle = AngleStyle.NOTREFLEX;
 			break;
 
-		case GeoAngle.ANGLE_ISNOTREFLEX:
-			newAngleStyle = GeoAngle.ANGLE_ISNOTREFLEX;
-			break;
-
-		case GeoAngle.ANGLE_ISREFLEX:
-			newAngleStyle = GeoAngle.ANGLE_ISREFLEX;
+		case ISREFLEX:
+			newAngleStyle = AngleStyle.ISREFLEX;
 			break;
 
 		default:
-			newAngleStyle = GeoAngle.ANGLE_ISANTICLOCKWISE;
+			newAngleStyle = AngleStyle.ANTICLOCKWISE;
 		}
 
 		for (GeoElement geo: geoList) {
@@ -2664,11 +2662,7 @@ AngleProperties {
 	}
 
 
-	public int getAngleInterval() {
-		return GeoAngle.STYLE_TO_INTERVAL[getAngleStyle()];
-	}
-
-	public int getAngleStyle() {
+	public AngleStyle getAngleStyle() {
 		return angleStyle;
 	}
 
@@ -2684,23 +2678,23 @@ AngleProperties {
 	 */
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
 		switch (angleStyle) {
-		case GeoAngle.ANGLE_ISNOTREFLEX:
+		case NOTREFLEX:
 			if (allowReflexAngle)
-				setAngleStyle(GeoAngle.ANGLE_ISANTICLOCKWISE);
+				setAngleStyle(AngleStyle.ANTICLOCKWISE);
 			break;
-		case GeoAngle.ANGLE_ISREFLEX:
+		case ISREFLEX:
 			// do nothing
 			break;
 		default: // ANGLE_ISANTICLOCKWISE
 			if (!allowReflexAngle)
-				setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+				setAngleStyle(AngleStyle.NOTREFLEX);
 			break;
 
 		}
 		if (allowReflexAngle)
-			setAngleStyle(GeoAngle.ANGLE_ISANTICLOCKWISE);
+			setAngleStyle(AngleStyle.ANTICLOCKWISE);
 		else
-			setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+			setAngleStyle(AngleStyle.NOTREFLEX);
 	
 		for (GeoElement geo: geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
@@ -2732,10 +2726,10 @@ AngleProperties {
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
 		if (forceReflexAngle){
-			setAngleStyle(GeoAngle.ANGLE_ISREFLEX);
+			setAngleStyle(AngleStyle.ISREFLEX);
 		}
-		else if(angleStyle == GeoAngle.ANGLE_ISREFLEX){
-			setAngleStyle(GeoAngle.ANGLE_ISANTICLOCKWISE);
+		else if(angleStyle == AngleStyle.ISREFLEX){
+			setAngleStyle(AngleStyle.ANTICLOCKWISE);
 		}		
 	
 		for (GeoElement geo: geoList) {

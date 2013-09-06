@@ -3179,6 +3179,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("absoluteScreenLocation".equals(eName)) {
 				ok = handleAbsoluteScreenLocation(attrs);
 				break;
+			} else if ("angleStyle".equals(eName)) {
+				ok = handleAngleStyle(attrs);
+				break;
 			}
 
 		case 'b':
@@ -4379,8 +4382,27 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+	
+	private boolean handleAngleStyle(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof AngleProperties)) {
+			System.err.println("wrong element type for <angleStyle>: "
+					+ geo.getClass());
+			return false;
+		}
 
-	// Michael Borcherds 2007-11-19
+		try {
+			AngleProperties angle = (AngleProperties) geo;
+			angle.setAngleStyle(Integer.parseInt(attrs.get("val")));
+			return true;
+		} catch (Exception e) {
+
+			return false;
+		}
+	}
+
+	/*
+	 * needed for old files (4.2 and earlier)
+	 */
 	private boolean handleForceReflexAngle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
 			System.err.println("wrong element type for <forceReflexAngle>: "

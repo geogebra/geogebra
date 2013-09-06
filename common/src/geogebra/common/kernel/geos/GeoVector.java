@@ -455,7 +455,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y),tpl));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),tpl));
+			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x), tpl, null));
 			sbBuildValueString.append(")");
 			break;
 
@@ -648,7 +648,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sb.append("(");		
 			sb.append(kernel.format(MyMath.length(x, y),tpl));
 			sb.append("; ");
-			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),tpl));
+			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x), tpl, null));
 			sb.append(")");
 			break;
 

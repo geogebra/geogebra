@@ -37,6 +37,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -552,19 +553,19 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		if (angExt > Math.PI * 2)
 			angExt -= Math.PI * 2;
 
-		if (geo.getAngleStyle() == GeoAngle.ANGLE_ISCLOCKWISE) {
-			angSt += angExt;
-			angExt = 2.0 * Math.PI - angExt;
-		}
+		//if (geo.getAngleStyle() == GeoAngle.ANGLE_ISCLOCKWISE) {
+		//	angSt += angExt;
+		//	angExt = 2.0 * Math.PI - angExt;
+		//}
 
-		if (geo.getAngleStyle() == GeoAngle.ANGLE_ISNOTREFLEX) {
+		if (geo.getAngleStyle() == AngleStyle.NOTREFLEX) {
 			if (angExt > Math.PI) {
 				angSt += angExt;
 				angExt = 2.0 * Math.PI - angExt;
 			}
 		}
 
-		if (geo.getAngleStyle() == GeoAngle.ANGLE_ISREFLEX) {
+		if (geo.getAngleStyle() == AngleStyle.ISREFLEX) {
 			if (angExt < Math.PI) {
 				angSt += angExt;
 				angExt = 2.0 * Math.PI - angExt;

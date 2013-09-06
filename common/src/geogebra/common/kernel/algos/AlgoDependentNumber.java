@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -55,6 +56,13 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
         
         if (isAngle) {
             number = new GeoAngle(cons);
+            
+            // check fileloading to make loading old files (<=4.2) works
+            // no allowReflexAngle or forceReflexAngle in XML by default
+            if (!cons.isFileLoading()) {
+            	// make sure eg summing angles of polygon a+b+c+d gives correct answer
+            	((GeoAngle)number).setAngleStyle(AngleStyle.UNBOUNDED);
+            }
         } else {
             number = new GeoNumeric(cons); 
         }

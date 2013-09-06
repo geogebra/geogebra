@@ -1255,7 +1255,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 					MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
 			sbBuildValueString.append(kernel.formatAngle(
-					Math.atan2(y, x), tpl));
+					Math.atan2(y, x), tpl, null));
 			sbBuildValueString.append(')');
 			break;
 

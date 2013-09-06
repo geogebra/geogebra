@@ -1,5 +1,6 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -13,21 +14,11 @@ public interface AngleProperties extends GeoElementND{
 
 	
 	/**
-	 * @param index index of currently used interval
-	 */
-	public void setAngleInterval(int index);
-	
-	/**
-	 * @return index of currently used interval
-	 */
-	public int getAngleInterval();
-
-	/**
 	 * Returns angle style. See GeoAngle.ANGLE_*
 	 * 
-	 * @return Clockwise, counterclockwise reflex or not reflex
+	 * @return anticlockwise, reflex, not reflex or unbounded
 	 */
-	public int getAngleStyle();
+	public AngleStyle getAngleStyle();
 
 	/**
 	 * 
@@ -40,7 +31,7 @@ public interface AngleProperties extends GeoElementND{
 	 * See GeoAngle.ANGLE_*
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
-	public void setAngleStyle(int angleStyle);
+	public void setAngleStyle(AngleStyle angleStyle);
 
 	public void setAllowReflexAngle(boolean parseBoolean);
 
@@ -59,6 +50,8 @@ public interface AngleProperties extends GeoElementND{
 	public void setDecorationType(int type);
 
 	public boolean isEmphasizeRightAngle();
+
+	public void setAngleStyle(int parseInt);
 
 
 }

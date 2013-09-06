@@ -27,6 +27,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AngleAlgo;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.Unicode;
 
 /**
  * 
@@ -55,16 +56,57 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	final public static double DEFAULT_SLIDER_MAX_ANGLE = Kernel.PI_2;
 	/** default increment when displayed as slider */
 	final public static double DEFAULT_SLIDER_INCREMENT_ANGLE = Math.PI / 180.0;
-	/** Measure angle anticlockwise*/
-	final public static int ANGLE_ISANTICLOCKWISE = 0; // old allowReflexAngle=true
-	/** Measure angle clockwise*/
-	final public static int ANGLE_ISCLOCKWISE = 1;
-	/** Force angle not to be reflex */
-	final public static int ANGLE_ISNOTREFLEX = 2; // old allowReflexAngle=false
-	/** Force angle to be reflex */
-	final public static int ANGLE_ISREFLEX = 3;
+	
+	/**
+	 * different angle styles
+	 *
+	 */
+	public enum AngleStyle {
+		/**
+		 * (old allowReflexAngle=true)
+		 */
+		ANTICLOCKWISE(0),
+		/**
+		 * Force angle not to be reflex ie [0,180]
+		 * (old allowReflexAngle=true)
+		 */
+		NOTREFLEX(1),
+		/**
+		 * Force angle to be reflex ie [180,360]
+		 */
+		ISREFLEX(2),
+		/**
+		 * allow angles to be in the range (-infinity, infinity) 
+		 * 
+		 * only for Angles which aren't drawable
+		 */
+		UNBOUNDED(3);
+		
+		public int xmlVal;
 
-	private int angleStyle = ANGLE_ISANTICLOCKWISE;
+		AngleStyle(int xmlVal) {
+			this.xmlVal = xmlVal;
+		}
+
+		/**
+		 * @param style integer from XML
+		 * @return Enum
+		 */
+		public static AngleStyle getStyle(int style) {
+			for (AngleStyle l : AngleStyle.values()) {
+				
+				if (l.xmlVal == style) {
+					return l;
+				}
+			}
+			
+			return AngleStyle.ANTICLOCKWISE;
+
+				
+		}
+	}
+
+	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 
 	/**
 	 * @author Lo�c
@@ -89,42 +131,18 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	//////////////////////////////////////////
 	/** interval minima for different angle styles */
 	public static final String[] INTERVAL_MIN = {
-		"0\u00b0",
-		"0\u00b0",
-		"180\u00b0"
+		"0" + Unicode.degreeChar,
+		"0" + Unicode.degreeChar,
+		"180" + Unicode.degreeChar,
+		"-"+Unicode.Infinity
 	};
 	/** interval maxima for different angle styles */
 	public static final String[] INTERVAL_MAX = {
-		"360\u00b0",
-		"180\u00b0",
-		"360\u00b0"
+		"360" + Unicode.degreeChar,
+		"180" + Unicode.degreeChar,
+		"360" + Unicode.degreeChar,
+		"" + Unicode.Infinity
 	};
-	
-	/** orders have to be changed both in following arrays */
-	public static final int[] INTERVAL_TO_STYLE = {
-		ANGLE_ISANTICLOCKWISE,
-		ANGLE_ISNOTREFLEX,
-		ANGLE_ISREFLEX
-	};
-	/** inverse of INTERVAL_TO_STYLE */
-	public static final int[] STYLE_TO_INTERVAL = {
-		0,//ANGLE_ISANTICLOCKWISE,
-		-1,
-		1,//ANGLE_ISNOTREFLEX,
-		2//ANGLE_ISREFLEX		
-	};
-	/**
-	 * @param index index of currently used interval
-	 */
-	public void setAngleInterval(int index){
-		setAngleStyle(INTERVAL_TO_STYLE[index]);
-	}
-	/**
-	 * @return index of currently used interval
-	 */
-	public int getAngleInterval(){
-		return STYLE_TO_INTERVAL[getAngleStyle()];
-	}
 	
 	/** Creates new GeoAngle 
 	 * @param c Construction 
@@ -229,23 +247,32 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * Converts the val to a value between 0 and 2pi.
 	 */
 	private double calcAngleValue(double val) {
+		
+		
+		
 		// limit to [0, 2pi]
-		double angVal = Kernel.convertToAngleValue(val);
+		double angVal;
+		
+		if (angleStyle != AngleStyle.UNBOUNDED) {
+			angVal = Kernel.convertToAngleValue(val);
+		} else {
+			angVal = val;
+		}
 
 		rawValue = angVal;
 
 		// if needed: change angle
 		switch (angleStyle) {
-		case ANGLE_ISCLOCKWISE:
-			angVal = 2.0 * Math.PI - angVal;
-			break;
+		//case ANGLE_ISCLOCKWISE:
+		//	angVal = 2.0 * Math.PI - angVal;
+		//	break;
 
-		case ANGLE_ISNOTREFLEX:
+		case NOTREFLEX:
 			if (angVal > Math.PI)
 				angVal = 2.0 * Math.PI - angVal;
 			break;
 
-		case ANGLE_ISREFLEX:
+		case ISREFLEX:
 			if (angVal < Math.PI)
 				angVal = 2.0 * Math.PI - angVal;
 			break;
@@ -297,23 +324,23 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
 		switch (angleStyle) {
-		case ANGLE_ISNOTREFLEX:
+		case NOTREFLEX:
 			if (allowReflexAngle)
-				setAngleStyle(ANGLE_ISANTICLOCKWISE);
+				setAngleStyle(AngleStyle.ANTICLOCKWISE);
 			break;
-		case ANGLE_ISREFLEX:
+		case ISREFLEX:
 			// do nothing
 			break;
 		default: // ANGLE_ISANTICLOCKWISE
 			if (!allowReflexAngle)
-				setAngleStyle(ANGLE_ISNOTREFLEX);
+				setAngleStyle(AngleStyle.NOTREFLEX);
 			break;
 
 		}
 		if (allowReflexAngle)
-			setAngleStyle(ANGLE_ISANTICLOCKWISE);
+			setAngleStyle(AngleStyle.ANTICLOCKWISE);
 		else
-			setAngleStyle(ANGLE_ISNOTREFLEX);
+			setAngleStyle(AngleStyle.NOTREFLEX);
 	}
 
 	/**
@@ -323,11 +350,15 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
 		if (forceReflexAngle){
-			setAngleStyle(ANGLE_ISREFLEX);
+			setAngleStyle(AngleStyle.ISREFLEX);
 		}
-		else if(angleStyle == ANGLE_ISREFLEX){
-			setAngleStyle(ANGLE_ISANTICLOCKWISE);
+		else if(angleStyle == AngleStyle.ISREFLEX){
+			setAngleStyle(AngleStyle.ANTICLOCKWISE);
 		}		
+	}
+	
+	public void setAngleStyle(int style) {
+		setAngleStyle(AngleStyle.getStyle(style));
 	}
 
 	/**
@@ -335,7 +366,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * See GeoAngle.ANGLE_*
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
-	public void setAngleStyle(int angleStyle) {
+	public void setAngleStyle(AngleStyle angleStyle) {
+		
 		if (angleStyle == this.angleStyle)
 			return;
 
@@ -356,7 +388,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * 
 	 * @return Clockwise, counterclockwise reflex or not reflex
 	 */
-	public int getAngleStyle() {
+	public AngleStyle getAngleStyle() {
 		return angleStyle;
 	}
 	
@@ -380,8 +412,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(),tpl).toString() : 
-			kernel.formatAngle(value,tpl).toString();
+		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(), tpl, this).toString() : 
+			kernel.formatAngle(value, tpl, this).toString();
 	}
 
 	// overwrite
@@ -457,6 +489,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
     }
 	
 	private void getXMLAllowReflexAngleTag(StringBuilder sb) {
+		
+		/* old ggb42 code
 		if (angleStyle == ANGLE_ISANTICLOCKWISE)
 			return;
 
@@ -469,6 +503,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			sb.append("\"/>\n");
 		}
 
+*/
+		
+		sb.append("\t<angleStyle val=\"");
+		sb.append(angleStyle);
+		sb.append("\"/>\n");
 	}
 	
 	private void getXMLEmphasizeRightAngleTag(StringBuilder sb) {

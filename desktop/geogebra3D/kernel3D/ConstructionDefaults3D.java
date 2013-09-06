@@ -2,7 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -133,7 +133,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// angle
 		GeoAngle3D angle = new GeoAngle3D(cons);	
 		angle.setVisualStyle(super.getDefaultGeo(DEFAULT_ANGLE));
-		angle.setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+		angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		defaultGeoElements.put(DEFAULT_ANGLE3D, angle);
 	
 		// free point

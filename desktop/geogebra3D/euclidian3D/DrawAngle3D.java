@@ -110,19 +110,12 @@ public class DrawAngle3D extends Drawable3DCurves {
 			Coords vn = pa.getVn();
 			switch (angle.getAngleStyle()) {
 			
-			case GeoAngle.ANGLE_ISCLOCKWISE:
-				/*
-				angSt+=angExt;
-				angExt=2.0*Math.PI-angExt;
-				*/
-				break;
-				
-			case GeoAngle.ANGLE_ISNOTREFLEX:
+			case NOTREFLEX:
 				if (angle.getRawAngle()>Math.PI)
 					vn = vn.mul(-1);
 				break;
 				
-			case GeoAngle.ANGLE_ISREFLEX:
+			case ISREFLEX:
 				if (angle.getRawAngle()<Math.PI)
 					vn = vn.mul(-1);
 				break;

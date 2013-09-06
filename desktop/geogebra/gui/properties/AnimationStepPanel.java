@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
@@ -98,11 +99,12 @@ public class AnimationStepPanel
 
         if (equalStep){
         	GeoElement stepGeo = geo0.getAnimationStepObject();
-			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent())))
+			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
 				tfAnimStep.setText(
-					kernel.formatAngle(geo0.getAnimationStep(),highPrecision).toString());
-			else
+					kernel.formatAngle(geo0.getAnimationStep(), highPrecision, (GeoAngle)geo0).toString());
+			} else {
 				tfAnimStep.setText(stepGeo.getLabel(highPrecision));
+			}
         }
 		else
 			tfAnimStep.setText("");

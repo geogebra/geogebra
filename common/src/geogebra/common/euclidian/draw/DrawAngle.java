@@ -32,6 +32,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
@@ -186,19 +187,23 @@ public class DrawAngle extends Drawable implements Previewable {
 		// }
 
 		switch (angle.getAngleStyle()) {
-		case GeoAngle.ANGLE_ISCLOCKWISE:
-			angSt += angExt;
-			angExt = 2.0 * Math.PI - angExt;
+		case UNBOUNDED:
+			App.error("shouldn't be drawable");
 			break;
 
-		case GeoAngle.ANGLE_ISNOTREFLEX:
+		//case GeoAngle.ANGLE_ISCLOCKWISE:
+		//	angSt += angExt;
+		//	angExt = 2.0 * Math.PI - angExt;
+		//	break;
+
+		case NOTREFLEX:
 			if (angExt > Math.PI) {
 				angSt += angExt;
 				angExt = 2.0 * Math.PI - angExt;
 			}
 			break;
 
-		case GeoAngle.ANGLE_ISREFLEX:
+		case ISREFLEX:
 			if (angExt < Math.PI) {
 				angSt += angExt;
 				angExt = 2.0 * Math.PI - angExt;

@@ -2885,12 +2885,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JComboBox intervalCombo;
 
 		private boolean hasOrientation = true;
+		private boolean isDrawable = true;
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
 			intervalLabel = new JLabel();
 			intervalCombo = new JComboBox();
+			
 			add(intervalLabel);
 			add(intervalCombo);
 
@@ -2908,7 +2910,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			intervalCombo.removeAllItems();
 
 			if (hasOrientation) {
-				for (int i = 0; i < GeoAngle.INTERVAL_MIN.length; i++)
+				
+				int length = GeoAngle.INTERVAL_MIN.length;
+				
+				if (isDrawable) {
+					// don't want to allow (-inf, +inf)
+					length --;
+				}
+				
+				for (int i = 0; i < length; i++)
 					intervalCombo
 							.addItem(loc.getPlain("AandB",
 									GeoAngle.INTERVAL_MIN[i],
@@ -2933,24 +2943,32 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			AngleProperties temp, geo0 = (AngleProperties) geos[0];
 			boolean equalangleStyle = true;
 			boolean hasOrientationOld = hasOrientation;
+			boolean isDrawableOld = isDrawable;
 			hasOrientation = true;
+			isDrawable = true;
 
 			for (int i = 0; i < geos.length; i++) {
 				temp = (AngleProperties) geos[i];
-				if (!temp.hasOrientation())
+				if (!temp.hasOrientation()) {
 					hasOrientation = false;
-				if (geo0.getAngleStyle() != temp.getAngleStyle())
+				}
+				if (!temp.isDrawable()) {
+					isDrawable = false;
+				}
+				if (geo0.getAngleStyle() != temp.getAngleStyle()) {
 					equalangleStyle = false;
+				}
 
 			}
 
-			// Application.debug(hasOrientationOld+","+hasOrientation);
-			if (hasOrientation != hasOrientationOld)
+			if (hasOrientation != hasOrientationOld || isDrawableOld != isDrawable) {
 				setComboLabels();
+			}
 
-			if (equalangleStyle)
-				setSelectedIndex(geo0.getAngleInterval());
-
+			if (equalangleStyle) {
+				setSelectedIndex(geo0.getAngleStyle().xmlVal);
+			}
+			
 			intervalCombo.addActionListener(this);
 			return this;
 		}
@@ -2972,7 +2990,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				int index = getIndex();
 				for (int i = 0; i < geos.length; i++) {
 					geo = (AngleProperties) geos[i];
-					geo.setAngleInterval(index);
+					geo.setAngleStyle(index);
 					((GeoElementND) geo).updateRepaint();
 				}
 			}
@@ -2989,7 +3007,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private void setSelectedIndex(int index) {
 			if (hasOrientation) {
-				intervalCombo.setSelectedIndex(index);
+				
+				if (index >= intervalCombo.getItemCount()) {
+					intervalCombo.setSelectedIndex(0);					
+				} else {
+					intervalCombo.setSelectedIndex(index);
+				}
 			} else {
 				// first interval disabled
 				intervalCombo.setSelectedIndex(index - 1);
