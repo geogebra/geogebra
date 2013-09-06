@@ -5890,7 +5890,7 @@ public abstract class EuclidianController {
 	
 		if (getTopHits.size() > 0) {
 			GeoElement geo = getTopHits.get(0);
-			if (geo instanceof Path) {
+			if (Test.PATH_NO_FILL_HIT.check(geo) && !geo.isGeoPolygon()) {
 				processModeLock((Path) geo);
 			} else if (geo.isGeoPoint()) {
 				processModeLock((GeoPointND) geo);
