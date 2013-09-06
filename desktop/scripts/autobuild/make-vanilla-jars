@@ -181,7 +181,7 @@ if [ $CLASSES = 1 ]; then
  echo "$0: Putting away (renaming) $COMMONJAVA to avoid errors"
  mv $COMMONJAVA $COMMONJAVA.temporarily_renamed
  
- $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
+ $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.6 -source 1.6 -target 1.6 -classpath $CP -bootclasspath $BOOTCLASSPATH\
   -time -proceedOnError -g ../desktop ../common/src/geogebra/common ../common/src/org ../common/src/geogebra/jung ../common/src/geogebra/jts ../jogl$JOGL/src > .ecjlog 2>&1
  tail -1 .ecjlog
  echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
