@@ -26,7 +26,7 @@ class ViewManagerT implements ViewManager {
 
 	@Override
 	public void clearAbsolutePanels() {
-		app.getTouchGui().getEuclidianViewPanel().removeGBoxes();
+		this.app.getTouchGui().getEuclidianViewPanel().removeGBoxes();
 		
 	}
 

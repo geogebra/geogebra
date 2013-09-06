@@ -245,7 +245,7 @@ public class TouchController extends EuclidianController {
 		for (final GeoElement geo : polygons) {
 			for (final GeoPointND p : ((GeoPolygon) geo).getPoints()) {
 				if (p instanceof GeoElement) {
-					this.model.select((GeoElement) p);
+					this.model.select(p);
 				}
 			}
 			this.model.deselect(geo);
