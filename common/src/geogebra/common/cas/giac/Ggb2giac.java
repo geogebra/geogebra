@@ -337,13 +337,13 @@ public class Ggb2giac {
 		p("LimitBelow.3", 
 				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 
-		p("Max.N", "max(%)");
+		p("Max.N", "when(type(%)==DOM_LIST, when(type((%)[0])==DOM_LIST, ?, max(%)), ?)");
 		p("MatrixRank.1", "rank(%0)");
 		p("Mean.1",
 				"mean(%0)");
 		p("Median.1",
 				"median(%0)");
-		p("Min.N", "min(%)");
+		p("Min.N", "when(type(%)==DOM_LIST, when(type((%)[0])==DOM_LIST, ?, min(%)), ?)");
 		p("MixedNumber.1",
 				"propfrac(%0)");
 		p("Mod.2",
