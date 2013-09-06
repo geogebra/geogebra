@@ -340,6 +340,13 @@ namespace giac {
 	  }
 	}
       }
+      if (gamma>=0 && beta==0){
+	// possible cancellation case depend of cst coeff of f
+	vecteur vtmp(polynome2poly1(fnum,1));
+	gen f0=r2sym(vtmp[0],lv1,contextptr);
+	if (f0.type==_INT_ && f0.val>0)
+	  alpha=-f0.val;
+      }
       D=polynome(monomial<gen>(plus_one,-alpha,1,ss)); // Z^(-alpha)
     }
     if (!f_is_derivative){ 

@@ -8463,15 +8463,29 @@ namespace giac {
       gen argv0=remove_equal(argv[0]);
       if (t.type!=_VECT){
 	// tangent to a 2-d curve given by an equation
+	gen xy(makevecteur(x__IDNT_e,y__IDNT_e));
+	gen der(derive(argv0,xy,contextptr));
 	gen tr,ti;
 	reim(t,tr,ti,contextptr);
 	gen tri(makevecteur(tr,ti));
-	gen xy(makevecteur(x__IDNT_e,y__IDNT_e));
 	if (is_zero(simplify(subst(argv0,xy,tri,false,contextptr),contextptr))){
-	  gen der(derive(argv0,xy,contextptr));
 	  der=subst(der,xy,tri,false,contextptr);
 	  if (der.type==_VECT && der._VECTptr->size()==2){
 	    return _droite((xy[0]-tri[0])*der[0]+(xy[1]-tri[1])*der[1],contextptr);
+	  }
+	}
+	if (der.type==_VECT && der._VECTptr->size()==2){
+	  gen droite=der._VECTptr->front()*(xy[0]-tr)+der._VECTptr->back()*(xy[1]-ti);
+	  gen sol=_solve(makesequence(makevecteur(droite,argv0),xy),contextptr);
+	  if (sol.type==_VECT && !is_undef(sol)){
+	    vecteur res;
+	    for (unsigned i=0;i<sol._VECTptr->size();++i){
+	      res.push_back(subst(droite,xy,(*sol._VECTptr)[i],false,contextptr));
+	    }
+	    if (res.size()==1)
+	      return res.front();
+	    else
+	      return gen(res,_SEQ__VECT);
 	  }
 	}
 	return gensizeerr(gettext("Point is not on curve"));

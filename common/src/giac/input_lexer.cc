@@ -5449,6 +5449,22 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
       int i=0;
       if (lexer_close_parenthesis(contextptr)){
 	for (;i<l;++i){
+	  if (i && s[i]=='/' && s[i-1]=='/'){
+	    // skip comment until end of line
+	    for (;i<l;++i){
+	      if (s[i]==13)
+		break;
+	    }
+	    continue;
+	  }
+	  if (i && s[i]=='*' && s[i-1]=='/'){
+	    // skip comment 
+	    for (;i<l;++i){
+	      if (s[i]=='/' && s[i-1]=='*')
+		break;
+	    }
+	    continue;
+	  }
 	  if (s[i]==92){
 	    i += 2;
 	    if (i>=l)

@@ -8233,6 +8233,18 @@ namespace giac {
   }
 
   gen _autosimplify(const gen & g,GIAC_CONTEXT){
+    if (is_zero(g)){
+      autosimplify("nop",contextptr);
+      return 1;
+    }
+    if (is_one(g)){
+      autosimplify("regroup",contextptr);
+      return 1;
+    }
+    if (g==2){
+      autosimplify("simplify",contextptr);
+      return 1;
+    }
     if (g.type!=_IDNT && g.type!=_FUNC && g.type!=_SYMB)
       return gen(autosimplify(contextptr),contextptr);
     autosimplify(g.print(contextptr),contextptr);

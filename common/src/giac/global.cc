@@ -4563,7 +4563,7 @@ unsigned int ConvertUTF8toUTF16 (
   const char * do_not_autosimplify[]={
     "autosimplify",
     "ifactor","partfrac","cpartfrac","factor","cfactor","expand","normal",
-    "regroup","simplify",
+    "regroup","simplify","animation","animate",
     0
   };
   gen add_autosimplify(const gen & g,GIAC_CONTEXT){

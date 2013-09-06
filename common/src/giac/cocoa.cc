@@ -5014,6 +5014,50 @@ namespace giac {
     return true;
   }
 
+  bool chk_equal_mod(const poly8 & v,const polymod & p,int m){
+    if (v.coord.size()!=p.coord.size())
+      return false;
+    unsigned s=p.coord.size();
+    int lc=smod(v.coord[0].g,m).val;
+    for (unsigned i=0;i<s;++i){
+      if (!chk_equal_mod(v.coord[i].g,(longlong(lc)*p.coord[i].g)%m,m))
+	return false;
+    }
+    return true;
+  }
+
+  bool chk_equal_mod(const vectpoly8 & v,const vectpolymod & p,const vector<unsigned> & G,int m){
+    if (v.size()!=G.size())
+      return false;
+    for (unsigned i=0;i<G.size();++i){
+      if (!chk_equal_mod(v[i],p[G[i]],m))
+	return false;
+    }
+    return true;
+  }
+
+  bool chk_equal_mod(const poly8 & v,const poly8 & p,int m){
+    if (v.coord.size()!=p.coord.size())
+      return false;
+    unsigned s=p.coord.size();
+    int lc=smod(v.coord[0].g,m).val;
+    for (unsigned i=0;i<s;++i){
+      if (!chk_equal_mod(v.coord[i].g,(longlong(lc)*p.coord[i].g.val)%m,m))
+	return false;
+    }
+    return true;
+  }
+
+  bool chk_equal_mod(const vectpoly8 & v,const vectpoly8 & p,const vector<unsigned> & G,int m){
+    if (v.size()!=G.size())
+      return false;
+    for (unsigned i=0;i<G.size();++i){
+      if (!chk_equal_mod(v[i],p[G[i]],m))
+	return false;
+    }
+    return true;
+  }
+
   // excluded==-1 and G==identity in calls
   bool checkf4(vectpoly8 & f4v,const vectpoly8 & res,vector<unsigned> & G,unsigned excluded){
     polymod allf4(f4v.front().order,f4v.front().dim),rem(allf4);
@@ -5326,9 +5370,9 @@ namespace giac {
 	  return false;
       }
     }
-    vectpoly8 current,gb,vtmp;
+    vectpoly8 current,gb,vtmp,afewpolys;
     vectpolymod resmod;
-    poly8 poly8tmp,afewpolys;
+    poly8 poly8tmp;
 #if 1 
     // make first iteration with a smaller prime to spare memory
     // next iterations will use larger primes
@@ -5338,7 +5382,7 @@ namespace giac {
 #endif
     vector< vectpoly8> V; // list of (chinrem reconstructed) modular groebner basis
     vector< vectpoly8> W; // list of rational reconstructed groebner basis
-    vectpoly8 Wlast;
+    vector< vectpoly8> Wlast;
     vecteur P; // list of associate (product of) modulo
     environment env;
     vector<unsigned> G;
@@ -5428,24 +5472,23 @@ namespace giac {
 	if (Wlast.size()<V.size())
 	  Wlast.resize(V.size());
 	if (W[i].empty()){
-	  // rational reconstruction of the last element only, once it is stable
+	  // rational reconstruction of a few elements only, once it is stable
 	  // we reconstruct the whole W
-	  afewpolys.coord.clear();
-	  afewpolys.dim=poly8tmp.dim;
-	  afewpolys.order=poly8tmp.order;
-	  for (int j=V[i].size()-1;j>=0;j-=20){
-	    if (!fracmod(V[i][j],P[i],
-			 zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
-			 poly8tmp))
-	      break;
-	    for (unsigned k=0;k<poly8tmp.coord.size();++k){
-	      afewpolys.coord.push_back(poly8tmp.coord[k]);
+	  afewpolys.clear();
+	  int jpos=0;
+	  for (int j=V[i].size()-1;j>=0;++jpos,j-=20){
+	    if (Wlast[i].size()>jpos && chk_equal_mod(Wlast[i][jpos],gb[j],p.val))
+	      afewpolys.push_back(Wlast[i][jpos]);
+	    else {
+	      if (!fracmod(V[i][j],P[i],
+			   zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
+			   poly8tmp))
+		break;
+	      afewpolys.push_back(poly8tmp);
 	    }
 	  }
-	  if (afewpolys.coord!=Wlast[i].coord){
-	    Wlast[i].dim=poly8tmp.dim;
-	    Wlast[i].order=poly8tmp.order;
-	    swap(afewpolys.coord,Wlast[i].coord);
+	  if (afewpolys!=Wlast[i]){
+	    swap(afewpolys,Wlast[i]);
 	    break;
 	  }
 	  else {
@@ -5453,20 +5496,32 @@ namespace giac {
 	      cerr << clock() << " last component same " << P[i] << endl;
 	  }
 	}
-	if (debug_infolevel)
-	  cerr << clock() << " begin rational reconstruction mod " << P[i] << endl;
-	if (!fracmod(V[i],P[i],
-		     zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
-		     vtmp))
-	  break; // no luck reconstructing
-	if (debug_infolevel)
-	  cerr << clock() << " clearing denominators " << endl;
-	cleardeno(vtmp); // clear denominators
-	if (debug_infolevel)
-	  cerr << clock() << " end rational reconstruction " << endl;
-	if (vtmp!=W[i]){
+	if (W[i].empty()){
+	  if (debug_infolevel)
+	    cerr << clock() << " begin rational reconstruction mod " << P[i] << endl;
+	  if (!fracmod(V[i],P[i],
+		       zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
+		       vtmp)){
+	    // ok=false; //?
+	    break; // no luck reconstructing
+	  }
+	  if (debug_infolevel)
+	    cerr << clock() << " clearing denominators " << endl;
+	  cleardeno(vtmp); // clear denominators
+	  if (debug_infolevel)
+	    cerr << clock() << " end rational reconstruction " << endl;
 	  swap(vtmp,W[i]);
 	  break; // not stabilized, find another prime
+	}
+	else {
+	  if (debug_infolevel)
+	    cerr << clock() << " checking reconstructed basis mod " << P[i] << endl;
+	  if (!chk_equal_mod(W[i],resmod,G,p.val)){
+	    W[i].clear();
+	    break;
+	  }
+	  if (debug_infolevel)
+	    cerr << clock() << " check successful mod " << P[i] << endl;
 	}
 	// now check if W[i] is a Groebner basis over Q, if so it's the answer
 	if (debug_infolevel)
@@ -5475,11 +5530,11 @@ namespace giac {
 	poly8 tmp0,tmp1,tmp2;
 	vectpoly8 wtmp;
 	unsigned j=0;
-	G.resize(vtmp.size());
-	for (j=0;j<vtmp.size();++j)
+	G.resize(W[i].size());
+	for (j=0;j<W[i].size();++j)
 	  G[j]=j;
 	for (j=0;j<initial;++j){
-	  reduce(res[j],vtmp,G,-1,wtmp,tmp0,tmp1,tmp2,0);
+	  reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
 	  if (!tmp0.coord.empty()){
 	    break;
 	  }
@@ -5493,9 +5548,9 @@ namespace giac {
 #if 1
 	double terms=0;
 	int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
-	for (unsigned k=0;k<vtmp.size();++k){
-	  terms += vtmp[k].coord.size();
-	  termsmin = giacmin(termsmin,vtmp[k].coord.size());
+	for (unsigned k=0;k<W[i].size();++k){
+	  terms += W[i][k].coord.size();
+	  termsmin = giacmin(termsmin,W[i][k].coord.size());
 	}
 	termsmin = 7*(2*termsmin-1);
 	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
@@ -5503,9 +5558,9 @@ namespace giac {
 	  epsp=termsmin;
 	if (eps<=0 || std::log10(eps)<=-epsp){
 	  G.clear();
-	  if (!is_gbasis(vtmp)){
+	  if (!is_gbasis(W[i])){
 	    ok=false;
-	    break; // in_gbasis(vtmp,G,0,true);
+	    break; // in_gbasis(W[i],G,0,true);
 	  }
 	  // FIXME replace by a quicker check with f4 on all spolys
 	  // and rewrite as a linear system 
@@ -5515,27 +5570,24 @@ namespace giac {
 #endif
 	if (debug_infolevel)
 	  cerr << clock() << " end final check " << P[i] << endl;
-	if (vtmp==W[i]){
-	  swap(res,vtmp);
-	  mpz_clear(zd);
-	  mpz_clear(zu);
-	  mpz_clear(zu1);
-	  mpz_clear(zd1);
-	  mpz_clear(zabsd1);
-	  mpz_clear(zsqrtm);
-	  mpz_clear(zq);
-	  mpz_clear(zur);
-	  mpz_clear(zr);
-	  mpz_clear(ztmp);
-	  return true;
-	}
-	break;
+	swap(res,W[i]);
+	mpz_clear(zd);
+	mpz_clear(zu);
+	mpz_clear(zu1);
+	mpz_clear(zd1);
+	mpz_clear(zabsd1);
+	mpz_clear(zsqrtm);
+	mpz_clear(zq);
+	mpz_clear(zur);
+	mpz_clear(zr);
+	mpz_clear(ztmp);
+	return true;
       }
       if (i==V.size()){
 	// not found
 	V.push_back(gb);
 	W.push_back(vectpoly8()); // no reconstruction yet, wait at least another prime
-	Wlast.push_back(poly8());
+	Wlast.push_back(vectpoly8());
 	P.push_back(p);
       }
     }
