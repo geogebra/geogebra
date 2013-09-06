@@ -67,6 +67,9 @@ public abstract class CASView implements View{
 			return getConsoleTable().getGeoCasCell(n).getOutput(
 					StringTemplate.numericDefault);
 		}
+		if (outVE.unwrap() instanceof GeoElement) {
+			return ((GeoElement) outVE.unwrap()).toOutputValueString(StringTemplate.numericDefault);
+		}
 		return outVE.toString(StringTemplate.numericDefault);
 	}
 

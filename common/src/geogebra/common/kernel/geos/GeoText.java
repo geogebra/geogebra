@@ -376,8 +376,10 @@ public class GeoText extends GeoElement implements Locateable,
 	@Override
 	public String toString(StringTemplate tpl1) {
 		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
+		if (isLabelSet()) {
+			sbToString.append(label);
+			sbToString.append(" = ");
+		}
 		sbToString.append('\"');
 		if (str != null)
 			sbToString.append(str);
