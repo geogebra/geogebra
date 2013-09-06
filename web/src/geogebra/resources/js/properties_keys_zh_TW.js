@@ -1546,7 +1546,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Numeric": "\u4f30\u7b97",
     "Numeric_Help": "\u6578\u503c\u8a08\u7b97",
     "Objects": "\u7269\u4ef6",
-    "Offline": "Offline",
+    "Offline": "\u96e2\u7dda",
     "OneVarStats": "\u55ae\u8b8a\u6578\u5206\u6790",
     "OneVarStats_Help": "\u5f9e\u6240\u9078\u7684\u6578\u500b\u5132\u5b58\u683c\u5206\u6790\u7d71\u8a08\u503c",
     "OneVariable": "\u55ae\u8b8a\u6578",

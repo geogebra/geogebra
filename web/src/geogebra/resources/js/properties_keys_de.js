@@ -2587,7 +2587,7 @@ __GGB__keysVar.de.plain = {
     "Undefined": "undefiniert",
     "UnitVectorOfA": "Einheitsvektor von %0",
     "UnitVectorPerpendicularToA": "Einheitsnormalvektor zu %0",
-    "UntitledA": "Untitled%0",
+    "UntitledA": "Unbennant%0",
     "UntitledConstruction": "Unbenannte Konstruktion",
     "Up": "Nach oben",
     "Upload": "Upload",
