@@ -918,7 +918,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		left = left.traverse(t);
 		if (right != null)
 			right = right.traverse(t);
-		return ev;
+		//if we did some replacement in a leaf, 
+		//we might need to update the leaf flag (#3512)
+		return ev.unwrap().wrap();
 	}
 
 	@Override
