@@ -5333,22 +5333,13 @@ public abstract class EuclidianController {
 						region = null;
 						createPoint = true;
 					} else {
-						Hits pathHits = hits.getHits(Test.PATH, tempArrayList);
+						Hits pathHits = hits.getHits(Test.PATH_NO_FILL_HIT, tempArrayList);
 						if (!pathHits.isEmpty()) {
 							if (onPathPossible) {
 								if (chooseGeo) {
 									path = (Path) chooseGeo(pathHits, true);
 								} else {
-									// find first path which was not hitted as a surface
-									for (int i = 0 ; i < pathHits.size() && path == null ; i++ ){
-										 path = (Path) pathHits.get(i);
-										 if (path instanceof GeoConicND){
-											 if (((GeoConicND) path).getLastHitType() != HitType.ON_BOUNDARY){
-												 path = null;
-											 }
-										 }
-									}
-									//App.debug(path);
+									path = (Path) pathHits.get(0);
 								}
 								if(path != null){
 									createPoint = true;
