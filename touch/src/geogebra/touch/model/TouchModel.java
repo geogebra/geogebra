@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1661,6 +1662,17 @@ public class TouchModel {
 			this.storeOnClose = false;
 			this.app.storeUndoInfo();
 		}
+	}
+
+	public int getLineStyle() {
+		for (GeoElement geo : this.selectedElements) {
+			if (geo.getGeoElementForPropertiesDialog() instanceof LineProperties
+					|| geo.getGeoElementForPropertiesDialog() instanceof GeoNumeric
+					|| geo.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
+				return geo.getLineType();
+			}
+		}
+		return -1;
 	}
 
 }

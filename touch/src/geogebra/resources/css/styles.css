@@ -280,6 +280,12 @@ input.worksheetTitle {
 	height: 42px;
 }
 
+.optionsBox div.button.active {
+	border: #9999FF 2px solid;
+	width: 28px;
+	height: 28px;
+}
+
 .optionsBox input[type="range"] {
 	width: 100%;
 }

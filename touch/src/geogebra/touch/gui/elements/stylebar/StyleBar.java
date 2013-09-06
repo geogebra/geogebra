@@ -57,9 +57,9 @@ public class StyleBar extends FlowPanel {
 	private final HorizontalPanel contentPanel, styleButtonsPanel;
 	private final Map<StyleBarEntry, FastButton> buttons = new HashMap<StyleBarEntry, FastButton>();
 	private final FastButton showHideButton;
-	private final EuclidianViewT euclidianView;
-	private final TouchModel touchModel;
-	private final GuiModel guiModel;
+	final EuclidianViewT euclidianView;
+	final TouchModel touchModel;
+	final GuiModel guiModel;
 	private OptionsPanel optionsPanel;
 
 	/**
@@ -163,7 +163,6 @@ public class StyleBar extends FlowPanel {
 		for (final SVGResource svg : resource) {
 			final FastButton b;
 			if (svg.equals(lafIcons.color())) {
-
 				b = new StandardButton(lafIcons.color());
 				b.getElement().getStyle().setBackgroundImage("initial");
 				b.getElement().setAttribute("style", "background: " + color);
@@ -179,7 +178,6 @@ public class StyleBar extends FlowPanel {
 				this.buttons.put(StyleBarEntry.Color, b);
 
 			} else if (svg.equals(lafIcons.properties_default())) {
-
 				b = new StandardButton(lafIcons.properties_default());
 				b.addFastClickHandler(new FastClickHandler() {
 
@@ -200,7 +198,6 @@ public class StyleBar extends FlowPanel {
 					public void onClick() {
 						StyleBar.this.onOptionalButtonEvent(b,
 								OptionType.CaptionStyle);
-
 					}
 				});
 				// only show "label" in special cases
@@ -214,21 +211,20 @@ public class StyleBar extends FlowPanel {
 						|| cmd == EuclidianConstants.MODE_SLIDER) {
 					this.buttons.put(StyleBarEntry.CaptionStyle, b);
 				}
-			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
 
+			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
 				b = this.createStyleBarButton("showAxes",
 						lafIcons.show_or_hide_the_axes());
+				b.setActive(this.euclidianView.getShowAxis(0));
+				checkStyle(b);
 				this.buttons.put(StyleBarEntry.Axes, b);
 
 			} else if (svg.equals(lafIcons.show_or_hide_the_grid())) {
-
 				b = this.createStyleBarButton("showGrid",
 						lafIcons.show_or_hide_the_grid());
+				b.setActive(this.euclidianView.getShowGrid());
+				checkStyle(b);
 				this.buttons.put(StyleBarEntry.Grid, b);
-			}
-
-			else {
-
 			}
 		}
 
@@ -236,6 +232,14 @@ public class StyleBar extends FlowPanel {
 
 		for (final FastButton imageButton : this.buttons.values()) {
 			this.styleButtonsPanel.add(imageButton);
+		}
+	}
+
+	static void checkStyle(FastButton button) {
+		if (button.isActive()) {
+			button.addStyleName("active");
+		} else {
+			button.removeStyleName("active");
 		}
 	}
 
@@ -256,7 +260,19 @@ public class StyleBar extends FlowPanel {
 
 			@Override
 			public void onClick() {
-				StyleBar.this.onStyleBarButtonEvent(newButton, process);
+				StyleBar.this.guiModel.closeOptions();
+				EuclidianStyleBarStatic.processSourceCommon(process, null,
+						StyleBar.this.euclidianView);
+
+				boolean newValue = ("showAxes".equals(process) && StyleBar.this.euclidianView
+						.getShowAxis(0))
+						|| ("showGrid".equals(process) && StyleBar.this.euclidianView
+								.getShowGrid());
+				newButton.setActive(newValue);
+				checkStyle(newButton);
+				StyleBar.this.touchModel.getKernel().getApplication()
+						.setUnsaved();
+				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 			}
 		});
 
@@ -311,17 +327,6 @@ public class StyleBar extends FlowPanel {
 			this.guiModel.showOption(this.optionsPanel.getOptionsPanel(type),
 					button);
 		}
-	}
-
-	void onStyleBarButtonEvent(final FastButton newButton, final String process) {
-
-		this.guiModel.closeOptions();
-		EuclidianStyleBarStatic.processSourceCommon(process, null,
-				this.euclidianView);
-
-		newButton.setActive(!newButton.isActive());
-		this.touchModel.getKernel().getApplication().setUnsaved();
-		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 	}
 
 	void updateColor(final String color) {
