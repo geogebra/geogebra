@@ -266,16 +266,20 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
-		//hide dialogs if they are open
-		int x = event.getClientX();
-		int y = event.getClientY();
-		int ax = ((AlgebraViewW)view).getAbsoluteLeft();
-		int ay = ((AlgebraViewW)view).getAbsoluteTop();
-		int aWidth = ((AlgebraViewW)view).getOffsetWidth();
-		int aHeight = ((AlgebraViewW)view).getOffsetHeight();
-		if ((x <= ax || x >= ax + aWidth) ||
-				(y <= ay ||y >= ay + aHeight)){
-				((GuiManagerW)app.getGuiManager()).removePopup();
-		}		
+		
+//		// Hide dialogs if they are open.
+//		// onMouseOut runs, if the mouse enters the popup menu too, not only if
+//		// the user leaves the algebra view, so we must check whether the user
+//		// left the algebra view indeed or not. 
+//		int x = event.getClientX();
+//		int y = event.getClientY();
+//		int ax = ((AlgebraViewW)view).getAbsoluteLeft();
+//		int ay = ((AlgebraViewW)view).getAbsoluteTop();
+//		int aWidth = ((AlgebraViewW)view).getOffsetWidth();
+//		int aHeight = ((AlgebraViewW)view).getOffsetHeight();
+//		if ((x <= ax || x >= ax + aWidth) ||
+//				(y <= ay ||y >= ay + aHeight)){
+//				((GuiManagerW)app.getGuiManager()).removePopup();
+//		}		
 	}
 }
