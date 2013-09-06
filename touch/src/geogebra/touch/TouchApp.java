@@ -385,7 +385,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public ViewManager getViewManager() {
-		return new ViewManagerT();
+		return new ViewManagerT(this);
 	}
 
 	@Override

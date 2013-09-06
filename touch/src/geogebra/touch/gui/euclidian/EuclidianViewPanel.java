@@ -5,6 +5,9 @@ import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 
+import java.util.Iterator;
+
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -78,5 +81,14 @@ public class EuclidianViewPanel extends AbsolutePanel implements ResizeListener 
 					Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
 							- TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
 		}
+	}
+
+	public void removeGBoxes() {
+		Iterator<Widget> it = this.iterator();
+	    while (it.hasNext()) {
+	    	Widget nextItem = it.next();
+	    	if (!(nextItem instanceof Canvas)) it.remove();
+	    }
+		
 	}
 }

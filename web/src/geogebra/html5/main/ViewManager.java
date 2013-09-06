@@ -10,4 +10,6 @@ public interface ViewManager {
 	
 	public boolean hasSpreadsheetView();
 
+	public void clearAbsolutePanels();
+
 }
