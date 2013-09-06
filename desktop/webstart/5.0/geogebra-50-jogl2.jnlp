@@ -98,7 +98,6 @@
     <resources os="Linux" arch="amd64">
        <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-linux64.jar" />
    </resources>
-   
     
     <!-- JOGL2 native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
