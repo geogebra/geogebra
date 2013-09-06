@@ -35,8 +35,6 @@ import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface;
-import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsParams;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;

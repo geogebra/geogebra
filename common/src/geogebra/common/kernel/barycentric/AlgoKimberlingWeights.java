@@ -1,5 +1,8 @@
 package geogebra.common.kernel.barycentric;
 
+import geogebra.common.main.AlgoKimberlingWeightsInterface;
+import geogebra.common.main.AlgoKimberlingWeightsParams;
+
 /**
  * Most of the content of this class is moved here from AlgoKimberling,
  * to facilitate asyncronous running... comment from AlgoKimberling:

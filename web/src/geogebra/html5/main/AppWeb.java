@@ -12,10 +12,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
-import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface;
-import geogebra.common.kernel.barycentric.AlgoKimberlingWeightsParams;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.main.AlgoKimberlingWeightsInterface;
+import geogebra.common.main.AlgoKimberlingWeightsParams;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
@@ -800,7 +800,7 @@ public abstract class AppWeb extends App implements SetLabels{
 
 	public native void setKimberlingWeightFunction(AlgoKimberlingWeightsInterface kimberlingw) /*-{
 		$wnd.geogebraKimberlingWeight = function(obj) {
-			return kimberlingw.@geogebra.common.kernel.barycentric.AlgoKimberlingWeightsInterface::weight(Lgeogebra/common/kernel/barycentric/AlgoKimberlingWeightsParams;)(obj);
+			return kimberlingw.@geogebra.common.main.AlgoKimberlingWeightsInterface::weight(Lgeogebra/common/main/AlgoKimberlingWeightsParams;)(obj);
 		}
 	}-*/;
 

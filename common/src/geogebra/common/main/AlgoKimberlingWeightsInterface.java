@@ -1,4 +1,5 @@
-package geogebra.common.kernel.barycentric;
+package geogebra.common.main;
+
 
 public interface AlgoKimberlingWeightsInterface {
 	public double weight(int k, double a, double b, double c);

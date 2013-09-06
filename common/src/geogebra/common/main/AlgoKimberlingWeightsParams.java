@@ -1,4 +1,4 @@
-package geogebra.common.kernel.barycentric;
+package geogebra.common.main;
 
 public class AlgoKimberlingWeightsParams {
 	public AlgoKimberlingWeightsParams(int pk, double pa, double pb, double pc) {
@@ -7,8 +7,8 @@ public class AlgoKimberlingWeightsParams {
 		this.b = pb;
 		this.c = pc;
 	}
-	int k;
-	double a;
-	double b;
-	double c;
+	public int k;
+	public double a;
+	public double b;
+	public double c;
 }
