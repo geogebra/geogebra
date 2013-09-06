@@ -69,7 +69,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
 		//TODO put this back in
-		//devicePixelRatio = checkPixelRatio(canvas.getElement());
+		devicePixelRatio = checkPixelRatio(canvas.getElement());
 		
 	}
 	
@@ -84,7 +84,6 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	        	|| 1;
 	
 	    pixelRatio = devicePixelRatio / backingStorePixelRatio;
-	    canvas.webcodePixelRatio = pixelRatio;
 	    return pixelRatio;
    	}-*/;
 
@@ -453,8 +452,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
 	public void scale(double sx, double sy) {
-		context.scale(sx * devicePixelRatio, sy * devicePixelRatio);
-		savedTransform.scale(sx * devicePixelRatio, sy * devicePixelRatio);
+		context.scale(sx, sy);
+		savedTransform.scale(sx, sy);
 	}
 
 	
@@ -588,6 +587,9 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public void setCoordinateSpaceSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(width * devicePixelRatio);
 		canvas.setCoordinateSpaceHeight(height * devicePixelRatio);
+		scale(devicePixelRatio, devicePixelRatio);
+		setWidth(width);
+		setHeight(height);
 		this.updateCanvasColor();
 	}
 
@@ -819,8 +821,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		// as it is prepared by the browser and not yet ready...
 		// if preferredSize can be negative, have a check for it instead
 		setCoordinateSpaceSize(
-				(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
- 				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight() : 0);
+				((preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0) * devicePixelRatio ,
+ 				((preferredSize.getHeight() >= 0) ? preferredSize.getHeight() : 0) * devicePixelRatio);
 	}
 
 	public Canvas getCanvas() {
