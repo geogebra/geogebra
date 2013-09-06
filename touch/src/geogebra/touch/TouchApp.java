@@ -205,7 +205,7 @@ public class TouchApp extends AppWeb {
 	public void fileNew() {
 		// FIXME what has to be reset?
 		// add missing settings!!!
-		this.kernel.clearConstruction(true);
+		clearConstruction();
 		this.touchGUI.allowEditing(true);
 		this.kernel.initUndoInfo();
 		setDefaultConstructionTitle();
