@@ -843,6 +843,34 @@ public interface Traversing {
 			return remover;
 		}
 	}
+	
+	/**
+	 * @author bencze
+	 * Replaces some of the unknown commands from CAS
+	 * to known commands/expression node values to GeoGebra
+	 */
+	public class CASCommandReplacer implements Traversing {
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Command) {
+				Command ec = (Command) ev;
+				if ("x".equals(ec.getName())) {
+					return new ExpressionNode(ec.getKernel(), ec.getArgument(0), Operation.XCOORD, null);
+				} else if ("y".equals(ec.getName())) {
+					return new ExpressionNode(ec.getKernel(), ec.getArgument(0), Operation.YCOORD, null);
+				} else if ("z".equals(ec.getName())) {
+					return new ExpressionNode(ec.getKernel(), ec.getArgument(0), Operation.ZCOORD, null);
+				}
+				
+			}
+			return ev;
+		}
+		
+		/**
+		 * Replacer object
+		 */
+		public static CASCommandReplacer replacer = new CASCommandReplacer();
+
+	}
 
 
 }

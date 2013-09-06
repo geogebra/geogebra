@@ -85,10 +85,10 @@ public class DrawIntegralFunctions extends Drawable {
 		GeoCasCell cell = algo.getCasCell();
 		Command cmd = cell.getInputVE().getTopLevelCommand();
 		Kernel kernel = cmd.getKernel();
-		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0)));
-		g = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(1)));
-		a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).evaluateDouble());
-		b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).evaluateDouble());
+		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0).wrap().replaceCasCommands()));
+		g = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(1).wrap().replaceCasCommands()));
+		a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap().replaceCasCommands().evaluateDouble());
+		b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).wrap().replaceCasCommands().evaluateDouble());
 	}
 
 	@Override

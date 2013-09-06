@@ -5027,4 +5027,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return super.evaluateDouble();
 	}
 	
+	
+	/**
+	 * Replaces some CAS commands unknown to GeoGebra
+	 * This may change the structure of the ExpressionNode
+	 * @return the expression node with replaced commands
+	 */
+	public ExpressionNode replaceCasCommands() {
+		return this.traverse(Traversing.CASCommandReplacer.replacer).wrap();
+	}
+	
 }
