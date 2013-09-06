@@ -33,7 +33,7 @@ TIDYUP=0
 JOGL=1
 PREPARE=0
 
-BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
+# BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
 set_bootclasspath
 
 # 3. Reading command line arguments
