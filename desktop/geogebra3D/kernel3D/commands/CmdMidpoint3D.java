@@ -23,27 +23,18 @@ public class CmdMidpoint3D extends CmdMidpoint {
 	}
 	
 	
-	@Override
-	public GeoElement[] process(Command c) throws MyError {	
-
-		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-
-		if (n == 1) {
-			arg = resArgs(c);
-			
-			//center of sphere, infinite cone
-			if ((arg[0] instanceof GeoQuadric3D) && !(arg[0] instanceof GeoQuadric3DPart)) {
-				GeoElement[] ret = { (GeoElement) kernelA.getManager3D().CenterQuadric(c.getLabel(), (GeoQuadricND) arg[0]) };
-				return ret;
-			}
-
-		}
-
-
-		return super.process(c);
-	}
 	
+	
+	@Override
+	protected GeoElement[] process1(Command c, GeoElement arg) throws MyError {
+		if ((arg instanceof GeoQuadric3D) && !(arg instanceof GeoQuadric3DPart)) {
+			GeoElement[] ret = { (GeoElement) kernelA.getManager3D().CenterQuadric(c.getLabel(), (GeoQuadricND) arg) };
+			return ret;
+		}
+		
+		return super.process1(c, arg);
+
+	}
 	
 	@Override
 	protected GeoElement[] segment(String label, GeoSegmentND segment){

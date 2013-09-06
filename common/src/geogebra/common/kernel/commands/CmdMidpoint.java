@@ -37,18 +37,7 @@ public class CmdMidpoint extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoConic()) {
-				return conic(c.getLabel(), (GeoConicND) arg[0]);
-			} else if (arg[0].isGeoSegment()) {
-				return segment(c.getLabel(), (GeoSegmentND) arg[0]);
-			} else if (arg[0].isGeoInterval()) {
-				AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons, c.getLabel(),
-						(GeoInterval) arg[0]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			return process1(c,arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -73,6 +62,29 @@ public class CmdMidpoint extends CommandProcessor {
 	protected GeoElement[] segment(String label, GeoSegmentND segment){
 		GeoElement[] ret = { getAlgoDispatcher().Midpoint(label, (GeoSegment) segment) };
 		return ret;
+	}
+	
+
+	/**
+	 * process when 1 arg
+	 * @param c
+	 * @param arg
+	 * @return result
+	 * @throws MyError
+	 */
+	protected GeoElement[] process1(Command c, GeoElement arg) throws MyError {
+		if (arg.isGeoConic()) {
+			return conic(c.getLabel(), (GeoConicND) arg);
+		} else if (arg.isGeoSegment()) {
+			return segment(c.getLabel(), (GeoSegmentND) arg);
+		} else if (arg.isGeoInterval()) {
+			AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons, c.getLabel(),
+					(GeoInterval) arg);
+
+			GeoElement[] ret = { algo.getResult() };
+			return ret;
+		} else
+			throw argErr(app, c.getName(), arg);
 	}
 	
 	/**
