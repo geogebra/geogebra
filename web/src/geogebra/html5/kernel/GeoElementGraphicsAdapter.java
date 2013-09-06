@@ -57,12 +57,14 @@ public class GeoElementGraphicsAdapter extends
 		if("".equals(imageFileName)){
 			return;
 		}
-		String ext = imageFileName.substring(imageFileName.lastIndexOf('.')+1).toLowerCase();
+		int dotIndex = imageFileName.lastIndexOf('.');
+		String ext = imageFileName.substring(dotIndex+1).toLowerCase();
 	    if("png".equals(ext)){
 	    	return;
 	    }
 	    int index = imageFileName.lastIndexOf('/');
-	    String fn = imageFileName.substring(index+1,imageFileName.length()-ext.length()-1)+".png";
+	    int extDotLength = dotIndex < 0 ? 0 : ext.length()+1;
+	    String fn = imageFileName.substring(index+1, imageFileName.length() - extDotLength)+".png";
 	    MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 	    imageFileName = md5e.encrypt(fn)+"/"+fn;
     }
