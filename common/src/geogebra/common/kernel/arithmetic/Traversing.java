@@ -14,6 +14,7 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 /**
@@ -235,35 +236,84 @@ public interface Traversing {
 	 *
 	 */
 	public class VariableReplacer implements Traversing {
-		private String var;
-		private ExpressionValue newObj;
+		private List<String> vars = new ArrayList<String>();
+		private List<ExpressionValue> newObjs = new ArrayList<ExpressionValue>();
 		private int replacements;
+		
 		public ExpressionValue process(ExpressionValue ev) {
-				if(ev==newObj)
-					return new ExpressionNode(newObj.getKernel(),newObj);
-				if(!(ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable))
-					return ev;
-				if(!var.equals(ev.toString(StringTemplate.defaultTemplate))){					
-					return ev;
-				}
-				replacements++;
-				return newObj;
+			ExpressionValue val;
+			if ((val = contains(ev)) != null)
+				return new ExpressionNode(val.getKernel(), val);
+			if (!(ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable))
+				return ev;
+			if ((val = getVar(ev.toString(StringTemplate.defaultTemplate))) == null) {
+				return ev;
+			}
+			replacements++;
+			return val;
 		}
+		
 		/**
 		 * @return number of replacements since getReplacer was called
 		 */
 		public int getReplacements(){
 			return replacements;
 		}
+		
+		private static ExpressionValue contains(ExpressionValue ev) {
+			for (int i = 0; i < replacer.newObjs.size(); i++) {
+				if (replacer.newObjs.get(i) == ev) {
+					return replacer.newObjs.get(i);
+				}
+			}
+			return null;
+		}
+				
+		private static ExpressionValue getVar(String var) {
+			for(int i = 0; i < replacer.vars.size(); i++) {
+				if (var.equals(replacer.vars.get(i))) {
+					return replacer.newObjs.get(i);
+				}
+			}
+			return null;
+		}
+		
+		/**
+		 * @param varStr variable name
+		 * @param replacement replacement object
+		 */
+		public static void addVars(String varStr, ExpressionValue replacement) {
+			replacer.vars.add(varStr);
+			replacer.newObjs.add(replacement);
+		}
+		
 		private static VariableReplacer replacer = new VariableReplacer();
+		
 		/**
 		 * @param varStr variable name
 		 * @param replacement replacement object
 		 * @return replacer
 		 */
-		public static VariableReplacer getReplacer(String varStr,ExpressionValue replacement){
-			replacer.var = varStr;
-			replacer.newObj = replacement;
+		public static VariableReplacer getReplacer(String varStr, ExpressionValue replacement){
+			replacer.vars.clear();
+			replacer.newObjs.clear();
+			
+			replacer.vars.add(varStr);
+			replacer.newObjs.add(replacement);
+			
+			replacer.replacements = 0;
+			return replacer;
+		}
+		
+		/**
+		 * When calling this method, make sure you initialize the replacer with the
+		 * {@link #addVars(String, ExpressionValue)} method
+		 * @return replacer
+		 */
+		public static VariableReplacer getReplacer(){
+			replacer.vars.clear();
+			replacer.newObjs.clear();
+
 			replacer.replacements = 0;
 			return replacer;
 		}
@@ -722,16 +772,21 @@ public interface Traversing {
 						en2 = cas.evaluateToExpression(derivCommand, null).wrap();
 						
 					}
-					if(fv!=null){
+					if(fv != null) {
 						ExpressionValue argument = en.getRight().wrap().getCopy(en.getKernel()).traverse(this).unwrap();
 						ExpressionValue ithArg = argument;
-						for(int i=0;i<fv.length;i++){
-							if(en.getOperation()==Operation.FUNCTION_NVAR){
+						VariableReplacer vr = VariableReplacer.getReplacer();
+						
+						// variables have to be replaced with one traversing
+						// or else replacing f(x,y) with f(y,x)
+						// will result in f(x, x)
+						for(int i = 0; i < fv.length; i++){
+							if(en.getOperation() == Operation.FUNCTION_NVAR){
 								ithArg = ((MyList)argument).getListElement(i);
-							}								
-							VariableReplacer vr = VariableReplacer.getReplacer(fv[i].getSetVarString(), ithArg);
-							en2 = en2.traverse(vr).wrap();
+							}
+							VariableReplacer.addVars(fv[i].getSetVarString(), ithArg);
 						}
+						en2 = en2.traverse(vr).wrap();
 						return en2;
 					}
 				}
