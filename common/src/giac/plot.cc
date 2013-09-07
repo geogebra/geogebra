@@ -8476,11 +8476,11 @@ namespace giac {
 	}
 	if (der.type==_VECT && der._VECTptr->size()==2){
 	  gen droite=der._VECTptr->front()*(xy[0]-tr)+der._VECTptr->back()*(xy[1]-ti);
-	  gen sol=_solve(makesequence(makevecteur(droite,argv0),xy),contextptr);
-	  if (sol.type==_VECT && !is_undef(sol)){
+	  vecteur sol=gsolve(makevecteur(droite,argv0),*xy._VECTptr,false,contextptr);
+	  if (!is_undef(sol)){
 	    vecteur res;
-	    for (unsigned i=0;i<sol._VECTptr->size();++i){
-	      gen soli=normal((*sol._VECTptr)[i],contextptr);
+	    for (unsigned i=0;i<sol.size();++i){
+	      gen soli=normal(sol[i],contextptr);
 	      gen derp=subst(makevecteur(-der._VECTptr->back(),der._VECTptr->front()),xy,soli,false,contextptr);
 	      res.push_back(_droite(makesequence(soli,derp),contextptr));
 	    }
