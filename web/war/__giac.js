@@ -146,7 +146,7 @@ __giac = {
 144: { cmd:"Pascal[10,0.4,8,false]", result:"32665171968 / 762939453125" },
 145: { cmd:"Pascal[10,0.4,8,true]", result:"437580beta(10, 9, 2 / 5)" },
 146: { cmd:"Poisson[10,8,true]", result:"1/ℯ^10(461843/63)" },
-147: { cmd:"Poisson[10,8,false]", result:"156250/63/ℯ^10" },
+147: { cmd:"Poisson[10,8,false]", result:"156250 / (63ℯ¹⁰)" },
 148: { cmd:"PreviousPrime[99]", result:"97" },
 149: { cmd:"PrimeFactors[100]", result:"{2,2,5,5}" },
 150: { cmd:"Product[{x-1,x-1,x+1}]", result:"x³ - x² - x + 1" },
@@ -1288,6 +1288,11 @@ __giac = {
 1275: { cmd:"Solve[((30sqrt(10) + 358) x² + (-120 sqrt(10) - 1432) x - 104sqrt(10) + 745 + ((-39 sqrt(10) - 81) x + 78sqrt(10) + 162) sqrt((-26 sqrt(10) - 54) x² + (104sqrt(10) + 216) x - 38sqrt(10) - 5)),x]", result:"{x = (32sqrt(32358600030) + 35493894) / 17746947}", notes:"#3524" },
 1276: { cmd:"Solve[-17927500000000 x + 35855000000000 + 80000000000sqrt(5) sqrt(-355 x² + 1420x - 326)]", result:"{x = (32sqrt(32358600030) + 35493894) / 17746947}", notes:"#3524 OK in JNI" },
 1277: { cmd:"Solve[(((-30 sqrt(10) - 358) x² + (120sqrt(10) + 1432) x + 104sqrt(10) - 745 + ((-39 sqrt(10) - 81) x + 78sqrt(10) + 162) sqrt((-26 sqrt(10) - 54) x² + (104sqrt(10) + 216) x - 38sqrt(10) - 5)) / ((-448 sqrt(10) - 1374) x² + (1792sqrt(10) + 5496) x - 433sqrt(10) - 1195))]", result:"{x = (6sqrt(10) sqrt(224sqrt(10) + 687) sqrt(31) + 224sqrt(10) + 22sqrt(224sqrt(10) + 687) sqrt(31) + 687) / (3sqrt(10) sqrt(224sqrt(10) + 687) sqrt(31) + 11sqrt(224sqrt(10) + 687) sqrt(31))}", notes:"#3524 should be 1 root" },
+1278: { cmd:"Integral[abs((x - 1)² - 1)]", result:"1/12(-3(x-3)x^2sgn(x)-sgn(2-x)((x-3)x^2sgn(x)+3x^3-9x^2+16)+3x^3-9x^2+16)", notes:"result must be contonuous" },
+1279: { cmd:"Simplify[((2ℯ¹ - 3) / (ℯ¹)²)]", result:"", notes:"#3617" },
+1280: { cmd:"Integral[x*exp(-x),1,2]", result:"", notes:"#3617" },
+1281: { cmd:"Integral[x*ln(x),1,ℯ]", result:"", notes:"#3617" },
+
 
 // Java-killers
 // Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/ℯ]
