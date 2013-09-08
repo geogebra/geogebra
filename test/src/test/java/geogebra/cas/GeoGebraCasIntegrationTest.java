@@ -4157,6 +4157,14 @@ public class GeoGebraCasIntegrationTest {
     t("Factor[a / c + b / d]", "(a * d + b * c) / (c * d)");
   }
 
+  /* Ticket 3381: Problem with Solve and exponential function */
+
+  @Test
+  public void Ticket_Ticket3381_0 () {
+    t("Solve[{a = 2, 12 * sqrt(3) * a * b^2 * exp(-3 * b) - 6 * sqrt(3) * a * b *exp(-3 * b) = 0}, {a, b}]",
+        "{{a = 2, b = 0}, {a = 2, b = 1 / 2}}");
+  }
+
   /* Ticket 3385: Intersection and Union in CAS */
 
   @Test
