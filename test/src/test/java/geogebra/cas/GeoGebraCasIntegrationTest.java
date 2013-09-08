@@ -4140,6 +4140,23 @@ public class GeoGebraCasIntegrationTest {
     Assert.assertEquals("\\mathbf{\\sum_{y=somevar}^{g\\left(h\\right)}f\\left(y\\right)}", f.getLaTeXOutput());
   }
 
+  /* Ticket 3377: Expand Improvements */
+
+  @Test
+  public void Ticket_Ticket3377_0 () {
+    t("Expand[sqrt(3) * sqrt(3 + x - 1)]", "sqrt(3 * x + 6)");
+  }
+
+  @Test
+  public void Ticket_Ticket3377_1 () {
+    t("Expand[a / c + b / d]", "a / c + b / d");
+  }
+
+  @Test
+  public void Ticket_Ticket3377_2 () {
+    t("Factor[a / c + b / d]", "(a * d + b * c) / (c * d)");
+  }
+
   /* Ticket 3385: Intersection and Union in CAS */
 
   @Test
