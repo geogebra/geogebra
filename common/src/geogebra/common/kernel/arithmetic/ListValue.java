@@ -49,6 +49,11 @@ public interface ListValue extends ExpressionValue {
 	 * @return i-th element
 	 */
 	public ExpressionValue getListElement(int i);
+	
+	/**
+	 * @return true if list is matrix
+	 */
+	public boolean isMatrix();
 		
 }
 
