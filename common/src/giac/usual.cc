@@ -759,24 +759,28 @@ namespace giac {
 	      return pow(minus_one,kk,contextptr)*exp(b,contextptr);
 	  }
 	  int n,d,q,r;
-	  if (is_rational(kk,n,d) && d<7){ 
-	    q=-n/d;
-	    r=-n%d;
-	    if (q%2)
-	      q=-1;
-	    else
-	      q=1;
-	    if (d<0){ r=-r; d=-d; }
-	    if (r<0) r += 2*d;
-	    if (abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)
-	      return q*symb_exp(r*(cst_pi*cst_i/d));
-	    // exp(r*i*pi/d) -> use rootof([1,..,0],cyclotomic(2*d))
-	    vecteur vr(r+1);
-	    vr[0]=1;
-	    vecteur vc(cyclotomic(2*d));
-	    if (!is_undef(vc))
-	      return q*symb_rootof(vr,vc,contextptr)*exp(b,contextptr);
-	    // initially it was return q*symb_exp(r*(cst_pi*cst_i/d));
+	  if (is_rational(kk,n,d)){
+	    if (b==0 && (d==5 || d==10))
+	      return cos(kk*cst_pi,contextptr)-cst_i*sin(kk*cst_pi,contextptr);
+	    if (d<7){ 
+	      q=-n/d;
+	      r=-n%d;
+	      if (q%2)
+		q=-1;
+	      else
+		q=1;
+	      if (d<0){ r=-r; d=-d; }
+	      if (r<0) r += 2*d;
+	      if (abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)
+		return q*symb_exp(r*(cst_pi*cst_i/d));
+	      // exp(r*i*pi/d) -> use rootof([1,..,0],cyclotomic(2*d))
+	      vecteur vr(r+1);
+	      vr[0]=1;
+	      vecteur vc(cyclotomic(2*d));
+	      if (!is_undef(vc))
+		return q*symb_rootof(vr,vc,contextptr)*exp(b,contextptr);
+	      // initially it was return q*symb_exp(r*(cst_pi*cst_i/d));
+	    }
 	  }
 	} // end else multiple of pi/12
       } // end is_linear_wrt
@@ -801,6 +805,18 @@ namespace giac {
     return v;
   }
   static const char _exp_s []="exp";
+  string printasexp(const gen & g,const char * s,GIAC_CONTEXT){
+    if (
+	calc_mode(contextptr)==1
+	// xcas_mode(contextptr)==0
+	){
+      if (g.type>_REAL && g.type!=_IDNT)
+	return (calc_mode(contextptr)==1?"ℯ^(":"e^(")+g.print(contextptr)+")";
+      return (calc_mode(contextptr)==1?"ℯ^":"e^")+g.print(contextptr);
+    }
+    else
+      return "exp("+g.print(contextptr)+")";
+  }
   static string texprintasexp(const gen & g,const char * s,GIAC_CONTEXT){
     return "e^{"+gen2tex(g,contextptr)+"}";
   }

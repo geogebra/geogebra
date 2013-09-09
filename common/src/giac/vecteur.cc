@@ -1480,16 +1480,21 @@ namespace giac {
 	return ans;
       }
       // non-0, next one must be 0
-      if (i<dim-2 && dim*eps<std::abs(H1[i+2][i+1])){
+      double test=0;
+      if (i<dim-2)
+	test=std::abs(H1[i+2][i+1])/(std::abs(H1[i+1][i+1])+std::abs(H1[i][i])+std::abs(H1[i+1][i])+std::abs(H1[i][i+1]));
+      if (i<dim-2 && dim*eps<test){
 #ifndef GIAC_HAS_STO_38
 	*logptr(contextptr) << gettext("schur row ") << i+2 << " " << H1[i+2][i+1] << endl;
 #endif
 	ans=false;
-	if (std::sqrt(eps)<std::abs(H1[i+2][i+1]))
+	if (std::sqrt(eps)<test)
 	  continue;
       }
-      if (i==dim-1)
-	return false;
+      if (i==dim-1){
+	res.push_back(double(H1[i][i]));	
+	return true;
+      }
       giac_double l1,l2;
       if (eigenval2(H1,i+2,l1,l2)){
 	res.push_back(double(l1));

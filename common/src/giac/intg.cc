@@ -951,7 +951,19 @@ namespace giac {
 	*/
 	gen tmpv=_e2r(makesequence(Py,gen_x),contextptr);
 	if (tmpv.type!=_VECT){
-	  tmpv=vecteur(1,tmpv); // change 3/1/2013 for int(sqrt(1+x^2)/(-2*x^2))
+	  if (tmpv.type==_FRAC){
+	    if (tmpv._FRACptr->den.type==_VECT){
+	      if (tmpv._FRACptr->den._VECTptr->size()!=1){
+		*logptr(contextptr) << "Internal error integrating sqrt" << endl;
+		return false;
+	      }
+	      tmpv._FRACptr->den=tmpv._FRACptr->den._VECTptr->front();
+	    }
+	    if (tmpv._FRACptr->num.type==_VECT)
+	      tmpv=multvecteur(inv(tmpv._FRACptr->den,contextptr),*tmpv._FRACptr->num._VECTptr);
+	  }
+	  if (tmpv.type!=_VECT)
+	    tmpv=vecteur(1,tmpv); // change 3/1/2013 for int(sqrt(1+x^2)/(-2*x^2))
 	  // res= gensizeerr(contextptr);
 	  // return true;
 	}
@@ -2032,6 +2044,8 @@ namespace giac {
 	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
       return gen_x*symbolic(at_NTHROOT,f)/(a+a/b);
     }
+    if (has_op(e,at_surd) || has_op(e,at_NTHROOT))
+      *logptr(contextptr) << gettext("Please enter fractional powers for more complete answers, like x^(1/3)") << endl;
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 1 ") << e << endl;
 #endif

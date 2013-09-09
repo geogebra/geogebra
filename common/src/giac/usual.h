@@ -867,6 +867,7 @@ namespace giac {
   gen Ei_replace0(const gen & g,GIAC_CONTEXT);
   gen _Dirac(const gen & args,GIAC_CONTEXT);
   gen _Heaviside(const gen & args,GIAC_CONTEXT);
+  std::string printasexp(const gen & g,const char * s,GIAC_CONTEXT);
   std::string printassubs(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
   std::string printasmaple_subs(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
   void fonction_bidon();

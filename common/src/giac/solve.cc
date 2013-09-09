@@ -5007,6 +5007,13 @@ namespace giac {
     }
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
+    if (s==1){
+      vecteur v=solve(eq_orig,var[0],complexmode,contextptr);
+      for (unsigned i=0;i<v.size();++i){
+	v[i]=makevecteur(v[i]);
+      }
+      return v;
+    }
 #if 0
     if (s>int(eq_orig.size())){
       *logptr(contextptr) << gettext("Warning: solving by reducing number of unknowns to number of equations: ") << var_orig << " -> " << vecteur(it,it+eq_orig.size()) << endl;

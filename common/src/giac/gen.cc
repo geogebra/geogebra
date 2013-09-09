@@ -7665,8 +7665,22 @@ namespace giac {
     }
     if (a.type!=_SYMB)
       return 0;
+    if (a._SYMBptr->sommet==at_neg)
+      return monomial_degree(a._SYMBptr->feuille);
+    if (a._SYMBptr->sommet==at_inv)
+      return -monomial_degree(a._SYMBptr->feuille);
     if (a._SYMBptr->sommet==at_pow && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
       return (*a._SYMBptr->feuille._VECTptr)[1];
+    if (a._SYMBptr->sommet==at_plus){
+      gen af=a._SYMBptr->feuille;
+      if (af.type!=_VECT)
+	return monomial_degree(af);
+      gen res(0);
+      for (unsigned i=0;i<af._VECTptr->size();++i){
+	res = max(res,monomial_degree((*af._VECTptr)[i]),context0);
+      }
+      return res;
+    }
     if (a._SYMBptr->sommet!=at_prod)
       return 0;
     gen af=a._SYMBptr->feuille;
@@ -7686,7 +7700,7 @@ namespace giac {
       return false;
     if (a._SYMBptr->sommet==at_pow)
       return true;
-    if (a._SYMBptr->sommet!=at_prod)
+    if (a._SYMBptr->sommet!=at_prod && a._SYMBptr->sommet!=at_plus && a._SYMBptr->sommet!=at_neg && a._SYMBptr->sommet!=at_inv)
       return false;
     gen af=a._SYMBptr->feuille;
     if (af.type!=_VECT)
@@ -7878,6 +7892,8 @@ namespace giac {
       if (s==2 && (sorted || tmp.subtype==_SORTED__VECT))
 	return makevecteur(v[0],v[1]);
       vecteur vtmp(v.begin(),v.end());
+      for (unsigned i=0;i<vtmp.size();++i)
+	vtmp[i]=simplifier(vtmp[i],contextptr);
       sort(vtmp.begin(),vtmp.end(),modified_islesscomplexthanf);
       // collect term with the same power
       const_iterateur it=vtmp.begin(),itend=vtmp.end();
