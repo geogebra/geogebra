@@ -4,8 +4,8 @@ import geogebra.common.main.GeoGebraPreferences;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
-import geogebra.web.Web;
-import geogebra.web.Web.GuiToLoad;
+import geogebra.web.WebStatic;
+import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
@@ -36,10 +36,10 @@ public class LoadFilePresenter{
 		String fileId;
 		
 		AppWeb app = view.getApplication();
-		if(Web.urlToOpen != null ){
+		if(WebStatic.urlToOpen != null ){
 			getView().showLoadAnimation();
-			getView().processFileName(Web.urlToOpen);
-			Web.urlToOpen = null;
+			getView().processFileName(WebStatic.urlToOpen);
+			WebStatic.urlToOpen = null;
 		}
 		else if (isReloadDataInStorage()){
 			//do nothing here - everything done in isReloadDataInStorage() function 
@@ -85,7 +85,7 @@ public class LoadFilePresenter{
 		app.getKernel().setShowAnimationButton(view.getDataParamShowAnimationButton());
 		
 		
-		boolean undoActive = (showToolBar || showMenuBar || Web.currentGUI.equals(GuiToLoad.APP));
+		boolean undoActive = (showToolBar || showMenuBar || WebStatic.currentGUI.equals(GuiToLoad.APP));
 
 		app.setUndoActive(undoActive);			
 

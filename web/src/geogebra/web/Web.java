@@ -8,24 +8,18 @@ import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.asyncservices.HandleGoogleDriveService;
-import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
-import geogebra.web.asyncservices.HandleOAuth2Service;
-import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
+import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.Dom;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -38,20 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Web implements EntryPoint {
-	
-	
-	
 
-	/**
-	 * Google Authorization class entry point.
-	 */
-	public static final Auth AUTH = Auth.get();
-	/**
-	 * Global Async for communication with the server
-	 */
-	public final static HandleGoogleDriveServiceAsync gdAsync = GWT.create(HandleGoogleDriveService.class);
-	public final static HandleOAuth2ServiceAsync oaAsync = GWT.create(HandleOAuth2Service.class);
-	
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);
 	}
@@ -66,35 +47,7 @@ public class Web implements EntryPoint {
 		}
 		return articleNodes;
 	}
-	
-	/**
-	 * @author gabor
-	 * Describes the Gui type that needed to load
-	 *
-	 */
-	
-	public enum GuiToLoad {
-		/**
-		 * Gui For an App.
-		 */
-		APP, 
-		/**
-		 * Gui for a mobile
-		 */
-		MOBILE,
-		/**
-		 * No Gui, only euclidianView
-		 */
-		VIEWER
-	}
-	
-	/**
-	 * GUI currently Loaded
-	 */
-	public static GuiToLoad currentGUI = null;
-	public static Panel panelForApplets;
-	public static String urlToOpen;
-	public static AppW lastApp;
+
 	/**
 	 * set true if Google Api Js loaded
 	 */
@@ -113,20 +66,20 @@ public class Web implements EntryPoint {
 		GeoGebraProfiler.getInstance().profile();
 
 		
-		Web.currentGUI = checkIfNeedToLoadGUI();
+		WebStatic.currentGUI = checkIfNeedToLoadGUI();
 		
 		
 		
 //		setLocaleToQueryParam();
 				
-		if (Web.currentGUI.equals(GuiToLoad.VIEWER)) {
+		if (WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
 			//we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
 			} else {
 				loadExtensionAsync();
 			}
-		} else if (Web.currentGUI.equals(GuiToLoad.APP)) {
+		} else if (WebStatic.currentGUI.equals(GuiToLoad.APP)) {
 			loadAppAsync();
 		}
 	}

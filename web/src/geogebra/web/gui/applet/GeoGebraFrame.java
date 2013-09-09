@@ -6,7 +6,7 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.View;
 import geogebra.html5.util.debug.GeoGebraLogger;
-import geogebra.web.Web;
+import geogebra.web.WebStatic;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.main.AppW;
 import geogebra.web.main.AppWapplet;
@@ -221,10 +221,10 @@ public class GeoGebraFrame extends VerticalPanel {
 			inst.ae = articleElement;
 			GeoGebraLogger.startLogger(inst.ae);
 			inst.createSplash(articleElement);	
-			if(Web.panelForApplets == null){
+			if(WebStatic.panelForApplets == null){
 				RootPanel.get(articleElement.getId()).add(inst);
 			}else{
-				Web.panelForApplets.add(inst);
+				WebStatic.panelForApplets.add(inst);
 			}
 		}
 	}
@@ -280,7 +280,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 */
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
 		AppW app = new AppWapplet(ae, gf);
-		Web.lastApp = app;
+		WebStatic.lastApp = app;
 		return app;
 	}
 
@@ -292,7 +292,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 */
 	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
 		AppW app = new AppWsimple(ae, gf);
-		Web.lastApp = app;
+		WebStatic.lastApp = app;
 		return app;
 	}
 

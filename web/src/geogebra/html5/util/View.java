@@ -4,7 +4,7 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.Web;
+import geogebra.web.WebStatic;
 
 import java.util.HashMap;
 
@@ -147,7 +147,7 @@ public class View {
 	
 	public void openFromLastApp(){
 		try{
-			archiveContent = Web.lastApp.getGgbApi().createArchiveContent(false);
+			archiveContent = WebStatic.lastApp.getGgbApi().createArchiveContent(false);
 			maybeLoadFile();
 		}catch(Exception e){
 			e.printStackTrace();

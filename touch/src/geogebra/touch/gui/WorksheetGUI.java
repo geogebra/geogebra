@@ -8,7 +8,8 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.web.Web;
-import geogebra.web.Web.GuiToLoad;
+import geogebra.web.WebStatic;
+import geogebra.web.WebStatic.GuiToLoad;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -107,9 +108,9 @@ public class WorksheetGUI extends HeaderPanel {
 			}
 			this.frame.getElement().appendChild(article);
 			this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
-			Web.currentGUI = GuiToLoad.VIEWER;
-			Web.panelForApplets = this.frame;
-			Web.urlToOpen = "http://www.geogebratube.org/files/material-"
+			WebStatic.currentGUI = GuiToLoad.VIEWER;
+			WebStatic.panelForApplets = this.frame;
+			WebStatic.urlToOpen = "http://www.geogebratube.org/files/material-"
 					+ m.getId() + ".ggb";
 			Web.loadAppletAsync();
 
