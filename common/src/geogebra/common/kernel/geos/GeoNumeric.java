@@ -312,7 +312,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean showInEuclidianView() {
 		return isDrawable()
 				&& isDefined()
-				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()));
+				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()))
+				&& (getIntervalMin() < getIntervalMax());
 	}
 
 	@Override
@@ -1024,11 +1025,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		boolean ok = (getIntervalMin() <= getIntervalMax());
 		setIntervalMinActive(ok && okMin);
 		setIntervalMaxActive(ok && okMax);
-		if (ok && okMin && okMax)
+		if ((ok && okMin && okMax)|| (getIntervalMin() == getIntervalMax() && okMin && okMax))
 			setValue(isDefined() ? value : 1.0);
 		else if (okMin && okMax)
 			setUndefined();
-		if(oldValue!=value)
+//		if(oldValue!=value)
 			updateCascade();
 	}
 
