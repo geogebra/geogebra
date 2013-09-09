@@ -282,7 +282,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Selftest_Forget_0 () {
-    t("f(x) := x^2 + p * x + q", "x^(2) + p * x + q", "p * x + q + x^(2)");
+    t("f(x) := x^2 + p * x + q", "x^(2) + p * x + q", "p * x + q + x^(2)", "x^(2) + x * p + q");
   }
 
   @Test
@@ -294,8 +294,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Selftest_Remember_0 () {
-    t("f(x) := x^2 + p * x + q", "x^(2) + p * x + q", "p * x + q + x^(2)");
-    t("f(x)", "x^(2) + p * x + q", "p * x + q + x^(2)");
+    t("f(x) := x^2 + p * x + q", "x^(2) + p * x + q", "p * x + q + x^(2)", "x^(2) + x * p + q");
+    t("f(x)", "x^(2) + p * x + q", "p * x + q + x^(2)", "x^(2) + x * p + q");
   }
 
 
@@ -519,7 +519,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Function_4 () {
-    t("f(t) := Numeric[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(2.2360679775 * t + 3, t + 1.414213562373)");
+    t("f(t) := Numeric[(3, sqrt(2)) + t * (sqrt(5), 1), 10]", "(2.2360679775 * t + 3, t + 1.4142135624)");
   }
 
   @Test
@@ -1180,7 +1180,7 @@ public class GeoGebraCasIntegrationTest {
     } catch (Throwable t) {
       Throwables.propagate(t);
     }
-    t("Derivative[a x^3]", "3 * a * x^(2)");
+    t("Derivative[a x^3]", "3 * a * x^(2)", "3 * x^(2) * a");
   }
 
   @Test
@@ -1333,7 +1333,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Expand_2 () {
-    t("Expand[Factor[a x^2 + b x^2]]", "a * x^(2) + b * x^(2)");
+    t("Expand[Factor[a x^2 + b x^2]]", "a * x^(2) + b * x^(2)", "x^(2) * a + x^(2) * b");
   }
 
   @Test
@@ -1740,7 +1740,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Integral_Indefinite_2 () {
-    s("Integral[-x^3 + x^2]", "+ 1 / 3 * x^(3) - 1 / 4 * x^(4) + c_INDEX");
+    s("Integral[-x^3 + x^2]", "(-1) / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
   }
 
   /* Definite Integral */
@@ -2179,6 +2179,11 @@ public class GeoGebraCasIntegrationTest {
   public void NumericEvaluation_ConstantsOnly_3 () {
     t("Numeric[sin(1), 20 ]", "0.84147098480789650665");
   }
+  
+  @Test
+  public void NumericEvaluation_ConstantsOnly_4 () {
+    t("a := Numeric[sin(1), 20 ]", "0.84147098480789650665");
+  }
 
   /* One Variable */
 
@@ -2190,6 +2195,11 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void NumericEvaluation_OneVariable_1 () {
     t("Numeric[x + 0.2 x]", "1.2 * x");
+  }
+  
+  @Test
+  public void NumericEvaluation_OneVariable_2 () {
+    t("f(x) := Numeric[x + 0.2 x + 1 / 3, 10]", "1.2 * x + 0.3333333333");
   }
 
   /* Two Variables */
@@ -3113,7 +3123,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricEMP_4 () {
-    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {t, s}]", "{{t = 2 - 2 * s, s = s}}");
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {t, s}]", "{{t = -2 * s + 2, s = s}}");
   }
 
   @Test
@@ -3123,7 +3133,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricEMP_6 () {
-    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), t]", "{t = 2 - 2 * s}");
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), t]", "{t = -2 * s + 2}");
   }
 
   @Test
@@ -3166,7 +3176,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricFMP_5 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
-    t("Solve[f(t, s) = (13, 4), {t, s}]", "{{t = 2 - 2 * s, s = s}}");
+    t("Solve[f(t, s) = (13, 4), {t, s}]", "{{t = 2 - 2 * s, s = s}}", "{{t = -2 * s + 2, s = s}}");
   }
 
   @Test
@@ -3178,7 +3188,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricFMP_7 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
-    t("Solve[f(t, s) = (13, 4), t]", "{t = 2 - 2 * s}");
+    t("Solve[f(t, s) = (13, 4), t]", "{t = 2 - 2 * s}", "{t = -2 * s + 2}");
   }
 
   @Test
@@ -3225,7 +3235,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricET_3 () {
-    t("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", "{{t = 0, s = -1 / 2}}");
+    t("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", "{{t = 0, s = (-1) / 2}}");
   }
 
   @Test
@@ -3258,7 +3268,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricMEE_3 () {
-    t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]", "{{x = 3, y = 2, t = 0, s = -1 / 2}}");
+    t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]", "{{x = 3, y = 2, t = 0, s = (-1) / 2}}");
   }
 
   @Test
@@ -3312,7 +3322,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricMEL_0 () {
     t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
     t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
-    t("Solve[{f, g}, {t, s}]", "{{t = 0, s = -1 / 2}}");
+    t("Solve[{f, g}, {t, s, x, y}]", "{{t = 0, s = (-1) / 2, x = 3, y = 2}}");
   }
 
   @Test
@@ -3326,7 +3336,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricMEL_2 () {
     t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
     t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
-    t("Numeric[Solve[{f, g}, {t, s}]]", "{{t = 0, s = -0.5}}");
+    t("Numeric[Solve[{f, g}, {t, s, x, y}]]", "{{t = 0, s = -0.5, x = 3, y = 2}}");
   }
 
   @Test
@@ -3341,7 +3351,7 @@ public class GeoGebraCasIntegrationTest {
     t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
     t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[{f, g}, {t, s}]", "Löse[{f, g}, {t, s}]");
+    tk("Solve[{f, g}, {t, s, x, y}]", "Löse[{f, g}, {t, s, x, y}]");
   }
 
   @Test
@@ -3364,8 +3374,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricMF_1 () {
     t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
-    t("g(s) := (4, 1) + s (10, 2)", "(10 * s + 4, 2 * s + 1)");
-    t("Solve[f(u) = g(v), {t, s}]", "{{u = 2 * v + 1, v = v}}");
+    t("g(s) := (8, 3) + s (10, 2)", "(10 * s + 8, 2 * s + 3)");
+    t("Solve[f(u) = g(v), {u, v}]", "{{u = 2 * v + 1, v = v}}");
   }
 
   @Test
@@ -3379,7 +3389,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricMF_3 () {
     t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
     t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
-    t("Solve[f(u) = g(v), {u, v}]", "{{u = 0, v = -1 / 2}}");
+    t("Solve[f(u) = g(v), {u, v}]", "{{u = 0, v = (-1) / 2}}");
   }
 
   @Test
@@ -3401,7 +3411,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricMF_6 () {
     t("f(t) := (1, 2) + t * (2, 8)", "(2 * t + 1, 8 * t + 2)");
     t("g(t) := (1, 1) + t * (2, 1)", "(2 * t + 1, t + 1)");
-    t("Solve[f(t) = g(s), {t, s}]", "{{t = -1 / 7, s = -1 / 7}}");
+    t("Solve[f(t) = g(s), {t, s}]", "{{t = (-1) / 7, s = (-1) / 7}}");
   }
 
   /* Parametrics Three Dimensions */
@@ -3705,7 +3715,7 @@ public class GeoGebraCasIntegrationTest {
   // not break because the point is not on the curve.
   @Test
   public void Mike_1260 () {
-    t("Tangent[(1, 1), x^3 + y^3 = 1]", "Insert expected result here.");
+    t("Tangent[(1, 1), x^3 + y^3 = 1]", "(x - 1) * (y - 1) = 0");
   }
 
   @Test
@@ -4012,12 +4022,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Ticket_Ticket801_3 () {
-    t("Numeric[IFactor(x^2 - 2)]", "(x - 1.414213562373) * (x + 1.414213562373)");
+    t("Numeric[IFactor(x^2 - 2), 12]", "(x - 1.414213562373) * (x + 1.414213562373)");
   }
 
   @Test
   public void Ticket_Ticket801_4 () {
-    t("Numeric[CIFactor(x^2 - 2)]", "(x - 1.414213562373) * (x + 1.414213562373)");
+    t("Numeric[CIFactor(x^2 - 2), 12]", "(x - 1.414213562373) * (x + 1.414213562373)");
   }
 
   /* Ticket 1274: Derivative of exp(2x) wrong */
@@ -4154,7 +4164,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Ticket_Ticket3377_2 () {
-    t("Factor[a / c + b / d]", "(a * d + b * c) / (c * d)");
+    t("Factor[a / c + b / d]", "(a * d + b * c) / (c * d)", "(a * d + c * d) / (d * c)");
   }
 
   /* Ticket 3381: Problem with Solve and exponential function */
@@ -4240,7 +4250,7 @@ public class GeoGebraCasIntegrationTest {
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("Solve[f'(x) = 0, x]",
-        "{x = (2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) - 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
+        "{x = (2 * sqrt(10) * sqrt(31 * (224 * sqrt(10) + 687)) + 806 * sqrt(10) - 3 * sqrt(31 * (224 * sqrt(10) + 687)) + 1674) / (403 * sqrt(10) + 837)}");
     t("g(x) := f'(x)",
         "(-(30 * sqrt(10) + 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + (-(39 * sqrt(10) + 81) * x + 78 * sqrt(10) + 162) * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-(448 * sqrt(10) + 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)",
         "((-30 * sqrt(10) - 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((-39 * sqrt(10) - 81) * x + 78 * sqrt(10) + 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((-448 * sqrt(10) - 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)");
