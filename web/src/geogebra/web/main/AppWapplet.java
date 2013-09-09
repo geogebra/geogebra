@@ -23,8 +23,6 @@ import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
 
-import javax.naming.OperationNotSupportedException;
-
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
@@ -339,7 +337,6 @@ public class AppWapplet extends AppW {
 	 * Check if just the euclidian view is visible in the document just loaded.
 	 * 
 	 * @return
-	 * @throws OperationNotSupportedException
 	 */
 	private boolean isJustEuclidianVisible() {
 		if (tmpPerspectives == null) {
