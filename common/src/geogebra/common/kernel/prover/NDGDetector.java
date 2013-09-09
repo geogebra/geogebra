@@ -180,7 +180,7 @@ public class NDGDetector {
 			}
 		}
 
-		// CHECKING PERPENDICULARITY
+		// CHECKING PERPENDICULARITY AND PARALLELISM
 
 		Combinations pairs1 = new Combinations(freePointsSet,2);
 		
@@ -226,6 +226,19 @@ public class NDGDetector {
 					NDGCondition ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					ndgc.setCondition("ArePerpendicular");
+					ndgc.setReadability(0.75);
+					return ndgc;
+				}
+				// Creating the polynomial for parallelism:
+				eq = Polynomial.parallel(fv1[0], fv1[1],
+						fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
+						.substitute(substitutions);
+				if (Polynomial.areAssociates1(p, eq)) {
+					App.debug(p + " means parallelism for " + pair1 +
+							" and " + pair2);
+					NDGCondition ndgc = new NDGCondition();
+					ndgc.setGeos(points);
+					ndgc.setCondition("AreParallel");
 					ndgc.setReadability(0.75);
 					return ndgc;
 				}
