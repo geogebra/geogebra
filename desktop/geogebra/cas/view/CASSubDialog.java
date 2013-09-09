@@ -187,8 +187,10 @@ public class CASSubDialog extends JDialog implements ActionListener {
 
 	private void initData(GeoCasCell cell) {
 		HashSet<GeoElement> vars = new HashSet<GeoElement>();
-		for(GeoElement var:cell.getInputVE().getVariables()){
-			addVariables(var,vars);
+		if (cell.getInputVE().getVariables() != null) {
+			for (GeoElement var : cell.getInputVE().getVariables()) {
+				addVariables(var, vars);
+			}
 		}
 		Vector<String> row;
 		data = new Vector<Vector<String>>(vars.size() + 1);

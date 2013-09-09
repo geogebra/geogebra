@@ -1230,10 +1230,13 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 *            command
 	 */
 	final public void setEvalCommand(final String cmd) {
-		if (cmd.equals("Evaluate")) {
+		if ("Evaluate".equals(cmd)) {
 			evalCmd = "";
 			setKeepInputUsed(false);
 			return;
+		} 
+		if ("Substitute".equals(cmd)) {
+			updateInputVariables(evalVE);
 		}
 		evalCmd = cmd;
 
