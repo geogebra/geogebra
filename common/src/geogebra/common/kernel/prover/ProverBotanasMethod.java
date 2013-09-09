@@ -349,12 +349,15 @@ public class ProverBotanasMethod {
 					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 					
 					Set<Set<Polynomial>> eliminationIdeal;
+					NDGDetector ndgd = new NDGDetector(prover, substitutions);
 					
 					boolean found = false;
 					int permutation = 0;
 					int MAX_PERMUTATIONS = 1; // Giac cannot permute the variables at the moment.
-					if (App.singularWS != null && App.singularWS.isAvailable())
-						MAX_PERMUTATIONS = 20; // intuitively set, see Polynomial.java for more on info
+					if (App.singularWS != null && App.singularWS.isAvailable()) {
+						// MAX_PERMUTATIONS = 20; // intuitively set, see Polynomial.java for more on info
+						MAX_PERMUTATIONS = 1; // no need to use it right now since we don't know an example where it helps
+					}
 					while (!found && permutation < MAX_PERMUTATIONS) {
 
 						eliminationIdeal = Polynomial.eliminate(eqSystem,
@@ -381,8 +384,7 @@ public class ProverBotanasMethod {
 								if (!Polynomial.areAssociates1(poly,
 										new Polynomial(1))) { // poly is not 1
 																// or -1
-									NDGCondition ndgc = NDGDetector.detect(
-											poly, prover, substitutions);
+									NDGCondition ndgc = ndgd.detect(poly);
 									if (ndgc == null)
 										readable = false;
 									else {

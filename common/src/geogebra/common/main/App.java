@@ -1165,6 +1165,10 @@ public abstract class App implements UpdateSelection{
 		Log.error(s,5);
 	}
 	
+	public static void trace(String string) {
+		Log.trace(string);
+	}
+	
 	/**
 	 * Shows an announcement in the infobar.
 	 * @param message the information (preferably one line)

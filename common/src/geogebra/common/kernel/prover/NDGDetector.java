@@ -18,21 +18,50 @@ import java.util.List;
  * Detects polynomial NDG conditions and turns into human readable form
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * 
- * TODO: This code could be highly improved by creating a lookup table.
  */
 public class NDGDetector {
+	
+	private HashMap<String,NDGCondition> lookupTable;
+	private Prover prover;
+	private HashMap<Variable, Integer> substitutions;
+	
+	/**
+	 * Creates an NDGDetector instance.
+	 * The NDG detector will try to detect geometrical meanings of polynomials
+	 * for the same prover and substitutions. 
+	 * @param prover The prover we are create this instance for.
+	 * @param substitutions Fix substitutions.
+	 */
+	NDGDetector(Prover prover, HashMap<Variable, Integer> substitutions) {
+		lookupTable = new HashMap<String,NDGCondition>();
+		this.prover = prover;
+		this.substitutions = substitutions;
+	}
 
 	/**
 	 * Returns the NDG condition (as a GeoGebra object) if the input polynomial is detected as a
 	 * recognizable geometrically meaningful condition (collinearity, equality etc.).
 	 * TODO: Implement missing features (parallelism, perpendicularity etc.).
 	 * @param p input polynomial
-	 * @param prover input prover
-	 * @param substitutions if fixed coordinates are used, the fix coordinates for certain variables
 	 * @return the NDG condition
 	 */
-	public static NDGCondition detect(Polynomial p, Prover prover, HashMap<Variable, Integer> substitutions) {
+	public NDGCondition detect(Polynomial p) {
 
+		/* Maybe this condition was already detected,
+		 * or marked as unreadable. By using the lookup
+		 * table, we don't have to do heavy computations twice.
+		 */
+		NDGCondition ndgc = null;
+		String keyString = p.substitute(substitutions).toString();
+		ndgc = lookupTable.get(keyString);
+		if (lookupTable.containsKey(keyString)) {
+			ndgc = lookupTable.get(keyString);
+			if (ndgc != null && ndgc.getReadability() == Double.POSITIVE_INFINITY) {
+				return null;
+			}
+			return ndgc;
+		}
+		
 		App.debug("Trying to detect polynomial " + p);
 		List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(prover.getStatement());
 		HashSet<GeoElement>freePointsSet = new HashSet<GeoElement>(freePoints);
@@ -59,10 +88,11 @@ public class NDGDetector {
 			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, coll)) {
 				App.debug(p + " means collinearity for " + triplet);
-				NDGCondition ndgc = new NDGCondition();
+				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("AreCollinear");
+				lookupTable.put(keyString, ndgc);
 				return ndgc;
 			}
 		}
@@ -88,11 +118,12 @@ public class NDGDetector {
 			Polynomial eq = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, eq)) {
 				App.debug(p + " means equality for " + pair);
-				NDGCondition ndgc = new NDGCondition();
+				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("AreEqual");
 				ndgc.setReadability(0.5);
+				lookupTable.put(keyString, ndgc);
 				return ndgc;
 			}
 		}
@@ -138,15 +169,13 @@ public class NDGDetector {
 			Polynomial xeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1]))).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, xeq)) {
 				App.debug(p + " means x-equality for " + pair);
-				return null;  // we don't want this condition
-				/*
-				NDGCondition ndgc = new NDGCondition();
+				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("xAreEqual");
-				ndgc.setReadability(5); // we don't want this condition
+				ndgc.setReadability(Double.POSITIVE_INFINITY); // we don't want this condition
+				lookupTable.put(keyString, ndgc);
 				return ndgc;
-				*/
 			}
 		}
 
@@ -168,15 +197,13 @@ public class NDGDetector {
 			Polynomial yeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1]))).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, yeq)) {
 				App.debug(p + " means y-equality for " + pair);
-				return null; // we don't want this condition
-				/*
-				NDGCondition ndgc = new NDGCondition();
+				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("yAreEqual");
-				ndgc.setReadability(5); // we don't want this condition
+				ndgc.setReadability(Double.POSITIVE_INFINITY); // we don't want this condition
+				lookupTable.put(keyString, ndgc);
 				return ndgc;
-				*/
 			}
 		}
 
@@ -223,10 +250,11 @@ public class NDGDetector {
 				if (Polynomial.areAssociates1(p, eq)) {
 					App.debug(p + " means perpendicularity for " + pair1 +
 							" and " + pair2);
-					NDGCondition ndgc = new NDGCondition();
+					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					ndgc.setCondition("ArePerpendicular");
 					ndgc.setReadability(0.75);
+					lookupTable.put(keyString, ndgc);
 					return ndgc;
 				}
 				// Creating the polynomial for parallelism:
@@ -236,10 +264,11 @@ public class NDGDetector {
 				if (Polynomial.areAssociates1(p, eq)) {
 					App.debug(p + " means parallelism for " + pair1 +
 							" and " + pair2);
-					NDGCondition ndgc = new NDGCondition();
+					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					ndgc.setCondition("AreParallel");
 					ndgc.setReadability(0.75);
+					lookupTable.put(keyString, ndgc);
 					return ndgc;
 				}
 			}
@@ -276,10 +305,11 @@ public class NDGDetector {
 				if (Polynomial.areAssociates1(p, eq)) {
 					App.debug(p + " means being isosceles triangle for base " + pair
 							+ " and opposite vertex " + points[1]);
-					NDGCondition ndgc = new NDGCondition();
+					ndgc = new NDGCondition();
 					ndgc.setGeos(points);			
 					ndgc.setCondition("IsIsoscelesTriangle");
 					ndgc.setReadability(1.25);
+					lookupTable.put(keyString, ndgc);
 					return ndgc;
 				}
 			}
@@ -287,6 +317,7 @@ public class NDGDetector {
 
 		// Unsuccessful run:
 		App.debug("No human readable geometrical meaning found for " + p);
+		lookupTable.put(keyString, null);
 		
 		return null;
 	}	
