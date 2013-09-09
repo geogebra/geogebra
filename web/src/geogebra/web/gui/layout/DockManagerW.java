@@ -393,6 +393,22 @@ public class DockManagerW implements  SetLabels {
 			int windowHeight;
 			if (app.isApplet() || !App.isFullAppGui()) {
 
+				// Set applet split pane dividers:
+				// 1) Use the ggb xml window size to set dividers
+				// 2) Resize the applet to dimensions given by the data-param
+				// settings. 
+				// This emulates the way Java applets are created and sized.
+
+				// Set the window dimensions to the ggb xml <window> tag size.
+				windowWidth = app.getPreferredSize().getWidth();;
+				windowHeight = app.getPreferredSize().getHeight();;
+				
+				// Set the split pane dividers
+				rootPane.clear();
+				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth);
+				
+				// Now find the correct applet window dimensions and resize the rootPane.
+				
 				// window width can be get almost exactly
 				windowWidth = app.getDataParamWidth();
 
@@ -425,12 +441,14 @@ public class DockManagerW implements  SetLabels {
 				if (windowHeight <= 0)
 					windowHeight = sph.get(rootPane);
 
-				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
 
 				// for debugging
 				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
+				
 			} else {
+				
+				//set dividers for application 
 				windowWidth = app.getOWidth();
 				windowHeight = app.getOHeight();
 				windowHeight -= GGWFrameLayoutPanel.MINUS_FROM_HEIGHT;
@@ -440,21 +458,11 @@ public class DockManagerW implements  SetLabels {
 
 				// this might be good as well:
 				//rootPane.setPixelSize(windowWidth, windowHeight);
+				
+				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth);
 			}
 
-			// set the dividers of the split panes
-			for (int i = 0; i < spData.length; ++i) {
-				splitPanes[i].clear();
-				// don't set splitpane width/height here, because that would call onResize
-				if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-					splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowHeight ));
-				} else {
-					splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowWidth ));
-				}
-			}
-
-			rootPane.setComponentsSilentRecursive();
-
+		
 			markAlonePanel();
 
 			// is focused dock panel not visible anymore => choose another one
@@ -470,6 +478,28 @@ public class DockManagerW implements  SetLabels {
 		
 		// update all labels at once
 		setLabels();
+	}
+	
+	/**
+	 * Sets split pane divider locations 
+	 * @param spData
+	 * @param splitPanes
+	 * @param windowHeight
+	 * @param windowWidth
+	 */
+	private void setSplitPaneDividers(DockSplitPaneData[] spData, DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth){
+		// set the dividers of the split panes
+		for (int i = 0; i < spData.length; ++i) {
+			splitPanes[i].clear();
+			// don't set splitpane width/height here, because that would call onResize
+			if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+				splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowHeight ));
+			} else {
+				splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowWidth ));
+			}
+		}
+
+		rootPane.setComponentsSilentRecursive();
 	}
 	
 	/** 
