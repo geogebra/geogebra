@@ -187,7 +187,7 @@ public class AlgoProveDetails extends AlgoElement {
 							if (geo != null)
 								s += ndgc.getGeos()[i].getLabelSimple();
 							else
-								s += loc.getPlain("Objects");
+								s += "...";
 						}
 						s += "]";
 						ndgConditionText.setTextString(s);
@@ -205,10 +205,10 @@ public class AlgoProveDetails extends AlgoElement {
 
 				if (unreadable) {
 					GeoText ndgConditionText = new GeoText(cons);
-					sortedSet.add(ndgConditionText);
 					ndgConditionText.setTextString("...");
 					ndgConditionText.setLabelVisible(false);
 					ndgConditionText.setEuclidianVisible(false);
+					sortedSet.add(ndgConditionText);
 					ndgConditionsList.add(ndgConditionText);
 				}
 				
