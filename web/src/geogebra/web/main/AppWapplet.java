@@ -1,7 +1,10 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.operations.LogOutOperation;
 import geogebra.common.move.ggtapi.operations.LoginOperation;
@@ -19,6 +22,8 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
+
+import javax.naming.OperationNotSupportedException;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
@@ -206,12 +211,18 @@ public class AppWapplet extends AppW {
 	@Override
     public void afterLoadFileAppOrNot() {
 
-		// a small thing to fix a rare bug
-		getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
+		if (!isUsingFullGui()) {
+			if (showConsProtNavigation
+					|| !isJustEuclidianVisible()) {
+				useFullGui = true;
+			}
+		}
 
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 		} else {
+			// a small thing to fix a rare bug
+			getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
 		}
 		
@@ -322,5 +333,42 @@ public class AppWapplet extends AppW {
 		super.initCommonObjects();
 		//Login - Logout operation event handling begins here
 		initAuthenticationEventFlow();
+	}
+
+	/**
+	 * Check if just the euclidian view is visible in the document just loaded.
+	 * 
+	 * @return
+	 * @throws OperationNotSupportedException
+	 */
+	private boolean isJustEuclidianVisible() {
+		if (tmpPerspectives == null) {
+			return true; //throw new OperationNotSupportedException();
+		}
+
+		Perspective docPerspective = null;
+
+		for (Perspective perspective : tmpPerspectives) {
+			if (perspective.getId().equals("tmp")) {
+				docPerspective = perspective;
+			}
+		}
+
+		if (docPerspective == null) {
+			return true; //throw new OperationNotSupportedException();
+		}
+
+		boolean justEuclidianVisible = false;
+
+		for (DockPanelData panel : docPerspective.getDockPanelData()) {
+			if ((panel.getViewId() == App.VIEW_EUCLIDIAN) && panel.isVisible()) {
+				justEuclidianVisible = true;
+			} else if (panel.isVisible()) {
+				justEuclidianVisible = false;
+				break;
+			}
+		}
+
+		return justEuclidianVisible;
 	}
 }
