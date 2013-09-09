@@ -42,6 +42,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')
 	 */
 	protected final static String initString = "caseval(\"init geogebra\")";
+	
+	/**
+	 * string to put Giac off GeoGebra mode
+	 */
+	protected final static String closeString = "caseval(\"close geogebra\")";
 
 	/**
 	 * define extra functions needed in Giac
@@ -372,7 +377,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			String vars, String varsToEliminate) {
 		StringBuilder script = new StringBuilder();
 
-		return script.append("[[caseval(\"close geogebra\")],[aa:=eliminate([").
+		return script.append("[[").append(closeString).append("],[aa:=eliminate([").
 				append(constructRestrictions).
 				append("],[").
 				append(varsToEliminate).
@@ -477,7 +482,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		 */
 
-		return script.append("[[caseval(\"close geogebra\")],[ff:=\"\"],[aa:=eliminate([").
+		return script.append("[[").append(closeString).append("],[ff:=\"\"],[aa:=eliminate([").
 				append(polys).
 				append("],[").
 				append(elimVars).
@@ -513,7 +518,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String idealVar = "ii";
 		
-		String ret = "[[caseval(\"close geogebra\")],[" + idealVar + ":=gbasis(";
+		String ret = "[[" +  closeString + "],[" + idealVar + ":=gbasis(";
 
 		if (substitutions != null) {
 			ret += "subst(";
