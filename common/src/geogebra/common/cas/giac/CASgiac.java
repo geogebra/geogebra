@@ -372,7 +372,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			String vars, String varsToEliminate) {
 		StringBuilder script = new StringBuilder();
 
-		return script.append("[[aa:=eliminate([").
+		return script.append("[[caseval(\"close geogebra\")],[aa:=eliminate([").
 				append(constructRestrictions).
 				append("],[").
 				append(varsToEliminate).
@@ -382,7 +382,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);").
 				append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];").
 				append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;").
-				append("cc:=append(cc,ee); od; od], cc][5][0]")
+				append("cc:=append(cc,ee); od; od], cc][6][0]")
 				// See CASTranslator.createSingularScript for more details.
 
 				.toString();
@@ -477,14 +477,14 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		 */
 
-		return script.append("[[ff:=\"\"],[aa:=eliminate([").
+		return script.append("[[caseval(\"close geogebra\")],[ff:=\"\"],[aa:=eliminate([").
 				append(polys).
 				append("],[").
 				append(elimVars).
 				append("])],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ").
 				append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);").
 				append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ").
-				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][4]")						
+				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][5]")						
 
 				.toString();
 		
@@ -513,7 +513,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String idealVar = "ii";
 		
-		String ret = "[[" + idealVar + ":=gbasis(";
+		String ret = "[[caseval(\"close geogebra\")],[" + idealVar + ":=gbasis(";
 
 		if (substitutions != null) {
 			ret += "subst(";
@@ -529,7 +529,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		String vars = freeVars + Polynomial.addLeadingComma(dependantVars);
 		
         ret += ",[" + vars + "],revlex)],(degree(" + 
-        		idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][1]"; 
+        		idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][2]"; 
 
 		return ret;
 	}
