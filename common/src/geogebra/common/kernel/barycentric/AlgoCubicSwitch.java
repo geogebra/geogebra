@@ -15,32 +15,63 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 	public String getEquation(AlgoCubicSwitchParams cp) {
 		return getEquation(cp.n, cp.a, cp.b, cp.c);
 	}
+	private static double[] b(double p, double q, double r){
+		return new double[]{p,q,r};
+	}
+	
 
+	/**
+	 * Returns coeffs for A^3, A^2B, ABC given a,b,c
+	 * @param odd true if we compute coffes for odd permutation
+	 */
+	private static double[] getCoeff(double n, double a, double b, double c, boolean odd) {
+
+		
+		double a2 = a* a, a4 = a2 * a2;
+		double b2 = b* b, b4 = b2 * b2;
+		double c2 = c* c, c4 = c2 * c2, c6 = c4 * c2;
+
+		switch ((int) n)
+		{
+			case 1: 
+				return b(0,a4*c2+a2*b2*c2-2*b4*c2-2*a2*c4+b2*c4+c6,0);
+			case 2: 
+				return b(0,c2,0);
+			case 3:
+				return b(0,a2*b2*c2-b4*c2+b2*c4,0);
+			case 4:
+				return b(0,a4*c2+ 2*a2*b2*c2 - 3*b4*c2 - 2*a2*c4+ 2*b2*c4 + c6,0);
+			case 5:
+				return b(0,a4*c2-a2*b2*c2-2*a2*c4-b2*c4+c6,0);
+			case 6:
+				return b(0,-a4*c2+b4*c2+2*a2*c4-c6,0);
+			}
+		return null;
+	}
 	public String getEquation(double n, double a, double b, double c) {
 
 		double ab_c, a_bc, _abc;
 		String equation = null;
 
+		if(getCoeff(n,a,b,c,false)!=null){
+			equation = "0=0";
+			for(int p = 0; p<3;p++){
+				int q = (p+1)%3;
+				int r = (q+1)%3;
+				double[] sides = {a,b,c};
+				double[] coeff = getCoeff(n,sides[p],sides[q],sides[r],false);
+				double[] coeffR = getCoeff(n,sides[q],sides[p],sides[r],true);
+				char A = "ABC".charAt(p), B = "ABC".charAt(q);
+				equation += "+"+coeff[0]+'*'+A+"^3";
+				equation += "+"+coeff[1]+'*'+A+"^2*"+B;
+				equation += "-"+coeffR[1]+'*'+B+"^2*"+A;
+				equation += "+"+(coeff[2]+coeffR[2])+"*A*B*C";
+			}
+			return equation;
+		}
+		
 		switch ((int) n)
-		{
-			case 1: 
-				equation = "a^4*c^2*A^2*B + a^2*b^2*c^2*A^2*B - 2*b^4*c^2*A^2*B - 2*a^2*c^4*A^2*B + b^2*c^4*A^2*B + c^6*A^2*B +  2*a^4*c^2*A*B^2 - a^2*b^2*c^2*A*B^2 - b^4*c^2*A*B^2 - a^2*c^4*A*B^2 + 2*b^2*c^4*A*B^2 - c^6*A*B^2 - a^4*b^2*A^2*C +  2*a^2*b^4*A^2*C - b^6*A^2*C - a^2*b^2*c^2*A^2*C - b^4*c^2*A^2*C + 2*b^2*c^4*A^2*C + a^6*B^2*C - 2*a^4*b^2*B^2*C +  a^2*b^4*B^2*C + a^4*c^2*B^2*C + a^2*b^2*c^2*B^2*C - 2*a^2*c^4*B^2*C - 2*a^4*b^2*A*C^2 + a^2*b^4*A*C^2 + b^6*A*C^2 + a^2*b^2*c^2*A*C^2 - 2*b^4*c^2*A*C^2 + b^2*c^4*A*C^2 - a^6*B*C^2 - a^4*b^2*B*C^2 + 2*a^2*b^4*B*C^2 + 2*a^4*c^2*B*C^2 - a^2*b^2*c^2*B*C^2 - a^2*c^4*B*C^2 = 0";
-				break;
-			case 2: 
-				equation = "c^2*A^2*B - c^2*A*B^2 - b^2*A^2*C + a^2*B^2*C + b^2*A*C^2 - a^2*B*C^2 = 0";
-				break;
-			case 3: 
-				equation = 	"a^2*b^2*c^2*A^2*B - b^4*c^2*A^2*B + b^2*c^4*A^2*B + a^4*c^2*A*B^2 - a^2*b^2*c^2*A*B^2 - a^2*c^4*A*B^2 - a^2*b^2*c^2*A^2*C - b^4*c^2*A^2*C + b^2*c^4*A^2*C + a^4*c^2*B^2*C + a^2*b^2*c^2*B^2*C - a^2*c^4*B^2*C - a^4*b^2*A*C^2 + a^2*b^4*A*C^2 + a^2*b^2*c^2*A*C^2 - a^4*b^2*B*C^2 + a^2*b^4*B*C^2 - a^2*b^2*c^2*B*C^2 = 0";
-				break;
-			case 4: 
-				equation = 	"a^4*c^2*A^2*B + 2*a^2*b^2*c^2*A^2*B - 3*b^4*c^2*A^2*B - 2*a^2*c^4*A^2*B + 2*b^2*c^4*A^2*B + c^6*A^2*B + 3*a^4*c^2*A*B^2 - 2*a^2*b^2*c^2*A*B^2 - b^4*c^2*A*B^2 - 2*a^2*c^4*A*B^2 + 2*b^2*c^4*A*B^2 - c^6*A*B^2 - a^4*b^2*A^2*C + 2*a^2*b^4*A^2*C - b^6*A^2*C - 2*a^2*b^2*c^2*A^2*C - 2*b^4*c^2*A^2*C + 3*b^2*c^4*A^2*C + a^6*B^2*C - 2*a^4*b^2*B^2*C + a^2*b^4*B^2*C + 2*a^4*c^2*B^2*C + 2*a^2*b^2*c^2*B^2*C - 3*a^2*c^4*B^2*C - 3*a^4*b^2*A*C^2 + 2*a^2*b^4*A*C^2 + b^6*A*C^2 + 2*a^2*b^2*c^2*A*C^2 - 2*b^4*c^2*A*C^2 + b^2*c^4*A*C^2 - a^6*B*C^2 - 2*a^4*b^2*B*C^2 + 3*a^2*b^4*B*C^2 + 2*a^4*c^2*B*C^2 - 2*a^2*b^2*c^2*B*C^2 - a^2*c^4*B*C^2 = 0";
-				break;
-			case 5: 
-				equation = 	"a^4*c^2*A^2*B - a^2*b^2*c^2*A^2*B - 2*a^2*c^4*A^2*B - b^2*c^4*A^2*B + c^6*A^2*B + a^2*b^2*c^2*A*B^2 - b^4*c^2*A*B^2 + a^2*c^4*A*B^2 + 2*b^2*c^4*A*B^2 - c^6*A*B^2 - a^4*b^2*A^2*C + 2*a^2*b^4*A^2*C - b^6*A^2*C + a^2*b^2*c^2*A^2*C + b^4*c^2*A^2*C + a^6*B^2*C - 2*a^4*b^2*B^2*C + a^2*b^4*B^2*C - a^4*c^2*B^2*C - a^2*b^2*c^2*B^2*C - a^2*b^4*A*C^2 + b^6*A*C^2 - a^2*b^2*c^2*A*C^2 - 2*b^4*c^2*A*C^2 + b^2*c^4*A*C^2 - a^6*B*C^2 + a^4*b^2*B*C^2 + 2*a^4*c^2*B*C^2 + a^2*b^2*c^2*B*C^2 - a^2*c^4*B*C^2 = 0";
-				break;
-			case 6: 
-				equation = 	"-a^4*c^2*A^2*B + b^4*c^2*A^2*B + 2*a^2*c^4*A^2*B - c^6*A^2*B - a^4*c^2*A*B^2 + b^4*c^2*A*B^2 - 2*b^2*c^4*A*B^2 + c^6*A*B^2 + a^4*b^2*A^2*C - 2*a^2*b^4*A^2*C + b^6*A^2*C - b^2*c^4*A^2*C - a^6*B^2*C + 2*a^4*b^2*B^2*C - a^2*b^4*B^2*C + a^2*c^4*B^2*C + a^4*b^2*A*C^2 - b^6*A*C^2 + 2*b^4*c^2*A*C^2 - b^2*c^4*A*C^2 + a^6*B*C^2 - a^2*b^4*B*C^2 - 2*a^4*c^2*B*C^2 + a^2*c^4*B*C^2 = 0";
-				break;
+		{		
 			case 7: 
 				equation = 	"a^2*A^2*B - b^2*A^2*B + c^2*A^2*B + a^2*A*B^2 - b^2*A*B^2 - c^2*A*B^2 - a^2*A^2*C - b^2*A^2*C + c^2*A^2*C + a^2*B^2*C + b^2*B^2*C - c^2*B^2*C - a^2*A*C^2 + b^2*A*C^2 + c^2*A*C^2 - a^2*B*C^2 + b^2*B*C^2 - c^2*B*C^2 = 0";
 				break;
