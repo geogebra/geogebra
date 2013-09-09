@@ -1021,7 +1021,7 @@ __GGB__keysVar.sv.error = {
     "CAS_SelectionStructureError": "Kontrollera strukturen f\xf6r ditt urval",
     "CAS_TimeoutError": "Ber\xe4kningen tog f\xf6r l\xe5ng tid och avbr\xf6ts",
     "CAS_VariableIsDynamicReference": "Otill\xe5ten tilldelning av dynamisk referens",
-    "CannotUnsnap": "Cannot unsnap the application.",
+    "CannotUnsnap": "Kan inte generera helsk\xe4rmsvyn",
     "ChangeDependent": "Beroende objekt kan inte \xe4ndras",
     "CircularDefinition": "Cirkul\xe4r definition",
     "CoordinatesMustBeConstant": "Koordinaterna m\xe5ste vara konstanta",
