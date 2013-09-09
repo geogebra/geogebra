@@ -24,10 +24,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	
 	@Source("geogebra/web/gui/images/geogebra32.png")
 	ImageResource GeoGebraTube();
-	
-	@Source("geogebra/web/gui/images/login_to_google.png")
-	ImageResource loginToGoogle();
-	
+
 	@Source("geogebra/web/gui/images/applications-graphics.png")
 	ImageResource application_graphics();
 	
