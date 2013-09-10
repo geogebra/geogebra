@@ -157,14 +157,11 @@ public class ColorProvider {
 			}
 		}
 		
-		int start = 0;
 		res = assignmentReg.exec(text);
 		if (res != null) {
 			// It is a function assignment
 			// We add the parameters to the locals set
 			// so we can color them differently
-			text = text.substring(res.getGroup(0).length());
-			start = res.getGroup(0).length();
 			String label = res.getGroup(1);
 			if (labels.contains(label)) {
 				addTo(definedObjectsIntervals, 0, label.length());
@@ -176,7 +173,7 @@ public class ColorProvider {
 				locals.add(trimmedVar);
 			}
 		}
-		getIntervalsRecursively(text, start);
+		getIntervalsRecursively(text, 0);
 		
 	}
 	
