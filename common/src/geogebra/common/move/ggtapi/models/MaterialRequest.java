@@ -79,13 +79,19 @@ public class MaterialRequest implements Request
 	/**
 	 * Constructor for a Search Request
 	 * 
-	 * @param String
-	 *          query
+	 * @param query search term or #id
 	 */
 	public MaterialRequest(String query)
 	{
-		this.filters = new Filters[] { Filters.search };
-		this.filterMap.put(Filters.search, query);
+		if(query!=null && query.startsWith("#")){
+			this.filters = new Filters[] { Filters.id };
+			this.filterMap.put(Filters.id, query.substring(1));
+			this.by = Order.timestamp;
+		}
+		else{
+			this.filters = new Filters[] { Filters.search };
+			this.filterMap.put(Filters.search, query);
+		}
 	}
 
 	/**
