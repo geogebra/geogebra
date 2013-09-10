@@ -278,7 +278,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
-		return guiManager;
+		return null;
 	}
 
 	@Override

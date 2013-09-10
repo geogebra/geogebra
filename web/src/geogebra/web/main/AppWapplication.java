@@ -12,6 +12,7 @@ import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
@@ -100,6 +101,11 @@ public class AppWapplication extends AppW {
 
 	public GeoGebraAppFrame getAppFrame() {
 		return appFrame;
+	}
+
+	@Override
+	public GuiManagerInterfaceW getGuiManager() {
+		return guiManager;
 	}
 
 	private void createAppSplash() {

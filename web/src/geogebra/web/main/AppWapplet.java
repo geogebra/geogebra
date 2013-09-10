@@ -14,6 +14,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -88,6 +89,11 @@ public class AppWapplet extends AppW {
 
 	public GeoGebraFrame getGeoGebraFrame() {
 		return frame;
+	}
+
+	@Override
+	public GuiManagerInterfaceW getGuiManager() {
+		return guiManager;
 	}
 
 	@Override
