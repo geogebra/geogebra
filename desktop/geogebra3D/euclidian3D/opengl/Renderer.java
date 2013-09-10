@@ -1803,9 +1803,13 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	
 	
 	private void setStencilLines(){
-
+		
+		// disable clip planes if used
+        if (enableClipPlanes)
+        	disableClipPlanes();
+        
 		final int w = right-left;
-		final int h = top-bottom +1;
+		final int h = top-bottom;
 		//App.debug(w+" * "+h+" = "+(w*h));
 
 		// projection for real 2D
@@ -1850,8 +1854,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glRasterPos2i(0, h-y); 
         //App.debug("== "+w+" * "+h+" = "+(w*h));
     	gl.glDrawPixels(w, h, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
+		 
 		 */
 
+		
 		ByteBuffer data = newByteBuffer(w);
 		byte b = 1;
 		for (int x=0; x<w; x++){
@@ -1865,11 +1871,13 @@ public class Renderer extends RendererJogl implements GLEventListener {
 
 		//App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
 		
-		for (int y = 0; y<h/2; y++){
+		for (int y = 0; y<h/2 ; y++){
 			gl.glRasterPos2i(0, 2*y+y0); 
-			//App.debug("== "+w+" * "+h+" = "+(w*h));
 			gl.glDrawPixels(w, 1, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
 		}
+		
+		
+		
 		
     	// current mask for stencil test
     	gl.glStencilMask(0x00);
@@ -1879,6 +1887,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		
 		waitForSetStencilLines = false;
+
+
+		// restore clip planes
+        if (enableClipPlanes)
+    		enableClipPlanes();
 
 	}
 	
