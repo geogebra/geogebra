@@ -164,8 +164,10 @@ public class AlgoProveDetails extends AlgoElement {
 				TreeSet<GeoText> sortedSet = new TreeSet<GeoText>(
 						GeoText.getComparator());
 
-				// Collecting the set of NDG conditions:
-				while (it.hasNext()) {
+				// Collecting the set of NDG conditions.
+				// The OGP data collector may left some unreadable conditions
+				// so we make sure if the condition is readable.
+				while (!unreadable && it.hasNext()) {
 					GeoText ndgConditionText = new GeoText(cons);
 					NDGCondition ndgc = it.next();
 					// Do not print unnecessary conditions:
