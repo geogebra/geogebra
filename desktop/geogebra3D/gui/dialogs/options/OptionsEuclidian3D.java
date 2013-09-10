@@ -174,8 +174,8 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 		cbAnaglyphShutDownGreen.setSelected(((EuclidianView3D) view).isAnaglyphShutDownGreen());
 		
 		
-		tfCavAngle.setText(""+((EuclidianView3D) view).getCavAngle());
-		tfCavFactor.setText(""+((EuclidianView3D) view).getCavFactor());		
+		tfObliqueAngle.setText(""+((EuclidianView3D) view).getProjectionObliqueAngle());
+		tfObliqueFactor.setText(""+((EuclidianView3D) view).getProjectionObliqueFactor());		
 	}
 	
 	
@@ -203,8 +203,8 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	
 	
 	private JLabel[] projectionLabel;
-	private JTextField tfPersp, tfAnaglyph, tfCavAngle, tfCavFactor;
-	private JLabel tfPerspLabel, tfAnaglyphLabel, tfCavAngleLabel, tfCavFactorLabel;
+	private JTextField tfPersp, tfAnaglyph, tfObliqueAngle, tfObliqueFactor;
+	private JLabel tfPerspLabel, tfAnaglyphLabel, tfObliqueAngleLabel, tfObliqueFactorLabel;
 	private ProjectionButtons projectionButtons;
 	private JCheckBox cbAnaglyphGray;
 	private JLabel cbAnaglyphGrayLabel;
@@ -229,7 +229,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] =  new JButton(app.getImageIcon("stylebar_vieworthographic.gif"));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] =  new JButton(app.getImageIcon("stylebar_viewperspective.gif"));
 			buttons[EuclidianView3D.PROJECTION_ANAGLYPH] =  new JButton(app.getImageIcon("stylebar_viewanaglyph.gif"));
-			buttons[EuclidianView3D.PROJECTION_CAV] =  new JButton(app.getImageIcon("stylebar_viewcav.gif"));
+			buttons[EuclidianView3D.PROJECTION_OBLIQUE] =  new JButton(app.getImageIcon("stylebar_viewcav.gif"));
 			
 			for (int i=0; i<4; i++)
 				buttons[i].addActionListener(options);			
@@ -304,20 +304,20 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 
 		
         JPanel cavPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,5));
-        cavPanel.add(projectionButtons.getButton(EuclidianView3D.PROJECTION_CAV));
-        cavPanel.add(projectionLabel[EuclidianView3D.PROJECTION_CAV]);
-        tfCavAngleLabel = new JLabel("");
-        cavPanel.add(tfCavAngleLabel);
-        tfCavAngle = new MyTextField(app,4);
-        tfCavAngle.addActionListener(this);
-        tfCavAngle.addFocusListener(this);
-        cavPanel.add(tfCavAngle);
-        tfCavFactorLabel = new JLabel("");
-        cavPanel.add(tfCavFactorLabel);
-        tfCavFactor = new MyTextField(app,4);
-        tfCavFactor.addActionListener(this);
-        tfCavFactor.addFocusListener(this);
-        cavPanel.add(tfCavFactor);
+        cavPanel.add(projectionButtons.getButton(EuclidianView3D.PROJECTION_OBLIQUE));
+        cavPanel.add(projectionLabel[EuclidianView3D.PROJECTION_OBLIQUE]);
+        tfObliqueAngleLabel = new JLabel("");
+        cavPanel.add(tfObliqueAngleLabel);
+        tfObliqueAngle = new MyTextField(app,4);
+        tfObliqueAngle.addActionListener(this);
+        tfObliqueAngle.addFocusListener(this);
+        cavPanel.add(tfObliqueAngle);
+        tfObliqueFactorLabel = new JLabel("");
+        cavPanel.add(tfObliqueFactorLabel);
+        tfObliqueFactor = new MyTextField(app,4);
+        tfObliqueFactor.addActionListener(this);
+        tfObliqueFactor.addFocusListener(this);
+        cavPanel.add(tfObliqueFactor);
  		
         
 
@@ -388,8 +388,8 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 		cbAnaglyphShutDownGreenLabel.setText(app.getPlain("shutDownGreen"));
 		
 		projectionLabel[3].setText(app.getPlain("oblique")+":");
-		tfCavAngleLabel.setText(app.getPlain("angle")+":");
-		tfCavFactorLabel.setText(app.getPlain("factor")+":");
+		tfObliqueAngleLabel.setText(app.getPlain("angle")+":");
+		tfObliqueFactorLabel.setText(app.getPlain("factor")+":");
 		
 		projectionButtons.setSelected(((EuclidianView3D) view).getProjection());
 	}
@@ -436,28 +436,28 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 			}catch(NumberFormatException e){
 				tfAnaglyph.setText(""+((EuclidianView3D) view).getEyeSepFactor()*1000);
 			}
-		}else if (source == tfCavAngle) {
+		}else if (source == tfObliqueAngle) {
 			try{
-				double val = Double.parseDouble(tfCavAngle.getText());
+				double val = Double.parseDouble(tfObliqueAngle.getText());
 				if (! Double.isNaN(val)) {
 
-					((EuclidianView3D) view).setCavAngle(val);
+					((EuclidianView3D) view).setProjectionObliqueAngle(val);
 				}
 			}catch(NumberFormatException e){
-				tfCavAngle.setText(""+((EuclidianView3D) view).getCavAngle());
+				tfObliqueAngle.setText(""+((EuclidianView3D) view).getProjectionObliqueAngle());
 			}
-		}else if (source == tfCavFactor) {
+		}else if (source == tfObliqueFactor) {
 			try{
-				double val = Double.parseDouble(tfCavFactor.getText());
+				double val = Double.parseDouble(tfObliqueFactor.getText());
 				if (! Double.isNaN(val)) {
 					if (val<0){
 						val=0;
-						tfCavFactor.setText(""+val);
+						tfObliqueFactor.setText(""+val);
 					}
-					((EuclidianView3D) view).setCavFactor(val);
+					((EuclidianView3D) view).setProjectionObliqueFactor(val);
 				}
 			}catch(NumberFormatException e){
-				tfCavFactor.setText(""+((EuclidianView3D) view).getCavFactor());
+				tfObliqueFactor.setText(""+((EuclidianView3D) view).getProjectionObliqueFactor());
 			}
 		}else if (source == projectionButtons.getButton(EuclidianView3D.PROJECTION_ORTHOGRAPHIC)) {
 			((EuclidianView3D) view).setProjectionOrthographic();
@@ -466,11 +466,11 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 			((EuclidianView3D) view).setProjectionPerspective();
 			projectionButtons.setSelected(EuclidianView3D.PROJECTION_PERSPECTIVE);
 		}else if (source == projectionButtons.getButton(EuclidianView3D.PROJECTION_ANAGLYPH)) {
-			((EuclidianView3D) view).setAnaglyph();
+			((EuclidianView3D) view).setProjectionAnaglyph();
 			projectionButtons.setSelected(EuclidianView3D.PROJECTION_ANAGLYPH);
-		}else if (source == projectionButtons.getButton(EuclidianView3D.PROJECTION_CAV)) {
-			((EuclidianView3D) view).setCav();
-			projectionButtons.setSelected(EuclidianView3D.PROJECTION_CAV);
+		}else if (source == projectionButtons.getButton(EuclidianView3D.PROJECTION_OBLIQUE)) {
+			((EuclidianView3D) view).setProjectionOblique();
+			projectionButtons.setSelected(EuclidianView3D.PROJECTION_OBLIQUE);
 		}else if (source == cbAnaglyphGray) {
 			((EuclidianView3D) view).setAnaglyphGrayScaled(cbAnaglyphGray.isSelected());
 		/*

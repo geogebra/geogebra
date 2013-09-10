@@ -18,6 +18,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -160,6 +161,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		//textures
 		textures = new Textures(view3D.getApplication().getImageManager());	
+		
 	}
 	
 	
@@ -329,14 +331,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //update 3D controller
         view3D.getEuclidianController().processMouseMoved();
         
-        /*
-        if (intersectionCurvesWaitForPick){//picking intersection curves
-    		doPickIntersectionCurves();
-    		//intersectionCurvesWaitForPick=false;
-    		((EuclidianController3D) view3D.getEuclidianController()).endsIntersectionCurve();
-    		
-    	}
-    	*/
+
         
         // update 3D view
         geometryManager.update();
@@ -350,27 +345,15 @@ public class Renderer extends RendererJogl implements GLEventListener {
         view3D.resetViewChanged();
        
 
-        //start drawing
-        /*
-        eye=EYE_ONE;
-        setColorMask();
-        gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT);
-        for (int i=0;i<2;i++){
-        	//clear buffers
-        	eye=EYE_ONE;
-        	//setColorMask();
-        	//gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
-        	gl.glColorMask(false,false,false,true);
-            gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT);
-            
-            //draw
-           	eye=i;
-           	setColorMask();
-        	setView();
-
-        	draw();       		
+        
+        if (waitForSetStencilLines){
+        	setStencilLines();
         }
-        */
+        
+        if (waitForDisableStencilLines){
+        	disableStencilLines();
+        }
+
         
         if (waitForUpdateClearColor) {
         	updateClearColor();
@@ -380,15 +363,33 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //clear color buffer
         gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT);
         
+        
         if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH) {
-         	//gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT);
+ 
+        	//setStencilLines();
+
+
         	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
+
+
         	//left eye
+        	if (view3D.isPolarized()){
+        		// draw where stencil's value is 0
+        		gl.glStencilFunc(GLlocal.GL_EQUAL, 0, 0xFF);
+        	}
+
         	eye=EYE_LEFT;
         	setColorMask();
         	setView();
         	draw(); 
+        	
+
         	//right eye
+           	if (view3D.isPolarized()){
+        		// draw where stencil's value is 1
+        		gl.glStencilFunc(GLlocal.GL_EQUAL, 1, 0xFF);
+        	}
+           	
         	eye=EYE_RIGHT;
         	setColorMask();
         	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT); //clear depth buffer
@@ -1676,6 +1677,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
        	// ensure that animation is on (needed when undocking/docking 3D view)
         resumeAnimator();
+        
+
     }  
     
     /**
@@ -1781,6 +1784,104 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	gl.glMatrixMode(GLlocal.GL_MODELVIEW);		
 	}	
 	
+	private boolean waitForDisableStencilLines = false;
+	
+	public void setWaitForDisableStencilLines(){
+		waitForDisableStencilLines = true;
+	}
+	
+	private void disableStencilLines(){
+		gl.glDisable(GLlocal.GL_STENCIL_TEST);
+		waitForDisableStencilLines = false;
+	}
+	
+	private boolean waitForSetStencilLines = false;
+	
+	public void setWaitForSetStencilLines(){
+		waitForSetStencilLines = true;	
+	}
+	
+	
+	private void setStencilLines(){
+
+		final int w = right-left;
+		final int h = top-bottom +1;
+		//App.debug(w+" * "+h+" = "+(w*h));
+
+		// projection for real 2D
+		gl.glViewport(0,0,w,h);
+		
+		gl.glMatrixMode(GLlocal.GL_PROJECTION);
+		gl.glLoadIdentity();
+		glu.gluOrtho2D(0, w, h, 0);
+		
+		gl.glMatrixMode(GLlocal.GL_MODELVIEW);
+		gl.glLoadIdentity();
+
+		
+		gl.glEnable(GLlocal.GL_STENCIL_TEST);
+
+		// draw stencil pattern
+		gl.glStencilMask(0xFF);
+		gl.glClear(GLlocal.GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
+		  
+ 
+
+		// no multisample here to prevent ghosts
+		gl.glDisable(GLlocal.GL_MULTISAMPLE);
+        
+		// data for stencil : one line = 0, one line = 1, etc.
+		
+		/*
+		final int h2 = h+10;// (int) (h*1.1) ; //TODO : understand why buffer doens't match glDrawPixels dimension
+        ByteBuffer data = newByteBuffer(w * h2);
+        byte b = 0;
+        for (int y=0; y<h2; y++){
+        	b=(byte) (1-b);
+        	for (int x=0; x<w; x++){
+        		data.put(b);
+        	}
+        }
+        data.rewind();
+        
+        // check if we start with 0 or with 1
+		int y = (canvas.getLocationOnScreen().y) % 2;
+
+        gl.glRasterPos2i(0, h-y); 
+        //App.debug("== "+w+" * "+h+" = "+(w*h));
+    	gl.glDrawPixels(w, h, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
+		 */
+
+		ByteBuffer data = newByteBuffer(w);
+		byte b = 1;
+		for (int x=0; x<w; x++){
+			data.put((byte) b);
+		}
+
+		data.rewind();
+        
+        // check if we start with 0 or with 1
+		int y0 = (canvas.getLocationOnScreen().y) % 2;
+
+		//App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
+		
+		for (int y = 0; y<h/2; y++){
+			gl.glRasterPos2i(0, 2*y+y0); 
+			//App.debug("== "+w+" * "+h+" = "+(w*h));
+			gl.glDrawPixels(w, 1, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
+		}
+		
+    	// current mask for stencil test
+    	gl.glStencilMask(0x00);
+
+    	// back to multisample
+		gl.glEnable(GLlocal.GL_MULTISAMPLE);
+		
+		
+		waitForSetStencilLines = false;
+
+	}
+	
 	private void setProjectionMatrixForPicking(){
 		
 		switch(view3D.getProjection()){
@@ -1793,7 +1894,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
 			viewPersp();
 			break;
-		case EuclidianView3D.PROJECTION_CAV:
+		case EuclidianView3D.PROJECTION_OBLIQUE:
 			viewCav();
 			break;
 		}
@@ -1812,7 +1913,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		case EuclidianView3D.PROJECTION_ANAGLYPH:
 			viewAnaglyph();
 			break;
-		case EuclidianView3D.PROJECTION_CAV:
+		case EuclidianView3D.PROJECTION_OBLIQUE:
 			viewCav();
 			break;
 		}
@@ -1926,19 +2027,21 @@ public class Renderer extends RendererJogl implements GLEventListener {
     private int eye = EYE_ONE;
     
     private void setColorMask(){
-    	if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH){
+
+    	if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH && !view3D.isPolarized()){
     		if (eye==EYE_LEFT) {
     			gl.glColorMask(true,false,false,true); //cyan
     			//gl.glColorMask(false,true,false,true); //magenta
-       			//gl.glColorMask(false,false,false,true);
+    			//gl.glColorMask(false,false,false,true);
     		} else {
     			gl.glColorMask(false,!view3D.isAnaglyphShutDownGreen(),true,true); //red
-       			//gl.glColorMask(true,false,false,true); //cyan -> green
-       			//gl.glColorMask(false,false,false,true);
-       		}
+    			//gl.glColorMask(true,false,false,true); //cyan -> green
+    			//gl.glColorMask(false,false,false,true);
+    		}
     	} else {
     		gl.glColorMask(true,true,true,true);
     	}	
+
     }
     
     enum ExportType { NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD };
@@ -1955,11 +2058,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	private int export_i;
 	private GeoNumeric export_num;
     
-    public void updateCavValues(){
+    public void updateProjectionObliqueValues(){
     	updateOrthoValues();
-    	double angle = Math.toRadians(view3D.getCavAngle());
-    	cavX = -view3D.getCavFactor()*Math.cos(angle);
-    	cavY = -view3D.getCavFactor()*Math.sin(angle);
+    	double angle = Math.toRadians(view3D.getProjectionObliqueAngle());
+    	cavX = -view3D.getProjectionObliqueFactor()*Math.cos(angle);
+    	cavY = -view3D.getProjectionObliqueFactor()*Math.sin(angle);
     	cavOrthoDirection = new Coords(cavX, cavY, -1, 0);
     }
     
@@ -2008,6 +2111,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	case EuclidianView3D.PROJECTION_ANAGLYPH:
     		updatePerspValues();
     		updateAnaglyphValues();
+    		if (view3D.isPolarized()){
+    			setWaitForSetStencilLines();
+    		}
     		break;
     	}
     	    	

@@ -122,10 +122,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 				getView().setProjectionPerspective();
 				break;
 			case EuclidianView3D.PROJECTION_ANAGLYPH:
-				getView().setAnaglyph();
+				getView().setProjectionAnaglyph();
 				break;
-			case EuclidianView3D.PROJECTION_CAV:
-				getView().setCav();
+			case EuclidianView3D.PROJECTION_OBLIQUE:
+				getView().setProjectionOblique();
 				break;
 			}
 		}else

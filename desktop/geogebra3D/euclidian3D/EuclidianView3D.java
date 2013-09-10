@@ -762,7 +762,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private void updateEye(){
 		
 		//update view direction
-		if (projection==PROJECTION_CAV)
+		if (projection==PROJECTION_OBLIQUE)
 			viewDirection=renderer.getCavOrthoDirection().copyVector();
 		else
 			viewDirection = vzNeg.copyVector();
@@ -770,7 +770,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		viewDirection.normalize();
 		
 		//update eye position
-		if (projection==PROJECTION_ORTHOGRAPHIC || projection==PROJECTION_CAV)
+		if (projection==PROJECTION_ORTHOGRAPHIC || projection==PROJECTION_OBLIQUE)
 			eyePosition=viewDirection;
 		else{
 			eyePosition=renderer.getPerspEye().copyVector();
@@ -783,7 +783,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return ortho direction of the eye
 	 */
 	public Coords getViewDirection(){
-		if (projection==PROJECTION_ORTHOGRAPHIC || projection==PROJECTION_CAV)
+		if (projection==PROJECTION_ORTHOGRAPHIC || projection==PROJECTION_OBLIQUE)
 			return viewDirection;
 		else
 			return viewDirectionPersp;
@@ -3384,7 +3384,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	final static public int PROJECTION_ORTHOGRAPHIC = 0;
 	final static public int PROJECTION_PERSPECTIVE = 1;
 	final static public int PROJECTION_ANAGLYPH = 2;
-	final static public int PROJECTION_CAV = 3;
+	final static public int PROJECTION_OBLIQUE = 3;
 	
 	private int projection = PROJECTION_ORTHOGRAPHIC;
 	
@@ -3397,10 +3397,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			setProjectionPerspective();
 			break;
 		case PROJECTION_ANAGLYPH:
-			setAnaglyph();
+			setProjectionAnaglyph();
 			break;
-		case PROJECTION_CAV:
-			setCav();
+		case PROJECTION_OBLIQUE:
+			setProjectionOblique();
 			break;
 			
 		}
@@ -3427,6 +3427,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	public void setProjectionOrthographic(){
 		renderer.updateOrthoValues();
+		renderer.setWaitForDisableStencilLines();
 		setProjectionValues(PROJECTION_ORTHOGRAPHIC);
 		setDefault2DCursor();
 	}
@@ -3436,6 +3437,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 	public void setProjectionPerspective(){
+		renderer.setWaitForDisableStencilLines();
 		updateProjectionPerspectiveValue();
 		setProjectionValues(PROJECTION_PERSPECTIVE);
 		setDefault2DCursor();
@@ -3472,9 +3474,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	public void setAnaglyph(){
+	public void setProjectionAnaglyph(){
 		updateProjectionPerspectiveValue();
 		renderer.updateAnaglyphValues();
+		if (isPolarized()){
+			renderer.setWaitForSetStencilLines();
+		}else{
+			renderer.setWaitForDisableStencilLines();
+		}
 		setProjectionValues(PROJECTION_ANAGLYPH);
 		setTransparentCursor();
 	}
@@ -3494,8 +3501,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		resetAllDrawables();
 	}
 	
+	public boolean isPolarized(){
+		return false;
+	}
+	
 	public boolean isGrayScaled(){
-		return projection==PROJECTION_ANAGLYPH && isAnaglyphGrayScaled();
+		return projection==PROJECTION_ANAGLYPH && !isPolarized() && isAnaglyphGrayScaled();
 	}
 	
 	private boolean isAnaglyphShutDownGreen = false;
@@ -3538,31 +3549,32 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return App.VIEW_EUCLIDIAN3D;
 	}
 	
-	private double cavAngle = 30;
-	private double cavFactor = 0.5;
+	private double projectionObliqueAngle = 30;
+	private double projectionObliqueFactor = 0.5;
 	
-	public void setCav(){
-		renderer.updateCavValues();
-		setProjectionValues(PROJECTION_CAV);
+	public void setProjectionOblique(){
+		renderer.updateProjectionObliqueValues();
+		renderer.setWaitForDisableStencilLines();
+		setProjectionValues(PROJECTION_OBLIQUE);
 		setDefault2DCursor();
 	}
 	
-	public void setCavAngle(double angle){
-		cavAngle = angle;
-		renderer.updateCavValues();
+	public void setProjectionObliqueAngle(double angle){
+		projectionObliqueAngle = angle;
+		renderer.updateProjectionObliqueValues();
 	}
 	
-	public double getCavAngle(){
-		return cavAngle;
+	public double getProjectionObliqueAngle(){
+		return projectionObliqueAngle;
 	}
 	
-	public void setCavFactor(double factor){
-		cavFactor = factor;
-		renderer.updateCavValues();
+	public void setProjectionObliqueFactor(double factor){
+		projectionObliqueFactor = factor;
+		renderer.updateProjectionObliqueValues();
 	}
 	
-	public double getCavFactor(){
-		return cavFactor;
+	public double getProjectionObliqueFactor(){
+		return projectionObliqueFactor;
 	}
 
 	

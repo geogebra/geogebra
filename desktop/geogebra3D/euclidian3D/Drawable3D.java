@@ -945,6 +945,7 @@ public abstract class Drawable3D extends DrawableND {
 		Color c = geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor());
 		color.set(new Coords((double) c.getRed()/255, (double) c.getGreen()/255, (double) c.getBlue()/255,alpha));
 
+		
 		if (getView3D().isGrayScaled())
 			color.convertToGrayScale();
 		
