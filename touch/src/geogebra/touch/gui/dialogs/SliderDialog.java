@@ -2,6 +2,7 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.elements.InputField;
@@ -115,6 +116,10 @@ public class SliderDialog extends InputDialog {
 		} else {
 			final GeoAngle angle = new GeoAngle(this.app.getKernel()
 					.getConstruction());
+			
+			// allow outside range 0-360
+			angle.setAngleStyle(AngleStyle.UNBOUNDED);
+
 			setInputText(angle.getFreeLabel(null) + "=45\u00B0"); // =45°
 
 			this.min.setText("0\u00B0"); // 0°

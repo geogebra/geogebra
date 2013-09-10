@@ -28,7 +28,6 @@ import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -1700,16 +1699,18 @@ public class Kernel {
 	 * @param tpl string template
 	 * @return formated angle
 	 */
-	final public StringBuilder formatAngle(double phi, StringTemplate tpl, GeoAngle geo) {
+	final public StringBuilder formatAngle(double phi, StringTemplate tpl, boolean unbounded) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
-		return formatAngle(phi, 10, tpl, geo);
+		StringBuilder ret = formatAngle(phi, 10, tpl, unbounded);
+		
+		return ret;
 	}
 
 	
 
 	final public StringBuilder formatAngle(double alpha, double precision,
-			StringTemplate tpl, GeoAngle geo) {
+			StringTemplate tpl, boolean unbounded) {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
 		switch (tpl.getStringType()) {
@@ -1734,7 +1735,7 @@ public class Kernel {
 				// make sure 360.0000000002 -> 360
 				phi = checkInteger(phi);
 
-				if (geo == null || geo.getAngleStyle() != AngleStyle.UNBOUNDED) {
+				if (!unbounded) {
 					if (phi < 0) {
 						phi += 360;
 					} else if (phi > 360) {

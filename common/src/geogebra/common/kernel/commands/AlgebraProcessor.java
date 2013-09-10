@@ -56,6 +56,7 @@ import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
@@ -1889,7 +1890,7 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			if (isAngle)
-				ret[0] = new GeoAngle(cons, label, value);
+				ret[0] = new GeoAngle(cons, label, value, AngleStyle.UNBOUNDED);
 			else
 				ret[0] = new GeoNumeric(cons, label, value);
 		} else {

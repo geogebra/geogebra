@@ -95,6 +95,7 @@ public class DrawSlider extends Drawable {
 			// point on slider that moves
 			double min = number.getIntervalMin();
 			double max = number.getIntervalMax();
+			
 			double param = (number.getValue() - min) / (max - min);
 			geoPoint.setPointSize(2 + (number.lineThickness + 1) / 3);
 			labelVisible = geo.isLabelVisible();

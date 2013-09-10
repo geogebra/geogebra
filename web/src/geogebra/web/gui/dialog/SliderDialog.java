@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.web.gui.AngleTextFieldW;
@@ -88,6 +89,10 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
+		
+		// allow outside range 0-360
+		angle.setAngleStyle(AngleStyle.UNBOUNDED);
+		
 		GeoNumeric.setSliderFromDefault(number,false);
 		GeoNumeric.setSliderFromDefault(angle,true);
 		number.setValue(1);

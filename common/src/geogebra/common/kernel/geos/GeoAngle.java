@@ -166,7 +166,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @param cons construction
 	 * @return new GeoAngle
 	 */
-	static public final GeoAngle newAngleWithDefaultInterval(Construction cons){
+	static public final GeoAngle newAngleWithDefaultInterval(Construction cons) {
 		GeoAngle ret = new GeoAngle(cons);
 		//set the angle interval
 		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE)).getAngleStyle());
@@ -181,6 +181,22 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 	public GeoAngle(Construction c, String label, double x) {
 		this(c, x);
+		setLabel(label);
+	}
+
+	/**
+	 * Creates labeled angle of given size
+	 * @param c Construction
+	 * @param label Name for angle
+	 * @param x Size of the angle
+	 * @param style eg UNBOUNDED
+	 */
+	public GeoAngle(Construction c, String label, double x, AngleStyle style) {
+		this(c);
+		
+		// must set style before value
+		setAngleStyle(style);
+		setValue(x);
 		setLabel(label);
 	}
 
@@ -281,8 +297,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		return angVal;
 	}
 
-	// Michael Borcherds 2007-10-21 END
-
+	/* not needed now that angles can be unbounded (AngleStyle.UNBOUNDED)
 	@Override
 	public void setIntervalMax(double max) {
 		if (max > Kernel.PI_2)
@@ -296,6 +311,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			return;
 		super.setIntervalMin(min);
 	}
+	*/
 
 	/* removed - overrides setting in XML
 	 * this is set from SliderDialog.actionPerformed for new sliders
@@ -412,8 +428,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(), tpl, this).toString() : 
-			kernel.formatAngle(value, tpl, this).toString();
+		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(), tpl, angleStyle == AngleStyle.UNBOUNDED).toString() : 
+			kernel.formatAngle(value, tpl, angleStyle == AngleStyle.UNBOUNDED).toString();
 	}
 
 	// overwrite
@@ -446,6 +462,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 
+		// from ggb44 need to save before value in case it's unbounded
+		getXMLAngleStyleTag(sb);
+
 		sb.append("\t<value val=\"");
 		sb.append(rawValue);
 		sb.append("\"");
@@ -453,6 +472,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			sb.append(" random=\"true\"");
 		}
 		sb.append("/>\n");
+
 
 		// if angle is drawable then we need to save visual options too
 		if (isDrawable() || isSliderable()) {
@@ -468,7 +488,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			sb.append(arcSize);
 			sb.append("\"/>\n");
 		}
-		getXMLAllowReflexAngleTag(sb);
 		getXMLEmphasizeRightAngleTag(sb);		
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
@@ -488,7 +507,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
     	}
     }
 	
-	private void getXMLAllowReflexAngleTag(StringBuilder sb) {
+	private void getXMLAngleStyleTag(StringBuilder sb) {
 		
 		/* old ggb42 code
 		if (angleStyle == ANGLE_ISANTICLOCKWISE)
@@ -506,7 +525,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 */
 		
 		sb.append("\t<angleStyle val=\"");
-		sb.append(angleStyle);
+		sb.append(angleStyle.xmlVal);
 		sb.append("\"/>\n");
 	}
 	

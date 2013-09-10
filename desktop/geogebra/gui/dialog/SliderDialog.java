@@ -14,6 +14,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.properties.SliderPanel;
@@ -77,6 +78,10 @@ public class SliderDialog extends JDialog
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
+		
+		// allow outside range 0-360
+		angle.setAngleStyle(AngleStyle.UNBOUNDED);
+		
 		GeoNumeric.setSliderFromDefault(number,false);
 		GeoNumeric.setSliderFromDefault(angle,true);
 		number.setValue(1);

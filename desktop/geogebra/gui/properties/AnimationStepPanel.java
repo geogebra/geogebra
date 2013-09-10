@@ -7,6 +7,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
@@ -101,14 +102,13 @@ public class AnimationStepPanel
         	GeoElement stepGeo = geo0.getAnimationStepObject();
 			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
 				tfAnimStep.setText(
-					kernel.formatAngle(geo0.getAnimationStep(), highPrecision, (GeoAngle)geo0).toString());
+					kernel.formatAngle(geo0.getAnimationStep(), highPrecision, ((GeoAngle)geo0).getAngleStyle() == AngleStyle.UNBOUNDED).toString());
 			} else {
 				tfAnimStep.setText(stepGeo.getLabel(highPrecision));
 			}
-        }
-		else
+        } else {
 			tfAnimStep.setText("");
-        
+		}
 		
 
 		tfAnimStep.addActionListener(this);

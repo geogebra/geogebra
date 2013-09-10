@@ -6454,11 +6454,6 @@ public abstract class EuclidianController {
 		}
 	
 		if (movedSlider.isGeoAngle()) {
-			if (val < 0) {
-				val = 0;
-			} else if (val > Kernel.PI_2) {
-				val = Kernel.PI_2;
-			}
 	
 			val = Kernel.checkDecimalFraction(val
 					* Kernel.CONST_180_PI)

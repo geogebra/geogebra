@@ -259,7 +259,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 					&& (min0 == null || (!min0.isLabelSet() && min0
 							.isIndependent()))) {
 				tfMin.setText(kernel.formatAngle(num0.getIntervalMin(),
-						highPrecision, null).toString());
+						highPrecision, true).toString());
 			} else
 				tfMin.setText(min0.getLabel(highPrecision));
 		} else {
@@ -272,7 +272,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 					&& (max0 == null || (!max0.isLabelSet() && max0
 							.isIndependent())))
 				tfMax.setText(kernel.formatAngle(num0.getIntervalMax(),
-						highPrecision, null).toString());
+						highPrecision, true).toString());
 			else
 				tfMax.setText(max0.getLabel(highPrecision));
 		} else {
