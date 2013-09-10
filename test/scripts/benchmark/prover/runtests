@@ -8,15 +8,17 @@ TIMEOUT=30
 IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
-PROVERS="Auto Recio Botana BotanaGiac AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+PROVERS="Auto Recio Botana BotanaGiac PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
+PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
 
 if [ "$PROVEDETAILS" = 1 ]; then
  # Remove some incorrectly working provers.
- PROVERS="Auto Recio Botana OpenGeoProver_Wu"
+ PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu"
+ # PROVERS="Botana BotanaGiac"
+ # PROVERS="Botana OpenGeoProver_Wu"
  fi
 
 THISDIR=`dirname $0`
@@ -137,7 +139,7 @@ for i in `find -name '*.ggb' | sort`; do
   RESULTCLASS=" class=\"o6\""
   DIRNAMELENGTH=${#DIRNAME}
   if [ "${RESULT:0:$DIRNAMELENGTH}" != "$DIRNAME" ]; then
-   if [ "$RESULT" = "undefined" ]; then
+   if [ "$RESULT" = "undefined" -o "$RESULT" = "" ]; then
     RESULTCLASS=" class=\"undefined\""
    else
     RESULTCLASS=" class=\"error\""
@@ -224,15 +226,5 @@ for j in $PROVERS; do
  done
 echo "</tr>" >> $MYDIR/$HTML
 echo
-
-# Use the "graph" script instead.
-# Statistics (using R, install "r-base" on Ubuntu to make this work)
-# echo "<tr><td class=\"summary\" colspan=\"2\"><b>Statistics</b></td>" >> $MYDIR/$HTML
-# for j in $PROVERS; do
-#  echo "<td class=\"summary\" colspan=\"2\"><pre>" >> $MYDIR/$HTML
-#  R -q -e "x <- read.csv('$MYDIR/tmp/rinput-$j', header = F); summary(x); sd(x[ , 1])" \
-#   | sed s/"\[1\] "/" StdDev.:"/ | head -n -2 | tail -n +3 >> $MYDIR/$HTML
-#  echo "</td>" >> $MYDIR/$HTML
-#  done
 
 echo "</tr></table></body></html>" >> $MYDIR/$HTML
