@@ -77,6 +77,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.app.GeoGebraFrame;
+import geogebra.gui.dialog.DashListRenderer;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -4843,14 +4844,16 @@ public class AppD extends App implements KeyEventDispatcher {
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
-			//if we didn't load GUI yet, assume there is no tool creation dialog
-			if (getGuiManager() == null || !getGuiManager().belongsToToolCreator(renderer)){
-				renderer = new DefaultListCellRenderer();
-				cb.setRenderer(renderer);
+			if (!(renderer instanceof DashListRenderer)){
+				//if we didn't load GUI yet, assume there is no tool creation dialog
+				if (getGuiManager() == null || !getGuiManager().belongsToToolCreator(renderer)){
+					renderer = new DefaultListCellRenderer();
+					cb.setRenderer(renderer);
+				}
+				((JLabel) renderer)
+				.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
+						: SwingConstants.LEFT);
 			}
-			((JLabel) renderer)
-					.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
-							: SwingConstants.LEFT);
 		} else if (c instanceof Container) {
 			Container container = (Container) c;
 			int ncomponents = container.getComponentCount();
