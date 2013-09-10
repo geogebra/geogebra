@@ -56,7 +56,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	/**
 	 * the pixel ratio of the canvas.
 	 */
-	public static int devicePixelRatio = 1;
+	public int devicePixelRatio = 1;
 
 	/**
 	 * @param canvas
@@ -993,4 +993,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			lastDebugException = false;
 		}
 	}
+
+	public int getScale() {
+	    return devicePixelRatio;
+    }
 }

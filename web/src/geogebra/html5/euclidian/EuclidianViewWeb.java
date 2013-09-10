@@ -347,4 +347,37 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		bgGraphics = bgImage.createGraphics();
 	}
 
+	
+	public double getMinSamplePoints() {
+		return 40;
+	}
+
+	/*public double getMaxBendOfScreen() {
+		return MAX_BEND_OFF_SCREEN;
+	}*
+
+	public double getMaxBend() {
+		return MAX_BEND;
+	}
+
+	public int getMaxDefinedBisections() {
+		return MAX_DEFINED_BISECTIONS;
+	}*/
+	
+	public double getMinPixelDistance() {
+		return this.g2p == null || g2p.getScale() <= 1 ? 0.5 : 1 ;
+	}
+
+	/*public int getMaxZeroCount() {
+		return MAX_ZERO_COUNT;
+	}*/
+
+	public double getMaxPixelDistance() {
+		return this.g2p == null || g2p.getScale() <= 1 ? 15 : 30 ;
+	}
+
+	/*public int getMaxProblemBisections() {
+		return MAX_PROBLEM_BISECTIONS;
+	}*/
+
 }
