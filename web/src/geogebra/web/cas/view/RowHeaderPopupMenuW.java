@@ -42,13 +42,15 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 		        });
 		addItem(miInsertBelow);
 		miInsertBelow.addStyleName("mi_no_image");
-/*		
-		addItem(new MenuItem("Delete", new ScheduledCommand(){
+	
+		MenuItem miDelete = new MenuItem("Delete", new ScheduledCommand() {
 			public void execute() {
-	            actionPerformed("delete");
-            }
-		}));
-*/
+				actionPerformed("delete");
+			}
+		});
+		addItem(miDelete);
+		miDelete.addStyleName("mi_no_image");
+
 
 	}
 	

@@ -33,4 +33,12 @@ public interface CASTable {
 	void setRow(int rowNumber, GeoCasCell casCell);
 
 	boolean isEditing();
+	
+	/**
+	 * On web, if we insert one or more new row,
+	 * or delete some, needed change the row numbers
+	 * manually after the inserted or deleted rows.
+	 * @param from the first row number to change
+	 */
+	void resetRowNumbers(int from);
 }

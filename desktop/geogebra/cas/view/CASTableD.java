@@ -811,4 +811,8 @@ public class CASTableD extends JTable implements CASTable {
 		return app;
 	}
 
+	public void resetRowNumbers(int from) {
+		//do nothing
+	}
+
 }

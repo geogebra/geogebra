@@ -81,14 +81,18 @@ public class CASTableW extends Grid implements CASTable {
 		
 		if (n < getRowCount()-1){
 			//Let increase the labels below the n. row.
-			RowHeaderWidget nextHeader;
-			for(int i=n+1; i<getRowCount(); i++){
-				nextHeader = (RowHeaderWidget) this.getWidget(i, COL_CAS_HEADER);
-				nextHeader.setLabel(i+1+"");
-			}
+			resetRowNumbers(n+1);
 			// tell construction about new GeoCasCell if it is not at the
 			// end
 			app.getKernel().getConstruction().setCasCellRow(casCell, rows);
+		}
+	}
+	
+	public void resetRowNumbers(int from){
+		RowHeaderWidget nextHeader;
+		for(int i=from; i<getRowCount(); i++){
+			nextHeader = (RowHeaderWidget) this.getWidget(i, COL_CAS_HEADER);
+			nextHeader.setLabel(i+1+"");
 		}
 	}
 
