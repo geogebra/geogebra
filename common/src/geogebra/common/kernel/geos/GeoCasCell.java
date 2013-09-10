@@ -1302,7 +1302,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 					break;
 				}
 
-				sb.append(outputVE.toString(StringTemplate.defaultTemplate));
+				sb.append(includesNumericCommand() ? outputVE.toString(StringTemplate.numericDefault) :
+						outputVE.toString(StringTemplate.defaultTemplate));
 				res = sb.toString();
 			}
 			
