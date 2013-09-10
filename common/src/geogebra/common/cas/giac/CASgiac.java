@@ -533,9 +533,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String vars = freeVars + Polynomial.addLeadingComma(dependantVars);
 		
-        ret += ",[" + vars + "],revlex)],(degree(" + 
-        		idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][2]"; 
-
+        // ret += ",[" + vars + "],revlex)],(degree(" + 
+        //		idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][2]"; 
+		ret += ",[" + vars + "],revlex)],(" + 
+        		idealVar + "[0]!=1)&&(" + idealVar + "[0]!=-1)][2]";     
+        
 		return ret;
 	}
 

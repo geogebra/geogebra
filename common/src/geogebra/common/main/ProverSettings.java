@@ -23,7 +23,7 @@ public class ProverSettings {
     /**
      * Assume if the free points are never collinear. Used by Botana's prover at the moment.
      */
-    public static boolean freePointsNeverCollinear = false;
+    public static Boolean freePointsNeverCollinear = null;
     /**
      * How many coordinates are to be fixed speed up computation for "Prove"?
      * Used by Botana's prover at the moment.

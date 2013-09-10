@@ -922,9 +922,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		Log.info("[groebnerSolvable] input to cas: "+solvableProgram);
 		solvableResult = cas.evaluate(solvableProgram);
 		Log.info("[groebnerSolvable] output from cas: "+solvableResult);	
-		if ("0".equals(solvableResult))
+		if ("0".equals(solvableResult) || "false".equals(solvableResult))
 			return false; // no solution
-		if ("1".equals(solvableResult))
+		if ("1".equals(solvableResult) || "true".equals(solvableResult))
 			return true; // at least one solution exists
 		return null; // cannot decide 
 	}

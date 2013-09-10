@@ -295,8 +295,19 @@ public class ProverBotanasMethod {
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
-			if (ProverSettings.freePointsNeverCollinear)
+			if (ProverSettings.freePointsNeverCollinear == null) {
+				if (App.singularWS.isAvailable()) {
+					// SingularWS will use Cox' method
+					ProverSettings.freePointsNeverCollinear = false;
+				} else {
+					ProverSettings.freePointsNeverCollinear = true;
+				}		
+			}
+			
+			// Only for the Prove command makes sense to set up extra NDG conditions
+			if (ProverSettings.freePointsNeverCollinear && !(prover.isReturnExtraNDGs())) {
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
+			}
 			HashMap<Variable,Integer> substitutions = null;
 			int fixcoords = 0;
 			if (prover.isReturnExtraNDGs())

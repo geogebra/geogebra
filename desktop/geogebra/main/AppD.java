@@ -768,13 +768,13 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "] (OpenGeoProver only)\n"
 							+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear for Prove ["
 							+ ProverSettings.freePointsNeverCollinear
-							+ "] (Botana only)\n"
+							+ "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
 							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
 							+ ProverSettings.useFixCoordinatesProve + ProverSettings.useFixCoordinatesProveDetails 
 							+ "] (Botana only)\n"
 							+ "      polysofractf:BOOLEAN\tuse polynomial ring over a fraction field for Prove ["
 							+ ProverSettings.polysofractf
-							+ "] (Botana only)\n"
+							+ "] (Botana only, needs SingularWS)\n"
 							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
 							+ ProverSettings.captionAlgebra
 							+ "] (Botana only)\n"
