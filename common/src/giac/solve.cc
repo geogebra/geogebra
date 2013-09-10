@@ -5422,12 +5422,14 @@ namespace giac {
     vecteur elim=gen2vecteur(args._VECTptr->back());
     if (elim.empty())
       return eqs;
+#if 0
     // eliminate variables with linear dependency 
     // (in order to lower the number of vars, since <= 11 vars is handled faster)
     for (unsigned i=0;i<eqs.size();++i){
       for (unsigned j=0;j<elim.size();++j){
 	gen a,b;
 	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr))){
+	  // Warning: a is not identically 0 but may vanish for some values of elim...
 	  // eqs[i]=a*elim[j]+b
 	  // replace elim[j] by -b/a
 	  gen elimj=-b/a;
@@ -5440,6 +5442,7 @@ namespace giac {
 	}
       }
     }
+#endif
     vecteur l(elim);
     lvar(eqs,l); // add other vars after vars to eliminate
     vecteur gb=gen2vecteur(_gbasis(gen(makevecteur(eqs,l),_SEQ__VECT),contextptr)),res;
