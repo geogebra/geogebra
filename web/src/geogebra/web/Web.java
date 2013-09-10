@@ -149,7 +149,7 @@ public class Web implements EntryPoint {
     }
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrame::renderArticleElemnt(Lcom/google/gwt/dom/client/Element;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElemnt(Lcom/google/gwt/dom/client/Element;));
     }-*/;
     
 	private native boolean calledFromExtension() /*-{
@@ -199,7 +199,7 @@ public class Web implements EntryPoint {
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrame.main(geoGebraMobileTags);
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags);
 	    
     }
 

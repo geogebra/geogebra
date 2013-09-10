@@ -5,20 +5,14 @@ import geogebra.common.main.App;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.View;
-import geogebra.html5.util.debug.GeoGebraLogger;
-import geogebra.web.WebStatic;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.main.AppW;
-import geogebra.web.main.AppWapplet;
-import geogebra.web.main.AppWsimple;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
@@ -30,7 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The main frame containing every view / menu bar / ....
  * This Panel (Frame is resize able)
  */
-public class GeoGebraFrame extends VerticalPanel {
+public abstract class GeoGebraFrame extends VerticalPanel {
 
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
@@ -65,7 +59,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * In the splashDialog onLoad handler will the application loading continue
 	 */
 	
-	private void createSplash(ArticleElement ae) {
+	protected void createSplash(ArticleElement ae) {
 		
 		int splashWidth = 427;
 		int splashHeight = 120;
@@ -113,7 +107,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		add(splash);
 	}
 	
-	private ArticleElement ae;
+	protected ArticleElement ae;
 	
 	protected int dataParamWidth = 0;
 	protected int dataParamHeight = 0;
@@ -209,45 +203,11 @@ public class GeoGebraFrame extends VerticalPanel {
 			}
 		});
 	}
-	/**
-	 * Main entry points called by geogebra.web.Web.startGeoGebra()
-	 * @param geoGebraMobileTags
-	 *          list of &lt;article&gt; elements of the web page
-	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
-
-		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrame inst = new GeoGebraFrame();
-			inst.ae = articleElement;
-			GeoGebraLogger.startLogger(inst.ae);
-			inst.createSplash(articleElement);	
-			if(WebStatic.panelForApplets == null){
-				RootPanel.get(articleElement.getId()).add(inst);
-			}else{
-				WebStatic.panelForApplets.add(inst);
-			}
-		}
-	}
 
 	public static void finishAsyncLoading(ArticleElement articleElement,
             GeoGebraFrame inst, AppW app) {
 	    handleLoadFile(articleElement, app);
     }
-	
-	/**
-	 * @param element
-	 */
-	public static void renderArticleElemnt(final Element element) {
-		final ArticleElement article = ArticleElement.as(element);
-		Date creationDate = new Date();
-		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
-		final GeoGebraFrame inst = new GeoGebraFrame();
-		inst.ae = article;
-		inst.createSplash(article);
-		RootPanel.get(article.getId()).add(inst);
-	}
-
-	
 
 	private static void handleLoadFile(ArticleElement articleElement,
 			AppW app) {
@@ -278,23 +238,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 *          menus / ...)
 	 * @return the newly created instance of Application
 	 */
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
-		AppW app = new AppWapplet(ae, gf);
-		WebStatic.lastApp = app;
-		return app;
-	}
-
-	/**
-	 * @param useFullGui
-	 *          if false only one euclidianView will be available (without
-	 *          menus / ...)
-	 * @return the newly created instance of Application
-	 */
-	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
-		AppW app = new AppWsimple(ae, gf);
-		WebStatic.lastApp = app;
-		return app;
-	}
+	protected abstract AppW createApplication(ArticleElement ae, GeoGebraFrame gf);
 
 	/**
 	 * @return list of instances of GeogebraFrame
