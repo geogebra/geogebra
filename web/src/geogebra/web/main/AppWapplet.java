@@ -15,6 +15,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -31,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AppWapplet extends AppW {
 
 	private GeoGebraFrame frame = null;
+	protected GuiManagerInterfaceW guiManager = null;
 
 	//Event flow operations - are these needed in AppWapplet?
 	
@@ -94,6 +96,23 @@ public class AppWapplet extends AppW {
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
 		return guiManager;
+	}
+
+	@Override
+	public void initGuiManager() {
+		// this should not be called from AppWsimple!
+		setWaitCursor();
+		guiManager = newGuiManager();
+		getGuiManager().setLayout(new geogebra.web.gui.layout.LayoutW());
+		getGuiManager().initialize();
+		setDefaultCursor();
+	}
+
+	/**
+	 * @return a GuiManager for GeoGebraWeb
+	 */
+	protected GuiManagerW newGuiManager() {
+		return new GuiManagerW(AppWapplet.this);
 	}
 
 	@Override

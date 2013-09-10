@@ -43,7 +43,6 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerInterfaceW;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
@@ -98,7 +97,6 @@ public class AppW extends AppWeb {
 
 	private FontManagerW fontManager;
 	private SpreadsheetTableModelW tableModel;
-	protected GuiManagerInterfaceW guiManager = null;
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
 	private ToolTipManagerW toolTipManager;
@@ -348,7 +346,7 @@ public class AppW extends AppWeb {
 			kernel.initUndoInfo();
 		}
 
-		if (guiManager != null) {
+		if (getGuiManager() != null) {
 			getGuiManager().updateActions();
 		}
 
@@ -380,13 +378,13 @@ public class AppW extends AppWeb {
 
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot() {
-		return (guiManager != null) &&
+		return (getGuiManager() != null) &&
 			getGuiManager().hasEuclidianView2EitherShowingOrNot();
 	}
 
 	@Override
     public boolean hasEuclidianView2() {
-		return (guiManager != null) && getGuiManager().hasEuclidianView2();
+		return (getGuiManager() != null) && getGuiManager().hasEuclidianView2();
 	}
 
 	@Override
@@ -408,7 +406,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public boolean isShowingEuclidianView2() {
-		return (guiManager != null) && getGuiManager().hasEuclidianView2()
+		return (getGuiManager() != null) && getGuiManager().hasEuclidianView2()
 			&& getGuiManager().getEuclidianView2().isShowing();
 	}
 
@@ -568,7 +566,7 @@ public class AppW extends AppWeb {
 		if (initing) {
 			return;
 		}
-		if (guiManager != null) {
+		if (getGuiManager() != null) {
 			getGuiManager().setLabels();
 		}
 		// if (rbplain != null) {
@@ -1310,7 +1308,7 @@ public class AppW extends AppWeb {
 	@Override
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
 		
-		if (guiManager == null) {
+		if (getGuiManager() == null) {
 			initGuiManager();
 		}
 		getGuiManager().getLayout().getXml(sb, asPreference);
@@ -1473,19 +1471,10 @@ public class AppW extends AppWeb {
 
 	@Override
 	public void initGuiManager() {
-		setWaitCursor();
-		guiManager = newGuiManager();
-		guiManager.setLayout(new geogebra.web.gui.layout.LayoutW());
-		guiManager.initialize();
-		setDefaultCursor();
+		// this should not be called from AppWsimple!
+		// this method should be overridden in
+		// AppWapplet and AppWapplication!
 	}
-
-	/**
-	 * @return a GuiManager for GeoGebraWeb
-	 */
-	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(AppW.this);
-	}	
 
 	@Override
 	public void exitAll() {

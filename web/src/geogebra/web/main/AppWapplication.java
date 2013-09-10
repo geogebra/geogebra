@@ -11,6 +11,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 public class AppWapplication extends AppW {
 
 	private GeoGebraAppFrame appFrame = null;
+	protected GuiManagerInterfaceW guiManager = null;
 	private geogebra.web.gui.app.SplashDialog splashDialog = null;
 
 	//Event flow operations
@@ -85,6 +87,23 @@ public class AppWapplication extends AppW {
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
 		return guiManager;
+	}
+
+	@Override
+	public void initGuiManager() {
+		// this should not be called from AppWsimple!
+		setWaitCursor();
+		guiManager = newGuiManager();
+		getGuiManager().setLayout(new geogebra.web.gui.layout.LayoutW());
+		getGuiManager().initialize();
+		setDefaultCursor();
+	}
+
+	/**
+	 * @return a GuiManager for GeoGebraWeb
+	 */
+	protected GuiManagerW newGuiManager() {
+		return new GuiManagerW(AppWapplication.this);
 	}
 
 	private void createAppSplash() {
