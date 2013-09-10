@@ -1,8 +1,6 @@
 package geogebra.web.main;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.operations.LogOutOperation;
@@ -16,7 +14,6 @@ import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
-import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 
@@ -46,7 +43,7 @@ public class AppWapplication extends AppW {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		this.objectPool = new ObjectPool();
-		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
+		//this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
 		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
 		App.useFullAppGui = true;
@@ -69,24 +66,6 @@ public class AppWapplication extends AppW {
 		//this may only be called after factories are initialized
 		StringTemplate.latexIsMathQuill = true;
 		removeDefaultContextMenu();
-
-		//TODO delete following profiling
-				StringBuilder sb = new StringBuilder(1000);
-				long l = System.currentTimeMillis();
-				FunctionVariable fv = new FunctionVariable(this.getKernel());
-				ExpressionNode n = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv);
-				for(int i = 0;i<100000;i++){
-					sb.append(n.toValueString(StringTemplate.defaultTemplate));
-				}
-				App.debug("Plus node serialized in"+(System.currentTimeMillis() - l));
-				
-				l = System.currentTimeMillis();
-				StringBuilder sbm = new StringBuilder(1000);
-				ExpressionNode nm = fv.wrap().subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv);
-				for(int i = 0;i<100000;i++){
-					sbm.append(nm.toValueString(StringTemplate.defaultTemplate));
-				}
-				App.debug("Minus node serialized in"+(System.currentTimeMillis() - l));
 	}
 
 	/*************************************************
