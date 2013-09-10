@@ -145,4 +145,5 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 *  @return y-offset of topmost slider in pixels 
 	 */
 	public int getSliderOffsetY();
+	public double getMinPixelDistance();
 }

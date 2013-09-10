@@ -49,8 +49,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 
 		// only add points that are more than MIN_PIXEL_DISTANCE
 		// from current location
-		else if (!Kernel.isEqual(x, point.getX(), CurvePlotter.MIN_PIXEL_DISTANCE)
-				|| !Kernel.isEqual(y, point.getY(), CurvePlotter.MIN_PIXEL_DISTANCE)) {
+		else if (!Kernel.isEqual(x, point.getX(), view.getMinPixelDistance())
+				|| !Kernel.isEqual(y, point.getY(), view.getMinPixelDistance())) {
 			if (lineTo) {
 				lineTo(x, y);
 			} else {

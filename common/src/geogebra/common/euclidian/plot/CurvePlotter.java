@@ -43,27 +43,7 @@ public class CurvePlotter {
 	private static int countPoints = 0;
 	private static long countEvaluations = 0;
 	
-	// maximum and minimum distance between two plot points in pixels
-	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
-	static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
-
-	// maximum angle between two line segments
-	private static final double MAX_ANGLE = 10; // degrees
-	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
-	private static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
-	private static final double MAX_BEND_OFF_SCREEN = Math
-			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
-
-	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
-	private static final int MAX_DEFINED_BISECTIONS = 16;
-	private static final int MAX_PROBLEM_BISECTIONS = 8;
-
-	// maximum number of times to loop when xDiff, yDiff are both zero
-	// eg Curve[0sin(t), 0t, t, 0, 6]
-	private static final int MAX_ZERO_COUNT = 1000;
-
-	// the curve is sampled at least at this many positions to plot it
-	private static final int MIN_SAMPLE_POINTS = 80;
+	
 	/** ways to overcome discontinuity */
 	public enum Gap{
 	/** draw a line */
@@ -115,7 +95,7 @@ public class CurvePlotter {
 		// curve.toGeoElement().getLabel() + " in "+ t1 + ", " + t2);
 
 		// ensure MIN_PLOT_POINTS
-		double max_param_step = Math.abs(t2 - t1) / MIN_SAMPLE_POINTS;
+		double max_param_step = Math.abs(t2 - t1) / view.getMinSamplePoints();
 		// plot Interval [t1, t2]
 		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
 				gp, calcLabelPos, moveToAllowed);
@@ -202,7 +182,7 @@ public class CurvePlotter {
 
 		// TODO
 		// INIT plotting algorithm
-		int LENGTH = MAX_DEFINED_BISECTIONS + 1;
+		int LENGTH = view.getMaxDefinedBisections() + 1;
 		int dyadicStack[] = new int[LENGTH];
 		int depthStack[] = new int[LENGTH];
 		double[][] posStack = new double[LENGTH][];
@@ -245,18 +225,18 @@ public class CurvePlotter {
 			// segment from last point off screen?
 			segOffScreen = view.isSegmentOffView(eval0, eval1);
 			// pixel distance from last point OK?
-			distanceOK = segOffScreen || isDistanceOK(diff);
+			distanceOK = segOffScreen || isDistanceOK(diff, view);
 			// angle from last segment OK?
 			angleOK = isAngleOK(prevDiff, diff,
-					segOffScreen ? MAX_BEND_OFF_SCREEN : MAX_BEND);
+					segOffScreen ? view.getMaxBendOfScreen() : view.getMaxBend());
 
 			// bisect interval as long as ...
 			while ( // max bisection depth not reached
-			depth < MAX_DEFINED_BISECTIONS &&
+			depth < view.getMaxDefinedBisections() &&
 			// distance not ok or angle not ok or step too big
 					(!distanceOK || !angleOK || divisors[depth] > max_param_step)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t, 0, 6]
-					&& countDiffZeros < MAX_ZERO_COUNT
+					&& countDiffZeros < view.getMaxZeroCount()
 					) {
 				// push stacks
 				dyadicStack[top] = i;
@@ -301,10 +281,10 @@ public class CurvePlotter {
 				// segment from last point off screen?
 				segOffScreen = view.isSegmentOffView(eval0, eval1);
 				// pixel distance from last point OK?
-				distanceOK = segOffScreen || isDistanceOK(diff);
+				distanceOK = segOffScreen || isDistanceOK(diff, view);
 				// angle from last segment OK?
 				angleOK = isAngleOK(prevDiff, diff,
-						segOffScreen ? MAX_BEND_OFF_SCREEN : MAX_BEND);
+						segOffScreen ? view.getMaxBendOfScreen() : view.getMaxBend());
 
 			} // end of while-loop for interval bisections
 
@@ -318,7 +298,7 @@ public class CurvePlotter {
 				} else if (!angleOK || !distanceOK) {
 					// check for DISCONTINUITY
 					lineTo = isContinuous(curve, left, t,
-							MAX_PROBLEM_BISECTIONS);
+							view.getMaxProblemBisections());
 				}
 			}else
 				if (moveToAllowed == Gap.CORNER) {
@@ -409,7 +389,7 @@ public class CurvePlotter {
 			Gap moveToAllowed, GPoint labelPoint) {
 		boolean calcLabel = calcLabelPos;
 		// stop recursion for too many intervals
-		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {
+		if (intervalDepth > view.getMaxProblemBisections() || t1 == t2) {
 			return labelPoint;
 		}
 
@@ -504,9 +484,9 @@ public class CurvePlotter {
 	 * Returns whether the pixel distance from the last point is smaller than
 	 * MAX_PIXEL_DISTANCE in all directions.
 	 */
-	private static boolean isDistanceOK(double[] diff) {
+	private static boolean isDistanceOK(double[] diff,EuclidianView view) {
 		for (double d : diff){
-			if (Math.abs(d) > MAX_PIXEL_DISTANCE){
+			if (Math.abs(d) > view.getMaxPixelDistance()){
 				return false;
 			}
 		}
