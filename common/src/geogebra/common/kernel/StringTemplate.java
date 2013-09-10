@@ -1879,6 +1879,10 @@ public class StringTemplate implements ExpressionNodeConstants{
 			switch (stringType) {
 			case LATEX:
 			case LIBRE_OFFICE:
+				// print x^1 as x
+				if ("1".equals(rightStr)) {
+					break;
+				}
 				sb.append('^');
 
 				// add brackets for eg a^b^c -> a^(b^c)
