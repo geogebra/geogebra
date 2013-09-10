@@ -70,6 +70,7 @@ public class FileManagerT {
 			app.getGgbApi().setBase64(base64);
 		} catch (final Throwable t) {
 			success = false;
+			app.showError("LoadFileFailed");
 			t.printStackTrace();
 		}
 		return success;
