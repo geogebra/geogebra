@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -94,11 +95,14 @@ public abstract class AlgoStats1D extends AlgoElement {
 		this.stat = stat;
 		this.Truncate = Truncate;
 
-		if (geoList.size() > 0 && geoList.get(0).isAngle())
+		if (geoList.size() > 0 && geoList.get(0).isAngle()) {
 			result = new GeoAngle(cons);
-		else
+			
+			// allow unbounded angles (from ggb44). This could break old files (unlikely)
+			((GeoAngle)result).setAngleStyle(AngleStyle.UNBOUNDED);
+		} else {
 			result = new GeoNumeric(cons);
-
+		}
 		
 		
 		setInputOutput();
