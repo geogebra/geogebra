@@ -1,10 +1,11 @@
 package geogebra.web.helper;
 
 import geogebra.web.gui.app.GGWMenuBar;
+import geogebra.web.main.MyGoogleApisFactory;
 
 public class ObjectPool {
 	
-	private MyGoogleApis myGoogleApis;
+	private MyGoogleApisFactory googleApisFactory;
 	private GGWMenuBar ggwMenubar;
 	private MySkyDriveApis mySkyDriveApis;
 	
@@ -13,11 +14,11 @@ public class ObjectPool {
 	}
 
 	public MyGoogleApis getMyGoogleApis() {
-	    return myGoogleApis;
+	    return googleApisFactory.getAPI();
     }
 
-	public void setMyGoogleApis(MyGoogleApis myGoogleApis) {
-	    this.myGoogleApis = myGoogleApis;
+	public void setMyGoogleApis(MyGoogleApisFactory myGoogleApis) {
+	    this.googleApisFactory = myGoogleApis;
     }
 
 	public GGWMenuBar getGgwMenubar() {

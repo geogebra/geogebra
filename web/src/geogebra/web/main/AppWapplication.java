@@ -43,7 +43,7 @@ public class AppWapplication extends AppW {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		this.objectPool = new ObjectPool();
-		//this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
+		this.objectPool.setMyGoogleApis(new MyGoogleApisFactory(this));
 		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
 		App.useFullAppGui = true;
