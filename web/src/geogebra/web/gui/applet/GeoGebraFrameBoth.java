@@ -1,15 +1,20 @@
 package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.App;
+import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
 import geogebra.web.main.AppW;
 import geogebra.web.main.AppWapplet;
+import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -25,11 +30,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 		return app;
 	}
 
-	/*protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
+	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
 		AppW app = new AppWsimple(ae, gf);
 		WebStatic.lastApp = app;
 		return app;
-	}*/
+	}
 
 	/**
 	 * Main entry points called by geogebra.web.Web.startGeoGebra()
@@ -64,7 +69,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 		RootPanel.get(article.getId()).add(inst);
 	}
 
-	/*public void runAsyncAfterSplash() {
+	public void runAsyncAfterSplash() {
 		final GeoGebraFrameBoth inst = this;
 		final ArticleElement articleElement = ae;
 
@@ -114,5 +119,5 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 				}
 			});
 		}
-	}*/
+	}
 }
