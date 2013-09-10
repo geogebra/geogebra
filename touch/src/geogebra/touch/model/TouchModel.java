@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -1300,7 +1301,9 @@ public class TouchModel {
 			final GeoNumeric slider = this.sliderDialog.isNumber() ? new GeoNumeric(
 					this.kernel.getConstruction()) : new GeoAngle(
 					this.kernel.getConstruction());
-
+			if(slider instanceof GeoAngle){
+				((GeoAngle)slider).setAngleStyle(AngleStyle.UNBOUNDED);
+			}
 			// the slider will be removed in case of an Exception while parsing
 			// the texts from the textfields (min, max, increment)
 			this.actualSlider = slider;
