@@ -1525,17 +1525,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 										|| name.endsWith(".gif"));
 							}
 						});
-						// fd.setTitle("saveDialogTitleText");
+						fd.setTitle(app.getMenu("Load"));
 
 						fd.toFront();
 						fd.setVisible(true);
+						// FIXME: find a better place for this, we need to change the
+						// cursor back before NPE when file loading was unsuccessful: 
+						app.setDefaultCursor();		
+
 						if (fd.getFile() != null) {
 							imageFile = new File(fd.getDirectory() + "/" + fd.getFile());
 						}
 
 						app.setCurrentPath(new File(fd.getDirectory()));
-
-						app.setDefaultCursor();
 						
 					} else {
 					/**************************************************************
@@ -1635,17 +1637,22 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 								|| name.endsWith(".dat"));
 					}
 				});
-				// fd.setTitle("saveDialogTitleText");
+				
+				fd.setTitle(app.getMenu("Load"));
 
 				fd.toFront();
 				fd.setVisible(true);
+				// FIXME: find a better place for this, we need to change the
+				// cursor back before NPE when file loading was unsuccessful:
+				app.setDefaultCursor();
+
 				if (fd.getFile() != null) {
 					dataFile = new File(fd.getDirectory() + "/" + fd.getFile());
 				}
 
 				app.setCurrentPath(new File(fd.getDirectory()));
 
-				app.setDefaultCursor();
+				
 				return dataFile;
 			}
 			/**************************************************************
@@ -1845,7 +1852,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				fd.toFront();
 				fd.setVisible(true);
-				app.setDefaultCursor(); // seems to be needed for Mac
+				
 				if (fd.getFile() == null) {
 					// cancel pressed
 					return null;
@@ -2028,10 +2035,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 								.endsWith("." + AppD.FILE_EXT_HTML));
 					}
 				});
-				// fd.setTitle("saveDialogTitleText");
+				fd.setTitle(app.getMenu("Load"));
 
 				fd.toFront();
 				fd.setVisible(true);
+				// FIXME: find a better place for this, we need to change the
+				// cursor back before NPE when file loading was unsuccessful:
+				app.setDefaultCursor();
+
 				File[] files = new File[1];
 				if (fd.getFile() != null) {
 					files[0] = new File(fd.getDirectory() + "/" + fd.getFile());
