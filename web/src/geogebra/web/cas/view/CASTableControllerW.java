@@ -40,7 +40,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 
 	public void onClick(ClickEvent event) {
 		GuiManagerInterfaceW gm = app.getGuiManager();
-		gm.setActiveToolbarId(App.VIEW_CAS);		
+		if (app.getToolbar() != null) gm.setActiveToolbarId(App.VIEW_CAS);		
 		
 		CASTableW table = view.getConsoleTable();
 		Cell c = table.getCellForEvent(event);
