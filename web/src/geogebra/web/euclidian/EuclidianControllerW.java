@@ -450,10 +450,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int eHeight = ((EuclidianViewW)view).getHeight();
 		if ((x < ex || x > ex + eWidth) ||
 				(y < ey ||y > ey + eHeight)){
-
-			if (app.getGuiManager() != null)
-				((GuiManagerW)app.getGuiManager()).removePopup();
-
 			((AppW)app).getToolTipManager().hideToolTip();
 		}
 

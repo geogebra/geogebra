@@ -34,7 +34,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -111,7 +110,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		//initTreeCellRendererEditor();
 
 		// add listener
-		this.addMouseOutHandler((MouseOutHandler)algCtrl);
+		//this.addMouseOutHandler((MouseOutHandler)algCtrl);
 		this.addMouseDownHandler((MouseDownHandler)algCtrl);
 		//addMouseUpHandler((AlgebraController)algCtrl);
 		//addMouseMoveHandler((AlgebraController)algCtrl);

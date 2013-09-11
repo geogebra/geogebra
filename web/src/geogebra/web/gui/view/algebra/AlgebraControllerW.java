@@ -17,16 +17,12 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 
 
 public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
-implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler, MouseOutHandler {
+implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 
 	//FIXME: make e.isControlDown like Application.isControlDown etc.
 	//FIXME: make something instead of the outcommented things, etc.
@@ -261,25 +257,4 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 		mouseMoved(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
-	public void onMouseOver(MouseOverEvent event) {
-		
-	}
-
-	public void onMouseOut(MouseOutEvent event) {
-		
-//		// Hide dialogs if they are open.
-//		// onMouseOut runs, if the mouse enters the popup menu too, not only if
-//		// the user leaves the algebra view, so we must check whether the user
-//		// left the algebra view indeed or not. 
-//		int x = event.getClientX();
-//		int y = event.getClientY();
-//		int ax = ((AlgebraViewW)view).getAbsoluteLeft();
-//		int ay = ((AlgebraViewW)view).getAbsoluteTop();
-//		int aWidth = ((AlgebraViewW)view).getOffsetWidth();
-//		int aHeight = ((AlgebraViewW)view).getOffsetHeight();
-//		if ((x <= ax || x >= ax + aWidth) ||
-//				(y <= ay ||y >= ay + aHeight)){
-//				((GuiManagerW)app.getGuiManager()).removePopup();
-//		}		
-	}
 }
