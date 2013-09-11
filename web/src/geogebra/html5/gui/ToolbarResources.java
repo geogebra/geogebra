@@ -48,6 +48,10 @@ public interface ToolbarResources extends ClientBundle{
 	@Source("icons/svg/tools_measurement_angle.svg")
 	@Validated(validated = false)
 	SVGResource angle();
+	
+	@Source("icons/svg/tools_measurement_angle_with_given_size.svg")
+	@Validated(validated = false)
+	SVGResource angle_fixed();
 
 	@Source("icons/svg/tools_specialline_angle_bisector.svg")
 	@Validated(validated = false)
@@ -102,6 +106,18 @@ public interface ToolbarResources extends ClientBundle{
 	@Source("icons/svg/tools_cas_factor.svg")
 	@Validated(validated = false)
 	SVGResource factor();
+	
+	@Source("icons/svg/tools_cas_derivative.svg")
+	@Validated(validated = false)
+	SVGResource derivative();
+	
+	@Source("icons/svg/tools_cas_solve_numerically.svg")
+	@Validated(validated = false)
+	SVGResource nsolve();
+	
+	@Source("icons/svg/tools_spreadsheet_two_variable_regression_analysis.svg")
+	@Validated(validated = false)
+	SVGResource two_variable();
 
 	@Source("icons/svg/tools_specialobject_freehand_shape.svg")
 	@Validated(validated = false)
@@ -330,5 +346,49 @@ public interface ToolbarResources extends ClientBundle{
 	@Source("icons/svg/tools_measurement_distance_or_length.svg")
 	@Validated(validated = false)
 	SVGResource distance_or_length();
+	
+	@Source("icons/svg/tools_spreadsheet_create_polyline.svg")
+	@Validated(validated = false)
+	SVGResource create_polyline();
+	
+	@Source("icons/svg/tools_spreadsheet_create_matrix.svg")
+	@Validated(validated = false)
+	SVGResource create_matrix();
+	
+	@Source("icons/svg/tools_spreadsheet_create_list_of_points.svg")
+	@Validated(validated = false)
+	SVGResource create_point_list();
+
+	@Source("icons/svg/tools_spreadsheet_create_table.svg")
+	@Validated(validated = false)
+	SVGResource create_table();
+
+	@Source("icons/svg/tools_spreadsheet_maximum.svg")
+	@Validated(validated = false)
+	SVGResource max();
+	
+	@Source("icons/svg/tools_spreadsheet_minimum.svg")
+	@Validated(validated = false)
+	SVGResource min();
+	
+	@Source("icons/svg/tools_spreadsheet_mean.svg")
+	@Validated(validated = false)
+	SVGResource mean();
+	
+	@Source("icons/svg/tools_spreadsheet_count.svg")
+	@Validated(validated = false)
+	SVGResource count();
+	
+	@Source("icons/svg/tools_spreadsheet_sum.svg")
+	@Validated(validated = false)
+	SVGResource sum();
+	
+	@Source("icons/svg/tools_spreadsheet_multiple_variable_analysis.svg")
+	@Validated(validated = false)
+	SVGResource multiple_variable();
+	
+	@Source("icons/svg/tools_spreadsheet_one_variable_analysis.svg")
+	@Validated(validated = false)
+	SVGResource one_variable();
 
 }
