@@ -9,6 +9,7 @@ import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -71,13 +72,19 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 			return;
 		}
 		table.cancelEditing();
+		event.stopPropagation();
+		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
+			for(Integer item : table.getSelectedRows()){
+				if (item.equals(startSelectRow)) return;
+			}
+			table.setSelectedRows(startSelectRow, startSelectRow);
+			return;
+		}
 		if (event.isControlKeyDown()){
 			table.addSelectedRows(startSelectRow, p.getY());
 		} else {
 			table.setSelectedRows(startSelectRow, p.getY());
 		}
-		event.stopPropagation();
-	    
     }
 
 	public void onMouseDown(MouseDownEvent event) {
