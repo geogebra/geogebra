@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.html5.gui.ToolbarResources;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
@@ -190,8 +191,8 @@ public class StyleBar extends FlowPanel {
 				});
 				this.buttons.put(StyleBarEntry.LineStyle, b);
 
-			} else if (svg.equals(lafIcons.label())) {
-				b = new StandardButton(lafIcons.label());
+			} else if (svg.equals(ToolbarResources.INSTANCE.label())) {
+				b = new StandardButton(ToolbarResources.INSTANCE.label());
 				b.addFastClickHandler(new FastClickHandler() {
 
 					@Override

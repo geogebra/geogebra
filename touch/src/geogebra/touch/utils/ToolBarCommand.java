@@ -1,6 +1,7 @@
 package geogebra.touch.utils;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.html5.gui.ToolbarResources;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -15,166 +16,170 @@ import org.vectomatic.dom.svg.ui.SVGResource;
  */
 public enum ToolBarCommand {
 	// Movement
-	Move(EuclidianConstants.MODE_MOVE, getLafIcons().move(), null), RecordToSpreadsheet(
-			EuclidianConstants.MODE_RECORD_TO_SPREADSHEET, getLafIcons()
+	Move(EuclidianConstants.MODE_MOVE, toolIcons().move(), null), RecordToSpreadsheet(
+			EuclidianConstants.MODE_RECORD_TO_SPREADSHEET, toolIcons()
 					.record_to_spreadsheet(), null), RotateAroundPoint(
-			EuclidianConstants.MODE_ROTATE_BY_ANGLE, getLafIcons()
+			EuclidianConstants.MODE_ROTATE_BY_ANGLE, toolIcons()
 					.rotate_around_point(), null),
 
 	// Point
-	AttachDetachPoint(EuclidianConstants.MODE_ATTACH_DETACH, getLafIcons()
+	AttachDetachPoint(EuclidianConstants.MODE_ATTACH_DETACH, toolIcons()
 			.attach_detach_point(), StyleBarDefaultSettings.Point), ComplexNumbers(
-			EuclidianConstants.MODE_COMPLEX_NUMBER, getLafIcons()
+			EuclidianConstants.MODE_COMPLEX_NUMBER, toolIcons()
 					.complex_number(), StyleBarDefaultSettings.Point), IntersectTwoObjects(
-			EuclidianConstants.MODE_INTERSECT, getLafIcons()
+			EuclidianConstants.MODE_INTERSECT, toolIcons()
 					.intersect_two_objects(),
 			StyleBarDefaultSettings.DependentPoints), MidpointOrCenter(
-			EuclidianConstants.MODE_MIDPOINT, getLafIcons()
+			EuclidianConstants.MODE_MIDPOINT, toolIcons()
 					.midpoint_or_center(),
 			StyleBarDefaultSettings.DependentPoints), NewPoint(
-			EuclidianConstants.MODE_POINT, getLafIcons().new_point(),
+			EuclidianConstants.MODE_POINT, toolIcons().new_point(),
 			StyleBarDefaultSettings.Point), PointOnObject(
-			EuclidianConstants.MODE_POINT_ON_OBJECT, getLafIcons()
+			EuclidianConstants.MODE_POINT_ON_OBJECT, toolIcons()
 					.point_on_object(), StyleBarDefaultSettings.PointOnObject),
 
 	// Line
-	LineThroughTwoPoints(EuclidianConstants.MODE_JOIN, getLafIcons()
+	LineThroughTwoPoints(EuclidianConstants.MODE_JOIN, toolIcons()
 			.line_through_two_points(), StyleBarDefaultSettings.Line), PolylineBetweenPoints(
-			EuclidianConstants.MODE_POLYLINE, getLafIcons()
+			EuclidianConstants.MODE_POLYLINE, toolIcons()
 					.polyline_between_points(), StyleBarDefaultSettings.Line), RayThroughTwoPoints(
 			EuclidianConstants.MODE_RAY,
-			getLafIcons().ray_through_two_points(),
+			toolIcons().ray_through_two_points(),
 			StyleBarDefaultSettings.Line), SegmentBetweenTwoPoints(
-			EuclidianConstants.MODE_SEGMENT, getLafIcons()
+			EuclidianConstants.MODE_SEGMENT, toolIcons()
 					.segment_between_two_points(), StyleBarDefaultSettings.Line), VectorBetweenTwoPoints(
-			EuclidianConstants.MODE_VECTOR, getLafIcons()
+			EuclidianConstants.MODE_VECTOR, toolIcons()
 					.vector_between_two_points(), StyleBarDefaultSettings.Line), VectorFromPoint(
-			EuclidianConstants.MODE_VECTOR_FROM_POINT, getLafIcons()
+			EuclidianConstants.MODE_VECTOR_FROM_POINT, toolIcons()
 					.vector_from_point(), StyleBarDefaultSettings.Line),
 
 	// Special Line
-	AngleBisector(EuclidianConstants.MODE_ANGULAR_BISECTOR, getLafIcons()
+	AngleBisector(EuclidianConstants.MODE_ANGULAR_BISECTOR, toolIcons()
 			.angle_bisector(), StyleBarDefaultSettings.Line), BestFitLine(
-			EuclidianConstants.MODE_FITLINE, getLafIcons().best_fit_line(),
+			EuclidianConstants.MODE_FITLINE, toolIcons().best_fit_line(),
 			StyleBarDefaultSettings.Line), Locus(EuclidianConstants.MODE_LOCUS,
-			getLafIcons().locus(), StyleBarDefaultSettings.Line), ParallelLine(
-			EuclidianConstants.MODE_PARALLEL, getLafIcons().parallel_line(),
+			toolIcons().locus(), StyleBarDefaultSettings.Line), ParallelLine(
+			EuclidianConstants.MODE_PARALLEL, toolIcons().parallel_line(),
 			StyleBarDefaultSettings.Line), PerpendicularBisector(
-			EuclidianConstants.MODE_LINE_BISECTOR, getLafIcons()
+			EuclidianConstants.MODE_LINE_BISECTOR, toolIcons()
 					.perpendicular_bisector(), StyleBarDefaultSettings.Line), PerpendicularLine(
-			EuclidianConstants.MODE_ORTHOGONAL, getLafIcons()
+			EuclidianConstants.MODE_ORTHOGONAL, toolIcons()
 					.perpendicular_line(), StyleBarDefaultSettings.Line), PolarOrDiameterLine(
-			EuclidianConstants.MODE_POLAR_DIAMETER, getLafIcons()
+			EuclidianConstants.MODE_POLAR_DIAMETER, toolIcons()
 					.polar_or_diameter_line(), StyleBarDefaultSettings.Line), Tangents(
-			EuclidianConstants.MODE_TANGENTS, getLafIcons().tangents(),
+			EuclidianConstants.MODE_TANGENTS, toolIcons().tangents(),
 			StyleBarDefaultSettings.Line),
 
 	// Polygon
-	Polygon(EuclidianConstants.MODE_POLYGON, getLafIcons().polygon(),
+	Polygon(EuclidianConstants.MODE_POLYGON, toolIcons().polygon(),
 			StyleBarDefaultSettings.Polygon), RegularPolygon(
-			EuclidianConstants.MODE_REGULAR_POLYGON, getLafIcons()
+			EuclidianConstants.MODE_REGULAR_POLYGON, toolIcons()
 					.regular_polygon(), StyleBarDefaultSettings.Polygon), RigidPolygon(
-			EuclidianConstants.MODE_RIGID_POLYGON, getLafIcons()
+			EuclidianConstants.MODE_RIGID_POLYGON, toolIcons()
 					.rigid_polygon(), StyleBarDefaultSettings.Polygon), VectorPolygon(
-			EuclidianConstants.MODE_VECTOR_POLYGON, getLafIcons()
+			EuclidianConstants.MODE_VECTOR_POLYGON, toolIcons()
 					.vector_polygon(), StyleBarDefaultSettings.Polygon),
 
 	// Circle and Arc
 	CircleThroughThreePoints(EuclidianConstants.MODE_CIRCLE_THREE_POINTS,
-			getLafIcons().circle_through_three_points(),
+			toolIcons().circle_through_three_points(),
 			StyleBarDefaultSettings.Line), CircleWithCenterThroughPoint(
-			EuclidianConstants.MODE_CIRCLE_TWO_POINTS, getLafIcons()
+			EuclidianConstants.MODE_CIRCLE_TWO_POINTS, toolIcons()
 					.circle_with_center_through_point(),
 			StyleBarDefaultSettings.Line), CircularArcWithCenterBetweenTwoPoints(
-			EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, getLafIcons()
+			EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, toolIcons()
 					.circular_arc_with_center_between_two_points(),
 			StyleBarDefaultSettings.Line), CircularSectorWithCenterBetweenTwoPoints(
-			EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS, getLafIcons()
+			EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS, toolIcons()
 					.circular_sector_with_center_between_two_points(),
 			StyleBarDefaultSettings.Line), CircumCirculuarArcThroughThreePoints(
 			EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS,
-			getLafIcons().circumcircular_arc_through_three_points(),
+			toolIcons().circumcircular_arc_through_three_points(),
 			StyleBarDefaultSettings.Line), CircumCircularSectorThroughThreePoints(
 			EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS,
-			getLafIcons().circumcircular_sector_through_three_points(),
+			toolIcons().circumcircular_sector_through_three_points(),
 			StyleBarDefaultSettings.Line), Compasses(
-			EuclidianConstants.MODE_COMPASSES, getLafIcons().compasses(),
+			EuclidianConstants.MODE_COMPASSES, toolIcons().compasses(),
 			StyleBarDefaultSettings.Line), Semicircle(
-			EuclidianConstants.MODE_SEMICIRCLE, getLafIcons().semicircle(),
+			EuclidianConstants.MODE_SEMICIRCLE, toolIcons().semicircle(),
 			StyleBarDefaultSettings.Line),
 
 	// Conic Section
 	ConicThroughFivePoints(EuclidianConstants.MODE_CONIC_FIVE_POINTS,
-			getLafIcons().conic_through_5_points(),
+			toolIcons().conic_through_5_points(),
 			StyleBarDefaultSettings.Line), Ellipse(
-			EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, getLafIcons()
+			EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, toolIcons()
 					.ellipse(), StyleBarDefaultSettings.Line), Hyperbola(
-			EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS, getLafIcons()
+			EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS, toolIcons()
 					.hyperbola(), StyleBarDefaultSettings.Line), Parabola(
-			EuclidianConstants.MODE_PARABOLA, getLafIcons().parabola(),
+			EuclidianConstants.MODE_PARABOLA, toolIcons().parabola(),
 			StyleBarDefaultSettings.Line),
 
 	// Measurement
-	Angle(EuclidianConstants.MODE_ANGLE, getLafIcons().angle(),
+	Angle(EuclidianConstants.MODE_ANGLE, toolIcons().angle(),
 			StyleBarDefaultSettings.Angle), Area(EuclidianConstants.MODE_AREA,
-			getLafIcons().area(), null), CreateList(
-			EuclidianConstants.MODE_CREATE_LIST, getLafIcons().create_list(),
+			toolIcons().area(), null), CreateList(
+			EuclidianConstants.MODE_CREATE_LIST, toolIcons().create_list(),
 			null), DistanceOrLength(EuclidianConstants.MODE_DISTANCE,
-			getLafIcons().distance_or_length(), null), Slope(
-			EuclidianConstants.MODE_SLOPE, getLafIcons().slope(), null),
+			toolIcons().distance_or_length(), null), Slope(
+			EuclidianConstants.MODE_SLOPE, toolIcons().slope(), null),
 
 	// Transformation
 	ReflectObjectAboutCircle(EuclidianConstants.MODE_MIRROR_AT_CIRCLE,
-			getLafIcons().reflect_object_about_circle(), null), ReflectObjectAboutLine(
-			EuclidianConstants.MODE_MIRROR_AT_LINE, getLafIcons()
+			toolIcons().reflect_object_about_circle(), null), ReflectObjectAboutLine(
+			EuclidianConstants.MODE_MIRROR_AT_LINE, toolIcons()
 					.reflect_object_about_line(), null), ReflectObjectAboutPoint(
-			EuclidianConstants.MODE_MIRROR_AT_POINT, getLafIcons()
+			EuclidianConstants.MODE_MIRROR_AT_POINT, toolIcons()
 					.reflect_object_about_point(), null), RotateObjectByAngle(
-			EuclidianConstants.MODE_ROTATE_BY_ANGLE, getLafIcons()
+			EuclidianConstants.MODE_ROTATE_BY_ANGLE, toolIcons()
 					.rotate_object_about_point_by_angle(), null), TranslateObjectByVector(
-			EuclidianConstants.MODE_TRANSLATE_BY_VECTOR, getLafIcons()
+			EuclidianConstants.MODE_TRANSLATE_BY_VECTOR, toolIcons()
 					.translate_object_by_vector(), null), Dilate(
-			EuclidianConstants.MODE_DILATE_FROM_POINT, getLafIcons()
+			EuclidianConstants.MODE_DILATE_FROM_POINT, toolIcons()
 					.dilate_object_from_point_by_factor(), null),
 
 	// Special Object
-	FreehandShape(EuclidianConstants.MODE_FREEHAND_SHAPE, getLafIcons()
+	FreehandShape(EuclidianConstants.MODE_FREEHAND_SHAPE, toolIcons()
 			.freehand_shape(), StyleBarDefaultSettings.Line), InsertImage(
-			EuclidianConstants.MODE_IMAGE, getLafIcons().insert_image(), null), InsertText(
-			EuclidianConstants.MODE_TEXT, getLafIcons().insert_text(), null), Pen(
-			EuclidianConstants.MODE_PEN, getLafIcons().pen(),
+			EuclidianConstants.MODE_IMAGE, toolIcons().insert_image(), null), InsertText(
+			EuclidianConstants.MODE_TEXT, toolIcons().insert_text(), null), Pen(
+			EuclidianConstants.MODE_PEN, toolIcons().pen(),
 			StyleBarDefaultSettings.Line), RelationBetweenTwoObjects(
-			EuclidianConstants.MODE_RELATION, getLafIcons()
+			EuclidianConstants.MODE_RELATION, toolIcons()
 					.relation_between_two_objects(), null),
 
 	// Action Object
 	CheckBoxToShowHideObjects(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
-			getLafIcons().checkbox_to_show_hide_objects(), null), InsertButton(
-			EuclidianConstants.MODE_BUTTON_ACTION, getLafIcons()
+			toolIcons().checkbox_to_show_hide_objects(), null), InsertButton(
+			EuclidianConstants.MODE_BUTTON_ACTION, toolIcons()
 					.insert_button(), null), InsertInputBox(
-			EuclidianConstants.MODE_TEXTFIELD_ACTION, getLafIcons()
+			EuclidianConstants.MODE_TEXTFIELD_ACTION, toolIcons()
 					.insert_input_box(), null), Slider(
-			EuclidianConstants.MODE_SLIDER, getLafIcons().slider(),
+			EuclidianConstants.MODE_SLIDER, toolIcons().slider(),
 			StyleBarDefaultSettings.Line),
 
 	// General Tools
-	CopyVisualStyle(EuclidianConstants.MODE_COPY_VISUAL_STYLE, getLafIcons()
+	CopyVisualStyle(EuclidianConstants.MODE_COPY_VISUAL_STYLE, toolIcons()
 			.copy_visual_style(), null), DeleteObject(
-			EuclidianConstants.MODE_DELETE, getLafIcons().delete_object(), null), MoveGraphicsView(
-			EuclidianConstants.MODE_TRANSLATEVIEW, getLafIcons()
+			EuclidianConstants.MODE_DELETE, toolIcons().delete_object(), null), MoveGraphicsView(
+			EuclidianConstants.MODE_TRANSLATEVIEW, toolIcons()
 					.move_graphics_view(), null), ShowHideLabel(
-			EuclidianConstants.MODE_SHOW_HIDE_LABEL, getLafIcons()
+			EuclidianConstants.MODE_SHOW_HIDE_LABEL, toolIcons()
 					.show_hide_label(), null), ShowHideObject(
-			EuclidianConstants.MODE_SHOW_HIDE_OBJECT, getLafIcons()
+			EuclidianConstants.MODE_SHOW_HIDE_OBJECT, toolIcons()
 					.show_hide_object(), null), ZoomIn(
-			EuclidianConstants.MODE_ZOOM_IN, getLafIcons().zoom_in(), null), ZoomOut(
-			EuclidianConstants.MODE_ZOOM_OUT, getLafIcons().zoom_out(), null),
+			EuclidianConstants.MODE_ZOOM_IN, toolIcons().zoom_in(), null), ZoomOut(
+			EuclidianConstants.MODE_ZOOM_OUT, toolIcons().zoom_out(), null),
 
 	// others
 	Move_Mobile(EuclidianConstants.MODE_MOVE, getLafIcons()
-			.arrow_cursor_finger(), StyleBarDefaultSettings.Move), Select(-1,
+			.arrow_cursor_finger(), StyleBarDefaultSettings.Move), 
+	Select(-1,
 			getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move);
 
+	private static ToolbarResources toolIcons() {
+		return ToolbarResources.INSTANCE;
+	}
 	private static DefaultResources getLafIcons() {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
