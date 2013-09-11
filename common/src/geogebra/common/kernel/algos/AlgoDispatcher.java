@@ -686,8 +686,8 @@ public class AlgoDispatcher {
 	 * Regular polygon with vertices A and B and n total vertices. The labels
 	 * name the polygon itself, its segments and points
 	 */
-	final public GeoElement[] RegularPolygon(String[] labels, GeoPoint A,
-			GeoPoint B, NumberValue n) {
+	final public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
+			GeoPointND B, NumberValue n) {
 		AlgoPolygonRegular algo = new AlgoPolygonRegular(cons, labels, A, B, n);
 		return algo.getOutput();
 	}

@@ -1,70 +1,53 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdPolygon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.MyError;
 
 
 
-/*
+/**
  * Polygon[ <GeoPoint3D>, <GeoPoint3D>, ... ] or CmdPolygon
  */
 public class CmdPolygon3D extends CmdPolygon {
 	
 
+	/**
+	 * constructor
+	 * @param kernel kernel
+	 */
 	public CmdPolygon3D(Kernel kernel) {
 		super(kernel);
 				
 	}
 	
 	
-	public GeoElement[] process(Command c) throws MyError {	
+	
+	@Override
+	protected GeoElement[] polygon(String[] labels, GeoPointND[] points){
 		
-		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-		arg = resArgs(c);
-		
-		//check if one of arguments is 3D 
-		boolean ok3D = false;
-		for(int i=0;i<n;i++)
-			ok3D = ok3D || (arg[i].isGeoElement3D());
-		
-		
-		
-		if (ok3D){
-			// polygon for given points
-			// check if a normal direction is given
-			/*
-			boolean hasNormal = false;
-			GeoDirectionND normal = null;
-			if (arg[n-1] instanceof GeoDirectionND){
-				hasNormal = true;
-				normal = (GeoDirectionND) arg[n-1];
-				n=n-1; //one point less
+		// if one point is 3D, use 3D algo
+		for (int i = 0 ; i < points.length ; i++){
+			if (points[i].isGeoElement3D()){
+				return kernelA.getManager3D().Polygon3D(labels, points);
 			}
-			*/
-			//points
-			GeoPointND[] points = new GeoPointND[n];
-			// check arguments
-			for (int i = 0; i < n; i++) {
-				if (!(arg[i].isGeoPoint()))
-					throw argErr(app, c.getName(), arg[i]);
-				else {
-					points[i] = (GeoPointND) arg[i];
-				}
-			}
-
-			/*
-			if (hasNormal)
-				return kernelA.getManager3D().Polygon3D(c.getLabels(), points, normal);
-			else*/
-				return ((Kernel)kernelA).getManager3D().Polygon3D(c.getLabels(), points);
 		}
- 
-		return super.process(c);
+		
+		// else use 2D algo
+		return super.polygon(labels, points);
 	}
+	
+	/*
+	@Override
+	protected GeoElement[] regularPolygon(String[] labels, GeoPointND A, GeoPointND B, GeoNumberValue n){
+		
+		if (A.isGeoElement3D() || B.isGeoElement3D()){
+			return kernelA.getManager3D().RegularPolygon(labels, A, B, n, kernelA.getXOYPlane());
+		}
+		
+		return super.regularPolygon(labels, A, B, n);
+	}
+	*/
 
 }

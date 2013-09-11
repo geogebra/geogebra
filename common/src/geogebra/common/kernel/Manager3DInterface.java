@@ -176,6 +176,14 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] Polygon3D(String[] label, GeoPointND[] points,
 			GeoDirectionND direction);
+	
+	/**
+	 * Regular polygon with vertices A and B and n total vertices. The labels
+	 * name the polygon itself, its segments and points
+	 */
+	public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
+			GeoPointND B, NumberValue n, GeoDirectionND direction);
+	
 
 	public GeoElement[] PolyLine3D(String[] labels, GeoPointND[] P);
 

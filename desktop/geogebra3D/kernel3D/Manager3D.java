@@ -1380,5 +1380,11 @@ public class Manager3D implements Manager3DInterface {
 		AlgoCornerConicSection algo = new AlgoCornerConicSection(cons, labels, (GeoConicSection) conic);
 		return algo.getCorners();
 	}
+	
+	final public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
+			GeoPointND B, NumberValue n, GeoDirectionND direction) {
+		AlgoPolygonRegular3D algo = new AlgoPolygonRegular3D(cons, labels, A, B, n, direction);
+		return algo.getOutput();
+	}
 
 }
