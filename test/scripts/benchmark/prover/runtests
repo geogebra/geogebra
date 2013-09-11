@@ -8,11 +8,14 @@ TIMEOUT=30
 IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
-PROVERS="Auto Recio Botana BotanaGiac PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+TEX=html/index.tex
+# PROVERS="Auto Recio Botana BotanaGiac PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+#PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area"
+PROVERS="Auto Botana BotanaGiac OpenGeoProver_Wu"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
+PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
 
 if [ "$PROVEDETAILS" = 1 ]; then
  # Remove some incorrectly working provers.
@@ -21,12 +24,13 @@ if [ "$PROVEDETAILS" = 1 ]; then
  # PROVERS="Botana OpenGeoProver_Wu"
  fi
 
+PROVERSNO=`echo $PROVERS | wc -w`
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
 LOGFILE=$MYDIR/tmp/.test.log
 REGRESSIONFILE=$MYDIR/tmp/.regression.out
-rm -f $HTML
+rm -f $HTML $TEX
 
 RUNDIR=../../../../../tools/build/targets
 
@@ -43,24 +47,39 @@ echo "<!DOCTYPE html><html><head>
 <h2>on $DATE at $HOST</h2><pre>" >> $HTML
 hwinfo --short --cpu 2>&1 | grep CPU | sed 's/^[ \t]*//' >> $HTML
 echo -n "</pre>" >> $HTML
+echo "% http://tex.stackexchange.com/questions/50349/color-only-a-cell-of-a-table
+\documentclass{article}
+\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
+\usepackage{multirow}
+\begin{document}
+\scriptsize{" >> $TEX
 
 # Heading
 echo -n "Test file;"
 cat style.html >> $MYDIR/$HTML
 echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
+echo "\begin{tabular}{|l|*{$PROVERSNO}{cr|}}
+\hline
+{\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
+echo 
 for j in $PROVERS; do
  TOPRINT=`echo $j | sed s/"_"/" "/`
  echo -n "$TOPRINT result;Speed;"
  echo "<th colspan=\"2\">$TOPRINT</th>" >> $MYDIR/$HTML
+ echo "& \multicolumn{2}{c|}{\bf $TOPRINT}" | sed s/OpenGeoProver/OGP/g |\
+  sed s/BotanaGiac/Giac/ | sed s/Botana/Singular/ >> $MYDIR/$TEX
  done
 echo "</tr><tr>" >> $MYDIR/$HTML
+echo "\\\\" >> $MYDIR/$TEX
 
 for j in $PROVERS; do
  echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
+ echo "&R.&S." >> $MYDIR/$TEX
  rm -f $MYDIR/tmp/rinput-$j
  done
 
 echo "</tr>" >> $MYDIR/$HTML
+echo "\\\\ \hline" >> $MYDIR/$TEX
 echo
 
 # Content
@@ -75,9 +94,15 @@ for i in `find -name '*.ggb' | sort`; do
  mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
  echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
+ TEST=`echo $TEST | sed s/".ggb"//`
+ if [ `expr ${#TEST} '>' 20` = 1 ]; then
+  TEST=${TEST:0:10}...${TEST:(-2)}
+  fi
+ echo "\cellcolor{blue!10}$TEST " | sed s/".ggb"// >> $MYDIR/$TEX
 
  declare -A RESULTDATA
  declare -A RESULTCLASSDATA
+ declare -A CELLCOLORDATA
  declare -A TIMEDATA
  BESTTIME=""
  WORSTTIME=""
@@ -137,12 +162,15 @@ for i in `find -name '*.ggb' | sort`; do
    fi # No timeout
   echo -n "$RESULT;$TIME;"
   RESULTCLASS=" class=\"o6\""
+  CELLCOLOR="green!5"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "${RESULT:0:$DIRNAMELENGTH}" != "$DIRNAME" ]; then
    if [ "$RESULT" = "undefined" -o "$RESULT" = "" ]; then
     RESULTCLASS=" class=\"undefined\""
+    CELLCOLOR="yellow!25"
    else
     RESULTCLASS=" class=\"error\""
+    CELLCOLOR="red!25"
     fi
   else
    VARNAME=$`echo $j`
@@ -150,21 +178,27 @@ for i in `find -name '*.ggb' | sort`; do
    eval $j=`expr $VALUE + 1`
    if [ $TIME -lt 1000 ]; then
     RESULTCLASS=" class=\"o5\""
+    CELLCOLOR="green!20"
     fi
    if [ $TIME -lt 300 ]; then
     RESULTCLASS=" class=\"o4\""
+    CELLCOLOR="green!35"
     fi
    if [ $TIME -lt 150 ]; then
     RESULTCLASS=" class=\"o3\""
+    CELLCOLOR="green!50"
     fi
    if [ $TIME -lt 50 ]; then
     RESULTCLASS=" class=\"o2\""
+    CELLCOLOR="green!65"
     fi
    if [ $TIME -lt 20 ]; then
     RESULTCLASS=" class=\"o1\""
+    CELLCOLOR="green!80"
     fi
    fi
   RESULTCLASSDATA[$j]=$RESULTCLASS
+  CELLCOLORDATA[$j]="$CELLCOLOR"
   RESULTDATA[$j]=$RESULT
   TIMEDATA[$j]=$TIME
 
@@ -199,32 +233,57 @@ for i in `find -name '*.ggb' | sort`; do
 
  for j in $PROVERS; do
   RESULTCLASS=${RESULTCLASSDATA[$j]}
+  CELLCOLOR=${CELLCOLORDATA[$j]}
   RESULT=${RESULTDATA[$j]}
+  if [ "$RESULT" = undefined ]; then
+   RESULT=""
+   fi
   TIME=${TIMEDATA[$j]}
   SUMCLASS=""
+  SUMCLASSTEX=""
   if [ "$WORSTPROVER" = "$j" ]; then
    SUMCLASS="worst"
+   SUMCLASSTEX="\sl"
    fi
   if [ "$BESTPROVER" = "$j" ]; then
    SUMCLASS="best"
+   SUMCLASSTEX="\bf"
    fi
   echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
+  # TeX related changes
+  if [ "$RESULT" = true ]; then
+   RESULT="t"
+   fi
+  if [ "$RESULT" = false ]; then
+   RESULT="f"
+   fi
+  if [ "$RESULT" = timeout ]; then
+   RESULT="t/o"
+   fi
+  echo "& \cellcolor{$CELLCOLOR}$RESULT & \cellcolor{$CELLCOLOR}{$SUMCLASSTEX $TIME} " >> $MYDIR/$TEX
   done
 
  echo
  echo "</tr>" >> $MYDIR/$HTML
+ echo "\\\\ \\hline" >> $MYDIR/$TEX
  done # All tests done
 
 # Summary
 echo -n "Summary;"
 echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
+echo "{\bf Summary (of $TESTS)}" >> $MYDIR/$TEX
 for j in $PROVERS; do
  VARNAME=$`echo $j`
  VALUE=`eval echo $VARNAME`
  echo -n "$VALUE;;"
  echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
+ echo "&\multicolumn{2}{c|}{\bf $VALUE}" >> $MYDIR/$TEX
  done
 echo "</tr>" >> $MYDIR/$HTML
+echo "\\\\ \\hline" >> $MYDIR/$TEX
 echo
 
 echo "</tr></table></body></html>" >> $MYDIR/$HTML
+echo "\end{tabular}
+}
+\end{document}" >> $MYDIR/$TEX
