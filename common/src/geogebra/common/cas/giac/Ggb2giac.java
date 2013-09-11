@@ -727,6 +727,8 @@ public class Ggb2giac {
 				// Tangent[x-value, function]
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
 				")");
+		p("TangentTroughPoint.2", 
+				"equation(tangent(%1,%0))");
 
 		// TODO: see GeoVector.buildValueString()
 		// p("Vector.2", "%1-(%0)");

@@ -300,7 +300,7 @@ public class ColorProvider {
 				step = res.getIndex() + label.length();
 			} else {
 				// we have a label and parameters
-				// we look for the closing parantheses
+				// we look for the closing parentheses
 				int paramsStart = res.getIndex() + label.length();
 				int i = paramsStart + 1;
 				int nrOfBrackets = 1;
