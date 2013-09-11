@@ -872,7 +872,7 @@ namespace giac {
       gen minus_b_over_2=r2sym(-b_over_2,lv,contextptr);
       gen delta_prime=r2sym(pow(b_over_2,2,contextptr)-w.front()*w.back(),lv,contextptr);
 #if 1 // def NO_STDEXCEPT
-      if (!complexmode && lidnt(evalf(makevecteur(a,minus_b_over_2,delta_prime),1,contextptr)).empty() && is_positive(-delta_prime,contextptr))
+      if (!complexmode && (lidnt(evalf(makevecteur(a,minus_b_over_2,delta_prime),1,contextptr)).empty() || lvar(delta_prime).size()==1)&& is_positive(-delta_prime,contextptr))
 	return;      
 #else
       if (!complexmode && is_positive(-delta_prime,contextptr))
@@ -2792,7 +2792,8 @@ namespace giac {
     if (calc_mode(contextptr)==1 && args.type!=_VECT)
       return _fsolve(makesequence(args,ggb_var(args)),contextptr);
     vecteur v(plotpreprocess(args,contextptr));
-    gen res=in_fsolve(v,contextptr);
+    gen res=undef;
+    res=in_fsolve(v,contextptr);
     if (calc_mode(contextptr)!=1)
       return res;
     // ggb always in a list
@@ -2983,8 +2984,8 @@ namespace giac {
 	double guess((gnuplot_xmin+gnuplot_xmax)/2),oldguess;
 	if (s>=3){
 	  gen g=evalf(gguess,eval_level(contextptr),contextptr);
-	  if (gguess.type==_DOUBLE_)
-	    guess=gguess._DOUBLE_val;
+	  if (g.type==_DOUBLE_)
+	    guess=g._DOUBLE_val;
 	}
 	gsl_function_fdf FDF ;     
 	FDF.f = &my_f ;
@@ -4804,14 +4805,14 @@ namespace giac {
     return count==dim;
   }
 
-  bool giac_gbasis(vectpoly & res,const gen & order,environment * env,GIAC_CONTEXT){
+  bool giac_gbasis(vectpoly & res,const gen & order,environment * env,bool modularcheck,GIAC_CONTEXT){
     if (res.empty()) return true;
     if (order.val==_PLEX_ORDER){
       // try first a 0-dim ideal with REVLEX and conversion
       vectpoly resrev(res),reslex;
       for (unsigned k=0;k<resrev.size();++k)
 	change_monomial_order(resrev[k],_REVLEX_ORDER);
-      if (!giac_gbasis(resrev,_REVLEX_ORDER,env,contextptr))
+      if (!giac_gbasis(resrev,_REVLEX_ORDER,env,modularcheck,contextptr))
 	return false;
       if (is_zero_dim(resrev) && fglm_lex(resrev,reslex,1024,env,context0)){
 	reslex.swap(res);
@@ -4825,7 +4826,7 @@ namespace giac {
       res.dbgprint();
 #ifndef CAS38_DISABLED
     if (res.front().dim<12-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
-      res=gbasis8(res,env,contextptr);
+      res=gbasis8(res,env,false,contextptr); // FIXME: false->modularcheck 
       // reduce(res,env);
       sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
       reverse(res.begin(),res.end());
@@ -4941,7 +4942,8 @@ namespace giac {
 	cerr << "Unable to compute gbasis with CoCoA" << endl;
     }
 #endif
-    if (!giac_gbasis(res,order,env,contextptr))
+    // with_f5 used as a synonym for modularcheck
+    if (!giac_gbasis(res,order,env,with_f5,contextptr))
       gensizeerr(gettext("Unable to compute gbasis with giac, perhaps dimension is too large"));
     return res;
   }

@@ -2044,8 +2044,36 @@ namespace giac {
 	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
       return gen_x*symbolic(at_NTHROOT,f)/(a+a/b);
     }
-    if (has_op(e,at_surd) || has_op(e,at_NTHROOT))
-      *logptr(contextptr) << gettext("Please enter fractional powers for more complete answers, like x^(1/3)") << endl;
+    if (has_op(e,at_surd) || has_op(e,at_NTHROOT)){
+      vecteur l1surd(lop(e,at_surd));
+      vecteur l2surd(l1surd);
+      for (unsigned i=0;i<l1surd.size();++i){
+	gen & g=l2surd[i];
+	if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
+	  vecteur gv=*g._SYMBptr->feuille._VECTptr;
+	  gv=makevecteur(gv[0],inv(gv[1],contextptr));
+	  g=symbolic(at_pow,gen(gv,_SEQ__VECT));
+	}
+      }
+      vecteur l1NTHROOT(lop(e,at_NTHROOT));
+      vecteur l2NTHROOT(l1NTHROOT);
+      for (unsigned i=0;i<l1NTHROOT.size();++i){
+	gen & g=l2NTHROOT[i];
+	if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
+	  vecteur gv=*g._SYMBptr->feuille._VECTptr;
+	  gv=makevecteur(gv[1],inv(gv[0],contextptr));
+	  g=symbolic(at_pow,gen(gv,_SEQ__VECT));
+	}
+      }
+      vecteur subst1=mergevecteur(l1surd,l1NTHROOT);
+      vecteur subst2=mergevecteur(l2surd,l2NTHROOT);
+      *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
+      gen g=subst(e,subst1,subst2,false,contextptr);
+      g=integrate_id_rem(g,gen_x,remains_to_integrate,contextptr);
+      remains_to_integrate=subst(remains_to_integrate,subst2,subst1,false,contextptr);
+      g=subst(g,subst2,subst1,false,contextptr);
+      return g;
+    }
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 1 ") << e << endl;
 #endif
@@ -2167,7 +2195,10 @@ namespace giac {
 	vecteur ibpv(*e._SYMBptr->feuille._VECTptr);
 	ibpv.erase(ibpv.begin()+j);
 	gen ibpe=_prod(ibpv,contextptr);
-	if (lvarx(ibpe,gen_x)==vecteur(1,gen_x)){
+	vecteur tmpv(1,gen_x);
+	lvar(ibpe,tmpv);
+	tmpv.erase(tmpv.begin());
+	if (lvarx(tmpv,gen_x).empty()){
 	  gen tmpres,tmprem,tmpprimitive,tmp,xvar(gen_x);
 	  tmpprimitive=integrate_rational(ibpe,gen_x,tmp,xvar,contextptr);
 	  if (is_zero(tmp) && lvarx(tmpprimitive,gen_x)==vecteur(1,gen_x)){

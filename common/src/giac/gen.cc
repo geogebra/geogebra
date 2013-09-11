@@ -6042,6 +6042,7 @@ namespace giac {
     gen b;
     if (base.type<=_ZINT && has_evalf(base,b,0,context0) && !is_inf(b) &&
 	is_greater(abs(exponent*log(abs(b,context0),context0),context0),powlog2float,context0)){
+      return gensizeerr("Exponent overflow");
       *logptr(context0) << "Exponent overflow" << endl;
       if (is_strictly_greater(1,abs(b,context0),context0))
 	return 0;
@@ -7834,10 +7835,13 @@ namespace giac {
       return modified_islesscomplexthanf(a._SYMBptr->feuille,b);
     if (b.is_symb_of_sommet(at_neg))
       return modified_islesscomplexthanf(a,b._SYMBptr->feuille);
-    if (a.is_symb_of_sommet(at_inv))
-      return modified_islesscomplexthanf(a._SYMBptr->feuille,b);
+    if (a.is_symb_of_sommet(at_inv)){
+      if (b.is_symb_of_sommet(at_inv))
+	return modified_islesscomplexthanf(a._SYMBptr->feuille,b._SYMBptr->feuille);
+      return false;
+    }
     if (b.is_symb_of_sommet(at_inv))
-      return modified_islesscomplexthanf(a,b._SYMBptr->feuille);
+      return true;
     if (a.is_symb_of_sommet(at_pow))
       return modified_islesscomplexthanf(a._SYMBptr->feuille[0],b);
     if (b.is_symb_of_sommet(at_pow))

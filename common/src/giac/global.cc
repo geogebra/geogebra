@@ -4565,12 +4565,15 @@ unsigned int ConvertUTF8toUTF16 (
   const char * do_not_autosimplify[]={
     "autosimplify",
     "ifactor","partfrac","cpartfrac","factor","cfactor","expand","normal",
-    "regroup","simplify","animation","animate",
+    "regroup","simplify","animation","animate","factoriser","factoriser_entier",
+    "factoriser_sur_C","developper","simplifier",
     0
   };
   gen add_autosimplify(const gen & g,GIAC_CONTEXT){
+    if (g.type==_VECT)
+      return apply(g,add_autosimplify,contextptr);
     if (g.type==_SYMB){
-      const char * c=g._SYMBptr->sommet.ptr()->s;
+      const char * c=unlocalize(g._SYMBptr->sommet.ptr()->s).c_str();
       const char ** ptr=do_not_autosimplify;
       for (;*ptr;++ptr){
 	if (!strcmp(*ptr,c))

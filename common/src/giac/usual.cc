@@ -810,6 +810,8 @@ namespace giac {
 	calc_mode(contextptr)==1
 	// xcas_mode(contextptr)==0
 	){
+      if (is_one(g))
+	return calc_mode(contextptr)==1?"ℯ":"e";
       if (g.type>_REAL && g.type!=_IDNT)
 	return (calc_mode(contextptr)==1?"ℯ^(":"e^(")+g.print(contextptr)+")";
       return (calc_mode(contextptr)==1?"ℯ^":"e^")+g.print(contextptr);

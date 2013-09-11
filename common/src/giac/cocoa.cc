@@ -5059,7 +5059,10 @@ namespace giac {
   }
 
   // excluded==-1 and G==identity in calls
-  bool checkf4(vectpoly8 & f4v,const vectpoly8 & res,vector<unsigned> & G,unsigned excluded){
+  // if eps>0 the check is probabilistic
+  bool checkf4(vectpoly8 & f4v,const vectpoly8 & res,vector<unsigned> & G,unsigned excluded,double eps){
+    if (f4v.empty())
+      return true;
     polymod allf4(f4v.front().order,f4v.front().dim),rem(allf4);
     vectpolymod resmod,quo;
     convert(res,resmod,0);
@@ -5121,6 +5124,8 @@ namespace giac {
     bool stable=false;
     gen bound=0;
     for (int iter=0;;++iter){
+      if (eps>0 && is_greater(eps*pip,1,context0))
+	return true;
       p=prevprime(p-1);
       int env=p.val;
       // check that p does not divide a leading monomial in M
@@ -5269,7 +5274,7 @@ namespace giac {
   }
 
 
-  bool is_gbasis(const vectpoly8 & res){
+  bool is_gbasis(const vectpoly8 & res,double eps,bool modularcheck){
     if (res.empty())
       return false;
     if (debug_infolevel>0)
@@ -5343,9 +5348,8 @@ namespace giac {
     }
     if (debug_infolevel>0)
       cerr << "Number of critical pairs to check " << tocheck.size() << endl;
-#if 0 // modular check is slow
-    return checkf4(tocheck,res,G,-1); 
-#endif
+    if (eps>0 || modularcheck) // modular check is sometimes slow
+      return checkf4(tocheck,res,G,-1,eps); 
     // integer check
     for (unsigned i=0;i<tocheck.size();++i){
       reduce(tocheck[i],res,G,-1,vtmp,spolred,TMP1,TMP2,0);
@@ -5360,7 +5364,7 @@ namespace giac {
     return true;
   }
 
-  bool mod_gbasis(vectpoly8 & res,GIAC_CONTEXT){
+  bool mod_gbasis(vectpoly8 & res,bool modularcheck,GIAC_CONTEXT){
     unsigned initial=res.size();
     double eps=proba_epsilon(contextptr);
     for (unsigned i=0;i<res.size();++i){
@@ -5556,17 +5560,13 @@ namespace giac {
 	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
 	if (epsp>termsmin)
 	  epsp=termsmin;
-	if (eps<=0 || std::log10(eps)<=-epsp){
-	  G.clear();
-	  if (!is_gbasis(W[i])){
-	    ok=false;
-	    break; // in_gbasis(W[i],G,0,true);
-	  }
-	  // FIXME replace by a quicker check with f4 on all spolys
-	  // and rewrite as a linear system 
+	if (eps>0)
+	  *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
+	G.clear();
+	if (!is_gbasis(W[i],eps,modularcheck)){
+	  ok=false;
+	  break; // in_gbasis(W[i],G,0,true);
 	}
-	else
-	  *logptr(contextptr) << gettext("Result is not certified to be a Groebner basis. Error probability is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
 #endif
 	if (debug_infolevel)
 	  cerr << clock() << " end final check " << P[i] << endl;
@@ -5604,12 +5604,12 @@ namespace giac {
     return false;
   }
 
-  vectpoly gbasis8(const vectpoly & v,environment * env,GIAC_CONTEXT){
+  vectpoly gbasis8(const vectpoly & v,environment * env,bool modularcheck,GIAC_CONTEXT){
     vectpoly8 res; vectpolymod resmod;
     vector<unsigned> G;
     vectpoly_2_vectpoly8(v,res);
     if (!env || env->modulo==0){
-      if (mod_gbasis(res,contextptr)){
+      if (mod_gbasis(res,modularcheck,contextptr)){
 	vectpoly newres(res.size(),polynome(v.front().dim,v.front()));
 	for (unsigned i=0;i<res.size();++i)
 	  res[i].get_polynome(newres[i]);
