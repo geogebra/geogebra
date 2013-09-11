@@ -2665,7 +2665,6 @@ __GGB__keysVar.sl.plain = {
     "stylebar_AlignCenter": "Usredinjeno",
     "stylebar_AlignLeft": "Poravnaj levo",
     "stylebar_AlignRight": "Poravnaj desno",
-    "stylebar_AnaglyphProjection": "Stereoskopska projekcija",
     "stylebar_Axes": "Prika\u017ei ali skrij osi",
     "stylebar_BgColor": "Barva ozadja",
     "stylebar_Bold": "Odebeljene \u010drke",

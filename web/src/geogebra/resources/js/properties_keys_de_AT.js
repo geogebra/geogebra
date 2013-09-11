@@ -2665,7 +2665,6 @@ __GGB__keysVar.de_AT.plain = {
     "stylebar_AlignCenter": "Zentriert",
     "stylebar_AlignLeft": "Linksb\xfcndig",
     "stylebar_AlignRight": "Rechtsb\xfcndig",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Achsen anzeigen oder verbergen",
     "stylebar_BgColor": "Hintergrundfarbe",
     "stylebar_Bold": "Schriftart fett",

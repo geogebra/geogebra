@@ -2665,7 +2665,6 @@ __GGB__keysVar.tl.plain = {
     "stylebar_AlignCenter": "Igitna",
     "stylebar_AlignLeft": "Ipakaliwa",
     "stylebar_AlignRight": "Ipakanan",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Ipakita o itago ang mga aksis",
     "stylebar_BgColor": "Ayusin ang kulay ng likuran",
     "stylebar_Bold": "Gawing bold ang font",

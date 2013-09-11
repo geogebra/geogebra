@@ -2665,7 +2665,6 @@ __GGB__keysVar.cs.plain = {
     "stylebar_AlignCenter": "Vycentrovat",
     "stylebar_AlignLeft": "Zarovnat vlevo",
     "stylebar_AlignRight": "Zarovnat vpravo",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Uk\xe1zat nebo skr\xfdt osy",
     "stylebar_BgColor": "Nastavit barvu pozad\xed",
     "stylebar_Bold": "Nastavit typ p\xedsma tu\u010dn\xe9",

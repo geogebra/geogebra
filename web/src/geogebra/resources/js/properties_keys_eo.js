@@ -2665,7 +2665,6 @@ __GGB__keysVar.eo.plain = {
     "stylebar_AlignCenter": "Centrigi",
     "stylebar_AlignLeft": "\u011cisrandigi maldekstren",
     "stylebar_AlignRight": "\u011cisrandigi dekstren",
-    "stylebar_AnaglyphProjection": "Anaglifa projekcio",
     "stylebar_Axes": "Montri a\u016d ka\u015di la aksojn",
     "stylebar_BgColor": "Elekti fonan koloron",
     "stylebar_Bold": "Set font style to bold",

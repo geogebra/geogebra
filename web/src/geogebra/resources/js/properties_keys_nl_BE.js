@@ -2665,7 +2665,6 @@ __GGB__keysVar.nl_BE.plain = {
     "stylebar_AlignCenter": "Centreer",
     "stylebar_AlignLeft": "Links uitlijnen",
     "stylebar_AlignRight": "Rechts uitlijnen",
-    "stylebar_AnaglyphProjection": "Stereo perspectief",
     "stylebar_Axes": "Toon of verberg de assen",
     "stylebar_BgColor": "Toon achtergrondkleur",
     "stylebar_Bold": "Font stijl instelling naar vet",

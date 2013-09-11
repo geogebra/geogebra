@@ -2665,7 +2665,6 @@ __GGB__keysVar.in.plain = {
     "stylebar_AlignCenter": "Pusat",
     "stylebar_AlignLeft": "Rata Kiri",
     "stylebar_AlignRight": "Rata Kanan",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Tampilkan atau sembunyikan sumbu-sumbu",
     "stylebar_BgColor": "Atur warna latar belakang",
     "stylebar_Bold": "Atur font menjadi tebal",

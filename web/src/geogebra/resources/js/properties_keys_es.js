@@ -2665,7 +2665,6 @@ __GGB__keysVar.es.plain = {
     "stylebar_AlignCenter": "Centra",
     "stylebar_AlignLeft": "Alineaci\xf3n a Izquierda",
     "stylebar_AlignRight": "Alineaci\xf3n a Derecha",
-    "stylebar_AnaglyphProjection": "Proyecci\xf3n An\xe1glifa",
     "stylebar_Axes": "Expone u oculta los ejes",
     "stylebar_BgColor": "Fija el color de fondo",
     "stylebar_Bold": "Fija el estilo tipogr\xe1fico en Negrita",

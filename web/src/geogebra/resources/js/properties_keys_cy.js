@@ -2665,7 +2665,6 @@ __GGB__keysVar.cy.plain = {
     "stylebar_AlignCenter": "Canoli",
     "stylebar_AlignLeft": "Unioni i'r chwith",
     "stylebar_AlignRight": "Unioni i'r dde",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Cuddio/Dangos echelinau",
     "stylebar_BgColor": "Lliw cefndirol",
     "stylebar_Bold": "Testun Trwm",

@@ -2665,7 +2665,6 @@ __GGB__keysVar.hu.plain = {
     "stylebar_AlignCenter": "K\xf6z\xe9pre",
     "stylebar_AlignLeft": "Balra",
     "stylebar_AlignRight": "Jobbra",
-    "stylebar_AnaglyphProjection": "Anaglif vet\xedt\xe9s",
     "stylebar_Axes": "Tengelyek mutat\xe1sa/rejt\xe9se",
     "stylebar_BgColor": "H\xe1tt\xe9rsz\xedn",
     "stylebar_Bold": "F\xe9lk\xf6v\xe9r",

@@ -2665,7 +2665,6 @@ __GGB__keysVar.da.plain = {
     "stylebar_AlignCenter": "Centrer",
     "stylebar_AlignLeft": "Venstrestil",
     "stylebar_AlignRight": "H\xf8jrestil",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Vis eller skjul akser",
     "stylebar_BgColor": "Indstil baggrundsfarve",
     "stylebar_Bold": "V\xe6lg fed",

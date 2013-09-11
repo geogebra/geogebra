@@ -2665,7 +2665,6 @@ __GGB__keysVar.zh_TW.plain = {
     "stylebar_AlignCenter": "\u7f6e\u4e2d",
     "stylebar_AlignLeft": "\u9760\u5de6",
     "stylebar_AlignRight": "\u9760\u53f3",
-    "stylebar_AnaglyphProjection": "\u7acb\u9ad4\u773c\u93e1",
     "stylebar_Axes": "\u986f\u793a\u2571\u96b1\u85cf\u5ea7\u6a19\u8ef8",
     "stylebar_BgColor": "\u9078\u64c7\u80cc\u666f\u8272",
     "stylebar_Bold": "\u7c97\u9ad4",

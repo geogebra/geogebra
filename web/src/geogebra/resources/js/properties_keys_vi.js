@@ -2665,7 +2665,6 @@ __GGB__keysVar.vi.plain = {
     "stylebar_AlignCenter": "T\xe2m",
     "stylebar_AlignLeft": "C\u0103n l\u1ec1 tr\xe1i",
     "stylebar_AlignRight": "C\u0103n l\u1ec1 ph\u1ea3i",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Hi\u1ec3n th\u1ecb ho\u1eb7c \u1ea9n h\u1ec7 tr\u1ee5c t\u1ecda \u0111\u1ed9",
     "stylebar_BgColor": "Thi\u1ebft l\u1eadp m\xe0u n\u1ec1n",
     "stylebar_Bold": "Thi\u1ebft l\u1eadp ki\u1ec3u ph\xf4ng ch\u1eef \u0111\u1eadm",

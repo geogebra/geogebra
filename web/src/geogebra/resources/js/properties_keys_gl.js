@@ -2665,7 +2665,6 @@ __GGB__keysVar.gl.plain = {
     "stylebar_AlignCenter": "Central",
     "stylebar_AlignLeft": "Alineaci\xf3n esquerda",
     "stylebar_AlignRight": "Alineaci\xf3n  dereita",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Exp\xf3n ou oculta os eixes",
     "stylebar_BgColor": "Fixa a cor de fondo",
     "stylebar_Bold": "Fixa o estilo tipogr\xe1fico en negri\xf1a",

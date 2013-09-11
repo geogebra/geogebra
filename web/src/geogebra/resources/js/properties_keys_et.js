@@ -2665,7 +2665,6 @@ __GGB__keysVar.et.plain = {
     "stylebar_AlignCenter": "Keskele",
     "stylebar_AlignLeft": "Joonda vasakule",
     "stylebar_AlignRight": "Joonda paremale",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "N\xe4ita v\xf5i peida teljed",
     "stylebar_BgColor": "M\xe4\xe4ra tausta v\xe4r v",
     "stylebar_Bold": "M\xe4\xe4ra kirja stiiliks paks kiri",

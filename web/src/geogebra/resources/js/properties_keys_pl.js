@@ -2665,7 +2665,6 @@ __GGB__keysVar.pl.plain = {
     "stylebar_AlignCenter": "Wy\u015brodkuj",
     "stylebar_AlignLeft": "Wyr\xf3wnaj do lewej",
     "stylebar_AlignRight": "Wyr\xf3wnaj do prawej",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Poka\u017c lub ukryj osie",
     "stylebar_BgColor": "Ustal kolor t\u0142a",
     "stylebar_Bold": "Ustaw styl czcionki na pogrubion\u0105",

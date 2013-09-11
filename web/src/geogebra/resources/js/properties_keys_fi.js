@@ -2665,7 +2665,6 @@ __GGB__keysVar.fi.plain = {
     "stylebar_AlignCenter": "Aseta keskelle",
     "stylebar_AlignLeft": "Aseta vasemmalle",
     "stylebar_AlignRight": "Aseta oikealle",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "N\xe4yt\xe4/piilota akselit",
     "stylebar_BgColor": "Aseta taustav\xe4ri",
     "stylebar_Bold": "Tummenna fontti",

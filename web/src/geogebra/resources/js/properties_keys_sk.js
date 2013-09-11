@@ -2665,7 +2665,6 @@ __GGB__keysVar.sk.plain = {
     "stylebar_AlignCenter": "zarovna\u0165 na stred",
     "stylebar_AlignLeft": "zarovna\u0165 do\u013eava",
     "stylebar_AlignRight": "zarovna\u0165 doprava",
-    "stylebar_AnaglyphProjection": "Anaglif",
     "stylebar_Axes": "uk\xe1za\u0165 alebo skry\u0165 s\xfaradnicov\xe9 osi",
     "stylebar_BgColor": "nastavi\u0165 farbu pozadia",
     "stylebar_Bold": "nastavi\u0165 \u0161t\xfdl p\xedsma na tu\u010dn\xe9",

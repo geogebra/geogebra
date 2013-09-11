@@ -2665,7 +2665,6 @@ __GGB__keysVar.eu.plain = {
     "stylebar_AlignCenter": "Erdian",
     "stylebar_AlignLeft": "Ezkerrean",
     "stylebar_AlignRight": "Eskuinean",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Erakutsi edo ezkutatu ardatzak",
     "stylebar_BgColor": "Ezarri atzeko planoko kolorea",
     "stylebar_Bold": "Ezarri letra-estiloa: lodia",

@@ -2665,7 +2665,6 @@ __GGB__keysVar.no_NN.plain = {
     "stylebar_AlignCenter": "Midtstill",
     "stylebar_AlignLeft": "Venstrejuster",
     "stylebar_AlignRight": "H\xf8grejuster",
-    "stylebar_AnaglyphProjection": "Anaglyph projeksjon",
     "stylebar_Axes": "Vis eller skjul aksane",
     "stylebar_BgColor": "Vel bakgrunnsfarge",
     "stylebar_Bold": "Vel feit skrift",

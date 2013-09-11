@@ -2665,7 +2665,6 @@ __GGB__keysVar.lt.plain = {
     "stylebar_AlignCenter": "Centre",
     "stylebar_AlignLeft": "Kair\u0117je",
     "stylebar_AlignRight": "De\u0161in\u0117je",
-    "stylebar_AnaglyphProjection": "Anaglyph projekcija",
     "stylebar_Axes": "Rodyti arba sl\u0117pti a\u0161is",
     "stylebar_BgColor": "Nustatyti fono spalv\u0105",
     "stylebar_Bold": "Nustatyti pastorint\u0105 teksto tip\u0105",

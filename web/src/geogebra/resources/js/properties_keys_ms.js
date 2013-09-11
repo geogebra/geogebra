@@ -2665,7 +2665,6 @@ __GGB__keysVar.ms.plain = {
     "stylebar_AlignCenter": "Pusat",
     "stylebar_AlignLeft": "Jajar ke Kiri",
     "stylebar_AlignRight": "Jajar ke Kanan",
-    "stylebar_AnaglyphProjection": "Unjuran \"Anaglyph\"",
     "stylebar_Axes": "Tunjuk atau sembunyi paksi",
     "stylebar_BgColor": "Set warna latar belakang",
     "stylebar_Bold": "Set gaya fon ke tebal",

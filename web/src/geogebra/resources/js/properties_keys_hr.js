@@ -2665,7 +2665,6 @@ __GGB__keysVar.hr.plain = {
     "stylebar_AlignCenter": "Centriraj",
     "stylebar_AlignLeft": "Lijevo poravnanje",
     "stylebar_AlignRight": "Desno poravnanje",
-    "stylebar_AnaglyphProjection": "Anaglifska projekcija",
     "stylebar_Axes": "Poka\u017ei/Sakrij koordinatne osi",
     "stylebar_BgColor": "Postavi boju pozadine",
     "stylebar_Bold": "Postavi stil slova u podebljano",

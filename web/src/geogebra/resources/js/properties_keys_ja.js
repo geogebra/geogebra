@@ -2665,7 +2665,6 @@ __GGB__keysVar.ja.plain = {
     "stylebar_AlignCenter": "\u4e2d\u592e",
     "stylebar_AlignLeft": "\u5de6\u5bc4\u305b",
     "stylebar_AlignRight": "\u53f3\u5bc4\u305b",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "\u8ef8\u306e\u8868\u793a\uff0f\u975e\u8868\u793a",
     "stylebar_BgColor": "\u80cc\u666f\u8272\u306e\u8a2d\u5b9a",
     "stylebar_Bold": "\u30d5\u30a9\u30f3\u30c8\u3092\u592a\u5b57\u306b\u3059\u308b",

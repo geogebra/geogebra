@@ -2665,7 +2665,6 @@ __GGB__keysVar.ro.plain = {
     "stylebar_AlignCenter": "Centru",
     "stylebar_AlignLeft": "Aliniere st\xe2nga",
     "stylebar_AlignRight": "Aliniere dreapta",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Afi\u0219eaz\u0103 sau ascunde axele",
     "stylebar_BgColor": "Stabile\u0219te culoare fundal",
     "stylebar_Bold": "Stabile\u0219te stil font aldin",

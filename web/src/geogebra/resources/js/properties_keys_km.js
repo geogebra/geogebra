@@ -2665,7 +2665,6 @@ __GGB__keysVar.km.plain = {
     "stylebar_AlignCenter": "Center",
     "stylebar_AlignLeft": "Align Left",
     "stylebar_AlignRight": "Align Right",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Show or hide the axes",
     "stylebar_BgColor": "Set background color",
     "stylebar_Bold": "Set font style to bold",

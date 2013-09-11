@@ -2665,7 +2665,6 @@ __GGB__keysVar.pt_PT.plain = {
     "stylebar_AlignCenter": "Centrar",
     "stylebar_AlignLeft": "Alinhar \xe0 Esquerda",
     "stylebar_AlignRight": "Alinhar \xe0 Direita",
-    "stylebar_AnaglyphProjection": "Proje\xe7\xe3o anaglyph",
     "stylebar_Axes": "Mostrar ou esconder os eixos",
     "stylebar_BgColor": "Definir a cor de fundo",
     "stylebar_Bold": "Definir o estilo da fonte para negrito",

@@ -2665,7 +2665,6 @@ __GGB__keysVar.ko.plain = {
     "stylebar_AlignCenter": "\uac00\uc6b4\ub370 \uc815\ub82c",
     "stylebar_AlignLeft": "\uc67c\ucabd \uc815\ub82c",
     "stylebar_AlignRight": "\uc624\ub978\ucabd \uc815\ub82c",
-    "stylebar_AnaglyphProjection": "\uc785\uccb4\uc601\uc0c1(Red-Cyan)",
     "stylebar_Axes": "\ucd95 \ubcf4\uc774\uae30 / \uc228\uae30\uae30",
     "stylebar_BgColor": "\ubc30\uacbd\uc0c9\uc0c1 \uc124\uc815",
     "stylebar_Bold": "\uae00\uaf34\uc744 \uad75\uac8c \uc124\uc815",

@@ -2665,7 +2665,6 @@ __GGB__keysVar.sq.plain = {
     "stylebar_AlignCenter": "Qender",
     "stylebar_AlignLeft": "Radhit Majtas",
     "stylebar_AlignRight": "Radhit Djathtas",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Shfaq ose fshih boshtet",
     "stylebar_BgColor": "Vendos ngjyre sfondi",
     "stylebar_Bold": "Vendos llojin e shkronjes ne te Trashe",

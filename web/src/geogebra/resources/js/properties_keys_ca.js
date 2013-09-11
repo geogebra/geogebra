@@ -2665,7 +2665,6 @@ __GGB__keysVar.ca.plain = {
     "stylebar_AlignCenter": "Centre",
     "stylebar_AlignLeft": "Alineaci\xf3 esquerra",
     "stylebar_AlignRight": "Alineaci\xf3 dreta",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Mostra o amaga els eixos",
     "stylebar_BgColor": "Fixa el color de fons",
     "stylebar_Bold": "Fixa l'estil de font a negreta",

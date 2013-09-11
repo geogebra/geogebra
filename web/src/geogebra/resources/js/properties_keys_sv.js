@@ -2665,7 +2665,6 @@ __GGB__keysVar.sv.plain = {
     "stylebar_AlignCenter": "Mitten",
     "stylebar_AlignLeft": "V\xe4nsterjustera",
     "stylebar_AlignRight": "H\xf6gerjustera",
-    "stylebar_AnaglyphProjection": "Stereografisk projection",
     "stylebar_Axes": "Visa/D\xf6lj axlar",
     "stylebar_BgColor": "Bakgrundsf\xe4rg",
     "stylebar_Bold": "Fet",

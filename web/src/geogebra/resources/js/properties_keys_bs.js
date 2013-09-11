@@ -2665,7 +2665,6 @@ __GGB__keysVar.bs.plain = {
     "stylebar_AlignCenter": "Centriraj",
     "stylebar_AlignLeft": "Lijevo poravnanje",
     "stylebar_AlignRight": "Desno poravnanje",
-    "stylebar_AnaglyphProjection": "Anaglifska projekcija",
     "stylebar_Axes": "Prika\u017ei/Sakrij koordinatne ose",
     "stylebar_BgColor": "Boja pozadine",
     "stylebar_Bold": "Bold",

@@ -2665,7 +2665,6 @@ __GGB__keysVar.tr.plain = {
     "stylebar_AlignCenter": "Merkez",
     "stylebar_AlignLeft": "Sola Hizala",
     "stylebar_AlignRight": "Sa\u011fa Hizala",
-    "stylebar_AnaglyphProjection": "Anaglif projeksiyon",
     "stylebar_Axes": "Eksenleri g\xf6ster veya sakla",
     "stylebar_BgColor": "Arkaplan rengini ayarla",
     "stylebar_Bold": "Yaz\u0131 sitilini kal\u0131n ayarla",

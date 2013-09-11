@@ -2665,7 +2665,6 @@ __GGB__keysVar.is.plain = {
     "stylebar_AlignCenter": "Mi\xf0ja",
     "stylebar_AlignLeft": "stilla til vinstri",
     "stylebar_AlignRight": "stilla til h\xe6gri",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "S\xfdna e\xf0a fela \xe1sa",
     "stylebar_BgColor": "Setja bakgrunnslit",
     "stylebar_Bold": "Setja leturger\xf0 \xe1 feitletra\xf0",

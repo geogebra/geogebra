@@ -2665,7 +2665,6 @@ __GGB__keysVar.sr.plain = {
     "stylebar_AlignCenter": "Centar",
     "stylebar_AlignLeft": "Poravnaj levo",
     "stylebar_AlignRight": "Poravnaj desno",
-    "stylebar_AnaglyphProjection": "Anaglyph projection",
     "stylebar_Axes": "Prika\u017ei / sakrij ose",
     "stylebar_BgColor": "Postavi boju pozadine",
     "stylebar_Bold": "Postavi masna slova",
