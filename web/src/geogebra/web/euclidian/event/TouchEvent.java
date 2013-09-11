@@ -48,13 +48,16 @@ public class TouchEvent extends AbstractEvent {
 
 	@Override
 	public int getX() {		
-		return event.getClientX() - off.getXoffset();
+		return Math.round((event.getClientX() - off.getXoffset()) *
+				(1 / off.getScaleX()) *
+					(1 / off.getWidthScale()));
 	}
 
 	@Override
 	public int getY() {
-		
-		return event.getClientY() - off.getYoffset();
+		return Math.round((event.getClientY() - off.getYoffset())  *
+				(1 / off.getScaleY()) *
+					(1 / off.getHeightScale()));
 	}
 
 	@Override
