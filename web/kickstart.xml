@@ -151,9 +151,5 @@ your workstation.
 		<copy todir="war/WEB-INF/lib">
 			<fileset dir="lib" includes="${lib-gwt-svg.jar}" />
 		</copy>
-		<get src="http://dev.geogebra.org/download/lib/web/${lib-gwt-svg-geogebra.jar}" dest="lib/${lib-gwt-svg-geogebra.jar}" />
-		<copy todir="war/WEB-INF/lib">
-			<fileset dir="lib" includes="${lib-gwt-svg-geogebra.jar}" />
-		</copy>
 	</target>
 </project>
