@@ -33,7 +33,7 @@ public class AuthenticationModelWeb extends AuthenticationModel {
 	@Override
 	public String getLoginToken() {
 		if(storage == null){
-			return "";
+			return null;
 		}
 		return storage.getItem(GGB_TOKEN_KEY_NAME);
 	}
