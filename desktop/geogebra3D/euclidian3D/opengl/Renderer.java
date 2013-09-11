@@ -1867,8 +1867,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		data.rewind();
         
         // check if we start with 0 or with 1
-		int y0 = (canvas.getLocationOnScreen().y) % 2;
-
+		// seems to be sensible to canvas location on screen and to parent relative location
+		// (try docked with neighboors / undocked or docked alone)
+		int y0 = (canvas.getParent().getLocation().y + canvas.getLocationOnScreen().y + 1) % 2;
+		
+		//App.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
 		//App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
 		
 		for (int y = 0; y<h/2 ; y++){
