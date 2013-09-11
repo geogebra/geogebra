@@ -1857,21 +1857,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				// file = addExtension(file, fileExtension);
 				lastFilenameOfSaveDialog = file.getName();
 
-				if (promptOverwrite && file.exists()) {
-					// ask overwrite question
-					Object[] options = { app.getMenu("Overwrite"),
-							app.getMenu("DontOverwrite") };
-					int n = JOptionPane.showOptionDialog(
-							(app).getMainComponent(),
-							app.getPlain("OverwriteFile") + "\n"
-									+ file.getName(), app.getPlain("Question"),
-							JOptionPane.DEFAULT_OPTION,
-							JOptionPane.WARNING_MESSAGE, null, options,
-							options[1]);
-					done = (n == 0);
-				} else {
-					done = true;
-				}
+				// Don't ask overwrite question again. Mac will do it already.
+				done = true;
 			}
 			return file;
 		}			
