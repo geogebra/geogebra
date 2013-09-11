@@ -21,7 +21,6 @@ your workstation.
 <project default="geogebraweb-developer">
 
 	<property name="lib-gwt-svg.jar" value="lib-gwt-svg-0.5.6.jar" />
-	<property name="lib-gwt-svg-geogebra.jar" value="lib-gwt-svg-0.5.6-geogebra.jar" />
 
 	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
