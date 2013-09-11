@@ -728,7 +728,8 @@ public class Ggb2giac {
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
 				")");
 		p("TangentTroughPoint.2", 
-				"equation(tangent(%1,%0))");
+				"[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
+				+ "[ggbans:=when(lhs(ggbans)==1 && rhs(ggbans)==0 && ((ggbans)[0])=='=',?,ggbans)],ggbans][3]");
 
 		// TODO: see GeoVector.buildValueString()
 		// p("Vector.2", "%1-(%0)");
