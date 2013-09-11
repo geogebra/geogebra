@@ -1154,6 +1154,8 @@ public class StringTemplate implements ExpressionNodeConstants{
 								// right is digit or fraction
 								(StringUtil.isDigit(firstRight) || rightStr
 										.startsWith("\\frac"));
+						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble 
+								&& Unicode.degree.equals(right.toString(defaultTemplate)));
 						break;
 
 					default: // GeoGebra syntax
