@@ -51,7 +51,6 @@ $GGDIR/common/src/geogebra/jts:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GWTDIR/gwt-user.jar:\
 $GWTDIR/gwt-dev.jar:\
-$GGDIR/web/war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar:\
 $GWTDIR/validation-api-1.0.0.GA.jar:\
 $GWTDIR/validation-api-1.0.0.GA-sources.jar:\
 $GGDIR/common/test-classes:\
