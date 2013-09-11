@@ -315,7 +315,7 @@ ln -s ../../../common/src/geogebra/jts
 
 # 6/2. Unzipping 3rd party GWT JARs
 # TODO: Maybe do something similar with WebWorker
-THIRDPARTYJARS="gwt-oauth2-0.2-alpha.jar gwtgl-0.9.1-sources.jar lib-gwt-svg-0.5.6.jar"
+THIRDPARTYJARS="gwt-oauth2-0.2-alpha.jar gwtgl-0.9.1-sources.jar lib-gwt-svg-0.5.6-geogebra.jar"
 for i in $THIRDPARTYJARS; do
  unzip -o $WEBDIR/lib/$i
  done
