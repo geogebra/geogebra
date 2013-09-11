@@ -15,13 +15,14 @@ PROVERS="Auto Botana BotanaGiac OpenGeoProver_Wu"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
+PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
 
 if [ "$PROVEDETAILS" = 1 ]; then
  # Remove some incorrectly working provers.
- PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu"
+ # PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu"
  # PROVERS="Botana BotanaGiac"
  # PROVERS="Botana OpenGeoProver_Wu"
+ PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto"
  fi
 
 PROVERSNO=`echo $PROVERS | wc -w`
@@ -51,6 +52,8 @@ echo "% http://tex.stackexchange.com/questions/50349/color-only-a-cell-of-a-tabl
 \documentclass{article}
 \usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
 \usepackage{multirow}
+\usepackage{longtable}
+\usepackage{array}
 \begin{document}
 \scriptsize{" >> $TEX
 
@@ -58,7 +61,11 @@ echo "% http://tex.stackexchange.com/questions/50349/color-only-a-cell-of-a-tabl
 echo -n "Test file;"
 cat style.html >> $MYDIR/$HTML
 echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
-echo "\begin{tabular}{|l|*{$PROVERSNO}{cr|}}
+RESULTCOLUMN=c
+if [ $PROVEDETAILS = 1 ]; then
+ RESULTCOLUMN="m{1cm}"
+ fi
+echo "\begin{longtable}{|l|*{$PROVERSNO}{${RESULTCOLUMN}r|}}
 \hline
 {\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
 echo 
@@ -251,12 +258,15 @@ for i in `find -name '*.ggb' | sort`; do
    fi
   echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
   # TeX related changes
-  if [ "$RESULT" = true ]; then
-   RESULT="t"
+  TRUE=t
+  if [ $PROVEDETAILS = 1 ]; then
+   TRUE=""
    fi
-  if [ "$RESULT" = false ]; then
-   RESULT="f"
-   fi
+  RESULT=`echo $RESULT | sed s/true/$TRUE/g | sed s/false/f/g`
+  RESULT=`echo $RESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1=\\2\$"/g |\
+   sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\parallel \\2\$"/g |\
+   sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\perp \\2\$"/g |\
+   sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g`
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
    fi
@@ -284,6 +294,6 @@ echo "\\\\ \\hline" >> $MYDIR/$TEX
 echo
 
 echo "</tr></table></body></html>" >> $MYDIR/$HTML
-echo "\end{tabular}
+echo "\end{longtable}
 }
 \end{document}" >> $MYDIR/$TEX
