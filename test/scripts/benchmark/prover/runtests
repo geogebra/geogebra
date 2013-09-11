@@ -95,7 +95,7 @@ for i in `find -name '*.ggb' | sort`; do
  echo -n "$TEST;"
  echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
- if [ `expr ${#TEST} '>' 20` = 1 ]; then
+ if [ `expr ${#TEST} '>' 15` = 1 ]; then
   TEST=${TEST:0:10}...${TEST:(-2)}
   fi
  echo "\cellcolor{blue!10}$TEST " | sed s/".ggb"// >> $MYDIR/$TEX
@@ -162,7 +162,7 @@ for i in `find -name '*.ggb' | sort`; do
    fi # No timeout
   echo -n "$RESULT;$TIME;"
   RESULTCLASS=" class=\"o6\""
-  CELLCOLOR="green!5"
+  CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "${RESULT:0:$DIRNAMELENGTH}" != "$DIRNAME" ]; then
    if [ "$RESULT" = "undefined" -o "$RESULT" = "" ]; then
@@ -182,19 +182,19 @@ for i in `find -name '*.ggb' | sort`; do
     fi
    if [ $TIME -lt 300 ]; then
     RESULTCLASS=" class=\"o4\""
-    CELLCOLOR="green!35"
+    CELLCOLOR="green!30"
     fi
    if [ $TIME -lt 150 ]; then
     RESULTCLASS=" class=\"o3\""
-    CELLCOLOR="green!50"
+    CELLCOLOR="green!40"
     fi
    if [ $TIME -lt 50 ]; then
     RESULTCLASS=" class=\"o2\""
-    CELLCOLOR="green!65"
+    CELLCOLOR="green!50"
     fi
    if [ $TIME -lt 20 ]; then
     RESULTCLASS=" class=\"o1\""
-    CELLCOLOR="green!80"
+    CELLCOLOR="green!60"
     fi
    fi
   RESULTCLASSDATA[$j]=$RESULTCLASS
@@ -257,8 +257,8 @@ for i in `find -name '*.ggb' | sort`; do
   if [ "$RESULT" = false ]; then
    RESULT="f"
    fi
-  if [ "$RESULT" = timeout ]; then
-   RESULT="t/o"
+  if [ "$TIME" = timeout ]; then
+   TIME="t/o"
    fi
   echo "& \cellcolor{$CELLCOLOR}$RESULT & \cellcolor{$CELLCOLOR}{$SUMCLASSTEX $TIME} " >> $MYDIR/$TEX
   done
