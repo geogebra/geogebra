@@ -1836,7 +1836,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						return false;
 					}
 				});
-				// fd.setTitle("saveDialogTitleText");
+				fd.setTitle(app.getMenu("Save"));
+				if (selectedFile == null) {
+					fd.setFile(app.getPlain("UntitledConstruction") + "." + fileExtension);
+				} else {
+					fd.setFile(selectedFile.getName());
+				}
 
 				fd.toFront();
 				fd.setVisible(true);
@@ -1848,8 +1853,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				file = new File(fd.getDirectory() + "/" + fd.getFile());
 				app.setCurrentPath(new File(fd.getDirectory()));
 
-				// add file extension
-				file = addExtension(file, fileExtension);
+				// Don't add file extension since it will be disallowed on Mac in sandbox:		
+				// file = addExtension(file, fileExtension);
 				lastFilenameOfSaveDialog = file.getName();
 
 				if (promptOverwrite && file.exists()) {
