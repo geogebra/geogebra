@@ -9,15 +9,12 @@ import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
@@ -2397,13 +2394,6 @@ public class Construction {
 		createdGeo = GeoElementSpreadsheet.autoCreate(label, this);
 
 		return createdGeo;
-	}
-
-	private GeoFunction createFunction(Operation op) {
-		FunctionVariable x = new FunctionVariable(kernel);
-		ExpressionNode en = new ExpressionNode(kernel, x, op, null);
-		Function fun = new Function(en, x);
-		return new GeoFunction(this, fun);
 	}
 
 	/**
