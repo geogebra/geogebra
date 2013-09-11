@@ -763,7 +763,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//update view direction
 		if (projection==PROJECTION_OBLIQUE)
-			viewDirection=renderer.getCavOrthoDirection().copyVector();
+			viewDirection=renderer.getObliqueOrthoDirection().copyVector();
 		else
 			viewDirection = vzNeg.copyVector();
 		toSceneCoords3D(viewDirection);	
@@ -1083,7 +1083,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		pickPoint.setY(-y + renderer.getTop());
 
 		if (projection == PROJECTION_PERSPECTIVE
-				|| projection == PROJECTION_ANAGLYPH) {
+				|| projection == PROJECTION_GLASSES) {
 			viewDirectionPersp = pickPoint.sub(renderer.getPerspEye());
 			toSceneCoords3D(viewDirectionPersp);
 			viewDirectionPersp.normalize();
@@ -1100,7 +1100,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public Coords projectOnScreen(Coords p){
 		Coords p1 = getToScreenMatrix().mul(p);//.getInhomCoords();
 		if (projection == PROJECTION_PERSPECTIVE
-				|| projection == PROJECTION_ANAGLYPH) {
+				|| projection == PROJECTION_GLASSES) {
 			Coords eye = renderer.getPerspEye();
 			Coords v = p1.sub(eye);
 			return new Coords(eye.getX()-eye.getZ()*v.getX()/v.getZ(),eye.getY()-eye.getZ()*v.getY()/v.getZ());
@@ -1120,7 +1120,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		pickPoint.setX(point.get(1)+dx);
 		pickPoint.setY(point.get(2)-dy);
 		
-		if (projection==PROJECTION_PERSPECTIVE||projection==PROJECTION_ANAGLYPH){
+		if (projection==PROJECTION_PERSPECTIVE||projection==PROJECTION_GLASSES){
 			viewDirectionPersp = pickPoint.sub(renderer.getPerspEye());
 			toSceneCoords3D(viewDirectionPersp);
 			viewDirectionPersp.normalize();
@@ -2267,14 +2267,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/////////////////////////////////////////////////////
 	
 	/**
-	 * draws the mouse cursor (for anaglyph)
+	 * draws the mouse cursor (for glasses)
 	 * @param renderer1 renderer
 	 */
 	public void drawMouseCursor(Renderer renderer1){
 		if (!hasMouse)
 			return;
 		
-		if (getProjection() != PROJECTION_ANAGLYPH ) //&& getProjection() != PROJECTION_PERSPECTIVE)
+		if (getProjection() != PROJECTION_GLASSES ) //&& getProjection() != PROJECTION_PERSPECTIVE)
 			return;
 		
 		GPoint mouseLoc = euclidianController.getMouseLoc();
@@ -2293,7 +2293,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 					+20; //to be over
 			//App.debug("\n"+eye);
 			double eyeSep = 0;
-			if (getProjection() == PROJECTION_ANAGLYPH)
+			if (getProjection() == PROJECTION_GLASSES)
 				eyeSep = renderer1.getEyeSep(); //TODO eye lateralization
 			
 			double x = mouseLoc.x + renderer1.getLeft() + eyeSep;
@@ -2467,7 +2467,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 
 		// 2D cursor
-		if (getProjection()==PROJECTION_ANAGLYPH)
+		if (getProjection()==PROJECTION_GLASSES)
 			setTransparentCursor(); //use own 3D cursor (for depth)
 		else
 			setDefault2DCursor();
@@ -3383,7 +3383,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	final static public int PROJECTION_ORTHOGRAPHIC = 0;
 	final static public int PROJECTION_PERSPECTIVE = 1;
-	final static public int PROJECTION_ANAGLYPH = 2;
+	final static public int PROJECTION_GLASSES = 2;
 	final static public int PROJECTION_OBLIQUE = 3;
 	
 	private int projection = PROJECTION_ORTHOGRAPHIC;
@@ -3396,8 +3396,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		case PROJECTION_PERSPECTIVE:
 			setProjectionPerspective();
 			break;
-		case PROJECTION_ANAGLYPH:
-			setProjectionAnaglyph();
+		case PROJECTION_GLASSES:
+			setProjectionGlasses();
 			break;
 		case PROJECTION_OBLIQUE:
 			setProjectionOblique();
@@ -3451,7 +3451,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public void setProjectionPerspectiveValue(double angle){
 		projectionPerspectiveValue = angle;
-		if (projection!=PROJECTION_PERSPECTIVE && projection!=PROJECTION_ANAGLYPH)
+		if (projection!=PROJECTION_PERSPECTIVE && projection!=PROJECTION_GLASSES)
 			projection=PROJECTION_PERSPECTIVE;
 		updateProjectionPerspectiveValue();
 	}
@@ -3474,30 +3474,30 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	public void setProjectionAnaglyph(){
+	public void setProjectionGlasses(){
 		updateProjectionPerspectiveValue();
-		renderer.updateAnaglyphValues();
+		renderer.updateGlassesValues();
 		if (isPolarized()){
 			renderer.setWaitForSetStencilLines();
 		}else{
 			renderer.setWaitForDisableStencilLines();
 		}
-		setProjectionValues(PROJECTION_ANAGLYPH);
+		setProjectionValues(PROJECTION_GLASSES);
 		setTransparentCursor();
 	}
 	
-	private boolean isAnaglyphGrayScaled = true;
+	private boolean isGlassesGrayScaled = true;
 	
-	public boolean isAnaglyphGrayScaled(){
-		return isAnaglyphGrayScaled;
+	public boolean isGlassesGrayScaled(){
+		return isGlassesGrayScaled;
 	}
 	
-	public void setAnaglyphGrayScaled(boolean flag){
+	public void setGlassesGrayScaled(boolean flag){
 		
-		if (isAnaglyphGrayScaled==flag)
+		if (isGlassesGrayScaled==flag)
 			return;
 		
-		isAnaglyphGrayScaled=flag;
+		isGlassesGrayScaled=flag;
 		resetAllDrawables();
 	}
 	
@@ -3506,33 +3506,33 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	public boolean isGrayScaled(){
-		return projection==PROJECTION_ANAGLYPH && !isPolarized() && isAnaglyphGrayScaled();
+		return projection==PROJECTION_GLASSES && !isPolarized() && isGlassesGrayScaled();
 	}
 	
-	private boolean isAnaglyphShutDownGreen = false;
+	private boolean isGlassesShutDownGreen = false;
 	
-	public boolean isAnaglyphShutDownGreen(){
-		return isAnaglyphShutDownGreen;
+	public boolean isGlassesShutDownGreen(){
+		return isGlassesShutDownGreen;
 	}
 
-	public void setAnaglyphShutDownGreen(boolean flag){
+	public void setGlassesShutDownGreen(boolean flag){
 
-		if (isAnaglyphShutDownGreen==flag)
+		if (isGlassesShutDownGreen==flag)
 			return;
 
-		isAnaglyphShutDownGreen=flag;
+		isGlassesShutDownGreen=flag;
 		renderer.setWaitForUpdateClearColor();
 	}
 	
 	public boolean isShutDownGreen(){
-		return projection==PROJECTION_ANAGLYPH && isAnaglyphShutDownGreen();
+		return projection==PROJECTION_GLASSES && isGlassesShutDownGreen();
 	}
 	
 	private double eyeSepFactor = 0.03;
 
 	public void setEyeSepFactor(double val){
 		eyeSepFactor = val;
-		renderer.updateAnaglyphValues();
+		renderer.updateGlassesValues();
 	}
 	
 	public double getEyeSepFactor(){

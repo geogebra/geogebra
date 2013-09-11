@@ -121,8 +121,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			case EuclidianView3D.PROJECTION_PERSPECTIVE:
 				getView().setProjectionPerspective();
 				break;
-			case EuclidianView3D.PROJECTION_ANAGLYPH:
-				getView().setProjectionAnaglyph();
+			case EuclidianView3D.PROJECTION_GLASSES:
+				getView().setProjectionGlasses();
 				break;
 			case EuclidianView3D.PROJECTION_OBLIQUE:
 				getView().setProjectionOblique();
@@ -234,8 +234,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		ImageIcon[] projectionIcons = new ImageIcon[4];
 		projectionIcons[0]=app.getImageIcon("stylebar_vieworthographic.gif");
 		projectionIcons[1]=app.getImageIcon("stylebar_viewperspective.gif");
-		projectionIcons[2]=app.getImageIcon("stylebar_viewanaglyph.gif");		
-		projectionIcons[3]=app.getImageIcon("stylebar_viewcav.gif");
+		projectionIcons[2]=app.getImageIcon("stylebar_viewglasses.gif");		
+		projectionIcons[3]=app.getImageIcon("stylebar_viewoblique.gif");
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
 	}	
@@ -275,7 +275,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 				new String[] {
 						loc.getPlainTooltip("stylebar.ParallelProjection"),
 						loc.getPlainTooltip("stylebar.PerspectiveProjection"),
-						loc.getPlainTooltip("stylebar.AnaglyphProjection"),
+						loc.getPlainTooltip("stylebar.GlassesProjection"),
 						loc.getPlainTooltip("stylebar.ObliqueProjection")
 				});
 		

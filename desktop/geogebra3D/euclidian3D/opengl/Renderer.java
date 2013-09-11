@@ -364,7 +364,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT);
         
         
-        if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH) {
+        if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
  
         	//setStencilLines();
 
@@ -1508,12 +1508,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     private void updateClearColor(){
-    	/*
-    	if(view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH)
-    		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);  
-    	else
-    		gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);  
-    		*/
+
     	Color c = view3D.getBackground();
     	float r = (float) c.getRed()/255;
     	float g = view3D.isShutDownGreen() ? 0 : (float) c.getGreen()/255;
@@ -1904,14 +1899,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
 			viewOrtho();
 			break;
-		case EuclidianView3D.PROJECTION_ANAGLYPH:
-			viewAnaglyph();
+		case EuclidianView3D.PROJECTION_GLASSES:
+			viewGlasses();
 			break;
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
 			viewPersp();
 			break;
 		case EuclidianView3D.PROJECTION_OBLIQUE:
-			viewCav();
+			viewOblique();
 			break;
 		}
 				
@@ -1926,11 +1921,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
 			viewPersp();
 			break;
-		case EuclidianView3D.PROJECTION_ANAGLYPH:
-			viewAnaglyph();
+		case EuclidianView3D.PROJECTION_GLASSES:
+			viewGlasses();
 			break;
 		case EuclidianView3D.PROJECTION_OBLIQUE:
-			viewCav();
+			viewOblique();
 			break;
 		}
 				
@@ -2002,7 +1997,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @return eyes separation (half of, in real coords)
      */
     public double getEyeSep(){
-    	return anaglyphEyeSep;
+    	return glassesEyeSep;
     }
     
     private void viewPersp(){
@@ -2011,26 +2006,26 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	gl.glTranslated(0, 0, perspFocus);           	
     }       
     
-    private double anaglyphEyeSep, anaglyphEyeSep1;
+    private double glassesEyeSep, glassesEyeSep1;
     
-    public void updateAnaglyphValues(){
+    public void updateGlassesValues(){
     	//eye separation
-    	anaglyphEyeSep= perspFocus*view3D.getEyeSepFactor();
+    	glassesEyeSep= perspFocus*view3D.getEyeSepFactor();
     	//eye separation for frustum
-    	anaglyphEyeSep1 = anaglyphEyeSep*perspDistratio;//(1-distratio);    
+    	glassesEyeSep1 = glassesEyeSep*perspDistratio;//(1-distratio);    
     	//Application.debug("eyesep="+eyesep+"\ne1="+e1);
     }
     
-    private void viewAnaglyph(){
+    private void viewGlasses(){
     	    	
     	//eye separation
     	double eyesep, eyesep1;
     	if(eye==EYE_LEFT){
-    		eyesep=-anaglyphEyeSep;
-    		eyesep1=-anaglyphEyeSep1;
+    		eyesep=-glassesEyeSep;
+    		eyesep1=-glassesEyeSep1;
     	}else{
-    		eyesep=anaglyphEyeSep;
-    		eyesep1=anaglyphEyeSep1;
+    		eyesep=glassesEyeSep;
+    		eyesep1=glassesEyeSep1;
     	}
    	
        	gl.glFrustum(perspLeft+eyesep1,perspRight+eyesep1,perspBottom,perspTop,perspNear,perspFar);
@@ -2044,13 +2039,13 @@ public class Renderer extends RendererJogl implements GLEventListener {
     
     private void setColorMask(){
 
-    	if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH && !view3D.isPolarized()){
+    	if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES && !view3D.isPolarized()){
     		if (eye==EYE_LEFT) {
     			gl.glColorMask(true,false,false,true); //cyan
     			//gl.glColorMask(false,true,false,true); //magenta
     			//gl.glColorMask(false,false,false,true);
     		} else {
-    			gl.glColorMask(false,!view3D.isAnaglyphShutDownGreen(),true,true); //red
+    			gl.glColorMask(false,!view3D.isGlassesShutDownGreen(),true,true); //red
     			//gl.glColorMask(true,false,false,true); //cyan -> green
     			//gl.glColorMask(false,false,false,true);
     		}
@@ -2062,8 +2057,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     
     enum ExportType { NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD };
     
-    private double cavX, cavY;
-    private Coords cavOrthoDirection; //direction "orthogonal" to the screen (i.e. not visible)
+    private double obliqueX, obliqueY;
+    private Coords obliqueOrthoDirection; //direction "orthogonal" to the screen (i.e. not visible)
 	private ExportType exportType = ExportType.NONE;
 	private int export_n;
 	private double export_val;
@@ -2077,24 +2072,24 @@ public class Renderer extends RendererJogl implements GLEventListener {
     public void updateProjectionObliqueValues(){
     	updateOrthoValues();
     	double angle = Math.toRadians(view3D.getProjectionObliqueAngle());
-    	cavX = -view3D.getProjectionObliqueFactor()*Math.cos(angle);
-    	cavY = -view3D.getProjectionObliqueFactor()*Math.sin(angle);
-    	cavOrthoDirection = new Coords(cavX, cavY, -1, 0);
+    	obliqueX = -view3D.getProjectionObliqueFactor()*Math.cos(angle);
+    	obliqueY = -view3D.getProjectionObliqueFactor()*Math.sin(angle);
+    	obliqueOrthoDirection = new Coords(obliqueX, obliqueY, -1, 0);
     }
     
-    private void viewCav(){
+    private void viewOblique(){
     	viewOrtho();
     	
     	gl.glMultMatrixd(new double[] {
     			1,0,0,0,
     			0,1,0,0,
-    			cavX,cavY,1,0, 
+    			obliqueX,obliqueY,1,0, 
     			0,0,0,1
     	}, 0);  	
     }
     
-    public Coords getCavOrthoDirection(){
-    	return cavOrthoDirection;
+    public Coords getObliqueOrthoDirection(){
+    	return obliqueOrthoDirection;
     }
     
     /**
@@ -2124,9 +2119,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	case EuclidianView3D.PROJECTION_PERSPECTIVE:
     		updatePerspValues();
     		break;
-    	case EuclidianView3D.PROJECTION_ANAGLYPH:
+    	case EuclidianView3D.PROJECTION_GLASSES:
     		updatePerspValues();
-    		updateAnaglyphValues();
+    		updateGlassesValues();
     		if (view3D.isPolarized()){
     			setWaitForSetStencilLines();
     		}
