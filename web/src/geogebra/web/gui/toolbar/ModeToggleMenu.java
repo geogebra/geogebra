@@ -347,8 +347,9 @@ public class ModeToggleMenu extends MenuBar{
 		public void drawOnCanvas(ImageElement imageElement, boolean selected) {
 
 			Context2d context = canvas.getContext2d();
-			//context.clearRect(0, 0, canvas.getOffsetWidth(), canvas.getOffsetHeight());
-			context.drawImage(imageElement, 0, 0);
+			context.setFillStyle("rgba(255,255,255,1)");
+			context.fillRect(0, 0, 32, 32);
+			context.drawImage(imageElement, 0, 0, 32, 32);
 
 		}
 		
