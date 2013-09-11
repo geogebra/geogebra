@@ -102,6 +102,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1845,7 +1846,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				});
 				fd.setTitle(app.getMenu("Save"));
 				if (selectedFile == null) {
-					fd.setFile(app.getPlain("UntitledConstruction") + "." + fileExtension);
+					String str = app.getPlain("UntitledConstruction");
+					int length = str.length();
+					// Sandbox (when running the application directly from Finder)
+					// may return with a filename which is incompatible,
+					// thus we try to ensure that the filename does not contain
+					// accented letters:
+					str = Normalizer.normalize(str, Normalizer.Form.NFKD);
+					str = str.replaceAll( "[^\\x20-\\x7E]", "");
+					if (str.length() * 2 < length) {
+						// This normalization can filter out all or almost all
+						// non-Latin characters. If this happens:
+						str = "Untitled Construction"; // using the English version
+					}
+					fd.setFile(str + "." + fileExtension);
 				} else {
 					fd.setFile(selectedFile.getName());
 				}
