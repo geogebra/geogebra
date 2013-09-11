@@ -178,7 +178,7 @@ public class GGWToolBar extends Composite {
 	 */
 	public static String getImageHtml(int mode){
 		String url = getImageURL(mode);
-		return (url.length()>0) ? "<img src=\""+url+"\">" : "";
+		return (url.length()>0) ? "<img src=\""+url+"\" class=\"tb_img\">" : "";
 	}
 	
 	
