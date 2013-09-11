@@ -1845,6 +1845,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				fd.toFront();
 				fd.setVisible(true);
+				app.setDefaultCursor(); // seems to be needed for Mac
 				if (fd.getFile() == null) {
 					// cancel pressed
 					return null;
