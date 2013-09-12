@@ -1562,11 +1562,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 				
 				Command cmd = evalVE.getTopLevelCommand();
-				boolean substituteWithKeepInput = (cmd == null) ? false : 
-					("Substitute".equals(cmd.getName()) && inputVE.isKeepInputUsed());
+				boolean isSubstitute = (cmd == null) ? false : "Substitute".equals(cmd.getName());
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
-				evalVE = wrapEvaluate(evalVE, !substituteWithKeepInput);
+				evalVE = wrapEvaluate(evalVE, isSubstitute  && inputVE.isKeepInputUsed());
 				
 				// wrap in PointList if the top level command is Solutions
 				// and the assignment variable is defined
@@ -1574,17 +1573,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 					adjustPointList(true);
 				}
 				
-				expandedEvalVE = pointList ? wrapPointList(evalVE):evalVE;				
-				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
+				expandedEvalVE = pointList ? wrapPointList(evalVE) : evalVE;
+				if(!(expandedEvalVE.isTopLevelCommand()) || !expandedEvalVE.getTopLevelCommand().getName().equals("Delete")) {
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE,
-						null, StringTemplate.numericNoLocal);
-				if(!substituteWithKeepInput && result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
-					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericNoLocal);					
-				}else if(!substituteWithKeepInput && inputVE != null && inputVE.isKeepInputUsed()){
+				// compute the result using CAS
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, null, StringTemplate.numericNoLocal);
+				// if KeepInput was used, return the input, except for the Substitute command
+				if(!isSubstitute && inputVE != null && inputVE.isKeepInputUsed()) {
 					result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
 				}
 				success = result != null;
