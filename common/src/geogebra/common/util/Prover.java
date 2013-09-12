@@ -374,21 +374,34 @@ public abstract class Prover {
 		}
 	}
 
+	/**
+	 * A helper method to override the last found proof result
+	 * with the new one, if the new one is not unknown.
+	 * @param pr the new result
+	 * @return decision which result is better
+	 */
+	private ProofResult override(ProofResult pr) {
+		if (pr != ProofResult.UNKNOWN) {
+			return pr;
+		}
+		return result;
+	}
+	
 	private void callEngine(ProverEngine currentEngine) {
 		App.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
-			result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
+			result = override(geogebra.common.kernel.prover.ProverBotanasMethod.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
-			result = reciosProver.prove(this);
+			result = override(reciosProver.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
-			result = geogebra.common.kernel.prover.ProverPureSymbolicMethod.prove(this);
+			result = override(geogebra.common.kernel.prover.ProverPureSymbolicMethod.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.OPENGEOPROVER_WU || 
 				currentEngine == ProverEngine.OPENGEOPROVER_AREA ) {
-			result = openGeoProver(currentEngine);
+			result = override(openGeoProver(currentEngine));
 			return;
 		}
 
