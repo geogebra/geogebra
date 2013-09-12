@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.AppD;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,15 +16,14 @@ import javax.swing.JPopupMenu;
  * Popup menu for row headers
  *
  */
-public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
+public class RowHeaderPopupMenu extends geogebra.common.cas.view.RowHeaderPopupMenu implements ActionListener {
 
 	private static final long serialVersionUID = -592258674730774706L;
 
 	private JList rowHeader;
 	private CASTableD table;
-	private AppD app;
-	
 	private JMenuItem cbUseAsText;
+	private JPopupMenu rowHeaderPopupMenu; 
 
 	/**
 	 * Creates new popup menu
@@ -31,6 +31,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	 * @param table CAS table
 	 */
 	public RowHeaderPopupMenu(JList rowHeader, CASTableD table) {
+		rowHeaderPopupMenu = new JPopupMenu();
 		this.rowHeader = rowHeader;
 		this.table = table;
 		app = (AppD)table.getApplication();		
@@ -43,46 +44,39 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	protected void initMenu() {
 		// insert above
 		JMenuItem item5 = new JMenuItem(app.getMenu("InsertAbove"));
-		item5.setIcon(app.getEmptyIcon());
+		item5.setIcon(((AppD) app).getEmptyIcon());
 		item5.setActionCommand("insertAbove");
 		item5.addActionListener(this);
-		add(item5);
+		rowHeaderPopupMenu.add(item5);
 		
 		// insert below
 		JMenuItem item6 = new JMenuItem(app.getMenu("InsertBelow"));
-		item6.setIcon(app.getEmptyIcon());
+		item6.setIcon(((AppD) app).getEmptyIcon());
 		item6.setActionCommand("insertBelow");
 		item6.addActionListener(this);
-		add(item6);
-		addSeparator();
+		rowHeaderPopupMenu.add(item6);
+		rowHeaderPopupMenu.addSeparator();
 		
 		// delete rows item
-		int [] selRows = rowHeader.getSelectedIndices();	
-		String strRows;
-		if (selRows.length == 1) {
-			strRows = app.getLocalization().getPlain("DeleteRowA", Integer.toString(selRows[0]+1));			
-		} else {
-			strRows = app.getLocalization().getPlain("DeleteRowsAtoB", 
-						Integer.toString(selRows[0]+1), 
-						Integer.toString(selRows[selRows.length-1]+1));
-		}
+		int [] selRows = rowHeader.getSelectedIndices();
+		String strRows = getDeleteString(selRows);
 		JMenuItem item7 = new JMenuItem(strRows);		
-		item7.setIcon(app.getEmptyIcon());
+		item7.setIcon(((AppD) app).getEmptyIcon());
 		item7.setActionCommand("delete");
 		item7.addActionListener(this);
-		add(item7);
+		rowHeaderPopupMenu.add(item7);
 		
 		//handle cell as Textcell
 		cbUseAsText = new JCheckBoxMenuItem(app.getMenu("CasCellUseAsText"));
 		cbUseAsText.setActionCommand("useAsText");
-		cbUseAsText.setIcon(app.getEmptyIcon());
+		cbUseAsText.setIcon(((AppD) app).getEmptyIcon());
 		int [] selRows2 = rowHeader.getSelectedIndices();
 		if (selRows2.length != 0) {
 			GeoCasCell casCell = table.getGeoCasCell(selRows2[0]);
 			cbUseAsText.setSelected(casCell.isUseAsText());
 		}
 		cbUseAsText.addActionListener(this);
-		add(cbUseAsText);  
+		rowHeaderPopupMenu.add(cbUseAsText);  
 		
 	}
 
@@ -113,5 +107,9 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 			// store undo info
 			table.getApplication().storeUndoInfo();
 		}
+	}
+
+	public void show(Component component, int x, int y) {
+		rowHeaderPopupMenu.show(component, x, y);	
 	}
 }
