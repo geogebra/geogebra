@@ -404,7 +404,16 @@ public class DrawEquationWeb extends DrawEquation {
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
 				$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-			});
+			}, 500);
+
+			// it's not ok for IE8, but it's good for ie9 and above
+			//$doc.addEventListener('readystatechange', function() {
+			//	if ($doc.readyState === 'complete' ||
+			//		$doc.readyState === 'loaded') {
+			//		$wnd.console.log('Doesnt run in Chrome');
+			//		$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+			//	}
+			//}, false);
 		} else {
 			$wnd.jQuery(elsecond).mathquill('eqnarray');
 
