@@ -33,7 +33,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  Markus
  * @version 
  */
-public class AlgoDistancePointObject extends AlgoElement {
+public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo {
 
     private GeoPointND P; // input
     private GeoElement g; // input

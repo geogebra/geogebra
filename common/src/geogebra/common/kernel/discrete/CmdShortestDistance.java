@@ -1,11 +1,13 @@
 package geogebra.common.kernel.discrete;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoShortestDistancePointObject;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -31,6 +33,15 @@ public class CmdShortestDistance extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
+		case 2:
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoElement())) {
+				GeoElement[] ret = { new AlgoShortestDistancePointObject(cons, c.getLabel(),
+						(GeoPoint) arg[0], arg[1]).getResult() };
+
+				return ret;
+				
+			}
 		case 4:
 
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoPoint())
