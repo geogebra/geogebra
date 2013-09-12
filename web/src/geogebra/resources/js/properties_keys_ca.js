@@ -825,7 +825,7 @@ __GGB__keysVar.ca.command = {
     "Solutions": "Solucions",
     "Solutions_SyntaxCAS": "[ <Equaci\xf3> ]\n[ <Equaci\xf3>, <Variable> ]",
     "Solve": "Resol",
-    "Solve_SyntaxCAS": "[ <Equaci\xf3 en x> ]\n[ <Equaci\xf3>, <Variable> ]\n[ <Llista d'equacions>, <Llista de variables> ]",
+    "Solve_SyntaxCAS": "[ <Equaci\xf3 d'una variable> ]\n[ <Equaci\xf3>, <Variable que volem aillar> ]\n[ <Llista d'equacions>, <Llista de variables> ]",
     "SolveODE": "ResolEDO",
     "SolveODE_Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punt de f> ]\n[ <f'(x, y)>, <x inicial>, <y inicial>, <x final>, <Pas> ]\n[ <y'>, <x'>, <x inicial>, <y inicial>, <t final>, <Pas> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x inicial>, <y inicial>, <y' inicial>, <x final>, <Pas> ]",
     "SolveODE_SyntaxCAS": "[ <Equaci\xf3> ]\n[ <Equaci\xf3>, <Punt(s) de f> ]\n[ <Equaci\xf3>, <Punt(s) de f>, <Punt(s) de f'> ]\n[ <Equaci\xf3>, <Variable dependent>, <Variable independent>, <Punt(s) de f> ]\n[ <Equaci\xf3>, <Variable dependent>, <Variable independent>, <Punt(s) de f>, <Punt(s) de f'> ]",
