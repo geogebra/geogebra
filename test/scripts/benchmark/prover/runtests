@@ -266,7 +266,8 @@ for i in `find -name '*.ggb' | sort`; do
   RESULT=`echo $RESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1=\\2\$"/g |\
    sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\parallel \\2\$"/g |\
    sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\perp \\2\$"/g |\
-   sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g`
+   sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g |\
+   sed s/"\\\\$ \\\\$"/"\$\\\\\\\\hfill\\\\\\\\newline\$"/g`
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
    fi
@@ -281,7 +282,7 @@ for i in `find -name '*.ggb' | sort`; do
 # Summary
 echo -n "Summary;"
 echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
-echo "{\bf Summary (of $TESTS)}" >> $MYDIR/$TEX
+echo "{\bf Total (of $TESTS)}" >> $MYDIR/$TEX
 for j in $PROVERS; do
  VARNAME=$`echo $j`
  VALUE=`eval echo $VARNAME`
