@@ -103,7 +103,7 @@ for i in `find -name '*.ggb' | sort`; do
  echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
  if [ `expr ${#TEST} '>' 15` = 1 ]; then
-  TEST=${TEST:0:10}...${TEST:(-2)}
+  TEST=${TEST:0:10}\$\ldots\$${TEST:(-2)}
   fi
  echo "\cellcolor{blue!10}$TEST " | sed s/".ggb"// >> $MYDIR/$TEX
 
@@ -267,7 +267,8 @@ for i in `find -name '*.ggb' | sort`; do
    sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\parallel \\2\$"/g |\
    sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\perp \\2\$"/g |\
    sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g |\
-   sed s/"\\\\$ \\\\$"/"\$\\\\\\\\hfill\\\\\\\\newline\$"/g`
+   sed s/"\\\\$ \\\\$"/"\$\\\\\\\\hfill\\\\\\\\newline\$"/g |\
+   sed s/"..."/"\$\\\\\\\\ldots\$"/g`
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
    fi
