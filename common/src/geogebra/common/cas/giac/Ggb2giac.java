@@ -518,9 +518,8 @@ public class Ggb2giac {
 						+")");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
-		p("Substitute.2","regroup(subst(%0,%1))");
-		p("Substitute.3",
-				"regroup(subst(%0,%1,%2)))");
+		p("Substitute.2","subst(%0,%1)");
+		p("Substitute.3","subst(%0,%1,%2)");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 
 		// remove normal from Sum, otherwise

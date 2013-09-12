@@ -1431,7 +1431,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 					// if both geos are the same type we can use set safely
 					twinGeo.set(lastOutputEvaluationGeo);
 				} else {
-					// we replace old geo object with the new one
 					cons.replace(twinGeo, lastOutputEvaluationGeo);
 					twinGeo = lastOutputEvaluationGeo;
 				}
@@ -1562,9 +1561,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
 				
+				Command cmd = evalVE.getTopLevelCommand();
+				boolean substituteWithKeepInput = (cmd == null) ? false : 
+					("Substitute".equals(cmd.getName()) && inputVE.isKeepInputUsed());
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
-				evalVE = wrapEvaluate(evalVE);
+				evalVE = wrapEvaluate(evalVE, !substituteWithKeepInput);
 				
 				// wrap in PointList if the top level command is Solutions
 				// and the assignment variable is defined
@@ -1577,13 +1579,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
-
 				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE,
 						null, StringTemplate.numericNoLocal);
-				if(result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
+				if(!substituteWithKeepInput && result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
 					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericNoLocal);					
-				}else if(inputVE != null && inputVE.isKeepInputUsed()){
+				}else if(!substituteWithKeepInput && inputVE != null && inputVE.isKeepInputUsed()){
 					result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
 				}
 				success = result != null;
@@ -1664,9 +1665,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/*
 	 * wrap eg x+x as Evaluate[x+x] so that it's simplified
 	 */
-	private ValidExpression wrapEvaluate(ValidExpression arg) {
+	private ValidExpression wrapEvaluate(ValidExpression arg, boolean forceWrapping) {
 		// don't want to wrap eg Integral[(x+1)^100] otherwise it will be expanded
-		if (arg.unwrap() instanceof Command) {
+		if (arg.unwrap() instanceof Command && !forceWrapping) {
 			return arg;
 		}
 		// don't wrap if f'(x) is on top level (it is the same as Derivative[f(x)])

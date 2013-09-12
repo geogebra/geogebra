@@ -242,7 +242,8 @@ public class CASInputHandler {
 
 			// don't wrap Numeric[pi, 20] with a second Numeric command
 			// as this would remove precision
-			boolean wrapEvalText = !isEvaluate &&
+			// don't wrap in KeepInput neither
+			boolean wrapEvalText = !isEvaluate && !isKeepInput &&
 					 !(isNumeric && (evalText.startsWith("N[")
 							|| evalText.startsWith("N(")
 							|| evalText.startsWith("Numeric[") || evalText
