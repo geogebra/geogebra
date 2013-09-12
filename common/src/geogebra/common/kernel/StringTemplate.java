@@ -60,7 +60,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 	/**
 	 * GeoGebra string type, internationalize digits
 	 */
-	public static final StringTemplate defaultTemplate = new StringTemplate("defaultTempplate");
+	public static final StringTemplate defaultTemplate = new StringTemplate("defaultTemplate");
 	
 	/**
 	 * Template which prints original construction's labels

@@ -147,7 +147,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if (currentLanguage == null
 					|| !currentLanguage.equals(loc
 							.getLanguage())) {
-				updateLocalizedInput(tpl);
+				updateLocalizedInput(tpl, input);
 			}
 			return localizedInput;
 		}
@@ -506,7 +506,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		internalizeInput();
 
 		// for efficiency: input with localized command names
-		updateLocalizedInput(StringTemplate.defaultTemplate);
+		updateLocalizedInput(StringTemplate.defaultTemplate, input);
 
 		// make sure cmputeOutput() knows that input has changed
 		firstComputeOutput = true;
@@ -518,7 +518,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return true;
 	}
 
-	private void updateLocalizedInput(final StringTemplate tpl) {
+	private void updateLocalizedInput(final StringTemplate tpl, final String input) {
 		// for efficiency: localized input with local command names
 		currentLanguage = loc.getLanguage();
 		localizedInput = localizeInput(input, tpl);
@@ -556,11 +556,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// inputVE will print the correct label, e.g. $4 for
 		// the row reference
-
 		input = getInputVE().toAssignmentString(StringTemplate.noLocalDefault);
 
 		// TODO this always translates input.
-		updateLocalizedInput(StringTemplate.defaultTemplate);
+		updateLocalizedInput(StringTemplate.defaultTemplate, getInputVE().toAssignmentString(StringTemplate.defaultTemplate));
 	}
 
 	/**
