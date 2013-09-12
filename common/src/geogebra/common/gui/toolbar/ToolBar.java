@@ -275,7 +275,7 @@ public class ToolBar {
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_POLYGON);
 		sb.append(" ");
-		// sb.append(EuclidianView.MODE_REGULAR_POLYGON);
+		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
 		// sb.append(" ");
 		// sb.append(EuclidianView.MODE_RIGID_POLYGON);
 		// sb.append(" ");

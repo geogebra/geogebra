@@ -327,12 +327,12 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialogRegularPolygon(String title,
-			GeoPoint geoPoint1, GeoPoint geoPoint2) {
+	public void showNumberInputDialogRegularPolygon(String title, EuclidianController ec, 
+			GeoPointND geoPoint1, GeoPointND geoPoint2) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogD id = new InputDialogRegularPolygon(((AppD) app), title,
+		InputDialogD id = new InputDialogRegularPolygon(((AppD) app), ec, title,
 				handler, geoPoint1, geoPoint2);
 		id.setVisible(true);
 

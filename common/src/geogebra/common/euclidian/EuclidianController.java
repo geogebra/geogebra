@@ -4701,16 +4701,28 @@ public abstract class EuclidianController {
 		addSelectedPoint(hits, 2, false);
 	
 		if (selPoints() == 2) {
-			GeoPoint[] points = getSelectedPoints();
+			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager()
 					.showNumberInputDialogRegularPolygon(
 							l10n.getMenu(getKernel().getModeText(mode)),
+							this,
 							points[0], points[1]);
 			return true;
 		}
 		return false;
 	}
-
+	
+	/**
+	 * 
+	 * @param geoPoint1 first point
+	 * @param geoPoint2 second point
+	 * @param value n vertices
+	 * @return regular polygon
+	 */
+	public GeoElement[] regularPolygon(GeoPointND geoPoint1, GeoPointND geoPoint2, GeoNumberValue value){
+		return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
+	}
+	
 	protected final GeoElement[] angle(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;

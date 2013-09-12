@@ -1,7 +1,8 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.DialogManager;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
@@ -10,14 +11,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 public class InputDialogRegularPolygon extends InputDialogD {
-	private GeoPoint geoPoint1, geoPoint2;
+	private GeoPointND geoPoint1, geoPoint2;
+	private EuclidianController ec;
 
-	public InputDialogRegularPolygon(AppD app, String title,
-			InputHandler handler, GeoPoint point1, GeoPoint point2) {
+	public InputDialogRegularPolygon(AppD app, EuclidianController ec, String title,
+			InputHandler handler, GeoPointND point1, GeoPointND point2) {
 		super(app, app.getPlain("Points"), title, "4", false, handler, true);
 
 		geoPoint1 = point1;
 		geoPoint2 = point2;
+		
+		this.ec = ec;
 	}
 
 	/**
@@ -43,7 +47,7 @@ public class InputDialogRegularPolygon extends InputDialogD {
 
 	private boolean processInput() {
 
-		return DialogManager.makeRegularPolygon(app, inputPanel.getText(),
+		return DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
 				geoPoint1, geoPoint2);
 
 		/*

@@ -185,12 +185,12 @@ public abstract class DialogManager {
 		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos, ec);
 	}
 
-	public void showNumberInputDialogRegularPolygon(String menu,
-			GeoPoint geoPoint1, GeoPoint geoPoint2) {
+	public void showNumberInputDialogRegularPolygon(String menu, EuclidianController ec, 
+			GeoPointND geoPoint1, GeoPointND geoPoint2) {
 		
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 		
-		makeRegularPolygon(app, inputString, geoPoint1, geoPoint2);
+		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2);
 	}
 
 	public abstract void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool);
@@ -290,7 +290,7 @@ public abstract class DialogManager {
 	}
 
 
-	public static boolean makeRegularPolygon(App app, String inputString, GeoPoint geoPoint1, GeoPoint geoPoint2) {
+	public static boolean makeRegularPolygon(App app, EuclidianController ec, String inputString, GeoPointND geoPoint1, GeoPointND geoPoint2) {
 		if (inputString == null || "".equals(inputString) ) {
 			return false;
 		}
@@ -314,12 +314,12 @@ public abstract class DialogManager {
 		}
 
 
-		GeoElement[] geos = kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, (GeoNumberValue) result[0]);
+		GeoElement[] geos = ec.regularPolygon(geoPoint1, geoPoint2, (GeoNumberValue) result[0]);
 		GeoElement[] onlypoly = { null };
 		if (geos != null) {
 			onlypoly[0] = geos[0];
 			app.storeUndoInfo();
-			app.getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
+			ec.memorizeJustCreatedGeos(onlypoly);
 		}
 
 		return true;
