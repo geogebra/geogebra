@@ -411,9 +411,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	}
 
 	@Override
-	protected void updateVolume(){
-		super.updateVolume();
-		getPolyhedron().setVolume(getBottom().getArea() * getHeightValue() );	
+	protected void updateVolume(double height){
+		super.updateVolume(height);
+		getPolyhedron().setVolume(getBottom().getArea() * height );	
 	}
 	
 	

@@ -334,7 +334,22 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			updateOutput(bottom.getPointsLength(),getBottomPoints());
 		}//else updateOutputPoints();
 		
-		updateVolume();
+		
+		// update height and volume
+		double h;
+		if(height!=null){
+			h = height.getDouble();
+		}else{
+			h = getTopPoint().getInhomCoordsInD(3).distPlane(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
+		}
+		updateVolume(Math.abs(h));
+		polyhedron.setOrientedHeight(h);
+		
+		
+		// if prism/pyramid is down-oriented, reverse normals for blending
+		if (height!=null && height.getDouble() < 0){
+			polyhedron.setReverseNormals();
+		}
 		
 
 		return true;
@@ -343,8 +358,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	
 	/**
 	 * updates the polyhedron's volume
+	 * @param height height
 	 */
-	protected void updateVolume(){
+	protected void updateVolume(double height){
 		// calc bottom area if needed
 		if (!bottomAsInput){
 			((GeoPolygon3D) getBottom()).updateCoordSys();
@@ -352,18 +368,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		}
 	}
 
-	/**
-	 * 
-	 * @return height value (for pyramid/prism)
-	 */
-	final public double getHeightValue(){
-		if(height!=null){
-			return Math.abs(height.getDouble());
-		}
 
-		return getTopPoint().getInhomCoordsInD(3).distPlane(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
-
-	}
 	
 
 	

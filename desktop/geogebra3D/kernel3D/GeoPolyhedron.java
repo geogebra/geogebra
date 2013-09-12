@@ -17,6 +17,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.kernel.kernelND.RotateableND;
@@ -37,7 +38,8 @@ import java.util.TreeSet;
  */
 public class GeoPolyhedron extends GeoElement3D 
 implements HasSegments, HasVolume, Traceable, 
-RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable
+RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
+HasHeight
 {// implements Path {
 
 	public static final int TYPE_NONE = 0;
@@ -1350,6 +1352,24 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable
 		double r = Math.abs(rval.getDouble());		
 		volume *= r*r*r;
 		
+	}
+
+
+	/**
+	 * oriented (positive or negative) height
+	 */
+	private double orientedHeight;
+	
+	/**
+	 * set oriented (positive or negative) height
+	 * @param height height
+	 */
+	public void setOrientedHeight(double height){
+		orientedHeight = height;
+	}
+	
+	public double getOrientedHeight() {
+		return orientedHeight;
 	}
 
 	

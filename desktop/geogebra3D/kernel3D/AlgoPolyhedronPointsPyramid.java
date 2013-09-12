@@ -313,9 +313,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	}
 
 	@Override
-	protected void updateVolume(){
-		super.updateVolume();
-		getPolyhedron().setVolume(getBottom().getArea() * getHeightValue() / 3);	
+	protected void updateVolume(double height){
+		super.updateVolume(height);
+		getPolyhedron().setVolume(getBottom().getArea() * height / 3);	
 	}
 	
 	@Override
