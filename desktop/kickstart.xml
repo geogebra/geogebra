@@ -49,7 +49,7 @@ download libs for other architectures than the current one.
 	</target>
 
 	<target name="geogebra5-packager-commandline" depends="_classpath-open, geogebra5-developer-commandline, _lib-pack, _classpath-close"
-	    description="For command line JAR testers (mostly Unix): to create GeoGebra 5 JAR packages">	
+	    description="For command line JAR testers (mostly Unix): to create GeoGebra 5 JAR packages">
 	</target>
 
 	<!-- these targets should come from the GeoGebra repository (currently) -->
