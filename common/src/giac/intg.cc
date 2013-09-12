@@ -2363,7 +2363,8 @@ namespace giac {
     if (debug_infolevel)
       *logptr(contextptr) << gettext("Checking exact value of integral with numeric approximation")<<endl;
     gen tmp2;
-    tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr);
+    if (!tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr))
+      return exactvalue;
     tmp2=evalf_double(tmp2,1,contextptr);
     if (tmp2.type!=_DOUBLE_ || std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<1e-3*std::abs(tmp2._DOUBLE_val))
       return simplifier(exactvalue,contextptr);

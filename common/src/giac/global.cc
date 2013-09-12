@@ -1418,6 +1418,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int SOLVER_MAX_ITERATE=25;
   int MAX_PRINTABLE_ZINT=10000;
   int MAX_RECURSION_LEVEL=9;
+  int GBASIS_DETERMINISTIC=20;
   const int BUFFER_SIZE=512;
 #else
   int CALL_LAPACK=400;
@@ -1448,6 +1449,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int SOLVER_MAX_ITERATE=25;
   int MAX_PRINTABLE_ZINT=1000000;
   int MAX_RECURSION_LEVEL=100;
+  int GBASIS_DETERMINISTIC=50;
   const int BUFFER_SIZE=16384;
 #endif
   volatile bool ctrl_c=false,interrupted=false;

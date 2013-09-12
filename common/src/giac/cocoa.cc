@@ -5550,18 +5550,21 @@ namespace giac {
 	   Journal of Symbolic Computation 35 (2003) 403–419)
 	*/
 #if 1
-	double terms=0;
-	int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
-	for (unsigned k=0;k<W[i].size();++k){
-	  terms += W[i][k].coord.size();
-	  termsmin = giacmin(termsmin,W[i][k].coord.size());
-	}
-	termsmin = 7*(2*termsmin-1);
-	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
-	if (epsp>termsmin)
-	  epsp=termsmin;
-	if (eps>0)
+	if (W[i].size()<=GBASIS_DETERMINISTIC)
+	  eps=0;
+	if (eps>0){
+	  double terms=0;
+	  int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
+	  for (unsigned k=0;k<W[i].size();++k){
+	    terms += W[i][k].coord.size();
+	    termsmin = giacmin(termsmin,W[i][k].coord.size());
+	  }
+	  termsmin = 7*(2*termsmin-1);
+	  int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
+	  if (epsp>termsmin)
+	    epsp=termsmin;
 	  *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
+	}
 	G.clear();
 	if (!is_gbasis(W[i],eps,modularcheck)){
 	  ok=false;

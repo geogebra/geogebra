@@ -760,7 +760,7 @@ namespace giac {
 	  }
 	  int n,d,q,r;
 	  if (is_rational(kk,n,d)){
-	    if (b==0 && (d==5 || d==10))
+	    if (b==0 && (d==5 || d==10) && calc_mode(contextptr)!=1)
 	      return cos(kk*cst_pi,contextptr)-cst_i*sin(kk*cst_pi,contextptr);
 	    if (d<7){ 
 	      q=-n/d;

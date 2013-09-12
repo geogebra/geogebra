@@ -191,6 +191,7 @@ namespace giac {
   extern int SOLVER_MAX_ITERATE;
   extern int MAX_PRINTABLE_ZINT;
   extern int MAX_RECURSION_LEVEL;
+  extern int GBASIS_DETERMINISTIC;
   extern volatile bool ctrl_c,interrupted;
   void ctrl_c_signal_handler(int signum);
 #ifdef TIMEOUT

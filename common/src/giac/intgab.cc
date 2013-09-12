@@ -867,7 +867,8 @@ namespace giac {
       int s1=nvars_depend_x(loptab(g,sincostan_tab),x);
       // rewrite cos/sin/tan if more than 1 available, 
       // do not rewrite atan/asin/acos
-      g=tsimplify_noexpln(g,s1,0,contextptr); 
+      if (s1) // check added otherwise int(1/(x-a)^999,x,a-1,a+1) takes forever
+	g=tsimplify_noexpln(g,s1,0,contextptr); 
     }
     // FIXME should check integrability at -/+inf
     if (a==minus_inf){
