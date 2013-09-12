@@ -54,7 +54,8 @@ $GWTDIR/gwt-dev.jar:\
 $GWTDIR/validation-api-1.0.0.GA.jar:\
 $GWTDIR/validation-api-1.0.0.GA-sources.jar:\
 $GGDIR/common/test-classes:\
-$GGDIR/common/war/WEB-INF/classes
+$GGDIR/common/war/WEB-INF/classes:\
+$GGDIR/web/war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar:
 fi
 
 if [ "$PROJECT" = "touch" ]; then
@@ -311,12 +312,14 @@ ln -s ../../../common/src/geogebra/common
 ln -s ../../../common/src/geogebra/webapache
 ln -s ../../../common/src/geogebra/jung
 ln -s ../../../common/src/geogebra/jts
+ln -s ../../../common/resources/icons
 
 # 6/2. Unzipping 3rd party GWT JARs
 # TODO: Maybe do something similar with WebWorker
 THIRDPARTYJARS="gwt-oauth2-0.2-alpha.jar gwtgl-0.9.1-sources.jar"
 for i in $THIRDPARTYJARS; do
- unzip -o $WEBDIR/lib/$i
+ echo "Unzipping 3rd party library into $WEBDIR/lib/$i"
+ unzip -o $WEBDIR/lib/$i >/dev/null
  done
 
 # 6/3. Applying patches
@@ -326,9 +329,9 @@ for i in $THIRDPARTYJARS; do
 
 # 6/4. Deleting /tmp/gwt*byte-cache
 if [ $DELETE_BYTECACHE = 1 ]; then
- find /tmp -name 'gwt*byte-cache' | xargs rm
- find /tmp -name 'ImageResourceGenerator*.png' | xargs rm
- find /tmp -name 'uiBinder_geogebra*.css' | xargs rm
+ find /tmp -name 'gwt*byte-cache' 2>/dev/null | xargs rm 2>/dev/null
+ find /tmp -name 'ImageResourceGenerator*.png' 2>/dev/null | xargs rm 2>/dev/null
+ find /tmp -name 'uiBinder_geogebra*.css' 2>/dev/null | xargs rm 2>/dev/null
  fi
 
 # 6/5. Running javac for the web
@@ -353,8 +356,7 @@ if [ $VERBOSE = 1 ]; then
 
 # 8/1. Deleting gwt-unitCache on demand
 if [ $GWT_UC_CLEANUP = 1 -a -d $WEBDIR/gwt-unitCache ]; then
- cd $WEBDIR/gwt-unitCache
- find . | xargs rm
+ find $WEBDIR/gwt-unitCache | xargs rm
  fi
  
 # 8/2. Running the GWT compiler
