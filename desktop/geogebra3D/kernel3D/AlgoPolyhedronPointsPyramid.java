@@ -2,7 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -65,8 +65,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		
 		if (bottomPoints == null){
 			// force polygon regular to have at least 3 points
-			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegular){
-				AlgoPolygonRegular algo = (AlgoPolygonRegular) getBottom().getParentAlgorithm();
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND){
+				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
 				algo.compute(3);
 				bottomPoints = algo.getPoints();
 				setBottom(polyhedron);

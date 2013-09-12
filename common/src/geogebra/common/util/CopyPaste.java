@@ -29,7 +29,7 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
-import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -200,7 +200,7 @@ public class CopyPaste {
 							geos.add(ogeos[j]);
 						}
 					}
-				} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegular) {
+				} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
 					GeoElement[] pgeos = ((geo
 							.getParentAlgorithm())).getInput();
 					for (int j = 0; j < pgeos.length; j++) {

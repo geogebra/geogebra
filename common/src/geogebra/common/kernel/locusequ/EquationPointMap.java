@@ -2,7 +2,7 @@ package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
-import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.util.debug.Log;
 
@@ -131,7 +131,7 @@ public class EquationPointMap {
      * @return true iff point's been created by an AlgoPolygonRegular
      */
     private static boolean isAuxiliarPointOnAPolygon(GeoPoint p) {
-        return p.getParentAlgorithm() instanceof AlgoPolygonRegular;
+        return p.getParentAlgorithm() instanceof AlgoPolygonRegularND;
     }
 
     /**
