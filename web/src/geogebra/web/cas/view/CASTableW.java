@@ -218,4 +218,11 @@ public class CASTableW extends Grid implements CASTable {
 	    return view;
     }
 
+	public boolean isSelectedIndex(int row) {
+		for(Integer item : getSelectedRows()){
+			if (item.equals(row)) return true;
+		}
+		return false;
+    }
+
 }

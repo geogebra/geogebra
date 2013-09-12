@@ -1,6 +1,9 @@
 package geogebra.web.cas.view;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.App;
+import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
@@ -8,14 +11,15 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuItem;
 
 
-public class RowHeaderPopupMenuW extends GPopupMenuW{
+public class RowHeaderPopupMenuW extends geogebra.common.cas.view.RowHeaderPopupMenu
+implements AttachedToDOM{
 	
 	private RowHeaderWidget rowHeader;
 	private CASTableW table;
-	private AppW app;
+	private GPopupMenuW rowHeaderPopupMenu;
 	
 	public RowHeaderPopupMenuW(RowHeaderWidget rowHeaderWidget, CASTableW casTableW, AppW appl){
-		super(appl);
+		rowHeaderPopupMenu = new GPopupMenuW(appl);
 		rowHeader = rowHeaderWidget;
 		table = casTableW;
 		app = appl;
@@ -30,7 +34,7 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 				        actionPerformed("insertAbove");
 			        }
 		        });
-		addItem(miInsertAbove);
+		rowHeaderPopupMenu.addItem(miInsertAbove);
 		miInsertAbove.addStyleName("mi_no_image");
 		
 		//"Insert Below" menuitem
@@ -40,15 +44,17 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 				        actionPerformed(app.getMenu("insertBelow"));
 			        }
 		        });
-		addItem(miInsertBelow);
+		rowHeaderPopupMenu.addItem(miInsertBelow);
 		miInsertBelow.addStyleName("mi_no_image");
 	
-		MenuItem miDelete = new MenuItem("Delete", new ScheduledCommand() {
+		int [] selRows = table.getSelectedRows();
+		String strRows = getDeleteString(selRows);
+		MenuItem miDelete = new MenuItem(strRows, new ScheduledCommand() {
 			public void execute() {
 				actionPerformed("delete");
 			}
 		});
-		addItem(miDelete);
+		rowHeaderPopupMenu.addItem(miDelete);
 		miDelete.addStyleName("mi_no_image");
 
 
@@ -84,5 +90,14 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 			table.getApplication().storeUndoInfo();
 		}		
 	}
+
+	public void removeFromDOM() {
+	    rowHeaderPopupMenu.removeFromDOM();
+    }
+
+	public void show(GPoint gPoint) {
+	    rowHeaderPopupMenu.show(gPoint);
+	    
+    }
     
 }

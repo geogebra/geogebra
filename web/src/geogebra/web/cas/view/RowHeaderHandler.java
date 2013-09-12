@@ -32,19 +32,17 @@ public class RowHeaderHandler implements MouseUpHandler{
 
 	public void onMouseUp(MouseUpEvent event) {
 	    if(event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
-
-//TODO	    	
-//			if(!rowHeader.isSelectedIndex(releasedRow)){
-//				rowHeader.setSelectedIndex(releasedRow);
-//			}
-//			if(rowHeader.getSelectedIndices().length>0){
-	    	
-	    	
-	    	// Don't istantiate RowHeaderPopupMenuW() directly. Use guimanager for this,
-	    	// because it must store in GuiManagerW.currentPopup - in this way the popup will hide
-	    	// when a newer popup will be shown.
-	    	RowHeaderPopupMenuW popupMenu = app.getGuiManager().getCASContextMenu(rowHeader, table);
-	    	popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
+	    	int releasedRow = rowHeader.getIndex();
+	    	if(!table.isSelectedIndex(releasedRow)){
+	    		table.setSelectedRows(releasedRow,  releasedRow);
+	    	}
+			if(table.getSelectedRows().length>0){    	
+		    	// Don't istantiate RowHeaderPopupMenuW() directly. Use guimanager for this,
+		    	// because it must store in GuiManagerW.currentPopup - in this way the popup will hide
+		    	// when a newer popup will be shown.
+		    	RowHeaderPopupMenuW popupMenu = app.getGuiManager().getCASContextMenu(rowHeader, table);
+		    	popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
+			}
 	    }    
 	    
     }

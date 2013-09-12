@@ -33,6 +33,11 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 	public void setLabel(String text){
 		((Label)(getWidget(0))).setText(text);
 	}
+	
+	public int getIndex(){
+		return Integer.parseInt(((Label)(getWidget(0))).getText()) - 1;
+	}
+	
 
 	public void setMarbleValue(boolean value) {
 		if (value == oldValue)
