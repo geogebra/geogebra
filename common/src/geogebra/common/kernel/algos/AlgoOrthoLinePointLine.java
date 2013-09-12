@@ -228,40 +228,19 @@ SymbolicParametersBotanaAlgo {
 			
 			botanaPolynomials = new Polynomial[2];
 			
-			/* We need to distinguish two cases.
-			 * If P equals to any of the defining points of l,
-			 * then we need the extra point off l.
-			 */
-			boolean spec = false;
-			GeoPoint A = null;
-			if (l.getStartPoint() != null && l.getStartPoint().equals(P)) {
-				spec = true;
-				A = l.getEndPoint();
-			}
-			
-			if (l.getEndPoint() != null && l.getEndPoint().equals(P)) {
-				spec = true;
-				A = l.getStartPoint();
-			}
-			if (spec) {
-				// We describe the new point simply with rotation of AP around P by 90 degrees.
-				// I.e., p1-a1=n2-p2, p2-a2=p1-n1 => p1-a1+p2-n2=0, p1-p2+a2-n1=0
-				Polynomial p1 = new Polynomial(vP[0]);
-				Polynomial p2 = new Polynomial(vP[1]);
-				Polynomial a1 = new Polynomial((A.getBotanaVars(A))[0]);
-				Polynomial a2 = new Polynomial((A.getBotanaVars(A))[1]);
-				Polynomial n1 = new Polynomial(botanaVars[0]);
-				Polynomial n2 = new Polynomial(botanaVars[1]);
-				botanaPolynomials[0] = p1.subtract(a1).add(p2).subtract(n2);
-				botanaPolynomials[1] = p1.subtract(p2).add(a2).subtract(n1);
-				return botanaPolynomials;
-			}
-			
-			// The two points of line and the intersection (Botana) point of the perpendicular are collinear:  
-			botanaPolynomials[0] = Polynomial.collinear(vL[0], vL[1], vL[2], vL[3], botanaVars[0], botanaVars[1]);
-			// The perpendicularity condition:
-			botanaPolynomials[1] = Polynomial.perpendicular(botanaVars[0], botanaVars[1], vP[0], vP[1], vL[0], vL[1], vL[2], vL[3]); 
-			
+			// We describe the new point simply with rotation of l=:AB around P by 90 degrees.
+			// I.e., b1-a1=n2-p2, b2-a2=p1-n1 => b1-a1+p2-n2=0, p1-b2+a2-n1=0
+			Polynomial p1 = new Polynomial(vP[0]);
+			Polynomial p2 = new Polynomial(vP[1]);
+			Polynomial a1 = new Polynomial(vL[0]);
+			Polynomial a2 = new Polynomial(vL[1]);
+			Polynomial b1 = new Polynomial(vL[2]);
+			Polynomial b2 = new Polynomial(vL[3]);
+			Polynomial n1 = new Polynomial(botanaVars[0]);
+			Polynomial n2 = new Polynomial(botanaVars[1]);
+			botanaPolynomials[0] = b1.subtract(a1).add(p2).subtract(n2);
+			botanaPolynomials[1] = p1.subtract(b2).add(a2).subtract(n1);
+				
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
