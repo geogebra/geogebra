@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -264,5 +265,16 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 
 		return super.midpoint(conic);
 
+	}
+	
+	
+	@Override
+	public GeoElement[] regularPolygon(GeoPointND geoPoint1, GeoPointND geoPoint2, GeoNumberValue value){
+		
+		if (geoPoint1.isGeoElement3D() || geoPoint2.isGeoElement3D()){
+			return  kernel.getManager3D().RegularPolygon(null, geoPoint1, geoPoint2, value, view.getDirection());
+		}
+		
+		return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
 	}
 }
