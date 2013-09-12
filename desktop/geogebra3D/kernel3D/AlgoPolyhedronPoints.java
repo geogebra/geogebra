@@ -2,7 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -163,8 +163,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		if (n>outputSegmentsSide.size()){
 			GeoPointND[] bottomPoints1;
-			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegular){
-				AlgoPolygonRegular algo = (AlgoPolygonRegular) getBottom().getParentAlgorithm();
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND){
+				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
 				bottomPoints1 = algo.getPoints();
 				// if no sufficient bottom points, force augment outputs for AlgoPolygonRegular
 				if (bottomPoints1.length < n){

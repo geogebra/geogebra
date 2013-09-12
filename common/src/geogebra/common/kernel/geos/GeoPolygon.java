@@ -1262,6 +1262,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		this.p2 = newp2;
 		numCS = 3;
 	}
+	
+	/**
+	 * update the region coord sys with the 3 first points
+	 */
+	final public void updateRegionCSWithFirstPoints(){
+		updateRegionCS(getPoint(0), getPoint(1), getPoint(2));
+	}
 
 	/**
 	 * update the coord sys used for region parameters

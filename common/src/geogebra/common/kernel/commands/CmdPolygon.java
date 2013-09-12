@@ -29,6 +29,20 @@ public class CmdPolygon extends CommandProcessor {
 		GeoElement[] arg;
 
 		arg = resArgs(c);
+		
+		return process(c,n,arg);
+	}
+		
+	/**
+	 * 
+	 * @param c command to process
+	 * @param n number of args
+	 * @param arg args already resolved
+	 * @return list of resulting geos
+	 * @throws MyError error if problem occurs
+	 */
+	protected GeoElement[] process(Command c, int n, GeoElement[] arg) throws MyError {
+
 		switch (n) {
 		case 0 :
 			throw argNumErr(app, c.getName(), n);

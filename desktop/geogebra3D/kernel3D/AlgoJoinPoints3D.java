@@ -20,6 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +34,7 @@ import geogebra.common.plugin.GeoClass;
  * Joins two GeoPoint3Ds in a GeoSegment3D, GeoLine3D, ... regarding to geoClassType
  * 
  */
-public class AlgoJoinPoints3D extends AlgoElement3D {
+public class AlgoJoinPoints3D extends AlgoElement3D implements AlgoJoinPointsSegmentInterface {
 	
 	//inputs
 	/** first point */

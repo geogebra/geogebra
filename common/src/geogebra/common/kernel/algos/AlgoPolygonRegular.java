@@ -61,11 +61,6 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 	}
 	
 	
-	@Override
-	protected void updateRegionCS(){
-		getPoly().updateRegionCS((GeoPoint) A, (GeoPoint) B, (GeoPoint) outputPoints.getElement(0));
-
-	}
 	
 
 	@Override
@@ -90,6 +85,11 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 				.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny, 1.0);
 	}
 	
+	
+	@Override
+	protected void rotate(GeoPointND point){
+		point.rotate(rotAngle, centerPoint);
+	}
 
 	// for AlgoElement
 	@Override

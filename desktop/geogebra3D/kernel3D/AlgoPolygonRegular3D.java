@@ -46,12 +46,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 		return newPoint;
 	}
 
-
-	@Override
-	protected void updateRegionCS() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	// for AlgoElement
 	@Override
@@ -96,6 +91,11 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 		double tanBetaHalf = Math.tan(beta) / 2;
 		((GeoPoint3D) centerPoint).setCoords(m.add(vn.mul(tanBetaHalf)));
 
+	}
+	
+	@Override
+	protected void rotate(GeoPointND point){
+		((GeoPoint3D) point).rotate(rotAngle, centerPoint, direction);
 	}
 	
 	@Override

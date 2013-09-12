@@ -21,7 +21,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -48,7 +47,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 	protected OutputHandler<GeoElement> outputSegments;
 
 	protected GeoPointND centerPoint;
-	private MyDouble rotAngle;
+	protected MyDouble rotAngle;
 
 	protected boolean labelPointsAndSegments;
 	/** whether new segment labels should be visible */
@@ -137,8 +136,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 							conditionToShow = ((GeoElement) B).getShowObjectCondition();
 						if (conditionToShow != null) {
 							try {
-								((GeoElement) newPoint)
-										.setShowObjectCondition(conditionToShow);
+								newPoint.setShowObjectCondition(conditionToShow);
 							} catch (Exception e) {
 								// circular exception -- do nothing
 							}
@@ -271,14 +269,16 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 			// rotate point around center point
 			outputPoints.getElement(k).set((GeoElement) A);
 			rotAngle.set((k + 2) * alpha);
-			((GeoPointND) outputPoints.getElement(k)).rotate(rotAngle, centerPoint);
+			rotate((GeoPointND) outputPoints.getElement(k));
 		}
 	}
 	
 	/**
-	 * update region coordinate system
+	 * rotate the point regarding current parameters
+	 * @param point point
 	 */
-	protected abstract void updateRegionCS();
+	protected abstract void rotate(GeoPointND point);
+	
 	
 	/**
 	 * 
@@ -349,11 +349,12 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		poly.calcArea();
 
 		// update region coordinate system
-		updateRegionCS();
+		poly.updateRegionCSWithFirstPoints();
 		
 		numOld = n;
 	}
-
+	
+	
 	/**
 	 * Ensures that the pointList holds n points.
 	 * 
@@ -399,7 +400,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 
 	}
 
-	private void removePoint(GeoPoint oldPoint) {
+	private void removePoint(GeoElement oldPoint) {
 
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree
@@ -419,8 +420,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		for (int k = 0; k < algoList.size(); k++) {
 			AlgoElement algo = algoList.get(k);
 			// make sure we don't remove the polygon as well
-			if (algo instanceof AlgoJoinPointsSegment
-					&& ((AlgoJoinPointsSegment) algo).getPoly() == poly) {
+			if (algo instanceof AlgoJoinPointsSegmentInterface
+					&& ((AlgoJoinPointsSegmentInterface) algo).getPoly() == poly) {
 				continue;
 			}
 			algo.remove();
@@ -443,7 +444,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 			GeoElement geo = super.getOutput(i);
 			if (geo != keepGeo) {
 				if (geo.isGeoPoint()) {
-					removePoint((GeoPoint) geo);
+					removePoint(geo);
 				} else {
 					geo.doRemove();
 				}
