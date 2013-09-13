@@ -26,7 +26,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -185,7 +184,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		}
 		
 		int length = p.getPoints().length;
-		Log.debug(length);
+		//Log.debug(length);
 		outputPoints.adjustOutputSize(length >0?length : 1);
 		
 		
