@@ -379,8 +379,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    this.waitingMouseMove = null;
 	    int dragTime = (int) (System.currentTimeMillis()-time);
 	    GeoGebraProfiler.dragTime += dragTime;
-	    if(dragTime > EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
-	    	EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS = dragTime + 10;
+	    if(dragTime > EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH){
+	    	EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 	    }
 	    
     }
@@ -499,8 +499,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		 this.waitingTouchMove = null;
 		 int dragTime = (int) (System.currentTimeMillis()-time);
 		GeoGebraProfiler.dragTime += dragTime;
-		if(dragTime > EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
-			EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS = dragTime + 10;
+		if(dragTime > EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH){
+			EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
 	}
 

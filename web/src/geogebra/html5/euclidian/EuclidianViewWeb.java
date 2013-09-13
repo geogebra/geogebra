@@ -25,9 +25,9 @@ import com.google.gwt.dom.client.Style;
 
 public abstract class EuclidianViewWeb extends EuclidianView {
 
-	public static final int DELAY_UNTIL_MOVE_FINISH = 150;
+	public static int DELAY_UNTIL_MOVE_FINISH = 150;
 
-	public static int DELAY_BETWEEN_MOVE_EVENTS = 30;
+	public static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
 	
 	public geogebra.html5.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
@@ -62,7 +62,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
     public final GFont getFont() {
 		return new GFontW(g2p.getFont());
     }
-	
+
 
     public final GColor getBackgroundCommon() {
 	    return backgroundColor ;
@@ -379,7 +379,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	}
 
 	public static void resetDelay() {
-		DELAY_BETWEEN_MOVE_EVENTS = 30;
+		DELAY_UNTIL_MOVE_FINISH = 150;
     }
 
 	/*public int getMaxProblemBisections() {
