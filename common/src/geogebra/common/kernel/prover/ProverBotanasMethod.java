@@ -382,6 +382,7 @@ public class ProverBotanasMethod {
 
 						List<Set<GeoPoint>> xEqualSet = new ArrayList(new HashSet<GeoPoint>());
 						List<Set<GeoPoint>> yEqualSet = new ArrayList(new HashSet<GeoPoint>());
+						boolean xyRewrite = (eliminationIdeal.size() == 2);
 						
 						List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
 						double bestScore = Double.POSITIVE_INFINITY;
@@ -391,7 +392,8 @@ public class ProverBotanasMethod {
 							// All NDGs must be translatable into human readable
 							// form.
 							boolean readable = true;
-							Iterator<Polynomial> ndg = ndgSet.next().iterator();
+							Set<Polynomial> thisNdgSet = ndgSet.next();
+							Iterator<Polynomial> ndg = thisNdgSet.iterator();
 							while (ndg.hasNext() && readable) {
 								Polynomial poly = ndg.next();
 								if (poly.isZero())
@@ -403,25 +405,30 @@ public class ProverBotanasMethod {
 									if (ndgc == null)
 										readable = false;
 									else {
-										// Check if this elimination ideal equals to {xM-xN,yM-yN}:									
-										if (ndgc.getCondition().equals("xAreEqual")) {
-											Set<GeoPoint> points = new HashSet<GeoPoint>();
-											points.add((GeoPoint)ndgc.getGeos()[0]);
-											points.add((GeoPoint)ndgc.getGeos()[1]);
-											xEqualSet.add(points);
-										}
-										if (ndgc.getCondition().equals("yAreEqual")) {
-											Set<GeoPoint> points = new HashSet<GeoPoint>();
-											points.add((GeoPoint)ndgc.getGeos()[0]);
-											points.add((GeoPoint)ndgc.getGeos()[1]);
-											yEqualSet.add(points);
-										}							
-										if (eliminationIdeal.size() == 2 
-												&& xEqualSet.size() == 1
-												&& xEqualSet.equals(yEqualSet)) {
-											// If yes, set the condition to AreEqual and readable enough:
-											ndgc.setCondition("AreEqual");
-											ndgc.setReadability(0.5);
+										// Check if this elimination ideal equals to {xM-xN,yM-yN}:
+										xyRewrite = (xyRewrite && thisNdgSet.size() == 1);
+										// Note that in some cases the CAS may return (xM-xN)*(-1) which
+										// consists of two factors, so thisNdgSet.size() == 1 will fail.
+										// Until now there is no experience of such behavior for such
+										// simple ideals, so maybe this check is OK.
+										if (xyRewrite) {
+											if (ndgc.getCondition().equals("xAreEqual")) {
+												Set<GeoPoint> points = new HashSet<GeoPoint>();
+												points.add((GeoPoint)ndgc.getGeos()[0]);
+												points.add((GeoPoint)ndgc.getGeos()[1]);
+												xEqualSet.add(points);
+											}
+											if (ndgc.getCondition().equals("yAreEqual")) {
+												Set<GeoPoint> points = new HashSet<GeoPoint>();
+												points.add((GeoPoint)ndgc.getGeos()[0]);
+												points.add((GeoPoint)ndgc.getGeos()[1]);
+												yEqualSet.add(points);
+											}							
+											if (xEqualSet.size() == 1 && xEqualSet.equals(yEqualSet)) {
+												// If yes, set the condition to AreEqual(M,N) and readable enough:
+												ndgc.setCondition("AreEqual");
+												ndgc.setReadability(0.5);
+											}
 										}
 
 										ndgcl.add(ndgc);
