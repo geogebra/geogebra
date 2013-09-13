@@ -22,8 +22,7 @@ public class TouchEvent extends AbstractEvent {
 
 	@Override
 	public GPoint getPoint() {		
-		return new GPoint(Math.round((event.getClientX() - off.getXoffset()) * (1 / off.getScaleX()) * (1 / off.getWidthScale())),
-				Math.round((event.getClientY() - off.getYoffset())  * (1 / off.getScaleY()) * (1 / off.getHeightScale())));
+		return new GPoint(getX(),getY());
 	}
 
 	@Override
@@ -48,16 +47,12 @@ public class TouchEvent extends AbstractEvent {
 
 	@Override
 	public int getX() {		
-		return Math.round((event.getClientX() - off.getXoffset()) *
-				(1 / off.getScaleX()) *
-					(1 / off.getWidthScale()));
+		return event.getClientX() - off.getXoffset();
 	}
 
 	@Override
 	public int getY() {
-		return Math.round((event.getClientY() - off.getYoffset())  *
-				(1 / off.getScaleY()) *
-					(1 / off.getHeightScale()));
+		return event.getClientY() - off.getYoffset();
 	}
 
 	@Override
