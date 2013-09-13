@@ -94,38 +94,47 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			outputPointsBottom.getElement(i).setCoords(points[i].getInhomCoordsInD(3));
 		
 		
-		// update top points
-		outputPointsTop.adjustOutputSize(points.length);
-		outputPointsTop.setLabels(null);
-		GeoPolygon bottomPolygon = algo.getBottom();
-		GeoPointND topPoint = algo.getTopPoint();
-		
-		Coords topCoords = topPoint.getInhomCoordsInD(3);
-		Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
-		Coords v1 = p1.sub(topCoords);
-		double d1 = p.getOrientedHeight();
-		if (d1<0) { // top point below the bottom face : negative rotation
-			f*=-1;
-			d1*=-1;
-		}
-		GeoSegmentND[] bottomSegments = bottomPolygon.getSegments();
-		for (int i=0;i<outputPointsTop.size() ;i++){
-		    GeoPoint3D wpoint = outputPointsTop.getElement(i);
-			wpoint.setCoords(topPoint);
+		switch(p.getType()){
+
+		case GeoPolyhedron.TYPE_PYRAMID:
+			// update top points
+			outputPointsTop.adjustOutputSize(points.length);
+			outputPointsTop.setLabels(null);
+			GeoPolygon bottomPolygon = algo.getBottom();
+			GeoPointND topPoint = algo.getTopPoint();
+
+			Coords topCoords = topPoint.getInhomCoordsInD(3);
+			Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
+			Coords v1 = p1.sub(topCoords);
+			double d1 = p.getOrientedHeight();
+			if (d1<0) { // top point below the bottom face : negative rotation
+				f*=-1;
+				d1*=-1;
+			}
+			GeoSegmentND[] bottomSegments = bottomPolygon.getSegments();
+			for (int i=0;i<outputPointsTop.size() ;i++){
+				GeoPoint3D wpoint = outputPointsTop.getElement(i);
+				wpoint.setCoords(topPoint);
+
+				// angle between side face and bottom face
+				GeoSegmentND si = bottomSegments[i];
+				Coords o = points[i].getInhomCoordsInD(3);
+				Coords vs = si.getDirectionInD3();
+				Coords v2 = p1.sub(o);
+				double d2 = topCoords.distLine(o, vs);
+				double angle = Math.asin(d1/d2);			
+				if (v2.crossProduct(vs).dotproduct(v1)*f > 0){ // top point is inside bottom face
+					angle = Math.PI-angle;
+				}			
+				wpoint.rotate(f*angle, si);
+			}
+			break;
+
+		case GeoPolyhedron.TYPE_PRISM:
 			
-			// angle between side face and bottom face
-			GeoSegmentND si = bottomSegments[i];
-			Coords o = points[i].getInhomCoordsInD(3);
-			Coords vs = si.getDirectionInD3();
-			Coords v2 = p1.sub(o);
-			double d2 = topCoords.distLine(o, vs);
-			double angle = Math.asin(d1/d2);			
-			if (v2.crossProduct(vs).dotproduct(v1)*f > 0){ // top point is inside bottom face
-				angle = Math.PI-angle;
-			}			
-			wpoint.rotate(f*angle, si);
-		}
+			break;
 		
+		}
 
 
 	}

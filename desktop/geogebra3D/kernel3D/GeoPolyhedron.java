@@ -169,6 +169,14 @@ HasHeight
 	public void setType(int type) {
 		this.type = type;
 	}
+	
+	/**
+	 * 
+	 * @return the type of polyhedron
+	 */
+	public int getType() {
+		return type;
+	}
 
 	/**
 	 * start a new face
