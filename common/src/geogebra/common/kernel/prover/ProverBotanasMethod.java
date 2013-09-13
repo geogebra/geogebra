@@ -300,7 +300,7 @@ public class ProverBotanasMethod {
 					// SingularWS will use Cox' method
 					ProverSettings.freePointsNeverCollinear = false;
 				} else {
-					ProverSettings.freePointsNeverCollinear = true;
+					ProverSettings.freePointsNeverCollinear = false;
 				}		
 			}
 			
