@@ -167,7 +167,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (notFixedPointsLength || points == null)
 			return "Polygon";
 
-		switch (points.length) {
+		switch (getPointsLength()) {
 		case 3:
 			return "Triangle";
 
@@ -304,14 +304,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 			// additional labels for the polygon's segments
 			// poly + segments + points - 2 for AlgoPolygonRegular
-			if (labels.length == 1 + segments.length + points.length - 2) {
+			if (labels.length == 1 + segments.length + getPointsLength() - 2) {
 				// Application.debug("labels for segments and points");
 
 				int i = 1;
 				for (int k = 0; k < segments.length; k++, i++) {
 					segments[k].setLabel(labels[i]);
 				}
-				for (int k = 2; k < points.length; k++, i++) {
+				for (int k = 2; k < getPointsLength(); k++, i++) {
 					points[k].setLabel(labels[i]);
 				}
 			}
@@ -347,7 +347,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	private void defaultSegmentLabels() {
 		// no labels for segments specified
 		// set labels of segments according to point names
-		if (points.length == 3) {
+		if (getPointsLength() == 3) {
 
 			// make sure segment opposite C is called c not a_1
 			if (getParentAlgorithm() instanceof AlgoPolygonRegularND)
@@ -357,7 +357,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			setLabel(segments[1], points[0]);
 			setLabel(segments[2], points[1]);
 		} else {
-			for (int i = 0; i < points.length; i++) {
+			for (int i = 0; i < getPointsLength(); i++) {
 				setLabel(segments[i], points[i]);
 			}
 		}
@@ -390,7 +390,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			return;
 
 		GeoSegmentND[] oldSegments = segments;
-		segments = new GeoSegmentND[points.length]; // new segments
+		segments = new GeoSegmentND[getPointsLength()]; // new segments
 
 		if (oldSegments != null) {
 			// reuse or remove old segments
@@ -398,7 +398,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 				if (i < segments.length
 						&& oldSegments[i].getStartPointAsGeoElement() == points[i]
 						&& oldSegments[i].getEndPointAsGeoElement() == points[(i + 1)
-								% points.length]) {
+								% getPointsLength()]) {
 					// reuse old segment
 					segments[i] = oldSegments[i];
 				} else {
@@ -416,7 +416,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		// create missing segments
 		for (int i = 0; i < segments.length; i++) {
 			GeoPointND startPoint = points[i];
-			GeoPointND endPoint = points[(i + 1) % points.length];
+			GeoPointND endPoint = points[(i + 1) % getPointsLength()];
 
 			if (segments[i] == null) {
 				segments[i] = createSegment(
@@ -548,7 +548,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 		// make sure both arrays have same size
 		if (l != poly.getPoints().length) {
-			GeoPoint[] tempPoints = new GeoPoint[poly.points.length];
+			GeoPoint[] tempPoints = new GeoPoint[poly.getPointsLength()];
 			for (int i = 0; i < tempPoints.length; i++) {
 				tempPoints[i] = i < l ? getPoint(i) : new GeoPoint(cons);//newGeoPoint();
 			}
@@ -681,9 +681,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public Path getBoundary() {
 		this.getConstruction().getKernel().setSilentMode(true);
 
-		GeoPointND[] pointsForPolyLine = new GeoPointND[points.length + 1];
-		System.arraycopy(points, 0, pointsForPolyLine, 0, points.length);
-		pointsForPolyLine[points.length] = pointsForPolyLine[0];
+		GeoPointND[] pointsForPolyLine = new GeoPointND[getPointsLength() + 1];
+		System.arraycopy(points, 0, pointsForPolyLine, 0, getPointsLength());
+		pointsForPolyLine[getPointsLength()] = pointsForPolyLine[0];
 
 		GeoPolyLine pl = new GeoPolyLine(this.getConstruction(),
 				pointsForPolyLine);
@@ -765,7 +765,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		double xsum = 0;
 		double ysum = 0;
 		double factor = 0;
-		for (int i = 0; i < points.length; i++) {
+		for (int i = 0; i < getPointsLength(); i++) {
 			factor = pointsClosedX(i) * pointsClosedY(i + 1)
 					- pointsClosedX(i + 1) * pointsClosedY(i);
 			xsum += (pointsClosedX(i) + pointsClosedX(i + 1)) * factor;
@@ -782,7 +782,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	private double pointsClosedX(int i) {
 		// pretend array has last element==first element
-		if (i == points.length) {
+		if (i == getPointsLength()) {
 			// return points[0].inhomX; else return points[i].inhomX;
 			return getPointX(0);
 		}
@@ -791,7 +791,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	private double pointsClosedY(int i) {
 		// pretend array has last element==first element
-		if (i == points.length) {
+		if (i == getPointsLength()) {
 			// return points[0].inhomY; else return
 			// points[i].inhomY;
 			return getPointY(0);
@@ -1146,7 +1146,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public boolean isInRegion(double x0, double y0) {
 
 		double x1, y1, x2, y2;
-		int numPoints = points.length;
+		int numPoints = getPointsLength();
 		x1 = getPointX(numPoints - 1) - x0;
 		y1 = getPointY(numPoints - 1) - y0;
 
@@ -1552,12 +1552,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	
 	
 	public void rotate(NumberValue r) {
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).rotate(r);
 	}
 
 	public void rotate(NumberValue r, GeoPointND S) {
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).rotate(r, S);
 	}
 
@@ -1568,23 +1568,23 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	public void translate(Coords v) {
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).translate(v);
 	}
 
 	public void dilate(NumberValue r, Coords S) {
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).dilate(r, S);
 		this.calcArea();
 	}
 
 	public void mirror(Coords Q) {
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).mirror(Q);
 	}
 
 	public void mirror(GeoLineND g) {
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).mirror(g);
 	}
 
@@ -1594,8 +1594,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 * @return true iff all vertices are labeled
 	 */
 	public boolean isAllVertexLabelsSet() {
-		for (int i = 0; i < points.length; i++)
-			if (!((GeoElement) points[i]).isLabelSet())
+		for (int i = 0; i < getPointsLength(); i++)
+			if (!getPoint(i).isLabelSet())
 				return false;
 		return true;
 	}
