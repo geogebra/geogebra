@@ -1,14 +1,36 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 public abstract class DrawEquation {
 
-	public static void appendFractionStart(StringBuilder sb, StringTemplate tpl) {
+	/*
+	 * make sure we always return LATEX (or MATHML, not currently used) so that
+	 * eg FractionText will work when part of another text and not return eg (1)/(3)
+	 */
+	private static StringType checkStringType(StringTemplate tpl) {
 		switch (tpl.getStringType()) {
+		case LATEX:
+			return StringType.LATEX;
+
+		case MATHML:
+			return StringType.MATHML;
+			
+			default:
+				// should really be app.getPreferredFormulaRenderingType()
+				return StringType.LATEX;
+		}
+	}
+
+	public static void appendFractionStart(StringBuilder sb, StringTemplate tpl) {
+		
+		StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
 		case LATEX:
 			sb.append(" \\frac{ ");
 			break;
@@ -23,8 +45,11 @@ public abstract class DrawEquation {
 
 	}
 
+
 	public static void appendFractionMiddle(StringBuilder sb, StringTemplate tpl) {
-		switch (tpl.getStringType()) {
+		StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
 		case LATEX:
 			sb.append(" }{ ");
 			break;
@@ -40,7 +65,9 @@ public abstract class DrawEquation {
 	}
 
 	public static void appendFractionEnd(StringBuilder sb, StringTemplate tpl) {
-		switch (tpl.getStringType()) {
+		StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
 		case LATEX:
 			sb.append(" } ");
 			break;
@@ -55,7 +82,9 @@ public abstract class DrawEquation {
 	}
 
 	public static void appendInfinity(StringBuilder sb, StringTemplate tpl) {
-		switch (tpl.getStringType()) {
+		StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
 		case LATEX:
 			sb.append(" \\infty ");
 			break;
@@ -70,7 +99,9 @@ public abstract class DrawEquation {
 	}
 
 	public static void appendMinusInfinity(StringBuilder sb, StringTemplate tpl) {
-		switch (tpl.getStringType()) {
+		StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
 		case LATEX:
 			sb.append(" - \\infty ");
 			break;
@@ -87,7 +118,9 @@ public abstract class DrawEquation {
 
 	public static void appendNumber(StringBuilder sb, StringTemplate tpl,
 			String num) {
-		switch (tpl.getStringType()) {
+		StringType stringType = checkStringType(tpl);
+		
+		switch (stringType) {
 		case MATHML:
 			sb.append("<cn>");
 			sb.append(num);				
