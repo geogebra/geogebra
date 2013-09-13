@@ -8,7 +8,6 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra3D.archimedean.support.IFace;
@@ -239,8 +238,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 			outputPoints.getElement(i).setCoords(matrix.mul(coords[i+2]),true);
 		}
 		
-		App.debug(l+"*"+heightFactor+"="+(l*heightFactor));
-		
 		//update volume
 		polyhedron.setVolume(l*l*l*volumeFactor);
 		
@@ -290,8 +287,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 			break;
 
 		}
-		
-		App.debug(name+","+volumeFactor+","+heightFactor);
+
 	}
 
 	
