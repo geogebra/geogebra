@@ -34,6 +34,7 @@ CONTRIBUTORS
   * Darko Drakulic (Bosnia and Herzegovina 2011-)
   * Martin Ennemoser (Austria 2011-)
   * Andre Eriksson (Sweden 2010-)
+  * Vincent Everaert (France 2013)
   * Victor Franco (Spain 2007)
   * Claudia Gollner (Austria 2011-)
   * Alexander Hartl (Austria 2011-)
