@@ -101,7 +101,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         }
     }
 
-    final double calcRoot(Function fun, double start) {
+    public final double calcRoot(Function fun, double start) {
     	double root = Double.NaN;
   		if (rootFinderBrent == null)
     		rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);

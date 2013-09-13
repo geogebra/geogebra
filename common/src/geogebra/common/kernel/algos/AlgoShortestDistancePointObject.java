@@ -2,13 +2,19 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolver;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.plugin.Operation;
 
 /**
  * Algo for computing the shortest distance between a point and a 2D object
@@ -70,10 +76,11 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
 		distance.setUndefined();
 		GeoFunction fun = (GeoFunction) object;
-		PolyFunction polyFunction = fun.getFunction().expandToPolyFunction(fun.getFunction().getExpression(),false, true);
+		Function function = fun.getFunction();
+		PolyFunction polyFunction = function.expandToPolyFunction(function.getExpression(), false, true);
 		if (polyFunction != null) {
 			PolyFunction polyDervi = polyFunction.getDerivative();
-			// calculate coeffs for (2*(x - a) + 2(f(x) - b)f'(x) where a and b are the coordinates of point
+			// calculate coeffs for 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the coordinates of point
 			// expanding it gives 2x - 2a + 2*f(x)*f'(x) - 2*b*f'(x)
 			double[] funCoeffs = polyFunction.getCoeffs();
 			double[] derivCoeffs = polyDervi.getCoeffs();
@@ -106,8 +113,27 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 				min = Math.min(min, distancePointFunctionAt(polyFunction, point, eq[i]));
 			}
 			distance.setValue(min);
+			return;
 		}
-		return;
+		// non polynomial case
+		FunctionVariable fVar = function.getFunctionVariable();
+		Function deriv = function.getDerivative(1);
+		// replace derivatives' function variable with functions'
+		// we need this, so our new function created below, can be evaluated
+		deriv.traverse(Traversing.Replacer.getReplacer(deriv.getFunctionVariable(), fVar));
+		// build expression 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the coordinates of point
+		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS, new MyDouble(kernel, point.x));
+		expr = expr.multiply(2);
+		ExpressionNode expr2 = new ExpressionNode(kernel, function.getExpression(), Operation.MINUS, new MyDouble(kernel, point.y));
+		expr2 = expr2.multiplyR(deriv.getExpression());
+		expr2 = expr2.multiply(2);
+		expr = expr.plus(expr2);
+		// create algo and remove it from construction
+		AlgoRootNewton algoRoot = new AlgoRootNewton(cons);
+		cons.removeFromConstructionList(algoRoot);
+		// calculate root
+		double root = algoRoot.calcRoot(new Function(expr, fVar), point.x);
+		distance.setValue(distancePointFunctionAt(function, point, root));
 	}
 	
 	private static double distancePointFunctionAt(final RealRootFunction fun, final GeoPoint p, double x) {
