@@ -62,6 +62,9 @@ public class RendererJogl {
 		//avoid flickering
 		//caps.setDoubleBuffered(true);
 		caps.setDoubleBuffered(false);
+		
+		//stencil buffer is needed for hacked passive 3D
+		caps.setStencilBits(1);
 
 	}
 	
@@ -75,6 +78,7 @@ public class RendererJogl {
 				+"\nChosen GLCapabilities: " + c
 				+"\ndouble buffered: " + c.getDoubleBuffered()
 				+"\nstereo: " + c.getStereo()
+				+"\nstencil: " + c.getStencilBits()
 				+"\nINIT GL IS: " + gl.getClass().getName()
 				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
 				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
