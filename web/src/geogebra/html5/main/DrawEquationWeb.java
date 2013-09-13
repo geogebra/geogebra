@@ -337,7 +337,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
-	 * The JavaScript/JQuery bit of drawing an equation with MathQuill More
+	 * The JavaScript/$ggbQuery bit of drawing an equation with MathQuill More
 	 * could go into GWT, but it was easier with JSNI
 	 * 
 	 * @param el
@@ -399,11 +399,11 @@ public class DrawEquationWeb extends DrawEquation {
 		parentElement.appendChild(el);
 
 		if (noEqnArray) {
-			$wnd.jQuery(elsecond).mathquill();
+			$wnd.$ggbQuery(elsecond).mathquill();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
-				$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+				$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
 			}, 500);
 
 			// it's not ok for IE8, but it's good for ie9 and above
@@ -411,18 +411,18 @@ public class DrawEquationWeb extends DrawEquation {
 			//	if ($doc.readyState === 'complete' ||
 			//		$doc.readyState === 'loaded') {
 			//		$wnd.console.log('Doesnt run in Chrome');
-			//		$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+			//		$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
 			//	}
 			//}, false);
 		} else {
-			$wnd.jQuery(elsecond).mathquill('eqnarray');
+			$wnd.$ggbQuery(elsecond).mathquill('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
 			//				// TODO: this needs more testing,
 			//				// also for the editing of it
-			//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-			//				$wnd.jQuery(elsecond).mathquill('eqnarray');
+			//				//$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
+			//				$wnd.$ggbQuery(elsecond).mathquill('eqnarray');
 			//			});
 		}
 
@@ -462,10 +462,10 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
-		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable').focus();
+		$wnd.$ggbQuery(elsecond).mathquill('revert').mathquill('editable').focus();
 
 		$wnd
-				.jQuery(elsecond)
+				.$ggbQuery(elsecond)
 				.keyup(
 						function(event) {
 							var code = 13;
@@ -489,7 +489,7 @@ public class DrawEquationWeb extends DrawEquation {
 		mousein.mout = false;
 		$wnd.mousein = mousein;
 		$wnd
-				.jQuery(elsecond)
+				.$ggbQuery(elsecond)
 				.focusout(
 						function(event) {
 							if ($wnd.mousein.mout) {
@@ -510,7 +510,7 @@ public class DrawEquationWeb extends DrawEquation {
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
-		var thisjq = $wnd.jQuery(elsecond);
+		var thisjq = $wnd.$ggbQuery(elsecond);
 		var latexq = null;
 		elsecond.previousSibling.style.display = "block";
 		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
@@ -521,7 +521,7 @@ public class DrawEquationWeb extends DrawEquation {
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
-		var thisjq = $wnd.jQuery(elsecond);
+		var thisjq = $wnd.$ggbQuery(elsecond);
 		var latexq = thisjq.mathquill('text');
 		elsecond.previousSibling.style.display = "block";
 		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
@@ -545,21 +545,21 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		if (noEqnArray) {
-			$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
+			$wnd.$ggbQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
-				$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+				$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
 			});
 		} else {
-			$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill(
+			$wnd.$ggbQuery(elsecond).mathquill('revert').html(htmlt).mathquill(
 					'eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
 			//				// TODO: needs testing
-			//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
-			//				$wnd.jQuery(elsecond).mathquill('eqnarray');
+			//				//$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
+			//				$wnd.$ggbQuery(elsecond).mathquill('eqnarray');
 			//			});
 		}
 

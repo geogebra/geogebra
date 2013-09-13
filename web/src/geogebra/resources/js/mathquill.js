@@ -9,15 +9,17 @@
  * Appropriate license terms apply.
  */
 
+$ggbQuery = jQuery;
+
 (function() {
 
-var $ = jQuery,
+var $ = $ggbQuery;
   undefined,
   mqCmdId = 'mathquill-command-id',
   mqBlockId = 'mathquill-block-id',
   min = Math.min,
   max = Math.max;
-
+	
 function noop() {}
 
 /**
@@ -4386,6 +4388,6 @@ $(function() {
   $('.mathquill-eqnarray:not(.mathquill-rendered-math)').mathquill('eqnarray');
   $('.mathquill-embedded-latex').mathquill();
 });
-
-
+//set back the original namespace
+jQuery.noConflict(true);
 }());

@@ -24,6 +24,7 @@ public class ScriptManagerW extends ScriptManager {
 	    initAppletFunctions(app.getGgbApi());
     }
 
+
 	@Override
 	public void ggbOnInit() {
 		try{
