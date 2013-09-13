@@ -719,5 +719,16 @@ public interface Manager3DInterface {
 	 * @return corners for a conic section
 	 */
 	public GeoElement[] Corner(String[] labels, GeoConicND conic);
+	
+	
+	/**
+	 * Net of a polyhedron
+	 * @param labels labels
+	 * @param p polyhedron
+	 * @param v value "opening" the net
+	 * @return net, faces, etc.
+	 */
+	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p, NumberValue v);
+
 
 }

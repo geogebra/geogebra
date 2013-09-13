@@ -645,7 +645,17 @@ public class Coords extends CoordMatrix {
 	 * @return distance of this to the plane
 	 */
 	public double distPlane(Coords o, Coords vn){
-		return Math.abs(this.sub(o).dotproduct(vn));
+		return Math.abs(distPlaneOriented(o, vn));
+	}
+	
+	/**
+	 * 
+	 * @param o point of the plane
+	 * @param vn normal direction to the plane
+	 * @return oriented distance of this to the plane
+	 */
+	public double distPlaneOriented(Coords o, Coords vn){
+		return this.sub(o).dotproduct(vn);
 	}
 
 	/**

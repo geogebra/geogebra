@@ -1280,6 +1280,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	
 	private void rotate(NumberValue phiValue, Coords o1, Coords vn){
 		
+		rotate(phiValue.getDouble(), o1, vn);
+	}
+	
+	private void rotate(double phi, Coords o1, Coords vn){
+		
 		if (vn.isZero()){
 			setUndefined();
 			return;
@@ -1290,7 +1295,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 		Coords v1 = point.sub(o);
 		
-		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 		Coords vn2 = vn.normalized();
@@ -1302,14 +1306,27 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	
 	public void rotate(NumberValue phiValue, GeoLineND line){
 		
+		rotate(phiValue.getDouble(), line);
+		
+
+	}
+	
+	/**
+	 * rotate around line with angle phi
+	 * @param phi angle
+	 * @param line line
+	 */
+	public void rotate(double phi, GeoLineND line){
+		
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 		
 		
-		rotate(phiValue, o1, vn);
+		rotate(phi, o1, vn);
 		
 
 	}
+	
 	
 	
 	/////////////////////////////

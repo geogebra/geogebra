@@ -340,7 +340,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		if(height!=null){
 			h = height.getDouble();
 		}else{
-			h = getTopPoint().getInhomCoordsInD(3).distPlane(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
+			h = getTopPoint().getInhomCoordsInD(3).distPlaneOriented(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
 		}
 		updateVolume(Math.abs(h));
 		polyhedron.setOrientedHeight(h);

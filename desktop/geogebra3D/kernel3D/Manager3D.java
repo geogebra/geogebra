@@ -1387,4 +1387,13 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getOutput();
 	}
 
+	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
+			NumberValue v) {
+
+		AlgoPolyhedronNet algo = new AlgoPolyhedronNet(cons, labels, (GeoPolyhedron) p, v);
+		return algo.getOutput();
+	}
+	
+	
+
 }
