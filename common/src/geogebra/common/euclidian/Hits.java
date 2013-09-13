@@ -241,13 +241,15 @@ public class Hits extends ArrayList<GeoElement> {
 			if (geo.isGeoPolygon()) {
 				boolean sidePresent = false;
 				GeoSegmentND [] sides = ((GeoPolygon) geo).getSegments();
-				for (int k=0; k < sides.length; k++) {
-					if (this.contains(sides[k])) {
-						sidePresent = true;
-						break;
+				if (sides !=null){
+					for (int k=0; k < sides.length; k++) {
+						if (this.contains(sides[k])) {
+							sidePresent = true;
+							break;
+						}
 					}
 				}
-				
+
 				if (sidePresent!=sidePresentWanted){
 					it.remove();					
 				}

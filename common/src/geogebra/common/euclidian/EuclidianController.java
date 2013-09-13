@@ -5258,13 +5258,15 @@ public abstract class EuclidianController {
 									GeoSegmentND[] sides = ((GeoPolygon) region)
 											.getSegments();
 									boolean sideInHits = false;
-									for (int k = 0; k < sides.length; k++) {
-										// sideInHits = sideInHits ||
-										// hits.remove(sides[k]); //not removing sides,
-										// just test
-										if (hits.contains(sides[k])) {
-											sideInHits = true;
-											break;
+									if (sides!=null){
+										for (int k = 0; k < sides.length; k++) {
+											// sideInHits = sideInHits ||
+											// hits.remove(sides[k]); //not removing sides,
+											// just test
+											if (hits.contains(sides[k])) {
+												sideInHits = true;
+												break;
+											}
 										}
 									}
 			
