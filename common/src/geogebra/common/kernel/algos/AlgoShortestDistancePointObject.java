@@ -3,6 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 
@@ -19,7 +20,7 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
     	
     	distance = new GeoNumeric(cons);
     	
-    	if (!o.isGeoFunctionNVar()) {
+    	if (!o.isGeoFunction()) {
     		AlgoElement algo;
     		if (o.isGeoPoint()) 
     			algo = new AlgoDistancePoints(cons, label, p, (GeoPoint) o);
@@ -47,8 +48,7 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 
 	@Override
 	public void compute() {
-		// TODO finish this method 
-				
+		GeoFunction fun = (GeoFunction) object;
 	}
 
 	@Override
