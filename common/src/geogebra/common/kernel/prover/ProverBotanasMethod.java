@@ -376,9 +376,13 @@ public class ProverBotanasMethod {
 						if (eliminationIdeal == null) {
 							return ProofResult.UNKNOWN;
 						}
-
+						
 						Iterator<Set<Polynomial>> ndgSet = eliminationIdeal
 								.iterator();
+
+						List<Set<GeoPoint>> xEqualSet = new ArrayList(new HashSet<GeoPoint>());
+						List<Set<GeoPoint>> yEqualSet = new ArrayList(new HashSet<GeoPoint>());
+						
 						List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
 						double bestScore = Double.POSITIVE_INFINITY;
 						while (ndgSet.hasNext()) {
@@ -399,8 +403,31 @@ public class ProverBotanasMethod {
 									if (ndgc == null)
 										readable = false;
 									else {
+										// Check if this elimination ideal equals to {xM-xN,yM-yN}:									
+										if (ndgc.getCondition().equals("xAreEqual")) {
+											Set<GeoPoint> points = new HashSet<GeoPoint>();
+											points.add((GeoPoint)ndgc.getGeos()[0]);
+											points.add((GeoPoint)ndgc.getGeos()[1]);
+											xEqualSet.add(points);
+										}
+										if (ndgc.getCondition().equals("yAreEqual")) {
+											Set<GeoPoint> points = new HashSet<GeoPoint>();
+											points.add((GeoPoint)ndgc.getGeos()[0]);
+											points.add((GeoPoint)ndgc.getGeos()[1]);
+											yEqualSet.add(points);
+										}							
+										if (eliminationIdeal.size() == 2 
+												&& xEqualSet.size() == 1
+												&& xEqualSet.equals(yEqualSet)) {
+											// If yes, set the condition to AreEqual and readable enough:
+											ndgc.setCondition("AreEqual");
+											ndgc.setReadability(0.5);
+										}
+
 										ndgcl.add(ndgc);
 										score += ndgc.getReadability();
+										
+
 									}
 								}
 							}
