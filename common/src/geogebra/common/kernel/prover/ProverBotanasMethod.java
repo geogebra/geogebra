@@ -296,7 +296,7 @@ public class ProverBotanasMethod {
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
 			if (ProverSettings.freePointsNeverCollinear == null) {
-				if (App.singularWS.isAvailable()) {
+				if (App.singularWS != null && App.singularWS.isAvailable()) {
 					// SingularWS will use Cox' method
 					ProverSettings.freePointsNeverCollinear = false;
 				} else {
