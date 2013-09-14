@@ -217,12 +217,17 @@ public class ProverBotanasMethod {
 		GeoElement statement = prover.getStatement();
 		// If Singular is not available, let's try Giac (mainly on web)
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
+			App.debug("Testing local CAS connection");
 			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel().getGeoGebraCAS();
 			try {
-				if (!(cas.getCurrentCAS().evaluateRaw("1").equals("1"))) {
+				String output = cas.getCurrentCAS().evaluateRaw("1");
+				App.debug("Local CAS evaluates 1 to " + output);
+				if (!(output.equals("1"))) {
+					App.debug("Switching to PROCESSING mode");
 					return ProofResult.PROCESSING;
 				}
 			} catch (Throwable e) {
+				App.debug("Exception, switching to PROCESSING mode");
 				return ProofResult.PROCESSING;
 			}
 		}

@@ -157,6 +157,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	public void compute() {
 
 		if (processing) {
+			App.debug("PROCESSING mode: list undefined");
 			list.setUndefined();
 			return;
 		}
