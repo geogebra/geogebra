@@ -209,8 +209,13 @@ public class Ggb2giac {
 		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
 		// but not for Intersect[x^2,x^3]
 		// ggbans:=0/0 to make sure if there's an error, we don't output previous answer
+		// add y= so that Intersect[(((2)*(x))+(1))/((x)-(5)),y=2] ie Intersect[f,a] works
 		p("Intersect.2",
-				"[[ggbans:=0/0],[ggbans:=normal(inter(%0,%1))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
+				"[[ggbans:=0/0],"+
+		
+				"[ggbarg0:=%0],"+
+				"[ggbarg1:=%1],"+
+				"[ggbans:=normal(inter(when(ggbarg0[0]=='=',ggbarg0,y=ggbarg0),when(ggbarg1[0]=='=',ggbarg1,y=ggbarg1)))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][5]");
 
 		// Giac currently uses approximation for this
 		//p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
