@@ -286,8 +286,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
-		// sb.append(" ");
-		// sb.append(EuclidianView.MODE_COMPASSES);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_COMPASSES);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		/*
