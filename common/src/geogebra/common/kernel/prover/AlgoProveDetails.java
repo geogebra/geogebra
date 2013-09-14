@@ -169,13 +169,16 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 			App.debug("PROCESSING mode: list should be created (2->3)");
 			processing = 3; // Next time we don't need to do anything
 			initialCompute();
+			App.debug("initialCompute() done");
 		}
 		
+		App.debug("before list.clear()");
 		list.clear();
 		list.setEuclidianVisible(false); // don't show in EV by default
 		list.setDrawAsComboBox(true); // but if someone wants it, then prefer a
 										// drop-down list
 		if (result != null) {
+			App.debug("before GeoBoolean answer");
 			GeoBoolean answer = new GeoBoolean(cons);
 			answer.setValue(result);
 			list.add(answer);
