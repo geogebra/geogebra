@@ -175,6 +175,7 @@ while [ $# -gt 0 ]; do
     fi
    echo "  -u [useragents]     Comma separated list of user agents to compile ($USERAGENTS)"
    echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory (first deletes!)"
+   echo "  -k                  Run kickstart.xml first"
    echo "  -c                  Do a cleanup before javac compilation"
    echo "  -cg                 Clean gwt-unitCache before compilation"
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
@@ -212,6 +213,10 @@ while [ $# -gt 0 ]; do
   -j)
    shift
    JAVA_HOME="$1"
+   ;;
+
+  -k)
+   ant -f kickstart.xml geogebraweb-developer-commandline
    ;;
 
   -c)
@@ -356,7 +361,7 @@ if [ $VERBOSE = 1 ]; then
 
 # 8/1. Deleting gwt-unitCache on demand
 if [ $GWT_UC_CLEANUP = 1 -a -d $WEBDIR/gwt-unitCache ]; then
- find $WEBDIR/gwt-unitCache | xargs rm
+ find $WEBDIR/gwt-unitCache | xargs rm 2>/dev/null
  fi
  
 # 8/2. Running the GWT compiler
