@@ -157,7 +157,7 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 	}
 
 	/**
-	 * set the left component and check if it's empty when loading file
+	 * set the right component and check if it's empty when loading file
 	 * 
 	 * @param component
 	 *            componenent
@@ -534,7 +534,7 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		if (orientation == HORIZONTAL_SPLIT) {
 			// vertical split not considered yet
 			if (getDividerLocation() >= w) {
-				setDividerLocation(0.5);
+				//setDividerLocation(0.5);
 			}
 			//saveDividerLocation();
 		}
