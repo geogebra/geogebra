@@ -44,6 +44,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     private GeoList list;     // output
     private Boolean result, unreadable;
     private HashSet<NDGCondition> ndgresult;
+    private boolean processing = false;
         
     /**
      * Proves the given statement and gives some details in a list
@@ -129,6 +130,12 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     	if (p.getProofResult() == ProofResult.TRUE) {
     		unreadable = false;
     	}
+    	if (p.getProofResult() == ProofResult.PROCESSING) {
+    		processing = true;
+    	}
+    	else {
+    		processing = false;
+    	}
     	
     	App.debug("Statement is " + result);
     	
@@ -149,6 +156,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	@Override
 	public void compute() {
 
+		if (processing) {
+			list.setUndefined();
+			return;
+		}
+		
 		list.clear();
 		list.setEuclidianVisible(false); // don't show in EV by default
 		list.setDrawAsComboBox(true); // but if someone wants it, then prefer a

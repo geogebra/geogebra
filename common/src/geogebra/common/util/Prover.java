@@ -70,7 +70,12 @@ public abstract class Prover {
 	/**
 	 * The statement cannot be proved by using the current backed within the given timeout 
 	 */
-	UNKNOWN}
+	UNKNOWN,
+	/**
+	 * "?", usually from giac.js --- processing in progress
+	 */
+	PROCESSING
+	}
 	
 	/**
 	 * Maximal time to be spent in the prover subsystem

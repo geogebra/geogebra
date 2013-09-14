@@ -1,5 +1,6 @@
 package geogebra.common.kernel.prover;
 
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
@@ -213,9 +214,22 @@ public class ProverBotanasMethod {
 	 * @return if the statement is true
 	 */
 	public static ProofResult prove(geogebra.common.util.Prover prover) {
+		GeoElement statement = prover.getStatement();
+		// If Singular is not available, let's try Giac
+		if (App.singularWS != null && App.singularWS.isAvailable()) {
+			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel().getGeoGebraCAS();
+			try {
+				if (!(cas.getCurrentCAS().evaluateRaw("1").equals("1"))) {
+					return ProofResult.PROCESSING;
+				}
+			} catch (Throwable e) {
+				return ProofResult.PROCESSING;
+			}
+		}
+		
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
-		GeoElement statement = prover.getStatement();
+		
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
