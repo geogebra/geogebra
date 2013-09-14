@@ -16,6 +16,7 @@ import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -31,7 +32,7 @@ import java.util.Date;
  * Algo for the Prove command.
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoProve extends AlgoElement {
+public class AlgoProve extends AlgoElement implements UsesCAS {
 
     private GeoElement root;  // input
     private GeoBoolean bool;     // output

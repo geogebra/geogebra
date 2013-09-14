@@ -16,6 +16,7 @@ import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -37,7 +38,7 @@ import java.util.TreeSet;
  * Algo for the ProveDetails command.
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoProveDetails extends AlgoElement {
+public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
     private GeoElement root;  // input
     private GeoList list;     // output
