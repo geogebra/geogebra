@@ -2200,7 +2200,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			this.previewDrawable.disposePreview();
 		}
 		
-		if (previewDrawable!=null){
+		if (previewDrawable!=null && previewDrawable instanceof Drawable3D){ 
 			if (((Drawable3D) previewDrawable).getGeoElement()!=null)
 				addToDrawable3DLists((Drawable3D) previewDrawable);
 			//drawable3DLists.add((Drawable3D) previewDrawable);

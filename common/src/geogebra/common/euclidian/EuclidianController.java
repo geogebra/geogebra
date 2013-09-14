@@ -99,6 +99,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.statistics.AlgoFitLineY;
@@ -5022,7 +5023,7 @@ public abstract class EuclidianController {
 	
 		// we already have a circle that defines the radius
 		else if (selConics() == 1) {
-			GeoConic circle = (GeoConic) selectedConicsND.get(0);
+			GeoConicND circle = selectedConicsND.get(0);
 	
 			// check for centerPoint
 			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
@@ -5079,7 +5080,7 @@ public abstract class EuclidianController {
 	
 			// don't allow conics other than circles to be selected
 			if (selectedConicsND.size() > 0) {
-				GeoConic c = (GeoConic) selectedConicsND.get(0);
+				GeoConicND c = selectedConicsND.get(0);
 				if (!c.isCircle()) {
 					selectedConicsND.remove(0);
 					clearSelections();
@@ -5092,12 +5093,12 @@ public abstract class EuclidianController {
 
 
 	/**
-	 * circle with midpoint A and radius the same as circle Michael Borcherds
+	 * circle with midpoint A and radius the same as circle/sphere Michael Borcherds
 	 * 2008-03-14
 	 */
 	final private GeoConic Circle(
 	// this is actually a macro
-			String label, GeoPoint A, GeoConic c) {
+			String label, GeoPoint A, GeoQuadricND c) {
 
 		Construction cons = kernel.getConstruction();
 		
