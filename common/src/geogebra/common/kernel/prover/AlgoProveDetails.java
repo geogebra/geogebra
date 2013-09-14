@@ -44,7 +44,14 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     private GeoList list;     // output
     private Boolean result, unreadable;
     private HashSet<NDGCondition> ndgresult;
-    private boolean processing = false;
+    
+    /* We need to count the processing number for giac.js:
+     * 0: normal state (no giac.js should be considered)
+     * 1: giac.js started, computation not yet done
+     * 2: giac.js loaded, computation should be done
+     * 3: computation done
+     */
+    private int processing = 0;
         
     /**
      * Proves the given statement and gives some details in a list
@@ -131,10 +138,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     		unreadable = false;
     	}
     	if (p.getProofResult() == ProofResult.PROCESSING) {
-    		processing = true;
-    	}
-    	else {
-    		processing = false;
+    		processing = 1;
     	}
     	
     	App.debug("Statement is " + result);
@@ -155,11 +159,16 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     
 	@Override
 	public void compute() {
-
-		if (processing) {
-			App.debug("PROCESSING mode: list undefined");
+		if (processing == 1) {
+			App.debug("PROCESSING mode: list undefined (1->2)");
 			list.setUndefined();
+			processing = 2; // Next time we should call initialCompute()
 			return;
+		}
+		if (processing == 2) {
+			App.debug("PROCESSING mode: list should be created (2->3)");
+			processing = 3; // Next time we don't need to do anything
+			initialCompute();
 		}
 		
 		list.clear();
