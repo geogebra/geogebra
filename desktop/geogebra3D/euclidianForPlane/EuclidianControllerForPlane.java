@@ -1,12 +1,15 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -74,7 +77,12 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 
 	@Override
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1){
-		return createCircle2ForPoints3D(p0, p1);
+		return createCircle2For3D(p0, p1);
+	}
+	
+	@Override
+	protected GeoConicND circle(Construction cons, GeoPointND center, NumberValue radius){
+			return circleFor3D(cons, center, radius);
 	}
 
 

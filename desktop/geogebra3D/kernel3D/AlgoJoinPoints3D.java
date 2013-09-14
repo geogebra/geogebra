@@ -80,7 +80,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D implements AlgoJoinPointsSeg
      * @param Q second point
      * @param poly polygon or polyhedron (when segment is part of) 
      * @param geoClassType type (GeoSegment3D, GeoLine3D, ...) */    
-    AlgoJoinPoints3D(Construction cons, 
+    public AlgoJoinPoints3D(Construction cons, 
     		GeoPointND P, GeoPointND Q, GeoElement poly, GeoClass geoClassType) {
     	super(cons);
     	

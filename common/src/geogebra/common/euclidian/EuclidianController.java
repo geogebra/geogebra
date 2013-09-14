@@ -1972,18 +1972,22 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected GeoElement[] segment() {
+	final private GeoElement[] segment() {
 		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = { null };
-		if (((GeoElement) points[0]).isGeoElement3D()
-				|| ((GeoElement) points[1]).isGeoElement3D()) {
-			ret[0] = (GeoElement) getKernel().getManager3D().Segment3D(null,
-					points[0], points[1]);
-		} else {
-			ret[0] = getAlgoDispatcher().Segment(null, (GeoPoint) points[0],
-					(GeoPoint) points[1]);
-		}
+		GeoElement[] ret = segmentAlgo(kernel.getConstruction(), points[0], points[1]).getOutput();
+		ret[0].setLabel(null);
 		return ret;
+	}
+	
+	/**
+	 * 
+	 * @param cons
+	 * @param p1
+	 * @param p2
+	 * @return segment [p1 p2] algorithm
+	 */
+	protected AlgoElement segmentAlgo(Construction cons, GeoPointND p1, GeoPointND p2){
+		return new AlgoJoinPointsSegment(cons, (GeoPoint) p1, (GeoPoint) p2, null);
 	}
 
 	protected final GeoElement[] vector(Hits hits) {
@@ -3347,15 +3351,9 @@ public abstract class EuclidianController {
 		return null;
 	}
 	
-	protected abstract GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1);
 
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
-		checkZooming(); 
-		
-		if (((GeoElement) p0).isGeoElement3D()
-				|| ((GeoElement) p1).isGeoElement3D()) {
-			return createCircle2ForPoints3D(p0, p1);
-		}
+
 		return new GeoElement[] { getAlgoDispatcher().Circle(null, (GeoPoint) p0,
 				(GeoPoint) p1) };
 	}
@@ -4995,26 +4993,25 @@ public abstract class EuclidianController {
 	
 		// we already have two points that define the radius
 		if (selPoints() == 2) {
-			GeoPoint[] points = new GeoPoint[2];
-			points[0] = (GeoPoint) selectedPoints.get(0);
-			points[1] = (GeoPoint) selectedPoints.get(1);
+			GeoPointND[] points = new GeoPointND[2];
+			points[0] = selectedPoints.get(0);
+			points[1] = selectedPoints.get(1);
 	
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
+			GeoPointND centerPoint = (GeoPointND) chooseGeo(hits, Test.GEOPOINTND);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
 					// highlight the center point
 					tempArrayList.clear();
-					tempArrayList.add(centerPoint);
+					tempArrayList.add((GeoElement) centerPoint);
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
 				}
 				checkZooming(); 
 				
 				// three points: center, distance between two points
-				GeoElement circle = CircleCompasses(null, centerPoint,
-						points[0], points[1]);
+				GeoElement circle = CircleCompasses(centerPoint, points[0], points[1]);
 				GeoElement[] ret = { circle };
 				clearSelections();
 				return ret;
@@ -5026,21 +5023,20 @@ public abstract class EuclidianController {
 			GeoConicND circle = selectedConicsND.get(0);
 	
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
+			GeoPointND centerPoint = (GeoPointND) chooseGeo(hits, Test.GEOPOINTND);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
 					// highlight the center point
 					tempArrayList.clear();
-					tempArrayList.add(centerPoint);
+					tempArrayList.add((GeoElement) centerPoint);
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
 				}
 				checkZooming(); 
 				
 				// center point and circle which defines radius
-				GeoElement circlel = Circle(null, centerPoint,
-						circle);
+				GeoElement circlel = Circle(centerPoint, circle);
 				GeoElement ret[] = { circlel };
 				clearSelections();
 				return ret;
@@ -5051,21 +5047,20 @@ public abstract class EuclidianController {
 			GeoSegmentND segment = selectedSegments.get(0);
 	
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
+			GeoPointND centerPoint = (GeoPointND) chooseGeo(hits, Test.GEOPOINTND);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
 					// highlight the center point
 					tempArrayList.clear();
-					tempArrayList.add(centerPoint);
+					tempArrayList.add((GeoElement) centerPoint);
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
 				}
 				checkZooming(); 
 				
 				// center point and segment
-				GeoElement circlel = getAlgoDispatcher().Circle(null, centerPoint,
-						segment);
+				GeoElement circlel = circle(kernel.getConstruction(), centerPoint, segment);
 				GeoElement[] ret = { circlel };
 				clearSelections();
 				return ret;
@@ -5096,40 +5091,38 @@ public abstract class EuclidianController {
 	 * circle with midpoint A and radius the same as circle/sphere Michael Borcherds
 	 * 2008-03-14
 	 */
-	final private GeoConic Circle(
+	final private GeoConicND Circle(
 	// this is actually a macro
-			String label, GeoPoint A, GeoQuadricND c) {
+			GeoPointND A, GeoQuadricND c) {
 
 		Construction cons = kernel.getConstruction();
 		
 		AlgoRadius radius = new AlgoRadius(cons, c);
 		cons.removeFromConstructionList(radius);
 
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
-				radius.getRadius());
-		GeoConic circle = algo.getCircle();
+		GeoConicND circle = circle(cons, A, radius.getRadius());
 		circle.setToSpecific();
 		circle.update();
 		//notifyUpdate(circle);
 		return circle;
 	}
 	
+	protected GeoConicND circle(Construction cons, GeoPointND center, NumberValue radius){
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, null, (GeoPoint) center, radius);
+		return algo.getCircle();
+	}
+	
 	/**
 	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
 	 */
-	final private GeoConic CircleCompasses(
-	// this is actually a macro
-			String label, GeoPoint A, GeoPoint B, GeoPoint C) {
+	final private GeoConicND CircleCompasses(GeoPointND A, GeoPointND B, GeoPointND C) {
 
 		Construction cons = kernel.getConstruction();
 
-		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, B,
-				C, null);
+		AlgoElement algoSegment = segmentAlgo(cons, B, C);
 		cons.removeFromConstructionList(algoSegment);
 
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
-				algoSegment.getSegment(), true);
-		GeoConic circle = algo.getCircle();
+		GeoConicND circle = circle(cons, A, (NumberValue) algoSegment.getOutput(0));
 		circle.setToSpecific();
 		circle.update();
 		//notifyUpdate(circle);

@@ -6,9 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
@@ -558,11 +556,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 	}
 
-	@Override
-	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
-		App.debug("implementation needed for 3D"); // TODO Auto-generated
-		return null;
-	}
+
 
 	@Override
 	protected void resetToolTipManager() {

@@ -16,8 +16,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
@@ -164,11 +162,7 @@ public class EuclidianControllerD extends
 	 * line = kernel.Line(null, points[0], points[1]); }
 	 */
 
-	@Override
-	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
-		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
-				view.getDirection()) };
-	}
+
 
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized

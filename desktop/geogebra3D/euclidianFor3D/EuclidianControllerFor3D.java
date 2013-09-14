@@ -1,7 +1,9 @@
 package geogebra3D.euclidianFor3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -13,7 +15,9 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianControllerD;
+import geogebra3D.kernel3D.AlgoJoinPoints3D;
 import geogebra3D.kernel3D.AlgoMidpoint3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
@@ -277,4 +281,56 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		
 		return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
 	}
+	
+	
+	@Override
+	protected AlgoElement segmentAlgo(Construction cons, GeoPointND p1, GeoPointND p2){
+		if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
+			return new AlgoJoinPoints3D(cons, p1, p2, null, GeoClass.SEGMENT3D);
+		}
+		
+		return super.segmentAlgo(cons, p1, p2);
+	}
+	
+	@Override
+	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
+		
+		if (p0.isGeoElement3D() || p1.isGeoElement3D()) {
+			return createCircle2For3D(p0, p1);
+		}
+		return new GeoElement[] { getAlgoDispatcher().Circle(null, (GeoPoint) p0,
+				(GeoPoint) p1) };
+	}
+	
+	/**
+	 * 
+	 * @param p0 center
+	 * @param p1 point on circle
+	 * @return circle in the current plane
+	 */
+	protected GeoElement[] createCircle2For3D(GeoPointND p0, GeoPointND p1) {
+		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
+				view.getDirection()) };
+	}
+	
+	@Override
+	protected GeoConicND circle(Construction cons, GeoPointND center, NumberValue radius){
+		if (center.isGeoElement3D()){
+			return circleFor3D(cons, center, radius);
+		}
+		
+		return super.circle(cons, center, radius);
+	}
+	
+	/**
+	 * 
+	 * @param cons construction
+	 * @param center center
+	 * @param radius radius
+	 * @return circle in the current plane
+	 */
+	protected GeoConicND circleFor3D(Construction cons, GeoPointND center, NumberValue radius){
+		return kernel.getManager3D().Circle3D(null, center, radius, view.getDirection());
+	}
+
 }
