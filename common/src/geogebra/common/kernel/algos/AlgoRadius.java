@@ -23,8 +23,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 
 
 
@@ -35,10 +35,10 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
  */
 public class AlgoRadius extends AlgoElement {
     
-    private GeoConicND c;  // input
+    private GeoQuadricND c;  // input
     private GeoNumeric num;     // output                  
     
-    public AlgoRadius(Construction cons, GeoConicND c) {        
+    public AlgoRadius(Construction cons, GeoQuadricND c) {        
         super(cons);
         this.c = c;                                                              
         num = new GeoNumeric(cons);                
@@ -46,7 +46,7 @@ public class AlgoRadius extends AlgoElement {
         compute();                     
     }   
     
-    public AlgoRadius(Construction cons, String label,GeoConicND c) {        
+    public AlgoRadius(Construction cons, String label,GeoQuadricND c) {        
         this(cons,c);    
         num.setLabel(label);            
     }   
@@ -68,12 +68,12 @@ public class AlgoRadius extends AlgoElement {
     }       
     
     public GeoNumeric getRadius() { return num; }    
-    GeoConicND getConic() { return c; }        
+    GeoQuadricND getQuadricOrConic() { return c; }        
     
     // set parameter of parabola
     @Override
 	public final void compute() {        
-        if (c.type == GeoConicNDConstants.CONIC_CIRCLE) {
+        if (c.type == GeoConicNDConstants.CONIC_CIRCLE) { // notice that constants CONIC_CIRCLE and QUADRIC_SPHERE are equal
             num.setValue(c.halfAxes[0]);
         } else {
             num.setUndefined();

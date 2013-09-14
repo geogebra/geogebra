@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,10 +32,10 @@ public class CmdRadius extends CommandProcessor {
 			arg = resArgs(c);
 
 			// asymptotes to conic
-			if (arg[0].isGeoConic()) {
+			if (arg[0] instanceof GeoQuadricND) {
 				
 				AlgoRadius algo = new AlgoRadius(cons, c.getLabel(),
-						(GeoConicND) arg[0]);
+						(GeoQuadricND) arg[0]);
 
 				GeoElement[] ret = { algo.getRadius() };
 				return ret;
