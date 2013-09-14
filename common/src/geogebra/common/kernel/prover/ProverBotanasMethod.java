@@ -215,8 +215,8 @@ public class ProverBotanasMethod {
 	 */
 	public static ProofResult prove(geogebra.common.util.Prover prover) {
 		GeoElement statement = prover.getStatement();
-		// If Singular is not available, let's try Giac
-		if (App.singularWS != null && App.singularWS.isAvailable()) {
+		// If Singular is not available, let's try Giac (mainly on web)
+		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
 			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel().getGeoGebraCAS();
 			try {
 				if (!(cas.getCurrentCAS().evaluateRaw("1").equals("1"))) {
