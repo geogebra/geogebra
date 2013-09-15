@@ -153,14 +153,17 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 			processing = 3; // Next time we don't need to do anything
 			initialCompute();
 		}
-    	
+    
     	if (result != null) {
-    		if (result == ProofResult.TRUE)
-    			bool.setValue(true);
-    		if (result == ProofResult.FALSE)
-    			bool.setValue(false);
     		if (result == ProofResult.UNKNOWN) {
-    			bool.setUndefined();
+    			return;
+    		}
+    		bool.setDefined();
+    		if (result == ProofResult.TRUE) {
+    			bool.setValue(true);
+    		}
+    		if (result == ProofResult.FALSE) {
+    			bool.setValue(false);
     		}
     	}  	
     }

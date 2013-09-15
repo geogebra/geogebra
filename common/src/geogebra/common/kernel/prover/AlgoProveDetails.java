@@ -171,6 +171,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 			initialCompute();
 		}
 		
+		list.setDefined(true);
 		list.clear();
 		list.setEuclidianVisible(false); // don't show in EV by default
 		list.setDrawAsComboBox(true); // but if someone wants it, then prefer a
