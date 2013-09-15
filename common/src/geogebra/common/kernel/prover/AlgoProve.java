@@ -37,6 +37,14 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
     private GeoElement root;  // input
     private GeoBoolean bool;     // output
     private Prover.ProofResult result;    
+    /* We need to count the processing number for giac.js:
+     * 0: normal state (no giac.js should be considered)
+     * 1: giac.js started, computation not yet done
+     * 2: giac.js loaded, computation should be done
+     * 3: computation done
+     */
+    private int processing = 0;
+    
     /**
      * Proves the given statement and gives a yes/no answer (boolean)
      * @param cons The construction
@@ -114,6 +122,9 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
     	App.debug("Benchmarking: " + elapsedTime + " ms");
     	
     	result = p.getProofResult();
+    	if (p.getProofResult() == ProofResult.PROCESSING) {
+    		processing = 1;
+    	}
     	
     	App.debug("Statement is " + result);
     }   
@@ -131,6 +142,18 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
     
     @Override
 	public void compute(){
+		if (processing == 1) {
+			App.debug("PROCESSING mode: list undefined (1->2)");
+			bool.setUndefined();
+			processing = 2; // Next time we should call initialCompute()
+			return;
+		}
+		if (processing == 2) {
+			App.debug("PROCESSING mode: list should be created (2->3)");
+			processing = 3; // Next time we don't need to do anything
+			initialCompute();
+		}
+    	
     	if (result != null) {
     		if (result == ProofResult.TRUE)
     			bool.setValue(true);

@@ -161,7 +161,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	public void compute() {
 		if (processing == 1) {
 			App.debug("PROCESSING mode: list undefined (1->2)");
-			// list.setUndefined();
+			list.setUndefined();
 			processing = 2; // Next time we should call initialCompute()
 			return;
 		}
@@ -187,7 +187,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				TreeSet<GeoText> sortedSet = new TreeSet<GeoText>(
 						GeoText.getComparator());
 
-				App.debug("result = " + result);
 				// Collecting the set of NDG conditions.
 				// The OGP data collector may left some unreadable conditions
 				// so we make sure if the condition is readable.
@@ -216,7 +215,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 								s += "...";
 						}
 						s += "]";
-						App.debug("s = " + s);
 						ndgConditionText.setTextString(s);
 						ndgConditionText.setLabelVisible(false);
 						ndgConditionText.setEuclidianVisible(false);
@@ -230,7 +228,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					ndgConditionsList.add(it2.next());
 				}
 
-				App.debug("before if (unreadable)");
 				if (unreadable) {
 					GeoText ndgConditionText = new GeoText(cons);
 					ndgConditionText.setTextString("...");
@@ -243,11 +240,8 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				// Put this list to the final output (if non-empty):
 				if (ndgConditionsList.size() > 0)
 					list.add(ndgConditionsList);
-				App.debug("1");
 			}
-			App.debug("2");
 		}
-		App.debug("3");
 	}
 
 	// TODO Consider locusequability
