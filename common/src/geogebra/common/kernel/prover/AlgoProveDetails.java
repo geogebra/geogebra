@@ -161,7 +161,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	public void compute() {
 		if (processing == 1) {
 			App.debug("PROCESSING mode: list undefined (1->2)");
-			list.setUndefined();
+			// list.setUndefined();
 			processing = 2; // Next time we should call initialCompute()
 			return;
 		}
@@ -169,16 +169,13 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 			App.debug("PROCESSING mode: list should be created (2->3)");
 			processing = 3; // Next time we don't need to do anything
 			initialCompute();
-			App.debug("initialCompute() done");
 		}
 		
-		App.debug("before list.clear()");
 		list.clear();
 		list.setEuclidianVisible(false); // don't show in EV by default
 		list.setDrawAsComboBox(true); // but if someone wants it, then prefer a
 										// drop-down list
 		if (result != null) {
-			App.debug("before GeoBoolean answer");
 			GeoBoolean answer = new GeoBoolean(cons);
 			answer.setValue(result);
 			list.add(answer);
@@ -190,6 +187,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				TreeSet<GeoText> sortedSet = new TreeSet<GeoText>(
 						GeoText.getComparator());
 
+				App.debug("result = " + result);
 				// Collecting the set of NDG conditions.
 				// The OGP data collector may left some unreadable conditions
 				// so we make sure if the condition is readable.
@@ -218,6 +216,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 								s += "...";
 						}
 						s += "]";
+						App.debug("s = " + s);
 						ndgConditionText.setTextString(s);
 						ndgConditionText.setLabelVisible(false);
 						ndgConditionText.setEuclidianVisible(false);
@@ -231,6 +230,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					ndgConditionsList.add(it2.next());
 				}
 
+				App.debug("before if (unreadable)");
 				if (unreadable) {
 					GeoText ndgConditionText = new GeoText(cons);
 					ndgConditionText.setTextString("...");
@@ -243,8 +243,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				// Put this list to the final output (if non-empty):
 				if (ndgConditionsList.size() > 0)
 					list.add(ndgConditionsList);
+				App.debug("1");
 			}
+			App.debug("2");
 		}
+		App.debug("3");
 	}
 
 	// TODO Consider locusequability
