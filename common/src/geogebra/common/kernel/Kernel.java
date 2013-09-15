@@ -1727,7 +1727,11 @@ public class Kernel {
 			if (getAngleUnit() == ANGLE_DEGREE) {
 				boolean rtl = getLocalization().isRightToLeftDigits(tpl);
 				if (rtl) {
-					sbFormatAngle.append(Unicode.degreeChar);
+					if (tpl.hasCASType()) {
+						sbFormatAngle.append("pi/180*");
+					} else {
+						sbFormatAngle.append(Unicode.degreeChar);
+					}
 				}
 
 				phi = Math.toDegrees(phi);
@@ -1752,7 +1756,11 @@ public class Kernel {
 				}
 
 				if (!rtl) {
-					sbFormatAngle.append(Unicode.degreeChar);
+					if (tpl.hasCASType()) {
+						sbFormatAngle.append("*pi/180");
+					} else {
+						sbFormatAngle.append(Unicode.degreeChar);
+					}
 				}
 
 				return sbFormatAngle;
