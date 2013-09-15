@@ -1761,12 +1761,17 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 .CAS_commentLabel{
 	color: gray;
+	width: 30px;
 }
 
 .CAS_inputPanel{
 	padding: 2px;
 	overflow: hidden;
 	height: 100%;
+}
+
+.CAS_outputPanel tr td:first-child{
+	width: 30px;
 }
 
 .cas_header{

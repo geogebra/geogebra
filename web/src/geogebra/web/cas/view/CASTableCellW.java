@@ -72,6 +72,7 @@ public class CASTableCellW extends VerticalPanel {
 		}
 		
 		outputPanel.add(outputLabel);
+		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
 
 	}
