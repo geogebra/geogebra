@@ -2,7 +2,6 @@ package geogebra.web.cas.view;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;

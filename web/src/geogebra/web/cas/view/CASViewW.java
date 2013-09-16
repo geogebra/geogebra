@@ -20,6 +20,7 @@ public class CASViewW extends CASView {
 	private CASComponentW component;
 	private AppW app;
 	private CASTableW consoleTable;
+	private CASStylebarW styleBar;
 
 	public CASViewW(AppW app){
 		component = new CASComponentW();
@@ -87,8 +88,13 @@ public class CASViewW extends CASView {
 	    return component;
     }
 	public CASStylebarW getCASStyleBar() {
-	    // TODO Auto-generated method stub
-	    return null;
+		if (styleBar == null) {
+			styleBar = newCASStyleBar();
+		}
+		return styleBar;
+    }
+	private CASStylebarW newCASStyleBar() {
+		return new CASStylebarW();
     }
 
 }

@@ -3,6 +3,7 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
 import geogebra.web.cas.view.CASViewW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
@@ -109,5 +110,10 @@ public class CASDockPanelW extends DockPanelW {
 
 	private static String getDefaultToolbar() {
 		return CASView.TOOLBAR_DEFINITION;		
+	}
+	
+	@Override
+	protected Widget loadStyleBar() {
+		return ((CASViewW)((GuiManagerW)application.getGuiManager()).getCasView()).getCASStyleBar();
 	}
 }
