@@ -18,6 +18,7 @@ DEVELOPERS
   * Calixte Denizet (France 2010-)
   * Judit Elias (Hungary 2009-)
   * Arpad Fekete (Hungary 2010-)
+  * Laszlo Gal (Hungary 2013)
   * Zbynek Konecny (Czech Republic 2010-)
   * Zoltan Kovacs (Hungary 2010-)
   * Bernard Parisse (France 2013-)
