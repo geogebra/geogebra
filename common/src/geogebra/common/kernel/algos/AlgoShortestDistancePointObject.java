@@ -31,9 +31,6 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 	private GeoPoint point;
 	private GeoElement object;
 	private GeoNumeric distance;
-	// for non-polynomial functions
-	// the value where we should look for the roots
-	private GeoNumeric value;
 
     /**
      * @param cons Construction
@@ -46,24 +43,10 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
     	initAlgo(label, p, o, null);
     }
     
-    /**
-     * @param cons Construction
-     * @param label output label
-     * @param p Point
-     * @param o Object
-     * @param num Value where we should search for roots
-     */
-    public AlgoShortestDistancePointObject(Construction cons, String label, 
-    		GeoPoint p, GeoElement o, GeoNumeric num) {
-    	super(cons);
-    	initAlgo(label, p, o, num);
-    }
-    
     private void initAlgo(String label, 
     		GeoPoint p, GeoElement o, GeoNumeric num) {
     	point = p;
     	object = o;
-    	value = num;
     	
     	distance = new GeoNumeric(cons);
     	setInputOutput();
@@ -86,12 +69,10 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[value != null ? 3 : 2];
+		input = new GeoElement[2];
 		input[0] = point;
 		input[1] = object;
-		if (value != null) {
-			input[2] = value;
-		}
+
 		setOnlyOutput(distance);
 		setDependencies(); // by AlgoElement
 	}
