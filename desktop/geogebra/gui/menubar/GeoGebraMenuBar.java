@@ -151,7 +151,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		addSignIn();
 		
 		// "flag" to select language
-		// addFlag();
+//		addFlag();
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
@@ -226,7 +226,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		signInButton.setFocusPainted(false);
 		signInButton.setContentAreaFilled(false);
 		Localization loc = app.getLocalization();
-		signInButton.setToolTipText(loc.getMenuTooltip("SignIn"));		
+		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));		
 		add(signInButton);
 
 		// Add the menu bar as a listener for login/logout operations

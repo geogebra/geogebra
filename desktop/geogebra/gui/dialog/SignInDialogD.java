@@ -107,7 +107,7 @@ public class SignInDialogD extends JDialog {
         
     	// Check if the login result page was loaded
 		String title = webEngine.getTitle();
-		if(! title.startsWith("Login-successful")) {
+		if(title == null || ! title.startsWith("Login-successful")) {
 			return;
 		}
 		
