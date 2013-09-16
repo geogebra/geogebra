@@ -3454,6 +3454,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (projection!=PROJECTION_PERSPECTIVE && projection!=PROJECTION_GLASSES)
 			projection=PROJECTION_PERSPECTIVE;
 		updateProjectionPerspectiveValue();
+		if (projection == PROJECTION_GLASSES){ // also update eyes separation
+			renderer.updateGlassesValues();
+		}
 	}
 	
 	private void updateProjectionPerspectiveValue(){
