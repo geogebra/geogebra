@@ -27,7 +27,7 @@ test -d $DIR/$JREDIR || {
  cd jre/win32
  ln -s $BundleId/$JREDIR jre
  # Removing unnecessary parts of JRE
- find -L jre -name '*jfx*' | xargs rm -f
+ # find -L jre -name '*jfx*' | xargs rm -f
  rm -vfR jre/lib/{jce,jsse,javaws,plugin,deploy,charsets}.jar
  rm -vfR jre/lib/deploy
  rm -vfR jre/bin/{javacpl,java-rmi,javaws,jbroker,jp2launcher,jqs,jsqnotify,keytool,kinit,klist,ktab,orbd,pack200,policytool,rmid}.exe
