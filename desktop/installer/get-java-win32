@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Set this manually when there is a new Java version available.
-# BundleId=75259 # (1.7.0-17) 74781 (1.7.0-15)
-# JREDIR=jre7
-BundleId=75085 # 1.6.0-43
-JREDIR=jre6
+# BundleId=75259 # (1.7.0-17) 74781 (1.7.0-15) 75085 (1.6.0-43)
+# JREDIR=jre6
+JREDIR=jre7
+BundleId=80812
 
 DIR=jre/win32/$BundleId
 EXE=$DIR/install-java.exe
@@ -26,21 +26,5 @@ test -d $DIR/$JREDIR || {
  rm -f $JAVADIR
  cd jre/win32
  ln -s $BundleId/$JREDIR jre
- # Removing unnecessary parts of JRE
- # find -L jre -name '*jfx*' | xargs rm -f
- rm -vfR jre/lib/{jce,jsse,javaws,plugin,deploy,charsets}.jar
- rm -vfR jre/lib/deploy
- rm -vfR jre/bin/{javacpl,java-rmi,javaws,jbroker,jp2launcher,jqs,jsqnotify,keytool,kinit,klist,ktab,orbd,pack200,policytool,rmid}.exe
- rm -vfR jre/bin/{rmiregistry,servertool,ssvagent,tnameserv,unpack200}.exe
- rm -vfR jre/bin/{dtplugin,plugin2}
- rm -vfR jre/bin/{mlib_image}.dll
- rm -vfR jre/bin/client/classes.jsa
- echo "Due to size issues (i.e., to save disk space and shorten download time and decrease resource wasting)
-GeoGebra provides a minimized version of Oracle JRE 1.6. You may check the list of the removed
-files compared to the original bundle at http://dev.geogebra.org (check for the file get-java-win32 in
-folder geogebra/desktop/installer). No other change is made to the JRE on the behalf of GeoGebra.
-Maybe other files can also be removed. Please feel free to report if yes. Thanks!
-
-@author Zoltan Kovacs <zoltan@geogebra.org>" > jre/remove-jre-unused.txt
 
  }
