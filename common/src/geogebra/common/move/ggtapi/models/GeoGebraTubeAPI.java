@@ -2,6 +2,7 @@ package geogebra.common.move.ggtapi.models;
 
 import geogebra.common.util.HttpRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -68,22 +69,26 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	public int authorizeUser(GeoGebraTubeUser user) {
 		HttpRequest request = performRequest(buildTokenLoginRequest(user.getLoginToken()).toString());
-		if (request.isSuccessful()) {
-			JSONTokener tokener = new JSONTokener(request.getResponse());
-			JSONObject response = new JSONObject(tokener);
-			
-			// Check if an error occurred
-			if (response.has("error")) {
-				return LOGIN_TOKEN_INVALID;
-			}
-			
-			// Parse the userdata from the response
-			if (! user.parseUserDataFromResponse(response)) {
-				return LOGIN_TOKEN_INVALID;
-			}
-			
-			return LOGIN_TOKEN_VALID;
-		} 
+		try{
+			if (request.isSuccessful()) {
+				JSONTokener tokener = new JSONTokener(request.getResponse());
+				JSONObject response = new JSONObject(tokener);
+				
+				// Check if an error occurred
+				if (response.has("error")) {
+					return LOGIN_TOKEN_INVALID;
+				}
+				
+				// Parse the userdata from the response
+				if (! user.parseUserDataFromResponse(response)) {
+					return LOGIN_TOKEN_INVALID;
+				}
+				
+				return LOGIN_TOKEN_VALID;
+			} 
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return LOGIN_REQUEST_FAILED;
 	}
 	
@@ -98,13 +103,16 @@ public abstract class GeoGebraTubeAPI {
 		JSONObject requestJSON = new JSONObject();
 		JSONObject apiJSON = new JSONObject();
 		JSONObject loginJSON = new JSONObject();
-		
-		loginJSON.put("-token", token);
-		loginJSON.put("-getuserinfo", "true");
-		apiJSON.put("login", loginJSON);		
-		apiJSON.put("-api", "1.0.0");
-		requestJSON.put("request", apiJSON);
-		
+		try{
+			loginJSON.put("-token", token);
+			loginJSON.put("-getuserinfo", "true");
+			apiJSON.put("login", loginJSON);		
+			apiJSON.put("-api", "1.0.0");
+			requestJSON.put("request", apiJSON);
+		}
+		catch(JSONException e){
+			e.printStackTrace();
+		}
 		return requestJSON;
 	}
 
