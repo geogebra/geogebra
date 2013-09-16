@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -430,18 +431,21 @@ public class DrawConicPart extends Drawable implements Previewable {
 	final public boolean hit(int x, int y) {
 		if (!isVisible)
 			return false;
-
+		
+		boolean pathHit = false, regionHit = false;
 		switch (draw_type) {
+		
 		case DRAW_TYPE_ELLIPSE:
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(shape);
 			}
-			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
-				return shape.intersects(x - hitThreshold, y - hitThreshold,
+			pathHit = strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+					2 * hitThreshold, 2 * hitThreshold);
+			if (!pathHit && (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled())) {
+				regionHit = shape.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
 			}
-			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
+			break;
 
 			/*
 			 * // sector: take shape for hit testing if (closure == Arc2D.PIE) {
@@ -456,14 +460,18 @@ public class DrawConicPart extends Drawable implements Previewable {
 			 */
 
 		case DRAW_TYPE_SEGMENT:
-			return drawSegment.hit(x, y);
-
+			pathHit = drawSegment.hit(x, y);
+			break;
 		case DRAW_TYPE_RAYS:
-			return drawRay1.hit(x, y) || drawRay2.hit(x, y);
-
+			pathHit = drawRay1.hit(x, y) || drawRay2.hit(x, y);
+			break;
 		default:
 			return false;
 		}
+		if(pathHit){
+			this.conicPart.setLastHitType(HitType.ON_BOUNDARY);
+		}
+		return pathHit || regionHit;
 	}
 
 	@Override
