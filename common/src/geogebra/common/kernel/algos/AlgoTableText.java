@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -492,6 +493,18 @@ public class AlgoTableText extends AlgoElement {
 		if (geoLists[c].size() > r) { // check list has an element at this
 										// position
 			GeoElement geo1 = geoLists[c].get(r);
+			
+			GColor col = geo1.getObjectColor();
+
+			if (GColor.black.equals(col)) {
+				col = null;
+			}
+			
+			if (col != null) {
+					sb.append("\\textcolor{#");
+					sb.append(StringUtil.toHexString(col));
+					sb.append("}{");
+			}
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
 			String text1 = geo1.toLaTeXString(false,tpl);
@@ -516,12 +529,21 @@ public class AlgoTableText extends AlgoElement {
 					
 					
 					) {
+				
+				
+				
+				
 				sb.append("\\text{"); // preserve spaces
 				sb.append(text1);
 				sb.append("}");
+				
 
 			} else {
 				sb.append(text1);
+			}
+			
+			if (col != null) {
+				sb.append('}');
 			}
 		}
 		if (!finalCell)
