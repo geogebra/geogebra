@@ -1,12 +1,10 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
-import geogebra.common.move.ggtapi.operations.LogOutOperation;
-import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.views.BooleanRenderable;
-import geogebra.common.move.views.Renderable;
-import geogebra.common.move.views.SuccessErrorRenderable;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -24,7 +22,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 
 
-public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable, Renderable {
+public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 	
 	
 		/**
@@ -93,18 +91,11 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 		});
 	    
 	    // this methods should be called only from AppWapplication or AppWapplet
-	    ((LoginOperation)app.getLoginOperation()).getView().add(this);
-	    ((LogOutOperation)app.getLogOutOperation()).getView().add(this);
+	   app.getLoginOperation().getView().add(this);
 	   
 	   if (!app.getOfflineOperation().getOnline()) {
 		   renderNetworkOperation(false);
 	   }
-	   
-	   if (((LoginOperation)app.getLoginOperation()).isLoggedIn()) {
-		   this.success(((LoginOperation)app.getLoginOperation()).getStoredLoginData());
-	   }
-	   
-	   
     }
 	
 	private void createSignedInMenu() {
@@ -131,7 +122,7 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 	    return new ScheduledCommand() {
 			
 			public void execute() {
-				app.getGuiManager().signIn();
+				app.getGuiManager().login();
 			}
 		};
     }
@@ -275,6 +266,11 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 
 		public void render() {
 			renderSignInState();
+        }
+
+		public void renderEvent(BaseEvent event) {
+	        // TODO Auto-generated method stub
+	        
         }
 		
 }

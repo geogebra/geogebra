@@ -158,6 +158,16 @@ public class DialogManagerMinimal extends DialogManager {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void showLogInDialog() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void showLogOutDialog() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

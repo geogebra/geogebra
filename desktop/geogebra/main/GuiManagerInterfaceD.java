@@ -33,5 +33,4 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	File getDataFile();
 
 	boolean belongsToToolCreator(ListCellRenderer renderer);
-
 }

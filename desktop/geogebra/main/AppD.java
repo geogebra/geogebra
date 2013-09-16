@@ -82,6 +82,8 @@ import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
+import geogebra.move.ggtapi.models.AuthenticationModelD;
+import geogebra.move.ggtapi.models.LoginOperationD;
 import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPID;
 import geogebra.plugin.PluginManager;
@@ -351,6 +353,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private SpreadsheetTableModelD tableModel;
 	
+	private AuthenticationModelD authenticationModel;
+	
 
 	// ==============================================================
 	// MISC FLAGS
@@ -487,7 +491,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// init settings
 		settings = new Settings();
-
+		
 		// init euclidian view
 		initEuclidianViews();
 
@@ -608,6 +612,9 @@ public class AppD extends App implements KeyEventDispatcher {
 			setCASVersionString(getPlain("CASInitializing"));
 
 		}
+		
+		// user authentication handling
+		initSignInEventFlow();
 		
 		//GiacD giac = new GiacD();
 		//App.debug(giac.evalCAS("factor(x^4-1)"));
@@ -4980,5 +4987,18 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public String cubicSwitch(AlgoCubicSwitchParams kw) {
 		return getAlgoCubicSwitch().getEquation(kw);
+	}
+	
+
+	/** 
+	 * Initializes the sign in Operation and tries to login in the user with the stored token 
+	 */
+	protected void initSignInEventFlow() {
+		
+		// Inizialize the login operation
+		loginOperation = new LoginOperationD();
+		
+		// Try to login the stored user
+		loginOperation.performTokenLogin();
 	}
 }

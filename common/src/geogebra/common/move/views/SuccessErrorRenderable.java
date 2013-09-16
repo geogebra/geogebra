@@ -1,6 +1,6 @@
 package geogebra.common.move.views;
 
-import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.events.BaseEvent;
 
 /**
  * @author gabor
@@ -13,11 +13,11 @@ public interface SuccessErrorRenderable {
 	/**
 	 * @param response from GGT
 	 */
-	public void success(JSONObject response);
+	public void success(BaseEvent event);
 	
 	/**
 	 * @param resonse from GGT
 	 */
-	public void fail(JSONObject resonse);
+	public void fail(BaseEvent event);
 
 }

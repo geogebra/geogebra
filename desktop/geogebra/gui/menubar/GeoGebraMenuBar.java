@@ -2,6 +2,14 @@ package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
+import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
 import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.GuiManagerD;
@@ -28,6 +36,7 @@ import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -43,13 +52,16 @@ import javax.swing.JTextArea;
 import javax.swing.MenuElement;
 import javax.swing.ScrollPaneConstants;
 
-public class GeoGebraMenuBar extends JMenuBar {
+public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
 
 	private BaseMenu fileMenu, editMenu, viewMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
 
 	private final AppD app;
 	private LayoutD layout;
+	private JButton signInButton;
+	
+	private AbstractAction signInAction, signInInProgressAction, signOutAction;
 
 
 	/**
@@ -134,12 +146,12 @@ public class GeoGebraMenuBar extends JMenuBar {
 		helpMenu = new HelpMenu(app);
 		add(helpMenu);
 
-
-		// force next item to far right
-		//add(Box.createHorizontalGlue());
-
+		// Add the Sign in button (force it to the far right)
+		add(Box.createHorizontalGlue());
+		addSignIn();
+		
 		// "flag" to select language
-		//addFlag();
+		// addFlag();
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
@@ -177,6 +189,78 @@ public class GeoGebraMenuBar extends JMenuBar {
 					}
 				}).start();		
 	}
+	
+	/**
+	 *  Creates and adds the sign in button
+	 */ 
+	private void addSignIn() {
+		signInAction = new AbstractAction(
+				app.getMenu("SignIn") + " ...") {
+			
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				app.getGuiManager().login();
+			}
+		};
+		signInInProgressAction = new AbstractAction(
+				app.getMenu("SignInInProgress") + " ...") {
+			
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				// do nothing
+			}
+		};
+		signOutAction = new AbstractAction(
+				app.getMenu("SignOut") + " ...") {
+			
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				app.getGuiManager().logout();
+			}
+		};
+
+		signInButton = new JButton(signInAction);
+		signInButton.setFocusPainted(false);
+		signInButton.setContentAreaFilled(false);
+		Localization loc = app.getLocalization();
+		signInButton.setToolTipText(loc.getMenuTooltip("SignIn"));		
+		add(signInButton);
+
+		// Add the menu bar as a listener for login/logout operations
+		LogInOperation signIn = app.getLoginOperation();
+		signIn.getView().add(this);
+		if (signIn.isLoggedIn()) {
+			onLogin(true, signIn.getModel().getLoggedInUser());
+		}
+	}
+	
+	/**
+	 * Display the result of login events
+	 */
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LoginAttemptEvent) {
+			signInButton.setAction(signInInProgressAction);
+		} else if (event instanceof LogOutEvent) {
+			signInButton.setAction(signInAction);
+		} else if (event instanceof LoginEvent) {
+			LoginEvent loginEvent = (LoginEvent) event;
+			onLogin(loginEvent.isSuccessful(), loginEvent.getUser());
+		}
+	}
+	
+	private void onLogin(boolean successful, GeoGebraTubeUser user) {
+		if (successful) {
+			signInButton.setAction(signOutAction);
+			signInButton.setText(app.getMenu("SignedInAs") + ": " + user.getUserName());
+		} else {
+			signInButton.setAction(signInAction);
+			signInButton.setText(app.getMenu("SignedInErrorTryAgain") + " ...");
+		}
+	}
+
 
 
 	/**
@@ -516,5 +600,4 @@ public class GeoGebraMenuBar extends JMenuBar {
 				);
 
 	}
-
 }

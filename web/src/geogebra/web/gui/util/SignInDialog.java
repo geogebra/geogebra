@@ -2,16 +2,15 @@ package geogebra.web.gui.util;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
-import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.views.SuccessErrorRenderable;
+import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.JavaScriptObjectWrapper;
-import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
@@ -161,7 +160,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 			public void onClick(ClickEvent event) {
 				final String userName = forumUserName.getText();
 				String passwd = forumPassword.getText();
-				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(userName, passwd, new RequestCallback() {
+				(GeoGebraTubeAPIW.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(userName, passwd, new RequestCallback() {
 					
 					public void onResponseReceived(Request request, Response response) {
 						JavaScriptObjectWrapper json = (JavaScriptObjectWrapper) JSON.parse(response.getText());
@@ -176,15 +175,9 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 									.getKeyAsObject("token")
 									.getKeyAsString("-value");
 							resp.put(AuthenticationModel.GGB_TOKEN_KEY_NAME, new JSONString(token_value));
-							
-							JSONObject userInfo = new JSONObject();
-							userInfo.put(AuthenticationModel.GGB_LOGIN_DATA_USERNAME_KEY_NAME, new JSONString(userName));
-							
-							resp.put(AuthenticationModel.GGB_LOGIN_DATA_KEY_NAME, userInfo);
 						}
 						
-						
-						((LoginOperation)((AppW) app).getLoginOperation()).loginResult(resp);
+//						((AppW) app).getLoginOperation().onLoginResult(resp);
 					}
 					
 					public void onError(Request request, Throwable exception) {
@@ -219,7 +212,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		ggtLoginPanel.add(logins);
 		container.add(ggtLoginPanel);
 		
-		((LoginOperation)((AppW) app).getLoginOperation()).getView().add(this);		
+//		((AppW) app).getLoginOperation().getView().add(this);		
 		
 		add(container);
 	}
@@ -246,11 +239,11 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 	    errormsg.setText("");
     }
 
-	public void success(JSONObject response) {
+	public void success(BaseEvent event) {
 	    this.hide();
     }
 
-	public void fail(JSONObject resonse) {
+	public void fail(BaseEvent event) {
 	   errormsg.setText(app.getMenu("LoginFailed"));
     }
 

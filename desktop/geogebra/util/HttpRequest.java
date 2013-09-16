@@ -65,15 +65,16 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 				answer += s;
 			}
 		    osw.close();
+		    
+			responseText = answer;
+			success = true;
+			processed = true;
 		}
 		catch (Exception ex) {
 			success = false;
 			processed = true;
 			System.err.println(ex);
 		}
-		responseText = answer;
-		success = true;
-		processed = true;
 	}
 
 	

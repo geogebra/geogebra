@@ -300,10 +300,16 @@ public class DialogManagerW extends DialogManager {
 
 	SignInDialog signInDialog = null;
 
-	public SignInDialog getSignInDialog() {
-		if (signInDialog == null) {
-			signInDialog = new SignInDialog(app);
-		}
-		return signInDialog;
-	}
+	public void showLogInDialog() {
+	    if (signInDialog == null) {
+	    	signInDialog = new SignInDialog(app);
+	    }
+	    signInDialog.center();
+    }
+
+	@Override
+    public void showLogOutDialog() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

@@ -6,13 +6,9 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
-import geogebra.common.move.ggtapi.operations.LogOutOperation;
-import geogebra.common.move.ggtapi.operations.LoginOperation;
-import geogebra.common.move.ggtapi.views.LogOutView;
-import geogebra.common.move.ggtapi.views.LoginView;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
@@ -37,8 +33,7 @@ public class AppWapplet extends AppW {
 
 	//Event flow operations - are these needed in AppWapplet?
 	
-	private LoginOperation loginOperation;
-	private LogOutOperation logoutOperation;
+	private LogInOperation loginOperation;
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -319,44 +314,6 @@ public class AppWapplet extends AppW {
 			dialogManager = new DialogManagerW(this);
 		}
 		return dialogManager;
-	}
-
-	/**
-	 * @return LogInOperation eventFlow
-	 */
-	@Override
-	public LoginOperation getLoginOperation() {
-		return loginOperation;
-	}
-	
-	/**
-	 * @return LogoutOperation logOutOperation
-	 */
-	@Override
-	public LogOutOperation getLogOutOperation() {
-		return logoutOperation;
-	}
-
-	private void initAuthenticationEventFlow() {
-		loginOperation = new LoginOperation();
-		AuthenticationModelWeb authenticationModel = new AuthenticationModelWeb();
-		LoginView loginView = new LoginView();
-		
-		loginOperation.setModel(authenticationModel);
-		loginOperation.setView(loginView);
-		
-		logoutOperation = new LogOutOperation();		
-		LogOutView logOutView = new LogOutView();		
-		
-		logoutOperation.setModel(authenticationModel);
-		logoutOperation.setView(logOutView);
-		
-	}
-
-	protected void initCommonObjects() {
-		super.initCommonObjects();
-		//Login - Logout operation event handling begins here
-		initAuthenticationEventFlow();
 	}
 
 	/**

@@ -3214,4 +3214,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return constProtocolNavigation;
 	}
 	
+	public void login() {
+		app.getDialogManager().showLogInDialog();
+    }
+
+	public void logout() {
+		app.getDialogManager().showLogOutDialog();
+	}
 }

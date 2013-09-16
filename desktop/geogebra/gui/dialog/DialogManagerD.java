@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -448,6 +449,28 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		return true;
 	}
+	
+	@Override
+	public void showLogInDialog() {
+	    app.setWaitCursor();
+
+	    SignInDialogD dialog = new SignInDialogD((AppD) app);
+		dialog.setVisible(true);
+
+		app.setDefaultCursor();
+    }
+	
+	@Override
+	public void showLogOutDialog() {
+		int n = JOptionPane.showOptionDialog(
+				((AppD) app).getMainComponent(),
+				app.getPlain("ReallyLogOut"), app.getPlain("Question"),
+				JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null, null, null);
+		if (n == JOptionPane.OK_OPTION) {
+			app.getLoginOperation().performLogOut();
+		}
+    }
 
 	/**
 	 * Creates a new JavaScript button at given location (screen coords).
@@ -621,5 +644,4 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		((GuiManagerD)app.getGuiManager()).openToolHelp();
 
 	}
-
 }

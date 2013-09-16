@@ -78,6 +78,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences{
 	
 	// misc
 	public static final String MISC_REVERSE_MOUSE_WHEEL = "misc_reverse_mouse_wheel";
+
+	// user data
+	public static final String USER_LOGIN_TOKEN = "user_login_token";
+	public static final String USER_LOGINNAME = "user_login_name";
 	
 	
 	 // preferences node name for GeoGebra 	 

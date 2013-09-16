@@ -3,12 +3,8 @@ package geogebra.web.main;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
-import geogebra.common.move.ggtapi.operations.LogOutOperation;
-import geogebra.common.move.ggtapi.operations.LoginOperation;
-import geogebra.common.move.ggtapi.views.LogOutView;
-import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.util.debug.GeoGebraProfiler;
-import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
+import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
@@ -31,8 +27,6 @@ public class AppWapplication extends AppW {
 
 	//Event flow operations
 	
-	private LoginOperation loginOperation;
-	private LogOutOperation logoutOperation;
 
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
@@ -84,7 +78,9 @@ public class AppWapplication extends AppW {
 	public GeoGebraAppFrame getAppFrame() {
 		return appFrame;
 	}
-
+	
+	private AuthenticationModelW authenticationModel = null;
+	
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
 		return guiManager;
@@ -242,44 +238,6 @@ public class AppWapplication extends AppW {
 			dialogManager = new DialogManagerW(this);
 		}
 		return dialogManager;
-	}
-
-	/**
-	 * @return LogInOperation eventFlow
-	 */
-	@Override
-	public LoginOperation getLoginOperation() {
-		return loginOperation;
-	}
-	
-	/**
-	 * @return LogoutOperation logOutOperation
-	 */
-	@Override
-	public LogOutOperation getLogOutOperation() {
-		return logoutOperation;
-	}
-
-	private void initAuthenticationEventFlow() {
-		loginOperation = new LoginOperation();
-		AuthenticationModelWeb authenticationModel = new AuthenticationModelWeb();
-		LoginView loginView = new LoginView();
-		
-		loginOperation.setModel(authenticationModel);
-		loginOperation.setView(loginView);
-		
-		logoutOperation = new LogOutOperation();		
-		LogOutView logOutView = new LogOutView();		
-		
-		logoutOperation.setModel(authenticationModel);
-		logoutOperation.setView(logOutView);
-		
-	}
-
-	protected void initCommonObjects() {
-		super.initCommonObjects();
-		//Login - Logout operation event handling begins here
-		initAuthenticationEventFlow();
 	}
 	
 	@Override

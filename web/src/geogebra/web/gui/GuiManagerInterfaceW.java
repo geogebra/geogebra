@@ -85,8 +85,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 
 	public void removePopup();
 
-	public void signIn();
-
 	public void setToolBarDefinition(String toolBarDefinition);
 
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation();

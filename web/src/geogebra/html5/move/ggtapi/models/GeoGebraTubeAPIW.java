@@ -1,7 +1,8 @@
-package geogebra.html5.util.ggtapi;
+package geogebra.html5.move.ggtapi.models;
 
 import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
+import geogebra.web.util.HttpRequest;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -13,11 +14,11 @@ import com.google.gwt.http.client.RequestException;
  * @author Matthias Meisinger
  * 
  */
-public class GeoGebraTubeAPI extends geogebra.common.move.ggtapi.models.GeoGebraTubeAPI
+public class GeoGebraTubeAPIW extends geogebra.common.move.ggtapi.models.GeoGebraTubeAPI
 {
 	private RequestBuilder requestBuilder;
 
-	private GeoGebraTubeAPI(String url)
+	private GeoGebraTubeAPIW(String url)
 	{
 		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
 	}
@@ -116,11 +117,16 @@ public class GeoGebraTubeAPI extends geogebra.common.move.ggtapi.models.GeoGebra
 	 * 
 	 * @return GeogebraTubeAPI singleton
 	 */
-	public static GeoGebraTubeAPI getInstance(String url) {
+	public static GeoGebraTubeAPIW getInstance(String url) {
 		if (instance == null)
 		{
-			instance = new GeoGebraTubeAPI(url);
+			instance = new GeoGebraTubeAPIW(url);
 		}
-		return (GeoGebraTubeAPI) instance;
+		return (GeoGebraTubeAPIW) instance;
 	}
+
+	@Override
+    protected geogebra.common.util.HttpRequest createHttpRequest() {
+		return new HttpRequest();
+    }
 }

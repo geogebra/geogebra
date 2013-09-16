@@ -44,6 +44,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventDispatcher;
@@ -203,6 +204,9 @@ public abstract class App implements UpdateSelection{
 	public boolean exporting = false;
 
 	private static String CASVersionString = "";
+	
+	/** User Sign in handling */
+	protected LogInOperation loginOperation = null;
 
 	/**
 	 * @param string
@@ -3305,7 +3309,14 @@ public abstract class App implements UpdateSelection{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/**
+	 * @return SignInOperation eventFlow
+	 */
+	public LogInOperation getLoginOperation() {
+		return loginOperation;
+	}
+	
 	/**
 	 * This method is to be overridden in subclasses
 	 * In Web, this can run in asyncronous mode

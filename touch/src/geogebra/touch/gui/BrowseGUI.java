@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
+import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
@@ -122,7 +122,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	void displaySearchResults(final String query) {
 		this.lastQuery = query;
 		this.localList = this.fm.search(query);
-		GeoGebraTubeAPI.getInstance(
+		GeoGebraTubeAPIW.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
 				query, new RequestCallback() {
 					@Override
@@ -146,7 +146,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	public void loadFeatured() {
 		this.lastQuery = null;
 		this.localList = this.fm.getAllFiles();
-		GeoGebraTubeAPI.getInstance(
+		GeoGebraTubeAPIW.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
 				.getFeaturedMaterials(new RequestCallback() {
 					@Override

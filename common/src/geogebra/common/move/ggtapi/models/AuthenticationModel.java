@@ -1,7 +1,8 @@
 package geogebra.common.move.ggtapi.models;
 
-import geogebra.common.move.ggtapi.models.json.JSONObject;
-import geogebra.common.move.ggtapi.models.json.JSONString;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.models.BaseModel;
 
 /**
@@ -10,26 +11,32 @@ import geogebra.common.move.models.BaseModel;
  *
  */
 public abstract class AuthenticationModel extends BaseModel {
+	private GeoGebraTubeUser loggedInUser = null;
 
 	/**
 	 * token name for user logged in got back from GGT
 	 */
 	public static String GGB_TOKEN_KEY_NAME = "token";
-	/**
-	 * used for store any other thing got back concerning login
-	 */
-	public static String GGB_LOGIN_DATA_KEY_NAME ="login";
-	
-	/**
-	 * used to store the username in localstorage
-	 */
-	public static String GGB_LOGIN_DATA_USERNAME_KEY_NAME = "username";
 
 	/**
 	 * Class constructor for login and logout operations
 	 */
 	public AuthenticationModel() {
 		super();
+	}
+
+	@Override
+	public void onEvent(BaseEvent event) {
+		if (event instanceof LoginEvent) {
+			LoginEvent loginEvent = (LoginEvent) event;
+			if (loginEvent.isSuccessful()) {
+				onLoginSuccess(loginEvent.getUser());
+			} else {
+				onLoginError(loginEvent.getUser());
+			}
+		} else if (event instanceof LogOutEvent) {
+			clearLoginToken();
+		}
 	}
 
 	/**
@@ -49,33 +56,17 @@ public abstract class AuthenticationModel extends BaseModel {
 	public abstract void clearLoginToken();
 	
 	/**
-	 * @return gets the login data from localStorage or from other storage places
-	 */
-	public abstract JSONObject getStoredLoginData();
-	
-	/**
-	 * @param info the login info to store
-	 */
-	public abstract void storeLoginData(JSONObject info);
-	
-	/**
-	 * removes the stored login data
-	 */
-	public abstract void removeStoredLoginData();
-	
-	/**
 	 * @param response from GGT
-	 * Parses the response, and sets model depenent things (localStorage, etc).
+	 * Parses the response, and sets model dependent things (localStorage, etc).
 	 */
-	public void loginSuccess(JSONObject response) {
-		JSONString token = (JSONString) response.get(GGB_TOKEN_KEY_NAME);
-		if (token != null) {
-			storeLoginToken(token.toString());
-		}
+	public void onLoginSuccess(GeoGebraTubeUser user) {
 		
-		JSONObject loginInfo = (JSONObject) response.get(GGB_LOGIN_DATA_KEY_NAME);
-		if (loginInfo != null) {
-			storeLoginData(loginInfo);		
+		// Remember the logged in user
+		this.loggedInUser = user;
+		
+		// Store the token in the storage
+		if (user.getLoginToken() != this.getLoginToken()) {
+			storeLoginToken(user.getLoginToken());
 		}
 	}
 
@@ -83,11 +74,36 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * @param response from GGT
 	 * error happened, cleanup, etc
 	 */
-	public void loginError(JSONObject response) {
+	public void onLoginError(GeoGebraTubeUser user) {
 		if (getLoginToken() != null) {
 			clearLoginToken();
 		}
 	}
 
-
+	/**
+	 * @return the Username of the currently logged in user or null if no user is logged in
+	 */
+	public String getUserName() {
+		if (loggedInUser != null) {
+			return loggedInUser.getUserName();
+		}
+		return null;
+	}
+	
+	/**
+	 * @return The currently logged in user or null if no user is logged in
+	 */
+	public GeoGebraTubeUser getLoggedInUser() {
+		return loggedInUser;
+	}
+	
+	/**
+	 * @return true, if a user is currently logged in or false otherwise.
+	 */
+	public boolean isLoggedIn() {
+		if (loggedInUser == null) {
+			return false;
+		}
+		return true;
+	}
 }

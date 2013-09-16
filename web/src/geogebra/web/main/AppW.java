@@ -34,6 +34,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
+import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -119,23 +120,7 @@ public class AppW extends AppWeb {
 
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
-
-	/**
-	 * Method to be overridden in AppWapplication and AppWapplet
-	 * In simple web applets, this should be null
-	 */
-	public Object getLoginOperation() {
-		return null;
-	}
-
-	/**
-	 * Method to be overridden in AppWapplication and AppWapplet
-	 * In simple web applets, this should be null
-	 */
-	public Object getLogOutOperation() {
-		return null;
-	}
-
+	
 	/**
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
@@ -170,6 +155,18 @@ public class AppW extends AppWeb {
 		
 		//Online - Offline event handling begins here
 		initNetworkEventFlow();
+		
+		// user authentication handling
+		initSignInEventFlow();
+	}
+	
+	/** 
+	 * Initializes the user authentication 
+	 */
+	protected void initSignInEventFlow() {
+		
+		// Initialize the signIn operation
+		loginOperation = new LoginOperationW();
 	}
 
 	private void showSplashImageOnCanvas() {

@@ -335,4 +335,7 @@ public interface GuiManagerInterface {
 	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists();
 	
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
+	
+	public void login();
+	public void logout();
 }
