@@ -48,6 +48,7 @@ public abstract class GeoGebraFrame extends VerticalPanel {
 		super();
 		instances.add(this);
 		activeInstance = this;
+	    addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
 				| Event.ONMOUSEUP | Event.ONMOUSEOVER);
 	}
