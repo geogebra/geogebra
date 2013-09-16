@@ -274,7 +274,11 @@ public class StringUtil {
 	     break;
 			 */
 
-			// Exponents
+			case '%': // % -> \%
+				sbReplaceExp.append("\\%");
+				break;
+
+				// Exponents
 			// added by Loïc Le Coq 2009/11/04
 			case '\u2070': // ^0
 				sbReplaceExp.append("^0");
