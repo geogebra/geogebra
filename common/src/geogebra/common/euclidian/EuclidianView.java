@@ -3621,12 +3621,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				}
 
 			}// end for
+
+			/* removed - draws an extra tick in the wrong place. What was it for?
 			smallTickPix = (pix + tickStep) - smallTickOffset;
 			if (drawMinorTicks[0]) {
 				g2.setStroke(tickStroke);
 				tempLine.setLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
 				g2.draw(tempLine);
-			}
+			}*/
 
 		}
 
