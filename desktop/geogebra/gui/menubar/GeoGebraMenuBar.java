@@ -146,9 +146,13 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		helpMenu = new HelpMenu(app);
 		add(helpMenu);
 
+		// applets might be running in Java 6 (no JavaFX)
+		// and not wanted for applets anyway
+		if (!app.isApplet()) {
 		// Add the Sign in button (force it to the far right)
-		add(Box.createHorizontalGlue());
-		addSignIn();
+			add(Box.createHorizontalGlue());
+			addSignIn();
+		}
 		
 		// "flag" to select language
 //		addFlag();
