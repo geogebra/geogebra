@@ -3,4 +3,4 @@
 
 ECLIPSE_CLASSPATH_DIR=../..
 cat $ECLIPSE_CLASSPATH_DIR/.classpath | grep "classpathentry kind=\"lib" | cut -f4 -d\" | awk '{printf $0; printf ":"}'
-echo
+echo lib/jfxrt.jar # Only for compilation
