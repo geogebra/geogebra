@@ -1161,7 +1161,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	@Override
 	final public boolean evaluatesToNonComplex2DVector() {
-		if(operation == Operation.RANDOM){
+		if(operation == Operation.RANDOM 
+				|| operation == Operation.XCOORD 
+				|| operation == Operation.YCOORD
+				|| operation == Operation.ZCOORD) {
 			return false;
 		}
 		if(isLeaf()){

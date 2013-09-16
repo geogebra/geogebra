@@ -669,10 +669,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			SymbolicPolyFunction symbPolyFun = new SymbolicPolyFunction(degree);
 			ExpressionNode[] symbCoeffs = symbPolyFun.getSymbolicCoeffs();
 			for (int i = 0; i < strCoeffs.length; i++) {
-				symbCoeffs[i] = evaluateToExpressionNode(strCoeffs[i]);
-				if (symbCoeffs[i] == null)
+				symbCoeffs[degree - i] = evaluateToExpressionNode(strCoeffs[i]);
+				if (symbCoeffs[degree - i] == null)
 					return null;
-				symbCoeffs[i].simplifyConstantIntegers();
+				symbCoeffs[degree - i].simplifyConstantIntegers();
 			}
 			return symbPolyFun;
 		}
@@ -680,7 +680,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		try {
 			PolyFunction polyFun = new PolyFunction(degree);
 			for (int i = 0; i < strCoeffs.length; i++) {
-				polyFun.coeffs[i] = evaluateToExpressionNode(
+				polyFun.coeffs[degree - i] = evaluateToExpressionNode(
 						strCoeffs[i]).evaluateDouble();
 			}
 			return polyFun;
