@@ -1279,7 +1279,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void addEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if (evListeners == null)
 			evListeners = new ArrayList<EuclidianViewInterfaceSlim>();
-		evListeners.add(ev);
+
+		if (!evListeners.contains(ev))
+			evListeners.add(ev);
 	}
 
 	/**
