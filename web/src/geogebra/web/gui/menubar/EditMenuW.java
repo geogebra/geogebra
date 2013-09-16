@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.gui.images.AppResources;
@@ -147,11 +148,25 @@ public class EditMenuW extends MenuBar {
 		// separator
 		addSeparator();
 
+	
 		addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon, app.getMenu("InsertImageFrom")),
 		        true, iim);
-
+		
 		addSeparator();
 
+		// object properties menu
+		if (!app.getKernel().isEmpty()){
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+		        .view_properties16().getSafeUri().asString(), app.getMenu("Object Properties")),
+		        true, new Command() {
+			        public void execute() {
+			        	((AppW) app).getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+			        }
+		        });
+			
+			addSeparator();
+		}
+		
 		// select all menu
 		if (!app.getKernel().isEmpty())
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,

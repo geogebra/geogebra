@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -58,10 +59,11 @@ public class PropertiesViewW extends
 	public void initGUI() {
 
 		wrappedPanel.addStyleName("PropertiesViewW");
-		getStyleBar();
+//		getStyleBar();
 		//add(getStyleBar(), BorderLayout.NORTH);
 
 		mainPanel = new VerticalPanel();
+		mainPanel.add(((OptionPanelW) objectPanel).getWrappedPanel());
 		wrappedPanel.add(mainPanel);
 
 		//createButtonPanel();
@@ -190,8 +192,8 @@ public class PropertiesViewW extends
 	}
 
 	public void repaintView() {
-		// TODO Auto-generated method stub
-
+		  getOptionPanel(OptionType.OBJECTS).updateGUI();
+		  
 	}
 
 	public void reset() {
@@ -222,14 +224,13 @@ public class PropertiesViewW extends
 	@Override
 	public void updateSelection() {
 		// TODO Auto-generated method stub
-
 	}
 
 
 	@Override
 	public void setOptionPanel(OptionType type) {
-		// TODO Auto-generated method stub
-
+		
+	
 	}
 	
 	@Override
@@ -281,5 +282,9 @@ public class PropertiesViewW extends
 	public boolean isShowing() {
 		App.debug("unimplemented");
 	    return false;
+    }
+
+	public Widget getWrappedPanel() {
+	    return wrappedPanel;
     }
 }

@@ -44,6 +44,7 @@ import geogebra.web.gui.layout.panels.ConstructionProtocolDockPanelW;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
+import geogebra.web.gui.layout.panels.PropertiesDockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
@@ -533,8 +534,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	//	layout.registerPanel(new ProbabilityCalculatorDockPanel(app));
 
 		// register Properties view
-	//	propertiesDockPanel = new PropertiesDockPanel(app);
-	//	layout.registerPanel(propertiesDockPanel);
+		
+		layout.registerPanel(new PropertiesDockPanelW(app));
 
 		// register data analysis view
 	//	layout.registerPanel(new DataAnalysisViewDockPanel(app));

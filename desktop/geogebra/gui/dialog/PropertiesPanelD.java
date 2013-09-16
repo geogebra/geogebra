@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
+import geogebra.awt.GColorD;
 import geogebra.awt.GFontD;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -21,6 +22,20 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
+import geogebra.common.gui.dialog.options.model.AuxObjectModel;
+import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
+import geogebra.common.gui.dialog.options.model.ColorObjectModel;
+import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
+import geogebra.common.gui.dialog.options.model.FixObjectModel;
+import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
+import geogebra.common.gui.dialog.options.model.ShowConditionModel;
+import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
+import geogebra.common.gui.dialog.options.model.ShowLabelModel;
+import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
+import geogebra.common.gui.dialog.options.model.ShowObjectModel;
+import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
+import geogebra.common.gui.dialog.options.model.TraceModel;
+import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
@@ -828,15 +843,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel with show/hide object checkbox
 	 */
 	private class ShowObjectPanel extends JPanel implements ItemListener,
-			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts, IShowObjectListener {
 
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
 		private JCheckBox showObjectCB;
+		private ShowObjectModel model;
 
 		public ShowObjectPanel() {
 			app.setFlowLayoutOrientation(this);
-
+			model = new ShowObjectModel(this);
 			// check box for show object
 			showObjectCB = new JCheckBox();
 			showObjectCB.addItemListener(this);
@@ -849,60 +864,28 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			showObjectCB.removeItemListener(this);
 
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalObjectVal = true;
-			boolean showObjectCondition = geo0.getShowObjectCondition() != null;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object visible value
-				if (geo0.isSetEuclidianVisible() != temp
-						.isSetEuclidianVisible()) {
-					equalObjectVal = false;
-					break;
-				}
-
-				if (temp.getShowObjectCondition() != null) {
-					showObjectCondition = true;
-				}
-			}
-
-			// set object visible checkbox
-			if (equalObjectVal)
-				showObjectCB.setSelected(geo0.isSetEuclidianVisible());
-			else
-				showObjectCB.setSelected(false);
-
-			showObjectCB.setEnabled(!showObjectCondition);
-
+			model.updateProperties();
+			
 			showObjectCB.addItemListener(this);
 			return this;
 		}
 
-		// show everything but numbers (note: drawable angles are shown)
-		private boolean checkGeos(Object[] geos) {
-			
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				
-				if (!geo.isDrawable()
-				// can't allow a free fixed number to become visible (as a
-				// slider)
-						|| (geo.isGeoNumeric() && geo.isFixed())) {
-					geosOK = false;
-					break;
-				}
-				
+		public void updateCheckbox(boolean equalObjectVal,  boolean showObjectCondition) {
+			if (equalObjectVal) {
+				GeoElement geo0 = (GeoElement)model.getGeos()[0];
+				showObjectCB.setSelected(geo0.isEuclidianVisible());
 			}
-			return geosOK;
+			else {
+				showObjectCB.setSelected(false);
+			}
+		
+			showObjectCB.setEnabled(!showObjectCondition);
 		}
 
 		/**
@@ -914,13 +897,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// show object value changed
 			if (source == showObjectCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setEuclidianVisible(showObjectCB.isSelected());
-					geo.updateRepaint();
-				}
+				model.applyChanges(showObjectCB.isSelected());
 			}
-			updateSelection(geos);
+			updateSelection(model.getGeos());
 		}
 
 		public void updateFonts() {
@@ -1242,10 +1221,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel color chooser and preview panel
 	 */
 	private class ColorPanel extends JPanel implements ActionListener,
-			UpdateablePropertiesPanel, ChangeListener, SetLabels, UpdateFonts {
+			UpdateablePropertiesPanel, ChangeListener, SetLabels, UpdateFonts, 	IColorObjectListener {
 
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private ColorObjectModel model;
 		private JLabel previewLabel, currentColorLabel;
 		private PreviewPanel previewPanel;
 		private JPanel opacityPanel, colorChooserContainer;
@@ -1254,8 +1233,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private JSlider opacitySlider;
 		private JPanel previewMetaPanel;
-		private boolean allFillable = false;
-		private boolean hasBackground = false;
 
 		private Color selectedColor;
 		private JPanel southPanel;
@@ -1267,7 +1244,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private boolean isBarChart = false;
 
 		public ColorPanel(GeoGebraColorChooser colChooser) {
-
+			model = new ColorObjectModel(app, this);
 			previewPanel = new PreviewPanel();
 			previewLabel = new JLabel();
 			currentColorLabel = new JLabel();
@@ -1423,144 +1400,26 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
+			model.setGeos(geos);
 			addSelectionBar();
 			return update();
 		}
 
 		public JPanel update() {
 
-			if (!checkGeos(geos))
+			if (!model.checkGeos())
 				return null;
 
-			GeoElement geo0 = (GeoElement) geos[0];
+			model.updateProperties();
+		
 
-			
-			// check geos for similar properties
-
-			boolean equalObjColor = true;
-			boolean equalObjColorBackground = true;
-			boolean hasImageGeo = geo0.isGeoImage();
-			allFillable = geo0.isFillable();
-			hasBackground = geo0.hasBackgroundColor();
-
-			GeoElement temp;
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object color
-				if (!geo0.getObjectColor().equals(temp.getObjectColor())) {
-					equalObjColor = false;
-				}
-				// has fill color
-				if (!((GeoElement) geos[i]).isFillable()) {
-					allFillable = false;
-				}
-				// has background
-				if (!((GeoElement) geos[i]).hasBackgroundColor()) {
-					hasBackground = false;
-				}
-				// has image geo
-				if (temp.isGeoImage()) {
-					hasImageGeo = true;
-				}
-			}
-
-			if (hasBackground) {
-				equalObjColorBackground = true;
-
-				if (geo0.getBackgroundColor() == null)
-					// test for all null background color
-					for (int i = 1; i < geos.length; i++) {
-						temp = (GeoElement) geos[i];
-						if (temp.getBackgroundColor() != null) {
-							equalObjColorBackground = false;
-							break;
-						}
-					}
-				else
-					// test for all same background color
-					for (int i = 1; i < geos.length; i++) {
-						temp = (GeoElement) geos[i];
-						// same background color
-						if (!geo0.getBackgroundColor().equals(
-								temp.getBackgroundColor())) {
-							equalObjColorBackground = false;
-							break;
-						}
-					}
-			}
-
-			// initialize selected color and opacity
-			selectedColor = null;
-			Color selectedBGColor = null;
-			float alpha = 1;
-
-			if (equalObjColorBackground) {
-				selectedBGColor = geogebra.awt.GColorD.getAwtColor(geo0
-						.getBackgroundColor());
-			}
-
-			if (this.rbtnBackgroundColor.isSelected())
-				selectedColor = selectedBGColor;
-			else {
-				// set selectedColor if all selected geos have the same color
-				if (equalObjColor) {
-					if (allFillable) {
-						selectedColor = geogebra.awt.GColorD.getAwtColor(geo0
-								.getFillColor());
-						alpha = geo0.getAlphaValue();
-					} else {
-						selectedColor = geogebra.awt.GColorD.getAwtColor(geo0
-								.getObjectColor());
-					}
-				}
-			}
-
-			updateToolTipText();
-
-			// set the chooser color
-			colChooser.getSelectionModel().removeChangeListener(this);
-			if (isBarChart){
-				setChooser(geo0);
-			} else {
-				colChooser.getSelectionModel().setSelectedColor(selectedColor);
-			}
-			colChooser.getSelectionModel().addChangeListener(this);
-
-			// set the opacity
-			opacitySlider.removeChangeListener(this);
-			if (allFillable) { // show opacity slider and set to first geo's
-								// alpha value
-				opacityPanel.setVisible(true);
-				alpha = ((GeoElement) geos[0]).getAlphaValue();
-				if (isBarChart){
-					setOpacitySlider((GeoElement)geos[0],alpha);
-				} else {
-					opacitySlider.setValue(Math.round(alpha * 100));
-				}
-			} else { // hide opacity slider and set alpha = 1
-				opacityPanel.setVisible(false);
-				alpha = 1;
-				opacitySlider.setValue(Math.round(alpha * 100));
-			}
-			opacitySlider.addChangeListener(this);
-
-			// set the preview panel (do this after the alpha level is set
-			// above)
-			if (((GeoElement)geos[0]).getParentAlgorithm() instanceof AlgoBarChart){
-				isBarChart=true;
-				setPreview((GeoElement) geos[0],alpha);
-			} else {
-				isBarChart=false;
-				previewPanel.setPreview(selectedColor, alpha);
-			}
-			rbtnBackgroundColor.setVisible(hasBackground);
-			rbtnForegroundColor.setVisible(hasBackground);
+			rbtnBackgroundColor.setVisible(model.hasBackground());
+			rbtnForegroundColor.setVisible(model.hasBackground());
 			btnClearBackground.setVisible(rbtnBackgroundColor.isSelected());
 			btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 			// hide the color chooser and preview if we have an image
-			colorChooserContainer.setVisible(!hasImageGeo);
-			previewMetaPanel.setVisible(!hasImageGeo);
+			colorChooserContainer.setVisible(!model.hasImageGeo());
+			previewMetaPanel.setVisible(!model.hasImageGeo());
 			
 			return this;
 		}
@@ -1628,46 +1487,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return rgbStr;
 		}
 
-		/**
-		 * Sets color of selected GeoElements
-		 */
-		private void updateColor(Color col, float alpha, boolean updateAlphaOnly) {
-			if (col == null || geos == null) {
-				return;
-			}
-
-			// update preview panel
-			previewPanel.setPreview(col, alpha);
-			previewPanel.setToolTipText(getToolTipText(col));
-			currentColorLabel.setText(previewPanel.getToolTipText());
-
-			// update the color and alpha value for the selected geos
-			GeoElement geo;
-			for (int i = 0; i < geos.length; i++) {
-				geo = (GeoElement) geos[i];
-
-				if (hasBackground && rbtnBackgroundColor.isSelected()) {
-					geo.setBackgroundColor(new geogebra.awt.GColorD(col));
-				} else {
-					if (!updateAlphaOnly){
-						if (isBarChart){
-							updateBarsColorAndAlpha(geo,col,alpha,updateAlphaOnly);
-						} else {
-							geo.setObjColor(new geogebra.awt.GColorD(col));
-						}
-					}
-					if (allFillable){
-						if (isBarChart){
-							updateBarsColorAndAlpha(geo,col,alpha,updateAlphaOnly);
-						} else {
-							geo.setAlphaValue(alpha);
-						}
-					}
-				}
-				geo.updateVisualStyle();
-			}
-			kernel.notifyRepaint();
-		}
 
 		// Add tag for color and alpha or remove if selected all bars
 		private void updateBarsColorAndAlpha(GeoElement geo, Color col,
@@ -1701,7 +1520,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (barsPanel != null) {
 				remove(barsPanel);
 			} 
-			AlgoElement algo = ((GeoElement) geos[0]).getParentAlgorithm();
+			AlgoElement algo = model.getGeoAt(0).getParentAlgorithm();
 			if (algo instanceof AlgoBarChart) {
 				int numBar = ((AlgoBarChart) algo).getIntervals();
 				isBarChart = true;
@@ -1730,25 +1549,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 		}
 
-		/**
-		 * Sets the background color of selected GeoElements to null
-		 */
-		private void clearBackgroundColor() {
-
-			GeoElement geo;
-			for (int i = 0; i < geos.length; i++) {
-				geo = (GeoElement) geos[i];
-				geo.setBackgroundColor(null);
-				geo.updateVisualStyle();
-			}
-			kernel.notifyRepaint();
-		}
-
-		// show color panel for all geos
-		// (for images only the opacity slider is shown)
-		private boolean checkGeos(Object[] geos) {
-			return true;
-		}
 
 		/**
 		 * Listens for color chooser state changes
@@ -1756,10 +1556,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void stateChanged(ChangeEvent e) {
 
 			float alpha = opacitySlider.getValue() / 100.0f;
+			GColor color = new geogebra.awt.GColorD(colChooser.getColor());
 			if (e.getSource() == opacitySlider)
-				updateColor(colChooser.getColor(), alpha, true);
+				model.applyChanges(color, alpha, true);
 			else
-				updateColor(colChooser.getColor(), alpha, false);
+				model.applyChanges(color, alpha, false);
 
 		}
 
@@ -1769,12 +1570,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == rbtnBackgroundColor || source == rbtnForegroundColor) {
-				update(geos);
+				addSelectionBar();
+				update();
 			}
 
 			if (source == btnClearBackground) {
-				clearBackgroundColor();
-				update(geos);
+				model.clearBackgroundColor();
+				addSelectionBar();
+				update();
 			}
 		}
 
@@ -1805,9 +1608,116 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null)
+			if (model.getGeos() == null)
 				return;
 			update();
+		}
+
+		public void updateChooser(boolean equalObjColor,
+				boolean equalObjColorBackground, boolean allFillable,
+				boolean hasBackground) {
+			// initialize selected color and opacity
+			selectedColor = null;
+			Color selectedBGColor = null;
+			float alpha = 1;
+			GeoElement geo0 = model.getGeoAt(0);
+			if (equalObjColorBackground) {
+				selectedBGColor = geogebra.awt.GColorD.getAwtColor(geo0
+						.getBackgroundColor());
+			}
+
+			if (isBackgroundColorSelected()) {
+				selectedColor = selectedBGColor;
+			}				
+			else {
+				// set selectedColor if all selected geos have the same color
+				if (equalObjColor) {
+					if (allFillable) {
+						selectedColor = geogebra.awt.GColorD.getAwtColor(geo0
+								.getFillColor());
+						alpha = geo0.getAlphaValue();
+					} else {
+						selectedColor = geogebra.awt.GColorD.getAwtColor(geo0
+								.getObjectColor());
+					}
+				}
+			}
+
+			updateToolTipText();
+
+			// set the chooser color
+			colChooser.getSelectionModel().removeChangeListener(this);
+			if (isBarChart){
+				setChooser(geo0);
+			} else {
+				colChooser.getSelectionModel().setSelectedColor(selectedColor);
+			}
+			colChooser.getSelectionModel().addChangeListener(this);
+
+			// set the opacity
+			opacitySlider.removeChangeListener(this);
+			if (allFillable) { // show opacity slider and set to first geo's
+								// alpha value
+				opacityPanel.setVisible(true);
+				alpha = geo0.getAlphaValue();
+				if (isBarChart){
+					setOpacitySlider(geo0, alpha);
+				} else {
+					opacitySlider.setValue(Math.round(alpha * 100));
+				}
+			} else { // hide opacity slider and set alpha = 1
+				opacityPanel.setVisible(false);
+				alpha = 1;
+				opacitySlider.setValue(Math.round(alpha * 100));
+			}
+			opacitySlider.addChangeListener(this);
+
+			// set the preview panel (do this after the alpha level is set
+			// above)
+			if (geo0.getParentAlgorithm() instanceof AlgoBarChart){
+				isBarChart=true;
+				setPreview(geo0, alpha);
+			} else {
+				isBarChart=false;
+				previewPanel.setPreview(selectedColor, alpha);
+			}
+
+			
+		}
+
+		public void updatePreview(GColor col, float alpha) {
+			// update preview panel
+			Color color = GColorD.getAwtColor(col);
+			previewPanel.setPreview(color, alpha);
+			previewPanel.setToolTipText(getToolTipText(color));
+			currentColorLabel.setText(previewPanel.getToolTipText());
+
+		}
+
+		public boolean isBackgroundColorSelected() {
+			return rbtnBackgroundColor.isSelected();
+		}
+
+
+		public void updateNoBackground(GeoElement geo, GColor col, float alpha,
+				boolean updateAlphaOnly, boolean allFillable) {
+
+			Color color = GColorD.getAwtColor(col);
+			if (!updateAlphaOnly){
+				if (isBarChart){
+					updateBarsColorAndAlpha(geo,color,alpha,updateAlphaOnly);
+				} else {
+					geo.setObjColor(col);
+				}
+			}
+			if (allFillable){
+				if (isBarChart){
+					updateBarsColorAndAlpha(geo,color,alpha,updateAlphaOnly);
+				} else {
+					geo.setAlphaValue(alpha);
+				}
+			}
+
 		}
 
 	} // ColorPanel
@@ -1816,19 +1726,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel with label properties
 	 */
 	private class LabelPanel extends JPanel implements ItemListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts, IShowLabelListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
 		private JCheckBox showLabelCB;
 		private JComboBox labelModeCB;
-		private boolean showNameValueComboBox;
+		private ShowLabelModel model;
 
 		public LabelPanel() {
 			super();
-
+			model = new ShowLabelModel(app, this);
 			// check boxes for show object, show label
 			showLabelCB = new JCheckBox();
 			showLabelCB.addItemListener(this);
@@ -1861,110 +1770,46 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// change "Show Label:" to "Show Label" if there's no menu
 			// Michael Borcherds 2008-02-18
-			if (!showNameValueComboBox) {
-				showLabelCB.setText(app.getPlain("ShowLabel"));
-			} else {
-				showLabelCB.setText(app.getPlain("ShowLabel") + ":");
-			}
-
+			updateShowLabel();
+			
 			app.setComponentOrientation(this);
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
+			model.setGeos(geos);
 			return update();
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null)
+			if (model.getGeos() == null)
 				return;
 			update();
 		}
 
 		public JPanel update() {
-			if (!checkGeos(geos))
+			if (!model.checkGeos())
 				return null;
 
 			showLabelCB.removeItemListener(this);
 			labelModeCB.removeActionListener(this);
 
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalLabelVal = true;
-			boolean equalLabelMode = true;
-			showNameValueComboBox = geo0.isLabelValueShowable();
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same label visible value
-				if (geo0.isLabelVisible() != temp.isLabelVisible())
-					equalLabelVal = false;
-				// same label mode
-				if (geo0.getLabelMode() != temp.getLabelMode())
-					equalLabelMode = false;
-
-				showNameValueComboBox = showNameValueComboBox
-						&& temp.isLabelValueShowable();
-			}
-
-			// change "Show Label:" to "Show Label" if there's no menu
-			// Michael Borcherds 2008-02-18
-			if (!showNameValueComboBox)
-				showLabelCB.setText(app.getPlain("ShowLabel"));
-			else
-				showLabelCB.setText(app.getPlain("ShowLabel") + ":");
-
-			// set label visible checkbox
-			if (equalLabelVal) {
-				showLabelCB.setSelected(geo0.isLabelVisible());
-				labelModeCB.setEnabled(geo0.isLabelVisible());
-			} else {
-				showLabelCB.setSelected(false);
-				labelModeCB.setEnabled(false);
-			}
-
-			// set label visible checkbox
-			if (equalLabelMode)
-				labelModeCB.setSelectedIndex(geo0.getLabelMode());
-			else
-				labelModeCB.setSelectedItem(null);
-
-			// locus in selection
-			labelModeCB.setVisible(showNameValueComboBox);
+			model.updateProperties();
+		
 			showLabelCB.addItemListener(this);
 			labelModeCB.addActionListener(this);
+			
 			return this;
-		}
-
-		// show everything but numbers (note: drawable angles are shown)
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isLabelShowable()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
 		 * listens to checkboxes and sets object and label visible state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
 			Object source = e.getItemSelectable();
 
 			// show label value changed
 			if (source == showLabelCB) {
-				boolean flag = showLabelCB.isSelected();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setLabelVisible(flag);
-					geo.updateRepaint();
-				}
-				update(geos);
+				model.applyShowChanges(showLabelCB.isSelected());
 			}
 		}
 
@@ -1974,15 +1819,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == labelModeCB) {
-				GeoElement geo;
-				int mode = labelModeCB.getSelectedIndex();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setLabelMode(mode);
-					geo.updateVisualStyle();
-				}
-				kernel.notifyRepaint();
-				app.storeUndoInfo();
+				model.applyModeChanges(labelModeCB.getSelectedIndex());
 			}
 		}
 
@@ -1991,6 +1828,41 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			showLabelCB.setFont(font);
 			labelModeCB.setFont(font);
+
+		}
+		
+		private void updateShowLabel() {
+			if (!model.isNameValueShown()) {
+				showLabelCB.setText(app.getPlain("ShowLabel"));
+			} else {
+				showLabelCB.setText(app.getPlain("ShowLabel") + ":");
+			}
+
+		}
+		
+		public void update(boolean isEqualVal, boolean isEqualMode) {
+			// change "Show Label:" to "Show Label" if there's no menu
+			// Michael Borcherds 2008-02-18
+			updateShowLabel();
+
+			GeoElement geo0 = model.getGeoAt(0);
+			// set label visible checkbox
+			if (isEqualVal) {
+				showLabelCB.setSelected(geo0.isLabelVisible());
+				labelModeCB.setEnabled(geo0.isLabelVisible());
+			} else {
+				showLabelCB.setSelected(false);
+				labelModeCB.setEnabled(false);
+			}
+
+			// set label visible checkbox
+			if (isEqualMode)
+				labelModeCB.setSelectedIndex(geo0.getLabelMode());
+			else
+				labelModeCB.setSelectedItem(null);
+
+			// locus in selection
+			labelModeCB.setVisible(model.isNameValueShown());
 
 		}
 
@@ -2243,18 +2115,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class TracePanel extends JPanel implements ItemListener,
-			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ITraceListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
 		private JCheckBox showTraceCB;
-
+		private TraceModel model;
+		
 		public TracePanel() {
 			super();
 			app.setFlowLayoutOrientation(this);
-
+			model = new TraceModel(this);
+			
 			// check boxes for show trace
 			showTraceCB = new JCheckBox();
 			showTraceCB.addItemListener(this);
@@ -2267,58 +2141,27 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			showTraceCB.removeItemListener(this);
 
-			// check if properties have same values
-			Traceable temp, geo0 = (Traceable) geos[0];
-			boolean equalTrace = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (Traceable) geos[i];
-				// same object visible value
-				if (geo0.getTrace() != temp.getTrace())
-					equalTrace = false;
-			}
-
-			// set trace visible checkbox
-			if (equalTrace)
-				showTraceCB.setSelected(geo0.getTrace());
-			else
-				showTraceCB.setSelected(false);
-
+			model.updateProperties();
+			
 			showTraceCB.addItemListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof Traceable)) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
 		 * listens to checkboxes and sets trace state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			Traceable geo;
 			Object source = e.getItemSelectable();
 
 			// show trace value changed
 			if (source == showTraceCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (Traceable) geos[i];
-					geo.setTrace(showTraceCB.isSelected());
-					geo.updateRepaint();
-				}
+				model.applyChanges(showTraceCB.isSelected());
 			}
 		}
 
@@ -2331,6 +2174,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void updateCheckbox(boolean isEqual) {
+			// set trace visible checkbox
+			if (isEqual) {
+				Traceable geo0 = (Traceable) model.getGeoAt(0);
+				showTraceCB.setSelected(geo0.getTrace());
+			}
+			else {
+				showTraceCB.setSelected(false);
+			}
+						
 		}
 	}
 
@@ -2535,16 +2390,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class FixPanel extends JPanel implements ItemListener, SetLabels,
-			UpdateFonts, UpdateablePropertiesPanel {
+			UpdateFonts, UpdateablePropertiesPanel, IFixObjectListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private FixObjectModel model;
 		private JCheckBox showFixCB;
 
 		public FixPanel() {
 			super();
+			model = new FixObjectModel(this);
 			app.setFlowLayoutOrientation(this);
 
 			// check boxes for show trace
@@ -2559,59 +2415,30 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			showFixCB.removeItemListener(this);
 
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalFix = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object visible value
-				if (geo0.isFixed() != temp.isFixed())
-					equalFix = false;
-			}
-
-			// set trace visible checkbox
-			if (equalFix)
-				showFixCB.setSelected(geo0.isFixed());
-			else
-				showFixCB.setSelected(false);
+			model.updateProperties();
 
 			showFixCB.addItemListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isFixable())
-					return false;
-			}
-			return true;
 		}
 
 		/**
 		 * listens to checkboxes and sets trace state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
 			Object source = e.getItemSelectable();
 
 			// show trace value changed
 			if (source == showFixCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setFixed(showFixCB.isSelected());
-					geo.updateRepaint();
+					model.applyChanges(showFixCB.isSelected());
 				}
-			}
-
-			updateSelection(geos);
+		
+			updateSelection(model.getGeos());
 		}
 
 		public void updateFonts() {
@@ -2624,6 +2451,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// TODO Auto-generated method stub
 
 		}
+
+		public void updateCheckbox(boolean equalObjectVal) {
+			if (equalObjectVal) {
+				showFixCB.setSelected(model.getGeoAt(0).isFixed());
+			}
+			else {
+				showFixCB.setSelected(false);
+			}
+		}
+			
 	}
 
 	/**
@@ -3232,16 +3069,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class AuxiliaryObjectPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IAuxObjectListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private AuxObjectModel model;
 		private JCheckBox auxCB;
 
 		public AuxiliaryObjectPanel() {
 			super();
+			model = new AuxObjectModel(this);
 			app.setFlowLayoutOrientation(this);
 
 			// check boxes for show trace
@@ -3256,56 +3094,27 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			auxCB.removeItemListener(this);
 
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalAux = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object visible value
-				if (geo0.isAuxiliaryObject() != temp.isAuxiliaryObject())
-					equalAux = false;
-			}
-
-			// set trace visible checkbox
-			if (equalAux)
-				auxCB.setSelected(geo0.isAuxiliaryObject());
-			else
-				auxCB.setSelected(false);
-
+			model.updateProperties();
+			
 			auxCB.addItemListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			// geo should be visible in algebra view
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isAlgebraVisible())
-					return false;
-			}
-			return true;
 		}
 
 		/**
 		 * listens to checkboxes and sets trace state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
 			Object source = e.getItemSelectable();
 
 			// show trace value changed
 			if (source == auxCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setAuxiliaryObject(auxCB.isSelected());
-				}
+				model.applyChanges(auxCB.isSelected());
 			}
 		}
 
@@ -3317,6 +3126,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
+
+		}
+
+		public void updateCheckbox(boolean equalObjectVal) {
+			// set trace visible checkbox
+			if (equalObjectVal)
+				auxCB.setSelected(model.getGeoAt(0).isAuxiliaryObject());
+			else
+				auxCB.setSelected(false);
 
 		}
 	}
@@ -7222,11 +7040,11 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
  * @author Markus Hohenwarter
  */
 class ShowConditionPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts, IShowConditionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private Object[] geos; // currently selected geos
+	private ShowConditionModel model;
 	private JTextField tfCondition;
 
 	private Kernel kernel;
@@ -7235,7 +7053,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	public ShowConditionPanel(AppD app, PropertiesPanelD propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
-
+		model = new ShowConditionModel(app, this);
 		// non auto complete input panel
 		InputPanelD inputPanel = new InputPanelD(null, app, -1, false);
 		tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
@@ -7256,93 +7074,30 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	}
 
 	public JPanel update(Object[] geos) {
-		this.geos = geos;
-		if (!checkGeos(geos))
+		model.setGeos(geos);
+		if (!model.checkGeos())
 			return null;
 
 		tfCondition.removeActionListener(this);
 
-		// take condition of first geo
-		String strCond = "";
-		GeoElement geo0 = (GeoElement) geos[0];
-		GeoBoolean cond = geo0.getShowObjectCondition();
-		if (cond != null) {
-			strCond = cond.getLabel(StringTemplate.editTemplate);
-		}
-
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			cond = geo.getShowObjectCondition();
-			if (cond != null) {
-				String strCondGeo = cond.getLabel(StringTemplate.editTemplate);
-				if (!strCond.equals(strCondGeo))
-					strCond = "";
-			}
-		}
-
-		tfCondition.setText(strCond);
+		model.updateProperties();
+		
 		tfCondition.addActionListener(this);
 		return this;
-	}
-
-	private static boolean checkGeos(Object[] geos) {
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!geo.isEuclidianShowable())
-				return false;
-		}
-
-		return true;
 	}
 
 	/**
 	 * handle textfield changes
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfCondition)
+		if (e.getSource() == tfCondition) {
 			doActionPerformed();
+		}
 	}
 
 	private void doActionPerformed() {
 		processed = true;
-		GeoBoolean cond;
-		String strCond = tfCondition.getText();
-		if (strCond == null || strCond.trim().length() == 0) {
-			cond = null;
-		} else {
-
-			strCond = PropertiesPanelD.replaceEqualsSigns(strCond);
-
-			cond = kernel.getAlgebraProcessor().evaluateToBoolean(strCond);
-		}
-
-		if (cond != null || strCond.trim().length() == 0) {
-			// set condition
-			try {
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = (GeoElement) geos[i];
-					geo.setShowObjectCondition(cond);
-
-					// make sure object shown when condition removed
-					if (cond == null)
-						geo.updateRepaint();
-				}
-
-			} catch (CircularDefinitionException e) {
-				tfCondition.setText("");
-				kernel.getApplication().showError("CircularDefinition");
-			}
-
-			if (cond != null)
-				cond.updateRepaint();
-
-			// to update "showObject" as well
-			propPanel.updateSelection(geos);
-		} else {
-			// put back faulty condition (for editing)
-			tfCondition.setText(strCond);
-		}
-
+		model.applyChanges(tfCondition.getText());
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -7366,6 +7121,18 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setText(String text) {
+		tfCondition.setText(text);	
+	}
+
+	public void updateSelection(Object[] geos) {
+		propPanel.updateSelection(geos);
+	}
+
+	public String replaceEqualsSigns(String strCond) {
+		return propPanel.replaceEqualsSigns(strCond);
 	}
 }
 
