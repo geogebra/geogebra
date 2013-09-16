@@ -18,6 +18,7 @@ import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
@@ -279,5 +280,10 @@ public class AppWapplication extends AppW {
 		super.initCommonObjects();
 		//Login - Logout operation event handling begins here
 		initAuthenticationEventFlow();
+	}
+	
+	@Override
+    public Element getDnDElement(){
+		return  appFrame.getElement();
 	}
 }

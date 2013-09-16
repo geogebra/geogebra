@@ -229,11 +229,18 @@ public class AppW extends AppWeb {
 		                   // until the canvas is first drawn
 
 		setUndoActive(undoActive);
-		registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
+		registerFileDropHandlers(getDnDElement());
 		afterCoreObjectsInited();
 
 	}
 
+	/**
+	 * Returns the target element for DnD file drops.
+	 */
+	public Element getDnDElement(){
+		return (CanvasElement) canvas.getElement().cast();
+	}
+	
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
 	
@@ -738,7 +745,7 @@ public class AppW extends AppWeb {
 	/**
 	 * Register file drop handlers for the canvas of this application
 	 */
-	native void registerFileDropHandlers(CanvasElement ce) /*-{
+	native void registerFileDropHandlers(Element ce) /*-{
 
 		var appl = this;
 		var canvas = ce;

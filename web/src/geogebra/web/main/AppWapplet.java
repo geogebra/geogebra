@@ -25,6 +25,7 @@ import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
@@ -392,5 +393,10 @@ public class AppWapplet extends AppW {
 		}
 
 		return justEuclidianVisible;
+	}
+	
+	@Override
+    public Element getDnDElement(){
+		return  frame.getElement();
 	}
 }
