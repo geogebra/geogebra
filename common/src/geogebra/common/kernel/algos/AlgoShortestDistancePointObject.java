@@ -107,6 +107,45 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 		distance.setUndefined();
 		GeoFunction fun = (GeoFunction) object;
 		Function function = (Function) fun.getFunction().deepCopy(kernel);
+		double val = getClosestFunctionValueToPoint(function, point.x, point.y);
+		if (Double.isNaN(val)) {
+			distance.setUndefined();
+			return;
+		}
+		distance.setValue(distancePointFunctionAt(function, point.x, point.y, val));
+	}
+	
+	private static double distancePointFunctionAt(final RealRootFunction fun, final double px, final double py, double x) {
+		// D(x) = sqrt((x - a)^2+(f(x) - b)^2)
+		return Math.sqrt(Math.pow((x - px), 2) + Math.pow((fun.evaluate(x) - py), 2));
+	}
+
+	@Override
+	public GetCommand getClassName() {
+		return Commands.ShortestDistance;
+	}
+	
+	public GeoNumeric getResult() {
+		return distance;
+
+	}
+
+	public GeoNumeric getDistance() {
+		return getResult();
+	}
+	
+	
+	/**
+	 * Other classes are invited to use this method.
+	 * @param function Function
+	 * @param x x-coord of point
+	 * @param y y-coord of point
+	 * @return val such as the point (val, function(val)) is closest to point (x, y)
+	 */
+	public static final double getClosestFunctionValueToPoint(Function function, double x, double y) {
+		// Algorithm inspired by 
+		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
+		Kernel kernel = function.getKernel();
 		PolyFunction polyFunction = function.expandToPolyFunction(function.getExpression(), false, true);
 		if (polyFunction != null) {
 			PolyFunction polyDervi = polyFunction.getDerivative();
@@ -125,25 +164,28 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 			}
 			// add -2*b*f'(x)
 			for (int i = 0; i <= m; i++) {
-				eq[i] += (-2) * point.y * derivCoeffs[i]; 
+				eq[i] += (-2) * y * derivCoeffs[i]; 
 			}
 			// add 2x - 2a
 			eq[1] += 2;
-			eq[0] -= 2 * point.x;
+			eq[0] -= 2 * x;
 			// new polynomial coeffs in eq
 			// calculate the roots and find the minimum
 			EquationSolver solver = new EquationSolver(kernel);
 			int nrOfRoots = solver.polynomialRoots(eq, false);
 			if (nrOfRoots == 0) {
-				distance.setUndefined();
-				return;
+				return Double.NaN;
 			}
-			double min = distancePointFunctionAt(polyFunction, point, eq[0]);
+			int k = 0;
+			double min = distancePointFunctionAt(polyFunction, x, y, eq[0]);
 			for (int i = 1; i < nrOfRoots; i++) {
-				min = Math.min(min, distancePointFunctionAt(polyFunction, point, eq[i]));
+				double val = distancePointFunctionAt(polyFunction, x, y, eq[i]);
+				if (Kernel.isGreater(min, val)) {
+					min = val;
+					k = i;
+				}
 			}
-			distance.setValue(min);
-			return;
+			return eq[k];
 		}
 		// non polynomial case
 		FunctionVariable fVar = function.getFunctionVariable();
@@ -152,52 +194,36 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 		// we need this, so our new function created below, can be evaluated
 		deriv.traverse(Traversing.Replacer.getReplacer(deriv.getFunctionVariable(), fVar));
 		// build expression 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the coordinates of point
-		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS, new MyDouble(kernel, point.x));
+		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS, new MyDouble(kernel, x));
 		expr = expr.multiply(2);
-		ExpressionNode expr2 = new ExpressionNode(kernel, function.getExpression(), Operation.MINUS, new MyDouble(kernel, point.y));
+		ExpressionNode expr2 = new ExpressionNode(kernel, function.getExpression(), Operation.MINUS, new MyDouble(kernel, y));
 		expr2 = expr2.multiplyR(deriv.getExpression());
 		expr2 = expr2.multiply(2);
 		expr = expr.plus(expr2);
 		// calculate root
 		Function func = new Function(expr, fVar);
-		GeoFunction geoFunc = new GeoFunction(cons, func);
+		GeoFunction geoFunc = new GeoFunction(kernel.getConstruction(), func);
 		double[] roots;
 		double left = INTERVAL_START;
 		double right = INTERVAL_START;
-		while ((roots = AlgoRoots.findRoots(geoFunc, point.x - left, point.x + right,(int)((left + right) * 10))) == null 
+		while ((roots = AlgoRoots.findRoots(geoFunc, x - left, y + right,(int)((left + right) * 10))) == null 
 				&& Kernel.isGreater(MAX_INTERVAL, left)) {
 			left *= INTERVAL_GROWTH;
 			right *= INTERVAL_GROWTH;
 		}
 		if (roots == null || roots.length == 0) {
-			distance.setUndefined();
-			return;
+			return Double.NaN;
 		}
-		double min = distancePointFunctionAt(function, point, roots[0]);
+		int k = 0;
+		double min = distancePointFunctionAt(function, x, y, roots[0]);
 		for (int i = 1; i < roots.length; i++) {
-			min = Math.min(min, distancePointFunctionAt(function, point, roots[i]));
+			double val = distancePointFunctionAt(function, x, y, roots[i]);
+			if (Kernel.isGreater(min, val)) {
+				min = val;
+				k = i;
+			}
 		}
-		//double root = algoRoot.calcRoot(new Function(expr, fVar), value != null ? value.getDouble() : point.x);
-		distance.setValue(min);
-	}
-	
-	private static double distancePointFunctionAt(final RealRootFunction fun, final GeoPoint p, double x) {
-		// D(x) = sqrt((x - a)^2+(f(x) - b)^2)
-		return Math.sqrt(Math.pow((x - p.x), 2) + Math.pow((fun.evaluate(x) - p.y), 2));
-	}
-
-	@Override
-	public GetCommand getClassName() {
-		return Commands.ShortestDistance;
-	}
-	
-	public GeoNumeric getResult() {
-		return distance;
-
-	}
-
-	public GeoNumeric getDistance() {
-		return getResult();
+		return roots[k];
 	}
 
 }

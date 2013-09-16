@@ -16,8 +16,11 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -97,9 +100,18 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     
     @Override
 	public final void compute() {
-    	if (input[0].isDefined() && point.isDefined()) {	  
-    		setCoords();
-	        path.pathChanged(P);
+    	if (input[0].isDefined() && point.isDefined()) {
+    		if (path instanceof GeoFunction) {
+    			Function fun = (Function) ((GeoFunction)path).getFunction().deepCopy(kernel);
+    			Coords coords = point.getCoordsInD(2);
+    			double val = AlgoShortestDistancePointObject.getClosestFunctionValueToPoint(
+    					fun, coords.getX(), coords.getY());
+    			((GeoPoint) P).setCoords(val, fun.evaluate(val), 1.0);
+			} else {
+				setCoords();
+				path.pathChanged(P);
+			}
+	       
 	        P.updateCoords();
     	} else {
     		P.setUndefined();
