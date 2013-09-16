@@ -17,152 +17,209 @@ package geogebra.common.move.ggtapi.models.json;
 
 import java.util.Set;
 
-
-
 /**
  * Represents a JSON object. A JSON object consists of a set of properties.
  */
 public class JSONObject extends JSONValue {
 
-  /**
-   * Called from {@link #getUnwrapper()}. 
-   */
-  private static JavaScriptObject unwrap(JSONObject value) {
-    return value.jsObject;
-  }
+	/**
+	 * Called from {@link #getUnwrapper()}.
+	 */
+	private static JavaScriptObject unwrap(JSONObject value) {
+		return value.jsObject;
+	}
 
-  private final JavaScriptObject jsObject;
+	private final JavaScriptObject jsObject;
 
-  public JSONObject() {
-    this(JavaScriptObject.createObject());
-  }
+	public JSONObject() {
+		this(JavaScriptObject.createObject());
+	}
 
-  /**
-   * Creates a new JSONObject from the supplied JavaScript value.
-   */
-  public JSONObject(JavaScriptObject jsValue) {
-    jsObject = jsValue;
-  }
+	/**
+	 * Creates a new JSONObject from the supplied JavaScript value.
+	 */
+	public JSONObject(JavaScriptObject jsValue) {
+		jsObject = jsValue;
+	}
 
-  /**
-   * Tests whether or not this JSONObject contains the specified property.
-   * 
-   * @param key the property to search for
-   * @return <code>true</code> if the JSONObject contains the specified property
-   */
-  public boolean containsKey(String key) {
-    return jsObject.containsKey(key);
-  }
+	/**
+	 * Tests whether or not this JSONObject contains the specified property.
+	 * 
+	 * @param key
+	 *            the property to search for
+	 * @return <code>true</code> if the JSONObject contains the specified
+	 *         property
+	 */
+	public boolean containsKey(String key) {
+		return jsObject.containsKey(key);
+	}
 
-  /**
-   * Returns <code>true</code> if <code>other</code> is a {@link JSONObject}
-   * wrapping the same underlying object.
-   */
-  @Override
-  public boolean equals(Object other) {
-    if (!(other instanceof JSONObject)) {
-      return false;
-    }
-    return jsObject.equals(((JSONObject) other).jsObject);
-  }
+	/**
+	 * Returns <code>true</code> if <code>other</code> is a {@link JSONObject}
+	 * wrapping the same underlying object.
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof JSONObject)) {
+			return false;
+		}
+		return jsObject.equals(((JSONObject) other).jsObject);
+	}
 
-  /**
-   * Gets the JSONValue associated with the specified property.
-   * 
-   * @param key the property to access
-   * @return the value of the specified property, or <code>null</code> if the
-   *         property does not exist
-   * @throws NullPointerException if key is <code>null</code>
-   */
-  public JSONValue get(String key) {
-    if (key == null) {
-      throw new NullPointerException();
-    }
-    return jsObject.get(key);
-  }
+	/**
+	 * Gets the JSONValue associated with the specified property.
+	 * 
+	 * @param key
+	 *            the property to access
+	 * @return the value of the specified property, or <code>null</code> if the
+	 *         property does not exist
+	 * @throws NullPointerException
+	 *             if key is <code>null</code>
+	 */
+	public JSONValue get(String key) {
+		if (key == null) {
+			throw new NullPointerException();
+		}
+		return jsObject.get(key);
+	}
 
-  /**
-   * Returns the underlying JavaScript object that this object wraps.
-   */
-  public JavaScriptObject getJavaScriptObject() {
-    return jsObject;
-  }
-  
-  @Override
-  public int hashCode() {
-    return jsObject.hashCode();
-  }
+	/**
+	 * Returns the underlying JavaScript object that this object wraps.
+	 */
+	public JavaScriptObject getJavaScriptObject() {
+		return jsObject;
+	}
 
-  /**
-   * Returns <code>this</code>, as this is a JSONObject.
-   */
-  @Override
-  public JSONObject isObject() {
-    return this;
-  }
+	@Override
+	public int hashCode() {
+		return jsObject.hashCode();
+	}
 
-  /**
-   * Returns the set of properties defined on this JSONObject. The returned set
-   * is immutable.
-   */
-  public Set<String> keySet() {
-    return jsObject.keySet();
-  }
+	/**
+	 * Returns <code>this</code>, as this is a JSONObject.
+	 */
+	@Override
+	public JSONObject isObject() {
+		return this;
+	}
 
-  /**
-   * Assign the specified property to the specified value in this JSONObject. If
-   * the property already has an associated value, it is overwritten.
-   * 
-   * @param key the property to assign
-   * @param jsonValue the value to assign
-   * @return the previous value of the property, or <code>null</code> if the
-   *         property did not exist
-   * @throws NullPointerException if key is <code>null</code>
-   */
-  public JSONValue put(String key, JSONValue jsonValue) {
-    if (key == null) {
-      throw new NullPointerException();
-    }
-    JSONValue previous = get(key);
-    jsObject.put(key, jsonValue);
-    return previous;
-  }
+	/**
+	 * Returns the set of properties defined on this JSONObject. The returned
+	 * set is immutable.
+	 */
+	public Set<String> keySet() {
+		return jsObject.keySet();
+	}
 
-  /**
-   * Determines the number of properties on this object.
-   */
-  public int size() {
-    return jsObject.size();
-  }
+	/**
+	 * Assign the specified property to the specified value in this JSONObject.
+	 * If the property already has an associated value, it is overwritten.
+	 * 
+	 * @param key
+	 *            the property to assign
+	 * @param jsonValue
+	 *            the value to assign
+	 * @return the previous value of the property, or <code>null</code> if the
+	 *         property did not exist
+	 * @throws NullPointerException
+	 *             if key is <code>null</code>
+	 */
+	public JSONValue put(String key, JSONValue jsonValue) {
+		if (key == null) {
+			throw new NullPointerException();
+		}
+		JSONValue previous = get(key);
+		jsObject.put(key, jsonValue);
+		return previous;
+	}
 
-  /**
-   * Converts a JSONObject into a JSON representation that can be used to
-   * communicate with a JSON service.
-   * 
-   * @return a JSON string representation of this JSONObject instance
-   */
-  @Override
-  public String toString() {
-    StringBuffer sb = new StringBuffer();
-    sb.append("{");
-    boolean first = true;
-    String[] keys = computeKeys();
-    for (String key : keys) {
-      if (first) {
-        first = false;
-      } else {
-        sb.append(", ");
-      }
-      sb.append(JsonUtils.escapeValue(key));
-      sb.append(":");
-      sb.append(get(key));
-    }
-    sb.append("}");
-    return sb.toString();
-  }
+	/**
+	 * Determines the number of properties on this object.
+	 */
+	public int size() {
+		return jsObject.size();
+	}
 
+	/**
+	 * Converts a JSONObject into a JSON representation that can be used to
+	 * communicate with a JSON service.
+	 * 
+	 * @return a JSON string representation of this JSONObject instance
+	 */
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("{");
+		boolean first = true;
+		String[] keys = computeKeys();
+		for (String key : keys) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(", ");
+			}
+			sb.append(JsonUtils.escapeValue(key));
+			sb.append(":");
+			sb.append(get(key));
+		}
+		sb.append("}");
+		return sb.toString();
+	}
 
-  private String[] computeKeys() {
-      return jsObject.keySet().toArray(new String[jsObject.size()]);
-  }
+	private String[] computeKeys() {
+		return jsObject.keySet().toArray(new String[jsObject.size()]);
+	}
+
+	/**
+	 * Assigns given string value to given key
+	 * @param key key
+	 * @param token string value
+	 */
+	public void put(String key, String token) {
+		this.put(key, new JSONString(token));
+	}
+
+	/**
+	 * @param key key
+	 * @return whether there is a value assigned to the key
+	 */
+	public boolean has(String key) {
+		return keySet().contains(key);
+	}
+	/**
+	 * @param key key
+	 * @return string value for given key; rounds if value is double
+	 */
+	public String getString(String key) {
+		JSONValue val = this.get(key);
+		if (val instanceof JSONString) {
+			return ((JSONString) val).stringValue();
+		}
+		throw new JSONException();
+	}
+
+	/**
+	 * @param key key
+	 * @return int value for given key; rounds if value is double
+	 */
+	public int getInt(String key) {
+		JSONValue val = this.get(key);
+		if (val instanceof JSONNumber) {
+			return (int) ((JSONNumber) val).doubleValue();
+		}
+		throw new JSONException();
+	}
+
+	/**
+	 * @param key key
+	 * @return object for given key
+	 */
+	public JSONObject getJSONObject(String key) {
+		JSONValue val = this.get(key);
+		if (val instanceof JSONObject) {
+			return (JSONObject) val;
+		}
+		throw new JSONException();
+	}
+
 }
