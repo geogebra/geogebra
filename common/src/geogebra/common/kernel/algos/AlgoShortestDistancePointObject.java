@@ -2,6 +2,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolver;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -22,6 +23,10 @@ import geogebra.common.plugin.Operation;
  *
  */
 public class AlgoShortestDistancePointObject extends AlgoElement implements DistanceAlgo {
+	
+	private static final double INTERVAL_START = 30;
+	private static final double INTERVAL_GROWTH = 2;
+	private static final double MAX_INTERVAL = 10000;
 	
 	private GeoPoint point;
 	private GeoElement object;
@@ -101,7 +106,7 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
 		distance.setUndefined();
 		GeoFunction fun = (GeoFunction) object;
-		Function function = fun.getFunction();
+		Function function = (Function) fun.getFunction().deepCopy(kernel);
 		PolyFunction polyFunction = function.expandToPolyFunction(function.getExpression(), false, true);
 		if (polyFunction != null) {
 			PolyFunction polyDervi = polyFunction.getDerivative();
@@ -153,12 +158,27 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 		expr2 = expr2.multiplyR(deriv.getExpression());
 		expr2 = expr2.multiply(2);
 		expr = expr.plus(expr2);
-		// create algo and remove it from construction
-		AlgoRootNewton algoRoot = new AlgoRootNewton(cons);
-		cons.removeFromConstructionList(algoRoot);
 		// calculate root
-		double root = algoRoot.calcRoot(new Function(expr, fVar), value != null ? value.getDouble() : point.x);
-		distance.setValue(distancePointFunctionAt(function, point, root));
+		Function func = new Function(expr, fVar);
+		GeoFunction geoFunc = new GeoFunction(cons, func);
+		double[] roots;
+		double left = INTERVAL_START;
+		double right = INTERVAL_START;
+		while ((roots = AlgoRoots.findRoots(geoFunc, point.x - left, point.x + right,(int)((left + right) * 10))) == null 
+				&& Kernel.isGreater(MAX_INTERVAL, left)) {
+			left *= INTERVAL_GROWTH;
+			right *= INTERVAL_GROWTH;
+		}
+		if (roots == null || roots.length == 0) {
+			distance.setUndefined();
+			return;
+		}
+		double min = distancePointFunctionAt(function, point, roots[0]);
+		for (int i = 1; i < roots.length; i++) {
+			min = Math.min(min, distancePointFunctionAt(function, point, roots[i]));
+		}
+		//double root = algoRoot.calcRoot(new Function(expr, fVar), value != null ? value.getDouble() : point.x);
+		distance.setValue(min);
 	}
 	
 	private static double distancePointFunctionAt(final RealRootFunction fun, final GeoPoint p, double x) {
