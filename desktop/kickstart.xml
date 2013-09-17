@@ -329,12 +329,14 @@ download libs for other architectures than the current one.
 	<echo file=".classpath" append="true">
 	&lt;classpathentry kind="lib" path="lib/jfxrt.jar"/&gt;
 	</echo>
+	<echo message="Java 6 detected, using dummy jfxrt.jar to avoid compilation errors for JavaFX"/>
 	</target>
 
 	<target name="-jfx7" description="Internal target. Adds JavaFX version 7 to the classpath" if="java7">
 	<echo file=".classpath" append="true">
-	&lt;classpathentry kind="lib" path="${java.home}/jre/lib/jfxrt.jar"/&gt;
+	&lt;classpathentry kind="lib" path="${java.home}/lib/jfxrt.jar"/&gt;
 	</echo>
+	<echo message="Java 7 detected, using internal jfxrt.jar from JRE7"/>
 	</target>
 
 	<target name="_classpath-close" description="Internal target, please do not use manually. Creates last part for .classpath.">
