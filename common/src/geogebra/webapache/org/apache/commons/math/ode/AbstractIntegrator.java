@@ -325,7 +325,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 state.stepAccepted(currentT, currentY);
                 isLastStep = isLastStep || state.stop();
             }
-            isLastStep = isLastStep || MathUtils.equals(currentT, tEnd, 1);
+            isLastStep = isLastStep || MathUtils.equals(currentT, tEnd, Kernel.MAX_PRECISION);
 
             // handle the remaining part of the step, after all events if any
             for (StepHandler handler : stepHandlers) {
