@@ -40,7 +40,7 @@ download libs for other architectures than the current one.
 	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close, jfx-compile"
+	<target name="geogebra5-developer-commandline" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, ecj, _classpath-close, jfx-compile"
 	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 	
@@ -320,7 +320,17 @@ download libs for other architectures than the current one.
 			&lt;attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="desktop/lib"/&gt;
 		&lt;/attributes&gt;
         &lt;/classpathentry&gt;
-		
+
+	&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
+	&lt;classpathentry combineaccessrules="false" kind="src" path="/common"/&gt;
+	&lt;classpathentry kind="lib" path="lib/build/lib_jsobject.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/build/lib_mac_extensions.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/jython.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/jlatexmath.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
+	&lt;classpathentry kind="src" path="/jogl${jogl}"/&gt;
 	</echo>
 	</target>
 
@@ -341,18 +351,6 @@ download libs for other architectures than the current one.
 
 	<target name="_classpath-close" description="Internal target, please do not use manually. Creates last part for .classpath.">
 	<echo file=".classpath" append="true">
-	&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
-	&lt;classpathentry combineaccessrules="false" kind="src" path="/common"/&gt;
-	&lt;classpathentry kind="lib" path="lib/build/lib_jsobject.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/build/lib_mac_extensions.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/jython.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/jlatexmath.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
-	&lt;classpathentry kind="src" path="/jogl${jogl}"/&gt;
-
-
 	&lt;classpathentry kind="output" path=""/&gt;
 
 	&lt;/classpath&gt;
