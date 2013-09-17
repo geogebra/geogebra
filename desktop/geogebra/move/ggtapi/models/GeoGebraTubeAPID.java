@@ -20,7 +20,7 @@ public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebr
 	
 	@Override
 	protected geogebra.common.util.HttpRequest createHttpRequest() {
-		return new geogebra.util.HttpRequest();
+		return new geogebra.util.HttpRequestD();
 	}
 	
 	/**

@@ -14,7 +14,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
     public HttpRequest newHttpRequest() {
-		return new geogebra.web.util.HttpRequest();
+		return new geogebra.web.util.HttpRequestW();
 	}
 
 	@Override

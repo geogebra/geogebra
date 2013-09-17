@@ -13,7 +13,7 @@ public class UtilFactoryD extends geogebra.common.factories.UtilFactory {
 
 	@Override
 	public HttpRequest newHttpRequest() {
-		return new geogebra.util.HttpRequest();
+		return new geogebra.util.HttpRequestD();
 	}
 
 	@Override

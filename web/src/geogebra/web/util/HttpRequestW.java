@@ -14,7 +14,7 @@ import com.google.gwt.http.client.URL;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * Implements HTTP requests and responses for web.
  */
-public class HttpRequest extends geogebra.common.util.HttpRequest {
+public class HttpRequestW extends geogebra.common.util.HttpRequest {
 	
 	/* The following code has been copied mostly from
 	 * http://code.google.com/intl/hu-HU/webtoolkit/doc/latest/DevGuideServerCommunication.html#DevGuideHttpRequests

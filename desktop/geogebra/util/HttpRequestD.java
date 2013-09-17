@@ -10,7 +10,7 @@ import java.net.URL;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * Implements HTTP requests and responses for desktop.
  */
-public class HttpRequest extends geogebra.common.util.HttpRequest {
+public class HttpRequestD extends geogebra.common.util.HttpRequest {
 	private String answer;
 
 	@Override
