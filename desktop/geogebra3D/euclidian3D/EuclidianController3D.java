@@ -6,11 +6,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -21,7 +19,6 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -33,8 +30,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.kernel.kernelND.HasVolume;
-import geogebra.common.util.StringUtil;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -1143,6 +1138,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 	}
 	
+	private TextDispatcher3D textDispatcher; 
+	
+	@Override
+	protected TextDispatcher3D getTextDispatcher(){
+		if(textDispatcher == null){
+			textDispatcher = new TextDispatcher3D(kernel, view3D);
+		}
+		return textDispatcher;
+	}
 	/**
 	 * 
 	 * @param hits geos hitted
@@ -1156,17 +1160,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		if (selGeos() == 1) {
 			GeoElement hasVolume = getSelectedGeos()[0];
-			GeoNumeric volume = kernel.getManager3D().Volume(null, (HasVolume) hasVolume);
-
-			
-			// text
-			GeoText text = createDynamicTextForMouseLoc("VolumeOfA", hasVolume, volume);
-			if (hasVolume.isLabelSet()) {
-				volume.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Volume"))
-						+ hasVolume.getLabelSimple()));
-				text.setLabel(removeUnderscores(l10n.getPlain("Text")
-						+ hasVolume.getLabelSimple()));
-			}
+			getTextDispatcher().createVolumeText(hasVolume, mouseLoc);
 
 			return true;
 
@@ -3425,54 +3419,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	
-	@Override
-	protected GeoPointND getPointForDynamicText(Region object){
-		
-		Coords coords = view3D.getCursor3D().getCoords();
-
-		return createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, 
-				object, 
-				coords.getX(), coords.getY(), coords.getZ(), 
-				false, false); 
-	}
 	
-	@Override
-	protected GeoPointND getPointForDynamicText(Path object){
-
-		Coords coords = view3D.getCursor3D().getCoords();
-		
-		return createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, 
-				object, 
-				coords.getX(), coords.getY(), coords.getZ(), 
-				false, false); 
-	}
 	
-	@Override
-	protected GeoPointND getPointForDynamicText(){
-
-		GeoPoint3D cursor = view3D.getCursor3D();
-		
-		if (cursor.hasRegion())
-			return getPointForDynamicText(cursor.getRegion());
-		
-		if (cursor.hasPath())
-			return getPointForDynamicText(cursor.getPath());
-		
-		return super.getPointForDynamicText();
-	}
 	
-	@Override
-	protected void setNoPointLoc(GeoText text){
-		try {
-			GeoPoint3D p = new GeoPoint3D(kernel.getConstruction());
-			p.setCoords(view3D.getCursor3D().getCoords());
-			text.setStartPoint(p);
-		} catch (CircularDefinitionException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * update all drawables now
