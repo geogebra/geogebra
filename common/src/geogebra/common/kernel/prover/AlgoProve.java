@@ -156,6 +156,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
     
     	if (result != null) {
     		if (result == ProofResult.UNKNOWN) {
+    			bool.setUndefined();
     			return;
     		}
     		bool.setDefined();
