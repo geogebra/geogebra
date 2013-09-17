@@ -37,9 +37,9 @@ public class CmdPlane extends CommandProcessor {
 	    					c.getLabel(),
 	    					(GeoCoordSys2D) arg[0])};
 	    	return ret;
-	    	}else{
-	    		throw argErr(app, c.getName(), arg[0]);
 	    	}
+	    	
+			throw argErr(app, c.getName(), arg[0]);
 	    case 2 :
 	    	arg = resArgs(c);
 	    	if (
@@ -64,12 +64,24 @@ public class CmdPlane extends CommandProcessor {
 	    						(GeoPointND) arg[0],
 	    						(GeoCoordSys2D) arg[1])};
 	    		return ret;
+	    	}else if (
+	    			(ok[0] = (arg[0] .isGeoLine() ) )
+	    			&& (ok[1] = (arg[1] .isGeoLine() ))
+	    	) {
+	    		GeoElement[] ret =
+	    		{
+	    				kernelA.getManager3D().Plane3D(
+	    						c.getLabel(),
+	    						(GeoLineND) arg[0],
+	    						(GeoLineND) arg[1])};
+	    		return ret;
 
+	    		
+	    		
 	    	}else{
 	    		if (!ok[0])
 	    			throw argErr(app, c.getName(), arg[0]);
-	    		else 
-	    			throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[1]);
 	    	}
 
 	    case 3 :
@@ -85,14 +97,14 @@ public class CmdPlane extends CommandProcessor {
 	    						(GeoPointND) arg[1],
 	    						(GeoPointND) arg[2])};
 	    		return ret;
-	    	}else{
-	    		if (!ok[0])
-	    			throw argErr(app, c.getName(), arg[0]);
-	    		else if (!ok[1])
-	    			throw argErr(app, c.getName(), arg[1]);
-	    		else
-	    			throw argErr(app, c.getName(), arg[2]);
 	    	}
+	    	
+			if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			else if (!ok[1])
+				throw argErr(app, c.getName(), arg[1]);
+			else
+				throw argErr(app, c.getName(), arg[2]);
 
 	    default :
 	    	throw argNumErr(app, c.getName(), n);

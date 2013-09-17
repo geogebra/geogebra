@@ -368,6 +368,11 @@ public interface Manager3DInterface {
 			GeoPointND C);
 
 	/**
+	 * plane through lines a, b
+	 */
+	public GeoElement Plane3D(String label, GeoLineND a, GeoLineND b);
+
+	/**
 	 * 
 	 * @param label
 	 * @param cs2D

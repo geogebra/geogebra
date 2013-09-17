@@ -672,6 +672,11 @@ public class Manager3D implements Manager3DInterface {
 		GeoPlane3D plane = (GeoPlane3D) algo.getCoordSys();
 		return plane;
 	}
+	
+	public GeoElement Plane3D(String label, GeoLineND a, GeoLineND b){
+		AlgoPlaneTwoLines algo = new AlgoPlaneTwoLines(cons, label, a, b);
+		return (GeoPlane3D) algo.getCoordSys();
+	}
 
 	final public GeoPlane3D Plane3D(String label, GeoCoordSys2D cs2D) {
 		AlgoPlaneCS2D algo = new AlgoPlaneCS2D(cons, label, cs2D);
