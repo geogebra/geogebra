@@ -13,7 +13,7 @@ public class GFontW extends geogebra.common.awt.GFont {
 	private String fontWeight = NORMAL_STR;
 	private String fontSize = "12";
 	private String lineHeight = "12";
-	private String fontFamily = "sans-serif";
+	private String fontFamily = "geogebra-sans-serif, sans-serif";
 
 	public GFontW(GFontW otherfont) {
 		fontStyle = otherfont.getFontStyle();
