@@ -509,8 +509,11 @@ public class TouchModel {
 					(GeoLine) this.getElement(Test.GEOLINE)));
 			break;
 		case DistanceOrLength:
-			// FIXME: EuclidianController.distance
-			throw new UnsupportedOperationException();
+			GeoElement distance = distance(mouse);
+			if(distance!=null){
+				newElements.add(distance);
+			}
+			break;
 			//$FALL-THROUGH$
 		case ReflectObjectAboutLine:
 			// get the line that was selected last
@@ -811,6 +814,62 @@ public class TouchModel {
 			this.commandFinished = true;
 		}
 
+	}
+
+	private GeoElement distance(GPoint mouseLoc) {
+		if (this.getNumberOf(Test.GEOPOINTND) >= 2) {
+
+			return getTextDispatcher().createDistanceText( (GeoPointND) this.getElement(Test.GEOPOINT, 0) , 
+					(GeoPointND) this.getElement(Test.GEOPOINT, 1));
+		}
+		
+		// POINT AND LINE
+		else if ((this.getNumberOf(Test.GEOPOINTND) >= 1) && (this.getNumberOf(Test.GEOLINE) >= 1)) {
+			
+			return getTextDispatcher().createDistanceText((GeoPointND) this.getElement(Test.GEOPOINT, 0), (GeoLine) this.getElement(Test.GEOLINE, 0));
+			
+		}
+	
+		// SEGMENT
+		// make this after point-line
+		else if (this.getNumberOf(Test.GEOSEGMENT) == 1) { 
+			// length
+			GeoElement seg = this.getElement(Test.GEOSEGMENT, 0);
+			if (seg.isLabelVisible()) {
+				seg.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			} else {
+				seg.setLabelMode(GeoElement.LABEL_VALUE);
+			}
+			seg.setLabelVisible(true);
+			seg.updateRepaint();
+			return seg; // return this not null because the kernel has
+								// changed
+		}
+	
+		// TWO LINES
+		else if (this.getNumberOf(Test.GEOLINE) == 2) {
+
+			
+			return this.kernel.getAlgoDispatcher().Distance(null, (GeoLine) this.getElement(Test.GEOLINE, 0), 
+					(GeoLine) this.getElement(Test.GEOLINE, 1));
+			
+		}
+	
+
+	
+		// circumference of CONIC
+		else if (this.getNumberOf(Test.GEOCONIC) == 1) {
+			GeoConicND conic = (GeoConicND) this.getElement(Test.GEOCONICND, 0);
+			
+			return getTextDispatcher().createCircumferenceText(conic, mouseLoc)[0];
+		}
+	
+		// perimeter of POLYGON
+		else if (this.getNumberOf(Test.GEOPOLYGON) == 1) {
+			GeoPolygon poly = (GeoPolygon) this.getElement(Test.GEOPOLYGON);
+			return getTextDispatcher().createPerimeterText(poly , mouseLoc)[0];
+		}
+		return null;
 	}
 
 	private TextDispatcher getTextDispatcher() {

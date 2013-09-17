@@ -31,13 +31,11 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoRadius;
@@ -4568,9 +4566,7 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			return null;
 		}
-		
-		
-	
+
 		int count = addSelectedPoint(hits, 2, false);
 		if (count == 0) {
 			addSelectedLine(hits, 2, false);
@@ -4590,14 +4586,9 @@ public abstract class EuclidianController {
 			// length
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 
-			
-			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0],
-					points[1]);
-	
-			// set startpoint of text to midpoint of two points
-			GeoPointND midPoint = MidpointForDistance(points[0], points[1]);
+
 			GeoElement[] ret = { null };
-			ret[0] = getTextDispatcher().createDistanceText((GeoElement) points[0], (GeoElement) points[1], midPoint, length);
+			ret[0] = getTextDispatcher().createDistanceText( points[0], points[1]);
 			return ret;
 		}
 		
@@ -4605,15 +4596,9 @@ public abstract class EuclidianController {
 		else if ((selPoints() == 1) && (selLines() == 1)) {
 			GeoPointND[] points = getSelectedPointsND();
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoNumeric length = getAlgoDispatcher().Distance(null, points[0], (GeoElement) lines[0]);
-	
-			checkZooming(); 
 			
-			// set startpoint of text to midpoint between point and line
-			GeoPointND midPoint = MidpointForDistance(points[0],
-					ClosestPoint(points[0], (Path) lines[0]));
 			GeoElement[] ret = { null };
-			ret[0] = getTextDispatcher().createDistanceText((GeoElement) points[0], (GeoElement) lines[0], midPoint, length);
+			ret[0] = getTextDispatcher().createDistanceText(points[0], lines[0]);
 			
 			clearSelections(); //make sure segment will be unselected
 			
@@ -4662,40 +4647,11 @@ public abstract class EuclidianController {
 		// perimeter of POLYGON
 		else if (selPolygons() == 1) {
 			GeoPolygon[] poly = getSelectedPolygons();
-			checkZooming(); 
 			
-			return getTextDispatcher().createPerimeterText(poly, mouseLoc);
+			return getTextDispatcher().createPerimeterText(poly[0], mouseLoc);
 		}
 	
 		return null;
-	}
-
-	/**
-	 * Creates Midpoint M = (P + Q)/2 without label (for use as e.g. start
-	 * point)
-	 */
-	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
-		
-		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) P, (GeoPoint) Q);
-
-		return algo.getPoint();
-	}
-
-
-	/**
-	 * Returns the projected point of P on line g (or nearest for a Segment)
-	 */
-	final private GeoPointND ClosestPoint(GeoPointND P, Path g) {
-		
-		Construction cons = kernel.getConstruction();
-		
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		AlgoClosestPoint cp = kernel.getAlgoDispatcher().getNewAlgoClosestPoint(cons, g, P);
-		
-		cons.setSuppressLabelCreation(oldMacroMode);
-		return cp.getP();
 	}
 
 	protected final boolean showCheckBox() {

@@ -200,4 +200,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return whether this is instance of GeoText
 	 */
 	public boolean isGeoText();
+	int getLabelMode();
+	void setLabelMode(int labelName);
 }

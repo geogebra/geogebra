@@ -8,16 +8,20 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoArcLength;
+import geogebra.common.kernel.algos.AlgoClosestPoint;
+import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoElementND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.Localization;
 import geogebra.common.util.StringUtil;
@@ -186,7 +190,7 @@ public class TextDispatcher {
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
 	 */
-	public GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPointND textCorner,
+	public GeoText createDistanceText(GeoElementND geoA, GeoElementND geoB, GeoPointND textCorner,
 			GeoNumeric length) {
 				StringTemplate tpl = StringTemplate.defaultTemplate;
 				// create text that shows length
@@ -240,7 +244,7 @@ public class TextDispatcher {
 				}
 			}
 	
-	private static void makeLabelNameVisible(GeoElement geo){
+	private static void makeLabelNameVisible(GeoElementND geo){
 		//make sure that name of the geo will be visible
 		if (!geo.isLabelVisible()){
 			if (geo.getLabelMode()!=GeoElement.LABEL_NAME_VALUE)
@@ -286,18 +290,18 @@ public class TextDispatcher {
 		GeoElement[] ret = { text };
 		return ret;
 	}
-	public GeoElement[] createPerimeterText(GeoPolygon[] poly, GPoint mouseLoc) {
-		GeoNumeric perimeter = kernel.getAlgoDispatcher().Perimeter(null, poly[0]);
+	public GeoElement[] createPerimeterText(GeoPolygon poly, GPoint mouseLoc) {
+		GeoNumeric perimeter = kernel.getAlgoDispatcher().Perimeter(null, poly);
 		
 		// text
-		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly[0],
+		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly,
 				perimeter, mouseLoc);
 
-		if (poly[0].isLabelSet()) {
+		if (poly.isLabelSet()) {
 			perimeter.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Perimeter"))
-					+ poly[0].getLabelSimple()));
+					+ poly.getLabelSimple()));
 			text.setLabel(removeUnderscores(l10n.getPlain("Text")
-					+ poly[0].getLabelSimple()));
+					+ poly.getLabelSimple()));
 		}
 		GeoElement[] ret = { text };
 		return ret;
@@ -336,5 +340,49 @@ public class TextDispatcher {
 		slope.updateRepaint();
 		GeoElement[] ret = { slope };
 		return ret;
+	}
+	public GeoElement createDistanceText(GeoPointND point1,
+			GeoPointND point2) {
+		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point1,
+				point2);
+
+		// set startpoint of text to midpoint of two points
+		GeoPointND midPoint = MidpointForDistance(point1, point2);
+		return this.createDistanceText(point1, point2, midPoint, length);
+	}
+	
+	/**
+	 * Creates Midpoint M = (P + Q)/2 without label (for use as e.g. start
+	 * point)
+	 */
+	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
+		
+		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) P, (GeoPoint) Q);
+
+		return algo.getPoint();
+	}
+	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
+		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point, (GeoElement) line);
+		
+		// set startpoint of text to midpoint between point and line
+		GeoPointND midPoint = MidpointForDistance(point,
+				ClosestPoint(point, (Path) line));
+		return this.createDistanceText(point, line, midPoint, length);
+	}
+	
+	/**
+	 * Returns the projected point of P on line g (or nearest for a Segment)
+	 */
+	final private GeoPointND ClosestPoint(GeoPointND P, Path g) {
+		
+		Construction cons = kernel.getConstruction();
+		
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		AlgoClosestPoint cp = kernel.getAlgoDispatcher().getNewAlgoClosestPoint(cons, g, P);
+		
+		cons.setSuppressLabelCreation(oldMacroMode);
+		return cp.getP();
 	}
 }
