@@ -470,6 +470,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 		if(pathHit){
 			this.conicPart.setLastHitType(HitType.ON_BOUNDARY);
+		}else if(regionHit){
+			this.conicPart.setLastHitType(HitType.ON_FILLING);
+		}else{
+			this.conicPart.setLastHitType(HitType.NONE);
 		}
 		return pathHit || regionHit;
 	}
