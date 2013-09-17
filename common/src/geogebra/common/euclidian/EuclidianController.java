@@ -4415,7 +4415,7 @@ public abstract class EuclidianController {
 
 
 
-	protected String removeUnderscores(String label) {
+	protected static String removeUnderscores(String label) {
 		// remove all indices
 		return label.replaceAll("_", "");
 	}
@@ -4452,7 +4452,7 @@ public abstract class EuclidianController {
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
 	 */
-	protected GeoText createDynamicTextForMouseLoc(String type, GeoElement object, GeoElement value) {
+	protected GeoText createDynamicTextForMouseLoc(String type, GeoElement object, GeoElementND value, GPoint loc) {
 		
 		GeoText text = createDynamicText(type, object, value);
 		if (text!=null){
@@ -4477,7 +4477,7 @@ public abstract class EuclidianController {
 					return null;
 				}
 			}else{
-				setNoPointLoc(text);
+				setNoPointLoc(text, loc);
 			}
 			
 			text.setBackgroundColor(GColor.WHITE);
@@ -4488,15 +4488,15 @@ public abstract class EuclidianController {
 		
 	}
 	
-	protected void setNoPointLoc(GeoText text){
+	protected void setNoPointLoc(GeoText text, GPoint loc){
 		text.setAbsoluteScreenLocActive(true);
-		text.setAbsoluteScreenLoc(mouseLoc.x, mouseLoc.y);
+		text.setAbsoluteScreenLoc(loc.x, loc.y);
 	}
 	
 	/**
 	 * Creates a text that shows a number value of geo.
 	 */
-	protected GeoText createDynamicText(String type, GeoElement object, GeoElement value) {
+	protected GeoText createDynamicText(String type, GeoElement object, GeoElementND value) {
 		// create text that shows length
 		try {
 			
@@ -4623,31 +4623,15 @@ public abstract class EuclidianController {
 			
 			GeoNumeric area = getAlgoDispatcher().Area(null, conic);
 	
-			// text
-			GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area);
-			if (conic.isLabelSet()) {
-				area.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Area"))
-						+ conic.getLabelSimple()));
-				text.setLabel(removeUnderscores(l10n.getPlain("Text")
-						+ conic.getLabelSimple()));
-			}
-			GeoElement[] ret = { text };
-			return ret;
+			
+			return getAreaText(conic,area, mouseLoc);
 		}
 	
 		// area of polygon
 		else if (selPolygons() == 1) {
 			GeoPolygon[] poly = getSelectedPolygons();
-	
-			// dynamic text with polygon's area
-			GeoText text = createDynamicTextForMouseLoc("AreaOfA",  poly[0],
-					poly[0]);
-			if (poly[0].isLabelSet()) {
-				text.setLabel(removeUnderscores(l10n.getPlain("Text")
-						+ poly[0].getLabelSimple()));
-			}
-			GeoElement[] ret = { text };
-			return ret;
+
+			return getAreaText(poly[0], poly[0], mouseLoc);
 		}
 	
 		return null;
@@ -4655,6 +4639,17 @@ public abstract class EuclidianController {
 	
 	
 
+	private GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area, GPoint loc) {
+		// text
+		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area, loc);
+		if (conic.isLabelSet()) {
+			area.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Area"))
+					+ conic.getLabelSimple()));
+			text.setLabel(removeUnderscores(l10n.getPlain("Text")
+					+ conic.getLabelSimple()));
+		}
+		return  new GeoElement[] { text };
+	}
 	protected String descriptionPoints(String type, GeoPolygon poly) {
 		// build description text including point labels
 		StringBuilder descText = new StringBuilder();
@@ -4896,7 +4891,7 @@ public abstract class EuclidianController {
 				//cons.removeFromConstructionList(algo);
 				GeoNumeric arcLength = algo.getArcLength();
 				
-				GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA", conic, arcLength);
+				GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA", conic, arcLength, mouseLoc);
 					text.setLabel(removeUnderscores(l10n.getPlain("Text")
 							+ conic.getLabelSimple()));
 				GeoElement[] ret = { text };
@@ -4912,7 +4907,7 @@ public abstract class EuclidianController {
 	
 			// text
 			GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA", conic,
-					circumFerence);
+					circumFerence, mouseLoc);
 			if (conic.isLabelSet()) {
 				circumFerence.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand(
 						"Circumference"))
@@ -4933,7 +4928,7 @@ public abstract class EuclidianController {
 	
 			// text
 			GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly[0],
-					perimeter);
+					perimeter, mouseLoc);
 	
 			if (poly[0].isLabelSet()) {
 				perimeter.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Perimeter"))
