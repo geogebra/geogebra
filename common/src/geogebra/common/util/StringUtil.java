@@ -277,7 +277,8 @@ public class StringUtil {
 			case '%': // % -> \%
 				sbReplaceExp.append("\\%");
 				break;
-
+				
+/* not needed for MathQuill / JLaTeXMath and in fact it doesn't work inside \text{}
 				// Exponents
 			// added by Loïc Le Coq 2009/11/04
 			case '\u2070': // ^0
@@ -319,7 +320,7 @@ public class StringUtil {
 			case '\u2079': // ^9
 				sbReplaceExp.append("^9");
 				break;
-				// end Loïc Le Coq
+				// end Loïc Le Coq */
 
 			default:
 				if (!convertGreekLetters) {
