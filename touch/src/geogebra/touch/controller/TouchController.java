@@ -68,12 +68,6 @@ public class TouchController extends EuclidianController {
 		this.collectingRepaints = 0;
 	}
 
-	@Override
-	protected GeoElement[] createCircle2ForPoints3D(final GeoPointND p0,
-			final GeoPointND p1) {
-		return null;
-	}
-
 	/**
 	 * prevent redraw
 	 */
