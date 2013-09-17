@@ -1634,8 +1634,12 @@ namespace giac {
     // if s is not at order ordre, ask again with a modified ordre
     gen true_order=porder(s);
     if (true_order.type==_INT_ && true_order.val<=ordre){
-      if (!series__SPOL1(e,x,lim_point,ordre+1+ordre-true_order.val,direction,s,contextptr))
-      s=sparse_poly1(1,monome(1,undef));
+      if (series__SPOL1(e,x,lim_point,ordre+1+ordre-true_order.val,direction,s,contextptr)){
+	if (!s.empty())
+	  ptruncate(s,ordre-s.front().exponent,contextptr);
+      }
+      else
+	s=sparse_poly1(1,monome(1,undef));
     }
     return s;
   }

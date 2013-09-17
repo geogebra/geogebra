@@ -115,6 +115,11 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
 #ifdef TIMEOUT
+#ifndef EMCC
+  double time(int ){
+    return double(clock())/CLOCKS_PER_SEC;
+  }
+#endif
   time_t caseval_begin,caseval_current;
   double caseval_maxtime=15; // max 15 seconds
   int caseval_n=0,caseval_mod=0,caseval_unitialized=-123454321;
@@ -130,9 +135,14 @@ namespace giac {
       if (caseval_n >=caseval_mod){
 	caseval_n=0; 
 	caseval_current=time(0); 
-	if (difftime(caseval_current,caseval_begin)>caseval_maxtime){ 
-	  cerr << "Timeout" << endl; ctrl_c=true; interrupted=true; 
-	} 
+#ifdef EMCC
+	if (difftime(caseval_current,caseval_begin)>caseval_maxtime)
+#else
+	if (caseval_current-caseval_begin>caseval_maxtime)
+#endif
+	  { 
+	    cerr << "Timeout" << endl; ctrl_c=true; interrupted=true; 
+	  } 
       } 
     }
   }
@@ -4475,7 +4485,7 @@ unsigned int ConvertUTF8toUTF16 (
 #ifdef TIMEOUT
     caseval_maxtime=5;
     caseval_n=0;
-    caseval_mod=1;
+    caseval_mod=10;
 #endif
   }
 
@@ -4575,6 +4585,8 @@ unsigned int ConvertUTF8toUTF16 (
     if (g.type==_VECT)
       return apply(g,add_autosimplify,contextptr);
     if (g.type==_SYMB){
+      if (g._SYMBptr->sommet==at_program || g._SYMBptr->sommet==at_sto)
+	return g;
       const char * c=unlocalize(g._SYMBptr->sommet.ptr()->s).c_str();
       const char ** ptr=do_not_autosimplify;
       for (;*ptr;++ptr){

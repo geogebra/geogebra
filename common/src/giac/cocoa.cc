@@ -399,8 +399,6 @@ namespace giac {
 #endif  // HAVE_LIBCOCOA
 
 #ifndef CAS38_DISABLED
-  // special code for polynomial up to 10 or 11 variables (max deg<32768) 
-#define GROEBNER_VARS 11
   // #define GBASIS_XOR
 #define GBASIS_SWAP 
   // minimal numbers of pair to reduce simultaneously with f4
@@ -413,6 +411,10 @@ namespace giac {
     swap(tab[5],tab[6]);
     swap(tab[8],tab[11]);
     swap(tab[9],tab[10]);
+#if GROEBNER_VARS>11
+    swap(tab[12],tab[15]);
+    swap(tab[13],tab[14]);
+#endif
   }
 
   struct tdeg_t {
@@ -436,10 +438,16 @@ namespace giac {
     tdeg_t() { 
       longlong * ptr = (longlong *) tab;
       ptr[2]=ptr[1]=ptr[0]=0;
+#if GROEBNER_VARS>11
+      ptr[3]=0;
+#endif
     }
     tdeg_t(int i){
       longlong * ptr = (longlong *) tab;
       ptr[2]=ptr[1]=ptr[0]=0;
+#if GROEBNER_VARS>11
+      ptr[3]=0;
+#endif
     }
     void get_tab(short * ptr) const {
       for (unsigned i=0;i<=GROEBNER_VARS;++i)
@@ -471,6 +479,9 @@ namespace giac {
     tdeg_t(const index_m & lm,short order){ 
       longlong * ptr_ = (longlong *) tab;
       ptr_[2]=ptr_[1]=ptr_[0]=0;
+#if GROEBNER_VARS>11
+      ptr_[3]=0;
+#endif
       // tab[GROEBNER_VARS]=order;
       short * ptr=tab;
       if (order==_REVLEX_ORDER || order==_TDEG_ORDER){
@@ -508,6 +519,9 @@ namespace giac {
     ztab[0]=xtab[0]+ytab[0];
     ztab[1]=xtab[1]+ytab[1];
     ztab[2]=xtab[2]+ytab[2];
+#if GROEBNER_VARS>11
+    ztab[3]=xtab[3]+ytab[3];
+#endif
 #else
     for (unsigned i=0;i<=dim;++i)
       res.tab[i]=x.tab[i]+y.tab[i];
@@ -520,6 +534,9 @@ namespace giac {
     ztab[0]=xtab[0]+ytab[0];
     ztab[1]=xtab[1]+ytab[1];
     ztab[2]=xtab[2]+ytab[2];
+#if GROEBNER_VARS>11
+    ztab[3]=xtab[3]+ytab[3];
+#endif
 #else
     for (unsigned i=0;i<=GROEBNER_VARS;++i)
       res.tab[i]=x.tab[i]+y.tab[i];
@@ -532,6 +549,9 @@ namespace giac {
     xtab[0]+=ytab[0];
     xtab[1]+=ytab[1];
     xtab[2]+=ytab[2];
+#if GROEBNER_VARS>11
+    xtab[3]+=ytab[3];
+#endif
 #else
     for (unsigned i=0;i<=GROEBNER_VARS;++i)
       x.tab[i]+=y.tab[i];
@@ -545,6 +565,9 @@ namespace giac {
     ztab[0]=xtab[0]-ytab[0];
     ztab[1]=xtab[1]-ytab[1];
     ztab[2]=xtab[2]-ytab[2];
+#if GROEBNER_VARS>11
+    ztab[3]=xtab[3]-ytab[3];
+#endif
 #else
     for (unsigned i=0;i<=GROEBNER_VARS;++i)
       res.tab[i]=x.tab[i]-y.tab[i];
@@ -554,7 +577,11 @@ namespace giac {
   inline bool operator == (const tdeg_t & x,const tdeg_t & y){ 
     return  ((longlong *) x.tab)[0] == ((longlong *) y.tab)[0] && 
       ((longlong *) x.tab)[1] == ((longlong *) y.tab)[1] &&
-      ((longlong *) x.tab)[2] == ((longlong *) y.tab)[2] ;
+      ((longlong *) x.tab)[2] == ((longlong *) y.tab)[2] 
+#if GROEBNER_VARS>11
+      &&  ((longlong *) x.tab)[3] == ((longlong *) y.tab)[3]
+#endif
+    ;
   }
   inline bool operator != (const tdeg_t & x,const tdeg_t & y){ 
     return !(x==y);
@@ -580,7 +607,12 @@ namespace giac {
     }
     if (xtab[1]!=ytab[1])
       return xtab[1]<=ytab[1];
-    return xtab[2]<=ytab[2];
+    if (xtab[2]!=ytab[2])
+      return xtab[2]<=ytab[2];
+#if GROEBNER_VARS>11
+    return xtab[3]<=ytab[3];
+#endif
+    return true;
 #else
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
       if (x.tab[0]!=y.tab[0])
@@ -600,15 +632,27 @@ namespace giac {
 	return x.tab[6]<=y.tab[6];
       return x.tab[7]<=y.tab[7];
     }
-    if (((longlong *) x.tab)[2] == ((longlong *) y.tab)[2])
-      return true;
-    if (x.tab[8]!=y.tab[8])
-      return x.tab[8]<=y.tab[8];
-    if (x.tab[9]!=y.tab[9])
-      return x.tab[9]<=y.tab[9];
-    if (x.tab[10]!=y.tab[10])
-      return x.tab[10]<=y.tab[10];
-    return x.tab[11]<=y.tab[11];
+    if (((longlong *) x.tab)[2] != ((longlong *) y.tab)[2]){
+      if (x.tab[8]!=y.tab[8])
+	return x.tab[8]<=y.tab[8];
+      if (x.tab[9]!=y.tab[9])
+	return x.tab[9]<=y.tab[9];
+      if (x.tab[10]!=y.tab[10])
+	return x.tab[10]<=y.tab[10];
+      return x.tab[11]<=y.tab[11];
+    }
+#if GROEBNER_VARS>11
+    if (((longlong *) x.tab)[3] != ((longlong *) y.tab)[3]){
+      if (x.tab[12]!=y.tab[12])
+	return x.tab[12]<=y.tab[12];
+      if (x.tab[13]!=y.tab[13])
+	return x.tab[13]<=y.tab[13];
+      if (x.tab[14]!=y.tab[14])
+	return x.tab[14]<=y.tab[14];
+      return x.tab[15]<=y.tab[15];
+    }
+#endif
+    return true;
 #endif
   }
 
@@ -627,7 +671,12 @@ namespace giac {
     }
     if (xtab[1]!=ytab[1])
       return xtab[1]>=ytab[1];
-    return xtab[2]>=ytab[2];
+    if (xtab[2]!=ytab[2])
+      return xtab[2]>=ytab[2];
+#if GROEBNER_VARS>11
+    return xtab[3]>=ytab[3];
+#endif
+    return true;
 #else
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
       if (x.tab[0]!=y.tab[0])
@@ -647,15 +696,27 @@ namespace giac {
 	return x.tab[6]>y.tab[6];
       return x.tab[7]>y.tab[7];
     }
-    if (((longlong *) x.tab)[2] == ((longlong *) y.tab)[2])
-      return true;
-    if (x.tab[8]!=y.tab[8])
-      return x.tab[8]>y.tab[8];
-    if (x.tab[9]!=y.tab[9])
-      return x.tab[9]>y.tab[9];
-    if (x.tab[10]!=y.tab[10])
-      return x.tab[10]>y.tab[10];
-    return x.tab[11]>=y.tab[11];
+    if (((longlong *) x.tab)[2] != ((longlong *) y.tab)[2]){
+      if (x.tab[8]!=y.tab[8])
+	return x.tab[8]>y.tab[8];
+      if (x.tab[9]!=y.tab[9])
+	return x.tab[9]>y.tab[9];
+      if (x.tab[10]!=y.tab[10])
+	return x.tab[10]>y.tab[10];
+      return x.tab[11]>=y.tab[11];
+    }
+#if GROEBNER_VARS>11
+    if (((longlong *) x.tab)[3] != ((longlong *) y.tab)[3]){
+      if (x.tab[12]!=y.tab[12])
+	return x.tab[12]>y.tab[12];
+      if (x.tab[13]!=y.tab[13])
+	return x.tab[13]>y.tab[13];
+      if (x.tab[14]!=y.tab[14])
+	return x.tab[14]>y.tab[14];
+      return x.tab[15]>=y.tab[15];
+    }
+#endif
+    return true;
 #endif
   }
 
@@ -693,6 +754,10 @@ namespace giac {
       return false;
     if ((xtab[2]-ytab[2]) & 0x8000800080008000ULL)
       return false;
+#if GROEBNER_VARS>11
+    if ((xtab[3]-ytab[3]) & 0x8000800080008000ULL)
+      return false;
+#endif
 #else
     for (unsigned i=0;i<=GROEBNER_VARS;++i){
       if (x.tab[i]<y.tab[i])
@@ -777,19 +842,16 @@ namespace giac {
     t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
     ++xtab; ++ytab; ++ztab;
     t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
-    /*
-    t += (z.tab[1]=(x.tab[1]>y.tab[1])?x.tab[1]:y.tab[1]);
-    t += (z.tab[2]=(x.tab[2]>y.tab[2])?x.tab[2]:y.tab[2]);
-    t += (z.tab[3]=(x.tab[3]>y.tab[3])?x.tab[3]:y.tab[3]);
-    t += (z.tab[4]=(x.tab[4]>y.tab[4])?x.tab[4]:y.tab[4]);
-    t += (z.tab[5]=(x.tab[5]>y.tab[5])?x.tab[5]:y.tab[5]);
-    t += (z.tab[6]=(x.tab[6]>y.tab[6])?x.tab[6]:y.tab[6]);
-    t += (z.tab[7]=(x.tab[7]>y.tab[7])?x.tab[7]:y.tab[7]);
-    t += (z.tab[8]=(x.tab[8]>y.tab[8])?x.tab[8]:y.tab[8]);
-    t += (z.tab[9]=(x.tab[9]>y.tab[9])?x.tab[9]:y.tab[9]);
-    t += (z.tab[10]=(x.tab[10]>y.tab[10])?x.tab[10]:y.tab[10]);
-    t += (z.tab[11]=(x.tab[11]>y.tab[11])?x.tab[11]:y.tab[11]);
-    */
+#if GROEBNER_VARS>11
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+#endif
     if (order==_REVLEX_ORDER || order==_TDEG_ORDER)
       z.tab[0]=t;
     else
@@ -868,7 +930,7 @@ namespace giac {
 	order=_REVLEX_ORDER;
       if (p.is_strictly_greater==i_total_lex_is_strictly_greater)
 	order=_TDEG_ORDER;
-      if (p.dim>GROEBNER_VARS-(order==_REVLEX_ORDER || order==_TDEG_ORDER)) 
+      if (p.dim>GROEBNER_VARS)
 	cerr << "Number of variables is too large to be handled by giac";
       else {
 	coord.reserve(p.coord.size());
@@ -2011,6 +2073,18 @@ namespace giac {
     if (a==1 || a==-1 || a==1-b)
       return a;
     longlong aa(1),ab(0),ar(0);
+#ifdef VISUALC
+    longlong q,r;
+    while (b){
+      q=a/b;
+      r=a-q*b;
+      ar=aa-q*ab;
+      a=b;
+      b=r;
+      aa=ab;
+      ab=ar;
+    }
+#else
     lldiv_t qr;
     while (b){
       qr=lldiv(a,b);
@@ -2020,6 +2094,7 @@ namespace giac {
       aa=ab;
       ab=ar;
     }
+#endif
     if (a==1)
       return aa;
     if (a!=-1){
@@ -2366,7 +2441,7 @@ namespace giac {
 #ifdef __x86_64__
 	c = C % env;
 #else
-	c=C;
+	c=modint(C);
 #endif
 	if (c==0)
 	  continue;
@@ -2953,6 +3028,7 @@ namespace giac {
     unsigned polymodpos;
     tdeg_t u;
     heap_tt(unsigned a,unsigned b,tdeg_t t):f4vpos(a),polymodpos(b),u(t){};
+    heap_tt():f4vpos(0),polymodpos(0),u(0){};
   };
   bool operator > (const heap_tt & a,const heap_tt & b){
     return a.u>b.u;
@@ -3048,7 +3124,7 @@ namespace giac {
       res=true;
       c=(modint2(invmod(m[pos],env))*c)%env;
       vector<modint>::const_iterator jt=m.begin()+pos+1;
-      vector<modint>::iterator it=v.begin()+pos,it1,itend=v.end();
+      vector<modint>::iterator it=v.begin()+pos,itend=v.end();
       *it=0; ++it;
       for (;it!=itend;++jt,++it){
 	if (*jt)
@@ -4294,6 +4370,7 @@ namespace giac {
       tmp[i].sugar=res[permu[i]].sugar;
     }
     swap(tmp,res);
+    return true;
   }
 
   bool in_gbasisf4mod(vectpoly8 & res8,vectpolymod &res,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< info_t > * f4_info,bool recomputeR){
@@ -5112,7 +5189,8 @@ namespace giac {
     }
     swap(M,M1);
     // cerr << M << endl;
-    cerr << "rows, columns, terms: " << M.size() << "x" << N << "=" << nterms << endl; 
+    if (debug_infolevel>0)
+      cerr << clock() << " rows, columns, terms: " << M.size() << "x" << N << "=" << nterms << endl; 
     gen p(int(longlong(1<<31)-1));
     gen pip(1);
     vectpolymod f4vmod;
@@ -5120,7 +5198,7 @@ namespace giac {
     vector< vector<modint> > coeffmatmodp(f4v.size(),vector<modint>(M.size()));
     gen bres=linfnorm(res,context0);
     gen bf4=linfnorm(f4v,context0);
-    vecteur prevquo; matrice prevmatq;
+    matrice prevmatq;
     bool stable=false;
     gen bound=0;
     for (int iter=0;;++iter){
@@ -5201,73 +5279,49 @@ namespace giac {
       if (is_greater(bound,pip,context0))
 	continue;
       if (!stable){
-	// check stabilization on a few quotients
-	vecteur checkquo;
-	for (unsigned k=0;k*10<coeffmat.size();++k){
-	  checkquo.push_back(fracmod(coeffmat[k*10],pip));
-	  if (prevquo.size()>k && checkquo[k]!=prevquo[k]){
+	// check stabilization 
+	matrice checkquo;
+	checkquo.reserve(coeffmat.size());
+	for (unsigned k=0;k<coeffmat.size();++k){
+	  if (prevmatq.size()>k && chk_equal_mod(prevmatq[k],coeffmatmodp[k],env))
+	    checkquo.push_back(prevmatq[k]);
+	  else
+	    checkquo.push_back(fracmod(coeffmat[k],pip));
+	  if (prevmatq.size()>k && checkquo[k]!=prevmatq[k])
 	    break;
-	  }
-	  if (k>prevquo.size()*2)
+	  if (k>(prevmatq.size()*3)/2+2)
 	    break;
 	}
-	if (checkquo!=prevquo){
-	  prevquo=checkquo;
+	if (checkquo!=prevmatq){
+	  swap(prevmatq,checkquo);
 	  if (debug_infolevel>0)
-	    cerr << clock() << " unstable mod " << p << " reconstructed " << checkquo.size() << endl;
+	    cerr << clock() << " unstable mod " << p << " reconstructed " << prevmatq.size() << endl;
 	  continue;
+	}
+	matrice coeffmatq=*_copy(checkquo,context0)._VECTptr;
+	if (debug_infolevel>0)
+	  cerr << clock() << " full stable mod " << p << endl;
+	stable=true;
+	gen lall=1; vecteur l(coeffmatq.size());
+	for (unsigned i=0;i<coeffmatq.size();++i){
+	  lcmdeno(*coeffmatq[i]._VECTptr,l[i],context0);
+	  if (is_strictly_greater(l[i],lall,context0))
+	    lall=l[i];
 	}
 	if (debug_infolevel>0)
-	  cerr << clock() << " almost stable " << endl;
-	// estimate lcm of deno
-	gen lest1,lest=0,best1,best=0;
-	for (unsigned k=0;k<checkquo.size();++k){
-	  lcmdeno(*checkquo[k]._VECTptr,lest1,context0);
-	  gen best1=linfnorm(checkquo[k],context0);
-	  lest=max(lest1,lest,context0);
-	  best=max(best1,lest,context0);
+	  cerr << clock() << " lcmdeno ok/start bound " << p << endl;
+	gen ball=1,bi; // ball is the max bound of all coeff in coeffmatq
+	for (unsigned i=0;i<coeffmatq.size();++i){
+	  bi=linfnorm(coeffmatq[i],context0);
+	  if (is_strictly_greater(bi,ball,context0))
+	    ball=bi;
 	}
-	gen boundest=bres*best,boundest2=lest*bf4;
-	if (is_strictly_greater(boundest,pip,context0) || is_strictly_greater(boundest2,pip,context0))
-	  continue;
-	// then check global stabilization
-	matrice coeffmatq;
-	if (chk_equal_mod(prevmatq,coeffmatmodp,env)){
-	  coeffmatq=*_copy(prevmatq,context0)._VECTptr;
-	}
-	if (coeffmatq.empty())
-	  coeffmatq=fracmod(coeffmat,pip);
-	if (coeffmatq!=prevmatq){
-	  swap(prevmatq,coeffmatq);
-	  if (debug_infolevel>0)
-	    cerr << clock() << " not full stable mod " << p << endl;
-	  continue;
-	}
-	else {
-	  if (debug_infolevel>0)
-	    cerr << clock() << " full stable mod " << p << endl;
-	  stable=true;
-	  gen lall=1; vecteur l(coeffmatq.size());
-	  for (unsigned i=0;i<coeffmatq.size();++i){
-	    lcmdeno(*coeffmatq[i]._VECTptr,l[i],context0);
-	    if (is_strictly_greater(l[i],lall,context0))
-	      lall=l[i];
-	  }
-	  if (debug_infolevel>0)
-	    cerr << clock() << " lcmdeno ok/start bound " << p << endl;
-	  gen ball=1,bi; // ball is the max bound of all coeff in coeffmatq
-	  for (unsigned i=0;i<coeffmatq.size();++i){
-	    bi=linfnorm(coeffmatq[i],context0);
-	    if (is_strictly_greater(bi,ball,context0))
-	      ball=bi;
-	  }
-	  // bound for res and f4v
-	  bound=bres*ball;
-	  gen bound2=lall*bf4;
-	  // lcm of deno and max of coeff
-	  if (is_strictly_greater(bound2,bound,context0))
-	    bound=bound2;
-	}
+	// bound for res and f4v
+	bound=bres*ball;
+	gen bound2=lall*bf4;
+	// lcm of deno and max of coeff
+	if (is_strictly_greater(bound2,bound,context0))
+	  bound=bound2;
       }
     }
     return true;
@@ -5481,7 +5535,7 @@ namespace giac {
 	  afewpolys.clear();
 	  int jpos=0;
 	  for (int j=V[i].size()-1;j>=0;++jpos,j-=20){
-	    if (Wlast[i].size()>jpos && chk_equal_mod(Wlast[i][jpos],gb[j],p.val))
+	    if (int(Wlast[i].size())>jpos && chk_equal_mod(Wlast[i][jpos],gb[j],p.val))
 	      afewpolys.push_back(Wlast[i][jpos]);
 	    else {
 	      if (!fracmod(V[i][j],P[i],
@@ -5550,7 +5604,7 @@ namespace giac {
 	   Journal of Symbolic Computation 35 (2003) 403–419)
 	*/
 #if 1
-	if (W[i].size()<=GBASIS_DETERMINISTIC)
+	if (int(W[i].size())<=GBASIS_DETERMINISTIC)
 	  eps=0;
 	if (eps>0){
 	  double terms=0;
@@ -5560,13 +5614,13 @@ namespace giac {
 	    termsmin = giacmin(termsmin,W[i][k].coord.size());
 	  }
 	  termsmin = 7*(2*termsmin-1);
-	  int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
+	  int epsp=mpz_sizeinbase(*P[i]._ZINTptr,10)-int(std::ceil(2*std::log10(terms)));
 	  if (epsp>termsmin)
 	    epsp=termsmin;
 	  *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
 	}
 	G.clear();
-	if (!is_gbasis(W[i],eps,modularcheck)){
+	if (eps<6e-8 && !is_gbasis(W[i],eps*1.677e7,modularcheck)){
 	  ok=false;
 	  break; // in_gbasis(W[i],G,0,true);
 	}

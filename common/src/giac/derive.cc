@@ -200,8 +200,8 @@ namespace giac {
 	for (int j=1;j<vs;++j){
 	  gen & tmp=v[j];
 	  tmp=derive(tmp,i,contextptr); // v[j]=derive(v[j],i,contextptr);
-	  if (is_undef(tmp))
-	    return tmp;
+	  // if (is_undef(tmp)) return tmp; 
+	  // commented otherwise diff(when(x<0,x^2+3,undef)) returns undef
 	}
 	return symbolic(s.sommet,gen(v,s.feuille.subtype));
       }

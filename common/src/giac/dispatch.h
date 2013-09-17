@@ -375,7 +375,8 @@ namespace giac {
     _WITH_F5=1,
     _TDEG_ORDER=2,
     _PLEX_ORDER=3,
-    _REVLEX_ORDER=4
+    _REVLEX_ORDER=4,
+    _MODULAR_CHECK=5,
   };
 
   enum int_subtypes {

@@ -11086,6 +11086,8 @@ namespace giac {
 	return "with_cocoa";
       case _WITH_F5:
 	return "with_f5";
+      case _MODULAR_CHECK:
+	return "modular_check";
       }
     }
     return print_INT_(val);

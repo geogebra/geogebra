@@ -195,6 +195,9 @@ namespace giac {
   extern volatile bool ctrl_c,interrupted;
   void ctrl_c_signal_handler(int signum);
 #ifdef TIMEOUT
+#ifndef EMCC
+  double time(int );
+#endif
   extern time_t caseval_begin,caseval_current;
   extern double caseval_maxtime;
   extern int caseval_n,caseval_mod,caseval_unitialized;

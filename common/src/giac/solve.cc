@@ -4825,8 +4825,8 @@ namespace giac {
     if (debug_infolevel>6)
       res.dbgprint();
 #ifndef CAS38_DISABLED
-    if (res.front().dim<12-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
-      res=gbasis8(res,env,false,contextptr); // FIXME: false->modularcheck 
+    if (res.front().dim<=GROEBNER_VARS+1-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
+      res=gbasis8(res,env,modularcheck,contextptr); 
       // reduce(res,env);
       sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
       reverse(res.begin(),res.end());
@@ -5237,7 +5237,7 @@ namespace giac {
 	  case _WITH_COCOA:
 	    with_cocoa=tmp._VECTptr->back().val!=0;
 	    break;
-	  case _WITH_F5:
+	  case _WITH_F5: case _MODULAR_CHECK:
 	    with_f5=tmp._VECTptr->back().val!=0;
 	    break;
 	  }
@@ -5248,7 +5248,7 @@ namespace giac {
 	case _WITH_COCOA:
 	  with_cocoa=true;
 	  break;
-	case _WITH_F5:
+	case _WITH_F5: case _MODULAR_CHECK:
 	  with_f5=true;
 	  break;
 	default:
@@ -5424,13 +5424,13 @@ namespace giac {
     vecteur elim=gen2vecteur(args._VECTptr->back());
     if (elim.empty())
       return eqs;
-#if 0
+#if 1
     // eliminate variables with linear dependency 
     // (in order to lower the number of vars, since <= 11 vars is handled faster)
     for (unsigned i=0;i<eqs.size();++i){
       for (unsigned j=0;j<elim.size();++j){
 	gen a,b;
-	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr))){
+	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr)) && is_zero(derive(a,elim,contextptr))){
 	  // Warning: a is not identically 0 but may vanish for some values of elim...
 	  // eqs[i]=a*elim[j]+b
 	  // replace elim[j] by -b/a

@@ -1904,7 +1904,7 @@ namespace giac {
     return true;
   }
 
-  static bool detect_inv_trigln(gen & e,vecteur & rvar,const gen & gen_x,gen & res,gen & remains_to_integrate,GIAC_CONTEXT){
+  static bool detect_inv_trigln(gen & e,vecteur & rvar,const gen & gen_x,gen & res,gen & remains_to_integrate,bool additional_check,GIAC_CONTEXT){
     const_iterateur rvt=rvar.begin(),rvtend=rvar.end();
     for (;rvt!=rvtend;++rvt){
       if (rvt->type!=_SYMB)
@@ -1918,31 +1918,50 @@ namespace giac {
 	gen feuille=rvt->_SYMBptr->feuille,a,b;
 	if (!is_linear_wrt(feuille,gen_x,a,b,contextptr))
 	  continue;
-	// Additionaly check that e is polynomial wrt x
-	identificateur tmpidnt(" t");
-	gen tmpcheck=subst(e,*rvt,tmpidnt,false,contextptr);
-	vecteur vx2(rlvarx(tmpcheck,gen_x));
-	if ( vx2.size()>1)
-	  continue;
-	if (vx2.size()){
-	  lvar(tmpcheck,vx2);
-	  fraction ftemp=sym2r(tmpcheck,vx2,contextptr);
-	  if (ftemp.den.type==_POLY && ftemp.den._POLYptr->lexsorted_degree())
+	if (additional_check){
+	  // Additionaly check that e is polynomial wrt x
+	  identificateur tmpidnt(" t");
+	  gen tmpcheck=subst(e,*rvt,tmpidnt,false,contextptr);
+	  vecteur vx2(rlvarx(tmpcheck,gen_x));
+	  if ( vx2.size()>1)
 	    continue;
+	  if (vx2.size()){
+	    lvar(tmpcheck,vx2);
+	    fraction ftemp=sym2r(tmpcheck,vx2,contextptr);
+	    if (ftemp.den.type==_POLY && ftemp.den._POLYptr->lexsorted_degree())
+	      continue;
+	  }
 	}
 	// make the change of var ln[ax+b]=t -> x=rdiv(exp(t)-b,a)
-	gen tmprem,tmpres,tmpe,xt,dxt;
+	gen tmprem,tmpres,tmpe,xt,dxt,sqrtxt;
 	xt=rdiv(symbolic(inverse_sommet,gen_x)-b,a,contextptr);
 	dxt=derive(xt,gen_x,contextptr);
 	if (is_undef(dxt)){
 	  res=dxt;
 	  return true;
 	}
+	// should add sqrt(1-.^2)
 	vecteur substin(makevecteur(gen_x,*rvt));
 	vecteur substout(makevecteur(xt,gen_x));
-	tmpe=complex_subst(e,substin,substout,contextptr)*dxt;
+	if ((rvtt==8 || rvtt==9)){
+	  vecteur tmpv=lop(e,at_pow);
+	  for (unsigned tmpi=0;tmpi<tmpv.size();++tmpi){
+	    gen tmpvi=tmpv[tmpi]._SYMBptr->feuille;
+	    if (tmpvi.type==_VECT && tmpvi._VECTptr->size()==2){
+	      gen tmpvi0=tmpvi._VECTptr->front();
+	      if (ratnormal(tmpvi0-1+pow(a*gen_x+b,2,contextptr))==0){
+		substin.push_back(tmpv[tmpi]);
+		substout.push_back(pow(symbolic(rvtt==8?at_cos:at_sin,gen_x),2*tmpvi._VECTptr->back(),contextptr));
+	      }
+	    }
+	  }
+	}
+	tmpe=ratnormal(complex_subst(e,substin,substout,contextptr)*dxt);
 	tmpres=linear_integrate(tmpe,gen_x,tmprem,contextptr);
 	remains_to_integrate=complex_subst(rdiv(tmprem,dxt,contextptr),gen_x,*rvt,contextptr);
+	// replace tan(asin/2) or tan(acos/2) and cos(asin) and sin(acos)
+	if ((rvtt==8 || rvtt==9) && has_op(tmpres,at_tan))
+	  tmpres=tan2sincos2(tmpres,contextptr);
 	tmpres=_texpand(tmpres,contextptr);
 	res=complex_subst(tmpres,substout,substin,contextptr);
 	return true;
@@ -2173,7 +2192,7 @@ namespace giac {
 	return res;
     }
     // detection of inv of trig or ln of a linear expression
-    if (detect_inv_trigln(e,rvar,gen_x,res,remains_to_integrate,contextptr))
+    if (detect_inv_trigln(e,rvar,gen_x,res,remains_to_integrate,true,contextptr))
       return res;
 
     // integration by part?
@@ -2224,6 +2243,9 @@ namespace giac {
 	return gen_x*e-tmpres;
       }
     }
+
+    if (detect_inv_trigln(e,rvar,gen_x,res,remains_to_integrate,false,contextptr))
+      return res;
 
     // rewrite inv(exp)
     vector<const unary_function_ptr *> vsubstin(1,at_inv);

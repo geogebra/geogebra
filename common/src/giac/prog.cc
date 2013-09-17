@@ -6442,12 +6442,20 @@ namespace giac {
   static define_unary_function_eval4_index (92,__pointprod,&_pointprod,_pointprod_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_pointprod ,alias_at_pointprod ,&__pointprod);
 
+  gen pointdivision(const gen & a,const gen &b,GIAC_CONTEXT){
+    if (a.type==_VECT && b.type!=_VECT)
+      return apply1st(a,b,contextptr,pointdivision);
+    if (a.type!=_VECT && b.type==_VECT)
+      return apply2nd(a,b,contextptr,pointdivision);
+    return a/b;
+    // return matrix_apply(a,b,contextptr,rdiv);
+  }
   gen _pointdivision(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
     gen a,b;
     if (!check_binary(g,a,b))
       return a;
-    return matrix_apply(a,b,contextptr,rdiv);
+    return pointdivision(a,b,contextptr);
   }
   static const char _pointdivision_s []="./";
   static define_unary_function_eval4_index (94,__pointdivision,&_pointdivision,_pointdivision_s,&printsommetasoperator,&texprintsommetasoperator);

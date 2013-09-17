@@ -4972,6 +4972,26 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       init_geogebra(1,contextptr);
     if (*args._STRNGptr=="close geogebra")
       init_geogebra(0,contextptr);
+#ifdef TIMEOUT
+    if (args._STRNGptr->size()>8 && args._STRNGptr->substr(0,8)=="timeout "){
+      string t=args._STRNGptr->substr(8,args._STRNGptr->size()-8);
+      double f=atof(t.c_str());
+      if (f>=0 && f<24*60){
+	caseval_maxtime=f;
+	caseval_n=0;
+	caseval_mod=10;
+	return string2gen("Max eval time set to "+gen(f).print(),false);
+      }
+    }
+    if (args._STRNGptr->size()>8 && args._STRNGptr->substr(0,8)=="ckevery "){
+      string t=args._STRNGptr->substr(8,args._STRNGptr->size()-8);
+      int f=atoi(t.c_str());
+      if (f>0 && f<1e6){
+	caseval_mod=f;
+	return string2gen("Check every "+gen(f).print(),false);
+      }
+    }
+#endif
     return string2gen(caseval(args._STRNGptr->c_str()),false);
   }
   static const char _caseval_s []="caseval";
