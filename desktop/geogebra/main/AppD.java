@@ -716,7 +716,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// moved to getFactory() so that applets load quicker
 		// geogebra.common.factories.Factory.prototype = new FactoryD();
 
-		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
+		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtilD();
 
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStaticD();
 
