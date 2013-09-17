@@ -32,7 +32,7 @@ download libs for other architectures than the current one.
 	    description="For Eclipse developers: to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, info, jfx-compile"
+	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, jfx-compile, info"
 	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds">
 	</target>
 
