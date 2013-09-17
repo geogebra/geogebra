@@ -1150,7 +1150,7 @@ HasHeight
 
 	@Override
 	public boolean isPath() {
-		return true;
+		return false;
 	}
 
 	@Override
