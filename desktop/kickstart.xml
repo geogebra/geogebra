@@ -32,7 +32,7 @@ download libs for other architectures than the current one.
 	    description="For Eclipse developers: to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, info"
+	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, info, jfx-compile"
 	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds">
 	</target>
 
@@ -40,7 +40,7 @@ download libs for other architectures than the current one.
 	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close, jfx-compile"
+	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close"
 	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 	
@@ -335,6 +335,7 @@ download libs for other architectures than the current one.
 	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/jfxrt.jar"/&gt;
 	&lt;classpathentry kind="src" path="/jogl${jogl}"/&gt;
 
 
