@@ -876,12 +876,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
 	 */
-	final public void setRealWorldCoordSystem(double xmin, double xmax,
-			double ymin, double ymax) {
-		double calcXscale = getWidth() / (xmax - xmin);
-		double calcYscale = getHeight() / (ymax - ymin);
-		double calcXzero = -calcXscale * xmin;
-		double calcYzero = calcYscale * ymax;
+	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
+			double ymin2, double ymax2) {
+		double calcXscale = getWidth() / (xmax2 - xmin2);
+		double calcYscale = getHeight() / (ymax2 - ymin2);
+		double calcXzero = -calcXscale * xmin2;
+		double calcYzero = calcYscale * ymax2;
 
 		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
 	}
