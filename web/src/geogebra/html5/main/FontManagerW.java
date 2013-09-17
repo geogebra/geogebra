@@ -18,11 +18,11 @@ public class FontManagerW extends FontManager{
 
 	@Override
     public GFont getFontCanDisplay(String testString, boolean serif,
-            int fontStyle, int fontSize) {
+            int fontStyle, int fontSize1) {
 	    geogebra.html5.awt.GFontW ret = new geogebra.html5.awt.GFontW("normal");
 	    ret.setFontStyle(fontStyle);
-	    ret.setFontSize(fontSize);
-	    ret.setFontFamily(serif?"serif":"sans-serif");
+	    ret.setFontSize(fontSize1);
+	    ret.setFontFamily(serif ? "geogebra-serif, serif" : "geogebra-sans-serif, sans-serif");
 	    return ret;
     }
 
