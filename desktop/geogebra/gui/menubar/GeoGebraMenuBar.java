@@ -210,7 +210,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 */ 
 	private void addSignIn() {
 		signInAction = new AbstractAction(
-				app.getMenu("SignIn") + " ...") {
+				app.getMenu("SignIn")) {
 			
 			private static final long serialVersionUID = 1L;
 
@@ -219,7 +219,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			}
 		};
 		signInInProgressAction = new AbstractAction(
-				app.getMenu("SignInInProgress") + " ...") {
+				app.getMenu("SignInInProgress")) {
 			
 			private static final long serialVersionUID = 1L;
 
@@ -228,7 +228,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			}
 		};
 		signOutAction = new AbstractAction(
-				app.getMenu("SignOut") + " ...") {
+				app.getMenu("SignOut")) {
 			
 			private static final long serialVersionUID = 1L;
 
@@ -267,12 +267,15 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	}
 	
 	private void onLogin(boolean successful, GeoGebraTubeUser user) {
+		
+		Localization loc = app.getLocalization();
+
 		if (successful) {
 			signInButton.setAction(signOutAction);
-			signInButton.setText(app.getMenu("SignedInAs") + ": " + user.getUserName());
+			signInButton.setText(loc.getPlain("SignedInAsA", user.getUserName()));
 		} else {
 			signInButton.setAction(signInAction);
-			signInButton.setText(app.getMenu("SignedInErrorTryAgain") + " ...");
+			signInButton.setText(loc.getMenu("SignedInErrorTryAgain"));
 		}
 	}
 
