@@ -2920,39 +2920,8 @@ public abstract class EuclidianController {
 		if (selLines() == 1) {
 			GeoLine line = getSelectedLines()[0];
 	
-			GeoNumeric slope;
-			/*
-			 * if (strLocale.equals("de_AT")) { slope = kernel.Slope("k", line);
-			 * } else { slope = kernel.Slope("m", line); }
-			 */
-	
-			String label = l10n.getPlain("ExplicitLineGradient");
-	
-			// make sure automatic naming goes m, m_1, m_2, ..., m_{10}, m_{11}
-			// etc
-			if (kernel.lookupLabel(label) != null) {
-				int i = 1;
-				while (kernel.lookupLabel(i > 9 ? label + "_{" + i + "}"
-						: label + "_" + i) != null) {
-					i++;
-				}
-				label = i > 9 ? label + "_{" + i + "}" : label + "_" + i;
-			}
-	
-			checkZooming(); 
 			
-			slope = getAlgoDispatcher().Slope(label, line);
-	
-			// show value
-			if (slope.isLabelVisible()) {
-				slope.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-			} else {
-				slope.setLabelMode(GeoElement.LABEL_VALUE);
-			}
-			slope.setLabelVisible(true);
-			slope.updateRepaint();
-			GeoElement[] ret = { slope };
-			return ret;
+			return getTextDispatcher().createSlopeText(line, mouseLoc);
 		}
 		return null;
 	}

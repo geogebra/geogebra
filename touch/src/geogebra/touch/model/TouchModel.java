@@ -1,9 +1,11 @@
 package geogebra.touch.model;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.TextDispatcher;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -34,6 +36,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Test;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -44,7 +47,6 @@ import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.dialogs.SliderDialog;
 import geogebra.touch.utils.ToolBarCommand;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -70,7 +72,7 @@ public class TouchModel {
 	private final ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
 	private final CmdIntersect cmdIntersect;
 	private GeoElement redefineGeo;
-	private Point eventCoordinates = new Point(0, 0);
+	private GPoint eventCoordinates = new GPoint(0, 0);
 	private GeoNumeric redefineSlider, actualSlider;
 	private String oldRedefineText;
 	private final App app;
@@ -94,7 +96,7 @@ public class TouchModel {
 
 	}
 
-	private void attachDetach(final Hits hits, final Point c) {
+	private void attachDetach(final Hits hits, final GPoint c) {
 		final EuclidianViewInterfaceCommon view = this.app
 				.getActiveEuclidianView();
 
@@ -110,7 +112,7 @@ public class TouchModel {
 				Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR,
 				Test.REGION3D });
 		if (point != null) {
-			final Point p = c != null ? c : new Point((int) point.getX(),
+			final GPoint p = c != null ? c : new GPoint((int) point.getX(),
 					(int) point.getY());
 
 			if (!point.isIndependent()) // detach
@@ -386,7 +388,7 @@ public class TouchModel {
 		return this.selectedElements.size();
 	}
 
-	private void handleDraw(final Point2D pointRW,
+	private void handleDraw(final Point2D pointRW, final GPoint mouse,
 			final boolean singlePointForIntersection) {
 		boolean draw = true;
 		final ArrayList<GeoElementND> newElements = new ArrayList<GeoElementND>();
@@ -710,6 +712,20 @@ public class TouchModel {
 				}
 			}
 			break;
+		case Slope:
+			newElements.add(this.getTextDispatcher().createSlopeText((GeoLine) this.getElement(Test.GEOLINE), mouse)[0]);
+			break;
+		case Area:
+			GeoNumberValue area;
+			GeoElement source = this.getElement(Test.GEOELEMENT);
+			if(source instanceof GeoConicND){
+				area = this.kernel.getAlgoDispatcher().Area(null, (GeoConicND) source);
+			
+			}else{ //polygons
+				area = (GeoNumberValue) source;
+			}
+			newElements.add(this.getTextDispatcher().getAreaText(source, area, mouse)[0]);
+			break;
 		case AngleBisector:
 			if (this.getNumberOf(Test.GEOPOINT) >= 3) {
 				newElements.add(this.kernel.getAlgoDispatcher()
@@ -797,7 +813,11 @@ public class TouchModel {
 
 	}
 
-	public void handleEvent(final Hits hits, final Point point,
+	private TextDispatcher getTextDispatcher() {
+		return new TextDispatcher(this.kernel, this.kernel.getApplication().getEuclidianView1());
+	}
+
+	public void handleEvent(final Hits hits, final GPoint point,
 			final Point2D pointRW) {
 		this.kernel.setNotifyRepaintActive(false);
 
@@ -1043,6 +1063,14 @@ public class TouchModel {
 					|| getNumberOf(Test.GEOLINE) >= 2
 					|| getNumberOf(Test.GEOPOLYGON) >= 1;
 			break;
+		case Slope:
+			this.select(hits, Test.GEOLINE, 1);
+			draw = getNumberOf(Test.GEOLINE) > 0;
+			break;
+		case Area:
+			this.selectOutOf(hits, new Test[] {Test.GEOCONICND, Test.GEOPOLYGON}, 1);
+			draw = getNumberOf(Test.GEOCONICND) + getNumberOf(Test.GEOPOLYGON) > 0;
+			break;
 		case AngleBisector:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE },
 					new int[] { 3, 2 });
@@ -1116,7 +1144,7 @@ public class TouchModel {
 
 		// draw anything other than a point
 		if (draw) {
-			this.handleDraw(pointRW, singlePointForIntersection);
+			this.handleDraw(pointRW, point, singlePointForIntersection);
 		}
 
 		this.kernel.setNotifyRepaintActive(true); // includes a repaint

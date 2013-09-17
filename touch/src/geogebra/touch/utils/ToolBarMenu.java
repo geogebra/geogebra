@@ -60,9 +60,9 @@ public enum ToolBarMenu {
 	Measurement(ToolBarCommand.Angle,
 			new ToolBarCommand[] { ToolBarCommand.Angle,
 			// FIXME Implement Measurements
-			// TODO: ToolBarCommand.DistanceOrLength,
-			// TODO: ToolBarCommand.Area,
-			// TODO: ToolBarCommand.Slope,
+			ToolBarCommand.DistanceOrLength,
+			ToolBarCommand.Area,
+			ToolBarCommand.Slope,
 			// TODO: ToolBarCommand.CreateList
 			}),
 

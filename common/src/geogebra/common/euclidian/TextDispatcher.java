@@ -11,6 +11,7 @@ import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -51,7 +52,7 @@ public class TextDispatcher {
 		}
 		return  new GeoElement[] { text };
 	}
-	protected String descriptionPoints(String type, GeoPolygon poly) {
+	private String descriptionPoints(String type, GeoPolygon poly) {
 		// build description text including point labels
 		StringBuilder descText = new StringBuilder();
 	
@@ -90,7 +91,7 @@ public class TextDispatcher {
 	/**
 	 * Creates a text that shows a number value of geo.
 	 */
-	protected GeoText createDynamicText(String type, GeoElement object, GeoElementND value) {
+	private GeoText createDynamicText(String type, GeoElement object, GeoElementND value) {
 		// create text that shows length
 		try {
 			
@@ -185,7 +186,7 @@ public class TextDispatcher {
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
 	 */
-	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPointND textCorner,
+	public GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPointND textCorner,
 			GeoNumeric length) {
 				StringTemplate tpl = StringTemplate.defaultTemplate;
 				// create text that shows length
@@ -299,6 +300,41 @@ public class TextDispatcher {
 					+ poly[0].getLabelSimple()));
 		}
 		GeoElement[] ret = { text };
+		return ret;
+	}
+	public GeoElement[] createSlopeText(GeoLine line, GPoint mouseLoc) {
+		GeoNumeric slope;
+		/*
+		 * if (strLocale.equals("de_AT")) { slope = kernel.Slope("k", line);
+		 * } else { slope = kernel.Slope("m", line); }
+		 */
+
+		String label = l10n.getPlain("ExplicitLineGradient");
+
+		// make sure automatic naming goes m, m_1, m_2, ..., m_{10}, m_{11}
+		// etc
+		if (kernel.lookupLabel(label) != null) {
+			int i = 1;
+			while (kernel.lookupLabel(i > 9 ? label + "_{" + i + "}"
+					: label + "_" + i) != null) {
+				i++;
+			}
+			label = i > 9 ? label + "_{" + i + "}" : label + "_" + i;
+		}
+
+		//checkZooming(); 
+		
+		slope = kernel.getAlgoDispatcher().Slope(label, line);
+
+		// show value
+		if (slope.isLabelVisible()) {
+			slope.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		} else {
+			slope.setLabelMode(GeoElement.LABEL_VALUE);
+		}
+		slope.setLabelVisible(true);
+		slope.updateRepaint();
+		GeoElement[] ret = { slope };
 		return ret;
 	}
 }
