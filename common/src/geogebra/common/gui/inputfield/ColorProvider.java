@@ -127,7 +127,7 @@ public class ColorProvider {
 	}
 	
 	private static RegExp createAssignmentRegExp(boolean isCasInput) {
-		return RegExp.compile(LABEL_REGEX_STRING + "(\\(((" + STRING + ",)*)" + STRING + "\\))" + "\\p{Z}*" + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)"));
+		return RegExp.compile("^\\p{Z}" + LABEL_REGEX_STRING + "(\\(((" + STRING + ",)*)" + STRING + "\\))" + "\\p{Z}*" + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)"));
 	}
 
 	private void getIntervals() {
