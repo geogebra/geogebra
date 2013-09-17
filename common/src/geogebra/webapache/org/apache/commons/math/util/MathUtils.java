@@ -18,6 +18,8 @@
 package org.apache.commons.math.util;
 
 
+import geogebra.common.kernel.Kernel;
+
 import java.util.Arrays;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -423,12 +425,17 @@ public final class MathUtils {
      * point values between {@code x} and {@code y}
      */
     public static boolean equals(double x, double y, int maxUlps) {
+    	// The original code uses Double.doubleToLongBits(value)
+    	// which cannot be translated using GWT
+    	return equals(x, y, Kernel.MAX_PRECISION);
         // Check that "maxUlps" is non-negative and small enough so that the
         // default NAN won't compare as equal to anything.
-        assert maxUlps > 0 && maxUlps < NAN_GAP;
+        /*assert maxUlps > 0 && maxUlps < NAN_GAP;
 
+					// Double.doubleToLongBits(x)
         long xInt = BigDecimal.valueOf(x).longValue();
-        long yInt = BigDecimal.valueOf(y).longValue();
+        			// Double.doubleToLongBits(y);
+        long yInt = BigDecimal.valueOf(y).longValue();MutableDo
 
         // Make lexicographically ordered as a two's-complement integer.
         if (xInt < 0) {
@@ -438,7 +445,7 @@ public final class MathUtils {
             yInt = SGN_MASK - yInt;
         }
 
-        return Math.abs(xInt - yInt) <= maxUlps;
+        return Math.abs(xInt - yInt) <= maxUlps;*/
     }
 
     /**
