@@ -151,18 +151,21 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		if (!app.isApplet()) {
 		// Add the Sign in button (force it to the far right)
 			
-			// On Java 6, JavaFX is available only on Windows
-			// so that it compiles, we include jfxrt.jar from Windows/Java6 using desktop/kickstart.xml
-			if (!System.getProperty("java.version").startsWith("1.6") || AppD.WINDOWS) {
-				
-				// maybe JavaFX not installed?
-				try {
-					add(Box.createHorizontalGlue());
-					addSignIn();
-				} catch (Exception e) {
-					App.error("JavaFX not available?");
-				}
+			boolean javaFx22Available = false;
+			try {
+			  this.getClass().getClassLoader().loadClass("javafx.embed.swing.JFXPanel");
+			  javaFx22Available = true;
+			} catch (ClassNotFoundException e) {
+				App.error("JavaFX 2.2 not available");
 			}
+			
+			// JavaFX 2.2 available only on Java 7u6 or higher
+			// http://www.oracle.com/us/corporate/press/1735645
+			if (javaFx22Available) {
+				add(Box.createHorizontalGlue());
+				addSignIn();				
+			}
+			
 		}
 		
 		// "flag" to select language
