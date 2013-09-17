@@ -150,8 +150,19 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		// and not wanted for applets anyway
 		if (!app.isApplet()) {
 		// Add the Sign in button (force it to the far right)
-			add(Box.createHorizontalGlue());
-			addSignIn();
+			
+			// On Java 6, JavaFX is available only on Windows
+			// so that it compiles, we include jfxrt.jar from Windows/Java6 using desktop/kickstart.xml
+			if (!System.getProperty("java.version").startsWith("1.6") || AppD.WINDOWS) {
+				
+				// maybe JavaFX not installed?
+				try {
+					add(Box.createHorizontalGlue());
+					addSignIn();
+				} catch (Exception e) {
+					App.error("JavaFX not available?");
+				}
+			}
 		}
 		
 		// "flag" to select language
