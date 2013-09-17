@@ -427,8 +427,8 @@ public final class MathUtils {
         // default NAN won't compare as equal to anything.
         assert maxUlps > 0 && maxUlps < NAN_GAP;
 
-        long xInt = BigDecimal.valueOf(x).longValue();
-        long yInt = BigDecimal.valueOf(y).longValue();
+        long xInt = Double.doubleToLongBits(x);
+        long yInt = Double.doubleToLongBits(y);
 
         // Make lexicographically ordered as a two's-complement integer.
         if (xInt < 0) {
