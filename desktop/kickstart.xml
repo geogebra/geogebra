@@ -32,7 +32,7 @@ download libs for other architectures than the current one.
 	    description="For Eclipse developers: to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, jfx-compile, info"
+	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, -jfx6, -jfx7, _classpath-close, info"
 	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds">
 	</target>
 
@@ -40,7 +40,7 @@ download libs for other architectures than the current one.
 	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close"
+	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close, jfx-compile"
 	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 	
@@ -324,6 +324,19 @@ download libs for other architectures than the current one.
 	</echo>
 	</target>
 
+	<target name="-jfx6" description="Internal target. Adds JavaFX version 6 to the classpath" if="java6">
+	<antcall target="jfx-compile" />
+	<echo file=".classpath" append="true">
+	&lt;classpathentry kind="lib" path="lib/jfxrt.jar"/&gt;
+	</echo>
+	</target>
+
+	<target name="-jfx7" description="Internal target. Adds JavaFX version 7 to the classpath" if="java7">
+	<echo file=".classpath" append="true">
+	&lt;classpathentry kind="lib" path="${java.home}/jre/lib/jfxrt.jar"/&gt;
+	</echo>
+	</target>
+
 	<target name="_classpath-close" description="Internal target, please do not use manually. Creates last part for .classpath.">
 	<echo file=".classpath" append="true">
 	&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
@@ -335,7 +348,6 @@ download libs for other architectures than the current one.
 	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/jfxrt.jar"/&gt;
 	&lt;classpathentry kind="src" path="/jogl${jogl}"/&gt;
 
 

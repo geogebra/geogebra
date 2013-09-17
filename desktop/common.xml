@@ -64,4 +64,12 @@
 		-->
 	</target>
 
+        <condition property="java6">
+            <contains string="${java.version}" substring="1.6" casesensitive="false" />
+        </condition>
+
+        <condition property="java7">
+            <contains string="${java.version}" substring="1.7" casesensitive="false" />
+        </condition>
+
 </project>
