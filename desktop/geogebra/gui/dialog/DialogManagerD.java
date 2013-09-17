@@ -464,7 +464,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	public void showLogOutDialog() {
 		int n = JOptionPane.showOptionDialog(
 				((AppD) app).getMainComponent(),
-				app.getPlain("ReallyLogOut"), app.getPlain("Question"),
+				app.getPlain("ReallySignOut"), app.getPlain("Question"),
 				JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null, null, null);
 		if (n == JOptionPane.OK_OPTION) {
