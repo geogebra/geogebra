@@ -194,6 +194,12 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdHeight(kernel);
 				
 				
+				
+				
+			case Axes:
+				return new CmdAxes3D(kernel);
+				
+				
 			// scripting : 3D
 			case SetViewDirection:
 				return new CmdSetViewDirection(kernel);

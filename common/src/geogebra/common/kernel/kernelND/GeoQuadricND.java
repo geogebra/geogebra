@@ -601,6 +601,13 @@ Traceable{
 		}
 
 		
+		/**
+		 * 
+		 * @return dimension (2 for conic, 3 for quadric)
+		 */
+		public int getDimension(){
+			return dimension;
+		}
 		
 	
 
