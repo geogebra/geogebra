@@ -90,6 +90,7 @@ __GGB__keysVar.tl.command = {
     "AttachCopyToView_Syntax": "[ <Object>, <View 0|1|2> ]\n[ <Object>, <View 0|1|2>, <Point 1>, <Point 2>, <Screen Point 1>, <Screen Point 2> ]",
     "Axes": "Axes",
     "Axes_Syntax": "[ <Conic> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AxisStepX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AxisStepY",

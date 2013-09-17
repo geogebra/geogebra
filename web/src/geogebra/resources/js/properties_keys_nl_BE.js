@@ -90,6 +90,7 @@ __GGB__keysVar.nl_BE.command = {
     "AttachCopyToView_Syntax": "[ <Object>, <View 0|1|2> ]\n[ <Object>, <View 0|1|2>, <Punt 1>, <Punt 2>, <Screen Point 1>, <Screen Point 2> ]",
     "Axes": "Assen",
     "Axes_Syntax": "[ <Kegelsnede> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "MarkeringX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "MarkeringY",

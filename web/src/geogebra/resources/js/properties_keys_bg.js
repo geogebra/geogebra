@@ -90,6 +90,7 @@ __GGB__keysVar.bg.command = {
     "AttachCopyToView_Syntax": "[ <Object>, <View 0|1|2> ]\n[ <Object>, <View 0|1|2>, <Point 1>, <Point 2>, <Screen Point 1>, <Screen Point 2> ]",
     "Axes": "\u041e\u0441\u0438",
     "Axes_Syntax": "[ <\u041a\u043e\u043d\u0438\u0447\u043d\u043e \u0441\u0435\u0447\u0435\u043d\u0438\u0435> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "\u0421\u0442\u044a\u043f\u043a\u0430_X_\u043e\u0441",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "\u0421\u0442\u044a\u043f\u043a\u0430_Y_\u043e\u0441",

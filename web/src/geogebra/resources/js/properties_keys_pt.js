@@ -90,6 +90,7 @@ __GGB__keysVar.pt.command = {
     "AttachCopyToView_Syntax": "[ <Objeto>, <Janela de Visualiza\xe7\xe3o 0|1|2> ]\n[ <Objeto>, <Janela de Visualiza\xe7\xe3o 0|1|2>, <Ponto 1>, <Ponto 2>, <Ponto da Tela 1>, <Ponto da Tela 2> ]",
     "Axes": "Eixos",
     "Axes_Syntax": "[ <C\xf4nica> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "PassoDoEixoX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "PassoDoEixoY",

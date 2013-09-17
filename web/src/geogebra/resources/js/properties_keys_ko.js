@@ -90,6 +90,7 @@ __GGB__keysVar.ko.command = {
     "AttachCopyToView_Syntax": "[ <\ub300\uc0c1>, <\ubcf4\uc774\uae30 \uc124\uc815 0|1|2> ]\n[ <\ub300\uc0c1>, <\ubcf4\uc774\uae30 \uc124\uc815 0|1|2>, <\uc810 1>, <\uc810 2>, <\ud654\uba74 \uc88c\ud45c(\ud53d\uc140) 1>, <\ud654\uba74 \uc88c\ud45c(\ud53d\uc140) 2> ]",
     "Axes": "\ucd95",
     "Axes_Syntax": "[ <\uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "x\ucd95\ub2e8\uc704",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "y\ucd95\ub2e8\uc704",

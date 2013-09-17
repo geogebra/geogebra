@@ -90,6 +90,7 @@ __GGB__keysVar.sq.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <Pamje 0|1|2> ]\n[ <Objekt>, <Pamje 0|1|2>, <Pike 1>, <Pike 2>, <Ekran Pike 1>, <Ekran Pike 2> ]",
     "Axes": "Boshte",
     "Axes_Syntax": "[ <Konike> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "HapiBoshtorX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "HapiBoshtorY",

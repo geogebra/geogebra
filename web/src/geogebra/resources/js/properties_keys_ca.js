@@ -90,6 +90,7 @@ __GGB__keysVar.ca.command = {
     "AttachCopyToView_Syntax": "[ <Objecte>, <Zona Gr\xe0fica 0|1|2> ]\n[ <Objecte>, <Zona Gr\xe0fica 0|1|2>, <Punt 1>, <Punt 2>, <Coordenades en pantalla 1>, <Coordenades en pantalla 2> ]",
     "Axes": "Eixos",
     "Axes_Syntax": "[ <C\xf2nica> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "PasEixX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "PasEixY",

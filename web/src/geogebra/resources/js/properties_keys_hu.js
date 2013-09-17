@@ -90,6 +90,7 @@ __GGB__keysVar.hu.command = {
     "AttachCopyToView_Syntax": "[ <Objektum>, <N\xe9zet 0|1|2> ]\n[ <Objektum>, <N\xe9zet 0|1|2>, <Pont 1>, <Pont 2>, <K\xe9perny\u0151 pont 1>, <K\xe9perny\u0151 pont 2> ]",
     "Axes": "Tengelyek",
     "Axes_Syntax": "[ <K\xfapszelet> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "TengelyBeoszt\xe1sX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "TengelyBeoszt\xe1sY",

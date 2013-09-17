@@ -90,6 +90,7 @@ __GGB__keysVar.ms.command = {
     "AttachCopyToView_Syntax": "[ <Objek>, <Paparan 0|1|2> ]\n[ <Objek>, <Paparan 0|1|2>, <Titik 1>, <Titik 2>, <Skrin Titik 1>, <Skrin Titik 2> ]",
     "Axes": "Paksi_paksi",
     "Axes_Syntax": "[ <Keratan Kon> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "PaksiLangkahX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "PaksiLangkahY",

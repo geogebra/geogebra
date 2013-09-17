@@ -90,6 +90,7 @@ __GGB__keysVar.no_NN.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <Felt 0|1|2> ]\n[ <Objekt>, <Felt 0|1|2>, <Punkt 1>, <Punkt 2>, <Skjermpunkt 1>, <Skjermpunkt 2> ]",
     "Axes": "Aksar",
     "Axes_Syntax": "[ <Kjeglesnitt> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AkseStegX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AkseStegY",

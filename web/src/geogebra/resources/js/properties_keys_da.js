@@ -90,6 +90,7 @@ __GGB__keysVar.da.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <View 0|1|2> ]\n[ <Objekt>, <View 0|1|2>, <Hj\xf8rne 1>, <Hj\xf8rne 2>, <Sk\xe6rmPunkt 1>, <Sk\xe6rmPunkt 2> ]",
     "Axes": "Akser",
     "Axes_Syntax": "[ <Keglesnit> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AkseTrinX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AkseTrinY",

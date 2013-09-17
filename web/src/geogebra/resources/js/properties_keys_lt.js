@@ -90,6 +90,7 @@ __GGB__keysVar.lt.command = {
     "AttachCopyToView_Syntax": "[ <Objektas>, <Vaizdas 0|1|2> ]\n[ <Objektas>, <Vaizdas 0|1|2>, <Ta\u0161kas 1>, <Ta\u0161kas 2>, <Ekrano ta\u0161kas 1>, <Ekrano ta\u0161kas 2> ]",
     "Axes": "A\u0161ys",
     "Axes_Syntax": "[ <Antros eil\u0117s kreiv\u0117> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "A\u0161ies\u017dingsnisX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "A\u0161ies\u017dingsnisY",

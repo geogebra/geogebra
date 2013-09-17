@@ -90,6 +90,7 @@ __GGB__keysVar.sl.command = {
     "AttachCopyToView_Syntax": "[ <objekt>, <pogled 0|1|2> ]\n[ <objekt>, <pogled 0|1|2>, <to\u010dka 1>, <to\u010dka 2>, <to\u010dka na ekranu 1>, <to\u010dka na ekranu 2> ]",
     "Axes": "OsiSto\u017enice",
     "Axes_Syntax": "[ <sto\u017enica> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "EnotaOsiX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "EnotaOsiY",

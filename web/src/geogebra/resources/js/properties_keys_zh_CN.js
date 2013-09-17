@@ -90,6 +90,7 @@ __GGB__keysVar.zh_CN.command = {
     "AttachCopyToView_Syntax": "[ <\u5bf9\u8c61>, <\u89c6\u56fe0|1|2> ]\n[ <\u5bf9\u8c61>, <\u89c6\u56fe0|1|2>, <\u70b9 1>, <\u70b9 2>, <\u5c4f\u5e55\u70b91>, <\u5c4f\u5e55\u70b9 2> ]",
     "Axes": "\u8f74\u7ebf",
     "Axes_Syntax": "[ <\u5706\u9525\u66f2\u7ebf> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "X\u8f74\u6b65\u957f",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "Y\u8f74\u6b65\u957f",

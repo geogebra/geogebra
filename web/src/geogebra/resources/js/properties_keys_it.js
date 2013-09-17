@@ -90,6 +90,7 @@ __GGB__keysVar.it.command = {
     "AttachCopyToView_Syntax": "[ <Oggetto>, <Vista 0|1|2> ]\n[ <Oggetto>, <Vista 0|1|2>, <Corner 1>, <Corner 3>, <Punto di riferimento> ]",
     "Axes": "Assi",
     "Axes_Syntax": "[ <Conica> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "PassoAsseX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "PassoAsseY",

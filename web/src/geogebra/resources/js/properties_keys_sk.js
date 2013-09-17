@@ -90,6 +90,7 @@ __GGB__keysVar.sk.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <Vzh\u013ead 0|1|2> ]\n[ <Objekt>, <Vzh\u013ead 0|1|2>, <Bod 1>, <Bod 2>, <Obraz bodu 1>, <Obraz bodu 2> ]",
     "Axes": "Osi",
     "Axes_Syntax": "[ <Ku\u017ee\u013eose\u010dka> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "KrokOsiX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "KrokOsiY",

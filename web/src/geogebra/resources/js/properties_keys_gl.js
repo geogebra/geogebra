@@ -90,6 +90,7 @@ __GGB__keysVar.gl.command = {
     "AttachCopyToView_Syntax": "[ <Obxecto>, <Vista 0|1|2> ]\n[ <Obxecto>, <Vista 0|1|2>, <Punto 1>, <Punto 2>, <Punto Pantalla 1>, <Punto Pantalla 2> ]",
     "Axes": "Eixes",
     "Axes_Syntax": "[ <C\xf3nica> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "PasoEixeX",
     "AxisStepX_Syntax": "[]",
     "AxisStepY": "PasoEixeY",

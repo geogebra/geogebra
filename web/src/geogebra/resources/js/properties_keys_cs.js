@@ -90,6 +90,7 @@ __GGB__keysVar.cs.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <Pohled 0|1|2> ]\n[ <Objekt>, <Pohled 0|1|2>, <Bod 1>, <Bod 2>, <Bod obrazovky 1>, <Bod obrazovky 2> ]",
     "Axes": "Osy",
     "Axes_Syntax": "[ <Ku\u017eelose\u010dka> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "KrokNaOseX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "KrokNaOseY",

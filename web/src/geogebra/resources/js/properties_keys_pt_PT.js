@@ -90,6 +90,7 @@ __GGB__keysVar.pt_PT.command = {
     "AttachCopyToView_Syntax": "[ <Objeto>, <Vista 0|1|2> ]\n[ <Objeto>, <Vista 0|1|2>, <Ponto 1>, <Ponto 2>, <Ponto Ecr\xe3 1>, <Ponto Ecr\xe3 2> ]",
     "Axes": "Eixos",
     "Axes_Syntax": "[ <C\xf3nica> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "PassoEixoX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "PassoEixoY",

@@ -90,6 +90,7 @@ __GGB__keysVar.bs.command = {
     "AttachCopyToView_Syntax": "[ <Figura>, <Prikaz 0|1|2> ]\n[ <Figura>, <Prikaz 0|1|2>, <Ta\u010dka 1>, <Ta\u010dka 2>, <Ta\u010dka zaslona 1>, <Ta\u010dka zaslona 2> ]",
     "Axes": "Ose",
     "Axes_Syntax": "[ <Konika> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "MjeraXosa",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "MjeraYosa",

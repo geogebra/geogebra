@@ -90,6 +90,7 @@ __GGB__keysVar.hr.command = {
     "AttachCopyToView_Syntax": "[ <objekt>, <grafi\u010dki prikaz 0|1|2> ]\n[ <objekt>, <grafi\u010dki prikaz 0|1|2>, <to\u010dka 1>, <to\u010dka 2>, <to\u010dka na ekranu 1>, <to\u010dka na ekranu 2> ]",
     "Axes": "Osi",
     "Axes_Syntax": "[ <konika> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "RazmakNaOsiX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "RazmakNaOsiY",

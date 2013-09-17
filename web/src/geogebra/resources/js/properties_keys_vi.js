@@ -90,6 +90,7 @@ __GGB__keysVar.vi.command = {
     "AttachCopyToView_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <Hi\u1ec3n th\u1ecb 0|1|2> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <HI\u1ec3n th\u1ecb 0|1|2>, <\u0110i\u1ec3m 1>, <\u0110i\u1ec3m 2>, <\u0110i\u1ec3m tr\xean m\xe0n h\xecnh 1>, <\u0110i\u1ec3m tr\xean m\xe0n h\xecnh 2> ]",
     "Axes": "HeTruc",
     "Axes_Syntax": "[ <\u0110\u01b0\u1eddng c\xf4n\xedc> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "DonViTrucX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "DonViTrucY",

@@ -90,6 +90,7 @@ __GGB__keysVar.ja.command = {
     "AttachCopyToView_Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30d3\u30e5\u30fc 0|1|2> ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30d3\u30e5\u30fc 0|1|2>, <\u70b9 1>, <\u70b9 2>, <Screen Point 1>, <Screen Point 2> ]",
     "Axes": "Axes",
     "Axes_Syntax": "[ <\uff12\u6b21\u66f2\u7dda> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AxisStepX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AxisStepY",

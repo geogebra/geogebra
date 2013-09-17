@@ -90,6 +90,7 @@ __GGB__keysVar.de_AT.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <Ansicht 0|1|2> ]\n[ <Objekt>, <Ansicht 0|1|2>, <Punkt 1>, <Punkt 2>, <Bildschirmpunkt 1>, <Bildschirmpunkt 2> ]",
     "Axes": "Achsen",
     "Axes_Syntax": "[ <Kegelschnitt> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AchsenSchrittweiteX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AchsenSchrittweiteY",

@@ -90,6 +90,7 @@ __GGB__keysVar.tr.command = {
     "AttachCopyToView_Syntax": "[ <Nesne>, <G\xf6r\xfcn\xfcm 0|1|2> ]\n[ <Nesne>, <G\xf6r\xfcn\xfcm 0|1|2>, <Nokta 1>, <Nokta 2>, <Ekran Nokta 1>, <Ekran Nokta 2> ]",
     "Axes": "Eksenler",
     "Axes_Syntax": "[ <Konik> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "XEkseniAd\u0131m\u0131",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "YEkseniAd\u0131m\u0131",

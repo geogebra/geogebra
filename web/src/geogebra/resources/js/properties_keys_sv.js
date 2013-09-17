@@ -90,6 +90,7 @@ __GGB__keysVar.sv.command = {
     "AttachCopyToView_Syntax": "[ <Objekt>, <Ritomr\xe5de 0|1|2> ]\n[ <Objekt>, <Ritomr\xe5de 0|1|2>, <Ritpunkt1>, <Ritpunkt2>, <Sk\xe4rmpunkt1>, <Sk\xe4rmpunkt2> ]",
     "Axes": "Axlar",
     "Axes_Syntax": "[ <K\xe4gelsnitt> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AxlarStegX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AxlarStegY",

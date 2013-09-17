@@ -90,6 +90,7 @@ __GGB__keysVar.in.command = {
     "AttachCopyToView_Syntax": "[ <Objek>, <Tampil 0|1|2> ]\n[ <Objek>, <Tampil 0|1|2>, <Titik 1>, <Titik 2>, <Titik Tampil 1>, <Titik Tampil 2> ]",
     "Axes": "SumbuSumbu",
     "Axes_Syntax": "[ <Konik> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "LangkahSumbuX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "LangkahSumbuY",

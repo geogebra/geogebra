@@ -90,6 +90,7 @@ __GGB__keysVar.sr.command = {
     "AttachCopyToView_Syntax": "[ <Objekat>, <Prikaz 0|1|2> ]\n[ <Objekat>, <Prikaz 0|1|2>, <Ta\u010dka 1>, <Ta\u010dka 2>, <Ekranska ta\u010dka 1>, <Ekranska ta\u010dka 2> ]",
     "Axes": "Ose",
     "Axes_Syntax": "[ <konusni presek> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "KorakNaXOsi",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "KorakNaYOsi",

@@ -90,6 +90,7 @@ __GGB__keysVar.eo.command = {
     "AttachCopyToView_Syntax": "[ <Objekto>, <Vido 0|1|2> ]\n[ <Objekto>, <Vido 0|1|2>, <Punkto 1>, <Punkto 2>, <Ekrana Punkto 1>, <Ekrana Punkto 2> ]",
     "Axes": "Aksoj",
     "Axes_Syntax": "[ <Koniko> ]",
+    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
     "AxisStepX": "AksaPa\u015doX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "AksaPa\u015doY",
