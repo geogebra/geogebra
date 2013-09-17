@@ -159,11 +159,17 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				App.error("JavaFX 2.2 not available");
 			}
 			
-			// JavaFX 2.2 available only on Java 7u6 or higher
+			// JavaFX 2.2 available by default only on Java 7u6 or higher
 			// http://www.oracle.com/us/corporate/press/1735645
 			if (javaFx22Available) {
-				add(Box.createHorizontalGlue());
-				addSignIn();				
+				
+				// try needed for eg OSX 10.6 with fake jfxrt.jar
+				try {
+					add(Box.createHorizontalGlue());
+					addSignIn();	
+				} catch (Exception e) {
+					App.error("problem starting JavaFX");
+				}
 			}
 			
 		}
