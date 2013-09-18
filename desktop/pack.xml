@@ -98,9 +98,15 @@ office@geogebra.org
 	<target name="finish">
 		<delete dir="${propertiestemp.dir}"/>
 		<delete dir="${src.dir}/geogebra/common"/>
+		<!-- use the permissions/codebase entries for the signed versions of geogebra.jar -->
+		<rename src="${build.dir}/debug/geogebra-signed.jar" dest="${build.dir}/debug/geogebra.jar" />
+		<rename src="${build.dir}/unpacked/geogebra-signed.jar" dest="${build.dir}/unpacked/geogebra.jar" />
+		<rename src="${build.dir}/packed/geogebra-signed.jar.pack.gz" dest="${build.dir}/unpacked/geogebra.jar.pack.gz" />
+		<delete file="${build.dir}/unsigned/packed/geogebra-signed.jar.pack.gz" />
+		<delete file="${build.dir}/unsigned/unpacked/geogebra-signed.jar.pack.gz" />
 	</target>
 
-	<!-- put jar files into subdirectories signed and unsigned -->
+	<!-- put (already obfuscated) jar files into subdirectories signed and unsigned -->
 	<target name="copyJars" depends="ggb-jar-files">
 		<copy todir="${build.dir}/unsigned/unpacked">
 			<fileset dir="${build.dir}">

@@ -128,6 +128,15 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
+	<manifest file="../manifest-signed.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
+		<attribute name="Class-Path" 
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+		<attribute name="Permissions" value="all-permissions"/>
+		<attribute name="Codebase" value="*.geogebra.org"/>
+	</manifest>
+
 	<manifest file="../manifest3D-jogl1.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
@@ -135,11 +144,29 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
+	<manifest file="../manifest3D-jogl1-signed.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
+		<attribute name="Class-Path" 
+			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+		<attribute name="Permissions" value="all-permissions"/>
+		<attribute name="Codebase" value="*.geogebra.org"/>
+	</manifest>
+
 	<manifest file="../manifest3D-jogl2.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
 			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
+
+	<manifest file="../manifest3D-jogl2-signed.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
+		<attribute name="Class-Path" 
+			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+		<attribute name="Permissions" value="all-permissions"/>
+		<attribute name="Codebase" value="*.geogebra.org"/>
 	</manifest>
 
 	<!-- remove comments from properties files -->
@@ -164,6 +191,11 @@ office@geogebra.org
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
 		</jar>
+		<jar jarfile="${build.dir}/geogebra-signed.jar" manifest="../manifest-signed.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
 	</target>
 
 	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
@@ -175,9 +207,19 @@ office@geogebra.org
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
 		</jar>
+		<jar jarfile="${build.dir}/geogebra-signed.jar" manifest="../manifest3D-jogl1-signed.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
 	</target>
 	<target name="ggb-jar3D-jogl2" depends="clean, copy-common-files" description="create unsigned geogebra.jar (jogl2)" if="usejogl2">
 		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl2.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
+		<jar jarfile="${build.dir}/geogebra-signed.jar" manifest="../manifest3D-jogl2-signed.mf" >
 			<fileset dir="${src.dir}"		   
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
