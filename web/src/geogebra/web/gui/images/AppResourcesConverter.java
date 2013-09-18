@@ -71,7 +71,7 @@ public class AppResourcesConverter {
 			sT.populateModelCallback(converted);
 		}
 	}
-
+ 
 	public static void setIcon(final ImageResource ir, final HasSetIcon button) {
 	    Canvas c = getTmpCanvas(ir.getWidth(),ir.getHeight());
 	    final Context2d ctx = c.getContext2d();
@@ -102,5 +102,13 @@ public class AppResourcesConverter {
 	    return tmpCanvas;
 	    
     }
+	
+	public static Image convertImageDataToImage(ImageData id){
+		tmpCanvas = getTmpCanvas(id.getWidth(), id.getHeight());
+		Context2d context = tmpCanvas.getContext2d();
+	    context.putImageData(id, 0, 0);
+	    return new Image(tmpCanvas.toDataUrl("image/png"));
+		
+	}
 
 }

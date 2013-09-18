@@ -94,7 +94,7 @@ public class CASViewW extends CASView {
 		return styleBar;
     }
 	private CASStylebarW newCASStyleBar() {
-		return new CASStylebarW();
+		return new CASStylebarW(this, app);
     }
 
 }

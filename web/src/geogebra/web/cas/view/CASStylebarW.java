@@ -1,14 +1,87 @@
 package geogebra.web.cas.view;
 
+import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
+import geogebra.html5.awt.GColorW;
+import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.awt.GFontW;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.StyleBarW;
+import geogebra.web.main.AppW;
 
-public class CASStylebarW extends StyleBarW{
+import java.util.ArrayList;
+
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+
+
+public class CASStylebarW extends StyleBarW implements ClickHandler{
 	
-	public CASStylebarW(){
+	private MyToggleButton2 btnUseAsText;
+	private AppW app;
+	private int iconHeight = 18;
+	private GDimensionW iconDimension = new GDimensionW(16, iconHeight);
+	private MyToggleButton2 btnBold;
+	private boolean needUndo=false;
+	private ArrayList<GeoElement> selectedRows;
+	private CASViewW casView;
+
+	public CASStylebarW(CASViewW view, AppW appl){
+		casView = view;
+		app = appl;
+		selectedRows = new ArrayList<GeoElement>();
 		initGUI();
 	}
-
+	
 	private void initGUI(){
+		createTextButtons();
+//		add(btnUseAsText);
+	}
+
+	private void createTextButtons(){
+		ImageData useAsTextIcon = GeoGebraIcon.createStringIcon(
+				app.getPlain("Text").substring(0, 1), (GFontW) app.getPlainFontCommon(), true,
+				false, true, iconDimension , GColorW.black, null); 
+		btnUseAsText = new MyToggleButton2(useAsTextIcon, iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				setVisible(true);
+				btnUseAsText.setSelected(checkGeoText(geos));
+
+			}
+		};
+		btnUseAsText.addClickHandler(this);
+		
+//		btnBold = new MyToggleButton2(
+//				AppResources.INSTANCE.format_text_bold(),
+//				iconHeight);
+	}
+	
+	/**
+	 * @param geos
+	 *            list of selected cells
+	 * @return whether all given objects are cells in text mode
+	 */
+	static boolean checkGeoText(Object[] geos) {
+		boolean geosOK = (geos.length > 0);
+		for (int i = 0; i < geos.length; i++) {
+			if (!(((GeoElement) geos[i]).getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
+				geosOK = false;
+				break;
+			} else if (!((GeoCasCell) geos[i]).isUseAsText()) {
+				geosOK = false;
+				break;
+			}
+		}
+		return geosOK;
 	}
 	
 	public int getOffsetHeight() {
@@ -21,5 +94,58 @@ public class CASStylebarW extends StyleBarW{
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	public void onClick(ClickEvent e){
+		Object source = e.getSource();
+
+		needUndo  = false;
+
+		processSource(source, selectedRows);
+
+		if (needUndo) {
+			app.storeUndoInfo();
+			needUndo = false;
+		}		
+	}
+	
+	private void processSource(Object source,
+            ArrayList<GeoElement> targetGeos) {
+		if (source == btnUseAsText) {
+//			btnUseAsText.onClick(null);
+			int i = casView.getConsoleTable().getEditingRow();
+//			int pos = ((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTableD.COL_CAS_CELLS)).getCaretPosition();
+			applyUseAsText(targetGeos);
+//			casView.getConsoleTable().startEditingRow(i);
+//			((CASTableCellEditorW)casView.getConsoleTable().getCellEditor(i,CASTableW.COL_CAS_CELLS)).setCaretPosition(pos);
+		}
+	    
+    }
+
+	/**
+	 * 
+	 * @param geo
+	 *            selected cell
+	 */
+	public void setSelectedRow(GeoElement geo) {
+		selectedRows.clear();
+		selectedRows.add(geo);
+		updateStyleBar();
+	}
+	
+	public void updateStyleBar(){
+		App.debug("updateStyleBar - implementation needed");
+	}
+	
+	private void applyUseAsText(ArrayList<GeoElement> geos) {
+		// btnUseAsText
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof GeoCasCell) {
+				((GeoCasCell) geo).setUseAsText(btnUseAsText.isSelected());
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+	}
 
 }

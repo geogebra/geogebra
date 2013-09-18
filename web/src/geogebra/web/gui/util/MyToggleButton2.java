@@ -1,9 +1,11 @@
 package geogebra.web.gui.util;
 
 import geogebra.web.euclidian.EuclidianStyleBarW;
+import geogebra.web.gui.images.AppResourcesConverter;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,6 +50,10 @@ public class MyToggleButton2 extends ToggleButton implements ClickHandler, HasVa
 	}
 	
 
+	public MyToggleButton2(ImageData useAsTextIcon, int iconHeight) {
+	    this(AppResourcesConverter.convertImageDataToImage(useAsTextIcon), iconHeight);
+    }
+
 	public void update(Object[] geos) {
 	}
 
@@ -75,7 +81,8 @@ public class MyToggleButton2 extends ToggleButton implements ClickHandler, HasVa
 	
 
 	public boolean isSelected() {
-	    return isDown;
+		return isDown;
+//	    return isDown();
     }
 
 	public void removeValueChangeHandler(EuclidianStyleBarW euclidianStyleBar) {

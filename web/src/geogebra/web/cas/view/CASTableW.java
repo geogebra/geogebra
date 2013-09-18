@@ -225,4 +225,11 @@ public class CASTableW extends Grid implements CASTable {
 		return false;
     }
 
+	public int getEditingRow() {
+	    if (isEditing()){
+	    	return getSelectedRows()[0];
+	    }
+	    return -1;
+    }
+
 }
