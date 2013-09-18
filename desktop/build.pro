@@ -5,6 +5,7 @@
 -ignorewarnings
 
 -injars build/geogebra.jar
+-injars build/geogebra-signed.jar
 -injars build/geogebra_main.jar
 -injars build/geogebra_gui.jar
 -injars build/geogebra_export.jar
