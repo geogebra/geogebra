@@ -5340,6 +5340,13 @@ namespace giac {
 	else
 	  return basep;
       }
+      if (u==at_sign && exponent.type==_INT_ && !complex_mode(contextptr) && !has_i(base)){ 
+	int n=exponent.val;
+	if (n%2)
+	  return base;
+	else
+	  return 1;
+      }
       if (u==at_exp){
 	// (e^a)^b=e^(a*b)
 	// but we keep (e^a)^b if b is integer and e^(a*b) is not simplified
@@ -7888,7 +7895,7 @@ namespace giac {
     if (x.type<_POLY)
       return makevecteur(x,plus_one);
     gen tmp;
-    if (x.type!=_SYMB)
+    if (x.type!=_SYMB || x._SYMBptr->sommet==at_program)
       return makevecteur(1,x);
     if (x._SYMBptr->sommet==at_neg){
       vecteur v=terme2unitaire(x._SYMBptr->feuille,sorted,contextptr);

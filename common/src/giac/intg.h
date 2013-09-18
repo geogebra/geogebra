@@ -57,6 +57,7 @@ namespace giac {
   bool intgab_ratfrac(const gen & e,const gen & x,gen & value,GIAC_CONTEXT);
   // integr. of rat. fcns.
   gen integrate_gen_rem(const gen & e, const gen & x, gen & remains_to_integrate,GIAC_CONTEXT);
+  gen integrate_id_rem(const gen & e, const gen & x, gen & remains_to_integrate,GIAC_CONTEXT,int intmode);
   gen integrate_id_rem(const gen & e, const gen & x, gen & remains_to_integrate,GIAC_CONTEXT);
   gen linear_integrate(const gen & e,const gen & x,gen & remains_to_integrate,GIAC_CONTEXT);
   gen integrate_id(const gen & e,const identificateur & x,GIAC_CONTEXT);

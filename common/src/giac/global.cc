@@ -117,7 +117,7 @@ namespace giac {
 #ifdef TIMEOUT
 #ifndef EMCC
   double time(int ){
-    return double(clock())/CLOCKS_PER_SEC;
+    return double(clock())/1000000; // CLOCKS_PER_SEC;
   }
 #endif
   time_t caseval_begin,caseval_current;
@@ -4585,7 +4585,7 @@ unsigned int ConvertUTF8toUTF16 (
     if (g.type==_VECT)
       return apply(g,add_autosimplify,contextptr);
     if (g.type==_SYMB){
-      if (g._SYMBptr->sommet==at_program || g._SYMBptr->sommet==at_sto)
+      if (g._SYMBptr->sommet==at_program)
 	return g;
       const char * c=unlocalize(g._SYMBptr->sommet.ptr()->s).c_str();
       const char ** ptr=do_not_autosimplify;

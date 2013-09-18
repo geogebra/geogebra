@@ -3591,7 +3591,13 @@ namespace giac {
     vector<modint>::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       if (*it){
+#if 1
 	used[it-v.begin()]=1;
+#else
+	++used[it-v.begin()];
+	if (used[it-v.begin()]>100)
+	  used[it-v.begin()]=100;
+#endif
 	++count;
       }
     }
@@ -3649,7 +3655,13 @@ namespace giac {
     vector<modint>::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       if (*it){
+#if 1
 	used[it-v.begin()]=1;
+#else
+	++used[it-v.begin()];
+	if (used[it-v.begin()]>100)
+	  used[it-v.begin()]=100;
+#endif
 	++count;
       }
     }
@@ -3725,9 +3737,12 @@ namespace giac {
       if (debug_infolevel>1)
 	cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
       for (i=0;i<N;++i)
-	usedcount += used[i];
-      if (debug_infolevel>1)
+	usedcount += (used[i]>0);
+      if (debug_infolevel>1){
 	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+	if (debug_infolevel>2)
+	  cerr << " column32 used " << used << endl;
+      }
       // create dense matrix K 
       for (i=0; i<K.size(); ++i){
 	vector<modint> & v =K[i];
@@ -3838,9 +3853,12 @@ namespace giac {
       if (debug_infolevel>1)
 	cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
       for (i=0;i<N;++i)
-	usedcount += used[i];
-      if (debug_infolevel>1)
+	usedcount += (used[i]>0);
+      if (debug_infolevel>1){
 	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+	if (debug_infolevel>2)
+	  cerr << " column use " << used << endl;
+      }
       // create dense matrix K 
       for (i=0; i<K.size(); ++i){
 	vector<modint> & v =K[i];
@@ -3934,12 +3952,21 @@ namespace giac {
   }
 
   void rref_f4mod_nointerreduce(vectpolymod & f4v,const vector<unsigned> & f4vG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
+    unsigned N=R.coord.size(),i,j=0;
+    for (i=0;i<G.size();++i){
+      if (!quo[i].coord.empty())
+	break;
+    }
+    if (i==G.size()){
+      if (debug_infolevel>1)
+	cerr << clock() << " No inter-reduction" << endl;
+      return;
+    }
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
     if (debug_infolevel>1)
       cerr << clock() << " begin build M" << endl;
     vector< vector<sparse_element> > M;
-    unsigned N=R.coord.size(),i,j=0;
     M.reserve(N);
     vector<sparse_element> atrier;
     atrier.reserve(N);
@@ -3964,7 +3991,7 @@ namespace giac {
     swap(M,M1);
     // sort(M.begin(),M.end(),tri);
     if (debug_infolevel>1)
-      cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << endl;
+      cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << " #basis to reduce" << f4vG.size() << endl;
     // cerr << "after sort " << M << endl;
     // step3 reduce
     unsigned c=N;
@@ -4564,8 +4591,6 @@ namespace giac {
 #endif
 	}
       }
-      if (debug_infolevel>1)
-	cerr << clock() << " reduce f4 end on " << f4v.size() << " pairs, gbasis update begin" << endl;
       // update gbasis and learning
       // requires that Gauss pivoting does the same permutation for other primes
       if (learning && pairs_reducing_to_zero){
@@ -4582,6 +4607,8 @@ namespace giac {
 	if (!f4v[i].coord.empty())
 	  ++added;
       }
+      if (debug_infolevel>1)
+	cerr << clock() << " reduce f4 end on " << added << " from " << f4v.size() << " pairs, gbasis update begin" << endl;
       for (unsigned i=0;i<f4v.size();++i){
 	if (!f4v[i].coord.empty()){
 	  if (ressize==res.size())
@@ -4613,6 +4640,8 @@ namespace giac {
 	  information.R2.order=TMP1.order;
 	  information.R2.dim=TMP1.dim;
 	  TMP1.coord.clear();
+	  if (debug_infolevel>1)
+	    cerr << clock() << " collect monomials from old basis" << endl;
 	  collect(res,G1,TMP1); // collect all monomials in res[G[0..debut-1]]
 	  // in_heap_reducemod(TMP1,res,G2,-1,info_tmp.quo2,TMP2,&info_tmp.R2,env);
 	  in_heap_reducemod(TMP1,res,G2,-1,information.quo2,TMP2,&information.R2,env);

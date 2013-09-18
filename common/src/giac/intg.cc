@@ -1080,23 +1080,23 @@ namespace giac {
     return false;
   } // end recusive var size==2 i.e. of integrate_sqrt 
 
-  static gen integrate_piecewise(gen& e,const gen & piece,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT){
+  static gen integrate_piecewise(gen& e,const gen & piece,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
     gen & piecef=piece._SYMBptr->feuille;
     if (piecef.type!=_VECT){
       e=subst(e,piece,piecef,false,contextptr);
-      return integrate_id_rem(e,gen_x,remains_to_integrate,contextptr);
+      return integrate_id_rem(e,gen_x,remains_to_integrate,contextptr,intmode);
     }
     vecteur piecev=*piecef._VECTptr,remainsv(piecev);
     int nargs=piecev.size();
     bool addremains=false;
     for (int i=0;i<nargs/2;++i){
       remainsv[2*i+1]=0;
-      piecev[2*i+1]=integrate_id_rem(piecev[2*i+1],gen_x,remainsv[2*i+1],contextptr);
+      piecev[2*i+1]=integrate_id_rem(piecev[2*i+1],gen_x,remainsv[2*i+1],contextptr,intmode);
       addremains = addremains || !is_zero(remainsv[2*i+1]);
     }
     if (nargs%2){
       remainsv[nargs-1]=0;
-      piecev[nargs-1]=integrate_id_rem(piecev[nargs-1],gen_x,remainsv[nargs-1],contextptr);
+      piecev[nargs-1]=integrate_id_rem(piecev[nargs-1],gen_x,remainsv[nargs-1],contextptr,intmode);
       addremains = addremains || !is_zero(remainsv[nargs-1]);
 	}
     if (addremains)
@@ -1845,14 +1845,14 @@ namespace giac {
     if (x_orig.type!=_IDNT){
       identificateur x(" x");
       gen e=subst(e_orig,x_orig,x,false,contextptr);
-      e=integrate_id_rem(e,x,remains_to_integrate,contextptr);
+      e=integrate_id_rem(e,x,remains_to_integrate,contextptr,0);
       remains_to_integrate=quotesubst(remains_to_integrate,x,x_orig,contextptr);
       return quotesubst(e,x,x_orig,contextptr);
     }
-    return integrate_id_rem(e_orig,x_orig,remains_to_integrate,contextptr);
+    return integrate_id_rem(e_orig,x_orig,remains_to_integrate,contextptr,0);
   }
 
-  static bool integrate_step0(gen & e,const gen & gen_x,vecteur & l1,vecteur & m1,gen & res,gen & remains_to_integrate,GIAC_CONTEXT){
+  static bool integrate_step0(gen & e,const gen & gen_x,vecteur & l1,vecteur & m1,gen & res,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
     const identificateur & id_x=*gen_x._IDNTptr;
     vecteur l2,m2,l3,l4;
     const_iterateur it=l1.begin(),itend=l1.end();
@@ -1875,7 +1875,7 @@ namespace giac {
     }      
     *logptr(contextptr) << gettext("Warning, integration of abs or sign assumes constant sign by intervals (correct if the argument is real):\nCheck ") << l1 << endl;
     e=complex_subst(e,l1,l2,contextptr);
-    res=integrate_id_rem(e,gen_x,remains_to_integrate,contextptr);
+    res=integrate_id_rem(e,gen_x,remains_to_integrate,contextptr,intmode);
     gen resadd;
     if (is_undef(res)) return true;
     // check what happens when si==0
@@ -1971,6 +1971,10 @@ namespace giac {
   }
 
   gen integrate_id_rem(const gen & e_orig,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT){
+    return integrate_id_rem(e_orig,gen_x,remains_to_integrate,contextptr,0);
+  }
+
+  gen integrate_id_rem(const gen & e_orig,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate id_rem ") << e_orig << endl;
 #endif
@@ -1995,7 +1999,7 @@ namespace giac {
       *logptr(contextptr) << gettext("Warning: piecewise indefinite integration does not return a continuous antiderivative") << endl;
       gen piece=lpiece.front();
       if (piece.is_symb_of_sommet(at_piecewise))
-	return integrate_piecewise(e,piece,gen_x,remains_to_integrate,contextptr);
+	return integrate_piecewise(e,piece,gen_x,remains_to_integrate,contextptr,intmode);
     }
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step -2 ") << e << endl;
@@ -2038,7 +2042,7 @@ namespace giac {
     if (!l1.empty()) l1=lvarx(l1,gen_x); 
     if (!m1.empty()) m1=lvarx(m1,gen_x);
     if (!l1.empty() || !m1.empty()){
-      if (integrate_step0(e,gen_x,l1,m1,res,remains_to_integrate,contextptr))
+      if (integrate_step0(e,gen_x,l1,m1,res,remains_to_integrate,contextptr,intmode))
 	return res;
     }
     // Step1: detection of some unary_op[linear fcn]
@@ -2088,7 +2092,7 @@ namespace giac {
       vecteur subst2=mergevecteur(l2surd,l2NTHROOT);
       *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
       gen g=subst(e,subst1,subst2,false,contextptr);
-      g=integrate_id_rem(g,gen_x,remains_to_integrate,contextptr);
+      g=integrate_id_rem(g,gen_x,remains_to_integrate,contextptr,intmode);
       remains_to_integrate=subst(remains_to_integrate,subst2,subst1,false,contextptr);
       g=subst(g,subst2,subst1,false,contextptr);
       return g;
@@ -2118,10 +2122,14 @@ namespace giac {
 	  // *it is constant -> find the value
 	  tmprem=subst(*it,gen_x,zero,false,contextptr);
 	  e=subst(e,*it,tmprem,false,contextptr);
-	  return integrate_id_rem(e,gen_x,remains_to_integrate,contextptr);
+	  return integrate_id_rem(e,gen_x,remains_to_integrate,contextptr,intmode);
 	}
 	if (is_undef(fu) || is_inf(fu))
 	  continue;
+	if (it->is_symb_of_sommet(at_cos))
+	  fu=_trigcos(tan2sincos(fu,contextptr),contextptr);
+	if (it->is_symb_of_sommet(at_sin))
+	  fu=_trigsin(tan2sincos(fu,contextptr),contextptr);
 	if (is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr)){
 	  e=linear_integrate(fx,gen_x,tmprem,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
@@ -2188,8 +2196,19 @@ namespace giac {
 
     // square roots
     if ( (rvarsize==2) && (rvar.back().type==_SYMB) && (rvar.back()._SYMBptr->sommet==at_pow) ){
-      if (integrate_sqrt(e,gen_x,rvar,res,remains_to_integrate,contextptr))
+      if (integrate_sqrt(e,gen_x,rvar,res,remains_to_integrate,contextptr)){
+	if (intmode==0 && is_zero(res)){
+	  // try again with x->1/x?
+	  gen e2=normal(-complex_subst(e,gen_x,inv(gen_x,contextptr),contextptr)/gen_x/gen_x,contextptr);
+	  gen remains_to_integrate2,res2=integrate_id_rem(e2,gen_x,remains_to_integrate2,contextptr,1);
+	  if (!is_zero(res2)){
+	    res=complex_subst(res2,gen_x,inv(gen_x,contextptr),contextptr);
+	    remains_to_integrate=-complex_subst(remains_to_integrate2,gen_x,inv(gen_x,contextptr),contextptr)/gen_x/gen_x;
+	    return res;
+	  }
+	}
 	return res;
+      }
     }
     // detection of inv of trig or ln of a linear expression
     if (detect_inv_trigln(e,rvar,gen_x,res,remains_to_integrate,true,contextptr))

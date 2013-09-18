@@ -1110,7 +1110,7 @@ namespace giac {
 	// set gx=X^d : sum_ a_k/(d*k-n)*X^(d*k)
 	tmp1=subst(tmp1,gx,pow(gx,d,contextptr),false,contextptr);
 	tmp1=tmp1*pow(gx,-1-n,contextptr);
-	tmp1=integrate_id_rem(tmp1,gx,remains,contextptr);
+	tmp1=integrate_id_rem(tmp1,gx,remains,contextptr,0);
 	if (is_undef(tmp1)) return false;
 	tmp1=tmp1-limit(tmp1,*gx._IDNTptr,0,1,contextptr);
 	tmp1=ratnormal(tmp1*pow(gx,n,contextptr));
@@ -1118,7 +1118,7 @@ namespace giac {
       }
       else {
 	tmp1=tmp1*pow(gx,-1-decals[i],contextptr);
-	tmp1=integrate_id_rem(tmp1,gx,remains,contextptr);
+	tmp1=integrate_id_rem(tmp1,gx,remains,contextptr,0);
 	if (is_undef(tmp1)) return false;
 	tmp1=tmp1-limit(tmp1,*gx._IDNTptr,0,1,contextptr);
 	tmp1=tmp1*pow(gx,decals[i],contextptr);

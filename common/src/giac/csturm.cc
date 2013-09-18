@@ -988,11 +988,12 @@ namespace giac {
     }
     if (use_vas && vas(symb2poly_num(v[0],contextptr),a0,a1,isolation?1e300:eps,vas_res,true,contextptr))
       return vas_res;
-    vecteur l;
-    lvar(p,l);
-    if (l.size()!=1)
+    vecteur l,l0;
+    lidnt(p,l0);
+    if (l0.size()!=1)
       return gentypeerr(contextptr);
-    gen px=_e2r(makevecteur(p,l),contextptr);
+    l=alg_lvar(p);
+    gen px=_e2r(makesequence(p,l),contextptr);
     if (px.type==_FRAC)
       px=px._FRACptr->num;
     if (px.type!=_POLY)
@@ -1001,7 +1002,11 @@ namespace giac {
     factorization::const_iterator it=f.begin(),itend=f.end();
     vecteur res;
     for (;it!=itend;++it){
-      vecteur tmp=complex_roots(polynome2poly1(it->fact),a0,b0,a1,b1,complexe,eps);
+      gen P=_poly2symb(makesequence(it->fact,l),contextptr);
+      P=_e2r(makesequence(P,l0.front()),contextptr);
+      if (P.type!=_VECT)
+	continue;
+      vecteur tmp=complex_roots(*P._VECTptr,a0,b0,a1,b1,complexe,eps);
       if (is_undef(tmp))
 	return tmp;
       iterateur jt=tmp.begin(),jtend=tmp.end();
