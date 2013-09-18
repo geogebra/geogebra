@@ -110,7 +110,7 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public boolean isShareSupported() {
-		return false;
+		return true;
 	}
 
 	@Override
