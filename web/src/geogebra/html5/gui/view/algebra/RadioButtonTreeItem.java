@@ -20,10 +20,12 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
 import geogebra.html5.gui.view.algebra.Marble.GeoContainer;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 
 import java.util.Iterator;
 
@@ -61,7 +63,8 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class RadioButtonTreeItem extends HorizontalPanel
-	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, GeoContainer {
+	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, 
+	MouseOverHandler, MouseOutHandler, GeoContainer {
 
 	private GeoElement geo;
 	private Kernel kernel;
@@ -143,6 +146,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.addClickHandler(this);
 		ihtml.addMouseMoveHandler(this);
 		ihtml.addMouseDownHandler(this);
+		ihtml.addMouseOverHandler(this);
+		ihtml.addMouseOutHandler(this);
 		add(ihtml);
 		ihtml.getElement().appendChild(se);
 
@@ -525,7 +530,18 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//}
 	}
 
+	
+	public void onMouseOver(MouseOverEvent event) {
+		App.debug("showing AV tooltip");
+		ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
+	}
+
+	public void onMouseOut(MouseOutEvent event) {
+		ToolTipManagerW.sharedInstance().showToolTip(null);	    
+    }
+	
 	public GeoElement getGeo() {
 	    return geo;
     }
 }
+

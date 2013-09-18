@@ -16,6 +16,7 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.List;
@@ -342,8 +343,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
     }
 
 	public void setToolTipText(String plainTooltip) {
-	    app.getToolTipManager().showToolTip(plainTooltip);
-	    
+	    ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);    
     }
 
 	public void setResizeXAxisCursor() {

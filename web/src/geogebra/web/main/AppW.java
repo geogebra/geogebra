@@ -323,12 +323,12 @@ public class AppW extends AppWeb {
 
 	
 
-	public ToolTipManagerW getToolTipManager(){
-		if(toolTipManager == null){
-		toolTipManager = new ToolTipManagerW(this);
-		}
-		return toolTipManager;
-	}
+	//public ToolTipManagerW getToolTipManager(){
+	//	if(toolTipManager == null){
+	//	toolTipManager = new ToolTipManagerW(this);
+	//	}
+	//	return toolTipManager;
+	//}
 
 	// ========================================================
 	// Undo/Redo

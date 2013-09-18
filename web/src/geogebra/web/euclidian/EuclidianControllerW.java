@@ -16,6 +16,7 @@ import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
@@ -448,16 +449,16 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
-		//hide dialogs if they are open
+		// hide dialogs if they are open
 		int x = event.getClientX();
 		int y = event.getClientY();
-		int ex = ((EuclidianViewW)view).getAbsoluteLeft();
-		int ey = ((EuclidianViewW)view).getAbsoluteTop();
-		int eWidth = ((EuclidianViewW)view).getWidth();
-		int eHeight = ((EuclidianViewW)view).getHeight();
-		if ((x < ex || x > ex + eWidth) ||
-				(y < ey ||y > ey + eHeight)){
-			((AppW)app).getToolTipManager().hideToolTip();
+		int ex = ((EuclidianViewW) view).getAbsoluteLeft();
+		int ey = ((EuclidianViewW) view).getAbsoluteTop();
+		int eWidth = ((EuclidianViewW) view).getWidth();
+		int eHeight = ((EuclidianViewW) view).getHeight();
+		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
+			ToolTipManagerW.sharedInstance().hideToolTip(true);
+			// ((AppW)app).getToolTipManager().hideToolTip(true);
 		}
 
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
@@ -552,7 +553,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	
 	@Override
 	protected void initToolTipManager() {
-		App.debug("initToolTipManager: implementation needed really"); // TODO Auto-generated
+		// set tooltip manager
+		ToolTipManagerW ttm = ToolTipManagerW.sharedInstance();
+		ttm.setInitialDelay(defaultInitialDelay / 2);
+		//ttm.setEnabled((AppW.getAllowToolTips());
 		
 	}
 
@@ -624,3 +628,4 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 }
+

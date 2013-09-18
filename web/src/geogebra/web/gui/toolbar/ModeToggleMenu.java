@@ -2,6 +2,7 @@ package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -204,13 +205,13 @@ public class ModeToggleMenu extends MenuBar{
 		public void showToolTip(){
 			if (toolbar.hasPopupOpen()) return;
 			
-			app.getToolTipManager().setEnableDelay(false);
-			app.getToolTipManager().showToolTip(this.getElement(), toolTipText);
-			app.getToolTipManager().setEnableDelay(true);
+			ToolTipManagerW.sharedInstance().setEnableDelay(false);
+			ToolTipManagerW.sharedInstance().showToolTip(this.getElement(), toolTipText);
+			ToolTipManagerW.sharedInstance().setEnableDelay(true);
 		}
 		
 		public void hideToolTip(){
-			app.getToolTipManager().hideToolTip();
+			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
 		
 		private void initCanvasForRedTriangle(){
