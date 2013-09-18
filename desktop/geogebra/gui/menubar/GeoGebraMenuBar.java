@@ -59,7 +59,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 	private final AppD app;
 	private LayoutD layout;
-	private JButton signInButton;
+	private JMenuItem signInButton;
 	
 	private AbstractAction signInAction, signInInProgressAction, signOutAction;
 
@@ -246,12 +246,18 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			}
 		};
 
-		signInButton = new JButton(signInAction);
+		signInButton = new JMenuItem(signInAction);
 		signInButton.setFocusPainted(false);
 		signInButton.setContentAreaFilled(false);
 		Localization loc = app.getLocalization();
-		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));		
-		add(signInButton);
+		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));
+		if (app.isMacOS()) {
+			JMenu m = new JMenu(app.getMenu("GeoGebraTube"));
+			m.add(signInButton);
+			add(m);
+		} else {
+			add(signInButton);
+		}
 
 		// Add the menu bar as a listener for login/logout operations
 		LogInOperation signIn = app.getLoginOperation();
