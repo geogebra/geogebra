@@ -28,7 +28,7 @@ public class GeoGebraLoggerT extends Log {
 	@Override
 	protected void print(String logEntry, Level level) {
 
-		this.el.setInnerHTML(this.el.getInnerHTML() + "<br/>" + logEntry);
+		this.el.setInnerHTML(logEntry + "<br/>"+this.el.getInnerHTML());
 	}
 
 }
