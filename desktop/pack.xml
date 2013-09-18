@@ -101,9 +101,9 @@ office@geogebra.org
 		<!-- use the permissions/codebase entries for the signed versions of geogebra.jar -->
 		<rename src="${build.dir}/debug/geogebra-signed.jar" dest="${build.dir}/debug/geogebra.jar" />
 		<rename src="${build.dir}/unpacked/geogebra-signed.jar" dest="${build.dir}/unpacked/geogebra.jar" />
-		<rename src="${build.dir}/packed/geogebra-signed.jar.pack.gz" dest="${build.dir}/unpacked/geogebra.jar.pack.gz" />
+		<rename src="${build.dir}/packed/geogebra-signed.jar.pack.gz" dest="${build.dir}/packed/geogebra.jar.pack.gz" />
 		<delete file="${build.dir}/unsigned/packed/geogebra-signed.jar.pack.gz" />
-		<delete file="${build.dir}/unsigned/unpacked/geogebra-signed.jar.pack.gz" />
+		<delete file="${build.dir}/unsigned/unpacked/geogebra-signed.jar" />
 	</target>
 
 	<!-- put (already obfuscated) jar files into subdirectories signed and unsigned -->
