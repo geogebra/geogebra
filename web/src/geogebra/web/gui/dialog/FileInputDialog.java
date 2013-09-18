@@ -24,6 +24,7 @@ public class FileInputDialog extends PopupPanel implements ClickHandler{
 	    this.app = app;
 	    this.location = location;
 	    //createGUI();
+		addStyleName("GeoGebraPopup");
 	    setGlassEnabled(true);
 	    center();
     }

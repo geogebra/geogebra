@@ -31,6 +31,7 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 	public WebCamInputDialog(boolean modal, AppW app) {
 	    super(false, modal);
 	    this.app = app;
+		addStyleName("GeoGebraPopup");
 	    createGUI();
 	    center();
     }

@@ -106,6 +106,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		geoResult = null;
 
 		setWidget(mainWidget = new VerticalPanel());
+		addStyleName("GeoGebraPopup");
 		createGUI();
 
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;

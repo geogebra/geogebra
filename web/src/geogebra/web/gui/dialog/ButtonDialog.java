@@ -52,6 +52,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		this.x=x;
 		this.y=y;
 		
+		addStyleName("GeoGebraPopup");
 		createGUI();	
 		center();
 //		setLocationRelativeTo(app.getMainComponent());	
