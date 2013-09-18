@@ -90,7 +90,7 @@ __GGB__keysVar.fr.command = {
     "AttachCopyToView_Syntax": "[ <Objet>, <Vue 0|1|2> ]\n[ <Objet>, <Vue 0|1|2>, <Point 1>, <Point 2>, <\xc9cran Point 1>, <\xc9cran Point 2> ]",
     "Axes": "Axes",
     "Axes_Syntax": "[ <Conique> ]",
-    "Axes_Syntax3D": "[ <Conic> ]\n[ <Quadric> ]",
+    "Axes_Syntax3D": "[ <Conique> ]\n[ <Quadrique> ]",
     "AxisStepX": "PasAxeX",
     "AxisStepX_Syntax": "[ ]",
     "AxisStepY": "PasAxeY",
