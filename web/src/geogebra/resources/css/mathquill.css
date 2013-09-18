@@ -399,23 +399,3 @@
   filter: progid:DXImageTransform.Microsoft.Chroma(color='white');
   margin-top: -0.1em;
 }
-/*.mathquill-rendered-math .sup {
-  vertical-align: bottom;
-}
-.mathquill-rendered-math .sub {
-  vertical-align: top;
-}*/
-/* ? Here stopped.
-< .mathquill-rendered-math sup.limit, .mathquill-rendered-math sub.limit,
----
-> .mathquill-rendered-math sup.int, .mathquill-rendered-math sub.int,
-280c309
-< .mathquill-rendered-math sup.limit, .mathquill-rendered-math sup.nthroot {
----
-> .mathquill-rendered-math sup.int, .mathquill-rendered-math sup.nthroot {
-283c312
-< .mathquill-rendered-math sub.limit {
----
-> .mathquill-rendered-math sub.int {
-*/
-
