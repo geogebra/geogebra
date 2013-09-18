@@ -193,7 +193,7 @@ public class DrawEquationWeb extends DrawEquation {
 			(app1.getEuclidianView1().getBackgroundCommon() == bgColor))
 			shouldPaintBackground = false;
 		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
-				(app1.getEuclidianView2() == null))
+				(!app1.hasEuclidianView2EitherShowingOrNot() || app1.getEuclidianView2() == null))
 			shouldPaintBackground = false;
 		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
 				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
