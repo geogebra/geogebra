@@ -11,12 +11,6 @@
  * Appropriate license terms apply.
  */
 
-@font-face {
-  font-family: Symbola;
-  src: url(web/font/Symbola.eot);
-  src: local("Symbola Regular"), local("Symbola"), url(web/font/Symbola.ttf) format("truetype"), url(web/font/Symbola.otf) format("opentype"), url(web/font/Symbola.svg#Symbola) format("svg");
-}
-
 .mathquill-editable {
   display: -moz-inline-box;
   display: inline-block;
