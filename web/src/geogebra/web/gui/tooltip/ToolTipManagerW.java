@@ -12,7 +12,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -223,8 +222,8 @@ public class ToolTipManagerW {
 		// handle tooltip overflow at left and bottom edge
 		int w = tipPanel.getOffsetWidth();
 
-		int windowLeft = RootLayoutPanel.get().getAbsoluteLeft()
-		        + RootLayoutPanel.get().getOffsetWidth();
+		int windowLeft = RootPanel.get().getAbsoluteLeft()
+		        + RootPanel.get().getOffsetWidth();
 
 		// int windowLeft = rootPane.getAbsoluteLeft()
 		// + rootPane.getOffsetWidth();
@@ -234,8 +233,8 @@ public class ToolTipManagerW {
 		}
 		int h = tipPanel.getOffsetHeight();
 
-		int windowBottom = RootLayoutPanel.get().getAbsoluteTop()
-		        + RootLayoutPanel.get().getOffsetHeight();
+		int windowBottom = RootPanel.get().getAbsoluteTop()
+		        + RootPanel.get().getOffsetHeight();
 
 		// int windowBottom = rootPane.getAbsoluteTop()
 		// + rootPane.getOffsetHeight();
