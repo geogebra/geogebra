@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * Dialog for signing in users
  *
  */
-public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
+public class SignInDialogW extends DialogBox implements SuccessErrorRenderable {
 	
 	private App app;
 	private Button cancel;
@@ -61,7 +61,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 	 * creates a SignInDialog for log in to different
 	 * accounts
 	 */
-	public SignInDialog(final App app) {
+	public SignInDialogW(final App app) {
 		super(false, true);
 		this.app = app;
 		
@@ -71,7 +71,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("headerPanel");
-		final SignInDialog t = this;
+		final SignInDialogW t = this;
 		buttonPanel.add(cancel = new Button(app.getMenu("X"), new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {

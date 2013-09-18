@@ -24,7 +24,7 @@ import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
-import geogebra.web.gui.util.SignInDialog;
+import geogebra.web.gui.util.SignInDialogW;
 import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.main.AppW;
 
@@ -298,11 +298,11 @@ public class DialogManagerW extends DialogManager {
 
 	}
 
-	SignInDialog signInDialog = null;
+	SignInDialogW signInDialog = null;
 
 	public void showLogInDialog() {
 	    if (signInDialog == null) {
-	    	signInDialog = new SignInDialog(app);
+	    	signInDialog = new SignInDialogW(app);
 	    }
 	    signInDialog.center();
     }
