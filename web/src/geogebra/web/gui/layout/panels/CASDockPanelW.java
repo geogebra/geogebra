@@ -17,14 +17,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CASDockPanelW extends DockPanelW {
 
-	App application = null;
-
 	SimpleLayoutPanel toplevel;
 
 	VerticalPanelSmart ancestor;
 	CASViewW sview;
 
-	public CASDockPanelW(App app) {
+	public CASDockPanelW(App appl) {
 		super(
 				App.VIEW_CAS, 	// view id
 				"CAS", 					// view title phrase 
@@ -39,11 +37,11 @@ public class CASDockPanelW extends DockPanelW {
 		//ancestor = new VerticalPanelSmart();
 		//toplevel.add(ancestor);
 		
-		application = app;
+		app = (AppW)appl;
 	}
 
 	protected Widget loadComponent() {
-		sview = (CASViewW) ((AppW)application).getGuiManager().getCasView();	
+		sview = (CASViewW) app.getGuiManager().getCasView();	
 		return sview.getComponent();
 	}
 
@@ -77,24 +75,20 @@ public class CASDockPanelW extends DockPanelW {
 		
     }
 
-	public void attachApp(App app) {
-	   super.attachApp(app);
-	}
-
 	public CASViewW getCAS() {
 		return sview;
 	}
 
 	public void showView(boolean show) {
 
-		if (application == null) return;
+		if (app == null) return;
 
 		// imperfect yet
 		if (show && sview == null) {
-			sview = (CASViewW) ((AppW)application).getGuiManager().getCasView();			
+			sview = (CASViewW) app.getGuiManager().getCasView();			
 			//((MyTableW)sview.getConsoleTable()).setRepaintAll();
 			ancestor.add(sview.getComponent());
-			application.getGuiManager().attachCasView();
+			app.getGuiManager().attachCasView();
 			//((MyTableW)sview.getConsoleTable()).repaint();
 			onResize();
 		} else if (!show && sview != null) {
@@ -105,7 +99,7 @@ public class CASDockPanelW extends DockPanelW {
 	}
 	
 	public App getApp() {
-	    return application;
+	    return app;
     }
 
 	private static String getDefaultToolbar() {
@@ -114,6 +108,6 @@ public class CASDockPanelW extends DockPanelW {
 	
 	@Override
 	protected Widget loadStyleBar() {
-		return ((CASViewW)((GuiManagerW)application.getGuiManager()).getCasView()).getCASStyleBar();
+		return ((CASViewW)((GuiManagerW)app.getGuiManager()).getCasView()).getCASStyleBar();
 	}
 }

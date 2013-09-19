@@ -210,11 +210,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		euclidianpanel.remove(w);
     }
 
-	public void attachApp(App app) {
-		super.attachApp(app);
-		
-	}
-
 	public EuclidianDockPanelW getEuclidianView1Wrapper() {
 		return this;
 	}

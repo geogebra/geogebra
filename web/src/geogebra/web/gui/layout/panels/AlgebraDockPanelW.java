@@ -11,8 +11,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraDockPanelW extends DockPanelW {
 
-	private App application;
-
 	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
@@ -29,9 +27,16 @@ public class AlgebraDockPanelW extends DockPanelW {
 	}
 
 	protected Widget loadComponent() {
-		algebrap = new ScrollPanel();//temporarily
-		algebrap.setSize("100%", "100%");
-		algebrap.setAlwaysShowScrollBars(false);
+		if (algebrap == null) {
+			algebrap = new ScrollPanel();//temporarily
+			algebrap.setSize("100%", "100%");
+			algebrap.setAlwaysShowScrollBars(false);
+		}
+		if (app != null) {
+			// force loading the algebra view,
+			// as loadComponent should only load when needed
+			setAlgebraView((AlgebraViewW)app.getAlgebraView());
+		}
 		return algebrap;
 	}
 
@@ -58,20 +63,12 @@ public class AlgebraDockPanelW extends DockPanelW {
     }
 
 	public void onResize() {
-		if (application != null) {
-			if(application.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
-				((HasOffsets)application.getActiveEuclidianView().getEuclidianController()).updateOffsets();
+		if (app != null) {
+			if(app.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
+				((HasOffsets)app.getActiveEuclidianView().getEuclidianController()).updateOffsets();
 		}
 		//App.debug("resized");
     }
-
-	public void attachApp(App app) {
-		super.attachApp(app);
-		if (application != app) {
-			application = app;
-			setAlgebraView((AlgebraViewW)application.getAlgebraView());
-		}
-	}
 
 	@Override
     public void showView(boolean b) {

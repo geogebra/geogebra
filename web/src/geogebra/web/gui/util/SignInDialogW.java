@@ -66,8 +66,7 @@ public class SignInDialogW extends DialogBox implements SuccessErrorRenderable {
 		ggbFrame.addStyleName("ggtFrame");
 		
 		ggbFrame.addLoadHandler(new LoadHandler() {
-			
-			@Override
+
 			public void onLoad(LoadEvent event) {
 				
 				Window.alert("frame loaded");

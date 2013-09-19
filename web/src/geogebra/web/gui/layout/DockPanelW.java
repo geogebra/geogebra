@@ -420,11 +420,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void register(DockManagerW dockManager) {
 		this.dockManager = dockManager;
-		this.app = dockManager.getLayout().getApplication();
+		app = dockManager.getLayout().getApplication();
 
-		buildGUI();
-		
-		
+		buildGUI();		
+
 		/*
 		// create buttons for the panels
 		createButtons();
@@ -607,7 +606,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * sets the layout of the stylebar and title panel
 	 */
 	protected void setLayout(){
-		
+
+		if (!isVisible())
+			return;
+
 		dockPanel.clear();
 
 		if (hasStyleBar()) {
@@ -618,11 +620,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 					titleBarPanel.remove(toglStyleBtn2);
 					titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
 				}
+				Widget w = loadStyleBar();
+				if(w instanceof StyleBarW)
+					((StyleBarW)w).setOpen(showStyleBar);
 			}
-			Widget w = loadStyleBar();
-			if(w instanceof StyleBarW)
-				((StyleBarW)w).setOpen(showStyleBar);
-			
 		}
 
 		if(component != null){
@@ -650,17 +651,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		return 0;
 	}	
 
-	public void attachApp(App app) {
-		this.app = (AppW) app;
-		if (component == null) {
-			component = loadComponent();
-		}
-		if (hasStyleBar()) {
-			styleBarPanel.add(loadStyleBar(), 2, 0);
-		}
-		setLayout();
-	}
-	
 	/**
 	 * extends DockLayoutPanel to expose getCenterHeight() and getCenterWidth()
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
@@ -920,15 +910,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updatePanel() {
 
-		attachApp(app);
-		
 		// load content if panel was hidden till now
 		if (component == null && isVisible()) {
 			component = loadComponent();
 	//		add(component, BorderLayout.CENTER);
 
-			if (isStyleBarVisible()) {
-	//			setStyleBar();
+			if (hasStyleBar() && isStyleBarVisible()) {
+				setStyleBar();
 			}
 
 			// load toolbar if this panel has one
@@ -953,8 +941,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		// make panels visible if necessary
 		if (isVisible()) {
 
-			if (isStyleBarVisible()) {
-		//		setStyleBar();
+			if (hasStyleBar() && isStyleBarVisible()) {
+				setStyleBar();
 			}
 
 			// display toolbar panel if the dock panel is open in a frame
@@ -964,6 +952,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			//	app.getGuiManager().getToolbarPanel().setVisible(true);
 		//		toolbarPanel.setVisible(frame != null);
 			}
+
+			// update stylebar visibility
+			setShowStyleBar(isStyleBarVisible());
+			updateStyleBarVisibility();
+
 		}
 
 		// if this is the last dock panel don't display the title bar, otherwise
@@ -973,14 +966,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	//			&& !(isAlone && !isMaximized()) && !app.isApplet()
 	//			&& (!isOpenInFrame()));
 
-		// update stylebar visibility
-	//	setShowStyleBar(isStyleBarVisible());
-	//	updateStyleBarVisibility();
 
 		// update the title bar if necessary
 	//	updateTitleBarIfNecessary();
-		
-		onResize();
+
+		setLayout();
 	}
 
 	/**
@@ -1170,12 +1160,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	}*/
 
 	/** loads the styleBar and puts it into the stylBarPanel */
-	/*private void setStyleBar() {
+	private void setStyleBar() {
 		if (styleBar == null) {
 			styleBar = loadStyleBar();
-			styleBarPanel.add(styleBar, BorderLayout.CENTER);
+			styleBarPanel.add(styleBar, 2, 0);
 		}
-	}*/
+	}
 
 	/**
 	 * Toggle the style bar.
@@ -1187,22 +1177,22 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	/**
 	 * Update the style bar visibility.
-	 *//*TODO
+	 */
 	public void updateStyleBarVisibility() {
 
 		if (!isVisible())
 			return;
 
 		styleBarPanel.setVisible(isStyleBarVisible());
-		updateToggleStyleBarButtons();
+		//TODO updateToggleStyleBarButtons();
 		updateTitleBar();
 
 		if (isStyleBarVisible()) {
 			setStyleBar();
 			styleBar.setVisible(showStyleBar);
-			styleBarButtonPanel.setVisible(!titlePanel.isVisible());
+			//TODO styleBarButtonPanel.setVisible(!titlePanel.isVisible());
 		}
-	}*/
+	}
 
 	/**
 	 * One of the buttons was pressed.

@@ -22,13 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SpreadsheetDockPanelW extends DockPanelW {
 
-	App application = null;
-
 	SpreadsheetStyleBarPanel sstylebar;
 	SpreadsheetViewW sview;
 	AbsolutePanel wrapview;
 
-	public SpreadsheetDockPanelW(App app) {
+	public SpreadsheetDockPanelW(App appl) {
 		super(
 				App.VIEW_SPREADSHEET, 		// view id
 				"Spreadsheet", 						// view title phrase
@@ -38,15 +36,15 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				'S'									// menu shortcut
 			);
 		
-		application = app;
+		app = (AppW)appl;
 	}
 
 	protected Widget loadComponent() {
-
-		wrapview = new AbsolutePanel();
-		sview = ((AppW)application).getGuiManager().getSpreadsheetView();
-		wrapview.add(sview);
-					
+		if (wrapview == null) {
+			wrapview = new AbsolutePanel();
+			sview = app.getGuiManager().getSpreadsheetView();
+			wrapview.add(sview);
+		}
 		return wrapview;
 	}
 
@@ -62,7 +60,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
 
-				if (application != null) {
+				if (app != null) {
 
 					if (sview != null) {
 
@@ -84,12 +82,12 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 						wrapview.setPixelSize(width, height);
 
-						if (application.getSettings().getSpreadsheet().showHScrollBar())
+						if (app.getSettings().getSpreadsheet().showHScrollBar())
 							sview.getScrollPanel().setHeight(height + "px");
 						else // scrollbar's height usually doesn't exceed 20px
 							sview.getScrollPanel().setHeight((height + 20) + "px");
 
-						if (application.getSettings().getSpreadsheet().showVScrollBar())
+						if (app.getSettings().getSpreadsheet().showVScrollBar())
 							sview.getScrollPanel().setWidth(width + "px");
 						else // scrollbar's width usually doesn't exceed 20px
 							sview.getScrollPanel().setWidth((width + 20) + "px");
@@ -101,11 +99,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	}
 
-	public void attachApp(App app) {
-		super.attachApp(app);
-		this.application = app;
-	}
-
 	public SpreadsheetViewW getSpreadsheet() {
 		return sview;
 	}
@@ -115,7 +108,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	}
 
 	public App getApp() {
-	    return application;
+	    return app;
     }
 
 	private static String getDefaultToolbar() {
