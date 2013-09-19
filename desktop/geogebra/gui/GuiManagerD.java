@@ -2022,11 +2022,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void openFile() {
+		openFile(null);
+	}
+	
+	/**
+	 * Points to the given file in the file dialog popup window
+	 * and offers to choose that file --- or a different one.
+	 * @param file
+	 */
+	public void openFile(File file) {
 
 		if ((app).isSaved() || saveCurrentFile()) {
 			app.setWaitCursor();
-			File oldCurrentFile = (app).getCurrentFile();
-			
+						
 			/**************************************************************
 			 * Mac OS X related code to work around JFileChooser problem on
 			 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
@@ -2035,7 +2043,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				FileDialog fd = new FileDialog(app.getFrame());
 				fd.setModal(true);
-				File currentPath = app.getCurrentPath();
+				File currentPath = null;
+				if (file == null) {
+					currentPath = app.getCurrentPath();
+				} else {
+					currentPath = file.getParentFile();
+					fd.setFile(file.getName());
+				}
 				fd.setMode(FileDialog.LOAD);
 				if (currentPath != null) {
 					fd.setDirectory(currentPath.toString());
@@ -2072,6 +2086,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			 * End of Mac OS X related code.
 			 **************************************************************/
 
+			File oldCurrentFile = (app).getCurrentFile();
 			((DialogManagerD) getDialogManager()).initFileChooser();
 			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
 					.getFileChooser();
