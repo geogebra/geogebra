@@ -3,7 +3,30 @@
 <head>
     <meta charset="utf-8" />
     <title>GeoGebra App</title>
-    <!-- Google Analytics (Start) -->
+
+
+        <script type="text/javascript">
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+            WebFontConfig = {
+                loading: function() {},
+                active: function() {},
+                inactive: function() {},
+				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
+				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
+                fontinactive: function(familyName, fvd) {},
+                custom: {
+                    families: ["Symbola"],
+                    urls: [ "web/css/fonts.css?v=1.15" ]
+                }
+            };
+</script>
+<script src="web/js/webfont.js?v=1.15">
+ 
+        
+ <!-- Google Analytics (Start) -->
 	<script type="text/javascript">
 
 		var _gaq = _gaq || [];
