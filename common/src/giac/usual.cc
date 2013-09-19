@@ -621,6 +621,12 @@ namespace giac {
 	res /=g; den /=g;
 	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(15*g));
       }
+      edh=horner(makevecteur(1,-6,1),ed*ed);
+      if (std::abs(edh._DOUBLE_val)<1e-7 &&
+	  normal(horner(makevecteur(1,-6,1),e*e),contextptr)==0){
+	int res=std::floor(std::atan(std::abs(ed))*8/M_PI+.5);
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:gen(45)/2);
+      }
     }
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg))
       return -atan(e._SYMBptr->feuille,contextptr);
@@ -1256,6 +1262,21 @@ namespace giac {
 	  if (n==3) return -cos2pi5;
 	  if (n==4) return -cospi5;
 	}
+	if (b==0 && a.type==_FRAC && a._FRACptr->den==8 && a._FRACptr->num.type==_INT_){
+	  int n=a._FRACptr->num.val % 16;
+	  if (n<0)
+	    n += 16;
+	  if (n>=8)
+	    n=16-n;
+	  if (n==1 || n==7){
+	    gen cospi8=sqrt(2+plus_sqrt2,contextptr)/2;
+	    if (n==1) return cospi8;
+	    if (n==7) return -cospi8;
+	  }
+	  gen cos3pi8=sqrt(2-plus_sqrt2,contextptr)/2;
+	  if (n==3) return cos3pi8;
+	  if (n==5) return -cos3pi8;
+	}
 	est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
 	doit=true;
       }
@@ -1428,6 +1449,17 @@ namespace giac {
 	  if (n==2 || n==3) return sin2pi5;
 	  if (n==6 || n==9) return -sinpi5;
 	  if (n==7 || n==8) return -sin2pi5;
+	}
+	if (b==0 && a.type==_FRAC && a._FRACptr->den==8 && a._FRACptr->num.type==_INT_){
+	  int n=a._FRACptr->num.val % 16;
+	  if (n<0)
+	    n+=16;
+	  gen sinpi8=sqrt(2-plus_sqrt2,contextptr)/2;
+	  gen sin3pi8=sqrt(2+plus_sqrt2,contextptr)/2;
+	  if (n==1 || n==7) return sinpi8;
+	  if (n==3 || n==5) return sin3pi8;
+	  if (n==9 || n==15) return -sinpi8;
+	  if (n==11 || n==13) return -sin3pi8;
 	}
 	est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
 	doit=true;
@@ -1770,6 +1802,15 @@ namespace giac {
 	int g=gcd(res,den);
 	res /=g; den /=g;
 	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(15*g));
+      }
+      edh=horner(makevecteur(64,-128,80,-16,1),edg*edg);
+      if (std::abs(edh._DOUBLE_val)<1e-9 &&
+	  normal(horner(makevecteur(64,-128,80,-16,1),e*e),contextptr)==0){
+	int res=std::floor(std::asin(std::abs(ed))*8/M_PI+.5);
+	int den=8;
+	int g=gcd(res,den);
+	res /=g; den /=g;
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(45*g)/2);
       }
     }
     if (is_undef(e))

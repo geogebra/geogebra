@@ -2067,6 +2067,7 @@ namespace giac {
 	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
       return gen_x*symbolic(at_NTHROOT,f)/(a+a/b);
     }
+#ifndef EMCC
     if (has_op(e,at_surd) || has_op(e,at_NTHROOT)){
       vecteur l1surd(lop(e,at_surd));
       vecteur l2surd(l1surd);
@@ -2097,6 +2098,7 @@ namespace giac {
       g=subst(g,subst2,subst1,false,contextptr);
       return g;
     }
+#endif
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 1 ") << e << endl;
 #endif

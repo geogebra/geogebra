@@ -3681,6 +3681,7 @@ namespace giac {
       cerr << clock() << " begin build M" << endl;
     unsigned N=R.coord.size(),i,j=0;
     unsigned c=N;
+    double sknon0=0;
     vector<char> used(N,0);
     unsigned usedcount=0;
     vector< vector<modint> > K(f4vG.size());
@@ -3739,7 +3740,7 @@ namespace giac {
       for (i=0;i<N;++i)
 	usedcount += (used[i]>0);
       if (debug_infolevel>1){
-	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
 	if (debug_infolevel>2)
 	  cerr << " column32 used " << used << endl;
       }
@@ -3761,6 +3762,7 @@ namespace giac {
 	      p += st->shift;
 	      *vt=st->val;
 	      ++st;
+	      ++sknon0;
 	    }
 	  }
 	  else {
@@ -3769,6 +3771,7 @@ namespace giac {
 	      ++st;
 	      p = * (unsigned *) &(*st);
 	      ++st;
+	      ++sknon0;
 	    }
 	  }
 	  ++vt;
@@ -3855,15 +3858,15 @@ namespace giac {
       for (i=0;i<N;++i)
 	usedcount += (used[i]>0);
       if (debug_infolevel>1){
-	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
-	if (debug_infolevel>2)
-	  cerr << " column use " << used << endl;
+	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
+	// if (debug_infolevel>2) cerr << " column use " << used << endl;
       }
       // create dense matrix K 
       for (i=0; i<K.size(); ++i){
 	vector<modint> & v =K[i];
 	if (SK[i].empty())
 	  continue;
+	sknon0 += SK[i].size();
 	v.resize(usedcount);
 	vector<modint>::iterator vt=v.begin();
 	vector<char>::const_iterator ut=used.begin(),ut0=ut;
@@ -3884,6 +3887,8 @@ namespace giac {
 	// cerr << used << endl << SK[i] << endl << K[i] << endl;
       }
     }
+    if (debug_infolevel>1)
+      cerr << clock() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << endl;
     vecteur pivots; vector<int> maxrankcols; longlong idet;
     // cerr << K << endl;
     smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
@@ -4531,7 +4536,7 @@ namespace giac {
 	  B.erase(B.begin()+smallposv[i]);
       }
       if (debug_infolevel>1)
-	cerr << clock() << "Computing s-polys " << smallposv.size() << endl;
+	cerr << clock() << " Computing s-polys " << smallposv.size() << endl;
       vectpolymod f4v; // collect all spolys 
       for (unsigned i=0;i<smallposp.size();++i){
 	pair<unsigned,unsigned> bk=smallposp[i];

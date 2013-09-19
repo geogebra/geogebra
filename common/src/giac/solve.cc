@@ -887,7 +887,7 @@ namespace giac {
       gen minus_b=r2sym(-w[1],lv,contextptr);
       gen delta=r2sym(w[1]*w[1]-gen(4)*w.front()*w.back(),lv,contextptr);
 #if 1 // def NO_STDEXCEPT
-      if (!complexmode && lidnt(evalf(makevecteur(two_a,minus_b,delta),1,contextptr)).empty() && is_positive(-delta,contextptr))
+      if (!complexmode && (lidnt(evalf(makevecteur(two_a,minus_b,delta),1,contextptr)).empty() || lvar(delta).size()==1) && is_positive(-delta,contextptr))
 	return;      
 #else
       if (!complexmode && is_positive(-delta,contextptr))
