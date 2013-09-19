@@ -14,6 +14,8 @@ body {
 	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
 	
+	
+	min-height: 600px; /* don't remove this, otherwise just one half of GeoGebra load logo will displayed on top */
 	z-index: -1;
 }
 

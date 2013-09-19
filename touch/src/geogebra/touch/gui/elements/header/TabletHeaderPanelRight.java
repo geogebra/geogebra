@@ -8,7 +8,6 @@ import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * ButtonBar for the buttons (undo/redo) on the right side of the HeaderPanel.
@@ -31,7 +30,7 @@ class TabletHeaderPanelRight extends HorizontalPanel {
 		this.model = model;
 
 		// FIXME temporary hack for apple, move this to LAF
-		final String param = RootPanel.getBodyElement().getAttribute(
+		/*final String param = RootPanel.getBodyElement().getAttribute(
 				"data-param-laf");
 		if ("apple".equals(param)) {
 
@@ -41,12 +40,12 @@ class TabletHeaderPanelRight extends HorizontalPanel {
 			this.redo = new StandardButton("redo");
 			this.redo.addStyleName("textButton");
 			this.redo.addStyleName("last");
-		} else {
+		} else {*/
 			this.undo = new StandardButton(TouchEntryPoint.getLookAndFeel()
 					.getIcons().undo());
 			this.redo = new StandardButton(TouchEntryPoint.getLookAndFeel()
 					.getIcons().redo());
-		}
+		//}
 
 		this.addUndoButton();
 		this.addRedoButton();

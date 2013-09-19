@@ -10,6 +10,12 @@ body {
 
 /* HEADER */
 
+body .button.shareButton img {
+	width: 35px;
+	margin-top: -2px;
+	margin-left: 3px;
+}
+
 body .headerbar,
 body .worksheetTitle {
 	color: #FFFFFF;
