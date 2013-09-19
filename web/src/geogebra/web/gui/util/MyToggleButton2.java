@@ -81,8 +81,7 @@ public class MyToggleButton2 extends ToggleButton implements ClickHandler, HasVa
 	
 
 	public boolean isSelected() {
-		return isDown;
-//	    return isDown();
+	    return isDown();
     }
 
 	public void removeValueChangeHandler(EuclidianStyleBarW euclidianStyleBar) {
