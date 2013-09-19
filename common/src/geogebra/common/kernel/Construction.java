@@ -2122,8 +2122,9 @@ public class Construction {
 
 		// reordering is needed
 		// maybe we can move casCell down in the construction list
-		if (casCell.getMaxConstructionIndex() > maxPredIndex) {
-			moveInConstructionList(casCell, maxPredIndex + 1);
+		int maxCellIndex = casCell.getMaxConstructionIndex();
+		if (maxCellIndex >= maxPredIndex) {
+			moveInConstructionList(casCell, maxPredIndex + (maxCellIndex > maxPredIndex ? 1 : 0));
 			return true;
 		}
 

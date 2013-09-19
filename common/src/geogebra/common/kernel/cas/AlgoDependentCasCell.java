@@ -123,6 +123,8 @@ public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInte
 		if (inputDefined) {
 			// compute output of CAS cell and update twin GeoElement
 			casCell.computeOutput();
+			// set label, if there is newly created twin GeoElement
+			casCell.setLabelOfTwinGeo();
 		} else {
 			casCell.setUndefined();
 		}
