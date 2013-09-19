@@ -56,7 +56,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	@Deprecated
 	private GeoElement[] output;
 	private GeoElement[] efficientInput;
-	private GeoNumeric[] randomUnlabeledInput;
+	protected GeoNumeric[] randomUnlabeledInput;
 
 	private boolean isPrintedInXML = true;
 	protected boolean stopUpdateCascade = false;

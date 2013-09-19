@@ -92,7 +92,7 @@ public class DrawIntegral extends Drawable {
 			return;
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(n);
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()) || isCasObject)
 			init();
 
 		if (gp == null)

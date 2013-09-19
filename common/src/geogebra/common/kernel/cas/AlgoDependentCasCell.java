@@ -123,8 +123,6 @@ public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInte
 		if (inputDefined) {
 			// compute output of CAS cell and update twin GeoElement
 			casCell.computeOutput();
-			// set label, if there is newly created twin GeoElement
-			casCell.setLabelOfTwinGeo();
 		} else {
 			casCell.setUndefined();
 		}
@@ -161,6 +159,32 @@ public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInte
 		return super.getCommandDescription(tpl);
 
 	}
+    
+    @Override
+    public void update() {
+		if (stopUpdateCascade) {
+			return;
+		}
+
+		// update input random numbers without label
+		if (randomUnlabeledInput != null) {
+			for (int i = 0; i < randomUnlabeledInput.length; i++) {
+				randomUnlabeledInput[i].updateRandomGeo();
+			}
+		}
+		boolean hadTwinGeo = casCell.hasTwinGeo();
+
+		compute();
+		
+		if (!hadTwinGeo && casCell.hasTwinGeo()) { // we got a new twin GeoElement
+			// reinitialize algo object
+			setInputOutput();
+			// set label of the newly created twin GeoElement
+			casCell.setLabelOfTwinGeo();
+		}
+		
+		updateDependentGeos();
+    }
     
 
 //	/**
