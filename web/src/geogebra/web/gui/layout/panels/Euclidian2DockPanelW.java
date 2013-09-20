@@ -36,19 +36,15 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 				6,							// menu order
 				'2' // ctrl-shift-1
 			);
-		
+
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
-		
-		if(stylebar){
-			component = loadComponent();
-		}else{
-			loadComponent();
+
+		if (!stylebar) {
 			buildGUI();
 		}
 	}
 
-	
 	@Override
 	protected Widget loadComponent() {
 		if (euclidianpanel == null) {
@@ -58,6 +54,13 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 			eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 			eview1.getElement().getStyle().setZIndex(0);
 			euclidianpanel.add(eview1);
+		}
+
+		// Euclidian2DockPanelW.loadComponent will be called lazy,
+		// so it is this place where EuclidianView 2 should be inited
+		// in EuclidianDockPanelW, EuclidianView is created automatically
+		if (app != null) {
+			app.getEuclidianView2();
 		}
 
 		return euclidianpanel;
