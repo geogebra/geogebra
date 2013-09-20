@@ -1735,7 +1735,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Integral_Indefinite_1 () {
     // s("Integral[cos(a * t), t]", "sin (a * t) / a + c_INDEX");
-    s("Integral[cos(a * t), t]", "1 / a * sin (a * t) + c_INDEX");
+    s("Integral[cos(a * t), t]", "sin (a * t) / a + c_INDEX");
   }
 
   @Test
@@ -3019,7 +3019,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_Several_22 () {
-    t("Solve[8 = 3 + 5 t^2 + 10 s, {t, s}]", "{{t = -sqrt(-2 * s + 1), s = s}, {t = sqrt(-2 * s + 1), s = s}}");
+    t("Solve[8 = 3 + 5 t^2 + 10 s, {t, s}]", "{{t = t, s = (-1) / 2 * t^(2) + 1 / 2}}");
   }
 
   @Test
@@ -4240,12 +4240,14 @@ public class GeoGebraCasIntegrationTest {
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("Solve[f'(x) = 0, x]",
-        "{x = (2 * sqrt(10) * sqrt(31 * (224 * sqrt(10) + 687)) + 806 * sqrt(10) - 3 * sqrt(31 * (224 * sqrt(10) + 687)) + 1674) / (403 * sqrt(10) + 837)}");
+            "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
     t("g(x) := f'(x)",
         "(-(30 * sqrt(10) + 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + (-(39 * sqrt(10) + 81) * x + 78 * sqrt(10) + 162) * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-(448 * sqrt(10) + 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)",
         "((-30 * sqrt(10) - 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((-39 * sqrt(10) - 81) * x + 78 * sqrt(10) + 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((-448 * sqrt(10) - 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)");
     t("Solve[g(x) = 0, x]",
         "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
+
+  
   }
 
   /* Ticket 3525: Simplification improvements in Giac */
@@ -4259,7 +4261,8 @@ public class GeoGebraCasIntegrationTest {
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])",
-        "(-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
+    		// y-coord of top of ellipse (2.33, 3.03) ie approx 3.03
+        "(sqrt(10) * 93 * sqrt(31 * (sqrt(10) * 224 + 687)) + 341 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 20832 + 63891) / (sqrt(10) * 13888 + 42594)");
   }
 
   /* Ticket 3554: f '(x) doesn't work in Keep Input mode */
