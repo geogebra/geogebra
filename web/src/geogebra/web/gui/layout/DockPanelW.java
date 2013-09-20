@@ -5,7 +5,6 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
@@ -910,75 +909,18 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updatePanel() {
 
-		if (component == null) { 
-			component = loadComponent(); 
-		} 
-		if (hasStyleBar()) { 
-			styleBarPanel.add(loadStyleBar(), 2, 0);
-		} 
-		setLayout(); 
+		if (!isVisible())
+			return;
 
-		// load content if panel was hidden till now
-		if (component == null && isVisible()) {
+		if (component == null) {
 			component = loadComponent();
-	//		add(component, BorderLayout.CENTER);
-
-			if (hasStyleBar() && isStyleBarVisible()) {
-				//setStyleBar();
-			}
-
-			// load toolbar if this panel has one
-			if (hasToolbar()) {
-				//toolbar = new ToolBarW(app, this);
-
-				if (isOpenInFrame()) {
-	//				toolbarContainer = new ToolbarContainer(app, false);
-	//				toolbarContainer.addToolbar(toolbar);
-	//				toolbarContainer.buildGui();
-	//				toolbarContainer.setActiveToolbar(getViewId());
-	//				toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
-				}
-			}
-
-			// euclidian view uses the general toolbar
-			if (this instanceof EuclidianDockPanelW) {
-				// TODO implement..
-			}
 		}
 
-		// make panels visible if necessary
-		if (isVisible()) {
-
-			if (hasStyleBar() && isStyleBarVisible()) {
-				//setStyleBar();
-			}
-
-			// display toolbar panel if the dock panel is open in a frame
-			if (hasToolbar()) {
-			//	if (app != null && app.getGuiManager() != null &&
-			//		app.getGuiManager().getToolbarPanel() != null)
-			//	app.getGuiManager().getToolbarPanel().setVisible(true);
-		//		toolbarPanel.setVisible(frame != null);
-			}
-
-			// update stylebar visibility
-			//setShowStyleBar(isStyleBarVisible());
-			//updateStyleBarVisibility();
-
+		if (hasStyleBar()) {
+			styleBarPanel.add(styleBar = loadStyleBar(), 2, 0);
 		}
 
-		// if this is the last dock panel don't display the title bar, otherwise
-		// take the user's configuration into consideration
-
-	//	titlePanel.setVisible(app.getSettings().getLayout().showTitleBar()
-	//			&& !(isAlone && !isMaximized()) && !app.isApplet()
-	//			&& (!isOpenInFrame()));
-
-
-		// update the title bar if necessary
-	//	updateTitleBarIfNecessary();
-
-		onResize();
+		setLayout();
 	}
 
 	/**
