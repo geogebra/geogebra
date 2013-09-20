@@ -2107,6 +2107,11 @@ public class Construction {
 			allPred.add(directInput);
 		}
 		}
+		
+		if (allPred.size() == 0) { // there are no predecessors
+			return false; // nothing changed
+		}
+		
 		// Find max construction index of casCell's predecessors
 		int maxPredIndex = 0;
 		for (GeoElement pred : allPred) {
