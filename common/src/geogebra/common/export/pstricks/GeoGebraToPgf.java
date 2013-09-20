@@ -2816,20 +2816,24 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (path.length < 2)
 			return;
 		startBeamer(code);
-		code.append("\\draw ");
+		StringBuilder str=new StringBuilder();
+		str.append("\\draw ");
 		String s = LineOptionCode(geo, true);
 		if (s.length() != 0)
 			s = "[" + s + "] ";
-		code.append(s);
+		str.append(s);
 		for (int i = 0; i < path.length; i++) {
 			Coords coords = path[i].getInhomCoords();
 			double x1 = coords.getX();
 			double y1 = coords.getY();
-			writePoint(x1, y1, code);
+			writePoint(x1, y1, str);
 			if (i != path.length - 1)
-				code.append("-- ");
+				str.append("-- ");
 		}
-		code.append(";\n");
+		str.append(";\n");
+		String s1=str.toString();
+		s1=s1.replaceAll("-- \\(\\?,\\?\\)--",";\n \\\\draw "+s);
+		code.append(s1);
 		endBeamer(code);
 	}	
 		

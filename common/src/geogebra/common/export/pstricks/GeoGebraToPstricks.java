@@ -553,10 +553,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		if (angExt > Math.PI * 2)
 			angExt -= Math.PI * 2;
 
-		//if (geo.getAngleStyle() == GeoAngle.ANGLE_ISCLOCKWISE) {
-		//	angSt += angExt;
-		//	angExt = 2.0 * Math.PI - angExt;
-		//}
+		// if (geo.getAngleStyle() == GeoAngle.ANGLE_ISCLOCKWISE) {
+		// angSt += angExt;
+		// angExt = 2.0 * Math.PI - angExt;
+		// }
 
 		if (geo.getAngleStyle() == AngleStyle.NOTREFLEX) {
 			if (angExt > Math.PI) {
@@ -908,11 +908,12 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			StringBuilder sb = new StringBuilder();
 			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
-			GFont font = AwtFactory.prototype.newFont(geo.isSerifFont() ? "Serif" : "SansSerif",
-					style, size);
+			GFont font = AwtFactory.prototype.newFont(
+					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
-				width = Math.max(width, (int) Math.ceil(StringUtil.estimateLength(line,font)));
+				width = Math.max(width,
+						(int) Math.ceil(StringUtil.estimateLength(line, font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");
@@ -1689,7 +1690,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 						String uCode = "" + name.charAt(i);
 						if (UnicodeTeX.getMap().containsKey(uCode)) {
 							nameSym = nameSym.replaceAll("\\" + uCode,
-									"\\$\\\\" + UnicodeTeX.getMap().get(uCode) + "\\$");
+									"\\$\\\\" + UnicodeTeX.getMap().get(uCode)
+											+ "\\$");
 						}
 					}
 					nameSym = nameSym.replace("$\\euro$", "\\euro");
@@ -2233,8 +2235,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				String uCode = "" + st.charAt(i);
 				if (UnicodeTeX.getMap().containsKey(uCode)) {
 					addTextPackage();
-					stSym = stSym.replaceAll("\\" + uCode,
-							"\\\\" + UnicodeTeX.getMap().get(uCode) + " ");
+					stSym = stSym.replaceAll("\\" + uCode, "\\\\"
+							+ UnicodeTeX.getMap().get(uCode) + " ");
 				}
 			}
 			st = stSym;
@@ -2247,8 +2249,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				String uCode = "" + st.charAt(i);
 				if (UnicodeTeX.getMap().containsKey(uCode)) {
 					addTextPackage();
-					stSym = stSym.replaceAll("\\" + uCode,
-							"\\$\\\\" + UnicodeTeX.getMap().get(uCode) + "\\$ ");
+					stSym = stSym.replaceAll("\\" + uCode, "\\$\\\\"
+							+ UnicodeTeX.getMap().get(uCode) + "\\$ ");
 				}
 			}
 			st = stSym;
@@ -2340,11 +2342,16 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			Coords coords = path[i].getInhomCoords();
 			String x1 = format(coords.getX());
 			String y1 = format(coords.getY());
-			code.append("(");
-			code.append(x1);
-			code.append(",");
-			code.append(y1);
-			code.append(")");
+			if (x1.contains("?") || y1.contains("?")) {
+				code.append("\n\\psline");
+				code.append(LineOptionCode(geo, true));
+			} else {
+				code.append("(");
+				code.append(x1);
+				code.append(",");
+				code.append(y1);
+				code.append(")");
+			}
 		}
 		code.append("\n");
 		endBeamer(code);
@@ -2419,8 +2426,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianView euclidianView2){
-			return new MyGraphicsPs(ef, inequality, euclidianView2);
+			Inequality inequality, EuclidianView euclidianView2) {
+		return new MyGraphicsPs(ef, inequality, euclidianView2);
 	}
 
 	@Override
@@ -2454,7 +2461,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		startBeamer(code);
 		String liopco = LineOptionCode(g, true);
 		String template = "\\psline" + liopco + "§arrows§(%0,%1)(%2,%3)\n";
-		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§arrows§","{<-}","{->}");
+		StringBuilder lineBuilder = drawNyquistDiagram(g, template, "§arrows§",
+				"{<-}", "{->}");
 		code.append(lineBuilder.toString());
 		endBeamer(code);
 	}

@@ -1954,17 +1954,34 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     @Override
     protected void drawPolyLine(GeoPolyLine geo) {
         GeoPointND[] points = geo.getPoints();
-        
-        startDraw(); // connect (by join --) all points within one draw statement
+        StringBuilder str=new StringBuilder();
+        startDraw(str); // connect (by join --) all points within one draw statement
         for (int i = 0; i < points.length; i++){
         	Coords coords = points[i].getInhomCoords();
             double x = coords.getX(),
                    y = coords.getY();
-            addPoint(format(x),format(y),code);
+            addPoint(format(x),format(y),str);
             if (i != points.length - 1)
-                code.append("--");
+                str.append("--");
         }
-        endDraw(geo);
+        endDraw(geo,str);
+        String s=str.toString();
+        StringBuilder sb=new StringBuilder();
+        if(LineOptionCode(geo,true) != null) {
+            packSpaceAfter(sb, ",");
+            sb.append(LineOptionCode(geo,true));
+        }
+        sb.append("); ");
+        StringBuilder sa=new StringBuilder();
+        if(!compact)
+            sa.append("\n");
+        if(compactcse5)
+            sa.append("D(");
+        else
+            sa.append("draw(");
+        
+        s=s.replaceAll("--\\(\\?,\\?\\)--",sb.toString()+sa.toString());
+        code.append(s);
     }
     
     private void initUnitAndVariable(){
