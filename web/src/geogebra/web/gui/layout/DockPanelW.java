@@ -917,7 +917,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		}
 
 		if (hasStyleBar()) {
-			styleBarPanel.add(styleBar = loadStyleBar(), 2, 0);
+			setStyleBar();
 		}
 
 		setLayout();
