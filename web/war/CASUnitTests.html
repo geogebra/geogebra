@@ -96,6 +96,19 @@ window.onload = function()
 
 		function ggbOnInit() {
 		
+		window.setTimeout("runTests()", 1000);
+		}
+		
+		function runTests() {
+		
+		var two = window.ggbApplet.evalGeoGebraCAS("1+1");
+		if (two == "2") {
+			alert("Giac loaded OK");
+		} else {
+			alert("Giac not loaded yet, trying again");
+			window.setTimeout("runTests()", 1000);
+			return;
+		}
 		
 		var table = '<table border="1">';
 		var table2 = '<table border="1">';
