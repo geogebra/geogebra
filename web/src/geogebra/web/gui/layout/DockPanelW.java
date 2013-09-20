@@ -914,7 +914,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			component = loadComponent(); 
 		} 
 		if (hasStyleBar()) { 
-			styleBarPanel.add(loadStyleBar(), 2, 0); 
+			styleBarPanel.add(loadStyleBar(), 2, 0);
 		} 
 		setLayout(); 
 
@@ -924,7 +924,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	//		add(component, BorderLayout.CENTER);
 
 			if (hasStyleBar() && isStyleBarVisible()) {
-				setStyleBar();
+				//setStyleBar();
 			}
 
 			// load toolbar if this panel has one
@@ -950,7 +950,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (isVisible()) {
 
 			if (hasStyleBar() && isStyleBarVisible()) {
-				setStyleBar();
+				//setStyleBar();
 			}
 
 			// display toolbar panel if the dock panel is open in a frame
@@ -962,8 +962,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			}
 
 			// update stylebar visibility
-			setShowStyleBar(isStyleBarVisible());
-			updateStyleBarVisibility();
+			//setShowStyleBar(isStyleBarVisible());
+			//updateStyleBarVisibility();
 
 		}
 
