@@ -36,11 +36,15 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author Markus Hohenwarter, Quan Yuan
  */
-public class CASViewD  extends CASView implements Gridable {
+public class CASViewD extends CASView implements Gridable {
 
 	
 	private JComponent component;
 	
+	/**
+	 * Used in creating substitute dialog
+	 */
+	public CASViewD casViewD = this;
 	
 	private CASTableD consoleTable;
 	
@@ -197,16 +201,18 @@ public class CASViewD  extends CASView implements Gridable {
 	}
 
 	@Override
-	public void showSubstituteDialog(String prefix, String evalText,
-			String postfix, int selRow) {
+	public void showSubstituteDialog(final String prefix, final String evalText,
+			final String postfix, final int selRow) {
 		if (subDialog != null && subDialog.isShowing())
 			return;
-
-		CASSubDialog d = new CASSubDialog(this, prefix, evalText, postfix,
-				selRow);
-		d.setAlwaysOnTop(true);
-		d.setVisible(true);
-		setSubstituteDialog(d);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				CASSubDialog d = new CASSubDialog(casViewD, prefix, evalText, postfix, selRow);
+				d.setAlwaysOnTop(true);
+				d.setVisible(true);
+				setSubstituteDialog(d);
+			}
+		});
 	}
 
 	/**
