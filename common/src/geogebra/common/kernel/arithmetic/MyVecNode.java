@@ -149,19 +149,19 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		case GIAC:
 			if (mode == Kernel.COORD_POLAR) {
 				sb.append("point((");
-				sb.append(x.toString(tpl));
+				sb.append(print(x, values, tpl));
 				sb.append(")*cos(");
-				sb.append(y.toString(tpl));
+				sb.append(print(y, values, tpl));
 				sb.append("),(");
-				sb.append(x.toString(tpl));
+				sb.append(print(x, values, tpl));
 				sb.append(")*sin(");
-				sb.append(y.toString(tpl));
+				sb.append(print(y, values, tpl));
 				sb.append("))");
 			} else {			
 				sb.append("point(");
-				sb.append(x.toString(tpl));
+				sb.append(print(x, values, tpl));
 				sb.append(',');
-				sb.append(y.toString(tpl));
+				sb.append(print(y, values, tpl));
 				sb.append(")");
 			}
 			break;
