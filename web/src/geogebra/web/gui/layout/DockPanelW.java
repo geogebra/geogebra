@@ -910,6 +910,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updatePanel() {
 
+		if (component == null) { 
+			component = loadComponent(); 
+		} 
+		if (hasStyleBar()) { 
+			styleBarPanel.add(loadStyleBar(), 2, 0); 
+		} 
+		setLayout(); 
+
 		// load content if panel was hidden till now
 		if (component == null && isVisible()) {
 			component = loadComponent();
@@ -970,7 +978,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		// update the title bar if necessary
 	//	updateTitleBarIfNecessary();
 
-		setLayout();
+		onResize();
 	}
 
 	/**
