@@ -1,23 +1,5 @@
-@font-face {
-    font-family: 'geogebra-sans-serif';
-    src: url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.eot');
-    src: url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.eot?#iefix') format('embedded-opentype'),
-         url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.woff') format('woff'),
-         url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.ttf') format('truetype'),
-         url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.svg#sofia_pro_lightregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'geogebra-serif';
-    src: url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.eot');
-    src: url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.eot?#iefix') format('embedded-opentype'),
-         url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.woff') format('woff'),
-         url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.ttf') format('truetype'),
-         url('http://www.geogebra.org/web/black/font/SofiaProLight-webfont.svg#sofia_pro_lightregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+@font-face { 
+ 	  font-family: Symbola; 
+ 	  src: url("http://www.geogebra.org/web/5.0/web/font/Symbola.eot"); 
+ 	  src: local("Symbola Regular"), local("Symbola"), url("http://www.geogebra.org/web/5.0/web/font/Symbola.ttf") format("truetype"), url("http://www.geogebra.org/web/5.0/web/font/Symbola.otf") format("opentype"), url("http://www.geogebra.org/web/5.0/web/font/Symbola.svg#Symbola") format("svg"); 
 }
