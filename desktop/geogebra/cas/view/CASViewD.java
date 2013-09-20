@@ -41,11 +41,6 @@ public class CASViewD extends CASView implements Gridable {
 	
 	private JComponent component;
 	
-	/**
-	 * Used in creating substitute dialog
-	 */
-	public CASViewD casViewD = this;
-	
 	private CASTableD consoleTable;
 	
 	private CASSubDialog subDialog;
@@ -207,7 +202,7 @@ public class CASViewD extends CASView implements Gridable {
 			return;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				CASSubDialog d = new CASSubDialog(casViewD, prefix, evalText, postfix, selRow);
+				CASSubDialog d = new CASSubDialog(getCASViewD(), prefix, evalText, postfix, selRow);
 				d.setAlwaysOnTop(true);
 				d.setVisible(true);
 				setSubstituteDialog(d);
@@ -332,5 +327,12 @@ public class CASViewD extends CASView implements Gridable {
 	public boolean isShowing() {
 		App.debug("unimplemented");
 		return false;
+	}
+	
+	/**
+	 * @return this casView
+	 */
+	public CASViewD getCASViewD() {
+		return this;
 	}
 }
