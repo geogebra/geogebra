@@ -1282,7 +1282,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 		rotate(phiValue.getDouble(), o1, vn);
 	}
-	// Modified 20 sept 2013 by Vincent -> private to public
+
 	/**
 	 * rotate around line (point + vector) with angle phi
 	 * @param phi angle
