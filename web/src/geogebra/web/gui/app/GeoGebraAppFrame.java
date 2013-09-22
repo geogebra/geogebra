@@ -31,6 +31,7 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * @author gabor
@@ -83,9 +84,25 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	    // Add the outer panel to the RootLayoutPanel, so that it will be
 	    // displayed.
-	    RootLayoutPanel root = RootLayoutPanel.get();
-	    root.add(this);
-	    root.forceLayout();
+	    RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+	    rootLayoutPanel.add(this);
+	    rootLayoutPanel.forceLayout();
+	    
+	}
+	
+	@Override
+	public void onResize() {
+		super.onResize();
+
+		/**
+		 * Keep RootPanel and RootLayoutPanel dimensions the same so that
+		 * tooltips will work. Tooltip positions are based on RootPanel.
+		 */
+
+		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.setPixelSize(rootLayoutPanel.getOffsetWidth(),
+		        rootLayoutPanel.getOffsetHeight());
 	}
 	
 	public static void setCloseMessage(final App appl) {
