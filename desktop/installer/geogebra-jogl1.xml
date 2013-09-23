@@ -42,6 +42,7 @@
     <initialHeapSize>32</initialHeapSize>
     <maxHeapSize>1024</maxHeapSize>
     <opt>-Djava.library.path="%EXEDIR%"</opt>
+    <opt>-Xbootclasspath/a:jre/lib/jfxrt.jar</opt>
   </jre>
   <cmdLine></cmdLine>
   <versionInfo>

@@ -41,6 +41,7 @@
     <path>jre</path>
     <initialHeapSize>32</initialHeapSize>
     <maxHeapSize>1024</maxHeapSize>
+    <opt>-Xbootclasspath/a:jre/lib/jfxrt.jar</opt>
   </jre>
   <cmdLine></cmdLine>
   <versionInfo>
