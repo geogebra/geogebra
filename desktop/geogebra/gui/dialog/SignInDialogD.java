@@ -83,7 +83,7 @@ public class SignInDialogD extends JDialog {
         // Listen for successful page load to query the login result 
         webView.getEngine().getLoadWorker().stateProperty().addListener(
             new ChangeListener<State>() {
-                public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
+                public void changed(ObservableValue<? extends State> ov, State oldState, State newState) {
                     if (newState == State.SUCCEEDED) {
                     	onPageLoaded();
                     }
