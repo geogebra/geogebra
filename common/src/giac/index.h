@@ -34,7 +34,7 @@
 #endif
 ///////////////////////////////////////////
 
-#if defined UNORDERED_MAP && !defined(__APPLE__) && !defined(VISUALC)
+#if defined UNORDERED_MAP && !defined(__APPLE__) && !defined(__FreeBSD__) && !defined(VISUALC)
 #include <tr1/unordered_map>
 #define HASH_MAP_NAMESPACE std::tr1
 #define hash_map unordered_map

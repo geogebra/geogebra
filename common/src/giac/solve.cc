@@ -2022,6 +2022,8 @@ namespace giac {
     }
     vecteur v(solvepreprocess(args,complex_mode(contextptr),contextptr));
     int s=v.size();
+    if (s>=2 && ckmatrix(v[1]) && v[1]._VECTptr->front()._VECTptr->size()==1)
+      v[1]=mtran(*v[1]._VECTptr).front();
     if (s==2 && is_equal(v[1]))
       return _fsolve(gen(makevecteur(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1]),_SEQ__VECT),contextptr);
     if (s>2)

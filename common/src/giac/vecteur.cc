@@ -3526,7 +3526,7 @@ namespace giac {
     if (p<(1<<29) 
 	// && p>=(1<<16)
 	){
-      int nbits=sizeinbase2(p);
+      int nbits=sizeinbase2(p); 
       unsigned invp=((1ULL<<(2*nbits)))/p+1;
       for (;it1<=it1_;){
 	int tmp=*jt;
@@ -3599,6 +3599,31 @@ namespace giac {
 	  *it4 = (*it4+longlong(c4)*tmp)%p;
 	}
       }
+  }
+
+  bool find_multi_linear_combination(vector< vector<int> > & N,int l0,int & l1,int &l2,int &l3,int pivotcol,int lexcluded,int lmax){
+    if (l0>=lmax-3)
+      return false;
+    l1=l0+1;
+    for (;l1<lmax;++l1){
+      if (l1!=lexcluded && !N[l1].empty() && N[l1][pivotcol])
+	break;
+    }
+    if (l1>=lmax-2)
+      return false;
+    l2=l1+1;
+    for (;l2<lmax;++l2){
+      if (l2!=lexcluded && !N[l2].empty() && N[l2][pivotcol])
+	break;
+    }
+    if (l2>=lmax-1)
+      return false;
+    l3=l2+1;
+    for (;l3<lmax;++l3){
+      if (l3!=lexcluded && !N[l3].empty() && N[l3][pivotcol])
+	break;
+    }
+    return l3<lmax;
   }
 
 #if 0 // not as fast than double_lu2inv
@@ -4118,16 +4143,13 @@ namespace giac {
   void modlinear_combination(vector<int> & v1,int c2,
 			     const vector<int> & v2,int modulo,int cstart,int cend,bool pseudo){
     if (c2){
-#ifndef _I386_
-      longlong C2(c2);
-#endif
-      vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end();
+      vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it1_=it1end-4;
       if (cend && cend>=cstart && cend<it1end-v1.begin())
 	it1end=v1.begin()+cend;
       vector<int>::const_iterator it2=v2.begin()+cstart;
 #if defined(PSEUDO_MOD) && !(defined(VISUALC) || defined (BESTA_OS))
       c2 %= modulo;
-      if (pseudo && (modulo<(1<<30) 
+      if (pseudo && (modulo<(1<<29) 
 		     // && modulo>=(1<<16)
 		     )){
 	int nbits=sizeinbase2(modulo);
@@ -4138,12 +4160,43 @@ namespace giac {
       else
 #endif // PSEUDO_MOD
 	{
+	  //longlong C2=c2;
+	  for (;it1<it1_;){
+#ifdef _I386_
+	    // *it1=( (*it1) + (longlong) c2*(*it2)) % modulo ; // replace smod
+	    mod(*it1,c2,*it2,modulo);
+	    ++it1;
+	    ++it2;
+	    mod(*it1,c2,*it2,modulo);
+	    ++it1;
+	    ++it2;
+	    mod(*it1,c2,*it2,modulo);
+	    ++it1;
+	    ++it2;
+	    mod(*it1,c2,*it2,modulo);
+	    ++it1;
+	    ++it2;
+#else
+	    *it1=( (*it1) + longlong(c2)*(*it2)) % modulo ; // replace smod
+	    ++it1;
+	    ++it2;
+	    *it1=( (*it1) + longlong(c2)*(*it2)) % modulo ; 
+	    ++it1;
+	    ++it2;
+	    *it1=( (*it1) + longlong(c2)*(*it2)) % modulo ; 
+	    ++it1;
+	    ++it2;
+	    *it1=( (*it1) + longlong(c2)*(*it2)) % modulo ; 
+	    ++it1;
+	    ++it2;
+#endif
+	  }
 	  for (;it1!=it1end;++it1,++it2){
 #ifdef _I386_
 	    // *it1=( (*it1) + (longlong) c2*(*it2)) % modulo ; // replace smod
 	    mod(*it1,c2,*it2,modulo);
 #else
-	    *it1=( (*it1) + C2*(*it2)) % modulo ; // replace smod
+	    *it1=( (*it1) + longlong(c2)*(*it2)) % modulo ; // replace smod
 #endif
 	  }
 	}
@@ -5530,17 +5583,18 @@ namespace giac {
 	}
 	// make the reduction
 	if (fullreduction) {
+	  int l1,l2,l3;
 	  for (int ltemp=linit;ltemp<lmax;++ltemp){
 	    if (ltemp==l || N[ltemp].empty() || !N[ltemp][pivotcol])
 	      continue;
 #ifndef GIAC_HAS_STO_38
-	    if (ltemp<=l-4 || (ltemp>l && ltemp<=lmax-4 && !N[ltemp+1].empty() && N[ltemp+1][pivotcol] && !N[ltemp+2].empty() && N[ltemp+2][pivotcol] && !N[ltemp+3].empty() && N[ltemp+3][pivotcol])){
-	      int_multilinear_combination(N[ltemp],-N[ltemp][pivotcol],N[ltemp+1],-N[ltemp+1][pivotcol],N[ltemp+2],-N[ltemp+2][pivotcol],N[ltemp+3],-N[ltemp+3][pivotcol],N[l],modulo,c,(inverting && noswap)?(c+1+lmax):cmax);
-	      ltemp+= (4-1);
+	    if (find_multi_linear_combination(N,ltemp,l1,l2,l3,pivotcol,l,lmax)){
+	      int_multilinear_combination(N[ltemp],-N[ltemp][pivotcol],N[l1],-N[l1][pivotcol],N[l2],-N[l2][pivotcol],N[l3],-N[l3][pivotcol],N[l],modulo,c,(inverting && noswap)?(c+1+lmax):cmax);
+	      ltemp = l3;
+	      continue;
 	    }
-	    else
 #endif
-	      modlinear_combination(N[ltemp],-N[ltemp][pivotcol],N[l],modulo,c,(inverting && noswap)?(c+1+lmax):cmax,true /* pseudomod */);
+	    modlinear_combination(N[ltemp],-N[ltemp][pivotcol],N[l],modulo,c,(inverting && noswap)?(c+1+lmax):cmax,true /* pseudomod */);
 	  }
 	}
 	else {

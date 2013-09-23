@@ -947,13 +947,29 @@ namespace giac {
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
     if (a.is_approx()){
       gen b1;
-      if (has_evalf(b,b1,1,contextptr) && b.type!=b1.type)
+      if (has_evalf(b,b1,1,contextptr) && b.type!=b1.type){
+#ifdef HAVE_LIBMPFR
+	if (a.type==_REAL){
+	  gen b2=accurate_evalf(b,mpfr_get_prec(a._REALptr->inf));
+	  if (b2.is_approx())
+	    return (*a._REALptr)/b2;
+	}
+#endif
 	return rdiv(a,b1,contextptr);
+      }
     }
     if (b.is_approx()){
       gen a1;
-      if (has_evalf(a,a1,1,contextptr) && a.type!=a1.type)
+      if (has_evalf(a,a1,1,contextptr) && a.type!=a1.type){
+#ifdef HAVE_LIBMPFR
+	if (b.type==_REAL){
+	  gen a2=accurate_evalf(a,mpfr_get_prec(b._REALptr->inf));
+	  if (a2.is_approx())
+	    return a2/b;
+	}
+#endif
 	return rdiv(a1,b,contextptr);
+      }
     }
     return rdiv(a,b,contextptr);
   }

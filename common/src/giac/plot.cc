@@ -7869,8 +7869,7 @@ namespace giac {
 	  tmp=remove_equal(tmp);
 	res.push_back(tmp);
       }
-      if (calc_mode(contextptr)==1)
-	return symbolic(at_equal,makesequence(_prod(res,contextptr),0));
+      // if (calc_mode(contextptr)==1) return symbolic(at_equal,makesequence(_prod(res,contextptr),0));
       if (res.size()==1)
 	return res.front();
       return res;

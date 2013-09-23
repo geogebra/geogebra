@@ -1965,6 +1965,11 @@ namespace giac {
     if (equation2geo3d(f_orig,undef,x,y,z,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,true,contextptr))
       return put_attributs(lieu_geo,attributs,contextptr);
     //return undef;
+    if (nxstep*double(nystep)*nzstep>8000){
+      nxstep=10;
+      nystep=10;
+      nzstep=10;
+    }
     double xstep=(xmax-xmin)/nxstep;
     double ystep=(ymax-ymin)/nystep;
     double zstep=(zmax-zmin)/nzstep;

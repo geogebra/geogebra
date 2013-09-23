@@ -1913,9 +1913,11 @@ namespace giac {
     if (loptab(e,sign_floor_ceil_round_tab).empty()){
       gen first_try;
       first_try=simplifier(subst(e,x,lim_point,false,contextptr),contextptr);
-      gen chk=recursive_normal(first_try,contextptr);
-      if (!is_undef(chk) && chk!=unsigned_inf){
-	return taille(chk,100)<taille(first_try,100)?chk:first_try;
+      if (!contains(lidnt(first_try),unsigned_inf)){
+	gen chk=recursive_normal(first_try,contextptr);
+	if (!is_undef(chk)){
+	  return taille(chk,100)<taille(first_try,100)?chk:first_try;
+	}
       }
       if (lim_point==unsigned_inf){
 	*logptr(contextptr) << gettext("Warning, infinity is unsigned, perhaps you meant +infinity")<< endl;
