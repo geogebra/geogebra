@@ -44,7 +44,8 @@ public class CASInputHandler {
 	public void processCurrentRow(String ggbcmd) {
 		// check if text cell
 		int selRow = consoleTable.getSelectedRow();
-		if (selRow < 0) return;
+		if (selRow < 0) 
+			return;
 		if (consoleTable.getGeoCasCell(selRow).isUseAsText()) {
 			processRowThenEdit(selRow, true);
 		}
@@ -64,15 +65,19 @@ public class CASInputHandler {
 		int selStart = cellEditor.getInputSelectionStart();
 		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
-		if(selRowInput!=null && selRowInput.startsWith("@")){ 
-			try { 
-			String s = kernel.getGeoGebraCAS().evaluateRaw(selRowInput.substring(1)); 
-			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling("casOutput=\""+s+"\"", false, false, false); 
-			} catch (Throwable e) { 
-			e.printStackTrace(); 
-			} 
-			return; 
-		} 
+		
+		// hack for debugging the underlying cas
+		if (selRowInput != null && selRowInput.startsWith("@")) {
+			try {
+				String s = kernel.getGeoGebraCAS().evaluateRaw(	selRowInput.substring(1));
+				kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
+								"casOutput=\"" + s + "\"", false, false, false);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+		
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
@@ -89,9 +94,6 @@ public class CASInputHandler {
 		// save the edited value into the table model
 		consoleTable.stopEditing();
 
-		// get current row and input text
-		if (selRow < 0)
-			selRow = consoleTable.getRowCount() - 1;
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 
 		// STANDARD CASE: GeoGebraCAS input
@@ -186,16 +188,16 @@ public class CASInputHandler {
 				return;
 			}
 			
-			/* Assignments are processed immediately, the ggbcmd creates a new row below */
+			// assignments are processed immediately, the ggbcmd creates a new row below
 			if (isAssignment) {
 				ValidExpression inVE = cellValue.getInputVE();
-				/* If evaluation mode is Numeric, only the evaluation text is wrapped, input is left unchanged */
+				// if evaluation mode is Numeric, only the evaluation text is wrapped, input is left unchanged
 				if(isNumeric && inVE != null) {
-					/* Evaluation text is wrapped only if the input is not already wrapped */
+					// evaluation text is wrapped only if the input is not already wrapped
 					if (inVE.getTopLevelCommand() == null || !inVE.getTopLevelCommand().getName().equals("Numeric")) {
 						cellValue.setProcessingInformation(prefix, ggbcmd + "[" + inVE.toString(StringTemplate.numericDefault) + "]", postfix);
 					}
-				/* Otherwise set the evaluation text to input */ 
+				// otherwise set the evaluation text to input 
 				} else {
 					cellValue.setProcessingInformation(prefix, cellValue.getInput(StringTemplate.defaultTemplate), postfix);
 				}
@@ -238,8 +240,6 @@ public class CASInputHandler {
 			}
 
 			// standard case: build eval command
-			String paramString = null;
-
 			// don't wrap Numeric[pi, 20] with a second Numeric command
 			// as this would remove precision
 			// don't wrap in KeepInput neither
@@ -255,24 +255,12 @@ public class CASInputHandler {
 				sb.append(ggbcmd);
 				sb.append("[");
 				sb.append(evalText);
-				// we don't need this since we don't have params
-				/*if (params != null && !StringUtil.representsMultipleExpressions(evalText)) {
-					StringBuilder paramSB = new StringBuilder();
-					for (int i = 0; i < params.length; i++) {
-						paramSB.append(", ");
-						paramSB.append(resolveButtonParameter(params[i],
-								cellValue));
-					}
-					paramString = paramSB.substring(2);
-					sb.append(paramSB);
-				}*/
 				sb.append("]");
 				evalText = sb.toString();
 			}
 
 			// remember evalText and selection for future calls of processRow()
 			cellValue.setProcessingInformation(prefix, evalText, postfix);
-			cellValue.setEvalComment(paramString);
 			cellValue.setEvalCommand(ggbcmd);
 
 		} catch (CASException ex) {
@@ -288,13 +276,13 @@ public class CASInputHandler {
 	 * @return whether it is meaningful to consider this as a selection
 	 */	
 	private static boolean meaningfulSelection(String text) {
-		 if(text==null)
-			 return false;
-		 String trimmed = text.trim();
-		 if(trimmed.length()==0)
-			 return false;
-		 if(trimmed.length()==1 && "]})".indexOf(trimmed)>-1)
-					return false;
+		if (text == null)
+			return false;
+		String trimmed = text.trim();
+		if (trimmed.length() == 0)
+			return false;
+		if (trimmed.length() == 1 && "]})".indexOf(trimmed) > -1)
+			return false;
 		return true;
 	}
 
@@ -363,13 +351,7 @@ public class CASInputHandler {
 		}
 
 		// insert new row if the row below the last selected row is not empty
-		if (cellValue != null) {
-			if (!cellValue.isEmpty() && !oneRowOnly) {
-				cellValue = new GeoCasCell(kernel.getConstruction());
-				currentRow = consoleTable.getRowCount() - 1;
-				casView.insertRow(cellValue, false);
-			}
-		} else {
+		if (cellValue == null || (!cellValue.isEmpty() && !oneRowOnly)) {
 			cellValue = new GeoCasCell(kernel.getConstruction());
 			currentRow = consoleTable.getRowCount() - 1;
 			casView.insertRow(cellValue, false);
