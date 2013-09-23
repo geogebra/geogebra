@@ -41,7 +41,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		rightClick = AppD.isRightClick(e);
 		table.stopEditing();
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
-		table.editCellAt(mousePressedRow, CASTableD.COL_CAS_CELLS);
+		table.setClickedRow(mousePressedRow);
 		rowHeader.requestFocus();
 	}
 
@@ -108,8 +108,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 				rowHeader.setSelectedIndex(releasedRow);
 			}
 			if(rowHeader.getSelectedIndices().length>0){
-				RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader,
-					table);
+				RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader, table);
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
@@ -132,6 +131,10 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		case KeyEvent.VK_BACK_SPACE:
 			int[] selRows = rowHeader.getSelectedIndices();
 			undoNeeded = table.getCASView().deleteCasCells(selRows);
+			if (selRows != null && selRows.length > 0) {
+				int row = selRows[0];
+				rowHeader.setSelectedIndex(row);
+			}
 			break;
 		}
 
@@ -139,6 +142,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 			// store undo info
 			table.getApplication().storeUndoInfo();
 		}
+		
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -154,7 +158,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		ListSelectionModel lsm = (ListSelectionModel)e.getSource();
 		int minIndex = lsm.getMinSelectionIndex();
         int maxIndex = lsm.getMaxSelectionIndex();
-        if(minIndex == maxIndex)
+        if (minIndex == maxIndex)
         	table.startEditingRow(minIndex);
 	}
 }
