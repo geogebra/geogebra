@@ -19,12 +19,13 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
+import geogebra.html5.util.WindowReference;
+import geogebra.html5.util.WindowW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
-import geogebra.web.gui.util.SignInDialogW;
 import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.main.AppW;
 
@@ -298,13 +299,30 @@ public class DialogManagerW extends DialogManager {
 
 	}
 
-	SignInDialogW signInDialog = null;
+	WindowReference signInDialog = null;
 
 	public void showLogInDialog() {
 	    if (signInDialog == null) {
-	    	signInDialog = new SignInDialogW(app);
+	    	int  width = 900;
+			int height = 500;
+			int left = (Window.getClientWidth() / 2) - (width / 2);
+			int top = (Window.getClientHeight() / 2) - (height / 2);
+			signInDialog = WindowW.open(app.getLoginOperation().getLoginURL(), "GeoGebraTube" , "resizable," +
+																				"toolbar=no," +
+																				"location=no," +
+																				"scrollbars=no, " + 
+																				"statusbar=no, " +
+																				"titlebar=no, " + 
+																				"width=" + width +"," +
+																				"height=" + height + "," +
+																				"left=" + left + ", " +
+																				"top=" + top);
+			signInDialog.checkForLoginToken();
+	    } else {
+	    	signInDialog.close();
+	    	signInDialog = null;
 	    }
-	    signInDialog.center();
+	
     }
 
 	@Override
