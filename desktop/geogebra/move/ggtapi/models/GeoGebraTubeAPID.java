@@ -1,6 +1,5 @@
 package geogebra.move.ggtapi.models;
 
-import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.util.HttpRequest;
 
@@ -32,8 +31,6 @@ public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebr
 		if (instance == null)
 		{
 			instance = new GeoGebraTubeAPID();
-			// TODO: use the test url during development. remove when ready.
-			GeoGebraTubeAPI.url = GeoGebraTubeAPI.test_url;
 		}
 		return (GeoGebraTubeAPID) instance;
 	}

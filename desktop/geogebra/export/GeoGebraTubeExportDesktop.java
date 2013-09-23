@@ -189,7 +189,17 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 						App.debug("Upload failed. Response: " + output.toString());
 					} else {
-						app.showURLinBrowser(uploadURL + "/" + results.getUID());
+						String createMaterialURL = uploadURL + "/" + results.getUID();
+						
+						// Add the login token to the URL if a user is logged in
+						if (app.getLoginOperation().getModel().isLoggedIn()) {
+							
+							String token = app.getLoginOperation().getModel().getLoggedInUser().getLoginToken();
+							if (token != null) {
+								createMaterialURL += "/lt/" + token;
+							}
+						}
+						app.showURLinBrowser(createMaterialURL);
 						hideDialog();
 					}
 

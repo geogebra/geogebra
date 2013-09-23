@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -59,7 +60,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 	private final AppD app;
 	private LayoutD layout;
-	private JMenuItem signInButton;
+	private AbstractButton signInButton;
 	
 	private AbstractAction signInAction, signInInProgressAction, signOutAction;
 
@@ -246,19 +247,21 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			}
 		};
 
-		signInButton = new JMenuItem(signInAction);
-		signInButton.setFocusPainted(false);
-		signInButton.setContentAreaFilled(false);
-		Localization loc = app.getLocalization();
-		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));
 		if (app.isMacOS()) {
+			signInButton = new JMenuItem(signInAction);
 			JMenu m = new JMenu(app.getMenu("GeoGebraTube"));
 			m.add(signInButton);
 			add(m);
 		} else {
+			signInButton = new JButton(signInAction);
 			add(signInButton);
 		}
+		signInButton.setContentAreaFilled(false);
+		signInButton.setFocusPainted(false);
+		Localization loc = app.getLocalization();
+		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));
 
+		
 		// Add the menu bar as a listener for login/logout operations
 		LogInOperation signIn = app.getLoginOperation();
 		signIn.getView().add(this);
@@ -290,7 +293,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			signInButton.setText(loc.getPlain("SignedInAsA", user.getUserName()));
 		} else {
 			signInButton.setAction(signInAction);
-			signInButton.setText(loc.getMenu("SignedInErrorTryAgain"));
+			signInButton.setText(loc.getMenu("SignInError"));
 		}
 	}
 
