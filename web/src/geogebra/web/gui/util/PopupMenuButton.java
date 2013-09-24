@@ -339,9 +339,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		setIcon(icon);
 	}
 
-	public void setIndex(int mode) {
-		myTable.setSelectedIndex(mode);
-	}
+	//public void setIndex(int mode) {
+	//	myTable.setSelectedIndex(mode);
+	//}
 
 	public boolean prepareToShowPopup(){
 		return true;
@@ -352,7 +352,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if(selectedIndex == null)
 			selectedIndex = -1;
 
-		myTable.setSelectedIndex(selectedIndex);
+		myTable.setSelectedIndex(selectedIndex.intValue());
 		updateGUI();
 	}
 	
