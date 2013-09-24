@@ -132,7 +132,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 		case GeoPolyhedron.TYPE_PRISM:
 			// update top points
-			outputPointsTop.adjustOutputSize(points.length * 3);
+			outputPointsTop.adjustOutputSize(points.length * 3 - 2);
 			outputPointsTop.setLabels(null);
 			GeoPolygon bottomPolyg = algo.getBottom();
 			GeoPointND topP = algo.getTopPoint();
@@ -147,16 +147,22 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			}
 			Coords vp = topCo.sub(outputPointsBottom.getElement(0).getInhomCoordsInD(3));
 			GeoSegmentND[] bottomSegs = bottomPolyg.getSegments();
-			Integer sz = outputPointsBottom.size();
+			int sz = outputPointsBottom.size();
 			Coords vectrans = topCo; //silly initialization
 			for (int i = 0 ; i < sz ; i++) {
 				//triple creation of top points
-				GeoPoint3D wpoint1 = outputPointsTop.getElement(i);
-				GeoPoint3D wpoint2 = outputPointsTop.getElement(i + sz);
-				GeoPoint3D wpoint3 = outputPointsTop.getElement(i + 2 * sz);
+				GeoPoint3D wpoint1 = outputPointsTop.getElement(2 * i);
+				int j = 2 * i - 1;
+				if (j < 0) {
+					j = 2 * sz - 1;
+				}
+				GeoPoint3D wpoint2 = outputPointsTop.getElement(j);
 				wpoint1.setCoords(outputPointsBottom.getElement(i).getInhomCoordsInD(3).add(vp));
 				wpoint2.setCoords(wpoint1.getInhomCoordsInD(3));
-				wpoint3.setCoords(wpoint1.getInhomCoordsInD(3));
+				if (i > 1) {  //wpoint3 if for the top face, except 2 first points (already exist)
+					GeoPoint3D wpoint3 = outputPointsTop.getElement(i + 2 * sz - 2);
+					wpoint3.setCoords(wpoint1.getInhomCoordsInD(3));
+				}
 				// rotate wpoint1
 				// angle between side face and bottom face
 				GeoSegmentND si1 = bottomSegs[i];
@@ -173,11 +179,10 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				wpoint1.rotate(f * angle, si1);
 				if (i == 0) { // the translation used for the top face is calculated
 					vectrans.set(wpoint1.getInhomCoordsInD(3).sub(topCo)); 
-					//App.debug(vectrans);
 				}
 
 				// rotate wpoint2	(rotate with the precedent bottom segment)
-				Integer segNum = i - 1;
+				int segNum = i - 1;
 				if (segNum < 0) {
 					segNum = sz - 1;
 				}
@@ -195,19 +200,13 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				}			
 				wpoint2.rotate(f * angle, si2);
 			}
-			for (int i = 0 ; i < sz ; i++) {
+			GeoPoint3D wpoint1 = outputPointsTop.getElement(0);
+			Coords vs = bottomSegs[0].getDirectionInD3();
+			for (int i = 0 ; i < sz-2 ; i++) {
 				// rotate wpoint3 (rotate pi rad around top segment 0)
-				GeoPoint3D wpoint1 = outputPointsTop.getElement(0);
 				GeoPoint3D wpoint3 = outputPointsTop.getElement(i + sz * 2);
-				if (i < 2) { // 2 first points3 do not move around top segment)
-					wpoint3.setCoords(outputPointsTop.getElement(i + i * sz).getInhomCoordsInD(3));
-				}
-				else {  // other points are moving around the first seg
-					Coords vs = bottomSegs[0].getDirectionInD3();
-					wpoint3.translate(vectrans);
-					// Warning -> modified rotate(phi,o1,vn) in Public in GeoPoint3D
-					wpoint3.rotate(f * Math.PI, wpoint1.getInhomCoordsInD(3),vs);             	
-				}
+				wpoint3.translate(vectrans);
+				wpoint3.rotate(f * Math.PI, wpoint1.getInhomCoordsInD(3),vs);             	
 			}
 			break;
 
