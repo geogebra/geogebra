@@ -620,20 +620,18 @@ public abstract    class DockPanelW extends ResizeComposite implements
 					titleBarPanel.remove(toglStyleBtn2);
 					titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
 				}
-				Widget w = loadStyleBar();
-				if(w instanceof StyleBarW)
-					((StyleBarW)w).setOpen(showStyleBar);
 			}
+			if(styleBar instanceof StyleBarW)
+				((StyleBarW)styleBar).setOpen(showStyleBar);
 		}
 
-		if(component != null){
+		if (component != null) {
 			dockPanel.add(component);
-		}else{
+		} else {
 			dockPanel.add(componentPanel);
 		}
-		
-		onResize();
 
+		onResize();
 	}
 	
 	public int getComponentInteriorHeight() {
