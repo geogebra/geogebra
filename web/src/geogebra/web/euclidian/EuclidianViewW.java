@@ -6,6 +6,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -432,4 +433,12 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	public void requestFocus() {
 	    App.debug("unimplemented");
     }
+
+	@Override
+	public void updateVisualStyle(GeoElement geo) {
+		super.updateVisualStyle(geo);
+
+		if (styleBar!=null)
+			styleBar.updateVisualStyle(geo);
+	}
 }
