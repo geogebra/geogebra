@@ -393,15 +393,13 @@ public class DockManagerW implements  SetLabels {
 			int windowHeight;
 			if (app.isApplet() || !App.isFullAppGui()) {
 
-				// Set applet split pane dividers:
+				// Emulate the way split panes in Java applets are sized:
 				// 1) Use the ggb xml window size to set dividers
-				// 2) Resize the applet to dimensions given by the data-param
-				// settings. 
-				// This emulates the way Java applets are created and sized.
-
+				// 2) Resize the applet to the data-param dimensions
+				
 				// Set the window dimensions to the ggb xml <window> tag size.
-				windowWidth = app.getPreferredSize().getWidth();;
-				windowHeight = app.getPreferredSize().getHeight();;
+				windowWidth = app.getPreferredSize().getWidth();
+				windowHeight = app.getPreferredSize().getHeight();
 				
 				// Set the split pane dividers
 				rootPane.clear();

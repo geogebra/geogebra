@@ -1,7 +1,5 @@
 package geogebra.web.gui.tooltip;
 
-import geogebra.common.main.App;
-
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -138,8 +136,8 @@ public class ToolTipManagerW {
 				scrollLeft = event.getScrollLeft();
 				scrollTop = event.getScrollTop();
 
-				App.debug("scrollLeft: " + scrollLeft + " scrollTop: "
-				        + scrollTop);
+				//App.debug("scrollLeft: " + scrollLeft + " scrollTop: "
+				  //      + scrollTop);
 
 			}
 		});
@@ -315,7 +313,7 @@ public class ToolTipManagerW {
 	}
 
 	private void setReshowTimer() {
-		App.debug("start reshow timer 1");
+		//App.debug("start reshow timer 1");
 		if (showImmediately) {
 			cancelTimer();
 			timer = new Timer() {
@@ -324,7 +322,7 @@ public class ToolTipManagerW {
 					showImmediately = false;
 				}
 			};
-			App.debug("start reshow timer 2");
+			//App.debug("start reshow timer 2");
 			timer.schedule(reshowDelay);
 		}
 	}
