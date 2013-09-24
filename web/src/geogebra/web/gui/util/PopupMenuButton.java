@@ -395,10 +395,13 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	public void setSliderValue(int value) {
 
 		//mySlider.removeChangeListener(this);
-		if (sliderIniting) {
+
+		// sliderIniting check commented out, because the slider needs
+		// to update when the other EuclidianView updates (EV1, EV2)
+		//if (sliderIniting) {
 			mySlider.setValue(value);
-			sliderIniting = false;
-		}
+		//	sliderIniting = false;
+		//}
 		//mySlider.addChangeListener(this);
 
 		if(hasTable)
