@@ -1088,6 +1088,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			app.getEuclidianView1().getStyleBar().setLabels();
 		}
 
+		if (hasEuclidianView2EitherShowingOrNot() &&
+			app.getEuclidianView2().hasStyleBar()) {
+			app.getEuclidianView2().getStyleBar().setLabels();
+		}
+
 		// if (!WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
 		// GeoGebraAppFrame.setCloseMessage(app);
 		// }

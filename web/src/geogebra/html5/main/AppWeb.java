@@ -449,6 +449,9 @@ public abstract class AppWeb extends App implements SetLabels{
 				this.getImageManager().reset();
 			}
 			getEuclidianView1().setReIniting(true);
+			if (hasEuclidianView2EitherShowingOrNot()) {
+				getEuclidianView2().setReIniting(true);
+			}
 		}
 		
 		public void setCurrentFile(HashMap<String, String> file) {

@@ -240,7 +240,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				}
 			
 		})*/
-		((EuclidianStyleBarW)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
+		((EuclidianStyleBarW)app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
 		updateGUI();
 		if(!keepVisible) {
 			myPopup.hide();
@@ -360,7 +360,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if(mySlider != null) {
 			   setSliderValue(mySlider.getValue());
 		}
-		((EuclidianStyleBarW)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
+		((EuclidianStyleBarW)app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
 		fireActionPerformed();
 		updateGUI();
 	}
