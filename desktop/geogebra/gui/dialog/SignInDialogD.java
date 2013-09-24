@@ -73,21 +73,22 @@ public class SignInDialogD extends JDialog {
      * Creates a web view and opens the login page of GeoGebraTube
      * @param fxPanel The panel that should hold the web view
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	void initWebView(final JFXPanel fxPanel) {
+    void initWebView(final JFXPanel fxPanel) {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root);
         fxPanel.setScene(scene);
         
         webView = new WebView();
-
-        webView.getEngine().getLoadWorker().stateProperty().addListener(new ChangeListener() {
-        	public void changed(ObservableValue observableValue, Object state, Object newState) {
-        		if (newState.equals(State.SUCCEEDED)) {
-        			onPageLoaded();
-        		}
-        	}
-        });
+        
+        // Listen for successful page load to query the login result 
+        webView.getEngine().getLoadWorker().stateProperty().addListener(
+            new ChangeListener<State>() {
+                public void changed(ObservableValue<? extends State> ov, State oldState, State newState) {
+                    if (newState == State.SUCCEEDED) {
+                    	onPageLoaded();
+                    }
+                }
+            });
         
         // Load the login page
         webView.getEngine().load(app.getLoginOperation().getLoginURL());
