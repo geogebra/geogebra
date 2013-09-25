@@ -75,7 +75,7 @@ public class MyToggleButton2 extends ToggleButton implements ClickHandler, HasVa
 
 	
 	public void setSelected(boolean isSelected) {
-	    // ignore for now
+		setDown(isSelected);
     }
 	
 	
