@@ -374,15 +374,6 @@ office@geogebra.org
                                 <include name="**/*.xml" />
                         </fileset>
 		</copy>
-		<copy todir="${src.dir}/org/json" failonerror="false">
-                        <fileset dir="${src.dir}/../common/src/org/json">
-                                <include name="**/*.class" />
-                        </fileset>
-           <!-- Eclipse stores compiled files in a different place: -->                        
-                        <fileset dir="${src.dir}/../common/war/WEB-INF/classes/org/json">
-                                <include name="**/*.class" />
-                        </fileset>	
-		</copy>
 		
 	</target>
 	
