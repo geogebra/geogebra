@@ -16,6 +16,7 @@ import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,8 +35,6 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	protected NumberValue num; 
 	/** result */
 	protected GeoNumeric outNum;
-	/** string builder*/
-	protected StringBuilder sb = new StringBuilder();
 	private String limitString;
 
 	/**
@@ -84,6 +83,8 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	public GeoNumeric getResult() {
 		return outNum;
 	}
+	
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	// over-ridden in LimitAbove/Below
 	@Override
@@ -93,12 +94,22 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 			return;
 		}
 		limitString = f.getLimit(num.getDouble(), getDirection());
-		if(f==null){
+		if (f==null) {
 			outNum.setUndefined();
 			return;
 		}
-		outNum.setUndefined();
-		kernel.evaluateGeoGebraCASAsync(this);
+		
+		try {
+			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString, arbconst);
+			
+			// handles Infinity, ?
+			outNum.setValue(kernel.getAlgebraProcessor().evaluateToNumeric(numStr, true).getDouble());
+		} catch (Throwable e) {
+			e.printStackTrace();
+			outNum.setUndefined();
+			return;
+		}
+
 	}
 	
 	public String getCasInput(){
