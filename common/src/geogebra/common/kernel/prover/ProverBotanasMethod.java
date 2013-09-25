@@ -217,6 +217,7 @@ public class ProverBotanasMethod {
 		GeoElement statement = prover.getStatement();
 		// If Singular is not available, let's try Giac (mainly on web)
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
+			ProverSettings.polysofractf = false;
 			App.debug("Testing local CAS connection");
 			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel().getGeoGebraCAS();
 			try {
@@ -442,7 +443,7 @@ public class ProverBotanasMethod {
 												points.add((GeoPoint)ndgc.getGeos()[0]);
 												points.add((GeoPoint)ndgc.getGeos()[1]);
 												yEqualSet.add(points);
-											}							
+											}						
 											if (xEqualSet.size() == 1 && xEqualSet.equals(yEqualSet)) {
 												// If yes, set the condition to AreEqual(M,N) and readable enough:
 												ndgc.setCondition("AreEqual");
@@ -483,11 +484,17 @@ public class ProverBotanasMethod {
 				} else {
 					Boolean solvable = Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
 						ProverSettings.polysofractf);
-					if (solvable == null)
+					if (solvable == null) {
 						// Prover returned with no success, search for another prover:
 						return ProofResult.UNKNOWN;
-					if (solvable)
+					}
+					if (solvable) {
+						if (! ProverSettings.polysofractf) {
+							// We cannot reliably tell if the statement is really false:
+							return ProofResult.UNKNOWN;
+						}
 						ans = false;
+					}
 				}
 			}
 

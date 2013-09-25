@@ -381,12 +381,13 @@ public abstract class Prover {
 
 	/**
 	 * A helper method to override the last found proof result
-	 * with the new one, if the new one is not unknown.
+	 * with the new one, if the new one is not unknown,
+	 * or if the result is null yet, then we prefer the unknown result.
 	 * @param pr the new result
 	 * @return decision which result is better
 	 */
 	private ProofResult override(ProofResult pr) {
-		if (pr != ProofResult.UNKNOWN) {
+		if (result == null || pr != ProofResult.UNKNOWN) {
 			return pr;
 		}
 		return result;
