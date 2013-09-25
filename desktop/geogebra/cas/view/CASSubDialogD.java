@@ -1,9 +1,8 @@
 package geogebra.cas.view;
 
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.cas.view.CASSubDialog;
+import geogebra.common.cas.view.CASView;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.gui.inputfield.MathTextField;
@@ -20,8 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
@@ -43,26 +40,21 @@ import javax.swing.table.TableCellEditor;
  * Dialog to substitute expressions in CAS Input.
  * 
  */
-
-public class CASSubDialog extends JDialog implements ActionListener {
+public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
+	
+	private AppD app;
+	private CASViewD casView;
 
 	private JButton btSub, btEval, btNumeric;
 	private JScrollPane scrollPane;
 	private JPanel optionPane, btPanel, captionPanel;
 	private JTable replaceTable;
-	private Vector<Vector<String>> data;
-
-	private CASViewD casView;
-	private AppD app;
-	private int editRow;
-	private String prefix, evalText, postfix;
+	private JDialog dialog;
 
 	private static final int DEFAULT_TABLE_CELL_HEIGHT = 21;
 	private static final double DEFAULT_FONT_SIZE = 12.;
-	private static final int DEFAULT_TABLE_WIDTH = 200;
-	private static final int DEFAULT_TABLE_HEIGHT = 150;
 
 	/**
 	 * Substitute dialog for CAS.
@@ -76,34 +68,29 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	 *            after selection, not effected by the substitution
 	 * @param editRow row to edit
 	 */
-	public CASSubDialog(CASViewD casView, String prefix, String evalText,
+	public CASSubDialogD(CASViewD casView, String prefix, String evalText,
 			String postfix, int editRow) {
-		//do not dock the substitution dialog to the main frame: ticket 1832
-		super((JFrame) ((LayoutD) casView.getApp().getGuiManager().getLayout()).getDockManager().getPanel(App.VIEW_CAS).getFrame());
+		super(prefix, evalText, postfix, editRow);
 		
-		setModal(false);
-
 		this.casView = casView;
 		this.app = casView.getApp();
-		this.prefix = prefix;
-		this.evalText = evalText;
-		this.postfix = postfix;
-
-		this.editRow = editRow;
 
 		createGUI();
-		pack();
-		setLocationRelativeTo(casView.getCASViewComponent());
+		dialog.pack();
+		dialog.setLocationRelativeTo(casView.getCASViewComponent());
 	}
 
 	/**
 	 * 
 	 */
 	protected void createGUI() {
+		//do not dock the substitution dialog to the main frame: ticket 1832
+		dialog = new JDialog((JFrame) ((LayoutD) app.getGuiManager().getLayout()).getDockManager().getPanel(App.VIEW_CAS).getFrame());
+		dialog.setModal(false);
 		Localization loc = getApp().getLocalization();
-		setTitle(loc.getPlain("Substitute") + " - "
+		dialog.setTitle(loc.getPlain("Substitute") + " - "
 				+ loc.getCommand("Row") + " " + (editRow + 1));
-		setResizable(true);
+		dialog.setResizable(true);
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 
@@ -181,52 +168,8 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		optionPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		// Make this dialog display it.
-		setContentPane(optionPane);
+		dialog.setContentPane(optionPane);
 
-	}
-
-	private void initData(GeoCasCell cell) {
-		HashSet<GeoElement> vars = new HashSet<GeoElement>();
-		if (cell.getInputVE().getVariables() != null) {
-			for (GeoElement var : cell.getInputVE().getVariables()) {
-				addVariables(var, vars);
-			}
-		}
-		Vector<String> row;
-		data = new Vector<Vector<String>>(vars.size() + 1);
-		Iterator<GeoElement> iter = vars.iterator();
-		while (iter.hasNext()) {
-			row = new Vector<String>(2);
-			GeoElement var = iter.next();
-			String nextVar = var.getLabel(StringTemplate.defaultTemplate);
-			int i = 0;
-			for (i = 0; i < data.size(); i++) {
-				if (data.get(i).firstElement().compareTo(nextVar) >= 0) {
-					break;
-				}
-			}
-			if (i == data.size()
-					|| !data.get(i).firstElement().equals(nextVar)) {
-				row.add(nextVar);
-				row.add("");
-				data.insertElementAt(row, i);
-			}
-		}
-
-		row = new Vector<String>(2);
-		row.add("");
-		row.add("");
-		data.add(row);
-		
-	}
-
-	private static void addVariables(GeoElement var, HashSet<GeoElement> vars) {
-		if(var instanceof GeoCasCell){
-			ValidExpression ve = ((GeoCasCell)var).getOutputValidExpression();
-			if(ve!=null)
-				vars.addAll(ve.getVariables());
-		}
-		else vars.add(var);
 	}
 
 	/**
@@ -254,9 +197,8 @@ public class CASSubDialog extends JDialog implements ActionListener {
 				data.add(new Vector<String>(Arrays
 						.asList(new String[] { "", "" })));
 				replaceTable.revalidate();
-				CASSubDialog.this.pack();
-				Rectangle r = replaceTable.getCellRect(
-						replaceTable.getRowCount() - 1, col, false);
+				dialog.pack();
+				Rectangle r = replaceTable.getCellRect(replaceTable.getRowCount() - 1, col, false);
 				scrollPane.getViewport().scrollRectToVisible(r);
 				if (editor != null) {
 					replaceTable.editCellAt(row, col);
@@ -285,10 +227,12 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		}
 	}
 
-	@Override
+	/**
+	 * @param flag true to set dialog to visible
+	 */
 	public void setVisible(boolean flag) {
 		casView.setSubstituteDialog(flag ? this : null);
-		super.setVisible(flag);
+		dialog.setVisible(flag);
 		if (flag) {
 			// focus top right cell
 			replaceTable.setRowSelectionInterval(0, 0);
@@ -307,64 +251,6 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		TableCellEditor editor = replaceTable.getCellEditor();
 		if (editor != null && editor instanceof MathTextCellEditor) {
 			((MathTextCellEditor) editor).insertString(inStr);
-		}
-	}
-
-	private boolean apply(String actionCommand) {
-
-		CASTableD table = casView.getConsoleTable();
-
-		// create substitution list
-		StringBuilder substList = new StringBuilder("{");
-		StringBuilder substComment = new StringBuilder();
-		for (int i = 0; i < data.size(); i++) {
-			String fromExpr = data.get(i).get(0).trim();
-			String toExpr = data.get(i).get(1).trim();
-			if (!fromExpr.equals("") && !toExpr.equals("")) {
-				if (substList.length() > 1) {
-					substList.append(',');
-					substComment.append(',');
-				}
-				fromExpr = casView.resolveCASrowReferences(fromExpr, editRow);
-				toExpr = casView.resolveCASrowReferences(toExpr, editRow);
-				substList.append(fromExpr);
-				substList.append('=');
-				substList.append(toExpr);
-				substComment.append(fromExpr);
-				substComment.append('=');
-				substComment.append(toExpr);
-			}
-		}
-		substList.append('}');
-
-		// make sure pure substitute is not evaluated
-		boolean keepInput = false;
-
-		// substitute command
-		String subCmd = "Substitute[" + evalText + "," + substList + "]";
-		if (actionCommand.equals("Substitute")) {
-			subCmd = "Substitute[" + evalText + "," + substList + "]";
-			keepInput = true;
-		} else if (actionCommand.equals("Numeric")) {
-			subCmd = "Numeric[" + subCmd + "]";
-			keepInput = false;
-		}
-
-		try {
-			GeoCasCell currCell = table.getGeoCasCell(editRow);
-			currCell.setProcessingInformation(prefix, subCmd, postfix);
-			currCell.setEvalCommand("Substitute");
-			currCell.setEvalComment(substComment.toString());
-
-			// make sure pure substitute is not evaluated
-			currCell.setKeepInputUsed(keepInput);
-
-			casView.processRowThenEdit(editRow, true);
-			// table.startEditingRow(editRow + 1);
-			return true;
-		} catch (Throwable e) {
-			e.printStackTrace();
-			return false;
 		}
 	}
 
@@ -425,6 +311,32 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		public void insertString(String text) {
 			delegate.insertString(text);
 		}
+	}
+	
+	/**
+	 * @param flag true to set dialog always on top
+	 */
+	public void setAlwaysOnTop(boolean flag) {
+		dialog.setAlwaysOnTop(flag);
+	}
+	
+	/**
+	 * @return true if dialog is showing
+	 */
+	public boolean isShowing() {
+		return dialog.isShowing();
+	}
+	
+	@Override
+	protected CASView getCASView() {
+		return casView;
+	}
+	
+	/**
+	 * @return dialog
+	 */
+	public JDialog getDialog() {
+		return dialog;
 	}
 
 }

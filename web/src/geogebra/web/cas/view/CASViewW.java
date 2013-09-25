@@ -21,6 +21,7 @@ public class CASViewW extends CASView {
 	private AppW app;
 	private CASTableW consoleTable;
 	private CASStylebarW styleBar;
+	private CASSubDialogW subDialog;
 
 	public CASViewW(AppW app){
 		component = new CASComponentW();
@@ -74,16 +75,25 @@ public class CASViewW extends CASView {
     }
 
 	@Override
-    public App getApp() {
+    public AppW getApp() {
 	    return app;
     }
 
 	@Override
-    public void showSubstituteDialog(String prefix, String evalText,
-            String postfix, int selRow) {
-	    // TODO Auto-generated method stub
-	    
+	public void showSubstituteDialog(String prefix, String evalText,
+	        String postfix, int selRow) {
+		App.debug("Before creation");
+		if (subDialog != null && subDialog.getDialog().isShowing())
+			return;
+		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText,
+		        postfix, selRow);
+		d.getDialog().center();
+		d.getDialog().show();
+		App.debug("CASSubDialogCreated");
+		subDialog = d;
+
     }
+	
 	public Widget getComponent() {
 	    return component;
     }

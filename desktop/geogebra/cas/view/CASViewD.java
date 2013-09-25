@@ -43,7 +43,7 @@ public class CASViewD extends CASView implements Gridable {
 	
 	private CASTableD consoleTable;
 	
-	private CASSubDialog subDialog;
+	private CASSubDialogD subDialog;
 	private ListSelectionModel listSelModel;
 
 	final private AppD app;
@@ -202,7 +202,7 @@ public class CASViewD extends CASView implements Gridable {
 			return;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				CASSubDialog d = new CASSubDialog(getCASViewD(), prefix, evalText, postfix, selRow);
+				CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix, evalText, postfix, selRow);
 				d.setAlwaysOnTop(true);
 				d.setVisible(true);
 				setSubstituteDialog(d);
@@ -214,7 +214,7 @@ public class CASViewD extends CASView implements Gridable {
 	 * Make sure this view knows whether substitute dialog is open
 	 * @param d substitute dialog; null to "close"
 	 */
-	public void setSubstituteDialog(CASSubDialog d) {
+	public void setSubstituteDialog(CASSubDialogD d) {
 		subDialog = d;
 	}
 
