@@ -30,6 +30,12 @@
 -libraryjars lib/jython.jar
 -libraryjars lib/OpenGeoProver.jar
 
+#JavaFX
+-libraryjars lib/jfxrt.jar
+-keepclassmembernames class * {
+	@javafx.fxml.FXML *;
+}
+
 # Rhino Javascript is not obfuscated
 -libraryjars build/geogebra_javascript.jar
 
