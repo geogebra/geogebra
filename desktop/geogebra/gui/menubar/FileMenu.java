@@ -289,12 +289,19 @@ class FileMenu extends BaseMenu {
 			}
 		};
 
-		loadURLAction = new AbstractAction(app.getMenu("OpenWebpage") + " ...", app
+		loadURLAction = new AbstractAction(app.getMenu("OpenFromGeoGebraTube") + " ...", app
 				.getImageIcon("document-open.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().openURL();
+				
+				if ((e.getModifiers() | ActionEvent.SHIFT_MASK) == 0) {
+					App.error("TODO: not implemented yet");
+				} else {
+					
+					// old File -> Open from Webpage by pressing <Shift>
+					app.getGuiManager().openURL();
+				}
 			}
 		};
 
