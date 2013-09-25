@@ -9,14 +9,12 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
-import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -357,9 +355,7 @@ public class TextDispatcher {
 	 */
 	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
 		
-		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) P, (GeoPoint) Q);
-
-		return algo.getPoint();
+		return (GeoPointND) view.midpoint(P, Q);
 	}
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
 		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point, (GeoElement) line);

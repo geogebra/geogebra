@@ -226,17 +226,7 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 	}
 
 	
-	@Override
-	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
 
-		if (((GeoElement) p1).isGeoElement3D()
-				|| ((GeoElement) p2).isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().Midpoint(null,
-					p1, p2);
-		}
-
-		return super.midpoint(p1, p2);
-	}
 
 	@Override
 	protected GeoElement midpoint(GeoSegmentND segment){

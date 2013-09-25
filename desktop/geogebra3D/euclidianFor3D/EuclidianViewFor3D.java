@@ -5,9 +5,11 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra3D.kernel3D.AlgoMidpoint3D;
 
 import java.awt.geom.AffineTransform;
 
@@ -66,6 +68,23 @@ public class EuclidianViewFor3D extends EuclidianViewD {
 				M.getY());
 
 		return new geogebra.awt.GAffineTransformD(transform);
+	}
+	
+	
+	
+	
+	
+	@Override
+	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
+
+		if (((GeoElement) p1).isGeoElement3D()
+				|| ((GeoElement) p2).isGeoElement3D()) {
+			
+			AlgoMidpoint3D algo = new AlgoMidpoint3D(kernel.getConstruction(), p1, p2);
+			return algo.getPoint();
+		}
+
+		return super.midpoint(p1, p2);
 	}
 
 }

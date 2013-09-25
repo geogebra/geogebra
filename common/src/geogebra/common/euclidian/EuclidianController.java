@@ -2621,7 +2621,8 @@ public abstract class EuclidianController {
 			// fetch the two selected points
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 			
-			ret[0] = midpoint(points[0], points[1]);
+			ret[0] = view.midpoint(points[0], points[1]);			
+			ret[0].setLabel(null);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
@@ -2639,18 +2640,6 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @return midpoint for two points
-	 */
-	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
-
-		return getAlgoDispatcher().Midpoint(null, (GeoPoint) p1,
-				(GeoPoint) p2);
-
-	}
 
 	/**
 	 * 
