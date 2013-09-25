@@ -7,8 +7,16 @@ import geogebra.common.cas.error.TimeoutException;
 import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import javagiac.context;
 import javagiac.gen;
 import javagiac.giac;
@@ -223,11 +231,57 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	}
 
-	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
-		App.error("unimplemented");
+	/**
+	 * Queue of asynchronous commands that are waiting for update
+	 */
+	List<AsynchronousCommand> queue =new LinkedList<AsynchronousCommand>();
 
+	private Thread casThread;
+	@SuppressWarnings("unused")
+	public void evaluateGeoGebraCASAsync(final AsynchronousCommand cmd) {
+		App.debug("about to start thread");
+		if(!queue.contains(cmd)) {
+			queue.add(cmd);
+		}
+
+		if (casThread == null || !casThread.isAlive()){
+			casThread = new Thread(){
+				@Override
+				public void run(){
+					App.debug("thread is starting");
+					while (queue.size() > 0) {
+						AsynchronousCommand command = queue.get(0);
+						String input = command.getCasInput();
+						String result;
+						ValidExpression inVE = null;
+						//remove before evaluating to ensure we don't ignore new requests meanwhile
+						if (queue.size() > 0)
+							queue.remove(0);					
+						try {
+							inVE = casParser.parseGeoGebraCASInput(input);
+							//TODO: arbconst()
+							result = evaluateGeoGebraCAS(inVE,new MyArbitraryConstant((ConstructionElement)command),
+									StringTemplate.defaultTemplate);
+							CASAsyncFinished(inVE, result, null, command,  input);
+						} catch (Throwable exception) {
+							App.debug("exception handling ...");
+							exception.printStackTrace();
+							result ="";
+							CASAsyncFinished(inVE, result,exception, command, input);
+						}
+
+					}
+					App.debug("thread is quiting");
+				}
+			};
+		}
+		if (AsynchronousCommand.USE_ASYNCHRONOUS  && !casThread.isAlive()) {
+			casThread.start();
+		} else {
+			casThread.run();
+		}
 	}
-
+	
 	@Override
 	public String evaluateCAS(String exp) {
 		try {
