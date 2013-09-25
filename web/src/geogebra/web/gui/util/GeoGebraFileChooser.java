@@ -59,14 +59,14 @@ public class GeoGebraFileChooser extends DialogBox {
 	    
 	    HorizontalPanel fileNamePanel = new HorizontalPanel();
 	    fileNamePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-	    fileNamePanel.add(new Label("Filename: "));
+	    fileNamePanel.add(new Label(app.getPlain("Filename") + ": "));
 	    fileNamePanel.add(fileName = new TextBox());
 	    fileNamePanel.addStyleName("fileNamePanel");
 	    p.add(fileNamePanel);
 	    
 	    HorizontalPanel descriptionPanel = new HorizontalPanel();
 	    descriptionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-	    descriptionPanel.add(new Label("Description: "));
+	    descriptionPanel.add(new Label(app.getPlain("Description") + ": "));
 	    descriptionPanel.add(description = new TextArea());
 	    descriptionPanel.addStyleName("descriptionPanel");
 	    p.add(descriptionPanel);
