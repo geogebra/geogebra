@@ -23,7 +23,7 @@ import geogebra.html5.util.WindowReference;
 import geogebra.html5.util.WindowW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.AlertDialog;
-import geogebra.web.gui.util.GeoGebraFileChooser;
+import geogebra.web.gui.util.GeoGebraFileChooserW;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SkyDriveFileChooser;
@@ -188,11 +188,11 @@ public class DialogManagerW extends DialogManager {
 
 	}
 
-	GeoGebraFileChooser fileChooser = null;	
+	GeoGebraFileChooserW fileChooser = null;	
 
-	public GeoGebraFileChooser getFileChooser() {
+	public GeoGebraFileChooserW getFileChooser() {
 		if (fileChooser == null) {
-			fileChooser = new GeoGebraFileChooser(app);
+			fileChooser = new GeoGebraFileChooserW(app);
 		}
 		return fileChooser;
 	}

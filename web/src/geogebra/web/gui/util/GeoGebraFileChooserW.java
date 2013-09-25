@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GeoGebraFileChooser extends DialogBox {
+public class GeoGebraFileChooserW extends DialogBox {
 	
 	App app;
 	VerticalPanel p;
@@ -52,7 +52,7 @@ public class GeoGebraFileChooser extends DialogBox {
 	 * 
 	 * Creates a new GeoGebraFileChooser Window
 	 */
-	public GeoGebraFileChooser(final App app) {
+	public GeoGebraFileChooserW(final App app) {
 	    super();
 	    this.app = app;
 	    add(p = new VerticalPanel());
