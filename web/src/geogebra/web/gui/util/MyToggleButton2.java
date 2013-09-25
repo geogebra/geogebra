@@ -1,94 +1,164 @@
 package geogebra.web.gui.util;
 
-import geogebra.web.euclidian.EuclidianStyleBarW;
+import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResourcesConverter;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-public class MyToggleButton2 extends ToggleButton implements ClickHandler, HasValue<Boolean> {
+/**
+ * Extends GWT ToggleButton to support tooltips and Icon image data.
+ * 
+ */
+public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
+        MouseOverHandler, MouseOutHandler {
 
 	private static final long serialVersionUID = 1L;
-	private Canvas button;
-	private Context2d ctx = null;
-	private boolean isDown = false;
-	protected HorizontalPanel wrapper = null;
-	private ImageElement icon;
-	CanvasElement compiledicon;
 	private HandlerRegistration actionListener;
-	
-	public MyToggleButton2() {
-	    this(new Image(),0);
-    }
-	
-	public MyToggleButton2(ImageResource icon, int iconHeight) {
-		this(new Image(icon.getSafeUri()),iconHeight);
+	private String toolTipText;
+	private int buttonHeight;
+
+	public MyToggleButton2(ImageResource upIcon, int iconHeight) {
+		super(new Image(upIcon.getSafeUri()));
+		initButton(iconHeight);
+	}
+
+	public MyToggleButton2(ImageResource upIcon, ImageResource downIcon,
+	        ClickHandler handler, int iconHeight) {
+		super(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
+		        handler);
+		initButton(iconHeight);
+	}
+
+	public MyToggleButton2(ImageResource upIcon, ClickHandler handler,
+	        int iconHeight) {
+		super(new Image(upIcon.getSafeUri()), handler);
+		initButton(iconHeight);
+	}
+
+	public MyToggleButton2(ImageData useAsTextIcon, int iconHeight) {
+		super(AppResourcesConverter.convertImageDataToImage(useAsTextIcon));
+		initButton(iconHeight);
 	}
 
 	public MyToggleButton2(final Image image, int iconHeight) {
-		
 		super(image);
+		initButton(iconHeight);
+	}
+
+	public MyToggleButton2(Image upImage, Image downImage,
+	        ClickHandler handler, int iconHeight) {
+		super(upImage, downImage, handler);
+		initButton(iconHeight);
+	}
+
+	private void initButton(int height) {
+		this.buttonHeight = height;
 		setDown(false);
-		setHeight(iconHeight+"px");
-		setWidth(iconHeight+"px");
-		//addClickHandler(this);
+		setHeight(buttonHeight + "px");
+		setWidth(buttonHeight + "px");
 		addStyleName("MyToggleButton");
-		
+		addMouseOutHandler(this);
+		addMouseOverHandler(this);
+		addMouseDownHandler(this);
+
 	}
-	
 
-	public MyToggleButton2(ImageData useAsTextIcon, int iconHeight) {
-	    this(AppResourcesConverter.convertImageDataToImage(useAsTextIcon), iconHeight);
-    }
-
+	/**
+	 * Button instances override this method to update the state of the button
+	 * (e.g. visibility) based on a given array of GeoElements.
+	 * 
+	 * @param geos
+	 *            Array of GeoElements
+	 */
 	public void update(Object[] geos) {
+		// do nothing
 	}
 
-	
-
-	public void onClick(ClickEvent event) {
-	    if (isDown()) {
-	    	setValue(false,true);
-	    } else {
-	    	setValue(true,true);
-	    }
-    }
-
-	public HandlerRegistration addValueChangeHandler(
-            ValueChangeHandler<Boolean> handler) {
-		actionListener = addHandler(handler, ValueChangeEvent.getType());
-		return actionListener;
-    }
-
-	
+	/**
+	 * Sets selection state (Java isSelected => GWT isDown)
+	 * 
+	 * @param isSelected
+	 *            selection flag
+	 */
 	public void setSelected(boolean isSelected) {
 		setDown(isSelected);
-    }
-	
-	
+	}
 
+	@Override
+	public void setDown(boolean f) {
+
+		App.debug("before setDwon called, isdown(): " + isDown());
+
+		super.setDown(f);
+
+		App.debug("set down called with: " + f);
+		App.debug("after call, isdown(): " + isDown());
+		App.debug("-------------------------");
+
+	}
+
+	@Override
+	public void setValue(Boolean f, boolean f2) {
+		super.setValue(f, f2);
+		App.debug("set value called: " + f);
+	}
+
+	/**
+	 * Returns selection state (Java isSelected => GWT isDown)
+	 * 
+	 * @return toggle button selection state
+	 */
 	public boolean isSelected() {
-	    return isDown();
-    }
+		return isDown();
+	}
 
-	public void removeValueChangeHandler(EuclidianStyleBarW euclidianStyleBar) {
+	public void removeValueChangeHandler() {
 		if (actionListener != null) {
 			actionListener.removeHandler();
 		}
 	}
-	
-	
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(
+	        ValueChangeHandler<Boolean> handler) {
+		actionListener = addHandler(handler, ValueChangeEvent.getType());
+		return actionListener;
+	}
+
+	/**
+	 * Sets the toolttip text
+	 * 
+	 * @param toolTipText
+	 *            tooltip string
+	 */
+	public void setToolTipText(String toolTipText) {
+		this.toolTipText = toolTipText;
+	}
+
+	public void onMouseOver(MouseOverEvent event) {
+		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
+	}
+
+	public void onMouseOut(MouseOutEvent event) {
+		ToolTipManagerW.sharedInstance().showToolTip(null);
+	}
+
+	public void onMouseDown(MouseDownEvent event) {
+		this.setFocus(false);
+	}
+
 }

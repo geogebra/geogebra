@@ -1167,19 +1167,19 @@ public class EuclidianStyleBarW extends StyleBarW
 		//btnPen.setSelected(mode == EuclidianConstants.MODE_PEN);
 		//btnPen.addActionListener(this);
 
-		btnDelete.removeValueChangeHandler(this);
+		btnDelete.removeValueChangeHandler();
 		btnDelete.setSelected(mode == EuclidianConstants.MODE_DELETE);
 		btnDelete.addValueChangeHandler(this);
 
-		btnLabel.removeValueChangeHandler(this);
+		btnLabel.removeValueChangeHandler();
 		btnLabel.setSelected(mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);
 		btnLabel.addValueChangeHandler(this);
 
-		btnShowAxes.removeValueChangeHandler(this);
+		btnShowAxes.removeValueChangeHandler();
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
-		btnShowGrid.removeValueChangeHandler(this);
+		btnShowGrid.removeValueChangeHandler();
 		btnShowGrid.setSelected(ev.getShowGrid());
 		btnShowGrid.addValueChangeHandler(this);
 	}

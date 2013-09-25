@@ -711,10 +711,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				this.updateAutoFunction();
 			}
 
-			/*
-			 * TODO if (view.isVisibleStyleBar())
-			 * view.getSpreadsheetStyleBar().updateStyleBar();
-			 */
+			if (view.isVisibleStyleBar()) {
+				view.getSpreadsheetStyleBar().updateStyleBar();
+			}
 
 			app.getSelectionManager().setSelectedGeos(list, false);
 			if (list.size() > 0) {

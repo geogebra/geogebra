@@ -1214,7 +1214,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		} else {
 			table.getElement().addClassName("off");
 		}
-		//getSpreadsheetStyleBar().updateStyleBar();
+		getSpreadsheetStyleBar().updateStyleBar();
 	}
 
 	public boolean getAllowToolTips() {

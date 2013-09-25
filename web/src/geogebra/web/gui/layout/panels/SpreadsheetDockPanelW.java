@@ -3,9 +3,9 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.main.AppW;
 
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SpreadsheetDockPanelW extends DockPanelW {
 
-	SpreadsheetStyleBarPanel sstylebar;
+	SpreadsheetStyleBarW sstylebar;
 	SpreadsheetViewW sview;
 	AbsolutePanel wrapview;
 
@@ -48,9 +48,10 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		return wrapview;
 	}
 
-	protected Widget loadStyleBar() {
+	@Override
+    protected Widget loadStyleBar() {
 		if (sstylebar == null) {
-			sstylebar = new SpreadsheetStyleBarPanel();
+			sstylebar = new SpreadsheetStyleBarW(sview);
 		}
 		return sstylebar;
 	}
