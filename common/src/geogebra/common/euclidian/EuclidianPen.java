@@ -626,7 +626,7 @@ public class EuclidianPen {
 				screenCorner3.setCoords(ev.getWidth(), 0, 1);
 			}
 	
-			MyDouble evNo = new MyDouble(kernelA, ev.getViewID());
+			MyDouble evNo = new MyDouble(kernelA, ev.getEuclidianViewNo());
 			
 			cons.removeFromConstructionList(newPolyLine);
 	    	
