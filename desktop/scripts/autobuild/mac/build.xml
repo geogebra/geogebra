@@ -39,6 +39,7 @@
         <option value="-Dcom.apple.macos.useScreenMenuBar=true"/>
         <option value="-Dcom.apple.mrj.application.apple.menu.about.name=GeoGebra"/>
         <option value="-Dcom.apple.smallTabs=true"/>
+        <option value="-Xbootclasspath/a:../PlugIns/jdk1.7.0_15.jdk/Contents/Home/jre/lib/jfxrt.jar"/>
 
         <option value="-Xmx1024M"/>
     </bundleapp>
