@@ -496,7 +496,8 @@ public class AlgoTableText extends AlgoElement {
 			
 			GColor col = geo1.getObjectColor();
 
-			if (GColor.black.equals(col)) {
+			// check isLabelSet() so that eg TableText[{{1, 2, 3}}] isn't green
+			if (GColor.black.equals(col) || !geo1.isLabelSet()) {
 				col = null;
 			}
 			
