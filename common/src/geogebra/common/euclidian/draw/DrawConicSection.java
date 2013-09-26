@@ -26,6 +26,9 @@ public class DrawConicSection extends DrawConic {
 	private GArc2D arc;
 	private GLine2D line;
 	
+
+	private GLine2D[] lines;
+	
 	private GeneralPathClipped hyp;
 
 	/**
@@ -232,6 +235,7 @@ public class DrawConicSection extends DrawConic {
 		
 	}
 	
+	
 	@Override
 	protected void updateLines() {
 		
@@ -253,27 +257,53 @@ public class DrawConicSection extends DrawConic {
 		
 		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
 		
-		boolean firstPoint = true;
+		int numPoints = -1;
 
+		int x0 = 0, y0 = 0, x1 = 0, y1 = 0, x2, y2;
+		float x, y;
+		
 		for (int i=0; i<4; i++){
 			if (Kernel.isZero(endPoints[i].getZ())){
-				if (firstPoint){
-					path.moveTo((float) endPoints[i].getX(), (float) endPoints[i].getY());
-					firstPoint = false;
+				if (numPoints == -1){ // first point
+					x = (float) endPoints[i].getX();
+					y = (float) endPoints[i].getY();
+					path.moveTo(x,y);
+					numPoints++;
+					x0 = view.toScreenCoordX(x);
+					y0 = view.toScreenCoordY(y);					
+					x1 = x0;
+					y1 = y0;
 				}else{
-					path.lineTo((float) endPoints[i].getX(), (float) endPoints[i].getY());
+					x = (float) endPoints[i].getX();
+					y = (float) endPoints[i].getY();
+					path.lineTo(x, y);
+					x2 = view.toScreenCoordX(x);
+					y2 = view.toScreenCoordY(y);
+					if (lines == null){
+						lines = new GLine2D[4];
+					}
+					if (lines[numPoints] == null)
+						lines[numPoints] = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+					lines[numPoints].setLine(x1, y1, x2, y2);
+			        x1 = x2;
+			        y1 = y2;
+					numPoints++;
 				}
 			}
 		}
 		
-		if(!firstPoint){//close path only if at least one point
+		if(numPoints > 0){//close path only if at least two points
 			path.closePath();
+			if (lines[numPoints] == null)
+				lines[numPoints] = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+			lines[numPoints].setLine(x1, y1, x0, y0);
 		}
 		
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
 		shape = transform.createTransformedShape(path);
+		
 	}
 	
 	
@@ -324,8 +354,20 @@ public class DrawConicSection extends DrawConic {
 	}
 	
 	@Override
-	public boolean hitLines(int hitX, int hitY) {
-		//TODO ?
+	public boolean hitLines(int screenx, int screeny) {
+		if (lines == null){
+			return false;
+		}
+		
+		for (int i = 0; i < 4; i++){
+			line = lines[i];
+			if (line != null){
+				if (line.intersects(screenx - hitThreshold, screeny - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)){
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 	

@@ -2185,6 +2185,7 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] intersect(Hits intersectHits) {
+			
 		// Application.debug(selectedLines);
 		Hits hits = intersectHits;
 		// obscure bug: intersection of x=0 and (x-1)^2+(y-1)^=1 can intersect
@@ -2205,11 +2206,11 @@ public abstract class EuclidianController {
 		if (!selectionPreview && (hits.size() > (2 - selGeos()))) {
 			Hits goodHits = new Hits();
 			// goodHits.add(selectedGeos);
-			hits.getHits(Test.GEOLINE, tempArrayList);
+			hits.getHits(Test.GEOLINEND, tempArrayList);
 			goodHits.addAll(tempArrayList);
 	
 			if (goodHits.size() < 2) {
-				hits.getHits(Test.GEOCONIC, tempArrayList);
+				hits.getHits(Test.GEOCONICND, tempArrayList);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
