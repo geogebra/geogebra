@@ -12,14 +12,13 @@ import java.util.Vector;
 
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DialogBox.Caption;
@@ -48,6 +47,9 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	
 	private AppW app;
 	private CASViewW casView;
+	
+	private static final int DEFAULT_TABLE_WIDTH = 210;
+	private static final int DEFAULT_TABLE_HEIGHT = 240;
 
 	/**
 	 * Substitute dialog for CAS.
@@ -75,6 +77,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		Localization loc = app.getLocalization();
 		caption.setText(loc.getPlain("Substitute") + " - " + loc.getCommand("Row") + " " + (editRow + 1));
 		dialog = new DialogBox(true, false, caption);
+		dialog.setWidget(optionPane = new VerticalPanelSmart());
 		dialog.setAutoHideEnabled(true);
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
@@ -84,11 +87,6 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		// do not refresh the headers and footers every time the data is updated
 		table.setAutoHeaderRefreshDisabled(true);
 		table.setAutoFooterRefreshDisabled(true);
-		
-		// create a Pager to control the table
-	    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-	    pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-	    pager.setDisplay(table);
 	    
 		initData(cell);
 		createTableColumns();
@@ -97,36 +95,36 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		// buttons
 		btEval = new Button(EVAL_SYM);
 		btEval.setTitle(loc.getMenuTooltip("Evaluate"));
+		btEval.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btEval.addClickHandler(this);
 		
 		btNumeric = new Button(NUM_SYM);
 		btNumeric.setTitle(loc.getMenuTooltip("Numeric"));
+		btNumeric.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btNumeric.addClickHandler(this);
 		
 		btSub = new Button(loc.getPlain(SUB_SYM));
 		btSub.setTitle(loc.getMenuTooltip("Substitute"));
+		btSub.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btSub.addClickHandler(this);
 		
 		btPanel = new HorizontalPanel();
-		btPanel.setSpacing(2);
+		
+		tablePane = new ScrollPanel(table);
+		tablePane.setWidth(DEFAULT_TABLE_WIDTH + "px");
+		tablePane.setHeight(DEFAULT_TABLE_HEIGHT + "px");
+		
+		optionPane.add(tablePane);
+		optionPane.add(btPanel);
+		
 		btPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
 		btPanel.add(btEval);
 		btPanel.add(btNumeric);
 		btPanel.add(btSub);
 		
-		tablePane = new ScrollPanel();
-		tablePane.add(table);
-		table.setHeight(DEFAULT_TABLE_HEIGHT + "px");
-		table.setWidth(DEFAULT_TABLE_WIDTH + "px");
-
-		optionPane = new VerticalPanelSmart();
-		optionPane.setBorderWidth(5);
-		optionPane.add(tablePane);
-		
-		optionPane.add(btPanel);
 		// make this dialog display it
-		dialog.setWidget(optionPane);
+		
     }
 
 	private void fillTableColumns() {

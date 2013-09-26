@@ -64,9 +64,6 @@ public abstract class CASSubDialog {
 	protected int editRow;
 	protected String prefix, evalText, postfix;
 	
-	protected static final int DEFAULT_TABLE_WIDTH = 200;
-	protected static final int DEFAULT_TABLE_HEIGHT = 150;
-	
 	protected static final String EVAL_SYM = "=";
 	protected static final String NUM_SYM = "\u2248";
 	protected static final String SUB_SYM = "\u2713";
@@ -163,6 +160,9 @@ public abstract class CASSubDialog {
 			}
 		}
 		substList.append('}');
+		
+		if ("{}".equals(substList.toString())) 
+			return false;
 
 		// make sure pure substitute is not evaluated
 		boolean keepInput = false;

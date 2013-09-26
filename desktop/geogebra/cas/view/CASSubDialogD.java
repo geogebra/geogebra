@@ -52,7 +52,9 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	private JPanel optionPane, btPanel, captionPanel;
 	private JTable replaceTable;
 	private JDialog dialog;
-
+	
+	private static final int DEFAULT_TABLE_WIDTH = 200;
+	private static final int DEFAULT_TABLE_HEIGHT = 150;
 	private static final int DEFAULT_TABLE_CELL_HEIGHT = 21;
 	private static final double DEFAULT_FONT_SIZE = 12.;
 
