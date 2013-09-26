@@ -713,10 +713,12 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			//works in case of a polynomial with one root of really high multiplicity.
 			double[] c=poly.getCoefficients();
 			int n=c.length-1;
+			if (n > 0) {
 			double x=-c[n-1]/n/c[n];
-			if (Kernel.isEqual(poly.value(x), 0)){
-				roots[0]=x;
-				return 1;
+				if (Kernel.isEqual(poly.value(x), 0)) {
+					roots[0] = x;
+					return 1;
+				}
 			}
 		}
 		if (nrRoots==0){
