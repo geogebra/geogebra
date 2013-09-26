@@ -1408,7 +1408,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     public void pick(Drawable3D d, boolean intersection, PickingType type){  
-    	//Application.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);  	
+    	//App.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);  	
     	//Application.debug("1");
     	gl.glLoadName(pickingLoop);//Application.debug("2");
     	Drawable3D ret = d.drawForPicking(this,intersection, type);	//Application.debug("3");

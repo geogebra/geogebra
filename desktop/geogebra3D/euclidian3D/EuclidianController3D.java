@@ -1306,7 +1306,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			return false;
 
 
-		
 		addSelectedPolygon(hits, 1, false);
 		addSelectedConic(hits, 1, false);
 		//hits.removePolygons();
@@ -1857,17 +1856,14 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			((Hits3D) hits).removePolygonsIfNotOnlyCS2D();
 			break;
-		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-		case EuclidianConstants.MODE_CONIFY:
 		case EuclidianConstants.MODE_AREA:
 		case EuclidianConstants.MODE_VOLUME:
-		//case EuclidianConstants.MODE_INTERSECTION_CURVE:
-			//String s = hits.toString();
+		case EuclidianConstants.MODE_EXTRUSION:
+		case EuclidianConstants.MODE_CONIFY:
+			hits.removeAllPlanes();
 			hits.removeAllPolygonsButOne();
-			//s+="\nAprès:\n"+hits.toString();
-			//Application.debug(s);
 			break;
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			break;
@@ -1959,6 +1955,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_CONIFY:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
+			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
 			//Application.debug(hits.toString());
 			extrusionOrConify(hits);

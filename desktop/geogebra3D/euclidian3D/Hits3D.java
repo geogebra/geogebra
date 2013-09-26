@@ -181,12 +181,14 @@ public class Hits3D extends Hits {
 	
 	/** sort all hits in different sets */
 	public void sort(){
-				
+			
+		
 
 		hitSetSet.clear();
 		
-		for (int i=0;i<Drawable3D.DRAW_PICK_ORDER_MAX;i++)
-			hitSetSet.add(hitSet[i]);		
+		for (int i=0;i<Drawable3D.DRAW_PICK_ORDER_MAX;i++){
+			hitSetSet.add(hitSet[i]);	
+		}
 
 		//top hits
 		for (Iterator<Drawable3D> iter = hitSetSet.first().iterator(); iter.hasNext();) {

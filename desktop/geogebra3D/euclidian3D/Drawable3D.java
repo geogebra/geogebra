@@ -726,11 +726,11 @@ public abstract class Drawable3D extends DrawableND {
 		App.debug("\ncheckPickOrder="+checkPickOrder
 				+"\nzMin= "+(this.zPickMin)
 				+" | zMax= "+(this.zPickMax)
-				+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
+				+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+") "+this+"\n"
 				+"zMin= "+(d.zPickMin)
 				+" | zMax= "+(d.zPickMax)
-				+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
-		*/
+				+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+") "+d+"\n");
+		 */
 		
 		
 		//check if one is transparent and the other not -- ONLY FOR DIFFERENT PICK ORDERS
@@ -758,15 +758,23 @@ public abstract class Drawable3D extends DrawableND {
 		
 		
 		//check if the two objects are "mixed"	
-		if (this.zPickMax>d.zPickMin && d.zPickMax>this.zPickMin){
+		if (this.zPickMax >= d.zPickMin && d.zPickMax >= this.zPickMin){
 			
-			if (DEBUG){
-				DecimalFormat df = new DecimalFormat("0.000000000");
-				App.debug("mixed :\n"
-						+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
-						+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
+			GeoElement geo1 = this.getGeoElement();
+			GeoElement geo2 = d.getGeoElement();
+			
+			if (geo1 == geo2){
+				//App.debug("\nsame geo : "+geo1);
+				return 0;
 			}
-			
+
+			/*
+			DecimalFormat df = new DecimalFormat("0.000000000");
+			App.debug("\nmixed :\n"
+					+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
+					+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
+			 */
+
 			
 			if (checkPickOrder){
 				if (this.getPickOrder()<d.getPickOrder())
@@ -777,18 +785,27 @@ public abstract class Drawable3D extends DrawableND {
 			
 			
 			
+			
 			// if both are points
-			if (this.getGeoElement().isGeoPoint() && d.getGeoElement().isGeoPoint()){
+			if (geo1.isGeoPoint() && geo2.isGeoPoint()){
 				//check if one is on a path and the other not
-				if ((((GeoPointND) this.getGeoElement()).hasPath())&&(!((GeoPointND) d.getGeoElement()).hasPath()))
+				if ((((GeoPointND) geo1).hasPath())&&(!((GeoPointND) geo2).hasPath()))
 					return -1;
-				if ((!((GeoPointND) this.getGeoElement()).hasPath())&&(((GeoPointND) d.getGeoElement()).hasPath()))
+				if ((!((GeoPointND) geo1).hasPath())&&(((GeoPointND) geo2).hasPath()))
 					return 1;	
 				//check if one is the child of the other
-				if (this.getGeoElement().isChildOf(d.getGeoElement()))
+				if (geo1.isChildOf(geo2))
 					return -1;
-				if (d.getGeoElement().isChildOf(d.getGeoElement()))
+				if (geo2.isChildOf(geo1))
 					return 1;
+			}else{
+				// any geo before a plane
+				if (!geo1.isGeoPlane() && geo2.isGeoPlane()){
+					return -1;
+				}
+				if (geo1.isGeoPlane() && !geo2.isGeoPlane()){
+					return 1;
+				}
 			}
 			
 			
