@@ -126,8 +126,8 @@ public class Kernel3D extends Kernel {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			return "PlaneThreePoint";
 
-		case EuclidianConstants.MODE_PLANE_POINT_LINE:
-			return "PlanePointLine";
+		case EuclidianConstants.MODE_PLANE_CONTAINING:
+			return "PlaneContaining";
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
 			return "OrthogonalPlane";

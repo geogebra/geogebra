@@ -44,6 +44,8 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 		//set input and output		
 		setInputOutput(new GeoElement[]{(GeoElement) a, (GeoElement) b}, new GeoElement[]{(GeoElement) cs});
 		
+		compute();
+		
 		((GeoElement) cs).setLabel(label);
 		
 	}

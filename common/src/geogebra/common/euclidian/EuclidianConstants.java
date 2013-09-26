@@ -242,7 +242,7 @@ public final class EuclidianConstants {
 	public static final int MODE_PLANE_THREE_POINTS = 510;
 
 	/** creates a plane through three points */
-	public static final int MODE_PLANE_POINT_LINE = 511;
+	public static final int MODE_PLANE_CONTAINING = 511;
 
 	/** creates a plane orthogonal to a line */
 	public static final int MODE_ORTHOGONAL_PLANE = 512;

@@ -280,6 +280,10 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 * set x-y min/max values
 	 */
 	protected void setMinMax(){
+		if (!getGeoElement().isDefined()){
+			return;
+		}
+		
 		setMinMax(getView3D().getClippingVertex(0), getView3D().getClippingVertex(1), getView3D().getClippingVertex(2), getView3D().getClippingVertex(4));
 	}
 	

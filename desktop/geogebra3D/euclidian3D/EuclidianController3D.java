@@ -1175,22 +1175,37 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	
-	/** get point and line;
-	 * create plane through point and line
+	/** 
+	 * create plane containing polygon / 2 lines / line & point
 	 * 
 	 * @param hits
 	 * @return true if a plane has been created
 	 */
-	final protected boolean planePointLine(Hits hits) {
+	final protected boolean planeContaining(Hits hits) {
 		if (hits.isEmpty())
 			return false;
 		
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
-		if (!hitPoint) {
-				addSelectedLine(hits, 1, false);
-		}
+		hits.removeAllPlanes();
 
+		
+		// first try with polygon, conic, etc.
+		if (selPoints() == 0 && selLines() == 0) {
+			addSelectedCS2D(hits, 1, false);
+		}
+		
+		if (selCS2D() == 1){
+			GeoCoordSys2D[] cs = getSelectedCS2D();
+			getKernel().getManager3D().Plane3D(null, cs[0]);
+			return true;
+		}
+		
+		
+		// then try point & line / line & line
+		addSelectedPoint(hits, 1, false);
+		
 		if (selPoints() == 1) {
+			// only one line allowed
+			addSelectedLine(hits, 1, false);
 			if (selLines() == 1) {
 				// fetch selected point and line
 				GeoPointND[] points = getSelectedPointsND();
@@ -1199,7 +1214,17 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				getKernel().getManager3D().Plane3D(null, points[0], lines[0]);
 				return true;
 			}
+		}else {
+			// may be two lines
+			addSelectedLine(hits, 2, false);
+			if (selLines() == 2) {
+				// plane containing two lines
+				GeoLineND[] lines = getSelectedLinesND();
+				getKernel().getManager3D().Plane3D(null, lines[0], lines[1]);
+				return true;
+			}
 		}
+
 		return false;
 	}
 
@@ -1750,8 +1775,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			changedKernel = (threePoints(hits,mode) != null);
 			break;
-		case EuclidianConstants.MODE_PLANE_POINT_LINE:
-			changedKernel = planePointLine(hits);
+		case EuclidianConstants.MODE_PLANE_CONTAINING:
+			changedKernel = planeContaining(hits);
 			break;		
 		
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
@@ -1914,10 +1939,14 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 			
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-		case EuclidianConstants.MODE_PLANE_POINT_LINE:
 			view.setHits(mouseLoc);
 			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, false, false, true);
+			break;	
+			
+		case EuclidianConstants.MODE_PLANE_CONTAINING:
+			view.setHits(mouseLoc);
+			hits = view.getHits();hits.removeAllPlanes();
 			break;	
 			
 		case EuclidianConstants.MODE_PARALLEL_PLANE:

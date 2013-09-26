@@ -329,6 +329,17 @@ public class Hits extends ArrayList<GeoElement> {
 	}	
 	
 	/**
+	 * Removes all planes
+	 */
+	final public void removeAllPlanes(){
+		for (int i = size() - 1 ; i >= 0 ; i-- ) {
+			GeoElement geo = get(i);
+			if (geo.isGeoPlane())
+				remove(i);
+		}
+	}	
+	
+	/**
 	 * remove all polygons but one
 	 */
 	public void removeAllPolygonsButOne(){

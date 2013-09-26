@@ -431,7 +431,7 @@ public class ToolBar {
 		//planes
 		sb.append( EuclidianConstants.MODE_PLANE_THREE_POINTS);
 		sb.append( " ");
-		sb.append( EuclidianConstants.MODE_PLANE_POINT_LINE);
+		sb.append( EuclidianConstants.MODE_PLANE_CONTAINING);
 		sb.append( " | ");
 		
 		//specific planes
