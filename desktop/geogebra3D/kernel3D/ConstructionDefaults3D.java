@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -75,11 +76,11 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	
 	// conic 3D
 	/** default color for 3D conics */
-	public static final Color colConic3D = new Color(0, 128, 128);//new Color(255, 128, 0);
+	public static final GColor colConic3D = colConic;//new Color(0, 128, 128);//new Color(255, 128, 0);
 	
 	// curve 3D
 	/** default color for 3D curve */
-	public static final Color colCurveCartesian3D = colConic3D;//new Color(255, 128, 0);
+	public static final GColor colCurveCartesian3D = colConic3D;//new Color(255, 128, 0);
 	
 	// polygon 3D
 	/** default color for 3D polygons */
@@ -234,7 +235,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoConic3D conic = new GeoConic3D(cons);	
 		conic.setLocalVariableLabel("Conic3D");
 		//conic.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		conic.setObjColor(new geogebra.awt.GColorD(colConic3D));
+		conic.setObjColor(colConic3D);
 		defaultGeoElements.put(DEFAULT_CONIC3D, conic);
 		
 		
@@ -249,7 +250,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoCurveCartesian3D curve = new GeoCurveCartesian3D(cons);	
 		curve.setLocalVariableLabel("Curve3D");
 		//curve.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		curve.setObjColor(new geogebra.awt.GColorD(colCurveCartesian3D));
+		curve.setObjColor(colCurveCartesian3D);
 		defaultGeoElements.put(DEFAULT_CURVECARTESIAN3D, curve);
 		
 			
