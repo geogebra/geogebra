@@ -733,7 +733,8 @@ public class Ggb2giac {
 				")");
 		p("TangentTroughPoint.2", 
 				"[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
-				+ "[ggbans:=when(lhs(ggbans)==1 && rhs(ggbans)==0 && ((ggbans)[0])=='=',?,ggbans)],ggbans][3]");
+				+ "[ggbans:=when(((ggbans)[0])=='=' && lhs(ggbans)==1 && rhs(ggbans)==0,?,ggbans)],"
+				+ "[ggbans:=when(type(ggbans)==DOM_LIST, map(ggbans,x->x=0), {ggbans})],ggbans][4]");
 
 		// TODO: see GeoVector.buildValueString()
 		// p("Vector.2", "%1-(%0)");
