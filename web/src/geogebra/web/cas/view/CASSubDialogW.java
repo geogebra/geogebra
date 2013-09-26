@@ -3,7 +3,6 @@ package geogebra.web.cas.view;
 import geogebra.common.cas.view.CASSubDialog;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.main.AppW;
@@ -12,8 +11,11 @@ import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -22,8 +24,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DialogBox.Caption;
 import com.google.gwt.user.client.ui.DialogBox.CaptionImpl;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
@@ -31,10 +34,12 @@ import com.google.gwt.view.client.ListDataProvider;
  * @author balazs.bencze
  *
  */
-public class CASSubDialogW extends CASSubDialog {
+public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	
 	private Button btSub, btEval, btNumeric;
-	private Panel optionPane, btPanel;
+	private VerticalPanelSmart optionPane;
+	private ScrollPanel tablePane;
+	private HorizontalPanel btPanel;
 	
 	private DialogBox dialog;
 	private CellTable<SubstituteValue> table;
@@ -58,7 +63,6 @@ public class CASSubDialogW extends CASSubDialog {
 	 */
 	public CASSubDialogW(CASViewW casView, String prefix, String evalText, String postfix, int editRow) {
 		super(prefix, evalText, postfix, editRow);
-		App.debug(prefix + " " + evalText + " " + postfix + " :" + editRow );
 		
 		this.casView = casView;
 		this.app = casView.getApp();
@@ -70,16 +74,13 @@ public class CASSubDialogW extends CASSubDialog {
 		Caption caption = new CaptionImpl();
 		Localization loc = app.getLocalization();
 		caption.setText(loc.getPlain("Substitute") + " - " + loc.getCommand("Row") + " " + (editRow + 1));
-		dialog = new DialogBox(caption);
+		dialog = new DialogBox(true, false, caption);
 		dialog.setAutoHideEnabled(true);
-		dialog.setModal(false);
-		//App.debug("after loc before cell");
+
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 		initData(cell);
-		//App.debug(cell.getAlgebraDescriptionDefault());
+
 		table = new CellTable<SubstituteValue>();
-		table.setWidth(DEFAULT_TABLE_WIDTH + "");
-		table.setHeight(DEFAULT_TABLE_HEIGHT + "");
 		// do not refresh the headers and footers every time the data is updated
 		table.setAutoHeaderRefreshDisabled(true);
 		table.setAutoFooterRefreshDisabled(true);
@@ -89,35 +90,43 @@ public class CASSubDialogW extends CASSubDialog {
 	    pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 	    pager.setDisplay(table);
 	    
-		//App.debug("creating table");
 		initData(cell);
 		createTableColumns();
 		fillTableColumns();
 
-		//double fontFactor = Math.max(1, app.getGUIFontSize() / DEFAULT_FONT_SIZE);
-
-		//App.debug("creating buttons");
 		// buttons
-		btEval = new Button("=");
-		btNumeric = new Button("\u2248");
-		btSub = new Button(loc.getPlain("\u2713"));
+		btEval = new Button(EVAL_SYM);
+		btEval.setTitle(loc.getMenuTooltip("Evaluate"));
+		btEval.addClickHandler(this);
+		
+		btNumeric = new Button(NUM_SYM);
+		btNumeric.setTitle(loc.getMenuTooltip("Numeric"));
+		btNumeric.addClickHandler(this);
+		
+		btSub = new Button(loc.getPlain(SUB_SYM));
+		btSub.setTitle(loc.getMenuTooltip("Substitute"));
+		btSub.addClickHandler(this);
 		
 		btPanel = new HorizontalPanel();
+		btPanel.setSpacing(2);
+		btPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
 		btPanel.add(btEval);
 		btPanel.add(btNumeric);
 		btPanel.add(btSub);
+		
+		tablePane = new ScrollPanel();
+		tablePane.add(table);
+		table.setHeight(DEFAULT_TABLE_HEIGHT + "px");
+		table.setWidth(DEFAULT_TABLE_WIDTH + "px");
 
-		// Create the JOptionPane.
 		optionPane = new VerticalPanelSmart();
-
-		// create object list
-		optionPane.add(table);
+		optionPane.setBorderWidth(5);
+		optionPane.add(tablePane);
 		
 		optionPane.add(btPanel);
-		//App.debug("before setwidget");
-		// Make this dialog display it.
+		// make this dialog display it
 		dialog.setWidget(optionPane);
-		
     }
 
 	private void fillTableColumns() {
@@ -142,6 +151,11 @@ public class CASSubDialogW extends CASSubDialog {
 		};
 		table.addColumn(oldVal, app.getPlain("OldExpression"));
 		table.setColumnWidth(oldVal, 40, Unit.PX);
+		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
+			public void update(int index, SubstituteValue object, String value) {
+				object.setVariable(value);
+			}
+		});
 		
 		Column<SubstituteValue, String> newVal = new Column<CASSubDialogW.SubstituteValue, String>(new EditTextCell()) {
 			@Override
@@ -150,7 +164,12 @@ public class CASSubDialogW extends CASSubDialog {
 			}
 		};
 		table.addColumn(newVal, app.getPlain("NewExpression"));
-		table.setColumnWidth(newVal, 40, Unit.PX);	    
+		table.setColumnWidth(newVal, 40, Unit.PX);
+		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
+			public void update(int index, SubstituteValue object, String value) {
+				object.setValue(value);
+			}
+		});
     }
 
 	@Override
@@ -163,5 +182,33 @@ public class CASSubDialogW extends CASSubDialog {
 	 */
 	public DialogBox getDialog() {
 		return dialog;
+	}
+
+	public void onClick(ClickEvent event) {
+	    Object src = event.getSource();
+	    stopEditing();
+	    if (btEval == src) {
+	    	if (apply("Evaluate")) 
+	    		dialog.setVisible(false);
+	    } else if (btNumeric == src) {
+	    	if (apply("Numeric"))
+	    		dialog.setVisible(false);
+	    } else if (btSub == src) {
+	    	if (apply("Substitute")) 
+	    		dialog.setVisible(false);
+	    }
+    }
+	
+	private void stopEditing() {
+		data.setSize(list.size());
+		for(int i = 0; i < list.size(); i++) {
+			Vector<String> vec = data.get(i);
+			if (vec == null) {
+				vec = new Vector<String>(2);
+				data.set(i, vec);
+			}
+			vec.set(0, list.get(i).getVariable());
+			vec.set(1, list.get(i).getValue());
+		}
 	}
 }

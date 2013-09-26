@@ -137,17 +137,17 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		});
 		
 		// buttons
-		btEval = new JButton("=");
+		btEval = new JButton(EVAL_SYM);
 		btEval.setToolTipText(loc.getMenuTooltip("Evaluate"));
 		btEval.setActionCommand("Evaluate");
 		btEval.addActionListener(this);
 
-		btNumeric = new JButton("\u2248");
+		btNumeric = new JButton(NUM_SYM);
 		btNumeric.setToolTipText(loc.getMenuTooltip("Numeric"));
 		btNumeric.setActionCommand("Numeric");
 		btNumeric.addActionListener(this);
 
-		btSub = new JButton(loc.getPlain("\u2713"));
+		btSub = new JButton(loc.getPlain(SUB_SYM));
 		btSub.setToolTipText(loc.getMenuTooltip("Substitute"));
 		btSub.setActionCommand("Substitute");
 		btSub.addActionListener(this);

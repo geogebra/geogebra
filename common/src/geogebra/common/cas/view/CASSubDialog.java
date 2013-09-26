@@ -40,10 +40,24 @@ public abstract class CASSubDialog {
 		}
 		
 		/**
+		 * @param var variable
+		 */
+		public void setVariable(String var) {
+			variable = var;
+		}
+		
+		/**
 		 * @return new expression
 		 */
 		public String getValue() {
 			return value;
+		}
+		
+		/**
+		 * @param val value
+		 */
+		public void setValue(String val) {
+			value = val;
 		}
 	}
 
@@ -52,6 +66,10 @@ public abstract class CASSubDialog {
 	
 	protected static final int DEFAULT_TABLE_WIDTH = 200;
 	protected static final int DEFAULT_TABLE_HEIGHT = 150;
+	
+	protected static final String EVAL_SYM = "=";
+	protected static final String NUM_SYM = "\u2248";
+	protected static final String SUB_SYM = "\u2713";
 	
 	protected Vector<Vector<String>> data;
 
