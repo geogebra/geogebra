@@ -248,18 +248,27 @@ public class CommandDispatcherGiac {
 							args.getItem(1));
 				}
 				break;
-			case when:	
-				if (args.getLength() == 2) {
-					// shouldn't get 2 arguments, but just in case
-					ret = new ExpressionNode(kernel,
-							args.getItem(0),Operation.IF,
-							args.getItem(1));
-				} else { // must be 3
+			case when:       
+				if (args.getLength() == 2) { 
+					// shouldn't get 2 arguments, but just in case 
+					ret = new ExpressionNode(kernel, 
+							args.getItem(0),Operation.IF, 
+							args.getItem(1)); 
+				} else { // must be 3 
 
-					ret = new ExpressionNode(kernel,
-							args.getItem(0),Operation.IF_ELSE,
-							new MyNumberPair(kernel, args.getItem(1), args.getItem(2)));
-				}
+					ExpressionValue Else = args.getItem(2);
+
+					if ("?".equals(Else.toString())) {
+						ret = new ExpressionNode(kernel, 
+								args.getItem(0),Operation.IF, 
+								args.getItem(1));						
+					} else {
+
+						ret = new ExpressionNode(kernel, 
+								args.getItem(0),Operation.IF_ELSE, 
+								new MyNumberPair(kernel, args.getItem(1), Else));
+					}
+				} 
 				break;
 			case surd:	
 				if (args.getLength() == 2) {
