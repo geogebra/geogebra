@@ -4,12 +4,12 @@ import geogebra.common.cas.view.CASSubDialog;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.Localization;
-import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.main.AppW;
 
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style;
@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.DialogBox.CaptionImpl;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
@@ -36,7 +37,7 @@ import com.google.gwt.view.client.ListDataProvider;
 public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	
 	private Button btSub, btEval, btNumeric;
-	private VerticalPanelSmart optionPane;
+	private VerticalPanel optionPane;
 	private ScrollPanel tablePane;
 	private HorizontalPanel btPanel;
 	
@@ -50,6 +51,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	
 	private static final int DEFAULT_TABLE_WIDTH = 210;
 	private static final int DEFAULT_TABLE_HEIGHT = 240;
+	private static final int DEFAULT_BUTTON_WIDTH = 40;
 
 	/**
 	 * Substitute dialog for CAS.
@@ -77,7 +79,8 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		Localization loc = app.getLocalization();
 		caption.setText(loc.getPlain("Substitute") + " - " + loc.getCommand("Row") + " " + (editRow + 1));
 		dialog = new DialogBox(true, false, caption);
-		dialog.setWidget(optionPane = new VerticalPanelSmart());
+		dialog.setWidget(optionPane = new VerticalPanel());
+		optionPane.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		dialog.setAutoHideEnabled(true);
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
@@ -94,16 +97,19 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 
 		// buttons
 		btEval = new Button(EVAL_SYM);
+		btEval.setWidth(DEFAULT_BUTTON_WIDTH + "px");
 		btEval.setTitle(loc.getMenuTooltip("Evaluate"));
 		btEval.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btEval.addClickHandler(this);
 		
 		btNumeric = new Button(NUM_SYM);
+		btNumeric.setWidth(DEFAULT_BUTTON_WIDTH + "px");
 		btNumeric.setTitle(loc.getMenuTooltip("Numeric"));
 		btNumeric.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btNumeric.addClickHandler(this);
 		
 		btSub = new Button(loc.getPlain(SUB_SYM));
+		btSub.setWidth(DEFAULT_BUTTON_WIDTH + "px");
 		btSub.setTitle(loc.getMenuTooltip("Substitute"));
 		btSub.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btSub.addClickHandler(this);
@@ -120,8 +126,11 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		btPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
 		btPanel.add(btEval);
+		btPanel.setCellWidth(btEval, DEFAULT_BUTTON_WIDTH + "px");
 		btPanel.add(btNumeric);
+		btPanel.setCellWidth(btNumeric, DEFAULT_BUTTON_WIDTH + "px");
 		btPanel.add(btSub);
+		btPanel.setCellWidth(btSub, DEFAULT_BUTTON_WIDTH + "px");
 		
 		// make this dialog display it
 		
@@ -140,10 +149,16 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 
 	private void createTableColumns() {
 		// old expression column
+		EditTextCell cell = new EditTextCell();
 	    Column<SubstituteValue, String> oldVal = new Column<CASSubDialogW.SubstituteValue, String>(new EditTextCell()) {
+	    	@Override
+	    	public String getCellStyleNames(Context context,
+	    	        SubstituteValue object) {
+	    	    return "CAS_substitute_editTextCell";
+	    	}
+	    	
 			@Override
 			public String getValue(SubstituteValue object) {
-				// TODO Auto-generated method stub
 				return object.getVariable();
 			}
 		};
@@ -156,6 +171,12 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		});
 		
 		Column<SubstituteValue, String> newVal = new Column<CASSubDialogW.SubstituteValue, String>(new EditTextCell()) {
+			@Override
+	    	public String getCellStyleNames(Context context,
+	    	        SubstituteValue object) {
+	    	    return "CAS_substitute_editTextCell";
+	    	}
+			
 			@Override
 			public String getValue(SubstituteValue object) {
 				return object.getValue();

@@ -1775,7 +1775,7 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	width: 30px;
 }
 
-.cas_header{
+.cas_header {
 	width: 1px;
 }
 
@@ -1783,6 +1783,13 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	text-align: center;
 	padding-left: 5px;
 	padding-right: 5px;
+}
+
+.CAS_substitute_editTextCell input[type="text"], .cas_sub_editTextCell select { 
+    width: 100%; 
+    box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
 }
 
 /*=========== SignInDialog =============*/
