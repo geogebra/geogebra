@@ -131,13 +131,27 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	/**
-	 * for 3D stuff (unused here)
+	 * not used for 2D
 	 * 
 	 * @param cs
 	 *            GeoCoordSys2D
 	 */
 	public void setCoordSys(CoordSys cs) {
-		//3D only
+		//nothing to do here
+	}
+	
+	/**
+	 * update the orientation (-vz / vz)
+	 */
+	public void updateOrientation() {
+		
+		double m = (p1.inhomX-p0.inhomX)*(p2.inhomY-p0.inhomY) - (p2.inhomX-p0.inhomX)*(p1.inhomY-p0.inhomY);
+		if (m < 0){
+			directionInD3 = Coords.VZm;
+		}else{
+			directionInD3 = Coords.VZ;
+		}
+		
 	}
 
 	/**
@@ -1261,6 +1275,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		this.p1 = newp1;
 		this.p2 = newp2;
 		numCS = 3;
+		
+		updateOrientation();
 	}
 	
 	/**
@@ -1312,6 +1328,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 			// thirdPoint++;
 			// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
+		}
+		
+		if (numCS == 3){
+			updateOrientation();
 		}
 
 	}
@@ -1615,8 +1635,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return true;
 	}
 
+	
+	private Coords directionInD3 = Coords.VZ;
+	
 	public Coords getDirectionInD3() {
-		return Coords.VZ;
+		return directionInD3;
 	}
 
 

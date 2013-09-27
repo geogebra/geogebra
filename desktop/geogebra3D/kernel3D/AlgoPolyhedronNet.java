@@ -79,6 +79,25 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 		});
 	}
 
+	
+	
+	private void rotate(GeoPoint3D point, Coords pointCoords, Coords projectCoords,  Coords o, Coords vs, double f, Coords fd, double dist){
+
+		Coords v2 = projectCoords.sub(o);
+		double d2 = pointCoords.distLine(o, vs);
+		double angle = Math.asin(dist/d2);		
+		
+		if (v2.crossProduct(vs).dotproduct(fd) < 0) { // top point is inside bottom face
+			angle = Math.PI - angle;
+		}	
+		
+		point.rotate(f * angle, o, vs);
+	}
+	
+	
+	
+	
+	
 	@Override
 	public void compute() {
 		//App.debug("coucou");
@@ -105,13 +124,17 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 			Coords topCoords = topPoint.getInhomCoordsInD(3);
 			Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
-			Coords v1 = p1.sub(topCoords);
 			double d1 = p.getOrientedHeight();
+			
+			Coords faceDirection = bottomPolygon.getDirectionInD3();
+			
 			if (d1 < 0) { // top point below the bottom face : negative rotation
 				f *= -1;
 				d1 *= -1;
 			}
+			
 			GeoSegmentND[] bottomSegments = bottomPolygon.getSegments();
+			
 			for (int i = 0 ; i < outputPointsTop.size() ; i++) {
 				GeoPoint3D wpoint = outputPointsTop.getElement(i);
 				wpoint.setCoords(topPoint);
@@ -122,10 +145,12 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				Coords vs = si.getDirectionInD3();
 				Coords v2 = p1.sub(o);
 				double d2 = topCoords.distLine(o, vs);
-				double angle = Math.asin(d1/d2);			
-				if (v2.crossProduct(vs).dotproduct(v1) * f > 0) { // top point is inside bottom face
+				double angle = Math.asin(d1/d2);		
+				
+				if (v2.crossProduct(vs).dotproduct(faceDirection) < 0) { // top point is inside bottom face
 					angle = Math.PI - angle;
-				}			
+				}	
+					
 				wpoint.rotate(f * angle, si);
 			}
 			break;
@@ -135,9 +160,9 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			outputPointsTop.adjustOutputSize(points.length * 3 - 2);
 			outputPointsTop.setLabels(null);
 			GeoPolygon bottomPolyg = algo.getBottom();
-			GeoPointND topP = algo.getTopPoint();
+			GeoPointND[] topP = algo.getTopFace().getPointsND();
 
-			Coords topCo = topP.getInhomCoordsInD(3);
+			Coords topCo = topP[0].getInhomCoordsInD(3);
 			Coords pp1 = topCo.projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
 			Coords vv1 = pp1.sub(topCo);
 			double dd1 = p.getOrientedHeight();
@@ -148,7 +173,8 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			Coords vp = topCo.sub(outputPointsBottom.getElement(0).getInhomCoordsInD(3));
 			GeoSegmentND[] bottomSegs = bottomPolyg.getSegments();
 			int sz = outputPointsBottom.size();
-			Coords vectrans = topCo; //silly initialization
+			Coords vectrans = new Coords(4); 
+			faceDirection = bottomPolyg.getDirectionInD3();
 			for (int i = 0 ; i < sz ; i++) {
 				//triple creation of top points
 				GeoPoint3D wpoint1 = outputPointsTop.getElement(2 * i);
@@ -157,11 +183,12 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 					j = 2 * sz - 1;
 				}
 				GeoPoint3D wpoint2 = outputPointsTop.getElement(j);
-				wpoint1.setCoords(outputPointsBottom.getElement(i).getInhomCoordsInD(3).add(vp));
-				wpoint2.setCoords(wpoint1.getInhomCoordsInD(3));
+				Coords cCoord = topP[i].getInhomCoordsInD(3);
+				wpoint1.setCoords(cCoord);
+				wpoint2.setCoords(cCoord);
 				if (i > 1) {  //wpoint3 if for the top face, except 2 first points (already exist)
 					GeoPoint3D wpoint3 = outputPointsTop.getElement(i + 2 * sz - 2);
-					wpoint3.setCoords(wpoint1.getInhomCoordsInD(3));
+					wpoint3.setCoords(cCoord);
 				}
 				// rotate wpoint1
 				// angle between side face and bottom face
@@ -169,14 +196,10 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				Coords o = points[i].getInhomCoordsInD(3);
 				Coords vs = si1.getDirectionInD3();
 				pp1 = wpoint1.getInhomCoordsInD(3).projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
-				vv1 = pp1.sub(wpoint1.getInhomCoordsInD(3));
-				Coords v2 = pp1.sub(o);
-				double d2 = wpoint1.getInhomCoordsInD(3).distLine(o, vs);
-				double angle = Math.asin(dd1 / d2);			
-				if (v2.crossProduct(vs).dotproduct(vv1) * f > 0) { // top point is inside bottom face
-					angle = Math.PI-angle;
-				}			
-				wpoint1.rotate(f * angle, si1);
+
+				
+				rotate(wpoint1, cCoord, pp1, o, vs, f, faceDirection, dd1);
+				
 				if (i == 0) { // the translation used for the top face is calculated
 					vectrans.set(wpoint1.getInhomCoordsInD(3).sub(topCo)); 
 				}
@@ -192,14 +215,12 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				vs = si2.getDirectionInD3();
 				pp1 = wpoint2.getInhomCoordsInD(3).projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
 				vv1 = pp1.sub(wpoint2.getInhomCoordsInD(3));
-				v2 = pp1.sub(o);
-				d2 = wpoint2.getInhomCoordsInD(3).distLine(o, vs);
-				angle = Math.asin(dd1 / d2);			
-				if (v2.crossProduct(vs).dotproduct(vv1) * f > 0){ // top point is inside bottom face
-					angle = Math.PI - angle;
-				}			
-				wpoint2.rotate(f * angle, si2);
+
+				
+				rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1);
+				
 			}
+			
 			GeoPoint3D wpoint1 = outputPointsTop.getElement(0);
 			Coords vs = bottomSegs[0].getDirectionInD3();
 			for (int i = 0 ; i < sz-2 ; i++) {
