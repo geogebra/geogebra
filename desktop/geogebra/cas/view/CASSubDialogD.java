@@ -141,17 +141,17 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		// buttons
 		btEval = new JButton(EVAL_SYM);
 		btEval.setToolTipText(loc.getMenuTooltip("Evaluate"));
-		btEval.setActionCommand("Evaluate");
+		btEval.setActionCommand(ACTION_EVALUATE);
 		btEval.addActionListener(this);
 
 		btNumeric = new JButton(NUM_SYM);
 		btNumeric.setToolTipText(loc.getMenuTooltip("Numeric"));
-		btNumeric.setActionCommand("Numeric");
+		btNumeric.setActionCommand(ACTION_NUMERIC);
 		btNumeric.addActionListener(this);
 
 		btSub = new JButton(loc.getPlain(SUB_SYM));
 		btSub.setToolTipText(loc.getMenuTooltip("Substitute"));
-		btSub.setActionCommand("Substitute");
+		btSub.setActionCommand(ACTION_SUBSTITUTE);
 		btSub.addActionListener(this);
 
 		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

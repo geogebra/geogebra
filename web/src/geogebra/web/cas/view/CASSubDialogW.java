@@ -218,13 +218,13 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	    Object src = event.getSource();
 	    stopEditing();
 	    if (btEval == src) {
-	    	if (apply("Evaluate")) 
+	    	if (apply(ACTION_EVALUATE)) 
 	    		dialog.hide(false);
 	    } else if (btNumeric == src) {
-	    	if (apply("Numeric"))
+	    	if (apply(ACTION_NUMERIC))
 	    		dialog.hide(false);
 	    } else if (btSub == src) {
-	    	if (apply("Substitute")) 
+	    	if (apply(ACTION_SUBSTITUTE)) 
 	    		dialog.hide(false);
 	    }
     }

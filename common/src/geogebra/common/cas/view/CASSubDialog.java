@@ -60,16 +60,32 @@ public abstract class CASSubDialog {
 			value = val;
 		}
 	}
-
-	protected int editRow;
-	protected String prefix, evalText, postfix;
 	
+	/** Editing row from CAS table */
+	protected int editRow;
+	/** Evaluation prefix */
+	protected String prefix;
+	/** Evaluation text */
+	protected String evalText;
+	/** Evaluation postfix */
+	protected String postfix;
+	
+	/** Evaluation symbol */
 	protected static final String EVAL_SYM = "=";
+	/** Numeric symbol */
 	protected static final String NUM_SYM = "\u2248";
+	/** Substitute symbol */
 	protected static final String SUB_SYM = "\u2713";
 	
-	protected Vector<Vector<String>> data;
+	/** Evaluation action command */
+	protected static final String ACTION_EVALUATE = "Evaluate";
+	/** Numeric action command */
+	protected static final String ACTION_NUMERIC = "Numeric";
+	/** Substitute action command */
+	protected static final String ACTION_SUBSTITUTE = "Substitute";
 
+	/** Contains substitution values */
+	protected Vector<Vector<String>> data;
 
 	/**
 	 * @param prefix before selection, not effected by the substitution
@@ -134,6 +150,10 @@ public abstract class CASSubDialog {
 		else vars.add(var);
 	}
 	
+	/**
+	 * @param actionCommand Evaluate || Numeric || Substitute
+	 * @return true iff any substitution applied
+	 */
 	protected boolean apply(String actionCommand) {
 
 		CASTable table = getCASView().getConsoleTable();
