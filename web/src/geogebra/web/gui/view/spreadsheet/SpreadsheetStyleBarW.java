@@ -2,7 +2,6 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.gui.view.spreadsheet.CellRange;
-import geogebra.common.main.App;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
@@ -16,7 +15,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Image;
 
 public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
         ValueChangeHandler<Boolean> {
@@ -36,9 +34,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	private PopupMenuButton btnBorderStyle;
 
 	protected int iconHeight = 18;
-	// ?//private Dimension iconDimension = new Dimension(16, iconHeight);
 
-	private MyToggleButton2 btnDebug;
+	// ?//private Dimension iconDimension = new Dimension(16, iconHeight);
 
 	public SpreadsheetStyleBarW(SpreadsheetViewW view) {
 
@@ -54,8 +51,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		createButtons();
 
 		// add(btnFormulaBar);
+		// addSeparator();
 
-		addSeparator();
 		add(btnBold);
 		add(btnItalic);
 
@@ -65,7 +62,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		add(btnRightAlign);
 
 		addSeparator();
-		add(btnDebug);
 
 		// add(btnBgColor);
 
@@ -93,16 +89,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		btnRightAlign = new MyToggleButton2(
 		        AppResources.INSTANCE.format_justify_right(), this, iconHeight);
-
-		btnDebug = new MyToggleButton2(new Image(), iconHeight);
-
-		btnDebug.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				updateStyleBar();
-
-			}
-		});
 
 		/*
 		 * ? btnFormulaBar = new
@@ -192,7 +178,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 	public void onClick(ClickEvent event) {
 		handleEventHandlers(event.getSource());
-		App.debug("click event ~~~~~~~~~~~~~~~ ");
 	}
 
 	public void handleEventHandlers(Object source) {
@@ -289,23 +274,13 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 	public void updateStyleBar() {
 
-		App.debug("########### update style bar");
-
 		allowActionPerformed = false;
 
 		CellRange range = table.getSelectedCellRanges().get(0);
 
 		// update font style buttons
-
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,
 		        CellFormat.FORMAT_FONTSTYLE);
-
-		if (fontStyle != null) {
-			App.debug("selected font style: " + fontStyle.toString());
-		} else {
-			App.debug("selected font style is null");
-		}
-
 		if (fontStyle == null) {
 			btnBold.setSelected(false);
 			btnItalic.setSelected(false);

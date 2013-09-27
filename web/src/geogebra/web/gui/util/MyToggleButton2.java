@@ -1,6 +1,5 @@
 package geogebra.web.gui.util;
 
-import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.tooltip.ToolTipManagerW;
 
@@ -98,25 +97,6 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 		setDown(isSelected);
 	}
 
-	@Override
-	public void setDown(boolean f) {
-
-		App.debug("before setDwon called, isdown(): " + isDown());
-
-		super.setDown(f);
-
-		App.debug("set down called with: " + f);
-		App.debug("after call, isdown(): " + isDown());
-		App.debug("-------------------------");
-
-	}
-
-	@Override
-	public void setValue(Boolean f, boolean f2) {
-		super.setValue(f, f2);
-		App.debug("set value called: " + f);
-	}
-
 	/**
 	 * Returns selection state (Java isSelected => GWT isDown)
 	 * 
@@ -140,10 +120,10 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	}
 
 	/**
-	 * Sets the toolttip text
+	 * Sets the toolTip text
 	 * 
 	 * @param toolTipText
-	 *            tooltip string
+	 *            toolTip string
 	 */
 	public void setToolTipText(String toolTipText) {
 		this.toolTipText = toolTipText;
