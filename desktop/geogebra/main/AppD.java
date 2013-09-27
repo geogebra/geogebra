@@ -613,9 +613,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		}
 		
-		// user authentication handling
-		initSignInEventFlow();
-		
+		if (!isApplet()) {
+			// user authentication handling
+			initSignInEventFlow();
+		}
 		//GiacD giac = new GiacD();
 		//App.debug(giac.evalCAS("factor(x^4-1)"));
 		
