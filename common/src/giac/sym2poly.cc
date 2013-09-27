@@ -2589,7 +2589,7 @@ namespace giac {
     factorization v;
     polynome p_content(pp.dim);
     if (!factor(pp,p_content,v,false,with_sqrt,complex_mode(contextptr),divide_an_by,extra_div))
-      return gentypeerr(gettext("Not implemented, e.g. for multivariate mod polynomials"));
+      return gentypeerr(gettext("Not implemented, e.g. for multivariate mod/approx polynomials"));
     // factor p_content
     pp=p_content.trunc1();
     vecteur ll;
@@ -2623,7 +2623,7 @@ namespace giac {
     factorization v;
     polynome p_content(p.dim);
     if (!factor(p,p_content,v,false,with_sqrt,complex_mode(contextptr),divide_an_by,extra_div))
-      return gentypeerr(gettext("Not implemented, e.g. for multivariate mod polynomials"));
+      return gentypeerr(gettext("Not implemented, e.g. for multivariate mod/approx polynomials"));
     // factor p_content
     if (is_one(p_content))
       return r2sym(v,l,contextptr)/r2sym(extra_div,l,contextptr);

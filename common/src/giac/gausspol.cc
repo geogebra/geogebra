@@ -5189,6 +5189,17 @@ namespace giac {
     }
     vector< monomial<gen> >::const_iterator ckalg_it=p.coord.begin(),ckalg_itend=p.coord.end();
     for (; ckalg_it!=ckalg_itend;++ckalg_it){
+      if (p.dim>1 && (ckalg_it->value.type==_DOUBLE_ || 
+		      ckalg_it->value.type==_REAL ||
+		      ckalg_it->value.type==_FLOAT_ ||
+		      (ckalg_it->value.type==_CPLX && (ckalg_it->value._CPLXptr->type==_DOUBLE_ || (ckalg_it->value._CPLXptr->type+1)==_DOUBLE_))
+		      ) ){
+	// FIXME Prime terminal output
+	cerr << "Factorization of multivariate polynomial with approx. coeffs not implemented. Please try with exact coefficients" << endl;
+#if 0 // otherwise integrate(cos(x/2)**2/(x+sin(x)),x); failure
+	return false;
+#endif
+      }
       if (ckalg_it->value.type==_USER){
 	ckalg_it->value._USERptr->polyfactor(p_primit,f);
 	return true;

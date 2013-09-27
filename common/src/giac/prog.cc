@@ -1404,10 +1404,15 @@ namespace giac {
       return (b?"IFTE":sommetstr)+("("+feuille.print(contextptr)+")");
     vecteur & v=*feuille._VECTptr;
     if (calc_mode(contextptr)==1){
+#if 0
       string s="If["+v[0].print(contextptr)+","+v[1].print(contextptr);
       if (!is_undef(v[2]))
 	s +=","+v[2].print(contextptr);
       return s+"]";
+#else
+      string s="when("+v[0].print(contextptr)+","+v[1].print(contextptr)+","+v[2].print(contextptr)+")";
+      return s;
+#endif
     }
     return "(("+v[0].print(contextptr)+")? "+v[1].print(contextptr)+" : "+v[2].print(contextptr)+")";
   }
@@ -4978,6 +4983,37 @@ namespace giac {
     return apply(g,_simplifier,contextptr);
   }
 
+  gen _inferieur_strict_sort(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (a.type==_VECT && b.type==_VECT){
+      unsigned as=a._VECTptr->size(),bs=b._VECTptr->size();
+      for (unsigned i=0;i<as && i<bs;++i){
+	if ((*a._VECTptr)[i]!=(*b._VECTptr)[i]){
+	  a=(*a._VECTptr)[i]; b=(*b._VECTptr)[i];
+	  break;
+	}
+      }
+    }
+    if (a.is_symb_of_sommet(at_equal) && b.is_symb_of_sommet(at_equal)){
+      if (a._SYMBptr->feuille[0]!=b._SYMBptr->feuille[0]){
+	a=a._SYMBptr->feuille[0]; b=b._SYMBptr->feuille[0];
+      }
+      else {
+	a=a._SYMBptr->feuille[1]; b=b._SYMBptr->feuille[1];
+      }
+    }
+    gen res=inferieur_strict(a,b,contextptr);
+    if (res.type==_INT_)
+      return res;
+    return islesscomplexthanf(a,b);
+  }
+  static const char _inferieur_strict_sort_s []="inferieur_strict_sort";
+  static define_unary_function_eval (__inferieur_strict_sort,&_inferieur_strict_sort,_inferieur_strict_sort_s);
+  define_unary_function_ptr5( at_inferieur_strict_sort ,alias_at_inferieur_strict_sort,&__inferieur_strict_sort,0,true);
+
   gen _sort(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type==_SYMB)
@@ -4996,7 +5032,7 @@ namespace giac {
       v=*v[0]._VECTptr;
     }
     else {
-      f=at_inferieur_strict;
+      f=at_inferieur_strict_sort;
       subtype=args.subtype;
     }
     if (!v.empty() && f==at_inferieur_strict){
@@ -5027,11 +5063,6 @@ namespace giac {
       if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V)){
 	sort(V.begin(),V.end());
 	v=vector_double_2_vecteur(V);
-	return gen(v,subtype);
-      }
-      gen tmp;
-      if (!usersort && !has_evalf(args,tmp,1,contextptr)){
-	sort(v.begin(),v.end(),islesscomplexthanf);
 	return gen(v,subtype);
       }
     }
