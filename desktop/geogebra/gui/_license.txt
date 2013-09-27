@@ -13,6 +13,7 @@ LEAD DEVELOPER
 
 DEVELOPERS
   * Gabor Ancsin (Hungary 2009-)
+  * Balazs Bencze (Romania 2012-)
   * Mathieu Blossier (France 2008-)
   * Arnaud Delobelle (UK 2011-)
   * Calixte Denizet (France 2010-)
@@ -23,10 +24,8 @@ DEVELOPERS
   * Zoltan Kovacs (Hungary 2010-)
   * Bernard Parisse (France 2013-)
   * George Sturr (USA 2009-)
-  * Hans-Petter Ulven (Norway 2008-)
 
 CONTRIBUTORS
-  * Balazs Bencze (Romania 2012-)
   * Lucas Binter (Austria 2011-)
   * Philipp Birklbauer (Austria 2010-)
   * Giuliano Bellucci (Italy 2013)
@@ -61,6 +60,7 @@ CONTRIBUTORS
   * Kai Chung Tam (USA 2011-)
   * Sara Arjona Tellez (Spain 2011)
   * Melanie Tomaschko (Austria 2011-)
+  * Hans-Petter Ulven (Norway 2008-2012)
   * Thomas Unterthiner (Austria 2010-11)
   * Amy Varkey (USA 2007-09)
   * Philipp Weissenbacher (Austria 2007)
