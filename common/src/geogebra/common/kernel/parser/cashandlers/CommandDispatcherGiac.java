@@ -28,6 +28,8 @@ public class CommandDispatcherGiac {
 	 * Enum for special commands that may be returned by MPReduce.
 	 */
 	public enum commands {
+		/** when aka If[] */
+		when(Operation.NO_OPERATION),
 		/** gamma regularized */
 		igamma(Operation.NO_OPERATION),
 		/** derivative*/
@@ -244,6 +246,19 @@ public class CommandDispatcherGiac {
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.GAMMA_INCOMPLETE_REGULARIZED,
 							args.getItem(1));
+				}
+				break;
+			case when:	
+				if (args.getLength() == 2) {
+					// shouldn't get 2 arguments, but just in case
+					ret = new ExpressionNode(kernel,
+							args.getItem(0),Operation.IF,
+							args.getItem(1));
+				} else { // must be 3
+
+					ret = new ExpressionNode(kernel,
+							args.getItem(0),Operation.IF_ELSE,
+							new MyNumberPair(kernel, args.getItem(1), args.getItem(2)));
 				}
 				break;
 			case surd:	
