@@ -18,7 +18,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DialogBox.Caption;
@@ -35,7 +34,7 @@ import com.google.gwt.view.client.ListDataProvider;
  *
  */
 public class CASSubDialogW extends CASSubDialog implements ClickHandler {
-	
+		
 	private Button btSub, btEval, btNumeric;
 	private VerticalPanel optionPane;
 	private ScrollPanel tablePane;
@@ -43,13 +42,12 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	
 	private DialogBox dialog;
 	private CellTable<SubstituteValue> table;
-	private SimplePager pager;
 	private List<SubstituteValue> list;
 	
 	private AppW app;
 	private CASViewW casView;
 	
-	private static final int DEFAULT_TABLE_WIDTH = 210;
+	private static final int DEFAULT_TABLE_WIDTH = 225;
 	private static final int DEFAULT_TABLE_HEIGHT = 240;
 	private static final int DEFAULT_BUTTON_WIDTH = 40;
 
@@ -149,7 +147,6 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 
 	private void createTableColumns() {
 		// old expression column
-		EditTextCell cell = new EditTextCell();
 	    Column<SubstituteValue, String> oldVal = new Column<CASSubDialogW.SubstituteValue, String>(new EditTextCell()) {
 	    	@Override
 	    	public String getCellStyleNames(Context context,
@@ -167,6 +164,13 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			public void update(int index, SubstituteValue object, String value) {
 				object.setVariable(value);
+				if ((index == (getTable().getRowCount() - 1)) 
+						&& object.getValue() != null 
+						&& object.getVariable() != null 
+						&& !"".equals(object.getValue())
+						&& !"".equals(object.getVariable())) {
+					getList().add(new SubstituteValue("", ""));
+				}
 			}
 		});
 		
@@ -187,6 +191,13 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			public void update(int index, SubstituteValue object, String value) {
 				object.setValue(value);
+				if ((index == (getTable().getRowCount() - 1)) 
+						&& object.getValue() != null 
+						&& object.getVariable() != null 
+						&& !"".equals(object.getValue())
+						&& !"".equals(object.getVariable())) {
+					getList().add(new SubstituteValue("", ""));
+				}
 			}
 		});
     }
@@ -208,13 +219,13 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	    stopEditing();
 	    if (btEval == src) {
 	    	if (apply("Evaluate")) 
-	    		dialog.setVisible(false);
+	    		dialog.hide(false);
 	    } else if (btNumeric == src) {
 	    	if (apply("Numeric"))
-	    		dialog.setVisible(false);
+	    		dialog.hide(false);
 	    } else if (btSub == src) {
 	    	if (apply("Substitute")) 
-	    		dialog.setVisible(false);
+	    		dialog.hide(false);
 	    }
     }
 	
@@ -223,11 +234,26 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		for(int i = 0; i < list.size(); i++) {
 			Vector<String> vec = data.get(i);
 			if (vec == null) {
-				vec = new Vector<String>(2);
+				vec = new Vector<String>();
+				vec.setSize(2);
 				data.set(i, vec);
 			}
 			vec.set(0, list.get(i).getVariable());
 			vec.set(1, list.get(i).getValue());
 		}
+	}
+	
+	/**
+	 * @return list of substitution values
+	 */
+	public List<SubstituteValue> getList() {
+		return list;
+	}
+	
+	/**
+	 * @return CellTable showing the list of substitution values
+	 */
+	public CellTable<SubstituteValue> getTable() {
+		return table;
 	}
 }
