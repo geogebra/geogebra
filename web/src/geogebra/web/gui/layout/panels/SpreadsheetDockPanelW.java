@@ -51,7 +51,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	@Override
     protected Widget loadStyleBar() {
 		if (sstylebar == null) {
-			sstylebar = new SpreadsheetStyleBarW(sview);
+			sstylebar = sview.getSpreadsheetStyleBar();
 		}
 		return sstylebar;
 	}
