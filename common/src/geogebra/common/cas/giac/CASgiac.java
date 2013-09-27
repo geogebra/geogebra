@@ -499,7 +499,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	
 	public String createGroebnerSolvableScript(HashMap<Variable, Integer> substitutions,
 			String polys, String freeVars, String dependantVars,
-			boolean polysofractf) {
+			boolean transcext) {
 		/* Example syntax (from Gröbner basis tester; but in GeoGebra v1, v2, ... are used for variables):
 		 * 
 		 * [[ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1, 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
@@ -512,8 +512,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * In the last part we check if the Groebner basis is a constant neq 0, i.e. its degree is 0 but it is not 0.
 		 * If yes, there is no solution.
 		 * 
-		 * The giac implementation does not handle the case for request for polynomial ring over rational functions.
-		 * We silently use a polynomial ring instead.
+		 * The giac implementation does not handle the case for request for polynomial ring with coefficients
+		 * from a transcendental extension. We silently use a polynomial ring instead.
 		 */
 
 		String idealVar = "ii";

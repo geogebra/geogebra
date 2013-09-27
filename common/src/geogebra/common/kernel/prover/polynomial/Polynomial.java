@@ -738,11 +738,11 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
 	 * @param fieldVars field variables (comma separated) 
 	 * @param ringVars ring variables (comma separated)
-	 * @param polysofractf use polynomial ring over a fraction field of polynomials (rational functions)
+	 * @param transcext use coefficients from a transcendental extension
 	 * @return the Singular program code
 	 */
 	public static String createGroebnerSolvableScript(HashMap<Variable,Integer> substitutions, String polys,
-			String fieldVars, String ringVars, boolean polysofractf) {
+			String fieldVars, String ringVars, boolean transcext) {
 		
 		String ringVariable = "r";
 		String idealVariable = "i";
@@ -757,7 +757,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		String ret = "ring " + ringVariable + "=";
 		
-		if (polysofractf) {
+		if (transcext) {
 			ret += "(0" + addLeadingComma(fieldVars)
 				+ "),(" + coalesce(ringVars, dummyVar);
 		}
@@ -877,11 +877,11 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param polys the array of polynomials
 	 * @param substitutions some variables which are to be evaluated with exact numbers
 	 * @param kernel kernel for the prover
-	 * @param polysofractf use polynomial over rational functions if possible 
+	 * @param transcext use coefficients from transcendent extension if possible 
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
 	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions, Kernel kernel,
-			boolean polysofractf) {
+			boolean transcext) {
 		
 		HashSet<Variable> substVars = null;
 		String polysAsCommaSeparatedString = getPolysAsCommaSeparatedString(polys);
@@ -894,7 +894,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			
 			solvableProgram = createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString, 
-					freeVars, dependantVars, polysofractf);
+					freeVars, dependantVars, transcext);
  		
 			if (solvableProgram.length()>500)
 				App.debug(solvableProgram.length() + " bytes -> singular");
@@ -914,7 +914,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		
 		solvableProgram = cas.getCurrentCAS().createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString,
-				freeVars, dependantVars, polysofractf);
+				freeVars, dependantVars, transcext);
 		if (solvableProgram == null) {
 			Log.info("Not implemented (yet)");
 			return null; // cannot decide

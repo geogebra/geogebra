@@ -130,12 +130,12 @@ public interface CASGenericInterface extends SettingListener {
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
 	 * @param freeVars free variables
 	 * @param dependantVars dependent variables
-	 * @param polysofractf use polynomials of rational functions 
+	 * @param transcext use coefficient form transcendent extension 
 	 * @return the program code
 	 */
 	public String createGroebnerSolvableScript( 
 			HashMap<Variable,Integer>substitutions, String polys,
-			String freeVars, String dependantVars, boolean polysofractf);
+			String freeVars, String dependantVars, boolean transcext);
 		
 	/**
 	 * @param rawResult output from eliminate() and coeffs() commands

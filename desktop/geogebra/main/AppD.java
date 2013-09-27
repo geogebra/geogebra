@@ -780,8 +780,8 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
 							+ ProverSettings.useFixCoordinatesProve + ProverSettings.useFixCoordinatesProveDetails 
 							+ "] (Botana only)\n"
-							+ "      polysofractf:BOOLEAN\tuse polynomial ring over a fraction field for Prove ["
-							+ ProverSettings.polysofractf
+							+ "      transcext:BOOLEAN\tuse polynomial ring with coeffs from a transcendental extension for Prove ["
+							+ ProverSettings.transcext
 							+ "] (Botana only, needs SingularWS)\n"
 							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
 							+ ProverSettings.captionAlgebra
@@ -1078,8 +1078,8 @@ public class AppD extends App implements KeyEventDispatcher {
 				
 			return;
 		}
-		if ("polysofractf".equalsIgnoreCase(str[0])) {
-			ProverSettings.polysofractf = Boolean.valueOf(str[1]).booleanValue();
+		if ("transcext".equalsIgnoreCase(str[0])) {
+			ProverSettings.transcext = Boolean.valueOf(str[1]).booleanValue();
 			return;
 		}
 		if ("captionalgebra".equalsIgnoreCase(str[0])) {

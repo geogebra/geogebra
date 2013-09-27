@@ -217,7 +217,7 @@ public class ProverBotanasMethod {
 		GeoElement statement = prover.getStatement();
 		// If Singular is not available, let's try Giac (mainly on web)
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
-			ProverSettings.polysofractf = false;
+			ProverSettings.transcext = false;
 			App.debug("Testing local CAS connection");
 			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel().getGeoGebraCAS();
 			try {
@@ -483,13 +483,13 @@ public class ProverBotanasMethod {
 						return ProofResult.TRUE_NDG_UNREADABLE;
 				} else {
 					Boolean solvable = Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
-						ProverSettings.polysofractf);
+						ProverSettings.transcext);
 					if (solvable == null) {
 						// Prover returned with no success, search for another prover:
 						return ProofResult.UNKNOWN;
 					}
 					if (solvable) {
-						if (! ProverSettings.polysofractf) {
+						if (! ProverSettings.transcext) {
 							// We cannot reliably tell if the statement is really false:
 							return ProofResult.UNKNOWN;
 						}

@@ -35,10 +35,10 @@ public class ProverSettings {
      */
     public static int useFixCoordinatesProveDetails = 2;
     /**
-     * If possible, should the polynomial ring over a fraction field to be used?
+     * If possible, should the polynomial ring with coefficients from transcendental extension used?
      * Singular normally supports that by using a good enough (and fast) implementation.
      */
-    public static boolean polysofractf = true;
+    public static boolean transcext = true;
     
     /**
      * Show debug information in GeoElement captions.
