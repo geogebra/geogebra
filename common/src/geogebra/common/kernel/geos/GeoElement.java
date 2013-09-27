@@ -123,7 +123,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	private static final char[] lineLabels = { 'a', 'b', 'c', 'd', 'e', 'f',
 			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't' };
 
-	private static final char[] vectorLabels = { 'u', 'v', 'w', 'z', 'a', 'b',
+	private static final char[] vectorLabels = { 'u', 'v', 'w', 'a', 'b',
 			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p',
 			'q', 'r', 's', 't' };
 
@@ -132,7 +132,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
 			'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-			's', 't', 'u', 'v', 'w', 'z' };
+			's', 't', 'u', 'v', 'w' };
 
 	private static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l', 'm', };
 
