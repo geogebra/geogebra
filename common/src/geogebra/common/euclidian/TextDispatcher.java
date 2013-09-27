@@ -353,7 +353,7 @@ public class TextDispatcher {
 	 * Creates Midpoint M = (P + Q)/2 without label (for use as e.g. start
 	 * point)
 	 */
-	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
+	private final GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
 		
 		return (GeoPointND) view.midpoint(P, Q);
 	}

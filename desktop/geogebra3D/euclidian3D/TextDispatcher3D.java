@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.util.StringUtil;
-import geogebra3D.kernel3D.AlgoMidpoint3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
 
@@ -90,15 +89,4 @@ public class TextDispatcher3D extends TextDispatcher {
 		
 	}
 	
-	@Override
-	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
-
-		if (P.isGeoElement3D() || Q.isGeoElement3D()){
-			AlgoMidpoint3D algo = new AlgoMidpoint3D(kernel.getConstruction(), P, Q);
-			return algo.getPoint();
-		}
-
-		return super.MidpointForDistance(P, Q);
-	}
-
 }
