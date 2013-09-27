@@ -1176,17 +1176,20 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	/** 
-	 * create plane containing polygon / 2 lines / line & point
+	 * create plane containing polygon / 2 lines / line & point / 3 points
 	 * 
-	 * @param hits
+	 * @param hits0 hits
 	 * @return true if a plane has been created
 	 */
-	final protected boolean planeContaining(Hits hits) {
+	final protected boolean planeContaining(Hits hits0) {
+		
+		// keep only one type between points/lines/2D coord sys
+		Hits hits = hits0.keepFirsts(Test.GEOPOINTND, Test.GEOLINEND, Test.GEOCOORDSYS2DNOTPLANE);
+		
+		//App.debug("\n=================\n"+hits0+"\n====\n"+hits+"\n=================\n");
+		
 		if (hits.isEmpty())
 			return false;
-		
-		hits.removeAllPlanes();
-
 		
 		// first try with polygon, conic, etc.
 		if (selPoints() == 0 && selLines() == 0) {
@@ -1200,10 +1203,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		}
 		
 		
-		// then try point & line / line & line
-		addSelectedPoint(hits, 1, false);
+		// then try with points 
+		addSelectedPoint(hits, 3, false);
+
+		if (selPoints() == 3) { // 3 points
+			GeoPointND[] points = getSelectedPointsND();
+			getKernel().getManager3D().Plane3D(null, points[0], points[1], points[2]);
+			return true;
 		
-		if (selPoints() == 1) {
+		}else if (selPoints() == 1) { // try point & line
 			// only one line allowed
 			addSelectedLine(hits, 1, false);
 			if (selLines() == 1) {
@@ -1214,8 +1222,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				getKernel().getManager3D().Plane3D(null, points[0], lines[0]);
 				return true;
 			}
-		}else {
-			// may be two lines
+			
+		}else if (selPoints() == 0){ // maybe two lines
 			addSelectedLine(hits, 2, false);
 			if (selLines() == 2) {
 				// plane containing two lines
@@ -1862,10 +1870,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_VOLUME:
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
-			hits.removeAllPlanes();
 			hits.removeAllPolygonsButOne();
 			break;
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
+			break;
+		case EuclidianConstants.MODE_PLANE_CONTAINING:
 			break;
 		default:
 			super.switchModeForRemovePolygons(hits);
@@ -1942,7 +1951,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 		case EuclidianConstants.MODE_PLANE_CONTAINING:
 			view.setHits(mouseLoc);
-			hits = view.getHits();hits.removeAllPlanes();
+			hits = view.getHits();
 			break;	
 			
 		case EuclidianConstants.MODE_PARALLEL_PLANE:

@@ -188,6 +188,7 @@ public class Hits3D extends Hits {
 		
 		for (int i=0;i<Drawable3D.DRAW_PICK_ORDER_MAX;i++){
 			hitSetSet.add(hitSet[i]);	
+			//App.debug(i+"--"+hitSet[i]);
 		}
 
 		//top hits
@@ -195,6 +196,8 @@ public class Hits3D extends Hits {
 			Drawable3D d = iter.next();
 			topHits.add(d.getGeoElement());
 		}
+		
+		//App.error(""+topHits);
 		
 		
 		// sets the hits to this

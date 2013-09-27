@@ -371,6 +371,14 @@ Test {
 		}
 	},
 	
+	/** Test for GEOCOORDSYS2D, not GEOPLANEND */
+	GEOCOORDSYS2DNOTPLANE {
+		@Override
+		public boolean check(Object ob) {
+			return Test.GEOCOORDSYS2D.check(ob) && !Test.GEOPLANEND.check(ob);
+		}
+	},
+	
 	/** Test for GEOPLANEND */
 	GEOPLANEND {
 		@Override

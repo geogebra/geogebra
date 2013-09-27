@@ -353,6 +353,39 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 	
+	
+	/**
+	 * Find the first set of geo corresponding to one of the tests. Found geos are supposed to be in the same intervall.
+	 * @param tests class tests
+	 * @return correct hits (if exist)
+	 */
+	final public Hits keepFirsts(Test ... tests ){
+		
+		Hits ret = new Hits();
+		Test testFound = null;
+		boolean goFurther = true;
+		
+		for (int i = 0; i < size() && goFurther ; i++){
+			GeoElement geo = get(i);
+			if (testFound == null){
+				for (int j = 0 ; j < tests.length && testFound == null; j++){
+					if (tests[j].check(geo)){
+						testFound = tests[j];
+						ret.add(geo);
+					}
+				}
+			}else{
+				if (testFound.check(geo)){
+					ret.add(geo);
+				}else{
+					goFurther = false;
+				}
+			}
+		}
+		
+		return ret;
+	}
+	
 
 	/**
 	 * Removes all polygonsand quadrics but one; for 3D 
