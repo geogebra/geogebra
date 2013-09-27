@@ -60,7 +60,7 @@ public class CmdSlowPlot extends CommandProcessor {
 				try {
 					return kernelA.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(
-									sb.toString(), true, false, true);
+									sb.toString(), true, false, true, false);
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw argErr(app, c.getName(), arg[0]);

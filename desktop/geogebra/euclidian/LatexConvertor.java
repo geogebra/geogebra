@@ -22,7 +22,7 @@ public class LatexConvertor implements ExternalConverter {
 		GeoElement[] geos;
 		try {
 			geos = env.processAlgebraCommandNoExceptionHandling(externalCode,
-					false, false, true);
+					false, false, true, false);
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldLabelMode);
 			// Application.debug(e.getLocalizedMessage());

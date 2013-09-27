@@ -119,7 +119,7 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			GeoElement[]res = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(functionOut,
-					false,false,false);
+					false, false, false, false);
 			cons.setSuppressLabelCreation(flag);
 			if(res!=null && res.length>0){
 				if(g==null){

@@ -834,7 +834,7 @@ public class RelativeCopy {
 			// text
 			newValues = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(text, false,
-							false, false);
+							false, false, false);
 
 			// check if text was the label of an existing geo
 			// toUpperCase() added to fix bug A1=1, enter just 'a1' or 'A1' into

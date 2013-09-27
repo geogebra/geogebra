@@ -52,7 +52,7 @@ public class CmdExecute extends CommandProcessor {
 				kernelA.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(cmdText
 						, false,
-						false, true);
+						false, true, false);
 			} catch (MyError e) {
 				app.showError(e);
 				break;

@@ -50,7 +50,7 @@ public class GgbScript extends Script {
 				continue;
 			}
 			try {
-				proc.processAlgebraCommandNoExceptionHandling(line, false, false, true);
+				proc.processAlgebraCommandNoExceptionHandling(line, false, false, true, false);
 			} catch (Throwable e) {
 				throw new ScriptError( 
 					app.getLocalization().getPlain(

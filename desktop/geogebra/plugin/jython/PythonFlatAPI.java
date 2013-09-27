@@ -1697,7 +1697,7 @@ public class PythonFlatAPI {
 		boolean oldVal = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 
-		GeoElement[] ret = algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, false, false);
+		GeoElement[] ret = algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, false, false, false);
 		
 		kernel.setUseInternalCommandNames(oldVal);
 		

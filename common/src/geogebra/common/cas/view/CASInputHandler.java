@@ -71,7 +71,7 @@ public class CASInputHandler {
 			try {
 				String s = kernel.getGeoGebraCAS().evaluateRaw(	selRowInput.substring(1));
 				kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-								"casOutput=\"" + s + "\"", false, false, false);
+								"casOutput=\"" + s + "\"", false, false, false, false);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}

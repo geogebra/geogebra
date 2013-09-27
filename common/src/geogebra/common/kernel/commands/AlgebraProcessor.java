@@ -386,7 +386,7 @@ public class AlgebraProcessor {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-					true, false);
+					true, false, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			app.showError(e.getMessage());
@@ -407,7 +407,7 @@ public class AlgebraProcessor {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-					true, false);
+					true, false, false);
 		} catch (Exception e) {
 			return null;
 		}
@@ -424,7 +424,7 @@ public class AlgebraProcessor {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(str, storeUndo,
-					false, false);
+					false, false, false);
 		} catch (Exception e) {
 			return null;
 		} catch (MyError e) {
@@ -440,11 +440,12 @@ public class AlgebraProcessor {
 	 * @param storeUndo true to make undo step
 	 * @param allowErrorDialog true to allow dialogs
 	 * @param throwMyError true to throw MyErrors (if dialogs are not allowed)
+	 * @param autoCreateSliders whether to show a popup for undefined variables
 	 * @return resulting geos
 	 * @throws Exception e.g. circular definition or parse exception
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(String cmd,
-			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError)
+			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, boolean autoCreateSliders)
 					throws Exception {
 		ValidExpression ve;
 		try {
@@ -500,31 +501,7 @@ public class AlgebraProcessor {
 				// ==========================
 				// step1: sinx -> sin(x)
 				// ==========================
-				Iterator<String> it = undefinedVariables.iterator();
-				while (it.hasNext()) {
-					String label = it.next();
-
-					if (label.endsWith("x")) {
-
-						String labelNoX = label.substring(0, label.length() - 1);
-
-						// eg sinx -> Operation.SIN
-						Operation op = kernel.getApplication().getParserFunctions().get(labelNoX, 1);
-
-						if (op != null) {
-							VariableReplacer varep = VariableReplacer.getReplacer(label, new ExpressionNode(kernel, fvX, op, null));
-							ve.traverse(varep);
-							toRemove.add(label);
-
-						} else {
-
-							// eg mx -> m*x
-
-							// do later
-						}
-					}
-
-				}
+				wrapXinparentheses(ve, undefinedVariables, fvX, toRemove);
 
 				// ==========================
 				// step2: remove what we've done so far
@@ -538,7 +515,7 @@ public class AlgebraProcessor {
 				// ==========================
 				// step3: make a list of undefined variables so we can ask the user
 				// ==========================
-				it = undefinedVariables.iterator();
+				Iterator<String> it = undefinedVariables.iterator();
 				while (it.hasNext()) {
 					String label = it.next();
 
@@ -561,16 +538,22 @@ public class AlgebraProcessor {
 				// step4: ask user
 				// ==========================
 				if (sb.length() > 0) {
-					boolean autoCreateSliders = false;
+					
+					// eg from Spreadsheet we don't want a popup
+					if (!autoCreateSliders) {
+						return null;
+					}
+					
+					boolean autoCreateSlidersAnswer = false;
 
 					//"Create sliders for a, b?" Create Sliders / Cancel
 					//Yes: create sliders and draw line
 					//No: go back into input bar and allow user to change input	
 					if (app.getGuiManager() != null) {
-						autoCreateSliders = app.getGuiManager().checkAutoCreateSliders(sb.toString());
+						autoCreateSlidersAnswer = app.getGuiManager().checkAutoCreateSliders(sb.toString());
 					}
 
-					if (!autoCreateSliders) 
+					if (!autoCreateSlidersAnswer) 
 					{
 						return null;
 					}
@@ -623,10 +606,16 @@ public class AlgebraProcessor {
 
 
 			// Step 7:
-			// reparse (shouldn't be necessary but bug with autocreation for y=m x + c)
+			// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
 			// #3605
 			ve = parser.parseGeoGebraExpression(cmd);	
-
+			collecter = new Traversing.CollectUndefinedVariables();
+			ve.traverse(collecter);
+			undefinedVariables = collecter.getResult();
+			if (undefinedVariables.size() > 0) {
+				wrapXinparentheses(ve, undefinedVariables, fvX, new ArrayList<String>());
+			}
+			
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -685,6 +674,33 @@ public class AlgebraProcessor {
 		}
 		return geoElements;
 	}
+
+	private void wrapXinparentheses(ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX, ArrayList<String> toRemove) {
+		Iterator<String> it = undefinedVariables.iterator();
+		while (it.hasNext()) {
+			String label = it.next();
+
+			if (label.endsWith("x")) {
+
+				String labelNoX = label.substring(0, label.length() - 1);
+
+				// eg sinx -> Operation.SIN
+				Operation op = kernel.getApplication().getParserFunctions().get(labelNoX, 1);
+
+				if (op != null) {
+					VariableReplacer varep = VariableReplacer.getReplacer(label, new ExpressionNode(kernel, fvX, op, null));
+					ve.traverse(varep);
+					toRemove.add(label);
+
+				} else {
+
+					// eg mx -> m*x
+
+					// do later
+				}
+			}
+
+		}	}
 
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns

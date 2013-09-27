@@ -194,7 +194,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				//create a GeoText on the specific mouse position
 				GeoElement[] ret = ev.getApplication().getKernel()
 						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(sb.toString(), true,false,false);
+						.processAlgebraCommandNoExceptionHandling(sb.toString(), true, false, false, false);
 
 				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];
