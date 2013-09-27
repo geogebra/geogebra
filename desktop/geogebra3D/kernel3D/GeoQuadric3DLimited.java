@@ -349,11 +349,6 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
 	}
 	
 	@Override
-	public boolean isPath() {
-		return true;
-	}
-
-	@Override
 	public void setLineType(int type) {
 		super.setLineType(type);
 
