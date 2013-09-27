@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Web implements EntryPoint {
 
 	public void t(String s,AlgebraProcessor ap) throws Exception{
-		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);
+		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
 	}
 	
 	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
