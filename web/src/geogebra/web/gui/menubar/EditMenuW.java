@@ -157,7 +157,8 @@ public class EditMenuW extends MenuBar {
 		// object properties menu
 		if (!app.getKernel().isEmpty()){
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .view_properties16().getSafeUri().asString(), app.getMenu("Object Properties")),
+		        .view_properties16().getSafeUri().asString(), app.getPlain("Properties")
+				+ " ..."),
 		        true, new Command() {
 			        public void execute() {
 			        	((AppW) app).getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
