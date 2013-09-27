@@ -1762,7 +1762,7 @@ namespace giac {
     }
     if (b==plus_inf)
       return _rand(makesequence(a+1,a+100),contextptr);
-    return _rand(boundaries,contextptr);
+    return _rand(gen(boundaries,_SEQ__VECT),contextptr);
   }
 
   static void check_assume(vecteur & vzero,const vecteur & vassume,GIAC_CONTEXT){
@@ -2362,11 +2362,11 @@ namespace giac {
       }
     }
     ee=r2sym(f,l,contextptr);
-    if (is_integer(f.den) && !is_one(f.den)){
+    if (!is_one(f.den) && is_integer(f.den)){
       ee=ratnormal(ratnormal(ee)); // first ratnormal will expand sqrt()^
       // second will remove them
     }
-    return ee;
+    return ee; // ratnormal(ee); // for sqrt(1-a^2)/sqrt(1-a)
   }
 
   gen normal(const gen & e,GIAC_CONTEXT){

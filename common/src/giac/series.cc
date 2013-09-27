@@ -1915,7 +1915,7 @@ namespace giac {
       first_try=simplifier(subst(e,x,lim_point,false,contextptr),contextptr);
       if (!contains(lidnt(first_try),unsigned_inf)){
 	gen chk=recursive_normal(first_try,contextptr);
-	if (!is_undef(chk)){
+	if (!is_undef(chk) && !contains(lidnt(chk),unsigned_inf)){
 	  return taille(chk,100)<taille(first_try,100)?chk:first_try;
 	}
       }

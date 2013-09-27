@@ -2858,6 +2858,8 @@ namespace giac {
   }
   gen _rand(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (is_zero(args))
+      return giac_rand(contextptr);
     if (args.type==_INT_){
       if (args.val<0)
 	return -(xcas_mode(contextptr)==3)+int(args.val*(giac_rand(contextptr)/(rand_max2+1.0)));
@@ -2892,8 +2894,12 @@ namespace giac {
       return icdf(nd)(gen(v,_SEQ__VECT),contextptr);
     }
     if (args.type==_VECT){ 
-      if (args._VECTptr->empty())
-	return giac_rand(contextptr);
+      if (args._VECTptr->empty()){
+	if (calc_mode(contextptr)==1)
+	  return giac_rand(contextptr);
+	else
+	  return giac_rand(contextptr)/(rand_max2+1.0);
+      }
       if (args.subtype==0){
 	double d=giac_rand(contextptr)*double(args._VECTptr->size())/(rand_max2+1.0);
 	return (*args._VECTptr)[int(d)];
@@ -4981,9 +4987,10 @@ namespace giac {
     vecteur v=*args._VECTptr;
     int subtype;
     gen f;
-    if ( v.size()==2 && v[0].type==_VECT 
-	 // && args.subtype==_SEQ__VECT
-	 ){
+    bool usersort=v.size()==2 && v[0].type==_VECT 
+      // && args.subtype==_SEQ__VECT
+      ;
+    if (usersort){
       f=v[1];
       subtype=v[0].subtype;
       v=*v[0]._VECTptr;
@@ -5020,6 +5027,11 @@ namespace giac {
       if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V)){
 	sort(V.begin(),V.end());
 	v=vector_double_2_vecteur(V);
+	return gen(v,subtype);
+      }
+      gen tmp;
+      if (!usersort && !has_evalf(args,tmp,1,contextptr)){
+	sort(v.begin(),v.end(),islesscomplexthanf);
 	return gen(v,subtype);
       }
     }

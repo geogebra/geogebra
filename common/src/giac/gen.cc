@@ -7740,12 +7740,6 @@ namespace giac {
     return !a.islesscomplexthan(b);
   }
 
-  struct tri_context {
-    const giac::context * contextptr;
-    bool operator()(const gen & a,const gen &b){ return islesscomplexthanf2(a,b,contextptr); }
-    tri_context(const giac::context * ptr):contextptr(ptr){};
-  };
-
   int gen::symb_size () const {
     if (type==_SYMB)
       return _SYMBptr->size();
@@ -8008,6 +8002,12 @@ namespace giac {
     res.push_back(makenewvecteur(current_coeff,current));
     return res;
   }
+
+  struct tri_context {
+    const giac::context * contextptr;
+    bool operator()(const gen & a,const gen &b){ return islesscomplexthanf2(a,b,contextptr); }
+    tri_context(const giac::context * ptr):contextptr(ptr){};
+  };
 
   // from a sum in x returns a list of [coeff monomial]
   // e.g. 5+2x+3*x*y -> [ [5 1] [2 x] [ 3 x*y] ]

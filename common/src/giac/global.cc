@@ -4578,7 +4578,7 @@ unsigned int ConvertUTF8toUTF16 (
     "autosimplify",
     "ifactor","partfrac","cpartfrac","factor","cfactor","expand","normal",
     "regroup","simplify","animation","animate","factoriser","factoriser_entier",
-    "factoriser_sur_C","developper","simplifier",
+    "factoriser_sur_C","developper","simplifier","series","taylor","curve","trace",
     0
   };
   gen add_autosimplify(const gen & g,GIAC_CONTEXT){

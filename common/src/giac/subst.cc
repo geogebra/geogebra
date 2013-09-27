@@ -1377,6 +1377,9 @@ namespace giac {
     gen a(a_orig);
     for (int i=begin;i<signed(primeargs.size());){
       gen g=simplify3(a,primeargs[i]);
+      if (is_strictly_positive(r2e(-g,vars,contextptr),contextptr)){
+	g=-g; a=-a; primeargs[i]=-primeargs[i];
+      }
       if (is_unit(g)){ // prime together -> go to the next element of primeargs
 	++i;
 	continue;

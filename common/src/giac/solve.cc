@@ -878,9 +878,10 @@ namespace giac {
       if (!complexmode && is_positive(-delta_prime,contextptr))
 	return;
 #endif
-      newv.push_back(rdiv(minus_b_over_2+sqrt(delta_prime,contextptr),a,contextptr));
+      delta_prime=normalize_sqrt(sqrt(delta_prime,contextptr),contextptr);
+      newv.push_back(rdiv(minus_b_over_2+delta_prime,a,contextptr));
       if (!is_zero(delta_prime))
-	newv.push_back(rdiv(minus_b_over_2-sqrt(delta_prime,contextptr),a,contextptr));
+	newv.push_back(rdiv(minus_b_over_2-delta_prime,a,contextptr));
     }
     else {
       gen two_a=r2sym(plus_two*w.front(),lv,contextptr);
@@ -893,8 +894,9 @@ namespace giac {
       if (!complexmode && is_positive(-delta,contextptr))
 	return;
 #endif
-      newv.push_back(rdiv(minus_b+sqrt(delta,contextptr),two_a,contextptr));
-      newv.push_back(rdiv(minus_b-sqrt(delta,contextptr),two_a,contextptr));
+      delta=normalize_sqrt(sqrt(delta,contextptr),contextptr);
+      newv.push_back(rdiv(minus_b+delta,two_a,contextptr));
+      newv.push_back(rdiv(minus_b-delta,two_a,contextptr));
     }
     solve_ckrange(x,newv,isolate_mode,contextptr);
     v=mergevecteur(v,newv);
@@ -1026,7 +1028,17 @@ namespace giac {
       }
       already_added.push_back(m);
       gen symb_sup,symb_inf;
-      test=eval(subst(e0,x,l,false,contextptr),eval_level(contextptr),contextptr);
+      if (equalposcomp(singu,l) && e0.type==_SYMB && e0._SYMBptr->feuille.type==_VECT && e0._SYMBptr->feuille._VECTptr->size()==2){
+	gen a=e0._SYMBptr->feuille[0];
+	gen b=e0._SYMBptr->feuille[1];
+	a=limit(a-b,x,l,1,contextptr);
+	if (is_inf(a) || is_undef(a))
+	  test=0;
+	else
+	  test=e0._SYMBptr->sommet(gen(makevecteur(a,0),_SEQ__VECT),contextptr);
+      }
+      else
+	test=eval(subst(e0,x,l,false,contextptr),eval_level(contextptr),contextptr);
       gen testeq=abs(evalf(subst(e,x,l,false,contextptr),eval_level(contextptr),contextptr),contextptr);
       if ((is_greater(epsilon(contextptr),testeq,contextptr) || test!=1) &&
 	  (equalposcomp(excluded_not_singu,l) || equalposcomp(singu,l) ||
@@ -1039,7 +1051,17 @@ namespace giac {
 	else
 	  symb_inf=symb_superieur_egal(x,l);
       }
-      test=eval(subst(e0,x,m,false,contextptr),eval_level(contextptr),contextptr);
+      if (equalposcomp(singu,m) && e0.type==_SYMB && e0._SYMBptr->feuille.type==_VECT && e0._SYMBptr->feuille._VECTptr->size()==2){
+	gen a=e0._SYMBptr->feuille[0];
+	gen b=e0._SYMBptr->feuille[1];
+	a=limit(a-b,x,m,-1,contextptr);
+	if (is_inf(a) || is_undef(a))
+	  test=0;
+	else
+	  test=e0._SYMBptr->sommet(gen(makevecteur(a,0),_SEQ__VECT),contextptr);
+      }
+      else
+	test=eval(subst(e0,x,m,false,contextptr),eval_level(contextptr),contextptr);
       testeq=abs(evalf(subst(e,x,m,false,contextptr),eval_level(contextptr),contextptr),contextptr);
       if ( (is_greater(epsilon(contextptr),testeq,contextptr) || test!=1) &&
 	  (equalposcomp(excluded_not_singu,m) || equalposcomp(singu,m) ||

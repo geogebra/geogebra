@@ -167,6 +167,8 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     //    if ( (args.type==_SYMB) && (args._SYMBptr->sommet==at_equal) )
     //  return sphere_by_equation(vecteur(1,args),contextptr);
+    if (args.is_symb_of_sommet(at_equal))
+      return _plotimplicit(makesequence(args,x__IDNT_e,y__IDNT_e,z__IDNT_e),contextptr);
     if (args.type!=_VECT || args._VECTptr->size()<2)
       return gensizeerr(contextptr);
     gen errcode=checkanglemode(contextptr);

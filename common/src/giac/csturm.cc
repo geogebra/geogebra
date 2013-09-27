@@ -1645,7 +1645,7 @@ namespace giac {
     }
     gen tmp;
     lcmdeno(p,tmp,contextptr);
-    for (;it!=itend;++it){
+    for (it=p.begin();it!=itend;++it){
       if (!is_integer(*it))
 	return false;
     }

@@ -607,7 +607,7 @@ namespace giac {
       gen edh=horner(makevecteur(-5,60,-126,60,-5),tmp*tmp);
       if (std::abs(edh._DOUBLE_val)<1e-7 &&
 	  normal(horner(makevecteur(-5,60,-126,60,-5),e*e),contextptr)==0){
-	int res=std::floor(std::atan(std::abs(ed))*10/M_PI+.5);
+	int res=int(std::floor(std::atan(std::abs(ed))*10/M_PI+.5));
 	if (res%2)
 	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:gen(18));
 	else
@@ -615,7 +615,7 @@ namespace giac {
       }
       edh=horner(makevecteur(-3,55,-198,198,-55,3),tmp*tmp);
       if (std::abs(edh._DOUBLE_val)<1e-7){      
-	int res=std::floor(std::atan(std::abs(ed))*12/M_PI+.5);
+	int res=int(std::floor(std::atan(std::abs(ed))*12/M_PI+.5));
 	int den=12;
 	int g=gcd(res,den);
 	res /=g; den /=g;
@@ -624,7 +624,7 @@ namespace giac {
       edh=horner(makevecteur(1,-6,1),ed*ed);
       if (std::abs(edh._DOUBLE_val)<1e-7 &&
 	  normal(horner(makevecteur(1,-6,1),e*e),contextptr)==0){
-	int res=std::floor(std::atan(std::abs(ed))*8/M_PI+.5);
+	int res=int(std::floor(std::atan(std::abs(ed))*8/M_PI+.5));
 	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:gen(45)/2);
       }
     }
@@ -1788,7 +1788,7 @@ namespace giac {
       gen edh=horner(makevecteur(256,-512,336,-80,5),edg*edg);
       if (std::abs(edh._DOUBLE_val)<1e-9 &&
 	  normal(horner(makevecteur(256,-512,336,-80,5),e*e),contextptr)==0){
-	int res=std::floor(std::asin(std::abs(ed))*10/M_PI+.5);
+	int res=int(std::floor(std::asin(std::abs(ed))*10/M_PI+.5));
 	if (res%2)
 	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:gen(18));
 	else
@@ -1797,7 +1797,7 @@ namespace giac {
       edh=horner(makevecteur(512,-1280,1152,-448,70,-3),edg*edg);
       if (std::abs(edh._DOUBLE_val)<1e-9 &&
 	  normal(horner(makevecteur(512,-1280,1152,-448,70,-3),e*e),contextptr)==0){
-	int res=std::floor(std::asin(std::abs(ed))*12/M_PI+.5);
+	int res=int(std::floor(std::asin(std::abs(ed))*12/M_PI+.5));
 	int den=12;
 	int g=gcd(res,den);
 	res /=g; den /=g;
@@ -1806,7 +1806,7 @@ namespace giac {
       edh=horner(makevecteur(64,-128,80,-16,1),edg*edg);
       if (std::abs(edh._DOUBLE_val)<1e-9 &&
 	  normal(horner(makevecteur(64,-128,80,-16,1),e*e),contextptr)==0){
-	int res=std::floor(std::asin(std::abs(ed))*8/M_PI+.5);
+	int res=int(std::floor(std::asin(std::abs(ed))*8/M_PI+.5));
 	int den=8;
 	int g=gcd(res,den);
 	res /=g; den /=g;
@@ -1835,7 +1835,7 @@ namespace giac {
     if (is_equal(e))
       return apply_to_equal(e,asin,contextptr);
     if (lidnt(e).empty() && is_positive(e*e-1,contextptr))
-      return asinasln(e,contextptr);
+      return (angle_radian(contextptr)?1:rad2deg_g)*asinasln(e,contextptr);
     return symb_asin(e);
   }
   static gen d_asin(const gen & args,GIAC_CONTEXT){
@@ -4771,8 +4771,12 @@ namespace giac {
       return symb_same(a);
     gen res=undef;
     if (a._VECTptr->front().type==_SYMB || a._VECTptr->back().type==_SYMB){
-      if (!is_inf(a._VECTptr->front()) && !is_undef(a._VECTptr->front()) && !is_inf(a._VECTptr->back()) && !is_undef(a._VECTptr->back()) && a._VECTptr->front().type!=_VECT &&a._VECTptr->back().type!=_VECT )
-	res=is_zero(add_autosimplify(a._VECTptr->front()-a._VECTptr->back(),contextptr),contextptr);
+      if (!is_inf(a._VECTptr->front()) && !is_undef(a._VECTptr->front()) && !is_inf(a._VECTptr->back()) && !is_undef(a._VECTptr->back()) && a._VECTptr->front().type!=_VECT &&a._VECTptr->back().type!=_VECT ){
+	res=add_autosimplify(a._VECTptr->front()-a._VECTptr->back(),contextptr);
+	if (res.type==_SYMB)
+	  res=res._SYMBptr->sommet(res._SYMBptr->feuille,contextptr);
+	res=is_zero(res,contextptr);
+      }
     }
     if (is_undef(res))
       res=operator_equal(a._VECTptr->front(),a._VECTptr->back(),contextptr);
