@@ -3,6 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolver;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -29,9 +30,10 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 	private static final double MAX_INTERVAL = 10000;
 	
 	private GeoPoint point;
+	private AlgoClosestPoint closePt;
 	private GeoElement object;
 	private GeoNumeric distance;
-
+	
     /**
      * @param cons Construction
      * @param label output label
@@ -43,26 +45,15 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
     	initAlgo(label, p, o, null);
     }
     
-    private void initAlgo(String label, 
-    		GeoPoint p, GeoElement o, GeoNumeric num) {
+    private void initAlgo(String label, GeoPoint p, GeoElement o, GeoNumeric num) {
     	point = p;
     	object = o;
     	
+    	closePt = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons, (Path)object, point);
+        cons.removeFromConstructionList(closePt);
+        
     	distance = new GeoNumeric(cons);
     	setInputOutput();
-    	
-    	if (!o.isGeoFunction()) {
-    		AlgoElement algo;
-    		if (o.isGeoPoint()) 
-    			algo = new AlgoDistancePoints(cons, label, p, (GeoPoint) o);
-    		else 
-    			algo = new AlgoDistancePointObject(cons, label, p, o);
-    		cons.removeFromConstructionList(algo);
-    		distance = ((DistanceAlgo) algo).getDistance();
-    		setInputOutput();
-    		distance.setLabel(label);
-    		return;
-    	}
     	compute();
     	distance.setLabel(label);
     }
@@ -83,6 +74,13 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 			distance.setUndefined();
 			return;
 		}
+		if (!object.isGeoFunction()) {
+    		if(closePt != null)
+    	    	distance.setValue(closePt.getP().distance(point));
+    	    else
+    	    	distance.setValue(object.distance(point));
+    		return;
+    	}
 		// Algorithm inspired by 
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
 		distance.setUndefined();
