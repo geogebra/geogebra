@@ -409,6 +409,8 @@ public class ConstructionDefaults {
 		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
 		number.setDefaultGeoType(DEFAULT_NUMBER);
+		number.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
+		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
 		defaultGeoElements.put(DEFAULT_NUMBER, number);
 
 		// angle

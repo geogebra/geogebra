@@ -50,8 +50,9 @@ import java.util.TreeSet;
 public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 
+	public static final int DEFAULT_THICKNESS = 10;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
-	private static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;
+	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
 	private static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 72;
 	/** Default maximum value when displayed as slider */
 	public static double DEFAULT_SLIDER_MIN = -5;
