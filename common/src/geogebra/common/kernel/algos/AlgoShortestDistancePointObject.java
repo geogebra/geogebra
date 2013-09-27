@@ -70,8 +70,8 @@ public class AlgoShortestDistancePointObject extends AlgoElement implements Dist
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = point;
-		input[1] = object;
+		input[0] = object;
+		input[1] = point;
 
 		setOnlyOutput(distance);
 		setDependencies(); // by AlgoElement

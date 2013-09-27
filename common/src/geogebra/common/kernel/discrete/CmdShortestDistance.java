@@ -42,6 +42,14 @@ public class CmdShortestDistance extends CommandProcessor {
 				return ret;
 				
 			}
+			if ((ok[1] = arg[1].isGeoPoint())
+					&& (ok[0] = arg[0].isGeoElement() && !arg[1].isGeoFunctionNVar())) {
+				GeoElement[] ret = { new AlgoShortestDistancePointObject(cons, c.getLabel(),
+						(GeoPoint) arg[1], arg[0]).getResult() };
+
+				return ret;
+				
+			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 4:
 
