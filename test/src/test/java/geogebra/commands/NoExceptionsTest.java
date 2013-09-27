@@ -126,7 +126,7 @@ public class NoExceptionsTest {
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
-					false, false, true));
+					false, false, true, false));
 		} catch (Throwable e) {
 			System.out.println("error occured:" + e.getClass().getName());
 			e.printStackTrace();
