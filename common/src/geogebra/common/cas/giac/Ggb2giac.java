@@ -564,21 +564,41 @@ public class Ggb2giac {
 				"point(convert(coordinates(%0),25))");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
+		// possible Giac commands we can use:
+		// halftan, tan2sincos2, tan2cossin2, sincos, trigtan, trigsin, trigcos
+		// cos2sintan, sin2costan, tan2sincos, trigexpand, tlin, tcollect, trig2exp, exp2trig
+		
+		// eg tlin(halftan(csc(x) - cot(x) + csc(y) - cot(y))) ->  tan(x/2)+tan(y/2)
 		p("TrigExpand.1",
-				"trigexpand(%0)");
+				"tan2sincos(trigexpand(%0))");
 		p("TrigExpand.2",
-				"trigexpand(%0)");
+				"when((%1)[0]=='tan', trigexpand(%0),tan2sincos(trigexpand(%0)))");
+		
+		//subst(trigexpand(subst(sin(x),solve(tmpvar=x/2,lname(sin(x)))),tmpvar=x/2)
+		// gives 2*cos(x/2)*sin(x/2)
 		p("TrigExpand.3",
-				"trigexpand(%0)");
+				"when(%1==tan(x),"+
+				// if %1=tan(x), assume %2=x/2 
+				"tlin(halftan(%0))"+
+				","+
+				"subst(trigexpand(subst(%0,solve(ggbtmp=%2,lname(%0)))),ggbtmp=%2)"+
+				")");
+		
+		//subst(subst(trigexpand(subst(subst((sin(x))+(sin(y)),solve(tmpvar=(x)/(2),lname((sin(x))+(sin(y)))  )),solve(tmpvar2=(y)/(2),lname((sin(x))+(sin(y)))  ))),tmpvar=x/2),tmpvar2=y/2)
+		//  2*cos(x/2)*sin(x/2)+2*cos(y/2)*sin(y/2)
 		p("TrigExpand.4",
-				"trigexpand(%0)");
+				"when(%1==tan(x),"+
+						// if %1=tan(x), assume %2=x/2, %3=y/2
+				"tlin(halftan(%0))"+
+				","+
+				"subst(subst(trigexpand(subst(subst(%0,solve(tmpvar=%2,lname(%0))),solve(tmpvar2=%3,lname(%0)))),tmpvar=%2),tmpvar2=%3)"+
+				")");
 		
 		// calculate trigsin, trigcos, trigtan and check which is shortest (as a string)
 		p("TrigSimplify.1",
 				"[[[ggbarg:=%0], [ggbsin:=trigsin(ggbarg)], [ggbcos:=trigcos(ggbarg)], [ggbtan:=trigtan(ggbarg)], "+
 		"[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"+
-		"when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]"+
-		"");
+		"when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
 		
 		p("TrigCombine.1",
 				"tcollect(%0)");
