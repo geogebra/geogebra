@@ -135,6 +135,7 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 		<attribute name="Permissions" value="all-permissions"/>
 		<attribute name="Codebase" value="*.geogebra.org"/>
+		<attribute name="Trusted-Library" value="true"/>
 	</manifest>
 
 	<manifest file="../manifest3D-jogl1.mf">
@@ -151,6 +152,7 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 		<attribute name="Permissions" value="all-permissions"/>
 		<attribute name="Codebase" value="*.geogebra.org"/>
+		<attribute name="Trusted-Library" value="true"/>
 	</manifest>
 
 	<manifest file="../manifest3D-jogl2.mf">
@@ -167,6 +169,7 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 		<attribute name="Permissions" value="all-permissions"/>
 		<attribute name="Codebase" value="*.geogebra.org"/>
+		<attribute name="Trusted-Library" value="true"/>
 	</manifest>
 
 	<!-- remove comments from properties files -->
