@@ -2827,7 +2827,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariableVC_0 () {
-    t("Solve[a x^2 + b x + c, x]", "{x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
+    t("Solve[a x^2 + b x + c, x]", "{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
   }
 
   @Test
