@@ -572,8 +572,14 @@ public class Ggb2giac {
 				"trigexpand(%0)");
 		p("TrigExpand.4",
 				"trigexpand(%0)");
+		
+		// calculate trigsin, trigcos, trigtan and check which is shortest (as a string)
 		p("TrigSimplify.1",
-				"tlin(%0)");
+				"[[[ggbarg:=%0], [ggbsin:=trigsin(ggbarg)], [ggbcos:=trigcos(ggbarg)], [ggbtan:=trigtan(ggbarg)], "+
+		"[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"+
+		"when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]"+
+		"");
+		
 		p("TrigCombine.1",
 				"tcollect(%0)");
 		p("TrigCombine.2",
