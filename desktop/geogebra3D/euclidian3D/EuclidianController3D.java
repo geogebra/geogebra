@@ -1782,7 +1782,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			changedKernel = (threePoints(hits,mode) != null);
 			break;
-		case EuclidianConstants.MODE_PLANE_CONTAINING:
+		case EuclidianConstants.MODE_PLANE:
 			changedKernel = planeContaining(hits);
 			break;		
 		
@@ -1874,7 +1874,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			break;
-		case EuclidianConstants.MODE_PLANE_CONTAINING:
+		case EuclidianConstants.MODE_PLANE:
 			break;
 		default:
 			super.switchModeForRemovePolygons(hits);
@@ -1949,7 +1949,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			createNewPoint(hits, false, false, true);
 			break;	
 			
-		case EuclidianConstants.MODE_PLANE_CONTAINING:
+		case EuclidianConstants.MODE_PLANE:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			break;	
