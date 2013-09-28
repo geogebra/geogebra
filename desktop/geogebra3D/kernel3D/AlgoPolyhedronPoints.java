@@ -498,6 +498,15 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 	}
 	
+	/**
+	 * 
+	 * @param i side id
+	 * @return i-th side of the prism/pyramid
+	 */
+	public GeoPolygon3D getSide(int i){
+		return outputPolygonsSide.getElement(i);
+	}
+	
 	public NumberValue getHeight(){
 		return height;
 	}
