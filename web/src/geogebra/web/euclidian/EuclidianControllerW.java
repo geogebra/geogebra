@@ -457,8 +457,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int eWidth = ((EuclidianViewW) view).getWidth();
 		int eHeight = ((EuclidianViewW) view).getHeight();
 		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
-			ToolTipManagerW.sharedInstance().hideToolTip(true);
-			// ((AppW)app).getToolTipManager().hideToolTip(true);
+			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
 
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
@@ -555,7 +554,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	protected void initToolTipManager() {
 		// set tooltip manager
 		ToolTipManagerW ttm = ToolTipManagerW.sharedInstance();
-		ttm.setInitialDelay(defaultInitialDelay / 2);
+		//ttm.setInitialDelay(defaultInitialDelay / 2);
 		//ttm.setEnabled((AppW.getAllowToolTips());
 		
 	}

@@ -50,11 +50,11 @@ public class ToolTipManagerW {
 	private Timer timer;
 
 	/**
-	 * Time, in milliseconds, to delay showing a toolTip triggered.
+	 * Time, in milliseconds, to delay showing a toolTip.
 	 * 
-	 * Java default = 1750
+	 * Java default = 1750, we use a quicker 1000
 	 */
-	private int initialDelay = 3750;
+	private int initialDelay = 1000;
 
 	/**
 	 * Time, in milliseconds, to allow the toolTip to remain visible.
@@ -81,7 +81,7 @@ public class ToolTipManagerW {
 	 * enabled. This is helpful when the mouse is moved around nearby objects
 	 * and the initial delay is annoying to the user.
 	 */
-	private boolean showImmediately = false;
+	boolean showImmediately = false;
 
 	/**
 	 * HTML element associated with the toolTip. The toolTip will be positioned
@@ -154,7 +154,7 @@ public class ToolTipManagerW {
 
 	/**
 	 * Register mouse listeners to keep track of the mouse position and hide the
-	 * tooltip on a mouseDown event.
+	 * toolTip on a mouseDown event.
 	 */
 	private void registerMouseListeners() {
 
@@ -163,7 +163,7 @@ public class ToolTipManagerW {
 				NativeEvent e = event.getNativeEvent();
 
 				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
-					hideToolTip(true);
+					hideToolTip();
 				}
 
 				mouseX = e.getClientX();
@@ -172,7 +172,7 @@ public class ToolTipManagerW {
 			}
 		});
 
-		// observe scroll event, so we can offset x and y for tooltip
+		// observe scroll event, so we can offset x and y for toolTip location
 		Window.addWindowScrollHandler(new ScrollHandler() {
 			public void onWindowScroll(ScrollEvent event) {
 
@@ -187,66 +187,12 @@ public class ToolTipManagerW {
 	}
 
 	// ======================================
-	// Show ToolTip
+	// ToolTip location
 	// ======================================
 
 	/**
-	 * Shows toolTip relative to a given element
-	 * 
-	 * @param element
-	 *            element associated with tooltip
-	 * @param toolTipText
-	 *            text to be displayed
-	 */
-	public void showToolTip(Element element, String toolTipText) {
-
-		tipElement = element;
-
-		if (element == null || toolTipText == null) {
-			hideToolTip(false);
-			return;
-		}
-
-		if (oldText.equals(toolTipText)) {
-			return;
-		}
-
-		oldText = toolTipText;
-		tipHTML.setHTML(toolTipText);
-
-		showToolTipWithDelay();
-
-	}
-
-	/**
-	 * Shows toolTip at mouse position
-	 * 
-	 * @param toolTipText
-	 *            text to be displayed
-	 */
-	public void showToolTip(String toolTipText) {
-
-		tipElement = null;
-
-		if (toolTipText == null) {
-			hideToolTip(false);
-			return;
-		}
-
-		if (oldText.equals(toolTipText)) {
-			return;
-		}
-
-		oldText = toolTipText;
-		tipHTML.setHTML(toolTipText);
-
-		showToolTipWithDelay();
-
-	}
-
-	/**
-	 * Sets the toolTip widget location using the tipElement location or, if
-	 * this is null, using current mouse coordinates.
+	 * Set the toolTip widget location using the tipElement location or, if this
+	 * is null, using current mouse coordinates.
 	 */
 	protected void setToolTipLocation() {
 		int left, top;
@@ -281,86 +227,142 @@ public class ToolTipManagerW {
 		RootPanel.get().setWidgetPosition(tipPanel, left, top);
 	}
 
-	private void showToolTipWithDelay() {
+	// ======================================
+	// Show/Hide ToolTip
+	// ======================================
 
-		cancelTimer();
-		
-		if (enableDelay) {
-			timer = new Timer() {
-				@Override
-				public void run() {
-					show();
-				}
-			};
-			
-			if (showImmediately) {
-				timer.schedule(0);
+	/**
+	 * Show toolTip relative to a given element
+	 * 
+	 * @param element
+	 *            element associated with tooltip
+	 * @param toolTipText
+	 *            text to be displayed
+	 */
+	public void showToolTip(Element element, String toolTipText) {
 
-			} else {
-				timer.schedule(initialDelay);
+		tipElement = element;
+		if (tipElement == null) {
+			hideToolTip();
+			return;
+		}
+		showToolTipWithDelay(toolTipText);
+	}
 
-			}
+	/**
+	 * Show toolTip using mouse coordinates.
+	 * 
+	 * @param toolTipText
+	 *            text to be displayed
+	 */
+	public void showToolTip(String toolTipText) {
 
+		tipElement = null;
+		showToolTipWithDelay(toolTipText);
+	}
+
+	private void showToolTipWithDelay(String toolTipText) {
+
+		if (oldText.equals(toolTipText)) {
+			return;
+		}
+
+		if (toolTipText == null) {
+			hideToolTip();
+			return;
+		}
+
+		oldText = toolTipText;
+		tipHTML.setHTML(toolTipText);
+
+		if (enableDelay && !showImmediately) {
+			setInitialDelayTimer();
 		} else {
 			show();
 		}
 	}
 
 	/**
-	 * Show the tooltip.
+	 * Show the toolTip.
 	 */
 	protected void show() {
 
-		cancelTimer();
-
+		// locate and show the toolTip
 		setToolTipLocation();
 		tipPanel.getElement().getStyle().setProperty("visibility", "visible");
+		
+		// set to immediate mode so that toolTips for nearby elements will not be delayed
 		showImmediately = true;
-
+		
+		// set the dismiss timer
 		if (enableDelay) {
-			timer = new Timer() {
-				@Override
-				public void run() {
-					hideToolTip(true);
-				}
-			};
-			timer.schedule(dismissDelay);
+			setDismissDelayTimer();
 		}
 	}
 
-	// ======================================
-	// Cancel/Hide ToolTip
-	// ======================================
-
-	/**
-	 * TODO temporary fix --- do we need the reshow param?
-	 */
+	
 	public void hideToolTip() {
-		hideToolTip(false);
-	}
 
-	public void hideToolTip(boolean doReshow) {
-		if (tipPanel.getElement().getPropertyBoolean("visibility")) {
-			// TODO: do nothing ?
+		// exit if toolTip is already hidden
+		if (!tipPanel.getElement().getPropertyBoolean("visibility")
+		        && oldText.equals("")) {
+			return;
 		}
+
 		oldText = "";
 		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
-		setReshowTimer();
+
+		// if in immediate mode, then reset the reshowTimer
+		if (showImmediately) {
+			setReshowTimer();
+		}
+
+	}
+
+	// ======================================
+	// Timers
+	// ======================================
+
+	private void setInitialDelayTimer() {
+
+		cancelTimer();
+		timer = new Timer() {
+			@Override
+			public void run() {
+				show();
+				// App.debug("initialDelay timer done, toolTip shown");
+			}
+		};
+		// App.debug("start initialDelay timer");
+		timer.schedule(initialDelay);
+	}
+
+	private void setDismissDelayTimer() {
+
+		cancelTimer();
+		timer = new Timer() {
+			@Override
+			public void run() {
+				hideToolTip();
+				// App.debug("dismissDelay timer done, toolTip hidden");
+			}
+		};
+		// App.debug("start dismissDelay timer");
+		timer.schedule(dismissDelay);
 	}
 
 	private void setReshowTimer() {
-		
-		if (showImmediately) {
-			cancelTimer();
-			timer = new Timer() {
-				@Override
-				public void run() {
-					showImmediately = false;
-				}
-			};
-		
-			timer.schedule(reshowDelay);
-		}
+
+		cancelTimer();
+		timer = new Timer() {
+			@Override
+			public void run() {
+				showImmediately = false;
+				// App.debug("reshow timer done, showImmediately = false");
+			}
+		};
+		// App.debug("start reshowDelay timer");
+		timer.schedule(reshowDelay);
 	}
 
 	private void cancelTimer() {
