@@ -88,14 +88,15 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 	 * @param f value of the cursor used in the rotation
 	 * @param fd direction of the bottom face
 	 * @param dist distance between point and projectedpoint
+	 * @param test value : 1 test the angle, 0 do not test
 	 */
-	private void rotate(GeoPoint3D point, Coords pointCoords, Coords projectCoords,  Coords o, Coords vs, double f, Coords fd, double dist){
+	private void rotate(GeoPoint3D point, Coords pointCoords, Coords projectCoords,  Coords o, Coords vs, double f, Coords fd, double dist, int test){
 
 		Coords v2 = projectCoords.sub(o);
 		double d2 = pointCoords.distLine(o, vs);
 		double angle = Math.asin(dist/d2);		
 
-		if (v2.crossProduct(vs).dotproduct(fd) < 0) { // top point is inside bottom face
+		if ((test == 0)^(v2.crossProduct(vs).dotproduct(fd) < 0)) { // top point is inside bottom face
 			angle = Math.PI - angle;
 		}	
 
@@ -153,7 +154,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				Coords vs = si.getDirectionInD3();
 				GeoPoint3D wpoint1 = outputPointsTop.getElement(i);
 				Coords cCoord = wpoint1.getInhomCoordsInD(3);
-				rotate(wpoint1, cCoord, p1, o, vs, f, faceDirection, d1);
+				rotate(wpoint1, cCoord, p1, o, vs, f, faceDirection, d1, 1);
 			}
 			break;
 
@@ -197,30 +198,34 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				}
 			}
 			// rotation of the top face around first top segment
+			Coords o = topP[1].getInhomCoordsInD(3);
+			Coords vs = bottomSegs[0].getDirectionInD3();
 			for (int i = 0 ; i < sz-2 ; i++) {
 				wpoint3 = outputPointsTop.getElement(i + sz * 2);
-				// need to calculate the angle with the first face
-				wpoint3.rotate(f * Math.PI/2, topCo,bottomSegs[0].getDirectionInD3());		
+				cCoord = wpoint3.getInhomCoordsInD(3);
+				pp1 = cCoord.projectPlane(algo.getSide(0).getCoordSys().getMatrixOrthonormal())[0];
+				double dist =  pp1.distance(cCoord);
+				rotate(wpoint3, cCoord, pp1, o, vs, f, algo.getSide(0).getDirectionInD3(), dist, 0);		
 			}
 			for (int i = 0 ; i < 2*sz ; i+=2) {
 				// rotate wpoint1
 				// angle between side face and bottom face
-				Coords o = points[i/2].getInhomCoordsInD(3);
-				Coords vs = bottomSegs[i/2].getDirectionInD3();
+				o = points[i/2].getInhomCoordsInD(3);
+				vs = bottomSegs[i/2].getDirectionInD3();
 				wpoint1 = outputPointsTop.getElement(i);
 				cCoord = wpoint1.getInhomCoordsInD(3);
 				pp1 = cCoord.projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
-				rotate(wpoint1, cCoord, pp1, o, vs, f, faceDirection, dd1);
+				rotate(wpoint1, cCoord, pp1, o, vs, f, faceDirection, dd1, 1);
 				// rotate wpoint2	
 				wpoint2 = outputPointsTop.getElement(i+1);
 				cCoord = wpoint2.getInhomCoordsInD(3);
 				pp1 = cCoord.projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
-				rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1);
+				rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1, 1);
 
 				if (i == 0) { // the rotation for the top face is made with the same angle
 					for (int j = 0 ; j < sz-2 ; j++) {
 						wpoint3 = outputPointsTop.getElement(j + sz * 2);
-						rotate(wpoint3, cCoord, pp1, o, vs, f, faceDirection, dd1);			
+						rotate(wpoint3, cCoord, pp1, o, vs, f, faceDirection, dd1, 1);			
 					}
 				}
 			}
