@@ -2,9 +2,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocusEquation;
+import geogebra.common.kernel.cas.CmdCASCommand1Arg;
 import geogebra.common.kernel.cas.CmdCoefficients;
 import geogebra.common.kernel.cas.CmdDegree;
-import geogebra.common.kernel.cas.CmdFactorExpand;
 import geogebra.common.kernel.cas.CmdImplicitDerivative;
 import geogebra.common.kernel.cas.CmdIntegral;
 import geogebra.common.kernel.cas.CmdLimit;
@@ -18,7 +18,6 @@ import geogebra.common.kernel.cas.CmdSolveODE;
 import geogebra.common.kernel.cas.CmdSurdText;
 import geogebra.common.kernel.cas.CmdTrigCombine;
 import geogebra.common.kernel.cas.CmdTrigExpand;
-import geogebra.common.kernel.cas.CmdTrigSimplify;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet loading)
@@ -30,10 +29,12 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 
 		case LocusEquation:
 			return LocusEquation.newCmdLocusEquation(kernel);
+
+		case TrigSimplify:
 		case Expand:
 		case Factor:
 		case IFactor:
-			return new CmdFactorExpand(kernel, c);
+			return new CmdCASCommand1Arg(kernel, c);
 		case Simplify:
 			return new CmdSimplify(kernel);
 		case SurdText:
@@ -48,8 +49,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdIntegral(kernel, c);
 		case TrigExpand:
 			return new CmdTrigExpand(kernel);
-		case TrigSimplify:
-			return new CmdTrigSimplify(kernel);
 		case TrigCombine:
 			return new CmdTrigCombine(kernel);
 		case Limit:
