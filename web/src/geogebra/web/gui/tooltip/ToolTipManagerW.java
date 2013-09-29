@@ -14,42 +14,85 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * Singleton class that maintains a gwt panel for displaying tooltips. Design
- * adapted from Java's ToolTipManager.
+ * Singleton class that maintains a GWT panel for displaying toolTips.
+ * 
+ * Design is adapted from Java's ToolTipManager. ToolTip behavior should follow
+ * this description found in the Java source code:
+ * <p>
+ * </p>
+ * "ToolTipManager contains numerous properties for configuring how long it will
+ * take for the tooltips to become visible, and how long till they hide.
+ * Consider a component that has a different tooltip based on where the mouse
+ * is, such as JTree. When the mouse moves into the JTree and over a region that
+ * has a valid tooltip, the tooltip will become visible after initialDelay
+ * milliseconds. After dismissDelay milliseconds the tooltip will be hidden. If
+ * the mouse is over a region that has a valid tooltip, and the tooltip is
+ * currently visible, when the mouse moves to a region that doesn't have a valid
+ * tooltip the tooltip will be hidden. If the mouse then moves back into a
+ * region that has a valid tooltip within reshowDelay milliseconds, the tooltip
+ * will immediately be shown, otherwise the tooltip will be shown again after
+ * initialDelay milliseconds."
  * 
  * @author G. Sturr
  */
 public class ToolTipManagerW {
 
-	// private AppW app;
-	protected SimplePanel tipPanel;
+	private SimplePanel tipPanel;
 	private HTML tipHTML = new HTML();
 
-	protected int mouseX = 0;
-	protected int mouseY = 0;
+	private String oldText = "";
 
-	protected int scrollLeft = 0;
-	protected int scrollTop = 0;
+	private int mouseX = 0;
+	private int mouseY = 0;
+	private int scrollLeft = 0;
+	private int scrollTop = 0;
 
 	private Timer timer;
 
-	/** Default timer settings based on Java ToolTipManager defaults */
-	private int initialDelay = 1750;
+	/**
+	 * Time, in milliseconds, to delay showing a toolTip triggered.
+	 * 
+	 * Java default = 1750
+	 */
+	private int initialDelay = 3750;
+
+	/**
+	 * Time, in milliseconds, to allow the toolTip to remain visible.
+	 * 
+	 * Java default = 4000.
+	 */
 	private int dismissDelay = 4000;
+
+	/**
+	 * Time, in milliseconds, to allow showing of the toolTip without delay.
+	 * After this delay has expired, toolTips are shown with an initial delay.
+	 * 
+	 * Java default = 500;
+	 */
 	private int reshowDelay = 500;
 
+	/**
+	 * Flag to enable/disable a delay time before showing a toolTip.
+	 * */
 	private boolean enableDelay = true;
-	protected boolean showImmediately = false;
-	private String oldText = "";
-
-	protected Element tipElement;
 
 	/**
-	 * Singleton instance of ToolTipManager
+	 * Flag to prevent a toolTip delay, even if an initial delay has been
+	 * enabled. This is helpful when the mouse is moved around nearby objects
+	 * and the initial delay is annoying to the user.
 	 */
+	private boolean showImmediately = false;
+
+	/**
+	 * HTML element associated with the toolTip. The toolTip will be positioned
+	 * relative to this element.
+	 */
+	private Element tipElement;
+
+	/** Singleton instance of ToolTipManager. */
 	final static ToolTipManagerW sharedInstance = new ToolTipManagerW();
 
-	/**
+	/*****************************************************
 	 * Constructor
 	 */
 	private ToolTipManagerW() {
@@ -136,8 +179,8 @@ public class ToolTipManagerW {
 				scrollLeft = event.getScrollLeft();
 				scrollTop = event.getScrollTop();
 
-				//App.debug("scrollLeft: " + scrollLeft + " scrollTop: "
-				  //      + scrollTop);
+				// App.debug("scrollLeft: " + scrollLeft + " scrollTop: "
+				// + scrollTop);
 
 			}
 		});
@@ -201,13 +244,15 @@ public class ToolTipManagerW {
 
 	}
 
+	/**
+	 * Sets the toolTip widget location using the tipElement location or, if
+	 * this is null, using current mouse coordinates.
+	 */
 	protected void setToolTipLocation() {
 		int left, top;
-		// Widget rootPane = AppW.getRootComponent(app);
-		// if(rootPane == null){
-		// return;
-		// }
 
+		// get initial position from associated tip element or,
+		// if this is null, from mouse coordinates
 		if (tipElement == null) {
 			left = scrollLeft + mouseX;
 			top = scrollTop + mouseY + 18;
@@ -217,43 +262,29 @@ public class ToolTipManagerW {
 			top = tipElement.getAbsoluteBottom();
 		}
 
-		// handle tooltip overflow at left and bottom edge
+		// handle toolTip overflow at left and bottom edge
 		int w = tipPanel.getOffsetWidth();
-
 		int windowLeft = RootPanel.get().getAbsoluteLeft()
 		        + RootPanel.get().getOffsetWidth();
-
-		// int windowLeft = rootPane.getAbsoluteLeft()
-		// + rootPane.getOffsetWidth();
-
 		if (left + w > windowLeft) {
 			left = left - w;
 		}
-		int h = tipPanel.getOffsetHeight();
 
+		int h = tipPanel.getOffsetHeight();
 		int windowBottom = RootPanel.get().getAbsoluteTop()
 		        + RootPanel.get().getOffsetHeight();
-
-		// int windowBottom = rootPane.getAbsoluteTop()
-		// + rootPane.getOffsetHeight();
-
 		if (top + h > windowBottom) {
 			top = windowBottom - h;
 		}
 
-		// left = (int) (left * ((EuclidianControllerW)
-		// app.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier());
-		// top = (int) (top * ((EuclidianControllerW)
-		// app.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier());
-
-		// set the tooltip location
+		// set the toolTip location
 		RootPanel.get().setWidgetPosition(tipPanel, left, top);
 	}
 
 	private void showToolTipWithDelay() {
 
 		cancelTimer();
-
+		
 		if (enableDelay) {
 			timer = new Timer() {
 				@Override
@@ -261,11 +292,13 @@ public class ToolTipManagerW {
 					show();
 				}
 			};
-
+			
 			if (showImmediately) {
 				timer.schedule(0);
+
 			} else {
 				timer.schedule(initialDelay);
+
 			}
 
 		} else {
@@ -273,6 +306,9 @@ public class ToolTipManagerW {
 		}
 	}
 
+	/**
+	 * Show the tooltip.
+	 */
 	protected void show() {
 
 		cancelTimer();
@@ -313,7 +349,7 @@ public class ToolTipManagerW {
 	}
 
 	private void setReshowTimer() {
-		//App.debug("start reshow timer 1");
+		
 		if (showImmediately) {
 			cancelTimer();
 			timer = new Timer() {
@@ -322,7 +358,7 @@ public class ToolTipManagerW {
 					showImmediately = false;
 				}
 			};
-			//App.debug("start reshow timer 2");
+		
 			timer.schedule(reshowDelay);
 		}
 	}
