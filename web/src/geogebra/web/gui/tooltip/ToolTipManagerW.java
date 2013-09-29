@@ -14,12 +14,16 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * Singleton class that maintains a GWT panel for displaying toolTips.
- * 
- * Design is adapted from Java's ToolTipManager. ToolTip behavior should follow
- * this description found in the Java source code:
  * <p>
+ * Singleton class that maintains a GWT panel for displaying toolTips.
  * </p>
+ * 
+ * <p>
+ * Design is adapted from Java's ToolTipManager. ToolTip behavior should follow
+ * this description from the Java source code:
+ * </p>
+ * 
+ * <p>
  * "ToolTipManager contains numerous properties for configuring how long it will
  * take for the tooltips to become visible, and how long till they hide.
  * Consider a component that has a different tooltip based on where the mouse
@@ -32,6 +36,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * region that has a valid tooltip within reshowDelay milliseconds, the tooltip
  * will immediately be shown, otherwise the tooltip will be shown again after
  * initialDelay milliseconds."
+ * </p>
  * 
  * @author G. Sturr
  */
@@ -42,10 +47,10 @@ public class ToolTipManagerW {
 
 	private String oldText = "";
 
-	private int mouseX = 0;
-	private int mouseY = 0;
-	private int scrollLeft = 0;
-	private int scrollTop = 0;
+	int mouseX = 0;
+	int mouseY = 0;
+	int scrollLeft = 0;
+	int scrollTop = 0;
 
 	private Timer timer;
 
@@ -108,7 +113,7 @@ public class ToolTipManagerW {
 		return sharedInstance;
 	}
 
-	public void initTooltipManagerW() {
+	private void initTooltipManagerW() {
 
 		if (tipPanel != null) {
 			return;
@@ -128,22 +133,47 @@ public class ToolTipManagerW {
 	// Getters/Setters
 	// =====================================
 
+	/**
+	 * @return time, in milliseconds, to wait before showing toolTip
+	 */
 	public int getInitialDelay() {
 		return initialDelay;
 	}
 
+	/**
+	 * Set initial delay time.
+	 * 
+	 * @param initialDelay
+	 *            time, in milliseconds, to wait before showing toolTip
+	 */
 	public void setInitialDelay(int initialDelay) {
 		this.initialDelay = initialDelay;
 	}
 
+	/**
+	 * @return time, in milliseconds, to wait before hiding toolTip
+	 * */
 	public int getDismissDelay() {
 		return dismissDelay;
 	}
 
+	/**
+	 * Set dismissDelay time
+	 * 
+	 * @param dismissDelay
+	 *            time, in milliseconds, to wait before hiding toolTip
+	 */
 	public void setDismissDelay(int dismissDelay) {
 		this.dismissDelay = dismissDelay;
 	}
 
+	/**
+	 * Set flag to enable/disable delay timers
+	 * 
+	 * @param enableDelay
+	 *            If true, timers manage toolTip visibility. If false, the
+	 *            toolTip is shown immediately without automatic hiding.
+	 */
 	public void setEnableDelay(boolean enableDelay) {
 		this.enableDelay = enableDelay;
 	}
@@ -172,6 +202,7 @@ public class ToolTipManagerW {
 			}
 		});
 
+		// TODO: is this needed?
 		// observe scroll event, so we can offset x and y for toolTip location
 		Window.addWindowScrollHandler(new ScrollHandler() {
 			public void onWindowScroll(ScrollEvent event) {
@@ -192,7 +223,7 @@ public class ToolTipManagerW {
 
 	/**
 	 * Set the toolTip widget location using the tipElement location or, if this
-	 * is null, using current mouse coordinates.
+	 * is null, use current mouse coordinates.
 	 */
 	protected void setToolTipLocation() {
 		int left, top;
@@ -290,17 +321,20 @@ public class ToolTipManagerW {
 		// locate and show the toolTip
 		setToolTipLocation();
 		tipPanel.getElement().getStyle().setProperty("visibility", "visible");
-		
-		// set to immediate mode so that toolTips for nearby elements will not be delayed
+
+		// set to immediate mode so that toolTips for nearby elements will not
+		// be delayed
 		showImmediately = true;
-		
+
 		// set the dismiss timer
 		if (enableDelay) {
 			setDismissDelayTimer();
 		}
 	}
 
-	
+	/**
+	 * Hide the toolTip.
+	 */
 	public void hideToolTip() {
 
 		// exit if toolTip is already hidden
