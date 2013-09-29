@@ -1,5 +1,6 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
@@ -30,6 +31,13 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private AppW app;
 	private PopupMenuButton thisButton;
 	private ButtonPopupMenu myPopup;
+	
+	private PopupMenuHandler popupHandler;
+	
+	public void addPopupHandler(PopupMenuHandler popupHandler){
+		this.popupHandler = popupHandler;
+	}
+	
 	
 	public PopupPanel getMyPopup() {
 		return myPopup;
@@ -240,14 +248,19 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				}
 			
 		})*/
-		((EuclidianStyleBarW)app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
+		
+		//((EuclidianStyleBarW)app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
+		if(popupHandler != null){
+			popupHandler.fireActionPerformed(this);
+		}else{
+			App.debug("PopupMenubutton has null popupHandler");
+		}
+		
 		updateGUI();
 		if(!keepVisible) {
 			myPopup.hide();
 		}
 	}
-	
-	
 	
 	
 	

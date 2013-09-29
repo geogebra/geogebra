@@ -1,11 +1,16 @@
 package geogebra.web.gui.view.spreadsheet;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.Localization;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
@@ -17,7 +22,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
-        ValueChangeHandler<Boolean> {
+        ValueChangeHandler<Boolean>, PopupMenuHandler {
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetViewW view;
 	private AppW app;
@@ -63,7 +68,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		addSeparator();
 
-		// add(btnBgColor);
+		add(btnBgColor);
 
 		// addSeparator();
 		// add(btnBorderStyle);
@@ -90,6 +95,16 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnRightAlign = new MyToggleButton2(
 		        AppResources.INSTANCE.format_justify_right(), this, iconHeight);
 
+		final GDimensionW bgColorIconSize = new GDimensionW(18, iconHeight);
+
+		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
+		        ColorPopupMenuButton.COLORSET_BGCOLOR, false);
+		
+		btnBgColor.setKeepVisible(false);
+		btnBgColor.setSelectedIndex(7);
+		btnBgColor.addActionListener(this);	
+		btnBgColor.addPopupHandler(this);
+		
 		/*
 		 * ? btnFormulaBar = new
 		 * MyToggleButton(app.getImageIcon("formula_bar.png"), iconHeight); //
@@ -97,30 +112,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		 * .setSelectedIcon(app.getImageIcon("formula_bar_hide.png"));
 		 * btnFormulaBar.addActionListener(this);
 		 * 
-		 * ImageIcon boldIcon =
-		 * GeoGebraIcon.createStringIcon(app.getPlain("Bold") .substring(0, 1),
-		 * app.getPlainFont(), true, false, true, iconDimension, Color.black,
-		 * null); btnBold = new MyToggleButton(boldIcon, iconHeight);
-		 * btnBold.addActionListener(this);
-		 * btnBold.setPreferredSize(iconDimension);
-		 * 
-		 * ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
-		 * app.getPlain("Italic").substring(0, 1), app.getPlainFont(), false,
-		 * true, true, iconDimension, Color.black, null); btnItalic = new
-		 * MyToggleButton(italicIcon, iconHeight);
-		 * btnItalic.addActionListener(this);
-		 * 
-		 * btnLeftAlign = new MyToggleButton(
-		 * app.getImageIcon("format-justify-left.png"), iconHeight);
-		 * btnLeftAlign.addActionListener(this);
-		 * 
-		 * btnCenterAlign = new MyToggleButton(
-		 * app.getImageIcon("format-justify-center.png"), iconHeight);
-		 * btnCenterAlign.addActionListener(this);
-		 * 
-		 * btnRightAlign = new MyToggleButton(
-		 * app.getImageIcon("format-justify-right.png"), iconHeight);
-		 * btnRightAlign.addActionListener(this);
 		 * 
 		 * final Dimension bgColorIconSize = new Dimension(18, iconHeight);
 		 * btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
@@ -154,20 +145,22 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	public void setLabels() {
+		
+		Localization loc = app.getLocalization();
 
-		// btnFormulaBar.setToolTipText(app.getLocalization().getMenu("ShowInputField"));
+		// btnFormulaBar.setToolTipText(loc.getMenu("ShowInputField"));
 
-		btnBold.setToolTipText(app.getLocalization().getPlainTooltip(
+		btnBold.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.Bold"));
-		btnItalic.setToolTipText(app.getLocalization().getPlainTooltip(
+		btnItalic.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.Italic"));
-		// btnBorderStyle.setToolTipText(app.getLocalization().getPlainTooltip("stylebar.Border"));
-		// btnBgColor.setToolTipText(app.getLocalization().getPlainTooltip("stylebar.BgColor"));
-		btnLeftAlign.setToolTipText(app.getLocalization().getPlainTooltip(
+		// btnBorderStyle.setToolTipText(loc.getPlainTooltip("stylebar.Border"));
+		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
+		btnLeftAlign.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.AlignLeft"));
-		btnCenterAlign.setToolTipText(app.getLocalization().getPlainTooltip(
+		btnCenterAlign.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.AlignCenter"));
-		btnRightAlign.setToolTipText(app.getLocalization().getPlainTooltip(
+		btnRightAlign.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.AlignRight"));
 	}
 
@@ -224,24 +217,21 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		}
 
 		else if (source == btnBgColor) {
-			/**
-			 * // set color in table (needed as geos can be renamed, deleted
-			 * etc) Color bgCol = geogebra.awt.GColorD.getAwtColor(btnBgColor
-			 * .getSelectedColor()); formatHandler.setFormat(selectedCells,
-			 * CellFormat.FORMAT_BGCOLOR,
-			 * 
-			 * // could simply be btnBgColor.getSelectedColor(), not sure...
-			 * bgCol == null ? null : new geogebra.awt.GColorD(bgCol)
-			 * 
-			 * );
-			 * 
-			 * // set color for the actual geos for (int i = 0; i <
-			 * selectedCells.size(); i++) { CellRange cr = selectedCells.get(i);
-			 * ArrayList<GeoElement> ar = cr.toGeoList(); for (int j = 0; j <
-			 * ar.size(); j++) { GeoElement geo = ar.get(i);
-			 * geo.setBackgroundColor(new geogebra.awt.GColorD(bgCol));
-			 * geo.updateRepaint(); } }
-			 */
+			
+			// set color in table (needed as geos can be renamed, deleted etc)
+			GColor bgCol = btnBgColor.getSelectedColor();
+			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
+			
+			// set color for the actual geos
+			for (int i = 0; i < selectedCells.size(); i++) {
+				CellRange cr = selectedCells.get(i);
+				ArrayList<GeoElement> ar = cr.toGeoList();
+				for (int j = 0; j < ar.size(); j++) {
+					GeoElement geo = ar.get(i);
+					geo.setBackgroundColor(bgCol);
+					geo.updateRepaint();
+				}
+			}		  
 
 		}
 
@@ -315,6 +305,11 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		// TODO Auto-generated method stub
 
 	}
+
+	public void fireActionPerformed(Object actionButton) {
+		handleEventHandlers(actionButton);
+    }
+
 
 	/*
 	 * 

@@ -1,7 +1,9 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -14,6 +16,9 @@ import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
@@ -29,8 +34,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  * MyCanvasJbutton a Canvas that used as a button
  *
  */
-public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHandler, HasSetIcon {
-	
+public class MyCJButton extends Composite implements MouseDownHandler,
+        MouseUpHandler, MouseOutHandler, MouseOverHandler, HasSetIcon {	
 	
 	public static final String DEFAULT_BACKGROUND_STYLE = "white";
 	private static final String DEFAULT_BORDER_STYLE = "gray";
@@ -63,6 +68,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 	protected String backgroundStyle = DEFAULT_BACKGROUND_STYLE;
 	protected String borderStyle = DEFAULT_BORDER_STYLE;
 	private boolean isEnabled;
+	private String toolTipText;
 	
 	/**
 	 * 
@@ -85,6 +91,8 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 		ctx.fillRect(0, 0, buttonWidth, buttonHeight);
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
+		button.addMouseOverHandler(this);
+		button.addMouseOutHandler(this);
 		image.addLoadHandler(new LoadHandler() {
 			
 			public void onLoad(LoadEvent event) {
@@ -257,8 +265,30 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 		return button.getCanvasElement().getHeight();
 	}
 	
-	public void addActionListener(EuclidianStyleBarW euclidianStyleBar) {
-		button.addClickHandler(euclidianStyleBar);
+	public void addActionListener(ClickHandler handler) {
+		button.addClickHandler(handler);
+	}
+	
+	
+	/**
+	 * Sets the toolTip text
+	 * 
+	 * @param toolTipText
+	 *            toolTip string
+	 */
+	public void setToolTipText(String toolTipText) {
+		App.printStacktrace("setting tool tip: " + toolTipText );
+		this.toolTipText = toolTipText;
+	}
+
+	public void onMouseOver(MouseOverEvent event) {
+		App.debug("on mouseover --- MyCJButton" );
+		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
+	}
+
+	public void onMouseOut(MouseOutEvent event) {
+		App.debug("on mouseOUT --- MyCJButton" );
+		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}
 
 }

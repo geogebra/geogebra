@@ -63,7 +63,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	@Override
 	public ImageData getButtonIcon() {
 		ImageData icon = super.getButtonIcon();
-		if (icon == null && this.hasSlider) {
+		if (icon == null) {
 			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
 		}
 		return icon;

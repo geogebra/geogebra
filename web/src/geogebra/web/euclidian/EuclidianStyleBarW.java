@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GColorW;
@@ -30,6 +31,7 @@ import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
@@ -45,7 +47,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianStyleBarW extends StyleBarW
-	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler<Boolean>, ClickHandler {
+	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler<Boolean>, ClickHandler,
+	PopupMenuHandler{
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianControllerW ec;
@@ -170,6 +173,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		isIniting = false;
 		
 		setMode(ev.getMode()); // this will also update the stylebar
+		setToolTips();
 		
 	}
 
@@ -212,11 +216,46 @@ public class EuclidianStyleBarW extends StyleBarW
 	}
 
 	public void setLabels() {
-
+		
 		initGUI();
 		updateStyleBar();
+	    setToolTips();
+    }
+	
+	private void setToolTips() {
 
-	    App.debug("implementation needed for GUI"); // TODO Auto-generated
+	    Localization loc = app.getLocalization();
+
+		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
+		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
+		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
+		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
+		btnLineStyle.setToolTipText(loc.getPlainTooltip("stylebar.LineStyle"));
+		btnPointStyle
+				.setToolTipText(loc.getPlainTooltip("stylebar.PointStyle"));
+		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
+		btnTextSize.setToolTipText(loc.getPlainTooltip("stylebar.TextSize"));
+		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		
+		/*
+		btnTableTextJustify.setToolTipText(loc
+		        .getPlainTooltip("stylebar.Align"));
+		btnTableTextBracket.setToolTipText(loc
+		        .getPlainTooltip("stylebar.Bracket"));
+		btnTableTextLinesV.setToolTipText(loc
+		        .getPlainTooltip("stylebar.VerticalLine"));
+		btnTableTextLinesH.setToolTipText(loc
+		        .getPlainTooltip("stylebar.HorizontalLine"));
+
+		btnPen.setToolTipText(loc.getPlainTooltip("stylebar.Pen"));
+		btnFixPosition.setToolTipText(loc
+		        .getPlainTooltip("AbsoluteScreenLocation"));
+
+		btnDeleteSize.setToolTipText(loc.getPlainTooltip("Size"));
+		*/
+	
     }
 	
 	private ArrayList<GeoElement> activeGeoList;
@@ -637,6 +676,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
 		btnLineStyle.addActionListener(this);
+		btnLineStyle.addPopupHandler(this);
 
 		// ========================================
 		// point style button
@@ -707,6 +747,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);
 		btnPointStyle.addActionListener(this);
+		btnPointStyle.addPopupHandler(this);
 
 		// ========================================
 		// eraser button
@@ -833,6 +874,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		//must be done with callback btnLabelStyle.setIcon(ic);
 		AppResourcesConverter.setIcon(ic, btnLabelStyle);
 		btnLabelStyle.addActionListener(this);
+		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
 
 		// ========================================
@@ -859,6 +901,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnDeleteSize.getMySlider().setMinorTickSpacing(5);
 		btnDeleteSize.getMySlider().setPaintTicks(true);
 		btnDeleteSize.addActionListener(this);
+		btnDeleteSize.addPopupHandler(this);
 		ImageResource deleteSizeIcon = AppResources.INSTANCE.delete_small();
 		AppResourcesConverter.setIcon(deleteSizeIcon, btnDeleteSize);
 	}
@@ -939,6 +982,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			};
 
 			btnColor.addActionListener(this);
+			btnColor.addPopupHandler(this);
 		}
 		
 		private void createBgColorButton() {
@@ -999,6 +1043,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			};
 			btnBgColor.setKeepVisible(true);
 			btnBgColor.addActionListener(this);
+			btnBgColor.addPopupHandler(this);
 		}
 	
 	private void createTextButtons() {
@@ -1050,6 +1095,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		};
 
 		btnTextColor.addActionListener(this);
+		btnTextColor.addPopupHandler(this);
 
 
 		// ========================================
@@ -1131,6 +1177,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 		};
 		btnTextSize.addActionListener(this);
+		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
 
 	}

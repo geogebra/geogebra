@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * 
  */
 public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
-        MouseOverHandler, MouseOutHandler {
+        MouseOverHandler, MouseOutHandler, HasSetIcon {
 
 	private static final long serialVersionUID = 1L;
 	private HandlerRegistration actionListener;
@@ -140,5 +140,10 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	public void onMouseDown(MouseDownEvent event) {
 		this.setFocus(false);
 	}
+
+	public void setIcon(ImageData icon) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }
