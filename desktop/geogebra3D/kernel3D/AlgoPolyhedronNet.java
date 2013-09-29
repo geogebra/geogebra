@@ -22,7 +22,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 	protected OutputHandler<GeoPolyhedronNet> outputNet;
 
 	/** points generated as output  */
-	protected OutputHandler<GeoPoint3D> outputPointsBottom, outputPointsTop;
+	protected OutputHandler<GeoPoint3D> outputPointsBottom, outputPointsSide, outputPointsTop;
 
 
 	/**
@@ -47,6 +47,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 		outputNet.adjustOutputSize(1);
 
 		outputPointsBottom = createOutputPoints();
+		outputPointsSide = createOutputPoints();
 		outputPointsTop = createOutputPoints();
 
 
