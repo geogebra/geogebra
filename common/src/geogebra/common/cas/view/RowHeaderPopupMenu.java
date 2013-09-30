@@ -11,9 +11,8 @@ public class RowHeaderPopupMenu {
 		if (selRows.length == 1) {
 			strRows = app.getLocalization().getPlain("DeleteRowA", Integer.toString(selRows[0]+1));			
 		} else {
-			strRows = app.getLocalization().getPlain("DeleteRowsAtoB", 
-						Integer.toString(selRows[0]+1), 
-						Integer.toString(selRows[selRows.length-1]+1));
+			strRows = app.getLocalization().getPlain("DeleteARows", 
+					Integer.toString(selRows.length));
 		}
 		return strRows;
 	}
