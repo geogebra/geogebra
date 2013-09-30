@@ -99,11 +99,27 @@ office@geogebra.org
 		<delete dir="${propertiestemp.dir}"/>
 		<delete dir="${src.dir}/geogebra/common"/>
 		<!-- use the permissions/codebase entries for the signed versions of geogebra.jar -->
-		<rename src="${build.dir}/debug/geogebra-signed.jar" dest="${build.dir}/debug/geogebra.jar" />
-		<rename src="${build.dir}/unpacked/geogebra-signed.jar" dest="${build.dir}/unpacked/geogebra.jar" />
-		<rename src="${build.dir}/packed/geogebra-signed.jar.pack.gz" dest="${build.dir}/packed/geogebra.jar.pack.gz" />
-		<delete file="${build.dir}/unsigned/packed/geogebra-signed.jar.pack.gz" />
-		<delete file="${build.dir}/unsigned/unpacked/geogebra-signed.jar" />
+		<apply executable="mv" os="Linux">
+			<srcfile/>
+			<targetfile/>
+			<fileset dir="${build.dir}">
+				<patternset>
+					<include name="debug/*-signed.jar" />
+					<include name="unpacked/*-signed.jar" />
+					<include name="packed/*-signed.jar.pack.gz" />
+				</patternset>
+			</fileset>
+			<mapper type="glob" from="*-signed.jar" to="${build.dir}/*.jar"/>
+		</apply>
+		<apply executable="rm" os="Linux">
+			<srcfile/>
+			<fileset dir="${build.dir}">
+				<patternset>
+					<include name="unsigned/packed/*-signed.jar.pack.gz" />
+					<include name="unsigned/unpacked/*-signed.jar" />
+				</patternset>
+			</fileset>
+		</apply>
 	</target>
 
 	<!-- put (already obfuscated) jar files into subdirectories signed and unsigned -->

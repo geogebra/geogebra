@@ -79,6 +79,7 @@ office@geogebra.org
 	<!-- create all jar files -->
 	<target name="ggb-jar-files" 
 			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, ggb-copy-giac">
+	    <antcall target="manifest-extras-signed"/>
 	</target>
 
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
@@ -119,6 +120,7 @@ office@geogebra.org
 	<!-- create all jar files -->
 	<target name="ggb-jar-files3D" 
 			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, copy-jogl-natives, ggb-copy-giac">
+	    <antcall target="manifest-extras-signed"/>
 	</target>
 
 	<manifest file="../manifest.mf">
@@ -133,9 +135,43 @@ office@geogebra.org
 		<attribute name="Class-Path" 
 			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
-		<attribute name="Permissions" value="all-permissions"/>
-		<attribute name="Codebase" value="*.geogebra.org"/>
 	</manifest>
+
+	<!-- Implementing #3438 -->
+	<target name="manifest-extras-signed">
+		<echo message="Creating MF file for extra entries"/>
+		<manifest file="../extras-signed.mf">
+			<attribute name="Permissions" value="all-permissions"/>
+			<attribute name="Codebase" value="*.geogebra.org"/>
+			<attribute name="Trusted-Library" value="true"/>
+		</manifest>
+		<!-- This would be the standard way to do it, but we would need to explicitly define the files.
+		<jar destfile="${build.dir}/...jar" manifest="../extras-signed.mf" update="true" />
+		-->
+		<echo message="Copying files ${build.dir}/*.jar to ${build.dir}/*-signed.jar"/>
+		<apply executable="cp" os="Linux">
+			<srcfile/>
+			<targetfile/>
+			<fileset dir="${build.dir}">
+				<patternset>
+					<include name="*.jar" />
+					<exclude name="*-signed.jar" />
+				</patternset>
+			</fileset>
+			<mapper type="glob" from="*.jar" to="${build.dir}/*-signed.jar"/>
+		</apply>
+		<echo message="Appending extra MF settings to ${build.dir}/*-signed.jar"/>
+		<apply executable="jar" os="Linux">
+			<arg value="umf"/>
+			<arg value="../extras-signed.mf"/>
+			<srcfile/>
+			<fileset dir="${build.dir}">
+				<patternset>
+					<include name="*-signed.jar" />
+				</patternset>
+			</fileset>
+		</apply>
+	</target>
 
 	<manifest file="../manifest3D-jogl1.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
@@ -144,31 +180,11 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
-	<manifest file="../manifest3D-jogl1-signed.mf">
-		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
-		<attribute name="Class-Path" 
-			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar"/>
-		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
-		<attribute name="Permissions" value="all-permissions"/>
-		<attribute name="Codebase" value="*.geogebra.org"/>
-		<attribute name="Trusted-Library" value="true"/>
-	</manifest>
-
 	<manifest file="../manifest3D-jogl2.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
 			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
-	</manifest>
-
-	<manifest file="../manifest3D-jogl2-signed.mf">
-		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
-		<attribute name="Class-Path" 
-			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
-		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
-		<attribute name="Permissions" value="all-permissions"/>
-		<attribute name="Codebase" value="*.geogebra.org"/>
-		<attribute name="Trusted-Library" value="true"/>
 	</manifest>
 
 	<!-- remove comments from properties files -->
@@ -193,11 +209,6 @@ office@geogebra.org
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
 		</jar>
-		<jar jarfile="${build.dir}/geogebra-signed.jar" manifest="../manifest-signed.mf" >
-			<fileset dir="${src.dir}"		   
-				includes="geogebra/*"			
-				excludes="**/*.java"/>
-		</jar>
 	</target>
 
 	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
@@ -209,19 +220,9 @@ office@geogebra.org
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
 		</jar>
-		<jar jarfile="${build.dir}/geogebra-signed.jar" manifest="../manifest3D-jogl1-signed.mf" >
-			<fileset dir="${src.dir}"		   
-				includes="geogebra/*"			
-				excludes="**/*.java"/>
-		</jar>
 	</target>
 	<target name="ggb-jar3D-jogl2" depends="clean, copy-common-files" description="create unsigned geogebra.jar (jogl2)" if="usejogl2">
 		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl2.mf" >
-			<fileset dir="${src.dir}"		   
-				includes="geogebra/*"			
-				excludes="**/*.java"/>
-		</jar>
-		<jar jarfile="${build.dir}/geogebra-signed.jar" manifest="../manifest3D-jogl2-signed.mf" >
 			<fileset dir="${src.dir}"		   
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
