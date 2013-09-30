@@ -5192,11 +5192,11 @@ namespace giac {
       if (p.dim>1 && (ckalg_it->value.type==_DOUBLE_ || 
 		      ckalg_it->value.type==_REAL ||
 		      ckalg_it->value.type==_FLOAT_ ||
-		      (ckalg_it->value.type==_CPLX && (ckalg_it->value._CPLXptr->type==_DOUBLE_ || (ckalg_it->value._CPLXptr->type+1)==_DOUBLE_))
+		      (ckalg_it->value.type==_CPLX && (ckalg_it->value._CPLXptr->type==_DOUBLE_ || (ckalg_it->value._CPLXptr+1)->type==_DOUBLE_))
 		      ) ){
 	// FIXME Prime terminal output
-	cerr << "Factorization of multivariate polynomial with approx. coeffs not implemented. Please try with exact coefficients" << endl;
-#if 0 // otherwise integrate(cos(x/2)**2/(x+sin(x)),x); failure
+	// cerr << "Factorization of multivariate polynomial with approx. coeffs not implemented. Please try with exact coefficients" << endl;
+#if 1 // otherwise integrate(cos(x/2)**2/(x+sin(x)),x); failure
 	return false;
 #endif
       }

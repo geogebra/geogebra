@@ -3375,6 +3375,8 @@ namespace giac {
   }
 
   gen newton(const gen & f0, const gen & x,const gen & guess_,int niter,double eps1, double eps2,bool real,double xmin,double xmax,double rand_xmin,double rand_xmax,double init_prefactor,GIAC_CONTEXT){
+    if (real && !is_zero(im(f0,contextptr)) || !is_zero(im(guess_,contextptr)) )
+      real=false;
     if (x.type!=_IDNT && x.type!=_VECT){
       if (x.type!=_SYMB || (x._SYMBptr->sommet!=at_at && x._SYMBptr->sommet!=at_of))
 	return gensizeerr(contextptr);

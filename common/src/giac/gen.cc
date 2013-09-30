@@ -7889,7 +7889,7 @@ namespace giac {
     if (x.type<_POLY)
       return makevecteur(x,plus_one);
     gen tmp;
-    if (x.type!=_SYMB || x._SYMBptr->sommet==at_program)
+    if (x.type!=_SYMB || x._SYMBptr->sommet==at_program || x._SYMBptr->sommet==at_when)
       return makevecteur(1,x);
     if (x._SYMBptr->sommet==at_neg){
       vecteur v=terme2unitaire(x._SYMBptr->feuille,sorted,contextptr);

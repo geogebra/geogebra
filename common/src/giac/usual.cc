@@ -3670,6 +3670,7 @@ namespace giac {
     for (;it!=itend;++it){
       if (sum.type==_SYMB && sum._SYMBptr->sommet==at_plus && sum._SYMBptr->feuille.type==_VECT && sum._SYMBptr->feuille._VECTptr->size()>1){
 	// Add remaining elements to the symbolic sum, check float/inf/undef
+	// FIXME should crunch if it->type is _DOUBLE_/_FLOAT_/_REAL e.g. for 1+sqrt(2)+sqrt(3.0)
 	ref_vecteur * vptr=new ref_vecteur(*sum._SYMBptr->feuille._VECTptr);
 	vptr->v.reserve(vptr->v.size()+(itend-it));
 	for (;it!=itend;++it){

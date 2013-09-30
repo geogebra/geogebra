@@ -5,6 +5,9 @@
 #define COCOA9950
 #endif
 
+#ifdef HAVE_LIBPTHREAD
+#endif
+
 #if defined(USE_GMP_REPLACEMENTS) || defined(GIAC_VECTOR)
 #undef HAVE_LIBCOCOA
 #endif
@@ -2198,6 +2201,18 @@ namespace giac {
       }
     }
   };
+
+  void increase(vector<polymod> &v){
+    if (v.size()!=v.capacity())
+      return;
+    vector<polymod> w;
+    w.reserve(v.size()*2);
+    for (unsigned i=0;i<v.size();++i){
+      w.push_back(polymod(v[i].order,v[i].dim));
+      w[i].coord.swap(v[i].coord);
+    }
+    v.swap(w);
+  }
 
   bool tripolymod (const polymod & p,const polymod & q){
     if (p.coord.size()!=q.coord.size())
@@ -5049,6 +5064,7 @@ namespace giac {
 	  cerr << clock() << " mod reduce end, remainder size " << TMP1.coord.size() << " begin gbasis update" << endl;
 	}
 	if (!TMP1.coord.empty()){
+	  increase(res);
 	  if (ressize==res.size())
 	    res.push_back(polymod(TMP1.order,TMP1.dim));
 	  swap(res[ressize].coord,TMP1.coord);
@@ -5165,6 +5181,7 @@ namespace giac {
 	cerr << clock() << " reduce f4 end on " << added << " from " << f4v.size() << " pairs, gbasis update begin" << endl;
       for (unsigned i=0;i<f4v.size();++i){
 	if (!f4v[i].coord.empty()){
+	  increase(res);
 	  if (ressize==res.size())
 	    res.push_back(polymod(TMP1.order,TMP1.dim));
 	  swap(res[ressize].coord,f4v[i].coord);
@@ -6074,6 +6091,26 @@ namespace giac {
     return true;
   }
 
+#ifdef HAVE_LIBPTHREAD
+  struct thread_gbasis_t {
+    vectpoly8 current;
+    vectpolymod resmod;
+    vector<unsigned> G;
+    int p;
+    vector< pair<unsigned,unsigned> > * reduceto0;
+    vector< info_t > * f4_info;
+  };
+  
+  void * thread_gbasis(void * ptr_){
+    thread_gbasis_t * ptr=(thread_gbasis_t *) ptr_;
+    ptr->G.clear();
+    if (!in_gbasisf4mod(ptr->current,ptr->resmod,ptr->G,ptr->p,true/*totaldeg*/,
+			ptr->reduceto0,ptr->f4_info,false))
+      return 0;
+    return ptr_;
+  }
+#endif
+
   bool mod_gbasis(vectpoly8 & res,bool modularcheck,GIAC_CONTEXT){
     unsigned initial=res.size();
     double eps=proba_epsilon(contextptr);
@@ -6094,16 +6131,17 @@ namespace giac {
 #else
     gen p=(1<<29)-_floor(giac_rand(contextptr)/1e3,contextptr);
 #endif
+    // unless we are unlucky these lists should contain only 1 element
     vector< vectpoly8> V; // list of (chinrem reconstructed) modular groebner basis
     vector< vectpoly8> W; // list of rational reconstructed groebner basis
     vector< vectpoly8> Wlast;
     vecteur P; // list of associate (product of) modulo
-    environment env;
+    // environment env;
+    // env.moduloon=true;
     vector<unsigned> G;
     vector< pair<unsigned,unsigned> > reduceto0;
     vector< info_t > f4_info;
     f4_info.reserve(100);
-    env.moduloon=true;
     mpz_t zu,zd,zu1,zd1,zabsd1,zsqrtm,zq,zur,zr,ztmp;
     mpz_init(zu);
     mpz_init(zd);
@@ -6116,8 +6154,20 @@ namespace giac {
     mpz_init(zr);
     mpz_init(ztmp);
     bool ok=true;
-    // unless we are unlucky these lists should contain only 1 element
+#ifdef HAVE_LIBPTHREAD
+    int nthreads=threads_allowed?threads:1,th;
+    pthread_t tab[32];
+    thread_gbasis_t gbasis_param[32];
+#else
+    int nthreads=1,th;
+#endif
+    int pend=p.val,p0;
     for (int count=0;ok;++count){
+      p=pend;
+      if (count==0 || nthreads==1)
+	th=0;
+      else
+	th=giacmin(nthreads-1,32); // no more than 32 threads
 #if 1 
       if (count==1 && p.val<(1<<24)){
 #ifdef PSEUDO_MOD
@@ -6130,12 +6180,34 @@ namespace giac {
 #else
       p=nextprime(p+1);
 #endif
-      // compute gbasis mod p (this could be parallelized)
-      env.modulo=p;
+      p0=p.val; // 1st prime used by all threads
+      // compute gbasis mod p 
+      // env.modulo=p;
+#ifdef HAVE_LIBPTHREAD
+      for (unsigned j=0;j<th;++j){
+	gbasis_param[j].current=res;
+	gbasis_param[j].p=p.val;
+	gbasis_param[j].reduceto0=&reduceto0;
+	gbasis_param[j].f4_info=&f4_info;
+	if (count==1)
+	  gbasis_param[j].resmod.reserve(resmod.size());
+	bool res=true;
+	// cerr << "write " << j << " " << p << endl;
+	res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_gbasis,(void *) &gbasis_param[j]);
+	if (res)
+	  thread_gbasis((void *)&gbasis_param[j]);
+#if 1
+	p=prevprime(p-1); 
+#else
+	p=nextprime(p+1);
+#endif	
+      }
+#endif // thread
       current=res;
       G.clear();
       if (debug_infolevel)
 	cerr << clock() << " begin computing basis modulo " << p << endl;
+      // cerr << "write " << th << " " << p << endl;
 #ifdef GBASIS_F4 
       if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,
 			  //		  0,0
@@ -6162,222 +6234,348 @@ namespace giac {
       // cerr << "reduceto0 " << reduceto0.size() << endl;
       //if (!in_gbasis(current,G,&env)) return false;
 #endif
+      pend=p.val; // last prime used
       if (debug_infolevel){
 	cerr << clock() << " end, basis size " << G.size() << " prime number " << count+1 << endl;
 	if (count==0)
 	  cerr << "G=" << G << endl;
       }
-      // extract from current
-      if (gb.size()<G.size())
-	gb.resize(G.size());
       unsigned i=0;
-      for (;i<G.size();++i){
-	gb[i]=current[G[i]];
-      }
-      // compare gb to existing computed basis
-      for (i=0;i<V.size();++i){
-	if (debug_infolevel)
-	  cerr << clock() << " i= " << i << " begin chinese remaindering" << endl;
-	int r=chinrem(V[i],P[i],gb,p,poly8tmp);
-	if (debug_infolevel)
-	  cerr << clock() << " end chinese remaindering" << endl;
-	if (r==-1){
-	  ok=false;
-	  break;
-	}
-	if (r==0){
-	  cerr << clock() << " leading terms do not match with reconstruction " << i << " modulo " << p << endl;
-	  continue;
-	}
-	// found one! V is already updated, update W
-	P[i]=P[i]*p;
-	if (W.size()<V.size())
-	  W.resize(V.size());
-	if (Wlast.size()<V.size())
-	  Wlast.resize(V.size());
-#if 1
-	if (W[i].empty()){
-	  // rational reconstruction of a few elements only, once it is stable
-	  // we reconstruct the whole W
-	  afewpolys.clear();
-	  int jpos=0;
-	  for (int j=V[i].size()-1;j>=0;++jpos,j-=20){
-	    if (int(Wlast[i].size())>jpos && chk_equal_mod(Wlast[i][jpos],gb[j],p.val))
-	      afewpolys.push_back(Wlast[i][jpos]);
-	    else {
-	      if (!fracmod(V[i][j],P[i],
-			   zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
-			   poly8tmp)){
-		cerr << clock() << " reconstruction failure at position " << j << endl;
-		// ok=false;
-		break;
-	      }
-	      afewpolys.push_back(poly8tmp);
-	    }
+      for (unsigned t=0;t<=th;++t){
+	if (t==th){
+	  // extract from current
+	  if (gb.size()<G.size())
+	    gb.resize(G.size());
+	  for (;i<G.size();++i){
+	    gb[i]=current[G[i]];
 	  }
-	  for (jpos=0;jpos<afewpolys.size() && jpos<Wlast[i].size();++jpos){
-	    if (!(afewpolys[jpos]==Wlast[i][jpos]))
+	  p=pend;
+	  // cerr << "read " << t << " " << p << endl;
+	}
+#ifdef HAVE_LIBPTHREAD
+	else {
+	  void * ptr_=(void *)&nthreads; // non-zero initialisation
+	  pthread_join(tab[t],&ptr_);
+	  if (!ptr_)
+	    continue;
+	  thread_gbasis_t * ptr = (thread_gbasis_t *) ptr_;
+	  // extract from current
+	  if (gb.size()<ptr->G.size())
+	    gb.resize(ptr->G.size());
+	  for (;i<ptr->G.size();++i)
+	    gb[i]=ptr->current[ptr->G[i]];
+	  p=ptr->p;
+	  // cerr << "read " << t << " " << p << endl;
+	  ++count;
+	}
+#endif
+	if (!ok)
+	  continue;
+	// compare gb to existing computed basis
+#if 1
+	unsigned jpos; gen num,den;	
+	for (i=0;i<V.size();++i){
+	  if (W.size()<V.size())
+	    W.resize(V.size());
+	  if (Wlast.size()<V.size())
+	    Wlast.resize(V.size());
+	  if (V[i].size()!=gb.size())
+	    continue;
+	  for (jpos=0;jpos<gb.size();++jpos){
+	    if (V[i][jpos].coord.front().u!=gb[jpos].coord.front().u)
 	      break;
 	  }
-	  if (jpos!=afewpolys.size()){
-	    if (debug_infolevel)
-	      cerr << clock() << " reconstructed " << jpos << " of " << V[i].size()/20 << endl;
-	    swap(afewpolys,Wlast[i]);
-	    break;
+	  if (jpos!=gb.size())
+	    continue;
+	  jpos=0;
+	  // check existing Wlast
+	  for (;jpos<Wlast[i].size();++jpos){
+	    if (!chk_equal_mod(Wlast[i][jpos],gb[jpos],p.val)){
+	      Wlast[i].resize(jpos);
+	      break;
+	    }
 	  }
-	  else {
-	    if (debug_infolevel)
-	      cerr << clock() << " last component same " << endl;
+	  if (jpos!=Wlast[i].size() || P[i].type==_INT_){
+	    // cerr << jpos << endl;
+	    break; // find another prime
 	  }
+	  for (;jpos<V[i].size();++jpos){
+	    unsigned Vijs=V[i][jpos].coord.size();
+	    if (Vijs!=gb[jpos].coord.size())
+	      break;
+	    Vijs/=2;
+	    if (Vijs && V[i][jpos].coord[Vijs].g.type==_ZINT){
+	      if (!in_fracmod(P[i],V[i][jpos].coord[Vijs].g,
+			      zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,num,den))
+		break;
+	      gen gg=gb[jpos].coord[Vijs].g;
+	      if (gg.type==_INT_ && !chk_equal_mod(num/den,gg.val,p.val))
+		break;
+	    }
+	    if (!fracmod(V[i][jpos],P[i],
+			 zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
+			 poly8tmp)){
+	      cerr << clock() << " reconstruction failure at position " << jpos << endl;
+	      break;
+	    }
+	    if (!chk_equal_mod(poly8tmp,gb[jpos],p.val))
+	      break;
+	    poly8 tmptmp(poly8tmp.order,poly8tmp.dim);
+	    Wlast[i].push_back(tmptmp);
+	    Wlast[i].back().coord.swap(poly8tmp.coord);
+	  }
+	  if (debug_infolevel>0)
+	    cerr << clock() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << endl;
+	  break;
+	} // end for loop on i
+	if (i==V.size()){
+	  if (debug_infolevel)
+	    cerr << clock() << " creating reconstruction #" << i+1 << endl;
+	  // not found
+	  V.push_back(gb);
+	  W.push_back(vectpoly8()); // no reconstruction yet, wait at least another prime
+	  Wlast.push_back(vectpoly8());
+	  P.push_back(p);
+	  continue; // next prime
 	}
-	if (W[i].empty()){
+	if (jpos<gb.size()){
 	  if (debug_infolevel)
-	    cerr << clock() << " begin rational reconstruction mod " << P[i] << endl;
-	  if (!fracmod(V[i],P[i],
-		       zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
-		       vtmp)){
-	    cerr << clock() << " reconstruction failure" << endl;
-	    // ok=false; //?
-	    break; // no luck reconstructing
+	    cerr << clock() << " i= " << i << " begin chinese remaindering " << p << endl;
+	  int r=chinrem(V[i],P[i],gb,p,poly8tmp);
+	  if (debug_infolevel)
+	    cerr << clock() << " end chinese remaindering" << endl;
+	  if (r==-1){
+	    ok=false;
+	    continue;
 	  }
+	  P[i]=P[i]*p;
+	  continue; // next prime
+	}
+	else { // final check
 	  if (debug_infolevel)
-	    cerr << clock() << " clearing denominators " << endl;
-	  cleardeno(vtmp); // clear denominators
+	    cerr << clock() << " stable, clearing denominators " << endl;
+	  W[i]=Wlast[i];
+	  cleardeno(W[i]); // clear denominators
 	  if (debug_infolevel)
 	    cerr << clock() << " end rational reconstruction " << endl;
-	  swap(vtmp,W[i]);
-	  break; // not stabilized, find another prime
-	}
-	else {
+	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
 	  if (debug_infolevel)
-	    cerr << clock() << " checking reconstructed basis mod " << p << endl;
-	  if (!chk_equal_mod(W[i],resmod,G,p.val)){
-	    W[i].clear();
-	    cerr << clock() << " checking failure " << endl;
-	    break;
+	    cerr << clock() << " begin final check" << endl;
+	  // first verify that the initial generators reduce to 0
+	  poly8 tmp0,tmp1,tmp2;
+	  vectpoly8 wtmp;
+	  unsigned j=0;
+	  G.resize(W[i].size());
+	  for (j=0;j<W[i].size();++j)
+	    G[j]=j;
+	  for (j=0;j<initial;++j){
+	    reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
+	    if (!tmp0.coord.empty()){
+	      break;
+	    }
+	  }
+	  if (j!=initial){
+	    if (debug_infolevel)
+	      cerr << clock() << " final check failure, retrying with another prime " << endl;
+	    continue;
+	  }
+	  if (int(W[i].size())<=GBASIS_DETERMINISTIC)
+	    eps=0;
+	  if (eps>0){
+	    double terms=0;
+	    int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
+	    for (unsigned k=0;k<W[i].size();++k){
+	      terms += W[i][k].coord.size();
+	      termsmin = giacmin(termsmin,W[i][k].coord.size());
+	    }
+	    termsmin = 7*(2*termsmin-1);
+	    int epsp=mpz_sizeinbase(*P[i]._ZINTptr,10)-int(std::ceil(2*std::log10(terms)));
+	    if (epsp>termsmin)
+	      epsp=termsmin;
+	    *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
+	  }
+	  G.clear();
+	  if (eps<6e-8 && !is_gbasis(W[i],eps*1.677e7,modularcheck)){
+	    ok=false;
+	    continue; // in_gbasis(W[i],G,0,true);
 	  }
 	  if (debug_infolevel)
-	    cerr << clock() << " check successful " << endl;
+	    cerr << clock() << " end final check " << endl;
+	  swap(res,W[i]);
+	  mpz_clear(zd);
+	  mpz_clear(zu);
+	  mpz_clear(zu1);
+	  mpz_clear(zd1);
+	  mpz_clear(zabsd1);
+	  mpz_clear(zsqrtm);
+	  mpz_clear(zq);
+	  mpz_clear(zur);
+	  mpz_clear(zr);
+	  mpz_clear(ztmp);
+#ifdef HAVE_LIBPTHREAD
+	  // finish other threads
+	  void * ptr_;
+	  for (;t<th;++t)
+	    pthread_join(tab[t],&ptr_);
+#endif
+	  return true;
 	}
-	// now check if W[i] is a Groebner basis over Q, if so it's the answer
 #else
-	unsigned jpos=0;
-	afewpolys.clear();
-	for (;jpos<V[i].size();++jpos){
-	  if (int(Wlast[i].size())>jpos && chk_equal_mod(Wlast[i][jpos],gb[jpos],p.val))
-	    afewpolys.push_back(Wlast[i][jpos]);
-	  else {
+	for (i=0;i<V.size();++i){
+	  if (debug_infolevel)
+	    cerr << clock() << " i= " << i << " begin chinese remaindering" << endl;
+	  int r=chinrem(V[i],P[i],gb,p,poly8tmp);
+	  if (debug_infolevel)
+	    cerr << clock() << " end chinese remaindering" << endl;
+	  if (r==-1){
+	    ok=false;
+	    break;
+	  }
+	  if (r==0){
+	    cerr << clock() << " leading terms do not match with reconstruction " << i << " modulo " << p << endl;
+	    continue;
+	  }
+	  // found one! V is already updated, update W
+	  if (W.size()<V.size())
+	    W.resize(V.size());
+	  if (Wlast.size()<V.size())
+	    Wlast.resize(V.size());
+	  P[i]=P[i]*p;
+	  unsigned jpos=0;
+	  // afewpolys.clear();
+	  for (;jpos<V[i].size();++jpos){
+	    if (int(Wlast[i].size())>jpos && chk_equal_mod(Wlast[i][jpos],gb[jpos],p.val)){
+	      if (afewpolys.size()<=jpos)
+		afewpolys.push_back(Wlast[i][jpos]);
+	      else {
+		if (!(afewpolys[jpos]==Wlast[i][jpos]))
+		  afewpolys[jpos]=Wlast[i][jpos];
+	      }
+	    }
+	    else {
 	      if (!fracmod(V[i][jpos],P[i],
 			   zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
 			   poly8tmp)){
 		cerr << clock() << " reconstruction failure at position " << jpos << endl;
 		break;
 	      }
-	      afewpolys.push_back(poly8tmp);
-	  }
-	  if (Wlast[i].size()>jpos && !(afewpolys[jpos]==Wlast[i][jpos])){
-	    if (debug_infolevel){
-	      unsigned j=0,js=giacmin(afewpolys[jpos].coord.size(),Wlast[i][jpos].coord.size());
-	      for (;j<js;++j){
-		if (!(afewpolys[jpos].coord[j]==Wlast[i][jpos].coord[j]))
-		  break;
+	      if (afewpolys.size()<=jpos){
+		poly8 tmp(poly8tmp.order,poly8tmp.dim);
+		afewpolys.push_back(tmp);
 	      }
-	      cerr << "Diagnostic: chinrem reconstruction mismatch at positions " << jpos << "," << j << endl;
-	      if (j<js)
-		cerr << gb[jpos].coord[j].g << "*" << gb[jpos].coord[j].u << endl;
-	      else
-		cerr << afewpolys[jpos].coord.size() << "," << Wlast[i][jpos].coord.size() << endl;
+	      afewpolys[jpos].coord.swap(poly8tmp.coord);
 	    }
+	    if (Wlast[i].size()>jpos && !(afewpolys[jpos]==Wlast[i][jpos])){
+	      if (debug_infolevel){
+		unsigned j=0,js=giacmin(afewpolys[jpos].coord.size(),Wlast[i][jpos].coord.size());
+		for (;j<js;++j){
+		  if (!(afewpolys[jpos].coord[j]==Wlast[i][jpos].coord[j]))
+		    break;
+		}
+		cerr << "Diagnostic: chinrem reconstruction mismatch at positions " << jpos << "," << j << endl;
+		if (j<js)
+		  cerr << gb[jpos].coord[j].g << "*" << gb[jpos].coord[j].u << endl;
+		else
+		  cerr << afewpolys[jpos].coord.size() << "," << Wlast[i][jpos].coord.size() << endl;
+	      }
+	      afewpolys.resize(jpos+1);
+	      break;
+	    }
+	    if (jpos > Wlast[i].size()*1.35+2 )
+	      break;
+	  }
+	  if (afewpolys!=Wlast[i]){
+	    swap(afewpolys,Wlast[i]);
+	    if (debug_infolevel>0)
+	      cerr << clock() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << endl;
 	    break;
 	  }
-	  if ( jpos > (Wlast[i].size()*3)/2+2 )
-	    break;
-	}
-	if (afewpolys!=Wlast[i]){
-	  swap(afewpolys,Wlast[i]);
-	  if (debug_infolevel>0)
-	    cerr << clock() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << endl;
-	  break;
-	}
-	if (debug_infolevel)
-	  cerr << clock() << " stable, clearing denominators " << endl;
-	W[i]=Wlast[i];
-	cleardeno(W[i]); // clear denominators
-	if (debug_infolevel)
-	  cerr << clock() << " end rational reconstruction " << endl;
-	// now check if W[i] is a Groebner basis over Q, if so it's the answer
-#endif
-	if (debug_infolevel)
-	  cerr << clock() << " begin final check" << endl;
-	// first verify that the initial generators reduce to 0
-	poly8 tmp0,tmp1,tmp2;
-	vectpoly8 wtmp;
-	unsigned j=0;
-	G.resize(W[i].size());
-	for (j=0;j<W[i].size();++j)
-	  G[j]=j;
-	for (j=0;j<initial;++j){
-	  reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
-	  if (!tmp0.coord.empty()){
-	    break;
-	  }
-	}
-	if (j!=initial){
 	  if (debug_infolevel)
-	    cerr << clock() << " final check failure, retrying with another prime " << endl;
-	  continue;
-	}
-	/* (final check requires that we have reconstructed a Groebner basis,
-	   Modular algorithms for computing Groebner bases Elizabeth A. Arnold
-	   Journal of Symbolic Computation 35 (2003) 403–419)
-	*/
-#if 1
-	if (int(W[i].size())<=GBASIS_DETERMINISTIC)
-	  eps=0;
-	if (eps>0){
-	  double terms=0;
-	  int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
-	  for (unsigned k=0;k<W[i].size();++k){
-	    terms += W[i][k].coord.size();
-	    termsmin = giacmin(termsmin,W[i][k].coord.size());
+	    cerr << clock() << " stable, clearing denominators " << endl;
+	  W[i]=Wlast[i];
+	  cleardeno(W[i]); // clear denominators
+	  if (debug_infolevel)
+	    cerr << clock() << " end rational reconstruction " << endl;
+	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
+	  if (debug_infolevel)
+	    cerr << clock() << " begin final check" << endl;
+	  // first verify that the initial generators reduce to 0
+	  poly8 tmp0,tmp1,tmp2;
+	  vectpoly8 wtmp;
+	  unsigned j=0;
+	  G.resize(W[i].size());
+	  for (j=0;j<W[i].size();++j)
+	    G[j]=j;
+	  for (j=0;j<initial;++j){
+	    reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
+	    if (!tmp0.coord.empty()){
+	      break;
+	    }
 	  }
-	  termsmin = 7*(2*termsmin-1);
-	  int epsp=mpz_sizeinbase(*P[i]._ZINTptr,10)-int(std::ceil(2*std::log10(terms)));
-	  if (epsp>termsmin)
-	    epsp=termsmin;
-	  *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
+	  if (j!=initial){
+	    if (debug_infolevel)
+	      cerr << clock() << " final check failure, retrying with another prime " << endl;
+	    break;
 	}
-	G.clear();
-	if (eps<6e-8 && !is_gbasis(W[i],eps*1.677e7,modularcheck)){
-	  ok=false;
-	  break; // in_gbasis(W[i],G,0,true);
+	  /* (final check requires that we have reconstructed a Groebner basis,
+	     Modular algorithms for computing Groebner bases Elizabeth A. Arnold
+	     Journal of Symbolic Computation 35 (2003) 403–419)
+	  */
+#if 1
+	  if (int(W[i].size())<=GBASIS_DETERMINISTIC)
+	    eps=0;
+	  if (eps>0){
+	    double terms=0;
+	    int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
+	    for (unsigned k=0;k<W[i].size();++k){
+	      terms += W[i][k].coord.size();
+	      termsmin = giacmin(termsmin,W[i][k].coord.size());
+	    }
+	    termsmin = 7*(2*termsmin-1);
+	    int epsp=mpz_sizeinbase(*P[i]._ZINTptr,10)-int(std::ceil(2*std::log10(terms)));
+	    if (epsp>termsmin)
+	      epsp=termsmin;
+	    *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
+	  }
+	  G.clear();
+	  if (eps<6e-8 && !is_gbasis(W[i],eps*1.677e7,modularcheck)){
+	    ok=false;
+	    break; // in_gbasis(W[i],G,0,true);
+	  }
+#endif
+	  if (debug_infolevel)
+	    cerr << clock() << " end final check " << endl;
+	  swap(res,W[i]);
+	  mpz_clear(zd);
+	  mpz_clear(zu);
+	  mpz_clear(zu1);
+	  mpz_clear(zd1);
+	  mpz_clear(zabsd1);
+	  mpz_clear(zsqrtm);
+	  mpz_clear(zq);
+	  mpz_clear(zur);
+	  mpz_clear(zr);
+	  mpz_clear(ztmp);
+#ifdef HAVE_LIBPTHREAD
+	  // finish other threads
+	  void * ptr_;
+	  for (;t<th;++t)
+	    pthread_join(tab[t],&ptr_);
+#endif
+	  return true;
+	} // end for (i<V.size())
+	if (i==V.size()){
+	  if (debug_infolevel)
+	    cerr << clock() << " creating reconstruction #" << i << endl;
+	  // not found
+	  V.push_back(gb);
+	  W.push_back(vectpoly8()); // no reconstruction yet, wait at least another prime
+	  Wlast.push_back(vectpoly8());
+	  P.push_back(p);
 	}
 #endif
-	if (debug_infolevel)
-	  cerr << clock() << " end final check " << endl;
-	swap(res,W[i]);
-	mpz_clear(zd);
-	mpz_clear(zu);
-	mpz_clear(zu1);
-	mpz_clear(zd1);
-	mpz_clear(zabsd1);
-	mpz_clear(zsqrtm);
-	mpz_clear(zq);
-	mpz_clear(zur);
-	mpz_clear(zr);
-	mpz_clear(ztmp);
-	return true;
-      }
-      if (i==V.size()){
-	if (debug_infolevel)
-	  cerr << clock() << " creating reconstruction #" << i << endl;
-	// not found
-	V.push_back(gb);
-	W.push_back(vectpoly8()); // no reconstruction yet, wait at least another prime
-	Wlast.push_back(vectpoly8());
-	P.push_back(p);
-      }
-    }
+      } // end loop on threads
+    } //end for int count
     mpz_clear(zd);
     mpz_clear(zu);
     mpz_clear(zu1);
@@ -6390,7 +6588,7 @@ namespace giac {
     mpz_clear(ztmp);
     return false;
   }
-
+    
   vectpoly gbasis8(const vectpoly & v,environment * env,bool modularcheck,GIAC_CONTEXT){
     vectpoly8 res; vectpolymod resmod;
     vector<unsigned> G;

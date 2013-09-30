@@ -2863,7 +2863,7 @@ namespace giac {
   }
   gen _rand(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
-    if (is_zero(args))
+    if (is_zero(args) && args.type!=_VECT)
       return giac_rand(contextptr);
     if (args.type==_INT_){
       if (args.val<0)

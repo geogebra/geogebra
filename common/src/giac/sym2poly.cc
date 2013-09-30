@@ -2398,6 +2398,8 @@ namespace giac {
     for (;it!=itend;++it){
       if (it->type!=_SYMB)
 	continue;
+      if (it->_SYMBptr->sommet==at_when)
+	continue;
       if (it->_SYMBptr->sommet!=at_pow){
 	gen tmp=it->_SYMBptr->feuille;
 	tmp=liste2symbolique(symbolique2liste(tmp,contextptr));
