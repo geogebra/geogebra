@@ -37,7 +37,7 @@ implements AttachedToDOM{
 		miInsertAbove.addStyleName("mi_no_image");
 		
 		//"Insert Below" menuitem
-		MenuItem miInsertBelow = new MenuItem("InsertBelow",
+		MenuItem miInsertBelow = new MenuItem(app.getMenu("InsertBelow"),
 		        new ScheduledCommand() {
 			        public void execute() {
 				        actionPerformed(app.getMenu("insertBelow"));
