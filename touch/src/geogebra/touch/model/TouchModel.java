@@ -1498,7 +1498,7 @@ public class TouchModel {
 				} else {
 					geos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(input,
-									true, false, true);
+									true, false, true, true);
 
 					// need label if we type just eg
 					// lnx
