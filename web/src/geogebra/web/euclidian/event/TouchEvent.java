@@ -10,7 +10,6 @@ import com.google.gwt.dom.client.Touch;
 public class TouchEvent extends AbstractEvent {
 
 	private Touch event;
-	private Integer id;
 	
 	private TouchEvent(Touch touch,HasOffsets h) {
 		this.off = h;
@@ -35,11 +34,6 @@ public class TouchEvent extends AbstractEvent {
 	@Override
 	public void release() {
 		off.getTouchEventPool().add(this);
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	@Override

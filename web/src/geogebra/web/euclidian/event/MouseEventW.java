@@ -11,7 +11,6 @@ public class MouseEventW extends AbstractEvent {
 
 	
 	private NativeEvent event;
-	private Integer id;
 	private double rotation;
 
 	/*public static final int MOUSE_CLICKED = 500;
@@ -84,11 +83,6 @@ public class MouseEventW extends AbstractEvent {
 	@Override
 	public void release() {
 		off.getMouseEventPool().add(this);
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	@Override

@@ -11,8 +11,6 @@ public abstract class AbstractEvent {
 	public abstract boolean isShiftDown();
 
 	public abstract void release();
-	
-	public abstract int getID();
 
 	public abstract int getX();
 	

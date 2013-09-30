@@ -23,11 +23,6 @@ public class MobileMouseEvent extends AbstractEvent {
 	}
 
 	@Override
-	public int getID() {
-		return 0;
-	}
-
-	@Override
 	public GPoint getPoint() {
 		return this.point;
 	}

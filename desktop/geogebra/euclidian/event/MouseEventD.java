@@ -54,11 +54,6 @@ public class MouseEventD extends AbstractEvent {
 	}
 
 	@Override
-	public int getID() {
-		return this.id;
-	}
-
-	@Override
 	public int getX() {
 		return event.getX();
 	}
