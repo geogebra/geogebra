@@ -4,8 +4,8 @@
 #
 -ignorewarnings
 
+# Output jars:
 -injars build/geogebra.jar
--injars build/geogebra-signed.jar
 -injars build/geogebra_main.jar
 -injars build/geogebra_gui.jar
 -injars build/geogebra_export.jar
@@ -15,6 +15,18 @@
 -injars build/geogebra_usb.jar
 -injars build/jlatexmath.jar
 -injars build/OpenGeoProver.jar
+
+# Make sure to put the signed version of all output jars here as well:
+-injars build/geogebra-signed.jar
+-injars build/geogebra_main-signed.jar
+-injars build/geogebra_gui-signed.jar
+-injars build/geogebra_export-signed.jar
+-injars build/geogebra_algos-signed.jar
+-injars build/geogebra_cas-signed.jar
+-injars build/geogebra_3d-signed.jar
+-injars build/geogebra_usb-signed.jar
+-injars build/jlatexmath-signed.jar
+-injars build/OpenGeoProver-signed.jar
 
 -outjars build/temp
 
