@@ -1476,7 +1476,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 	
 	@Override
-	protected void processReleaseForMovedGeoPoint(AbstractEvent e){
+	protected void processReleaseForMovedGeoPoint(boolean rightClick){
 		
 		
 		
@@ -1493,7 +1493,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			else{
 				//switch the direction of move (xy or z) in case of left-click
 				//if (!movedGeoPointDragged){
-				if (!draggingOccured && !app.isRightClick(e)){
+				if (!draggingOccured && !rightClick){
 					movedGeoPoint.switchMoveMode();
 					((EuclidianView3D) view).getCursor3D().setMoveMode(movedGeoPoint.getMoveMode());
 					//Application.debug(movedGeoPoint+"\nmove mode="+movedGeoPoint.getMoveMode()+"\ncursor move mode="+((EuclidianView3D) view).getCursor3D().getMoveMode());
@@ -1508,7 +1508,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			movedGeoPoint3D.setWillingDirection(null);
 		}
 		
-		super.processReleaseForMovedGeoPoint(e);
+		super.processReleaseForMovedGeoPoint(rightClick);
 		
 	}
 

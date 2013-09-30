@@ -345,29 +345,60 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		 Log.debug(event.getAssociatedType().getName());
 	}
 
+	private static double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
+	private double oldDistance = -1;
+	
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		JsArray<Touch> targets = event.getTargetTouches();
-		for (int i = 0; i < targets.length(); i++) {
-			 if (targets.length() == 1) {
-				 event.stopPropagation();
-				 event.preventDefault();
-			 }
-		}
-		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
-			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
-			boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
-			this.waitingTouchMove = e;
-			this.waitingMouseMove = null;
-			GeoGebraProfiler.moveEventsIgnored++;
-			if(wasWaiting){
-				this.repaintTimer.schedule(EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH);
+		event.stopPropagation();
+		event.preventDefault();
+		if (targets.length() == 1) {
+			if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
+				AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
+				boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
+				this.waitingTouchMove = e;
+				this.waitingMouseMove = null;
+				GeoGebraProfiler.moveEventsIgnored++;
+				if(wasWaiting){
+					this.repaintTimer.schedule(EuclidianViewWeb.DELAY_UNTIL_MOVE_FINISH);
+				}
+				return;
 			}
-			return;
+			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
+			onTouchMoveNow(e, time);
+		}else if (targets.length() == 2) {
+			AbstractEvent first, second;
+			int centerX, centerY;
+			double newDistance;
+
+			first = TouchEvent.wrapEvent(event.getTouches().get(0),this);
+			second = TouchEvent.wrapEvent(event.getTouches().get(1),this);
+
+			centerX = (first.getX() + second.getX()) / 2;
+			centerY = (first.getX() + second.getY()) / 2;
+
+			if (this.oldDistance > 0) {
+				newDistance = distance(first, second);
+
+				if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
+					// App.debug("Zooming ... "+oldDistance+":"+newDistance);
+					super.mouseLoc = new GPoint(centerX, centerY);
+					double scaleFactor = newDistance / this.oldDistance;
+					zoomInOut(scaleFactor,
+							scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
+					this.oldDistance = newDistance;
+				}
+			}
+			first.release();
+			second.release();
 		}
-		AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
-		onTouchMoveNow(e, time);
+	}
+	
+	private static double distance(final AbstractEvent t1, final AbstractEvent t2) {
+		return Math.sqrt(Math.pow(t1.getX() - t2.getX(), 2)
+				+ Math.pow(t1.getY() - t2.getY(), 2));
 	}
 
 	private void onTouchMoveNow(AbstractEvent event,long time) {
@@ -387,31 +418,28 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public void onTouchEnd(TouchEndEvent event) {
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
-		JsArray<Touch> targets = event.getTargetTouches();
-		for (int i = 0; i < targets.length(); i++) {
-			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
-			 e.release();
-			 if (targets.length() == 1) {
-				 event.stopPropagation();
-				 event.preventDefault();
-			 }
-			 //should be substracted the event just ended, and call mouseevent for that.
-			 //later :-)
-		}		
+		event.stopPropagation();
+		event.preventDefault();
+		App.debug("Touches"+event.getTouches().length());
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
-		for (int i = 0; i < targets.length(); i++) {
-			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
+		event.stopPropagation();
+		 event.preventDefault();
+		if(targets.length() == 1){
+			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(0),this);
 			wrapMousePressed(e);
 			e.release();
-			 if (targets.length() == 1) {
-				 event.stopPropagation();
-				 event.preventDefault();
-			 }
-			
 		}
+		else if(targets.length() == 2){
+			AbstractEvent e0 = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(0),this);
+			AbstractEvent e1 = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(1),this);
+			oldDistance = distance(e0,e1);
+			e0.release();
+			e1.release();
+		}
+		
 	}
 	
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;

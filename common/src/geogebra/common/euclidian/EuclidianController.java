@@ -5612,7 +5612,7 @@ public abstract class EuclidianController {
 	/**
 	 * @param event in 3D we need to check left/right click 
 	 */
-	protected void processReleaseForMovedGeoPoint(AbstractEvent event) {
+	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 	
 		// deselect point after drag, but not on click
 		// outdated - we want to leave the point selected after drag now
@@ -8892,7 +8892,7 @@ public abstract class EuclidianController {
 		
 		if(pressedButton!=null){
 			pressedButton.setDraggedOrContext(pressedButton.getDraggedOrContext()
-					|| event.isMetaDown() || event.isPopupTrigger());
+					|| (event!=null && (event.isMetaDown() || event.isPopupTrigger())));
 			
 			// make sure that Input Boxes lose focus (and so update) before running scripts
 			view.requestFocusInWindow();
@@ -8954,7 +8954,7 @@ public abstract class EuclidianController {
 		// view.resetTraceRow(); // for trace/spreadsheet
 		if (getMovedGeoPoint() != null) {
 	
-			processReleaseForMovedGeoPoint(event);
+			processReleaseForMovedGeoPoint(app.isRightClick(event));
 			/*
 			 * // deselect point after drag, but not on click if
 			 * (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
