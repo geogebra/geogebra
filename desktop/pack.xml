@@ -99,7 +99,8 @@ office@geogebra.org
 		<delete dir="${propertiestemp.dir}"/>
 		<delete dir="${src.dir}/geogebra/common"/>
 		<!-- use the permissions/codebase entries for the signed versions of geogebra.jar -->
-		<apply executable="mv" os="Linux">
+		<echo message="Renaming signed jars"/>
+		<apply executable="mv" os="Linux" force="true">
 			<srcfile/>
 			<targetfile/>
 			<fileset dir="${build.dir}">
@@ -111,6 +112,7 @@ office@geogebra.org
 			</fileset>
 			<mapper type="glob" from="*-signed.jar" to="${build.dir}/*.jar"/>
 		</apply>
+		<echo message="Removing unused signed jars"/>
 		<apply executable="rm" os="Linux">
 			<srcfile/>
 			<fileset dir="${build.dir}">
