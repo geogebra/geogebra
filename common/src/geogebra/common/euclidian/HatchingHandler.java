@@ -124,7 +124,7 @@ public class HatchingHandler {
 			drawDotted(dist, g2d);
 			break;
 		case SYMBOLS:		
-			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, (int)dist * 2));
+			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, (int) (dist * 2.5)));
 			GTextLayout t = geogebra.common.factories.AwtFactory.prototype
 					.newTextLayout(symbol, g2d.getFont(),
 							g2d.getFontRenderContext());
