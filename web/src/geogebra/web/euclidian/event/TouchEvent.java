@@ -8,10 +8,7 @@ import java.util.LinkedList;
 import com.google.gwt.dom.client.Touch;
 
 public class TouchEvent extends AbstractEvent {
-	
-	private static final Integer TOUCHSTART = 1;
-	private static final Integer TOUCHMOVE = 2;
-	private static final Integer TOUCHEND = 3;
+
 	private Touch event;
 	private Integer id;
 	
