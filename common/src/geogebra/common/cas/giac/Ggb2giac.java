@@ -757,7 +757,7 @@ public class Ggb2giac {
 				// Tangent[x-value, function]
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
 				")");
-		p("TangentTroughPoint.2", 
+		p("TangentThroughPoint.2", 
 				"[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
 				+ "[ggbans:=when(((ggbans)[0])=='=' && lhs(ggbans)==1 && rhs(ggbans)==0,?,ggbans)],"
 				+ "[ggbans:=when(type(ggbans)==DOM_LIST, map(ggbans,x->x=0), {ggbans})],ggbans][4]");
