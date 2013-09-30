@@ -5117,10 +5117,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			buildInsertUnicodeButton();
 			btInsertUnicode.addActionListener(this);
 			btInsertUnicode.setVisible(false);
-			lblMsgSelected = new JLabel(loc.getPlain("CurrentSymbol") + ":");
+			lblMsgSelected = new JLabel(loc.getMenu("Filling.CurrentSymbol") + ":"); 
 			lblMsgSelected.setVisible(false);
 			fillingPanel = this;
-			lblSymbols = new JLabel(app.getPlain("Symbol") + ":");
+			lblSymbols = new JLabel(app.getMenu("Filling.Symbol") + ":"); 
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol = new JLabel();
 			lblSelectedSymbol.setFont(new Font("SansSerif", Font.PLAIN, 24));
