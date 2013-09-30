@@ -7188,8 +7188,13 @@ public abstract class EuclidianController {
 
 			if (movedGeoElement.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 				
-				moveMode = MOVE_FREEHAND;
-				movedGeoFunction = (GeoFunction) movedGeoElement;
+				AlgoFunctionFreehand algo = (AlgoFunctionFreehand) movedGeoElement.getParentAlgorithm();
+				
+				GeoElement input = algo.getInput()[0];
+				if (!algo.getInput()[0].isLabelSet() && input.getParentAlgorithm() == null) {
+					moveMode = MOVE_FREEHAND;
+					movedGeoFunction = (GeoFunction) movedGeoElement;
+				}
 				
 			} else if(movedGeoElement.isIndependent()) {
 				moveMode = MOVE_FUNCTION;
