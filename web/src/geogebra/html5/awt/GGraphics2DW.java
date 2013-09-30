@@ -69,7 +69,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
 		//TODO put this back in
-		devicePixelRatio = checkPixelRatio(canvas.getElement());
+		//devicePixelRatio = checkPixelRatio(canvas.getElement());
 		
 	}
 	
