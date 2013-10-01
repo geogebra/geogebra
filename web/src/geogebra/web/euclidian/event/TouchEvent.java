@@ -5,6 +5,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 
 import java.util.LinkedList;
 
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.Touch;
 
 public class TouchEvent extends AbstractEvent {
@@ -93,6 +94,10 @@ public class TouchEvent extends AbstractEvent {
 	@Override
     public boolean isPopupTrigger() {
 	    return false;
+    }
+
+	public EventTarget getTarget() {
+	    return event.getTarget();
     }
 
 }

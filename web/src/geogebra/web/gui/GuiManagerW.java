@@ -29,6 +29,7 @@ import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -66,7 +67,7 @@ import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -243,10 +244,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public void setFocusedPanel(AbstractEvent event,
 	        boolean updatePropertiesView) {
-		setFocusedPanel(geogebra.web.euclidian.event.MouseEventW.getEvent(event), updatePropertiesView);
+		setFocusedPanel(MouseEventW.getTarget(event), updatePropertiesView);
 	}
 
-	public void setFocusedPanel(NativeEvent e, boolean updatePropertiesView) {
+	public void setFocusedPanel(EventTarget target, boolean updatePropertiesView) {
 
 		if (!(app.getEuclidianViewpanel() instanceof DockPanel)) {
 			App.debug("This part of the code should not have run!");
@@ -254,7 +255,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 
 		// determine parent panel to change focus
-		Element et = Element.as(e.getEventTarget());
+		Element et = Element.as(target);
 		Element DOMancestor1 = app.getEuclidianViewpanel().getElement();
 		Element DOMancestor2 = null;
 		if (hasEuclidianView2())

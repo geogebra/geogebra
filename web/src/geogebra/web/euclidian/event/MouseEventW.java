@@ -5,6 +5,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 
 import java.util.LinkedList;
 
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 
 public class MouseEventW extends AbstractEvent {
@@ -76,8 +77,11 @@ public class MouseEventW extends AbstractEvent {
 		return event.getShiftKey();
 	}
 
-	public static NativeEvent getEvent(AbstractEvent e) {
-		return ((MouseEventW)e).event;
+	public static EventTarget getTarget(AbstractEvent e) {
+		if(e instanceof MouseEventW){
+			return ((MouseEventW)e).event.getEventTarget();
+		}
+		return ((TouchEvent)e).getTarget();
 	}
 
 	@Override
