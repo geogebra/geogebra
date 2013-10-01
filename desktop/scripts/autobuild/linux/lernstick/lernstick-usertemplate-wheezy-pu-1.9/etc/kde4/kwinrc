@@ -1,9 +1,0 @@
-[Desktops]
-Number=4
-Rows=2
-
-[Style]
-PluginLib=kwin3_plastik
-
-[Compositing]
-Enabled=false

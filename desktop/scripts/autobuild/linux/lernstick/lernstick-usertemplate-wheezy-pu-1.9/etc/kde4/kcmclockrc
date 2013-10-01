@@ -1,3 +1,0 @@
-[NTP]
-enabled=true
-servers=Öffentlicher Zeitserver (pool.ntp.org),europe.pool.ntp.org,asia.pool.ntp.org,north-america.pool.ntp.org,oceania.pool.ntp.org

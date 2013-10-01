@@ -1,2 +1,0 @@
-syntax on
-set noai
