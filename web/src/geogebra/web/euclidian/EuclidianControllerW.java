@@ -422,7 +422,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		event.preventDefault();
 		App.debug("Touches"+event.getTouches().length());
 		if(event.getTouches().length()==0){
-			this.wrapMouseReleased(null);
+			this.wrapMouseReleased(mx, my, false, false, false, false);
 		}
 	}
 
