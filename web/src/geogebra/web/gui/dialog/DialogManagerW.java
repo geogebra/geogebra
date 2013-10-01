@@ -307,7 +307,7 @@ public class DialogManagerW extends DialogManager {
 			int height = 500;
 			int left = (Window.getClientWidth() / 2) - (width / 2);
 			int top = (Window.getClientHeight() / 2) - (height / 2);
-			signInDialog = WindowW.open(app.getLoginOperation().getLoginURL(), "GeoGebraTube" , "resizable," +
+			signInDialog = WindowW.open(app.getLoginOperation().getLoginURL(((AppW) app).getLocalization().getLanguage()), "GeoGebraTube" , "resizable," +
 																				"toolbar=no," +
 																				"location=no," +
 																				"scrollbars=no, " + 

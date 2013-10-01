@@ -91,7 +91,7 @@ public class SignInDialogD extends JDialog {
             });
         
         // Load the login page
-        webView.getEngine().load(app.getLoginOperation().getLoginURL(((AppD) app).getLocale()));
+        webView.getEngine().load(app.getLoginOperation().getLoginURL(((AppD) app).getLocale().getLanguage()));
         
         root.setCenter(webView);
     }

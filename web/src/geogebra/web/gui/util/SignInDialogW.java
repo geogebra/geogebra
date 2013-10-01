@@ -3,6 +3,7 @@ package geogebra.web.gui.util;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.SuccessErrorRenderable;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -62,7 +63,7 @@ public class SignInDialogW extends DialogBox implements SuccessErrorRenderable {
 		ggtLoginHeader.add(ggtLogin);
 		ggtLoginPanel.add(ggtLoginHeader);
 		
-		Frame ggbFrame = new Frame(app.getLoginOperation().getLoginURL());
+		Frame ggbFrame = new Frame(app.getLoginOperation().getLoginURL(((AppW) app).getLocalization().getLanguage()));
 		ggbFrame.addStyleName("ggtFrame");
 		
 		ggbFrame.addLoadHandler(new LoadHandler() {
