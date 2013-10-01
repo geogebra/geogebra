@@ -5614,7 +5614,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * @param event in 3D we need to check left/right click 
+	 * @param rightClick in 3D we need to check left/right click 
 	 */
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 	
@@ -9686,8 +9686,9 @@ public abstract class EuclidianController {
 		checkZooming(false);
 	}
 
-	/*
+	/**
 	 * when object created, make undo point if scroll wheel has been used
+	 * @param forPreviewable whether this is for preview only
 	 */
 	protected void checkZooming(boolean forPreviewable) {
 
@@ -9746,6 +9747,10 @@ public abstract class EuclidianController {
 		// TODO Auto-generated method stub
 		
 	}
+	/**
+	 * @param x x-coord
+	 * @param y y-coord 
+	 */
 	public void setZoomCenter(double x, double y) {
 		// TODO Auto-generated method stub
 		
