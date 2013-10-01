@@ -1,2 +1,0 @@
-#!/bin/sh
-svn info | grep "Last Changed Rev:" | awk '{print $4}'

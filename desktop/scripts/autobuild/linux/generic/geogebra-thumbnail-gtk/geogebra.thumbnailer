@@ -1,4 +1,0 @@
-[Thumbnailer Entry]
-TryExec=ggthumb
-Exec=ggthumb -s %s %u %o
-MimeType=application/vnd.geogebra.file;

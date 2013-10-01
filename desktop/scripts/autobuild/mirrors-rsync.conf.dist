@@ -1,6 +1,0 @@
-# Mirror server configuration file for GeoGebra autobuild subsystem
-# (for rsync remote servers)
-# @author Zoltan Kovacs <zoltan@geogebra.org>
-# IP/HOSTNAME PORT USER DIR PASSWD
-
-#ftp.lip6.fr 123 geogebra geogebra sEcReT
