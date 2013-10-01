@@ -28,8 +28,6 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
 import java.util.Vector;
 
 /**
@@ -889,18 +887,20 @@ public class GeoImage extends GeoElement implements Locateable,
 		return false;
 	}
 
-
-	private ArrayList<GeoPoint> al = null;
-
 	@Override
 	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 
-		if (hasAbsoluteLocation()) {
+		if (hasAbsoluteLocation())
 			return false;
+
+		for (int i = 0; i < corners.length; i++) {
+			if (corners[i] != null && !corners[i].isMoveable(view))
+				return false;
 		}
-		
-		return getFreeInputPoints(view).size() > 0;
+		return true;
 	}
+
+	private ArrayList<GeoPoint> al = null;
 
 	/**
 	 * Returns all free parent points of this GeoElement.
@@ -908,59 +908,22 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public ArrayList<GeoPoint> getFreeInputPoints(
 			EuclidianViewInterfaceSlim view) {
-		
-		if (hasAbsoluteLocation()) {
+		if (hasAbsoluteLocation())
 			return null;
-		}
 
-		if (al == null) {
+		if (al == null)
 			al = new ArrayList<GeoPoint>();
-		} else {
+		else
 			al.clear();
-		}
-		
-		TreeSet<GeoElement> tree = null;
-		
-		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null) {
-				if (corners[i].isMoveable()) {
-					al.add(corners[i]);
-				} else {
-					
-					if (tree == null) {
-						tree = new TreeSet<GeoElement>();
-					}
-					tree.addAll(corners[i].getAllPredecessors());
 
-				}
-			}
-		}
-		
-		// tweak to allow an image to be dragged if its corners are eg A+(1,2), A+(-2,3)
-		// #3685
-		if (tree != null) {
-		
-			if (tree.size() > 1) {
-				al.clear();
-				return al;
-			}
-			
-			Iterator<GeoElement> it = tree.iterator();
-			
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				
-				if (!geo.isGeoPoint()) {
-					al.clear();
-					return al;
-				}
-				al.add((GeoPoint) geo);
-			}
+		for (int i = 0; i < corners.length; i++) {
+			if (corners[i] != null)
+				al.add(corners[i]);
 		}
 
 		return al;
 	}
-	
+
 	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
 		return true;
