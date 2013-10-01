@@ -83,12 +83,13 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
-		originalString = sd.strToString;
+		originalString = sd.originalString;
 		strToString = sd.strToString;
 		keepOriginalString = sd.keepOriginalString;
 		isLetterConstant = sd.isLetterConstant; // for Pi, Euler, or Degree
 												// constant
 		scientificNotation = sd.scientificNotation;
+		setFromOutside = sd.setFromOutside;
 	}
 
 	@Override
