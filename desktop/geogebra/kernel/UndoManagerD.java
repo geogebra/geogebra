@@ -212,7 +212,7 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
-		((geogebra.io.MyXMLioD)construction.getXMLio()).processXMLString(strXML, true, false, false);
+		((geogebra.io.MyXMLioD)construction.getXMLio()).processXMLString(strXML, true, false, true);
 		construction.setFileLoading(false);
 	}
 	
