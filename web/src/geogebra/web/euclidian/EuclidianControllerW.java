@@ -368,7 +368,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			}
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
 			onTouchMoveNow(e, time);
-		}else if (targets.length() == 2) {
+		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
 			AbstractEvent first, second;
 			int centerX, centerY;
 			double newDistance;
