@@ -10,6 +10,8 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.views.EventRenderable;
 
+import java.util.Locale;
+
 /**
  * @author stefan
  * 
@@ -112,11 +114,12 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * @return The URL to the GeoGebraTube Login page including params for the client identification
 	 * and the expiration time.
 	 */
-	public String getLoginURL() {
+	public String getLoginURL(Locale locale) {
 		return "http://www.geogebratube.org/user/login" 
 				+ "/caller/"+getURLLoginCaller()
 				+"/expiration/"+getURLTokenExpirationMinutes()
-				+"/clientinfo/"+getURLClientInfo();
+				+"/clientinfo/"+getURLClientInfo()
+				+"/?lang="+locale.getLanguage();
 	}
 	
 	/**
