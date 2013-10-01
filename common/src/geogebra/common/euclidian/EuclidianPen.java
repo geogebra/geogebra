@@ -335,14 +335,14 @@ public class EuclidianPen {
 	 * Clean up the pen mode stuff, add points.
 	 * @param e event
 	 */
-	public void handleMouseReleasedForPenMode(AbstractEvent e) {
+	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
 		
-		if (app.isRightClick(e) && !freehand){
+		if (right && !freehand){
 			return;
 		}
 		
 		if (freehand) {
-			mouseReleasedFreehand(e);
+			mouseReleasedFreehand(x, y);
 			penPoints.clear();
 
 			app.refreshViews(); // clear trace
@@ -370,12 +370,12 @@ public class EuclidianPen {
 		penPoints.clear();		
 	}
 
-	private GeoElement checkShapes(AbstractEvent e) {
+	private GeoElement checkShapes(int x, int y) {
 
 		count = 0;
 		App.debug(getGesture());
 		this.clearTemporaryInfo();
-		GPoint newPoint = new GPoint(e.getX(), e.getY());
+		GPoint newPoint = new GPoint(x, y);
 		penPoints.add(newPoint);
 		//AbstractApplication.debug(penPoints);
 		//if recognize_shape option is checked
@@ -678,11 +678,11 @@ public class EuclidianPen {
 		return (AlgoPolyLine)al.getInput()[0].getParentAlgorithm();
 	}
 
-	private void mouseReleasedFreehand(AbstractEvent e) {
+	private void mouseReleasedFreehand(int x, int y) {
 		int n = maxX - minX + 1;
 		double[] freehand1 = new double[n];
 		
-		GeoElement shape = checkShapes(e);
+		GeoElement shape = checkShapes(x, y);
 		
 		if (shape != null && shape.isGeoLine()) {
 			// lines take priority over functions

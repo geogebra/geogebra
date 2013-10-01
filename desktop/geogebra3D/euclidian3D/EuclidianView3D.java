@@ -11,7 +11,6 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -71,7 +70,6 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
@@ -1367,13 +1365,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public int getViewWidth() {
 		return getWidth();
 	}
-
-	public boolean hitAnimationButton(MouseEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
-	public boolean hitAnimationButton(AbstractEvent e) {
+	public boolean hitAnimationButton(int x, int y) {
 		return false;
 	}
 

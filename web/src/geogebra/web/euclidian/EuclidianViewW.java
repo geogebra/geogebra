@@ -4,7 +4,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -221,14 +220,14 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		return pauseImage;
 	}
 
-	public boolean hitAnimationButton(AbstractEvent e) {
+	public boolean hitAnimationButton(int x, int y) {
 		// draw button in focused EV only
 				if (!drawPlayButtonInThisView()) {
 					return false;
 				}
 
-				return kernel.needToShowAnimationButton() && (e.getX() <= 20)
-						&& (e.getY() >= (getHeight() - 20));
+				return kernel.needToShowAnimationButton() && (x <= 20)
+						&& (y >= (getHeight() - 20));
     }
 
 	@Override

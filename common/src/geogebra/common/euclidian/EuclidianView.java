@@ -4949,7 +4949,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 		getEuclidianController().startCollectingMinorRepaints();
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
-				geos, null);
+				geos, false);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
@@ -4974,7 +4974,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		getEuclidianController().startCollectingMinorRepaints();
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
-				geos, null);
+				geos, false);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		} 

@@ -22,7 +22,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -641,14 +640,14 @@ public class EuclidianViewD extends EuclidianViewND implements
 		GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
 
-	public final boolean hitAnimationButton(AbstractEvent e) {
+	public final boolean hitAnimationButton(int x, int y) {
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
 			return false;
 		}
 
-		return kernel.needToShowAnimationButton() && (e.getX() <= 20)
-				&& (e.getY() >= (getHeight() - 20));
+		return kernel.needToShowAnimationButton() && (x <= 20)
+				&& (y >= (getHeight() - 20));
 	}
 
 	@Override

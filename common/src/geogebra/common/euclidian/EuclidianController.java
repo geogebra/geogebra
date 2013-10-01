@@ -3646,7 +3646,7 @@ public abstract class EuclidianController {
 		return repaintNeeded;
 	}
 	
-	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
+	public boolean refreshHighlighting(Hits hits, boolean isControlDown) {
 
 		Hits oldHighlightedGeos = highlightedGeos.clone();
 		
@@ -3656,7 +3656,7 @@ public abstract class EuclidianController {
 
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
-		processMode(hits, app.isControlDown(event)); // build highlightedGeos List
+		processMode(hits, isControlDown); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
@@ -3742,7 +3742,7 @@ public abstract class EuclidianController {
 		clearJustCreatedGeos();
 	
 		// clear highlighting
-		refreshHighlighting(null, null); // this may call repaint
+		refreshHighlighting(null, false); // this may call repaint
 
 		stopCollectingMinorRepaints();
 	}
@@ -4099,9 +4099,13 @@ public abstract class EuclidianController {
 	}
 
 	protected void setMouseLocation(AbstractEvent event) {
-		mouseLoc = event.getPoint();
+		setMouseLocation(event.isAltDown(), event.getX(), event.getY());
+	}
 	
-		setAltDown(event.isAltDown());
+	protected void setMouseLocation(boolean alt, int x, int y) {
+		mouseLoc = new GPoint(x,y);
+	
+		setAltDown(alt);
 	
 		if (mouseLoc.x < 0) {
 			mouseLoc.x = 0;
@@ -6432,7 +6436,7 @@ public abstract class EuclidianController {
 		}
 	
 		// animation button
-		boolean hitAnimationButton = view.hitAnimationButton(event);
+		boolean hitAnimationButton = view.hitAnimationButton(event.getX(),event.getY());
 		repaintNeeded = view.setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
@@ -6574,9 +6578,10 @@ public abstract class EuclidianController {
 		// || repaintNeeded;
 
 		startCollectingMinorRepaints();
+		boolean control = app.isControlDown(event);
 		if (noHighlighting ?
-			refreshHighlighting(null, event) :
-			refreshHighlighting(tempFullHits, event)) {
+			refreshHighlighting(null, control) :
+			refreshHighlighting(tempFullHits, control)) {
 
 			kernel.notifyRepaint();
 		} else if (repaintNeeded) {
@@ -6606,7 +6611,7 @@ public abstract class EuclidianController {
 		app.storeUndoInfoIfSetCoordSystemOccured();
 
 		startCollectingMinorRepaints();
-		refreshHighlighting(null, event);
+		refreshHighlighting(null, app.isControlDown(event));
 		resetToolTipManager();
 		view.setAnimationButtonsHighlighted(false);
 		view.setShowMouseCoords(false);
@@ -7832,7 +7837,7 @@ public abstract class EuclidianController {
 			if (hitResetIcon()) {
 				app.reset();
 				return;
-			} else if (view.hitAnimationButton(event)) {
+			} else if (view.hitAnimationButton(event.getX(),event.getY())) {
 				if (kernel.isAnimationRunning()) {
 					kernel.getAnimatonManager().stopAnimation();
 				} else {
@@ -8601,7 +8606,7 @@ public abstract class EuclidianController {
 		view.setSelectionRectangle(null);
 		selectionStartPoint.setLocation(mouseLoc);
 	
-		if (hitResetIcon() || view.hitAnimationButton(event)) {
+		if (hitResetIcon() || view.hitAnimationButton(event.getX(),event.getY())) {
 			// see mouseReleased
 			return;
 		}
@@ -8710,8 +8715,7 @@ public abstract class EuclidianController {
 				app.updateSelection(hits.size()>0);
 			}
 
-	protected void processSelectionRectangle(AbstractEvent e) {
-		boolean isControlDown = app.isControlDown(e);
+	protected final void processSelectionRectangle(boolean alt, boolean isControlDown) {
 		startCollectingMinorRepaints();
 
 		clearSelections();
@@ -8783,7 +8787,7 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				setAppSelectedGeos(hits);
-				changedKernel = processMode(hits, app.isControlDown(e));
+				changedKernel = processMode(hits, isControlDown);
 				view.setSelectionRectangle(null);
 			}
 			break;
@@ -8795,8 +8799,7 @@ public abstract class EuclidianController {
 	
 			// if alt pressed, create list of objects as string and copy to
 			// input bar
-			if ((hits != null) && (hits.size() > 0) && (e != null)
-					&& e.isAltDown() && app.isUsingFullGui()
+			if ((hits != null) && (hits.size() > 0) && alt && app.isUsingFullGui()
 					&& app.getGuiManager() != null
 					&& app.showAlgebraInput()) {
 				
@@ -8891,13 +8894,21 @@ public abstract class EuclidianController {
 		app.getGuiManager().showDrawingPadPopup(view, mouse);
 	}
 
-	protected void wrapMouseReleased(AbstractEvent event) {
+	protected final void wrapMouseReleased(AbstractEvent event){
+		boolean right = app.isRightClick(event);
+		boolean control = app.isControlDown(event);
+		boolean alt = event!= null && event.isAltDown();
+		boolean meta = event.isPopupTrigger() || event.isMetaDown();
+		wrapMouseReleased(event.getX(),event.getY(), alt, control, right, meta);
+	}
+	protected void wrapMouseReleased(int x, int y, boolean alt, boolean control, boolean right, boolean meta) {
+		
 		
 		app.storeUndoInfoIfSetCoordSystemOccured();
 		
 		if(pressedButton!=null){
 			pressedButton.setDraggedOrContext(pressedButton.getDraggedOrContext()
-					|| (event!=null && (event.isMetaDown() || event.isPopupTrigger())));
+					|| meta);
 			
 			// make sure that Input Boxes lose focus (and so update) before running scripts
 			view.requestFocusInWindow();
@@ -8914,10 +8925,9 @@ public abstract class EuclidianController {
 			app.storeUndoInfo();
 		}
 		
-		if (event != null) {
-			mx = event.getX();
-			my = event.getY();
-		}
+		mx = x;
+		my = y;
+		
 		// reset
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
@@ -8927,7 +8937,7 @@ public abstract class EuclidianController {
 		}
 	
 		if (penMode(mode) && penDragged) {
-			getPen().handleMouseReleasedForPenMode(event);
+			getPen().handleMouseReleasedForPenMode(right, mx, my);
 			return;
 		}
 	
@@ -8959,7 +8969,7 @@ public abstract class EuclidianController {
 		// view.resetTraceRow(); // for trace/spreadsheet
 		if (getMovedGeoPoint() != null) {
 	
-			processReleaseForMovedGeoPoint(app.isRightClick(event));
+			processReleaseForMovedGeoPoint(right);
 			/*
 			 * // deselect point after drag, but not on click if
 			 * (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
@@ -8987,9 +8997,7 @@ public abstract class EuclidianController {
 			view.requestFocusInWindow();
 		}
 		
-		setMouseLocation(event);
-	
-		setAltDown(event.isAltDown());
+		setMouseLocation(alt, mx, my);
 	
 		transformCoords();
 		Hits hits = null;
@@ -8997,7 +9005,7 @@ public abstract class EuclidianController {
 		if (hitResetIcon()) {
 			app.reset();
 			return;
-		} else if (view.hitAnimationButton(event)) {
+		} else if (view.hitAnimationButton(mx, my)) {
 			if (kernel.isAnimationRunning()) {
 				kernel.getAnimatonManager().stopAnimation();
 			} else {
@@ -9009,14 +9017,14 @@ public abstract class EuclidianController {
 		}
 	
 		// Michael Borcherds 2007-10-08 allow drag with right mouse button
-		if ((app.isRightClick(event) || app.isControlDown(event)))// &&
+		if (right || control)// &&
 																			// !TEMPORARY_MODE)
 		{
 			if (processRightReleaseFor3D()) {
 				return;
 			}
 			if (!temporaryMode) {
-				processRightReleased(event);
+				processRightReleased(right, control);
 				return;
 			}
 		}
@@ -9043,7 +9051,7 @@ public abstract class EuclidianController {
 			if (!temporaryMode) {
 				// Michael Borcherds 2007-10-08
 				if (allowSelectionRectangle()) {
-					processSelectionRectangle(event);
+					processSelectionRectangle(alt, control);
 	
 					return;
 				}
@@ -9111,20 +9119,12 @@ public abstract class EuclidianController {
 		// also needed for right-drag
 		else {
 			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-				changedKernel = processMode(hits, app.isControlDown(event));
+				changedKernel = processMode(hits, control);
 			}
 			if (changedKernel) {
 				app.storeUndoInfo();
 			}
 		}
-		// Michael Borcherds 2007-10-12
-	
-		// Michael Borcherds 2007-10-12
-		// moved up a few lines
-		// changedKernel = processMode(hits, e);
-		// if (changedKernel)
-		// app.storeUndoInfo();
-		// Michael Borcherds 2007-10-12
 	
 		if (!hits.isEmpty()) {
 			// Application.debug("hits ="+hits);
@@ -9133,7 +9133,7 @@ public abstract class EuclidianController {
 			view.setHitCursor();
 		}
 
-		refreshHighlighting(null, event);
+		refreshHighlighting(null, control);
 
 		// reinit vars
 		// view.setDrawMode(EuclidianConstants.DRAW_MODE_BACKGROUND_IMAGE);
@@ -9156,7 +9156,7 @@ public abstract class EuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	private void processRightReleased(AbstractEvent event) {
+	private void processRightReleased(boolean right, boolean control) {
 
 		if (!app.isRightClickEnabled()) {
 			return;
@@ -9168,8 +9168,8 @@ public abstract class EuclidianController {
 
 		// make sure cmd-click selects multiple points (not open
 		// properties)
-		if ((app.isMacOS() && app.isControlDown(event))
-				|| !app.isRightClick(event)) {
+		if ((app.isMacOS() && control)
+				|| !right) {
 			return;
 		}
 
@@ -9585,7 +9585,7 @@ public abstract class EuclidianController {
 				&& (view.getSelectionRectangle() != null)) {
 			initNewMode(newMode);
 			if (app.getActiveEuclidianView() == view) {
-				processSelectionRectangle(null);
+				processSelectionRectangle(false, false);
 			}
 		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
 			initNewMode(newMode);

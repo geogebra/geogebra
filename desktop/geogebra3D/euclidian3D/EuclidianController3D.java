@@ -1468,11 +1468,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// mouse released
 	
 	@Override
-	protected void wrapMouseReleased(AbstractEvent event) {
-		if (!draggingOccured && !app.isRightClick(event))
+	protected void wrapMouseReleased(int x, int y, boolean alt, boolean control, boolean right, boolean meta) {
+		if (!draggingOccured && !control)
 			view3D.switchMoveCursor();
 		
-		super.wrapMouseReleased(event);
+		super.wrapMouseReleased(x,y,alt,control,right,meta);
 	}
 	
 	@Override
@@ -3417,11 +3417,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	@Override
-	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
+	public boolean refreshHighlighting(Hits hits, boolean control) {
 		if (AppD.getShiftDown())
 			return false;
 
-		return super.refreshHighlighting(hits, event);
+		return super.refreshHighlighting(hits, control);
 	}
 	
 	

@@ -421,12 +421,16 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		event.stopPropagation();
 		event.preventDefault();
 		App.debug("Touches"+event.getTouches().length());
+		if(event.getTouches().length()==0){
+			this.wrapMouseReleased(null);
+		}
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
-		 event.preventDefault();
+		event.preventDefault();
+		Log.debug("TS"+targets.length());
 		if(targets.length() == 1){
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(0),this);
 			wrapMousePressed(e);

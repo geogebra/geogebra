@@ -7,7 +7,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.Hits;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -121,11 +120,6 @@ public class EuclidianViewT extends EuclidianViewWeb {
 
 	@Override
 	public boolean hasFocus() {
-		return false;
-	}
-
-	@Override
-	public boolean hitAnimationButton(final AbstractEvent event) {
 		return false;
 	}
 
@@ -254,5 +248,11 @@ public class EuclidianViewT extends EuclidianViewWeb {
 
 	@Override
 	public void setTransparentCursor() {
+	}
+
+	@Override
+	public boolean hitAnimationButton(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

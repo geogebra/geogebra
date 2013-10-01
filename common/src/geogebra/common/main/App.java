@@ -2116,7 +2116,7 @@ public abstract class App implements UpdateSelection{
 	 *         on Mac
 	 */
 	public boolean isRightClick(AbstractEvent e) {
-		return e.isRightClick();
+		return e != null && e.isRightClick();
 	}
 
 	/**
@@ -2125,7 +2125,7 @@ public abstract class App implements UpdateSelection{
 	 * @return whether Ctrl on Win/Linux or Meta on Mac was pressed
 	 */
 	public boolean isControlDown(AbstractEvent e) {
-		return e!=null && e.isControlDown();
+		return e != null && e.isControlDown();
 	}
 
 	/**

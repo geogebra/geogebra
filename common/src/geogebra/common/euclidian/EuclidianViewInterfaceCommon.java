@@ -2,7 +2,6 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -472,10 +471,11 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public int toScreenCoordY(double rwy);
 
 	/**
-	 * @param event mouse event
+	 * @param x mouse event x-coord
+	 * @param y mouse event y-coord
 	 * @return true if animation button was hit
 	 */
-	public boolean hitAnimationButton(AbstractEvent event);
+	public boolean hitAnimationButton(int x, int y);
 
 	/** 
 	 * Set the hits regarding to the mouse location 
