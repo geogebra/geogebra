@@ -295,7 +295,7 @@ class FileMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				if ((e.getModifiers() | ActionEvent.SHIFT_MASK) == 0) {
+				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0) {
 					App.error("TODO: not implemented yet");
 				} else {
 					
