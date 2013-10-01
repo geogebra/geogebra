@@ -138,9 +138,6 @@ public abstract class EuclidianController {
 		}
 	}
 
-
-	protected int mx; protected int my; //mouse coordinates
-
 	protected double xTemp;
 
 	protected double yTemp;
@@ -3778,7 +3775,9 @@ public abstract class EuclidianController {
 				}
 			}
 		}
-	
+		int mx = mouseLoc.x;
+		int my = mouseLoc.y;
+		
 		if (selPoints() == 1) {
 			if ((selPaths() == 1) && !isAltDown()) { // press alt to force region
 													// (ie inside) not path
@@ -8925,9 +8924,6 @@ public abstract class EuclidianController {
 			app.storeUndoInfo();
 		}
 		
-		mx = x;
-		my = y;
-		
 		// reset
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
@@ -8937,7 +8933,7 @@ public abstract class EuclidianController {
 		}
 	
 		if (penMode(mode) && penDragged) {
-			getPen().handleMouseReleasedForPenMode(right, mx, my);
+			getPen().handleMouseReleasedForPenMode(right, x, y);
 			return;
 		}
 	
@@ -8997,7 +8993,7 @@ public abstract class EuclidianController {
 			view.requestFocusInWindow();
 		}
 		
-		setMouseLocation(alt, mx, my);
+		setMouseLocation(alt, x, y);
 	
 		transformCoords();
 		Hits hits = null;
@@ -9005,7 +9001,7 @@ public abstract class EuclidianController {
 		if (hitResetIcon()) {
 			app.reset();
 			return;
-		} else if (view.hitAnimationButton(mx, my)) {
+		} else if (view.hitAnimationButton(x, y)) {
 			if (kernel.isAnimationRunning()) {
 				kernel.getAnimatonManager().stopAnimation();
 			} else {
