@@ -2900,7 +2900,7 @@ namespace giac {
     }
     if (args.type==_VECT){ 
       if (args._VECTptr->empty()){
-	if (calc_mode(contextptr)==1)
+	if (xcas_mode(contextptr)==1)
 	  return giac_rand(contextptr);
 	else
 	  return giac_rand(contextptr)/(rand_max2+1.0);

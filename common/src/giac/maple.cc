@@ -330,9 +330,13 @@ namespace giac {
 #endif
 #ifdef __APPLE__
     unsigned u1=clock();
+    struct timezone tz;
+    struct timeval debut,fin;
+    gettimeofday(&debut,&tz);
     eval(a,level,contextptr);
+    gettimeofday(&fin,&tz);
     u1=clock()-u1;
-    return double(u1)/CLOCKS_PER_SEC;
+    return makevecteur(double(u1)/CLOCKS_PER_SEC,fin.tv_sec-debut.tv_sec+(fin.tv_usec-debut.tv_usec)/1e6);
 #endif
 #ifdef GIAC_HAS_STO_38
    int t1=AspenGetNow(),t2;

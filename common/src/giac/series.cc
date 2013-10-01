@@ -1888,6 +1888,16 @@ namespace giac {
   static gen in_limit(const gen & e0,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
     if (direction==-2)
       return gensizeerr(contextptr);
+    vecteur vint=lop(rlvarx(e0,x),at_integrate);
+    for (unsigned i=0;i<vint.size();++i){
+      gen f=vint[i]._SYMBptr->feuille;
+      if (f.type!=_VECT || f._VECTptr->size()!=4)
+	return gensizeerr(gettext("Undefined integral"));
+      if ((*f._VECTptr)[1]==x)
+	return gensizeerr(gettext("Integration variable and limit variable are the same"));	
+      if (!is_zero(derive(f._VECTptr->front(),x,contextptr)))
+	return gensizeerr(gettext("Integral in limit not implemented yet"));
+    }
     if (e0.type==_VECT){
       const_iterateur it=e0._VECTptr->begin(),itend=e0._VECTptr->end();
       vecteur res;

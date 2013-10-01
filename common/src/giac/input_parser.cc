@@ -350,7 +350,7 @@
 
          #define YYPARSE_PARAM scanner
          #define YYLEX_PARAM   scanner
-	 #line 34 "/Users/parisse/newgiac/src/input_parser.yy"
+	 #line 34 "input_parser.yy"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -455,7 +455,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 459 "input_parser.cc"
+#line 459 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -6077,7 +6077,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 6081 "input_parser.cc"
+#line 6081 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

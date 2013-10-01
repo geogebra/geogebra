@@ -1974,6 +1974,10 @@ namespace giac {
     return integrate_id_rem(e_orig,gen_x,remains_to_integrate,contextptr,0);
   }
 
+  gen add_lnabs(const gen & g,GIAC_CONTEXT){
+    return symbolic(at_ln,abs(g,contextptr));
+  }
+
   gen integrate_id_rem(const gen & e_orig,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate id_rem ") << e_orig << endl;
@@ -2133,9 +2137,34 @@ namespace giac {
 	if (it->is_symb_of_sommet(at_sin))
 	  fu=_trigsin(tan2sincos(fu,contextptr),contextptr);
 	if (is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr)){
+#if 0
+	  // no abs, for integrate(cot(ln(x))/x,x), but has side effect...
+	  // would be better to add implicit assumptions
+	  bool save_do_lnabs=do_lnabs(contextptr);
+	  do_lnabs(false,contextptr);
+	  e=linear_integrate(fx,gen_x,tmprem,contextptr);
+	  do_lnabs(save_do_lnabs,contextptr);
+	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
+	  e=complex_subst(e,gen_x,*it,contextptr);
+	  if (save_do_lnabs){
+	    vector<const unary_function_ptr *> ln_tab(1,at_ln);
+	    vector<gen_op_context> lnabs_tab(1,add_lnabs);
+	    e=subst(e,ln_tab,lnabs_tab,true,contextptr);
+	  }
+	  return e;
+#else
 	  e=linear_integrate(fx,gen_x,tmprem,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
 	  return complex_subst(e,gen_x,*it,contextptr);
+#endif
+	}
+	if (it->is_symb_of_sommet(at_pow)){
+	  v[it-v.begin()]=powexpand(*it,contextptr);
+	  if (is_rewritable_as_f_of(powexpand(fu,contextptr),*it,fx,gen_x,contextptr)){
+	    e=linear_integrate(fx,gen_x,tmprem,contextptr);
+	    remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
+	    return complex_subst(e,gen_x,*it,contextptr);
+	  }
 	}
 	if (it->type!=_SYMB)
 	  continue;
@@ -2433,6 +2462,12 @@ namespace giac {
     int s=v.size();
     if (!adjust_int_sum_arg(v,s))
       return gensizeerr(contextptr);
+    if (s>=4 && complex_mode(contextptr)){
+      complex_mode(false,contextptr);
+      gen res=_integrate(args,contextptr);
+      complex_mode(true,contextptr);
+      return res;
+    }
     if (s==1)
       return gentoofewargs("integrate");
     if (s==3){ 
@@ -2712,7 +2747,10 @@ namespace giac {
     if (!is_zero(rem)){
       if (is_inf(res))
 	return symbolic(at_integrate,gen(makevecteur(v[0],x,v[2],v[3]),_SEQ__VECT));
-      res = res + symbolic(at_integrate,gen(makevecteur(rem,x,v[2],v[3]),_SEQ__VECT));
+      if (ordonne)
+	res = res + symbolic(at_integrate,gen(makevecteur(rem,x,v[2],v[3]),_SEQ__VECT));
+      else
+	res = res - symbolic(at_integrate,gen(makevecteur(rem,x,v[3],v[2]),_SEQ__VECT));
       return res;
     }
     return ck_int_numerically(v0orig,x,aorig,borig,res,contextptr);

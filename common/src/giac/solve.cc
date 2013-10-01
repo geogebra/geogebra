@@ -1595,19 +1595,25 @@ namespace giac {
     vecteur lv(lvarx(expr,x));
     int s=lv.size();
     if (s>1){
-      expr=halftan_hyp2exp(expr,contextptr);
+      expr=hyp2exp(expr,contextptr); // was halftan_hyp2exp, changed for solve(sin(2x)=sin(x))
       lv=lvarx(expr,x);
       s=lv.size();
       if (s>1){
 	gen tmp=_texpand(expr,contextptr);
-	if (lvarx(tmp,x).size()==1){
+	if (lvarx(tmp,x).size()==1)
 	  expr=tmp;
-	}
-	tmp=_lncollect(expr,contextptr);
-	if (lvarx(tmp,x).size()==1){
-	  // Note: we are checking solutions numerically later
-	  *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
-	  expr=tmp;
+	else {
+	  tmp=halftan(tmp,contextptr);
+	  if (lvarx(tmp,x).size()==1)
+	    expr=tmp;
+	  else {
+	    tmp=_lncollect(expr,contextptr);
+	    if (lvarx(tmp,x).size()==1){
+	      // Note: we are checking solutions numerically later
+	      *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
+	      expr=tmp;
+	    }
+	  }
 	}
       }
     }
