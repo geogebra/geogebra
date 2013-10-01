@@ -1312,9 +1312,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
-				if(inputVE!=null)
-					outputVE.setAssignmentType(inputVE.getAssignmentType());
-			}else{
+				if (inputVE!=null) {
+					if (inputVE.isTopLevelCommand() && "Vector".equals(inputVE.getTopLevelCommand().getName())) {  
+						ExpressionNode wrapped = outputVE.wrap(); 
+						wrapped.setForceVector(); 
+						outputVE = wrapped; 
+					} 
+
+				}
+			} else {
 				setError("CAS.GeneralErrorMessage");
 			}
 		}
