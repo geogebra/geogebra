@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <script>
+    
+    function getURLParameter(name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+    }
+    
+    //alert(getURLParameter("redirect") + "&url=" + getURLParameter("callback"));
+
+    window.location.href = getURLParameter("redirect") + "&url=" + getURLParameter("callback");   
+    </script>
+</body>
+</html>

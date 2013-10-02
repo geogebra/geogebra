@@ -20,7 +20,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
 import geogebra.html5.util.WindowReference;
-import geogebra.html5.util.WindowW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
@@ -301,23 +300,10 @@ public class DialogManagerW extends DialogManager {
 
 	WindowReference signInDialog = null;
 
-	public void showLogInDialog() {
-	    if (signInDialog == null) {
-	    	int  width = 900;
-			int height = 500;
-			int left = (Window.getClientWidth() / 2) - (width / 2);
-			int top = (Window.getClientHeight() / 2) - (height / 2);
-			signInDialog = WindowW.open(app.getLoginOperation().getLoginURL(((AppW) app).getLocalization().getLanguage()), "GeoGebraTube" , "resizable," +
-																				"toolbar=no," +
-																				"location=no," +
-																				"scrollbars=no, " + 
-																				"statusbar=no, " +
-																				"titlebar=no, " + 
-																				"width=" + width +"," +
-																				"height=" + height + "," +
-																				"left=" + left + ", " +
-																				"top=" + top);
-			signInDialog.checkForLoginToken();
+	@Override
+    public void showLogInDialog() {
+	    if (signInDialog == null || signInDialog.closed()) {
+	    	signInDialog = WindowReference.createSignInWindow(app);
 	    } else {
 	    	signInDialog.close();
 	    	signInDialog = null;

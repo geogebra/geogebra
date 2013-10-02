@@ -1,5 +1,7 @@
 package geogebra.html5.util;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 
 /**
  * @author gabor
@@ -15,8 +17,8 @@ public class WindowW {
 	 * @param features what to show and what not
 	 * @return the reference to the window
 	 */
-	public native static WindowReference open(String url, String name, String features) /*-{
-		return $wnd.open(url, name, features);
+	public native static JavaScriptObject open(String url, String name, String features) /*-{
+		return (window.geogebbratubewindow = window.open(url, name, features));
 	}-*/;
 
 }
