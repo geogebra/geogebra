@@ -313,7 +313,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean showInEuclidianView() {
 		return isDrawable()
 				&& isDefined()
-				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()));
+				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()))
+				&& (getIntervalMin() < getIntervalMax());
 	}
 
 	@Override
@@ -1024,13 +1025,14 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				&& !Double.isInfinite(getIntervalMax());
 		boolean ok = (getIntervalMin() <= getIntervalMax());
 		setIntervalMinActive(ok && okMin);
-		setIntervalMaxActive(ok && okMax);
+		setIntervalMaxActive((ok && okMin && okMax)|| (getIntervalMin() == getIntervalMax() && okMin && okMax));
 		if (ok && okMin && okMax)
 			setValue(isDefined() ? value : 1.0);
 		else if (okMin && okMax)
 			setUndefined();
-		if(oldValue!=value)
-			updateCascade();
+//		if(oldValue!=value)
+//			updateCascade();
+		updateCascade();
 	}
 
 	/**
