@@ -325,11 +325,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			return;
 		}
 
-		if(iconSize == null) 
+		if(iconSize == null) {
 			if(icon != null)
 				iconSize = new GDimensionW(icon.getWidth(), icon.getHeight());
 			else
 				iconSize = new GDimensionW(1,1);
+		}
 
 		if(icon == null){
 			//icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
