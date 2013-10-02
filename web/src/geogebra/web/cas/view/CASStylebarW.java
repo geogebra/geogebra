@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.StyleBarW;
@@ -39,7 +38,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	
 	private void initGUI(){
 		createTextButtons();
-//		add(btnUseAsText);
+		add(btnUseAsText);
 	}
 
 	private void createTextButtons(){
