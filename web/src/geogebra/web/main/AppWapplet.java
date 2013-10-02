@@ -18,6 +18,7 @@ import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
+import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
 
@@ -124,6 +125,9 @@ public class AppWapplet extends AppW {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget)getEuclidianViewpanel());
+			((DockPanelW)getEuclidianViewpanel()).setVisible(true);
+			((DockPanelW)getEuclidianViewpanel()).setEmbeddedSize(getSettings().getEuclidian(1).getPreferredSize().getWidth());
+			((DockPanelW)getEuclidianViewpanel()).updatePanel();
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize().getHeight());
@@ -142,10 +146,17 @@ public class AppWapplet extends AppW {
 
 	public void buildApplicationPanel() {
 
-		//if (!isUsingFullGui()) {
-		//	buildSingleApplicationPanel();
-		//	return;
-		//}
+		if (!isUsingFullGui()) {
+			if (showConsProtNavigation
+					|| !isJustEuclidianVisible()) {
+				useFullGui = true;
+			}
+		}
+
+		if (!isUsingFullGui()) {
+			buildSingleApplicationPanel();
+			return;
+		}
 
 		frame.clear();
 
@@ -237,13 +248,13 @@ public class AppWapplet extends AppW {
 			}
 		}
 
-		//if (!isUsingFullGui()) {
-		//	buildSingleApplicationPanel();
-		//} else {
+		if (!isUsingFullGui()) {
+			buildSingleApplicationPanel();
+		} else {
 			// a small thing to fix a rare bug
 			getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
-		//}
+		}
 		
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
@@ -256,13 +267,13 @@ public class AppWapplet extends AppW {
 		frame.splash.canNowHide();
 		requestFocusInWindow();
 
-		//if (isUsingFullGui()) {
+		if (isUsingFullGui()) {
 			if (needsSpreadsheetTableModel())
 				getSpreadsheetTableModel();
 			refreshSplitLayoutPanel();
-		//}
+		}
 
-		//if (isUsingFullGui())
+		if (isUsingFullGui())
 			this.getEuclidianViewpanel().updateNavigationBar();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
