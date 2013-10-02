@@ -269,7 +269,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	/** application */
 	protected App app;
 
-	private EuclidianSettings settings;
+	private final EuclidianSettings settings;
 
 	// member variables
 	/** controller */
@@ -279,7 +279,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	private final Hits hits;
 
 	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
-	static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
+	private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
 
 	// maximum angle between two line segments
 	private static final double MAX_ANGLE = 10; // degrees
@@ -899,7 +899,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * @param repaint
 	 *            true to repaint
 	 */
-	public void setCoordSystem(double xZero, double yZero, double xscale,
+	public final void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean repaint) {
 
 		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
