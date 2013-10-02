@@ -99,7 +99,7 @@ public class Ggb2giac {
 				"idivis(%0)");
 		p("DivisorsSum.1",
 				"sum(idivis(%0))");
-		p("Dot.2", "dot([%0],[%1])");
+		p("Dot.2", "regroup(dot(%0,%1))");
 		// GeoGebra indexes lists from 1, giac from 0
 
 		// equations:
@@ -762,6 +762,11 @@ public class Ggb2giac {
 				+ "[ggbans:=when(((ggbans)[0])=='=' && lhs(ggbans)==1 && rhs(ggbans)==0,?,ggbans)],"
 				+ "[ggbans:=when(type(ggbans)==DOM_LIST, map(ggbans,x->x=0), {ggbans})],ggbans][4]");
 
+		// see ToPoint.1 
+		// eg Dot[Vector[(a,b)],Vector[(c,d)]] 
+		p("Vector.1", 
+				"point(convert(coordinates(%0),25))");
+		
 		// TODO: see GeoVector.buildValueString()
 		// p("Vector.2", "%1-(%0)");
 		p("OrthogonalVector.1",
