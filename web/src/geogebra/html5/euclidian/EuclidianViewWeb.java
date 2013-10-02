@@ -326,7 +326,8 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		}
 
 		// real world values
-		this.setCoordSystem(getxZero(), getyZero(), getXscale(), getYscale(), false);
+		setXYMinMaxForUpdateSize();
+		setRealWorldBounds();
 
 		try {
 			createImage();

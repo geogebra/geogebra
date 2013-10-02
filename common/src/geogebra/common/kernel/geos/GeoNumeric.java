@@ -1011,7 +1011,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 		if (evListeners != null)
 			for (EuclidianViewInterfaceSlim ev : evListeners)
-				ev.updateBounds();
+				ev.updateBounds(true);
 	}
 
 	private void resolveMinMax() {

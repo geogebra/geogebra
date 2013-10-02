@@ -307,7 +307,8 @@ public abstract class EuclidianViewND extends EuclidianView{
 		}
 
 		// real world values
-		this.setCoordSystem(getxZero(), getyZero(), getXscale(), getYscale(), false);
+		setXYMinMaxForUpdateSize();
+		setRealWorldBounds();
 
 		// ================================================
 		// G.Sturr 8/27/10: test: rescale on window resize

@@ -1024,7 +1024,7 @@ public class OptionsEuclidianD extends
 						&& !view.isLockedAxesRatio());
 				tfAxesRatioY.setEnabled(view.isZoomable()
 						&& !view.isLockedAxesRatio());
-				view.updateBounds();
+				view.updateBounds(true);
 			}
 		}
 

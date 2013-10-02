@@ -83,11 +83,11 @@ public class CmdZoomIn extends CmdScripting {
 				}
 			}
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			ev.setXminObject((NumberValue)arg[0]);
-			ev.setXmaxObject((NumberValue)arg[2]);
-			ev.setYminObject((NumberValue)arg[1]);
-			ev.setYmaxObject((NumberValue)arg[3]);
-			ev.updateBounds();
+			ev.setXminObject((GeoNumeric)arg[0]);
+			ev.setXmaxObject((GeoNumeric)arg[2]);
+			ev.setYminObject((GeoNumeric)arg[1]);
+			ev.setYmaxObject((GeoNumeric)arg[3]);
+			ev.updateBounds(true);
 			
 			return;
 						

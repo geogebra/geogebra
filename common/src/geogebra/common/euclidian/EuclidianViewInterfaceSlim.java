@@ -53,7 +53,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	/**
 	 * Update bounds from bound objects
 	 */
-	void updateBounds();
+	void updateBounds(boolean updateDrawables);
 	/**
 	 * Replaces old bound by new bound in all positions where it is used
 	 * @param oldBound old bound object

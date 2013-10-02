@@ -473,8 +473,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 	}
 
-	private boolean updatingBounds = false;
-
 	private Double lockedAxesRatio;
 	private boolean updateBackgroundOnNextRepaint;
 
@@ -496,15 +494,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void setLockedAxesRatio(Double flag) {
 		lockedAxesRatio = flag;
 		if (flag != null) {
-			updateBounds();
+			updateBounds(true);
 		}
 	}
 
-	public void updateBounds() {
-		if (updatingBounds) {
-			return;
-		}
-		updatingBounds = true;
+	public void updateBounds(boolean updateDrawables) {
 		double xmin2 = xminObject.getDouble();
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
@@ -529,9 +523,35 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 		if (((xmax2 - xmin2) > Kernel.MAX_PRECISION)
 				&& ((ymax2 - ymin2) > Kernel.MAX_PRECISION)) {
-			setRealWorldCoordSystem(xmin2, xmax2, ymin2, ymax2);
+			xmax = xmax2;
+			xmin = xmin2;
+			ymin = ymin2;
+			ymax = ymax2;
+			setXscale(getWidth() / (xmax2 - xmin2));
+			setYscale(getHeight() / (ymax2 - ymin2));
+			xZero = -xscale * xmin2;
+			yZero = yscale * ymax2;
+			setAxesIntervals(getXscale(), 0);
+			setAxesIntervals(getYscale(), 1);
+			calcPrintingScale();
+			if (isLockedAxesRatio()) {
+				this.updateBoundObjects();
+			}
 		}
-		updatingBounds = false;
+		// tell kernel
+		if (evNo != EVNO_GENERAL) {
+			kernel.setEuclidianViewBounds(evNo, getXmin(), getXmax(),
+					getYmin(), getYmax(), getXscale(), getYscale());
+		}
+
+		// tell option panel
+		if (optionPanel != null)
+			optionPanel.updateBounds();
+		
+		if(updateDrawables){
+			this.updateAllDrawables(true);
+		}
+
 	}
 
 	public boolean isZoomable() {
@@ -1210,7 +1230,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void setGridType(int type) {
 		gridType = type;
 		if (type == GRID_POLAR) {
-			updateBounds();
+			updateBounds(true);
 		}
 	}
 
@@ -1237,6 +1257,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	protected void setXYMinMaxForUpdateSize() {
 		setXYMinMaxForSetCoordSystem();
 	}
+	
+	protected void setRealWorldBounds(){
+		updateBoundObjects();
+		updateBounds(false);
+	}
 
 	/**
 	 * Updates xmin, xmax, ... for setCoordSystem()
@@ -1246,29 +1271,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		xmax = ((getWidth() - getxZero()) * getInvXscale());
 		ymax = (getyZero() * getInvYscale());
 		ymin = ((getyZero() - getHeight()) * getInvYscale());
-	}
-
-	/**
-	 * Updates xmin, xmax, ... from xzero, xscale, ...
-	 */
-	final protected void setRealWorldBounds() {
-
-		updateBoundObjects();
-		updateBounds();
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		calcPrintingScale();
-
-		// tell kernel
-		if (evNo != EVNO_GENERAL) {
-			kernel.setEuclidianViewBounds(evNo, getXmin(), getXmax(),
-					getYmin(), getYmax(), getXscale(), getYscale());
-		}
-
-		// tell option panel
-		if (optionPanel != null)
-			optionPanel.updateBounds();
-
 	}
 
 	/**
@@ -2020,7 +2022,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		if (yminObject == num) {
 			yminObject = num2;
 		}
-		updateBounds();
+		updateBounds(true);
 	}
 
 	/**
@@ -3914,7 +3916,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			evs.setYmaxObject(ymaxObject, false);
 		} else {
 			// xmin, ... are OK; just update bounds
-			updateBounds();
+			updateBounds(true);
 		}
 
 		// let's do this after other updates because this might override e.g.
