@@ -20,14 +20,14 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
-import geogebra.common.gui.dialog.handler.RedefineInputHandler;
-import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
+import geogebra.common.gui.dialog.options.model.ObjectNameModel;
+import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -47,7 +47,6 @@ import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.Furniture;
@@ -7778,10 +7777,11 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
  * @author Markus Hohenwarter
  */
 class NamePanel extends JPanel implements ActionListener, FocusListener,
-		UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+		UpdateablePropertiesPanel, SetLabels, UpdateFonts, IObjectNameListener {
 
 	private static final long serialVersionUID = 1L;
 
+	private ObjectNameModel model;
 	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
 
 	private boolean actionPerforming = false;
@@ -7793,17 +7793,16 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	};
 	private JLabel nameLabel, defLabel, captionLabel;
 	private InputPanelD inputPanelName, inputPanelDef, inputPanelCap;
-	private RenameInputHandler nameInputHandler;
-	private RedefineInputHandler defInputHandler;
-	private GeoElement currentGeo;
+
 	private AppD app;
 	private Localization loc;
 
 	public NamePanel(AppD app) {
 		this.app = app;
 		this.loc = app.getLocalization();
+		model = new ObjectNameModel(app, this);
 		// NAME PANEL
-		nameInputHandler = new RenameInputHandler(app, null, false);
+	
 
 		// non auto complete input panel
 		inputPanelName = new InputPanelD(null, app, 1, -1, true);
@@ -7812,11 +7811,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		tfName.addActionListener(this);
 		tfName.addFocusListener(this);
 
-		// DEFINITON PANEL
-		// Michael Borcherds 2007-12-31 BEGIN added third argument
-		defInputHandler = new RedefineInputHandler(app, null, null);
-		// Michael Borcherds 2007-12-31 END
-
+	
 		// definition field: non auto complete input panel
 		inputPanelDef = new InputPanelD(null, app, 1, -1, true);
 		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef
@@ -7854,7 +7849,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 	}
 
-	private void updateGUI(boolean showDefinition, boolean showCaption) {
+	public void updateGUI(boolean showDefinition, boolean showCaption) {
 		int rows = 1;
 		removeAll();
 
@@ -7939,64 +7934,14 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		 * currentGeo.updateVisualStyleRepaint(); } }
 		 */
 
-		if (!checkGeos(geos)) {
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
 			// currentGeo=null;
 			return null;
 		}
 		
 
-		// NAME
-		tfName.removeActionListener(this);
-
-		// take name of first geo
-		GeoElement geo0 = (GeoElement) geos[0];
-		tfName.setText(geo0.getLabel(StringTemplate.editTemplate));
-
-		// if a focus lost is called in between, we keep the current definition text
-		redefinitionForFocusLost = tfDefinition.getText();
-		currentGeo = geo0;
-		nameInputHandler.setGeoElement(geo0);
-		defInputHandler.setGeoElement(geo0);
-
-		tfName.addActionListener(this);
-
-		// DEFINITION
-		// boolean showDefinition = !(currentGeo.isGeoText() ||
-		// currentGeo.isGeoImage());
-		boolean showDefinition = currentGeo.isGeoText() ? ((GeoText) currentGeo)
-				.isTextCommand() : !(((currentGeo.isGeoImage() || currentGeo
-				.isGeoButton()) && currentGeo.isIndependent()));
-				
-		if (showDefinition) {
-			/*
-			 * tfDefinition.removeActionListener(this);
-			 * defInputHandler.setGeoElement(currentGeo);
-			 * tfDefinition.setText(getDefText(currentGeo));
-			 * tfDefinition.addActionListener(this);
-			 */
-			updateDef(currentGeo);
-
-			if (currentGeo.isIndependent()) {
-				defLabel.setText(app.getPlain("Value") + ":");
-			} else {
-				defLabel.setText(app.getPlain("Definition") + ":");
-			}
-		}
-		// defLabel.setVisible(showDefinition);
-		// inputPanelDef.setVisible(showDefinition);
-
-		// CAPTION
-		boolean showCaption = !(currentGeo instanceof TextValue); // borcherds was
-															// currentGeo.isGeoBoolean();
-		if (showCaption) {
-			tfCaption.removeActionListener(this);
-			tfCaption.setText(currentGeo.getRawCaption());
-			tfCaption.addActionListener(this);
-		}
-		// captionLabel.setVisible(showCaption);
-		// inputPanelCap.setVisible(showCaption);
-
-		updateGUI(showDefinition, showCaption);
+		model.updateProperties();
 
 		return this;
 	}
@@ -8010,8 +7955,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			return;
 		
 		tfDefinition.removeActionListener(this);
-		defInputHandler.setGeoElement(geo);
-		tfDefinition.setText(getDefText(geo));
+		model.getDefInputHandler().setGeoElement(geo);
+		tfDefinition.setText(model.getDefText(geo));
 		tfDefinition.addActionListener(this);
 
 		// App.printStacktrace(""+geo);
@@ -8024,15 +7969,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			return;
 
 		tfName.removeActionListener(this);
-		nameInputHandler.setGeoElement(geo);
+		model.getNameInputHandler().setGeoElement(geo);
 		tfName.setText(geo.getLabel(StringTemplate.editTemplate));
 		tfName.addActionListener(this);
 
 		// App.printStacktrace(""+geo);
-	}
-
-	private static boolean checkGeos(Object[] geos) {
-		return geos.length == 1;
 	}
 
 	/**
@@ -8047,41 +7988,15 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		if (source == tfName) {
 			// rename
-			String strName = tfName.getText();
-			nameInputHandler.processInput(strName);
-
-			// reset label if not successful
-			strName = currentGeo.getLabel(StringTemplate.defaultTemplate);
-			if (!strName.equals(tfName.getText())) {
-				tfName.setText(strName);
-				tfName.requestFocus();
-			}
-			currentGeo.updateRepaint();
+			model.applyNameChange(tfName.getText());
+				
 		} else if (source == tfDefinition) {
-			String strDefinition = tfDefinition.getText();
+		
+			model.applyDefinitionChange(tfDefinition.getText());
+			//tfDefinition.requestFocusInWindow();
 			
-			if (!strDefinition.equals(getDefText(currentGeo))) {
-
-				if (defInputHandler.processInput(strDefinition)) {
-					// if succeeded, switch current geo
-					currentGeo = defInputHandler.getGeoElement();
-					app.getSelectionManager().addSelectedGeo(currentGeo);
-				} else
-					redefinitionFailed = true;
-
-				tfDefinition.requestFocusInWindow();
-			}
-
 		} else if (source == tfCaption) {
-			String strCaption = tfCaption.getText();
-			currentGeo.setCaption(strCaption);
-
-			strCaption = currentGeo.getRawCaption();
-			if (!strCaption.equals(tfCaption.getText().trim())) {
-				tfCaption.setText(strCaption);
-				tfCaption.requestFocus();
-			}
-			currentGeo.updateVisualStyleRepaint();
+			model.applyCapitonChange(tfCaption.getText());
 		}
 
 		SwingUtilities.invokeLater(doActionStopped);
@@ -8089,7 +8004,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	public void focusGained(FocusEvent arg0) {
 		//started to type something : store current geo if focus lost
-		currentGeoForFocusLost = currentGeo;
+		currentGeoForFocusLost = model.getCurrentGeo();
 	}
 
 	public void focusLost(FocusEvent e) {
@@ -8105,25 +8020,25 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				redefinitionFailed = false;
 				return;
 			}
-
-			if (currentGeo == currentGeoForFocusLost){
+//TODO: put these into the model with a proper name
+			if (model.getCurrentGeo() == currentGeoForFocusLost){
 				String strDefinition = tfDefinition.getText();
-				if (!strDefinition.equals(getDefText(currentGeo))) {
+				if (!strDefinition.equals(model.getDefText(model.getCurrentGeo()))) {
 					tfDefinition.setText(strDefinition);
-					defInputHandler.setGeoElement(currentGeoForFocusLost);
-					if (defInputHandler.processInput(strDefinition))
+					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
+					if (model.getDefInputHandler().processInput(strDefinition))
 						// if succeeded, switch current geo
-						currentGeo = defInputHandler.getGeoElement();
+						model.setCurrentGeo(model.getDefInputHandler().getGeoElement());
 				}
 			}else{
 				String strDefinition = redefinitionForFocusLost;
-				if (!strDefinition.equals(getDefText(currentGeoForFocusLost))) {
+				if (!strDefinition.equals(model.getDefText(currentGeoForFocusLost))) {
 					//redefine current geo for focus lost
-					defInputHandler.setGeoElement(currentGeoForFocusLost);
-					defInputHandler.processInput(strDefinition);
+					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
+					model.getDefInputHandler().processInput(strDefinition);
 					
 					//restore "real" current geo
-					defInputHandler.setGeoElement(currentGeo);
+					model.getDefInputHandler().setGeoElement(model.getCurrentGeo());
 				}
 			}
 
@@ -8135,14 +8050,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	}
 
-	private static String getDefText(GeoElement geo) {
-		/*
-		 * return geo.isIndependent() ? geo.toOutputValueString() :
-		 * geo.getCommandDescription();
-		 */
-		return geo.getRedefineString(false, true);
-	}
-
+	
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 
@@ -8161,6 +8069,43 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	public void updateVisualStyle(GeoElement geo) {
 		// NOTHING SHOULD BE DONE HERE (ENDLESS CALL WITH UPDATE)
 
+	}
+
+	public void setNameText(final String text) {
+		tfName.setText(text);
+		tfName.requestFocus();
+	}
+
+	public void setCaptionText(final String text) {
+		tfCaption.setText(text);
+		tfCaption.requestFocus();
+	}
+	public void updateCaption() {
+		tfCaption.removeActionListener(this);
+		tfCaption.setText(model.getCurrentGeo().getRawCaption());
+		tfCaption.addActionListener(this);
+		
+	}
+
+	public void updateDefLabel() {
+		updateDef(model.getCurrentGeo());
+
+		if (model.getCurrentGeo().isIndependent()) {
+			defLabel.setText(app.getPlain("Value") + ":");
+		} else {
+			defLabel.setText(app.getPlain("Definition") + ":");
+		}
+	}
+
+	public void updateName(String text) {
+		tfName.removeActionListener(this);
+		tfName.setText(text);
+
+		// if a focus lost is called in between, we keep the current definition text
+		redefinitionForFocusLost = tfDefinition.getText();
+		tfName.addActionListener(this);
+
+		
 	}
 
 }
