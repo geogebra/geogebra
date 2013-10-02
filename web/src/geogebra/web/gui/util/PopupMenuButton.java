@@ -57,8 +57,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 	public void setFgColor(GColorW fgColor) {
 		this.fgColor = fgColor;
-		if(myTable != null)
+		if (myTable != null) {
 			myTable.setFgColor(fgColor);
+		}
 		updateGUI();
 
 	}
@@ -104,7 +105,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param app
 	 */
 	public PopupMenuButton(AppW app){
-		this( app, null, -1, -1, null, geogebra.common.gui.util.SelectionTable.UNKNOWN,  false,  false);
+		this(app, null, -1, -1, null, geogebra.common.gui.util.SelectionTable.UNKNOWN,  false,  false);
 	}
 	
 	/**
@@ -285,7 +286,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 		public ImageData getButtonIcon(){
 
-			ImageData icon = (ImageData) this.getIcon();
+			ImageData icon = this.getIcon();
 			if(isFixedIcon) return icon;
 
 
@@ -320,27 +321,28 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	@Override
 	public void setIcon(ImageData icon) {
 
-		if(isFixedIcon) {			
+		if (isFixedIcon) {			
 			super.setIcon(icon);
 			return;
 		}
 
-		if(iconSize == null) {
-			if(icon != null)
+		if (iconSize == null) {
+			if (icon != null) {
 				iconSize = new GDimensionW(icon.getWidth(), icon.getHeight());
-			else
+			} else {
 				iconSize = new GDimensionW(1,1);
+			}
 		}
 
-		if(icon == null){
+		if (icon == null) {
 			//icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
-		}else{
-			icon = GeoGebraIcon.ensureIconSize((ImageData) icon, iconSize);
+		} else {
+			icon = GeoGebraIcon.ensureIconSize(icon, iconSize);
 		}
 
 		// add a down_triangle image to the left of the icon
-		if(icon != null) {
-			super.setIcon(GeoGebraIcon.joinIcons((ImageData)icon, AppResources.INSTANCE.triangle_down()));
+		if (icon != null) {
+			super.setIcon(GeoGebraIcon.joinIcons(icon, AppResources.INSTANCE.triangle_down()));
 		} else {
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.triangle_down(), this);
 			//must be done in callback super.setIcon(AppResources.INSTANCE.triangle_down());
@@ -386,8 +388,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
     }
 
 	public Slider getMySlider() {
-		if(mySlider == null)
+		if (mySlider == null) {
 			initSlider();
+		}
 		return mySlider;
 	}
 	
@@ -418,8 +421,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		//}
 		//mySlider.addChangeListener(this);
 
-		if(hasTable)
+		if (hasTable) {
 			myTable.setSliderValue(value);
+		}
 		updateGUI();
 	}
 	public int getSelectedIndex() {
@@ -464,9 +468,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	    double textWidth = ctx.measureText(text).getWidth();
 	    int origWidth = ctx.getCanvas().getWidth();
 	    int origHeight = ctx.getCanvas().getHeight();
-	    ImageData data = ctx.getImageData(0, 0, origWidth, origHeight);
+	    ImageData data1 = ctx.getImageData(0, 0, origWidth, origHeight);
 	    ctx.getCanvas().setWidth((int) (origWidth + TEXT_OFFSET + textWidth + TEXT_OFFSET));
-	    ctx.putImageData(data, 0, 0);
+	    ctx.putImageData(data1, 0, 0);
 	    ctx.fillText(text, origWidth + TEXT_OFFSET, buttonHeight / 2);
 	    
     }
