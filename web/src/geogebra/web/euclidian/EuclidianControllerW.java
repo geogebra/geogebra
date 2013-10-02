@@ -306,12 +306,21 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public EuclidianControllerW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
+
 		Window.addResizeHandler(new ResizeHandler() {
-			
+
 			public void onResize(ResizeEvent event) {
 				calculateEnvironment();
 			}
 		});
+
+		Window.addWindowScrollHandler(new Window.ScrollHandler() {
+
+			public void onWindowScroll(Window.ScrollEvent event) {
+				calculateEnvironment();
+			}
+		});
+
 		tempNum = new MyDouble(kernel);
 	}
 	
