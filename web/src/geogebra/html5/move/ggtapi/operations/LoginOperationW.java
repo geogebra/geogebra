@@ -38,9 +38,15 @@ public class LoginOperationW extends LogInOperation {
 	}
 	
 	private native void iniNativeEvents() /*-{
+		var t = this;
 	    $wnd.addEventListener("message",function(event) {
 	    	$wnd.console.log(event);
-	    });
+	    	var data;
+	    	//later if event.origin....
+	    	if (event.data) {
+	    		$wnd.alert("tomorow processing token :-))" + event.data);
+	    	}
+	    }, false);
     }-*/;
 
 	@Override
@@ -63,9 +69,9 @@ public class LoginOperationW extends LogInOperation {
 	 * @return change this concerning what environment the project runs.
 	 */
 	public String getCallbackUrl() {
-		//return  BASEURL.LOCALHOST;
+		return  BASEURL.LOCALHOST;
 		// return BASEURL.APPSPOT;
-		return BASEURL.WEB_GUI;
+		//return BASEURL.WEB_GUI;
 	}
 	
 	/**
