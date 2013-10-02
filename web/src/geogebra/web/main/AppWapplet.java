@@ -142,10 +142,10 @@ public class AppWapplet extends AppW {
 
 	public void buildApplicationPanel() {
 
-		if (!isUsingFullGui()) {
-			buildSingleApplicationPanel();
-			return;
-		}
+		//if (!isUsingFullGui()) {
+		//	buildSingleApplicationPanel();
+		//	return;
+		//}
 
 		frame.clear();
 
@@ -237,13 +237,13 @@ public class AppWapplet extends AppW {
 			}
 		}
 
-		if (!isUsingFullGui()) {
-			buildSingleApplicationPanel();
-		} else {
+		//if (!isUsingFullGui()) {
+		//	buildSingleApplicationPanel();
+		//} else {
 			// a small thing to fix a rare bug
 			getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
-		}
+		//}
 		
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
@@ -256,13 +256,13 @@ public class AppWapplet extends AppW {
 		frame.splash.canNowHide();
 		requestFocusInWindow();
 
-		if (isUsingFullGui()) {
+		//if (isUsingFullGui()) {
 			if (needsSpreadsheetTableModel())
 				getSpreadsheetTableModel();
 			refreshSplitLayoutPanel();
-		}
+		//}
 
-		if (isUsingFullGui())
+		//if (isUsingFullGui())
 			this.getEuclidianViewpanel().updateNavigationBar();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
