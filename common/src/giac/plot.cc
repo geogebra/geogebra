@@ -7865,8 +7865,7 @@ namespace giac {
 	if (tmp==prev)
 	  continue;
 	prev=tmp;
-	if (calc_mode(contextptr)==1)
-	  tmp=remove_equal(tmp);
+	//if (calc_mode(contextptr)==1) tmp=remove_equal(tmp);
 	res.push_back(tmp);
       }
       // if (calc_mode(contextptr)==1) return symbolic(at_equal,makesequence(_prod(res,contextptr),0));

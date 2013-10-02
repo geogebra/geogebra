@@ -4618,11 +4618,16 @@ namespace giac {
       return;
     }
     unsigned Kcols=N-Mindex.size();
-    vector<modint> lescoeffs(Kcols*f4vG.size());
+    unsigned effectivef4vGsize=0;
+    for (unsigned i=0;i<f4vG.size();++i){
+      if (!f4v[f4vG[i]].coord.empty())
+	++effectivef4vGsize;
+    }
+    vector<modint> lescoeffs(Kcols*effectivef4vGsize);
     vector<modint>::iterator coeffit=lescoeffs.begin();
     if (debug_infolevel>1)
       cerr << "Capacity for coeffs " << lescoeffs.size() << endl;
-    vector<unsigned> lebitmap(((N>>5)+1)*f4vG.size());
+    vector<unsigned> lebitmap(((N>>5)+1)*effectivef4vGsize);
     unsigned * bitmap=&lebitmap.front();
 #else
     vector< vector<sparse_element> > SK(f4v.size());
