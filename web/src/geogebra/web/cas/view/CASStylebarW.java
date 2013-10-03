@@ -2,7 +2,6 @@ package geogebra.web.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
@@ -169,7 +168,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	}
 	
 	private void applyUseAsText(ArrayList<GeoElement> geos) {
-	//	casView.getConsoleTable().stopEditing();
+		casView.getConsoleTable().stopEditing();
 		// btnUseAsText
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
