@@ -65,8 +65,9 @@ public class HttpRequestD extends geogebra.common.util.HttpRequest {
 				answer += s;
 			}
 		    osw.close();
-		    
-			responseText = answer;
+
+		    // Convert the answer string to UTF-8
+			responseText = new String(answer.getBytes(), "UTF-8");
 			success = true;
 			processed = true;
 		}
