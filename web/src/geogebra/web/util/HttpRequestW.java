@@ -70,8 +70,7 @@ public class HttpRequestW extends geogebra.common.util.HttpRequest {
 		request.openSync("POST", url);
 		request.setTimeOut(timeout * 1000);
 		request.setOnReadyStateChange(new ReadyStateChangeHandler() {
-			
-			@Override
+
 			public void onReadyStateChange(XMLHttpRequest xhr) {
 				//TODO: continue here
 			}
