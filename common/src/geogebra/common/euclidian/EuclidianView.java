@@ -498,7 +498,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 	}
 
+	private boolean updatingBounds = false;
+
 	public void updateBounds(boolean updateDrawables) {
+
+		if (updatingBounds)
+			return;
+		
+		updatingBounds = true;
+
 		double xmin2 = xminObject.getDouble();
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
@@ -552,6 +560,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			this.updateAllDrawables(true);
 		}
 
+		updatingBounds = false;
 	}
 
 	public boolean isZoomable() {

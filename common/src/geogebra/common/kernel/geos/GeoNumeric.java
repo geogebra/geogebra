@@ -1001,8 +1001,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				* increment + min);
 	}
 
-	boolean updatingBounds = false;
-
 	@Override
 	public void update() {
 		super.update();
@@ -1013,11 +1011,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			}
 		}
 
-		if (evListeners != null && !updatingBounds) {
-			updatingBounds = true;
+		if (evListeners != null) {
 			for (EuclidianViewInterfaceSlim ev : evListeners)
 				ev.updateBounds(true);
-			updatingBounds = false;
 		}
 	}
 
