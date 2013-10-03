@@ -137,17 +137,17 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			App.error("Error in EuclidianView.draw");
 			return;
 		}
-		doDrawShape(shape);
+		doDrawShape(shape, true);
 		context.stroke();	
 	}
 
-	protected void doDrawShape(Shape shape) {
+	protected void doDrawShape(Shape shape, boolean enableDashEmulation) {
 		context.beginPath();
 		PathIterator it = shape.getPathIterator(null);
 		double[] coords = new double[6];
 		
 		// see #1718
-		boolean enableDashEmulation = true;//nativeDashUsed || App.isFullAppGui(); 
+		//boolean enableDashEmulation = true;//nativeDashUsed || App.isFullAppGui(); 
 		
 		while (!it.isDone()) {
 			int cu = it.currentSegment(coords);
@@ -272,7 +272,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			App.printStacktrace("Error in EuclidianView.fill");
 			return;
 		}
-		doDrawShape(shape);
+		doDrawShape(shape, false);
 		context.fill();		
 	}
 
@@ -561,7 +561,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		clipShape = new GenericShape(shape2);
-		doDrawShape(shape2);
+		doDrawShape(shape2, false);
 		context.save();
 		context.clip();
 	}
@@ -670,7 +670,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			App.error("Error in Graphics2D.clip");
 			return;
 		}
-		doDrawShape(shape2);
+		doDrawShape(shape2, false);
 		context.save();
 		context.clip();
 	}
@@ -745,7 +745,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			App.error("Error in Graphics2D.setClip");
 			return;
 		}
-		doDrawShape(shape2);
+		doDrawShape(shape2, false);
 		if (clipShape != null) {
 			// we should call this only if no clip was set or just after another clip to overwrite
 			// in this case we don't want to double-clip something so let's restore the context

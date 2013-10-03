@@ -30,8 +30,6 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.main.App;
@@ -534,18 +532,7 @@ public abstract class Drawable extends DrawableND {
 			g2.fill(fillShape);
 		} else if (geo.getAlphaValue() > 0.0f) {
 			g2.setPaint(geo.getFillColor());
-			
-			
-			// needed in web when we are using the dashed lines hack, eg x < 3
-			// otherwise this doesn't work in web.awt.Graphics2D
-			// for inequalities the line type is not given by geo, hence the instanceof checks
-			//		doDrawShape(shape);
-			//      context.fill();		
-			if ((lineType != EuclidianStyleConstants.LINE_TYPE_FULL || geo instanceof GeoFunctionNVar || geo instanceof GeoFunction) && geo.getKernel().getApplication().isHTML5Applet()) {
-				g2.setStroke(EuclidianStatic.getStroke(0, EuclidianStyleConstants.LINE_TYPE_FULL));
-			}
-			
-			
+			//magic for switching off dash emulation moved to GGraphics2DW
 			g2.fill(fillShape);
 		}
 
