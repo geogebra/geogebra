@@ -9,6 +9,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
+import geogebra.common.gui.dialog.options.model.ObjectNameModel;
+import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
@@ -19,8 +21,10 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListe
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.openjdk.awt.geom.Dimension;
@@ -52,6 +56,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private TabPanel tabPanel;
 	private VerticalPanel advancedTab;
 
+	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
 	private TracePanel tracePanel;
 	private LabelPanel labelPanel;
@@ -478,7 +483,318 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 		
 	}
+
+
+class NamePanel extends OptionPanel implements IObjectNameListener {
+
+	private static final long serialVersionUID = 1L;
+
+	private ObjectNameModel model;
+	private AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
+
+//	private boolean actionPerforming = false;
+	private boolean redefinitionFailed = false;
+//	private Runnable doActionStopped = new Runnable() {
+//		public void run() {
+//			actionPerforming = false;
+//		}
+//	};
+	private Label nameLabel, defLabel, captionLabel;
+	private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
+
+	private AppW app;
+	private Localization loc;
+	private VerticalPanel mainWidget;
+	private FlowPanel namePanel;
+	private FlowPanel defPanel;
+	private FlowPanel captionPanel;
 	
+	public NamePanel(AppW app) {
+		this.app = app;
+		this.loc = app.getLocalization();
+		model = new ObjectNameModel(app, this);
+		setModel(model);
+		// NAME PANEL
+	
+
+		// non auto complete input panel
+		inputPanelName = new InputPanelW(null, app, 1, -1, true);
+		tfName = (AutoCompleteTextFieldW) inputPanelName.getTextComponent();
+		tfName.setAutoComplete(false);
+
+		tfName.addKeyHandler(new KeyHandler() {
+
+			public void keyReleased(KeyEvent e) {
+				model.applyNameChange(tfName.getText());	            
+            }});
+	
+		// definition field: non auto complete input panel
+		inputPanelDef = new InputPanelW(null, app, 1, -1, true);
+		tfDefinition = (AutoCompleteTextFieldW) inputPanelDef
+				.getTextComponent();
+		tfDefinition.setAutoComplete(false);
+
+		tfDefinition.addKeyHandler(new KeyHandler() {
+
+			public void keyReleased(KeyEvent e) {
+				model.applyDefinitionChange(tfDefinition.getText());
+	            
+            }});
+	
+		// caption field: non auto complete input panel
+		inputPanelCap = new InputPanelW(null, app, 1, -1, true);
+		tfCaption = (AutoCompleteTextFieldW) inputPanelCap.getTextComponent();
+		tfCaption.setAutoComplete(false);
+
+		tfCaption.addKeyHandler(new KeyHandler() {
+
+			public void keyReleased(KeyEvent e) {
+				model.applyCapitonChange(tfCaption.getText());
+            }});
+	
+		mainWidget = new VerticalPanel();
+		
+		// name panel
+		namePanel = new FlowPanel();
+		nameLabel = new Label();
+		namePanel.add(nameLabel);
+		namePanel.add(inputPanelName);
+		mainWidget.add(namePanel);
+		
+		// definition panel
+		defPanel = new FlowPanel();
+		defLabel = new Label();
+		defPanel.add(defLabel);
+		defPanel.add(inputPanelDef);
+		mainWidget.add(defPanel);
+
+		// caption panel
+		captionPanel = new FlowPanel();
+		captionLabel = new Label();
+		captionPanel.add(captionLabel);
+		captionPanel.add(inputPanelCap);
+		mainWidget.add(captionPanel);
+
+		setLabels();
+		setWidget(mainWidget);
+		updateGUI(true, true);
+	}
+
+	public void setLabels() {
+		nameLabel.setText(loc.getPlain("Name") + ":");
+		defLabel.setText(loc.getPlain("Definition") + ":");
+		captionLabel.setText(loc.getMenu("Button.Caption") + ":");
+	}
+
+	public void updateGUI(boolean showDefinition, boolean showCaption) {
+		int rows = 1;
+		mainWidget.clear();
+
+		if (loc.isRightToLeftReadingOrder()) {
+			mainWidget.add(inputPanelName);
+			mainWidget.add(nameLabel);
+		} else {
+			mainWidget.add(nameLabel);
+			mainWidget.add(inputPanelName);
+		}
+
+		if (showDefinition) {
+			rows++;
+			if (loc.isRightToLeftReadingOrder()) {
+				mainWidget.add(inputPanelDef);
+				mainWidget.add(defLabel);
+			} else {
+				mainWidget.add(defLabel);
+				mainWidget.add(inputPanelDef);
+			}
+		}
+
+		if (showCaption) {
+			rows++;
+			if (loc.isRightToLeftReadingOrder()) {
+				mainWidget.add(inputPanelCap);
+				mainWidget.add(captionLabel);
+			} else {
+				mainWidget.add(captionLabel);
+				mainWidget.add(inputPanelCap);
+			}
+		}
+
+		//app.setComponentOrientation(this);
+
+		this.rows = rows;
+
+	}
+
+	private int rows;
+	
+	/**
+	 * current geo on which focus lost shouls apply
+	 * (may be different to current geo, due to threads)
+	 */
+	private GeoElement currentGeoForFocusLost = null;
+
+	public void update(Object[] geos) {
+
+		/*
+		 * DON'T WORK : MAKE IT A TRY FOR 5.0 ? //apply textfields modification
+		 * on previous geo before switching to new geo //skip this if label is
+		 * not set (we re in the middle of redefinition) //skip this if action
+		 * is performing if (currentGeo!=null && currentGeo.isLabelSet() &&
+		 * !actionPerforming && (geos.length!=1 || geos[0]!=currentGeo)){
+		 * 
+		 * //App.printStacktrace("\n"+tfName.getText()+"\n"+currentGeo.getLabel(
+		 * StringTemplate.defaultTemplate));
+		 * 
+		 * String strName = tfName.getText(); if (strName !=
+		 * currentGeo.getLabel(StringTemplate.defaultTemplate))
+		 * nameInputHandler.processInput(tfName.getText());
+		 * 
+		 * 
+		 * String strDefinition = tfDefinition.getText(); if
+		 * (strDefinition.length()>0 &&
+		 * !strDefinition.equals(getDefText(currentGeo)))
+		 * defInputHandler.processInput(strDefinition);
+		 * 
+		 * String strCaption = tfCaption.getText(); if
+		 * (!strCaption.equals(currentGeo.getCaptionSimple())){
+		 * currentGeo.setCaption(tfCaption.getText());
+		 * currentGeo.updateVisualStyleRepaint(); } }
+		 */
+
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
+			// currentGeo=null;
+			return;
+		}
+		
+
+		model.updateProperties();
+
+	}
+
+	private String redefinitionForFocusLost = "";
+	
+	public void updateDef(GeoElement geo) {
+
+		// do nothing if called by doActionPerformed
+//		if (actionPerforming)
+//			return;
+		
+		model.getDefInputHandler().setGeoElement(geo);
+		tfDefinition.setText(model.getDefText(geo));
+
+		// App.printStacktrace(""+geo);
+	}
+
+	public void updateName(GeoElement geo) {
+
+//		// do nothing if called by doActionPerformed
+//		if (actionPerforming)
+//			return;
+//
+		model.getNameInputHandler().setGeoElement(geo);
+		tfName.setText(geo.getLabel(StringTemplate.editTemplate));
+
+		// App.printStacktrace(""+geo);
+	}
+
+	/**
+	 * handle textfield changes
+	 */
+//	public void actionPerformed(ActionEvent e) {
+//		doActionPerformed(e.getSource());
+//	}
+//
+//	private synchronized void doActionPerformed(Object source) {
+//		actionPerforming = true;
+//		}
+//
+//		SwingUtilities.invokeLater(doActionStopped);
+//	}
+//
+//	public void focusGained(FocusEvent arg0) {
+//		//started to type something : store current geo if focus lost
+//		currentGeoForFocusLost = model.getCurrentGeo();
+//	}
+//
+//	public void focusLost(FocusEvent e) {
+//		
+//		if (actionPerforming)
+//			return;
+//
+//		Object source = e.getSource();
+//
+//		if (source == tfDefinition) {
+//
+//			if (redefinitionFailed) {
+//				redefinitionFailed = false;
+//				return;
+//			}
+////TODO: put these into the model with a proper name
+//			if (model.getCurrentGeo() == currentGeoForFocusLost){
+//				String strDefinition = tfDefinition.getText();
+//				if (!strDefinition.equals(model.getDefText(model.getCurrentGeo()))) {
+//					tfDefinition.setText(strDefinition);
+//					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
+//					if (model.getDefInputHandler().processInput(strDefinition))
+//						// if succeeded, switch current geo
+//						model.setCurrentGeo(model.getDefInputHandler().getGeoElement());
+//				}
+//			}else{
+//				String strDefinition = redefinitionForFocusLost;
+//				if (!strDefinition.equals(model.getDefText(currentGeoForFocusLost))) {
+//					//redefine current geo for focus lost
+//					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
+//					model.getDefInputHandler().processInput(strDefinition);
+//					
+//					//restore "real" current geo
+//					model.getDefInputHandler().setGeoElement(model.getCurrentGeo());
+//				}
+//			}
+//
+//			SwingUtilities.invokeLater(doActionStopped);
+//
+//		} else {
+//			doActionPerformed(source);
+//		}
+//
+//	}
+
+	public void setNameText(final String text) {
+		tfName.setText(text);
+		tfName.requestFocus();
+	}
+
+	public void setCaptionText(final String text) {
+		tfCaption.setText(text);
+		tfCaption.requestFocus();
+	}
+	public void updateCaption() {
+		tfCaption.setText(model.getCurrentGeo().getRawCaption());
+		
+	}
+
+	public void updateDefLabel() {
+		updateDef(model.getCurrentGeo());
+
+		if (model.getCurrentGeo().isIndependent()) {
+			defLabel.setText(app.getPlain("Value") + ":");
+		} else {
+			defLabel.setText(app.getPlain("Definition") + ":");
+		}
+	}
+
+	public void updateName(String text) {
+		tfName.setText(text);
+
+		// if a focus lost is called in between, we keep the current definition text
+		redefinitionForFocusLost = tfDefinition.getText();
+
+		
+	}
+}
+
 	public OptionsObjectW(AppW app) {
 		this.app = app;
 
@@ -519,6 +835,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		VerticalPanel checkboxPanel = new VerticalPanel();
 		checkboxPanel.setSize("100%", "100%");
 		basicTab.add(checkboxPanel);
+
+		namePanel = new NamePanel((AppW)app);   
+		basicTab.add(namePanel.getWidget());
 
 		showObjectPanel = new ShowObjectPanel();   
 		checkboxPanel.add(showObjectPanel.getWidget());
@@ -581,6 +900,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 		if (geos.length != 0) {
+			namePanel.update(geos);
 			showObjectPanel.update(geos);
 			tracePanel.update(geos);
 			labelPanel.update(geos);
