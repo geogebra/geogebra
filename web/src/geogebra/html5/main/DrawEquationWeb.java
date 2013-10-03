@@ -199,6 +199,9 @@ public class DrawEquationWeb extends DrawEquation {
 				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
 			shouldPaintBackground = false;
 		else if ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
+				!app1.hasEuclidianView2EitherShowingOrNot())
+			shouldPaintBackground = false;
+		else if ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
 				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
 			shouldPaintBackground = false;
 
@@ -240,7 +243,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (!visible1 && !visible2) {
 			if (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) {
 				if (app1.getEuclidianView2().getTempGraphics2D(font) == g2) {
-					g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView2()).getGraphicsForPen();
+					g2visible = (GGraphics2DW)((AppWeb)app1).getEuclidianView2().getGraphicsForPen();
 				} else if (app1.getEuclidianView1().getTempGraphics2D(font) == g2) {
 					g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1()).getGraphicsForPen();
 				}
