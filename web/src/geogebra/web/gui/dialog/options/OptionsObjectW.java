@@ -549,28 +549,9 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 			
 			@Override
 			protected void wrapFocusLost(){
-				//TODO: put these into the model with a proper name
-				if (model.getCurrentGeo() == currentGeoForFocusLost){
-					String strDefinition = tfDefinition.getText();
-					if (!strDefinition.equals(model.getDefText(model.getCurrentGeo()))) {
-						tfDefinition.setText(strDefinition);
-						model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
-						if (model.getDefInputHandler().processInput(strDefinition))
-							// if succeeded, switch current geo
-							model.setCurrentGeo(model.getDefInputHandler().getGeoElement());
-					}
-				}else{
-					String strDefinition = redefinitionForFocusLost;
-					if (!strDefinition.equals(model.getDefText(currentGeoForFocusLost))) {
-						//redefine current geo for focus lost
-						model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
-						model.getDefInputHandler().processInput(strDefinition);
-						
-						//restore "real" current geo
-						model.getDefInputHandler().setGeoElement(model.getCurrentGeo());
-					}
-				}
-}	
+				model.redefineCurrentGeo(currentGeoForFocusLost,  tfDefinition.getText(), 
+						redefinitionForFocusLost); 
+			}
 		});
 		
 		tfDefinition.addKeyHandler(new KeyHandler() {
@@ -685,32 +666,6 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 
 	public void update(Object[] geos) {
 
-		/*
-		 * DON'T WORK : MAKE IT A TRY FOR 5.0 ? //apply textfields modification
-		 * on previous geo before switching to new geo //skip this if label is
-		 * not set (we re in the middle of redefinition) //skip this if action
-		 * is performing if (currentGeo!=null && currentGeo.isLabelSet() &&
-		 * !actionPerforming && (geos.length!=1 || geos[0]!=currentGeo)){
-		 * 
-		 * //App.printStacktrace("\n"+tfName.getText()+"\n"+currentGeo.getLabel(
-		 * StringTemplate.defaultTemplate));
-		 * 
-		 * String strName = tfName.getText(); if (strName !=
-		 * currentGeo.getLabel(StringTemplate.defaultTemplate))
-		 * nameInputHandler.processInput(tfName.getText());
-		 * 
-		 * 
-		 * String strDefinition = tfDefinition.getText(); if
-		 * (strDefinition.length()>0 &&
-		 * !strDefinition.equals(getDefText(currentGeo)))
-		 * defInputHandler.processInput(strDefinition);
-		 * 
-		 * String strCaption = tfCaption.getText(); if
-		 * (!strCaption.equals(currentGeo.getCaptionSimple())){
-		 * currentGeo.setCaption(tfCaption.getText());
-		 * currentGeo.updateVisualStyleRepaint(); } }
-		 */
-
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
 			// currentGeo=null;
@@ -748,73 +703,15 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		// App.printStacktrace(""+geo);
 	}
 
-	/**
-	 * handle textfield changes
-	 */
-//	public void actionPerformed(ActionEvent e) {
-//		doActionPerformed(e.getSource());
-//	}
-//
-//	private synchronized void doActionPerformed(Object source) {
-//		actionPerforming = true;
-//		}
-//
-//		SwingUtilities.invokeLater(doActionStopped);
-//	}
-//
-//	public void focusGained(FocusEvent arg0) {
-//		//started to type something : store current geo if focus lost
-//		currentGeoForFocusLost = model.getCurrentGeo();
-//	}
-//
-//	public void focusLost(FocusEvent e) {
-//		
-//		if (actionPerforming)
-//			return;
-//
-//		Object source = e.getSource();
-//
-//		if (source == tfDefinition) {
-//
-//			if (redefinitionFailed) {
-//				redefinitionFailed = false;
-//				return;
-//			}
-////TODO: put these into the model with a proper name
-//			if (model.getCurrentGeo() == currentGeoForFocusLost){
-//				String strDefinition = tfDefinition.getText();
-//				if (!strDefinition.equals(model.getDefText(model.getCurrentGeo()))) {
-//					tfDefinition.setText(strDefinition);
-//					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
-//					if (model.getDefInputHandler().processInput(strDefinition))
-//						// if succeeded, switch current geo
-//						model.setCurrentGeo(model.getDefInputHandler().getGeoElement());
-//				}
-//			}else{
-//				String strDefinition = redefinitionForFocusLost;
-//				if (!strDefinition.equals(model.getDefText(currentGeoForFocusLost))) {
-//					//redefine current geo for focus lost
-//					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
-//					model.getDefInputHandler().processInput(strDefinition);
-//					
-//					//restore "real" current geo
-//					model.getDefInputHandler().setGeoElement(model.getCurrentGeo());
-//				}
-//			}
-//
-//			SwingUtilities.invokeLater(doActionStopped);
-//
-//		} else {
-//			doActionPerformed(source);
-//		}
-//
-//	}
-
 	public void setNameText(final String text) {
 		tfName.setText(text);
 		tfName.requestFocus();
 	}
 
+	public void setDefinitionText(final String text) {
+		tfDefinition.setText(text);
+	}
+	
 	public void setCaptionText(final String text) {
 		tfCaption.setText(text);
 		tfCaption.requestFocus();

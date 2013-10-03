@@ -11,6 +11,7 @@ import geogebra.common.main.App;
 public class ObjectNameModel extends OptionsModel {
 	public interface IObjectNameListener {
 		void setNameText(final String text);
+		void setDefinitionText(final String text);
 		void setCaptionText(final String text);
 		void updateGUI(boolean showDefinition, boolean showCaption);
 		void updateDefLabel();
@@ -24,6 +25,7 @@ public class ObjectNameModel extends OptionsModel {
 	private RedefineInputHandler defInputHandler;
 	private GeoElement currentGeo;
 	private boolean redefinitionFailed;
+	private GeoElement currentGeoForFocusLost;
 	
 	public ObjectNameModel(App app, IObjectNameListener listener) {
 		this.app = app;
@@ -149,7 +151,26 @@ public class ObjectNameModel extends OptionsModel {
 		currentGeo.updateVisualStyleRepaint();
 	}
 
-	
+	public void redefineCurrentGeo(GeoElement geo, final String text, final String redefinitionText) {
+		if (currentGeo == geo){
+			if (!text.equals(getDefText(currentGeo))) {
+				
+				listener.setDefinitionText(text);
+				defInputHandler.setGeoElement(geo);
+				if (defInputHandler.processInput(text))
+					// if succeeded, switch current geo
+					setCurrentGeo(defInputHandler.getGeoElement());
+			}
+		}else{
+			String strDefinition = redefinitionText;
+			if (!strDefinition.equals(getDefText(geo))) {
+				defInputHandler.setGeoElement(geo);
+				defInputHandler.processInput(strDefinition);
+				defInputHandler.setGeoElement(currentGeo);
+			}
+		}
+
+	}
 
 	public GeoElement getCurrentGeo() {
 		return currentGeo;

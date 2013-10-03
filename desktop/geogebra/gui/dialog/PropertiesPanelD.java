@@ -8009,8 +8009,9 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	public void focusLost(FocusEvent e) {
 		
-		if (actionPerforming)
+		if (actionPerforming) {
 			return;
+		}
 
 		Object source = e.getSource();
 
@@ -8020,35 +8021,16 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				redefinitionFailed = false;
 				return;
 			}
-//TODO: put these into the model with a proper name
-			if (model.getCurrentGeo() == currentGeoForFocusLost){
-				String strDefinition = tfDefinition.getText();
-				if (!strDefinition.equals(model.getDefText(model.getCurrentGeo()))) {
-					tfDefinition.setText(strDefinition);
-					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
-					if (model.getDefInputHandler().processInput(strDefinition))
-						// if succeeded, switch current geo
-						model.setCurrentGeo(model.getDefInputHandler().getGeoElement());
-				}
-			}else{
-				String strDefinition = redefinitionForFocusLost;
-				if (!strDefinition.equals(model.getDefText(currentGeoForFocusLost))) {
-					//redefine current geo for focus lost
-					model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
-					model.getDefInputHandler().processInput(strDefinition);
-					
-					//restore "real" current geo
-					model.getDefInputHandler().setGeoElement(model.getCurrentGeo());
-				}
-			}
 
+			model.redefineCurrentGeo(currentGeoForFocusLost, tfDefinition.getText(),
+						redefinitionForFocusLost);
+		
 			SwingUtilities.invokeLater(doActionStopped);
-
+		
 		} else {
-			doActionPerformed(source);
-		}
-
-	}
+				doActionPerformed(source);
+			}
+}
 
 	
 	public void updateFonts() {
@@ -8074,6 +8056,10 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	public void setNameText(final String text) {
 		tfName.setText(text);
 		tfName.requestFocus();
+	}
+
+	public void setDefinitionText(final String text) {
+		tfDefinition.setText(text);
 	}
 
 	public void setCaptionText(final String text) {
