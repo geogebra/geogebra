@@ -127,8 +127,8 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 		case GeoPolyhedron.TYPE_PYRAMID:
 			// update top points
-			outputPointsTop.adjustOutputSize(points.length);
-			outputPointsTop.setLabels(null);
+			outputPointsSide.adjustOutputSize(points.length);
+			outputPointsSide.setLabels(null);
 			GeoPolygon bottomPolygon = algo.getBottom();
 			GeoPointND topPoint = algo.getTopPoint();
 
@@ -145,15 +145,15 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 			GeoSegmentND[] bottomSegments = bottomPolygon.getSegments();
 
-			for (int i = 0 ; i < outputPointsTop.size() ; i++) {
-				GeoPoint3D wpoint = outputPointsTop.getElement(i);
+			for (int i = 0 ; i < outputPointsSide.size() ; i++) {
+				GeoPoint3D wpoint = outputPointsSide.getElement(i);
 				wpoint.setCoords(topPoint);
 
 				// angle between side face and bottom face
 				GeoSegmentND si = bottomSegments[i];
 				Coords o = points[i].getInhomCoordsInD(3);
 				Coords vs = si.getDirectionInD3();
-				GeoPoint3D wpoint1 = outputPointsTop.getElement(i);
+				GeoPoint3D wpoint1 = outputPointsSide.getElement(i);
 				Coords cCoord = wpoint1.getInhomCoordsInD(3);
 				rotate(wpoint1, cCoord, p1, o, vs, f, faceDirection, d1, 1);
 			}
@@ -161,7 +161,9 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 		case GeoPolyhedron.TYPE_PRISM:
 			// update top points
-			outputPointsTop.adjustOutputSize(points.length * 3 - 2);
+			outputPointsSide.adjustOutputSize(2 * points.length);
+			outputPointsSide.setLabels(null);
+			outputPointsTop.adjustOutputSize(points.length - 2);
 			outputPointsTop.setLabels(null);
 			GeoPolygon bottomPolyg = algo.getBottom();
 			GeoPointND[] topP = algo.getTopFace().getPointsND();
@@ -184,17 +186,17 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			Coords cCoord = null; //Coords of the current top point
 			for (int i = 0 ; i < sz ; i++) {
 				//triple creation of top points
-				wpoint1 = outputPointsTop.getElement(2 * i);
+				wpoint1 = outputPointsSide.getElement(2 * i);
 				int j = 2 * i - 1;
 				if (j < 0) {
 					j = 2 * sz - 1;
 				}
-				wpoint2 = outputPointsTop.getElement(j);
+				wpoint2 = outputPointsSide.getElement(j);
 				cCoord = topP[i].getInhomCoordsInD(3);
 				wpoint1.setCoords(cCoord);
 				wpoint2.setCoords(cCoord);
 				if (i > 1) {  // wpoint3 is for the top face, except 2 first points (already exist)
-					wpoint3 = outputPointsTop.getElement(i + 2 * sz - 2);
+					wpoint3 = outputPointsTop.getElement(i - 2);
 					wpoint3.setCoords(cCoord);
 				}
 			}
@@ -202,7 +204,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			Coords o = topP[1].getInhomCoordsInD(3);
 			Coords vs = bottomSegs[0].getDirectionInD3();
 			for (int i = 0 ; i < sz-2 ; i++) {
-				wpoint3 = outputPointsTop.getElement(i + sz * 2);
+				wpoint3 = outputPointsTop.getElement(i);
 				cCoord = wpoint3.getInhomCoordsInD(3);
 				pp1 = cCoord.projectPlane(algo.getSide(0).getCoordSys().getMatrixOrthonormal())[0];
 				double dist =  pp1.distance(cCoord);
@@ -213,19 +215,19 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				// angle between side face and bottom face
 				o = points[i/2].getInhomCoordsInD(3);
 				vs = bottomSegs[i/2].getDirectionInD3();
-				wpoint1 = outputPointsTop.getElement(i);
+				wpoint1 = outputPointsSide.getElement(i);
 				cCoord = wpoint1.getInhomCoordsInD(3);
 				pp1 = cCoord.projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
 				rotate(wpoint1, cCoord, pp1, o, vs, f, faceDirection, dd1, 1);
 				// rotate wpoint2	
-				wpoint2 = outputPointsTop.getElement(i+1);
+				wpoint2 = outputPointsSide.getElement(i+1);
 				cCoord = wpoint2.getInhomCoordsInD(3);
 				pp1 = cCoord.projectPlane(bottomPolyg.getCoordSys().getMatrixOrthonormal())[0];
 				rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1, 1);
 
 				if (i == 0) { // the rotation for the top face is made with the same angle
 					for (int j = 0 ; j < sz-2 ; j++) {
-						wpoint3 = outputPointsTop.getElement(j + sz * 2);
+						wpoint3 = outputPointsTop.getElement(j);
 						rotate(wpoint3, cCoord, pp1, o, vs, f, faceDirection, dd1, 1);			
 					}
 				}
