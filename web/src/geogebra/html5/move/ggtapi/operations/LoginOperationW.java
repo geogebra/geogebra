@@ -40,11 +40,13 @@ public class LoginOperationW extends LogInOperation {
 	private native void iniNativeEvents() /*-{
 		var t = this;
 	    $wnd.addEventListener("message",function(event) {
-	    	$wnd.console.log(event);
 	    	var data;
 	    	//later if event.origin....
 	    	if (event.data) {
-	    		$wnd.alert("tomorow processing token :-))" + event.data);
+	    		data = $wnd.JSON.parse(event.data);
+	    		if (data.action === "logintoken") {
+	    			t.@geogebra.html5.move.ggtapi.operations.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
+	    		}
 	    	}
 	    }, false);
     }-*/;
@@ -52,6 +54,7 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public GeoGebraTubeAPI getGeoGebraTubeAPI() {
 		return GeoGebraTubeAPIW.getInstance(GeoGebraTubeAPI.url);
+
 	}
 	
 	@Override
@@ -90,5 +93,9 @@ public class LoginOperationW extends LogInOperation {
 				+"/expiration/"+getURLTokenExpirationMinutes()
 				+"/clientinfo/"+getURLClientInfo()
 				+"/?lang="+languageCode;
+	}
+	
+	private void processToken(String token) {
+		performTokenLogin(token);
 	}
 }

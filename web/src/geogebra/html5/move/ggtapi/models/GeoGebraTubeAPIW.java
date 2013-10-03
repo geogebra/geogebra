@@ -5,6 +5,7 @@ import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.common.util.HttpRequest;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
@@ -247,6 +248,7 @@ public class GeoGebraTubeAPIW extends geogebra.common.move.ggtapi.models.GeoGebr
 		catch(JSONException e){
 			e.printStackTrace();
 		}
+		GWT.log(requestJSON.toString());
 		return requestJSON;
 	}
 }

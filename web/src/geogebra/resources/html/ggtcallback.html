@@ -14,9 +14,6 @@
     function sendToken() {
         window.opener.$wnd.postMessage(JSON.stringify({action: "logintoken", msg: getURLParameter("token")}), "*");
     }
-    
-    alert("sending token");
-    console.log(window.opener);
 
     sendToken();
     </script>
