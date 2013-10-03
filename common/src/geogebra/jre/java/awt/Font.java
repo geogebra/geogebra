@@ -8,7 +8,7 @@ public class Font {
 	private String fontWeight = "normal";
 	private String fontSize = "12";
 	private String lineHeight = "12";
-	private String fontFamily = "sans-serif";
+	private String fontFamily = "geogebra-sans-serif, sans-serif";
 	
 	public Font(String fontStyle) {
 		this.setFontStyle(fontStyle);			

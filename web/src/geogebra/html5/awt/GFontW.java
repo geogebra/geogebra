@@ -29,7 +29,13 @@ public class GFontW extends geogebra.common.awt.GFont {
 	}
 
 	public GFontW(String name, int style, int size) {
-	    fontFamily = name;
+		if ("Serif".equals(name)) {
+			fontFamily = "geogebra-serif, serif";
+		} else if ("SansSerif".equals(name)) {
+			fontFamily = "geogebra-sans-serif, sans-serif";
+		} else {
+			fontFamily = name;
+		}
 	    fontSize = size+"";
 	    setFontStyle(style);
 	    

@@ -271,7 +271,7 @@ public class TextGraphics extends geogebra.common.awt.GGraphics2D{
 		//intentionaly left blank
 		return null;
 	}
-	private GFont font = AwtFactory.prototype.newFont("sans-serif", GFont.PLAIN, 12);
+	private GFont font = AwtFactory.prototype.newFont("SansSerif", GFont.PLAIN, 12);
 	@Override
 	public GFont getFont() {
 		return font;
