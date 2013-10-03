@@ -27,6 +27,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 		
 		this.app = app;
 		this.setShowStyleBar(true);
+		this.setEmbeddedSize(300);
 	}
 
 	@Override

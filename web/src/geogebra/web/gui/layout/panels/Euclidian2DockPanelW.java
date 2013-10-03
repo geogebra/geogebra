@@ -37,9 +37,10 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 				'2' // ctrl-shift-1
 			);
 
-		//TODO: temporary fix to make applets work until
-		// dockpanels works for applets
+		// copied here from loadComponent
+		setEmbeddedSize(300);
 
+		// this should execute when DockPanelW.register is not called
 		if (!stylebar) {
 			buildGUI();
 		}
@@ -48,7 +49,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 	@Override
 	protected Widget loadComponent() {
 		if (euclidianpanel == null) {
-			setEmbeddedSize(300);
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
 			eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
