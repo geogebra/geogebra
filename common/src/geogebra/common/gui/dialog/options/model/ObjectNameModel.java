@@ -139,7 +139,7 @@ public class ObjectNameModel extends OptionsModel {
 			return geo.getRedefineString(false, true);
 		}
 
-	public void applyCapitonChange(final String caption) {
+	public void applyCaptionChange(final String caption) {
 			currentGeo.setCaption(caption);
 
 		final String strCaption = currentGeo.getRawCaption();

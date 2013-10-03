@@ -7996,7 +7996,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			//tfDefinition.requestFocusInWindow();
 			
 		} else if (source == tfCaption) {
-			model.applyCapitonChange(tfCaption.getText());
+			model.applyCaptionChange(tfCaption.getText());
 		}
 
 		SwingUtilities.invokeLater(doActionStopped);

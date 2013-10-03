@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
@@ -516,28 +517,68 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		setModel(model);
 		// NAME PANEL
 	
-
 		// non auto complete input panel
 		inputPanelName = new InputPanelW(null, app, 1, -1, true);
 		tfName = (AutoCompleteTextFieldW) inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
-
+		tfName.addFocusListener(new FocusListener(this){
+			@Override
+			protected void wrapFocusLost(){
+				model.applyNameChange(tfName.getText());
+			}	
+		});
 		tfName.addKeyHandler(new KeyHandler() {
 
 			public void keyReleased(KeyEvent e) {
-				model.applyNameChange(tfName.getText());	            
+				if (e.getKeyChar() == '\n') {
+					model.applyNameChange(tfName.getText());
+				}
             }});
-	
+		
 		// definition field: non auto complete input panel
 		inputPanelDef = new InputPanelW(null, app, 1, -1, true);
 		tfDefinition = (AutoCompleteTextFieldW) inputPanelDef
 				.getTextComponent();
 		tfDefinition.setAutoComplete(false);
-
+		tfDefinition.addFocusListener(new FocusListener(this){
+			@Override
+			public void wrapFocusGained() {
+				//started to type something : store current geo if focus lost
+				currentGeoForFocusLost = model.getCurrentGeo();
+			}
+			
+			@Override
+			protected void wrapFocusLost(){
+				//TODO: put these into the model with a proper name
+				if (model.getCurrentGeo() == currentGeoForFocusLost){
+					String strDefinition = tfDefinition.getText();
+					if (!strDefinition.equals(model.getDefText(model.getCurrentGeo()))) {
+						tfDefinition.setText(strDefinition);
+						model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
+						if (model.getDefInputHandler().processInput(strDefinition))
+							// if succeeded, switch current geo
+							model.setCurrentGeo(model.getDefInputHandler().getGeoElement());
+					}
+				}else{
+					String strDefinition = redefinitionForFocusLost;
+					if (!strDefinition.equals(model.getDefText(currentGeoForFocusLost))) {
+						//redefine current geo for focus lost
+						model.getDefInputHandler().setGeoElement(currentGeoForFocusLost);
+						model.getDefInputHandler().processInput(strDefinition);
+						
+						//restore "real" current geo
+						model.getDefInputHandler().setGeoElement(model.getCurrentGeo());
+					}
+				}
+}	
+		});
+		
 		tfDefinition.addKeyHandler(new KeyHandler() {
 
 			public void keyReleased(KeyEvent e) {
-				model.applyDefinitionChange(tfDefinition.getText());
+				if (e.getKeyChar() == '\n') {
+					model.applyDefinitionChange(tfDefinition.getText());
+				}
 	            
             }});
 	
@@ -545,11 +586,19 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		inputPanelCap = new InputPanelW(null, app, 1, -1, true);
 		tfCaption = (AutoCompleteTextFieldW) inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
-
+		
+		tfCaption.addFocusListener(new FocusListener(this){
+			@Override
+			protected void wrapFocusLost(){
+				model.applyCaptionChange(tfCaption.getText());
+			}	
+		});
 		tfCaption.addKeyHandler(new KeyHandler() {
 
 			public void keyReleased(KeyEvent e) {
-				model.applyCapitonChange(tfCaption.getText());
+				if (e.getKeyChar() == '\n') {
+					model.applyCaptionChange(tfCaption.getText());
+				}
             }});
 	
 		mainWidget = new VerticalPanel();
