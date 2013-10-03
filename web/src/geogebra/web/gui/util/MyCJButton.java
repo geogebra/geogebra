@@ -69,6 +69,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	protected String borderStyle = DEFAULT_BORDER_STYLE;
 	private boolean isEnabled;
 	private String toolTipText;
+	private boolean loadHandlerAllowed = false;
 	
 	/**
 	 * 
@@ -93,9 +94,14 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		button.addMouseUpHandler(this);
 		button.addMouseOverHandler(this);
 		button.addMouseOutHandler(this);
+		loadHandlerAllowed = true;
 		image.addLoadHandler(new LoadHandler() {
 			
 			public void onLoad(LoadEvent event) {
+
+				if (!loadHandlerAllowed)
+					return;
+
 				ctx.clearRect(0, 0, buttonWidth, buttonHeight);
 				ctx.setFillStyle("white");
 				ctx.fillRect(0, 0, buttonWidth, buttonHeight);
@@ -184,13 +190,16 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	    }
 	    return tempContext;
     }
-	
+
 	public void setIcon(ImageData ir) {
+		loadHandlerAllowed = false;
 		icon = ir;
 		buttonWidth = ir.getWidth();
 		buttonHeight = ir.getHeight();
 		button.setWidth(buttonWidth + "px");
+		button.setHeight(buttonHeight + "px");
 		button.setCoordinateSpaceWidth(buttonWidth);
+		button.setCoordinateSpaceHeight(buttonHeight);
 		setDownState(false);
 	}
 
