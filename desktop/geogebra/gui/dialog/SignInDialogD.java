@@ -3,6 +3,7 @@
  */
 package geogebra.gui.dialog;
 
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;
@@ -22,6 +23,13 @@ import javafx.scene.web.WebView;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+
 /**
  * A dialog for login in GeoGebraTube
  * This dialog will show a web view that opens the login dialog of GeoGebraTube
@@ -31,6 +39,8 @@ import javax.swing.SwingUtilities;
  */
 public class SignInDialogD extends JDialog {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String EVENT_TYPE_CLICK = "click";
 	
 	/** Reference to the application */
 	AppD app;
@@ -107,10 +117,52 @@ public class SignInDialogD extends JDialog {
         
     	// Check if the login result page was loaded
 		String title = webEngine.getTitle();
-		if(title == null || ! title.startsWith("Login-successful")) {
+		if(title != null && title.startsWith("Login-successful")) {
+			handleLoginResult(webEngine);
 			return;
 		}
 		
+		// Some links need to be opened in an external browser. Add a listener to handle this clicks.
+		EventListener listener = new EventListener() {
+            public void handleEvent(Event ev) {
+                String domEventType = ev.getType();
+                App.debug("EventType: " + domEventType);
+                if (domEventType.equals(EVENT_TYPE_CLICK)) {
+                    String href = ((Element)ev.getTarget()).getAttribute("href");
+                    if (href != null) {
+	                    App.debug("Link clicked: " + href);
+                    	Document doc = webEngine.getDocument();
+	                    
+	                    // Check if the clicked link should be opend in an external browser
+	                    if ((href.contains("geogebra.org") && (href.contains("mode=register") || href.contains("mode=sendpassword")))
+	                    		|| (doc.getBaseURI().contains("google.com"))
+	                    		|| (doc.getBaseURI().contains("facebook.com"))) {
+	                        ev.preventDefault();
+	                        
+	                        if (href.contains("geogebra.org")) {
+	                        	href += "&lang="+app.getLocale().getLanguage();
+	                        }
+	                        // Make relative urls absolute
+	                        if (!href.startsWith("http://") && !href.startsWith("https://")) {
+	                        	href = doc.getBaseURI() + href;
+	                        }
+                        	App.debug("Redirecting to URL: " + href);
+	                        app.showURLinBrowser(href);
+	                        
+	                    }
+                    }
+                }
+            }
+        };
+
+        Document doc = webEngine.getDocument();
+        NodeList nodeList = doc.getElementsByTagName("a");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            ((EventTarget) nodeList.item(i)).addEventListener(EVENT_TYPE_CLICK, listener, false);
+        }
+    }
+
+	private void handleLoginResult(final WebEngine webEngine) {
 		Platform.runLater( new Runnable(){
     		public void run() {
     	    	
@@ -132,5 +184,5 @@ public class SignInDialogD extends JDialog {
     			}
     		}
     	});
-    }
+	}
 }
