@@ -85,7 +85,7 @@ public class AlgoLocus extends AlgoElement {
 	// private Updater updater;
 
 	// Constructor called from AlgoLocusList
-	public AlgoLocus(Construction cons, GeoPoint Q, GeoPoint P, int min_steps) {
+	public AlgoLocus(Construction cons, GeoPoint Q, GeoPoint P, int min_steps, boolean registerCE) {
 		super(cons);
 		MIN_STEPS_INSTANCE = min_steps;
 		this.movingPoint = P;
@@ -103,7 +103,11 @@ public class AlgoLocus extends AlgoElement {
 		updateScreenBorders();
 		
 		setInputOutput(); // for AlgoElement
-		cons.registerEuclidianViewCE(this);
+
+		if (registerCE) {
+			cons.registerEuclidianViewCE(this);
+		}
+
 		compute();
 
 		// we may have created a starting point for the path now
@@ -113,7 +117,7 @@ public class AlgoLocus extends AlgoElement {
 	}
 
 	public AlgoLocus(Construction cons, String label, GeoPoint Q, GeoPoint P) {
-		this(cons, Q, P, PathMover.MIN_STEPS);
+		this(cons, Q, P, PathMover.MIN_STEPS, true);
 		locus.setLabel(label);
 	}
 
@@ -726,7 +730,7 @@ public class AlgoLocus extends AlgoElement {
 		return distSmall;
 	}
 
-	private void updateScreenBorders() {
+	void updateScreenBorders() {
 		xmax = kernel.getXmax();
 		xmin = kernel.getXmin();
 		ymax = kernel.getYmax();

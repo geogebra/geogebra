@@ -63,7 +63,6 @@ public class AlgoLocusList extends AlgoElement {
 		locus.setFillable(false);
 
 		setInputOutput(); // for AlgoElement
-		cons.registerEuclidianViewCE(this);
 		compute();
 
 		// we may have created a starting point for the path now
@@ -134,15 +133,16 @@ public class AlgoLocusList extends AlgoElement {
 							actal = new AlgoLocusList(cons, Q, P, try_steps);
 							pathp = ((AlgoLocusList)actal).getLocus();
 						} else {
-							actal = new AlgoLocus(cons, Q, P, try_steps);
+							actal = new AlgoLocus(cons, Q, P, try_steps, false);
 							pathp = ((AlgoLocus)actal).getLocus();
 						}
 					} else {
-						actal = new AlgoLocus(cons, Q, P, try_steps);
+						actal = new AlgoLocus(cons, Q, P, try_steps, false);
 						pathp = ((AlgoLocus)actal).getLocus();
 					}
 					cons.removeFromAlgorithmList(actal);
 					cons.removeFromConstructionList(actal);
+					//cons.unregisterEuclidianViewCE(actal);
 					cons.removeFromConstructionList(pathp);
 					P.setPath(path);
 					if (i < arrLocusSize)
@@ -312,4 +312,25 @@ public class AlgoLocusList extends AlgoElement {
 
 	// TODO Consider locusequability
 
+	@Override
+	public boolean euclidianViewUpdate() {
+		updateScreenBorders();
+		update();
+		return false;
+	}
+
+	/**
+	 * This should call its children loci's updateScreenBorders
+	 */
+	void updateScreenBorders() {
+		int arrLocusSize = arrLocus.size();
+		AlgoElement sub;
+		for (int i = 0; i < arrLocusSize; i++) {
+			sub = arrLocus.get(i);
+			if (sub instanceof AlgoLocus)
+				((AlgoLocus)sub).updateScreenBorders();
+			else if (sub instanceof AlgoLocusList)
+				((AlgoLocusList)sub).updateScreenBorders();
+		}
+	}
 }
