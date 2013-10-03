@@ -116,7 +116,7 @@
   font-size: 87%;
 }
 .mathquill-rendered-math .font {
-  font: 1em Symbola, "Times New Roman", serif;
+  font: 1em Symbola, geogebra-serif, "Times New Roman", serif;
 }
 .mathquill-rendered-math .font * {
   font-family: inherit;
@@ -144,7 +144,7 @@
   font-style: normal;
 }
 .mathquill-rendered-math .sans-serif {
-  font-family: sans-serif, Symbola, serif;
+  font-family: geogebra-sans-serif, sans-serif, Symbola, serif;
 }
 .mathquill-rendered-math .monospace {
   font-family: monospace, Symbola, serif;
@@ -236,7 +236,7 @@
   display: block;
 }
 .mathquill-rendered-math .non-italicized-function {
-  font-family: Symbola, "Times New Roman", serif;
+  font-family: Symbola, geogebra-serif, "Times New Roman", serif;
   /*line-height: .9;*/
   font-style: normal;
   padding-right: .2em;
@@ -296,7 +296,7 @@
 .mathquill-rendered-math,
 .mathquill-rendered-math .mathquill-editable {
   cursor: text;
-  font-family: Symbola, "Times New Roman", serif;
+  font-family: Symbola, geogebra-serif, "Times New Roman", serif;
 }
 .mathquill-rendered-math table {
   border-collapse: collapse;

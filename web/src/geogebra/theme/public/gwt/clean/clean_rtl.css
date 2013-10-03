@@ -127,7 +127,7 @@
   background: #F1F1F1;
   padding: 4px 4px 4px 8px;
   cursor: default;
-  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
   font-weight: bold;
   border-bottom: 1px solid #bbbbbb;
   border-top: 1px solid #D2D2D2;
@@ -271,7 +271,7 @@
 }
 .gwt-MenuBar .gwt-MenuItem {
   cursor: default;
-  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 .gwt-MenuBar .gwt-MenuItem-selected {
   background: #E3E8F3;
@@ -724,7 +724,7 @@
   border: 1px solid #ccc;
   border-top: 1px solid #999;
   font-size: 100%;
-  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
   width: 96%; /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
 }
 
@@ -962,7 +962,7 @@
   border: 1px solid #ccc;
   border-top: 1px solid #666;
   font-size: 100%;
-  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 .gwt-TextArea-readonly {
   color: #888;
@@ -973,7 +973,7 @@
   border: 1px solid #ccc;
   border-top: 1px solid #999;
   font-size: small;
-  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 .gwt-TextBox-readonly {
   color: #888;
