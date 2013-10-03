@@ -28,6 +28,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	private boolean needUndo=false;
 	private ArrayList<GeoElement> selectedRows;
 	private CASViewW casView;
+	private MyToggleButton2[] toggleBtnList;
 
 	public CASStylebarW(CASViewW view, AppW appl){
 		casView = view;
@@ -39,6 +40,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	private void initGUI(){
 		createTextButtons();
 		add(btnUseAsText);
+		toggleBtnList = newToggleBtnList();
+		updateStyleBar();
 	}
 
 	private void createTextButtons(){
@@ -51,7 +54,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 
 			@Override
 			public void update(Object[] geos) {
-
+			
 				setVisible(true);
 				btnUseAsText.setSelected(checkGeoText(geos));
 
@@ -112,10 +115,16 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 		if (source == btnUseAsText) {
 //			btnUseAsText.onClick(null);
 			int i = casView.getConsoleTable().getEditingRow();
-//			int pos = ((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTableD.COL_CAS_CELLS)).getCaretPosition();
+//			int pos = (casView.getConsoleTable().getEditor().getCaretPosition();
+//			casView.getConsoleTable().stopEditing();
 			applyUseAsText(targetGeos);
-//			casView.getConsoleTable().startEditingRow(i);
+			casView.getConsoleTable().startEditingRow(i);
+
 //			((CASTableCellEditorW)casView.getConsoleTable().getCellEditor(i,CASTableW.COL_CAS_CELLS)).setCaretPosition(pos);
+			
+		
+		
+//			casView.getConsoleTable().stopEditing();
 		}
 	    
     }
@@ -132,10 +141,35 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	}
 	
 	public void updateStyleBar(){
-		App.debug("updateStyleBar - implementation needed");
+		/*
+		for (int i = 0; i < popupBtnList.length; i++) {
+			try {
+				popupBtnList[i].update(selectedRows.toArray());
+			} catch (Exception e) {
+				// TODO: find problem
+			}
+		}
+		*/
+		for (int i = 0; i < toggleBtnList.length; i++) {
+			try {
+				toggleBtnList[i].update(selectedRows.toArray());
+			} catch (Exception e) {
+				e.printStackTrace();
+				// TODO: find problem
+			}
+		}
+
+	}
+	
+	/**
+	 * @return array of toggle buttons
+	 */
+	protected MyToggleButton2[] newToggleBtnList() {
+		return new MyToggleButton2[] { /*btnBold, btnItalic,*/ btnUseAsText };
 	}
 	
 	private void applyUseAsText(ArrayList<GeoElement> geos) {
+	//	casView.getConsoleTable().stopEditing();
 		// btnUseAsText
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
