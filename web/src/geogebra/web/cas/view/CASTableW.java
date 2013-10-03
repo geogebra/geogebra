@@ -126,7 +126,8 @@ public class CASTableW extends Grid implements CASTable {
 		if (w == editing)
 			return;
 		setSelectedRows(n,n);
-		cancelEditing();
+		//cancelEditing();
+		stopEditing();
 		if (w instanceof CASTableCellW) {
 			editing = (CASTableCellW) w;
 			editing.startEditing(getEditor().getWidget());
