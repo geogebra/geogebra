@@ -2,6 +2,8 @@ package geogebra.web.util;
 
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
+import geogebra.web.html5.AjaxError;
+import geogebra.web.html5.AjaxSucces;
 import geogebra.web.html5.XHR2;
 
 import com.google.gwt.http.client.Request;
@@ -10,7 +12,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 import com.google.gwt.xhr.client.XMLHttpRequest;
 
 /**
@@ -68,42 +69,25 @@ public class HttpRequestW extends geogebra.common.util.HttpRequest {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 		XHR2 request =  (XHR2) XMLHttpRequest.create();
 		request.openSync("POST", url);
-		request.setTimeOut(timeout * 1000);
-		request.setOnReadyStateChange(new ReadyStateChangeHandler() {
-
-			public void onReadyStateChange(XMLHttpRequest xhr) {
-				//TODO: continue here
+		//request.setTimeOut(timeout * 1000);
+		request.onLoad(new AjaxSucces() {
+			
+			@Override
+			public void onSuccess(String rsp) {
+				responseText = rsp;
+				success = true;
+				processed = true;
 			}
-		});
-		/*try {
-			builder.setTimeoutMillis(timeout * 1000);
-			builder.setHeader("Content-type", "application/x-www-form-urlencoded");
-			App.debug("Sending request " + url + " until timeout " + timeout);
-			Request request = builder.sendRequest(post, new RequestCallback() {
-				public void onError(Request request, Throwable exception) {
-					// Couldn't connect to server (could be timeout, SOP violation, etc.)
-					responseText = exception.getMessage();
+		}, 
+			new AjaxError() {
+				
+				@Override
+				public void onError(String ErrorMSG) {
+					responseText = ErrorMSG;
 					success = false;
 					processed = true;
 				}
-				public void onResponseReceived(Request request, Response response) {
-					if (200 == response.getStatusCode()) {
-						// Process the response in response.getText()
-						responseText = response.getText();
-						success = true;
-						processed = true;
-					} else {
-						// Handle the error.  Can get the status text from response.getStatusText()
-						responseText = response.getStatusText();
-						success = false;
-						processed = true;
-					}
-				}
 			});
-		} catch (RequestException e) {
-			// Couldn't connect to server
-			success = false;
-			processed = true;
-		}*/;
+		request.send(post);
     }
 }

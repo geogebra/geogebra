@@ -1,8 +1,14 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
+import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.web.gui.images.AppResources;
@@ -91,13 +97,40 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		});
 	    
 	    // this methods should be called only from AppWapplication or AppWapplet
-	   app.getLoginOperation().getView().add(this);
+	   LogInOperation loginOp = app.getLoginOperation();
+	   loginOp.getView().add(this);
+	   if (loginOp.isLoggedIn()) {
+		   onLogin(true, loginOp.getModel().getLoggedInUser());
+	   }
 	   
 	   if (!app.getOfflineOperation().getOnline()) {
 		   renderNetworkOperation(false);
 	   }
     }
 	
+	private void onLogin(boolean successful, GeoGebraTubeUser user) {
+		Localization loc = app.getLocalization();
+
+		if (successful) {
+			signIn.setScheduledCommand(getSignOutCommand());
+			signIn.setText(loc.getPlain("SignedInAsA", user.getUserName()));
+		} else {
+			signIn.setScheduledCommand(getSignInCommand());
+			signIn.setText(loc.getMenu("SignInError"));
+		}
+	    
+    }
+
+	private ScheduledCommand getSignOutCommand() {
+	    return new ScheduledCommand() {
+			
+			@Override
+			public void execute() {
+				app.getLoginOperation().performLogOut();
+			}
+		};
+    }
+
 	private void createSignedInMenu() {
 		  signedIn = new SignedInMenuW(app);
 	      signedInMenu = addItem(app.getMenu("SignedIn"), signedIn);
@@ -269,8 +302,16 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
         }
 
 		public void renderEvent(BaseEvent event) {
-	        // TODO Auto-generated method stub
-	        
+			if (event instanceof LoginAttemptEvent) {
+				signIn.setText(app.getMenu("SignInProgress"));
+			} else if (event instanceof LogOutEvent) {
+				signIn.setText(app.getMenu("SignIn"));
+				signIn.setScheduledCommand(getSignInCommand());
+				
+			} else if (event instanceof LoginEvent) {
+				LoginEvent loginEvent = (LoginEvent) event;
+				onLogin(loginEvent.isSuccessful(), loginEvent.getUser());
+			}
         }
 		
 }

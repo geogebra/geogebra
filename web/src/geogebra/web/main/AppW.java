@@ -168,7 +168,7 @@ public class AppW extends AppWeb {
 		// Initialize the signIn operation
 		loginOperation = new LoginOperationW();
 		
-		//TODO loginOperation.performTokenLogin();
+		loginOperation.performTokenLogin();
 	}
 
 	private void showSplashImageOnCanvas() {

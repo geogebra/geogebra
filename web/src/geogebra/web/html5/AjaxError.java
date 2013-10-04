@@ -7,6 +7,7 @@ package geogebra.web.html5;
 public interface AjaxError {
 	/**
 	 * Error code to run
+	 * @param ErrorMSG errorMessage to show
 	 */
-	public void onError();
+	public void onError(String ErrorMSG);
 }

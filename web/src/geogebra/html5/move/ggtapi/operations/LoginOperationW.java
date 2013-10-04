@@ -72,9 +72,9 @@ public class LoginOperationW extends LogInOperation {
 	 * @return change this concerning what environment the project runs.
 	 */
 	public String getCallbackUrl() {
-		return  BASEURL.LOCALHOST;
+		//return  BASEURL.LOCALHOST;
 		// return BASEURL.APPSPOT;
-		//return BASEURL.WEB_GUI;
+		return BASEURL.WEB_GUI;
 	}
 	
 	/**
@@ -86,14 +86,14 @@ public class LoginOperationW extends LogInOperation {
 	
 	
 	//AG: JUST FOR TESTING!
-	@Override
+	/*@Override
     public String getLoginURL(String languageCode) {
 		return "http://test.geogebratube.org:8080/user/login" 
 				+ "/caller/"+getURLLoginCaller()
 				+"/expiration/"+getURLTokenExpirationMinutes()
 				+"/clientinfo/"+getURLClientInfo()
 				+"/?lang="+languageCode;
-	}
+	}*/
 	
 	private void processToken(String token) {
 		performTokenLogin(token);

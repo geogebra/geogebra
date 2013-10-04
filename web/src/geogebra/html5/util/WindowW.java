@@ -18,7 +18,7 @@ public class WindowW {
 	 * @return the reference to the window
 	 */
 	public native static JavaScriptObject open(String url, String name, String features) /*-{
-		return (window.geogebbratubewindow = window.open(url, name, features));
+		return window.open(url, name, features);
 	}-*/;
 
 }

@@ -1,6 +1,8 @@
 package geogebra.html5.util;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.main.AppW;
 
@@ -11,7 +13,7 @@ import com.google.gwt.user.client.Window;
  * @author gabor
  *	windowReference for GGT API
  */
-public class WindowReference {
+public class WindowReference implements EventRenderable {
 	
 	private JavaScriptObject wnd = null;;
 	private static WindowReference instance = null;
@@ -57,8 +59,10 @@ public class WindowReference {
 						"width=" + width +"," +
 						"height=" + height + "," +
 						"left=" + left + ", " +
-						"top=" + top);		
+						"top=" + top);	
+					lOW.getView().add(instance);
 			}
+		
 		return instance;
 	}
 	
@@ -79,5 +83,13 @@ public class WindowReference {
 		}
 		return false;
 	}-*/;
+
+	@Override
+    public void renderEvent(BaseEvent event) {
+	    if (!this.closed()) {
+	    	this.close();
+	    	WindowReference.instance = null;
+	    }	    
+    }
 
 }

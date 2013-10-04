@@ -8,6 +8,7 @@ package geogebra.web.html5;
 public interface AjaxSucces {
 	/**
 	 * code for succes to run
+	 * @param responseText The success responsetext
 	 */
-	public void onSuccess();
+	public void onSuccess(String responseText);
 }
