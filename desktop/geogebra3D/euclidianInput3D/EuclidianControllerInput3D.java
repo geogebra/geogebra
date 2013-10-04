@@ -1,9 +1,9 @@
 package geogebra3D.euclidianInput3D;
 
+import geogebra.common.euclidian3D.input3D.Input3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.input3D.Input3D;
 
 
 /**

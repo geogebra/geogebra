@@ -1,6 +1,6 @@
 package geogebra3D.input3D.leonar3do;
 
-import geogebra3D.input3D.Input3D;
+import geogebra.common.euclidian3D.input3D.Input3D;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;

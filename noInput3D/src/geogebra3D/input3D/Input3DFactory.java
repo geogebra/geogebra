@@ -1,5 +1,7 @@
 package geogebra3D.input3D;
 
+import geogebra.common.euclidian3D.input3D.Input3D;
+
 
 
 /**
