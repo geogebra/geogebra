@@ -77,9 +77,9 @@ public class DrawParametricCurve extends Drawable {
 		if (curve instanceof GeoFunction) {
 			double minView = view.getXmin();
 			double maxView = view.getXmax();
-			if (min < minView)
+			if (min < minView || Double.isInfinite(min))
 				min = minView;
-			if (max > maxView)
+			if (max > maxView || Double.isInfinite(max))
 				max = maxView;
 		}
 		GPoint labelPoint;
