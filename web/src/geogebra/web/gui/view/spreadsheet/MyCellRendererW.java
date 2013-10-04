@@ -7,10 +7,16 @@ import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -278,11 +284,24 @@ public class MyCellRendererW {
 		// Set text according to algebra style
 		// ===============================================
 		String text = "";
+		String latex = null;
 		if (geo.isIndependent()) {
+			if (geo.isLaTeXDrawableGeo() &&
+				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) &&
+				(geo.isGeoText() ? ((GeoText)geo).isLaTeX() : true)) {
+
+				latex = geo.getLaTeXdescription(); 
+			}
 			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
+				if (geo.isLaTeXDrawableGeo() &&
+					(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) &&
+					(geo.isGeoText() ? ((GeoText)geo).isLaTeX() : true)) {
+
+					latex = geo.getLaTeXdescription();
+				}
 				text = geo.toValueString(StringTemplate.defaultTemplate);
 				break;
 
@@ -306,7 +325,20 @@ public class MyCellRendererW {
 			}
 		}
 
-		table.setText(row, column, text);
+		if (latex == null) {
+			table.setText(row, column, text);
+		} else {
+			InlineHTML widg = new InlineHTML();
+			SpanElement wele = DOM.createSpan().cast();
+			wele.getStyle().setProperty("display", "-moz-inline-box");
+			wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+			widg.getElement().appendChild(wele);
+
+			table.setWidget(row, column, widg);
+
+			latex = DrawEquationWeb.inputLatexCosmetics(latex);
+			DrawEquationWeb.drawEquationAlgebraView(wele, "\\mathrm {"+latex+"}");
+		}
 
 		// it is also important to format the text!
 
