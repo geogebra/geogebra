@@ -13,5 +13,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/websocket-common.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/websocket-server.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/websocket-servlet.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/desktop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
