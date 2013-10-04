@@ -136,8 +136,6 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 			if (!this.mc.isTextfieldHasFocus()) {
 				event.preventDefault();
 			}
-			App.debug("Touch down" + getX(event.getTouches().get(0)) + ","
-					+ this.getY(event.getTouches().get(0)));
 			this.ignoreMouseEvents = true;
 			this.mc.onTouchStart(getX(event.getTouches().get(0)),
 					this.getY(event.getTouches().get(0)));
