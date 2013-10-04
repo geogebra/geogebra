@@ -2266,16 +2266,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void drawMouseCursor(Renderer renderer1){
 		if (!hasMouse)
 			return;
-		
+
+
 		if (getProjection() != PROJECTION_GLASSES ) //&& getProjection() != PROJECTION_PERSPECTIVE)
 			return;
-		
+
+
+
 		GPoint mouseLoc = euclidianController.getMouseLoc();
 		if (mouseLoc == null)
 			return;
-		
+
 		Coords v;
-		
+
 		if (getCursor3DType()==CURSOR_DEFAULT){
 			//if mouse is over nothing, use mouse coords and screen for depth
 			v = new Coords(mouseLoc.x + renderer1.getLeft(),-mouseLoc.y + renderer1.getTop(), 0, 1);
@@ -2288,21 +2291,33 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			double eyeSep = 0;
 			if (getProjection() == PROJECTION_GLASSES)
 				eyeSep = renderer1.getEyeSep(); //TODO eye lateralization
-			
+
 			double x = mouseLoc.x + renderer1.getLeft() + eyeSep;
 			double y = -mouseLoc.y + renderer1.getTop();
 			double dz = eye.getZ() - z;
 			double coeff = dz/eye.getZ();
-			
+
 			v = new Coords(x*coeff - eyeSep, y*coeff, z, 1);
 		}
 		
+		drawMouseCursor(renderer1, v);
+
+	}
+
+		
+	/**
+	 * draw mouse cursor for location v
+	 * @param renderer1 renderer
+	 * @param v location
+	 */
+	protected void drawMouseCursor(Renderer renderer1, Coords v){
+
 		CoordMatrix4x4 matrix = CoordMatrix4x4.Identity();
 		matrix.setOrigin(v);
 		renderer1.setMatrix(matrix);
 		renderer1.drawMouseCursor();
-		
-	
+
+
 	}	
 	
 	/** 
@@ -2314,7 +2329,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
 
-		if (hasMouse){			
+		if (hasMouse){	
+			
+			// specific cursor for specific input
+			
+			
+			
+			// mouse cursor
 			if (moveCursorIsVisible()){
 				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());	
@@ -2338,12 +2359,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 						break;
 					}
 					break;
-					/*
-			case CURSOR_DRAG:
-				if(getCursor3DType()==PREVIEW_POINT_ALREADY)
-					drawPointAlready();
-				break;
-					 */
 				case CURSOR_HIT:									
 					switch(getCursor3DType()){
 					case PREVIEW_POINT_FREE:

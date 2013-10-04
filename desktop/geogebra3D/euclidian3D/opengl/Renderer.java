@@ -162,8 +162,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		//textures
 		textures = new Textures(view3D.getApplication().getImageManager());	
 		
+		
 	}
-	
 	
 	
 	/**
@@ -305,6 +305,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     public void display(GLAutoDrawable gLDrawable) {
     	
     	
+    	
     	//Application.debug("display");
 
     	//double displayTime = System.currentTimeMillis();
@@ -329,7 +330,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         }
                 
         //update 3D controller
-        view3D.getEuclidianController().processMouseMoved();
+        view3D.getEuclidianController().update();
         
 
         

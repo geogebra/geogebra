@@ -163,6 +163,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private ArrayList<GeoPlane3D> selectedPlane = new ArrayList<GeoPlane3D>();
 	
+	
+	
+	
+	
 	/**
 	 * common constructor
 	 * @param kernel
@@ -1554,6 +1558,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		super.mouseClicked(e);
 	}
 	*/
+	
+	/**
+	 * update mouse moved, 3D mouse values, etc.
+	 */
+	public void update(){
+		processMouseMoved();
+	}
 	
 	/**
 	 * tells to proceed mouseMoved() (for synchronization with 3D renderer)
@@ -3478,5 +3489,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	protected void setDragCursorIfMoveView(){
 		//nothing to do, keep same cursor
 	}
+	
+	
+	
+	
+
+	
+	
+	
 }
 
