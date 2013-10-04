@@ -6375,10 +6375,6 @@ public abstract class EuclidianController {
 								GeoElement geo1 = chooseGeo(hits, true);
 								// ggb3D : geo1 may be null if it's axes or xOy plane
 								if (geo1 != null) {
-
-									// make sure that Input Boxes lose focus (and so update) before running scripts
-									view.requestFocusInWindow();
-
 									runScriptsIfNeeded(geo1);
 								}
 							}
@@ -7350,9 +7346,6 @@ public abstract class EuclidianController {
 				
 				// need to trigger scripts
 				// (on tablets only get drag events)
-				
-				view.requestFocusInWindow();
-
 				runScriptsIfNeeded(movedGeoElement);
 
 			}
@@ -7784,9 +7777,6 @@ public abstract class EuclidianController {
 			geo = th.get(0);
 			
 			if (geo.isFixed()) {
-				// make sure that Input Boxes lose focus (and so update) before running scripts
-				view.requestFocusInWindow();
-
 				runScriptsIfNeeded(geo);
 				moveMode = MOVE_NONE;
 				resetMovedGeoPoint();
@@ -8651,13 +8641,11 @@ public abstract class EuclidianController {
 		switchModeForMousePressed(event);
 	}
 	
-	private void runScriptsIfNeeded(GeoElement geo1) { 
+	private void runScriptsIfNeeded(GeoElement geo1) {
+		// make sure that Input Boxes lose focus (and so update) before running scripts 
+		view.requestFocusInWindow();
 		if (!scriptsHaveRun) { 
 			scriptsHaveRun = true; 
-
-			// make sure that Input Boxes lose focus (and so update) before running scripts 
-			view.requestFocusInWindow();
-
 			app.runScripts(geo1, (String)null); 
 		} 
 
