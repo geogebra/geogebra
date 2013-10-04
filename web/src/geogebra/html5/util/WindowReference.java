@@ -84,7 +84,6 @@ public class WindowReference implements EventRenderable {
 		return false;
 	}-*/;
 
-	@Override
     public void renderEvent(BaseEvent event) {
 	    if (!this.closed()) {
 	    	this.close();

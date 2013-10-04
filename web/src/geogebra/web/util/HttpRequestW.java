@@ -72,7 +72,6 @@ public class HttpRequestW extends geogebra.common.util.HttpRequest {
 		//request.setTimeOut(timeout * 1000);
 		request.onLoad(new AjaxSucces() {
 			
-			@Override
 			public void onSuccess(String rsp) {
 				responseText = rsp;
 				success = true;
@@ -81,7 +80,6 @@ public class HttpRequestW extends geogebra.common.util.HttpRequest {
 		}, 
 			new AjaxError() {
 				
-				@Override
 				public void onError(String ErrorMSG) {
 					responseText = ErrorMSG;
 					success = false;

@@ -124,8 +124,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 	private ScheduledCommand getSignOutCommand() {
 	    return new ScheduledCommand() {
 			
-			@Override
-			public void execute() {
+	    	public void execute() {
 				app.getLoginOperation().performLogOut();
 			}
 		};
