@@ -9,6 +9,8 @@ import com.google.gwt.user.client.DOM;
 public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	private com.google.gwt.user.client.ui.HTML impl;
+	private GColor color = GColor.white;
+	private boolean opaque = false;
 	
 	GLabelW(){
 		impl = new com.google.gwt.user.client.ui.HTML();
@@ -36,27 +38,10 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	@Override
     public void setOpaque(boolean b) {
-	    App.debug("implementation needed - just finishing"); // TODO Auto-generated
-
-
-//      The next rows set not only the background's opacity, but the text's opacity as well: 
-//	    if (b==true){
-//	    	DOM.setStyleAttribute(impl.getElement(), "opacity", "1.0");
-//	    	DOM.setStyleAttribute(impl.getElement(), "filter", "alpha(opacity=100)");
-//	    	//DOM.setStyleAttribute(impl.getElement(), "-moz-opacity", "");
-//	    	//DOM.setStyleAttribute(impl.getElement(), "-khtml-opacity", "");
-//	    	
-//		} else {
-//			DOM.setStyleAttribute(impl.getElement(), "opacity", "0.2");  //IE
-//			DOM.setStyleAttribute(impl.getElement(), "filter", "alpha(opacity=20)");  //non-IE
-//			//DOM.setStyleAttribute(impl.getElement(), "-moz-opacity", "0.0");
-//			//DOM.setStyleAttribute(impl.getElement(), "-khtml-opacity", "0.0");
-//			
-//	    }
+	    this.opaque = b;
 	    if (b == true){
-	    	//TODO
+	    	DOM.setStyleAttribute(impl.getElement(), "background", GColor.getColorString(color));
 	    } else {
-	    	//TODO: save the original color as well
 	    	DOM.setStyleAttribute(impl.getElement(), "background", "rgba(0,0,0,0)");
 	    }
     }
@@ -74,7 +59,10 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	@Override
     public void setBackground(GColor color) {
-		DOM.setStyleAttribute(impl.getElement(), "background", GColor.getColorString(color));
+		this.color = color;
+		if(this.opaque){
+			DOM.setStyleAttribute(impl.getElement(), "background", GColor.getColorString(color));
+		}
 		//DOM.setStyleAttribute(impl.getElement(), "background", "rgba("+ color.getRed()+", "+color.getGreen()+", "+color.getBlue()+", 1)");
 		
     }
