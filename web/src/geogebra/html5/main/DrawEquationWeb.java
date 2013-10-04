@@ -299,15 +299,15 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != 12)) {
-			return new geogebra.html5.awt.GDimensionW(getScaledWidth(ih),
-			        getScaledHeight(ih));
+			return new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
+					(int)Math.ceil(getScaledHeight(ih)));
 		}
 
 		return new geogebra.html5.awt.GDimensionW(ih.getOffsetWidth(),
 		        ih.getOffsetHeight());
 	}
 
-	public static native int getScaledWidth(Element el) /*-{
+	public static native double getScaledWidth(Element el) /*-{
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
@@ -323,7 +323,7 @@ public class DrawEquationWeb extends DrawEquation {
 		return el.offsetWidth || 0;
 	}-*/;
 
-	public static native int getScaledHeight(Element el) /*-{
+	public static native double getScaledHeight(Element el) /*-{
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
