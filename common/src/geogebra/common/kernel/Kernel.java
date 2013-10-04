@@ -4248,8 +4248,9 @@ public class Kernel {
 			if (algo instanceof AlgoCasBase) {
 				((AlgoCasBase) algo).clearCasEvalMap("");
 				algo.compute();
-			} else if (algo instanceof UsesCAS || algo instanceof AlgoUsingTempCASalgo) {
+			} else if (algo instanceof UsesCAS || algo instanceof AlgoUsingTempCASalgo || algo instanceof AlgoCasCellInterface) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
+				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
 			}
 			if(geo.isGeoCasCell() && algo==null){
