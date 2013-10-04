@@ -1,5 +1,7 @@
 package geogebra3D.input3D;
 
+import geogebra3D.input3D.leonar3do.InputLeo3D;
+
 
 
 /**
@@ -14,7 +16,6 @@ public class Input3DFactory {
 	 * @return 3D input
 	 */
 	static public Input3D createInput3D(){
-		//return new InputLeo3D();
-		return null;
+		return new InputLeo3D();
 	}
 }
