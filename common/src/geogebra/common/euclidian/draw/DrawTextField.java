@@ -181,10 +181,11 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 * @param e key event
 		 */
 		public void keyReleased(KeyEvent e) {
-			if (e.getKeyChar() == '\n') {
+			if (e.isEnterKey()) {
 				//view.getEuclidianController().textfieldHasFocus(false);
 				//geoTextField.textObjectUpdated(textField);
 				//geoTextField.textSubmitted();
+				App.debug("Enter released");
 				getView().requestFocusInWindow();
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();

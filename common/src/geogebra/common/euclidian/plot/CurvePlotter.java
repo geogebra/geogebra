@@ -4,7 +4,9 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
+import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
+import geogebra.common.util.debug.Log;
 
 /**
  * Class to plot x->f(x) functions and 2D/3D parametric curves
@@ -87,7 +89,7 @@ public class CurvePlotter {
 	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp,
 			boolean calcLabelPos, Gap moveToAllowed) {
-
+		App.printStacktrace(t1+","+t2);
 		countPoints = 0;
 		countEvaluations = 0;
 
@@ -109,7 +111,7 @@ public class CurvePlotter {
 		return labelPoint;
 	}
 	
-
+	private static int plotIntervals = 0;
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
@@ -127,6 +129,7 @@ public class CurvePlotter {
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
+		Log.debug(++plotIntervals);
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and

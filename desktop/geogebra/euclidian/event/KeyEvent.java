@@ -30,8 +30,8 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 	}
 	
 	@Override
-	public char getKeyChar() {
-		return event.getKeyChar();
+	public boolean isEnterKey() {
+		return event.getKeyChar() == '\n';
 	}
 
 	@Override

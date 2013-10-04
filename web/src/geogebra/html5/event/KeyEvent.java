@@ -30,14 +30,8 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 	
 	
 	@Override
-    public char getKeyChar() {
-		//TODO This function doesn't give back all character properly,
-		//but currently (2011.febr.29) this function used by
-		//DrawTextField.keyReleased(KeyEvent) only, which wants to know
-		//if we typed a '\n' or not.
-	    App.debug("implementation needed - just finishing"); // TODO
-	    if (event.getNativeEvent().getKeyCode() == 13) return '\n';
-	    return event.getCharCode();
+    public boolean isEnterKey() {
+	    return event.getNativeEvent().getKeyCode() == 13 || event.getNativeEvent().getKeyCode() == 10;
     }
 
 	@Override
