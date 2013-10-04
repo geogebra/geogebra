@@ -997,5 +997,9 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		this.updateCurrentWord(true);
 		return this.getCurrentWord();
 	}
+	
+	public void setFocus(boolean b){
+
+	}
 
 }

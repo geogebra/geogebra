@@ -20,7 +20,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
     // inputfield.MyTextfield
 	void enableColoring(boolean b);
 
-
+	void setFocus(boolean b);
 
 	void setOpaque(boolean b);
 

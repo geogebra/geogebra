@@ -403,6 +403,10 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
+	
+	public void setFocus(boolean b) {
+	    textField.setFocus(b);
+    }
 
 	public void setEditable(boolean b) {
 	    App.debug("implementation needed"); //TODO Auto-generated

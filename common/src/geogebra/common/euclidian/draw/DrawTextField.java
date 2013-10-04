@@ -186,6 +186,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				//geoTextField.textObjectUpdated(textField);
 				//geoTextField.textSubmitted();
 				App.debug("Enter released");
+				//Force focus removal in IE
+				textField.setFocus(false);
 				getView().requestFocusInWindow();
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();
