@@ -324,7 +324,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			tfCondition.addKeyHandler(new KeyHandler(){
 
 				public void keyReleased(KeyEvent e) {
-					if (e.getKeyChar() == '\n') {
+					if (e.isEnterKey()) {
 						doActionPerformed();	    
 					}
 				}
@@ -530,7 +530,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		tfName.addKeyHandler(new KeyHandler() {
 
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyChar() == '\n') {
+				if (e.isEnterKey()) {
 					model.applyNameChange(tfName.getText());
 				}
             }});
@@ -557,7 +557,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		tfDefinition.addKeyHandler(new KeyHandler() {
 
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyChar() == '\n') {
+				if (e.isEnterKey()) {
 					model.applyDefinitionChange(tfDefinition.getText());
 				}
 	            
@@ -577,7 +577,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		tfCaption.addKeyHandler(new KeyHandler() {
 
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyChar() == '\n') {
+				if (e.isEnterKey()) {
 					model.applyCaptionChange(tfCaption.getText());
 				}
             }});
