@@ -153,6 +153,9 @@ public class Kernel3D extends Kernel {
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
 			return "Sphere2";
 
+		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+			return "ConeTwoPointsRadius";
+
 		case EuclidianConstants.MODE_ROTATEVIEW:
 			return "RotateView";
 

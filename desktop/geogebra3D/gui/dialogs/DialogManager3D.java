@@ -71,6 +71,20 @@ public class DialogManager3D extends DialogManagerD {
 		id.setVisible(true);
 	}
 	
+	
+	/**
+	 * for creating a cone
+	 * @param title
+	 * @param a basis center
+	 * @param b apex point
+	 */
+	public void showNumberInputDialogConeTwoPointsRadius(String title, GeoPointND a, GeoPointND b) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id = new InputDialogConeTwoPointsRadius((AppD) app, title, handler, a, b, app.getKernel());
+		id.setVisible(true);
+	}
+	
+	
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
 			GeoLineND[] selectedLines, GeoElement[] selGeos,
             EuclidianController3D ec) {

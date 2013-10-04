@@ -256,6 +256,9 @@ public final class EuclidianConstants {
 	/** creates a sphere with midpoint through another point */
 	public static final int MODE_SPHERE_TWO_POINTS = 521;
 
+	/** creates a cone with center of basis, apex point and radius of the basis */
+	public static final int MODE_CONE_TWO_POINTS_RADIUS = 522;
+
 	/** creates a prism with basis and first vertex of the second parallel face */
 	public static final int MODE_PRISM = 531;
 
