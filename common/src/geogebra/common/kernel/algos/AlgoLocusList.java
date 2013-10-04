@@ -48,6 +48,8 @@ public class AlgoLocusList extends AlgoElement {
 	private boolean foundDefined;
 	private TreeSet<GeoElement> Qin;
 
+	private boolean shouldUpdateScreenBorders = false;
+
 	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P, int try_steps) {
 
 		// just ignoring try_steps here because it would
@@ -81,6 +83,7 @@ public class AlgoLocusList extends AlgoElement {
 		locus = new GeoLocus(cons);
 		locus.setFillable(false);
 
+		updateScreenBorders();
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
 		compute();
@@ -124,10 +127,22 @@ public class AlgoLocusList extends AlgoElement {
 						} else {
 							oldel = null;
 						}
-						if (oldel == actel)
+						if (oldel == actel) {
+							if (shouldUpdateScreenBorders) {
+								if (arrLocus.get(i) instanceof AlgoLocus) {
+									((AlgoLocus)arrLocus.get(i)).updateScreenBorders();
+								} else if (arrLocus.get(i) instanceof AlgoLocusList) {
+									((AlgoLocusList)arrLocus.get(i)).updateScreenBorders();
+								}
+							}
+							arrLocus.get(i).compute();
 							continue;
+						}
 					}
 					P.setPath((Path)actel);
+
+					// new AlgoLocus(List) does not need updateScreenBorders and compute
+
 					if (actel instanceof GeoList) {
 						if (((GeoList)actel).shouldUseAlgoLocusList(true)) {
 							actal = new AlgoLocusList(cons, Q, P, try_steps);
@@ -295,6 +310,7 @@ public class AlgoLocusList extends AlgoElement {
 		}
 		// set defined/undefined
 		locus.setDefined(foundDefined);
+		shouldUpdateScreenBorders = false;
 	}
 
 	private static boolean isPathIterable(GeoElement geoElement) {
@@ -320,17 +336,10 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	/**
-	 * This should call its children loci's updateScreenBorders
+	 * This should register the wish that screen borders should be
+	 * updated in the subloci in time
 	 */
 	void updateScreenBorders() {
-		int arrLocusSize = arrLocus.size();
-		AlgoElement sub;
-		for (int i = 0; i < arrLocusSize; i++) {
-			sub = arrLocus.get(i);
-			if (sub instanceof AlgoLocus)
-				((AlgoLocus)sub).updateScreenBorders();
-			else if (sub instanceof AlgoLocusList)
-				((AlgoLocusList)sub).updateScreenBorders();
-		}
+		shouldUpdateScreenBorders = true;
 	}
 }
