@@ -364,14 +364,14 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				// rotation of the top face around first top segment
 				Coords o = topP[1].getInhomCoordsInD(3);
 				Coords vs = bottomSegs[0].getDirectionInD3();
-				for (int i = 0 ; i < sz-2 ; i++) {
+				for (int i = 0 ; i < sz - 2 ; i++) {
 					wpoint3 = outputPointsTop.getElement(i);
 					cCoord = wpoint3.getInhomCoordsInD(3);
 					pp1 = cCoord.projectPlane(algo.getSide(0).getCoordSys().getMatrixOrthonormal())[0];
 					double dist =  pp1.distance(cCoord);
 					rotate(wpoint3, cCoord, pp1, o, vs, f, algo.getSide(0).getDirectionInD3(), dist, true);		
 				}
-				for (int i = 0 ; i < 2*sz ; i+=2) {
+				for (int i = 0 ; i < 2 * sz ; i+=2) {
 					// rotate wpoint1
 					// angle between side face and bottom face
 					o = points[i/2].getInhomCoordsInD(3);
@@ -387,7 +387,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 					rotate(wpoint2, cCoord, pp1, o, vs, f, faceDirection, dd1, false);
 
 					if (i == 0) { // the rotation for the top face is made with the same angle
-						for (int j = 0 ; j < sz-2 ; j++) {
+						for (int j = 0 ; j < sz - 2 ; j++) {
 							wpoint3 = outputPointsTop.getElement(j);
 							rotate(wpoint3, cCoord, pp1, o, vs, f, faceDirection, dd1, false);			
 						}
