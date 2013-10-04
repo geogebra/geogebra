@@ -1353,16 +1353,10 @@ public class TouchModel {
 				NumberValue numeric = this.kernel.getAlgebraProcessor()
 						.evaluateToNumeric(value, false);
 
-				if (value.endsWith("\u00B0")) { // ° -> angle
-					degree = true;
-					value = value.substring(0, value.length() - 1);
-				}
-
-				val = degree ? ((GeoNumeric) numeric).getValue() : Double
-						.parseDouble(value);
+				val = ((GeoNumeric) numeric).getValue();
 
 				// if there was no Exception till now, the number is valid
-				validNuber = !degree || !this.sliderDialog.isNumber();
+				validNuber = !Double.isNaN(val) && !Double.isInfinite(val);
 			} catch (Exception e) {
 			}
 		}
