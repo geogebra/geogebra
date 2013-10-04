@@ -182,10 +182,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 */
 		public void keyReleased(KeyEvent e) {
 			if (e.isEnterKey()) {
-				//view.getEuclidianController().textfieldHasFocus(false);
-				//geoTextField.textObjectUpdated(textField);
-				//geoTextField.textSubmitted();
-				App.debug("Enter released");
 				//Force focus removal in IE
 				textField.setFocus(false);
 				getView().requestFocusInWindow();
