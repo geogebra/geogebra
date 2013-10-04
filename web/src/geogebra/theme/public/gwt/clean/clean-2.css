@@ -1951,3 +1951,20 @@ label {
 	width:32px;
 	height:32px;
 }
+
+.objectProperties{
+	width: 100%;
+	height: 100%;
+}
+
+
+.objectPropertiesTabPanel{
+	width: 100%;
+	height: 100%;
+}
+
+
+.objectPropertiesTab{
+	width: 100%;
+	height: 100%;
+}

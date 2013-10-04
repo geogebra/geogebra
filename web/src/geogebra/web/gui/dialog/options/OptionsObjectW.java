@@ -752,9 +752,9 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 
 	private void initGUI() {
 		wrappedPanel = new FlowPanel();
-		wrappedPanel.setSize("300", "100%");
+		wrappedPanel.setStyleName("objectProperties");
 		tabPanel = new TabPanel();
-		tabPanel.setSize("300", "100%");
+	
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
         {			
 			public void onSelection(SelectionEvent<Integer> event) {
@@ -762,6 +762,8 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	            
             }
         });;
+        tabPanel.setStyleName("objectPropertiesTabPanel");
+		
 		addBasicTab();
 		addColorTab();
 		addStyleTab();
@@ -776,10 +778,9 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 
 	private void addBasicTab() {
 		basicTab = new VerticalPanel();
-		basicTab.setStyleName("optionsPanel");
+		basicTab.setStyleName("objectPropertiesTab");
 
 		VerticalPanel checkboxPanel = new VerticalPanel();
-		checkboxPanel.setSize("100%", "100%");
 		basicTab.add(checkboxPanel);
 
 		namePanel = new NamePanel((AppW)app);   
@@ -809,7 +810,9 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	}
 
 	private void addColorTab() {
+
 		colorTab = new FlowPanel();
+		colorTab.setStyleName("objectPropertiesTab");
 		colorPanel = new ColorPanel();
 		colorTab.add(colorPanel.getWidget());
 		tabPanel.add(colorTab, "Color");
@@ -817,14 +820,13 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 
 	private void addStyleTab() {
 		styleTab = new FlowPanel();
+		styleTab.setStyleName("objectPropertiesTab");
 		tabPanel.add(styleTab, "Style");
 	}
 
 	private void addAdvancedTab() {
 		advancedTab = new VerticalPanel();
-
-		advancedTab.setSize("100%", "100%");
-
+		advancedTab.setStyleName("objectPropertiesTab");
 		showConditionPanel = new ShowConditionPanel((AppW) app);
 		advancedTab.add(showConditionPanel.getWidget());
 		tabPanel.add(advancedTab, "Advanced");
@@ -835,7 +837,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 
 	public Dimension getPreferredSize() {
 		// TODO Auto-generated method stub
-		return new Dimension(250, 400);
+		return new Dimension(0, 0);
 	}
 
 	public void setMinimumSize(Dimension preferredSize) {
@@ -860,7 +862,6 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	}
 
 	public Widget getWrappedPanel() {
-		// TODO Auto-generated method stub
 		return wrappedPanel;
 	}
 }
