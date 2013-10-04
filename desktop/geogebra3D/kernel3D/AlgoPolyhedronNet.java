@@ -109,7 +109,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			outputPointsBottom.adjustOutputSize(n);
 			outputPointsSide.adjustOutputSize(n);
 			net.startNewFace();
-			for (int i=0; i<n; i++){
+			for (int i = 0; i < n; i++){
 				net.addPointToCurrentFace(outputPointsBottom.getElement(i));
 			}
 			net.endCurrentFace();
@@ -128,12 +128,12 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 		case GeoPolyhedron.TYPE_PRISM:
 
 			outputPointsBottom.adjustOutputSize(n);
-			outputPointsSide.adjustOutputSize(2*n);
-			outputPointsTop.adjustOutputSize(n-2);
+			outputPointsSide.adjustOutputSize(2 * n);
+			outputPointsTop.adjustOutputSize(n - 2);
 
 			//create bottom face
 			net.startNewFace();
-			for (int i=0; i<n; i++){
+			for (int i = 0; i < n; i++) {
 				net.addPointToCurrentFace(outputPointsBottom.getElement(i));
 			}
 			net.endCurrentFace();
@@ -152,7 +152,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			net.startNewFace();
 			net.addPointToCurrentFace(outputPointsSide.getElement(0));
 			net.addPointToCurrentFace(outputPointsSide.getElement(1));
-			for (int i=0; i<n-2; i++){
+			for (int i = 0; i < n - 2; i++) {
 				net.addPointToCurrentFace(outputPointsTop.getElement(i));
 			}
 			net.endCurrentFace();
@@ -170,35 +170,36 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 		for (GeoPolygon polygon : faces){
 			GeoSegmentND[] segments = polygon.getSegments();
-			if(step==1){//bottom
+			if (step == 1) { //bottom
 				outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
-				for (int i=0; i<segments.length; i++) {
+				for (int i = 0; i < segments.length; i++) {
 					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],false);	
 				}
 				step++;
-			}else{//sides
+			} else {//sides
 
 				switch(p.getType()) {
 
 				case GeoPolyhedron.TYPE_PYRAMID:
 
 					outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
-					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);
-					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1],false);		
+					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
+					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
 					step++;
 					//Application.debug(outputSegmentsSide.size());
 					break;
 
 				case GeoPolyhedron.TYPE_PRISM:
-					if (step==n){
+					if (step == n) {
 						outputPolygonsTop.addOutput((GeoPolygon3D) polygon, false);
-						for (int i=1; i<segments.length; i++)
-							outputSegmentsTop.addOutput((GeoSegment3D) segments[i],false);	
-					}else{
+						for (int i=1; i<segments.length; i++) {
+							outputSegmentsTop.addOutput((GeoSegment3D) segments[i], false);	
+						}
+					} else {
 						outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
-						outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[3],false);
-						outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);
-						outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1],false);		
+						outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[3], false);
+						outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
+						outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
 						step++;
 					}
 				}	
@@ -209,7 +210,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 
 
-		private OutputHandler<GeoPoint3D> createOutputPoints(){
+		private OutputHandler<GeoPoint3D> createOutputPoints() {
 			return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
 				public GeoPoint3D newElement() {
 					GeoPoint3D p=new GeoPoint3D(cons);
