@@ -456,6 +456,8 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_SPHERE_POINT_RADIUS );
 		sb.append( " , ");
 		sb.append( EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS );
+		sb.append( " ");
+		sb.append( EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS );
 		sb.append( " | ");
 		
 		//measures

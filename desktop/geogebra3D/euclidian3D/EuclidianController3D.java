@@ -1046,7 +1046,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	/**
 	 * get center point and number
 	 * @param hits 
-	 * @return true if sphere created
+	 * @return true if cone created
 	 */
 	final protected boolean coneTwoPointsRadius(Hits hits) {
 		if (hits.isEmpty())
@@ -1058,6 +1058,28 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		if (selPoints() == 2) {	
 			GeoPointND[] points = getSelectedPointsND();
 			((DialogManager3D)getDialogManager()).showNumberInputDialogConeTwoPointsRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
+					points[0],points[1]);
+			return true;
+		}
+		return false;
+	}
+	
+
+	/**
+	 * get center point and number
+	 * @param hits 
+	 * @return true if cylinder created
+	 */
+	final protected boolean cylinderTwoPointsRadius(Hits hits) {
+		if (hits.isEmpty())
+			return false;
+
+		addSelectedPoint(hits, 2, false);		
+
+		// we got the center point
+		if (selPoints() == 2) {	
+			GeoPointND[] points = getSelectedPointsND();
+			((DialogManager3D)getDialogManager()).showNumberInputDialogCylinderTwoPointsRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
 					points[0],points[1]);
 			return true;
 		}
@@ -1850,6 +1872,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			changedKernel = coneTwoPointsRadius(hits);
 			break;
 		
+		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
+			changedKernel = cylinderTwoPointsRadius(hits);
+			break;
+		
 			
 			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
@@ -1980,6 +2006,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:	
 		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:	
+		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:	
 			view.setHits(mouseLoc);
 			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, true, true, true, true, false);
@@ -3121,6 +3148,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
 			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
 			case EuclidianConstants.MODE_PYRAMID:
 			case EuclidianConstants.MODE_PRISM:
 				
