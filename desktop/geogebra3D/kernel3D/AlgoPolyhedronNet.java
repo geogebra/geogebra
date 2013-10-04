@@ -172,8 +172,9 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 			GeoSegmentND[] segments = polygon.getSegments();
 			if(step==1){//bottom
 				outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
-				for (int i=0; i<segments.length; i++)
+				for (int i=0; i<segments.length; i++) {
 					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],false);	
+				}
 				step++;
 			}else{//sides
 
