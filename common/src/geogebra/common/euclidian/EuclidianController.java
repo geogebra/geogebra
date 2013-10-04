@@ -7343,11 +7343,12 @@ public abstract class EuclidianController {
 				view.setShowMouseCoords(false);
 				view.setDragCursor();
 			} else {
-				
 				// need to trigger scripts
 				// (on tablets only get drag events)
-				runScriptsIfNeeded(movedGeoElement);
-
+				// we don't want to run InputBox's script if it was just clicked
+				if(!(movedGeoElement instanceof GeoTextField)){
+					runScriptsIfNeeded(movedGeoElement);
+				}
 			}
 
 		}
