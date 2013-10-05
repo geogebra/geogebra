@@ -8,6 +8,8 @@ import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.util.URLEncoder;
 
+import com.google.gwt.user.client.Window;
+
 
 /**
  * The web version of the login operation.
@@ -18,11 +20,21 @@ import geogebra.web.util.URLEncoder;
 public class LoginOperationW extends LogInOperation {
 	
 	private static final class BASEURL {
+		public static String urlStart = buildBaseURL();
 		public static String opener = "web/html/opener.html";
 		public static String callbackHTML = "web/html/ggtcallback.html";
-		public static String WEB_GUI = "http://geogebra.org/web/test50/";
-		public static String LOCALHOST = "http://127.0.0.1:8888/";
-		public static String APPSPOT = "http://geogebraweb.appspot.com/";
+		public static String WEB_GUI = urlStart + "geogebra.org/web/test50/";
+		public static String LOCALHOST = urlStart + "127.0.0.1:8888/";
+		public static String APPSPOT = urlStart + "geogebraweb.appspot.com/";
+		
+		
+		private static String buildBaseURL() {
+	       String url = Window.Location.getProtocol() + "//";
+	       if (Window.Location.getHostName().startsWith("www")) {
+	    	   url += "www.";
+	       }
+	       return url;
+	    }
 	}
 
 	/**
@@ -99,6 +111,6 @@ public class LoginOperationW extends LogInOperation {
 	}
 	
 	private static String getActiveUrl() {
-		return BASEURL.WEB_GUI;
+		return BASEURL.LOCALHOST;
 	}
 }
