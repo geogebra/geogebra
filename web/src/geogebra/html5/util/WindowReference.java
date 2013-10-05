@@ -6,6 +6,9 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
 
@@ -15,8 +18,18 @@ import com.google.gwt.user.client.Window;
  */
 public class WindowReference implements EventRenderable {
 	
-	private JavaScriptObject wnd = null;;
-	private static WindowReference instance = null;
+	/**
+	 * The window object itself.
+	 */
+	JavaScriptObject wnd = null;
+	/*
+	 * To check that window is open or not
+	 */
+	AnimationHandle requestAnimationFrame;;
+	/**
+	 * The instance of the opened window. We would like to have only one window opened in a given time
+	 */
+	static WindowReference instance = null;
 
 	/**
 	 * protected constructor as superclass of js object
@@ -61,11 +74,26 @@ public class WindowReference implements EventRenderable {
 						"left=" + left + ", " +
 						"top=" + top);	
 					lOW.getView().add(instance);
+					instance.initClosedCheck();
 			}
 		
 		return instance;
 	}
 	
+	private void initClosedCheck() {
+	    requestAnimationFrame = AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
+			
+			@Override
+			public void execute(double timestamp) {
+				if (instance != null && instance.closed()) {
+					cleanWindowReferences();
+				} else {
+					AnimationScheduler.get().requestAnimationFrame(this);
+				}
+			}
+		});
+    }
+
 	/**
 	 * @return the window instance wrapper
 	 */
@@ -87,8 +115,13 @@ public class WindowReference implements EventRenderable {
     public void renderEvent(BaseEvent event) {
 	    if (!this.closed()) {
 	    	this.close();
-	    	WindowReference.instance = null;
+	    	cleanWindowReferences();
 	    }	    
+    }
+
+	private void cleanWindowReferences() {
+	    requestAnimationFrame.cancel();
+	    WindowReference.instance = null;
     }
 
 }

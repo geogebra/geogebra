@@ -5,12 +5,10 @@ import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.common.util.HttpRequest;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.json.client.JSONException;
-import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
@@ -180,8 +178,8 @@ public class GeoGebraTubeAPIW extends geogebra.common.move.ggtapi.models.GeoGebr
 			
 			userinfo = (JSONObject)userinfo.get("response");
 			userinfo = (JSONObject)userinfo.get("userinfo");
-					
-			user.setUserId((int) ((JSONNumber)userinfo.get("user_id")).doubleValue());
+			
+			user.setUserId(Integer.valueOf(((JSONString) userinfo.get("user_id")).stringValue()));
 			user.setUserName(userinfo.get("username").toString());
 			user.setRealName(userinfo.get("realname").toString());
 			
@@ -248,7 +246,6 @@ public class GeoGebraTubeAPIW extends geogebra.common.move.ggtapi.models.GeoGebr
 		catch(JSONException e){
 			e.printStackTrace();
 		}
-		GWT.log(requestJSON.toString());
 		return requestJSON;
 	}
 }
