@@ -39,7 +39,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	private String title;
 
 	public InputDialogW(boolean modal) {
-		
+
 		wrappedPopup = new DialogBox(false, false);
 		wrappedPopup.addStyleName("DialogBox");
 	}
@@ -47,7 +47,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public InputDialogW(AppW app, String message, String title,
 	        String initString, boolean autoComplete, InputHandler handler,
 	        boolean modal, boolean selectInitText, GeoElement geo) {
-		
+
 		this(app, message, title, initString, autoComplete, handler, modal,
 		        selectInitText, geo, null, DialogType.GeoGebraEditor);
 	}
@@ -71,25 +71,25 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	        CheckBox checkBox, DialogType type) {
 
 		this(modal);
-		
+
 		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
 		this.initString = initString;
 		this.checkBox = checkBox;
-		
+
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
 		        selectInitText, geo != null, geo != null, type);
 
 		centerOnScreen();
 
 	}
-	
+
 	public InputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			GeoElement geo){
+	        String initString, boolean autoComplete, InputHandler handler,
+	        GeoElement geo) {
 		this(app, message, title, initString, autoComplete, handler, false,
-				false, geo);
+		        false, geo);
 	}
 
 	private void centerOnScreen() {
@@ -147,13 +147,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		if (showApply) {
 			btPanel.add(btApply);
 		}
-//		if (showProperties) {
-//			btPanel.add(btProperties);
-//		}
+		// if (showProperties) {
+		// btPanel.add(btProperties);
+		// }
 
 		setLabels();
 
-		
 		// =====================================================================
 		// Create the optionPane: a panel with message label on top, button
 		// panel on bottom. The center panel holds the inputPanel, which is
@@ -189,7 +188,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	public void setVisible(boolean visible) {
 		wrappedPopup.setVisible(visible);
-		if (visible) inputPanel.getTextComponent().getTextBox().getElement().focus();
+		if (visible)
+			inputPanel.getTextComponent().getTextBox().getElement().focus();
 	}
 
 	public void setLabels() {
