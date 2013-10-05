@@ -3860,8 +3860,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			setGridDistances(d);
 		}
 
-		setShowAxis(0, evs.getShowAxis(0), false);
-		setShowAxis(1, evs.getShowAxis(1), false);
+		setShowAxis(0, evs.getShowAxis(0), true);
+		setShowAxis(1, evs.getShowAxis(1), true);
 		String[] tempAxesLabels = evs.getAxesLabels(); 
 
 		// make sure <b>, <i> processed 
