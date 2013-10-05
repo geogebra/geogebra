@@ -19,10 +19,10 @@ public class LoginOperationW extends LogInOperation {
 	
 	private static final class BASEURL {
 		public static String opener = "web/html/opener.html";
-		private static String callbackHTML = "web/html/ggtcallback.html";
-		public static String WEB_GUI = "http://geogebra.org/web/test50/" + callbackHTML;
-		public static String LOCALHOST = "http://127.0.0.1:8888/" + callbackHTML;
-		public static String APPSPOT = "http://geogebraweb.appspot.com/" + callbackHTML;
+		public static String callbackHTML = "web/html/ggtcallback.html";
+		public static String WEB_GUI = "http://geogebra.org/web/test50/";
+		public static String LOCALHOST = "http://127.0.0.1:8888/";
+		public static String APPSPOT = "http://geogebraweb.appspot.com/";
 	}
 
 	/**
@@ -72,16 +72,15 @@ public class LoginOperationW extends LogInOperation {
 	 * @return change this concerning what environment the project runs.
 	 */
 	public String getCallbackUrl() {
-		//return  BASEURL.LOCALHOST;
-		// return BASEURL.APPSPOT;
-		return BASEURL.WEB_GUI;
+		
+		return getActiveUrl() + BASEURL.callbackHTML;
 	}
 	
 	/**
 	 * @return the url that will redirect the window to GGT login
 	 */
 	public String getOpenerUrl() {
-		return BASEURL.opener;
+		return getActiveUrl() + BASEURL.opener;
 	}
 	
 	
@@ -97,5 +96,9 @@ public class LoginOperationW extends LogInOperation {
 	
 	private void processToken(String token) {
 		performTokenLogin(token);
+	}
+	
+	private static String getActiveUrl() {
+		return BASEURL.WEB_GUI;
 	}
 }
