@@ -1079,8 +1079,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		// we got the center point
 		if (selPoints() == 2) {	
 			GeoPointND[] points = getSelectedPointsND();
-			//((DialogManager3D)getDialogManager()).showNumberInputDialogCylinderTwoPointsRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
-			//		points[0],points[1]);
+			((DialogManager3D)getDialogManager()).showNumberInputDialogCylinderTwoPointsRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
+					points[0],points[1]);
 			return true;
 		}
 		return false;
