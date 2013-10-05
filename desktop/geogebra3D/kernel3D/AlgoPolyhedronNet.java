@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 
 import java.util.Collection;
 
@@ -77,7 +78,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 
 		// set labels
-		setLabels();
+		setLabels(labels);
 
 		update();
 
@@ -86,18 +87,41 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 	}
 
-	private void setLabels()
-	{
-		getNet().setLabel(null);
-		outputPolygonsBottom.setLabels(null);
-		outputPolygonsSide.setLabels(null);
-		outputPolygonsTop.setLabels(null);
+	private void setLabels(String[] labels){
 
-		outputSegmentsBottom.setLabels(null);
-		outputSegmentsSide.setLabels(null);
-		outputSegmentsTop.setLabels(null);
+		if (labels==null || labels.length <= 1)
+			getNet().initLabels(labels);
+		else{
+			getNet().setAllLabelsAreSet(true);
+			augmentOutputSize(labels.length);
+			for (int i=0; i<labels.length; i++){
+				getOutput(i).setLabel(labels[i]);
+			}
+		}
 
 	}
+	
+	private void augmentOutputSize(int length){
+		int n = getPointLengthFromLabelsLength(length);
+		
+		App.error("TODO ( bottom points: "+n+" ; labels: "+length+" ; output: "+getOutputLength()+ ")");
+	}
+	
+	private int getPointLengthFromLabelsLength(int length){
+		
+		switch(p.getType()) {
+
+		case GeoPolyhedron.TYPE_PYRAMID:
+			return (length-2)/6;
+		case GeoPolyhedron.TYPE_PRISM:
+			return length/10;
+			
+		default:
+			return 0;
+		}
+	
+	}
+	
 
 	private void createNet(int n) {
 
@@ -207,8 +231,8 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 				}	
 			}
 		}
-			refreshOutput();
-		}
+		refreshOutput();
+	}
 
 
 
@@ -218,6 +242,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 					GeoPoint3D p=new GeoPoint3D(cons);
 					p.setCoords(0, 0, 0, 1);
 					p.setParentAlgorithm(AlgoPolyhedronNet.this);
+					getNet().addPointCreated(p);
 					return p;
 				}
 			});

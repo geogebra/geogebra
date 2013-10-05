@@ -567,7 +567,7 @@ HasHeight
 		if (!geo.isLabelSet())
 			return 2; // not usable
 		else if (geo.getLabel(StringTemplate.defaultTemplate).contains("_"))
-			return 1; // usable if only one
+			return 2; // not usable
 		else
 			return 0; // usable
 
