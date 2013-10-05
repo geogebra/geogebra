@@ -1205,7 +1205,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Condition_ShowObject": "\u663e\u793a\u6761\u4ef6",
     "Conditions": "\u6761\u4ef6",
     "Cone": "\u5706\u9525",
-    "Cone_Help": "\u9009\u5b9a\u4e24\u4e2a\u70b9 (\u5148\u5b9a\u9876\u70b9), \u63a5\u7740\u8f93\u5165\u534a\u5f84",
+    "Cone_Help": "\u9009\u5b9a\u4e24\u4e2a\u70b9 (\u7b2c\u4e8c\u70b9\u4e3a\u9876\u70b9), \u63a5\u7740\u8f93\u5165\u534a\u5f84",
     "ConfidenceInterval": "\u7f6e\u4fe1\u533a\u95f4",
     "ConfidenceLevel": "\u7f6e\u4fe1\u5ea6",
     "Conic": "\u5706\u9525\u66f2\u7ebf",
