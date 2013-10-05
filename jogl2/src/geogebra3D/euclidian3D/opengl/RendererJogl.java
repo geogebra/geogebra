@@ -60,11 +60,12 @@ public class RendererJogl {
 		caps.setNumSamples(4);    	
 		
 		//avoid flickering
-		//caps.setDoubleBuffered(true);
-		caps.setDoubleBuffered(false);
+		caps.setDoubleBuffered(true);
+		//caps.setDoubleBuffered(false);
 		
 		//stencil buffer is needed for hacked passive 3D
 		caps.setStencilBits(1);
+		
 
 	}
 	
