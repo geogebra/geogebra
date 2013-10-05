@@ -23,9 +23,9 @@ public class LoginOperationW extends LogInOperation {
 		public static String urlStart = buildBaseURL();
 		public static String opener = "web/html/opener.html";
 		public static String callbackHTML = "web/html/ggtcallback.html";
-		public static String WEB_GUI = urlStart + "geogebra.org/web/test50/";
-		public static String LOCALHOST = urlStart + "127.0.0.1:8888/";
-		public static String APPSPOT = urlStart + "geogebraweb.appspot.com/";
+		public static String WEB_GUI = urlStart + "geogebra.org/web/web_gui/";
+		//public static String LOCALHOST = urlStart + "127.0.0.1:8888/";
+		//public static String APPSPOT = urlStart + "geogebraweb.appspot.com/";
 		
 		
 		private static String buildBaseURL() {
@@ -111,6 +111,6 @@ public class LoginOperationW extends LogInOperation {
 	}
 	
 	private static String getActiveUrl() {
-		return BASEURL.LOCALHOST;
+		return BASEURL.WEB_GUI;
 	}
 }
