@@ -18,6 +18,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra3D.kernel3D.AlgoJoinPoints3D;
+import geogebra3D.kernel3D.AlgoMidpoint3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
 /**
@@ -250,6 +251,21 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		return super.midpoint(conic);
 
 	}
+	
+
+	@Override
+	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
+
+		if (((GeoElement) p1).isGeoElement3D()
+				|| ((GeoElement) p2).isGeoElement3D()) {
+			
+			AlgoMidpoint3D algo = new AlgoMidpoint3D(kernel.getConstruction(), p1, p2);
+			return algo.getPoint();
+		}
+
+		return super.midpoint(p1, p2);
+	}
+
 	
 	
 	@Override

@@ -37,7 +37,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -5229,18 +5228,5 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	
 	
 	
-	/**
-	 * 
-	 * @param p1 first point
-	 * @param p2 second point
-	 * @return midpoint for two points
-	 */
-	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
-		
-		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) p1, (GeoPoint) p2);
-		return algo.getPoint();
-
-	}
-
 
 }

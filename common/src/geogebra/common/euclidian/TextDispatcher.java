@@ -355,7 +355,7 @@ public class TextDispatcher {
 	 */
 	private final GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
 		
-		return (GeoPointND) view.midpoint(P, Q);
+		return (GeoPointND) view.getEuclidianController().midpoint(P, Q);
 	}
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
 		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point, (GeoElement) line);

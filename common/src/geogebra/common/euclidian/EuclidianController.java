@@ -36,6 +36,7 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoRadius;
@@ -2619,7 +2620,7 @@ public abstract class EuclidianController {
 			// fetch the two selected points
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming(); 			
-			ret[0] = view.midpoint(points[0], points[1]);			
+			ret[0] = midpoint(points[0], points[1]);			
 			ret[0].setLabel(null);
 			return ret;
 		} else if (selSegments() == 1) {
@@ -2637,6 +2638,22 @@ public abstract class EuclidianController {
 		}
 		return null;
 	}
+	
+	
+
+	/**
+	 * 
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @return midpoint for two points
+	 */
+	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
+		
+		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) p1, (GeoPoint) p2);
+		return algo.getPoint();
+
+	}
+
 
 
 	/**
