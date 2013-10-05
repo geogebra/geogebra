@@ -81,6 +81,8 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 
 		update();
 
+		
+		updateOutputSegmentsAndPolygonsParentAlgorithms();
 
 	}
 
@@ -411,5 +413,23 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 		public GeoPolyhedronNet getNet(){
 			return outputNet.getElement(0);
 		}
+		
+		
+		
+		/**
+		 * force update for segments and polygons at creation
+		 */
+		private void updateOutputSegmentsAndPolygonsParentAlgorithms(){
+			outputSegmentsBottom.updateParentAlgorithm();
+			outputSegmentsSide.updateParentAlgorithm();
+			outputPolygonsBottom.updateParentAlgorithm();
+			outputPolygonsSide.updateParentAlgorithm();
+
+			if(p.getType()==GeoPolyhedron.TYPE_PRISM){
+				outputSegmentsTop.updateParentAlgorithm();
+				outputPolygonsTop.updateParentAlgorithm();
+			}
+		}
+		
 
 	}
