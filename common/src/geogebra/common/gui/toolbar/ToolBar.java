@@ -490,13 +490,21 @@ public class ToolBar {
 
 		
 		//view control
-		sb.append( EuclidianConstants.MODE_ROTATEVIEW );
-		sb.append( " ");
-		sb.append( EuclidianConstants.MODE_TRANSLATEVIEW );
-		sb.append( " ");
-		sb.append( EuclidianConstants.MODE_ZOOM_IN );
-		sb.append( " ");
-		sb.append( EuclidianConstants.MODE_ZOOM_OUT );
+		sb.append(EuclidianConstants.MODE_ROTATEVIEW );
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ZOOM_IN);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ZOOM_OUT);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_DELETE);
 		sb.append( " | ");
 		
 		sb.append( EuclidianConstants.MODE_VIEW_IN_FRONT_OF);
