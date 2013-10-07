@@ -20,19 +20,12 @@ import com.google.gwt.user.client.Window;
 public class LoginOperationW extends LogInOperation {
 	
 	private static final class BASEURL {
-		public static String urlStart = buildBaseURL();
-		public static String opener = "web/html/opener.html";
-		public static String callbackHTML = "web/html/ggtcallback.html";
-		public static String WEB_GUI = urlStart + "geogebra.org/web/test50/";
-		public static String LOCALHOST = urlStart + "127.0.0.1:8888/";
-		public static String APPSPOT = urlStart + "geogebraweb.appspot.com/";
-		
+		public static final String urlStart = buildBaseURL();
+		public static final String opener = "web/html/opener.html";
+		public static final String callbackHTML = "web/html/ggtcallback.html";	
 		
 		private static String buildBaseURL() {
-	       String url = Window.Location.getProtocol() + "//";
-	       if (Window.Location.getHostName().startsWith("www")) {
-	    	   url += "www.";
-	       }
+	       String url = Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/";      		
 	       return url;
 	    }
 	}
@@ -85,14 +78,14 @@ public class LoginOperationW extends LogInOperation {
 	 */
 	public String getCallbackUrl() {
 		
-		return getActiveUrl() + BASEURL.callbackHTML;
+		return BASEURL.urlStart + BASEURL.callbackHTML;
 	}
 	
 	/**
 	 * @return the url that will redirect the window to GGT login
 	 */
 	public String getOpenerUrl() {
-		return getActiveUrl() + BASEURL.opener;
+		return BASEURL.urlStart + BASEURL.opener;
 	}
 	
 	
@@ -108,9 +101,5 @@ public class LoginOperationW extends LogInOperation {
 	
 	private void processToken(String token) {
 		performTokenLogin(token);
-	}
-	
-	private static String getActiveUrl() {
-		return BASEURL.WEB_GUI;
 	}
 }
