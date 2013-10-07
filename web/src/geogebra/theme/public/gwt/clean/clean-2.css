@@ -1494,15 +1494,22 @@ Paddings for menuitems.
     height:18px;
 }
 
-.SymbolTable a {
-	text-decoration:none;
-	color:black;
-	border-radius:none;
-    display:block;
-    padding:1px;
+.SymbolTable {
+	width: 100%;
+	height: 100%;
+	border-left:solid 1px lightgray;
+	border-top:solid 1px lightgray;
+	border-collapse:collapse;
 }
 
-.SymbolTable a:hover, .SymbolTable a.focus {
+.SymbolTable td {
+	padding: 4px;
+	border-right: solid 1px lightgray;
+	border-bottom: solid 1px lightgray;
+	
+}
+
+.SymbolTable td:hover, .SymbolTable td.focus {
 	background: #D5E2FF;
 }
 
