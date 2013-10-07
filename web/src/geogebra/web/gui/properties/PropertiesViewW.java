@@ -153,7 +153,7 @@ public class PropertiesViewW extends
 
 		case OBJECTS:
 			if (objectPanel == null) {
-				objectPanel = new OptionsObjectW((AppW) app);
+				objectPanel = new OptionsObjectW((AppW) app, false);
 				((OptionsObjectW) objectPanel).setMinimumSize(((OptionsObjectW) objectPanel).getPreferredSize());
 			}
 			return (OptionPanelW) objectPanel;

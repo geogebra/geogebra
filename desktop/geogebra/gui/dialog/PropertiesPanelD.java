@@ -263,7 +263,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @param colChooser
 	 * @param isDefaults
 	 */
-	public PropertiesPanelD(AppD app, GeoGebraColorChooser colChooser,
+ 	public PropertiesPanelD(AppD app, GeoGebraColorChooser colChooser,
 			boolean isDefaults) {
 		this.isDefaults = isDefaults;
 
@@ -7784,11 +7784,9 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	private ObjectNameModel model;
 	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
 
-	private boolean actionPerforming = false;
-	private boolean redefinitionFailed = false;
 	private Runnable doActionStopped = new Runnable() {
 		public void run() {
-			actionPerforming = false;
+			model.setBusy(false);
 		}
 	};
 	private JLabel nameLabel, defLabel, captionLabel;
@@ -7951,7 +7949,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	public void updateDef(GeoElement geo) {
 
 		// do nothing if called by doActionPerformed
-		if (actionPerforming)
+		if (model.isBusy())
 			return;
 		
 		tfDefinition.removeActionListener(this);
@@ -7965,7 +7963,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	public void updateName(GeoElement geo) {
 
 		// do nothing if called by doActionPerformed
-		if (actionPerforming)
+		if (model.isBusy())
 			return;
 
 		tfName.removeActionListener(this);
@@ -7980,11 +7978,17 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	 * handle textfield changes
 	 */
 	public void actionPerformed(ActionEvent e) {
+		if (model.isBusy()) {
+			return;
+		}
+		
 		doActionPerformed(e.getSource());
 	}
 
 	private synchronized void doActionPerformed(Object source) {
-		actionPerforming = true;
+		
+
+		model.setBusy(true);
 
 		if (source == tfName) {
 			// rename
@@ -7993,7 +7997,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		} else if (source == tfDefinition) {
 		
 			model.applyDefinitionChange(tfDefinition.getText());
-			//tfDefinition.requestFocusInWindow();
+			tfDefinition.requestFocusInWindow();
 			
 		} else if (source == tfCaption) {
 			model.applyCaptionChange(tfCaption.getText());
@@ -8009,19 +8013,13 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	public void focusLost(FocusEvent e) {
 		
-		if (actionPerforming) {
+		if (model.isBusy()) {
 			return;
 		}
 
 		Object source = e.getSource();
 
 		if (source == tfDefinition) {
-
-			if (redefinitionFailed) {
-				redefinitionFailed = false;
-				return;
-			}
-
 			model.redefineCurrentGeo(currentGeoForFocusLost, tfDefinition.getText(),
 						redefinitionForFocusLost);
 		

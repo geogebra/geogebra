@@ -65,6 +65,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private AuxPanel auxPanel;
 	private ShowConditionPanel showConditionPanel;
 	private ColorPanel colorPanel;
+	private boolean isDefaults;
 	
 	class OptionPanel {
 		private OptionsModel model;
@@ -493,8 +494,6 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	private ObjectNameModel model;
 	private AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
-//	private boolean actionPerforming = false;
-	private boolean redefinitionFailed = false;
 //	private Runnable doActionStopped = new Runnable() {
 //		public void run() {
 //			actionPerforming = false;
@@ -668,8 +667,12 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
-			// currentGeo=null;
+			// currentGeo=null
+			mainWidget.setVisible(false);
 			return;
+		} else {
+			mainWidget.setVisible(true);
+			
 		}
 		
 
@@ -741,9 +744,9 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	}
 }
 
-	public OptionsObjectW(AppW app) {
+	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
-
+		this.isDefaults = isDefaults;
 		kernel = app.getKernel();
 
 		// build GUI
@@ -761,7 +764,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 				updateGUI();
 	            
             }
-        });;
+        });
         tabPanel.setStyleName("objectPropertiesTabPanel");
 		
 		addBasicTab();
@@ -780,23 +783,33 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		basicTab = new VerticalPanel();
 		basicTab.setStyleName("objectPropertiesTab");
 
+		namePanel = new NamePanel((AppW)app);   
+		if (!isDefaults) {
+			basicTab.add(namePanel.getWidget());
+		}
+
 		VerticalPanel checkboxPanel = new VerticalPanel();
 		basicTab.add(checkboxPanel);
 
-		namePanel = new NamePanel((AppW)app);   
-		basicTab.add(namePanel.getWidget());
 
 		showObjectPanel = new ShowObjectPanel();   
 		checkboxPanel.add(showObjectPanel.getWidget());
 
 
+		
+		labelPanel = new LabelPanel();
+		if (!isDefaults) {
+				checkboxPanel.add(labelPanel.getWidget());
+		}
+		
 		tracePanel = new TracePanel(); 
 		checkboxPanel.add(tracePanel.getWidget());
 		basicTab.add(checkboxPanel);
 
-		labelPanel = new LabelPanel();
-		checkboxPanel.add(labelPanel.getWidget());
-
+		if (!isDefaults) {
+			//TODO: Add animating panel
+		}
+		
 		fixPanel = new FixPanel();
 		checkboxPanel.add(fixPanel.getWidget());
 
@@ -804,9 +817,18 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		checkboxPanel.add(auxPanel.getWidget());
 
 		basicTab.add(checkboxPanel);
+//		if (!isDefaults)
+//			basicTabList.add(bgImagePanel);
+//
+//		basicTabList.add(comboBoxPanel);
+//		//if (!isDefaults)
+//			basicTabList.add(allowReflexAnglePanel);
+//		basicTabList.add(rightAnglePanel);
+//		basicTabList.add(allowOutlyingIntersectionsPanel);
+//		basicTabList.add(showTrimmedIntersectionLines);
 
 		tabPanel.add(basicTab, "Basic");
-
+		
 	}
 
 	private void addColorTab() {

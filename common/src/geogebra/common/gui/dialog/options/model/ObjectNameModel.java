@@ -26,10 +26,13 @@ public class ObjectNameModel extends OptionsModel {
 	private GeoElement currentGeo;
 	private boolean redefinitionFailed;
 	private GeoElement currentGeoForFocusLost;
+	private boolean busy;
 	
 	public ObjectNameModel(App app, IObjectNameListener listener) {
 		this.app = app;
 		this.listener = listener;
+		busy = false;
+		redefinitionFailed = false;
 		setNameInputHandler(new RenameInputHandler(app, null, false));
 		// DEFINITON PANEL
 		// Michael Borcherds 2007-12-31 BEGIN added third argument
@@ -119,7 +122,6 @@ public class ObjectNameModel extends OptionsModel {
 	}
 	
 	public void applyDefinitionChange(final String definition) {
-	
 		if (!definition.equals(getDefText(currentGeo))) {
 
 			if (defInputHandler.processInput(definition)) {
@@ -127,7 +129,7 @@ public class ObjectNameModel extends OptionsModel {
 				currentGeo = defInputHandler.getGeoElement();
 				app.getSelectionManager().addSelectedGeo(currentGeo);
 			} else {
-				redefinitionFailed = true;
+				setRedefinitionFailed(true);
 			}
 		}
 
@@ -142,7 +144,7 @@ public class ObjectNameModel extends OptionsModel {
 		}
 
 	public void applyCaptionChange(final String caption) {
-			currentGeo.setCaption(caption);
+		currentGeo.setCaption(caption);
 
 		final String strCaption = currentGeo.getRawCaption();
 		if (!strCaption.equals(caption.trim())) {
@@ -152,6 +154,13 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	public void redefineCurrentGeo(GeoElement geo, final String text, final String redefinitionText) {
+		setBusy(true);
+
+		if (isRedefinitionFailed()) {
+			setRedefinitionFailed(false);
+			return;
+		}
+
 		if (currentGeo == geo){
 			if (!text.equals(getDefText(currentGeo))) {
 				
@@ -199,6 +208,26 @@ public class ObjectNameModel extends OptionsModel {
 
 	public void setDefInputHandler(RedefineInputHandler defInputHandler) {
 		this.defInputHandler = defInputHandler;
+	}
+
+
+	public boolean isBusy() {
+		return busy;
+	}
+
+
+	public void setBusy(boolean busy) {
+		this.busy = busy;
+	}
+
+
+	protected boolean isRedefinitionFailed() {
+		return redefinitionFailed;
+	}
+
+
+	protected void setRedefinitionFailed(boolean redefinitionFailed) {
+		this.redefinitionFailed = redefinitionFailed;
 	}
 
 }
