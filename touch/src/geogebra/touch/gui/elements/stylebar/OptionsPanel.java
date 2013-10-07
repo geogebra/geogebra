@@ -78,4 +78,23 @@ public class OptionsPanel extends PopupPanel {
 		return this.type;
 	}
 
+	public int getWidth() {
+		switch (this.type) {
+		case CaptionStyle:
+			return 190;
+		case Color:
+			return 200;
+		case LineStyle:
+			return 250;
+		case None:
+			break;
+		case ToolBar:
+			break;
+		default:
+			break;
+
+		}
+		return 0;
+	}
+
 }

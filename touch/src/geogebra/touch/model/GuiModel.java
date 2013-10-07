@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
@@ -298,11 +299,17 @@ public class GuiModel {
 	 * @param button
 	 *            the button that was clicked, null in case of a Dialog
 	 *            (OptionsType.Dialog)
+	 * TODO remove magic numbers
 	 */
 	public void showOption(final OptionsPanel panel, final FastButton button) {
 		closeOptions();
 		this.optionsPanel = panel;
-		this.optionsPanel.showRelativeTo(button);
+		int left = button.getAbsoluteLeft() - 20;
+		if(left + panel.getWidth() > Window.getClientWidth()){
+			left = button.getAbsoluteLeft() - panel.getWidth() + 20 + 17;
+		}
+		this.optionsPanel.setPopupPosition(left, button.getAbsoluteTop() + 56);
+		this.optionsPanel.show();
 		this.styleBarOptionShown = panel.getType();
 	}
 

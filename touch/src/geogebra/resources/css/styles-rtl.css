@@ -254,6 +254,7 @@ input.worksheetTitle {
 
 .optionsBoxArrow {
 	right: 17px;
+	left: auto;
 	top: -13px;
 	z-index: 10;
 	position: absolute;
@@ -282,7 +283,6 @@ input.worksheetTitle {
 	height: 30px;
 	float: right;
 	padding: 5px;
-	margin-left: 5px;
 	margin-bottom: 5px;
 }
 
