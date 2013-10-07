@@ -259,7 +259,7 @@ public class DrawConicSection extends DrawConic {
 		
 		int numPoints = -1;
 
-		int x0 = 0, y0 = 0, x1 = 0, y1 = 0, x2, y2;
+		int tx0 = 0, ty0 = 0, x1 = 0, y1 = 0, x2, y2;
 		float x, y;
 		
 		for (int i=0; i<4; i++){
@@ -269,10 +269,10 @@ public class DrawConicSection extends DrawConic {
 					y = (float) endPoints[i].getY();
 					path.moveTo(x,y);
 					numPoints++;
-					x0 = view.toScreenCoordX(x);
-					y0 = view.toScreenCoordY(y);					
-					x1 = x0;
-					y1 = y0;
+					tx0 = view.toScreenCoordX(x);
+					ty0 = view.toScreenCoordY(y);					
+					x1 = tx0;
+					y1 = ty0;
 				}else{
 					x = (float) endPoints[i].getX();
 					y = (float) endPoints[i].getY();
@@ -296,7 +296,7 @@ public class DrawConicSection extends DrawConic {
 			path.closePath();
 			if (lines[numPoints] == null)
 				lines[numPoints] = geogebra.common.factories.AwtFactory.prototype.newLine2D();
-			lines[numPoints].setLine(x1, y1, x0, y0);
+			lines[numPoints].setLine(x1, y1, tx0, ty0);
 		}
 		
 

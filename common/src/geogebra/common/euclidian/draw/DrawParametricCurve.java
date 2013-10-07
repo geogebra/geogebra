@@ -152,106 +152,6 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
-	/**
-	 * Returns true when x is either NaN or infinite.
-	 */
-	private static boolean isUndefined(double x) {
-		return Double.isNaN(x) || Double.isInfinite(x);
-	}
-
-	/**
-	 * Returns true when at least one element of eval is either NaN or infinite.
-	 */
-	private static boolean isUndefined(double[] eval) {
-		for (int i = 0; i < eval.length; i++) {
-			if (isUndefined(eval[i]))
-				return true;
-		}
-		return false;
-	}
-
-
-
-	/*
-	 * The algorithm in plotInterval() is based on an algorithm by John Gillam.
-	 * Below you find his explanation.
-	 * 
-	 * 
-	 * Let X(t)=(x(t),y(t)) be a function defined on [a,b]. Make a uniform
-	 * partition t0=a<t1<t2...<tn=b of [a,b]. Assume we've already plotted
-	 * X(ti). Choose j>i and see if it's acceptable for the next point to be
-	 * X(tj). If not, "back up" and try another j. Unfortunately, this probably
-	 * leads to multiple evaluations of the function X at the same point. The
-	 * following discussion presents an algorithm which basically does this
-	 * "back up" but multiple function evaluations at the same point are
-	 * avoided.
-	 * 
-	 * The actual algorithm always has n a power of 2, namely 2 to the maxDepth.
-	 * In Math Okay, the user sets maxDepth in the drawing quality under Max
-	 * lines.
-	 * 
-	 * The following first creates a complete binary tree of height h(3) Then
-	 * the following algorithm visits all the leaves of the tree (2^h leaves):
-	 * (easy induction on height h). Furthermore, the maximum stack size is
-	 * clearly h+1:
-	 * 
-	 * Node root=create(1,3),p; p=root; Node[] stack=new Node[20]; int top=0;
-	 * stack[top++]=p; do { while (p.left!=null) { stack[top++]=p;
-	 * p=(Node)p.left; } System.out.print(" "+p.n); // visit p p=stack[--top];
-	 * p=(Node)p.right; } while (top!=0);
-	 * 
-	 * Now the following code "clearly" generates as t values all the dyadic
-	 * rationals with denominator 2^n, with n==maxDepth
-	 * 
-	 * int dyadicStack[]=new int[20]; int depthStack[]=new int[20]; double
-	 * divisors[]=new double[20]; divisors[0]=1; for (int
-	 * i=1;i<20;divisors[i]=divisors[i-1]/2,i++) ; int top=0,maxDepth=5; // of
-	 * course 5 is just a test double t; int i=1; dyadicStack[0]=1;
-	 * depthStack[0]=0; top=1; int depth=0; do { while (depth<maxDepth) {
-	 * dyadicStack[top]=i; depthStack[top++]=depth; i<<=1; i--; depth++; }
-	 * t=i*divisors[maxDepth]; // a visit of dyadic rational t
-	 * depth=depthStack[--top]+1; // pop stack and go to right
-	 * i=dyadicStack[top]<<1; } while (top !=0);
-	 * 
-	 * Finally, here is code which draws a curve (continuous) x(t),y(t) for
-	 * t1<=t<=t2; xEval and yEval evaluate x and y at t; maxXDistance and
-	 * maxYDistance are set somewhere. Let P0=(x0,y0) be "previous point" and
-	 * P=(x,y) the "current point". The while loop that goes down the tree has
-	 * condition of form: depth<maxDepth && !acceptable(P0,P); i.e., go on down
-	 * the tree when it is unacceptable to draw the line from P0 to P.
-	 * 
-	 * double x0,y0,x,y,t; int dyadicStack[]=new int[20]; int depthStack[]=new
-	 * int[20]; double xStack[]=new double[20]; double yStack[]=new double[20];
-	 * double divisors[]=new double[20]; divisors[0]=t2-t1; for (int
-	 * i=1;i<20;divisors[i]=divisors[i-1]/2,i++) ; int i=1; dyadicStack[0]=1;
-	 * depthStack[0]=0; x0=xEval(t1); y0=yEval(t1); xStack[0]=x=xEval(t2);
-	 * yStack[0]=y=yEval(t2); top=1; int depth=0; // with a GeneralPathClipped
-	 * moveTo(sx0,sy0) , the "screen" point do { while (depth<maxDepth &&
-	 * (abs(x-x0)>=maxXDistance || abs(y-y0)>=maxYDistance)) {
-	 * dyadicStack[top]=i; depthStack[top]=depth; xStack[top]=x;
-	 * yStack[top++]=y; i<<=1; i--; depth++; t=t1+i*divisors[depth]; //
-	 * t=t1+(t2-t1)*(i/2^depth) x=xEval(t); y=yEval(t); } drawLine(x0,y0,x,y);
-	 * // or with a GeneralPathClipped lineTo(sx,sy) // above is call to user
-	 * written function x0=x; y0=y; // Here's the real utility of the algorithm:
-	 * //Now pop stack and go to right; notice the corresponding dyadic value
-	 * when we go to right is 2*i/(2^(d+1) = i/2^d !! So we've already
-	 * //calculated the corresponding x and y values when we pushed.
-	 * y=yStack[--top]; x=xStack[top] depth=depthStack[top]+1; // pop stack and
-	 * go to right i=dyadicStack[top]<<1; } while (top !=0);
-	 * 
-	 * Notice the lines drawn from (x0,y0) to (x,y) always satisfy
-	 * |x-x0|<maxXDistance and |y-y0|<maxYDistance or the minimum mesh
-	 * 1/2^maxDepth has been reached. Also the maximum number of evaluations of
-	 * functions x and y is 2^maxDepth. All this pushing and popping looks
-	 * expensive, but compared to function evaluation and rendering, it's
-	 * trivial.
-	 * 
-	 * For the special case of y=f(x), of course x(t)==t and y(t)=f(t). In this
-	 * special case, you still have to worry about discontinuities of f, and in
-	 * particular vertical asymptopes. So you need to adjust the Boolean
-	 * acceptable.
-	 */
-
 	@Override
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
@@ -267,12 +167,8 @@ public class DrawParametricCurve extends Drawable {
 
 			if (fillCurve) {
 				try {
-
-					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
-																			// using
-																			// default/hatching/image
-																			// as
-																			// appropriate
+					// fill using default/hatching/image as appropriate
+					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); 
 
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
