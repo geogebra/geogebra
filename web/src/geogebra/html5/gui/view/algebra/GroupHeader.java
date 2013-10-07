@@ -30,8 +30,6 @@ public class GroupHeader extends FlowPanel{
 			this.showUrl = showUrl;
 			this.hiddenUrl = hiddenUrl;
 			
-			this.setStyleName("arrowBottom");
-			
 			addDomHandler(new ClickHandler()
 			{
 				public void onClick(ClickEvent event)
@@ -42,7 +40,6 @@ public class GroupHeader extends FlowPanel{
 				}
 			}, ClickEvent.getType());
 			setChecked(true);
-			this.getElement().getStyle().setFloat(com.google.gwt.dom.client.Style.Float.RIGHT);
 		}
 
 		/**
@@ -67,6 +64,7 @@ public class GroupHeader extends FlowPanel{
 				setImage(hiddenUrl.asString());
 				this.setStyleName("arrowLeft");
 			}
+			this.getElement().addClassName("algebraOpenButton");
 		}
 
 		public void setEnabled(boolean euclidianShowable) {

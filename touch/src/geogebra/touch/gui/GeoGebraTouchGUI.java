@@ -18,7 +18,7 @@ public interface GeoGebraTouchGUI {
 
 	public EuclidianViewPanel getEuclidianViewPanel();
 
-	public void initComponents(Kernel kernel);
+	public void initComponents(Kernel kernel, boolean rtl);
 
 	public boolean isAlgebraShowing();
 

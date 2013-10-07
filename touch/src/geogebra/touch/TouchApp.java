@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
+import geogebra.common.main.Localization;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -504,7 +505,7 @@ public class TouchApp extends AppWeb {
 		if (locale.contains("-")) {
 			country = locale.split("-")[1];
 		}
-
+		
 		this.setLanguage(language, country);
 	}
 
@@ -579,8 +580,10 @@ public class TouchApp extends AppWeb {
 	 */
 	void start() {
 		this.initKernel();
-
-		this.touchGUI.initComponents(this.kernel);
+		String lang = Location.getParameter("lang") != null ?
+			Location.getParameter("lang"):
+			this.getLocale();
+		this.touchGUI.initComponents(this.kernel, Localization.rightToLeftReadingOrder(lang));
 		super.euclidianView = this.touchGUI.getEuclidianViewPanel()
 				.getEuclidianView();
 
@@ -590,11 +593,7 @@ public class TouchApp extends AppWeb {
 		super.initing = false;
 		this.getScriptManager();
 
-		if (Location.getParameter("lang") != null) {
-			this.setLanguage(Location.getParameter("lang"));
-		} else {
-			this.setLanguage();
-		}
+		setLanguage(lang);
 
 		this.setDefaultConstructionTitle();
 		this.initNetworkEventFlow();

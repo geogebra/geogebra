@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.html5.gui.ToolbarResources;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardButton;
@@ -62,13 +63,15 @@ public class StyleBar extends FlowPanel {
 	final TouchModel touchModel;
 	final GuiModel guiModel;
 	private OptionsPanel optionsPanel;
+	private final TabletGUI gui;
 
 	/**
 	 * Initializes the StyleBar
 	 * 
 	 */
-	public StyleBar(final TouchModel touchModel, final EuclidianViewT view) {
+	public StyleBar(final TouchModel touchModel, final EuclidianViewT view,TabletGUI gui) {
 		this.setStyleName("stylebar");
+		this.gui = gui;
 		this.euclidianView = view;
 		this.touchModel = touchModel;
 		this.guiModel = touchModel.getGuiModel();
@@ -296,7 +299,6 @@ public class StyleBar extends FlowPanel {
 		if (this.styleButtonsPanel.isVisible()) {
 			// close all opened options before hiding the stylingbar
 			this.guiModel.closeOptions();
-
 			this.showHideButton.setStyleName("arrowRight");
 			// Set stylebar transparent, when closed
 			this.addStyleName("transparent");
@@ -310,6 +312,9 @@ public class StyleBar extends FlowPanel {
 			this.removeStyleName("transparent");
 
 			this.styleButtonsPanel.setVisible(true);
+		}
+		if(this.gui.isRTL()){
+			this.gui.getEuclidianViewPanel().onResize();
 		}
 	}
 

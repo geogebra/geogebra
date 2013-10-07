@@ -41,6 +41,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 	public static final int ALGEBRA_BUTTON_WIDTH = 50;
 	private static final int MINIMAL_WIDTH_FOR_TWO_VIEWS = 400;
 
+	public static final int STYLEBAR_WIDTH = 150;
+
 	public static int computeAlgebraWidth() {
 		if (Window.getClientWidth() < MINIMAL_WIDTH_FOR_TWO_VIEWS) {
 			return Window.getClientWidth();
@@ -130,6 +132,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		return this.toolBar;
 	}
 
+	private boolean rtl;
 	/**
 	 * Creates a new instance of {@link TouchController} and
 	 * {@link MobileAlgebraController} and initializes the
@@ -140,7 +143,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 	 *            Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel) {
+	public void initComponents(final Kernel kernel, boolean isRtl) {
+		this.rtl = isRtl;
 		this.touchModel = new TouchModel(kernel);
 		this.app = (TouchApp) kernel.getApplication();
 		// Initialize GUI Elements
@@ -166,12 +170,15 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 				width, height);
 
 		this.styleBar = new StyleBar(this.touchModel,
-				this.euclidianViewPanel.getEuclidianView());
+				this.euclidianViewPanel.getEuclidianView(),this);
 		this.touchModel.getGuiModel().setStyleBar(this.styleBar);
 		this.euclidianViewPanel.add(this.styleBar);
-		this.euclidianViewPanel.setWidgetPosition(this.styleBar, 0, 0);
-
-		this.contentPanel.addEast(this.algebraViewPanel, computeAlgebraWidth());
+		this.euclidianViewPanel.setWidgetPosition(this.styleBar, this.rtl ? width - STYLEBAR_WIDTH :0, 0);
+		if(this.rtl){
+			this.contentPanel.addWest(this.algebraViewPanel, computeAlgebraWidth());
+		}else{
+			this.contentPanel.addEast(this.algebraViewPanel, computeAlgebraWidth());
+		}
 		this.contentPanel.add(this.euclidianViewPanel);
 		this.contentPanel.setHeight("100%");
 		
@@ -238,7 +245,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 		this.euclidianViewPanel.add(this.algebraViewButtonPanel);
 		this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel,
-				width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+				this.rtl? 0 : width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
 
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 		this.algebraViewButtonPanel.add(this.algebraViewArrowPanel);
@@ -319,6 +326,14 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().setLabels();
 		}
 		this.toolBar.setLabels();
+	}
+
+	public boolean isRTL() {
+		return this.rtl;
+	}
+
+	public FlowPanel getStylebar() {
+		return this.styleBar;
 	}
 
 }

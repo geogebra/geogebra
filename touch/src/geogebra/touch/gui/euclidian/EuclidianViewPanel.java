@@ -65,20 +65,26 @@ public class EuclidianViewPanel extends AbsolutePanel implements ResizeListener 
 
 	@Override
 	public void onResize() {
+		//Widget leftWidget = this.gui.isRTL()? this.gui.getAlgebraViewButtonPanel() : this.gui.getStylebar();
+		Widget rightWidget = !this.gui.isRTL()? this.gui.getAlgebraViewButtonPanel() : this.gui.getStylebar();
+		int widgetWidth =  rightWidget.getOffsetWidth()-6;
+		if(widgetWidth <= 0){
+			widgetWidth = !this.gui.isRTL()? TabletGUI.ALGEBRA_BUTTON_WIDTH : TabletGUI.STYLEBAR_WIDTH;
+		}
 		if (!this.gui.isAlgebraShowing()) {
 			this.setPixelSize(Window.getClientWidth(),
 					TouchEntryPoint.getLookAndFeel().getContentWidgetHeight());
 			this.setWidgetPosition(
-					this.gui.getAlgebraViewButtonPanel(),
-					Window.getClientWidth() - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+					rightWidget,
+					Window.getClientWidth() - widgetWidth, 0);
 		} else {
 			this.setPixelSize(Window.getClientWidth()
 					- TabletGUI.computeAlgebraWidth(), TouchEntryPoint
 					.getLookAndFeel().getContentWidgetHeight());
 			this.setWidgetPosition(
-					this.gui.getAlgebraViewButtonPanel(),
+					rightWidget,
 					Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
-							- TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+							- widgetWidth, 0);
 		}
 	}
 

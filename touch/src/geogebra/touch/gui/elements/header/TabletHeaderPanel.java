@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -121,13 +120,13 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.titlePanel.add(this.underline);
 
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
 
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.titlePanel);
 
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
 
 	}

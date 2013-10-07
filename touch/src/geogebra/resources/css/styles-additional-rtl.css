@@ -1,0 +1,314 @@
+@charset "utf-8";
+
+body .browsegui .button,
+body .worksheetgui .button {
+	border: none;
+	background: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+body .browsegui .button.nextPrevDisabled {
+	opacity: 0.2;
+	filter: alpha(opacity = 20);
+}
+
+.browsegui .button.button-up-hovering,
+.worksheetgui .button.button-up-hovering  {
+	border: none;
+	/*opacity: 1;
+	filter: alpha(opacity = 100);*/
+}
+
+/* BrowseGUI, WorksheetGUI HEADER */
+
+body div .browsegui .headerbar,
+body div .worksheetgui .headerbar {
+	height: 50px;
+}
+
+body .browsegui .headerbar .gwt-Label,
+body .worksheetgui .headerbar .gwt-Label {
+	font-size: 18px;
+	vertical-align: middle;
+	color: #FFFFFF;
+}
+
+body .browsegui .headerbar .gwt-Label,
+body .browsegui .headerbar img,
+body .worksheetgui .headerbar .gwt-Label,
+body .worksheetgui .headerbar img {
+	opacity: 0.8;
+  	filter: alpha(opacity=80);
+}
+
+body .browsegui .headerright,
+body .worksheetgui .headerright {
+	margin-right: 0px;
+	padding-right: 10px;
+}
+
+body .browsegui .headerright td,
+body .browsegui .headerleft td,
+body .worksheetgui .headerright td,
+body .worksheetgui .headerleft td {
+	padding: 0px;
+}
+
+body .browsegui .headerbar div.button,
+.worksheetgui .headerbar div.button {
+	border: none;
+	margin: 0px 0px 0px 5px;
+}
+
+body .browsegui .headerright div.button,
+body .worksheetgui .headerright div.button {
+	width: 11px;
+	padding-left: 5px;
+}
+
+body .browsegui .headerright img,
+body .worksheetgui .headerright img {
+	height: 20px;
+	width: 11px;
+	margin-top: 5px;
+}
+
+body .backButton {
+	display: table-cell;
+}
+
+body .backButton .image {
+	float: right;
+}
+
+body .backButton .gwt-Label {
+	margin-right: 14px;
+}
+
+body .browsegui .headerleft div.button {
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+}
+
+body .worksheetgui .headerleft div.button {
+	margin: 0px;
+}
+
+body .browsegui .headerleft .button img {
+	height: 24px;
+	width: 24px;
+}
+
+body .browsegui input.gwt-TextBox {
+	background: none;
+	border: none;
+	color: #FFFFFF;
+}
+
+/* BrowseGUI CONTENT */
+
+.browsegui table {
+	border-spacing: 0px;
+}
+
+.browsegui .localFilePanel {
+	background-color: #FFFFFF;
+}
+
+.browsegui .tubeFilePanel {
+	padding: 0px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -webkit-gradient(linear, right top, right bottom,
+		color-stop(0, rgb(239, 239, 239) ),
+		color-stop(1, rgb(205, 205, 205) ) );
+}
+
+.browsegui .filePanelTitle {
+	color: #999999;
+	font-size: 20px;
+	height: 35px;
+	vertical-align: middle;
+	padding: 15px 20px 0px 20px;
+	float:right;
+}
+
+.browsegui .filePanel td {
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.browsegui .filePanel td .browserFile {
+	padding: 10px;
+	font-size: 14px;
+	color: #666666;
+}
+
+.browsegui .browserFile {
+	width: 100%;
+}
+.browsegui .filePageControls {
+	float: right;
+}
+
+.browsegui .filePageControls button {
+	background: none;
+	border: none;
+	width: 35px;
+	height: 35px;
+}
+
+.browsegui .filePageControls button.selected {
+	background: #9999FF;
+}
+
+.browsegui .browserFile.selected {
+	background-color: #C2C2FF;
+}
+
+.browsegui .fileImage {
+	width: 198px;
+	height: 118px;
+	overflow: hidden;
+	border: 1px solid #CCCCCC;
+	margin-left: 20px;
+	
+	float: right;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-color: #FFFFFF;
+}
+
+.browsegui .fileImage.scaleImage {
+	background-size: 100%;
+	width: 91px;
+	height: 49px;
+}
+
+.browsegui .fileDescription {
+	float: right;
+	margin-top: 10px;
+}
+
+.browsegui .fileDescription td {
+	padding-bottom: 10px;
+	text-align: right;
+}
+
+.browsegui .fileTitle {
+	font-weight: bold;
+}
+
+.browsegui .fileLinks {
+	float: left;
+}
+
+.browsegui .fileLinks td {
+	text-align: center;
+}
+
+.browsegui .confirmDelete {
+	height: 41px;
+	margin-top: 17px;
+	width: 100%	
+}
+
+.browsegui .centeredContent {
+	width: 100%;
+}
+
+.browsegui .browserFile td:nth-child(2) {
+	width: 100%;
+}
+
+.browsegui .confirmDelete td {
+	border: 3px solid #C2C2FF;
+	border-radius: 11px;
+	background-color: #ffffff;
+	color: #505050;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle !important;
+	width: 50%;
+}
+
+body .browsegui .fileLinks .button {
+	border: none;
+	background: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.browsegui .button.delete {
+	margin-top: 3px;
+}
+
+.browsegui .fileClear {
+	clear: both;
+}
+
+.browsegui .fileControlPanel {
+	height: 40px;
+	margin-right: 7px;
+	margin-left: 7px;
+	padding-top: 10px;
+	color: #666666;
+}
+
+.browsegui .fileControlPanel .button {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.browsegui .filePageControls {
+	float: right;
+}
+
+.prevButton {
+	float: right;
+}
+
+.nextButton {
+	float:left;
+}
+
+/* WORKSHEET GUI CONTENT */
+
+.worksheetgui {
+	background-color: #FFFFFF;
+}
+
+.worksheetgui .worksheet {
+	padding: 30px 20px 40px 20px;
+	overflow: auto;
+	/* Background
+	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -webkit-gradient(linear, right top, right bottom,
+		color-stop(0, rgb(239, 239, 239) ),
+		color-stop(0.1, rgb(255, 255, 255) ) );*/
+}
+
+.worksheet .instructionsPre {
+	margin-bottom: 20px;
+}
+
+.worksheet iframe {
+	border: 1px solid #CCCCCC;
+}
+
+.worksheet .instructionsPost {
+	margin-top: 20px;
+}
