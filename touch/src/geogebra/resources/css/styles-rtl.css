@@ -71,6 +71,7 @@ div.button { /* Border */
 
 .algebraOpenButton{
 	float: left;
+	margin-left:10px;
 }
 
 .arrowBottom img {

@@ -43,7 +43,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 	public static final int ALGEBRA_BUTTON_WIDTH = 50;
 	private static final int MINIMAL_WIDTH_FOR_TWO_VIEWS = 400;
 
-	public static final int STYLEBAR_WIDTH = 150;
+	public static final int STYLEBAR_WIDTH = 140;
 
 	public static int computeAlgebraWidth() {
 		if (Window.getClientWidth() < MINIMAL_WIDTH_FOR_TWO_VIEWS) {
@@ -251,7 +251,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 		this.euclidianViewPanel.add(this.algebraViewButtonPanel);
 		this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel,
-				this.rtl? 0 : width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+				this.rtl? -6 : width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
 
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 		this.algebraViewButtonPanel.add(this.algebraViewArrowPanel);
