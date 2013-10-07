@@ -62,8 +62,8 @@ public class TouchModel {
 	private final Kernel kernel;
 	private final GuiModel guiModel;
 	private EuclidianView euclidianView;
-	private final InputDialog inputDialog;
-	private final SliderDialog sliderDialog;
+	private InputDialog inputDialog;
+	private SliderDialog sliderDialog;
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
 	private boolean controlClicked = true;
@@ -81,11 +81,23 @@ public class TouchModel {
 		this.kernel = k;
 		this.app = this.kernel.getApplication();
 		this.guiModel = new GuiModel(this);
-		this.inputDialog = new InputDialog((TouchApp) this.app,
-				DialogType.NumberValue, this);
-		this.sliderDialog = new SliderDialog((TouchApp) this.app,
-				DialogType.Slider, this);
 		this.cmdIntersect = new CmdIntersect(this.kernel);
+	}
+	
+	private InputDialog getInputDialog(){
+		if(this.inputDialog == null){
+			this.inputDialog = new InputDialog((TouchApp) this.app,
+					DialogType.NumberValue, this);
+		}
+		return this.inputDialog;
+	}
+	
+	private SliderDialog getSliderDialog(){
+		if(this.sliderDialog == null){
+			this.sliderDialog = new SliderDialog((TouchApp) this.app,
+				DialogType.Slider, this);
+		}
+		return this.sliderDialog;
 	}
 
 	private static void addAll(final ArrayList<GeoElementND> newGeoElements,
@@ -552,18 +564,18 @@ public class TouchModel {
 			}
 			break;
 		case Dilate:
-			this.inputDialog.setType(DialogType.NumberValue);
-			this.inputDialog.setMode("DilateFromPoint");
-			this.inputDialog.setInputText("");
-			this.inputDialog.show();
+			this.getInputDialog().setType(DialogType.NumberValue);
+			this.getInputDialog().setMode("DilateFromPoint");
+			this.getInputDialog().setInputText("");
+			this.getInputDialog().show();
 			// return instead of break, as everthing that follows is done by
 			// the dialog!
 			return;
 		case RotateObjectByAngle:
-			this.inputDialog.setType(DialogType.Angle);
-			this.inputDialog.setMode("RotateByAngle");
-			this.inputDialog.setInputText("45\u00B0"); // 45°
-			this.inputDialog.show();
+			this.getInputDialog().setType(DialogType.Angle);
+			this.getInputDialog().setMode("RotateByAngle");
+			this.getInputDialog().setInputText("45\u00B0"); // 45°
+			this.getInputDialog().show();
 			// return instead of break, as everthing that follows is done by
 			// the dialog!
 			return;
@@ -764,13 +776,13 @@ public class TouchModel {
 			break;
 		case RegularPolygon:
 			// if needed?!
-			if (this.inputDialog.getType() != DialogType.NumberValue) {
-				this.inputDialog.setType(DialogType.NumberValue);
+			if (this.getInputDialog().getType() != DialogType.NumberValue) {
+				this.getInputDialog().setType(DialogType.NumberValue);
 			}
 
-			this.inputDialog.setMode("RegularPolygon");
-			this.inputDialog.setInputText("");
-			this.inputDialog.show();
+			this.getInputDialog().setMode("RegularPolygon");
+			this.getInputDialog().setInputText("");
+			this.getInputDialog().show();
 
 			this.controlClicked = false;
 			this.commandFinished = true;
@@ -910,7 +922,7 @@ public class TouchModel {
 			selectOutOf(hits, new Test[] { Test.GEONUMERIC }, 1);
 
 			if (this.selectedElements.size() == 0) {
-				this.sliderDialog.show();
+				this.getSliderDialog().show();
 			}
 			break;
 
@@ -1227,9 +1239,9 @@ public class TouchModel {
 	}
 
 	private boolean handleInputDialog(final String input) {
-		this.inputDialog.setInputText("");
+		this.getInputDialog().setInputText("");
 
-		if (!this.inputDialog.isHandlingExpected(true)) {
+		if (!this.getInputDialog().isHandlingExpected(true)) {
 			resetSelection();
 			// still false! includes a repaint
 			this.kernel.setNotifyRepaintActive(true);
@@ -1237,7 +1249,7 @@ public class TouchModel {
 		}
 
 		// redefine
-		if (this.inputDialog.getType() == DialogType.Redefine) {
+		if (this.getInputDialog().getType() == DialogType.Redefine) {
 			if (this.redefineGeo == null) {
 				return false;
 			}
@@ -1261,7 +1273,7 @@ public class TouchModel {
 		final boolean oldVal = this.kernel.getConstruction()
 				.isSuppressLabelsActive();
 		this.kernel.getConstruction().setSuppressLabelCreation(true);
-		final String signedInput = this.inputDialog.isClockwise() ? "-("
+		final String signedInput = this.getInputDialog().isClockwise() ? "-("
 				+ input + ")" : input;
 
 		final ArrayList<GeoElementND> newGeoElements = new ArrayList<GeoElementND>();
@@ -1323,7 +1335,7 @@ public class TouchModel {
 
 	private boolean handleSliderDialog(final String input) {
 
-		if (!this.sliderDialog.isHandlingExpected(true)) {
+		if (!this.getSliderDialog().isHandlingExpected(true)) {
 			resetSelection();
 			// still false! includes a repaint
 			this.kernel.setNotifyRepaintActive(true);
@@ -1339,7 +1351,7 @@ public class TouchModel {
 		} catch (Exception e) {
 		}
 
-		boolean degree = false, validNuber = false;
+		boolean validNuber = false;
 		double val = 0;
 
 		// handle names like "a=2"
@@ -1361,7 +1373,7 @@ public class TouchModel {
 			}
 		}
 
-		if (this.sliderDialog.getType() == DialogType.RedefineSlider) {
+		if (this.getSliderDialog().getType() == DialogType.RedefineSlider) {
 			setSliderProperties(this.redefineSlider);
 			final String newName = calcSliderName(strLabel);
 			this.redefineSlider.rename(newName);
@@ -1379,7 +1391,7 @@ public class TouchModel {
 			this.kernel.getConstruction().setSuppressLabelCreation(
 					this.kernel.getConstruction().isSuppressLabelsActive());
 
-			final GeoNumeric slider = this.sliderDialog.isNumber() ? new GeoNumeric(
+			final GeoNumeric slider = this.getSliderDialog().isNumber() ? new GeoNumeric(
 					this.kernel.getConstruction()) : new GeoAngle(
 					this.kernel.getConstruction());
 			if(slider instanceof GeoAngle){
@@ -1443,11 +1455,11 @@ public class TouchModel {
 
 	private void setSliderProperties(final GeoNumeric slider) {
 		slider.setIntervalMin(this.kernel.getAlgebraProcessor()
-				.evaluateToNumeric(this.sliderDialog.getMin(), false));
+				.evaluateToNumeric(this.getSliderDialog().getMin(), false));
 		slider.setIntervalMax(this.kernel.getAlgebraProcessor()
-				.evaluateToNumeric(this.sliderDialog.getMax(), false));
+				.evaluateToNumeric(this.getSliderDialog().getMax(), false));
 		slider.setAnimationStep(this.kernel.getAlgebraProcessor()
-				.evaluateToNumeric(this.sliderDialog.getIncrement(), false));
+				.evaluateToNumeric(this.getSliderDialog().getIncrement(), false));
 
 	}
 
@@ -1560,17 +1572,17 @@ public class TouchModel {
 
 		if (geo.isGeoNumeric() && geo.isEuclidianVisible()
 				&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
-			this.sliderDialog.setType(DialogType.RedefineSlider);
+			this.getSliderDialog().setType(DialogType.RedefineSlider);
 			this.redefineSlider = (GeoNumeric) geo;
 			this.redefineGeo = null;
-			this.sliderDialog.redefineSlider(this.redefineSlider);
-			this.sliderDialog.show();
+			this.getSliderDialog().redefineSlider(this.redefineSlider);
+			this.getSliderDialog().show();
 		} else {
-			this.inputDialog.redefine(DialogType.Redefine,
+			this.getInputDialog().redefine(DialogType.Redefine,
 					geo.getDefinitionForInputBar());
 			this.redefineGeo = geo;
 			this.redefineSlider = null;
-			this.inputDialog.show();
+			this.getInputDialog().show();
 		}
 	}
 
