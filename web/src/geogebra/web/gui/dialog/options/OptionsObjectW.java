@@ -57,14 +57,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private TabPanel tabPanel;
 	private VerticalPanel advancedTab;
 
+	//Basic
 	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
 	private TracePanel tracePanel;
 	private LabelPanel labelPanel;
 	private FixPanel fixPanel;
 	private AuxPanel auxPanel;
-	private ShowConditionPanel showConditionPanel;
+
+	//Color picker
 	private ColorPanel colorPanel;
+	
+	//Advanced
+	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
 	
 	class OptionPanel {
@@ -73,8 +78,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public void update(Object[] geos) {
 			getModel().setGeos(geos);
-			if (!getModel().checkGeos())
+			if (!getModel().checkGeos()) {
+				if (widget != null) {
+					widget.setVisible(false);
+				}
 				return;
+			}
+			if (widget != null) {
+				widget.setVisible(true);
+			}
+			
 			getModel().updateProperties();
 		}
 
@@ -662,23 +675,6 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	 * (may be different to current geo, due to threads)
 	 */
 	private GeoElement currentGeoForFocusLost = null;
-
-	public void update(Object[] geos) {
-
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			// currentGeo=null
-			mainWidget.setVisible(false);
-			return;
-		} else {
-			mainWidget.setVisible(true);
-			
-		}
-		
-
-		model.updateProperties();
-
-	}
 
 	private String redefinitionForFocusLost = "";
 	
