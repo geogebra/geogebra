@@ -372,6 +372,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				m.setFont(app.getPlainFont());
 			}
 		}
+		
+		// Update the font of the sign in button
+		if (signInButton != null && signInButton instanceof JButton) {
+			signInButton.setFont(app.getPlainFont());
+		}
 	}
 
 	/**
