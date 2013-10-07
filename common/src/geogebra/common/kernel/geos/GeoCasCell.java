@@ -2,6 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
+import geogebra.common.kernel.AlgoCasCellInterface;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -42,6 +43,7 @@ import geogebra.common.util.debug.Log;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -551,7 +553,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * inputVE.toString()
 	 */
 	public void updateInputStringWithRowReferences() {
-		if (!includesRowReferences)
+		updateInputStringWithRowReferences(false);
+	}
+
+	/**
+	 * Updates input strings row references
+	 * @param force true if update variable names also
+	 */
+	public void updateInputStringWithRowReferences(boolean force) {
+		if (!includesRowReferences && !force)
 			return;
 
 		// inputVE will print the correct label, e.g. $4 for
@@ -880,6 +890,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				ignoreSetAssignment = true;
 				twinGeo.rename(assignmentVar);
 			}
+			updateDependentCellInput();
 			cons.putCasCellLabel(this, assignmentVar);
 		} else {
 			// remove twinGeo if we had one
@@ -1435,9 +1446,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if (lastOutputEvaluationGeo.getGeoClassType() == twinGeo.getGeoClassType()) {
 					// if both geos are the same type we can use set safely
 					twinGeo.set(lastOutputEvaluationGeo);
+				} else if (!lastOutputEvaluationGeo.isDefined()) {
+					// newly created GeoElement is undefined, we can set our twin geo undefined
+					twinGeo.setUndefined();
 				} else {
-					cons.replace(twinGeo, lastOutputEvaluationGeo);
 					twinGeo = lastOutputEvaluationGeo;
+					cons.replace(twinGeo, lastOutputEvaluationGeo);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -2506,4 +2520,17 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 		}
 	}
+
+	private void updateDependentCellInput() {
+		List<AlgoElement> algos = getAlgorithmList();
+		if (algos != null) {
+			for (AlgoElement algo : algos) {
+				if (algo instanceof AlgoCasCellInterface) {
+					AlgoCasCellInterface algoCell = (AlgoCasCellInterface) algo;
+					algoCell.getCasCell().updateInputStringWithRowReferences(true);
+				}
+			}
+		}
+	}
+	
 }
