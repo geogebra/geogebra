@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * @author Thomas Krismayer
  * 
  */
-class TabletHeaderPanelLeft extends HorizontalPanel {
+class TabletHeaderFile extends HorizontalPanel {
 	private final Kernel kernel;
 	private final TouchApp app;
 	private final TouchModel touchModel;
@@ -47,7 +47,7 @@ class TabletHeaderPanelLeft extends HorizontalPanel {
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	TabletHeaderPanelLeft(final TouchApp app, final TouchModel touchModel,
+	TabletHeaderFile(final TouchApp app, final TouchModel touchModel,
 			final TabletHeaderPanel headerPanel) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -65,11 +65,9 @@ class TabletHeaderPanelLeft extends HorizontalPanel {
 		this.add(this.openButton);
 		this.add(this.saveButton);
 
-		if (TouchEntryPoint.getLookAndFeel().isShareSupported()) {
-			this.initShareButton();
-			this.add(this.shareButton);
-			this.shareButton.addStyleName("shareButton");
-		}
+		this.initShareButton();
+		this.add(this.shareButton);
+		this.shareButton.addStyleName("shareButton");
 	}
 
 	protected void enableDisableSave() {

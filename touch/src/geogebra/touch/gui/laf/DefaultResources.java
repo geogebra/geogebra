@@ -6,10 +6,17 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.TextResource;
 
 public interface DefaultResources extends ClientBundle {
 	static DefaultResources INSTANCE = GWT.create(DefaultResources.class);
 
+	@Source("geogebra/resources/css/styles-rtl.css")
+	TextResource rtlStyle();
+	
+	@Source("geogebra/resources/css/styles-additional-rtl.css")
+	TextResource additionalRtlStyle();
+	
 	// Dialogs
 
 	@Source("icons/svg/algebra_hidden.svg")

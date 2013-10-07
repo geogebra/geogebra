@@ -200,16 +200,16 @@ input.worksheetTitle {
 	text-align: center;
 }
 
-.headerRight {
-	margin-right: 10px;
+.headerUndoRedo {
+	margin-left: 10px;
 }
 
-.headerRight td,.headerLeft td {
+.headerFile td,.headerUndoRedo td {
 	padding-top: 10px;
 }
 
-.headerLeft {
-	margin-left: 10px;
+.headerFile {
+	margin-right: 10px;
 	float:right;
 }
 

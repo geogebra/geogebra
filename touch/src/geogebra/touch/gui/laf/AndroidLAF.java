@@ -24,11 +24,6 @@ public class AndroidLAF extends DefaultLAF {
 	}
 
 	@Override
-	public boolean isShareSupported() {
-		return true;
-	}
-
-	@Override
 	public boolean useClickHandlerForOpenClose() {
 		return true;
 	}

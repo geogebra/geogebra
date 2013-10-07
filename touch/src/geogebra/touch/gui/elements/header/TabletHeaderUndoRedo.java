@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * @author Thomas Krismayer
  * 
  */
-class TabletHeaderPanelRight extends HorizontalPanel {
+class TabletHeaderUndoRedo extends HorizontalPanel {
 	private FastButton undo;
 	private FastButton redo;
 
@@ -25,7 +25,7 @@ class TabletHeaderPanelRight extends HorizontalPanel {
 	/**
 	 * Generates the {@link HeaderButton buttons} for the right HeaderPanel.
 	 */
-	public TabletHeaderPanelRight(final TouchApp app, TouchModel model) {
+	public TabletHeaderUndoRedo(final TouchApp app, TouchModel model) {
 		this.app = app;
 		this.model = model;
 
@@ -56,10 +56,10 @@ class TabletHeaderPanelRight extends HorizontalPanel {
 		this.redo.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick() {
-				TabletHeaderPanelRight.this.model.resetSelection();
-				TabletHeaderPanelRight.this.app.getKernel().redo();
-				TabletHeaderPanelRight.this.app.resetPen();
-				TabletHeaderPanelRight.this.app.setUnsaved();
+				TabletHeaderUndoRedo.this.model.resetSelection();
+				TabletHeaderUndoRedo.this.app.getKernel().redo();
+				TabletHeaderUndoRedo.this.app.resetPen();
+				TabletHeaderUndoRedo.this.app.setUnsaved();
 			}
 		});
 
@@ -71,11 +71,11 @@ class TabletHeaderPanelRight extends HorizontalPanel {
 		this.undo.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick() {
-				TabletHeaderPanelRight.this.model.removePreviewObject();
-				TabletHeaderPanelRight.this.model.resetSelection();
-				TabletHeaderPanelRight.this.app.getKernel().undo();
-				TabletHeaderPanelRight.this.app.resetPen();
-				TabletHeaderPanelRight.this.app.setUnsaved();
+				TabletHeaderUndoRedo.this.model.removePreviewObject();
+				TabletHeaderUndoRedo.this.model.resetSelection();
+				TabletHeaderUndoRedo.this.app.getKernel().undo();
+				TabletHeaderUndoRedo.this.app.resetPen();
+				TabletHeaderUndoRedo.this.app.setUnsaved();
 			}
 		});
 

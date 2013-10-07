@@ -191,15 +191,15 @@ input.worksheetTitle {
 	text-align: center;
 }
 
-.headerLeft {
+.headerFile {
 	margin-left: 10px;
 }
 
-.headerLeft td,.headerRight td {
+.headerFile td,.headerUndoRedo td {
 	padding-top: 10px;
 }
 
-.headerRight {
+.headerUndoRedo {
 	margin-right: 10px;
 }
 

@@ -38,8 +38,6 @@ public interface LookAndFeel extends SavedStateListener {
 
 	public void setTitle(String title);
 
-	public boolean isShareSupported();
-
 	public void updateUndoSaveButtons();
 
 	public void attachExternalEvents(EuclidianViewT euclidianViewT,

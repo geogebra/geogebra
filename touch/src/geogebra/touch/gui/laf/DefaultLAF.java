@@ -109,11 +109,6 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public boolean isShareSupported() {
-		return true;
-	}
-
-	@Override
 	public void updateUndoSaveButtons() {
 		if (this.getTabletHeaderPanel() != null) {
 			this.getTabletHeaderPanel().enableDisableButtons();

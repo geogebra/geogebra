@@ -32,11 +32,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class TabletHeaderPanel extends HorizontalPanel implements
 		ResizeListener {
-	private final TabletHeaderPanelLeft leftHeader;
+	private final TabletHeaderFile fileHeader;
 	private final VerticalPanel titlePanel;
 	private Panel underline;
 	private TextBox worksheetTitle;
-	private final TabletHeaderPanelRight rightHeader;
+	private final TabletHeaderUndoRedo undoRedoHeader;
 	private InfoDialog infoOverrideDialog;
 	private TouchApp app;
 	private FileManagerT fm;
@@ -47,8 +47,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.app = app;
 		this.fm = this.app.getFileManager();
-		this.leftHeader = new TabletHeaderPanelLeft(app, touchModel, this);
-		this.leftHeader.setStyleName("headerLeft");
+		this.fileHeader = new TabletHeaderFile(app, touchModel, this);
+		this.fileHeader.setStyleName("headerFile");
 		this.infoOverrideDialog = new InfoDialog(this.app, InfoType.Override);
 		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel()
 				.receivesDoubledEvents();
@@ -65,8 +65,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 			}
 		});
 
-		this.rightHeader = new TabletHeaderPanelRight(app, touchModel);
-		this.rightHeader.setStyleName("headerRight");
+		this.undoRedoHeader = new TabletHeaderUndoRedo(app, touchModel);
+		this.undoRedoHeader.setStyleName("headerUndoRedo");
 		this.worksheetTitle.setStyleName("worksheetTitle");
 
 		this.worksheetTitle.addKeyDownHandler(new KeyDownHandler() {
@@ -120,14 +120,11 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.titlePanel.add(this.underline);
 
-		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		this.add(this.leftHeader);
+		this.add(this.fileHeader);
 
-		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.titlePanel);
 
-		//this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		this.add(this.rightHeader);
+		this.add(this.undoRedoHeader);
 
 	}
 
@@ -181,9 +178,9 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	 * 
 	 */
 	public void enableDisableButtons() {
-		this.leftHeader.enableDisableSave();
-		this.rightHeader.enableDisableRedo();
-		this.rightHeader.enableDisableUndo();
+		this.fileHeader.enableDisableSave();
+		this.undoRedoHeader.enableDisableRedo();
+		this.undoRedoHeader.enableDisableUndo();
 	}
 
 	public String getConstructionTitle() {
@@ -194,12 +191,12 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		this.worksheetTitle.setText(title);
 	}
 
-	public TabletHeaderPanelLeft getLeftHeader() {
-		return this.leftHeader;
+	public TabletHeaderFile getLeftHeader() {
+		return this.fileHeader;
 	}
 
-	public TabletHeaderPanelRight getRightHeader() {
-		return this.rightHeader;
+	public TabletHeaderUndoRedo getRightHeader() {
+		return this.undoRedoHeader;
 	}
 
 	@Override
@@ -208,7 +205,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	}
 
 	public void setLabels() {
-		this.leftHeader.setLabels();
+		this.fileHeader.setLabels();
 		this.infoOverrideDialog.setLabels();
 	}
 }

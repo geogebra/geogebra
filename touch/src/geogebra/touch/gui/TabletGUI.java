@@ -12,12 +12,14 @@ import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
+import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -145,6 +147,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 	@Override
 	public void initComponents(final Kernel kernel, boolean isRtl) {
 		this.rtl = isRtl;
+		if(this.rtl){
+			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyle().getText());
+			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.additionalRtlStyle().getText());
+		}
 		this.touchModel = new TouchModel(kernel);
 		this.app = (TouchApp) kernel.getApplication();
 		// Initialize GUI Elements
