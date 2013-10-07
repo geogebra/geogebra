@@ -4588,7 +4588,11 @@ unsigned int ConvertUTF8toUTF16 (
     if (g.type==_SYMB){
       if (g._SYMBptr->sommet==at_program)
 	return g;
+#ifdef GIAC_HAS_STO_38
+      const char * c=g._SYMBptr->sommet.ptr()->s;
+#else
       const char * c=unlocalize(g._SYMBptr->sommet.ptr()->s).c_str();
+#endif
       const char ** ptr=do_not_autosimplify;
       for (;*ptr;++ptr){
 	if (!strcmp(*ptr,c))

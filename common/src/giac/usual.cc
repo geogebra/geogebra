@@ -940,7 +940,7 @@ namespace giac {
       if (is_zero(smod(p+1,4)))
 	res=powmod(smod(a,p),(p+1)/4,p);
       else {
-	// could use Shank-Tonneli algorithm, here use gcd(x^2-a,powmod(x+rand,(p-1)/2,p,x^2-p)-1) to split x^2- in 2 parts with proba 1/2
+	// could use Shank-Tonneli algorithm, here use gcd(x^2-a,powmod(x+rand,(p-1)/2,p,x^2-a)-1) to split x^2- in 2 parts with proba 1/2
 	environment env;
 	env.moduloon=true;
 	env.modulo=p;

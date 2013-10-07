@@ -1018,6 +1018,35 @@ namespace giac {
 	      // vO=exp(alpha*x+beta) -> x=(ln(v0)-beta)/alpha
 	      vecteur vin=makevecteur(x);
 	      vecteur vout=makevecteur((ln(x,contextptr)-beta)/alpha);
+	      // check for essential singularities
+	      vecteur v2=lop(recursive_normal(rlvarx(subst(v,vin,vout,false,contextptr),x),contextptr),at_exp);
+	      vecteur w2=singular(v2,x,contextptr);
+	      unsigned w2i=0;
+	      for (;w2i<w2.size();++w2i){
+		if (is_greater(radius,w2[w2i],contextptr))
+		  break;
+	      }
+	      bool changesign=false;
+	      if (w2i!=w2.size()){
+		changesign=true;
+		// try again after doing alpha->-alpha
+		alpha=-alpha;
+		beta=normal(betacur*alpha/alphacur,contextptr);
+		radius=exp(re(beta,contextptr),contextptr);
+		// vO=exp(alpha*x+beta) -> x=(ln(v0)-beta)/alpha
+		vin=makevecteur(x);
+		vout=makevecteur((ln(x,contextptr)-beta)/alpha);
+		// check for essential singularities
+		v2=lop(recursive_normal(rlvarx(subst(v,vin,vout,false,contextptr),x),contextptr),at_exp);
+		w2=singular(v2,x,contextptr);
+		w2i=0;
+		for (;w2i<w2.size();++w2i){
+		  if (is_greater(radius,w2[w2i],contextptr))
+		    break;
+		}
+		if (w2i!=w2.size())
+		  return false;
+	      }
 	      gof=quotesubst(g,vin,vout,contextptr);
 	      gof=_exp2pow(gof/x,contextptr);
 	      gof=recursive_normal(gof,contextptr);
@@ -1048,6 +1077,8 @@ namespace giac {
 		}
 	      }
 	      res = ratnormal(normal(periode*cst_two_pi/alpha*cst_i,contextptr)*somme_residues); 
+	      if (changesign)
+		res=-res;
 	      return true;
 	    } // end if(is_zero(re(alpha)))
 	  }

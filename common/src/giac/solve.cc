@@ -2891,7 +2891,19 @@ namespace giac {
 	    return res;
 	  }
 	}
+      } // end lvs==1 etc.
+      // no guess, try to root by bisection over a large interval of R 
+      // x=tan(t) change of var
+      if (abs_calc_mode(contextptr)==38){
+	*logptr(contextptr) << gettext("Solving by bisection with change of variable x=tan(t) and t=-1.57..1.57. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
+	gen eq=subst(v[0],v[1],tan(v[1],contextptr),false,contextptr);
+	v=makevecteur(eq,symb_equal(v[1],symb_interval(-1.57,1.57)));
+	gen res=in_fsolve(v,contextptr);
+	if (is_undef(res))
+	  return res;
+	return tan(res,contextptr);
       }
+	*logptr(contextptr) << gettext("Solving with initial guess 0. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
     }
     gen gguess;
     if (v[1].type==_VECT && !v[1]._VECTptr->empty() && is_equal(v[1]._VECTptr->front())){
@@ -3439,7 +3451,7 @@ namespace giac {
 	  d=-evalf(d*fa,1,contextptr);
 	  if (d.type!=_FLOAT_ && d.type!=_DOUBLE_ && d.type!=_CPLX && d.type!=_REAL && d.type!=_VECT && !is_undef(d) && !is_inf(d))
 	    return gensizeerr(contextptr);
-	  if (k==0 && is_zero(d) && !is_zero(fa)){
+	  if (k==0 && is_zero(d) && is_greater(abs(fa,contextptr),eps2,contextptr)){
 	    a=newton_rand(j,real,rand_xmin,rand_xmax,contextptr);
 	    fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
 	    continue;

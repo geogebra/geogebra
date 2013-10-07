@@ -2264,6 +2264,25 @@ namespace giac {
 	vecteur ibpv(*e._SYMBptr->feuille._VECTptr);
 	ibpv.erase(ibpv.begin()+j);
 	gen ibpe=_prod(ibpv,contextptr);
+#if 1
+	gen tmpres,tmprem,tmpprimitive,tmp;
+	tmpprimitive=linear_integrate(ibpe,gen_x,tmp,contextptr);
+	if (is_zero(tmp)){ 
+	  vecteur tmpv=rlvarx(tmpprimitive,gen_x);
+	  unsigned tmpi=0;
+	  for (;tmpi<tmpv.size();++tmpi){
+	    if (tmpv[tmpi].type==_SYMB && equalposcomp(inverse_tab_op,tmpv[tmpi]._SYMBptr->sommet))
+	      break;
+	  }
+	  if (tmpi==tmpv.size()){
+	    tmpres=tmpprimitive*derive(*ibp,gen_x,contextptr);
+	    tmpres=recursive_normal(tmpres,true,contextptr);
+	    tmpres=linear_integrate(tmpres,gen_x,tmprem,contextptr);
+	    remains_to_integrate=-tmprem;
+	    return tmpprimitive*(*ibp)-tmpres;
+	  }
+	}
+#else
 	vecteur tmpv(1,gen_x);
 	lvar(ibpe,tmpv);
 	tmpv.erase(tmpv.begin());
@@ -2278,6 +2297,7 @@ namespace giac {
 	    return tmpprimitive*(*ibp)-tmpres;
 	  }
 	}
+#endif
       }
     }
     else { // check for u'=1
@@ -2445,6 +2465,8 @@ namespace giac {
   }
   // "unary" version
   gen _integrate(const gen & args,GIAC_CONTEXT){
+    if (complex_variables(contextptr))
+      *logptr(contextptr) << gettext("Warning, complex variables is set, this can lead to fairly complex answers. It is recommended to switch off complex variables in the settings or by complex_variables:=0; and declare individual variables to be complex by e.g. assume(a,complex).") << endl;
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate begin") << endl;
 #endif

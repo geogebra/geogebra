@@ -11200,6 +11200,8 @@ namespace giac {
       *logptr(contextptr) << gettext("Impliciplot: temporarily swtiching to real mode") << endl;
     }
     // factorization without sqrt
+    if (!unfactored && has_num_coeff(f_orig))
+      unfactored=true;
     gen ff(unfactored?f_orig:factor(f_orig,false,contextptr));
     gen res=in_plotimplicit(ff,x,y,xmin,xmax,ymin,ymax,nxstep,nystep,eps,attributs,contextptr);
     if (cplx)

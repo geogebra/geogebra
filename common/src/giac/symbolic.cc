@@ -375,7 +375,7 @@ namespace giac {
       add_print(s,arg,contextptr);
       return s += ')';
     }
-    if (arg.type==_IDNT || (arg.type==_SYMB && arg._SYMBptr->sommet!=at_neg && !arg._SYMBptr->sommet.ptr()->printsommet)){
+    if (arg.type==_IDNT || (arg.type==_SYMB && arg._SYMBptr->sommet!=at_neg && (arg._SYMBptr->sommet!=at_exp || calc_mode(contextptr)!=1) && !arg._SYMBptr->sommet.ptr()->printsommet)){
       if (pui.type==_SYMB || pui.type==_FRAC){
 	add_print(s,arg,contextptr);
 #ifdef GIAC_HAS_STO_38

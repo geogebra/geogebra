@@ -5148,6 +5148,8 @@ namespace giac {
 	return a._REALptr->multiply(b,contextptr);
       if (b.type==_REAL)
 	return b._REALptr->multiply(a,contextptr);
+      if (a.type==_STRNG || b.type==_STRNG)
+	return gensizeerr(contextptr);
       return sym_mult(a,b,contextptr);
     }
   }
@@ -5456,6 +5458,8 @@ namespace giac {
 	return base;
       if (is_undef(exponent))
 	return exponent;
+      if (base.type==_STRNG || exponent.type==_STRNG)
+	return gensizeerr(contextptr);
       if (is_one(base) && !is_inf(exponent))
 	return base;
       if (is_squarematrix(base)){ 
@@ -6316,6 +6320,8 @@ namespace giac {
 	return a;
       if (is_undef(b))
 	return b;
+      if (a.type==_STRNG || b.type==_STRNG)
+	return gensizeerr(contextptr);
       {
 	gen var1,var2,res1,res2;
 	if (is_algebraic_program(a,var1,res1) &&is_algebraic_program(b,var2,res2)){
@@ -6977,6 +6983,8 @@ namespace giac {
       return false;
     if (b.is_symb_of_sommet(at_superieur_strict) || b.is_symb_of_sommet(at_superieur_egal) || b.is_symb_of_sommet(at_inferieur_strict) || b.is_symb_of_sommet(at_inferieur_egal) )
       return false;
+    if (a.type==_CPLX || b.type==_CPLX)
+      return symb_superieur_strict(a,b);
     gen approx;
     if (has_evalf(a-b,approx,1,contextptr)){
       if (approx.type==_DOUBLE_ )
