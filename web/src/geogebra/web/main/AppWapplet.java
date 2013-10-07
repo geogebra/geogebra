@@ -234,8 +234,11 @@ public class AppWapplet extends AppW {
 	}
 
 	public void attachSplitLayoutPanel() {
-		frame.add(oldSplitLayoutPanel = getSplitLayoutPanel());
-		removeDefaultContextMenu(getSplitLayoutPanel().getElement());
+		oldSplitLayoutPanel = getSplitLayoutPanel();
+		if (oldSplitLayoutPanel != null) {
+			frame.add(oldSplitLayoutPanel);
+			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
+		}
 	}
 
 	@Override
