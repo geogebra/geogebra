@@ -83,7 +83,6 @@ public class WindowReference implements EventRenderable {
 	private void initClosedCheck() {
 	    requestAnimationFrame = AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			
-			@Override
 			public void execute(double timestamp) {
 				if (instance != null && instance.closed()) {
 					cleanWindowReferences();
