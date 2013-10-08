@@ -22,6 +22,8 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
+import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
+import geogebra.common.gui.dialog.options.model.BackgroundImageModel.IBackroundImageListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
@@ -2974,18 +2976,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class BackgroundImagePanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IBackroundImageListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private BackgroundImageModel model;
 		private JCheckBox isBGimage;
 
 		public BackgroundImagePanel() {
 			super();
 			app.setFlowLayoutOrientation(this);
-
+			model = new BackgroundImageModel(this);
 			// check boxes for show trace
 			isBGimage = new JCheckBox();
 			isBGimage.addItemListener(this);
@@ -2998,55 +3000,28 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
-
-			isBGimage.removeItemListener(this);
-
-			// check if properties have same values
-			GeoImage temp, geo0 = (GeoImage) geos[0];
-			boolean equalIsBGimage = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (GeoImage) geos[i];
-				// same object visible value
-				if (geo0.isInBackground() != temp.isInBackground())
-					equalIsBGimage = false;
 			}
-
+			isBGimage.removeItemListener(this);
+			model.updateProperties();
 			// set trace visible checkbox
-			if (equalIsBGimage)
-				isBGimage.setSelected(geo0.isInBackground());
-			else
-				isBGimage.setSelected(false);
-
+		
 			isBGimage.addItemListener(this);
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoImage))
-					return false;
-			}
-			return true;
-		}
 
 		/**
 		 * listens to checkboxes and sets trace state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			GeoImage geo;
 			Object source = e.getItemSelectable();
 
 			// show trace value changed
 			if (source == isBGimage) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoImage) geos[i];
-					geo.setInBackground(isBGimage.isSelected());
-					geo.updateRepaint();
-				}
+				model.applyChanges(isBGimage.isSelected());
 			}
 		}
 
@@ -3059,6 +3034,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void updateCheckbox(boolean equalIsBGimage) {
+
+			GeoImage geo0 = (GeoImage)model.getGeoAt(0);
+			if (equalIsBGimage)
+				isBGimage.setSelected(geo0.isInBackground());
+			else
+				isBGimage.setSelected(false);
+	
 		}
 	}
 
