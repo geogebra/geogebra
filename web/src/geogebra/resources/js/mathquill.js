@@ -2276,7 +2276,7 @@ LatexCmds['√'] = P(MathCommand, function(_, _super) {
   };
   _.redraw = function() {
     var block = this.ch[R].jQ;
-    scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2) - .1);
+    scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2));
   };
 });
 
