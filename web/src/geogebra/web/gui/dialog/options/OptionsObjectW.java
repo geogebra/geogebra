@@ -846,15 +846,12 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		auxPanel = new AuxPanel();
 		checkboxPanel.add(auxPanel.getWidget());
 
-		bgImagePanel = new BackgroundImagePanel();
-		checkboxPanel.add(bgImagePanel.getWidget());
-		
+		if (!isDefaults) {
+			bgImagePanel = new BackgroundImagePanel();
+			checkboxPanel.add(bgImagePanel.getWidget());
+		}
 		basicTab.add(checkboxPanel);
 
-		
-//		if (!isDefaults)
-//			basicTabList.add(bgImagePanel);
-//
 //		basicTabList.add(comboBoxPanel);
 //		//if (!isDefaults)
 //			basicTabList.add(allowReflexAnglePanel);

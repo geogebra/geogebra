@@ -28,6 +28,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
+import geogebra.common.gui.dialog.options.model.ListAsComboModel;
+import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
@@ -2601,18 +2603,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Michael
 	 */
 	private class ListsAsComboBoxPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IListAsComboListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private ListAsComboModel model;
 		private JCheckBox cbComboBox;
 
 		public ListsAsComboBoxPanel() {
 			super();
 			app.setFlowLayoutOrientation(this);
 
+			model = new ListAsComboModel(this);
+			
 			// check boxes for show trace
 			cbComboBox = new JCheckBox();
 			cbComboBox.addItemListener(this);
@@ -2627,70 +2631,30 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			cbComboBox.removeItemListener(this);
 
-			// check if properties have same values
-			GeoList temp, geo0 = (GeoList) geos[0];
-			boolean equalVal = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (GeoList) geos[i];
-				// same object visible value
-				if (geo0.drawAsComboBox() != temp.drawAsComboBox())
-					equalVal = false;
-			}
-
-			// set checkbox
-			if (equalVal)
-				cbComboBox.setSelected(geo0.drawAsComboBox());
-			else
-				cbComboBox.setSelected(false);
+			model.updateProperties();
 
 			cbComboBox.addItemListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isGeoList()) {
-					return false;
-				}
-			}
-			return true;
 		}
 
 		/**
 		 * listens to checkboxes and sets trace state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			GeoList geo;
 			Object source = e.getItemSelectable();
 
 			// absolute screen location flag changed
 			if (source == cbComboBox) {
-				boolean flag = cbComboBox.isSelected();
-				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoList) geos[i];
-					geo.setDrawAsComboBox(flag);
-
-					if (flag) {
-						geo.setEuclidianVisible(true);
-					}
-
-					app.getActiveEuclidianView().drawListAsComboBox(geo, flag);
-
-					geo.updateRepaint();
-				}
-
+				model.applyChanges(cbComboBox.isSelected());
 				app.refreshViews();
-
-				updateSelection(geos);
+				
+				updateSelection(model.getGeos());
 			}
 		}
 
@@ -2703,6 +2667,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void updateComboBox(boolean isEqual) {
+			if (isEqual) {
+				GeoList geo0 = (GeoList)model.getGeoAt(0);
+				cbComboBox.setSelected(geo0.drawAsComboBox());
+			}
+			else {
+				cbComboBox.setSelected(false);
+			}			
+		}
+
+		public void drawListAsComboBox(GeoList geo, boolean value) {
+			app.getActiveEuclidianView().drawListAsComboBox(geo, value);
+			
 		}
 	}
 
