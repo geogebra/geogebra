@@ -85,18 +85,34 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 
 	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
 			double y, NumberValue param) {
-    	this(cons,path,x,y,param);
+ 
+		this(cons, label, path, x, y, 0, param);
+		
+	}
+	
+	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
+			double y, double z, NumberValue param) {
+ 
+		this(cons,path,x,y,z,param);
 		P.setLabel(label);
 	}
     
     public AlgoPointOnPath(Construction cons,  Path path, double x,
-			double y, NumberValue param) {
+			double y,  NumberValue param) {
+    	
+    	this(cons, path, x, y, 0, param);
+    	
+    }
+    
+    
+    public AlgoPointOnPath(Construction cons,  Path path, double x,
+			double y, double z, NumberValue param) {
     	super(cons);
         this.path = path;
+        
         // create point on path and compute current location
-        P = new GeoPoint(cons);
-        P.setPath(path);
-        P.setCoords(x, y, 1.0);
+        createPoint(path, x, y, z);
+        
 		this.param = param;
 		
 

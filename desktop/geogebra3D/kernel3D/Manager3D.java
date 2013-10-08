@@ -197,6 +197,34 @@ public class Manager3D implements Manager3DInterface {
 		return p;
 	}
 
+
+	public GeoPointND Point3D(String label, Path path, NumberValue param){
+		
+		// try (0,0,0)
+		AlgoPoint3DOnPath algo = null;
+		if (param == null) {
+			algo = new AlgoPoint3DOnPath(cons, label, path, 0, 0, 0);
+		} else {
+			algo = new AlgoPoint3DOnPath(cons, label, path, 0, 0, 0, param);
+		}
+		GeoPoint3D p = (GeoPoint3D) algo.getP();
+
+		// try (1,0,0)
+		if (!p.isDefined()) {
+			p.setCoords(1, 0, 0, 1);
+			algo.update();
+		}
+
+		// try (random(),0, 0)
+		if (!p.isDefined()) {
+			p.setCoords(Math.random(), 0, 0, 1);
+			algo.update();
+		}
+
+		return p;
+	}
+
+	
 	/**
 	 * Midpoint M = (P + Q)/2
 	 */

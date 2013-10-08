@@ -72,6 +72,9 @@ public interface Manager3DInterface {
 
 	/** Point3D on a 1D path without cartesian coordinates */
 	public GeoPointND Point3D(String label, Path path, boolean coords2D);
+	
+	/** Point3D on a 1D path with path parameter */
+	public GeoPointND Point3D(String label, Path path, NumberValue param);
 
 	/**
 	 * Midpoint M = (P + Q)/2

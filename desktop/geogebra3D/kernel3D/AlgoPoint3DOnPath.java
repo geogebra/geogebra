@@ -15,6 +15,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.arithmetic.NumberValue;
 
 
 public class AlgoPoint3DOnPath extends AlgoPointOnPath {
@@ -34,7 +35,16 @@ public class AlgoPoint3DOnPath extends AlgoPointOnPath {
     }
     
     
-    @Override
+    public AlgoPoint3DOnPath(Construction cons, String label, Path path,  double x,
+            double y,
+            double z, 
+            NumberValue param) {
+		
+    	super(cons, label, path, x, y, param);
+	}
+
+
+	@Override
 	protected void createPoint(Path path, double x, double y, double z){
 	
     	P = new GeoPoint3D(cons, path);       

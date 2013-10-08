@@ -65,7 +65,7 @@ public class CmdPoint3D extends CmdPoint {
 	protected GeoElement point(String label, Path path, GeoNumberValue value){
 		
 		if (path.isGeoElement3D() || (((GeoElement) path).isGeoList() && ((GeoList) path).containsGeoElement3D())){
-			
+			return (GeoElement) kernelA.getManager3D().Point3D(label, path, value);
 		}
 		
 		return super.point(label, path, value);
