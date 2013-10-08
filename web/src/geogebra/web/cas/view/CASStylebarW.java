@@ -46,7 +46,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 		add(btnUseAsText);
 //		add(btnTextColor);
 		add(btnBold);
-//		add(btnItalic);
+		add(btnItalic);
 		toggleBtnList = newToggleBtnList();
 		updateStyleBar();
 	}
@@ -89,6 +89,27 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 			}
 		};
 		btnBold.addClickHandler(this);
+		
+		btnItalic = new MyToggleButton2(
+				AppResources.INSTANCE.format_text_italic(),
+				iconHeight){
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				boolean geosOK = checkGeoText(geos);
+				setVisible(geosOK);
+				this.setVisible(geosOK);
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
+					btnItalic.setSelected(style == GFontW.ITALIC
+							|| style == (GFontW.BOLD + GFontW.ITALIC));
+				}
+			}
+		};
+		btnItalic.addClickHandler(this);
 	}
 	
 	/**
@@ -138,6 +159,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
             ArrayList<GeoElement> targetGeos) {
 		if (source == btnBold){
 			applyFontStyle(targetGeos);
+		} else if (source == btnItalic) {
+			applyFontStyle(targetGeos);
 		} else if (source == btnUseAsText) {
 //			btnUseAsText.onClick(null);
 			int i = casView.getConsoleTable().getEditingRow();
@@ -161,8 +184,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 		int fontStyle = 0;
 		if (btnBold.isSelected())
 			fontStyle += 1;
-//		if (btnItalic.isSelected())
-//			fontStyle += 2;
+		if (btnItalic.isSelected())
+			fontStyle += 2;
 		App.printStacktrace("geos-size: " +geos.size()+"");
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -212,7 +235,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	 * @return array of toggle buttons
 	 */
 	protected MyToggleButton2[] newToggleBtnList() {
-		return new MyToggleButton2[] { btnBold,/* btnItalic,*/ btnUseAsText };
+		return new MyToggleButton2[] { btnBold, btnItalic, btnUseAsText };
 	}
 	
 	private void applyUseAsText(ArrayList<GeoElement> geos) {
