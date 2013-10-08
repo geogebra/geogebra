@@ -60,7 +60,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.setStyleName("browsegui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.app = app;
-		this.app.getOfflineOperation().getView().add(this);
+		this.app.getNetworkOperation().getView().add(this);
 		addHeader();
 		addContent();
 
