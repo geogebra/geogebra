@@ -803,7 +803,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						while(it!=null&&it.hasNext()){
 							AlgoElement elem=it.next();
 							if (elem instanceof AlgoPointOnPath && isIndependent()){
-								GeoPoint point=((AlgoPointOnPath)elem).getP();
+								GeoPoint point=(GeoPoint) ((AlgoPointOnPath)elem).getP();
 								if (!Kernel.isZero(point.getZ())){
 									double x=point.getX()/point.getZ();
 									double y=point.getY()/point.getZ();

@@ -166,7 +166,7 @@ public class Manager3D implements Manager3DInterface {
 		}
 		AlgoPoint3DOnPath algo = new AlgoPoint3DOnPath(cons, label, path, x, y,
 				z);
-		GeoPoint3D p = algo.getP();
+		GeoPoint3D p = (GeoPoint3D) algo.getP();
 		if (coords2D)
 			p.setCartesian();
 		else

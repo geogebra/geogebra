@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdPoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 
@@ -60,5 +61,14 @@ public class CmdPoint3D extends CmdPoint {
 		
 	}
 	
+	@Override
+	protected GeoElement point(String label, Path path, GeoNumberValue value){
+		
+		if (path.isGeoElement3D() || (((GeoElement) path).isGeoList() && ((GeoList) path).containsGeoElement3D())){
+			
+		}
+		
+		return super.point(label, path, value);
+	}
 
 }

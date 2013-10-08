@@ -117,7 +117,7 @@ public class AlgoDispatcher {
 
 		}
 		AlgoPointOnPath algo = new AlgoPointOnPath(cons, label, path, x, y);
-		GeoPoint p = algo.getP();
+		GeoPoint p = (GeoPoint) algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);
 			p.update();
@@ -140,7 +140,7 @@ public class AlgoDispatcher {
 		} else {
 			algo = new AlgoPointOnPath(cons, label, path, 0, 0, param);
 		}
-		GeoPoint p = algo.getP();
+		GeoPoint p = (GeoPoint) algo.getP();
 
 		// try (1,0)
 		if (!p.isDefined()) {
@@ -382,8 +382,8 @@ public class AlgoDispatcher {
 				algoCircle.getCircle(), A.inhomX + n.getDouble(), A.inhomY);
 
 		// return segment and new point
-		GeoElement[] ret = { Segment(segmentLabel, A, algoPoint.getP()),
-				algoPoint.getP() };
+		GeoElement[] ret = { Segment(segmentLabel, A, (GeoPoint) algoPoint.getP()),
+				(GeoElement) algoPoint.getP() };
 		return ret;
 	}
 

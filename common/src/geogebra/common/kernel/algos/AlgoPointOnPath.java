@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
@@ -41,7 +42,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 
 	private Path path; // input
-    private GeoPoint P; // output      
+    protected GeoPointND P; // output      
     private NumberValue param;
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
@@ -54,10 +55,22 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         Path path,
         double x,
         double y) {
+    
+    	this(cons, label, path, x, y, 0);
     	
-    	this(cons, path, x, y);
-       
-        P.setLabel(label);
+    }
+
+    public AlgoPointOnPath(
+    		Construction cons,
+    		String label,
+    		Path path,
+    		double x,
+    		double y,
+    		double z) {
+
+    	this(cons, path, x, y, z);
+
+    	P.setLabel(label);
     }
 
     /**
@@ -91,21 +104,35 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		compute();		
 		addIncidence();
 	}
-
+    
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y) {
+		
+		this(cons, path, x, y, 0);
+		 
+	}
+
+	public AlgoPointOnPath(Construction cons, Path path, double x, double y, double z) {
         super(cons);
         this.path = path;
         
         // create point on path and compute current location
-        P = new GeoPoint(cons);
-        P.setPath(path);
-        P.setCoords(x, y, 1.0); 
+        createPoint(path, x, y, z);
         
 
         setInputOutput(); // for AlgoElement
         addIncidence();
 	}
-
+	
+	
+    protected void createPoint(Path path, double x, double y, double z){
+    	
+    	P = new GeoPoint(cons);
+        P.setPath(path);
+        P.setCoords(x, y, 1.0); 
+        
+    }
+    
+    
 	@Override
 	public Commands getClassName() {
         return Commands.Point;
@@ -129,11 +156,11 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
     		input[1] = param.toGeoElement();    		
     	}
         setOutputLength(1);
-        setOutput(0, P);
+        setOutput(0, (GeoElement) P);
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint getP() {
+    public GeoPointND getP() {
         return P;
     }
     public Path getPath() {
@@ -179,7 +206,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		if (input[0] instanceof GeoLine){
 			((SymbolicParametersAlgo) input[0]).getFreeVariables(variables);
 			if (variable==null){
-				variable=new Variable(P);
+				variable=new Variable((GeoElement) P);
 			}
 			variables.add(variable);
 			return;
@@ -229,7 +256,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		}
 		if (path instanceof GeoLine){
 			if (variable==null){
-				variable=new Variable(P);
+				variable=new Variable((GeoElement) P);
 			}
 			polynomials=new Polynomial[3];
 			Polynomial[] line=((SymbolicParametersAlgo) input[0]).getPolynomials();

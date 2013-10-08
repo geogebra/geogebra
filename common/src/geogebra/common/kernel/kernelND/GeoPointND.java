@@ -8,6 +8,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
@@ -253,4 +254,11 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	 * @return distance from point to path
 	 */
 	public double distanceToPath(PathOrPoint path);
+
+	public void addIncidence(GeoElement path);
+
+	public void setPath(Path path);
+
+	public Coords getCoords();
+
 }

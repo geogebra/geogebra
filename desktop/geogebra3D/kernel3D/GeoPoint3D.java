@@ -1486,5 +1486,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 	}
 
+	public void addIncidence(GeoElement path) {
+		// TODO 
+		
+	}
+
 
 }
