@@ -2257,7 +2257,7 @@ LatexCmds.sqrt =
 LatexCmds['√'] = P(MathCommand, function(_, _super) {
   _.ctrlSeq = '\\sqrt';
   _.htmlTemplate =
-      '<span class="non-leaf">'
+      '<span class="non-leaf sqrt-parent">'
     +   '<span class="scaled sqrt-prefix">&radic;</span>'
     +   '<span class="non-leaf sqrt-stem">&0</span>'
     + '</span>'
@@ -2285,7 +2285,7 @@ var NthRoot =
 LatexCmds.nroot =
 LatexCmds.nthroot = P(SquareRoot, function(_, _super) {
   _.htmlTemplate =
-      '<sup class="nthroot non-leaf">&0</sup>'
+      '<sup class="nthroot non-leaf sqrt-parent">&0</sup>'
     + '<span class="scaled">'
     +   '<span class="sqrt-prefix scaled">&radic;</span>'
     +   '<span class="sqrt-stem non-leaf">&1</span>'
