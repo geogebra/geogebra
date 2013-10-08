@@ -33,7 +33,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> {
 	@Override
     public GoogleDriveModelW getModel() {
 		return (GoogleDriveModelW) super.getModel();
-		
 	}
 	
 	/**
@@ -76,6 +75,15 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> {
 		this.isDriveLoaded = true;
 		onEvent(new GoogleDriveLoadedEvent());
 	}
+
+	/**
+	 * @return if google drive loaded or not
+	 */
+	public boolean isDriveLoaded() {
+	    return isDriveLoaded;
+    }
+	
+	
 
 	
 

@@ -189,6 +189,13 @@ public class AppW extends AppWeb {
 		}
 		
 	}
+	
+	/**
+	 * @return GoogleDriveOperation
+	 */
+	public GoogleDriveOperationW getGoogleDriveOperation() {
+		return googleDriveOperation;
+	}
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {
