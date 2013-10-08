@@ -52,7 +52,7 @@ public class OpenMenuW extends MenuBar {
 		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getLoginToGoogleCommand());
 		openFromSkyDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")),true, getLoginToSkyDriveCommand());
 		
-		 ((AppW) app).getOfflineOperation().getView().add(new BooleanRenderable() {
+		 ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
 				
 				public void render(boolean b) {
 					renderNetworkOperation(b);
@@ -62,7 +62,7 @@ public class OpenMenuW extends MenuBar {
 		
 		
 		
-		if (!((AppW) app).getOfflineOperation().getOnline()) {
+		if (!((AppW) app).getNetworkOperation().getOnline()) {
 			renderNetworkOperation(false);
 		}
 	}

@@ -89,7 +89,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 	   signIn = addItem(app.getMenu("signIn"), getSignInCommand());
 	   signIn.addStyleName("SignIn");
 	   
-	   app.getOfflineOperation().getView().add(new BooleanRenderable() {
+	   app.getNetworkOperation().getView().add(new BooleanRenderable() {
 			
 			public void render(boolean b) {
 				renderNetworkOperation(b);
@@ -103,7 +103,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		   onLogin(true, loginOp.getModel().getLoggedInUser());
 	   }
 	   
-	   if (!app.getOfflineOperation().getOnline()) {
+	   if (!app.getNetworkOperation().getOnline()) {
 		   renderNetworkOperation(false);
 	   }
     }

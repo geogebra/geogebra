@@ -66,14 +66,14 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 	    
-	    ((AppW) app).getOfflineOperation().getView().add(new BooleanRenderable() {
+	    ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
 			
 			public void render(boolean b) {
 				renderNetworkOperation(b);
 			}
 		});
 	    
-	    if (!((AppW) app).getOfflineOperation().getOnline()) {
+	    if (!((AppW) app).getNetworkOperation().getOnline()) {
 	    	renderNetworkOperation(false);    	
 	    }
 	    

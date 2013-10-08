@@ -206,7 +206,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 	    	
 	    });
 	    
-	    ((AppW) app).getOfflineOperation().getView().add(new BooleanRenderable() {
+	    ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
 			
 			public void render(boolean b) {
 				renderNetworkOperation(b);
@@ -228,7 +228,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 	}
 	
 	private void refreshOnlineState() {
-	    if (!((AppW) app).getOfflineOperation().getOnline()) {
+	    if (!((AppW) app).getNetworkOperation().getOnline()) {
 	    	renderNetworkOperation(false);
 	    }
     }

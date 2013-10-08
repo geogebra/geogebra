@@ -736,7 +736,7 @@ public abstract class AppWeb extends App implements SetLabels{
 		/**
 		 * @return OfflineOperation event flow
 		 */
-		public NetworkOperation getOfflineOperation() {
+		public NetworkOperation getNetworkOperation() {
 			return networkOperation;
 		}
 		

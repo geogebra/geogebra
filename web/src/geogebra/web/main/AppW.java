@@ -56,6 +56,7 @@ import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.kernel.KernelW;
+import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,6 +121,7 @@ public class AppW extends AppWeb {
 
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
+	private GoogleDriveOperationW googleDriveOperation;
 	
 	/**
 	 * Constructors will be called from subclasses
@@ -158,6 +160,9 @@ public class AppW extends AppWeb {
 		
 		// user authentication handling
 		initSignInEventFlow();
+		
+		// init google drive handling
+		initGoogleDriveEventFlow();
 	}
 	
 	/** 
@@ -167,8 +172,22 @@ public class AppW extends AppWeb {
 		
 		// Initialize the signIn operation
 		loginOperation = new LoginOperationW();
+		if (getNetworkOperation().getOnline()) {
+			loginOperation.performTokenLogin();
+		}
+	}
+	
+	/**
+	 * initializes the google drive event flow
+	 */
+	protected void initGoogleDriveEventFlow() {
 		
-		loginOperation.performTokenLogin();
+		googleDriveOperation = new GoogleDriveOperationW();
+		
+		if (getNetworkOperation().getOnline()) {
+			googleDriveOperation.initGoogleDriveApi();
+		}
+		
 	}
 
 	private void showSplashImageOnCanvas() {

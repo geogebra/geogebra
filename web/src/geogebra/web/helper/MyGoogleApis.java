@@ -177,7 +177,6 @@ public class MyGoogleApis {
 		var _this = this;
 	    $wnd.gapi.client.load('drive', 'v2', function() {
 	     _this.@geogebra.web.helper.MyGoogleApis::driveLoaded = true;
-	     $wnd.console.log("driveloaded");
         });
     }-*/;
 	
