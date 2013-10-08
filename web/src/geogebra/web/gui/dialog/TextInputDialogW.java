@@ -160,7 +160,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		setGeoText(text);
 //		textPreviewer.updatePreviewText(text,
 //				editor.buildGeoGebraString(isLaTeX), isLaTeX);
-		inputPanel.getTextComponent().getTextField().getElement().focus(); //editor.requestFocus();
+		inputPanel.getTextAreaComponent().getTextArea().setFocus(true); //editor.requestFocus();
     }
 	
 	public void setGeoText(GeoText geo) {
@@ -173,8 +173,8 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		
 		//While we can't reopen and edit an existing text object,
 		//it's enough to set the text in the dialog's textfield to "".
-		inputPanel.getTextComponent().getTextField().setText(""); //editor.setText(geo, this);
-		inputPanel.getTextComponent().setCaretPosition(0); //editor.setCaretPosition(0);
+		inputPanel.getTextAreaComponent().setText(""); //editor.setText(geo, this);
+	//	inputPanel.getTextAreaComponent().setCaretPosition(0); //editor.setCaretPosition(0);
 //		cbLaTeX.setSelected(false);
 //		if (isLaTeX) {
 //			cbLaTeX.doClick();
