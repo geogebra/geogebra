@@ -13,6 +13,7 @@ import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.AlgoCubicSwitchInterface;
@@ -39,6 +40,7 @@ import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.kernel.AnimationManagerW;
 import geogebra.html5.kernel.UndoManagerW;
+import geogebra.html5.kernel.commands.CommandDispatcherW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
@@ -857,4 +859,9 @@ public abstract class AppWeb extends App implements SetLabels{
 		return 0;
 
 	}-*/;
+	
+	@Override
+    public CommandDispatcher getCommandDispatcher(Kernel k){
+		return new CommandDispatcherW(k);
+	}
 }

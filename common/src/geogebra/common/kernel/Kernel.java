@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -305,7 +304,7 @@ public class Kernel {
 	 * @return a new algebra processor (used for 3D)
 	 */
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor(kernel, new CommandDispatcher(kernel));
+		return new AlgebraProcessor(kernel, app.getCommandDispatcher(kernel));
 	}
 
 	/**

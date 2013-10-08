@@ -41,6 +41,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -5001,5 +5002,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		
 		// Try to login the stored user
 		loginOperation.performTokenLogin();
+	}
+
+	@Override
+	public CommandDispatcher getCommandDispatcher(Kernel kernel2) {
+		return new CommandDispatcher(kernel2){};
 	}
 }

@@ -28,7 +28,7 @@ import java.util.HashMap;
  * Runs commands and handles string to command processor conversion.
  * 
  */
-public class CommandDispatcher {
+public abstract class CommandDispatcher {
 
 	/** kernel **/
 	protected Kernel kernel;
@@ -793,7 +793,6 @@ public class CommandDispatcher {
 			case NextPrime:
 			case PreviousPrime:
 				return getCASDispatcher().dispatch(command,kernel);
-
 			default:
 				Log.error("missing case in CommandDispatcher "+cmdName);
 				return null;
@@ -857,5 +856,4 @@ public class CommandDispatcher {
 		}
 		return basicDispatcher;
 	}
-
 }

@@ -1,4 +1,4 @@
-package geogebra.web.kernel.commands;
+package geogebra.html5.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
@@ -14,11 +14,11 @@ public class CommandDispatcherW extends CommandDispatcher {
 	    super(kernel);
     }
 
+    @Override
     protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
-			discreteDispatcher = new CommandDispatcherDiscrete();
-			initCmdTable();
-			//kernel.getApplication().getActiveEuclidianView().repaintView();
+					discreteDispatcher = new CommandDispatcherDiscrete();
+					initCmdTable();
 		}
 		return discreteDispatcher;
 	}
@@ -52,4 +52,5 @@ public class CommandDispatcherW extends CommandDispatcher {
 		}
 		return casDispatcher;
 	}
+
 }

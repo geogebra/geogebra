@@ -3352,4 +3352,6 @@ public abstract class App implements UpdateSelection{
 	 * @return
 	 */
 	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
+
+	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
 }
