@@ -20,6 +20,8 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	private SubToolBarButton[] menuEntries;
 	private final GuiModel model;
 	private SubToolBar options;
+	private ToolBarMenu menu;
+	private TouchApp app;
 	private static int BUTTON_WIDTH = 56;
 	private static int BUTTONPANEL_BORDER = 7;
 
@@ -36,13 +38,21 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel, TouchApp app) {
 		super(menu.getCommand());
 		this.model = guiModel;
-
-		this.menuEntries = new SubToolBarButton[menu.getEntries().length];
-		for (int i = 0; i < menu.getEntries().length; i++) {
-			this.menuEntries[i] = new SubToolBarButton(menu.getEntries()[i],
+		this.menu = menu;
+		this.app = app;
+		
+	}
+	
+	private void initMenuEntries(){
+		if(this.menuEntries!=null){
+			return;
+		}
+		this.menuEntries = new SubToolBarButton[this.menu.getEntries().length];
+		for (int i = 0; i < this.menu.getEntries().length; i++) {
+			this.menuEntries[i] = new SubToolBarButton(this.menu.getEntries()[i],
 					this);
 		}
-		this.options = new SubToolBar(this.menuEntries, app);
+		this.options = new SubToolBar(this.menuEntries, this.app);
 	}
 
 	protected void onToolBarButton() {
@@ -61,6 +71,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	}
 
 	private void showOptions() {
+		initMenuEntries();
 		this.model.setActive(this);
 		if (this.menuEntries.length != 0) {
 
