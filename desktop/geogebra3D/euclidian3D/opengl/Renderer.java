@@ -135,12 +135,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	 * creates a renderer linked to an {@link EuclidianView3D} 
 	 * @param view the {@link EuclidianView3D} linked to 
 	 */
-	public Renderer(EuclidianView3D view){
+	public Renderer(EuclidianView3D view, boolean useCanvas){
 		
 		
 		//canvas = view;
-		App.debug("create 3D component");
-        canvas = createComponent3D(true);
+		App.debug("create 3D component -- use Canvas : " + useCanvas);
+        canvas = createComponent3D(useCanvas);
         
         App.debug("add gl event listener");
 	    canvas.addGLEventListener(this);
