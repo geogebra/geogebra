@@ -152,6 +152,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 		
 //			casView.getConsoleTable().stopEditing();
 		}
+		
+		updateStyleBar();
 	    
     }
 	
