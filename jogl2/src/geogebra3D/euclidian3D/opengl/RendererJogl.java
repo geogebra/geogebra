@@ -94,6 +94,11 @@ public class RendererJogl {
 	
 	static private boolean useCanvas;
 	
+	/**
+	 * 
+	 * @param useCanvas0 says if we use Canvas or JPanel
+	 * @return 3D component
+	 */
 	static public Component3D createComponent3D(boolean useCanvas0){
 		
 		useCanvas = useCanvas0;
