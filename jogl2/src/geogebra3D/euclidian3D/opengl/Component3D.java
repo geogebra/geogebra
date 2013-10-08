@@ -3,8 +3,8 @@ package geogebra3D.euclidian3D.opengl;
 
 
 
-//import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.awt.GLJPanel;
+import javax.media.opengl.awt.GLCanvas;
+//import javax.media.opengl.awt.GLJPanel;
 
 /**
  * Simple class extending GL JPanel/Canvas
@@ -13,8 +13,8 @@ import javax.media.opengl.awt.GLJPanel;
  */
 
 
-//public class Component3D extends GLCanvas{
-public class Component3D extends GLJPanel{ 
+public class Component3D extends GLCanvas{
+//public class Component3D extends GLJPanel{ 
 
 	private static final long serialVersionUID = 1L;
 	  
