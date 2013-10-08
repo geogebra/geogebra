@@ -119,6 +119,10 @@ public class CASTableCellW extends VerticalPanel {
 		return casCell;
 	}
 	
+	public void setFont(){
+		setFont(casCell.getGeoText().getFontStyle());
+	}
+	
 	public void setFont(int fontStyle) {
 		if (inputPanel != null) {
 			if ((fontStyle & GFont.BOLD) != 0){
