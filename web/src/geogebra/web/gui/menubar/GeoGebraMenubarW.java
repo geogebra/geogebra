@@ -87,7 +87,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 	
 	private void createSignIn() {
 	   signIn = addItem(app.getMenu("signIn"), getSignInCommand());
-	   signIn.addStyleName("signIn");
+	   signIn.addStyleName("SignIn");
 	   
 	   app.getOfflineOperation().getView().add(new BooleanRenderable() {
 			
