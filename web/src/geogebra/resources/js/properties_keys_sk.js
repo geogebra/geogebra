@@ -624,6 +624,7 @@ __GGB__keysVar.sk.command = {
     "Polyhedron_Syntax": "[ <Bod>, <Bod>, ... ]",
     "Polynomial": "Polynomick\xe1",
     "Polynomial_Syntax": "[ <Funkcia> ]\n[ <Zoznam bodov> ]",
+    "Polynomial_SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "PreviousPrime": "Predch\xe1dzaj\xfacePrvo\u010d\xedslo",
     "PreviousPrime_Syntax": "[ <\u010c\xedslo> ]",
     "PrimeFactors": "Prvo\u010d\xedseln\xfdRozklad",

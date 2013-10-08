@@ -624,6 +624,7 @@ __GGB__keysVar.no_NN.command = {
     "Polyhedron_Syntax": "[ <Punkt>, <Punkt>, ... ]",
     "Polynomial": "Polynom",
     "Polynomial_Syntax": "[ <Funksjon> ]\n[ <Liste med punkt> ]",
+    "Polynomial_SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "PreviousPrime": "F\xf8reg\xe5andePrimtal",
     "PreviousPrime_Syntax": "[ <Tal> ]",
     "PrimeFactors": "Primfaktorar",

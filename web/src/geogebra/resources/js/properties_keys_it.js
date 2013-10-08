@@ -624,6 +624,7 @@ __GGB__keysVar.it.command = {
     "Polyhedron_Syntax": "[ <Punto>, <Punto>, ... ]",
     "Polynomial": "Polinomio",
     "Polynomial_Syntax": "[ <Funzione> ]\n[ <Lista di punti> ]",
+    "Polynomial_SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "PreviousPrime": "PrimoPrec",
     "PreviousPrime_Syntax": "[ <Numero> ]",
     "PrimeFactors": "FattoriPrimi",

@@ -624,6 +624,7 @@ __GGB__keysVar.hr.command = {
     "Polyhedron_Syntax": "[ <to\u010dka>, <to\u010dka>, ... ]",
     "Polynomial": "Polinom",
     "Polynomial_Syntax": "[ <funkcija> ]\n[ <lista to\u010daka> ]",
+    "Polynomial_SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "PreviousPrime": "PrethodniProstBroj",
     "PreviousPrime_Syntax": "[ <broj> ]",
     "PrimeFactors": "ProstiFaktori",

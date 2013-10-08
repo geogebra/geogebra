@@ -624,6 +624,7 @@ __GGB__keysVar.mn.command = {
     "Polyhedron_Syntax": "[ <\u0426\u044d\u0433>, <\u0426\u044d\u0433>, ... ]",
     "Polynomial": "\u041e\u043b\u043e\u043d\u0433\u0438\u0448\u04af\u04af\u043d\u0442",
     "Polynomial_Syntax": "[ <\u0424\u0443\u043d\u043a\u0446> ]\n[ <\u0426\u044d\u0433\u04af\u04af\u0434\u0438\u0439\u043d \u0436\u0430\u0433\u0441\u0430\u0430\u043b\u0442> ]",
+    "Polynomial_SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "PreviousPrime": "\u04e8\u043c\u043d\u04e9\u0445\u0410\u043d\u0445\u043d\u044b\u0422\u043e\u043e",
     "PreviousPrime_Syntax": "[ <\u0422\u043e\u043e> ]",
     "PrimeFactors": "\u0410\u043d\u0445\u043d\u044b\u0422\u043e\u043e\u043d\u04ae\u0440\u0436\u0432\u044d\u0440",

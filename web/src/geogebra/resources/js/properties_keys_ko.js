@@ -624,6 +624,7 @@ __GGB__keysVar.ko.command = {
     "Polyhedron_Syntax": "[ <\uc810>, <\uc810>, ... ]",
     "Polynomial": "\ub2e4\ud56d\uc2dd",
     "Polynomial_Syntax": "[ <\ud568\uc218> ]\n[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "Polynomial_SyntaxCAS": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "PreviousPrime": "\uc774\uc804\uc18c\uc218",
     "PreviousPrime_Syntax": "[ <\uc218> ]",
     "PrimeFactors": "\uc18c\uc778\uc218\ubd84\ud574",
