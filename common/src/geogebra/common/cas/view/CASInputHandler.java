@@ -105,6 +105,12 @@ public class CASInputHandler {
 			if (selStart > 0 || selEnd < selRowInput.length()) {
 				// part of input is selected
 				evalText = "(" + selectedText + ")";
+				// for avoiding splitting text like 7-(x-2) as 7(-(x-2)) 
+				// as they are different, a '+' is appended to the prefix
+				char firstEvalChar = selectedText.trim().charAt(0);
+				if (firstEvalChar == '+' || firstEvalChar == '-') {
+					prefix = prefix + "+";
+				}
 			} else {
 				// full input is selected
 				evalText = selectedText;
