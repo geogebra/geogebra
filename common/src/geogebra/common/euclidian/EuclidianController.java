@@ -6628,7 +6628,7 @@ public abstract class EuclidianController {
 		view.setAnimationButtonsHighlighted(false);
 		view.setShowMouseCoords(false);
 		mouseLoc = null;
-		view.repaintView();
+		kernel.notifyRepaint();
 		stopCollectingMinorRepaints();
 		view.mouseExited();
 		
