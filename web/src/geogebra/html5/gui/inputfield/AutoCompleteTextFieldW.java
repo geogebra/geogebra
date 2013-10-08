@@ -155,13 +155,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		showSymbolButton = new ToggleButton() {
 			public void onBrowserEvent(Event event) {
 				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
-					if (showSymbolButton.isDown()) {
-						// when it is still down, it will be changed to up
-						getTablePopup().hide();
-					} else {
-						// when it is still up, it will be changed to down
-						getTablePopup().showRelativeTo(showSymbolButton);
-					}
+					
 					// set it as focused anyway, because it is needed
 					// before the real focus and blur events take place
 					showSymbolButton.addStyleName("ShowSymbolButtonFocused");
@@ -182,6 +176,20 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 				// to a place else than the textfield?
 			}
 		});
+		showSymbolButton.addClickHandler(new ClickHandler(){
+
+			public void onClick(ClickEvent event) {
+				if (showSymbolButton.isDown()) {
+					// when it is still down, it will be changed to up
+					// when it is still up, it will be changed to down
+					getTablePopup().showRelativeTo(showSymbolButton);
+					
+				} else {
+					getTablePopup().hide();
+				}
+	            
+            }});
+		
 		showSymbolButton.setFocus(false);
 		add(textField);
 		add(showSymbolButton);
@@ -1107,7 +1115,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 	private SymbolTablePopupW getTablePopup() {
 		if (tablePopup == null)
-			tablePopup = new SymbolTablePopupW(app, this);
+			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
 		return tablePopup;
 	}
 
