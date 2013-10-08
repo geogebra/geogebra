@@ -1617,21 +1617,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	 */
 	public void processMouseMoved(){
 		
-		if (mouseMoved){
+		
+		if (mouseMoved && view3D.hasMouse()){
 			
-			//App.debug("\n"+view3D.getHits3D());
-			
-			
-			/*
-			if (movedGeoPoint instanceof GeoPoint3D){
-				GeoPoint3D movedGeoPoint3D = (GeoPoint3D) movedGeoPoint;
-				if (movedGeoPoint3D.hasRegion())
-					view3D.getCursor3D().setRegionParameters(movedGeoPoint3D.getRegionParameters());
-			}
-			*/
 			((EuclidianView3D) view).updateCursor3D();
 			super.processMouseMoved(mouseEvent);
-			//mouseEvent.release();
 			
 			mouseMoved = false;
 		}
@@ -3490,6 +3480,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	@Override
 	public boolean refreshHighlighting(Hits hits, boolean control) {
+
 		if (AppD.getShiftDown())
 			return false;
 
