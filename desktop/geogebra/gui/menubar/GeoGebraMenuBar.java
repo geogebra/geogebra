@@ -290,7 +290,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		if (successful) {
 			signInButton.setAction(signOutAction);
-			signInButton.setText(loc.getPlain("SignedInAsA", user.getUserName()));
+			String username = user.getUserName();
+			if (app.isMacOS()) {
+				username = app.getNormalizer().transform(username);
+			}
+			signInButton.setText(loc.getPlain("SignedInAsA", username));
 		} else {
 			signInButton.setAction(signInAction);
 			signInButton.setText(loc.getMenu("SignInError"));
