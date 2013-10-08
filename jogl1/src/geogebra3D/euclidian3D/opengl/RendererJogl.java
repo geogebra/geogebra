@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 
 
@@ -13,6 +14,7 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GL; 
 
 import com.sun.opengl.util.BufferUtil;
+import com.sun.opengl.util.FPSAnimator;
 
 
 public class RendererJogl {
@@ -34,11 +36,23 @@ public class RendererJogl {
 	}
 
 	public interface GLlocal extends GL{}
-	
-	
 
-	final static public void initCaps(){}
-	
+
+	private static GLCapabilities caps;
+
+	final static public void initCaps(){
+
+		caps = new GLCapabilities();
+
+
+		//anti-aliasing
+		caps.setSampleBuffers(true);
+		caps.setNumSamples(4);    	
+		//avoid flickering
+		caps.setDoubleBuffered(true);
+
+	}
+
 
 	final public static String getGLInfos(GLAutoDrawable drawable){
 		
@@ -56,6 +70,61 @@ public class RendererJogl {
 				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION);
 		
 	}
+	
+	
+
+	/**
+	 * WARNING: No implementation for GLJPanel
+	 * @param useCanvas0
+	 * @return GLCanvas
+	 */
+	static protected Component3D createComponent3D(boolean useCanvas0){
+
+		return new ComponentGLCanvas();
+
+	}
+	
+
+	static public Animator createAnimator(Component3D canvas, int i){
+
+			return new AnimatorCanvas((GLCanvas) canvas, i);
+		
+	}
+	
+
+	
+	
+	
+	
+
+	private static class ComponentGLCanvas extends GLCanvas implements Component3D{ 
+
+		public ComponentGLCanvas(){
+			super(caps);
+		}
+
+	}
+
+
+	private static class AnimatorCanvas extends FPSAnimator implements Animator{ 
+		
+		public AnimatorCanvas(GLCanvas canvas, int i){
+			super(canvas,i);
+		}
+		
+
+		public void resume(){
+			// used for JOGL2
+		}
+		
+		
+		
+	}
+	
+
+	
+	
+	
 	
 	final public static String JOGL_VERSION="JOGL1";
 	

@@ -317,7 +317,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			
         //JPanel canvas = this;
 		
-        Component canvas = renderer.canvas;
+        Component canvas = (Component) renderer.canvas;
 		getJPanel().setLayout(new BorderLayout());
 		getJPanel().add(BorderLayout.CENTER, canvas);
 						

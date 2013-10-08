@@ -3,41 +3,30 @@ package geogebra3D.euclidian3D.opengl;
 
 
 
-import javax.media.opengl.GLCanvas; 
-import javax.media.opengl.GLCapabilities;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+
+import javax.media.opengl.GLEventListener;
+
 
 /**
  * Simple class extending GL JPanel/Canvas
  * @author matthieu
  *
  */
-public class Component3D extends GLCanvas{ 
-	private static final long serialVersionUID = 1L;
-	
-	private static GLCapabilities caps;
-
-	static {	
-		
-		caps = new GLCapabilities();
-
-		
-		//anti-aliasing
-		caps.setSampleBuffers(true);
-		caps.setNumSamples(4);    	
-		//avoid flickering
-		caps.setDoubleBuffered(true);
-		      	
-	}
-	
-	public Component3D(){
-
-		
-		super(caps);
-		//Application.debug("create gl renderer");
-		
-    	
-	}
+public interface Component3D { 
 	
 
+	public void addGLEventListener(GLEventListener renderer);
+
+	public void display();
+
+	public Point getLocationOnScreen();
+
+	public Component getParent();
+
+	public Dimension getSize();
+	
 	
 }

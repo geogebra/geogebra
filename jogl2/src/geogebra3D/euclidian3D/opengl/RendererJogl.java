@@ -14,6 +14,10 @@ import javax.media.opengl.GLProfile;
 
 
 import javax.media.opengl.GL2; 
+import javax.media.opengl.awt.GLCanvas;
+import javax.media.opengl.awt.GLJPanel;
+
+import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.GLBuffers;
 
 
@@ -85,6 +89,84 @@ public class RendererJogl {
 				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION);
 		
 	}
+	
+	
+	
+	static private boolean useCanvas;
+	
+	static public Component3D createComponent3D(boolean useCanvas0){
+		
+		useCanvas = useCanvas0;
+		
+		if(useCanvas){
+			return new ComponentGLCanvas();
+		}else{
+			return new ComponentGLJPanel();
+		}
+		
+	}
+	
+
+	static public Animator createAnimator(Component3D canvas, int i){
+
+		if(useCanvas){
+			return new AnimatorCanvas((GLCanvas) canvas, i);
+		}else{
+			return new AnimatorJPanel((GLJPanel) canvas, i);	
+		}
+
+		
+	}
+	
+	
+	/////////////////////////
+	// 3D Component
+	
+	
+	private static class ComponentGLJPanel extends GLJPanel implements Component3D{ 
+		
+		public ComponentGLJPanel(){
+			super(caps);
+		}
+		
+	}
+	
+	private static class ComponentGLCanvas extends GLCanvas implements Component3D{ 
+		
+		public ComponentGLCanvas(){
+			super(caps);
+		}
+		
+	}
+	
+	/////////////////////////
+	// 3D Animator
+	
+	
+	private static class AnimatorJPanel extends FPSAnimator implements Animator{ 
+		
+		public AnimatorJPanel(GLJPanel canvas, int i){
+			super(canvas,i);
+		}
+		
+	}
+	
+	private static class AnimatorCanvas extends FPSAnimator implements Animator{ 
+		
+		public AnimatorCanvas(GLCanvas canvas, int i){
+			super(canvas,i);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	/////////////////////////
+	// JOGL Version
+	
+	
 	
 	final public static String JOGL_VERSION="JOGL2";
 	

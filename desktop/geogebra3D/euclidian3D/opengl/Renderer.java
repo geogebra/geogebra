@@ -140,14 +140,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		//canvas = view;
 		App.debug("create 3D component");
-        canvas = new Component3D();
+        canvas = createComponent3D(true);
         
         App.debug("add gl event listener");
 	    canvas.addGLEventListener(this);
 	    
 	    
 	    App.debug("create animator");
-	    animator = new Animator( canvas, 60 );
+	    animator = createAnimator( canvas, 60 );
         //animator.setRunAsFastAsPossible(true);	  
         //animator.setRunAsFastAsPossible(false);	
 	    

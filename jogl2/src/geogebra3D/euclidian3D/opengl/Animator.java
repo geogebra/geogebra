@@ -1,13 +1,16 @@
 package geogebra3D.euclidian3D.opengl;
 
 
-public class Animator extends com.jogamp.opengl.util.FPSAnimator {
+/**
+ * Simple interface for animating GL in 3D Component
+ * @author mathieu
+ *
+ */
+public interface Animator {
 
-	public Animator(Component3D canvas, int i) {
-		super(canvas,i);
-		
-		
-	}
+	public boolean start();
+
+	public boolean resume();
 	
 	
 }

@@ -1,33 +1,31 @@
 package geogebra3D.euclidian3D.opengl;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+
+import javax.media.opengl.GLEventListener;
 
 
-
-import javax.media.opengl.awt.GLCanvas;
-//import javax.media.opengl.awt.GLJPanel;
 
 /**
- * Simple class extending GL JPanel/Canvas
+ * Simple interface for GL JPanel/Canvas
  * @author matthieu
  *
  */
 
 
-public class Component3D extends GLCanvas{
-//public class Component3D extends GLJPanel{ 
+public interface Component3D {
 
-	private static final long serialVersionUID = 1L;
-	  
-	
-	/**
-	 * constructor
-	 */
-	public Component3D(){
-		
-		super(RendererJogl.caps); //GLJPanel or GLCanvas	
-	
-	}
+	public void addGLEventListener(GLEventListener renderer);
 
+	public void display();
+
+	public Point getLocationOnScreen();
+
+	public Component getParent();
+
+	public Dimension getSize();
 	
 
 }
