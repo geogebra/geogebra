@@ -101,7 +101,7 @@ public class CASInputHandler {
 		boolean hasSelectedText = meaningfulSelection(selectedText);
 		if (hasSelectedText) {
 			// selected text: break it up into prefix, evalText, and postfix
-			prefix = selRowInput.substring(0, selStart).trim();
+			prefix = selRowInput.substring(0, selStart).trim() + " ";
 			if (selStart > 0 || selEnd < selRowInput.length()) {
 				// part of input is selected
 				evalText = "(" + selectedText + ")";
