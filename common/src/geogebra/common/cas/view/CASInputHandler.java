@@ -42,13 +42,14 @@ public class CASInputHandler {
 	 *            optional command parameters like "x"
 	 */
 	public void processCurrentRow(String ggbcmd) {
-		// check if text cell
 		int selRow = consoleTable.getSelectedRow();
 		if (selRow < 0) 
 			return;
-		if (consoleTable.getGeoCasCell(selRow).isUseAsText()) {
+		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
+		if (cellValue.isUseAsText()) {
 			processRowThenEdit(selRow, true);
 		}
+		cellValue.setError(null);
 		// get editor
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
@@ -81,10 +82,10 @@ public class CASInputHandler {
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
-				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable
+				GeoCasCell cell = consoleTable.getGeoCasCell(consoleTable
 						.getSelectedRow());
-				if (cellValue.getInputVE() != null)
-					selRowInput = cellValue.getInputVE()
+				if (cell.getInputVE() != null)
+					selRowInput = cell.getInputVE()
 							.toString(StringTemplate.numericDefault);
 			}
 			if (selRowInput.length() == 0)
@@ -93,8 +94,6 @@ public class CASInputHandler {
 
 		// save the edited value into the table model
 		consoleTable.stopEditing();
-
-		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 
 		// STANDARD CASE: GeoGebraCAS input
 		// break text into prefix, evalText, postfix
