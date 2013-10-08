@@ -429,6 +429,12 @@ public class Ggb2giac {
 				"if %2=true then " +
 						"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
 				"else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
+		p("Polynomial.1",
+				"[[[ggbans:=0/0], [ggbinput:=%0], [ggbinput:=coeffs(ggbinput,x)], " +
+				"[ggbans:=add(seq(ggbinput[j]*x^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbans][1]");
+		p("Polynomial.2",
+				"[[[ggbans:=0/0], [ggbinput:=%0], [ggbvar:=%1], [ggbinput:=coeffs(ggbinput,ggbvar)], " +
+				"[ggbans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbans][1]");
 		p("PreviousPrime.1",
 				"if (%0 > 2) then prevprime(%0) else 0/0 fi");
 		p("PrimeFactors.1",
