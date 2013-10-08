@@ -5,6 +5,8 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
+import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
+import geogebra.common.gui.dialog.options.model.BackgroundImageModel.IBackroundImageListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
@@ -23,6 +25,7 @@ import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
@@ -64,7 +67,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private LabelPanel labelPanel;
 	private FixPanel fixPanel;
 	private AuxPanel auxPanel;
-
+	private BackgroundImagePanel bgImagePanel;
+	
 	//Color picker
 	private ColorPanel colorPanel;
 	
@@ -740,6 +744,36 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	}
 }
 
+	class BackgroundImagePanel extends OptionPanel implements IBackroundImageListener {
+	private final CheckBox bgImageCB;
+	private BackgroundImageModel model;
+	public BackgroundImagePanel() {
+		bgImageCB = new CheckBox(app.getPlain("BackgroundImage"));
+		setWidget(bgImageCB);
+
+		model = new BackgroundImageModel(this);
+		setModel(model);
+
+		bgImageCB.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				model.applyChanges(bgImageCB.getValue());
+			}
+		});
+
+	}
+
+	public void updateCheckbox(boolean equalIsBGimage) {
+
+		GeoImage geo0 = (GeoImage)model.getGeoAt(0);
+		if (equalIsBGimage)
+			bgImageCB.setValue(geo0.isInBackground());
+		else
+			bgImageCB.setValue(false);
+
+	}
+}
+
+
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -812,7 +846,12 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		auxPanel = new AuxPanel();
 		checkboxPanel.add(auxPanel.getWidget());
 
+		bgImagePanel = new BackgroundImagePanel();
+		checkboxPanel.add(bgImagePanel.getWidget());
+		
 		basicTab.add(checkboxPanel);
+
+		
 //		if (!isDefaults)
 //			basicTabList.add(bgImagePanel);
 //
@@ -872,6 +911,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 			labelPanel.update(geos);
 			fixPanel.update(geos);
 			auxPanel.update(geos);
+			bgImagePanel.update(geos);
 			showConditionPanel.update(geos);
 			colorPanel.update(geos);
 		}
