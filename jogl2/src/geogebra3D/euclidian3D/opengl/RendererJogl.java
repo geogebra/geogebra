@@ -44,13 +44,12 @@ public class RendererJogl {
 	final static public void initCaps(){
 		
 		
-		//GLProfile.initSingleton(); 
-		
-		caps = new GLCapabilities(GLProfile.getDefault());
-		
-		//System.out.println("sample buffers : "+caps.getSampleBuffers());
+		GLProfile.initSingleton(); 
 		
 		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
+
+		caps = new GLCapabilities(GLProfile.getDefault());
+		
 		
 		//caps.setAlphaBits(8);
 
