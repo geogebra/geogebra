@@ -2,9 +2,13 @@ package geogebra.web.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.TextProperties;
+import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.StyleBarW;
@@ -24,6 +28,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	private int iconHeight = 18;
 	private GDimensionW iconDimension = new GDimensionW(16, iconHeight);
 	private MyToggleButton2 btnBold;
+	private MyToggleButton2 btnItalic;
 	private boolean needUndo=false;
 	private ArrayList<GeoElement> selectedRows;
 	private CASViewW casView;
@@ -39,6 +44,9 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	private void initGUI(){
 		createTextButtons();
 		add(btnUseAsText);
+//		add(btnTextColor);
+		add(btnBold);
+//		add(btnItalic);
 		toggleBtnList = newToggleBtnList();
 		updateStyleBar();
 	}
@@ -61,9 +69,26 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 		};
 		btnUseAsText.addClickHandler(this);
 		
-//		btnBold = new MyToggleButton2(
-//				AppResources.INSTANCE.format_text_bold(),
-//				iconHeight);
+		btnBold = new MyToggleButton2(
+				AppResources.INSTANCE.format_text_bold(),
+				iconHeight){
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = checkGeoText(geos);
+				setVisible(geosOK);
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					int style = ((TextProperties) geo).getFontStyle();
+					btnBold.setValue(style == GFontW.BOLD
+							|| style == (GFontW.BOLD + geogebra.common.awt.GFont.ITALIC));
+				}
+			}
+		};
+		btnBold.addClickHandler(this);
 	}
 	
 	/**
@@ -111,7 +136,9 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	
 	private void processSource(Object source,
             ArrayList<GeoElement> targetGeos) {
-		if (source == btnUseAsText) {
+		if (source == btnBold){
+			applyFontStyle(targetGeos);
+		} else if (source == btnUseAsText) {
 //			btnUseAsText.onClick(null);
 			int i = casView.getConsoleTable().getEditingRow();
 //			int pos = (casView.getConsoleTable().getEditor().getCaretPosition();
@@ -127,6 +154,25 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 		}
 	    
     }
+	
+	private void applyFontStyle(ArrayList<GeoElement> geos) {
+		int fontStyle = 0;
+		if (btnBold.isSelected())
+			fontStyle += 1;
+//		if (btnItalic.isSelected())
+//			fontStyle += 2;
+		App.printStacktrace("geos-size: " +geos.size()+"");
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			Log.debug(((GeoCasCell) geo).getGeoText());
+			if (geo instanceof GeoCasCell
+					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
+				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -164,7 +210,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	 * @return array of toggle buttons
 	 */
 	protected MyToggleButton2[] newToggleBtnList() {
-		return new MyToggleButton2[] { /*btnBold, btnItalic,*/ btnUseAsText };
+		return new MyToggleButton2[] { btnBold,/* btnItalic,*/ btnUseAsText };
 	}
 	
 	private void applyUseAsText(ArrayList<GeoElement> geos) {

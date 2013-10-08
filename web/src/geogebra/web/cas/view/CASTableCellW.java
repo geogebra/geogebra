@@ -1,6 +1,7 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -116,6 +117,19 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public GeoCasCell getCASCell(){
 		return casCell;
+	}
+	
+	public void setFont(int fontStyle) {
+		if (inputPanel != null) {
+			if ((fontStyle & GFont.BOLD) != 0){
+				inputPanel.addStyleName("bold");
+			} else inputPanel.removeStyleName("bold");
+		}
+		
+		if ((fontStyle & GFont.ITALIC) != 0){
+			inputPanel.addStyleName("italic");
+		} else inputPanel.removeStyleName("italic");
+
 	}
 
 }
