@@ -2285,8 +2285,8 @@ var NthRoot =
 LatexCmds.nroot =
 LatexCmds.nthroot = P(SquareRoot, function(_, _super) {
   _.htmlTemplate =
-      '<sup class="nthroot non-leaf sqrt-parent">&0</sup>'
-    + '<span class="scaled">'
+      '<sup class="nthroot non-leaf">&0</sup>'
+    + '<span class="scaled sqrt-parent">'
     +   '<span class="sqrt-prefix scaled">&radic;</span>'
     +   '<span class="sqrt-stem non-leaf">&1</span>'
     + '</span>'

@@ -206,7 +206,7 @@
 }
 .mathquill-rendered-math sup.limit,
 .mathquill-rendered-math sup.nthroot {
-  vertical-align: 0.8em;
+  vertical-align: 1em;
 }
 .mathquill-rendered-math sup.nthroot {
   margin-right: -0.6em;
