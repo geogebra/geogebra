@@ -566,7 +566,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		theRealTitleBarPanel.add(closeButton);
 
-		theRealTitleBarPanel.setCellWidth(titleBarPanel, "*");
+		//TODO following line does not work in IE10
+		/*theRealTitleBarPanel.setCellWidth(titleBarPanel, "*");*/
 		theRealTitleBarPanel.setCellWidth(closeButton, "16px");
 
 		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
