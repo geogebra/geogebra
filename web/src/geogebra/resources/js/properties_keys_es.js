@@ -1148,6 +1148,7 @@ __GGB__keysVar.es.menu = {
     "Cancel": "Cancela",
     "Cartesian": "Cartesiano",
     "CasCellUseAsText": "Texto",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Tama\xf1o de Casillas de Control",
     "CheckboxSize_Large": "Grande",
     "CheckboxSize_Regular": "Normal",

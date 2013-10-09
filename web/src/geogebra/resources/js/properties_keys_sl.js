@@ -1148,6 +1148,7 @@ __GGB__keysVar.sl.menu = {
     "Cancel": "Prekini",
     "Cartesian": "Kartezi\u010dna",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Velikost",
     "CheckboxSize_Large": "Ve\u010dja",
     "CheckboxSize_Regular": "Obi\u010dajna",

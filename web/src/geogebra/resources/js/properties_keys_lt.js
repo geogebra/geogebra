@@ -1148,6 +1148,7 @@ __GGB__keysVar.lt.menu = {
     "Cancel": "At\u0161aukti",
     "Cartesian": "Dekarto",
     "CasCellUseAsText": "Tekstas",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "\u017dymimo langelio dydis",
     "CheckboxSize_Large": "Didelis",
     "CheckboxSize_Regular": "\u012eprastinis",

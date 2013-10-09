@@ -1148,6 +1148,7 @@ __GGB__keysVar.gl.menu = {
     "Cancel": "Cancelar",
     "Cartesian": "Cartesiano",
     "CasCellUseAsText": "Texto",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Tama\xf1o da caixa de verificaci\xf3n",
     "CheckboxSize_Large": "Grande",
     "CheckboxSize_Regular": "Normal",

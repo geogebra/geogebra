@@ -1148,6 +1148,7 @@ __GGB__keysVar.eo.menu = {
     "Cancel": "Nuligi",
     "Cartesian": "Kartezia",
     "CasCellUseAsText": "Texto",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Grando de markobutono",
     "CheckboxSize_Large": "Granda",
     "CheckboxSize_Regular": "Normala",

@@ -1148,6 +1148,7 @@ __GGB__keysVar.hr.menu = {
     "Cancel": "Odustani",
     "Cartesian": "Kartezijeva",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Veli\u010dina potvrdnog okvira",
     "CheckboxSize_Large": "velik",
     "CheckboxSize_Regular": "obi\u010dan",

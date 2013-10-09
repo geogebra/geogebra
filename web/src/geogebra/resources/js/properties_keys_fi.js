@@ -1148,6 +1148,7 @@ __GGB__keysVar.fi.menu = {
     "Cancel": "Peruuta",
     "Cartesian": "Karteesinen",
     "CasCellUseAsText": "Teksti",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Tarkistusikkunan koko",
     "CheckboxSize_Large": "Suuri",
     "CheckboxSize_Regular": "Normaali",

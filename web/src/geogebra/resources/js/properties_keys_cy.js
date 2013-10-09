@@ -1148,6 +1148,7 @@ __GGB__keysVar.cy.menu = {
     "Cancel": "Canslo",
     "Cartesian": "Cartesaidd",
     "CasCellUseAsText": "Testun",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Maint y blwch ticio",
     "CheckboxSize_Large": "Mawr",
     "CheckboxSize_Regular": "Arferol",

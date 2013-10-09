@@ -1148,6 +1148,7 @@ __GGB__keysVar.ro.menu = {
     "Cancel": "Anulare",
     "Cartesian": "Cartezian",
     "CasCellUseAsText": "Text",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Dimensiune c\u0103su\u0163\u0103 de selectare",
     "CheckboxSize_Large": "Mare",
     "CheckboxSize_Regular": "Regulat",

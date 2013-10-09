@@ -1148,6 +1148,7 @@ __GGB__keysVar.it.menu = {
     "Cancel": "Annulla",
     "Cartesian": "Cartesiana",
     "CasCellUseAsText": "Testo",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Dimensione casella di controllo",
     "CheckboxSize_Large": "Grande",
     "CheckboxSize_Regular": "Normale",

@@ -1148,6 +1148,7 @@ __GGB__keysVar.sq.menu = {
     "Cancel": "Anulloj",
     "Cartesian": "Kartezian",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Madhesi kutie me shenje",
     "CheckboxSize_Large": "E madhe",
     "CheckboxSize_Regular": "E rregullt",

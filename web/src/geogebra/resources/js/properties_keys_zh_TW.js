@@ -1148,6 +1148,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Cancel": "\u53d6\u6d88",
     "Cartesian": "\u76f4\u89d2\u5750\u6a19",
     "CasCellUseAsText": "\u6587\u5b57",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "\u52fe\u9078\u6846\u5927\u5c0f",
     "CheckboxSize_Large": "\u5927",
     "CheckboxSize_Regular": "\u5c0f",

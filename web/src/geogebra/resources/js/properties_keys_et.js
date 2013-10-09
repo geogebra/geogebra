@@ -1148,6 +1148,7 @@ __GGB__keysVar.et.menu = {
     "Cancel": "T\xfchista",
     "Cartesian": "Ristkoordinaadid",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "M\xe4rkeruudu suurus",
     "CheckboxSize_Large": "Suur",
     "CheckboxSize_Regular": "Tavaline",

@@ -1148,6 +1148,7 @@ __GGB__keysVar.tr.menu = {
     "Cancel": "\u0130ptal",
     "Cartesian": "Kartezyen",
     "CasCellUseAsText": "Metin",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Onay Kutusu B\xfcy\xfckl\xfc\u011f\xfc",
     "CheckboxSize_Large": "B\xfcy\xfck",
     "CheckboxSize_Regular": "Normal",

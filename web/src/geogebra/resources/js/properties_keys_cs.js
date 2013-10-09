@@ -1148,6 +1148,7 @@ __GGB__keysVar.cs.menu = {
     "Cancel": "Storno",
     "Cartesian": "Kart\xe9zsk\xfd",
     "CasCellUseAsText": "Text",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Velikost v\xfdb\u011brov\xe9ho pol\xed\u010dka",
     "CheckboxSize_Large": "Velk\xe9",
     "CheckboxSize_Regular": "Norm\xe1ln\xed",

@@ -1148,6 +1148,7 @@ __GGB__keysVar.xh.menu = {
     "Cancel": "Cima",
     "Cartesian": "iCartesian",
     "CasCellUseAsText": "Amagama",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Ubukhulu beCheckbox",
     "CheckboxSize_Large": "Enkulu",
     "CheckboxSize_Regular": "eRegular",

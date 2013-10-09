@@ -1148,6 +1148,7 @@ __GGB__keysVar.da.menu = {
     "Cancel": "Fortryd",
     "Cartesian": "Kartesiske",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "St\xf8rrelse p\xe5 afkrydsningsfelt",
     "CheckboxSize_Large": "Stor",
     "CheckboxSize_Regular": "Almindelig",

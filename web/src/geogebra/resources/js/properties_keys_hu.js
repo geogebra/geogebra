@@ -1148,6 +1148,7 @@ __GGB__keysVar.hu.menu = {
     "Cancel": "M\xe9gse",
     "Cartesian": "Descartes",
     "CasCellUseAsText": "Sz\xf6veg",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Jel\xf6l\u0151n\xe9gyzet m\xe9rete",
     "CheckboxSize_Large": "Nagy",
     "CheckboxSize_Regular": "Szok\xe1sos",

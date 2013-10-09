@@ -1148,6 +1148,7 @@ __GGB__keysVar.pl.menu = {
     "Cancel": "Anuluj",
     "Cartesian": "Kartezja\u0144ski",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Rozmiar pola wyboru",
     "CheckboxSize_Large": "Du\u017cy",
     "CheckboxSize_Regular": "Normalny",

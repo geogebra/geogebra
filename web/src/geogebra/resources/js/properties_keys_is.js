@@ -1148,6 +1148,7 @@ __GGB__keysVar.is.menu = {
     "Cancel": "H\xe6tta vi\xf0",
     "Cartesian": "Kartes\xedsk",
     "CasCellUseAsText": "Texti",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "St\xe6r\xf0 g\xe1treits",
     "CheckboxSize_Large": "St\xf3rt",
     "CheckboxSize_Regular": "Venjulegur",

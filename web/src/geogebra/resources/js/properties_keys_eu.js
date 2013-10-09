@@ -1148,6 +1148,7 @@ __GGB__keysVar.eu.menu = {
     "Cancel": "Utzi",
     "Cartesian": "Kartesiarra",
     "CasCellUseAsText": "Testua",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Kontrol-Laukiaren Tamaina",
     "CheckboxSize_Large": "Handia",
     "CheckboxSize_Regular": "Normala",

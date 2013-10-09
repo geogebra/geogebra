@@ -1148,6 +1148,7 @@ __GGB__keysVar.de_AT.menu = {
     "Cancel": "Abbrechen",
     "Cartesian": "Kartesisch",
     "CasCellUseAsText": "Text",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Gr\xf6\xdfe der Kontrollk\xe4stchen",
     "CheckboxSize_Large": "Gro\xdf",
     "CheckboxSize_Regular": "Standard",

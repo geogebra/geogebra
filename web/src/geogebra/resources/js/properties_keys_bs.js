@@ -1148,6 +1148,7 @@ __GGB__keysVar.bs.menu = {
     "Cancel": "Poni\u0161ti",
     "Cartesian": "Descartes-ova mre\u017ea",
     "CasCellUseAsText": "Tekst",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Veli\u010dina kontrolnog okvira",
     "CheckboxSize_Large": "Velik",
     "CheckboxSize_Regular": "Regularan",

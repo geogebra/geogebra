@@ -1148,6 +1148,7 @@ __GGB__keysVar.ms.menu = {
     "Cancel": "Batal",
     "Cartesian": "Cartesan",
     "CasCellUseAsText": "Teks",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Saiz Kotak Pilihan",
     "CheckboxSize_Large": "Besar",
     "CheckboxSize_Regular": "Biasa",

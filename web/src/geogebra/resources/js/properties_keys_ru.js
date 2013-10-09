@@ -1148,6 +1148,7 @@ __GGB__keysVar.ru.menu = {
     "Cancel": "\u041e\u0442\u043c\u0435\u043d\u0430",
     "Cartesian": "\u0414\u0435\u043a\u0430\u0440\u0442\u043e\u0432\u0430\u044f",
     "CasCellUseAsText": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0435 \u043f\u043e\u043b\u0435",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "\u0420\u0430\u0437\u043c\u0435\u0440 \u0444\u043b\u0430\u0436\u043a\u0430",
     "CheckboxSize_Large": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439",
     "CheckboxSize_Regular": "\u041e\u0431\u044b\u0447\u043d\u044b\u0439",

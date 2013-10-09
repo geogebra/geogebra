@@ -1148,6 +1148,7 @@ __GGB__keysVar.kk.menu = {
     "Cancel": "\u0411\u0430\u0441 \u0442\u0430\u0440\u0442\u0443",
     "Cartesian": "\u0414\u0435\u043a\u0430\u0440\u0442\u0442\u044b\u049b",
     "CasCellUseAsText": "\u041c\u04d9\u0442\u0456\u043d",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "\u0422\u0435\u043a\u0441\u0435\u0440\u0443 \u0430\u043b\u0430\u04a3\u044b\u043d\u044b\u04a3 \u04e9\u043b\u0448\u0435\u043c\u0456",
     "CheckboxSize_Large": "\u04ae\u043b\u043a\u0435\u043d",
     "CheckboxSize_Regular": "\u0414\u04b1\u0440\u044b\u0441",

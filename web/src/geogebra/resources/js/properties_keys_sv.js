@@ -1148,6 +1148,7 @@ __GGB__keysVar.sv.menu = {
     "Cancel": "Avbryt",
     "Cartesian": "Rektangul\xe4ra",
     "CasCellUseAsText": "Text",
+    "CheckBoxTitle": "Check Box to Show/Hide Objects",
     "CheckboxSize": "Storlek p\xe5 kryssrutor",
     "CheckboxSize_Large": "Stor",
     "CheckboxSize_Regular": "Vanlig",
