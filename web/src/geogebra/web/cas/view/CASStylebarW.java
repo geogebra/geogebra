@@ -5,18 +5,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
@@ -52,10 +49,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler{
 	}
 
 	private void createTextButtons(){
-		ImageData useAsTextIcon = GeoGebraIcon.createStringIcon(
-				app.getPlain("Text").substring(0, 1), (GFontW) app.getPlainFontCommon(), true,
-				false, true, iconDimension , GColorW.black, null); 
-		btnUseAsText = new MyToggleButton2(useAsTextIcon, iconHeight) {
+
+		btnUseAsText = new MyToggleButton2(app.getPlain("Text").substring(0, 1), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 

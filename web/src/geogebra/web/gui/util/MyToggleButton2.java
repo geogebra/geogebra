@@ -1,6 +1,5 @@
 package geogebra.web.gui.util;
 
-import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.tooltip.ToolTipManagerW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
@@ -48,11 +47,6 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 		initButton(iconHeight);
 	}
 
-	public MyToggleButton2(ImageData useAsTextIcon, int iconHeight) {
-		super(AppResourcesConverter.convertImageDataToImage(useAsTextIcon));
-		initButton(iconHeight);
-	}
-
 	public MyToggleButton2(final Image image, int iconHeight) {
 		super(image);
 		initButton(iconHeight);
@@ -63,6 +57,11 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 		super(upImage, downImage, handler);
 		initButton(iconHeight);
 	}
+
+	public MyToggleButton2(String string, int iconHeight) {
+	    super(string);
+	    initButton(iconHeight);
+    }
 
 	private void initButton(int height) {
 		this.buttonHeight = height;

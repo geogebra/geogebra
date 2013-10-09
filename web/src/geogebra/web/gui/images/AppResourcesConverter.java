@@ -102,13 +102,5 @@ public class AppResourcesConverter {
 	    return tmpCanvas;
 	    
     }
-	
-	public static Image convertImageDataToImage(ImageData id){
-		tmpCanvas = getTmpCanvas(id.getWidth(), id.getHeight());
-		Context2d context = tmpCanvas.getContext2d();
-	    context.putImageData(id, 0, 0);
-	    return new Image(tmpCanvas.toDataUrl("image/png"));
-		
-	}
 
 }
