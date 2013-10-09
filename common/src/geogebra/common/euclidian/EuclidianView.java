@@ -557,6 +557,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		
 		if(updateDrawables){
 			this.updateAllDrawables(true);
+			this.updateBackgroundOnNextRepaint = true;
 		}
 
 		updatingBounds = false;
