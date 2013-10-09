@@ -389,6 +389,8 @@ public class AlgoLocus extends AlgoElement {
 			return;
 		}
 
+		updateScreenBordersIfNecessary();
+
 		locus.clearPoints();
 		clearCache();
 		pointCount = 0;
@@ -730,16 +732,30 @@ public class AlgoLocus extends AlgoElement {
 		return distSmall;
 	}
 
+	boolean visibleEV1 = false;
+	boolean visibleEV2 = false;
+
+	void updateScreenBordersIfNecessary() {
+		if (locus.isVisibleInView(App.VIEW_EUCLIDIAN) != visibleEV1 ||
+			locus.isVisibleInView(App.VIEW_EUCLIDIAN2) != visibleEV2) {
+			updateScreenBorders();
+		}
+	}
+
 	void updateScreenBorders() {
-		xmax = kernel.getXmax();
-		xmin = kernel.getXmin();
-		ymax = kernel.getYmax();
-		ymin = kernel.getYmin();
+
+		visibleEV1 = locus.isVisibleInView(App.VIEW_EUCLIDIAN);
+		visibleEV2 = locus.isVisibleInView(App.VIEW_EUCLIDIAN2);
+
+		xmax = kernel.getXmax(visibleEV1, visibleEV2);
+		xmin = kernel.getXmin(visibleEV1, visibleEV2);
+		ymax = kernel.getYmax(visibleEV1, visibleEV2);
+		ymin = kernel.getYmin(visibleEV1, visibleEV2);
 
 		double widthRW = xmax - xmin;
 		double heightRW = ymax - ymin;
-		maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(); // widthRW / 100;
-		maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(); // heightRW / 100;
+		maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(visibleEV1, visibleEV2); // widthRW / 100;
+		maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(visibleEV1, visibleEV2); // heightRW / 100;
 
 		// we take a bit more than the screen
 		// itself so that we don't loose locus
