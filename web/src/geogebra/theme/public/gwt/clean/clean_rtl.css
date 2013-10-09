@@ -1502,3 +1502,8 @@ label {
 	float:left;
 	margin-left:10px;
 }
+
+.elemHeadingName{
+	position:absolute;
+	right:10px;
+}
