@@ -200,6 +200,7 @@ input.worksheetTitle {
 }
 
 .headerUndoRedo {
+	float:right;
 	margin-right: 10px;
 }
 
