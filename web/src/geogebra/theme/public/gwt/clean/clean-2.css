@@ -1426,6 +1426,13 @@ Paddings for menuitems.
 	font-weight: bold;
 }
 
+.CloseButton {
+	padding: 0px;
+	margin: 0px;
+	width: 16px;
+	height: 16px;
+}
+
 .DockGlassPane, .TitleBarPanel {
 	cursor: pointer;
 	cursor: hand;

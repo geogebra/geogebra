@@ -131,7 +131,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * The close button.
 	 */
-	//protected JButton closeButton;
+	protected PushButton closeButton;
 
 	/**
 	 * Button which opens the panel in a new window.
@@ -552,6 +552,23 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		theRealTitleBarPanel.add(titleBarPanel);
 
+		closeButton = new PushButton(new Image(AppResources.INSTANCE.view_close()));
+		closeButton.setStyleName("CloseButton");
+		//closeButton.setFocusPainted(false);
+
+		ClickHandler clickHandler = new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				closePanel(true);
+			}
+		};
+
+		closeButton.addClickHandler(clickHandler);
+
+		theRealTitleBarPanel.add(closeButton);
+
+		theRealTitleBarPanel.setCellWidth(titleBarPanel, "*");
+		theRealTitleBarPanel.setCellWidth(closeButton, "16px");
+
 		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
 
 		Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
@@ -621,6 +638,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		if (hasStyleBar()) {
 			dockPanel.addNorth(theRealTitleBarPanel, 16);
+			updateTitleBar(); // for adding/removing close X sign
 			if (isStyleBarVisible()) {
 				setStyleBar();
 				dockPanel.addNorth(styleBarPanel, 25);
@@ -838,6 +856,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateTitleBar() {
 
+		closeButton.setVisible(!isAlone());
+
 		/*
 		// The view is in the main window
 		if (frame == null) {
@@ -886,7 +906,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		this.isAlone = isAlone;
 
 		if (isVisible()) {
-			//TODO updatePanel();
+			updatePanel();
 		}
 	}
 
@@ -981,8 +1001,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * language was changed.
 	 */
 	public void updateLabels() {
+
+		//closeButton.setToolTipText(app.getMenuTooltip("Close"));
+
 		/*
-		closeButton.setToolTipText(app.getMenuTooltip("Close"));
 		windowButton.setToolTipText(app.getPlainTooltip("ViewOpenExtraWindow"));
 		unwindowButton.setToolTipText(app
 				.getPlainTooltip("ViewCloseExtraWindow"));
@@ -1055,9 +1077,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * 
 	 * @param isPermanent
 	 */
-	/*protected void closePanel(boolean isPermanent) {
+	protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
-	}*/
+	}
 
 	/**
 	 * Display this panel in an external window.
@@ -1703,14 +1725,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return true if the layout has been maximized
 	 */
-	/*public boolean isMaximized() {
+	public boolean isMaximized() {
 		return dockManager.isMaximized();
-	}*/
+	}
 
 	/**
 	 * Toggles the panel between maximized and normal state
 	 */
-	/*public void toggleMaximize() {
+	public void toggleMaximize() {
 
 		if (isMaximized())
 			dockManager.undoMaximize(true);
@@ -1718,7 +1740,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			dockManager.maximize(this);
 
 		updatePanel();
-	}*/
+	}
 
 	public String toString(String prefix) {
 		return "\n" + prefix + this.toString();

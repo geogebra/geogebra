@@ -1087,8 +1087,6 @@ public class DockManagerW implements  SetLabels {
 
 			if (opposite instanceof DockPanelW)
 				((DockPanelW)opposite).onResize();
-			
-			markAlonePanel();
 
 			if(panel.hasToolbar()) {
 			//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
@@ -1117,6 +1115,8 @@ public class DockManagerW implements  SetLabels {
 
 		panel.setHidden(!isPermanent);
 		panel.setVisible(false);
+
+		markAlonePanel();
 
 		return true;
 	}
@@ -1724,7 +1724,7 @@ public class DockManagerW implements  SetLabels {
 	 *            the dock panel to maximize
 	 */
 	public void maximize(DockPanelW dp) {
-		/*
+
 		restorePerspective = layout.createPerspective("tmp");
 		for (int i = 0; i < getPanels().length; i++) {
 			if (getPanels()[i] != dp) {
@@ -1734,7 +1734,6 @@ public class DockManagerW implements  SetLabels {
 		isMaximized = true;
 		//app.updateCenterPanel(true);
 		app.updateMenubar();
-		*/
 	}
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){
