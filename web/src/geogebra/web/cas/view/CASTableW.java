@@ -159,6 +159,7 @@ public class CASTableW extends Grid implements CASTable {
 		        .setBackgroundColor(MyTableW.BACKGROUND_COLOR_HEADER.toString());
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
 		((CASTableCellW)cellWidget).setFont();
+		((CASTableCellW)cellWidget).setColor();
 	}
 
 	public boolean isEditing() {

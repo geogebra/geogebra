@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.DrawEquationWeb;
 
@@ -135,5 +136,10 @@ public class CASTableCellW extends VerticalPanel {
 		} else inputPanel.removeStyleName("italic");
 
 	}
+
+	public void setColor() {
+		GColor newColor = casCell.getFontColor();
+		inputPanel.getElement().getStyle().setColor(GColor.getColorString(newColor));	
+    }
 
 }

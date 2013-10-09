@@ -54,6 +54,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 
 		updateColorTable();	
 		//addActionListener(this);
+		setKeepVisible(false);
+		
 	}
 
 	public void updateColorTable(){
