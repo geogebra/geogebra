@@ -472,6 +472,17 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 			app.getLoginOperation().performLogOut();
 		}
     }
+	
+
+	@Override
+	public void showOpenFromGGTDialog() {
+		app.setWaitCursor();
+
+	    WebViewDialog dialog = new OpenFromGGTDialogD((AppD) app);
+		dialog.setVisible(true);
+
+		app.setDefaultCursor();
+	}
 
 	/**
 	 * Creates a new JavaScript button at given location (screen coords).
@@ -645,4 +656,5 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		((GuiManagerD)app.getGuiManager()).openToolHelp();
 
 	}
+
 }

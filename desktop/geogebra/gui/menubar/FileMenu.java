@@ -295,8 +295,20 @@ class FileMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0) {
-					App.error("TODO: not implemented yet");
+				// Check if javafx is available
+				boolean javaFx22Available = false;
+				try {
+				  this.getClass().getClassLoader().loadClass("javafx.embed.swing.JFXPanel");
+				  javaFx22Available = true;
+				} catch (ClassNotFoundException ex) {
+					App.error("JavaFX 2.2 not available");
+				}
+				
+				// Open the Search dialog only when javafx is available.
+				// The User can force opening the old 'Open URL' dialog by pressing shift.
+				if (! javaFx22Available || ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0)) {
+					
+					app.getGuiManager().openFromGGT();
 				} else {
 					
 					// old File -> Open from Webpage by pressing <Shift>

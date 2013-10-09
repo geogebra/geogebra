@@ -168,6 +168,11 @@ public class DialogManagerMinimal extends DialogManager {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void showOpenFromGGTDialog() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

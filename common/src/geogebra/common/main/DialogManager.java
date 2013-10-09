@@ -436,7 +436,6 @@ public abstract class DialogManager {
 		return id;
 	}
 
-
-
+	public abstract void showOpenFromGGTDialog();
 
 }

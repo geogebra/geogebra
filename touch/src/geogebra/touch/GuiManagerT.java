@@ -614,4 +614,10 @@ class GuiManagerT extends GuiManager {
 		
 	}
 
+	@Override
+	public void openFromGGT() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

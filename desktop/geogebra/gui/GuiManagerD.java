@@ -2020,6 +2020,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		id.setVisible(true);
 
 	}
+	
+	public void openFromGGT() {
+		if ((app).isSaved() || saveCurrentFile()) {
+			app.getDialogManager().showOpenFromGGTDialog();
+		}
+	}
 
 	public void openFile() {
 		openFile(null);

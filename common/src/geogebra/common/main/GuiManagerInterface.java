@@ -141,6 +141,9 @@ public interface GuiManagerInterface {
 	public void showPropertiesViewSliderTab();
 	
 	public void openURL();
+	
+	/** Opens a dialog for searching and opening materials from GeoGebraTube */
+	public void openFromGGT();
 
 	public boolean loadURL(String urlString);
 

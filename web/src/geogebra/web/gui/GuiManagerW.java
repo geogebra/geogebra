@@ -741,6 +741,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		InputDialogOpenURL id = new InputDialogOpenURL(app);
 		id.setVisible(true);
 	}
+	
+	public void openFromGGT() {
+		App.debug("unimplemented");
+	}
 
 	@Override
 	protected boolean loadURL_GGB(String url) {

@@ -316,4 +316,10 @@ public class DialogManagerW extends DialogManager {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	@Override
+    public void showOpenFromGGTDialog() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }
