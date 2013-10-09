@@ -272,7 +272,8 @@
   margin-right: -0.1em;
   margin-left: -0.1em;
 }
-.mathquill-rendered-math .sqrt-parent {
+.mathquill-rendered-math .sqrt-parent,
+.mathquill-rendered-math .paren-parent {
 	margin-top: 1px;
 	padding: 0px;
 	margin-bottom:0px;

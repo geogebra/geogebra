@@ -2308,7 +2308,7 @@ LatexCmds.nthroot = P(SquareRoot, function(_, _super) {
 var Bracket = P(MathCommand, function(_, _super) {
   _.init = function(open, close, ctrlSeq, end) {
     _super.init.call(this, '\\left'+ctrlSeq,
-        '<span class="non-leaf">'
+        '<span class="non-leaf paren-parent">'
       +   '<span class="scaled paren">'+open+'</span>'
       +   '<span class="non-leaf">&0</span>'
       +   '<span class="scaled paren">'+close+'</span>'
@@ -2329,7 +2329,7 @@ var Bracket = P(MathCommand, function(_, _super) {
 
     var height = blockjQ.outerHeight()/+blockjQ.css('fontSize').slice(0,-2);
 
-    scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 1.05*height);
+    scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 0.9 * height);
   };
 });
 
