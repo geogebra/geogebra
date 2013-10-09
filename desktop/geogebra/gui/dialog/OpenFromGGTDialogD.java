@@ -42,12 +42,14 @@ public class OpenFromGGTDialogD extends WebViewDialog {
         String url = GGT_URL;
         
 		// Add the login token to the URL if a user is logged in
-		if (app.getLoginOperation().getModel().isLoggedIn()) {
+		if (app.getLoginOperation().isLoggedIn()) {
 			
 			String token = app.getLoginOperation().getModel().getLoggedInUser().getLoginToken();
 			if (token != null) {
 				url += "/lt/" + token;
 			}
+		} else {
+			url += "/lt/nouser";
 		}
 		
 		// Add the application language parameter to the URL
@@ -106,10 +108,13 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 	@Override
 	void onHyperlinkClicked(String href, String absoluteURL, String domainName, Event ev) {
 		App.debug("Link clicked: " + href);
-
-		ev.preventDefault();
-    	
-    	// Open each hyperlink click in an external browser
-        app.showURLinBrowser(absoluteURL);
+		
+		if (! href.contains("/page/")) {
+	
+			ev.preventDefault();
+	    	
+	    	// Open each hyperlink click in an external browser
+	        app.showURLinBrowser(absoluteURL);
+		}
 	}
 }

@@ -36,6 +36,7 @@ public abstract class AuthenticationModel extends BaseModel {
 			}
 		} else if (event instanceof LogOutEvent) {
 			clearLoginToken();
+			loggedInUser = null;
 		}
 	}
 
