@@ -158,7 +158,6 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 		}
     }
 
-	@Override
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof GoogleDriveLoadedEvent) {
 	    	enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isDriveLoaded()));
