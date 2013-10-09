@@ -74,7 +74,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		this.geoBoolean = geoBoolean;
 
 		initLists();
-		createGUI(loc.getMenu("ShowCheckBox"));
+		createGUI(loc.getMenu("CheckBoxTitle"));
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 	}
