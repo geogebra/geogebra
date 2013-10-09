@@ -18,7 +18,7 @@ if (!window.console.log) window.console.log = function () { };
 				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
                 fontinactive: function(familyName, fvd) {},
                 custom: {
-                    families: ["Symbola"],
+                    families: ["geogebra-sans-serif", "geogebra-serif"],
                     urls: [ "web/css/fonts.css?v=1.15" ]
                 }
             };
