@@ -1833,9 +1833,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 	@Override
 	public void moveDependencies(GeoElement oldGeo) {
-		if (oldGeo.isGeoPoint() && ((GeoPoint) oldGeo).locateableList != null) {
+		if (oldGeo.isGeoPoint() && ((GeoPointND) oldGeo).hasLocateableList()) {
 
-			locateableList = ((GeoPoint) oldGeo).locateableList;
+			locateableList = ((GeoPointND) oldGeo).getLocateableList();
 			for (Locateable locPoint : locateableList) {
 				GeoPointND[] pts = locPoint.getStartPoints();
 				for (int i = 0; i < pts.length; i++)
@@ -1843,7 +1843,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 						pts[i] = this;
 				locPoint.toGeoElement().updateRepaint();
 			}
-			((GeoPoint) oldGeo).locateableList = null;
+			((GeoPointND) oldGeo).setLocateableList(null);
 		}
 	}
 
@@ -2260,6 +2260,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 	public double distanceToPath(PathOrPoint path1){
 		return path1.toGeoElement().distance(this);
+	}
+
+	public boolean hasLocateableList() {
+		return locateableList != null;
+	}
+
+	public void setLocateableList(LocateableList locateableList) {
+		this.locateableList = locateableList;	
 	}
 
 	

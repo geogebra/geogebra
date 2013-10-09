@@ -933,6 +933,15 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			locateableList = new LocateableList(this);
 		return locateableList;
 	}
+	
+
+	public boolean hasLocateableList() {
+		return locateableList != null;
+	}
+
+	public void setLocateableList(LocateableList locateableList) {
+		this.locateableList = locateableList;	
+	}
 
 	/**
 	 * Tells Locateables that their start point is removed and calls
