@@ -63,25 +63,22 @@ public class LanguageCommand implements Command {
 	}
 
 	public void execute() {
-		Cookies.setCookie("GGWlang", localeCode);
-		if (Localization.rightToLeftReadingOrder(localeCode)){
-			LanguageCommand.setCookies(LanguageCommand.LOCALE_PARAMETER, "ar");
+		setCookies("GGWlang", localeCode);
+		boolean newDirRTL = Localization.rightToLeftReadingOrder(localeCode);
+		if (newDirRTL){
+			setCookies(LOCALE_PARAMETER, "ar");
 		} else {
-			setCookies(LOCALE_PARAMETER, localeCode);
+			setCookies(LOCALE_PARAMETER, "en");
 		}
 		
 		app.setUnsaved();
-	
-		String oldLang = app.getLanguageFromCookie();
-		//TODO: change "en" for the default language
-		//if there is no cookie yet, it starts with the default language
-		if (oldLang==null) oldLang="en";		
-		boolean oldRTLOrder = Localization.rightToLeftReadingOrder(oldLang);
+			
+		
 			
 		//On changing language from LTR/RTL the page will reload.
 		//The current workspace will be saved, and load back after page reloading.
 		//Otherwise only the language will change, and the setting related with language.
-		if (oldRTLOrder != app.getLocalization().rightToLeftReadingOrder){
+		if (newDirRTL != app.getLocalization().rightToLeftReadingOrder){
 			JavaScriptObject callback = saveBase64ToLocalStorage();
 			app.getGgbApi().getBase64(callback);
 		} else {
