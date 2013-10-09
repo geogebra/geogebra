@@ -24,8 +24,6 @@ public class GeoGebraIcon extends BasicIcons{
 
 
 
-	public static Canvas tempCanvas;
-
 	/** creates LineStyle icon
 	 * @param dashStyle
 	 * @param thickness
@@ -219,12 +217,8 @@ public class GeoGebraIcon extends BasicIcons{
 		double x = (isCentered) ? w/2 - symbolWidth/2 : 1;
 		double mid_y = 0; // there is not easy way to check the height of the text now h/2 - descent/2 + ascent/2 - 1;
 
-		App.debug("create icon - " + str+" x: "+x+", mid_y: "+mid_y);
 		g2.drawString (str,(int) x, (int) mid_y);
-
-		tempCanvas = g2.getCanvas();
 		
-		App.debug("return - w: " +w+", h: "+h);
 		return g2.getImageData(0, 0, w, h);
     }
 
