@@ -8,7 +8,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
-import geogebra.web.move.googledrive.events.GoogleDriveLoadedEvent;
+import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -20,7 +20,6 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 	 */
 	private App app;
 	private MenuItem openFromGoogleDrive;
-	//private MenuItem openFromSkyDrive;
 	private MenuItem openURL;
 
 	/**
@@ -52,8 +51,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 		    		app.getGuiManager().openURL();
 		    	}
 		    });	
-		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getLoginToGoogleCommand());
-		//openFromSkyDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")),true, getLoginToSkyDriveCommand());
+		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getOpenFromGoogleDriveCommand());
 		
 		 ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
 				
@@ -70,7 +68,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 			renderNetworkOperation(false);
 		}
 		
-		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isDriveLoaded()));
+		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
 	}
 
 	/**
@@ -97,70 +95,16 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 		return new Command() {
 			
 			public void execute() {
-				//Window.open("https://drive.google.com/?tab=co&authuser=0#search/.ggb", "_blank", "");
 				((GuiManagerW) app.getGuiManager()).openFromGoogleDrive();
 			}
 		};
 	}
-	
-	public Command getOpenFromSkyDriveCommand() {
-		return new Command() {
-			
-			public void execute() {
-				((GuiManagerW) app.getGuiManager()).openFromSkyDrive();
-				
-			}
-		};
-	}
-	
-	private Command getLoginToGoogleCommand() {
-		return new Command() {
-			
-			public void execute() {
-				((AppW) app).getObjectPool().getMyGoogleApis().setCaller("open");
-				((AppW) app).getObjectPool().getMyGoogleApis().loginToGoogle();
-				
-			}
-		};
-	}
-	
-	private Command getLoginToSkyDriveCommand() {
-		return new Command() {
-			public void execute() {
-				((AppW) app).getObjectPool().getMySkyDriveApis().setCaller("open");
-				((AppW) app).getObjectPool().getMySkyDriveApis().loginToSkyDrive();
-				
-			}
-		};
-	}
-	
-	public void refreshIfLoggedIntoGoogle(boolean loggedIn) {
-		if (loggedIn) {
-			openFromGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")));
-			openFromGoogleDrive.setScheduledCommand(getOpenFromGoogleDriveCommand());
-			openFromGoogleDrive.setTitle(app.getMenu("LoggedIntoGoogleDrive"));
-		} else {
-			openFromGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")));
-			openFromGoogleDrive.setScheduledCommand(getLoginToGoogleCommand());
-			openFromGoogleDrive.setTitle(app.getMenu("LogIntoGoogleDrive"));
-		}
-	}
 
-	public void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
-		if (loggedIn) {
-			//openFromSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")));
-			//openFromSkyDrive.setScheduledCommand(getOpenFromSkyDriveCommand());
-			//openFromSkyDrive.setTitle(app.getMenu("LoggedIntoSkyDrive"));
-		} else {
-			//openFromSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")));
-			//openFromSkyDrive.setScheduledCommand(getLoginToSkyDriveCommand());
-			//openFromSkyDrive.setTitle(app.getMenu("LogIntoSkyDrive"));
-		}
-    }
+
 
     public void renderEvent(BaseEvent event) {
-	    if (event instanceof GoogleDriveLoadedEvent) {
-	    	enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isDriveLoaded()));
+	    if (event instanceof GoogleLoginEvent) {
+	    	enableGoogleDrive(((GoogleLoginEvent) event).isSuccessFull());
 	    }
     }
 

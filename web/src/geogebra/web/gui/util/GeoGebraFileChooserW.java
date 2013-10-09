@@ -1,11 +1,14 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.main.GgbAPI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
+import geogebra.web.move.googledrive.events.GoogleDriveLoadedEvent;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -26,22 +29,22 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GeoGebraFileChooserW extends DialogBox {
+public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	
 	App app;
 	VerticalPanel p;
 	TextBox fileName;
 	TextArea description;
 	Button saveToGoogleDrive;
-	Button saveToSkyDrive;
+	//Button saveToSkyDrive;
 	Button cancel;
 	Anchor download;
 	Button uploadToGGT;
 	private int type;
 	private ClickHandler saveToGoogleDriveH;
-	private ClickHandler saveToSkyDriveH;
+	//private ClickHandler saveToSkyDriveH;
 	private ClickHandler loginToGoogleH;
-	private ClickHandler loginToSkyDriveH;
+	//private ClickHandler loginToSkyDriveH;
 	private HandlerRegistration saveToGoogleDriveR = null;
 	private HandlerRegistration saveToSkyDriveR = null;
 	private HandlerRegistration loginToGoogleR = null;
@@ -84,7 +87,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
 	    buttonPanel.add(saveToGoogleDrive = new Button(app.getMenu("SaveToGoogleDrive")));
-	    buttonPanel.add(saveToSkyDrive = new Button(app.getMenu("SaveToSkyDrive")));
+	    //buttonPanel.add(saveToSkyDrive = new Button(app.getMenu("SaveToSkyDrive")));
 	    buttonPanel.add(download);
 	    buttonPanel.add(uploadToGGT = new Button(app.getMenu("UploadGeoGebraTube")));
 	    p.add(buttonPanel);
@@ -119,7 +122,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 				
 		};
 		
-		saveToSkyDriveH = new ClickHandler() {
+		/*saveToSkyDriveH = new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
 				if (fileName.getText() != "") {
@@ -138,7 +141,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 				}
 			}
 				
-		};
+		};*/
 		
 		loginToGoogleH = new ClickHandler() {
 			
@@ -150,7 +153,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 			}
 		};
 		
-		loginToSkyDriveH = new ClickHandler() {
+		/*loginToSkyDriveH = new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
 				((AppW) app).getObjectPool().getMySkyDriveApis().setCaller("save");
@@ -158,10 +161,10 @@ public class GeoGebraFileChooserW extends DialogBox {
 				
 				
 			}
-		};
+		};*/
 	    
 	    loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
-	    loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
+	    //loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
@@ -182,7 +185,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
 				saveToGoogleDrive.setEnabled(true);
-				saveToSkyDrive.setEnabled(true);
+				//saveToSkyDrive.setEnabled(true);
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
 				description.setEnabled(true);
@@ -213,6 +216,8 @@ public class GeoGebraFileChooserW extends DialogBox {
 			}
 		});
 	    
+	    ((AppW) app).getGoogleDriveOperation().getView().add(this);
+	    
     }
 	
 	
@@ -240,15 +245,15 @@ public class GeoGebraFileChooserW extends DialogBox {
 	 */
 	void renderNetworkOperation(boolean online) {
 	    saveToGoogleDrive.setEnabled(online);
-	    saveToSkyDrive.setEnabled(online);
+	    //saveToSkyDrive.setEnabled(online);
 	    uploadToGGT.setEnabled(online);
 	    if (!online) {
 	    	saveToGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
-	    	saveToSkyDrive.setTitle("YouAreOffline");
+	    	//saveToSkyDrive.setTitle("YouAreOffline");
 	    	uploadToGGT.setTitle("YouAreOffline");
 	    } else {
 	    	saveToGoogleDrive.setTitle(app.getMenu(""));
-	    	saveToSkyDrive.setTitle("");
+	    	//saveToSkyDrive.setTitle("");
 	    	uploadToGGT.setTitle("");
 	    }
     }
@@ -272,7 +277,7 @@ public class GeoGebraFileChooserW extends DialogBox {
 	}
 
 
-	public void refreshIfLoggedIntoGoogle(boolean loggedIn) {
+	private void refreshIfLoggedIntoGoogle(boolean loggedIn) {
 		if (loggedIn) {
 			if (loginToGoogleR != null) {
 				loginToGoogleR.removeHandler();
@@ -291,22 +296,31 @@ public class GeoGebraFileChooserW extends DialogBox {
     }
 
 
-	public void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
+	private void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
 		if (loggedIn) {
 			if (loginToSkyDriveR != null) {
 				loginToSkyDriveR.removeHandler();
 				loginToSkyDriveR = null;
 			}
-			saveToSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("SaveToSkyDrive")));
-			saveToSkyDriveR = saveToSkyDrive.addClickHandler(saveToSkyDriveH);
+			//saveToSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("SaveToSkyDrive")));
+			//saveToSkyDriveR = saveToSkyDrive.addClickHandler(saveToSkyDriveH);
 		} else {
 			if (saveToSkyDriveR != null) {
 				saveToSkyDriveR.removeHandler();
 				loginToSkyDriveR = null;
 			}
-			saveToSkyDrive.setHTML(app.getMenu("SaveToSkyDrive"));
-			loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
+			//saveToSkyDrive.setHTML(app.getMenu("SaveToSkyDrive"));
+			//loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
 		}
+    }
+
+
+	
+    public void renderEvent(BaseEvent event) {
+	    if (event instanceof GoogleDriveLoadedEvent) {
+	    	renderNetworkOperation(true);
+	    }
+	    
     }
 	
 	

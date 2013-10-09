@@ -81,7 +81,7 @@ public class LoginMenuW extends MenuBar {
 		loginToGoogle.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email));
 		loginToGoogle.setScheduledCommand(createCommandForSignedIn());
 		loginToGoogle.setTitle(name);
-		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoGoogle(true);
+		//((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoGoogle(true);
 	}
 	
 	public void setLoggedOutFromGoogle() {

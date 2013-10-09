@@ -19,6 +19,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.AlertDialog;
@@ -27,6 +29,7 @@ import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.main.AppW;
+import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import java.util.ArrayList;
 
@@ -34,10 +37,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
-public class DialogManagerW extends DialogManager {
+public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	public DialogManagerW(App app) {
 		super(app);
+		((AppW) app).getGoogleDriveOperation().getView().add(this);
 	}
 
 	@Override
@@ -318,8 +322,21 @@ public class DialogManagerW extends DialogManager {
     }
 
 	@Override
+    public void renderEvent(BaseEvent event) {
+	    if (event instanceof GoogleLoginEvent) {
+	    	if (((GoogleLoginEvent) event).isSuccessFull()) {
+	    		getAlertDialog().get(app.getLocalization().getMenu("LoginToGoogleSuccessFull"));
+	    	} else {
+	    		getAlertDialog().get(app.getLocalization().getMenu("LoginToGoogleWasUnSuccesFull"));
+	    	}
+	    }
+	    
+    }
+
+	@Override
     public void showOpenFromGGTDialog() {
 	    // TODO Auto-generated method stub
 	    
     }
+
 }

@@ -5,7 +5,6 @@ import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
@@ -219,8 +218,8 @@ public class MyGoogleApis {
 	}
 	
 	private void refreshLoggedInGui(boolean loggedIn) {
-			((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoGoogle(loggedIn);
-    		((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoGoogle(loggedIn);
+			//((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoGoogle(loggedIn);
+    		//((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoGoogle(loggedIn);
 	}
 	private native void setUserEmailAfterLogin() /*-{
 		var _this = this;
@@ -243,11 +242,7 @@ public class MyGoogleApis {
 	    this.@geogebra.web.helper.MyGoogleApis::loggedIn = false;
     }-*/;
 	
-	private void processGoogleDriveFileContent(String base64, String description, String title, String id) {
-		GeoGebraAppFrame.fileLoader.process(base64);
-		((AppW)GeoGebraAppFrame.fileLoader.getApplication()).refreshCurrentFileDescriptors(title, description, base64);
-		((AppW)app).currentFileId = id;
-	}
+	
 
 	/**
 	 * @param currentFileName fileName
@@ -276,7 +271,7 @@ public class MyGoogleApis {
 		}
 		
 		downloadFile(currentFileName,function (base64) {
-			_this.@geogebra.web.helper.MyGoogleApis::processGoogleDriveFileContent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(base64, description, title, id);
+			//_this.@geogebra.web.helper.MyGoogleApis::processGoogleDriveFileContent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(base64, description, title, id);
 		});
     }-*/;
 	

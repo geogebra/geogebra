@@ -7,7 +7,6 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.FormData;
 import geogebra.web.html5.XHR2;
-import geogebra.web.main.AppW;
 
 import java.util.Date;
 
@@ -73,8 +72,8 @@ public class MySkyDriveApis {
 	}
 	
 	private void refreshLoggedInGui(boolean loggedIn) {
-		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoSkyDrive(loggedIn);
-		((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoSkyDrive(loggedIn);
+		//((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoSkyDrive(loggedIn);
+		//((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoSkyDrive(loggedIn);
 	}
 
 	public void setCaller(String caller) {

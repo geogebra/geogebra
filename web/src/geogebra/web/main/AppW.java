@@ -160,9 +160,6 @@ public class AppW extends AppWeb {
 		
 		// user authentication handling
 		initSignInEventFlow();
-		
-		// init google drive handling
-		initGoogleDriveEventFlow();
 	}
 	
 	/** 
@@ -173,6 +170,7 @@ public class AppW extends AppWeb {
 		// Initialize the signIn operation
 		loginOperation = new LoginOperationW();
 		if (getNetworkOperation().getOnline()) {
+			initGoogleDriveEventFlow();
 			loginOperation.performTokenLogin();
 		}
 	}
@@ -182,7 +180,7 @@ public class AppW extends AppWeb {
 	 */
 	protected void initGoogleDriveEventFlow() {
 		
-		googleDriveOperation = new GoogleDriveOperationW();
+		googleDriveOperation = new GoogleDriveOperationW(this);
 		
 		if (getNetworkOperation().getOnline()) {
 			googleDriveOperation.initGoogleDriveApi();
