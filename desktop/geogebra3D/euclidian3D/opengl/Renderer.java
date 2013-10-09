@@ -406,7 +406,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
         // prepare correct color mask for next clear
     	gl.glColorMask(true,true,true,true);
         
-        gLDrawable.swapBuffers(); //TODO ?
             
         if (needExportImage) {
         	setExportImage();
