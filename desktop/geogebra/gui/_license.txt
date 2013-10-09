@@ -44,6 +44,7 @@ CONTRIBUTORS
   * Ted Kosan (USA 2008-)
   * Dominik Kreil (Austria 2011-)
   * Yves Kreis (Luxembourg 2005-2010)
+  * Thomas Krismayer (Austria 2012-)
   * Corinna Kroehn (Austria 2011-)
   * Cong Liu (USA 2007-09)
   * Julian Lettner (Austria 2011)
