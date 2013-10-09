@@ -32,6 +32,8 @@ import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
+import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
+import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -2691,7 +2693,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class AllowReflexAnglePanel extends JPanel implements
-			ActionListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			ActionListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel,
+			IReflexAngleListener {
 		/**
 		 * 
 		 */
@@ -2700,13 +2703,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private JLabel intervalLabel;
 		private JComboBox intervalCombo;
-
+		private ReflexAngleModel model;
 		private boolean hasOrientation = true;
 		private boolean isDrawable = true;
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-
+			model = new ReflexAngleModel(this, app, isDefaults);
+			
 			intervalLabel = new JLabel();
 			intervalCombo = new JComboBox();
 			
@@ -2725,91 +2729,28 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void setComboLabels() {
 			intervalCombo.removeActionListener(this);
 			intervalCombo.removeAllItems();
-
-			if (hasOrientation) {
-				
-				int length = GeoAngle.INTERVAL_MIN.length;
-				
-				if (isDrawable) {
-					// don't want to allow (-inf, +inf)
-					length --;
-				}
-				
-				for (int i = 0; i < length; i++)
-					intervalCombo
-							.addItem(loc.getPlain("AandB",
-									GeoAngle.INTERVAL_MIN[i],
-									GeoAngle.INTERVAL_MAX[i]));
-			} else {// only 180° wide interval are possible
-				intervalCombo.addItem(loc.getPlain("AandB",
-						GeoAngle.INTERVAL_MIN[1], GeoAngle.INTERVAL_MAX[1]));
-				intervalCombo.addItem(loc.getPlain("AandB",
-						GeoAngle.INTERVAL_MIN[2], GeoAngle.INTERVAL_MAX[2]));
-			}
+			
+			model.fillCombo();
+			
 			intervalCombo.addActionListener(this);
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
+			}
 
 			intervalCombo.removeActionListener(this);
-
-			// check if properties have same values
-			AngleProperties temp, geo0 = (AngleProperties) geos[0];
-			boolean equalangleStyle = true;
-			boolean hasOrientationOld = hasOrientation;
-			boolean isDrawableOld = isDrawable;
-			hasOrientation = true;
-			isDrawable = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (AngleProperties) geos[i];
-				if (!temp.hasOrientation()) {
-					hasOrientation = false;
-				}
-				if (!temp.isDrawable()) {
-					isDrawable = false;
-				}
-				if (geo0.getAngleStyle() != temp.getAngleStyle()) {
-					equalangleStyle = false;
-				}
-
-			}
-
-			if (hasOrientation != hasOrientationOld || isDrawableOld != isDrawable) {
-				setComboLabels();
-			}
-
-			if (equalangleStyle) {
-				setSelectedIndex(geo0.getAngleStyle().xmlVal);
-			}
-			
+			model.updateProperties();
 			intervalCombo.addActionListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos1) {
-			for (int i = 0; i < geos1.length; i++) {
-				GeoElement geo = (GeoElement) geos1[i];
-				if ((geo.isIndependent() && !isDefaults)
-						|| !(geo instanceof AngleProperties))
-					return false;
-			}
-			return true;
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == intervalCombo) {
-				AngleProperties geo;
-				int index = getIndex();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (AngleProperties) geos[i];
-					geo.setAngleStyle(index);
-					((GeoElementND) geo).updateRepaint();
-				}
+				model.applyChanges(getIndex());
 			}
 		}
 
@@ -2822,7 +2763,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return intervalCombo.getSelectedIndex() + 1;
 		}
 
-		private void setSelectedIndex(int index) {
+		public void setSelectedIndex(int index) {
 			if (hasOrientation) {
 				
 				if (index >= intervalCombo.getItemCount()) {
@@ -2846,6 +2787,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+
+		public void updateRepaint(AngleProperties geo) {
+			((GeoElementND) geo).updateRepaint();
+		}
+
+		public void addComboItem(String item) {
+			intervalCombo.addItem(item);
 		}
 
 	}
