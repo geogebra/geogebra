@@ -311,7 +311,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//TODO replace canvas3D with GLDisplay
 		App.debug("create gl renderer");
-		renderer = new Renderer(this, !app.isApplet());
+		//renderer = new Renderer(this, !app.isApplet());
+		renderer = new Renderer(this, true);
 		renderer.setDrawable3DLists(drawable3DLists);
 		
 			
