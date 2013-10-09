@@ -15,6 +15,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String userName = null;
 	private String token = null;
 	private int userId = -1;
+	private String identifier = null;
 
 	private String realName = null;
 	
@@ -85,6 +86,22 @@ public class GeoGebraTubeUser extends BaseModel {
 	 */
 	public String getRealName() {
 		return realName;
+	}
+
+
+	/**
+	 * @return The login identifier of this user
+	 */
+	public String getIdentifier() {
+		return identifier;
+	}
+
+
+	/**
+	 * @param identifier The login identifier of this user
+	 */
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 }

@@ -67,6 +67,7 @@ public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebr
 			user.setUserId(userinfo.getInt("user_id"));
 			user.setUserName(userinfo.getString("username"));
 			user.setRealName(userinfo.getString("realname"));
+			user.setIdentifier(userinfo.get("identifier").toString());
 			
 			// Further fields are not parsed yet, because they are not needed
 			// This is the complete response with all available fields:
