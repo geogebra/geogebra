@@ -92,7 +92,7 @@
 .mathquill-rendered-math var,
 .mathquill-rendered-math .text,
 .mathquill-rendered-math .nonSymbola {
-  font-family: geogebra-serif, "Times New Roman", Symbola, serif;
+  font-family: geogebra-serif, "Times New Roman", serif;
   /*line-height: .9;*/
 }
 .mathquill-rendered-math * {
@@ -116,14 +116,14 @@
   font-size: 87%;
 }
 .mathquill-rendered-math .font {
-  font: 1em Symbola, geogebra-serif, "Times New Roman", serif;
+  font: 1em geogebra-serif, "Times New Roman", serif;
 }
 .mathquill-rendered-math .font * {
   font-family: inherit;
   font-style: inherit;
 }
 .mathquill-rendered-math .font .text {
-  font-family: geogebra-serif, "Times New Roman", Symbola, serif;
+  font-family: geogebra-serif, "Times New Roman", serif;
 }
 .mathquill-rendered-math b,
 .mathquill-rendered-math b.font {
@@ -144,14 +144,14 @@
   font-style: normal;
 }
 .mathquill-rendered-math .sans-serif {
-  font-family: geogebra-sans-serif, sans-serif, Symbola, serif;
+  font-family: geogebra-sans-serif, sans-serif, serif;
 }
 .mathquill-rendered-math .monospace {
-  font-family: monospace, Symbola, serif;
+  font-family: monospace, serif;
 }
 .mathquill-rendered-math .text.sans-serif,
 .mathquill-rendered-math .font .text.sans-serif {
-  font-family: geogebra-sans-serif, sans-serif, Symbola, serif;
+  font-family: geogebra-sans-serif, sans-serif, serif;
 }
 .mathquill-rendered-math .overline {
   border-top: 1px solid black;
@@ -236,7 +236,7 @@
   display: block;
 }
 .mathquill-rendered-math .non-italicized-function {
-  font-family: Symbola, geogebra-serif, "Times New Roman", serif;
+  font-family: geogebra-serif, "Times New Roman", serif;
   /*line-height: .9;*/
   font-style: normal;
   padding-right: .2em;
@@ -304,7 +304,7 @@
 .mathquill-rendered-math,
 .mathquill-rendered-math .mathquill-editable {
   cursor: text;
-  font-family: Symbola, geogebra-serif, "Times New Roman", serif;
+  font-family: geogebra-serif, "Times New Roman", serif;
 }
 .mathquill-rendered-math table {
   border-collapse: collapse;
