@@ -1414,6 +1414,7 @@ Paddings for menuitems.
 .StyleBarPanel, .TitleBarPanel {
 	background: url("images/hborder.png") repeat-x 0px -27px;
 	border-bottom: 1px solid lightgray;
+	width: 100%;
 }
 
 .TitleBarPanel {

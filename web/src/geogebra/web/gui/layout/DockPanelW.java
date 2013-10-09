@@ -545,12 +545,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		theRealTitleBarPanel = new HorizontalPanel();
 		theRealTitleBarPanel.setStyleName("TitleBarPanel");
 		theRealTitleBarPanel.addStyleName("cursor_drag");
-		theRealTitleBarPanel.setWidth("100%");
 
 		titleBarPanel = new AbsolutePanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
-		titleBarPanel.setWidth("100%");
 
 		theRealTitleBarPanel.add(titleBarPanel);
 
@@ -622,7 +620,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		dockPanel.clear();
 
 		if (hasStyleBar()) {
-			theRealTitleBarPanel.setWidth("100%");
 			dockPanel.addNorth(theRealTitleBarPanel, 16);
 			if (isStyleBarVisible()) {
 				setStyleBar();
