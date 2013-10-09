@@ -1497,3 +1497,8 @@ label {
 #View_2 div table {
 	width: 100%;
 }
+
+.algebraOpenButton{
+	float:left;
+	margin-left:10px;
+}

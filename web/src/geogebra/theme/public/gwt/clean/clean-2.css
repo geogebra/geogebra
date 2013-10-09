@@ -1993,3 +1993,7 @@ label {
 .italic{
 	font-style:italic;
 }
+
+.algebraOpenButton{
+	float:right;
+}

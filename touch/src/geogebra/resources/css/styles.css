@@ -671,3 +671,7 @@ body .buttonPanel {
 	margin-left: 10px;
 	padding: 7px 10px 5px 40px;
 }
+
+.algebraOpenButton{
+	float:right;
+}
