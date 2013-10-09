@@ -51,8 +51,11 @@ public class RendererJogl {
 		GLProfile.initSingleton(); 
 		
 		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
-
-		caps = new GLCapabilities(GLProfile.getDefault());
+		System.out.println("GLProfile -- isAnyAvailable = "+GLProfile.isAnyAvailable()+" -- isAWTAvailable = "+GLProfile.isAWTAvailable());
+				
+		GLProfile profile = GLProfile.getDefault();
+		System.out.println("profile -- is GL2 = " + profile.isGL2()+" -- isHardwareRasterizer = "+ profile.isHardwareRasterizer());
+		caps = new GLCapabilities(profile);
 		
 		
 		//caps.setAlphaBits(8);
