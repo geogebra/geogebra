@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -510,6 +511,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	PushButton toglStyleBtn2;
 	AbsolutePanel titleBarPanel;
+	HorizontalPanel theRealTitleBarPanel;
 	
 	Label titleBarLabel;
 
@@ -539,10 +541,18 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		
 		styleBarPanel = new AbsolutePanel();	
 		styleBarPanel.setStyleName("StyleBarPanel");
-		
+
+		theRealTitleBarPanel = new HorizontalPanel();
+		theRealTitleBarPanel.setStyleName("TitleBarPanel");
+		theRealTitleBarPanel.addStyleName("cursor_drag");
+		theRealTitleBarPanel.setWidth("100%");
+
 		titleBarPanel = new AbsolutePanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
+		titleBarPanel.setWidth("100%");
+
+		theRealTitleBarPanel.add(titleBarPanel);
 
 		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
 
@@ -612,7 +622,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		dockPanel.clear();
 
 		if (hasStyleBar()) {
-			dockPanel.addNorth(titleBarPanel, 16);
+			theRealTitleBarPanel.setWidth("100%");
+			dockPanel.addNorth(theRealTitleBarPanel, 16);
 			if (isStyleBarVisible()) {
 				setStyleBar();
 				dockPanel.addNorth(styleBarPanel, 25);
