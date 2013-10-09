@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.PointProperties;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.stylebar.OptionsPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
@@ -238,6 +239,31 @@ public class GuiModel {
 		}
 	}
 
+	public void setPointStyle(final int index) {
+
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			GeoElement geo = getDefaultGeo(this.touchModel.getCommand().getMode());
+			if(geo instanceof PointProperties){
+				((PointProperties)geo).setPointStyle(index);
+			}
+		} 
+	}
+	
+	public void setPointSize(final int index) {
+
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			GeoElement geo = getDefaultGeo(this.touchModel.getCommand().getMode());
+			if(geo instanceof PointProperties){
+				((PointProperties)geo).setPointSize(index);
+			}
+		} 
+	}
+
+	
 	public void setLineStyle(final int index) {
 		final int lineStyle = EuclidianStyleBarStatic.lineStyleArray[index]
 				.intValue();

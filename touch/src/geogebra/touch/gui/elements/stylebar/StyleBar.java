@@ -89,6 +89,7 @@ public class StyleBar extends FlowPanel {
 		});
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
+		EuclidianStyleBarStatic.pointStyleArray = EuclidianView.getLineTypes();
 
 		if (this.guiModel.getCommand() != null
 				&& this.guiModel.getCommand().getStyleBarEntries() != null) {
@@ -132,7 +133,7 @@ public class StyleBar extends FlowPanel {
 
 	private void rebuild(final StyleBarDefaultSettings entry) {
 
-		SVGResource[] resource = entry.getResources();
+		OptionType[] resource = entry.getOptions();
 		String color = entry.getColor() != null ? entry.getColor().toString()
 				: "";
 
@@ -147,26 +148,27 @@ public class StyleBar extends FlowPanel {
 					.getGeoElementForPropertiesDialog();
 			color = geo.getObjectColor().toString();
 			if (geo instanceof GeoAxis) {
-				resource = StyleBarDefaultSettings.Move.getResources();
+				resource = StyleBarDefaultSettings.Move.getOptions();
 			} else if (geo instanceof GeoPointND) {
-				resource = StyleBarDefaultSettings.Point.getResources();
+				resource = StyleBarDefaultSettings.Point.getOptions();
 			} else if (geo instanceof GeoAngle) {
-				resource = StyleBarDefaultSettings.Angle.getResources();
+				resource = StyleBarDefaultSettings.Angle.getOptions();
 			} else if (geo instanceof LineProperties
 					|| geo instanceof GeoNumeric) {
 				// GeoNumeric in case of Slider
-				resource = StyleBarDefaultSettings.Line.getResources();
+				resource = StyleBarDefaultSettings.Line.getOptions();
 			} else if (this.touchModel.getSelectedGeos().get(0)
 					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
-				resource = StyleBarDefaultSettings.Polygon.getResources();
+				resource = StyleBarDefaultSettings.Polygon.getOptions();
 			}
 		}
 
 		this.buttons.clear();
 
-		for (final SVGResource svg : resource) {
+		for (OptionType option : resource) {
 			final FastButton b;
-			if (svg.equals(lafIcons.color())) {
+			switch(option){
+			case Color:
 				b = new StandardButton(lafIcons.color());
 				b.getElement().getStyle().setBackgroundImage("initial");
 				b.getElement().setAttribute("style", "background: " + color);
@@ -180,8 +182,8 @@ public class StyleBar extends FlowPanel {
 				});
 
 				this.buttons.put(StyleBarEntry.Color, b);
-
-			} else if (svg.equals(lafIcons.properties_default())) {
+				break;
+			case LineStyle:
 				b = new StandardButton(lafIcons.properties_default());
 				b.addFastClickHandler(new FastClickHandler() {
 
@@ -193,8 +195,8 @@ public class StyleBar extends FlowPanel {
 					}
 				});
 				this.buttons.put(StyleBarEntry.LineStyle, b);
-
-			} else if (svg.equals(ToolbarResources.INSTANCE.label())) {
+				break;
+			case CaptionStyle:
 				b = new StandardButton(ToolbarResources.INSTANCE.label());
 				b.addFastClickHandler(new FastClickHandler() {
 
@@ -215,22 +217,42 @@ public class StyleBar extends FlowPanel {
 						|| cmd == EuclidianConstants.MODE_SLIDER) {
 					this.buttons.put(StyleBarEntry.CaptionStyle, b);
 				}
-
-			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
+				break;
+			case Axes:
 				b = this.createStyleBarButton("showAxes",
 						lafIcons.show_or_hide_the_axes());
 				b.setActive(this.euclidianView.getShowAxis(0));
 				checkStyle(b);
 				this.buttons.put(StyleBarEntry.Axes, b);
-
-			} else if (svg.equals(lafIcons.show_or_hide_the_grid())) {
+				break;
+			case Grid:
 				b = this.createStyleBarButton("showGrid",
 						lafIcons.show_or_hide_the_grid());
 				b.setActive(this.euclidianView.getShowGrid());
 				checkStyle(b);
 				this.buttons.put(StyleBarEntry.Grid, b);
-			}
+				break;
+			case None:
+				break;
+			case PointStyle:
+				b = new StandardButton(lafIcons.properties_default());
+				b.addFastClickHandler(new FastClickHandler() {
+
+					@Override
+					public void onClick() {
+						StyleBar.this.onOptionalButtonEvent(b,
+								OptionType.PointStyle);
+
+					}
+				});
+				this.buttons.put(StyleBarEntry.LineStyle, b);
+				break;
+			case ToolBar:
+				break;
+			default:
+				break;
 		}
+		};
 
 		this.styleButtonsPanel.clear();
 

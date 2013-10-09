@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.PointProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,52 @@ public class StyleBarStatic {
 			final GeoElement geo = geos.get(i);
 			if (geo.getLineType() != lineStyle) {
 				geo.setLineType(lineStyle);
+				geo.updateCascade();
+				needUndo = true;
+			}
+			if (i == geos.size() - 1 && needUndo) {
+				geo.updateRepaint();
+			}
+		}
+
+		return needUndo;
+	}
+
+	public static boolean applyPointSize(ArrayList<GeoElement> geos,
+			int pointSize) {
+		boolean needUndo = false;
+
+		for (int i = 0; i < geos.size(); i++) {
+			final GeoElement geo = geos.get(i);
+			if(!(geo instanceof PointProperties)){
+				continue;
+			}
+			PointProperties pt = (PointProperties)geo;
+			if (pt.getPointSize() != pointSize) {
+				pt.setPointSize(pointSize);
+				geo.updateCascade();
+				needUndo = true;
+			}
+			if (i == geos.size() - 1 && needUndo) {
+				geo.updateRepaint();
+			}
+		}
+
+		return needUndo;
+	}
+	
+	public static boolean applyPointStyle(ArrayList<GeoElement> geos,
+			int pointStyle) {
+		boolean needUndo = false;
+
+		for (int i = 0; i < geos.size(); i++) {
+			final GeoElement geo = geos.get(i);
+			if(!(geo instanceof PointProperties)){
+				continue;
+			}
+			PointProperties pt = (PointProperties)geo;
+			if (pt.getPointStyle() != pointStyle) {
+				pt.setPointStyle(pointStyle);
 				geo.updateCascade();
 				needUndo = true;
 			}

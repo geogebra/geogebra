@@ -15,6 +15,7 @@ public class OptionsPanel extends PopupPanel {
 	private LineStyleBar lineStyleBar;
 	private ColorBar colorBar;
 	private OptionType type;
+	private PointStyleBar pointStyleBar;
 
 	OptionsPanel(StyleBar styleBar) {
 		this.styleBar = styleBar;
@@ -43,6 +44,7 @@ public class OptionsPanel extends PopupPanel {
 		this.colorBar = new ColorBar(this.styleBar,
 				this.styleBar.getTouchModel());
 		this.lineStyleBar = new LineStyleBar(this.styleBar.getTouchModel());
+		this.pointStyleBar = new PointStyleBar(this.styleBar.getTouchModel());
 	}
 
 	OptionsPanel getOptionsPanel(OptionType optionType) {
@@ -61,6 +63,10 @@ public class OptionsPanel extends PopupPanel {
 		case LineStyle:
 			this.lineStyleBar.update();
 			this.optionPanel = this.lineStyleBar;
+			break;
+		case PointStyle:
+			this.pointStyleBar.update();
+			this.optionPanel = this.pointStyleBar;
 			break;
 
 		case ToolBar:
@@ -85,6 +91,8 @@ public class OptionsPanel extends PopupPanel {
 		case Color:
 			return 200;
 		case LineStyle:
+			return 250;
+		case PointStyle:
 			return 250;
 		case None:
 			break;
