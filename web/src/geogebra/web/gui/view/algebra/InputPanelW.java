@@ -130,4 +130,13 @@ public class InputPanelW extends HorizontalPanel {
 		}
 		return textAreaComponent.getText();
 	}
+
+	public void setTextComponentFocus() {
+	    if(textComponent !=null){
+	    	textComponent.getTextBox().getElement().focus();
+	    }else{
+	    	textAreaComponent.getTextArea().getElement().focus();
+	    }
+	    
+    }
 }
