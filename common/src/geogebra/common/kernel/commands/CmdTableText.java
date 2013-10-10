@@ -37,10 +37,7 @@ public class CmdTableText extends CommandProcessor {
 			if ((arg[0].isGeoList())) {
 				GeoList list = (GeoList) arg[0];
 
-				if (list.size() == 0)
-					throw argErr(app, c.getName(), arg[0]);
-
-				if (list.get(0).isGeoList()) { // list of lists: no need to wrap
+				if (list.size() == 0 || list.get(0).isGeoList()) { // list of lists: no need to wrap
 					GeoElement[] ret = { TableText(c.getLabel(),
 							(GeoList) arg[0], null) };
 					return ret;
@@ -59,10 +56,7 @@ public class CmdTableText extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoText())) {
 				GeoList list = (GeoList) arg[0];
 
-				if (list.size() == 0)
-					throw argErr(app, c.getName(), arg[0]);
-
-				if (list.get(0).isGeoList()) { // list of lists: no need to wrap
+				if (list.size() == 0 || list.get(0).isGeoList()) { // list of lists: no need to wrap
 					GeoElement[] ret = { TableText(c.getLabel(),
 							(GeoList) arg[0], (GeoText) arg[1]) };
 					return ret;
