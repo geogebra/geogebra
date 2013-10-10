@@ -1485,6 +1485,7 @@ __GGB__keysVar.bs.menu = {
     "Load": "U\u010ditaj",
     "Local": "Lokalno",
     "Location": "Lokacija",
+    "LockView": "Lock View",
     "Locus": "Lokus",
     "Locus_Help": "Ozna\u010dite prvo ta\u010dku lokusa, zatim ta\u010dku na pravoj",
     "Log": "Log",

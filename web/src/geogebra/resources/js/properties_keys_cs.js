@@ -1485,6 +1485,7 @@ __GGB__keysVar.cs.menu = {
     "Load": "Otev\u0159\xedt",
     "Local": "Local",
     "Location": "Um\xedst\u011bn\xed",
+    "LockView": "Lock View",
     "Locus": "Mno\u017eina bod\u016f",
     "Locus_Help": "Nejprve bod, kter\xfd vytv\xe1\u0159\xed mno\u017einu, pak bod na objektu nebo posuvn\xedk",
     "Log": "Log",

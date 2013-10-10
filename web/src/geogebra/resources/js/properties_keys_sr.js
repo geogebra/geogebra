@@ -1485,6 +1485,7 @@ __GGB__keysVar.sr.menu = {
     "Load": "Otvori",
     "Local": "Local",
     "Location": "Lokacija",
+    "LockView": "Lock View",
     "Locus": "Lokus",
     "Locus_Help": "Izaberite ta\u010dku lokusa, a zatim ta\u010dku na objektu",
     "Log": "Log",

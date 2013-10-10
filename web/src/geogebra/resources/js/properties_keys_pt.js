@@ -1485,6 +1485,7 @@ __GGB__keysVar.pt.menu = {
     "Load": "Abrir",
     "Local": "Local",
     "Location": "Localiza\xe7\xe3o",
+    "LockView": "Lock View",
     "Locus": "Lugar Geom\xe9trico",
     "Locus_Help": "Selecione o ponto do lugar geom\xe9trico e, depois, o ponto sobre o objeto ou o controle deslizante",
     "Log": "Log",

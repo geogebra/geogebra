@@ -1485,6 +1485,7 @@ __GGB__keysVar.kn.menu = {
     "Load": "\u0ca4\u0cc6\u0cb0\u0cc6",
     "Local": "Local",
     "Location": "\u0cb8\u0ccd\u0ca5\u0cb3",
+    "LockView": "Lock View",
     "Locus": "Locus",
     "Locus_Help": "Select locus point, then point on object or slider",
     "Log": "Log",

@@ -1485,6 +1485,7 @@ __GGB__keysVar.da.menu = {
     "Load": "\xc5bn",
     "Local": "Lokalt",
     "Location": "Sted",
+    "LockView": "Lock View",
     "Locus": "Sted",
     "Locus_Help": "Klik p\xe5 det punkt som skal spores og derefter p\xe5 et punkt p\xe5 linjen",
     "Log": "Log",

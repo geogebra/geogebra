@@ -1485,6 +1485,7 @@ __GGB__keysVar.si.menu = {
     "Load": "\u0db4\u0dca\u200d\u0dbb\u0dc0\u0dd9\u0dc1\u0db1\u0dba \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "Local": "Local",
     "Location": "Location",
+    "LockView": "Lock View",
     "Locus": "\u0db4\u0dae\u0dba",
     "Locus_Help": "\u0db4\u0dae\u0dba \u0d8b\u0daf\u0dc0\u0dd4",
     "Log": "Log",

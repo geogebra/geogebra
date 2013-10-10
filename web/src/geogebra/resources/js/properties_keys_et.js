@@ -1485,6 +1485,7 @@ __GGB__keysVar.et.menu = {
     "Load": "Ava",
     "Local": "Local",
     "Location": "Asukoht",
+    "LockView": "Lock View",
     "Locus": "Lookus",
     "Locus_Help": "Valige lookus-punkt, seej\xe4rel punk objektil",
     "Log": "Log",

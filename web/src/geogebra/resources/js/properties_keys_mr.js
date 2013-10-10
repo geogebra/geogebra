@@ -1485,6 +1485,7 @@ __GGB__keysVar.mr.menu = {
     "Load": "\u0909\u0918\u0921\u093e",
     "Local": "Local",
     "Location": "Location",
+    "LockView": "Lock View",
     "Locus": "\u092c\u093f\u0902\u0926\u0942\u092a\u0925 (locus)",
     "Locus_Help": "\u092c\u093f\u0902\u0926\u0942\u092a\u0925\u093e\u091a\u093e \u092c\u093f\u0902\u0926\u0942 \u0928\u093f\u0935\u0921\u093e \u092e\u0917 \u0918\u091f\u0915\u093e\u0935\u0930\u0940\u0932 \u092c\u093f\u0902\u0926\u0942 \u0928\u093f\u0935\u0921\u093e",
     "Log": "Log",

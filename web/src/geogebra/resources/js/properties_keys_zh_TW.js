@@ -1485,6 +1485,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Load": "\u958b\u555f",
     "Local": "Local",
     "Location": "\u4f4d\u7f6e",
+    "LockView": "Lock View",
     "Locus": "\u8ecc\u8de1",
     "Locus_Help": "\u5148\u9078\u8981\u986f\u793a\u8ecc\u8de1\u7684\u9ede\uff0c\u7136\u5f8c\u518d\u9078\u5b83\u7684\u63a7\u5236\u9ede\u3002",
     "Log": "\u5c0d\u6578",

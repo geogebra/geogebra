@@ -1485,6 +1485,7 @@ __GGB__keysVar.is.menu = {
     "Load": "Opna",
     "Local": "Local",
     "Location": "Sta\xf0setning",
+    "LockView": "Lock View",
     "Locus": "Leg",
     "Locus_Help": "Velji\xf0 legpunkt, svo punkt \xe1 hlut e\xf0a rennistiku",
     "Log": "Log",

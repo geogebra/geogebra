@@ -1485,6 +1485,7 @@ __GGB__keysVar.ja.menu = {
     "Load": "\u958b\u304f",
     "Local": "Local",
     "Location": "\u4f4d\u7f6e",
+    "LockView": "Lock View",
     "Locus": "\u8ecc\u8de1",
     "Locus_Help": "\u307e\u305a\u8ecc\u8de1\u3001\u6b21\u306b\u76f4\u7dda\u4e0a\u306e\u70b9\u3092\u9078\u629e",
     "Log": "\u5bfe\u6570",

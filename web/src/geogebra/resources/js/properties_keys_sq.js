@@ -1485,6 +1485,7 @@ __GGB__keysVar.sq.menu = {
     "Load": "Hap",
     "Local": "Local",
     "Location": "Vend-ndodhje",
+    "LockView": "Lock View",
     "Locus": "Pozicion",
     "Locus_Help": "Zgjidh piken per Pozicion, pastaj pike ne objekt",
     "Log": "Log",

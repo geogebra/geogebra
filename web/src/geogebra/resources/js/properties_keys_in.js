@@ -1485,6 +1485,7 @@ __GGB__keysVar.in.menu = {
     "Load": "Buka",
     "Local": "Local",
     "Location": "Lokasi",
+    "LockView": "Lock View",
     "Locus": "Lokus",
     "Locus_Help": "Pilih titik lokus, kemudian titik pada objek",
     "Log": "Log",

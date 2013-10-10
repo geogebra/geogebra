@@ -1485,6 +1485,7 @@ __GGB__keysVar.no_NN.menu = {
     "Load": "Opne",
     "Local": "Lokalt",
     "Location": "Plassering",
+    "LockView": "Lock View",
     "Locus": "Geometrisk stad",
     "Locus_Help": "Vel f\xf8rst geometrisk stad, s\xe5 punkt p\xe5 objektet",
     "Log": "Log",

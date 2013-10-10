@@ -1485,6 +1485,7 @@ __GGB__keysVar.tl.menu = {
     "Load": "Open",
     "Local": "Local",
     "Location": "Location",
+    "LockView": "Lock View",
     "Locus": "Locus",
     "Locus_Help": "Pumili ng locus point, pagkatapos pumili ng point sa object o slider",
     "Log": "Log",

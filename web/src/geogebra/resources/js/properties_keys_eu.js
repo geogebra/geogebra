@@ -1485,6 +1485,7 @@ __GGB__keysVar.eu.menu = {
     "Load": "Ireki",
     "Local": "Local",
     "Location": "Kokapena",
+    "LockView": "Lock View",
     "Locus": "Leku geometrikoa",
     "Locus_Help": "Leku geometrikoaren puntua, ondoren puntua objektuan",
     "Log": "Log",

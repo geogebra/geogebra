@@ -1485,6 +1485,7 @@ __GGB__keysVar.de_AT.menu = {
     "Load": "\xd6ffnen",
     "Local": "Lokal",
     "Location": "Anzeigen in",
+    "LockView": "Lock View",
     "Locus": "Ortslinie",
     "Locus_Help": "W\xe4hle den Punkt auf der Ortslinie, dann den Punkt auf einer Linie",
     "Log": "Log",

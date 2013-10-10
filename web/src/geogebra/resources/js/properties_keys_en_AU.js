@@ -1485,6 +1485,7 @@ __GGB__keysVar.en_AU.menu = {
     "Load": "Open",
     "Local": "Local",
     "Location": "Location",
+    "LockView": "Lock View",
     "Locus": "Locus",
     "Locus_Help": "Select locus point, then point on object or slider",
     "Log": "Log",

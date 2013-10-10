@@ -1485,6 +1485,7 @@ __GGB__keysVar.tr.menu = {
     "Load": "Y\xfckle",
     "Local": "Yerel",
     "Location": "Yer",
+    "LockView": "Lock View",
     "Locus": "Yertan\u0131m",
     "Locus_Help": "\xd6nce yertan\u0131m noktas\u0131, sonra do\u011fru \xfczerindeki bir nokta",
     "Log": "Log",

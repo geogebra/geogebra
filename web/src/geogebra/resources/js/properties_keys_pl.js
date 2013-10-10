@@ -1485,6 +1485,7 @@ __GGB__keysVar.pl.menu = {
     "Load": "Otw\xf3rz",
     "Local": "Lokalny",
     "Location": "Po\u0142o\u017cenie",
+    "LockView": "Lock View",
     "Locus": "Miejsce geometryczne",
     "Locus_Help": "Wybierz punkt miejsca geometrycznego, nast\u0119pnie punkt na obiekcie lub suwak",
     "Log": "Log",

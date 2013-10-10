@@ -1485,6 +1485,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Load": "Obre",
     "Local": "En local",
     "Location": "Ubicaci\xf3",
+    "LockView": "Lock View",
     "Locus": "Lloc geom\xe8tric",
     "Locus_Help": "Seleccioneu el punt del lloc geom\xe8tric i un punt en una l\xednia o un punt lliscant",
     "Log": "log",

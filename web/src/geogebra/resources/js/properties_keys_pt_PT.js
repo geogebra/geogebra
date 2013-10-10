@@ -1485,6 +1485,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Load": "Abrir",
     "Local": "Local",
     "Location": "Localiza\xe7\xe3o",
+    "LockView": "Lock View",
     "Locus": "Lugar Geom\xe9trico",
     "Locus_Help": "Selecione o ponto do lugar geom\xe9trico, em seguida selecione o objeto ou o seletor",
     "Log": "Logar\xedtmico",

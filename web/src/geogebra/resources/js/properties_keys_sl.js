@@ -1485,6 +1485,7 @@ __GGB__keysVar.sl.menu = {
     "Load": "Odpri",
     "Local": "Lokalno",
     "Location": "Lokacija",
+    "LockView": "Lock View",
     "Locus": "Sled",
     "Locus_Help": "Najprej to\u010dka, nato to\u010dka na objektu ali drsnik",
     "Log": "Log",

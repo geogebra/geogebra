@@ -1485,6 +1485,7 @@ __GGB__keysVar.ro.menu = {
     "Load": "Deschidere",
     "Local": "Local",
     "Location": "Loca\u0163ie",
+    "LockView": "Lock View",
     "Locus": "Loc geometric",
     "Locus_Help": "Selecta\u0163i un punct din locul geometric apoi un punct de pe obiect sau de pe cursor",
     "Log": "Log",

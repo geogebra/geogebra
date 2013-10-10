@@ -1485,6 +1485,7 @@ __GGB__keysVar.sv.menu = {
     "Load": "\xd6ppna",
     "Local": "Locala",
     "Location": "Plats",
+    "LockView": "Lock View",
     "Locus": "Geometrisk ort",
     "Locus_Help": "Geometrisk ortpunkt f\xf6rst, sedan punkt p\xe5 objektet",
     "Log": "Log",

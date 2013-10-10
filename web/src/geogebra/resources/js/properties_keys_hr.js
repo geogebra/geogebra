@@ -1485,6 +1485,7 @@ __GGB__keysVar.hr.menu = {
     "Load": "Otvori",
     "Local": "Lokalno",
     "Location": "Polo\u017eaj",
+    "LockView": "Lock View",
     "Locus": "Lokus",
     "Locus_Help": "Odaberite to\u010dku lokusa, zatim to\u010dku na objektu ili kliza\u010d",
     "Log": "Logaritamska",

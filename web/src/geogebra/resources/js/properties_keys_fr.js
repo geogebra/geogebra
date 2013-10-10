@@ -1485,6 +1485,7 @@ __GGB__keysVar.fr.menu = {
     "Load": "Ouvrir",
     "Local": "Locales",
     "Location": "Localisation",
+    "LockView": "Bloquer Vue",
     "Locus": "Lieu",
     "Locus_Help": "Point du lieu, point dont il d\xe9pend ou curseur[cr\xe9\xe9s]",
     "Log": "Log",

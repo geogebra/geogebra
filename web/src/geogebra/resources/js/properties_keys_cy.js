@@ -1485,6 +1485,7 @@ __GGB__keysVar.cy.menu = {
     "Load": "Agor",
     "Local": "Local",
     "Location": "Lleoliad",
+    "LockView": "Lock View",
     "Locus": "Locws",
     "Locus_Help": "Dewis y pwynt locws ac yna dewis y gwrthrych/llithrydd",
     "Log": "Log",

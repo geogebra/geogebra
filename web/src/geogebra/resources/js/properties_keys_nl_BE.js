@@ -1485,6 +1485,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Load": "Openen",
     "Local": "Local",
     "Location": "Locatie",
+    "LockView": "Lock View",
     "Locus": "Meetkundige plaats",
     "Locus_Help": "Eindpunt eerst, dan punt op rechte",
     "Log": "Log",

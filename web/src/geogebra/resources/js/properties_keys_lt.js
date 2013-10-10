@@ -1485,6 +1485,7 @@ __GGB__keysVar.lt.menu = {
     "Load": "Atidaryti",
     "Local": "Lokalus",
     "Location": "Vieta",
+    "LockView": "Lock View",
     "Locus": "Hodografas",
     "Locus_Help": "Pasirinkite hodografo ta\u0161k\u0105, tuomet objekto ta\u0161k\u0105",
     "Log": "Log",
