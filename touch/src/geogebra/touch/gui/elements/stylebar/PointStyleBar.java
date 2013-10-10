@@ -17,16 +17,21 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 class PointStyleBar extends FlowPanel {
 	private static final int SLIDER_MIN = 1;
-	private static final int SLIDER_MAX = 12;
+	private static final int SLIDER_MAX = 9;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 	static FastButton[] pointStyle = {
-			new StandardButton(LafIcons.line_solid()),
-			new StandardButton(LafIcons.line_dashed_long()),
-			new StandardButton(LafIcons.line_dashed_short()),
-			new StandardButton(LafIcons.line_dotted()),
-			new StandardButton(LafIcons.line_dash_dot()) };
+			new StandardButton(LafIcons.point_full()),
+			new StandardButton(LafIcons.point_cross_diag()),
+			new StandardButton(LafIcons.point_empty()),
+			new StandardButton(LafIcons.point_cross()),
+			new StandardButton(LafIcons.point_diamond()),
+			new StandardButton(LafIcons.point_diamond_empty()),
+			new StandardButton(LafIcons.point_up()),
+			new StandardButton(LafIcons.point_down()),
+			new StandardButton(LafIcons.point_right()),
+			new StandardButton(LafIcons.point_left())};
 
 	FastButton activeButton;
 	private FlowPanel buttonPanel;
@@ -34,7 +39,7 @@ class PointStyleBar extends FlowPanel {
 	TouchModel touchModel;
 
 	PointStyleBar(final TouchModel model) {
-		this.addStyleName("pointStyleBar");
+		this.addStyleName("lineStyleBar");
 
 		this.touchModel = model;
 
