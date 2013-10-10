@@ -14,6 +14,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -2332,7 +2333,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					(app).getSpreadsheetTableModel(); //ensure create one if not already done
 			}
 		} else if (isMacroFile && success) {
-			setToolBarDefinition(ToolbarD.getAllTools(app));
+			refreshCustomToolsInToolBar();
 			(app).updateToolBar();
 			(app).updateContentPane();
 		}
@@ -2340,6 +2341,42 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// force JavaScript ggbOnInit(); to be called
 		if (!app.isApplet())
 			app.getScriptManager().ggbOnInit();
+	}
+	
+	public void refreshCustomToolsInToolBar() {
+		int macroCount = kernel.getMacroNumber();
+
+		// add the ones that have (showInToolbar == true) into the toolbar if they are not already there.
+		StringBuilder customToolBar = new StringBuilder("");
+		for (int i = 0; i < macroCount; i++) {
+			Macro macro = kernel.getMacro(i);
+			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET+ i;
+			if (macro.isShowInToolBar() && !(getToolbarDefinition().contains(String.valueOf(macroMode))) ) {
+				customToolBar.append(" " + macroMode);
+			}
+		}
+		
+		String toolbarDef = getToolbarDefinition().trim();
+		String last="";
+		try{
+			// get the last tool mode number in the toolbar def string
+			String[] tools = toolbarDef.split(" ");
+			last = tools[tools.length-1];
+			int lastToolId = Integer.parseInt( last );
+		
+			if( lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET ){
+				setToolBarDefinition(toolbarDef + customToolBar.toString() );
+			} else {
+				setToolBarDefinition(toolbarDef + " ||" + customToolBar.toString()); 
+			}
+		} catch (NumberFormatException e){
+			// could not identify the last tool so just add the custom tools onto the end
+			if( last.contains("|")){
+				setToolBarDefinition(toolbarDef + customToolBar.toString());
+			}else{
+				setToolBarDefinition(toolbarDef + " ||" + customToolBar.toString());
+			}
+		}
 	}
 
 	protected boolean initActions() {
@@ -2476,20 +2513,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			strCustomToolbarDefinition = strCustomToolbarDefinition.replaceAll(
 					Integer.toString(mode), "");
-
-			if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-				// if a macro mode is removed all higher macros get a new id
-				// (i.e. id-1)
-				int lastID = kernel.getMacroNumber()
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET - 1;
-				for (int id = mode + 1; id <= lastID; id++) {
-					strCustomToolbarDefinition = strCustomToolbarDefinition
-							.replaceAll(Integer.toString(id),
-									Integer.toString(id - 1));
-				}
-			}
-
-			// Application.debug("after: " + strCustomToolbarDefinition);
 		}
 	}
 

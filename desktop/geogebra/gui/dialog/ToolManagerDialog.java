@@ -130,6 +130,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 						kernel.getMacroID(macro)
 								+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 				kernel.removeMacro(macro);
+				app.getGuiManager().refreshCustomToolsInToolBar();
 				listModel.removeElement(macro);
 				didDeletion = true;
 			} else {

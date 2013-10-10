@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Macro;
 import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.toolbar.ToolbarD;
 import geogebra.main.AppD;
 
 import java.awt.GridBagConstraints;
@@ -168,12 +168,15 @@ public class ToolNameIconPanel extends JPanel {
 				btIconFile.setEnabled(active);
 				updateMacro();
 				
-				// perhaps the method below is not the fastest
 				if (editHappens) {
-					((GuiManagerD)app.getGuiManager()).setToolBarDefinition(ToolbarD.getAllTools(app));
+					int macroId = (macro.getKernel().getMacroID(macro) + EuclidianConstants.MACRO_MODE_ID_OFFSET);
+					if( active ){
+						((GuiManagerD)app.getGuiManager()).refreshCustomToolsInToolBar();
+					} else {
+						((GuiManagerD)app.getGuiManager()).removeFromToolbarDefinition(macroId);
+					}
 					app.updateToolBar();
 					app.updateMenubar();
-					// app.updateContentPane();// this may not be needed
 				}
 			}				
 		};
