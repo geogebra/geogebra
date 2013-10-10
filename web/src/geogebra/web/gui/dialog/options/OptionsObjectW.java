@@ -18,6 +18,8 @@ import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListe
 import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
+import geogebra.common.gui.dialog.options.model.RightAngleModel;
+import geogebra.common.gui.dialog.options.model.RightAngleModel.IRightAngleListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -77,6 +79,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private AuxPanel auxPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private ReflexAnglePanel reflexAnglePanel;
+	private RightAnglePanel rightAnglePanel;
 	private List<OptionPanel> basicPanels;
 	//Color picker
 	private ColorPanel colorPanel;
@@ -946,6 +949,35 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 
 	}
+	
+	class RightAnglePanel extends OptionPanel implements IRightAngleListener {
+		private final CheckBox emphasizeRightAngleCB;
+		private RightAngleModel model;
+		public RightAnglePanel() {
+			emphasizeRightAngleCB = new CheckBox();
+			setWidget(emphasizeRightAngleCB);
+
+			model = new RightAngleModel(this);
+			setModel(model);
+
+			emphasizeRightAngleCB.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					model.applyChanges(emphasizeRightAngleCB.getValue());
+				}
+			});
+
+		}
+
+		public void updateCheckbox(boolean value) {
+			emphasizeRightAngleCB.setValue(value);
+		}
+
+		@Override
+		public void setLabels() {
+			emphasizeRightAngleCB.setText(app.getPlain("EmphasizeRightAngle"));
+		}
+	}
+
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1029,6 +1061,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			basicTab.add(reflexAnglePanel.getWidget());
 		}
 
+		rightAnglePanel = new RightAnglePanel();
+		basicTab.add(rightAnglePanel.getWidget());
+
 		//		basicTabList.add(comboBoxPanel);
 		//		basicTabList.add(rightAnglePanel);
 		//		basicTabList.add(allowOutlyingIntersectionsPanel);
@@ -1044,7 +1079,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				fixPanel,
 				auxPanel,
 				bgImagePanel,
-				reflexAnglePanel);
+				reflexAnglePanel,
+				rightAnglePanel);
 	};
 
 	private void addColorTab() {
