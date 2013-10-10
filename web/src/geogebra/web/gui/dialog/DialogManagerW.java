@@ -321,7 +321,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	    
     }
 
-	@Override
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof GoogleLoginEvent) {
 	    	if (((GoogleLoginEvent) event).isSuccessFull()) {

@@ -124,7 +124,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		}
 	}
 
-	@Override
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof LoginEvent) {
 	    	if (((LoginEvent) event).isSuccessful()) {
