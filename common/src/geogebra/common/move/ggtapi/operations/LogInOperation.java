@@ -113,7 +113,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * and the expiration time.
 	 */
 	public String getLoginURL(String languageCode) {
-		return "http://www.geogebratube.org/user/login" 
+		return "http://test.geogebratube.org/user/login" 
 				+ "/caller/"+getURLLoginCaller()
 				+"/expiration/"+getURLTokenExpirationMinutes()
 				+"/clientinfo/"+getURLClientInfo()

@@ -16,7 +16,7 @@ public abstract class GeoGebraTubeAPI {
 	/**
 	 * Secure test url
 	 */
-	public static String test_url = "http://test.geogebratube.org:8080/api/json.php";
+	public static String test_url = "http://test.geogebratube.org/api/json.php";
 
 	/**
 	 * Public url (no SSL)

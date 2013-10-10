@@ -21,6 +21,7 @@ import javax.swing.JDialog;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -94,6 +95,10 @@ public abstract class WebViewDialog extends JDialog {
 	        new ChangeListener<State>() {
 	            public void changed(ObservableValue<? extends State> ov, State oldState, State newState) {
 	                if (newState == State.SUCCEEDED) {
+	            		Document doc = getWebEngine().getDocument();
+	            		if (doc != null) {
+	            			App.debug("Load page finished: " + doc.getBaseURI());
+	            		}
 	                	onPageLoaded();
 	                }
 	            }
@@ -171,15 +176,20 @@ public abstract class WebViewDialog extends JDialog {
         
 
         Document doc = getWebEngine().getDocument();
-        NodeList nodeList = doc.getElementsByTagName("a");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            ((EventTarget) nodeList.item(i)).addEventListener(EVENT_TYPE_CLICK, listener, false);
-        }
-        nodeList = doc.getElementsByTagName("input");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-        	if (nodeList.item(i).getAttributes().getNamedItem("href") != null) {
-        		((EventTarget) nodeList.item(i)).addEventListener(EVENT_TYPE_CLICK, listener, false);
-        	}
+        if (doc != null) {
+	        NodeList nodeList = doc.getElementsByTagName("a");
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	    		Node node = nodeList.item(i);
+	    		if (node instanceof EventTarget) {
+	    			((EventTarget) node).addEventListener(EVENT_TYPE_CLICK, listener, false);
+	    		}
+	        }
+	        nodeList = doc.getElementsByTagName("input");
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	        	if (nodeList.item(i).getAttributes().getNamedItem("href") != null) {
+	        		((EventTarget) nodeList.item(i)).addEventListener(EVENT_TYPE_CLICK, listener, false);
+	        	}
+	        }
         }
 	}
 	
