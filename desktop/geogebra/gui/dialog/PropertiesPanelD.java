@@ -44,13 +44,14 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
+import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel.ITrimmedIntersectionLinesListener;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -1018,10 +1019,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel with show/hide trimmed intersection lines
 	 */
 	private class ShowTrimmedIntersectionLines extends JPanel implements
-			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel,
+			ITrimmedIntersectionLinesListener {
 
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private TrimmedIntersectionLinesModel model;
 		private JCheckBox showTrimmedLinesCB;
 
 		public ShowTrimmedIntersectionLines() {
@@ -1029,6 +1031,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// check box for show object
 			showTrimmedLinesCB = new JCheckBox();
+			model = new TrimmedIntersectionLinesModel(this);
 			showTrimmedLinesCB.addItemListener(this);
 			add(showTrimmedLinesCB);
 		}
@@ -1038,53 +1041,22 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			showTrimmedLinesCB.removeItemListener(this);
 
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalObjectVal = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object visible value
-				if (geo0.getShowTrimmedIntersectionLines() != temp
-						.getShowTrimmedIntersectionLines()) {
-					equalObjectVal = false;
-					break;
-				}
-
-			}
-
+			model.updateProperties();
 			// set object visible checkbox
-			if (equalObjectVal)
-				showTrimmedLinesCB.setSelected(geo0
-						.getShowTrimmedIntersectionLines());
-			else
-				showTrimmedLinesCB.setSelected(false);
-
+	
 			showTrimmedLinesCB.setEnabled(true);
 
 			showTrimmedLinesCB.addItemListener(this);
 			return this;
 		}
 
-		// show everything but numbers (note: drawable angles are shown)
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo.getParentAlgorithm() instanceof AlgoIntersectAbstract)) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
+	
 		/**
 		 * listens to checkboxes and sets object and label visible state
 		 */
@@ -1094,22 +1066,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// show object value changed
 			if (source == showTrimmedLinesCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setShowTrimmedIntersectionLines(showTrimmedLinesCB
-							.isSelected());
-					geo.getParentAlgorithm().getInput()[0]
-							.setEuclidianVisible(!showTrimmedLinesCB
-									.isSelected());
-					geo.getParentAlgorithm().getInput()[1]
-							.setEuclidianVisible(!showTrimmedLinesCB
-									.isSelected());
-					geo.getParentAlgorithm().getInput()[0].updateRepaint();
-					geo.getParentAlgorithm().getInput()[1].updateRepaint();
-					geo.updateRepaint();
-				}
+				model.applyChanges(showTrimmedLinesCB.isSelected());
 			}
-			updateSelection(geos);
+			updateSelection(model.getGeos());
 		}
 
 		public void updateFonts() {
@@ -1120,6 +1079,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
+
+		}
+
+		public void updateCheckbox(boolean value) {
+			if (value)
+				showTrimmedLinesCB.setSelected(model.getGeoAt(0)
+						.getShowTrimmedIntersectionLines());
+			else
+				showTrimmedLinesCB.setSelected(false);
 
 		}
 
