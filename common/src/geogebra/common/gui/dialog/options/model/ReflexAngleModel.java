@@ -3,6 +3,7 @@ package geogebra.common.gui.dialog.options.model;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
@@ -13,8 +14,6 @@ public class ReflexAngleModel extends OptionsModel {
 		void addComboItem(final String item);
 
 		void setSelectedIndex(int xmlVal);
-
-		void updateRepaint(AngleProperties geo);
 		
 	}
 	
@@ -89,7 +88,7 @@ public class ReflexAngleModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			AngleProperties geo = (AngleProperties) getGeoAt(0);
 			geo.setAngleStyle(index);
-			listener.updateRepaint(geo);
+			((GeoElementND) geo).updateRepaint();
 		}
 	}
 	@Override
@@ -103,4 +102,7 @@ public class ReflexAngleModel extends OptionsModel {
 		return true;
 	}
 
+	public boolean hasOrientation() {
+		return hasOrientation;
+	}
 }

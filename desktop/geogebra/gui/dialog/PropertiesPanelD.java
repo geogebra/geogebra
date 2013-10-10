@@ -79,7 +79,6 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -2699,14 +2698,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-
 		private JLabel intervalLabel;
 		private JComboBox intervalCombo;
 		private ReflexAngleModel model;
-		private boolean hasOrientation = true;
-		private boolean isDrawable = true;
-
+		
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 			model = new ReflexAngleModel(this, app, isDefaults);
@@ -2755,7 +2750,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		private int getIndex() {
-			if (hasOrientation) {
+			if (model.hasOrientation()) {
 				return intervalCombo.getSelectedIndex();
 			}
 			
@@ -2764,7 +2759,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setSelectedIndex(int index) {
-			if (hasOrientation) {
+			if (model.hasOrientation()) {
 				
 				if (index >= intervalCombo.getItemCount()) {
 					intervalCombo.setSelectedIndex(0);					
@@ -2789,10 +2784,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
-
-		public void updateRepaint(AngleProperties geo) {
-			((GeoElementND) geo).updateRepaint();
-		}
 
 		public void addComboItem(String item) {
 			intervalCombo.addItem(item);

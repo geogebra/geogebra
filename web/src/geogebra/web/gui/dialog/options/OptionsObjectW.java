@@ -11,9 +11,13 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
+import geogebra.common.gui.dialog.options.model.ListAsComboModel;
+import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OptionsModel;
+import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
+import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -26,6 +30,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
@@ -36,6 +41,9 @@ import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
+
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -68,15 +76,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private FixPanel fixPanel;
 	private AuxPanel auxPanel;
 	private BackgroundImagePanel bgImagePanel;
-	
+	private ReflexAnglePanel reflexAnglePanel;
+	private List<OptionPanel> basicPanels;
 	//Color picker
 	private ColorPanel colorPanel;
-	
+
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
-	
-	class OptionPanel {
+
+	abstract class OptionPanel {
 		private OptionsModel model;
 		private Widget widget;
 
@@ -91,8 +100,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			if (widget != null) {
 				widget.setVisible(true);
 			}
-			
+
 			getModel().updateProperties();
+			setLabels();
 		}
 
 		public Widget getWidget() {
@@ -111,12 +121,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			this.model = model;
 		}
 
+		public abstract void setLabels();
 	}
 	class ShowObjectPanel extends OptionPanel implements IShowObjectListener {
 		private final CheckBox showObjectCB;
 		private ShowObjectModel model;
 		public ShowObjectPanel() {
-			showObjectCB = new CheckBox(app.getPlain("ShowObject")); 
+			showObjectCB = new CheckBox(); 
 			setWidget(showObjectCB);
 
 			model = new ShowObjectModel(this);
@@ -141,13 +152,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 			showObjectCB.setEnabled(!showObjectCondition);
 		}
+
+		@Override
+		public void setLabels() {
+			showObjectCB.setText(app.getPlain("ShowObject"));
+		}
 	}
 
 	class TracePanel  extends OptionPanel implements ITraceListener {
 		private final CheckBox showTraceCB;
 		private TraceModel model;
 		public TracePanel() {
-			showTraceCB = new CheckBox(app.getPlain("ShowTrace")); 
+			showTraceCB = new CheckBox(); 
 			setWidget(showTraceCB);
 
 			model = new TraceModel(this);
@@ -171,6 +187,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			}
 		}
 
+		@Override
+		public void setLabels() {
+			showTraceCB.setText(app.getPlain("ShowTrace")); 
+
+		}
+
 	}		
 
 	class LabelPanel extends OptionPanel implements IShowLabelListener {
@@ -191,10 +213,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 			labelMode = new ListBox(false);
 
-			labelMode.addItem(app.getPlain("Name")); // index 0
-			labelMode.addItem(app.getPlain("NameAndValue")); // index 1
-			labelMode.addItem(app.getPlain("Value")); // index 2
-			labelMode.addItem(app.getPlain("Caption")); // index 3 Michael
 			// Borcherd
 
 			labelMode.setEnabled(showLabelCB.getValue());
@@ -253,13 +271,25 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			labelMode.setVisible(model.isNameValueShown());
 
 		}
+
+		@Override
+		public void setLabels() {
+			updateShowLabel();
+			int selectedIndex = labelMode.getSelectedIndex();
+			labelMode.clear();
+			labelMode.addItem(app.getPlain("Name")); // index 0
+			labelMode.addItem(app.getPlain("NameAndValue")); // index 1
+			labelMode.addItem(app.getPlain("Value")); // index 2
+			labelMode.addItem(app.getPlain("Caption")); // index 3 Michael
+			labelMode.setSelectedIndex(selectedIndex);        
+		}
 	}
 
 	class FixPanel extends OptionPanel implements IFixObjectListener {
 		private final CheckBox showFixCB;
 		private FixObjectModel model;
 		public FixPanel() {
-			showFixCB = new CheckBox(app.getPlain("FixObject"));
+			showFixCB = new CheckBox();
 			setWidget(showFixCB);
 
 			model = new FixObjectModel(this);
@@ -284,13 +314,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		}
 
+		@Override
+		public void setLabels() {
+			showFixCB.setText(app.getPlain("FixObject"));
+		}
+
 	}		
 
 	class AuxPanel extends OptionPanel implements IAuxObjectListener {
 		private final CheckBox auxCB;
 		private AuxObjectModel model;
 		public AuxPanel() {
-			auxCB = new CheckBox(app.getPlain("AuxiliaryObject"));
+			auxCB = new CheckBox();
 			setWidget(auxCB);
 
 			model = new AuxObjectModel(this);
@@ -313,6 +348,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				auxCB.setValue(false);
 			}
 
+		}
+
+		@Override
+		public void setLabels() {
+			auxCB.setText(app.getPlain("AuxiliaryObject"));
 		}
 
 	}		
@@ -385,6 +425,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			//propPanel.updateSelection(geos);
 		}
 
+
+
+		@Override
+		public void setLabels() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	class ColorPanel extends OptionPanel implements IColorObjectListener {
@@ -393,11 +441,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private ColorPopupMenuButton colorChooser;
 		private GColor selectedColor;
 		private SelectionTable colorTable;
-		
+
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
 			setModel(model);
-			
+
 			final GDimensionW colorIconSize = new GDimensionW(20, 20);
 			colorChooser = new ColorPopupMenuButton((AppW) app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
@@ -411,13 +459,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					setSelectedIndex(index);
 					setDefaultColor(geo0.getAlphaValue(), geo0.getObjectColor());
 				};
-				
+
 				@Override
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();
 					applyChanges();
 				}
-				
+
 				@Override
 				public void setSliderValue(int value) {
 					super.setSliderValue(value);
@@ -429,7 +477,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					model.applyChanges(color, alpha, true);
 				}
 			};
-			
+
 			colorChooser.setKeepVisible(false);
 			mainPanel = new VerticalPanel();
 			FlowPanel colorPanel = new FlowPanel();
@@ -438,21 +486,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			colorPanel.add(colorChooser);
 			mainPanel.add(colorPanel);
 			setWidget(mainPanel);
-			
+
 		}
-		
-		
+
+
 		public void applyChanges() {
 			float alpha = colorChooser.getSliderValue() / 100.0f;
 			GColor color = colorChooser.getSelectedColor();
 			model.applyChanges(color, alpha, false);
-		
+
 		}
-		
+
 		public void updateChooser(boolean equalObjColor,
-                boolean equalObjColorBackground, boolean allFillable,
-                boolean hasBackground) {
-	        // TODO Auto-generated method stub
+				boolean equalObjColorBackground, boolean allFillable,
+				boolean hasBackground) {
+			// TODO Auto-generated method stub
 			selectedColor = null;
 			GColor selectedBGColor = null;
 			float alpha = 1;
@@ -477,21 +525,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			}
 			colorChooser.update(model.getGeos());
 		}
-		
+
 
 		public void updatePreview(GColor col, float alpha) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		public boolean isBackgroundColorSelected() {
-	        // TODO Auto-generated method stub
-	        return false;
-        }
+			// TODO Auto-generated method stub
+			return false;
+		}
 
 
 		public void updateNoBackground(GeoElement geo, GColor col, float alpha,
-                boolean updateAlphaOnly, boolean allFillable) {
+				boolean updateAlphaOnly, boolean allFillable) {
 			if (!updateAlphaOnly){
 				geo.setObjColor(col);
 			}
@@ -500,280 +548,404 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			}
 
 		}
-		
+
+
+		@Override
+		public void setLabels() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 
-class NamePanel extends OptionPanel implements IObjectNameListener {
+	class NamePanel extends OptionPanel implements IObjectNameListener {
 
-	private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;
 
-	private ObjectNameModel model;
-	private AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
+		private ObjectNameModel model;
+		private AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
-//	private Runnable doActionStopped = new Runnable() {
-//		public void run() {
-//			actionPerforming = false;
-//		}
-//	};
-	private Label nameLabel, defLabel, captionLabel;
-	private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
+		//	private Runnable doActionStopped = new Runnable() {
+		//		public void run() {
+		//			actionPerforming = false;
+		//		}
+		//	};
+		private Label nameLabel, defLabel, captionLabel;
+		private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
 
-	private AppW app;
-	private Localization loc;
-	private VerticalPanel mainWidget;
-	private FlowPanel namePanel;
-	private FlowPanel defPanel;
-	private FlowPanel captionPanel;
-	
-	public NamePanel(AppW app) {
-		this.app = app;
-		this.loc = app.getLocalization();
-		model = new ObjectNameModel(app, this);
-		setModel(model);
-		// NAME PANEL
-	
-		// non auto complete input panel
-		inputPanelName = new InputPanelW(null, app, 1, -1, true);
-		tfName = (AutoCompleteTextFieldW) inputPanelName.getTextComponent();
-		tfName.setAutoComplete(false);
-		tfName.addFocusListener(new FocusListener(this){
-			@Override
-			protected void wrapFocusLost(){
-				model.applyNameChange(tfName.getText());
-			}	
-		});
-		tfName.addKeyHandler(new KeyHandler() {
+		private AppW app;
+		private Localization loc;
+		private VerticalPanel mainWidget;
+		private FlowPanel namePanel;
+		private FlowPanel defPanel;
+		private FlowPanel captionPanel;
 
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
+		public NamePanel(AppW app) {
+			this.app = app;
+			this.loc = app.getLocalization();
+			model = new ObjectNameModel(app, this);
+			setModel(model);
+			// NAME PANEL
+
+			// non auto complete input panel
+			inputPanelName = new InputPanelW(null, app, 1, -1, true);
+			tfName = (AutoCompleteTextFieldW) inputPanelName.getTextComponent();
+			tfName.setAutoComplete(false);
+			tfName.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
 					model.applyNameChange(tfName.getText());
-				}
-            }});
-		
-		// definition field: non auto complete input panel
-		inputPanelDef = new InputPanelW(null, app, 1, -1, true);
-		tfDefinition = (AutoCompleteTextFieldW) inputPanelDef
-				.getTextComponent();
-		tfDefinition.setAutoComplete(false);
-		tfDefinition.addFocusListener(new FocusListener(this){
-			@Override
-			public void wrapFocusGained() {
-				//started to type something : store current geo if focus lost
-				currentGeoForFocusLost = model.getCurrentGeo();
-			}
-			
-			@Override
-			protected void wrapFocusLost(){
-				model.redefineCurrentGeo(currentGeoForFocusLost,  tfDefinition.getText(), 
-						redefinitionForFocusLost); 
-			}
-		});
-		
-		tfDefinition.addKeyHandler(new KeyHandler() {
+				}	
+			});
+			tfName.addKeyHandler(new KeyHandler() {
 
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					model.applyDefinitionChange(tfDefinition.getText());
-				}
-	            
-            }});
-	
-		// caption field: non auto complete input panel
-		inputPanelCap = new InputPanelW(null, app, 1, -1, true);
-		tfCaption = (AutoCompleteTextFieldW) inputPanelCap.getTextComponent();
-		tfCaption.setAutoComplete(false);
-		
-		tfCaption.addFocusListener(new FocusListener(this){
-			@Override
-			protected void wrapFocusLost(){
-				model.applyCaptionChange(tfCaption.getText());
-			}	
-		});
-		tfCaption.addKeyHandler(new KeyHandler() {
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						model.applyNameChange(tfName.getText());
+					}
+				}});
 
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
+			// definition field: non auto complete input panel
+			inputPanelDef = new InputPanelW(null, app, 1, -1, true);
+			tfDefinition = (AutoCompleteTextFieldW) inputPanelDef
+					.getTextComponent();
+			tfDefinition.setAutoComplete(false);
+			tfDefinition.addFocusListener(new FocusListener(this){
+				@Override
+				public void wrapFocusGained() {
+					//started to type something : store current geo if focus lost
+					currentGeoForFocusLost = model.getCurrentGeo();
+				}
+
+				@Override
+				protected void wrapFocusLost(){
+					model.redefineCurrentGeo(currentGeoForFocusLost,  tfDefinition.getText(), 
+							redefinitionForFocusLost); 
+				}
+			});
+
+			tfDefinition.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						model.applyDefinitionChange(tfDefinition.getText());
+					}
+
+				}});
+
+			// caption field: non auto complete input panel
+			inputPanelCap = new InputPanelW(null, app, 1, -1, true);
+			tfCaption = (AutoCompleteTextFieldW) inputPanelCap.getTextComponent();
+			tfCaption.setAutoComplete(false);
+
+			tfCaption.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
 					model.applyCaptionChange(tfCaption.getText());
+				}	
+			});
+			tfCaption.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						model.applyCaptionChange(tfCaption.getText());
+					}
+				}});
+
+			mainWidget = new VerticalPanel();
+
+			// name panel
+			namePanel = new FlowPanel();
+			nameLabel = new Label();
+			namePanel.add(nameLabel);
+			namePanel.add(inputPanelName);
+			mainWidget.add(namePanel);
+
+			// definition panel
+			defPanel = new FlowPanel();
+			defLabel = new Label();
+			defPanel.add(defLabel);
+			defPanel.add(inputPanelDef);
+			mainWidget.add(defPanel);
+
+			// caption panel
+			captionPanel = new FlowPanel();
+			captionLabel = new Label();
+			captionPanel.add(captionLabel);
+			captionPanel.add(inputPanelCap);
+			mainWidget.add(captionPanel);
+
+			setLabels();
+			setWidget(mainWidget);
+			updateGUI(true, true);
+		}
+
+		public void setLabels() {
+			nameLabel.setText(loc.getPlain("Name") + ":");
+			defLabel.setText(loc.getPlain("Definition") + ":");
+			captionLabel.setText(loc.getMenu("Button.Caption") + ":");
+		}
+
+		public void updateGUI(boolean showDefinition, boolean showCaption) {
+			int rows = 1;
+			mainWidget.clear();
+
+			if (loc.isRightToLeftReadingOrder()) {
+				mainWidget.add(inputPanelName);
+				mainWidget.add(nameLabel);
+			} else {
+				mainWidget.add(nameLabel);
+				mainWidget.add(inputPanelName);
+			}
+
+			if (showDefinition) {
+				rows++;
+				if (loc.isRightToLeftReadingOrder()) {
+					mainWidget.add(inputPanelDef);
+					mainWidget.add(defLabel);
+				} else {
+					mainWidget.add(defLabel);
+					mainWidget.add(inputPanelDef);
 				}
-            }});
-	
-		mainWidget = new VerticalPanel();
-		
-		// name panel
-		namePanel = new FlowPanel();
-		nameLabel = new Label();
-		namePanel.add(nameLabel);
-		namePanel.add(inputPanelName);
-		mainWidget.add(namePanel);
-		
-		// definition panel
-		defPanel = new FlowPanel();
-		defLabel = new Label();
-		defPanel.add(defLabel);
-		defPanel.add(inputPanelDef);
-		mainWidget.add(defPanel);
+			}
 
-		// caption panel
-		captionPanel = new FlowPanel();
-		captionLabel = new Label();
-		captionPanel.add(captionLabel);
-		captionPanel.add(inputPanelCap);
-		mainWidget.add(captionPanel);
+			if (showCaption) {
+				rows++;
+				if (loc.isRightToLeftReadingOrder()) {
+					mainWidget.add(inputPanelCap);
+					mainWidget.add(captionLabel);
+				} else {
+					mainWidget.add(captionLabel);
+					mainWidget.add(inputPanelCap);
+				}
+			}
 
-		setLabels();
-		setWidget(mainWidget);
-		updateGUI(true, true);
-	}
+			//app.setComponentOrientation(this);
 
-	public void setLabels() {
-		nameLabel.setText(loc.getPlain("Name") + ":");
-		defLabel.setText(loc.getPlain("Definition") + ":");
-		captionLabel.setText(loc.getMenu("Button.Caption") + ":");
-	}
+			this.rows = rows;
 
-	public void updateGUI(boolean showDefinition, boolean showCaption) {
-		int rows = 1;
-		mainWidget.clear();
-
-		if (loc.isRightToLeftReadingOrder()) {
-			mainWidget.add(inputPanelName);
-			mainWidget.add(nameLabel);
-		} else {
-			mainWidget.add(nameLabel);
-			mainWidget.add(inputPanelName);
 		}
 
-		if (showDefinition) {
-			rows++;
-			if (loc.isRightToLeftReadingOrder()) {
-				mainWidget.add(inputPanelDef);
-				mainWidget.add(defLabel);
+		private int rows;
+
+		/**
+		 * current geo on which focus lost shouls apply
+		 * (may be different to current geo, due to threads)
+		 */
+		private GeoElement currentGeoForFocusLost = null;
+
+		private String redefinitionForFocusLost = "";
+
+		public void updateDef(GeoElement geo) {
+
+			// do nothing if called by doActionPerformed
+			//		if (actionPerforming)
+			//			return;
+
+			model.getDefInputHandler().setGeoElement(geo);
+			tfDefinition.setText(model.getDefText(geo));
+
+			// App.printStacktrace(""+geo);
+		}
+
+		public void updateName(GeoElement geo) {
+
+			//		// do nothing if called by doActionPerformed
+			//		if (actionPerforming)
+			//			return;
+			//
+			model.getNameInputHandler().setGeoElement(geo);
+			tfName.setText(geo.getLabel(StringTemplate.editTemplate));
+
+			// App.printStacktrace(""+geo);
+		}
+
+		public void setNameText(final String text) {
+			tfName.setText(text);
+			tfName.requestFocus();
+		}
+
+		public void setDefinitionText(final String text) {
+			tfDefinition.setText(text);
+		}
+
+		public void setCaptionText(final String text) {
+			tfCaption.setText(text);
+			tfCaption.requestFocus();
+		}
+		public void updateCaption() {
+			tfCaption.setText(model.getCurrentGeo().getRawCaption());
+
+		}
+
+		public void updateDefLabel() {
+			updateDef(model.getCurrentGeo());
+
+			if (model.getCurrentGeo().isIndependent()) {
+				defLabel.setText(app.getPlain("Value") + ":");
 			} else {
-				mainWidget.add(defLabel);
-				mainWidget.add(inputPanelDef);
+				defLabel.setText(app.getPlain("Definition") + ":");
 			}
 		}
 
-		if (showCaption) {
-			rows++;
-			if (loc.isRightToLeftReadingOrder()) {
-				mainWidget.add(inputPanelCap);
-				mainWidget.add(captionLabel);
-			} else {
-				mainWidget.add(captionLabel);
-				mainWidget.add(inputPanelCap);
-			}
-		}
+		public void updateName(String text) {
+			tfName.setText(text);
 
-		//app.setComponentOrientation(this);
+			// if a focus lost is called in between, we keep the current definition text
+			redefinitionForFocusLost = tfDefinition.getText();
 
-		this.rows = rows;
 
-	}
-
-	private int rows;
-	
-	/**
-	 * current geo on which focus lost shouls apply
-	 * (may be different to current geo, due to threads)
-	 */
-	private GeoElement currentGeoForFocusLost = null;
-
-	private String redefinitionForFocusLost = "";
-	
-	public void updateDef(GeoElement geo) {
-
-		// do nothing if called by doActionPerformed
-//		if (actionPerforming)
-//			return;
-		
-		model.getDefInputHandler().setGeoElement(geo);
-		tfDefinition.setText(model.getDefText(geo));
-
-		// App.printStacktrace(""+geo);
-	}
-
-	public void updateName(GeoElement geo) {
-
-//		// do nothing if called by doActionPerformed
-//		if (actionPerforming)
-//			return;
-//
-		model.getNameInputHandler().setGeoElement(geo);
-		tfName.setText(geo.getLabel(StringTemplate.editTemplate));
-
-		// App.printStacktrace(""+geo);
-	}
-
-	public void setNameText(final String text) {
-		tfName.setText(text);
-		tfName.requestFocus();
-	}
-
-	public void setDefinitionText(final String text) {
-		tfDefinition.setText(text);
-	}
-	
-	public void setCaptionText(final String text) {
-		tfCaption.setText(text);
-		tfCaption.requestFocus();
-	}
-	public void updateCaption() {
-		tfCaption.setText(model.getCurrentGeo().getRawCaption());
-		
-	}
-
-	public void updateDefLabel() {
-		updateDef(model.getCurrentGeo());
-
-		if (model.getCurrentGeo().isIndependent()) {
-			defLabel.setText(app.getPlain("Value") + ":");
-		} else {
-			defLabel.setText(app.getPlain("Definition") + ":");
 		}
 	}
-
-	public void updateName(String text) {
-		tfName.setText(text);
-
-		// if a focus lost is called in between, we keep the current definition text
-		redefinitionForFocusLost = tfDefinition.getText();
-
-		
-	}
-}
 
 	class BackgroundImagePanel extends OptionPanel implements IBackroundImageListener {
-	private final CheckBox bgImageCB;
-	private BackgroundImageModel model;
-	public BackgroundImagePanel() {
-		bgImageCB = new CheckBox(app.getPlain("BackgroundImage"));
-		setWidget(bgImageCB);
+		private final CheckBox bgImageCB;
+		private BackgroundImageModel model;
+		public BackgroundImagePanel() {
+			bgImageCB = new CheckBox(app.getPlain("BackgroundImage"));
+			setWidget(bgImageCB);
 
-		model = new BackgroundImageModel(this);
-		setModel(model);
+			model = new BackgroundImageModel(this);
+			setModel(model);
 
-		bgImageCB.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				model.applyChanges(bgImageCB.getValue());
+			bgImageCB.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					model.applyChanges(bgImageCB.getValue());
+				}
+			});
+
+		}
+
+		public void updateCheckbox(boolean equalIsBGimage) {
+
+			GeoImage geo0 = (GeoImage)model.getGeoAt(0);
+			if (equalIsBGimage)
+				bgImageCB.setValue(geo0.isInBackground());
+			else
+				bgImageCB.setValue(false);
+
+		}
+
+		@Override
+		public void setLabels() {
+			bgImageCB.setText(app.getPlain("BackgroundImage"));
+		}
+	}
+
+	class ListAsComboPanel extends OptionPanel implements IListAsComboListener {
+		private final CheckBox listAsComboCB;
+		private ListAsComboModel model;
+		public ListAsComboPanel() {
+			listAsComboCB = new CheckBox();
+			setWidget(listAsComboCB);
+
+			model = new ListAsComboModel(this);
+			setModel(model);
+
+			listAsComboCB.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					model.applyChanges(listAsComboCB.getValue());
+					app.refreshViews();
+
+					//				updateSelection(model.getGeos());
+				}
+			});
+
+		}
+
+		public void updateComboBox(boolean isEqual) {
+			if (isEqual) {
+				GeoList geo0 = (GeoList)model.getGeoAt(0);
+				listAsComboCB.setValue(geo0.drawAsComboBox());
 			}
-		});
+			else {
+				listAsComboCB.setValue(false);
+			}			
+		}
+
+		public void drawListAsComboBox(GeoList geo, boolean value) {
+			//	app.getActiveEuclidianView().drawListAsComboBox(geo, value);
+
+		}
+
+		@Override
+		public void setLabels() {
+			listAsComboCB.setText(app.getPlain("DrawAsDropDownList"));
+		}
 
 	}
 
-	public void updateCheckbox(boolean equalIsBGimage) {
+	class ReflexAnglePanel extends OptionPanel implements IReflexAngleListener {
+		private ReflexAngleModel model;
+		private FlowPanel mainWidget;
+		private Label intervalLabel;
+		private ListBox intervalLB;
 
-		GeoImage geo0 = (GeoImage)model.getGeoAt(0);
-		if (equalIsBGimage)
-			bgImageCB.setValue(geo0.isInBackground());
-		else
-			bgImageCB.setValue(false);
+		public ReflexAnglePanel() {
+			model = new ReflexAngleModel(this, app, isDefaults);
+			setModel(model);
+
+			mainWidget = new FlowPanel();
+
+			intervalLabel = new Label();
+			mainWidget.add(intervalLabel);
+
+			intervalLB = new ListBox();
+
+			intervalLB.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyChanges(getIndex());
+				}   
+			});
+
+			mainWidget.add(intervalLB);
+
+			setWidget(mainWidget);
+		}
+
+		public void setLabels() {
+			intervalLabel.setText(app.getPlain("AngleBetween"));
+
+			setComboLabels();
+		}
+		public void setComboLabels() {
+			int idx = intervalLB.getSelectedIndex();
+			intervalLB.clear();
+			model.fillCombo();
+			intervalLB.setSelectedIndex(idx);
+
+		}
+
+		private int getIndex() {
+			if (model.hasOrientation()) {
+				return intervalLB.getSelectedIndex();
+			}
+
+			// first interval disabled
+			return intervalLB.getSelectedIndex() + 1;
+		}
+		public void addComboItem(String item) {
+			intervalLB.addItem(item);
+		}
+
+		public void setSelectedIndex(int index) {
+			if (model.hasOrientation()) {
+
+				if (index >= intervalLB.getItemCount()) {
+					intervalLB.setSelectedIndex(0);					
+				} else {
+					intervalLB.setSelectedIndex(index);
+				}
+			} else {
+				// first interval disabled
+				intervalLB.setSelectedIndex(index - 1);
+			}	        
+		}
+
 
 	}
-}
-
-
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -787,23 +959,23 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("objectProperties");
 		tabPanel = new TabPanel();
-	
+
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
-        {			
+				{			
 			public void onSelection(SelectionEvent<Integer> event) {
 				updateGUI();
-	            
-            }
-        });
-        tabPanel.setStyleName("objectPropertiesTabPanel");
-		
+
+			}
+				});
+		tabPanel.setStyleName("objectPropertiesTabPanel");
+
 		addBasicTab();
 		addColorTab();
 		addStyleTab();
 		addAdvancedTab();
 		tabPanel.selectTab(0);
 		wrappedPanel.add(tabPanel);
-		
+
 		updateGUI();
 	}
 
@@ -826,12 +998,12 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		checkboxPanel.add(showObjectPanel.getWidget());
 
 
-		
+
 		labelPanel = new LabelPanel();
 		if (!isDefaults) {
-				checkboxPanel.add(labelPanel.getWidget());
+			checkboxPanel.add(labelPanel.getWidget());
 		}
-		
+
 		tracePanel = new TracePanel(); 
 		checkboxPanel.add(tracePanel.getWidget());
 		basicTab.add(checkboxPanel);
@@ -839,7 +1011,7 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		if (!isDefaults) {
 			//TODO: Add animating panel
 		}
-		
+
 		fixPanel = new FixPanel();
 		checkboxPanel.add(fixPanel.getWidget());
 
@@ -852,16 +1024,28 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 		}
 		basicTab.add(checkboxPanel);
 
-//		basicTabList.add(comboBoxPanel);
-//		//if (!isDefaults)
-//			basicTabList.add(allowReflexAnglePanel);
-//		basicTabList.add(rightAnglePanel);
-//		basicTabList.add(allowOutlyingIntersectionsPanel);
-//		basicTabList.add(showTrimmedIntersectionLines);
+		if (!isDefaults) {
+			reflexAnglePanel = new ReflexAnglePanel();
+			basicTab.add(reflexAnglePanel.getWidget());
+		}
+
+		//		basicTabList.add(comboBoxPanel);
+		//		basicTabList.add(rightAnglePanel);
+		//		basicTabList.add(allowOutlyingIntersectionsPanel);
+		//		basicTabList.add(showTrimmedIntersectionLines);
 
 		tabPanel.add(basicTab, "Basic");
-		
-	}
+
+
+		basicPanels = Arrays.asList(namePanel,
+				showObjectPanel,
+				tracePanel,
+				labelPanel,
+				fixPanel,
+				auxPanel,
+				bgImagePanel,
+				reflexAnglePanel);
+	};
 
 	private void addColorTab() {
 
@@ -895,20 +1079,17 @@ class NamePanel extends OptionPanel implements IObjectNameListener {
 	}
 
 	public void setMinimumSize(Dimension preferredSize) {
-	
+
 	}
 
 	public void updateGUI() {
 
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 		if (geos.length != 0) {
-			namePanel.update(geos);
-			showObjectPanel.update(geos);
-			tracePanel.update(geos);
-			labelPanel.update(geos);
-			fixPanel.update(geos);
-			auxPanel.update(geos);
-			bgImagePanel.update(geos);
+			for (OptionPanel panel: basicPanels) {
+				panel.update(geos);
+			}
+
 			showConditionPanel.update(geos);
 			colorPanel.update(geos);
 		}
