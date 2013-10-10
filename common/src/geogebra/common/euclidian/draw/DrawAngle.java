@@ -663,7 +663,10 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	final public void drawPreview(GGraphics2D g2) {
 		isVisible = geo != null && prevPoints.size() == 2;
-		draw(g2);
+		//shape may be null if the second point is placed and mouse did not yet move away from it
+		if(shape!=null){
+			draw(g2);
+		}
 	}
 
 	public void disposePreview() {
