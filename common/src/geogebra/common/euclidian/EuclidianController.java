@@ -6725,7 +6725,8 @@ public abstract class EuclidianController {
 			view.setHits(mouseLoc);
 			if (view.getHits().size()>0) App.debug(view.getHits().getTopHits().get(0).getClass().toString());
 			if ((view.getHits() == null)||(view.getHits().size()==0)||
-					!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){			
+					!(view.getHits().getTopHits().get(0) instanceof GeoTextField ||
+					view.getHits().getTopHits().get(0) instanceof GeoList)){
 				view.requestFocusInWindow();
 			}
 		}
@@ -8661,6 +8662,7 @@ public abstract class EuclidianController {
 	
 	private void runScriptsIfNeeded(GeoElement geo1) {
 		// make sure that Input Boxes lose focus (and so update) before running scripts 
+		if (view.getHits().get(0) instanceof GeoList) return;
 		view.requestFocusInWindow();
 		if (!scriptsHaveRun) { 
 			scriptsHaveRun = true; 
@@ -8995,7 +8997,8 @@ public abstract class EuclidianController {
 		movedGeoNumericDragged = false;
 	
 		if ((view.getHits() == null)||(view.getHits().size()==0)||
-				!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){
+				!(view.getHits().getTopHits().get(0) instanceof GeoTextField || 
+				view.getHits().getTopHits().get(0) instanceof GeoList)){
 			view.requestFocusInWindow();
 		}
 		
