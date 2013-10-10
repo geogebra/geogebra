@@ -48,7 +48,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		this.app = app;
 		this.fm = this.app.getFileManager();
 		this.fileHeader = new TabletHeaderFile(app, touchModel, this);
-		this.fileHeader.setStyleName("headerFile");
+		this.fileHeader.setStyleName("headerFirst");
 		this.infoOverrideDialog = new InfoDialog(this.app, InfoType.Override);
 		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel()
 				.receivesDoubledEvents();
@@ -66,7 +66,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		});
 
 		this.undoRedoHeader = new TabletHeaderUndoRedo(app, touchModel);
-		this.undoRedoHeader.setStyleName("headerUndoRedo");
+		this.undoRedoHeader.setStyleName("headerSecond");
 		this.worksheetTitle.setStyleName("worksheetTitle");
 
 		this.worksheetTitle.addKeyDownHandler(new KeyDownHandler() {

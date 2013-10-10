@@ -42,16 +42,16 @@ body .worksheetgui .headerbar img {
   	filter: alpha(opacity=80);
 }
 
-body .browsegui .headerLeft,
-body .worksheetgui .headerLeft {
+body .browsegui .headerFirst,
+body .worksheetgui .headerFirst {
 	margin-left: 0px;
 	padding-left: 10px;
 }
 
-body .browsegui .headerLeft td,
-body .browsegui .headerRight td,
-body .worksheetgui .headerLeft td,
-body .worksheetgui .headerRight td {
+body .browsegui .headerFirst td,
+body .browsegui .headerSecond td,
+body .worksheetgui .headerFirsttd,
+body .worksheetgui .headerSecond td {
 	padding: 0px;
 }
 
@@ -61,14 +61,14 @@ body .browsegui .headerbar div.button,
 	margin: 0px 0px 0px 5px;
 }
 
-body .browsegui .headerLeft div.button,
-body .worksheetgui .headerLeft div.button {
+body .browsegui .headerFirst div.button,
+body .worksheetgui .headerFirst div.button {
 	width: 11px;
 	padding-right: 5px;
 }
 
-body .browsegui .headerLeft img,
-body .worksheetgui .headerLeft img {
+body .browsegui .headerFirst img,
+body .worksheetgui .headerFirst img {
 	height: 20px;
 	width: 11px;
 	margin-top: 5px;
@@ -86,17 +86,17 @@ body .backButton .gwt-Label {
 	margin-left: 14px;
 }
 
-body .browsegui .headerRight div.button {
+body .browsegui .headerSecond div.button {
 	width: 24px;
 	margin: 0px;
 	padding: 0px;
 }
 
-body .worksheetgui .headerRight div.button {
+body .worksheetgui .headerSecond div.button {
 	margin: 0px;
 }
 
-body .browsegui .headerRight .button img {
+body .browsegui .headerSecond .button img {
 	height: 24px;
 	width: 24px;
 }

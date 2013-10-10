@@ -309,6 +309,9 @@ public class StyleBar extends FlowPanel {
 
 		if (this.guiModel.getCommand().getStyleBarEntries() != null) {
 			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+			if(this.gui.isRTL()){
+				this.gui.getEuclidianViewPanel().adjustRightWidget();
+			}
 			this.setVisible(true);
 		} else {
 			// hide the whole StyleBar if no StyleBar is needed
@@ -336,7 +339,7 @@ public class StyleBar extends FlowPanel {
 			this.styleButtonsPanel.setVisible(true);
 		}
 		if(this.gui.isRTL()){
-			this.gui.getEuclidianViewPanel().onResize();
+			this.gui.getEuclidianViewPanel().adjustRightWidget();
 		}
 	}
 

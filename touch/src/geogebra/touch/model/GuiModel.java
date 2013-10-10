@@ -330,11 +330,11 @@ public class GuiModel {
 	public void showOption(final OptionsPanel panel, final FastButton button) {
 		closeOptions();
 		this.optionsPanel = panel;
-		int left = button.getAbsoluteLeft() - 20;
+		int left = button.getAbsoluteLeft();
 		if(left + panel.getWidth() > Window.getClientWidth()){
 			left = button.getAbsoluteLeft() - panel.getWidth() + 20 + 17;
 		}
-		this.optionsPanel.setPopupPosition(left, button.getAbsoluteTop() + 56);
+		this.optionsPanel.setPopupPosition(left, button.getAbsoluteTop() + 54);
 		this.optionsPanel.show();
 		this.styleBarOptionShown = panel.getType();
 	}

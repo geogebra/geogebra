@@ -201,15 +201,16 @@ input.worksheetTitle {
 	text-align: center;
 }
 
-.headerUndoRedo {
+.headerSecond {
 	margin-left: 10px;
+	float:left;
 }
 
-.headerFile td,.headerUndoRedo td {
+.headerFirst td,.headerSecond td {
 	padding-top: 10px;
 }
 
-.headerFile {
+.headerFirst {
 	margin-right: 10px;
 	float:right;
 }

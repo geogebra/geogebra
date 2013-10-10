@@ -35,22 +35,20 @@ class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.backButton.addStyleName("backButton");
 
 		this.backPanel = new FlowPanel();
-		this.backPanel.setStyleName("headerLeft");
+		this.backPanel.setStyleName("headerFirst");
 		this.backPanel.add(this.backButton);
 
 		this.rightPanel = new VerticalPanel();
-		this.rightPanel.setStyleName("headerRight");
+		this.rightPanel.setStyleName("headerSecond");
 
 		this.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.backPanel);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.headerText = new Label("");
 		this.add(this.headerText);
 
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightPanel);
 	}
 
