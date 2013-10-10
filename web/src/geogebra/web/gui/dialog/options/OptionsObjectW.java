@@ -1035,7 +1035,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		//		basicTabList.add(showTrimmedIntersectionLines);
 
 		tabPanel.add(basicTab, "Basic");
-
+	
 
 		basicPanels = Arrays.asList(namePanel,
 				showObjectPanel,

@@ -34,6 +34,8 @@ import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
+import geogebra.common.gui.dialog.options.model.RightAngleModel;
+import geogebra.common.gui.dialog.options.model.RightAngleModel.IRightAngleListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -6718,12 +6720,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	// added 3/11/06
 	private class RightAnglePanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IRightAngleListener {
 		private JCheckBox emphasizeRightAngle;
-		private Object[] geos;
+		private RightAngleModel model;
 
 		RightAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
+			model = new RightAngleModel(this);
 			emphasizeRightAngle = new JCheckBox();
 			emphasizeRightAngle.addActionListener(this);
 			add(emphasizeRightAngle);
@@ -6734,45 +6737,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
-			this.geos = geos;
+			
 			emphasizeRightAngle.removeActionListener(this);
 
-			// set JcheckBox value to first geo's decoration
-			AngleProperties geo0 = (AngleProperties) geos[0];
-			emphasizeRightAngle.setSelected(geo0.isEmphasizeRightAngle());
+			model.updateProperties();
+		
 			emphasizeRightAngle.addActionListener(this);
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof AngleProperties)) {
-					geosOK = false;
-					break;
-				}
-				/*
-				 * // If it isn't a right angle else if
-				 * (!Kernel.isEqual(((GeoAngle)geos[i]).getValue(),
-				 * Kernel.PI_HALF)){ geosOK=false; break; }
-				 */
-			}
-			return geosOK;
-		}
 
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == emphasizeRightAngle) {
-				AngleProperties geo;
-				boolean b = emphasizeRightAngle.isSelected();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (AngleProperties) geos[i];
-					geo.setEmphasizeRightAngle(b);
-					geo.updateRepaint();
-				}
+				model.applyChanges(emphasizeRightAngle.isSelected());
 			}
 		}
 
@@ -6785,6 +6766,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void updateCheckbox(boolean value) {
+			emphasizeRightAngle.setSelected(value);
 		}
 
 	}
