@@ -826,7 +826,7 @@ public abstract class Localization {
 		// Guy Hed, 25.8.2008
 		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
 			return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
-					.equals(lang));
+					.equals(lang) || "he".equals(lang));
 		}
 		/**
 		 * @return syntaxStr or syntax3D, depending on whether 3d is active
