@@ -90,7 +90,7 @@ public class LoadFilePresenter{
 		app.setUndoActive(undoActive);			
 
 		String language = view.getDataParamLanguage();
-		if(language == null){
+		if(language == null || "".equals(language)){
 			language = app.getLanguageFromCookie();
 		}
 		
