@@ -139,10 +139,8 @@ public class View {
     }
 
 	public void processBase64String(String dataParamBase64String) {
-		archiveContent = new HashMap<String, String>();
-		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
-		App.debug("start unzipping"+System.currentTimeMillis());
-		populateArchiveContent(dataParamBase64String, workerUrls,this);
+		String workerUrls = prepareFileReading();
+		populateArchiveContent(dataParamBase64String, workerUrls,this, false);
     }
 	
 	public void openFromLastApp(){
@@ -164,7 +162,7 @@ public class View {
 		}
 	}
 
-	private native void populateArchiveContent(String dpb64str, String workerUrls, View view) /*-{
+	private native void populateArchiveContent(String dpb64str, String workerUrls, View view, boolean binary) /*-{
 		
 		
 		
@@ -227,11 +225,13 @@ public class View {
     		$wnd.zip.workerScriptsPath = workerUrls;
 	    }
 	    
-	    $wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),function(reader) {
+	    var readerCallback = function(reader) {
 	        reader.getEntries(function(entries) {
 	        	view.@geogebra.html5.util.View::zippedLength = entries.length;
 	            for (var i = 0, l = entries.length; i < l; i++) {
 	            	(function(entry){
+	            			    	$wnd.console.log("itten");
+	            		
 		            	var filename = entry.filename;
 		                if (entry.filename.match(imageRegex)) {
 		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
@@ -259,15 +259,25 @@ public class View {
 	            } 
 	            reader.close();
 	        });
-	    },
-	    function (error) {
+	    };
+	    
+	    var errorCallback = function (error) {
 	    	@geogebra.common.main.App::error(Ljava/lang/String;)(error);
-	    });
+	    };
+	    
+	    function utf8_to_b64( str ) {
+    		return $wnd.btoa($wnd.unescape($wnd.encodeURIComponent( str )));
+		}
+	    
+	    if (binary) {
+	    	dpb64str = utf8_to_b64(dpb64str);
+	    	$wnd.console.log(dpb64str);
+	 	}
+	    $wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),readerCallback, errorCallback);	  
     }-*/;
 
 	public void processFileName(String url) {
-		archiveContent = new HashMap<String, String>();
-		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		String workerUrls = prepareFileReading();
 	    populateArchiveContentFromFile(url, workerUrls, this);
     }
 
@@ -369,6 +379,22 @@ public class View {
 			    	@geogebra.common.main.App::error(Ljava/lang/String;)(error);
 			    });
     }-*/;
+
+	/**
+	 * @param binary string (zipped GGB)
+	 */
+	public void processBinaryString(String binary) {
+		String workerUrls = prepareFileReading();
+		populateArchiveContent(binary, workerUrls,this, true);
+	    
+    }
+
+	private String prepareFileReading() {
+	    archiveContent = new HashMap<String, String>();
+		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		App.debug("start unzipping"+System.currentTimeMillis());
+	    return workerUrls;
+    }
 
 
 

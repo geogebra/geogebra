@@ -8,6 +8,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
+import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import com.google.gwt.user.client.Command;
@@ -105,6 +106,8 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof GoogleLoginEvent) {
 	    	enableGoogleDrive(((GoogleLoginEvent) event).isSuccessFull());
+	    } else if (event instanceof GoogleLogOutEvent) {
+	    	enableGoogleDrive(false);
 	    }
     }
 

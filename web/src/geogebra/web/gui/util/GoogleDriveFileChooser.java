@@ -1,8 +1,11 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.css.GuiResources;
 import geogebra.web.main.AppW;
+import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,7 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler {
+public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler, EventRenderable {
 
 	private App app;
 	VerticalPanel p;
@@ -30,6 +33,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 
 	public GoogleDriveFileChooser(final App app) {
 		this.app = app;
+		((AppW) app).getGoogleDriveOperation().getView().add(this);
 		setWidget(p = new VerticalPanel());
 		filesPanel = new VerticalPanel();
 		filesPanel.addStyleName("filesPanel");
@@ -142,7 +146,10 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 			retrieveAllFiles(function(resp) {
 				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()();
 				resp.forEach(function(value, index, array) {
-					if (value.mimeType === "application/vnd.geogebra.file") {
+					$wnd.console.log(value.mimeType + " : " + value.title + " : " + value.fileExtension);
+					if (value.mimeType === "application/vnd.geogebra.file" ||
+								value.fileExtension === "ggb" ||
+									(value.title.lastIndexOf(".ggb") > -1)) {
 						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description, value.id);
 					}
 				});
@@ -177,6 +184,13 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	    Anchor a = (Anchor) event.getSource();
 	    refreshDescriptors(a);
 	    this.open.click();
+    }
+
+	@Override
+    public void renderEvent(BaseEvent event) {
+	   if (event instanceof GoogleLogOutEvent) {
+		   this.hide();
+	   }
     }
 
 }

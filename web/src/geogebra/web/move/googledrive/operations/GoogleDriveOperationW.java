@@ -1,14 +1,17 @@
 package geogebra.web.move.googledrive.operations;
 
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.views.BaseEventView;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.JSON;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleDriveLoadedEvent;
+import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 import geogebra.web.move.googledrive.models.GoogleDriveModelW;
 
@@ -30,6 +33,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	/**
 	 * creates new google drive operation instance
+	 * @param app Application
 	 */
 	public GoogleDriveOperationW (AppW app) {
 		
@@ -61,7 +65,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		fetchScript();
 	}
 
-	private void fetchScript() {
+	private static void fetchScript() {
 		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
 		script.setSrc(GoogleApiJavaScriptSrc);
 		Document.get().getBody().appendChild(script);
@@ -143,7 +147,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 						});
 	    			}
 	    		}
+	    	} else {
+	    		logOut();
 	    	}
+	    } else if (event instanceof LogOutEvent) {
+	    	logOut();
 	    }
 	    
     }
@@ -183,14 +191,99 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		  }
 		}
 		
-		downloadFile(currentFileName,function (base64) {
-			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(base64, description, title, id);
+		downloadFile(currentFileName,function (content) {
+			if (content.indexOf("UEsDBBQ") === 0) {
+				_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBase64(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
+			} else {
+				_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBinary(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
+			}
 		});
     }-*/;
 	
-	private void processGoogleDriveFileContent(String base64, String description, String title, String id) {
-		app.loadGgbFileAgain(base64);
-		app.refreshCurrentFileDescriptors(title, description, base64);
+	private void processGoogleDriveFileContentAsBase64(String base64, String description, String title, String id) {
+		app.loadGgbFileAsBase64Again(base64);
+		postprocessFileLoading(base64, description, title, id);
+	}
+
+	private void postprocessFileLoading(String base64, String description,
+            String title, String id) {
+	    app.refreshCurrentFileDescriptors(title, description, base64);
+		app.currentFileId = id;
+    }
+	
+	private void processGoogleDriveFileContentAsBinary(String binary, String description, String title, String id) {
+		app.loadGgbFileAsBinaryAgain(binary);
+		postprocessFileLoading(binary, description, title, id);
+	}
+
+	
+	/**
+	 * logs out from Google Drive (this means, removes the possibilities to interact with Google Drive)
+	 */
+	public void logOut() {
+		this.onEvent(new GoogleLogOutEvent());
+	}
+	
+	/**
+	 * @param fileName name of the File	
+	 * @param description Description of the file
+	 * @return javascript function to called back;
+	 */
+	public native JavaScriptObject getPutFileCallback(String fileName, String description) /*-{
+	    var _this = this;
+	    return function(base64) {
+	    	var fName = fileName,
+	    		ds = description;
+	    	_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fName,ds,base64);
+	    };
+    }-*/;
+	
+	private void saveFileToGoogleDrive(final String fileName,
+            final String description, final String fileContent) {
+		JavaScriptObject metaData = JavaScriptObject.createObject();
+		JSON.put(metaData,	"title", fileName);
+		JSON.put(metaData, "description", description);
+		
+		handleFileUploadToGoogleDrive(app.currentFileId, metaData, fileContent);		
+    }
+	
+	private native void handleFileUploadToGoogleDrive(String id, JavaScriptObject metaData, String base64) /*-{
+	var _this = this;
+	function updateFile(fileId, fileMetadata, fileData) {
+	  var boundary = '-------314159265358979323846';
+	  var delimiter = "\r\n--" + boundary + "\r\n";
+	  var close_delim = "\r\n--" + boundary + "--";
+	  var contentType = @geogebra.common.GeoGebraConstants::GGW_MIME_TYPE;
+	  var base64Data = fileData;
+	  var multipartRequestBody =
+	        delimiter +
+	        'Content-Type: application/json\r\n\r\n' +
+	        JSON.stringify(fileMetadata) +
+	        delimiter +
+	        'Content-Type: ' + contentType + '\r\n' +
+	        '\r\n' +
+	        base64Data +
+	        close_delim;
+	   var method = (fileId ? 'PUT' : 'POST');
+	   var request = $wnd.gapi.client.request({
+	        'path': '/upload/drive/v2/files/' + fileId,
+	        'method': method,
+	        'params': {'uploadType': 'multipart', 'alt': 'json'},
+	        'headers': {
+	          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+	        },
+	        'body': multipartRequestBody});
+	    
+	   request.execute(function(resp) {
+	   		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description, base64)
+	   });
+	  }
+	  updateFile(id, metaData, base64);
+	}-*/;
+	
+	private void updateAfterGoogleDriveSave(String id, String fileName, String description, String content) {
+		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
+		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description, content);
 		app.currentFileId = id;
 	}
 	

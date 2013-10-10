@@ -5,10 +5,9 @@ import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.main.GgbAPI;
-import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
-import geogebra.web.move.googledrive.events.GoogleDriveLoadedEvent;
+import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
+import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -114,13 +113,15 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 					String saveName = fileName.getText();
 					//wont save if . exist in filename 
 					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
-					JavaScriptObject callback = ((AppW) app).getObjectPool().getMyGoogleApis().getPutFileCallback(saveName, description.getText());
+					JavaScriptObject callback = ((AppW) app).getGoogleDriveOperation().getPutFileCallback(saveName, description.getText());
 					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
 			}
 				
 		};
+		
+		saveToGoogleDrive.addClickHandler(saveToGoogleDriveH);
 		
 		/*saveToSkyDriveH = new ClickHandler() {
 			
@@ -143,16 +144,6 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 				
 		};*/
 		
-		loginToGoogleH = new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				((AppW) app).getObjectPool().getMyGoogleApis().setCaller("save");
-				((AppW) app).getObjectPool().getMyGoogleApis().loginToGoogle();
-				
-				
-			}
-		};
-		
 		/*loginToSkyDriveH = new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
@@ -163,7 +154,6 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 			}
 		};*/
 	    
-	    loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
 	    //loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
 	    
 	    download.addClickHandler(new ClickHandler() {			
@@ -184,7 +174,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
-				saveToGoogleDrive.setEnabled(true);
+				saveToGoogleDrive.setEnabled(((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle());
 				//saveToSkyDrive.setEnabled(true);
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
@@ -217,6 +207,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 		});
 	    
 	    ((AppW) app).getGoogleDriveOperation().getView().add(this);
+	    enableGoogleDrive(((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle());
 	    
     }
 	
@@ -225,8 +216,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
     public void show(){
 		// It creates new ggb file all time for download, all time when the
 		// dialog opens.
-		refreshIfLoggedIntoGoogle(((AppW) app).getObjectPool().getMyGoogleApis().isLoggedIn());
-		refreshIfLoggedIntoSkyDrive(((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn());
+		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
 		refreshOnlineState();
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    super.show();
@@ -277,24 +267,6 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	}
 
 
-	private void refreshIfLoggedIntoGoogle(boolean loggedIn) {
-		if (loggedIn) {
-			if (loginToGoogleR != null) {
-				loginToGoogleR.removeHandler();
-				loginToGoogleR = null;
-			}
-			saveToGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("SaveToGoogleDrive")));
-			saveToGoogleDriveR = saveToGoogleDrive.addClickHandler(saveToGoogleDriveH);
-		} else {
-			if (saveToGoogleDriveR != null) {
-				saveToGoogleDriveR.removeHandler();
-				loginToGoogleR = null;
-			}
-			saveToGoogleDrive.setHTML(app.getMenu("SaveToGoogleDrive"));
-			loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
-		}
-    }
-
 
 	private void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
 		if (loggedIn) {
@@ -317,10 +289,16 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 
 	
     public void renderEvent(BaseEvent event) {
-	    if (event instanceof GoogleDriveLoadedEvent) {
-	    	renderNetworkOperation(true);
+	    if (event instanceof GoogleLoginEvent && ((GoogleLoginEvent) event).isSuccessFull()) {
+	    	enableGoogleDrive(true);
+	    } else if (event instanceof GoogleLogOutEvent) {
+	    	enableGoogleDrive(false);
 	    }
 	    
+    }
+    
+    private void enableGoogleDrive(boolean enabled) {
+    	saveToGoogleDrive.setEnabled(enabled);
     }
 	
 	

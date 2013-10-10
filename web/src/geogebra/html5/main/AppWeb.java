@@ -372,14 +372,28 @@ public abstract class AppWeb extends App implements SetLabels{
 			loadFile(archiveContent);
 		}
 
-		public void loadGgbFileAgain(String dataUrl) {
-
-			((DrawEquationWeb) getDrawEquation())
-			        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
-			getImageManager().reset();
+		/**
+		 * @param dataUrl the data url to load the ggb file
+		 */
+		public void loadGgbFileAsBase64Again(String dataUrl) {
+			prepareReloadGgbFile();
 			View view = new View(null,this);
 			view.processBase64String(dataUrl);
 		}
+		
+		public void loadGgbFileAsBinaryAgain(String binary) {
+			prepareReloadGgbFile();
+			View view = new View(null,this);
+			view.processBinaryString(binary);
+		}
+
+		private void prepareReloadGgbFile() {
+	        ((DrawEquationWeb) getDrawEquation())
+	        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
+			getImageManager().reset();
+        }
+		
+		
 		
 		private void loadFile(HashMap<String, String> archiveContent)
 		        throws Exception {
@@ -673,7 +687,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			reader.onloadend = function(ev) {
 				if (reader.readyState === reader.DONE) {
 					var fileStr = reader.result;
-					appl.@geogebra.html5.main.AppWeb::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
+					appl.@geogebra.html5.main.AppWeb::loadGgbFileAsBase64Again(Ljava/lang/String;)(fileStr);
 					if (callback != null)
 						callback();
 				}

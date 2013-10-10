@@ -46,55 +46,11 @@ public class MyGoogleApis {
 	    goForGoogleDriveApi();
     }
 	
-	public void saveFileToGoogleDrive(final String fileName,
-            final String description, final String fileContent) {
-		JavaScriptObject metaData = JavaScriptObject.createObject();
-		JSON.put(metaData,	"title", fileName);
-		JSON.put(metaData, "description", description);
-		
-		handleFileUploadToGoogleDrive(((AppW) app).currentFileId, metaData, fileContent);
-		
-    }
 	
-	private native void handleFileUploadToGoogleDrive(String id, JavaScriptObject metaData, String base64) /*-{
-		var _this = this;
-		function updateFile(fileId, fileMetadata, fileData) {
-		  var boundary = '-------314159265358979323846';
-		  var delimiter = "\r\n--" + boundary + "\r\n";
-		  var close_delim = "\r\n--" + boundary + "--";
-		  var contentType = @geogebra.common.GeoGebraConstants::GGW_MIME_TYPE;
-		  var base64Data = fileData;
-		  var multipartRequestBody =
-		        delimiter +
-		        'Content-Type: application/json\r\n\r\n' +
-		        JSON.stringify(fileMetadata) +
-		        delimiter +
-		        'Content-Type: ' + contentType + '\r\n' +
-		        '\r\n' +
-		        base64Data +
-		        close_delim;
-		   var method = (fileId ? 'PUT' : 'POST');
-		   var request = $wnd.gapi.client.request({
-		        'path': '/upload/drive/v2/files/' + fileId,
-		        'method': method,
-		        'params': {'uploadType': 'multipart', 'alt': 'json'},
-		        'headers': {
-		          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-		        },
-		        'body': multipartRequestBody});
-		    
-		   request.execute(function(resp) {
-		   		_this.@geogebra.web.helper.MyGoogleApis::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description, base64)
-		   });
-		  }
-		  updateFile(id, metaData, base64);
-}-*/;
 	
-	private void updateAfterGoogleDriveSave(String id, String fileName, String description, String content) {
-		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
-		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description, content);
-		((AppW)app).currentFileId = id;
-	}
+	
+	
+
 
 	private native String getFileIdOrNull() /*-{
 	    if ($wnd.GGW_appengine && $wnd.GGW_appengine.FILE_IDS[0] !== "") {
@@ -131,20 +87,7 @@ public class MyGoogleApis {
 	    
     }
 
-	/**
-	 * @param fileName name of the File	
-	 * @param description Description of the file
-	 * @param fileChooser GeoGebraFileChooser
-	 * @return javascript function to called back;
-	 */
-	public native JavaScriptObject getPutFileCallback(String fileName, String description) /*-{
-	    var _this = this;
-	    return function(base64) {
-	    	var fName = fileName;
-	    	var ds = description;
-	    	_this.@geogebra.web.helper.MyGoogleApis::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fName,ds,base64);
-	    };
-    }-*/;
+	
 
 	public boolean signedInToGoogle() {
 	    return loggedIn;

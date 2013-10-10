@@ -14,7 +14,7 @@ public class GoogleLoginEvent extends BaseEvent {
 	 * @param success that the login event was successfull or not.
 	 */
 	public GoogleLoginEvent(boolean success) {
-		this.success = false;
+		this.success = success;
 	}
 	
 	/**
