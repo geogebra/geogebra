@@ -1138,7 +1138,7 @@ __GGB__keysVar.lt.menu = {
     "Brackets": "Skliaustai",
     "Browser": "Nar\u0161ykl\u0117",
     "Button_Caption": "Antra\u0161t\u0117",
-    "ButtonAction": "\u012eterpti mygtuk\u0105",
+    "ButtonAction": "Mygtukas",
     "ButtonAction_Help": "Paspauskite grafiniame lauke nor\u0117dami \u012fterpti mygtuk\u0105",
     "ByLayering": "Pagal sluoksnius",
     "CASPlot": "Pavaizduoti CAS langel\u012f",

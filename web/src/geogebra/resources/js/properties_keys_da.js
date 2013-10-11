@@ -1138,7 +1138,7 @@ __GGB__keysVar.da.menu = {
     "Brackets": "Firkantparanteser",
     "Browser": "Browser",
     "Button_Caption": "Tekst",
-    "ButtonAction": "Inds\xe6t knap",
+    "ButtonAction": "Knap",
     "ButtonAction_Help": "Klik i det grafiske felt for at inds\xe6tte en knap",
     "ByLayering": "I forhold til lag",
     "CASPlot": "Tegn",
