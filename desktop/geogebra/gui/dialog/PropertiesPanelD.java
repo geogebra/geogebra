@@ -32,6 +32,8 @@ import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
+import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
+import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel.IOutlyingIntersectionsListener;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -2769,17 +2771,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class AllowOutlyingIntersectionsPanel extends JPanel implements
-			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel, 
+			IOutlyingIntersectionsListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private OutlyingIntersectionsModel model;
 		private JCheckBox outlyingIntersectionsCB;
 
 		public AllowOutlyingIntersectionsPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-
+			model = new OutlyingIntersectionsModel(this);
+			
 			// check boxes for show trace
 			outlyingIntersectionsCB = new JCheckBox();
 			outlyingIntersectionsCB.addItemListener(this);
@@ -2793,44 +2797,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			outlyingIntersectionsCB.removeItemListener(this);
 
 			// check if properties have same values
-			LimitedPath temp, geo0 = (LimitedPath) geos[0];
-			boolean equalVal = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (LimitedPath) geos[i];
-				// same value?
-				if (geo0.allowOutlyingIntersections() != temp
-						.allowOutlyingIntersections())
-					equalVal = false;
-			}
-
+			model.updateProperties();
 			// set trace visible checkbox
-			if (equalVal)
-				outlyingIntersectionsCB.setSelected(geo0
-						.allowOutlyingIntersections());
-			else
-				outlyingIntersectionsCB.setSelected(false);
 
 			outlyingIntersectionsCB.addItemListener(this);
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo instanceof LimitedPath))
-					return false;
-			}
-			return true;
-		}
-
+	
 		/**
 		 * listens to checkboxes and sets trace state
 		 */
@@ -2840,12 +2821,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// show trace value changed
 			if (source == outlyingIntersectionsCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (LimitedPath) geos[i];
-					geo.setAllowOutlyingIntersections(outlyingIntersectionsCB
-							.isSelected());
-					geo.toGeoElement().updateRepaint();
-				}
+				model.applyChanges(outlyingIntersectionsCB.isSelected());
 			}
 		}
 
@@ -2858,6 +2834,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void updateCheckbox(boolean isEqual) {
+			if (isEqual)
+			{
+				LimitedPath geo0 = (LimitedPath)model.getGeos()[0];
+				outlyingIntersectionsCB.setSelected(geo0.allowOutlyingIntersections());
+			}
+			else
+				outlyingIntersectionsCB.setSelected(false);
+			
 		}
 	}
 
@@ -2873,7 +2860,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		private static final long serialVersionUID = 1L;
 		private BackgroundImageModel model;
-		private JCheckBox isBGimage;
+		private JCheckBox isBGimage;	
 
 		public BackgroundImagePanel() {
 			super();
