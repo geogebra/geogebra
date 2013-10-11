@@ -276,7 +276,7 @@ public class AlgoPolyhedronNet extends AlgoElement3D {
 		 * @param vs direction of the rotation line
 		 * @param f value of the cursor used in the rotation
 		 * @param fd direction of the bottom face
-		 * @param dist distance between point and projectedpoint
+		 * @param dist distance between point and projected point
 		 * @param test value (XOR)
 		 */
 		private void rotate(GeoPoint3D point, Coords pointCoords, Coords projectCoords,  Coords o, Coords vs, double f, Coords fd, double dist, boolean test){
