@@ -178,9 +178,10 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		    var accessToken = $wnd.gapi.auth.getToken().access_token;
 		    var xhr = new $wnd.XMLHttpRequest();
 		    xhr.open('GET', downloadUrl);
+		    xhr.responseType = "blob";
 		    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
 		    xhr.onload = function() {
-		      callback(xhr.responseText);
+		      callback(xhr.response);
 		    };
 		    xhr.onerror = function() {
 		      callback(null);
@@ -192,11 +193,15 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		}
 		
 		downloadFile(currentFileName,function (content) {
-			if (content.indexOf("UEsDBBQ") === 0) {
-				_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBase64(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
-			} else {
-				_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBinary(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
-			}
+			var reader = new FileReader();
+			reader.addEventListener("loadend", function(e) {
+				if (e.target.result.indexOf("UEsDBBQ") === 0) {
+					_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBase64(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(e.target.result, description, title, id);
+				} else {
+					_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBinary(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
+				}
+			});
+			reader.readAsText(content);
 		});
     }-*/;
 	
@@ -205,13 +210,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		postprocessFileLoading(base64, description, title, id);
 	}
 
-	private void postprocessFileLoading(String base64, String description,
+	private void postprocessFileLoading(Object binary, String description,
             String title, String id) {
-	    app.refreshCurrentFileDescriptors(title, description, base64);
+	    app.refreshCurrentFileDescriptors(title, description, binary);
 		app.currentFileId = id;
     }
 	
-	private void processGoogleDriveFileContentAsBinary(String binary, String description, String title, String id) {
+	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary, String description, String title, String id) {
 		app.loadGgbFileAsBinaryAgain(binary);
 		postprocessFileLoading(binary, description, title, id);
 	}

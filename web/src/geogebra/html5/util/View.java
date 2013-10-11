@@ -9,6 +9,7 @@ import geogebra.web.WebStatic;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 
 public class View {
@@ -162,7 +163,7 @@ public class View {
 		}
 	}
 
-	private native void populateArchiveContent(String dpb64str, String workerUrls, View view, boolean binary) /*-{
+	private native void populateArchiveContent(Object dpb64str, String workerUrls, View view, boolean binary) /*-{
 		
 		
 		
@@ -229,9 +230,7 @@ public class View {
 	        reader.getEntries(function(entries) {
 	        	view.@geogebra.html5.util.View::zippedLength = entries.length;
 	            for (var i = 0, l = entries.length; i < l; i++) {
-	            	(function(entry){
-	            			    	$wnd.console.log("itten");
-	            		
+	            	(function(entry){	            		
 		            	var filename = entry.filename;
 		                if (entry.filename.match(imageRegex)) {
 		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
@@ -265,15 +264,11 @@ public class View {
 	    	@geogebra.common.main.App::error(Ljava/lang/String;)(error);
 	    };
 	    
-	    function utf8_to_b64( str ) {
-    		return $wnd.btoa($wnd.unescape($wnd.encodeURIComponent( str )));
-		}
-	    
 	    if (binary) {
-	    	dpb64str = utf8_to_b64(dpb64str);
-	    	$wnd.console.log(dpb64str);
-	 	}
-	    $wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),readerCallback, errorCallback);	  
+	    	$wnd.zip.createReader(new $wnd.zip.BlobReader(dpb64str),readerCallback, errorCallback); 
+	 	} else {
+	    	$wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),readerCallback, errorCallback); 
+	    } 
     }-*/;
 
 	public void processFileName(String url) {
@@ -383,7 +378,7 @@ public class View {
 	/**
 	 * @param binary string (zipped GGB)
 	 */
-	public void processBinaryString(String binary) {
+	public void processBinaryString(JavaScriptObject binary) {
 		String workerUrls = prepareFileReading();
 		populateArchiveContent(binary, workerUrls,this, true);
 	    

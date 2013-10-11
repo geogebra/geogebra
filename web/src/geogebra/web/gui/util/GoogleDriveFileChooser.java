@@ -146,7 +146,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 			retrieveAllFiles(function(resp) {
 				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()();
 				resp.forEach(function(value, index, array) {
-					$wnd.console.log(value.mimeType + " : " + value.title + " : " + value.fileExtension);
+					//$wnd.console.log(value.mimeType + " : " + value.title + " : " + value.fileExtension);
 					if (value.mimeType === "application/vnd.geogebra.file" ||
 								value.fileExtension === "ggb" ||
 									(value.title.lastIndexOf(".ggb") > -1)) {

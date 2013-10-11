@@ -668,7 +668,7 @@ public class AppW extends AppWeb {
 
 	
 
-	private String driveBase64Content = null;
+	private Object driveBase64Content = null;
 	private String driveBase64description = null;
 	private String driveBase64FileName = null;
 	/**
@@ -678,7 +678,7 @@ public class AppW extends AppWeb {
 
 	
 	public void refreshCurrentFileDescriptors(String fName, String desc,
-	        String fileCont) {
+	        Object fileCont) {
 		driveBase64Content = fileCont;
 		driveBase64description = desc;
 		driveBase64FileName = fName;

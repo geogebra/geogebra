@@ -381,7 +381,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			view.processBase64String(dataUrl);
 		}
 		
-		public void loadGgbFileAsBinaryAgain(String binary) {
+		public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 			prepareReloadGgbFile();
 			View view = new View(null,this);
 			view.processBinaryString(binary);
