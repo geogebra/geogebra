@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'geogebra-sans-serif';
-    src: url('http://www.geogebra.org/web/roboto/GgbRoboto.eot');
-    src: url('http://www.geogebra.org/web/roboto/GgbRoboto.eot?#iefix') format('embedded-opentype'),
-         url('http://www.geogebra.org/web/roboto/GgbRoboto.woff') format('woff'),
-         url('http://www.geogebra.org/web/roboto/GgbRoboto.ttf') format('truetype'),
-         url('http://www.geogebra.org/web/roboto/GgbRoboto.svg#roberto') format('svg');
+    src: url('web/font/GgbRoboto.eot');
+    src: url('web/font/GgbRoboto.eot?#iefix') format('embedded-opentype'),
+         url('web/font/GgbRoboto.woff') format('woff'),
+         url('web/font/GgbRoboto.ttf') format('truetype'),
+         url('web/font/GgbRoboto.svg#roberto') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -12,11 +12,11 @@
 
 @font-face {
     font-family: 'geogebra-serif';
-    src: url('http://www.geogebra.org/web/roboto/GgbRobotoSlab.eot');
-    src: url('http://www.geogebra.org/web/roboto/GgbRobotoSlab.eot?#iefix') format('embedded-opentype'),
-         url('http://www.geogebra.org/web/roboto/GgbRobotoSlab.woff') format('woff'),
-         url('http://www.geogebra.org/web/roboto/GgbRobotoSlab.ttf') format('truetype'),
-         url('http://www.geogebra.org/web/roboto/GgbRobotoSlab.svg#roberto_slab') format('svg');
+    src: url('web/font/GgbRobotoSlab.eot');
+    src: url('web/font/GgbRobotoSlab.eot?#iefix') format('embedded-opentype'),
+         url('web/font/GgbRobotoSlab.woff') format('woff'),
+         url('web/font/GgbRobotoSlab.ttf') format('truetype'),
+         url('web/font/GgbRobotoSlab.svg#roberto_slab') format('svg');
     font-weight: normal;
     font-style: normal;
 
