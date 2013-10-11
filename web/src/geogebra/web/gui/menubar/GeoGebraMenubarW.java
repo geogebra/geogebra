@@ -192,7 +192,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		}
 		
 		private void createViewMenu() {
-			viewMenu = new ViewMenuW(app);
+			viewMenu = (app.isApplet())? new ViewMenuW(app) : new ViewMenuApplicationW(app);
 			addItem(app.getMenu("View"), viewMenu);
 		}
 		
@@ -249,7 +249,9 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		public void updateMenubar() {
 			App.debug("implementation needed - just finishing");
 			app.getOptionsMenu().update();
-			viewMenu.update();
+			if (!app.isApplet()){
+				((ViewMenuApplicationW)viewMenu).update();
+			}
 			
         }
 
