@@ -21,7 +21,11 @@ import geogebra.common.util.Unicode;
  * when serializing ExpressionValues to screen / XML / CAS input / export.
  * @author Zbynek Konecny
  */
-public class StringTemplate implements ExpressionNodeConstants{
+public class StringTemplate implements ExpressionNodeConstants {
+	
+	// rounding hack, see Kernel.format()
+	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
+
 	
 	private final String name;
 	/**
@@ -38,8 +42,8 @@ public class StringTemplate implements ExpressionNodeConstants{
 	 */
 	public static final StringTemplate prefixedDefault = new StringTemplate("prefixedDefault"){
 		@Override
-		public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2){
-			return false;
+		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2, boolean useSF) {
+			return 1;
 		}
 	};
 	
@@ -426,15 +430,38 @@ public class StringTemplate implements ExpressionNodeConstants{
 	 * @param abs absolute value of number
 	 * @param nf2 kernel's number format
 	 * @param sf2 kernel's scientific format
-	 * @return whether round hack is allowed for given number
+	 * @param useSF round to significant figuress or decimal places
+	 * @return factor to multiply (either 1 or 1+1E-15)
 	 */
-	public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2) {
-		if(abs < 1000)
-			return true;
-		if(abs > 10E7)
-			return false;
-		return (getNF(nf2)!=null && getNF(nf2).getMaximumFractionDigits() < 10)
-			|| (getSF(sf2)!=null && getSF(sf2).getSigDigits() < 10);
+	public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2, boolean useSF) {
+		
+		int digits = useSF ? sf2.getSigDigits() : nf2.getMaximumFractionDigits();
+		
+		// eg make sure 1.2 not displayed as 1.2000000000001 when rounding set to 15sf
+		if (digits >= 15) {
+			return 1;
+		}
+		
+		if (abs < 1000) {
+			return ROUND_HALF_UP_FACTOR;
+		}
+		if (abs > 10E7) {
+			return 1;
+		}
+		
+		if (useSF) {
+			if (getSF(sf2) != null && getSF(sf2).getSigDigits() < 10) {
+				return ROUND_HALF_UP_FACTOR;
+			}
+		} else {
+			if (getNF(nf2) != null && getNF(nf2).getMaximumFractionDigits() < 10) {
+				return ROUND_HALF_UP_FACTOR;				
+			}
+			
+		}
+		
+		return 1;
+		
 	}
 	/**
 	 * @return true if more digits than what is set by this template are allowed in output

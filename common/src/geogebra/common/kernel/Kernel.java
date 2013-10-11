@@ -212,8 +212,6 @@ public class Kernel {
  	private final static double AXES_PRECISION = 1E-14; 
  	
 
-	// rounding hack, see format()
-	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
 
 	// private String stringTemplate.getPi(); // for pi
 
@@ -963,6 +961,8 @@ public class Kernel {
 			} else if (x == Math.PI) {
 				return tpl.getPi();
 			}
+			
+			boolean useSF = tpl.useScientific(useSignificantFigures);
 
 			// ROUNDING hack
 			// NumberFormat and SignificantFigures use ROUND_HALF_EVEN as
@@ -970,14 +970,13 @@ public class Kernel {
 			// to get ROUND_HALF_UP like in schools: increase abs(x) slightly
 			// x = x * ROUND_HALF_UP_FACTOR;
 			// We don't do this for large numbers as
-			double abs = Math.abs(x);
-			if (!isLongInteger
-					&& tpl.allowsRoundHack(abs,nf,sf)) {
+			if (!isLongInteger) {
+				double abs = Math.abs(x);
 				// increase abs(x) slightly to round up
-				x = x * ROUND_HALF_UP_FACTOR;
+				x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
 			}
 
-			if (tpl.useScientific(useSignificantFigures)) {
+			if (useSF) {
 				return formatSF(x, tpl);
 			}
 			return formatNF(x, tpl);
@@ -1022,6 +1021,8 @@ public class Kernel {
 		if (app.getLocalization().unicodeZero != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
+		
+		App.debug(tpl.toString()+" "+ret);
 
 		return ret;
 	}
