@@ -16,6 +16,8 @@ import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboLis
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OptionsModel;
+import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
+import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel.IOutlyingIntersectionsListener;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -35,6 +37,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
@@ -83,6 +86,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private ReflexAnglePanel reflexAnglePanel;
 	private RightAnglePanel rightAnglePanel;
 	private TrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
+	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
 	private List<OptionPanel> basicPanels;
 	//Color picker
 	private ColorPanel colorPanel;
@@ -952,7 +956,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 
 	}
-	
+
 	class RightAnglePanel extends OptionPanel implements IRightAngleListener {
 		private final CheckBox emphasizeRightAngleCB;
 		private RightAngleModel model;
@@ -1012,6 +1016,43 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		@Override
 		public void setLabels() {
 			trimmedCB.setText(app.getPlain("ShowTrimmed"));
+		}
+	}
+
+	private class AllowOutlyingIntersectionsPanel extends OptionPanel implements
+	IOutlyingIntersectionsListener {
+		private OutlyingIntersectionsModel model;
+		private CheckBox outlyingIntersectionsCB;
+
+		public AllowOutlyingIntersectionsPanel() {
+			model = new OutlyingIntersectionsModel(this);
+			setModel(model);
+			// check boxes for show trace
+			outlyingIntersectionsCB = new CheckBox();
+		
+			setWidget(outlyingIntersectionsCB);
+			outlyingIntersectionsCB.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					model.applyChanges(outlyingIntersectionsCB.getValue());
+				}
+			});
+		}
+
+		public void setLabels() {
+			outlyingIntersectionsCB.setText(app
+					.getPlain("allowOutlyingIntersections"));
+		}
+		
+		public void updateCheckbox(boolean isEqual) {
+			if (isEqual)
+			{
+				LimitedPath geo0 = (LimitedPath)model.getGeos()[0];
+				outlyingIntersectionsCB.setValue(geo0.allowOutlyingIntersections());
+			}
+			else {
+				outlyingIntersectionsCB.setValue(false);
+			}
+
 		}
 	}
 
@@ -1103,23 +1144,25 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		trimmedIntersectionLinesPanel = new TrimmedIntersectionLinesPanel();
 		basicTab.add(trimmedIntersectionLinesPanel.getWidget());
-		
+
 		//		basicTabList.add(comboBoxPanel);
-		//		basicTabList.add(allowOutlyingIntersectionsPanel);
-	
+		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
+		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
+		
 		tabPanel.add(basicTab, "Basic");
-	
+
 
 		basicPanels = Arrays.asList(namePanel,
 				showObjectPanel,
 				tracePanel,
-				labelPanel,
+				labelPanel,	
 				fixPanel,
 				auxPanel,
 				bgImagePanel,
 				reflexAnglePanel,
 				rightAnglePanel,
-				trimmedIntersectionLinesPanel);
+				trimmedIntersectionLinesPanel,
+				allowOutlyingIntersectionsPanel);
 	};
 
 	private void addColorTab() {
