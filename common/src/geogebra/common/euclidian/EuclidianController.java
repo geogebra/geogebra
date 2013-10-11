@@ -7364,7 +7364,7 @@ public abstract class EuclidianController {
 				// need to trigger scripts
 				// (on tablets only get drag events)
 				// we don't want to run InputBox's script if it was just clicked
-				if(!(movedGeoElement instanceof GeoTextField) && !(movedGeoElement instanceof GeoList)){
+				if(!(movedGeoElement instanceof GeoTextField)){
 					runScriptsIfNeeded(movedGeoElement);
 				}
 			}
