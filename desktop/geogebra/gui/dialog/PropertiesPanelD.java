@@ -20,6 +20,8 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
+import geogebra.common.gui.dialog.options.model.AnimatingModel;
+import geogebra.common.gui.dialog.options.model.AnimatingModel.IAnimatingListener;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
@@ -2172,18 +2174,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author adapted from TracePanel
 	 */
 	private class AnimatingPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IAnimatingListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private AnimatingModel model;
 		private JCheckBox showAnimatingCB;
 
 		public AnimatingPanel() {
 			super();
 			app.setFlowLayoutOrientation(this);
-
+			model = new AnimatingModel(app, this);
 			// check boxes for animating
 			showAnimatingCB = new JCheckBox();
 			showAnimatingCB.addItemListener(this);
@@ -2196,63 +2198,27 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			showAnimatingCB.removeItemListener(this);
-
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalAnimating = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object visible value
-				if (geo0.isAnimating() != temp.isAnimating())
-					equalAnimating = false;
-			}
-
-			// set animating checkbox
-			if (equalAnimating)
-				showAnimatingCB.setSelected(geo0.isAnimating());
-			else
-				showAnimatingCB.setSelected(false);
-
+			model.updateProperties();
+						// set animating checkbox
 			showAnimatingCB.addItemListener(this);
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!((GeoElement) geos[i]).isAnimatable()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
+	
 		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
 			Object source = e.getItemSelectable();
 
 			// animating value changed
 			if (source == showAnimatingCB) {
 				boolean animate = showAnimatingCB.isSelected();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setAnimating(animate);
-					geo.updateRepaint();
-				}
-
+				model.applyChanges(animate);
 				// make sure that we are animating
-				if (animate)
-					kernel.getAnimatonManager().startAnimation();
+		
 			}
 		}
 
@@ -2265,6 +2231,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void updateCheckbox(boolean isEqual) {
+			if (isEqual) {
+				showAnimatingCB.setSelected(model.getGeoAt(0).isAnimating());
+			}
+			else {
+				showAnimatingCB.setSelected(false);
+			}
+			
 		}
 	}
 

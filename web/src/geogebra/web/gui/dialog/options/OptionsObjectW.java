@@ -3,6 +3,8 @@ package geogebra.web.gui.dialog.options;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.dialog.options.model.AnimatingModel;
+import geogebra.common.gui.dialog.options.model.AnimatingModel.IAnimatingListener;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
@@ -82,6 +84,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private LabelPanel labelPanel;
 	private FixPanel fixPanel;
 	private AuxPanel auxPanel;
+	private AnimatingPanel animatingPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private ReflexAnglePanel reflexAnglePanel;
 	private RightAnglePanel rightAnglePanel;
@@ -1055,6 +1058,42 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		}
 	}
+	private class AnimatingPanel extends OptionPanel implements
+	IAnimatingListener {
+		private AnimatingModel model;
+		private CheckBox animatingCB;
+
+		public AnimatingPanel() {
+			model = new AnimatingModel(app, this);
+			setModel(model);
+			// check boxes for show trace
+			animatingCB = new CheckBox();
+		
+			setWidget(animatingCB);
+			animatingCB.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					model.applyChanges(animatingCB.getValue());
+				}
+			});
+		}
+
+		public void setLabels() {
+			animatingCB.setText(app
+					.getPlain("Animating"));
+		}
+		
+		public void updateCheckbox(boolean isEqual) {
+			if (isEqual)
+			{;
+				animatingCB.setValue(model.getGeoAt(0).isAnimating());
+			}
+			else {
+				animatingCB.setValue(false);
+			}
+
+		}
+	}
+
 
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1119,7 +1158,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		basicTab.add(checkboxPanel);
 
 		if (!isDefaults) {
-			//TODO: Add animating panel
+			animatingPanel = new AnimatingPanel();
+			checkboxPanel.add(animatingPanel.getWidget());
 		}
 
 		fixPanel = new FixPanel();
@@ -1158,6 +1198,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				labelPanel,	
 				fixPanel,
 				auxPanel,
+				animatingPanel,
 				bgImagePanel,
 				reflexAnglePanel,
 				rightAnglePanel,
