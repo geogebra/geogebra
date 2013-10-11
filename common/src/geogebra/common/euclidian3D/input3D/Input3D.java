@@ -22,4 +22,16 @@ public interface Input3D {
 	 */
 	public double[] getMouse3DPosition();
 	
+	/**
+	 * 
+	 * @return 3D mouse orientation (as quaternion)
+	 */
+	public double[] getMouse3DOrientation();
+
+	/**
+	 * 
+	 * @return true if right button is pressed
+	 */
+	public boolean isRightPressed();
+	
 }

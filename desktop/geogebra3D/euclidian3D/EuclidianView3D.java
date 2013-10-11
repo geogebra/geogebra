@@ -120,13 +120,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private boolean[] drawBorderAxes = {false,false, false};
 	
 	//viewing values
-	private double XZero = 0;
-	private double YZero = 0;
-	private double ZZero = -1.5;
+	protected double XZero = 0;
+	protected double YZero = 0;
+	protected double ZZero = -1.5;
 	
-	private double XZeroOld = 0;
-	private double YZeroOld = 0;
-	private double ZZeroOld = 0;
+	protected double XZeroOld = 0;
+	protected double YZeroOld = 0;
+	protected double ZZeroOld = 0;
 	
 	//list of 3D objects
 	private boolean waitForUpdate = true; //says if it waits for update...
@@ -3301,9 +3301,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	private int pointStyle;
 	
-	private void setViewChangedByZoom(){viewChangedByZoom = true;}
-	private void setViewChangedByTranslate(){viewChangedByTranslate = true;}
-	private void setViewChangedByRotate(){viewChangedByRotate = true;}
+	protected void setViewChangedByZoom(){viewChangedByZoom = true;}
+	protected void setViewChangedByTranslate(){viewChangedByTranslate = true;}
+	protected void setViewChangedByRotate(){viewChangedByRotate = true;}
 	public void setViewChanged(){
 		viewChangedByZoom = true;
 		viewChangedByTranslate = true;
