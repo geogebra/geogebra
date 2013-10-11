@@ -1083,12 +1083,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void updateCheckbox(boolean value) {
-			if (value)
+			if (value) {
 				showTrimmedLinesCB.setSelected(model.getGeoAt(0)
 						.getShowTrimmedIntersectionLines());
-			else
+			}
+			else {
 				showTrimmedLinesCB.setSelected(false);
-
+			}
 		}
 
 	} // ShowObjectPanel

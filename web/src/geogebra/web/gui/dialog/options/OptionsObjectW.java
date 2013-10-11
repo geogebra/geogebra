@@ -28,6 +28,8 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
+import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel.ITrimmedIntersectionLinesListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -80,6 +82,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private BackgroundImagePanel bgImagePanel;
 	private ReflexAnglePanel reflexAnglePanel;
 	private RightAnglePanel rightAnglePanel;
+	private TrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
 	private List<OptionPanel> basicPanels;
 	//Color picker
 	private ColorPanel colorPanel;
@@ -978,6 +981,40 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
+	class TrimmedIntersectionLinesPanel extends OptionPanel implements ITrimmedIntersectionLinesListener {
+		private final CheckBox trimmedCB;
+		private TrimmedIntersectionLinesModel model;
+		public TrimmedIntersectionLinesPanel() {
+			trimmedCB = new CheckBox();
+			setWidget(trimmedCB);
+
+			model = new TrimmedIntersectionLinesModel(this);
+			setModel(model);
+
+			trimmedCB.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					model.applyChanges(trimmedCB.getValue());
+				}
+			});
+
+		}
+
+		public void updateCheckbox(boolean value) {
+			if (value) {
+				trimmedCB.setValue(model.getGeoAt(0)
+						.getShowTrimmedIntersectionLines());
+			}
+			else {
+				trimmedCB.setValue(false);
+			}
+		}
+
+		@Override
+		public void setLabels() {
+			trimmedCB.setText(app.getPlain("ShowTrimmed"));
+		}
+	}
+
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1064,11 +1101,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		rightAnglePanel = new RightAnglePanel();
 		basicTab.add(rightAnglePanel.getWidget());
 
+		trimmedIntersectionLinesPanel = new TrimmedIntersectionLinesPanel();
+		basicTab.add(trimmedIntersectionLinesPanel.getWidget());
+		
 		//		basicTabList.add(comboBoxPanel);
-		//		basicTabList.add(rightAnglePanel);
 		//		basicTabList.add(allowOutlyingIntersectionsPanel);
-		//		basicTabList.add(showTrimmedIntersectionLines);
-
+	
 		tabPanel.add(basicTab, "Basic");
 	
 
@@ -1080,7 +1118,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				auxPanel,
 				bgImagePanel,
 				reflexAnglePanel,
-				rightAnglePanel);
+				rightAnglePanel,
+				trimmedIntersectionLinesPanel);
 	};
 
 	private void addColorTab() {
