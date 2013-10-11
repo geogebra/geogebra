@@ -24,7 +24,7 @@ import org.w3c.dom.events.Event;
 public class OpenFromGGTDialogD extends WebViewDialog {
 	private static final long serialVersionUID = 1L;
 	
-	private static String GGT_URL = "http://test.geogebratube.org/widgetprovider/index/widgettype/desktop";
+	private static String GGT_URL = "http://www.geogebratube.org/widgetprovider/index/widgettype/desktop";
 
 	/**
 	 * @param app The app of type AppD
