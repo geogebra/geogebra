@@ -1021,8 +1021,6 @@ public class Kernel {
 		if (app.getLocalization().unicodeZero != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
-		
-		App.debug(tpl.toString()+" "+ret);
 
 		return ret;
 	}
