@@ -104,14 +104,16 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 		switch(p.getType()) {
 
 		case GeoPolyhedron.TYPE_PYRAMID:
-			
+
 			//create bottom face
-			outputPointsBottom.adjustOutputSize(n);
+			outputPointsBottom.adjustOutputSize(n-2);
 			outputPointsSide.adjustOutputSize(n+1);
 			outputPointsTop.adjustOutputSize(1);
 			net.startNewFace();
-			for (int i = 0; i < n; i++){
-				net.addPointToCurrentFace(outputPointsBottom.getElement(i));
+			net.addPointToCurrentFace(outputPointsSide.getElement(0));
+			net.addPointToCurrentFace(outputPointsSide.getElement(1));
+			for (int i = 2; i < n; i++){
+				net.addPointToCurrentFace(outputPointsBottom.getElement(i-2));
 			}
 			net.endCurrentFace();
 
@@ -139,7 +141,7 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 			net.addPointToCurrentFace(outputPointsTop.getElement(0));
 			net.endCurrentFace();
 			break;
-	/*	case GeoPolyhedron.TYPE_PRISM:
+			/*	case GeoPolyhedron.TYPE_PRISM:
 
 			outputPointsBottom.adjustOutputSize(n);
 			outputPointsSide.adjustOutputSize(2 * n);
@@ -170,7 +172,7 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 				net.addPointToCurrentFace(outputPointsTop.getElement(i));
 			}
 			net.endCurrentFace();
-*/
+			 */
 		}
 	}
 
@@ -195,7 +197,7 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 				switch(p.getType()) {
 
 				case GeoPolyhedron.TYPE_PYRAMID:
-					
+
 					outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
 					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
 					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);
@@ -203,7 +205,7 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 					step++;
 					//Application.debug(outputSegmentsSide.size());
 
-					 
+
 					break;
 
 				case GeoPolyhedron.TYPE_PRISM:
@@ -289,22 +291,22 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 	@Override
 	public void compute() {
 		//App.debug("coucou");
-		//App.printStacktrace("coucou");
+
 		double f = v.getDouble();
 
 		// update bottom points
 		AlgoPolyhedronPoints algo = (AlgoPolyhedronPoints) p.getParentAlgorithm();
 		GeoPointND[] points = algo.getBottomPoints();
-		outputPointsBottom.adjustOutputSize(points.length);
+		outputPointsBottom.adjustOutputSize(points.length - 2);
 		outputPointsBottom.setLabels(null);
 		for (int i = 0 ; i < outputPointsBottom.size() ; i++) {
-			outputPointsBottom.getElement(i).setCoords(points[i].getInhomCoordsInD(3));
+			outputPointsBottom.getElement(i).setCoords(points[i+2].getInhomCoordsInD(3));
 		}
 
 		switch(p.getType()) {
 
 		case GeoPolyhedron.TYPE_PYRAMID:
-			// update top points
+			// update points
 			outputPointsSide.adjustOutputSize(points.length + 1);
 			outputPointsSide.setLabels(null);
 			outputPointsTop.adjustOutputSize(1);
@@ -354,7 +356,11 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 				for (int j = i ; j <= cut ; j++) {
 					wpoint1 = outputPointsSide.getElement(j);
 					cCoord = wpoint1.getInhomCoordsInD(3);
-					wpoint1.rotate(-f * angle, o, vs);	
+					if (Math.abs(f) <= 0.5) {
+						wpoint1.rotate(-f*2 * angle, o, vs);
+					}else{
+						wpoint1.rotate(-1 * angle, o, vs);
+					}
 				}
 			}
 			// rotate second part
@@ -379,7 +385,11 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 					if (i==outputPointsSide.size()-1) {
 						sgn=-1;
 					}
-					wpoint1.rotate(sgn*f * angle, o, vs);	
+					if (Math.abs(f) <= 0.5) {
+						wpoint1.rotate(sgn * f*2 * angle, o, vs);
+					}else{
+						wpoint1.rotate(sgn * angle, o, vs);
+					}
 				}
 			}
 
@@ -396,11 +406,15 @@ public class AlgoPolyhedronNet2 extends AlgoElement3D {
 			if (v2.crossProduct(vs).dotproduct(faceDirection) < 0) { // top point is inside bottom face
 				angle = Math.PI - angle;
 			}	
-			wpoint1.rotate(f * angle, o, vs);	
+			if (Math.abs(f) >= 0.5) {
+				wpoint1.rotate((Math.abs(f)-0.5)*2* angle, o, vs);
+			}
 			for (int i = 2 ; i <outputPointsSide.size() ; i++) {
 				wpoint1 = outputPointsSide.getElement(i);
 				cCoord = wpoint1.getInhomCoordsInD(3);
-				wpoint1.rotate(f * angle, o, vs);
+				if (Math.abs(f) >= 0.5) {
+					wpoint1.rotate((Math.abs(f)-0.5)*2* angle, o, vs);
+				}
 			}
 
 			break;
