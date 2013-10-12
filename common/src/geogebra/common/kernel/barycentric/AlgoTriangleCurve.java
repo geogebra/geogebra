@@ -85,7 +85,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		eq.setForceImplicitPoly();
 		eq.initEquation();
 		boolean flag = cons.isSuppressLabelsActive();
-		dd = new AlgoDependentImplicitPoly(cons, label, eq);
+		dd = new AlgoDependentImplicitPoly(cons, label, eq, false);
 		cons.removeFromConstructionList(dd);
 		poly = dd.getOutput()[0];		
 				

@@ -38,7 +38,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 * @param label label
 	 * @param equ equation
 	 */
-	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ) {
+	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ, boolean simplify) {
 		super(c, false);
 		equation=equ;
 		Polynomial lhs = equ.getNormalForm();
@@ -47,7 +47,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			for (int j=0;j<coeff[i].length;j++){
 				if (coeff[i][j]!=null){
 					// find constant parts of input and evaluate them right now
-	    			if (!coeff[i][j].inspect(Inspecting.dynamicGeosFinder)){
+	    			if (simplify && !coeff[i][j].inspect(Inspecting.dynamicGeosFinder)){
 	    				coeff[i][j]=coeff[i][j].evaluate(StringTemplate.defaultTemplate);
 	    			}
 	    			

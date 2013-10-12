@@ -1674,7 +1674,7 @@ public class AlgebraProcessor {
 			geo = poly;
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(cons,
-					label, equ);
+					label, equ, true);
 
 			geo = algo.getGeo(); // might also return
 			// Line or Conic
