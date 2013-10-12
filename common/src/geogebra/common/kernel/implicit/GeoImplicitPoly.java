@@ -397,13 +397,19 @@ Dilateable, Transformable, EuclidianViewCE {
 						first=false;
 						if (!number.equals("1")){
 							sb.append(number);
+							if(tpl.hasType(StringType.GIAC)){
+								sb.append('*');
+							}
 						}
 						if (i > 0){
 							sb.append(tpl.printVariableName("x"));
 						}
 						addPow(sb,i,tpl);
 						if (j > 0) {
-							if (i > 0) { //insert blank after x^i
+							if(tpl.hasType(StringType.GIAC)){
+								sb.append('*');
+							}
+							else if (i > 0) { //insert blank after x^i
 								sb.append(' ');
 							}
 							sb.append(tpl.printVariableName("y"));
