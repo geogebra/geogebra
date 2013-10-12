@@ -169,7 +169,7 @@ __GGB__keysVar.ar_MA.command = {
     "Command": "\u0623\u0645\u0631",
     "CommonDenominator": "\u0642\u0627\u0633\u0645_\u0645\u0634\u062a\u0631\u0643",
     "CommonDenominator_Syntax": "[ <\u062a\u0639\u0628\u064a\u0631>, <\u062a\u0639\u0628\u064a\u0631> ]",
-    "CompetitionRank": "CompetitionRank",
+    "CompetitionRank": "\u062a\u0631\u062a\u064a\u0628",
     "CompetitionRank_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629> ]",
     "CompleteSquare": "\u0645\u0631\u0628\u0639_\u0643\u0627\u0645\u0644",
     "CompleteSquare_Syntax": "[ <\u062f\u0627\u0644\u0629_\u062a\u0631\u0628\u064a\u0639\u064a\u0629> ]",
