@@ -31,6 +31,15 @@ public class LeoSocket {
     public double birdY;
     /** bird z position */
     public double birdZ;
+	
+    public double birdOrientationX, birdOrientationY, birdOrientationZ, birdOrientationW;
+     
+    public double leftEyeX, leftEyeY, leftEyeZ;
+    public double rightEyeX, rightEyeY, rightEyeZ;
+    public double glassesCenterX, glassesCenterY, glassesCenterZ;
+    public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
+
+    public double bigButton, smallButton, vibration;
     
     /** says if it has got a message from leo */
     public boolean gotMessage = false;      
@@ -120,6 +129,37 @@ public class LeoSocket {
 			birdY = bb.getDouble();
 			birdZ = bb.getDouble();
 			
+			// bird orientation
+			birdOrientationX = bb.getDouble();
+			birdOrientationY = bb.getDouble();
+			birdOrientationZ = bb.getDouble();
+			birdOrientationW = bb.getDouble();
+
+			//glasses
+			leftEyeX = bb.getDouble(); 
+			leftEyeY = bb.getDouble(); 
+			leftEyeZ = bb.getDouble();
+
+			rightEyeX = bb.getDouble(); 
+			rightEyeY = bb.getDouble(); 
+			rightEyeZ = bb.getDouble();
+
+			glassesCenterX = bb.getDouble(); 
+			glassesCenterY = bb.getDouble(); 
+			glassesCenterZ = bb.getDouble();
+
+			glassesOrientationX = bb.getDouble(); 
+			glassesOrientationY = bb.getDouble(); 
+			glassesOrientationZ = bb.getDouble(); 
+			glassesOrientationW = bb.getDouble();
+
+			//buttons
+			bigButton = bb.getDouble(); 
+			smallButton = bb.getDouble(); 
+
+			//vibration
+			vibration = bb.getDouble();
+
 			
 			gotMessage = true;
 	        
