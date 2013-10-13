@@ -1312,22 +1312,17 @@ public class AppW extends AppWeb {
 
 	@Override
     protected int getWindowWidth(){
-		if (getEuclidianView1().getWidth() > 1) {
-			// double ratio = 800.0 * (getEuclidianView1().getHeight() + 170) /
-			// 600.0;
-			// sb.append((int)ratio);
-			// so it seems GeoGebraTube doesn't add anything to the following:
-			return getEuclidianView1().getWidth();
+		if (getWidth() > 0) {
+			return (int) getWidth();
 		} else {
 			return 800;
 		}
 	}
 	
 	@Override
-    protected int getWindowHeight(){
-		if (getEuclidianView1().getHeight() > 1) {
-			// 170 is a GeoGebraTube hack
-			return getEuclidianView1().getHeight() + 170;
+	protected int getWindowHeight() {
+		if (getHeight() > 0) {
+			return (int) getHeight();
 		} else {
 			return 600;
 		}
