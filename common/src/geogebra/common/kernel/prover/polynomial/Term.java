@@ -175,10 +175,13 @@ public class Term implements Comparable<Term> {
 		Iterator<Variable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
 			Variable fv = it.next();
-			sb.append("*" + fv);
+			sb.append("*");
+			sb.append(fv);
 			int power = variables.get(fv);
-			if (power > 1)
-				sb.append("^" + power);
+			if (power > 1) {
+				sb.append("^");
+				sb.append(power);
+			}
 		}
 		return sb.substring(1); // removing first "*" character
 	}
