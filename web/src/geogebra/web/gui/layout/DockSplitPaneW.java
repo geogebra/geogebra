@@ -425,19 +425,12 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		public DockSplitPaneData[] getInfo(DockSplitPaneW rootPane) {
 			splitPaneInfo.clear();
 
-			// TODO: handle frame dimensions
-			if (app.isApplet()) {
-				// windowWidth = app.getApplet().width;
-			} else {
-				// windowWidth = app.getFrame().getWidth();
-			}
-
-			if (app.isApplet()) {
-				// windowHeight = app.getApplet().height;
-			} else {
-				// windowHeight = app.getFrame().getHeight();
-			}
-
+			// get window dimensions
+			// TODO: Are these the correct dimensions needed for calculations below?
+			// e.g. do we include menubar height?
+			windowWidth = (int) app.getWidth();
+			windowHeight = (int) app.getHeight();
+			
 			saveSplitPane("", rootPane);
 
 			DockSplitPaneData[] info = new DockSplitPaneData[splitPaneInfo
