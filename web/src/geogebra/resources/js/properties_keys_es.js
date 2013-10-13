@@ -2313,7 +2313,7 @@ __GGB__keysVar.es.plain = {
     "ImplicitPoly": "Curva Impl\xedcita",
     "IncircleOfTriangleABC": "Circunferencia Inscripta en tri\xe1ngulo %0%1%2",
     "Increasing": "Incrementando",
-    "IncreasingOnce": "Aumentando(Una vez)",
+    "IncreasingOnce": "Aumentando (Una vez)",
     "Inequality": "Inecuaci\xf3n",
     "InfiniteConePointAVectorBNumberC": "Cono con centro en %0, eje paralelo a %1, \xe1ngulo %2",
     "InfiniteConePointsABNumberC": "Cono con centro en %0, eje que cruza por %1, \xe1ngulo %2",
