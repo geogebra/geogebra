@@ -398,7 +398,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (!number.equals("1")){
 							sb.append(number);
 							if(tpl.hasType(StringType.GIAC)){
-								sb.append('*');
+								appendMultiply(sb);
 							}
 						}
 						if (i > 0){
@@ -407,7 +407,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						addPow(sb,i,tpl);
 						if (j > 0) {
 							if(tpl.hasType(StringType.GIAC)){
-								sb.append('*');
+								appendMultiply(sb);
 							}
 							else if (i > 0) { //insert blank after x^i
 								sb.append(' ');
@@ -422,6 +422,15 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 
 		return sb.toString();
+	}
+
+	private static void appendMultiply(StringBuilder sb) {
+		char ch = sb.charAt(sb.length() - 1);
+		
+		if (ch != '*' && ch != ' ') {
+			sb.append('*');
+		}
+		
 	}
 
 	@Override
