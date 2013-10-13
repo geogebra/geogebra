@@ -367,7 +367,7 @@ public class AppWapplet extends AppW {
 	}
 	
 	@Override
-    public Element getDnDElement(){
+    public Element getFrameElement(){
 		return  frame.getElement();
 	}
 }

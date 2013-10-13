@@ -240,8 +240,8 @@ public class AppWapplication extends AppW {
 		return dialogManager;
 	}
 	
-	@Override
-    public Element getDnDElement(){
+    @Override
+    public Element getFrameElement(){
 		return  appFrame.getElement();
 	}
 }

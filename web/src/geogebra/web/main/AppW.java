@@ -68,7 +68,6 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -252,17 +251,11 @@ public class AppW extends AppWeb {
 		                   // until the canvas is first drawn
 
 		setUndoActive(undoActive);
-		registerFileDropHandlers(getDnDElement());
+		registerFileDropHandlers(getFrameElement());
 		afterCoreObjectsInited();
 
 	}
 
-	/**
-	 * Returns the target element for DnD file drops.
-	 */
-	public Element getDnDElement(){
-		return (CanvasElement) canvas.getElement().cast();
-	}
 	
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
@@ -314,6 +307,11 @@ public class AppW extends AppWeb {
 		return canvas;
 	}
 
+	public Element getFrameElement(){
+		App.debug("getFrameElement() returns null, should be overridden by subclasses");
+		return null;
+	}
+	
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 	        boolean showGrid) {
@@ -771,25 +769,25 @@ public class AppW extends AppWeb {
 	native void registerFileDropHandlers(Element ce) /*-{
 
 		var appl = this;
-		var canvas = ce;
+		var frameElement = ce;
 
-		if (canvas) {
-			canvas.addEventListener("dragover", function(e) {
+		if (frameElement) {
+			frameElement.addEventListener("dragover", function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				canvas.style.borderColor = "#ff0000";
+				frameElement.style.borderColor = "#ff0000";
 			}, false);
-			canvas.addEventListener("dragenter", function(e) {
+			frameElement.addEventListener("dragenter", function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 			}, false);
-			canvas
+			frameElement
 					.addEventListener(
 							"drop",
 							function(e) {
 								e.preventDefault();
 								e.stopPropagation();
-								canvas.style.borderColor = "#000000";
+								frameElement.style.borderColor = "#000000";
 								var dt = e.dataTransfer;
 								if (dt.files.length) {
 									var fileToHandle = dt.files[0];
@@ -815,8 +813,8 @@ public class AppW extends AppWeb {
 		$doc.body.addEventListener("dragover", function(e) {
 			e.preventDefault();
 			e.stopPropagation();
-			if (canvas)
-				canvas.style.borderColor = "#000000";
+			if (frameElement)
+				frameElement.style.borderColor = "#000000";
 		}, false);
 		$doc.body.addEventListener("drop", function(e) {
 			e.preventDefault();
@@ -1139,16 +1137,16 @@ public class AppW extends AppWeb {
 
 	@Override
 	public double getWidth() {
-		if (canvas == null)
+		if (getFrameElement() == null)
 			return 0;
-		return canvas.getCanvasElement().getWidth();
+		return getFrameElement().getOffsetWidth();
 	}
 
 	@Override
 	public double getHeight() {
-		if (canvas == null)
+		if (getFrameElement() == null)
 			return 0;
-		return canvas.getCanvasElement().getHeight();
+		return getFrameElement().getOffsetHeight();
 	}
 
 	@Override

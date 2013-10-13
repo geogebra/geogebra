@@ -10,6 +10,7 @@ import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
@@ -139,5 +140,10 @@ public class AppWsimple extends AppW {
 				getEuclidianViewpanel().getOffsetWidth() + widthDiff,
 				getEuclidianViewpanel().getOffsetHeight() + heightDiff);
 		*/
+	}
+	
+	@Override
+    public Element getFrameElement(){
+		return frame.getElement();
 	}
 }
