@@ -186,7 +186,6 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	    this.open.click();
     }
 
-	@Override
     public void renderEvent(BaseEvent event) {
 	   if (event instanceof GoogleLogOutEvent) {
 		   this.hide();
