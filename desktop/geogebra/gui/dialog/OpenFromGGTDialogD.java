@@ -90,19 +90,20 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 	 * Load the material from the given GGT URL and close the dialog
 	 * @param url The URL of the material to load
 	 */
-	void openURL(String url) {
+	void openURL(final String url) {
 		App.debug("Opening material from URL: " + url);
     	
     	// Close the dialog
 	    SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	OpenFromGGTDialogD.this.dispatchEvent(new WindowEvent( 
-		    			OpenFromGGTDialogD.this, WindowEvent.WINDOW_CLOSING)); 
+		    			OpenFromGGTDialogD.this, WindowEvent.WINDOW_CLOSING));
+		    	
+			    
+			    // Load the URL
+		    	app.getGuiManager().loadURL(url);
 		    }
 	    });
-	    
-	    // Load the URL
-    	app.getGuiManager().loadURL(url);
 	}
 	
 	@Override

@@ -266,7 +266,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		LogInOperation signIn = app.getLoginOperation();
 		signIn.getView().add(this);
 		if (signIn.isLoggedIn()) {
-			onLogin(true, signIn.getModel().getLoggedInUser());
+			onLogin(true, signIn.getModel().getLoggedInUser(), true);
 		}
 	}
 	
@@ -280,21 +280,36 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			signInButton.setAction(signInAction);
 		} else if (event instanceof LoginEvent) {
 			LoginEvent loginEvent = (LoginEvent) event;
-			onLogin(loginEvent.isSuccessful(), loginEvent.getUser());
+			onLogin(loginEvent.isSuccessful(), loginEvent.getUser(), loginEvent.isAutomatic());
 		}
 	}
 	
-	private void onLogin(boolean successful, GeoGebraTubeUser user) {
+	private void onLogin(boolean successful, GeoGebraTubeUser user, boolean automatic) {
 		
 		Localization loc = app.getLocalization();
 
 		if (successful) {
+			
+			// Show the username in the menu
 			signInButton.setAction(signOutAction);
 			String username = user.getUserName();
 			if (app.isMacOS()) {
 				username = app.getNormalizer().transform(username);
 			}
 			signInButton.setText(loc.getPlain("SignedInAsA", username));
+			
+			// Show a login success message
+			if (! automatic) {
+				Object[] options = { app.getMenu("OpenFromGeoGebraTube") + "...", app.getPlain("OK")  };
+				int n = JOptionPane.showOptionDialog(
+						app.getMainComponent(),
+						app.getPlain("ThanksForSigningIn"), app.getPlain("SignInSuccessful"),
+						JOptionPane.DEFAULT_OPTION,
+						JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					app.getDialogManager().showOpenFromGGTDialog();
+				}
+			}
 		} else {
 			signInButton.setAction(signInAction);
 			signInButton.setText(loc.getMenu("SignInError"));

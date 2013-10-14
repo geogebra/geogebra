@@ -101,7 +101,7 @@ public class SignInDialogD extends WebViewDialog {
     				String token = (String) result;
     				
     				// Call the operation to approve the token
-    				app.getLoginOperation().performTokenLogin(token);
+    				app.getLoginOperation().performTokenLogin(token, false);
     				
     				// Close the dialog
     			    SwingUtilities.invokeLater(new Runnable() {

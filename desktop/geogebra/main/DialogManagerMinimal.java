@@ -173,6 +173,4 @@ public class DialogManagerMinimal extends DialogManager {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }

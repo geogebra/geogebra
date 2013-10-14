@@ -44,7 +44,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	public void performTokenLogin() {
 		String token = getModel().getLoginToken();
 		if (token != null) {
-			performTokenLogin(token);
+			performTokenLogin(token, true);
 		}
 	}
 	
@@ -56,16 +56,20 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * When the login attempt is finished (successful or not), a {@link LoginEvent} will be sent
 	 * 
 	 * @param token The Login token to authorize
+	 * @param automatic If the login is triggered automatically or by the user. This information will be provided
+	 * 					in the Login Event. 
 	 */
-	public void performTokenLogin(String token) {
-		doPerformTokenLogin(token);
+	public void performTokenLogin(String token, boolean automatic) {
+		doPerformTokenLogin(token, automatic);
 	}
 	
 	/**
 	 * Performs the API call to authorize the token.
 	 * @param token the token to authorize
+	 * @param automatic If the login is triggered automatically or by the user. This information will be provided
+	 * 					in the Login Event. 
 	 */
-	protected void doPerformTokenLogin(String token) {
+	protected void doPerformTokenLogin(String token, boolean automatic) {
 		GeoGebraTubeAPI api = getGeoGebraTubeAPI();
 		GeoGebraTubeUser user = new GeoGebraTubeUser(token);
 
@@ -82,7 +86,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 			App.debug("The login token was authorized successfully");
 
 			// Trigger event to signal successful login
-			onEvent(new LoginEvent(user, true));
+			onEvent(new LoginEvent(user, true, automatic));
 		} else {
 			if (result == GeoGebraTubeAPI.LOGIN_REQUEST_FAILED) {
 				App.error("The call to the GeoGebraTubeAPI failed!");
@@ -91,7 +95,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 			}
 
 			// Trigger event to signal unsuccessful login
-			onEvent(new LoginEvent(user, false));
+			onEvent(new LoginEvent(user, false, automatic));
 		}
 	}
 	
@@ -109,6 +113,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	
 
 	/**
+	 * @param languageCode The code of the current user language. This code will be used as URL parameter
 	 * @return The URL to the GeoGebraTube Login page including params for the client identification
 	 * and the expiration time.
 	 */

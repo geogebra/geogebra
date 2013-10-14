@@ -102,6 +102,6 @@ public class LoginOperationW extends LogInOperation {
 	}*/
 	
 	private void processToken(String token) {
-		performTokenLogin(token);
+		performTokenLogin(token, false);
 	}
 }

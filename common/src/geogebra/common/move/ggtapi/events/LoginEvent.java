@@ -11,15 +11,18 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 public class LoginEvent extends BaseEvent {
 	private GeoGebraTubeUser user;
 	private boolean successful;
+	private boolean automatic;
 	
 	/**
 	 * Creates a new Login event,
 	 * @param user The user that was logged in
-	 * 
+	 * @param successful If the Login was successful 
+	 * @param automatic true if the login was performed automatically (on startup) or manually by the user
 	 */
-	public LoginEvent(GeoGebraTubeUser user, boolean successful) {
+	public LoginEvent(GeoGebraTubeUser user, boolean successful, boolean automatic) {
 		this.user = user;
 		this.successful = successful;
+		this.automatic = automatic;
 	}
 
 	/**
@@ -27,6 +30,13 @@ public class LoginEvent extends BaseEvent {
 	 */
 	public boolean isSuccessful() {
 		return successful;
+	}
+	
+	/**
+	 * @return if the login attempt was successful
+	 */
+	public boolean isAutomatic() {
+		return automatic;
 	}
 
 	/**

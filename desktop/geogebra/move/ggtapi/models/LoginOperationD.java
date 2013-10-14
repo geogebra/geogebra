@@ -28,25 +28,27 @@ public class LoginOperationD extends LogInOperation {
 	}
 
     @Override
-	public void performTokenLogin(String token) {
+	public void performTokenLogin(String token, boolean automatic) {
     	
 		// Perform the API call in a background process
-		LoginTokenApprover approver = new LoginTokenApprover(token);
+		LoginTokenApprover approver = new LoginTokenApprover(token, automatic);
 		approver.execute();
 	}
 
 	private class LoginTokenApprover extends SwingWorker<Void, BaseEvent> {
         private String token;
+        private boolean automatic;
         
-        LoginTokenApprover(String token) {
+        LoginTokenApprover(String token, boolean automatic) {
         	super();
         	this.token = token;
+        	this.automatic = automatic;
         }
         
 		@SuppressWarnings("synthetic-access")
 		@Override
         public Void doInBackground() {
-    		doPerformTokenLogin(token);
+    		doPerformTokenLogin(token, automatic);
     		return null;
         }
     }
