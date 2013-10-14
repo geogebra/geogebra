@@ -1675,12 +1675,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// set the new column width
 		if (tempWidth == -1) {
 			// column is empty
-			prefWidth = preferredColumnWidth - 1 /*
+			if (column == 0) {
+				prefWidth = SpreadsheetViewW.ROW_HEADER_WIDTH - 1;
+			} else {
+				prefWidth = preferredColumnWidth - 1 /*
 												 * TODO
 												 * getIntercellSpacing().width
 												 */;
+			}
 		} else {
-			prefWidth = Math.max(prefWidth, 15 /*
+			// There was "15" here, but in Desktop, it should visually look
+			// like if there was "5"...
+			prefWidth = Math.max(prefWidth, 5 /*
 												 * TODO
 												 * tableColumn.getMinWidth()
 												 */);

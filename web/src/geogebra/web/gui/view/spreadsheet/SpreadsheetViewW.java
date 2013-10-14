@@ -926,14 +926,24 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		table.setPreferredColumnWidth(settings().preferredColumnWidth());
 		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
 
+		int aw = 0;
+
 		// column 0 is the header
 		for (int i = 1; i < table.getColumnCount(); ++i) {
 			if (widthMap.containsKey(i-1)) {
-				table.getColumnFormatter().getElement(i).getStyle().setWidth(widthMap.get(i-1), Style.Unit.PX);
+				aw = widthMap.get(i-1);
 			} else {
-				table.getColumnFormatter().getElement(i).getStyle().setWidth(table.preferredColumnWidth(), Style.Unit.PX);
+				aw = table.preferredColumnWidth();
 			}
+			if (aw < 5) {
+				// there is a minimal width in the Desktop version,
+				// Web version should imitate this; this is visually looking
+				// like 5px, but in the code, it seems that it is 15px
+				aw = 5;
+			}
+			table.getColumnFormatter().getElement(i).getStyle().setWidth(aw, Style.Unit.PX);
 		}
+		table.getColumnFormatter().getElement(0).getStyle().setWidth(ROW_HEADER_WIDTH, Style.Unit.PX);
 	}
 
 	public void setRowHeightsFromSettings() {
