@@ -666,18 +666,21 @@ public class AppW extends AppWeb {
 
 	
 
-	private Object driveBase64Content = null;
 	private String driveBase64description = null;
 	private String driveBase64FileName = null;
-	/**
-	 * static because it gets from server side, either "" or the set filename
-	 */
-	public String currentFileId = null;
+	
+	private String currentFileId = null;
 
 	
-	public void refreshCurrentFileDescriptors(String fName, String desc,
-	        Object fileCont) {
-		driveBase64Content = fileCont;
+	public String getCurrentFileId() {
+		return currentFileId;
+	}
+
+	public void setCurrentFileId(String currentFileId) {
+		this.currentFileId = currentFileId;
+	}
+
+	public void refreshCurrentFileDescriptors(String fName, String desc) {
 		driveBase64description = desc;
 		driveBase64FileName = fName;
 		((DialogManagerW) getDialogManager())
@@ -708,8 +711,7 @@ public class AppW extends AppWeb {
     protected void resetStorageInfo(){
 		driveBase64FileName = null;
 		driveBase64description = null;
-		driveBase64Content = null;
-		currentFileId = "";
+		currentFileId = null;
 		((DialogManagerW) getDialogManager())
 		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
 		                driveBase64description);

@@ -207,18 +207,18 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	private void processGoogleDriveFileContentAsBase64(String base64, String description, String title, String id) {
 		app.loadGgbFileAsBase64Again(base64);
-		postprocessFileLoading(base64, description, title, id);
+		postprocessFileLoading(description, title, id);
 	}
 
-	private void postprocessFileLoading(Object binary, String description,
+	private void postprocessFileLoading(String description,
             String title, String id) {
-	    app.refreshCurrentFileDescriptors(title, description, binary);
-		app.currentFileId = id;
+	    app.refreshCurrentFileDescriptors(title, description);
+		app.setCurrentFileId(id);
     }
 	
 	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary, String description, String title, String id) {
 		app.loadGgbFileAsBinaryAgain(binary);
-		postprocessFileLoading(binary, description, title, id);
+		postprocessFileLoading(description, title, id);
 	}
 
 	
@@ -248,12 +248,17 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		JavaScriptObject metaData = JavaScriptObject.createObject();
 		JSON.put(metaData,	"title", fileName);
 		JSON.put(metaData, "description", description);
+		if (!fileName.equals(app.getFileName())) {
+			app.setCurrentFileId(null);
+		}
 		
-		handleFileUploadToGoogleDrive(app.currentFileId, metaData, fileContent);		
+		handleFileUploadToGoogleDrive(app.getCurrentFileId(), metaData, fileContent);		
     }
 	
 	private native void handleFileUploadToGoogleDrive(String id, JavaScriptObject metaData, String base64) /*-{
-	var _this = this;
+	var _this = this,
+		fId = id ? id : "";
+	$wnd.console.log(fId);
 	function updateFile(fileId, fileMetadata, fileData) {
 	  var boundary = '-------314159265358979323846';
 	  var delimiter = "\r\n--" + boundary + "\r\n";
@@ -266,6 +271,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	        JSON.stringify(fileMetadata) +
 	        delimiter +
 	        'Content-Type: ' + contentType + '\r\n' +
+	        'Content-Transfer-Encoding: base64\r\n' +
 	        '\r\n' +
 	        base64Data +
 	        close_delim;
@@ -283,13 +289,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	   		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description, base64)
 	   });
 	  }
-	  updateFile(id, metaData, base64);
+	  updateFile(fId, metaData, base64);
 	}-*/;
 	
 	private void updateAfterGoogleDriveSave(String id, String fileName, String description, String content) {
 		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
-		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description, content);
-		app.currentFileId = id;
+		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description);
+		app.setCurrentFileId(id);
 	}
 	
 	

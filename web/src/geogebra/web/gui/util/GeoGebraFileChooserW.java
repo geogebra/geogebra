@@ -190,7 +190,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 
 			public void onChange(ChangeEvent event) {
 				String newName = fileName.getText();
-				if(newName.substring(-4) != ".ggb"){
+				if(!newName.endsWith(".ggb")){
 					newName += ".ggb";
 					fileName.setText(newName);
 				}
@@ -214,10 +214,8 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 	
 	@Override
     public void show(){
-		// It creates new ggb file all time for download, all time when the
-		// dialog opens.
-		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
 		refreshOnlineState();
+		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    super.show();
 	}
@@ -254,8 +252,8 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
         download.getElement().setAttribute("download", newVal);
 	}
 
-	public void saveSuccess(String fName, String desc, String fileCont) {
-	    ((AppW) app).refreshCurrentFileDescriptors(fName,desc,fileCont);
+	public void saveSuccess(String fName, String desc) {
+	    ((AppW) app).refreshCurrentFileDescriptors(fName,desc);
     }
 	
 	public void setFileName(String fName) {

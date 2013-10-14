@@ -74,7 +74,7 @@ public class MyGoogleApis {
 					String mimeType = JSON.get(data, "mimeType");
 					String description = JSON.get(data, "description");
 					loadFilePresenter.process(content);
-					((AppW)loadFilePresenter.getApplication()).refreshCurrentFileDescriptors(title, description, content);
+					((AppW)loadFilePresenter.getApplication()).refreshCurrentFileDescriptors(title, description);
 				}
 				
 				public void onError(Request request, Throwable exception) {
