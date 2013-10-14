@@ -258,7 +258,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private native void handleFileUploadToGoogleDrive(String id, JavaScriptObject metaData, String base64) /*-{
 	var _this = this,
 		fId = id ? id : "";
-	$wnd.console.log(fId);
 	function updateFile(fileId, fileMetadata, fileData) {
 	  var boundary = '-------314159265358979323846';
 	  var delimiter = "\r\n--" + boundary + "\r\n";
@@ -286,13 +285,21 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	        'body': multipartRequestBody});
 	    
 	   request.execute(function(resp) {
-	   		_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description, base64)
+	   		if (!resp.error) {
+	   			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
+	   		} else {
+	   			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
+	   		}
 	   });
 	  }
 	  updateFile(fId, metaData, base64);
 	}-*/;
 	
-	private void updateAfterGoogleDriveSave(String id, String fileName, String description, String content) {
+	private void showUploadError() {
+		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
+		((DialogManagerW) app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("UserNotAuthenticatedToWriteThisFile"));
+	}
+	private void updateAfterGoogleDriveSave(String id, String fileName, String description) {
 		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
 		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description);
 		app.setCurrentFileId(id);
