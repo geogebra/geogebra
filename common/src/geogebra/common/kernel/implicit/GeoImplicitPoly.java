@@ -425,6 +425,11 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 
 	private static void appendMultiply(StringBuilder sb) {
+		
+		if (sb.length() == 0) {
+			return;
+		}
+		
 		char ch = sb.charAt(sb.length() - 1);
 		
 		if (ch != '*' && ch != ' ') {
