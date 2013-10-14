@@ -3459,7 +3459,38 @@ public class AppD extends App implements KeyEventDispatcher {
 			resetUniqueId();
 
 			BufferedInputStream bis = new BufferedInputStream(is);
+
+			bis = new BufferedInputStream(is);
+			
+			if (bis.markSupported()) {
+				bis.mark(Integer.MAX_VALUE);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+				String str = reader.readLine();
+					
+				// check if .ggb file is actually a base64 file from 4.2 Chrome App
+				if (str != null && str.startsWith("UEs")) {
+					
+					StringBuilder sb = new StringBuilder(str);
+					sb.append("\n");
+					
+					while ((str = reader.readLine()) != null) { 
+						sb.append(str + "\n" );
+					} 
+	
+					reader.close();
+					is.close();
+					bis.close();
+		
+					byte[] zipFile = Base64.decode(sb.toString());
+	
+					return loadXML(zipFile);
+				}
+				
+				bis.reset();
+			}
+
 			getXMLio().readZipFromInputStream(bis, isMacroFile);
+
 			is.close();
 			bis.close();
 
