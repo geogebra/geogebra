@@ -4,18 +4,14 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
-public class AnimatingModel extends OptionsModel {
-	public interface IAnimatingListener {
-		void updateCheckbox(boolean isEqual);
-	}
+public class AnimatingModel extends BooleanOptionModel {
 	private App app;
 	private Kernel kernel;
-	private IAnimatingListener listener;
 	
-	public AnimatingModel(App app, IAnimatingListener listener) {
+	public AnimatingModel(App app, IBooleanOptionListener listener) {
+		super(listener);
 		this.app = app;
 		kernel = app.getKernel();
-		this.listener = listener;
 	}
 
 	@Override
@@ -30,7 +26,7 @@ public class AnimatingModel extends OptionsModel {
 			if (geo0.isAnimating() != temp.isAnimating())
 				equalAnimating = false;
 		}
-		listener.updateCheckbox(equalAnimating);
+		getListener().updateCheckbox(equalAnimating ? geo0.isAnimating(): false);
 	}
 
 	public void applyChanges(boolean value) {

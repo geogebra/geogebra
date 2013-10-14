@@ -2,16 +2,12 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
 
-public class FixObjectModel extends OptionsModel {
-	public interface IFixObjectListener {
-		void updateCheckbox(boolean equalObjectVal);
-	}
+public class FixObjectModel extends BooleanOptionModel {
 
 	private static final long serialVersionUID = 1L;
-	private IFixObjectListener listener;
 
-	public FixObjectModel(IFixObjectListener listener) {
-		this.listener = listener;
+	public FixObjectModel(IBooleanOptionListener listener) {
+		super(listener);
 	}
 
 	public void applyChanges(boolean value) {
@@ -34,7 +30,7 @@ public class FixObjectModel extends OptionsModel {
 			if (geo0.isFixed() != temp.isFixed())
 				equalFix = false;
 		}
-		listener.updateCheckbox(equalFix);
+		getListener().updateCheckbox(equalFix ? geo0.isFixed(): false);
 
 	}
 

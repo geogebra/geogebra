@@ -2,16 +2,10 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoImage;
 
-public class BackgroundImageModel extends OptionsModel {
-	public interface IBackroundImageListener {
-		void updateCheckbox(boolean equalIsBGimage);
-	}
-
-	private static final long serialVersionUID = 1L;
-	private IBackroundImageListener listener;
-
-	public BackgroundImageModel(IBackroundImageListener listener) {
-		this.listener = listener;
+public class BackgroundImageModel extends BooleanOptionModel {
+	
+	public BackgroundImageModel(IBooleanOptionListener listener) {
+		super(listener);
 	}
 
 	public void applyChanges(boolean value) {
@@ -34,7 +28,7 @@ public class BackgroundImageModel extends OptionsModel {
 			if (geo0.isInBackground() != temp.isInBackground())
 				equalIsBGimage = false;
 		}
-		listener.updateCheckbox(equalIsBGimage);
+		getListener().updateCheckbox(equalIsBGimage ? geo0.isInBackground():false);
 
 	}
 

@@ -3,14 +3,10 @@ package geogebra.common.gui.dialog.options.model;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LimitedPath;
 
-public class OutlyingIntersectionsModel extends OptionsModel {
-	public interface IOutlyingIntersectionsListener {
-		void updateCheckbox(boolean isEqual);
-	}
-	private IOutlyingIntersectionsListener listener;
-	
-	public OutlyingIntersectionsModel(IOutlyingIntersectionsListener listener) {
-		this.listener = listener;
+public class OutlyingIntersectionsModel extends BooleanOptionModel {
+
+	public OutlyingIntersectionsModel(IBooleanOptionListener listener) {
+		super(listener);
 	}
 
 	@Override
@@ -27,7 +23,9 @@ public class OutlyingIntersectionsModel extends OptionsModel {
 				equalVal = false;
 		}
 
-		listener.updateCheckbox(equalVal);
+	
+		getListener().updateCheckbox(equalVal ? geo0.allowOutlyingIntersections():
+			false);
 
 	}
 

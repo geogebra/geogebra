@@ -4,25 +4,19 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
-import geogebra.common.gui.dialog.options.model.AnimatingModel.IAnimatingListener;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
-import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
-import geogebra.common.gui.dialog.options.model.BackgroundImageModel.IBackroundImageListener;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
-import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OptionsModel;
-import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
-import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel.IOutlyingIntersectionsListener;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -40,9 +34,7 @@ import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel.IT
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
@@ -301,78 +293,27 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			labelMode.setSelectedIndex(selectedIndex);        
 		}
 	}
+	
+	private class FixPanel extends BooleanOptionPanel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	class FixPanel extends OptionPanel implements IFixObjectListener {
-		private final CheckBox showFixCB;
-		private FixObjectModel model;
 		public FixPanel() {
-			showFixCB = new CheckBox();
-			setWidget(showFixCB);
-
-			model = new FixObjectModel(this);
-			setModel(model);
-
-			showFixCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(showFixCB.getValue());
-				}
-			});
-
+			super(app.getPlain("FixObject"));
+			setModel(new FixObjectModel(this));
 		}
+	}
 
-		public void updateCheckbox(boolean equalObjectVal) {
-			// set object visible checkbox
-			if (equalObjectVal) {
-				showFixCB.setValue(model.getGeoAt(0).isFixed());
-			}
-			else {
-				showFixCB.setValue(false);
-			}
+	private class AuxPanel extends BooleanOptionPanel {
 
-		}
-
-		@Override
-		public void setLabels() {
-			showFixCB.setText(app.getPlain("FixObject"));
-		}
-
-	}		
-
-	class AuxPanel extends OptionPanel implements IAuxObjectListener {
-		private final CheckBox auxCB;
-		private AuxObjectModel model;
 		public AuxPanel() {
-			auxCB = new CheckBox();
-			setWidget(auxCB);
-
-			model = new AuxObjectModel(this);
-			setModel(model);
-
-			auxCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(auxCB.getValue());
-				}
-			});
-
-		}
-
-		public void updateCheckbox(boolean equalObjectVal) {
-			// set object visible checkbox
-			if (equalObjectVal) {
-				auxCB.setValue(model.getGeoAt(0).isAuxiliaryObject());
-			}
-			else {
-				auxCB.setValue(false);
-			}
-
-		}
-
-		@Override
-		public void setLabels() {
-			auxCB.setText(app.getPlain("AuxiliaryObject"));
-		}
-
-	}		
+	        super("AuxiliaryObject");
+	        setModel(new AuxObjectModel(this));
+        }
+		
+	}
 
 	class ShowConditionPanel extends OptionPanel implements	IShowConditionListener {
 
@@ -816,38 +757,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
-	class BackgroundImagePanel extends OptionPanel implements IBackroundImageListener {
-		private final CheckBox bgImageCB;
-		private BackgroundImageModel model;
+	private class BackgroundImagePanel extends BooleanOptionPanel {
+
 		public BackgroundImagePanel() {
-			bgImageCB = new CheckBox(app.getPlain("BackgroundImage"));
-			setWidget(bgImageCB);
-
-			model = new BackgroundImageModel(this);
-			setModel(model);
-
-			bgImageCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(bgImageCB.getValue());
-				}
-			});
-
-		}
-
-		public void updateCheckbox(boolean equalIsBGimage) {
-
-			GeoImage geo0 = (GeoImage)model.getGeoAt(0);
-			if (equalIsBGimage)
-				bgImageCB.setValue(geo0.isInBackground());
-			else
-				bgImageCB.setValue(false);
-
-		}
-
-		@Override
-		public void setLabels() {
-			bgImageCB.setText(app.getPlain("BackgroundImage"));
-		}
+	        super("BackgroundImage");
+	        setModel(new BackgroundImageModel(this));
+        }
+		
 	}
 
 	class ListAsComboPanel extends OptionPanel implements IListAsComboListener {
@@ -1053,76 +969,22 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
-	private class AllowOutlyingIntersectionsPanel extends OptionPanel implements
-	IOutlyingIntersectionsListener {
-		private OutlyingIntersectionsModel model;
-		private CheckBox outlyingIntersectionsCB;
-
-		public AllowOutlyingIntersectionsPanel() {
-			model = new OutlyingIntersectionsModel(this);
-			setModel(model);
-			// check boxes for show trace
-			outlyingIntersectionsCB = new CheckBox();
-		
-			setWidget(outlyingIntersectionsCB);
-			outlyingIntersectionsCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(outlyingIntersectionsCB.getValue());
-				}
-			});
-		}
-
-		public void setLabels() {
-			outlyingIntersectionsCB.setText(app
-					.getPlain("allowOutlyingIntersections"));
-		}
-		
-		public void updateCheckbox(boolean isEqual) {
-			if (isEqual)
-			{
-				LimitedPath geo0 = (LimitedPath)model.getGeos()[0];
-				outlyingIntersectionsCB.setValue(geo0.allowOutlyingIntersections());
-			}
-			else {
-				outlyingIntersectionsCB.setValue(false);
-			}
-
-		}
-	}
-	private class AnimatingPanel extends OptionPanel implements
-	IAnimatingListener {
-		private AnimatingModel model;
-		private CheckBox animatingCB;
+	private class AnimatingPanel extends BooleanOptionPanel {
 
 		public AnimatingPanel() {
-			model = new AnimatingModel(app,  this);
-			setModel(model);
-			// check boxes for show trace
-			animatingCB = new CheckBox();
+	        super("Animating");
+	        setModel(new AnimatingModel(app, this));
+        }
 		
-			setWidget(animatingCB);
-			animatingCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(animatingCB.getValue());
-				}
-			});
-		}
+	}
+	
+	private class AllowOutlyingIntersectionsPanel extends BooleanOptionPanel {
 
-		public void setLabels() {
-			animatingCB.setText(app
-					.getPlain("Animating"));
-		}
+		public AllowOutlyingIntersectionsPanel() {
+	        super("allowOutlyingIntersections");
+	        setModel(new FixCheckboxModel(this));
+        }
 		
-		public void updateCheckbox(boolean isEqual) {
-			if (isEqual)
-			{;
-				animatingCB.setValue(model.getGeoAt(0).isAnimating());
-			}
-			else {
-				animatingCB.setValue(false);
-			}
-
-		}
 	}
 
 	private class FixCheckboxPanel extends BooleanOptionPanel {
