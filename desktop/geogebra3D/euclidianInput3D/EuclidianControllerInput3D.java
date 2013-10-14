@@ -154,6 +154,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			/*
 			
 			// USE FOR CHECK 3D MOUSE ORIENTATION
+			// use file leonar3do-rotation2.ggb
 			
 			GeoVector3D geovx = (GeoVector3D) getKernel().lookupLabel("vx");
 			geovx.setCoords(((EuclidianViewInput3D) view).getToSceneMatrix().mul(Coords.VX).normalize());
