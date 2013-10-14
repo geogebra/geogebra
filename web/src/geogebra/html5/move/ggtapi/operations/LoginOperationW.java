@@ -27,7 +27,6 @@ public class LoginOperationW extends LogInOperation {
 		
 		private static String buildBaseURL() {
 	       String url = Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/"; 
-	       App.debug(com.google.gwt.core.client.GWT.getModuleBaseForStaticFiles());
 	       return url;
 	    }
 	}
@@ -87,6 +86,7 @@ public class LoginOperationW extends LogInOperation {
 	 * @return the url that will redirect the window to GGT login
 	 */
 	public String getOpenerUrl() {
+	    App.debug(com.google.gwt.core.client.GWT.getModuleBaseForStaticFiles());
 		return BASEURL.urlStart + BASEURL.opener;
 	}
 	
