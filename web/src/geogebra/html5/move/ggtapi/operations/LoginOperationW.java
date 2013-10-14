@@ -1,6 +1,7 @@
 package geogebra.html5.move.ggtapi.operations;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BaseEventView;
@@ -25,7 +26,8 @@ public class LoginOperationW extends LogInOperation {
 		public static final String callbackHTML = "web/html/ggtcallback.html";	
 		
 		private static String buildBaseURL() {
-	       String url = Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/";      		
+	       String url = Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/"; 
+	       App.debug(com.google.gwt.core.client.GWT.getModuleBaseForStaticFiles());
 	       return url;
 	    }
 	}
