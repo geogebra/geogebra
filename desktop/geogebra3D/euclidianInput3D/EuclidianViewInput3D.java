@@ -34,54 +34,42 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 		
 	}
 
+	/**
+	 * set the coord system regarding 3D mouse move
+	 * @param dx relative mouse x move
+	 * @param dy relative mouse y move
+	 * @param dz relative mouse z move
+	 * @param rotX relative mouse rotate around x (screen)
+	 * @param rotZ relative mouse rotate around z (view)
+	 */
 	public void setCoordSystemFromMouse3DMove(double dx, double dy, double dz, double rotX, double rotZ) {	
-		/*
-		switch(mode){
-		case EuclidianController.MOVE_ROTATE_VIEW:
-			setRotXYinDegrees(aOld - dx, bOld + dy);
-			updateMatrix();
-			setViewChangedByRotate();
-			setWaitForUpdate();	
-			break;
-		case EuclidianController.MOVE_VIEW:			
-			Coords v = new Coords(dx,-dy,0,0);
-			toSceneCoords3D(v);
-
-			if (cursorOnXOYPlane.getRealMoveMode()==GeoPointND.MOVE_MODE_XY){
-				v=v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
-				setXZero(XZeroOld+v.getX());
-				setYZero(YZeroOld+v.getY());
-			}else{
-				v=v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
-				setZZero(ZZeroOld+v.getZ());
-			}
-			
-			updateMatrix();
-			setViewChangedByTranslate();
-			setWaitForUpdate();
-			break;
-		}
-		*/
 		
-		
+		// translation
 		Coords v = new Coords(dx,dy,dz,0);
 		toSceneCoords3D(v);
 		setXZero(XZeroOld+v.getX());
 		setYZero(YZeroOld+v.getY());
-		setZZero(ZZeroOld+v.getZ());
+		setZZero(ZZeroOld+v.getZ());		
 		
-		//setRotXYinDegrees(rotX, rotZ);
+		// rotation
+		setRotXYinDegrees(aOld+rotX, bOld+rotZ);
 		
+		
+		// update the view
 		updateMatrix();
 		setViewChangedByTranslate();
+		setViewChangedByRotate();
 		setWaitForUpdate();
+		
 		
 	}	
 	
+	/*
 	@Override
 	public void rememberOrigins(){
 		XZeroOld = XZero;
 		YZeroOld = YZero;
 		ZZeroOld = ZZero;
 	}
+	*/
 }

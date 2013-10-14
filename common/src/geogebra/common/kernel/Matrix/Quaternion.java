@@ -164,6 +164,14 @@ public class Quaternion {
 		return new Coords(x,y,z);
 	}
 	
+	/**
+	 * 
+	 * @return scalar value
+	 */
+	public double getScalar(){
+		return w;
+	}
+	
 	
 	/**
 	 * set vector v to (x,y,z)

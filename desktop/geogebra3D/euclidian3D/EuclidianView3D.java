@@ -155,7 +155,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	private double a = ANGLE_ROT_OZ;
 	private double b = ANGLE_ROT_XOY;//angles (in degrees)
-	private double aOld, bOld;
+	protected double aOld, bOld;
 	private double aNew, bNew;
 
 
