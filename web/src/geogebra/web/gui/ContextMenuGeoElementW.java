@@ -217,36 +217,47 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	wrappedPopup.addSeparator();
         }
         
-     // Rename      
-     if (geos.size() == 1 && app.letRename() && geo.isRenameable())  {
-    	 addAction(new Command() {
-			
-			public void execute() {
-				renameCmd();
-			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.rename().getSafeUri().asString(), app.getPlain("Rename")), app.getPlain("Rename"));
-     }
-     
-     if (geos.size() == 1 && geo instanceof TextValue && !geo.isTextCommand() && !geo.isFixed()) {
-    	 addAction(new Command() {
-			
-			public void execute() {
-				editCmd();
-			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.edit().getSafeUri().asString(),app.getPlain("Edit")), app.getPlain("Edit"));
-     }
-     
-     // DELETE    
-  	if (app.letDelete() && !geo.isFixed()) {
-  		addAction(new Command() {
-			
-			public void execute() {
-				deleteCmd();
-			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
-  	}
-     
-     
+	     // Rename      
+	     if (geos.size() == 1 && app.letRename() && geo.isRenameable())  {
+	    	 addAction(new Command() {
+				
+				public void execute() {
+					renameCmd();
+				}
+			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.rename().getSafeUri().asString(), app.getPlain("Rename")), app.getPlain("Rename"));
+	     }
+	     
+	     if (geos.size() == 1 && geo instanceof TextValue && !geo.isTextCommand() && !geo.isFixed()) {
+	    	 addAction(new Command() {
+				
+				public void execute() {
+					editCmd();
+				}
+			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.edit().getSafeUri().asString(),app.getPlain("Edit")), app.getPlain("Edit"));
+	     }
+	     
+	     // DELETE    
+	  	if (app.letDelete() && !geo.isFixed()) {
+	  		addAction(new Command() {
+				
+				public void execute() {
+					deleteCmd();
+				}
+			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
+	  	}
+	     
+	  	// Object properties menuitem
+		if (app.letShowPropertiesDialog() && geo.hasProperties()) {
+			wrappedPopup.addSeparator();
+
+			// open properties dialog
+			addAction(new Command() {
+				
+				public void execute() {
+					openPropertiesDialogCmd();
+				}
+			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("Properties")), app.getPlain("Properties"));
+		}	     
      
 	    
     }
