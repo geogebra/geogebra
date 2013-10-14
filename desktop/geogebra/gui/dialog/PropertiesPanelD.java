@@ -26,8 +26,11 @@ import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel.IBackroundImageListener;
+import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
+import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
+import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -64,7 +67,6 @@ import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoConic;
@@ -931,7 +933,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 */
 	private class SelectionAllowedPanel extends JPanel implements ItemListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-
+ 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
 		private JCheckBox selectionAllowedCB;
@@ -1098,103 +1100,105 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	} // ShowObjectPanel
 
-	/**
-	 * panel to fix checkbox (boolean object)
-	 */
-	private class CheckBoxFixPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+	private abstract class OptionPanel extends JPanel implements ItemListener,
+	SetLabels, UpdateFonts, UpdateablePropertiesPanel{
+		
+	};
 
+	private class CheckBoxPanel extends OptionPanel implements IBooleanOptionListener {
+
+		/**
+		 * 
+		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox checkboxFixCB;
-
-		public CheckBoxFixPanel() {
-			super();
-			app.setFlowLayoutOrientation(this);
-
-			checkboxFixCB = new JCheckBox();
-			checkboxFixCB.addItemListener(this);
-			add(checkboxFixCB);
-		}
-
-		public void setLabels() {
-			checkboxFixCB.setText(app.getPlain("FixCheckbox"));
-			app.setComponentOrientation(this);
+		private BooleanOptionModel model;
+		private JCheckBox checkbox;
+		private String title;
+		
+		public CheckBoxPanel(final String title) {
+			this.title = title;
+			checkbox = new JCheckBox();
+			checkbox.addItemListener(this);
+			add(checkbox);
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
-			checkboxFixCB.removeItemListener(this);
+			checkbox.removeItemListener(this);
 
-			// check if properties have same values
-			GeoBoolean temp, geo0 = (GeoBoolean) geos[0];
-			boolean equalObjectVal = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoBoolean) geos[i];
-				// same object visible value
-				if (geo0.isCheckboxFixed() != temp.isCheckboxFixed()) {
-					equalObjectVal = false;
-					break;
-				}
-			}
-
+			model.updateProperties();
 			// set object visible checkbox
-			if (equalObjectVal)
-				checkboxFixCB.setSelected(geo0.isCheckboxFixed());
-			else
-				checkboxFixCB.setSelected(false);
 
-			checkboxFixCB.addItemListener(this);
+			checkbox.addItemListener(this);
 			return this;
-		}
-
-		// show everything but numbers (note: drawable angles are shown)
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				if (geos[i] instanceof GeoBoolean) {
-					GeoBoolean bool = (GeoBoolean) geos[i];
-					if (!bool.isIndependent()) {
-						return false;
-					}
-				} else
-					return false;
 			}
-			return true;
-		}
 
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			Object source = e.getItemSelectable();
-
-			// show object value changed
-			if (source == checkboxFixCB) {
-				for (int i = 0; i < geos.length; i++) {
-					GeoBoolean bool = (GeoBoolean) geos[i];
-					bool.setCheckboxFixed(checkboxFixCB.isSelected());
-					bool.updateRepaint();
-				}
-			}
-			updateSelection(geos);
+		public void updateVisualStyle(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		public void updateFonts() {
 			Font font = app.getPlainFont();
 
-			checkboxFixCB.setFont(font);
+			checkbox.setFont(font);
+			
 		}
 
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
+		public void setLabels() {
+			checkbox.setText(app.getPlain(title));
+			app.setComponentOrientation(this);
+			
 		}
 
-	} // CheckBoxFixPanel
+		public void itemStateChanged(ItemEvent e) {
+			Object source = e.getItemSelectable();
+
+			if (source == checkbox) {
+				model.applyChanges(checkbox.isSelected());
+				updateSelection(model.getGeos());
+			}	
+		}
+		
+		public void updateCheckbox(boolean value) {
+			checkbox.setSelected(value);
+		}	
+		
+		public BooleanOptionModel getModel() {
+			return model;
+		}
+
+		public void setModel(BooleanOptionModel model) {
+			this.model = model;
+		}
+
+		public JCheckBox getCheckbox() {
+			return checkbox;
+		}
+
+		public void setCheckbox(JCheckBox checkbox) {
+			this.checkbox = checkbox;
+		}
+	}
+	
+	/**
+	 * panel to fix checkbox (boolean object)
+	 */
+	private class CheckBoxFixPanel extends CheckBoxPanel {
+
+		private static final long serialVersionUID = 1L;
+		private FixCheckboxModel model;
+
+		public CheckBoxFixPanel() {
+			super(app.getPlain("FixCheckbox"));
+			setModel(new FixCheckboxModel(this));
+			app.setFlowLayoutOrientation(this);
+		}
+
+ 	} // CheckBoxFixPanel
 
 	/**
 	 * panel color chooser and preview panel

@@ -9,8 +9,11 @@ import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel.IAuxObjectListener;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel.IBackroundImageListener;
+import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
+import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
+import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel.IFixObjectListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -90,6 +93,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private RightAnglePanel rightAnglePanel;
 	private TrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
 	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
+	private FixCheckboxPanel fixCheckboxPanel;
 	private List<OptionPanel> basicPanels;
 	//Color picker
 	private ColorPanel colorPanel;
@@ -960,6 +964,32 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
+	class BooleanOptionPanel extends OptionPanel implements IBooleanOptionListener {
+		private final CheckBox checkbox;
+		private final String title;
+		public BooleanOptionPanel(final String title) {
+			checkbox = new CheckBox();
+			setWidget(checkbox);
+			this.title = title;
+
+			checkbox.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					((BooleanOptionModel)getModel()).applyChanges(checkbox.getValue());
+				}
+			});
+
+		}
+
+		public void updateCheckbox(boolean value) {
+			checkbox.setValue(value);
+		}
+
+		@Override
+		public void setLabels() {
+			checkbox.setText(app.getPlain(title));
+		}
+	}
+	
 	class RightAnglePanel extends OptionPanel implements IRightAngleListener {
 		private final CheckBox emphasizeRightAngleCB;
 		private RightAngleModel model;
@@ -987,6 +1017,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			emphasizeRightAngleCB.setText(app.getPlain("EmphasizeRightAngle"));
 		}
 	}
+	
 
 	class TrimmedIntersectionLinesPanel extends OptionPanel implements ITrimmedIntersectionLinesListener {
 		private final CheckBox trimmedCB;
@@ -1064,7 +1095,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private CheckBox animatingCB;
 
 		public AnimatingPanel() {
-			model = new AnimatingModel(app, this);
+			model = new AnimatingModel(app,  this);
 			setModel(model);
 			// check boxes for show trace
 			animatingCB = new CheckBox();
@@ -1094,6 +1125,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
+	private class FixCheckboxPanel extends BooleanOptionPanel {
+
+		public FixCheckboxPanel() {
+	        super("FixCheckbox");
+	        setModel(new FixCheckboxModel(this));
+        }
+		
+	}
 
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1188,9 +1227,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		//		basicTabList.add(comboBoxPanel);
 		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
 		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
+
+		fixCheckboxPanel = new FixCheckboxPanel();
+		basicTab.add(fixCheckboxPanel.getWidget());
 		
 		tabPanel.add(basicTab, "Basic");
-
 
 		basicPanels = Arrays.asList(namePanel,
 				showObjectPanel,
@@ -1203,7 +1244,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				reflexAnglePanel,
 				rightAnglePanel,
 				trimmedIntersectionLinesPanel,
-				allowOutlyingIntersectionsPanel);
+				allowOutlyingIntersectionsPanel,
+				fixCheckboxPanel);
 	};
 
 	private void addColorTab() {
