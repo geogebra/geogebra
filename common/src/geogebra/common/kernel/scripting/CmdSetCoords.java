@@ -3,6 +3,7 @@ package geogebra.common.kernel.scripting;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
+import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -56,12 +57,32 @@ public class CmdSetCoords extends CmdScripting {
 				
 				return;
 
-			} else if (!ok[0])
+			} else if ((ok[0]=(arg[0] instanceof AbsoluteScreenLocateable))
+					&& (ok[1] = (arg[1].isGeoNumeric()))
+					&& (ok[2] = (arg[2].isGeoNumeric()))
+					) {
+				double x = ((GeoNumeric) arg[1]).getDouble();
+				double y = ((GeoNumeric) arg[2]).getDouble();
+				
+				AbsoluteScreenLocateable asl = (AbsoluteScreenLocateable) arg[0];
+				
+				if (asl.isAbsoluteScreenLocActive()) {
+					asl.setAbsoluteScreenLoc((int)x, (int)y);
+				} else {
+					asl.setRealWorldLoc(x, y);
+				}
+				
+				asl.updateRepaint();
+				
+				return;
+				
+			} else if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c.getName(), arg[1]);
-			else
+			} else {
 				throw argErr(app, c.getName(), arg[2]);
+			}
 
 		default:
 			throw argNumErr(app, c.getName(), n);
