@@ -2818,18 +2818,13 @@ public class MyXMLHandler implements DocHandler {
 				cons.addToConstructionList(geoCasCell, true);
 				cons.addToGeoSetWithCasCells(geoCasCell);
 				if (geoCasCell.isAssignmentVariableDefined()) {
-					// make sure assignment is sent to underlying CAS, e.g. f(x)
-					// := x^2
-					// and twinGeo is created
-					geoCasCell.computeOutput();
-					// a non-native cell may have dependant twin geo even if inputs are constants
+					// a non-native cell may have dependent twin geo even if inputs are constants
 					geoCasCell.setLabelOfTwinGeo();
 					if(geoCasCell.hasTwinGeo() && !geoCasCell.getTwinGeo().isInConstructionList()){
 						if(!geoCasCell.getTwinGeo().getParentAlgorithm().isInConstructionList())
 							geoCasCell.getTwinGeo().getParentAlgorithm().addToConstructionList();
 					}
-				} else if (geoCasCell.isOutputEmpty()) {
-					// output is computed if it is empty
+				} else if (geoCasCell.isOutputEmpty() && kernel.isGeoGebraCASready()) { // output is computed if it is empty (redefinitions only)
 					geoCasCell.computeOutput();
 				}
 				// otherwise keep loaded output and avoid unnecessary computation
@@ -3909,6 +3904,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		try {
 			String output = attrs.get("value");
+			App.debug("PARSED: " + output);
 			boolean error = parseBoolean(attrs.get("error"));
 			boolean nativeOutput = parseBoolean(attrs.get("native"));
 			geoCasCell.setNative(nativeOutput);
@@ -3917,8 +3913,9 @@ public class MyXMLHandler implements DocHandler {
 			} else {
 				if(!nativeOutput){
 					geoCasCell.computeOutput();
-				}else
+				}else {
 					geoCasCell.setOutput(output,false);
+				}
 			}
 			
 
