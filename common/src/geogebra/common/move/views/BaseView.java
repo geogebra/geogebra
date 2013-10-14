@@ -45,6 +45,8 @@ public abstract class BaseView<T> {
 		if (this.viewComponents == null) {
 			this.viewComponents = new ArrayList<T>();
 		}
-		this.viewComponents.add(view);
+		if (! this.viewComponents.contains(view)) {
+			this.viewComponents.add(view);
+		}
 	}
 }
