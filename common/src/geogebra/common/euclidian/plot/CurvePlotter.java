@@ -4,7 +4,6 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
-import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
 import geogebra.common.util.debug.Log;
 
@@ -89,7 +88,6 @@ public class CurvePlotter {
 	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp,
 			boolean calcLabelPos, Gap moveToAllowed) {
-		App.printStacktrace(t1+","+t2);
 		countPoints = 0;
 		countEvaluations = 0;
 
