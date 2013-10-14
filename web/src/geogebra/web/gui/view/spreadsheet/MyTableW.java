@@ -1673,23 +1673,21 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		// set the new column width
-		if (tempWidth == -1) {
+		if (column == 0) {
+			prefWidth = SpreadsheetViewW.ROW_HEADER_WIDTH - 1;
+		} else if (tempWidth == -1) {
 			// column is empty
-			if (column == 0) {
-				prefWidth = SpreadsheetViewW.ROW_HEADER_WIDTH - 1;
-			} else {
-				prefWidth = preferredColumnWidth - 1 /*
+			prefWidth = preferredColumnWidth - 1 /*
 												 * TODO
 												 * getIntercellSpacing().width
 												 */;
-			}
 		} else {
 			// There was "15" here, but in Desktop, it should visually look
 			// like if there was "5"...
 			prefWidth = Math.max(prefWidth, 5 /*
-												 * TODO
-												 * tableColumn.getMinWidth()
-												 */);
+											 * TODO
+											 * tableColumn.getMinWidth()
+											 */);
 		}
 		// note: the table might have its header set to null,
 		// so we get the actual header from view
@@ -2406,7 +2404,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (showCol) {
 			if (!showColumnHeader) {
 				showColumnHeader = true;
-				getColumnFormatter().getElement(0).getStyle().setWidth(SpreadsheetSettings.TABLE_CELL_WIDTH, Style.Unit.PX);
+				getColumnFormatter().getElement(0).getStyle().setWidth(SpreadsheetViewW.ROW_HEADER_WIDTH, Style.Unit.PX);
 			}
 		} else {
 			showColumnHeader = false;
