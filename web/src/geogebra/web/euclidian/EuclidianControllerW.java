@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -428,7 +429,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		event.stopPropagation();
-		event.preventDefault();
+		if(!comboBoxHit()){
+			event.preventDefault();
+		}
 		App.debug("Touches"+event.getTouches().length());
 		if(event.getTouches().length()==0){
 			this.wrapMouseReleased(mouseLoc.x, mouseLoc.y, false, false, false, false);
@@ -438,7 +441,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
-		event.preventDefault();
 		Log.debug("TS"+targets.length());
 		if(targets.length() == 1){
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(0),this);
@@ -452,7 +454,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			e0.release();
 			e1.release();
 		}
-		
+		if(!comboBoxHit()){
+			event.preventDefault();
+		}
 	}
 	
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
@@ -567,17 +571,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
 			
-		if((!isTextfieldHasFocus())&&(!(view.getHits().size()>0))){
-			
-			//Call preventDefault only if no GeoList object clicked.
-			boolean noGeolist = true;
-			int i=0;
-			while (noGeolist && i<view.getHits().size()){
-				if (view.getHits().get(i++) instanceof GeoList) noGeolist = false;
-			}			
-			if (noGeolist){
-				event.preventDefault();
-			}
+		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
+			event.preventDefault();
 		}
 			
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
@@ -591,6 +586,22 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		e.release();
 	}
 	
+	private boolean comboBoxHit() {
+		if(view.getHits() == null){
+			return false;
+		}
+		int i=0;
+		while (i<view.getHits().size()){
+			GeoElement hit = view.getHits().get(i++);
+			if (hit instanceof GeoList && ((GeoList)hit).drawAsComboBox()){
+				return true;
+			}
+		}
+		return false;
+    }
+
+
+
 	@Override
 	protected void initToolTipManager() {
 		// set tooltip manager
