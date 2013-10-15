@@ -39,8 +39,8 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 		int lineSpace = (int) (fontSize * 0.5f);
 
 		// latex delimiters \[ \] \( \) $$ -> $
-		labelDesc = labelDesc.replaceAll(
-				"(\\$\\$|\\\\\\[|\\\\\\]|\\\\\\(|\\\\\\))", "\\$");
+		//labelDesc = labelDesc.replaceAll(
+		//		"(\\$\\$|\\\\\\[|\\\\\\]|\\\\\\(|\\\\\\))", "\\$");
 
 		// split on $ but not \$
 		String[] elements = labelDesc.split("(?<![\\\\])(\\$)", -1);
