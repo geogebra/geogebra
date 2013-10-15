@@ -252,7 +252,7 @@ public class StyleBar extends FlowPanel {
 			default:
 				break;
 		}
-		};
+		}
 
 		this.styleButtonsPanel.clear();
 
