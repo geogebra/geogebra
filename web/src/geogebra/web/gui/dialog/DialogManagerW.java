@@ -27,7 +27,6 @@ import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
-import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
@@ -275,15 +274,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 			googleFileChooser = new GoogleDriveFileChooser(app);
 		}
 		return googleFileChooser;
-	}
-
-	SkyDriveFileChooser skyDriveFileChooser = null;
-
-	public SkyDriveFileChooser getSkyDriveFileChooser() {
-		if (skyDriveFileChooser == null) {
-			skyDriveFileChooser = new SkyDriveFileChooser(app);
-		}
-		return skyDriveFileChooser;
 	}
 
 

@@ -52,7 +52,6 @@ import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
-import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -1228,16 +1227,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		        .getDialogManager()).getGoogleDriveFileChooser();
 		fileChooser.show();
     }
-
-	public void openFromSkyDrive() {
-		app.setWaitCursor();
-		// String fileName = Window.prompt("File name", "Bunny");
-		// do saving here if getBase64 will be good
-		SkyDriveFileChooser fileChooser = ((DialogManagerW) app
-		        .getDialogManager()).getSkyDriveFileChooser();
-		fileChooser.show();
-    }
-
+	
 	public void removePopup() {
 		if (currentPopup != null) {
 			currentPopup.removeFromDOM();

@@ -81,8 +81,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 
 	public void openFromGoogleDrive();
 
-	public void openFromSkyDrive();
-
 	public void removePopup();
 
 	public void setToolBarDefinition(String toolBarDefinition);

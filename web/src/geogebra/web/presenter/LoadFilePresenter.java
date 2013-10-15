@@ -6,7 +6,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.web.WebStatic;
 import geogebra.web.WebStatic.GuiToLoad;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -46,7 +45,7 @@ public class LoadFilePresenter{
 		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
 		} else if (!"".equals((fileId = getGoogleFileId()))) {
-			((AppW) app).getObjectPool().getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
+			//TODO: do this for open from our new Native Chrome APP!((AppW) app).getObjectPool().getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
 		} else {
 			//we dont have content, it is an app
 			Log.debug("no base64content, possibly App loaded?");

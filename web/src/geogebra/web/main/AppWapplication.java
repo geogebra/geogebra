@@ -11,7 +11,6 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
-import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
@@ -40,8 +39,6 @@ public class AppWapplication extends AppW {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		this.objectPool = new ObjectPool();
-		this.objectPool.setMyGoogleApis(new MyGoogleApisFactory(this));
-		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
 		App.useFullAppGui = true;
 		this.useFullGui = true;
