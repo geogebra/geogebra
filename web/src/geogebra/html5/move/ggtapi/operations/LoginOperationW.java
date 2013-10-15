@@ -9,7 +9,7 @@ import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.util.URLEncoder;
 
-import com.google.gwt.user.client.Window;
+import com.google.gwt.core.client.GWT;
 
 
 /**
@@ -22,12 +22,11 @@ public class LoginOperationW extends LogInOperation {
 	
 	private static final class BASEURL {
 		public static final String urlStart = buildBaseURL();
-		public static final String opener = "web/html/opener.html";
-		public static final String callbackHTML = "web/html/ggtcallback.html";	
+		public static final String opener = "html/opener.html";
+		public static final String callbackHTML = "html/ggtcallback.html";	
 		
 		private static String buildBaseURL() {
-	       String url = Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/"; 
-	       return url;
+	      return GWT.getModuleBaseForStaticFiles();
 	    }
 	}
 
