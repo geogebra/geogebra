@@ -37,7 +37,6 @@ import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
-import geogebra.common.gui.dialog.options.model.RightAngleModel.IRightAngleListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -45,9 +44,7 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListene
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.TraceModel;
-import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
-import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel.ITrimmedIntersectionLinesListener;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
@@ -79,7 +76,6 @@ import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
@@ -800,7 +796,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		
 	};
 
-	private class CheckBoxPanel extends OptionPanel implements IBooleanOptionListener {
+	private class CheckboxPanel extends OptionPanel implements IBooleanOptionListener {
 
 		/**
 		 * 
@@ -810,7 +806,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox checkbox;
 		private String title;
 		
-		public CheckBoxPanel(final String title) {
+		public CheckboxPanel(final String title) {
 			this.title = title;
 			checkbox = new JCheckBox();
 			checkbox.addItemListener(this);
@@ -934,75 +930,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	/**
 	 * panel with show/hide object checkbox
 	 */
-	private class ShowObjectPanel extends JPanel implements ItemListener,
-			UpdateablePropertiesPanel, SetLabels, UpdateFonts, IShowObjectListener {
+	private class ShowObjectPanel extends CheckboxPanel implements IShowObjectListener {
 
 		private static final long serialVersionUID = 1L;
-		private JCheckBox showObjectCB;
-		private ShowObjectModel model;
 
 		public ShowObjectPanel() {
-			app.setFlowLayoutOrientation(this);
-			model = new ShowObjectModel(this);
-			// check box for show object
-			showObjectCB = new JCheckBox();
-			showObjectCB.addItemListener(this);
-			add(showObjectCB);
+			super(app.getPlain("ShowObject"));
+			setModel(new ShowObjectModel(this));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
-		public void setLabels() {
-			showObjectCB.setText(app.getPlain("ShowObject"));
-			app.setComponentOrientation(this);
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos())
-				return null;
-
-			showObjectCB.removeItemListener(this);
-
-			model.updateProperties();
-			
-			showObjectCB.addItemListener(this);
-			return this;
-		}
-
-		public void updateCheckbox(boolean equalObjectVal,  boolean showObjectCondition) {
-			if (equalObjectVal) {
-				GeoElement geo0 = (GeoElement)model.getGeos()[0];
-				showObjectCB.setSelected(geo0.isEuclidianVisible());
-			}
-			else {
-				showObjectCB.setSelected(false);
-			}
-		
-			showObjectCB.setEnabled(!showObjectCondition);
-		}
-
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
-			Object source = e.getItemSelectable();
-
-			// show object value changed
-			if (source == showObjectCB) {
-				model.applyChanges(showObjectCB.isSelected());
-			}
-			updateSelection(model.getGeos());
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-			showObjectCB.setFont(font);
-
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
+		public void updateCheckbox(boolean value, boolean isEnabled) {
+			getCheckbox().setSelected(value);
+			getCheckbox().setEnabled(isEnabled);
 		}
 
 	} // ShowObjectPanel
@@ -1103,90 +1043,24 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	/**
 	 * panel with show/hide trimmed intersection lines
 	 */
-	private class ShowTrimmedIntersectionLines extends JPanel implements
-			ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel,
-			ITrimmedIntersectionLinesListener {
+	private class ShowTrimmedIntersectionLines extends CheckboxPanel {
 
 		private static final long serialVersionUID = 1L;
-		private TrimmedIntersectionLinesModel model;
-		private JCheckBox showTrimmedLinesCB;
-
 		public ShowTrimmedIntersectionLines() {
+			super(app.getPlain("ShowTrimmed"));
+			setModel(new TrimmedIntersectionLinesModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
-
-			// check box for show object
-			showTrimmedLinesCB = new JCheckBox();
-			model = new TrimmedIntersectionLinesModel(this);
-			showTrimmedLinesCB.addItemListener(this);
-			add(showTrimmedLinesCB);
 		}
 
-		public void setLabels() {
-			showTrimmedLinesCB.setText(app.getPlain("ShowTrimmed"));
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos())
-				return null;
-
-			showTrimmedLinesCB.removeItemListener(this);
-
-			model.updateProperties();
-			// set object visible checkbox
-	
-			showTrimmedLinesCB.setEnabled(true);
-
-			showTrimmedLinesCB.addItemListener(this);
-			return this;
-		}
-
-	
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
-			Object source = e.getItemSelectable();
-
-			// show object value changed
-			if (source == showTrimmedLinesCB) {
-				model.applyChanges(showTrimmedLinesCB.isSelected());
-			}
-			updateSelection(model.getGeos());
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			showTrimmedLinesCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void updateCheckbox(boolean value) {
-			if (value) {
-				showTrimmedLinesCB.setSelected(model.getGeoAt(0)
-						.getShowTrimmedIntersectionLines());
-			}
-			else {
-				showTrimmedLinesCB.setSelected(false);
-			}
-		}
-
-	} // ShowObjectPanel
+	} // ShowTrimmedIntersectionLines
 
 	/**
 	 * panel to fix checkbox (boolean object)
 	 */
-	private class CheckBoxFixPanel extends CheckBoxPanel {
+	private class CheckBoxFixPanel extends CheckboxPanel {
 
 		private static final long serialVersionUID = 1L;
-		private FixCheckboxModel model;
-
+		
 		public CheckBoxFixPanel() {
 			super(app.getPlain("FixCheckbox"));
 			setModel(new FixCheckboxModel(this));
@@ -2092,79 +1966,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class TracePanel extends JPanel implements ItemListener,
-			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ITraceListener {
-		/**
-		 * 
-		 */
+	private class TracePanel extends CheckboxPanel {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox showTraceCB;
-		private TraceModel model;
 		
 		public TracePanel() {
-			super();
-			app.setFlowLayoutOrientation(this);
-			model = new TraceModel(this);
-			
-			// check boxes for show trace
-			showTraceCB = new JCheckBox();
-			showTraceCB.addItemListener(this);
-			add(showTraceCB);
+			super(app.getPlain("ShowTrace"));
+			setModel(new TraceModel(this));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
-		public void setLabels() {
-			showTraceCB.setText(app.getPlain("ShowTrace"));
-			app.setComponentOrientation(this);
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos())
-				return null;
-
-			showTraceCB.removeItemListener(this);
-
-			model.updateProperties();
-			
-			showTraceCB.addItemListener(this);
-			return this;
-		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			Object source = e.getItemSelectable();
-
-			// show trace value changed
-			if (source == showTraceCB) {
-				model.applyChanges(showTraceCB.isSelected());
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			showTraceCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void updateCheckbox(boolean isEqual) {
-			// set trace visible checkbox
-			if (isEqual) {
-				Traceable geo0 = (Traceable) model.getGeoAt(0);
-				showTraceCB.setSelected(geo0.getTrace());
-			}
-			else {
-				showTraceCB.setSelected(false);
-			}
-						
-		}
 	}
 
 	/**
@@ -2172,7 +1982,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author adapted from TracePanel
 	 */
-	private class AnimatingPanel extends CheckBoxPanel {
+	private class AnimatingPanel extends CheckboxPanel {
 		/**
 		 * 
 		 */
@@ -2284,7 +2094,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class FixPanel extends CheckBoxPanel {
+	private class FixPanel extends CheckboxPanel {
 		/**
 		 * 
 		 */
@@ -2433,81 +2243,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Michael
 	 */
-	private class ListsAsComboBoxPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IListAsComboListener {
+	private class ListsAsComboBoxPanel extends CheckboxPanel implements IListAsComboListener {
 		/**
 		 * 
 		 */
-		private static final long serialVersionUID = 1L;
-		private ListAsComboModel model;
-		private JCheckBox cbComboBox;
-
+		
 		public ListsAsComboBoxPanel() {
-			super();
+			super(app.getPlain("DrawAsDropDownList"));
+			setModel(new ListAsComboModel(app, this));
 			app.setFlowLayoutOrientation(this);
-
-			model = new ListAsComboModel(this);
-			
-			// check boxes for show trace
-			cbComboBox = new JCheckBox();
-			cbComboBox.addItemListener(this);
-
-			// put it all together
-			add(cbComboBox);
-		}
-
-		public void setLabels() {
-			cbComboBox.setText(app.getPlain("DrawAsDropDownList"));
-			app.setComponentOrientation(this);
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos())
-				return null;
-
-			cbComboBox.removeItemListener(this);
-
-			model.updateProperties();
-
-			cbComboBox.addItemListener(this);
-			return this;
-		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			Object source = e.getItemSelectable();
-
-			// absolute screen location flag changed
-			if (source == cbComboBox) {
-				model.applyChanges(cbComboBox.isSelected());
-				app.refreshViews();
-				
-				updateSelection(model.getGeos());
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			cbComboBox.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void updateComboBox(boolean isEqual) {
-			if (isEqual) {
-				GeoList geo0 = (GeoList)model.getGeoAt(0);
-				cbComboBox.setSelected(geo0.drawAsComboBox());
-			}
-			else {
-				cbComboBox.setSelected(false);
-			}			
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
@@ -2627,7 +2371,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class AllowOutlyingIntersectionsPanel extends CheckBoxPanel {
+	private class AllowOutlyingIntersectionsPanel extends CheckboxPanel {
 		/**
 		 * 
 		 */
@@ -2648,7 +2392,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class BackgroundImagePanel extends CheckBoxPanel {
+	private class BackgroundImagePanel extends CheckboxPanel {
 		/**
 		 * 
 		 */
@@ -2665,7 +2409,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class AuxiliaryObjectPanel extends CheckBoxPanel {
+	private class AuxiliaryObjectPanel extends CheckboxPanel {
 		/**
 		 * 
 		 */
@@ -6353,61 +6097,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	// added 3/11/06
-	private class RightAnglePanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IRightAngleListener {
-		private JCheckBox emphasizeRightAngle;
-		private RightAngleModel model;
-
+	private class RightAnglePanel extends CheckboxPanel {
+	
 		RightAnglePanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
-			model = new RightAngleModel(this);
-			emphasizeRightAngle = new JCheckBox();
-			emphasizeRightAngle.addActionListener(this);
-			add(emphasizeRightAngle);
+
+			super(app.getPlain("EmphasizeRightAngle"));
+			setModel(new RightAngleModel(this));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
-
-		public void setLabels() {
-			emphasizeRightAngle.setText(app.getPlain("EmphasizeRightAngle"));
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos())
-				return null;
-			
-			emphasizeRightAngle.removeActionListener(this);
-
-			model.updateProperties();
-		
-			emphasizeRightAngle.addActionListener(this);
-			return this;
-		}
-
-
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == emphasizeRightAngle) {
-				model.applyChanges(emphasizeRightAngle.isSelected());
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			emphasizeRightAngle.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void updateCheckbox(boolean value) {
-			emphasizeRightAngle.setSelected(value);
-		}
-
 	}
-
 	/**
 	 * allows using a single = in condition to show object and dynamic color
 	 * 

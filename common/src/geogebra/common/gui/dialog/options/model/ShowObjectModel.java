@@ -2,16 +2,14 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
 
-public class ShowObjectModel extends OptionsModel {
-	public interface IShowObjectListener {
-		void updateCheckbox(boolean equalObjectVal, boolean showObjectCondition);
+public class ShowObjectModel extends BooleanOptionModel {
+	public interface IShowObjectListener extends IBooleanOptionListener {
+		void updateCheckbox(boolean value, boolean isEnabled);
 
 	}
 	
-	private IShowObjectListener listener;
-	
 	public ShowObjectModel(IShowObjectListener listener) {
-		this.listener = listener;
+		super(listener);
 	}
 	
 	
@@ -45,7 +43,8 @@ public class ShowObjectModel extends OptionsModel {
 			}
 		}
 		
-		listener.updateCheckbox(equalObjectVal, showObjectCondition);
+		((IShowObjectListener)getListener()).updateCheckbox(equalObjectVal ? geo0.isSetEuclidianVisible():false,
+				!showObjectCondition);
 
 	}
 	

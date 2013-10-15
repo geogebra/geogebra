@@ -2,19 +2,16 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.AngleProperties;
 
-public class RightAngleModel extends OptionsModel {
-	public interface IRightAngleListener {
-		void updateCheckbox(boolean value);
+public class RightAngleModel extends BooleanOptionModel {
+
+	public RightAngleModel(IBooleanOptionListener listener) {
+		super(listener);
 	}
-	private IRightAngleListener listener;
-	
-	public RightAngleModel(IRightAngleListener listener) {
-		this.listener = listener;
-	}
+
 	@Override
 	public void updateProperties() {
 		AngleProperties geo0 = (AngleProperties) getGeoAt(0);
-		listener.updateCheckbox(geo0.isEmphasizeRightAngle());
+		getListener().updateCheckbox(geo0.isEmphasizeRightAngle());
 	}
 
 	public void applyChanges(boolean value) {

@@ -3,14 +3,9 @@ package geogebra.common.gui.dialog.options.model;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.geos.GeoElement;
 
-public class TrimmedIntersectionLinesModel extends OptionsModel {
-	public interface ITrimmedIntersectionLinesListener {
-		void updateCheckbox(boolean value);
-	}
-	private ITrimmedIntersectionLinesListener listener;
-	
-	public TrimmedIntersectionLinesModel(ITrimmedIntersectionLinesListener listener) {
-		this.listener = listener;
+public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
+	public TrimmedIntersectionLinesModel(IBooleanOptionListener listener) {
+		super(listener);
 	}
 
 	@Override
@@ -30,7 +25,7 @@ public class TrimmedIntersectionLinesModel extends OptionsModel {
 
 		}
 
-		listener.updateCheckbox(equalVal);
+		getListener().updateCheckbox(equalVal ? geo0.getShowTrimmedIntersectionLines(): false);
 
 	}
 

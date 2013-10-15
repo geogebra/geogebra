@@ -2,17 +2,11 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.Traceable;
 
-public class TraceModel extends OptionsModel {
-	public interface ITraceListener {
-		void updateCheckbox(boolean isEqual);
-
-	}
-	
+public class TraceModel extends BooleanOptionModel {
 	private static final long serialVersionUID = 1L;
-	private ITraceListener listener;
 	
-	public TraceModel(ITraceListener listener) {
-		this.listener = listener;
+	public TraceModel(IBooleanOptionListener listener) {
+		super(listener);
 	}
 	
 	public void updateProperties() {
@@ -29,7 +23,7 @@ public class TraceModel extends OptionsModel {
 		}
 
 		// set trace checkbox
-		listener.updateCheckbox(equalTrace);	
+		getListener().updateCheckbox(equalTrace ? geo0.getTrace(): false);	
 	}
 
 	@Override

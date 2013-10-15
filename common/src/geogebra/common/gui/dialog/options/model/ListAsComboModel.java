@@ -2,15 +2,19 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 
-public class ListAsComboModel extends OptionsModel {
-	public interface IListAsComboListener {
-		void updateComboBox(boolean isEqual);
-
+public class ListAsComboModel extends BooleanOptionModel {
+	public interface IListAsComboListener extends IBooleanOptionListener {
 		void drawListAsComboBox(GeoList geo, boolean value);
 	}
+	
+	private App app;
 	private IListAsComboListener listener;
-	public ListAsComboModel(IListAsComboListener listener) {
+	
+	public ListAsComboModel(App app, IListAsComboListener listener) {
+		super(listener);
+		this.app = app;
 		this.listener = listener;
 	}
 	@Override
@@ -20,11 +24,11 @@ public class ListAsComboModel extends OptionsModel {
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			temp = (GeoList) getGeoAt(0);
-			// same object visible value
-			if (geo0.drawAsComboBox() != temp.drawAsComboBox())
+			if (geo0.drawAsComboBox() != temp.drawAsComboBox()) {
 				equalVal = false;
+			}
 		}
-		listener.updateComboBox(equalVal);
+		listener.updateCheckbox(equalVal ? geo0.drawAsComboBox(): false);
 	}
 
 	public void applyChanges(boolean value) {
@@ -40,8 +44,7 @@ public class ListAsComboModel extends OptionsModel {
 
 			geo.updateRepaint();
 		}
-
-		
+		app.refreshViews();
 	}
 	
 	@Override

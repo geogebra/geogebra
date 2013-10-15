@@ -17,10 +17,10 @@ import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboLis
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OptionsModel;
+import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
-import geogebra.common.gui.dialog.options.model.RightAngleModel.IRightAngleListener;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -28,14 +28,11 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListene
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.TraceModel;
-import geogebra.common.gui.dialog.options.model.TraceModel.ITraceListener;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
-import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel.ITrimmedIntersectionLinesListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
@@ -83,7 +80,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private BackgroundImagePanel bgImagePanel;
 	private ReflexAnglePanel reflexAnglePanel;
 	private RightAnglePanel rightAnglePanel;
-	private TrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
+	private ListAsComboPanel listAsComboPanel;
+	private ShowTrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
 	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
 	private FixCheckboxPanel fixCheckboxPanel;
 	private List<OptionPanel> basicPanels;
@@ -94,7 +92,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
 
-	abstract class OptionPanel {
+	private abstract class OptionPanel {
 		private OptionsModel model;
 		private Widget widget;
 
@@ -132,79 +130,58 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public abstract void setLabels();
 	}
-	class ShowObjectPanel extends OptionPanel implements IShowObjectListener {
-		private final CheckBox showObjectCB;
-		private ShowObjectModel model;
-		public ShowObjectPanel() {
-			showObjectCB = new CheckBox(); 
-			setWidget(showObjectCB);
 
-			model = new ShowObjectModel(this);
-			setModel(model);
-			showObjectCB.addClickHandler(new ClickHandler(){
+	private class CheckboxPanel extends OptionPanel implements IBooleanOptionListener {
+		private final CheckBox checkbox;
+		private final String title;
+		public CheckboxPanel(final String title) {
+			checkbox = new CheckBox();
+			setWidget(getCheckbox());
+			this.title = title;
+
+			getCheckbox().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
-					model.applyChanges(showObjectCB.getValue());
-				};
-
-			});
-
-		}
-
-		public void updateCheckbox(boolean equalObjectVal,  boolean showObjectCondition) {
-			if (equalObjectVal) {
-				GeoElement geo0 = (GeoElement)model.getGeos()[0];
-				showObjectCB.setValue(geo0.isEuclidianVisible());
-			}
-			else {
-				showObjectCB.setValue(false);
-			}
-
-			showObjectCB.setEnabled(!showObjectCondition);
-		}
-
-		@Override
-		public void setLabels() {
-			showObjectCB.setText(app.getPlain("ShowObject"));
-		}
-	}
-
-	class TracePanel  extends OptionPanel implements ITraceListener {
-		private final CheckBox showTraceCB;
-		private TraceModel model;
-		public TracePanel() {
-			showTraceCB = new CheckBox(); 
-			setWidget(showTraceCB);
-
-			model = new TraceModel(this);
-			setModel(model);
-
-			showTraceCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(showTraceCB.getValue());
+					((BooleanOptionModel)getModel()).applyChanges(getCheckbox().getValue());
 				}
 			});
 
 		}
 
-		public void updateCheckbox(boolean isEqual) {
-			Traceable geo0 = (Traceable)model.getGeoAt(0);
-			if (isEqual) {
-				showTraceCB.setValue(geo0.getTrace());
-			}
-			else {
-				showTraceCB.setValue(false);
-			}
+		public void updateCheckbox(boolean value) {
+			getCheckbox().setValue(value);
 		}
 
 		@Override
 		public void setLabels() {
-			showTraceCB.setText(app.getPlain("ShowTrace")); 
-
+			getCheckbox().setText(app.getPlain(title));
 		}
 
-	}		
+		public CheckBox getCheckbox() {
+			return checkbox;
+		}
+	}
 
-	class LabelPanel extends OptionPanel implements IShowLabelListener {
+	private class ShowObjectPanel extends CheckboxPanel implements IShowObjectListener {
+		public ShowObjectPanel() {
+			super(app.getPlain("ShowObject"));
+			setModel(new ShowObjectModel(this));
+		}
+
+		public void updateCheckbox(boolean value, boolean isEnabled) {
+			getCheckbox().setValue(value);
+			getCheckbox().setEnabled(isEnabled);
+		}
+	}
+
+	private class TracePanel extends CheckboxPanel {
+		public TracePanel() {
+			super(app.getPlain("ShowTrace"));
+			setModel(new TraceModel(this));
+		}
+
+	}
+
+	private class LabelPanel extends OptionPanel implements IShowLabelListener {
 		private final CheckBox showLabelCB;
 		private final FlowPanel mainWidget;
 		private final ListBox labelMode;
@@ -293,12 +270,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			labelMode.setSelectedIndex(selectedIndex);        
 		}
 	}
-	
-	private class FixPanel extends BooleanOptionPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+
+	private class FixPanel extends CheckboxPanel {
 
 		public FixPanel() {
 			super(app.getPlain("FixObject"));
@@ -306,16 +279,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
-	private class AuxPanel extends BooleanOptionPanel {
+	private class AuxPanel extends CheckboxPanel {
 
 		public AuxPanel() {
-	        super("AuxiliaryObject");
-	        setModel(new AuxObjectModel(this));
-        }
-		
+			super("AuxiliaryObject");
+			setModel(new AuxObjectModel(this));
+		}
+
 	}
 
-	class ShowConditionPanel extends OptionPanel implements	IShowConditionListener {
+	private class ShowConditionPanel extends OptionPanel implements	IShowConditionListener {
 
 		private static final long serialVersionUID = 1L;
 
@@ -325,7 +298,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private Kernel kernel;
 		private boolean processed;
 		private final FlowPanel mainWidget;
-		//private PropertiesPanelD propPanel;
 
 		public ShowConditionPanel(AppW app/*, PropertiesPanelD propPanel*/) {
 			kernel = app.getKernel();
@@ -393,7 +365,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
-	class ColorPanel extends OptionPanel implements IColorObjectListener {
+	private class ColorPanel extends OptionPanel implements IColorObjectListener {
 		private ColorObjectModel model;
 		private VerticalPanel mainPanel;
 		private ColorPopupMenuButton colorChooser;
@@ -517,7 +489,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	}
 
 
-	class NamePanel extends OptionPanel implements IObjectNameListener {
+	private class NamePanel extends OptionPanel implements IObjectNameListener {
 
 		private static final long serialVersionUID = 1L;
 
@@ -757,54 +729,24 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
-	private class BackgroundImagePanel extends BooleanOptionPanel {
+	private class BackgroundImagePanel extends CheckboxPanel {
 
 		public BackgroundImagePanel() {
-	        super("BackgroundImage");
-	        setModel(new BackgroundImageModel(this));
-        }
-		
-	}
-
-	class ListAsComboPanel extends OptionPanel implements IListAsComboListener {
-		private final CheckBox listAsComboCB;
-		private ListAsComboModel model;
-		public ListAsComboPanel() {
-			listAsComboCB = new CheckBox();
-			setWidget(listAsComboCB);
-
-			model = new ListAsComboModel(this);
-			setModel(model);
-
-			listAsComboCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(listAsComboCB.getValue());
-					app.refreshViews();
-
-					//				updateSelection(model.getGeos());
-				}
-			});
-
+			super("BackgroundImage");
+			setModel(new BackgroundImageModel(this));
 		}
 
-		public void updateComboBox(boolean isEqual) {
-			if (isEqual) {
-				GeoList geo0 = (GeoList)model.getGeoAt(0);
-				listAsComboCB.setValue(geo0.drawAsComboBox());
-			}
-			else {
-				listAsComboCB.setValue(false);
-			}			
+	}
+
+	class ListAsComboPanel extends CheckboxPanel implements IListAsComboListener {
+		public ListAsComboPanel() {
+			super(app.getPlain("DrawAsDropDownList"));
+			setModel(new ListAsComboModel(app, this));
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
-			//	app.getActiveEuclidianView().drawListAsComboBox(geo, value);
-
-		}
-
-		@Override
-		public void setLabels() {
-			listAsComboCB.setText(app.getPlain("DrawAsDropDownList"));
+			//TODO: implement the following:
+			//app.getActiveEuclidianView().drawListAsComboBox(geo, value);
 		}
 
 	}
@@ -880,120 +822,49 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
-	class BooleanOptionPanel extends OptionPanel implements IBooleanOptionListener {
-		private final CheckBox checkbox;
-		private final String title;
-		public BooleanOptionPanel(final String title) {
-			checkbox = new CheckBox();
-			setWidget(checkbox);
-			this.title = title;
 
-			checkbox.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					((BooleanOptionModel)getModel()).applyChanges(checkbox.getValue());
-				}
-			});
-
-		}
-
-		public void updateCheckbox(boolean value) {
-			checkbox.setValue(value);
-		}
-
-		@Override
-		public void setLabels() {
-			checkbox.setText(app.getPlain(title));
-		}
-	}
-	
-	class RightAnglePanel extends OptionPanel implements IRightAngleListener {
-		private final CheckBox emphasizeRightAngleCB;
-		private RightAngleModel model;
+	class RightAnglePanel extends CheckboxPanel {
 		public RightAnglePanel() {
-			emphasizeRightAngleCB = new CheckBox();
-			setWidget(emphasizeRightAngleCB);
+			super(app.getPlain("EmphasizeRightAngle"));
+			setModel(new RightAngleModel(this));
 
-			model = new RightAngleModel(this);
-			setModel(model);
-
-			emphasizeRightAngleCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(emphasizeRightAngleCB.getValue());
-				}
-			});
-
-		}
-
-		public void updateCheckbox(boolean value) {
-			emphasizeRightAngleCB.setValue(value);
-		}
-
-		@Override
-		public void setLabels() {
-			emphasizeRightAngleCB.setText(app.getPlain("EmphasizeRightAngle"));
-		}
-	}
-	
-
-	class TrimmedIntersectionLinesPanel extends OptionPanel implements ITrimmedIntersectionLinesListener {
-		private final CheckBox trimmedCB;
-		private TrimmedIntersectionLinesModel model;
-		public TrimmedIntersectionLinesPanel() {
-			trimmedCB = new CheckBox();
-			setWidget(trimmedCB);
-
-			model = new TrimmedIntersectionLinesModel(this);
-			setModel(model);
-
-			trimmedCB.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					model.applyChanges(trimmedCB.getValue());
-				}
-			});
-
-		}
-
-		public void updateCheckbox(boolean value) {
-			if (value) {
-				trimmedCB.setValue(model.getGeoAt(0)
-						.getShowTrimmedIntersectionLines());
-			}
-			else {
-				trimmedCB.setValue(false);
-			}
-		}
-
-		@Override
-		public void setLabels() {
-			trimmedCB.setText(app.getPlain("ShowTrimmed"));
 		}
 	}
 
-	private class AnimatingPanel extends BooleanOptionPanel {
+	private class ShowTrimmedIntersectionLinesPanel extends CheckboxPanel {
 
+		private static final long serialVersionUID = 1L;
+		public ShowTrimmedIntersectionLinesPanel() {
+			super(app.getPlain("ShowTrimmed"));
+			setModel(new TrimmedIntersectionLinesModel(this));
+		}
+
+	} // ShowTrimmedIntersectionLines
+
+	private class AnimatingPanel extends CheckboxPanel {
 		public AnimatingPanel() {
-	        super("Animating");
-	        setModel(new AnimatingModel(app, this));
-        }
-		
+			super("Animating");
+			setModel(new AnimatingModel(app, this));
+		}
+
 	}
-	
-	private class AllowOutlyingIntersectionsPanel extends BooleanOptionPanel {
+
+	private class AllowOutlyingIntersectionsPanel extends CheckboxPanel {
 
 		public AllowOutlyingIntersectionsPanel() {
-	        super("allowOutlyingIntersections");
-	        setModel(new FixCheckboxModel(this));
-        }
-		
+			super("allowOutlyingIntersections");
+			setModel(new OutlyingIntersectionsModel(this));
+		}
+
 	}
 
-	private class FixCheckboxPanel extends BooleanOptionPanel {
+	private class FixCheckboxPanel extends CheckboxPanel {
 
 		public FixCheckboxPanel() {
-	        super("FixCheckbox");
-	        setModel(new FixCheckboxModel(this));
-        }
-		
+			super("FixCheckbox");
+			setModel(new FixCheckboxModel(this));
+		}
+
 	}
 
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -1079,11 +950,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			reflexAnglePanel = new ReflexAnglePanel();
 			basicTab.add(reflexAnglePanel.getWidget());
 		}
+		
+		listAsComboPanel = new ListAsComboPanel();
+		basicTab.add(listAsComboPanel.getWidget());
 
 		rightAnglePanel = new RightAnglePanel();
 		basicTab.add(rightAnglePanel.getWidget());
 
-		trimmedIntersectionLinesPanel = new TrimmedIntersectionLinesPanel();
+		trimmedIntersectionLinesPanel = new ShowTrimmedIntersectionLinesPanel();
 		basicTab.add(trimmedIntersectionLinesPanel.getWidget());
 
 		//		basicTabList.add(comboBoxPanel);
@@ -1092,7 +966,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		fixCheckboxPanel = new FixCheckboxPanel();
 		basicTab.add(fixCheckboxPanel.getWidget());
-		
+
 		tabPanel.add(basicTab, "Basic");
 
 		basicPanels = Arrays.asList(namePanel,
@@ -1105,6 +979,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				bgImagePanel,
 				reflexAnglePanel,
 				rightAnglePanel,
+				listAsComboPanel,
 				trimmedIntersectionLinesPanel,
 				allowOutlyingIntersectionsPanel,
 				fixCheckboxPanel);
