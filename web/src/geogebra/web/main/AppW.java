@@ -681,7 +681,11 @@ public class AppW extends AppWeb {
 	}
 
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
-		driveBase64description = desc;
+		if (desc.equals("null") || desc.equals("undefined")) {
+			driveBase64description = "";
+		} else {
+			driveBase64description = desc;
+		}
 		driveBase64FileName = fName;
 		((DialogManagerW) getDialogManager())
 		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
