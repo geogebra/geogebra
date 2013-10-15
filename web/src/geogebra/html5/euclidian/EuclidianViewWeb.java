@@ -7,8 +7,10 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
+import geogebra.common.euclidian.draw.DrawList;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.io.MyXMLio;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -45,7 +47,20 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	public EuclidianViewWeb(EuclidianController ec, EuclidianSettings settings) {
 	    super(ec, settings);
     }
-	
+	/**
+	 * @param list
+	 *            list
+	 * @param b
+	 *            whether the list should be drawn as combobox
+	 */
+	public void drawListAsComboBox(GeoList list, boolean b) {
+
+		list.setDrawAsComboBox(b);
+
+		DrawList d = (DrawList) getDrawable(list);
+		d.resetDrawType();
+
+	}
 	@Override
 	protected final void drawActionObjects(GGraphics2D g)
 	{

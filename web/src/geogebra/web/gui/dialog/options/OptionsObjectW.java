@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.openjdk.awt.geom.Dimension;
@@ -746,7 +747,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
 			//TODO: implement the following:
-			//app.getActiveEuclidianView().drawListAsComboBox(geo, value);
+			((EuclidianViewWeb)(app.getActiveEuclidianView())).drawListAsComboBox(geo, value);
 		}
 
 	}
