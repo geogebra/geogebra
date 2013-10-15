@@ -24,7 +24,10 @@ public class InputLeo3D implements Input3D {
 	
 	private boolean isRightPressed;
 	
-	private double screenHalfWidth;// screenHeight;
+	private double screenHalfWidth;
+	
+	
+	private double[] leftEyePosition;
 	
 	/**
 	 * constructor
@@ -37,11 +40,14 @@ public class InputLeo3D implements Input3D {
 		// 3D mouse orientation
 		mouseOrientation = new double[4];
 		
+		// eyes position
+		leftEyePosition = new double[3];
+		
 		
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenHalfWidth = gd.getDisplayMode().getWidth()/2;
-		//screenHeight = gd.getDisplayMode().getHeight();		
+		//screenHalfHeight = gd.getDisplayMode().getHeight()/2;		
 		//App.debug("screen:"+screenWidth+"x"+screenHeight);
 		
 		
@@ -79,6 +85,21 @@ public class InputLeo3D implements Input3D {
 			
 			// right button
 			isRightPressed = (leoSocket.smallButton > 0.5);
+			
+			
+			
+			
+			// left eye position
+			leftEyePosition[0] = leoSocket.leftEyeX * screenHalfWidth;
+			leftEyePosition[1] = leoSocket.leftEyeY * screenHalfWidth;
+			leftEyePosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
+			
+			/*
+			App.debug("\nleft eye"
+					+"\nx="+leftEyePosition[0]
+					+"\ny="+leftEyePosition[1]
+					+"\nz="+leftEyePosition[2]);
+					*/
 			
 			/*
 			App.debug("\nbuttons"

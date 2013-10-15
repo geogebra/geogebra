@@ -47,7 +47,6 @@ import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
-import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
@@ -3455,7 +3454,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	/**
-	 * set the near distance regarding the angle (in degrees)
+	 * set the near distance regarding eye distance to the screen for perspective (in pixels)
 	 * @param angle
 	 */
 	public void setProjectionPerspectiveValue(double angle){
@@ -3479,7 +3478,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	/**
 	 * 
-	 * @return angle for perspective projection
+	 * @return eye distance to the screen for perspective
 	 */
 	public double getProjectionPerspectiveValue(){
 		return projectionPerspectiveValue;
@@ -3514,7 +3513,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	public boolean isPolarized(){
-		return ((App3D) app).hasInput3D();
+		return false;
 	}
 	
 	/**
@@ -3522,11 +3521,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return Z offset factor for the screen (to get the whole image out of the screen)
 	 */
 	public float getScreenZOffsetFactor(){
-		if (((App3D) app).hasInput3D()){
-			return 1f;
-		}
-		
+
 		return 0f;
+	}
+	
+	public double getScreenZOffset(){
+		return renderer.getScreenZOffset();
 	}
 	
 	public boolean isGrayScaled(){

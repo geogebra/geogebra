@@ -17,13 +17,13 @@ public interface Input3D {
 	public boolean update();
 	
 	/**
-	 * 
+	 *  Center is center of the screen, unit is pixels
 	 * @return 3D mouse position
 	 */
 	public double[] getMouse3DPosition();
 	
 	/**
-	 * 
+	 *
 	 * @return 3D mouse orientation (as quaternion)
 	 */
 	public double[] getMouse3DOrientation();

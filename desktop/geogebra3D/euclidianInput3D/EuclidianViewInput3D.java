@@ -34,6 +34,17 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 		
 	}
 
+	
+	@Override
+	public boolean isPolarized(){
+		return true;
+	}
+	
+	@Override
+	public float getScreenZOffsetFactor(){
+		return 0f;
+	}
+	
 	/**
 	 * set the coord system regarding 3D mouse move
 	 * @param dx relative mouse x move

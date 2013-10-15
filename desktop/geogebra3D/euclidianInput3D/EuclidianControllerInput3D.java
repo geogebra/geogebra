@@ -8,6 +8,11 @@ import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+
 
 /**
  * controller with specific methods from leonar3do input system
@@ -28,6 +33,8 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	
 	
 	private boolean wasRightReleased;
+	
+	private double screenHalfWidth, screenHalfHeight;
 	
 	/**
 	 * constructor
@@ -50,6 +57,11 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 		startMouse3DOrientation = new Quaternion();
 		rotV = new Coords(4);
 		
+		// screen dimensions
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		screenHalfWidth = gd.getDisplayMode().getWidth()/2;
+		screenHalfHeight = gd.getDisplayMode().getHeight()/2;		
+		
 	}
 	
 	
@@ -57,11 +69,24 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	public void update(){
 		if(input3D.update()){
 			
+			//////////////////////
 			// set values
-			mouse3DPosition.set(input3D.getMouse3DPosition());
+			
+			// mouse pos
+			Dimension d = view3D.getJPanel().getSize();
+			Point p = view3D.getJPanel().getLocationOnScreen();
+	
+			double[] pos = input3D.getMouse3DPosition();
+
+			mouse3DPosition.setX(pos[0] + screenHalfWidth - p.x - d.width/2);
+			mouse3DPosition.setY(pos[1] - screenHalfHeight + p.y + d.height/2);
+			mouse3DPosition.setZ(pos[2] - ((EuclidianView3D) view).getScreenZOffset());
+			
+			// mouse orientation
 			mouse3DOrientation.set(input3D.getMouse3DOrientation());
 			
 			
+			//////////////////////////////
 			// process right press
 			if (input3D.isRightPressed()){
 				processRightPress();
