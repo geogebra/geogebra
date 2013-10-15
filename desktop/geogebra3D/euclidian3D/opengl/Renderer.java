@@ -1712,9 +1712,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		} else {
 			return back;	
 		}
-	}	
-	public float getDepth(){
-		return back-front;
+	}
+	
+	public float getScreenZOffSet(){
+		return view3D.getScreenZOffsetFactor()*back;
 	}
 	
 	/** for a line described by (o,v), return the min and max parameters to draw the line
@@ -1966,7 +1967,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	double d1 = near;
     	frontExtended = (int) -d1; //front clipping plane
     	
-    	perspFocus = -perspNear-near;
+    	perspFocus = -perspNear-near + getScreenZOffSet();
     	
     	//Application.debug(near+"\nleft="+getLeft()+"\nd1="+d1);
     	//if (near<0.01)
@@ -1979,7 +1980,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	perspBottom = getBottom()*perspDistratio;
     	perspTop = getTop()*perspDistratio;
     	//distance camera-far plane
-    	perspFar = perspNear+getBack(true)-getFront(true);
+    	perspFar = perspNear+getBack(true)-getFront(true) + getScreenZOffSet();
     	
     	perspEye = new Coords(0,0,-perspFocus,1);   	
     }
@@ -2003,7 +2004,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     private void viewPersp(){
     	
     	gl.glFrustum(perspLeft,perspRight,perspBottom,perspTop,perspNear,perspFar);
-    	gl.glTranslated(0, 0, perspFocus);           	
+    	gl.glTranslated(0, 0, perspFocus);//+getBack(false));           	
     }       
     
     private double glassesEyeSep, glassesEyeSep1;
@@ -2107,9 +2108,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	top = bottom+h;
     	
     	int depth = w/2;//sets depth equals width
-       	//int depth = (w+h)/4;//sets depth equals mean(width,height)
       	front = -depth;   	
-    	back = depth;
+    	back = depth; 	
 
 
     	switch (view3D.getProjection()){

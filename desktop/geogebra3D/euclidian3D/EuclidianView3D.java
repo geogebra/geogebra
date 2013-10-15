@@ -47,6 +47,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
+import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
@@ -746,8 +747,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		//translation
 		CoordMatrix mTrans = getTranslationMatrix();
 		
-		//m.set(m5.mul(m3.mul(m4)));	
-		//m.set(m3.mul(m5.mul(m4)));	
+		
 		m.set(mRot.mul(mScale.mul(mTrans)));	
 		
 		mInv.set(m.inverse());
@@ -3514,7 +3514,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	public boolean isPolarized(){
-		return false;
+		return ((App3D) app).hasInput3D();
+	}
+	
+	/**
+	 * 
+	 * @return Z offset factor for the screen (to get the whole image out of the screen)
+	 */
+	public float getScreenZOffsetFactor(){
+		if (((App3D) app).hasInput3D()){
+			return 1f;
+		}
+		
+		return 0f;
 	}
 	
 	public boolean isGrayScaled(){
