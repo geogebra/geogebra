@@ -140,9 +140,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		}
 
 		if (WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
-			inputWidth = app.getDataParamWidth() - outerWidth;
+			inputWidth = app.getDataParamWidth() - outerWidth - 2; //2: border
 		} else {
-			inputWidth = Window.getClientWidth() - outerWidth;
+			inputWidth = Window.getClientWidth() - outerWidth - 2; //2: border
 		}
 		inputField.setWidth(inputWidth);
 	}

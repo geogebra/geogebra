@@ -86,13 +86,13 @@ public abstract class GeoGebraFrame extends VerticalPanel {
 		if (splash.isPreviewExists()) {
 			splashWidth = width;
 			splashHeight = height;
-		}		
-		
+		}
+
 		if (width > 0 && height > 0) {
-			setWidth(width + "px");
+			setWidth((width - 2) + "px"); // 2: border
 			setDataParamWidth(ae.getDataParamWidth());
 			setDataParamHeight(ae.getDataParamHeight());
-			setHeight(height + "px");
+			setHeight((height - 2) + "px"); // 2: border
 			splash.addStyleName("splash");
 			splash.getElement().getStyle()
 	        	.setTop((height / 2) - (splashHeight / 2), Unit.PX);
@@ -147,7 +147,7 @@ public abstract class GeoGebraFrame extends VerticalPanel {
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder != null && dpBorder.equals("none")) {
-			setBorder(ae, gf, "#ffffff", 0);
+			setBorder(ae, gf, "transparent", 1);
 			return;
 		}
 		
@@ -168,7 +168,7 @@ public abstract class GeoGebraFrame extends VerticalPanel {
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder != null && dpBorder.equals("none")) {
-			setBorder(ae, gf, "#FFFFFF", 0);
+			setBorder(ae, gf, "transparent", 1);
 			return;
 		}
 		setBorder(ae, gf, GeoGebraConstants.APPLET_FOCUSED_BORDER_COLOR, 1);

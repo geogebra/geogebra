@@ -408,21 +408,21 @@ public class DockManagerW implements  SetLabels {
 				// Now find the correct applet window dimensions and resize the rootPane.
 				
 				// window width can be get almost exactly
-				windowWidth = app.getDataParamWidth();
+				windowWidth = app.getDataParamWidth() - 2; // 2: border
 
 				// if it is not 0, there will be some scaling later
 				if (windowWidth <= 0) {
 					windowWidth = spw.get(rootPane);
 
 					// empirical hack to make room for the toolbar always
-					if (app.showToolBar() && windowWidth < 600)
-						windowWidth = 600;
+					if (app.showToolBar() && windowWidth < 598)
+						windowWidth = 598; // 2: border
 					// maybe this has to be put outside the "if"?
 				}
 				// note that data-param settings now override GGB XML!
 
 				// this is applet window height 
-				windowHeight = app.getDataParamHeight();
+				windowHeight = app.getDataParamHeight() - 2; // 2: border
 				// but we want to know the available height for the rootPane
 				// so we either use the above as a heuristic,
 				// or we should substract the height(s) of
