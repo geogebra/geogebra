@@ -199,6 +199,10 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 								createMaterialURL += "/lt/" + token;
 							}
 						}
+						
+						// Add the language parameter to show the page in the user language
+						createMaterialURL += "/?lang=" + ((AppD) app).getLocale().getLanguage();
+						
 						app.showURLinBrowser(createMaterialURL);
 						hideDialog();
 					}
