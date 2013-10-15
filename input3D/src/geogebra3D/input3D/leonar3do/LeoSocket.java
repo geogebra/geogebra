@@ -7,6 +7,7 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import org.eclipse.jetty.util.log.Logger;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -21,8 +22,32 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 @WebSocket(maxMessageSize = 64 * 1024)
 public class LeoSocket {
  
- 
-    
+	
+	
+
+	// to remove unwanted logging
+	static{
+		class NoLogging implements Logger {
+			@Override public String getName() { return "no"; }
+			@Override public void warn(String msg, Object... args) { }
+			@Override public void warn(Throwable thrown) { }
+			@Override public void warn(String msg, Throwable thrown) { }
+			@Override public void info(String msg, Object... args) { }
+			@Override public void info(Throwable thrown) { }
+			@Override public void info(String msg, Throwable thrown) { }
+			@Override public boolean isDebugEnabled() { return false; }
+			@Override public void setDebugEnabled(boolean enabled) { }
+			@Override public void debug(String msg, Object... args) { }
+			@Override public void debug(Throwable thrown) { }
+			@Override public void debug(String msg, Throwable thrown) { }
+			@Override public Logger getLogger(String name) { return this; }
+			@Override public void ignore(Throwable ignored) { }
+		}
+
+		org.eclipse.jetty.util.log.Log.setLog(new NoLogging());
+
+
+	}
 
 
 	/** bird x position */
@@ -50,10 +75,12 @@ public class LeoSocket {
     private WebSocketClient client;
     
     private RemoteEndpoint remoteEndpoint;
+    
+   
 
  
     public LeoSocket() {
-    	
+     
     	client = new WebSocketClient();
     	
         String destUri = "ws://localhost:5000";
