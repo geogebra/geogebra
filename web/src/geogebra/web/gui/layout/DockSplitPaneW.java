@@ -415,7 +415,6 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		private ArrayList<DockSplitPaneData> splitPaneInfo;
 		private int windowWidth;
 		private int windowHeight;
-		private int HORIZONTAL_SPLIT;
 
 		public TreeReader(AppW app) {
 			this.app = app;
