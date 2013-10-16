@@ -334,6 +334,41 @@ public class CoordSys {
 		equationVector.set(4, -d);
 		// Application.debug("equationVector:\n"+equationVector);
 	}
+	
+	/**
+	 * set equation vector
+	 * @param a x coeff
+	 * @param b y coeff
+	 * @param c z coeff
+	 * @param d w coeff
+	 */
+	public void setEquationVector(double a, double b, double c, double d){
+		equationVector.setX(a);
+		equationVector.setY(b);
+		equationVector.setZ(c);
+		equationVector.setW(d);
+	}
+	
+	/**
+	 * set equation vector corresponding to (m-o).n = 0
+	 * @param o origin
+	 * @param n normal point
+	 */
+	public void setEquationVector(Coords o, Coords n){
+		setEquationVector(n.getX(),n.getY(),n.getZ(),-(n.getX()*o.getX()+n.getY()*o.getY()+n.getZ()*o.getZ()));
+	}
+
+	/**
+	 * set equation vector 
+	 * @param cA first point
+	 * @param cB second point
+	 * @param cC third point
+	 */
+	public void setEquationVector(Coords cA, Coords cB, Coords cC){
+		setEquationVector(cA, cB.sub(cA).crossProduct(cC.sub(cA)));
+	}
+	
+
 
 	/**
 	 * @return the equation vector
@@ -535,6 +570,14 @@ public class CoordSys {
 	}
 	
 	/**
+	 * translate equation vector
+	 * @param v translation vector
+	 */
+	public void translateEquationVector(Coords v){
+		equationVector.setW(equationVector.getW()-v.dotproduct(equationVector));	
+	}
+	
+	/**
 	 * transform the matrix orthonormal to fit transform represented by m.
 	 * Compute {a,b,c} to perform inside coordsys transformation (which keep
 	 * orthonormal matrix) :
@@ -682,7 +725,17 @@ public class CoordSys {
 		
 		setFromMatrixOrthonormal();
 	}
-	
+
+	/**
+	 * dilate equation vector
+	 * @param r ratio
+	 * @param point center point
+	 */
+	public void dilateEquationVector(double r, Coords point){
+		
+		translateEquationVector(point.mul(1-r));
+		
+	}
 
 	
 	
@@ -700,7 +753,13 @@ public class CoordSys {
 		setFromMatrixOrthonormal();
 	}
 	
-	
+	/**
+	 * mirror equation vector at point
+	 * @param point point
+	 */
+	public void mirrorEquationVector(Coords point){
+		translateEquationVector(point.mul(2));
+	}
 	
 	/**
 	 * mirror the coord sys at line defined by point, direction

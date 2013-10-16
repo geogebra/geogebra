@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -61,13 +62,17 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 		//recompute the coord sys
 		coordsys.resetCoordSys();
 		
-		coordsys.addPoint(A.getInhomCoordsInD(3));
-		coordsys.addPoint(B.getInhomCoordsInD(3));
-		coordsys.addPoint(C.getInhomCoordsInD(3));
+		Coords cA = A.getInhomCoordsInD(3);
+		Coords cB = B.getInhomCoordsInD(3);
+		Coords cC = C.getInhomCoordsInD(3);
+		coordsys.addPoint(cA);
+		coordsys.addPoint(cB);
+		coordsys.addPoint(cC);
 		
 		if (coordsys.makeOrthoMatrix(false,false)){
-			if (coordsys.isDefined())
-				coordsys.makeEquationVector();
+			if (coordsys.isDefined()){
+				coordsys.setEquationVector(cA,cB,cC);
+			}
 		}
 		
 		//Application.debug(cs.getCoordSys().getMatrixOrthonormal().toString());

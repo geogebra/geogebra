@@ -15,6 +15,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -61,16 +62,19 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
     	if (!cs.toGeoElement().isDefined())
     		return;
 		
-    	coordsys.addPoint(getPoint().getInhomCoordsInD(3));
+    	Coords o = getPoint().getInhomCoordsInD(3);
+    	coordsys.addPoint(o);
 
-    	coordsys.addVectorWithoutCheckMadeCoordSys(cs.getCoordSys().getVx());
-    	coordsys.addVectorWithoutCheckMadeCoordSys(cs.getCoordSys().getVy());
+    	CoordSys inputCS = cs.getCoordSys();
+    	coordsys.addVectorWithoutCheckMadeCoordSys(inputCS.getVx());
+    	coordsys.addVectorWithoutCheckMadeCoordSys(inputCS.getVy());
 
  
 		
 		coordsys.makeOrthoMatrix(true,false);
 		
-		coordsys.makeEquationVector();
+		// notice that coordsys.getEquationVector() W value is ignored
+		coordsys.setEquationVector(o, inputCS.getEquationVector());
 		
 
         

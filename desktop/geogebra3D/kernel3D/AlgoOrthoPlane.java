@@ -83,7 +83,8 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 
 		//Application.debug(m.toString());
 
-		coordsys.addPoint(getPoint());
+		Coords o = getPoint();
+		coordsys.addPoint(o);
 		
 		//gets an ortho matrix with coord sys direction vector
 		Coords[] v = vz.completeOrthonormal();
@@ -94,7 +95,8 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 		
 		coordsys.makeOrthoMatrix(false,false);
 		
-		coordsys.makeEquationVector();
+		// ensure equation vector as integer coeffs if input are integers
+		coordsys.setEquationVector(o,vz);
         
     }
 

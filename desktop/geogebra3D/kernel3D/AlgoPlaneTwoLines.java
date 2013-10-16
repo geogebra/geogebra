@@ -87,13 +87,14 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 		if (vn.isZero()){
 			// when lines are parallel
 			coordsys.addVector(oo);
+			vn = va.crossProduct(oo);
 		}else{
 			coordsys.addVector(vb);
 		}
 		
 		if (coordsys.makeOrthoMatrix(false,false)){
 			if (coordsys.isDefined())
-				coordsys.makeEquationVector();
+				coordsys.setEquationVector(oa,vn);
 		}
 		
 		//Application.debug(cs.getCoordSys().getMatrixOrthonormal().toString());

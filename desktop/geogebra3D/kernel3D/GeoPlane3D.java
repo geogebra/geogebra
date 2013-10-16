@@ -303,12 +303,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 		// TODO move this elsewhere
 		CoordSys cs = p.getCoordSys();
-		cs.addPoint(getCoordSys().getOrigin());
-		cs.addVector(getCoordSys().getVx());
-		cs.addVector(getCoordSys().getVy());
-		cs.makeOrthoMatrix(false, false);
-		cs.makeEquationVector();
-
+		cs.set(this.getCoordSys());
+		
 		return p;
 	}
 
@@ -323,8 +319,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 		if (geo instanceof GeoPlane3D) {
 			GeoPlane3D plane = (GeoPlane3D) geo;
-			setEquation(plane.getCoordSys().getEquationVector().get(), true);
-
+			getCoordSys().set(plane.getCoordSys());
 		}
 
 	}
@@ -557,7 +552,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
-		getCoordSys().makeEquationVector();
+		getCoordSys().translateEquationVector(v);
 	}
 
 	@Override
@@ -620,7 +615,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public void mirror(Coords Q) {
 		coordsys.mirror(Q);
-		coordsys.makeEquationVector();
+		coordsys.mirrorEquationVector(Q);
 		
 	}
 
@@ -652,7 +647,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		double r = rval.getDouble();
 		
 		coordsys.dilate(r,S);	
-		coordsys.makeEquationVector();
+		coordsys.dilateEquationVector(r,S);
 		
 	}
 	
