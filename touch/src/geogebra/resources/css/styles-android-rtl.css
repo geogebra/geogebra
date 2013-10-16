@@ -1,0 +1,170 @@
+@charset "utf-8";
+
+/* ########################################
+###              HEADER                 ###
+####################################### */
+
+body .headerbar div.button {
+	border: none;
+	margin: 0px 6px 0px 10px;
+}
+
+/*##########################################
+###            INPUT BAR                 ###
+######################################### */
+
+body .inputbarPanel input {
+	border: none;
+	background: none;
+	padding: 4px 0px;
+	color: #999999;
+	height: 28px;
+	font-size: 14px;
+	width: 210px;
+}
+
+body .toolbar.visible .inputbarPanel {
+	margin-bottom: 10px;
+}
+
+body .toolbar.visible .inputPanel {
+	width: 100%;
+}
+
+/* POPUP Dialog INPUT */
+
+body .inputDialog,
+body .infoDialog {
+	padding: 0px;
+	
+	color: #FFFFFF;
+	
+	/* Border */
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #444444 solid 1px;
+	
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #999999;
+	-moz-box-shadow: 3px 3px 5px #999999;
+	box-shadow: 3px 3px 5px #999999;
+	background-color: #222222;
+}
+
+body .errorDialog .textPanel {
+	margin: 0px 30px 0px 15px;
+}
+
+.inputDialog .titlePanel,
+.infoDialog .titlePanel {
+	border-bottom: 2px solid #9999FF;
+	font-size: 18px;
+	color: #FFFFFF;
+	padding: 15px;
+	margin-bottom: 15px;
+}
+
+.inputField.name,
+.sliderDialog .sliderPanel {
+	margin-left: 15px;
+}
+
+.inputDialog .gwt-Label,
+.infoDialog .gwt-Label {
+	text-align: left;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+
+body .inputDialog .gwt-TextBox,
+body .infoDialog .gwt-TextBox {
+	margin-top: 5px;
+	border: none;
+	padding: 3px;
+	background: none;
+	color: #FFFFFF;
+	width: 560px;
+}
+
+.sliderDialog .name .gwt-TextBox {
+	width: 340px;
+}
+
+.inputDialog.angleDialog {
+	width: 600px;
+}
+
+.angleDialog .name .gwt-TextBox {
+	width: 560px;
+}
+
+body .sliderDialog .sliderPanel .inputField.last {
+	margin-right: 20px;
+}
+
+body .radioButtonPanel .gwt-RadioButton label {
+	color: #FFFFFF;
+}
+
+body .infoDialog .textPanel {
+	padding: 0px 15px;
+}
+
+body .inputDialog .buttonPanel {
+	width: 100%;
+	margin-top: 20px;
+}
+
+body .inputDialog .buttonPanel button {
+	width: 100%;
+}
+
+.customKeyPanel {
+	margin-right: 0px;
+}
+
+body .inputDialog button,
+body .infoDialog button {
+	margin: 0px;
+	border: none;
+	background: none;
+	width: 40px;
+	height: 40px;
+	
+	-webkit-border-radius: 0px;
+	-khtml-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	
+	color: #FFFFFF;
+	font-size: 14px;
+	border-right: 1px solid #999999;
+	border-top: 1px solid #999999;
+	padding: 5px;
+}
+
+body .infoDialog .buttonPanel button {
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px 40px;
+	font-size: 12px;
+}
+
+body .inputDialog button.last,
+body .infoDialog button.last {
+	border-right: none;
+}
+
+body .inputDialog .iconPanel,
+body .infoDialog .iconPanel {
+	margin-right: 10px;
+}
+
+body .gwt-PopupPanelGlass {
+	background-color: #000;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+}

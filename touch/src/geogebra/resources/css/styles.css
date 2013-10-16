@@ -479,13 +479,6 @@ body .gwt-Tree .gwt-TreeItem-selected {
 	height: auto;
 }
 
-/*.toolbarButtonPanel {
-	position: relative;
-	top: 0px;
-	left: 0px;
-	display: inline-block;
-}*/
-
 .toolbar.visible .toolbarButtonPanel {
 	width: 100%;
 }
@@ -539,7 +532,7 @@ body .gwt-Tree .gwt-TreeItem-selected {
 }
 
 .subToolBarArrow {
-	margin-top: -7px;
+	margin-top: -8px;
 	padding-left: 23px;
 }
 

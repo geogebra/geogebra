@@ -215,14 +215,14 @@ body .infoDialog button.last {
 	margin-top: 5px;
 }
 
-body .browsegui table.headerLeft,
-body .worksheetgui table.headerLeft {
+body .browsegui .headerFirst,
+body .worksheetgui .headerFirst {
 	border-spacing: 0px;
 	margin-left: 5px;
 	font-weight: normal;
 }
 
-.headerbar .headerLeft .backButton img {
+.headerbar .headerFirst .backButton .image img {
 	height: 37px;
 	width: 14px;
 	opacity: 1;
@@ -231,8 +231,8 @@ body .worksheetgui table.headerLeft {
 	padding: 0px;
 }
 
-body .browsegui .headerbar .headerLeft div.button.backButton,
-body .worksheetgui .headerbar .headerLeft div.button.backButton  {
+body .browsegui .headerbar .headerFirst div.button.backButton,
+body .worksheetgui .headerbar .headerFirst div.button.backButton  {
 	height: 37px;
 	opacity: 1;
 	filter: alpha(opacity=1);
@@ -240,14 +240,14 @@ body .worksheetgui .headerbar .headerLeft div.button.backButton  {
 	padding: 0px;
 }
 
-.browsegui .headerbar .headerLeft .backButton .gwt-Label,
-.worksheetgui .headerbar .headerLeft .backButton .gwt-Label {
+.browsegui .headerbar .headerFirst .backButton .gwt-Label,
+.worksheetgui .headerbar .headerFirst .backButton .gwt-Label {
 	font-weight: normal;
 	font-size: 12px;
 }
 
 .backButton .gwt-Label,
-body .headerbar .headerRight .textButton {
+body .headerbar .headerSecond .textButton {
 	/* Background */
 	background: linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
 	background: -o-linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
@@ -275,7 +275,7 @@ body .headerbar .headerRight .textButton {
 	border-bottom: 1px solid #444444;
 }
 
-body .headerbar .headerRight div.textButton {
+body .headerbar .headerSecond div.textButton {
 	margin: 0px;
 	margin-top: -3px;
 	/* Border */
@@ -318,7 +318,7 @@ body .headerbar .headerRight div.textButton {
 	border-right: 1px solid #444444;
 }
 
-.browsegui .headerRight input.gwt-TextBox {
+.browsegui .headerSecond input.gwt-TextBox {
 	/* Border */
 	-webkit-border-radius: 15px;
 	-khtml-border-radius: 15px;
@@ -344,14 +344,14 @@ body .headerbar .headerRight div.textButton {
 	padding-right: 30px;
 }
 
-.browsegui .headerRight .searchButton {
+.browsegui .headerSecond .searchButton {
 	position: relative;
 	z-index: 5;
 	left: 30px;
 	top: 5px;
 }
 
-.browsegui .headerRight .cancelButton {
+.browsegui .headerSecond .cancelButton {
 	position: absolute;
 	right: 18px;
 	top: 12px;
