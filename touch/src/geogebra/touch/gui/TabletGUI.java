@@ -150,6 +150,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		if(this.rtl){
 			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyle().getText());
 			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.additionalRtlStyle().getText());
+			TouchEntryPoint.getLookAndFeel().loadRTLStyles();
 		}
 		this.touchModel = new TouchModel(kernel);
 		this.app = (TouchApp) kernel.getApplication();

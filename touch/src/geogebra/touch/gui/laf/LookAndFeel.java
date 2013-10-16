@@ -48,4 +48,6 @@ public interface LookAndFeel extends SavedStateListener {
 	public void resetNativeHandlers();
 
 	public void setPopupCenter(PopupPanel panel);
+
+	public void loadRTLStyles();
 }

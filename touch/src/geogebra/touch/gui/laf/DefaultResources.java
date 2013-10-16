@@ -14,6 +14,15 @@ public interface DefaultResources extends ClientBundle {
 	@Source("geogebra/resources/css/styles-rtl.css")
 	TextResource rtlStyle();
 	
+	@Source("geogebra/resources/css/styles-win8-rtl.css")
+	TextResource rtlStyleWin();
+	
+	@Source("geogebra/resources/css/styles-apple-rtl.css")
+	TextResource rtlStyleApple();
+	
+	@Source("geogebra/resources/css/styles-android-rtl.css")
+	TextResource rtlStyleAndroid();
+	
 	@Source("geogebra/resources/css/styles-additional-rtl.css")
 	TextResource additionalRtlStyle();
 	

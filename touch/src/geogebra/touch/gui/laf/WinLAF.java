@@ -8,6 +8,7 @@ import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.model.TouchModel;
 
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
@@ -167,5 +168,10 @@ public class WinLAF extends DefaultLAF {
 	public void setPopupCenter(final PopupPanel panel) {
 		panel.setPopupPosition((Window.getClientWidth() - panel.getWidget()
 				.getOffsetWidth()) / 2, 50);
+	}
+
+	@Override
+	public void loadRTLStyles() {
+		StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyleWin().getText());
 	}
 }

@@ -140,4 +140,9 @@ public class DefaultLAF implements LookAndFeel {
 	public void setPopupCenter(final PopupPanel panel) {
 		panel.center();
 	}
+
+	@Override
+	public void loadRTLStyles() {
+		
+	}
 }

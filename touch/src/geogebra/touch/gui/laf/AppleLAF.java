@@ -2,6 +2,8 @@ package geogebra.touch.gui.laf;
 
 import geogebra.touch.TouchApp;
 
+import com.google.gwt.dom.client.StyleInjector;
+
 /**
  * On 2013-08-06 iOS had TouchStartEvents
  * 
@@ -22,5 +24,10 @@ public class AppleLAF extends DefaultLAF {
 	@Override
 	public boolean receivesDoubledEvents() {
 		return false;
+	}
+
+	@Override
+	public void loadRTLStyles() {
+		StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyleApple().getText());
 	}
 }
