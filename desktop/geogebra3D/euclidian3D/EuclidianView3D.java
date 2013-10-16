@@ -3441,12 +3441,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	private double projectionPerspectiveValue = 1500;
+	private double projectionPerspectiveEyeDistance = 2500;
 	
 
 	public void setProjectionPerspective(){
 		renderer.setWaitForDisableStencilLines();
-		updateProjectionPerspectiveValue();
+		updateProjectionPerspectiveEyeDistance();
 		setProjectionValues(PROJECTION_PERSPECTIVE);
 		setDefault2DCursor();
 		//setTransparentCursor();
@@ -3455,38 +3455,34 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	/**
 	 * set the near distance regarding eye distance to the screen for perspective (in pixels)
-	 * @param angle
+	 * @param distance
 	 */
-	public void setProjectionPerspectiveValue(double angle){
-		projectionPerspectiveValue = angle;
+	public void setProjectionPerspectiveEyeDistance(double distance){
+		projectionPerspectiveEyeDistance = distance;
 		if (projection!=PROJECTION_PERSPECTIVE && projection!=PROJECTION_GLASSES)
 			projection=PROJECTION_PERSPECTIVE;
-		updateProjectionPerspectiveValue();
+		updateProjectionPerspectiveEyeDistance();
 		if (projection == PROJECTION_GLASSES){ // also update eyes separation
 			renderer.updateGlassesValues();
 		}
 	}
 	
-	private void updateProjectionPerspectiveValue(){
-		/*
-		if (projectionPerspectiveValue<0)
-			renderer.setNear(0);
-		else
-		*/
-		renderer.setNear(projectionPerspectiveValue);
+	private void updateProjectionPerspectiveEyeDistance(){
+
+		renderer.setNear(projectionPerspectiveEyeDistance);
 	}
 	
 	/**
 	 * 
 	 * @return eye distance to the screen for perspective
 	 */
-	public double getProjectionPerspectiveValue(){
-		return projectionPerspectiveValue;
+	public double getProjectionPerspectiveEyeDistance(){
+		return projectionPerspectiveEyeDistance;
 	}
 	
 	
 	public void setProjectionGlasses(){
-		updateProjectionPerspectiveValue();
+		updateProjectionPerspectiveEyeDistance();
 		renderer.updateGlassesValues();
 		if (isPolarized()){
 			renderer.setWaitForSetStencilLines();
@@ -3552,15 +3548,15 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return projection==PROJECTION_GLASSES && isGlassesShutDownGreen();
 	}
 	
-	private double eyeSepFactor = 0.03;
+	private double eyeSep = 192;
 
-	public void setEyeSepFactor(double val){
-		eyeSepFactor = val;
+	public void setEyeSep(double val){
+		eyeSep = val;
 		renderer.updateGlassesValues();
 	}
 	
-	public double getEyeSepFactor(){
-		return eyeSepFactor;
+	public double getEyeSep(){
+		return eyeSep;
 	}
 
 

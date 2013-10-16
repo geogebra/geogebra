@@ -166,10 +166,10 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 		
 		//projection
 		//tfPersp.removeActionListener(this);
-		tfPersp.setText(""+((EuclidianView3D) view).getProjectionPerspectiveValue());
+		tfPersp.setText(""+((EuclidianView3D) view).getProjectionPerspectiveEyeDistance());
 		//tfPersp.addActionListener(this);
 		
-		tfGlasses.setText(""+((EuclidianView3D) view).getEyeSepFactor()*1000);
+		tfGlassesEyeSep.setText(""+((EuclidianView3D) view).getEyeSep());
 		cbGlassesGray.setSelected(((EuclidianView3D) view).isGlassesGrayScaled());
 		cbGlassesShutDownGreen.setSelected(((EuclidianView3D) view).isGlassesShutDownGreen());
 		
@@ -203,7 +203,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	
 	
 	private JLabel[] projectionLabel;
-	private JTextField tfPersp, tfGlasses, tfObliqueAngle, tfObliqueFactor;
+	private JTextField tfPersp, tfGlassesEyeSep, tfObliqueAngle, tfObliqueFactor;
 	private JLabel tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel, tfObliqueFactorLabel;
 	private ProjectionButtons projectionButtons;
 	private JCheckBox cbGlassesGray;
@@ -285,10 +285,10 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
         glassesPanel.add(projectionLabel[2]);
         tfGlassesLabel = new JLabel("");
         glassesPanel.add(tfGlassesLabel);
-        tfGlasses = new MyTextField(app,3);
-        tfGlasses.addActionListener(this);
-        tfGlasses.addFocusListener(this);
-        glassesPanel.add(tfGlasses);
+        tfGlassesEyeSep = new MyTextField(app,3);
+        tfGlassesEyeSep.addActionListener(this);
+        tfGlassesEyeSep.addFocusListener(this);
+        glassesPanel.add(tfGlassesEyeSep);
         cbGlassesGray = new JCheckBox();
         cbGlassesGray.addActionListener(this);
         cbGlassesGrayLabel = new JLabel("");
@@ -417,24 +417,24 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 						tfPersp.setText(""+val);
 					}
 
-					((EuclidianView3D) view).setProjectionPerspectiveValue(val);	
+					((EuclidianView3D) view).setProjectionPerspectiveEyeDistance(val);	
 				}
 			}catch(NumberFormatException e){
-				tfPersp.setText(""+((EuclidianView3D) view).getProjectionPerspectiveValue());
+				tfPersp.setText(""+((EuclidianView3D) view).getProjectionPerspectiveEyeDistance());
 			}
-		}else if (source == tfGlasses) {
+		}else if (source == tfGlassesEyeSep) {
 			try{
-				double val = Double.parseDouble(tfGlasses.getText());
+				double val = Double.parseDouble(tfGlassesEyeSep.getText());
 				if (! Double.isNaN(val)) {
 					if (val<0){
 						val=0;
-						tfGlasses.setText(""+val);
+						tfGlassesEyeSep.setText(""+val);
 					}
 
-					((EuclidianView3D) view).setEyeSepFactor(val/1000);	
+					((EuclidianView3D) view).setEyeSep(val);	
 				}
 			}catch(NumberFormatException e){
-				tfGlasses.setText(""+((EuclidianView3D) view).getEyeSepFactor()*1000);
+				tfGlassesEyeSep.setText(""+((EuclidianView3D) view).getEyeSep());
 			}
 		}else if (source == tfObliqueAngle) {
 			try{

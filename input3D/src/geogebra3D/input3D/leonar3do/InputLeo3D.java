@@ -28,6 +28,7 @@ public class InputLeo3D implements Input3D {
 	
 	
 	private double[] leftEyePosition;
+	private double[] rightEyePosition;
 	
 	/**
 	 * constructor
@@ -42,6 +43,7 @@ public class InputLeo3D implements Input3D {
 		
 		// eyes position
 		leftEyePosition = new double[3];
+		rightEyePosition = new double[3];
 		
 		
 		// screen dimensions
@@ -49,6 +51,8 @@ public class InputLeo3D implements Input3D {
 		screenHalfWidth = gd.getDisplayMode().getWidth()/2;
 		//screenHalfHeight = gd.getDisplayMode().getHeight()/2;		
 		//App.debug("screen:"+screenWidth+"x"+screenHeight);
+		
+		//App.error("height/2="+gd.getDisplayMode().getHeight()/2);
 		
 		
 		leoSocket = new LeoSocket();
@@ -94,12 +98,24 @@ public class InputLeo3D implements Input3D {
 			leftEyePosition[1] = leoSocket.leftEyeY * screenHalfWidth;
 			leftEyePosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
 			
+			// right eye position
+			rightEyePosition[0] = leoSocket.rightEyeX * screenHalfWidth;
+			rightEyePosition[1] = leoSocket.rightEyeY * screenHalfWidth;
+			rightEyePosition[2] = leoSocket.rightEyeZ * screenHalfWidth;
+			
 			/*
 			App.debug("\nleft eye"
 					+"\nx="+leftEyePosition[0]
 					+"\ny="+leftEyePosition[1]
-					+"\nz="+leftEyePosition[2]);
-					*/
+					+"\nz="+leftEyePosition[2]
+				    +
+					"\nright eye"
+					+"\nx="+rightEyePosition[0]
+					+"\ny="+rightEyePosition[1]
+					+"\nz="+rightEyePosition[2]);
+					
+			App.debug("\nleft-right="+(rightEyePosition[0]-leftEyePosition[0])+"\nheight="+GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight());
+			*/
 			
 			/*
 			App.debug("\nbuttons"
