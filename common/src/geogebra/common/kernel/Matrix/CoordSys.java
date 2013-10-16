@@ -325,14 +325,38 @@ public class CoordSys {
 	public void makeEquationVector() {
 		equationVector.set(getVx().crossProduct(getVy()), 1);
 		equationVector.set(4, 0);
-		if (equationVector.getX() < Kernel.STANDARD_PRECISION
-				&& equationVector.getY() < Kernel.STANDARD_PRECISION
-				&& equationVector.getZ() < Kernel.STANDARD_PRECISION)
-			equationVector = equationVector.mul(-1);
 
 		double d = equationVector.dotproduct(getOrigin());
 		equationVector.set(4, -d);
-		// Application.debug("equationVector:\n"+equationVector);
+		
+		checkEquationVectorHasJustOneNegativeCoeff();
+	}
+	
+	/** 
+	 * check if two of the x, y, z coeff are equal to 0, and if the other is negative,
+	 * then change signs
+	 * 
+	 */
+	final private void checkEquationVectorHasJustOneNegativeCoeff(){
+		
+		int zeros = 0;
+		boolean negative = false;
+		
+		// check if two of the x, y, z coeff are equal to 0, and if the other is negative
+		for (int i = 1 ; i <= 3 ; i++){
+			double coeff = equationVector.get(i);
+			if (Kernel.isZero(coeff)){
+				zeros++;
+			}else{
+				negative = (coeff<0);
+			}
+		}
+		
+		// then change signs
+		if (zeros == 2 && negative){
+			equationVector.mulInside(-1);
+		}
+		
 	}
 	
 	/**
@@ -342,11 +366,13 @@ public class CoordSys {
 	 * @param c z coeff
 	 * @param d w coeff
 	 */
-	public void setEquationVector(double a, double b, double c, double d){
+	final public void setEquationVector(double a, double b, double c, double d){
 		equationVector.setX(a);
 		equationVector.setY(b);
 		equationVector.setZ(c);
 		equationVector.setW(d);
+		
+		checkEquationVectorHasJustOneNegativeCoeff();
 	}
 	
 	/**

@@ -367,7 +367,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private StringBuilder buildValueString(StringTemplate tpl) {
 
 		return kernel.buildImplicitEquation(getCoordSys().getEquationVector()
-				.get(), VAR_STRING, KEEP_LEADING_SIGN, false, '=',tpl);
+				.get(), VAR_STRING, KEEP_LEADING_SIGN, true, '=',tpl);
 
 	}
 
