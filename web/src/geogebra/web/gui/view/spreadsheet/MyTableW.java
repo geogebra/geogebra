@@ -331,8 +331,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		setCellPadding(0);
 		setCellSpacing(0);
-		getElement().getStyle().setTableLayout(Style.TableLayout.FIXED);
-		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 		getElement().addClassName("geogebraweb-table-spreadsheet");
 
 		//TODO: these calls hang the spreadsheet dock panel 
@@ -1614,10 +1612,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// in table model coordinates
 
-		Widget prefWidget = defaultTableCellRenderer
-		        .getTableCellRendererWidget(this,
-		                tableModel.getValueAt(row, col), false, false,
-		                row, col);
+		Element prefElement = getCellFormatter().getElement(row, col);
 
 		if (adjustWidth) {
 
@@ -1625,8 +1620,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				Element tableColumn = getColumnFormatter().getElement(col);
 
 				int resultWidth = Math.max(tableColumn.getOffsetWidth(),
-						(int) prefWidget.getOffsetWidth());
-				tableColumn.getStyle().setWidth(resultWidth + 1 /*
+						(int) prefElement.getOffsetWidth());
+				tableColumn.getStyle().setWidth(resultWidth /*
 															 * TODO this.
 															 * getIntercellSpacing
 															 * ().width
@@ -1638,7 +1633,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (adjustHeight) {
 
 			int resultHeight = Math.max(getRowFormatter().getElement(row)
-			        .getOffsetHeight(), (int) prefWidget.getOffsetHeight());
+			        .getOffsetHeight(), (int) prefElement.getOffsetHeight());
 			int rowHeight2 = resultHeight;
 			if (rowHeight2 < minimumRowHeight)
 				rowHeight2 = minimumRowHeight;
@@ -1663,28 +1658,25 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		int prefWidth = 0;
 		int tempWidth = -1;
 		for (int row = 1; row < getRowCount(); row++) {
-			if (tableModel.getValueAt(row - 1, column - 1) != null) {
-				tempWidth = defaultTableCellRenderer
-				        .getTableCellRendererWidget(this,
-				                tableModel.getValueAt(row - 1, column - 1),
-				                false, false, row - 1, column - 1).getOffsetWidth();
+			if (column > 0 && tableModel.getValueAt(row - 1, column - 1) != null) {
+				tempWidth = getCellFormatter().getElement(row, column).getOffsetWidth();
 				prefWidth = Math.max(prefWidth, tempWidth);
 			}
 		}
 
 		// set the new column width
 		if (column == 0) {
-			prefWidth = SpreadsheetViewW.ROW_HEADER_WIDTH - 1;
+			prefWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
 		} else if (tempWidth == -1) {
 			// column is empty
-			prefWidth = preferredColumnWidth - 1 /*
+			prefWidth = preferredColumnWidth /*
 												 * TODO
 												 * getIntercellSpacing().width
 												 */;
 		} else {
 			// There was "15" here, but in Desktop, it should visually look
 			// like if there was "5"...
-			prefWidth = Math.max(prefWidth, 5 /*
+			prefWidth = Math.max(prefWidth, 15 /*
 											 * TODO
 											 * tableColumn.getMinWidth()
 											 */);
@@ -1692,7 +1684,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// note: the table might have its header set to null,
 		// so we get the actual header from view
 		// TODO//view.getTableHeader().setResizingColumn(tableColumn);
-		tableColumn.getStyle().setWidth(prefWidth + 1 /*
+		tableColumn.getStyle().setWidth(prefWidth /*
 													 * TODO
 													 * getIntercellSpacing()
 													 * .width
@@ -1713,11 +1705,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		int tempHeight = 0;
 		for (int column = 1; column < this.getColumnCount(); column++) {
 
-			tempHeight = defaultTableCellRenderer.getTableCellRendererWidget(
-			        this, tableModel.getValueAt(row - 1, column - 1), false,
-			        false, row-1, column-1).getOffsetHeight();
-
-			prefHeight = Math.max(prefHeight, tempHeight);
+			if (row > 0) {
+				tempHeight = getCellFormatter().getElement(row, column).getOffsetHeight();
+				prefHeight = Math.max(prefHeight, tempHeight);
+			}
 
 		}
 

@@ -1473,6 +1473,15 @@ Paddings for menuitems.
 	
 }
 
+/**
+ * According to the CSS2 specification, width will be the greater of
+ * this width property and the computed width...
+ */
+.geogebraweb-table-spreadsheet {
+	table-layout: fixed;
+	width: 0px;
+}
+
 .geogebraweb-table-spreadsheet td{
 	border-right: 1px solid gray;
 	border-bottom: 1px solid gray;

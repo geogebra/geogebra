@@ -935,11 +935,11 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 			} else {
 				aw = table.preferredColumnWidth();
 			}
-			if (aw < 5) {
+			if (aw < 15) {
 				// there is a minimal width in the Desktop version,
 				// Web version should imitate this; this is visually looking
 				// like 5px, but in the code, it seems that it is 15px
-				aw = 5;
+				aw = 15;
 			}
 			table.getColumnFormatter().getElement(i).getStyle().setWidth(aw, Style.Unit.PX);
 		}
