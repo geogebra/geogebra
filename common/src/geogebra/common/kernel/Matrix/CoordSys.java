@@ -566,7 +566,9 @@ public class CoordSys {
 		matrixOrthonormal.setOrigin(o);
 		if (dimension==2){
 			drawingMatrix.setOrigin(o);
-		}
+		}		
+
+		setFromMatrixOrthonormal();
 	}
 	
 	/**
@@ -813,6 +815,8 @@ public class CoordSys {
 		
 		setFromMatrixOrthonormal();
 	}
+
+	
 
 
 }
