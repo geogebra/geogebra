@@ -1968,13 +1968,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	
     	perspFocus = -perspNear -near + getScreenZOffset();
-    	//App.error((-perspNear -near) +","+ getScreenZOffset());
-    	
-    	//Application.debug(near+"\nleft="+getLeft()+"\nd1="+d1);
-    	//if (near<0.01)
-    	//	near=0.01;
+    	App.error(near +","+ getScreenZOffset());
+
     	//ratio so that distance on screen plane are not changed
-    	perspDistratio = -perspNear/perspFocus;
+    	perspDistratio = perspNear/(perspNear+near);
+    	
     	//frustum    	
     	perspLeft = getLeft()*perspDistratio;
     	perspRight = getRight()*perspDistratio;
@@ -2011,8 +2009,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     private double glassesEyeSep, glassesEyeSep1;
     
     public void updateGlassesValues(){
-    	//eye separation
-    	glassesEyeSep = -view3D.getEyeSep();
+    	//half eye separation
+    	glassesEyeSep = -view3D.getEyeSep()/2;
     	//eye separation for frustum
     	glassesEyeSep1 = glassesEyeSep*perspDistratio;//(1-distratio);    
     	//Application.debug("eyesep="+eyesep+"\ne1="+e1);

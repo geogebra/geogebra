@@ -2486,7 +2486,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	private void setDefault2DCursor(){
+	protected void setDefault2DCursor(){
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
@@ -3548,7 +3548,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return projection==PROJECTION_GLASSES && isGlassesShutDownGreen();
 	}
 	
-	private double eyeSep = 192;
+	private double eyeSep = 200;
 
 	public void setEyeSep(double val){
 		eyeSep = val;

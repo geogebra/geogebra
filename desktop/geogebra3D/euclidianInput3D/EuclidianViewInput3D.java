@@ -75,6 +75,14 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 		
 	}	
 	
+	@Override
+	public void setTransparentCursor() {
+
+		// 3D cursor and 2D mouse cursor are independents
+		setDefault2DCursor();
+
+	}
+	
 	/*
 	@Override
 	public void rememberOrigins(){
