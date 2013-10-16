@@ -34,6 +34,8 @@ import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboLis
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
+import geogebra.common.gui.dialog.options.model.PointSizeModel;
+import geogebra.common.gui.dialog.options.model.PointSizeModel.IPointSizeListener;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -3452,13 +3454,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class PointSizePanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IPointSizeListener {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
+		private PointSizeModel model;
 		private JSlider slider;
 
 		public PointSizePanel() {
@@ -3466,6 +3468,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// setBorder(BorderFactory.createTitledBorder(app.getPlain("Size")));
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
+			
+			model = new PointSizeModel(this);
 
 			slider = new JSlider(1, 9);
 			slider.setMajorTickSpacing(2);
@@ -3493,43 +3497,27 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
+			model.setGeos(geos);
 			return update();
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null)
+			if (!model.hasGeos()) {
 				return;
+			}
 			update();
 		}
 
 		public JPanel update() {
 			// check geos
-			if (!checkGeos(geos))
+			if (!model.checkGeos()) {
 				return null;
+			}
 
 			slider.removeChangeListener(this);
-
-			// set value to first point's size
-			PointProperties geo0 = (PointProperties) geos[0];
-			slider.setValue(geo0.getPointSize());
-
+			model.updateProperties();
 			slider.addChangeListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-						&& (!(geo.isGeoList() && ((GeoList) geo)
-								.showPointProperties()))) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
@@ -3537,13 +3525,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
-				int size = slider.getValue();
-				PointProperties point;
-				for (int i = 0; i < geos.length; i++) {
-					point = (PointProperties) geos[i];
-					point.setPointSize(size);
-					point.updateRepaint();
-				}
+				model.applyChanges(slider.getValue());
 			}
 		}
 
@@ -3567,6 +3549,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 
 			slider.setFont(app.getSmallFont());
+		}
+
+		public void setSliderValue(int value) {
+			slider.setValue(value);
 		}
 
 	}
