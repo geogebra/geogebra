@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'geogebra-sans-serif';
-    src: url('web/font/GgbRoboto.eot');
-    src: url('web/font/GgbRoboto.eot?#iefix') format('embedded-opentype'),
-         url('web/font/GgbRoboto.woff') format('woff'),
-         url('web/font/GgbRoboto.ttf') format('truetype'),
-         url('web/font/GgbRoboto.svg#roberto') format('svg');
+    src: url('../font/GgbRoboto.eot');
+    src: url('../font/GgbRoboto.eot?#iefix') format('embedded-opentype'),
+         url('../font/GgbRoboto.woff') format('woff'),
+         url('../font/GgbRoboto.ttf') format('truetype'),
+         url('../font/GgbRoboto.svg#roboto') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -12,11 +12,11 @@
 
 @font-face {
     font-family: 'geogebra-serif';
-    src: url('web/font/GgbRobotoSlab.eot');
-    src: url('web/font/GgbRobotoSlab.eot?#iefix') format('embedded-opentype'),
-         url('web/font/GgbRobotoSlab.woff') format('woff'),
-         url('web/font/GgbRobotoSlab.ttf') format('truetype'),
-         url('web/font/GgbRobotoSlab.svg#roberto_slab') format('svg');
+    src: url('../font/GgbRobotoSlab.eot');
+    src: url('../font/GgbRobotoSlab.eot?#iefix') format('embedded-opentype'),
+         url('../font/GgbRobotoSlab.woff') format('woff'),
+         url('../font/GgbRobotoSlab.ttf') format('truetype'),
+         url('../font/GgbRobotoSlab.svg#roboto_slab') format('svg');
     font-weight: normal;
     font-style: normal;
 
