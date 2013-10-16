@@ -2153,8 +2153,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 					} else {
 						// row header cells
-						getCellFormatter().getElement(j, i).getStyle()
-						        .setTextAlign(TextAlign.CENTER);
+						getCellFormatter().getElement(j, i).addClassName("SVheader");
 
 						gva = rowHeaderModel.getElementAt(j - 1);
 						String text = (gva == null) ? "" : gva.toString();
@@ -2163,8 +2162,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 				} else if (j == 0) {
 					// column header cells
-					getCellFormatter().getElement(j, i).getStyle()
-					        .setTextAlign(TextAlign.CENTER);
+					getCellFormatter().getElement(j, i).addClassName("SVheader");
 
 					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i - 1);
 					String text = (gva == null) ? "" : gva.toString();
