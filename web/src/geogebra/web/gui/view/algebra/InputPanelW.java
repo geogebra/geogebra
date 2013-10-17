@@ -5,6 +5,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.TextEditPanel;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
@@ -55,7 +56,7 @@ public class InputPanelW extends HorizontalPanel {
 		// either a textArea, textfield or HTML textpane
 		if (rows > 1) {
 
-			textAreaComponent = new TextEditPanel();
+			textAreaComponent = new TextEditPanel(app);
 
 			// switch (type) {
 			// case TextArea:
@@ -72,9 +73,8 @@ public class InputPanelW extends HorizontalPanel {
 		} else {
 
 			textComponent = new AutoCompleteTextFieldW(columns, app);
-			
-			textComponent
-			        .setShowSymbolTableIcon(showSymbolPopup);
+
+			textComponent.setShowSymbolTableIcon(showSymbolPopup);
 		}
 
 		// textComponent.addFocusListener(this);
@@ -83,8 +83,7 @@ public class InputPanelW extends HorizontalPanel {
 		// if (keyListener != null)
 		// textComponent.addKeyListener(keyListener);
 		//
-		
-		
+
 		//
 		// // create the GUI
 		//
@@ -106,10 +105,10 @@ public class InputPanelW extends HorizontalPanel {
 		}
 		//
 		else { // JTextField
-			// setLayout(new BorderLayout(0, 0));
-			// tfPanel = new JPanel(new BorderLayout(0, 0));
-			// tfPanel.add(textComponent, BorderLayout.CENTER);
-			// add(tfPanel, BorderLayout.CENTER);
+			   // setLayout(new BorderLayout(0, 0));
+			   // tfPanel = new JPanel(new BorderLayout(0, 0));
+			   // tfPanel.add(textComponent, BorderLayout.CENTER);
+			   // add(tfPanel, BorderLayout.CENTER);
 			if (initText != null)
 				textComponent.setText(initText);
 			add(textComponent);
@@ -123,20 +122,25 @@ public class InputPanelW extends HorizontalPanel {
 	public TextEditPanel getTextAreaComponent() {
 		return textAreaComponent;
 	}
-	
+
 	public String getText() {
-		if(textComponent !=null){
-		return textComponent.getText();
+		if (textComponent != null) {
+			return textComponent.getText();
 		}
 		return textAreaComponent.getText();
 	}
 
 	public void setTextComponentFocus() {
-	    if(textComponent !=null){
-	    	textComponent.getTextBox().getElement().focus();
-	    }else{
-	    	textAreaComponent.getTextArea().getElement().focus();
-	    }
-	    
-    }
+		if (textComponent != null) {
+			textComponent.getTextBox().getElement().focus();
+		} else {
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				public void execute() {
+					textAreaComponent.getTextArea().setFocus(true);
+				}
+			});
+
+		}
+
+	}
 }

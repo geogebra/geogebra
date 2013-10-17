@@ -1,134 +1,261 @@
 package geogebra.html5.gui.inputfield;
 
+import geogebra.common.gui.inputfield.DynamicTextElement;
+import geogebra.common.gui.inputfield.DynamicTextElement.DynamicTextType;
+import geogebra.common.gui.inputfield.DynamicTextProcessor;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.html5.awt.GFontW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
+import geogebra.web.main.AppW;
 
+import java.util.ArrayList;
+
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
+import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.canvas.dom.client.TextMetrics;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RichTextArea.Formatter;
-import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * 
+ * Panel for editing GeoText strings.
+ * 
+ * @author G. Sturr
+ * 
+ */
 public class TextEditPanel extends VerticalPanel {
 
-	TextArea ta2;
+	AppW app;
 
-	RichTextArea ta;
-	Formatter f;
+	DynamicTextProcessor dTProcessor;
+	final CssColor colorBlack = CssColor.make("black");
+
+	RichTextAreaEditor rta;
+	Formatter formatter;
 	HorizontalPanel toolBar;
 
+	GeoText editGeo = null;;
+
 	private Button openButton;
+	ToggleButton btInsertGeo;
+	private ListBox geoListBox;
+	GeoListPopup geoListPopup;
 
-	public TextEditPanel() {
+	/**
+	 * @param app
+	 */
+	public TextEditPanel(AppW app) {
 		super();
-		ta = new RichTextArea();
-		// ta.setSize("100%", "14em");
+		this.app = app;
+		dTProcessor = new DynamicTextProcessor(app);
 
-		f = ta.getFormatter();
+		rta = new RichTextAreaEditor((GFontW) app.getPlainFontCommon());
+
+		formatter = rta.getFormatter();
+		rta.setSize("100%", "12em");
+		rta.addValueChangeHandler(new ValueChangeHandler() {
+			public void onValueChange(ValueChangeEvent event) {
+				App.debug("value changed:");
+			}
+		});
 
 		createToolBar();
-	//	this.add(toolBar);
-		this.add(ta);
+		this.add(rta);
+		this.add(toolBar);
+	}
+
+	public void setEditGeo(GeoText editGeo) {
+		this.editGeo = editGeo;
 	}
 
 	public void setText(String text) {
-		ta.setText(text);
-
+		rta.setHTML(text);
 	}
 
 	public void insertText(String text) {
-		f.insertHTML(text);
+		formatter.insertHTML(text);
 	}
 
 	public String getText() {
-		return ta.getText();
+		App.debug("ggb text string: "
+		        + dTProcessor.buildGeoGebraString(getDList(), isLatex()));
+		return dTProcessor.buildGeoGebraString(getDList(), isLatex());
+	}
+
+	private boolean isLatex() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	private String getHTML() {
-		return ta.getHTML();
+		return rta.getHTML();
 	}
 
-	public RichTextArea getTextArea() {
-		return ta;
+	public RichTextAreaEditor getTextArea() {
+		return rta;
+	}
+
+	private ArrayList<DynamicTextElement> getDList() {
+		ArrayList<DynamicTextElement> list = new ArrayList<DynamicTextElement>();
+
+		// parse the RichTextArea html to create a list of DynamicTextElements
+		for (int i = 0; i < rta.getBody().getChildCount(); i++) {
+			Node node = rta.getBody().getChild(i);
+
+			if (node.getNodeType() == Node.TEXT_NODE) {
+				if (node.getNodeValue() == null) {
+					// App.debug("null node value found");
+					continue;
+				}
+
+				list.add(new DynamicTextElement(node.getNodeValue(),
+				        DynamicTextType.STATIC));
+				// App.debug("to string:" + node.getNodeValue());
+
+			} else if (node.getNodeType() == Node.ELEMENT_NODE) {
+				list.add(new DynamicTextElement(((Element) node)
+				        .getPropertyString("value"), DynamicTextType.VALUE));
+				// App.debug("node value:"
+				// + ((Element) node).getPropertyString("value"));
+			}
+		}
+
+		return list;
 	}
 
 	private void createToolBar() {
 		toolBar = new HorizontalPanel();
-		
-		
-		// Only some test buttons for now .......
-		
-		
-		MyToggleButton2 btn = new MyToggleButton2(
-		        AppResources.INSTANCE.format_text_bold(), 18);
-
-		btn.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				f.insertHTML("<a>RED</a>");
-				App.debug("HTML: " + ta.getHTML());
-			}
-		});
 
 		MyToggleButton2 btn2 = new MyToggleButton2(
 		        AppResources.INSTANCE.format_text_bold(), 18);
-
 		btn2.addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
-				f.insertHTML("<span style=\"border:2px solid black; padding:2px; background-color: lightYellow \">A</span>");
-				App.debug("HTML: " + ta.getHTML());
+				formatter
+				        .insertHTML("<span style=\"border:2px solid black; padding:2px; background-color: lightYellow \">A</span>");
+
+				App.debug("HTML: " + rta.getHTML());
 			}
 		});
 
-		MyToggleButton2 btn3 = new MyToggleButton2(
-		        AppResources.INSTANCE.format_text_bold(), 18);
-
-		btn3.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				f.insertImage("geogebra/web/gui/images/format-text-bold.png");
-
-				f.insertHTML("<input type=\"button\" name=\"name\"value=\"Object\">");
-
-			}
-		});
-
-		createPopupButton();
-		
-		toolBar.add(btn);
-		toolBar.add(btn2);
-		toolBar.add(btn3);
-		toolBar.add(openButton);
+		// toolBar.add(btn2);
+		buildInsertGeoButton();
+		toolBar.add(btInsertGeo);
 	}
 
-	private void createPopupButton() {
-		// Create a basic popup widget
-		final DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
-		simplePopup.ensureDebugId("cwBasicPopup-simplePopup");
-		simplePopup.setWidth("150px");
-		simplePopup.setWidget(new HTML("Symbols"));
+	/**
+	 * Builds GeoElement insertion button.
+	 */
+	private void buildInsertGeoButton() {
 
-		// Create a button to show the popup
-		openButton = new Button("Symbols", new ClickHandler() {
+		btInsertGeo = new ToggleButton("Objects");
+		geoListPopup = new GeoListPopup(app, this, btInsertGeo);
+		btInsertGeo.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// Reposition the popup relative to the button
-				Widget source = (Widget) event.getSource();
-				int left = source.getAbsoluteLeft() + 10;
-				int top = source.getAbsoluteTop() + 10;
-				simplePopup.setPopupPosition(left, top);
-
-				// Show the popup
-				simplePopup.show();
+				if (btInsertGeo.isDown()) {
+					geoListPopup.updateGeoList();
+					geoListPopup.showRelativeTo(btInsertGeo);
+				} else {
+					geoListPopup.hide();
+				}
 			}
 		});
+
+	}
+
+	public void insertGeoElement(GeoElement geo) {
+		if (geo == null)
+			return;
+		insertDynamicTextBox(geo.getLabel(StringTemplate.defaultTemplate));
+	}
+
+	public void insertDynamicTextBox(String text) {
+		formatter.insertHTML(getDynamicTextHTML(text));
+		App.debug("HTML: " + rta.getHTML());
+	}
+
+	public String getDynamicTextHTML(String text) {
+		String fcn = "onclick = edit(this) ";
+		String html = "<input type = \"button\" value = \"" + text + "\"" + fcn
+		        + " /> &nbsp;";
+		return html;
+	}
+
+	public GeoText getEditGeo() {
+		return editGeo;
+	}
+
+	public void setGeoListButton(boolean down) {
+		this.btInsertGeo.setDown(down);
+	}
+
+	/**
+	 * Builds and sets editor content to correspond with the text string of a
+	 * GeoText
+	 * 
+	 * @param geo
+	 *            GeoText
+	 */
+	public void setText(GeoText geo) {
+
+		String htmlString = "";
+		ArrayList<DynamicTextElement> list = dTProcessor
+		        .buildDynamicTextList(geo);
+
+		for (DynamicTextElement dt : list) {
+			if (dt.type == DynamicTextType.STATIC) {
+				htmlString += dt.text;
+			} else {
+				htmlString += getDynamicTextHTML(dt.text);
+			}
+		}
+
+		rta.setHTML(htmlString);
+	}
+
+	private String createTextImageURL(String str) {
+
+		Canvas canvas = Canvas.createIfSupported();
+		Context2d context = canvas.getContext2d();
+		context.setStrokeStyle(colorBlack);
+		context.setFillStyle(colorBlack);
+		// context.setFont(((GFontW) app.getPlainFontCommon()).getFontFamily());
+
+		String fontSize = ((GFontW) app.getPlainFontCommon()).getFontSize();
+
+		context.setFont("normal" + fontSize + "pt arial");
+
+		context.setTextBaseline(TextBaseline.MIDDLE);
+
+		TextMetrics fm = context.measureText(str);
+		int w = (int) fm.getWidth() + 4;
+		int h = Integer.parseInt(fontSize) + 2;
+
+		canvas.setWidth(w + "px");
+		canvas.setHeight(h + "px");
+		canvas.setCoordinateSpaceWidth(w);
+		canvas.setCoordinateSpaceHeight(h);
+
+		context.fillText(str, 2, 4);
+		// context.rect(0, 0, w, h);
+		// context.stroke();
+
+		return canvas.toDataUrl();
 	}
 
 }

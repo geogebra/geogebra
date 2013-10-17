@@ -10,12 +10,15 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.html5.gui.inputfield.TextEditPanel;
 import geogebra.web.main.AppW;
 
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	private GeoText editGeo;
 	private GeoPointND startPoint;
+	private boolean isLaTeX;
+	private TextEditPanel editor;
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
             GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
@@ -24,7 +27,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		this.app = (AppW) app2;
 		this.startPoint = startPoint;
 //		this.isTextMode = isTextMode;
-//		this.editGeo = editGeo;
+		this.editGeo = editGeo;
 //		textInputDialog = this;
 		inputHandler = new TextInputHandler();
 //		isIniting = true;		
@@ -84,7 +87,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			if (inputValue.equals("\"\""))
 				return false;
 
-			// create new text
+			// create new GeoText
 			boolean createText = editGeo == null;
 			if (createText) {
 				GeoElement[] ret = kernel.getAlgebraProcessor()
@@ -169,12 +172,16 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 		this.editGeo = geo;
 		boolean createText = geo == null;
-//		isLaTeX = geo == null ? false : geo.isLaTeX();
-		
+		isLaTeX = geo == null ? false : geo.isLaTeX();
+				
 		//While we can't reopen and edit an existing text object,
 		//it's enough to set the text in the dialog's textfield to "".
-		inputPanel.getTextAreaComponent().setText(""); //editor.setText(geo, this);
-	//	inputPanel.getTextAreaComponent().setCaretPosition(0); //editor.setCaretPosition(0);
+		
+	//	inputPanel.getTextComponent().setText(""); 
+		inputPanel.getTextAreaComponent().setText(geo);
+		
+	//	inputPanel.getTextAreaComponent().setCaretPosition(0); 
+		//editor.setCaretPosition(0);
 //		cbLaTeX.setSelected(false);
 //		if (isLaTeX) {
 //			cbLaTeX.doClick();
@@ -185,4 +192,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 //		editOccurred = false;
 		
 	}
+	
+	
+	
 }
