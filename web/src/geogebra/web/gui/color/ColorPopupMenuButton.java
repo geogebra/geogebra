@@ -1,6 +1,7 @@
 package geogebra.web.gui.color;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
@@ -34,12 +35,15 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
+		App.debug("color set type: " + colorSetType);
 		colorSet = getColorArray(colorSetType);
 		defaultColor = colorSet[0];
 
 		lookupMap = new HashMap<String,Integer>();
 		for(int i = 0; i < colorSet.length; i++) {
-			lookupMap.put(GColor.getColorString(colorSet[i]), i);
+			if (colorSet[i] != null){
+				lookupMap.put(GColor.getColorString(colorSet[i]), i);
+			}
 		}
 
 		setToolTipArray(getToolTipArray());
