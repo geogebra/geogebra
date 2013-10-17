@@ -66,11 +66,18 @@ public class AlgoLocus extends AlgoElement {
 	private GeoPoint Pcopy, Qcopy, PstartPos, QstartPos;
 	private double lastX, lastY, maxXdist, maxYdist, xmin, xmax, ymin, ymax,
 			farXmin, farXmax, farYmin, farYmax;
+
+	private double maxXdist2, maxYdist2, xmin2, xmax2, ymin2, ymax2, farXmin2, farXmax2, farYmin2, farYmax2;
+
 	// private Line2D.Double tempLine = new Line2D.Double();
 	private GRectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype
 			.newRectangle2D();
+
+	private GRectangle2D nearToScreenRect2 = geogebra.common.factories.AwtFactory.prototype 
+			.newRectangle2D(); 
+
 	private boolean continuous;
-	private boolean lastFarAway;
+	private boolean lastFarAway, lastFarAway2;
 	private boolean foundDefined;
 	private boolean maxTimeExceeded;
 	private Construction macroCons;
@@ -80,7 +87,7 @@ public class AlgoLocus extends AlgoElement {
 	private TreeSet<ConstructionElement> locusConsOrigElements;
 	private TreeSet<GeoElement> Qin;
 
-	
+	private int views = 1; 
 
 	// private Updater updater;
 
@@ -430,13 +437,13 @@ public class AlgoLocus extends AlgoElement {
 		// this may require several runs of Pcopy along the whole path
 
 		int runs = 1;
-		int MAX_LOOPS = 2 * PathMover.MAX_POINTS;
+		int MAX_LOOPS = 2 * PathMover.MAX_POINTS * views;
 		int whileLoops = 0;
 
 		do {
 			boolean finishedRun = false;
 			while (!finishedRun && !maxTimeExceeded
-					&& pointCount <= PathMover.MAX_POINTS
+					&& pointCount <= PathMover.MAX_POINTS * views
 					&& whileLoops <= MAX_LOOPS) {
 				whileLoops++;
 
@@ -472,7 +479,7 @@ public class AlgoLocus extends AlgoElement {
 						if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
 							// draw point
 							insertPoint(Qcopy.inhomX, Qcopy.inhomY,
-									distanceSmall(Qcopy));
+									distanceSmall(Qcopy, true));
 							prevQcopyDefined = true;
 						}
 					}
@@ -481,7 +488,7 @@ public class AlgoLocus extends AlgoElement {
 					else {
 						// draw point
 						insertPoint(Qcopy.inhomX, Qcopy.inhomY,
-								distanceSmall(Qcopy));
+								distanceSmall(Qcopy, true));
 						prevQcopyDefined = true;
 					}
 				}
@@ -510,7 +517,7 @@ public class AlgoLocus extends AlgoElement {
 
 				// end of run: the next step would pass the start position
 				if (!pathMover.hasNext()) {
-					if (distanceSmall(QstartPos)) {
+					if (distanceSmall(QstartPos, true)) {
 						// draw line back to first point when it's close enough
 						insertPoint(QstartPos.inhomX, QstartPos.inhomY, true);
 						finishedRun = true;
@@ -536,7 +543,7 @@ public class AlgoLocus extends AlgoElement {
 			Pcopy.set((GeoElement) PstartPos);
 			pcopyUpdateCascade();
 			if (Qcopy.inhomX != lastX || Qcopy.inhomY != lastY)
-				insertPoint(Qcopy.inhomX, Qcopy.inhomY, distanceSmall(Qcopy));
+				insertPoint(Qcopy.inhomX, Qcopy.inhomY, distanceSmall(Qcopy, true));
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
@@ -688,6 +695,7 @@ public class AlgoLocus extends AlgoElement {
 		lastX = x;
 		lastY = y;
 		lastFarAway = isFarAway(lastX, lastY);
+		lastFarAway2 = isFarAway2(lastX, lastY);
 	}
 
 	private boolean isFarAway(double x, double y) {
@@ -695,8 +703,13 @@ public class AlgoLocus extends AlgoElement {
 		return farAway;
 	}
 
+	private boolean isFarAway2(double x, double y) {
+		boolean farAway = (x > farXmax2 || x < farXmin2 || y > farYmax2 || y < farYmin2);
+		return farAway;
+	}
+
 	private boolean distanceOK(GeoPoint Q) {
-		boolean distanceOK;
+		boolean distanceOK, distanceOK2;
 
 		if (lastFarAway && isFarAway(Q.inhomX, Q.inhomY)) {
 			// if last point Q' was far away and Q is far away
@@ -720,56 +733,136 @@ public class AlgoLocus extends AlgoElement {
 			distanceOK = !nearToScreenRect.intersects(minX, minY, lengthX,
 					lengthY);
 		} else {
-			distanceOK = distanceSmall(Q);
+			distanceOK = distanceSmall(Q, false);
 		}
 
-		return distanceOK;
+		if (lastFarAway2 && isFarAway2(Q.inhomX, Q.inhomY)) { 
+			// if last point Q' was far away and Q is far away 
+			// then the distance is probably OK (return true), 
+			// so we probably don't need smaller step, 
+			// except if the rectangle of the segment Q'Q 
+			// intersects the near to screen rectangle 
+			// (it will probably not be on the screen anyway) 
+			double minX = lastX; 
+			double minY = lastY; 
+			double lengthX = Q.inhomX - lastX; 
+			double lengthY = Q.inhomY - lastY; 
+			if (Q.inhomX < minX) 
+				minX = Q.inhomX; 
+			if (Q.inhomY < minY) 
+				minY = Q.inhomY; 
+			if (lengthX < 0) 
+				lengthX = -lengthX; 
+			if (lengthY < 0) 
+				lengthY = -lengthY; 
+			distanceOK2 = !nearToScreenRect2.intersects(minX, minY, lengthX, 
+					lengthY); 
+		} else { 
+			distanceOK2 = distanceSmall(Q, false); 
+		} 
+
+	 	return distanceOK && distanceOK2;
 	}
 
-	private boolean distanceSmall(GeoPoint Q) {
+	private boolean distanceSmall(GeoPoint Q, boolean orInsteadOfAnd) {
 		boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist
 				&& Math.abs(Q.inhomY - lastY) < maxYdist;
-		return distSmall;
+		boolean distSmall2 = Math.abs(Q.inhomX - lastX) < maxXdist2
+				&& Math.abs(Q.inhomY - lastY) < maxYdist2;
+
+		if (orInsteadOfAnd) { 
+			return (distSmall && visibleEV1) || (distSmall2 && visibleEV2); 
+		} 
+
+		return (distSmall || !visibleEV1) && (distSmall2 || !visibleEV2); 
 	}
 
 	boolean visibleEV1 = false;
 	boolean visibleEV2 = false;
 
+	boolean isVisibleInEV1() { 
+		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) 
+			return false; 
+		if (!kernel.getApplication().getEuclidianView1().isShowing()) 
+			return false; 
+		return true; 
+	} 
+
+	boolean isVisibleInEV2() { 
+		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) 
+			return false; 
+		if (!kernel.getApplication().hasEuclidianView2()) 
+			return false; 
+		return true; 
+	} 
+
 	void updateScreenBordersIfNecessary() {
-		if (locus.isVisibleInView(App.VIEW_EUCLIDIAN) != visibleEV1 ||
-			locus.isVisibleInView(App.VIEW_EUCLIDIAN2) != visibleEV2) {
+		if (isVisibleInEV1() != visibleEV1 ||
+			isVisibleInEV2() != visibleEV2) {
 			updateScreenBorders();
 		}
 	}
 
 	void updateScreenBorders() {
 
-		visibleEV1 = locus.isVisibleInView(App.VIEW_EUCLIDIAN);
-		visibleEV2 = locus.isVisibleInView(App.VIEW_EUCLIDIAN2);
+		visibleEV1 = isVisibleInEV1();
+		visibleEV2 = isVisibleInEV2();
 
-		xmax = kernel.getXmax(visibleEV1, visibleEV2);
-		xmin = kernel.getXmin(visibleEV1, visibleEV2);
-		ymax = kernel.getYmax(visibleEV1, visibleEV2);
-		ymin = kernel.getYmin(visibleEV1, visibleEV2);
+		if (visibleEV1 && visibleEV2) { 
+			views = 2; 
+		} else {
+			views = 1; 
+		} 
 
-		double widthRW = xmax - xmin;
-		double heightRW = ymax - ymin;
-		maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(visibleEV1, visibleEV2); // widthRW / 100;
-		maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(visibleEV1, visibleEV2); // heightRW / 100;
+		if (visibleEV1) { 
+			xmax = kernel.getXmax(true, false); 
+			xmin = kernel.getXmin(true, false); 
+			ymax = kernel.getYmax(true, false); 
+			ymin = kernel.getYmin(true, false); 
 
-		// we take a bit more than the screen
-		// itself so that we don't loose locus
-		// lines too often
-		// that leave and reenter the screen
+			double widthRW = xmax - xmin; 
+			double heightRW = ymax - ymin; 
+			maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW / 100; 
+			maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW / 100; 
 
-		farXmin = xmin - widthRW / 2;
-		farXmax = xmax + widthRW / 2;
-		farYmin = ymin - heightRW / 2;
-		farYmax = ymax + heightRW / 2;
+			// we take a bit more than the screen 
+			// itself so that we don't loose locus 
+			// lines too often 
+			// that leave and reenter the screen 
 
-		// near to screen rectangle
-		nearToScreenRect.setFrame(farXmin, farYmin, farXmax - farXmin, farYmax
-				- farYmin);
+			farXmin = xmin - widthRW / 2; 
+			farXmax = xmax + widthRW / 2; 
+			farYmin = ymin - heightRW / 2; 
+			farYmax = ymax + heightRW / 2; 
+
+			// near to screen rectangle 
+			nearToScreenRect.setFrame(farXmin, farYmin, farXmax - farXmin, farYmax - farYmin); 
+		}
+
+		if (visibleEV2) { 
+			xmax2 = kernel.getXmax(false, true); 
+			xmin2 = kernel.getXmin(false, true); 
+			ymax2 = kernel.getYmax(false, true); 
+			ymin2 = kernel.getYmin(false, true); 
+
+			double widthRW = xmax2 - xmin2; 
+			double heightRW = ymax2 - ymin2; 
+			maxXdist2 = MAX_X_PIXEL_DIST / kernel.getXscale(false, true); // widthRW / 100; 
+			maxYdist2 = MAX_Y_PIXEL_DIST / kernel.getYscale(false, true); // heightRW / 100; 
+
+			// we take a bit more than the screen 
+			// itself so that we don't loose locus 
+			// lines too often 
+			// that leave and reenter the screen 
+
+			farXmin2 = xmin2 - widthRW / 2; 
+			farXmax2 = xmax2 + widthRW / 2; 
+			farYmin2 = ymin2 - heightRW / 2; 
+			farYmax2 = ymax2 + heightRW / 2; 
+
+			// near to screen rectangle 
+			nearToScreenRect2.setFrame(farXmin2, farYmin2, farXmax2 - farXmin2, farYmax2 - farYmin2);
+		}
 	}
 
 	@Override
