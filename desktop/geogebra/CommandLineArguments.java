@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -29,7 +30,7 @@ public class CommandLineArguments {
 	/**
 	 * Parse the argument array created by Java.
 	 * 
-	 * @param cmdArgs
+	 * @param cmdArgs arguments
 	 */
 	public CommandLineArguments(String[] cmdArgs) {
 		args = new HashMap<String, String>();
@@ -84,11 +85,20 @@ public class CommandLineArguments {
 				App.debug("unknown argument "+cmdArgs[i]);
 			}
 		}
-	}
 	
+	}
+
 	/*
+	private CommandLineArguments put(String key, String value) {
+		args.put(key, value);
+		return args;
+	}
+	*/
+	
+	/**
 	 * returns number of files, eg
 	 * geogebra.jar file1.ggb file2.ggb will return 2
+	 * @return the number of files
 	 */
 	public int getNoOfFiles() {
 		return noOfFiles;
@@ -97,7 +107,7 @@ public class CommandLineArguments {
 	/**
 	 * Returns the string value of the requested argument.
 	 * 
-	 * @param name
+	 * @param name argument name
 	 * @return The string value of the specified argument (or empty string)
 	 */
 	public String getStringValue(String name) {		
@@ -108,8 +118,8 @@ public class CommandLineArguments {
 	/**
 	 * Returns the boolean value of the requested argument.
 	 * 
-	 * @param name
-	 * @param defaultValue
+	 * @param name the argument
+	 * @param defaultValue default value if not defined
 	 * @return The boolean value or "default" in case this argument
 	 * 		is missing or has an invalid format. 
 	 */
@@ -126,7 +136,7 @@ public class CommandLineArguments {
 	 * Check if the requested argument is a boolean ie the value is
 	 * "true" or "false" (lettercase ignored).
 	 * 
-	 * @param name
+	 * @param name the argument
 	 * @return true for valid booleans
 	 */
 	public boolean isBoolean(String name) {
@@ -138,8 +148,52 @@ public class CommandLineArguments {
 		strValue = strValue.toLowerCase();
 		return strValue.equals("true") || strValue.equals("false");
 	}
-	
+	/**
+	 * Check if the arguments contain a certain key
+	 * @param name the name of the key
+	 * @return whether the args contain the key
+	 */
 	public boolean containsArg(String name) {
 		return args.containsKey(name.toLowerCase(Locale.US));
+	}
+	
+	/**
+	 * Adds a new key/value pair into the command line arguments.
+	 * @param newKey the new key 
+	 * @param newValue the new value
+	 * @return the new command line arguments
+	 */
+	public CommandLineArguments add(String newKey, String newValue) {
+		CommandLineArguments ret = new CommandLineArguments(null);
+		Iterator<String> it = args.keySet().iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			String value = args.get(key);
+			ret.args.put(key, value);
+		}
+		ret.args.put(newKey, newValue);
+		if (newKey.startsWith("file")) {
+			++ (ret.noOfFiles);
+		}
+			
+		return ret;
+	}
+	
+	/**
+	 * Removes non-global arguments from the command line arguments.
+	 * @return the global arguments
+	 * 
+	 */
+	public CommandLineArguments getGlobalArguments() {
+		CommandLineArguments ret = new CommandLineArguments(null);
+		Iterator<String> it = args.keySet().iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			if (!key.startsWith("file")) {
+				String value = args.get(key);
+				ret.args.put(key, value);
+			}
+		}
+		return ret;
 	}
 }

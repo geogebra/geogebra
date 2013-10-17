@@ -1325,9 +1325,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	
 	@Override
 	public void createNewWindow(){
-		GeoGebraFrame.createNewWindow(null);
+		GeoGebraFrame.createNewWindow(args.getGlobalArguments());
 	}
-
+	
 	@Override
 	public void fileNew() {
 		
@@ -1422,7 +1422,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * 
 	 * @return true if a file was loaded successfully
 	 */
-	private boolean handleFileArg(CommandLineArguments args) {
+	private boolean handleFileArg(final CommandLineArguments args) {
 		if ((args == null) || (args.getNoOfFiles() == 0)) {
 			return false;
 		}
@@ -1432,14 +1432,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		for (int i = 0; i < args.getNoOfFiles(); i++) {
 
 			final String fileArgument = args.getStringValue("file" + i);
+			final String key = "file0";
 
 			if (i > 0) { // load in new Window
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						String[] argsNew = { fileArgument };
+						
 						geogebra.gui.app.GeoGebraFrame
-								.createNewWindow(new CommandLineArguments(
-										argsNew));
+						.createNewWindow(args.getGlobalArguments().add(key, fileArgument));
 					}
 				});
 			} else {
@@ -2231,7 +2231,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				img);
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(imgSel, null);
-	}
+		}
 
 	private static Rectangle screenSize = null;
 
@@ -4703,7 +4703,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
 	}
-
+	
 	@Override
 	public String getCountryFromGeoIP() throws Exception {
 		URL u = new URL("http://www.geogebra.org/geoip/");
