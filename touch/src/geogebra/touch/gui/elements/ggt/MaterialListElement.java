@@ -8,6 +8,7 @@ import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -210,14 +211,13 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 
 	private void initEditButton() {
 		this.links.add(this.editButton);
-		this.editButton.addDomHandler(new ClickHandler() {
-
+		this.editButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
+			public void onClick() {
 				onEdit();
+				
 			}
-		}, ClickEvent.getType());
+		});
 	}
 
 	void onEdit() {
@@ -228,14 +228,13 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 
 	private void initOpenButton() {
 		this.links.add(this.openButton);
-		this.openButton.addDomHandler(new ClickHandler() {
+		this.openButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
+			public void onClick() {
 				onOpen();
 			}
-		}, ClickEvent.getType());
+		});
 	}
 
 	void onOpen() {
