@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+* html body .optionsBox {
+	padding-right: 0px;
+	padding-left: 10px;
+}
+
+* html body .optionsBox input[type="range"]{
+	margin-left: -5px;
+	margin-right: 0px;
+}
+
+* html body .lineStyleBar {
+	padding-right: 0px;
+}
+
+body .toolbar.visible .inputbarPanel .inputPanel {
+	margin-right: 0px;
+}
+
+body .inputDialog .titlePanel,
+body .infoDialog .titlePanel {
+	text-align: right;
+}
+
+
+.inputDialog .gwt-Label,
+.infoDialog .gwt-Label {
+	text-align: right;
+}
+
+.sliderDialog .inputFieldPanel {
+	float: right;
+}
+
+
+.sliderDialog .radioButtonPanel {
+	float: left;
+}
+
+body .sliderDialog .buttonPanel {
+	padding-right: 70px;
+	padding-left: 0px;
+}
+
+body .inputDialog button,
+body .infoDialog button {
+	margin-right: 0px;
+	margin-left: 10px;
+}
+
+body .inputDialog .buttonPanel button {
+	margin-left: 20px;
+	margin-right: 0px;
+}
+
+body .inputDialog .iconPanel,
+body .infoDialog .iconPanel {
+	margin-left: 10px;
+	margin-right: 0px;
+}

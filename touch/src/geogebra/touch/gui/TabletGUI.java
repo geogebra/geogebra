@@ -252,7 +252,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 		this.euclidianViewPanel.add(this.algebraViewButtonPanel);
 		this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel,
-				this.rtl? -6 : width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+				this.rtl? 0 : width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
 
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 		this.algebraViewButtonPanel.add(this.algebraViewArrowPanel);

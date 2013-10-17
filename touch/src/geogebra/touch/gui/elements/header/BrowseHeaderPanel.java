@@ -60,6 +60,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 		this.browseGUI = browseGUI;
 		this.searchPanel = new HorizontalPanel();
+		this.searchPanel.setStyleName("searchPanel");
 		this.listeners = new ArrayList<SearchListener>();
 
 		this.query = new TextBox();

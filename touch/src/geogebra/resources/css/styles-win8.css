@@ -7,6 +7,14 @@ body {
 	background: none;
 }
 
+body .optionsBoxArrow {
+	top: -15px;
+}
+
+body .subToolBarArrow {
+	margin-top: -10px;
+}
+
 /*##########################################
 ###            INPUT BAR                 ###
 ######################################### */

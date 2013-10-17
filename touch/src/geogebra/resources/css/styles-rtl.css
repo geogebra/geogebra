@@ -135,8 +135,6 @@ body .algebraViewButtonPanel { /* Border */
 	-khtml-border-bottom-left-radius: 0px;
 	-moz-border-radius-bottomleft: 0px;
 	border-bottom-left-radius: 0px;
-
-	margin-left: 5px;
 }
 
 body .algebraViewArrowPanel {
@@ -228,14 +226,6 @@ body .inputPanel {
 	margin-right: 0px;
 }
 
-.inputDialog button,
-.inputDialog .button,
-.infoDialog .button,
-.infoDialog button {
-	margin-right: 0px !important;
-	margin-left: 6px !important;
-}
-
 body .infoDialog .button.last,
 body .infoDialog button.last {
 	margin: 0px !important;
@@ -258,4 +248,8 @@ body .infoDialog button.last {
 	margin-right: 10px;
 	float: left;
 	padding: 7px 10px 5px 40px;
+}
+
+body .inputDialog .errorBox {
+	float: right;
 }
