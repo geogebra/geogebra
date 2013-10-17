@@ -197,7 +197,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		btOK.setText(app.getPlain("OK"));
 		btApply.setText(app.getPlain("Apply"));
 		btCancel.setText(app.getPlain("Cancel"));
-		btProperties.setText(app.getPlain("OpenProperties"));
+		btProperties.setText(app.getPlain("Properties") + "...");
 	}
 
 }
