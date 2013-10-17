@@ -3,8 +3,10 @@ package geogebra3D.euclidianInput3D;
 import geogebra.common.euclidian3D.input3D.Input3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
@@ -29,7 +31,10 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	
 	private Quaternion mouse3DOrientation, startMouse3DOrientation;
 	private Coords rotV;
-	private CoordMatrix startOrientationMatrix;
+	private CoordMatrix startOrientationMatrix; 
+	private CoordMatrix4x4 toSceneRotMatrix;
+	
+	private Coords vx;
 	
 	
 	private boolean wasRightReleased;
@@ -59,6 +64,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 		mouse3DOrientation = new Quaternion();
 		startMouse3DOrientation = new Quaternion();
 		rotV = new Coords(4);
+		toSceneRotMatrix = new CoordMatrix4x4();
 		
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -94,11 +100,13 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 			// eyes
 			//App.debug(input3D.getGlassesPosition()[2]+"");
+			/*
 			if (eyeSepIsNotSet){
 				view3D.setEyeSep(input3D.getEyeSeparation());
 				eyeSepIsNotSet = false;
 			}
 			view3D.setProjectionPerspectiveEyeDistance(input3D.getGlassesPosition()[2]);
+			*/
 			
 			
 			//////////////////////////////
@@ -137,6 +145,11 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 			startOrientationMatrix = startMouse3DOrientation.getRotMatrix();
 			
+			toSceneRotMatrix.set(view3D.getUndoRotationMatrix());
+			
+			// to-the-right screen vector in scene coords
+			vx = toSceneRotMatrix.mul(Coords.VX);
+			
 		}else{ // process mouse drag
 			
 			// translation
@@ -150,16 +163,16 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 			// get the relative quaternion and rotation matrix in scene coords
 			rotV.set(startOrientationMatrix.mul(rot.getVector()));
-			((EuclidianView3D) view).toSceneCoords3D(rotV);
-			rot.setVector(rotV.mul(view.getXscale()));
+			rot.setVector(toSceneRotMatrix.mul(rotV));
 			
 			CoordMatrix rotMatrix = rot.getRotMatrix();
 			
-			// to-the-right screen vector in scene coords
-			Coords vx = ((EuclidianView3D) view).getToSceneMatrix().mul(Coords.VX).normalize();
+
+			App.debug("\n"+rot);
 			
 			// rotate view vZ
 			Coords vZrot = rotMatrix.getVz();
+			//App.debug("\n"+vZrot);
 			Coords vZ1 = (vZrot.sub(vx.mul(vZrot.dotproduct(vx)))).normalize(); // project the rotation to keep vector plane orthogonal to the screen
 			Coords vZp = Coords.VZ.crossProduct(vZ1); // to get angle (vZ,vZ1)
 				
@@ -171,6 +184,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 						
 			// rotation around x (screen)
 			double rotX = Math.asin(vxp.norm())*180/Math.PI;
+			//App.debug("rotX="+rotX+", vx1.dotproduct(vx) = "+vx1.dotproduct(vx)+", vxp.dotproduct(vZ1) = "+vxp.dotproduct(vZ1));
 			if (vx1.dotproduct(vx) < 0){ // check if rotX should be > 90°
 				rotX = 180 - rotX;
 			}
@@ -180,10 +194,16 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 			// rotation around z (scene)
 			double rotZ = Math.asin(vZp.norm())*180/Math.PI;
-			if (vZp.dotproduct(vx) < 0){ // check if rotZ should be negative
+			//App.debug("rotZ="+rotZ+", vZp.dotproduct(vx) = "+vZp.dotproduct(vx)+", Coords.VZ.dotproduct(vZ1) = "+vZ1.getZ());
+			if (vZ1.getZ() < 0){ // check if rotZ should be > 90°
+				rotZ = 180 - rotZ;
+			}
+			if (vZp.dotproduct(vx)  < 0){ // check if rotZ should be negative
 				rotZ = -rotZ;
 			}
-
+			
+			//App.debug("rotZ="+rotZ);
+			
 			
 			
 
@@ -191,19 +211,18 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			((EuclidianViewInput3D) view).setCoordSystemFromMouse3DMove(translation.getX(),translation.getY(),translation.getZ(),rotX,rotZ);
 			
 
+			
 			/*
-			
 			// USE FOR CHECK 3D MOUSE ORIENTATION
-			// use file leonar3do-rotation2.ggb
-			
+			// use file leonar3do-rotation2.ggb			
 			GeoVector3D geovx = (GeoVector3D) getKernel().lookupLabel("vx");
-			geovx.setCoords(((EuclidianViewInput3D) view).getToSceneMatrix().mul(Coords.VX).normalize());
+			geovx.setCoords(toSceneRotMatrix.mul(Coords.VX).normalize());
 			geovx.updateCascade();
 			GeoVector3D vy = (GeoVector3D) getKernel().lookupLabel("vy");
-			vy.setCoords(((EuclidianViewInput3D) view).getToSceneMatrix().mul(Coords.VY).normalize());
+			vy.setCoords(toSceneRotMatrix.mul(Coords.VY).normalize());
 			vy.updateCascade();
 			GeoVector3D vz = (GeoVector3D) getKernel().lookupLabel("vz");
-			vz.setCoords(((EuclidianViewInput3D) view).getToSceneMatrix().mul(Coords.VZ).normalize());
+			vz.setCoords(toSceneRotMatrix.mul(Coords.VZ).normalize());
 			vz.updateCascade();
 
 			
@@ -215,11 +234,15 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			v.updateCascade();
 			
 			GeoText text = (GeoText) getKernel().lookupLabel("text");
-			text.setTextString("az = "+rotZ+"°\n"+"ax = "+rotX+"°\n"+vxp.dotproduct(vZ1)+"\n"+vx1.dotproduct(vx));
+			text.setTextString("az = "+rotZ+"°\n"+"ax = "+rotX+"°\n"+
+					"vxp.dotproduct(vZ1)="+vxp.dotproduct(vZ1)+"\nvx1.dotproduct(vx)="+vx1.dotproduct(vx)
+					+"\nvZp.dotproduct(vx) = "+vZp.dotproduct(vx)
+					);
 			text.update();
 			getKernel().notifyRepaint();
-
-			*/
+			 */
+			 
+			
 			
 		}
 		
