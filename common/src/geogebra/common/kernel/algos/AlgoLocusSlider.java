@@ -86,7 +86,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	private TreeSet<ConstructionElement> locusConsOrigElements;
 	private TreeSet<GeoElement> Qin;
 
-	
+	private int views = 1;
 
 	// private Updater updater;
 
@@ -398,13 +398,13 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		// this may require several runs of Pcopy along the whole path
 
 		int runs = 1;
-		int MAX_LOOPS = 2 * PathMover.MAX_POINTS;
+		int MAX_LOOPS = 2 * PathMover.MAX_POINTS * views;
 		int whileLoops = 0;
 
 		do {
 			boolean finishedRun = false;
 			while (!finishedRun && !maxTimeExceeded
-					&& pointCount <= PathMover.MAX_POINTS
+					&& pointCount <= PathMover.MAX_POINTS * views
 					&& whileLoops <= MAX_LOOPS) {
 				whileLoops++;
 
@@ -739,17 +739,38 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	boolean visibleEV1 = false;
 	boolean visibleEV2 = false;
 
+	boolean isVisibleInEV1() {
+		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
+			return false;
+		if (!kernel.getApplication().getEuclidianView1().isShowing())
+			return false;
+		return true;
+	}
+
+	boolean isVisibleInEV2() {
+		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
+			return false;
+		if (!kernel.getApplication().hasEuclidianView2())
+			return false;
+		return true;
+	}
+
 	void updateScreenBordersIfNecessary() {
-		if (locus.isVisibleInView(App.VIEW_EUCLIDIAN) != visibleEV1 ||
-			locus.isVisibleInView(App.VIEW_EUCLIDIAN2) != visibleEV2) {
+		if (isVisibleInEV1() != visibleEV1 ||
+			isVisibleInEV2() != visibleEV2) {
 			updateScreenBorders();
+		}
+		if (visibleEV1 && visibleEV2) {
+			views = 2;
+		} else {
+			views = 1;
 		}
 	}
 
 	private void updateScreenBorders() {
 
-		visibleEV1 = locus.isVisibleInView(App.VIEW_EUCLIDIAN);
-		visibleEV2 = locus.isVisibleInView(App.VIEW_EUCLIDIAN2);
+		visibleEV1 = isVisibleInEV1();
+		visibleEV2 = isVisibleInEV2();
 
 		if (visibleEV1) {
 			xmax = kernel.getXmax(true, false);
