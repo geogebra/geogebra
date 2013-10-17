@@ -355,7 +355,7 @@ __GGB__keysVar.sr.command = {
     "Groebner_SyntaxCAS": "[ <lista polinoma> ]\n[ <lista polinoma>, <lista promenljivih> ]\n[ <lista polinoma>, <lista promenljivih>, <vrsta redosleda promenljivih> ]",
     "HarmonicMean": "HarmonijskaSredina",
     "HarmonicMean_Syntax": "[ <Lista brojeva> ]",
-    "Height": "Height",
+    "Height": "Visina",
     "Height_Syntax": "[ <Cone> ]\n[ <Cylinder> ]\n[ <Polyhedron> ]",
     "HideLayer": "SakrijSloj",
     "HideLayer_Syntax": "[ <Broj> ]",
