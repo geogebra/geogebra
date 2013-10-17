@@ -113,7 +113,9 @@
   background: transparent;
 }
 .mathquill-rendered-math .text {
+  /*
   font-size: 87%;
+  */
 }
 .mathquill-rendered-math .font {
   font: 1em geogebra-serif, "Times New Roman", serif;
