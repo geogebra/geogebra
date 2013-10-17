@@ -4,19 +4,16 @@ import geogebra.common.euclidian.EuclidianController;
 
 public class MsZoomer {
 	
-	private EuclidianController tc;
+	private final EuclidianController tc;
 	public MsZoomer(EuclidianController tc){
 		this.tc = tc;
 	}
-	
 
-	
 	public void twoPointersDown(double x1,double y1, double x2, double y2){
 		this.tc.twoTouchStart(x1,y1,x2,y2);
 	}
-	
+
 	public void twoPointersMove(double x1,double y1, double x2, double y2){
 		this.tc.twoTouchMove(x1,y1,x2,y2);
 	}
-	
 }

@@ -102,8 +102,8 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 					this.getY(event.getTouches().get(0)));
 		} else if (event.getTouches().length() == 2) {
 			Touch t1 = event.getTouches().get(0);
-			Touch t2 = event.getTouches().get(0);
-				this.mc.twoTouchMove(getX(t1), getY(t1), getX(t2), getY(t2));
+			Touch t2 = event.getTouches().get(1);
+			this.mc.twoTouchMove(getX(t1), getY(t1), getX(t2), getY(t2));
 		}
 	}
 
@@ -119,8 +119,8 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 					this.getY(event.getTouches().get(0)));
 		} else if (event.getTouches().length() == 2) {
 			Touch t1 = event.getTouches().get(0);
-			Touch t2 = event.getTouches().get(0);
-				this.mc.twoTouchStart(getX(t1), getY(t1), getX(t2), getY(t2));
+			Touch t2 = event.getTouches().get(1);
+			this.mc.twoTouchStart(getX(t1), getY(t1), getX(t2), getY(t2));
 		}
 	}
 

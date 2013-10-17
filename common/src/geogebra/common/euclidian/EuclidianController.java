@@ -9744,7 +9744,7 @@ public abstract class EuclidianController {
 	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
-		this.oldDistance = MyMath.distance(x1,y1,x2,y2);
+		this.oldDistance = MyMath.length(x1 - x2, y1 - y2);
 	}
 	
 	public void twoTouchMove(double x1, double y1, double x2, double y2) {
@@ -9753,9 +9753,9 @@ public abstract class EuclidianController {
 
 		centerX = (int) (x1 + x2) / 2;
 		centerY = (int) (y1 + y2) / 2;
-
+		
 		if (this.oldDistance > 0) {
-			newDistance = MyMath.distance(x1,y1,x2,y2);
+			newDistance = MyMath.length(x1 - x2, y1 - y2);
 
 			if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
 				// App.debug("Zooming ... "+oldDistance+":"+newDistance);
