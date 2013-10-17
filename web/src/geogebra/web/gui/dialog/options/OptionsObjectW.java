@@ -18,6 +18,8 @@ import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
+import geogebra.common.gui.dialog.options.model.PointSizeModel;
+import geogebra.common.gui.dialog.options.model.PointSizeModel.IPointSizeListener;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -38,6 +40,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.util.SelectionTable;
@@ -89,6 +92,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	//Color picker
 	private ColorPanel colorPanel;
 
+	// Style
+	private PointSizePanel pointSizePanel;
+	private List<OptionPanel> stylePanels;
+	
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
@@ -868,6 +875,59 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
+	private class PointSizePanel extends OptionPanel implements IPointSizeListener {
+		private PointSizeModel model;
+		private Slider slider;
+		private Label titleLabel;
+		private Label minLabel;
+		private Label maxLabel;
+		public PointSizePanel() {
+			model = new PointSizeModel(this);
+			setModel(model);
+			
+			FlowPanel mainPanel = new FlowPanel();
+			titleLabel = new Label();
+			mainPanel.add(titleLabel);
+
+			FlowPanel flow = new FlowPanel();
+			
+			minLabel = new Label("1");
+			flow.add(minLabel);
+			
+			slider = new Slider(1, 9);
+			slider.setMajorTickSpacing(2);
+			slider.setMinorTickSpacing(1);
+			slider.setPaintTicks(true);
+			slider.setPaintLabels(true);
+//			slider.setSnapToTicks(true);
+			flow.add(slider);
+	
+			maxLabel = new Label("9");
+			flow.add(maxLabel);
+			mainPanel.add(flow);
+			
+			setWidget(mainPanel);
+			slider.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					if (true){//!slider.getValueIsAdjusting()) {
+						model.applyChanges(slider.getValue());
+					}
+                }});
+		}
+		@Override
+        public void setLabels() {
+	        titleLabel.setText(app.getPlain("PointSize"));
+	        
+        }
+
+		public void setSliderValue(int value) {
+	        slider.setValue(value);
+	        
+        }
+		
+	}
+	
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -998,6 +1058,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private void addStyleTab() {
 		styleTab = new FlowPanel();
 		styleTab.setStyleName("objectPropertiesTab");
+		
+		pointSizePanel = new PointSizePanel();
+		styleTab.add(pointSizePanel.getWidget());
+		
+		stylePanels = Arrays.asList(pointSizePanel, namePanel);
 		tabPanel.add(styleTab, "Style");
 	}
 
@@ -1026,6 +1091,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 		if (geos.length != 0) {
 			for (OptionPanel panel: basicPanels) {
+				panel.update(geos);
+			}
+
+			for (OptionPanel panel: stylePanels) {
 				panel.update(geos);
 			}
 

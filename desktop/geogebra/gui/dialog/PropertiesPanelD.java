@@ -29,6 +29,7 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
+import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
@@ -36,6 +37,7 @@ import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListe
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import geogebra.common.gui.dialog.options.model.PointSizeModel;
 import geogebra.common.gui.dialog.options.model.PointSizeModel.IPointSizeListener;
+import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -76,7 +78,6 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -3564,14 +3565,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @version 2008-07-17
 	 */
 	private class PointStylePanel extends JPanel implements
-			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ActionListener {
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ActionListener,
+			IComboListener {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
+		private PointStyleModel model;
 		private JComboBox cbStyle; // G.Sturr 2010-1-24
 
 		public PointStylePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
+			model = new PointStyleModel(this);
 			// G.STURR 2010-1-24
 			// Point styles were previously displayed with fonts,
 			// but not all point styles had font equivalents. This is
@@ -3616,34 +3619,27 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
+			model.setGeos(geos);
 			return update();
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null)
+			if (!model.hasGeos())
 				return;
 			update();
 		}
 
 		public JPanel update() {
 			// check geos
-			if (!checkGeos(geos))
+			if (!model.checkGeos())
 				return null;
 
-			// set value to first point's style
-			PointProperties geo0 = (PointProperties) geos[0];
-
-			// G.STURR 2010-1-24:
+						// G.STURR 2010-1-24:
 			// update comboBox and radio buttons
 			cbStyle.removeActionListener(this);
-			if (geo0.getPointStyle() == -1) {
-				// select default button
-				cbStyle.setSelectedIndex(EuclidianStyleConstants.POINT_STYLE_DOT);
-			} else {
-				// select custom button and set combo box selection
-				cbStyle.setSelectedIndex(geo0.getPointStyle());
-			}
+			
+			model.updateProperties();
+			
 			cbStyle.addActionListener(this);
 
 			/*
@@ -3659,21 +3655,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (geo.isGeoElement3D()
-						|| // TODO add point style to 3D points
-						(!geo.getGeoElementForPropertiesDialog().isGeoPoint() && (!(geo
-								.isGeoList() && ((GeoList) geo)
-								.showPointProperties())))) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
 
 		public void actionPerformed(ActionEvent e) {
 
@@ -3687,19 +3668,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				style = cbStyle.getSelectedIndex();
 			}
 			// END G.STURR
-
-			PointProperties point;
-			for (int i = 0; i < geos.length; i++) {
-				point = (PointProperties) geos[i];
-				point.setPointStyle(style);
-				point.updateRepaint();
-			}
+			model.applyChanges(style);
 		}
 
 		public void updateFonts() {
 			Font font = app.getPlainFont();
 
 			setFont(font);
+		}
+
+		public void setSelectedIndex(int index) {
+			cbStyle.setSelectedIndex(index);
 		}
 
 	}

@@ -8,13 +8,11 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
 public class ReflexAngleModel extends OptionsModel {
-	public interface IReflexAngleListener {
+	public interface IReflexAngleListener extends IComboListener {
 
 		void setComboLabels();
 		void addComboItem(final String item);
 
-		void setSelectedIndex(int xmlVal);
-		
 	}
 	
 	private IReflexAngleListener listener;
