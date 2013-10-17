@@ -760,17 +760,18 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			isVisibleInEV2() != visibleEV2) {
 			updateScreenBorders();
 		}
-		if (visibleEV1 && visibleEV2) {
-			views = 2;
-		} else {
-			views = 1;
-		}
 	}
 
 	private void updateScreenBorders() {
 
 		visibleEV1 = isVisibleInEV1();
 		visibleEV2 = isVisibleInEV2();
+
+		if (visibleEV1 && visibleEV2) {
+			views = 2;
+		} else {
+			views = 1;
+		}
 
 		if (visibleEV1) {
 			xmax = kernel.getXmax(true, false);
