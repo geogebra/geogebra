@@ -9,11 +9,14 @@ public class MsZoomer {
 		this.tc = tc;
 	}
 	
-	public void zoom(double d){
-		this.tc.zoomInOut(d, 1);
+
+	
+	public void twoPointersDown(double x1,double y1, double x2, double y2){
+		this.tc.twoTouchStart(x1,y1,x2,y2);
 	}
 	
-	public void setZoomCenter(double x,double y){
-		this.tc.setZoomCenter(x,y);
+	public void twoPointersMove(double x1,double y1, double x2, double y2){
+		this.tc.twoTouchMove(x1,y1,x2,y2);
 	}
+	
 }

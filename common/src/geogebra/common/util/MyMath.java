@@ -309,6 +309,10 @@ public final class MyMath {
 		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(r+1)-MyMath2.logGamma((n-r)+1)));
 		
 	}
+
+	public static double distance(double x1, double y1, double x2, double y2) {
+		return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+	}
 	
 	
 

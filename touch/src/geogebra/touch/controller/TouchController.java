@@ -254,12 +254,6 @@ public class TouchController extends EuclidianController {
 		}
 	}
 
-	public void onPinch(final int x, final int y, final double scaleFactor) {
-		super.mouseLoc = new GPoint(x, y);
-		zoomInOut(scaleFactor,
-				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
-	}
-
 	public void onTouchEnd(final int x, final int y) {
 		touchMoveIfWaiting();
 

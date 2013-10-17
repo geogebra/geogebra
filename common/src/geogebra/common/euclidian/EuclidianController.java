@@ -9767,4 +9767,37 @@ public abstract class EuclidianController {
 		return null;
 	}
 	
+	public void onPinch(final int x, final int y, final double scaleFactor) {
+		this.mouseLoc = new GPoint(x, y);
+		zoomInOut(scaleFactor,
+				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
+	}
+	
+	private double oldDistance;
+	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
+
+	public void twoTouchStart(double x1, double y1, double x2, double y2) {
+		this.oldDistance = MyMath.distance(x1,y1,x2,y2);
+	}
+	
+	public void twoTouchMove(double x1, double y1, double x2, double y2) {
+		int centerX, centerY;
+		double newDistance;
+
+		centerX = (int) (x1 + x2) / 2;
+		centerY = (int) (y1 + y2) / 2;
+
+		if (this.oldDistance > 0) {
+			newDistance = MyMath.distance(x1,y1,x2,y2);
+
+			if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
+				// App.debug("Zooming ... "+oldDistance+":"+newDistance);
+				onPinch(centerX, centerY, newDistance
+						/ this.oldDistance);
+				this.oldDistance = newDistance;
+			}
+		}
+		
+	}
+	
 }

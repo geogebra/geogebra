@@ -110,45 +110,38 @@ public class WinLAF extends DefaultLAF {
 	private native void addNativeHandlers(Element element, MsZoomer zoomer) /*-{
 		$wnd.first = {id:-1};
 		$wnd.second = {id:-1};
-		$wnd.oldDistance = 0;
-		$wnd.distance = function(){
-				return Math.sqrt(($wnd.first.x-$wnd.second.x)*($wnd.first.x-$wnd.second.x)+
-				($wnd.first.y-$wnd.second.y)*($wnd.first.y-$wnd.second.y));
-		}
 		
 		
 		element.addEventListener("MSPointerMove",function(e) {
 			if($wnd.first.id >=0 && $wnd.second.id>=0){
-				if($wnd.first.id === e.pointerId){    	
+				if($wnd.second.id === e.pointerId){    	
 					$wnd.second.x = e.x;	
 					$wnd.second.y = e.y;
 				}else{
 					$wnd.first.x = e.x;	
 					$wnd.first.y = e.y;
 				}
-				var newDistance = $wnd.distance();
-				var ratio = newDistance / $wnd.oldDistance;
-				if(ratio > 1.1 || ratio < 1/1.1){
-					zoomer.@geogebra.touch.gui.laf.MsZoomer::zoom(D)(ratio);
-					$wnd.oldDistance = newDistance;
-				}
+				zoomer.@geogebra.touch.gui.laf.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,$wnd.first.y,
+				$wnd.second.x,$wnd.second.y);
 			}
 		});
 		
 		element.addEventListener("MSPointerDown",function(e) {
+			if($wnd.first.id >=0 && $wnd.second.id>=0){
+				return;
+			}
 			if($wnd.first.id >= 0){
 				$wnd.second.id = e.pointerId;
 				$wnd.second.x = e.x;	
 				$wnd.second.y = e.y;
-				zoomer.@geogebra.touch.gui.laf.MsZoomer::setZoomCenter(DD)(($wnd.first.x+$wnd.second.x)/2.0,
-				($wnd.first.y+$wnd.second.y)/2.0);
 			}else{
 				$wnd.first.id = e.pointerId;
 				$wnd.first.x = e.x;	
 				$wnd.first.y = e.y;
 			}
 			if($wnd.first.id >=0 && $wnd.second.id>=0){
-				$wnd.oldDistance = $wnd.distance();
+				zoomer.@geogebra.touch.gui.laf.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,$wnd.first.y,
+				$wnd.second.x,$wnd.second.y);
 			}
 	
 		});
@@ -156,9 +149,7 @@ public class WinLAF extends DefaultLAF {
 		element.addEventListener("MSPointerUp",function(e) {
 			if($wnd.first.id == e.pointerId){
 				$wnd.first.id = -1;
-				zoomer.@geogebra.touch.gui.laf.MsZoomer::setZoomCenter(DD)(-1,-1);
 			}else{
-				zoomer.@geogebra.touch.gui.laf.MsZoomer::setZoomCenter(DD)(-1,-1);
 				$wnd.second.id = -1;
 			}
 		});

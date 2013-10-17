@@ -26,18 +26,13 @@ import com.google.gwt.user.client.ui.Widget;
 class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
 		MouseWheelHandler, MouseOutHandler {
-	private static double distance(final Touch t1, final Touch t2) {
-		return Math.sqrt(Math.pow(t1.getClientX() - t2.getClientX(), 2)
-				+ Math.pow(t1.getClientY() - t2.getClientY(), 2));
-	}
 
 	private static int getX(final Touch touch) {
 		return touch.getClientX();
 	}
 
 	private final TouchController mc;
-	private double oldDistance;
-	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
+
 	private final Widget offsetWidget;
 	private boolean ignoreMouseEvents = false;
 
@@ -100,32 +95,15 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 	@Override
 	public void onTouchMove(final TouchMoveEvent event) {
 		event.preventDefault();
-
+		
 		if (event.getTouches().length() == 1) {
 			// proceed normally
 			this.mc.onTouchMove(getX(event.getTouches().get(0)),
 					this.getY(event.getTouches().get(0)));
 		} else if (event.getTouches().length() == 2) {
-			Touch first, second;
-			int centerX, centerY;
-			double newDistance;
-
-			first = event.getTouches().get(0);
-			second = event.getTouches().get(1);
-
-			centerX = (getX(first) + getX(second)) / 2;
-			centerY = (getX(first) + this.getY(second)) / 2;
-
-			if (this.oldDistance > 0) {
-				newDistance = distance(first, second);
-
-				if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
-					// App.debug("Zooming ... "+oldDistance+":"+newDistance);
-					this.mc.onPinch(centerX, centerY, newDistance
-							/ this.oldDistance);
-					this.oldDistance = newDistance;
-				}
-			}
+			Touch t1 = event.getTouches().get(0);
+			Touch t2 = event.getTouches().get(0);
+				this.mc.twoTouchMove(getX(t1), getY(t1), getX(t2), getY(t2));
 		}
 	}
 
@@ -140,8 +118,9 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 			this.mc.onTouchStart(getX(event.getTouches().get(0)),
 					this.getY(event.getTouches().get(0)));
 		} else if (event.getTouches().length() == 2) {
-			this.oldDistance = distance(event.getTouches().get(0), event
-					.getTouches().get(1));
+			Touch t1 = event.getTouches().get(0);
+			Touch t2 = event.getTouches().get(0);
+				this.mc.twoTouchStart(getX(t1), getY(t1), getX(t2), getY(t2));
 		}
 	}
 

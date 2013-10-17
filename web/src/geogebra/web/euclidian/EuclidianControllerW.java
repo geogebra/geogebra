@@ -354,9 +354,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		 Log.debug(event.getAssociatedType().getName());
 	}
-
-	private static double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
-	private double oldDistance = -1;
 	
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.drags++;
@@ -379,28 +376,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
-			AbstractEvent first, second;
-			int centerX, centerY;
-			double newDistance;
-
-			first = TouchEvent.wrapEvent(event.getTouches().get(0),this);
-			second = TouchEvent.wrapEvent(event.getTouches().get(1),this);
-
-			centerX = (first.getX() + second.getX()) / 2;
-			centerY = (first.getX() + second.getY()) / 2;
-
-			if (this.oldDistance > 0) {
-				newDistance = distance(first, second);
-
-				if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
-					// App.debug("Zooming ... "+oldDistance+":"+newDistance);
-					super.mouseLoc = new GPoint(centerX, centerY);
-					double scaleFactor = newDistance / this.oldDistance;
-					zoomInOut(scaleFactor,
-							scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
-					this.oldDistance = newDistance;
-				}
-			}
+			AbstractEvent first = TouchEvent.wrapEvent(event.getTouches().get(0),this);
+			AbstractEvent second = TouchEvent.wrapEvent(event.getTouches().get(1),this);
+			this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
 			first.release();
 			second.release();
 		}
@@ -448,11 +426,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			e.release();
 		}
 		else if(targets.length() == 2){
-			AbstractEvent e0 = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(0),this);
-			AbstractEvent e1 = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(1),this);
-			oldDistance = distance(e0,e1);
-			e0.release();
-			e1.release();
+			AbstractEvent first = TouchEvent.wrapEvent(event.getTouches().get(0),this);
+			AbstractEvent second = TouchEvent.wrapEvent(event.getTouches().get(1),this);
+			this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
+			first.release();
+			second.release();
 		}
 		if(!comboBoxHit()){
 			event.preventDefault();
