@@ -6,7 +6,6 @@ import geogebra.touch.gui.laf.LookAndFeel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -80,16 +79,8 @@ class DefaultErrorHandler implements ErrorHandler {
 		// only used for Win
 		private void centerContent() {
 			if (this.title != null && this.contentPanel != null) {
-				this.title
-						.getElement()
-						.getStyle()
-						.setPaddingLeft(this.laf.getPaddingLeftOfDialog(),
-								Unit.PX);
-				this.contentPanel
-						.getElement()
-						.getStyle()
-						.setMarginLeft(this.laf.getPaddingLeftOfDialog(),
-								Unit.PX);
+				this.laf.center(this.title);
+				this.laf.center(this.contentPanel);
 			}
 		}
 

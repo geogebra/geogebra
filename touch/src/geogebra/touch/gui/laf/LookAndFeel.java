@@ -11,6 +11,7 @@ import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public interface LookAndFeel extends SavedStateListener {
 
@@ -50,4 +51,6 @@ public interface LookAndFeel extends SavedStateListener {
 	public void setPopupCenter(PopupPanel panel);
 
 	public void loadRTLStyles();
+
+	public void center(Widget title);
 }

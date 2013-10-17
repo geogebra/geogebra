@@ -14,6 +14,7 @@ import geogebra.touch.model.TouchModel;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DefaultLAF implements LookAndFeel {
 
@@ -143,6 +144,12 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public void loadRTLStyles() {
+		
+	}
+
+	@Override
+	public void center(Widget title) {
+		// assume it is centered by CSS
 		
 	}
 }

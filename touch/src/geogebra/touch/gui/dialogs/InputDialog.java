@@ -17,7 +17,6 @@ import geogebra.touch.model.TouchModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -120,8 +119,9 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 	private void addContentPanel() {
 		this.contentPanel.setStyleName("contentPanel");
-		this.contentPanel.getElement().setAttribute("style",
-				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		//this.contentPanel.getElement().getStyle().setMarginLeft(this.laf.getPaddingLeftOfDialog(), Unit.PX);
+		//this.contentPanel.getElement().getStyle().setMarginRight(this.laf.getPaddingLeftOfDialog(), Unit.PX);
+		
 		this.inputFieldPanel.setStyleName("inputFieldPanel");
 		this.contentPanel.add(this.inputFieldPanel);
 		this.dialogPanel.add(this.contentPanel);
@@ -132,8 +132,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		this.title.setStyleName("title");
 
 		// Padding-left needed for Win8 Dialog
-		this.title.getElement().setAttribute("style",
-				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.laf.center(this.title);
 		this.titlePanel.add(this.title);
 		this.dialogPanel.add(this.titlePanel);
 	}
@@ -354,10 +353,8 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	// only used for win
 	private void centerContent() {
 		if (this.title != null && this.contentPanel != null) {
-			this.title.getElement().getStyle()
-					.setPaddingLeft(this.laf.getPaddingLeftOfDialog(), Unit.PX);
-			this.contentPanel.getElement().getStyle()
-					.setMarginLeft(this.laf.getPaddingLeftOfDialog(), Unit.PX);
+			this.laf.center(this.title);
+			this.laf.center(this.contentPanel);
 		}
 	}
 
