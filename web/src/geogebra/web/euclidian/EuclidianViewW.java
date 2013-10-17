@@ -60,6 +60,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
+		EVPanel = euclidianViewPanel;
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		if (evNo == 2) {
 			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN2);
@@ -132,7 +133,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 			settingsChanged(es);
 			es.addListener(this);
 		}
-		EVPanel = euclidianViewPanel;
     }
 
 	// STROKES
