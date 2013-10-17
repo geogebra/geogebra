@@ -22,7 +22,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	private int colorSetType;
 	private geogebra.common.awt.GColor[]  colorSet; 
 	private geogebra.common.awt.GColor defaultColor;
-	private HashMap<GColor,Integer> lookupMap; 
+	private HashMap<String,Integer> lookupMap; 
 
 	private boolean hasSlider;
 	private GDimensionW iconSize;
@@ -37,9 +37,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		colorSet = getColorArray(colorSetType);
 		defaultColor = colorSet[0];
 
-		lookupMap = new HashMap<GColor,Integer>();
+		lookupMap = new HashMap<String,Integer>();
 		for(int i = 0; i < colorSet.length; i++) {
-			lookupMap.put(colorSet[i], i);
+			lookupMap.put(GColor.getColorString(colorSet[i]), i);
 		}
 
 		setToolTipArray(getToolTipArray());
@@ -78,9 +78,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			index = colorSet.length - 1;
 			return index;
 		}
-
-		if(lookupMap.containsKey(color)){
-			index = lookupMap.get(color);
+				
+		if(lookupMap.containsKey(GColor.getColorString(color))){
+			index = lookupMap.get(GColor.getColorString(color));
 		}
 
 		return index;
