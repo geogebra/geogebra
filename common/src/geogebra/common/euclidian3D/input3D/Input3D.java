@@ -49,4 +49,10 @@ public interface Input3D {
 	 */
 	public boolean isRightPressed();
 	
+	/**
+	 * 
+	 * @return true if left button is pressed
+	 */
+	public boolean isLeftPressed();
+	
 }

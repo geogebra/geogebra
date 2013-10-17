@@ -1,5 +1,6 @@
 package geogebra3D.euclidianInput3D;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian3D.input3D.Input3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -39,7 +40,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	private boolean wasRightReleased;
 	
 	private double screenHalfWidth, screenHalfHeight;
-	
+	private Dimension panelDimension;
 	
 	private boolean eyeSepIsNotSet = true;
 	
@@ -81,16 +82,25 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			// set values
 			
 			// mouse pos
-			Dimension d = view3D.getJPanel().getSize();
+			panelDimension = view3D.getJPanel().getSize();
 			Point p = view3D.getJPanel().getLocationOnScreen();
 	
 			double[] pos = input3D.getMouse3DPosition();
 			
+			
 			//App.debug(""+input3D.getGlassesPosition()[0]+","+input3D.getGlassesPosition()[1]+","+input3D.getGlassesPosition()[2]);
 
-			mouse3DPosition.setX(pos[0] + screenHalfWidth - p.x - d.width/2);
-			mouse3DPosition.setY(pos[1] - screenHalfHeight + p.y + d.height/2);
+			mouse3DPosition.setX(pos[0] + screenHalfWidth - p.x - panelDimension.width/2);
+			mouse3DPosition.setY(pos[1] - screenHalfHeight + p.y + panelDimension.height/2);
 			mouse3DPosition.setZ(pos[2] - ((EuclidianView3D) view).getScreenZOffset());
+			
+			
+			// check if the 3D mouse is on screen
+			if((Math.abs(mouse3DPosition.getX()) > panelDimension.width/2) || (Math.abs(mouse3DPosition.getY()) > panelDimension.height/2)){
+				return;
+			}
+			
+			//updateMouse3DEvent();
 			
 			
 			// mouse orientation
@@ -108,13 +118,16 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			}
 			
 			
-			//////////////////////////////
-			// process right press
-			if (input3D.isRightPressed()){
+
+			if (input3D.isRightPressed()){ // process right press
 				processRightPress();
 				wasRightReleased = false;
-			}else{
+			}else if (input3D.isLeftPressed()){ // process left press
 				wasRightReleased = true;
+				//wrapMouseDragged(mouseEvent);
+			}else{ // process move
+				wasRightReleased = true;
+				//wrapMouseMoved(mouseEvent);
 			}
 			
 		}
@@ -244,6 +257,32 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 			
 		}
+		
+	}
+
+	/*
+	 * process 3D mouse move
+	 *
+	private void processMouse3DMoved() {	
+
+		GPoint mouse3DLoc = new GPoint(panelDimension.width/2 + (int) mouse3DPosition.getX(), panelDimension.height/2 - (int) mouse3DPosition.getY());
+		view3D.setHits3D(mouse3DLoc);	
+
+
+
+		//for next mouse move process
+		mouseEvent = new Mouse3DEvent(mouse3DLoc);
+		mouseMoved = true;
+
+
+
+	}
+	*/
+	
+	private void updateMouse3DEvent(){
+		
+		GPoint mouse3DLoc = new GPoint(panelDimension.width/2 + (int) mouse3DPosition.getX(), panelDimension.height/2 - (int) mouse3DPosition.getY());
+		mouseEvent = new Mouse3DEvent(mouse3DLoc);
 		
 	}
 	

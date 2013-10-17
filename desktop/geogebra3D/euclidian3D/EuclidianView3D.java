@@ -68,7 +68,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -1751,16 +1750,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** sets the 3D hits regarding point location
 	 * @param p point location
 	 */
-	public void setHits3D(Point p) {
-		
-		//Application.debug(p.x+","+p.y);
-		
+	public void setHits3D(GPoint p) {
+			
 		//sets the flag and mouse location for openGL picking
 		renderer.setMouseLoc(p.x,p.y,Renderer.PICKING_MODE_LABELS);
-
-		//calc immediately the hits
-		//renderer.display();
-		
 
 	}
 	

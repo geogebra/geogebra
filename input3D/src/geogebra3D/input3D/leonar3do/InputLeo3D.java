@@ -22,7 +22,7 @@ public class InputLeo3D implements Input3D {
 	
 	private double[] mouseOrientation;
 	
-	private boolean isRightPressed;
+	private boolean isRightPressed, isLeftPressed;
 	
 	private double screenHalfWidth;
 	
@@ -90,7 +90,10 @@ public class InputLeo3D implements Input3D {
 			// right button
 			isRightPressed = (leoSocket.smallButton > 0.5);
 			
+			// left button
+			isLeftPressed = (leoSocket.bigButton > 0.5);
 			
+		
 			
 			
 			// glasses position
@@ -144,6 +147,10 @@ public class InputLeo3D implements Input3D {
 		return isRightPressed;
 	}
 	
+	public boolean isLeftPressed(){
+		return isLeftPressed;
+	}
+
 	public double[] getGlassesPosition(){
 		return glassesPosition;
 	}

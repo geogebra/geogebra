@@ -1567,14 +1567,14 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// mouse moved
 	
 	
-	private boolean mouseMoved = false;
+	protected boolean mouseMoved = false;
 	//private boolean mousePressed = false;
-	private AbstractEvent mouseEvent = null;
+	protected AbstractEvent mouseEvent = null;
 	
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {	
 		
-		((EuclidianView3D) view).setHits3D(new java.awt.Point(mouseLoc.x,mouseLoc.y));	
+		view3D.setHits3D(mouseLoc);	
 		
 
 		
@@ -2583,7 +2583,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, polyhedron);
 
 			boolean goAhead = true;
-			DrawIntersectionCurve3D drawPolygons = new DrawIntersectionCurve3D(view3D, (GeoPolygon3D) ret[0]);
+			DrawIntersectionCurve3D drawPolygons = new DrawIntersectionCurve3D(view3D, ret[0]);
 			for (int i=0; i<ret.length && goAhead ; i++){
 				GeoElement geo = ret[i];
 				if (geo instanceof GeoPolygon3D){
@@ -3186,11 +3186,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			return super.viewHasHitsForMouseDragged();
 	}
 	
-	
 	@Override
-	public void mouseDragged(MouseEvent e) {
+	protected void wrapMouseDragged(AbstractEvent event) {
+		
 		if (handledGeo!=null){
-			AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 			setMouseLocation(event);
 			event.release();
 			updateTranslationVector();
@@ -3200,7 +3199,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			return;
 		}
 		
-		super.mouseDragged(e);
+		super.wrapMouseDragged(event);
 	}
 	
 	
