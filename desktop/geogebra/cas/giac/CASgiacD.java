@@ -325,8 +325,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 */
 	String evalRaw(String exp) {
 		gen g = new gen("caseval("+exp+")", C);
+		App.debug("giac evalRaw input: " + exp);
 		g = g.eval(1, C);
 		String ret = g.print(C);
+		App.debug("giac evalRaw output: " + ret);
 		
 		if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
 			ret = ret.substring(1, ret.length() - 1);
