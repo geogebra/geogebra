@@ -385,18 +385,18 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
     public void add(GBox box) {
-	    EVPanel.getAbsolutePanel().add(
+		if (EVPanel != null)
+			EVPanel.getAbsolutePanel().add(
 	    		GBoxW.getImpl(box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
-	    
     }
 
 	@Override
     public void remove(GBox box) {
-	    EVPanel.getAbsolutePanel().remove(
+		if (EVPanel != null)
+			EVPanel.getAbsolutePanel().remove(
 	    		GBoxW.getImpl(box));
-	    
-    }
+	}
 
 	@Override
 	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
