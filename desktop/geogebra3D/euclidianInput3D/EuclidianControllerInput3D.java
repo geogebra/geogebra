@@ -6,7 +6,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
-import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
@@ -97,16 +96,16 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			// mouse orientation
 			mouse3DOrientation.set(input3D.getMouse3DOrientation());
 			
-			
-			// eyes
-			//App.debug(input3D.getGlassesPosition()[2]+"");
-			/*
-			if (eyeSepIsNotSet){
-				view3D.setEyeSep(input3D.getEyeSeparation());
-				eyeSepIsNotSet = false;
+
+			// eyes : set position only if we use glasses
+			if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
+				//App.debug(input3D.getGlassesPosition()[2]+"");
+				if (eyeSepIsNotSet){
+					view3D.setEyeSep(input3D.getEyeSeparation());
+					eyeSepIsNotSet = false;
+				}
+				view3D.setProjectionPerspectiveEyeDistance(input3D.getGlassesPosition()[2]);
 			}
-			view3D.setProjectionPerspectiveEyeDistance(input3D.getGlassesPosition()[2]);
-			*/
 			
 			
 			//////////////////////////////
@@ -168,7 +167,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			CoordMatrix rotMatrix = rot.getRotMatrix();
 			
 
-			App.debug("\n"+rot);
+			//App.debug("\n"+rot);
 			
 			// rotate view vZ
 			Coords vZrot = rotMatrix.getVz();
