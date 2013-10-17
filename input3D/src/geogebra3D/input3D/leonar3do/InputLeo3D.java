@@ -27,8 +27,9 @@ public class InputLeo3D implements Input3D {
 	private double screenHalfWidth;
 	
 	
-	private double[] leftEyePosition;
-	private double[] rightEyePosition;
+	private double[] glassesPosition;
+	
+	private double eyeSeparation;
 	
 	/**
 	 * constructor
@@ -41,9 +42,8 @@ public class InputLeo3D implements Input3D {
 		// 3D mouse orientation
 		mouseOrientation = new double[4];
 		
-		// eyes position
-		leftEyePosition = new double[3];
-		rightEyePosition = new double[3];
+		// glasses position
+		glassesPosition = new double[3];
 		
 		
 		// screen dimensions
@@ -93,15 +93,13 @@ public class InputLeo3D implements Input3D {
 			
 			
 			
-			// left eye position
-			leftEyePosition[0] = leoSocket.leftEyeX * screenHalfWidth;
-			leftEyePosition[1] = leoSocket.leftEyeY * screenHalfWidth;
-			leftEyePosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
+			// glasses position
+			glassesPosition[0] = leoSocket.leftEyeX * screenHalfWidth;
+			glassesPosition[1] = leoSocket.leftEyeY * screenHalfWidth;
+			glassesPosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
 			
-			// right eye position
-			rightEyePosition[0] = leoSocket.rightEyeX * screenHalfWidth;
-			rightEyePosition[1] = leoSocket.rightEyeY * screenHalfWidth;
-			rightEyePosition[2] = leoSocket.rightEyeZ * screenHalfWidth;
+			// eye separation
+			eyeSeparation = (leoSocket.leftEyeX - leoSocket.rightEyeX) * screenHalfWidth;
 			
 			/*
 			App.debug("\nleft eye"
@@ -144,5 +142,13 @@ public class InputLeo3D implements Input3D {
 	
 	public boolean isRightPressed(){
 		return isRightPressed;
+	}
+	
+	public double[] getGlassesPosition(){
+		return glassesPosition;
+	}
+	
+	public double getEyeSeparation(){
+		return eyeSeparation;
 	}
 }

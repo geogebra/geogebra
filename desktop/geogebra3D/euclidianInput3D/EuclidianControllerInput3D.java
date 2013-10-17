@@ -36,6 +36,9 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	
 	private double screenHalfWidth, screenHalfHeight;
 	
+	
+	private boolean eyeSepIsNotSet = true;
+	
 	/**
 	 * constructor
 	 * @param kernel kernel
@@ -77,13 +80,25 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			Point p = view3D.getJPanel().getLocationOnScreen();
 	
 			double[] pos = input3D.getMouse3DPosition();
+			
+			//App.debug(""+input3D.getGlassesPosition()[0]+","+input3D.getGlassesPosition()[1]+","+input3D.getGlassesPosition()[2]);
 
 			mouse3DPosition.setX(pos[0] + screenHalfWidth - p.x - d.width/2);
 			mouse3DPosition.setY(pos[1] - screenHalfHeight + p.y + d.height/2);
 			mouse3DPosition.setZ(pos[2] - ((EuclidianView3D) view).getScreenZOffset());
 			
+			
 			// mouse orientation
 			mouse3DOrientation.set(input3D.getMouse3DOrientation());
+			
+			
+			// eyes
+			//App.debug(input3D.getGlassesPosition()[2]+"");
+			if (eyeSepIsNotSet){
+				view3D.setEyeSep(input3D.getEyeSeparation());
+				eyeSepIsNotSet = false;
+			}
+			view3D.setProjectionPerspectiveEyeDistance(input3D.getGlassesPosition()[2]);
 			
 			
 			//////////////////////////////

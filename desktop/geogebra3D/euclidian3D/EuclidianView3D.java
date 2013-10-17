@@ -747,7 +747,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		CoordMatrix mTrans = getTranslationMatrix();
 		
 		
-		m.set(mRot.mul(mScale.mul(mTrans)));	
+		m.set(mRot.mul(mScale.mul(mTrans)));
+		
+		/*
+		//TO TEST PROJECTION
+		m.set(CoordMatrix.Identity(4));  
+		scale = 1;
+		*/
 		
 		mInv.set(m.inverse());
 		mInvTranspose.set(mInv.transposeCopy());

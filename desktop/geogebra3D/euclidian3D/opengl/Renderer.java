@@ -1952,23 +1952,22 @@ public class Renderer extends RendererJogl implements GLEventListener {
     //private double distratio;
     
     public void setNear(double val){
-    	near = val;
+    	near = val - perspNear;
     	updatePerspValues();   	
     }
     
-    private double perspLeft, perspRight, perspBottom, perspTop, perspFar, perspNear, perspDistratio, perspFocus;
+    /** distance camera-near plane */
+    private static final double perspNear = 10; //TODO set this to avoid z-buffer issues
+    private double perspLeft, perspRight, perspBottom, perspTop, perspFar, perspDistratio, perspFocus;
     private Coords perspEye;
     
     private void updatePerspValues(){
     	
-    	//distance camera-near plane
-    	perspNear = 10; //TODO set this to avoid z-buffer issues
-
     	frontExtended = (int) -near; //front clipping plane
     	
     	
     	perspFocus = -perspNear -near + getScreenZOffset();
-    	App.error(near +","+ getScreenZOffset());
+    	//App.error(near +","+ getScreenZOffset());
 
     	//ratio so that distance on screen plane are not changed
     	perspDistratio = perspNear/(perspNear+near);
@@ -2027,6 +2026,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		eyesep=glassesEyeSep;
     		eyesep1=glassesEyeSep1;
     	}
+    	
+    	
+    	//App.error(eye+" : "+", left="+left+", right="+right+", perspLeft="+perspLeft+", perspRight="+perspRight+", near="+near+", perspNear="+perspNear+", perspDistratio="+perspDistratio+", eyesep="+eyesep+", eyesep1="+eyesep1+", getScreenZOffset="+getScreenZOffset());
    	
        	gl.glFrustum(perspLeft+eyesep1,perspRight+eyesep1,perspBottom,perspTop,perspNear,perspFar);
     	gl.glTranslated(eyesep, 0, perspFocus);          	

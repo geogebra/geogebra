@@ -27,6 +27,21 @@ public interface Input3D {
 	 * @return 3D mouse orientation (as quaternion)
 	 */
 	public double[] getMouse3DOrientation();
+	
+	
+	/**
+	 *  Center is center of the screen, unit is pixels
+	 * @return glasses position
+	 */
+	public double[] getGlassesPosition();
+	
+	
+	/**
+	 * 
+	 * @return eye separation
+	 */
+	public double getEyeSeparation();
+
 
 	/**
 	 * 

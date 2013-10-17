@@ -42,7 +42,7 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	
 	@Override
 	public float getScreenZOffsetFactor(){
-		return 1f;
+		return 0f;
 	}
 	
 	/**
@@ -83,12 +83,8 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 
 	}
 	
-	/*
-	@Override
-	public void rememberOrigins(){
-		XZeroOld = XZero;
-		YZeroOld = YZero;
-		ZZeroOld = ZZero;
-	}
-	*/
+	
+	
+
+
 }
