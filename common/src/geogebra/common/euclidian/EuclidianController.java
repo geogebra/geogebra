@@ -4345,40 +4345,7 @@ public abstract class EuclidianController {
 		return getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 
-	protected GeoAngle createLineAngle(GeoLine[] lines) {
-		GeoAngle angle = null;
 	
-		checkZooming(); 
-		
-		// did we get two segments?
-		if ((lines[0] instanceof GeoSegment)
-				&& (lines[1] instanceof GeoSegment)) {
-			// check if the segments have one point in common
-			GeoSegment a = (GeoSegment) lines[0];
-			GeoSegment b = (GeoSegment) lines[1];
-			// get endpoints
-			GeoPoint a1 = a.getStartPoint();
-			GeoPoint a2 = a.getEndPoint();
-			GeoPoint b1 = b.getStartPoint();
-			GeoPoint b2 = b.getEndPoint();
-	
-			if (a1 == b1) {
-				angle = getAlgoDispatcher().Angle(null, a2, a1, b2);
-			} else if (a1 == b2) {
-				angle = getAlgoDispatcher().Angle(null, a2, a1, b1);
-			} else if (a2 == b1) {
-				angle = getAlgoDispatcher().Angle(null, a1, a2, b2);
-			} else if (a2 == b2) {
-				angle = getAlgoDispatcher().Angle(null, a1, a2, b1);
-			}
-		}
-	
-		if (angle == null) {
-			angle = getAlgoDispatcher().Angle(null, lines[0], lines[1]);
-		}
-	
-		return angle;
-	}
 
 	protected AlgoDispatcher getAlgoDispatcher() {
 		return kernel.getAlgoDispatcher();
@@ -4526,7 +4493,7 @@ public abstract class EuclidianController {
 			GeoLine[] lines = getSelectedLines();
 			checkZooming(); 
 			
-			angle = createLineAngle(lines);
+			angle = getAlgoDispatcher().createLineAngle(lines[0], lines[1]);
 		} else if (polyFound && (selGeos() == 1)) {
 			checkZooming(); 
 			

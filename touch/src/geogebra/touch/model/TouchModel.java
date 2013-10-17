@@ -717,7 +717,7 @@ public class TouchModel {
 						(GeoPoint) this.getElement(Test.GEOPOINT, 1),
 						(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			} else if (this.getNumberOf(Test.GEOLINE) >= 2) {
-				newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
+				newElements.add(this.kernel.getAlgoDispatcher().createLineAngle(
 						(GeoLine) this.getElement(Test.GEOLINE),
 						(GeoLine) this.getElement(Test.GEOLINE, 1)));
 			} else {

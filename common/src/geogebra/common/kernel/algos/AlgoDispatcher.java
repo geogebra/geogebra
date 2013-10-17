@@ -1635,5 +1635,38 @@ public class AlgoDispatcher {
 			GeoPointND point) {
 		return new AlgoClosestPoint(cons2, path, point);
 	}
+	
+	public GeoAngle createLineAngle(GeoLine line1, GeoLine line2) {
+		GeoAngle angle = null;
+		
+		// did we get two segments?
+		if ((line1 instanceof GeoSegment)
+				&& (line2 instanceof GeoSegment)) {
+			// check if the segments have one point in common
+			GeoSegment a = (GeoSegment) line1;
+			GeoSegment b = (GeoSegment) line2;
+			// get endpoints
+			GeoPoint a1 = a.getStartPoint();
+			GeoPoint a2 = a.getEndPoint();
+			GeoPoint b1 = b.getStartPoint();
+			GeoPoint b2 = b.getEndPoint();
+	
+			if (a1 == b1) {
+				angle = Angle(null, a2, a1, b2);
+			} else if (a1 == b2) {
+				angle = Angle(null, a2, a1, b1);
+			} else if (a2 == b1) {
+				angle = Angle(null, a1, a2, b2);
+			} else if (a2 == b2) {
+				angle = Angle(null, a1, a2, b1);
+			}
+		}
+	
+		if (angle == null) {
+			angle = Angle(null, line1, line2);
+		}
+	
+		return angle;
+	}
 
 }
