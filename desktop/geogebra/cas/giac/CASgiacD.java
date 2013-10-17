@@ -65,7 +65,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			
 			App.debug("Loading Giac dynamic library: "+file);
 
-
 			// When running from local jars we can load the library files from inside a jar like this 
 			MyClassPathLoader loader = new MyClassPathLoader();
 			giacLoaded = loader.loadLibrary(file);
@@ -83,8 +82,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				App.debug("Trying to load Giac library (alternative method)");
 				System.loadLibrary(file);
 				giacLoaded = true;
-
-
 
 			}
 
@@ -118,7 +115,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		String exp = casParser.replaceIndices(input, false);
 
 		String ret;
-		App.debug("giac  input: "+exp);	
+		App.debug("giac input: "+exp);	
 
 		threadResult = null;
 		Thread thread;
@@ -150,32 +147,30 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				// send expression to CAS
 				thread = new GiacJNIThread(exp);
 
-
 				thread.start();
-
 				thread.join(timeoutMillis);
-
 				thread.interrupt();
 				// thread.interrupt() doesn't seem to stop it, so add this for good measure:
 				thread.stop();
+				// in fact, stop will do nothing (never implemented)
+				App.debug("giac: after interrupt/stop");
 
 				// if we haven't got a result, CAS took too long to return
 				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
 				if (threadResult == null) {
-					throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+					throw new geogebra.common.cas.error.TimeoutException("Thread timeout from Giac");
 				}
 			} else {
-
 				threadResult = evalRaw(exp);
-				
 			}
 		}
-
-
 		ret = postProcess(threadResult);
 
 		App.debug("giac output: " + ret);		
-
+		if (ret.contains("user interruption")) {
+			throw new geogebra.common.cas.error.TimeoutException("Standard timeout from Giac");
+		}
+		
 		return ret;
 	}
 
@@ -205,6 +200,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	}
 
 	public void initialize() throws Throwable {
+		App.debug("giac: initialize");
 		if (C == null) {
 			C = new context();
 			gen g;
@@ -212,7 +208,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			if (!giacSetToGeoGebraMode) {
 
 				evalRaw(initString);
-
+				evalRaw("\"timeout " + (timeoutMillis / 1000)+ "\"");
 
 				giacSetToGeoGebraMode = true;
 			}
@@ -220,15 +216,11 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			g = new gen(specialFunctions, C);
 			g = giac._eval(g, C);
 			App.debug(g.print(C));
-
-
 		}
-
 	}
 
 	public void initCAS() {
 		App.error("unimplemented");
-
 	}
 
 	/**
@@ -269,9 +261,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 							result ="";
 							CASAsyncFinished(inVE, result,exception, command, input);
 						}
-
 					}
-					App.debug("thread is quiting");
+					App.debug("thread is quitting");
 				}
 			};
 		}
@@ -294,7 +285,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 		return null;
 	}
-
 
 	/**
 	 * store result from Thread here
@@ -343,11 +333,9 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 		
 		return ret;
-
 	}
 
 	public void clearResult() {
 		this.threadResult = null;
 	}
-
 }

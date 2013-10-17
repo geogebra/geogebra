@@ -41,12 +41,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')
 	 */
-	protected final static String initString = "caseval(\"init geogebra\")";
+	protected final static String initString = "\"init geogebra\"";
 	
 	/**
 	 * string to put Giac off GeoGebra mode
 	 */
-	protected final static String closeString = "caseval(\"close geogebra\")";
+	protected final static String closeString = /* "close geogebra" */ "1";
 
 	/**
 	 * define extra functions needed in Giac
