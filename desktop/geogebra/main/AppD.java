@@ -68,6 +68,7 @@ import geogebra.common.util.debug.Log.LogDestination;
 import geogebra.euclidian.DrawEquationD;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.euclidian.event.MouseEventND;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
 import geogebra.factories.AwtFactoryD;
@@ -3917,6 +3918,12 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public static boolean isControlDown(InputEvent e) {
 
+		return isControlDown(e.isMetaDown(), e.isControlDown());
+		
+	}
+	
+	public static final boolean isControlDown(boolean isMetaDown, boolean isControlDown) {
+
 		/*
 		 * debug("isMetaDown = "+e.isMetaDown()); debug("isControlDown =
 		 * "+e.isControlDown()); debug("isShiftDown = "+e.isShiftDown());
@@ -3928,10 +3935,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			return false;
 		}
 
-		boolean ret = (MAC_OS && e.isMetaDown()) // Mac: meta down for
+		boolean ret = (MAC_OS && isMetaDown) // Mac: meta down for
 				// multiple
 				// selection
-				|| (!MAC_OS && e.isControlDown()); // non-Mac: Ctrl down for
+				|| (!MAC_OS && isControlDown); // non-Mac: Ctrl down for
 		// multiple selection
 
 		// debug("isPopupTrigger = "+e.isPopupTrigger());
@@ -3942,8 +3949,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private static boolean fakeRightClick = false;
 
-	public static boolean isMiddleClick(MouseEvent e) {
-		return (e.getButton() == 2) && (e.getClickCount() == 1);
+	public static boolean isMiddleClick(MouseEventND e) {
+		return e.isMiddleClick();
 	}
 
 	public static boolean isRightClick(MouseEvent e) {
@@ -3985,6 +3992,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// return e.isMetaDown();
 
 	}
+	
 
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
 
@@ -4604,12 +4612,12 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public boolean isControlDown(AbstractEvent e) {
-		return e != null && isControlDown(geogebra.euclidian.event.MouseEventD.getEvent(e));
+		return e != null && isControlDown(e.isMetaDown(), e.isControlDown());
 	}
 
 	@Override
 	public boolean isMiddleClick(AbstractEvent e) {
-		return isMiddleClick(geogebra.euclidian.event.MouseEventD.getEvent(e));
+		return isMiddleClick((MouseEventND) e);
 	}
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {

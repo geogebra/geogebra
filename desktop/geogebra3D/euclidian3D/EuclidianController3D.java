@@ -1608,6 +1608,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	/**
 	 * update mouse moved, 3D mouse values, etc.
 	 */
+	public void updateInput3D(){
+		// no input 3D
+	}
+	
+	/**
+	 * update mouse moved after picking
+	 */
 	public void update(){
 		processMouseMoved();
 	}

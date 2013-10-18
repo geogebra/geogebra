@@ -31,6 +31,7 @@ import geogebra.common.util.Unicode;
 import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.euclidian.event.MouseEventND;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.pstricks.PstricksFrame;
 import geogebra.gui.app.GeoGebraFrame;
@@ -94,7 +95,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -3013,11 +3013,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return inputHelpPanel;
 	}
 
-	public void setFocusedPanel(MouseEvent e, boolean updatePropertiesView) {
+	public void setFocusedPanel(MouseEventND event, boolean updatePropertiesView) {
 		// determine parent panel to change focus
 		EuclidianDockPanelAbstract panel = (EuclidianDockPanelAbstract) SwingUtilities
-				.getAncestorOfClass(EuclidianDockPanelAbstract.class,
-						(Component) e.getSource());
+				.getAncestorOfClass(EuclidianDockPanelAbstract.class, event.getComponent());
 
 		setFocusedPanel(panel, updatePropertiesView);
 
@@ -3087,7 +3086,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
-		setFocusedPanel(geogebra.euclidian.event.MouseEventD.getEvent(event), updatePropertiesView);
+		setFocusedPanel((MouseEventND) event, updatePropertiesView);
 	}
 
 	public void loadImage(GeoPoint loc, Object transfer, boolean fromClipboard) {

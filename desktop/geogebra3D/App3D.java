@@ -19,6 +19,7 @@ package geogebra3D;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -26,6 +27,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.SelectionManager;
 import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.event.MouseEventD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
 import geogebra.gui.layout.DockPanel;
@@ -123,11 +125,22 @@ public class App3D extends AppD {
 			euclidianController3D = new EuclidianController3D(kernel); 
 			euclidianView3D = new EuclidianView3D(euclidianController3D,null);
 		}
-		 */
+		*/
 		
 		euclidianController3D = new EuclidianController3D(kernel);  euclidianView3D = new EuclidianView3D(euclidianController3D,null);
 
 	}
+	
+	
+	@Override
+	public boolean isRightClick(AbstractEvent e) {
+		if (e instanceof MouseEventD){
+			return isRightClick(geogebra.euclidian.event.MouseEventD.getEvent(e));
+		}
+		
+		return e.isRightClick();
+	}
+
 
 	
 	@Override

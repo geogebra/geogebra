@@ -7,7 +7,7 @@ import geogebra.common.main.App;
 import java.awt.event.InputEvent;
 import java.util.LinkedList;
 
-public class MouseEventD extends AbstractEvent {
+public class MouseEventD extends AbstractEvent implements MouseEventND {
 	
 	public static LinkedList<MouseEventD> pool = new LinkedList<MouseEventD>();
 	private java.awt.event.MouseEvent event;
@@ -97,5 +97,10 @@ public class MouseEventD extends AbstractEvent {
 	public boolean isPopupTrigger() {
 		return event.isPopupTrigger();
 	}
+
+	public java.awt.Component getComponent() {		
+		return event.getComponent();
+	}
+
 
 }

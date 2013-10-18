@@ -38,6 +38,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	
 	
 	private boolean wasRightReleased;
+	private boolean wasLeftReleased;
 	
 	private double screenHalfWidth, screenHalfHeight;
 	private Dimension panelDimension;
@@ -75,7 +76,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	
 	
 	@Override
-	public void update(){
+	public void updateInput3D(){
 		if(input3D.update()){
 			
 			//////////////////////
@@ -98,7 +99,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			// check if the 3D mouse is on screen
 			if((Math.abs(mouse3DPosition.getX()) < panelDimension.width/2) && (Math.abs(mouse3DPosition.getY()) < panelDimension.height/2)){
 
-				//updateMouse3DEvent();
+				updateMouse3DEvent();
 
 				// mouse orientation
 				mouse3DOrientation.set(input3D.getMouse3DOrientation());
@@ -119,18 +120,24 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 				if (input3D.isRightPressed()){ // process right press
 					processRightPress();
 					wasRightReleased = false;
+					wasLeftReleased = true;
 				}else if (input3D.isLeftPressed()){ // process left press
+					if (wasLeftReleased){
+						wrapMousePressed(mouseEvent);
+					}else{
+						wrapMouseDragged(mouseEvent);
+					}
 					wasRightReleased = true;
-					//wrapMouseDragged(mouseEvent);
+					wasLeftReleased = false;				
 				}else{ // process move
+					wrapMouseMoved(mouseEvent);
 					wasRightReleased = true;
-					//wrapMouseMoved(mouseEvent);
+					wasLeftReleased = true;					
 				}
 			}
 		}
 		
 		
-		super.update();
 	}
 
 	
@@ -281,7 +288,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	private void updateMouse3DEvent(){
 		
 		GPoint mouse3DLoc = new GPoint(panelDimension.width/2 + (int) mouse3DPosition.getX(), panelDimension.height/2 - (int) mouse3DPosition.getY());
-		mouseEvent = new Mouse3DEvent(mouse3DLoc);
+		mouseEvent = new Mouse3DEvent(mouse3DLoc, view3D.getJPanel());
 		
 	}
 	

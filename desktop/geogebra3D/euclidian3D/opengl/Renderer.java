@@ -304,7 +304,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	 */
     public void display(GLAutoDrawable gLDrawable) {
     	
-    	
+    	//update 3D controller
+        view3D.getEuclidianController().updateInput3D();
     	
     	//Application.debug("display");
 
