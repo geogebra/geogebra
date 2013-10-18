@@ -39,14 +39,15 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.Localization;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.IconListBox;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -936,7 +937,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private class PointStylePanel extends OptionPanel implements IComboListener {
 		private PointStyleModel model;
 		private Label titleLabel;
-		private ListBox styleCombo;
+		private IconListBox styleCombo;
 		public PointStylePanel() {
 			model = new PointStyleModel(this);
 			setModel(model);
@@ -944,10 +945,17 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			FlowPanel mainPanel = new FlowPanel();
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			styleCombo = new ListBox();
-			for (int i=0; i < EuclidianStyleConstants.MAX_POINT_STYLE + 1; i++) {
-				styleCombo.addItem("style" + i);
-			}
+			styleCombo = new IconListBox();
+			
+			List<String> options = Arrays.asList(
+					AppResources.INSTANCE
+			        .edit_undo().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .arrow_in().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .arrow_out().getSafeUri().asString());
+			
+			styleCombo.setIcons(options);
 			mainPanel.add(styleCombo);
 			
 			setWidget(mainPanel);
