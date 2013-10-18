@@ -111,7 +111,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		add(editMenu);
 
 		// "View"
-		viewMenu = new ViewMenu(app, layout);
+		viewMenu = app.isApplet()? new ViewMenu(app, layout) : new ViewMenuApplicationD(app, layout);
 		add(viewMenu);
 
 		// "Perspectives"
@@ -345,7 +345,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param visible
 	 */
 	public void updateCPView(boolean visible){
-		((ViewMenu) viewMenu).updateCPView(visible);
+		if (viewMenu instanceof ViewMenuApplicationD){
+			((ViewMenuApplicationD) viewMenu).updateCPView(visible);
+		}
 	}
 
 	/**
