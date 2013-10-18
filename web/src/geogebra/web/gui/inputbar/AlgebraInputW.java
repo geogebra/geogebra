@@ -9,11 +9,10 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.WebStatic;
-import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -23,11 +22,11 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -38,12 +37,12 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public class AlgebraInputW extends HorizontalPanel 
 implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize {
 	
-	private AppW app;
-	private Label inputLabel;
-	private InputPanelW inputPanel;
-	private AutoCompleteTextFieldW inputField;
+	protected AppW app;
+	protected Label inputLabel;
+	protected InputPanelW inputPanel;
+	protected AutoCompleteTextFieldW inputField;
+	protected HorizontalPanel eastPanel,innerPanel, labelPanel;
 	private ToggleButton btnHelpToggle;
-	private HorizontalPanel innerPanel;
 
 	/**
 	 * Creates AlgebraInput for Web
@@ -88,7 +87,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	   //in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
 	   //in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 	    
-	    HorizontalPanel labelPanel = new HorizontalPanel();
+	    labelPanel = new HorizontalPanel();
 	    labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
 	    labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
 	    labelPanel.add(inputLabel);
@@ -96,8 +95,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		// add some space between label and input panels
 		labelPanel.getElement().getStyle().setMarginRight(4, Style.Unit.PX);
 
-	    
-	    HorizontalPanel eastPanel = new HorizontalPanel();
+	    // TODO: eastPanel should hold the command help button
+	    eastPanel = new HorizontalPanel();
 	    eastPanel.setHorizontalAlignment(ALIGN_RIGHT);
 	    eastPanel.setVerticalAlignment(ALIGN_MIDDLE);
 	    /*AGif (app.showInputHelpToggle()) {
@@ -128,23 +127,37 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	    
     }
 	
+	
+	/**
+	 * Sets the width of the text field so that the entire width of the parent
+	 * container is used. (Really just a workaround because the nested gwt
+	 * panels are not allowing 100% width to work as we would like).
+	 */
 	private void setInputFieldWidth() {
 
-		int inputWidth;
-		int outerWidth = 0;
-		int symbolButtonWidth = 20;
+		final Widget parent = this.getParent();
+		// deferred scheduling is needed for applets
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
 
-		if (inputLabel != null) {
-			outerWidth = innerPanel.getOffsetWidth() - inputPanel.getOffsetWidth()
-			        + inputLabel.getOffsetWidth() + symbolButtonWidth;
-		}
+				int symbolButtonWidth = 20;
 
-		if (WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
-			inputWidth = app.getDataParamWidth() - outerWidth - 2; //2: border
-		} else {
-			inputWidth = Window.getClientWidth() - outerWidth - 2; //2: border
-		}
-		inputField.setWidth(inputWidth);
+				// find width of internal padding
+				int padding = innerPanel.getOffsetWidth()
+				        - inputPanel.getOffsetWidth();
+
+				// find total width used by elements other than our field or a
+				// parent border
+				int nonFieldWidth = padding + eastPanel.getOffsetWidth()
+				        + labelPanel.getOffsetWidth() + symbolButtonWidth;
+
+				// find the field width needed to fill the input bar
+				int fieldWidth = parent.getOffsetWidth() - nonFieldWidth;
+
+				// now set the width
+				inputField.setWidth(fieldWidth);
+			}
+		});
 	}
 
 	public void onResize() {
