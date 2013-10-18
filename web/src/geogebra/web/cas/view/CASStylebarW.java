@@ -4,8 +4,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.main.App;
-import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
@@ -204,13 +202,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 	
 	private void processSource(Object source,
             ArrayList<GeoElement> targetGeos) {
-/*
-		if (source == btnTextColor) {
-			if (btnTextColor.getSelectedIndex() >= 0) {
-				applyTextColor(targetGeos);
-			}
-		} else
-*/
 		if (source == btnBold){
 			applyFontStyle(targetGeos);
 		} else if (source == btnItalic) {
@@ -219,15 +210,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 //			btnUseAsText.onClick(null);
 			int i = casView.getConsoleTable().getEditingRow();
 //			int pos = (casView.getConsoleTable().getEditor().getCaretPosition();
-//			casView.getConsoleTable().stopEditing();
 			applyUseAsText(targetGeos);
-			casView.getConsoleTable().startEditingRow(i);
-
-//			((CASTableCellEditorW)casView.getConsoleTable().getCellEditor(i,CASTableW.COL_CAS_CELLS)).setCaretPosition(pos);
-			
-		
-		
-//			casView.getConsoleTable().stopEditing();
+			casView.getConsoleTable().startEditingRow(i);			
 		}
 		
 		updateStyleBar();
@@ -240,10 +224,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 			fontStyle += 1;
 		if (btnItalic.isSelected())
 			fontStyle += 2;
-		App.printStacktrace("geos-size: " +geos.size()+"");
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			Log.debug(((GeoCasCell) geo).getGeoText());
 			if (geo instanceof GeoCasCell
 					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
 				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);
