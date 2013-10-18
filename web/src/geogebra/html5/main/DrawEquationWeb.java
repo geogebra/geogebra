@@ -446,25 +446,20 @@ public class DrawEquationWeb extends DrawEquation {
 			//			});
 		}
 
-		var fontSizeRel2 = fontSizeRel;
-		if (fontSizeRel == 0) {
-			fontSizeRel2 = 12;
-		}
-
-		if ((fontSize != 0) && (fontSize != fontSizeRel2)) {
+		if ((fontSize != 0) && (fontSizeRel != 0)) {
 			// floating point division in JavaScript!
-			elsecond.style.zoom = fontSize / fontSizeRel2;
-			elsecond.style.MsZoom = fontSize / fontSizeRel2;
-			elsecond.style.MozTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
+			elsecond.style.zoom = fontSize / fontSizeRel;
+			elsecond.style.MsZoom = fontSize / fontSizeRel;
+			elsecond.style.MozTransform = "scale(" + (fontSize / fontSizeRel) + ")";
 			elsecond.style.MozTransformOrigin = "0px 0px";
-			elsecond.style.OTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
+			elsecond.style.OTransform = "scale(" + (fontSize / fontSizeRel) + ")";
 			elsecond.style.OTransformOrigin = "0px 0px";
 			if (addOverlay) {
-				elfirst.style.zoom = fontSize / fontSizeRel2;
-				elfirst.style.MsZoom = fontSize / fontSizeRel2;
-				elfirst.style.MozTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
+				elfirst.style.zoom = fontSize / fontSizeRel;
+				elfirst.style.MsZoom = fontSize / fontSizeRel;
+				elfirst.style.MozTransform = "scale(" + (fontSize / fontSizeRel) + ")";
 				elfirst.style.MozTransformOrigin = "0px 0px";
-				elfirst.style.OTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
+				elfirst.style.OTransform = "scale(" + (fontSize / fontSizeRel) + ")";
 				elfirst.style.OTransformOrigin = "0px 0px";
 			}
 		}
