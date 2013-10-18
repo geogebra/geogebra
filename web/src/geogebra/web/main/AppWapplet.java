@@ -13,6 +13,7 @@ import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
+import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -176,7 +177,7 @@ public class AppWapplet extends AppW {
 			attachToolbar();
 		}
 
-		attachSplitLayoutPanel();
+		
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
@@ -185,6 +186,9 @@ public class AppWapplet extends AppW {
 			articleElement.getDataParamShowAlgebraInput()) {
 			attachAlgebraInput();
 		}
+		
+		// do this last since it fills the center panel
+		attachSplitLayoutPanel();
 	}
 
 	public void refreshSplitLayoutPanel() {
@@ -193,7 +197,7 @@ public class AppWapplet extends AppW {
 			frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
 			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
 			frame.remove(oldSplitLayoutPanel);
-			frame.insert(getSplitLayoutPanel(), wi);
+			frame.add(getSplitLayoutPanel());
 			oldSplitLayoutPanel = getSplitLayoutPanel();
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 		}
@@ -204,7 +208,7 @@ public class AppWapplet extends AppW {
 		// so it's probably good to regenerate every time
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
-		frame.add(inputbar);
+		frame.addSouth(inputbar, GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT);
 	}
 
 	public void attachMenubar() {
@@ -215,7 +219,7 @@ public class AppWapplet extends AppW {
 			menubar.init(this);
 			objectPool.setGgwMenubar(menubar);
 		}
-		frame.add(menubar);
+		frame.addNorth(menubar, GGWFrameLayoutPanel.MENUBAR_HEIGHT);
 	}
 
 	private GGWToolBar ggwToolBar = null;
@@ -226,7 +230,7 @@ public class AppWapplet extends AppW {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(this);
 		}
-		frame.add(ggwToolBar);
+		frame.addNorth(ggwToolBar, GGWFrameLayoutPanel.TOOLBAR_HEIGHT);
 	}
 
 	public GGWToolBar getToolbar() {

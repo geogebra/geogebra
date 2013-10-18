@@ -12,9 +12,9 @@ import com.google.gwt.user.client.ui.RequiresResize;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
-	private static final int COMMAND_LINE_HEIGHT = 46;
-	private static final int MENUBAR_HEIGHT = 35;
-	private static final int TOOLBAR_HEIGHT = 55;
+	public static final int COMMAND_LINE_HEIGHT = 46;
+	public static final int MENUBAR_HEIGHT = 35;
+	public static final int TOOLBAR_HEIGHT = 55;
 
 	public static final int MINUS_FROM_HEIGHT = COMMAND_LINE_HEIGHT + MENUBAR_HEIGHT + TOOLBAR_HEIGHT;
 
