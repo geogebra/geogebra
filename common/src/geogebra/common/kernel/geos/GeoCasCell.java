@@ -66,6 +66,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * Symbol for dynamic reference
 	 */
 	public static final char ROW_REFERENCE_DYNAMIC = '$';
+	
+	/**
+	 * Assignment variable used when plotting with marble
+	 */
+	private static final String PLOT_VAR = "GgbmpvarPlot";
 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;
@@ -2330,7 +2335,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// this has to be upper case that the input of (1,1) leads to a
 		// definition of a point
 		// instead of a vector
-		assignmentVar = "GgbmpvarPlot";
+		assignmentVar = PLOT_VAR;
 		adjustPointList(false);
 		this.firstComputeOutput = true;
 		this.computeOutput(true,true);
@@ -2502,7 +2507,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param onlySolutions true if set point list only for Solutions NSolutions and CSolutions
 	 */
 	public void adjustPointList(boolean onlySolutions) {
-		if (evalVE.isTopLevelCommand()) {
+		if (evalVE.isTopLevelCommand() && (PLOT_VAR.equals(assignmentVar))) {
 			String cmd = evalVE.getTopLevelCommand().getName();
 			if (!inequalityInEvalVE()
 					&& ((cmd.equals("Solutions") || cmd.equals("CSolutions") || cmd
