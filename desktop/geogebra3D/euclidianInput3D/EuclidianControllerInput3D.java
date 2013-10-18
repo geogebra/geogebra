@@ -96,41 +96,40 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 			
 			// check if the 3D mouse is on screen
-			if((Math.abs(mouse3DPosition.getX()) > panelDimension.width/2) || (Math.abs(mouse3DPosition.getY()) > panelDimension.height/2)){
-				return;
-			}
-			
-			//updateMouse3DEvent();
-			
-			
-			// mouse orientation
-			mouse3DOrientation.set(input3D.getMouse3DOrientation());
-			
+			if((Math.abs(mouse3DPosition.getX()) < panelDimension.width/2) && (Math.abs(mouse3DPosition.getY()) < panelDimension.height/2)){
 
-			// eyes : set position only if we use glasses
-			if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
-				//App.debug(input3D.getGlassesPosition()[2]+"");
-				if (eyeSepIsNotSet){
-					view3D.setEyeSep(input3D.getEyeSeparation());
-					eyeSepIsNotSet = false;
+				//updateMouse3DEvent();
+
+				// mouse orientation
+				mouse3DOrientation.set(input3D.getMouse3DOrientation());
+
+				// eyes : set position only if we use glasses
+				if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
+					//App.debug(input3D.getGlassesPosition()[2]+"");
+					if (eyeSepIsNotSet){
+						view3D.setEyeSep(input3D.getEyeSeparation());
+						eyeSepIsNotSet = false;
+					}
+					view3D.setProjectionPerspectiveEyeDistance(input3D.getGlassesPosition()[2]);
 				}
-				view3D.setProjectionPerspectiveEyeDistance(input3D.getGlassesPosition()[2]);
-			}
-			
-			
 
-			if (input3D.isRightPressed()){ // process right press
-				processRightPress();
-				wasRightReleased = false;
-			}else if (input3D.isLeftPressed()){ // process left press
-				wasRightReleased = true;
-				//wrapMouseDragged(mouseEvent);
-			}else{ // process move
-				wasRightReleased = true;
-				//wrapMouseMoved(mouseEvent);
+
+
+
+				if (input3D.isRightPressed()){ // process right press
+					processRightPress();
+					wasRightReleased = false;
+				}else if (input3D.isLeftPressed()){ // process left press
+					wasRightReleased = true;
+					//wrapMouseDragged(mouseEvent);
+				}else{ // process move
+					wasRightReleased = true;
+					//wrapMouseMoved(mouseEvent);
+				}
 			}
-			
 		}
+		
+		
 		super.update();
 	}
 
