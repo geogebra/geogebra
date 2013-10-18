@@ -272,11 +272,14 @@ public class DrawEquationWeb extends DrawEquation {
 		String eqstringid = prestring + "@" + eqstring + "@" + geo.getID();
 
 		int fontSizeRel = 16;
-		if (fontSize < 12) {
+		if (fontSize <= 12) {
 			fontSizeRel = 12;
 		}
-		if (fontSize < 8) {
+		if (fontSize <= 8) {
 			fontSizeRel = 8;
+		}
+		if (fontSize <= 4) {
+			fontSizeRel = 4;
 		}
 
 		SpanElement ih = equations.get(eqstringid);
