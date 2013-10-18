@@ -21,11 +21,13 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 	}
 
 
+	@Override
 	protected int getPointLengthFromLabelsLength(int length){
 		return length/10;
 	}
 
 
+	@Override
 	protected void createNet(int n) {
 
 		GeoPolyhedronNet net = getNet();
@@ -61,6 +63,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		net.endCurrentFace();
 	}
 
+	@Override
 	protected void setOutputSideTop(int n, GeoPolygon3D polygon, int step, GeoSegmentND[] segments){
 		if (step == n) {
 			outputPolygonsTop.addOutput(polygon, false);

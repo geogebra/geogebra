@@ -22,8 +22,9 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	public AlgoPolyhedronNetPyramid(Construction c, String[] labels, GeoPolyhedron p, NumberValue v) {
 		super(c,labels,p,v);
 
-
 	}
+
+	@Override
 	protected int getPointLengthFromLabelsLength(int length){
 
 		return (length-2)/6;
@@ -55,6 +56,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		}
 	}
 
+	@Override
 	protected void setOutputSideTop(int n, GeoPolygon3D polygon, int step, GeoSegmentND[] segments){
 
 		outputPolygonsSide.addOutput( polygon, false);
