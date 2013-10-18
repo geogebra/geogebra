@@ -13,7 +13,6 @@ import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
-import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -177,7 +176,7 @@ public class AppWapplet extends AppW {
 			attachToolbar();
 		}
 
-		
+		attachSplitLayoutPanel();
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
@@ -187,8 +186,7 @@ public class AppWapplet extends AppW {
 			attachAlgebraInput();
 		}
 		
-		// do this last since it fills the center panel
-		attachSplitLayoutPanel();
+		
 	}
 
 	public void refreshSplitLayoutPanel() {
@@ -197,7 +195,7 @@ public class AppWapplet extends AppW {
 			frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
 			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
 			frame.remove(oldSplitLayoutPanel);
-			frame.add(getSplitLayoutPanel());
+			frame.insert(getSplitLayoutPanel(), wi); 
 			oldSplitLayoutPanel = getSplitLayoutPanel();
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 		}
@@ -208,7 +206,7 @@ public class AppWapplet extends AppW {
 		// so it's probably good to regenerate every time
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
-		frame.addSouth(inputbar, GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT);
+		frame.add(inputbar);
 	}
 
 	public void attachMenubar() {
@@ -219,7 +217,7 @@ public class AppWapplet extends AppW {
 			menubar.init(this);
 			objectPool.setGgwMenubar(menubar);
 		}
-		frame.addNorth(menubar, GGWFrameLayoutPanel.MENUBAR_HEIGHT);
+		frame.add(menubar);
 	}
 
 	private GGWToolBar ggwToolBar = null;
@@ -230,7 +228,7 @@ public class AppWapplet extends AppW {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(this);
 		}
-		frame.addNorth(ggwToolBar, GGWFrameLayoutPanel.TOOLBAR_HEIGHT);
+		frame.add(ggwToolBar);
 	}
 
 	public GGWToolBar getToolbar() {

@@ -17,14 +17,14 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The main frame containing every view / menu bar / ....
  * This Panel (Frame is resize able)
  */
-public abstract class GeoGebraFrame extends DockLayoutPanel {
+public abstract class GeoGebraFrame extends VerticalPanel {
 
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
@@ -45,7 +45,7 @@ public abstract class GeoGebraFrame extends DockLayoutPanel {
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrame() {
-		super(Unit.PX);
+		super();
 		instances.add(this);
 		activeInstance = this;
 	    addStyleName("GeoGebraFrame");
