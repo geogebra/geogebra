@@ -29,7 +29,9 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 	
 	private boolean editing = false;
 	private int editingRow;
+	
 	private String inputOnEditingStart;
+	private boolean isUseAsTextOnEditingStart;
 		
 	private ArrayList<CellEditorListener> listeners = new ArrayList<CellEditorListener>();
 
@@ -51,6 +53,7 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 			this.cellValue = (GeoCasCell) value;
 			this.table = casTable;
 			inputOnEditingStart = cellValue.getInput(StringTemplate.defaultTemplate);
+			isUseAsTextOnEditingStart = cellValue.isUseAsText();
 			setValue(cellValue);
 			
 			boolean isUseAsText = cellValue.isUseAsText();
@@ -121,7 +124,8 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 		// update cellValue's input using editor content
 		if (editing && cellValue != null) {
 			String newInput = getInput();
-			if (!newInput.equals(inputOnEditingStart))
+			if (!newInput.equals(inputOnEditingStart) 
+					|| cellValue.isUseAsText() != isUseAsTextOnEditingStart)
 				cellValue.setInput(getInput());
 			fireEditingStopped();
 		}				
@@ -133,7 +137,8 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 		// update cellValue's input using editor content
 		if (editing && cellValue != null) {
 			String newInput = getInput();
-			if (!newInput.equals(inputOnEditingStart))
+			if (!newInput.equals(inputOnEditingStart)
+					|| cellValue.isUseAsText() != isUseAsTextOnEditingStart)
 				cellValue.setInput(getInput());	
 			fireEditingCanceled();
 		}
