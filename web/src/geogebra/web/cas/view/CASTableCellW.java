@@ -4,7 +4,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.DrawEquationWeb;
 
@@ -52,8 +51,8 @@ public class CASTableCellW extends VerticalPanel {
 		                .getLaTeXOutput());
 				int el = eqstring.length();
 				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
-				DrawEquationWeb.drawEquationMathQuill(outputSpan, eqstring, 0
-				        , outputLabel.getElement(),false, el == eqstring.length(), true);
+				DrawEquationWeb.drawEquationMathQuill(outputSpan, eqstring, 0, 0,
+				        outputLabel.getElement(),false, el == eqstring.length(), true);
 				outputSpan.getStyle().setColor(GColor.getColorString(casCell.getAlgebraColor()));
 				outputLabel.getElement().appendChild(outputSpan);
 			} else {

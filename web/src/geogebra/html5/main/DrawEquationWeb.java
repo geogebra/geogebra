@@ -171,7 +171,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
-		drawEquationMathQuill(ih, eqstring, 0, parentElement, true,
+		drawEquationMathQuill(ih, eqstring, 0, 0, parentElement, true,
 		        el == eqstring.length(), true);
 	}
 
@@ -279,7 +279,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuill(ih, eqstring, fontSize,
+			drawEquationMathQuill(ih, eqstring, fontSize, 16,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2);
 
@@ -309,7 +309,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
-		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != 12)) {
+		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != 16)) {
 			return new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
 					(int)Math.ceil(getScaledHeight(ih)));
 		}
@@ -366,7 +366,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            true = normal LaTeX, flase = LaTeX with \begin{eqnarray} in
 	 *            the beginning
 	 */
-	public static native void drawEquationMathQuill(Element el, String htmlt, int fontSize,
+	public static native void drawEquationMathQuill(Element el, String htmlt, int fontSize, int fontSizeRel,
 	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible) /*-{
 
 		el.style.cursor = "default";
@@ -399,11 +399,17 @@ public class DrawEquationWeb extends DrawEquation {
 			elfirst.style.zIndex = 2;
 			elfirst.style.width = "100%";
 			elfirst.style.height = "100%";
+			if (fontSizeRel != 0) {
+				elfirst.style.fontSize = fontSizeRel + "px";
+			}
 			el.appendChild(elfirst);
 		}
 
 		var elsecond = $doc.createElement("span");
 		elsecond.innerHTML = htmlt;
+		if (fontSizeRel != 0) {
+			elsecond.style.fontSize = fontSizeRel + "px";
+		}
 		el.appendChild(elsecond);
 
 		if (!visible) {
@@ -440,20 +446,25 @@ public class DrawEquationWeb extends DrawEquation {
 			//			});
 		}
 
-		if ((fontSize != 0) && (fontSize != 12)) {
+		var fontSizeRel2 = fontSizeRel;
+		if (fontSizeRel == 0) {
+			fontSizeRel2 = 12;
+		}
+
+		if ((fontSize != 0) && (fontSize != fontSizeRel2)) {
 			// floating point division in JavaScript!
-			elsecond.style.zoom = fontSize / 12;
-			elsecond.style.MsZoom = fontSize / 12;
-			elsecond.style.MozTransform = "scale(" + (fontSize / 12) + ")";
+			elsecond.style.zoom = fontSize / fontSizeRel2;
+			elsecond.style.MsZoom = fontSize / fontSizeRel2;
+			elsecond.style.MozTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
 			elsecond.style.MozTransformOrigin = "0px 0px";
-			elsecond.style.OTransform = "scale(" + (fontSize / 12) + ")";
+			elsecond.style.OTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
 			elsecond.style.OTransformOrigin = "0px 0px";
 			if (addOverlay) {
-				elfirst.style.zoom = fontSize / 12;
-				elfirst.style.MsZoom = fontSize / 12;
-				elfirst.style.MozTransform = "scale(" + (fontSize / 12) + ")";
+				elfirst.style.zoom = fontSize / fontSizeRel2;
+				elfirst.style.MsZoom = fontSize / fontSizeRel2;
+				elfirst.style.MozTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
 				elfirst.style.MozTransformOrigin = "0px 0px";
-				elfirst.style.OTransform = "scale(" + (fontSize / 12) + ")";
+				elfirst.style.OTransform = "scale(" + (fontSize / fontSizeRel2) + ")";
 				elfirst.style.OTransformOrigin = "0px 0px";
 			}
 		}
