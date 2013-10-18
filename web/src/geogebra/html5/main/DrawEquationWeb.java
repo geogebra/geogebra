@@ -271,6 +271,14 @@ public class DrawEquationWeb extends DrawEquation {
 
 		String eqstringid = prestring + "@" + eqstring + "@" + geo.getID();
 
+		int fontSizeRel = 16;
+		if (fontSize < 12) {
+			fontSizeRel = 12;
+		}
+		if (fontSize < 8) {
+			fontSizeRel = 8;
+		}
+
 		SpanElement ih = equations.get(eqstringid);
 		equationAges.put(eqstringid, 0);
 		if (ih == null) {
@@ -279,7 +287,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuill(ih, eqstring, fontSize, 16,
+			drawEquationMathQuill(ih, eqstring, fontSize, fontSizeRel,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2);
 
@@ -309,7 +317,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
-		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != 16)) {
+		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != fontSizeRel)) {
 			return new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
 					(int)Math.ceil(getScaledHeight(ih)));
 		}
@@ -446,7 +454,7 @@ public class DrawEquationWeb extends DrawEquation {
 			//			});
 		}
 
-		if ((fontSize != 0) && (fontSizeRel != 0)) {
+		if ((fontSize != 0) && (fontSizeRel != 0) && (fontSize != fontSizeRel)) {
 			// floating point division in JavaScript!
 			elsecond.style.zoom = fontSize / fontSizeRel;
 			elsecond.style.MsZoom = fontSize / fontSizeRel;
