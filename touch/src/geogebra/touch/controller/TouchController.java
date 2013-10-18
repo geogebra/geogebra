@@ -427,14 +427,8 @@ public class TouchController extends EuclidianController {
 	}
 
 	@Override
-	public void setZoomCenter(final double x, final double y) {
-		if (x >= 0) {
-			this.mouseLoc = new GPoint((int) x, (int) y);
-			this.externalHandling = true;
-		} else {
-			this.externalHandling = false;
-		}
-
+	public void setExternalHandling(boolean b) {
+			this.externalHandling = b;
 	}
 
 	public void onMouseExited() {

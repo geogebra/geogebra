@@ -9724,7 +9724,7 @@ public abstract class EuclidianController {
 	 * @param x x-coord
 	 * @param y y-coord 
 	 */
-	public void setZoomCenter(double x, double y) {
+	public void setExternalHandling(boolean b) {
 		// TODO Auto-generated method stub
 		
 	}

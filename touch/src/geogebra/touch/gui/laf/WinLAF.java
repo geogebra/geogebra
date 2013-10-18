@@ -119,12 +119,13 @@ public class WinLAF extends DefaultLAF {
 				if($wnd.second.id === e.pointerId){    	
 					$wnd.second.x = e.x;	
 					$wnd.second.y = e.y;
+					zoomer.@geogebra.touch.gui.laf.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,$wnd.first.y,
+				$wnd.second.x,$wnd.second.y);
 				}else{
 					$wnd.first.x = e.x;	
 					$wnd.first.y = e.y;
 				}
-				zoomer.@geogebra.touch.gui.laf.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,$wnd.first.y,
-				$wnd.second.x,$wnd.second.y);
+				
 			}
 		});
 		
@@ -154,6 +155,7 @@ public class WinLAF extends DefaultLAF {
 			}else{
 				$wnd.second.id = -1;
 			}
+			zoomer.@geogebra.touch.gui.laf.MsZoomer::pointersUp()();
 		});
 	}-*/;
 	
