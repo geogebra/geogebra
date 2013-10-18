@@ -224,6 +224,17 @@ public class DrawEquationWeb extends DrawEquation {
 			if ((((TextProperties)geo).getFontStyle() & GFont.ITALIC) == 0) {
 				// set to be not italic
 				eqstring = "\\mathrm{"+ eqstring +"}";
+			} //else {
+				// italics needed? Try this! (Testing needed...)
+				//eqstring = "\\mathit{"+ eqstring +"}";
+			//}
+			//if ((((TextProperties)geo).getFontStyle() & GFont.BOLD) != 0) {
+				// bold needed? Try this! (Testing needed...)
+				//eqstring = "\\mathbf{"+ eqstring +"}";
+			//}
+			if (!((TextProperties)geo).isSerifFont()) {
+				// forcing sans-serif
+				eqstring = "\\mathsf{"+ eqstring +"}";
 			}
 		}
 
