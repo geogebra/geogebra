@@ -275,11 +275,11 @@ public class DrawEquationWeb extends DrawEquation {
 		if (fontSize <= 12) {
 			fontSizeRel = 12;
 		}
+		if (fontSize <= 10) {
+			fontSizeRel = 10;
+		}
 		if (fontSize <= 8) {
 			fontSizeRel = 8;
-		}
-		if (fontSize <= 4) {
-			fontSizeRel = 4;
 		}
 
 		SpanElement ih = equations.get(eqstringid);
