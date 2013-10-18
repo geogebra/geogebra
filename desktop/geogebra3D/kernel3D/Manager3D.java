@@ -1422,9 +1422,20 @@ public class Manager3D implements Manager3DInterface {
 
 	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
 			NumberValue v) {
+		
+		switch(((GeoPolyhedron) p).getType()) {
 
-		AlgoPolyhedronNet algo = new AlgoPolyhedronNet(cons, labels, (GeoPolyhedron) p, v);
-		return algo.getOutput();
+		case GeoPolyhedron.TYPE_PYRAMID:
+			AlgoPolyhedronNet algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p, v);
+			return algo.getOutput();
+		
+		case GeoPolyhedron.TYPE_PRISM:
+			algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p, v);
+			return algo.getOutput();	
+		default:
+			return null;
+		}
+		
 	}
 	
 	public GeoElement[] PolyhedronNet2(String[] labels, GeoElement p,
