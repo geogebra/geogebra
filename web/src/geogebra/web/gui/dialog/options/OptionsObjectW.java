@@ -1,3 +1,4 @@
+
 package geogebra.web.gui.dialog.options;
 
 import geogebra.common.awt.GColor;
@@ -12,6 +13,7 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
+import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
@@ -20,6 +22,7 @@ import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import geogebra.common.gui.dialog.options.model.PointSizeModel;
 import geogebra.common.gui.dialog.options.model.PointSizeModel.IPointSizeListener;
+import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -36,6 +39,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.Localization;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
@@ -94,6 +98,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	// Style
 	private PointSizePanel pointSizePanel;
+	private PointStylePanel pointStylePanel;
 	private List<OptionPanel> stylePanels;
 	
 	//Advanced
@@ -928,6 +933,43 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 	
+	private class PointStylePanel extends OptionPanel implements IComboListener {
+		private PointStyleModel model;
+		private Label titleLabel;
+		private ListBox styleCombo;
+		public PointStylePanel() {
+			model = new PointStyleModel(this);
+			setModel(model);
+			
+			FlowPanel mainPanel = new FlowPanel();
+			titleLabel = new Label("-");
+			mainPanel.add(titleLabel);
+			styleCombo = new ListBox();
+			for (int i=0; i < EuclidianStyleConstants.MAX_POINT_STYLE + 1; i++) {
+				styleCombo.addItem("style" + i);
+			}
+			mainPanel.add(styleCombo);
+			
+			setWidget(mainPanel);
+			styleCombo.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					model.applyChanges(styleCombo.getSelectedIndex());
+                }});
+		}
+		@Override
+        public void setLabels() {
+	        titleLabel.setText(app.getPlain("PointStyle"));
+	        
+        }
+
+		public void setSelectedIndex(int index) {
+	        styleCombo.setSelectedIndex(index);
+	        
+        }
+		
+	}
+	
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1062,7 +1104,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		pointSizePanel = new PointSizePanel();
 		styleTab.add(pointSizePanel.getWidget());
 		
-		stylePanels = Arrays.asList(pointSizePanel, namePanel);
+		pointStylePanel = new PointStylePanel();
+		styleTab.add(pointStylePanel.getWidget());
+		
+		stylePanels = Arrays.asList(pointSizePanel,
+				pointStylePanel);
 		tabPanel.add(styleTab, "Style");
 	}
 
