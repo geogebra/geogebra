@@ -30,6 +30,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -226,18 +227,24 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		zMinMax = getMinMax(view3D.getZmin()+size, coords.getZ(), view3D.getZmax()-size);
 			
 
-		//Application.debug("xMinMax="+xMinMax[0]+","+xMinMax[1]);
+		updateMovedGeoPointStartValues(coords);
 		
+		view3D.setDragCursor();
+	}
+
+	/**
+	 * update values needed to move a point
+	 * @param coords start point coords
+	 */
+	protected void updateMovedGeoPointStartValues(Coords coords){
 		if (!movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion() ){
-			
+
 			CoordMatrix4x4 plane = CoordMatrix4x4.Identity(); 
 			setCurrentPlane(plane);
 			//update the moving plane altitude
 			getCurrentPlane().set(coords, 4);
-			
+
 		}
-		
-		view3D.setDragCursor();
 	}
 
 
@@ -3219,32 +3226,56 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private double zRW;
 
-	private Coords translationVec3D = new Coords(4);
+	protected Coords translationVec3D = new Coords(4);
 	
-	private void updateTranslationVector(){
+	/**
+	 * update translation vector
+	 */
+	protected void updateTranslationVector(){
 		Coords point = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
 		view3D.toSceneCoords3D(point);
+		updateTranslationVector(point);
+	}
+	
+	/**
+	 * update translation vector from start point to current mouse pos
+	 * @param point current mouse pos
+	 */
+	protected void updateTranslationVector(Coords point){
 		translationVec3D = point.sub(startPoint3D);
 	}
 	
 	@Override
 	public void setStartPointLocation(){
 		udpateStartPoint();
-		
-		//Application.debug(startPoint3D);
-		
+			
 		super.setStartPointLocation();
 	}
 	
-	private void udpateStartPoint(){
+	/**
+	 * update start point to current mouse coords
+	 */
+	protected void udpateStartPoint(){
 		if (mouseLoc==null)//case that it's algebra view calling
 			return;
-		startPoint3D = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+		
+		updateStartPoint(view3D.getPickPoint(mouseLoc.x, mouseLoc.y));
+
+	}
+
+	/**
+	 * update start point to p coords
+	 * @param p coords
+	 */
+	final protected void updateStartPoint(Coords p){
+		
+		startPoint3D.set(p);
 		view3D.toSceneCoords3D(startPoint3D);
 		
+		App.debug("\n"+startPoint3D);
+
 		//project on xOy
 		startPoint3DxOy = startPoint3D.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
-
 	}
 	
 	@Override

@@ -1,12 +1,13 @@
 package geogebra3D.euclidianInput3D;
 
-import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.input3D.Input3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
+import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
@@ -123,6 +124,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 					wasLeftReleased = true;
 				}else if (input3D.isLeftPressed()){ // process left press
 					if (wasLeftReleased){
+						startMouse3DPosition.set(mouse3DPosition);
 						wrapMousePressed(mouseEvent);
 					}else{
 						wrapMouseDragged(mouseEvent);
@@ -287,11 +289,54 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 	
 	private void updateMouse3DEvent(){
 		
-		GPoint mouse3DLoc = new GPoint(panelDimension.width/2 + (int) mouse3DPosition.getX(), panelDimension.height/2 - (int) mouse3DPosition.getY());
+		GPointWithZ mouse3DLoc = new GPointWithZ(
+				panelDimension.width/2 + (int) mouse3DPosition.getX(), 
+				panelDimension.height/2 - (int) mouse3DPosition.getY(),
+				(int) mouse3DPosition.getZ());
+		
 		mouseEvent = new Mouse3DEvent(mouse3DLoc, view3D.getJPanel());
 		
 	}
 	
 	
+	private Coords movedGeoPointStartCoords = new Coords(0,0,0,1);
 	
+	@Override
+	protected void updateMovedGeoPointStartValues(Coords coords){
+		movedGeoPointStartCoords.set(coords);
+	}
+	
+	
+	@Override
+	protected void movePoint(boolean repaint, AbstractEvent event){
+		
+		
+		Coords v = new Coords(4);
+		v.set(mouse3DPosition.sub(startMouse3DPosition));
+		view3D.toSceneCoords3D(v);
+		
+		
+		
+		movedGeoPoint.setCoords(movedGeoPointStartCoords.add(v), true);
+		movedGeoPoint.updateCascade();
+
+	}
+	
+	
+    /*
+	@Override
+	protected void udpateStartPoint(){		
+		updateStartPoint(mouse3DPosition);
+	}
+	
+	@Override
+	protected void updateTranslationVector(){
+		Coords point = new Coords(4);
+		point.set(mouse3DPosition);
+		point.setW(1);
+		view3D.toSceneCoords3D(point);
+		//App.debug("\n"+point);
+		updateTranslationVector(point);
+	}
+	*/
 }
