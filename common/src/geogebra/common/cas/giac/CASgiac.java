@@ -592,7 +592,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg (-33) > ggbtmpvarx
 	//private final static RegExp inequalitySimple = RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar.+)");
 	// works only for variables in form [A-Za-z]+
-	private final static RegExp inequalitySimple = RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)");
+	private final static RegExp inequalitySimple = RegExp.compile("^([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)$");
 
 	// eg {3, 3>ggbtmpvarx, x^2}
 	// eg {3, 3>ggbtmpvarx}
