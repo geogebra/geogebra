@@ -40,8 +40,10 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')
+	 * 
+	 * caseval needed here for giac.js
 	 */
-	protected final static String initString = "\"init geogebra\"";
+	protected final static String initString = "caseval(\"init geogebra\")"; 
 	
 	/**
 	 * string to put Giac off GeoGebra mode
