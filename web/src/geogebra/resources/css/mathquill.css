@@ -358,10 +358,10 @@
 .mathquill-editable .selection .non-leaf,
 .mathquill-rendered-math .selection .scaled,
 .mathquill-editable .selection .scaled {
-  background: #B4D5FE /*!important*/;
-  background: Highlight /*!important*/;
+  /*background: #B4D5FE /*!important;
+  background: Highlight /*!important;
   color: HighlightText;
-  border-color: HighlightText;
+  border-color: HighlightText;*/
 }
 .mathquill-rendered-math .selection .matrixed,
 .mathquill-editable .selection .matrixed {
@@ -402,7 +402,7 @@
   position: absolute;
   clip: rect(1em 1em 1em 1em);
 }
-.mathquill-rendered-math .matrixed {
+/*.mathquill-rendered-math .matrixed {
   background: white;
   display: -moz-inline-box;
   display: inline-block;
@@ -410,4 +410,4 @@
 .mathquill-rendered-math .matrixed-container {
   filter: progid:DXImageTransform.Microsoft.Chroma(color='white');
   margin-top: -0.1em;
-}
+}*/
