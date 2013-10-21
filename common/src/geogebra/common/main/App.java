@@ -69,7 +69,6 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
-//import geogebra.common.gui.menubar.OptionsMenu;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3354,4 +3353,13 @@ public abstract class App implements UpdateSelection{
 	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
 
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
+
+	/**
+	 * Whether we are using Java 6
+	 * 
+	 * @return whether we are using Java 6
+	 */
+	public boolean isJava6() {
+		return false;
+	}
 }

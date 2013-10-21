@@ -128,7 +128,7 @@ class FileMenu extends BaseMenu {
 			mi = submenu.add(exportAnimationAction);
 	
 			// Graphical clipboard is not working under Mac when Java is >= 7: 
-			if (!app.isMacOS() || System.getProperty("java.version").startsWith("1.6.")) {
+			if (!app.isMacOS() || app.isJava6()) {
 				mi = submenu.add(drawingPadToClipboardAction);
 				setMenuShortCutShiftAccelerator(mi, 'C');
 			}

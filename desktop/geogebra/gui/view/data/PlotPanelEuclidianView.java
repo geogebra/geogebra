@@ -471,7 +471,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 						.getEmptyIcon());
 				actionList.add(exportToEVAction);
 			}
-			if (!app.isMacOS() || System.getProperty("java.version").startsWith("1.6.")) {
+			if (!app.isMacOS() || app.isJava6()) {
 				actionList.add(drawingPadToClipboardAction);
 			}
 			actionList.add(exportGraphicAction);

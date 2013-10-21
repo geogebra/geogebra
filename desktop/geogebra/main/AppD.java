@@ -4648,6 +4648,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		return WINDOWS_VISTA_OR_LATER;
 	}
 
+	@Override
+	public boolean isJava6() {
+		return System.getProperty("java.version").startsWith("1.6.");
+	}
+	
 	// don't pull these up to common, use the non static methods isWindows(),
 	// isMacOS(), isWindowsVistaOrLater() instead
 	private static String OS = System.getProperty("os.name").toLowerCase(

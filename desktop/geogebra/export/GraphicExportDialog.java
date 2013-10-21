@@ -337,7 +337,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(exportButton);
-		if (!app.isMacOS() || System.getProperty("java.version").startsWith("1.6.")) {
+		if (!app.isMacOS() || app.isJava6()) {
 			buttonPanel.add(exportClipboardButton);
 		}
 		buttonPanel.add(cancelButton);
