@@ -88,10 +88,10 @@ public class InputLeo3D implements Input3D {
 
 			
 			// right button
-			isRightPressed = (leoSocket.smallButton > 0.5);
+			isRightPressed = (leoSocket.bigButton > 0.5);
 			
 			// left button
-			isLeftPressed = (leoSocket.bigButton > 0.5);
+			isLeftPressed = (leoSocket.smallButton > 0.5);
 			
 		
 			

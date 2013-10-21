@@ -85,6 +85,10 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	
 	
 	
+	public void setHasMouse(boolean flag){
+		hasMouse = flag;
+	}
+	
 
 
 }

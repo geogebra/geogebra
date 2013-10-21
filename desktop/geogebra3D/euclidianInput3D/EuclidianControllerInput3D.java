@@ -100,6 +100,8 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			// check if the 3D mouse is on screen
 			if((Math.abs(mouse3DPosition.getX()) < panelDimension.width/2) && (Math.abs(mouse3DPosition.getY()) < panelDimension.height/2)){
 
+				((EuclidianViewInput3D) view3D).setHasMouse(true);
+				
 				updateMouse3DEvent();
 
 				// mouse orientation
@@ -136,6 +138,9 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 					wasRightReleased = true;
 					wasLeftReleased = true;					
 				}
+			
+			}else{ // bird outside the view
+				((EuclidianViewInput3D) view3D).setHasMouse(false);
 			}
 		}
 		
