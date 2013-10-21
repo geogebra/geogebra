@@ -53,8 +53,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public static final int DEFAULT_THICKNESS = 10;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
-	private static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 72;
-	/** Default maximum value when displayed as slider */
+	/** 
+	 * Default width of angle slider in pixels 
+	 *  
+	 * Should be a factor of 360 to work well 
+	 * 72 gives increment of 5 degrees 
+	 * 144 gives increment of 2.5 degrees (doesn't look good) 
+	 * 180 gives increment of 2 degrees 
+	 */ 
+	public static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 180;	/** Default maximum value when displayed as slider */
+	
 	public static double DEFAULT_SLIDER_MIN = -5;
 	/** Default minimum value when displayed as slider */
 	public static double DEFAULT_SLIDER_MAX = 5;
@@ -1357,28 +1365,21 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
 	
-	/**
-	 * turn a number into a slider
-	 * 
-	 * @param num value
-	 * @param isAngle angle?
-	 * @return GeoNumeric with slider defaults set
-	 */
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
-		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);		
-		num.setSliderFixed(defaultNum.isSliderFixed());		
+		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(false);           
+		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);           
+		num.setSliderFixed(defaultNum.isSliderFixed());         
 		num.setEuclidianVisible(true);
-		num.setIntervalMin((GeoNumeric)defaultNum.getIntervalMinObject());
-		num.setIntervalMax((GeoNumeric)defaultNum.getIntervalMaxObject());
+		num.setIntervalMin((GeoNumeric)defaultAngleOrNum.getIntervalMinObject());
+		num.setIntervalMax((GeoNumeric)defaultAngleOrNum.getIntervalMaxObject());
+		num.setAnimationStep(defaultAngleOrNum.getAnimationStep());
 		num.setAbsoluteScreenLocActive(true);
 		num.setAnimationType(defaultNum.getAnimationType());
-		num.setSliderWidth(defaultNum.getSliderWidth());
+		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());
 		num.setRandom(defaultNum.isRandom());
+		num.setLineThickness(defaultNum.getLineThickness());
 		num.update();
 		return num;
 	}
-
-
-
 
 }
