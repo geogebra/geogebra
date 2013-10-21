@@ -53,24 +53,26 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		if (!TouchEventController.this.mc.isTextfieldHasFocus()) {
 			event.preventDefault();
 		}
-
+		//IE gives double coordinates that cannot be handled by pen => round needed
 		if (!TouchEventController.this.ignoreMouseEvents) {
-			TouchEventController.this.mc.onTouchStart(event.getX(),
-					event.getY());
+			TouchEventController.this.mc.onTouchStart(Math.round(event.getX()),
+					Math.round(event.getY()));
 		}
 	}
 
 	@Override
 	public void onMouseMove(final MouseMoveEvent event) {
+		//IE gives double coordinates that cannot be handled by pen => round needed
 		if (!this.ignoreMouseEvents) {
-			this.mc.onTouchMove(event.getX(), event.getY());
+			this.mc.onTouchMove(Math.round(event.getX()), Math.round(event.getY()));
 		}
 	}
 
 	@Override
 	public void onMouseUp(final MouseUpEvent event) {
+		//IE gives double coordinates that cannot be handled by pen => round needed
 		if (!TouchEventController.this.ignoreMouseEvents) {
-			TouchEventController.this.mc.onTouchEnd(event.getX(), event.getY());
+			TouchEventController.this.mc.onTouchEnd(Math.round(event.getX()), Math.round(event.getY()));
 		}
 	}
 
