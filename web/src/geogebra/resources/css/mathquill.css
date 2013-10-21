@@ -269,7 +269,7 @@
 }
 .mathquill-rendered-math .numerator {
   width: 100%;
-  border-bottom: 1px solid;
+  border-bottom: black solid 1px;
   padding: 0 0;
   margin-bottom: -0.115em;
 }
@@ -278,9 +278,6 @@
   width: 100%;
   padding: 0 0;
 }
-.mathquill-rendered-math .denominator .sqrt-parent {
-  margin-top: 0.215em;
-}
 .mathquill-rendered-math .sqrt-parent,
 .mathquill-rendered-math .paren-parent {
 	margin-top: 1px;
@@ -288,6 +285,9 @@
 	margin-bottom:0px;
 	margin-left:0px;
 	margin-right:0px;
+}
+.mathquill-rendered-math .denominator .sqrt-parent {
+  margin-top: 0.215em;
 }
 .mathquill-rendered-math .sqrt-prefix {
   padding-top: 0px;
