@@ -8910,6 +8910,7 @@ public abstract class EuclidianController {
 	
 		if (penMode(mode) && penDragged) {
 			getPen().handleMouseReleasedForPenMode(right, x, y);
+			app.storeUndoInfo();
 			return;
 		}
 	
