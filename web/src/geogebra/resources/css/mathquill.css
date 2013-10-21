@@ -293,7 +293,7 @@
   padding-top: 0px;
   position: relative;
   top: 0px;
-  left: 0px;
+  right: 0px;
   vertical-align: top;
   -webkit-transform-origin: top;
   -moz-transform-origin: top;
@@ -307,7 +307,7 @@
 .mathquill-rendered-math .sqrt-stem {
   border-top: 1px solid;
   margin-top: 0px;
-  padding-left: .15em;
+  padding-left: .16em;
   padding-right: .2em;
   margin-right: .1em;
 }
