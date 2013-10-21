@@ -1,6 +1,5 @@
 package geogebra.touch.gui.euclidian;
 
-import geogebra.common.main.App;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 
@@ -56,7 +55,6 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		}
 
 		if (!TouchEventController.this.ignoreMouseEvents) {
-			App.debug("Mouse down" + event.getX() + "," + event.getY());
 			TouchEventController.this.mc.onTouchStart(event.getX(),
 					event.getY());
 		}
