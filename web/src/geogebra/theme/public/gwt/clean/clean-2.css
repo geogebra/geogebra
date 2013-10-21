@@ -2014,8 +2014,11 @@ label {
 }
 
 #imageList {
+	width: 16px;
 	list-style-type: none; 
-	width: 32px;
+	margin: 0px;
+	padding: 0px;
+	border: none;
 }
 
 #imageList img {

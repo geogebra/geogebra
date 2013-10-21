@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -105,6 +106,7 @@ public class ImageList extends FocusWidget implements HasChangeHandlers, HasValu
 		
 	}
 	private UnorderedListWidget ul;
+	private boolean valueChangeHandlerInitialized;
 	public ImageList() {
 		ul =  new UnorderedListWidget();
 		ul.setId("imageList");
@@ -127,8 +129,15 @@ public class ImageList extends FocusWidget implements HasChangeHandlers, HasValu
 
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<Integer> handler) {
-		// TODO Auto-generated method stub
-		return null;
+		 if (!valueChangeHandlerInitialized) {
+		      valueChangeHandlerInitialized = true;
+		      addChangeHandler(new ChangeHandler() {
+		        public void onChange(ChangeEvent event) {
+		          ValueChangeEvent.fire(ImageList.this, getValue());
+		        }
+		      });
+		    }
+		    return addHandler(handler, ValueChangeEvent.getType());
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
@@ -152,18 +161,18 @@ public class ImageList extends FocusWidget implements HasChangeHandlers, HasValu
 			if (x > left && x < left + w.getOffsetWidth() &&
 					y > top && y < top + w.getOffsetHeight()) {
 				ul.setSelectedIndex(i);
+				 ValueChangeEvent.fire(ImageList.this, getValue());
 				break;
 			}
 		}
 	}
 
 	public Integer getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return ul.getSelectedIndex();
 	}
 
 	public void setValue(Integer value) {
-		// TODO Auto-generated method stub
+		ul.setSelectedIndex(value);
 
 	}
 

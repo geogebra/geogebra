@@ -61,6 +61,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -971,6 +973,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					);
 			
 			styles.setIcons(options);
+			styles.addValueChangeHandler(new ValueChangeHandler<Integer>() {
+
+
+				public void onValueChange(ValueChangeEvent<Integer> event) {
+
+	                model.applyChanges(styles.getValue());
+	                
+                }
+				
+			});
 			mainPanel.add(styles);
 			
 			setWidget(mainPanel);
