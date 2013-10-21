@@ -319,6 +319,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				runner.start();
 			}
 		});
+		
 		JButton exportClipboardButton = new JButton(app.getMenu("Clipboard"));
 		exportClipboardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -336,7 +337,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(exportButton);
-		buttonPanel.add(exportClipboardButton);
+		if (!app.isMacOS() || System.getProperty("java.version").startsWith("1.6.")) {
+			buttonPanel.add(exportClipboardButton);
+		}
 		buttonPanel.add(cancelButton);
 		cp.add(buttonPanel, BorderLayout.SOUTH);
 

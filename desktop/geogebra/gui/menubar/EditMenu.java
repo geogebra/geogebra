@@ -96,9 +96,11 @@ public class EditMenu extends BaseMenu {
 		pasteItem = add(pasteAction);
 		setMenuShortCutAccelerator(pasteItem, 'V');
 		
-		copyToClipboardItem = add(copyToClipboardAction);
-		// ctrl-shift-c is also handled in MyKeyListener
-		setMenuShortCutShiftAccelerator(copyToClipboardItem, 'C');
+		if (!app.isMacOS() || System.getProperty("java.version").startsWith("1.6.")) {
+			copyToClipboardItem = add(copyToClipboardAction);
+			// ctrl-shift-c is also handled in MyKeyListener
+			setMenuShortCutShiftAccelerator(copyToClipboardItem, 'C');
+		}
 		
 		addSeparator();
 		
