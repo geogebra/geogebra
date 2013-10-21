@@ -1,4 +1,4 @@
-package geogebra.html5.gui;
+package geogebra.touch.gui;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.dom.svg.ui.SVGResource.Validated;

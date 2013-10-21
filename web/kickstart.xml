@@ -20,8 +20,6 @@ your workstation.
 
 <project default="geogebraweb-developer">
 
-	<property name="lib-gwt-svg.jar" value="lib-gwt-svg-0.5.6.jar" />
-
 	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
@@ -142,13 +140,5 @@ your workstation.
 	<copy todir="src/geogebra/resources/js">
 	 <fileset dir="lib" includes="giac.js" />
 	</copy>
-	</target>
-
-	<target name="lib-gwt-svg">
-		<mkdir dir="lib" />
-		<get src="http://dev.geogebra.org/download/lib/web/${lib-gwt-svg.jar}" dest="lib/${lib-gwt-svg.jar}" />
-		<copy todir="war/WEB-INF/lib">
-			<fileset dir="lib" includes="${lib-gwt-svg.jar}" />
-		</copy>
 	</target>
 </project>

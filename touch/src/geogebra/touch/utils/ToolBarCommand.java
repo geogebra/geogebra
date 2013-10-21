@@ -1,11 +1,12 @@
 package geogebra.touch.utils;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.html5.gui.ToolbarResources;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.ToolbarResources;
 import geogebra.touch.gui.laf.DefaultResources;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
+
 
 /**
  * Merging Modes from {@link EuclidianConstants} with their icon from
