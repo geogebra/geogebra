@@ -3904,7 +3904,7 @@ namespace giac {
       int level=eval_level(contextptr);
       context * newcontextptr= (context *) contextptr;
       vecteur localvar(1,x);
-      int protect=bind(vecteur(1,debut),localvar,newcontextptr);
+      int protect=giac::bind(vecteur(1,debut),localvar,newcontextptr);
       if (is_strictly_greater(debut,fin,newcontextptr)){
 	if (is_positive(step,newcontextptr)) // correct pos step to -
 	  step=-step;

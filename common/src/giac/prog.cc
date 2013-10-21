@@ -1006,7 +1006,7 @@ namespace giac {
     (*dbgptr->debug_info_ptr)=prog;
     (*dbgptr->fast_debug_info_ptr)=prog;
     if (!vars._VECTptr->empty())
-      protect=bind(*values._VECTptr,*vars._VECTptr,newcontextptr);
+      protect=giac::bind(*values._VECTptr,*vars._VECTptr,newcontextptr);
     if (protect==-RAND_MAX){
       program_leave(save_debug_info,save_sst_mode,dbgptr);
       if (calc_save) 
@@ -1719,7 +1719,7 @@ namespace giac {
 	if (contextptr==context0 && (xcas_mode(contextptr)!=1 && (!variable._IDNTptr->localvalue || variable._IDNTptr->localvalue->empty() || (*variable._IDNTptr->localvalue)[variable._IDNTptr->localvalue->size()-2].val<protection_level-1) ) ){
 	  bound=true;
 	  loop_var=makevecteur(variable);
-	  protect=bind(makevecteur(zero),loop_var,newcontextptr);
+	  protect=giac::bind(makevecteur(zero),loop_var,newcontextptr);
 	}
       }
       else {
@@ -2142,7 +2142,7 @@ namespace giac {
       values.push_back(val);
     }
     context * newcontextptr = (context *) contextptr;
-    int protect=bind(values,names,newcontextptr);
+    int protect=giac::bind(values,names,newcontextptr);
     gen prog=args._VECTptr->back(),res,newres;
     if (protect!=-RAND_MAX){
       if (prog.type!=_VECT){
@@ -4939,7 +4939,7 @@ namespace giac {
   */
 
   gen simplifier(const gen & g,GIAC_CONTEXT){
-    if (g.type<_SYMB || g._SYMBptr->sommet==at_pnt)
+    if (g.type!=_SYMB || g._SYMBptr->sommet==at_pnt)
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);
@@ -5511,6 +5511,7 @@ namespace giac {
     if (has_static_help(argss.c_str(),lang,howto,syntax,related,examples)){
       return string2gen(string(howto)+'\n'+string(syntax)+'\n'+string(related)+'\n'+string(examples),false);
     }
+#ifndef GIAC_HAS_STO_38
     if (!vector_aide_ptr() || vector_aide_ptr()->empty()){
       if (!vector_aide_ptr())
 	vector_aide_ptr() = new vector<aide>;
@@ -5522,6 +5523,7 @@ namespace giac {
 	* vector_aide_ptr()=readhelp((giac_aide_dir()+"aide_cas").c_str(),helpitems);
       }
     }
+#endif
     if (vector_aide_ptr()){
       string s=argss; // args.print(contextptr);
       int l=s.size();

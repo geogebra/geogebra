@@ -233,9 +233,9 @@ namespace giac {
       }
       return w;
     }
-    if (!is_integer(args)) 
-      return gensizeerr(contextptr);
     gen n=args;
+    if (!is_integral(n) || n.type!=_INT_) 
+      return gensizeerr(contextptr);
     return vector_int_2_vecteur(randperm(n.val),contextptr);
   }
   static const char _randperm_s[]="randperm";

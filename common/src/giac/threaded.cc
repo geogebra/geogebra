@@ -270,7 +270,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     typename vector< T_unsigned<T,hashgcd_U> >::const_iterator it=p.begin(),itend=p.end();
     pcontxn.clear();
     if (it==itend) return true;
-    hashgcd_U u=(p.front().u/var)*var,curu,newu;
+    hashgcd_U u=(p.front().u/var)*var,curu,newu=0;
     if (u==p.front().u){
       pcontxn.push_back(make_unit(p.front().g));
       return true;

@@ -51,7 +51,7 @@ using namespace std;
 
 #ifdef GIAC_HAS_STO_38
 #include "aspen.h"
-void EditMat(int);
+//THPObj *EditMat(int);
 #endif
 
 
@@ -422,7 +422,7 @@ namespace giac {
     }
     // Initialization
     context * newcontextptr = (context *) contextptr;
-    int protect=bind(values,names,newcontextptr);
+    int protect=giac::bind(values,names,newcontextptr);
     vecteur res;
     if ((prog.type==_SYMB) && (prog._SYMBptr->sommet==at_quote)){
       args._VECTptr->push_back(prog._SYMBptr->feuille.eval(eval_level(contextptr),newcontextptr));
@@ -481,7 +481,7 @@ namespace giac {
     vecteur names(1,controle[0]);
     gen test=inferieur_egal(controle[0],fin,contextptr);
     context * newcontextptr = (context *) contextptr;
-    int protect=bind(vecteur(1,debut),names,newcontextptr);
+    int protect=giac::bind(vecteur(1,debut),names,newcontextptr);
     vecteur res;
     for (;!is_zero(test.eval(eval_level(newcontextptr),newcontextptr).evalf(eval_level(contextptr),newcontextptr));sto(eval(controle[0]+controle[1],eval_level(newcontextptr),newcontextptr),controle[0],newcontextptr)){
       res=rpn_eval(prog,*args._VECTptr,newcontextptr);
@@ -1024,14 +1024,14 @@ namespace giac {
   static define_unary_function_eval (__ABS,&_ABS,_ABS_s);
   define_unary_function_ptr5( at_ABS ,alias_at_ABS,&__ABS,0,T_UNARY_OP_38);
 
-  gen _ARG(const gen & g,GIAC_CONTEXT){
+  gen _ARG38(const gen & g,GIAC_CONTEXT){
     if (angle_radian(contextptr)==0)
       return arg(evalf2bcd(g,1,contextptr),contextptr);
     return arg(g,contextptr);
   }
-  static const char _ARG_s[]="ARG";
-  static define_unary_function_eval (__ARG,&_ARG,_ARG_s);
-  define_unary_function_ptr5( at_ARG ,alias_at_ARG,&__ARG,0,T_UNARY_OP_38);
+  static const char _ARG38_s[]="ARG";
+  static define_unary_function_eval (__ARG38,&_ARG38,_ARG38_s);
+  define_unary_function_ptr5( at_ARG38 ,alias_at_ARG38,&__ARG38,0,T_UNARY_OP_38);
 
   static const char _CONJ_s[]="CONJ";
   static define_unary_function_eval (__CONJ,(const gen_op_context)giac::conj,_CONJ_s);
@@ -4176,7 +4176,7 @@ namespace giac {
     if (id[0]!='M' || id[1]<'0' || id[1]>'9')
       return gensizeerr(contextptr);
     int i=id[1]-'0';
-    EditMat(i?i-1:9);
+//    EditMat(i?i-1:9);
 #endif
     return eval(args,1,contextptr);
   }

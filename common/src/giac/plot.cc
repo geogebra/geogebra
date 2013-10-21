@@ -1185,7 +1185,7 @@ namespace giac {
       bool joindre;
       vecteur localvar(1,vars);
       context * newcontextptr= (context *) contextptr;
-      int protect=bind(vecteur(1,xmin),localvar,newcontextptr);
+      int protect=giac::bind(vecteur(1,xmin),localvar,newcontextptr);
       vecteur chemin;
       for (double i=xmin;i<xmax;i+= step){
 	local_sto_double(i,*vars._IDNTptr,newcontextptr);
@@ -7237,7 +7237,7 @@ namespace giac {
     bool joindre;
     vecteur localvar(1,vars),res;
     context * newcontextptr=(context *) contextptr;
-    int protect=bind(vecteur(1,function_tmin),localvar,newcontextptr);
+    int protect=giac::bind(vecteur(1,function_tmin),localvar,newcontextptr);
     vecteur chemin;
     double i,j,oldi=0,oldj=0,entrei,entrej;
     double t=function_tmin;
@@ -10623,7 +10623,7 @@ namespace giac {
       return dfx+dfy;
     vecteur localvar(makevecteur(xloc,yloc));
     context * newcontextptr=(context *) contextptr;
-    int protect=bind(makevecteur(xmin,ymin),localvar,newcontextptr);
+    int protect=giac::bind(makevecteur(xmin,ymin),localvar,newcontextptr);
     vector< vector<bool> > visited(nxstep+2,vector<bool>(nystep+2));
     // vector< vector<bool> > visited(nxstep+2,vector<bool>(nystep+2) );
     vector< vector<double> > 

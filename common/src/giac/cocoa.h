@@ -37,8 +37,8 @@ namespace giac {
   bool cocoa_greduce(const vectpoly & r,const vectpoly & v,const gen & order,vectpoly & res);
 
 #ifndef CAS38_DISABLED
-  // giac code for poly up to 7 (revlex/tdeg) or 8 variables (plex)
-  vectpoly gbasis8(const vectpoly & v,environment * env,bool modularcheck,GIAC_CONTEXT);
+  // giac code for poly up to 15 variables
+  bool gbasis8(const vectpoly & v,vectpoly & res,environment * env,bool modularcheck,GIAC_CONTEXT);
 #endif
 
 #ifndef NO_NAMESPACE_GIAC

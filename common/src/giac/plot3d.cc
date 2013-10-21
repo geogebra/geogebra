@@ -1980,7 +1980,7 @@ namespace giac {
     gen f=quotesubst(f_orig,xyz,locvar,contextptr).evalf(1,contextptr);
     vecteur localvar(makevecteur(xloc,yloc,zloc));
     context * newcontextptr=(context *) contextptr;
-    int protect=bind(makevecteur(xmin,ymin,zmin),localvar,newcontextptr);
+    int protect=giac::bind(makevecteur(xmin,ymin,zmin),localvar,newcontextptr);
     vector< vector< vector<double> > > fxyz(nxstep+1,vector< vector<double> >(nystep+1,vector<double>(nzstep+1)));
     gen gtmp;
     // initialize each cell value of f

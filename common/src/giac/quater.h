@@ -71,6 +71,7 @@ namespace giac {
     virtual gen operator / (const gen & g) const;
     virtual gen inv () const ;
     virtual std::string print (GIAC_CONTEXT) const ;
+    virtual std::string texprint (GIAC_CONTEXT) const ;
     virtual bool operator == (const gen &) const ;
     virtual bool is_zero() const;
     virtual bool is_one() const;

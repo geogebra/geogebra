@@ -1809,7 +1809,8 @@ namespace giac {
 	// univariate case
 	// find minimal poly of the whole _EXT if extension degree is > 2
 	int d=f._VECTptr->size();
-	if (d>3){
+	// FIXME remove d<=10, requires better handling of rref with Gauss integers
+	if (d>3 && d<=10){
 	  gen r=evalf_double(pp,1,contextptr);
 	  matrice m(d);
 	  m[0]=vecteur(d-1);

@@ -5118,7 +5118,7 @@ namespace giac {
     unitaryp=pow(polynome(monomial<gen>(gen(1),1,pcur.dim)),savpow);
     savpow--;
     int newpow;
-    ++it;
+    Tnextcoeff<gen>(it,itend); // ++it;
     for (;it!=itend;){
       newpow=it->index.front();
       polynome an_1=Tnextcoeff<gen>(it,itend);

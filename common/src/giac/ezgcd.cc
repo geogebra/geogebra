@@ -409,12 +409,18 @@ namespace giac {
       vector<polynome> flcoeff0;
       polynome pcurx1x2cont=lgcd(pcurx1x2);
       gen extra_div=1;
-      if (1 || is_one(pcurx1x2cont)){
+      // if pcurx1x2cont is not 1, the following code may fail
+      // example f:=3/5*a^2*b^2*c^2+129/20*a^2*b*c^3+18/5*a^2*b*c^2*d-1443/40*a^2*b*c^2+387/10*a^2*c^3*d-387*a^2*c^3-9/20*a^2*c^2*d+9/2*a^2*c^2-273/5*a*b^2*c^2*d+3/5*a*b^2*c^2-11739/20*a*b*c^3*d+129/20*a*b*c^3-18/5*a*b*c^2*d^2+1857/40*a*b*c^2*d-1443/40*a*b*c^2-387/10*a*c^3*d^2+4257/10*a*c^3*d-387*a*c^3+9/20*a*c^2*d^2-99/20*a*c^2*d+9/2*a*c^2+54*b^2*c^2*d^2-54*b^2*c^2*d+1161/2*b*c^3*d^2-1161/2*b*c^3*d-27/4*b*c^2*d^2+27/4*b*c^2*d; factor(f);
+      if (is_one(pcurx1x2cont)){
 	truncate_xk_xn(pcurx1x2,2);
 	if (!factor(pcurx1x2,pcurx1x2cont,fx1x2,true,false,false,1,extra_div) || extra_div!=1)
 	  return false;
 	// now find factorization of lcoeff(pcur)
-	polynome pcur_lcoeff(Tfirstcoeff(pcur)),pcur_lcoeffcont;
+	polynome pcur_lcoeff(Tfirstcoeff(pcur)),pcur_lcoeffcont,pcur_lcoeff_sqfftest;
+	peval_xk_xn_zero(pcur_lcoeff,2,pcur_lcoeff_sqfftest);
+	pcur_lcoeff_sqfftest=pcur_lcoeff_sqfftest.trunc1();
+	if (gcd(pcur_lcoeff_sqfftest,pcur_lcoeff_sqfftest.derivative()).lexsorted_degree())
+	  return false;
 	if (!factor(pcur_lcoeff.trunc1(),pcur_lcoeffcont,flcoeff,false,false,false,1,extra_div) || extra_div!=1)
 	  return false;
 	factorization::iterator jt=flcoeff.begin(),jtend=flcoeff.end();

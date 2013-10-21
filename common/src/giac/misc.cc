@@ -1823,8 +1823,10 @@ namespace giac {
 
   gen _coeff(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->back().type==_INT_){
+    if (g.type==_VECT && !g._VECTptr->empty() && 
+	(g._VECTptr->back().type==_INT_ || g._VECTptr->back().type==_DOUBLE_)){
       vecteur v=*g._VECTptr;
+      is_integral(v.back());
       int n=absint(v.back().val);
       v.pop_back();
       return primpartcontent(gen(v,g.subtype),n,contextptr);
@@ -4747,6 +4749,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 
 #ifndef GIAC_HAS_STO_38
   gen plotproba(const gen & args,const vecteur & positions,const vecteur & attributs,GIAC_CONTEXT){
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
     matrice m (*args._VECTptr);
     // check if there is a row of legende strings
     gen leg;

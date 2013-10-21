@@ -398,6 +398,7 @@ namespace giac {
 #endif // NO_STDEXCEPT
 
   gen undeferr(const string & s){
+    usleep(1000);
 #ifndef NO_STDEXCEPT
     if (debug_infolevel!=-5)
       throw(std::runtime_error(s));
@@ -5420,7 +5421,7 @@ namespace giac {
       return std::pow(base._DOUBLE_val,exponent.val);
 #endif
       else 
-	return (exponent.val%2?-1:1)*exp(exponent*log(-base,contextptr),contextptr);
+	return (exponent.val%2?-1:1)*std::pow(-base._DOUBLE_val,exponent.val);//exp(exponent*log(-base,contextptr),contextptr);
     case _INT___DOUBLE_:
 #ifdef _SOFTMATH_H
       return std::giac_gnuwince_pow(base.val,exponent._DOUBLE_val);
@@ -8329,7 +8330,7 @@ namespace giac {
       if (is_exactly_zero(bcopy)){
 	complex<double> c=gen2complex_d(acopy);
 	double d=arg(c);
-	int quadrant=int((2*d)/M_PI);
+	int quadrant=int(std::floor((2*d)/M_PI));
 	switch (quadrant){
 	case 0:
 	  return acopy;
@@ -8979,8 +8980,14 @@ namespace giac {
 #endif
     }
     // u1*a+v1*m=d1 -> a=d1/u1 modulo m
-    num=d1;
-    den=u1;
+    if (mpz_sizeinbase(d1,2)<=30)
+      num=int(mpz_get_si(d1));
+    else 
+      num=d1;
+    if (mpz_sizeinbase(u1,2)<=30)
+      den=int(mpz_get_si(u1));
+    else 
+      den=u1;
     mpz_set(q,*m._ZINTptr);
     my_mpz_gcd(r,q,u1);
     bool ok=mpz_cmp_ui(r,1)==0;
@@ -9249,9 +9256,12 @@ namespace giac {
     gen res(a);
     if (is_exactly_zero(smod(res,plus_two)))
       res=res+1;
-    for ( ; ; res=res+2)
+    for ( ; ; res=res+2){
+      if (ctrl_c || interrupted)
+	return gensizeerr(gettext("Interrupted"));
       if (is_probab_prime_p(res))
 	return(res);
+    }
   }
 
   gen prevprime(const gen & a){
@@ -9264,9 +9274,12 @@ namespace giac {
     gen res(a);
     if (is_exactly_zero(smod(res,plus_two)))
       res=res-1;
-    for ( ; ; res=res-2)
+    for ( ; res.type==_ZINT || (res.type==_INT_ && res.val>1); res=res-2){
+      if (ctrl_c || interrupted)
+	return gensizeerr(gettext("Interrupted"));
       if (is_probab_prime_p(res))
 	return(res);
+    }
     return zero;
   }
 
@@ -12834,6 +12847,25 @@ namespace giac {
 #endif
   }
 
+#ifdef HAVE_LIBPTHREAD
+  struct caseval_param{
+    const char * s;
+    giac::gen ans;
+    giac::context * contextptr;
+    pthread_mutex_t mutex;
+  };
+  void * thread_caseval(void * ptr_){
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE,NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,NULL);
+    caseval_param * ptr=(caseval_param *)ptr_;
+    pthread_mutex_lock(&ptr->mutex);
+    gen g(ptr->s,ptr->contextptr);
+    ptr->ans=protecteval(g,1,ptr->contextptr);
+    pthread_mutex_unlock(&ptr->mutex);
+    return ptr;
+  }
+#endif
+
   const char * caseval(const char *s){
     static std::string S;
     static context C;
@@ -12873,8 +12905,62 @@ namespace giac {
     interrupted=false;
     caseval_begin=time(0);    
 #endif
+#ifdef HAVE_LIBPTHREAD
+    gen g;
+    caseval_param cp={s,0,&C,PTHREAD_MUTEX_INITIALIZER};
+    pthread_t pth;
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    int cres=pthread_create(&pth,&attr,thread_caseval,(void *)&cp);
+    if (cres){
+      g=gen(s,&C);
+      g=protecteval(g,1,&C);
+    }
+    else {
+      void * ptr;
+#ifdef TIMEOUT
+      double d=caseval_maxtime;
+#else
+      double d=3;
+#endif
+      usleep(10000);
+      for (;d>0;--d){
+	for (unsigned k=0;k<100;++k){
+	  if (ctrl_c || interrupted){
+	    d=0;
+	    break;
+	  }
+	  int locked=pthread_mutex_trylock(&cp.mutex);
+	  if (!locked){
+	    pthread_mutex_unlock(&cp.mutex);
+	    void * ptr;
+	    cres=pthread_join(pth,&ptr);
+	    d=-1;
+	    if (cres){
+	      g=string2gen("Thread join error",false);
+	      g.subtype=-1;
+	    }
+	    else
+	      g=cp.ans;
+	    break;
+	  }
+	  usleep(10000);
+	}
+      }
+      if (d==0){
+	ctrl_c=interrupted=true;
+	usleep(200000);
+	pthread_cancel(pth);
+	// cres=pthread_join(pth,NULL); // does not work
+	g=string2gen("Timeout",false);
+	g.subtype=-1;
+      }
+      pthread_attr_destroy(&attr);
+    }
+#else
     gen g(s,&C);
     g=protecteval(g,1,&C);
+#endif
     if (has_undef_stringerr(g,S))
       S="GIAC_ERROR: "+S;
     else

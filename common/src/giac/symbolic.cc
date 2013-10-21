@@ -937,7 +937,7 @@ namespace giac {
 		}
 	      }
 	      prog=prog._VECTptr->back();
-	      protect=bind(*values._VECTptr,*vars._VECTptr,contextptr);
+	      protect=giac::bind(*values._VECTptr,*vars._VECTptr,contextptr);
 	      if (protect==-RAND_MAX){
 		gensizeerr(res,contextptr);
 		return res;
@@ -1225,7 +1225,7 @@ namespace giac {
 	    (*dbgptr->fast_debug_info_ptr)=prog;
 	    (*dbgptr->debug_info_ptr)=prog;
 	    if (!vars._VECTptr->empty())
-	      protect=bind(*values._VECTptr,*vars._VECTptr,contextptr);
+	      protect=giac::bind(*values._VECTptr,*vars._VECTptr,contextptr);
 	    if (protect==-RAND_MAX){
 	      program_leave(*dbgptr->debug_info_ptr,save_sst_mode,dbgptr);
 	      gensizeerr(res,contextptr);

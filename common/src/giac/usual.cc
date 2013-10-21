@@ -8379,7 +8379,7 @@ namespace giac {
 	*it=fast_divide_by_icontent(*it,z2);
 	zz=zz/z2;
       }
-      return _product(v,context0)/zz;
+      return _prod(v,context0)/zz;
     }
     return g/z;
   }

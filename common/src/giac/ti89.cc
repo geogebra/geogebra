@@ -439,12 +439,57 @@ namespace giac {
   static define_unary_function_eval (__comDenom,&_comDenom,_comDenom_s);
   define_unary_function_ptr5( at_comDenom ,alias_at_comDenom,&__comDenom,0,true);
 
+  index_t rand_index(int dim,int tdeg,GIAC_CONTEXT){
+    index_t res(dim);
+    index_t w(tdeg+dim);
+    for (int i=0;i<w.size();++i)
+      w[i]=i;
+    for (int i=0;i<dim;++i){
+      int tmp=int((double(giac_rand(contextptr))*w.size())/rand_max2);
+      res[i]=w[tmp];
+      w.erase(w.begin()+tmp);
+    }
+    sort(res.begin(),res.end());
+    for (int i=dim-1;i>0;--i){
+      res[i] -= res[i-1]+1;
+    }
+    return res;
+  }
+
   gen _randPoly(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
     int vs=v.size(),deg=10;
     gen x=vx_var;
     gen f=0;
+    if (vs>=3 && v[0].type==_INT_ && v[1].type==_INT_ && v[2].type==_VECT){
+      // randpoly(total_degree,nterms,variables,[law])
+      if (vs>=4)
+	f=v[3];
+      if (vs==5){
+	if (f.type==_FUNC)
+	  f=symbolic(*f._FUNCptr,v.back());
+	else
+	  f=symb_of(f,v.back());
+      }
+      if (vs>5){
+	if (f.type==_FUNC)
+	  f=symbolic(*f._FUNCptr,gen(vecteur(v.begin()+4,v.end()),_SEQ__VECT));
+	else
+	  f=symb_of(f,gen(vecteur(v.begin()+4,v.end()),_SEQ__VECT));
+      }
+      int tdeg=v[0].val;
+      int nterms=absint(v[1].val);
+      int dim=v[2]._VECTptr->size();
+      vecteur w=vranm(nterms,f,contextptr);
+      polynome p(dim);
+      for (unsigned i=0;i<nterms;++i){
+	index_t current=rand_index(dim,tdeg,contextptr);
+	p.coord.push_back(monomial<gen>(w[i],current));
+      }
+      p.tsort();
+      return _poly2symb(makesequence(p,v[2]),contextptr);
+    }
     if (vs==1){
       if (v[0].type==_INT_)
 	deg=v[0].val;

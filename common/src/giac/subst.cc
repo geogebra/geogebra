@@ -1422,6 +1422,8 @@ namespace giac {
       *logptr(contextptr) << gettext("Simplification assuming ") << v[i] << " near " << point << (direction==1?"+":"-") << endl;
 #ifdef NO_STDEXCEPT
       gg=limit(gg,*v[i]._IDNTptr,point,direction,contextptr);
+      if (ctrl_c || interrupted) 
+	return gensizeerr(contextptr);
       if (is_undef(gg))
 	gg=0;
 #else
@@ -1435,6 +1437,8 @@ namespace giac {
     return evalf(gg,1,contextptr);
   }
   static gen expanded_ln(const gen & a_orig,const vecteur & primeargs,const vecteur & extargs,const vecteur & lnprimeargs,const vecteur & lnextargs,const vecteur & vars,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) 
+      return gensizeerr(contextptr);
     gen res,gg,a=a_orig;
     int k;
     if (is_algebraic_extension(a)){
@@ -1799,12 +1803,18 @@ namespace giac {
       vecteur lnextargs(*apply(r2e(extargs,vars,contextptr),at_ln,contextptr)._VECTptr);
       vecteur newln(s);
       for (int i=0;i<s;++i){
+	if (ctrl_c || interrupted) 
+	  return gensizeerr(contextptr);
 	fxnd(argln[i],num,den);	
 	newln[i]=expanded_ln(num,primeargs,extargs,lnprimeargs,lnextargs,vars,contextptr)-expanded_ln(den,primeargs,extargs,lnprimeargs,lnextargs,vars,contextptr);
+	if (ctrl_c || interrupted) 
+	  return gensizeerr(contextptr);
 	gen gg=evalf_double(re(branch_evalf(rdiv(l[i]-newln[i],cst_two_pi*cst_i,contextptr),contextptr),contextptr),0,contextptr); 
+	if (ctrl_c || interrupted) 
+	  return gensizeerr(contextptr);
 	if (gg.type==_DOUBLE_)
 	  newln[i]=newln[i]+cst_two_pi*cst_i*gen(int(floor(gg._DOUBLE_val+0.5)));
-       }
+      }
       g=subst(g,l,newln,false,contextptr);
     }
     // analyse of arguments of exp:

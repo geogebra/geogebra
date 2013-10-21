@@ -297,6 +297,8 @@ namespace giac {
   gen ilaplace(const gen & f,const gen & x,const gen & s,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return gensizeerr(contextptr);
+    if (has_num_coeff(f))
+      return ilaplace(exact(f,contextptr),x,s,contextptr);
     gen remains,res=linear_apply(f,x,remains,contextptr,pf_ilaplace);
     res=subst(res,laplace_var,s,false,contextptr);
     if (!is_zero(remains))

@@ -67,7 +67,7 @@ namespace giac {
   };
 
   const static_help_t static_help[]={
-#if !defined RTOS_THREADX && !defined BESTA_OS
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined GIAC_HAS_STO_38
 #include "static_help.h"
 #else
     { "", { "", "", "", ""}, "", "", "" },
@@ -82,7 +82,7 @@ namespace giac {
 
   // NB: cmd_name may be localized but related is not localized
   bool has_static_help(const char * cmd_name,int lang,const char * & howto,const char * & syntax,const char * & related,const char * & examples){
-    const char nullstring[]="";
+    const char nullstring[]=" ";
     if (lang<=0)
       lang=2;
     if (lang>HELP_LANGUAGES)

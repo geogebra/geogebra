@@ -337,6 +337,10 @@ namespace giac {
   }
 
   bool pmul(const sparse_poly1 & celuici,const sparse_poly1 &other, sparse_poly1 & final_seq,bool n_truncate,const gen & n_valuation,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     int asize=celuici.size();
     int bsize=other.size();
     if ( (!asize) || (!bsize) ) {
@@ -382,8 +386,10 @@ namespace giac {
       sparse_poly1::const_iterator itacur=ita;
       sparse_poly1::const_iterator itbcur=itb;
       for (;;) {
-	if (ctrl_c || interrupted)
+	if (ctrl_c || interrupted) {
+	  interrupted=ctrl_c=true;
 	  return false;
+	}
 	gen cur_pow=normal(itacur->exponent+itbcur->exponent,contextptr);
 	if ((n_truncate && ck_is_strictly_greater(n_valuation,cur_pow,contextptr)) || ck_is_greater(c_max,cur_pow,contextptr)){
 	  if (cur_pow!=old_pow){
@@ -408,8 +414,10 @@ namespace giac {
       sparse_poly1::const_iterator itacur=ita;
       sparse_poly1::const_iterator itbcur=itb;
       for (;;) {
-	if (ctrl_c || interrupted)
+	if (ctrl_c || interrupted) {
+	  interrupted=ctrl_c=true;
 	  return false;
+	}
 	gen cur_pow=normal(itacur->exponent + itbcur->exponent,contextptr);
 	if ((n_truncate && ck_is_strictly_greater(n_valuation,cur_pow,contextptr)) || ck_is_greater(c_max,cur_pow,contextptr)){
 	  if (cur_pow!=old_pow){
@@ -447,8 +455,10 @@ namespace giac {
       }
       ++it;
       while ( (it!=itend) && (it->exponent==pow)){
-	if (ctrl_c || interrupted)
+	if (ctrl_c || interrupted) {
+	  interrupted=ctrl_c=true;
 	  return false;
+	}
 	if (is_undef(res)){
 	  final_seq.push_back(*it);
 	  return true;
@@ -519,6 +529,10 @@ namespace giac {
 
   // ascending order division
   bool pdiv(const sparse_poly1 & a,const sparse_poly1 &b_orig, sparse_poly1 & res,int ordre_orig,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     sparse_poly1 b(b_orig);
     ptruncate(b,ordre_orig,contextptr);
     if (b.empty()){
@@ -581,6 +595,10 @@ namespace giac {
   }
 
   bool pdiv(const sparse_poly1 & a,const gen & b_orig, sparse_poly1 & res,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     if (is_zero(b_orig))
       return false; // divisionby0err(a);
     if (is_one(b_orig)){
@@ -703,6 +721,10 @@ namespace giac {
   }
 
   bool pcompose(const vecteur & v,const sparse_poly1 & p, sparse_poly1 & res,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     if (v.empty()){
       res.clear();
       return true;
@@ -832,6 +854,10 @@ namespace giac {
   }
 
   bool ppow(const sparse_poly1 & base,int m,int ordre,sparse_poly1 & res,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     if (m==0){
       res.clear();
       return true;
@@ -860,6 +886,10 @@ namespace giac {
   
   // constant power, otherwise use exp(ln)
   bool ppow(const sparse_poly1 & base,const gen & e,int ordre,int direction,sparse_poly1 & res,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     if (base.size()==1){
       if (&base==&res){
 	res.front().coeff=pow(res.front().coeff,e,contextptr);
@@ -987,6 +1017,10 @@ namespace giac {
   }
 
   static bool in_series__SPOL1(const gen & e,const identificateur & x,const vecteur & lvx, const vecteur & lvx_s,int ordre,int direction,sparse_poly1 & s,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) {
+      interrupted=ctrl_c=true;
+      return false;
+    }
     s.clear();
     int pos=equalposcomp(lvx,e);
     if (pos){
@@ -2298,6 +2332,8 @@ namespace giac {
 	   (p.size()>=1) && is_undef(p.front().coeff) ;ordre=ordre*1.5+1){
       bool inv=false;
       p=series__SPOL1(f,w,0,int(ordre),1,contextptr);
+      if (ctrl_c || interrupted) 
+	return false;
       if (!p.empty() && !is_undef(p.front().coeff) ){
 	// substitution of ln(w) by +-g should not be useful anymore
 	gen tmp=ratnormal(subst(p.front().coeff,ln(w,contextptr),(dont_invert?g:-g),false,contextptr));

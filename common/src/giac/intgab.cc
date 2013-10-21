@@ -1359,6 +1359,10 @@ namespace giac {
 	  if (!in_sumab(vp[i],x,a_orig,b_orig,resi,testi,false,contextptr))
 	    break;
 	  res += resi;
+	  if (is_undef(res)){
+	    res=0;
+	    return in_sumab(g,x,a_orig,b_orig,res,testi,false,contextptr);
+	  }
 	}
 	if (i==vp.size())
 	  return true;

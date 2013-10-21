@@ -1757,6 +1757,36 @@ namespace giac {
       gen delta=sqrt(b2*b2-v[0]*v[2],context0); // ok
       return makevecteur(evalf((b2-delta)/v[0],1,context0),evalf((b2+delta)/v[0],1,context0)); // ok
     }
+    // check for 0
+    if (v.back()==0){
+      vecteur res=proot(vecteur(v.begin(),v.end()-1),eps,rprec,ck_exact);
+      res.push_back(0);
+      return res;
+    }
+    if (vsize%2 && v[1]==0){
+      // check for composition with a power of X
+      int gcddeg=0;
+      for (int vi=2;vi<vsize;++vi){
+	if (v[vi]!=0)
+	  gcddeg=gcd(gcddeg,vi);
+	if (gcddeg==1)
+	  break;
+      }
+      if (gcddeg>1){
+	vecteur vd;
+	for (int i=0;i<vsize;i+=gcddeg){
+	  vd.push_back(v[i]);
+	}
+	vecteur resd=proot(vd,eps,rprec,ck_exact),res;
+	for (int i=0;i<resd.size();++i){
+	  gen r=pow(resd[i],inv(gcddeg,context0),context0);
+	  for (int j=0;j<gcddeg;++j){
+	    res.push_back(r*exp(j*cst_two_pi*cst_i/gcddeg,context0));
+	  }
+	}
+	return res;
+      }
+    }
     // now check if the input is exact if there are multiple roots
     if (ck_exact && is_exact(v)){
 #if 1
@@ -2406,6 +2436,8 @@ namespace giac {
   bool is_fully_numeric(const gen & a, int withfracint){
     switch (a.type){
     case _DOUBLE_: case _FLOAT_:
+      return true;
+    case _REAL:
       return true;
     case _CPLX:
       return is_fully_numeric(*a._CPLXptr, withfracint) && is_fully_numeric(*(a._CPLXptr+1), withfracint);
@@ -5647,8 +5679,23 @@ namespace giac {
 	int * Ni=&N[i][0], * Niend= Ni+cmax; // vector<int> & Ni=N[i];
 	if (rref_or_det_or_lu==2)
 	  Ni += i;
-	for (;Ni!=Niend;++Ni)
-	  *Ni=smod(*Ni,modulo);
+	for (;Ni!=Niend;++Ni){
+	  if (*Ni){
+#if 1
+	    *Ni=smod(*Ni,modulo);
+#else
+	    longlong r = *Ni % modulo;
+	    if ( (r<<1) > modulo){
+	      *Ni = r-modulo;
+	      continue;
+	    }
+	    if ( (r<<1) > -modulo)
+	      *Ni = r;
+	    else
+	      *Ni = r-modulo;
+#endif
+	  }
+	}
       }
     }
     if (!workptr && tmpptr)

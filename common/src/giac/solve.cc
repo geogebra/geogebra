@@ -4851,7 +4851,7 @@ namespace giac {
 
   bool giac_gbasis(vectpoly & res,const gen & order,environment * env,bool modularcheck,GIAC_CONTEXT){
     if (res.empty()) return true;
-    if (order.val==_PLEX_ORDER){
+    if (order.val==_PLEX_ORDER || order.val==0){
       // try first a 0-dim ideal with REVLEX and conversion
       vectpoly resrev(res),reslex;
       for (unsigned k=0;k<resrev.size();++k)
@@ -4870,7 +4870,9 @@ namespace giac {
       res.dbgprint();
 #ifndef CAS38_DISABLED
     if (res.front().dim<=GROEBNER_VARS+1-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
-      res=gbasis8(res,env,modularcheck,contextptr); 
+      vectpoly tmp;
+      gbasis8(res,tmp,env,modularcheck,contextptr); 
+      tmp.swap(res);
       // reduce(res,env);
       sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
       reverse(res.begin(),res.end());
