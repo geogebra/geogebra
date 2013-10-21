@@ -10,6 +10,7 @@ import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.kernel3D.GeoPoint3D;
 
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -133,7 +134,13 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 					}
 					wasRightReleased = true;
 					wasLeftReleased = false;				
-				}else{ // process move
+				}else{ 
+					// process button release
+					if (!wasRightReleased || !wasLeftReleased){
+						wrapMouseReleased(mouseEvent);
+					}
+					
+					// process move
 					wrapMouseMoved(mouseEvent);
 					wasRightReleased = true;
 					wasLeftReleased = true;					
@@ -324,6 +331,12 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 		
 		movedGeoPoint.setCoords(movedGeoPointStartCoords.add(v), true);
 		movedGeoPoint.updateCascade();
+
+
+		if (movedGeoPoint.isGeoElement3D() && !movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion()){
+			//update point decorations
+			view3D.updatePointDecorations((GeoPoint3D) movedGeoPoint);
+		}
 
 	}
 	
