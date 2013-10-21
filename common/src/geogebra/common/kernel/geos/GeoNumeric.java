@@ -61,8 +61,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * 144 gives increment of 2.5 degrees (doesn't look good) 
 	 * 180 gives increment of 2 degrees 
 	 */ 
-	public static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 180;	/** Default maximum value when displayed as slider */
+	public static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 180;	
 	
+	/** Default maximum value when displayed as slider */
 	public static double DEFAULT_SLIDER_MIN = -5;
 	/** Default minimum value when displayed as slider */
 	public static double DEFAULT_SLIDER_MAX = 5;
