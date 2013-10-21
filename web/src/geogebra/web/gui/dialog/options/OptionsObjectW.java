@@ -43,7 +43,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.gui.util.IconListBox;
+import geogebra.html5.gui.util.ImageList;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
@@ -937,7 +937,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private class PointStylePanel extends OptionPanel implements IComboListener {
 		private PointStyleModel model;
 		private Label titleLabel;
-		private IconListBox styleCombo;
+		private ImageList styles;
 		public PointStylePanel() {
 			model = new PointStyleModel(this);
 			setModel(model);
@@ -945,25 +945,35 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			FlowPanel mainPanel = new FlowPanel();
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			styleCombo = new IconListBox();
-			
+			styles = new ImageList();
 			List<String> options = Arrays.asList(
 					AppResources.INSTANCE
-			        .edit_undo().getSafeUri().asString(),
+			        .point_full().getSafeUri().asString(),
 			        AppResources.INSTANCE
-			        .arrow_in().getSafeUri().asString(),
+			        .point_cross_diag().getSafeUri().asString(),
 			        AppResources.INSTANCE
-			        .arrow_out().getSafeUri().asString());
+			        .point_empty().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_cross().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_diamond().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_diamond_empty().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_up().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_down().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_right().getSafeUri().asString(),
+			        AppResources.INSTANCE
+			        .point_left().getSafeUri().asString()
+			        
+					);
 			
-			styleCombo.setIcons(options);
-			mainPanel.add(styleCombo);
+			styles.setIcons(options);
+			mainPanel.add(styles);
 			
 			setWidget(mainPanel);
-			styleCombo.addChangeHandler(new ChangeHandler() {
-
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(styleCombo.getSelectedIndex());
-                }});
 		}
 		@Override
         public void setLabels() {
@@ -972,7 +982,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
         }
 
 		public void setSelectedIndex(int index) {
-	        styleCombo.setSelectedIndex(index);
+	      styles.setSelectedIndex(index);
 	        
         }
 		

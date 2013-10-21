@@ -1,5 +1,8 @@
 package geogebra.web.gui.images;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+import org.vectomatic.dom.svg.ui.SVGResource.Validated;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundleWithLookup;
 import com.google.gwt.resources.client.ImageResource;
@@ -500,6 +503,45 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/menuBarSubMenuIconRTL.gif")
 	ImageResource menuBarSubMenuIconRTL();
 
+	@Source("icons/svg/stylingbar_point-full.svg")
+	@Validated(validated = false)
+	SVGResource point_full();
 	
+	@Source("icons/svg/stylingbar_point-empty.svg")
+	@Validated(validated = false)
+	SVGResource point_empty();
+	
+	@Source("icons/svg/stylingbar_point-cross.svg")
+	@Validated(validated = false)
+	SVGResource point_cross();
+	
+	@Source("icons/svg/stylingbar_point-cross-diag.svg")
+	@Validated(validated = false)
+	SVGResource point_cross_diag();
+	
+	@Source("icons/svg/stylingbar_point-diamond-full.svg")
+	@Validated(validated = false)
+	SVGResource point_diamond();
+	
+	@Source("icons/svg/stylingbar_point-diamond-empty.svg")
+	@Validated(validated = false)
+	SVGResource point_diamond_empty();
+	
+	@Source("icons/svg/stylingbar_point-up.svg")
+	@Validated(validated = false)
+	SVGResource point_up();
+	
+	@Source("icons/svg/stylingbar_point-down.svg")
+	@Validated(validated = false)
+	SVGResource point_down();
+	
+	@Source("icons/svg/stylingbar_point-left.svg")
+	@Validated(validated = false)
+	SVGResource point_left();
+	
+	@Source("icons/svg/stylingbar_point-right.svg")
+	@Validated(validated = false)
+	SVGResource point_right();
+
 	
 }
