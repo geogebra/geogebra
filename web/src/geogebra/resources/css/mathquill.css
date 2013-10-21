@@ -295,11 +295,11 @@
   top: 0px;
   right: 0px;
   vertical-align: top;
-  -webkit-transform-origin: top;
-  -moz-transform-origin: top;
-  -ms-transform-origin: top;
-  -o-transform-origin: top;
-  transform-origin: top;
+  -webkit-transform-origin: right top;
+  -moz-transform-origin: right top;
+  -ms-transform-origin: right top;
+  -o-transform-origin: right top;
+  transform-origin: right top;
 }
 .mathquill-rendered-math .font .sqrt-prefix {
   top: 0px;
@@ -358,10 +358,10 @@
 .mathquill-editable .selection .non-leaf,
 .mathquill-rendered-math .selection .scaled,
 .mathquill-editable .selection .scaled {
-  /*background: #B4D5FE /*!important;
-  background: Highlight /*!important;
+  background: #B4D5FE /*!important*/;
+  background: Highlight /*!important*/;
   color: HighlightText;
-  border-color: HighlightText;*/
+  border-color: HighlightText;
 }
 .mathquill-rendered-math .selection .matrixed,
 .mathquill-editable .selection .matrixed {

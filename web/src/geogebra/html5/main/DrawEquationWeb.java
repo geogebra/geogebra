@@ -307,8 +307,8 @@ public class DrawEquationWeb extends DrawEquation {
 			// canvas,
 			// it is better if this is transparent, because the grid should be shown
 			// just like in the Java version
-			// if (shouldPaintBackground)
-			//	ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+			if (shouldPaintBackground)
+				ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
 
 			if (fgColor != null)
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
