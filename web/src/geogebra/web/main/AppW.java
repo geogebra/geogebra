@@ -138,12 +138,7 @@ public class AppW extends AppWeb {
 	 * Initializes the application, seeds factory prototypes, creates Kernel and
 	 * MyXMLIO
 	 * 
-	 * @param undoActive
 	 */
-	public void init(final boolean undoAct) {
-		initCommonObjects();
-	}
-
 	protected void initCommonObjects() {
 		initFactories();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactoryW();
