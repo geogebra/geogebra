@@ -57,9 +57,9 @@ public class ToolTipManagerW {
 	/**
 	 * Time, in milliseconds, to delay showing a toolTip.
 	 * 
-	 * Java default = 1750, we use a quicker 1000
+	 * Java default = 1750, // maybe we use a quicker 1000?
 	 */
-	private int initialDelay = 1000;
+	private int initialDelay = 1750;
 
 	/**
 	 * Time, in milliseconds, to allow the toolTip to remain visible.
@@ -69,8 +69,9 @@ public class ToolTipManagerW {
 	private int dismissDelay = 4000;
 
 	/**
-	 * Time, in milliseconds, to allow showing of the toolTip without delay.
-	 * After this delay has expired, toolTips are shown with an initial delay.
+	 * Time, in milliseconds, to allow showing a new toolTip immediately, with
+	 * no delay. After this delay has expired, toolTips are shown with an
+	 * initial delay.
 	 * 
 	 * Java default = 500;
 	 */
@@ -193,6 +194,7 @@ public class ToolTipManagerW {
 				NativeEvent e = event.getNativeEvent();
 
 				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
+					showImmediately = false;
 					hideToolTip();
 				}
 
