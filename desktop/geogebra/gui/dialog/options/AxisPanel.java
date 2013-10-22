@@ -94,7 +94,8 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				char small = '\'';
 				cbTickStyle.addItem(" " + big + "  " + small + "  " + big + "  " + small + "  " + big); // major and minor ticks
 				cbTickStyle.addItem( " " + big + "     " + big + "     " + big); // major ticks only
-				cbTickStyle.addItem(""); // no ticks
+				// must be " " not ""
+				cbTickStyle.addItem(" "); // no ticks
 				cbTickStyle.addActionListener(this);
 				cbTickStyle.setEditable(false);
 				JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks,cbTickStyle);
