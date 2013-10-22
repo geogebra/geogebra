@@ -133,7 +133,7 @@ public class ConstructionDefaults {
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.blue;
 
-	// conics
+	/** Color for conics **/
 	protected static final GColor colConic = GColor.black;
 	/** default alpha for conics */
 	public static final float DEFAULT_CONIC_ALPHA = 0f;

@@ -2332,7 +2332,7 @@ public class Construction {
 	 * point i = (0,1), number e = Math.E, empty spreadsheet cells
 	 * 
 	 * @param labelNew
-	 *            label for new element
+	 *            label for new element, may not be null
 	 * @return created element
 	 */
 	protected GeoElement autoCreateGeoElement(String labelNew) {
@@ -2384,9 +2384,7 @@ public class Construction {
 			// setSuppressLabelCreation(false);
 
 			createdGeo.setAuxiliaryObject(auxilliary);
-			if (label != null) {
-				createdGeo.setLabel(label);
-			}
+			createdGeo.setLabel(label);
 			createdGeo.setFixed(fix);
 
 			// revert to previous label creation state

@@ -9,12 +9,14 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Dilation
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class TransformDilate extends Transform {
 
+	/** dilation coefficient */
 	protected NumberValue ratio;
+	/** dilation center*/
 	protected GeoPointND center;
 
 	/**

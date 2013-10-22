@@ -10,11 +10,12 @@ import geogebra.common.kernel.geos.GeoPoint;
 /**
  * Mirror
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class TransformMirror extends Transform {
 
+	/** Element used for mirroring */
 	protected GeoElement mirror;
 	
 	/**
