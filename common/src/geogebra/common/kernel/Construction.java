@@ -1342,7 +1342,7 @@ public class Construction {
 			ae.add(oldGeo.getParentAlgorithm());
 			
 			// make sure typing a=random() twice updates OK
-			oldGeo.getParentAlgorithm().update();
+			oldGeo.getParentAlgorithm().updateUnlabeledRandomGeos();
 			
 			// make sure b=a+1 also updates
 			AlgoElement.updateCascadeAlgos(ae);

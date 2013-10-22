@@ -508,6 +508,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return false;
 	}
 
+	
 	// public static double startTime, endTime;
 	// public static double computeTime, updateTime;
 	// public static double counter;
@@ -518,12 +519,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			return;
 		}
 
-		// update input random numbers without label
-		if (randomUnlabeledInput != null) {
-			for (int i = 0; i < randomUnlabeledInput.length; i++) {
-				randomUnlabeledInput[i].updateRandomGeo();
-			}
-		}
+		updateUnlabeledRandomGeos();
 
 		// counter++;
 		// startTime = System.currentTimeMillis();
@@ -541,6 +537,18 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// updateTime += (endTime - startTime );
 	}
 
+	/**
+	 *  update input random numbers without label
+	 */
+	public void updateUnlabeledRandomGeos() {
+		
+				if (randomUnlabeledInput != null) {
+					for (int i = 0; i < randomUnlabeledInput.length; i++) {
+						randomUnlabeledInput[i].updateRandomGeo();
+					}
+				}
+		
+	}
 
 	/**
 	 * update output geos
