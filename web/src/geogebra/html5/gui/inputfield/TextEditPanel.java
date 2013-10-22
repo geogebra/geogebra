@@ -8,8 +8,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GFontW;
-import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -19,16 +17,20 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.canvas.dom.client.TextMetrics;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea.Formatter;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -57,6 +59,9 @@ public class TextEditPanel extends VerticalPanel {
 	private ListBox geoListBox;
 	GeoListPopup geoListPopup;
 
+	protected PopupPanel textEditPopup;
+	protected MyEditBox editBox;
+
 	/**
 	 * @param app
 	 */
@@ -68,7 +73,7 @@ public class TextEditPanel extends VerticalPanel {
 		rta = new RichTextAreaEditor((GFontW) app.getPlainFontCommon());
 
 		formatter = rta.getFormatter();
-		rta.setSize("100%", "12em");
+		rta.setSize("350px", "8em");
 		rta.addValueChangeHandler(new ValueChangeHandler() {
 			public void onValueChange(ValueChangeEvent event) {
 				App.debug("value changed:");
@@ -78,6 +83,63 @@ public class TextEditPanel extends VerticalPanel {
 		createToolBar();
 		this.add(rta);
 		this.add(toolBar);
+
+		createEditPopup();
+
+		rta.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				Element target = Element.as(event.getNativeEvent()
+				        .getEventTarget());
+
+				textEditPopup.setVisible(false);
+
+				if ("img".equalsIgnoreCase(target.getTagName())) {
+
+					String alt = DOM.getElementAttribute(
+					        (com.google.gwt.user.client.Element) target, "alt");
+					App.debug(alt);
+
+					editBox.setText(alt);
+					editBox.setTarget(target);
+					showEditPopup();
+
+				}
+			}
+		});
+
+	}
+
+	protected void showEditPopup() {
+
+		textEditPopup
+		        .setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+			        public void setPosition(int offsetWidth, int offsetHeight) {
+
+				        int left = (rta.getAbsoluteLeft()
+				                + rta.getOffsetWidth() / 2 - offsetWidth / 2);
+				        int top = (rta.getAbsoluteTop() + rta.getOffsetHeight()
+				                / 2 - offsetHeight / 2);
+
+				        textEditPopup.setPopupPosition(left, top);
+				        Scheduler.get().scheduleDeferred(
+				                new Scheduler.ScheduledCommand() {
+					                public void execute() {
+						                editBox.setFocus(true);
+					                }
+				                });
+			        }
+		        });
+	}
+
+	protected void createEditPopup() {
+		if (textEditPopup == null) {
+			editBox = new MyEditBox();
+			editBox.setWidth("9em");
+			textEditPopup = new PopupPanel();
+			textEditPopup.add(editBox);
+			textEditPopup.setAutoHideEnabled(true);
+		}
 	}
 
 	public void setEditGeo(GeoText editGeo) {
@@ -130,7 +192,7 @@ public class TextEditPanel extends VerticalPanel {
 
 			} else if (node.getNodeType() == Node.ELEMENT_NODE) {
 				list.add(new DynamicTextElement(((Element) node)
-				        .getPropertyString("value"), DynamicTextType.VALUE));
+				        .getPropertyString("alt"), DynamicTextType.VALUE));
 				// App.debug("node value:"
 				// + ((Element) node).getPropertyString("value"));
 			}
@@ -142,18 +204,6 @@ public class TextEditPanel extends VerticalPanel {
 	private void createToolBar() {
 		toolBar = new HorizontalPanel();
 
-		MyToggleButton2 btn2 = new MyToggleButton2(
-		        AppResources.INSTANCE.format_text_bold(), 18);
-		btn2.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				formatter
-				        .insertHTML("<span style=\"border:2px solid black; padding:2px; background-color: lightYellow \">A</span>");
-
-				App.debug("HTML: " + rta.getHTML());
-			}
-		});
-
-		// toolBar.add(btn2);
 		buildInsertGeoButton();
 		toolBar.add(btInsertGeo);
 	}
@@ -190,9 +240,19 @@ public class TextEditPanel extends VerticalPanel {
 	}
 
 	public String getDynamicTextHTML(String text) {
-		String fcn = "onclick = edit(this) ";
-		String html = "<input type = \"button\" value = \"" + text + "\"" + fcn
-		        + " /> &nbsp;";
+		// String fcn = "onclick = edit(this) ";
+		String url = createTextImageURL(text);
+		String style = " style = \"border: 2px solid lightgray; cursor: pointer; ";
+		style += "margin: 0px 4px -4px 4px;\"";
+		String alt = " alt = \"" + text + "\"";
+		String src = " src = \"" + url + "\"";
+
+		String html = "<img " + src + alt + style + " />";
+
+		// String html = "<input type = \"button\" value = \"" + text + "\"" +
+		// fcn
+		// + " /> &nbsp;";
+
 		return html;
 	}
 
@@ -228,34 +288,67 @@ public class TextEditPanel extends VerticalPanel {
 		rta.setHTML(htmlString);
 	}
 
-	private String createTextImageURL(String str) {
+	String createTextImageURL(String str) {
 
 		Canvas canvas = Canvas.createIfSupported();
 		Context2d context = canvas.getContext2d();
-		context.setStrokeStyle(colorBlack);
-		context.setFillStyle(colorBlack);
-		// context.setFont(((GFontW) app.getPlainFontCommon()).getFontFamily());
 
 		String fontSize = ((GFontW) app.getPlainFontCommon()).getFontSize();
+		String fontString = fontSize + "pt sans-serif";
+		// App.debug(fontString);
 
-		context.setFont("normal" + fontSize + "pt arial");
-
-		context.setTextBaseline(TextBaseline.MIDDLE);
-
+		context.setFont(fontString);
 		TextMetrics fm = context.measureText(str);
 		int w = (int) fm.getWidth() + 4;
-		int h = Integer.parseInt(fontSize) + 2;
-
+		int h = Integer.parseInt(fontSize) + 8; // TODO: better height calc
 		canvas.setWidth(w + "px");
 		canvas.setHeight(h + "px");
 		canvas.setCoordinateSpaceWidth(w);
 		canvas.setCoordinateSpaceHeight(h);
 
-		context.fillText(str, 2, 4);
-		// context.rect(0, 0, w, h);
-		// context.stroke();
+		context.setFont(fontString);
+		context.setTextBaseline(TextBaseline.TOP);
+		context.setFillStyle(colorBlack);
+		context.fillText(str, 2, 1);
 
 		return canvas.toDataUrl();
+	}
+
+	private class MyEditBox extends TextBox {
+
+		Element target;
+
+		public MyEditBox() {
+			super();
+
+			// TODO: either use AutoCompleteTextField or a style name
+			GFontW font = (GFontW) app.getPlainFontCommon();
+			String fontSize = font.getFontSize();
+			String fontFamily = font.getFontFamily();
+
+			getStyleElement().setAttribute(
+			        "style",
+			        "font-family:" + fontFamily + "; font-size:" + fontSize
+			                + "pt");
+			getStyleElement().setAttribute("spellcheck", "false");
+			getStyleElement().setAttribute("oncontextmenu", "return false");
+
+			this.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+				public void onValueChange(ValueChangeEvent<String> event) {
+					if (target != null) {
+						target.setPropertyString("src",
+						        createTextImageURL(getText()));
+						target.setPropertyString("alt", getText());
+					}
+				}
+			});
+		}
+
+		public void setTarget(Element target) {
+			this.target = target;
+		}
+
 	}
 
 }

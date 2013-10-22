@@ -1,5 +1,6 @@
 package geogebra.html5.gui.inputfield;
 
+import geogebra.common.main.App;
 import geogebra.html5.awt.GFontW;
 
 import java.text.ParseException;
@@ -8,7 +9,6 @@ import com.google.gwt.dom.client.BodyElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.IFrameElement;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -20,6 +20,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.HasValue;
@@ -44,39 +45,13 @@ public class RichTextAreaEditor extends RichTextArea implements
 
 		this.font = font;
 
-		// style and javascript functions must be set after the editor has been
-		// initialized
+		// style must be set after the editor has been initialized
 		addInitializeHandler(new InitializeHandler() {
 			public void onInitialize(InitializeEvent event) {
-				setScript();
 				setStyle();
 			}
 		});
-	}
 
-	protected void setScript() {
-
-		Document document = IFrameElement.as(getElement()).getContentDocument();
-		ScriptElement script = document.createScriptElement();
-		script.setInnerText(getEditFunction());
-		script.setType("text/javascript");
-		script.setLang("javascript");
-		Element head = document.getDocumentElement()
-		        .getElementsByTagName("head").getItem(0);
-		head.appendChild(script);
-	}
-
-	private String getEditFunction() {
-		String s = "";
-
-		// s = "function edit() { prompt(\"red\", \"blue\") }";
-
-		s = "function edit(elem) { ";
-		s += "var newValue = prompt(\"Edit\", elem.value); ";
-		s += "if(newValue != null) elem.value = newValue ;";
-		s += " } ";
-
-		return s;
 	}
 
 	protected void setStyle() {
@@ -84,17 +59,33 @@ public class RichTextAreaEditor extends RichTextArea implements
 		String fontSize = font.getFontSize();
 		String fontFamily = font.getFontFamily();
 
+		getBody().setAttribute("style",
+		        "font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
+		getBody().setAttribute("spellcheck", "false");
+		getBody().setAttribute("oncontextmenu", "return false");
+
+	}
+
+	private Document getDocument() {
+		return IFrameElement.as(getElement()).getContentDocument();
+	}
+
+	private Element getHead() {
 		Document document = IFrameElement.as(getElement()).getContentDocument();
-		BodyElement body = document.getBody();
-		body.setAttribute("style", "font-family:" + fontFamily + "; font-size:"
-		        + fontSize + "pt");
-		body.setAttribute("spellcheck", "false");
+		Element head = document.getElementsByTagName("head").getItem(0);
+
+		if (head == null) {
+			head = document.getDocumentElement().getFirstChildElement();
+
+			if (head == null) {
+				document.insertFirst(head = document.createElement("head"));
+			}
+		}
+		return head;
 	}
 
 	public BodyElement getBody() {
-		Document document = IFrameElement.as(getElement()).getContentDocument();
-		BodyElement body = document.getBody();
-		return body;
+		return getDocument().getBody();
 	}
 
 	public String getValue() {
@@ -146,8 +137,15 @@ public class RichTextAreaEditor extends RichTextArea implements
 	// workaround for ff bug that prevents disabling RichTextEditor
 	@Override
 	public void onBrowserEvent(final Event event) {
+
 		if (isEnabled()) {
 			super.onBrowserEvent(event);
+		}
+
+		switch (DOM.eventGetType(event)) {
+		case Event.ONCONTEXTMENU:
+			App.debug("contextmenu event in rta");
+			break;
 		}
 	}
 
