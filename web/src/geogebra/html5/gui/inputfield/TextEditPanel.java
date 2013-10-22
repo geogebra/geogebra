@@ -206,6 +206,15 @@ public class TextEditPanel extends VerticalPanel {
 
 		buildInsertGeoButton();
 		toolBar.add(btInsertGeo);
+		
+		Button testBtn = new Button("test");
+		testBtn.addClickHandler(new ClickHandler(){
+
+			public void onClick(ClickEvent event) {
+	            formatter.insertImage(createTextImageURL("sample text"));
+	           
+            }});
+		toolBar.add(testBtn);
 	}
 
 	/**
