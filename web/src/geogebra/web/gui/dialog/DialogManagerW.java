@@ -272,13 +272,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	public GoogleDriveFileChooser getGoogleDriveFileChooser() {
 		if (googleFileChooser == null) {
 			googleFileChooser = new GoogleDriveFileChooser(app);
+			((AppW)app).addFileLoadListener(googleFileChooser);
 		}
 		return googleFileChooser;
-	}
-
-
-	public boolean isGoogleDriveChooserNull() {
-		return (null == googleFileChooser);
 	}
 
 	AlertDialog alertDialog = null;

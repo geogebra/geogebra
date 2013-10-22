@@ -705,9 +705,15 @@ public abstract class AppWeb extends App implements SetLabels{
 	        // TODO Auto-generated method stub
 	        
         }
-
-		public void notifyFileLoaded() {
-	        // TODO Auto-generated method stub
+		public void addFileLoadListener(FileLoadListener f){
+			this.fileLoadListeners.add(f);
+		}
+		
+		private ArrayList<FileLoadListener> fileLoadListeners = new ArrayList<FileLoadListener>();
+		public final void notifyFileLoaded() {
+	        for(FileLoadListener listener: fileLoadListeners){
+	        	listener.onFileLoad();
+	        }
 	        
         }
 		

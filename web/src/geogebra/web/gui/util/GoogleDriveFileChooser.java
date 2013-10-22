@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.main.FileLoadListener;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 
@@ -20,7 +21,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler, EventRenderable {
+public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler, EventRenderable,
+	FileLoadListener {
 
 	private App app;
 	VerticalPanel p;
@@ -190,6 +192,10 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	   if (event instanceof GoogleLogOutEvent) {
 		   this.hide();
 	   }
+    }
+
+	public void onFileLoad() {
+		this.hide();
     }
 
 }

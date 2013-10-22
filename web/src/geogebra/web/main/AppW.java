@@ -1625,13 +1625,6 @@ public class AppW extends AppWeb {
 		return sbTooltip.toString();
 
 	}
-	
-	@Override
-    public void notifyFileLoaded(){
-		if (this.getDialogManager() instanceof DialogManagerW && !((DialogManagerW) this.getDialogManager()).isGoogleDriveChooserNull()) {
-			((DialogManagerW) this.getDialogManager()).getGoogleDriveFileChooser().hide();
-		}
-	}
 
 	public GDimension getPreferredSize() {
 		return preferredSize;
