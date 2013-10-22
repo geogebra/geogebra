@@ -28,7 +28,7 @@ public class GeoPlane3DConstant extends GeoPlane3D implements SymbolicParameters
 			coordsys.addVector(EuclidianView3D.vx);
 			coordsys.addVector(EuclidianView3D.vy);
 			coordsys.makeOrthoMatrix(false,false);
-			coordsys.setEquationVector(0, 0, 1, -1);
+			coordsys.setEquationVector(0, 0, 1, 0);
 			//setCoord(EuclidianView3D.o,EuclidianView3D.vx,EuclidianView3D.vy);
 			label = "xOyPlane";
 			labelSet = true;
