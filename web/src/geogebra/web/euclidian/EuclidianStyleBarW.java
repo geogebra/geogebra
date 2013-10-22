@@ -14,15 +14,14 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.SelectionManager;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
+import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
@@ -690,57 +689,58 @@ public class EuclidianStyleBarW extends StyleBarW
 					null);
 
 		// create button
-		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
-				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-
-			@Override
-			public void update(Object[] geos) {
-				GeoElement geo;
-				boolean geosOK = (geos.length > 0);
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-							&& (!(geo.isGeoList() && ((GeoList) geo)
-									.showPointProperties()))) {
-						geosOK = false;
-						break;
-					}
-				}
-				this.setVisible(geosOK);
-
-				if (geosOK) {
-					// setFgColor(((GeoElement)geos[0]).getObjectColor());
-					setFgColor((GColorW) geogebra.common.awt.GColor.black);
-
-					// if geo is a matrix, this will return a GeoNumeric...
-					geo = ((GeoElement) geos[0])
-							.getGeoElementForPropertiesDialog();
-
-					// ... so need to check
-					if (geo instanceof PointProperties) {
-						setSliderValue(((PointProperties) geo).getPointSize());
-						int pointStyle = ((PointProperties) geo)
-								.getPointStyle();
-						if (pointStyle == -1) // global default point style
-							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-						setSelectedIndex(pointStyleMap.get(pointStyle));
-						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
-					}
-				}
-			}
-
-			@Override
-			public ImageData getButtonIcon() {
-				if (getSelectedIndex() > -1) {
-					return GeoGebraIcon.createPointStyleIcon(
-							EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],
-							this.getSliderValue(), pointStyleIconSize,
-							geogebra.common.awt.GColor.BLACK, null);
-				}
-				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.getWidth(),
-						pointStyleIconSize.getHeight());
-			}
-		};
+		btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, mode, true);
+//		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
+//				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+//
+//			@Override
+//			public void update(Object[] geos) {
+//				GeoElement geo;
+//				boolean geosOK = (geos.length > 0);
+//				for (int i = 0; i < geos.length; i++) {
+//					geo = (GeoElement) geos[i];
+//					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
+//							&& (!(geo.isGeoList() && ((GeoList) geo)
+//									.showPointProperties()))) {
+//						geosOK = false;
+//						break;
+//					}
+//				}
+//				this.setVisible(geosOK);
+//
+//				if (geosOK) {
+//					// setFgColor(((GeoElement)geos[0]).getObjectColor());
+//					setFgColor((GColorW) geogebra.common.awt.GColor.black);
+//
+//					// if geo is a matrix, this will return a GeoNumeric...
+//					geo = ((GeoElement) geos[0])
+//							.getGeoElementForPropertiesDialog();
+//
+//					// ... so need to check
+//					if (geo instanceof PointProperties) {
+//						setSliderValue(((PointProperties) geo).getPointSize());
+//						int pointStyle = ((PointProperties) geo)
+//								.getPointStyle();
+//						if (pointStyle == -1) // global default point style
+//							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+//						setSelectedIndex(pointStyleMap.get(pointStyle));
+//						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+//					}
+//				}
+//			}
+//
+//			@Override
+//			public ImageData getButtonIcon() {
+//				if (getSelectedIndex() > -1) {
+//					return GeoGebraIcon.createPointStyleIcon(
+//							EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],
+//							this.getSliderValue(), pointStyleIconSize,
+//							geogebra.common.awt.GColor.BLACK, null);
+//				}
+//				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.getWidth(),
+//						pointStyleIconSize.getHeight());
+//			}
+//		};
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);

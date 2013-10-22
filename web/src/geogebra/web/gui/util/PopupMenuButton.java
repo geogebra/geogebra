@@ -410,7 +410,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 	
 	public void setSliderValue(int value) {
-
+		if (mySlider == null) {
+			return;
+		}
 		//mySlider.removeChangeListener(this);
 
 		// sliderIniting check commented out, because the slider needs
@@ -439,7 +441,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 	
 	public int getSliderValue() {
-		return mySlider.getValue();
+		return mySlider == null ? -1 : mySlider.getValue();
 	}
 	
 	private HandlerRegistration actionListener;

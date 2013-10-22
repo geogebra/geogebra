@@ -43,11 +43,10 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.gui.util.ImageList;
+import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -61,8 +60,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -939,7 +936,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private class PointStylePanel extends OptionPanel implements IComboListener {
 		private PointStyleModel model;
 		private Label titleLabel;
-		private ImageList styles;
+		private PointStylePopup btnPointStyle;
+		private int iconHeight = 24;
 		public PointStylePanel() {
 			model = new PointStyleModel(this);
 			setModel(model);
@@ -947,44 +945,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			FlowPanel mainPanel = new FlowPanel();
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			styles = new ImageList();
-			List<String> options = Arrays.asList(
-					AppResources.INSTANCE
-			        .point_full().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_cross_diag().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_empty().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_cross().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_diamond().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_diamond_empty().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_up().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_down().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_right().getSafeUri().asString(),
-			        AppResources.INSTANCE
-			        .point_left().getSafeUri().asString()
-			        
-					);
-			
-			styles.setIcons(options);
-			styles.addValueChangeHandler(new ValueChangeHandler<Integer>() {
-
-
-				public void onValueChange(ValueChangeEvent<Integer> event) {
-
-	                model.applyChanges(styles.getValue());
-	                
-                }
-				
-			});
-			mainPanel.add(styles);
-			
+			btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, -1, false);
+			btnPointStyle.setModel(model);
+			mainPanel.add(btnPointStyle);
 			setWidget(mainPanel);
 		}
 		@Override
@@ -992,11 +955,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	        titleLabel.setText(app.getPlain("PointStyle"));
 	        
         }
+		
+		@Override
+		public void update(Object[] geos) {
+			super.update(geos);
+			btnPointStyle.update(geos);
+		}
 
 		public void setSelectedIndex(int index) {
-	      styles.setSelectedIndex(index);
+	      btnPointStyle.setSelectedIndex(index);
 	        
         }
+		
 		
 	}
 	
