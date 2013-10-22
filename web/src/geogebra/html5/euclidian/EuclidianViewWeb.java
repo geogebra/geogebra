@@ -335,8 +335,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	}
 
 	@Override
-    public void updateSize() {
-
+	protected void updateSizeKeepDrawables() {
 		if ((getWidth() <= 0) || (getHeight() <= 0)) {
 			return;
 		}
@@ -353,12 +352,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		}
 
 		updateBackgroundImage();
-
-		if (!firstPaint) {// if is here to avoid infinite loop
-			updateAllDrawables(true);
-		}
-
-    }
+	}
 	
 	private void createImage() {
 		bgImage = new geogebra.html5.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);

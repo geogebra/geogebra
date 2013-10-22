@@ -296,7 +296,7 @@ public abstract class EuclidianViewND extends EuclidianView{
 	
 
 	@Override
-	public void updateSize() {
+	protected void updateSizeKeepDrawables() {
 
 		// record the old coord system
 
@@ -327,7 +327,6 @@ public abstract class EuclidianViewND extends EuclidianView{
 		}
 
 		updateBackgroundImage();
-		updateAllDrawables(true);
 	}
 	
 	private void createImage(GraphicsConfiguration gc) {

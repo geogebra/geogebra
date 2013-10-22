@@ -176,7 +176,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		// standard update: change the coord system to match new window
 		// dimensions with the upper left corner fixed and the other bounds
 		// adjusted.
-		super.updateSize();
+		super.updateSizeKeepDrawables();
 
 		// now reset the coord system so that our view dimensions are restored
 		// using the new scaling factors.
