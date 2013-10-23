@@ -305,7 +305,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 	}
 
-	private List<String> resetCompletions() {
+	public List<String> resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
 		completions = null;
@@ -383,13 +383,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 			}
 		}
 		return syntaxes;
-	}
-
-	public void startAutoCompletion() {
-		if (dict == null) // TODO should not get there
-			return;
-		resetCompletions();
-		completionsPopup.showCompletions();
 	}
 
 	public void cancelAutoCompletion() {
@@ -991,7 +984,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 			if (getAutoComplete()) {
 				updateCurrentWord(false);
-				startAutoCompletion();
 			}
 
 		}
@@ -1076,7 +1068,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		if (this instanceof AutoCompleteTextFieldW) {
 			AutoCompleteTextFieldW tf = this;
 			tf.updateCurrentWord(false);
-			tf.startAutoCompletion();
 		}
 
 		setCaretPosition(newPos);
