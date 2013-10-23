@@ -1221,6 +1221,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	pickingLoop = 0;
 	}
 	
+	
 	private void pushSceneMatrix(){
         // set the scene matrix
     	gl.glPushMatrix();
@@ -1253,8 +1254,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  num = selectBuffer.get(ptr);
 
         	  if (hits3D==null){ // just update z min/max values for the drawable
-        		  drawHits[num].zPickMin = zMin;
-        		  drawHits[num].zPickMax = zMax;        		  
+        		  drawHits[num].setZPick(zMin,zMax);        		  
         	  }else{ // if for hits array, some checks are done
         		  PickingType type;
         		  if (num >= labelLoop){
@@ -1386,8 +1386,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		// picking objects
         for (IntersectionCurve intersectionCurve : curves){
         	Drawable3D d = intersectionCurve.drawable;
-        	d.zPickMax=Float.POSITIVE_INFINITY;
-        	d.zPickMin=Float.POSITIVE_INFINITY; 
+        	d.setZPick(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
         	pick(d, true, PickingType.POINT_OR_CURVE);
         }
         
@@ -1436,10 +1435,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * */
     private static float getDepth(int ptr, IntBuffer selectBuffer){
      	
-    	float depth = (float) selectBuffer.get(ptr)/0x7fffffff;
-    	if (depth<0)
-    		depth+=2;
-    	return depth;   	
+    	return (float) (selectBuffer.get(ptr)& 0xffffffffL) / 0x7fffffff;
     }
     
 
@@ -1692,7 +1688,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	int frontExtended;
 	
 	/** factor for drawing more than between front and back */
-	private final static int DEPTH_FACTOR = 4;
+	private final static int DEPTH_FACTOR = 2;
 		
 	public int getLeft(){ return left;	}
 	public int getRight(){ return right;	}
@@ -1700,6 +1696,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	public int getBottom(){ return bottom;	}
 	public int getTop(){ return top;	}
 	public int getHeight(){return top - bottom;}
+	
+	public int getVisibleDepth(){ return getWidth()*2; } //keep visible objects at twice center-to-right distance
+	
 	public float getFront(boolean extended){ 
 		if (extended) {
 			return frontExtended;
@@ -1949,29 +1948,36 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
 
     
-    private double near = 0;
+    private double eyeToScreenDistance = 0;
     //private double distratio;
     
     public void setNear(double val){
-    	near = val - perspNear;
+    	eyeToScreenDistance = val;
     	updatePerspValues();   	
     }
     
     /** distance camera-near plane */
-    private static final double perspNear = 10; //TODO set this to avoid z-buffer issues
+    private final static double PERSP_NEAR_MIN = 10;
+    private double perspNear = PERSP_NEAR_MIN; 
     private double perspLeft, perspRight, perspBottom, perspTop, perspFar, perspDistratio, perspFocus;
     private Coords perspEye;
     
     private void updatePerspValues(){
     	
-    	frontExtended = (int) -near; //front clipping plane
+    	frontExtended = (int) -eyeToScreenDistance; //front clipping plane
     	
+    	App.debug(getWidth()+","+eyeToScreenDistance);
     	
-    	perspFocus = -perspNear -near + getScreenZOffset();
+    	perspNear = eyeToScreenDistance - getVisibleDepth()/2;
+    	if (perspNear < PERSP_NEAR_MIN){
+    		perspNear = PERSP_NEAR_MIN;
+    	}
+    	
+    	perspFocus = -eyeToScreenDistance + getScreenZOffset();
     	//App.error(near +","+ getScreenZOffset());
 
     	//ratio so that distance on screen plane are not changed
-    	perspDistratio = perspNear/(perspNear+near);
+    	perspDistratio = perspNear/(eyeToScreenDistance);
     	
     	//frustum    	
     	perspLeft = getLeft()*perspDistratio;
@@ -1979,7 +1985,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	perspBottom = getBottom()*perspDistratio;
     	perspTop = getTop()*perspDistratio;
     	//distance camera-far plane
-    	perspFar = perspNear+getBack(true)-getFront(true);
+    	perspFar = perspNear+getVisibleDepth();
     	
     	perspEye = new Coords(0,0,-perspFocus,1);   	
     }

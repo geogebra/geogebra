@@ -50,8 +50,7 @@ public class Hits3D extends Hits {
 			}
 			
 				
-			d.zPickMin = zMin;
-			d.zPickMax = zMax;
+			d.setZPick(zMin,zMax);
 
 			super.add(d);
 			

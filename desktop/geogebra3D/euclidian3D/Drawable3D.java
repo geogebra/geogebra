@@ -166,7 +166,7 @@ public abstract class Drawable3D extends DrawableND {
 	//picking
 	//private boolean m_isPicked = false;	
 	/** max picking value, used for odering elements with openGL picking */
-	public float zPickMax; 
+	private float zPickMax; 
 	/** min picking value, used for odering elements with openGL picking */	
 	public float zPickMin;
 
@@ -1330,6 +1330,15 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	
+	/**
+	 * set min/max z values when picked
+	 * @param min min value
+	 * @param max max value
+	 */
+	final public void setZPick(float min, float max){
+		zPickMin = min;
+		zPickMax = max;
+	}
 	
 	
 	
