@@ -264,6 +264,26 @@ public class AlgoCommonTangents extends AlgoElement {
         }
 
     } // end of compute
+    
+    /**
+     * return intersection point of tangent line and conic c.
+     * return null if line is not defined as tangent of conic c.
+     */
+    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
+        if (conic != c) return null;
+        
+        if (line == tangents[0]) {
+			return tangentPoints[0];
+        } else if (line == tangents[1]) {
+			return tangentPoints[1];
+        } else if (line == tangents[2]) {
+			return tangentPoints2[0];
+        } else if (line == tangents[3]) {
+			return tangentPoints2[1];
+        } else {
+            return null;
+        }
+    }
 
     @Override
 	public final String toString(StringTemplate tpl) {

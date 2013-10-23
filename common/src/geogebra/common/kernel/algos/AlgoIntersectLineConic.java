@@ -112,6 +112,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			AlgoTangentLine algo = (AlgoTangentLine) g.getParentAlgorithm();
 			tangentPoint = algo.getTangentPoint(c, g);
 			isDefinedAsTangent = (tangentPoint != null);
+		} else if (g.getParentAlgorithm() instanceof AlgoCommonTangents) {
+			AlgoCommonTangents algo = (AlgoCommonTangents) g.getParentAlgorithm();
+			tangentPoint = algo.getTangentPoint(c, g);
+			isDefinedAsTangent = (tangentPoint != null);
 		}
 
 		initElements();
