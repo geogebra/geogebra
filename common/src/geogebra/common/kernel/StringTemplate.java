@@ -1931,6 +1931,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// rightStr already done in Giac
 			case GIAC:
 				break;	
+			case PSTRICKS:
+			case PGF:
 			case GEOGEBRA_XML:
 				sb.append('^'); 
 				sb.append('('); 
