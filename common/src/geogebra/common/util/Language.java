@@ -311,6 +311,9 @@ public enum Language {
 		else if("zh_hans_cn".equals(normalizedLanguage)){
 			normalizedLanguage = "zh_cn";
 		}
+		else if("zh_hant_tw".equals(normalizedLanguage)){
+			normalizedLanguage = "zh_cn";
+		}
 		//on iOS it's nb_no
 		else if(normalizedLanguage.startsWith("nb")){
 			normalizedLanguage = "no_nb";

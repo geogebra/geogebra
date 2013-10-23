@@ -168,6 +168,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
+		ih.setDir("ltr");
 
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
@@ -281,6 +282,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (ih == null) {
 			ih = DOM.createSpan().cast();
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
+			ih.setDir("ltr");
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
