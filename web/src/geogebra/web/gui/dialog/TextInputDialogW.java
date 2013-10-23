@@ -30,13 +30,16 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		this.editGeo = editGeo;
 //		textInputDialog = this;
 		inputHandler = new TextInputHandler();
+		
 //		isIniting = true;		
 		
 		createGUI(title, "", false, cols, rows, /*false*/ true, false, false, false,
 				DialogType.DynamicText);
+		editor = inputPanel.getTextAreaComponent();
 		
 		wrappedPopup.center();
 		wrappedPopup.show();
+		
 		
     }
 
@@ -171,6 +174,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 //		handlingDocumentEventOff = true;
 
 		this.editGeo = geo;
+		this.editor.setEditGeo(geo);
 		boolean createText = geo == null;
 		isLaTeX = geo == null ? false : geo.isLaTeX();
 				

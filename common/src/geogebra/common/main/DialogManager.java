@@ -72,11 +72,11 @@ public abstract class DialogManager {
 	
 	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
 		
-		/* TODO
+	
 		if (allowTextDialog && geo.isGeoText() && !geo.isTextCommand()) {
 			showTextDialog((GeoText) geo);
 			return;
-		} */
+		}
 
 		String str = geo.getRedefineString(false, true);
 

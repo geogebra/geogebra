@@ -7,6 +7,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.GWTKeycodes;
 import geogebra.html5.awt.GFontW;
 import geogebra.web.main.AppW;
 
@@ -25,6 +26,8 @@ import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
@@ -80,7 +83,6 @@ public class TextEditPanel extends VerticalPanel {
 		rta.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 		rta.getElement().getStyle().setBorderColor("lightgray");
 		rta.getElement().getStyle().setBorderWidth(1, Unit.PX);
-		
 
 		rta.addValueChangeHandler(new ValueChangeHandler() {
 			public void onValueChange(ValueChangeEvent event) {
@@ -232,7 +234,7 @@ public class TextEditPanel extends VerticalPanel {
 
 			}
 		});
-		//toolBar.add(testBtn);
+		// toolBar.add(testBtn);
 	}
 
 	/**
@@ -364,7 +366,7 @@ public class TextEditPanel extends VerticalPanel {
 	public void setText(GeoText geo) {
 
 		rta.setHTML("");
-		
+
 		ArrayList<DynamicTextElement> list = dTProcessor
 		        .buildDynamicTextList(geo);
 
@@ -375,7 +377,7 @@ public class TextEditPanel extends VerticalPanel {
 				rta.getBody().appendChild(createValueElement(dt.text));
 			}
 		}
-	
+
 	}
 
 	/**
@@ -428,7 +430,7 @@ public class TextEditPanel extends VerticalPanel {
 		return canvas.toDataUrl();
 	}
 
-	private class MyEditBox extends TextBox {
+	private class MyEditBox extends TextBox implements KeyUpHandler{
 
 		Element target;
 
@@ -447,20 +449,45 @@ public class TextEditPanel extends VerticalPanel {
 			getStyleElement().setAttribute("spellcheck", "false");
 			getStyleElement().setAttribute("oncontextmenu", "return false");
 
-			this.addValueChangeHandler(new ValueChangeHandler<String>() {
+			addValueChangeHandler(new ValueChangeHandler<String>() {
 
 				public void onValueChange(ValueChangeEvent<String> event) {
-					if (target != null) {
-						target.setPropertyString("src",
-						        createTextImageURL(getText()));
-						target.setPropertyString("value", getText());
-					}
+					//updateTarget();
 				}
 			});
+			
+			addKeyUpHandler(this);
 		}
 
+		protected void updateTarget(){
+			if (target != null) {
+				target.setPropertyString("src",
+				        createTextImageURL(getText()));
+				target.setPropertyString("value", getText());
+			}
+		}
+		
+		
 		public void setTarget(Element target) {
 			this.target = target;
+		}
+
+		public void onKeyUp(KeyUpEvent e) {
+			int keyCode = e.getNativeKeyCode();
+
+			switch (keyCode) {
+			case GWTKeycodes.KEY_ESCAPE:
+				textEditPopup.hide();
+				break;
+
+			case GWTKeycodes.KEY_ENTER:
+				updateTarget();
+				textEditPopup.hide();
+				break;
+				
+			default:
+				updateTarget();
+			}
 		}
 
 	}
