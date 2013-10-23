@@ -66,7 +66,7 @@ public class RichTextAreaEditor extends RichTextArea implements
 
 	}
 
-	private Document getDocument() {
+	public Document getDocument() {
 		return IFrameElement.as(getElement()).getContentDocument();
 	}
 

@@ -20,6 +20,9 @@ import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.Style.BorderStyle;
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -74,6 +77,11 @@ public class TextEditPanel extends VerticalPanel {
 
 		formatter = rta.getFormatter();
 		rta.setSize("350px", "8em");
+		rta.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+		rta.getElement().getStyle().setBorderColor("lightgray");
+		rta.getElement().getStyle().setBorderWidth(1, Unit.PX);
+		
+
 		rta.addValueChangeHandler(new ValueChangeHandler() {
 			public void onValueChange(ValueChangeEvent event) {
 				App.debug("value changed:");
@@ -94,13 +102,14 @@ public class TextEditPanel extends VerticalPanel {
 
 				textEditPopup.setVisible(false);
 
-				if ("img".equalsIgnoreCase(target.getTagName())) {
+				if ("input".equalsIgnoreCase(target.getTagName())) {
 
-					String alt = DOM.getElementAttribute(
-					        (com.google.gwt.user.client.Element) target, "alt");
-					App.debug(alt);
+					String value = DOM.getElementAttribute(
+					        (com.google.gwt.user.client.Element) target,
+					        "value");
+					App.debug(value);
 
-					editBox.setText(alt);
+					editBox.setText(value);
 					editBox.setTarget(target);
 					showEditPopup();
 
@@ -139,6 +148,14 @@ public class TextEditPanel extends VerticalPanel {
 			textEditPopup = new PopupPanel();
 			textEditPopup.add(editBox);
 			textEditPopup.setAutoHideEnabled(true);
+			editBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+				public void onValueChange(ValueChangeEvent<String> event) {
+					textEditPopup.setVisible(false);
+
+				}
+			});
+
 		}
 	}
 
@@ -192,7 +209,7 @@ public class TextEditPanel extends VerticalPanel {
 
 			} else if (node.getNodeType() == Node.ELEMENT_NODE) {
 				list.add(new DynamicTextElement(((Element) node)
-				        .getPropertyString("alt"), DynamicTextType.VALUE));
+				        .getPropertyString("value"), DynamicTextType.VALUE));
 				// App.debug("node value:"
 				// + ((Element) node).getPropertyString("value"));
 			}
@@ -206,15 +223,16 @@ public class TextEditPanel extends VerticalPanel {
 
 		buildInsertGeoButton();
 		toolBar.add(btInsertGeo);
-		
+
 		Button testBtn = new Button("test");
-		testBtn.addClickHandler(new ClickHandler(){
+		testBtn.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-	            formatter.insertImage(createTextImageURL("sample text"));
-	           
-            }});
-		toolBar.add(testBtn);
+				formatter.insertImage(createTextImageURL("sample text"));
+
+			}
+		});
+		//toolBar.add(testBtn);
 	}
 
 	/**
@@ -244,8 +262,71 @@ public class TextEditPanel extends VerticalPanel {
 	}
 
 	public void insertDynamicTextBox(String text) {
-		formatter.insertHTML(getDynamicTextHTML(text));
-		App.debug("HTML: " + rta.getHTML());
+
+		String dummyURL = createTextImageURL("dummy");
+		formatter.insertImage(dummyURL);
+
+		for (int i = 0; i < rta.getBody().getChildCount(); i++) {
+			Node node = rta.getBody().getChild(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element elem = (Element) node;
+				String nodeSRC = elem.getPropertyString("src");
+				App.debug("node src:" + nodeSRC);
+
+				if (elem.getPropertyString("src").equals(dummyURL)) {
+					/*
+					 * App.debug("found it!"); elem.setPropertyString("src",
+					 * createTextImageURL(text)); elem.setPropertyString("alt",
+					 * text); //elem.setPropertyString("style", style);
+					 * elem.getStyle().setBorderStyle(BorderStyle.SOLID);
+					 * elem.getStyle().setBorderWidth(2, Unit.PX);
+					 * elem.getStyle().setBorderColor("lightgray");
+					 * elem.getStyle().setCursor(Cursor.POINTER);
+					 * elem.getStyle().setMarginTop(0, Unit.PX);
+					 * elem.getStyle().setMarginBottom(-2, Unit.PX);
+					 * elem.getStyle().setMarginLeft(4, Unit.PX);
+					 * elem.getStyle().setMarginRight(4, Unit.PX);
+					 */
+
+					rta.getBody().replaceChild(createValueElement(text), node);
+
+					break;
+				}
+
+			}
+		}
+
+		// formatter.insertHTML(getDynamicTextHTML(text));
+		// App.debug("HTML: " + rta.getHTML());
+	}
+
+	private Element createValueElement(String value) {
+
+		Element elem = rta.getDocument().createElement("input");
+		elem.getStyle().clearBackgroundImage();
+		elem.getStyle().clearBackgroundColor();
+		elem.getStyle().clearTextDecoration();
+		elem.getStyle().clearOpacity();
+
+		elem.setPropertyString("type", "button");
+		elem.setPropertyString("value", value);
+		elem.getStyle().setBorderStyle(BorderStyle.SOLID);
+		elem.getStyle().setBorderWidth(2, Unit.PX);
+		elem.getStyle().setBorderColor("lightgray");
+		elem.getStyle().setCursor(Cursor.POINTER);
+		elem.getStyle().setFontSize(app.getFontSize(), Unit.PT);
+		elem.getStyle().setBackgroundColor("wheat");
+
+		return elem;
+
+	}
+
+	private Element createTextElement(String text) {
+
+		Element elem = rta.getDocument().createTextNode(text).cast();
+		return elem;
+
 	}
 
 	public String getDynamicTextHTML(String text) {
@@ -281,6 +362,30 @@ public class TextEditPanel extends VerticalPanel {
 	 *            GeoText
 	 */
 	public void setText(GeoText geo) {
+
+		rta.setHTML("");
+		
+		ArrayList<DynamicTextElement> list = dTProcessor
+		        .buildDynamicTextList(geo);
+
+		for (DynamicTextElement dt : list) {
+			if (dt.type == DynamicTextType.STATIC) {
+				rta.getBody().appendChild(createTextElement(dt.text));
+			} else {
+				rta.getBody().appendChild(createValueElement(dt.text));
+			}
+		}
+	
+	}
+
+	/**
+	 * Builds and sets editor content to correspond with the text string of a
+	 * GeoText
+	 * 
+	 * @param geo
+	 *            GeoText
+	 */
+	public void setText2(GeoText geo) {
 
 		String htmlString = "";
 		ArrayList<DynamicTextElement> list = dTProcessor
@@ -348,7 +453,7 @@ public class TextEditPanel extends VerticalPanel {
 					if (target != null) {
 						target.setPropertyString("src",
 						        createTextImageURL(getText()));
-						target.setPropertyString("alt", getText());
+						target.setPropertyString("value", getText());
 					}
 				}
 			});
