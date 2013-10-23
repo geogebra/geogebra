@@ -414,8 +414,9 @@ public class AlgoSequence extends AlgoElement {
 	}
 
 	private void updateListItems(double from, double to, double step) {
-		if (isEmpty)
+		if (isEmpty || list.size() == 0) {
 			return;
+		}
 
 		double currentVal = from;
 		int i = 0;
