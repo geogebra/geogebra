@@ -312,7 +312,7 @@ public enum Language {
 			normalizedLanguage = "zh_cn";
 		}
 		else if("zh_hant_tw".equals(normalizedLanguage)){
-			normalizedLanguage = "zh_cn";
+			normalizedLanguage = "zh_tw";
 		}
 		//on iOS it's nb_no
 		else if(normalizedLanguage.startsWith("nb")){
