@@ -1,16 +1,17 @@
 @charset "utf-8";
 
-* html body .optionsBox {
+body .optionsBox {
 	padding-right: 0px;
 	padding-left: 10px;
 }
 
-* html body .optionsBox input[type="range"]{
+body .optionsBox input[type="range"]{
 	margin-left: -5px;
 	margin-right: 0px;
 }
 
-* html body .lineStyleBar {
+body .lineStyleBar,
+body .colorBar {
 	padding-right: 0px;
 }
 
