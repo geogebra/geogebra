@@ -304,11 +304,12 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 					this.app.getLocalization().getPlain("clockwise"));
 		}
 
-		this.customKeys.setVisible(false);
+		
 		if (this.type != DialogType.Slider
-				&& this.type != DialogType.RedefineSlider
-				&& this.type != DialogType.Angle) {
+				&& this.type != DialogType.RedefineSlider) {
 			this.customKeys.setVisible(true);
+		}else{
+			this.customKeys.setVisible(false);
 		}
 
 		setLabels();
