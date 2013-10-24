@@ -29,7 +29,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, lib-gwt-svg"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
