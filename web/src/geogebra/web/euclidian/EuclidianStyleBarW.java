@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoTableText;
@@ -689,8 +690,10 @@ public class EuclidianStyleBarW extends StyleBarW
 					null);
 
 		// create button
-		btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, mode, true);
-//		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
+		btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, mode, true,
+				new PointStyleModel(null));
+
+		//		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
 //				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 //
 //			@Override

@@ -481,6 +481,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	    myPopup.getPanel().add(menu);
     }
 	
-	
+	protected boolean hasSlider() {
+		return mySlider != null;
+	}
 	
 }
