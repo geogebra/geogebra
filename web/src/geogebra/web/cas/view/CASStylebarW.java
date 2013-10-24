@@ -7,7 +7,6 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
@@ -114,9 +113,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 	
-		btnBold = new MyToggleButton2(
-				AppResources.INSTANCE.format_text_bold(),
-				iconHeight){
+		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -135,9 +132,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		};
 		btnBold.addClickHandler(this);
 		
-		btnItalic = new MyToggleButton2(
-				AppResources.INSTANCE.format_text_italic(),
-				iconHeight){
+		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
