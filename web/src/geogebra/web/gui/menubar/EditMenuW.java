@@ -155,17 +155,19 @@ public class EditMenuW extends MenuBar {
 		addSeparator();
 
 		// object properties menu
-		if (!app.getKernel().isEmpty()){
-			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .view_properties16().getSafeUri().asString(), app.getPlain("Properties")
-				+ " ..."),
-		        true, new Command() {
-			        public void execute() {
-			        	((AppW) app).getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
-			        }
-		        });
-			
-			addSeparator();
+		if (!app.isApplet()){
+			if (!app.getKernel().isEmpty()){
+				addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+			        .view_properties16().getSafeUri().asString(), app.getPlain("Properties")
+					+ " ..."),
+			        true, new Command() {
+				        public void execute() {
+				        	((AppW) app).getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+				        }
+			        });
+				
+				addSeparator();
+			}
 		}
 		
 		// select all menu

@@ -70,7 +70,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		// Creation of Options Menu
 		createOptionsMenu(); // Later we'll put back.
 
-		createWindowMenu();
+		if (!app.isApplet()) createWindowMenu();
 
 		// Creation of Help Menu
 		createHelpMenu();

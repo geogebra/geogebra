@@ -2,7 +2,6 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
-import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
@@ -43,9 +42,11 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		app.getOptionsMenu().addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
-		addSeparator();
-		addSaveSettingsMenu();
-		addRestoreDefaultSettingsMenu();
+		if (!app.isApplet()){
+			addSeparator();
+			addSaveSettingsMenu();
+			addRestoreDefaultSettingsMenu();
+		}
 	}
 	
 	private void addLanguageMenu() {
