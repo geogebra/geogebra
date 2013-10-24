@@ -20,7 +20,7 @@ cd $WEB_AUTOBUILDDIR
  }
 
 # Compiling webSimple
-./build -t WebSimple -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war-simple -- -localWorkers 2
+./build -t WebSimple -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war-simple -- -localWorkers 2 > .buildlog2 2>&1
 
 echo -n $REVISION > $REVDIR/$REVISION/war/web/version.txt
 echo -n $REVISION > $REVDIR/$REVISION/war-simple/webSimple/version.txt
