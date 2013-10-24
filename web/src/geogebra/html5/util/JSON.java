@@ -1,6 +1,7 @@
 package geogebra.html5.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 
 public class JSON {
 
@@ -19,5 +20,10 @@ public class JSON {
 	public static native void put (JavaScriptObject obj, String key,
             String value) /*-{
 	   obj[key] = value;
+    }-*/;
+
+	public static native void put(JavaScriptObject obj, String key,
+            JsArray<JavaScriptObject> value) /*-{
+		obj[key] = value;
     }-*/;
 }

@@ -1,5 +1,6 @@
 package geogebra.web.move.googledrive.operations;
 
+import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
@@ -8,6 +9,7 @@ import geogebra.common.move.views.BaseEventView;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.JSON;
+import geogebra.html5.util.URL;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleDriveLoadedEvent;
@@ -16,6 +18,7 @@ import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 import geogebra.web.move.googledrive.models.GoogleDriveModelW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
 
 /**
@@ -29,6 +32,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	private boolean isDriveLoaded;
 	private AppW app;
 	private boolean loggedIn;
+	private JavaScriptObject googleDriveURL;
 
 	
 	/**
@@ -42,6 +46,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		setModel(new GoogleDriveModelW());
 		
 		app.getLoginOperation().getView().add(this);
+		getView().add(this);
 		
 	}
 	
@@ -100,15 +105,16 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	/**
 	 * logs in the user to Google
+	 * @param immediate wheter to force login popup open
 	 */
-	public native void login() /*-{
+	public native void login(boolean immediate) /*-{
 		var _this = this,
 			config = {'client_id': 	@geogebra.common.GeoGebraConstants::GOOGLE_CLIENT_ID,
 	            	'scope': 	@geogebra.common.GeoGebraConstants::DRIVE_SCOPE + " " +
 	            				@geogebra.common.GeoGebraConstants::USERINFO_EMAIL_SCOPE + " " +
 	            				@geogebra.common.GeoGebraConstants::USERINFO_PROFILE_SCOPE + " " +
 	            				@geogebra.common.GeoGebraConstants::PLUS_ME_SCOPE,
-	            	 'immediate': true};
+	            	 'immediate': immediate};
 	    config.max_auth_age = 0;
 		$wnd.gapi.auth.authorize(config,
 	            	 function (resp) {
@@ -119,7 +125,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	}-*/;
 	
 	private void authorizeCallback(JavaScriptObject resp) {
-		if (JSON.get(resp, "error") != null) {
+		if (resp == null || JSON.get(resp, "error") != null) {
 			this.loggedIn = false;
 			onEvent(new GoogleLoginEvent(false));
 		} else {
@@ -129,18 +135,34 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	}
 
     public void renderEvent(BaseEvent event) {
+    	App.debug("event: " + event.toString());
+    	if (event instanceof GoogleDriveLoadedEvent) {
+    		checkIfOpenedFromGoogleDrive();
+    		return;
+    	}
+    	if (event instanceof GoogleLoginEvent) {
+    		if (((GoogleLoginEvent) event).isSuccessFull()) {
+    			checkIfFileMustbeOpenedFromGoogleDrive();
+    		} else {
+    			if ("open".equals(getAction())) {
+    				login(false);
+    			}
+    			App.debug("Something went wrong");
+    		}
+    		return;
+    	}
 	    if (event instanceof LoginEvent) {
 	    	if (((LoginEvent) event).isSuccessful()) {
 	    		String type = app.getLoginOperation().getModel().getLoggedInUser().getIdentifier();
 	    		if (type.indexOf("www.google.com") != -1) {
 	    			if (this.isDriveLoaded) {
-	    				this.login();
+	    				this.login(true);
 	    			} else {
 	    				getView().add(new EventRenderable() {
 							
 							public void renderEvent(BaseEvent loadevent) {
 								if (loadevent instanceof GoogleDriveLoadedEvent) {
-									login();
+									login(true);
 								}
 								
 							}
@@ -150,11 +172,34 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    	} else {
 	    		logOut();
 	    	}
-	    } else if (event instanceof LogOutEvent) {
+	    	return;
+	    }
+	    if (event instanceof LogOutEvent) {
 	    	logOut();
+	    	return;
 	    }
 	    
     }
+
+	private void checkIfFileMustbeOpenedFromGoogleDrive() {
+	   if ("open".equals(getAction())) {
+		   openFileFromGoogleDrive(googleDriveURL);
+	   }
+    }
+
+	private native void openFileFromGoogleDrive(JavaScriptObject descriptors) /*-{
+		var id = descriptors["ids"] ? descriptors["ids"][0] : undefined,
+			_this = this;
+			request;
+		if ( id !== undefined) {
+			request = $wnd.gapi.client.drive.files.get({
+				fileId : id
+			});
+			request.execute(function(resp) {
+				_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
+			});
+		}
+    }-*/;
 
 	/**
 	 * @return if the user is logged into google
@@ -251,7 +296,14 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		if (!fileName.equals(app.getFileName())) {
 			app.setCurrentFileId(null);
 		}
-		
+		if ((getFolderId() != null) && !"".equals(getFolderId())) {
+			JavaScriptObject folderId = JavaScriptObject.createObject();
+			JSON.put(folderId, "id", getFolderId());
+			JsArray<JavaScriptObject> parents = (JsArray<JavaScriptObject>) JavaScriptObject.createArray();
+			parents.push(folderId);
+			JSON.put(metaData, "parents", parents);
+		}
+		AppW.debug(metaData);
 		handleFileUploadToGoogleDrive(app.getCurrentFileId(), metaData, fileContent);		
     }
 	
@@ -303,6 +355,35 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		((DialogManagerW) app.getDialogManager()).getFileChooser().hide();
 		((DialogManagerW) app.getDialogManager()).getFileChooser().saveSuccess(fileName, description);
 		app.setCurrentFileId(id);
+	}
+
+	private void checkIfOpenedFromGoogleDrive() {
+		String state = URL.getQueryParameterAsString("state");
+		App.debug(state);
+		if (!"".equals(state)) {
+			googleDriveURL = JSON.parse(state);
+			AppW.debug(googleDriveURL);
+			if (!this.loggedIn) {
+				login(true);
+			}
+			
+		}
+	}
+	
+	private String getFolderId() {
+		String folderId = null;
+		if (googleDriveURL != null) {
+			folderId = JSON.get(googleDriveURL, "folderId");
+		}
+		return folderId;
+	}
+	
+	private String getAction() {
+		String action = null;
+		if (googleDriveURL != null) {
+			action = JSON.get(googleDriveURL, "action");
+		}
+		return action;
 	}
 	
 	

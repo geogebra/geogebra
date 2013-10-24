@@ -113,6 +113,7 @@ public interface GeoGebraConstants {
 	/** This app's personal client ID assigned by the Google APIs Console
 	 (http://code.google.com/apis/console). */
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
+	public static final String GOOGLE_TEST_CLIENT_ID = "300173001758.apps.googleusercontent.com";
 	public static final String SKYDRIVE_CLIENT_ID = "00000000440E9093";
 	public static final String SKYDRIVE_REDIRECT_URI = "http://www.geogebra.org/web/test50/web/html/windowslive.html";
 	public static final String SKYDRIVE_PROXY_URL =	"html/skydriveproxy.php";
