@@ -1,6 +1,7 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;
@@ -38,7 +39,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 		setResizable(true);
         getContentPane().setPreferredSize(new Dimension(600, 700));
         
-        String url = app.getOpenFromGGTOperation().generateOpenFromGGTURL();
+        String url = app.getOpenFromGGTOperation().generateOpenFromGGTURL(OpenFromGGTOperation.APP_TYPE.DESKTOP);
         
         JFXPanel fxPanel = createWebView(url);
         add(fxPanel);

@@ -13,7 +13,21 @@ import geogebra.common.move.views.EventRenderable;
  */
 public class OpenFromGGTOperation extends BaseOperation<EventRenderable>{
 
-	public static String GGT_URL = "http://www.geogebratube.org/widgetprovider/index/widgettype/desktop";
+	private static String GGT_URL = "http://www.geogebratube.org/widgetprovider/index/widgettype/";
+	/**
+	 * @author gabor
+	 * App type concerning from where this class called
+	 */
+	public static final class APP_TYPE {
+		/**
+		 * Web
+		 */
+		public final static String WEB = "web";
+		/**
+		 *	Desktop 
+		 */
+		public final static String DESKTOP = "desktop";
+	}
 	private App app;
 	
 	/**
@@ -28,8 +42,8 @@ public class OpenFromGGTOperation extends BaseOperation<EventRenderable>{
 	/**
 	 * @return generates url for opening from GGT
 	 */
-	public String generateOpenFromGGTURL() {
-		String url = OpenFromGGTOperation.GGT_URL;
+	public String generateOpenFromGGTURL(String type) {
+		String url = OpenFromGGTOperation.GGT_URL + type;
         
 		// Add the login token to the URL if a user is logged in
 		if (app.getLoginOperation().isLoggedIn()) {

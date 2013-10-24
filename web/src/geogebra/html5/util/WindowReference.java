@@ -137,7 +137,7 @@ public class WindowReference implements EventRenderable {
 			int left = (Window.getClientWidth() / 2) - (width / 2);
 			int top = (Window.getClientHeight() / 2) - (height / 2);
 			OpenFromGGTOperation oGGT = ((AppW) app).getOpenFromGGTOperation();
-					instance.wnd = WindowW.open(oGGT.generateOpenFromGGTURL(),
+					instance.wnd = WindowW.open(oGGT.generateOpenFromGGTURL(OpenFromGGTOperation.APP_TYPE.WEB),
 					"GeoGebraTube" ,
 						"resizable," +
 						"toolbar=no," +
