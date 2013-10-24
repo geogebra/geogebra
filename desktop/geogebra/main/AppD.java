@@ -58,6 +58,7 @@ import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.common.util.Base64;
 import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
@@ -4496,6 +4497,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private DialogManager dialogManager;
 
+	private OpenFromGGTOperation openFromGGTOperation;
+
 	@Override
 	public void callAppletJavaScript(String string, Object[] args) {
 		getApplet().callJavaScript(string, args);
@@ -5046,6 +5049,16 @@ public class AppD extends App implements KeyEventDispatcher {
 		
 		// Try to login the stored user
 		loginOperation.performTokenLogin();
+	}
+	
+	public void initOpenFromGGTEventFlow() {
+		if (openFromGGTOperation == null) {
+			openFromGGTOperation = new OpenFromGGTOperation(this);
+		}
+	}
+	
+	public OpenFromGGTOperation getOpenFromGGTOperation() {
+		return openFromGGTOperation;
 	}
 
 	@Override

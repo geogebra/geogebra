@@ -24,13 +24,12 @@ import org.w3c.dom.events.Event;
 public class OpenFromGGTDialogD extends WebViewDialog {
 	private static final long serialVersionUID = 1L;
 	
-	private static String GGT_URL = "http://www.geogebratube.org/widgetprovider/index/widgettype/desktop";
-
 	/**
 	 * @param app The app of type AppD
 	 */
 	public OpenFromGGTDialogD(AppD app) {
 		super(app, true);
+		app.initOpenFromGGTEventFlow();
 		createGUI();
 	}
 	
@@ -39,21 +38,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 		setResizable(true);
         getContentPane().setPreferredSize(new Dimension(600, 700));
         
-        String url = GGT_URL;
-        
-		// Add the login token to the URL if a user is logged in
-		if (app.getLoginOperation().isLoggedIn()) {
-			
-			String token = app.getLoginOperation().getModel().getLoggedInUser().getLoginToken();
-			if (token != null) {
-				url += "/lt/" + token;
-			}
-		} else {
-			url += "/lt/nouser";
-		}
-		
-		// Add the application language parameter to the URL
-		url += "/?lang=" + app.getLocale().getLanguage();
+        String url = app.getOpenFromGGTOperation().generateOpenFromGGTURL();
         
         JFXPanel fxPanel = createWebView(url);
         add(fxPanel);
