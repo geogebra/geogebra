@@ -281,7 +281,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuill(ih, eqstring, fontSize, 16,
+			drawEquationMathQuill(ih, eqstring, fontSize, 12,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2);
 
@@ -401,11 +401,17 @@ public class DrawEquationWeb extends DrawEquation {
 			elfirst.style.zIndex = 2;
 			elfirst.style.width = "100%";
 			elfirst.style.height = "100%";
+			if (fontSizeRel != 0) {
+				elfirst.style.fontSize = fontSizeRel + "px";
+			}
 			el.appendChild(elfirst);
 		}
 
 		var elsecond = $doc.createElement("span");
 		elsecond.innerHTML = htmlt;
+		if (fontSizeRel != 0) {
+			elsecond.style.fontSize = fontSizeRel + "px";
+		}
 		el.appendChild(elsecond);
 
 		if (!visible) {
