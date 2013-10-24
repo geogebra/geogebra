@@ -2006,7 +2006,15 @@ label {
 }
 
 .italic{
-	font-style:italic;
+	font-style: italic;
+}
+
+.CAS_boldbutton{
+	font-weight: bold;
+}
+
+.CAS_italicbutton{
+	font-style: italic;
 }
 
 .algebraOpenButton{

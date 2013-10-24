@@ -131,6 +131,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 			}
 		};
 		btnBold.addClickHandler(this);
+		btnBold.addStyleName("CAS_boldbutton");
 		
 		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight) {
 			private static final long serialVersionUID = 1L;
@@ -150,6 +151,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 			}
 		};
 		btnItalic.addClickHandler(this);
+		btnItalic.addStyleName("CAS_italicbutton");
 	}
 	
 	/**
