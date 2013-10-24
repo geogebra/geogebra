@@ -45,6 +45,7 @@ public enum ToolBarMenu {
 
 	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint,
 			new ToolBarCommand[] { ToolBarCommand.CircleWithCenterThroughPoint,
+					ToolBarCommand.CirclePointRadius,
 					ToolBarCommand.Compasses,
 					ToolBarCommand.CircleThroughThreePoints,
 					ToolBarCommand.Semicircle,

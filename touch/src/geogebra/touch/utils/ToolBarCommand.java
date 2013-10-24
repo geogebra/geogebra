@@ -176,7 +176,8 @@ public enum ToolBarCommand {
 	Move_Mobile(EuclidianConstants.MODE_MOVE, getLafIcons()
 			.arrow_cursor_finger(), StyleBarDefaultSettings.Move), 
 	Select(-1,
-			getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move);
+			getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move), CirclePointRadius(-1,
+			toolIcons().circle_with_center_and_radius(), StyleBarDefaultSettings.Line);
 
 	private static ToolbarResources toolIcons() {
 		return ToolbarResources.INSTANCE;

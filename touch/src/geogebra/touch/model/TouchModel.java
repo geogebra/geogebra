@@ -84,7 +84,7 @@ public class TouchModel {
 		this.guiModel = new GuiModel(this);
 		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
-	
+
 	private InputDialog getInputDialog(){
 		if(this.inputDialog == null){
 			this.inputDialog = new InputDialog((TouchApp) this.app,
@@ -92,7 +92,7 @@ public class TouchModel {
 		}
 		return this.inputDialog;
 	}
-	
+
 	private SliderDialog getSliderDialog(){
 		if(this.sliderDialog == null){
 			this.sliderDialog = new SliderDialog((TouchApp) this.app,
@@ -564,6 +564,12 @@ public class TouchModel {
 								mirrorPoint));
 			}
 			break;
+		case CirclePointRadius:
+			this.getInputDialog().setType(DialogType.NumberValue);
+			this.getInputDialog().setMode("CirclePointRadius");
+			this.getInputDialog().setInputText("");
+			this.getInputDialog().show();
+			return;
 		case Dilate:
 			this.getInputDialog().setType(DialogType.NumberValue);
 			this.getInputDialog().setMode("DilateFromPoint");
@@ -973,6 +979,11 @@ public class TouchModel {
 			changeSelectionState(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 2;
 			break;
+			
+		case CirclePointRadius:
+			select(hits, Test.GEOPOINT, 1);
+			draw = getNumberOf(Test.GEOPOINT) >= 1;
+			break;
 
 		// commands that need one point and one line
 		case PerpendicularLine:
@@ -1307,7 +1318,15 @@ public class TouchModel {
 								(NumberValue) result[0], start));
 			}
 			break;
-
+		case CirclePointRadius:
+			final GeoPoint circleCenter = (GeoPoint) this.getElement(Test.GEOPOINT);
+			if(circleCenter!=null){
+				this.deselect(circleCenter);
+				newGeoElements.add(
+						this.kernel.getAlgoDispatcher().Circle(null, circleCenter,
+								(NumberValue) result[0]));
+			}
+			break;
 		case RotateObjectByAngle:
 			final GeoPoint center = this.lastSelected() instanceof GeoPoint ? (GeoPoint) this
 					.lastSelected() : (GeoPoint) this.getElement(Test.GEOPOINT);
