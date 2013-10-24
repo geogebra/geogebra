@@ -233,10 +233,10 @@ public class DrawEquationWeb extends DrawEquation {
 				// bold needed? Try this! (Testing needed...)
 				//eqstring = "\\mathbf{"+ eqstring +"}";
 			//}
-			if (!((TextProperties)geo).isSerifFont()) {
+			/*if (!((TextProperties)geo).isSerifFont()) {
 				// forcing sans-serif
 				eqstring = "\\mathsf{"+ eqstring +"}";
-			}
+			}*/
 		}
 
 		// whether we are painting on EV1 now
