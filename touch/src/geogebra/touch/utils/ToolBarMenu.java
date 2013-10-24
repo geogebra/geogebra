@@ -26,6 +26,7 @@ public enum ToolBarMenu {
 	Line(ToolBarCommand.LineThroughTwoPoints, new ToolBarCommand[] {
 			ToolBarCommand.LineThroughTwoPoints,
 			ToolBarCommand.SegmentBetweenTwoPoints,
+			ToolBarCommand.SegmentFixed,
 			ToolBarCommand.RayThroughTwoPoints,
 			ToolBarCommand.PolylineBetweenPoints,
 			ToolBarCommand.VectorBetweenTwoPoints,
@@ -60,7 +61,7 @@ public enum ToolBarMenu {
 
 	Measurement(ToolBarCommand.Angle,
 			new ToolBarCommand[] { ToolBarCommand.Angle,
-			// FIXME Implement Measurements
+			ToolBarCommand.AngleFixed,
 			ToolBarCommand.DistanceOrLength,
 			ToolBarCommand.Area,
 			ToolBarCommand.Slope,

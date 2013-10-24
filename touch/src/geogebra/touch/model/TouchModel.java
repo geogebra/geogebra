@@ -12,6 +12,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.Command;
@@ -42,6 +43,7 @@ import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
@@ -570,6 +572,18 @@ public class TouchModel {
 			this.getInputDialog().setInputText("");
 			this.getInputDialog().show();
 			return;
+		case AngleFixed:
+			this.getInputDialog().setType(DialogType.Angle);
+			this.getInputDialog().setMode("AngleFixed");
+			this.getInputDialog().setInputText("");
+			this.getInputDialog().show();
+			return;
+		case SegmentFixed:
+			this.getInputDialog().setType(DialogType.NumberValue);
+			this.getInputDialog().setMode("SegmentFixed");
+			this.getInputDialog().setInputText("");
+			this.getInputDialog().show();
+			return;
 		case Dilate:
 			this.getInputDialog().setType(DialogType.NumberValue);
 			this.getInputDialog().setMode("DilateFromPoint");
@@ -976,10 +990,12 @@ public class TouchModel {
 		case CircleWithCenterThroughPoint:
 		case Semicircle:
 		case Locus:
+		case AngleFixed:
 			changeSelectionState(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 2;
 			break;
-			
+		//tools that need one point
+		case SegmentFixed:
 		case CirclePointRadius:
 			select(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 1;
@@ -1265,8 +1281,6 @@ public class TouchModel {
 			if (this.redefineGeo == null) {
 				return false;
 			}
-			System.out.println("oldRedefineText: " + this.oldRedefineText);
-			System.out.println("input: " + input.trim());
 
 			if (input.trim().equals(this.oldRedefineText)) {
 				System.out.println("TRUE");
@@ -1319,13 +1333,30 @@ public class TouchModel {
 			}
 			break;
 		case CirclePointRadius:
-			final GeoPoint circleCenter = (GeoPoint) this.getElement(Test.GEOPOINT);
+			GeoPoint circleCenter = (GeoPoint) this.getElement(Test.GEOPOINT);
 			if(circleCenter!=null){
 				this.deselect(circleCenter);
 				newGeoElements.add(
 						this.kernel.getAlgoDispatcher().Circle(null, circleCenter,
 								(NumberValue) result[0]));
 			}
+			break;
+		case AngleFixed:
+			GeoPoint leg = (GeoPoint) this.getElement(Test.GEOPOINT, 0);
+			GeoPoint vertex = (GeoPoint) this.getElement(Test.GEOPOINT, 1);
+			this.deselect(leg);
+			this.deselect(vertex);
+			newGeoElements.add(
+						this.kernel.getAlgoDispatcher().Angle(null, leg, vertex, (GeoNumberValue) result[0], 
+								!getInputDialog().isClockwise())[0]);
+			
+			break;
+		case SegmentFixed:
+			circleCenter = (GeoPoint) this.getElement(Test.GEOPOINT);
+			ExpressionNode en = new ExpressionNode(this.kernel, result[0], Operation.ABS, null);
+			AlgoDependentNumber algo = new AlgoDependentNumber(this.kernel.getConstruction(), en, false);
+			this.deselect(circleCenter);
+			newGeoElements.add(this.kernel.getAlgoDispatcher().Segment(null, circleCenter, algo.getNumber())[0]);
 			break;
 		case RotateObjectByAngle:
 			final GeoPoint center = this.lastSelected() instanceof GeoPoint ? (GeoPoint) this

@@ -176,8 +176,12 @@ public enum ToolBarCommand {
 	Move_Mobile(EuclidianConstants.MODE_MOVE, getLafIcons()
 			.arrow_cursor_finger(), StyleBarDefaultSettings.Move), 
 	Select(-1,
-			getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move), CirclePointRadius(-1,
-			toolIcons().circle_with_center_and_radius(), StyleBarDefaultSettings.Line);
+			getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move), CirclePointRadius(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
+			toolIcons().circle_with_center_and_radius(), StyleBarDefaultSettings.Line),
+	SegmentFixed(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
+						toolIcons().segment_with_given_length_from_point(), StyleBarDefaultSettings.Line),
+	AngleFixed(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
+									toolIcons().angle_fixed(), StyleBarDefaultSettings.Line);
 
 	private static ToolbarResources toolIcons() {
 		return ToolbarResources.INSTANCE;
