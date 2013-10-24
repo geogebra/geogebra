@@ -66,7 +66,7 @@ import java.util.HashSet;
  * 
  */
 public class GeoLine extends GeoVec3D implements Path, Translateable,
-		PointRotateable, Mirrorable, Dilateable, LineProperties, GeoLineND,
+		PointRotateable, Mirrorable, Dilateable, GeoLineND,
 		MatrixTransformable, GeoFunctionable, Transformable, Functional,
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 

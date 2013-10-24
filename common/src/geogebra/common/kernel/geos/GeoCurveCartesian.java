@@ -51,7 +51,7 @@ import java.util.ArrayList;
 public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		Transformable, VarString, Translateable, PointRotateable, Mirrorable,
 		Dilateable, MatrixTransformable, CasEvaluableFunction, ParametricCurve,
-		LineProperties, ConicMirrorable {
+		ConicMirrorable {
 
 
 	private Function funX, funY;

@@ -43,7 +43,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
@@ -60,7 +59,7 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
+public abstract class GeoConicND extends GeoQuadricND implements Path,
 Translateable, GeoConicNDConstants,
 MatrixTransformable, PointRotateable, Transformable, Mirrorable, Dilateable,
 Region3D, GeoDirectionND

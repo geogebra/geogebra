@@ -26,7 +26,7 @@ import java.util.Arrays;
  */
 
 public class GeoSpline extends GeoElement implements Transformable, VarString,
-		ParametricCurve, LineProperties, Translateable, PointRotateable,
+		ParametricCurve, Translateable, PointRotateable,
 		Mirrorable, ConicMirrorable, Dilateable, MatrixTransformable {
 
 	private GeoList points;

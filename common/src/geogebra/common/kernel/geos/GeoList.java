@@ -51,7 +51,7 @@ import java.util.ArrayList;
 /**
  * List of GeoElements
  */
-public class GeoList extends GeoElement implements ListValue, LineProperties,
+public class GeoList extends GeoElement implements ListValue,
 PointProperties, TextProperties, Traceable, Path, Transformable,
 SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 AngleProperties {
@@ -1442,6 +1442,7 @@ AngleProperties {
 	 * able to set the line properties
 	 * @return true if all elements have line properties
 	 */
+	@Override
 	public boolean showLineProperties() {
 		if (showAllProperties) {
 			return true;
@@ -1449,7 +1450,7 @@ AngleProperties {
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
-			if ((geo instanceof LineProperties) && !geo.isLabelSet()) {
+			if (geo.showLineProperties() && !geo.isLabelSet()) {
 				return true;
 			}
 		}

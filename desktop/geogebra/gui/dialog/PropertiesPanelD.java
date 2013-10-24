@@ -68,7 +68,6 @@ import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -5404,12 +5403,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = ((GeoElement) geos[i])
 						.getGeoElementForPropertiesDialog();
-				if (!(geo.isPath()
-						|| (geo.isGeoList() && ((GeoList) geo)
-								.showLineProperties())
-						|| (geo.isGeoNumeric() && (((GeoNumeric) geo)
-								.isDrawable() || isDefaults)) || ((geo instanceof GeoFunctionNVar) && ((GeoFunctionNVar) geo)
-						.isInequality()))) {
+				if (!geo.showLineProperties()) {
 					geosOK = false;
 					break;
 				}
