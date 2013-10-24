@@ -147,6 +147,7 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public void setRow(int rowNumber, GeoCasCell casCell) {
+		if (rowNumber<0) return;
 		if (rowNumber >= this.getRowCount()) {
 			resize(rowNumber + 1, 2);
 		}
