@@ -3354,12 +3354,4 @@ public abstract class App implements UpdateSelection{
 
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
 
-	/**
-	 * Whether we are using Java 6
-	 * 
-	 * @return whether we are using Java 6
-	 */
-	public boolean isJava6() {
-		return false;
-	}
 }
