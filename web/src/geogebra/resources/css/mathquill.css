@@ -92,7 +92,7 @@
 .mathquill-rendered-math var,
 .mathquill-rendered-math .text,
 .mathquill-rendered-math .nonSymbola {
-  font-family: geogebra-serif, "Times New Roman", serif;
+  /*font-family: geogebra-serif, "Times New Roman", serif;*/
   /*line-height: .9;*/
 }
 .mathquill-rendered-math * {
@@ -113,23 +113,24 @@
   background: transparent;
 }
 .mathquill-rendered-math .text {
+/*
   font-size: 87%;
+*/
 }
 .mathquill-rendered-math .font {
-  font: 1em geogebra-serif, "Times New Roman", serif;
-  /*font-size: 1em;
+  /*font: 1em geogebra-serif, "Times New Roman", serif;*/
+  font-size: 1em;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  line-height: normal; // Probably this should be changed!
-  */
+  line-height: 1.2;
 }
 .mathquill-rendered-math .font * {
   font-family: inherit;
   font-style: inherit;
 }
 .mathquill-rendered-math .font .text {
-  font-family: geogebra-serif, "Times New Roman", serif;
+  /*font-family: geogebra-serif, "Times New Roman", serif;*/
 }
 .mathquill-rendered-math b,
 .mathquill-rendered-math b.font {
