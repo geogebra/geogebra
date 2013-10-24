@@ -496,9 +496,14 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		// only needed if eg columns resized
 		if (editing == true) {
 			if (!errorOnStopEditing) {
-				// this stops editing but does not process geos ... needed for
-				// formula bar sync
+
+				// Process the current edit, exit the editor and update the
+				// formula bar
+				setAllowProcessGeo(true);
 				stopCellEditing();
+				setAllowProcessGeo(false);
+				table.getView().getFormulaBar().update();
+
 			} else if (!app.isErrorDialogShowing()) {
 				cancelCellEditing();
 			}
