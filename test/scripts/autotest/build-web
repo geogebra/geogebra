@@ -19,10 +19,10 @@ cd $WEB_AUTOBUILDDIR
  exit $RESULT
  }
 
-# A quick draft compilation for debugging (disabled to speed things up for now):
-# ./build -s PRETTY -u gecko1_8 -i $REVDIR/$REVISION/war-debug -- -draftCompile
+# Compiling webSimple
+./build -t WebSimple -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war-simple -- -localWorkers 2
 
 echo -n $REVISION > $REVDIR/$REVISION/war/web/version.txt
-# echo -n $REVISION > $REVDIR/$REVISION/war-debug/web/version.txt
+echo -n $REVISION > $REVDIR/$REVISION/war-simple/webSimple/version.txt
 
 exit 0
