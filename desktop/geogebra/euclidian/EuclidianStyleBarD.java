@@ -595,13 +595,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
-						if (!(geo.isPath()
-								|| (geo.isGeoList() ? ((GeoList) geo)
-										.showLineProperties() : false)
-								|| (geo.isGeoNumeric() ? (((GeoNumeric) geo)
-										.isDrawable() || ((GeoNumeric) geo)
-										.isSliderFixed()) : false) || geo
-								.isGeoAngle())) {
+						if (!geo.showLineProperties()) {
 							geosOK = false;
 							break;
 						}
