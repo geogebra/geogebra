@@ -1349,7 +1349,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// Only done using gnuplot
 		// add Warning
 		addWarningGnuplot();		
-		if (geo.getParentAlgorithm() instanceof AlgoSpline){
+		if (geo.getParentAlgorithm() instanceof AlgoSpline
+				|| geo instanceof GeoSpline){
         	GeoSpline s=(GeoSpline)geo;
         	for (int i=0;i<s.size();i++){
         		drawSingleCurve(s.get(i),sb);

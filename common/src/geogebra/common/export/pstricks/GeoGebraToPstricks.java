@@ -1007,7 +1007,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawCurveCartesian(GeoElement geo) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
-		if (geo.getParentAlgorithm() instanceof AlgoSpline) {
+		if (geo.getParentAlgorithm() instanceof AlgoSpline
+				|| geo instanceof GeoSpline) {
 			GeoSpline s = (GeoSpline) geo;
 			for (int i = 0; i < s.size(); i++) {
 				drawSingleCurve(s.get(i));
