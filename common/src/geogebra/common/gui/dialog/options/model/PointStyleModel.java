@@ -15,7 +15,7 @@ public class PointStyleModel extends OptionsModel {
 	public void updateProperties() {
 		PointProperties geo0 = (PointProperties) getGeoAt(0);
 
-		if (geo0.getPointStyle() == -1) {
+		if ((geo0 == null) || (geo0.getPointStyle() == -1)) {
 			// select default button
 			listener.setSelectedIndex(EuclidianStyleConstants.POINT_STYLE_DOT);
 		} else {

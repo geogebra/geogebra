@@ -947,8 +947,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			mainPanel.add(titleLabel);
 			btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, -1, false,
 					model);
-			btnPointStyle.setKeepVisible(false);
-			mainPanel.add(btnPointStyle);
+			if (btnPointStyle != null) {
+				btnPointStyle.setKeepVisible(false);
+				mainPanel.add(btnPointStyle);
+			}
 			setWidget(mainPanel);
 		}
 		@Override
@@ -958,8 +960,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
         }
 		
 		public void setSelectedIndex(int index) {
-	      btnPointStyle.setSelectedIndex(index);
-	        
+			if (btnPointStyle != null)
+				btnPointStyle.setSelectedIndex(index);
         }
 		
 		
