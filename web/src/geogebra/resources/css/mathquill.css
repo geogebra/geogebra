@@ -269,14 +269,21 @@
 }
 .mathquill-rendered-math .numerator {
   width: 100%;
-  border-bottom: black solid 1px;
-  padding: 0 0;
+  border-bottom: 1px solid;
+  padding: 0 0.1em;
+  margin-right: -0.1em;
+  margin-left: -0.1em;
   margin-bottom: -0.115em;
 }
 .mathquill-rendered-math .denominator {
   float: right;
   width: 100%;
-  padding: 0 0;
+  padding: 0 0.1em;
+  margin-right: -0.1em;
+  margin-left: -0.1em;
+}
+.mathquill-rendered-math .denominator .sqrt-parent {
+  margin-top: 0.215em;
 }
 .mathquill-rendered-math .sqrt-parent,
 .mathquill-rendered-math .paren-parent {
@@ -286,25 +293,24 @@
 	margin-left:0px;
 	margin-right:0px;
 }
-.mathquill-rendered-math .denominator .sqrt-parent {
-  margin-top: 0.215em;
-}
 .mathquill-rendered-math .sqrt-prefix {
   padding-top: 0px;
-  padding-right: 0px;
-  margin-right: 0px;
+  position: relative;
+  top: 0px;
   vertical-align: top;
-  -webkit-transform-origin: right top;
-  -moz-transform-origin: right top;
-  -ms-transform-origin: right top;
-  -o-transform-origin: right top;
-  transform-origin: right top;
+  -webkit-transform-origin: top;
+  -moz-transform-origin: top;
+  -ms-transform-origin: top;
+  -o-transform-origin: top;
+  transform-origin: top;
+}
+.mathquill-rendered-math .font .sqrt-prefix {
+  top: 0px;
 }
 .mathquill-rendered-math .sqrt-stem {
   border-top: 1px solid;
   margin-top: 0px;
-  margin-left: 0px;
-  padding-left: .16em;
+  padding-left: .15em;
   padding-right: .2em;
   margin-right: .1em;
 }
@@ -399,7 +405,7 @@
   position: absolute;
   clip: rect(1em 1em 1em 1em);
 }
-/*.mathquill-rendered-math .matrixed {
+.mathquill-rendered-math .matrixed {
   background: white;
   display: -moz-inline-box;
   display: inline-block;
@@ -407,4 +413,4 @@
 .mathquill-rendered-math .matrixed-container {
   filter: progid:DXImageTransform.Microsoft.Chroma(color='white');
   margin-top: -0.1em;
-}*/
+}
