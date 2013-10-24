@@ -70,7 +70,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 
 				// otherwise, doubleClick edits cell
 
-				if (!(table.getOneClickEditMap().containsKey(point) && view
+				if (!table.isEditing() && !(table.getOneClickEditMap().containsKey(point) && view
 						.allowSpecialEditor())) {
 					table.setAllowEditing(true);
 					table.editCellAt(table.getSelectedRow(),
