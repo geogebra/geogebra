@@ -575,7 +575,7 @@ public class TouchModel {
 		case AngleFixed:
 			this.getInputDialog().setType(DialogType.Angle);
 			this.getInputDialog().setMode("AngleFixed");
-			this.getInputDialog().setInputText("");
+			this.getInputDialog().setInputText("45\u00B0");
 			this.getInputDialog().show();
 			return;
 		case SegmentFixed:
