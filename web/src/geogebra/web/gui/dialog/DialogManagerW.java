@@ -288,7 +288,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	}
 
-	WindowReference signInDialog = null;
+	private WindowReference signInDialog = null;
 
 	@Override
     public void showLogInDialog() {
@@ -300,6 +300,18 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	    }
 	
     }
+	
+	private WindowReference openFromGGT = null;
+	
+	@Override
+    public void showOpenFromGGTDialog() {
+		if (openFromGGT == null || openFromGGT.closed()) {
+			openFromGGT = WindowReference.createOpenFromGGTWidnow(app);
+		} else {
+			openFromGGT.close();
+			openFromGGT = null;
+		}
+	}
 
 	@Override
     public void showLogOutDialog() {
@@ -313,12 +325,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	    		getAlertDialog().get(app.getLocalization().getMenu("LoginToGoogleWasUnSuccesFull"));
 	    	}
 	    }
-	    
-    }
-
-	@Override
-    public void showOpenFromGGTDialog() {
-	    // TODO Auto-generated method stub
 	    
     }
 

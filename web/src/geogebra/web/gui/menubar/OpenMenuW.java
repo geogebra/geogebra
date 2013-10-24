@@ -11,6 +11,7 @@ import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -22,6 +23,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 	private App app;
 	private MenuItem openFromGoogleDrive;
 	private MenuItem openURL;
+	private MenuItem openFromGGT;
 
 	/**
 	 * Constructs the "Open" menu
@@ -53,6 +55,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 		    	}
 		    });	
 		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getOpenFromGoogleDriveCommand());
+		openFromGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(), app.getMenu("OpenFromGeoGebraTube")),true, getOpenFromGeoGebraTubeCommand());
 		
 		 ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
 				
@@ -72,6 +75,15 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
 	}
 
+	private ScheduledCommand getOpenFromGeoGebraTubeCommand() {
+		return new Command() {
+					
+					public void execute() {
+						((GuiManagerW) app.getGuiManager()).openFromGGT();;
+					}
+		};
+	}
+
 	/**
 	 * renders the menu concerning online - offline state
 	 * @param online online - offline state
@@ -80,13 +92,16 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 	    openFromGoogleDrive.setEnabled(online);
 	    //openFromSkyDrive.setEnabled(online);
 	    openURL.setEnabled(online);
+	    openFromGGT.setEnabled(online);
 	    
 	    if (!online) {
-	    	openFromGoogleDrive.setTitle(app.getMenu("YouAreOffline"));    
+	    	openFromGoogleDrive.setTitle(app.getMenu("YouAreOffline")); 
+	    	openFromGGT.setTitle(app.getMenu("YouAreOffline"));
 	    	//openFromSkyDrive.setTitle("YouAreOffline");
 	    	openURL.setTitle("YouAreOffline");
 	    } else {
-	    	openFromGoogleDrive.setTitle("");    
+	    	openFromGoogleDrive.setTitle("");
+	    	openFromGGT.setTitle("");
 	    	//openFromSkyDrive.setTitle("");
 	    	openURL.setTitle("");
 	    }

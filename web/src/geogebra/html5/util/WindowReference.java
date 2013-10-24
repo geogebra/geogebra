@@ -2,6 +2,7 @@ package geogebra.html5.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.main.AppW;
@@ -121,6 +122,38 @@ public class WindowReference implements EventRenderable {
 	private void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();
 	    WindowReference.instance = null;
+    }
+
+	/**
+	 * @param app Application
+	 * @return windowReference for the opened window
+	 */
+	public static WindowReference createOpenFromGGTWidnow(App app) {
+		if (instance == null) {
+			((AppW) app).initOpenFromGGTEventFlow();
+			instance = new WindowReference();
+			int  width = 900;
+			int height = 500;
+			int left = (Window.getClientWidth() / 2) - (width / 2);
+			int top = (Window.getClientHeight() / 2) - (height / 2);
+			OpenFromGGTOperation oGGT = ((AppW) app).getOpenFromGGTOperation();
+					instance.wnd = WindowW.open(oGGT.generateOpenFromGGTURL(),
+					"GeoGebraTube" ,
+						"resizable," +
+						"toolbar=no," +
+						"location=no," +
+						"scrollbars=no, " + 
+						"statusbar=no, " +
+						"titlebar=no, " + 
+						"width=" + width +"," +
+						"height=" + height + "," +
+						"left=" + left + ", " +
+						"top=" + top);	
+					oGGT.getView().add(instance);
+					instance.initClosedCheck();
+			}
+		
+		return instance;
     }
 
 }

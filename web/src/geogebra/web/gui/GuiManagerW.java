@@ -79,8 +79,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 */
 	public AttachedToDOM currentPopup;
 
-	private DialogManagerW dialogManager;
-
 	protected Kernel kernel;
 
 	private AlgebraControllerW algebraController;
@@ -151,11 +149,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public DialogManager getDialogManager() {
-		if (dialogManager == null) {
-			App.debug("unimplemented");
-			// dialogManager = new DialogManagerWeb(app);
-		}
-		return dialogManager;
+		return app.getDialogManager();
 	}
 
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
@@ -742,7 +736,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 	
 	public void openFromGGT() {
-		App.debug("unimplemented");
+		getDialogManager().showOpenFromGGTDialog();
 	}
 
 	@Override

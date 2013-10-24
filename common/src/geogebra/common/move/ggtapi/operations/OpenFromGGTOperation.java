@@ -1,6 +1,9 @@
 package geogebra.common.move.ggtapi.operations;
 
 import geogebra.common.main.App;
+import geogebra.common.move.operations.BaseOperation;
+import geogebra.common.move.views.BaseEventView;
+import geogebra.common.move.views.EventRenderable;
 
 /**
  * @author gabor
@@ -8,7 +11,7 @@ import geogebra.common.main.App;
  * Common things for Opening from GGT
  *
  */
-public class OpenFromGGTOperation {
+public class OpenFromGGTOperation extends BaseOperation<EventRenderable>{
 
 	public static String GGT_URL = "http://www.geogebratube.org/widgetprovider/index/widgettype/desktop";
 	private App app;
@@ -19,6 +22,7 @@ public class OpenFromGGTOperation {
 	 */
 	public OpenFromGGTOperation(App app) {
 		this.app = app;
+		setView(new BaseEventView());
 	}
 	
 	/**
