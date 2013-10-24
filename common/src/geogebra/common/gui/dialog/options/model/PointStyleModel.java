@@ -13,8 +13,15 @@ public class PointStyleModel extends OptionsModel {
 	}
 	@Override
 	public void updateProperties() {
+		if (!hasGeos()) {
+			return;
+		}
+		
 		PointProperties geo0 = (PointProperties) getGeoAt(0);
-
+		if (listener == null) {
+			return;
+		}
+		
 		if ((geo0 == null) || (geo0.getPointStyle() == -1)) {
 			// select default button
 			listener.setSelectedIndex(EuclidianStyleConstants.POINT_STYLE_DOT);
@@ -26,9 +33,13 @@ public class PointStyleModel extends OptionsModel {
 	}
 	
 	public void applyChanges(int value) {
+		if (!hasGeos()) {
+			return;
+		}
+		
 		PointProperties point;
 		for (int i = 0; i < getGeosLength(); i++) {
-			point = (PointProperties) getGeoAt(0);
+			point = (PointProperties) getGeoAt(i);
 			point.setPointStyle(value);
 			point.updateRepaint();
 		}
@@ -37,7 +48,10 @@ public class PointStyleModel extends OptionsModel {
 
 	@Override
 	public boolean checkGeos() {
-		boolean geosOK = true;
+		if (!hasGeos()) {
+			return false;
+		}
+			boolean geosOK = true;
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (geo.isGeoElement3D()

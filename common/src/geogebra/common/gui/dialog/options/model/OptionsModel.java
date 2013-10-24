@@ -22,7 +22,7 @@ public abstract class OptionsModel {
 	}
 
 	public boolean hasGeos() {
-		return geos != null;
+		return (geos != null && geos.length > 0);
 	}
 	public abstract void updateProperties();
 	public abstract boolean checkGeos();
