@@ -44,8 +44,6 @@ public class LoadFilePresenter{
 			//do nothing here - everything done in isReloadDataInStorage() function 
 		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
-		} else if (!"".equals((fileId = getGoogleFileId()))) {
-			//TODO: do this for open from our new Native Chrome APP!((AppW) app).getObjectPool().getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
 		} else {
 			//we dont have content, it is an app
 			Log.debug("no base64content, possibly App loaded?");
@@ -122,13 +120,6 @@ public class LoadFilePresenter{
 		stockStore.removeItem("reloadBase64String");
 		return true;
 	}
-		
-	private native String getGoogleFileId() /*-{
-	    if ($wnd.GGW_appengine && $wnd.GGW_appengine.FILE_IDS[0] !== "") {
-	    	return $wnd.GGW_appengine.FILE_IDS[0];
-	    }
-	    return "";
-    }-*/;
 
 	/**
 	 * @param dataParamBase64String a base64 string
