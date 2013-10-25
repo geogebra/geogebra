@@ -104,7 +104,7 @@ class WindowMenu extends BaseMenu {
 					@Override
 					public void run() {
 						app.setWaitCursor();
-						GeoGebraFrame.createNewWindow(null);
+						app.createNewWindow();
 						app.setDefaultCursor();
 					}
 				};
