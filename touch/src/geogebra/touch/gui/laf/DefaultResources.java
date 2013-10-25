@@ -11,6 +11,9 @@ import com.google.gwt.resources.client.TextResource;
 public interface DefaultResources extends ClientBundle {
 	static DefaultResources INSTANCE = GWT.create(DefaultResources.class);
 
+	@Source("geogebra/resources/css/ios7.css")
+	TextResource ios7Style();
+	
 	@Source("geogebra/resources/css/styles-rtl.css")
 	TextResource rtlStyle();
 	

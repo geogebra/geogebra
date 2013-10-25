@@ -1510,7 +1510,8 @@ public class TouchModel {
 				.evaluateToNumeric(this.getSliderDialog().getMax(), false));
 		slider.setAnimationStep(this.kernel.getAlgebraProcessor()
 				.evaluateToNumeric(this.getSliderDialog().getIncrement(), false));
-
+		slider.setLineThickness(this.kernel.getAlgoDispatcher()
+				.getDefaultNumber(false).getLineThickness());
 	}
 
 	public boolean isColorChangeAllowed() {

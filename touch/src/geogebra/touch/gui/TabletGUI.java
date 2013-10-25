@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -151,6 +152,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyle().getText());
 			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.additionalRtlStyle().getText());
 			TouchEntryPoint.getLookAndFeel().loadRTLStyles();
+		}
+		//url parameter for debugging, cannot be used in app
+		if("true".equals(Location.getParameter("ios7")) ||
+				Window.Navigator.getUserAgent().contains("CPU OS 7")){
+			StyleInjector.injectStylesheet(DefaultResources.INSTANCE.ios7Style().getText());
 		}
 		this.touchModel = new TouchModel(kernel);
 		this.app = (TouchApp) kernel.getApplication();

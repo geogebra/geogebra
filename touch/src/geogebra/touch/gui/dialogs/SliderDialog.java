@@ -124,7 +124,7 @@ public class SliderDialog extends InputDialog {
 
 			this.min.setText("0\u00B0"); // 0°
 			this.max.setText("360\u00B0");
-			this.increment.setText("1\u00B0");
+			this.increment.setText("5\u00B0");
 		}
 	}
 

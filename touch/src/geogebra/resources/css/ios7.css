@@ -1,0 +1,11 @@
+body .headerbar {
+	height:70px;
+}
+
+body .worksheetTitle, body div .worksheetgui .headerbar, body div .browsegui .headerbar{
+	padding-top:20px;
+}
+
+html body .headerbar div.button {
+	margin-top: 20px;
+}
