@@ -36,11 +36,11 @@ public class LineStyleModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		GeoElement temp, geo0 = getGeoAt(0);
-		listener.setValue(geo0.getLineThickness());
-
-		// allow polygons to have thickness 0
-		listener.setMinimum(maxMinimumThickness());
-
+		if (listener != null) {
+			listener.setValue(geo0.getLineThickness());
+			// allow polygons to have thickness 0
+			listener.setMinimum(maxMinimumThickness());
+		}
 		// check if geos have same line style
 		boolean equalStyle = true;
 		int type0 = geo0.getLineType();
@@ -51,8 +51,9 @@ public class LineStyleModel extends OptionsModel {
 				equalStyle = false;
 		}
 
-		listener.selectCommonLineStyle(equalStyle, type0);
-
+		if (listener != null) {
+			listener.selectCommonLineStyle(equalStyle, type0);
+		}
 
 	}
 

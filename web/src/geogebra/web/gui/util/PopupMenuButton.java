@@ -484,5 +484,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	protected boolean hasSlider() {
 		return mySlider != null;
 	}
-	
+
+	public int getItemCount() {
+		return myPopup
+	}
 }

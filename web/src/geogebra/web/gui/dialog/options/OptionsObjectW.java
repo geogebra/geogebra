@@ -14,6 +14,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectLis
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
+import geogebra.common.gui.dialog.options.model.LineStyleModel;
+import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
@@ -43,6 +45,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
@@ -104,6 +107,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
+	private LineStylePanel lineStylePanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -965,6 +969,93 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
         }
 		
 		
+	} 
+	
+	private class LineStylePanel extends OptionPanel implements ILineStyleListener {
+		private LineStyleModel model;
+		private Label sliderLabel;
+		private Slider slider;
+		private Label minLabel;
+		private Label maxLabel;
+		private Label popupLabel;
+		private LineStylePopup btnLineStyle;
+		private int iconHeight = 24;
+		public LineStylePanel() {
+			model = new LineStyleModel(this);
+			setModel(model);
+			
+			FlowPanel mainPanel = new FlowPanel();
+			sliderLabel = new Label();
+			mainPanel.add(sliderLabel);
+
+			FlowPanel flow = new FlowPanel();
+			
+			minLabel = new Label("1");
+			flow.add(minLabel);
+			
+			slider = new Slider(1, GeoElement.MAX_LINE_WIDTH);
+			slider.setMajorTickSpacing(2);
+			slider.setMinorTickSpacing(1);
+			slider.setPaintTicks(true);
+			slider.setPaintLabels(true);
+//			slider.setSnapToTicks(true);
+			flow.add(slider);
+	
+			maxLabel = new Label("" + GeoElement.MAX_LINE_WIDTH);
+			flow.add(maxLabel);
+			mainPanel.add(flow);
+
+			slider.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					if (true){//!slider.getValueIsAdjusting()) {
+						model.applyThickness(slider.getValue());
+					}
+                }});
+
+			btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, -1, false,
+					model);
+			if (btnLineStyle != null) {
+				btnLineStyle.setKeepVisible(false);
+				mainPanel.add(btnLineStyle);
+			}
+			setWidget(mainPanel);
+		}
+		@Override
+        public void setLabels() {
+			sliderLabel.setText(app.getPlain("Thickness"));
+			popupLabel.setText(app.getPlain("LineStyle") + ":");
+	        
+        }
+		
+		public void setSelectedIndex(int index) {
+			if (btnLineStyle != null)
+				btnLineStyle.setSelectedIndex(index);
+      
+			}
+		public void setValue(int value) {
+	        slider.setValue(value);
+	        
+        }
+		public void setMinimum(int minimum) {
+	        slider.setMinimum(minimum);
+	        
+        }
+		public void selectCommonLineStyle(boolean equalStyle, int type) {
+//			if (equalStyle) {
+//				for (int i = 0; i < btnLineStyle.getItemCount(); i++) {
+//					if (type == ((Integer) btnLineStyle.getItemAt(i)).intValue()) {
+//						btnLineStyle.setSelectedIndex(i);
+//						break;
+//					}
+//				}
+//			} else {
+//				btnLineStyle.setSelectedItem(null);
+//			}
+//		}
+        }
+		
+		
 	}
 	
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -1104,8 +1195,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		pointStylePanel = new PointStylePanel();
 		styleTab.add(pointStylePanel.getWidget());
 		
+		lineStylePanel = new LineStylePanel();
+		styleTab.add(lineStylePanel.getWidget());
+		
+		
 		stylePanels = Arrays.asList(pointSizePanel,
-				pointStylePanel);
+				pointStylePanel,
+				lineStylePanel);
+		
 		tabPanel.add(styleTab, "Style");
 	}
 

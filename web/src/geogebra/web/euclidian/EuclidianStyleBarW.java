@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -21,6 +22,7 @@ import geogebra.common.main.SelectionManager;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
+import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
@@ -601,67 +603,62 @@ public class EuclidianStyleBarW extends StyleBarW
 		// line style button
 
 		// create line style icon array
-		final GDimensionW lineStyleIconSize = new GDimensionW(80, iconHeight);
-		ImageData [] lineStyleIcons = new ImageData[EuclidianStyleBarStatic.lineStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
-			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
-					EuclidianStyleBarStatic.lineStyleArray[i], 2, lineStyleIconSize, geogebra.common.awt.GColor.BLACK, null);
-
 		// create button
-		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
-				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-
-			@Override
-			public void update(Object[] geos) {
-
-				if (EuclidianView.isPenMode(mode)) {
-					/*this.setVisible(true);
-					setFgColor(ec.getPen().getPenColor());
-					setSliderValue(ec.getPen().getPenSize());
-					setSelectedIndex(lineStyleMap.get(ec.getPen()
-							.getPenLineStyle()));*/
-					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
-				} else {
-					boolean geosOK = (geos.length > 0);
-					for (int i = 0; i < geos.length; i++) {
-						GeoElement geo = ((GeoElement) geos[i])
-								.getGeoElementForPropertiesDialog();
-						if (!geo.showLineProperties()) {
-							geosOK = false;
-							break;
-						}
-					}
-
-					this.setVisible(geosOK);
-
-					if (geosOK) {
-						// setFgColor(((GeoElement)geos[0]).getObjectColor());
-
-						setFgColor((GColorW) geogebra.common.awt.GColor.black);
-						setSliderValue(((GeoElement) geos[0])
-								.getLineThickness());
-
-						setSelectedIndex(lineStyleMap
-								.get(((GeoElement) geos[0]).getLineType()));
-
-						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
-					}
-				}
-			}
-
-			@Override
-			public ImageData getButtonIcon() {
-				if (getSelectedIndex() > -1) {
-					return GeoGebraIcon.createLineStyleIcon(
-							EuclidianStyleBarStatic.lineStyleArray[this.getSelectedIndex()],
-							this.getSliderValue(), lineStyleIconSize,
-							geogebra.common.awt.GColor.BLACK, null);
-				}
-				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.getWidth(),
-						lineStyleIconSize.getHeight());
-			}
-
-		};
+		btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, mode, true, new LineStyleModel(null));
+		//		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
+//				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+//
+//			@Override
+//			public void update(Object[] geos) {
+//
+//				if (EuclidianView.isPenMode(mode)) {
+//					/*this.setVisible(true);
+//					setFgColor(ec.getPen().getPenColor());
+//					setSliderValue(ec.getPen().getPenSize());
+//					setSelectedIndex(lineStyleMap.get(ec.getPen()
+//							.getPenLineStyle()));*/
+//					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
+//				} else {
+//					boolean geosOK = (geos.length > 0);
+//					for (int i = 0; i < geos.length; i++) {
+//						GeoElement geo = ((GeoElement) geos[i])
+//								.getGeoElementForPropertiesDialog();
+//						if (!geo.showLineProperties()) {
+//							geosOK = false;
+//							break;
+//						}
+//					}
+//
+//					this.setVisible(geosOK);
+//
+//					if (geosOK) {
+//						// setFgColor(((GeoElement)geos[0]).getObjectColor());
+//
+//						setFgColor((GColorW) geogebra.common.awt.GColor.black);
+//						setSliderValue(((GeoElement) geos[0])
+//								.getLineThickness());
+//
+//						setSelectedIndex(lineStyleMap
+//								.get(((GeoElement) geos[0]).getLineType()));
+//
+//						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+//					}
+//				}
+//			}
+//
+//			@Override
+//			public ImageData getButtonIcon() {
+//				if (getSelectedIndex() > -1) {
+//					return GeoGebraIcon.createLineStyleIcon(
+//							EuclidianStyleBarStatic.lineStyleArray[this.getSelectedIndex()],
+//							this.getSliderValue(), lineStyleIconSize,
+//							geogebra.common.awt.GColor.BLACK, null);
+//				}
+//				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.getWidth(),
+//						lineStyleIconSize.getHeight());
+//			}
+//
+//		};
 
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);
@@ -671,72 +668,10 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnLineStyle.addActionListener(this);
 		btnLineStyle.addPopupHandler(this);
 
-		// ========================================
-		// point style button
-
-		// create line style icon array
-		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
-		ImageData[] pointStyleIcons = new ImageData[EuclidianStyleBarStatic.pointStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					EuclidianStyleBarStatic.pointStyleArray[i], 4, pointStyleIconSize, geogebra.common.awt.GColor.BLACK,
-					null);
-
 		// create button
 		btnPointStyle = PointStylePopup.create((AppW)app, iconHeight, mode, true,
 				new PointStyleModel(null));
 
-		//		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
-//				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-//
-//			@Override
-//			public void update(Object[] geos) {
-//				GeoElement geo;
-//				boolean geosOK = (geos.length > 0);
-//				for (int i = 0; i < geos.length; i++) {
-//					geo = (GeoElement) geos[i];
-//					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-//							&& (!(geo.isGeoList() && ((GeoList) geo)
-//									.showPointProperties()))) {
-//						geosOK = false;
-//						break;
-//					}
-//				}
-//				this.setVisible(geosOK);
-//
-//				if (geosOK) {
-//					// setFgColor(((GeoElement)geos[0]).getObjectColor());
-//					setFgColor((GColorW) geogebra.common.awt.GColor.black);
-//
-//					// if geo is a matrix, this will return a GeoNumeric...
-//					geo = ((GeoElement) geos[0])
-//							.getGeoElementForPropertiesDialog();
-//
-//					// ... so need to check
-//					if (geo instanceof PointProperties) {
-//						setSliderValue(((PointProperties) geo).getPointSize());
-//						int pointStyle = ((PointProperties) geo)
-//								.getPointStyle();
-//						if (pointStyle == -1) // global default point style
-//							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-//						setSelectedIndex(pointStyleMap.get(pointStyle));
-//						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
-//					}
-//				}
-//			}
-//
-//			@Override
-//			public ImageData getButtonIcon() {
-//				if (getSelectedIndex() > -1) {
-//					return GeoGebraIcon.createPointStyleIcon(
-//							EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],
-//							this.getSliderValue(), pointStyleIconSize,
-//							geogebra.common.awt.GColor.BLACK, null);
-//				}
-//				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.getWidth(),
-//						pointStyleIconSize.getHeight());
-//			}
-//		};
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
@@ -1314,9 +1249,10 @@ public class EuclidianStyleBarW extends StyleBarW
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
 					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
-					int selectedIndex = btnLineStyle.getSelectedIndex();
-					int lineSize = btnLineStyle.getSliderValue();
-					needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
+					((LineStylePopup)btnLineStyle).apply();
+//					int selectedIndex = btnLineStyle.getSelectedIndex();
+//					int lineSize = btnLineStyle.getSliderValue();
+//					needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 
 			}
