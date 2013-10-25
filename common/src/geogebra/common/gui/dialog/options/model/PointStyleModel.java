@@ -25,6 +25,7 @@ public class PointStyleModel extends OptionsModel {
 		if ((geo0 == null) || (geo0.getPointStyle() == -1)) {
 			// select default button
 			listener.setSelectedIndex(EuclidianStyleConstants.POINT_STYLE_DOT);
+		
 		} else {
 			// select custom button and set combo box selection
 			listener.setSelectedIndex(geo0.getPointStyle());

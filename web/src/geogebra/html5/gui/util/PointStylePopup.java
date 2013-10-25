@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.util.SelectionTable;
+import geogebra.common.kernel.geos.PointProperties;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
@@ -15,7 +16,6 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.ImageData;
-import geogebra.common.kernel.geos.PointProperties;
 
 public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
@@ -75,10 +75,12 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		if (geosOK) {
 			setFgColor((GColorW) geogebra.common.awt.GColor.black);
 			model.updateProperties();
-		
+			PointProperties geo0 = (PointProperties) model.getGeoAt(0);
 			if (hasSlider()) {
-				setSliderValue( ((PointProperties) model.getGeoAt(0)).getPointSize());
+				setSliderValue(geo0.getPointSize());
 			}
+			
+			setSelectedIndex(pointStyleMap.get(geo0.getPointStyle()));
 			
 			this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 		}
@@ -111,7 +113,8 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	}
 
 	public void setSelectedIndex(int index) {
-	    super.setSelectedIndex(index);
+	    super.setSelectedIndex(index);		
+;
 	    
     }
 
