@@ -55,4 +55,22 @@ public class Browser {
 		}
 		return false;
 	}-*/;
+	private static boolean float64supported = true;
+	
+	/**
+	 * Checks whether browser supports float64. Must be called before a polyfill kicks in.
+	 */
+	public static void checkFloat64() {
+	    float64supported = doCheckFloat64();
+    }
+	
+	public static boolean isFloat64supported(){
+		return float64supported;
+	}
+	
+	private static native boolean doCheckFloat64()/*-{
+		var floatSupport = 'undefined' !== typeof Float64Array;
+		$wnd.console.log("FLOAT: "+floatSupport);
+		return 'undefined' !== typeof Float64Array;
+	}-*/;
 }

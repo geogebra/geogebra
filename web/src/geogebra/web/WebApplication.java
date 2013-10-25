@@ -3,6 +3,7 @@ package geogebra.web;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
+import geogebra.html5.Browser;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -27,7 +28,7 @@ public class WebApplication implements EntryPoint {
 			//loading touch, ignore.
 			return;
 		}
-
+		Browser.checkFloat64();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());

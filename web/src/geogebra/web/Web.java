@@ -6,6 +6,7 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
+import geogebra.html5.Browser;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.WebStatic.GuiToLoad;
@@ -58,7 +59,7 @@ public class Web implements EntryPoint {
 			//loading touch, ignore.
 			return;			
 		}
-		
+		Browser.checkFloat64();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());

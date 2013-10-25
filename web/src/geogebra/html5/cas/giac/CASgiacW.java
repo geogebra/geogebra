@@ -7,6 +7,7 @@ import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.js.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -40,7 +41,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		App.setCASVersionString("Giac/JS");
 
 		// asynchronous initialization, runs update as callback
-		initialize();
+		if(Browser.isFloat64supported()){
+			initialize();
+		}
 	}
 	
 	@Override

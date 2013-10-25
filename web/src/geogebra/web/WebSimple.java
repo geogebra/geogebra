@@ -4,6 +4,7 @@ package geogebra.web;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
+import geogebra.html5.Browser;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.html5.Dom;
@@ -38,13 +39,13 @@ public class WebSimple implements EntryPoint {
 	 * set true if Google Api Js loaded
 	 */
 
-	public void onModuleLoad() {
+	public void onModuleLoad() {		
 		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
 				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
 			//loading touch, ignore.
 			return;			
 		}
-		
+		Browser.checkFloat64();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());

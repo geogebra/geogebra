@@ -1,6 +1,7 @@
 package geogebra.touch;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.Browser;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
@@ -87,6 +88,7 @@ public class TouchEntryPoint implements EntryPoint {
 
 			@Override
 			public void onSuccess() {
+				Browser.checkFloat64();
 				ResourcesInjector.injectResources();
 				setLookAndFeel();
 
