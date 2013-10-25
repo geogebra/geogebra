@@ -2685,15 +2685,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			resultedGeo = null;
 			
 			//find the nearest intersection curve (if exists)
-			float zMin = Float.POSITIVE_INFINITY;
+			double zNear = Double.NEGATIVE_INFINITY;
 			//App.error(""+intersectionCurveList.size());
 			for (IntersectionCurve intersectionCurve : intersectionCurveList){
 				Drawable3D d = intersectionCurve.drawable;
 				//App.debug(d+"\nz="+d.zPickMax+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
-				if (d.zPickMin<zMin){
+				if (d.getZPickNear()>zNear){
 					resultedGeo=d.getGeoElement();
 					resultedIntersectionCurve = intersectionCurve;
-					zMin=d.zPickMin;
+					zNear=d.getZPickNear();
 				}
 			}
 			
@@ -2726,10 +2726,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				//App.debug("\nhits("+i+"): "+geo+"\nd="+d);
 				if (d != null){
 					//App.debug("\nzmin="+d.zPickMin+"\nzmax="+d.zPickMax);
-					if (d.zPickMin>zMin){
+					if (d.getZPickNear() < zNear){
 						//all next drawables are behind the intersection curve
 						checking=false;
-					}else if(d.zPickMin+0.01<zMin //check if existing geo is really over the curve, with 0.01 tolerance (TODO check correct value)
+					}else if(d.getZPickNear() > zNear + 1 //check if existing geo is really over the curve, with 1 pixel tolerance 
 							&& (!geo.isRegion() || geo.getAlphaValue() > 0.5f)){
 						//only non-region or non-transparent surfaces can hide the curve
 						checking=false;

@@ -1233,7 +1233,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         int hits = gl.glRenderMode(GLlocal.GL_RENDER); // Switch To Render Mode, Find Out How Many
         
         int names, ptr = 0;
-        float zMax, zMin;
+        double zFar, zNear;
         int num;
         
 
@@ -1243,9 +1243,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	     
           names = selectBuffer.get(ptr);  
           ptr++; // min z    
-          zMin = getDepth(ptr, selectBuffer);
+          zNear = getScreenZFromPickingDepth(getDepth(ptr, selectBuffer));
           ptr++; // max z
-          zMax = getDepth(ptr, selectBuffer);           
+          zFar = getScreenZFromPickingDepth(getDepth(ptr, selectBuffer));           
           
           ptr++;
 
@@ -1254,7 +1254,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  num = selectBuffer.get(ptr);
 
         	  if (hits3D==null){ // just update z min/max values for the drawable
-        		  drawHits[num].setZPick(zMin,zMax);        		  
+        		  drawHits[num].setZPick(zNear,zFar);        		  
         	  }else{ // if for hits array, some checks are done
         		  PickingType type;
         		  if (num >= labelLoop){
@@ -1264,7 +1264,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         		  }else{
         			  type = PickingType.SURFACE;
         		  }
-        		  hits3D.addDrawable3D(drawHits[num], type, zMin, zMax);
+        		  hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
         		  //App.debug(i+": " + drawHits[num].getGeoElement());
         	  }
       		  

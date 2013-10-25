@@ -3,12 +3,10 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -16,7 +14,6 @@ import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -165,10 +162,10 @@ public abstract class Drawable3D extends DrawableND {
 
 	//picking
 	//private boolean m_isPicked = false;	
-	/** max picking value, used for odering elements with openGL picking */
-	private float zPickMax; 
-	/** min picking value, used for odering elements with openGL picking */	
-	public float zPickMin;
+	/** most far picking value, used for odering elements with openGL picking */
+	private double zPickFar; 
+	/** nearest picking value, used for odering elements with openGL picking */	
+	private double zPickNear;
 
 	/** (r,g,b,a) vector */
 	protected Coords 
@@ -758,7 +755,7 @@ public abstract class Drawable3D extends DrawableND {
 		
 		
 		//check if the two objects are "mixed"	
-		if (this.zPickMax >= d.zPickMin && d.zPickMax >= this.zPickMin){
+		if (this.zPickFar <= d.zPickNear && d.zPickFar <= this.zPickNear){
 			
 			GeoElement geo1 = this.getGeoElement();
 			GeoElement geo2 = d.getGeoElement();
@@ -827,26 +824,28 @@ public abstract class Drawable3D extends DrawableND {
 		
 
 		//finally check if one is before the other
-		if (this.zPickMin<d.zPickMin){
+		if (this.zPickNear > d.zPickNear){
 			//App.debug("-1");
 			return -1;
 		}
-		if (this.zPickMin>d.zPickMin){
+		if (this.zPickNear < d.zPickNear){
 			//App.debug("1");
 			return 1;
 		}
 
 		//says that the two objects are equal for the comparator
+		/*
 		if (DEBUG){
 			DecimalFormat df = new DecimalFormat("0.000000000");
 			App.debug("equality :\n"
-					+"zMin= "+df.format(this.zPickMin)
-					+" | zMax= "+df.format(this.zPickMax)
+					+"zMin= "+df.format(this.zPickNear)
+					+" | zMax= "+df.format(this.zPickFar)
 					+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
-					+"zMin= "+df.format(d.zPickMin)
-					+" | zMax= "+df.format(d.zPickMax)
+					+"zMin= "+df.format(d.zPickNear)
+					+" | zMax= "+df.format(d.zPickFar)
 					+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
 		}
+		*/
 		return 0;
 
 		
@@ -1331,15 +1330,23 @@ public abstract class Drawable3D extends DrawableND {
 	
 	
 	/**
-	 * set min/max z values when picked
-	 * @param min min value
-	 * @param max max value
+	 * set near/far z values when picked (positive value in direction to the eye)
+	 * @param zNear nearest value
+	 * @param zFar most far value
 	 */
-	final public void setZPick(float min, float max){
-		zPickMin = min;
-		zPickMax = max;
+	final public void setZPick(double zNear, double zFar){
+		zPickNear = zNear;
+		zPickFar = zFar;
 		
 		//App.debug("\n"+getGeoElement()+" : \n"+getView3D().getRenderer().getScreenZFromPickingDepth(max)+"\n"+max);
+	}
+	
+	/**
+	 * Note that z are positive in direction to the eye
+	 * @return nearest z value from last picking
+	 */
+	final public double getZPickNear(){
+		return zPickNear;
 	}
 	
 	

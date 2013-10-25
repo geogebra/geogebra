@@ -36,12 +36,12 @@ public class Hits3D extends Hits {
 			super(drawableComparator);
 		}
 
-		public void add(Drawable3D d, float zMin, float zMax) {
+		public void add(Drawable3D d, double zNear, double zFar) {
 
 			
 			//if already contained and not nearer, do nothing
 			if (contains(d)){
-				if(d.zPickMin < zMin){
+				if(d.getZPickNear() > zNear){
 					return;
 				}
 				
@@ -50,7 +50,7 @@ public class Hits3D extends Hits {
 			}
 			
 				
-			d.setZPick(zMin,zMax);
+			d.setZPick(zNear,zFar);
 
 			super.add(d);
 			
@@ -154,13 +154,13 @@ public class Hits3D extends Hits {
 	/** insert a drawable in the hitSet, called by EuclidianRenderer3D 
 	 * @param d the drawable
 	 * @param type type of picking
-	 * @param zMin z minimum for picking
-	 * @param zMax z maximum for picking*/
-	public void addDrawable3D(Drawable3D d, PickingType type, float zMin, float zMax){
+	 * @param zNear nearest z for picking
+	 * @param zFar most far z for picking*/
+	public void addDrawable3D(Drawable3D d, PickingType type, double zNear, double zFar){
 
 		if (type == PickingType.LABEL){
 			if (!d.getGeoElement().isGeoText()){
-				hitsLabels.add(d, zMin, zMax);
+				hitsLabels.add(d, zNear, zFar);
 			}
 		}else{ //remember last type for picking
 			d.setPickingType(type);
@@ -169,9 +169,9 @@ public class Hits3D extends Hits {
 		//App.debug("\n"+d+"\n"+type);
 		
 		if(d.getPickOrder()<Drawable3D.DRAW_PICK_ORDER_MAX)
-			hitSet[d.getPickOrder()].add(d, zMin, zMax);
+			hitSet[d.getPickOrder()].add(d, zNear, zFar);
 		else
-			hitsOthers.add(d, zMin, zMax);	
+			hitsOthers.add(d, zNear, zFar);	
 		
 		
 		
