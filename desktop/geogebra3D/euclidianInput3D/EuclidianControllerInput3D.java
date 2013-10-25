@@ -347,6 +347,15 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 		}
 
 	}
+
+
+	/**
+	 * 
+	 * @return true if 3D mouse has a button pressed
+	 */
+	public boolean isMouse3DPressed() {
+		return input3D.isLeftPressed() || input3D.isRightPressed();
+	}
 	
 	
     /*

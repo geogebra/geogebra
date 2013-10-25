@@ -27,6 +27,10 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	@Override
 	public void drawMouseCursor(Renderer renderer1){
 		
+		if (((EuclidianControllerInput3D) euclidianController).isMouse3DPressed()){
+			return;
+		}
+		
 		//use a 3D mouse position
 		Coords v = ((EuclidianControllerInput3D) getEuclidianController()).getMouse3DPosition();
 		
