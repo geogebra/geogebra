@@ -1933,7 +1933,7 @@ var scale, // = function(jQ, x, y) { ... }
     WebkitTransform:1,
     MozTransform:1,
     OTransform:1,
-    MsTransform:1
+    msTransform:1
   },
   transformPropName;
 
@@ -1949,7 +1949,7 @@ if (transformPropName) {
     jQ.css(transformPropName, 'scale('+x+','+y+')');
   };
 }
-/*else if ('filter' in div_style) { //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/mathquill/wiki/Transforms
+else if ('filter' in div_style) { //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/mathquill/wiki/Transforms
   forceIERedraw = function(el){ el.className = el.className; };
   scale = function(jQ, x, y) { //NOTE: assumes y > x
     x /= (1+(y-1)/2);
@@ -1972,7 +1972,7 @@ if (transformPropName) {
       calculateMarginRight();
     });
   };
-}*/
+}
 else {
   scale = function(jQ, x, y) {
     jQ.css('fontSize', y + 'em');

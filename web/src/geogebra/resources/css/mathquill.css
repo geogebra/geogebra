@@ -92,7 +92,7 @@
 .mathquill-rendered-math var,
 .mathquill-rendered-math .text,
 .mathquill-rendered-math .nonSymbola {
-  /*font-family: geogebra-serif, "Times New Roman", serif;*/
+  font-family: geogebra-serif, "Times New Roman", serif;
   /*line-height: .9;*/
 }
 .mathquill-rendered-math * {
@@ -113,24 +113,22 @@
   background: transparent;
 }
 .mathquill-rendered-math .text {
-/*
   font-size: 87%;
-*/
 }
 .mathquill-rendered-math .font {
-  /*font: 1em geogebra-serif, "Times New Roman", serif;*/
-  font-size: 1em;
+  font: 1em geogebra-serif, "Times New Roman", serif;
+  /*font-size: 1em;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  line-height: 1.2;
+  line-height: 1.2;*/
 }
 .mathquill-rendered-math .font * {
   font-family: inherit;
   font-style: inherit;
 }
 .mathquill-rendered-math .font .text {
-  /*font-family: geogebra-serif, "Times New Roman", serif;*/
+  font-family: geogebra-serif, "Times New Roman", serif;
 }
 .mathquill-rendered-math b,
 .mathquill-rendered-math b.font {
@@ -295,21 +293,21 @@
 }
 .mathquill-rendered-math .sqrt-prefix {
   padding-top: 0px;
-  padding-right: 0px;
-  margin-top: 0px;
-  margin-right: 0px;
+  position: relative;
+  top: 0px;
   vertical-align: top;
-  -webkit-transform-origin: right top;
-  -moz-transform-origin: right top;
-  -ms-transform-origin: right top;
-  -o-transform-origin: right top;
-  transform-origin: right top;
+  -webkit-transform-origin: top;
+  -moz-transform-origin: top;
+  -ms-transform-origin: top;
+  -o-transform-origin: top;
+  transform-origin: top;
+}
+.mathquill-rendered-math .font .sqrt-prefix { 
+  top: 0px;
 }
 .mathquill-rendered-math .sqrt-stem {
   border-top: 1px solid;
   margin-top: 0px;
-  padding-top: 0px;
-  margin-left: 0px;
   padding-left: .15em;
   padding-right: .2em;
   margin-right: .1em;

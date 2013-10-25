@@ -233,10 +233,10 @@ public class DrawEquationWeb extends DrawEquation {
 				// bold needed? Try this! (Testing needed...)
 				//eqstring = "\\mathbf{"+ eqstring +"}";
 			//}
-			if (!((TextProperties)geo).isSerifFont()) {
+			/*if (!((TextProperties)geo).isSerifFont()) {
 				// forcing sans-serif
 				eqstring = "\\mathsf{"+ eqstring +"}";
-			}
+			}*/
 		}
 
 		// whether we are painting on EV1 now
@@ -281,7 +281,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuill(ih, eqstring, fontSize, 12,
+			drawEquationMathQuill(ih, eqstring, fontSize, 16,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2);
 
@@ -401,17 +401,17 @@ public class DrawEquationWeb extends DrawEquation {
 			elfirst.style.zIndex = 2;
 			elfirst.style.width = "100%";
 			elfirst.style.height = "100%";
-			if (fontSizeRel != 0) {
-				elfirst.style.fontSize = fontSizeRel + "px";
-			}
+			//if (fontSizeRel != 0) {
+			//	elfirst.style.fontSize = fontSizeRel + "px";
+			//}
 			el.appendChild(elfirst);
 		}
 
 		var elsecond = $doc.createElement("span");
 		elsecond.innerHTML = htmlt;
-		if (fontSizeRel != 0) {
-			elsecond.style.fontSize = fontSizeRel + "px";
-		}
+		//if (fontSizeRel != 0) {
+		//	elsecond.style.fontSize = fontSizeRel + "px";
+		//}
 		el.appendChild(elsecond);
 
 		if (!visible) {
