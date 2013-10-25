@@ -1753,7 +1753,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setHits3D(GPoint p) {
 			
 		//sets the flag and mouse location for openGL picking
-		renderer.setMouseLoc(p.x,p.y,Renderer.PICKING_MODE_LABELS);
+		renderer.setMouseLoc(p, Renderer.PICKING_MODE_LABELS);
 
 	}
 	

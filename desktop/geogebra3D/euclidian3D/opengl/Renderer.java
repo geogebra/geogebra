@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -7,6 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra.util.FrameCollector;
+import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
@@ -124,7 +126,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	///////////////////
 	// for picking
 	
-	private int mouseX, mouseY;
+	private GPoint mouse;
 	private boolean waitForPick = false;
 	private boolean doPick = false;
 	public static final int PICKING_MODE_OBJECTS = 0;
@@ -1140,9 +1142,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @param x x-coordinate of the mouse
      * @param y y-coordinate of the mouse
      */
-    public void setMouseLoc(int x, int y, int pickingMode){
-    	mouseX = x;
-    	mouseY = y;
+    public void setMouseLoc(GPoint p, int pickingMode){
+    	mouse = p;
     	
     	this.pickingMode = pickingMode;
     	
@@ -1207,7 +1208,27 @@ public class Renderer extends RendererJogl implements GLEventListener {
       
         
         /* create MOUSE_PICK_WIDTH x MOUSE_PICK_WIDTH pixel picking region near cursor location */
-        glu.gluPickMatrix((double) mouseX, (double) (dim.height - mouseY), MOUSE_PICK_WIDTH, MOUSE_PICK_WIDTH, viewport, 0);
+        double x = mouse.getX();
+        double y = mouse.getY();
+
+        // if we use an input3D, scale x & y values
+        if (mouse instanceof GPointWithZ){ 
+        	
+        	if(view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE){ 
+        		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ());
+        		x = dim.width/2 + f*(x-dim.width/2);
+        		y = dim.height/2 + f*(y-dim.height/2);
+        		
+        	}else if(view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
+          		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ());
+        		x = dim.width/2 + f*(x + glassesEyeSep -dim.width/2) - glassesEyeSep;
+        		y = dim.height/2 + f*(y-dim.height/2);
+ 
+        	}
+        	
+        }
+        
+        glu.gluPickMatrix(x, dim.height - y, MOUSE_PICK_WIDTH, MOUSE_PICK_WIDTH, viewport, 0);
         setProjectionMatrixForPicking();
     	gl.glMatrixMode(GLlocal.GL_MODELVIEW);
     	
@@ -1978,7 +1999,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	frontExtended = (int) -eyeToScreenDistance; //front clipping plane
     	
-    	App.debug(getWidth()+","+eyeToScreenDistance);
+    	//App.debug(getWidth()+","+eyeToScreenDistance);
     	
     	perspNear = eyeToScreenDistance - getVisibleDepth()/2;
     	if (perspNear < PERSP_NEAR_MIN){
@@ -2185,6 +2206,19 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	public void exportToClipboard() {
 		exportType = ExportType.CLIPBOARD;
 		
+	}
+
+
+	/**
+	 * Double.POSITIVE_INFINITY for parallel projections
+	 * @return eye to screen distance
+	 */
+	public double getEyeToScreenDistance() {
+		if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE || view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
+			return eyeToScreenDistance;
+		}
+
+		return Double.POSITIVE_INFINITY;
 	}
 	
 }
