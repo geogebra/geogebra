@@ -1338,6 +1338,8 @@ public abstract class Drawable3D extends DrawableND {
 	final public void setZPick(float min, float max){
 		zPickMin = min;
 		zPickMax = max;
+		
+		//App.debug("\n"+getGeoElement()+" : \n"+getView3D().getRenderer().getScreenZFromPickingDepth(max)+"\n"+max);
 	}
 	
 	

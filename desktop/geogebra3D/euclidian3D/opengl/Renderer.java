@@ -1438,6 +1438,18 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	return (float) (selectBuffer.get(ptr)& 0xffffffffL) / 0x7fffffff;
     }
     
+    public double getScreenZFromPickingDepth(double z){
+    	double d = getVisibleDepth()/2;
+    	//return (perspNear*(z-(perspFar-perspNear)))/((perspFar-perspNear)*(z-eyeToScreenDistance));
+    	
+    	if(view3D.getProjection()==EuclidianView3D.PROJECTION_ORTHOGRAPHIC
+    			|| view3D.getProjection()==EuclidianView3D.PROJECTION_OBLIQUE){
+    		return d*(1-z);
+    	}
+    	
+    	return eyeToScreenDistance*(z-1-d/eyeToScreenDistance)/(z-1-eyeToScreenDistance/d);
+    }
+    
 
     //////////////////////////////////
     // LIGHTS
@@ -1944,7 +1956,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     private void viewOrtho(){
 
-    	gl.glOrtho(getLeft(),getRight(),getBottom(),getTop(),getFront(true),getBack(true));   	
+    	gl.glOrtho(getLeft(),getRight(),getBottom(),getTop(), -getVisibleDepth()/2, getVisibleDepth()/2);   	
     }
 
     
