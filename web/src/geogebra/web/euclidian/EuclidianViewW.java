@@ -11,8 +11,10 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.MsZoomer;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
@@ -55,7 +57,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	downArrowImage;
 	
 	protected EuclidianPanelWAbstract EVPanel;
-
+	private MsZoomer msZoomer;
 	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
@@ -123,6 +125,10 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureChangeEvent.getType());
 		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
 		
+		if(Browser.isIE()){
+			msZoomer = new MsZoomer(euclidianController);
+			msZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement());
+		}
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
 //		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 //		euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
@@ -440,4 +446,10 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		if (styleBar!=null)
 			styleBar.updateVisualStyle(geo);
 	}
+
+	public void resetMsZoomer() {
+	    if(msZoomer!= null){
+	    	msZoomer.reset();
+	    }
+    }
 }

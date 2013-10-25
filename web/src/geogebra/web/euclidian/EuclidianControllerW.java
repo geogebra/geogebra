@@ -482,7 +482,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
 			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
-
+		((EuclidianViewW) view).resetMsZoomer();
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
@@ -490,6 +490,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public void onMouseMove(MouseMoveEvent event) {
+		if(isExternalHandling()){
+			return;
+		}
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		event.preventDefault();

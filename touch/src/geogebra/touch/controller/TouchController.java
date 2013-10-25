@@ -48,7 +48,6 @@ public class TouchController extends EuclidianController {
 	private int waitingX;
 	private int waitingY;
 	private long lastMoveEvent;
-	private boolean externalHandling;
 
 	private final Timer repaintTimer = new Timer() {
 		@Override
@@ -300,7 +299,7 @@ public class TouchController extends EuclidianController {
 	}
 
 	public void onTouchMove(final int x, final int y) {
-		if (this.externalHandling) {
+		if (this.isExternalHandling()) {
 			return;
 		}
 		if (this.ignoreNextMove) {
@@ -424,11 +423,6 @@ public class TouchController extends EuclidianController {
 	@Override
 	protected boolean isMoveSliderExpected() {
 		return this.model.getCommand() == ToolBarCommand.Slider;
-	}
-
-	@Override
-	public void setExternalHandling(boolean b) {
-			this.externalHandling = b;
 	}
 
 	public void onMouseExited() {

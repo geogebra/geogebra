@@ -1,6 +1,7 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.euclidian.MsZoomer;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.WorksheetGUI;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
@@ -96,69 +97,21 @@ public class WinLAF extends DefaultLAF {
 		};
 		return header;
 	}
-
+	private MsZoomer zoomer;
 	@Override
 	public void attachExternalEvents(final EuclidianViewT view,
 			final Element element) {
-		addNativeHandlers(element, new MsZoomer(view.getEuclidianController()));
+		this.zoomer = new MsZoomer(view.getEuclidianController());
+		this.zoomer.attachTo(element);
 	}
 
 	@Override
-	public native void resetNativeHandlers()/*-{
-		$wnd.first = {id:-1};
-		$wnd.second = {id:-1};
-	}-*/;
-	
-	private native void addNativeHandlers(Element element, MsZoomer zoomer) /*-{
-		$wnd.first = {id:-1};
-		$wnd.second = {id:-1};
+	public void resetNativeHandlers(){
+		if(this.zoomer != null){
+			this.zoomer.reset();
+		}
+	}
 		
-		
-		element.addEventListener("MSPointerMove",function(e) {
-			if($wnd.first.id >=0 && $wnd.second.id>=0){
-				if($wnd.second.id === e.pointerId){    	
-					$wnd.second.x = e.x;	
-					$wnd.second.y = e.y;
-					zoomer.@geogebra.touch.gui.laf.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,$wnd.first.y,
-				$wnd.second.x,$wnd.second.y);
-				}else{
-					$wnd.first.x = e.x;	
-					$wnd.first.y = e.y;
-				}
-				
-			}
-		});
-		
-		element.addEventListener("MSPointerDown",function(e) {
-			if($wnd.first.id >=0 && $wnd.second.id>=0){
-				return;
-			}
-			if($wnd.first.id >= 0){
-				$wnd.second.id = e.pointerId;
-				$wnd.second.x = e.x;	
-				$wnd.second.y = e.y;
-			}else{
-				$wnd.first.id = e.pointerId;
-				$wnd.first.x = e.x;	
-				$wnd.first.y = e.y;
-			}
-			if($wnd.first.id >=0 && $wnd.second.id>=0){
-				zoomer.@geogebra.touch.gui.laf.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,$wnd.first.y,
-				$wnd.second.x,$wnd.second.y);
-			}
-	
-		});
-		
-		element.addEventListener("MSPointerUp",function(e) {
-			if($wnd.first.id == e.pointerId){
-				$wnd.first.id = -1;
-			}else{
-				$wnd.second.id = -1;
-			}
-			zoomer.@geogebra.touch.gui.laf.MsZoomer::pointersUp()();
-		});
-	}-*/;
-	
 	@Override
 	public void setPopupCenter(final PopupPanel panel) {
 		panel.setPopupPosition((Window.getClientWidth() - panel.getWidget()

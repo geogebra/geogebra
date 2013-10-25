@@ -337,6 +337,8 @@ public abstract class EuclidianController {
 
 	protected boolean collectedRepaints = false; // whether to repaint when collectingRepaints set to 0
 
+	private boolean externalHandling;
+	
 	public EuclidianController(App app){
 		this.app = app;
 		this.selection = app.getSelectionManager();
@@ -9721,20 +9723,19 @@ public abstract class EuclidianController {
 		// TODO Auto-generated method stub
 		
 	}
-	/**
-	 * @param x x-coord
-	 * @param y y-coord 
-	 */
+
 	public void setExternalHandling(boolean b) {
-		// TODO Auto-generated method stub
-		
+		this.externalHandling = b;
 	}
 	
 	public EnvironmentStyle getEnvironmentStyle() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	/**
+	 * @param x x-coord
+	 * @param y y-coord 
+	 */	
 	public void onPinch(final int x, final int y, final double scaleFactor) {
 		this.mouseLoc = new GPoint(x, y);
 		zoomInOut(scaleFactor,
@@ -9767,5 +9768,8 @@ public abstract class EuclidianController {
 		}
 		
 	}
-	
+
+	public boolean isExternalHandling(){
+		return externalHandling;
+	}
 }
