@@ -376,7 +376,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	@Override
 	protected void createNewWindow() {
 		//no wait cursor needed here, that's taken care of before we call this
-		GeoGebraFrame.createNewWindow(null);
+		app.createNewWindow();
 	}
 
 	@Override

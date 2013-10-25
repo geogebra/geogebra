@@ -355,6 +355,11 @@ public abstract class GlobalKeyDispatcher {
 				if (isShiftDown) {
 					app.getGuiManager().showWebpageExport();
 					consumed = true;
+				} else {
+					// File -> Close (under Mac: Command-W)
+					app.exitAll();
+					// Under Ubuntu/Unity this will close all windows.
+					consumed = true;
 				}
 				break;
 			case F4: // File -> Exit
