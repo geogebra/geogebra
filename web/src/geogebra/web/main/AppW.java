@@ -21,7 +21,6 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
@@ -36,6 +35,7 @@ import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
+import geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -122,7 +122,7 @@ public class AppW extends AppWeb {
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
 	private GoogleDriveOperationW googleDriveOperation;
-	private OpenFromGGTOperation openFromGGTOperation;
+	private OpenFromGGTOperationW openFromGGTOperation;
 	
 	/**
 	 * Constructors will be called from subclasses
@@ -189,11 +189,11 @@ public class AppW extends AppWeb {
 	 */
 	public void initOpenFromGGTEventFlow() {
 		if (openFromGGTOperation == null) {
-			openFromGGTOperation = new OpenFromGGTOperation(this);
+			openFromGGTOperation = new OpenFromGGTOperationW(this);
 		}
 	}
 	
-	public OpenFromGGTOperation getOpenFromGGTOperation() {
+	public OpenFromGGTOperationW getOpenFromGGTOperation() {
 		return openFromGGTOperation;
 	}
 	

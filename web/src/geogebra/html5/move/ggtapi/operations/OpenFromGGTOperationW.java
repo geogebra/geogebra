@@ -1,5 +1,6 @@
 package geogebra.html5.move.ggtapi.operations;
 
+import geogebra.common.gui.GuiManager;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 
@@ -9,21 +10,41 @@ import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
  */
 public class OpenFromGGTOperationW extends OpenFromGGTOperation {
 
-	private static final String CALLBACKURL = "";
-
 	/**
 	 * @param app Application
 	 * Open from GGT operational class for web
 	 */
 	public OpenFromGGTOperationW(App app) {
 	    super(app);
+	    iniNativeEvents();
     }
 	
 	/**
 	 * @return GGTURL for Web
 	 */
 	public String generateOpenFromGGTURL() {
-		return super.generateOpenFromGGTURL(APP_TYPE.WEB) + CALLBACKURL;
+		//return super.generateOpenFromGGTURL(APP_TYPE.WEB);
+		//TEST!
+		return "http://test.geogebratube.org:8080/widgetprovider/index/widgettype/web";
+	}
+	
+	private native void iniNativeEvents() /*-{
+	var t = this;
+    $wnd.addEventListener("message",function(event) {
+    	var data;
+    	//later if event.origin....
+    	if (event.data) {
+    		data = $wnd.JSON.parse(event.data);
+    		if (data.action === "logintoken") {
+    			t.@geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW::processURL(Ljava/lang/String;)(data.msg);
+    		}
+    	}
+    	}, false);
+	}-*/;
+	
+	private void processURL(String url) {
+		((GuiManager) app.getGuiManager()).loadURL(url + "?mobile=true");
+		
 	}
 
 }

@@ -1,15 +1,12 @@
 package geogebra.html5.move.ggtapi.operations;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BaseEventView;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.util.URLEncoder;
-
-import com.google.gwt.core.client.GWT;
 
 
 /**
@@ -20,16 +17,6 @@ import com.google.gwt.core.client.GWT;
  */
 public class LoginOperationW extends LogInOperation {
 	
-	private static final class BASEURL {
-		public static final String urlStart = buildBaseURL();
-		public static final String opener = "html/opener.html";
-		public static final String callbackHTML = "html/ggtcallback.html";	
-		
-		private static String buildBaseURL() {
-	      return GWT.getModuleBaseForStaticFiles();
-	    }
-	}
-
 	/**
 	 * Initializes the SignInOperation for Web by creating the corresponding model and view classes
 	 */
@@ -73,21 +60,7 @@ public class LoginOperationW extends LogInOperation {
 		return enc.encode("GeoGebra Web Application V" + GeoGebraConstants.VERSION_STRING);
 	}
 	
-	/**
-	 * @return change this concerning what environment the project runs.
-	 */
-	public String getCallbackUrl() {
-		
-		return BASEURL.urlStart + BASEURL.callbackHTML;
-	}
 	
-	/**
-	 * @return the url that will redirect the window to GGT login
-	 */
-	public String getOpenerUrl() {
-	    App.debug(com.google.gwt.core.client.GWT.getModuleBaseForStaticFiles());
-		return BASEURL.urlStart + BASEURL.opener;
-	}
 	
 	
 	//AG: JUST FOR TESTING!

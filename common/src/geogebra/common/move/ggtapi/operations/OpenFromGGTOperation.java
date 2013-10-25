@@ -28,7 +28,10 @@ public class OpenFromGGTOperation extends BaseOperation<EventRenderable>{
 		 */
 		public final static String DESKTOP = "desktop";
 	}
-	private App app;
+	/**
+	 * Application App
+	 */
+	protected App app;
 	
 	/**
 	 * @param app

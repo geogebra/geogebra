@@ -10,12 +10,20 @@
     }
 
 
-
     function sendToken() {
         window.opener.$wnd.postMessage(JSON.stringify({action: "logintoken", msg: getURLParameter("token")}), "*");
     }
+    
+    function sendURL() {
+    	window.opener.$wnd.postMessage(JSON.stringify({action: "openfromggt", msg: getURLParameter("url")}), "*");
+    }
 
-    sendToken();
+	if (getURLParameter("token") !== null) {
+    	sendToken();
+    }
+    if (getURLParameter("url") !== null) {
+    	sendURL();
+    }
     </script>
 </body>
 </html>

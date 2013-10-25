@@ -2,9 +2,10 @@ package geogebra.html5.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
-import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.move.ggtapi.operations.BASEURL;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
+import geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -58,22 +59,7 @@ public class WindowReference implements EventRenderable {
 			int left = (Window.getClientWidth() / 2) - (width / 2);
 			int top = (Window.getClientHeight() / 2) - (height / 2);
 			LoginOperationW lOW = ((LoginOperationW) app.getLoginOperation());
-					instance.wnd = WindowW.open(lOW.getOpenerUrl() +
-					"?redirect=" +
-					lOW.getLoginURL(((AppW) app).getLocalization().getLanguage()) +
-					"&callback=" +
-					lOW.getCallbackUrl(),
-					"GeoGebraTube" ,
-						"resizable," +
-						"toolbar=no," +
-						"location=no," +
-						"scrollbars=no, " + 
-						"statusbar=no, " +
-						"titlebar=no, " + 
-						"width=" + width +"," +
-						"height=" + height + "," +
-						"left=" + left + ", " +
-						"top=" + top);	
+					instance.wnd =createWindowReference("GeoGebraTube", lOW.getLoginURL(((AppW) app).getLocalization().getLanguage()), 900, 500);
 					lOW.getView().add(instance);
 					instance.initClosedCheck();
 			}
@@ -132,13 +118,25 @@ public class WindowReference implements EventRenderable {
 		if (instance == null) {
 			((AppW) app).initOpenFromGGTEventFlow();
 			instance = new WindowReference();
-			int  width = 900;
-			int height = 500;
-			int left = (Window.getClientWidth() / 2) - (width / 2);
-			int top = (Window.getClientHeight() / 2) - (height / 2);
-			OpenFromGGTOperation oGGT = ((AppW) app).getOpenFromGGTOperation();
-					instance.wnd = WindowW.open(oGGT.generateOpenFromGGTURL(OpenFromGGTOperation.APP_TYPE.WEB),
-					"GeoGebraTube" ,
+			OpenFromGGTOperationW oGGT = ((AppW) app).getOpenFromGGTOperation();
+					instance.wnd = createWindowReference("GeoGebraTube", oGGT.generateOpenFromGGTURL(), 900, 500);			
+					oGGT.getView().add(instance);
+					instance.initClosedCheck();
+			}
+		
+		return instance;
+    }
+	
+	private static JavaScriptObject createWindowReference(String name, String redirect, int width, int height) {
+		int left = (Window.getClientWidth() / 2) - (width / 2);
+		int top = (Window.getClientHeight() / 2) - (height / 2);
+		return WindowW.open(BASEURL.getOpenerUrl() +
+				
+						"?redirect=" + redirect +
+						"&callback=" + BASEURL.getCallbackUrl(),
+						
+						name,
+						
 						"resizable," +
 						"toolbar=no," +
 						"location=no," +
@@ -149,11 +147,6 @@ public class WindowReference implements EventRenderable {
 						"height=" + height + "," +
 						"left=" + left + ", " +
 						"top=" + top);	
-					oGGT.getView().add(instance);
-					instance.initClosedCheck();
-			}
-		
-		return instance;
-    }
+	}
 
 }
