@@ -30,6 +30,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectLis
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
+import geogebra.common.gui.dialog.options.model.LineStyleModel;
+import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
@@ -5253,7 +5255,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class LineStylePanel extends JPanel implements ChangeListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+			ILineStyleListener {
 
 		/**
 		 * 
@@ -5264,8 +5267,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JPanel thicknessPanel;
 		private JLabel dashLabel;
 		private JComboBox dashCB;
+		private LineStyleModel model;
 
 		public LineStylePanel() {
+			model = new LineStyleModel(this);			
 			// thickness slider
 			slider = new JSlider(1, GeoElement.MAX_LINE_WIDTH);
 			slider.setMajorTickSpacing(2);
@@ -5329,86 +5334,33 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			dashLabel.setText(app.getPlain("LineStyle") + ":");
 		}
 
-		private int maxMinimumThickness(Object[] geos) {
-
-			if (geos == null || geos.length == 0)
-				return 1;
-
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement testGeo = ((GeoElement) geos[i])
-						.getGeoElementForPropertiesDialog();
-				if (testGeo.getMinimumLineThickness() == 1)
-					return 1;
-			}
-
-			return 0;
-
-		}
-
+		
 		public JPanel update(Object[] geos) {
 
-			this.geos = geos;
+			model.setGeos(geos);
 			return update();
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null)
+			if (!model.hasGeos()) {
 				return;
+			}
 			update();
 		}
 
 		public JPanel update() {
 			// check geos
-			if (!checkGeos(geos))
+			if (!model.checkGeos())
 				return null;
 
 			slider.removeChangeListener(this);
 			dashCB.removeActionListener(this);
 
-			// set slider value to first geo's thickness
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			slider.setValue(geo0.getLineThickness());
-
-			// allow polygons to have thickness 0
-			slider.setMinimum(maxMinimumThickness(geos));
-
-			// check if geos have same line style
-			boolean equalStyle = true;
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same style?
-				if (geo0.getLineType() != temp.getLineType())
-					equalStyle = false;
-			}
-
-			// select common line style
-			if (equalStyle) {
-				int type = geo0.getLineType();
-				for (int i = 0; i < dashCB.getItemCount(); i++) {
-					if (type == ((Integer) dashCB.getItemAt(i)).intValue()) {
-						dashCB.setSelectedIndex(i);
-						break;
-					}
-				}
-			} else
-				dashCB.setSelectedItem(null);
-
+			model.updateProperties();
+			
 			slider.addChangeListener(this);
 			dashCB.addActionListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = ((GeoElement) geos[i])
-						.getGeoElementForPropertiesDialog();
-				if (!geo.showLineProperties()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
@@ -5416,13 +5368,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
-				int size = slider.getValue();
-				GeoElement geo;
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setLineThickness(size);
-					geo.updateVisualStyleRepaint();
-				}
+				model.applyThickness(slider.getValue());
 			}
 		}
 
@@ -5432,13 +5378,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == dashCB) {
-				GeoElement geo;
-				int type = ((Integer) dashCB.getSelectedItem()).intValue();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setLineType(type);
-					geo.updateVisualStyleRepaint();
-				}
+				model.applyLineType(((Integer) dashCB.getSelectedItem()).intValue());
 			}
 		}
 
@@ -5462,6 +5402,33 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 
 			// slider.setFont(app.getSmallFont());
+		}
+
+		public void setSelectedIndex(int index) {
+			dashCB.setSelectedIndex(index);
+		}
+
+		public void setValue(int value) {
+			slider.setValue(value);
+			
+		}
+
+		public void setMinimum(int minimum){
+			slider.setMinimum(minimum);
+			
+		}
+
+		public void selectCommonLineStyle(boolean equalStyle, int type) {
+			if (equalStyle) {
+				for (int i = 0; i < dashCB.getItemCount(); i++) {
+					if (type == ((Integer) dashCB.getItemAt(i)).intValue()) {
+						dashCB.setSelectedIndex(i);
+						break;
+					}
+				}
+			} else {
+				dashCB.setSelectedItem(null);
+			}
 		}
 	}
 
