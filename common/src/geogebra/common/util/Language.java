@@ -101,6 +101,7 @@ public enum Language {
 	Japanese("\uff9d", true, false, "ja","ja", "Japanese / \u65E5\u672C\u8A9E", Country.Japan),
 	Kazakh(null, true, false, "kk","kk", "Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456", Country.Kazakhstan),
 	Korean("\u1103", true, false, "ko","ko", "Korean / \uD55C\uAD6D\uB9D0", Country.KoreaRepublicof, Country.KoreaDemocraticPeoplesRepublicof),
+	Latvian(null, true, false, "lv","lv", "Latvian / Latvie\u0161u valoda", Country.Latvia),
 	Lithuanian(null, true, false, "lt","lt", "Lithuanian / Lietuvi\u0173 kalba", Country.Lithuania),
 	Malay(null, true, false, "ms","ms", "Malay / Bahasa Malaysia", Country.Malaysia, Country.Singapore, Country.Indonesia, Country.BruneiDarussalam),
 	Malayalam("\u0D2E", true, false, "ml","ml", "Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02", Country.India),
