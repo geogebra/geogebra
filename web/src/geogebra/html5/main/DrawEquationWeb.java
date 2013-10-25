@@ -272,6 +272,10 @@ public class DrawEquationWeb extends DrawEquation {
 
 		String eqstringid = prestring + "@" + eqstring + "@" + geo.getID();
 
+		int fontSizeR = 16;
+		if (fontSize <= 10)
+			fontSizeR = 10;
+
 		SpanElement ih = equations.get(eqstringid);
 		equationAges.put(eqstringid, 0);
 		if (ih == null) {
@@ -281,7 +285,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuill(ih, eqstring, fontSize, 16,
+			drawEquationMathQuill(ih, eqstring, fontSize, fontSizeR,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2);
 
@@ -311,7 +315,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
-		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != 12)) {
+		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != fontSizeR)) {
 			return new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
 					(int)Math.ceil(getScaledHeight(ih)));
 		}
@@ -401,17 +405,17 @@ public class DrawEquationWeb extends DrawEquation {
 			elfirst.style.zIndex = 2;
 			elfirst.style.width = "100%";
 			elfirst.style.height = "100%";
-			//if (fontSizeRel != 0) {
-			//	elfirst.style.fontSize = fontSizeRel + "px";
-			//}
+			if (fontSizeRel != 0) {
+				elfirst.style.fontSize = fontSizeRel + "px";
+			}
 			el.appendChild(elfirst);
 		}
 
 		var elsecond = $doc.createElement("span");
 		elsecond.innerHTML = htmlt;
-		//if (fontSizeRel != 0) {
-		//	elsecond.style.fontSize = fontSizeRel + "px";
-		//}
+		if (fontSizeRel != 0) {
+			elsecond.style.fontSize = fontSizeRel + "px";
+		}
 		el.appendChild(elsecond);
 
 		if (!visible) {
@@ -448,20 +452,21 @@ public class DrawEquationWeb extends DrawEquation {
 			//			});
 		}
 
-		if ((fontSize != 0) && (fontSize != 12)) {
+		if ((fontSize != 0) && (fontSizeRel != 0) && (fontSize != fontSizeRel)) {
 			// floating point division in JavaScript!
-			elsecond.style.zoom = fontSize / 12;
-			elsecond.style.MsZoom = fontSize / 12;
-			elsecond.style.MozTransform = "scale(" + (fontSize / 12) + ")";
+			var sfactor = fontSize / fontSizeRel;
+			elsecond.style.zoom = sfactor;
+			elsecond.style.MsZoom = sfactor;
+			elsecond.style.MozTransform = "scale(" + sfactor + ")";
 			elsecond.style.MozTransformOrigin = "0px 0px";
-			elsecond.style.OTransform = "scale(" + (fontSize / 12) + ")";
+			elsecond.style.OTransform = "scale(" + sfactor + ")";
 			elsecond.style.OTransformOrigin = "0px 0px";
 			if (addOverlay) {
-				elfirst.style.zoom = fontSize / 12;
-				elfirst.style.MsZoom = fontSize / 12;
-				elfirst.style.MozTransform = "scale(" + (fontSize / 12) + ")";
+				elfirst.style.zoom = sfactor;
+				elfirst.style.MsZoom = sfactor;
+				elfirst.style.MozTransform = "scale(" + sfactor + ")";
 				elfirst.style.MozTransformOrigin = "0px 0px";
-				elfirst.style.OTransform = "scale(" + (fontSize / 12) + ")";
+				elfirst.style.OTransform = "scale(" + sfactor + ")";
 				elfirst.style.OTransformOrigin = "0px 0px";
 			}
 		}
