@@ -963,7 +963,7 @@ __GGB__keysVar.no_NB.command = {
     "UnitVector": "Enhetsvektor",
     "UnitVector_Syntax": "[ <Vektor> ]\n[ <Linje> ]\n[ <Linjestykke> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
-    "UpdateConstruction": "OppdaterFigurenn",
+    "UpdateConstruction": "OppdaterFiguren",
     "UpdateConstruction_Syntax": "[ ]\n[ <Antall ganger> ]",
     "UpperSum": "SumOver",
     "UpperSum_Syntax": "[ <Funksjon>, <Start>, <Slutt>, <Antall rektangler> ]",
