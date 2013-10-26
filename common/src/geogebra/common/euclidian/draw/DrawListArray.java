@@ -50,7 +50,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 				d = oldDrawable;
 				update(d);
 			} else {
-				d = getDrawable(listElement, drawList);
+				d = getDrawable(oldDrawable, listElement, drawList);
 			}
 		} else {
 			d = getDrawable(listElement, drawList);
@@ -65,6 +65,17 @@ public class DrawListArray extends ArrayList<DrawableND> {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * For 3D: remove old drawable
+	 * @param oldDrawable old drawable at same position
+	 * @param listElement list element
+	 * @param drawList list that wants to add this geo
+	 * @return new drawable
+	 */
+	protected DrawableND getDrawable(DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
+		return getDrawable(listElement, drawList);
 	}
 
 	/**

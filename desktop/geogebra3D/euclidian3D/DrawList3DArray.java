@@ -39,5 +39,11 @@ public class DrawList3DArray extends DrawListArray {
     	((EuclidianView3D) view).addToDrawable3DLists((Drawable3D) d);
     	return d;  
     }
+    
+	@Override
+	protected DrawableND getDrawable(DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
+		((EuclidianView3D) view).remove((Drawable3D) oldDrawable);
+		return super.getDrawable(oldDrawable, listElement, drawList);
+	}
 
 }

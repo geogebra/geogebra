@@ -27,9 +27,7 @@ public class DrawList3D extends Drawable3DList {
 
 	@Override
 	protected boolean updateForItSelf() {
-		
-		
-		
+				
 		isVisible = geoList.isEuclidianVisible();
     	if (!isVisible) return true;    	
     	
@@ -37,7 +35,7 @@ public class DrawList3D extends Drawable3DList {
     	int size = geoList.size();
     	drawables.ensureCapacity(size);
     	int oldDrawableSize = drawables.size();
-    	
+    	 	
     	int drawablePos = 0;
     	for (int i=0; i < size; i++) {    		
     		GeoElement listElement = geoList.get(i);
