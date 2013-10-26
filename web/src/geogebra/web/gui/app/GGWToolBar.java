@@ -2,8 +2,6 @@ package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
-import geogebra.web.WebStatic;
-import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
@@ -92,9 +90,6 @@ public class GGWToolBar extends Composite {
 		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBPanel);
 		
-		if(!WebStatic.currentGUI.equals(GuiToLoad.APP)){
-			updateToolbarPanel();  //currently it's needed for applet, maybe later this will be unnecessary
-		}
 		// setActiveToolbar(activeToolbar);
 		
 		//undo-redo buttons
