@@ -26,6 +26,7 @@ import geogebra.html5.event.KeyEventsHandler;
 import geogebra.html5.event.KeyListenerW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
+import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppWeb;
 
 import java.util.ArrayList;
@@ -56,7 +57,6 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -138,8 +138,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	        KeyEventsHandler keyHandler) {
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
-		textField = new SuggestBox(completionsPopup = new CompletionsPopup(),
-		        new TextBox(), new SuggestBox.DefaultSuggestionDisplay());
+		textField = new ScrollableSuggestBox(completionsPopup = new CompletionsPopup());
 		if (columns > 0) {
 			setColumns(columns);
 		}
