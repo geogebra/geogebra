@@ -316,11 +316,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl = RendererJogl.getGL(gLDrawable);                
         
         //picking        
-        if(waitForPick)
-        	doPick();
-        	//Application.debug("doPick");
-        	//return;
-        //else 
+        if(waitForPick){
+        	doPick();        	
+        }
+        	
         
         //clip planes
         if (waitForUpdateClipPlanes){
@@ -1144,7 +1143,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     public void setMouseLoc(GPoint p, int pickingMode){
     	mouse = p;
-    	
+  	
     	this.pickingMode = pickingMode;
     	
     	// on next rending, a picking will be done : see doPick()
@@ -1192,6 +1191,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         return new Drawable3D[bufSize];
 	}
 	
+	
 	private void setGLForPicking(){		
 
         // The Size Of The Viewport. [0] Is <x>, [1] Is <y>, [2] Is <length>, [3] Is <width>
@@ -1216,12 +1216,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	
         	if(view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE){ 
         		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ());
-        		x = dim.width/2 + f*(x-dim.width/2);
-        		y = dim.height/2 + f*(y-dim.height/2);
+        		x = dim.width/2 + f*(x - dim.width/2);
+        		y = dim.height/2 + f*(y - dim.height/2);
         		
         	}else if(view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
           		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ());
-        		x = dim.width/2 + f*(x + glassesEyeSep -dim.width/2) - glassesEyeSep;
+        		x = dim.width/2 + f*(x + glassesEyeSep - dim.width/2) - glassesEyeSep;
         		y = dim.height/2 + f*(y-dim.height/2);
  
         	}
@@ -1277,16 +1277,18 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  if (hits3D==null){ // just update z min/max values for the drawable
         		  drawHits[num].setZPick(zNear,zFar);        		  
         	  }else{ // if for hits array, some checks are done
-        		  PickingType type;
-        		  if (num >= labelLoop){
-        			  type = PickingType.LABEL;
-        		  }else if (num >= pointAndCurvesLoop){
-        			  type = PickingType.POINT_OR_CURVE;
-        		  }else{
-        			  type = PickingType.SURFACE;
-        		  }
-        		  hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
-        		  //App.debug(i+": " + drawHits[num].getGeoElement());
+        		  //if (!(mouse instanceof GPointWithZ) || (zFar < ((GPointWithZ) mouse).getZ())){ // check if mouse is nearer than objet (for 3D input)
+        			  PickingType type;
+        			  if (num >= labelLoop){
+        				  type = PickingType.LABEL;
+        			  }else if (num >= pointAndCurvesLoop){
+        				  type = PickingType.POINT_OR_CURVE;
+        			  }else{
+        				  type = PickingType.SURFACE;
+        			  }
+        			  hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
+        			  //App.debug("\n"+drawHits[num].getGeoElement()+"\nzFar = "+zFar+"\nmouse z ="+((GPointWithZ) mouse).getZ());
+        		  //}
         	  }
       		  
        	  
