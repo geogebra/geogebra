@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -39,8 +40,11 @@ public class GGWToolBar extends Composite {
 	private ArrayList<ToolBarW> toolbars;
 	App app;
 	static private ToolBarW toolBar;
+	//panel which contains the toolbar and undo-redo buttons.
 	@UiField
 	HorizontalPanel toolBarPanel;
+	//panel for toolbar (without undo-redo buttons)
+	FlowPanel toolBPanel;
 	boolean inited = false;
 
 	/**
@@ -85,6 +89,8 @@ public class GGWToolBar extends Composite {
 	 * Build the toolbar GUI
 	 */
 	public void buildGui() {
+		toolBPanel = new FlowPanel();
+		toolBarPanel.add(toolBPanel);
 		
 		if(!WebStatic.currentGUI.equals(GuiToLoad.APP)){
 			updateToolbarPanel();  //currently it's needed for applet, maybe later this will be unnecessary
@@ -127,20 +133,20 @@ public class GGWToolBar extends Composite {
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-		toolBarPanel.clear();
+		toolBPanel.clear();
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
 				((ToolBarW)toolbar).buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
-				toolBarPanel.add(toolbar);
+				toolBPanel.add(toolbar);
 			}
 		}
 		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
 
-		toolBarPanel.setVisible(true);
+		toolBPanel.setVisible(true);
 	}
 
 	/**
