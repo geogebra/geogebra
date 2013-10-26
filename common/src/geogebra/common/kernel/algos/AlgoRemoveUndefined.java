@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -99,7 +99,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
     		// intersection of 2 parallel lines "undefined" in AlgebraView
     		// but isDefined() returns true
     		if (isDefined && geo.isGeoPoint()) {
-    			isDefined = ((GeoPoint)geo).isFinite();
+    			isDefined = ((GeoPointND)geo).isFinite();
     		}
     		//Application.debug(isDefined+"");
     		if (isDefined) outputList.add(geo.copyInternal(cons));
