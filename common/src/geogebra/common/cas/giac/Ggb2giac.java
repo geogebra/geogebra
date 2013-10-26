@@ -766,7 +766,7 @@ public class Ggb2giac {
 		p("TangentThroughPoint.2", 
 				"[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
 				+ "[ggbans:=when(((ggbans)[0])=='=' && lhs(ggbans)==1 && rhs(ggbans)==0,?,ggbans)],"
-				+ "[ggbans:=when(type(ggbans)==DOM_LIST, map(ggbans,x->x=0), {ggbans})],ggbans][4]");
+				+ "[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,{ggbans})],ggbans][4]");
 
 		// see ToPoint.1 
 		// eg Dot[Vector[(a,b)],Vector[(c,d)]] 
