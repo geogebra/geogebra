@@ -266,64 +266,67 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 			}
 		};
 		
-		// save settings
-		saveSettings = new AbstractAction(app
-				.getMenu("Settings.Save"),app.getImageIcon("document-save.png")) {
-			@SuppressWarnings("hiding")
-			public static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
-			}
-		};
-
-		// restore default settings
-		restoreDefaultSettings = new AbstractAction(app
-				.getMenu("Settings.ResetDefault"),app.getEmptyIcon()) {
-			@SuppressWarnings("hiding")
-			public static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				GeoGebraPreferencesD.getPref().clearPreferences();
-
-				// reset defaults for GUI, views etc
-				// this has to be called before load XML preferences,
-				// in order to avoid overwrite
-				app.getSettings().resetSettings();
-
-				// for geoelement defaults, this will do nothing, so it is
-				// OK here
-				GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
-
-				// reset default line thickness etc
-				app.getKernel().getConstruction().getConstructionDefaults()
-				.resetDefaults();
-
-				// reset defaults for geoelements; this will create brand
-				// new objects
-				// so the options defaults dialog should be reset later
-				app.getKernel().getConstruction().getConstructionDefaults()
-				.createDefaultGeoElementsFromScratch();
-
-				// reset the stylebar defaultGeo
-				if (app.getEuclidianView1().hasStyleBar())
-					app.getEuclidianView1().getStyleBar()
-					.restoreDefaultGeo();
-				if (app.hasEuclidianView2EitherShowingOrNot())
-					if (app.getEuclidianView2().hasStyleBar())
-						app.getEuclidianView2().getStyleBar()
+		
+		if (!app.isApplet()){
+			// save settings
+			saveSettings = new AbstractAction(app
+					.getMenu("Settings.Save"),app.getImageIcon("document-save.png")) {
+				@SuppressWarnings("hiding")
+				public static final long serialVersionUID = 1L;
+	
+				public void actionPerformed(ActionEvent e) {
+					GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
+				}
+			};
+	
+			// restore default settings
+			restoreDefaultSettings = new AbstractAction(app
+					.getMenu("Settings.ResetDefault"),app.getEmptyIcon()) {
+				@SuppressWarnings("hiding")
+				public static final long serialVersionUID = 1L;
+	
+				public void actionPerformed(ActionEvent e) {
+					GeoGebraPreferencesD.getPref().clearPreferences();
+	
+					// reset defaults for GUI, views etc
+					// this has to be called before load XML preferences,
+					// in order to avoid overwrite
+					app.getSettings().resetSettings();
+	
+					// for geoelement defaults, this will do nothing, so it is
+					// OK here
+					GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
+	
+					// reset default line thickness etc
+					app.getKernel().getConstruction().getConstructionDefaults()
+					.resetDefaults();
+	
+					// reset defaults for geoelements; this will create brand
+					// new objects
+					// so the options defaults dialog should be reset later
+					app.getKernel().getConstruction().getConstructionDefaults()
+					.createDefaultGeoElementsFromScratch();
+	
+					// reset the stylebar defaultGeo
+					if (app.getEuclidianView1().hasStyleBar())
+						app.getEuclidianView1().getStyleBar()
 						.restoreDefaultGeo();
-
-				// set default layout options
-				app.setToolbarPosition(SwingConstants.NORTH, false);
-				app.setShowToolBarNoUpdate(true);
-				app.setShowToolBarHelpNoUpdate(false);
-				app.setShowDockBar(true, false);
-				app.setDockBarEast(true);
-				app.updateContentPane();
+					if (app.hasEuclidianView2EitherShowingOrNot())
+						if (app.getEuclidianView2().hasStyleBar())
+							app.getEuclidianView2().getStyleBar()
+							.restoreDefaultGeo();
+	
+					// set default layout options
+					app.setToolbarPosition(SwingConstants.NORTH, false);
+					app.setShowToolBarNoUpdate(true);
+					app.setShowToolBarHelpNoUpdate(false);
+					app.setShowDockBar(true, false);
+					app.setDockBarEast(true);
+					app.updateContentPane();
 				
-			}
-		};
+				}
+			};
+		}
 	}
 
 	@Override
