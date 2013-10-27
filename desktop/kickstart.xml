@@ -331,6 +331,7 @@ download libs for other architectures than the current one.
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
 	&lt;classpathentry kind="src" path="/jogl${jogl}"/&gt;
+	&lt;classpathentry kind="src" path="/noInput3D"/&gt;
 	</echo>
 	</target>
 

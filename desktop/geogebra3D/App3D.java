@@ -20,6 +20,7 @@ package geogebra3D;
 import geogebra.CommandLineArguments;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian3D.input3D.Input3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -43,8 +44,11 @@ import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianControllerForPlane;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
+import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
+import geogebra3D.input3D.Input3DFactory;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.Kernel3D;
 import geogebra3D.util.ImageManager3D;
@@ -115,7 +119,7 @@ public class App3D extends AppD {
 		// init the 2D euclidian view
 		super.initEuclidianViews();
 
-		/*
+		
 		// init the 3D euclidian view (with perhaps a specific 3D input)
 		Input3D input3D = Input3DFactory.createInput3D();
 		if (input3D != null){
@@ -125,9 +129,7 @@ public class App3D extends AppD {
 			euclidianController3D = new EuclidianController3D(kernel); 
 			euclidianView3D = new EuclidianView3D(euclidianController3D,null);
 		}
-		*/
 		
-		euclidianController3D = new EuclidianController3D(kernel);  euclidianView3D = new EuclidianView3D(euclidianController3D,null);
 
 	}
 	
