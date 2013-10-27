@@ -357,21 +357,16 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 		return input3D.isLeftPressed() || input3D.isRightPressed();
 	}
 	
-	
-    /*
 	@Override
-	protected void udpateStartPoint(){		
-		updateStartPoint(mouse3DPosition);
+	protected GeoPoint3D createNewFreePoint(boolean complex){
+		GeoPoint3D point3D = view3D.getCursor3D();	
+		point3D.setPath(null);
+		point3D.setRegion(null);
+		
+		Coords coords = view3D.getPickPoint(mouseLoc).copyVector();
+		view3D.toSceneCoords3D(coords);
+		point3D.setCoords(coords);
+		
+		return point3D;
 	}
-	
-	@Override
-	protected void updateTranslationVector(){
-		Coords point = new Coords(4);
-		point.set(mouse3DPosition);
-		point.setW(1);
-		view3D.toSceneCoords3D(point);
-		//App.debug("\n"+point);
-		updateTranslationVector(point);
-	}
-	*/
 }

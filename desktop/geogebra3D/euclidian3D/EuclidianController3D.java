@@ -305,7 +305,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//}
 			o = view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y); 
 		}else
-			o = view3D.getPickPoint(mouseLoc.x,mouseLoc.y); 
+			o = view3D.getPickPoint(mouseLoc); 
 		view3D.toSceneCoords3D(o);
 		
 		
@@ -348,7 +348,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		// move mouse fast, sometimes get mouseLoc = null
 		if (mouseLoc == null) return;
 		
-		Coords o = view3D.getPickPoint(mouseLoc.x,mouseLoc.y); 
+		Coords o = view3D.getPickPoint(mouseLoc); 
 		view3D.toSceneCoords3D(o);
 		
 		
@@ -362,7 +362,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	@Override
 	protected void moveTextAbsoluteLocation(){
-		Coords o = view3D.getPickPoint(mouseLoc.x,mouseLoc.y); 
+		Coords o = view3D.getPickPoint(mouseLoc); 
 		view3D.toSceneCoords3D(o);
 		//o = (o.sub(startPoint3D)).projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
 		o = o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
@@ -415,7 +415,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 						movePointMode = MOVE_POINT_MODE_Z;
 					}
 					*/
-					Coords o = view3D.getPickPoint(mouseLoc.x,mouseLoc.y); 
+					Coords o = view3D.getPickPoint(mouseLoc); 
 					view3D.toSceneCoords3D(o);
 					//GgbVector o = view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
 					//view3D.toSceneCoords3D(o);
@@ -472,7 +472,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			movedGeoPointDragged = true;
 			
 		}else{
-			Coords o = view3D.getPickPoint(mouseLoc.x,mouseLoc.y); 
+			Coords o = view3D.getPickPoint(mouseLoc); 
 			view3D.toSceneCoords3D(o);
 			//TODO do this once
 			//GgbVector v = new GgbVector(new double[] {0,0,1,0});
@@ -702,7 +702,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				return null;
 			point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0, false);
 		}else{
-			point3D = (GeoPoint3D) createNewPoint(true, view3D.getxOyPlane(), complex);
+			point3D = createNewFreePoint(complex);
 			if (point3D==null)
 				return null;
 			point3D.setPath(null);
@@ -715,6 +715,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		movePointOnCurrentPlane(point3D, false);	
 		
 		return point3D;
+	}
+	
+	/**
+	 * 
+	 * @param complex says if complex coords are wanted
+	 * @return new free point (eventually on xOy plane with 2D mouse)
+	 */
+	protected GeoPoint3D createNewFreePoint(boolean complex){
+		return (GeoPoint3D) createNewPoint(true, view3D.getxOyPlane(), complex);
 	}
 	
 	
@@ -881,7 +890,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		// check if a and b are two 2D geos
 		if (!a.isGeoElement3D() && !b.isGeoElement3D()){
 			//get pick point coords in xOy plane
-			Coords project = view3D.getToSceneMatrix().mul(view3D.getPickPoint(mouseLoc.x, mouseLoc.y))
+			Coords project = view3D.getToSceneMatrix().mul(view3D.getPickPoint(mouseLoc))
 					.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
 			xRW=project.getX();
 			yRW=project.getY();
@@ -900,27 +909,27 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
     	//line/conic, line/quadric
     	else if ( a.isGeoLine() ) {
     		if (b.isGeoConic()) {
-    			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+    			Coords picked = view3D.getPickPoint(mouseLoc);
     			point = getKernel().getManager3D().IntersectLineConicSingle(null, 
     					(GeoLineND)a, (GeoConicND)b, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
     		} else if  (b instanceof GeoQuadric3D) {
-    			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+    			Coords picked = view3D.getPickPoint(mouseLoc);
     			point = getKernel().getManager3D().IntersectLineQuadricSingle(null, 
     					(GeoLineND)a, (GeoQuadric3D)b, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
     		}
     	} else if ( b.isGeoLine() ) {
     		if (a.isGeoConic()) {
-    			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+    			Coords picked = view3D.getPickPoint(mouseLoc);
     			point = getKernel().getManager3D().IntersectLineConicSingle(null, 
     					(GeoLineND)b, (GeoConicND)a, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
     		} else if  (a instanceof GeoQuadric3D) {
-    			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+    			Coords picked = view3D.getPickPoint(mouseLoc);
     			point = getKernel().getManager3D().IntersectLineQuadricSingle(null, 
     					(GeoLineND)b, (GeoQuadric3D)a, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
     		}
     	} else if ( a.isGeoConic() && b.isGeoConic() ) {
     		
-    		Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+    		Coords picked = view3D.getPickPoint(mouseLoc);
 			point = getKernel().getManager3D().IntersectConicsSingle(null, 
 					(GeoConicND)a, (GeoConicND)b, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
    	
@@ -943,7 +952,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
     	if (point.isDefined()){
     		if (((GeoElement) point).isGeoElement3D()){
     			//if the resulting point is defined, but is not around the mouse, discard it. (2011/8/8 Tam)
-    			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+    			Coords picked = view3D.getPickPoint(mouseLoc);
     			Coords toScreenCoords = view3D.projectOnScreen(((GeoPoint3D) point).getCoords().getCoordsLast1());
  
     			//App.debug("\nmouse="+mouseLoc.x+","+mouseLoc.y+"\npicked=\n"+picked+"\ncoords\n"+toScreenCoords);
@@ -3232,7 +3241,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	 * update translation vector
 	 */
 	protected void updateTranslationVector(){
-		Coords point = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+		Coords point = view3D.getPickPoint(mouseLoc);
 		view3D.toSceneCoords3D(point);
 		updateTranslationVector(point);
 	}
@@ -3259,7 +3268,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		if (mouseLoc==null)//case that it's algebra view calling
 			return;
 		
-		updateStartPoint(view3D.getPickPoint(mouseLoc.x, mouseLoc.y));
+		updateStartPoint(view3D.getPickPoint(mouseLoc));
 
 	}
 
@@ -3290,7 +3299,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	@Override
 	protected void calcRWcoords() {
-		Coords point =  view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+		Coords point =  view3D.getPickPoint(mouseLoc);
 		view3D.toSceneCoords3D(point);
 		xRW = point.getX();
 		yRW = point.getY();

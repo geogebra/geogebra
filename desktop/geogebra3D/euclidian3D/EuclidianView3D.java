@@ -781,6 +781,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		}
 	}
 	
+	
 	/**
 	 * 
 	 * @return ortho direction of the eye
@@ -788,8 +789,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public Coords getViewDirection(){
 		if (projection==PROJECTION_ORTHOGRAPHIC || projection==PROJECTION_OBLIQUE)
 			return viewDirection;
-		else
-			return viewDirectionPersp;
+		
+		return viewDirectionPersp;
 	}
 
 	/**
@@ -1070,7 +1071,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//////////////////////////////////////
 	// picking
 
-	private Coords pickPoint = new Coords(0, 0, 0, 1);
+	protected Coords pickPoint = new Coords(0, 0, 0, 1);
 	private Coords viewDirectionPersp = new Coords(4);
 
 	/**
@@ -1080,10 +1081,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @param y
 	 * @return 3D physical coords of the picking point
 	 */
-	public Coords getPickPoint(int x, int y) {
+	public Coords getPickPoint(GPoint mouse) {
 
-		pickPoint.setX(x + renderer.getLeft());
-		pickPoint.setY(-y + renderer.getTop());
+		setPickPointFromMouse(mouse);
+		
 
 		if (projection == PROJECTION_PERSPECTIVE
 				|| projection == PROJECTION_GLASSES) {
@@ -1093,6 +1094,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		}
 
 		return pickPoint.copyVector();
+	}
+	
+	protected void setPickPointFromMouse(GPoint mouse) {
+		pickPoint.setX(mouse.getX() + renderer.getLeft());
+		pickPoint.setY(-mouse.getY() + renderer.getTop());
 	}
 	
 	/**

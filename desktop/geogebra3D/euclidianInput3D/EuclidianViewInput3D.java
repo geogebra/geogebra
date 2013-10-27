@@ -1,7 +1,9 @@
 package geogebra3D.euclidianInput3D;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -95,4 +97,13 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	
 
 
+	@Override
+	protected void setPickPointFromMouse(GPoint mouse) {
+		super.setPickPointFromMouse(mouse);
+
+		if (mouse instanceof GPointWithZ){
+			pickPoint.setZ(((GPointWithZ) mouse).getZ());
+		}
+	}
+	
 }
