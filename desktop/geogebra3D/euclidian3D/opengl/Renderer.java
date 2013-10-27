@@ -72,6 +72,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	private GLUtessellator tobj;
 	
 	private static final int MOUSE_PICK_WIDTH = 3;
+	private static final int MOUSE_PICK_DEPTH = 10;
 	
 	Drawable3D[] drawHits;
 	int pickingLoop;
@@ -1277,7 +1278,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  if (hits3D==null){ // just update z min/max values for the drawable
         		  drawHits[num].setZPick(zNear,zFar);        		  
         	  }else{ // if for hits array, some checks are done
-        		  //if (!(mouse instanceof GPointWithZ) || (zFar < ((GPointWithZ) mouse).getZ())){ // check if mouse is nearer than objet (for 3D input)
+        		  if (!(mouse instanceof GPointWithZ) 
+        				  || intersectsMouse3D(zNear, zFar, ((GPointWithZ) mouse).getZ()) ){ // check if mouse is nearer than objet (for 3D input)
         			  PickingType type;
         			  if (num >= labelLoop){
         				  type = PickingType.LABEL;
@@ -1288,7 +1290,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         			  }
         			  hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
         			  //App.debug("\n"+drawHits[num].getGeoElement()+"\nzFar = "+zFar+"\nmouse z ="+((GPointWithZ) mouse).getZ());
-        		  //}
+        		  }
         	  }
       		  
        	  
@@ -1296,6 +1298,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  ptr++;
           }         
         }
+	}
+	
+	private boolean intersectsMouse3D(double zNear, double zFar, double mouseZ){
+		return mouseZ - MOUSE_PICK_DEPTH < zNear && mouseZ + MOUSE_PICK_DEPTH > zFar;
+		
 	}
 	
 	private boolean needsNewPickingBuffer = true;
