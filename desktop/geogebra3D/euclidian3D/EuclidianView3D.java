@@ -2884,42 +2884,25 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void notifyEuclidianViewCE() {
 		kernel.notifyEuclidianViewCE();
 	}
-	
+
 	private void viewChangedOwnDrawables(){
 
-		//if (useClippingCube()){
-			//update clipping cube
-			double[][] minMax = clippingCubeDrawable.updateMinMax();
-			clippingCubeDrawable.setWaitForUpdate();
+		//update clipping cube
+		double[][] minMax = clippingCubeDrawable.updateMinMax();
+		clippingCubeDrawable.setWaitForUpdate();
+
+		// update e.g. Corner[], but not in case where view changed by rotation (keep same corners)
+		if (!viewChanged() || viewChangedByTranslate() || viewChangedByZoom()){
 			kernel.notifyEuclidianViewCE();
-			//update decorations and wait for update
-			for(int i=0;i<3;i++){
-				axisDrawable[i].setDrawMinMaxImmediatly(minMax);
-				axisDrawable[i].updateDecorations();
-				axisDrawable[i].setWaitForUpdate();
-			}
-		/*
-	    }else{
-			// calc draw min/max for x and y axis
-			for(int i=0;i<2;i++){
-				axisDrawable[i].updateDrawMinMax();
-			}
-
-			//for z axis, use bottom to top min/max
-			double zmin = (renderer.getBottom()-getYZero())/getScale();
-			double zmax = (renderer.getTop()-getYZero())/getScale();
-			axisDrawable[AXIS_Z].setDrawMinMax(zmin, zmax);
-
-			//update decorations and wait for update
-			for(int i=0;i<3;i++){
-				axisDrawable[i].updateDecorations();
-				axisDrawable[i].setWaitForUpdate();
-			}
 		}
-		*/
-		
-	
-		
+
+		//update decorations and wait for update
+		for(int i=0;i<3;i++){
+			axisDrawable[i].setDrawMinMaxImmediatly(minMax);
+			axisDrawable[i].updateDecorations();
+			axisDrawable[i].setWaitForUpdate();
+		}	
+
 	}
 	
 	
