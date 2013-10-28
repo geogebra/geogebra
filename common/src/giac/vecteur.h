@@ -323,7 +323,7 @@ namespace giac {
   // solve a*x=b where a and b have integer coeffs
   // using a p-adic algorithm, n is the precision required
   // c must be the inverse of a mod p 
-  vecteur padic_linsolve(const matrice & a,const vecteur & b,const matrice & c,unsigned n,const gen & p,unsigned reconstruct=0);
+  vecteur padic_linsolve_c(const matrice & a,const vecteur & b,const matrice & c,unsigned n,const gen & p,unsigned reconstruct=0);
   // solve a*x=b where a and b have integer coeffs using a p-adic algorithm
   // lcmdeno of the answer may be used to give an estimate of the 
   // least divisor element of a if b is random

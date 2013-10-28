@@ -3654,6 +3654,8 @@ mpz_class smod(const mpz_class & a,int reduce){
   static bool invmodext(const vector<int> & a_,const vector<int> & pmin,int modulo,vector<int> & u0){
     if (a_.empty())
       return false;
+    if (debug_infolevel>10)
+      cerr << a_ << " inv " << pmin << " mod " << modulo << endl;
     vector<int> a(pmin),b(a_),q,r,u1,u2; // u0=ainv
     vector<int>::iterator it,itend;
     u0.clear();
@@ -3671,8 +3673,10 @@ mpz_class smod(const mpz_class & a,int reduce){
 	*it = -*it; // done
       swap(u0,u1);
       swap(u1,u2);
+      if (debug_infolevel>10)
+	cerr << a << "  " << b << " " << u0 << " " << u1 << endl;
     }
-    if (gcd(modulo,a.front())!=1)
+    if (gcd(modulo,a.front())!=1 || u0.empty())
       return false;
     mulmod(u0,invmod(a.front(),modulo),modulo);
     return true;

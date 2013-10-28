@@ -170,7 +170,8 @@
      T_MOINS38 = 386,
      T_NEG38 = 387,
      T_UNARY_OP_38 = 388,
-     T_FUNCTION = 389
+     T_FUNCTION = 389,
+     T_IMPMULT = 390
    };
 #endif
 /* Tokens.  */
@@ -306,6 +307,7 @@
 #define T_NEG38 387
 #define T_UNARY_OP_38 388
 #define T_FUNCTION 389
+#define T_IMPMULT 390
 
 
 

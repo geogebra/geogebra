@@ -4153,7 +4153,7 @@ namespace giac {
   // Find the best interpretation of a(b) either as a function of or as a product (implicit *)
 
   static void warn_implicit(const gen & a,const gen &b,GIAC_CONTEXT){
-#ifndef GIAC_HAS_STO_38
+#if 1 // ndef GIAC_HAS_STO_38
     if (contains(lidnt(b),i__IDNT_e))
       *logptr(contextptr) << gettext("Implicit multiplication does not work with complex numbers.")<<endl;
     else

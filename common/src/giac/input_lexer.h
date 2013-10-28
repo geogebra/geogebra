@@ -82,6 +82,8 @@ namespace giac {
   // return true/false to tell if s is recognized. return the appropriate gen if true
   bool CasIsBuildInFunction(char const *s, gen &g);
 
+  int lock_syms_mutex();
+  void unlock_syms_mutex();
   sym_tab & syms();
   // The lexer recognize first static declared symbols as declared in
   // input_lexer.ll, then it does 2 steps:

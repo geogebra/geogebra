@@ -4374,7 +4374,9 @@ unsigned int ConvertUTF8toUTF16 (
 	return undef;
       }
       gen res=identificateur(string(ch));
+      lock_syms_mutex();  
       syms()[ch] = res;
+      unlock_syms_mutex();  
       delete [] ch;
       return res;
     }
@@ -4518,12 +4520,14 @@ unsigned int ConvertUTF8toUTF16 (
       }
     }
     else {
+      lock_syms_mutex();  
       sym_tab::const_iterator it=syms().begin(),itend=syms().end();
       for (;it!=itend;++it){
 	gen id=it->second;
 	if (id.type==_IDNT && id._IDNTptr->value)
 	  res.push_back(symb_sto(*id._IDNTptr->value,id));
       }
+      unlock_syms_mutex();  
     }
     if (abs_calc_mode(contextptr)==38)
       res.push_back(xcas_mode(contextptr));

@@ -888,7 +888,7 @@ namespace giac {
 
   // Fast multiplication using hash maps, might also use an int for reduction
   // but there is no garantee that res is smod-ed modulo reduce
-  void mulpoly (const polynome & th, const polynome & other,polynome & res,const gen & reduce){
+  void mulpoly(const polynome & th, const polynome & other,polynome & res,const gen & reduce){
 #ifdef TIMEOUT
     control_c();
 #endif
@@ -916,6 +916,18 @@ namespace giac {
       res=other;
       return ;
     }
+    index_t d1=th.degree(),d2=other.degree(),d(th.dim);
+    double lagrtime=1.,sumdeg=0.;
+    for (int i=0;i<th.dim;++i){
+      int tmp=(d1[i]+d2[i]+1);
+      if (tmp>=(1<<15)){
+	res=monomial<gen>(gensizeerr(gettext("Polynomial exponent overflow.")),th.dim); 
+	return;
+      }
+      sumdeg += tmp;
+      lagrtime *= tmp;
+    }
+    lagrtime *= sumdeg;
     // Now look if length a=1 or length b=1, happens frequently
     // think of x^3*y^2*z translated to internal form
     int c1=th.coord.size();
@@ -938,14 +950,6 @@ namespace giac {
 	c1>50 || c2 >50 || (c1>7 && c2>7) 
 	){
       // Degree info, try to multiply the polys using integer for the exponents
-      index_t d1=th.degree(),d2=other.degree(),d(th.dim);
-      double lagrtime=1.,sumdeg=0.;
-      for (int i=0;i<th.dim;++i){
-	int tmp=(d1[i]+d2[i]+1);
-	sumdeg += tmp;
-	lagrtime *= tmp;
-      }
-      lagrtime *= sumdeg;
       ulonglong ans=1,pid1=1,pid2=1;
       for (int i=0;i<th.dim;++i){
 	pid1 = pid1*unsigned(d1[i]+1);

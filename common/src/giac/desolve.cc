@@ -587,7 +587,6 @@ namespace giac {
     gen f(remove_and(f_orig,at_and));
     if (f.type==_VECT)
       return desolve_with_conditions(*f._VECTptr,x,y_orig,contextptr);
-    parameters.clear();
     gen y(y_orig),yof(y_orig);
     if (y_orig.type==_IDNT){
       yof=symb_of(y,gen(vecteur(1,x),_SEQ__VECT));
@@ -625,8 +624,68 @@ namespace giac {
 	gen & c=v[2];
 	gen i=simplify(exp(integrate_without_lnabs(rdiv(b,a,contextptr),x,contextptr),contextptr),contextptr);
 	gen C=integrate_without_lnabs(ratnormal(rdiv(-c,a,contextptr)*i),x,contextptr);
-	parameters.push_back(diffeq_constante(0,contextptr));
-	return ratnormal(_lin((C+parameters.front())/i,contextptr));
+	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	return ratnormal(_lin((C+parameters.back())/i,contextptr));
+      }
+      if (n==2){ // a(x)*y''+b(x)*y'+c(x)*y+d(x)=0
+	gen & a=v[0];
+	gen & b=v[1];
+	gen & c=v[2];
+	gen & d=v[3];
+	gen u=-b/a,v=-c/a,w=-d/a,
+	  k=simplify(u*u/4-derive(u,x,contextptr)/2+v,contextptr);
+	// y''=u*y'+v*y+w  (with u,v,w functions of x)
+	// Pseudo-code from fhub on HP Museum Forum
+	/* 
+	   k:=u^2/4-u'/2+v 
+	   if k==const or k*x^2=const then 
+	     if k=const 
+	       then s:=x; t:=e^(int(u,x)/2); 
+	       else u:=u*x+1; k:=u^2/4+v*x^2; s:=ln(x); t:=x^(u/2); 
+	     endif;
+	     if k=0 then u:=t*s; v:=t; 
+	       elseif k>0 then u:=t*e^(sqrt(k)*s); v:=t*e^(-sqrt(k)*s); 
+	       else u:=t*cos(sqrt(-k)*s); v:=t*sin(sqrt(-k)*s); 
+	     endif;
+	     w:=w/(u*v'-v*u'); w:=v*int(u*w,x)-u*int(v*w,x);
+	     solution: y=c1*u+c2*v+w 
+	   endif
+	 */
+	bool cst=is_zero(derive(k,x,contextptr));
+	bool x2=is_zero(derive(ratnormal(x*x*k),x,contextptr));
+	if (cst || x2){
+	  gen s,t;
+	  if (cst){
+	    s=x; 
+	    t=simplify(exp(integrate_without_lnabs(u,x,contextptr)/2,contextptr),contextptr);
+	  }
+	  else {
+	    u=u*x+1; k=simplify(u*u/4+v*x*x,contextptr); 
+	    s=ln(x,contextptr); t=pow(x,u/2,contextptr);
+	  }
+	  if (is_zero(k)){
+	    u=t*s; v=t;
+	  }
+	  else {
+	    if (is_strictly_positive(k,contextptr)){
+	      gen tmp=sqrt(k,contextptr)*s;
+	      u=t*exp(tmp,contextptr); 
+	      v=t*exp(-tmp,contextptr); 
+	    }
+	    else {
+	      gen tmp=sqrt(-k,contextptr)*s;
+	      u=t*cos(tmp,contextptr); 
+	      v=t*sin(tmp,contextptr);
+	    }
+	  }
+	  w=simplify(w/(u*derive(v,x,contextptr)-v*derive(u,x,contextptr)),contextptr); 
+	  w=v*integrate_without_lnabs(u*w,x,contextptr)-
+	    u*integrate_without_lnabs(v*w,x,contextptr);
+	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));	
+	  gen sol=w+parameters[parameters.size()-2]*u+parameters[parameters.size()-1]*v;
+	  return sol;
+	}
       }
       // cst coeff?
       gen cst=v.back();
@@ -638,7 +697,7 @@ namespace giac {
 	  return laplace_cst;
 	gen arbitrary,tmp;
 	for (int i=n-1;i>=0;--i){
-	  parameters.push_back(diffeq_constante(n-1-i,contextptr));
+	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	  tmp=tmp*t+parameters.back();
 	  arbitrary=arbitrary+v[i]*tmp;
 	}
@@ -671,7 +730,7 @@ namespace giac {
     }
     if (n==1) { // 1st order 
       vecteur sol;
-      parameters.push_back(diffeq_constante(0,contextptr));
+      parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
       f=quotesubst(f,symb_derive(y,x),t,contextptr);
       // f is an expression of x,y,t where t stands for y'
       gen fa,fb,fc,fd,faa,fab;
@@ -703,12 +762,12 @@ namespace giac {
 	  vecteur prv=lop(lvarx(pr,y),at_ln);
 	  gen pra,prb;
 	  if (!prv.empty() && prv[0].is_symb_of_sommet(at_ln) && is_linear_wrt(pr,prv[0],pra,prb,contextptr)){
-	    pr=pra*(symbolic(at_ln,parameters.back()*prv[0]._SYMBptr->feuille))+prb;
+	    pr=_lncollect(pra*(symbolic(at_ln,parameters.back()*prv[0]._SYMBptr->feuille))+prb,contextptr);
 	  }
 	  else
 	    pr=parameters.back()+pr;
 #else	  
-	  if (has_op(pr,at_ln))
+	  if (has_op(pr,*at_ln))
 	    pr=_lncollect(pr,contextptr); // hack to solve y'=y*(1-y)
 	  if (pr.is_symb_of_sommet(at_ln))
 	    pr=symbolic(at_ln,parameters.back()*pr._SYMBptr->feuille);
@@ -775,7 +834,7 @@ namespace giac {
 	  gen P=simplify(exp(integrate_without_lnabs(f,y,contextptr),contextptr),contextptr);
 	  gen F=P*integrate_without_lnabs(M,x,contextptr);
 	  // D_y(F)=P*N
-	  F=F+integrate_without_lnabs(normal(P*N-derive(F,y,contextptr),contextptr),y,contextptr)+diffeq_constante(0,contextptr);
+	  F=F+integrate_without_lnabs(normal(P*N-derive(F,y,contextptr),contextptr),y,contextptr)+diffeq_constante(int(parameters.size()),contextptr);
 	  sol=mergevecteur(sol,solve(F,*y._IDNTptr,3,contextptr));
 	  continue;
 	}
@@ -799,7 +858,7 @@ namespace giac {
 	    gen c=(k-1)*B;
 	    gen i=simplify(integrate_without_lnabs(b,x,contextptr),contextptr);
 	    gen C=integrate_without_lnabs(-c*exp(i,contextptr),x,contextptr);
-	    f= (C+parameters.front())*exp(-i,contextptr);
+	    f= (C+parameters.back())*exp(-i,contextptr);
 	    gen sol1=pow(f,inv(1-k,contextptr),contextptr);
 	    sol.push_back(sol1);
 	    // FIXME: we should add other roots of unity in complex mode
@@ -809,6 +868,53 @@ namespace giac {
 	}
       }
       return sol;
+    } // end if n==1
+    if (n==2){
+      // y''=f(y,y'), set u=y' -> u'=f(y,u)/u
+      gen der1=substout[0],der2=substout[1];
+      gen soly2=_cSolve(makesequence(symb_equal(ff,0),der2),contextptr);
+      vecteur paramsave=parameters;
+      if (soly2.type==_VECT && !is_undef(soly2)){
+	vecteur sol;
+	const vecteur & soly2v = *soly2._VECTptr;
+	for (unsigned i=0;i<soly2v.size();++i){
+	  gen soly2c=soly2v[i];
+	  gen a,b,c;
+	  if (is_quadratic_wrt(soly2c,der1,a,b,c,contextptr)
+	      && is_zero(c) && is_zero(derive(a,x,contextptr)) 
+	      && is_zero(derive(b,y,contextptr)) ){
+	    parameters=paramsave;
+	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	    gen usolj=parameters.back()*exp(integrate_without_lnabs(b,x,contextptr),contextptr)*exp(integrate_without_lnabs(a,y,contextptr),contextptr);
+	    gen ysol=desolve(symb_equal(symbolic(at_derive,makesequence(y,x)),usolj),x,y,ordre,parameters,contextptr);
+	    if (is_undef(ysol))
+	      return unable_to_solve_diffeq();
+	    sol=mergevecteur(sol,gen2vecteur(ysol));
+	    continue;
+	  }
+	  if (is_zero(derive(soly2c,x,contextptr))){ // x-incomplete
+	    // desolve(u'=soly2c/der1,y,u)
+	    parameters=paramsave;
+	    gen usol=desolve(symb_equal(symbolic(at_derive,makesequence(der1,y)),soly2c/der1),y,der1,ordre,parameters,contextptr);
+	    if (is_undef(usol))
+	      return unable_to_solve_diffeq();
+	    if (usol.type!=_VECT)
+	      usol=vecteur(1,usol);
+	    vecteur paramsavein=parameters;
+	    for (unsigned j=0;j<usol._VECTptr->size();++j){
+	      parameters=paramsavein;
+	      gen usolj=(*usol._VECTptr)[j];
+	      gen ysol=desolve(symb_equal(symbolic(at_derive,makesequence(y,x)),usolj),x,y,ordre,parameters,contextptr);
+	      if (is_undef(ysol))
+		return unable_to_solve_diffeq();
+	      sol=mergevecteur(sol,gen2vecteur(ysol));
+	    }
+	    continue;
+	  } // end x-incomplete
+	} 
+	ordre=2;
+	return sol;
+      }
     }
     return unable_to_solve_diffeq();
   }

@@ -319,6 +319,7 @@ namespace giac {
     typename std::vector< monomial<T> >::const_iterator it=this->coord.begin(),it2;
     typename std::vector< monomial<T> >::const_iterator it_end=this->coord.end();
     index_t res(dim);
+    if (!dim) return res;
     index_t::iterator itresbeg=res.begin(),itresend=res.end(),itres;
     index_t::const_iterator ittemp,ittemp2,ittempend;
     if (//false &&

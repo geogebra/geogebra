@@ -271,8 +271,11 @@ namespace giac {
     if (!complex_mode(contextptr) && _lnabs && !has_i(x)){
       return symbolic(at_ln,symbolic(at_abs,x));
     }
-    else
+    else {
+      if (is_positive(-x,contextptr))
+	return symbolic(at_ln,-x);
       return symbolic(at_ln,x);
+    }
   }
 
   // eval N at X=e with e=x*exp(i*dephasage*pi/n)/(X-e)+conj and integrate
@@ -1960,7 +1963,7 @@ namespace giac {
 	tmpres=linear_integrate(tmpe,gen_x,tmprem,contextptr);
 	remains_to_integrate=complex_subst(rdiv(tmprem,dxt,contextptr),gen_x,*rvt,contextptr);
 	// replace tan(asin/2) or tan(acos/2) and cos(asin) and sin(acos)
-	if ((rvtt==8 || rvtt==9) && has_op(tmpres,at_tan))
+	if ((rvtt==8 || rvtt==9) && has_op(tmpres,*at_tan))
 	  tmpres=tan2sincos2(tmpres,contextptr);
 	tmpres=_texpand(tmpres,contextptr);
 	res=complex_subst(tmpres,substout,substin,contextptr);
@@ -2072,7 +2075,7 @@ namespace giac {
       return gen_x*symbolic(at_NTHROOT,f)/(a+a/b);
     }
 #ifndef EMCC
-    if (has_op(e,at_surd) || has_op(e,at_NTHROOT)){
+    if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
       vecteur l1surd(lop(e,at_surd));
       vecteur l2surd(l1surd);
       for (unsigned i=0;i<l1surd.size();++i){
@@ -2755,7 +2758,7 @@ namespace giac {
     // FIXME if v depends on an integer parameter, find values in inf,sup
     int sps=sp.size();
     for (int i=0;i<sps;i++){
-      if (sp[i].type==_DOUBLE_ || sp[i].type==_REAL || has_op(sp[i],at_rootof)){
+      if (sp[i].type==_DOUBLE_ || sp[i].type==_REAL || has_op(sp[i],*at_rootof)){
 	*logptr(contextptr) << gettext("Unable to handle approx. or algebraic extension singular point ")+sp[i].print(contextptr)+gettext(" of antiderivative");
 	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
 	  return undef;

@@ -786,16 +786,16 @@ namespace giac {
   }
 
   // Quick check if e contains some ptr of v
-  bool has_op(const gen & e,const unary_function_ptr * v){
+  bool has_op_list(const gen & e,const unary_function_ptr * v){
     if (e.type==_SYMB){
       if (equalposcomp(v,&e._SYMBptr->sommet))
 	return true;
-      return has_op(e._SYMBptr->feuille,v);
+      return has_op_list(e._SYMBptr->feuille,v);
     }
     if (e.type==_VECT){
       const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
       for (;it!=itend;++it){
-	if (has_op(*it,v))
+	if (has_op_list(*it,v))
 	  return true;
       }
     }
@@ -820,7 +820,7 @@ namespace giac {
   }
 
   gen subst(const gen & e,const unary_function_ptr * v,const gen_op_context * w,bool quotesubst,GIAC_CONTEXT){
-    if (*v==0 || !has_op(e,v))
+    if (*v==0 || !has_op_list(e,v))
       return e;
     if (e.type==_VECT){
       const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
@@ -2030,6 +2030,46 @@ namespace giac {
     return g;
   }
 
+  gen cossinexp2rootof(const gen & e,GIAC_CONTEXT){
+    gen f=trig2exp(e,contextptr);
+    vecteur l(lvar(f)),l1,l2;
+    int n,d,q,r;
+    for (unsigned i=0;i<l.size();++i){
+      if (l[i].is_symb_of_sommet(at_exp)){
+	gen li=l[i]._SYMBptr->feuille;
+	if (contains(li,cst_pi)){
+	  li=ratnormal(li/cst_pi/cst_i);
+	  if (li.type==_FRAC && li._FRACptr->num.type==_INT_ && li._FRACptr->den.type==_INT_){
+	    n=li._FRACptr->num.val;
+	    d=li._FRACptr->den.val;
+	    q=-n/d;
+	    r=-n%d;
+	    if (q%2)
+	      q=-1;
+	    else
+	      q=1;
+	    if (d<0){ r=-r; d=-d; }
+	    if (r<0) r += 2*d;
+	    // exp(r*i*pi/d) -> use rootof([1,..,0],cyclotomic(2*d))
+	    vecteur vr(r+1);
+	    vr[0]=1;
+	    vecteur vc(cyclotomic(2*d));
+	    vr = vr % vc;
+	    if (!is_undef(vc)){
+	      l1.push_back(l[i]);
+	      l2.push_back(q*symb_rootof(vr,vc,contextptr));
+	    }
+	  }
+	}
+      }
+    }
+    if (l1.empty())
+      return e;
+    f=subst(f,l1,l2,false,contextptr);
+    f=normal(f,contextptr);
+    return f;
+  }
+
   gen simplify(const gen & e_orig,GIAC_CONTEXT){
     if (e_orig.type<=_POLY || is_inf(e_orig))
       return e_orig;
@@ -2042,6 +2082,8 @@ namespace giac {
       e=lncollect(ratnormal(e_orig),contextptr);
     if (!lop(e,at_exp).empty())
       e=_exp2pow(e,contextptr);
+    if (contains(e,cst_pi))
+      e=cossinexp2rootof(e,contextptr);
     if (e.type==_SYMB && e._SYMBptr->feuille.type!=_VECT){
       if (e._SYMBptr->sommet!=at_inv && e._SYMBptr->sommet!=at_neg)
 	return e._SYMBptr->sommet(simplify(e._SYMBptr->feuille,contextptr),contextptr); 

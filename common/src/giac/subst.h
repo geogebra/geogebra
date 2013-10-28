@@ -51,7 +51,7 @@ namespace giac {
   gen quotesubst(const gen & e,const gen & i,const gen & newi,GIAC_CONTEXT);
   gen gen_feuille(const gen & g);
   // Quick check if e contains some ptr of v
-  bool has_op(const gen & e,const unary_function_ptr * v);
+  bool has_op_list(const gen & e,const unary_function_ptr * v);
   // Quick check if e contains v
   bool has_op(const gen & e,const unary_function_ptr & u);
 

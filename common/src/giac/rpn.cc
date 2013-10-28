@@ -760,6 +760,7 @@ namespace giac {
       return res;
     }
     if (!variables_are_files(contextptr)){
+      lock_syms_mutex();  
       sym_tab::const_iterator it=syms().begin(),itend=syms().end();
       for (;it!=itend;++it){
 	gen id=it->second;
@@ -767,6 +768,7 @@ namespace giac {
 	  res.push_back(id);
 	}
       }
+      unlock_syms_mutex();  
       if (is_one(args) && current_folder_name.type==_IDNT && current_folder_name._IDNTptr->value){ // add variables of the current folder
 	gen & tmp=*current_folder_name._IDNTptr->value;
 	if (tmp.type==_VECT){

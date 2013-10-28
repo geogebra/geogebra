@@ -3997,6 +3997,10 @@ namespace giac {
       num=foisplus(*a.num._POLYptr,*db._POLYptr,*b.num._POLYptr,*da._POLYptr);
     else
       num=(a.num*db+b.num*da);
+    if (den.type==_FRAC){
+      num=num * den._FRACptr->den;
+      den=den._FRACptr->num;
+    }
     if (is_exactly_zero(num))
       return Tfraction<gen>(num,1);
     simplify3(num,den);

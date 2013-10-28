@@ -455,7 +455,7 @@ namespace giac {
       gen ecopie(e),eprime(e);
       int j=1;
       for (;j<=n;++j){
-	eprime=derive(ecopie,vars,contextptr);
+	eprime=ratnormal(derive(ecopie,vars,contextptr));
 	if (is_undef(eprime))
 	  return eprime;
 	if ( (eprime.type==_SYMB) && (eprime._SYMBptr->sommet==at_derive))
@@ -502,7 +502,7 @@ namespace giac {
     if (args.type==_VECT)
       v=plotpreprocess(gen(*args._VECTptr,_SEQ__VECT),contextptr);
     else
-      v=plotpreprocess(args,contextptr);
+      v=plotpreprocess(makesequence(args,vx_var),contextptr);
     if (is_undef(v))
       return v;
     gen var,res;

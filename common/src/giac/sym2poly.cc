@@ -396,7 +396,9 @@ namespace giac {
 	tmpmult=polynome(monomial<gen>(tmpmult,index_t(pptr->t.dim)));
       n=np*tmpmult;
       d=dp*tmpmult;
-      return g*tmpmult;
+      if (is_one(tmpmult))
+	return g;
+      return fraction(g,tmpmult); // g*tmpmult;
     }
     if (n.type==_POLY) {
       polynome np(*n._POLYptr);
@@ -461,9 +463,13 @@ namespace giac {
     }
     // n1/d1+n2/d2 with g=gcd(d1,d2), d1=d1g*g, d2=d2g*g is
     // (n1*d2g+n2*d1g)/g * 1/(d1g*d2g)
-    gen d1g(d1),d2g(d2);
+    gen d1g(d1),d2g(d2),coeff(1);
     den=simplify3(d1g,d2g);
-    num=(n1*d2g+n2*d1g);
+    if (den.type==_FRAC){
+      coeff=den._FRACptr->den;
+      den=den._FRACptr->num;
+    }
+    num=(n1*d2g+n2*d1g)*coeff;
     simplify3(num,den);
     den=den*d1g*d2g;
   }
@@ -619,6 +625,8 @@ namespace giac {
 	      pui=1;
 	    }
 	  }
+	  if (absint(pui)>=(1<<15))
+	    coeffn=gensizeerr(gettext("Polynomial exponent overflow."));
 	  if ( (tmp.type==_IDNT || tmp.type==_SYMB) && (pos=equalposcomp(l1,tmp)) ){
 	    if (pui>=0) 
 	      inum[pos-1] += pui;
@@ -1035,6 +1043,8 @@ namespace giac {
       if ((*s.feuille._VECTptr)[1].type==_INT_) {
 	bool totally_converted=sym2r(s.feuille._VECTptr->front(),l,lv,lvnum,lvden,l_size,num,den,contextptr);
 	int n=(*s.feuille._VECTptr)[1].val;
+	if (absint(n)>=(1<<15))
+	  num=gensizeerr(gettext("Polynomial exponent overflow."));
 	if (n<0){
 	  if (num.type==_EXT){
 	    gen temp(inv_EXT(num)*den);
@@ -1366,6 +1376,12 @@ namespace giac {
       if (!is_one(alg_extoutden[n])){
 	gen resn,resd;
 	hornerfrac(*it->_EXTptr->_VECTptr,tmp,alg_extoutden[n],resn,resd);
+	if (resn.type==_VECT && minpoly.type==_VECT && resn._VECTptr->size()>=minpoly._VECTptr->size()){
+	  resn = *resn._VECTptr % *minpoly._VECTptr;
+	  gen tmp;
+	  lcmdeno(*resn._VECTptr,tmp,contextptr);
+	  resd=resd*tmp;
+	}
 	res.push_back(algebraic_EXTension(resn,minpoly)/resd);
       }
       else {
@@ -1826,7 +1842,7 @@ namespace giac {
 	      m[i]=*ppi._EXTptr;
 	      if (m[i].type!=_VECT)
 		return gensizeerr(contextptr);
-	      if (m[i]._VECTptr->size()<d-1)
+	      if (int(m[i]._VECTptr->size())<d-1)
 		*m[i]._VECTptr=mergevecteur(vecteur(d-1-m[i]._VECTptr->size()),*m[i]._VECTptr);
 	    }
 	  } // end for i
@@ -2991,7 +3007,7 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
     if (g.type==_IDNT){
       const char * idname=g._IDNTptr->id_name;
-      if (strlen(idname)==2 && (idname[0]=='F' || idname[0]=='R' || idname[0]=='X' || idname[0]=='Y'))
+      if (strlen(idname)==2 && (idname[0]=='F' || idname[0]=='R' || idname[0]=='X' || idname[0]=='Y') && idname[1]>='0' && idname[1]<='9')
 	return 1;
       else
 	return -1;

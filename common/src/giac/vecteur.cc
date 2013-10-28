@@ -4175,9 +4175,10 @@ namespace giac {
   void modlinear_combination(vector<int> & v1,int c2,
 			     const vector<int> & v2,int modulo,int cstart,int cend,bool pseudo){
     if (c2){
-      vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it1_=it1end-4;
+      vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it1_;
       if (cend && cend>=cstart && cend<it1end-v1.begin())
 	it1end=v1.begin()+cend;
+      it1_=it1end-4;
       vector<int>::const_iterator it2=v2.begin()+cstart;
 #if defined(PSEUDO_MOD) && !(defined(VISUALC) || defined (BESTA_OS))
       c2 %= modulo;
@@ -4348,6 +4349,354 @@ namespace giac {
     ptr->success=in_modrref(*ptr->aptr, *ptr->Nptr,*ptr->resptr, *ptr->pivotsptr, ptr->det,ptr->l, ptr->lmax, ptr->c,ptr->cmax,ptr->fullreduction,ptr->dont_swap_below,ptr->Modulo,ptr->rref_or_det_or_lu,ptr->mult_by_det_mod_p,ptr->inverting,ptr->no_initial_mod,ptr->workptr);
     return ptr;
   }
+  
+#ifndef GIAC_HAS_STO_38
+  static int mrref_int(const matrice & a, matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,
+			int fullreduction,int dont_swap_below,bool convert_internal,int algorithm,int rref_or_det_or_lu,
+			int modular,vector<int> & permutation,
+			GIAC_CONTEXT){
+    unsigned as=a.size(),a0s=a.front()._VECTptr->size();
+    res.clear(); // insure that res will be build properly
+    // Modular algorithm for matrix integer reduction
+    // Find Hadamard bound
+    if (debug_infolevel>1)
+      cerr << "rref padic/modular " << clock() << endl;
+    bool inverting=fullreduction==2;
+    gen h2=4*square_hadamard_bound(a),h20=h2;
+    if (debug_infolevel>1)
+      cerr << "rref padic hadamard done " << clock() << endl;
+    gen p,det_mod_p,pi_p;
+    int done=0;
+    bool failure=false;
+    gen factdet(1); // find a divisor of the determinant
+    // by solving a random linear system having a as matrix
+    // using a p-adic method 
+#if 1 // def _I386_
+    double p0=3037000500./std::sqrt(double(as))/5.; // so that p0^2*rows(a)<2^63
+#else
+    double p0=46340./std::sqrt(double(as))/5.; // so that p0^2*rows(a)<2^31
+#endif
+    gen ainf=linfnorm(a,context0);
+    if (is_zero(ainf)){
+      res=a; det=0; return 1;
+    }
+    if (ainf.type==_INT_){ // insure that ||a||_inf*p*rows(a)<2^63
+      double p1=((((ulonglong) 1)<<63)/ainf.val)/as;
+      if (p1<p0)
+	p0=p1*0.99; // since we make a nextprime...
+    }
+    else { // insure that p^2*rows(a)*(2+ln(||a||_inf)/ln(p))<2^63
+      double n=std::ceil(mpz_sizeinbase(*ainf._ZINTptr,2)/21.); // assumes p>2^21
+      double p1=std::sqrt((1ULL << 62)/(n+2)/as);
+      if (p1<(1<<21))
+	failure=true;
+      if (p1<p0)
+	p0=p1*.9;
+    }
+    p=nextprime(int(p0));
+    vector< vector<int> > N;
+    if (!failure && modular==2){ // rref is like linsolve
+      matrice A(mtran(a));
+      vecteur b=*A.back()._VECTptr,x;
+      A.pop_back();
+      A=mtran(A);
+      int done=padic_linsolve(A,b,x,p,det,h2);
+      if (done>0){
+	res=midn(as);
+	res.push_back(x);
+	res=mtran(res);
+	return 1;
+      }
+      failure=true;
+    }
+    if (!failure && as>=GIAC_PADIC){
+      vecteur b(vranm(as,8,contextptr)),resb;
+      // reconstruct (at most) 12 components of res for lcm
+      // this should give the last invariant factor (estimated proba 0.998)
+      if ( (done=padic_linsolve(a,b,resb,p,det,h2,inverting?12:6)) ){ 
+	if (done==-1){
+	  det=0;
+	  return 1;
+	}
+	lcmdeno(resb,factdet,contextptr);
+	if (debug_infolevel>1)
+	  cerr << "lif=" << factdet << endl;
+	h2=iquo(h2,factdet*factdet)+1;
+	det=smod(det*invmod(factdet,p),p);
+	pi_p=p;
+      }
+    }
+#ifdef GIAC_DETBLOCK
+    p=nextp(int(536870923./std::sqrt(double(mmult_int_blocksize))),factdet);
+#else
+    p=nextp(536870923,factdet); 
+#endif
+#ifdef HAVE_LIBPTHREAD
+    // initialize/alloc nthreads-1 copies of N, res, pivots
+    int nthreads=threads_allowed?threads:1;
+    pthread_t tab[nthreads-1];
+#ifdef __clang__
+    vector< vector<int> > *Nptr = (vector< vector<int> > *)alloca((nthreads-1)*sizeof(vector< vector<int> >));
+    matrice *resptr = (matrice *)alloca((nthreads-1)*sizeof(matrice));
+    vecteur *pivotsptr = (vecteur *)alloca((nthreads-1)*sizeof(vecteur));
+    smallmodrref_temp_t *work = (smallmodrref_temp_t *)alloca(nthreads*sizeof(smallmodrref_temp_t));
+#else
+    vector< vector<int> > Nptr[nthreads-1];
+    matrice resptr[nthreads-1];
+    vecteur pivotsptr[nthreads-1];
+    smallmodrref_temp_t work[nthreads];
+#endif
+    for (unsigned i=0;i<nthreads;++i){
+#ifdef __clang__
+      new (&work[i]) smallmodrref_temp_t();
+#endif
+      work[i].Ainv=vector< vector<int> >(mmult_int_blocksize,vector<int>(2*mmult_int_blocksize));
+      work[i].Ainvtran=vector< vector<int> >(mmult_int_blocksize,vector<int>(mmult_int_blocksize));
+      work[i].CAinv=vector< vector<int> >(mmult_int_blocksize,vector<int>(mmult_int_blocksize));
+      work[i].pivblock.reserve(mmult_int_blocksize+1);
+    }
+#ifdef __clang__
+    thread_modrref_t *modrrefparam = (thread_modrref_t *)alloca((nthreads-1)*sizeof(thread_modrref_t));
+#else
+    thread_modrref_t modrrefparam[nthreads-1];
+#endif
+    for (unsigned i=0;i<nthreads-1;++i){
+      Nptr[i]=vector< vector<int> >(a.size(),vector<int>(cmax));
+      resptr[i]=matrice(a.size());
+      for (unsigned j=0;j<a.size();j++)
+	resptr[i][j]=vecteur(cmax);
+      pivotsptr[i]=pivots;
+      pivotsptr[i].reserve(a.size());
+      thread_modrref_t tmp={&a,&Nptr[i],&resptr[i],&pivotsptr[i],&work[i],0,1,l,lmax,c,cmax,fullreduction,dont_swap_below,0,rref_or_det_or_lu,inverting,false,false};
+      modrrefparam[i]=tmp;
+    }
+#endif
+    if (!failure){
+      double proba=1.0;
+      if (!done){
+	pi_p=p;
+	if (!in_modrref(a,N,res,pivots,det,l,lmax,c,cmax,
+			0 /* fullreduction */,dont_swap_below,p.val,1 /* det */,1 /* mult by 1*/,false/* inverting */,true/* no initial mod */
+#ifdef HAVE_LIBPTHREAD
+			,&work[nthreads-1]
+#endif
+			)
+	    )
+	  return 0;
+      }
+      // First find det to avoid bad primes
+      for (;is_strictly_greater(h2,pi_p*pi_p,contextptr);){
+#ifdef HAVE_LIBPTHREAD
+	for (unsigned j=0;j<nthreads-1;j++){
+	  p=nextp(p+1,factdet);
+	  modrrefparam[j].cmax=cmax;
+	  modrrefparam[j].Modulo=p.val;
+	  modrrefparam[j].fullreduction=0;
+	  modrrefparam[j].rref_or_det_or_lu=1;
+	  modrrefparam[j].inverting=false;
+	  modrrefparam[j].no_initial_mod=true;
+	  modrrefparam[j].mult_by_det_mod_p=1;
+	  bool res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_modrref,(void *) &modrrefparam[j]);
+	  if (res)
+	    thread_modrref((void *)&modrrefparam[j]);	    
+	}
+#endif
+	p=nextp(p+1,factdet);
+	if (as>10 && debug_infolevel>1)
+	  cerr << clock () << " detrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << ", det/lif=" << det << endl;
+	if (!in_modrref(a,N,res,pivots,det_mod_p,l,lmax,c,cmax,
+			0 /* fullreduction */,dont_swap_below,p.val,1 /* det */,1 /* mult by 1*/,false /* inverting */,true/* no initial mod */
+#ifdef HAVE_LIBPTHREAD
+			,&work[nthreads-1]
+#endif
+			)){
+	  // FIXME clean launched threads
+	  return 0;
+	}
+	if (debug_infolevel>1)
+	  cerr << clock() << " end rref " << endl;
+#ifdef HAVE_LIBPTHREAD
+	// get back launched mod det
+	for (unsigned j=0;j<nthreads-1;++j){
+	  void * ptr;
+	  pthread_join(tab[j],&ptr);
+	  if (ptr && modrrefparam[j].success){
+	    gen tmpp=modrrefparam[j].Modulo;
+	    gen tmpdet_mod_p=smod(modrrefparam[j].det*invmod(factdet,tmpp),tmpp);
+	    gen old_det=det;
+	    det=ichinrem(det,tmpdet_mod_p,pi_p,tmpp);
+	    pi_p=pi_p*tmpp;
+	    if (old_det==det)
+	      proba=proba/evalf_double(p,1,contextptr)._DOUBLE_val;
+	    else
+	      proba=1.0;
+	  }
+	}
+#endif
+	det_mod_p=smod(det_mod_p*invmod(factdet,p),p);
+	gen old_det=det;
+	det=ichinrem(det,det_mod_p,pi_p,p);
+	pi_p=pi_p*p;
+	if (old_det==det)
+	  proba=proba/evalf_double(p,1,contextptr)._DOUBLE_val;
+	else
+	  proba=1.0;
+	if (proba<proba_epsilon(contextptr))
+	  break;
+      } // end loop h2>pi_p^2
+      det=smod(det,pi_p)*factdet;
+      if (rref_or_det_or_lu==1){
+	if (proba<proba_epsilon(contextptr))
+	  *logptr(contextptr) << gettext("Probabilistic algorithm for determinant (run proba_epsilon:=0 for a deterministic answer, this is slower). Error probability is less than ") << proba << endl;
+	return 1;
+      }
+      h2=h20;
+      if (is_zero(det,contextptr))
+	failure=true;
+    }
+    if (!failure){
+      // Improve: currently permutation should always be the idn for lu
+      // instead of by det (det works for rref)
+      if (rref_or_det_or_lu==2){
+	rref_or_det_or_lu=3;
+	h2=h2*h2; // need to square for LU decomp (rational reconstruction)
+      }
+      if (inverting){
+	fullreduction=0;
+	rref_or_det_or_lu=2;
+	cmax=lmax;
+	p=nextprime(p+1);
+      }
+      else {
+	// Now do the reduction again, avoiding bad primes
+#if 1
+	p=536870923;
+#else
+	p=36007;
+#endif
+      }
+      gen q;
+      while (is_zero(irem(det,p,q),contextptr))
+	p=nextprime(p+1);
+      pi_p=p;
+      gen det1;
+      if (!in_modrref(a,N,res,pivots,det1,l,lmax,c,cmax,
+		      fullreduction,dont_swap_below,p.val,rref_or_det_or_lu,(inverting || rref_or_det_or_lu==0)?det:1,true /* inverting */,true/* no initial mod */))
+	return 0;
+#if 1
+      // uncoerce elements of res and prealloc size of integers
+      // might perhaps improve chinese remaindering by divide and conquer?
+      unsigned prealloc=h2.type==_ZINT?mpz_sizeinbase(*h2._ZINTptr,2)/2:128;
+      for (unsigned i=0;i<res.size();++i){
+	iterateur it=res[i]._VECTptr->begin(),itend=res[i]._VECTptr->end();
+	for (;it!=itend;++it)
+	  uncoerce(*it,prealloc);
+      }
+#endif
+      // Multiply res by product of pivots in order to have the det
+      // as initial non-zero element of each line after the reduction
+      // if (rref_or_det_or_lu==0) res=smod(multvecteur(det,res),p);
+      matrice res_mod_p,pivots_mod_p;
+      for (;is_strictly_greater(h2,pi_p*pi_p,contextptr);){
+#ifdef HAVE_LIBPTHREAD
+	for (unsigned j=0;j<nthreads-1;j++){
+	  p=nextprime(p+1);	    
+	  while (is_zero(irem(det,p,q),contextptr))
+	    p=nextprime(p+1);
+	  if (p.type!=_INT_)
+	    break;
+	  modrrefparam[j].cmax=cmax;
+	  modrrefparam[j].Modulo=p.val;
+	  modrrefparam[j].fullreduction=fullreduction;
+	  modrrefparam[j].rref_or_det_or_lu=rref_or_det_or_lu;
+	  modrrefparam[j].inverting=true;
+	  modrrefparam[j].no_initial_mod=true;
+	  gen tmp=(inverting || rref_or_det_or_lu==0)?det:1;
+	  modrrefparam[j].mult_by_det_mod_p=tmp;
+	  bool res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_modrref,(void *) &modrrefparam[j]);
+	  if (res)
+	    thread_modrref((void *)&modrrefparam[j]);	    
+	}
+#endif
+	p=nextprime(p+1);
+	while (is_zero(irem(det,p,q),contextptr))
+	  p=nextprime(p+1);
+	if (p.type!=_INT_)
+	  break;
+	if (!in_modrref(a,N,res_mod_p,pivots_mod_p,det_mod_p,l,lmax,c,cmax,
+			fullreduction,dont_swap_below,p.val,rref_or_det_or_lu,(inverting || rref_or_det_or_lu==0)?det:1,true /* inverting */,true/* no initial mod */))
+	  return 0;
+#ifdef HAVE_LIBPTHREAD
+	// get back launched mod det
+	for (unsigned j=0;j<nthreads-1;++j){
+	  void * ptr;
+	  pthread_join(tab[j],&ptr);
+	  if (ptr && modrrefparam[j].success){
+	    if (rref_or_det_or_lu==3 && is_zero(det_mod_p,contextptr)){
+	      continue;
+	    }
+	    gen tmpp=modrrefparam[j].Modulo;
+	    ichinrem_inplace(res,*modrrefparam[j].resptr,pi_p,tmpp.val,fullreduction);
+	    if (fullreduction!=2 && !inverting)
+	      pivots=*ichinrem(gen(pivots),gen(*modrrefparam[j].pivotsptr),pi_p,tmpp)._VECTptr;
+	    pi_p=pi_p*tmpp;
+	  }
+	}
+#endif
+	if (as>10 && debug_infolevel>1)
+	  cerr << clock() << " modrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << endl;
+	if (rref_or_det_or_lu==3){
+	  if (is_zero(det_mod_p,contextptr))
+	    continue;
+	}
+	/*
+	  else {
+	  multvecteur(smod(det,p),res_mod_p,res_mod_p);
+	  smod(res_mod_p,p,res_mod_p);
+	  // res_mod_p=smod(multvecteur(smod(det,p),res_mod_p),p);
+	  }
+	*/
+#if 0
+	res=*ichinrem(gen(res),gen(res_mod_p),pi_p,p)._VECTptr;
+#else
+	ichinrem_inplace(res,res_mod_p,pi_p,p.val,fullreduction);
+#endif
+	if (fullreduction!=2 && !inverting)
+	  pivots=*ichinrem(gen(pivots),gen(pivots_mod_p),pi_p,p)._VECTptr;
+	pi_p=pi_p*p;
+      } // end for loop on primes
+      if (p.type==_INT_){
+	// there is a bug in libtommath when multiplying a _ZINT by an int
+	// because used memory might grow by 2, not only by 1
+	// in bn_mp_mul_d.c
+	smod_inplace(res,pi_p);
+	if (inverting){
+	  // This step could perhaps be a little faster if we keep
+	  // the last invariant factor (as computed by the p-adic algorihtm)
+	  // since the denominator is likely (about 6/pi^2) to be the lif
+	  // therefore we could compute divisor=det/lif and test divisibility
+	  // of res by divisor
+	  if (debug_infolevel>1)
+	    *logptr(contextptr) << clock() << gettext(" dividing by determinant") << endl;
+	  divvecteur(res,det,res);
+	  if (debug_infolevel>1)
+	    *logptr(contextptr) << clock() << gettext(" end dividing by determinant") << endl;
+	}
+	else
+	  pivots=smod(pivots,pi_p);
+	if (rref_or_det_or_lu==3) // rational reconstruction
+	  res=fracmod(res,pi_p);
+	if (rref_or_det_or_lu==2 || rref_or_det_or_lu == 3){
+	  vecteur P;
+	  vector_int2vecteur(permutation,P);
+	  pivots.push_back(P);
+	}
+	return inverting?2:1;
+      } // end if p.type==_INT_
+    } // end if !failure
+    return -1;
+  } // end modular/padic algorithm
+#endif // GIAC_HAS_STO_38
 
   // row reduction from line l and column c to line lmax and column cmax
   // lmax and cmax are not included
@@ -4387,342 +4736,10 @@ namespace giac {
     if ( ( (algorithm==RREF_GUESS && (
 				      fullreduction==2 || 
 				      rref_or_det_or_lu==1)) || modular ) && is_integer_matrice(a) && as<=a0s){
-      res.clear(); // insure that res will be build properly
-      // Modular algorithm for matrix integer reduction
-      // Find Hadamard bound
-      if (debug_infolevel>1)
-	cerr << "rref padic/modular " << clock() << endl;
-      bool inverting=fullreduction==2;
-      gen h2=4*square_hadamard_bound(a),h20=h2;
-      if (debug_infolevel>1)
-	cerr << "rref padic hadamard done " << clock() << endl;
-      gen p,det_mod_p,pi_p;
-      int done=0;
-      bool failure=false;
-      gen factdet(1); // find a divisor of the determinant
-      // by solving a random linear system having a as matrix
-      // using a p-adic method 
-#if 1 // def _I386_
-      double p0=3037000500./std::sqrt(double(as))/5.; // so that p0^2*rows(a)<2^63
-#else
-      double p0=46340./std::sqrt(double(as))/5.; // so that p0^2*rows(a)<2^31
-#endif
-      gen ainf=linfnorm(a,context0);
-      if (is_zero(ainf)){
-	res=a; det=0; return 1;
-      }
-      if (ainf.type==_INT_){ // insure that ||a||_inf*p*rows(a)<2^63
-	double p1=((((ulonglong) 1)<<63)/ainf.val)/as;
-	if (p1<p0)
-	  p0=p1*0.99; // since we make a nextprime...
-      }
-      else { // insure that p^2*rows(a)*(2+ln(||a||_inf)/ln(p))<2^63
-	double n=std::ceil(mpz_sizeinbase(*ainf._ZINTptr,2)/21.); // assumes p>2^21
-	double p1=std::sqrt((1ULL << 62)/(n+2)/as);
-	if (p1<(1<<21))
-	  failure=true;
-	if (p1<p0)
-	  p0=p1*.9;
-      }
-      p=nextprime(int(p0));
-      vector< vector<int> > N;
-      if (!failure && modular==2){ // rref is like linsolve
-	matrice A(mtran(a));
-	vecteur b=*A.back()._VECTptr,x;
-	A.pop_back();
-	A=mtran(A);
-	int done=padic_linsolve(A,b,x,p,det,h2);
-	if (done>0){
-	  res=midn(as);
-	  res.push_back(x);
-	  res=mtran(res);
-	  return 1;
-	}
-	failure=true;
-      }
-      if (!failure && as>=GIAC_PADIC){
-	vecteur b(vranm(as,8,contextptr)),resb;
-	// reconstruct (at most) 12 components of res for lcm
-	// this should give the last invariant factor (estimated proba 0.998)
-	if ( (done=padic_linsolve(a,b,resb,p,det,h2,inverting?12:6)) ){ 
-	  if (done==-1){
-	    det=0;
-	    return 1;
-	  }
-	  lcmdeno(resb,factdet,contextptr);
-	  if (debug_infolevel>1)
-	    cerr << "lif=" << factdet << endl;
-	  h2=iquo(h2,factdet*factdet)+1;
-	  det=smod(det*invmod(factdet,p),p);
-	  pi_p=p;
-	}
-      }
-#ifdef GIAC_DETBLOCK
-      p=nextp(int(536870923./std::sqrt(double(mmult_int_blocksize))),factdet);
-#else
-      p=nextp(536870923,factdet); 
-#endif
-#ifdef HAVE_LIBPTHREAD
-      // initialize/alloc nthreads-1 copies of N, res, pivots
-      int nthreads=threads_allowed?threads:1;
-      pthread_t tab[nthreads-1];
-#ifdef __clang__
-      vector< vector<int> > *Nptr = (vector< vector<int> > *)alloca((nthreads-1)*sizeof(vector< vector<int> >));
-      matrice *resptr = (matrice *)alloca((nthreads-1)*sizeof(matrice));
-      vecteur *pivotsptr = (vecteur *)alloca((nthreads-1)*sizeof(vecteur));
-      smallmodrref_temp_t *work = (smallmodrref_temp_t *)alloca(nthreads*sizeof(smallmodrref_temp_t));
-#else
-      vector< vector<int> > Nptr[nthreads-1];
-      matrice resptr[nthreads-1];
-      vecteur pivotsptr[nthreads-1];
-      smallmodrref_temp_t work[nthreads];
-#endif
-      for (unsigned i=0;i<nthreads;++i){
-#ifdef __clang__
-	new (&work[i]) smallmodrref_temp_t();
-#endif
-	work[i].Ainv=vector< vector<int> >(mmult_int_blocksize,vector<int>(2*mmult_int_blocksize));
-	work[i].Ainvtran=vector< vector<int> >(mmult_int_blocksize,vector<int>(mmult_int_blocksize));
-	work[i].CAinv=vector< vector<int> >(mmult_int_blocksize,vector<int>(mmult_int_blocksize));
-	work[i].pivblock.reserve(mmult_int_blocksize+1);
-      }
-#ifdef __clang__
-      thread_modrref_t *modrrefparam = (thread_modrref_t *)alloca((nthreads-1)*sizeof(thread_modrref_t));
-#else
-      thread_modrref_t modrrefparam[nthreads-1];
-#endif
-      for (unsigned i=0;i<nthreads-1;++i){
-	Nptr[i]=vector< vector<int> >(a.size(),vector<int>(cmax));
-	resptr[i]=matrice(a.size());
-	for (unsigned j=0;j<a.size();j++)
-	  resptr[i][j]=vecteur(cmax);
-	pivotsptr[i]=pivots;
-	pivotsptr[i].reserve(a.size());
-	thread_modrref_t tmp={&a,&Nptr[i],&resptr[i],&pivotsptr[i],&work[i],0,1,l,lmax,c,cmax,fullreduction,dont_swap_below,0,rref_or_det_or_lu,inverting,false,false};
-	modrrefparam[i]=tmp;
-      }
-#endif
-      if (!failure){
-	double proba=1.0;
-	if (!done){
-	  pi_p=p;
-	  if (!in_modrref(a,N,res,pivots,det,l,lmax,c,cmax,
-			  0 /* fullreduction */,dont_swap_below,p.val,1 /* det */,1 /* mult by 1*/,false/* inverting */,true/* no initial mod */
-#ifdef HAVE_LIBPTHREAD
-			  ,&work[nthreads-1]
-#endif
-			  )
-	      )
-	    return 0;
-	}
-	// First find det to avoid bad primes
-	for (;is_strictly_greater(h2,pi_p*pi_p,contextptr);){
-#ifdef HAVE_LIBPTHREAD
-	  for (unsigned j=0;j<nthreads-1;j++){
-	    p=nextp(p+1,factdet);
-	    modrrefparam[j].cmax=cmax;
-	    modrrefparam[j].Modulo=p.val;
-	    modrrefparam[j].fullreduction=0;
-	    modrrefparam[j].rref_or_det_or_lu=1;
-	    modrrefparam[j].inverting=false;
-	    modrrefparam[j].no_initial_mod=true;
-	    modrrefparam[j].mult_by_det_mod_p=1;
-	    bool res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_modrref,(void *) &modrrefparam[j]);
-	    if (res)
-	      thread_modrref((void *)&modrrefparam[j]);	    
-	  }
-#endif
-	  p=nextp(p+1,factdet);
-	  if (as>10 && debug_infolevel>1)
-	    cerr << clock () << " detrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << ", det/lif=" << det << endl;
-	  if (!in_modrref(a,N,res,pivots,det_mod_p,l,lmax,c,cmax,
-			  0 /* fullreduction */,dont_swap_below,p.val,1 /* det */,1 /* mult by 1*/,false /* inverting */,true/* no initial mod */
-#ifdef HAVE_LIBPTHREAD
-			  ,&work[nthreads-1]
-#endif
-			  )){
-	    // FIXME clean launched threads
-	    return 0;
-	  }
-	  if (debug_infolevel>1)
-	    cerr << clock() << " end rref " << endl;
-#ifdef HAVE_LIBPTHREAD
-	  // get back launched mod det
-	  for (unsigned j=0;j<nthreads-1;++j){
-	    void * ptr;
-	    pthread_join(tab[j],&ptr);
-	    if (ptr && modrrefparam[j].success){
-	      gen tmpp=modrrefparam[j].Modulo;
-	      gen tmpdet_mod_p=smod(modrrefparam[j].det*invmod(factdet,tmpp),tmpp);
-	      gen old_det=det;
-	      det=ichinrem(det,tmpdet_mod_p,pi_p,tmpp);
-	      pi_p=pi_p*tmpp;
-	      if (old_det==det)
-		proba=proba/evalf_double(p,1,contextptr)._DOUBLE_val;
-	      else
-		proba=1.0;
-	    }
-	  }
-#endif
-	  det_mod_p=smod(det_mod_p*invmod(factdet,p),p);
-	  gen old_det=det;
-	  det=ichinrem(det,det_mod_p,pi_p,p);
-	  pi_p=pi_p*p;
-	  if (old_det==det)
-	    proba=proba/evalf_double(p,1,contextptr)._DOUBLE_val;
-	  else
-	    proba=1.0;
-	  if (proba<proba_epsilon(contextptr))
-	    break;
-	} // end loop h2>pi_p^2
-	det=smod(det,pi_p)*factdet;
-	if (rref_or_det_or_lu==1)
-	  return 1;
-	h2=h20;
-	if (is_zero(det,contextptr))
-	  failure=true;
-      }
-      if (!failure){
-	// Improve: currently permutation should always be the idn for lu
-	// instead of by det (det works for rref)
-	if (rref_or_det_or_lu==2){
-	  rref_or_det_or_lu=3;
-	  h2=h2*h2; // need to square for LU decomp (rational reconstruction)
-	}
-	if (inverting){
-	  fullreduction=0;
-	  rref_or_det_or_lu=2;
-	  cmax=lmax;
-	  p=nextprime(p+1);
-	}
-	else {
-	// Now do the reduction again, avoiding bad primes
-#if 1
-	  p=536870923;
-#else
-	  p=36007;
-#endif
-	}
-	gen q;
-	while (is_zero(irem(det,p,q),contextptr))
-	  p=nextprime(p+1);
-	pi_p=p;
-	gen det1;
-	if (!in_modrref(a,N,res,pivots,det1,l,lmax,c,cmax,
-			fullreduction,dont_swap_below,p.val,rref_or_det_or_lu,(inverting || rref_or_det_or_lu==0)?det:1,true /* inverting */,true/* no initial mod */))
-	  return 0;
-#if 1
-	// uncoerce elements of res and prealloc size of integers
-	// might perhaps improve chinese remaindering by divide and conquer?
-	unsigned prealloc=h2.type==_ZINT?mpz_sizeinbase(*h2._ZINTptr,2)/2:128;
-	for (unsigned i=0;i<res.size();++i){
-	  iterateur it=res[i]._VECTptr->begin(),itend=res[i]._VECTptr->end();
-	  for (;it!=itend;++it)
-	    uncoerce(*it,prealloc);
-	}
-#endif
-	// Multiply res by product of pivots in order to have the det
-	// as initial non-zero element of each line after the reduction
-	// if (rref_or_det_or_lu==0) res=smod(multvecteur(det,res),p);
-	matrice res_mod_p,pivots_mod_p;
-	for (;is_strictly_greater(h2,pi_p*pi_p,contextptr);){
-#ifdef HAVE_LIBPTHREAD
-	  for (unsigned j=0;j<nthreads-1;j++){
-	    p=nextprime(p+1);	    
-	    while (is_zero(irem(det,p,q),contextptr))
-	      p=nextprime(p+1);
-	    if (p.type!=_INT_)
-	      break;
-	    modrrefparam[j].cmax=cmax;
-	    modrrefparam[j].Modulo=p.val;
-	    modrrefparam[j].fullreduction=fullreduction;
-	    modrrefparam[j].rref_or_det_or_lu=rref_or_det_or_lu;
-	    modrrefparam[j].inverting=true;
-	    modrrefparam[j].no_initial_mod=true;
-	    gen tmp=(inverting || rref_or_det_or_lu==0)?det:1;
-	    modrrefparam[j].mult_by_det_mod_p=tmp;
-	    bool res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_modrref,(void *) &modrrefparam[j]);
-	    if (res)
-	      thread_modrref((void *)&modrrefparam[j]);	    
-	  }
-#endif
-	  p=nextprime(p+1);
-	  while (is_zero(irem(det,p,q),contextptr))
-	    p=nextprime(p+1);
-	  if (p.type!=_INT_)
-	    break;
-	  if (!in_modrref(a,N,res_mod_p,pivots_mod_p,det_mod_p,l,lmax,c,cmax,
-			  fullreduction,dont_swap_below,p.val,rref_or_det_or_lu,(inverting || rref_or_det_or_lu==0)?det:1,true /* inverting */,true/* no initial mod */))
-	    return 0;
-#ifdef HAVE_LIBPTHREAD
-	  // get back launched mod det
-	  for (unsigned j=0;j<nthreads-1;++j){
-	    void * ptr;
-	    pthread_join(tab[j],&ptr);
-	    if (ptr && modrrefparam[j].success){
-	      if (rref_or_det_or_lu==3 && is_zero(det_mod_p,contextptr)){
-		continue;
-	      }
-	      gen tmpp=modrrefparam[j].Modulo;
-	      ichinrem_inplace(res,*modrrefparam[j].resptr,pi_p,tmpp.val,fullreduction);
-	      if (fullreduction!=2 && !inverting)
-		pivots=*ichinrem(gen(pivots),gen(*modrrefparam[j].pivotsptr),pi_p,tmpp)._VECTptr;
-	      pi_p=pi_p*tmpp;
-	    }
-	  }
-#endif
-	  if (as>10 && debug_infolevel>1)
-	    cerr << clock() << " modrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << endl;
-	  if (rref_or_det_or_lu==3){
-	    if (is_zero(det_mod_p,contextptr))
-	      continue;
-	  }
-	  /*
-	  else {
-	    multvecteur(smod(det,p),res_mod_p,res_mod_p);
-	    smod(res_mod_p,p,res_mod_p);
-	    // res_mod_p=smod(multvecteur(smod(det,p),res_mod_p),p);
-	  }
-	  */
-#if 0
-	  res=*ichinrem(gen(res),gen(res_mod_p),pi_p,p)._VECTptr;
-#else
-	  ichinrem_inplace(res,res_mod_p,pi_p,p.val,fullreduction);
-#endif
-	  if (fullreduction!=2 && !inverting)
-	    pivots=*ichinrem(gen(pivots),gen(pivots_mod_p),pi_p,p)._VECTptr;
-	  pi_p=pi_p*p;
-	} // end for loop on primes
-	if (p.type==_INT_){
-	  // there is a bug in libtommath when multiplying a _ZINT by an int
-	  // because used memory might grow by 2, not only by 1
-	  // in bn_mp_mul_d.c
-	  smod_inplace(res,pi_p);
-	  if (inverting){
-	    // This step could perhaps be a little faster if we keep
-	    // the last invariant factor (as computed by the p-adic algorihtm)
-	    // since the denominator is likely (about 6/pi^2) to be the lif
-	    // therefore we could compute divisor=det/lif and test divisibility
-	    // of res by divisor
-	    if (debug_infolevel>1)
-	      *logptr(contextptr) << clock() << gettext(" dividing by determinant") << endl;
-	    divvecteur(res,det,res);
-	    if (debug_infolevel>1)
-	      *logptr(contextptr) << clock() << gettext(" end dividing by determinant") << endl;
-	  }
-	  else
-	    pivots=smod(pivots,pi_p);
-	  if (rref_or_det_or_lu==3) // rational reconstruction
-	    res=fracmod(res,pi_p);
-	  if (rref_or_det_or_lu==2 || rref_or_det_or_lu == 3){
-	    vecteur P;
-	    vector_int2vecteur(permutation,P);
-	    pivots.push_back(P);
-	  }
-	  return inverting?2:1;
-	} // end if p.type==_INT_
-      } // end if !failure
-    } // end modular/padic algorithm
+      int Res=mrref_int(a,res,pivots,det,l,lmax,c,cmax,fullreduction,dont_swap_below,convert_internal,algorithm,rref_or_det_or_lu,modular,permutation,contextptr);
+      if (Res>=0)
+	return Res;
+    }
 #if 1 // modular algo not fast enough and p-adic already used 
     if ( as>=GIAC_PADIC && (rref_or_det_or_lu==1 || fullreduction==2) && (algorithm==RREF_GUESS || modular ) && is_fraction_matrice(a)){
       res=a;
@@ -6408,7 +6425,7 @@ namespace giac {
   // c is the inverse of a mod p
   // reconstruct is the number of components of x we want to compute, or 0 if compute all
   // NB: on Z[i], should use a prime such that -1 has a square root.
-  vecteur padic_linsolve(const matrice & a,const vecteur & b,const matrice & c,unsigned n,const gen & p,unsigned reconstruct){
+  vecteur padic_linsolve_c(const matrice & a,const vecteur & b,const matrice & c,unsigned n,const gen & p,unsigned reconstruct){
     unsigned bsize=b.size(),asize=a.size(); // should be the same
     if (reconstruct && reconstruct<bsize) bsize=reconstruct;
     vecteur res(bsize),y(b),x,tmp; // initialize y_0=b
@@ -6739,7 +6756,7 @@ namespace giac {
 	/* p-adic lift of each compatibility equation */
 	vecteur current,cond(nrows);
 	cond[ranklines[rang+i]]=-1;
-	current=padic_linsolve(atmp,excluded[i],c,nstep,p);
+	current=padic_linsolve_c(atmp,excluded[i],c,nstep,p);
 	int cs=current.size();
 	for (int j=0;j<cs;++j)
 	  current[j]=fracmod(current[j],pn);
@@ -6758,7 +6775,7 @@ namespace giac {
 	  /* p-adic lift of each kernel element basis */
 	  vecteur current,cond(ncols);
 	  cond[k_excluded_col[i]]=-1;
-	  current=padic_linsolve(asub,k_excluded[i],ainv,nstep,p);
+	  current=padic_linsolve_c(asub,k_excluded[i],ainv,nstep,p);
 	  int cs=current.size();
 	  for (int j=0;j<cs;++j)
 	    current[j]=fracmod(current[j],pn);
@@ -6791,7 +6808,7 @@ namespace giac {
       newb[i]=b[ranklines[i]];
     gen h2=4*square_hadamard_bound(asub)*l2norm2(newb);
     int nstep=int(rang*std::log(evalf_double(h2,1,context0)._DOUBLE_val)/2/std::log(double(p.val)))+1;
-    vecteur res=padic_linsolve(asub,newb,ainv,nstep,p);
+    vecteur res=padic_linsolve_c(asub,newb,ainv,nstep,p);
     gen pn=pow(p,nstep,context0);
     int ress=res.size();
     for (int i=0;i<ress;++i)
@@ -6879,7 +6896,7 @@ namespace giac {
       ++n;
       pn = pn * p;
     }
-    vecteur resp=padic_linsolve(a,b,c,n,p,reconstruct);
+    vecteur resp=padic_linsolve_c(a,b,c,n,p,reconstruct);
     if (debug_infolevel>1)
       cerr << "Padic end " << clock() << endl;
     // rational reconstruction

@@ -10680,7 +10680,7 @@ namespace giac {
 	}
 	// FIXME series does not work correctly
 	// example eq:=25*x^6*y^2-80*x^6*y+64*x^6-10*x^5*y^2+136*x^5*y-192*x^5+59*x^4*y^2+56*x^4*y+192*x^4-20*x^3*y^2-240*x^3*y-64*x^3+43*x^2*y^2+104*x^2*y-10*x*y^2+9*y^2; implicitplot(eq,x=0..2,y=-1..1,ystep=0.01);
-	if (has_op(sp,at_rootof)) sp=spd; 
+	if (has_op(sp,*at_rootof)) sp=spd; 
 	// find all tangents starting from sp
 	for (int order=2;order<10;++order){
 	  gen tays=series(subst(f_orig,xy,xy+sp,false,contextptr),xy,makevecteur(0,0),order,0,contextptr);

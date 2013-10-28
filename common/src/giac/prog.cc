@@ -736,6 +736,7 @@ namespace giac {
 	int ss=s.size();
 	if (ss>2 && s[0]=='\'' && s[ss-1]=='\'')
 	  s=s.substr(1,ss-2);
+	lock_syms_mutex();  
 	sym_tab::const_iterator i = syms().find(s);
 	if (i == syms().end()) {
 	  *it = *(new identificateur(s));
@@ -744,6 +745,7 @@ namespace giac {
 	  // std::cerr << "lexer" << s << endl;
 	  *it = i->second;
 	}
+	unlock_syms_mutex();  
 	v2.push_back(*it);
       }
     }
@@ -6726,10 +6728,16 @@ namespace giac {
   }
   gen mksa_register(const char * s,const mksa_unit * equiv){
     std::map<const char *, const mksa_unit *,ltstr>::const_iterator it=unit_conversion_map().find(s+1),itend=unit_conversion_map().end();
+    gen res;
+    lock_syms_mutex();  
     if (it!=itend)
-      return syms()[s];
-    unit_conversion_map()[s+1]=equiv;
-    return (syms()[s] = new ref_identificateur(s));
+      res=syms()[s];
+    else {
+      unit_conversion_map()[s+1]=equiv;
+      res = (syms()[s] = new ref_identificateur(s));
+    }
+    unlock_syms_mutex();  
+    return res;
   }
   gen mksa_register_unit(const char * s,const mksa_unit * equiv){
     return symbolic(at_unit,makevecteur(1,mksa_register(s,equiv)));

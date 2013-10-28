@@ -98,6 +98,27 @@
     }
     bool doing_insmod = false;
 
+#ifdef HAVE_LIBPTHREAD
+    static pthread_mutex_t * syms_mutex_ptr = 0;
+    
+    int lock_syms_mutex(){
+      if (!syms_mutex_ptr){
+	pthread_mutex_t tmp=PTHREAD_MUTEX_INITIALIZER;
+	syms_mutex_ptr=new pthread_mutex_t(tmp);
+      }
+      return pthread_mutex_lock(syms_mutex_ptr);
+    }
+    
+    void unlock_syms_mutex(){
+      if (syms_mutex_ptr) 
+	pthread_mutex_unlock(syms_mutex_ptr);    
+    }
+
+#else
+    int lock_syms_mutex(){ return 0; }
+    void unlock_syms_mutex(){}
+#endif
+
     sym_tab & syms(){
       static sym_tab * ans=new sym_tab;
       return * ans;
@@ -1057,8 +1078,10 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	index_status(contextptr)=(i->second.subtype==T_UNARY_OP-256);
 	return i->second.subtype+256 ;
       }
-      sym_tab::const_iterator i2 = syms().find(s);
-      if (i2 == syms().end()) {
+      lock_syms_mutex();
+      sym_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
+      if (i2 == i2end) {
+	unlock_syms_mutex();  
 	const char * S = s.c_str();
 	// std::cerr << "lexer new" << s << endl;
 	if (check38 && calc_mode(contextptr)==38 && strcmp(S,string_pi) && strcmp(S,string_euler_gamma) && strcmp(S,string_infinity) && strcmp(S,string_undef) && S[0]!='G'&& (!is_known_name_38 || !is_known_name_38(0,S))){
@@ -1080,7 +1103,9 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 		++i;
 	      }
 	      res = identificateur(name);
+	      lock_syms_mutex();
 	      syms()[name.c_str()] = res;
+	      unlock_syms_mutex();
 	      args.push_back(res);
 	    }
 	    else {
@@ -1127,14 +1152,19 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    res=args.front();
 	  else 
 	    res=_prod(args,contextptr);
+	  lock_syms_mutex();
 	  syms()[s]=res;
+	  unlock_syms_mutex();
 	  return T_SYMBOL;
 	} // end 38 compatibility mode
 	res = identificateur(s);
+	lock_syms_mutex();
 	syms()[s] = res;
+	unlock_syms_mutex();
 	return T_SYMBOL;
       } // end if ==syms.end()
       res = i2->second;
+      unlock_syms_mutex();  
       return T_SYMBOL;
     }
 
@@ -1147,9 +1177,11 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
     for (; it!=itend; ++it) {
       if (it->type!=_IDNT)
 	continue;
-      sym_tab::const_iterator i = syms().find(it->_IDNTptr->id_name);
-      if (i==syms().end())
+      lock_syms_mutex();
+      sym_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
+      if (i==iend)
 	syms()[it->_IDNTptr->name()] = *it;
+      unlock_syms_mutex();  
     }
   }
   

@@ -1669,7 +1669,7 @@ namespace giac {
 	    gen tmp=evalf(subst(expr,x,*it,false,contextptr),1,contextptr);
 #endif
 	    if ( (tmp.type==_DOUBLE_ || tmp.type==_REAL || tmp.type==_FLOAT_) && is_greater(1e-8,abs(tmp,contextptr),contextptr)){
-	      if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && has_op(*it,at_rootof))
+	      if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && has_op(*it,*at_rootof))
 		res.push_back(evalf(*it,1,contextptr));
 	      else
 		res.push_back(*it);
@@ -5470,13 +5470,15 @@ namespace giac {
     vecteur elim=gen2vecteur(args._VECTptr->back());
     if (elim.empty())
       return eqs;
+    vecteur l(elim);
+    lvar(eqs,l); // add other vars after vars to eliminate
 #if 1
     // eliminate variables with linear dependency 
     // (in order to lower the number of vars, since <= 11 vars is handled faster)
     for (unsigned i=0;i<eqs.size();++i){
       for (unsigned j=0;j<elim.size();++j){
 	gen a,b;
-	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr)) && is_zero(derive(a,elim,contextptr))){
+	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr)) && is_zero(derive(a,l,contextptr))){
 	  // Warning: a is not identically 0 but may vanish for some values of elim...
 	  // eqs[i]=a*elim[j]+b
 	  // replace elim[j] by -b/a
@@ -5491,8 +5493,6 @@ namespace giac {
       }
     }
 #endif
-    vecteur l(elim);
-    lvar(eqs,l); // add other vars after vars to eliminate
     vecteur gb=gen2vecteur(_gbasis(gen(makevecteur(eqs,l),_SEQ__VECT),contextptr)),res;
     // keep in gb values that do not depend on elim
     for (unsigned i=0;i<gb.size();++i){
