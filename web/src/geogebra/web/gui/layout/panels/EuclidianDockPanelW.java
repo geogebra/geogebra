@@ -119,6 +119,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 			super();
 			this.dockPanel = dockPanel;
 			add(absoluteEuclidianPanel = new AbsolutePanel());
+			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
 		}
 
 		public void onResize() {

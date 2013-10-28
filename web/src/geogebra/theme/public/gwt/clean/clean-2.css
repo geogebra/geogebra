@@ -1301,6 +1301,12 @@ td.datePickerMonth {
 	user-select: none;
 }
 
+.EuclidianPanel {
+	right: 0px;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}
 
 /*============ Cursors ============*/
  .cursor_wait {
