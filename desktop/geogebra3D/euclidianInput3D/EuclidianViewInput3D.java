@@ -69,25 +69,28 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	@Override
 	public void drawTransp(Renderer renderer1){
 			
-		super.drawTransp(renderer1);
 
 		// sphere for mouse cursor
 		if (getMode() == EuclidianConstants.MODE_MOVE && mouse3DScreenPosition != null){
 			renderer1.setMatrix(transparentMouseCursorMatrix);
 			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);	
 		}
+		
+		super.drawTransp(renderer1);
 
 	}
 	
 	@Override
 	public void drawHiding(Renderer renderer1){
-		super.drawHiding(renderer1);
 		
 		// sphere for mouse cursor
 		if (getMode() == EuclidianConstants.MODE_MOVE && mouse3DScreenPosition != null){
 			renderer1.setMatrix(transparentMouseCursorMatrix);
 			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);	
 		}
+		
+		super.drawHiding(renderer1);
+
 	}
 
 	
