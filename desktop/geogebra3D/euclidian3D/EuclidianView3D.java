@@ -703,7 +703,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 	
-	private CoordMatrix getRotationMatrix(){
+	private void updateRotationMatrix(){
 		
 		CoordMatrix m1, m2;
 
@@ -715,51 +715,72 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);
 		}
 		
-		return m1.mul(m2);
+		rotationMatrix = m1.mul(m2);
 	}
 	
-	private CoordMatrix getScaleMatrix(){
-		return CoordMatrix.ScaleMatrix(new double[] {getXscale(),getYscale(),getZscale()});				
+	private void updateScaleMatrix(){
+		scaleMatrix.set(1,1,getXscale());
+		scaleMatrix.set(2,2,getYscale());
+		scaleMatrix.set(3,3,getZscale());		
 	}
 	
-	private CoordMatrix getTranslationMatrix(){
-		return CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});		
+	protected void updateTranslationMatrix(){
+		translationMatrix.set(1, 4, getXZero());
+		translationMatrix.set(2, 4, getYZero());
+		translationMatrix.set(3, 4, getZZero());
+	}
+	
+	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 translationMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix rotationMatrix;
+	protected CoordMatrix rotationAndScaleMatrix;
+
+	protected void updateRotationAndScaleMatrices(){
+		
+		//rotations
+		updateRotationMatrix();
+
+		undoRotationMatrix.set(rotationMatrix.inverse());
+
+		//scaling
+		updateScaleMatrix();
+		
+		rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
+	}
+	
+	
+	protected void setGlobalMatrices(){
+
+		m.set(rotationAndScaleMatrix.mul(translationMatrix));
+
+		/*
+		//TO TEST PROJECTION
+		m.set(CoordMatrix.Identity(4));  
+		scale = 1;
+		 */
+
+		mInv.set(m.inverse());
+		mInvTranspose.set(mInv.transposeCopy());
+
+		updateEye();
+
 	}
 	
 	/**
 	 * set Matrix for view3D
 	 */	
 	public void updateMatrix(){
-		
-		//TODO use Ggb3DMatrix4x4
-		//Application.printStacktrace("");
-		
-		//rotations
-		CoordMatrix mRot = getRotationMatrix();
-
-		undoRotationMatrix.set(mRot.inverse());
-
-		//scaling
-		CoordMatrix mScale = getScaleMatrix();
+				
+		//rotations and scaling
+		updateRotationAndScaleMatrices();
 		
 		//translation
-		CoordMatrix mTrans = getTranslationMatrix();
+		updateTranslationMatrix();
+		
+		//set global matrix and inverse, and eye position
+		setGlobalMatrices();
 		
 		
-		m.set(mRot.mul(mScale.mul(mTrans)));
-		
-		/*
-		//TO TEST PROJECTION
-		m.set(CoordMatrix.Identity(4));  
-		scale = 1;
-		*/
-		
-		mInv.set(m.inverse());
-		mInvTranspose.set(mInv.transposeCopy());
-		
-		updateEye();
-			
-		//Application.debug("Zero = ("+getXZero()+","+getYZero()+","+getZZero()+")");	
 	}
 	
 	private void updateEye(){
@@ -889,12 +910,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (GeoGebraConstants.IS_PRE_RELEASE){
 			if (app.fileVersionBefore(App.getSubValues("4.9.14.0"))){
 				//new matrix multiplication (since 4.9.14)
-				CoordMatrix mRot = getRotationMatrix();
-				CoordMatrix mScale = getScaleMatrix();
+				updateRotationMatrix();
+				updateScaleMatrix();
 				setXZero(x);setYZero(y);setZZero(z);
-				CoordMatrix mTrans = getTranslationMatrix();
-				CoordMatrix mRS = mRot.mul(mScale);
-				CoordMatrix matrix = ((mRS.inverse()).mul(mTrans).mul(mRS));
+				updateTranslationMatrix();
+				CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
+				CoordMatrix matrix = ((mRS.inverse()).mul(translationMatrix).mul(mRS));
 				Coords origin = matrix.getOrigin();				
 				setXZero(origin.getX());setYZero(origin.getY());setZZero(origin.getZ());
 				updateMatrix();

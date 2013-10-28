@@ -173,6 +173,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			startMouse3DPosition.set(mouse3DPosition);
 			
 			view.rememberOrigins();
+			((EuclidianViewInput3D) view).setStartPos(startMouse3DPosition);
 			
 			startMouse3DOrientation.set(mouse3DOrientation);
 			
@@ -185,10 +186,6 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 		}else{ // process mouse drag
 			
-			// translation
-			Coords translation = mouse3DPosition.sub(startMouse3DPosition);
-			
-	
 			
 			// rotation			
 			Quaternion rot = startMouse3DOrientation.leftDivide(mouse3DOrientation);
@@ -241,7 +238,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			
 
 			// set the view
-			((EuclidianViewInput3D) view).setCoordSystemFromMouse3DMove(translation.getX(),translation.getY(),translation.getZ(),rotX,rotZ);
+			((EuclidianViewInput3D) view).setCoordSystemFromMouse3DMove(startMouse3DPosition,mouse3DPosition,rotX,rotZ);
 			
 
 			

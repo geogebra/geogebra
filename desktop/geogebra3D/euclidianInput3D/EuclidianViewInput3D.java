@@ -2,6 +2,7 @@ package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -29,6 +30,9 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 		
 		mouse3DScenePosition = new Coords(4);
 		mouse3DScenePosition.setW(1);
+		
+		startPos = new Coords(4);
+		startPos.setW(1);
 	}
 	
 	
@@ -97,29 +101,54 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 		return 1f;
 	}
 	
+	private Coords startPos;
+	
+	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
+	//private CoordMatrix4x4 startTranslationScreen = CoordMatrix4x4.Identity();
+	
+	/**
+	 * set mouse start pos
+	 * @param screenStartPos mouse start pos (screen)
+	 */
+	public void setStartPos(Coords screenStartPos){
+		
+		startPos.set(screenStartPos);
+		toSceneCoords3D(startPos);		
+		startTranslation.setOrigin(screenStartPos.add(startPos));
+		
+	}
+	
 	/**
 	 * set the coord system regarding 3D mouse move
-	 * @param dx relative mouse x move
-	 * @param dy relative mouse y move
-	 * @param dz relative mouse z move
+	 * @param startPos1 start 3D position (screen)
+	 * @param newPos current 3D position (screen)
 	 * @param rotX relative mouse rotate around x (screen)
 	 * @param rotZ relative mouse rotate around z (view)
 	 */
-	public void setCoordSystemFromMouse3DMove(double dx, double dy, double dz, double rotX, double rotZ) {	
+	public void setCoordSystemFromMouse3DMove(Coords startPos1, Coords newPos, double rotX, double rotZ) {	
+		
 		
 		// translation
-		Coords v = new Coords(dx,dy,dz,0);
+		Coords v = new Coords(4);
+		v.set(newPos.sub(startPos1));
 		toSceneCoords3D(v);
-		setXZero(XZeroOld+v.getX());
-		setYZero(YZeroOld+v.getY());
-		setZZero(ZZeroOld+v.getZ());		
 		
 		// rotation
 		setRotXYinDegrees(aOld+rotX, bOld+rotZ);
 		
+		updateRotationAndScaleMatrices();
 		
+		// center rotation on pick point ( + v for translation)
+		CoordMatrix m1 = rotationAndScaleMatrix.inverse().mul(startTranslation).mul(rotationAndScaleMatrix);		
+		Coords t1 = m1.getOrigin();	
+		setXZero(t1.getX() - startPos.getX() + v.getX());
+		setYZero(t1.getY() - startPos.getY() + v.getY());
+		setZZero(t1.getZ() - startPos.getZ() + v.getZ());
+				
 		// update the view
-		updateMatrix();
+		updateTranslationMatrix();
+		setGlobalMatrices();
+		
 		setViewChangedByTranslate();
 		setViewChangedByRotate();
 		setWaitForUpdate();
