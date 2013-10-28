@@ -312,6 +312,16 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 			openFromGGT = null;
 		}
 	}
+	
+	/**
+	 * closes the openFromGGT dialog
+	 */
+	public void closeOpenFromGGTDialog() {
+		if (openFromGGT != null) {
+			openFromGGT.close();
+			openFromGGT = null;
+		}
+	}
 
 	@Override
     public void showLogOutDialog() {

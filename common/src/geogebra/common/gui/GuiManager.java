@@ -27,7 +27,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	private static final String ggbTube = "geogebratube.org/";
 	private static final String ggbTubeShort = "ggbtu.be/";
-	private static final String ggbTubeTest = "test.geogebratube.org/";	
+	private static final String ggbTubeTest = "test.geogebratube.org";	
 	private static final String material = "/material/show/id/";
 	
 
@@ -119,9 +119,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
 				// http://www.geogebratube.org/files/material-105.ggb	
-			} else if ((processedUrlString.indexOf(ggbTube) > -1
-					|| processedUrlString.indexOf(ggbTubeShort) > -1)
-					&& processedUrlString.indexOf(ggbTubeTest) == -1) {
+			} else if (processedUrlString.indexOf(ggbTube) > -1
+					|| processedUrlString.indexOf(ggbTubeShort) > -1
+					|| processedUrlString.indexOf(ggbTubeTest) > -1) {
 	
 				// remove eg http:// if it's there
 				if (processedUrlString.indexOf("://") > -1) {
@@ -168,9 +168,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 	
 				// fetch ID
 				id = processedUrlString.substring(start, end);
-	
-				processedUrlString = "http://www.geogebratube.org/files/material-" + id
-						+ ".ggb";
+				
+				if (urlString.indexOf(ggbTubeTest) > -1) {
+					processedUrlString = "http://test.geogebratube.org:8080/files/material-";
+				} else {
+					processedUrlString = "http://www.geogebratube.org/files/material-";
+				}
+				
+				processedUrlString += id + ".ggb";
 	
 				App.debug(processedUrlString);
 				success = loadURL_GGB(processedUrlString);

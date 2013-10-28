@@ -3,6 +3,7 @@ package geogebra.html5.move.ggtapi.operations;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
+import geogebra.web.gui.dialog.DialogManagerW;
 
 /**
  * @author gabor
@@ -35,7 +36,7 @@ public class OpenFromGGTOperationW extends OpenFromGGTOperation {
     	//later if event.origin....
     	if (event.data) {
     		data = $wnd.JSON.parse(event.data);
-    		if (data.action === "logintoken") {
+    		if (data.action === "openfromggt") {
     			t.@geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW::processURL(Ljava/lang/String;)(data.msg);
     		}
     	}
@@ -44,7 +45,7 @@ public class OpenFromGGTOperationW extends OpenFromGGTOperation {
 	
 	private void processURL(String url) {
 		((GuiManager) app.getGuiManager()).loadURL(url + "?mobile=true");
-		
+		((DialogManagerW) app.getDialogManager()).closeOpenFromGGTDialog();
 	}
 
 }
