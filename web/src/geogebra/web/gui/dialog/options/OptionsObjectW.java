@@ -50,6 +50,7 @@ import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
+import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -972,13 +973,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	} 
 	
 	private class LineStylePanel extends OptionPanel implements ILineStyleListener {
-		private LineStyleModel model;
+		LineStyleModel model;
 		private Label sliderLabel;
 		private Slider slider;
 		private Label minLabel;
 		private Label maxLabel;
 		private Label popupLabel;
-		private LineStylePopup btnLineStyle;
+		LineStylePopup btnLineStyle;
 		private int iconHeight = 24;
 		public LineStylePanel() {
 			model = new LineStyleModel(this);
@@ -992,7 +993,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			
 			minLabel = new Label("1");
 			flow.add(minLabel);
-			
 			slider = new Slider(1, GeoElement.MAX_LINE_WIDTH);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
@@ -1013,12 +1013,26 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					}
                 }});
 
+			FlowPanel stylePanel = new FlowPanel();
+			popupLabel = new Label();
+			stylePanel.add(popupLabel);
 			btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, -1, false,
-					model);
-			if (btnLineStyle != null) {
-				btnLineStyle.setKeepVisible(false);
-				mainPanel.add(btnLineStyle);
-			}
+					null);
+//			slider.setSnapToTicks(true);
+
+			btnLineStyle.setModel(new LineStyleModel(this));
+			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
+
+				public void fireActionPerformed(Object actionButton) {
+	               model.applyLineType(btnLineStyle.getSelectedIndex());
+	                
+                }});
+			btnLineStyle.setKeepVisible(false);
+			mainPanel.add(btnLineStyle);
+			
+			stylePanel.add(btnLineStyle);
+			mainPanel.add(stylePanel);
+			
 			setWidget(mainPanel);
 		}
 		@Override
@@ -1028,11 +1042,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	        
         }
 		
-		public void setSelectedIndex(int index) {
-			if (btnLineStyle != null)
-				btnLineStyle.setSelectedIndex(index);
-      
-			}
 		public void setValue(int value) {
 	        slider.setValue(value);
 	        
@@ -1042,21 +1051,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	        
         }
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
-//			if (equalStyle) {
-//				for (int i = 0; i < btnLineStyle.getItemCount(); i++) {
-//					if (type == ((Integer) btnLineStyle.getItemAt(i)).intValue()) {
-//						btnLineStyle.setSelectedIndex(i);
-//						break;
-//					}
-//				}
-//			} else {
-//				btnLineStyle.setSelectedItem(null);
+			if (true) {
+				btnLineStyle.selectLineType(type);
+				
+			}
+//			else {
+//				btnLineStyle.setSelectedIndex(-1);
 //			}
-//		}
-        }
-		
-		
 	}
+      }
+		
+		
+	
 	
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;

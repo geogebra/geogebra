@@ -486,7 +486,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 
 	public int getItemCount() {
-		// TODO
-		return -1;
+		return myPopup.getPanel().getWidgetCount();
 	}
 }

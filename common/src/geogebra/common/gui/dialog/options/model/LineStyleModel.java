@@ -1,9 +1,10 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LineStyleModel extends OptionsModel {
-	public interface ILineStyleListener extends IComboListener {
+	public interface ILineStyleListener {
 		void setValue(int value);
 
 		void setMinimum(int minimum);
@@ -12,10 +13,29 @@ public class LineStyleModel extends OptionsModel {
 	}
 	
 	private ILineStyleListener listener;
+	private static Integer[] lineStyleArray;
+	
 	public LineStyleModel(ILineStyleListener listener) {
 		this.listener = listener;
+		lineStyleArray = getLineTypes();
+	}
+
+	private static final Integer[] getLineTypes() {
+		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED) };
+		return ret;
 	}
 	
+	public static final Integer getStyleAt(int i) {
+		return lineStyleArray[i];
+	}
+	
+	public static final Integer getStyleCount() {
+		return lineStyleArray.length;
+	}
 	private int maxMinimumThickness() {
 
 		if (!hasGeos())
@@ -66,7 +86,8 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	
-	public void applyLineType(int type) {
+	public void applyLineType(int index) {
+		int type = lineStyleArray[index];
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineType(type);

@@ -82,8 +82,8 @@ public class EuclidianStyleBarW extends StyleBarW
 	// buttons and lists of buttons
 	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
-	private PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize, btnMode;
-
+	private PopupMenuButton btnPointStyle, btnTextSize, btnMode;
+	private LineStylePopup btnLineStyle;
 	PopupMenuButton btnTableTextJustify;
 
 	PopupMenuButton btnTableTextBracket;
@@ -604,7 +604,8 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// create line style icon array
 		// create button
-		btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, mode, true, new LineStyleModel(null));
+		btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, mode, true, null);
+		btnLineStyle.setModel(new LineStyleModel(btnLineStyle));
 		//		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
 //				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 //
@@ -1249,7 +1250,7 @@ public class EuclidianStyleBarW extends StyleBarW
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
 					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
-					((LineStylePopup)btnLineStyle).apply();
+					btnLineStyle.apply();
 //					int selectedIndex = btnLineStyle.getSelectedIndex();
 //					int lineSize = btnLineStyle.getSliderValue();
 //					needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
