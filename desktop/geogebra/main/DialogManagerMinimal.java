@@ -171,6 +171,13 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public void showOpenFromGGTDialog() {
 		// TODO Auto-generated method stub
+	}
+	@Override
+	public void showNumberInputDialogRegularPolygon(String menu,
+			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2) {
+		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 		
+		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2);
+	
 	}
 }

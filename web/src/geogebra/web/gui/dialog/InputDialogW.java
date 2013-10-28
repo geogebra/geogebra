@@ -92,6 +92,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		        false, geo);
 	}
 
+	public InputDialogW(AppW app2, String message, String title2, String initString,
+            boolean autoComplete, InputHandler handler, boolean selectInitText) {
+		this(app2, message, title2, initString, autoComplete, handler, false,
+				selectInitText, null);
+    }
+
 	private void centerOnScreen() {
 		wrappedPopup.center();
 	}

@@ -185,14 +185,8 @@ public abstract class DialogManager {
 		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos, ec);
 	}
 
-	public void showNumberInputDialogRegularPolygon(String menu, EuclidianController ec, 
-			GeoPointND geoPoint1, GeoPointND geoPoint2) {
-		
-		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
-		
-		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2);
-	}
-
+	public abstract void showNumberInputDialogRegularPolygon(String menu, EuclidianController ec, 
+			GeoPointND geoPoint1, GeoPointND geoPoint2);
 	public abstract void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool);
 
 	public void showNumberInputDialogCirclePointRadius(String menu,

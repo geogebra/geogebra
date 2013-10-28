@@ -66,6 +66,18 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void showNumberInputDialogRegularPolygon(String title, EuclidianController ec, 
+			GeoPointND geoPoint1, GeoPointND geoPoint2) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialogW id = new InputDialogRegularPolygonW(((AppW) app), ec, title,
+				handler, geoPoint1, geoPoint2);
+		id.setVisible(true);
+
+	}	
 
 	@Override
 	public Object[] showAngleInputDialog(String title, String message,
