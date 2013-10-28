@@ -96,8 +96,7 @@ public class EuclidianControllerInput3D extends EuclidianController3D {
 			mouse3DPosition.setX(pos[0] + screenHalfWidth - p.x - panelDimension.width/2);
 			mouse3DPosition.setY(pos[1] - screenHalfHeight + p.y + panelDimension.height/2);
 			mouse3DPosition.setZ(pos[2] - ((EuclidianView3D) view).getScreenZOffset());
-			
-			
+					
 			// check if the 3D mouse is on screen
 			if((Math.abs(mouse3DPosition.getX()) < panelDimension.width/2) 
 					&& (Math.abs(mouse3DPosition.getY()) < panelDimension.height/2)

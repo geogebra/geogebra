@@ -1221,7 +1221,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         		y = dim.height/2 + f*(y - dim.height/2);
         		
         	}else if(view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
-          		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ());
+          		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ() - view3D.getScreenZOffset());
         		x = dim.width/2 + f*(x + glassesEyeSep - dim.width/2) - glassesEyeSep;
         		y = dim.height/2 + f*(y-dim.height/2);
  
@@ -1278,6 +1278,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  if (hits3D==null){ // just update z min/max values for the drawable
         		  drawHits[num].setZPick(zNear,zFar);        		  
         	  }else{ // if for hits array, some checks are done
+        		  //App.debug("\n"+drawHits[num].getGeoElement());
         		  if (!(mouse instanceof GPointWithZ) 
         				  || intersectsMouse3D(zNear, zFar, ((GPointWithZ) mouse).getZ()) ){ // check if mouse is nearer than objet (for 3D input)
         			  PickingType type;
@@ -1301,6 +1302,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	}
 	
 	private boolean intersectsMouse3D(double zNear, double zFar, double mouseZ){
+		//App.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
 		return mouseZ - MOUSE_PICK_DEPTH < zNear && mouseZ + MOUSE_PICK_DEPTH > zFar;
 		
 	}
@@ -1477,7 +1479,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		return d*(1-z);
     	}
     	
-    	return eyeToScreenDistance*(z-1-d/eyeToScreenDistance)/(z-1-eyeToScreenDistance/d);
+    	return eyeToScreenDistance*(z-1-d/eyeToScreenDistance)/(z-1-eyeToScreenDistance/d) - view3D.getScreenZOffset();
     }
     
 

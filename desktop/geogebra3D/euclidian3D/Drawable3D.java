@@ -1338,7 +1338,7 @@ public abstract class Drawable3D extends DrawableND {
 		zPickNear = zNear;
 		zPickFar = zFar;
 		
-		//App.debug("\n"+getGeoElement()+" : \n"+getView3D().getRenderer().getScreenZFromPickingDepth(max)+"\n"+max);
+		//App.debug("\n"+getGeoElement()+" : \n"+zNear+"\n"+zFar);
 	}
 	
 	/**
