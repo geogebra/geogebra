@@ -6,6 +6,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 /**
@@ -104,6 +105,12 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 		if (mouse instanceof GPointWithZ){
 			pickPoint.setZ(((GPointWithZ) mouse).getZ());
 		}
+	}
+	
+	@Override
+	protected void drawFreeCursor(Renderer renderer1){
+		//free point in space
+		renderer1.drawCursor(PlotterCursor.TYPE_CROSS3D);	
 	}
 	
 }

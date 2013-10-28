@@ -2325,6 +2325,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	}	
 	
+	protected void drawFreeCursor(Renderer renderer1){
+		//free point on xOy plane
+		renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);	
+	}
+	
 	/** 
 	 * draws the cursor
 	 * @param renderer1 renderer
@@ -2353,8 +2358,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				switch(cursor){
 				case CURSOR_DEFAULT:
 					switch(getCursor3DType()){
-					case PREVIEW_POINT_FREE: //free point on xOy plane
-						renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);					
+					case PREVIEW_POINT_FREE: 
+						drawFreeCursor(renderer1);			
 						break;
 					case PREVIEW_POINT_ALREADY: //showing arrows directions
 						drawPointAlready(getCursor3D().getMoveMode());				
