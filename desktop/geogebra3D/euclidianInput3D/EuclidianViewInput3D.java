@@ -1,6 +1,8 @@
 package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
@@ -24,27 +26,70 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	public EuclidianViewInput3D(EuclidianController3D ec,
 			EuclidianSettings settings) {
 		super(ec, settings);
+		
+		mouse3DScenePosition = new Coords(4);
+		mouse3DScenePosition.setW(1);
 	}
+	
+	
+	private Coords mouse3DScreenPosition = null;
+	private Coords mouse3DScenePosition;
 	
 	
 	@Override
 	public void drawMouseCursor(Renderer renderer1){
 		
 		if (((EuclidianControllerInput3D) euclidianController).isMouse3DPressed()){
+			mouse3DScreenPosition = null;
 			return;
 		}
 		
 		//use a 3D mouse position
-		Coords v = ((EuclidianControllerInput3D) getEuclidianController()).getMouse3DPosition();
+		mouse3DScreenPosition = ((EuclidianControllerInput3D) getEuclidianController()).getMouse3DPosition();
 		
-		drawMouseCursor(renderer1, v);
+		mouse3DScenePosition.set(mouse3DScreenPosition);
+		toSceneCoords3D(mouse3DScenePosition);
+		for (int i = 1; i <= 3 ; i++){
+			transparentMouseCursorMatrix.set(i,i,1/getScale());
+		}
+		transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
 		
+		
+		drawMouseCursor(renderer1, mouse3DScreenPosition);
+		
+	}
+	
+	
+	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4(); 
+	
+	@Override
+	public void drawTransp(Renderer renderer1){
+			
+		super.drawTransp(renderer1);
+
+		// sphere for mouse cursor
+		if (getMode() == EuclidianConstants.MODE_MOVE && mouse3DScreenPosition != null){
+			renderer1.setMatrix(transparentMouseCursorMatrix);
+			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);	
+		}
+
+	}
+	
+	@Override
+	public void drawHiding(Renderer renderer1){
+		super.drawHiding(renderer1);
+		
+		// sphere for mouse cursor
+		if (getMode() == EuclidianConstants.MODE_MOVE && mouse3DScreenPosition != null){
+			renderer1.setMatrix(transparentMouseCursorMatrix);
+			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);	
+		}
 	}
 
 	
 	@Override
 	public boolean isPolarized(){
-		return false;
+		return true;
 	}
 	
 	@Override

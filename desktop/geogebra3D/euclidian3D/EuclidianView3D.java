@@ -2340,11 +2340,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		//App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
 
 		if (hasMouse){	
-			
-			// specific cursor for specific input
-			
-			
-			
+						
 			// mouse cursor
 			if (moveCursorIsVisible()){
 				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());

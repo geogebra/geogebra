@@ -24,8 +24,9 @@ public class PlotterCursor {
 	static public int TYPE_ALREADY_XY = 4;
 	static public int TYPE_ALREADY_Z = 5;
 	static public int TYPE_CUBE = 6;
+	static public int TYPE_SPHERE = 7;
 	
-	static private int TYPE_LENGTH = TYPE_CUBE +1;
+	static private int TYPE_LENGTH = 8;
 	
 	
 	
@@ -148,6 +149,17 @@ public class PlotterCursor {
 		
 		manager.endGeometry();
 		manager.endList();
+		
+		
+		
+		//sphere
+		index[TYPE_SPHERE] = manager.startNewList();
+		manager.startGeometry(Manager.QUADS);
+		cursorSphere();
+		manager.endGeometry();
+		manager.endList();
+
+
 	}
 
 	
@@ -597,7 +609,68 @@ public class PlotterCursor {
 	
 	
 	
-	
+	private void cursorSphere(){
+		
+		float gray = 0.25f;
+		float alpha = 0.25f;
+		manager.color(gray, gray, gray, alpha);
+		
+		int latitude = 8;
+		int r = 15;
+		
+		float d = (float) (0.5*Math.PI/latitude);
+		
+		float rcjp = r;
+		float z3 = 0;
+		
+		for (int j = 0; j < latitude; j++){
+			
+			float rcj = rcjp;			
+			float x2 = rcj;
+			float y2 = 0f;
+			float z1 = z3;	
+			
+			rcjp = (float) (r * Math.cos((j+1) * d));
+			float x3 = rcjp;
+			float y3 = 0f;
+			z3 = (float) (r * Math.sin((j+1) * d));
+
+			
+			for (int i = 0; i < 4 * latitude; i++){
+				
+				float x1 = x2;
+				float y1 = y2;
+				
+				float ci = (float) (Math.cos((i+1) * d));
+				float si = (float) (Math.sin((i+1) * d));
+				
+				x2 = ci * rcj;
+				y2 = si * rcj;
+				
+				float x4 = x3;
+				float y4 = y3;
+				
+				x3 = ci * rcjp;
+				y3 = si * rcjp;
+				
+				
+				manager.vertex(x1, y1, z1);
+				manager.vertex(x2, y2, z1);
+				manager.vertex(x3, y3, z3);
+				manager.vertex(x4, y4, z3);
+				
+				manager.vertex(x1, y1, -z1);
+				manager.vertex(x4, y4, -z3);
+				manager.vertex(x3, y3, -z3);
+				manager.vertex(x2, y2, -z1);
+				
+
+				
+				
+			}
+		}
+
+	}
 	
 	
 	

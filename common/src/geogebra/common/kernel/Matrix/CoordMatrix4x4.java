@@ -71,7 +71,24 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 */
 	static final public CoordMatrix4x4 Identity() {
 		CoordMatrix4x4 ret = new CoordMatrix4x4();
-		ret.set(Identity(4));
+		for (int i = 1; i <= 4; i++) {
+			ret.set(i, i, 1.0);
+		}
+		return ret;
+	}
+	
+	/**
+	 * create a 4x4 dilate matrix.
+	 * @param f dilate factor
+	 * 
+	 * @return 4x4 dilate matrix
+	 */
+	static final public CoordMatrix4x4 Dilate(double f) {
+		CoordMatrix4x4 ret = new CoordMatrix4x4();
+		for (int i = 1; i <= 3; i++) {
+			ret.set(i, i, f);
+		}
+		ret.set(4, 4, 1);
 		return ret;
 	}
 
