@@ -627,6 +627,24 @@ namespace giac {
 	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	return ratnormal(_lin((C+parameters.back())/i,contextptr));
       }
+      // cst coeff?
+      gen cst=v.back();
+      v.pop_back();
+      if (derive(v,x,contextptr)==vecteur(n+1,zero)){
+	// Yes!
+	gen laplace_cst=laplace(-cst,x,t,contextptr);
+	if (is_undef(laplace_cst))
+	  return laplace_cst;
+	gen arbitrary,tmp;
+	for (int i=n-1;i>=0;--i){
+	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	  tmp=tmp*t+parameters.back();
+	  arbitrary=arbitrary+v[i]*tmp;
+	}
+	arbitrary=(laplace_cst+arbitrary)/symb_horner(v,t);
+	arbitrary=ilaplace(arbitrary,t,x,contextptr);
+	return arbitrary;
+      }
       if (n==2){ // a(x)*y''+b(x)*y'+c(x)*y+d(x)=0
 	gen & a=v[0];
 	gen & b=v[1];
@@ -686,24 +704,6 @@ namespace giac {
 	  gen sol=w+parameters[parameters.size()-2]*u+parameters[parameters.size()-1]*v;
 	  return sol;
 	}
-      }
-      // cst coeff?
-      gen cst=v.back();
-      v.pop_back();
-      if (derive(v,x,contextptr)==vecteur(n+1,zero)){
-	// Yes!
-	gen laplace_cst=laplace(-cst,x,t,contextptr);
-	if (is_undef(laplace_cst))
-	  return laplace_cst;
-	gen arbitrary,tmp;
-	for (int i=n-1;i>=0;--i){
-	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
-	  tmp=tmp*t+parameters.back();
-	  arbitrary=arbitrary+v[i]*tmp;
-	}
-	arbitrary=(laplace_cst+arbitrary)/symb_horner(v,t);
-	arbitrary=ilaplace(arbitrary,t,x,contextptr);
-	return arbitrary;
       }
     }
     vecteur substin(n);
