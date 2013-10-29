@@ -102,7 +102,7 @@ public class WinLAF extends DefaultLAF {
 	public void attachExternalEvents(final EuclidianViewT view,
 			final Element element) {
 		this.zoomer = new MsZoomer(view.getEuclidianController());
-		this.zoomer.attachTo(element);
+		MsZoomer.attachTo(element, this.zoomer);
 	}
 
 	@Override

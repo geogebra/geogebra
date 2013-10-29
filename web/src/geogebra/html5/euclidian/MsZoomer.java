@@ -29,7 +29,7 @@ public class MsZoomer {
 		$wnd.second = {id:-1};
 	}-*/;
 	
-	public native void attachTo(Element element) /*-{
+	public static native void attachTo(Element element, MsZoomer zoomer) /*-{
 	$wnd.first = {id:-1};
 	$wnd.second = {id:-1};
 	
@@ -39,7 +39,7 @@ public class MsZoomer {
 			if($wnd.second.id === e.pointerId){    	
 				$wnd.second.x = e.x;	
 				$wnd.second.y = e.y;
-				this.@geogebra.html5.euclidian.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,$wnd.first.y,
+				zoomer.@geogebra.html5.euclidian.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,$wnd.first.y,
 			$wnd.second.x,$wnd.second.y);
 			}else{
 				$wnd.first.x = e.x;	
@@ -63,7 +63,7 @@ public class MsZoomer {
 			$wnd.first.y = e.y;
 		}
 		if($wnd.first.id >=0 && $wnd.second.id>=0){
-			this.@geogebra.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,$wnd.first.y,
+			zoomer.@geogebra.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,$wnd.first.y,
 			$wnd.second.x,$wnd.second.y);
 		}
 

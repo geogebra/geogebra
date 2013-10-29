@@ -127,7 +127,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		
 		if(Browser.isIE()){
 			msZoomer = new MsZoomer(euclidianController);
-			msZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement());
+			MsZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement(),msZoomer);
 		}
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
 //		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
