@@ -47,8 +47,10 @@ public class TextDispatcher {
 		// text
 		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area, loc);
 		if (conic.isLabelSet()) {
-			area.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Area"))
+			if(!area.isLabelSet()){
+				area.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n.getCommand("Area"))
 					+ conic.getLabelSimple()));
+			}
 			text.setLabel(removeUnderscores(l10n.getPlain("Text")
 					+ conic.getLabelSimple()));
 		}
