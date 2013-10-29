@@ -102,7 +102,7 @@ public class TouchApp extends AppWeb {
 
 		this.settings = new Settings();
 
-		this.setFontSize(12);
+		this.setFontSize(15);
 
 		this.capturingThreshold *= this.selectionFactor;
 
