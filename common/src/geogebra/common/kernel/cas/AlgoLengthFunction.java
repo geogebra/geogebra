@@ -47,13 +47,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		this.f = f;
 		length = new GeoNumeric(cons);
 
-		// First derivative of function f
-		algoCAS = new AlgoDerivative(cons, f);
-		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
-
-		// Integral of length function
-		lengthFunction = new LengthFunction(f1);
-		cons.removeFromConstructionList(algoCAS);
+		refreshCASResults();
 
 		setInputOutput();
 		compute();
@@ -91,6 +85,16 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
 				lengthFunction, a, b));
 		length.setValue(lenVal);
+	}
+	@Override
+	public void refreshCASResults() {
+		// First derivative of function f
+		algoCAS = new AlgoDerivative(cons, f);
+		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
+
+		// Integral of length function
+		lengthFunction = new LengthFunction(f1);
+		cons.removeFromConstructionList(algoCAS);
 	}
 
 	// TODO Consider locusequability

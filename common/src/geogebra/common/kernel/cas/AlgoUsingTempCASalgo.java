@@ -35,5 +35,11 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement implements UsesCA
 		if (algoCAS != null)
 			algoCAS.remove();
 	}
-
+	
+	
+	/**
+	 * Creates a temporary CAS algorithm, computes it, stores the results and deletes the algorithm from the construction
+	 */
+	public abstract void refreshCASResults();
+	
 }

@@ -38,12 +38,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		this.c = c;
 		length = new GeoNumeric(cons);
 
-		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, c);
-		GeoCurveCartesian c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
-		cons.removeFromConstructionList(algoCAS);
-
-		lengthCurve = new LengthCurve(c1);
+		refreshCASResults();
 
 		setInputOutput();
 		compute();
@@ -81,6 +76,15 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
 				lengthCurve, a, b));
 		length.setValue(lenVal);
+	}
+
+	@Override
+	public void refreshCASResults() {
+		// First derivative of curve f
+		algoCAS = new AlgoDerivative(cons, c);
+		GeoCurveCartesian c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
+		cons.removeFromConstructionList(algoCAS);
+		lengthCurve = new LengthCurve(c1);
 	}
 
 	// TODO Consider locusequability

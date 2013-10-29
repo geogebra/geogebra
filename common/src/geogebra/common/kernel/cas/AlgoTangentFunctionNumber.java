@@ -58,10 +58,7 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 		T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
 
-		// derivative of f
-		algoCAS = new AlgoDerivative(cons, f);
-		deriv = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
-		cons.removeFromConstructionList(algoCAS);
+		refreshCASResults();
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -127,6 +124,14 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 		// simplified to allow better Chinese translation
 		return loc.getPlain("TangentToAatB", f.getLabel(tpl),
 				"x = " + ngeo.getLabel(tpl));
+	}
+
+	@Override
+	public void refreshCASResults() {
+		// derivative of f
+		algoCAS = new AlgoDerivative(cons, f);
+		deriv = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
+		cons.removeFromConstructionList(algoCAS);
 	}
 
 	// TODO Consider locusequability

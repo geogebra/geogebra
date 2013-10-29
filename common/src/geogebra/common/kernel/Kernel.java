@@ -4240,18 +4240,31 @@ public class Kernel {
 				if (fun != null) {
 					fun.clearCasEvalMap("");
 				}
+			} else if (geo instanceof GeoCurveCartesian) {
+				GeoCurveCartesian curve = (GeoCurveCartesian) geo;
+				FunctionNVar fun1 = curve.getFunX();
+				FunctionNVar fun2 = curve.getFunY();
+				if (fun1 != null) {
+					fun1.clearCasEvalMap("");
+				}
+				if (fun2 != null) {
+					fun2.clearCasEvalMap("");
+				}
 			}
 			AlgoElement algo = geo.getParentAlgorithm();
 
 			if (algo instanceof AlgoCasBase) {
 				((AlgoCasBase) algo).clearCasEvalMap("");
 				algo.compute();
-			} else if (algo instanceof UsesCAS || algo instanceof AlgoUsingTempCASalgo || algo instanceof AlgoCasCellInterface) {
+			} else if (algo instanceof AlgoUsingTempCASalgo) {
+				((AlgoUsingTempCASalgo) algo).refreshCASResults();
+				algo.compute();
+			} else if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
 			}
-			if(geo.isGeoCasCell() && algo==null){
+			if(geo.isGeoCasCell() && algo == null){
 				((GeoCasCell)geo).computeOutput();
 			}
 			al.add(geo);

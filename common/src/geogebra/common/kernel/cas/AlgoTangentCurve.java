@@ -72,11 +72,7 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 			T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
 
-		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, f);
-		this.df = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
-		cons.removeFromConstructionList(algoCAS);
-		
+		refreshCASResults();
 	}
 
 	@Override
@@ -154,6 +150,14 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 
 		if (!pointOnCurve)
 			T.setCoords(feval[0], feval[1], 1.0);
+	}
+
+	@Override
+	public void refreshCASResults() {
+		// First derivative of curve f
+		algoCAS = new AlgoDerivative(cons, f);
+		this.df = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
+		cons.removeFromConstructionList(algoCAS);
 	}
 
 	// TODO Consider locusequability

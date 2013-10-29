@@ -39,12 +39,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 		this.c = c;
 		length = new GeoNumeric(cons);
 
-		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, c);
-		derivative = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
-		cons.removeFromConstructionList(algoCAS);
-
-		lengthCurve = new LengthCurve(derivative);
+		refreshCASResults();
 
 		setInputOutput();
 		compute();
@@ -87,6 +82,15 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
 				lengthCurve, a, b));
 		length.setValue(lenVal);
+	}
+
+	@Override
+	public void refreshCASResults() {
+		// First derivative of curve f
+		algoCAS = new AlgoDerivative(cons, c);
+		derivative = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
+		cons.removeFromConstructionList(algoCAS);
+		lengthCurve = new LengthCurve(derivative);
 	}
 
 	//locus equability makes no sense here

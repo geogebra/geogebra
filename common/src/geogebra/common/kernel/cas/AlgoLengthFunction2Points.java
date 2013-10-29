@@ -34,12 +34,8 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
         this.B = B;
         this.f = f;
         length = new GeoNumeric(cons);
-     
-        //First derivative of function f
-        algoCAS = new AlgoDerivative(cons, f);
-        cons.removeFromConstructionList(algoCAS);
-        GeoFunction f1 = (GeoFunction) ((AlgoDerivative)algoCAS).getResult();        
-		lengthFunction = new LengthFunction(f1);		
+
+        refreshCASResults();
 		
 	    setInputOutput();
 	    compute();
@@ -79,4 +75,13 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 		length.setValue(lenVal);	
     }
 	// locusequability makes no sense here
+
+	@Override
+	public void refreshCASResults() {
+        //First derivative of function f
+        algoCAS = new AlgoDerivative(cons, f);
+        cons.removeFromConstructionList(algoCAS);
+        GeoFunction f1 = (GeoFunction) ((AlgoDerivative)algoCAS).getResult();        
+		lengthFunction = new LengthFunction(f1);		
+	}
 }
