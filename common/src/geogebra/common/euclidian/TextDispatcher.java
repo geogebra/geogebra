@@ -164,11 +164,26 @@ public class TextDispatcher {
 	}
 	
 	protected GeoPointND getPointForDynamicText(Region object, GPoint loc){
-
+		double rwx = 0, rwy = 0;
+		if(loc != null){
+			rwx = view.toRealWorldCoordX(loc.x);
+			rwy = view.toRealWorldCoordY(loc.y);
+		}else if(object instanceof GeoPolygon){
+			GeoPointND[] pts = ((GeoPolygon)object).getPointsND();
+			for(GeoPointND pt: pts){
+				rwx += pt.getCoordsInD(2).getX();
+				rwy += pt.getCoordsInD(2).getY();
+			}
+			rwx = rwx / pts.length;
+			rwy = rwy / pts.length;
+		}else if(object instanceof GeoConicND){
+			rwx = ((GeoConicND)object).getTranslationVector().getX();
+			rwy = ((GeoConicND)object).getTranslationVector().getY();
+		}
 		return view.getEuclidianController().createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, 
 				object, 
-				view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y), 0, 
+				rwx, rwy, 0, 
 				false, false); 
 	}
 	
