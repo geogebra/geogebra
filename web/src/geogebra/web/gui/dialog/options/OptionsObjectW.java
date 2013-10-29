@@ -36,6 +36,7 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
+import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.Kernel;
@@ -112,6 +113,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private boolean isDefaults;
 	private LineStylePanel lineStylePanel;
 	private AngleArcSizePanel angleArcSizePanel;
+	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -1114,6 +1116,57 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
+	private class SlopeTriangleSizePanel extends OptionPanel implements ISliderListener {
+		private SlopeTriangleSizeModel model;
+		private Slider slider;
+		private Label titleLabel;
+		private Label minLabel;
+		private Label maxLabel;
+		public SlopeTriangleSizePanel() {
+			model = new SlopeTriangleSizeModel(this);
+			setModel(model);
+
+			FlowPanel mainPanel = new FlowPanel();
+			titleLabel = new Label();
+			mainPanel.add(titleLabel);
+
+			FlowPanel flow = new FlowPanel();
+
+			minLabel = new Label("1");
+			flow.add(minLabel);
+
+			slider = new Slider(1, 10);
+			slider.setMajorTickSpacing(1);
+			slider.setMinorTickSpacing(2);
+			slider.setPaintTicks(true);
+			slider.setPaintLabels(true);
+			//			slider.setSnapToTicks(true);
+			flow.add(slider);
+
+			maxLabel = new Label("10");
+			flow.add(maxLabel);
+			mainPanel.add(flow);
+
+			setWidget(mainPanel);
+			slider.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					model.applyChanges(slider.getValue());
+				}});
+		}
+		@Override
+		public void setLabels() {
+			titleLabel.setText(app.getPlain("Size"));
+
+		}
+
+		public void setValue(int value) {
+			slider.setValue(value);
+
+		}
+
+	}
+
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1249,11 +1302,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		pointStylePanel = new PointStylePanel();
 		lineStylePanel = new LineStylePanel();
 		angleArcSizePanel = new AngleArcSizePanel();
-
+		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
+		
 		stylePanels = Arrays.asList(pointSizePanel,
 				pointStylePanel,
 				lineStylePanel,
-				angleArcSizePanel);
+				angleArcSizePanel,
+				slopeTriangleSizePanel);
 		
 		for (OptionPanel panel: stylePanels) {
 			styleTab.add(panel.getWidget());

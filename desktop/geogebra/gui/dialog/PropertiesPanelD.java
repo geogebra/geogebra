@@ -51,6 +51,7 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
+import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -59,7 +60,6 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -75,7 +75,6 @@ import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -4057,18 +4056,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class SlopeTriangleSizePanel extends JPanel implements
-			ChangeListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			ChangeListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+			ISliderListener {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
+		private SlopeTriangleSizeModel model;
 		private JSlider slider;
 
 		public SlopeTriangleSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-
+			
+			model = new SlopeTriangleSizeModel(this);
+			
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 			slider = new JSlider(1, 10);
 			slider.setMajorTickSpacing(2);
@@ -4105,31 +4107,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
+			}
 
-			this.geos = geos;
 			slider.removeChangeListener(this);
-
+			model.updateProperties();
 			// set value to first point's size
-			GeoNumeric geo0 = (GeoNumeric) geos[0];
-			slider.setValue(geo0.getSlopeTriangleSize());
 
 			slider.addChangeListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo instanceof GeoNumeric && geo.getParentAlgorithm() instanceof AlgoSlope)) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
@@ -4137,13 +4125,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
-				int size = slider.getValue();
-				GeoNumeric num;
-				for (int i = 0; i < geos.length; i++) {
-					num = (GeoNumeric) geos[i];
-					num.setSlopeTriangleSize(size);
-					num.updateRepaint();
-				}
+				model.applyChanges(slider.getValue());
 			}
 		}
 
@@ -4171,6 +4153,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void setValue(int value) {
+			slider.setValue(value);
+			
 		}
 	}
 
