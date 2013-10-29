@@ -20,6 +20,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
+import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
@@ -30,6 +31,7 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectLis
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
+import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -4178,18 +4180,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class ArcSizePanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, 
+			ISliderListener {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
+		private AngleArcSizeModel model;
 		private JSlider slider;
 
 		public ArcSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-
+			model = new AngleArcSizeModel(this);
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 			slider = new JSlider(10, 100);
 			slider.setMajorTickSpacing(10);
@@ -4233,35 +4236,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JPanel update(Object[] geos) {
 			// check geos
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
-
-			this.geos = geos;
+			}
+			
 			slider.removeChangeListener(this);
-
-			// set value to first point's size
-			AngleProperties geo0 = (AngleProperties) geos[0];
-			slider.setValue(geo0.getArcSize());
-
+			
+			model.updateProperties();
+			
 			slider.addChangeListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (geos[i] instanceof AngleProperties) {
-					AngleProperties angle = (AngleProperties) geos[i];
-					if (angle.isIndependent() || !angle.isDrawable()) {
-						geosOK = false;
-						break;
-					}
-				} else {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
@@ -4269,26 +4254,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
-				int size = slider.getValue();
-				AngleProperties angle;
-				for (int i = 0; i < geos.length; i++) {
-					angle = (AngleProperties) geos[i];
-					// addded by Loic BEGIN
-					// check if decoration could be drawn
-					if (size < 20
-							&& (angle.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || angle.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
-						angle.setArcSize(20);
-						int selected = ((AngleProperties) geos[0]).getDecorationType();
-						if (selected == GeoElement.DECORATION_ANGLE_THREE_ARCS
-								|| selected == GeoElement.DECORATION_ANGLE_TWO_ARCS) {
-							slider.setValue(20);
-						}
-					}
-					// END
-					else
-						angle.setArcSize(size);
-					angle.updateRepaint();
-				}
+				model.applyChanges(slider.getValue());
 			}
 		}
 
@@ -4314,6 +4280,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void setValue(int value) {
+			slider.setValue(value);
+			
 		}
 	}
 
