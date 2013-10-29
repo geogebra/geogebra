@@ -4,6 +4,7 @@ package geogebra.web.gui.dialog.options;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
@@ -14,6 +15,7 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectLis
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
+import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -104,11 +106,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel;
 	private List<OptionPanel> stylePanels;
-	
+
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
 	private LineStylePanel lineStylePanel;
+	private AngleArcSizePanel angleArcSizePanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -894,28 +897,28 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		public PointSizePanel() {
 			model = new PointSizeModel(this);
 			setModel(model);
-			
+
 			FlowPanel mainPanel = new FlowPanel();
 			titleLabel = new Label();
 			mainPanel.add(titleLabel);
 
 			FlowPanel flow = new FlowPanel();
-			
+
 			minLabel = new Label("1");
 			flow.add(minLabel);
-			
+
 			slider = new Slider(1, 9);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
-//			slider.setSnapToTicks(true);
+			//			slider.setSnapToTicks(true);
 			flow.add(slider);
-	
+
 			maxLabel = new Label("9");
 			flow.add(maxLabel);
 			mainPanel.add(flow);
-			
+
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
 
@@ -923,21 +926,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					if (true){//!slider.getValueIsAdjusting()) {
 						model.applyChanges(slider.getValue());
 					}
-                }});
+				}});
 		}
 		@Override
-        public void setLabels() {
-	        titleLabel.setText(app.getPlain("PointSize"));
-	        
-        }
+		public void setLabels() {
+			titleLabel.setText(app.getPlain("PointSize"));
+
+		}
 
 		public void setSliderValue(int value) {
-	        slider.setValue(value);
-	        
-        }
-		
+			slider.setValue(value);
+
+		}
+
 	}
-	
+
 	private class PointStylePanel extends OptionPanel implements IComboListener {
 		private PointStyleModel model;
 		private Label titleLabel;
@@ -946,7 +949,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		public PointStylePanel() {
 			model = new PointStyleModel(this);
 			setModel(model);
-			
+
 			FlowPanel mainPanel = new FlowPanel();
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
@@ -959,19 +962,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			setWidget(mainPanel);
 		}
 		@Override
-        public void setLabels() {
-	        titleLabel.setText(app.getPlain("PointStyle"));
-	        
-        }
-		
+		public void setLabels() {
+			titleLabel.setText(app.getPlain("PointStyle"));
+
+		}
+
 		public void setSelectedIndex(int index) {
 			if (btnPointStyle != null)
 				btnPointStyle.setSelectedIndex(index);
-        }
-		
-		
+		}
+
+
 	} 
-	
+
 	private class LineStylePanel extends OptionPanel implements ILineStyleListener {
 		LineStyleModel model;
 		private Label sliderLabel;
@@ -984,13 +987,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		public LineStylePanel() {
 			model = new LineStyleModel(this);
 			setModel(model);
-			
+
 			FlowPanel mainPanel = new FlowPanel();
 			sliderLabel = new Label();
 			mainPanel.add(sliderLabel);
 
 			FlowPanel flow = new FlowPanel();
-			
+
 			minLabel = new Label("1");
 			flow.add(minLabel);
 			slider = new Slider(1, GeoElement.MAX_LINE_WIDTH);
@@ -998,9 +1001,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
-//			slider.setSnapToTicks(true);
+			//			slider.setSnapToTicks(true);
 			flow.add(slider);
-	
+
 			maxLabel = new Label("" + GeoElement.MAX_LINE_WIDTH);
 			flow.add(maxLabel);
 			mainPanel.add(flow);
@@ -1011,56 +1014,106 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					if (true){//!slider.getValueIsAdjusting()) {
 						model.applyThickness(slider.getValue());
 					}
-                }});
+				}});
 
 			FlowPanel stylePanel = new FlowPanel();
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
 			btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, -1, false);
-//			slider.setSnapToTicks(true);
+			//			slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 
 				public void fireActionPerformed(Object actionButton) {
-	               model.applyLineTypeFromIndex(btnLineStyle.getSelectedIndex());
-	                
-                }});
+					model.applyLineTypeFromIndex(btnLineStyle.getSelectedIndex());
+
+				}});
 			btnLineStyle.setKeepVisible(false);
 			mainPanel.add(btnLineStyle);
-			
+
 			stylePanel.add(btnLineStyle);
 			mainPanel.add(stylePanel);
-			
+
 			setWidget(mainPanel);
 		}
 		@Override
-        public void setLabels() {
+		public void setLabels() {
 			sliderLabel.setText(app.getPlain("Thickness"));
 			popupLabel.setText(app.getPlain("LineStyle") + ":");
-	        
-        }
-		
+
+		}
+
 		public void setValue(int value) {
-	        slider.setValue(value);
-	        
-        }
+			slider.setValue(value);
+
+		}
 		public void setMinimum(int minimum) {
-	        slider.setMinimum(minimum);
-	        
-        }
+			slider.setMinimum(minimum);
+
+		}
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
 			if (true) {
 				btnLineStyle.selectLineType(type);
-				
+
 			}
-//			else {
-//				btnLineStyle.setSelectedIndex(-1);
-//			}
+			//			else {
+				//				btnLineStyle.setSelectedIndex(-1);
+			//			}
+		}
 	}
-      }
-		
-		
-	
-	
+
+
+
+	private class AngleArcSizePanel extends OptionPanel implements ISliderListener {
+		private AngleArcSizeModel model;
+		private Slider slider;
+		private Label titleLabel;
+		private Label minLabel;
+		private Label maxLabel;
+		public AngleArcSizePanel() {
+			model = new AngleArcSizeModel(this);
+			setModel(model);
+
+			FlowPanel mainPanel = new FlowPanel();
+			titleLabel = new Label();
+			mainPanel.add(titleLabel);
+
+			FlowPanel flow = new FlowPanel();
+
+			minLabel = new Label("10");
+			flow.add(minLabel);
+
+			slider = new Slider(10, 100);
+			slider.setMajorTickSpacing(10);
+			slider.setMinorTickSpacing(5);
+			slider.setPaintTicks(true);
+			slider.setPaintLabels(true);
+			//			slider.setSnapToTicks(true);
+			flow.add(slider);
+
+			maxLabel = new Label("100");
+			flow.add(maxLabel);
+			mainPanel.add(flow);
+
+			setWidget(mainPanel);
+			slider.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					model.applyChanges(slider.getValue());
+				}});
+		}
+		@Override
+		public void setLabels() {
+			titleLabel.setText(app.getPlain("Size"));
+
+		}
+
+		public void setValue(int value) {
+			slider.setValue(value);
+
+		}
+
+	}
+
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1144,7 +1197,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			reflexAnglePanel = new ReflexAnglePanel();
 			basicTab.add(reflexAnglePanel.getWidget());
 		}
-		
+
 		listAsComboPanel = new ListAsComboPanel();
 		basicTab.add(listAsComboPanel.getWidget());
 
@@ -1191,21 +1244,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private void addStyleTab() {
 		styleTab = new FlowPanel();
 		styleTab.setStyleName("objectPropertiesTab");
-		
+
 		pointSizePanel = new PointSizePanel();
-		styleTab.add(pointSizePanel.getWidget());
-		
 		pointStylePanel = new PointStylePanel();
-		styleTab.add(pointStylePanel.getWidget());
-		
 		lineStylePanel = new LineStylePanel();
-		styleTab.add(lineStylePanel.getWidget());
-		
-		
+		angleArcSizePanel = new AngleArcSizePanel();
+
 		stylePanels = Arrays.asList(pointSizePanel,
 				pointStylePanel,
-				lineStylePanel);
+				lineStylePanel,
+				angleArcSizePanel);
 		
+		for (OptionPanel panel: stylePanels) {
+			styleTab.add(panel.getWidget());
+		}
+	
 		tabPanel.add(styleTab, "Style");
 	}
 
