@@ -48,7 +48,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * string to put Giac off GeoGebra mode
 	 */
-	protected final static String closeString = /* "close geogebra" */ "1";
+	protected final static String closeString = "caseval(\"close geogebra\")" ;
 
 	/**
 	 * define extra functions needed in Giac
@@ -57,6 +57,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected final static String specialFunctions =
 					"restart;"+
+					// "proba_epsilon:=0;"+
 					// used for sorting output of Solve/Solutions/NSolve/NSolutions
 					// sort() doesn't work for list of lists
 					"ggbsort(x):=when(type(x[0])==DOM_LIST,x,sort(x));"+
@@ -78,7 +79,8 @@ public abstract class CASgiac implements CASGenericInterface {
 					"degasin(x):=normal(asin(x)/pi*180)*unicode0176u;"+
 					"degacos(x):=normal(acos(x)/pi*180)*unicode0176u;"+
 					"degatan(x):=normal(atan(x)/pi*180)*unicode0176u;"+
-					"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;";
+					"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;";					
+					
 
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
@@ -484,14 +486,31 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		 */
 
-		return script.append("[[").append(closeString).append("],[ff:=\"\"],[aa:=eliminate([").
+		return script.append("[[").append(closeString).append("],"+
+				/**
+				 * Bernard suggested to substitute eliminate() with an own implementation which directly computes gbasis
+				 * with revlex and then removes the unwanted polys from the result ideal. (Mathematically speaking,
+				 * we need the intersection of the result ideal and the polynomial ring over the free variables.)
+				 * Here is the new code. Note that here it is required to put the extra functions as one of the [...],[...]
+				 * steps, otherwise a Giac compilation error will occur. I tried to put them into specialFunctions,
+				 * but without any luck: either this code cannot see the definition (I get "undef") or the definition itself
+				 * reports a Giac compilation error.
+				 * 
+				 * Later Bernard may implement a fast version of eliminate() inside Giac natively. Then we can remove
+				 * these two lines and use eliminate() instead of myeliminate(). At the moment, eliminate() is slow
+				 * in Giac, that is why here we write our own code.
+				 */
+				"[containsvars(poly,varlist):={local ii; for (ii:=0; ii<size(varlist); ii++) { if (degree(poly,varlist[ii])>0) { return true } } return false}],"+
+				"[myeliminate(polylist,varlist):={local ii,jj,kk; kk:=[]; jj:=gbasis(polylist,varlist,revlex); for (ii:=0; ii<size(jj); ii++) { if (!containsvars(jj[ii],varlist)) { kk:=append(kk,jj[ii]) } } return kk }],"+
+		
+				"[ff:=\"\"],[aa:=myeliminate([").
 				append(polys).
 				append("],[").
 				append(elimVars).
 				append("])],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ").
 				append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);").
 				append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ").
-				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][5]")						
+				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][7]")						
 
 				.toString();
 		

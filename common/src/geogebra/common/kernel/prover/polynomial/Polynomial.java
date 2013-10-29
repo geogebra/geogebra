@@ -1093,6 +1093,9 @@ public class Polynomial implements Comparable<Polynomial> {
 			
 			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
 			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false);
+			// Consider uncomment this if Giac cannot find a readable NDG:
+			// elimVars = dependentVariables.toString().replaceAll(" ", "");
+			// elimVars = elimVars.substring(1, elimVars.length()-1);
 			elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
 			if (elimProgram == null) {
 				Log.info("Not implemented (yet)");
