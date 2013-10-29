@@ -209,6 +209,7 @@ public class TouchApp extends AppWeb {
 		clearConstruction();
 		this.touchGUI.allowEditing(true);
 		this.kernel.initUndoInfo();
+		this.setFontSize(15);
 		setDefaultConstructionTitle();
 
 		this.settings.beginBatch();
