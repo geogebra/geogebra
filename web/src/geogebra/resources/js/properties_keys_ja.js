@@ -2737,7 +2737,7 @@ __GGB__keysVar.ja.plain = {
     "stylebar_ViewXY": "View towards xOy plane",
     "stylebar_ViewXZ": "View towards xOz plane",
     "stylebar_ViewYZ": "View towards yOz plane",
-    "stylebar_xOyPlane": "Show or hide xOy plane",
+    "stylebar_xOyPlane": "xy\u5e73\u9762\u306e\u8868\u793a\uff0f\u975e\u8868\u793a",
     "svg": "Scalable Vector Graphics",
     "unequal": "\u7b49\u3057\u304f\u306a\u3044",
     "units": "unit(s)",
