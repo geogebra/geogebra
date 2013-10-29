@@ -6,6 +6,7 @@ body div {
 
 body {
 	background: url(../img/geogebraLogo.png) center center no-repeat #FFFFFF;
+	min-height: 768px;
 }
 
 /* HEADER */
