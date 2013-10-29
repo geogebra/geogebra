@@ -400,6 +400,13 @@ public abstract class CASgiac implements CASGenericInterface {
 	
 	public String createEliminateFactorizedScript(
 			String polys, String elimVars) {
+		// We will use non-geogebra mode statements from Giac:
+		try {
+			evaluateRaw(closeString);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/* Some examples to understand the code below:
 		 * 
 		 * [[aa:=eliminate([-1*v1,-1*v11*v10+v12*v9+v11*v8+-1*v9*v8+-1*v12*v7+v10*v7,v13*v8+-1*v14*v7,-1*v13+v13*v10+v9+-1*v14*v9,
@@ -486,7 +493,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		 */
 
-		return script.append("[[").append(closeString).append("],"+
+		return script.append("["+
 				/**
 				 * Bernard suggested to substitute eliminate() with an own implementation which directly computes gbasis
 				 * with revlex and then removes the unwanted polys from the result ideal. (Mathematically speaking,
@@ -510,7 +517,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				append("])],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ").
 				append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);").
 				append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ").
-				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][7]")						
+				append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],ff][6]")						
 
 				.toString();
 		
