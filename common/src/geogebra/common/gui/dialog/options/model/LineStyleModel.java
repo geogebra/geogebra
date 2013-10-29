@@ -13,11 +13,17 @@ public class LineStyleModel extends OptionsModel {
 	}
 	
 	private ILineStyleListener listener;
-	private static Integer[] lineStyleArray;
+	private static Integer[] lineStyleArray=null;
 	
+	public static void initStyleArray() {
+		if (lineStyleArray == null) {
+			lineStyleArray = getLineTypes();
+		}
+		
+	}
 	public LineStyleModel(ILineStyleListener listener) {
 		this.listener = listener;
-		lineStyleArray = getLineTypes();
+
 	}
 
 	private static final Integer[] getLineTypes() {
@@ -30,10 +36,12 @@ public class LineStyleModel extends OptionsModel {
 	}
 	
 	public static final Integer getStyleAt(int i) {
+		initStyleArray();
 		return lineStyleArray[i];
 	}
 	
 	public static final Integer getStyleCount() {
+		initStyleArray();
 		return lineStyleArray.length;
 	}
 	private int maxMinimumThickness() {
@@ -86,13 +94,16 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	
-	public void applyLineType(int index) {
-		int type = lineStyleArray[index];
+	public void applyLineType(int type) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineType(type);
 			geo.updateVisualStyleRepaint();
 		}
+	}
+	
+	public void applyLineTypeFromIndex(int index) {
+		applyLineType(lineStyleArray[index]);
 	}
 	@Override
 	public boolean checkGeos() {

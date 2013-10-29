@@ -6,7 +6,9 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
+import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
+import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoTableText;
@@ -40,6 +42,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -79,11 +83,77 @@ public class EuclidianStyleBarW extends StyleBarW
 	HashMap<Integer, Integer> pointStyleMap;
 
 
+	private class EuclidianLineStylePopup extends LineStylePopup implements ILineStyleListener {
+		private LineStyleModel model;
+		
+		public EuclidianLineStylePopup(AppW app, Object[] data, Integer rows,
+                Integer columns, GDimensionW iconSize, SelectionTable mode,
+                boolean hasTable, boolean hasSlider) {
+	        super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
+	        model = new LineStyleModel(this);
+	        this.setKeepVisible(false);
+	        getMySlider().addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyThickness(getSliderValue());	                
+                }});
+        }
+
+		
+		@Override
+		public void update(Object[] geos) {
+			model.setGeos(geos);
+
+			if (!model.hasGeos() ) {
+				return;
+			}
+
+			boolean geosOK = model.checkGeos(); 
+
+			this.setVisible(geosOK);
+
+			if (geosOK) {
+				setFgColor((GColorW) geogebra.common.awt.GColor.black);
+				model.updateProperties();
+				GeoElement geo0 = model.getGeoAt(0);
+				if (hasSlider()) {
+					setSliderValue(geo0.getLineThickness());
+				}
+
+				selectLineType(geo0.getLineType());
+				
+			}
+		}
+		
+		@Override
+		public void handlePopupActionEvent(){
+			model.applyLineTypeFromIndex(getSelectedIndex());
+			getMyPopup().hide();
+		};
+		
+		
+
+		public void setValue(int value) {
+			getMySlider().setValue(value);
+
+		}
+
+		public void setMinimum(int minimum) {
+			getMySlider().setMinimum(minimum);
+
+		}
+
+		public void selectCommonLineStyle(boolean equalStyle, int type) {
+			selectLineType(type);
+		}	    
+
+		
+	}
 	// buttons and lists of buttons
 	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
 	private PopupMenuButton btnPointStyle, btnTextSize, btnMode;
-	private LineStylePopup btnLineStyle;
+	private EuclidianLineStylePopup btnLineStyle;
 	PopupMenuButton btnTableTextJustify;
 
 	PopupMenuButton btnTableTextBracket;
@@ -604,62 +674,12 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// create line style icon array
 		// create button
-		btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, mode, true, null);
-		btnLineStyle.setModel(new LineStyleModel(btnLineStyle));
-		//		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
-//				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-//
-//			@Override
-//			public void update(Object[] geos) {
-//
-//				if (EuclidianView.isPenMode(mode)) {
-//					/*this.setVisible(true);
-//					setFgColor(ec.getPen().getPenColor());
-//					setSliderValue(ec.getPen().getPenSize());
-//					setSelectedIndex(lineStyleMap.get(ec.getPen()
-//							.getPenLineStyle()));*/
-//					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
-//				} else {
-//					boolean geosOK = (geos.length > 0);
-//					for (int i = 0; i < geos.length; i++) {
-//						GeoElement geo = ((GeoElement) geos[i])
-//								.getGeoElementForPropertiesDialog();
-//						if (!geo.showLineProperties()) {
-//							geosOK = false;
-//							break;
-//						}
-//					}
-//
-//					this.setVisible(geosOK);
-//
-//					if (geosOK) {
-//						// setFgColor(((GeoElement)geos[0]).getObjectColor());
-//
-//						setFgColor((GColorW) geogebra.common.awt.GColor.black);
-//						setSliderValue(((GeoElement) geos[0])
-//								.getLineThickness());
-//
-//						setSelectedIndex(lineStyleMap
-//								.get(((GeoElement) geos[0]).getLineType()));
-//
-//						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
-//					}
-//				}
-//			}
-//
-//			@Override
-//			public ImageData getButtonIcon() {
-//				if (getSelectedIndex() > -1) {
-//					return GeoGebraIcon.createLineStyleIcon(
-//							EuclidianStyleBarStatic.lineStyleArray[this.getSelectedIndex()],
-//							this.getSliderValue(), lineStyleIconSize,
-//							geogebra.common.awt.GColor.BLACK, null);
-//				}
-//				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.getWidth(),
-//						lineStyleIconSize.getHeight());
-//			}
-//
-//		};
+
+		LineStylePopup.setMode(mode);
+		EuclidianLineStylePopup.fillData(iconHeight);
+		btnLineStyle = new EuclidianLineStylePopup((AppW) app, LineStylePopup.getLineStyleIcons(), -1, 1,
+				LineStylePopup.getLineStyleIconSize(), geogebra.common.gui.util.SelectionTable.MODE_ICON,
+				true, true);
 
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);
@@ -1250,9 +1270,8 @@ public class EuclidianStyleBarW extends StyleBarW
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
 					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
-					btnLineStyle.apply();
-//					int selectedIndex = btnLineStyle.getSelectedIndex();
-//					int lineSize = btnLineStyle.getSliderValue();
+					// handled by the popup itself
+			//		int lineSize = btnLineStyle.getSliderValue();
 //					needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 

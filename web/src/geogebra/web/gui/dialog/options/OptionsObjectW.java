@@ -1016,15 +1016,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			FlowPanel stylePanel = new FlowPanel();
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, -1, false,
-					null);
+			btnLineStyle = LineStylePopup.create((AppW)app, iconHeight, -1, false);
 //			slider.setSnapToTicks(true);
-
-			btnLineStyle.setModel(new LineStyleModel(this));
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 
 				public void fireActionPerformed(Object actionButton) {
-	               model.applyLineType(btnLineStyle.getSelectedIndex());
+	               model.applyLineTypeFromIndex(btnLineStyle.getSelectedIndex());
 	                
                 }});
 			btnLineStyle.setKeepVisible(false);
