@@ -9,6 +9,7 @@ import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.CustomElements;
 import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.Dom;
@@ -68,6 +69,8 @@ public class Web implements EntryPoint {
 
 		
 		WebStatic.currentGUI = checkIfNeedToLoadGUI();
+		
+		CustomElements.registerGeoGebraWebElement();
 		
 		
 		

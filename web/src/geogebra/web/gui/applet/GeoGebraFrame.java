@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public abstract class GeoGebraFrame extends VerticalPanel {
 
+	private static final int BORDER_WIDTH = 2;
+	private static final int BORDER_HEIGHT = 2;
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
 
@@ -89,10 +91,10 @@ public abstract class GeoGebraFrame extends VerticalPanel {
 		}
 
 		if (width > 0 && height > 0) {
-			setWidth((width - 2) + "px"); // 2: border
+			setWidth((width - BORDER_WIDTH) + "px"); // 2: border
 			setDataParamWidth(ae.getDataParamWidth());
 			setDataParamHeight(ae.getDataParamHeight());
-			setHeight((height - 2) + "px"); // 2: border
+			setHeight((height - BORDER_HEIGHT) + "px"); // 2: border
 			splash.addStyleName("splash");
 			splash.getElement().getStyle()
 	        	.setTop((height / 2) - (splashHeight / 2), Unit.PX);
@@ -321,4 +323,95 @@ public abstract class GeoGebraFrame extends VerticalPanel {
 	public static int getInstanceCount() {
 		return instances.size();
 	}
+	
+	/**
+	 * @param width
+	 * 
+	 * sets the geogebra-web applet widht
+	 */
+	public void setWidth(int width) {
+		setWidth((width - BORDER_WIDTH) + "px");
+	}
+	
+	/**
+	 * @param height
+	 * 
+	 * sets the geogebra-web applet height
+	 */
+	public void setHeight(int height) {
+		setHeight((height - BORDER_HEIGHT) + "px");
+	}
+	
+	/**
+	 * @param width
+	 * @param height
+	 * 
+	 * sets the geogebra-web applet size (width, height)
+	 */
+	public void setSize(int width, int height) {
+		setPixelSize(width, height);
+	}
+	
+	/**
+	 * @param enable
+	 * wheter geogebra-web applet rightclick enabled or not
+	 */
+	public void enableRightClick(boolean enable) {
+		//TODO: enablerightclick
+	}
+	
+	/**
+	 * @param enable
+	 * 
+	 * wheter labels draggable in geogebra-web applets or not
+	 */
+	public void enableLabelDrags(boolean enable) {
+		//TODO: enablelabeldrags
+	}
+	
+	/**
+	 * @param enable
+	 * 
+	 * wheter shift - drag - zoom enabled in geogebra-web applets or not
+	 */
+	public void enableShiftDragZoom(boolean enable) {
+		//TODO: ebableshiftdragzooom
+	}
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the toolbar in geogebra-web applets or not
+	 */
+	public void showToolBar(boolean show) {
+		//TODO: showtoolbar
+	}
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the menubar in geogebra-web applets or not
+	 */
+	public void showMenuBar(boolean show) {
+		//TODO: showmenubar
+	}
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the algebrainput in geogebra-web applets or not
+	 */
+	public void showAlgebraInput(boolean show) {
+		//TODO: showalgebrainput
+	}
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the reseticon in geogebra-web applets or not
+	 */
+	public void showResetIcon(boolean show) {
+		//TODO: show reset icon
+	}
 }
+

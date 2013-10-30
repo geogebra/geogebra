@@ -9,7 +9,10 @@ import geogebra.common.GeoGebraConstants;
  */
 public final class CustomElements {
 	
-	public static boolean supported = false;
+	/**
+	 * wheter custom elements supported or not
+	 */
+	public static boolean supported = checkSupport();
 	
 	
 	
@@ -20,13 +23,16 @@ public final class CustomElements {
 		register(GeoGebraConstants.WEB_CUSTOM_HTML_ELEMENT_NAME);
 	}
 
+	private static native boolean checkSupport() /*-{
+	    return ("register" in $doc);
+    }-*/;
+
 	private static native void register(String element) /*-{
-	    if ($doc && $doc.register) {
+	    if (@geogebra.html5.util.CustomElements::supported) {    	
 	    	$doc.reqister(element);
-	    	@geogebra.html5.util.CustomElements::supported = true;
 	    } else {
-	    	@geogebra.html5.util.CustomElements::supported = false;
-	    	@geogebra.common.main.App::debug(Ljava/lang/String;)("Custom elements are not supported");
+	    	//TODO: fallback
+	    	$wnd.console.log("custom elements are not supported");
 	    }
     }-*/;
 
