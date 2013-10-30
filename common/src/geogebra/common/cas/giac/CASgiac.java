@@ -392,7 +392,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		
 		StringBuilder script = new StringBuilder();
 
-		return script.append("[").append(myeliminate+",[aa:=eliminate([").
+		return script.append("[").append(myeliminate+",[aa:=myeliminate([").
 				append(constructRestrictions).
 				append("],[").
 				append(varsToEliminate).
