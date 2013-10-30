@@ -81,7 +81,9 @@ public abstract class CASgiac implements CASGenericInterface {
 					"degatan(x):=normal(atan(x)/pi*180)*unicode0176u;"+
 					"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;";					
 					
-
+	protected final String myeliminate = "[containsvars(poly,varlist):={local ii; for (ii:=0; ii<size(varlist); ii++) { if (degree(poly,varlist[ii])>0) { return true } } return false}],"+
+	"[myeliminate(polylist,varlist):={local ii,jj,kk; kk:=[]; jj:=gbasis(polylist,varlist,revlex); for (ii:=0; ii<size(jj); ii++) { if (!containsvars(jj[ii],varlist)) { kk:=append(kk,jj[ii]) } } return kk }]";
+	
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
@@ -379,9 +381,18 @@ public abstract class CASgiac implements CASGenericInterface {
 	public String createLocusEquationScript(
 			String constructRestrictions,
 			String vars, String varsToEliminate) {
+		
+		// We will use non-geogebra mode statements from Giac:
+		try {
+			evaluateRaw(closeString);
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		StringBuilder script = new StringBuilder();
 
-		return script.append("[[").append(closeString).append("],[aa:=eliminate([").
+		return script.append("[").append(myeliminate+",[aa:=eliminate([").
 				append(constructRestrictions).
 				append("],[").
 				append(varsToEliminate).
@@ -391,7 +402,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);").
 				append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];").
 				append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;").
-				append("cc:=append(cc,ee); od; od], cc][6][0]")
+				append("cc:=append(cc,ee); od; od], cc][7][0]")
 				// See CASTranslator.createSingularScript for more details.
 
 				.toString();
@@ -507,9 +518,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				 * these two lines and use eliminate() instead of myeliminate(). At the moment, eliminate() is slow
 				 * in Giac, that is why here we write our own code.
 				 */
-				"[containsvars(poly,varlist):={local ii; for (ii:=0; ii<size(varlist); ii++) { if (degree(poly,varlist[ii])>0) { return true } } return false}],"+
-				"[myeliminate(polylist,varlist):={local ii,jj,kk; kk:=[]; jj:=gbasis(polylist,varlist,revlex); for (ii:=0; ii<size(jj); ii++) { if (!containsvars(jj[ii],varlist)) { kk:=append(kk,jj[ii]) } } return kk }],"+
-		
+				myeliminate+","+
 				"[ff:=\"\"],[aa:=myeliminate([").
 				append(polys).
 				append("],[").
