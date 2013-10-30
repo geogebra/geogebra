@@ -32,6 +32,8 @@ import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
+import geogebra.common.gui.dialog.options.model.IneqStyleModel;
+import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -223,7 +225,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private TracePanel tracePanel;
 	private AnimatingPanel animatingPanel;
 	private FixPanel fixPanel;
-	private IneqStylePanel ineqStylePanel;
+	private IneqPanel ineqStylePanel;
 	private CheckBoxFixPanel checkBoxFixPanel;
 	private AllowReflexAnglePanel allowReflexAnglePanel;
 	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
@@ -313,7 +315,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel(); // Florian Sonner 2008-07-12
-		ineqStylePanel = new IneqStylePanel(this);
+		ineqStylePanel = new IneqPanel();
 		textOptionsPanel = new TextOptionsPanel();
 		arcSizePanel = new ArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
@@ -854,9 +856,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			Object source = e.getItemSelectable();
 
 			if (source == checkbox) {
-				model.applyChanges(checkbox.isSelected());
-				updateSelection(model.getGeos());
+				apply(checkbox.isSelected());
 			}	
+		}
+		
+		public void apply(boolean value) {
+			model.applyChanges(value);
+			updateSelection(model.getGeos());
+	
 		}
 		
 		public void updateCheckbox(boolean value) {
@@ -1074,6 +1081,27 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
  	} // CheckBoxFixPanel
 
+	private class IneqPanel extends CheckboxPanel implements IIneqStyleListener {
+
+		private static final long serialVersionUID = 1L;
+		
+		public IneqPanel() {
+			super(app.getPlain("ShowOnXAxis"));
+			setModel(new IneqStyleModel(this));
+			app.setFlowLayoutOrientation(this);
+		}
+
+		public void enableFilling(boolean value) {
+			fillingPanel.setAllEnabled(value);
+		}
+		
+		@Override
+		public void apply(boolean value) {
+			super.apply(value);
+			enableFilling(value);
+		}
+
+ 	} // IneqPanel
 	/**
 	 * panel color chooser and preview panel
 	 */

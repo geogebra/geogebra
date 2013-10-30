@@ -16,6 +16,8 @@ import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
+import geogebra.common.gui.dialog.options.model.IneqStyleModel;
+import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -114,6 +116,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private LineStylePanel lineStylePanel;
 	private AngleArcSizePanel angleArcSizePanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
+	private IneqPanel ineqStylePanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -1167,6 +1170,27 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
+
+	private class IneqPanel extends CheckboxPanel implements IIneqStyleListener {
+
+		private static final long serialVersionUID = 1L;
+		
+		public IneqPanel() {
+			super(app.getPlain("ShowOnXAxis"));
+			setModel(new IneqStyleModel(this));
+		}
+
+		public void enableFilling(boolean value) {
+		//	fillingPanel.setAllEnabled(value);
+		}
+		
+//		@Override
+//		public void apply(boolean value) {
+//			super.apply(value);
+//			enableFilling(!value);
+//		}
+
+ 	} // IneqPanel
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1303,12 +1327,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		lineStylePanel = new LineStylePanel();
 		angleArcSizePanel = new AngleArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
+		ineqStylePanel = new IneqPanel();
 		
 		stylePanels = Arrays.asList(pointSizePanel,
 				pointStylePanel,
 				lineStylePanel,
 				angleArcSizePanel,
-				slopeTriangleSizePanel);
+				slopeTriangleSizePanel,
+				ineqStylePanel);
 		
 		for (OptionPanel panel: stylePanels) {
 			styleTab.add(panel.getWidget());
