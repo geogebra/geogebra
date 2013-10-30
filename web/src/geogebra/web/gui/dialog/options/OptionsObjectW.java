@@ -16,6 +16,7 @@ import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
+import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -39,6 +40,7 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListene
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
+import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.Kernel;
@@ -108,15 +110,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	// Style
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel;
+	private LineStylePanel lineStylePanel;
+	private AngleArcSizePanel angleArcSizePanel;
+	private SlopeTriangleSizePanel slopeTriangleSizePanel;
+	private IneqPanel ineqStylePanel;
+	private TextFieldSizePanel textFieldSizePanel;
 	private List<OptionPanel> stylePanels;
 
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
-	private LineStylePanel lineStylePanel;
-	private AngleArcSizePanel angleArcSizePanel;
-	private SlopeTriangleSizePanel slopeTriangleSizePanel;
-	private IneqPanel ineqStylePanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -1191,6 +1194,53 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 //		}
 
  	} // IneqPanel
+	
+	private class TextFieldSizePanel extends OptionPanel implements ITextFieldListener {
+
+		private TextFieldSizeModel model;
+		private InputPanelW inputPanel;
+		private Label title;
+		private AutoCompleteTextFieldW tfSize;
+		public TextFieldSizePanel(AppW app) {
+			model = new TextFieldSizeModel(app, this);
+			setModel(model);
+
+			FlowPanel mainPanel = new FlowPanel();
+			title = new Label("Hejj!");
+			mainPanel.add(title);
+			
+			inputPanel = new InputPanelW(null, app, 1, -1, false);
+			tfSize = (AutoCompleteTextFieldW) inputPanel.getTextComponent();
+			tfSize.setAutoComplete(false);
+			tfSize.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
+					model.applyChanges(tfSize.getText());
+				}	
+			});
+			tfSize.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						model.applyChanges(tfSize.getText());
+					}
+				}});
+			mainPanel.add(inputPanel);
+			setWidget(mainPanel);
+			setLabels();
+
+		}
+		public void setText(String text) {
+			tfSize.setText(text);
+        }
+
+		@Override
+        public void setLabels() {
+	        title.setText(app.getPlain("TextfieldLength"));
+        }
+		
+	}
+	
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1328,13 +1378,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		angleArcSizePanel = new AngleArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		ineqStylePanel = new IneqPanel();
+		textFieldSizePanel = new TextFieldSizePanel((AppW)app);
 		
 		stylePanels = Arrays.asList(pointSizePanel,
 				pointStylePanel,
 				lineStylePanel,
 				angleArcSizePanel,
 				slopeTriangleSizePanel,
-				ineqStylePanel);
+				ineqStylePanel,
+				textFieldSizePanel);
 		
 		for (OptionPanel panel: stylePanels) {
 			styleTab.add(panel.getWidget());

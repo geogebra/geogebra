@@ -32,6 +32,7 @@ import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
+import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -54,6 +55,7 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListene
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
+import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -80,7 +82,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.kernelND.CoordStyle;
@@ -6051,19 +6052,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
  * @author Michael
  */
 class TextfieldSizePanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+		ITextFieldListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private Object[] geos; // currently selected geos
+	private TextFieldSizeModel model;
 	private JLabel label;
 	private MyTextField tfTextfieldSize;
-
-	private Kernel kernel;
-
+	private AppD app;
 	public TextfieldSizePanel(AppD app) {
-		kernel = app.getKernel();
-
+		this.app = app;
+		model = new TextFieldSizeModel(app, this);
 		// text field for textfield size
 		label = new JLabel();
 		tfTextfieldSize = new MyTextField(app, 5);
@@ -6084,48 +6084,22 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		label.setText(kernel.getApplication().getPlain("TextfieldLength")
+		label.setText(app.getPlain("TextfieldLength")
 				+ ": ");
 	}
 
 	public JPanel update(Object[] geos) {
-		this.geos = geos;
-		if (!checkGeos(geos))
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
 			return null;
+		}
 
 		tfTextfieldSize.removeActionListener(this);
 
-		// check if properties have same values
-		GeoTextField temp, geo0 = (GeoTextField) geos[0];
-		boolean equalSize = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoTextField) geos[i];
-			// same object visible value
-			if (geo0.getLength() != temp.getLength())
-				equalSize = false;
-		}
-
-		if (equalSize) {
-			tfTextfieldSize.setText(geo0.getLength() + "");
-		} else
-			tfTextfieldSize.setText("");
-
+		model.updateProperties();
+		
 		tfTextfieldSize.addActionListener(this);
 		return this;
-	}
-
-	private static boolean checkGeos(Object[] geos) {
-		boolean geosOK = true;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!(geo instanceof GeoTextField)) {
-				geosOK = false;
-				break;
-			}
-		}
-
-		return geosOK;
 	}
 
 	/**
@@ -6137,16 +6111,8 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 	}
 
 	private void doActionPerformed() {
-		NumberValue newVal = kernel.getAlgebraProcessor().evaluateToNumeric(
-				tfTextfieldSize.getText(), true);
-		if (newVal != null && !Double.isNaN(newVal.getDouble())) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoTextField geo = (GeoTextField) geos[i];
-				geo.setLength((int) newVal.getDouble());
-				geo.updateRepaint();
-			}
-		}
-		update(geos);
+		model.applyChanges(tfTextfieldSize.getText());
+		update(model.getGeos());
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -6164,6 +6130,11 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setText(String text) {
+		tfTextfieldSize.setText(text);
+		
 	}
 }
 
