@@ -179,12 +179,12 @@ public class DrawEquationWeb extends DrawEquation {
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
 		drawEquationMathQuill(ih, eqstring, 0, 0, parentElement, true,
-		        el == eqstring.length(), true);
+		        el == eqstring.length(), true, 0);
 	}
 
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString, GFont font, boolean serif,
-	        GColor fgColor, GColor bgColor, boolean useCache) {
+	        GColor fgColor, GColor bgColor, boolean useCache, double rotateDegree) {
 
 		// which?
 		int fontSize = g2.getFont().getSize();
@@ -293,7 +293,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 			drawEquationMathQuill(ih, eqstring, fontSize, fontSizeR,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
-					true, el == eqstring.length(), visible1 || visible2);
+					true, el == eqstring.length(), visible1 || visible2, rotateDegree);
 
 			equations.put(eqstringid, ih);
 
@@ -321,7 +321,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
-		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != fontSizeR)) {
+		if (((Browser.isFirefox() || Browser.isIE()) && (fontSize != fontSizeR)) || rotateDegree != 0) {
 			return new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
 					(int)Math.ceil(getScaledHeight(ih)));
 		}
@@ -334,6 +334,9 @@ public class DrawEquationWeb extends DrawEquation {
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
+			if (ell.lastChild) {//elsecondInside
+				ell = ell.lastChild;
+			}
 		}
 		if (ell.getBoundingClientRect) {
 			var cr = ell.getBoundingClientRect();
@@ -350,6 +353,9 @@ public class DrawEquationWeb extends DrawEquation {
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
+			if (ell.lastChild) {//elsecondInside
+				ell = ell.lastChild;
+			}
 		}
 		if (ell.getBoundingClientRect) {
 			var cr = ell.getBoundingClientRect();
@@ -379,7 +385,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the beginning
 	 */
 	public static native void drawEquationMathQuill(Element el, String htmlt, int fontSize, int fontSizeRel,
-	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible) /*-{
+	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible, double rotateDegree) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -407,21 +413,28 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 		if (addOverlay) {
 			var elfirst = $doc.createElement("div");
-			elfirst.style.position = "absolute";
-			elfirst.style.zIndex = 2;
-			elfirst.style.width = "100%";
-			elfirst.style.height = "100%";
-			if (fontSizeRel != 0) {
-				elfirst.style.fontSize = fontSizeRel + "px";
-			}
 			el.appendChild(elfirst);
 		}
 
-		var elsecond = $doc.createElement("span");
-		elsecond.innerHTML = htmlt;
+		var elsecond = $doc.createElement("div");
+
+		var elthirdBefore = $doc.createElement("span");
+		elthirdBefore.style.position = "absolute";
+		elthirdBefore.style.zIndex = 2;
+		elthirdBefore.style.top = "0px";
+		elthirdBefore.style.bottom = "0px";
+		elthirdBefore.style.left = "0px";
+		elthirdBefore.style.right = "0px";
+		elsecond.appendChild(elthirdBefore);		
+
+		var elsecondInside = $doc.createElement("span");
+		elsecondInside.innerHTML = htmlt;
+
 		if (fontSizeRel != 0) {
 			elsecond.style.fontSize = fontSizeRel + "px";
 		}
+
+		elsecond.appendChild(elsecondInside);
 		el.appendChild(elsecond);
 
 		if (!visible) {
@@ -431,11 +444,11 @@ public class DrawEquationWeb extends DrawEquation {
 		parentElement.appendChild(el);
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecond).mathquill();
+			$wnd.$ggbQuery(elsecondInside).mathquill();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
+				$wnd.$ggbQuery(elsecondInside).mathquill('latex', htmlt);
 			}, 500);
 
 			// it's not ok for IE8, but it's good for ie9 and above
@@ -447,7 +460,7 @@ public class DrawEquationWeb extends DrawEquation {
 			//	}
 			//}, false);
 		} else {
-			$wnd.$ggbQuery(elsecond).mathquill('eqnarray');
+			$wnd.$ggbQuery(elsecondInside).mathquill('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
@@ -460,20 +473,49 @@ public class DrawEquationWeb extends DrawEquation {
 
 		if ((fontSize != 0) && (fontSizeRel != 0) && (fontSize != fontSizeRel)) {
 			// floating point division in JavaScript!
-			var sfactor = fontSize / fontSizeRel;
-			elsecond.style.zoom = sfactor;
-			elsecond.style.MsZoom = sfactor;
-			elsecond.style.MozTransform = "scale(" + sfactor + ")";
+			var sfactor = "scale(" + (fontSize / fontSizeRel) + ")";
+
+			elsecond.style.transform = sfactor;
+			elsecond.style.MozTransform = sfactor;
+			elsecond.style.MsTransform = sfactor;
+			elsecond.style.OTransform = sfactor;
+			elsecond.style.WebkitTransform = sfactor;
+
+			elsecond.style.transformOrigin = "0px 0px";
 			elsecond.style.MozTransformOrigin = "0px 0px";
-			elsecond.style.OTransform = "scale(" + sfactor + ")";
+			elsecond.style.MsTransformOrigin = "0px 0px";
 			elsecond.style.OTransformOrigin = "0px 0px";
+			elsecond.style.WebkitTransformOrigin = "0px 0px";
+		}
+
+		if (rotateDegree != 0) {
+
+			var rfactor = "rotate(" + rotateDegree + "deg)";
+
+			elsecondInside.style.transform = rfactor;
+			elsecondInside.style.MozTransform = rfactor;
+			elsecondInside.style.MsTransform = rfactor;
+			elsecondInside.style.OTransform = rfactor;
+			elsecondInside.style.WebkitTransform = rfactor;
+
+			elsecondInside.style.transformOrigin = "center center";
+			elsecondInside.style.MozTransformOrigin = "center center";
+			elsecondInside.style.MsTransformOrigin = "center center";
+			elsecondInside.style.OTransformOrigin = "center center";
+			elsecondInside.style.WebkitTransformOrigin = "center center";
+
 			if (addOverlay) {
-				elfirst.style.zoom = sfactor;
-				elfirst.style.MsZoom = sfactor;
-				elfirst.style.MozTransform = "scale(" + sfactor + ")";
-				elfirst.style.MozTransformOrigin = "0px 0px";
-				elfirst.style.OTransform = "scale(" + sfactor + ")";
-				elfirst.style.OTransformOrigin = "0px 0px";
+				elthirdBefore.style.transform = rfactor;
+				elthirdBefore.style.MozTransform = rfactor;
+				elthirdBefore.style.MsTransform = rfactor;
+				elthirdBefore.style.OTransform = rfactor;
+				elthirdBefore.style.WebkitTransform = rfactor;
+
+				elthirdBefore.style.transformOrigin = "center center";
+				elthirdBefore.style.MozTransformOrigin = "center center";
+				elthirdBefore.style.MsTransformOrigin = "center center";
+				elthirdBefore.style.OTransformOrigin = "center center";
+				elthirdBefore.style.WebkitTransformOrigin = "center center";
 			}
 		}
 	}-*/;
@@ -494,11 +536,12 @@ public class DrawEquationWeb extends DrawEquation {
 		elfirst.style.display = 'none';
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.firstChild;
 
-		$wnd.$ggbQuery(elsecond).mathquill('revert').mathquill('editable').focus();
+		$wnd.$ggbQuery(elsecondInside).mathquill('revert').mathquill('editable').focus();
 
 		$wnd
-				.$ggbQuery(elsecond)
+				.$ggbQuery(elsecondInside)
 				.keyup(
 						function(event) {
 							var code = 13;
@@ -522,7 +565,7 @@ public class DrawEquationWeb extends DrawEquation {
 		mousein.mout = false;
 		$wnd.mousein = mousein;
 		$wnd
-				.$ggbQuery(elsecond)
+				.$ggbQuery(elsecondInside)
 				.focusout(
 						function(event) {
 							if ($wnd.mousein.mout) {
@@ -542,8 +585,9 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void escEditingEquationMathQuill(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.firstChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecond);
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = null;
 		elsecond.previousSibling.style.display = "block";
 		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
@@ -553,8 +597,9 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void endEditingEquationMathQuill(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.firstChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecond);
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquill('text');
 		elsecond.previousSibling.style.display = "block";
 		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
@@ -576,16 +621,17 @@ public class DrawEquationWeb extends DrawEquation {
 	        Element parentElement, boolean noEqnArray) /*-{
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.firstChild;
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
+			$wnd.$ggbQuery(elsecondInside).mathquill('revert').html(htmlt).mathquill();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elsecond).mathquill('latex', htmlt);
+				$wnd.$ggbQuery(elsecondInside).mathquill('latex', htmlt);
 			});
 		} else {
-			$wnd.$ggbQuery(elsecond).mathquill('revert').html(htmlt).mathquill(
+			$wnd.$ggbQuery(elsecondInside).mathquill('revert').html(htmlt).mathquill(
 					'eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
