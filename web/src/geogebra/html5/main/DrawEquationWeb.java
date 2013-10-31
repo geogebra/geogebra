@@ -192,7 +192,6 @@ public class DrawEquationWeb extends DrawEquation {
 		if (latexString == null)
 			return null;
 
-		// rotation seems to be clockwise
 		double rotateDegree = 0;
 
 		if (latexString.startsWith("\\rotatebox{")) {
@@ -215,6 +214,12 @@ public class DrawEquationWeb extends DrawEquation {
 				// chop "text", seems to prevent the sqrt sign showing
 				latexString = latexString.substring(7);
 				latexString = latexString.substring(0, latexString.length() - 3);
+
+				// put back "\\text{ " if it is not harmful
+				if (latexString.indexOf("{") <= 0 && latexString.indexOf("\\") <= 0 && latexString.indexOf("}") <= 0) {
+					// heuristics: no latex
+					latexString = "\\text{ " + latexString + " } ";
+				}
 			}
 		}
 
