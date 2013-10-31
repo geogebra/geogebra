@@ -64,10 +64,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 			// dimWidth and dimHeight are the scaled and rotated dims...
 			// only the scaled, but not rotated versions should be computed from them:
 
-			double helper = Math.cos(rotateDegreeForTrig);
-			helper *= helper;
-			helper -= Math.sin(rotateDegreeForTrig) * Math.sin(rotateDegreeForTrig);
-
+			double helper = Math.cos(2 * rotateDegreeForTrig);
 			double dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
 			double dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
 
