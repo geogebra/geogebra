@@ -6,6 +6,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
@@ -784,9 +785,9 @@ public class DrawEquationWeb extends DrawEquation {
 			if (rotateDegreeForTrig > 90)
 				rotateDegreeForTrig = 180 - rotateDegreeForTrig;
 
-			// Now rotateDegreeForTrig is between 0 and 90 degrees
-
 			rotateDegreeForTrig *= Math.PI / 180;
+
+			double helper = Math.cos(2 * rotateDegreeForTrig);
 
 			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
 			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
@@ -794,9 +795,15 @@ public class DrawEquationWeb extends DrawEquation {
 			// dimWidth and dimHeight are the scaled and rotated dims...
 			// only the scaled, but not rotated versions should be computed from them:
 
-			double helper = Math.cos(2 * rotateDegreeForTrig);
-			double dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
-			double dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
+			double dimHeight0;
+			double dimWidth0;
+			if (Kernel.isZero(helper, Kernel.MIN_PRECISION)) {
+				// PI/4, PI/4
+				dimWidth0 = dimHeight0 = Math.sqrt(2) * dimHeight / 2;
+			} else {
+				dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
+				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
+			}
 
 			// dimHeight0 and dimWidth0 are the values this algorithm needs
 
