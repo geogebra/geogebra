@@ -86,12 +86,6 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 			copyToLibreOfficeItem.addActionListener(this);
 			add(copyToLibreOfficeItem);
 
-			JMenuItem copyToFormulaItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsFormula"));
-			copyToFormulaItem.setActionCommand("copyAsMath");
-			copyToFormulaItem.addActionListener(this);
-			add(copyToFormulaItem);
-			
 			JMenuItem copyToImageItem = new JMenuItem(
 					table.getApplication().getMenu("CopyAsImage"));
 			copyToImageItem.setActionCommand("copyAsImage");
@@ -123,7 +117,9 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		if (ac.equals("copy")) {
 			data = new StringSelection(
-					value.getOutput(StringTemplate.defaultTemplate));
+                    // use xmlTemplate so that sin(2x) -> sin(2*x) 
+					// so that it can be pasted into other software 
+					value.getOutput(StringTemplate.xmlTemplate));
 		} else if (ac.equals("copyAsLatex")) {
 			String latexOutput = value.getLaTeXOutput();
 			data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
@@ -132,10 +128,6 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		} else if (ac.equals("copyAsLibreOfficeMath")) {
 			String libreofficeOutput = value.getOutput(StringTemplate.libreofficeTemplate);
 			data = new StringSelection(libreofficeOutput);
-
-		} else if (ac.equals("copyAsMath")) {
-			String formulaOutput = value.getOutput(StringTemplate.giacTemplate);
-			data = new StringSelection(formulaOutput);
 
 		} else if (ac.equals("copyAsImage")) {
 			ImageIcon latexIcon = new ImageIcon();
