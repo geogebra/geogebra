@@ -463,7 +463,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			app.getDrawEquation().drawEquation(this.app, null,
 					new geogebra.awt.GGraphics2DD(g2d), 0, 0, "x^{2}",
 					new geogebra.awt.GFontD(g2d.getFont()), false, GColor.BLACK,
-					GColor.WHITE, false, 0);
+					GColor.WHITE, false);
 
 			if (!app.isApplet()) {
 				app.getPythonBridge();

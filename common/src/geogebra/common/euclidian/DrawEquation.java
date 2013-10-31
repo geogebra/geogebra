@@ -156,7 +156,7 @@ public abstract class DrawEquation {
 	public abstract geogebra.common.awt.GDimension drawEquation(App app,
 			GeoElement geo, geogebra.common.awt.GGraphics2D g2, int x, int y, String text,
 			geogebra.common.awt.GFont font, boolean serif, geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor,
-			boolean useCache, double rotateDegree); 
+			boolean useCache); 
 
 
 

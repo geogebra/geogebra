@@ -320,7 +320,7 @@ public class DrawEquationD extends DrawEquation {
 			final GeoElement geo, final geogebra.common.awt.GGraphics2D g2, final int x, final int y, final String text,
 			final geogebra.common.awt.GFont font, final boolean serif, final geogebra.common.awt.GColor fgColor,
 			final geogebra.common.awt.GColor bgColor,
-			final boolean useCache, double rotateDegree) {
+			final boolean useCache) {
 		return new geogebra.awt.GDimensionD(drawEquation((AppD) app, geo,
 				geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
 				bgColor, useCache, null, null));
@@ -372,7 +372,7 @@ public class DrawEquationD extends DrawEquation {
 				new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex,
 				new geogebra.awt.GFontD(font), serif,
 				new geogebra.awt.GColorD(fgColor),
-				new geogebra.awt.GColorD(bgColor), true, 0);
+				new geogebra.awt.GColorD(bgColor), true);
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage(d.getWidth(), d.getHeight(),
@@ -388,7 +388,7 @@ public class DrawEquationD extends DrawEquation {
 				new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex,
 				new geogebra.awt.GFontD(font), serif,
 				new geogebra.awt.GColorD(fgColor),
-				new geogebra.awt.GColorD(bgColor), true, 0);
+				new geogebra.awt.GColorD(bgColor), true);
 
 		latexIcon.setImage(image);
 	}

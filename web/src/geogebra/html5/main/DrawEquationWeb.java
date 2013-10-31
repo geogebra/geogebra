@@ -185,7 +185,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
-	        GColor fgColor, GColor bgColor, boolean useCache, double rotateDegree0) {
+	        GColor fgColor, GColor bgColor, boolean useCache) {
 
 		String latexString = latexString0;
 
@@ -542,7 +542,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		if (rotateDegree != 0) {
 
-			var rfactor = "rotate(" + rotateDegree + "deg)";
+			var rfactor = "rotate(-" + rotateDegree + "deg)";
 
 			elsecondInside.style.transform = rfactor;
 			elsecondInside.style.MozTransform = rfactor;
