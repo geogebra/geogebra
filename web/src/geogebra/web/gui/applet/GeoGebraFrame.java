@@ -331,7 +331,8 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * sets the geogebra-web applet widht
 	 */
 	public void setWidth(int width) {
-		setWidth((width - BORDER_WIDTH) + "px");
+		setWidth(width + "px");
+		app.getGuiManager().resize(width, getOffsetHeight());
 	}
 	
 	/**
@@ -340,7 +341,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * sets the geogebra-web applet height
 	 */
 	public void setHeight(int height) {
-		setHeight((height - BORDER_HEIGHT) + "px");
+		setHeight(height + "px");
+		app.getGuiManager().resize(getOffsetWidth(), height);
+
 	}
 	
 	/**
@@ -351,6 +354,8 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 */
 	public void setSize(int width, int height) {
 		setPixelSize(width, height);
+		app.getGuiManager().resize(width, height);
+
 	}
 	
 	/**

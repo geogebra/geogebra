@@ -572,5 +572,89 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	public void setWidth(int width) {
 		((AppWeb) app).getAppletFrame().setWidth(width);
 	}
+	
+	/**
+	 * @param height
+	 * sets the applet height
+	 */
+	public void setHeight(int height) {
+		((AppWeb) app).getAppletFrame().setHeight(height);
+	}
+	
+	/**
+	 * @param width height
+	 * @param height width
+	 * 
+	 * Sets the size of the applet
+	 */ 
+	public void setSize(int width, int height) {
+		((AppWeb) app).getAppletFrame().setSize(width, height);
+	}
+	
+	/**
+	 * @param enable
+	 * wheter geogebra-web applet rightclick enabled or not
+	 */
+	public void enableRightClick(boolean enable) {
+		((AppWeb) app).getAppletFrame().enableRightClick(enable);
+    }
+	
+	/**
+	 * @param enable
+	 * 
+	 * wheter labels draggable in geogebra-web applets or not
+	 */
+	public void enableLabelDrags(boolean enable) {
+		((AppWeb) app).getAppletFrame().enableLabelDrags(enable);
+    }
+	
+	/**
+	 * @param enable
+	 * 
+	 * wheter shift - drag - zoom enabled in geogebra-web applets or not
+	 */
+	public void enableShiftDragZoom(boolean enable) {
+		((AppWeb) app).getAppletFrame().enableShiftDragZoom(enable);
+    }
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the toolbar in geogebra-web applets or not
+	 */
+	public void showToolBar(boolean show) {
+		((AppWeb) app).getAppletFrame().showToolBar(show);
+    }
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the menubar in geogebra-web applets or not
+	 */
+	public void showMenuBar(boolean show) {
+		((AppWeb) app).getAppletFrame().showMenuBar(show);
+    }
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the algebrainput in geogebra-web applets or not
+	 */
+	public void showAlgebraInput(boolean show) {
+		((AppWeb) app).getAppletFrame().showAlgebraInput(show);
+    }
+	
+	/**
+	 * @param show
+	 * 
+	 * wheter show the reseticon in geogebra-web applets or not
+	 */
+	public void showResetIcon(boolean show) {
+		((AppWeb) app).getAppletFrame().showResetIcon(show);
+    }
+	
+	
+	 
+	 
 
 }

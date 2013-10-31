@@ -19,7 +19,7 @@ public final class ArticleElement extends Element {
 	 * @return
 	 */
 	public static ArticleElement as(Element element) {
-		assert element.getTagName().equalsIgnoreCase(TAG);
+		//assert element.getTagName().equalsIgnoreCase(TAG);
 		return (ArticleElement) element;
 	}
 

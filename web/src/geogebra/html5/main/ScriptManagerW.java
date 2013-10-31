@@ -423,6 +423,48 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::startEditing()();
 		};
 		
+		$wnd[ggbApplet].setWidth = function(width){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::setWidth(I)(width);
+		};
+		
+		$wnd[ggbApplet].setHeight = function(height){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::setHeight(I)(height);
+		};
+		
+		$wnd[ggbApplet].setSize = function(width, height){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::setSize(II)(width, height);
+		};
+		
+		$wnd[ggbApplet].enableRightClick = function(enable){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::enableRightClick(Z)(enable);
+		};
+		
+		$wnd[ggbApplet].enableLabelDrags = function(enable){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::enableLabelDrags(Z)(enable);
+		};
+		
+		$wnd[ggbApplet].enableShiftDragZoom = function(enable){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::enableShiftDragZoom(Z)(enable);
+		};
+		
+		$wnd[ggbApplet].showToolBar = function(show){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::showToolBar(Z)(show);
+		};
+		
+		$wnd[ggbApplet].showMenuBar = function(show){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::showMenuBar(Z)(show);
+		};
+		
+		$wnd[ggbApplet].showAlgebraInput = function(show){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::showAlgebraInput(Z)(show);
+		};
+		
+		$wnd[ggbApplet].showResetIcon = function(show){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::showResetIcon(Z)(show);
+		};
+		
+		
+		
 		$doc[ggbApplet] = $wnd[ggbApplet];
 
 		// other methods from the Wiki (consider to implement here)

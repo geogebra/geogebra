@@ -421,12 +421,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void resize(int width, int height) {
-		//this.width = width;
-		//this.height = height;
-
-		// experimental resize of canvas
-		// app.getEuclidianView1().setPreferredSize(width, height);
-		App.debug("why not use Settings for that?");
+		App.debug("TODO: resize somehow sane");
 	}
 
 	public ToolBarW getGeneralToolbar() {
