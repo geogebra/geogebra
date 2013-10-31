@@ -92,6 +92,12 @@ public class DrawEquationWeb extends DrawEquation {
 			        + eqstring.substring(index1 + 6, index2) + "}"
 			        + eqstring.substring(index2 + 1);
 		}
+		
+		// avoid grey rectangle
+		if (eqstring.trim().equals("")) {
+			eqstring = "\\text{}";
+		}
+		
 		return eqstring;
 	}
 
