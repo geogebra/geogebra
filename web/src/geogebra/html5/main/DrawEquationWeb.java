@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
@@ -183,8 +184,39 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
-	        int x, int y, String latexString, GFont font, boolean serif,
-	        GColor fgColor, GColor bgColor, boolean useCache, double rotateDegree) {
+	        int x, int y, String latexString0, GFont font, boolean serif,
+	        GColor fgColor, GColor bgColor, boolean useCache, double rotateDegree0) {
+
+		String latexString = latexString0;
+
+		if (latexString == null)
+			return null;
+
+		// rotation seems to be clockwise
+		double rotateDegree = 0;
+
+		if (latexString.startsWith("\\rotatebox{")) {
+			// getting rotation degree...
+
+			// chop "\\rotatebox{"
+			latexString = latexString.substring(11);
+
+			// get value
+			int index = latexString.indexOf("}{ ");
+			rotateDegree = Double.parseDouble(latexString.substring(0, index));
+
+			// chop "}{"
+			latexString = latexString.substring(index + 3);
+
+			// chop " }"
+			latexString = latexString.substring(0, latexString.length() - 2);
+
+			if (latexString.startsWith("\\text{ ")) {
+				// chop "text", seems to prevent the sqrt sign showing
+				latexString = latexString.substring(7);
+				latexString = latexString.substring(0, latexString.length() - 3);
+			}
+		}
 
 		// which?
 		int fontSize = g2.getFont().getSize();
@@ -310,6 +342,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
 			// otherwise do not set it invisible, just leave everything as it is
 		}
+
 		if (visible1 || visible2) {
 			// if it's not visible, leave at its previous place to prevent lag
 			ih.getStyle().setLeft(x, Style.Unit.PX);
@@ -326,13 +359,27 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
+		GDimension ret = null;
+
 		if (((Browser.isFirefox() || Browser.isIE()) && (fontSize != fontSizeR)) || rotateDegree != 0) {
-			return new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
+			ret = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
 					(int)Math.ceil(getScaledHeight(ih)));
+		} else {
+			ret = new geogebra.html5.awt.GDimensionW(ih.getOffsetWidth(),
+					ih.getOffsetHeight());
 		}
 
-		return new geogebra.html5.awt.GDimensionW(ih.getOffsetWidth(),
-		        ih.getOffsetHeight());
+		if (rotateDegree != 0) {
+			GDimension corr = computeCorrection(ret, rotateDegree);
+
+			if (visible1 || visible2) {
+				// if it's not visible, leave at its previous place to prevent lag
+				ih.getStyle().setLeft(x - corr.getWidth(), Style.Unit.PX);
+				ih.getStyle().setTop(y - corr.getHeight(), Style.Unit.PX);
+			}
+		}
+
+		return ret;
 	}
 
 	public static native double getScaledWidth(Element el) /*-{
@@ -704,5 +751,79 @@ public class DrawEquationWeb extends DrawEquation {
 		box.drawOnCanvas(ctx, x, y + box.ascent);
 
 		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ]; 
-	}-*/; 
+	}-*/;
+
+	public static GDimension computeCorrection(GDimension dim, double rotateDegree) {
+
+		int dimWidth = dim.getWidth();
+		if (dimWidth <= 0)
+			dimWidth = 1;
+
+		int dimHeight = dim.getHeight();
+		if (dimHeight <= 0)
+			dimHeight = 1;
+
+		double dimTopCorr = 0;
+		double dimLeftCorr = 0;
+
+		if (rotateDegree != 0) {
+
+			double rotateDegreeForTrig = rotateDegree;
+
+			while (rotateDegreeForTrig < 0)
+				rotateDegreeForTrig += 360;
+
+			if (rotateDegreeForTrig > 180)
+				rotateDegreeForTrig -= 180;
+
+			if (rotateDegreeForTrig > 90)
+				rotateDegreeForTrig = 180 - rotateDegreeForTrig;
+
+			// Now rotateDegreeForTrig is between 0 and 90 degrees
+
+			rotateDegreeForTrig *= Math.PI / 180;
+
+			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
+			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
+
+			// dimWidth and dimHeight are the scaled and rotated dims...
+			// only the scaled, but not rotated versions should be computed from them:
+
+			double helper = Math.cos(2 * rotateDegreeForTrig);
+			double dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
+			double dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
+
+			// dimHeight0 and dimWidth0 are the values this algorithm needs
+
+			double dimHalfDiag = Math.sqrt(dimWidth0 * dimWidth0 + dimHeight0 * dimHeight0) / 2.0;
+
+			// We also have to compute the bigger and lesser degrees at the diagonals
+			// Tangents will be positive, as they take positive numbers (and in radians)
+			// between 0 and Math.PI / 2
+
+			double diagDegreeWidth = Math.atan(dimHeight0 / dimWidth0);
+			double diagDegreeHeight = Math.atan(dimWidth0 / dimHeight0);
+
+			diagDegreeWidth += rotateDegreeForTrig;
+			diagDegreeHeight += rotateDegreeForTrig;
+
+			// diagDegreeWidth might slide through the other part, so substract it from Math.PI, if necessary
+			if (diagDegreeWidth > Math.PI / 2)
+				diagDegreeWidth = Math.PI - diagDegreeWidth;
+
+			// doing the same for diagDegreeHeight
+			if (diagDegreeHeight > Math.PI / 2)
+				diagDegreeHeight = Math.PI - diagDegreeHeight;
+
+			// half-height of new formula: dimHalfDiag * sin(diagDegreeWidth)
+			dimTopCorr = dimHalfDiag * Math.sin(diagDegreeWidth);
+			dimTopCorr = dimHeight0 / 2.0 - dimTopCorr;
+
+			// half-width of new formula: dimHalfDiag * sin(diagDegreeHeight)
+			dimLeftCorr = dimHalfDiag * Math.sin(diagDegreeHeight);
+			dimLeftCorr = dimWidth0 / 2.0 - dimLeftCorr;
+		}
+
+		return new GDimensionW((int)dimLeftCorr, (int)dimTopCorr);
+	}
 }
