@@ -10,6 +10,8 @@ import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
+import geogebra.common.gui.dialog.options.model.ButtonSizeModel;
+import geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -120,6 +122,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
+	private ButtonSizePanel buttonSizePanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -1241,6 +1244,110 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 	
+
+	public class ButtonSizePanel extends OptionPanel implements IButtonSizeListener {
+		private InputPanelW ipButtonWidth;
+		private InputPanelW ipButtonHeight;
+		private AutoCompleteTextFieldW tfButtonWidth;
+		private AutoCompleteTextFieldW tfButtonHeight;
+		private CheckBox cbUseFixedSize;
+			
+		private Label labelWidth;
+		private Label labelHeight;
+		private Label labelPixelW;
+		private Label labelPixelH;
+		private Localization loc;
+		private ButtonSizeModel model;
+		
+	
+		public ButtonSizePanel(AppW app, Localization loc) {
+			this.loc = loc;
+			model = new ButtonSizeModel(this);
+			setModel(model);
+			labelWidth = new Label();
+			labelHeight = new Label();
+			labelPixelW = new Label();
+			labelPixelH = new Label();
+			cbUseFixedSize = new CheckBox();
+			setLabels();
+		
+			ipButtonWidth = new InputPanelW(null, app, 1, -1, false);
+			ipButtonHeight = new InputPanelW(null, app, 1, -1, false);
+			
+			tfButtonWidth = (AutoCompleteTextFieldW) ipButtonWidth.getTextComponent();
+			tfButtonWidth.setAutoComplete(false);
+			
+			tfButtonHeight = (AutoCompleteTextFieldW) ipButtonHeight.getTextComponent();
+			tfButtonHeight.setAutoComplete(false);
+
+			FocusListener focusListener = new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
+					model.setSizesFromString(tfButtonWidth.getText(),
+							tfButtonHeight.getText(), cbUseFixedSize.getValue());
+
+				}	
+			};
+			
+			tfButtonWidth.addFocusListener(focusListener);			
+			tfButtonHeight.addFocusListener(focusListener);
+			
+			KeyHandler keyHandler = new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						model.setSizesFromString(tfButtonWidth.getText(),
+							tfButtonHeight.getText(), cbUseFixedSize.getValue());
+					}
+                }
+				
+			};
+			
+			tfButtonWidth.addKeyHandler(keyHandler);
+			tfButtonHeight.addKeyHandler(keyHandler);
+			
+			cbUseFixedSize.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.applyChanges(cbUseFixedSize.getValue());
+	                
+                }});
+			//tfButtonHeight.setInputVerifier(new SizeVerify());
+			//tfButtonWidth.setInputVerifier(new SizeVerify());
+			//tfButtonHeight.setEnabled(cbUseFixedSize.getValue());
+			//tfButtonWidth..setEnabled(cbUseFixedSize.getValue());
+			
+			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.add(cbUseFixedSize);
+			mainPanel.add(labelWidth);
+			mainPanel.add(tfButtonWidth);
+			mainPanel.add(labelPixelW);
+			mainPanel.add(labelHeight);
+			mainPanel.add(tfButtonHeight);
+			mainPanel.add(labelPixelH);
+			setWidget(mainPanel);
+		}
+		public void updateSizes(int width, int height, boolean isFixed) {
+			cbUseFixedSize.setValue(isFixed);
+			tfButtonHeight.setText("" + height);
+			tfButtonWidth.setText("" + width);
+//			tfButtonHeight.setEnabled(isFixed);
+//			tfButtonWidth.setEnabled(isFixed);
+        }
+
+		@Override
+        public void setLabels() {
+			labelWidth.setText(loc.getPlain("Width"));
+			labelHeight.setText(loc.getPlain("Height"));
+			labelPixelW.setText(loc.getMenu("Pixels.short"));
+			labelPixelH.setText(loc.getMenu("Pixels.short"));
+			cbUseFixedSize.setText(loc.getPlain("Fixed"));
+	        
+        }
+		
+	}
+
+	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1249,7 +1356,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		// build GUI
 		initGUI();
 	}
-
+	
 	private void initGUI() {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("objectProperties");
@@ -1379,6 +1486,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		ineqStylePanel = new IneqPanel();
 		textFieldSizePanel = new TextFieldSizePanel((AppW)app);
+		buttonSizePanel = new ButtonSizePanel((AppW)app, app.getLocalization());
 		
 		stylePanels = Arrays.asList(pointSizePanel,
 				pointStylePanel,
@@ -1386,6 +1494,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				angleArcSizePanel,
 				slopeTriangleSizePanel,
 				ineqStylePanel,
+				buttonSizePanel,
 				textFieldSizePanel);
 		
 		for (OptionPanel panel: stylePanels) {

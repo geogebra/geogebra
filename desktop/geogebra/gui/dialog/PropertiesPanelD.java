@@ -26,6 +26,8 @@ import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
+import geogebra.common.gui.dialog.options.model.ButtonSizeModel;
+import geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -71,7 +73,6 @@ import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -6749,10 +6750,10 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 }
 
 class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
-		UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+		UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
 
 	private static final long serialVersionUID = 1L;
-	private Object[] geos; // currently selected geos
+	private ButtonSizeModel model;
 
 	private MyTextField tfButtonWidth;
 	private MyTextField tfButtonHeight;
@@ -6767,6 +6768,8 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 
 	public ButtonSizePanel(AppD app, Localization loc) {
 		this.loc = loc;
+		model = new ButtonSizeModel(this);
+		
 		labelWidth = new JLabel(loc.getPlain("Width"));
 		labelHeight = new JLabel(loc.getPlain("Height"));
 		labelPixelW = new JLabel(loc.getMenu("Pixels.short"));
@@ -6800,22 +6803,26 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 	}
 
 	public JPanel update(Object[] geos) {
-		this.geos = geos;
-		if (!checkGeos(geos))
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
 			return null;
-		for (int i = 0; i < geos.length; i++) {
-			GeoButton geo = (GeoButton) geos[i];
-			cbUseFixedSize.removeChangeListener(this);
-			cbUseFixedSize.setSelected(geo.isFixedSize());
-			tfButtonHeight.setText("" + geo.getHeight());
-			tfButtonWidth.setText("" + geo.getWidth());
-			tfButtonHeight.setEnabled(geo.isFixedSize());
-			tfButtonWidth.setEnabled(geo.isFixedSize());
-			cbUseFixedSize.addChangeListener(this);
 		}
+		model.updateProperties();
+		
 		return this;
 	}
+    
+	public void updateSizes(int width, int height, boolean isFixed) {
+		cbUseFixedSize.removeChangeListener(this);
+		cbUseFixedSize.setSelected(isFixed);
+		tfButtonHeight.setText("" + height);
+		tfButtonWidth.setText("" + width);
+		tfButtonHeight.setEnabled(isFixed);
+		tfButtonWidth.setEnabled(isFixed);
+		cbUseFixedSize.addChangeListener(this);
 
+	}
+	
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 
@@ -6827,39 +6834,14 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 	}
 
 	public void focusLost(FocusEvent arg0) {
-		for (int i = 0; i < geos.length; i++) {
-			GeoButton geo = (GeoButton) geos[i];
-			geo.setFixedSize(cbUseFixedSize.isSelected());
-			if (cbUseFixedSize.isSelected()) {
-				geo.setHeight(Integer.parseInt(tfButtonHeight.getText()));
-				geo.setWidth(Integer.parseInt(tfButtonWidth.getText()));
-			} else {
-				geo.setFixedSize(false);
-			}
-		}
-	}
-
-	private boolean checkGeos(Object[] geos) {
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!geo.isGeoButton())
-				return false;
-		}
-		return true;
-
+		model.setSizesFromString(tfButtonWidth.getText(),
+				tfButtonHeight.getText(), cbUseFixedSize.isSelected());
 	}
 
 	public void stateChanged(ChangeEvent arg0) {
 		if (arg0.getSource() == cbUseFixedSize) {
 			JCheckBox check = (JCheckBox) arg0.getSource();
-			for (int i = 0; i < geos.length; i++) {
-				GeoButton geo = (GeoButton) geos[i];
-				geo.setFixedSize(check.isSelected());
-				tfButtonHeight.setEnabled(check.isSelected());
-				tfButtonWidth.setEnabled(check.isSelected());
-				tfButtonHeight.setText("" + geo.getHeight());
-				tfButtonWidth.setText("" + geo.getWidth());
-			}
+			model.applyChanges(check.isSelected());
 		}
 	}
 
