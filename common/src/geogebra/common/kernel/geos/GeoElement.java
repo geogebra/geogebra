@@ -75,6 +75,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1501,16 +1502,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo style source
 	 */
 	public void setAdvancedVisualStyleCopy(final GeoElement geo) {
-		setVisualStyle(geo);
-
-		// set layer
-		setLayer(geo.getLayer());
-
 		// copy color function
 		if(geo.getColorFunction() != null){
+			Log.debug(geo.getColorFunction());
 			setColorFunction(geo.getColorFunction().deepCopyGeo());
+			setColorSpace(geo.getColorSpace());
 		}
-		setColorSpace(geo.getColorSpace());
 
 		// copy ShowObjectCondition, unless it generates a
 		// CirclularDefinitionException

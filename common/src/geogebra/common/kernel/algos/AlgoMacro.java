@@ -230,6 +230,10 @@ implements AlgoMacroInterface {
 			setOutput(i,macroOutput[i].copyInternal(cons));
 			GeoElement out = getOutput(i); 
 			out.setUseVisualDefaults(false);
+			out.setVisualStyle(macroOutput[i]);
+
+			// set layer
+			out.setLayer(macroOutput[i].getLayer());
 			out.setAdvancedVisualStyleCopy(macroOutput[i]);	
 			if(macro.isCopyCaptionsAndVisibility()){
 				out.setCaption(macroOutput[i].getRawCaption());								
