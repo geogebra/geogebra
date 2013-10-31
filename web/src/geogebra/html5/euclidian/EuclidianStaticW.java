@@ -22,11 +22,39 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	@Override
 	protected GRectangle doDrawMultilineLaTeX(App app,
 	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
-	        GColor fgColor, GColor bgColor, String labelDesc, int x,
+	        GColor fgColor, GColor bgColor, String labelDesc0, int x,
 	        int y, boolean serif) {
+
+		String labelDesc = labelDesc0;
+
+		if (labelDesc == null)
+			return null;
 
 		// rotation seems to be clockwise
 		double rotateDegree = 0;
+
+		if (labelDesc.startsWith("\\rotatebox{")) {
+			// getting rotation degree...
+
+			// chop "\\rotatebox{"
+			labelDesc = labelDesc.substring(11);
+
+			// get value
+			int index = labelDesc.indexOf("}{ ");
+			rotateDegree = Double.parseDouble(labelDesc.substring(0, index));
+
+			// chop "}{"
+			labelDesc = labelDesc.substring(index + 3);
+
+			// chop " }"
+			labelDesc = labelDesc.substring(0, labelDesc.length() - 2);
+
+			if (labelDesc.startsWith("\\text{ ")) {
+				// chop "text", seems to prevent the sqrt sign showing
+				labelDesc = labelDesc.substring(7);
+				labelDesc = labelDesc.substring(0, labelDesc.length() - 3);
+			}
+		}
 
 		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false, rotateDegree);
 

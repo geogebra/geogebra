@@ -276,7 +276,12 @@ public class DrawEquationWeb extends DrawEquation {
 		else if (visible2)
 			prestring = "2";
 
-		String eqstringid = prestring + "@" + eqstring + "@" + geo.getID();
+		String eqstringid = eqstring;
+		if (rotateDegree != 0) {
+			// adding rotateDegree again, just for the id
+			eqstringid = "\\rotatebox{" + rotateDegree + "}{ " + eqstring + " }";
+		}
+		eqstringid = prestring + "@" + eqstringid + "@" + geo.getID();
 
 		int fontSizeR = 16;
 		if (fontSize <= 10)
