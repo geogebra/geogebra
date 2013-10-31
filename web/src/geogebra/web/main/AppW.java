@@ -32,6 +32,7 @@ import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.move.ggtapi.operations.LoginOperationW;
@@ -1739,4 +1740,15 @@ public class AppW extends AppWeb {
 
 	public void doOnResize() { }
 	public void loadURL_GGB(String ggb) { }
+	
+	@Override
+	public String getAppletId() {
+		return articleElement.getDataParamId();		
+	}
+
+	@Override
+    public HasAppletProperties getAppletFrame() {
+	    //Should be implemented in subclasses
+	    return null;
+    }
 }

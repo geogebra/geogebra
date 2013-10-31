@@ -3,6 +3,7 @@ package geogebra.web.gui.applet;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.js.ResourcesInjector;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.View;
 import geogebra.web.gui.SplashDialog;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The main frame containing every view / menu bar / ....
  * This Panel (Frame is resize able)
  */
-public abstract class GeoGebraFrame extends VerticalPanel {
+public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletProperties {
 
 	private static final int BORDER_WIDTH = 2;
 	private static final int BORDER_HEIGHT = 2;

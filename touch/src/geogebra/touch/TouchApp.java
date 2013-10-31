@@ -33,6 +33,7 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -703,6 +704,12 @@ public class TouchApp extends AppWeb {
 		if (this.getAlgebraView() != null) {
 			((AlgebraViewWeb) this.getAlgebraView()).doRepaint2();
 		}
+	}
+
+	@Override
+	public HasAppletProperties getAppletFrame() {
+		//Sould be here something to get js api work on touch.
+		return null;
 	}
 
 }

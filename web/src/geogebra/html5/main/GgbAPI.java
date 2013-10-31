@@ -10,6 +10,7 @@ import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.util.View;
+import geogebra.web.main.AppWapplet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -564,5 +565,12 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	
 	public void startEditing(){
 		new View(RootPanel.getBodyElement(),(AppWeb)app).openFromLastApp();
+	}
+	
+	/**
+	 * @param width setst the applet widht
+	 */
+	public void setWidth(int width) {
+		((AppWapplet) app).getGeoGebraFrame();
 	}
 }

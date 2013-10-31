@@ -9,6 +9,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
@@ -89,6 +90,11 @@ public class AppWapplet extends AppW {
 	public GeoGebraFrame getGeoGebraFrame() {
 		return frame;
 	}
+	
+	@Override
+    public HasAppletProperties getAppletFrame() {
+		return frame;
+	}
 
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
@@ -144,7 +150,8 @@ public class AppWapplet extends AppW {
 
 	private Widget oldSplitLayoutPanel = null;	// just a technical helper variable
 
-	public void buildApplicationPanel() {
+	@Override
+    public void buildApplicationPanel() {
 
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation
@@ -231,7 +238,8 @@ public class AppWapplet extends AppW {
 		frame.add(ggwToolBar);
 	}
 
-	public GGWToolBar getToolbar() {
+	@Override
+    public GGWToolBar getToolbar() {
 		return ggwToolBar;
 	}
 
@@ -372,4 +380,6 @@ public class AppWapplet extends AppW {
     public Element getFrameElement(){
 		return  frame.getElement();
 	}
+	
+	
 }

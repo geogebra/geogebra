@@ -241,4 +241,6 @@ public class AppWapplication extends AppW {
     public Element getFrameElement(){
 		return  appFrame.getElement();
 	}
+    
+    
 }

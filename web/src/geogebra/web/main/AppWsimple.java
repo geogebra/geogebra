@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianSimplePanelW;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -145,5 +146,10 @@ public class AppWsimple extends AppW {
 	@Override
     public Element getFrameElement(){
 		return frame.getElement();
+	}
+	
+	@Override
+    public HasAppletProperties getAppletFrame() {
+		return frame;
 	}
 }

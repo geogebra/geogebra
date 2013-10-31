@@ -242,7 +242,7 @@ public abstract class AppWeb extends App implements SetLabels{
 		}
 
 		public String getDataParamId() {
-	        return DEFAULT_APPLET_ID;
+	        return getAppletId();
         }
 		
 		private MyXMLioW xmlio;
@@ -884,4 +884,17 @@ public abstract class AppWeb extends App implements SetLabels{
     public CommandDispatcher getCommandDispatcher(Kernel k){
 		return new CommandDispatcherW(k);
 	}
+	
+	/**
+	 * @return The default applet id
+	 * Note,that this will be the articleelement id in lower subclasses
+	 */
+	public String getAppletId() {
+		return DEFAULT_APPLET_ID;
+	}
+	
+	/**
+	 * @return GeoGebraFrame like frame
+	 */
+	public abstract HasAppletProperties getAppletFrame();
 }
