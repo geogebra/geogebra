@@ -319,5 +319,5 @@ http://dev.geogebra.org/trac/wiki/SourcesForUsedLibraries
 
 ------------------------------------------------------------------------
 International GeoGebra Institute
-Lackenschloessl 23, 5760 Saalfelden, Austria
+Wolfauerstr 90, 4040 Linz, Austria
 office@geogebra.org
