@@ -3591,7 +3591,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	
+	@Override
+	protected final void processSelectionRectangle(boolean alt, boolean isControlDown) {
 
+		//TODO implement this
+	}
 	
 	
 	

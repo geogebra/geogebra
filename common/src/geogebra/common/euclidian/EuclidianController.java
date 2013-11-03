@@ -8692,7 +8692,7 @@ public abstract class EuclidianController {
 				app.updateSelection(hits.size()>0);
 			}
 
-	protected final void processSelectionRectangle(boolean alt, boolean isControlDown) {
+	protected void processSelectionRectangle(boolean alt, boolean isControlDown) {
 		startCollectingMinorRepaints();
 
 		clearSelections();
