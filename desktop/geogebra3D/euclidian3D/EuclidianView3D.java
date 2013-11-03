@@ -3444,7 +3444,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	public void setProjectionOrthographic(){
-		renderer.updateOrthoValues();
 		renderer.setWaitForDisableStencilLines();
 		setProjectionValues(PROJECTION_ORTHOGRAPHIC);
 		setDefault2DCursor();

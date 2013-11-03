@@ -1728,8 +1728,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
     
 	int left = 0; int right = 640;
 	int bottom = 0; int top = 480;
-	int front = -1000; int back = 1000;
-	int frontExtended;
 	
 	/** factor for drawing more than between front and back */
 	private final static int DEPTH_FACTOR = 2;
@@ -1743,23 +1741,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	
 	public int getVisibleDepth(){ return getWidth()*2; } //keep visible objects at twice center-to-right distance
 	
-	public float getFront(boolean extended){ 
-		if (extended) {
-			return frontExtended;
-		} else {
-			return front;
-		}
-	}
-	public float getBack(boolean extended){ 
-		if (extended) {
-			return back*DEPTH_FACTOR;
-		} else {
-			return back;	
-		}
-	}
 	
 	public float getScreenZOffset(){
-		return view3D.getScreenZOffsetFactor()*back;
+		return view3D.getScreenZOffsetFactor()*getVisibleDepth()/4;
 	}
 	
 	/** for a line described by (o,v), return the min and max parameters to draw the line
@@ -1781,8 +1765,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		double bottom = (getBottom() - o.get(2))/v.get(2);
 		updateIntervalInFrustum(minmax, top, bottom);
 		
-		double front = (getFront(extendedDepth) - o.get(3))/v.get(3);
-		double back = (getBack(extendedDepth) - o.get(3))/v.get(3);
+		double halfDepth = getVisibleDepth()/2;
+		double front = (-halfDepth - o.get(3))/v.get(3);
+		double back = (halfDepth - o.get(3))/v.get(3);
 		updateIntervalInFrustum(minmax, front, back);
 		
 		return minmax;
@@ -1977,11 +1962,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		//viewEye();
 	}
    
-	public void updateOrthoValues(){
-		frontExtended = front*DEPTH_FACTOR;
-	}
-	
-	
     /**
      * Set Up An Ortho View regarding left, right, bottom, front values
      * 
@@ -2008,10 +1988,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     
     private void updatePerspValues(){
     	
-    	frontExtended = (int) -eyeToScreenDistance; //front clipping plane
-    	
-    	//App.debug(getWidth()+","+eyeToScreenDistance);
-    	
+   	
     	perspNear = eyeToScreenDistance - getVisibleDepth()/2;
     	if (perspNear < PERSP_NEAR_MIN){
     		perspNear = PERSP_NEAR_MIN;
@@ -2123,7 +2100,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	private GeoNumeric export_num;
     
     public void updateProjectionObliqueValues(){
-    	updateOrthoValues();
     	double angle = Math.toRadians(view3D.getProjectionObliqueAngle());
     	obliqueX = -view3D.getProjectionObliqueFactor()*Math.cos(angle);
     	obliqueY = -view3D.getProjectionObliqueFactor()*Math.sin(angle);
@@ -2159,14 +2135,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	right=left+w;
     	top = bottom+h;
     	
-    	int depth = w/2;//sets depth equals width
-      	front = -depth;   	
-    	back = depth; 	
 
 
     	switch (view3D.getProjection()){
     	case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-    		updateOrthoValues();
     		break;
     	case EuclidianView3D.PROJECTION_PERSPECTIVE:
     		updatePerspValues();

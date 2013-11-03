@@ -103,8 +103,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double xmax = (renderer.getRight())/scale+x0;
 		double ymin = (renderer.getBottom())/scale+z0;
 		double ymax = (renderer.getTop())/scale+z0;
-		double zmin  = (renderer.getFront(false))/scale+y0;
-		double zmax = (renderer.getBack(false))/scale+y0;
+		double halfWidth = renderer.getWidth()/2;
+		double zmin  = -halfWidth/scale+y0;
+		double zmax = halfWidth/scale+y0;
 		
 		int reductionIndex = ((GeoClippingCube3D) getGeoElement()).getReduction();
 		double rv = REDUCTION_VALUES[reductionIndex];

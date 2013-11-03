@@ -35,8 +35,9 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 		double x2 = temp.getRight();
 		double y1 = temp.getTop();
 		double y2 = temp.getBottom();
-		double z1 = temp.getFront(true);
-		double z2 = temp.getBack(true);
+		double halfDepth = temp.getVisibleDepth()/2;
+		double z1 = -halfDepth;
+		double z2 = halfDepth;
 		Coords [] v = new Coords[8];
 		v[0] = new Coords(x1,y1,z1,0);
 		v[1] = new Coords(x1,y2,z1,0);
