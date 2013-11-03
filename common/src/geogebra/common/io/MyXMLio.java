@@ -57,6 +57,11 @@ public abstract class MyXMLio {
 	 * @param c construction
 	 * @return construction XML for undo step*/
 	public final static synchronized StringBuilder getUndoXML(Construction c) {
+		
+		Kernel constructionKernel = c.getKernel();
+		boolean kernelIsGettingUndo = constructionKernel.isGettingUndo();
+		constructionKernel.setIsGettingUndo(true);
+		
 		App consApp = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
@@ -79,6 +84,8 @@ public abstract class MyXMLio {
 		}
 
 		sb.append("</geogebra>");
+		
+		constructionKernel.setIsGettingUndo(kernelIsGettingUndo);
 
 		return sb;
 	}

@@ -3319,6 +3319,17 @@ public class Kernel {
 	/* ******************************
 	 * redo / undo for current construction *****************************
 	 */
+	
+	
+	private boolean isGettingUndo;
+
+	public synchronized boolean isGettingUndo() {
+		return isGettingUndo;
+	}
+
+	public synchronized void setIsGettingUndo(boolean flag) {
+		isGettingUndo = flag;
+	}
 
 	public void setUndoActive(boolean flag) {
 		undoActive = flag;
