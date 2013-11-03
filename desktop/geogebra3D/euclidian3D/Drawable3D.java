@@ -791,9 +791,9 @@ public abstract class Drawable3D extends DrawableND {
 				if ((!((GeoPointND) geo1).hasPath())&&(((GeoPointND) geo2).hasPath()))
 					return 1;	
 				//check if one is the child of the other
-				if (geo1.isChildOf(geo2))
+				if (geo1.isMoveable() && geo1.isChildOf(geo2))
 					return -1;
-				if (geo2.isChildOf(geo1))
+				if (geo2.isMoveable() && geo2.isChildOf(geo1))
 					return 1;
 			}else{
 				// any geo before a plane
