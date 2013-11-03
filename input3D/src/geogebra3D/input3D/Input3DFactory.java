@@ -17,6 +17,7 @@ public class Input3DFactory {
 	 * @return 3D input
 	 */
 	static public Input3D createInput3D(){
+		//return null; //use this to switch of 3D input
 		return new InputLeo3D();
 	}
 }
