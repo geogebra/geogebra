@@ -265,4 +265,7 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 
 	public void setLocateableList(LocateableList locateableList);
 
+	
+	public void setCoordsFromPoint(GeoPointND point);
+
 }

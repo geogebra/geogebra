@@ -226,6 +226,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	final public void setCoords(Coords v) {
 		setCoords(v, true);
 	}
+	
+	
+	public void setCoordsFromPoint(GeoPointND point){
+		setCoords(point.getInhomCoordsInD(3));
+	}
 
 	@Override
 	final public void setCoords(double x, double y, double z, double w) {

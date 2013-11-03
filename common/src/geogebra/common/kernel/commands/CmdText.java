@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -49,7 +50,7 @@ public class CmdText extends CommandProcessor {
 			}
 			else if (arg[1].isGeoPoint()) {
 				algo = new AlgoText(cons, c.getLabel(),
-						arg[0], (GeoPoint)arg[1]);
+						arg[0], (GeoPointND)arg[1]);
 
 				GeoElement[] ret2 = { algo.getGeoText() };
 				return ret2;

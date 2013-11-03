@@ -24,8 +24,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -37,7 +37,7 @@ public class AlgoText extends AlgoElement {
 
 	private GeoElement geo;  // input
 	private GeoBoolean substituteVars, latex; // optional input
-	private GeoPoint startPoint, startPointCopy; // optional input
+	private GeoPointND startPoint, startPointCopy; // optional input
 	private GeoText text;     // output              
 
 	public AlgoText(Construction cons, String label, GeoElement geo) {
@@ -48,20 +48,20 @@ public class AlgoText extends AlgoElement {
 		this(cons, label, geo, null, substituteVars, null);
 	}   
 	
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint p) {
+	public AlgoText(Construction cons, String label, GeoElement geo, GeoPointND p) {
 		this(cons, label, geo, p, null, null);
 	}   
 
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint p, GeoBoolean substituteVars) {
+	public AlgoText(Construction cons, String label, GeoElement geo, GeoPointND p, GeoBoolean substituteVars) {
 		this(cons, label, geo, p, substituteVars, null);
 	}   
 
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint p, GeoBoolean substituteVars, GeoBoolean latex) {
+	public AlgoText(Construction cons, String label, GeoElement geo, GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
 		this(cons, geo, p, substituteVars, latex);
 		text.setLabel(label);		
 	}
 
-	public AlgoText(Construction cons, GeoElement geo, GeoPoint p, GeoBoolean substituteVars, GeoBoolean latex) {
+	public AlgoText(Construction cons, GeoElement geo, GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
 		super(cons);
 		this.geo = geo;
 		this.startPoint = p;
@@ -73,7 +73,7 @@ public class AlgoText extends AlgoElement {
 		
 		// set startpoint
 		if (startPoint != null) {
-			startPointCopy = (GeoPoint) startPoint.copyInternal(cons);
+			startPointCopy = (GeoPointND) startPoint.copyInternal(cons);
 			
 			try {
 				text.setStartPoint(startPointCopy);
@@ -114,7 +114,7 @@ public class AlgoText extends AlgoElement {
 		input[i++] = geo;
 		if(geo.isGeoText())
 			((GeoText)geo).addTextDescendant(text);
-		if (startPoint != null) input[i++] = startPoint;
+		if (startPoint != null) input[i++] = (GeoElement) startPoint;
 		if (substituteVars != null) input[i++] = substituteVars;
 		if (latex != null) input[i++] = latex;
 
@@ -155,7 +155,7 @@ public class AlgoText extends AlgoElement {
 		
 		// update startpoint position of text
 		if (startPointCopy != null) {
-			startPointCopy.setCoords(startPoint);		
+			startPointCopy.setCoordsFromPoint(startPoint);		
 		}
 	}         
 

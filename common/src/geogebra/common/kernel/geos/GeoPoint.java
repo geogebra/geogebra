@@ -2270,5 +2270,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		this.locateableList = locateableList;	
 	}
 
+	public void setCoordsFromPoint(GeoPointND point){
+		setCoords((GeoPoint) point);
+	}
 	
 }
