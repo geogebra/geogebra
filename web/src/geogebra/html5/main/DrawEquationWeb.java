@@ -794,7 +794,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 			double dimHeight0;
 			double dimWidth0;
-			if (Kernel.isZero(helper, Kernel.MIN_PRECISION)) {
+			if (Kernel.isZero(helper)) {
 				// PI/4, PI/4
 				dimWidth0 = dimSmall.getWidth();
 				if (dimWidth0 <= 0)
@@ -804,8 +804,10 @@ public class DrawEquationWeb extends DrawEquation {
 				if (dimHeight0 <= 0)
 					dimHeight0 = 1;
 
-				dimWidth0 *= (dimHeight + dimWidth) / 2.0 * Math.sqrt(2) / (dimHeight0 + dimWidth0);
-				dimHeight0 = (dimHeight + dimWidth) / 2.0 * Math.sqrt(2) - dimWidth0;
+				helper = (dimHeight + dimWidth) / 2.0 * Math.sqrt(2);
+
+				dimWidth0 *= helper / (dimHeight0 + dimWidth0);
+				dimHeight0 = helper - dimWidth0;
 			} else {
 				dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
 				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
