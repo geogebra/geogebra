@@ -83,6 +83,7 @@ public class MaterialRequest implements Request
 	 */
 	public MaterialRequest(String query)
 	{
+		this.filterMap.put(Filters.type, "ggb");
 		if(query!=null && query.startsWith("#")){
 			this.filters = new Filters[] { Filters.id };
 			this.filterMap.put(Filters.id, query.substring(1));
@@ -103,6 +104,7 @@ public class MaterialRequest implements Request
 	public MaterialRequest(int id)
 	{
 		this.filters = new Filters[] { Filters.id };
+		this.filterMap.put(Filters.type, "ggb");
 		this.filterMap.put(Filters.id, id+"");
 	}
 
