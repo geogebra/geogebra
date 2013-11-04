@@ -113,7 +113,7 @@ public class AppWsimple extends AppW {
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
 		requestFocusInWindow();
-
+		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
 

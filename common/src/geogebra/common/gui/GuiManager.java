@@ -204,8 +204,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	
 		updateGUIafterLoadFile(success, isMacroFile);
-	
-		getApp().setDefaultCursor();
 		return success;
 	}
 	protected abstract App getApp();

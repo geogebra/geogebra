@@ -21,6 +21,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.AlertDialog;
@@ -33,7 +34,9 @@ import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerW extends DialogManager implements EventRenderable {
@@ -348,6 +351,35 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	    	}
 	    }
 	    
+    }
+
+    private PopupPanel loadingAnimation  = null;
+    
+	/**
+	 * Shows a loading animation
+	 */
+	public void showLoadingAnimation() {
+	    if (loadingAnimation == null) {
+	    	loadingAnimation = createLoadingAnimation();
+	    }
+	    loadingAnimation.center();
+	    loadingAnimation.show();
+    }
+
+	private PopupPanel createLoadingAnimation() {
+	    PopupPanel anim = new PopupPanel();
+	    anim.addStyleName("loadinganimation");
+	    anim.add(new Image(GuiResources.INSTANCE.getGeoGebraWebSpinner()));
+	    return anim;
+    }
+
+	/**
+	 * Hides a loading animation
+	 */
+	public void hideLoadingAnimation() {
+		 if (loadingAnimation != null) {
+		    	loadingAnimation.hide();;
+		    }
     }
 
 }

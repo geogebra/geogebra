@@ -2048,3 +2048,8 @@ label {
 #imageList li.selected {
 	background-color: #0000ff;
 }
+
+.loadinganimation {
+	border-color:transparent;
+}
+}

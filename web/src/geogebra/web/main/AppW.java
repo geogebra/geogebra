@@ -90,7 +90,7 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AppW extends AppWeb {
+public abstract class AppW extends AppWeb {
 
 	public final static String syntaxStr = "_Syntax";
 	public static String geoIPCountryName;
@@ -1400,12 +1400,14 @@ public class AppW extends AppWeb {
 
 	@Override
 	public void setWaitCursor() {
+		((DialogManagerW) getDialogManager()).showLoadingAnimation();
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 		RootPanel.get().addStyleName("cursor_wait");
 	}
 
 	@Override
 	public void setDefaultCursor() {
+		((DialogManagerW) getDialogManager()).hideLoadingAnimation();
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 	}
 
@@ -1604,7 +1606,7 @@ public class AppW extends AppWeb {
     }
 
 	@Override
-    public void afterLoadFileAppOrNot() { } // TODO: abstract?
+    public abstract void afterLoadFileAppOrNot();
 
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML

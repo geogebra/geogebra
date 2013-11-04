@@ -288,6 +288,7 @@ public class AppWapplet extends AppW {
 
 		if (isUsingFullGui())
 			this.getEuclidianViewpanel().updateNavigationBar();
+		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
 

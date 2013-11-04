@@ -169,6 +169,7 @@ public class AppWapplication extends AppW {
 		getEuclidianView1().doRepaint2();
 
 		this.getEuclidianViewpanel().updateNavigationBar();
+		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
 	}
 
