@@ -11,7 +11,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
-import geogebra.html5.Browser;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
@@ -367,16 +366,14 @@ public class DrawEquationWeb extends DrawEquation {
 
 		GDimension ret = null;
 
-		if (((Browser.isFirefox() || Browser.isIE()) && (fontSize != fontSizeR)) || rotateDegree != 0) {
-			ret = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih)),
-					(int)Math.ceil(getScaledHeight(ih)));
-		} else {
-			ret = new geogebra.html5.awt.GDimensionW(ih.getOffsetWidth(),
-					ih.getOffsetHeight());
-		}
+		ret = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, true)),
+					(int)Math.ceil(getScaledHeight(ih, true)));
 
 		if (rotateDegree != 0) {
-			GDimension corr = computeCorrection(ret, rotateDegree);
+			GDimension ret0 = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, false)),
+					(int)Math.ceil(getScaledHeight(ih, false)));
+
+			GDimension corr = computeCorrection(ret, ret0, rotateDegree);
 
 			if (visible1 || visible2) {
 				// if it's not visible, leave at its previous place to prevent lag
@@ -388,11 +385,11 @@ public class DrawEquationWeb extends DrawEquation {
 		return ret;
 	}
 
-	public static native double getScaledWidth(Element el) /*-{
+	public static native double getScaledWidth(Element el, boolean inside) /*-{
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
-			if (ell.lastChild) {//elsecondInside
+			if (ell.lastChild && inside) {//elsecondInside
 				ell = ell.lastChild;
 			}
 		}
@@ -407,11 +404,11 @@ public class DrawEquationWeb extends DrawEquation {
 		return el.offsetWidth || 0;
 	}-*/;
 
-	public static native double getScaledHeight(Element el) /*-{
+	public static native double getScaledHeight(Element el, boolean inside) /*-{
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
-			if (ell.lastChild) {//elsecondInside
+			if (ell.lastChild && inside) {//elsecondInside
 				ell = ell.lastChild;
 			}
 		}
@@ -759,7 +756,7 @@ public class DrawEquationWeb extends DrawEquation {
 		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ]; 
 	}-*/;
 
-	public static GDimension computeCorrection(GDimension dim, double rotateDegree) {
+	public static GDimension computeCorrection(GDimension dim, GDimension dimSmall, double rotateDegree) {
 
 		int dimWidth = dim.getWidth();
 		if (dimWidth <= 0)
@@ -788,8 +785,8 @@ public class DrawEquationWeb extends DrawEquation {
 			rotateDegreeForTrig *= Math.PI / 180;
 
 			double helper = Math.cos(2 * rotateDegreeForTrig);
-
 			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
+
 			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
 
 			// dimWidth and dimHeight are the scaled and rotated dims...
@@ -799,13 +796,24 @@ public class DrawEquationWeb extends DrawEquation {
 			double dimWidth0;
 			if (Kernel.isZero(helper, Kernel.MIN_PRECISION)) {
 				// PI/4, PI/4
-				dimWidth0 = dimHeight0 = Math.sqrt(2) * dimHeight / 2;
+				dimWidth0 = dimSmall.getWidth();
+				if (dimWidth0 <= 0)
+					dimWidth0 = 1;
+
+				dimHeight0 = dimSmall.getHeight();
+				if (dimHeight0 <= 0)
+					dimHeight0 = 1;
+
+				dimWidth0 *= (dimHeight + dimWidth) / 2.0 * Math.sqrt(2) / (dimHeight0 + dimWidth0);
+				dimHeight0 = (dimHeight + dimWidth) / 2.0 * Math.sqrt(2) - dimWidth0;
 			} else {
 				dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
 				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
 			}
 
-			// dimHeight0 and dimWidth0 are the values this algorithm needs
+			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
+
+			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
 
 			double dimHalfDiag = Math.sqrt(dimWidth0 * dimWidth0 + dimHeight0 * dimHeight0) / 2.0;
 
