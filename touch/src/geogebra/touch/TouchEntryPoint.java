@@ -2,6 +2,7 @@ package geogebra.touch;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.Browser;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
@@ -119,6 +120,7 @@ public class TouchEntryPoint implements EntryPoint {
 				this.initPhoneGap();
 
 				Window.enableScrolling(false);
+				ToolTipManagerW.setEnabled(false);
 			}
 		});
 	}

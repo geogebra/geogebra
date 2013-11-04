@@ -1,8 +1,8 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.GColor;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;

@@ -13,11 +13,11 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.LinkedList;

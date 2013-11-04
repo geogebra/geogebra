@@ -1,4 +1,4 @@
-package geogebra.web.gui.tooltip;
+package geogebra.html5.gui.tooltip;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Element;
@@ -94,7 +94,7 @@ public class ToolTipManagerW {
 	 * relative to this element.
 	 */
 	private Element tipElement;
-	private boolean enabled = true; 
+	private static boolean enabled = true; 
 
 	/** Singleton instance of ToolTipManager. */
 	final static ToolTipManagerW sharedInstance = new ToolTipManagerW();
@@ -420,7 +420,7 @@ public class ToolTipManagerW {
 		}
 	}
 
-	public void setEnabled(boolean allowToolTips){
-		this.enabled = allowToolTips;
+	public static void setEnabled(boolean allowToolTips){
+		enabled = allowToolTips;
 	}
 }
