@@ -1578,7 +1578,8 @@ Paddings for menuitems.
 
 .undoPanel {
 	position:absolute;
-	right:0px;
+	right:5px;
+	top: 0px;
 	margin:4px 10px;
 	display:block;
 }

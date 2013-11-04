@@ -5,5 +5,5 @@
 	<ui:style>
 		.toolbarpanel { width:100%;}
 	</ui:style>
-		<g:HorizontalPanel addStyleNames="{style.toolbarpanel}" ui:field="toolBarPanel"></g:HorizontalPanel>
+		<g:FlowPanel addStyleNames="{style.toolbarpanel}" ui:field="toolBarPanel"></g:FlowPanel>
 </ui:UiBinder> 

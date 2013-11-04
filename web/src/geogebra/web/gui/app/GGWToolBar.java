@@ -16,7 +16,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,7 +24,7 @@ public class GGWToolBar extends Composite {
 	private static GGWToolBarUiBinder uiBinder = GWT
 	        .create(GGWToolBarUiBinder.class);
 
-	interface GGWToolBarUiBinder extends UiBinder<HorizontalPanel, GGWToolBar> {
+	interface GGWToolBarUiBinder extends UiBinder<FlowPanel, GGWToolBar> {
 	}
 
 	static private MyIconResourceBundle myIconResourceBundle = GWT
@@ -40,7 +39,7 @@ public class GGWToolBar extends Composite {
 	static private ToolBarW toolBar;
 	//panel which contains the toolbar and undo-redo buttons.
 	@UiField
-	HorizontalPanel toolBarPanel;
+	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
 	FlowPanel toolBPanel;
 	boolean inited = false;
@@ -63,7 +62,7 @@ public class GGWToolBar extends Composite {
 	}
 
 	/**
-	 * Initialisation of the GGWToolbar.
+	 * Initialization of the GGWToolbar.
 	 * 
 	 * @param app1 application
 	 */
@@ -73,26 +72,27 @@ public class GGWToolBar extends Composite {
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
 		toolBar = new ToolBarW();
-
+		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBar);
+		toolBarPanel.add(toolBPanel);
 		toolBarPanel.addStyleName("toolbarPanel");
 		
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init((geogebra.web.main.AppW) app);
 		addToolbar(toolBar);
-		buildGui();
+
+		addUndoPanel();
 	}
 
-	/**
-	 * Build the toolbar GUI
-	 */
-	public void buildGui() {
-		toolBPanel = new FlowPanel();
-		toolBarPanel.add(toolBPanel);
-		
-		// setActiveToolbar(activeToolbar);
-		
-		//undo-redo buttons
+//	/**
+//	 * Build the toolbar GUI
+//	 */
+//	public void buildGui() {
+//
+//	}
+
+	//undo-redo buttons
+	private void addUndoPanel(){
 
 		Image redoImage = new Image(AppResources.INSTANCE.edit_redo());
 		Button redoButton = new Button();
@@ -117,17 +117,18 @@ public class GGWToolBar extends Composite {
 		undoButton.setTitle("Undo");
 		//toolBarPanel.add(redoButton);
 		
-		HorizontalPanel undoPanel = new HorizontalPanel();
+		FlowPanel undoPanel = new FlowPanel();
 		undoPanel.addStyleName("undoPanel");
 		undoPanel.add(undoButton);
 		undoPanel.add(redoButton);
-		toolBarPanel.add(undoPanel);
+		toolBarPanel.add(undoPanel);	
 	}
-
+	
 	/**
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
+//		toolBarPanel.clear();
 		toolBPanel.clear();
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
