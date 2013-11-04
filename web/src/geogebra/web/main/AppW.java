@@ -154,9 +154,6 @@ public class AppW extends AppWeb {
 		
 		//Online - Offline event handling begins here
 		initNetworkEventFlow();
-		
-		// user authentication handling
-		initSignInEventFlow();
 	}
 	
 	/** 
