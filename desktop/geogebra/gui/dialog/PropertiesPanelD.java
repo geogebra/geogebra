@@ -28,6 +28,8 @@ import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
+import geogebra.common.gui.dialog.options.model.ColorFunctionModel;
+import geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -68,7 +70,6 @@ import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.Furniture;
@@ -5250,7 +5251,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
 		private JSlider slider;
 		private JPanel thicknessPanel;
 		private JLabel dashLabel;
@@ -6247,11 +6247,12 @@ class ShowConditionPanel extends JPanel implements ActionListener,
  * @author Michael Borcherds 2008-04-01
  */
 class ColorFunctionPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+		IColorFunctionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private Object[] geos; // currently selected geos
+	private ColorFunctionModel model;
 	private JTextField tfRed, tfGreen, tfBlue, tfAlpha;
 	private JButton btRemove;
 	private JLabel nameLabelR, nameLabelG, nameLabelB, nameLabelA;
@@ -6270,7 +6271,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	public ColorFunctionPanel(AppD app, PropertiesPanelD propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
-
+		model = new ColorFunctionModel(app, this);
 		// non auto complete input panel
 		InputPanelD inputPanelR = new InputPanelD(null, app, 1, -1, true);
 		InputPanelD inputPanelG = new InputPanelD(null, app, 1, -1, true);
@@ -6302,17 +6303,8 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		btRemove = new JButton("\u2718");
 		btRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = (GeoElement) geos[i];
-					geo.removeColorFunction();
-					geo.setObjColor(geo.getObjectColor());
-					geo.updateRepaint();
+				model.removeAll();
 				}
-				tfRed.setText("");
-				tfGreen.setText("");
-				tfBlue.setText("");
-				tfAlpha.setText("");
-			}
 		});
 
 		cbColorSpace = new JComboBox();
@@ -6394,30 +6386,10 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	}
 
 	public JPanel update(Object[] geos) {
-		this.geos = geos;
-		if (!checkGeos(geos))
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
 			return null;
-
-		// check for fillable geos in the current selection
-		boolean someFillable = false;
-		for (int i = 0; i < geos.length; i++) {
-			if (((GeoElement) geos[i]).isFillable()) {
-				someFillable = true;
-				continue;
-			}
 		}
-
-		// if we have any fillables then show the opacity field
-		tfAlpha.setVisible(someFillable);
-		nameLabelA.setVisible(someFillable);
-
-		// set default field values
-		GeoElement geo = (GeoElement) geos[0];
-		Color col = geogebra.awt.GColorD.getAwtColor(geo.getObjectColor());
-		defaultR = "" + col.getRed() / 255.0;
-		defaultG = "" + col.getGreen() / 255.0;
-		defaultB = "" + col.getBlue() / 255.0;
-		defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
 
 		// remove action listeners
 		tfRed.removeActionListener(this);
@@ -6427,62 +6399,8 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		btRemove.removeActionListener(this);
 		cbColorSpace.removeActionListener(this);
 
-		// take condition of first geo
-		String strRed = "";
-		String strGreen = "";
-		String strBlue = "";
-		String strAlpha = "";
-		GeoElement geo0 = (GeoElement) geos[0];
-		GeoList colorList = geo0.getColorFunction();
-		if (colorList != null) {
-			strRed = colorList.get(0).getLabel(StringTemplate.editTemplate);
-			strGreen = colorList.get(1).getLabel(StringTemplate.editTemplate);
-			strBlue = colorList.get(2).getLabel(StringTemplate.editTemplate);
-			if (colorList.size() == 4)
-				strAlpha = colorList.get(3).getLabel(
-						StringTemplate.editTemplate);
-		}
-
-		// set the selected color space and labels to match the first geo's
-		// color space
-		colorSpace = geo0.getColorSpace();
-		cbColorSpace.setSelectedIndex(colorSpace);
-		allowSetComboBoxLabels = false;
-		setLabels();
-
-		// compare first geo with other selected geos
-		// if difference exists in a color then null it out
-		for (int i = 0; i < geos.length; i++) {
-			geo = (GeoElement) geos[i];
-			GeoList colorListTemp = geo.getColorFunction();
-			if (colorListTemp != null) {
-				String strRedTemp = colorListTemp.get(0).getLabel(
-						StringTemplate.editTemplate);
-				String strGreenTemp = colorListTemp.get(1).getLabel(
-						StringTemplate.editTemplate);
-				String strBlueTemp = colorListTemp.get(2).getLabel(
-						StringTemplate.editTemplate);
-				String strAlphaTemp = "";
-				if (colorListTemp.size() == 4)
-					strAlphaTemp = colorListTemp.get(3).getLabel(
-							StringTemplate.editTemplate);
-				if (!strRed.equals(strRedTemp))
-					strRed = "";
-				if (!strGreen.equals(strGreenTemp))
-					strGreen = "";
-				if (!strBlue.equals(strBlueTemp))
-					strBlue = "";
-				if (!strAlpha.equals(strAlphaTemp))
-					strAlpha = "";
-			}
-		}
-
-		// set the color fields
-		tfRed.setText(strRed);
-		tfGreen.setText(strGreen);
-		tfBlue.setText(strBlue);
-		tfAlpha.setText(strAlpha);
-
+		model.updateProperties();
+		
 		// restore action listeners
 		tfRed.addActionListener(this);
 		tfGreen.addActionListener(this);
@@ -6493,10 +6411,6 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		return this;
 	}
 
-	// return true: want to be able to color all spreadsheet objects
-	private static boolean checkGeos(Object[] geos) {
-		return true;
-	}
 
 	/**
 	 * handle textfield changes
@@ -6516,8 +6430,6 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	private void doActionPerformed() {
 		processed = true;
 
-		GeoList list = null;
-		GeoList listAlpha = null;
 		String strRed = tfRed.getText();
 		String strGreen = tfGreen.getText();
 		String strBlue = tfBlue.getText();
@@ -6527,60 +6439,9 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		strGreen = PropertiesPanelD.replaceEqualsSigns(strGreen);
 		strBlue = PropertiesPanelD.replaceEqualsSigns(strBlue);
 		strAlpha = PropertiesPanelD.replaceEqualsSigns(strAlpha);
-
-		if ((strRed == null || strRed.trim().length() == 0)
-				&& (strGreen == null || strGreen.trim().length() == 0)
-				&& (strAlpha == null || strAlpha.trim().length() == 0)
-				&& (strBlue == null || strBlue.trim().length() == 0)) {
-			// num = null;
-		} else {
-			if (strRed == null || strRed.trim().length() == 0)
-				strRed = defaultR;
-			if (strGreen == null || strGreen.trim().length() == 0)
-				strGreen = defaultG;
-			if (strBlue == null || strBlue.trim().length() == 0)
-				strBlue = defaultB;
-			if (strAlpha == null || strAlpha.trim().length() == 0)
-				strAlpha = defaultA;
-
-			list = kernel.getAlgebraProcessor().evaluateToList(
-					"{" + strRed + "," + strGreen + "," + strBlue + "}");
-
-			listAlpha = kernel.getAlgebraProcessor().evaluateToList(
-					"{" + strRed + "," + strGreen + "," + strBlue + ","
-							+ strAlpha + "}");
-
-		}
-
-		// set condition
-		// try {
-		if (list != null) { //
-			if (((list.get(0) instanceof NumberValue)) && // bugfix, enter "x"
-															// for a color
-					((list.get(1) instanceof NumberValue)) && //
-					((list.get(2) instanceof NumberValue)) && //
-					((list.size() == 3 || list.get(3) instanceof NumberValue))) //
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = (GeoElement) geos[i];
-					if (geo.isFillable() && listAlpha != null) {
-						geo.setColorFunction(listAlpha);
-						list = listAlpha; // to have correct update
-					} else
-						geo.setColorFunction(list);
-					geo.setColorSpace(colorSpace);
-				}
-
-			list.updateRepaint();
-
-			// to update "showObject" as well
-			propPanel.updateSelection(geos);
-		} else {
-			// put back faulty text (for editing)
-			tfRed.setText(strRed);
-			tfGreen.setText(strGreen);
-			tfBlue.setText(strBlue);
-			tfAlpha.setText(strAlpha);
-		}
+		
+		model.applyChanges(strRed, strGreen, strBlue, strAlpha, colorSpace,
+				defaultR, defaultG, defaultB, defaultA);
 
 	}
 
@@ -6619,8 +6480,56 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		// TODO Auto-generated method stub
 
 	}
-}
 
+	public void setRedText(final String text) {
+		tfRed.setText(text);
+		
+	}
+
+	public void setGreenText(final String text) {
+		tfGreen.setText(text);
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBlueText(final String text) {
+		tfBlue.setText(text);
+		
+	}
+	
+	public void setAlphaText(final String text) {
+		tfAlpha.setText(text);
+		
+	}
+	
+	public void setDefaultValues(GeoElement geo) {
+		Color col = geogebra.awt.GColorD.getAwtColor(geo.getObjectColor());
+		defaultR = "" + col.getRed() / 255.0;
+		defaultG = "" + col.getGreen() / 255.0;
+		defaultB = "" + col.getBlue() / 255.0;
+		defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
+		
+
+		// set the selected color space and labels to match the first geo's
+		// color space
+		colorSpace = geo.getColorSpace();
+		cbColorSpace.setSelectedIndex(colorSpace);
+		allowSetComboBoxLabels = false;
+		setLabels();
+		
+	}
+	
+	public void showAlpha(boolean value) {
+		tfAlpha.setVisible(value);
+		nameLabelA.setVisible(value);
+	}
+
+	public void updateSelection(Object[] geos) {
+		propPanel.updateSelection(geos);
+		
+	}
+
+}
 /**
  * panel to set graphics view location
  * 
