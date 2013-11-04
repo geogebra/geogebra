@@ -24,9 +24,7 @@ public class OpenFromGGTOperationW extends OpenFromGGTOperation {
 	 * @return GGTURL for Web
 	 */
 	public String generateOpenFromGGTURL() {
-		//return super.generateOpenFromGGTURL(APP_TYPE.WEB);
-		//TEST!
-		return "http://test.geogebratube.org:8080/widgetprovider/index/widgettype/web";
+		return super.generateOpenFromGGTURL(APP_TYPE.WEB);
 	}
 	
 	private native void iniNativeEvents() /*-{
