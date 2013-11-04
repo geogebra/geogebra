@@ -30,7 +30,6 @@ import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
-import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import java.util.ArrayList;
 
@@ -43,9 +42,7 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	public DialogManagerW(App app) {
-		super(app);
-		GoogleDriveOperationW googleDriveOperation = ((AppW) app).getGoogleDriveOperation(); 
-		if (googleDriveOperation != null) googleDriveOperation.getView().add(this);
+		super(app);		
 	}
 
 	@Override

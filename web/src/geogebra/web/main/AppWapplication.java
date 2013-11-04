@@ -12,6 +12,7 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
+import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -235,7 +236,10 @@ public class AppWapplication extends AppW {
 	@Override
 	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
-			dialogManager = new DialogManagerW(this);
+			dialogManager = new DialogManagerW(this); 
+			if (getGoogleDriveOperation() != null){
+				getGoogleDriveOperation().getView().add((DialogManagerW)dialogManager);
+			}
 		}
 		return dialogManager;
 	}
