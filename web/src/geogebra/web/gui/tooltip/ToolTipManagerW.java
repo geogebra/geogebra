@@ -94,6 +94,7 @@ public class ToolTipManagerW {
 	 * relative to this element.
 	 */
 	private Element tipElement;
+	private boolean enabled = true; 
 
 	/** Singleton instance of ToolTipManager. */
 	final static ToolTipManagerW sharedInstance = new ToolTipManagerW();
@@ -116,7 +117,7 @@ public class ToolTipManagerW {
 
 	private void initTooltipManagerW() {
 
-		if (tipPanel != null) {
+		if (tipPanel != null || !enabled) {
 			return;
 		}
 
@@ -188,6 +189,9 @@ public class ToolTipManagerW {
 	 * toolTip on a mouseDown event.
 	 */
 	private void registerMouseListeners() {
+		if(!enabled){
+			return;
+		}
 
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
@@ -273,7 +277,9 @@ public class ToolTipManagerW {
 	 *            text to be displayed
 	 */
 	public void showToolTip(Element element, String toolTipText) {
-
+		if(!enabled){
+			return;
+		}
 		tipElement = element;
 		if (tipElement == null) {
 			hideToolTip();
@@ -289,7 +295,9 @@ public class ToolTipManagerW {
 	 *            text to be displayed
 	 */
 	public void showToolTip(String toolTipText) {
-
+		if(!enabled){
+			return;
+		}
 		tipElement = null;
 		showToolTipWithDelay(toolTipText);
 	}
@@ -319,7 +327,9 @@ public class ToolTipManagerW {
 	 * Show the toolTip.
 	 */
 	protected void show() {
-
+		if(!enabled){
+			return;
+		}
 		// locate and show the toolTip
 		setToolTipLocation();
 		tipPanel.getElement().getStyle().setProperty("visibility", "visible");
@@ -338,7 +348,9 @@ public class ToolTipManagerW {
 	 * Hide the toolTip.
 	 */
 	public void hideToolTip() {
-
+		if(!enabled){
+			return;
+		}
 		// exit if toolTip is already hidden
 		if (!tipPanel.getElement().getPropertyBoolean("visibility")
 		        && oldText.equals("")) {
@@ -408,4 +420,7 @@ public class ToolTipManagerW {
 		}
 	}
 
+	public void setEnabled(boolean allowToolTips){
+		this.enabled = allowToolTips;
+	}
 }
