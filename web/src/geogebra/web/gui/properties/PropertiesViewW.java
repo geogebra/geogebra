@@ -53,7 +53,6 @@ public class PropertiesViewW extends
 	    getOptionPanel(OptionType.OBJECTS);
 	    
 	    initGUI();
-	    
     }
 	
 	public void initGUI() {
@@ -155,6 +154,7 @@ public class PropertiesViewW extends
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectW((AppW) app, false);
 				((OptionsObjectW) objectPanel).setMinimumSize(((OptionsObjectW) objectPanel).getPreferredSize());
+				
 			}
 			return (OptionPanelW) objectPanel;
 		}

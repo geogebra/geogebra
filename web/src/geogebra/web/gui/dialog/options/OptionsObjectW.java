@@ -71,6 +71,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -1377,7 +1378,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		addAdvancedTab();
 		tabPanel.selectTab(0);
 		wrappedPanel.add(tabPanel);
+		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
 
+			  @Override
+			  public void onAttachOrDetach(AttachEvent event) {
+			    app.setDefaultCursor();
+			  }
+			});
 		updateGUI();
 	}
 
