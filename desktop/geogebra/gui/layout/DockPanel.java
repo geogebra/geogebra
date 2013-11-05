@@ -18,7 +18,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
@@ -46,7 +45,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -343,6 +341,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		setLayout(new BorderLayout());
 	}
 
+	/**
+	 * @param app application
+	 */
 	protected void setApp(AppD app){
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -388,6 +389,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *         meantime).
 	 */
 	protected void focusGained() {
+		//by default do nothing
 	}
 
 	/**
@@ -399,6 +401,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *         meantime).
 	 */
 	protected void focusLost() {
+		//by default do nothing
 	}
 
 	/**
@@ -434,11 +437,11 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * Bind this view to a dock manager. Also initializes the whole GUI as just
 	 * at this point the application is available.
 	 * 
-	 * @param dockManager
+	 * @param dockManager1 dock manager
 	 */
-	public void register(DockManager dockManager) {
-		this.dockManager = dockManager;
-		setApp(dockManager.getLayout().getApplication());
+	public void register(DockManager dockManager1) {
+		this.dockManager = dockManager1;
+		setApp(dockManager1.getLayout().getApplication());
 		// create buttons for the panels
 		createButtons();
 
@@ -593,6 +596,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 		if (isDialog) {
 			frame = new JDialog(app.getFrame(), false) {
+				private static final long serialVersionUID = 1L;
+
 				// Send window closing event when dialog is set invisible.
 				// This allows a dock panel view to close properly.
 				@Override
@@ -720,7 +725,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * value of the 'alone' state will cause the GUI to update automatically if
 	 * this panel is visible.
 	 * 
-	 * @param isAlone
+	 * @param isAlone whether is only panel in the main frame
 	 */
 	public void setAlone(boolean isAlone) {
 		if (this.isAlone == isAlone) {
@@ -750,6 +755,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 	/**
 	 * Sets the the isHidden flag (no other action)
+	 * @param isHidden true for hidden dock panel
 	 */
 	public void setHidden(boolean isHidden) {
 		this.isHidden = isHidden;
@@ -940,7 +946,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	/**
 	 * Close this panel.
 	 * 
-	 * @param isPermanent
+	 * @param isPermanent true for permanent closing (also detach the view)
 	 */
 	protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
@@ -1451,10 +1457,11 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 */
 	public void setToolbarString(String toolbarString) {
 		if (toolbarString == null && hasToolbar()) {
-			toolbarString = defaultToolbarString;
+			this.toolbarString = defaultToolbarString;
 		}
-
-		this.toolbarString = toolbarString;
+		else{
+			this.toolbarString = toolbarString;
+		}
 	}
 
 	/**
@@ -1493,51 +1500,34 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		}
 	}
 
-	public void windowClosed(WindowEvent e) {
+	public final void windowClosed(WindowEvent e) {
 	}
 
-	public void windowActivated(WindowEvent e) {
+	public final void windowActivated(WindowEvent e) {
 	}
 
-	public void windowDeactivated(WindowEvent e) {
+	public final void windowDeactivated(WindowEvent e) {
 	}
 
-	public void windowDeiconified(WindowEvent e) {
+	public final void windowDeiconified(WindowEvent e) {
 	}
 
-	public void windowIconified(WindowEvent e) {
+	public final void windowIconified(WindowEvent e) {
 	}
 
-	public void windowOpened(WindowEvent e) {
+	public final void windowOpened(WindowEvent e) {
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public final void mouseClicked(MouseEvent e) {
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	public final void mouseEntered(MouseEvent e) {
 	}
 
-	public void mouseExited(MouseEvent e) {
+	public final void mouseExited(MouseEvent e) {
 	}
 
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	/**
-	 * UI for the buttons in the title panel. Used for Mac as the normal buttons
-	 * are not displayed correctly as they are too small.
-	 * 
-	 * @author Florian Sonner
-	 */
-	private static class TitleBarButtonUI extends BasicButtonUI {
-		@Override
-		public void paint(Graphics g, JComponent component) {
-			JButton button = (JButton) component;
-
-			// TODO implement drawing...
-
-			super.paint(g, component);
-		}
+	public final void mouseReleased(MouseEvent e) {
 	}
 
 	public class MyButtonHider extends MouseAdapter {

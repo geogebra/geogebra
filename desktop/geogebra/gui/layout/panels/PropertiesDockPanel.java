@@ -132,42 +132,11 @@ public class PropertiesDockPanel extends DockPanel implements
 	public void windowLostFocus(WindowEvent arg0) {
 	}
 
-	/*
-	 * Window Listener
-	 */
-	@Override
-	public void windowActivated(WindowEvent e) {
-		/*
-		 * if (!isModal()) { geoTree.setSelected(null, false);
-		 * //selectionChanged(); } repaint();
-		 */
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-	}
-
 	@Override
 	public void windowClosing(WindowEvent e) {
 		getPropertiesView();
 		view.applyModifications();
 		closeDialog();
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-	}
-
-	@Override
-	public void windowOpened(WindowEvent e) {
 	}
 
 	public void closeDialog() {
