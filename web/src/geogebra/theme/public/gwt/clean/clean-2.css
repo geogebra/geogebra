@@ -1577,11 +1577,11 @@ Paddings for menuitems.
 /*=========== ToolBar =============*/
 
 .undoPanel {
-	position:absolute;
+	position:relative;
 	right:5px;
-	top: 0px;
-	margin:4px 10px;
-	display:block;
+	top: -55px;
+	float: right;
+	height: 0px;
 }
 
 body[dir=rtl] .undoPanel {
