@@ -193,7 +193,7 @@ public class Parser implements ParserInterface{
     }
     private ExpressionNode makePower(ExpressionValue v,ExpressionValue e){
   		if(v.isExpressionNode() && ((ExpressionNode)v).getOperation()
-  			==Operation.MULTIPLY_OR_FUNCTION){
+  			==Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode)v).hasBrackets()){
     		return new ExpressionNode(kernel,((ExpressionNode)v).getLeft(),Operation.MULTIPLY,
     			new ExpressionNode(kernel,((ExpressionNode)v).getRight(),Operation.POWER,e));
   		}
@@ -1509,7 +1509,8 @@ ExpressionValue enfactorial():
 	    en = ensqrt() 
 	    (LOOKAHEAD(<FACTORIAL>) <FACTORIAL> 
 	     {
-	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)
+	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
+	       		&& !((ExpressionNode)en).hasBrackets())
 	       		{
 	       		  en = new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(),
 	       		  	Operation.MULTIPLY,
@@ -1530,7 +1531,8 @@ ExpressionValue ensqrt():
 {     
 	    <SQRT_SHORT > en = NOTterm()  
 	     {
-	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)
+	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
+	       		&& !((ExpressionNode)en).hasBrackets())
 	       		{
 	       		  en = new ExpressionNode(kernel,
 	       		  new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(), Operation.SQRT_SHORT, null),
@@ -1615,7 +1617,9 @@ ExpressionValue enelement():
     // parenthesis
     LOOKAHEAD(2147483647)
     "("  ev = expressionOrEquation()  ")" 
-        { return  ev.unwrap(); }       	           
+        { ev = ev.unwrap(); if(ev instanceof ExpressionNode)        {
+          ((ExpressionNode)ev).setBrackets(true);        }
+        return ev; }       	           
 |
     // cartesian vector  (x, y) or (x|y)
     LOOKAHEAD(2147483647)

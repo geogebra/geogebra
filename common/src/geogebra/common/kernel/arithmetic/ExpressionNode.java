@@ -66,6 +66,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	/** for leaf mode */
 	public boolean leaf = false;
+	private boolean brackets;
 
 	/**
 	 * Creates dummy expression node
@@ -880,7 +881,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 		case POWER:
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION) {
+					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode) left).hasBrackets()) {
 				right = new ExpressionNode(kernel,
 						((ExpressionNode) left).getRight(), Operation.POWER,
 						right);
@@ -890,7 +891,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 		case FACTORIAL:
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION) {
+					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode) left).hasBrackets()) {
 				right = new ExpressionNode(kernel,
 						((ExpressionNode) left).getRight(),
 						Operation.FACTORIAL, null);
@@ -899,7 +900,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 		case SQRT_SHORT:
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION) {
+					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode) left).hasBrackets()) {
 				right = ((ExpressionNode) left).getRight();
 				left = new ExpressionNode(kernel,
 						((ExpressionNode) left).getLeft(), Operation.SQRT, null);
@@ -5040,6 +5041,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	public ExpressionNode replaceCasCommands() {
 		return this.traverse(Traversing.CASCommandReplacer.replacer).wrap();
+	}
+
+	public boolean hasBrackets() {
+		return brackets;
+	}
+
+	public void setBrackets(boolean brackets) {
+		this.brackets = brackets;
 	}
 	
 }
