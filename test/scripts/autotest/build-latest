@@ -23,11 +23,13 @@ MYDIR=$SVNDIR/geogebra/test/scripts/autotest
 
  REVISION=`./myrevision`
  echo "The latest revision ($REVISION) has been built now"
- 
+
  cd $REVDIR
  rm -f latest
  ln -s $REVISION latest
- 
+
+ wget http://dev.geogebra.org/qa/getrevisions.php?branch=50 -O /dev/null
+
  exit 0
  }
 
