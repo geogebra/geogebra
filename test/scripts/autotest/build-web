@@ -13,14 +13,14 @@ WEB_BUILDDIR=war
 REVISION=`./myrevision`
 mkdir -p $REVDIR/$REVISION
 cd $WEB_AUTOBUILDDIR
-./build -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war -- -localWorkers 2 > .buildlog 2>&1 || {
+./build -s OBFUSCATED -c -cg -- -localWorkers 2 > .buildlog 2>&1 || {
  RESULT=$?
  cp .buildlog $REVDIR/$REVISION/weberrors
  exit $RESULT
  }
 
 # Compiling webSimple
-./build -t WebSimple -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war-simple -- -localWorkers 2 > .buildlog2 2>&1
+./build -t WebSimple -s OBFUSCATED -c -cg -i $REVDIR/$REVISION/war -- -localWorkers 2 > .buildlog2 2>&1
 
 echo -n $REVISION > $REVDIR/$REVISION/war/web/version.txt
 echo -n $REVISION > $REVDIR/$REVISION/war-simple/webSimple/version.txt
