@@ -451,17 +451,27 @@ public class AlgoTableText extends AlgoElement {
 		if (alignment == Alignment.VERTICAL) {
 
 			for (int r = 0; r < rows; r++) {
-				if (horizontalLines) {
+				if (!horizontalLines) {
+					sb.append("\\ggbtr{");
+				} else if (!horizontalLinesJustEdges) {
 					sb.append("\\ggbtrl{");
+				} else if (r == 0) {
+					sb.append("\\ggbtrlt{");
+				} else if (r == rows-1) {
+					sb.append("\\ggbtrlb{");
 				} else {
 					sb.append("\\ggbtr{");
 				}
-				
 				for (int c = 0; c < columns; c++) {
 					String jc = String.valueOf(getJustification(c)).toUpperCase();
-					if (verticalLines ||
-							(verticalLinesJustEdges && (c == 0 || c == columns-1))) {
+					if (!verticalLines) {
+						sb.append("\\ggbtd"+jc+"{");
+					} else if (!verticalLinesJustEdges) {
 						sb.append("\\ggbtdl"+jc+"{");
+					} else if (c == 0) {
+						sb.append("\\ggbtdll"+jc+"{");
+					} else if (c == columns-1) {
+						sb.append("\\ggbtdlr"+jc+"{");
 					} else {
 						sb.append("\\ggbtd"+jc+"{");
 					}
@@ -474,15 +484,27 @@ public class AlgoTableText extends AlgoElement {
 		} else { // alignment == HORIZONTAL
 
 			for (int c = 0; c < columns; c++) {
-				if (horizontalLines) {
+				if (!horizontalLines) {
+					sb.append("\\ggbtr{");
+				} else if (!horizontalLinesJustEdges) {
 					sb.append("\\ggbtrl{");
+				} else if (c == 0) {
+					sb.append("\\ggbtrlt{");
+				} else if (c == columns-1) {
+					sb.append("\\ggbtrlb{");
 				} else {
 					sb.append("\\ggbtr{");
 				}
 				for (int r = 0; r < rows; r++) {
 					String jc = String.valueOf(getJustification(r)).toUpperCase();
-					if (verticalLines) {
+					if (!verticalLines) {
+						sb.append("\\ggbtd"+jc+"{");
+					} else if (!verticalLinesJustEdges) {
 						sb.append("\\ggbtdl"+jc+"{");
+					} else if (r == 0) {
+						sb.append("\\ggbtdll"+jc+"{");
+					} else if (r == rows-1) {
+						sb.append("\\ggbtdlr"+jc+"{");
 					} else {
 						sb.append("\\ggbtd"+jc+"{");
 					}

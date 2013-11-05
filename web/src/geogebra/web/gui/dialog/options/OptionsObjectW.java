@@ -1380,7 +1380,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		wrappedPanel.add(tabPanel);
 		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
 
-			  @Override
 			  public void onAttachOrDetach(AttachEvent event) {
 			    app.setDefaultCursor();
 			  }
