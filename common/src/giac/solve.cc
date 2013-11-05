@@ -4936,7 +4936,7 @@ namespace giac {
       }
       pair<unsigned,unsigned> bk=B[smallpos];
       if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	cerr << clock() << " reducing pair with 1 element not in basis " << bk << endl;
+	cerr << clock() << " reducing pair with 1 element not in basis " << bk << " from " << B << endl;
       B.erase(B.begin()+smallpos);
       polynome h=spoly(res[bk.first],res[bk.second],env);
       if (debug_infolevel>1)
@@ -5098,7 +5098,9 @@ namespace giac {
       for (unsigned i=0;i<eq.size();++i){
 	for (unsigned j=0;j<var.size();++j){
 	  gen a,b;
-	  if (is_linear_wrt(eq[i],var[j],a,b,contextptr) && !is_zero(simplify(a,contextptr))){
+	  if (is_linear_wrt(eq[i],var[j],a,b,contextptr) 
+	      && is_zero(derive(eq[i],var,contextptr)) 
+	      && !is_zero(simplify(a,contextptr))){
 	    // eq[i]=a*var[j]+b
 	    // replace var[j] by -b/a
 	    gen elimj=-b/a;

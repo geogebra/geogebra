@@ -1830,6 +1830,10 @@ namespace giac {
 	return e._SYMBptr->feuille-n*cst_pi;
       return n*cst_pi-e._SYMBptr->feuille;
     }
+    if (e.is_symb_of_sommet(at_sin)){
+      a=e._SYMBptr->feuille;
+      return a-_round(a/cst_pi,contextptr)*cst_pi;
+    }
     if ( (e.type==_INT_) && (e.val<0) )
       return -asin(-e,contextptr);
     if (is_equal(e))

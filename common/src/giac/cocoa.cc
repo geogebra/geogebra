@@ -2918,6 +2918,20 @@ namespace giac {
     // -> if g leading monomial is prime with h, remove the pair
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
+#if 1
+    unsigned tmpsize=G.size();
+    vector<tdeg_t> tmp(tmpsize);
+    for (unsigned i=0;i<tmpsize;++i){
+      if (res[G[i]].coord.empty()){
+	tmp[i].tab[0]=-1;
+      }
+      else
+	index_lcm(h0,res[G[i]].coord.front().u,tmp[i],order); 
+    }
+#else
+    // this would be faster but it does not work for 
+    // gbasis([25*y^2*x^6-10*y^2*x^5+59*y^2*x^4-20*y^2*x^3+43*y^2*x^2-10*y^2*x+9*y^2-80*y*x^6+136*y*x^5+56*y*x^4-240*y*x^3+104*y*x^2+64*x^6-192*x^5+192*x^4-64*x^3,25*y^2*6*x^5-10*y^2*5*x^4+59*y^2*4*x^3-20*y^2*3*x^2+43*y^2*2*x-10*y^2-80*y*6*x^5+136*y*5*x^4+56*y*4*x^3-240*y*3*x^2+104*y*2*x+64*6*x^5-192*5*x^4+192*4*x^3-64*3*x^2,25*2*y*x^6-10*2*y*x^5+59*2*y*x^4-20*2*y*x^3+43*2*y*x^2-10*2*y*x+9*2*y-80*x^6+136*x^5+56*x^4-240*x^3+104*x^2],[x,y],revlex);
+    // pair <4,3> is not generated
     unsigned tmpsize=G.empty()?0:G.back()+1;
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
@@ -2927,12 +2941,18 @@ namespace giac {
       else
 	index_lcm(h0,res[i].coord.front().u,tmp[i],order); 
     }
+#endif
     for (unsigned i=0;i<G.size();++i){
       if (interrupted || ctrl_c)
 	return;
       if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
 	continue;
-      tdeg_t * tmp1=&tmp[G[i]]; // h0 and G[i] leading monomial not prime together
+      // h0 and G[i] leading monomial not prime together
+#if 1
+      tdeg_t * tmp1=&tmp[i]; 
+#else
+      tdeg_t * tmp1=&tmp[G[i]];
+#endif
       tdeg_t * tmp2=&tmp[0],*tmpend=tmp2+tmpsize;
       for (;tmp2!=tmp1;++tmp2){
 	if (tmp2->tab[0]==-1)
@@ -8364,7 +8384,7 @@ namespace giac {
     if (debug_infolevel>2)
       cerr << clock() << " zmod begin gbasis update " << G.size() << endl;
     if (debug_infolevel>3)
-      cerr << G << endl;
+      cerr << "G=" << G << "B=" << B << endl;
     const zpolymod & h = res[pos];
     short order=h.order,dim=h.dim;
     vector<unsigned> C;
@@ -8380,17 +8400,33 @@ namespace giac {
     // -> if g leading monomial is prime with h, remove the pair
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
+#if 1
+    unsigned tmpsize=G.size();
+    vector<tdeg_t> tmp(tmpsize);
+    for (unsigned i=0;i<tmpsize;++i){
+      index_lcm(h0,res[G[i]].ldeg,tmp[i],order); 
+    }
+#else
+    // this would be faster but it does not work for 
+    // gbasis([25*y^2*x^6-10*y^2*x^5+59*y^2*x^4-20*y^2*x^3+43*y^2*x^2-10*y^2*x+9*y^2-80*y*x^6+136*y*x^5+56*y*x^4-240*y*x^3+104*y*x^2+64*x^6-192*x^5+192*x^4-64*x^3,25*y^2*6*x^5-10*y^2*5*x^4+59*y^2*4*x^3-20*y^2*3*x^2+43*y^2*2*x-10*y^2-80*y*6*x^5+136*y*5*x^4+56*y*4*x^3-240*y*3*x^2+104*y*2*x+64*6*x^5-192*5*x^4+192*4*x^3-64*3*x^2,25*2*y*x^6-10*2*y*x^5+59*2*y*x^4-20*2*y*x^3+43*2*y*x^2-10*2*y*x+9*2*y-80*x^6+136*x^5+56*x^4-240*x^3+104*x^2],[x,y],revlex);
+    // pair <4,3> is not generated
     unsigned tmpsize=G.empty()?0:G.back()+1;
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
       index_lcm(h0,res[i].ldeg,tmp[i],order); 
     }
+#endif
     for (unsigned i=0;i<G.size();++i){
       if (interrupted || ctrl_c)
 	return;
       if (disjoint(h0,res[G[i]].ldeg,order,dim))
 	continue;
-      tdeg_t * tmp1=&tmp[G[i]]; // h0 and G[i] leading monomial not prime together
+      // h0 and G[i] leading monomial not prime together
+#if 1
+      tdeg_t * tmp1=&tmp[i]; 
+#else
+      tdeg_t * tmp1=&tmp[G[i]]; 
+#endif
       tdeg_t * tmp2=&tmp[0],*tmpend=tmp2+tmpsize;
       for (;tmp2!=tmp1;++tmp2){
 	if (tmp2->tab[0]==-1)
@@ -8594,6 +8630,8 @@ namespace giac {
 	  if (Blcm[i].total_degree()==smalltotdeg)
 	    smallposv.push_back(i);
 	}
+	if (debug_infolevel>3)
+	  cerr << "pairs reduced " << B << " indices " << smallposv << endl;
 #else
 	vector<unsigned> smallposv,smallposv1;
 	for (unsigned i=0;i<B.size();++i){

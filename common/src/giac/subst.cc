@@ -1409,6 +1409,16 @@ namespace giac {
 	w=*w.front()._VECTptr;
 	if (w.size()==2){
 	  gen l=w.front(),m=w.back();
+#if 1
+	  point=ratnormal((l+m)/2);
+	  if (!is_inf(point) && !is_undef(point)){
+	    *logptr(contextptr) << gettext("Simplification assuming ") << v[i] << " near " << point << endl;
+	    point=subst(gg,*v[i]._IDNTptr,point,false,contextptr);
+	    if (!is_inf(point) && !is_undef(point)){
+	      return evalf(point,1,contextptr);
+	    }
+	  }
+#endif
 	  if (!is_inf(m)){
 	    point=m;
 	    direction=-1;
@@ -1891,7 +1901,11 @@ namespace giac {
       g=trig2exp(e,contextptr);
     if (s2>1)
       g=atrig2ln(g,contextptr);
-    return tsimplify_common(g,contextptr);
+    bool b=complex_mode(contextptr);
+    complex_mode(true,contextptr);
+    g=tsimplify_common(g,contextptr);
+    complex_mode(b,contextptr);
+    return g;
   }
   gen _tsimplify(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
