@@ -45,6 +45,7 @@ public class AlgoTableText extends AlgoElement {
 	// style variables
 	private Alignment alignment;
 	private boolean verticalLines, horizontalLines;
+	private boolean verticalLinesJustEdges, horizontalLinesJustEdges;
 	private String justification, openBracket, closeBracket, openString,
 			closeString;
 	private int columns;
@@ -172,6 +173,9 @@ public class AlgoTableText extends AlgoElement {
 			if (optionsStr.indexOf("_") > -1) {
 				horizontalLines = true; // vertical table
 			}
+			
+			verticalLinesJustEdges = optionsStr.indexOf("/") > -1;
+			horizontalLinesJustEdges = optionsStr.indexOf("-") > -1;
 		
 			MatchResult matcher = matchLRC.exec(optionsStr);
 			justification = matcher.getGroup(2);
@@ -349,8 +353,10 @@ public class AlgoTableText extends AlgoElement {
 		if (alignment == Alignment.VERTICAL) {
 
 			for (int c = 0; c < columns; c++) {
-				if (verticalLines)
+				if (verticalLines &&
+						(!verticalLinesJustEdges || c == 0)) {
 					sb.append("|");
+				}
 				sb.append(getJustification(c)); // "l", "r" or "c"
 			}
 			if (verticalLines) {
@@ -369,14 +375,18 @@ public class AlgoTableText extends AlgoElement {
 					addCellLaTeX(c, r, finalCell, tpl);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
-				if (horizontalLines)
+				
+				if (horizontalLines &&
+						(!horizontalLinesJustEdges || r == rows - 1)) {
 					sb.append("\\hline ");
+				}
 			}
 
 		} else { // alignment == HORIZONTAL
 
 			for (int c = 0; c < rows; c++) {
-				if (verticalLines) {
+				if (verticalLines &&
+						(!verticalLinesJustEdges || c == 0)) {
 					sb.append("|");
 				}
 				
@@ -400,7 +410,8 @@ public class AlgoTableText extends AlgoElement {
 					addCellLaTeX(c, r, finalCell, tpl);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
-				if (horizontalLines) {
+				if (horizontalLines &&
+						(!horizontalLinesJustEdges || c == columns - 1)) {
 					sb.append("\\hline ");
 				}
 			}
@@ -448,7 +459,8 @@ public class AlgoTableText extends AlgoElement {
 				
 				for (int c = 0; c < columns; c++) {
 					String jc = String.valueOf(getJustification(c)).toUpperCase();
-					if (verticalLines) {
+					if (verticalLines ||
+							(verticalLinesJustEdges && (c == 0 || c == columns-1))) {
 						sb.append("\\ggbtdl"+jc+"{");
 					} else {
 						sb.append("\\ggbtd"+jc+"{");
