@@ -332,7 +332,12 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 */
 	public void setWidth(int width) {
 		setWidth(width + "px");
-		app.getGuiManager().resize(width, getOffsetHeight());
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().resize(width, getOffsetHeight());
+		} else {
+			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
+			app.getEuclidianViewpanel().onResize();
+		}
 	}
 	
 	/**
@@ -342,8 +347,12 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 */
 	public void setHeight(int height) {
 		setHeight(height + "px");
-		app.getGuiManager().resize(getOffsetWidth(), height);
-
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().resize(getOffsetWidth(), height);
+		} else {
+			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height );
+			app.getEuclidianViewpanel().onResize();
+		}
 	}
 	
 	/**

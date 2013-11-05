@@ -5,14 +5,19 @@ import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPanelWAbstract {
+public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPanelWAbstract, RequiresResize {
 
 	AppW app;
+	int oldHeight = 0;
+	int oldWidth = 0;
 	//EuclidianStyleBar espanel;
 	//EuclidianPanel euclidianpanel;
 
@@ -182,7 +187,30 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 		return null;
 	}
 
-	public void onResize() { }
+	public void onResize() {
+		if (app != null) {
+
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				public void execute() {
+
+					int h = getOffsetHeight();
+					int w = getOffsetWidth();
+
+					// TODO handle this better?
+					// exit if new size cannot be determined
+					if (h < 0 || w < 0) {
+						return;
+					}
+					if (h != oldHeight || w != oldWidth) {
+						app.ggwGraphicsViewDimChanged(w, h);
+						oldHeight = h;
+						oldWidth = w;
+					}
+				}
+			});
+
+		}
+    }
 
 	public void updateNavigationBar() { }
 }

@@ -421,7 +421,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void resize(int width, int height) {
-		App.debug("TODO: resize somehow sane");
+		app.getEuclidianViewpanel().setPixelSize(width, height );
+		app.getEuclidianViewpanel().onResize();
 	}
 
 	public ToolBarW getGeneralToolbar() {
