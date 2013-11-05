@@ -174,8 +174,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		list.setDefined(true);
 		list.clear();
 		list.setEuclidianVisible(false); // don't show in EV by default
-		list.setDrawAsComboBox(true); // but if someone wants it, then prefer a
-										// drop-down list
+
 		if (result != null) {
 			GeoBoolean answer = new GeoBoolean(cons);
 			answer.setValue(result);

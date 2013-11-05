@@ -45,11 +45,7 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 
 	@Override
     public void setVisible(boolean isVisible) {
-		try {
-			impl.setVisible(isVisible);
-		} catch (Exception e) {
-			App.debug("FIXME: Problem with GBoxW.setVisible (will return Uncaught TypeError: Cannot read property 'impl' of null)");
-		}
+		impl.setVisible(isVisible);		
     }
 
 	@Override
