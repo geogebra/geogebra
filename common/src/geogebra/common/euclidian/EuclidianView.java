@@ -2005,7 +2005,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return geo.isMoveable();
 	}
 
-	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent) {
+	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
 		return algoParent.getFreeInputPoints();
 	}
 

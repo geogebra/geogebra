@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
@@ -1004,15 +1005,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @return list of moveable input points
 	 */
-	public ArrayList<GeoPoint> getFreeInputPoints() {
+	public ArrayList<GeoPointND> getFreeInputPoints() {
 		if (freeInputPoints == null) {
-			freeInputPoints = new ArrayList<GeoPoint>(input.length);
+			freeInputPoints = new ArrayList<GeoPointND>(input.length);
 
 			// don't use free points from dependent algos with expression trees
 			if (!(this instanceof DependentAlgo)) {
 				for (int i = 0; i < input.length; i++) {
 					if (input[i].isGeoPoint() && input[i].isIndependent()) {
-						freeInputPoints.add((GeoPoint) input[i]);
+						freeInputPoints.add((GeoPointND) input[i]);
 					}
 				}
 			}
@@ -1021,7 +1022,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return freeInputPoints;
 	}
 
-	private ArrayList<GeoPoint> freeInputPoints;
+	private ArrayList<GeoPointND> freeInputPoints;
 
 	/**
 	 * Returns all input points of this algorithm.

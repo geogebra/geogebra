@@ -900,19 +900,19 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
-	private ArrayList<GeoPoint> al = null;
+	private ArrayList<GeoPointND> al = null;
 
 	/**
 	 * Returns all free parent points of this GeoElement.
 	 */
 	@Override
-	public ArrayList<GeoPoint> getFreeInputPoints(
+	public ArrayList<GeoPointND> getFreeInputPoints(
 			EuclidianViewInterfaceSlim view) {
 		if (hasAbsoluteLocation())
 			return null;
 
 		if (al == null)
-			al = new ArrayList<GeoPoint>();
+			al = new ArrayList<GeoPointND>();
 		else
 			al.clear();
 

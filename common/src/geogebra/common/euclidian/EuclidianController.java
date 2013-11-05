@@ -5638,8 +5638,8 @@ public abstract class EuclidianController {
 				rotGeoElement.updateCascade();
 			}
 		}else{
-			ArrayList<GeoPoint> pts = rotGeoElement.getFreeInputPoints(view);
-			for(GeoPoint pt:pts){
+			ArrayList<GeoPointND> pts = rotGeoElement.getFreeInputPoints(view);
+			for(GeoPointND pt:pts){
 				pt.rotate(tempNum, rotationCenter);
 			}
 			GeoElement.updateCascade(pts, new TreeSet<AlgoElement>(), false);
@@ -6941,8 +6941,9 @@ public abstract class EuclidianController {
 						translateableGeos = new ArrayList<GeoElement>();
 					else
 						translateableGeos.clear();
-					translateableGeos.addAll(movedGeoElement
-							.getFreeInputPoints(view));
+					
+					addMovedGeoElementFreeInputPointsToTranslateableGeos();
+					
 					if(movedGeoElement.isGeoList())
 						translateableGeos.add(movedGeoElement);
 				}
@@ -7383,6 +7384,14 @@ public abstract class EuclidianController {
 			}
 		}
 	
+	}
+	
+	
+	private void addMovedGeoElementFreeInputPointsToTranslateableGeos(){
+		ArrayList<GeoPointND> freeInputPoints = movedGeoElement.getFreeInputPoints(view);
+		for (GeoPointND p : freeInputPoints){
+			translateableGeos.add((GeoElement) p);
+		}
 	}
 
 	/**

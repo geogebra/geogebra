@@ -2078,7 +2078,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 				// check if first free input point is start point of vector
-				final ArrayList<GeoPoint> freeInputPoints = getFreeInputPoints(view);
+				final ArrayList<GeoPointND> freeInputPoints = getFreeInputPoints(view);
 				if (freeInputPoints.size() > 0) {
 					final GeoPointND firstInputPoint = freeInputPoints.get(0);
 					final GeoPointND startPoint = ((Locateable) this)
@@ -2098,7 +2098,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param view view
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPoint> getFreeInputPoints(
+	public ArrayList<GeoPointND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		if (algoParent == null) {
 			return null;
@@ -2125,13 +2125,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private static boolean containsOnlyMoveableGeos(
-			final ArrayList<GeoPoint> geos) {
+			final ArrayList<GeoPointND> geos) {
 		if ((geos == null) || (geos.size() == 0)) {
 			return false;
 		}
 
 		for (int i = 0; i < geos.size(); i++) {
-			final GeoElement geo = geos.get(i);
+			final GeoElement geo = (GeoElement) geos.get(i);
 			if (!geo.isMoveable()) {
 				return false;
 			}

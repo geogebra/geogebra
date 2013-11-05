@@ -25,7 +25,6 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -3389,7 +3388,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 	@Override
-	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
+	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 	
