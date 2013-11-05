@@ -3,6 +3,7 @@ package geogebra.gui.layout;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -1445,6 +1446,10 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * @return The definition string associated with this toolbar.
 	 */
 	public String getToolbarString() {
+		if(toolbarString == null){
+			Log.warn("Toolbar not initialized");
+			return defaultToolbarString;
+		}
 		return toolbarString;
 	}
 
