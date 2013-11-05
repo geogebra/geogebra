@@ -29,6 +29,11 @@ import geogebra.common.main.App;
  * @author Markus
  */
 public final class DrawText extends Drawable {
+	
+	/**
+	 * color used to draw rectangle around text when highlighted
+	 */
+	public static final geogebra.common.awt.GColor HIGHLIGHT_COLOR = geogebra.common.awt.GColor.lightGray;
 
 	// private static final int SELECTION_DIAMETER_ADD = 4;
 	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;
@@ -184,7 +189,7 @@ public final class DrawText extends Drawable {
 			// draw label rectangle
 			if (geo.doHighlighting()) {
 				g2.setStroke(objStroke);
-				g2.setPaint(geogebra.common.awt.GColor.lightGray);
+				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
 			}
 		}

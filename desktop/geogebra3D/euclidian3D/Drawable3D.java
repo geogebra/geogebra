@@ -683,7 +683,7 @@ public abstract class Drawable3D extends DrawableND {
     	
     	
     	
-    	label.draw(renderer);
+    	label.draw(renderer, forPicking);
     	
     	return true;
 				

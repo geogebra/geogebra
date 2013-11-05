@@ -482,12 +482,25 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
 
     /**
-     * disable textures
+     * disable multi samples (for antialiasing)
      */
     final public void disableTextures(){
     	gl.glDisable(GLlocal.GL_TEXTURE_2D);
     }
    
+    /**
+     * enable  multi samples (for antialiasing)
+     */
+    final public void enableMultisample(){  	
+    	gl.glEnable(GLlocal.GL_MULTISAMPLE);
+    }
+
+    /**
+     * disable textures
+     */
+    final public void disableMultisample(){
+    	gl.glDisable(GLlocal.GL_MULTISAMPLE);
+    }
    
     private void drawFaceToScreen() {
     	//draw face-to screen parts (labels, ...)
@@ -728,8 +741,18 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	gl.glPopAttrib();  	   	
     }
-      
     
+    /**
+     * set line width
+     * @param width line width
+     */
+    public void setLineWidth(float width){
+    	
+		gl.glLineWidth(width);
+		
+    }
+
+
     //////////////////////////////////////
     // EXPORT IMAGE
     //////////////////////////////////////     
@@ -818,7 +841,15 @@ public class Renderer extends RendererJogl implements GLEventListener {
     			(float) color.getW());  
     				
     }
-      
+    
+    public void setColor(geogebra.common.awt.GColor color){
+    	gl.glColor4f((float) color.getRed()/255,
+    			(float) color.getBlue()/255,
+    			(float) color.getGreen()/255,
+    			(float) color.getAlpha()/255);  
+    }
+    
+    
     //arrows
     
     /**
@@ -1236,7 +1267,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	gl.glDisable(GLlocal.GL_ALPHA_TEST);
     	gl.glDisable(GLlocal.GL_BLEND);
     	gl.glDisable(GLlocal.GL_LIGHTING);
-       	gl.glDisable(GLlocal.GL_TEXTURE);
+       	disableTextures();
     	
      	    	
     	// picking 
@@ -1341,18 +1372,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
         int labelLoop = pickingLoop;
        
         if (pickingMode == PICKING_MODE_LABELS){
-        	// picking labels
-        	enableTextures();
-        	gl.glDisable(GLlocal.GL_BLEND);
-        	gl.glEnable(GLlocal.GL_ALPHA_TEST);
-        	//gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
-            	
-        	drawable3DLists.drawLabelForPicking(this);
-        	
-           	disableTextures();
-           	gl.glDisable(GLlocal.GL_BLEND);
-           	gl.glDisable(GLlocal.GL_ALPHA_TEST);
-            
+        	// picking labels            	
+        	drawable3DLists.drawLabelForPicking(this);          
         }        
         
         //end picking             

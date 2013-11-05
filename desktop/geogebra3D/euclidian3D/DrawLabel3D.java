@@ -42,7 +42,7 @@ public class DrawLabel3D {
     private boolean isVisible;
     
     /** width and height of the text */
-    private int height, width;
+    protected int height, width;
     /** width and height of the texture */
     private int height2, width2;
     
@@ -230,9 +230,19 @@ public class DrawLabel3D {
 	
 	/**
 	 * draws the label
-	 * @param renderer
+	 * @param renderer renderer
 	 */
 	public void draw(Renderer renderer){
+		
+		draw(renderer, false);
+	}
+	
+	/**
+	 * draws the label
+	 * @param renderer renderer
+	 * @param forPicking says if it's for picking
+	 */
+	public void draw(Renderer renderer, boolean forPicking){
 		
 		if (!isVisible)
     		return;
@@ -250,22 +260,39 @@ public class DrawLabel3D {
 		
 		int z = (int) v.getZ();
 		
-		
-		//draw background
-		if (backgroundColor!=null){
-			renderer.setColor(backgroundColor);
-			renderer.disableTextures();
+
+		if (forPicking){
 			renderer.getGeometryManager().getText().rectangle(x, y, z, width, height);
+			
+		}else{
+
+			//draw background
+			if (backgroundColor!=null){
+				renderer.setColor(backgroundColor);
+				renderer.disableTextures();
+				renderer.getGeometryManager().getText().rectangle(x, y, z, width, height);
+			}
+
+			//draw text
+			draw(renderer,x,y,z);
+			
 		}
-		
+	}
+	
+	/**
+	 * draw at (x,y,z)
+	 * @param renderer renderer
+	 * @param x x
+	 * @param y y
+	 * @param z z
+	 */
+	protected void draw(Renderer renderer, int x, int y, int z){
 		//draw text
 		renderer.setColor(color);
 		renderer.enableTextures();
 		renderer.getTextures().setTextureLinear(textureIndex);
 		renderer.getGeometryManager().getText().rectangle(x, y, z, width2, height2);
-		
-		
-		
+
 	}
 
 	/**

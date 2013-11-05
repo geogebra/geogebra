@@ -61,6 +61,15 @@ public class PlotterText {
 	}
 	
 	
-	
+	public void rectangleBounds(int x, int y, int z, int width, int height){
+
+		manager.renderer.gl.glBegin(GLlocal.GL_LINE_LOOP);
+		manager.renderer.gl.glVertex3i(x,y,z); 
+		manager.renderer.gl.glVertex3i(x+width,y,z); 
+		manager.renderer.gl.glVertex3i(x+width,y+height,z); 
+		manager.renderer.gl.glVertex3i(x,y+height,z); 	
+		manager.renderer.gl.glEnd();
+		
+	}
 	
 }
