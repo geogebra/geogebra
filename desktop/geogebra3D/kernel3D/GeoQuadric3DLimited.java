@@ -498,19 +498,22 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
 			return;
 		}
 		
-		double radius = getBottom().getHalfAxis(0);
+		double radius = getHalfAxis(0);
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
 			volume = radius * radius * Math.PI * Math.abs(topParameter - bottomParameter);
 			break;
 		case QUADRIC_CONE:
-			volume = radius * radius * Math.PI * Math.abs(topParameter - bottomParameter)
+			double h = Math.abs(topParameter - bottomParameter);
+			radius *= h; // half-axis is the radius value for h = 1
+			volume = radius * radius * Math.PI * h
 					/ 3;
 			break;
 		// default:
 		// volume=Double.NaN;
 		}
+		
 	}
 
 	public double getVolume() {
