@@ -12,6 +12,8 @@ import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
+import geogebra.common.gui.dialog.options.model.ColorFunctionModel;
+import geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -49,6 +51,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
@@ -74,6 +77,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -124,6 +128,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private ShowConditionPanel showConditionPanel;
 	private boolean isDefaults;
 	private ButtonSizePanel buttonSizePanel;
+	private ColorFunctionPanel colorFunctionPanel;
+	private List<OptionPanel> advancedPanels;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -131,7 +137,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public void update(Object[] geos) {
 			getModel().setGeos(geos);
-			if (!getModel().checkGeos()) {
+			if (!(getModel().checkGeos())) {
 				if (widget != null) {
 					widget.setVisible(false);
 				}
@@ -1347,6 +1353,226 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
         }
 		
 	}
+	
+	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
+		private ColorFunctionModel model;
+		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
+		private Button btRemove;
+		private Label title;
+		private Label nameLabelR, nameLabelG, nameLabelB, nameLabelA;
+
+		private ListBox cbColorSpace;
+		private int colorSpace = GeoElement.COLORSPACE_RGB;
+		private boolean allowSetComboBoxLabels = true;
+
+		private String defaultR = "0", defaultG = "0", defaultB = "0",
+				defaultA = "1";
+
+		private Kernel kernel;
+		private boolean processed = false;
+		public ColorFunctionPanel(AppW app) {
+			kernel = app.getKernel();
+			model = new ColorFunctionModel(app, this);
+			setModel(model);
+			// non auto complete input panel
+			InputPanelW inputPanelR = new InputPanelW(null, app, 1, -1, true);
+			InputPanelW inputPanelG = new InputPanelW(null, app, 1, -1, true);
+			InputPanelW inputPanelB = new InputPanelW(null, app, 1, -1, true);
+			InputPanelW inputPanelA = new InputPanelW(null, app, 1, -1, true);
+			tfRed = (AutoCompleteTextFieldW) inputPanelR.getTextComponent();
+			tfGreen = (AutoCompleteTextFieldW) inputPanelG.getTextComponent();
+			tfBlue = (AutoCompleteTextFieldW) inputPanelB.getTextComponent();
+			tfAlpha = (AutoCompleteTextFieldW) inputPanelA.getTextComponent();
+	
+			title = new Label();
+
+			nameLabelR = new Label();
+			nameLabelG = new Label();
+			nameLabelB = new Label();
+			nameLabelA = new Label();
+			
+			FocusListener focusListener = new FocusListener(this){
+				
+				@Override
+				protected void wrapFocusGained(){
+					processed = false;
+				}
+				
+				@Override
+				protected void wrapFocusLost(){
+					if (!processed)
+						doActionPerformed();
+				}	
+			};
+			
+			
+			tfRed.addFocusListener(focusListener);						
+			tfGreen.addFocusListener(focusListener);						
+			tfBlue.addFocusListener(focusListener);						
+			tfAlpha.addFocusListener(focusListener);						
+					
+			KeyHandler keyHandler = new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						if (!processed)
+							doActionPerformed();
+					}
+                }
+				
+			};
+			
+			tfRed.addKeyHandler(keyHandler);
+			tfGreen.addKeyHandler(keyHandler);
+			tfBlue.addKeyHandler(keyHandler);
+			tfAlpha.addKeyHandler(keyHandler);
+			
+			btRemove = new Button("\u2718");
+			btRemove.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+	                model.removeAll();
+                }});
+			
+			cbColorSpace = new ListBox();
+			cbColorSpace.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					colorSpace = cbColorSpace.getSelectedIndex();
+					allowSetComboBoxLabels = false;
+					setLabels();
+					doActionPerformed();
+					cbColorSpace.setSelectedIndex(colorSpace);
+                }});
+			
+			FlowPanel colorsPanel = new FlowPanel();
+			colorsPanel.add(nameLabelR);
+			colorsPanel.add(inputPanelR);
+			colorsPanel.add(nameLabelG);
+			colorsPanel.add(inputPanelG);
+			colorsPanel.add(nameLabelB);
+			colorsPanel.add(inputPanelB);
+			colorsPanel.add(nameLabelA);
+			colorsPanel.add(inputPanelA);
+
+			FlowPanel mainWidget = new FlowPanel();
+				
+			mainWidget.add(title);
+			
+			mainWidget.add(colorsPanel);
+
+			FlowPanel buttonsPanel = new FlowPanel();
+
+			FlowPanel leftPanel = new FlowPanel();
+			leftPanel.add(cbColorSpace);
+			FlowPanel rightPanel = new FlowPanel();
+			rightPanel.add(btRemove);
+			buttonsPanel.add(leftPanel);
+			buttonsPanel.add(rightPanel);
+
+			mainWidget.add(buttonsPanel);
+
+			setWidget(mainWidget);
+			
+		}
+
+		public void setLabels() {
+			Localization loc = kernel.getLocalization();
+
+			title.setText(loc.getMenu("DynamicColors"));
+			if (allowSetComboBoxLabels) {
+				cbColorSpace.clear();
+				cbColorSpace.addItem(loc.getMenu("RGB"));
+				cbColorSpace.addItem(loc.getMenu("HSV"));
+				cbColorSpace.addItem(loc.getMenu("HSL"));
+			}
+			allowSetComboBoxLabels = true;
+
+			switch (colorSpace) {
+			case GeoElement.COLORSPACE_RGB:
+				nameLabelR.setText(loc.getMenu("Red") + ":");
+				nameLabelG.setText(loc.getMenu("Green") + ":");
+				nameLabelB.setText(loc.getMenu("Blue") + ":");
+				break;
+			case GeoElement.COLORSPACE_HSB:
+				nameLabelR.setText(loc.getMenu("Hue") + ":");
+				nameLabelG.setText(loc.getMenu("Saturation") + ":");
+				nameLabelB.setText(loc.getMenu("Value") + ":");
+				break;
+			case GeoElement.COLORSPACE_HSL:
+				nameLabelR.setText(loc.getMenu("Hue") + ":");
+				nameLabelG.setText(loc.getMenu("Saturation") + ":");
+				nameLabelB.setText(loc.getMenu("Lightness") + ":");
+				break;
+			}
+
+			nameLabelA.setText(loc.getMenu("Opacity") + ":");
+
+			//btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
+		}
+
+		private void doActionPerformed() {
+			processed = true;
+
+			String strRed = tfRed.getText();
+			String strGreen = tfGreen.getText();
+			String strBlue = tfBlue.getText();
+			String strAlpha = tfAlpha.getText();
+
+			model.applyChanges(strRed, strGreen, strBlue, strAlpha, colorSpace,
+					defaultR, defaultG, defaultB, defaultA);
+
+		}
+
+		public void setRedText(final String text) {
+			tfRed.setText(text);
+			
+		}
+
+		public void setGreenText(final String text) {
+			tfGreen.setText(text);
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setBlueText(final String text) {
+			tfBlue.setText(text);
+			
+		}
+		
+		public void setAlphaText(final String text) {
+			tfAlpha.setText(text);
+			
+		}
+		
+		public void setDefaultValues(GeoElement geo) {
+			GColor col = geo.getObjectColor();
+			defaultR = "" + col.getRed() / 255.0;
+			defaultG = "" + col.getGreen() / 255.0;
+			defaultB = "" + col.getBlue() / 255.0;
+			defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
+			
+
+			// set the selected color space and labels to match the first geo's
+			// color space
+			colorSpace = geo.getColorSpace();
+			cbColorSpace.setSelectedIndex(colorSpace);
+			allowSetComboBoxLabels = false;
+			setLabels();
+			
+		}
+		
+		public void showAlpha(boolean value) {
+			tfAlpha.setVisible(value);
+			nameLabelA.setVisible(value);
+		}
+
+		public void updateSelection(Object[] geos) {
+			//updateSelection(geos);
+			
+		}
+		
+	}
 
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -1514,7 +1740,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		advancedTab = new VerticalPanel();
 		advancedTab.setStyleName("objectPropertiesTab");
 		showConditionPanel = new ShowConditionPanel((AppW) app);
-		advancedTab.add(showConditionPanel.getWidget());
+		colorFunctionPanel = new ColorFunctionPanel((AppW) app);
+
+		advancedPanels = Arrays.asList(showConditionPanel,
+				colorFunctionPanel);
+	
+		for (OptionPanel panel: advancedPanels) {
+			advancedTab.add(panel.getWidget());
+		}
+	
 		tabPanel.add(advancedTab, "Advanced");
 	}
 
@@ -1533,7 +1767,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	public void updateGUI() {
 
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
-		if (geos.length != 0) {
+		if (geos != null && geos.length != 0) {
+			tabPanel.setVisible(true);
 			for (OptionPanel panel: basicPanels) {
 				panel.update(geos);
 			}
@@ -1542,8 +1777,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				panel.update(geos);
 			}
 
-			showConditionPanel.update(geos);
-			colorPanel.update(geos);
+			for (OptionPanel panel: advancedPanels) {
+				panel.update(geos);
+			}
+
+		} else {
+			tabPanel.setVisible(false);
+			App.debug("No geos");
 		}
 
 
