@@ -593,14 +593,15 @@ AngleProperties {
 
 		// init element type
 		if (pos == 0) {
-			isDrawable = geo.isDrawable();
+			isDrawable = true;
 			elementType = geo.getGeoClassType();
 		}
 		// check element type
 		else if (elementType != geo.getGeoClassType()) {
 			elementType = ELEMENT_TYPE_MIXED;
 		}
-		isDrawable = isDrawable && geo.isDrawable();
+		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoBoolean()
+				&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
 
 		// set visual style of this list
 		applyVisualStyle(geo);
