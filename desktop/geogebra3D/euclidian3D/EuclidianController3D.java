@@ -30,7 +30,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -1376,15 +1375,19 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	final protected boolean extrusionOrConify(Hits hits) {
 		
 		
+		//App.printStacktrace(hits);
+		//App.error(""+selNumberValues());
+		
 		if (hits.isEmpty())
 			return false;
 
 
-		addSelectedPolygon(hits, 1, false);
-		addSelectedConic(hits, 1, false);
-		//hits.removePolygons();
-		//addSelectedNumberValue(hits, 1, false);
-		addSelectedNumeric(hits, 1, false);
+		int basisAdded = addSelectedPolygon(hits, 1, false);
+		basisAdded += addSelectedConic(hits, 1, false);
+		
+		if (basisAdded == 0){ // if polygon/conic has been added, the height will be entered through dialog manager
+			addSelectedNumberValue(hits, 1, false);
+		}
 		
 		/*
 		s+="\nAprès=\n";
@@ -1398,10 +1401,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			Application.debug(s);
 		*/
 
-		if (selNumbers() == 1) {
+		if (selNumberValues() == 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] basis = getSelectedPolygons();
-				GeoNumeric[] height = getSelectedNumbers();
+				NumberValue[] height = getSelectedNumberValues();
 				if(mode==EuclidianConstants.MODE_EXTRUSION)
 					getKernel().getManager3D().Prism(null, basis[0], height[0]);
 				else
@@ -3281,7 +3284,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		startPoint3D.set(p);
 		view3D.toSceneCoords3D(startPoint3D);
 		
-		App.debug("\n"+startPoint3D);
+		//App.debug("\n"+startPoint3D);
 
 		//project on xOy
 		startPoint3DxOy = startPoint3D.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];

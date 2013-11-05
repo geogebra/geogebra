@@ -256,7 +256,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			}else
 				hits.add(height);
 			
-			getView3D().getEuclidianController().addSelectedNumeric(hits, 1, false);
+			getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
 
 			
 			//remove the algo
