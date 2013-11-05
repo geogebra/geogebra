@@ -184,7 +184,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	private DrawPlane3D xOyPlaneDrawable;
 	private DrawAxis3D[] axisDrawable;
-	private DrawClippingCube3D clippingCubeDrawable;
+	protected DrawClippingCube3D clippingCubeDrawable;
 	
 	
 	/** number of drawables linked to this view (xOy plane, Ox, Oy, Oz axis) */
@@ -3520,17 +3520,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @return Z offset factor for the screen (to get the whole image out of the screen)
-	 */
-	public float getScreenZOffsetFactor(){
-
-		return 0f;
-	}
 	
 	public double getScreenZOffset(){
-		return renderer.getScreenZOffset();
+		return 0;
 	}
 	
 	public boolean isGrayScaled(){

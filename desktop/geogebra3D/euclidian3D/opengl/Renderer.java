@@ -1763,9 +1763,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	public int getVisibleDepth(){ return getWidth()*2; } //keep visible objects at twice center-to-right distance
 	
 	
-	public float getScreenZOffset(){
-		return view3D.getScreenZOffsetFactor()*getVisibleDepth()/4;
-	}
 	
 	/** for a line described by (o,v), return the min and max parameters to draw the line
 	 * @param minmax initial interval
@@ -2015,8 +2012,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		perspNear = PERSP_NEAR_MIN;
     	}
     	
-    	perspFocus = -eyeToScreenDistance + getScreenZOffset();
-    	//App.error(near +","+ getScreenZOffset());
+    	perspFocus = -eyeToScreenDistance + view3D.getScreenZOffset();
+    	//App.error(""+ view3D.getScreenZOffset());
 
     	//ratio so that distance on screen plane are not changed
     	perspDistratio = perspNear/(eyeToScreenDistance);

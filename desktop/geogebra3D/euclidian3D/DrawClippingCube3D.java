@@ -79,7 +79,17 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	public double zmax(){ return minMax[2][1]; }	
 	*/
 	
+	
+	private double horizontalDiagonal;
+	
 
+	/**
+	 * 
+	 * @return big diagonal
+	 */
+	public double getHorizontalDiagonal(){
+		return horizontalDiagonal;
+	}
 	
 	
 	/**
@@ -94,6 +104,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		
 
 		double scale = view.getScale();
+		
+
 
 		
 		Coords origin = getView3D().getToSceneMatrix().getOrigin();
@@ -114,6 +126,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double zr = (zmax-zmin)*rv;
 		
 		
+		
 		minMax[0][0] = xmin+xr;
 		minMax[0][1] = xmax-xr;
 		minMax[2][0] = ymin+yr;
@@ -123,6 +136,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		
 		
 		setVertices();
+		
+
+		horizontalDiagonal = renderer.getWidth()*(1-2*rv)*Math.sqrt(2);
+				
+		
 		view.setXYMinMax(minMax);
 
 		

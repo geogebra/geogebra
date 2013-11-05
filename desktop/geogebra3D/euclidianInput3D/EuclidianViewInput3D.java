@@ -100,8 +100,9 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 	}
 	
 	@Override
-	public float getScreenZOffsetFactor(){
-		return 1f;
+	public double getScreenZOffset(){
+		//App.debug(""+clippingCubeDrawable.getDiagonal());
+		return clippingCubeDrawable.getHorizontalDiagonal()/2;
 	}
 	
 	private Coords startPos;
