@@ -173,7 +173,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		
 		list.setDefined(true);
 		list.clear();
-		list.setEuclidianVisible(false); // don't show in EV by default
 
 		if (result != null) {
 			GeoBoolean answer = new GeoBoolean(cons);
