@@ -16,6 +16,8 @@ import geogebra.common.util.debug.Log;
  */
 public abstract class CASView implements View{
 	/** Default CAS toolbar */
+	public static final String TOOLBAR_DEFINITION_D = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 | 1011 || 1008 1009 || 66 68 || 6";
+	/** Default CAS toolbar for Web (before the prob. calc and function inspector are implemented)*/
 	public static final String TOOLBAR_DEFINITION = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 | 1011 || 1008 1009 || 6";
 	private GeoGebraCAS cas;
 	/** kernel */

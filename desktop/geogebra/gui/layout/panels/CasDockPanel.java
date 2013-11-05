@@ -45,7 +45,7 @@ public class CasDockPanel extends DockPanel {
 	}
 	
 	private static String getDefaultToolbar() {
-		return CASView.TOOLBAR_DEFINITION;		
+		return CASView.TOOLBAR_DEFINITION_D;		
 	}
 	
 	/**
