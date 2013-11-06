@@ -56,6 +56,14 @@ public final class ArticleElement extends Element {
 			return AppWeb.DEFAULT_APPLET_ID;
 		return ret;
 	}
+	
+	/** 
+	* @return the data-param-filename article attribute as String if set else empty String 
+	*/ 
+	public String getDataParamFileName() { 
+		String ret = this.getAttribute("data-param-filename"); 
+		return (ret != null) ? ret : ""; 
+	}
 
 	/**
 	 * Determines if the "data-param-guiOff" article attribute is set to true

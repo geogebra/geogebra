@@ -7,6 +7,7 @@ import geogebra.html5.util.View;
 import geogebra.web.WebStatic;
 import geogebra.web.WebStatic.GuiToLoad;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter{
@@ -20,19 +21,20 @@ public class LoadFilePresenter{
 
 
 	public View getView() {
-	    return view;
-    }
+		return view;
+	}
 
 	public void setView(View view) {
-	    this.view = view;
-    }
+		this.view = view;
+	}
 	
 	
-    public void onPageLoad() {
+	public void onPageLoad() {
 		
 		View view = getView();
 		String base64String;
 		String fileId;
+		String filename;
 		
 		AppWeb app = view.getApplication();
 		if(WebStatic.urlToOpen != null ){
@@ -42,9 +44,14 @@ public class LoadFilePresenter{
 		}
 		else if (isReloadDataInStorage()){
 			//do nothing here - everything done in isReloadDataInStorage() function 
-		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
+		} 
+		else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
-		} else {
+		} 
+		else if (!"".equals((filename = view.getDataParamFileName()))) { 
+			fetch(filename);
+		}
+		else {
 			//we dont have content, it is an app
 			Log.debug("no base64content, possibly App loaded?");
 			app.appSplashCanNowHide();
@@ -56,13 +63,13 @@ public class LoadFilePresenter{
 				String xml = stockStore.getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
 				if (xml != null) app.setXML(xml, false);
 				String xmlDef = stockStore.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
-	        	//String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
-	        	//if (!xmlDef.equals(factoryDefaultXml)) {
-	        		boolean eda = app.getKernel().getElementDefaultAllowed();
-	        		app.getKernel().setElementDefaultAllowed(true);
-	        		if (xmlDef != null) app.setXML(xmlDef, false);
-	        		app.getKernel().setElementDefaultAllowed(eda);
-	        	//}
+				//String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+				//if (!xmlDef.equals(factoryDefaultXml)) {
+					boolean eda = app.getKernel().getElementDefaultAllowed();
+					app.getKernel().setElementDefaultAllowed(true);
+					if (xmlDef != null) app.setXML(xmlDef, false);
+					app.getKernel().setElementDefaultAllowed(eda);
+				//}
 			}
 		}
 			
@@ -128,13 +135,18 @@ public class LoadFilePresenter{
 	}
 	
 
-    public void onWorksheetConstructionFailed(String errorMessage) {
+	public void onWorksheetConstructionFailed(String errorMessage) {
 		getView().showError(errorMessage);
 	}
 	
-    public void onWorksheetReady() {
+	public void onWorksheetReady() {
 		getView().hide();
 	}
+	private void fetch(String fileName) { 
+		getView().showLoadAnimation(); 
+		String url = fileName.startsWith("http") ? fileName : GWT.getModuleBaseURL()+"../"+fileName; 
+		getView().processFileName(url); 
+	} 
 	
 	public AppWeb getApplication() {
 		return getView().getApplication();

@@ -43,6 +43,10 @@ public class View {
 	public void showLoadAnimation() {
 	  	app.showLoadingAnimation(true); 
     }
+	
+	public String getDataParamFileName(){
+		return ((ArticleElement) container).getDataParamFileName();
+	}
 
 	public String getDataParamBase64String() {
 		return ((ArticleElement) container).getDataParamBase64String();
