@@ -124,6 +124,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 
 	public void onResize() {
 		super.onResize();
+		euclidianpanel.onResize();
 		//App.debug("resized");
 		/*if (application != null) {
 

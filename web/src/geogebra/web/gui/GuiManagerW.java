@@ -421,7 +421,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void resize(int width, int height) {
-		app.getEuclidianViewpanel().setPixelSize(width, height );
+		int fullWidth = width;
+		int fullHeight = height;
+		int calcWidth = width - getLayout().getRootComponent().getOffsetWidth() + app.getEuclidianViewpanel().getOffsetWidth();
+		int calcHeight = height - getLayout().getRootComponent().getOffsetHeight() + app.getEuclidianViewpanel().getOffsetHeight();		
+		if (calcWidth < 100) {
+			calcWidth = 100;
+			fullWidth += calcWidth;
+		}
+		if (calcHeight < 100) {
+			calcHeight = 100;
+			fullHeight += calcHeight;
+		}
+		getLayout().getRootComponent().setPixelSize(fullWidth, fullHeight);
+		app.getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);		
 		app.getEuclidianViewpanel().onResize();
 	}
 

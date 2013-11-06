@@ -137,10 +137,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 						if (h < 0 || w < 0) {
 							return;
 						}
+						App.debug("h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
 						if (h != oldHeight || w != oldWidth) {
 							app.ggwGraphicsViewDimChanged(w, h);
 							oldHeight = h;
 							oldWidth = w;
+							App.debug("changed h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
 						}
 					}
 				});
@@ -181,6 +183,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 
 	public void onResize() {
 		super.onResize();
+		euclidianpanel.onResize();
 		//App.debug("resized");
 		/*if (application != null) {
 
