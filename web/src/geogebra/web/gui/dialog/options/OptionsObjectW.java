@@ -23,6 +23,8 @@ import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
+import geogebra.common.gui.dialog.options.model.LayerModel;
+import geogebra.common.gui.dialog.options.model.LayerModel.ILayerOptionsListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -130,6 +132,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private ButtonSizePanel buttonSizePanel;
 	private ColorFunctionPanel colorFunctionPanel;
 	private List<OptionPanel> advancedPanels;
+	private LayerPanel layerPanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -332,18 +335,22 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private static final long serialVersionUID = 1L;
 
 		private ShowConditionModel model;
+		private Label title;
 		private AutoCompleteTextFieldW tfCondition;
 
 		private Kernel kernel;
 		private boolean processed;
-		private final FlowPanel mainWidget;
 
 		public ShowConditionPanel(AppW app/*, PropertiesPanelD propPanel*/) {
 			kernel = app.getKernel();
 			//this.propPanel = propPanel;
 			model = new ShowConditionModel(app, this);
 			setModel(model);
-
+			
+			FlowPanel mainPanel = new FlowPanel();
+			
+			title = new Label();
+			mainPanel.add(title);
 			// non auto complete input panel
 			InputPanelW inputPanel = new InputPanelW(null, app, -1, false);
 			tfCondition = inputPanel.getTextComponent();
@@ -358,13 +365,22 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 			});
 
-			//		tfCondition.addFocusListener(new FocusListener(this) {
-			//			
-			//		});
+			tfCondition.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusGained(){
+					processed = false;
+				}
+				
+				@Override
+				protected void wrapFocusLost(){
+					if (!processed) {
+						doActionPerformed();
+					}
+				}	
+			});
 			// put it all together
-			mainWidget = new FlowPanel();
-			mainWidget.add(inputPanel);
-			setWidget(mainWidget);
+			mainPanel.add(inputPanel);
+			setWidget(mainPanel);
 		}
 
 
@@ -374,33 +390,24 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			model.applyChanges(tfCondition.getText());
 		}
 
-		//	public void focusGained(FocusEvent arg0) {
-		//		processed = false;
-		//	}
-		//
-		//	boolean processed = false;
-		//
-		//	public void focusLost(FocusEvent e) {
-		//		if (!processed)
-		//			doActionPerformed();
-		//	}
-
-
 		public void setText(String text) {
 			tfCondition.setText(text);	
-		}
-
-		public void updateSelection(Object[] geos) {
-			//propPanel.updateSelection(geos);
 		}
 
 
 
 		@Override
 		public void setLabels() {
-			// TODO Auto-generated method stub
+			title.setText(app.getMenu("Condition.ShowObject"));
 
 		}
+
+
+
+		public void updateSelection(Object[] geos) {
+	        // TODO Auto-generated method stub
+	        
+        }
 
 	}
 
@@ -1574,6 +1581,46 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 
+	private class LayerPanel extends OptionPanel implements ILayerOptionsListener {
+		private LayerModel model;
+		private Label layerLabel;
+		private ListBox layerModeCB;
+		
+		public LayerPanel() {
+			model = new LayerModel(this);
+			setModel(model);
+			FlowPanel mainPanel = new FlowPanel();
+			layerLabel = new Label();
+			mainPanel.add(layerLabel);
+			
+			layerModeCB = new ListBox();
+			model.addLayers();
+			mainPanel.add(layerModeCB);
+			
+			layerModeCB.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+	                model.applyChanges(layerModeCB.getSelectedIndex());
+                }});
+			setWidget(mainPanel);
+			
+		}
+			
+		public void setSelectedIndex(int index) {
+	        layerModeCB.setSelectedIndex(index);
+	        
+        }
+
+		public void addItem(String item) {
+	        layerModeCB.addItem(item);
+        }
+
+		@Override
+        public void setLabels() {
+	        layerLabel.setText(app.getPlain("Layer") + ":");
+        }
+		
+	}
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1602,7 +1649,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		addColorTab();
 		addStyleTab();
 		addAdvancedTab();
-		tabPanel.selectTab(0);
+		selectTab(0);
 		wrappedPanel.add(tabPanel);
 		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
 
@@ -1741,9 +1788,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		advancedTab.setStyleName("objectPropertiesTab");
 		showConditionPanel = new ShowConditionPanel((AppW) app);
 		colorFunctionPanel = new ColorFunctionPanel((AppW) app);
-
+		
+		layerPanel = new LayerPanel();
 		advancedPanels = Arrays.asList(showConditionPanel,
-				colorFunctionPanel);
+				colorFunctionPanel,
+				layerPanel);
 	
 		for (OptionPanel panel: advancedPanels) {
 			advancedTab.add(panel.getWidget());
@@ -1792,4 +1841,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	public Widget getWrappedPanel() {
 		return wrappedPanel;
 	}
+
+	public void selectTab(int index) {
+	    tabPanel.selectTab(index);	    
+    }
 }

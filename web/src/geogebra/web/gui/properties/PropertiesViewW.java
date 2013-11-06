@@ -155,12 +155,21 @@ public class PropertiesViewW extends
 				objectPanel = new OptionsObjectW((AppW) app, false);
 				((OptionsObjectW) objectPanel).setMinimumSize(((OptionsObjectW) objectPanel).getPreferredSize());
 				
+			} else {
+				OptionsObjectW op =	getObjectPanel();
+				op.updateGUI();
+				op.selectTab(0);
 			}
+			
 			return (OptionPanelW) objectPanel;
 		}
 		return null;
 	}
 
+	private OptionsObjectW getObjectPanel() {
+		return (OptionsObjectW) objectPanel;
+	}
+	
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
 
@@ -192,8 +201,7 @@ public class PropertiesViewW extends
 	}
 
 	public void repaintView() {
-		  getOptionPanel(OptionType.OBJECTS).updateGUI();
-		  
+		getObjectPanel().updateGUI();
 	}
 
 	public void reset() {
