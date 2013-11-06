@@ -39,6 +39,8 @@ import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
+import geogebra.common.gui.dialog.options.model.LayerModel;
+import geogebra.common.gui.dialog.options.model.LayerModel.ILayerOptionsListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -1887,26 +1889,26 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel with layers properties Michael Borcherds
 	 */
 	private class LayerPanel extends JPanel implements ItemListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+			ILayerOptionsListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private LayerModel model;
 		private JComboBox layerModeCB;
 		private JLabel layerLabel;
 
 		public LayerPanel() {
+			model = new LayerModel(this);
 			layerLabel = new JLabel();
 			layerLabel.setLabelFor(layerModeCB);
 
 			// combo box for label mode: name or algebra
 			layerModeCB = new JComboBox();
 
-			for (int layer = 0; layer <= EuclidianStyleConstants.MAX_LAYERS; ++layer) {
-				layerModeCB.addItem(" " + layer);
-			}
-
+			model.addLayers();
+			
 			layerModeCB.addActionListener(this);
 
 			// labelPanel with show checkbox
@@ -1920,46 +1922,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
+			}
 
 			layerModeCB.removeActionListener(this);
 
 			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalLayer = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same label visible value
-				if (geo0.getLayer() != temp.getLayer())
-					equalLayer = false;
-			}
-
-			if (equalLayer)
-				layerModeCB.setSelectedIndex(geo0.getLayer());
-			else
-				layerModeCB.setSelectedItem(null);
-
+			model.updateProperties();
 			// locus in selection
 			layerModeCB.addActionListener(this);
 			return this;
 		}
 
-		// show everything that's drawable
-		// don't want layers for dependent numbers as we want to
-		// minimise the XML for such objects to keep the spreadsheet fast
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!((GeoElement) geos[i]).isDrawable()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
 
 		/**
 		 * listens to checkboxes and sets object and label visible state
@@ -1973,13 +1949,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == layerModeCB) {
-				GeoElement geo;
-				int layer = layerModeCB.getSelectedIndex();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setLayer(layer);
-					geo.updateRepaint();
-				}
+				model.applyChanges(layerModeCB.getSelectedIndex());
+				
 			}
 		}
 
@@ -1993,6 +1964,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void setSelectedIndex(int index) {
+			if (index == -1) {
+				layerModeCB.setSelectedItem(null);
+			} else {
+				layerModeCB.setSelectedIndex(index);
+			}
+			
+		}
+
+		public void addItem(String item) {
+			layerModeCB.addItem(item);
 		}
 
 	} // LayersPanel
