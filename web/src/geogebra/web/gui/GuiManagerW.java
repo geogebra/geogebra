@@ -926,7 +926,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	protected void openHelp(String page, Help type) {
 		try {
 			String helpURL = getHelpURL(type, page);
-			Window.open(helpURL, "", "");
+			Window.open(helpURL, "_blank","");
 		} catch (MyError e) {
 			app.showError(e);
 		} catch (Exception e) {

@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.MenuBar;
 
 public class HelpMenuW extends MenuBar {
 	
-	private App app;
+	private final App app;
 	
-	public HelpMenuW(App app) {
+	public HelpMenuW(final App app) {
 
 		super(true);
 	    this.app = app;
@@ -31,7 +31,8 @@ public class HelpMenuW extends MenuBar {
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.help().getSafeUri().asString(),
 	    		app.getMenu("Help")),true,new Command() {
 			public void execute() {
-				Window.open("http://www.geogebra.org/help/en/article/Manual:Main%20Page", "_blank","");
+				app.getGuiManager().openHelp(App.WIKI_MANUAL);
+				
             }
 	    });
 	    
@@ -39,7 +40,7 @@ public class HelpMenuW extends MenuBar {
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("Tutorials")),true,new Command() {
 			public void execute() {
-				Window.open("http://www.geogebra.org/help/en/article/Tutorial:Main%20Page", "_blank","");
+				app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
             }
 	    });
 	    
