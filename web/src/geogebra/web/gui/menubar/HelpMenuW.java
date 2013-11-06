@@ -48,7 +48,7 @@ public class HelpMenuW extends MenuBar {
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
 	    		"GeoGebraTube"),true,new Command() {
 			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE, "_blank","");
+				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "?lang="+app.getLocalization().getLanguage(), "_blank","");
             }
 	    });
 
@@ -58,7 +58,7 @@ public class HelpMenuW extends MenuBar {
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("ReportBug")),true,new Command() {
 			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB, "_blank","");
+				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
             }
 	    });
 	    
