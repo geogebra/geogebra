@@ -591,7 +591,7 @@ public class DrawEquationWeb extends DrawEquation {
 		elfirst.style.display = 'none';
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.firstChild;
+		var elsecondInside = elsecond.lastChild;
 
 		$wnd.$ggbQuery(elsecondInside).mathquill('revert').mathquill('editable').focus();
 
@@ -640,7 +640,7 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void escEditingEquationMathQuill(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.firstChild;
+		var elsecondInside = elsecond.lastChild;
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = null;
@@ -652,7 +652,7 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void endEditingEquationMathQuill(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.firstChild;
+		var elsecondInside = elsecond.lastChild;
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquill('text');
@@ -676,7 +676,7 @@ public class DrawEquationWeb extends DrawEquation {
 	        Element parentElement, boolean noEqnArray) /*-{
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.firstChild;
+		var elsecondInside = elsecond.lastChild;
 
 		if (noEqnArray) {
 			$wnd.$ggbQuery(elsecondInside).mathquill('revert').html(htmlt).mathquill();
