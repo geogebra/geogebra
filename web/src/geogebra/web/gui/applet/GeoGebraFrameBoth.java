@@ -61,6 +61,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	 */
 	public static void renderArticleElemnt(final Element element) {
 		final ArticleElement article = ArticleElement.as(element);
+		article.clear();
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		final GeoGebraFrame inst = new GeoGebraFrameBoth();
