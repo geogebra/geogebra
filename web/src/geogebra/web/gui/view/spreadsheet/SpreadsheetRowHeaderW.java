@@ -3,20 +3,18 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.common.main.App;
-import geogebra.web.gui.layout.LayoutW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -355,10 +353,9 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 			}
 
 			// show contextMenu
-			//?//SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-			//?//		table, e.isShiftDown());
-			//?//popupMenu.show(e.getComponent(), e.getX(), e.getY());
-
+			SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
+					table, e.isShiftKeyDown());
+			popupMenu.show(view, e.getX(), e.getY());
 		}
 
 		// If row resize has happened, resize all other selected rows

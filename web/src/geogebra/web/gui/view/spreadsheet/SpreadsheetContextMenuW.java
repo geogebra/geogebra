@@ -6,7 +6,6 @@ import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -88,8 +87,12 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 		selectedCellRanges = table.selectedCellRanges;
 		geos = app.getSelectionManager().getSelectedGeos();
 
-		// FIXME: other way
-		getPopupMenu().getElement().getStyle().setBackgroundColor(bgColor.toString());
+		getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
+
+		// other way
+		// getPopupMenu().getElement().getStyle().setBackgroundColor(bgColor.toString());
+		// z-index should be greater than 7 (blue dot) and 6 (selection frame)
+		// getPopupPanel().getElement().getStyle().setZIndex(9);
 
 		this.isShiftDown = isShiftDown;
 
@@ -161,6 +164,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 			if (geo.isSpreadsheetTraceable()
 					&& selectionType != MyTable.ROW_SELECT) {
 
+				/*
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable
 				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
@@ -173,9 +177,6 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 
 						public void execute() {
 
-							App.debug("not ported yet showTraceDialog(GeoElement, null);");
-
-							/*
 							GeoElement geoRecordToSpreadSheet;
 							if (geos.size() == 1)
 								geoRecordToSpreadSheet = geo;
@@ -189,12 +190,12 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 									.getSpreadsheetView()
 									.showTraceDialog(geoRecordToSpreadSheet,
 											null);
-							*/
 						}
 					});
 	        		cbItem.setSelected(geo.getSpreadsheetTrace());
 	        		addItem(cbItem);
 				}
+				*/
 			}
 
 		}
@@ -249,7 +250,11 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
 		item.setEnabled(!allFixed());
 
+		/* should port this later
+		
 		addSeparator();
+
+		*/
 
 		// ===============================================
 		// Insert (new row or new column)
@@ -449,6 +454,8 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 		// Object properties
 		// ===============================================
 
+		/* should port this later
+
 		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
 			addSeparator();
 
@@ -464,8 +471,6 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 							app.getMenu(app.getPlain("Properties")) + "..."),
 					app.getMenu(app.getPlain("Properties")) + "...");
 		}
-
-		/* should port this later
 
 		app.setComponentOrientation(this);
 

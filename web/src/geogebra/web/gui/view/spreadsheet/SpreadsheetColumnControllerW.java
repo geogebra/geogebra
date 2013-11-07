@@ -5,6 +5,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -188,9 +189,9 @@ public class SpreadsheetColumnControllerW implements
 			}
 
 			// show contextMenu
-			//?//SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-			//?//		table, e.isShiftDown());
-			//?//popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
+					table, e.isShiftKeyDown());
+			popupMenu.show(view, e.getX(), e.getY());
 
 		} else if (isResizing) {
 

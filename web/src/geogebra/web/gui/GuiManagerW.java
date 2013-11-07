@@ -57,6 +57,8 @@ import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
+import geogebra.web.gui.view.spreadsheet.MyTableW;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
@@ -177,6 +179,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
 		getPopupMenu(geos, p).show(p);
+	}
+
+	public SpreadsheetContextMenuW getSpreadsheetContextMenu(MyTableW mt, boolean shift) {
+		removePopup();
+		currentPopup = new SpreadsheetContextMenuW(mt, shift);
+		return (SpreadsheetContextMenuW)currentPopup;
 	}
 
 	public AlgebraContextMenuW getAlgebraContextMenu(){

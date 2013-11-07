@@ -13,6 +13,7 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.awt.GRectangle2DW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -483,9 +484,9 @@ public class SpreadsheetMouseListenerW implements
 				}
 	
 				// create and show context menu
-				/*TODO SpreadsheetContextMenu popupMenu = new SpreadsheetContextMenu(
-						table, e.isShiftDown());
-				popupMenu.show(e.getComponent(), e.getX(), e.getY());*/
+				SpreadsheetContextMenuW popupMenu = ((GuiManagerW)app.getGuiManager()).getSpreadsheetContextMenu(
+						table, e.isShiftKeyDown());
+				popupMenu.show(view, e.getX(), e.getY());
 			}
 	
 			if (eConsumed)

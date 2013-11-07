@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Popup menu for web.
@@ -116,7 +117,11 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	public void show(Canvas c, int x, int y) {
 		show(new GPoint(c.getAbsoluteLeft()+x, c.getAbsoluteTop()+y));
 	}
-	
+
+	public void show(Widget c, int x, int y) {
+		show(new GPoint(c.getAbsoluteLeft()+x, c.getAbsoluteTop()+y));
+	}
+
 	public void removeFromDOM(){
 		removeSubPopup();
 		popupPanel.removeFromParent();
@@ -282,6 +287,10 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 
 	public MenuBar getPopupMenu(){
 		return popupMenu;
+	}
+
+	public PopupPanel getPopupPanel() {
+		return popupPanel;
 	}
 
 	public void removeSubPopup(){

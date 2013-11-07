@@ -1507,6 +1507,14 @@ Paddings for menuitems.
 	text-align: center;
 }
 
+.geogebraweb-popup-spreadsheet {
+	z-index: 9;
+}
+
+.geogebraweb-popup-spreadsheet .gwt-MenuBar {
+	background-color: white;
+}
+
 .SpreadsheetEditorCell {
 	
 }
