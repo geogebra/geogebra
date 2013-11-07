@@ -24,7 +24,6 @@ import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LayerModel;
-import geogebra.common.gui.dialog.options.model.LayerModel.ILayerOptionsListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -47,6 +46,7 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
+import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.Kernel;
@@ -132,7 +132,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private ButtonSizePanel buttonSizePanel;
 	private ColorFunctionPanel colorFunctionPanel;
 	private List<OptionPanel> advancedPanels;
-	private LayerPanel layerPanel;
+	private TooltipPanel layerPanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -847,7 +847,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			// first interval disabled
 			return intervalLB.getSelectedIndex() + 1;
 		}
-		public void addComboItem(String item) {
+		public void addItem(String item) {
 			intervalLB.addItem(item);
 		}
 
@@ -996,6 +996,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			if (btnPointStyle != null)
 				btnPointStyle.setSelectedIndex(index);
 		}
+		public void addItem(String item) {
+	        // TODO Auto-generated method stub
+	        
+        }
 
 
 	} 
@@ -1581,7 +1585,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 
-	private class LayerPanel extends OptionPanel implements ILayerOptionsListener {
+	private class LayerPanel extends OptionPanel implements IComboListener {
 		private LayerModel model;
 		private Label layerLabel;
 		private ListBox layerModeCB;
@@ -1621,6 +1625,48 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
         }
 		
 	}
+	
+	private class TooltipPanel extends OptionPanel implements IComboListener {
+		private TooltipModel model;
+		private Label tooltipLabel;
+		private ListBox tooltipModeCB;
+		
+		public TooltipPanel() {
+			model = new TooltipModel(this);
+			setModel(model);
+			FlowPanel mainPanel = new FlowPanel();
+			tooltipLabel = new Label();
+			mainPanel.add(tooltipLabel);
+			
+			tooltipModeCB = new ListBox();
+			model.fillModes(app);
+			mainPanel.add(tooltipModeCB);
+			
+			tooltipModeCB.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+	                model.applyChanges(tooltipModeCB.getSelectedIndex());
+                }});
+			setWidget(mainPanel);
+			
+		}
+			
+		public void setSelectedIndex(int index) {
+	        tooltipModeCB.setSelectedIndex(index);
+	        
+        }
+
+		public void addItem(String item) {
+	        tooltipModeCB.addItem(item);
+        }
+
+		@Override
+        public void setLabels() {
+	        tooltipLabel.setText(app.getMenu("Tooltip") + ":");
+        }
+		
+	}
+
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1789,7 +1835,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		showConditionPanel = new ShowConditionPanel((AppW) app);
 		colorFunctionPanel = new ColorFunctionPanel((AppW) app);
 		
-		layerPanel = new LayerPanel();
+		layerPanel = new TooltipPanel();
 		advancedPanels = Arrays.asList(showConditionPanel,
 				colorFunctionPanel,
 				layerPanel);
