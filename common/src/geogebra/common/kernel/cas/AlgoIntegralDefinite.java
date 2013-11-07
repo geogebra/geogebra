@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
@@ -51,6 +52,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	private boolean numeric;
 	// for symbolic integration
 	private GeoFunction symbIntegral;
+	private boolean evaluateNumerically;
 
 	// for numerical adaptive GaussQuad integration
 	private static final int FIRST_ORDER = 3;
@@ -111,7 +113,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			NumberValue a, NumberValue b, GeoBoolean evaluate,
 			boolean num) {
 		super(cons);
-		boolean evaluateNumerically = num;
+		evaluateNumerically = num;
 		this.f = f;
 		n = new GeoNumeric(cons); // output
 		this.a = a;
@@ -234,7 +236,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		double fb = f.evaluate(upperLimit);
 		if (Double.isNaN(fa) || Double.isInfinite(fa) || Double.isNaN(fb)
 				|| Double.isInfinite(fb)) {
-			n.setUndefined();
+			if(!this.evaluateNumerically && !evaluateOnly() && !f.isFreehandFunction()){
+				computeSpecial();
+			}else{
+				n.setUndefined();
+			}
 			return;
 		}
 
@@ -295,6 +301,32 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		 */
 	}
 
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private void computeSpecial() {
+		StringBuilder sb = new StringBuilder(30);
+		sb.append("Integral(");
+		sb.append(f.toValueString(StringTemplate.maxPrecision));
+		sb.append(",");
+		sb.append(f.getVarString(StringTemplate.defaultTemplate));
+		sb.append(",");
+		sb.append(a.toValueString(StringTemplate.maxPrecision));
+		sb.append(",");
+		sb.append(b.toValueString(StringTemplate.maxPrecision));
+		sb.append(")");
+		try{
+		String functionOut = kernel
+				.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
+		if (functionOut == null || functionOut.length() == 0) {
+			n.setUndefined();
+		} else {
+			// read result back into function
+			n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(functionOut));
+		}
+		}catch(Throwable e){
+			n.setUndefined();
+		}
+		
+	}
 	private double freehandIntegration(GeoFunction f2, double lowerLimitUser,
 			double upperLimitUser) {
 		
