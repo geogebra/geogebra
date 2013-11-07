@@ -357,10 +357,14 @@ public class ToolTipManagerW {
 			return;
 		}
 
+		tipHTML.setHTML("");
 		oldText = "";
 		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
 
-		// if in immediate mode, then reset the reshowTimer
+		// cancel the timer in case of a delayed call to show() 
+		cancelTimer();
+		
+		// but, if in immediate mode, reset the reshow timer
 		if (showImmediately) {
 			setReshowTimer();
 		}
