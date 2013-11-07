@@ -123,6 +123,22 @@ public class CopyPasteCutW extends CopyPasteCut {
 					isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);*/
 
+			// in theory
+
+			if (transferString.equals(staticClipboardString)) {
+
+				// special case: hacking in Web, input is coming from us
+
+				String[] data0 = transferString.split("\n");
+				String[] data00 = data0[0].split("\t");
+				String[][] data = new String[data0.length][data00.length];
+				for (int i = 0; i < data0.length; i++)
+					data[i] = data0[i].split("\t");
+				//String[][] data = DataImportW.parseExternalData(app, transferString, null,
+				//		isCSV);
+				succ = pasteExternalMultiple(data, column1, row1, column2, row2);
+			}
+
 			// Application.debug("newline index "+buf.indexOf("\n"));
 			// Application.debug("length "+buf.length());
 
