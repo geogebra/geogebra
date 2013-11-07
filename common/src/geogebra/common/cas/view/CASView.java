@@ -9,6 +9,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 /**
@@ -138,6 +139,17 @@ public abstract class CASView implements View{
 			boolean undo = deleteCasCells(getConsoleTable().getSelectedRows());
 			if(undo)
 				getConsoleTable().getApplication().storeUndoInfo();
+			break;
+		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
+			// make sure we don't switch to evaluate if delete tool is used in EV
+			if(getApp().getGuiManager() != null && getApp().getGuiManager().getActiveToolbarId()!=this.getViewID())
+				backToEvaluate = false;
+			if(getConsoleTable().getSelectedRows().length >0){
+				GeoCasCell cell = getConsoleTable().getGeoCasCell(getConsoleTable().getSelectedRows()[0]);
+				if(cell != null && cell.getTwinGeo() instanceof GeoFunction){
+					this.getApp().getDialogManager().showFunctionInspector((GeoFunction)cell.getTwinGeo());
+				}
+			}
 			break;
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
