@@ -2125,8 +2125,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	/**
-	 * 
-	 * @param newTwinGeo
+	 * @param newTwinGeo new twin GeoElement
 	 */
 	private void setTwinGeo(final GeoElement newTwinGeo) {
 		if (newTwinGeo == null && twinGeo != null) {
@@ -2315,6 +2314,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	public boolean plot() {
 		if (getEvalVE() == null || input.equals("")) {
 			return false;
+		} else if (hasTwinGeo()) { // there is already a twinGeo, this means this cell is plotable,
+			return true;
 		}
 
 		String oldEvalComment = evalComment;
@@ -2324,15 +2325,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		AssignmentType oldOVEAssignmentType = outputVE.getAssignmentType();
 		AssignmentType oldIVEAssignmentType = getInputVE()==null? evalVE.getAssignmentType() : 
 			getInputVE().getAssignmentType();
-		// there is already a twinGeo, this means this cell is plotable,
-		// therefore return true
-		if (hasTwinGeo()) {
-			return true;
-		}
 
-		// this has to be upper case that the input of (1,1) leads to a
-		// definition of a point
-		// instead of a vector
 		assignmentVar = PLOT_VAR;
 		adjustPointList(false);
 		this.firstComputeOutput = true;
@@ -2343,11 +2336,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 				&& twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
-			/**
-			 * We use EvalVE here as it's more transparent to push the command to the input
-			 * except Evaluate and KeepInput
-			 */
 			
+			// we use EvalVE here as it's more transparent to push the command to the input
+			// except Evaluate and KeepInput
 			ValidExpression ex = (ValidExpression) getEvalVE().deepCopy(kernel);
 			CommandRemover remover;
 			if (input.startsWith("Numeric[")) {

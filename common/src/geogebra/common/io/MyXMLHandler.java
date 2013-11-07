@@ -2820,6 +2820,8 @@ public class MyXMLHandler implements DocHandler {
 				cons.addToGeoSetWithCasCells(geoCasCell);
 				if (geoCasCell.isAssignmentVariableDefined()) {
 					// a non-native cell may have dependent twin geo even if inputs are constants
+					// update twin GeoElement
+					geoCasCell.updateTwinGeo(false);
 					geoCasCell.setLabelOfTwinGeo();
 					if(geoCasCell.hasTwinGeo() && !geoCasCell.getTwinGeo().isInConstructionList()){
 						if(!geoCasCell.getTwinGeo().getParentAlgorithm().isInConstructionList())
