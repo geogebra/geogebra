@@ -747,7 +747,7 @@ public interface Traversing {
 						geo = ((ExpressionNode)geo).getLeft().unwrap();
 					}
 					if(geo instanceof GeoDummyVariable){
-						geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
+						geo = ((GeoDummyVariable)geo).getElementWithSameName();
 					}
 					ExpressionNode en2 = null;
 					FunctionVariable[] fv = null;
