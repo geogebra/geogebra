@@ -18,6 +18,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
+import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
+import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraphicsViewLocationListener;
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
@@ -135,6 +137,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private List<OptionPanel> advancedPanels;
 	private TooltipPanel layerPanel;
 	private SelectionAllowedPanel selectionAllowedPanel;
+	private GraphicsViewLocationPanel graphicsViewLocationPanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -1679,6 +1682,63 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 	
+	private class GraphicsViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
+		private GraphicsViewLocationModel model;
+		
+		private Label title;
+		private CheckBox cbGraphicsView;
+		private CheckBox cbGraphicsView2;
+		private AppW app;
+		
+		public GraphicsViewLocationPanel(AppW app) {
+			this.app = app;
+	
+			model = new GraphicsViewLocationModel(app, this);
+			setModel(model);
+			
+			title = new Label();
+			cbGraphicsView = new CheckBox();
+			cbGraphicsView2 = new CheckBox();
+
+			cbGraphicsView.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.applyToEuclidianView1(cbGraphicsView.getValue());
+	                
+                }});
+			
+			cbGraphicsView.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.applyToEuclidianView2(cbGraphicsView2.getValue());
+	                
+                }});
+						
+			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.add(title);
+			mainPanel.add(cbGraphicsView);
+			mainPanel.add(cbGraphicsView2);
+			setWidget(mainPanel);
+		}
+
+		public void selectView(int index, boolean isSelected) {
+			if (index == 0) {
+				cbGraphicsView.setValue(isSelected);
+			} else {
+				cbGraphicsView2.setValue(isSelected);
+			}    
+        }
+
+		@Override
+        public void setLabels() {
+			title.setText(app.getMenu("Location"));
+			cbGraphicsView.setText(app.getPlain("DrawingPad"));
+			cbGraphicsView2.setText(app.getPlain("DrawingPad2"));
+
+        }
+		
+	}
+
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1848,11 +1908,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		colorFunctionPanel = new ColorFunctionPanel((AppW) app);
 		layerPanel = new TooltipPanel();
 		selectionAllowedPanel = new SelectionAllowedPanel();
+		graphicsViewLocationPanel = new GraphicsViewLocationPanel((AppW)app);
+		
 		
 		advancedPanels = Arrays.asList(showConditionPanel,
 				colorFunctionPanel,
 				layerPanel,
-				selectionAllowedPanel);
+				selectionAllowedPanel,
+				graphicsViewLocationPanel);
 	
 		for (OptionPanel panel: advancedPanels) {
 			advancedTab.add(panel.getWidget());
