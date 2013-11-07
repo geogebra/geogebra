@@ -490,7 +490,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// if the cell is used as comment, treat it as empty
 		if (useAsText) {
 			suppressOutput = true;
-			setInputVE(new ExpressionNode());
+			setInputVE(null);
 			this.commentText.setTextString(inValue != null ? inValue : "");
 		} else { // parse input into valid expression
 			suppressOutput = inValue.endsWith(";");

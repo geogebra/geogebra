@@ -926,7 +926,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	@Override
 	public boolean inspect(Inspecting t){
-		return t.check(this) || (left!=null && left.inspect(t)) || (right!=null && right.inspect(t));
+		return t.check(this) || left.inspect(t) || (right!=null && right.inspect(t));
 	}
 
 	public void replaceChildrenByValues(GeoElement geo) {
