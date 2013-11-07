@@ -549,7 +549,7 @@ namespace giac {
   // Alpha_number, replace them by spread(i,j) if this is the case
   gen spread_convert(const gen & g,int g_row,int g_col,GIAC_CONTEXT){
     // relative cell
-    vecteur l(*_lname(g,contextptr)._VECTptr);
+    vecteur l(gen2vecteur(_lname(g,contextptr)));
     const_iterateur it=l.begin(),itend=l.end();
     vecteur sub_in,sub_out;
     int r,c;

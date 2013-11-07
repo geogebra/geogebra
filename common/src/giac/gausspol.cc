@@ -3788,6 +3788,8 @@ namespace giac {
   }
 
   polynome gcdpsr(const polynome &p,const polynome &q,int gcddeg){
+    if (has_num_coeff(p) || has_num_coeff(q))
+      return polynome( monomial<gen>(1,p.dim));
     if (debug_infolevel)
       cout << "// Using PSR gcd " << endl;
     if (!gcddeg && p.dim>1){ // find probable degree

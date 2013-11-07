@@ -1018,7 +1018,7 @@ namespace giac {
       *this=a+cst_i*b; // gentypeerr(gettext("complex constructor"));
       return;
     }
-    if (is_zero(b,context0)){
+    if (is_exactly_zero(b)){
       if (a.type==_FLOAT_){
 	type=0;
 	*this=a;

@@ -1437,6 +1437,8 @@ namespace giac {
   }
 
   static vecteur solve_numeric_check(const gen & e,const gen & x,const vecteur & sol,GIAC_CONTEXT){
+    if (is_undef(sol))
+      return sol;
     vecteur res;
     vecteur eid=lidnt(e);
     for (unsigned i=0;i<sol.size();++i){
@@ -4868,7 +4870,7 @@ namespace giac {
     reverse(res.begin(),res.end());
     if (debug_infolevel>6)
       res.dbgprint();
-#ifndef CAS38_DISABLED
+#ifndef GIAC_HAS_STO_38 // CAS38_DISABLED
     if (res.front().dim<=GROEBNER_VARS+1-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
       vectpoly tmp;
       gbasis8(res,tmp,env,modularcheck,contextptr); 

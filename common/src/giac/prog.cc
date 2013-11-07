@@ -1231,8 +1231,11 @@ namespace giac {
     debug_ptr(contextptr)->indent_spaces +=2;
     if ((calc38 || xcas_mode(contextptr)>0) && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
       res += printasinnerbloc(it->_SYMBptr->feuille,contextptr);
-    else
-      res += it->print(contextptr) +";";
+    else {
+      res += it->print(contextptr);
+      if (res[res.size()-1]!=';') 
+	res += ";";
+    }
     debug_ptr(contextptr)->indent_spaces -=2;
     ++it;
     while ( (calc38 || xcas_mode(contextptr)>0) && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_ifte) ){
@@ -1250,8 +1253,11 @@ namespace giac {
       debug_ptr(contextptr)->indent_spaces +=2;
       if ((it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
 	res += printasinnerbloc(it->_SYMBptr->feuille,contextptr);
-      else
-	res += it->print(contextptr) +";" ;
+      else {
+	res += it->print(contextptr);
+	if (res[res.size()-1]!=';') 
+	  res += ";";
+      }
       debug_ptr(contextptr)->indent_spaces -=2;
       ++it;
     }
@@ -1262,7 +1268,7 @@ namespace giac {
 	if (calc38)
 	  res += " ELSE ";
 	else {
-	  if (xcas_mode(contextptr)<=0)
+	  if (xcas_mode(contextptr)<=0 && res[res.size()-1]!=';')
 	    res +=";"; 
 	  if (xcas_mode(contextptr)==3)
 	    res += indent(contextptr)+"Else ";
@@ -1274,8 +1280,10 @@ namespace giac {
       if ((calc38 || xcas_mode(contextptr)>0) && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
 	res += printasinnerbloc(it->_SYMBptr->feuille,contextptr);
       else {
-	res += it->print(contextptr) +";";
-	if (!xcas_mode(contextptr))
+	res += it->print(contextptr);
+	if (res[res.size()-1]!=';' 
+	    //&& !xcas_mode(contextptr)
+	    )
 	  res += ";";
       }
       debug_ptr(contextptr)->indent_spaces -=2;

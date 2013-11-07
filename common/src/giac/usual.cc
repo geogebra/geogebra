@@ -1067,8 +1067,8 @@ namespace giac {
 	a=-a;
       return makemod(a,b);
     }
-    if (e.type==_CPLX){
-      if (e.subtype){
+    if (e.type==_CPLX || has_i(e)){
+      if (e.type==_CPLX && e.subtype){
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_sqrt(gen2complex_d(e));
 #else
