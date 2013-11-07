@@ -6,6 +6,7 @@ import geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.main.OptionType;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -454,8 +455,6 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 		// Object properties
 		// ===============================================
 
-		/* should port this later
-
 		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
 			addSeparator();
 
@@ -463,7 +462,8 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 					new Command() {
 
 						public void execute() {
-							app.getDialogManager().showPropertiesDialog();
+							app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, geos);
+							// app.getDialogManager().showPropertiesDialog();
 						}
 					},
 					GeoGebraMenubarW.getMenuBarHtml(
@@ -471,6 +471,8 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 							app.getMenu(app.getPlain("Properties")) + "..."),
 					app.getMenu(app.getPlain("Properties")) + "...");
 		}
+
+		/* should port this later
 
 		app.setComponentOrientation(this);
 
