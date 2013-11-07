@@ -1945,7 +1945,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	public boolean delete() {
-		return copyPasteCut.cut(minSelectionColumn, minSelectionRow,
+		return copyPasteCut.delete(minSelectionColumn, minSelectionRow,
 				maxSelectionColumn, maxSelectionRow);
 	}
 

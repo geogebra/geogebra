@@ -2066,7 +2066,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	}
 
 	public boolean delete() {
-		return copyPasteCut.cut( getSelectedColumn(), getSelectedRow(),
+		return copyPasteCut.delete( getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow() );
 	}
 
