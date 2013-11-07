@@ -40,7 +40,6 @@ import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LayerModel;
-import geogebra.common.gui.dialog.options.model.LayerModel.ILayerOptionsListener;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -62,6 +61,7 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
+import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -1762,17 +1762,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel with label properties
 	 */
 	private class TooltipPanel extends JPanel implements ItemListener,
-			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+			IComboListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
+		private TooltipModel model;
 		private JComboBox tooltipModeCB;
 		JLabel label;
 
 		public TooltipPanel() {
-
+			model = new TooltipModel(this);
 			label = new JLabel();
 			label.setLabelFor(tooltipModeCB);
 
@@ -1794,60 +1795,24 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			tooltipModeCB.removeActionListener(this);
 
 			tooltipModeCB.removeAllItems();
-			tooltipModeCB.addItem(app.getMenu("Labeling.automatic")); // index 0
-			tooltipModeCB.addItem(app.getMenu("on")); // index 1
-			tooltipModeCB.addItem(app.getMenu("off")); // index 2
-			tooltipModeCB.addItem(app.getPlain("Caption")); // index 3
-			tooltipModeCB.addItem(app.getPlain("NextCell")); // index 4 Michael
-																// Borcherds
-
+			model.fillModes(app);
 			tooltipModeCB.setSelectedIndex(selectedIndex);
 			tooltipModeCB.addActionListener(this);
 
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) { 
 				return null;
+			}
 
 			tooltipModeCB.removeActionListener(this);
 
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalLabelMode = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-
-				// same tooltip mode
-				if (geo0.getLabelMode() != temp.getTooltipMode())
-					equalLabelMode = false;
-
-			}
-
-			// set label visible checkbox
-			if (equalLabelMode)
-				tooltipModeCB.setSelectedIndex(geo0.getTooltipMode());
-			else
-				tooltipModeCB.setSelectedItem(null);
-
-			// locus in selection
+			model.updateProperties();
+			
 			tooltipModeCB.addActionListener(this);
 			return this;
-		}
-
-		// show everything but numbers (note: drawable angles are shown)
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isDrawable()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		/**
@@ -1862,12 +1827,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == tooltipModeCB) {
-				GeoElement geo;
-				int mode = tooltipModeCB.getSelectedIndex();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setTooltipMode(mode);
-				}
+				model.applyChanges(tooltipModeCB.getSelectedIndex());
 			}
 		}
 
@@ -1883,6 +1843,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
+		public void setSelectedIndex(int index) {
+			tooltipModeCB.setSelectedIndex(index);
+			
+		}
+
+		public void addItem(String item) {
+			tooltipModeCB.addItem(item);			
+		}
+
 	} // TooltipPanel
 
 	/*
@@ -1890,7 +1859,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 */
 	private class LayerPanel extends JPanel implements ItemListener,
 			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-			ILayerOptionsListener {
+			IComboListener {
 		/**
 		 * 
 		 */
@@ -2379,7 +2348,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 
-		public void addComboItem(String item) {
+		public void addItem(String item) {
 			intervalCombo.addItem(item);
 		}
 
@@ -3696,6 +3665,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedIndex(int index) {
 			cbStyle.setSelectedIndex(index);
+		}
+
+		public void addItem(String item) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	}

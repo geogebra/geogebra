@@ -4,12 +4,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LayerModel extends OptionsModel {
-	public interface ILayerOptionsListener extends IComboListener {
-		void addItem(final String item);
-	}
-	private ILayerOptionsListener listener;
+	private IComboListener listener;
 	
-	public LayerModel(ILayerOptionsListener listener) {
+	public LayerModel(IComboListener listener) {
 		this.listener = listener;
 	}
 

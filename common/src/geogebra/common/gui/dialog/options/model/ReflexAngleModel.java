@@ -11,7 +11,6 @@ public class ReflexAngleModel extends OptionsModel {
 	public interface IReflexAngleListener extends IComboListener {
 
 		void setComboLabels();
-		void addComboItem(final String item);
 
 	}
 	
@@ -71,13 +70,13 @@ public class ReflexAngleModel extends OptionsModel {
 			}
 			
 			for (int i = 0; i < length; i++)
-				listener.addComboItem(loc.getPlain("AandB",
+				listener.addItem(loc.getPlain("AandB",
 								GeoAngle.INTERVAL_MIN[i],
 								GeoAngle.INTERVAL_MAX[i]));
 		} else {// only 180° wide interval are possible
-			listener.addComboItem(loc.getPlain("AandB",
+			listener.addItem(loc.getPlain("AandB",
 					GeoAngle.INTERVAL_MIN[1], GeoAngle.INTERVAL_MAX[1]));
-			listener.addComboItem(loc.getPlain("AandB",
+			listener.addItem(loc.getPlain("AandB",
 					GeoAngle.INTERVAL_MIN[2], GeoAngle.INTERVAL_MAX[2]));
 		}
 	}
