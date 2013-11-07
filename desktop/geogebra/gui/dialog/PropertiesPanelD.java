@@ -53,6 +53,7 @@ import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
+import geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -962,100 +963,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			getCheckbox().setEnabled(isEnabled);
 		}
 
-	} // ShowObjectPanel
+	}
 
-	/**
-	 * panel with show/hide object checkbox
-	 */
-	private class SelectionAllowedPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
- 
+	private class SelectionAllowedPanel extends CheckboxPanel {
+
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox selectionAllowedCB;
-
 		public SelectionAllowedPanel() {
+			super(app.getPlain("SelectionAllowed"));
+			setModel(new SelectionAllowedModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
-
-			// check box for show object
-			selectionAllowedCB = new JCheckBox();
-			selectionAllowedCB.addItemListener(this);
-			add(selectionAllowedCB);
 		}
 
-		public void setLabels() {
-			selectionAllowedCB.setText(app.getPlain("SelectionAllowed"));
-		}
-
-		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
-				return null;
-
-			selectionAllowedCB.removeItemListener(this);
-
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
-			boolean equalObjectVal = true;
-
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoElement) geos[i];
-				// same object visible value
-				if (geo0.isSelectionAllowed() != temp.isSelectionAllowed()) {
-					equalObjectVal = false;
-					break;
-				}
-
-			}
-
-			// set object visible checkbox
-			if (equalObjectVal)
-				selectionAllowedCB.setSelected(geo0.isSelectionAllowed());
-			else
-				selectionAllowedCB.setSelected(false);
-
-			selectionAllowedCB.setEnabled(true);
-
-			selectionAllowedCB.addItemListener(this);
-			return this;
-		}
-
-		// show everything
-		private boolean checkGeos(Object[] geos) {
-			return true;
-		}
-
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			GeoElement geo;
-			Object source = e.getItemSelectable();
-
-			// show object value changed
-			if (source == selectionAllowedCB) {
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setSelectionAllowed(selectionAllowedCB.isSelected());
-					geo.updateRepaint();
-				}
-			}
-			updateSelection(geos);
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			selectionAllowedCB.setFont(font);
-
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-	} // SelectionAllowedPanel
+	}
 
 	/**
 	 * panel with show/hide trimmed intersection lines

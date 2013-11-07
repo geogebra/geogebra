@@ -38,6 +38,7 @@ import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import geogebra.common.gui.dialog.options.model.RightAngleModel;
+import geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
 import geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -133,6 +134,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	private ColorFunctionPanel colorFunctionPanel;
 	private List<OptionPanel> advancedPanels;
 	private TooltipPanel layerPanel;
+	private SelectionAllowedPanel selectionAllowedPanel;
 
 	private abstract class OptionPanel {
 		private OptionsModel model;
@@ -1667,6 +1669,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 
+	private class SelectionAllowedPanel extends CheckboxPanel {
+
+		private static final long serialVersionUID = 1L;
+		public SelectionAllowedPanel() {
+			super(app.getPlain("SelectionAllowed"));
+			setModel(new SelectionAllowedModel(this));
+		}
+
+	}
+	
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1834,11 +1846,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		advancedTab.setStyleName("objectPropertiesTab");
 		showConditionPanel = new ShowConditionPanel((AppW) app);
 		colorFunctionPanel = new ColorFunctionPanel((AppW) app);
-		
 		layerPanel = new TooltipPanel();
+		selectionAllowedPanel = new SelectionAllowedPanel();
+		
 		advancedPanels = Arrays.asList(showConditionPanel,
 				colorFunctionPanel,
-				layerPanel);
+				layerPanel,
+				selectionAllowedPanel);
 	
 		for (OptionPanel panel: advancedPanels) {
 			advancedTab.add(panel.getWidget());
