@@ -724,8 +724,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStaticD();
 
-		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.euclidian.clipping.DoubleArrayFactory();
-
 	}
 
 	private static void handleHelpVersionArgs(CommandLineArguments args) {

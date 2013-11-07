@@ -39,9 +39,9 @@ import java.util.Stack;
  */
 public class ClipShape {
 	
-	//private static final DoubleArrayFactory doubleFactory = new DoubleArrayFactory();
+	//private static final DoubleArrayFactoryImpl doubleFactory = new DoubleArrayFactoryImpl();
 	/** Factory for double arrays */
-	static final DoubleArrayFactory doubleFactory =  DoubleArrayFactory.prototype;
+	static final DoubleArrayFactory doubleFactory =  new DoubleArrayFactory();
 	
 	/** This is the tolerance with which 2 numbers must
 	 * be similar to be considered "equal".
