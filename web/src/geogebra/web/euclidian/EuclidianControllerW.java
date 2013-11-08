@@ -435,7 +435,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			first.release();
 			second.release();
 		}
-		if(!comboBoxHit()){
+		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
 	}
