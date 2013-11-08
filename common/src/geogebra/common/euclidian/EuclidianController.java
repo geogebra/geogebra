@@ -3469,7 +3469,9 @@ public abstract class EuclidianController {
 	
 		// got location
 		if (loc != null) {
-			app.getGuiManager().loadImage(loc, null, altDown);
+			if (app.getGuiManager() != null) {// FIXME: fix this better
+				app.getGuiManager().loadImage(loc, null, altDown);
+			}
 			return true;
 		}
 	
@@ -8877,7 +8879,9 @@ public abstract class EuclidianController {
 	}
 
 	public void showDrawingPadPopup(GPoint mouse) {
-		app.getGuiManager().showDrawingPadPopup(view, mouse);
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().showDrawingPadPopup(view, mouse);
+		}
 	}
 
 	protected final void wrapMouseReleased(AbstractEvent event){
@@ -9524,6 +9528,11 @@ public abstract class EuclidianController {
 
 
 	protected void initNewMode(int newMode) {
+
+		// this should not happen in theory
+		if (app.getGuiManager() == null)
+			return;
+
 		this.mode = newMode;
 		initShowMouseCoords();
 		// Michael Borcherds 2007-10-12
@@ -9639,11 +9648,12 @@ public abstract class EuclidianController {
 
 		//app.getGuiManager().showPopupMenu(firstHits,view, mouseLoc);
 		
-		app.getGuiManager().showPopupChooseGeo(
-				selectedGeos1,
-				hits,
-				view, mouseLoc);
-
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().showPopupChooseGeo(
+					selectedGeos1,
+					hits,
+					view, mouseLoc);
+		}
 	}
 	
 

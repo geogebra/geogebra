@@ -241,7 +241,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	@Override
 	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
-		if (!((AppW) app).letShowPropertiesDialog())
+		if (!((AppW) app).letShowPropertiesDialog() || app.getGuiManager() == null)
 			return;
 
 		// get PropertiesView

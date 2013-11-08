@@ -915,8 +915,9 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 					}
 
 				}
-			} else
+			} else if (app.getGuiManager() != null) {
 				app.getGuiManager().openHelp(App.WIKI_MANUAL);
+			}
 
 			e.stopPropagation();
 			break;

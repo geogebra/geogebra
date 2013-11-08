@@ -228,7 +228,7 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-1 from working (| on some
 				// keyboards)
-				if (isShiftDown) {// || event.isAltDown()) {
+				if (isShiftDown && app.getGuiManager() != null) {// || event.isAltDown()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
 									App.VIEW_EUCLIDIAN),
@@ -249,7 +249,7 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-2 from working (superscript
 				// 2 on some keyboards)
-				if (isShiftDown) {// || event.isAltDown()) {
+				if (isShiftDown && app.getGuiManager() != null) {// || event.isAltDown()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
 									App.VIEW_EUCLIDIAN2),
@@ -271,7 +271,7 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-3 from working (^ on
 				// Croatian keyboard)
-				if (isShiftDown) { // || event.isAltDown()) {
+				if (isShiftDown && app.getGuiManager() != null) { // || event.isAltDown()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
 									App.VIEW_EUCLIDIAN3D),
@@ -289,11 +289,11 @@ public abstract class GlobalKeyDispatcher {
 
 			case A:
 				if (isShiftDown) {
-					if (app.isUsingFullGui()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_ALGEBRA),
-									App.VIEW_ALGEBRA);
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(
+										App.VIEW_ALGEBRA),
+										App.VIEW_ALGEBRA);
 						consumed = true;
 					}
 				} else {
@@ -304,11 +304,11 @@ public abstract class GlobalKeyDispatcher {
 
 			case K:
 				if (isShiftDown) {
-					if (app.isUsingFullGui()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_CAS),
-									App.VIEW_CAS);
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(
+										App.VIEW_CAS),
+										App.VIEW_CAS);
 						consumed = true;
 					}
 				} 
@@ -316,11 +316,11 @@ public abstract class GlobalKeyDispatcher {
 
 			case L:
 				if (isShiftDown) {
-					if (app.isUsingFullGui()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_CONSTRUCTION_PROTOCOL),
-									App.VIEW_CONSTRUCTION_PROTOCOL);
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(
+										App.VIEW_CONSTRUCTION_PROTOCOL),
+										App.VIEW_CONSTRUCTION_PROTOCOL);
 						consumed = true;
 					}
 				}  else 
@@ -331,7 +331,7 @@ public abstract class GlobalKeyDispatcher {
 				break;
 
 			case O: // File -> Open
-				if (!isShiftDown) {
+				if (!isShiftDown && app.getGuiManager() != null) {
 					app.getGuiManager().openFile();
 					consumed = true;
 				}
@@ -340,19 +340,19 @@ public abstract class GlobalKeyDispatcher {
 				if (!isShiftDown) {
 					showPrintPreview(app);
 					consumed = true;
-				} else {
+				} else if (app.getGuiManager() != null) {
 					app.getGuiManager().showGraphicExport();
 					consumed = true;
 				}
 				break;
 			case T: // File -> Export -> PSTricks
-				if (isShiftDown) {
+				if (isShiftDown && app.getGuiManager() != null) {
 					app.getGuiManager().showPSTricksExport();
 					consumed = true;
 				}
 				break;
 			case W: // File -> Export -> Webpage
-				if (isShiftDown) {
+				if (isShiftDown && app.getGuiManager() != null) {
 					app.getGuiManager().showWebpageExport();
 					consumed = true;
 				} else {
@@ -410,8 +410,10 @@ public abstract class GlobalKeyDispatcher {
 
 				// Ctrl + E: open object properties (needed here for spreadsheet)
 			case E:
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(App.VIEW_PROPERTIES), App.VIEW_PROPERTIES, false);
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_PROPERTIES), App.VIEW_PROPERTIES, false);
+				}
 				consumed = true;
 				break;
 
@@ -438,10 +440,12 @@ public abstract class GlobalKeyDispatcher {
 				// needed for detached views and MacOS
 				// Ctrl + Z: Undo
 			case Z:
-				if (isShiftDown)
-					app.getGuiManager().redo();
-				else
-					app.getGuiManager().undo();
+				if (app.getGuiManager() != null) {
+					if (isShiftDown)
+						app.getGuiManager().redo();
+					else
+						app.getGuiManager().undo();
+				}
 				consumed = true;
 				break;
 
@@ -465,14 +469,14 @@ public abstract class GlobalKeyDispatcher {
 				// ctrl-shift-s (toggle spreadsheet)
 			case S:
 				if (isShiftDown) {
-					if (app.isUsingFullGui()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_SPREADSHEET),
-									App.VIEW_SPREADSHEET);
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(
+										App.VIEW_SPREADSHEET),
+										App.VIEW_SPREADSHEET);
 						consumed = true;
 					}
-				} else {
+				} else if (app.getGuiManager() != null) {
 					app.getGuiManager().save();
 					consumed = true;
 				}
@@ -480,14 +484,14 @@ public abstract class GlobalKeyDispatcher {
 
 			case Y:
 				if (isShiftDown) {
-					if (app.isUsingFullGui()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_PYTHON),
-									App.VIEW_PYTHON);
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(
+										App.VIEW_PYTHON),
+										App.VIEW_PYTHON);
 						consumed = true;
 					}
-				} else {
+				} else if (app.getGuiManager() != null) {
 					// needed for detached views and MacOS
 					// Cmd + Y: Redo
 
@@ -782,7 +786,7 @@ public abstract class GlobalKeyDispatcher {
 					return true;
 				case DOWN:
 
-					if (app.isUsingFullGui()
+					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
@@ -804,7 +808,7 @@ public abstract class GlobalKeyDispatcher {
 
 				case UP:
 
-					if (app.isUsingFullGui()
+					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
@@ -825,7 +829,7 @@ public abstract class GlobalKeyDispatcher {
 
 				case LEFT:
 
-					if (app.isUsingFullGui()
+					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
@@ -846,7 +850,7 @@ public abstract class GlobalKeyDispatcher {
 
 				case RIGHT:
 
-					if (app.isUsingFullGui()
+					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
@@ -914,7 +918,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case DELETE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
-			if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().hasFocus())
+			if (app.getGuiManager() != null && app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().hasFocus())
 				return false;
 			// DELETE selected objects
 			if (!app.isApplet() || app.isRightClickEnabled()) {
@@ -924,7 +928,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case BACKSPACE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
-			if (app.getGuiManager().getSpreadsheetView().hasFocus())
+			if (app.getGuiManager() != null && app.getGuiManager().getSpreadsheetView().hasFocus())
 				return false;
 			// DELETE selected objects
 			// Note: ctrl-h generates a KeyEvent.VK_BACK_SPACE event, so check
@@ -940,7 +944,7 @@ public abstract class GlobalKeyDispatcher {
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
 		if (fromSpreadsheet
-				|| (app.isUsingFullGui()
+				|| (app.isUsingFullGui() && app.getGuiManager() != null
 						&& app.getGuiManager().hasSpreadsheetView() && app
 						.getGuiManager().getSpreadsheetView().hasFocus())) {
 			return false;
@@ -951,7 +955,7 @@ public abstract class GlobalKeyDispatcher {
 		switch (key) {
 		case UP:
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 			changeValY = base;
@@ -960,7 +964,7 @@ public abstract class GlobalKeyDispatcher {
 		case DOWN:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 
@@ -970,7 +974,7 @@ public abstract class GlobalKeyDispatcher {
 		case RIGHT:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 
@@ -980,7 +984,7 @@ public abstract class GlobalKeyDispatcher {
 		case LEFT:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 			
@@ -1013,7 +1017,7 @@ public abstract class GlobalKeyDispatcher {
 		switch (key) {
 		case F2:
 			// handle F2 key to start editing first selected element
-			if (app.isUsingFullGui()) {
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				app.getGuiManager().startEditing(geos.get(0));
 				return true;
 			}

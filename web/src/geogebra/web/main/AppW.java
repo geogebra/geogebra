@@ -293,7 +293,7 @@ public abstract class AppW extends AppWeb {
 	}
 
 	public boolean onlyGraphicsViewShowing() {
-		if (!isUsingFullGui()) {
+		if (!isUsingFullGui() || getGuiManager() == null) {
 			return true;
 		}
 
@@ -731,7 +731,7 @@ public abstract class AppW extends AppWeb {
 	
 	@Override
     protected void clearInputBar(){
-		if (isUsingFullGui() && showAlgebraInput()) {
+		if (isUsingFullGui() && showAlgebraInput() && getGuiManager() != null) {
 			AlgebraInputW ai = (getGuiManager().getAlgebraInput());
 			ai.clear();
 		}
@@ -974,7 +974,9 @@ public abstract class AppW extends AppWeb {
 		Button showHelp = new Button(getPlain("ShowOnlineHelp"));
 		showHelp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				getGuiManager().openCommandHelp(command);
+				if (getGuiManager() != null) {
+					getGuiManager().openCommandHelp(command);
+				}
 				dialog.removeFromParent();
 			}
 		});
@@ -1254,7 +1256,9 @@ public abstract class AppW extends AppWeb {
 			return;
 		}
 
-		getGuiManager().updateToolbar();
+		if (getGuiManager() != null) {
+			getGuiManager().updateToolbar();
+		}
 
 		setMoveMode();
 	}

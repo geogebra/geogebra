@@ -43,6 +43,8 @@ public class OpenFromGGTOperationW extends OpenFromGGTOperation {
 	
 	private void processURL(String url) {
 		app.setWaitCursor();
+
+		// supposing this is an advanced feature, will not be called from AppWsimple anyway
 		((GuiManager) app.getGuiManager()).loadURL(url + "?mobile=true");
 		((DialogManagerW) app.getDialogManager()).closeOpenFromGGTDialog();
 	}

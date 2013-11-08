@@ -281,7 +281,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 				int height = DOM.eventGetClientY(event);
 
 				setPixelSize(width, height);
-				app.getGuiManager().resize(width, height);
+				if (app.getGuiManager() != null) {
+					app.getGuiManager().resize(width, height);
+				}
 			} else if (move == true) {
 				RootPanel.get().setWidgetPosition(this, DOM.eventGetClientX(event),
 						DOM.eventGetClientY(event));
@@ -364,7 +366,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 */
 	public void setSize(int width, int height) {
 		setPixelSize(width, height);
-		app.getGuiManager().resize(width, height);
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().resize(width, height);
+		}
 
 	}
 	
