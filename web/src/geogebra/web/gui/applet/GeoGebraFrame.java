@@ -372,7 +372,7 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter geogebra-web applet rightclick enabled or not
 	 */
 	public void enableRightClick(boolean enable) {
-		//TODO: enablerightclick
+		app.setRightClickEnabled(enable);
 	}
 	
 	/**
