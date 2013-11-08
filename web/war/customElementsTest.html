@@ -80,9 +80,10 @@
 					}
 				break;
 				case "rightclick":
-						window[appletName].enableRightClick(!!this.getAttribute("checked"));
+						window[appletName].enableRightClick(this.checked);
 				break;
 				case "labeldrag":
+						window[appletName].enableLabelDrags(this.checked);
 				break;
 				case "shiftdragzoom":
 				break;

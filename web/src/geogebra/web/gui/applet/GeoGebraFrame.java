@@ -381,7 +381,7 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter labels draggable in geogebra-web applets or not
 	 */
 	public void enableLabelDrags(boolean enable) {
-		//TODO: enablelabeldrags
+		app.setLabelDragsEnabled(enable);
 	}
 	
 	/**
