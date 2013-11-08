@@ -1316,5 +1316,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		   ((AppWapplet) app).attachMenubar();
 	   }
     }
+
+	public void showToolBar(boolean show) {
+	   if (((AppWapplet) app).getToolbar() != null) {
+		   ((AppWapplet) app).getToolbar().setVisible(show);
+	   } else {
+		   ((AppWapplet) app).attachToolbar();
+	   }
+	    
+    }
     
 }

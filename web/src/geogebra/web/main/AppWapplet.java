@@ -230,12 +230,17 @@ public class AppWapplet extends AppW {
 	private GGWToolBar ggwToolBar = null;
 
 	public void attachToolbar() {
+		GGWMenuBar menubar = getObjectPool().getGgwMenubar();
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(this);
 		}
-		frame.add(ggwToolBar);
+		if (menubar != null) {
+			frame.insert(ggwToolBar, frame.getWidgetIndex(menubar) + 1);
+		} else {
+			frame.insert(ggwToolBar, 0);
+		}
 	}
 
 	@Override

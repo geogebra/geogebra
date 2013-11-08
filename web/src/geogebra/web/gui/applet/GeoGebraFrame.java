@@ -400,7 +400,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter show the toolbar in geogebra-web applets or not
 	 */
 	public void showToolBar(boolean show) {
-		//TODO: showtoolbar
+		if (app.getGuiManager() != null) {
+			((GuiManagerW) app.getGuiManager()).showToolBar(show);
+		}
 	}
 	
 	/**
