@@ -62,6 +62,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWapplet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -1303,6 +1304,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void logout() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	/**
+	 * @param show wheter to show the menubar or not
+	 */
+	public void showMenuBar(boolean show) {
+	   if (app.getObjectPool().getGgwMenubar() != null) {
+		   app.getObjectPool().getGgwMenubar().setVisible(show);
+	   } else {
+		   ((AppWapplet) app).attachMenubar();
+	   }
     }
     
 }

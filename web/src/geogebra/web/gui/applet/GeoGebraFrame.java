@@ -6,6 +6,7 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.View;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
@@ -408,7 +409,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter show the menubar in geogebra-web applets or not
 	 */
 	public void showMenuBar(boolean show) {
-		//TODO: showmenubar
+		if (app.getGuiManager() != null) {
+			((GuiManagerW) app.getGuiManager()).showMenuBar(show);
+		}
 	}
 	
 	/**

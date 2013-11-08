@@ -224,7 +224,7 @@ public class AppWapplet extends AppW {
 			menubar.init(this);
 			objectPool.setGgwMenubar(menubar);
 		}
-		frame.add(menubar);
+		frame.insert(menubar, 0);
 	}
 
 	private GGWToolBar ggwToolBar = null;
