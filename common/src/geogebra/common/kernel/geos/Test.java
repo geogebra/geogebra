@@ -521,4 +521,28 @@ Test {
 		}
 		return OBJECT;
 	}
+
+	public static boolean canSet(GeoElement object, GeoElement setter) {
+		return gen(getSpecificTest(object),getSpecificTest(setter));
+	}
+	
+	private static boolean gen(Test first, Test second) {
+		if(first == second){
+			return true;
+		}
+		switch(first){
+			case GEONUMERIC:
+				return gen(GEOANGLE,second) || gen(GEOBOOLEAN,second);
+			case GEOFUNCTION:
+				return gen(GEONUMERIC,second) || gen(GEOLINE,second);
+			case GEOFUNCTIONNVAR:
+				return gen(GEOFUNCTION,second);
+			case GEOCONIC:
+				return gen(GEOLINE,second);
+			case GEOIMPLICITPOLY:
+				return gen(GEOCONIC,second);
+		}
+		return false;
+	}
+		
 }

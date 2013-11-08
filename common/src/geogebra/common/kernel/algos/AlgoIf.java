@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Test;
 
 
 /**
@@ -46,7 +47,11 @@ public class AlgoIf extends AlgoElement {
         this.elseGeo = elseGeo;               
         
         // create output GeoElement of same type as ifGeo
-        result = ifGeo.copyInternal(cons);       	
+        if(Test.canSet(elseGeo, ifGeo)){
+        	result = elseGeo.copyInternal(cons);
+        }else{
+        	result = ifGeo.copyInternal(cons);
+        }
         
         setInputOutput(); // for AlgoElement
         

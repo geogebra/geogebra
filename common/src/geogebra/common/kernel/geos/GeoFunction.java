@@ -277,7 +277,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public void set(GeoElement geo) {
 		Function geoFun = geo == null ? null :
-			((GeoFunction) geo).getFunction();
+			((GeoFunctionable) geo).getGeoFunction().getFunction();
 
 		if (geoFun == null) {
 			fun = null;
