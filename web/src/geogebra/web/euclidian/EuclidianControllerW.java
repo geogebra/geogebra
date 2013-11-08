@@ -289,6 +289,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			moveIfWaiting();
 		}
 	};
+	private boolean ignoreNextMouseEvent;
 	
 	protected void moveIfWaiting(){
 		long time = System.currentTimeMillis();
@@ -404,6 +405,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
+		this.ignoreNextMouseEvent = true;
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		event.stopPropagation();
@@ -417,6 +419,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
+		this.ignoreNextMouseEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
 		Log.debug("TS"+targets.length());
@@ -529,6 +532,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
+		if(this.ignoreNextMouseEvent){
+			this.ignoreNextMouseEvent = false;
+			return;
+		}
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		DRAGMODE_MUST_BE_SELECTED = false;
@@ -544,7 +551,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-
+		if(this.ignoreNextMouseEvent){
+			this.ignoreNextMouseEvent = false;
+			return;
+		}
 		if (app.getGuiManager() != null)
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
