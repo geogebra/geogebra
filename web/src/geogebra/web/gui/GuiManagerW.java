@@ -1326,6 +1326,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    
     }
 
+	/**
+	 * @param show
+	 * 
+	 * wheter to show algebra input or not
+	 */
 	public void showAlgebraInput(boolean show) {
 	    if (algebraInput != null) {
 	    	algebraInput.setVisible(show);

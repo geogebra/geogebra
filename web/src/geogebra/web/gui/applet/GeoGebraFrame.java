@@ -433,7 +433,8 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter show the reseticon in geogebra-web applets or not
 	 */
 	public void showResetIcon(boolean show) {
-		//TODO: show reset icon
+		app.setShowResetIcon(show);
+		app.refreshViews();
 	}
 }
 
