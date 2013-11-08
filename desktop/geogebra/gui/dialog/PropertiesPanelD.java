@@ -1708,13 +1708,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setLabels() {
 
-			label.setText(app.getMenu("Tooltip") + ":");
+			label.setText(loc.getMenu("Tooltip") + ":");
 
 			int selectedIndex = tooltipModeCB.getSelectedIndex();
 			tooltipModeCB.removeActionListener(this);
 
 			tooltipModeCB.removeAllItems();
-			model.fillModes(app);
+			model.fillModes(app.getLocalization());
 			tooltipModeCB.setSelectedIndex(selectedIndex);
 			tooltipModeCB.addActionListener(this);
 
@@ -2207,7 +2207,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			intervalCombo.removeActionListener(this);
 			intervalCombo.removeAllItems();
 
-			model.fillCombo();
+			model.fillModes(loc);
 
 			intervalCombo.addActionListener(this);
 		}
@@ -2843,7 +2843,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (button.canHaveUpdateScript())
 				tabbedPane.addTab(app.getPlain("OnUpdate"), updateScriptPanel);
 			tabbedPane.addTab(app.getPlain("GlobalJavaScript"),
-					globalScriptPanel);
+					globalScriptPanel);	
 
 			// select tab as before
 			tabbedPane.setSelectedIndex(Math.max(0,
@@ -6467,13 +6467,6 @@ IGraphicsViewLocationListener {
 		cbGraphicsView2.addActionListener(this);
 
 		return this;
-	}
-
-	private boolean checkGeos(Object[] geos) {
-
-		// always show this option, nothing to check
-
-		return true;
 	}
 
 	public void actionPerformed(ActionEvent e) {

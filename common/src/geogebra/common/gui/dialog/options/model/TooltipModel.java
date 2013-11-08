@@ -1,12 +1,14 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 
-public class TooltipModel extends OptionsModel {
-	private IComboListener listener;
+import java.util.Arrays;
+import java.util.List;
+
+public class TooltipModel extends MultipleOptionsModel {
 	public TooltipModel(IComboListener listener) {
-		this.listener = listener;
+		super(listener);
 	}
 
 	@Override
@@ -20,43 +22,31 @@ public class TooltipModel extends OptionsModel {
 
 		}
 
-		// set label visible checkbox
-		if (equalLabelMode) {
-			listener.setSelectedIndex(geo0.getTooltipMode());
-		}
-		else {
-			listener.setSelectedIndex(-1);
-		}
-
-
+		updateComboSelection(equalLabelMode, geo0.getTooltipMode());
 	}
 
-	public void fillModes(App app) {
-		listener.addItem(app.getMenu("Labeling.automatic")); // index 0
-		listener.addItem(app.getMenu("on")); // index 1
-		listener.addItem(app.getMenu("off")); // index 2
-		listener.addItem(app.getPlain("Caption")); // index 3
-		listener.addItem(app.getPlain("NextCell")); // index 4 Michael
-															// Borcherds
+	@Override
+	public List<String> getChoiches(Localization loc) {
+		return Arrays.asList(loc.getMenu("Labeling.automatic"), // index 0
+				loc.getMenu("on"), // index 1
+				loc.getMenu("off"), // index 2
+				loc.getPlain("Caption"), // index 3
+				loc.getPlain("NextCell") // index 4 Michael Borcherds
+				);
+		
+		
 	}
 	
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!getGeoAt(i).isDrawable()) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
+	public boolean check(int index) {
+			return getGeoAt(index).isDrawable();
 	}
 
-	public void applyChanges(int value) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			getGeoAt(i).setTooltipMode(value);
-		}
-	
+	@Override
+	public void apply(int index, int value) {
+		getGeoAt(index).setTooltipMode(value);
+
 	}
+
 
 }

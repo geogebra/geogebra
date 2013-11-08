@@ -7,27 +7,27 @@ import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
-public class ReflexAngleModel extends OptionsModel {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReflexAngleModel extends MultipleOptionsModel {
 	public interface IReflexAngleListener extends IComboListener {
-
 		void setComboLabels();
-
 	}
-	
-	private IReflexAngleListener listener;
+
 	private boolean hasOrientation;
 	private boolean isDrawable;
 	private boolean isDefaults;
 	private App app;
 	public ReflexAngleModel(IReflexAngleListener listener, App app, boolean isDefaults) {
-		this.listener = listener;
+		super(listener);
 		this.app = app;
 		this.isDefaults = isDefaults;
 	}
-	
+
 	@Override
 	public void updateProperties() {
-		AngleProperties temp, geo0 = (AngleProperties) getGeoAt(0);
+		AngleProperties temp, geo0 = (AngleProperties) getObjectAt(0);
 		boolean equalangleStyle = true;
 		boolean hasOrientationOld = hasOrientation;
 		boolean isDrawableOld = isDrawable;
@@ -35,7 +35,7 @@ public class ReflexAngleModel extends OptionsModel {
 		isDrawable = true;
 
 		for (int i = 0; i < getGeosLength(); i++) {
-			temp = (AngleProperties) getGeos()[i];
+			temp = (AngleProperties) getObjectAt(i);
 			if (!temp.hasOrientation()) {
 				hasOrientation = false;
 			}
@@ -49,57 +49,59 @@ public class ReflexAngleModel extends OptionsModel {
 		}
 
 		if (hasOrientation != hasOrientationOld || isDrawableOld != isDrawable) {
-			listener.setComboLabels();
+			((IReflexAngleListener)getListener()).setComboLabels();
 		}
 
 		if (equalangleStyle) {
-			listener.setSelectedIndex(geo0.getAngleStyle().xmlVal);
+			getListener().setSelectedIndex(geo0.getAngleStyle().xmlVal);
 		}
-		
+
 
 	}
-	
-	public void fillCombo() {
-		Localization loc = app.getLocalization();
+
+	@Override
+	public List<String> getChoiches(Localization loc) {
+		List<String> result = new ArrayList<String>();
+
 		if (hasOrientation) {
 			int length = GeoAngle.INTERVAL_MIN.length;
-			
+
 			if (isDrawable) {
 				// don't want to allow (-inf, +inf)
 				length --;
 			}
-			
-			for (int i = 0; i < length; i++)
-				listener.addItem(loc.getPlain("AandB",
-								GeoAngle.INTERVAL_MIN[i],
-								GeoAngle.INTERVAL_MAX[i]));
+
+			for (int i = 0; i < length; i++) {
+				result.add(loc.getPlain("AandB",
+						GeoAngle.INTERVAL_MIN[i],
+						GeoAngle.INTERVAL_MAX[i]));
+			}
 		} else {// only 180° wide interval are possible
-			listener.addItem(loc.getPlain("AandB",
+			result.add(loc.getPlain("AandB",
 					GeoAngle.INTERVAL_MIN[1], GeoAngle.INTERVAL_MAX[1]));
-			listener.addItem(loc.getPlain("AandB",
+			result.add(loc.getPlain("AandB",
 					GeoAngle.INTERVAL_MIN[2], GeoAngle.INTERVAL_MAX[2]));
 		}
+		return result;
 	}
-	
-	public void applyChanges(int index) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			AngleProperties geo = (AngleProperties) getGeoAt(0);
-			geo.setAngleStyle(index);
-			((GeoElementND) geo).updateRepaint();
-		}
-	}
+
 	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(0);
-			if ((geo.isIndependent() && !isDefaults)
-					|| !(geo instanceof AngleProperties))
-				return false;
-		}
-		return true;
+	protected boolean check(int index){
+		GeoElement geo = getGeoAt(index);
+		return !((geo.isIndependent() && !isDefaults)
+				|| !(geo instanceof AngleProperties));
+	};
+
+	@Override
+	protected void apply(int index, int value) {
+		AngleProperties geo = (AngleProperties) getObjectAt(index);
+		geo.setAngleStyle(value);
+		((GeoElementND) geo).updateRepaint();
 	}
 
 	public boolean hasOrientation() {
 		return hasOrientation;
 	}
+
+
 }

@@ -839,7 +839,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		public void setComboLabels() {
 			int idx = intervalLB.getSelectedIndex();
 			intervalLB.clear();
-			model.fillCombo();
+			model.fillModes(app.getLocalization());
 			intervalLB.setSelectedIndex(idx);
 
 		}
@@ -1644,7 +1644,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			mainPanel.add(tooltipLabel);
 			
 			tooltipModeCB = new ListBox();
-			model.fillModes(app);
+			model.fillModes(app.getLocalization());
 			mainPanel.add(tooltipModeCB);
 			
 			tooltipModeCB.addChangeHandler(new ChangeHandler(){

@@ -13,6 +13,10 @@ public abstract class OptionsModel {
 		this.geos = geos;
 	}
 	
+	public Object getObjectAt(int i) {
+		return geos[i];
+	}
+	
 	public GeoElement getGeoAt(int i) {
 		return (GeoElement)geos[i];
 	}
@@ -24,6 +28,25 @@ public abstract class OptionsModel {
 	public boolean hasGeos() {
 		return (geos != null && geos.length > 0);
 	}
+	
+	protected boolean check(int index){
+		return false;
+		};
+	
+		
 	public abstract void updateProperties();
-	public abstract boolean checkGeos();
+	
+	public boolean checkGeos() {
+		boolean geosOK = true;
+		for (int i = 0; i < getGeosLength(); i++) {
+			if (!check(i)) {
+				geosOK = false;
+				break;
+			}
+		}
+		return geosOK;
+	}
+
 }
+	
+
