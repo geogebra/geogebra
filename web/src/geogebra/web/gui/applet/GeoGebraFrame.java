@@ -390,7 +390,7 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter shift - drag - zoom enabled in geogebra-web applets or not
 	 */
 	public void enableShiftDragZoom(boolean enable) {
-		//TODO: ebableshiftdragzooom
+		app.setShiftDragZoomEnabled(enable);
 	}
 	
 	/**
