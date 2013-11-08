@@ -2199,7 +2199,7 @@ __GGB__keysVar.zh_CN.plain = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "\u5411\u4e0b",
     "DrawAsDropDownList": "\u663e\u793a\u4e0b\u62c9\u5217\u8868",
-    "DrawingPad": "\u7ed8\u56fe\u533a\u2160",
+    "DrawingPad": "\u7ed8\u56fe\u533a",
     "DrawingPad2": "\u7ed8\u56fe\u533a\u2161",
     "DrawingPadA": "\u7ed8\u56fe\u533a %0",
     "DrawingPadAsPSTricks": "PSTricks\u56fe\u7247",
