@@ -1596,12 +1596,16 @@ public abstract class App implements UpdateSelection{
 				return null;
 			else if (getGuiManager() == null)
 				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
 			return getGuiManager().getSpreadsheetView();
 		case VIEW_CAS:
 			if (!isUsingFullGui())
 				return null;
 			else if (getGuiManager() == null)
 				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
 			return getGuiManager().getCasView();
 		case VIEW_EUCLIDIAN2:
 			return hasEuclidianView2() ? getEuclidianView2() : null;
@@ -1610,18 +1614,24 @@ public abstract class App implements UpdateSelection{
 				return null;
 			else if (getGuiManager() == null)
 				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
 			return getGuiManager().getConstructionProtocolData();
 		case VIEW_PROBABILITY_CALCULATOR:
 			if (!isUsingFullGui())
 				return null;
 			else if (getGuiManager() == null)
 				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
 			return getGuiManager().getProbabilityCalculator();
 		case VIEW_DATA_ANALYSIS:
 			if (!isUsingFullGui())
 				return null;
 			else if (getGuiManager() == null)
 				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
 			return getGuiManager().getDataAnalysisView();
 		}
 

@@ -119,7 +119,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
     }
 
 	protected void showOptionsDialog() {
-		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		}
     }
 
 	protected void setStandardView() {
@@ -222,6 +224,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 //	    MenuItem cbShowAxes = addAction(((AppW)app).getGuiManager().getShowAxesAction(), GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")), app.getMenu("Axes"));
 //		SafeHtml cbHtml = SafeHtmlUtils.fromSafeConstant(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")));
 	
+		if (app.getGuiManager() == null)
+			return;
+		
 		String htmlString = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowAxesAction());
 		

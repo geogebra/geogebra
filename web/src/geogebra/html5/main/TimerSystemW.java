@@ -160,9 +160,11 @@ public class TimerSystemW {
 				if (view == algebraView)
 					algebraRepaint();
 			} else if (view.getViewID() == App.VIEW_SPREADSHEET) {
-				spreadsheetView = application.getViewManager().getSpreadsheetView();
-				if (view == spreadsheetView)
-					spreadsheetRepaint();
+				if (application.getViewManager() != null) {
+					spreadsheetView = application.getViewManager().getSpreadsheetView();
+					if (view == spreadsheetView)
+						spreadsheetRepaint();
+				}
 			}
 		}
 	}

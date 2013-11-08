@@ -468,6 +468,10 @@ public abstract class AppW extends AppWeb {
 	}
 
 	protected void attachViews() {
+
+		if (getGuiManager() == null)
+			return;
+
 		if (!getGuiManager().getAlgebraView().isAttached())
 			getGuiManager().attachView(VIEW_ALGEBRA);
 

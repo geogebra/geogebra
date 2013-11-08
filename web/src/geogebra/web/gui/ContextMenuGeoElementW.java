@@ -80,7 +80,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 	
 	public void addOtherItems(){
-		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+		if (app.getGuiManager() != null && app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			addPointItems();
 			addLineItems();
 			addVectorItems();
@@ -106,7 +106,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		// SHOW, HIDE
 		
 		//G.Sturr 2010-5-14: allow menu to show spreadsheet trace for non-drawables
-        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
+        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager() != null && app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
         	GCheckBoxMenuItem cbItem;
         	if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
         		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
@@ -174,7 +174,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         		wrappedPopup.addItem(cbItem);
         	}
         	
-        	if (app.getGuiManager().showView(App.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
+        	if (app.getGuiManager() != null && app.getGuiManager().showView(App.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
 					geo.isAlgebraShowable()) {
         		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.aux_folder().getSafeUri().asString(), app.getPlain("AuxiliaryObject") ), new Command() {
 					
