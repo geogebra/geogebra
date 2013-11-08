@@ -1522,6 +1522,7 @@ public class Construction {
 	 *             in case of malformed XML
 	 */
 	public void changeCasCell(GeoCasCell casCell) throws Exception {
+		setUpdateConstructionRunning(true);
 		// move all predecessors of casCell to the left of casCell in
 		// construction list
 		updateConstructionOrder(casCell);
@@ -1532,6 +1533,7 @@ public class Construction {
 		// build new construction to make sure all ceIDs are correct after the
 		// redefine
 		buildConstruction(consXML);
+		setUpdateConstructionRunning(false);
 	}
 
 	/**
