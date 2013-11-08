@@ -422,7 +422,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	 * wheter show the algebrainput in geogebra-web applets or not
 	 */
 	public void showAlgebraInput(boolean show) {
-		//TODO: showalgebrainput
+		if (app.getGuiManager() != null) {
+			((GuiManagerW) app.getGuiManager()).showAlgebraInput(show);
+		}
 	}
 	
 	/**

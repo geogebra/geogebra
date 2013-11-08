@@ -1325,5 +1325,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	   }
 	    
     }
+
+	public void showAlgebraInput(boolean show) {
+	    if (algebraInput != null) {
+	    	algebraInput.setVisible(show);
+	    } else {
+	    	((AppWapplet) app).attachAlgebraInput();
+	    }
+    }
     
 }
