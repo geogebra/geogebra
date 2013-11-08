@@ -181,6 +181,7 @@ public class SpreadsheetMouseListenerW implements
 	}*/
 
 	public void onMouseDown(MouseDownEvent e) {
+
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 			if (p.getY() == 0 && p.getX() > 0) {
@@ -316,9 +317,9 @@ public class SpreadsheetMouseListenerW implements
 	
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 	
-			// change selection if right click is outside current selection
-			if (p.getY() != table.anchorSelectionRow + 1
-				|| p.getX() != table.anchorSelectionColumn + 1) {
+			// change selection if left click is outside current selection
+			if (!rightClick && (p.getY() != table.anchorSelectionRow + 1
+				|| p.getX() != table.anchorSelectionColumn + 1)) {
 				// switch to cell selection mode
 	
 				if (p.getY() > 0 && p.getX() > 0) {
@@ -335,6 +336,7 @@ public class SpreadsheetMouseListenerW implements
 	}
 
 	public void onMouseUp(MouseUpEvent e) {
+
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
 			if (p.getY() == 0 && p.getX() > 0) {
@@ -494,9 +496,9 @@ public class SpreadsheetMouseListenerW implements
 	
 			// MyTable's default listeners follow, they should be simulated in Web e.g. here
 	
-			// change selection if right click is outside current selection
-			if (p.getY() != table.leadSelectionRow + 1
-				|| p.getX() != table.leadSelectionColumn + 1) {
+			// change selection if left click is outside current selection
+			if (!rightClick && (p.getY() != table.leadSelectionRow + 1
+				|| p.getX() != table.leadSelectionColumn + 1)) {
 				// switch to cell selection mode
 	
 				if (p.getY() > 0 && p.getX() > 0) {
