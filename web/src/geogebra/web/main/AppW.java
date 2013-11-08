@@ -1408,14 +1408,18 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void setWaitCursor() {
-		((DialogManagerW) getDialogManager()).showLoadingAnimation();
+		if (getDialogManager() instanceof DialogManagerW) {
+			((DialogManagerW) getDialogManager()).showLoadingAnimation();
+		}
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 		RootPanel.get().addStyleName("cursor_wait");
 	}
 
 	@Override
 	public void setDefaultCursor() {
-		((DialogManagerW) getDialogManager()).hideLoadingAnimation();
+		if (getDialogManager() instanceof DialogManagerW) {
+			((DialogManagerW) getDialogManager()).hideLoadingAnimation();
+		}
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 	}
 
