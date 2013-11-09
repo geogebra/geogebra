@@ -158,7 +158,7 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 		if (dpBorder == null || dpBorder.length() != 7 ||
 			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
 			// FIXME: This check is incomplete, do a complete check.
-			dpBorder = "#888888";
+			dpBorder = GeoGebraConstants.APPLET_UNFOCUSED_BORDER_COLOR;
 		}
 		setBorder(ae, gf, dpBorder, 1);
 	}
