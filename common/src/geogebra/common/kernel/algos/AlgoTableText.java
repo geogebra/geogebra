@@ -21,10 +21,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+
 
 /**
  * Algo for TableText[matrix], TableText[matrix,args]
@@ -45,6 +47,7 @@ public class AlgoTableText extends AlgoElement {
 	// style variables
 	private Alignment alignment;
 	private boolean verticalLines, horizontalLines;
+	private StringBuilder verticalLinesArray = null, horizontalLinesArray = null; 
 	private boolean verticalLinesJustEdges, horizontalLinesJustEdges;
 	private String justification, openBracket, closeBracket, openString,
 			closeString;
@@ -159,24 +162,56 @@ public class AlgoTableText extends AlgoElement {
 		// need an open & close together, so can't use ""
 		openBracket = "\\left.";
 		closeBracket = "\\right.";
-
+		
 		if (args != null) {
 			String optionsStr = args.getTextString();
 			if (optionsStr.indexOf("v") > -1) {
 				alignment = Alignment.VERTICAL; // vertical table
 			}
 			
-			if (optionsStr.indexOf("|") > -1 && optionsStr.indexOf("||") == -1) {
+			int pos;
+						
+			if ((pos = optionsStr.indexOf("|")) > -1 && optionsStr.indexOf("||") == -1) {
 				verticalLines = true;
+				
+				verticalLinesArray = new StringBuilder();
+				
+				for (int i = pos+1 ; i < optionsStr.length() ; i++) {
+					
+					char ch = charAt(optionsStr, i);
+					
+					if (ch == '0' || ch == '1') {
+						verticalLinesArray.append(ch);
+					} else {
+						break;
+					}
+				}
+				
+				App.debug("verticalLinesArray = " + verticalLinesArray.toString());
 			}
 			
-			if (optionsStr.indexOf("_") > -1) {
+			if ((pos = optionsStr.indexOf("_")) > -1) {
 				horizontalLines = true; // vertical table
+				
+				horizontalLinesArray = new StringBuilder();
+				
+				for (int i = pos+1 ; i < optionsStr.length() ; i++) {
+					
+					char ch = charAt(optionsStr, i);
+					
+					if (ch == '0' || ch == '1') {
+						horizontalLinesArray.append(ch);
+					} else {
+						break;
+					}
+				}
+				
+				App.debug("horizontalLinesArray = " + horizontalLinesArray.toString());
 			}
-			
+
 			verticalLinesJustEdges = optionsStr.indexOf("/") > -1;
 			horizontalLinesJustEdges = optionsStr.indexOf("-") > -1;
-		
+
 			MatchResult matcher = matchLRC.exec(optionsStr);
 			justification = matcher.getGroup(2);
 			if ("".equals(justification)) {
@@ -239,6 +274,21 @@ public class AlgoTableText extends AlgoElement {
     		closeBracket = "";
     	}
 
+	}
+
+	// default: return '1'
+	private static char charAt(Object o, int i) {
+		if (o == null) {
+			return '1';
+		}
+		
+		String str = o.toString();
+		
+		if (i < 0 || i >= str.length()) {
+			return '1';
+		}
+		
+		return str.charAt(i);
 	}
 
 	@Override
@@ -354,18 +404,20 @@ public class AlgoTableText extends AlgoElement {
 
 			for (int c = 0; c < columns; c++) {
 				if (verticalLines &&
-						(!verticalLinesJustEdges || c == 0)) {
+						(!verticalLinesJustEdges || c == 0) &&
+						charAt(verticalLinesArray, c) == '1'
+						) {
 					sb.append("|");
 				}
 				sb.append(getJustification(c)); // "l", "r" or "c"
 			}
-			if (verticalLines) {
+			if (verticalLines && charAt(verticalLinesArray, columns) == '1') {
 				sb.append("|");
 			}
 			
 			sb.append("}");
 
-			if (horizontalLines) {
+			if (horizontalLines && charAt(horizontalLinesArray, 0) == '1') {
 				sb.append("\\hline ");
 			}
 
@@ -375,9 +427,10 @@ public class AlgoTableText extends AlgoElement {
 					addCellLaTeX(c, r, finalCell, tpl);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
-				
 				if (horizontalLines &&
-						(!horizontalLinesJustEdges || r == rows - 1)) {
+						(!horizontalLinesJustEdges || r + 1 == rows) &&
+						charAt(horizontalLinesArray, r + 1) == '1'
+						) {
 					sb.append("\\hline ");
 				}
 			}
@@ -386,19 +439,21 @@ public class AlgoTableText extends AlgoElement {
 
 			for (int c = 0; c < rows; c++) {
 				if (verticalLines &&
-						(!verticalLinesJustEdges || c == 0)) {
+						(!verticalLinesJustEdges || c == 0) &&
+						charAt(verticalLinesArray, c) == '1'
+						) {
 					sb.append("|");
 				}
 				
 				sb.append(getJustification(c)); // "l", "r" or "c"
 			}
-			if (verticalLines) {
+			if (verticalLines && charAt(verticalLinesArray, rows) == '1') {
 				sb.append("|");
 			}
 			
 			sb.append("}");
 
-			if (horizontalLines) {
+			if (horizontalLines && charAt(horizontalLinesArray, 0) == '1') {
 				sb.append("\\hline ");
 			}
 			
@@ -411,7 +466,9 @@ public class AlgoTableText extends AlgoElement {
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines &&
-						(!horizontalLinesJustEdges || c == columns - 1)) {
+						(!horizontalLinesJustEdges || c + 1 == columns) &&
+						charAt(horizontalLinesArray, c + 1) == '1'
+						) {
 					sb.append("\\hline ");
 				}
 			}
@@ -451,27 +508,78 @@ public class AlgoTableText extends AlgoElement {
 		if (alignment == Alignment.VERTICAL) {
 
 			for (int r = 0; r < rows; r++) {
+				
+				char c0 = charAt(horizontalLinesArray, r);
+				
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
-				} else if (!horizontalLinesJustEdges) {
-					sb.append("\\ggbtrl{");
-				} else if (r == 0) {
+				} else if (r == 0 && (horizontalLinesJustEdges || c0 == '1')) {
 					sb.append("\\ggbtrlt{");
 				} else if (r == rows-1) {
-					sb.append("\\ggbtrlb{");
+					
+					char c1 = charAt(horizontalLinesArray, r + 1);
+
+					
+					if (horizontalLinesJustEdges) {
+						// bottom
+						sb.append("\\ggbtrlb{");
+					} else if (c1 == '1' && c0 == '1') {
+						// both
+						sb.append("\\ggbtrl{");
+					} else if (c0 == '1') {
+						// top
+						sb.append("\\ggbtrlt{");	
+					} else if (c1 == '1') {
+						// bottom
+						sb.append("\\ggbtrlb{");	
+					} else {
+						// neither
+						sb.append("\\ggbtr{");												
+					}
+					
+					
+					
+				} else if (!horizontalLinesJustEdges && c0 == '1') {
+					sb.append("\\ggbtrlt{");
 				} else {
 					sb.append("\\ggbtr{");
 				}
 				for (int c = 0; c < columns; c++) {
+					
+					c0 = charAt(verticalLinesArray, c);
+
+					
 					String jc = String.valueOf(getJustification(c)).toUpperCase();
 					if (!verticalLines) {
 						sb.append("\\ggbtd"+jc+"{");
-					} else if (!verticalLinesJustEdges) {
-						sb.append("\\ggbtdl"+jc+"{");
-					} else if (c == 0) {
+					} else if (c == 0 && (verticalLinesJustEdges || c0 == '1')) {
 						sb.append("\\ggbtdll"+jc+"{");
-					} else if (c == columns-1) {
-						sb.append("\\ggbtdlr"+jc+"{");
+					} else if (c == columns - 1) {
+					
+						
+						char c1 = charAt(verticalLinesArray, c + 1);
+
+						
+						if (verticalLinesJustEdges) {
+							// right
+							sb.append("\\ggbtdlr"+jc+"{");
+						} else if (c1 == '1' && c0 == '1') {
+							// both
+							sb.append("\\ggbtdl"+jc+"{");
+						} else if (c0 == '1') {
+							// left
+							sb.append("\\ggbtdll"+jc+"{");
+						} else if (c1 == '1') {
+							// right
+							sb.append("\\ggbtdlr"+jc+"{");
+						} else {
+							// neither
+							sb.append("\\ggbtd"+jc+"{");										
+						}
+						
+						
+					} else if (!verticalLinesJustEdges && c0 == '1') {
+						sb.append("\\ggbtdll"+jc+"{");
 					} else {
 						sb.append("\\ggbtd"+jc+"{");
 					}
@@ -482,29 +590,77 @@ public class AlgoTableText extends AlgoElement {
 			}
 
 		} else { // alignment == HORIZONTAL
+			
+
 
 			for (int c = 0; c < columns; c++) {
+				
+				char c0 = charAt(horizontalLinesArray, c);
+
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
-				} else if (!horizontalLinesJustEdges) {
-					sb.append("\\ggbtrl{");
-				} else if (c == 0) {
+				} else if (c == 0 && (horizontalLinesJustEdges || c0 == '1')) {
 					sb.append("\\ggbtrlt{");
-				} else if (c == columns-1) {
-					sb.append("\\ggbtrlb{");
+				} else if (c == columns - 1) {
+					
+					char c1 = charAt(horizontalLinesArray, c + 1);
+					
+					if (horizontalLinesJustEdges) {
+						// bottom
+						sb.append("\\ggbtrlb{");
+					} else if (c1 == '1' && c0 == '1') {
+						// both
+						sb.append("\\ggbtrl{");
+					} else if (c0 == '1') {
+						// top
+						sb.append("\\ggbtrlt{");	
+					} else if (c1 == '1') {
+						// bottom
+						sb.append("\\ggbtrlb{");	
+					} else {
+						// neither
+						sb.append("\\ggbtr{");												
+					}
+
+				} else if (!horizontalLinesJustEdges && c0 == '1') {
+					sb.append("\\ggbtrlt{");
 				} else {
 					sb.append("\\ggbtr{");
 				}
 				for (int r = 0; r < rows; r++) {
+					
+					c0 = charAt(verticalLinesArray, r);
+					
 					String jc = String.valueOf(getJustification(r)).toUpperCase();
 					if (!verticalLines) {
 						sb.append("\\ggbtd"+jc+"{");
-					} else if (!verticalLinesJustEdges) {
-						sb.append("\\ggbtdl"+jc+"{");
-					} else if (r == 0) {
+					} else if (r == 0  && (verticalLinesJustEdges || c0 == '1')) {
 						sb.append("\\ggbtdll"+jc+"{");
-					} else if (r == rows-1) {
-						sb.append("\\ggbtdlr"+jc+"{");
+					} else if (r == rows - 1) {
+
+						char c1 = charAt(verticalLinesArray, r + 1);
+
+						
+						if (verticalLinesJustEdges) {
+							// right
+							sb.append("\\ggbtdlr"+jc+"{");
+						} else if (c1 == '1' && c0 == '1') {
+							// both
+							sb.append("\\ggbtdl"+jc+"{");
+						} else if (c0 == '1') {
+							// left
+							sb.append("\\ggbtdll"+jc+"{");
+						} else if (c1 == '1') {
+							// right
+							sb.append("\\ggbtdlr"+jc+"{");
+						} else {
+							// neither
+							sb.append("\\ggbtd"+jc+"{");										
+						}
+
+					
+					} else if (!verticalLinesJustEdges && c0 == '1') {
+						sb.append("\\ggbtdll"+jc+"{");
 					} else {
 						sb.append("\\ggbtd"+jc+"{");
 					}
