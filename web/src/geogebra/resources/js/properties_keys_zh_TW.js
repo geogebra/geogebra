@@ -2353,7 +2353,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Length": "\u9577\u5ea6",
     "LengthOfA": "%0 \u7684\u9577\u5ea6",
     "Lengths": "\u9577\u5ea6",
-    "LevelOfDetail": "Level of Detail",
+    "LevelOfDetail": "\u7d30\u7bc0\u7b49\u7d1a",
     "Line": "\u76f4\u7dda",
     "LineBisectorAB": "%0 \u548c %1 \u7684\u4e2d\u5782\u7dda",
     "LineBisectorOfA": "%0 \u7684\u4e2d\u5782\u7dda",
@@ -2751,7 +2751,7 @@ __GGB__keysVar.zh_TW.plain = {
     "ymax": "y \u6700\u5927",
     "ymin": "y \u6700\u5c0f",
     "ystep": "y \u9593\u8ddd",
-    "zAxis": "zAxis",
+    "zAxis": "z\u8ef8",
 }
 
 
