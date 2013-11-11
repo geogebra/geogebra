@@ -1290,6 +1290,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					if (s.length() != 0) {
 						sb.append("[");
 						sb.append(s);
+						sb.append("]");
 					}
 					sb.append(" plot[raw gnuplot, id=func");
 					sb.append(functionIdentifier);
@@ -1316,9 +1317,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				} else {
 					sb.append("\\draw");
 					String s = LineOptionCode(geo, true);
-					if (s.length() != 0)
-						sb.append(", ");
-					else
+					if (s.length() != 0){
+						sb.append("[");
+						sb.append(s);
+						sb.append(",");
+					} else
 						sb.append("[");
 					sb.append("smooth,samples=100,domain=");
 					sb.append(xrangemin);
