@@ -10,39 +10,19 @@ public class FixObjectModel extends BooleanOptionModel {
 		super(listener);
 	}
 
-	public void applyChanges(boolean value) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			geo.setFixed(value);
-			geo.updateRepaint();
-		}
+	public void apply(int index, boolean value) {
+		GeoElement geo = getGeoAt(index);
+		geo.setFixed(value);
+		geo.updateRepaint();
 	}
 
 	@Override
-	public void updateProperties() {
-		// TODO Auto-generated method stub
-		GeoElement temp, geo0 = getGeoAt(0);
-		boolean equalFix = true;
-
-		for (int i = 0; i < getGeosLength(); i++) {
-			temp = (GeoElement) getGeoAt(i);
-			// same object visible value
-			if (geo0.isFixed() != temp.isFixed())
-				equalFix = false;
-		}
-		getListener().updateCheckbox(equalFix ? geo0.isFixed(): false);
-
+	public boolean isValidAt(int index) {
+		return getGeoAt(index).isFixable();
 	}
 
 	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!getGeoAt(i).isFixable()) {
-				return false;
-			}
-
-		}
-
-		return true;
+	public boolean getValueAt(int index) {
+		return getGeoAt(index).isFixed();
 	}
 }

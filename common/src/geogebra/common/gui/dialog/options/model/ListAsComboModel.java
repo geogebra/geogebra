@@ -1,6 +1,5 @@
 package geogebra.common.gui.dialog.options.model;
 
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 
@@ -17,45 +16,35 @@ public class ListAsComboModel extends BooleanOptionModel {
 		this.app = app;
 		this.listener = listener;
 	}
-	@Override
-	public void updateProperties() {
-		GeoList temp, geo0 = (GeoList) getGeoAt(0);
-		boolean equalVal = true;
-
-		for (int i = 0; i < getGeosLength(); i++) {
-			temp = (GeoList) getGeoAt(0);
-			if (geo0.drawAsComboBox() != temp.drawAsComboBox()) {
-				equalVal = false;
-			}
-		}
-		listener.updateCheckbox(equalVal ? geo0.drawAsComboBox(): false);
-	}
 
 	public void applyChanges(boolean value) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoList geo = (GeoList) getGeoAt(0);
-			geo.setDrawAsComboBox(value);
-
-			if (value) {
-				geo.setEuclidianVisible(true);
-			}
-
-			listener.drawListAsComboBox(geo, value);
-
-			geo.updateRepaint();
-		}
+		super.applyChanges(value);
 		app.refreshViews();
 	}
 	
 	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			if (!geo.isGeoList()) {
-				return false;
-			}
+	public boolean isValidAt(int index) {
+		return getGeoAt(index).isGeoList();
+	}
+	
+	@Override
+	public boolean getValueAt(int index) {
+		return ((GeoList) getObjectAt(0)).drawAsComboBox();
+	}
+	
+	@Override
+	public void apply(int index, boolean value) {
+		GeoList geo = (GeoList) getGeoAt(index);
+		geo.setDrawAsComboBox(value);
+
+		if (value) {
+			geo.setEuclidianVisible(true);
 		}
-		return true;
+
+		listener.drawListAsComboBox(geo, value);
+
+		geo.updateRepaint();
+
 	}
 
 }

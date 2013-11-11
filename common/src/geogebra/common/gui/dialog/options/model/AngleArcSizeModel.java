@@ -32,7 +32,7 @@ public class AngleArcSizeModel extends OptionsModel {
 			angle.updateRepaint();
 		}
 	};
-	
+
 	@Override
 	public void updateProperties() {
 		AngleProperties geo0 = (AngleProperties)getGeos()[0];
@@ -41,22 +41,17 @@ public class AngleArcSizeModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		Object[] geos = getGeos();
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (geos[i] instanceof AngleProperties) {
-				AngleProperties angle = (AngleProperties) geos[i];
-				if (angle.isIndependent() || !angle.isDrawable()) {
-					geosOK = false;
-					break;
-				}
-			} else {
-				geosOK = false;
-				break;
+	protected boolean isValidAt(int index){
+		boolean isValid = true;
+		if (getObjectAt(index) instanceof AngleProperties) {
+			AngleProperties angle = (AngleProperties) getObjectAt(index);
+			if (angle.isIndependent() || !angle.isDrawable()) {
+				isValid = false;
 			}
+		} else {
+			isValid = false;
 		}
-		return geosOK;
-	}
-
+		
+		return isValid;
+	};
 }

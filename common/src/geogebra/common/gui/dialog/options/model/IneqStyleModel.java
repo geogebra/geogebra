@@ -19,9 +19,6 @@ public class IneqStyleModel extends BooleanOptionModel {
 	public void applyChanges(boolean value) {
 		Object[] geos = getGeos();
 		for (int i = 0; i < geos.length; i++) {
-			InequalityProperties geo = (InequalityProperties) geos[i];
-			geo.setShowOnAxis(value);
-			geo.updateRepaint();
 
 		}
 	}
@@ -33,7 +30,7 @@ public class IneqStyleModel extends BooleanOptionModel {
 		if (!(geos[0] instanceof InequalityProperties)) {
 			return;
 		}
-		
+
 		InequalityProperties temp, geo0 = (InequalityProperties) geos[0];
 		boolean equalFix = true;
 
@@ -47,7 +44,6 @@ public class IneqStyleModel extends BooleanOptionModel {
 				equalFix = false;
 		}
 
-		// set trace visible checkbox
 		if (equalFix) {
 			getListener().updateCheckbox(geo0.showOnAxis());
 			if (geo0.showOnAxis()) {
@@ -59,18 +55,34 @@ public class IneqStyleModel extends BooleanOptionModel {
 	}
 
 	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i).getGeoElementForPropertiesDialog();
-			if (!(geo instanceof GeoFunction))
-				return false;
-			GeoFunction gfun = (GeoFunction) geo;
-			if (!gfun.isBooleanFunction()
-					|| gfun.getVarString(StringTemplate.defaultTemplate)
-							.equals("y"))
-				return false;
+	public boolean isValidAt(int index) {
+		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
+		if (!(geo instanceof GeoFunction)) {
+			return false;
 		}
+
+		GeoFunction gfun = (GeoFunction) geo;
+		if (!gfun.isBooleanFunction()
+				|| gfun.getVarString(StringTemplate.defaultTemplate)
+				.equals("y")) {
+			return false;
+		}
+
 		return true;
+	}
+
+	@Override
+	public boolean getValueAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void apply(int index, boolean value) {
+		InequalityProperties geo = (InequalityProperties) getObjectAt(index);
+		geo.setShowOnAxis(value);
+		geo.updateRepaint();
+
 	}
 
 }

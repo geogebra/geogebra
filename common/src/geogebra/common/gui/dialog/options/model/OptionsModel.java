@@ -29,7 +29,7 @@ public abstract class OptionsModel {
 		return (geos != null && geos.length > 0);
 	}
 	
-	protected boolean check(int index){
+	protected boolean isValidAt(int index){
 		return false;
 		};
 	
@@ -39,7 +39,7 @@ public abstract class OptionsModel {
 	public boolean checkGeos() {
 		boolean geosOK = true;
 		for (int i = 0; i < getGeosLength(); i++) {
-			if (!check(i)) {
+			if (!isValidAt(i)) {
 				geosOK = false;
 				break;
 			}

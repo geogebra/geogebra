@@ -14,30 +14,23 @@ public class RightAngleModel extends BooleanOptionModel {
 		getListener().updateCheckbox(geo0.isEmphasizeRightAngle());
 	}
 
-	public void applyChanges(boolean value) {
-		Object[] geos = getGeos();
-		for (int i = 0; i < getGeosLength(); i++) {
-			AngleProperties geo = (AngleProperties) geos[i];
-			geo.setEmphasizeRightAngle(value);
-			geo.updateRepaint();
-			}
-	}
+
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		Object[] geos = getGeos();
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!(geos[i] instanceof AngleProperties)) {
-				geosOK = false;
-				break;
-			}
-			/*
-			 * // If it isn't a right angle else if
-			 * (!Kernel.isEqual(((GeoAngle)geos[i]).getValue(),
-			 * Kernel.PI_HALF)){ geosOK=false; break; }
-			 */
-		}
-		return geosOK;
+	public boolean isValidAt(int index) {
+		return getObjectAt(index) instanceof AngleProperties;
+	}
+	
+	@Override
+	public boolean getValueAt(int index) {
+		// not used here, as updateProperties is overridden.
+		return false;
+	}
+
+	@Override
+	public void apply(int index, boolean value) {
+		AngleProperties geo = (AngleProperties) getObjectAt(index);
+		geo.setEmphasizeRightAngle(value);
+		geo.updateRepaint();
 	}
 
 }

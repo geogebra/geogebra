@@ -9,41 +9,21 @@ public class TraceModel extends BooleanOptionModel {
 		super(listener);
 	}
 	
-	public void updateProperties() {
-		
-		// check if properties have same values
-		Traceable temp, geo0 = (Traceable) getGeoAt(0);
-		boolean equalTrace = true;
-
-		for (int i = 1; i < getGeosLength(); i++) {
-			temp = (Traceable) getGeoAt(i);
-			// same object visible value
-			if (geo0.getTrace() != temp.getTrace())
-				equalTrace = false;
-		}
-
-		// set trace checkbox
-		getListener().updateCheckbox(equalTrace ? geo0.getTrace(): false);	
+	@Override
+	public boolean isValidAt(int index) {
+		return (getGeoAt(index) instanceof Traceable);
 	}
 
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!(getGeoAt(i) instanceof Traceable)) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
+	public boolean getValueAt(int index) {
+		return ((Traceable)getGeoAt(index)).getTrace();
 	}
 
-	public void applyChanges(boolean value) {
-		Traceable geo;
-		for (int i = 0; i < getGeosLength(); i++) {
-			geo = (Traceable) getGeoAt(i);
-			geo.setTrace(value);
-			geo.updateRepaint();
-		}
+	@Override
+	public void apply(int index, boolean value) {
+		Traceable geo = (Traceable) getGeoAt(index);
+		geo.setTrace(value);
+		geo.updateRepaint();
+	
 	}
 }

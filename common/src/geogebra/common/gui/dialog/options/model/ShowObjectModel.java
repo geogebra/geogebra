@@ -13,15 +13,6 @@ public class ShowObjectModel extends BooleanOptionModel {
 	}
 	
 	
-	public void applyChanges(boolean value) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			geo.setEuclidianVisible(value);
-			geo.updateRepaint();
-		}
-		
-	}
-	
 	@Override
 	public void updateProperties() {
 		// check if properties have same values
@@ -47,23 +38,35 @@ public class ShowObjectModel extends BooleanOptionModel {
 				!showObjectCondition);
 
 	}
-	
+
 	@Override
-	public boolean checkGeos() {
-		
-		boolean geosOK = true;
-		for (Object temp: getGeos()) {
-			GeoElement geo = (GeoElement) temp;
-			 if (!geo.isDrawable()
-			// can't allow a free fixed number to become visible (as a
-			// slider)
-					|| (geo.isGeoNumeric() && geo.isFixed())) {
-				geosOK = false;
-				break;
-			}
-			
+	public boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		boolean isValid = true;
+		GeoElement geo = getGeoAt(index);
+		if (!geo.isDrawable()
+				// can't allow a free fixed number to become visible (as a
+				// slider)
+				|| (geo.isGeoNumeric() && geo.isFixed())) {
+			isValid = false;
+
 		}
-		return geosOK;
+
+		return isValid;
+	}
+
+	@Override
+	public boolean getValueAt(int index) {
+		// not used 
+		return false;
+	}
+
+	@Override
+	public void apply(int index, boolean value) {
+		GeoElement geo = getGeoAt(index);
+		geo.setEuclidianVisible(value);
+		geo.updateRepaint();
+		
 	}
 
 }

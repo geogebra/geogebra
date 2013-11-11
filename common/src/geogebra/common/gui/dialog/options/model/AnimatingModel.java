@@ -14,42 +14,28 @@ public class AnimatingModel extends BooleanOptionModel {
 		kernel = app.getKernel();
 	}
 
-	@Override
-	public void updateProperties() {
-		// check if properties have same values
-		GeoElement temp, geo0 = getGeoAt(0);
-		boolean equalAnimating = true;
-
-		for (int i = 1; i < getGeosLength(); i++) {
-			temp = getGeoAt(i);
-			// same object visible value
-			if (geo0.isAnimating() != temp.isAnimating())
-				equalAnimating = false;
+	public void applyChanges(boolean value) {
+		super.applyChanges(value);
+		if (value) {
+			kernel.getAnimatonManager().startAnimation();
 		}
-		getListener().updateCheckbox(equalAnimating ? geo0.isAnimating(): false);
+	}
+	
+	@Override
+	public boolean isValidAt(int index) {
+		return getGeoAt(index).isAnimatable();
 	}
 
-	public void applyChanges(boolean value) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			geo.setAnimating(value);
-			geo.updateRepaint();
-		}
-		if (value)
-			kernel.getAnimatonManager().startAnimation();
-}
-	
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!getGeoAt(i).isAnimatable()) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
-	
+	public boolean getValueAt(int index) {
+		return getGeoAt(index).isAnimating();
+	}
+
+	@Override
+	public void apply(int index, boolean value) {
+		GeoElement geo = getGeoAt(index);
+		geo.setAnimating(value);
+		geo.updateRepaint();		
 	}
 }
 

@@ -38,14 +38,13 @@ public class TooltipModel extends MultipleOptionsModel {
 	}
 	
 	@Override
-	public boolean check(int index) {
+	public boolean isValidAt(int index) {
 			return getGeoAt(index).isDrawable();
 	}
 
 	@Override
 	public void apply(int index, int value) {
 		getGeoAt(index).setTooltipMode(value);
-
 	}
 
 

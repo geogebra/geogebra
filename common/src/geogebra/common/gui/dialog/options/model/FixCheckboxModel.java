@@ -7,34 +7,12 @@ public class FixCheckboxModel extends BooleanOptionModel {
 	public FixCheckboxModel(IBooleanOptionListener listener) {
 		super(listener);
 	}
-
+	
 	@Override
-	public void updateProperties() {
-		// check if properties have same values
-		Object[] geos = getGeos();
-		GeoBoolean temp, geo0 = (GeoBoolean) geos[0];
-		boolean isEqual = true;
+	public boolean getValueAt(int index) {
+		return ((GeoBoolean) getObjectAt(index)).isCheckboxFixed();
 
-		for (int i = 1; i < geos.length; i++) {
-			temp = (GeoBoolean) geos[i];
-			// same object visible value
-			if (geo0.isCheckboxFixed() != temp.isCheckboxFixed()) {
-				isEqual = false;
-				break;
-			}
-		}
-		
-		getListener().updateCheckbox(isEqual ? geo0.isCheckboxFixed(): false);
 	}
-
-	public void applyChanges(boolean value) {
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoBoolean bool = (GeoBoolean) getGeoAt(i);
-			bool.setCheckboxFixed(value);
-			bool.updateRepaint();
-
-		}
-}
 	
 	@Override
 	public boolean checkGeos() {
@@ -50,5 +28,13 @@ public class FixCheckboxModel extends BooleanOptionModel {
 		}
 		return true;
 		}
+
+	@Override
+	public void apply(int index, boolean value) {
+		GeoBoolean bool = (GeoBoolean) getObjectAt(index);
+		bool.setCheckboxFixed(value);
+		bool.updateRepaint();
+		
+	}
 }
 
