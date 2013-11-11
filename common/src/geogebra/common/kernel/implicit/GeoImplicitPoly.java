@@ -48,6 +48,7 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
@@ -179,19 +180,24 @@ Dilateable, Transformable, EuclidianViewCE {
 	 * Construct GeoImplicitPoly from GeoConic
 	 * @param c conic
 	 */
-	public GeoImplicitPoly(GeoConic c){
+	public GeoImplicitPoly(GeoConicND c){
 		this(c.getConstruction());
-		coeff=new double[3][3];
-		coeff[0][0]=c.getMatrix()[2];
-		coeff[1][1]=2*c.getMatrix()[3];
-		coeff[2][2]=0;
-		coeff[1][0]=2*c.getMatrix()[4];
-		coeff[0][1]=2*c.getMatrix()[5];
-		coeff[2][0]=c.getMatrix()[0];
-		coeff[0][2]=c.getMatrix()[1];
-		coeff[2][1]=coeff[1][2]=0;
+		coeff = coeffFromConic(c);
 		degX=2;
 		degY=2;
+	}
+	
+	private static double[][] coeffFromConic(GeoConicND c){
+		double[][] mat=new double[3][3];
+		mat[0][0]=c.getMatrix()[2];
+		mat[1][1]=2*c.getMatrix()[3];
+		mat[2][2]=0;
+		mat[1][0]=2*c.getMatrix()[4];
+		mat[0][1]=2*c.getMatrix()[5];
+		mat[2][0]=c.getMatrix()[0];
+		mat[0][2]=c.getMatrix()[1];
+		mat[2][1]=mat[1][2]=0;
+		return mat;
 	}
 	
 	
@@ -289,9 +295,20 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 
 	@Override
-	public void set(GeoElement geo) {	
-		if (!(geo instanceof GeoImplicitPoly))
+	public void set(GeoElement geo) {
+		if(geo instanceof GeoConicND){
+			setCoeff(coeffFromConic((GeoConicND)geo));
 			return;
+		}
+		else if(geo instanceof GeoLine){
+			GeoLine l = (GeoLine)geo;
+			setCoeff(new double[][]{{l.getZ(),l.getY()},{l.getX(),0}});
+			return;
+		}
+		else if (!(geo instanceof GeoImplicitPoly)){
+			this.setUndefined();
+			return;
+		}
 		super.set(geo);
 		setCoeff(((GeoImplicitPoly)geo).getCoeff(),false);
 		List<Integer> list=geo.getViewSet();
