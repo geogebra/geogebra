@@ -59,15 +59,25 @@ public class DrawEquationWeb extends DrawEquation {
 
 		// remove $s
 		eqstring = eqstring.trim();
-		while (eqstring.startsWith("$"))
-			eqstring = eqstring.substring(1).trim();
-		while (eqstring.endsWith("$"))
-			eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+		if (eqstring.length() > 2) {
+			while (eqstring.startsWith("$"))
+				eqstring = eqstring.substring(1).trim();
+			while (eqstring.endsWith("$"))
+				eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+		} else if ("$$".equals(eqstring)) {
+			eqstring = "";
+			// the rest cases: do not remove single $
+		} else if ("\\$".equals(eqstring)) {
+			eqstring = "\\text{$}";
+		}
 
 		// remove all \; and \,
 		eqstring = eqstring.replace("\\;", "");
 		eqstring = eqstring.replace("\\,", "");
 		eqstring = eqstring.replace("\\ ", "");
+
+		// substitute every \$ with $
+		eqstring = eqstring.replace("\\$", "$");
 
 		eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
 		eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
