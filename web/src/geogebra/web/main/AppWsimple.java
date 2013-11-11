@@ -12,7 +12,6 @@ import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -88,13 +87,6 @@ public class AppWsimple extends AppW {
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize().getHeight());
-
-			// FIXME: temporary hack until it is found what causes
-			// the 1px difference
-			//getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setLeft(1, Style.Unit.PX);
-			//getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setTop(1, Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setBottom(-1, Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setRight(-1, Style.Unit.PX);
 		}
 	}
 
