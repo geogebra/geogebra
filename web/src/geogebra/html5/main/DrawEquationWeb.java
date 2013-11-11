@@ -473,14 +473,16 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var elsecond = $doc.createElement("div");
 
-		var elthirdBefore = $doc.createElement("span");
-		elthirdBefore.style.position = "absolute";
-		elthirdBefore.style.zIndex = 2;
-		elthirdBefore.style.top = "0px";
-		elthirdBefore.style.bottom = "0px";
-		elthirdBefore.style.left = "0px";
-		elthirdBefore.style.right = "0px";
-		elsecond.appendChild(elthirdBefore);		
+		if (addOverlay) {
+			var elthirdBefore = $doc.createElement("span");
+			elthirdBefore.style.position = "absolute";
+			elthirdBefore.style.zIndex = 2;
+			elthirdBefore.style.top = "0px";
+			elthirdBefore.style.bottom = "0px";
+			elthirdBefore.style.left = "0px";
+			elthirdBefore.style.right = "0px";
+			elsecond.appendChild(elthirdBefore);
+		}		
 
 		var elsecondInside = $doc.createElement("span");
 		elsecondInside.innerHTML = htmlt;
