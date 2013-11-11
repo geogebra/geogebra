@@ -31,8 +31,9 @@ public class RowHeaderHandler implements MouseUpHandler{
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
+		int releasedRow = rowHeader.getIndex();
+    	table.getCASView().getCASStyleBar().setSelectedRow(table.getGeoCasCell(releasedRow));
 	    if(event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
-	    	int releasedRow = rowHeader.getIndex();
 	    	if(!table.isSelectedIndex(releasedRow)){
 	    		table.setSelectedRows(releasedRow,  releasedRow);
 	    	}
