@@ -149,17 +149,22 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     }
     
+    public static String zipJSworkerURL() {
+	    return Browser.webWorkerSupported ? GWT.getModuleBaseURL() + "/js/zipjs/" : "false";
+    }
     
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
 		
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, zipJSworkerURL());
     }
     
-    public String getBase64(boolean includeThumbnail) {
+
+
+	public String getBase64(boolean includeThumbnail) {
     	Map<String,String>archiveContent = createArchiveContent(false);
     	JavaScriptObject jso = prepareToEntrySet(archiveContent);
-		getNativeBase64ZipJs(jso, getDefaultBase64Callback(), Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
+		getNativeBase64ZipJs(jso, getDefaultBase64Callback(), zipJSworkerURL());
 		return null;
 
     }
@@ -167,7 +172,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     public void getBase64(StringHandler callback) {
     	Map<String,String>archiveContent = createArchiveContent(true);
     	JavaScriptObject jsCallback = nativeCallback(callback);
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), jsCallback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), jsCallback, zipJSworkerURL());
 
     }
     
@@ -180,7 +185,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	public void getBase64(JavaScriptObject callback) {
 		Map<String,String>archiveContent = createArchiveContent(false);
 
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, zipJSworkerURL());
 
     }
 

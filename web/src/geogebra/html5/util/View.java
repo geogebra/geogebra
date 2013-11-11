@@ -2,13 +2,12 @@ package geogebra.html5.util;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
-import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.GgbAPI;
 import geogebra.web.WebStatic;
 
 import java.util.HashMap;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 
@@ -390,7 +389,7 @@ public class View {
 
 	private String prepareFileReading() {
 	    archiveContent = new HashMap<String, String>();
-		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		String workerUrls = GgbAPI.zipJSworkerURL();
 		App.debug("start unzipping"+System.currentTimeMillis());
 	    return workerUrls;
     }
