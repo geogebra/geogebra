@@ -28,6 +28,7 @@ import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -929,6 +930,35 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	public FunctionNVar getIntegralNoCAS(FunctionVariable fv) {
 		
 		return new FunctionNVar(expression.integral(fv), fVars);
+	}
+
+	/**
+	 * Make sure the variable list is at least as long as oldvars
+	 * @param oldVars list of variables to be used for filling in the empty slots
+	 */
+	public void fillVariables(FunctionVariable[] oldVars) {
+		if(oldVars == null){
+			return;
+		}
+		int length = oldVars.length;
+		if(fVars.length >= length){
+			return;
+		}
+		FunctionVariable[] newVars = new FunctionVariable[length];
+		TreeSet<String> usedNames = new TreeSet<String>();
+		for(int i = 0; i<fVars.length; i++){
+			newVars[i] = fVars[i];
+			usedNames.add(fVars[i].toString(StringTemplate.defaultTemplate));
+		}
+		int pos = fVars.length;
+		for(int i = 0; i<oldVars.length && pos < length; i++){
+			if(!usedNames.contains(oldVars[i].toString(StringTemplate.defaultTemplate))){
+				newVars[pos] = oldVars[i];
+				pos++;
+			}
+		}
+		fVars = newVars;
+		
 	}
 
 

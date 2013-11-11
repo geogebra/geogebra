@@ -1027,6 +1027,11 @@ Region3D, GeoDirectionND
 	 */
 	@Override
 	public void set(GeoElement geo) {
+		if(geo instanceof GeoLine){
+			GeoLine line = (GeoLine) geo;
+			this.setCoeffs(0,0,0,line.getX(),line.getY(),line.getZ());
+			return;
+		}
 		GeoConicND co =(GeoConicND) geo;
 	
 		// copy everything

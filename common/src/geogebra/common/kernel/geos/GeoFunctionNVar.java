@@ -136,21 +136,26 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 	@Override
 	public void set(GeoElement geo) {
-		GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;				
+		if(geo instanceof GeoNumeric){
+			fun.setExpression(geo.wrap());
+			return;
+		}
+		FunctionalNVar geoFun = (FunctionalNVar) geo;				
 						
-		if (geo == null || geoFun.fun == null) {
+		if (geo == null || geoFun.getFunction() == null) {
 			fun = null;
 			isDefined = false;
 			return;
 		}
-		isDefined = geoFun.isDefined;
-		fun = new FunctionNVar(geoFun.fun, kernel);			
-	
+		isDefined = geo.isDefined();
+		FunctionVariable[] oldVars = fun == null ? null : fun.getFunctionVariables();
+		fun = new FunctionNVar(geoFun.getFunction(), kernel);			
+		fun.fillVariables(oldVars);
 		// macro OUTPUT
 		if (geo.cons != cons && isAlgoMacroOutput()) {								
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's expression
-			if (!geoFun.isIndependent()) {
+			if (!geo.isIndependent()) {
 				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 				algoMacro.initFunction(this.fun);	
 			}			
