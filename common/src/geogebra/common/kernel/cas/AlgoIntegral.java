@@ -32,6 +32,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoIntegral extends AlgoCasBase {
 
 	private GeoNumeric var;
+	private boolean allowConstant;
 	
 	/**
      * @param cons construction
@@ -41,7 +42,7 @@ public class AlgoIntegral extends AlgoCasBase {
      */
 	public AlgoIntegral(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var) {
-		this(cons, f, var);
+		this(cons, f, var, true);
 		g.toGeoElement().setLabel(label);
 	}
 	/**
@@ -50,9 +51,10 @@ public class AlgoIntegral extends AlgoCasBase {
 	 * @param var variable
      */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var) {
+			GeoNumeric var, boolean allowConstant) {
 		super(cons, f, Commands.Integral);
 		this.var = var;
+		this.allowConstant = allowConstant;
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -122,7 +124,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		sbAE.append(")");
 
 		// find symbolic derivative of f
-		g.setUsingCasCommand(sbAE.toString(), f, true,arbconst);
+		g.setUsingCasCommand(sbAE.toString(), f, true, this.allowConstant ? arbconst : null);
 	}
 
 	@Override

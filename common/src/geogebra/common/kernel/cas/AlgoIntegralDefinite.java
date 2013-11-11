@@ -523,7 +523,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	}
 	@Override
 	public void refreshCASResults() {
-		AlgoIntegral algoInt = new AlgoIntegral(cons, f, null);
+		AlgoIntegral algoInt = new AlgoIntegral(cons, f, null, false);
 		symbIntegral = (GeoFunction) algoInt.getResult();
 		cons.removeFromConstructionList(algoInt);
 		// make sure algo is removed properly
