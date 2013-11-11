@@ -406,7 +406,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
 	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
-		int w = getWidth() + 2;
+		int w = getWidth();
 		((GGraphics2DW)g).getCanvas().getContext2d().drawImage(
 			getResetImage(), w - 18, 2);
 	}
