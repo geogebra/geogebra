@@ -2733,7 +2733,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solutions_3 () {
-    t("Solutions[{2 * a^2 + 5 * a + 3 = b, a + b = 3}, {a, b}]", "{{0, 3}, {-3, 6}}");
+    t("Solutions[{2 * a^2 + 5 * a + 3 = b, a + b = 3}, {a, b}]", "{{-3, 6}, {0, 3}}");
   }
 
 
@@ -2914,7 +2914,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_Several_1 () {
-    t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]", "{{a = 0, b = 3}, {a = -3, b = 6}}");
+    t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]", "{{a = -3, b = 6}, {a = 0, b = 3}}");
   }
 
   @Test
@@ -3710,12 +3710,9 @@ public class GeoGebraCasIntegrationTest {
     t("Tangent[(1, 0), x^3 + y^3 = 1]", "x = 1");
   }
 
-  // TODO Insert correct expected result.
-  // Please mind that this is expected to work out,
-  // not break because the point is not on the curve.
   @Test
   public void Mike_1260 () {
-    t("Tangent[(1, 1), x^3 + y^3 = 1]", "(x - 1) * (y - 1) = 0");
+    t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1");
   }
 
   @Test
@@ -4243,7 +4240,7 @@ public class GeoGebraCasIntegrationTest {
             "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
     t("g(x) := f'(x)",
         "(-(30 * sqrt(10) + 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + (-(39 * sqrt(10) + 81) * x + 78 * sqrt(10) + 162) * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-(448 * sqrt(10) + 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)",
-        "((-30 * sqrt(10) - 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((-39 * sqrt(10) - 81) * x + 78 * sqrt(10) + 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((-448 * sqrt(10) - 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)");
+        "((30 * sqrt(10) + 358) * x^(2) + (-120 * sqrt(10) - 1432) * x - 104 * sqrt(10) + 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((448 * sqrt(10) + 1374) * x^(2) + (-1792 * sqrt(10) - 5496) * x + 433 * sqrt(10) + 1195)");
     t("Solve[g(x) = 0, x]",
         "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
 
@@ -4526,7 +4523,7 @@ public class GeoGebraCasIntegrationTest {
     // Depends on CASRundbrief_Figure5_2.
     t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
 
-    t("Intersect[f(x), g(x)]", "{(0, 2), (2, 3)}");
+    t("Intersect[f(x), g(x)]", "{(2, 3), (0, 2)}");
   }
 
   /* Figure 6: "Umgekehrte Kurvendiskussion" (Backward Curve Sketching) */
@@ -4668,7 +4665,7 @@ public class GeoGebraCasIntegrationTest {
     t("h(x):=f(x)-g(x)", "x^(2) - 2 * x");
     t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
     t("Solve[h(x) = 0, x]", "{x = 0, x = 2}", "{x = 2, x = 0}");
-    t("S:=Intersect[f(x),g(x)]", "{(0, 2), (2, 3)}");
+    t("S:=Intersect[f(x),g(x)]", "{(2, 3), (0, 2)}");
     t("Delete[f]", "true");
     t("Delete[g]", "true");
     t("Delete[h]", "true");
@@ -4680,10 +4677,10 @@ public class GeoGebraCasIntegrationTest {
     cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
     t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]", "{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}", "{x = log(151263) / log(245 / 9)}");
     t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]", "{x = (-log(11) - log(5)) / (log(13) - log(5))}", "{x = log(55) / log(5 / 13)}");
-    t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]", "{{c = (300000000 * (3 / 67)^(950 / 1057), a = (67 / 3)^(1 / 1057)}}",
+    t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]", "{{c = 900000000 / 67 * ((67 / 3)^(1 / 1057))^(107), a = (67 / 3)^(1 / 1057)}}",
         "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = (67 / 3)^(1 / 1057)}}");
     t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]", "{{a = (67 / 3)^(1 / 1057), c = (300000000 * (3 / 67)^(950 / 1057)}}",
-        "{{a = (67 / 3)^(1 / 1057), c = 300000000 / ((67 / 3)^(1 / 1057))^(950)}}");
+        "{{c = 900000000 / 67 * ((67 / 3)^(1 / 1057))^(107), a = (67 / 3)^(1 / 1057)}}");
     kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(5000);
     cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
   }
