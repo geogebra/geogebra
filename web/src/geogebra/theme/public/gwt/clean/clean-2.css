@@ -1275,6 +1275,13 @@ td.datePickerMonth {
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.GeoGebraAppFrame *:focus,
+.GeoGebraFrame *:focus,
+.GeoGebraPopup *:focus,
+.DialogBox *:focus {
+	outline: none; /* Fixing Chrome's default outline on focus */
+}
+
 .geogebraweb {
 	display:inline-block;
 	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
