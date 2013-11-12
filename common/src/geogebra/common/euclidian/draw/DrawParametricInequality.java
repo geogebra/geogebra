@@ -72,7 +72,7 @@ class DrawParametricInequality extends Drawable {
 	}
 
 	@Override
-	public boolean hit(int x, int y) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		return gp.contains(x, y)
 				|| gp.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);

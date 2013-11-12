@@ -589,7 +589,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return shape != null && shape.contains(x, y);
 	}
 

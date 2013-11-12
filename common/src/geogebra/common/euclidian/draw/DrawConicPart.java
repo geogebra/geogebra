@@ -77,7 +77,6 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 */
 	public DrawConicPart(EuclidianView view, GeoConicPart conicPart) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		initConicPart(conicPart);
 		update();
 	}
@@ -428,7 +427,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		if (!isVisible)
 			return false;
 		
@@ -460,10 +459,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 			 */
 
 		case DRAW_TYPE_SEGMENT:
-			pathHit = drawSegment.hit(x, y);
+			pathHit = drawSegment.hit(x, y, hitThreshold);
 			break;
 		case DRAW_TYPE_RAYS:
-			pathHit = drawRay1.hit(x, y) || drawRay2.hit(x, y);
+			pathHit = drawRay1.hit(x, y, hitThreshold) || drawRay2.hit(x, y, hitThreshold);
 			break;
 		default:
 			return false;

@@ -354,7 +354,7 @@ public class DrawConicSection extends DrawConic {
 	}
 	
 	@Override
-	public boolean hitLines(int screenx, int screeny) {
+	public boolean hitLines(int screenx, int screeny, int hitThreshold) {
 		if (lines == null){
 			return false;
 		}
@@ -571,7 +571,7 @@ public class DrawConicSection extends DrawConic {
 
 	
 	@Override
-	public boolean hitHyperbola(int hitX, int hitY) {
+	public boolean hitHyperbola(int hitX, int hitY, int hitThreshold) {
 		//TODO ?
 		return false;
 	}

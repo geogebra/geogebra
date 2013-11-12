@@ -249,7 +249,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		if (isVisible) {
 			for (PartialPath path : pathList) {
 				if (path.path1.intersects(x - hitThreshold, y - hitThreshold,

@@ -1522,7 +1522,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.hit(p.x, p.y) || d.hitLabel(p.x, p.y)) {
+			if (d.hit(p.x, p.y, getCapturingThreshold()) || d.hitLabel(p.x, p.y)) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					if(geo instanceof GeoTextField) return true;
@@ -1533,17 +1533,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return false;
 	}
 	
+	public void setHits(GPoint p) {
+		setHits(p, getCapturingThreshold());
+	}
 	/**
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
 	 */
-	public void setHits(GPoint p) {
+	public void setHits(GPoint p, int hitThreshold) {
 		hits.init();
 
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.hit(p.x, p.y) || d.hitLabel(p.x, p.y)) {
+			if (d.hit(p.x, p.y, hitThreshold) || d.hitLabel(p.x, p.y)) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					hits.add(geo);
@@ -1604,7 +1607,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		while (it.hasNext()) {
 			Drawable d2 = it.next();
 
-			if (d2.hit(p.x, p.y) && d2 instanceof DrawButton) {
+			if (d2.hit(p.x, p.y, getCapturingThreshold()) && d2 instanceof DrawButton) {
 				if (d == null
 						|| d2.getGeoElement().getLayer() >= d.getGeoElement()
 								.getLayer())

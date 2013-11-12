@@ -50,7 +50,6 @@ public class DrawSlider extends Drawable {
 	 */
 	public DrawSlider(EuclidianView view, GeoNumeric number) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		this.number = number;
 		geo = number;
 
@@ -151,8 +150,8 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
-		return hitPoint(x, y) || hitSlider(x, y);
+	final public boolean hit(int x, int y, int hitThreshold) {
+		return hitPoint(x, y, hitThreshold) || hitSlider(x, y, hitThreshold);
 	}
 
 	@Override
@@ -167,8 +166,8 @@ public class DrawSlider extends Drawable {
 	 * @param y mouse y-coord
 	 * @return true iff the movable point was hit
 	 */
-	final public boolean hitPoint(int x, int y) {
-		return drawPoint.hit(x, y);
+	final public boolean hitPoint(int x, int y, int hitThreshold) {
+		return drawPoint.hit(x, y, hitThreshold);
 	}
 
 	@Override
@@ -183,7 +182,7 @@ public class DrawSlider extends Drawable {
 	 * @param y mouse y-coord
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
-	public boolean hitSlider(int x, int y) {
+	public boolean hitSlider(int x, int y, int hitThreshold) {
 		// changed: we want click on fixed slider to increment/decrement the slider a bit
 		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);
 		return line.intersects(x - hitThreshold/2, y - hitThreshold/2, hitThreshold, hitThreshold);

@@ -197,7 +197,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	 * location (x,y) in screen coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return myButton.getBounds().contains(x, y) && isVisible;				      
 	}
 

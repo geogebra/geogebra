@@ -65,10 +65,7 @@ public abstract class Drawable extends DrawableND {
 	 * View in which this is drawn
 	 */
 	protected EuclidianView view;
-	/**
-	 * Hit tolerance
-	 */
-	protected int hitThreshold = 3;
+	
 	/**
 	 * Referenced GeoElement
 	 */
@@ -121,7 +118,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param y mouse y-coord
 	 * @return true if hit
 	 */
-	public abstract boolean hit(int x, int y);
+	public abstract boolean hit(int x, int y, int hitThreshold);
 
 	/**
 	 * @param rect rectangle

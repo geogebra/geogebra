@@ -357,7 +357,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return (lineVisible && line.intersects(x - 3, y - 3, 6, 6))
 				|| (arrowheadVisible && gp.intersects(x - 3, y - 3, 6, 6));
 	}

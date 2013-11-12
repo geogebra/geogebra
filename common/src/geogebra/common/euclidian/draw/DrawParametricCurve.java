@@ -51,7 +51,6 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	public DrawParametricCurve(EuclidianView view, ParametricCurve curve) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		this.curve = curve;
 		geo = curve.toGeoElement();
 		update();
@@ -194,7 +193,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		if (isVisible) {
 			GShape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {

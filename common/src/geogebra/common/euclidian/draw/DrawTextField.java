@@ -421,7 +421,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		//App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " + box.getBounds().getY());
 		return box.getBounds().contains(x, y);
 	}

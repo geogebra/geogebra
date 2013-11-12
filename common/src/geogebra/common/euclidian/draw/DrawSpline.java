@@ -131,14 +131,14 @@ public class DrawSpline extends Drawable {
 	}
 
 	@Override
-	public boolean hit(int x, int y) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		if (!isVisible) {
 			return false;
 		}
 		Drawable d;
 		for (int i = 0; i < size; i++) {
 			d = new DrawParametricCurve(view, list.get(i));
-			if (d.hit(x, y)) {
+			if (d.hit(x, y, hitThreshold)) {
 				return true;
 			}
 		}

@@ -58,7 +58,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	 */
 	public DrawPolyLine(EuclidianView view, ArrayList<?> points) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		this.points = points;
 		
 		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POLYLINE);
@@ -248,7 +247,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		if (isVisible) {
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(gp);

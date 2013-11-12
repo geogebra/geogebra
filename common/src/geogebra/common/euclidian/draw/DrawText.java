@@ -218,7 +218,7 @@ public final class DrawText extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return super.hitLabel(x, y);
 	}
 

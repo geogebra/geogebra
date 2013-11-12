@@ -43,7 +43,6 @@ public class DrawInequality extends Drawable {
 	 */
 	public DrawInequality(EuclidianView view, FunctionalNVar function) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		geo = (GeoElement) function;
 		this.function = function;
 		operation = function.getIneqs().getOperation();
@@ -297,11 +296,11 @@ public class DrawInequality extends Drawable {
 	}
 
 	@Override
-	public boolean hit(int x, int y) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		if(!geo.isEuclidianVisible())
 			return false;		
 		if (geo instanceof GeoFunction && ((GeoFunction) geo).showOnAxis()
-				&& Math.abs(y - view.toScreenCoordY(0)) > 3)
+				&& Math.abs(y - view.toScreenCoordY(0)) > hitThreshold)
 			return false;
 		return hit2(x, y) || hit2(x - 4, y) || hit2(x + 4, y) || hit2(x, y - 4)
 				|| hit2(x, y + 4);

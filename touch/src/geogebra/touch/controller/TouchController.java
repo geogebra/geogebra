@@ -421,7 +421,7 @@ public class TouchController extends EuclidianController {
 	}
 
 	@Override
-	protected boolean isMoveSliderExpected() {
+	protected boolean isMoveSliderExpected(int hitThreshold) {
 		return this.model.getCommand() == ToolBarCommand.Slider;
 	}
 

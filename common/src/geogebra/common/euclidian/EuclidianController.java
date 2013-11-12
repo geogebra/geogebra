@@ -7236,7 +7236,7 @@ public abstract class EuclidianController {
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible() && mouseLoc != null) {
 				// otherwise using Move Tool -> move dot
-				if (isMoveSliderExpected()) {
+				if (isMoveSliderExpected(view.getCapturingThreshold())) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
 						oldLoc.setLocation(
@@ -7403,14 +7403,14 @@ public abstract class EuclidianController {
 	 * @return true if the slider should be moved; false if the point on the
 	 *         slider should be moved (i.e. change the number)
 	 */
-	protected boolean isMoveSliderExpected() {
+	protected boolean isMoveSliderExpected(int hitThreshold) {
 		DrawSlider ds = (DrawSlider) view.getDrawableFor(movedGeoNumeric);
 		// TEMPORARY_MODE true -> dragging slider using Slider Tool
 		// or right-hand mouse button
 		return ((temporaryMode && app.isRightClickEnabled()) || !movedGeoNumeric
 				.isSliderFixed())
-				&& !ds.hitPoint(mouseLoc.x, mouseLoc.y)
-				&& ds.hitSlider(mouseLoc.x, mouseLoc.y);
+				&& !ds.hitPoint(mouseLoc.x, mouseLoc.y, hitThreshold)
+				&& ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
 	}
 
 	protected void setStartPointLocation(double x, double y) {

@@ -55,7 +55,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	public DrawPolygon(EuclidianView view, GeoPolygon poly) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		this.poly = poly;
 		geo = poly;
 
@@ -328,7 +327,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y

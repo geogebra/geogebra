@@ -147,7 +147,7 @@ public class DrawNyquist extends Drawable {
 	}
 
 	@Override
-	public boolean hit(int x, int y) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		if (!isVisible || !gcf.isDefined()) {
 			return false;
 		}

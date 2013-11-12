@@ -176,7 +176,7 @@ public class DrawIntegral extends Drawable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
 	}

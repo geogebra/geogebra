@@ -65,7 +65,6 @@ public class DrawSegment extends Drawable implements Previewable {
 	 */
 	public DrawSegment(EuclidianView view, GeoLineND s) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		this.s = s;
 		geo = (GeoElement) s;
 
@@ -478,7 +477,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return line != null
 				&& line.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);

@@ -324,7 +324,7 @@ public final class DrawImage extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		if (!isVisible || geoImage.isInBackground())
 			return false;
 

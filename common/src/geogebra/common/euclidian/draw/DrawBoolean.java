@@ -175,7 +175,7 @@ public final class DrawBoolean extends Drawable {
      * location (x,y) in screen coords)
      */
     @Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return super.hitLabel(x, y);				      
     }
     

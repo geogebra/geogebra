@@ -174,7 +174,6 @@ public class DrawConic extends Drawable implements Previewable {
 	public DrawConic(EuclidianView view, GeoConicND c) {
 		this.view = view;
 		isPreview = false;
-		hitThreshold = view.getCapturingThreshold();
 		initConic(c);
 		update();
 	}
@@ -1274,7 +1273,7 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int hitX, int hitY) {
+	final public boolean hit(int hitX, int hitY, int hitThreshold) {
 		if (!isVisible)
 			return false;
 		// set a flag that says if the point is on the filling
@@ -1300,15 +1299,15 @@ public class DrawConic extends Drawable implements Previewable {
 		boolean isOnBoundary = false;
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			isOnBoundary = drawPoint.hit(hitX, hitY);
+			isOnBoundary = drawPoint.hit(hitX, hitY, hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			isOnBoundary = hitLines(hitX, hitY);
+			isOnBoundary = hitLines(hitX, hitY, hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_LINE:
-			isOnBoundary = drawLines[0].hit(hitX, hitY);
+			isOnBoundary = drawLines[0].hit(hitX, hitY, hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -1320,7 +1319,7 @@ public class DrawConic extends Drawable implements Previewable {
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			isOnBoundary = hitHyperbola(hitX, hitY);
+			isOnBoundary = hitHyperbola(hitX, hitY, hitThreshold);
 			break;
 		}
 
@@ -1348,8 +1347,8 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @param hitY y coord for hit
 	 * @return true if lines are hitted
 	 */
-	public boolean hitLines(int hitX, int hitY) {
-		return drawLines[0].hit(hitX, hitY) || drawLines[1].hit(hitX, hitY);
+	public boolean hitLines(int hitX, int hitY, int hitThreshold) {
+		return drawLines[0].hit(hitX, hitY, hitThreshold) || drawLines[1].hit(hitX, hitY, hitThreshold);
 	}
 
 	/**
@@ -1358,7 +1357,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @param hitY y coord for hit
 	 * @return true if lines are hitted
 	 */
-	public boolean hitHyperbola(int hitX, int hitY) {
+	public boolean hitHyperbola(int hitX, int hitY, int hitThreshold) {
 		if (strokedShape == null) {
 			strokedShape = objStroke.createStrokedShape(hypLeft);
 			strokedShape2 = objStroke.createStrokedShape(hypRight);

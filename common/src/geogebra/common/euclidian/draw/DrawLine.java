@@ -99,7 +99,6 @@ public class DrawLine extends Drawable implements Previewable {
      * @param g line*/
     public DrawLine(EuclidianView view, GeoLineND g) {      
     	this.view = view;   
-    	hitThreshold = view.getCapturingThreshold();
         this.g = g;
         geo = (GeoElement) g;              
         update();
@@ -606,7 +605,7 @@ public class DrawLine extends Drawable implements Previewable {
      * location (x,y) in screen coords)
      */
     @Override
-	final public boolean hit(int screenx, int screeny) {
+	final public boolean hit(int screenx, int screeny, int hitThreshold) {
         return isVisible && line.intersects(screenx - hitThreshold, screeny - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
     }
     

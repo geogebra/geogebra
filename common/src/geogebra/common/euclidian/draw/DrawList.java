@@ -281,7 +281,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * position.
 	 */
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 
 		if (geoList.drawAsComboBox()) {
 			//App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " + box.getBounds().getY());
@@ -292,7 +292,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			if (d.hit(x, y))
+			if (d.hit(x, y, hitThreshold))
 				return true;
 		}
 		return false;

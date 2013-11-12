@@ -492,7 +492,7 @@ public final class DrawPoint extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return circleSel.contains(x, y);
 	}
 

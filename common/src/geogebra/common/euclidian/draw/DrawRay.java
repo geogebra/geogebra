@@ -57,7 +57,6 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param ray ray*/
 	public DrawRay(EuclidianView view, GeoLineND ray) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
 		this.ray = ray;
 		geo = (GeoElement) ray;
 
@@ -311,7 +310,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int x, int y, int hitThreshold) {
 		return line.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);
 	}
