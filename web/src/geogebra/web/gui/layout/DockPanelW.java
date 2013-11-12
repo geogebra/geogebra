@@ -966,7 +966,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * 
 	 */
 	protected void updateTitleBarIfNecessary() {
-		if (theRealTitleBarPanel.isVisible()) {
+		if (theRealTitleBarPanel.isVisible() && theRealTitleBarPanel.isAttached()) {
 			updateTitleBar();
 		}
 	}
