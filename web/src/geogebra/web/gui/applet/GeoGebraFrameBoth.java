@@ -1,6 +1,5 @@
 package geogebra.web.gui.applet;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
@@ -11,7 +10,6 @@ import geogebra.web.main.AppWapplet;
 import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -56,19 +54,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 		}
 	}
 
-	/**
-	 * @param element
-	 */
-	public static void renderArticleElemnt(final Element element) {
-		final ArticleElement article = ArticleElement.as(element);
-		article.clear();
-		Date creationDate = new Date();
-		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
-		final GeoGebraFrame inst = new GeoGebraFrameBoth();
-		inst.ae = article;
-		inst.createSplash(article);
-		RootPanel.get(article.getId()).add(inst);
-	}
 
 	public void runAsyncAfterSplash() {
 		final GeoGebraFrameBoth inst = this;
@@ -120,5 +105,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 				}
 			});
 		}
+	}
+	
+	/**
+	 * @param el html element to render into
+	 */
+	public static void renderArticleElement(Element el) {
+		GeoGebraFrame.renderArticleElemntWithFrame(el, new GeoGebraFrameBoth());
 	}
 }

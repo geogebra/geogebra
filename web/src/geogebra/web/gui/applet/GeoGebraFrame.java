@@ -12,9 +12,11 @@ import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
@@ -439,6 +441,22 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	public void showResetIcon(boolean show) {
 		app.setShowResetIcon(show);
 		app.refreshViews();
+	}
+	
+	/**
+	 * @param element Html Element
+	 * @param frame GeoGebraFrame subclasses
+	 *
+	 */
+	public static void renderArticleElemntWithFrame(final Element element, GeoGebraFrame frame) {
+		final ArticleElement article = ArticleElement.as(element);
+		article.clear();
+		Date creationDate = new Date();
+		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
+		final GeoGebraFrame inst = frame;
+		inst.ae = article;
+		inst.createSplash(article);
+		RootPanel.get(article.getId()).add(inst);
 	}
 }
 

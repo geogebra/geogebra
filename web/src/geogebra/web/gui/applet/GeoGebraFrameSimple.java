@@ -8,6 +8,7 @@ import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GeoGebraFrameSimple extends GeoGebraFrame {
@@ -40,5 +41,13 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 				WebStatic.panelForApplets.add(inst);
 			}
 		}
+	}
+	
+	
+	/**
+	 * @param el html element to render into
+	 */
+	public static void renderArticleElement(Element el) {
+		GeoGebraFrame.renderArticleElemntWithFrame(el, new GeoGebraFrameSimple());
 	}
 }

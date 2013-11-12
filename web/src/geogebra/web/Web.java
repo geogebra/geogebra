@@ -154,11 +154,11 @@ public class Web implements EntryPoint {
     }
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElemnt(Lcom/google/gwt/dom/client/Element;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
     }-*/;
 	
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElemnt(Lcom/google/gwt/dom/client/Element;));
+	 	$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{

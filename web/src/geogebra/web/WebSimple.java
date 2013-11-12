@@ -51,6 +51,7 @@ public class WebSimple implements EntryPoint {
 		GeoGebraProfiler.init(new SilentProfiler());
 		
 		GeoGebraProfiler.getInstance().profile();
+		exportGGBElementRenderer();
 
 		
 		//WebStatic.currentGUI = checkIfNeedToLoadGUI();
@@ -88,5 +89,9 @@ public class WebSimple implements EntryPoint {
 		geogebra.web.gui.applet.GeoGebraFrameSimple.main(geoGebraMobileTags);
 	    
     }
+	
+	private native void exportGGBElementRenderer() /*-{
+ 		$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	}-*/;
 
 }
