@@ -265,6 +265,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setValue(val);
 			if (n.isDefined())
 				return;
+		}else if(symbIntegral != null && symbIntegral.isDefined() && !this.evaluateNumerically){
+			computeSpecial();
+			return;
 		}
 
 		// numerical integration
@@ -319,8 +322,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		if (functionOut == null || functionOut.length() == 0) {
 			n.setUndefined();
 		} else {
-			// read result back into function
-			n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(functionOut));
+			// read result back into function, do NOT show errors if eg complex number occurs
+			n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(functionOut, true));
 		}
 		}catch(Throwable e){
 			n.setUndefined();
