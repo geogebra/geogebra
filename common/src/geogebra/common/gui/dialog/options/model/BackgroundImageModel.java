@@ -7,21 +7,24 @@ public class BackgroundImageModel extends BooleanOptionModel {
 	public BackgroundImageModel(IBooleanOptionListener listener) {
 		super(listener);
 	}
-
+	
+	private GeoImage getImageAt(int index) {
+		return (GeoImage) getObjectAt(index);
+	}
+	
 	@Override
 	public boolean isValidAt(int index) {
-		return (getGeoAt(index) instanceof GeoImage);
+		return (getObjectAt(index) instanceof GeoImage);
 	}
 
 	@Override
 	public boolean getValueAt(int index) {
-		// TODO Auto-generated method stub
-		return ((GeoImage) getObjectAt(index)).isInBackground();
+		return getImageAt(index).isInBackground();
 	}
 
 	@Override
 	public void apply(int index, boolean value) {
-		GeoImage geo = (GeoImage) getObjectAt(index);
+		GeoImage geo = getImageAt(index);
 		geo.setInBackground(value);
 		geo.updateRepaint();
 	}

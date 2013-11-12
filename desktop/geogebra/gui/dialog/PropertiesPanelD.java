@@ -45,6 +45,7 @@ import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
+import geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
@@ -892,6 +893,108 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.checkbox = checkbox;
 		}
 	}
+	
+
+	private class ComboPanel extends JPanel implements ActionListener,
+	SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private JLabel label;
+		private JComboBox comboBox;
+		private MultipleOptionsModel model;
+		private String title;
+		
+		public ComboPanel(final String title) {
+			this.setModel(model);
+			this.title = title;
+			label = new JLabel();
+			comboBox = new JComboBox();
+
+			setLayout(new FlowLayout(FlowLayout.LEFT));
+			add(label);
+			add(comboBox);
+		}
+
+		public void setLabels() {
+			label.setText(title);
+
+			int selectedIndex = comboBox.getSelectedIndex();
+			comboBox.removeActionListener(this);
+
+			comboBox.removeAllItems();
+			getModel().fillModes(loc);
+			comboBox.setSelectedIndex(selectedIndex);
+			comboBox.addActionListener(this);
+		}
+		
+		public JPanel update(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) { 
+				return null;
+			}
+
+			comboBox.removeActionListener(this);
+
+			getModel().updateProperties();
+
+			comboBox.addActionListener(this);
+			return this;
+		}
+
+
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+
+			label.setFont(font);
+			comboBox.setFont(font);
+		}
+
+		public void updateVisualStyle(GeoElement geo) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void setSelectedIndex(int index) {
+			comboBox.setSelectedIndex(index);
+			
+		}
+
+		public void addItem(String item) {
+			comboBox.addItem(item);
+			
+		}
+
+
+		/**
+		 * action listener implementation for label mode combobox
+		 */
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == comboBox) {
+				model.applyChanges(comboBox.getSelectedIndex());
+			}
+		}
+
+		public JLabel getLabel() {
+			return label;
+		}
+
+		public void setLabel(JLabel label) {
+			this.label = label;
+		}
+
+		public MultipleOptionsModel getModel() {
+			return model;
+		}
+
+		public void setModel(MultipleOptionsModel model) {
+			this.model = model;
+		}
+
+	}
+
 
 	private class TabPanel extends JPanel {
 
@@ -1677,198 +1780,121 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	} // LabelPanel
 
-	/**
-	 * panel with label properties
-	 */
-	private class TooltipPanel extends JPanel implements ItemListener,
-	ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-	IComboListener {
-		/**
-		 * 
-		 */
+	private class TooltipPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-		private TooltipModel model;
-		private JComboBox tooltipModeCB;
-		JLabel label;
-
+	
 		public TooltipPanel() {
-			model = new TooltipModel(this);
-			label = new JLabel();
-			label.setLabelFor(tooltipModeCB);
-
-			// combo box for label mode: name or algebra
-			tooltipModeCB = new JComboBox();
-			tooltipModeCB.addActionListener(this);
-
-			// labelPanel with show checkbox
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			add(label);
-			add(tooltipModeCB);
+			super(loc.getMenu("Tooltip") + ":");
+			setModel(new TooltipModel(this));
 		}
-
-		public void setLabels() {
-
-			label.setText(loc.getMenu("Tooltip") + ":");
-
-			int selectedIndex = tooltipModeCB.getSelectedIndex();
-			tooltipModeCB.removeActionListener(this);
-
-			tooltipModeCB.removeAllItems();
-			model.fillModes(app.getLocalization());
-			tooltipModeCB.setSelectedIndex(selectedIndex);
-			tooltipModeCB.addActionListener(this);
-
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos()) { 
-				return null;
-			}
-
-			tooltipModeCB.removeActionListener(this);
-
-			model.updateProperties();
-
-			tooltipModeCB.addActionListener(this);
-			return this;
-		}
-
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-		}
-
-		/**
-		 * action listener implementation for label mode combobox
-		 */
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == tooltipModeCB) {
-				model.applyChanges(tooltipModeCB.getSelectedIndex());
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			label.setFont(font);
-			tooltipModeCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void setSelectedIndex(int index) {
-			tooltipModeCB.setSelectedIndex(index);
-
-		}
-
-		public void addItem(String item) {
-			tooltipModeCB.addItem(item);			
-		}
-
 	} // TooltipPanel
 
-	/*
-	 * panel with layers properties Michael Borcherds
-	 */
-	private class LayerPanel extends JPanel implements ItemListener,
-	ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-	IComboListener {
-		/**
-		 * 
-		 */
+	private class LayerPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-		private LayerModel model;
-		private JComboBox layerModeCB;
-		private JLabel layerLabel;
-
+	
 		public LayerPanel() {
-			model = new LayerModel(this);
-			layerLabel = new JLabel();
-			layerLabel.setLabelFor(layerModeCB);
-
-			// combo box for label mode: name or algebra
-			layerModeCB = new JComboBox();
-
-			model.addLayers();
-
-			layerModeCB.addActionListener(this);
-
-			// labelPanel with show checkbox
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			add(layerLabel);
-			add(layerModeCB);
+			super(loc.getMenu("Layer") + ":");
+			setModel(new LayerModel(this));
 		}
-
-		public void setLabels() {
-			layerLabel.setText(app.getPlain("Layer") + ":");
-		}
-
-		public JPanel update(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos()) {
-				return null;
-			}
-
-			layerModeCB.removeActionListener(this);
-
-			// check if properties have same values
-			model.updateProperties();
-			// locus in selection
-			layerModeCB.addActionListener(this);
-			return this;
-		}
+	} // TooltipPanel
 
 
-		/**
-		 * listens to checkboxes and sets object and label visible state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-		}
-
-		/**
-		 * action listener implementation for label mode combobox
-		 */
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == layerModeCB) {
-				model.applyChanges(layerModeCB.getSelectedIndex());
-
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			layerLabel.setFont(font);
-			layerModeCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void setSelectedIndex(int index) {
-			if (index == -1) {
-				layerModeCB.setSelectedItem(null);
-			} else {
-				layerModeCB.setSelectedIndex(index);
-			}
-
-		}
-
-		public void addItem(String item) {
-			layerModeCB.addItem(item);
-		}
-
-	} // LayersPanel
-
+	//	/*
+//	 * panel with layers properties Michael Borcherds
+//	 */
+//	private class LayerPanel extends JPanel implements ItemListener,
+//	ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+//	IComboListener {
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		private LayerModel model;
+//		private JComboBox layerModeCB;
+//		private JLabel layerLabel;
+//
+//		public LayerPanel() {
+//			model = new LayerModel(this);
+//			layerLabel = new JLabel();
+//			layerLabel.setLabelFor(layerModeCB);
+//
+//			// combo box for label mode: name or algebra
+//			layerModeCB = new JComboBox();
+//
+//			model.addLayers();
+//
+//			layerModeCB.addActionListener(this);
+//
+//			// labelPanel with show checkbox
+//			setLayout(new FlowLayout(FlowLayout.LEFT));
+//			add(layerLabel);
+//			add(layerModeCB);
+//		}
+//
+//		public void setLabels() {
+//			layerLabel.setText(app.getPlain("Layer") + ":");
+//		}
+//
+//		public JPanel update(Object[] geos) {
+//			model.setGeos(geos);
+//			if (!model.checkGeos()) {
+//				return null;
+//			}
+//
+//			layerModeCB.removeActionListener(this);
+//
+//			// check if properties have same values
+//			model.updateProperties();
+//			// locus in selection
+//			layerModeCB.addActionListener(this);
+//			return this;
+//		}
+//
+//
+//		/**
+//		 * listens to checkboxes and sets object and label visible state
+//		 */
+//		public void itemStateChanged(ItemEvent e) {
+//		}
+//
+//		/**
+//		 * action listener implementation for label mode combobox
+//		 */
+//		public void actionPerformed(ActionEvent e) {
+//			Object source = e.getSource();
+//			if (source == layerModeCB) {
+//				model.applyChanges(layerModeCB.getSelectedIndex());
+//
+//			}
+//		}
+//
+//		public void updateFonts() {
+//			Font font = app.getPlainFont();
+//
+//			layerLabel.setFont(font);
+//			layerModeCB.setFont(font);
+//		}
+//
+//		public void updateVisualStyle(GeoElement geo) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//		public void setSelectedIndex(int index) {
+//			if (index == -1) {
+//				layerModeCB.setSelectedItem(null);
+//			} else {
+//				layerModeCB.setSelectedIndex(index);
+//			}
+//
+//		}
+//
+//		public void addItem(String item) {
+//			layerModeCB.addItem(item);
+//		}
+//
+//	} // LayersPanel
+//
 	/**
 	 * panel for trace
 	 * 

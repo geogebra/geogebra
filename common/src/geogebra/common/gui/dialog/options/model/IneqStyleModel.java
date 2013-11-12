@@ -12,33 +12,27 @@ public class IneqStyleModel extends BooleanOptionModel {
 	}
 	public IneqStyleModel(IIneqStyleListener listener) {
 		super(listener);
-		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public void applyChanges(boolean value) {
-		Object[] geos = getGeos();
-		for (int i = 0; i < geos.length; i++) {
-
-		}
+	
+	private InequalityProperties getInequalityPropertiesAt(int index) {
+		return (InequalityProperties) getObjectAt(index);
 	}
-
 
 	@Override
 	public void updateProperties() {
-		Object[] geos = getGeos();
-		if (!(geos[0] instanceof InequalityProperties)) {
+		
+		if (!(getObjectAt(0) instanceof InequalityProperties)) {
 			return;
 		}
 
-		InequalityProperties temp, geo0 = (InequalityProperties) geos[0];
+		InequalityProperties temp, geo0 = getInequalityPropertiesAt(0);
 		boolean equalFix = true;
 
-		for (int i = 0; i < geos.length; i++) {
-			if (!(geos[i] instanceof InequalityProperties)) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			if (!(getObjectAt(i) instanceof InequalityProperties)) {
 				return;
 			}
-			temp = (InequalityProperties) geos[i];
+			temp = getInequalityPropertiesAt(i);
 
 			if (geo0.showOnAxis() != temp.showOnAxis())
 				equalFix = false;
@@ -73,7 +67,7 @@ public class IneqStyleModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		// TODO Auto-generated method stub
+		// not used as updateProperties is overridden.
 		return false;
 	}
 

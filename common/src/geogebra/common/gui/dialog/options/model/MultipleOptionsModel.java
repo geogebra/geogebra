@@ -11,14 +11,20 @@ public abstract class MultipleOptionsModel extends OptionsModel {
 		this.listener = listener;
 	}
 
-	public void updateComboSelection(boolean isEqual, int index) {
-		if (isEqual) {
-			getListener().setSelectedIndex(index);
-		}
-		else {
-			getListener().setSelectedIndex(-1);
+	public abstract int getValueAt(int index);
+	
+	@Override
+	public void updateProperties() {
+		int value0 = getValueAt(0);
+		boolean isEqual = true;
+
+		for (int i = 0; i < getGeosLength(); i++) {
+			if (value0 != getValueAt(i)) {
+				isEqual = false;
+			}
 		}
 
+		listener.setSelectedIndex(isEqual ? value0 : -1);
 
 	}
 	

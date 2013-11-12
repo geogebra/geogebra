@@ -8,15 +8,7 @@ public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
 		super(listener);
 	}
 
-	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!(getGeoAt(i).getParentAlgorithm() instanceof AlgoIntersectAbstract)) {
-				return false;
-			}
-		}
-		return true;
-	}
+
 	@Override
 	public boolean isValidAt(int index) {
 		return (getGeoAt(index).getParentAlgorithm() instanceof AlgoIntersectAbstract);	

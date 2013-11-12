@@ -8,30 +8,34 @@ public class FixCheckboxModel extends BooleanOptionModel {
 		super(listener);
 	}
 	
+	private GeoBoolean getBooleanAt(int index) {
+		return (GeoBoolean) getObjectAt(index);
+					
+	}
 	@Override
 	public boolean getValueAt(int index) {
-		return ((GeoBoolean) getObjectAt(index)).isCheckboxFixed();
+		return getBooleanAt(index).isCheckboxFixed();
 
 	}
 	
 	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			Object geo = getGeoAt(i);
-			if (geo instanceof GeoBoolean) {
-				GeoBoolean bool = (GeoBoolean) geo;
-				if (!bool.isIndependent()) {
-					return false;
-				}
-			} else
+	public boolean isValidAt(int index) {
+		Object geo = getObjectAt(index);
+		if (geo instanceof GeoBoolean) {
+			GeoBoolean bool = (GeoBoolean) geo;
+			if (!bool.isIndependent()) {
 				return false;
+			}
+		} else {
+			return false;
 		}
+		
 		return true;
-		}
+	}
 
 	@Override
 	public void apply(int index, boolean value) {
-		GeoBoolean bool = (GeoBoolean) getObjectAt(index);
+		GeoBoolean bool = getBooleanAt(index);
 		bool.setCheckboxFixed(value);
 		bool.updateRepaint();
 		

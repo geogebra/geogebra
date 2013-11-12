@@ -9,17 +9,19 @@ public class AngleArcSizeModel extends OptionsModel {
 		this.listener = listener;
 	}
 
+	private AngleProperties getAngleAt(int index) { 
+		return (AngleProperties) getObjectAt(index);
+	}
+
 	public void applyChanges(int size) {
-		AngleProperties angle;
-		Object[] geos = getGeos();
 		for (int i = 0; i < getGeosLength(); i++) {
-			angle = (AngleProperties) geos[i];
+			AngleProperties angle = getAngleAt(i);
 			// addded by Loic BEGIN
 			// check if decoration could be drawn
 			if (size < 20
 					&& (angle.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || angle.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
 				angle.setArcSize(20);
-				int selected = ((AngleProperties) geos[0]).getDecorationType();
+				int selected = getAngleAt(0).getDecorationType();
 				if (selected == GeoElement.DECORATION_ANGLE_THREE_ARCS
 						|| selected == GeoElement.DECORATION_ANGLE_TWO_ARCS) {
 					listener.setValue(20);
@@ -35,23 +37,21 @@ public class AngleArcSizeModel extends OptionsModel {
 
 	@Override
 	public void updateProperties() {
-		AngleProperties geo0 = (AngleProperties)getGeos()[0];
-		listener.setValue(geo0.getArcSize());
-
+		listener.setValue(getAngleAt(0).getArcSize());
 	}
 
 	@Override
 	protected boolean isValidAt(int index){
 		boolean isValid = true;
 		if (getObjectAt(index) instanceof AngleProperties) {
-			AngleProperties angle = (AngleProperties) getObjectAt(index);
+			AngleProperties angle = getAngleAt(index);
 			if (angle.isIndependent() || !angle.isDrawable()) {
 				isValid = false;
 			}
 		} else {
 			isValid = false;
 		}
-		
+
 		return isValid;
 	};
 }

@@ -1,6 +1,5 @@
 package geogebra.common.gui.dialog.options.model;
 
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.Localization;
 
 import java.util.Arrays;
@@ -9,20 +8,6 @@ import java.util.List;
 public class TooltipModel extends MultipleOptionsModel {
 	public TooltipModel(IComboListener listener) {
 		super(listener);
-	}
-
-	@Override
-	public void updateProperties() {
-		GeoElement geo0 = getGeoAt(0);
-		boolean equalLabelMode = true;
-
-		for (int i = 1; i < getGeosLength(); i++) {
-			if (geo0.getLabelMode() != getGeoAt(i).getTooltipMode())
-				equalLabelMode = false;
-
-		}
-
-		updateComboSelection(equalLabelMode, geo0.getTooltipMode());
 	}
 
 	@Override
@@ -45,6 +30,11 @@ public class TooltipModel extends MultipleOptionsModel {
 	@Override
 	public void apply(int index, int value) {
 		getGeoAt(index).setTooltipMode(value);
+	}
+
+	@Override
+	public int getValueAt(int index) {
+		return getGeoAt(index).getTooltipMode();
 	}
 
 

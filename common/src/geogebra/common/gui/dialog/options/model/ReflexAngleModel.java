@@ -103,5 +103,11 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		return hasOrientation;
 	}
 
+	@Override
+	public int getValueAt(int index) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }
