@@ -354,4 +354,6 @@ public final class EuclidianConstants {
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 
+	public static final long DOUBLE_CLICK_DELAY = 300;
+
 }

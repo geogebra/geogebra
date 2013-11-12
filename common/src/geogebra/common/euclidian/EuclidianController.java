@@ -340,6 +340,8 @@ public abstract class EuclidianController {
 
 	private boolean externalHandling;
 	
+	private long lastMouseRelease;
+	
 	public EuclidianController(App app){
 		this.app = app;
 		this.selection = app.getSelectionManager();
@@ -6656,6 +6658,8 @@ public abstract class EuclidianController {
 	// make sure scripts not run twice 
 	private boolean scriptsHaveRun = false;
 
+	private boolean doubleClickStarted;
+
 	protected void wrapMouseclicked(boolean control, int clickCount) {
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
@@ -8471,7 +8475,10 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMousePressed(AbstractEvent event) {
-		
+		if(this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()){
+			this.doubleClickStarted = true;
+			return;
+		}
 		app.storeUndoInfoIfSetCoordSystemOccured();
 		app.maySetCoordSystem();
 		
@@ -8828,7 +8835,11 @@ public abstract class EuclidianController {
 		wrapMouseReleased(event.getX(),event.getY(), alt, control, right, meta);
 	}
 	protected void wrapMouseReleased(int x, int y, boolean alt, boolean control, boolean right, boolean meta) {
-		
+		if(this.doubleClickStarted){
+			this.doubleClickStarted = false;
+			wrapMouseclicked(control, 2);
+		}
+		this.lastMouseRelease = System.currentTimeMillis();
 		
 		app.storeUndoInfoIfSetCoordSystemOccured();
 		

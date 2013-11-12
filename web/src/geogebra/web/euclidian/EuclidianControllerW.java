@@ -23,10 +23,6 @@ import java.util.LinkedList;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureChangeHandler;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -59,7 +55,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
 public class EuclidianControllerW extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, 
-MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, 
+MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, TouchStartHandler, TouchEndHandler, 
 TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets {
 
 	private long lastMoveEvent = 0;
@@ -441,25 +437,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 
-	public void onDoubleClick(DoubleClickEvent event) {
-
-		if (app.getGuiManager() != null)
-			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
-
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
-		 wrapMouseclicked(e.isControlDown(),e.getClickCount());
-		 e.release();
-	}
-
-	public void onClick(ClickEvent event) {
-
-		if (app.getGuiManager() != null)
-			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
-
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
-		 wrapMouseclicked(e.isControlDown(),e.getClickCount());
-		 e.release();
-	}
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
