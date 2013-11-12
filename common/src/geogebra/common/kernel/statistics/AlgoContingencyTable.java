@@ -84,10 +84,11 @@ public class AlgoContingencyTable extends AlgoElement {
 		table = new GeoText(cons);
 
 		setInputOutput();
-		compute();
-
+		//must set isLaTex before computing, #3846
 		table.isTextCommand = true;
 		table.setLaTeX(true, false);
+
+		compute();
 		table.setLabel(label);
 
 	}
@@ -117,10 +118,12 @@ public class AlgoContingencyTable extends AlgoElement {
 		table = new GeoText(cons);
 
 		setInputOutput();
-		compute();
-
+		//must set isLaTex before computing, #3846
 		table.isTextCommand = true;
 		table.setLaTeX(true, false);
+		compute();
+
+		
 		table.setLabel(label);
 
 	}
@@ -506,7 +509,7 @@ public class AlgoContingencyTable extends AlgoElement {
 	}
 
 	private String handleSpecialChar(String s) {
-		return s.replaceAll("%", "\\\\%").replaceAll(" ", "\\\\;");
+		return s.replaceAll(" ", "\\\\;");
 	}
 
 	// TODO Consider locusequability
