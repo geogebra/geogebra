@@ -152,10 +152,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 				app.getSelectionManager().addSelectedGeos(geos, true);
 			}
 
-			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
-					&& geos.get(0) instanceof GeoNumeric)
-				// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
-				((GuiManagerD)app.getGuiManager()).showPropertiesViewSliderTab();
+			
 		}
 
 		// set properties option type
@@ -165,6 +162,11 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		// show the view
 		((GuiManagerD)app.getGuiManager()).setShowView(true, App.VIEW_PROPERTIES);
+		if (geos != null && geos.size() == 1 && geos.get(0).isEuclidianVisible()
+				&& geos.get(0) instanceof GeoNumeric){
+			// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
+			((GuiManagerD)app.getGuiManager()).showPropertiesViewSliderTab();
+		}
 	}
 
 	/**
