@@ -7,7 +7,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
 import geogebra.common.util.Prover;
-import geogebra.common.util.Prover.NDGCondition;
 import geogebra.common.util.Prover.ProofResult;
 
 import java.math.BigInteger;
@@ -118,18 +117,6 @@ public abstract class AbstractProverReciosMethod {
 		
 		int nrFreeVariables=freeVariables.size();
 
-		/* We always set the NDG condition if there are
-		 * exactly two fixed points. I hope this is OK now
-		 * (reported by Noel Lambert as a bug).
-		 */
-		if (nrOfFixedPoints==2 /* && nrFreeVariables<=2 */){
-			NDGCondition ndg = new NDGCondition();
-			ndg.setCondition("AreEqual");
-			GeoElement[] geos = { fixedElement1, fixedElement2 };
-			ndg.setGeos(geos);
-			prover.addNDGcondition(ndg);
-		}
-		
 		int[] degs;
 		try {
 			degs = s.getDegrees();

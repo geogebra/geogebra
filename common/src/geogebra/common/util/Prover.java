@@ -281,11 +281,11 @@ public abstract class Prover {
 		 proveDetailsAutoOrder.add(ProverEngine.BOTANAS_PROVER);
 		 // Wu's method does the most general good job.
 		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
-		 // Recio may give a few NDGs for the denominator polynomial. 
-		 proveDetailsAutoOrder.add(ProverEngine.RECIOS_PROVER);
+		 // Recio does not give NDGs: 
+		 // proveDetailsAutoOrder.add(ProverEngine.RECIOS_PROVER);
 		 // Area method is buggy at the moment, needs Damien's fixes.
 		 // It returns {true} always at the moment, not useful.
-		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
+		 // proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
 	}
 
 	/**
