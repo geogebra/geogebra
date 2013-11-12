@@ -88,10 +88,8 @@ public abstract class DialogManager {
 
 	}
 
-	public void showNumberInputDialogSegmentFixed(String menu,
-			GeoPoint geoPoint2) {
-		doSegmentFixed(app.getKernel(), geoPoint2, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""));
-	}
+	public abstract void showNumberInputDialogSegmentFixed(String menu,
+			GeoPoint geoPoint2);
 
 	public void showNumberInputDialogAngleFixed(String menu,
 			GeoSegment[] selectedSegments, GeoPoint[] selectedPoints,
@@ -178,11 +176,9 @@ public abstract class DialogManager {
 	    
     }
 
-	public  void showNumberInputDialogDilate(String menu,
+	public abstract void showNumberInputDialogDilate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
-			GeoElement[] selGeos, EuclidianController ec) {
-		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos, ec);
-	}
+			GeoElement[] selGeos, EuclidianController ec);
 
 	public abstract void showNumberInputDialogRegularPolygon(String menu, EuclidianController ec, 
 			GeoPointND geoPoint1, GeoPointND geoPoint2);

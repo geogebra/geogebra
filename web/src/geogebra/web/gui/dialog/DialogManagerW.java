@@ -217,6 +217,30 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	}
 
+	@Override
+	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
+			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialogW id = new InputDialogDilateW(((AppW) app), title, handler,
+				points, selGeos, app.getKernel(), ec);
+		id.setVisible(true);
+
+	}
+	
+	@Override
+	public void showNumberInputDialogSegmentFixed(String title,
+			GeoPoint geoPoint1) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialogW id = new InputDialogSegmentFixedW(((AppW) app), title,
+				handler, geoPoint1, app.getKernel());
+		id.setVisible(true);
+
+	}
+	
 	GeoGebraFileChooserW fileChooser = null;	
 
 	public GeoGebraFileChooserW getFileChooser() {

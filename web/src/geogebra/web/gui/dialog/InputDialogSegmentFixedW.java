@@ -1,4 +1,4 @@
-package geogebra.gui.dialog;
+package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
@@ -7,22 +7,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
-import geogebra.gui.GuiManagerD;
-import geogebra.main.AppD;
+import geogebra.web.main.AppW;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
 
-/**
- *	Dialog for "Segment with given length" tool
- */
-public class InputDialogSegmentFixed extends InputDialogD {
-
+public class InputDialogSegmentFixedW extends InputDialogW {
 	private GeoPoint geoPoint1;
 
 	private Kernel kernel;
 
-	public InputDialogSegmentFixed(AppD app, String title,
+	public InputDialogSegmentFixedW(AppW app, String title,
 			InputHandler handler, GeoPoint point1, Kernel kernel) {
 		super(app, app.getPlain("Length"), title, "", false, handler);
 
@@ -34,21 +28,21 @@ public class InputDialogSegmentFixed extends InputDialogD {
 	 * Handles button clicks for dialog.
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void onClick(ClickEvent e) {
 		App.debug("inputdialogsegmentfixed actionperformed");
 		Object source = e.getSource();
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
+				setVisible(!processInput());
 			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
-				setVisibleForTools(false);
+				setVisible(false);
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			setVisibleForTools(false);
+			setVisible(false);
 		}
 	}
 
@@ -71,11 +65,4 @@ public class InputDialogSegmentFixed extends InputDialogD {
 		return ret;
 	}
 
-	@Override
-	public void windowGainedFocus(WindowEvent arg0) {
-		if (!wrappedDialog.isModal()) {
-			app.setCurrentSelectionListener(null);
-		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
-	}
 }
