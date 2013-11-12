@@ -1603,7 +1603,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			mainPanel.add(layerLabel);
 			
 			layerModeCB = new ListBox();
-			model.addLayers();
+			model.fillModes(app.getLocalization());
 			mainPanel.add(layerModeCB);
 			
 			layerModeCB.addChangeHandler(new ChangeHandler(){
