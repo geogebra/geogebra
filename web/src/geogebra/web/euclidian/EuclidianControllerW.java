@@ -1,6 +1,5 @@
 package geogebra.web.euclidian;
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EnvironmentStyle;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -448,7 +447,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
-		 wrapMouseclicked(e);
+		 wrapMouseclicked(e.getX(),e.getY(),e.isAltDown(),e.isControlDown(),e.isRightClick(),e.getClickCount());
 		 e.release();
 	}
 
@@ -458,7 +457,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
-		 wrapMouseclicked(e);
+		 wrapMouseclicked(e.getX(),e.getY(),e.isAltDown(),e.isControlDown(),e.isRightClick(),e.getClickCount());
 		 e.release();
 	}
 
@@ -625,8 +624,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
     }
 
 	@Override
-	protected boolean textfieldJustFocusedW(GPoint p) {
-		return view.textfieldClicked(p);
+	protected boolean textfieldJustFocusedW(int x, int y) {
+		return view.textfieldClicked(x, y);
 	}
 
 	public int getXoffset() {

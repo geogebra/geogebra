@@ -6626,7 +6626,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void mouseClickedMode(AbstractEvent event, int mode1) {
+	protected void mouseClickedMode(int clickCount, boolean control, int mode1) {
 	
 		switch (mode1) {
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
@@ -6635,12 +6635,12 @@ public abstract class EuclidianController {
 		//case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			switch (event.getClickCount()) {
+			switch (clickCount) {
 			case 1:
 				// handle selection click
 				view.setHits(mouseLoc);
 				handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
-						app.isControlDown(event));
+						control);
 				break;
 			/*
 			 * // open properties dialog on double click case 2: if
@@ -6673,11 +6673,11 @@ public abstract class EuclidianController {
 	// make sure scripts not run twice 
 	private boolean scriptsHaveRun = false;
 
-	protected void wrapMouseclicked(AbstractEvent event) {	
+	protected void wrapMouseclicked(int x, int y, boolean alt, boolean control, boolean right, int clickCount) {	
 		
 		scriptsHaveRun = false;
 		
-		if (textfieldJustFocusedW(event.getPoint())) return;
+		if (textfieldJustFocusedW(x, y)) return;
 		
 		if (penMode(mode)) {
 			return;
@@ -6686,13 +6686,13 @@ public abstract class EuclidianController {
 		Hits hits;
 		// GeoElement geo;
 	
-		setAltDown(event.isAltDown());
+		setAltDown(alt);
 	
-		if (app.isRightClick(event)) {
+		if (right) {
 			return;
 		}
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER){
-			setMouseLocation(event);
+			setMouseLocation(alt, x, y);
 			view.setHits(mouseLoc);
 			if (view.getHits().size()>0) App.debug(view.getHits().getTopHits().get(0).getClass().toString());
 			if ((view.getHits() == null)||(view.getHits().size()==0)||
@@ -6705,8 +6705,8 @@ public abstract class EuclidianController {
 
 		
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (event.getClickCount() == 2) {
-			if (app.isApplet() || app.isControlDown(event)) {
+		if (clickCount == 2) {
+			if (app.isApplet() || control) {
 				return;
 			}
 	
@@ -6736,10 +6736,10 @@ public abstract class EuclidianController {
 			}
 		}
 
-		mouseClickedMode(event, mode);
+		mouseClickedMode(clickCount, control, mode);
 	
 		// Alt click: copy definition to input field
-		if (event.isAltDown() && app.showAlgebraInput()) {
+		if (alt && app.showAlgebraInput()) {
 			view.setHits(mouseLoc);
 			hits = view.getHits().getTopHits();
 			if ((hits != null) && (hits.size() > 0)) {
@@ -6762,7 +6762,7 @@ public abstract class EuclidianController {
 	/**
 	 * @param gPoint point 
 	 */
-	protected boolean textfieldJustFocusedW(GPoint gPoint) {
+	protected boolean textfieldJustFocusedW(int x, int y) {
 		return false;
 	}
 

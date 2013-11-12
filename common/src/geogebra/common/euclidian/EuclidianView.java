@@ -1518,11 +1518,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * @param p event coords
 	 * @return whether textfield was clicked
 	 */
-	public boolean textfieldClicked(GPoint p){
+	public boolean textfieldClicked(int x, int y){
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.hit(p.x, p.y, getCapturingThreshold()) || d.hitLabel(p.x, p.y)) {
+			if (d.hit(x, y, getCapturingThreshold()) || d.hitLabel(x, y)) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					if(geo instanceof GeoTextField) return true;
