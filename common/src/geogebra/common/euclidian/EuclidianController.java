@@ -6334,7 +6334,17 @@ public abstract class EuclidianController {
 				case EuclidianConstants.MODE_TEXTFIELD_ACTION:
 					// make sure script not triggered
 					break;
+				case EuclidianConstants.MODE_ZOOM_IN:
+					view.zoom(mouseLoc.x, mouseLoc.y, EuclidianView.MODE_ZOOM_FACTOR,
+							15, false);
+					toggleModeChangedKernel = true;
+					break;
 			
+				case EuclidianConstants.MODE_ZOOM_OUT:
+					view.zoom(mouseLoc.x, mouseLoc.y,
+							1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
+					toggleModeChangedKernel = true;
+					break;
 				default:
 			
 					// change checkbox (boolean) state on mouse up only if there's been
@@ -6642,31 +6652,10 @@ public abstract class EuclidianController {
 				handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
 						control);
 				break;
-			/*
-			 * // open properties dialog on double click case 2: if
-			 * (app.isApplet()) return;
-			 * 
-			 * selection.clearSelectedGeos(); hits = view.getTopHits(mouseLoc); if
-			 * (hits != null && mode == EuclidianConstants.MODE_MOVE) {
-			 * GeoElement geo0 = (GeoElement)hits.get(0); if (!geo0.isFixed() &&
-			 * !(geo0.isGeoImage() && geo0.isIndependent()))
-			 * app.getGuiManager().showRedefineDialog((GeoElement)hits.get(0));
-			 * } break;
-			 */
 			}
 			break;
 	
-		case EuclidianConstants.MODE_ZOOM_IN:
-			view.zoom(mouseLoc.x, mouseLoc.y, EuclidianView.MODE_ZOOM_FACTOR,
-					15, false);
-			toggleModeChangedKernel = true;
-			break;
-	
-		case EuclidianConstants.MODE_ZOOM_OUT:
-			view.zoom(mouseLoc.x, mouseLoc.y,
-					1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
-			toggleModeChangedKernel = true;
-			break;
+		
 		}
 	}
 	
@@ -6738,24 +6727,7 @@ public abstract class EuclidianController {
 
 		mouseClickedMode(clickCount, control, mode);
 	
-		// Alt click: copy definition to input field
-		if (alt && app.showAlgebraInput()) {
-			view.setHits(mouseLoc);
-			hits = view.getHits().getTopHits();
-			if ((hits != null) && (hits.size() > 0)) {
-				hits.removePolygons();
-				GeoElement geo = hits.get(0);
-	
-				// F3 key: copy definition to input bar
-				if (mode != EuclidianConstants.MODE_ATTACH_DETACH) {
-					app.getGlobalKeyDispatcher()
-							.handleFunctionKeyForAlgebraInput(3, geo);
-				}
-	
-				moveMode = MOVE_NONE;
-				return;
-			}
-		}
+		
 	}
 
 	
@@ -9140,11 +9112,32 @@ public abstract class EuclidianController {
 					app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
 			}
 		}
-
+		// Alt click: copy definition to input field
+				if (alt && app.showAlgebraInput()) {
+					altClicked();
+				}
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
+	private void altClicked() {
+		view.setHits(mouseLoc);
+		Hits hits = view.getHits().getTopHits();
+		if ((hits != null) && (hits.size() > 0)) {
+			hits.removePolygons();
+			GeoElement geo = hits.get(0);
+
+			// F3 key: copy definition to input bar
+			if (mode != EuclidianConstants.MODE_ATTACH_DETACH) {
+				app.getGlobalKeyDispatcher()
+						.handleFunctionKeyForAlgebraInput(3, geo);
+			}
+
+			moveMode = MOVE_NONE;
+			return;
+		}
+		
+	}
 	private void processRightReleased(boolean right, boolean control) {
 
 		if (!app.isRightClickEnabled()) {
