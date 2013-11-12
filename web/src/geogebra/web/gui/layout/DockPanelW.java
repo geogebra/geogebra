@@ -565,9 +565,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		closeButton.addClickHandler(clickHandler);
 
 		theRealTitleBarPanel.add(closeButton);
-
-		//TODO following line does not work in IE10
-		/*theRealTitleBarPanel.setCellWidth(titleBarPanel, "*");*/
 		theRealTitleBarPanel.setCellWidth(closeButton, "16px");
 
 		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
@@ -638,8 +635,21 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		dockPanel.clear();
 
 		if (hasStyleBar()) {
-			dockPanel.addNorth(theRealTitleBarPanel, 16);
-			updateTitleBar(); // for adding/removing close X sign
+
+			if (app.getSettings().getLayout().showTitleBar()
+				/* && !(isAlone && !isMaximized())*/ && !app.isApplet()
+				&& (!isOpenInFrame())) {
+				dockPanel.addNorth(theRealTitleBarPanel, 16);
+			}
+
+			// caring for applets; where it might not be visible, except for the SV
+			// theRealTitleBarPanel.setVisible(app.getSettings().getLayout().showTitleBar()
+			//		&& !(isAlone && !isMaximized()) && !app.isApplet()
+			//		&& (!isOpenInFrame()));
+
+			// not sure what does the Desktop version want to achieve with this
+			// setShowStyleBar(isStyleBarVisible());
+
 			if (isStyleBarVisible()) {
 				setStyleBar();
 				dockPanel.addNorth(styleBarPanel, 25);
@@ -650,6 +660,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			}
 			if(styleBar instanceof StyleBarW)
 				((StyleBarW)styleBar).setOpen(showStyleBar);
+
+			// not needed here
+			// updateStyleBarVisibility();
+
+			updateTitleBarIfNecessary(); // for adding/removing close X sign
 		}
 
 		if (component != null) {
@@ -857,7 +872,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateTitleBar() {
 
-		closeButton.setVisible(!isAlone());
+		closeButton.setVisible(!isAlone() && !app.isApplet());
 
 		/*
 		// The view is in the main window
@@ -950,13 +965,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * 
 	 */
-	/*protected void updateTitleBarIfNecessary() {
-		if (titlePanel.isVisible()) {
+	protected void updateTitleBarIfNecessary() {
+		if (theRealTitleBarPanel.isVisible()) {
 			updateTitleBar();
 		}
 	}
 
-	protected JMenuBar loadMenuBar() {
+	/*protected JMenuBar loadMenuBar() {
 		return null;
 	}*/
 
@@ -1356,7 +1371,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 				return false;
 			}
 		}
-		return (showStyleBar /*|| !titlePanel.isVisible()*/);
+		return (showStyleBar /*|| !(theRealTitleBarPanel.isVisible() && theRealTitleBarPanel.isAttached())*/);
 	}
 
 	/**
