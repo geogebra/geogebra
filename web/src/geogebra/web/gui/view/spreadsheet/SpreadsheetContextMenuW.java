@@ -16,6 +16,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
@@ -251,7 +252,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
 		item.setEnabled(!allFixed());
 
-		/* should port this later
+		/* should port this later - moved to "create" submenus temporarily
 		
 		addSeparator();
 
@@ -315,23 +316,24 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 
 		if (!isEmptySelection()) {
 
-			/* should port submenus later
+			addSeparator();
 
-			subMenu = new JMenu(app.getMenu("Create"));
-			subMenu.setIcon(app.getEmptyIcon());
-			addItem(subMenu);
+	        MenuBar cMenu = new MenuBar(true);
+	        MenuItem cMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Create")), true, cMenu);
+	        cMenuItem.addStyleName("mi_with_image");
+	        addItem(cMenuItem);
 
-			item = new JMenuItem(app.getMenu("List"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+	        item = new MenuItem(app.getMenu("List"), new Command() {
+
+	        	public void execute() {
 					cp.createList(selectedCellRanges, true, false);
-				}
-			});
-			addSubItem(subMenu, item);
+	        	}
+	        });
+	        cMenu.addItem(item);
 
-			item = new JMenuItem(app.getMenu("ListOfPoints"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+	        item = new MenuItem(app.getMenu("ListOfPoints"), new Command() {
+
+	        	public void execute() {
 					GeoElement newGeo = cp.createPointGeoList(
 							selectedCellRanges, false, true, true, true, true);
 					app.getKernel()
@@ -339,33 +341,36 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 							.addToConstructionList(newGeo.getParentAlgorithm(),
 									true);
 					newGeo.setLabel(null);
-				}
-			});
-			addSubItem(subMenu, item);
+	        	}
+	        });
+	        cMenu.addItem(item);
 			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges)));
 
-			item = new JMenuItem(app.getMenu("Matrix"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+
+	        item = new MenuItem(app.getMenu("Matrix"), new Command() {
+
+	        	public void execute() {
 					cp.createMatrix(column1, column2, row1, row2, false);
-				}
-			});
-			addSubItem(subMenu, item);
+	        	}
+	        });
+	        cMenu.addItem(item);
 			item.setEnabled(cp.isCreateMatrixPossible(selectedCellRanges));
 
-			item = new JMenuItem(app.getMenu("Table"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+
+	        item = new MenuItem(app.getMenu("Table"), new Command() {
+
+	        	public void execute() {
 					cp.createTableText(column1, column2, row1, row2, false,
 							false);
-				}
-			});
-			addSubItem(subMenu, item);
+	        	}
+	        });
+	        cMenu.addItem(item);
 			item.setEnabled(cp.isCreateMatrixPossible(selectedCellRanges));
 
-			item = new JMenuItem(app.getMenu("PolyLine"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+
+	        item = new MenuItem(app.getMenu("PolyLine"), new Command() {
+
+	        	public void execute() {
 					GeoElement newGeo = cp.createPolyLine(selectedCellRanges,
 							false, true);
 					app.getKernel()
@@ -373,22 +378,21 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 							.addToConstructionList(newGeo.getParentAlgorithm(),
 									true);
 					newGeo.setLabel(null);
-				}
-			});
-			addSubItem(subMenu, item);
+	        	}
+	        });
+	        cMenu.addItem(item);
 			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges)));
 
-			item = new JMenuItem(app.getMenu("OperationTable"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+
+	        item = new MenuItem(app.getMenu("OperationTable"), new Command() {
+
+	        	public void execute() {
 					cp.createOperationTable(selectedCellRanges.get(0), null);
-				}
-			});
-			addSubItem(subMenu, item);
+	        	}
+	        });
+	        cMenu.addItem(item);
 			item.setEnabled(cp
 					.isCreateOperationTablePossible(selectedCellRanges));
-
-			*/
 		}
 
 		// ===============================================
