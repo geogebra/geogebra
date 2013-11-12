@@ -3712,7 +3712,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1260 () {
-    t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1");
+    t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}");
   }
 
   @Test
