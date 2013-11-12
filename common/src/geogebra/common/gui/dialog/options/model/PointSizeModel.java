@@ -5,51 +5,38 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.PointProperties;
 
 
-public class PointSizeModel extends OptionsModel {
-	public interface IPointSizeListener {
-		void setSliderValue(int value);
+public class PointSizeModel extends SliderOptionsModel {
+
+	public PointSizeModel(ISliderListener listener) {
+		super(listener);
 	}
 
-	private IPointSizeListener listener;
-	
-	public PointSizeModel(IPointSizeListener listener) {
-		this.listener = listener;
+	private PointProperties getPointPropertiesAt(int index) {
+		return (PointProperties)getObjectAt(index);
 	}
-	
-	/**
-	 * change listener implementation for slider
-	 */
-	public void applyChanges(int value) {
-		
-		for (int i = 0; i < getGeosLength(); i++) {
-			PointProperties point = (PointProperties) getGeoAt(i);
-			point.setPointSize(value);
-			point.updateRepaint();
+
+	@Override
+	public boolean isValidAt(int index) {
+		boolean geosOK = true;
+		GeoElement geo = getGeoAt(index);
+		if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
+				&& (!(geo.isGeoList() && ((GeoList) geo)
+						.showPointProperties()))) {
+			geosOK = false;
 		}
+		return geosOK;
 	}
 
-
-
-		@Override
-		public void updateProperties() {
-			PointProperties geo0 = (PointProperties) getGeoAt(0);
-			listener.setSliderValue(geo0.getPointSize());
-
-		}
-
-		@Override
-		public boolean checkGeos() {
-			boolean geosOK = true;
-			for (int i = 0; i < getGeosLength(); i++) {
-				GeoElement geo = getGeoAt(i);
-				if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-						&& (!(geo.isGeoList() && ((GeoList) geo)
-								.showPointProperties()))) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
+	@Override
+	public void apply(int index, int value) {
+		PointProperties point = getPointPropertiesAt(index);
+		point.setPointSize(value);
+		point.updateRepaint();		
 	}
+
+	@Override
+	public int getValueAt(int index) {
+		return getPointPropertiesAt(index).getPointSize();
+	}
+
+}

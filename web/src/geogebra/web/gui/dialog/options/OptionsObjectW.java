@@ -35,7 +35,6 @@ import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListe
 import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import geogebra.common.gui.dialog.options.model.PointSizeModel;
-import geogebra.common.gui.dialog.options.model.PointSizeModel.IPointSizeListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
@@ -918,7 +917,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
-	private class PointSizePanel extends OptionPanel implements IPointSizeListener {
+	private class PointSizePanel extends OptionPanel implements ISliderListener {
 		private PointSizeModel model;
 		private Slider slider;
 		private Label titleLabel;
@@ -964,7 +963,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		}
 
-		public void setSliderValue(int value) {
+		public void setValue(int value) {
 			slider.setValue(value);
 
 		}

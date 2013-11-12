@@ -17,6 +17,9 @@ public class ListAsComboModel extends BooleanOptionModel {
 		this.listener = listener;
 	}
 
+	private GeoList getGeoListAt(int index) {
+		return (GeoList) getObjectAt(index);
+	}
 	public void applyChanges(boolean value) {
 		super.applyChanges(value);
 		app.refreshViews();
@@ -29,12 +32,12 @@ public class ListAsComboModel extends BooleanOptionModel {
 	
 	@Override
 	public boolean getValueAt(int index) {
-		return ((GeoList) getObjectAt(0)).drawAsComboBox();
+		return getGeoListAt(0).drawAsComboBox();
 	}
 	
 	@Override
 	public void apply(int index, boolean value) {
-		GeoList geo = (GeoList) getGeoAt(index);
+		GeoList geo = getGeoListAt(index);
 		geo.setDrawAsComboBox(value);
 
 		if (value) {

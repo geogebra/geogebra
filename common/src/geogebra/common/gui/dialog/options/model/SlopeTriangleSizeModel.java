@@ -4,39 +4,31 @@ import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-public class SlopeTriangleSizeModel extends OptionsModel {
-	private ISliderListener listener;
+public class SlopeTriangleSizeModel extends SliderOptionsModel {
 	public SlopeTriangleSizeModel(ISliderListener listener) {
-		this.listener = listener;
+		super(listener);
 	}
 
-	public void applyChanges(int size) {
-		GeoNumeric num;
-		for (int i = 0; i < getGeosLength(); i++) {
-			num = (GeoNumeric) getGeoAt(i);
-			num.setSlopeTriangleSize(size);
-			num.updateRepaint();
-		}
-	};
-	
-	@Override
-	public void updateProperties() {
-		GeoNumeric geo0 = (GeoNumeric) getGeoAt(0);
-		listener.setValue(geo0.getSlopeTriangleSize());
-
+	private GeoNumeric getNumericAt(int index) {
+		return (GeoNumeric) getObjectAt(index);
 	}
 
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo =  getGeoAt(i);
-			if (!(geo instanceof GeoNumeric && geo.getParentAlgorithm() instanceof AlgoSlope)) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
+	public boolean isValidAt(int index) {
+		GeoElement geo =  getGeoAt(index);
+		return (geo instanceof GeoNumeric && 
+				geo.getParentAlgorithm() instanceof AlgoSlope);
+	}
 
+	@Override
+	protected void apply(int index, int value) {
+		GeoNumeric num = getNumericAt(index);
+		num.setSlopeTriangleSize(value);
+		num.updateRepaint();		
+	}
+
+	@Override
+	protected int getValueAt(int index) {
+		return getNumericAt(index).getSlopeTriangleSize();
 	}
 }

@@ -8,6 +8,10 @@ public class TraceModel extends BooleanOptionModel {
 	public TraceModel(IBooleanOptionListener listener) {
 		super(listener);
 	}
+
+	protected Traceable getTraceableAt(int index) {
+		return (Traceable)getGeoAt(index);
+	}
 	
 	@Override
 	public boolean isValidAt(int index) {
@@ -16,12 +20,12 @@ public class TraceModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		return ((Traceable)getGeoAt(index)).getTrace();
+		return getTraceableAt(index).getTrace();
 	}
 
 	@Override
 	public void apply(int index, boolean value) {
-		Traceable geo = (Traceable) getGeoAt(index);
+		Traceable geo = getTraceableAt(index);
 		geo.setTrace(value);
 		geo.updateRepaint();
 	

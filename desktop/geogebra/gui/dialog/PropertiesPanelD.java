@@ -50,7 +50,6 @@ import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import geogebra.common.gui.dialog.options.model.PointSizeModel;
-import geogebra.common.gui.dialog.options.model.PointSizeModel.IPointSizeListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
@@ -3386,7 +3385,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class PointSizePanel extends JPanel implements ChangeListener,
-	SetLabels, UpdateFonts, UpdateablePropertiesPanel, IPointSizeListener {
+	SetLabels, UpdateFonts, UpdateablePropertiesPanel, ISliderListener {
 
 		/**
 		 * 
@@ -3483,7 +3482,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			slider.setFont(app.getSmallFont());
 		}
 
-		public void setSliderValue(int value) {
+		public void setValue(int value) {
 			slider.setValue(value);
 		}
 

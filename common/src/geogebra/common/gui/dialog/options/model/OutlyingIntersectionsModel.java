@@ -8,6 +8,10 @@ public class OutlyingIntersectionsModel extends BooleanOptionModel {
 		super(listener);
 	}
 
+	private LimitedPath getLimitedPathAt(int index) {
+		return (LimitedPath)getObjectAt(index);
+	}
+
 	@Override
 	public boolean isValidAt(int index) {
 		return (getObjectAt(index) instanceof LimitedPath);
@@ -15,12 +19,12 @@ public class OutlyingIntersectionsModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		return ((LimitedPath)getObjectAt(index)).allowOutlyingIntersections();
+		return getLimitedPathAt(index).allowOutlyingIntersections();
 	}
 
 	@Override
 	public void apply(int index, boolean value) {
-		LimitedPath geo = (LimitedPath) getObjectAt(index);
+		LimitedPath geo = getLimitedPathAt(index);
 		geo.setAllowOutlyingIntersections(value);
 		geo.toGeoElement().updateRepaint();		
 	}

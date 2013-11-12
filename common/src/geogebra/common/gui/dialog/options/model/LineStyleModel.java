@@ -46,14 +46,16 @@ public class LineStyleModel extends OptionsModel {
 	}
 	private int maxMinimumThickness() {
 
-		if (!hasGeos())
+		if (!hasGeos()) {
 			return 1;
+		}
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement testGeo = getGeoAt(i)
 					.getGeoElementForPropertiesDialog();
-			if (testGeo.getMinimumLineThickness() == 1)
+			if (testGeo.getMinimumLineThickness() == 1) {
 				return 1;
+			}
 		}
 
 		return 0;
@@ -105,19 +107,12 @@ public class LineStyleModel extends OptionsModel {
 	public void applyLineTypeFromIndex(int index) {
 		applyLineType(lineStyleArray[index]);
 	}
+	
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i)
-					.getGeoElementForPropertiesDialog();
-			
-			if (!geo.showLineProperties()) {
-				geosOK = false;
-				break;
-			}
+	public boolean isValidAt(int index) {
+		GeoElement geo = getGeoAt(index)
+				.getGeoElementForPropertiesDialog();
+		return geo.showLineProperties();
 		}
-		return geosOK;
-	}
 
 }
