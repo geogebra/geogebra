@@ -68,6 +68,8 @@ public class CommandDispatcherGiac {
 		surd(Operation.NROOT),
 		/** sqrt */
 		sqrt(Operation.SQRT),
+		/** sign */
+		sign(Operation.SGN),
 
 		/** sine */
 		sin(Operation.SIN),
@@ -217,6 +219,8 @@ public class CommandDispatcherGiac {
 			case xcoord:
 			case ycoord:
 			case zcoord:
+			case sqrt:
+			case sign:
 
 				
 				if (args.getLength() != 1) {
