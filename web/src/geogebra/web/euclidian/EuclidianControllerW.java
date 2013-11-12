@@ -447,7 +447,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
-		 wrapMouseclicked(e.getX(),e.getY(),e.isAltDown(),e.isControlDown(),e.isRightClick(),e.getClickCount());
+		 wrapMouseclicked(e.isControlDown(),e.getClickCount());
 		 e.release();
 	}
 
@@ -457,7 +457,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
-		 wrapMouseclicked(e.getX(),e.getY(),e.isAltDown(),e.isControlDown(),e.isRightClick(),e.getClickCount());
+		 wrapMouseclicked(e.isControlDown(),e.getClickCount());
 		 e.release();
 	}
 

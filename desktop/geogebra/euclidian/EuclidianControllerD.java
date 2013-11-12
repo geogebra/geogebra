@@ -72,8 +72,7 @@ public class EuclidianControllerD extends
 
 	public void mouseClicked(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
-		wrapMouseclicked(e.getX(),e.getY(), e.isAltDown(),this.app.isControlDown(event), this.app.isRightClick(event),
-				e.getClickCount());
+		wrapMouseclicked(this.app.isControlDown(event), e.getClickCount());
 		event.release();
 	}
 

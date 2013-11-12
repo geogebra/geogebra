@@ -2102,7 +2102,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// MOUSE RELEASED
 	
 	@Override
-	protected boolean switchModeForMouseReleased(int mode, Hits hits, boolean changedKernel){
+	protected boolean switchModeForMouseReleased(int mode, Hits hits, boolean changedKernel, boolean control){
 		switch (mode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return true;
@@ -2128,7 +2128,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//TODO implement choose geo
 			return true;
 		default:
-			return super.switchModeForMouseReleased(mode, hits, changedKernel);
+			return super.switchModeForMouseReleased(mode, hits, changedKernel, control);
 			
 		}
 

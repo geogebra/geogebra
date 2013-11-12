@@ -108,6 +108,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6305,9 +6306,10 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
-			boolean kernelChanged) {
+			boolean kernelChanged, boolean controlDown) {
 				Hits hits = hitsReleased;
 				boolean changedKernel = kernelChanged;
+				Log.debug(mode);
 				switch (evMode) {
 				case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 				case EuclidianConstants.MODE_DILATE_FROM_POINT:
@@ -6326,10 +6328,6 @@ public abstract class EuclidianController {
 					changedKernel = pointCreated;
 					break;
 			
-				case EuclidianConstants.MODE_TRANSLATEVIEW:
-					changedKernel = true;
-					break;
-			
 				case EuclidianConstants.MODE_BUTTON_ACTION:
 				case EuclidianConstants.MODE_TEXTFIELD_ACTION:
 					// make sure script not triggered
@@ -6344,6 +6342,23 @@ public abstract class EuclidianController {
 					view.zoom(mouseLoc.x, mouseLoc.y,
 							1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
 					toggleModeChangedKernel = true;
+					break;
+				case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
+					clearSelections();
+					break;
+				//case EuclidianConstants.MODE_VISUAL_STYLE:
+				case EuclidianConstants.MODE_TRANSLATEVIEW:
+					if(draggingOccured){
+						changedKernel = true;
+						break;
+					}
+					//else fall through
+				case EuclidianConstants.MODE_MOVE:
+				case EuclidianConstants.MODE_SELECTION_LISTENER:
+						// handle selection click
+						view.setHits(mouseLoc);
+						handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
+								controlDown);
 					break;
 				default:
 			
@@ -6636,63 +6651,13 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void mouseClickedMode(int clickCount, boolean control, int mode1) {
 	
-		switch (mode1) {
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			clearSelections();
-			break;
-		//case EuclidianConstants.MODE_VISUAL_STYLE:
-		case EuclidianConstants.MODE_MOVE:
-		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			switch (clickCount) {
-			case 1:
-				// handle selection click
-				view.setHits(mouseLoc);
-				handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
-						control);
-				break;
-			}
-			break;
-	
-		
-		}
-	}
 	
 	// make sure scripts not run twice 
 	private boolean scriptsHaveRun = false;
 
-	protected void wrapMouseclicked(int x, int y, boolean alt, boolean control, boolean right, int clickCount) {	
-		
-		scriptsHaveRun = false;
-		
-		if (textfieldJustFocusedW(x, y)) return;
-		
-		if (penMode(mode)) {
-			return;
-		}
-	
-		Hits hits;
-		// GeoElement geo;
-	
-		setAltDown(alt);
-	
-		if (right) {
-			return;
-		}
-		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER){
-			setMouseLocation(alt, x, y);
-			view.setHits(mouseLoc);
-			if (view.getHits().size()>0) App.debug(view.getHits().getTopHits().get(0).getClass().toString());
-			if ((view.getHits() == null)||(view.getHits().size()==0)||
-					!(view.getHits().getTopHits().get(0) instanceof GeoTextField ||
-					view.getHits().getTopHits().get(0) instanceof GeoList)){
-				view.requestFocusInWindow();
-			}
-		}
-	
+	protected void wrapMouseclicked(boolean control, int clickCount) {
 
-		
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (clickCount == 2) {
 			if (app.isApplet() || control) {
@@ -6703,7 +6668,7 @@ public abstract class EuclidianController {
 			app.updateSelection(false);
 			// hits = view.getTopHits(mouseLoc);
 			view.setHits(mouseLoc);
-			hits = view.getHits().getTopHits();
+			Hits hits = view.getHits().getTopHits();
 			switchModeForRemovePolygons(hits);
 			if (!hits.isEmpty()) {
 				view.setMode(EuclidianConstants.MODE_MOVE);
@@ -6725,7 +6690,6 @@ public abstract class EuclidianController {
 			}
 		}
 
-		mouseClickedMode(clickCount, control, mode);
 	
 		
 	}
@@ -9023,9 +8987,8 @@ public abstract class EuclidianController {
 			// (note: this cannot be done in mousePressed because
 			// we want to be able to select multiple objects using the selection
 			// rectangle)
-	
 			changedKernel = switchModeForMouseReleased(mode, hits,
-					changedKernel);
+					changedKernel, control);
 		}
 
 		startCollectingMinorRepaints();
