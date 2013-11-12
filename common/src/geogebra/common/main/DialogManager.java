@@ -28,7 +28,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumberValue;
@@ -189,20 +188,8 @@ public abstract class DialogManager {
 			GeoPointND geoPoint1, GeoPointND geoPoint2);
 	public abstract void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool);
 
-	public void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND, EuclidianView view) {
-		
-		Kernel kernel = geoPointND.getKernel();
-		
-		NumberValue num = getNumber(kernel, menu, "");
-		
-		GeoConic circle = geoPointND.getKernel().getAlgoDispatcher().Circle(null, (GeoPoint) geoPointND, num);
-		
-		GeoElement[] geos = { circle };
-		app.storeUndoInfo();
-		app.getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(geos);
-
-	}
+	public abstract void showNumberInputDialogCirclePointRadius(String title,
+			GeoPointND geoPointND, EuclidianView view);
 
 	public abstract NumberValue showNumberInputDialog(String title, String message,
 			String initText);

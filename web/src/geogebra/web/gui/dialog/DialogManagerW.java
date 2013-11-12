@@ -2,6 +2,7 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
@@ -80,6 +81,18 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		id.setVisible(true);
 
 	}	
+	
+	@Override
+	public void showNumberInputDialogCirclePointRadius(String title,
+			GeoPointND geoPoint1, EuclidianView view) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialogW id = new InputDialogCirclePointRadiusW(((AppW) app), title,
+				handler, (GeoPoint) geoPoint1, app.getKernel());
+		id.setVisible(true);
+
+	}
 
 	@Override
 	public Object[] showAngleInputDialog(String title, String message,

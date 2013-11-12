@@ -38,6 +38,21 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	private String title;
 
+	
+	/**
+	 * @param app
+	 * @param message
+	 * @param title
+	 * @param initString
+	 * @param autoComplete
+	 * @param handler
+	 */
+	public InputDialogW(AppW app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler) {
+		this(app, message, title, initString, autoComplete, handler, false,
+				false, null);
+	}
+	
 	public InputDialogW(boolean modal) {
 
 		wrappedPopup = new DialogBox(false, false);
@@ -197,7 +212,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		if (visible)
 			inputPanel.setTextComponentFocus();
 	}
-
+	
 	public void setLabels() {
 		wrappedPopup.setText(title);
 		btOK.setText(app.getPlain("OK"));
