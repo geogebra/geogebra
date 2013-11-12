@@ -1627,7 +1627,7 @@ __GGB__keysVar.eo.menu = {
     "Polar": "Polar",
     "PolarDiameter": "Polar or Diameter Line",
     "PolarDiameter_Help": "Elektu punkton a\u016d rekton, kaj cirklon a\u016d konikon",
-    "PolyLine": "Polyline between Points",
+    "PolyLine": "Polyline",
     "PolyLine_Help": "Select all vertices, then click first vertex again",
     "Polygon": "Plurlatero",
     "Polygon_Help": "Select all vertices, then click first vertex again",
