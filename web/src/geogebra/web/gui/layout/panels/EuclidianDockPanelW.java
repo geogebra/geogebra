@@ -183,27 +183,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 
 	public void onResize() {
 		super.onResize();
-		euclidianpanel.onResize();
-		//App.debug("resized");
-		/*if (application != null) {
-
-			//if (sview != null) {
-				// If this is resized, we may know its width and height
-
-				int width = this.getOffsetWidth();
-				int height = this.getOffsetHeight();
-				ancestor.setWidth(width+"px");
-				ancestor.setHeight(height+"px");
-
-				height -=
-					((EuclidianStyleBarW)application.getActiveEuclidianView().getStyleBar()).
-					getOffsetHeight();
-
-				eview1.setWidth(width+"px");
-				eview1.setHeight(height+"px");
-				((EuclidianViewW)application.getActiveEuclidianView()).setPreferredSize(width, height);
-			//}
-		}*/
     }
 
 	public void add(Widget w, int x, int y) {
