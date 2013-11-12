@@ -6660,6 +6660,8 @@ public abstract class EuclidianController {
 
 	private boolean doubleClickStarted;
 
+	private GPoint lastMouseUpLoc;
+
 	protected void wrapMouseclicked(boolean control, int clickCount) {
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
@@ -8475,7 +8477,8 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMousePressed(AbstractEvent event) {
-		if(this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()){
+		if(this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()
+			&& MyMath.length(event.getX() - lastMouseUpLoc.x,event.getY()- lastMouseUpLoc.y) <= 3){
 			this.doubleClickStarted = true;
 			return;
 		}
@@ -8840,6 +8843,7 @@ public abstract class EuclidianController {
 			wrapMouseclicked(control, 2);
 		}
 		this.lastMouseRelease = System.currentTimeMillis();
+		this.lastMouseUpLoc = new GPoint(x,y);
 		
 		app.storeUndoInfoIfSetCoordSystemOccured();
 		
