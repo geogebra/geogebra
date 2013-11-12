@@ -113,6 +113,12 @@ public class CommandDispatcherGiac {
 		ycoord(Operation.YCOORD),
 		/** symbolic z coord*/
 		zcoord(Operation.ZCOORD),
+		/** symbolic x coord*/
+		xcoordsymb(Operation.XCOORD),
+		/** symbolic y coord*/
+		ycoordsymb(Operation.YCOORD),
+		/** symbolic z coord*/
+		zcoordsymb(Operation.ZCOORD),
 		
 		/** symbolic sum */
 		sum(Operation.SUM),
@@ -219,6 +225,9 @@ public class CommandDispatcherGiac {
 			case xcoord:
 			case ycoord:
 			case zcoord:
+			case xcoordsymb:
+			case ycoordsymb:
+			case zcoordsymb:
 			case sqrt:
 			case sign:
 
