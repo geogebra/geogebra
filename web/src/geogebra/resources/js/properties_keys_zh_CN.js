@@ -2434,7 +2434,7 @@ __GGB__keysVar.zh_CN.plain = {
     "On": "\u5f00\u542f",
     "OnClick": "\u5355\u51fb\u65f6",
     "OnMouseOver": "\u9f20\u6807\u7ecf\u8fc7\u65f6",
-    "OnUpdate": "\u66f4\u65b0\u65f6",
+    "OnUpdate": "\u66f4\u65b0\u540e",
     "Open": "\u6253\u5f00",
     "OpenButton": "\u5728\u7ed8\u56fe\u533a\u4e2d\u6253\u5f00\u7a0b\u5e8f\u7a97\u53e3\u7684\u6309\u94ae",
     "Oscillating": "\u53cc\u5411",
