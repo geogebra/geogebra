@@ -103,6 +103,13 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 			}
 		}
 	}
+
+	public void reset() {
+		if (euclidianpanel != null) {
+			euclidianpanel.oldWidth = 0;
+			euclidianpanel.oldHeight = 0;
+		}
+	}
 	
 	@Override
 	protected Widget loadStyleBar() {

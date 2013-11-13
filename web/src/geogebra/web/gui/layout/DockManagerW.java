@@ -11,6 +11,8 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
 
@@ -160,6 +162,12 @@ public class DockManagerW implements  SetLabels {
 					}
 					
 					panel.setVisible(dpData[i].isVisible() && !dpData[i].isOpenInFrame());
+
+					if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN) {
+						((EuclidianDockPanelW)panel).reset();
+					} else if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
+						((Euclidian2DockPanelW)panel).reset();
+					}
 				}
 			}
 		}
@@ -394,16 +402,8 @@ public class DockManagerW implements  SetLabels {
 			if (app.isApplet() || !App.isFullAppGui()) {
 
 				// Emulate the way split panes in Java applets are sized:
-				// 1) Use the ggb xml window size to set dividers
-				// 2) Resize the applet to the data-param dimensions
-				
-				// Set the window dimensions to the ggb xml <window> tag size.
-				windowWidth = app.getPreferredSize().getWidth();
-				windowHeight = app.getPreferredSize().getHeight();
-				
-				// Set the split pane dividers
-				rootPane.clear();
-				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth);
+				// 2) Use the ggb xml window size to set dividers
+				// 1) Resize the applet to the data-param dimensions
 				
 				// Now find the correct applet window dimensions and resize the rootPane.
 				
@@ -439,7 +439,16 @@ public class DockManagerW implements  SetLabels {
 				if (windowHeight <= 0)
 					windowHeight = sph.get(rootPane);
 
+				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
+
+
+				// Set the window dimensions to the ggb xml <window> tag size.
+				windowWidth = app.getPreferredSize().getWidth();
+				windowHeight = app.getPreferredSize().getHeight();
+				
+				// Set the split pane dividers
+				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth);
 
 				// for debugging
 				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
