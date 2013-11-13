@@ -1087,6 +1087,23 @@ public class CoordMatrix {
 		set(v, 3);
 	}
 
+	
+	
+	/**
+	 * 
+	 * @return values in openGL format
+	 */
+	public float[] getForGL(){
+		float[] ret = new float[val.length];
+		
+		for (int i = 0 ; i < val.length ; i++){
+			ret[i] = (float) val[i];
+		}
+		
+		return ret;
+		
+	}
+	
 	// /////////////////////////////////////////////////:
 	// testing the package
 	/**

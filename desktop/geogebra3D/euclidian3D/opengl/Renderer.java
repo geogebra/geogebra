@@ -80,7 +80,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	// other
 	private Drawable3DLists drawable3DLists;
 	
-	private EuclidianView3D view3D;
+	protected EuclidianView3D view3D;
 	
 	// for drawing
 	private CoordMatrix4x4 m_drawingMatrix; //matrix for drawing
@@ -590,7 +590,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	gl.glClipPlane( GL_CLIP_PLANE[n] , equation, 0 );
     }
     
-    private void draw(){
+    protected void draw(){
     	
         //labels
         drawFaceToScreen();
@@ -806,7 +806,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * openGL method called when the canvas is reshaped.
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-
+    	
+    	gl = RendererJogl.getGL(drawable);   
+    	
         setView(x,y,w,h);
         view3D.reset();
 
