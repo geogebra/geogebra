@@ -508,7 +508,7 @@ ValidExpression buildValidExpression() :
         ve = cmdexpression()     
      |	     
         LOOKAHEAD(2147483647)
-        labels = labellist() ("=" | <ASSIGNMENT>) ve = command()    	  	                                       	                       	 	 
+        labels = labellist() (< EQUAL > | <ASSIGNMENT>) ve = command()    	  	                                       	                       	 	 
    	 |
         LOOKAHEAD(2147483647)                               
 	  	ve = cartesianvector_special()
