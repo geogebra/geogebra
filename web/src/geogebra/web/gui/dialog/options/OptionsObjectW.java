@@ -1951,6 +1951,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			for (OptionPanel panel: advancedPanels) {
 				panel.update(geos);
 			}
+			
+			colorPanel.update(geos);
 
 		} else {
 			tabPanel.setVisible(false);
