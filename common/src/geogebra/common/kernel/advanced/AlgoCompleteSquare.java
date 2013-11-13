@@ -70,15 +70,16 @@ public class AlgoCompleteSquare extends AlgoElement {
 			}
 			coefs = algoCoef.getResult();
 
+			App.debug(coefs.toValueString(StringTemplate.defaultTemplate));
 			degInt = coefs.size()-1;
 			isQuadratic = coefs.isDefined() && coefs.get(0).isDefined();
 			for(int i=1;i<degInt;i++){
 				if(2*i != degInt && !Kernel.isZero(((GeoNumeric)coefs.get(i)).getDouble())){
 					isQuadratic = false;
 				}
-			r = ((GeoNumeric)coefs.get(0)).getDouble();
+			p = ((GeoNumeric)coefs.get(0)).getDouble();
 			q = ((GeoNumeric)coefs.get(degInt/2)).getDouble();
-			p = ((GeoNumeric)coefs.get(degInt)).getDouble();	
+			r = ((GeoNumeric)coefs.get(degInt)).getDouble();	
 			}
 		}else{
 			degInt = 2;
