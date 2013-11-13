@@ -6,6 +6,8 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.MyRunAsyncCallback;
+import geogebra.html5.util.RunAsync;
 import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.html5.Dom;
 
@@ -13,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -71,7 +71,7 @@ public class WebSimple implements EntryPoint {
 	}
 
 	public static void loadAppletAsync() {
-	    GWT.runAsync(new RunAsyncCallback() {
+	    RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
 			
 			public void onSuccess() {
 				startGeoGebra(getGeoGebraMobileTags());

@@ -44,6 +44,8 @@ import geogebra.html5.kernel.commands.CommandDispatcherW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
+import geogebra.html5.util.MyRunAsyncCallback;
+import geogebra.html5.util.RunAsync;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.View;
 
@@ -56,7 +58,6 @@ import java.util.Map.Entry;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
@@ -812,7 +813,7 @@ public abstract class AppWeb extends App implements SetLabels{
 		if (kimberlingw != null) {
 			return kimberlingw;
 		}
-	    GWT.runAsync(new RunAsyncCallback() {
+	    RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
 			public void onSuccess() {
 				kimberlingw = new AlgoKimberlingWeights();
 				setKimberlingWeightFunction(kimberlingw);
@@ -848,7 +849,7 @@ public abstract class AppWeb extends App implements SetLabels{
 		if (cubicw != null) {
 			return cubicw;
 		}
-	    GWT.runAsync(new RunAsyncCallback() {
+	    RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
 			public void onSuccess() {
 				cubicw = new AlgoCubicSwitch();
 				setCubicSwitchFunction(cubicw);

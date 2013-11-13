@@ -9,9 +9,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.js.JavaScriptInjector;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
+import geogebra.html5.util.MyRunAsyncCallback;
+import geogebra.html5.util.RunAsync;
 
 /**
  * Web implementation of Giac CAS
@@ -119,7 +118,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}-*/;
 
 	public void initialize() {
-	    GWT.runAsync(new RunAsyncCallback() {
+	    RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
 			public void onSuccess() {
 				App.debug("giac.js loading success");
 				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs().getText());

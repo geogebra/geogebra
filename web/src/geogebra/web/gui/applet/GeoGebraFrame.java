@@ -5,6 +5,8 @@ import geogebra.common.main.App;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.MyRunAsyncCallback;
+import geogebra.html5.util.RunAsync;
 import geogebra.html5.util.View;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
@@ -14,8 +16,6 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -184,7 +184,7 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 		final GeoGebraFrame inst = this;
 		final ArticleElement articleElement = ae;
 
-		GWT.runAsync(new RunAsyncCallback() {
+		RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
 
 			public void onSuccess() {
 				ResourcesInjector.injectResources();
