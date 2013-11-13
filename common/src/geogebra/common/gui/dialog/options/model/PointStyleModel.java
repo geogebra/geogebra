@@ -5,19 +5,24 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
-public class PointStyleModel extends OptionsModel {
+public class PointStyleModel extends NumberOptionsModel {
 	private IComboListener listener;
 	
 	public PointStyleModel(IComboListener listener) {
 		this.listener = listener;
 	}
+	
+	private PointProperties getPointPropertiesAt(int index) {
+		return (PointProperties)getObjectAt(index);
+	}
+
 	@Override
 	public void updateProperties() {
 		if (!hasGeos()) {
 			return;
 		}
 		
-		PointProperties geo0 = (PointProperties) getGeoAt(0);
+		PointProperties geo0 = getPointPropertiesAt(0);
 		if (listener == null) {
 			return;
 		}
@@ -32,40 +37,41 @@ public class PointStyleModel extends OptionsModel {
 		}
 
 	}
-	
-	public void applyChanges(int value) {
-		if (!hasGeos()) {
-			return;
-		}
-		
-		PointProperties point;
-		for (int i = 0; i < getGeosLength(); i++) {
-			point = (PointProperties) getGeoAt(i);
-			point.setPointStyle(value);
-			point.updateRepaint();
-		}
-
-	}
 
 	@Override
 	public boolean checkGeos() {
 		if (!hasGeos()) {
 			return false;
 		}
-			boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			GeoElement geo = getGeoAt(i);
-			if (geo.isGeoElement3D()
-					|| // TODO add point style to 3D points
-					(!geo.getGeoElementForPropertiesDialog().isGeoPoint() && (!(geo
-							.isGeoList() && ((GeoList) geo)
-							.showPointProperties())))) {
-				geosOK = false;
-				break;
-			}
+		return super.checkGeos();
+	}
+	
+	@Override
+	public boolean isValidAt(int index) {
+		boolean valid = true;
+		GeoElement geo = getGeoAt(index);
+		if (geo.isGeoElement3D()
+				|| // TODO add point style to 3D points
+				(!geo.getGeoElementForPropertiesDialog().isGeoPoint() && (!(geo
+						.isGeoList() && ((GeoList) geo)
+						.showPointProperties())))) {
+			valid = false;
 		}
-		return geosOK;
+		return valid;
 
+	}
+
+	@Override
+	protected void apply(int index, int value) {
+		PointProperties point = getPointPropertiesAt(index);
+		point.setPointStyle(value);
+		point.updateRepaint();
+	}
+
+	@Override
+	protected int getValueAt(int index) {
+		// not used
+		return 0;//getPointPropertiesAt(index).getPointStyle();
 	}
 
 }

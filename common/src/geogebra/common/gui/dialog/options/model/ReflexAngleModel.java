@@ -25,9 +25,13 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		this.isDefaults = isDefaults;
 	}
 
+	private AngleProperties getAnglePropertiesAt(int index) {
+		return (AngleProperties) getObjectAt(index);
+	}
+	
 	@Override
 	public void updateProperties() {
-		AngleProperties temp, geo0 = (AngleProperties) getObjectAt(0);
+		AngleProperties temp, geo0 = getAnglePropertiesAt(0);
 		boolean equalangleStyle = true;
 		boolean hasOrientationOld = hasOrientation;
 		boolean isDrawableOld = isDrawable;
@@ -35,7 +39,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		isDrawable = true;
 
 		for (int i = 0; i < getGeosLength(); i++) {
-			temp = (AngleProperties) getObjectAt(i);
+			temp = getAnglePropertiesAt(i);
 			if (!temp.hasOrientation()) {
 				hasOrientation = false;
 			}
@@ -88,13 +92,13 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	@Override
 	protected boolean isValidAt(int index){
 		GeoElement geo = getGeoAt(index);
-		return !((geo.isIndependent() && !isDefaults)
-				|| !(geo instanceof AngleProperties));
+		return !((geo.isIndependent() && !isDefaults) 
+				|| !(geo instanceof AngleProperties)); 
 	};
 
 	@Override
 	protected void apply(int index, int value) {
-		AngleProperties geo = (AngleProperties) getObjectAt(index);
+		AngleProperties geo = getAnglePropertiesAt(index);
 		geo.setAngleStyle(value);
 		((GeoElementND) geo).updateRepaint();
 	}

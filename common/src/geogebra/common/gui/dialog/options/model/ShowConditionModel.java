@@ -48,13 +48,8 @@ public class ShowConditionModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean checkGeos() {
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!getGeoAt(i).isEuclidianShowable())
-				return false;
-		}
-
-		return true;
+	public boolean isValidAt(int index) {
+		return getGeoAt(index).isEuclidianShowable();
 	}
 
 	public void applyChanges(String strCond) {

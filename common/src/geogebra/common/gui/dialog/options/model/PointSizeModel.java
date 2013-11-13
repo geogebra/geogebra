@@ -17,14 +17,14 @@ public class PointSizeModel extends SliderOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		boolean geosOK = true;
+		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
 		if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
 				&& (!(geo.isGeoList() && ((GeoList) geo)
 						.showPointProperties()))) {
-			geosOK = false;
+			valid = false;
 		}
-		return geosOK;
+		return valid;
 	}
 
 	@Override

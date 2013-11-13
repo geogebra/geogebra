@@ -13,14 +13,16 @@ public class TextFieldSizeModel extends OptionsModel {
 		kernel = app.getKernel();
 	}
 
+	private GeoTextField getTextFieldAt(int index) {
+		return (GeoTextField)getObjectAt(index);
+	}
 	@Override
 	public void updateProperties() {
-		Object[] geos = getGeos();
-		GeoTextField temp, geo0 = (GeoTextField) geos[0];
+		GeoTextField temp, geo0 = getTextFieldAt(0);
 		boolean equalSize = true;
 
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoTextField) geos[i];
+		for (int i = 0; i < getGeosLength(); i++) {
+			temp = getTextFieldAt(i);
 			if (geo0.getLength() != temp.getLength())
 				equalSize = false;
 		}
@@ -43,8 +45,7 @@ public class TextFieldSizeModel extends OptionsModel {
 	public void applyChanges(NumberValue value) {
 		if (value != null && !Double.isNaN(value.getDouble())) {
 			for (int i = 0; i < getGeosLength(); i++) {
-				GeoTextField geo =
-						(GeoTextField) getGeoAt(i);
+				GeoTextField geo = getTextFieldAt(i);
 				geo.setLength((int) value.getDouble());
 				geo.updateRepaint();
 			}
@@ -52,16 +53,8 @@ public class TextFieldSizeModel extends OptionsModel {
 	}
 	
 	@Override
-	public boolean checkGeos() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!(getGeoAt(i) instanceof GeoTextField)) {
-				geosOK = false;
-				break;
-			}
-		}
-
-		return geosOK;
+	public boolean isValidAt(int index) {
+		return (getGeoAt(index) instanceof GeoTextField);
 	}
 
 }
