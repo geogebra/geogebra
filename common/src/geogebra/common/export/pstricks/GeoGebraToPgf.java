@@ -1276,62 +1276,20 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			startBeamer(sb);
 			if (plotWithGnuplot) {
 				if (!isLatexFunction(value)) {
-					String s = LineOptionCode(geo, true);
-					if (s.length() != 0) {
-						s="["+s+"]";
-					}
-					String template = "\\draw"+s+" (%0,%1) -- (%2,%3);\n";
-					StringBuilder lineBuilder = drawNoLatexFunction(geo,
-							xrangemax, xrangemin, 400, template);
-					sb.append(lineBuilder.toString() + ";\n");
+					drawNoLatexFunction(geo, sb, xrangemax, xrangemin);
 				} else {
-					sb.append("\\draw");
-					String s = LineOptionCode(geo, true);
-					if (s.length() != 0) {
-						sb.append("[");
-						sb.append(s);
-						sb.append("]");
-					}
-					sb.append(" plot[raw gnuplot, id=func");
-					sb.append(functionIdentifier);
-					functionIdentifier++;
-					sb.append("] function{set samples 100; set xrange [");
-					sb.append(xrangemin + 0.1);
-					sb.append(":");
-					sb.append(xrangemax - 0.1);
-					sb.append("]; plot ");
-					value = value.replaceAll("\\^", "**");
-					sb.append(value);
-					sb.append("};\n");
+					drawGnuPlot(geo, sb, value, xrangemax, xrangemin);
 				}
 			} else {
 				if (!isLatexFunction(value)) {
-					String s = LineOptionCode(geo, true);
-					if (s.length() != 0){
-						s="["+s+"]";
-					}
-					String template = "\\draw"+s+" (%f,%f) -- (%f,%f);\n";
-					StringBuilder lineBuilder = drawNoLatexFunction(geo,
-							xrangemax, xrangemin, 400, template);
-					sb.append(lineBuilder.toString() + ";\n");
+					drawNoLatexFunction(geo, sb, xrangemax, xrangemin);
 				} else {
-					sb.append("\\draw");
-					String s = LineOptionCode(geo, true);
-					if (s.length() != 0){
-						sb.append("[");
-						sb.append(s);
-						sb.append(",");
-					} else
-						sb.append("[");
-					sb.append("smooth,samples=100,domain=");
-					sb.append(xrangemin);
-					sb.append(":");
-					sb.append(xrangemax);
-					sb.append("] plot");
-					sb.append("(\\x,{");
-					value = replaceX(value, "(\\x)");
-					sb.append(value);
-					sb.append("});\n");
+					if (!value.contains("^")){
+						drawPgfStandard(geo, sb, value, xrangemax,
+							xrangemin);
+					} else {
+						drawGnuPlot(geo, sb, value, xrangemax, xrangemin);
+					}
 				}
 			}
 			endBeamer(sb);
@@ -1339,6 +1297,61 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			a = xrangemax;
 		}
 
+	}
+
+	private void drawPgfStandard(GeoFunction geo, StringBuilder sb,
+			String value, double xrangemax, double xrangemin) {
+		sb.append("\\draw");
+		String s = LineOptionCode(geo, true);
+		if (s.length() != 0){
+			sb.append("[");
+			sb.append(s);
+			sb.append(",");
+		} else
+			sb.append("[");
+		sb.append("smooth,samples=100,domain=");
+		sb.append(xrangemin);
+		sb.append(":");
+		sb.append(xrangemax);
+		sb.append("] plot");
+		sb.append("(\\x,{");
+		value = replaceX(value, "(\\x)");
+		sb.append(value);
+		sb.append("});\n");
+	}
+
+	private void drawGnuPlot(GeoFunction geo, StringBuilder sb, String value,
+			double xrangemax, double xrangemin) {
+		sb.append("\\draw");
+		String s = LineOptionCode(geo, true);
+		if (s.length() != 0) {
+			sb.append("[");
+			sb.append(s);
+			sb.append("]");
+		}
+		sb.append(" plot[raw gnuplot, id=func");
+		sb.append(functionIdentifier);
+		functionIdentifier++;
+		sb.append("] function{set samples 100; set xrange [");
+		sb.append(xrangemin + 0.1);
+		sb.append(":");
+		sb.append(xrangemax - 0.1);
+		sb.append("]; plot ");
+		value = value.replaceAll("\\^", "**");
+		sb.append(value);
+		sb.append("};\n");
+	}
+
+	private void drawNoLatexFunction(GeoFunction geo, StringBuilder sb,
+			double xrangemax, double xrangemin) {
+		String s = LineOptionCode(geo, true);
+		if (s.length() != 0) {
+			s="["+s+"]";
+		}
+		String template = "\\draw"+s+" (%0,%1) -- (%2,%3);\n";
+		StringBuilder lineBuilder = drawNoLatexFunction(geo,
+				xrangemax, xrangemin, 400, template);
+		sb.append(lineBuilder.toString() + ";\n");
 	}
 
 	@Override
