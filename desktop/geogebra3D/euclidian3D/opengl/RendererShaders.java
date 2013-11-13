@@ -159,7 +159,7 @@ public class RendererShaders extends Renderer {
         String vertexShaderString, fragmentShaderString;
         
         try {
-        	vertexShaderString = readTxt("vertexShader2");
+        	vertexShaderString = readTxt("vertexShader");
         	fragmentShaderString  = readTxt("fragmentShader");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
