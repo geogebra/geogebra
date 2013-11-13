@@ -257,7 +257,7 @@ public final class DrawText extends Drawable {
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 
-		if (textFont.canDisplayUpTo(text.getTextString()) != -1
+		if (text.getTextString() != null && textFont.canDisplayUpTo(text.getTextString()) != -1
 				|| fontSize != newFontSize || fontStyle != newFontStyle
 				|| newSerifFont != serifFont) {
 			super.updateFontSize();
