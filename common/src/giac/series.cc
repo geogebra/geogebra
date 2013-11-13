@@ -2622,6 +2622,13 @@ namespace giac {
 
   // Main series entry point
   gen series(const gen & e,const identificateur & x,const gen & lim_point,int ordre,int direction,GIAC_CONTEXT){
+    if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
+      vecteur subst1,subst2;
+      surd2pow(e,subst1,subst2,contextptr);
+      gen g=subst(e,subst1,subst2,false,contextptr);
+      g=series(g,x,lim_point,ordre,direction,contextptr);
+      return subst(g,subst2,subst1,false,contextptr);
+    }
     if (e.type==_VECT){
       vecteur res = *e._VECTptr;
       int l=res.size();

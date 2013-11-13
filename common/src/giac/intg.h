@@ -38,6 +38,9 @@ namespace giac {
   extern const unary_function_ptr * const  at_surd ;
   gen surd(const gen & c,int n,GIAC_CONTEXT);
   gen _surd(const gen & args,GIAC_CONTEXT);
+  // find surd/NTHROOT inside e, set subst1 to list of surd/NTHROOT and subst2
+  // to replacement by pow
+  void surd2pow(const gen & e,vecteur & subst1,vecteur & subst2,GIAC_CONTEXT);
   gen invexptoexpneg(const gen& g,GIAC_CONTEXT);
   bool is_rewritable_as_f_of(const gen & fu,const gen & u,gen & fx,const gen & gen_x,GIAC_CONTEXT);
 

@@ -3356,6 +3356,11 @@ namespace giac {
     if (g==cst_euler_gamma || g==cst_pi)
       return true;
     gen tmp=g._IDNTptr->eval(1,g,contextptr);
+    if (g.subtype==_GLOBAL__EVAL && contextptr){
+      sym_tab::const_iterator it=contextptr->globalcontextptr->tabptr->find(g._IDNTptr->id_name),itend=contextptr->globalcontextptr->tabptr->end();
+      if (it!=itend)
+	tmp=it->second;
+    }
     if (tmp.type==_VECT && tmp.subtype==_ASSUME__VECT){
       vecteur & v = *tmp._VECTptr;
       if (!v.empty()){

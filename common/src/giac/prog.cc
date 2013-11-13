@@ -1922,9 +1922,9 @@ namespace giac {
 	tmp=*jt;
       if (tmp.type==_IDNT){
 	if (contextptr)
-	  (*contextptr->tabptr)[tmp._IDNTptr->id_name]=*it;
+	  (*contextptr->tabptr)[tmp._IDNTptr->id_name]=globalize(*it);
 	else
-	  tmp._IDNTptr->push(protection_level,*it);
+	  tmp._IDNTptr->push(protection_level,globalize(*it));
       }
       else {
 	if (tmp.type==_FUNC){
@@ -4949,7 +4949,7 @@ namespace giac {
   */
 
   gen simplifier(const gen & g,GIAC_CONTEXT){
-    if (g.type!=_SYMB || g._SYMBptr->sommet==at_pnt)
+    if (g.type!=_SYMB || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation)
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);

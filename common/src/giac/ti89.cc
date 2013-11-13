@@ -2138,6 +2138,8 @@ namespace giac {
   define_unary_function_ptr5( at_exact ,alias_at_exact,&__exact,0,true);
 
   gen fPart(const gen & g,GIAC_CONTEXT){
+    if (is_undef(g))
+      return g;
     if (is_equal(g))
       return apply_to_equal(g,fPart,contextptr);
     if (is_strictly_positive(-g,contextptr))

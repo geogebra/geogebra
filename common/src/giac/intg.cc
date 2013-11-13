@@ -1981,6 +1981,32 @@ namespace giac {
     return symbolic(at_ln,abs(g,contextptr));
   }
 
+  void surd2pow(const gen & e,vecteur & subst1,vecteur & subst2,GIAC_CONTEXT){
+    vecteur l1surd(lop(e,at_surd));
+    vecteur l2surd(l1surd);
+    for (unsigned i=0;i<l1surd.size();++i){
+      gen & g=l2surd[i];
+      if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
+	vecteur gv=*g._SYMBptr->feuille._VECTptr;
+	gv=makevecteur(gv[0],inv(gv[1],contextptr));
+	g=symbolic(at_pow,gen(gv,_SEQ__VECT));
+      }
+    }
+    vecteur l1NTHROOT(lop(e,at_NTHROOT));
+    vecteur l2NTHROOT(l1NTHROOT);
+    for (unsigned i=0;i<l1NTHROOT.size();++i){
+      gen & g=l2NTHROOT[i];
+      if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
+	vecteur gv=*g._SYMBptr->feuille._VECTptr;
+	gv=makevecteur(gv[1],inv(gv[0],contextptr));
+	g=symbolic(at_pow,gen(gv,_SEQ__VECT));
+      }
+    }
+    subst1=mergevecteur(l1surd,l1NTHROOT);
+    subst2=mergevecteur(l2surd,l2NTHROOT);
+    *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
+  }
+
   gen integrate_id_rem(const gen & e_orig,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate id_rem ") << e_orig << endl;
@@ -2076,29 +2102,8 @@ namespace giac {
     }
 #ifndef EMCC
     if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
-      vecteur l1surd(lop(e,at_surd));
-      vecteur l2surd(l1surd);
-      for (unsigned i=0;i<l1surd.size();++i){
-	gen & g=l2surd[i];
-	if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
-	  vecteur gv=*g._SYMBptr->feuille._VECTptr;
-	  gv=makevecteur(gv[0],inv(gv[1],contextptr));
-	  g=symbolic(at_pow,gen(gv,_SEQ__VECT));
-	}
-      }
-      vecteur l1NTHROOT(lop(e,at_NTHROOT));
-      vecteur l2NTHROOT(l1NTHROOT);
-      for (unsigned i=0;i<l1NTHROOT.size();++i){
-	gen & g=l2NTHROOT[i];
-	if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
-	  vecteur gv=*g._SYMBptr->feuille._VECTptr;
-	  gv=makevecteur(gv[1],inv(gv[0],contextptr));
-	  g=symbolic(at_pow,gen(gv,_SEQ__VECT));
-	}
-      }
-      vecteur subst1=mergevecteur(l1surd,l1NTHROOT);
-      vecteur subst2=mergevecteur(l2surd,l2NTHROOT);
-      *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
+      vecteur subst1,subst2;
+      surd2pow(e,subst1,subst2,contextptr);
       gen g=subst(e,subst1,subst2,false,contextptr);
       g=integrate_id_rem(g,gen_x,remains_to_integrate,contextptr,intmode);
       remains_to_integrate=subst(remains_to_integrate,subst2,subst1,false,contextptr);
@@ -2750,7 +2755,7 @@ namespace giac {
     else
       sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
     if (is_undef(sp)){
-      *logptr(contextptr) << gettext("Unable to find singular points of antiderivative");
+      *logptr(contextptr) << gettext("Unable to find singular points of antiderivative") << endl ;
       if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
 	return undef;
       return res;

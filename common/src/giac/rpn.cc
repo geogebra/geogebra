@@ -1056,7 +1056,7 @@ namespace giac {
   define_unary_function_ptr5( at_CEILING ,alias_at_CEILING,&__CEILING,0,T_UNARY_OP_38);
 
   gen fPart(const gen & g,GIAC_CONTEXT);
-  static const char _FRAC_s[]="FRAC";
+  static const char _FRAC_s[]="FP";
   static define_unary_function_eval (__FRAC,&giac::fPart,_FRAC_s);
   define_unary_function_ptr5( at_FRAC ,alias_at_FRAC,&__FRAC,0,T_UNARY_OP_38);
 
@@ -1696,7 +1696,7 @@ namespace giac {
     else
       return _ceil(g,contextptr);
   }
-  static const char _INT_s[]="INT";
+  static const char _INT_s[]="IP";
   static define_unary_function_eval (__INT,&giac::_INT,_INT_s);
   define_unary_function_ptr5( at_INT ,alias_at_INT,&__INT,0,T_UNARY_OP_38);
 
@@ -3844,7 +3844,7 @@ namespace giac {
     "FISHER_ICDF",
     "FLOOR",
     //"FNROOT",
-    "FRAC",
+    "FP",
     // "FREEZE",
     // "GETKEY",
     // "GF",
@@ -3852,7 +3852,7 @@ namespace giac {
     //"IDENMAT",
     "IM",
     // "INPUT",
-    "INT",
+    "IP",
     "INVERSE",
     // "ISOLATE",
     "ISPRIME",

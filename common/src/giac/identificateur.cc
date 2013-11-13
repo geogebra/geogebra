@@ -727,7 +727,7 @@ namespace giac {
     return *this;
   }
 
-  static gen globalize(const gen & g){
+  gen globalize(const gen & g){
     gen tmp(g);
     switch (tmp.type){
     case _IDNT:

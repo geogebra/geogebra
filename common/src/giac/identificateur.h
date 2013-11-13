@@ -35,6 +35,7 @@ namespace giac {
   // make g identificateurs evaluated as global in null context
   gen global_eval(const gen & g,int level);
   gen global_evalf(const gen & g,int level);
+  gen globalize(const gen & g);
   // return the local value of i, if globalize is true, replace idnt with
   // global idnt in returned value
   gen do_local_eval(const identificateur & i,int level,bool globalize);

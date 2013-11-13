@@ -1101,7 +1101,14 @@ namespace giac {
   static vecteur solve_inequation(const gen & e0,const identificateur & x,int direction,GIAC_CONTEXT){
     if (has_num_coeff(e0))
       return vecteur(1,gensizeerr(gettext("Unable to solve inequations with approx coeffs ")+e0.print(contextptr)));
-    gen e(e0._SYMBptr->feuille._VECTptr->front()-e0._SYMBptr->feuille._VECTptr->back());
+    gen e=e0;
+    gen a1=e._SYMBptr->feuille[0];
+    gen a2=e._SYMBptr->feuille[1];
+    vecteur w=lop(lvarx(makevecteur(a1,a2),x),at_pow);
+    if (a2.type!=_VECT && a2!=0 && w.size()>1)
+      e=lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr);
+    else
+      e=a1-a2;
     if (is_inequation(e))
       return vecteur(1,gensizeerr(gettext("Inequation inside inequation not implemented ")+e.print()));
     if (is_zero(ratnormal(derive(e,x,contextptr))))
@@ -1478,14 +1485,14 @@ namespace giac {
     if (expr.is_symb_of_sommet(at_prod)){
       vecteur v=gen2vecteur(expr._SYMBptr->feuille),res;
       for (unsigned i=0;i<v.size();++i){
-	res=mergevecteur(res,solve_cleaned(v[i],v[i],x,isolate_mode,contextptr));
+	res=mergevecteur(res,solve_cleaned(v[i],e_check,x,isolate_mode,contextptr));
       }
       return res;
     }
     if (expr.is_symb_of_sommet(at_pow)){
       gen & f =expr._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2 && is_strictly_positive(f._VECTptr->back(),contextptr))
-	return solve_cleaned(f._VECTptr->front(),f._VECTptr->front(),x,isolate_mode,contextptr);
+	return solve_cleaned(f._VECTptr->front(),e_check,x,isolate_mode,contextptr);
     }
     // Check for re/im/conj in complexmode
     bool complexmode=isolate_mode & 1;
@@ -1501,7 +1508,7 @@ namespace giac {
 	  bool savecv=complex_variables(contextptr);
 	  complex_mode(false,contextptr);
 	  complex_variables(false,contextptr);
-	  gen tmp=subst(e,x,xre+cst_i*xim,false,contextptr);
+	  gen tmp=subst(_numer(e,contextptr),x,xre+cst_i*xim,false,contextptr);
 	  vecteur res=gsolve(makevecteur(re(tmp,contextptr),im(tmp,contextptr)),makevecteur(xre,xim),false,contextptr);
 	  complex_mode(savec,contextptr);
 	  complex_variables(savecv,contextptr);
