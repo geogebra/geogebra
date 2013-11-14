@@ -369,6 +369,10 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 	public boolean intersects(int i, int j, int k, int l) {
 		return getGeneralPath().intersects(i,j,k,l);
 	}
+	
+	public boolean intersects(int i, int j, int w) {
+		return getGeneralPath().intersects(i - w, j - w, 2*w, 2*w);
+	}
 
 	/*
 	public Shape getAwtShape() {

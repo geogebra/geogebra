@@ -230,7 +230,7 @@ public class DrawBarGraph extends Drawable {
 	public boolean hit(int x, int y, int hitThreshold) {
 		if (gp != null){
 			for(int i=0;i<gp.length;i++){
-				if ((gp[i].contains(x, y) || gp[i].intersects(x - 3, y - 3, 6, 6))){
+				if ((gp[i].contains(x, y) || gp[i].intersects(x, y, hitThreshold))){
 					return true;
 				}
 			}

@@ -94,7 +94,7 @@ public class DrawBoxPlot extends Drawable {
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
+				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
 	
 	@Override
