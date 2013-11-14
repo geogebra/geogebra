@@ -6350,7 +6350,7 @@ public abstract class EuclidianController {
 					break;
 				//case EuclidianConstants.MODE_VISUAL_STYLE:
 				case EuclidianConstants.MODE_TRANSLATEVIEW:
-					if(draggingOccured){
+					if(draggingOccured || !temporaryMode){
 						changedKernel = true;
 						break;
 					}
