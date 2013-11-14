@@ -4680,8 +4680,8 @@ public class GeoGebraCasIntegrationTest {
     // This seems to kill autotest by freezing Giac in Timeout state, so disabling it for the moment: 
     // t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]", "{{c = 900000000 / 67 * ((67 / 3)^(1 / 1057))^(107), a = (67 / 3)^(1 / 1057)}}",
     //     "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = (67 / 3)^(1 / 1057)}}");
-    t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]", "{{a = (67 / 3)^(1 / 1057), c = (300000000 * (3 / 67)^(950 / 1057)}}",
-        "{{c = 900000000 / 67 * ((67 / 3)^(1 / 1057))^(107), a = (67 / 3)^(1 / 1057)}}");
+    // t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]", "{{a = (67 / 3)^(1 / 1057), c = (300000000 * (3 / 67)^(950 / 1057)}}",
+    //     "{{c = 900000000 / 67 * ((67 / 3)^(1 / 1057))^(107), a = (67 / 3)^(1 / 1057)}}");
     kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(5000);
     cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
   }
