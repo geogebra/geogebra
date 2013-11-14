@@ -109,7 +109,6 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
-import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6312,7 +6311,7 @@ public abstract class EuclidianController {
 			boolean kernelChanged, boolean controlDown, PointerEventType type) {
 				Hits hits = hitsReleased;
 				boolean changedKernel = kernelChanged;
-				Log.debug(mode);
+				boolean focusNeeded = true;
 				switch (evMode) {
 				case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 				case EuclidianConstants.MODE_DILATE_FROM_POINT:
@@ -6395,13 +6394,17 @@ public abstract class EuclidianController {
 								GeoElement geo1 = chooseGeo(hits, true);
 								// ggb3D : geo1 may be null if it's axes or xOy plane
 								if (geo1 != null) {
+									focusNeeded = false;
 									runScriptsIfNeeded(geo1);
 								}
 							}
 						}
 					}
 				}
-			
+				if(focusNeeded && mode != EuclidianConstants.MODE_SELECTION_LISTENER){
+						view.requestFocusInWindow();
+				}
+				
 				return changedKernel;
 			}
 	
@@ -8875,9 +8878,12 @@ public abstract class EuclidianController {
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
 	
-		if (isTextfieldHasFocus()) {
+		
+		/*if (isTextfieldHasFocus()) {
 			return;
-		}
+		}*/
+		
+		
 	
 		if (penMode(mode) && penDragged) {
 			getPen().handleMouseReleasedForPenMode(right, x, y);
