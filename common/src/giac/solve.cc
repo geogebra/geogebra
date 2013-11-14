@@ -3493,7 +3493,7 @@ namespace giac {
 	    k=niter;
 	    break;
 	  }
-	  if (is_positive(epsg1-_l2norm(d,contextptr),contextptr)){
+	  if (is_positive(epsg1-_l2norm(d,contextptr)/max(1,babs,contextptr),contextptr)){
 	    a=b;
 	    break;
 	  }
@@ -3529,10 +3529,10 @@ namespace giac {
 	  }
 	  d=-evalf(subst(invdf,x,a,false,contextptr)*subst(f,x,a,false,contextptr),1,contextptr);
 	  a=a+d;
-	  if (is_positive(epsg2-_l2norm(d,contextptr),contextptr))
+	  if (is_positive(epsg2-_l2norm(d,contextptr)/max(1,abs(a,contextptr),contextptr),contextptr))
 	    break;
 	}
-	if (k!=niter || is_positive(epsg1-_l2norm(d,contextptr),contextptr))
+	if (k!=niter || is_positive(epsg1-_l2norm(d,contextptr)/max(1,abs(a,contextptr),contextptr),contextptr))
 	  break;
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){

@@ -458,6 +458,8 @@ namespace giac {
       }
       return subst(e,*i._VECTptr,*newi._VECTptr,quotesubst,contextptr);
     }
+    if (i.type!=_IDNT && i.type!=_SYMB)
+      *logptr(contextptr) << gettext("Warning, replacing ") << i << gettext(" by ") << newi << gettext(", a substitution variable should perhaps be purged.") << endl;
     gen res;
     if (has_subst(e,i,newi,res,quotesubst,contextptr))
       return res;
@@ -676,7 +678,11 @@ namespace giac {
   }
 
   // Multiple substitutions
-  static void sort2(vecteur & i,vecteur & newi){
+  static void sort2(vecteur & i,vecteur & newi,GIAC_CONTEXT){
+    for (unsigned k=0;k<i.size();++k){
+      if (i[k].type!=_IDNT && i[k].type!=_SYMB)
+	*logptr(contextptr) << gettext("Warning, replacing ") << i[k] << gettext(" by ") << newi[k] << gettext(", a substitution variable should perhaps be purged.") << endl;
+    }
     int is=i.size();
     if (i.size()<2)
       return;
@@ -692,7 +698,7 @@ namespace giac {
 
   vecteur subst(const vecteur & v,const vecteur & i,const vecteur & newi,bool quotesubst,GIAC_CONTEXT){
     vecteur sorti(i),sortnewi(newi);
-    sort2(sorti,sortnewi);
+    sort2(sorti,sortnewi,contextptr);
     return sortsubst(v,sorti,sortnewi,quotesubst,contextptr);
   }
 
@@ -754,7 +760,7 @@ namespace giac {
   gen subst(const gen & e,const vecteur & i,const vecteur & newi,bool quotesubst,GIAC_CONTEXT){
     if (i.empty()) return e;
     vecteur sorti(i),sortnewi(newi);
-    sort2(sorti,sortnewi);
+    sort2(sorti,sortnewi,contextptr);
     return sortsubst(e,sorti,sortnewi,quotesubst,contextptr);
   }
 
