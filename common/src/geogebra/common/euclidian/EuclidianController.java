@@ -6353,16 +6353,20 @@ public abstract class EuclidianController {
 				case EuclidianConstants.MODE_TRANSLATEVIEW:
 					if(draggingOccured || !temporaryMode){
 						changedKernel = true;
-						break;
+						
+					}else{
+						//Ctrl pressed, we need to select a point
+						view.setHits(mouseLoc,type);
+						handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
+								controlDown);
 					}
-					//else fall through
+					break;
 				case EuclidianConstants.MODE_MOVE:
 				case EuclidianConstants.MODE_SELECTION_LISTENER:
 						// handle selection click
 						view.setHits(mouseLoc,type);
 						handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
 								controlDown);
-					break;
 				default:
 			
 					// change checkbox (boolean) state on mouse up only if there's been
