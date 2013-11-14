@@ -378,7 +378,16 @@ public class GeoGebraCasIntegrationTest {
   public void SimplificationOfTerms_OrderingOfPowers_1 () {
     t("f(x) := a * x^3 + b * x^2 + c * x + d", "a * x^(3) + b * x^(2) + c * x + d");
   }
-
+  
+  @Test
+  public void SimplificationOfTerms_OrderingOfPowers_2 () {
+	  t("x^3 + c * x^2 + a*x + b","x^3 + c * x^2 + a*x + b");
+  }
+  
+  @Test
+  public void SimplificationOfTerms_OrderingOfPowers_3 () {
+	  t("x^2 + a * x","x^2 + a * x");
+  }
   /* Polynomial Division */
 
   @Test
