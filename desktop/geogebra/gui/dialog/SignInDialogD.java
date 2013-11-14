@@ -27,7 +27,6 @@ import org.w3c.dom.events.Event;
 public class SignInDialogD extends WebViewDialog {
 	private static final long serialVersionUID = 1L;
 	
-
 	
 	/**
 	 * @param app The app of type AppD
@@ -40,14 +39,17 @@ public class SignInDialogD extends WebViewDialog {
 	private void createGUI() {
 		setTitle(app.getPlain("SignInToGGT"));
 		setResizable(true);
-        getContentPane().setPreferredSize(new Dimension(900, 500));
+        getContentPane().setPreferredSize(new Dimension(512, 292));
         
         JFXPanel fxPanel = createWebView(app.getLoginOperation().getLoginURL(app.getLocale().getLanguage()));
         add(fxPanel);
 		
 		pack();	
-		setLocationRelativeTo(app.getFrame());	
+		setLocationRelativeTo(app.getFrame());
 	}
+	
+	private boolean firstload = true;
+
 	
     /**
      * Is called when a page is loaded in the pageview.
@@ -68,6 +70,13 @@ public class SignInDialogD extends WebViewDialog {
 		
 		// Some links need to be opened in an external browser. Add a listener to handle this clicks.
 		addHyperlinkListener();
+		
+		// Set the size of the dialog to the size of the web page
+		if (! firstload) {
+			setDialogSizeToPageSize();
+		} else {
+			firstload = false;
+		}
     }
 
 	@Override

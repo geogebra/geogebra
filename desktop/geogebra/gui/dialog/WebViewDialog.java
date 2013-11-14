@@ -3,6 +3,7 @@ package geogebra.gui.dialog;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,6 +39,8 @@ public abstract class WebViewDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private static final String EVENT_TYPE_CLICK = "click";
 	
+	protected JFXPanel fxPanel;
+	
 	/** Reference to the application */
 	protected AppD app;
 	
@@ -64,7 +67,7 @@ public abstract class WebViewDialog extends JDialog {
 	protected JFXPanel createWebView(final String startURL) {
         
 		//Create the JavaFX Panel for the WebView
-        final JFXPanel fxPanel = new JFXPanel();
+		fxPanel = new JFXPanel();
         fxPanel.setLocation(new Point(0, 0));
 
         // Initialize the webView in a JavaFX-Thread
@@ -141,6 +144,20 @@ public abstract class WebViewDialog extends JDialog {
 	 */
 	void onHyperlinkClicked(String href, String absoluteURL, String domainName, Event ev) {
 		// No Default action
+	}
+	
+	/**
+	 * Resizes the dialog to fit the size of the document in the webview  
+	 */
+	protected void setDialogSizeToPageSize() {
+		String widthScript = "Math.max( document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth );";
+		final int width = ((Integer) getWebEngine().executeScript(widthScript)).intValue();
+		String heightScript = "Math.max( document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );";
+		final int height = ((Integer) getWebEngine().executeScript(heightScript)).intValue();
+		
+		setPreferredSize(new Dimension(width + 12 + (getWidth() - getContentPane().getWidth()), height + 12 + (getHeight() - getContentPane().getHeight())));
+		pack();
+		setLocationRelativeTo(app.getFrame());
 	}
 
 	/**
