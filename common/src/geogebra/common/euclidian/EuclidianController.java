@@ -8956,8 +8956,9 @@ public abstract class EuclidianController {
 			return;
 		}
 	
-		// Michael Borcherds 2007-10-08 allow drag with right mouse button
-		if (right || control)// &&
+		// allow drag with right mouse button or ctrl
+		// make sure Ctrl still works for selection (when no dragging occured)
+		if (right || (control && draggingOccured))// &&
 																			// !TEMPORARY_MODE)
 		{
 			if (processRightReleaseFor3D()) {
