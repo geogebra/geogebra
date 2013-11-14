@@ -1673,11 +1673,11 @@ body[dir=rtl] .undoPanel {
 }
 
 .GGWToolbar table{
-	margin-right: 70px;
+	margin-right: 66px;
 }
 body[dir=rtl] .GGWToolbar table{
 	margin-right: 0px;
-	margin-left: 70px;
+	margin-left: 66px;
 }
 
 
