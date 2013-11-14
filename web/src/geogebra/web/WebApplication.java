@@ -5,12 +5,12 @@ import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.js.ResourcesInjector;
-import geogebra.html5.util.MyRunAsyncCallback;
-import geogebra.html5.util.RunAsync;
 import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -46,7 +46,7 @@ public class WebApplication implements EntryPoint {
 	}
 
 	private void loadAppAsync() {
-	    RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
+	    GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
 				ResourcesInjector.injectResources();

@@ -3,8 +3,6 @@ package geogebra.web.gui.applet;
 import geogebra.common.main.App;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
-import geogebra.html5.util.MyRunAsyncCallback;
-import geogebra.html5.util.RunAsync;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
 import geogebra.web.main.AppW;
@@ -13,6 +11,8 @@ import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -61,7 +61,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 
 		if (ae.getDataParamGuiOff()) {
 
-			RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
+			GWT.runAsync(new RunAsyncCallback() {
 
 				public void onSuccess() {
 					ResourcesInjector.injectResources();
@@ -84,7 +84,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 
 		} else {
 
-			RunAsync.INSTANCE.runAsyncCallback(new MyRunAsyncCallback() {
+			GWT.runAsync(new RunAsyncCallback() {
 
 				public void onSuccess() {
 					ResourcesInjector.injectResources();
