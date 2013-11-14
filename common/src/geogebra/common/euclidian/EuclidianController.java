@@ -8879,9 +8879,9 @@ public abstract class EuclidianController {
 		transformCoordsOffset[1] = 0;
 	
 		
-		/*if (isTextfieldHasFocus()) {
+		if (this.textfieldJustFocusedW(x,y)) {
 			return;
-		}*/
+		}
 		
 		
 	
