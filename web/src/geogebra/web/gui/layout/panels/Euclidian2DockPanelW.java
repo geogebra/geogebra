@@ -42,7 +42,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 
 		// this should execute when DockPanelW.register is not called
 		if (!stylebar) {
-			buildGUI();
+			buildDockPanel();
 		}
 	}
 

@@ -422,90 +422,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		this.dockManager = dockManager;
 		app = dockManager.getLayout().getApplication();
 
-		buildGUI();		
+		buildDockPanel();
 
-		/*
-		// create buttons for the panels
-		createButtons();
-
-		// create button panel
-		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout(app.flowRight(), 0, 1));
-		if (app.isRightToLeftReadingOrder()) {
-			buttonPanel.add(closeButton);
-			buttonPanel.add(Box.createHorizontalStrut(4));
-			buttonPanel.add(windowButton);
-			buttonPanel.add(unwindowButton);
-			buttonPanel.add(Box.createHorizontalStrut(4));
-			buttonPanel.add(maximizeButton);
-		} else {
-			buttonPanel.add(maximizeButton);
-			buttonPanel.add(Box.createHorizontalStrut(4));
-			buttonPanel.add(unwindowButton);
-			buttonPanel.add(windowButton);
-			buttonPanel.add(Box.createHorizontalStrut(4));
-			buttonPanel.add(closeButton);
-		}
-
-		// Custom border for the major panels (title, stylebar and toolbar)
-		Border panelBorder = BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow),
-				BorderFactory.createEmptyBorder(0, 2, 0, 2));
-
-		// create style bar panel
-		styleBarPanel = new JPanel(new BorderLayout(1, 2));
-		styleBarPanel.setBorder(panelBorder);
-		styleBarPanel.addMouseListener(this);
-
-		styleBarButtonPanel = new JPanel(new BorderLayout());
-		JPanel p = new JPanel(new FlowLayout(0, 0, app.flowLeft()));
-		if (this.hasStyleBar) {
-			p.add(toggleStyleBarButton2);
-		}
-		p.add(Box.createHorizontalStrut(4));
-
-		styleBarButtonPanel.add(p, BorderLayout.NORTH);
-		styleBarPanel.add(styleBarButtonPanel, app.borderWest());
-		styleBarPanel.add(LayoutUtil.flowPanelRight(0, 0, 4, unwindowButton2),
-				app.borderEast());
-
-		// construct the title panel and add all elements
-		titlePanel = new JPanel();
-		titlePanel.setBorder(panelBorder);
-		titlePanel.setLayout(new BorderLayout());
-
-		titlePanel.add(createFocusPanel(), app.borderWest());
-		titlePanel.add(buttonPanel, app.borderEast());
-		titlePanel.addMouseListener(this); // dragging to reconfigure
-		titlePanel.addMouseListener(new MyButtonHider());
-
-		// create toolbar panel
-		if (hasToolbar()) {
-			toolbarPanel = new JPanel(new BorderLayout());
-			toolbarPanel.setBorder(panelBorder);
-		}
-
-		// construct a meta panel to hold the title, tool bar and style bar
-		// panels
-
-		JPanel titleBar = new JPanel(new BorderLayout());
-		titleBar.add(styleBarPanel, BorderLayout.SOUTH);
-		titleBar.add(titlePanel, BorderLayout.NORTH);
-
-		JPanel metaPanel = new JPanel(new BorderLayout());
-		metaPanel.add(titleBar, BorderLayout.SOUTH);
-		if (hasToolbar())
-			metaPanel.add(toolbarPanel, BorderLayout.CENTER);
-
-		// make titlebar visible if necessary
-		updatePanel();
-
-		add(metaPanel, BorderLayout.NORTH);
-		
-		*/
+		// buildGUI should be called in a lazy way!
+		// buildGUI();
 	}
 
-	
 	MyDockLayoutPanel dockPanel;
 	PushButton toglStyleBtn;
 
@@ -524,21 +446,30 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public int getWidth(){
 		return dockPanel.getOffsetWidth();	
 		}
-	
-	public void buildGUI(){
-		
-		//TODO temporary guard against repeated call 
+
+	public void buildDockPanel() {
+
+		// guard against repeated call 
 		// while creating DockPanel based GUI (problem with early init of EV)
 		if(dockPanel != null){
 			return;
 		}
-		
-		
+
 		dockPanel = new MyDockLayoutPanel(Style.Unit.PX);
 		initWidget(dockPanel);
-		
+	}
+
+	public void buildGUIIfNecessary(){
+
+		// This way it is safe to call buildGUI multiple times
+		if (componentPanel != null) {
+			return;
+		}
+
+		// This also acts as a boolean to show whether this
+		// method has already been called
 		componentPanel = new VerticalPanel();
-		
+
 		styleBarPanel = new AbsolutePanel();	
 		styleBarPanel.setStyleName("StyleBarPanel");
 
@@ -631,6 +562,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		if (!isVisible())
 			return;
+
+		buildGUIIfNecessary();
 
 		dockPanel.clear();
 
@@ -872,6 +805,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateTitleBar() {
 
+		// instead of this:
+		// buildGUIIfNecessary();
+
+		// it is enough to do this:
+		if (componentPanel == null)
+			return;
+
 		closeButton.setVisible(!isAlone() && !app.isApplet());
 
 		/*
@@ -966,6 +906,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * 
 	 */
 	protected void updateTitleBarIfNecessary() {
+		buildGUIIfNecessary();
 		if (theRealTitleBarPanel.isVisible() && theRealTitleBarPanel.isAttached()) {
 			updateTitleBar();
 		}
@@ -1153,6 +1094,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/** loads the styleBar and puts it into the stylBarPanel */
 	private void setStyleBar() {
 		if (styleBar == null) {
+			buildGUIIfNecessary();
 			styleBar = loadStyleBar();
 			styleBarPanel.add(styleBar, 2, 0);
 		}
@@ -1173,6 +1115,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		if (!isVisible())
 			return;
+
+		buildGUIIfNecessary();
 
 		styleBarPanel.setVisible(isStyleBarVisible());
 		//TODO updateToggleStyleBarButtons();
@@ -1782,6 +1726,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 
 	public void onMouseDown(MouseDownEvent event) {
+
+		// No, we don't need this, but do nothing instead if building GUI is necessary
+		// buildGUIIfNecessary();
+
+		if (componentPanel == null)
+			return;
+
 		if (this.toglStyleBtn2.isAttached()) {
 			if (event.getRelativeX(this.toglStyleBtn2.getElement()) > 20) {
 				dockManager.drag(this);

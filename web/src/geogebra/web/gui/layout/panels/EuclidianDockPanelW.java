@@ -48,7 +48,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 			component = loadComponent();
 		}else{
 			component = loadComponent();
-			buildGUI();
+			buildDockPanel();
 		}
 	}
 	
