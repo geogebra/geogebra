@@ -243,7 +243,7 @@ __GGB__keysVar.zh_CN.command = {
     "Directrix_Syntax": "[ <\u629b\u7269\u7ebf> ]",
     "Distance": "\u8ddd\u79bb",
     "Distance_Syntax": "[ <\u70b9>, <\u5bf9\u8c61> ]\n[ <\u5e73\u884c\u7ebf1>, <\u5e73\u884c\u7ebf2> ]",
-    "Div": "\u5546\u5f0f",
+    "Div": "\u6574\u5546",
     "Div_Syntax": "[ <\u88ab\u9664\u6570>, <\u9664\u6570> ]\n[ <\u88ab\u9664\u5f0f>, <\u9664\u5f0f> ]",
     "Division": "\u9664\u6cd5",
     "Division_Syntax": "[ <\u88ab\u9664\u6570>, <\u9664\u6570> ]\n[ <\u88ab\u9664\u5f0f>, <\u9664\u5f0f> ]",
