@@ -567,7 +567,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	private int getSelectionDiamaterMin() {
-		return view.getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_DIAMETER_MIN;
+		return view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_DIAMETER_MIN;
 	}
 
 }

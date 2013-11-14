@@ -7186,7 +7186,7 @@ public abstract class EuclidianController {
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible() && mouseLoc != null) {
 				// otherwise using Move Tool -> move dot
-				if (isMoveSliderExpected(view.getCapturingThreshold(type))) {
+				if (isMoveSliderExpected(app.getCapturingThreshold(type))) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
 						oldLoc.setLocation(

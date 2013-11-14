@@ -98,7 +98,11 @@ public class View {
 	
 	public boolean getDataParamShowAnimationButton() {
 		return ((ArticleElement) container).getDataParamShowAnimationButton();
-    }	
+    }
+	
+	public int getDataParamCapturingThreshold() {
+		return ((ArticleElement) container).getDataParamCapturingThreshold();
+    }
 	
 	public boolean getDataParamAllowSymbolTable() {
 		return ((ArticleElement) container).getDataParamAllowSymbolTable();

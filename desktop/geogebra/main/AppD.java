@@ -964,7 +964,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				getGuiManager().getLayout().applyPerspective("BasicGeometry");
 				GlobalKeyDispatcher.changeFontsAndGeoElements(this, 20, false);
 				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
-				getEuclidianView1().setCapturingThreshold(10);
+				setCapturingThreshold(10);
 				kernel.setPrintDecimals(0); // rounding to 0dp
 				GeoAngle defaultAngle = (GeoAngle) getKernel()
 						.getConstruction().getConstructionDefaults()

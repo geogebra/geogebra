@@ -12,6 +12,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
@@ -155,13 +156,13 @@ public abstract class App implements UpdateSelection{
 	private ParserFunctions pf = new ParserFunctions();
 
 	private SpreadsheetTraceManager traceManager;
-
+	public static final int DEFAULT_THRESHOLD = 3;
 	/**
 	 * object is hit if mouse is within this many pixels (more for points, see
 	 * geogebra.common.euclidian.DrawPoint)
 	 */
-	public int capturingThreshold = 3;
-	public int capturingThresholdTouch = 20;
+	private int capturingThreshold = DEFAULT_THRESHOLD;
+	private int capturingThresholdTouch = 5 * DEFAULT_THRESHOLD;
 
 	/**
 	 * Whether inputbar should be shown on top
@@ -294,6 +295,21 @@ public abstract class App implements UpdateSelection{
 
 	}
 
+	/**
+	 * @return capturing threshold
+	 */
+	public int getCapturingThreshold(PointerEventType type) {
+		return type == PointerEventType.TOUCH ? this.capturingThresholdTouch : this.capturingThreshold;
+	}
+	/**
+	 * @param i
+	 *            capturing threshold
+	 */
+	public void setCapturingThreshold(int i) {
+		this.capturingThreshold = i;
+		this.capturingThresholdTouch = 5 * i;
+	}
+	
 	/** whether we should use antialisaing in EV */
 	protected boolean antialiasing = true;
 	/**

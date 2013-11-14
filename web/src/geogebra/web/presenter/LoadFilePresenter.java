@@ -87,6 +87,7 @@ public class LoadFilePresenter{
 		app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());
 		app.getKernel().setShowAnimationButton(view.getDataParamShowAnimationButton());
+		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
 		
 		
 		boolean undoActive = (showToolBar || showMenuBar || WebStatic.currentGUI.equals(GuiToLoad.APP));

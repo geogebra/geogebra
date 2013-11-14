@@ -1,5 +1,7 @@
 package geogebra.html5.util;
 
+import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppWeb;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -168,6 +170,19 @@ public final class ArticleElement extends Element {
 	 */
 	public boolean getDataParamShowAnimationButton() {
 		return (!"false".equals(this.getAttribute("data-param-showAnimationButton")));
+	}
+	
+	public int getDataParamCapturingThreshold() {
+		int threshold = App.DEFAULT_THRESHOLD;
+		if("".equals(this.getAttribute("data-param-capturingThreshold"))){
+			return threshold;
+		}
+		try{
+			threshold = Integer.parseInt(this.getAttribute("data-param-capturingThreshold"));
+		}catch(Throwable t){
+			Log.error("Invalid capturing threshold: " + this.getAttribute("data-param-capturingThreshold"));
+		}
+		return threshold;
 	}
 	
 	/**

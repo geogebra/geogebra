@@ -394,28 +394,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 	}
 
-	/**
-	 * @param i
-	 *            capturing threshold
-	 */
-	public void setCapturingThresholdTouch(int i) {
-		app.capturingThresholdTouch = i;
-	}
-
-	/**
-	 * @param i
-	 *            capturing threshold
-	 */
-	public void setCapturingThreshold(int i) {
-		app.capturingThreshold = i;
-	}
-
-	/**
-	 * @return capturing threshold
-	 */
-	public int getCapturingThreshold(PointerEventType type) {
-		return type == PointerEventType.TOUCH ? app.capturingThresholdTouch : app.capturingThreshold;
-	}
+	
 
 	public int getMode() {
 		return mode;
@@ -1531,7 +1510,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.hit(x, y, getCapturingThreshold(type)) || d.hitLabel(x, y)) {
+			if (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y)) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					if(geo instanceof GeoTextField) return true;
@@ -1543,9 +1522,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 	
 	public void setHits(GPoint p, PointerEventType type) {
-		setHits(p, this.getCapturingThreshold(type));
+		setHits(p, app.getCapturingThreshold(type));
 		if(type == PointerEventType.TOUCH && this.hits.size() == 0){
-			setHits(p, this.getCapturingThreshold(type) * 3);
+			setHits(p, app.getCapturingThreshold(type) * 3);
 		}
 	}
 	/**
@@ -1619,7 +1598,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		while (it.hasNext()) {
 			Drawable d2 = it.next();
 
-			if (d2.hit(p.x, p.y, getCapturingThreshold(type)) && d2 instanceof DrawButton) {
+			if (d2.hit(p.x, p.y, app.getCapturingThreshold(type)) && d2 instanceof DrawButton) {
 				if (d == null
 						|| d2.getGeoElement().getLayer() >= d.getGeoElement()
 								.getLayer())
