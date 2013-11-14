@@ -161,6 +161,7 @@ public abstract class App implements UpdateSelection{
 	 * geogebra.common.euclidian.DrawPoint)
 	 */
 	public int capturingThreshold = 3;
+	public int capturingThresholdTouch = 20;
 
 	/**
 	 * Whether inputbar should be shown on top

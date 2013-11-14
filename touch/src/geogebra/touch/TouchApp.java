@@ -105,8 +105,6 @@ public class TouchApp extends AppWeb {
 
 		this.setFontSize(15);
 
-		this.capturingThreshold *= this.selectionFactor;
-
 		if ("true".equals(RootPanel.getBodyElement().getAttribute(
 				"data-param-showLogging"))) {
 			Log.logger = new GeoGebraLogger();

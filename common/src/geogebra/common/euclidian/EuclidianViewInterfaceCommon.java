@@ -493,7 +493,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param p mouse coords
 	 * @return hit button (or null)
 	 */
-	public MyButton getHitButton(geogebra.common.awt.GPoint p);
+	public MyButton getHitButton(geogebra.common.awt.GPoint p, PointerEventType type);
 	/**
 	 * Switch to default cursor
 	 */

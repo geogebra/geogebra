@@ -22,6 +22,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -68,6 +69,8 @@ public final class DrawPoint extends Drawable {
 	private static geogebra.common.awt.GBasicStroke[] emptyStrokes = new geogebra.common.awt.GBasicStroke[10];
 
 	private boolean isPreview;
+
+	private double[] coords;
 
 	/**
 	 * Creates new DrawPoint
@@ -138,10 +141,11 @@ public final class DrawPoint extends Drawable {
 	 * update regarding coords values
 	 * @param coords (x,y) real world coords
 	 */
-	final public void update(double[] coords){
+	final public void update(double[] coords1){
 
 		isVisible = true;
 		labelVisible = geo.isLabelVisible();
+		this.coords = coords1;
 
 		// convert to screen
 		view.toScreenCoords(coords);
@@ -493,7 +497,10 @@ public final class DrawPoint extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return circleSel.contains(x, y);
+		int r = hitThreshold + SELECTION_DIAMETER_MIN;
+		double dx = coords[0] - x;
+		double dy = coords[0] - x;
+		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
 	}
 
 	@Override
@@ -560,7 +567,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	private int getSelectionDiamaterMin() {
-		return view.getCapturingThreshold() + SELECTION_DIAMETER_MIN;
+		return view.getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_DIAMETER_MIN;
 	}
 
 }

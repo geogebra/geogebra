@@ -212,7 +212,7 @@ public class TouchController extends EuclidianController {
 			return;
 		}
 
-		handleMovedElement(geo, selGeos.size() > 1);
+		handleMovedElement(geo, selGeos.size() > 1, e.getType());
 	}
 
 	@Override

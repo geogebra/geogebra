@@ -602,8 +602,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
     }
 
 	@Override
-	protected boolean textfieldJustFocusedW(int x, int y) {
-		return view.textfieldClicked(x, y);
+	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
+		return view.textfieldClicked(x, y, type);
 	}
 
 	public int getXoffset() {

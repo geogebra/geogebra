@@ -5074,7 +5074,7 @@ public abstract class EuclidianController {
 			
 				if (point != null) {
 			
-					handleMovedElement((GeoElement) point, false);
+					handleMovedElement((GeoElement) point, false, PointerEventType.MOUSE);
 					
 					view.setDragCursor();
 					if (doSingleHighlighting) {
@@ -6712,7 +6712,7 @@ public abstract class EuclidianController {
 	/**
 	 * @param gPoint point 
 	 */
-	protected boolean textfieldJustFocusedW(int x, int y) {
+	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
 		return false;
 	}
 
@@ -6728,7 +6728,7 @@ public abstract class EuclidianController {
 		setStartPointLocation(xRW-x, yRW-y);
 	}
 
-	public void handleMovedElement(GeoElement geo, boolean multiple) {
+	public void handleMovedElement(GeoElement geo, boolean multiple, PointerEventType type) {
 		
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
@@ -7186,7 +7186,7 @@ public abstract class EuclidianController {
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible() && mouseLoc != null) {
 				// otherwise using Move Tool -> move dot
-				if (isMoveSliderExpected(view.getCapturingThreshold())) {
+				if (isMoveSliderExpected(view.getCapturingThreshold(type))) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
 						oldLoc.setLocation(
@@ -7744,7 +7744,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		handleMovedElement(geo, selGeos.size() > 1);
+		handleMovedElement(geo, selGeos.size() > 1, e.getType());
 	
 		view.repaintView();
 	}
@@ -8527,7 +8527,7 @@ public abstract class EuclidianController {
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
-		this.pressedButton = view.getHitButton(mouseLoc);
+		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
 			pressedButton.setPressed(true);
 			pressedButton.setDraggedOrContext(event.isMetaDown()
@@ -8879,7 +8879,7 @@ public abstract class EuclidianController {
 		transformCoordsOffset[1] = 0;
 	
 		
-		if (this.textfieldJustFocusedW(x,y)) {
+		if (this.textfieldJustFocusedW(x, y, type)) {
 			return;
 		}
 		

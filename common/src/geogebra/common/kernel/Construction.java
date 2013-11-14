@@ -1,6 +1,7 @@
 package geogebra.common.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
@@ -1457,7 +1458,7 @@ public class Construction {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
 			app.getActiveEuclidianView().getEuclidianController()
-					.handleMovedElement(selGeo, false);
+					.handleMovedElement(selGeo, false, PointerEventType.MOUSE);
 		}
 	}
 	

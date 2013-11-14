@@ -249,7 +249,6 @@ public abstract class AppW extends AppWeb {
 
 		setFontSize(12);
 		// setLabelDragsEnabled(false);
-		capturingThreshold = 20;
 
 		// make sure undo allowed
 		hasFullPermissions = true;
