@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -1537,11 +1538,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// mouse released
 	
 	@Override
-	protected void wrapMouseReleased(int x, int y, boolean alt, boolean control, boolean right, boolean meta) {
+	protected void wrapMouseReleased(int x, int y, boolean alt, boolean control, boolean right, boolean meta, PointerEventType type) {
 		if (!draggingOccured && !control)
 			view3D.switchMoveCursor();
 		
-		super.wrapMouseReleased(x,y,alt,control,right,meta);
+		super.wrapMouseReleased(x,y,alt,control,right,meta, type);
 	}
 	
 	@Override
@@ -1809,11 +1810,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	/** right-release the mouse makes stop 3D rotation 
 	 * @return true if a rotation occured */
 	@Override
-	protected boolean processRightReleaseFor3D(){
+	protected boolean processRightReleaseFor3D(PointerEventType type){
 		
 		if (viewRotationOccured){
 			viewRotationOccured = false;
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			//Application.debug("hits"+view.getHits().toString());
 			((EuclidianView3D) view).updateCursor3D();
 			
@@ -2016,38 +2017,38 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	protected void switchModeForMousePressed(AbstractEvent e){
 
 		Hits hits;
-		
+		PointerEventType type = e.getType();
 		switch (mode) {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:	
 		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:	
 		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:	
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, true, true, true, true, false);
 			break;
 			
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, false, false, true);
 			break;	
 			
 		case EuclidianConstants.MODE_PLANE:
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			break;	
 			
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, true, false, false, true, false);
 			break;	
 			
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
@@ -2061,7 +2062,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			createNewPoint(hits, true, false, false, true, false);
@@ -2076,7 +2077,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:	
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:	
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.size() == 0)
@@ -2086,7 +2087,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//no need to do anything for preview when mouse is pressed
 			break;
 		case EuclidianConstants.MODE_VOLUME:
-			view.setHits(mouseLoc);
+			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			break;
 		default:
@@ -2102,7 +2103,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// MOUSE RELEASED
 	
 	@Override
-	protected boolean switchModeForMouseReleased(int mode, Hits hits, boolean changedKernel, boolean control){
+	protected boolean switchModeForMouseReleased(int mode, Hits hits, boolean changedKernel, boolean control, PointerEventType type){
 		switch (mode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return true;
@@ -2128,7 +2129,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//TODO implement choose geo
 			return true;
 		default:
-			return super.switchModeForMouseReleased(mode, hits, changedKernel, control);
+			return super.switchModeForMouseReleased(mode, hits, changedKernel, control, type);
 			
 		}
 

@@ -2,6 +2,7 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 
 import java.util.LinkedList;
 
@@ -100,4 +101,8 @@ public class TouchEvent extends AbstractEvent {
 	    return event.getTarget();
     }
 
+	@Override
+	public PointerEventType getType() {
+		return PointerEventType.TOUCH;
+	}
 }

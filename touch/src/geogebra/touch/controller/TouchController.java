@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -94,7 +95,7 @@ public class TouchController extends EuclidianController {
 		this.model.handleEvent(hits, null, null);
 	}
 
-	private void handleEvent(final int x, final int y) {
+	private void handleEvent(final int x, final int y, PointerEventType type) {
 		// make sure undo-information is stored first
 
 		OptionType activeOption = this.model.getGuiModel().getOptionTypeShown();
@@ -117,7 +118,7 @@ public class TouchController extends EuclidianController {
 		calcRWcoords();
 
 		if (cmd == ToolBarCommand.Move_Mobile) {
-			this.view.setHits(this.mouseLoc);
+			this.view.setHits(this.mouseLoc, type);
 			if (this.view.getHits().size() == 0) {
 				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
 				this.model.resetSelection();
@@ -127,7 +128,7 @@ public class TouchController extends EuclidianController {
 		// draw the new point
 		switchModeForMousePressed(new MobileMouseEvent(x, y));
 
-		this.view.setHits(this.mouseLoc);
+		this.view.setHits(this.mouseLoc, type);
 		final Hits hits = this.view.getHits();
 
 		this.model.handleEvent(hits, new GPoint(x, y), new Point2D.Double(
@@ -157,7 +158,7 @@ public class TouchController extends EuclidianController {
 		}
 
 		// find and set movedGeoElement
-		this.view.setHits(this.mouseLoc);
+		this.view.setHits(this.mouseLoc, e.getType());
 		final Hits viewHits = this.view.getHits();
 
 		// make sure that eg slider takes precedence over a polygon (in the same
@@ -253,7 +254,7 @@ public class TouchController extends EuclidianController {
 		}
 	}
 
-	public void onTouchEnd(final int x, final int y) {
+	public void onTouchEnd(final int x, final int y, PointerEventType type) {
 		touchMoveIfWaiting();
 
 		this.clicked = false;
@@ -261,7 +262,7 @@ public class TouchController extends EuclidianController {
 				&& this.model.getNumberOf(Test.GEOPOINT) == 1
 				&& (Math.abs(this.origin.getX() - x) > 10 || Math
 						.abs(this.origin.getY() - y) > 10)) {
-			handleEvent(x, y);
+			handleEvent(x, y, type);
 			this.selectedPoints.clear();
 
 			if (this.view.getPreviewDrawable() != null) {
@@ -343,7 +344,7 @@ public class TouchController extends EuclidianController {
 		}
 	}
 
-	public void onTouchStart(final int x, final int y) {
+	public void onTouchStart(final int x, final int y, PointerEventType type) {
 		reset();
 
 		if (this.mode != this.model.getCommand().getMode()) {
@@ -357,7 +358,7 @@ public class TouchController extends EuclidianController {
 
 		this.origin = new GPoint(x, y);
 		this.clicked = true;
-		handleEvent(x, y);
+		handleEvent(x, y, type);
 
 		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint
 				&& this.model.getTotalNumber() >= 2) {

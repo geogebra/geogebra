@@ -1,5 +1,6 @@
 package geogebra.touch.gui.euclidian;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 
@@ -56,7 +57,7 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		//IE gives double coordinates that cannot be handled by pen => round needed
 		if (!TouchEventController.this.ignoreMouseEvents) {
 			TouchEventController.this.mc.onTouchStart(Math.round(event.getX()),
-					Math.round(event.getY()));
+					Math.round(event.getY()),PointerEventType.MOUSE);
 		}
 	}
 
@@ -72,7 +73,8 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 	public void onMouseUp(final MouseUpEvent event) {
 		//IE gives double coordinates that cannot be handled by pen => round needed
 		if (!TouchEventController.this.ignoreMouseEvents) {
-			TouchEventController.this.mc.onTouchEnd(Math.round(event.getX()), Math.round(event.getY()));
+			TouchEventController.this.mc.onTouchEnd(Math.round(event.getX()), Math.round(event.getY()),
+					PointerEventType.MOUSE);
 		}
 	}
 
@@ -89,7 +91,7 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 	public void onTouchEnd(final TouchEndEvent event) {
 		event.preventDefault();
 		this.mc.onTouchEnd(getX(event.getChangedTouches().get(0)),
-				this.getY(event.getChangedTouches().get(0)));
+				this.getY(event.getChangedTouches().get(0)), PointerEventType.TOUCH);
 	}
 
 	@Override
@@ -116,7 +118,7 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 			}
 			this.ignoreMouseEvents = true;
 			this.mc.onTouchStart(getX(event.getTouches().get(0)),
-					this.getY(event.getTouches().get(0)));
+					this.getY(event.getTouches().get(0)),PointerEventType.TOUCH);
 		} else if (event.getTouches().length() == 2) {
 			Touch t1 = event.getTouches().get(0);
 			Touch t2 = event.getTouches().get(1);

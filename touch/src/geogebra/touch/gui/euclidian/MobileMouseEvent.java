@@ -2,6 +2,7 @@ package geogebra.touch.gui.euclidian;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 
 /**
  * Base implementation of AbstractEvent.
@@ -79,6 +80,11 @@ public class MobileMouseEvent extends AbstractEvent {
 
 	@Override
 	public void release() {
+	}
+
+	@Override
+	public PointerEventType getType() {
+		return PointerEventType.MOUSE;
 	}
 
 }

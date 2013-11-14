@@ -11,6 +11,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -1768,7 +1769,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	@Override
-	public void setHits(geogebra.common.awt.GPoint p) {
+	public void setHits(geogebra.common.awt.GPoint p, PointerEventType t) {
 		// empty method : setHits3D() used instead
 	}
 	

@@ -27,6 +27,7 @@ import geogebra.common.euclidian.draw.DrawPolygon;
 import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
 import geogebra.common.euclidian.draw.DrawVector;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
@@ -1533,7 +1534,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return false;
 	}
 	
-	public void setHits(GPoint p) {
+	public void setHits(GPoint p, PointerEventType t) {
 		setHits(p, getCapturingThreshold());
 	}
 	/**

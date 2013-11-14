@@ -3,6 +3,7 @@ package geogebra.web.euclidian;
 import geogebra.common.euclidian.EnvironmentStyle;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
@@ -409,7 +410,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 		App.debug("Touches"+event.getTouches().length());
 		if(event.getTouches().length()==0){
-			this.wrapMouseReleased(mouseLoc.x, mouseLoc.y, false, false, false, false);
+			this.wrapMouseReleased(mouseLoc.x, mouseLoc.y, false, false, false, false,PointerEventType.TOUCH);
 		}
 	}
 

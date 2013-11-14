@@ -2,6 +2,7 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 
 import java.util.LinkedList;
 
@@ -148,5 +149,10 @@ public class MouseEventW extends AbstractEvent {
     public boolean isPopupTrigger() {
 	    return false;
     }
+	
+	@Override
+	public PointerEventType getType() {
+		return PointerEventType.MOUSE;
+	}
 
 }

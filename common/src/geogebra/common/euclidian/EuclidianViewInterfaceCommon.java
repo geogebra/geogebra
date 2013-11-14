@@ -2,6 +2,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -481,7 +482,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * Set the hits regarding to the mouse location 
 	 * @param mouseLoc update hits using mouse position
 	 */
-	public void setHits(GPoint mouseLoc);
+	public void setHits(GPoint mouseLoc, PointerEventType t);
 
 	/**
 	 * Get the hits recorded 

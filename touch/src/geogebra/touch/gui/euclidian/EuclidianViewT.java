@@ -13,7 +13,6 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.touch.TouchEntryPoint;
@@ -196,23 +195,6 @@ public class EuclidianViewT extends EuclidianViewWeb {
 
 	@Override
 	public void setHitCursor() {
-	}
-
-	/**
-	 * this version also adds points that are very close to the hit point
-	 */
-	@Override
-	public void setHits(final GPoint p) {
-		super.setHits(p);
-		this.hits = super.getHits();
-
-		if (this.hits.size() == 0) {
-			final GRectangleW rect = new GRectangleW();
-			final int size = SELECTION_DIAMETER_MIN * this.selectionFactor;
-			rect.setBounds(p.x - size / 2, p.y - size / 2, size, size);
-			this.setHits(rect);
-			this.hits = super.getHits();
-		}
 	}
 
 	@Override

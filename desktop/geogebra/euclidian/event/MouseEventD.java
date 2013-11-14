@@ -2,6 +2,7 @@ package geogebra.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.main.App;
 
 import java.awt.event.InputEvent;
@@ -101,6 +102,10 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 	public java.awt.Component getComponent() {		
 		return event.getComponent();
 	}
-
+	
+	@Override
+	public PointerEventType getType() {
+		return PointerEventType.MOUSE;
+	}
 
 }
