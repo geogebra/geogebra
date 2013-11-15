@@ -7902,6 +7902,30 @@ namespace giac {
     return false;
   }
 
+  static gen regroup_inv(const vecteur & vtmp){
+    vecteur vtmp1,vtmp2;
+    gen tt;
+    for (unsigned i=0;i<vtmp.size();++i){
+      if (vtmp[i].is_symb_of_sommet(at_inv))
+	vtmp2.push_back(vtmp[i]._SYMBptr->feuille);
+      else
+	vtmp1.push_back(vtmp[i]);
+    }
+    if (!vtmp1.empty()){
+      if (vtmp1.size()==1)
+	tt=vtmp1.front();
+      else
+	tt=new_ref_symbolic(symbolic(at_prod,gen(vtmp1,_SORTED__VECT)));
+    }
+    if (!vtmp2.empty()){
+      if (vtmp2.size()==1)
+	tt=tt/vtmp2.front();
+      else
+	tt=tt/new_ref_symbolic(symbolic(at_prod,gen(vtmp2,_SORTED__VECT)));
+    }
+    return tt;
+  }
+  
   // Helpers for symbolic addition
   // from a product returns a list with the numeric coeff and the monomial
   static vecteur terme2unitaire(const gen & x,bool sorted,GIAC_CONTEXT){
@@ -7965,8 +7989,14 @@ namespace giac {
 	  }
 	}
 	if (!is_zero(precexpo)){
-	  if (is_strictly_positive(-precexpo,contextptr))
-	    vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
+	  if (is_strictly_positive(-precexpo,contextptr)){
+	    gen tmp=pow(precbasis,-precexpo,contextptr);
+	    if (tmp.is_symb_of_sommet(at_prod))
+	      tmp=symbolic(at_inv,tmp);
+	    else
+	      tmp=inv(tmp,contextptr);
+	    vsorted.push_back(tmp);
+	  }
 	  else
 	    vsorted.push_back(pow(precbasis,precexpo,contextptr));
 	}
@@ -7986,13 +8016,13 @@ namespace giac {
 	if (!vtmp.empty()){
 	  if (vtmp.size()==1)
 	    tt=vtmp.front();
-	  else
-	    tt=new_ref_symbolic(symbolic(at_prod,gen(vtmp,_SORTED__VECT)));
+	  else 
+	    tt=regroup_inv(vtmp);
 	}
 	res=makevecteur(vsorted.front(),tt);
       }
       else
-	res=makevecteur(plus_one,new_ref_symbolic(symbolic(at_prod,gen(vsorted,_SORTED__VECT))));
+	res=makevecteur(plus_one,regroup_inv(vsorted));
       return res;
     }
     // recurse

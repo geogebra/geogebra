@@ -4922,24 +4922,24 @@ namespace giac {
       if (debug_infolevel>1)
 	cerr << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
-      index_t small,cur;
+      index_t small0,cur;
       unsigned smallpos;
       int smalltd=RAND_MAX;
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
 	  break;
       }
-      index_lcm(res[B[smallpos].first].coord.front().index,res[B[smallpos].second].coord.front().index,small);
+      index_lcm(res[B[smallpos].first].coord.front().index,res[B[smallpos].second].coord.front().index,small0);
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
 	  continue;
 	index_lcm(res[B[i].first].coord.front().index,res[B[i].second].coord.front().index,cur);
 	int curtd=RAND_MAX; // total_degree(cur); // commented otherwise lex is endless
 	if (curtd<smalltd 
-	    || (curtd==smalltd && res.front().is_strictly_greater(small,cur))
+	    || (curtd==smalltd && res.front().is_strictly_greater(small0,cur))
 	    ){
 	  smalltd=curtd;
-	  swap(small,cur); // small=cur;
+	  swap(small0,cur); // small0=cur;
 	  smallpos=i;
 	}
       }

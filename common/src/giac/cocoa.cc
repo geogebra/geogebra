@@ -1225,14 +1225,14 @@ namespace giac {
     unsigned k=0,i; // k=position in f
     tdeg_t m;
     bool finish=false;
-    bool small=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
+    bool small0=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
     int p=env?env->modulo.val:0;
     while (!H.empty() || k<f.coord.size()){
       // is highest remaining degree in f or heap?
       if (k<f.coord.size() && (H.empty() || tdeg_t_greater(f.coord[k].u,H.front().u,f.order)) ){
 	// it's in f or both
 	m=f.coord[k].u;
-	if (small)
+	if (small0)
 	  C=smod(f.coord[k].g,p).val;
 	else {
 	  if (s==1)
@@ -1252,7 +1252,7 @@ namespace giac {
 	std::pop_heap(H.begin(),H.end());
 	heap_t & current=H.back(); // was root node of the heap
 	const poly8 & gcurrent = g[G[current.i]];
-	if (small)
+	if (small0)
 	  C -= longlong(q[current.i].coord[current.qi].g.val) * smod(gcurrent.coord[current.gj].g,p).val; 
 	else {
 	  if (env && env->moduloon){
@@ -1278,7 +1278,7 @@ namespace giac {
 	else
 	  H.pop_back();
       }
-      if (small){
+      if (small0){
 	C %= p;
 	if (C==0)
 	  continue;
@@ -1752,7 +1752,7 @@ namespace giac {
       return ;
     std::vector< T_unsigned<gen,tdeg_t> >::const_iterator pt,ptend;
     unsigned i,rempos=0;
-    bool small=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
+    bool small0=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
     TMP1.coord.clear();
     for (unsigned count=0;;++count){
       ptend=rem.coord.end();
@@ -1769,11 +1769,11 @@ namespace giac {
       }
       if (i==G.size()){ // no leading coeff of G is smaller than the current coeff of rem
 	++rempos;
-	// if (small) TMP1.coord.push_back(*pt);
+	// if (small0) TMP1.coord.push_back(*pt);
 	continue;
       }
       gen a(pt->g),b(res[G[i]].coord.front().g);
-      if (small){
+      if (small0){
 	smallmultsub(rem,0,smod(a*invmod(b,env->modulo),env->modulo).val,res[G[i]],pt->u-res[G[i]].coord.front().u,TMP2,env->modulo.val);
 	// smallmultsub(rem,rempos,smod(a*invmod(b,env->modulo),env->modulo).val,res[G[i]],pt->u-res[G[i]].coord.front().u,TMP2,env->modulo.val);
 	// rempos=0; // since we have removed the beginning of rem (copied in TMP1)
@@ -1816,7 +1816,7 @@ namespace giac {
       swap(rem.coord,TMP2.coord);
     }
     if (env && env->moduloon){
-      // if (small) swap(rem.coord,TMP1.coord);
+      // if (small0) swap(rem.coord,TMP1.coord);
       if (!rem.coord.empty() && rem.coord.front().g!=1)
 	smallmult(invmod(rem.coord.front().g,env->modulo),rem.coord,rem.coord,env->modulo.val);
       return;
@@ -1855,7 +1855,7 @@ namespace giac {
       // rempos=0; // since we have removed the beginning of rem (copied in TMP1)
       swap(p.coord,TMP2.coord);
     }
-    // if (small) swap(p.coord,TMP1.coord);
+    // if (small0) swap(p.coord,TMP1.coord);
     if (env && env->moduloon && !p.coord.empty() && p.coord.front().g!=1)
       smallmult(invmod(p.coord.front().g,env->modulo),p.coord,p.coord,env->modulo.val);
   }
@@ -1989,13 +1989,13 @@ namespace giac {
     C.clear();
     C.reserve(G.size());
     vector<unsigned> hG(1,pos);
-    bool small=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
+    bool small0=env && env->moduloon && env->modulo.type==_INT_ && env->modulo.val;
     for (unsigned i=0;i<G.size();++i){
       if (interrupted || ctrl_c)
 	return;
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].coord.front().u,h0,order)){
 	// reduce res[G[i]] with respect to h
-	if (small)
+	if (small0)
 	  reduce1small(res[G[i]],h,TMP1,TMP2,env);
 	else
 	  reduce(res[G[i]],res,hG,-1,vtmp,res[G[i]],TMP1,TMP2,env);
@@ -2023,7 +2023,7 @@ namespace giac {
       if (debug_infolevel>1)
 	cerr << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
-      tdeg_t small,cur;
+      tdeg_t small0,cur;
       unsigned smallpos,smallsugar=0,cursugar=0;
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
@@ -2031,9 +2031,9 @@ namespace giac {
 	if (interrupted || ctrl_c)
 	  return false;
       }
-      index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small,order);
+      index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small0,order);
       if (sugar)
-	smallsugar=res[B[smallpos].first].sugar+(small-res[B[smallpos].first].coord.front().u).total_degree();
+	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree();
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (interrupted || ctrl_c)
 	  return false;
@@ -2044,16 +2044,16 @@ namespace giac {
 	  cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree();
 	bool doswap;
 	if (order==_PLEX_ORDER)
-	  doswap=tdeg_t_strictly_greater(small,cur,order);
+	  doswap=tdeg_t_strictly_greater(small0,cur,order);
 	else {
 	  if (cursugar!=smallsugar)
 	    doswap = smallsugar > cursugar;
 	  else
-	    doswap=tdeg_t_strictly_greater(small,cur,order);
+	    doswap=tdeg_t_strictly_greater(small0,cur,order);
 	}
 	if (doswap){
 	  // cerr << "swap " << cursugar << " " << res[B[i].first].coord.front().u << " " << res[B[i].second].coord.front().u << endl;
-	  swap(small,cur); // small=cur;
+	  swap(small0,cur); // small0=cur;
 	  swap(smallsugar,cursugar);
 	  smallpos=i;
 	}
@@ -2756,7 +2756,7 @@ namespace giac {
       }
       if (i==G.size()){ // no leading coeff of G is smaller than the current coeff of rem
 	++rempos;
-	// if (small) TMP1.coord.push_back(*pt);
+	// if (small0) TMP1.coord.push_back(*pt);
 	continue;
       }
       modint a(pt->g),b(res[G[i]].coord.front().g);
@@ -2857,7 +2857,7 @@ namespace giac {
       rempos=0; 
       swap(p.coord,TMP2.coord);
     }
-    // if (small) swap(p.coord,TMP1.coord);
+    // if (small0) swap(p.coord,TMP1.coord);
     if (!p.coord.empty() && p.coord.front().g!=1){
       smallmultmod(invmod(p.coord.front().g,env),p,env);
       p.coord.front().g=1;
@@ -2884,7 +2884,7 @@ namespace giac {
       }
       if (i==G.size()){ // no leading coeff of G is smaller than the current coeff of rem
 	++rempos;
-	// if (small) TMP1.coord.push_back(*pt);
+	// if (small0) TMP1.coord.push_back(*pt);
 	continue;
       }
       modint a(pt->g),b(res[G[i]].coord.front().g);
@@ -3165,7 +3165,7 @@ namespace giac {
       if (debug_infolevel>1)
 	cerr << clock() << " mod number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
-      tdeg_t small,cur;
+      tdeg_t small0,cur;
       unsigned smallpos,smallsugar=0,cursugar=0;
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
@@ -3173,9 +3173,9 @@ namespace giac {
 	if (interrupted || ctrl_c)
 	  return false;
       }
-      index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small,order);
+      index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small0,order);
       if (sugar)
-	smallsugar=res[B[smallpos].first].sugar+(small-res[B[smallpos].first].coord.front().u).total_degree();
+	smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree();
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (interrupted || ctrl_c)
 	  return false;
@@ -3186,16 +3186,16 @@ namespace giac {
 	if (sugar)
 	  cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree();
 	if (order==_PLEX_ORDER)
-	  doswap=tdeg_t_strictly_greater(small,cur,order);
+	  doswap=tdeg_t_strictly_greater(small0,cur,order);
 	else {
 	  if (cursugar!=smallsugar)
 	    doswap = smallsugar > cursugar;
 	  else
-	    doswap=tdeg_t_strictly_greater(small,cur,order);
+	    doswap=tdeg_t_strictly_greater(small0,cur,order);
 	}
 	if (doswap){
 	  // cerr << "swap mod " << cursugar << " " << res[B[i].first].coord.front().u << " " << res[B[i].second].coord.front().u << endl;
-	  swap(small,cur); // small=cur;
+	  swap(small0,cur); // small0=cur;
 	  swap(smallsugar,cursugar);
 	  smallpos=i;
 	}
@@ -6256,7 +6256,7 @@ namespace giac {
 	}
       }
       // find smallest lcm pair in B
-      tdeg_t small,cur;
+      tdeg_t small0,cur;
       unsigned smallpos,smalltotdeg=0,curtotdeg=0,smallsugar=0,cursugar=0;
       smallposv.clear();
       for (smallpos=0;smallpos<B.size();++smallpos){
@@ -6265,9 +6265,9 @@ namespace giac {
 	if (interrupted || ctrl_c)
 	  return false;
       }
-      index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small,order);
-      smallsugar=res[B[smallpos].first].sugar+(small-res[B[smallpos].first].coord.front().u).total_degree();
-      smalltotdeg=small.total_degree();
+      index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small0,order);
+      smallsugar=res[B[smallpos].first].sugar+(small0-res[B[smallpos].first].coord.front().u).total_degree();
+      smalltotdeg=small0.total_degree();
       smallposv.push_back(smallpos);
       for (unsigned i=smallpos+1;i<B.size();++i){
 	if (interrupted || ctrl_c)
@@ -6279,7 +6279,7 @@ namespace giac {
 	cursugar=res[B[smallpos].first].sugar+(cur-res[B[smallpos].first].coord.front().u).total_degree();
 	curtotdeg=cur.total_degree();
 	if ( !totdeg || order==_PLEX_ORDER)
-	  doswap=tdeg_t_strictly_greater(small,cur,order);
+	  doswap=tdeg_t_strictly_greater(small0,cur,order);
 	else {
 	  if (sugar){
 	    if (smallsugar!=cursugar)
@@ -6294,7 +6294,7 @@ namespace giac {
 	  smallsugar=cursugar;
 	  smalltotdeg=curtotdeg;
 	  // cerr << "swap mod " << curtotdeg << " " << res[B[i].first].coord.front().u << " " << res[B[i].second].coord.front().u << endl;
-	  swap(small,cur); // small=cur;
+	  swap(small0,cur); // small=cur;
 	  smallpos=i;
 	  smallposv.clear();
 	  smallposv.push_back(i);

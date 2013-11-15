@@ -9340,7 +9340,8 @@ namespace giac {
 
   // if jordan is false, errors for non diagonalizable matrices
   // if jordan is true, d is a matrix, not a vector
-  bool egv(const matrice & m,matrice & p,vecteur & d, GIAC_CONTEXT,bool jordan,bool rational_jordan_form,bool eigenvalues_only){
+  bool egv(const matrice & m0,matrice & p,vecteur & d, GIAC_CONTEXT,bool jordan,bool rational_jordan_form,bool eigenvalues_only){
+    matrice m=m0;
     if (m.size()==1){
       p=vecteur(1,vecteur(1,1));
       if (jordan)
@@ -9348,6 +9349,11 @@ namespace giac {
       else
 	d=*m.front()._VECTptr;
       return true;
+    }
+    if (has_num_coeff(m)){
+      gen g=evalf(m,1,contextptr);
+      if (g.type==_VECT)
+	m=*g._VECTptr;
     }
     bool numeric_matrix=is_fully_numeric(m);
     bool sym=(m==mtran(*conj(m,contextptr)._VECTptr));
