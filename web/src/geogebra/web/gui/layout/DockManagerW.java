@@ -485,7 +485,6 @@ public class DockManagerW implements  SetLabels {
 		
 		// update all labels at once
 		setLabels();
-		rootPane.onResize();
 	}
 	
 	/**
