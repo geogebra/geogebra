@@ -155,7 +155,7 @@ public abstract class WebViewDialog extends JDialog {
 		String heightScript = "Math.max( document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );";
 		final int height = ((Integer) getWebEngine().executeScript(heightScript)).intValue();
 		
-		setPreferredSize(new Dimension(width + 12 + (getWidth() - getContentPane().getWidth()), height + 12 + (getHeight() - getContentPane().getHeight())));
+		setPreferredSize(new Dimension(width + (getWidth() - getContentPane().getWidth()), height + (getHeight() - getContentPane().getHeight())));
 		pack();
 		setLocationRelativeTo(app.getFrame());
 	}

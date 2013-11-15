@@ -39,7 +39,7 @@ public class SignInDialogD extends WebViewDialog {
 	private void createGUI() {
 		setTitle(app.getPlain("SignInToGGT"));
 		setResizable(true);
-        getContentPane().setPreferredSize(new Dimension(512, 292));
+        getContentPane().setPreferredSize(new Dimension(512, 270));
         
         JFXPanel fxPanel = createWebView(app.getLoginOperation().getLoginURL(app.getLocale().getLanguage()));
         add(fxPanel);
