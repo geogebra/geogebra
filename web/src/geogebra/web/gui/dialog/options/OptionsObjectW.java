@@ -1805,7 +1805,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		public void setLabels() {
 			setTitle(getTitle());
 			ListBox lb = getListBox();
-			if (getModel().hasGeos()) {
+			if (getModel().hasGeos() && getModel().checkGeos()) {
 				int selectedIndex = lb.getSelectedIndex();
 				lb.clear();
 				getModel().updateProperties();
