@@ -57,6 +57,7 @@ import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
+import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -408,11 +409,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		return spreadsheetView;
 	}
+	
+	private ProbabilityCalculatorViewW probabilityCalculatorView;
 
 	public View getProbabilityCalculator() {
-		//App.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return null;
+		if (probabilityCalculatorView == null) {
+			probabilityCalculatorView = new ProbabilityCalculatorViewW(app);
+		}
+
+		return propertiesView;
 	}
 
 	public View getPlotPanelView(int id) {

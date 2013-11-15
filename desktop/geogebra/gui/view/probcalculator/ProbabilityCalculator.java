@@ -1,8 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
+import geogebra.common.gui.view.probcalculator.ProbabilitCalcualtorView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
@@ -111,19 +110,13 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class ProbabilityCalculator extends JPanel implements View,
+public class ProbabilityCalculator extends ProbabilitCalcualtorView implements View,
 		ActionListener, FocusListener, ChangeListener, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
 	// enable/disable integral ---- use for testing
 	private boolean hasIntegral = true;
-
-	// ggb fields
-	private final AppD app;
-	private final LocalizationD loc;
-	private Construction cons;
-	private Kernel kernel;
 	private ProbabilityManager probManager;
 	private ProbabiltyCalculatorStyleBar styleBar;
 
@@ -226,6 +219,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private int graphType = GRAPH_BAR;
 
 	private JToggleButton btnExport;
+	
+	private JPanel wrapperPanel;
 
 	private JLabel lblMeanSigma;
 
@@ -244,12 +239,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 	 * @param app
 	 */
 	public ProbabilityCalculator(AppD app) {
-
+		super(app);
 		isIniting = true;
-		this.app = app;
-		this.loc = app.getLocalization();
-		kernel = app.getKernel();
-		cons = kernel.getConstruction();
+		
+		wrapperPanel = new JPanel();
+		
 
 		// Initialize settings and register listener
 		app.getSettings().getProbCalcSettings().addListener(this);
@@ -276,8 +270,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 				}
 			}
 		});
-		this.setLayout(new BorderLayout());
-		this.add(tabbedPane, BorderLayout.CENTER);
+		
+		
+		
+		wrapperPanel.setLayout(new BorderLayout());
+		wrapperPanel.add(tabbedPane, BorderLayout.CENTER);
 
 		setLabels();
 
@@ -309,7 +306,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	 */
 	public ProbabiltyCalculatorStyleBar getStyleBar() {
 		if (styleBar == null) {
-			styleBar = new ProbabiltyCalculatorStyleBar(app, this);
+			styleBar = new ProbabiltyCalculatorStyleBar((AppD) app, this);
 		}
 
 		return styleBar;
@@ -444,7 +441,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			plotPanelPlus.add(plotLabelPanel, BorderLayout.SOUTH);
 
 			// table panel
-			table = new ProbabilityTable(app, this);
+			table = new ProbabilityTable((AppD) app, this);
 			table.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
 					SystemColor.controlShadow));
 			tablePanel = new JPanel(new BorderLayout());
@@ -457,7 +454,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	private void buildProbCalcPanel() {
 
-		this.removeAll();
+		wrapperPanel.removeAll();
 
 		plotSplitPane = new JSplitPane();
 		plotSplitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
@@ -509,14 +506,14 @@ public class ProbabilityCalculator extends JPanel implements View,
 		lblDist = new JLabel();
 
 		btnCumulative = new MyToggleButton(
-				app.getImageIcon("cumulative_distribution.png"));
+				((AppD) app).getImageIcon("cumulative_distribution.png"));
 
 		btnIntervalLeft = new MyToggleButton(
-				app.getImageIcon("interval-left.png"));
+				((AppD) app).getImageIcon("interval-left.png"));
 		btnIntervalBetween = new MyToggleButton(
-				app.getImageIcon("interval-between.png"));
+				((AppD) app).getImageIcon("interval-between.png"));
 		btnIntervalRight = new MyToggleButton(
-				app.getImageIcon("interval-right.png"));
+				((AppD) app).getImageIcon("interval-right.png"));
 
 		btnCumulative.addActionListener(this);
 		btnIntervalLeft.addActionListener(this);
@@ -530,7 +527,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// create export button
 		btnExport = new JToggleButton();
-		btnExport.setIcon(app.getImageIcon("export16.png"));
+		btnExport.setIcon(((AppD) app).getImageIcon("export16.png"));
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
@@ -539,7 +536,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		for (int i = 0; i < maxParameterCount; ++i) {
 			lblParameterArray[i] = new JLabel();
-			fldParameterArray[i] = new MyTextField(app);
+			fldParameterArray[i] = new MyTextField((AppD) app);
 			fldParameterArray[i].setColumns(5);
 			fldParameterArray[i].addActionListener(this);
 			fldParameterArray[i].addFocusListener(this);
@@ -554,17 +551,17 @@ public class ProbabilityCalculator extends JPanel implements View,
 		lblProbOf = new JLabel();
 		lblBetween = new JLabel(); // <= X <=
 		lblEndProbOf = new JLabel();
-		fldLow = new MyTextField(app);
+		fldLow = new MyTextField((AppD) app);
 		fldLow.setColumns(5);
 		fldLow.addActionListener(this);
 		fldLow.addFocusListener(this);
 
-		fldHigh = new MyTextField(app);
+		fldHigh = new MyTextField((AppD) app);
 		fldHigh.setColumns(6);
 		fldHigh.addActionListener(this);
 		fldHigh.addFocusListener(this);
 
-		fldResult = new MyTextField(app);
+		fldResult = new MyTextField((AppD) app);
 		fldResult.setColumns(6);
 		fldResult.addActionListener(this);
 		fldResult.addFocusListener(this);
@@ -577,7 +574,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// distribution combo box panel
 		JPanel cbPanel = new JPanel(new BorderLayout());
-		cbPanel.add(comboDistribution, loc.borderWest());
+		cbPanel.add(comboDistribution, ((LocalizationD) loc).borderWest());
 
 		// parameter panel
 		JPanel parameterPanel = new JPanel(
@@ -600,9 +597,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.add(LayoutUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
-				loc.borderWest());
+				((LocalizationD) loc).borderWest());
 		p.add(LayoutUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
-				Box.createHorizontalStrut(10)), loc.borderEast());
+				Box.createHorizontalStrut(10)), ((LocalizationD) loc).borderEast());
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -1264,11 +1261,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 	// =================================================
 
 	public void updateFonts() {
-		Font font = app.getPlainFont();
-		setFont(font);
-		GuiManagerD.setFontRecursive(this, font);
-		lblDist.setFont(app.getItalicFont());
-		lblProb.setFont(app.getItalicFont());
+		Font font = ((AppD) app).getPlainFont();
+		wrapperPanel.setFont(font);
+		GuiManagerD.setFontRecursive(this.wrapperPanel, font);
+		lblDist.setFont(((AppD) app).getItalicFont());
+		lblProb.setFont(((AppD) app).getItalicFont());
 		plotPanel.updateFonts();
 		table.updateFonts(font);
 		statCalculator.updateFonts(font);
@@ -1303,7 +1300,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 					this.setProbabilityCalculator(selectedDist, parameters,
 							isCumulative);
 				}
-			this.requestFocus();
+			wrapperPanel.requestFocus();
 		}
 
 		else if (source == comboProbType) {
@@ -1585,7 +1582,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		} else {
 
-			fldResult.setBackground(this.getBackground());
+			fldResult.setBackground(wrapperPanel.getBackground());
 			fldResult.setBorder(BorderFactory.createEmptyBorder());
 			fldResult.setEditable(false);
 			fldResult.setFocusable(false);
@@ -1634,7 +1631,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		}
 
 		setMeanSigma();
-		this.repaint();
+		wrapperPanel.repaint();
 
 	}
 
@@ -1836,7 +1833,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		distributionMap = probManager.getDistributionMap();
 		reverseDistributionMap = probManager.getReverseDistributionMap();
-		parameterLabels = ProbabilityManager.getParameterLabelArray(app);
+		parameterLabels = ProbabilityManager.getParameterLabelArray((AppD) app);
 	}
 
 	private void setProbabilityComboBoxMenu() {
@@ -2408,7 +2405,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = app.getShiftDown() ? app.getEuclidianView2()
+				euclidianViewID = ((AppD) app).getShiftDown() ? app.getEuclidianView2()
 						.getViewID() : app.getEuclidianView1().getViewID();
 			}
 
@@ -2628,6 +2625,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// this.setPreferredSize(new Dimension(24, 24));
 			this.setMargin(new Insets(0, 0, 0, 0));
 		}
+	}
+	
+	public JPanel getWrapperPanel() {
+		return wrapperPanel;
 	}
 
 }

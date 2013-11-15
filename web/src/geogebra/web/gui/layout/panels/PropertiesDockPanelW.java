@@ -7,7 +7,7 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class PropertiesDockPanelW extends DockPanelW{
+public class PropertiesDockPanelW extends DockPanelW {
 
 	private static final long serialVersionUID = 1L;
 	private PropertiesViewW view;

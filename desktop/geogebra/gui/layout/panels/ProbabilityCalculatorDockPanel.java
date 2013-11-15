@@ -3,7 +3,7 @@ package geogebra.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.AppD;
+import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 
 import javax.swing.JComponent;
 
@@ -12,12 +12,12 @@ import javax.swing.JComponent;
  */
 public class ProbabilityCalculatorDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	private AppD app;
+	private App app;
 
 	/**
 	 * @param app
 	 */
-	public ProbabilityCalculatorDockPanel(AppD app) {
+	public ProbabilityCalculatorDockPanel(App app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR, // view id
 				"ProbabilityCalculator", // view title phrase
 				null, // toolbar string
@@ -33,7 +33,7 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return (JComponent) app.getGuiManager().getProbabilityCalculator();
+		return ((ProbabilityCalculator) app.getGuiManager().getProbabilityCalculator()).getWrapperPanel();
 	}
 
 	@Override
