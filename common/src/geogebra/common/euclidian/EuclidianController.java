@@ -4568,7 +4568,10 @@ public abstract class EuclidianController {
 		if (count == 0) {
 			addSelectedSegment(hits, 2, false);
 		}
-	
+		// quit here, see #3885
+		if(selectionPreview){
+			return null;
+		}
 		// TWO POINTS
 		if (selPoints() == 2) {
 			// length
