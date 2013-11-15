@@ -89,7 +89,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 
 						// TODO handle this better?
 						// exit if new size cannot be determined
-						if (h < 0 || w < 0) {
+						if (h <= 0 || w <= 0) {
 							return;
 						}
 						if (h != oldHeight || w != oldWidth) {
