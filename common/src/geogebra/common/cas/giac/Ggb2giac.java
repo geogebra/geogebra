@@ -322,7 +322,7 @@ public class Ggb2giac {
 		p("LeftSide.2",
 				"left(%0[%1-1])");
 		p("Length.1",
-				"[[ggbv:=%0],when(ggbv[0]=='pnt', abs(ggbv),size(ggbv))][1]");
+				"[[ggbv:=%0],when(ggbv[0]=='pnt', l2norm(ggbv),size(ggbv))][1]");
 		p("Length.3",
 				"arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
