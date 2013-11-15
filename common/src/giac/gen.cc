@@ -7904,7 +7904,7 @@ namespace giac {
 
   static gen regroup_inv(const vecteur & vtmp){
     vecteur vtmp1,vtmp2;
-    gen tt;
+    gen tt(1);
     for (unsigned i=0;i<vtmp.size();++i){
       if (vtmp[i].is_symb_of_sommet(at_inv))
 	vtmp2.push_back(vtmp[i]._SYMBptr->feuille);
