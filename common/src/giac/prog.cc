@@ -736,6 +736,10 @@ namespace giac {
 	int ss=s.size();
 	if (ss>2 && s[0]=='\'' && s[ss-1]=='\'')
 	  s=s.substr(1,ss-2);
+	for (unsigned i=0;i<s.size();++i){
+	  if (!isalpha(s[i]))
+	    s[i]='_';
+	}
 	lock_syms_mutex();  
 	sym_tab::const_iterator i = syms().find(s);
 	if (i == syms().end()) {
@@ -752,8 +756,10 @@ namespace giac {
     newa=gen(newv,_SEQ__VECT);
     if (v1.empty())
       newb=b;
-    else
+    else {
+      *logptr(contextptr) << "Invalid variable(s) name(s) were replaced by creating special identifiers, check " << v1 << endl;
       newb=quotesubst(b,v1,v2,contextptr);
+    }
   }
 
   // a=arguments, b=values, c=program bloc, d=program name
@@ -1913,7 +1919,7 @@ namespace giac {
 	      tmp=jt->_SYMBptr->feuille._VECTptr->front();
 	      *logptr(contextptr) << gettext("Invalid variable ")+jt->print(contextptr)+gettext(" using ")+tmp.print(contextptr)+gettext(" instead.");
 	    }
-	    else
+	    else 
 	      tmp=*jt;
 	  }
 	}

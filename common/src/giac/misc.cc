@@ -172,6 +172,7 @@ namespace giac {
     if (s<2)
       return gentoofewargs("");
     gen e(v[0]),l(v[1]);
+    if (e.type<=_POLY) return e;
     if (l.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur w(*l._VECTptr);

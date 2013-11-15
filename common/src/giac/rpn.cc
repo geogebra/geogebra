@@ -1737,6 +1737,7 @@ namespace giac {
       identificateur idx("hpdiffx");
       gen newx(idx);
       gen arg0=eval(subst(args._VECTptr->front(),var,newx,false,contextptr),eval_level(contextptr),contextptr);
+      arg0=subst(arg0,var,newx,false,contextptr);
       if (ndiff==0){
 	value=eval(value,1,contextptr);
 	tmp=gen(makevecteur(arg0,newx,value),_SEQ__VECT);

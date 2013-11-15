@@ -7865,6 +7865,12 @@ namespace giac {
       return modified_islesscomplexthanf(a._SYMBptr->feuille[0],b);
     if (b.is_symb_of_sommet(at_pow))
       return modified_islesscomplexthanf(a,b._SYMBptr->feuille[0]);
+    if (a.type!=b.type){
+      if (a.type==_FRAC && b.type>=_POLY)
+	return true;
+      if (b.type==_FRAC && a.type>=_POLY)
+	return false;
+    }
     return islesscomplexthanf(a,b);
   }
 

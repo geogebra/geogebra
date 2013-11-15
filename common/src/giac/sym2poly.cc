@@ -1585,7 +1585,7 @@ namespace giac {
     res->v.reserve(itend-it+1);
     bool negatif=false;
     if (!is_one(e) || (e.type==_MOD) ){
-      if ( e.type<=_REAL && is_positive(-e,contextptr)){
+      if ( (e.type<=_REAL || e.type==_FRAC) && is_positive(-e,contextptr)){
 	negatif=true;
 	if (!is_minus_one(e))
 	  res->v.push_back(-e);
