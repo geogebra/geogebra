@@ -95,9 +95,7 @@ public final class DrawPoint extends Drawable {
 		geo = (GeoElement) P;
 
 		this.isPreview = isPreview;
-		Coords c = P.getInhomCoordsInD(2);
-		this.coords = new double[]{ view.toRealWorldCoordX(c.getX()),
-				view.toRealWorldCoordY(c.getY())};
+		this.coords = new double[2];
 
 		// crossStrokes[1] = new BasicStroke(1f);
 
@@ -116,19 +114,19 @@ public final class DrawPoint extends Drawable {
 
 		isVisible = geo.isEuclidianVisible();
 
-		double[] coords = new double[2];
+		double[] coords1 = new double[2];
 		if (isPreview) {
 			Coords p = P.getInhomCoordsInD(2);
-			coords[0] = p.getX();
-			coords[1] = p.getY();
+			coords1[0] = p.getX();
+			coords1[1] = p.getY();
 		} else {
 			// looks if it's on view
 			Coords p = view.getCoordsForView(P.getInhomCoordsInD(3));
 			if (!Kernel.isZero(p.getZ())) {
 				isVisible = false;
 			} else {
-				coords[0] = p.getX();
-				coords[1] = p.getY();
+				coords1[0] = p.getX();
+				coords1[1] = p.getY();
 			}
 		}
 		
@@ -137,12 +135,12 @@ public final class DrawPoint extends Drawable {
 			return;
 
 		
-		update(coords);
+		update(coords1);
 	}
 	
 	/**
 	 * update regarding coords values
-	 * @param coords (x,y) real world coords
+	 * @param coords1 (x,y) real world coords
 	 */
 	final public void update(double[] coords1){
 
@@ -369,14 +367,14 @@ public final class DrawPoint extends Drawable {
 		}
 
 		if (drawable != null) {
-			double[] coords = new double[2];
-			P.getInhomCoords(coords);
+			double[] coords1 = new double[2];
+			P.getInhomCoords(coords1);
 
-			view.toScreenCoords(coords);
+			view.toScreenCoords(coords1);
 
 			geogebra.common.awt.GEllipse2DFloat circleClip = 
-					geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords[0] - 30,
-					(int) coords[1] - 30, 60, 60);
+					geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords1[0] - 30,
+					(int) coords1[1] - 30, 60, 60);
 			g2.clip(circleClip);
 			geo2.forceEuclidianVisible(true);
 			drawable.update();
