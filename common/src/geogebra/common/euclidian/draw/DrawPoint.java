@@ -95,6 +95,9 @@ public final class DrawPoint extends Drawable {
 		geo = (GeoElement) P;
 
 		this.isPreview = isPreview;
+		Coords c = P.getInhomCoordsInD(2);
+		this.coords = new double[]{ view.toRealWorldCoordX(c.getX()),
+				view.toRealWorldCoordY(c.getY())};
 
 		// crossStrokes[1] = new BasicStroke(1f);
 
@@ -499,7 +502,7 @@ public final class DrawPoint extends Drawable {
 	final public boolean hit(int x, int y, int hitThreshold) {
 		int r = hitThreshold + SELECTION_DIAMETER_MIN;
 		double dx = coords[0] - x;
-		double dy = coords[0] - x;
+		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
 	}
 
