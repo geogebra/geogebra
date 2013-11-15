@@ -31,6 +31,7 @@ import geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
+import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
@@ -81,7 +82,6 @@ import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoCanvasImage;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoImage;
@@ -90,7 +90,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -900,13 +899,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		private static final long serialVersionUID = 1L;
 		private JLabel label;
-		private JComboBox comboBox;
+		protected JComboBox comboBox;
 		private MultipleOptionsModel model;
 		private String title;
 		
 		public ComboPanel(final String title) {
 			this.setModel(model);
-			this.title = title;
+			this.setTitle(title);
 			label = new JLabel();
 			comboBox = new JComboBox();
 
@@ -916,7 +915,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			label.setText(title);
+			label.setText(getTitle());
 
 			int selectedIndex = comboBox.getSelectedIndex();
 			comboBox.removeActionListener(this);
@@ -989,6 +988,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setModel(MultipleOptionsModel model) {
 			this.model = model;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
 		}
 
 	}
@@ -2920,7 +2927,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private class CoordsPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
 	
-		public CoordsPanel() {
+		public CoordsPanel() { 
 			super(loc.getMenu("Coordinates") + ":");
 			setModel(new CoordsModel(this));
 		}
@@ -2935,176 +2942,199 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 	} // LineEqnPanel
 
-	
-	/**
-	 * panel to select the kind of conic equation for GeoConic
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class ConicEqnPanel extends JPanel implements ActionListener,
-	SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-		/**
-		 * 
-		 */
+	private class ConicEqnPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
-		private DefaultComboBoxModel eqnCBmodel;
-		private JComboBox eqnCB;
-		private JLabel eqnLabel;
-		int implicitIndex, explicitIndex, specificIndex;
 
 		public ConicEqnPanel() {
-			eqnLabel = new JLabel();
-			eqnCB = new JComboBox();
-			eqnCBmodel = new DefaultComboBoxModel();
-			eqnCB.setModel(eqnCBmodel);
-			eqnCB.addActionListener(this);
-
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			add(eqnLabel);
-			add(eqnCB);
+			super(loc.getMenu("Equation") + ":");
+			setModel(new ConicEqnModel(this, loc));
 		}
 
+		@Override
 		public void setLabels() {
-			eqnLabel.setText(app.getPlain("Equation") + ":");
+			getLabel().setText(getTitle());
+			if (getModel().hasGeos()) {
+				int selectedIndex = comboBox.getSelectedIndex();
+				comboBox.removeActionListener(this);
 
-			if (geos != null)
-				update(geos);
-
-			// TODO: Anything else required? (F.S.)
-		}
-
-		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
-
-			this.geos = geos;
-			eqnCB.removeActionListener(this);
-
-			// check if all conics have same type and mode
-			// and if specific, explicit is possible
-			GeoConic temp, geo0 = (GeoConic) geos[0];
-			boolean equalType = true;
-			boolean equalMode = true;
-			boolean specificPossible = geo0.isSpecificPossible();
-			boolean explicitPossible = geo0.isExplicitPossible();
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoConic) geos[i];
-				// same type?
-				if (geo0.getType() != temp.getType())
-					equalType = false;
-				// same mode?
-				if (geo0.getToStringMode() != temp.getToStringMode())
-					equalMode = false;
-				// specific equation possible?
-				if (!temp.isSpecificPossible())
-					specificPossible = false;
-				// explicit equation possible?
-				if (!temp.isExplicitPossible())
-					explicitPossible = false;
-			}
-
-			// specific can't be shown because there are different types
-			if (!equalType)
-				specificPossible = false;
-
-			specificIndex = -1;
-			explicitIndex = -1;
-			implicitIndex = -1;
-			int counter = -1;
-			eqnCBmodel.removeAllElements();
-			if (specificPossible) {
-				eqnCBmodel.addElement(geo0.getSpecificEquation());
-				specificIndex = ++counter;
-			}
-			if (explicitPossible) {
-				eqnCBmodel.addElement(app.getPlain("ExplicitConicEquation"));
-				explicitIndex = ++counter;
-			}
-			implicitIndex = ++counter;
-			eqnCBmodel.addElement(app.getPlain("ImplicitConicEquation"));
-
-			int mode;
-			if (equalMode)
-				mode = geo0.getToStringMode();
-			else
-				mode = -1;
-			switch (mode) {
-			case GeoConicND.EQUATION_SPECIFIC:
-				if (specificIndex > -1)
-					eqnCB.setSelectedIndex(specificIndex);
-				break;
-
-			case GeoConicND.EQUATION_EXPLICIT:
-				if (explicitIndex > -1)
-					eqnCB.setSelectedIndex(explicitIndex);
-				break;
-
-			case GeoConicND.EQUATION_IMPLICIT:
-				eqnCB.setSelectedIndex(implicitIndex);
-				break;
-
-			default:
-				eqnCB.setSelectedItem(null);
-			}
-
-			eqnCB.addActionListener(this);
-			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (geos[i].getClass() != GeoConic.class) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
-		/**
-		 * action listener implementation for coord combobox
-		 */
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == eqnCB) {
-				GeoConic geo;
-				int selIndex = eqnCB.getSelectedIndex();
-				if (selIndex == specificIndex) {
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoConic) geos[i];
-						geo.setToSpecific();
-						geo.updateRepaint();
-					}
-				} else if (selIndex == explicitIndex) {
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoConic) geos[i];
-						geo.setToExplicit();
-						geo.updateRepaint();
-					}
-				} else if (selIndex == implicitIndex) {
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoConic) geos[i];
-						geo.setToImplicit();
-						geo.updateRepaint();
-					}
-				}
+				comboBox.removeAllItems();
+				getModel().updateProperties();
+				comboBox.setSelectedIndex(selectedIndex);
+				comboBox.addActionListener(this);
 			}
 		}
+		
+	} // ConicEqnPanel
 
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			eqnLabel.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-	}
+//	/**
+//	 * panel to select the kind of conic equation for GeoConic
+//	 * 
+//	 * @author Markus Hohenwarter
+//	 */
+//	private class ConicEqnPanel extends JPanel implements ActionListener,
+//	SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		private Object[] geos;
+//		private DefaultComboBoxModel eqnCBmodel;
+//		private JComboBox eqnCB;
+//		private JLabel eqnLabel;
+//		int implicitIndex, explicitIndex, specificIndex;
+//
+//		public ConicEqnPanel() {
+//			eqnLabel = new JLabel();
+//			eqnCB = new JComboBox();
+//			eqnCBmodel = new DefaultComboBoxModel();
+//			eqnCB.setModel(eqnCBmodel);
+//			eqnCB.addActionListener(this);
+//
+//			setLayout(new FlowLayout(FlowLayout.LEFT));
+//			add(eqnLabel);
+//			add(eqnCB);
+//		}
+//
+//		public void setLabels() {
+//			eqnLabel.setText(app.getPlain("Equation") + ":");
+//
+//			if (geos != null)
+//				update(geos);
+//
+//			// TODO: Anything else required? (F.S.)
+//		}
+//
+//		public JPanel update(Object[] geos) {
+//			// check geos
+//			if (!checkGeos(geos))
+//				return null;
+//
+//			this.geos = geos;
+//			eqnCB.removeActionListener(this);
+//
+//			// check if all conics have same type and mode
+//			// and if specific, explicit is possible
+//			GeoConic temp, geo0 = (GeoConic) geos[0];
+//			boolean equalType = true;
+//			boolean equalMode = true;
+//			boolean specificPossible = geo0.isSpecificPossible();
+//			boolean explicitPossible = geo0.isExplicitPossible();
+//			for (int i = 1; i < geos.length; i++) {
+//				temp = (GeoConic) geos[i];
+//				// same type?
+//				if (geo0.getType() != temp.getType())
+//					equalType = false;
+//				// same mode?
+//				if (geo0.getToStringMode() != temp.getToStringMode())
+//					equalMode = false;
+//				// specific equation possible?
+//				if (!temp.isSpecificPossible())
+//					specificPossible = false;
+//				// explicit equation possible?
+//				if (!temp.isExplicitPossible())
+//					explicitPossible = false;
+//			}
+//
+//			// specific can't be shown because there are different types
+//			if (!equalType)
+//				specificPossible = false;
+//
+//			specificIndex = -1;
+//			explicitIndex = -1;
+//			implicitIndex = -1;
+//			int counter = -1;
+//			eqnCBmodel.removeAllElements();
+//			if (specificPossible) {
+//				eqnCBmodel.addElement(geo0.getSpecificEquation());
+//				specificIndex = ++counter;
+//			}
+//			if (explicitPossible) {
+//				eqnCBmodel.addElement(app.getPlain("ExplicitConicEquation"));
+//				explicitIndex = ++counter;
+//			}
+//			implicitIndex = ++counter;
+//			eqnCBmodel.addElement(app.getPlain("ImplicitConicEquation"));
+//
+//			int mode;
+//			if (equalMode)
+//				mode = geo0.getToStringMode();
+//			else
+//				mode = -1;
+//			switch (mode) {
+//			case GeoConicND.EQUATION_SPECIFIC:
+//				if (specificIndex > -1)
+//					eqnCB.setSelectedIndex(specificIndex);
+//				break;
+//
+//			case GeoConicND.EQUATION_EXPLICIT:
+//				if (explicitIndex > -1)
+//					eqnCB.setSelectedIndex(explicitIndex);
+//				break;
+//
+//			case GeoConicND.EQUATION_IMPLICIT:
+//				eqnCB.setSelectedIndex(implicitIndex);
+//				break;
+//
+//			default:
+//				eqnCB.setSelectedItem(null);
+//			}
+//
+//			eqnCB.addActionListener(this);
+//			return this;
+//		}
+//
+//		private boolean checkGeos(Object[] geos) {
+//			boolean geosOK = true;
+//			for (int i = 0; i < geos.length; i++) {
+//				if (geos[i].getClass() != GeoConic.class) {
+//					geosOK = false;
+//					break;
+//				}
+//			}
+//			return geosOK;
+//		}
+//
+//		/**
+//		 * action listener implementation for coord combobox
+//		 */
+//		public void actionPerformed(ActionEvent e) {
+//			Object source = e.getSource();
+//			if (source == eqnCB) {
+//				GeoConic geo;
+//				int selIndex = eqnCB.getSelectedIndex();
+//				if (selIndex == specificIndex) {
+//					for (int i = 0; i < geos.length; i++) {
+//						geo = (GeoConic) geos[i];
+//						geo.setToSpecific();
+//						geo.updateRepaint();
+//					}
+//				} else if (selIndex == explicitIndex) {
+//					for (int i = 0; i < geos.length; i++) {
+//						geo = (GeoConic) geos[i];
+//						geo.setToExplicit();
+//						geo.updateRepaint();
+//					}
+//				} else if (selIndex == implicitIndex) {
+//					for (int i = 0; i < geos.length; i++) {
+//						geo = (GeoConic) geos[i];
+//						geo.setToImplicit();
+//						geo.updateRepaint();
+//					}
+//				}
+//			}
+//		}
+//
+//		public void updateFonts() {
+//			Font font = app.getPlainFont();
+//
+//			eqnLabel.setFont(font);
+//		}
+//
+//		public void updateVisualStyle(GeoElement geo) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//	}
 
 	/**
 	 * panel to select the size of a GeoPoint

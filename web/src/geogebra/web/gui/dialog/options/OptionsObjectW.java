@@ -16,6 +16,7 @@ import geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
+import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
@@ -151,8 +152,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	//Algebra
 	private CoordsPanel coordsPanel;
 	private LineEqnPanel lineEqnPanel;
-
+	private ConicEqnPanel conicEqnPanel;
+	
 	private List<OptionsTab> tabs;
+
 	
 	private abstract class OptionPanel {
 		OptionsModel model;
@@ -271,12 +274,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			FlowPanel mainWidget = new FlowPanel(); 
 			
 			mainWidget.add(label);
-			mainWidget.add(listBox);
+			mainWidget.add(getListBox());
 			
-			listBox.addChangeHandler(new ChangeHandler(){
+			getListBox().addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
-					getMultipleModel().applyChanges(listBox.getSelectedIndex());
+					getMultipleModel().applyChanges(getListBox().getSelectedIndex());
                 }});
 			setWidget(mainWidget);
 		}
@@ -287,21 +290,35 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 		@Override
         public void setLabels() {
-			label.setText(title);
+			label.setText(getTitle());
 
-			int idx = listBox.getSelectedIndex();
-			listBox.clear();
+			int idx = getListBox().getSelectedIndex();
+			getListBox().clear();
 			getMultipleModel().fillModes(loc);
-			listBox.setSelectedIndex(idx);
+			getListBox().setSelectedIndex(idx);
 		}
 
 		public void setSelectedIndex(int index) {
-			listBox.setSelectedIndex(index);
+			getListBox().setSelectedIndex(index);
         }
 
 		public void addItem(String item) {
-	        listBox.addItem(item);
+	        getListBox().addItem(item);
         }
+
+		public String getTitle() {
+	        return title;
+        }
+		
+		public void setTitle(String title) {
+	        this.title = title;
+	        label.setText(title);
+        }
+		
+		public ListBox getListBox() {
+	        return listBox;
+        }
+
 		
 	}
 
@@ -1776,6 +1793,28 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	} // LineEqnPanel
 
+	private class ConicEqnPanel extends ListBoxPanel {
+		private static final long serialVersionUID = 1L;
+
+		public ConicEqnPanel() {
+			super(loc.getMenu("Equation") + ":");
+			setModel(new ConicEqnModel(this, loc));
+		}
+
+		@Override
+		public void setLabels() {
+			setTitle(getTitle());
+			ListBox lb = getListBox();
+			if (getModel().hasGeos()) {
+				int selectedIndex = lb.getSelectedIndex();
+				lb.clear();
+				getModel().updateProperties();
+				lb.setSelectedIndex(selectedIndex);
+			}
+		}
+		
+	} // ConicEqnPanel
+
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1961,11 +2000,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		OptionsTab tab;
 		coordsPanel = new CoordsPanel();
 		lineEqnPanel = new LineEqnPanel();
+		conicEqnPanel = new ConicEqnPanel();
 
 		tab = new OptionsTab(loc.getMenu("Properties.Algebra"));
 		tab.addPanelList(
 				Arrays.asList((OptionPanel)coordsPanel,
-				lineEqnPanel
+				lineEqnPanel,
+				conicEqnPanel
 		));
 		
 		return tab;
