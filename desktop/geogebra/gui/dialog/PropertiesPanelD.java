@@ -31,6 +31,7 @@ import geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
+import geogebra.common.gui.dialog.options.model.CoordsModel;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
@@ -41,6 +42,7 @@ import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LayerModel;
+import geogebra.common.gui.dialog.options.model.LineEqnModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
@@ -83,14 +85,11 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -209,7 +208,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private LabelPanel labelPanel;
 	private TooltipPanel tooltipPanel;
 	private LayerPanel layerPanel; // Michael Borcherds 2008-02-26
-	private CoordPanel coordPanel;
+	private CoordsPanel coordPanel;
 	private LineEqnPanel lineEqnPanel;
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
@@ -316,7 +315,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		selectionAllowed = new SelectionAllowedPanel();
 		showTrimmedIntersectionLines = new ShowTrimmedIntersectionLines();
 		colorPanel = new ColorPanel(colChooser);
-		coordPanel = new CoordPanel();
+		coordPanel = new CoordsPanel();
 		lineEqnPanel = new LineEqnPanel();
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
@@ -2917,298 +2916,26 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class CoordPanel extends JPanel implements ActionListener,
-	SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-		/**
-		 * 
-		 */
+	
+	private class CoordsPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
-		private JLabel coordLabel;
-		private JComboBox coordCB;
-
-		public CoordPanel() {
-			coordLabel = new JLabel();
-			coordCB = new JComboBox();
-
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			add(coordLabel);
-			add(coordCB);
+	
+		public CoordsPanel() {
+			super(loc.getMenu("Coordinates") + ":");
+			setModel(new CoordsModel(this));
 		}
+	} // CoordsPanel
 
-		public void setLabels() {
-			coordLabel.setText(app.getPlain("Coordinates") + ":");
-
-			int selectedIndex = coordCB.getSelectedIndex();
-			coordCB.removeActionListener(this);
-
-			coordCB.removeAllItems();
-			coordCB.addItem(app.getPlain("CartesianCoords")); // index 0
-			coordCB.addItem(app.getPlain("PolarCoords")); // index 1
-			coordCB.addItem(app.getPlain("ComplexNumber")); // index 2
-			coordCB.addItem(app.getPlain("CartesianCoords3D")); // index 3
-
-			coordCB.setSelectedIndex(selectedIndex);
-			coordCB.addActionListener(this);
-		}
-
-		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
-
-			this.geos = geos;
-			coordCB.removeActionListener(this);
-
-			// check if properties have same values
-			CoordStyle geo0 = (CoordStyle) geos[0];
-			boolean equalMode = true;
-
-			int mode;
-			if (equalMode)
-				mode = geo0.getMode();
-			else
-				mode = -1;
-			switch (mode) {
-			case Kernel.COORD_CARTESIAN:
-				coordCB.setSelectedIndex(0);
-				break;
-			case Kernel.COORD_POLAR:
-				coordCB.setSelectedIndex(1);
-				break;
-			case Kernel.COORD_COMPLEX:
-				coordCB.setSelectedIndex(2);
-				break;
-			case Kernel.COORD_CARTESIAN_3D:
-				coordCB.setSelectedIndex(3);
-				break;
-			default:
-				coordCB.setSelectedItem(null);
-			}
-
-			coordCB.addActionListener(this);
-			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			// boolean allPoints = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!(((GeoElement) geos[i]).isGeoPoint() || geos[i] instanceof GeoVector)) {
-					geosOK = false;
-				}
-
-				// check if fixed
-				if (((GeoElement) geos[i]).isFixed())
-					geosOK = false;
-
-				// if (!(geos[i] instanceof GeoPoint)) allPoints = false;
-			}
-
-			// remove ComplexNumber option if any vectors are in list
-			// if (!allPoints && coordCB.getItemCount() == 3)
-			// coordCB.removeItemAt(2);
-
-			return geosOK;
-		}
-
-		/**
-		 * action listener implementation for coord combobox
-		 */
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == coordCB) {
-				CoordStyle geo;
-				switch (coordCB.getSelectedIndex()) {
-				case 0: // Kernel.CARTESIAN
-					for (int i = 0; i < geos.length; i++) {
-						geo = (CoordStyle) geos[i];
-						geo.setMode(Kernel.COORD_CARTESIAN);
-						((GeoElement) geo).updateRepaint();
-					}
-					break;
-
-				case 1: // Kernel.POLAR
-					for (int i = 0; i < geos.length; i++) {
-						geo = (CoordStyle) geos[i];
-						geo.setMode(Kernel.COORD_POLAR);
-						((GeoElement) geo).updateRepaint();
-					}
-					break;
-				case 2: // Kernel.COMPLEX
-					for (int i = 0; i < geos.length; i++) {
-						geo = (CoordStyle) geos[i];
-						geo.setMode(Kernel.COORD_COMPLEX);
-						((GeoElement) geo).updateRepaint();
-					}
-					break;
-				case 3: // Kernel.COORD_CARTESIAN_3D
-					for (int i = 0; i < geos.length; i++) {
-						geo = (CoordStyle) geos[i];
-						geo.setMode(Kernel.COORD_CARTESIAN_3D);
-						((GeoElement) geo).updateRepaint();
-					}
-					break;
-				}
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			coordLabel.setFont(font);
-			coordCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-	}
-
-	/**
-	 * panel to select the kind of line equation for GeoLine
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class LineEqnPanel extends JPanel implements ActionListener,
-	SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-		/**
-		 * 
-		 */
+	private class LineEqnPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
-		private JComboBox eqnCB;
-		private JLabel eqnLabel;
-
+	
 		public LineEqnPanel() {
-			eqnLabel = new JLabel();
-			eqnCB = new JComboBox();
-			eqnCB.addActionListener(this);
-
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			add(eqnLabel);
-			add(eqnCB);
+			super(loc.getMenu("Equation") + ":");
+			setModel(new LineEqnModel(this));
 		}
+	} // LineEqnPanel
 
-		public void setLabels() {
-			eqnLabel.setText(app.getPlain("Equation") + ":");
-
-			int selectedIndex = eqnCB.getSelectedIndex();
-			eqnCB.removeActionListener(this);
-
-			eqnCB.removeAllItems();
-			eqnCB.addItem(app.getPlain("ImplicitLineEquation"));
-			// index 0
-			eqnCB.addItem(app.getPlain("ExplicitLineEquation"));
-			// index 1
-			eqnCB.addItem(app.getPlain("ParametricForm")); // index 2
-
-			eqnCB.setSelectedIndex(selectedIndex);
-			eqnCB.addActionListener(this);
-		}
-
-		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
-				return null;
-
-			this.geos = geos;
-			eqnCB.removeActionListener(this);
-
-			// check if properties have same values
-			GeoLine temp, geo0 = (GeoLine) geos[0];
-			boolean equalMode = true;
-			for (int i = 1; i < geos.length; i++) {
-				temp = (GeoLine) geos[i];
-				// same mode?
-				if (geo0.getMode() != temp.getMode())
-					equalMode = false;
-			}
-
-			int mode;
-			if (equalMode)
-				mode = geo0.getMode();
-			else
-				mode = -1;
-			switch (mode) {
-			case GeoLine.EQUATION_IMPLICIT:
-				eqnCB.setSelectedIndex(0);
-				break;
-			case GeoLine.EQUATION_EXPLICIT:
-				eqnCB.setSelectedIndex(1);
-				break;
-			case GeoLine.PARAMETRIC:
-				eqnCB.setSelectedIndex(2);
-				break;
-			default:
-				eqnCB.setSelectedItem(null);
-			}
-
-			eqnCB.addActionListener(this);
-			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoLine)
-						|| geos[i] instanceof GeoSegment) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
-		/**
-		 * action listener implementation for coord combobox
-		 */
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == eqnCB) {
-				GeoLine geo;
-				switch (eqnCB.getSelectedIndex()) {
-				case 0: // GeoLine.EQUATION_IMPLICIT
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoLine) geos[i];
-						geo.setMode(GeoLine.EQUATION_IMPLICIT);
-						geo.updateRepaint();
-					}
-					break;
-
-				case 1: // GeoLine.EQUATION_EXPLICIT
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoLine) geos[i];
-						geo.setMode(GeoLine.EQUATION_EXPLICIT);
-						geo.updateRepaint();
-					}
-					break;
-
-				case 2: // GeoLine.PARAMETRIC
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoLine) geos[i];
-						geo.setMode(GeoLine.PARAMETRIC);
-						geo.updateRepaint();
-					}
-					break;
-				}
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			eqnLabel.setFont(font);
-			eqnCB.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-	}
-
+	
 	/**
 	 * panel to select the kind of conic equation for GeoConic
 	 * 
