@@ -1,35 +1,26 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra.util.FrameCollector;
-import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
-import geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
 import javax.media.opengl.glu.GLUtessellator;
 
 
@@ -47,7 +38,7 @@ import javax.media.opengl.glu.GLUtessellator;
  * @author ggb3D
  * 
  */
-public class Renderer extends RendererJogl implements GLEventListener {
+public abstract class Renderer extends RendererJogl implements GLEventListener {
 
 	
 	// openGL variables
@@ -65,25 +56,24 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	public Component3D canvas;
 
 	
-	private GLUquadric quadric;
 	private Animator animator;
 	
 	/** for polygon tesselation */
 	private GLUtessellator tobj;
 	
-	private static final int MOUSE_PICK_WIDTH = 3;
+	protected static final int MOUSE_PICK_WIDTH = 3;
 	private static final int MOUSE_PICK_DEPTH = 10;
 	
 	Drawable3D[] drawHits;
 	int pickingLoop;
 	
 	// other
-	private Drawable3DLists drawable3DLists;
+	protected Drawable3DLists drawable3DLists;
 	
 	protected EuclidianView3D view3D;
 	
 	// for drawing
-	private CoordMatrix4x4 m_drawingMatrix; //matrix for drawing
+	protected CoordMatrix4x4 m_drawingMatrix; //matrix for drawing
 	
 	
 	///////////////////
@@ -92,7 +82,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	
 	///////////////////
 	//geometries
-	private Manager geometryManager;
+	protected Manager geometryManager;
 	
 
 	///////////////////
@@ -127,12 +117,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	///////////////////
 	// for picking
 	
-	private GPoint mouse;
-	private boolean waitForPick = false;
+	protected GPoint mouse;
+	protected boolean waitForPick = false;
 	private boolean doPick = false;
 	public static final int PICKING_MODE_OBJECTS = 0;
 	public static final int PICKING_MODE_LABELS = 1;
-	private int pickingMode = PICKING_MODE_OBJECTS;
+	protected int pickingMode = PICKING_MODE_OBJECTS;
 	
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D} 
@@ -191,17 +181,17 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	 */
 	public void setCulling(boolean flag){
 		if (flag)
-			gl.glEnable(GLlocal.GL_CULL_FACE);
+			getGL().glEnable(GLlocal.GL_CULL_FACE);
 		else
-			gl.glDisable(GLlocal.GL_CULL_FACE);
+			getGL().glDisable(GLlocal.GL_CULL_FACE);
 	}
 	
 	public void setCullFaceFront(){
-		gl.glCullFace(GLlocal.GL_FRONT); 
+		getGL().glCullFace(GLlocal.GL_FRONT); 
 	}
 	
 	public void setCullFaceBack(){
-		gl.glCullFace(GLlocal.GL_BACK); 
+		getGL().glCullFace(GLlocal.GL_BACK); 
 	}
 	
 	/** sets if openGL blending is done or not
@@ -209,36 +199,36 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	 */
 	public void setBlending(boolean flag){
 		if (flag)
-			gl.glEnable(GLlocal.GL_BLEND);
+			getGL().glEnable(GLlocal.GL_BLEND);
 		else
-			gl.glDisable(GLlocal.GL_BLEND);
+			getGL().glDisable(GLlocal.GL_BLEND);
 	}
 	
 	private void drawTransp(){
 			
 		getTextures().loadTextureLinear(Textures.FADING);
 		
-		gl.glDisable(GLlocal.GL_CULL_FACE);
+		getGL().glDisable(GLlocal.GL_CULL_FACE);
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
 		
 		//TODO fix it
-		//gl.glDisable(GLlocal.GL_TEXTURE_2D);
+		//getGL().glDisable(GLlocal.GL_TEXTURE_2D);
 		//TODO improve this !
 		
-		gl.glDisable(GLlocal.GL_LIGHT0);
-		gl.glEnable(GLlocal.GL_LIGHT1);
-		//gl.glEnable(GLlocal.GL_LIGHT2);
+		getGL().glDisable(GLlocal.GL_LIGHT0);
+		getGL().glEnable(GLlocal.GL_LIGHT1);
+		//getGL().glEnable(GLlocal.GL_LIGHT2);
 		
-		gl.glEnable(GLlocal.GL_CULL_FACE);
-		gl.glCullFace(GLlocal.GL_FRONT); 
+		getGL().glEnable(GLlocal.GL_CULL_FACE);
+		getGL().glCullFace(GLlocal.GL_FRONT); 
 		drawable3DLists.drawTranspClosedCurved(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); //clipped surfaces back-faces
 			disableClipPlanesIfNeeded();
 		}
-		gl.glCullFace(GLlocal.GL_BACK); 
+		getGL().glCullFace(GLlocal.GL_BACK); 
 		drawable3DLists.drawTranspClosedCurved(this);//draws outside parts 	
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
@@ -247,9 +237,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		}
 		
 
-		//gl.glDisable(GLlocal.GL_LIGHT2);
-		gl.glDisable(GLlocal.GL_LIGHT1);
-		gl.glEnable(GLlocal.GL_LIGHT0);
+		//getGL().glDisable(GLlocal.GL_LIGHT2);
+		getGL().glDisable(GLlocal.GL_LIGHT1);
+		getGL().glEnable(GLlocal.GL_LIGHT0);
 
 	}
 		
@@ -257,27 +247,27 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		getTextures().loadTextureLinear(Textures.FADING);
 
-        gl.glEnable(GLlocal.GL_BLEND);
+        getGL().glEnable(GLlocal.GL_BLEND);
         
-        //gl.glCullFace(GLlocal.GL_BACK);gl.glEnable(GLlocal.GL_CULL_FACE);
-		gl.glDisable(GLlocal.GL_CULL_FACE);
+        //getGL().glCullFace(GLlocal.GL_BACK);getGL().glEnable(GLlocal.GL_CULL_FACE);
+		getGL().glDisable(GLlocal.GL_CULL_FACE);
         drawable3DLists.drawNotTransparentSurfaces(this);
 
         
-		gl.glDisable(GLlocal.GL_LIGHT0);
-		gl.glEnable(GLlocal.GL_LIGHT1);
-		//gl.glEnable(GLlocal.GL_LIGHT2);
+		getGL().glDisable(GLlocal.GL_LIGHT0);
+		getGL().glEnable(GLlocal.GL_LIGHT1);
+		//getGL().glEnable(GLlocal.GL_LIGHT2);
 		
 		//TODO improve this !
-		gl.glEnable(GLlocal.GL_CULL_FACE);
-		gl.glCullFace(GLlocal.GL_FRONT); 
+		getGL().glEnable(GLlocal.GL_CULL_FACE);
+		getGL().glCullFace(GLlocal.GL_FRONT); 
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawNotTransparentSurfacesClipped(this); //clipped surfaces back-faces
 			disableClipPlanesIfNeeded();
 		}
-		gl.glCullFace(GLlocal.GL_BACK); 
+		getGL().glCullFace(GLlocal.GL_BACK); 
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws outside parts 	
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
@@ -286,9 +276,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		}
 		
 
-		//gl.glDisable(GLlocal.GL_LIGHT2);
-		gl.glDisable(GLlocal.GL_LIGHT1);
-		gl.glEnable(GLlocal.GL_LIGHT0);
+		//getGL().glDisable(GLlocal.GL_LIGHT2);
+		getGL().glDisable(GLlocal.GL_LIGHT1);
+		getGL().glEnable(GLlocal.GL_LIGHT0);
 	}
 	
 	/**
@@ -314,7 +304,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 
     	//double displayTime = System.currentTimeMillis();
         
-        gl = RendererJogl.getGL(gLDrawable);                
+        setGL(gLDrawable);                
         
         //picking        
         if(waitForPick){
@@ -365,7 +355,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         }
         
         //clear color buffer
-        gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT);
+        getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
         
         
         if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
@@ -373,13 +363,13 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	//setStencilLines();
 
 
-        	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
+        	getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
 
 
         	//left eye
         	if (view3D.isPolarized()){
         		// draw where stencil's value is 0
-        		gl.glStencilFunc(GLlocal.GL_EQUAL, 0, 0xFF);
+        		getGL().glStencilFunc(GLlocal.GL_EQUAL, 0, 0xFF);
         	}
 
         	eye=EYE_LEFT;
@@ -391,23 +381,23 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	//right eye
            	if (view3D.isPolarized()){
         		// draw where stencil's value is 1
-        		gl.glStencilFunc(GLlocal.GL_EQUAL, 1, 0xFF);
+        		getGL().glStencilFunc(GLlocal.GL_EQUAL, 1, 0xFF);
         	}
            	
         	eye=EYE_RIGHT;
         	setColorMask();
-        	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT); //clear depth buffer
+        	getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT); //clear depth buffer
         	setView();
         	draw(); 
         	
         } else {  
-        	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
+        	getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
         	setView();
         	draw(); 
         }
         
         // prepare correct color mask for next clear
-    	gl.glColorMask(true,true,true,true);
+    	getGL().glColorMask(true,true,true,true);
         
             
         if (needExportImage) {
@@ -478,49 +468,49 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * enable textures
      */
     final public void enableTextures(){  	
-    	gl.glEnable(GLlocal.GL_TEXTURE_2D);
+    	getGL().glEnable(GLlocal.GL_TEXTURE_2D);
     }
 
     /**
      * disable multi samples (for antialiasing)
      */
     final public void disableTextures(){
-    	gl.glDisable(GLlocal.GL_TEXTURE_2D);
+    	getGL().glDisable(GLlocal.GL_TEXTURE_2D);
     }
    
     /**
      * enable  multi samples (for antialiasing)
      */
     final public void enableMultisample(){  	
-    	gl.glEnable(GLlocal.GL_MULTISAMPLE);
+    	getGL().glEnable(GLlocal.GL_MULTISAMPLE);
     }
 
     /**
      * disable textures
      */
     final public void disableMultisample(){
-    	gl.glDisable(GLlocal.GL_MULTISAMPLE);
+    	getGL().glDisable(GLlocal.GL_MULTISAMPLE);
     }
    
     private void drawFaceToScreen() {
     	//draw face-to screen parts (labels, ...)
         //drawing labels
-        //gl.glEnable(GLlocal.GL_CULL_FACE);
-        //gl.glCullFace(GLlocal.GL_BACK);
+        //getGL().glEnable(GLlocal.GL_CULL_FACE);
+        //getGL().glCullFace(GLlocal.GL_BACK);
 
-        gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
-        gl.glDisable(GLlocal.GL_LIGHTING);
-        gl.glEnable(GLlocal.GL_BLEND);
+        getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
+        getGL().glDisable(GLlocal.GL_LIGHTING);
+        getGL().glEnable(GLlocal.GL_BLEND);
         enableTextures();
-        //gl.glDisable(GLlocal.GL_BLEND);
-        //gl.glDepthMask(false);
+        //getGL().glDisable(GLlocal.GL_BLEND);
+        //getGL().glDepthMask(false);
         drawable3DLists.drawLabel(this);
         
-        //gl.glDepthMask(true);
-    	//gl.glAlphaFunc(GLlocal.GL_EQUAL, 1);
+        //getGL().glDepthMask(true);
+    	//getGL().glAlphaFunc(GLlocal.GL_EQUAL, 1);
         //drawable3DLists.drawLabel(this);
  
-        //gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
+        //getGL().glAlphaFunc(GLlocal.GL_GREATER, 0);
         
         
         disableTextures();
@@ -533,9 +523,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
     }
     
-    private static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
+    protected static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
     
-    private boolean enableClipPlanes;
+    protected boolean enableClipPlanes;
     private boolean waitForUpdateClipPlanes=false;
     
     /**
@@ -548,14 +538,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
        
     private void enableClipPlane(int n){
-    	gl.glEnable( GL_CLIP_PLANE[n] );   	
+    	getGL().glEnable( GL_CLIP_PLANE[n] );   	
     }
     
     private void disableClipPlane(int n){
-    	gl.glDisable( GL_CLIP_PLANE[n] );   	
+    	getGL().glDisable( GL_CLIP_PLANE[n] );   	
     }
     
-    private void enableClipPlanes(){
+    protected void enableClipPlanes(){
     	for (int n=0; n<6; n++)
     		enableClipPlane(n);
     }
@@ -568,7 +558,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		enableClipPlanes();
     }
     
-    private void disableClipPlanes(){
+    protected void disableClipPlanes(){
     	for (int n=0; n<6; n++)
     		disableClipPlane(n);
     }
@@ -586,28 +576,34 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @param n index of the clip plane
      * @param equation equation of the clip plane
      */
-    public void setClipPlane(int n, double[] equation){
-    	gl.glClipPlane( GL_CLIP_PLANE[n] , equation, 0 );
-    }
+    abstract public void setClipPlane(int n, double[] equation);
     
+    /**
+     * init drawing matrix to view3D toScreen matrix
+     */
+    abstract protected void setMatrixView();
+
+    /**
+     * reset to projection matrix only
+     */
+    abstract protected void unsetMatrixView();
+
     protected void draw(){
     	
         //labels
         drawFaceToScreen();
         
         //init drawing matrix to view3D toScreen matrix
-        gl.glPushMatrix();
-        //gl.glMultMatrixd(view3D.getToScreenMatrix().get(),0);
-        gl.glLoadMatrixd(view3D.getToScreenMatrix().get(),0);            
+        setMatrixView(); 
  
         setLightPosition();      
 
         //drawing the cursor
-        //gl.glEnable(GLlocal.GL_BLEND);
-        gl.glEnable(GLlocal.GL_LIGHTING);
-        gl.glDisable(GLlocal.GL_ALPHA_TEST);       
-        gl.glEnable(GLlocal.GL_CULL_FACE);
-        //gl.glCullFace(GLlocal.GL_FRONT);
+        //getGL().glEnable(GLlocal.GL_BLEND);
+        getGL().glEnable(GLlocal.GL_LIGHTING);
+        getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
+        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        //getGL().glCullFace(GLlocal.GL_FRONT);
         view3D.drawCursor(this);
                  
         //drawWireFrame();
@@ -615,66 +611,66 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //primitives.enableVBO(gl);
         
         //drawing hidden part
-        //gl.glEnable(GLlocal.GL_CULL_FACE);
-        gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
-        //gl.glDisable(GLlocal.GL_BLEND);
+        //getGL().glEnable(GLlocal.GL_CULL_FACE);
+        getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
+        //getGL().glDisable(GLlocal.GL_BLEND);
         drawable3DLists.drawHiddenNotTextured(this);
         enableTextures();
-        //gl.glColorMask(false,false,false,false); //no writing in color buffer		
+        //getGL().glColorMask(false,false,false,false); //no writing in color buffer		
         drawable3DLists.drawHiddenTextured(this);
         drawNotTransp();
-        //gl.glColorMask(true,true,true,true);
+        //getGL().glColorMask(true,true,true,true);
         disableTextures();
-        gl.glDisable(GLlocal.GL_ALPHA_TEST);       
+        getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
         
-        //gl.glEnable(GLlocal.GL_BLEND);
-        //gl.glDisable(GLlocal.GL_CULL_FACE);
+        //getGL().glEnable(GLlocal.GL_BLEND);
+        //getGL().glDisable(GLlocal.GL_CULL_FACE);
                 
         //drawing transparents parts
-        gl.glDepthMask(false);
+        getGL().glDepthMask(false);
         enableTextures();
         drawTransp();      
-        gl.glDepthMask(true);
+        getGL().glDepthMask(true);
        
         //drawing labels
         disableTextures();
-        gl.glEnable(GLlocal.GL_CULL_FACE);
-        //gl.glCullFace(GLlocal.GL_BACK);
-        //gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
-        //gl.glDisable(GLlocal.GL_LIGHTING);
-        gl.glDisable(GLlocal.GL_BLEND);
+        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        //getGL().glCullFace(GLlocal.GL_BACK);
+        //getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
+        //getGL().glDisable(GLlocal.GL_LIGHTING);
+        getGL().glDisable(GLlocal.GL_BLEND);
         //drawList3D.drawLabel(this);
-        //gl.glEnable(GLlocal.GL_LIGHTING);
-        //gl.glDisable(GLlocal.GL_ALPHA_TEST);              
+        //getGL().glEnable(GLlocal.GL_LIGHTING);
+        //getGL().glDisable(GLlocal.GL_ALPHA_TEST);              
         
         //drawing hiding parts
-        gl.glColorMask(false,false,false,false); //no writing in color buffer		
-        gl.glCullFace(GLlocal.GL_FRONT); //draws inside parts    
+        getGL().glColorMask(false,false,false,false); //no writing in color buffer		
+        getGL().glCullFace(GLlocal.GL_FRONT); //draws inside parts    
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces back-faces
         if (drawable3DLists.containsClippedSurfaces()){
         	enableClipPlanesIfNeeded();
         	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
         	disableClipPlanesIfNeeded();
         }
-        gl.glDisable(GLlocal.GL_CULL_FACE);
+        getGL().glDisable(GLlocal.GL_CULL_FACE);
         drawable3DLists.drawSurfacesForHiding(this); //non closed surfaces
-        //gl.glColorMask(true,true,true,true);
+        //getGL().glColorMask(true,true,true,true);
         setColorMask();
 
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
         enableTextures();
-        gl.glDepthMask(false);
-        gl.glEnable(GLlocal.GL_BLEND);
+        getGL().glDepthMask(false);
+        getGL().glEnable(GLlocal.GL_BLEND);
         drawTransp();
-        gl.glDepthMask(true);
+        getGL().glDepthMask(true);
         disableTextures();
         
         //drawing hiding parts
-        gl.glColorMask(false,false,false,false); //no writing in color buffer		
-        gl.glDisable(GLlocal.GL_BLEND);
-        gl.glEnable(GLlocal.GL_CULL_FACE);
-        gl.glCullFace(GLlocal.GL_BACK); //draws inside parts
+        getGL().glColorMask(false,false,false,false); //no writing in color buffer		
+        getGL().glDisable(GLlocal.GL_BLEND);
+        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        getGL().glCullFace(GLlocal.GL_BACK); //draws inside parts
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces front-faces
         if (drawable3DLists.containsClippedSurfaces()){
         	enableClipPlanesIfNeeded();
@@ -686,49 +682,50 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
         enableTextures();
-        gl.glDepthMask(false);
-        gl.glEnable(GLlocal.GL_BLEND);
+        getGL().glDepthMask(false);
+        getGL().glEnable(GLlocal.GL_BLEND);
         drawTransp();
-        gl.glDepthMask(true);
-        //gl.glDisable(GLlocal.GL_TEXTURE_2D);
+        getGL().glDepthMask(true);
+        //getGL().glDisable(GLlocal.GL_TEXTURE_2D);
         
         //drawing not hidden parts
-        gl.glEnable(GLlocal.GL_CULL_FACE);
-        //gl.glDisable(GLlocal.GL_BLEND);
-        //gl.glEnable(GLlocal.GL_TEXTURE_2D);
-    	//gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);gl.glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
+        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        //getGL().glDisable(GLlocal.GL_BLEND);
+        //getGL().glEnable(GLlocal.GL_TEXTURE_2D);
+    	//getGL().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);getGL().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
         drawable3DLists.draw(this);        
         
         //primitives.disableVBO(gl);
             
         //FPS
-        gl.glDisable(GLlocal.GL_LIGHTING);
-        gl.glDisable(GLlocal.GL_DEPTH_TEST);
+        getGL().glDisable(GLlocal.GL_LIGHTING);
+        getGL().glDisable(GLlocal.GL_DEPTH_TEST);
 
         //drawWireFrame();       
         
-        gl.glPopMatrix();        
+        unsetMatrixView();  
    	
     	//drawFPS();
         
-    	gl.glEnable(GLlocal.GL_DEPTH_TEST);
-    	gl.glEnable(GLlocal.GL_LIGHTING);        	
+    	getGL().glEnable(GLlocal.GL_DEPTH_TEST);
+    	getGL().glEnable(GLlocal.GL_LIGHTING);        	
     }    
      
+    /*
     private void drawWireFrame() {
   
-    	gl.glPushAttrib(GLlocal.GL_ALL_ATTRIB_BITS);
+    	getGL().glPushAttrib(GLlocal.GL_ALL_ATTRIB_BITS);
     	
-    	gl.glDepthMask(false);
-    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);gl.glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
+    	getGL().glDepthMask(false);
+    	getGL().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);getGL().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
         
-    	gl.glLineWidth(5f);
+    	getGL().glLineWidth(5f);
     	
-    	gl.glEnable(GLlocal.GL_LIGHTING);
-        gl.glDisable(GLlocal.GL_LIGHT0);
-        gl.glDisable(GLlocal.GL_CULL_FACE);
-        gl.glDisable(GLlocal.GL_BLEND);
-        gl.glEnable(GLlocal.GL_ALPHA_TEST);
+    	getGL().glEnable(GLlocal.GL_LIGHTING);
+        getGL().glDisable(GLlocal.GL_LIGHT0);
+        getGL().glDisable(GLlocal.GL_CULL_FACE);
+        getGL().glDisable(GLlocal.GL_BLEND);
+        getGL().glEnable(GLlocal.GL_ALPHA_TEST);
         
     	drawable3DLists.drawTransp(this);
     	drawable3DLists.drawTranspClosedNotCurved(this);
@@ -739,8 +736,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		disableClipPlanesIfNeeded();
     	}
     	
-    	gl.glPopAttrib();  	   	
+    	getGL().glPopAttrib(); 
     }
+    */
     
     /**
      * set line width
@@ -748,7 +746,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     public void setLineWidth(float width){
     	
-		gl.glLineWidth(width);
+		getGL().glLineWidth(width);
 		
     }
 
@@ -767,33 +765,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	display();  	
     }
     
-    private BufferedImage bi;
+    protected BufferedImage bi;
     
     /**
      * creates an export image (and store it in BufferedImage bi)
      */
-    private void setExportImage(){
-    	
-        gl.glReadBuffer(GLlocal.GL_FRONT);
-        int width = right-left;
-        int height = top-bottom;
-        FloatBuffer buffer = FloatBuffer.allocate(3*width*height);
-        gl.glReadPixels(0, 0, width, height, GLlocal.GL_RGB, GLlocal.GL_FLOAT, buffer);
-        float[] pixels = buffer.array();
-        
-        bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
-   	
-        int i =0;
-        for (int y=height-1; y>=0 ; y--)
-        	for (int x =0 ; x<width ; x++){
-        		int r = (int) (pixels[i]*255);
-        		int g = (int) (pixels[i+1]*255);
-        		int b = (int) (pixels[i+2]*255);
-        		bi.setRGB(x, y, ( (r << 16) | (g << 8) | b));
-        		i+=3;
-        	}
-        bi.flush();
-    }
+    abstract protected void setExportImage();
 
     /**
      * @return a BufferedImage containing last export image created
@@ -807,7 +784,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
     	
-    	gl = RendererJogl.getGL(drawable);   
+    	setGL(drawable);   
     	
         setView(x,y,w,h);
         view3D.reset();
@@ -835,21 +812,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @param color (r,g,b,a) vector
      * 
      */
-    public void setColor(Coords color){
-    	
-    	gl.glColor4f((float) color.getX(),
-    			(float) color.getY(),
-    			(float) color.getZ(),
-    			(float) color.getW());  
-    				
-    }
+    abstract public void setColor(Coords color);
     
-    public void setColor(geogebra.common.awt.GColor color){
-    	gl.glColor4f((float) color.getRed()/255,
-    			(float) color.getBlue()/255,
-    			(float) color.getGreen()/255,
-    			(float) color.getAlpha()/255);  
-    }
+    abstract public void setColor(geogebra.common.awt.GColor color);
     
     
     //arrows
@@ -893,11 +858,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	// 0<=l<10
     	// l2-l1>=1 to see something
     	//l=l/3f;
-       	gl.glPolygonOffset(-l*0.05f, -l*10);
+       	getGL().glPolygonOffset(-l*0.05f, -l*10);
     	
-       	//gl.glPolygonOffset(-l*0.75f, -l*0.5f);
+       	//getGL().glPolygonOffset(-l*0.75f, -l*0.5f);
        	
-       	//gl.glPolygonOffset(-l, 0);
+       	//getGL().glPolygonOffset(-l, 0);
     }   
     
     //drawing matrix
@@ -926,39 +891,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * sets the drawing matrix to openGLlocal.
      * same as initMatrix(m_drawingMatrix)
      */
-    public void initMatrix(){
-    	initMatrix(m_drawingMatrix);
-    }
-    
-    /**
-     * sets a_drawingMatrix to openGLlocal.
-     * @param a_drawingMatrix the matrix
-     */
-    private void initMatrix(CoordMatrix a_drawingMatrix){
-    	initMatrix(a_drawingMatrix.get());
-    }   
+    abstract public void initMatrix();
     
     
-    /**
-     * sets a_drawingMatrix to openGLlocal.
-     * @param a_drawingMatrix the matrix
-     */
-    private void initMatrix(double[] a_drawingMatrix){
-    	gl.glPushMatrix();
-		gl.glMultMatrixd(a_drawingMatrix,0);
-    }     
-
-    public void translate(Coords v){
-    	gl.glPushMatrix();
-    	gl.glTranslated(v.getX(), v.getY(), v.getZ());
-    }
     
     /**
      * turn off the last drawing matrix set in openGLlocal.
      */
-    public void resetMatrix(){
-    	gl.glPopMatrix();
-    }
+    abstract public void resetMatrix();
        
     
     ///////////////////////////////////////////////////////////
@@ -985,14 +925,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
     public void drawCursor(int type){
     	
     	if (!PlotterCursor.isTypeAlready(type))
-    		gl.glDisable(GLlocal.GL_LIGHTING);
+    		getGL().glDisable(GLlocal.GL_LIGHTING);
     	
     	initMatrix();
     	geometryManager.draw(geometryManager.cursor.getIndex(type));
 		resetMatrix();
     	
 		if (!PlotterCursor.isTypeAlready(type))
-			gl.glEnable(GLlocal.GL_LIGHTING);
+			getGL().glEnable(GLlocal.GL_LIGHTING);
    	
     } 
     
@@ -1011,23 +951,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     /**
      * draws mouse cursor
      */
-    public void drawMouseCursor(){
-    	//Application.debug("ici");
-    	
-    	initMatrix();
-    	setBlending(false);
-    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_POINT);
-    	gl.glColor4f(0,0,0,1);
-    	geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);
-    	gl.glColor4f(0,0,0,1);
-    	geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-    	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_FILL);
-    	gl.glColor4f(1,1,1,1);
-    	geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-    	setBlending(true);
-		resetMatrix();   	
-    }
+    abstract public void drawMouseCursor();
     
     
 
@@ -1066,10 +990,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	//if (true)    		return;
     	
-        gl.glMatrixMode(GLlocal.GL_TEXTURE);
-        gl.glLoadIdentity();
+        getGL().glMatrixMode(GLlocal.GL_TEXTURE);
+        getGL().glLoadIdentity();
         
-    	gl.glMatrixMode(GLlocal.GL_MODELVIEW);
+    	getGL().glMatrixMode(GLlocal.GL_MODELVIEW);
     	
     	
     	initMatrix();
@@ -1139,13 +1063,13 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	
     	
-        gl.glMatrixMode(GLlocal.GL_TEXTURE);
-        gl.glLoadIdentity();
+        getGL().glMatrixMode(GLlocal.GL_TEXTURE);
+        getGL().glLoadIdentity();
         
-    	gl.glMatrixMode(GLlocal.GL_MODELVIEW);
+    	getGL().glMatrixMode(GLlocal.GL_MODELVIEW);
     	
-    	gl.glPushMatrix();
-    	gl.glLoadIdentity();
+    	getGL().glPushMatrix();
+    	getGL().glLoadIdentity();
     	
     	
     	textRenderer.begin3DRendering();
@@ -1158,7 +1082,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
         textRenderer.end3DRendering();
         
-        gl.glPopMatrix();
+        getGL().glPopMatrix();
     }
     
        
@@ -1192,10 +1116,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     */
     
-    private int oldGeoToPickSize = -1;
-    private int geoToPickSize = EuclidianView3D.DRAWABLES_NB;
+    protected int oldGeoToPickSize = -1;
+    protected int geoToPickSize = EuclidianView3D.DRAWABLES_NB;
 
-	private IntBuffer selectBuffer;
+	protected IntBuffer selectBuffer;
     
 	
     public void addOneGeoToPick(){
@@ -1213,202 +1137,32 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	
 	
 	
-	private IntBuffer createSelectBufferForPicking(int bufSize){
-		// Set Up the Selection Buffer
-		//Application.debug(bufSize);
-		IntBuffer ret = RendererJogl.newIntBuffer(bufSize);
-        gl.glSelectBuffer(bufSize, ret); // Tell OpenGL To Use Our Array For Selection
-        return ret; 
-	}
+	abstract protected IntBuffer createSelectBufferForPicking(int bufSize);
 	
-	private static Drawable3D[] createDrawableListForPicking(int bufSize){
+	protected static Drawable3D[] createDrawableListForPicking(int bufSize){
         return new Drawable3D[bufSize];
 	}
 	
 	
-	private void setGLForPicking(){		
-
-        // The Size Of The Viewport. [0] Is <x>, [1] Is <y>, [2] Is <length>, [3] Is <width>
-        int[] viewport = new int[4];
-        gl.glGetIntegerv(GLlocal.GL_VIEWPORT, viewport, 0);      
-        Dimension dim = canvas.getSize();
-        // Puts OpenGL In Selection Mode. Nothing Will Be Drawn.  Object ID's and Extents Are Stored In The Buffer.
-        gl.glRenderMode(GLlocal.GL_SELECT);
-        gl.glInitNames(); // Initializes The Name Stack
-        gl.glPushName(0); // Push 0 (At Least One Entry) Onto The Stack
-         
-        gl.glMatrixMode(GLlocal.GL_PROJECTION);
-        gl.glLoadIdentity();
-      
-        
-        /* create MOUSE_PICK_WIDTH x MOUSE_PICK_WIDTH pixel picking region near cursor location */
-        double x = mouse.getX();
-        double y = mouse.getY();
-
-        // if we use an input3D, scale x & y values
-        if (mouse instanceof GPointWithZ){ 
-        	
-        	if(view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE){ 
-        		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ());
-        		x = dim.width/2 + f*(x - dim.width/2);
-        		y = dim.height/2 + f*(y - dim.height/2);
-        		
-        	}else if(view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
-          		double f = eyeToScreenDistance/(eyeToScreenDistance-((GPointWithZ) mouse).getZ() - view3D.getScreenZOffset());
-        		x = dim.width/2 + f*(x + glassesEyeSep - dim.width/2) - glassesEyeSep;
-        		y = dim.height/2 + f*(y-dim.height/2);
- 
-        	}
-        	
-        }
-        
-        glu.gluPickMatrix(x, dim.height - y, MOUSE_PICK_WIDTH, MOUSE_PICK_WIDTH, viewport, 0);
-        setProjectionMatrixForPicking();
-    	gl.glMatrixMode(GLlocal.GL_MODELVIEW);
-    	
-    	gl.glDisable(GLlocal.GL_ALPHA_TEST);
-    	gl.glDisable(GLlocal.GL_BLEND);
-    	gl.glDisable(GLlocal.GL_LIGHTING);
-       	disableTextures();
-    	
-     	    	
-    	// picking 
-    	pickingLoop = 0;
-	}
+	abstract protected void setGLForPicking();
 	
 	
-	private void pushSceneMatrix(){
-        // set the scene matrix
-    	gl.glPushMatrix();
-        gl.glLoadMatrixd(view3D.getToScreenMatrix().get(),0);
-	}
+	abstract protected void pushSceneMatrix();
 	
-	private void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop, int labelLoop){
-
-        int hits = gl.glRenderMode(GLlocal.GL_RENDER); // Switch To Render Mode, Find Out How Many
-        
-        int names, ptr = 0;
-        double zFar, zNear;
-        int num;
-        
-
-        //App.error("");
-        
-        for (int i = 0; i < hits ; i++) { 
-        	     
-          names = selectBuffer.get(ptr);  
-          ptr++; // min z    
-          zNear = getScreenZFromPickingDepth(getDepth(ptr, selectBuffer));
-          ptr++; // max z
-          zFar = getScreenZFromPickingDepth(getDepth(ptr, selectBuffer));           
-          
-          ptr++;
-
-
-          for (int j = 0; j < names; j++){ 
-        	  num = selectBuffer.get(ptr);
-
-        	  if (hits3D==null){ // just update z min/max values for the drawable
-        		  drawHits[num].setZPick(zNear,zFar);        		  
-        	  }else{ // if for hits array, some checks are done
-        		  //App.debug("\n"+drawHits[num].getGeoElement());
-        		  if (!(mouse instanceof GPointWithZ) 
-        				  || intersectsMouse3D(zNear, zFar, ((GPointWithZ) mouse).getZ()) ){ // check if mouse is nearer than objet (for 3D input)
-        			  PickingType type;
-        			  if (num >= labelLoop){
-        				  type = PickingType.LABEL;
-        			  }else if (num >= pointAndCurvesLoop){
-        				  type = PickingType.POINT_OR_CURVE;
-        			  }else{
-        				  type = PickingType.SURFACE;
-        			  }
-        			  hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
-        			  //App.debug("\n"+drawHits[num].getGeoElement()+"\nzFar = "+zFar+"\nmouse z ="+((GPointWithZ) mouse).getZ());
-        		  }
-        	  }
-      		  
-       	  
-        	  //Application.debug(drawHits[num]+"\nzMin="+zMin+", zMax="+zMax);
-        	  ptr++;
-          }         
-        }
-	}
+	abstract protected void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop, int labelLoop);
 	
-	private boolean intersectsMouse3D(double zNear, double zFar, double mouseZ){
+	protected boolean intersectsMouse3D(double zNear, double zFar, double mouseZ){
 		//App.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
 		return mouseZ - MOUSE_PICK_DEPTH < zNear && mouseZ + MOUSE_PICK_DEPTH > zFar;
 		
 	}
 	
-	private boolean needsNewPickingBuffer = true;
+	protected boolean needsNewPickingBuffer = true;
 	
     /**
      * does the picking to sets which objects are under the mouse coordinates.
      */
-    public void doPick(){
-    	
-   	
-    	if (geoToPickSize!=oldGeoToPickSize || needsNewPickingBuffer){
-    		int bufSize=geoToPickSize*2+1 +20; //TODO remove "+20" due to intersection curve
-    		selectBuffer=createSelectBufferForPicking(bufSize);
-    		drawHits=createDrawableListForPicking(bufSize);
-    		oldGeoToPickSize=geoToPickSize;
-    		needsNewPickingBuffer=false;
-    	}
-
-    	setGLForPicking();
-    	pushSceneMatrix();
-
-    	// picking surfaces
-    	drawable3DLists.drawForPickingSurfaces(this);        
-
-    	// picking points and curves
-    	int pointAndCurvesLoop = pickingLoop;
-    	drawable3DLists.drawForPickingPointsAndCurves(this);       
-
-        
-        // set off the scene matrix
-        gl.glPopMatrix();
- 
-        // picking labels
-        int labelLoop = pickingLoop;
-       
-        if (pickingMode == PICKING_MODE_LABELS){
-        	// picking labels            	
-        	drawable3DLists.drawLabelForPicking(this);          
-        }        
-        
-        //end picking             
-        
-        //hits are stored
-        //Hits3D hits3D = new Hits3D();
-        Hits3D hits3D = view3D.getHits3D();
-        hits3D.init();
-        storePickingInfos(hits3D, pointAndCurvesLoop, labelLoop);
-        
-        // sets the GeoElements in view3D
-        hits3D.sort();
-        /* DEBUG /
-        StringBuilder sbd = new StringBuilder();
-        sbd.append("hits~~~"+hits3D.toString());
-        for (int i = 0; i<drawHits.length; i++) {
-        	if (drawHits[i]!=null && drawHits[i].getGeoElement()!=null) {
-        		if (hits3D.contains(drawHits[i].getGeoElement())) {
-        	sbd.append("\n" + drawHits[i].getGeoElement().getLabel()+
-        			"~~~ zPickMin=" + drawHits[i].zPickMin +
-        			"  zPickMax=" + drawHits[i].zPickMax);}}
-        }
-		Application.debug(sbd.toString());
-		/ END DEBUG*/
-        //view3D.setHits(hits3D);
-        
-        //App.debug(hits3D);
-       
-        waitForPick = false;
-        
-        gl.glEnable(GLlocal.GL_LIGHTING);
-    }
-    
+    abstract protected void doPick();
 
 	public enum PickingType {
 		POINT_OR_CURVE,
@@ -1421,42 +1175,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * process picking for intersection curves
      * SHOULD NOT BE CALLED OUTSIDE THE DISPLAY LOOP
      */
-    public void pickIntersectionCurves(){
-    	
-    	ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D.getEuclidianController()).getIntersectionCurves();
- 
-    	int bufSize=curves.size();
-    	//IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);
-    	//Drawable3D[] drawHits=createDrawableListForPicking(bufSize);
-    	if (bufSize>geoToPickSize){
-    		selectBuffer=createSelectBufferForPicking(bufSize);
-    		drawHits=createDrawableListForPicking(bufSize);
-    		oldGeoToPickSize=-1;
-    	}        
-        
-    	setGLForPicking();
-    	pushSceneMatrix();
-    	
-        
-		// picking objects
-        for (IntersectionCurve intersectionCurve : curves){
-        	Drawable3D d = intersectionCurve.drawable;
-        	d.setZPick(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-        	pick(d, true, PickingType.POINT_OR_CURVE);
-        }
-        
-        
-        // set off the scene matrix
-        gl.glPopMatrix();
- 
-        storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are passed as null        
-        
-        gl.glEnable(GLlocal.GL_LIGHTING);
-    }   
+    abstract public void pickIntersectionCurves();
     
-    public void glLoadName(int loop){
-    	gl.glLoadName(loop);
-    }
+    abstract public void glLoadName(int loop);
     
     public void pick(Drawable3D d, PickingType type){  
     	 pick(d,false,type);
@@ -1465,7 +1186,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     public void pick(Drawable3D d, boolean intersection, PickingType type){  
     	//App.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);  	
     	//Application.debug("1");
-    	gl.glLoadName(pickingLoop);//Application.debug("2");
+    	glLoadName(pickingLoop);//Application.debug("2");
     	Drawable3D ret = d.drawForPicking(this,intersection, type);	//Application.debug("3");
     	if (ret!=null){
     		//App.debug(pickingLoop+","+ret);
@@ -1475,7 +1196,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     public void pickLabel(Drawable3D d){   	
-    	gl.glLoadName(pickingLoop);
+    	glLoadName(pickingLoop);
     	if (d.drawLabelForPicking(this)){
     		//Application.debug(d.getGeoElement());
     		drawHits[pickingLoop] = d;
@@ -1488,7 +1209,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
      *  
      *  @param ptr the integer offset
      * */
-    private static float getDepth(int ptr, IntBuffer selectBuffer){
+    protected static float getDepth(int ptr, IntBuffer selectBuffer){
      	
     	return (float) (selectBuffer.get(ptr)& 0xffffffffL) / 0x7fffffff;
     }
@@ -1534,10 +1255,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     private void disableLight(int light){
     	switch(light){
     	case LIGHT_STANDARD:
-    		gl.glDisable(GLlocal.GL_LIGHT0);
+    		getGL().glDisable(GLlocal.GL_LIGHT0);
     		break;
     	case LIGHT_HIGHLIGHTED:
-    		gl.glDisable(GLlocal.GL_LIGHT1);
+    		getGL().glDisable(GLlocal.GL_LIGHT1);
     		break;
     	}
     }
@@ -1545,10 +1266,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     private void enableLight(int light){
     	switch(light){
     	case LIGHT_STANDARD:
-    		gl.glEnable(GLlocal.GL_LIGHT0);
+    		getGL().glEnable(GLlocal.GL_LIGHT0);
     		break;
     	case LIGHT_HIGHLIGHTED:
-    		gl.glEnable(GLlocal.GL_LIGHT1);
+    		getGL().glEnable(GLlocal.GL_LIGHT1);
     		break;
     	}
     }  
@@ -1556,11 +1277,19 @@ public class Renderer extends RendererJogl implements GLEventListener {
     private float[] light0Position = {1f, 0f, 1f, 0f};
     //private float[] light2Position = {-1f, 0f, -1f, 0f};
     
-    private void setLightPosition(){
-        gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, light0Position, 0);
-        gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, light0Position, 0);
-        //gl.glLightfv(GLlocal.GL_LIGHT2, GLlocal.GL_POSITION, light2Position, 0);
+    
+    protected void setLightPosition(){
+    	setLight(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, light0Position);
+    	setLight(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, light0Position);
     }
+    
+    /**
+     * set light attributes
+     * @param light light
+     * @param attr attribute id
+     * @param values attribute values
+     */
+    abstract protected void setLight(int light, int attr, float[] values);
     
     //////////////////////////////////
     // clear color
@@ -1578,7 +1307,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	float g = view3D.isShutDownGreen() ? 0 : (float) c.getGreen()/255;
     	float b = (float) c.getBlue()/255;
     	
-        gl.glClearColor(r,g,b, 1.0f);   
+        getGL().glClearColor(r,g,b, 1.0f);   
     }
      
     
@@ -1593,7 +1322,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
     	
     	
-    	GL gl2 = drawable.getGL(); 
     	App.debug("\n"+RendererJogl.getGLInfos(drawable)); 
         
         // JOGL2 only, don't commit
@@ -1606,17 +1334,17 @@ public class Renderer extends RendererJogl implements GLEventListener {
     		
     	//Application.printStacktrace("");
 
-        gl = RendererJogl.getGL(drawable);
+        setGL(drawable);
         
         // check openGL version
-        final String version = gl.glGetString(GLlocal.GL_VERSION);
+        final String version = getGL().glGetString(GLlocal.GL_VERSION);
        
         
         // Check For VBO support
-        final boolean VBOsupported = gl.isFunctionAvailable("glGenBuffersARB") &&
-                gl.isFunctionAvailable("glBindBufferARB") &&
-                gl.isFunctionAvailable("glBufferDataARB") &&
-                gl.isFunctionAvailable("glDeleteBuffersARB");
+        final boolean VBOsupported = getGL().isFunctionAvailable("glGenBuffersARB") &&
+                getGL().isFunctionAvailable("glBindBufferARB") &&
+                getGL().isFunctionAvailable("glBufferDataARB") &&
+                getGL().isFunctionAvailable("glDeleteBuffersARB");
         
         AppD.debug("openGL version : "+version
         		+", vbo supported : "+VBOsupported);
@@ -1632,18 +1360,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
         lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
         float diffuse=1f-ambiant;
         lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
-        //float[] lightPosition = {-1.0f, 1f, 1.0f, 0.0f};
         
-        gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, lightAmbient, 0);
-        gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, lightDiffuse, 0);
-        //gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, lightPosition, 0);
-        
-        /*
-        float specular = 1f;
-        float[] lightSpecular = {specular, specular, specular, 1f};
-        gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_SPECULAR, lightSpecular, 0);
-        */
-        //gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_SHININESS, lightDiffuse, 0);
+        setLight(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, lightAmbient);
+        setLight(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, lightDiffuse);
  
          
         
@@ -1652,81 +1371,40 @@ public class Renderer extends RendererJogl implements GLEventListener {
         lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
         diffuse=0.7f;//1f-ambiant;
         lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
-        gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, lightAmbient, 0);
-        gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, lightDiffuse, 0);
-        //gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, lightPosition, 0);
+        setLight(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, lightAmbient);
+        setLight(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, lightDiffuse);
                 
         
         
-        //material
-        /*
-        float[] mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
-        float[] mat_shininess = { 10.0f };
-        gl.glMaterialfv(GLlocal.GL_FRONT, GLlocal.GL_SPECULAR, mat_specular,0);       
-        gl.glMaterialfv(GLlocal.GL_FRONT, GLlocal.GL_SHININESS, mat_shininess,0);
-        */
-        
-        gl.glColorMaterial(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_AMBIENT_AND_DIFFUSE);
-        //gl.glColorMaterial(GLlocal.GL_FRONT, GLlocal.GL_AMBIENT_AND_DIFFUSE);
-        //gl.glColorMaterial(GLlocal.GL_BACK, GLlocal.GL_AMBIENT);
-        gl.glEnable(GLlocal.GL_COLOR_MATERIAL);
-        
-        /*
-        //specular 
-        FloatBuffer matSpecular = FloatBuffer.allocate(4);
-        matSpecular.put(1f);
-        matSpecular.put(0f);
-        matSpecular.put(0f);
-        matSpecular.put(1f);
-        gl.glMaterialfv(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_SPECULAR, matSpecular);
-        gl.glMateriali(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_SHININESS, 16);
-         */
+        //material and light
+        setColorMaterial();
+        getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
         
         
-        gl.glEnable(GLlocal.GL_LIGHT0);
         
-        gl.glShadeModel(GLlocal.GL_SMOOTH);
-        gl.glLightModeli(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
-        gl.glLightModelf(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
-         
-        gl.glEnable(GLlocal.GL_LIGHTING);
+        getGL().glEnable(GLlocal.GL_LIGHT0);        
+        setLightModel();        
+        getGL().glEnable(GLlocal.GL_LIGHTING);
    
         //common enabling
-        gl.glEnable(GLlocal.GL_DEPTH_TEST);
-        gl.glDepthFunc(GLlocal.GL_LEQUAL); //less or equal for transparency
-		gl.glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
-
-        //gl.glPolygonOffset(1.0f, 2f);
-
-        gl.glEnable(GLlocal.GL_CULL_FACE);
+        getGL().glEnable(GLlocal.GL_DEPTH_TEST);
+        getGL().glDepthFunc(GLlocal.GL_LEQUAL); //less or equal for transparency
+		getGL().glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
+        getGL().glEnable(GLlocal.GL_CULL_FACE);
         
         //blending
-        gl.glBlendFunc(GLlocal.GL_SRC_ALPHA, GLlocal.GL_ONE_MINUS_SRC_ALPHA);
-        //gl.glBlendFunc(GLlocal.GL_SRC_ALPHA, GLlocal.GL_DST_ALPHA);
-        gl.glEnable(GLlocal.GL_BLEND);	
+        getGL().glBlendFunc(GLlocal.GL_SRC_ALPHA, GLlocal.GL_ONE_MINUS_SRC_ALPHA);
+        getGL().glEnable(GLlocal.GL_BLEND);	
         updateClearColor();
                
-        gl.glAlphaFunc(GLlocal.GL_NOTEQUAL, 0);//pixels with alpha=0 are not drawn
-        //gl.glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with alpha=0 are not drawn
+        setAlphaFunc();
         
-        //using glu quadrics
-        quadric = glu.gluNewQuadric();// Create A Pointer To The Quadric Object (Return 0 If No Memory) (NEW)
-        glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);          // Create Smooth Normals (NEW)
-        glu.gluQuadricTexture(quadric, true);                    // Create Texture Coords (NEW)
-        
-        //projection type
-        //viewOrtho(gl); 
                
         //normal anti-scaling
-        gl.glEnable(GLlocal.GL_NORMALIZE);
-        //gl.glEnable(GLlocal.GL_RESCALE_NORMAL);
-        
-        //clipping planes
-        //enableClipPlanes();
-        //enableClipPlanes = true;
+        getGL().glEnable(GLlocal.GL_NORMALIZE);
         
         //textures
-        textures.init(gl);
+        textures.init(getGL());
        
         //reset euclidian view
         view3D.reset();       
@@ -1735,10 +1413,20 @@ public class Renderer extends RendererJogl implements GLEventListener {
         needsNewPickingBuffer = true;
         
        	// ensure that animation is on (needed when undocking/docking 3D view)
-        resumeAnimator();
-        
+        resumeAnimator();        
 
     }  
+    
+    
+    abstract protected void setColorMaterial();
+
+    abstract protected void setLightModel();
+
+	abstract protected void setAlphaFunc();
+    
+    abstract protected GL getGL();
+    
+    abstract protected void setGL(GLAutoDrawable drawable);
     
     /**
      * ensure that animation is on (needed when undocking/docking 3D view)
@@ -1818,16 +1506,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	/**
 	 * set up the view
 	 */
-	private void setView(){
-		gl.glViewport(0,0,right-left,top-bottom);
-
-		gl.glMatrixMode(GLlocal.GL_PROJECTION);
-		gl.glLoadIdentity();
-
-		setProjectionMatrix();
-
-    	gl.glMatrixMode(GLlocal.GL_MODELVIEW);		
-	}	
+	abstract protected void setView();
 	
 	private boolean waitForDisableStencilLines = false;
 	
@@ -1836,114 +1515,20 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	}
 	
 	private void disableStencilLines(){
-		gl.glDisable(GLlocal.GL_STENCIL_TEST);
+		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
 		waitForDisableStencilLines = false;
 	}
 	
-	private boolean waitForSetStencilLines = false;
+	protected boolean waitForSetStencilLines = false;
 	
 	public void setWaitForSetStencilLines(){
 		waitForSetStencilLines = true;	
 	}
 	
 	
-	private void setStencilLines(){
-		
-		// disable clip planes if used
-        if (enableClipPlanes)
-        	disableClipPlanes();
-        
-		final int w = right-left;
-		final int h = top-bottom;
-		//App.debug(w+" * "+h+" = "+(w*h));
-
-		// projection for real 2D
-		gl.glViewport(0,0,w,h);
-		
-		gl.glMatrixMode(GLlocal.GL_PROJECTION);
-		gl.glLoadIdentity();
-		glu.gluOrtho2D(0, w, h, 0);
-		
-		gl.glMatrixMode(GLlocal.GL_MODELVIEW);
-		gl.glLoadIdentity();
-
-		
-		gl.glEnable(GLlocal.GL_STENCIL_TEST);
-
-		// draw stencil pattern
-		gl.glStencilMask(0xFF);
-		gl.glClear(GLlocal.GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
-		  
- 
-
-		// no multisample here to prevent ghosts
-		gl.glDisable(GLlocal.GL_MULTISAMPLE);
-        
-		// data for stencil : one line = 0, one line = 1, etc.
-		
-		/*
-		final int h2 = h+10;// (int) (h*1.1) ; //TODO : understand why buffer doens't match glDrawPixels dimension
-        ByteBuffer data = newByteBuffer(w * h2);
-        byte b = 0;
-        for (int y=0; y<h2; y++){
-        	b=(byte) (1-b);
-        	for (int x=0; x<w; x++){
-        		data.put(b);
-        	}
-        }
-        data.rewind();
-        
-        // check if we start with 0 or with 1
-		int y = (canvas.getLocationOnScreen().y) % 2;
-
-        gl.glRasterPos2i(0, h-y); 
-        //App.debug("== "+w+" * "+h+" = "+(w*h));
-    	gl.glDrawPixels(w, h, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
-		 
-		 */
-
-		
-		ByteBuffer data = newByteBuffer(w);
-		byte b = 1;
-		for (int x=0; x<w; x++){
-			data.put((byte) b);
-		}
-
-		data.rewind();
-        
-        // check if we start with 0 or with 1
-		// seems to be sensible to canvas location on screen and to parent relative location
-		// (try docked with neighboors / undocked or docked alone)
-		int y0 = (canvas.getParent().getLocation().y + canvas.getLocationOnScreen().y + 1) % 2;
-		
-		//App.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
-		//App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
-		
-		for (int y = 0; y<h/2 ; y++){
-			gl.glRasterPos2i(0, 2*y+y0); 
-			gl.glDrawPixels(w, 1, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
-		}
-		
-		
-		
-		
-    	// current mask for stencil test
-    	gl.glStencilMask(0x00);
-
-    	// back to multisample
-		gl.glEnable(GLlocal.GL_MULTISAMPLE);
-		
-		
-		waitForSetStencilLines = false;
-
-
-		// restore clip planes
-        if (enableClipPlanes)
-    		enableClipPlanes();
-
-	}
+	abstract protected void setStencilLines();
 	
-	private void setProjectionMatrixForPicking(){
+	protected void setProjectionMatrixForPicking(){
 		
 		switch(view3D.getProjection()){
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
@@ -1962,7 +1547,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 				
 	}
 	
-	private void setProjectionMatrix(){
+	protected void setProjectionMatrix(){
 		
 		switch(view3D.getProjection()){
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
@@ -1986,13 +1571,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * Set Up An Ortho View regarding left, right, bottom, front values
      * 
      */
-    private void viewOrtho(){
-
-    	gl.glOrtho(getLeft(),getRight(),getBottom(),getTop(), -getVisibleDepth()/2, getVisibleDepth()/2);   	
-    }
+    abstract protected void viewOrtho();
 
     
-    private double eyeToScreenDistance = 0;
+    protected double eyeToScreenDistance = 0;
     //private double distratio;
     
     public void setNear(double val){
@@ -2002,9 +1584,15 @@ public class Renderer extends RendererJogl implements GLEventListener {
     
     /** distance camera-near plane */
     private final static double PERSP_NEAR_MIN = 10;
-    private double perspNear = PERSP_NEAR_MIN; 
-    private double perspLeft, perspRight, perspBottom, perspTop, perspFar, perspDistratio, perspFocus;
-    private Coords perspEye;
+    protected double perspNear = PERSP_NEAR_MIN; 
+    protected double perspLeft;
+	protected double perspRight;
+	protected double perspBottom;
+	protected double perspTop;
+	protected double perspFar;
+	protected double perspDistratio;
+	protected double perspFocus;
+	protected Coords perspEye;
     
     private void updatePerspValues(){
     	
@@ -2047,13 +1635,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	return glassesEyeSep;
     }
     
-    private void viewPersp(){
-    	
-    	gl.glFrustum(perspLeft,perspRight,perspBottom,perspTop,perspNear,perspFar);
-    	gl.glTranslated(0, 0, perspFocus);          	
-    }       
+    abstract protected void viewPersp();
     
-    private double glassesEyeSep, glassesEyeSep1;
+    protected double glassesEyeSep;
+	protected double glassesEyeSep1;
     
     public void updateGlassesValues(){
     	//half eye separation
@@ -2063,51 +1648,36 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	//Application.debug("eyesep="+eyesep+"\ne1="+e1);
     }
     
-    private void viewGlasses(){
-    	    	
-    	//eye separation
-    	double eyesep, eyesep1;
-    	if(eye==EYE_LEFT){
-    		eyesep=-glassesEyeSep;
-    		eyesep1=-glassesEyeSep1;
-    	}else{
-    		eyesep=glassesEyeSep;
-    		eyesep1=glassesEyeSep1;
-    	}
-    	
-    	
-    	//App.error(eye+" : "+", left="+left+", right="+right+", perspLeft="+perspLeft+", perspRight="+perspRight+", near="+near+", perspNear="+perspNear+", perspDistratio="+perspDistratio+", eyesep="+eyesep+", eyesep1="+eyesep1+", getScreenZOffset="+getScreenZOffset());
-   	
-       	gl.glFrustum(perspLeft+eyesep1,perspRight+eyesep1,perspBottom,perspTop,perspNear,perspFar);
-    	gl.glTranslated(eyesep, 0, perspFocus);          	
-    }
+    
+    abstract protected void viewGlasses();
         
     private static final int EYE_ONE = -1;
-    private static final int EYE_LEFT = 0;
-    private static final int EYE_RIGHT = 1;
-    private int eye = EYE_ONE;
+    protected static final int EYE_LEFT = 0;
+    protected static final int EYE_RIGHT = 1;
+    protected int eye = EYE_ONE;
     
     private void setColorMask(){
 
     	if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES && !view3D.isPolarized()){
     		if (eye==EYE_LEFT) {
-    			gl.glColorMask(true,false,false,true); //cyan
-    			//gl.glColorMask(false,true,false,true); //magenta
-    			//gl.glColorMask(false,false,false,true);
+    			getGL().glColorMask(true,false,false,true); //cyan
+    			//getGL().glColorMask(false,true,false,true); //magenta
+    			//getGL().glColorMask(false,false,false,true);
     		} else {
-    			gl.glColorMask(false,!view3D.isGlassesShutDownGreen(),true,true); //red
-    			//gl.glColorMask(true,false,false,true); //cyan -> green
-    			//gl.glColorMask(false,false,false,true);
+    			getGL().glColorMask(false,!view3D.isGlassesShutDownGreen(),true,true); //red
+    			//getGL().glColorMask(true,false,false,true); //cyan -> green
+    			//getGL().glColorMask(false,false,false,true);
     		}
     	} else {
-    		gl.glColorMask(true,true,true,true);
+    		getGL().glColorMask(true,true,true,true);
     	}	
 
     }
     
     enum ExportType { NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD };
     
-    private double obliqueX, obliqueY;
+    protected double obliqueX;
+	protected double obliqueY;
     private Coords obliqueOrthoDirection; //direction "orthogonal" to the screen (i.e. not visible)
 	private ExportType exportType = ExportType.NONE;
 	private int export_n;
@@ -2126,16 +1696,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	obliqueOrthoDirection = new Coords(obliqueX, obliqueY, -1, 0);
     }
     
-    private void viewOblique(){
-    	viewOrtho();
-    	
-    	gl.glMultMatrixd(new double[] {
-    			1,0,0,0,
-    			0,1,0,0,
-    			obliqueX,obliqueY,1,0, 
-    			0,0,0,1
-    	}, 0);  	
-    }
+    abstract protected void viewOblique();
     
     public Coords getObliqueOrthoDirection(){
     	return obliqueOrthoDirection;

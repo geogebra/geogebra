@@ -45,30 +45,28 @@ public class PlotterText {
 	 */
 	public void rectangle(int x, int y, int z, int width, int height){
 		
-		//GL2 gl = manager.renderer.getGL();
-		
-		manager.renderer.gl.glBegin(GLlocal.GL_QUADS);
+		manager.startGeometry(Manager.QUADS);
 		manager.texture(0, 0);
-		manager.renderer.gl.glVertex3i(x,y,z); 
+		manager.vertexInt(x,y,z); 
 		manager.texture(1, 0);
-		manager.renderer.gl.glVertex3i(x+width,y,z); 
+		manager.vertexInt(x+width,y,z); 
 		manager.texture(1, 1);
-		manager.renderer.gl.glVertex3i(x+width,y+height,z); 
+		manager.vertexInt(x+width,y+height,z); 
 		manager.texture(0, 1);
-		manager.renderer.gl.glVertex3i(x,y+height,z); 	
-		manager.renderer.gl.glEnd();
+		manager.vertexInt(x,y+height,z); 	
+		manager.endGeometry();
 		
 	}
 	
 	
 	public void rectangleBounds(int x, int y, int z, int width, int height){
 
-		manager.renderer.gl.glBegin(GLlocal.GL_LINE_LOOP);
-		manager.renderer.gl.glVertex3i(x,y,z); 
-		manager.renderer.gl.glVertex3i(x+width,y,z); 
-		manager.renderer.gl.glVertex3i(x+width,y+height,z); 
-		manager.renderer.gl.glVertex3i(x,y+height,z); 	
-		manager.renderer.gl.glEnd();
+		manager.startGeometry(GLlocal.GL_LINE_LOOP);
+		manager.vertexInt(x,y,z); 
+		manager.vertexInt(x+width,y,z); 
+		manager.vertexInt(x+width,y+height,z); 
+		manager.vertexInt(x,y+height,z); 	
+		manager.endGeometry();
 		
 	}
 	

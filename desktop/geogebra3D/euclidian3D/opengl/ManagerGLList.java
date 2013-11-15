@@ -20,6 +20,8 @@ public class ManagerGLList extends Manager {
 	
 	// GL 
 	private GLUtessellator tesselator;
+
+	protected RendererGL2 renderer;
 	
 
 	/** common constructor
@@ -30,13 +32,23 @@ public class ManagerGLList extends Manager {
 		super(renderer,view3D);
 	}
 
+	@Override
+	protected void setRenderer(Renderer renderer){
+		this.renderer = (RendererGL2) renderer;
+	}
+	
+	@Override
+	protected RendererGL2 getRenderer(){
+		return renderer;
+	}
+
 	
 	/////////////////////////////////////////////
 	// LISTS METHODS
 	/////////////////////////////////////////////
 
 	private int genLists(int nb){
-		return renderer.gl.glGenLists(nb);
+		return renderer.getGL().glGenLists(nb);
 	}
 	
 	
@@ -49,28 +61,28 @@ public class ManagerGLList extends Manager {
 		// generates a new list
 		int ret = genLists(1);
 		
-		renderer.gl.glNewList(ret, GLlocal.GL_COMPILE);
+		renderer.getGL().glNewList(ret, GLlocal.GL_COMPILE);
 		
 		return ret;
 	}
 	
 	private void newList(int index){
-		renderer.gl.glNewList(index, GLlocal.GL_COMPILE);
+		renderer.getGL().glNewList(index, GLlocal.GL_COMPILE);
 	}	
 	
 	@Override
 	public void endList(){	
-		renderer.gl.glEndList();
+		renderer.getGL().glEndList();
 	}
 	
 	@Override
 	public void startGeometry(int type){
-		renderer.gl.glBegin(type);
+		renderer.getGL().glBegin(type);
 	}
 	
 	@Override
 	public void endGeometry(){
-		renderer.gl.glEnd();
+		renderer.getGL().glEnd();
 	}
 	
 	
@@ -140,7 +152,7 @@ public class ManagerGLList extends Manager {
     @Override
 	public void endPolygons(){
     	
-	    renderer.gl.glEndList();
+	    renderer.getGL().glEndList();
 	    renderer.glu.gluDeleteTess(tesselator);
     }
     
@@ -151,7 +163,7 @@ public class ManagerGLList extends Manager {
     @Override
 	public void remove(int index){
     	
-    	renderer.gl.glDeleteLists(index, 1);  	
+    	renderer.getGL().glDeleteLists(index, 1);  	
     }
 	
 	
@@ -161,54 +173,61 @@ public class ManagerGLList extends Manager {
 
 	@Override
 	public void draw(int index){
-		renderer.gl.glCallList(index);
+		renderer.getGL().glCallList(index);
 	}
 	
 	@Override
 	protected void texture(float x, float y){		
-		renderer.gl.glTexCoord2f(x,y);	
+		renderer.getGL().glTexCoord2f(x,y);	
 	}
 	
 	
 	@Override
 	protected void normal(float x, float y, float z){
 		
-		renderer.gl.glNormal3f(x,y,z); 	
+		renderer.getGL().glNormal3f(x,y,z); 	
 	}
 		
 	@Override
 	protected void vertex(float x, float y, float z){
 		
-		renderer.gl.glVertex3f(x,y,z); 	
+		renderer.getGL().glVertex3f(x,y,z); 	
 	}
+	
+	@Override
+	protected void vertexInt(int x, int y, int z){
+		
+		renderer.getGL().glVertex3i(x,y,z); 	
+	}
+
 	
 	@Override
 	protected void vertices(FloatBuffer v, int count){
 		v.rewind();
-		renderer.gl.glEnableClientState(GLlocal.GL_VERTEX_ARRAY);
-		renderer.gl.glVertexPointer(3, GLlocal.GL_FLOAT, 0, v);
-		renderer.gl.glDrawArrays(GLlocal.GL_TRIANGLES, 0, 3);
-		renderer.gl.glDisableClientState(GLlocal.GL_VERTEX_ARRAY);
+		renderer.getGL().glEnableClientState(GLlocal.GL_VERTEX_ARRAY);
+		renderer.getGL().glVertexPointer(3, GLlocal.GL_FLOAT, 0, v);
+		renderer.getGL().glDrawArrays(GLlocal.GL_TRIANGLES, 0, 3);
+		renderer.getGL().glDisableClientState(GLlocal.GL_VERTEX_ARRAY);
 	}
 	
 	@Override
 	protected void color(float r, float g, float b){
-		renderer.gl.glColor3f(r,g,b);
+		renderer.getGL().glColor3f(r,g,b);
 	}
 	
 	@Override
 	protected void color(float r, float g, float b, float a){
-		renderer.gl.glColor4f(r,g,b,a);
+		renderer.getGL().glColor4f(r,g,b,a);
 	}
 	
 	@Override
 	protected void lineWidth(float width){
-		renderer.gl.glLineWidth(width);
+		renderer.getGL().glLineWidth(width);
 	}
 	
 	@Override
 	protected void pointSize(float size){
-		renderer.gl.glPointSize(size);
+		renderer.getGL().glPointSize(size);
 	}
 	
 	

@@ -46,8 +46,6 @@ abstract public class Manager {
 	//geogebra stuff
 	private EuclidianView3D view3D;
 	
-	protected Renderer renderer;
-	
 	//coords stuff
 	/** when drawing a cylinder, clock vectors to describe a circle */
 	private Coords clockU = null;
@@ -63,7 +61,7 @@ abstract public class Manager {
 	 */
 	public Manager(Renderer renderer, EuclidianView3D view3D){
 		
-		this.renderer = renderer;
+		setRenderer(renderer);
 		
 		
 		
@@ -85,6 +83,19 @@ abstract public class Manager {
 		
 		
 	}
+	
+	/**
+	 * set the renderer
+	 * @param renderer renderer
+	 */
+	abstract protected void setRenderer(Renderer renderer);
+	
+	/**
+	 * 
+	 * @return the renderer
+	 */
+	abstract protected Renderer getRenderer();
+
 	
 	
 	public PlotterViewInFrontOf getViewInFrontOf(){
@@ -182,6 +193,13 @@ abstract public class Manager {
 	 */
 	abstract protected void vertex(float x, float y, float z);
 	
+	/** creates a vertex at coordinates (x,y,z)
+	 * @param x x coord
+	 * @param y y coord
+	 * @param z z coord
+	 */
+	abstract protected void vertexInt(int x, int y, int z);
+
 	/** creates a vertex at coordinates v
 	 * @param v
 	 */

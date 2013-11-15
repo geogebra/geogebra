@@ -1,11 +1,15 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GColor;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.Hits3D;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
@@ -373,6 +377,11 @@ public class RendererShaders extends Renderer {
     	
         //update 3D controller
         view3D.getEuclidianController().update();
+        
+        view3D.updateAnimation();
+
+    	// say that 3D view changed has been performed
+        view3D.resetViewChanged();
 
     	
         // Update variables used in animation
@@ -434,16 +443,15 @@ public class RendererShaders extends Renderer {
         //App.debug("\n"+view3D.getToScreenMatrix());
         
         float[] modelview = view3D.getToScreenMatrix().getForGL();
+               
+        float[] projection = {
+                2.0f/width, 0.0f, 0.0f, 0.0f,
+                0.0f, 2.0f/height, 0.0f, 0.0f,
+                0.0f, 0.0f, -2.0f/depth, 0f,
+                0.0f, 0.0f, -1f/depth, 1.0f,
+        };
         
-        /*
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0 ; i < modelview.length ; i++){
-        	sb.append(modelview[i]);
-        	sb.append(" ");
-        }
-        App.error("\n"+sb.toString());
-         */
-
+        
         /*
         float[] modelview = {
         		1.0f, 0.0f, 0.0f, 0.0f,
@@ -451,14 +459,14 @@ public class RendererShaders extends Renderer {
         		0.0f, 0.0f, 1.0f, 0.0f,
         		0.0f, 0.0f, 0.0f, 1.0f,
         };
-        */
-        
+
         float[] projection = {
-                2.0f/width, 0.0f, 0.0f, 0.0f,
-                0.0f, 2.0f/height, 0.0f, 0.0f,
-                0.0f, 0.0f, 2.0f/depth, 0f,
-                0.0f, 0.0f, -1f/depth, 1.0f,
+        		1.0f, 0.0f, 0.0f, 0.0f,
+        		0.0f, 1.0f, 0.0f, 0.0f,
+        		0.0f, 0.0f, 1.0f, 0.0f,
+        		0.0f, 0.0f, 0.0f, 1.0f,
         };
+         */
 
 
         // Send the final projection matrix to the vertex shader by
@@ -482,12 +490,12 @@ public class RendererShaders extends Renderer {
         
         float l = 1f;
         
-        float[] vertices = {  0.0f,  l, 0.0f, //Top
-                -l, -l, 0.0f, //Bottom Left
-                 l, -l, 0.0f  //Bottom Right
+        float[] vertices = {  0.0f,  0f, 0.0f,
+                 0, 0, l, 
+                 0, l, 0  
                                  };
 
-        float alpha = 0.5f;
+        float alpha = 1f;
         
         float[] colors = {    1.0f, 0.0f, 0.0f, alpha, //Top color (red)
                 1.0f, 0.0f, 0.0f, alpha, //Bottom Left color (black)
@@ -497,18 +505,31 @@ public class RendererShaders extends Renderer {
         drawTriangle(gl, vertices, colors);
         
         
-        float[] vertices2 = {  0.0f,  -l, 1.0f, //Top
-                -l, l, -1.0f, //Bottom Left
-                 l, l, -1.0f  //Bottom Right
-                                 };
-        float[] colors2 = {    0.0f, 0.0f, 1.0f, alpha, //Top color (red)
-                0.0f, 0.0f, 1.0f, alpha, //Bottom Left color (black)
-                0.0f, 0.0f, 1.0f, alpha  //Bottom Right color (yellow) with 10% transparence
-                                     };
-        
-        drawTriangle(gl, vertices2, colors2);
-   
-        
+        float[] vertices2 = {  0.0f,  0f, 0f,
+                l, 0, 0f,
+                0, 0, l  
+                                };
+       float[] colors2 = {    0.0f, 1.0f, 0.0f, alpha, //Top color (red)
+               0.0f, 1.0f, 0.0f, alpha, //Bottom Left color (black)
+               0.0f, 1.0f, 0.0f, alpha  //Bottom Right color (yellow) with 10% transparence
+                                    };
+       
+       drawTriangle(gl, vertices2, colors2);
+  
+       float z = 0f;
+       
+       float[] vertices3 = {  0.0f,  0f, z,
+               0, l, z,
+               l, 0, z  
+                               };
+      float[] colors3 = {    0.0f, 0.0f, 1.0f, alpha, //Top color (red)
+              0.0f, 0.0f, 1.0f, alpha, //Bottom Left color (black)
+              0.0f, 0.0f, 1.0f, alpha  //Bottom Right color (yellow) with 10% transparence
+                                   };
+      
+      drawTriangle(gl, vertices3, colors3);
+ 
+      
         gl.glDisableVertexAttribArray(0); // Allow release of vertex position memory
         gl.glDisableVertexAttribArray(1); // Allow release of vertex color memory		
 
@@ -545,4 +566,655 @@ public class RendererShaders extends Renderer {
     	
 
     }
+
+
+
+    private GL2ES2 gl;
+    
+    @Override
+	protected GL2ES2 getGL(){
+    	return gl;
+    }
+    
+    @Override
+	protected void setGL(GLAutoDrawable drawable){
+    	gl = RendererJogl.getGL(drawable);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void setClipPlane(int n, double[] equation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setMatrixView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void unsetMatrixView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setExportImage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void setColor(Coords color) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void setColor(GColor color) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void initMatrix() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void resetMatrix() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void drawMouseCursor() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected IntBuffer createSelectBufferForPicking(int bufSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setGLForPicking() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void pushSceneMatrix() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void storePickingInfos(Hits3D hits3d, int pointAndCurvesLoop,
+			int labelLoop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void doPick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void pickIntersectionCurves() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void glLoadName(int loop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setLight(int light, int attr, float[] values) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setColorMaterial() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setLightModel() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setAlphaFunc() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void setStencilLines() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void viewOrtho() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void viewPersp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void viewGlasses() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	protected void viewOblique() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+    
+    
+    
+    
+    
+    
+    
+
+
 }

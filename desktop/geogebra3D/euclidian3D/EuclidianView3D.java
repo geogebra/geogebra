@@ -50,6 +50,7 @@ import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
+import geogebra3D.euclidian3D.opengl.RendererGL2;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 import geogebra3D.kernel3D.GeoConicSection;
 import geogebra3D.kernel3D.GeoElement3D;
@@ -310,7 +311,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//TODO replace canvas3D with GLDisplay
 		App.debug("create gl renderer");
-		renderer = new Renderer(this, !app.isApplet());
+		renderer = new RendererGL2(this, !app.isApplet());
 		//renderer = new RendererShaders(this);
 		renderer.setDrawable3DLists(drawable3DLists);
 		
@@ -1017,13 +1018,18 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//////////////////////////////////////
 	// update
 	
-	/** update the drawables for 3D view */
-	public void update(){
-		
+	public void updateAnimation(){
 		if (isAnimated()){
 			animate();
 			setWaitForUpdate();
 		}
+	}
+	
+	/** update the drawables for 3D view */
+	public void update(){
+		
+		updateAnimation();
+		
 		
 		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty() || !drawable3DListToBeAdded.isEmpty() ){
 			//drawList3D.updateAll();

@@ -6,21 +6,21 @@ import javax.media.opengl.glu.GLUtessellatorCallback;
 
 public class RendererTesselCallBack implements GLUtessellatorCallback
   {
-    private Renderer renderer;
+    private RendererGL2 renderer;
 
-    public RendererTesselCallBack(Renderer renderer)
+    public RendererTesselCallBack(RendererGL2 renderer)
     {
       this.renderer = renderer;
     }
 
     public void begin(int type)
     {
-      renderer.gl.glBegin(type);
+      renderer.getGL().glBegin(type);
     }
 
     public void end()
     {
-    	renderer.gl.glEnd();
+    	renderer.getGL().glEnd();
     }
 
     public void vertex(Object vertexData)
@@ -30,8 +30,8 @@ public class RendererTesselCallBack implements GLUtessellatorCallback
       if (vertexData instanceof double[])
       {
         pointer = (double[]) vertexData;
-        //if (pointer.length == 6) gl.glColor3dv(pointer, 3);
-        renderer.gl.glVertex3dv(pointer, 0);
+        //if (pointer.length == 6) getGL().glColor3dv(pointer, 3);
+        renderer.getGL().glVertex3dv(pointer, 0);
       }
       
     	
