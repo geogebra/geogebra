@@ -3677,7 +3677,9 @@ public abstract class EuclidianController {
 
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
-		processMode(hits, isControlDown); // build highlightedGeos List
+		
+		// removed - this can trigger a tool on mouse-move
+		// processMode(hits, isControlDown); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
