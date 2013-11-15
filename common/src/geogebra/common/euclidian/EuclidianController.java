@@ -3667,7 +3667,7 @@ public abstract class EuclidianController {
 		return repaintNeeded;
 	}
 	
-	public boolean refreshHighlighting(Hits hits, boolean isControlDown) {
+	public boolean refreshHighlighting(Hits hits, boolean control) {
 
 		Hits oldHighlightedGeos = highlightedGeos.clone();
 		
@@ -3681,7 +3681,7 @@ public abstract class EuclidianController {
 		// TODO - this can trigger a tool on mouse-move
 		// https://www.geogebra.org/forum/viewtopic.php?f=8&t=33719
 		// removing breaks previews in trunk
-		processMode(hits, isControlDown); // build highlightedGeos List
+		updatePreviewAndLock(); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
@@ -5591,6 +5591,12 @@ public abstract class EuclidianController {
 		changedKernel = switchModeForProcessMode(hits, isControlDown);
 	
 		// update preview
+		updatePreviewAndLock();
+	
+		return changedKernel;
+	}
+
+	private void updatePreviewAndLock() {
 		if (view.getPreviewDrawable() != null) {
 			view.updatePreviewableForProcessMode();
 			if (mouseLoc != null) {
@@ -5603,10 +5609,8 @@ public abstract class EuclidianController {
 			}
 			view.repaintView();
 		}
-	
-		return changedKernel;
+		
 	}
-
 	/**
 	 * @param rightClick in 3D we need to check left/right click 
 	 */
