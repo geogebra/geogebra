@@ -124,7 +124,8 @@ public class Ggb2giac {
 		// Giac doesn't auto-simplify
 		// normal so f(x):=(x^2-1)/(x-1) -> x+1 (consistent with Reduce)
 		// regroup so that r*r^n -> r^(n+1)
-		p("Evaluate.1", "normal(regroup(%0))");
+		// regroup/normal swapped for improved variable order eg x^2 + a*x + b
+		p("Evaluate.1", "regroup(normal(%0))");
 		//p("Evaluate.1", "%0");
 
 		p("Expand.1",
