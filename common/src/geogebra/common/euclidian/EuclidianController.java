@@ -3678,8 +3678,10 @@ public abstract class EuclidianController {
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
 		
-		// removed - this can trigger a tool on mouse-move
-		// processMode(hits, isControlDown); // build highlightedGeos List
+		// TODO - this can trigger a tool on mouse-move
+		// https://www.geogebra.org/forum/viewtopic.php?f=8&t=33719
+		// removing breaks previews in trunk
+		processMode(hits, isControlDown); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
