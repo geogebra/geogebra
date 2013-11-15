@@ -29,10 +29,7 @@ public abstract class OptionsModel {
 		return (geos != null && geos.length > 0);
 	}
 	
-	protected boolean isValidAt(int index){
-		return false;
-		};
-	
+	protected abstract boolean isValidAt(int index);
 		
 	public abstract void updateProperties();
 	

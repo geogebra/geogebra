@@ -67,4 +67,10 @@ public class GraphicsViewLocationModel extends OptionsModel {
 		return true;
 	}
 
+	@Override
+	protected boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -19,7 +19,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getObjectAt(index).getClass() == GeoConic.class);
+		return (getObjectAt(index) instanceof GeoConic);
 	}
 
 	private GeoConic getConicAt(int index) {

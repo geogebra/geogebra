@@ -163,5 +163,11 @@ public class ColorObjectModel extends OptionsModel {
 		return hasBackground;
 	}
 
+	@Override
+	protected boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

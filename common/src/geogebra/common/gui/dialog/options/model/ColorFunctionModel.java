@@ -184,4 +184,10 @@ public class ColorFunctionModel extends OptionsModel {
 		listener.setAlphaText("");
 
 	}
+
+	@Override
+	protected boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

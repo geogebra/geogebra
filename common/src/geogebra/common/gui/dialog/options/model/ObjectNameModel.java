@@ -230,4 +230,11 @@ public class ObjectNameModel extends OptionsModel {
 		this.redefinitionFailed = redefinitionFailed;
 	}
 
+
+	@Override
+	protected boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

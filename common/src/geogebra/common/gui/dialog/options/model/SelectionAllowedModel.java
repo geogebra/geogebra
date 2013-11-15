@@ -27,4 +27,10 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 
 	}
 
+	@Override
+	protected boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
