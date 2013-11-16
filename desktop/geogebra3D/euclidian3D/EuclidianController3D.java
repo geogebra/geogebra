@@ -2702,7 +2702,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//App.error(""+intersectionCurveList.size());
 			for (IntersectionCurve intersectionCurve : intersectionCurveList){
 				Drawable3D d = intersectionCurve.drawable;
-				//App.debug(d+"\nz="+d.zPickMax+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
+				//App.debug(d+"\nz="+d.getZPickNear()+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
 				if (d.getZPickNear()>zNear){
 					resultedGeo=d.getGeoElement();
 					resultedIntersectionCurve = intersectionCurve;

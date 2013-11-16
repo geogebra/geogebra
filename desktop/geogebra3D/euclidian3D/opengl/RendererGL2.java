@@ -356,7 +356,7 @@ public class RendererGL2 extends Renderer{
 		// picking objects
 		for (IntersectionCurve intersectionCurve : curves){
 			Drawable3D d = intersectionCurve.drawable;
-			d.setZPick(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
+			d.setZPick(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
 			pick(d, true, PickingType.POINT_OR_CURVE);
 		}
 
