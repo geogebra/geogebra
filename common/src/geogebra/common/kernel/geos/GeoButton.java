@@ -28,7 +28,7 @@ import geogebra.common.util.StringUtil;
  */
 public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, Furniture{			
 
-	private double fontSizeD = 1;
+	private double fontSizeD = 2;
 	private int fontStyle = GFont.PLAIN;
 
 	private boolean serifFont = false;
