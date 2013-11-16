@@ -1,7 +1,7 @@
 package geogebra.web.gui.layout;
 
-import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.layout.DockComponent;
+import geogebra.common.gui.layout.DockManager;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Florian Sonner
  */
-public class DockManagerW implements  SetLabels {
+public class DockManagerW extends DockManager {
 	private AppW app;
 	private LayoutW layout;
 	

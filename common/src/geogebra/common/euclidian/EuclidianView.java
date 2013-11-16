@@ -53,6 +53,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.GuiManagerInterface;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -5018,7 +5019,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	/**
 	 * @return true if play button belongs to this view
 	 */
-	protected abstract boolean drawPlayButtonInThisView();
+	protected boolean drawPlayButtonInThisView(){
+		GuiManagerInterface gui = getApplication().getGuiManager();
+		// just one view
+		if ( gui == null) {
+			return true;
+		}
+		// eg ev1 just closed
+		 GetViewId evp = gui.getLayout().getDockManager().getFocusedEuclidianPanel();
+		if (evp == null) {
+			return true;
+		}
+
+		return this.getViewID() == evp.getViewId();
+	}
 
 	/**
 	 * @return axes color

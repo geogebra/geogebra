@@ -1,6 +1,7 @@
 package geogebra.common.gui;
 
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.layout.DockManager;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
@@ -150,5 +151,7 @@ public abstract class Layout {
 	public abstract boolean isOnlyVisible(int viewEuclidian);
 
 	public abstract void applyPerspective(String string);
+	
+	public abstract DockManager getDockManager();
 
 }

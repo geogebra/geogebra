@@ -21,7 +21,6 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.GetViewId;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -31,9 +30,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
-import geogebra.main.GuiManagerInterfaceD;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -649,24 +646,6 @@ public class EuclidianViewD extends EuclidianViewND implements
 		return kernel.needToShowAnimationButton() && (x <= 20)
 				&& (y >= (getHeight() - 20));
 	}
-
-	@Override
-	protected boolean drawPlayButtonInThisView() {
-		GuiManagerInterfaceD gui = getApplication().getGuiManager();
-		// just one view
-		if ( gui == null) {
-			return true;
-		}
-		// eg ev1 just closed
-		 GetViewId evp = ((GuiManagerD)gui).getLayout().getDockManager().getFocusedEuclidianPanel();
-		if (evp == null) {
-			return true;
-		}
-
-		return this.getViewID() == evp.getViewId();
-	}
-
-
 
 	@Override
 	public EuclidianControllerD getEuclidianController() {

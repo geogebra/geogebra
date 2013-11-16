@@ -274,11 +274,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	}
 	
 	@Override
-    protected boolean drawPlayButtonInThisView() {
-		return true;
-	}
-	
-	@Override
 	final protected void drawAnimationButtons(final geogebra.common.awt.GGraphics2D g2) {
 
 		// draw button in focused EV only

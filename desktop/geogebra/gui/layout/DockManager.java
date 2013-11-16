@@ -1,7 +1,6 @@
 package geogebra.gui.layout;
 
 import geogebra.common.euclidian.EuclidianStyleBar;
-import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
@@ -32,7 +31,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author Florian Sonner
  */
-public class DockManager implements AWTEventListener, SetLabels {
+public class DockManager extends geogebra.common.gui.layout.DockManager implements AWTEventListener{
 	private AppD app;
 	private LayoutD layout;
 	
