@@ -8,6 +8,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -63,9 +64,8 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	protected void setInputOutput() {
 		if(pt==null){
 			input = new GeoElement[]{f.toGeoElement()};
-		}
-		else{
-			input = new GeoElement[]{f.toGeoElement(),pt.toGeoElement()};
+		} else {
+			input = new GeoElement[]{f.toGeoElement(), pt.toGeoElement()};
 		}
 		setOnlyOutput(g);
 		setDependencies();
@@ -74,9 +74,17 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	private String oldCASstring;
 	@Override
 	public void compute() {
-		if (!f.isDefined() && g!=null) {
+		if (!f.isDefined() && g != null) {
 			g.setUndefined();
 			return;
+		}
+		
+		// function expression
+		String funExp = f.toString(StringTemplate.prefixedDefault);
+		
+		// remove f(x,y) = 
+		if (funExp.indexOf('=') > -1) {
+			funExp = funExp.split("=")[1];
 		}
 		
 		// get function and function variable string using temp variable
@@ -85,25 +93,27 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 		StringBuilder sb = new StringBuilder();
 		sb.setLength(0);
 		sb.append("SolveODE(");
-		sb.append(f.toString(StringTemplate.prefixedDefault)); // function expression
-		if(pt!=null){
+		sb.append(funExp); 
+		if (pt != null) {
 			sb.append(",");
 			sb.append(pt.toValueString(StringTemplate.prefixedDefault));
 		}
 		sb.append(")");
+		
 		String casString = sb.toString();
-		if(!casString.equals(oldCASstring)){
+		
+		if (!casString.equals(oldCASstring)){
 			updateG(casString);
 			oldCASstring = casString;
 		}
-		if(pt!=null && arbconst.getTotalNumberOfConsts()==1){
+		if (pt != null && arbconst.getTotalNumberOfConsts() == 1) {
 			findPathThroughPoint();
 		}
 
 	}
 	private void findPathThroughPoint() {
 		GeoNumeric c1 = arbconst.getConst(0);
-		if(c1==null){
+		if(c1 == null){
 			g.setUndefined();
 			return;
 		}
@@ -112,7 +122,7 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 
 	private void updateG(String casString) {
 		String functionOut;
-		boolean ok=false;
+		boolean ok = false;
 		try {
 			//TODO put caching back
 			functionOut = kernel.evaluateGeoGebraCAS(casString, arbconst);
@@ -121,21 +131,29 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 			GeoElement[]res = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(functionOut,
 					false, false, false, false);
 			cons.setSuppressLabelCreation(flag);
-			if(res!=null && res.length>0){
-				if(g==null){
+			if (res != null && res.length > 0) {
+				
+				// convert eg y=2 into a function
+				if (res[0].isGeoFunctionable()) {
+					res[0] = ((GeoFunctionable)res[0]).getGeoFunction();
+				}
+				
+				if (g == null) {
 					g = res[0];
-				}else
+				} else {
 					g.set(res[0]);
-				ok =true;
+				}
+				ok = true;
 			}
 		} catch (Throwable e) {
 			App.debug("AlgoSolveODECas: " + e.getMessage());
 		}
-		if(!ok){
-			if(g!=null)
+		if (!ok) {
+			if (g != null) {
 				g.setUndefined();
-			else
+			} else {
 				g= new GeoFunction(cons);
+			}
 		}	
 	}
 
