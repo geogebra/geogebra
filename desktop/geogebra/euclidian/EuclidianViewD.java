@@ -663,7 +663,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 			return true;
 		}
 
-		return this.getViewID() != evp.getViewId();
+		return this.getViewID() == evp.getViewId();
 	}
 
 
