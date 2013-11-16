@@ -2604,7 +2604,7 @@ __GGB__keysVar.fr.plain = {
     "Title": "Titre",
     "TitleExportPgf": "Export GeoGebra vers PGF/TikZ",
     "TitleExportPstricks": "Export GeoGebra vers PSTricks",
-    "ToggleStyleBar": "Bascule Barre d'outils",
+    "ToggleStyleBar": "Bascule Barre de style",
     "ToolbarIcon": "Ic\xf4ne de Barre d'outils",
     "ToolbarIconsConstructionProtocolExport": "Afficher les ic\xf4nes des outils",
     "TooltipLanguage": "Langue pour Infobulles",
