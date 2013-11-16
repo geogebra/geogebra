@@ -184,78 +184,78 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 		
 		// grid
-		
-		removeGeometryIndex(gridIndex);
-		removeGeometryIndex(gridOutlineIndex);
-		
-		
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();
-		
-		brush.start(8);
-		float thickness = brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
-
-		brush.setColor(geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor()));
-
-		double dx = geo.getGridXd(); geo.getGridYd();
-		double dy;
-		if (Double.isNaN(dx)){
-			dx = getView3D().getNumbersDistance();
-			dy = dx;
-		}else{
-			dy = geo.getGridYd();
-		}
-	
-
-		brush.setAffineTexture(
-				(0f-xmin1)/ydelta1,
-				0.25f);
-		int i0 = (int) (ymin1/dy);
-		if (ymin1>0)
-			i0++;
-		for(int i=i0;i<=ymax1/dy;i++)
-			brush.segment(coordsys.getPointForDrawing(xmin1,i*dy), 
-					coordsys.getPointForDrawing(xmax1,i*dy));	
-		//along y axis
-		brush.setAffineTexture(
-				(0f-ymin1)/xdelta1,
-				0.25f);
-		i0 = (int) (xmin1/dx);
-		if (xmin1>0)
-			i0++;
-		for(int i=i0;i<=xmax1/dx;i++)
-			brush.segment(coordsys.getPointForDrawing(i*dx, ymin1), 
-					coordsys.getPointForDrawing(i*dx, ymax1));
-
-		gridIndex = brush.end();
+		if (isGridVisible()){
+			removeGeometryIndex(gridIndex);
+			removeGeometryIndex(gridOutlineIndex);
 
 
-		brush.start(8);
-		boolean showClippingCube = getView3D().showClippingCube();
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
-		//draws the rectangle outline
-		if (showClippingCube){
+			brush.start(8);
+			float thickness = brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
+
+			brush.setColor(geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor()));
+
+			double dx = geo.getGridXd(); geo.getGridYd();
+			double dy;
+			if (Double.isNaN(dx)){
+				dx = getView3D().getNumbersDistance();
+				dy = dx;
+			}else{
+				dy = geo.getGridYd();
+			}
+
+
 			brush.setAffineTexture(
 					(0f-xmin1)/ydelta1,
 					0.25f);
-		}else
-			brush.setPlainTexture();
-		brush.segment(coordsys.getPointForDrawing(xmin1,ymax1-thickness), 
-				coordsys.getPointForDrawing(xmax1,ymax1-thickness));
-		brush.segment(coordsys.getPointForDrawing(xmin1,ymin1+thickness), 
-				coordsys.getPointForDrawing(xmax1,ymin1+thickness));	
-
-		if (showClippingCube){
+			int i0 = (int) (ymin1/dy);
+			if (ymin1>0)
+				i0++;
+			for(int i=i0;i<=ymax1/dy;i++)
+				brush.segment(coordsys.getPointForDrawing(xmin1,i*dy), 
+						coordsys.getPointForDrawing(xmax1,i*dy));	
+			//along y axis
 			brush.setAffineTexture(
 					(0f-ymin1)/xdelta1,
 					0.25f);
-		}			
-		brush.segment(coordsys.getPointForDrawing(xmin1+thickness,ymin1), 
-				coordsys.getPointForDrawing(xmin1+thickness,ymax1));
-		brush.segment(coordsys.getPointForDrawing(xmax1-thickness,ymin1), 
-				coordsys.getPointForDrawing(xmax1-thickness,ymax1));	
-								
-		gridOutlineIndex = brush.end();
-		
+			i0 = (int) (xmin1/dx);
+			if (xmin1>0)
+				i0++;
+			for(int i=i0;i<=xmax1/dx;i++)
+				brush.segment(coordsys.getPointForDrawing(i*dx, ymin1), 
+						coordsys.getPointForDrawing(i*dx, ymax1));
+
+			gridIndex = brush.end();
+
+
+			brush.start(8);
+			boolean showClippingCube = getView3D().showClippingCube();
+
+			//draws the rectangle outline
+			if (showClippingCube){
+				brush.setAffineTexture(
+						(0f-xmin1)/ydelta1,
+						0.25f);
+			}else
+				brush.setPlainTexture();
+			brush.segment(coordsys.getPointForDrawing(xmin1,ymax1-thickness), 
+					coordsys.getPointForDrawing(xmax1,ymax1-thickness));
+			brush.segment(coordsys.getPointForDrawing(xmin1,ymin1+thickness), 
+					coordsys.getPointForDrawing(xmax1,ymin1+thickness));	
+
+			if (showClippingCube){
+				brush.setAffineTexture(
+						(0f-ymin1)/xdelta1,
+						0.25f);
+			}			
+			brush.segment(coordsys.getPointForDrawing(xmin1+thickness,ymin1), 
+					coordsys.getPointForDrawing(xmin1+thickness,ymax1));
+			brush.segment(coordsys.getPointForDrawing(xmax1-thickness,ymin1), 
+					coordsys.getPointForDrawing(xmax1-thickness,ymax1));	
+
+			gridOutlineIndex = brush.end();
+		}
 
 		return true;
 	}
