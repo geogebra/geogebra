@@ -22,6 +22,18 @@ import com.google.gwt.regexp.shared.SplitResult;
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ColorProvider {
+
+	/** Regular expression strings */
+	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
+	private static final String LABEL_PARAM = LABEL_REGEX_STRING + "(\\(|\\[)?";
+	private static final String STRING = "((\\P{M}\\p{M}*)*)";
+	private static final String WHITESPACE = "\\p{Z}*";
+
+	/** Colors */
+	private static final GColor COLOR_DEFINED = GeoGebraColorConstants.DEFINED_OBJECT_COLOR;
+	private static final GColor COLOR_UNDEFINED = GeoGebraColorConstants.UNDEFINED_OBJECT_COLOR;
+	private static final GColor COLOR_LOCAL = GeoGebraColorConstants.LOCAL_OBJECT_COLOR;
+	private static final GColor COLOR_DEFAULT = GeoGebraColorConstants.BLACK;
 	
 	private Kernel kernel;
 	private Set<String> labels;
@@ -39,17 +51,6 @@ public class ColorProvider {
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>", "g");
 	private RegExp splitter = RegExp.compile(","); 
 	private RegExp assignmentReg = createAssignmentRegExp(isCasInput);
-
-	/** Regular expression strings */
-	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
-	private static final String LABEL_PARAM = LABEL_REGEX_STRING + "(\\(|\\[)?";
-	private static String STRING = "((\\P{M}\\p{M}*)*)";
-
-	/** Colors */
-	private static GColor COLOR_DEFINED = GeoGebraColorConstants.DEFINED_OBJECT_COLOR;
-	private static GColor COLOR_UNDEFINED = GeoGebraColorConstants.UNDEFINED_OBJECT_COLOR;
-	private static GColor COLOR_LOCAL = GeoGebraColorConstants.LOCAL_OBJECT_COLOR;
-	private static GColor COLOR_DEFAULT = GeoGebraColorConstants.BLACK;
 
 	/**
 	 * @param app
@@ -127,7 +128,10 @@ public class ColorProvider {
 	}
 	
 	private static RegExp createAssignmentRegExp(boolean isCasInput) {
-		return RegExp.compile("^\\p{Z}*" + LABEL_REGEX_STRING + "(\\(((" + LABEL_REGEX_STRING + ",)*)" + LABEL_REGEX_STRING + "\\))" + "\\p{Z}*" + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)"));
+		return RegExp.compile("^" + WHITESPACE + LABEL_REGEX_STRING + // f - function label
+				"(\\(" + WHITESPACE + "((" + LABEL_REGEX_STRING + WHITESPACE + "," + WHITESPACE +")*)" + 
+				LABEL_REGEX_STRING + WHITESPACE + "\\))" + // ( x1 , x2 , x3 , ... ) - function parameters
+				WHITESPACE + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)")); // :=/= - assignment operator
 	}
 
 	private void getIntervals() {
