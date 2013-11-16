@@ -3850,5 +3850,23 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return distance between two number ticks on the x axis
+	 */
+	public double getNumbersDistance(){
+		return getNumbersDistance(AXIS_X);
+	}
+	
+	/**
+	 * 
+	 * @param axis axis
+	 * @return distance between two number ticks on the axis
+	 */
+	public double getNumbersDistance(int axis){
+		return axisDrawable[axis].getNumbersDistance();
+	}
+
+	
 }
 

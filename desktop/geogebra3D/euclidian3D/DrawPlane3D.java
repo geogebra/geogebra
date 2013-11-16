@@ -195,9 +195,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		float thickness = brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
 
 		brush.setColor(geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor()));
-		
-		double dx = Math.min(geo.getGridXd(), geo.getGridYd());
-		double dy = dx; //TODO
+
+		double dx = geo.getGridXd(); geo.getGridYd();
+		double dy;
+		if (Double.isNaN(dx)){
+			dx = getView3D().getNumbersDistance();
+			dy = dx;
+		}else{
+			dy = geo.getGridYd();
+		}
+	
 
 		brush.setAffineTexture(
 				(0f-xmin1)/ydelta1,

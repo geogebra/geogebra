@@ -41,9 +41,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// grid and plate
 	boolean gridVisible = false;
 	boolean plateVisible = true;
-	double dx = 1.0; // distance between two marks on the grid //TODO use object
+	double dx = Double.NaN; // distance between two marks on the grid //TODO use object
 						// properties
-	double dy = 1.0;
+	double dy = Double.NaN;
 
 	/** coord sys */
 	protected CoordSys coordsys;
