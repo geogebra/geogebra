@@ -1600,8 +1600,11 @@ Paddings for menuitems.
 }
 
 body[dir=rtl] .undoPanel {
-    right : auto;
-    left : 0px;
+	position:relative;
+	margin-left:25px;
+	top: -55px;
+	float: left;
+	height: 0px;
 }
 
 
