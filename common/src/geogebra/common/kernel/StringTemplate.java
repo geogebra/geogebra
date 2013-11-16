@@ -2105,6 +2105,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 		int dotIndex = originalString.indexOf('.');
 
 		if (dotIndex > -1) {
+			
+			// eg 4.4% 
+			if (originalString.endsWith("%")) { 
+				return "(" + originalString.substring(0,  originalString.length() - 1).replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex) + ")";                               
+			}
+
 			// eg 2.22 -> (222/100)
 			return "(" + originalString.replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
 		}
