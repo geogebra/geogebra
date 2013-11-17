@@ -1539,9 +1539,12 @@ Paddings for menuitems.
     height:18px;
 }
 
+.SymbolTablePopup {
+    padding:0px;
+}
+
 .SymbolTable {
-	width: 100%;
-	height: 100%;
+	
 	border-left:solid 1px lightgray;
 	border-top:solid 1px lightgray;
 	border-collapse:collapse;

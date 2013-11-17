@@ -25,6 +25,7 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 		
 		// prevent autohide when clicking on the popup button
 		addAutoHidePartner(invoker.getElement());
+		addStyleName("SymbolTablePopup");
 	}
 
 	private void createSymbolTable() {
