@@ -143,4 +143,15 @@ public class InputPanelW extends HorizontalPanel {
 		}
 
 	}
+	
+	@Override
+    public void setVisible(boolean visible){
+		super.setVisible(visible);
+		if (textComponent != null) {
+			textComponent.setVisible(visible);
+		}
+		if (textAreaComponent != null) {
+			textAreaComponent.setVisible(visible);
+		}
+	}
 }

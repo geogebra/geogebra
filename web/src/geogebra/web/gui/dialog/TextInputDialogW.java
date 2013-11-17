@@ -17,7 +17,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	private GeoText editGeo;
 	private GeoPointND startPoint;
-	private boolean isLaTeX;
 	private TextEditPanel editor;
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
@@ -42,6 +41,13 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		
 		
     }
+	
+	private boolean isLatex(){
+		if(editor == null){
+			App.debug("null editor");
+		}
+		return editor.isLatex();
+	}
 
 	// =============================================================
 	// TextInputHandler
@@ -97,11 +103,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						.processAlgebraCommand(inputValue, false);
 				if (ret != null && ret[0] instanceof GeoText) {
 					GeoText t = (GeoText) ret[0];
-//					t.setLaTeX(isLaTeX, true);
+					t.setLaTeX(isLatex(), true);
 
 					// make sure for new LaTeX texts we get nice "x"s
-//					if (isLaTeX)
-//						t.setSerifFont(true);
+					if (isLatex())
+						t.setSerifFont(true);
 
 					if (startPoint.isLabelSet()) {
 						try {
@@ -138,8 +144,9 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				GeoText newText = (GeoText) kernel.getAlgebraProcessor()
 						.changeGeoElement(editGeo, inputValue, true, true);
 
+				
 				// make sure newText is using correct LaTeX setting
-//				newText.setLaTeX(isLaTeX, true);
+				newText.setLaTeX(isLatex(), true);
 
 				if (newText.getParentAlgorithm() != null)
 					newText.getParentAlgorithm().update();
@@ -164,8 +171,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	public void reInitEditor(GeoText text, GeoPointND startPoint2) {
 		this.startPoint = startPoint2;
 		setGeoText(text);
-//		textPreviewer.updatePreviewText(text,
-//				editor.buildGeoGebraString(isLaTeX), isLaTeX);
 		inputPanel.getTextAreaComponent().getTextArea().setFocus(true); //editor.requestFocus();
     }
 	
@@ -173,15 +178,13 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 //		handlingDocumentEventOff = true;
 
-		this.editGeo = geo;
-		this.editor.setEditGeo(geo);
+		editGeo = geo;
+		editor.setEditGeo(geo);
 		boolean createText = geo == null;
-		isLaTeX = geo == null ? false : geo.isLaTeX();
-				
-		//While we can't reopen and edit an existing text object,
-		//it's enough to set the text in the dialog's textfield to "".
 		
-	//	inputPanel.getTextComponent().setText(""); 
+		
+		//isLaTeX = geo == null ? false : geo.isLaTeX();
+				
 		inputPanel.getTextAreaComponent().setText(geo);
 		
 	//	inputPanel.getTextAreaComponent().setCaretPosition(0); 
