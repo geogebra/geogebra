@@ -100,11 +100,12 @@ public class DynamicTextProcessor {
 			} else if (left.isExpressionNode())
 				splitString((ExpressionNode) left, dList);
 			else if (left instanceof MyStringBuffer) {
-				DynamicTextElement d = createDynamicTextElement(left.toString(tpl)
-						.replaceAll("\"", ""));
+				DynamicTextElement d = createDynamicTextElement(left.toString(
+						tpl).replaceAll("\"", ""));
 				dList.add(d);
 			} else {
-				DynamicTextElement d = createDynamicTextElement(left.toString(tpl));
+				DynamicTextElement d = createDynamicTextElement(left
+						.toString(tpl));
 				dList.add(d);
 			}
 		}
@@ -122,7 +123,8 @@ public class DynamicTextProcessor {
 
 			// expression node
 			if (left.isGeoElement()) {
-				dList.add(createDynamicTextElement(((GeoElement) left).getLabel(tpl)));
+				dList.add(createDynamicTextElement(((GeoElement) left)
+						.getLabel(tpl)));
 
 			} else if (left.isExpressionNode())
 				this.splitString((ExpressionNode) left, dList);
@@ -223,27 +225,29 @@ public class DynamicTextProcessor {
 			text = list.get(i).text;
 			mode = list.get(i).type;
 
-			if (mode == DynamicTextType.DEFINITION) {
-				sb.append("\"+");
-				sb.append("Name[");
-				sb.append(text);
-				sb.append(']');
-				sb.append("+\"");
-			} else if (latex || mode == DynamicTextType.FORMULA_TEXT) {
-				sb.append("\"+");
-				sb.append("LaTeX["); // internal name for FormulaText[ ]
-				sb.append(text);
-				sb.append(']');
-				sb.append("+\"");
-			} else if (mode == DynamicTextType.VALUE) {
-				// brackets needed for eg "hello"+(a+3)
-				sb.append("\"+(");
-				sb.append(text);
-				sb.append(")+\"");
-			} else if (mode == DynamicTextType.STATIC) {
-				App.debug("processing text: " + text);
+			if (mode == DynamicTextType.STATIC) {
 				for (int k = 0; k < text.length(); k++) {
 					processQuotes(sb, text.substring(k, k + 1));
+				}
+				
+			} else {
+				if (mode == DynamicTextType.DEFINITION) {
+					sb.append("\"+");
+					sb.append("Name[");
+					sb.append(text);
+					sb.append(']');
+					sb.append("+\"");
+				} else if (latex || mode == DynamicTextType.FORMULA_TEXT) {
+					sb.append("\"+");
+					sb.append("LaTeX["); // internal name for FormulaText[ ]
+					sb.append(text);
+					sb.append(']');
+					sb.append("+\"");
+				} else if (mode == DynamicTextType.VALUE) {
+					// brackets needed for eg "hello"+(a+3)
+					sb.append("\"+(");
+					sb.append(text);
+					sb.append(")+\"");
 				}
 			}
 		}
