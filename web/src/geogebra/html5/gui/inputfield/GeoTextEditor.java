@@ -275,9 +275,12 @@ public class GeoTextEditor extends RichTextArea {
 	}
 
 	public void insertGeoElement(GeoElement geo) {
-		if (geo == null)
-			return;
-		String text = geo.getLabel(StringTemplate.defaultTemplate);
+
+		String text = ""; // gives empty box if geo is null
+
+		if (geo != null) {
+			text = geo.getLabel(StringTemplate.defaultTemplate);
+		}
 		insertElement(createValueElement(text));
 	}
 
