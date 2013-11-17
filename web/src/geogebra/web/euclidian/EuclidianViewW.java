@@ -42,6 +42,7 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianViewWeb {
 	
@@ -59,16 +60,22 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
+		
 		super(euclidiancontroller, settings);
+		
 		EVPanel = euclidianViewPanel;
+		
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		if (evNo == 2) {
 			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN2);
-		} else {
+		} else if(evNo == 1) {
 			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
+		} else {
+			canvas.getElement().setId("View_"+ getViewID());
 		}
 		this.evNo = evNo;
-	    // TODO Auto-generated constructor stub
+	    
+
 		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);
 
 		updateFonts();
@@ -76,6 +83,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		attachView();
 	
 		((EuclidianControllerW)euclidiancontroller).setView(this);
+		
 //		canvas.addClickHandler((EuclidianController)euclidiancontroller);	
 //		canvas.addMouseMoveHandler((EuclidianController)euclidiancontroller);
 //		canvas.addMouseOverHandler((EuclidianController)euclidiancontroller);
@@ -92,34 +100,22 @@ public class EuclidianViewW extends EuclidianViewWeb {
 //		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
 //		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
 
+		if(this.getViewID() != App.VIEW_TEXT_PREVIEW){
+			registerKeyHandlers(canvas);
+			registerMouseTouchGestureHandlers(canvas, euclidianViewPanel, (EuclidianControllerW) euclidiancontroller);
+		}
+		
 		canvas.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent be) {
 				focusLost();
 			}
 		});
+		
 		canvas.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent fe) {
 				focusGained();
 			}
 		});
-		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOverEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOutEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseDownEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseUpEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseWheelEvent.getType());
-		
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchStartEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchEndEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchMoveEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchCancelEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureStartEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureChangeEvent.getType());
-		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
 		
 		if(Browser.isIE()){
 			msZoomer = new MsZoomer(euclidianController);
@@ -136,7 +132,36 @@ public class EuclidianViewW extends EuclidianViewWeb {
 			es.addListener(this);
 		}
     }
-
+	
+	private void registerKeyHandlers(Canvas canvas){
+		
+		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+		
+	}
+	
+	private void registerMouseTouchGestureHandlers(Canvas canvas, EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
+		
+		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
+		
+		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		
+		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
+		
+	}
+	
 	// STROKES
 	protected static MyBasicStrokeW standardStroke = new MyBasicStrokeW(1.0f);
 
