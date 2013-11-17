@@ -2650,7 +2650,7 @@ __GGB__keysVar.es_UY.plain = {
     "VirtualKeyboardLanguage": "Idioma del Teclado Virtual",
     "VolumeOfA": "Volumen de %0",
     "Width": "Ancho",
-    "WindowOpened": "Ventana Abierta",
+    "WindowOpened": "Ventana abierta",
     "XMLTagANotFound": "Archivo no v\xe1lido: extensi\xf3n XML %0 no encontrada",
     "XUnits": "X unidades (cm)",
     "YUnits": "Y unidades (cm)",
