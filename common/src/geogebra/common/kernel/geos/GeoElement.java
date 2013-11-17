@@ -1437,6 +1437,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// set whether it's an auxilliary object
 		setAuxiliaryObject(geo.isAuxiliaryObject());
+		
+		// set fixed
+		setFixed(geo.isFixed());
+
 
 		// if layer is not zero (eg a new object has layer set to
 		// ev.getMaxLayerUsed())
