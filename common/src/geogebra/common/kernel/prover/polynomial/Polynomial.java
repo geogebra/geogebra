@@ -1027,7 +1027,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			 * change the order of the variables much more efficiently inside Singular
 			 * instead.  
 			 * 
-			 * At the moment, this code is disabled in ProverBotanasMethod by using
+			 * At the moment, this code may be disabled in ProverBotanasMethod by using
 			 * MAX_PERMUTATIONS = 1. Anyway, the permutation [8,7,6,5,x,y,z,v]
 			 * would be nice here to be implemented, where [x,y,z,v] is a permutation
 			 * of [1,2,3,4].
@@ -1047,11 +1047,11 @@ public class Polynomial implements Comparable<Polynomial> {
 			}
 			for (int i = 0; i < permutation; ++i) {
 				for (int j = 0; j < vSize; ++j) {
-					int k = 2 * indices[j];
+					int k = 2 * j;
 					if (k >= vSize) {
 						k = 2 * vSize - k - 1;
 					}
-					newIndices[k] = j;
+					newIndices[k] = indices[j];
 				}
 				for (int j = 0; j < vSize; ++j) {
 					indices[j] = newIndices[j];

@@ -386,8 +386,8 @@ public class ProverBotanasMethod {
 					int permutation = 0;
 					int MAX_PERMUTATIONS = 1; // Giac cannot permute the variables at the moment.
 					if (App.singularWS != null && App.singularWS.isAvailable()) {
-						// MAX_PERMUTATIONS = 20; // intuitively set, see Polynomial.java for more on info
-						MAX_PERMUTATIONS = 1; // no need to use it right now since we don't know an example where it helps
+						MAX_PERMUTATIONS = 20; // intuitively set, see Polynomial.java for more on info
+						// MAX_PERMUTATIONS = 1; // unsure to use it right now since we don't know many examples where it helps
 					}
 					while (!found && permutation < MAX_PERMUTATIONS) {
 
