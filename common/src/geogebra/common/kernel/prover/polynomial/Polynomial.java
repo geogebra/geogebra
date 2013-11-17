@@ -973,18 +973,24 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param eqSystem the equation system
 	 * @param substitutions fixed values for certain variables
 	 * @param kernel GeoGebra kernel
+	 * @param permutation use this permutation number for changing the order of the first free variables
 	 * @return elements of the elimination ideal
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
 			HashMap<Variable, Integer> substitutions, Kernel kernel, int permutation) {
 
 		TreeSet<Variable> dependentVariables = new TreeSet<Variable>();
+		TreeSet<Variable> freeVariables = new TreeSet<Variable>();
 		TreeSet<Variable> variables = new TreeSet<Variable>(getVars(eqSystem));
 		Iterator<Variable> variablesIterator = variables.iterator();
 		while (variablesIterator.hasNext()) {
 			Variable variable = variablesIterator.next();
 			if (!variable.isFree()) {
 				dependentVariables.add(variable);
+			} else {
+				if (!substitutions.containsKey(variable)) {
+					freeVariables.add(variable);
+				}
 			}
 		}
 		Polynomial[] eqSystemSubstituted;
@@ -1004,60 +1010,41 @@ public class Polynomial implements Comparable<Polynomial> {
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 
-			/* Permuting the variables. For the detailed method see
-			 * Zoltan's master thesis on a card permutation machine at
-			 * http://www.math.u-szeged.hu/~kovzol/mat/fraktal/SZAKDOLGOZAT.ps.gz
-			 * (in Hungarian), page 28. Assuming there are N variables, the possible
-			 * permutations are not greater than 2*N. We simply limit the number of
-			 * steps to 20, in some cases this is not enough, sometimes it is too much.
-			 * 
-			 * We need a simple permutation mini-engine since we cannot check all permutations
-			 * for so many variables. It is not proven and even not thoroughly checked
-			 * if such a mini-engine is good enough for the problem. Basically, we search
-			 * for such an engine which is deterministic, shuffles the cards good enough
-			 * to get different ideals after the elimination, and gives readable results.
-			 * 
-			 * This code is quite experimental. Maybe completely useless, since
-			 * there is no guarantee that in 20 steps we get a set of readable
-			 * conditions. Also the code itself is quite inefficiently programmed.
-			 * If you decide to remove this code, you may want to remove MAX_PERMUTATIONS
-			 * from ProverBotanasMethod.java.
-			 * 
-			 * We change the permutations only with Singular. Maybe there is a way to
-			 * change the order of the variables much more efficiently inside Singular
-			 * instead.  
-			 * 
-			 * At the moment, this code may be disabled in ProverBotanasMethod by using
-			 * MAX_PERMUTATIONS = 1. Anyway, the permutation [8,7,6,5,x,y,z,v]
-			 * would be nice here to be implemented, where [x,y,z,v] is a permutation
-			 * of [1,2,3,4].
-			 * 
+			/*
+			 * In most cases the revlex permutation gives good (readable) result, but not always.
+			 * So we try to permute the last four non-substituted free variables here.
+			 * All the 24 possibilities here may be a bit slow, so we sketch up a priority for
+			 * checking.  
 			 */
-			int vSize = variables.size();
+			int vSize = freeVariables.size();
 			Variable[] aVariables = new Variable[vSize];
-			Iterator<Variable> it = variables.iterator();
+			Iterator<Variable> it = freeVariables.iterator();
 			int ai = 0;
 			while (it.hasNext()) {
 				aVariables[ai++] = it.next();
 			}
 			int[] indices = new int[vSize];
-			int[] newIndices = new int[vSize];
 			for (int i = 0; i < vSize; ++i) {
 				indices[i] = i;
 			}
-			for (int i = 0; i < permutation; ++i) {
-				for (int j = 0; j < vSize; ++j) {
-					int k = 2 * j;
-					if (k >= vSize) {
-						k = 2 * vSize - k - 1;
-					}
-					newIndices[k] = indices[j];
+			
+			if (vSize >= 4) { // Don't permute if there are not enough free variables.
+				// Suggested permutations in priority. The first one is revlex, the last one is lex.
+				int[][] perms = { { 3, 2, 1, 0 }, { 3, 2, 0, 1 },
+						{ 3, 1, 2, 0 }, { 3, 1, 0, 2 }, { 3, 0, 1, 2 },
+						{ 3, 0, 2, 1 }, { 2, 3, 1, 0 }, { 2, 3, 0, 1 },
+						{ 2, 1, 0, 3 }, { 2, 1, 3, 0 }, { 2, 0, 1, 3 },
+						{ 2, 0, 3, 1 }, { 1, 3, 2, 0 }, { 1, 3, 0, 2 },
+						{ 1, 2, 3, 0 }, { 1, 2, 0, 3 }, { 1, 0, 3, 2 },
+						{ 1, 0, 2, 3 }, { 0, 3, 2, 1 }, { 0, 3, 1, 2 },
+						{ 0, 2, 3, 1 }, { 0, 2, 1, 3 }, { 0, 1, 3, 2 },
+						{ 0, 1, 2, 3 } };
+
+				for (int j = 0; j < 4; ++j) {
+					indices[j + vSize - 4] = 3 - perms[permutation][j] + vSize - 4;
 				}
-				for (int j = 0; j < vSize; ++j) {
-					indices[j] = newIndices[j];
-				}	
 			}
-			Variable[] pVariables = new Variable[vSize];
+			Variable[] pVariables = new Variable[variables.size()];
 			String debug = "";
 			for (int j = 0; j < vSize; ++j) {
 				pVariables[j] = aVariables[indices[j]];
@@ -1067,6 +1054,10 @@ public class Polynomial implements Comparable<Polynomial> {
 				debug = debug.substring(0, debug.length()-1);
 			}
 			App.debug("Checking variable permutation #" + permutation + ": " + debug);
+			it = dependentVariables.iterator();
+			for (int j = vSize; j < variables.size(); ++j) {
+				pVariables[j] = it.next();
+			}	
 			/* End of permutation. */
 			
 			elimProgram = createEliminateFactorizedScript(
