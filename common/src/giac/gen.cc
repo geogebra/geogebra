@@ -10331,6 +10331,8 @@ namespace giac {
 	return ")";
       else
 	return "]";
+    case _POINT__VECT:
+      return "]";
     case 0: case _MATRIX__VECT:
       return calc_mode(contextptr)==1?"}":"]";
     default:
