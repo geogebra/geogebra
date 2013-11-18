@@ -4,6 +4,7 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoQuadric3D;
@@ -74,6 +75,38 @@ implements Previewable {
 	
 	private int longitude = 0;
 	
+	private boolean checkVisible = false;
+	
+	
+	/**
+	 * check if the sphere is (at least partially) visible
+	 * @param center sphere center
+	 * @param radius sphere radius
+	 * @return true if the sphere is (at least partially) visible
+	 */
+	private boolean checkSphereVisible(Coords center, double radius){
+		double frustumRadius = getView3D().getFrustumRadius();
+		Coords origin = getView3D().getToSceneMatrix().getOrigin();
+		//App.error("\n"+origin);
+		Coords v = origin.sub(center);
+		v.calcNorm();
+		double centersDistance = v.getNorm();
+		
+		App.error("\ncentersDistance= "+centersDistance+"\nradius= "+radius+"\nfrustumRadius= "+frustumRadius);
+		
+		// sphere totally outside the frustum
+		if (centersDistance > radius + frustumRadius){
+			return false;
+		}
+		
+		// frustum totally inside the sphere
+		if (centersDistance + frustumRadius < radius){
+			return false;
+		}
+		
+		return true;
+	}
+	
 	
 	
 	@Override
@@ -82,13 +115,20 @@ implements Previewable {
 		Renderer renderer = getView3D().getRenderer();
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		PlotterSurface surface;
-		
+
 		switch(quadric.getType()){
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start();
-			longitude = surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), getView3D().getScale());
-			setSurfaceIndex(surface.end());			
+			Coords center = quadric.getMidpoint3D();
+			double radius = quadric.getHalfAxis(0);
+			checkVisible = checkSphereVisible(center, radius);
+			if(checkVisible){
+				surface = renderer.getGeometryManager().getSurface();
+				surface.start();
+				longitude = surface.drawSphere(center, radius, getView3D().getScale());
+				setSurfaceIndex(surface.end());		
+			}else{
+				setSurfaceIndex(-1);	
+			}
 			break;
 			
 		case GeoQuadricNDConstants.QUADRIC_CONE:
@@ -172,7 +212,7 @@ implements Previewable {
 		
 		switch(quadric.getType()){
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-			if (getView3D().viewChangedByZoom()){
+			if ((!checkVisible && getView3D().viewChangedByTranslate()) || getView3D().viewChangedByZoom()){
 				Renderer renderer = getView3D().getRenderer();		
 				PlotterSurface surface;
 
@@ -180,13 +220,20 @@ implements Previewable {
 				
 				// check if longitude length changes
 				int l = surface.calcSphereLongitudesNeeded(quadric.getHalfAxis(0), getView3D().getScale());
-				if (l != longitude){
-					//App.debug(l+","+longitude);
-					longitude = l;
-					surface.start();
-					surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), longitude);
-					setSurfaceIndex(surface.end());
-					recordTrace();
+				if (!checkVisible || l != longitude){
+					Coords center = quadric.getMidpoint3D();
+					double radius = quadric.getHalfAxis(0);
+					checkVisible = checkSphereVisible(center, radius);
+					if(checkVisible){
+						//App.debug(l+","+longitude);
+						longitude = l;
+						surface.start();
+						surface.drawSphere(center, radius, longitude);
+						setSurfaceIndex(surface.end());
+						recordTrace();
+					}else{
+						setSurfaceIndex(-1);
+					}
 				}
 							
 			}

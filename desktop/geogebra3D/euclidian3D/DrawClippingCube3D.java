@@ -82,6 +82,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	
 	private double horizontalDiagonal;
 	
+	/**
+	 * max value from center to one FRUSTUM edge
+	 */
+	private double frustumRadius;
+	
 
 	/**
 	 * 
@@ -89,6 +94,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 	public double getHorizontalDiagonal(){
 		return horizontalDiagonal;
+	}
+	
+	/**
+	 * @return max value from center to one FRUSTUM edge
+	 */
+	public double getFrustumRadius(){
+		return frustumRadius;
 	}
 	
 	
@@ -139,7 +151,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		
 
 		horizontalDiagonal = renderer.getWidth()*(1-2*rv)*Math.sqrt(2);
-				
+		
+		int w = renderer.getWidth();
+		int h = renderer.getHeight();
+		int d = renderer.getVisibleDepth();
+		frustumRadius = Math.sqrt(w*w+h*h+d*d)/(2*scale);
 		
 		view.setXYMinMax(minMax);
 

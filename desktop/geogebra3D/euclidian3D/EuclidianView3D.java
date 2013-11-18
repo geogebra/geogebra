@@ -973,6 +973,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	
 	
+	/**
+	 * @return max value from center to one FRUSTUM edge
+	 */
+	public double getFrustumRadius(){
+		return clippingCubeDrawable.getFrustumRadius();
+	}
 	
 	
 	
