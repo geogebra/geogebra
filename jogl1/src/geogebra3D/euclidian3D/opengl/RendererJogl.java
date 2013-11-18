@@ -21,12 +21,23 @@ public class RendererJogl {
 	
 	protected GL gl;
 	
-	public static final GL getGL(GLAutoDrawable gLDrawable){
-		
-		return gLDrawable.getGL();
+	public void setGL(GLAutoDrawable gLDrawable){		
+		gl = gLDrawable.getGL();
 	}
 	
-
+	
+	public GL getGL(){
+		
+		return gl; 
+	}
+	
+	public GL getGL2(){
+		
+		return gl; 
+	}
+	
+	
+	
 	public final static IntBuffer newIntBuffer(int size){
 		return BufferUtil.newIntBuffer(size); 
 	}

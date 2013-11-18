@@ -17,7 +17,6 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
@@ -1424,9 +1423,6 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 
 	abstract protected void setAlphaFunc();
     
-    abstract protected GL getGL();
-    
-    abstract protected void setGL(GLAutoDrawable drawable);
     
     /**
      * ensure that animation is on (needed when undocking/docking 3D view)

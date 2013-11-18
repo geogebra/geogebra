@@ -23,11 +23,22 @@ import com.jogamp.opengl.util.GLBuffers;
 
 public class RendererJogl {
 	
-	protected GL2 gl; 
+	protected GL2 gl2; 
 	
-	public static final GL2 getGL(GLAutoDrawable gLDrawable){
+	public GL getGL(){
 		
-		return gLDrawable.getGL().getGL2(); 
+		return gl2; 
+	}
+	
+	public GL2 getGL2(){
+		
+		return gl2; 
+	}
+	
+	
+	
+	public void setGL(GLAutoDrawable gLDrawable){		
+		gl2 = gLDrawable.getGL().getGL2();
 	}
 	
 
