@@ -371,7 +371,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void SimplificationOfTerms_OrderingOfPowers_0 () {
-    t("(a^2 - 3 b) * (-3 a + 5 b^2)", "5 * a^(2)* b^(2) - 3 * a^(3) + 9 * a * b - 15 * b^(3)");
+    t("(a^2 - 3 b) * (-3 a + 5 b^2)", "5 * a^(2)* b^(2) - 3 * a^(3) - 15 * b^(3) + 9 * a * b");
   }
 
   @Test
