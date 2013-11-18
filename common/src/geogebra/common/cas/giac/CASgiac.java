@@ -70,10 +70,10 @@ public abstract class CASgiac implements CASGenericInterface {
 					"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));"+
 
 					//xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
-					"xcoord(x):=when(type(x)==DOM_IDENT,xcoordsymb(x),when(x[0]=='pnt',real(x[1]),x[0]));"+ 
-					"ycoord(x):=when(type(x)==DOM_IDENT,ycoordsymb(x),when(x[0]=='pnt',im(x[1]),x[1]));"+ 
+					"xcoord(x):=when(type(x)==DOM_IDENT,xcoordsymb(x),when(x[0]=='pnt',when(size(x[1])==3,x[1][0],real(x[1])),x[0]));"+ 
+					"ycoord(x):=when(type(x)==DOM_IDENT,ycoordsymb(x),when(x[0]=='pnt',when(size(x[1])==3,x[1][1],im(x[1])),x[1]));"+ 
 					// make sure z((1,2)) = 0
-					"zcoord(x):=when(type(x)==DOM_IDENT,zcoordsymb(x),when(x[0]=='pnt',0,when(length(x)<3,0,x[2])));"+ 
+					"zcoord(x):=when(type(x)==DOM_IDENT,zcoordsymb(x),when(x[0]=='pnt',when(size(x[1])==3,x[1][2],0),when(length(x)<3,0,x[2])));"+ 
 					// unicode0176u passes unaltered through Giac
 					// then gets decoded to degree sign in GeoGebra
 					// needed for "return angle from inverse trig function"
