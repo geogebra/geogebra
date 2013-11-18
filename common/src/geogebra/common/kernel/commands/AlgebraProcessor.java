@@ -55,6 +55,7 @@ import geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -1851,7 +1852,7 @@ public class AlgebraProcessor {
 			return processNumber(n, eval);
 		else if (eval instanceof VectorValue)
 			return processPointVector(n, eval);
-		else if (eval.isVector3DValue())
+		else if (eval instanceof Vector3DValue)
 			return processPointVector3D(n, eval);
 		else if (eval instanceof TextValue)
 			return processText(n, eval);

@@ -1577,11 +1577,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		region = a_region;
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	public void updateCoords2D() {
 		x2D = x / z;
 		y2D = y / z;

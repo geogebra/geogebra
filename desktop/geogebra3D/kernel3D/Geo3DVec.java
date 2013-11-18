@@ -27,7 +27,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -575,18 +574,9 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 			z=0;
 		}
 
-		public boolean isVector3DValue() {
+		@Override
+		public boolean evaluatesTo3DVector() {
 			return true;
-		}
-
-		public static MyVec3DNode get3DVecNode() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public static Coords get3DVector() {
-			// TODO Auto-generated method stub
-			return null;
 		}
 
 		public double[] getPointAsDouble() {
@@ -624,7 +614,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 
 			double a, b, c, d, e, f, g, h, i, z1, xx = x, yy = y, zz = 1;
 
-			if (rt.isVector3DValue()) {
+			if (rt instanceof Vector3DValue) {
 				geogebra.common.kernel.kernelND.Geo3DVec v = ((Vector3DValue) rt).get3DVec();
 				xx = v.getX();
 				yy = v.getY();

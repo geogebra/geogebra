@@ -627,6 +627,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return StringTemplate.latexIsMathQuill;
 	}
 	
+	private boolean isNDvector(ExpressionValue v){
+		return v.evaluatesToNonComplex2DVector() || v.evaluatesTo3DVector();
+	}
+	
 	public String plusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm){
 		StringBuilder sb = new StringBuilder();
@@ -693,7 +697,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')');
 
 			// don't use isNumberValue() as that leads to an evaluate()
-			} else if ((left instanceof NumberValue) && right.isVector3DValue()) {
+			} else if ((left instanceof NumberValue) && right.evaluatesTo3DVector()) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + (1,2,3)
 				sb.append("((");
@@ -711,7 +715,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')');
 
 				// don't use isNumberValue() as that leads to an evaluate()
-			} else if (left.isVector3DValue() && right instanceof NumberValue) {
+			} else if (left.evaluatesTo3DVector() && right instanceof NumberValue) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2,3) + 10
 				sb.append("((");
@@ -728,7 +732,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append(')');
 
-			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
+			} else if (isNDvector(right) && isNDvector(left)) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)+(3,4)
 				sb.append("point(");
@@ -913,7 +917,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append("[1]))");
 
-			} else if (left instanceof NumberValue && right.evaluatesToNonComplex2DVector()) {
+			} else if (right instanceof NumberValue && left.evaluatesToNonComplex2DVector()) {
 				// eg (1,2) - 10
 				sb.append("point(real(");
 				sb.append(leftStr);
@@ -925,7 +929,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append("))");
 
-			} else if (left instanceof NumberValue && right.isVector3DValue()) {
+			} else if (left instanceof NumberValue && right.evaluatesTo3DVector()) {
 				// eg 10 - (1,2,3)
 				sb.append("(");
 				sb.append(leftStr);
@@ -944,7 +948,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")[2])");
 
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if (left.isVector3DValue() && right instanceof NumberValue) {
+			} else if (left.evaluatesTo3DVector() && right instanceof NumberValue) {
 				// eg (1,2,3) - 10
 				sb.append("((");
 				sb.append(leftStr);
@@ -961,7 +965,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append("))");
 
 
-			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
+			} else if (isNDvector(right) && isNDvector(left)) {
 				App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
 				sb.append("point(");
@@ -1117,7 +1121,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			boolean nounary = true;
 
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.evaluatesToNonComplex2DVector())) {
+			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && isNDvector(right))) {
 				sb.append(leftBracket());
 			}
 
@@ -1273,7 +1277,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 			
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.evaluatesToNonComplex2DVector())) {
+			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && isNDvector(right))) {
 				sb.append(rightBracket());
 			}
 

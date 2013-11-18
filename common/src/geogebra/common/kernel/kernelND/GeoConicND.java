@@ -3081,13 +3081,6 @@ Region3D, GeoDirectionND
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-	
-	
-	
-	@Override
 	protected void setMidpoint(double[] coords){
 		b.setX(coords[0]);
 		b.setY(coords[1]);

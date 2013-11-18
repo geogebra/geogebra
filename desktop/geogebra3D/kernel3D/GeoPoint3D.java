@@ -998,12 +998,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return isInfinite;
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
 	public double[] getPointAsDouble() {
 		return getInhomCoords().get();
 	}

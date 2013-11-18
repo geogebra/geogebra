@@ -50,7 +50,7 @@ public interface ExpressionValue {
 	/**
 	 * @return whether this is instance of Vector3DValue
 	 */
-	public boolean isVector3DValue();	
+	public boolean evaluatesTo3DVector();	
 	/**
 	 * @return whether this is instance of ListValue
 	 */

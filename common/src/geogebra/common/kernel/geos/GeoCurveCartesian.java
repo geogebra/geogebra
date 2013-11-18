@@ -873,11 +873,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return isFillable();
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	final public void mirror(GeoConic c) {
 		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 

@@ -197,7 +197,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	@Override
-	public boolean isVector3DValue() {
+	public boolean evaluatesTo3DVector() {
 		return true;
 	}
 

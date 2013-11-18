@@ -180,12 +180,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return false;
 	}
 	
-	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	/**
 	 * Returns whether the value (e.g. equation) should be shown
 	 * as part of the label description

@@ -94,11 +94,6 @@ import java.util.TreeSet;
 public abstract class GeoElement extends ConstructionElement implements
 		GeoElementND {
 
-	public boolean isVector3DValue() {
-		return false;
-	}
-
-	
 	/**
 	 * Column headings for spreadsheet trace
 	 */
@@ -3091,7 +3086,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				chars = lineLabels;
 			} else if (isGeoConic()) {
 				chars = conicLabels;
-			} else if (isGeoVector() || isVector3DValue()) {
+			} else if (isGeoVector() || evaluatesTo3DVector()) {
 				chars = vectorLabels;
 			} else if (isGeoAngle()) {
 				chars = greekLowerCase;
@@ -7092,5 +7087,9 @@ public abstract class GeoElement extends ConstructionElement implements
 				|| (isGeoNumeric() && (((GeoNumeric) this)
 						.isDrawable() || this.getDefaultGeoType() >=0 )) || ((this instanceof GeoFunctionNVar) && ((GeoFunctionNVar) this)
 				.isInequality());
+	}
+	
+	public boolean evaluatesTo3DVector(){
+		return false;
 	}
 }

@@ -998,11 +998,6 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 		return expression.includesDivisionBy(fVars[0]);
 	}
-
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
 	
 	public GeoFunction getGeoFunction(){
 		GeoFunction gf = new GeoFunction(kernel.getConstruction());

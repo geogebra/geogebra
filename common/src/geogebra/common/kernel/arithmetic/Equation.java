@@ -490,11 +490,6 @@ public class Equation extends ValidExpression {
 		 return ": \\, ";
 	 }
 
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

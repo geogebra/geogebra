@@ -59,8 +59,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		 */
 		case PLUS:
 			// 3D vector + 3D vector
-			if (lt.isVector3DValue()) {
-				if (rt.isVector3DValue()) {
+			if (lt instanceof Vector3DValue) {
+				if (rt instanceof Vector3DValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 					Geo3DVec.add(vec3D,
 							(Geo3DVec) ((Vector3DValue) rt).get3DVec(), vec3D);
@@ -71,7 +71,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 							((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
-			} else if (lt instanceof VectorValue && rt.isVector3DValue()) {
+			} else if (lt instanceof VectorValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).get3DVec();
 				Geo3DVec.add(((VectorValue) lt).getVector(), vec3D,
 						vec3D);
@@ -81,8 +81,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
 		case MINUS:
 			// 3D vector - 3D vector
-			if (lt.isVector3DValue()) {
-				if (rt.isVector3DValue()) {
+			if (lt instanceof Vector3DValue) {
+				if (rt instanceof Vector3DValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 					Geo3DVec.sub(vec3D,
 							(Geo3DVec) ((Vector3DValue) rt).get3DVec(), vec3D);
@@ -93,7 +93,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 							((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
-			} else if (lt instanceof VectorValue && rt.isVector3DValue()) {
+			} else if (lt instanceof VectorValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).get3DVec();
 				Geo3DVec.sub(((VectorValue) lt).getVector(), vec3D,
 						vec3D);
@@ -104,20 +104,20 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		case MULTIPLY:
 			if (lt instanceof NumberValue) {
 				// number * 3D vector
-				if (rt.isVector3DValue()) {
+				if (rt instanceof Vector3DValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).get3DVec();
 					Geo3DVec.mult(vec3D, ((NumberValue) lt).getDouble(), vec3D);
 					return vec3D;
 				}
 			}
 			// 3D vector * number
-			else if (lt.isVector3DValue() && rt instanceof NumberValue) {
+			else if (lt instanceof Vector3DValue && rt instanceof NumberValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 				Geo3DVec.mult(vec3D, ((NumberValue) rt).getDouble(), vec3D);
 				return vec3D;
 			}
 			// 3D vector * 3D Vector (inner/dot product)
-			else if (lt.isVector3DValue() && rt.isVector3DValue()) {
+			else if (lt instanceof Vector3DValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 				num = new MyDouble(kernel);
 				Geo3DVec.inner(vec3D,
@@ -129,7 +129,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		case DIVIDE:
 			if (rt instanceof NumberValue) {
 				// number * 3D vector
-				if (lt.isVector3DValue()) {
+				if (lt instanceof Vector3DValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 					Geo3DVec.div(vec3D, ((NumberValue) rt).getDouble(), vec3D);
 					return vec3D;
@@ -138,7 +138,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			break;
 
 		case POWER:
-			if (lt.isVector3DValue() && rt instanceof NumberValue) {
+			if (lt instanceof Vector3DValue && rt instanceof NumberValue) {
 				num = ((NumberValue) rt).getNumber();
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 				if (num.getDouble() == 2.0) {
@@ -152,7 +152,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
 		case VECTORPRODUCT:
 			// 3D vector * 3D Vector (inner/dot product)
-			if (lt.isVector3DValue() && rt.isVector3DValue()) {
+			if (lt instanceof Vector3DValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 				Geo3DVec.vectorProduct(vec3D,
 						(Geo3DVec) ((Vector3DValue) rt).get3DVec(), vec3D);

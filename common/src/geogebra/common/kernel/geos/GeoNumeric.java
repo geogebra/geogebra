@@ -1221,11 +1221,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		super.updateRandomGeo();
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	/**
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)

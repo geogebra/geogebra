@@ -206,10 +206,6 @@ public class Variable extends ValidExpression {
 		return ev == this;
 	}
 
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

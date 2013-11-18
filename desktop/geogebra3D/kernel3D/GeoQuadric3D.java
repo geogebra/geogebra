@@ -359,12 +359,6 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return true;
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	// ///////////////////////////////////////
 	// SURFACE (u,v)->(x,y,z) INTERFACE
 	// ///////////////////////////////////////

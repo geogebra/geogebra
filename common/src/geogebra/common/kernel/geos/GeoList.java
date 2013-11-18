@@ -1480,11 +1480,6 @@ AngleProperties {
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-
-	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
 
 		if (isMatrix()) {

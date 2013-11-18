@@ -762,10 +762,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return ev == this;
 	}
 
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	/**
 	 * parse eg 3.45645% -> 3.45645/100
 	 * @param app application for showing errors

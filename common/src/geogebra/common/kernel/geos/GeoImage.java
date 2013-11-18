@@ -883,11 +883,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-
-	@Override
 	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 
 		if (hasAbsoluteLocation())

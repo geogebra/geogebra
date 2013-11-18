@@ -574,10 +574,6 @@ public class Polynomial extends ValidExpression implements Serializable
 		return ev == this;
 	}
 
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

@@ -582,10 +582,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return ev == this;
 	}
 
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	@Override
 	public String getLabelForAssignment() {
 		StringBuilder sb = new StringBuilder();

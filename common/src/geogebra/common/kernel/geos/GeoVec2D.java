@@ -1334,11 +1334,6 @@ final public class GeoVec2D extends ValidExpression implements
 		return;
 	}
 
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

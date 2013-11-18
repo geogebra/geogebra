@@ -687,7 +687,7 @@ public enum Operation {
 			// z(vector)
 			if (lt instanceof VectorValue) {
 				return new MyDouble(kernel, 0);
-			} else if (lt.isVector3DValue()) {
+			} else if (lt instanceof Vector3DValue) {
 				return new MyDouble(kernel,
 						((Vector3DValue) lt).getPointAsDouble()[2]);
 			} else if (lt instanceof GeoLine) {

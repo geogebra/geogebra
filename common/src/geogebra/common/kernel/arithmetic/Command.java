@@ -21,6 +21,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.App;
@@ -490,8 +491,18 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		this.macro = macro;
 	}
 
-	final public boolean isVector3DValue() {
-		return false;
+	final public boolean evaluatesTo3DVector() {
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate)  instanceof Vector3DValue;
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			if (ev != null )
+				return ev.unwrap() instanceof Vector3DValue;
+			throw ex;
+		}
 	}
 
 	

@@ -201,7 +201,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		return ev == this;
 	}
 
-	final public boolean isVector3DValue() {
+	@Override
+	final public boolean evaluatesTo3DVector() {
 		return true;
 	}
 

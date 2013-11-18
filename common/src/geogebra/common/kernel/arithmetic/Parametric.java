@@ -147,10 +147,6 @@ public class Parametric extends ValidExpression {
 		return toString(tpl);
 	}
 
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

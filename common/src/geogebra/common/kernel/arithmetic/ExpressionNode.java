@@ -1185,6 +1185,29 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		return ret;
 	}
+	
+	@Override
+	final public boolean evaluatesTo3DVector() {
+		if(operation == Operation.RANDOM 
+				|| operation == Operation.XCOORD 
+				|| operation == Operation.YCOORD
+				|| operation == Operation.ZCOORD) {
+			return false;
+		}
+		if(isLeaf()){
+			return left.evaluatesTo3DVector();
+		}
+
+		boolean leftVector = left.evaluatesTo3DVector();
+		boolean rightVector = right.evaluatesTo3DVector();
+		boolean ret = leftVector || rightVector;
+		
+		if(leftVector && rightVector && operation == Operation.MULTIPLY){
+			ret = false;
+		}
+
+		return ret;
+	}
 
 	/**
 	 * Force this to evaluate to vector
@@ -2880,7 +2903,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
 						.getX(), tpl));
 			} else if (valueForm
-					&& (leftEval = left.evaluate(tpl)).isVector3DValue()) {
+					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(left.getKernel().format(
 						((Vector3DValue) leftEval).getPointAsDouble()[0], tpl));
 			} else if (valueForm
@@ -2916,7 +2939,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
 						.getY(), tpl));
 			} else if (valueForm
-					&& (leftEval = left.evaluate(tpl)).isVector3DValue()) {
+					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(left.getKernel().format(
 						((Vector3DValue) leftEval).getPointAsDouble()[1], tpl));
 			} else if (valueForm
@@ -2947,7 +2970,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case ZCOORD:
-			if (valueForm && (leftEval = left.evaluate(tpl)).isVector3DValue()) {
+			if (valueForm && (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(left.getKernel().format(
 						((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
 			} else if (valueForm
@@ -3531,10 +3554,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	@Override
 	final public boolean isExpressionNode() {
 		return true;
-	}
-
-	public boolean isVector3DValue() {
-		return false;
 	}
 
 	/**

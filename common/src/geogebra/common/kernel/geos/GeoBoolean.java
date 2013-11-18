@@ -310,12 +310,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean isNumberValue() {
 		return true;
 	}

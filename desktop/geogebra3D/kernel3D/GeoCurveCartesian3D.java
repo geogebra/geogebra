@@ -199,11 +199,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return GeoClass.CURVECARTESIAN3D;
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-
 	public Drawable3D getDrawable3D() {
 
 		return drawable3D;

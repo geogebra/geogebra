@@ -216,13 +216,5 @@ public abstract class GeoElement3D extends GeoElement implements
 			sbBuildValueString = new StringBuilder(50);
 		return sbBuildValueString;
 	}
-	
-	/////////////////////////////////////////
-	// ExpressionValue implementation
-	
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}	
 
 }

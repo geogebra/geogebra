@@ -407,11 +407,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return isDifferenceZeroInCAS(geo);		
 	}
 	
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-	
     /**
 	 * Returns a representation of geo in currently used CAS syntax.
 	 * For example, "a*x^2 + b*y"

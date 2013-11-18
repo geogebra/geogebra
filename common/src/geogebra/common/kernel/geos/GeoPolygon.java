@@ -1415,12 +1415,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		getScriptTags(sb);
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	/**
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)

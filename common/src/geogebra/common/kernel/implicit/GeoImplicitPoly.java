@@ -455,11 +455,6 @@ Dilateable, Transformable, EuclidianViewCE {
 		
 	}
 
-	@Override
-	public boolean isVector3DValue() {
-		return false;
-	}
-	
 	/**
 	 * @param c assigns given coefficient-array to be the coefficients of this Polynomial.
 	 */

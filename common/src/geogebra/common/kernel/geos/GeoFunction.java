@@ -1310,11 +1310,6 @@ public class GeoFunction extends GeoElement implements VarString,
 		resultFun.setDefined(true);
 
 		return resultFun;
-	}// mult()
-
-	@Override
-	public boolean isVector3DValue() {
-		return false;
 	}
 
 	/**

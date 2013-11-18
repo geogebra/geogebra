@@ -251,11 +251,6 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return ev == this;
 	}
 
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

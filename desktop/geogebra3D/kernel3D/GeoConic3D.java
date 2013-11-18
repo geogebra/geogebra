@@ -336,12 +336,6 @@ implements GeoElement3DInterface, RotateableND, MirrorableAtPlane {
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void setCircle(GeoPoint M, GeoPoint P) {
 		// TODO Auto-generated method stub
 

@@ -96,11 +96,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
 		return value;
 	}
 
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	/**
 	 * Returns 1 for true and 0 for false.
 	 */

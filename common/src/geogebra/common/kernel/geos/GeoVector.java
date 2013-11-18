@@ -625,11 +625,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		return false;		
-	}
-
-	@Override
 	public boolean isMatrixTransformable() {
 		return true;
 	}

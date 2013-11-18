@@ -103,7 +103,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						return myVec;
 					}
 
-				} else if (rt.isVector3DValue()) {
+				} else if (rt instanceof Vector3DValue) {
 					MyList myList = ((ListValue) lt).getMyList();
 					boolean isMatrix = myList.isMatrix();
 					int rows = myList.getMatrixRows();
@@ -270,7 +270,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			VectorValue vec2 = (VectorValue) rt;
 			return new MyBoolean(kernel, vec1.getVector().isEqual(
 					vec2.getVector()));
-		} else if (lt.isVector3DValue() && rt.isVector3DValue()) {
+		} else if (lt instanceof Vector3DValue && rt instanceof Vector3DValue) {
 			Vector3DValue vec1 = (Vector3DValue) lt;
 			Vector3DValue vec2 = (Vector3DValue) rt;
 			return new MyBoolean(kernel, vec1.get3DVec().isEqual(
@@ -289,7 +289,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		Kernel kernel = arg.getKernel();
 		if (arg instanceof VectorValue) {
 			return new MyDouble(kernel, ((VectorValue) arg).getVector().getX());
-		} else if (arg.isVector3DValue()) {
+		} else if (arg instanceof Vector3DValue) {
 			return new MyDouble(kernel,
 					((Vector3DValue) arg).getPointAsDouble()[0]);
 		} else if (arg instanceof GeoLine) {
@@ -310,7 +310,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// y(vector)
 		if (arg instanceof VectorValue) {
 			return new MyDouble(kernel, ((VectorValue) arg).getVector().getY());
-		} else if (arg.isVector3DValue()) {
+		} else if (arg instanceof Vector3DValue) {
 			return new MyDouble(kernel,
 					((Vector3DValue) arg).getPointAsDouble()[1]);
 		} else if (arg instanceof GeoLine) {
