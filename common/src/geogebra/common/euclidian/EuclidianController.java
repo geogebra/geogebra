@@ -8845,14 +8845,15 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected final void wrapMouseReleased(AbstractEvent event){
+	protected void wrapMouseReleased(AbstractEvent event){
+		int x = event.getX();
+		int y = event.getY();
 		boolean right = app.isRightClick(event);
 		boolean control = app.isControlDown(event);
-		boolean alt = event!= null && event.isAltDown();
+		boolean alt = event.isAltDown();
 		boolean meta = event.isPopupTrigger() || event.isMetaDown();
-		wrapMouseReleased(event.getX(),event.getY(), alt, control, right, meta, event.getType());
-	}
-	protected void wrapMouseReleased(int x, int y, boolean alt, boolean control, boolean right, boolean meta, PointerEventType type) {
+		PointerEventType type = event.getType();
+	
 		if(this.doubleClickStarted){
 			this.doubleClickStarted = false;
 			wrapMouseclicked(control, 2, type);

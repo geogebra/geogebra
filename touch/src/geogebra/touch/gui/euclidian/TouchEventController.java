@@ -65,7 +65,7 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 	public void onMouseMove(final MouseMoveEvent event) {
 		//IE gives double coordinates that cannot be handled by pen => round needed
 		if (!this.ignoreMouseEvents) {
-			this.mc.onTouchMove(Math.round(event.getX()), Math.round(event.getY()));
+			this.mc.onTouchMove(Math.round(event.getX()), Math.round(event.getY()), PointerEventType.MOUSE);
 		}
 	}
 
@@ -101,7 +101,7 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		if (event.getTouches().length() == 1) {
 			// proceed normally
 			this.mc.onTouchMove(getX(event.getTouches().get(0)),
-					this.getY(event.getTouches().get(0)));
+					this.getY(event.getTouches().get(0)),PointerEventType.TOUCH);
 		} else if (event.getTouches().length() == 2) {
 			Touch t1 = event.getTouches().get(0);
 			Touch t2 = event.getTouches().get(1);

@@ -1,7 +1,7 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
-import geogebra.web.euclidian.event.HasOffsets;
+import geogebra.html5.event.HasOffsets;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 

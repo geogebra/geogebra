@@ -1,4 +1,6 @@
-package geogebra.web.euclidian.event;
+package geogebra.html5.event;
+
+import geogebra.web.euclidian.event.MouseEventW;
 
 import java.util.LinkedList;
 
@@ -12,5 +14,5 @@ public interface HasOffsets {
 	public boolean isOffsetsUpToDate();
 	public void updateOffsets();	
 	public LinkedList<MouseEventW> getMouseEventPool();
-	public LinkedList<TouchEvent> getTouchEventPool();
+	public LinkedList<PointerEvent> getTouchEventPool();
 }

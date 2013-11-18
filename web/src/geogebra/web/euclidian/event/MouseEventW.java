@@ -3,6 +3,8 @@ package geogebra.web.euclidian.event;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.html5.event.HasOffsets;
+import geogebra.html5.event.PointerEvent;
 
 import java.util.LinkedList;
 
@@ -82,7 +84,10 @@ public class MouseEventW extends AbstractEvent {
 		if(e instanceof MouseEventW){
 			return ((MouseEventW)e).event.getEventTarget();
 		}
-		return ((TouchEvent)e).getTarget();
+		if(e instanceof PointerEvent){
+			return ((PointerEvent)e).getTarget();
+		}
+		return null;
 	}
 
 	@Override

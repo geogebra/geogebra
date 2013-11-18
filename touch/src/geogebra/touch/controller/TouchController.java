@@ -18,12 +18,13 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.event.PointerEvent;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.Swipeables;
 import geogebra.touch.utils.ToolBarCommand;
+import geogebra.web.euclidian.event.ZeroOffset;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class TouchController extends EuclidianController {
 	private boolean clicked = false, ignoreNextMove = false;
 	private int waitingX;
 	private int waitingY;
+	private PointerEventType waitingType;
 	private long lastMoveEvent;
 
 	private final Timer repaintTimer = new Timer() {
@@ -56,11 +58,13 @@ public class TouchController extends EuclidianController {
 			TouchController.this.touchMoveIfWaiting();
 		}
 	};
+	private ZeroOffset off;
 
 	public TouchController(final TouchModel touchModel, final App app) {
 		super(app);
 		this.model = touchModel;
 		this.mode = -1;
+		this.off = new ZeroOffset();
 	}
 
 	public void reset() {
@@ -126,7 +130,7 @@ public class TouchController extends EuclidianController {
 		}
 
 		// draw the new point
-		switchModeForMousePressed(new MobileMouseEvent(x, y));
+		switchModeForMousePressed(new PointerEvent(x, y, type, this.off));
 
 		this.view.setHits(this.mouseLoc, type);
 		final Hits hits = this.view.getHits();
@@ -295,11 +299,11 @@ public class TouchController extends EuclidianController {
 				|| this.model.getCommand() == ToolBarCommand.FreehandShape
 				|| this.model.getCommand() == ToolBarCommand.DeleteObject
 				|| this.model.getCommand() == ToolBarCommand.TranslateObjectByVector) {
-			wrapMouseReleased(new MobileMouseEvent(x, y));
+			wrapMouseReleased(new PointerEvent(x, y, type, this.off));
 		}
 	}
 
-	public void onTouchMove(final int x, final int y) {
+	public void onTouchMove(final int x, final int y, PointerEventType type) {
 		if (this.isExternalHandling()) {
 			return;
 		}
@@ -332,6 +336,7 @@ public class TouchController extends EuclidianController {
 				final boolean wasWaiting = this.waitingX >= 0;
 				this.waitingX = x;
 				this.waitingY = y;
+				this.waitingType = type;
 				GeoGebraProfiler.moveEventsIgnored++;
 				if (!wasWaiting) {
 					this.repaintTimer
@@ -340,7 +345,7 @@ public class TouchController extends EuclidianController {
 				return;
 			}
 
-			touchMoveNow(x, y, time);
+			touchMoveNow(x, y, type, time);
 		}
 	}
 
@@ -396,16 +401,16 @@ public class TouchController extends EuclidianController {
 		if (this.waitingX > 0) {
 			GeoGebraProfiler.moveEventsIgnored--;
 			touchMoveNow(this.waitingX, this.waitingY,
-					System.currentTimeMillis());
+					this.waitingType, System.currentTimeMillis());
 		}
 	}
 
-	private void touchMoveNow(final int x, final int y, final long time) {
+	private void touchMoveNow(final int x, final int y, final PointerEventType type, final long time) {
 		this.waitingX = -1;
 		this.waitingY = -1;
 		this.lastMoveEvent = time;
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-		final MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
+		final PointerEvent mEvent = new PointerEvent(x, y, type, this.off);
 		if (Swipeables.isSwipeable(this.model.getCommand())) {
 			final GeoElement geo = this.model.getElement(Test.GEOPOINT);
 

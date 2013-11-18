@@ -12,11 +12,11 @@ import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.event.HasOffsets;
+import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEventW;
-import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -360,7 +360,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		event.preventDefault();
 		if (targets.length() == 1) {
 			if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
-				AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
+				AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
 				boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 				this.waitingTouchMove = e;
 				this.waitingMouseMove = null;
@@ -370,11 +370,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				}
 				return;
 			}
-			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
+			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
-			AbstractEvent first = TouchEvent.wrapEvent(event.getTouches().get(0),this);
-			AbstractEvent second = TouchEvent.wrapEvent(event.getTouches().get(1),this);
+			AbstractEvent first = PointerEvent.wrapEvent(event.getTouches().get(0),this);
+			AbstractEvent second = PointerEvent.wrapEvent(event.getTouches().get(1),this);
 			this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
 			first.release();
 			second.release();
@@ -408,9 +408,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(!comboBoxHit()){
 			event.preventDefault();
 		}
-		App.debug("Touches"+event.getTouches().length());
 		if(event.getTouches().length()==0){
-			this.wrapMouseReleased(mouseLoc.x, mouseLoc.y, false, false, false, false,PointerEventType.TOUCH);
+			this.wrapMouseReleased(new PointerEvent(mouseLoc.x, mouseLoc.y, PointerEventType.TOUCH, this));
 		}
 	}
 
@@ -420,13 +419,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		event.stopPropagation();
 		Log.debug("TS"+targets.length());
 		if(targets.length() == 1){
-			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(0),this);
+			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
 			wrapMousePressed(e);
 			e.release();
 		}
 		else if(targets.length() == 2){
-			AbstractEvent first = TouchEvent.wrapEvent(event.getTouches().get(0),this);
-			AbstractEvent second = TouchEvent.wrapEvent(event.getTouches().get(1),this);
+			AbstractEvent first = PointerEvent.wrapEvent(event.getTouches().get(0),this);
+			AbstractEvent second = PointerEvent.wrapEvent(event.getTouches().get(1),this);
 			this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
 			first.release();
 			second.release();
@@ -596,8 +595,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public LinkedList<MouseEventW> getMouseEventPool() {
 	    return mousePool;
     }
-	private LinkedList<TouchEvent> touchPool = new LinkedList<TouchEvent>();
-	public LinkedList<TouchEvent> getTouchEventPool() {
+	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
+	public LinkedList<PointerEvent> getTouchEventPool() {
 	    return touchPool;
     }
 
