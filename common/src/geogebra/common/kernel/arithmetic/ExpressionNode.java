@@ -1870,12 +1870,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
+				if(left.evaluatesTo3DVector()){
+					sb.append("point(");
+				}
 				sb.append("cross(");
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);
 				sb.append(')');
-
+				if(left.evaluatesTo3DVector()){
+					sb.append(")");
+				}
 			} else {
 				tpl.append(sb, leftStr, left, operation);
 				// sb.append(leftStr);
