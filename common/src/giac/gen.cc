@@ -10334,7 +10334,7 @@ namespace giac {
     case 0: case _MATRIX__VECT:
       return calc_mode(contextptr)==1?"}":"]";
     default:
-      return "]";
+      return calc_mode(contextptr)==1?"}":"]";
     }    
   }
 

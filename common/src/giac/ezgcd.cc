@@ -415,12 +415,12 @@ namespace giac {
 	truncate_xk_xn(pcurx1x2,2);
 	if (!factor(pcurx1x2,pcurx1x2cont,fx1x2,true,false,false,1,extra_div) || extra_div!=1)
 	  return false;
-	// now find factorization of lcoeff(pcur)
+	// fx1x2 contains factorization of pcur(x1,x2,0,...0)
+	// now find factorization of lcoeff(pcur)(x2,...,xn)
 	polynome pcur_lcoeff(Tfirstcoeff(pcur)),pcur_lcoeffcont,pcur_lcoeff_sqfftest;
 	peval_xk_xn_zero(pcur_lcoeff,2,pcur_lcoeff_sqfftest);
 	pcur_lcoeff_sqfftest=pcur_lcoeff_sqfftest.trunc1();
-	if (gcd(pcur_lcoeff_sqfftest,pcur_lcoeff_sqfftest.derivative()).lexsorted_degree())
-	  return false;
+	// if (gcd(pcur_lcoeff_sqfftest,pcur_lcoeff_sqfftest.derivative()).lexsorted_degree()) return false;
 	if (!factor(pcur_lcoeff.trunc1(),pcur_lcoeffcont,flcoeff,false,false,false,1,extra_div) || extra_div!=1)
 	  return false;
 	factorization::iterator jt=flcoeff.begin(),jtend=flcoeff.end();
@@ -432,7 +432,7 @@ namespace giac {
 	    constante=constante*pow(jt->fact,jt->mult);
 	  else 
 	    flcoeff0.push_back(tmp);
-	}
+	} // flcoeff0 contains the list of factors of lcoeff(pcur) evaled at 0
 	F0it=fx1x2.begin();
 	F0itend=fx1x2.end();
 	s=F0itend-F0it;
@@ -461,14 +461,17 @@ namespace giac {
 	      polynome G(flcoeff0[jt-flcoeff.begin()]);
 	      if (Tis_constant(simplify(p,G)))
 		break;
-	      else
+	      else {
 		tmp2 = tmp2 * jt->fact;
+		// mark jt->fact as used
+		--jt->mult;
+	      }
 	    }
 	  }
 	  lcoeffs.push_back(tmp2);
 	}
 	lcoeff_known=true;
-      }
+      } // if is_one(pcurx1x2cont)
     }
     if (F0it!=F0itend)
       return false;
@@ -476,8 +479,8 @@ namespace giac {
     // if lcp has too much terms it will take too long, because
     // we must multiply by product(lcoeffs)/lcp
     // next check was >100 but then heuristic factorization fails
-    // (depends on the size of the coeffs)
-    if (!lcoeff_known && pow(lcp,s-1).coord.size()>300)
+    // (should also depends on the size of the coeffs and number of variables...)
+    if (!lcoeff_known && pow(lcp,s-1).coord.size()>1000)
       return false;
     // we will lift pcur*product(lcoeffs)/lcp = product_i F0fact[i]*lcoeffs[i](b)/lcoeff(F0fact[i])
     for (int i=0;i<s;++i){
