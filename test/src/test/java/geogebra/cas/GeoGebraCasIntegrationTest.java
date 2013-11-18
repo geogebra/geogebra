@@ -359,19 +359,19 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void SimplificationOfTerms_PowerOfTwoVariables_1 () {
-    t("((a + b)^2) / c^2", "(a^(2) + 2 * a * b + b^(2)) / c^(2)");
+    t("((a + b)^2) / c^2", "(a^(2) + b^(2) + 2 * a * b) / c^(2)");
   }
 
   @Test
   public void SimplificationOfTerms_PowerOfTwoVariables_2 () {
-    t("((a + b) / (c + d))^2", "(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
+    t("((a + b) / (c + d))^2", "(a^(2) + b^(2) + 2 * a * b) / (c^(2) + d^(2) + 2 * c * d)");
   }
 
   /* Ordering of Powers */
 
   @Test
   public void SimplificationOfTerms_OrderingOfPowers_0 () {
-    t("(a^2 - 3 b) * (-3 a + 5 b^2)", "-3 * a^(3) + 5 * a^(2)* b^(2) + 9 * a * b - 15 * b^(3)");
+    t("(a^2 - 3 b) * (-3 a + 5 b^2)", "5 * a^(2)* b^(2) - 3 * a^(3) + 9 * a * b - 15 * b^(3)");
   }
 
   @Test
@@ -381,12 +381,12 @@ public class GeoGebraCasIntegrationTest {
   
   @Test
   public void SimplificationOfTerms_OrderingOfPowers_2 () {
-	  t("x^3 + c * x^2 + a*x + b","x^3 + c * x^2 + a*x + b");
+	  t("x^3 + c * x^2 + a*x + b","x^(3) + c * x^(2) + a * x + b");
   }
   
   @Test
   public void SimplificationOfTerms_OrderingOfPowers_3 () {
-	  t("x^2 + a * x","x^2 + a * x");
+	  t("x^2 + a * x","x^(2) + a * x");
   }
   /* Polynomial Division */
 
@@ -461,7 +461,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void SimplificationOfEquations_SeveralVariables_0 () {
-    t("(a - 7 x)^2 = b - 56 x y + c", "a^(2) - 14 * a * x + 49 * x^(2) = b + c - 56 * x * y");
+    t("(a - 7 x)^2 = b - 56 x y + c", "a^(2) + 49 * x^(2) - 14 * a * x = -56 * x * y + b + c");
   }
 
   @Test
@@ -4401,7 +4401,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CASRundbrief_Figure2_2 () {
-    t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = (4 * x + 7) / 2", "x = 2 * x + 7 / 2");
+    t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = (4 * x + 7) / 2", "x = 7 / 2 + 2 * x");
   }
 
   @Test
@@ -4459,7 +4459,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CASRundbrief_Figure4_0 () {
-    t("f(t) := c * a^t", "c * a^(t)");
+    t("f(t) := c * a^t", "a^(t) * c");
   }
 
   @Test
