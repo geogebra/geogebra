@@ -2,14 +2,11 @@ package geogebra.gui.properties;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
-import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
+import geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -32,13 +29,13 @@ import javax.swing.JTextField;
  */
 public class AnimationSpeedPanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+	IAnimationSpeedListener {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Object[] geos; // currently selected geos
+	private AnimationSpeedModel model;
 	private JTextField tfAnimSpeed;
-	private boolean partOfSliderPanel = false;
 	private JComboBox animationModeCB;	
 	private JLabel modeLabel, speedLabel;
 	private AppD app;	
@@ -47,6 +44,8 @@ public class AnimationSpeedPanel
 	public AnimationSpeedPanel(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
+		
+		model = new AnimationSpeedModel(app, this);
 		
 			// combo box for 
 		animationModeCB = new JComboBox();
@@ -79,90 +78,29 @@ public class AnimationSpeedPanel
 		
 		int selectedIndex = animationModeCB.getSelectedIndex();
 		animationModeCB.removeActionListener(this);
-		
-		animationModeCB.removeAllItems();
-		animationModeCB.addItem("\u21d4 "+app.getPlain("Oscillating")); // index 0
-		animationModeCB.addItem("\u21d2 "+app.getPlain("Increasing")); // index 1
-		animationModeCB.addItem("\u21d0 "+app.getPlain("Decreasing")); // index 2
-		animationModeCB.addItem("\u21d2 "+app.getPlain("IncreasingOnce")); // index 3
-		
+		model.fillModes(app.getLocalization());
 		animationModeCB.setSelectedIndex(selectedIndex);
 		animationModeCB.addActionListener(this);
 	}
 	
 	public void setPartOfSliderPanel() {
-		partOfSliderPanel = true;
+		model.setShowSliders(true); 
 	}
 
 	public JPanel update(Object[] geos) {		
-		this.geos = geos;
-		if (!checkGeos(geos,partOfSliderPanel))
+		model.setGeos(geos);
+		if (!model.checkGeos()) { //geos,partOfSliderPanel))
 			return null;
+		}
 
 		tfAnimSpeed.removeActionListener(this);
 		animationModeCB.removeActionListener(this);
-
-		// check if properties have same values
-		GeoElement temp, geo0 = (GeoElement) geos[0];
-		boolean equalSpeed = true;
-		boolean equalAnimationType = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoElement) geos[i];
-			// same object visible value
-			if (geo0.getAnimationSpeedObject() != temp.getAnimationSpeedObject())
-				equalSpeed = false;
-			if (geo0.getAnimationType() != temp.getAnimationType())
-				equalAnimationType = false;
-		}
-
-		if (equalAnimationType)
-			animationModeCB.setSelectedIndex(geo0.getAnimationType());
-		else
-			animationModeCB.setSelectedItem(null);
-
-		// set trace visible checkbox
-		
-		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS,false);
-        
-        if (equalSpeed) {
-        	GeoElement speedObj = geo0.getAnimationSpeedObject();
-        	GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(geo0.isAngle());
-			tfAnimSpeed.setText(speedObj == null ? num.getAnimationSpeedObject().getLabel(highPrecision) : speedObj.getLabel(highPrecision));
-        } else
-			tfAnimSpeed.setText("");
-        
-		
-
+		model.updateProperties();
 		tfAnimSpeed.addActionListener(this);
 		animationModeCB.addActionListener(this);
 		return this;
 	}
 
-	/**
-	 * Checks whether geos are are points on path or (if apprpriate) sliders
-	 * @param geos geos
-	 * @param showSliders flag whether we shall return false even for sliders 
-	 * @return whether geos are points on path or sliders
-	 */
-	protected static boolean checkGeos(Object[] geos, boolean showSliders) {		
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			
-			if(geo.isPointOnPath() || geo.getDefaultGeoType() == ConstructionDefaults.DEFAULT_POINT_ON_PATH){
-				if(!geo.isChangeable())
-					return false;
-			}else if(geo.isGeoNumeric() &&  geo.isIndependent()){
-					if(!showSliders || !geo.isChangeable()) //slider  
-						return false; 											
-			}else{
-				return false;
-			}
-		}
-		
-		
-		return true;
-	}
 
 	/**
 	 * handle textfield changes
@@ -178,30 +116,20 @@ public class AnimationSpeedPanel
 		NumberValue animSpeed = 
 			kernel.getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);
 		if (animSpeed != null) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				geo.setAnimationSpeedObject(animSpeed);
-				geo.updateCascade();
-			}
-			kernel.udpateNeedToShowAnimationButton();
-			kernel.notifyRepaint();
-			
-			
+			model.applySpeedChanges(animSpeed);
 		}
-		update(geos);
+		update(model.getGeos());
 	}
 
 	private void setType(int type) {
 		
-		if (geos == null) return;
+		if (!model.hasGeos()) {
+			return;
+		}
+		model.applyTypeChanges(type);
 		
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				geo.setAnimationType(type);
-				geo.updateRepaint();
-			}
+		update(model.getGeos());
 		
-		update(geos);
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -224,5 +152,18 @@ public class AnimationSpeedPanel
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setSelectedIndex(int index) {
+		animationModeCB.setSelectedIndex(index);
+		
+	}
+
+	public void addItem(String item) {
+		animationModeCB.addItem(item);
+	}
+
+	public void setText(String text) {
+		tfAnimSpeed.setText(text);
 	}
 }
