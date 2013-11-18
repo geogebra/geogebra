@@ -1,6 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;

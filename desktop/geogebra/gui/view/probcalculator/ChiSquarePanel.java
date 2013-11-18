@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;

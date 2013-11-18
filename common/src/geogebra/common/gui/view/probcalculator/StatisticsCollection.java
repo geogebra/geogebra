@@ -1,4 +1,4 @@
-package geogebra.gui.view.probcalculator;
+package geogebra.common.gui.view.probcalculator;
 
 import geogebra.common.kernel.Construction;
 
@@ -19,13 +19,13 @@ public class StatisticsCollection {
 	public String[][] chiSquareData;
 	public int rows, columns;
 
-	double[][] observed, expected, diff;
-	double[] columnSum, rowSum;
+	public double[][] observed, expected, diff;
+	public double[] columnSum, rowSum;
 
 	/**
 	 * Construct StatisticsCollection
 	 */
-	StatisticsCollection() {
+	public StatisticsCollection() {
 
 		mean = Double.NaN;
 		mean2 = Double.NaN;
