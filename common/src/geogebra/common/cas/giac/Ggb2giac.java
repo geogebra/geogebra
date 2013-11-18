@@ -65,7 +65,7 @@ public class Ggb2giac {
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"normal(covariance(%0))");
-		p("Cross.2", "cross(%0,%1)");
+		p("Cross.2", "when(%0[0]='pnt' && size(%0[1])==3,point(cross(%0,%1)),cross(%0,%1))");
 		p("ComplexRoot.1", "normal(cZeros(%0,x))");
 		p("CSolutions.1",
 				"ggbsort([[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
@@ -88,7 +88,7 @@ public class Ggb2giac {
 		p("Derivative.3", 
 				"regroup(diff(%0,%1,%2))");
 		p("Determinant.1", "det(%0)");
-		p("Dimension.1", "dim(%0)");
+		p("Dimension.1", "when(%0[0]=='pnt' && size(%0[1])>1,size(%0[1]),dim(%0))");
 		p("Div.2",
 				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquo(%0,%1) else quo(%0,%1,x) fi");
 		p("Division.2",
@@ -781,7 +781,7 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
-				"when(type(%0)==DOM_LIST,normalize(%0),convert(unitV([real(%0[1]),im(%0[1])]),25))");
+				"when(type(%0)==DOM_LIST,normalize(%0),when(%0[0]='pnt' && size(%0[1])==3,unitV(%0),convert(unitV([real(%0[1]),im(%0[1])]),25)))");
 		
 		return commandMap;
 	}
