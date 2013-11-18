@@ -88,7 +88,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 
 	// editor and preview panels
 	private DynamicTextInputPane editor;
-	private TextPreviewPanel textPreviewer;
+	private TextPreviewPanelD textPreviewer;
 	private TextInputDialog textInputDialog;
 
 	// GUI
@@ -148,7 +148,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				DialogType.DynamicText);
 		addHelpButton(App.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
-		textPreviewer = new TextPreviewPanel(app2.getKernel());
+		textPreviewer = new TextPreviewPanelD(app2.getKernel());
 
 		// build the rest of the GUI
 		createAdditionalGUI();
