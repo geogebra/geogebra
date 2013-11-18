@@ -4,7 +4,6 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoQuadric3D;
@@ -92,7 +91,7 @@ implements Previewable {
 		v.calcNorm();
 		double centersDistance = v.getNorm();
 		
-		App.error("\ncentersDistance= "+centersDistance+"\nradius= "+radius+"\nfrustumRadius= "+frustumRadius);
+		//App.error("\ncentersDistance= "+centersDistance+"\nradius= "+radius+"\nfrustumRadius= "+frustumRadius);
 		
 		// sphere totally outside the frustum
 		if (centersDistance > radius + frustumRadius){
