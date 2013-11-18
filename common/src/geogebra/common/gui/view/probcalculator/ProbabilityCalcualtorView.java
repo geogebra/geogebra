@@ -21,7 +21,7 @@ import java.util.HashMap;
  * Commmon view for ProbabilityCalculator
  *
  */
-public abstract class ProbabilitCalcualtorView implements View {
+public abstract class ProbabilityCalcualtorView implements View {
 	
 	/**
 	 * Application
@@ -117,7 +117,7 @@ public abstract class ProbabilitCalcualtorView implements View {
 		protected int graphType = GRAPH_BAR;
 
 	
-	public ProbabilitCalcualtorView(App app) {
+	public ProbabilityCalcualtorView(App app) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();

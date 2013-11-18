@@ -1,6 +1,6 @@
 package geogebra.web.gui.view.probcalculator;
 
-import geogebra.common.gui.view.probcalculator.ProbabilitCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * ProbablityCalculatorView for web
  *
  */
-public class ProbabilityCalculatorViewW extends ProbabilitCalcualtorView {
+public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView {
 
 	/**
 	 * @param app App

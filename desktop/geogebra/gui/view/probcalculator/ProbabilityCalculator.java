@@ -1,7 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.gui.view.probcalculator.ProbabilitCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
@@ -110,7 +110,7 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class ProbabilityCalculator extends ProbabilitCalcualtorView implements View,
+public class ProbabilityCalculator extends ProbabilityCalcualtorView implements View,
 		ActionListener, FocusListener, ChangeListener, SettingListener {
 
 	private static final long serialVersionUID = 1L;
