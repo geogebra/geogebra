@@ -2,15 +2,11 @@ package geogebra.gui.properties;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
+import geogebra.common.gui.dialog.options.model.AnimationStepModel;
+import geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
-import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -31,20 +27,21 @@ import javax.swing.JPanel;
  */
 public class AnimationStepPanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+	ITextFieldListener
+{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Object[] geos; // currently selected geos
+	private AnimationStepModel model;
 	private JLabel label;	
 	private AngleTextField tfAnimStep;
-	private boolean partOfSliderPanel = false;
 	
 	private Kernel kernel;
 
 	public AnimationStepPanel(AppD app) {
 		kernel = app.getKernel();
-		
+		model = new AnimationStepModel(this, app);
 		// text field for animation step
 		label = new JLabel();
 		tfAnimStep = new AngleTextField(6, app);
@@ -69,74 +66,23 @@ public class AnimationStepPanel
 	}	
 	
 	public void setPartOfSliderPanel() {
-		partOfSliderPanel = true;
+		model.setPartOfSlider(true);
 	}
 
 	public JPanel update(Object[] geos) {		
-		this.geos = geos;
-		if (!checkGeos(geos))
+		model.setGeos(geos);
+		
+		if (!model.checkGeos()) {
 			return null;
+		}
 
 		tfAnimStep.removeActionListener(this);
-
-		// check if properties have same values
-		GeoElement temp, geo0 = (GeoElement) geos[0];
-		boolean equalStep = true;
-		boolean onlyAngles = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoElement) geos[i];
-			// same object visible value
-			if (!Kernel.isEqual(geo0.getAnimationStep(), temp.getAnimationStep()))
-				equalStep = false;
-			if (!(temp.isGeoAngle()))
-				onlyAngles = false;
-		}
-
-		// set trace visible checkbox
-		//int oldDigits = kernel.getMaximumFractionDigits();
-		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS,false);
-
-        if (equalStep){
-        	GeoElement stepGeo = geo0.getAnimationStepObject();
-			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
-				tfAnimStep.setText(
-					kernel.formatAngle(geo0.getAnimationStep(), highPrecision, ((GeoAngle)geo0).getAngleStyle() == AngleStyle.UNBOUNDED).toString());
-			} else {
-				tfAnimStep.setText(stepGeo.getLabel(highPrecision));
-			}
-        } else {
-			tfAnimStep.setText("");
-		}
-		
-
+		model.updateProperties();
 		tfAnimStep.addActionListener(this);
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {
-		boolean geosOK = true;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!geo.isChangeable() 
-					|| geo.isGeoText() 
-					|| geo.isGeoImage()
-					|| geo.isGeoList()
-					|| geo.isGeoBoolean()
-					|| geo.isGeoButton()
-					|| (!partOfSliderPanel && geo.isGeoNumeric() && geo.isIndependent()) // slider						
-			)  
-			{				
-				geosOK = false;
-				break;
-			}
-		}
-		
-		
-		return geosOK;
-	}
-	
+
 	/**
 	 * handle textfield changes
 	 */
@@ -146,17 +92,9 @@ public class AnimationStepPanel
 	}
 
 	private void doActionPerformed() {
-		NumberValue newVal =
-			kernel.getAlgebraProcessor().evaluateToNumeric(
-				tfAnimStep.getText(),true);
-		if (newVal != null && !Double.isNaN(newVal.getDouble())) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				geo.setAnimationStep(newVal);
-				geo.updateRepaint();
-			}
-		}
-		update(geos);
+		model.applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
+				tfAnimStep.getText(),true));
+		update(model.getGeos());
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -176,5 +114,9 @@ public class AnimationStepPanel
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setText(String text) {
+		tfAnimStep.setText(text);
 	}
 }

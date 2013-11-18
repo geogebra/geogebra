@@ -6,6 +6,7 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
+import geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import geogebra.common.gui.dialog.options.model.BooleanOptionModel;
@@ -69,6 +70,7 @@ import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
+import geogebra.web.gui.AngleTextFieldW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.SelectionTable;
@@ -83,6 +85,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -1815,6 +1819,62 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	} // ConicEqnPanel
 
+	private class AnimationStepPanel extends OptionPanel 
+		implements ITextFieldListener {
+		private AnimationStepModel model;
+		private Label label;	
+		private AngleTextFieldW tfAnimStep;
+		private Kernel kernel;
+
+		public AnimationStepPanel() {
+			kernel = app.getKernel();
+			model = new AnimationStepModel(this, app);
+			setModel(model);
+			// text field for animation step
+			label = new Label();
+			tfAnimStep = new AngleTextFieldW(6, getAppW());
+			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.add(label);
+			mainPanel.add(tfAnimStep);
+			setWidget(mainPanel);
+			
+			tfAnimStep.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+	                doActionPerformed();
+                }
+				
+			});
+			
+			FocusListener focusListener = new FocusListener(this){};
+			tfAnimStep.addKeyDownHandler(new KeyDownHandler(){
+
+				public void onKeyDown(KeyDownEvent event) {
+	                if (event.getNativeKeyCode() == '\n') {
+	                	doActionPerformed();
+	                }
+	                
+                }});
+
+		}
+
+		private void doActionPerformed() {
+			model.applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
+					tfAnimStep.getText(),true));
+			//update(model.getGeos());
+		}
+
+		public void setText(String text) {
+	        tfAnimStep.setText(text);
+        }
+
+		@Override
+        public void setLabels() {
+			label.setText(kernel.getApplication().getPlain("AnimationStep") + ": ");
+        }
+		
+	}
+	
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -2006,7 +2066,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		tab.addPanelList(
 				Arrays.asList((OptionPanel)coordsPanel,
 				lineEqnPanel,
-				conicEqnPanel
+				conicEqnPanel,
+				new AnimationStepPanel()
 		));
 		
 		return tab;

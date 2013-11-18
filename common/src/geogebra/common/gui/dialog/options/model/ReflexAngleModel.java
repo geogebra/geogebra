@@ -27,7 +27,8 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 	private AngleProperties getAnglePropertiesAt(int index) {
 		return (AngleProperties) getObjectAt(index);
-	}
+		};
+	
 	
 	@Override
 	public void updateProperties() {
@@ -92,8 +93,8 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	@Override
 	protected boolean isValidAt(int index){
 		GeoElement geo = getGeoAt(index);
-		return !((geo.isIndependent() && !isDefaults) 
-				|| !(geo instanceof AngleProperties)); 
+		return !((geo.isIndependent() && !isDefaults)) 
+				&& (geo instanceof AngleProperties);
 	};
 
 	@Override
