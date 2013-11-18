@@ -1,6 +1,5 @@
-package geogebra.gui.view.probcalculator;
+package geogebra.common.gui.view.probcalculator;
 
-import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -23,7 +22,6 @@ import geogebra.common.kernel.statistics.AlgoZProportion2Test;
 import geogebra.common.kernel.statistics.AlgoZProportionEstimate;
 import geogebra.common.kernel.statistics.AlgoZProportionTest;
 import geogebra.common.main.App;
-import geogebra.main.AppD;
 
 import java.util.ArrayList;
 
@@ -56,7 +54,7 @@ public class StatisticsCalculatorProcessor {
 	 * @param statCalc
 	 * @param sc
 	 */
-	public StatisticsCalculatorProcessor(AppD app,
+	public StatisticsCalculatorProcessor(App app,
 			StatisticsCalculator statCalc, StatisticsCollection sc) {
 
 		this.app = app;

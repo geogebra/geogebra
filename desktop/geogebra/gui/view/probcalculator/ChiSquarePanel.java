@@ -1,10 +1,11 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
+import geogebra.common.gui.view.probcalculator.StatisticsCalculatorProcessor;
 import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

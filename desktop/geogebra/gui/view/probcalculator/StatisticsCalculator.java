@@ -1,12 +1,9 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.probcalculator.StatisticsCalculatorHTML;
+import geogebra.common.gui.view.probcalculator.StatisticsCalculatorProcessor;
 import geogebra.common.gui.view.probcalculator.StatisticsCollection;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
@@ -44,7 +41,7 @@ import javax.swing.text.html.StyleSheet;
  * @author G. Sturr
  * 
  */
-public class StatisticsCalculator extends JPanel implements ActionListener,
+public class StatisticsCalculator extends geogebra.common.gui.view.probcalculator.StatisticsCalculator implements ActionListener,
 		FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
@@ -53,12 +50,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	// support classes
 	// =========================================
 
-	private AppD app;
-	private Construction cons;
-	private Kernel kernel;
-	private StatisticsCollection sc;
-	private StatisticsCalculatorProcessor statProcessor;
-	private StatisticsCalculatorHTML statHTML;
+	
+	
 
 	// =========================================
 	// GUI components
@@ -88,33 +81,9 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	private JEditorPane resultPane;
 	private JScrollPane scroller;
 
-	// =========================================
-	// Procedures
-	// =========================================
+	private JPanel wrappedPanel;
 
-	/***/
-	public enum Procedure {
-		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
-	}
-
-	private Procedure selectedProcedure;
-
-	private HashMap<String, Procedure> mapNameToProcedure;
-	private HashMap<Procedure, String> mapProcedureToName;
-
-	// =========================================
-	// Misc
-	// =========================================
-
-	private static final String tail_left = "<";
-	private static final String tail_right = ">";
-	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-
-	private StringBuilder bodyText;
-
-	private String strMean, strSD, strSigma, strSuccesses, strN, strPooled;
-
-	private double[] s1, s2;
+	
 
 	/******************************************************************
 	 * 
@@ -134,36 +103,22 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		createGUI();
 	}
 
-	// =========================================
-	// Getters/Setters
-	// =========================================
+	
 
-	public Procedure getSelectedProcedure() {
-		return selectedProcedure;
-	}
-
-	public HashMap<Procedure, String> getMapProcedureToName() {
-		return mapProcedureToName;
-	}
-
-	public StatisticsCalculatorProcessor getStatProcessor() {
-		return statProcessor;
-	}
-
-	public StatisticsCollection getStatististicsCollection() {
-		return sc;
-	}
+	
 
 	// =========================================
 	// GUI
 	// =========================================
 
 	private void createGUI() {
+		
+		this.wrappedPanel = new JPanel();
 
 		createGUIElements();
 		createControlPanel();
 		setInputPanelLayout();
-		panelChiSquare = new ChiSquarePanel(app, this);
+		panelChiSquare = new ChiSquarePanel((AppD) app, this);
 
 		// prepare result panel
 		resultPane.setBorder(BorderFactory.createCompoundBorder(
@@ -181,7 +136,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		procedurePanel.add(panelChiSquare);
 		procedurePanel.add(Box.createVerticalStrut(20));
 		procedurePanel.add(resultPanel);
-		procedurePanel.setAlignmentY(TOP_ALIGNMENT);
+		procedurePanel.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
 
 		// wrapper for procedure panel
 		JPanel procedureWrapper = new JPanel(new BorderLayout());
@@ -195,8 +150,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		JPanel main = new JPanel(new BorderLayout());
 		main.add(scroller, BorderLayout.CENTER);
 		main.add(panelControl, BorderLayout.NORTH);
-		setLayout(new BorderLayout());
-		add(main, BorderLayout.CENTER);
+		wrappedPanel.setLayout(new BorderLayout());
+		wrappedPanel.add(main, BorderLayout.CENTER);
 
 		setLabels();
 		updateGUI();
@@ -206,7 +161,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 	private void createControlPanel() {
 
 		panelControl = new JPanel(new BorderLayout());
-		panelControl.add(LayoutUtil.flowPanel(cbProcedure), app.getLocalization().borderWest());
+		panelControl.add(LayoutUtil.flowPanel(cbProcedure), ((AppD) app).getLocalization().borderWest());
 		// panelControl.add(LayoutUtil.flowPanel(btnCalculate),
 		// BorderLayout.CENTER);
 		panelControl.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
@@ -220,26 +175,26 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		if (panelBasicProcedures == null) {
 			panelBasicProcedures = new JPanel();
 			panelBasicProcedures.setLayout(new GridBagLayout());
-			panelBasicProcedures.setAlignmentY(TOP_ALIGNMENT);
+			panelBasicProcedures.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
 		}
 
 		if (panelSample1 == null) {
 			panelSample1 = new JPanel();
 			panelSample1
 					.setLayout(new BoxLayout(panelSample1, BoxLayout.Y_AXIS));
-			panelSample1.setAlignmentY(TOP_ALIGNMENT);
+			panelSample1.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
 		}
 		if (panelSample2 == null) {
 			panelSample2 = new JPanel();
 			panelSample2
 					.setLayout(new BoxLayout(panelSample2, BoxLayout.Y_AXIS));
-			panelSample2.setAlignmentY(TOP_ALIGNMENT);
+			panelSample2.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
 		}
 		if (panelTestAndCI == null) {
 			panelTestAndCI = new JPanel();
 			panelTestAndCI.setLayout(new BoxLayout(panelTestAndCI,
 					BoxLayout.Y_AXIS));
-			panelTestAndCI.setAlignmentY(TOP_ALIGNMENT);
+			panelTestAndCI.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
 		}
 
 		panelBasicProcedures.removeAll();
@@ -368,19 +323,19 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		lblHypParameter = new JLabel();
 		lblTailType = new JLabel();
 
-		fldNullHyp = new MyTextField(app);
+		fldNullHyp = new MyTextField((AppD) app);
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addActionListener(this);
 		fldNullHyp.addFocusListener(this);
 
 		lblConfLevel = new JLabel();
-		fldConfLevel = new MyTextField(app);
+		fldConfLevel = new MyTextField((AppD) app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addActionListener(this);
 		fldConfLevel.addFocusListener(this);
 
 		lblSigma = new JLabel();
-		fldSigma = new MyTextField(app);
+		fldSigma = new MyTextField((AppD) app);
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addActionListener(this);
 		fldSigma.addFocusListener(this);
@@ -392,7 +347,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		fldSampleStat1 = new MyTextField[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
-			fldSampleStat1[i] = new MyTextField(app);
+			fldSampleStat1[i] = new MyTextField((AppD) app);
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addActionListener(this);
 			fldSampleStat1[i].addFocusListener(this);
@@ -405,7 +360,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		fldSampleStat2 = new MyTextField[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
-			fldSampleStat2[i] = new MyTextField(app);
+			fldSampleStat2[i] = new MyTextField((AppD) app);
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addActionListener(this);
 			fldSampleStat2[i].addFocusListener(this);
@@ -695,7 +650,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 				|| selectedProcedure == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
-		revalidate();
+		wrappedPanel.revalidate();
 
 	}
 
@@ -883,30 +838,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 	}
 
-	/**
-	 * Formats a number string using local format settings.
-	 * 
-	 * @param x
-	 * @return
-	 */
-	public String format(double x) {
-		StringTemplate highPrecision;
-
-		if (kernel.useSignificantFigures) {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					kernel.getPrintFigures(), false);
-		} else {
-			// override the default decimal place if < 4
-			int d = kernel.getPrintDecimals() < 4 ? 4 : cons.getKernel()
-					.getPrintDecimals();
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					d, false);
-		}
-		// get the formatted string
-		String result = kernel.format(x, highPrecision);
-
-		return result;
-	}
+	
 
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextField) {
@@ -923,8 +855,8 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 	public void updateFonts(Font font) {
 		setStyleSheetFontSize((HTMLEditorKit) resultPane.getEditorKit(), font);
-		this.setFont(font);
-		this.updateResultText();
+		wrappedPanel.setFont(font);
+		updateResultText();
 	}
 
 	private static void setStyleSheetFontSize(HTMLEditorKit kit, Font font) {
@@ -954,6 +886,13 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 				+ "</body>\n";
 		resultPane.setText(htmlString);
 
+	}
+	
+	/**
+	 * @return the wrapped panel
+	 */
+	public JPanel getWrappedPanel() {
+		return wrappedPanel;
 	}
 
 }

@@ -196,7 +196,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(loc.getMenu("Distribution"), probCalcPanel);
-		tabbedPane.addTab(loc.getMenu("Statistics"), statCalculator);
+		tabbedPane.addTab(loc.getMenu("Statistics"), statCalculator.getWrappedPanel());
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());

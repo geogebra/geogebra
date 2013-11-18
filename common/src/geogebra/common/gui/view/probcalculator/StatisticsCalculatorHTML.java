@@ -1,10 +1,9 @@
-package geogebra.gui.view.probcalculator;
+package geogebra.common.gui.view.probcalculator;
 
-import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
-import geogebra.main.AppD;
 
 /**
  * @author G. Sturr
@@ -12,7 +11,7 @@ import geogebra.main.AppD;
  */
 public class StatisticsCalculatorHTML {
 
-	private AppD app;
+	private App app;
 	private Construction cons;
 	private Kernel kernel;
 	private StatisticsCalculator statCalc;
@@ -32,7 +31,7 @@ public class StatisticsCalculatorHTML {
 	 * @param statCalc
 	 * @param sc
 	 */
-	public StatisticsCalculatorHTML(AppD app, StatisticsCalculator statCalc,
+	public StatisticsCalculatorHTML(App app, StatisticsCalculator statCalc,
 			StatisticsCollection sc) {
 
 		this.app = app;
