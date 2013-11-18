@@ -4244,7 +4244,7 @@ public class GeoGebraCasIntegrationTest {
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("f(x) := Element[Solve[c, y], 1]",
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
+        "(x * (-4 * sqrt(10) + 6) - sqrt(10) - 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)");
     t("Solve[f'(x) = 0, x]",
             "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
     t("g(x) := f'(x)",
@@ -4265,7 +4265,7 @@ public class GeoGebraCasIntegrationTest {
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("f(x) := Element[Solve[c, y], 1]",
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
+        "(x * (-4 * sqrt(10) + 6) - sqrt(10) - 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)");
     t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])",
     		// y-coord of top of ellipse (2.33, 3.03) ie approx 3.03
         "(sqrt(10) * 93 * sqrt(31 * (sqrt(10) * 224 + 687)) + 341 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 20832 + 63891) / (sqrt(10) * 13888 + 42594)");
@@ -4465,7 +4465,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void CASRundbrief_Figure4_1 () {
     // Depends on CASRundbrief_Figure4_0.
-    t("f(t) := c * a^t", "c * a^(t)");
+    t("f(t) := c * a^t", "a^(t) * c");
 
     t("Solve[f(2) = 225, a]", "{a = -15 * sqrt(c) / c, a = 15 * sqrt(c) / c}");
   }
