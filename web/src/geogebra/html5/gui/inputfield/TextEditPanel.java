@@ -100,7 +100,9 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		sl = new GeoElementSelectionListener() {
 			public void geoElementSelected(GeoElement geo,
 			        boolean addToSelection) {
-				editor.insertGeoElement(geo);
+				if (geo != editGeo) {
+					editor.insertGeoElement(geo);
+				}
 				// inputPanel.getTextComponent().requestFocusInWindow();
 			}
 		};
