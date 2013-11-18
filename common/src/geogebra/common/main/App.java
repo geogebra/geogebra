@@ -26,6 +26,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.GeoGebraCasInterface;
@@ -1571,6 +1572,9 @@ public abstract class App implements UpdateSelection{
 				return;
 
 			}
+		}else if(e instanceof CircularDefinitionException){
+			showError(loc.getError("CircularDefinition"));
+			return;
 		}
 		// can't work out anything better, just show "Invalid Input"
 		e.printStackTrace();
