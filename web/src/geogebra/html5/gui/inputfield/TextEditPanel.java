@@ -6,23 +6,20 @@ import geogebra.common.gui.inputfield.DynamicTextProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.Unicode;
-import geogebra.html5.awt.GFontW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
-import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -37,7 +34,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author G. Sturr
  * 
  */
-public class TextEditPanel extends VerticalPanel implements ClickHandler {
+public class TextEditPanel extends VerticalPanel implements ClickHandler,
+        FocusHandler {
 
 	protected AppW app;
 	protected DynamicTextProcessor dTProcessor;
@@ -50,12 +48,12 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler {
 
 	private boolean isSerif, isBold, isItalic;
 
-	
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
 	private ToggleButton btnBold;
 	private ToggleButton btnItalic;
 	private ToggleButton btnSerif;
+	private GeoElementSelectionListener sl;
 
 	/*****************************************************
 	 * @param app
@@ -78,13 +76,12 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler {
 		TextEditInsertPanel insertPanel = new TextEditInsertPanel(app, this);
 		previewer = insertPanel.getPreviewer();
 
-		
 		createToolBar();
 
-		//VerticalPanel v = new VerticalPanel();
-		//v.add(toolBar);
-		//v.add(insertPanel);
-		
+		// VerticalPanel v = new VerticalPanel();
+		// v.add(toolBar);
+		// v.add(insertPanel);
+
 		DisclosurePanel d = new DisclosurePanel("Options");
 		d.setContent(insertPanel);
 		d.getContent().getElement().getStyle().setMargin(0, Unit.PX);
@@ -96,9 +93,19 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler {
 		add(toolBar);
 		add(editor);
 		add(d);
-		
+
 		// force a dummy geo on first use
 		setEditGeo(null);
+
+		sl = new GeoElementSelectionListener() {
+			public void geoElementSelected(GeoElement geo,
+			        boolean addToSelection) {
+				editor.insertGeoElement(geo);
+				// inputPanel.getTextComponent().requestFocusInWindow();
+			}
+		};
+
+		editor.addFocusHandler(this);
 
 	}
 
@@ -111,8 +118,15 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler {
 		super.setVisible(visible);
 
 		if (!visible) {
+			app.setSelectionListenerMode(null);
 			previewer.removePreviewGeoText();
+		} else {
+			// do nothing yet
 		}
+	}
+
+	public void onFocus(FocusEvent event) {
+		app.setSelectionListenerMode(sl);
 	}
 
 	/**
@@ -243,7 +257,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler {
 		toolBar.getElement().getStyle().setFloat(Style.Float.LEFT);
 		toolBar.getElement().getStyle().setFontSize(80, Unit.PCT);
 		toolBar.add(leftPanel);
-		//toolBar.add(rightPanel);
+		// toolBar.add(rightPanel);
 
 	}
 
@@ -320,36 +334,6 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler {
 	 */
 	public void insertTextString(String text, boolean isLatex) {
 		editor.insertTextString(text, isLatex);
-	}
-
-	// to be removed ----------------------------------------------------------
-
-	final CssColor colorBlack = CssColor.make("black");
-
-	protected String createTextImageURL(String str) {
-
-		Canvas canvas = Canvas.createIfSupported();
-		Context2d context = canvas.getContext2d();
-
-		String fontSize = ((GFontW) app.getPlainFontCommon()).getFontSize();
-		String fontString = fontSize + "pt sans-serif";
-		// App.debug(fontString);
-
-		context.setFont(fontString);
-		TextMetrics fm = context.measureText(str);
-		int w = (int) fm.getWidth() + 4;
-		int h = Integer.parseInt(fontSize) + 8; // TODO: better height calc
-		canvas.setWidth(w + "px");
-		canvas.setHeight(h + "px");
-		canvas.setCoordinateSpaceWidth(w);
-		canvas.setCoordinateSpaceHeight(h);
-
-		context.setFont(fontString);
-		context.setTextBaseline(TextBaseline.TOP);
-		context.setFillStyle(colorBlack);
-		context.fillText(str, 2, 1);
-
-		return canvas.toDataUrl();
 	}
 
 }
