@@ -265,8 +265,40 @@ public class PlotterSurface {
 		int shift = 1;
 		
 		boolean jumpNeeded = false;
+		
+		
+		// check which parts are visible
+		Coords o = manager.getView3D().getToSceneMatrix().getOrigin();
+		double frustumRadius = manager.getView3D().getFrustumRadius();
+		
+		double z = center.getZ();
+		double zMin = o.getZ() - frustumRadius;
+		double zMax = o.getZ() + frustumRadius;
+		
 
-		for (int vi=1; vi<latitude; vi++){		
+		int latitudeMaxTop = 0;
+		if (z < zMax){
+			latitudeMaxTop = latitude;
+			if(z + radius > zMax){
+				double angle = Math.asin((zMax - z)/radius);
+				latitudeMaxTop = (int) (latitude * 2*angle/Math.PI) + 2;
+			}
+		}
+		
+		int latitudeMaxBottom = 0;
+		if (z > zMin){
+			latitudeMaxBottom = latitude;
+			if(z - radius < zMin){
+				double angle = Math.asin((z - zMin)/radius);
+				latitudeMaxBottom = (int) (latitude * 2*angle/Math.PI) + 2;
+			}
+		}
+		
+		//App.debug(latitudeMaxBottom+","+latitudeMaxTop);
+
+		int latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
+
+		for (int vi=1; vi<latitudeMax; vi++){		
 			
 			cosSin(vi, latitude, cosSinV);
 
@@ -304,60 +336,67 @@ public class PlotterSurface {
 					if (jump){ //draw edge triangle and center triangle
 						n2b = sphericalCoords(ui+shift, longitude, cosSinV);
 
-						//top triangles
-						drawNCr(n1,center,radius);
-						drawNCr(n2,center,radius);
-						drawNCr(n1b,center,radius);
+						if (vi < latitudeMaxTop){//top triangles
+							drawNCr(n1,center,radius);
+							drawNCr(n2,center,radius);
+							drawNCr(n1b,center,radius);
 
-						drawNCr(n1b,center,radius);
-						drawNCr(n2,center,radius);
-						drawNCr(n2b,center,radius);
+							drawNCr(n1b,center,radius);
+							drawNCr(n2,center,radius);
+							drawNCr(n2b,center,radius);
+						}
 
-						//bottom triangles
-						drawNCrm(n1,center,radius);
-						drawNCrm(n1b,center,radius);
-						drawNCrm(n2,center,radius);
+						if (vi < latitudeMaxBottom){//bottom triangles
+							drawNCrm(n1,center,radius);
+							drawNCrm(n1b,center,radius);
+							drawNCrm(n2,center,radius);
 
-						drawNCrm(n1b,center,radius);
-						drawNCrm(n2b,center,radius);
-						drawNCrm(n2,center,radius);
+							drawNCrm(n1b,center,radius);
+							drawNCrm(n2b,center,radius);
+							drawNCrm(n2,center,radius);
+						}
 
 
 					}else{ // draw edge triangle
 						n2b = sphericalCoords(ui, longitude, cosSinV);
 
-						//top triangles
-						drawNCr(n1,center,radius);
-						drawNCr(n2,center,radius);
-						drawNCr(n1b,center,radius);
+						if (vi < latitudeMaxTop){//top triangles
+							drawNCr(n1,center,radius);
+							drawNCr(n2,center,radius);
+							drawNCr(n1b,center,radius);
+						}
 
-						//bottom triangles
-						drawNCrm(n1,center,radius);
-						drawNCrm(n1b,center,radius);
-						drawNCrm(n2,center,radius);
+						if (vi < latitudeMaxBottom){//bottom triangles
+							drawNCrm(n1,center,radius);
+							drawNCrm(n1b,center,radius);
+							drawNCrm(n2,center,radius);
+						}
 
 					}
 				}else{ // no jump :  draw two triangles
 					n2b = sphericalCoords(ui, longitude, cosSinV);
 
-					//top triangles
-					drawNCr(n1,center,radius);
-					drawNCr(n2,center,radius);
-					drawNCr(n1b,center,radius);
-					
-					drawNCr(n2,center,radius);
-					drawNCr(n2b,center,radius);
-					drawNCr(n1b,center,radius);
-					
-					//bottom triangles
-					drawNCrm(n1,center,radius);
-					drawNCrm(n1b,center,radius);
-					drawNCrm(n2,center,radius);
-					
-					drawNCrm(n2,center,radius);
-					drawNCrm(n1b,center,radius);
-					drawNCrm(n2b,center,radius);
-					
+					if (vi < latitudeMaxTop){//top triangles
+						drawNCr(n1,center,radius);
+						drawNCr(n2,center,radius);
+						drawNCr(n1b,center,radius);
+
+
+						drawNCr(n2,center,radius);
+						drawNCr(n2b,center,radius);
+						drawNCr(n1b,center,radius);
+					}
+
+					if (vi < latitudeMaxBottom){//bottom triangles
+						drawNCrm(n1,center,radius);
+						drawNCrm(n1b,center,radius);
+						drawNCrm(n2,center,radius);
+
+						drawNCrm(n2,center,radius);
+						drawNCrm(n1b,center,radius);
+						drawNCrm(n2b,center,radius);
+					}
+
 				}
 				
 				
@@ -376,25 +415,30 @@ public class PlotterSurface {
 			
 			
 		}
-		
-		//pole
-		n2 = n[longitude - shift];
-		for (int ui=0; ui<longitude; ui += shift){
-			n1 = n2;
-			n2 = n[ui];
-			
-			//top triangles
-			drawNCr(n1,center,radius);
-			drawNCr(n2,center,radius);
-			drawNCr(Coords.VZ,center,radius);
-			
-			//bottom triangles
-			drawNCrm(n1,center,radius);
-			drawNCrm(Coords.VZ,center,radius);
-			drawNCrm(n2,center,radius);
-			
+
+		if (latitudeMax == latitude){
+			//pole
+			n2 = n[longitude - shift];
+			for (int ui=0; ui<longitude; ui += shift){
+				n1 = n2;
+				n2 = n[ui];
+
+				if (latitudeMaxTop == latitude){//top triangles
+					drawNCr(n1,center,radius);
+					drawNCr(n2,center,radius);
+					drawNCr(Coords.VZ,center,radius);
+				}
+
+				if (latitudeMaxBottom == latitude){//bottom triangles
+					drawNCrm(n1,center,radius);
+					drawNCrm(Coords.VZ,center,radius);
+					drawNCrm(n2,center,radius);
+				}
+
+			}
 		}
-		
+
+
 		manager.endGeometry();
 		
 	}
