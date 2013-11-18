@@ -284,6 +284,8 @@ public class AlgebraProcessor {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
 			return changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo);
+		} catch (CircularDefinitionException e) {
+			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
