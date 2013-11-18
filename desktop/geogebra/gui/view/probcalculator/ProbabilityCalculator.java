@@ -2,6 +2,7 @@ package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.view.probcalculator.ProbabilitCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
@@ -81,7 +82,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
@@ -115,36 +115,11 @@ public class ProbabilityCalculator extends ProbabilitCalcualtorView implements V
 
 	private static final long serialVersionUID = 1L;
 
-	// enable/disable integral ---- use for testing
-	private boolean hasIntegral = true;
+	
 	private ProbabilityManager probManager;
 	private ProbabiltyCalculatorStyleBar styleBar;
 
-	// selected distribution mode
-	private DIST selectedDist = DIST.NORMAL; // default: startup with normal
-												// distribution
-
-	// distribution fields
-	private String[][] parameterLabels;
-	private final static int maxParameterCount = 3; // maximum number of
-													// parameters allowed for a
-													// distribution
-	private double[] parameters;
-	private boolean isCumulative = false;
-
-	// maps for the distribution ComboBox
-	private HashMap<DIST, String> distributionMap;
-	private HashMap<String, DIST> reverseDistributionMap;
-
-	// GeoElements
-	private ArrayList<GeoElement> plotGeoList;
-	private GeoPoint lowPoint, highPoint, curvePoint;
-	private GeoElement densityCurve, integral, ySegment, xSegment,
-			discreteGraph, discreteIntervalGraph, normalOverlay;
-	private GeoList discreteValueList, discreteProbList, intervalProbList,
-			intervalValueList;
-	// private GeoList parmList;
-	private ArrayList<GeoElement> pointList;
+	
 
 	// GUI elements
 	private JComboBox comboDistribution, comboProbType;
@@ -166,29 +141,7 @@ public class ProbabilityCalculator extends ProbabilitCalcualtorView implements V
 	private PlotSettings plotSettings;
 	private ProbabilityTable table;
 
-	// initing
-	private boolean isIniting;
-	private boolean isSettingAxisPoints = false;
-
-	// probability calculation modes
-	protected static final int PROB_INTERVAL = 0;
-	protected static final int PROB_LEFT = 1;
-	protected static final int PROB_RIGHT = 2;
-	private int probMode = PROB_INTERVAL;
-
-	// interval values
-	private double low = 0, high = 1;
-
-	// current probability result
-	private double probability;
-
-	// rounding
-	private int printDecimals = 4, printFigures = -1;
-
-	// flags
-	private boolean validProb;
-	private boolean showProbGeos = true;
-	private boolean showNormalOverlay = false;
+	
 
 	// colors
 	private static final Color COLOR_PDF = geogebra.awt.GColorD
@@ -199,25 +152,7 @@ public class ProbabilityCalculator extends ProbabilitCalcualtorView implements V
 			.getAwtColor(GeoGebraColorConstants.BLUE);
 	private static final Color COLOR_POINT = Color.BLACK;
 
-	private static final float opacityIntegral = 0.5f;
-	private static final float opacityDiscrete = 0.0f; // entire bar chart
-	private static final float opacityDiscreteInterval = 0.5f; // bar chart
-																// interval
-	private static final int thicknessCurve = 4;
-	private static final int thicknessBarChart = 3;
-
-	private boolean removeFromConstruction = true;
-
-	private static final double nearlyOne = 1 - 1E-6;
-
-	// discrete graph types
-	protected static final int GRAPH_BAR = 0;
-	protected static final int GRAPH_LINE = 1;
-	protected static final int GRAPH_STEP = 2;
-	private int graphTypePDF = GRAPH_BAR;
-	private int graphTypeCDF = GRAPH_STEP;
-	private int graphType = GRAPH_BAR;
-
+	
 	private JToggleButton btnExport;
 	
 	private JPanel wrapperPanel;
@@ -2250,32 +2185,7 @@ public class ProbabilityCalculator extends ProbabilitCalcualtorView implements V
 
 	}
 
-	/**
-	 * Returns the maximum value in the discrete value list.
-	 * 
-	 * @return
-	 */
-	public int getDiscreteXMax() {
-		if (discreteValueList != null) {
-			GeoNumeric geo = (GeoNumeric) discreteValueList
-					.get(discreteValueList.size() - 1);
-			return (int) geo.getDouble();
-		}
-		return -1;
-	}
-
-	/**
-	 * Returns the minimum value in the discrete value list.
-	 * 
-	 * @return
-	 */
-	public int getDiscreteXMin() {
-		if (discreteValueList != null) {
-			GeoNumeric geo = (GeoNumeric) discreteValueList.get(0);
-			return (int) geo.getDouble();
-		}
-		return -1;
-	}
+	
 
 	// ============================================================
 	// Number Format

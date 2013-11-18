@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.gui.view.data.StatTable;
 import geogebra.main.AppD;

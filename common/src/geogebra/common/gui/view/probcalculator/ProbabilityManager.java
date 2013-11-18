@@ -1,4 +1,4 @@
-package geogebra.gui.view.probcalculator;
+package geogebra.common.gui.view.probcalculator;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -42,7 +42,6 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.MyMath2;
 import geogebra.common.util.Unicode;
-import geogebra.main.AppD;
 
 import java.util.HashMap;
 
@@ -56,11 +55,11 @@ import java.util.HashMap;
  */
 public class ProbabilityManager {
 
-	private final AppD app;
+	private final App app;
 	private final Localization loc;
-	private ProbabilityCalculator probCalc;
+	private ProbabilitCalcualtorView probCalc;
 
-	public ProbabilityManager(AppD app, ProbabilityCalculator probCalc) {
+	public ProbabilityManager(App app, ProbabilitCalcualtorView probCalc) {
 
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -86,7 +85,7 @@ public class ProbabilityManager {
 	 * distribution type constant Key = display type constant Value = menu item
 	 * string
 	 */
-	protected HashMap<DIST, String> getDistributionMap() {
+	public HashMap<DIST, String> getDistributionMap() {
 
 		HashMap<DIST, String> plotMap = new HashMap<DIST, String>();
 
@@ -115,7 +114,7 @@ public class ProbabilityManager {
 	 * string selected in a JComboBox distribution menu Key = menu item string
 	 * Value = display type constant
 	 */
-	protected HashMap<String, DIST> getReverseDistributionMap() {
+	public HashMap<String, DIST> getReverseDistributionMap() {
 
 		HashMap<DIST, String> plotMap = getDistributionMap();
 		HashMap<String, DIST> plotMapReverse = new HashMap<String, DIST>();
@@ -133,7 +132,7 @@ public class ProbabilityManager {
 	 * @param app
 	 * @return
 	 */
-	protected static String[][] getParameterLabelArray(AppD app) {
+	public static String[][] getParameterLabelArray(App app) {
 
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
@@ -350,7 +349,7 @@ public class ProbabilityManager {
 	 * 
 	 * @return
 	 */
-	protected static int getParmCount(DIST d) {
+	public static int getParmCount(DIST d) {
 
 		switch (d) {
 		case GAMMA:
@@ -384,7 +383,7 @@ public class ProbabilityManager {
 	 * type. /* Key = distribution type constant /* Value = default parameter
 	 * values for the distribution type
 	 */
-	protected static double[] getDefaultParameters(DIST d) {
+	public static double[] getDefaultParameters(DIST d) {
 		HashMap<DIST, double[]> defaultParameterMap = new HashMap<DIST, double[]>();
 
 		switch (d) {
@@ -420,7 +419,7 @@ public class ProbabilityManager {
 			return new double[] { 60, 10, 20 }; // pop = 60, n = 10, sample = 20
 
 		default:
-			AppD.error("missing case");
+			App.error("missing case");
 		}
 
 		return null;
@@ -432,7 +431,7 @@ public class ProbabilityManager {
 	 * parameter set. Plot dimensions are returned as an array of double: {xMin,
 	 * xMax, yMin, yMax}
 	 */
-	protected double[] getPlotDimensions(DIST selectedDist, double[] parms,
+	public double[] getPlotDimensions(DIST selectedDist, double[] parms,
 			GeoElement densityCurve, boolean isCumulative) {
 
 		double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
@@ -634,7 +633,7 @@ public class ProbabilityManager {
 	 * @return {mean, sigma} Note: if a values is undefined, array with null
 	 *         element(s) is returned
 	 */
-	protected Double[] getDistributionMeasures(DIST selectedDist, double[] parms) {
+	public Double[] getDistributionMeasures(DIST selectedDist, double[] parms) {
 
 		// in the future, would be nice to return median and mode
 		// median can be evaluated numerically with inverseCDF(.5)
@@ -832,11 +831,11 @@ public class ProbabilityManager {
 	public double intervalProbability(double low, double high, DIST distType,
 			double[] parms, int probMode) {
 
-		if (probMode == ProbabilityCalculator.PROB_LEFT)
+		if (probMode == ProbabilitCalcualtorView.PROB_LEFT)
 
 			return probability(high, parms, distType, true);
 
-		else if (probMode == ProbabilityCalculator.PROB_RIGHT) {
+		else if (probMode == ProbabilitCalcualtorView.PROB_RIGHT) {
 
 			if (isDiscrete(distType)) {
 				return 1 - probability(low - 1, parms, distType, true);
@@ -865,7 +864,7 @@ public class ProbabilityManager {
 	 * @param prob
 	 *            cumulative probability
 	 */
-	protected double inverseProbability(DIST distType, double prob,
+	public double inverseProbability(DIST distType, double prob,
 			double[] parms) {
 
 		MyDouble param1 = null, param2 = null, param3 = null;
