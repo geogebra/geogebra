@@ -80,11 +80,6 @@ public class Mouse3DEvent extends AbstractEvent implements MouseEventND{
 	}
 
 	@Override
-	public double getWheelRotation() {
-		return 0;
-	}
-
-	@Override
 	public boolean isMiddleClick() {
 		return false;
 	}

@@ -183,9 +183,8 @@ public class EuclidianControllerD extends
 	 * Zooms in or out using mouse wheel
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
-		wrapMouseWheelMoved(event);
-		event.release();
+		wrapMouseWheelMoved(e.getX(), e.getY(),e.getWheelRotation(),
+				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
 
 }

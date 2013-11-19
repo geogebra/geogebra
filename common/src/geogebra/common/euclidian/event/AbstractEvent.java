@@ -24,8 +24,6 @@ public abstract class AbstractEvent {
 
 	public abstract boolean isMetaDown();
 
-	public abstract double getWheelRotation();
-
 	public abstract boolean isMiddleClick();
 
 	public abstract boolean isPopupTrigger();

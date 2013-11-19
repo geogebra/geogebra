@@ -22,7 +22,6 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import java.util.ArrayList;
 
-import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.user.client.Command;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
@@ -37,7 +36,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
 	        GPoint location);
 
-	public void setFocusedPanel(EventTarget e, boolean updatePropertiesView);
+	public void setFocusedPanel(int evID, boolean updatePropertiesView);
 
 	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView);
 	

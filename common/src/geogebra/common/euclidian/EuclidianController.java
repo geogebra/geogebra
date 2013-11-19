@@ -9221,7 +9221,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	protected void wrapMouseWheelMoved(AbstractEvent event) {
+	protected void wrapMouseWheelMoved(int x, int y, double delta, boolean shiftOrMeta, boolean alt) {
 		
 		if (isTextfieldHasFocus()) {
 			return;
@@ -9238,7 +9238,7 @@ public abstract class EuclidianController {
 					|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 					|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
 					|| (app.isShiftDragZoomEnabled() &&
-							(event.isMetaDown() || event.isShiftDown()));
+							shiftOrMeta);
 		
 		if (!allowMouseWheel) {
 			return;
@@ -9246,7 +9246,7 @@ public abstract class EuclidianController {
 		
 		wheelZoomingOccurred = true;	
 		
-		setMouseLocation(event);
+		setMouseLocation(alt, x, y);
 	
 		// double px = view.width / 2d;
 		// double py = view.height / 2d;
@@ -9256,13 +9256,13 @@ public abstract class EuclidianController {
 		// double dy = view.getYZero() - py;
 	
 		double xFactor = 1;
-		if (event.isAltDown()) {
+		if (alt) {
 			xFactor = 1.5;
 		}
 	
 		double reverse = app.isMouseWheelReversed() ? -1 : 1;
 	
-		double factor = ((event.getWheelRotation() * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+		double factor = ((delta * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				* xFactor
 				: 1d / (EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
 	

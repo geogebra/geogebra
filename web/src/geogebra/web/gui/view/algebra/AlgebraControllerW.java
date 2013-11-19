@@ -7,7 +7,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.web.euclidian.event.MouseEventW;
+import geogebra.html5.event.PointerEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.gui.GuiManagerW;
 
@@ -245,16 +245,16 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 	public void dropActionChanged(AbstractEvent e) {}
 
 	public void onMouseDown(MouseDownEvent event) {
-		mousePressed(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mousePressed(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
 		// TODO: make it care for mouse down too 
-		mouseClicked(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mouseClicked(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-		mouseMoved(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mouseMoved(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 }

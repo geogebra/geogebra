@@ -16,7 +16,6 @@ import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
-import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -441,9 +440,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
 		 event.preventDefault();
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),event.getDeltaY(),this);
-		 wrapMouseWheelMoved(e);
-		 e.release();
+		 wrapMouseWheelMoved(mouseEventX(event.getClientX()),mouseEventY(event.getClientY()),event.getDeltaY(),
+				 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
 	}
 
 	public void onMouseOver(MouseOverEvent event) {
@@ -462,7 +460,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
 		((EuclidianViewW) view).resetMsZoomer();
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
 	}
@@ -475,7 +473,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		event.preventDefault();
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 			boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 			this.waitingMouseMove = e;
@@ -521,7 +519,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if (app.getGuiManager() != null)
 			((GuiManagerW)app.getGuiManager()).removePopup();
 
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);
 		e.release();
 	}
@@ -542,7 +540,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			event.preventDefault();
 		}
 			
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMousePressed(e);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty()) {
@@ -591,8 +589,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return app.showResetIcon()
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
-	private LinkedList<MouseEventW> mousePool = new LinkedList<MouseEventW>();
-	public LinkedList<MouseEventW> getMouseEventPool() {
+	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
+	public LinkedList<PointerEvent> getMouseEventPool() {
 	    return mousePool;
     }
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
@@ -644,6 +642,24 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public float getScaleYMultiplier() {
 		return style.getScaleYMultiplier();
 	}
+
+	public int mouseEventX(int clientX) {
+		 return Math.round((clientX- getXoffset())  *
+			(1 / getScaleX()) *
+				(1 / getHeightScale()));
+   }
+
+	public int mouseEventY(int clientY) {
+		 return Math.round((clientY- getYoffset())  *
+			(1 / getScaleY()) *
+				(1 / getHeightScale()));
+    }
+
+
+
+	public int getEvID() {
+	    return view.getEuclidianViewNo();
+    }
 
 }
 

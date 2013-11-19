@@ -6,7 +6,7 @@ import geogebra.common.euclidian.event.PointerEventType;
 
 import java.util.LinkedList;
 
-import com.google.gwt.dom.client.EventTarget;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 
 /**
@@ -20,57 +20,60 @@ public class PointerEvent extends AbstractEvent {
 	private GPoint point = new GPoint(0, 0);
 	private PointerEventType type;
 	private HasOffsets off;
-	private EventTarget target;
+	private boolean shift, control, alt, meta, right, middle;
+	private int clickCount = 1;
+	private int evID;
 
 	public PointerEvent(int x, int y, PointerEventType type, HasOffsets off) {
 		this.off = off;
-		this.point = new GPoint(x, y);
+		this.point = new GPoint(Math.round(x), Math.round(y));
 		this.type = type;
 	}
 
 	@Override
 	public int getClickCount() {
-		return 0;
+		return this.clickCount;
 	}
 
 	@Override
 	public GPoint getPoint() {
-		return this.point;
-	}
-
-	@Override
-	public double getWheelRotation() {
-		return 0;
+		return new GPoint(getX(),getY());
 	}
 
 	@Override
 	public int getX() {
+		if(this.type == PointerEventType.MOUSE){
+			return off.mouseEventX(this.point.x);
+		}
 		return this.point.x - off.getXoffset();
 	}
 
 	@Override
 	public int getY() {
+		if(this.type == PointerEventType.MOUSE){
+			return off.mouseEventY(this.point.y);
+		}
 		return this.point.y - off.getYoffset();
 	}
 
 	@Override
 	public boolean isAltDown() {
-		return false;
+		return this.alt;
 	}
 
 	@Override
 	public boolean isControlDown() {
-		return false;
+		return this.control;
 	}
 
 	@Override
 	public boolean isMetaDown() {
-		return false;
+		return this.meta;
 	}
 
 	@Override
 	public boolean isMiddleClick() {
-		return false;
+		return this.middle;
 	}
 
 	@Override
@@ -80,16 +83,19 @@ public class PointerEvent extends AbstractEvent {
 
 	@Override
 	public boolean isRightClick() {
-		return false;
+		return this.right;
 	}
 
 	@Override
 	public boolean isShiftDown() {
-		return false;
+		return this.shift;
 	}
 
 	@Override
 	public void release() {
+		if(this.type == PointerEventType.TOUCH){
+			this.off.getTouchEventPool().add(this);
+		}
 	}
 
 	@Override
@@ -97,17 +103,12 @@ public class PointerEvent extends AbstractEvent {
 		return this.type;
 	}
 	
-	public EventTarget getTarget(){
-		return target;
-	}
-	
-	public static AbstractEvent wrapEvent(int x, int y,PointerEventType type, EventTarget t, HasOffsets h) {
-		LinkedList<PointerEvent> pool = h.getTouchEventPool();
+	private static PointerEvent wrapEvent(int x, int y,PointerEventType type, HasOffsets h, LinkedList<PointerEvent> pool) {
 		if(!pool.isEmpty()){
 			PointerEvent wrap = pool.getLast();
 			wrap.point = new GPoint(x,y);
 			wrap.type = type;
-			wrap.target = t;
+			wrap.evID = h.getEvID();
 			pool.removeLast();
 			return wrap;
 		}
@@ -116,11 +117,28 @@ public class PointerEvent extends AbstractEvent {
 		}
 		return new PointerEvent(x, y ,type,h);
 	}
+	
+	public static PointerEvent wrapEvent(NativeEvent nativeEvent,HasOffsets off) {
+		PointerEvent evt = wrapEvent(nativeEvent.getClientX(), nativeEvent.getClientY(), PointerEventType.MOUSE, 
+				 off, off.getMouseEventPool());
+		evt.alt = nativeEvent.getAltKey();
+		evt.control = nativeEvent.getCtrlKey();
+		evt.clickCount = "dblclick".equals(nativeEvent.getType()) ? 2 : 1;
+		evt.meta = nativeEvent.getMetaKey();
+		evt.middle = nativeEvent.getButton() == NativeEvent.BUTTON_MIDDLE;
+		evt.right = nativeEvent.getButton() == NativeEvent.BUTTON_RIGHT;
+		evt.shift = nativeEvent.getShiftKey();
+		return evt;
+	}
 
 	public static AbstractEvent wrapEvent(Touch touch,
             HasOffsets off) {
-	    // TODO Auto-generated method stub
-	    return wrapEvent(touch.getClientX(), touch.getClientY(), PointerEventType.TOUCH, touch.getTarget(), off);
+	    return wrapEvent(touch.getClientX(), touch.getClientY(), 
+	    		PointerEventType.TOUCH,  off, off.getTouchEventPool());
+    }
+
+	public int getEvID() {
+	    return this.evID;
     }
 
 }

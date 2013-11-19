@@ -23,13 +23,13 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
+import geogebra.html5.event.PointerEvent;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -69,8 +69,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -247,29 +245,19 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public void setFocusedPanel(AbstractEvent event,
 	        boolean updatePropertiesView) {
-		setFocusedPanel(MouseEventW.getTarget(event), updatePropertiesView);
+		setFocusedPanel( ((PointerEvent)event).getEvID(), updatePropertiesView);
 	}
 
-	public void setFocusedPanel(EventTarget target, boolean updatePropertiesView) {
+	public void setFocusedPanel(int evID, boolean updatePropertiesView) {
 
 		if (!(app.getEuclidianViewpanel() instanceof DockPanel)) {
 			App.debug("This part of the code should not have run!");
 			return;
 		}
 
-		// determine parent panel to change focus
-		Element et = Element.as(target);
-		Element DOMancestor1 = app.getEuclidianViewpanel().getElement();
-		Element DOMancestor2 = null;
-		if (hasEuclidianView2())
-			DOMancestor2 = getEuclidianView2DockPanel().getElement();
-
-		while (et.hasParentElement() && et != DOMancestor1 && et != DOMancestor2)
-			et = et.getParentElement();
-
-		if (et == DOMancestor1)
+		if (evID == 1)
 			setFocusedPanel((DockPanel)app.getEuclidianViewpanel(), updatePropertiesView);
-		else if (DOMancestor2 != null && et == DOMancestor2)
+		else if (evID == 2)
 			setFocusedPanel(getEuclidianView2DockPanel(), updatePropertiesView);
 	}
 

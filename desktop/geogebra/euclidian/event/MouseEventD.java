@@ -85,11 +85,6 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 	}
 
 	@Override
-	public double getWheelRotation() {
-		return ((java.awt.event.MouseWheelEvent)event).getWheelRotation();
-	}
-
-	@Override
 	public boolean isMiddleClick() {
 		return (event.getButton() == 2) && (event.getClickCount() == 1);
 	}
