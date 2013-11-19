@@ -8,11 +8,11 @@ import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
-import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -172,6 +172,7 @@ public class AppWapplication extends AppW {
 		this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
+		((GGWToolBar)this.getToolbar()).updateToolbarPanel();
 	}
 
 	@Override
