@@ -33,10 +33,7 @@ public final class ArticleElement extends Element {
 	}
 
 	public void clear() {
-		for (int i = 0; i < this.getChildCount(); i++) {
-			this.removeChild(this.getChild(i));
-		}
-
+		this.setInnerHTML("");
 	}
 
 	public boolean remove(Widget w) {
