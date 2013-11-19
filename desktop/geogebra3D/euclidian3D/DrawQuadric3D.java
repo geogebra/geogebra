@@ -76,18 +76,36 @@ implements Previewable {
 	
 	private double scale;
 	
-	private boolean checkVisible = false;
+	private double alpha, beta;
+	
+	/**
+	 * Visibility flag
+	 * @author mathieu
+	 *
+	 */
+	private static enum Visible{
+		/** the quadric is totally outside */
+		TOTALLY_OUTSIDE, 
+		/** the quadric is totally inside */
+		TOTALLY_INSIDE,
+		/** the quadric is partly inside, center outside */
+		CENTER_OUTSIDE,
+		/** the quadric is partly inside, center inside */
+		CENTER_INSIDE
+	}
+	
+	private Visible visible = Visible.TOTALLY_OUTSIDE;
 	
 	
 	/**
 	 * check if the sphere is (at least partially) visible
 	 * @param center sphere center
 	 * @param radius sphere radius
-	 * @return true if the sphere is (at least partially) visible
 	 */
-	private boolean checkSphereVisible(Coords center, double radius){
+	private void checkSphereVisible(Coords center, double radius){
 		double frustumRadius = getView3D().getFrustumRadius();
-		Coords origin = getView3D().getToSceneMatrix().getOrigin();
+		Coords origin = getView3D().getCenter();
+		//App.debug((getView3D().getXmin()+getView3D().getXmax())/2+"");
 		//App.error("\n"+origin);
 		Coords v = origin.sub(center);
 		v.calcNorm();
@@ -95,20 +113,38 @@ implements Previewable {
 		
 		//App.error("\ncentersDistance= "+centersDistance+"\nradius= "+radius+"\nfrustumRadius= "+frustumRadius);
 		
-		// sphere totally outside the frustum
-		if (centersDistance > radius + frustumRadius){
-			return false;
+		
+		if (centersDistance > radius + frustumRadius){ // sphere totally outside the frustum
+			visible = Visible.TOTALLY_OUTSIDE;
+		}else if (centersDistance + frustumRadius < radius){ // frustum totally inside the sphere
+			visible = Visible.TOTALLY_OUTSIDE;
+		}else if (centersDistance + radius < frustumRadius){ // totally inside
+			visible = Visible.TOTALLY_INSIDE;
+		}else if (centersDistance < frustumRadius){ // center inside
+			visible = Visible.CENTER_INSIDE;
+		}else{
+			visible = Visible.CENTER_OUTSIDE; // center outside
+			// calc angles to draw minimum longitudes
+			double horizontalDistance2 = v.getX()*v.getX()+v.getY()*v.getY();
+			alpha = Math.acos((radius*radius+horizontalDistance2-frustumRadius*frustumRadius)/(2*Math.sqrt(horizontalDistance2)*radius));
+			beta = Math.atan2(v.getY(), v.getX());
 		}
 		
-		// frustum totally inside the sphere
-		if (centersDistance + frustumRadius < radius){
-			return false;
-		}
 		
-		return true;
 	}
 	
 	
+	private void drawSphere(PlotterSurface surface, Coords center, double radius){
+		if (visible == Visible.CENTER_OUTSIDE){
+			int longitudeAlpha = 8;
+			while (longitudeAlpha * Math.PI < alpha * longitude){
+				longitudeAlpha *= 2;
+			}
+			surface.drawSphere(center, radius, longitude, beta - longitudeAlpha*Math.PI/longitude, longitudeAlpha);
+		}else{
+			surface.drawSphere(center, radius, longitude);
+		}
+	}
 	
 	@Override
 	protected boolean updateForItSelf(){
@@ -121,12 +157,13 @@ implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			Coords center = quadric.getMidpoint3D();
 			double radius = quadric.getHalfAxis(0);
-			checkVisible = checkSphereVisible(center, radius);
-			if(checkVisible){
+			checkSphereVisible(center, radius);
+			if(visible != Visible.TOTALLY_OUTSIDE){
 				surface = renderer.getGeometryManager().getSurface();
 				surface.start();
 				scale = getView3D().getScale();
-				longitude = surface.drawSphere(center, radius, scale);
+				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
+				drawSphere(surface, center, radius);
 				setSurfaceIndex(surface.end());		
 			}else{
 				setSurfaceIndex(-1);	
@@ -221,33 +258,33 @@ implements Previewable {
 				double s = scale;
 				scale = getView3D().getScale();
 				// check if longitude length changes
-				int l = surface.calcSphereLongitudesNeeded(quadric.getHalfAxis(0), scale);
+				double radius = quadric.getHalfAxis(0);
+				int l = surface.calcSphereLongitudesNeeded(radius, scale);
 				// redraw if sphere was not visible, or if new longitude length, or if negative zoom occured
-				if (!checkVisible || l != longitude || scale < s){
+				if (visible == Visible.TOTALLY_OUTSIDE || l != longitude || scale < s){
 					Coords center = quadric.getMidpoint3D();
-					double radius = quadric.getHalfAxis(0);
-					checkVisible = checkSphereVisible(center, radius);
-					if(checkVisible){
+					checkSphereVisible(center, radius);
+					if(visible != Visible.TOTALLY_OUTSIDE){
 						//App.debug(l+","+longitude);
 						longitude = l;
 						surface.start();
-						surface.drawSphere(center, radius, longitude);
+						drawSphere(surface, center, radius);
 						setSurfaceIndex(surface.end());
 						recordTrace();
 					}else{
 						setSurfaceIndex(-1);
 					}
 				}							
-			}else if (getView3D().viewChangedByTranslate()){
+			}else if (visible != Visible.TOTALLY_INSIDE && getView3D().viewChangedByTranslate()){
 				Renderer renderer = getView3D().getRenderer();		
 				PlotterSurface surface = renderer.getGeometryManager().getSurface();				
 				
 				Coords center = quadric.getMidpoint3D();
 				double radius = quadric.getHalfAxis(0);
-				checkVisible = checkSphereVisible(center, radius);
-				if(checkVisible){
+				checkSphereVisible(center, radius);
+				if(visible != Visible.TOTALLY_OUTSIDE){
 					surface.start();
-					surface.drawSphere(center, radius, longitude);
+					drawSphere(surface, center, radius);
 					setSurfaceIndex(surface.end());
 					recordTrace();
 				}else{

@@ -32,6 +32,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	
 	private Coords[] vertices;
 	
+	private Coords center;
+	
 
 	static private double REDUCTION_LARGE = 0; //(1-1./1)/2	
 	
@@ -56,6 +58,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	public DrawClippingCube3D(EuclidianView3D a_view3D, GeoClippingCube3D clippingCube){
 		
 		super(a_view3D, clippingCube);
+		
+		center = new Coords(4);
+		center.setW(1);
 		
 		minMax = new double[3][];
 		minMaxLarge = new double[3][];
@@ -141,7 +146,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		
 		minMax[0][0] = xmin+xr;
 		minMax[0][1] = xmax-xr;
-		minMax[2][0] = ymin+yr;
+		minMax[2][0] = ymin+yr; // z values : when 0 orientation, z is up on screen
 		minMax[2][1] = ymax-yr;
 		minMax[1][0] = zmin+zr;
 		minMax[1][1] = zmax-zr;
@@ -152,10 +157,18 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		horizontalDiagonal = renderer.getWidth()*(1-2*rv)*Math.sqrt(2);
 		
+		
 		int w = renderer.getWidth();
 		int h = renderer.getHeight();
 		int d = renderer.getVisibleDepth();
 		frustumRadius = Math.sqrt(w*w+h*h+d*d)/(2*scale);
+		/*
+		double w = minMax[0][1]-minMax[0][0];
+		double h = minMax[2][1]-minMax[2][0];
+		double d = minMax[1][1]-minMax[1][0];
+		//frustumRadius = Math.sqrt(w*w+h*h+d*d);
+		frustumRadius = h/2;
+		*/
 		
 		view.setXYMinMax(minMax);
 
@@ -195,6 +208,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 					vertex.setY(minMax[1][y]);
 					vertex.setZ(minMax[2][z]);				
 				}
+
+		for (int i = 0 ; i < 3 ; i++){
+			center.set(i+1,(minMax[i][0]+minMax[i][1])/2);
+		}
 	}
 	
 	/**
@@ -204,6 +221,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 	public Coords getVertex(int i){
 		return vertices[i];
+	}
+	
+	/**
+	 * 
+	 * @return coords of the center point
+	 */
+	public Coords getCenter(){
+		return center;
 	}
 	
 	/**

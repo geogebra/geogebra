@@ -970,6 +970,16 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public double getZmax() {
 		return clippingCubeDrawable.getMinMax()[2][1];
 	}
+	
+	
+	/**
+	 * 
+	 * @return coords of the center point
+	 */
+	public Coords getCenter(){
+		return clippingCubeDrawable.getCenter();
+	}
+	
 
 	
 	

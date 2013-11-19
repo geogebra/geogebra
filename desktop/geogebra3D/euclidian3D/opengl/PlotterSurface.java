@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -214,23 +215,6 @@ public class PlotterSurface {
 	}
 	
 	
-	/**
-	 * draw a sphere with center and radius.
-	 * view scaling is used to know how many triangles are needed
-	 * @param center center of the sphere
-	 * @param radius radius of the sphere
-	 * @param viewScale view scaling
-	 * @return calculated longitude
-	 */
-	public int drawSphere(Coords center, double radius, double viewScale){
-		
-		int longitude = calcSphereLongitudesNeeded(radius, viewScale);
-		
-		drawSphere(center, radius, longitude);
-		
-		return longitude;
-	}
-	
 	
 	/**
 	 * draw a sphere with center and radius.
@@ -240,7 +224,22 @@ public class PlotterSurface {
 	 * @param longitude longitude length for rendering
 	 */
 	public void drawSphere(Coords center, double radius, int longitude){
-		
+	
+		drawSphere(center, radius, longitude, 0, longitude);
+	}
+	
+	
+	/**
+	 * draw a sphere with center and radius.
+	 * view scaling is used to know how many triangles are needed
+	 * @param center center of the sphere
+	 * @param radius radius of the sphere
+	 * @param longitude longitude length for rendering, corresponding to 2*PI (must be power of 2)
+	 * @param longitudeStart for sphere parts, first longitude to draw
+	 * @param longitudeLength for sphere parts, longitude width (must be power of 2)
+	 */
+	public void drawSphere(Coords center, double radius, int longitude, double longitudeStart, int longitudeLength){
+
 		manager.startGeometry(Manager.TRIANGLES);
 		
 		//set texture to (0,0)
@@ -248,17 +247,62 @@ public class PlotterSurface {
 		
 		int latitude=longitude/4;
 		
-		Coords[] n = new Coords[longitude];
+
+		// check which parts are visible (latitudes)
+		Coords o = manager.getView3D().getCenter();
+		double frustumRadius = manager.getView3D().getFrustumRadius();
+
+		double z = center.getZ();
+		double zMin = o.getZ() - frustumRadius;
+		double zMax = o.getZ() + frustumRadius;
+
+
+		int latitudeMaxTop = 0;
+		latitudeMaxTop = latitude;
+		if(Kernel.isGreater(z + radius , zMax)){
+			double angle = Math.asin((zMax - z)/radius);
+			latitudeMaxTop = (int) (latitude * 2*angle/Math.PI) + 2;
+		}
+
+		int latitudeMaxBottom = 0;
+		latitudeMaxBottom = latitude;
+		if(Kernel.isGreater(zMin, z - radius)){
+			double angle = Math.asin((z - zMin)/radius);
+			latitudeMaxBottom = (int) (latitude * 2*angle/Math.PI) + 2;
+		}
+
+		//App.debug(latitudeMaxBottom+","+latitudeMaxTop);
+
+		int latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
+		
+		int latitudeMin = 0; // start on equator
+		if (latitudeMaxTop < 0){ // start below equator
+			latitudeMin = -latitudeMaxTop;
+		}else if (latitudeMaxBottom < 0){ // start above equator
+			latitudeMin = -latitudeMaxBottom;
+		}
+
+		
+		
+		// check which parts are visible (longitudes)
+		
+		
+		
+		
+		
+		// start drawing
+		Coords[] n = new Coords[longitudeLength + 1];
 		Coords n1, n2, n1b, n2b;
 		
 		double[] cosSinV = new double[2]; 
 		
 		//equator
-		cosSinV[0] = 1; // cos(0)
-		cosSinV[1] = 0; // sin(0)
+		//cosSinV[0] = 1; // cos(0)
+		//cosSinV[1] = 0; // sin(0)
+		cosSin(latitudeMin, latitude, cosSinV);
 		double lastCos = 1;
-		for (int ui=0; ui<longitude; ui++){			
-			n[ui]=sphericalCoords(ui,longitude,cosSinV);
+		for (int ui=0; ui<=longitudeLength; ui++){			
+			n[ui]=sphericalCoords(ui,longitude,longitudeStart,cosSinV);
 		}
 		
 		//shift for longitude
@@ -267,38 +311,8 @@ public class PlotterSurface {
 		boolean jumpNeeded = false;
 		
 		
-		// check which parts are visible
-		Coords o = manager.getView3D().getToSceneMatrix().getOrigin();
-		double frustumRadius = manager.getView3D().getFrustumRadius();
 		
-		double z = center.getZ();
-		double zMin = o.getZ() - frustumRadius;
-		double zMax = o.getZ() + frustumRadius;
-		
-
-		int latitudeMaxTop = 0;
-		if (z < zMax){
-			latitudeMaxTop = latitude;
-			if(z + radius > zMax){
-				double angle = Math.asin((zMax - z)/radius);
-				latitudeMaxTop = (int) (latitude * 2*angle/Math.PI) + 2;
-			}
-		}
-		
-		int latitudeMaxBottom = 0;
-		if (z > zMin){
-			latitudeMaxBottom = latitude;
-			if(z - radius < zMin){
-				double angle = Math.asin((z - zMin)/radius);
-				latitudeMaxBottom = (int) (latitude * 2*angle/Math.PI) + 2;
-			}
-		}
-		
-		//App.debug(latitudeMaxBottom+","+latitudeMaxTop);
-
-		int latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
-
-		for (int vi=1; vi<latitudeMax; vi++){		
+		for (int vi=latitudeMin+1; vi<latitudeMax; vi++){		
 			
 			cosSin(vi, latitude, cosSinV);
 
@@ -310,20 +324,17 @@ public class PlotterSurface {
 				jumpNeeded = false;
 			}
 						
-			
+
 			//first values 
-			n2 = n[longitude - shift];
-			if (jumpNeeded){
-				n2b = sphericalCoords(longitude , longitude, cosSinV);
-			}else{
-				n2b = sphericalCoords(longitude - shift, longitude, cosSinV);
-			}
+			n2 = n[0];
+			n2b = sphericalCoords(0, longitude, longitudeStart, cosSinV);
+
 
 			//first : no jump
-			boolean jump = false;
+			boolean jump = jumpNeeded;
 
 			
-			for (int ui=0; ui<longitude; ui += shift){
+			for (int ui=shift; ui<=longitudeLength; ui += shift){
 			
 				//last latitude values
 				n1 = n2;
@@ -334,8 +345,9 @@ public class PlotterSurface {
 				n1b = n2b;
 				if (jumpNeeded){
 					if (jump){ //draw edge triangle and center triangle
-						n2b = sphericalCoords(ui+shift, longitude, cosSinV);
-
+						
+						n2b = sphericalCoords(ui+shift, longitude, longitudeStart, cosSinV);
+						
 						if (vi < latitudeMaxTop){//top triangles
 							drawNCr(n1,center,radius);
 							drawNCr(n2,center,radius);
@@ -358,7 +370,8 @@ public class PlotterSurface {
 
 
 					}else{ // draw edge triangle
-						n2b = sphericalCoords(ui, longitude, cosSinV);
+						
+						n2b = sphericalCoords(ui, longitude, longitudeStart, cosSinV);
 
 						if (vi < latitudeMaxTop){//top triangles
 							drawNCr(n1,center,radius);
@@ -370,11 +383,14 @@ public class PlotterSurface {
 							drawNCrm(n1,center,radius);
 							drawNCrm(n1b,center,radius);
 							drawNCrm(n2,center,radius);
-						}
+						}	
+
+
 
 					}
 				}else{ // no jump :  draw two triangles
-					n2b = sphericalCoords(ui, longitude, cosSinV);
+					
+					n2b = sphericalCoords(ui, longitude, longitudeStart, cosSinV);
 
 					if (vi < latitudeMaxTop){//top triangles
 						drawNCr(n1,center,radius);
@@ -397,6 +413,9 @@ public class PlotterSurface {
 						drawNCrm(n2b,center,radius);
 					}
 
+					
+					
+	
 				}
 				
 				
@@ -413,13 +432,17 @@ public class PlotterSurface {
 				shift = shift * 2 ;
 			}
 			
+
+			n[0]=sphericalCoords(0,longitude, longitudeStart, cosSinV);
+			
+			
 			
 		}
 
 		if (latitudeMax == latitude){
 			//pole
-			n2 = n[longitude - shift];
-			for (int ui=0; ui<longitude; ui += shift){
+			n2 = n[0];
+			for (int ui=shift; ui<=longitudeLength; ui += shift){
 				n1 = n2;
 				n2 = n[ui];
 
@@ -434,6 +457,7 @@ public class PlotterSurface {
 					drawNCrm(Coords.VZ,center,radius);
 					drawNCrm(n2,center,radius);
 				}
+
 
 			}
 		}
@@ -524,9 +548,9 @@ public class PlotterSurface {
 		ret[1] = Math.sin(v);	
 	}
 	
-	private static Coords sphericalCoords(int ui, int longitude, double[] cosSinV){
+	private static Coords sphericalCoords(int ui, int longitude, double longitudeStart, double[] cosSinV){
 		
-		double u = ((double) ui/longitude)*2*Math.PI;
+		double u = ((double) ui/longitude)*2*Math.PI + longitudeStart;
 		
 		return new Coords(				
 				Math.cos(u)*cosSinV[0],
@@ -938,7 +962,8 @@ public class PlotterSurface {
 	 * @param radius
 	 */
 	private void drawNCrm(Coords normal, Coords center, double radius){
-		drawNCr(normal.mul(-1), center, radius);
+		Coords n2 = new Coords(normal.getX(), normal.getY(), -normal.getZ(), 0);
+		drawNCr(n2, center, radius);
 	}
 	
 	private void drawNV(Coords normal, Coords point){
