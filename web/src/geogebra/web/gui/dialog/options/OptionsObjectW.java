@@ -6,6 +6,8 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
+import geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
+import geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import geogebra.common.gui.dialog.options.model.BackgroundImageModel;
@@ -58,6 +60,7 @@ import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
@@ -273,11 +276,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 		public ListBoxPanel(final String title) {
 			this.title = title;
-			label = new Label();
+			setLabel(new Label());
 			listBox = new ListBox();
 			FlowPanel mainWidget = new FlowPanel(); 
 			
-			mainWidget.add(label);
+			mainWidget.add(getLabel());
 			mainWidget.add(getListBox());
 			
 			getListBox().addChangeHandler(new ChangeHandler(){
@@ -294,7 +297,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 		@Override
         public void setLabels() {
-			label.setText(getTitle());
+			getLabel().setText(getTitle());
 
 			int idx = getListBox().getSelectedIndex();
 			getListBox().clear();
@@ -316,11 +319,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 		public void setTitle(String title) {
 	        this.title = title;
-	        label.setText(title);
+	        getLabel().setText(title);
         }
 		
 		public ListBox getListBox() {
 	        return listBox;
+        }
+
+		public Label getLabel() {
+	        return label;
+        }
+
+		public void setLabel(Label label) {
+	        this.label = label;
         }
 
 		
@@ -1875,6 +1886,70 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 	
+	private class AnimationSpeedPanel extends ListBoxPanel implements IAnimationSpeedListener {
+		private AutoCompleteTextFieldW tfAnimSpeed;
+		private Label modeLabel;
+		private AnimationSpeedModel model;
+		public AnimationSpeedPanel() {
+	        super(app.getPlain("AnimationSpeed") + ": ");
+	    	model = new AnimationSpeedModel(app, this) ;
+	    	setModel(model);
+	    	modeLabel = new Label();
+
+			InputPanelW inputPanel = new InputPanelW(null, getAppW(), -1, false);
+			tfAnimSpeed = inputPanel.getTextComponent();
+	        FlowPanel mainPanel = new FlowPanel();
+	        mainPanel.add(getLabel());
+	        mainPanel.add(tfAnimSpeed);
+	        mainPanel.add(modeLabel);
+	        mainPanel.add(getListBox());
+	        setWidget(mainPanel);
+
+	        tfAnimSpeed.addKeyHandler(new KeyHandler(){
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						doActionPerformed();	    
+					}
+				}
+
+			});
+
+	        tfAnimSpeed.addFocusListener(new FocusListener(this){
+
+				@Override
+				protected void wrapFocusGained(){
+				}
+				
+				@Override
+				protected void wrapFocusLost(){
+						doActionPerformed();
+				}	
+			});
+
+		}
+		
+		private void doActionPerformed() {
+			NumberValue animSpeed = 
+				kernel.getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);
+			if (animSpeed != null) {
+				model.applySpeedChanges(animSpeed);
+			}
+			
+		}
+
+		@Override
+		public void setLabels() {
+			super.setLabels();
+			modeLabel.setText(app.getPlain("Repeat") + ": ");
+		}
+
+		public void setText(String text) {
+			tfAnimSpeed.setText(text);
+        }
+		
+	}
+	
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -2067,7 +2142,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				Arrays.asList((OptionPanel)coordsPanel,
 				lineEqnPanel,
 				conicEqnPanel,
-				new AnimationStepPanel()
+				new AnimationStepPanel(),
+				new AnimationSpeedPanel()
 		));
 		
 		return tab;
