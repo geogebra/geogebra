@@ -321,7 +321,7 @@ public class ModeToggleMenu extends MenuBar{
 		}
 		
 		private void updateCanvas(int mode) {
-			final Image image = new Image(GGWToolBar.getImageURL(mode));
+			final Image image = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
 			ImageElement imageElement = (ImageElement) image.getElement().cast();
 			imgElement = imageElement;
 			attachNativeLoadHandler(imageElement);

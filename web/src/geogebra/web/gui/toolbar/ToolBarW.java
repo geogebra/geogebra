@@ -72,7 +72,7 @@ public class ToolBarW extends MenuBar {
 	}
 
 	/**
-	 * Initialisation of the ToolBar object
+	 * Initialization of the ToolBar object
 	 * 
 	 * @param app1 application
 	 */
@@ -211,7 +211,7 @@ public class ToolBarW extends MenuBar {
 					if (!"".equals(app.getToolName(addMode))) {
 						ScheduledCommand com = null;
 						String item_text = "<table><tr><td>"
-						        + GGWToolBar.getImageHtml(addMode)
+						        + ((GGWToolBar)app.getToolbar()).getImageHtml(addMode)
 						        + "</td><td><span class=\"toolbar_menuitem_label\">"
 						        + app.getToolName(addMode)
 						        + "</span></td></tr></table>";

@@ -273,6 +273,9 @@ public interface MyIconResourceBundle extends ClientBundle{
 
 	@Source("mode_textfieldaction_32.gif")
 	ImageResource mode_textfieldaction_32();
+	
+	@Source("mode_tool_32.png")
+	ImageResource mode_tool_32();	
 
 	@Source("mode_translatebyvector_32.gif")
 	ImageResource mode_translatebyvector_32();

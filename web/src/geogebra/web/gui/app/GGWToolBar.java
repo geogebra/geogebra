@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
@@ -178,25 +179,41 @@ public class GGWToolBar extends Composite {
 	 * @param mode
 	 * @return HTML fragment
 	 */
-	public static String getImageHtml(int mode){
+	public String getImageHtml(int mode){
 		String url = getImageURL(mode);
 		return (url.length()>0) ? "<img src=\""+url+"\">" : "";
 	}
 	
 	
-	public static String getImageURL(int mode) {
+	public String getImageURL(int mode) {
+		
 
 //		String modeText = app.getKernel().getModeText(mode);
 //		// bugfix for Turkish locale added Locale.US
 //		String iconName = "mode_" +StringUtil.toLowerCase(modeText)
 //				+ "_32";
-//	
-		
-		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-			return myIconResourceBundle.mode_point_32().getSafeUri().asString();
-		}
+//
 
+		// macro
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
+			try {
+				Macro macro = app.getKernel().getMacro(macroID);
+				String iconName = macro.getIconFileName();
+				if (iconName == null || iconName.length()==0) {
+					// default icon
+					return myIconResourceBundle.mode_tool_32().getSafeUri().asString();
+				}
+				// use image as icon
+				Image img = new Image(((geogebra.html5.util.ImageManager)app.getImageManager()).getExternalImageSrc(iconName));
+				return img.getUrl();
+			} catch (Exception e) {
+				App.debug("macro does not exist: ID = " + macroID);
+				return "";
+			}
+		}
+		
+		
 		switch (mode) {
 
 		case EuclidianConstants.MODE_ANGLE:

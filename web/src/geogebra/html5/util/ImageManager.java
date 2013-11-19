@@ -56,6 +56,10 @@ public class ImageManager extends AbstractImageManager {
 	   }
     }
 	
+	public String getExternalImageSrc(String fileName){
+		return externalImageSrcs.get(fileName);
+	}
+	
 	protected void checkIfAllLoaded() {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
