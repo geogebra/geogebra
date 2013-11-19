@@ -990,13 +990,21 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 			tempLine = new GeoLine(cons);			
 		}
 		
-		// set line passing through intersection points (e.g. of two circles)
-	    double m1 = c1.matrix[0]; // use these factors for proportional matrices
-	    double m2 = c2.matrix[0];	    
+	    // set line passing through intersection points (e.g. of two circles)
+
+	    // find the proportionnal factor
+	    double m2 = Double.NaN;
+	    for (int i = 0; i < 6 && Double.isNaN(m2); i++){
+	    	double m1 = c1.matrix[i]; 
+	    	if (!Kernel.isZero(m1, eps)){
+	    		m2 = Math.abs(c2.matrix[i])/m1;	
+	    	}
+	    }
+	    
 	    tempLine.setCoords(        			
-				2*(c1.matrix[4]*m2 - c2.matrix[4]*m1),
-				2*(c1.matrix[5]*m2 - c2.matrix[5]*m1),
-				c1.matrix[2]*m2 - c2.matrix[2]*m1);
+				2*(c1.matrix[4]*m2 - c2.matrix[4]),
+				2*(c1.matrix[5]*m2 - c2.matrix[5]),
+				c1.matrix[2]*m2 - c2.matrix[2]);
 		        	        	        	
 		// try first conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points,eps);        	
