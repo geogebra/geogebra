@@ -227,7 +227,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		
 		//check if coord sys are incident
 		Coords cross = csA.getNormal().crossProduct(csB.getNormal());
-		if (!cross.equalsForKernel(0,  Kernel.MIN_PRECISION)){	//line intersection
+		if (!cross.equalsForKernel(0,  Kernel.MIN_PRECISION)){	//not same plane
 			Coords[] intersection = CoordMatrixUtil.intersectPlanes(A.getCoordSys().getMatrixOrthonormal(), B.getCoordSys().getMatrixOrthonormal());
 			Coords op = csA.getNormalProjection(intersection[0])[1];
 			Coords dp = csA.getNormalProjection(intersection[1])[1];		
@@ -256,25 +256,30 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			else
 				setPointsUndefined();
 				*/
-		}else{//line parallel to conic coord sys
+		}else{ // parallel plane
+
 			Coords op = csA.getNormalProjection(csB.getOrigin())[1];
 			if (!Kernel.isZero(op.getZ())){//coord sys strictly parallel
 				setPointsUndefined(P); //TODO infinite points ?
 			}else{//coord sys included
+				
 				setPointsUndefined(P);
 				
 				CoordMatrix BtoA = 
 					REDUCE_DIM.mul(
 							csB.getMatrixOrthonormal().inverse().mul(csA.getMatrixOrthonormal())).mul(
 									AUGMENT_DIM);
-				//Application.debug(BtoA);
+				//App.debug("\nBtoA=\n"+BtoA);
 				
 				CoordMatrix sB = B.getSymetricMatrix();
 				CoordMatrix sBinA = BtoA.transposeCopy().mul(sB).mul(BtoA);
-				//Application.debug("sym=\n"+sB+"\ninA\n"+sBinA);
+				//App.debug(/*"\ncsA=\n"+csA.getMatrixOrthonormal()+"\ncsB=\n"+csB.getMatrixOrthonormal()+*/"\nsym=\n"+sB+"\ninA\n"+sBinA);
+				
+				
 				
 				A2d.setMatrix(A.getMatrix());
 				B2d.setMatrix(sBinA);
+				//App.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
 				algo2d.intersectConics(A2d, B2d, points2d);
 				
 				for(int i=0; i<4; i++)
