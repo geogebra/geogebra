@@ -750,6 +750,10 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         return foundPoint;        
     }
     
+    final private double crossProduct(double a1, double a2, double b1, double b2){
+    	return a1 * b2 - a2 * b1;
+    }
+    
     /**
      * Caculates the intersection points of the conic sections A and B.
      */      
@@ -763,13 +767,14 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
        
         double [] flatDeg = new double[6]; // flat matrix of degenerate conic                
                 
-        // test wheter conics A and B have same submatrix S
+        // test wheter conics A and B have proportional submatrix S
         // => degnerate is single line
         // (e.g. for circles)
-        if ( (Math.abs(A.matrix[0] - B.matrix[0]) <= eps) &&
-             (Math.abs(A.matrix[1] - B.matrix[1]) <= eps) &&
-             (Math.abs(A.matrix[3] - B.matrix[3]) <= eps) ) 
+        
+        if ( crossProduct(A.matrix[0], A.matrix[1], B.matrix[0], B.matrix[1]) < eps &&
+        		crossProduct(A.matrix[0], A.matrix[3], B.matrix[0], B.matrix[3]) < eps) 
         {
+        	
         	/*
             //sol[0] = -1.0;            
             // set single line matrix
@@ -814,7 +819,8 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         }        
         normalizeArray(flatA);
         normalizeArray(flatB);
-                                          
+         
+        
         // compute coefficients of cubic equation        
         // sol[0] + sol[1] x + sol[2] x^2 + sol[3] x^3 = 0        
         // constant
@@ -984,10 +990,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 		}
 		
 		// set line passing through intersection points (e.g. of two circles)
+	    double m1 = c1.matrix[0]; // use these factors for proportional matrices
+	    double m2 = c2.matrix[0];	    
 	    tempLine.setCoords(        			
-				2*(c1.matrix[4] - c2.matrix[4]),
-				2*(c1.matrix[5] - c2.matrix[5]),
-				c1.matrix[2] - c2.matrix[2]);
+				2*(c1.matrix[4]*m2 - c2.matrix[4]*m1),
+				2*(c1.matrix[5]*m2 - c2.matrix[5]*m1),
+				c1.matrix[2]*m2 - c2.matrix[2]*m1);
 		        	        	        	
 		// try first conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points,eps);        	
