@@ -74,6 +74,8 @@ implements Previewable {
 	
 	private int longitude = 0;
 	
+	private double scale;
+	
 	private boolean checkVisible = false;
 	
 	
@@ -123,7 +125,8 @@ implements Previewable {
 			if(checkVisible){
 				surface = renderer.getGeometryManager().getSurface();
 				surface.start();
-				longitude = surface.drawSphere(center, radius, getView3D().getScale());
+				scale = getView3D().getScale();
+				longitude = surface.drawSphere(center, radius, scale);
 				setSurfaceIndex(surface.end());		
 			}else{
 				setSurfaceIndex(-1);	
@@ -211,15 +214,16 @@ implements Previewable {
 		
 		switch(quadric.getType()){
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-			if ((!checkVisible && getView3D().viewChangedByTranslate()) || getView3D().viewChangedByZoom()){
+			if (getView3D().viewChangedByZoom()){
 				Renderer renderer = getView3D().getRenderer();		
-				PlotterSurface surface;
-
-				surface = renderer.getGeometryManager().getSurface();
+				PlotterSurface surface = renderer.getGeometryManager().getSurface();
 				
+				double s = scale;
+				scale = getView3D().getScale();
 				// check if longitude length changes
-				int l = surface.calcSphereLongitudesNeeded(quadric.getHalfAxis(0), getView3D().getScale());
-				if (!checkVisible || l != longitude){
+				int l = surface.calcSphereLongitudesNeeded(quadric.getHalfAxis(0), scale);
+				// redraw if sphere was not visible, or if new longitude length, or if negative zoom occured
+				if (!checkVisible || l != longitude || scale < s){
 					Coords center = quadric.getMidpoint3D();
 					double radius = quadric.getHalfAxis(0);
 					checkVisible = checkSphereVisible(center, radius);
@@ -233,8 +237,23 @@ implements Previewable {
 					}else{
 						setSurfaceIndex(-1);
 					}
+				}							
+			}else if (getView3D().viewChangedByTranslate()){
+				Renderer renderer = getView3D().getRenderer();		
+				PlotterSurface surface = renderer.getGeometryManager().getSurface();				
+				
+				Coords center = quadric.getMidpoint3D();
+				double radius = quadric.getHalfAxis(0);
+				checkVisible = checkSphereVisible(center, radius);
+				if(checkVisible){
+					surface.start();
+					surface.drawSphere(center, radius, longitude);
+					setSurfaceIndex(surface.end());
+					recordTrace();
+				}else{
+					setSurfaceIndex(-1);
 				}
-							
+					
 			}
 			break;
 		case GeoQuadricNDConstants.QUADRIC_CONE:
