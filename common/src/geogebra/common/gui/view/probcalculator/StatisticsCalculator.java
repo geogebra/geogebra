@@ -100,5 +100,7 @@ public abstract class StatisticsCalculator {
 	public StatisticsCollection getStatististicsCollection() {
 		return sc;
 	}
+	
+	public abstract void updateResult();
 
 }

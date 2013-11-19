@@ -1,8 +1,10 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
@@ -192,11 +194,11 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 		buildProbCalcPanel();
 		isIniting = false;
 
-		statCalculator = new StatisticsCalculator(app);
+		statCalculator = new StatisticsCalculatorD(app);
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(loc.getMenu("Distribution"), probCalcPanel);
-		tabbedPane.addTab(loc.getMenu("Statistics"), statCalculator.getWrappedPanel());
+		tabbedPane.addTab(loc.getMenu("Statistics"), ((StatisticsCalculatorD) statCalculator).getWrappedPanel());
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
@@ -1203,7 +1205,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 		lblProb.setFont(((AppD) app).getItalicFont());
 		plotPanel.updateFonts();
 		table.updateFonts(font);
-		statCalculator.updateFonts(font);
+		((StatisticsCalculatorD) statCalculator).updateFonts(font);
 
 	}
 
@@ -1735,7 +1737,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 
 		tabbedPane.setTitleAt(0, loc.getMenu("Distribution"));
 
-		statCalculator.setLabels();
+		((SetLabels) statCalculator).setLabels();
 		tabbedPane.setTitleAt(1, loc.getMenu("Statistics"));
 
 		setLabelArrays();

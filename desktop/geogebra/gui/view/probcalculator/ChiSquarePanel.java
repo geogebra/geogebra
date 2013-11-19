@@ -1,7 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
-import geogebra.common.gui.view.probcalculator.StatisticsCalculatorProcessor;
 import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
@@ -31,18 +31,12 @@ import javax.swing.JTextField;
  * @author G. Sturr
  * 
  */
-public class ChiSquarePanel extends JPanel implements ActionListener,
+public class ChiSquarePanel extends geogebra.common.gui.view.probcalculator.ChiSquarePanel implements ActionListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
-	// ======================================
-	// GeoGebra fields
-	// ======================================
-	private AppD app;
-	private StatisticsCalculator statCalc;
-	private StatisticsCalculatorProcessor statProcessor;
-	private StatisticsCollection sc;
+	
 
 	// ======================================
 	// GUI components
@@ -54,6 +48,10 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 	private JLabel lblRows, lblColumns;
 
 	private boolean showColumnMargin;
+
+
+
+	private JPanel wrappedPanel;
 
 	/**
 	 * @param app
@@ -90,6 +88,8 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 	}
 
 	private void createGUI() {
+		
+		this.wrappedPanel = new JPanel();
 
 		createGUIElements();
 		createCountPanel();
@@ -99,10 +99,10 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 		p.add(pnlCount, BorderLayout.NORTH);
 		p.setBackground(null);
 
-		setLayout(new BorderLayout());
-		add(pnlControl, BorderLayout.NORTH);
-		add(p, BorderLayout.CENTER);
-		setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		wrappedPanel.setLayout(new BorderLayout());
+		wrappedPanel.add(pnlControl, BorderLayout.NORTH);
+		wrappedPanel.add(p, BorderLayout.CENTER);
+		wrappedPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
 	}
 
@@ -142,9 +142,9 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 
 		pnlControl = new JPanel();
 		pnlControl.setLayout(new BoxLayout(pnlControl, BoxLayout.Y_AXIS));
-		pnlControl.add(add(LayoutUtil.flowPanel(lblRows, cbRows, lblColumns,
+		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(lblRows, cbRows, lblColumns,
 				cbColumns)));
-		pnlControl.add(add(LayoutUtil.flowPanel(ckRowPercent, ckColPercent,
+		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(ckRowPercent, ckColPercent,
 				ckExpected, ckChiDiff)));
 	}
 
@@ -234,8 +234,8 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 
 		createCountPanel();
 		setLabels();
-		revalidate();
-		repaint();
+		wrappedPanel.revalidate();
+		wrappedPanel.repaint();
 	}
 
 	private void updateVisibility() {
@@ -398,7 +398,7 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 			setOpaque(true);
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-			fldInput = new MyTextField(app);
+			fldInput = new MyTextField((AppD) app);
 			fldInput.addActionListener(this);
 			fldInput.addFocusListener(this);
 			add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));
@@ -532,7 +532,16 @@ public class ChiSquarePanel extends JPanel implements ActionListener,
 			statCalc.updateResult();
 
 		}
+		
+		
 
+	}
+	
+	/**
+	 * @return the GUI wrapper panel
+	 */
+	public JPanel getWrappedPanel() {
+		return wrappedPanel;
 	}
 
 }

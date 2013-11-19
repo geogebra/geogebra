@@ -41,7 +41,7 @@ import javax.swing.text.html.StyleSheet;
  * @author G. Sturr
  * 
  */
-public class StatisticsCalculator extends geogebra.common.gui.view.probcalculator.StatisticsCalculator implements ActionListener,
+public class StatisticsCalculatorD extends geogebra.common.gui.view.probcalculator.StatisticsCalculator implements ActionListener,
 		FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
@@ -91,7 +91,7 @@ public class StatisticsCalculator extends geogebra.common.gui.view.probcalculato
 	 * 
 	 * @param app
 	 */
-	public StatisticsCalculator(AppD app) {
+	public StatisticsCalculatorD(AppD app) {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
 		kernel = cons.getKernel();
@@ -133,7 +133,7 @@ public class StatisticsCalculator extends geogebra.common.gui.view.probcalculato
 		procedurePanel
 				.setLayout(new BoxLayout(procedurePanel, BoxLayout.Y_AXIS));
 		procedurePanel.add(panelBasicProcedures);
-		procedurePanel.add(panelChiSquare);
+		procedurePanel.add(panelChiSquare.getWrappedPanel());
 		procedurePanel.add(Box.createVerticalStrut(20));
 		procedurePanel.add(resultPanel);
 		procedurePanel.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
@@ -657,13 +657,13 @@ public class StatisticsCalculator extends geogebra.common.gui.view.probcalculato
 	private void setPanelLayout() {
 
 		panelBasicProcedures.setVisible(false);
-		panelChiSquare.setVisible(false);
+		panelChiSquare.getWrappedPanel().setVisible(false);
 
 		switch (selectedProcedure) {
 
 		case CHISQ_TEST:
 		case GOF_TEST:
-			panelChiSquare.setVisible(true);
+			panelChiSquare.getWrappedPanel().setVisible(true);
 			panelChiSquare.updateGUI();
 			break;
 
@@ -674,6 +674,7 @@ public class StatisticsCalculator extends geogebra.common.gui.view.probcalculato
 
 	}
 
+	@Override
 	public void updateResult() {
 
 		updateStatisticCollection();
