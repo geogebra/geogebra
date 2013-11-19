@@ -370,7 +370,7 @@ __GGB__keysVar.pt_PT.command = {
     "HyperGeometric_SyntaxCAS": "[ <Tamanho da Popula\xe7\xe3o>, <N\xfamero de Sucessos>, <Tamanho da Amostra>, <Valor da Vari\xe1vel>, <Acumulada (true | false)> ]",
     "Hyperbola": "Hip\xe9rbole",
     "Hyperbola_Syntax": "[ <Foco>, <Foco>, <Semieixo Maior (Medida)> ]\n[ <Foco>, <Foco>, <Semieixo Maior (Segmento)> ]\n[ <Foco>, <Foco>, <Ponto> ]",
-    "IFactor": "IFatoriza",
+    "IFactor": "FatorizaI",
     "IFactor_Syntax": "[ <Polinomial> ]",
     "IFactor_SyntaxCAS": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
     "Icosahedron": "Icosaedro",
