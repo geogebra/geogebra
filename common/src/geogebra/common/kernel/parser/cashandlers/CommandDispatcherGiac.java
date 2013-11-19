@@ -3,6 +3,7 @@ package geogebra.common.kernel.parser.cashandlers;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.GetItem;
@@ -350,18 +351,23 @@ public class CommandDispatcherGiac {
 			case diff:
 				// e.g. diff(f(var),var) from Giac becomes f'(var)
 				// see http://www.geogebra.org/trac/ticket/1420
+				
 				String expStr = args.getItem(0).toString(tpl);
 				int nameEnd = expStr.indexOf('(');
 				String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
 						: expStr;
-
+				ExpressionValue diffArg = new MyDouble(args.getItem(0).getKernel(),Double.NaN);
+				if(args.getItem(0).unwrap() instanceof Command){
+					diffArg = ((Command)args.getItem(0).unwrap()).getArgument(0);
+				}
+				Log.debug(args.getItem(0));
 				// derivative of f gives f'
 				ExpressionNode derivative = new ExpressionNode(kernel,
 						new Variable(kernel, funLabel), // function label "f"
 						Operation.DERIVATIVE, new MyDouble(kernel, 1));
 				// function of given variable gives f'(t)
 				ret = new ExpressionNode(kernel, derivative,
-						Operation.FUNCTION, args.getItem(1)); // Variable
+						Operation.FUNCTION, diffArg); // Variable
 				// "t"
 				break;
 			}
@@ -373,7 +379,7 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			App.error("CommandDispatcherGiac: error when processing command: "
 					+ cmdName + ", " + args);
 		}
