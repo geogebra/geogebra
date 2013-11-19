@@ -750,8 +750,8 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         return foundPoint;        
     }
     
-    final private double crossProduct(double a1, double a2, double b1, double b2){
-    	return a1 * b2 - a2 * b1;
+    static final private double absCrossProduct(double a1, double a2, double b1, double b2){
+    	return Math.abs(a1 * b2 - a2 * b1);
     }
     
     /**
@@ -771,8 +771,9 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         // => degnerate is single line
         // (e.g. for circles)
         
-        if ( crossProduct(A.matrix[0], A.matrix[1], B.matrix[0], B.matrix[1]) < eps &&
-        		crossProduct(A.matrix[0], A.matrix[3], B.matrix[0], B.matrix[3]) < eps) 
+        if ( absCrossProduct(A.matrix[0], A.matrix[1], B.matrix[0], B.matrix[1]) < eps &&
+        		absCrossProduct(A.matrix[0], A.matrix[3], B.matrix[0], B.matrix[3]) < eps &&
+        		absCrossProduct(A.matrix[1], A.matrix[3], B.matrix[1], B.matrix[3]) < eps) 
         {
         	
         	/*
