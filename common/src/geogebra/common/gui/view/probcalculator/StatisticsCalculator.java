@@ -103,4 +103,58 @@ public abstract class StatisticsCalculator {
 	
 	public abstract void updateResult();
 
+	protected void combolabelsPreprocess() {
+		if (mapNameToProcedure == null) {
+			mapNameToProcedure = new HashMap<String, Procedure>();
+		}
+		if (mapProcedureToName == null) {
+			mapProcedureToName = new HashMap<Procedure, String>();
+		}
+	
+		mapNameToProcedure.clear();
+		mapProcedureToName.clear();
+	
+		mapNameToProcedure.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		mapNameToProcedure.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		mapNameToProcedure.put(app.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
+		mapNameToProcedure
+				.put(app.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
+		mapNameToProcedure
+				.put(app.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
+		mapNameToProcedure.put(app.getMenu("ZTestDifferenceOfMeans"),
+				Procedure.ZMEAN2_TEST);
+		mapNameToProcedure.put(app.getMenu("TTestDifferenceOfMeans"),
+				Procedure.TMEAN2_TEST);
+		mapNameToProcedure.put(app.getMenu("ZEstimateDifferenceOfMeans"),
+				Procedure.ZMEAN2_CI);
+		mapNameToProcedure.put(app.getMenu("TEstimateDifferenceOfMeans"),
+				Procedure.TMEAN2_CI);
+		mapNameToProcedure.put(app.getMenu("ZProportionTest"),
+				Procedure.ZPROP_TEST);
+		mapNameToProcedure.put(app.getMenu("ZProportionInterval"),
+				Procedure.ZPROP_CI);
+		mapNameToProcedure.put(app.getMenu("ZTestDifferenceOfProportions"),
+				Procedure.ZPROP2_TEST);
+		mapNameToProcedure.put(app.getMenu("ZEstimateDifferenceOfProportions"),
+				Procedure.ZPROP2_CI);
+		mapNameToProcedure.put(app.getMenu("GoodnessOfFitTest"),
+				Procedure.GOF_TEST);
+		mapNameToProcedure.put(app.getMenu("ChiSquaredTest"),
+				Procedure.CHISQ_TEST);
+	
+		for (String s : mapNameToProcedure.keySet()) {
+			this.mapProcedureToName.put(mapNameToProcedure.get(s), s);
+		}
+	}
+
+	protected void setLabelStrings() {
+	
+		strMean = app.getMenu("Mean");
+		strSD = app.getMenu("SampleStandardDeviation.short");
+		strSigma = app.getMenu("StandardDeviation.short");
+		strSuccesses = app.getMenu("Successes");
+		strN = app.getMenu("N");
+		strPooled = app.getMenu("Pooled");
+	}
+
 }

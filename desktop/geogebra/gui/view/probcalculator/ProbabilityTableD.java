@@ -1,6 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.gui.view.data.StatTable;
 import geogebra.main.AppD;
@@ -17,11 +18,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-public class ProbabilityTable extends JPanel  implements ListSelectionListener{
+public class ProbabilityTableD extends ProbabilityTable  implements ListSelectionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	private AppD app;
+	
 	private ProbabilityCalculator probCalc;
 	private ProbabilityManager probManager;
 	private StatTable statTable;
@@ -31,14 +32,18 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	private int xMin, xMax;
 	private boolean isIniting;
 	private double[] parms;
+
+	private JPanel wrappedPanel;
 	
 	
-	public ProbabilityTable(AppD app, ProbabilityCalculator probCalc){
+	public ProbabilityTableD(AppD app, ProbabilityCalculator probCalc){
 		this.app = app;
 		this.probCalc = probCalc;
 		this.probManager = probCalc.getProbManager();
+		
+		this.wrappedPanel = new JPanel();
 
-		setLayout(new BorderLayout());
+		wrappedPanel.setLayout(new BorderLayout());
 		statTable = new StatTable(app);
 		statTable.getTable().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		statTable.getTable().setColumnSelectionAllowed(false);
@@ -52,10 +57,10 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 
 
-		add(statTable, BorderLayout.CENTER);
+		wrappedPanel.add(statTable, BorderLayout.CENTER);
 
 		statTable.getTable().setPreferredScrollableViewportSize(new Dimension(125,10));
-		this.setMinimumSize(statTable.getPreferredSize());
+		wrappedPanel.setMinimumSize(statTable.getPreferredSize());
 
 	}
 
@@ -89,7 +94,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 			row++;
 		}
 
-		updateFonts(app.getPlainFont());
+		updateFonts(((AppD) app).getPlainFont());
 		
 		// need to get focus so that the table will finish resizing columns (not sure why)
 		statTable.getTable().requestFocus();
@@ -110,7 +115,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 		int w = statTable.getTable().getColumnModel().getTotalColumnWidth();
 		statTable.getTable().setPreferredScrollableViewportSize(new Dimension(w+10,10));
-		this.setMinimumSize(statTable.getPreferredSize());
+		wrappedPanel.setMinimumSize(statTable.getPreferredSize());
 
 	}
 
@@ -193,7 +198,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	}
 
 
-
+	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue){
 
 		//if(!probManager.isDiscrete(distType)) 
@@ -216,12 +221,19 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 				statTable.getTable().changeSelection(lowIndex,0, false,false);
 				statTable.getTable().changeSelection(highIndex,0, false,true);
 			}
-			repaint();
+			wrappedPanel.repaint();
 			statTable.getTable().getSelectionModel().addListSelectionListener(this);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @return the wrapped panel
+	 */
+	public JPanel getWrappedPanel() {
+		return wrappedPanel;
 	}
 
 

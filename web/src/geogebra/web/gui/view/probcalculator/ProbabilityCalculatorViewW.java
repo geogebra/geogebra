@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.probcalculator;
 
+import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.web.main.AppW;
 
@@ -41,5 +42,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView {
 	public FlowPanel getWrapperPanel() {
 		return wrappedPanel;
 	}
+
+	@Override
+    public void updateAll() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected void plotPanelUpdateSettings(PlotSettings settings) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

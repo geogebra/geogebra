@@ -1,6 +1,7 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;

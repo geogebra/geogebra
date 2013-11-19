@@ -1,5 +1,6 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.gui.view.data.DataVariable.GroupType;
 
 

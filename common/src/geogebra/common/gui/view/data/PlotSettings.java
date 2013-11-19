@@ -1,4 +1,4 @@
-package geogebra.gui.view.data;
+package geogebra.common.gui.view.data;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
 
