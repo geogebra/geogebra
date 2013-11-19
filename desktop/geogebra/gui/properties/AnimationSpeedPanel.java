@@ -78,6 +78,7 @@ public class AnimationSpeedPanel
 		
 		int selectedIndex = animationModeCB.getSelectedIndex();
 		animationModeCB.removeActionListener(this);
+		animationModeCB.removeAllItems();
 		model.fillModes(app.getLocalization());
 		animationModeCB.setSelectedIndex(selectedIndex);
 		animationModeCB.addActionListener(this);
