@@ -3,7 +3,7 @@ package geogebra.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
-import geogebra.gui.view.probcalculator.ProbabilityCalculator;
+import geogebra.gui.view.probcalculator.ProbabilityCalculatorViewD;
 
 import javax.swing.JComponent;
 
@@ -33,7 +33,7 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return ((ProbabilityCalculator) app.getGuiManager().getProbabilityCalculator()).getWrapperPanel();
+		return ((ProbabilityCalculatorViewD) app.getGuiManager().getProbabilityCalculator()).getWrapperPanel();
 	}
 
 	@Override

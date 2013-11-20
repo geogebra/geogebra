@@ -76,7 +76,7 @@ public class StatisticsCalculatorD extends geogebra.common.gui.view.probcalculat
 	// panels
 	private JPanel panelBasicProcedures, panelControl, panelSample1,
 			panelSample2, panelTestAndCI;
-	private ChiSquarePanel panelChiSquare;
+	private ChiSquarePanelD panelChiSquare;
 	private JEditorPane resultPane;
 	private JScrollPane scroller;
 
@@ -117,7 +117,7 @@ public class StatisticsCalculatorD extends geogebra.common.gui.view.probcalculat
 		createGUIElements();
 		createControlPanel();
 		setInputPanelLayout();
-		panelChiSquare = new ChiSquarePanel((AppD) app, this);
+		panelChiSquare = new ChiSquarePanelD((AppD) app, this);
 
 		// prepare result panel
 		resultPane.setBorder(BorderFactory.createCompoundBorder(

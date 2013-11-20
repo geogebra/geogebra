@@ -59,7 +59,7 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class ProbabilityCalculator extends ProbabilityCalcualtorView implements
+public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implements
 		ActionListener, FocusListener, ChangeListener, SettingListener {
 
 	private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements
 	 * 
 	 * @param app
 	 */
-	public ProbabilityCalculator(AppD app) {
+	public ProbabilityCalculatorViewD(AppD app) {
 		super(app);
 		isIniting = true;
 		

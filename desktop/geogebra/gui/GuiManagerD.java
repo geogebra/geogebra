@@ -70,7 +70,7 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
 import geogebra.gui.view.data.DataAnalysisViewD;
 import geogebra.gui.view.data.PlotPanelEuclidianView;
-import geogebra.gui.view.probcalculator.ProbabilityCalculator;
+import geogebra.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -159,7 +159,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private LayoutD layout;
 	private final AppD app;
 
-	private ProbabilityCalculator probCalculator;
+	private ProbabilityCalculatorViewD probCalculator;
 
 	private DataAnalysisViewD dataView;
 	
@@ -479,10 +479,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return true;
 	}
 
-	public ProbabilityCalculator getProbabilityCalculator() {
+	public ProbabilityCalculatorViewD getProbabilityCalculator() {
 
 		if (probCalculator == null)
-			probCalculator = new ProbabilityCalculator(app);
+			probCalculator = new ProbabilityCalculatorViewD(app);
 		return probCalculator;
 	}
 

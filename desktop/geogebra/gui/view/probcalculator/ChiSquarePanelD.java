@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  * @author G. Sturr
  * 
  */
-public class ChiSquarePanel extends geogebra.common.gui.view.probcalculator.ChiSquarePanel implements ActionListener,
+public class ChiSquarePanelD extends geogebra.common.gui.view.probcalculator.ChiSquarePanel implements ActionListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
@@ -57,7 +57,7 @@ public class ChiSquarePanel extends geogebra.common.gui.view.probcalculator.ChiS
 	 * @param app
 	 * @param statCalc
 	 */
-	public ChiSquarePanel(AppD app, StatisticsCalculator statCalc) {
+	public ChiSquarePanelD(AppD app, StatisticsCalculator statCalc) {
 
 		this.app = app;
 		this.statCalc = statCalc;

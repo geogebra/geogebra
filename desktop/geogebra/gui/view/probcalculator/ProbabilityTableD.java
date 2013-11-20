@@ -23,7 +23,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 	private static final long serialVersionUID = 1L;
 	
 	
-	private ProbabilityCalculator probCalc;
+	private ProbabilityCalculatorViewD probCalc;
 	private ProbabilityManager probManager;
 	private StatTable statTable;
 
@@ -36,7 +36,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 	private JPanel wrappedPanel;
 	
 	
-	public ProbabilityTableD(AppD app, ProbabilityCalculator probCalc){
+	public ProbabilityTableD(AppD app, ProbabilityCalculatorViewD probCalc){
 		this.app = app;
 		this.probCalc = probCalc;
 		this.probManager = probCalc.getProbManager();
@@ -145,7 +145,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 		// exit if initing or nothing selected
 		if(isIniting || selRow.length == 0) return;
 
-		if(probCalc.getProbMode() == ProbabilityCalculator.PROB_INTERVAL){	
+		if(probCalc.getProbMode() == ProbabilityCalculatorViewD.PROB_INTERVAL){	
 			//System.out.println(Arrays.toString(selectedRow));
 			String lowStr = (String) table.getModel().getValueAt(selRow[0], 0);
 			String highStr = (String) table.getModel().getValueAt(selRow[selRow.length-1], 0);
@@ -154,7 +154,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 			//System.out.println(low + " , " + high);
 			probCalc.setInterval(low,high);
 		}
-		else if(probCalc.getProbMode() == ProbabilityCalculator.PROB_LEFT){
+		else if(probCalc.getProbMode() == ProbabilityCalculatorViewD.PROB_LEFT){
 			String lowStr = (String) statTable.getTable().getModel().getValueAt(0, 0);
 			String highStr = (String) statTable.getTable().getModel().getValueAt(selRow[selRow.length-1], 0);
 			int low = Integer.parseInt(lowStr);
@@ -177,7 +177,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 			}
 			table.getSelectionModel().addListSelectionListener(this);
 		}
-		else if(probCalc.getProbMode() == ProbabilityCalculator.PROB_RIGHT){
+		else if(probCalc.getProbMode() == ProbabilityCalculatorViewD.PROB_RIGHT){
 			String lowStr = (String) statTable.getTable().getModel().getValueAt(selRow[0], 0);
 			int maxRow = statTable.getTable().getRowCount()-1;
 			String highStr = (String) statTable.getTable().getModel().getValueAt(maxRow, 0);

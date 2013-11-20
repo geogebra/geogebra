@@ -48,7 +48,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 	 * @param probCalc
 	 *            probability calculator
 	 */
-	public ProbabiltyCalculatorStyleBarD(AppD app, ProbabilityCalculator probCalc) {
+	public ProbabiltyCalculatorStyleBarD(AppD app, ProbabilityCalculatorViewD probCalc) {
 		
 		this.wrappedToolbar = new JToolBar();
 		this.probCalc = probCalc;
@@ -70,7 +70,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		btnCumulative.setSelected(probCalc.isCumulative());
 		btnCumulative.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				((ProbabilityCalculator) probCalc).setCumulative(!probCalc.isCumulative());
+				((ProbabilityCalculatorViewD) probCalc).setCumulative(!probCalc.isCumulative());
 			}
 		});
 
@@ -123,7 +123,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 
 		wrappedToolbar.removeAll();
 
-		if (((ProbabilityCalculator) probCalc).isDistributionTabOpen()) {
+		if (((ProbabilityCalculatorViewD) probCalc).isDistributionTabOpen()) {
 			// add(btnRounding);
 			// addSeparator();
 			// add(btnCumulative);
@@ -153,11 +153,11 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 	 */
 	public void updateGUI() {
 
-		btnLineGraph.setVisible(((ProbabilityCalculator) probCalc).getProbManager().isDiscrete(
+		btnLineGraph.setVisible(((ProbabilityCalculatorViewD) probCalc).getProbManager().isDiscrete(
 				probCalc.getSelectedDist()));
-		btnStepGraph.setVisible(((ProbabilityCalculator) probCalc).getProbManager().isDiscrete(
+		btnStepGraph.setVisible(((ProbabilityCalculatorViewD) probCalc).getProbManager().isDiscrete(
 				probCalc.getSelectedDist()));
-		btnBarGraph.setVisible(((ProbabilityCalculator) probCalc).getProbManager().isDiscrete(
+		btnBarGraph.setVisible(((ProbabilityCalculatorViewD) probCalc).getProbManager().isDiscrete(
 				probCalc.getSelectedDist()));
 
 		btnLineGraph.removeActionListener(this);
@@ -166,11 +166,11 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		btnNormalOverlay.removeActionListener(this);
 
 		btnLineGraph
-				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_LINE);
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewD.GRAPH_LINE);
 		btnStepGraph
-				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_STEP);
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewD.GRAPH_STEP);
 		btnBarGraph
-				.setSelected(probCalc.getGraphType() == ProbabilityCalculator.GRAPH_BAR);
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewD.GRAPH_BAR);
 
 		btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
 
@@ -300,7 +300,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 				String decStr = cmd.substring(0, 2).trim();
 				int decimals = Integer.parseInt(decStr);
 				// Application.debug("decimals " + decimals);
-				((ProbabilityCalculator) probCalc).updatePrintFormat(decimals, -1);
+				((ProbabilityCalculatorViewD) probCalc).updatePrintFormat(decimals, -1);
 
 			} catch (Exception ex) {
 				app.showError(e.toString());
@@ -313,7 +313,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 				String decStr = cmd.substring(0, 2).trim();
 				int figures = Integer.parseInt(decStr);
 				// Application.debug("figures " + figures);
-				((ProbabilityCalculator) probCalc).updatePrintFormat(-1, figures);
+				((ProbabilityCalculatorViewD) probCalc).updatePrintFormat(-1, figures);
 
 			} catch (Exception ex) {
 				app.showError(e.toString());
@@ -322,17 +322,17 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 
 		else if (e.getSource() == btnLineGraph) {
 			if (btnLineGraph.isSelected())
-				probCalc.setGraphType(ProbabilityCalculator.GRAPH_LINE);
+				probCalc.setGraphType(ProbabilityCalculatorViewD.GRAPH_LINE);
 		}
 
 		else if (e.getSource() == btnBarGraph) {
 			if (btnBarGraph.isSelected())
-				probCalc.setGraphType(ProbabilityCalculator.GRAPH_BAR);
+				probCalc.setGraphType(ProbabilityCalculatorViewD.GRAPH_BAR);
 		}
 
 		else if (e.getSource() == btnStepGraph) {
 			if (btnStepGraph.isSelected())
-				probCalc.setGraphType(ProbabilityCalculator.GRAPH_STEP);
+				probCalc.setGraphType(ProbabilityCalculatorViewD.GRAPH_STEP);
 		}
 
 		else if (e.getSource() == btnNormalOverlay) {
@@ -342,7 +342,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 
 		
 		else if (e.getSource() == btnExport) {
-			JPopupMenu menu = ((ProbabilityCalculator) probCalc).getPlotPanel().getContextMenu();
+			JPopupMenu menu = ((ProbabilityCalculatorViewD) probCalc).getPlotPanel().getContextMenu();
 			menu.show(btnExport,
 					-menu.getPreferredSize().width + btnExport.getWidth(),
 					btnExport.getHeight());
