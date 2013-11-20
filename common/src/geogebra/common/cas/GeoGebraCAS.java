@@ -173,7 +173,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluate(String exp) throws CASException {
-		return cas.evaluateCAS(exp);
+		return getCurrentCAS().evaluateCAS(exp);
 	}
 
 	// these variables are cached to gain some speed in getPolynomialCoeffs
