@@ -102,9 +102,7 @@ Region3D, GeoDirectionND
 	/** @see #eigenvecX	 */
 	protected double eigenvecY;
 	
-	//int type = -1; // of conic
-	/** maximum absolute value of coeffs in matrix A[]*/
-	protected double maxCoeffAbs; 
+	
 	/** eigenvector-real world transformation*/
 	protected GAffineTransform transform;
 	/** old value of transform */
@@ -1195,7 +1193,7 @@ Region3D, GeoDirectionND
 	 */
 	final private boolean checkDefined() {
 		boolean allZero = true;
-		maxCoeffAbs = 0;		
+		double maxCoeffAbs = 0;		
 		
 		for (int i = 0; i < 6; i++) {
 			if (Double.isNaN(matrix[i]) || Double.isInfinite(matrix[i])) {
@@ -1204,7 +1202,9 @@ Region3D, GeoDirectionND
 				
 			double abs = Math.abs(matrix[i]);			
 			if (abs > Kernel.STANDARD_PRECISION) allZero = false;
-			maxCoeffAbs = maxCoeffAbs > abs ? maxCoeffAbs : abs;			
+			if ((i == 0 || i == 1 || i == 3) && maxCoeffAbs < abs) { // check max only on coeffs x*x, y*y, x*y
+				maxCoeffAbs = abs;
+			}		
 		}
 		if (allZero) {
 			return false;		
