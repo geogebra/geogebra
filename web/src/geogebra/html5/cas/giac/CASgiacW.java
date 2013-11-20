@@ -20,7 +20,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
  */
 public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	
-	private static boolean asyncstarted = false;
+
 	/** kernel */
 	Kernel kernel;
 	/** flag indicating that JS file was loaded */
@@ -119,18 +119,23 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}-*/;
 
 	public void initialize() {
-	    GWT.runAsync(new RunAsyncCallback() {
-			public void onSuccess() {
-				App.debug("giac.js loading success");
-				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs().getText());
-				CASgiacW.this.jsLoaded = true;
-				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-			}
+		if (!JavaScriptInjector.injected(CASResources.INSTANCE.giacJs())) {
+			GWT.runAsync(new RunAsyncCallback() {
+				public void onSuccess() {
+					App.debug("giac.js loading success");
+					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+					CASgiacW.this.jsLoaded = true;
+					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+				}
 
-			public void onFailure(Throwable reason) {
-				App.debug("giac.js loading failure");
-			}
-		});
+				public void onFailure(Throwable reason) {
+					App.debug("giac.js loading failure");
+				}
+			});
+		} else {
+			CASgiacW.this.jsLoaded = true;
+			CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+		}
 	}
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {

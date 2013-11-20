@@ -16,7 +16,7 @@ public class ResourcesInjector {
 
 	public static void injectResources() {
 		// always need English properties available, eg Function.sin
-		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 		
 		String myModuleBase = GWT.getModuleBaseForStaticFiles();
 		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText().
@@ -24,22 +24,22 @@ public class ResourcesInjector {
 		StyleInjector.inject(mathquillcss);
 	
 		//insert zip.js
-		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs());
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
-			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs());
 		}
-		JavaScriptInjector.inject(GuiResources.INSTANCE.arrayBufferJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.arrayBufferJs());
 		//strange, but iPad can blow it away again...
 		if (Browser.checkIfFallbackSetExplicitlyInArrayBufferJs() && Browser.webWorkerSupported) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
-			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs());
 		}
-		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js());
 	}
 
 }

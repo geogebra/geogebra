@@ -1278,8 +1278,7 @@ public abstract class AppW extends AppWeb {
 	@Override
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		if (toolbar) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS()
-			        .getText());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 		}
 		super.setShowToolBar(toolbar, help);
 	}
