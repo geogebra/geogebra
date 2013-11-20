@@ -2818,7 +2818,10 @@ LatexCmds.omega = P(Variable, function(_, _super) {
   };
 });
 
-//why can't anybody FUCKING agree on these
+LatexCmds.checkmark =  
+  bind(Variable,'\\checkmark ','&#x2713;'); 
+
+//why can't anybody agree on these
 LatexCmds.phi = //W3C or Unicode?
   bind(Variable,'\\phi ','&#981;');
 
