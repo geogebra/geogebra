@@ -2,16 +2,13 @@ package geogebra.gui.properties;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
+import geogebra.common.gui.dialog.options.model.SliderModel;
+import geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListener;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.AngleTextField;
-import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.dialog.PropertiesPanelD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
@@ -41,12 +38,14 @@ import javax.swing.SwingConstants;
  * @author Markus Hohenwarter
  */
 public class SliderPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+		ISliderOptionsListener {
 	/**
 	 * 
 	 */
+
 	private static final long serialVersionUID = 1L;
-	private Object[] geos; // currently selected geos
+	private SliderModel model;
 	private AngleTextField tfMin, tfMax;
 	private JTextField tfWidth;
 	private JTextField[] tfields;
@@ -70,6 +69,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		kernel = app.getKernel();
+		model = new SliderModel(app, this);
 		this.propPanel = propPanel;
 		this.useTabbedPane = useTabbedPane;
 		this.includeRandom = includeRandom;
@@ -187,7 +187,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 		tLabels[1].setText(app.getPlain("max") + ":");
 		tLabels[2].setText(app.getPlain("Width") + ":"); 
 		
-		setLabelForWidthUnit();
+		model.setLabelForWidthUnit();
 		
 		
 		stepPanel.setLabels();
@@ -198,115 +198,25 @@ public class SliderPanel extends JPanel implements ActionListener,
 		stepPanel.update(geos);
 		speedPanel.update(geos);
 
-		this.geos = geos;
-		if (!checkGeos(geos)) {
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
 			return null;
 		}
 
-		for (int i = 0; i < tfields.length; i++)
+		for (int i = 0; i < tfields.length; i++) {
 			tfields[i].removeActionListener(this);
+		}
+		
 		coSliderHorizontal.removeActionListener(this);
 		cbSliderFixed.removeActionListener(this);
 		cbRandom.removeActionListener(this);
-
-		// check if properties have same values
-		GeoNumeric temp, num0 = (GeoNumeric) geos[0];
-		boolean equalMax = true;
-		boolean equalMin = true;
-		boolean equalWidth = true;
-		boolean equalSliderFixed = true;
-		boolean random = true;
-		boolean equalSliderHorizontal = true;
-		boolean onlyAngles = true;
-		boolean equalPinned = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoNumeric) geos[i];
-
-			// we don't check isIntervalMinActive, because we want to display
-			// the interval even if it's empty
-			if (num0.getIntervalMinObject() == null
-					|| temp.getIntervalMinObject() == null
-					|| !Kernel.isEqual(num0.getIntervalMin(),
-							temp.getIntervalMin()))
-				equalMin = false;
-			if (num0.getIntervalMaxObject() == null
-					|| temp.getIntervalMaxObject() == null
-					|| !Kernel.isEqual(num0.getIntervalMax(),
-							temp.getIntervalMax()))
-				equalMax = false;
-			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth()))
-				equalWidth = false;
-			if (num0.isSliderFixed() != temp.isSliderFixed())
-				equalSliderFixed = false;
-			if (num0.isRandom() != temp.isRandom())
-				random = false;
-			if (num0.isSliderHorizontal() != temp.isSliderHorizontal())
-				equalSliderHorizontal = false;
-			if (num0.isPinned() != temp.isPinned())
-				equalPinned = false;
-
-			if (!(temp instanceof GeoAngle))
-				onlyAngles = false;
-		}
-
-		StringTemplate highPrecision = StringTemplate.printDecimals(
-				StringType.GEOGEBRA,
-				PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS, false);
-		if (equalMin) {
-			GeoElement min0 = num0.getIntervalMinObject();
-			if (onlyAngles
-					&& (min0 == null || (!min0.isLabelSet() && min0
-							.isIndependent()))) {
-				tfMin.setText(kernel.formatAngle(num0.getIntervalMin(),
-						highPrecision, true).toString());
-			} else
-				tfMin.setText(min0.getLabel(highPrecision));
-		} else {
-			tfMin.setText("");
-		}
-
-		if (equalMax) {
-			GeoElement max0 = num0.getIntervalMaxObject();
-			if (onlyAngles
-					&& (max0 == null || (!max0.isLabelSet() && max0
-							.isIndependent())))
-				tfMax.setText(kernel.formatAngle(num0.getIntervalMax(),
-						highPrecision, true).toString());
-			else
-				tfMax.setText(max0.getLabel(highPrecision));
-		} else {
-			tfMax.setText("");
-		}
 		
-		widthUnit=false;
-		if (equalWidth && equalPinned) {
-			tfWidth.setText(kernel.format(num0.getSliderWidth(), highPrecision));		
-			if (num0.isPinned())
-				widthUnit=true;
-		} else {
-			tfMax.setText("");
-		}
-		
-		setLabelForWidthUnit();
+		model.updateProperties();
 
-		if (equalSliderFixed){
-			cbSliderFixed.setSelected(num0.isSliderFixed());
-		}
-
-		if (random)
-			cbRandom.setSelected(num0.isRandom());
-
-		cbRandom.setVisible(includeRandom);
-
-		if (equalSliderHorizontal) {
-			// TODO why doesn't this work when you create a slider
-			coSliderHorizontal.setSelectedIndex(num0.isSliderHorizontal() ? 0
-					: 1);
-		}
-
-		for (int i = 0; i < tfields.length; i++)
+		for (int i = 0; i < tfields.length; i++) {
 			tfields[i].addActionListener(this);
+		}
+		
 		coSliderHorizontal.addActionListener(this);
 		cbSliderFixed.addActionListener(this);
 		cbRandom.addActionListener(this);
@@ -314,24 +224,8 @@ public class SliderPanel extends JPanel implements ActionListener,
 		return this;
 	}
 	
-	private void setLabelForWidthUnit(){
-		if (widthUnit)
-			lbWidthUnit.setText(app.getMenu("Pixels.short"));
-		else
-			lbWidthUnit.setText("");
-	}
 
-	private static boolean checkGeos(Object[] geos) {
-		boolean geosOK = true;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!(geo.isIndependent() && geo.isGeoNumeric())) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
-	}
+
 
 	/**
 	 * handle textfield changes
@@ -349,33 +243,18 @@ public class SliderPanel extends JPanel implements ActionListener,
 	}
 
 	private void doCheckBoxActionPerformed(JCheckBox source) {
-		boolean fixed = source.isSelected();
-		for (int i = 0; i < geos.length; i++) {
-			GeoNumeric num = (GeoNumeric) geos[i];
-			num.setSliderFixed(fixed);
-			num.updateRepaint();
-		}
-		update(geos);
+		model.applyFixed(source.isSelected());
+		update(model.getGeos());
 	}
 
 	private void doRandomActionPerformed(JCheckBox source) {
-		boolean random = source.isSelected();
-		for (int i = 0; i < geos.length; i++) {
-			GeoNumeric num = (GeoNumeric) geos[i];
-			num.setRandom(random);
-			num.updateRepaint();
-		}
-		update(geos);
+		model.applyRandom(source.isSelected());
+		update(model.getGeos());
 	}
 
 	private void doComboBoxActionPerformed(JComboBox source) {
-		boolean horizontal = source.getSelectedIndex() == 0;
-		for (int i = 0; i < geos.length; i++) {
-			GeoNumeric num = (GeoNumeric) geos[i];
-			num.setSliderHorizontal(horizontal);
-			num.updateRepaint();
-		}
-		update(geos);
+		model.applyDirection(source.getSelectedIndex());
+		update(model.getGeos());
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -388,41 +267,18 @@ public class SliderPanel extends JPanel implements ActionListener,
 					false);
 		}
 
-		if (source == tfMin || source == tfMax) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoNumeric num = (GeoNumeric) geos[i];
-				boolean dependsOnListener = false;
-				GeoElement geoValue = value.toGeoElement();
-				if (num.getMinMaxListeners() != null)
-					for (GeoNumeric listener : num.getMinMaxListeners()) {
-						if (geoValue.isChildOrEqual(listener)) {
-							dependsOnListener = true;
-						}
-					}
-				if (dependsOnListener || geoValue.isChildOrEqual(num)) {
-					app.showError(app.getLocalization().getError("CircularDefinition"));
-				} else {
-					if (source == tfMin) {
-						num.setIntervalMin(value);
-					} else {
-						num.setIntervalMax(value);
-					}
-				}
-				num.updateRepaint();
-
-			}
+		if (source == tfMin) { 
+			model.applyMin(value);
+		} else if (source == tfMax) { 
+			model.applyMax(value);
 		} else if (source == tfWidth) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoNumeric num = (GeoNumeric) geos[i];
-				num.setSliderWidth(value.getDouble());
-				num.updateRepaint();
-			}
+			model.applyWidth(value.getDouble());
 		}
 
 		if (propPanel != null) {
-			propPanel.updateSelection(geos);
+			propPanel.updateSelection(model.getGeos());
 		} else {
-			update(geos);
+			update(model.getGeos());
 		}
 		actionPerforming = false;
 	}
@@ -464,5 +320,37 @@ public class SliderPanel extends JPanel implements ActionListener,
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setMinText(String text) {
+		tfMin.setText(text);
+	}
+
+	public void setMaxText(String text) {
+		tfMax.setText(text);
+	}
+
+	public void setWidthText(String text) {
+		tfWidth.setText(text);
+	}
+
+	public void selectFixed(boolean value) {
+		cbSliderFixed.setSelected(value);
+	}
+
+	public void selectRandom(boolean value) {
+		cbRandom.setSelected(value);
+	}
+
+	public void setRandomVisible(boolean value) {
+		cbRandom.setVisible(value);
+	}
+
+	public void setSliderDirection(int index) {
+		coSliderHorizontal.setSelectedIndex(index);
+	}
+
+	public void setWidthUnitText(String text) {
+		lbWidthUnit.setText(text);
 	}
 }
