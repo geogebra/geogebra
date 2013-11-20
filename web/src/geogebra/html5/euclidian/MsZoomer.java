@@ -2,7 +2,6 @@ package geogebra.html5.euclidian;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.main.App;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 import geogebra.web.euclidian.EuclidianControllerW;
@@ -26,14 +25,17 @@ public class MsZoomer {
 		@Override
         public int mouseEventX(int clientX) {
 			EnvironmentStyleW style = ec.getEnvironmentStyle();
-			App.debug(style+"");
-	        return Math.round(clientX - (1/style.getWidthScale()-1)*style.getxOffset());
+	        return Math.round(clientX + (zoom()-1)*style.getxOffset());
         }
+
+		private native int zoom() /*-{
+	        return $wnd.screen.deviceXDPI / $wnd.screen.logicalXDPI;
+        }-*/;
 
 		@Override
         public int mouseEventY(int clientY) {
 			EnvironmentStyleW style = ec.getEnvironmentStyle();
-			return Math.round(clientY - (1/style.getHeightScale()-1)*style.getyOffset());
+			return Math.round(clientY + (zoom()-1)*style.getyOffset());
         }
 
 		@Override
