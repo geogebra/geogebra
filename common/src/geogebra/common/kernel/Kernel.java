@@ -143,8 +143,17 @@ public class Kernel {
 	protected AlgebraProcessor algProcessor;
 	/** Evaluator for ExpressionNode */
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
-	/** CAS variable handling */
+	
+	/** CAS variable handling 
+	 * 
+	 * must start with a letter before 'x' so that variable ordering works in Giac
+	 * 
+	 * If this is changed, it also needs changing 
+	 * 
+	 * */
 	public static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
+	
+	
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
