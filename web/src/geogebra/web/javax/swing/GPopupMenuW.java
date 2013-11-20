@@ -1,7 +1,6 @@
 package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.AttachedToDOM;
@@ -90,15 +89,14 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 		int left = p.getX();
 		boolean newPoz = false;
 		showAtPoint(p);
-		if (left + popupPanel.getOffsetWidth() > Window.getClientWidth()){
-			left = Window.getClientWidth() - popupPanel.getOffsetWidth();
+		if (left + popupPanel.getOffsetWidth() > Window.getClientWidth() + Window.getScrollLeft()){
+			left = Window.getClientWidth() - popupPanel.getOffsetWidth()+Window.getScrollLeft();
 			newPoz = true;
 		}
-		if (top + popupPanel.getOffsetHeight() > Window.getClientHeight()){
-			top = Window.getClientHeight() - popupPanel.getOffsetHeight();
+		if (top + popupPanel.getOffsetHeight() > Window.getClientHeight() + Window.getScrollTop()){
+			top = Window.getClientHeight() - popupPanel.getOffsetHeight()+ Window.getScrollTop();
 			newPoz = true;
 		}
-		App.debug("top-left: " +top + " " + left);
 		left *= (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier();
 		top *= (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier();
 		if (newPoz) popupPanel.setPopupPosition(left, top);
