@@ -269,6 +269,8 @@ public class AlgoContingencyTable extends AlgoElement {
 		}
 
 		freqValues = new int[rowSum.length][colValues.length];
+		
+		totalSum = 0;
 
 		for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			// row element
