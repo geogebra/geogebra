@@ -167,11 +167,8 @@ public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInte
 		}
 
 		// update input random numbers without label
-		if (randomUnlabeledInput != null) {
-			for (int i = 0; i < randomUnlabeledInput.length; i++) {
-				randomUnlabeledInput[i].updateRandomGeo();
-			}
-		}
+		updateUnlabeledRandomGeos();
+		
 		boolean hadTwinGeo = casCell.hasTwinGeo();
 
 		compute();
