@@ -683,7 +683,7 @@ public class DockManagerW extends DockManager {
 		// euclidian view isn't updated all the time.
 		// TODO What does the resize do which will update the component ?!
 		//app.repaintEuclidianViews(rootPane);
-		rootPane.onResize();
+		//rootPane.onResize();
 		
 	 }
 	
