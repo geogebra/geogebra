@@ -6615,7 +6615,7 @@ public abstract class EuclidianController {
 		stopCollectingMinorRepaints();
 	}
 
-	protected void wrapMouseMoved(AbstractEvent event) {
+	public void wrapMouseMoved(AbstractEvent event) {
 		if (isTextfieldHasFocus()) {
 			return;
 		}
@@ -8491,12 +8491,14 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void wrapMousePressed(AbstractEvent event) {
+	public void wrapMousePressed(AbstractEvent event) {
 		if(this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()
 			&& MyMath.length(event.getX() - lastMouseUpLoc.x,event.getY()- lastMouseUpLoc.y) <= 3){
 			this.doubleClickStarted = true;
 			return;
 		}
+		
+		
 		app.storeUndoInfoIfSetCoordSystemOccured();
 		app.maySetCoordSystem();
 		
@@ -8845,7 +8847,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void wrapMouseReleased(AbstractEvent event){
+	public void wrapMouseReleased(AbstractEvent event){
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
@@ -9239,7 +9241,7 @@ public abstract class EuclidianController {
 					|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
 					|| (app.isShiftDragZoomEnabled() &&
 							shiftOrMeta);
-		
+		App.debug("ZOOM"+allowMouseWheel+"-"+shiftOrMeta);
 		if (!allowMouseWheel) {
 			return;
 		}
@@ -9781,5 +9783,8 @@ public abstract class EuclidianController {
 
 	public boolean isExternalHandling(){
 		return externalHandling;
+	}
+	public int getViewID() {
+		return this.view.evNo;
 	}
 }

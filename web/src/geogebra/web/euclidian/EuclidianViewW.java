@@ -84,21 +84,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	
 		((EuclidianControllerW)euclidiancontroller).setView(this);
 		
-//		canvas.addClickHandler((EuclidianController)euclidiancontroller);	
-//		canvas.addMouseMoveHandler((EuclidianController)euclidiancontroller);
-//		canvas.addMouseOverHandler((EuclidianController)euclidiancontroller);
-//		canvas.addMouseOutHandler((EuclidianController)euclidiancontroller);
-//		canvas.addMouseDownHandler((EuclidianController)euclidiancontroller);
-//		canvas.addMouseUpHandler((EuclidianController)euclidiancontroller);
-//		canvas.addMouseWheelHandler((EuclidianController)euclidiancontroller);
-//		
-//		canvas.addTouchStartHandler((EuclidianController)euclidiancontroller);
-//		canvas.addTouchEndHandler((EuclidianController)euclidiancontroller);
-//		canvas.addTouchMoveHandler((EuclidianController)euclidiancontroller);
-//		canvas.addTouchCancelHandler((EuclidianController)euclidiancontroller);
-//		canvas.addGestureStartHandler((EuclidianController)euclidiancontroller);
-//		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
-//		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
 
 		if(this.getViewID() != App.VIEW_TEXT_PREVIEW){
 			registerKeyHandlers(canvas);
@@ -117,10 +102,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 			}
 		});
 		
-		if(Browser.isIE()){
-			msZoomer = new MsZoomer(euclidianController);
-			MsZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement(),msZoomer);
-		}
+		
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
 //		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 //		euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
@@ -142,15 +124,20 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	}
 	
 	private void registerMouseTouchGestureHandlers(Canvas canvas, EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
-		
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
+		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		if(Browser.isIE()){
+			msZoomer = new MsZoomer(euclidianController);
+			MsZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement(),msZoomer);
+			return;
+		}
 		
 		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		
 		
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());

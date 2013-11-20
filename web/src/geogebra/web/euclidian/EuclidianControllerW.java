@@ -1,6 +1,5 @@
 package geogebra.web.euclidian;
 
-import geogebra.common.euclidian.EnvironmentStyle;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
@@ -11,6 +10,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.euclidian.EnvironmentStyleW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
@@ -61,145 +61,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private long lastMoveEvent = 0;
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
-	
-	public class EnvironmentStyleW extends EnvironmentStyle{
-		
-		private float widthScale;
-		private float heightScale;
-		private float scaleX;
-		private float scaleY;
-		private int xOffset;
-		private int yOffset;
-		private int scrollLeft;
-		private int scrollTop;
-		
-		
-		public EnvironmentStyleW() {
-	    }
-		/**
-		 * @return the widthScale
-		 */
-        public float getWidthScale() {
-	        return widthScale;
-        }
-		/**
-		 * @param widthScale the widthScale to set
-		 */
-        public void setWidthScale(float widthScale) {
-	        this.widthScale = widthScale;
-        }
-		/**
-		 * @return the heightScale
-		 */
-        public float getHeightScale() {
-	        return heightScale;
-        }
-		/**
-		 * @param heightScale the heightScale to set
-		 */
-        public void setHeightScale(float heightScale) {
-	        this.heightScale = heightScale;
-        }
-		/**
-		 * @return the scaleX
-		 */
-        public float getScaleX() {
-	        return scaleX;
-        }
-		/**
-		 * @param scaleX the scaleX to set
-		 */
-        public void setScaleX(float scaleX) {
-	        this.scaleX = scaleX;
-        }
-		/**
-		 * @return the scaleY
-		 */
-        public float getScaleY() {
-	        return scaleY;
-        }
-		/**
-		 * @param scaleY the scaleY to set
-		 */
-        public void setScaleY(float scaleY) {
-	        this.scaleY = scaleY;
-        }
-		/**
-		 * @return the xOffset
-		 */
-        public int getxOffset() {
-	        return xOffset;
-        }
-		/**
-		 * @param xOffset the xOffset to set
-		 */
-        public void setxOffset(int xOffset) {
-	        this.xOffset = xOffset;
-        }
-		/**
-		 * @return the yOffset
-		 */
-        public int getyOffset() {
-	        return yOffset;
-        }
-		/**
-		 * @param yOffset the yOffset to set
-		 */
-        public void setyOffset(int yOffset) {
-	        this.yOffset = yOffset;
-        }
-		/**
-		 * @return the scrollLeft
-		 */
-        public int getScrollLeft() {
-	        return scrollLeft;
-        }
-		/**
-		 * @param scrollLeft the scrollLeft to set
-		 */
-        public void setScrollLeft(int scrollLeft) {
-	        this.scrollLeft = scrollLeft;
-        }
-		/**
-		 * @return the scrollTop
-		 */
-        public int getScrollTop() {
-	        return scrollTop;
-        }
-		/**
-		 * @param scrollTop the scrollTop to set
-		 */
-        public void setScrollTop(int scrollTop) {
-	        this.scrollTop = scrollTop;
-        }
-        
-        @Override
-        public String toString() {
-        	return 	" ws: " + this.widthScale +
-        			", hs: " + this.heightScale +
-        			", xo: " + this.xOffset +
-        			", yo: " + this.yOffset +
-        			", sx: " + this.scaleX +
-        			", sy: " + this.scaleY +
-         			", scrollL: " + this.scrollLeft +
-        			", scrollt: " + this.scrollTop;
-        }
-        
-		/**
-		 * @return the multiplier that must be used on native event coordinates
-		 */
-		public float getScaleXMultiplier() {
-	        return (1 / getScaleX());
-        }
-		
-		/**
-		 * @return the multiplier that must be used on native event coordinates
-		 */
-		public float getScaleYMultiplier() {
-	        return (1 / getScaleY());
-        }
-		
-	}
 	
 	public EnvironmentStyleW style; 
 	
@@ -271,11 +132,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	
 	public boolean isOffsetsUpToDate(){
 		return EuclidianOffsetsInited;
-	}
-	
-	public void updateOffsets(){
-		//EuclidianViewXOffset = ((EuclidianViewW) view).getAbsoluteLeft() + Window.getScrollLeft();
-		//EuclidianViewYOffset = ((EuclidianViewW) view).getAbsoluteTop() + Window.getScrollTop();	
 	}
 	
 	private Timer repaintTimer = new Timer() {
@@ -470,10 +326,17 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(isExternalHandling()){
 			return;
 		}
+		
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		event.preventDefault();
+		wrapMouseMoveOrDrag(e);
+	}
+	
+	public void wrapMouseMoveOrDrag(AbstractEvent e) {
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
-		event.preventDefault();
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		
+		
 		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 			boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 			this.waitingMouseMove = e;
@@ -486,8 +349,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 		
 		onMouseMoveNow(e,time);
-	}
-	
+	    
+    }
+
+
+
 	public void onMouseMoveNow(AbstractEvent event,long time) {
 		this.lastMoveEvent = time;
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
@@ -510,37 +376,50 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			this.ignoreNextMouseEvent = false;
 			return;
 		}
+		
+		event.preventDefault();
+		
+
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		onMouseUp(e);
+	}
+
+	public void onMouseUp(AbstractEvent e) {
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		DRAGMODE_MUST_BE_SELECTED = false;
-		event.preventDefault();	
+		
 
 		//hide dialogs if they are open
 		if (app.getGuiManager() != null)
 			((GuiManagerW)app.getGuiManager()).removePopup();
 
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);
 		e.release();
-	}
+	    
+    }
+
+
 
 	public void onMouseDown(MouseDownEvent event) {
 		if(this.ignoreNextMouseEvent){
 			this.ignoreNextMouseEvent = false;
 			return;
 		}
+		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
+			event.preventDefault();
+		}
+		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+	}
+	
+	public void onMouseDown(AbstractEvent e){
 		if (app.getGuiManager() != null)
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
-			
-		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
-			event.preventDefault();
-		}
-			
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		
 		wrapMousePressed(e);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty()) {
@@ -603,31 +482,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return view.textfieldClicked(x, y, type);
 	}
 
-	public int getXoffset() {
-	   return style.getxOffset();
+	public int touchEventX(int clientX) {
+	   return clientX - style.getxOffset();
     }
 
-	public int getYoffset() {
-	    return style.getyOffset();
+	public int touchEventY(int clientY) {
+	    return clientY - style.getyOffset();
     }
-
-	public float getWidthScale() {
-	   return style.getWidthScale();
-    }
-
-	public float getHeightScale() {
-	  return style.getHeightScale();
-    }
-
-	public float getScaleX() {
-	  return style.getScaleX();
-    }
-
-	public float getScaleY() {
-	   return style.getScaleY();
-    }
-
-
 
 	/**
 	 * @return the multiplier that must be used to multiply the native event coordinates
@@ -644,15 +505,15 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public int mouseEventX(int clientX) {
-		 return Math.round((clientX- getXoffset())  *
-			(1 / getScaleX()) *
-				(1 / getHeightScale()));
+		 return Math.round((clientX- style.getxOffset())  *
+			(1 / style.getScaleX()) *
+				(1 / style.getHeightScale()));
    }
 
 	public int mouseEventY(int clientY) {
-		 return Math.round((clientY- getYoffset())  *
-			(1 / getScaleY()) *
-				(1 / getHeightScale()));
+		 return Math.round((clientY- style.getyOffset())  *
+			(1 / style.getScaleY()) *
+				(1 / style.getHeightScale()));
     }
 
 

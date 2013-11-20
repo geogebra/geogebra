@@ -24,9 +24,9 @@ public class PointerEvent extends AbstractEvent {
 	private int clickCount = 1;
 	private int evID;
 
-	public PointerEvent(int x, int y, PointerEventType type, HasOffsets off) {
+	public PointerEvent(double x, double y, PointerEventType type, HasOffsets off) {
 		this.off = off;
-		this.point = new GPoint(Math.round(x), Math.round(y));
+		this.point = new GPoint((int)Math.round(x), (int)Math.round(y));
 		this.type = type;
 	}
 
@@ -45,7 +45,7 @@ public class PointerEvent extends AbstractEvent {
 		if(this.type == PointerEventType.MOUSE){
 			return off.mouseEventX(this.point.x);
 		}
-		return this.point.x - off.getXoffset();
+		return off.touchEventX(this.point.x);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class PointerEvent extends AbstractEvent {
 		if(this.type == PointerEventType.MOUSE){
 			return off.mouseEventY(this.point.y);
 		}
-		return this.point.y - off.getYoffset();
+		return off.touchEventY(this.point.y);
 	}
 
 	@Override
@@ -111,9 +111,6 @@ public class PointerEvent extends AbstractEvent {
 			wrap.evID = h.getEvID();
 			pool.removeLast();
 			return wrap;
-		}
-		if (!h.isOffsetsUpToDate()) {
-			h.updateOffsets();
 		}
 		return new PointerEvent(x, y ,type,h);
 	}

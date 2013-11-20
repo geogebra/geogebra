@@ -1,7 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
-import geogebra.html5.event.HasOffsets;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 
@@ -63,11 +62,7 @@ public class AlgebraDockPanelW extends DockPanelW {
     }
 
 	public void onResize() {
-		if (app != null) {
-			if(app.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
-				((HasOffsets)app.getActiveEuclidianView().getEuclidianController()).updateOffsets();
-		}
-		//App.debug("resized");
+		
     }
 
 	@Override

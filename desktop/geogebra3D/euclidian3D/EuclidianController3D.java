@@ -1538,7 +1538,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// mouse released
 	
 	@Override
-	protected void wrapMouseReleased(AbstractEvent e) {
+	public void wrapMouseReleased(AbstractEvent e) {
 		if (!draggingOccured && !app.isControlDown(e))
 			view3D.switchMoveCursor();
 		
