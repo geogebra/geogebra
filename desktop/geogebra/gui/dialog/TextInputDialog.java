@@ -465,7 +465,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		menuItem.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				insertString(" \\; ");
+				insertString(" \\space ");
 			}
 
 		});
