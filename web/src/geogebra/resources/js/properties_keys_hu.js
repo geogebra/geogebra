@@ -355,7 +355,7 @@ __GGB__keysVar.hu.command = {
     "Groebner_SyntaxCAS": "[ <Polinomok list\xe1ja> ]\n[ <Polinomok list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]\n[ <Polinomok list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja>, <Tagsorrend> ]",
     "HarmonicMean": "HarmonikusK\xf6z\xe9p",
     "HarmonicMean_Syntax": "[ <Sz\xe1mok list\xe1ja> ]",
-    "Height": "Height",
+    "Height": "Magass\xe1g",
     "Height_Syntax": "[ <Cone> ]\n[ <Cylinder> ]\n[ <Polyhedron> ]",
     "HideLayer": "R\xe9tegElrejt\xe9se",
     "HideLayer_Syntax": "[ <Sz\xe1m> ]",
