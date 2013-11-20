@@ -26,6 +26,8 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
 
 public class DrawEquationWeb extends DrawEquation {
@@ -45,10 +47,12 @@ public class DrawEquationWeb extends DrawEquation {
 	public void setUseJavaFontsForLaTeX(App app, boolean b) {
 		// not relevant for web
 	}
-
+	
 	public static String inputLatexCosmetics(String eqstringin) {
 
 		String eqstring = eqstringin;
+		
+		eqstring = eqstring.replace('\n', ' ');
 
 		// make sure eg FractionText[] works (surrounds with {} which doesn't
 		// draw well in MathQuill)
@@ -59,25 +63,45 @@ public class DrawEquationWeb extends DrawEquation {
 
 		// remove $s
 		eqstring = eqstring.trim();
-		if (eqstring.length() > 2) {
-			while (eqstring.startsWith("$"))
-				eqstring = eqstring.substring(1).trim();
-			while (eqstring.endsWith("$"))
-				eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
-		} else if ("$$".equals(eqstring)) {
-			eqstring = "";
-			// the rest cases: do not remove single $
-		} else if ("\\$".equals(eqstring)) {
-			eqstring = "\\text{$}";
-		}
+		if (eqstring.length() > 2) { 
+			while (eqstring.startsWith("$")) 
+				eqstring = eqstring.substring(1).trim(); 
+			while (eqstring.endsWith("$")) 
+				eqstring = eqstring.substring(0, eqstring.length() - 1).trim(); 
+		} else if ("$$".equals(eqstring)) { 
+			eqstring = ""; 
+			// the rest cases: do not remove single $ 
+		} else if ("\\$".equals(eqstring)) { 
+			eqstring = "\\text{$}"; 
+		} 
+		
+		eqstring = eqstring.replace("\\\\", "\\cr ");
 
 		// remove all \; and \,
-		eqstring = eqstring.replace("\\;", "");
-		eqstring = eqstring.replace("\\,", "");
-		eqstring = eqstring.replace("\\ ", "");
-
-		// substitute every \$ with $
-		eqstring = eqstring.replace("\\$", "$");
+		// doesn't work inside \text eg \text{some\;text}
+		eqstring = eqstring.replace("\\;", "\\space ");
+		eqstring = eqstring.replace("\\,", "\\space ");
+		eqstring = eqstring.replace("\\ ", "\\space ");
+		
+		
+		if (eqstring.indexOf("{\\it ") > -1) {
+			
+			//replace {\it A} by A
+			// (not \italic{A} )
+			
+			RegExp italic = RegExp.compile("(.*)\\{\\\\it (.*?)\\}(.*)");
+			
+			MatchResult matcher;
+			
+			while ((matcher = italic.exec(eqstring)) != null) {
+				
+				eqstring = matcher.getGroup(1) + " " + matcher.getGroup(2) + matcher.getGroup(3);
+			}
+		}
+		
+			
+		// substitute every \$ with $ 
+	 	eqstring = eqstring.replace("\\$", "$"); 
 
 		eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
 		eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
@@ -108,7 +132,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (eqstring.trim().equals("")) {
 			eqstring = "\\text{}";
 		}
-		
+				
 		return eqstring;
 	}
 
@@ -197,32 +221,32 @@ public class DrawEquationWeb extends DrawEquation {
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        GColor fgColor, GColor bgColor, boolean useCache) {
 
-		String latexString = latexString0;
+		String latexString = latexString0; 
 
-		if (latexString == null)
-			return null;
+		if (latexString == null) 
+			return null; 
 
-		double rotateDegree = 0;
+		double rotateDegree = 0; 
 
-		if (latexString.startsWith("\\rotatebox{")) {
-			// getting rotation degree...
+		if (latexString.startsWith("\\rotatebox{")) { 
+			// getting rotation degree... 
 
-			// chop "\\rotatebox{"
-			latexString = latexString.substring(11);
+			// chop "\\rotatebox{" 
+			latexString = latexString.substring(11); 
 
-			// get value
-			int index = latexString.indexOf("}{ ");
-			rotateDegree = Double.parseDouble(latexString.substring(0, index));
+			// get value 
+			int index = latexString.indexOf("}{ "); 
+			rotateDegree = Double.parseDouble(latexString.substring(0, index)); 
 
-			// chop "}{"
-			latexString = latexString.substring(index + 3);
+			// chop "}{" 
+			latexString = latexString.substring(index + 3); 
 
-			// chop " }"
-			latexString = latexString.substring(0, latexString.length() - 2);
+			// chop " }" 
+			latexString = latexString.substring(0, latexString.length() - 2); 
 
-			if (latexString.startsWith("\\text{ ")) {
-				// chop "text", seems to prevent the sqrt sign showing
-				latexString = latexString.substring(7);
+			if (latexString.startsWith("\\text{ ")) { 
+				// chop "text", seems to prevent the sqrt sign showing 
+				latexString = latexString.substring(7); 
 				latexString = latexString.substring(0, latexString.length() - 3);
 
 				// put back "\\text{ " if it is not harmful
@@ -357,7 +381,6 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
 			// otherwise do not set it invisible, just leave everything as it is
 		}
-
 		if (visible1 || visible2) {
 			// if it's not visible, leave at its previous place to prevent lag
 			ih.getStyle().setLeft(x, Style.Unit.PX);
@@ -377,11 +400,11 @@ public class DrawEquationWeb extends DrawEquation {
 		GDimension ret = null;
 
 		ret = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, true)),
-					(int)Math.ceil(getScaledHeight(ih, true)));
+				(int)Math.ceil(getScaledHeight(ih, true)));
 
 		if (rotateDegree != 0) {
 			GDimension ret0 = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, false)),
-					(int)Math.ceil(getScaledHeight(ih, false)));
+		 			(int)Math.ceil(getScaledHeight(ih, false)));
 
 			GDimension corr = computeCorrection(ret, ret0, rotateDegree);
 
@@ -399,8 +422,8 @@ public class DrawEquationWeb extends DrawEquation {
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
-			if (ell.lastChild && inside) {//elsecondInside
-				ell = ell.lastChild;
+			if (ell.lastChild && inside) {//elsecondInside 
+				ell = ell.lastChild; 
 			}
 		}
 		if (ell.getBoundingClientRect) {
@@ -418,8 +441,8 @@ public class DrawEquationWeb extends DrawEquation {
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
-			if (ell.lastChild && inside) {//elsecondInside
-				ell = ell.lastChild;
+			if (ell.lastChild && inside) {//elsecondInside 
+				ell = ell.lastChild; 
 			}
 		}
 		if (ell.getBoundingClientRect) {
@@ -481,26 +504,25 @@ public class DrawEquationWeb extends DrawEquation {
 			el.appendChild(elfirst);
 		}
 
-		var elsecond = $doc.createElement("div");
+		var elsecond = $doc.createElement("div"); 
 
 		if (addOverlay) {
-			var elthirdBefore = $doc.createElement("span");
-			elthirdBefore.style.position = "absolute";
-			elthirdBefore.style.zIndex = 2;
-			elthirdBefore.style.top = "0px";
-			elthirdBefore.style.bottom = "0px";
-			elthirdBefore.style.left = "0px";
-			elthirdBefore.style.right = "0px";
+			var elthirdBefore = $doc.createElement("span"); 
+			elthirdBefore.style.position = "absolute"; 
+			elthirdBefore.style.zIndex = 2; 
+			elthirdBefore.style.top = "0px"; 
+			elthirdBefore.style.bottom = "0px"; 
+			elthirdBefore.style.left = "0px"; 
+			elthirdBefore.style.right = "0px"; 
 			elsecond.appendChild(elthirdBefore);
-		}		
+		}
 
-		var elsecondInside = $doc.createElement("span");
-		elsecondInside.innerHTML = htmlt;
+		var elsecondInside = $doc.createElement("span"); 
+		elsecondInside.innerHTML = htmlt; 
 
 		if (fontSizeRel != 0) {
 			elsecond.style.fontSize = fontSizeRel + "px";
 		}
-
 		elsecond.appendChild(elsecondInside);
 		el.appendChild(elsecond);
 
@@ -556,7 +578,6 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 		if (rotateDegree != 0) {
-
 			var rfactor = "rotate(-" + rotateDegree + "deg)";
 
 			elsecondInside.style.transform = rfactor;
@@ -585,6 +606,7 @@ public class DrawEquationWeb extends DrawEquation {
 				elthirdBefore.style.WebkitTransformOrigin = "center center";
 			}
 		}
+
 	}-*/;
 
 	/**
@@ -603,9 +625,10 @@ public class DrawEquationWeb extends DrawEquation {
 		elfirst.style.display = 'none';
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
 
-		$wnd.$ggbQuery(elsecondInside).mathquill('revert').mathquill('editable').focus();
+		var elsecondInside = elsecond.lastChild; 
+
+		$wnd.$ggbQuery(elsecondInside).mathquill('revert').mathquill('editable').focus(); 
 
 		$wnd
 				.$ggbQuery(elsecondInside)
@@ -652,9 +675,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void escEditingEquationMathQuill(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
 
+		var elsecondInside = elsecond.lastChild;
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
+
 		var latexq = null;
 		elsecond.previousSibling.style.display = "block";
 		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
@@ -782,7 +806,6 @@ public class DrawEquationWeb extends DrawEquation {
 		double dimLeftCorr = 0;
 
 		if (rotateDegree != 0) {
-
 			double rotateDegreeForTrig = rotateDegree;
 
 			while (rotateDegreeForTrig < 0)
@@ -794,20 +817,23 @@ public class DrawEquationWeb extends DrawEquation {
 			if (rotateDegreeForTrig > 90)
 				rotateDegreeForTrig = 180 - rotateDegreeForTrig;
 
+			// Now rotateDegreeForTrig is between 0 and 90 degrees
+
 			rotateDegreeForTrig *= Math.PI / 180;
 
-			double helper = Math.cos(2 * rotateDegreeForTrig);
 			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
-
 			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
 
 			// dimWidth and dimHeight are the scaled and rotated dims...
 			// only the scaled, but not rotated versions should be computed from them:
 
-			double dimHeight0;
+			double helper = Math.cos(2 * rotateDegreeForTrig);
+
 			double dimWidth0;
+			double dimHeight0;
 			if (Kernel.isZero(helper)) {
 				// PI/4, PI/4
+				dimWidth0 = dimHeight0 = Math.sqrt(2) * dimHeight / 2;
 				dimWidth0 = dimSmall.getWidth();
 				if (dimWidth0 <= 0)
 					dimWidth0 = 1;
@@ -825,9 +851,7 @@ public class DrawEquationWeb extends DrawEquation {
 				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
 			}
 
-			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
-
-			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
+			// dimHeight0 and dimWidth0 are the values this algorithm needs
 
 			double dimHalfDiag = Math.sqrt(dimWidth0 * dimWidth0 + dimHeight0 * dimHeight0) / 2.0;
 
