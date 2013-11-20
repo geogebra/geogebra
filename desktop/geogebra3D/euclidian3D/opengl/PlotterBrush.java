@@ -380,31 +380,7 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	public void circle(Coords center, Coords v1, Coords v2, double radius){
 		
-		
-		length=(float) (2*Math.PI*radius); //TODO use integer to avoid bad dash cycle connection
-		
-		int longitude = 60;
-		
-		Coords vn1;
-		Coords vn2 = v1.crossProduct(v2);
-		
-    	float dt = (float) 1/longitude;
-    	float da = (float) (2*Math.PI *dt) ; 
-    	float u=0, v=1;
-    	
-    	setTextureX(0,0);
-		vn1 = v1.mul(u).add(v2.mul(v));
-		down(center.add(vn1.mul(radius)),vn1,vn2);  	
-    	
-    	for( int i = 1; i <= longitude  ; i++ ) { 
-    		u = (float) Math.sin ( i * da ); 
-    		v = (float) Math.cos ( i * da ); 
-    		
-    		setTextureX(i*dt);
-    		vn1 = v1.mul(u).add(v2.mul(v));
-    		moveTo(center.add(vn1.mul(radius)),vn1,vn2);
-    	} 
-    	
+		arc(center, v1, v2, radius, 0, 2*Math.PI);
 	}
 
 	

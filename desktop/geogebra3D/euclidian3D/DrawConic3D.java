@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -118,7 +119,13 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		conic = (GeoConicND) getGeoElement();
 		
 		
-		// outline
+		// check is visible (and update values)
+		checkVisible();		
+		if (visible == Visible.TOTALLY_OUTSIDE){
+			setGeometryIndex(-1);
+			setSurfaceIndex(-1);
+			return true;
+		}
 		
 		if (conic.getType()==GeoConicNDConstants.CONIC_SINGLE_POINT){
 			
@@ -144,44 +151,18 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			brush.setAffineTexture(0f,0f);
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
-				m = conic.getMidpoint3D();
-				ev1 = conic.getEigenvec3D(0);
-				ev2 = conic.getEigenvec3D(1);
-				e1 = conic.getHalfAxis(0);
-				e2 = e1;
 				updateCircle(brush);
-				//Application.debug(m.toString()+"\n2D:\n"+conic.getMidpoint2D().toString());
 				break;
 			case GeoConicNDConstants.CONIC_ELLIPSE:
-				m = conic.getMidpoint3D();
-				ev1 = conic.getEigenvec3D(0);
-				ev2 = conic.getEigenvec3D(1);
-				e1 = conic.getHalfAxis(0);
-				e2 = conic.getHalfAxis(1);
 				updateEllipse(brush);
 				break;
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
-				m = conic.getMidpoint3D();
-				ev1 = conic.getEigenvec3D(0);
-				ev2 = conic.getEigenvec3D(1);
-				e1 = conic.getHalfAxis(0);
-				e2 = conic.getHalfAxis(1);
-				
-				updateHyperbola(brush);
-				
+				updateHyperbola(brush);				
 				break;
 			case GeoConicNDConstants.CONIC_PARABOLA:
-				m = conic.getMidpoint3D();
-				ev1 = conic.getEigenvec3D(0);
-				ev2 = conic.getEigenvec3D(1);
-				
-				updateParabola(brush);
-				
+				updateParabola(brush);				
 				break;
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-				m = conic.getOrigin3D(0);
-				d = conic.getDirection3D(0);
-				minmax = getLineMinMax(0);
 				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
 				break;
 			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
@@ -380,7 +361,11 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 */
 	protected void updateCircle(PlotterBrush brush){
 		
-		brush.circle(m, ev1, ev2, e1);
+		if (visible == Visible.CENTER_OUTSIDE){
+			brush.arc(m, ev1, ev2, e1, beta - alpha, 2 * alpha);
+		}else{
+			brush.circle(m, ev1, ev2, e1);
+		}
 
 	}
 	
@@ -389,7 +374,13 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param brush brush plotter
 	 */
 	protected void updateEllipse(PlotterBrush brush){
-		brush.arcEllipse(m, ev1, ev2, e1, e2, 0,2*Math.PI);
+		
+		if (visible == Visible.CENTER_OUTSIDE){
+			brush.arcEllipse(m, ev1, ev2, e1, e2, beta - alpha, 2 * alpha);
+		}else{
+			brush.arcEllipse(m, ev1, ev2, e1, e2, 0,2*Math.PI);
+		}
+
 
 	}
 
@@ -406,7 +397,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				updateForItSelf();
 				break;
 			case GeoConicNDConstants.CONIC_CIRCLE:
-			case GeoConicNDConstants.CONIC_ELLIPSE:
+				if (getView3D().viewChangedByZoom()) //update only if zoom occurred
+					updateForItSelf();
+				break;
 			case GeoConicNDConstants.CONIC_SINGLE_POINT:
 				if (getView3D().viewChangedByZoom()) //update only if zoom occurred
 					updateForItSelf();
@@ -606,5 +599,142 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		return lastPickingType;
 	}
 
+	
+	
+	private double alpha, beta;
+	
+	/**
+	 * Visibility flag
+	 * @author mathieu
+	 *
+	 */
+	private static enum Visible{
+		/** the quadric is totally outside */
+		TOTALLY_OUTSIDE, 
+		/** the quadric is totally inside */
+		TOTALLY_INSIDE,
+		/** the quadric is partly inside, center outside */
+		CENTER_OUTSIDE,
+		/** the quadric is partly inside, center inside */
+		CENTER_INSIDE
+	}
+	
+	private Visible visible = Visible.TOTALLY_OUTSIDE;
+	
+	
+	/**
+	 * check if the sphere is (at least partially) visible
+	 * @param center sphere center
+	 * @param radius sphere radius
+	 */
+	private void checkCircleVisible(Coords center, double radius){
+		
+		double frustumRadius = getView3D().getFrustumRadius();
+		Coords origin = getView3D().getCenter();
+		Coords v = origin.sub(center);
+		v.calcNorm();
+		double centersDistance = v.getNorm();
+		
+		if (centersDistance > radius + frustumRadius){ // sphere totally outside the frustum
+			visible = Visible.TOTALLY_OUTSIDE;
+		}else if (centersDistance + frustumRadius < radius){ // frustum totally inside the sphere
+			visible = Visible.TOTALLY_OUTSIDE;
+		}else if (centersDistance + radius < frustumRadius){ // totally inside
+			visible = Visible.TOTALLY_INSIDE;
+		}else if (centersDistance < frustumRadius){ // center inside
+			visible = Visible.CENTER_INSIDE;
+		}else{
+			visible = Visible.CENTER_OUTSIDE; // center outside
+			// calc angles to draw minimum longitudes
+			double x = v.dotproduct(ev1);
+			double y = v.dotproduct(ev2);
+			double horizontalDistance2 = x*x+y*y;
+			alpha = Math.acos((radius*radius+horizontalDistance2-frustumRadius*frustumRadius)/(2*Math.sqrt(horizontalDistance2)*radius));
+			beta = Math.atan2(y,x);
+			//App.debug("\nalpha="+(alpha*180/Math.PI)+"\nbeta="+(beta*180/Math.PI));
+		}	
+		
+	}
+	
+	
+	/**
+	 * check if conic is visible. Note that midpoint, etc. are updated here
+	 */
+	protected void checkVisible(){
+		switch(conic.getType()){
+		case GeoConicNDConstants.CONIC_SINGLE_POINT:
+			m = conic.getMidpoint3D();
+			double frustumRadius = getView3D().getFrustumRadius();
+			Coords origin = getView3D().getCenter();
+			Coords v = origin.sub(m);
+			v.calcNorm();
+			double centersDistance = v.getNorm();
+			if (Kernel.isGreater(centersDistance, frustumRadius)){
+				visible = Visible.TOTALLY_OUTSIDE;
+			}else{
+				visible = Visible.TOTALLY_INSIDE;
+			}
+			break;
+		case GeoConicNDConstants.CONIC_CIRCLE:
+			m = conic.getMidpoint3D();
+			ev1 = conic.getEigenvec3D(0);
+			ev2 = conic.getEigenvec3D(1);
+			e1 = conic.getHalfAxis(0);
+			e2 = e1;
+			checkCircleVisible(m, e1);
+			break;
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+			m = conic.getMidpoint3D();
+			ev1 = conic.getEigenvec3D(0);
+			ev2 = conic.getEigenvec3D(1);
+			e1 = conic.getHalfAxis(0);
+			e2 = conic.getHalfAxis(1);
+			double eMin, eMax;
+			if (e1 > e2){
+				eMax = e1;
+				eMin = e2;
+			}else{
+				eMax = e2;
+				eMin = e1;
+			}
+			checkCircleVisible(m, eMax);
+			
+			// dilate angle
+			if (alpha * eMax >= Math.PI * eMin){
+				alpha = Math.PI;
+			}else{
+				alpha *= eMax/eMin;
+			}
+			
+			break;
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
+			m = conic.getMidpoint3D();
+			ev1 = conic.getEigenvec3D(0);
+			ev2 = conic.getEigenvec3D(1);
+			e1 = conic.getHalfAxis(0);
+			e2 = conic.getHalfAxis(1);
+			visible = Visible.TOTALLY_INSIDE; //TODO
+			break;
+		case GeoConicNDConstants.CONIC_PARABOLA:
+			m = conic.getMidpoint3D();
+			ev1 = conic.getEigenvec3D(0);
+			ev2 = conic.getEigenvec3D(1);
+			visible = Visible.TOTALLY_INSIDE; //TODO
+			break;
+		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			m = conic.getOrigin3D(0);
+			d = conic.getDirection3D(0);
+			minmax = getLineMinMax(0);
+			visible = Visible.TOTALLY_INSIDE; //TODO
+			break;
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+		default:
+			visible = Visible.TOTALLY_INSIDE; //TODO
+			break;
+
+		}
+	}
+	
 
 }

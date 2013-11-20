@@ -103,16 +103,12 @@ implements Previewable {
 	 * @param radius sphere radius
 	 */
 	private void checkSphereVisible(Coords center, double radius){
+		
 		double frustumRadius = getView3D().getFrustumRadius();
 		Coords origin = getView3D().getCenter();
-		//App.debug((getView3D().getXmin()+getView3D().getXmax())/2+"");
-		//App.error("\n"+origin);
 		Coords v = origin.sub(center);
 		v.calcNorm();
 		double centersDistance = v.getNorm();
-		
-		//App.error("\ncentersDistance= "+centersDistance+"\nradius= "+radius+"\nfrustumRadius= "+frustumRadius);
-		
 		
 		if (centersDistance > radius + frustumRadius){ // sphere totally outside the frustum
 			visible = Visible.TOTALLY_OUTSIDE;
@@ -128,8 +124,7 @@ implements Previewable {
 			double horizontalDistance2 = v.getX()*v.getX()+v.getY()*v.getY();
 			alpha = Math.acos((radius*radius+horizontalDistance2-frustumRadius*frustumRadius)/(2*Math.sqrt(horizontalDistance2)*radius));
 			beta = Math.atan2(v.getY(), v.getX());
-		}
-		
+		}	
 		
 	}
 	
