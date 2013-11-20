@@ -41,8 +41,8 @@ public class SignInDialogD extends WebViewDialog {
 		setResizable(true);
         getContentPane().setPreferredSize(new Dimension(500, 240));
         
-        JFXPanel fxPanel = createWebView(app.getLoginOperation().getLoginURL(app.getLocale().getLanguage()));
-        add(fxPanel);
+        JFXPanel fxPanel1 = createWebView(app.getLoginOperation().getLoginURL(app.getLocale().getLanguage()));
+        add(fxPanel1);
 		
 		pack();	
 		setLocationRelativeTo(app.getFrame());
