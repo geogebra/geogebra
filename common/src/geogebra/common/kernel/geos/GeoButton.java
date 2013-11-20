@@ -17,6 +17,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -28,7 +29,7 @@ import geogebra.common.util.StringUtil;
  */
 public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, Furniture{			
 
-	private double fontSizeD = 2;
+	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
 
 	private boolean serifFont = false;
@@ -68,7 +69,16 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		this.labelOffsetY = labelOffsetY;
 	}
 
-    @Override
+    /**
+     * @param cons cons
+     * @param size size multiplier, usually 2 
+     */
+    public GeoButton(Construction cons, double size) {
+    	this(cons); 
+     	this.fontSizeD = size; 
+	}
+    
+	@Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_BUTTON_ACTION;
     }
@@ -333,5 +343,13 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}
+	
+	/**
+	 * @param cons cons
+	 * @return new button (with default size)
+	 */
+	public static GeoButton getNewButton(Construction cons) { 
+		return new GeoButton(cons, ConstructionDefaults.DEFAULT_BUTTON_SIZE); 
+	} 
 
 }

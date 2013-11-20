@@ -197,6 +197,9 @@ public class ConstructionDefaults {
 	public static final int LABEL_VISIBLE_POINTS_ONLY = 3;
 	/** label visible based on default geos */
 	public static final int LABEL_VISIBLE_USE_DEFAULTS = 4;
+	
+	/** default font size multiplier */ 
+ 	public static final double DEFAULT_BUTTON_SIZE = 2; 
 
 	/** construction */
 	protected Construction cons;

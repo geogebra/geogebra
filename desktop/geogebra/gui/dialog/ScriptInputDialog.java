@@ -281,7 +281,7 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 			}
 
 			if (getGeo() == null) {
-				setGeo(new GeoButton(kernel.getConstruction()));
+				setGeo(GeoButton.getNewButton(kernel.getConstruction()));
 
 			}
 
