@@ -5,8 +5,6 @@ import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -61,7 +59,7 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class ProbabilityCalculator extends ProbabilityCalcualtorView implements View,
+public class ProbabilityCalculator extends ProbabilityCalcualtorView implements
 		ActionListener, FocusListener, ChangeListener, SettingListener {
 
 	private static final long serialVersionUID = 1L;
@@ -421,148 +419,9 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 
 	
 
-	/**
-	 * Returns an interval probability for the currently selected distribution
-	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
-	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
-	 * == PROB_RIGHT then P(X <= high) is returned.
-	 */
-	private double intervalProbability() {
+	
 
-		return probManager.intervalProbability(low, high, selectedDist,
-				parameters, probMode);
-	}
-
-	/**
-	 * Returns an inverse probability for a selected distribution.
-	 * 
-	 * @param prob
-	 */
-	private double inverseProbability(double prob) {
-
-		return probManager.inverseProbability(selectedDist, prob, parameters);
-	}
-
-	private boolean isValidInterval(int probMode, double xLow, double xHigh) {
-
-		if (probMode == PROB_INTERVAL && xHigh < xLow)
-			return false;
-
-		// don't allow non-integer bounds for discrete dist.
-		if (probManager.isDiscrete(selectedDist)
-				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh)) {
-			return false;
-		}
-
-		boolean isValid = true;
-		switch (selectedDist) {
-
-		case BINOMIAL:
-		case HYPERGEOMETRIC:
-			isValid = xLow >= getDiscreteXMin() && xHigh <= getDiscreteXMax();
-			break;
-
-		case POISSON:
-		case PASCAL:
-			isValid = xLow >= getDiscreteXMin();
-			break;
-
-		case CHISQUARE:
-		case EXPONENTIAL:
-			if (probMode != PROB_LEFT)
-				isValid = xLow >= 0;
-			break;
-
-		case F:
-			if (probMode != PROB_LEFT)
-				isValid = xLow > 0;
-			break;
-
-		}
-
-		return isValid;
-
-	}
-
-	private boolean isValidParameter(double parameter, int index) {
-
-		boolean[] isValid = { true, true, true };
-
-		switch (selectedDist) {
-
-		case F:
-		case STUDENT:
-		case EXPONENTIAL:
-		case WEIBULL:
-		case POISSON:
-			if (index == 0) {
-				// all parameters must be positive
-				isValid[0] = parameter > 0;
-			}
-			break;
-
-		case CAUCHY:
-		case LOGISTIC:
-			if (index == 1) {
-				// scale must be positive
-				isValid[1] = index == 1 && parameter > 0;
-			}
-			break;
-
-		case CHISQUARE:
-			if (index == 0) {
-				// df >= 1, integer
-				isValid[0] = Math.floor(parameter) == parameter
-						&& parameter >= 1;
-			}
-			break;
-
-		case BINOMIAL:
-			if (index == 0) {
-				// n >= 0, integer
-				isValid[0] = Math.floor(parameter) == parameter
-						&& parameter >= 0;
-			} else if (index == 1) {
-				// p is probability value
-				isValid[1] = parameter >= 0 && parameter <= 1;
-			}
-			break;
-
-		case PASCAL:
-			if (index == 0) {
-				// n >= 1, integer
-				isValid[0] = Math.floor(parameter) == parameter
-						&& parameter >= 1;
-			} else if (index == 1) {
-				// p is probability value
-				isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
-			}
-			break;
-
-		case HYPERGEOMETRIC:
-			if (index == 0) {
-				// population size: N >= 1, integer
-				isValid[0] = index == 0 && Math.floor(parameter) == parameter
-						&& parameter >= 1;
-			} else if (index == 1) {
-				// successes in the population: n >= 0 and <= N, integer
-				isValid[1] = index == 1 && Math.floor(parameter) == parameter
-						&& parameter >= 0 && parameter <= parameters[0];
-			} else if (index == 2) {
-				// sample size: s>= 1 and s<= N, integer
-				isValid[2] = index == 2 && Math.floor(parameter) == parameter
-						&& parameter >= 1 && parameter <= parameters[0];
-			}
-			break;
-
-		// these distributions have no parameter restrictions
-		// case DIST.NORMAL:
-		// case DIST.LOGNORMAL:
-		}
-
-		return isValid[0] && isValid[1] && isValid[2];
-
-	}
+	
 
 	// =================================================
 	// Event Handlers
@@ -742,7 +601,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 
 	}
 
-	private void updateGUI() {
+	protected void updateGUI() {
 
 		// set visibility and text of the parameter labels and fields
 		for (int i = 0; i < maxParameterCount; ++i) {
@@ -800,20 +659,14 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 
 	}
 
-	private void updateIntervalProbability() {
-		probability = intervalProbability();
-		if (probManager.isDiscrete(selectedDist))
-			this.discreteIntervalGraph.updateCascade();
-		else if (hasIntegral)
-			this.integral.updateCascade();
-	}
+	
 
 	private void updateProbabilityType() {
 
 		if (isIniting)
 			return;
 
-		boolean isDiscrete = probManager.isDiscrete(selectedDist);
+		boolean isDiscrete = probmanagerIsDiscrete();
 		int oldProbMode = probMode;
 
 		if (isCumulative) {
@@ -925,7 +778,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 		// setSliderDefaults();
 
 		// update
-		if (probManager.isDiscrete(selectedDist)) {
+		if (probmanagerIsDiscrete()) {
 			discreteGraph.update();
 			discreteIntervalGraph.update();
 			// updateDiscreteTable();
@@ -944,15 +797,14 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 
 	}
 
-	private void updateDiscreteTable() {
-		if (!probManager.isDiscrete(selectedDist))
+	protected void updateDiscreteTable() {
+		if (!probmanagerIsDiscrete())
 			return;
-
-		int firstX = (int) ((GeoNumeric) discreteValueList.get(0)).getDouble();
-		int lastX = (int) ((GeoNumeric) discreteValueList.get(discreteValueList
-				.size() - 1)).getDouble();
-		((ProbabilityTableD) table).setTable(selectedDist, parameters, firstX, lastX);
+		int[] firstXLastX = generateFirstXLastXCommon();
+		((ProbabilityTableD) table).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
 	}
+
+	
 
 	protected void updatePrintFormat(int printDecimals, int printFigures) {
 		this.printDecimals = printDecimals;
@@ -1003,117 +855,8 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 		lblMeanSigma.setText(meanSigmaStr);
 	}
 
-	// =================================================
-	// View Implementation
-	// =================================================
+	
 
-	@Override
-	public void add(GeoElement geo) {
-	}
-
-	@Override
-	public void clearView() {
-		// Application.debug("prob calc clear view");
-		// this.removeGeos();
-		// plotPanel.clearView();
-	}
-
-	@Override
-	public void remove(GeoElement geo) {
-	}
-
-	@Override
-	public void rename(GeoElement geo) {
-	}
-
-	@Override
-	public void repaintView() {
-	}
-
-	@Override
-	public void reset() {
-		// Application.debug("prob calc reset");
-		// updateAll();
-	}
-
-	@Override
-	public void setMode(int mode, ModeSetter m) {
-	}
-
-	@Override
-	public void updateAuxiliaryObject(GeoElement geo) {
-	}
-
-	// Handles user point changes in the EV plot panel
-	@Override
-	public void update(GeoElement geo) {
-		if (!isSettingAxisPoints && !isIniting) {
-			if (geo.equals(lowPoint)) {
-				if (isValidInterval(probMode, lowPoint.getInhomX(), high)) {
-					low = lowPoint.getInhomX();
-					updateIntervalProbability();
-					updateGUI();
-					if (probManager.isDiscrete(selectedDist))
-						table.setSelectionByRowValue((int) low, (int) high);
-				} else {
-					setXAxisPoints();
-				}
-			}
-			if (geo.equals(highPoint)) {
-				if (isValidInterval(probMode, low, highPoint.getInhomX())) {
-					high = highPoint.getInhomX();
-					updateIntervalProbability();
-					updateGUI();
-					if (probManager.isDiscrete(selectedDist))
-						table.setSelectionByRowValue((int) low, (int) high);
-				} else {
-					setXAxisPoints();
-				}
-			}
-		}
-		updateRounding();
-
-		// statCalculator.updateResult();
-	}
-
-	/**
-	 * Adjust local rounding constants to match global rounding constants and
-	 * update GUI when needed
-	 */
-	private void updateRounding() {
-
-		if (kernel.useSignificantFigures) {
-			if (printFigures != kernel.getPrintFigures()) {
-				printFigures = kernel.getPrintFigures();
-				printDecimals = -1;
-				updateDiscreteTable();
-				updateGUI();
-			}
-		} else if (printDecimals != kernel.getPrintDecimals()) {
-			printDecimals = kernel.getPrintDecimals();
-			updateDiscreteTable();
-			updateGUI();
-		}
-	}
-
-	@Override
-	final public void updateVisualStyle(GeoElement geo) {
-		update(geo);
-	}
-
-	public void attachView() {
-		// clearView();
-		// kernel.notifyAddAll(this);
-		kernel.attach(this);
-	}
-
-	public void detachView() {
-		removeGeos();
-		kernel.detach(this);
-		// plotPanel.detachView();
-		// clearView();
-		// kernel.notifyRemoveAll(this);
-	}
 
 	public void setLabels() {
 
@@ -1292,6 +1035,7 @@ public class ProbabilityCalculator extends ProbabilityCalcualtorView implements 
 			Integer euclidianViewID = (Integer) this
 					.getValue("euclidianViewID");
 
+		
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
 				euclidianViewID = ((AppD) app).getShiftDown() ? app.getEuclidianView2()

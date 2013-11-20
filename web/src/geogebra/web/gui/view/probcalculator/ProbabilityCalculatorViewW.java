@@ -55,4 +55,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView {
 	    
     }
 
+	@Override
+    protected void updateDiscreteTable() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected void updateGUI() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

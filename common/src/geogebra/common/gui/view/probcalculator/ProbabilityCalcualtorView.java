@@ -1314,43 +1314,261 @@ public abstract class ProbabilityCalcualtorView implements View {
 	}
 
 	public void add(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void remove(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void rename(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
+	// Handles user point changes in the EV plot panel
+	@Override
 	public void update(GeoElement geo) {
-		// TODO Auto-generated method stub
+		if (!isSettingAxisPoints && !isIniting) {
+			if (geo.equals(lowPoint)) {
+				if (isValidInterval(probMode, lowPoint.getInhomX(), high)) {
+					low = lowPoint.getInhomX();
+					updateIntervalProbability();
+					updateGUI();
+					if (probManager.isDiscrete(selectedDist))
+						table.setSelectionByRowValue((int) low, (int) high);
+				} else {
+					setXAxisPoints();
+				}
+			}
+			if (geo.equals(highPoint)) {
+				if (isValidInterval(probMode, low, highPoint.getInhomX())) {
+					high = highPoint.getInhomX();
+					updateIntervalProbability();
+					updateGUI();
+					if (probManager.isDiscrete(selectedDist))
+						table.setSelectionByRowValue((int) low, (int) high);
+				} else {
+					setXAxisPoints();
+				}
+			}
+		}
+		updateRounding();
+
+		// statCalculator.updateResult();
+	}
+	
+	/**
+	 * Returns an interval probability for the currently selected distribution
+	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
+	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
+	 * == PROB_RIGHT then P(X <= high) is returned.
+	 */
+	protected double intervalProbability() {
+
+		return probManager.intervalProbability(low, high, selectedDist,
+				parameters, probMode);
+	}
+
+	/**
+	 * Returns an inverse probability for a selected distribution.
+	 * 
+	 * @param prob
+	 */
+	protected double inverseProbability(double prob) {
+
+		return probManager.inverseProbability(selectedDist, prob, parameters);
+	}
+	
+	protected void updateIntervalProbability() {
+		probability = intervalProbability();
+		if (probmanagerIsDiscrete())
+			this.discreteIntervalGraph.updateCascade();
+		else if (hasIntegral)
+			this.integral.updateCascade();
+	}
+	
+	protected boolean isValidInterval(int probMode, double xLow, double xHigh) {
+
+		if (probMode == PROB_INTERVAL && xHigh < xLow)
+			return false;
+
+		// don't allow non-integer bounds for discrete dist.
+		if (probManager.isDiscrete(selectedDist)
+				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh)) {
+			return false;
+		}
+
+		boolean isValid = true;
+		switch (selectedDist) {
+
+		case BINOMIAL:
+		case HYPERGEOMETRIC:
+			isValid = xLow >= getDiscreteXMin() && xHigh <= getDiscreteXMax();
+			break;
+
+		case POISSON:
+		case PASCAL:
+			isValid = xLow >= getDiscreteXMin();
+			break;
+
+		case CHISQUARE:
+		case EXPONENTIAL:
+			if (probMode != PROB_LEFT)
+				isValid = xLow >= 0;
+			break;
+
+		case F:
+			if (probMode != PROB_LEFT)
+				isValid = xLow > 0;
+			break;
+
+		}
+
+		return isValid;
 
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
+	protected boolean isValidParameter(double parameter, int index) {
+
+		boolean[] isValid = { true, true, true };
+
+		switch (selectedDist) {
+
+		case F:
+		case STUDENT:
+		case EXPONENTIAL:
+		case WEIBULL:
+		case POISSON:
+			if (index == 0) {
+				// all parameters must be positive
+				isValid[0] = parameter > 0;
+			}
+			break;
+
+		case CAUCHY:
+		case LOGISTIC:
+			if (index == 1) {
+				// scale must be positive
+				isValid[1] = index == 1 && parameter > 0;
+			}
+			break;
+
+		case CHISQUARE:
+			if (index == 0) {
+				// df >= 1, integer
+				isValid[0] = Math.floor(parameter) == parameter
+						&& parameter >= 1;
+			}
+			break;
+
+		case BINOMIAL:
+			if (index == 0) {
+				// n >= 0, integer
+				isValid[0] = Math.floor(parameter) == parameter
+						&& parameter >= 0;
+			} else if (index == 1) {
+				// p is probability value
+				isValid[1] = parameter >= 0 && parameter <= 1;
+			}
+			break;
+
+		case PASCAL:
+			if (index == 0) {
+				// n >= 1, integer
+				isValid[0] = Math.floor(parameter) == parameter
+						&& parameter >= 1;
+			} else if (index == 1) {
+				// p is probability value
+				isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
+			}
+			break;
+
+		case HYPERGEOMETRIC:
+			if (index == 0) {
+				// population size: N >= 1, integer
+				isValid[0] = index == 0 && Math.floor(parameter) == parameter
+						&& parameter >= 1;
+			} else if (index == 1) {
+				// successes in the population: n >= 0 and <= N, integer
+				isValid[1] = index == 1 && Math.floor(parameter) == parameter
+						&& parameter >= 0 && parameter <= parameters[0];
+			} else if (index == 2) {
+				// sample size: s>= 1 and s<= N, integer
+				isValid[2] = index == 2 && Math.floor(parameter) == parameter
+						&& parameter >= 1 && parameter <= parameters[0];
+			}
+			break;
+
+		// these distributions have no parameter restrictions
+		// case DIST.NORMAL:
+		// case DIST.LOGNORMAL:
+		}
+
+		return isValid[0] && isValid[1] && isValid[2];
 
 	}
 
+	/**
+	 * Adjust local rounding constants to match global rounding constants and
+	 * update GUI when needed
+	 */
+	private void updateRounding() {
+
+		if (kernel.useSignificantFigures) {
+			if (printFigures != kernel.getPrintFigures()) {
+				printFigures = kernel.getPrintFigures();
+				printDecimals = -1;
+				updateDiscreteTable();
+				updateGUI();
+			}
+		} else if (printDecimals != kernel.getPrintDecimals()) {
+			printDecimals = kernel.getPrintDecimals();
+			updateDiscreteTable();
+			updateGUI();
+		}
+	}
+	
+	protected abstract void updateDiscreteTable();
+	
+	protected abstract void updateGUI();
+	
+	protected boolean probmanagerIsDiscrete() {
+		return probManager.isDiscrete(selectedDist);
+	}
+
+	protected int[] generateFirstXLastXCommon() {
+		int firstXLastX [] = new int[2];
+		firstXLastX[0] = (int) ((GeoNumeric) discreteValueList.get(0)).getDouble();
+		firstXLastX[1] = (int) ((GeoNumeric) discreteValueList.get(discreteValueList
+				.size() - 1)).getDouble();
+		return firstXLastX;
+	}
+
+	@Override
+	final public void updateVisualStyle(GeoElement geo) {
+		update(geo);
+	}
+
+	public void attachView() {
+		// clearView();
+		// kernel.notifyAddAll(this);
+		kernel.attach(this);
+	}
+
+	public void detachView() {
+		removeGeos();
+		kernel.detach(this);
+		// plotPanel.detachView();
+		// clearView();
+		// kernel.notifyRemoveAll(this);
+	}
+	
 	public void updateAuxiliaryObject(GeoElement geo) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public void repaintView() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void reset() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public void clearView() {
