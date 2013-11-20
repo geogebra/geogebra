@@ -15,13 +15,13 @@ public class DrawConicPart3D extends DrawConic3D {
 	
 	
 	@Override
-	protected double getStart(){
+	protected double getEllipseStart(){
 		//return 0;
 		return ((GeoConicPart) getGeoElement()).getParameterStart();
 	}
 	
 	@Override
-	protected double getExtent(){
+	protected double getEllipseExtent(){
 		return ((GeoConicPart) getGeoElement()).getParameterExtent();
 	}
 	
@@ -29,8 +29,8 @@ public class DrawConicPart3D extends DrawConic3D {
 	@Override
 	protected void updateCircle(PlotterBrush brush){
 		
-		double start = getStart();
-		double extent = getExtent();
+		double start = getEllipseStart();
+		double extent = getEllipseExtent();
 		brush.arc(m, ev1, ev2, e1,start,extent);
 		
 		updateSectorSegments(brush, start, start+extent);
@@ -40,8 +40,8 @@ public class DrawConicPart3D extends DrawConic3D {
 	protected void updateEllipse(PlotterBrush brush){
 		
 
-		double start = getStart();
-		double extent = getExtent();
+		double start = getEllipseStart();
+		double extent = getEllipseExtent();
 		brush.arcEllipse(m, ev1, ev2, e1, e2, start, extent);
 		
 		updateSectorSegments(brush, start, start+extent);

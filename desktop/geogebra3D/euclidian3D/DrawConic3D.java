@@ -342,15 +342,23 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param surface surface plotter
 	 */
 	protected void updateEllipse(PlotterSurface surface){
-		surface.ellipsePart(m, ev1, ev2, e1, e2, getStart(),getExtent());
+		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseStart(),getEllipseExtent());
 	}
-	
-	
-	protected double getStart(){
+
+
+	protected double getEllipseStart(){
+		if (visible == Visible.CENTER_OUTSIDE){
+			return beta - alpha;
+		}
 		return 0;
 	}
-	
-	protected double getExtent(){
+
+	protected double getEllipseExtent(){
+		
+		if (visible == Visible.CENTER_OUTSIDE){
+			return 2 * alpha;
+		}
+		
 		return 2*Math.PI;
 	}
 	
@@ -397,7 +405,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				updateForItSelf();
 				break;
 			case GeoConicNDConstants.CONIC_CIRCLE:
-				if (getView3D().viewChangedByZoom()) //update only if zoom occurred
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				if (getView3D().viewChangedByZoom()                                                     //update only if zoom occurred
+						|| (visible != Visible.TOTALLY_INSIDE && getView3D().viewChangedByTranslate())) //or if translate with not totally visible ellipse
 					updateForItSelf();
 				break;
 			case GeoConicNDConstants.CONIC_SINGLE_POINT:
