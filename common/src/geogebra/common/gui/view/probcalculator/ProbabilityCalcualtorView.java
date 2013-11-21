@@ -61,6 +61,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 
@@ -74,7 +75,7 @@ import java.util.TreeSet;
  * Commmon view for ProbabilityCalculator
  *
  */
-public abstract class ProbabilityCalcualtorView implements View {
+public abstract class ProbabilityCalcualtorView implements View, SettingListener {
 	
 	/**
 	 * Application
@@ -187,10 +188,28 @@ public abstract class ProbabilityCalcualtorView implements View {
 
 	
 	public ProbabilityCalcualtorView(App app) {
+		
+		isIniting = true;
+		
 		this.app = app;
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		cons = kernel.getConstruction();
+		
+		// Initialize settings and register listener
+		app.getSettings().getProbCalcSettings().addListener(this);
+		
+		probManager = new ProbabilityManager(app, this);
+		plotSettings = new PlotSettings();
+		plotGeoList = new ArrayList<GeoElement>();
+
+	}
+	
+	protected void setLabelArrays() {
+
+		distributionMap = probManager.getDistributionMap();
+		reverseDistributionMap = probManager.getReverseDistributionMap();
+		parameterLabels = ProbabilityManager.getParameterLabelArray(app);
 	}
 	
 	/**
@@ -1688,6 +1707,41 @@ public abstract class ProbabilityCalcualtorView implements View {
 
 		return ret.getResult();
 
+	}
+	
+	// ============================================================
+	// XML
+	// ============================================================
+
+	/**
+	 * returns settings in XML format
+	 */
+	public void getXML(StringBuilder sb) {
+
+		if (selectedDist == null)
+			return;
+
+		sb.append("<probabilityCalculator>\n");
+		sb.append("\t<distribution");
+
+		sb.append(" type=\"");
+		sb.append(selectedDist.ordinal());
+		sb.append("\"");
+
+		sb.append(" isCumulative=\"");
+		sb.append(isCumulative ? "true" : "false");
+		sb.append("\"");
+
+		sb.append(" parameters" + "=\"");
+		for (int i = 0; i < parameters.length; i++) {
+			sb.append(parameters[i]);
+			sb.append(",");
+		}
+		sb.deleteCharAt(sb.lastIndexOf(","));
+		sb.append("\"");
+
+		sb.append("/>\n");
+		sb.append("</probabilityCalculator>\n");
 	}
 
 

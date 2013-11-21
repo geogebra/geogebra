@@ -27,8 +27,28 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView {
 	public ProbabilityCalculatorViewW(AppW app) {
 	   super(app);
 	   
+	   createGUIElements();
+	   createLayoutPanels();
+	   buildProbCalcPanel();
+	   isIniting = false;
+	   
     }
 	
+	private void buildProbCalcPanel() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	private void createLayoutPanels() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	private void createGUIElements() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 	/**
 	 * inits the gui of ProbablityCalculatorView
 	 */

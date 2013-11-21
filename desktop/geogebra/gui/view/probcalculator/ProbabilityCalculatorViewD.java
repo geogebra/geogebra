@@ -6,11 +6,9 @@ import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
-import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.Unicode;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
@@ -31,7 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -60,7 +57,7 @@ import javax.swing.event.ChangeListener;
  * 
  */
 public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implements
-		ActionListener, FocusListener, ChangeListener, SettingListener {
+		ActionListener, FocusListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -115,17 +112,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 	 */
 	public ProbabilityCalculatorViewD(AppD app) {
 		super(app);
-		isIniting = true;
 		
 		wrapperPanel = new JPanel();
-		
-
-		// Initialize settings and register listener
-		app.getSettings().getProbCalcSettings().addListener(this);
-
-		probManager = new ProbabilityManager(app, this);
-		plotSettings = new PlotSettings();
-		plotGeoList = new ArrayList<GeoElement>();
 
 		createGUIElements();
 		createLayoutPanels();
@@ -891,12 +879,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 
 	}
 
-	private void setLabelArrays() {
-
-		distributionMap = probManager.getDistributionMap();
-		reverseDistributionMap = probManager.getReverseDistributionMap();
-		parameterLabels = ProbabilityManager.getParameterLabelArray((AppD) app);
-	}
+	
 
 	private void setProbabilityComboBoxMenu() {
 
@@ -978,40 +961,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 		((PlotPanelEuclidianView) plotPanel).updateSettings(plotSettings);
 	}
 
-	// ============================================================
-	// XML
-	// ============================================================
 
-	/**
-	 * returns settings in XML format
-	 */
-	public void getXML(StringBuilder sb) {
-
-		if (selectedDist == null)
-			return;
-
-		sb.append("<probabilityCalculator>\n");
-		sb.append("\t<distribution");
-
-		sb.append(" type=\"");
-		sb.append(selectedDist.ordinal());
-		sb.append("\"");
-
-		sb.append(" isCumulative=\"");
-		sb.append(isCumulative ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" parameters" + "=\"");
-		for (int i = 0; i < parameters.length; i++) {
-			sb.append(parameters[i]);
-			sb.append(",");
-		}
-		sb.deleteCharAt(sb.lastIndexOf(","));
-		sb.append("\"");
-
-		sb.append("/>\n");
-		sb.append("</probabilityCalculator>\n");
-	}
 
 	
 
