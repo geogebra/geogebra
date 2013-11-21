@@ -18,23 +18,26 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The main frame containing every view / menu bar / ....
  * This Panel (Frame is resize able)
  */
-public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletProperties {
+public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProperties {
 
 	private static final int BORDER_WIDTH = 2;
 	private static final int BORDER_HEIGHT = 2;
 
-	private static final int WINDOW_PADDING = 10;
+	private static final int WINDOW_WIDTH_PADDING = 16;
+	private static final int WINDOW_HEIGHT_PADDING = 16;
+
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
 
@@ -146,7 +149,7 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 		
 		if (ae.getDataParamFitToScreen()) {
 			//we must say the bodyelement to resize itself
-			height = Window.getClientHeight() - WINDOW_PADDING;
+			height = Window.getClientHeight() - WINDOW_HEIGHT_PADDING;
 		}
 		if (minHeight > 0 && height < minHeight ) {
 			height = minHeight;
@@ -178,10 +181,9 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 		
 		//do we have fit to screen?
 		if (ae.getDataParamFitToScreen()) {
-			width = Window.getClientWidth() - WINDOW_PADDING;
-			//this is enought to do once
-			RootPanel.getBodyElement().getStyle().setMargin(0, Unit.PX);
-			RootPanel.getBodyElement().getStyle().setPadding(0, Unit.PX);
+			width = Window.getClientWidth() - WINDOW_WIDTH_PADDING;
+			//kill the scrollbars. We don't need them anymore
+			RootPanel.get().getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		}
 		if (minWidth > 0 && width < minWidth ) {
 			width = minWidth;
