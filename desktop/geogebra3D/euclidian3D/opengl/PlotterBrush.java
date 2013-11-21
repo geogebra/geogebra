@@ -6,7 +6,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra3D.euclidian3D.plots.CurveMesh;
 import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.euclidian3D.plots.MarchingCubes;
@@ -405,7 +404,7 @@ public class PlotterBrush implements PathPlotter {
 			}
 		}
 		
-		App.debug("longitude="+longitude);
+		//App.debug("longitude="+longitude);
 		return longitude;
 	}
 

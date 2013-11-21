@@ -4,7 +4,6 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoQuadric3D;
@@ -123,7 +122,7 @@ implements Previewable {
 			visible = Visible.CENTER_OUTSIDE; // center outside
 			// calc angles to draw minimum longitudes
 			double horizontalDistance2 = v.getX()*v.getX()+v.getY()*v.getY();
-			alpha = Math.acos((radius*radius+horizontalDistance2-frustumRadius*frustumRadius)/(2*Math.sqrt(horizontalDistance2)*radius));
+			alpha = Math.asin(frustumRadius/Math.sqrt(horizontalDistance2));
 			beta = Math.atan2(v.getY(), v.getX());
 		}	
 		
@@ -136,7 +135,7 @@ implements Previewable {
 			while (longitudeAlpha * Math.PI < alpha * longitude){
 				longitudeAlpha *= 2;
 			}
-			App.debug(longitudeAlpha+"");
+			//App.debug(longitudeAlpha+"");
 			surface.drawSphere(center, radius, longitude, beta - longitudeAlpha*Math.PI/longitude, longitudeAlpha);
 		}else{
 			surface.drawSphere(center, radius, longitude);
