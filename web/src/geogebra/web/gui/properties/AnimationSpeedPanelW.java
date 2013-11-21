@@ -77,5 +77,10 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	public void setText(String text) {
 		tfAnimSpeed.setText(text);
     }
+
+	public void setPartOfSliderPanel() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

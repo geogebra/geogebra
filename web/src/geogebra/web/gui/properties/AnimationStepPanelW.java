@@ -70,4 +70,9 @@ implements ITextFieldListener {
 		label.setText(kernel.getApplication().getPlain("AnimationStep") + ": ");
 	}
 
+	public void setPartOfSliderPanel() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

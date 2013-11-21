@@ -72,6 +72,7 @@ import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
 import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
+import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -1752,6 +1753,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 		tabs = Arrays.asList(
 				basicTab,
+				addSliderTab(),
 				addColorTab(),
 				addStyleTab(),
 				addAdvancedTab(),
@@ -1853,6 +1855,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		
 	}
 
+	private OptionsTab addSliderTab() {
+		OptionsTab tab = new OptionsTab(loc.getPlain("Slider"));
+		tab.setStyleName("objectPropertiesTab");
+		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
+		tab.add(sliderPanel);
+		return tab;
+	}
+	
 	private OptionsTab addColorTab() {
 		OptionsTab tab = new OptionsTab(loc.getPlain("Color"));
 		tab.setStyleName("objectPropertiesTab");
