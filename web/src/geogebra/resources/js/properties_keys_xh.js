@@ -31,7 +31,7 @@ __GGB__keysVar.xh.colors = {
     "indigo": "Indigo",
     "lightblue": "Ubhlu okhanyayo",
     "lightgray": "Ugreyi Okhanyayo",
-    "lightgreen": "Uluhaza Okhanyayo",
+    "lightgreen": "Uluhlaza Okhanyayo",
     "lightorange": "Uorenji Okhanyayo",
     "lightpurple": "Upepile Okhanyayo",
     "lightviolet": "Uvayoleti okhanyayo",
