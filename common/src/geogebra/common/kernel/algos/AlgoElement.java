@@ -25,7 +25,6 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -57,7 +56,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 	@Deprecated
 	private GeoElement[] output;
 	private GeoElement[] efficientInput;
-	protected GeoNumeric[] randomUnlabeledInput;
 
 	private boolean isPrintedInXML = true;
 	protected boolean stopUpdateCascade = false;
@@ -541,14 +539,28 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 *  update input random numbers without label
 	 */
-	public void updateUnlabeledRandomGeos() {
-		
-				if (randomUnlabeledInput != null) {
-					for (int i = 0; i < randomUnlabeledInput.length; i++) {
-						randomUnlabeledInput[i].updateRandomGeo();
+	public boolean updateUnlabeledRandomGeos() {
+		boolean ret = false;
+				for (int i = 0; i < input.length; i++) {
+						if(!input[i].isLabelSet()){
+							if(input[i].getParentAlgorithm()!=null){
+								//if Mod[RandomBetween[1,3],2], we must go deeper and update
+								//if just RandomBetween[1,3] we just update
+								if(input[i].getParentAlgorithm().updateUnlabeledRandomGeos()
+										|| input[i].isRandomGeo()){
+									input[i].getParentAlgorithm().compute();
+									ret = true;
+								}
+							}else{
+								//random() has no parent algo
+								if(input[i].isRandomGeo()){
+									input[i].updateRandomGeo();
+									ret = true;
+								}
+							}
+						}
 					}
-				}
-		
+		return ret;
 	}
 
 	/**
@@ -647,25 +659,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * numbers need to be updated in update() before compute() is called.
 	 */
 	private void setRandomUnlabeledInput() {
-		ArrayList<GeoNumeric> tempList = null;
-		for (int i = 0; i < input.length; i++) {
-			if (input[i].isGeoNumeric() && !input[i].isLabelSet()) {
-				GeoNumeric num = (GeoNumeric) input[i];
-				if (num.isRandomGeo()) {
-					if (tempList == null) {
-						tempList = new ArrayList<GeoNumeric>();
-					}
-					tempList.add(num);
-				}
-			}
-		}
-
-		if (tempList != null) {
-			randomUnlabeledInput = new GeoNumeric[tempList.size()];
-			for (int i = 0; i < randomUnlabeledInput.length; i++) {
-				randomUnlabeledInput[i] = tempList.get(i);
-			}
-		}
+		//TODO
 	}
 
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
