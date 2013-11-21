@@ -1,5 +1,6 @@
 package geogebra.web.presenter;
 
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppWeb;
@@ -82,7 +83,7 @@ public class LoadFilePresenter{
 		//app.setMaxIconSize(maxIconSize);
 
 		boolean showToolBar = view.getDataParamShowToolBar();
-		boolean showMenuBar = view.getDataParamShowMenuBar();
+		boolean showMenuBar = view.getDataParamShowMenuBar() || App.isFullAppGui();
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());
