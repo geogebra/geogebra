@@ -73,4 +73,8 @@ public class Browser {
 		$wnd.console.log("FLOAT: "+floatSupport);
 		return 'undefined' !== typeof Float64Array;
 	}-*/;
+
+	public static native boolean supportsPointerEvents()/*-{
+	    return window.navigator.msPointerEnabled ? true : false;
+    }-*/;
 }

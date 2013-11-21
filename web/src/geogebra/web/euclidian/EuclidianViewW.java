@@ -126,7 +126,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	private void registerMouseTouchGestureHandlers(Canvas canvas, EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if(Browser.isIE()){
+		if(Browser.supportsPointerEvents()){
 			msZoomer = new MsZoomer(euclidianController);
 			MsZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement(),msZoomer);
 			return;

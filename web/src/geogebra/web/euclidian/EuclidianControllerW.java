@@ -410,6 +410,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			event.preventDefault();
 		}
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		onMouseDown(e);
 	}
 	
 	public void onMouseDown(AbstractEvent e){
