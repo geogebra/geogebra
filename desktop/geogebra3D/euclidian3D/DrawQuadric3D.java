@@ -4,6 +4,7 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoQuadric3D;
@@ -135,6 +136,7 @@ implements Previewable {
 			while (longitudeAlpha * Math.PI < alpha * longitude){
 				longitudeAlpha *= 2;
 			}
+			App.debug(longitudeAlpha+"");
 			surface.drawSphere(center, radius, longitude, beta - longitudeAlpha*Math.PI/longitude, longitudeAlpha);
 		}else{
 			surface.drawSphere(center, radius, longitude);

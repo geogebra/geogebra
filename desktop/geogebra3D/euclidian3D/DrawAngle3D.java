@@ -149,7 +149,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				brush.segment(center.add(v2.mul(size)),center.add(v1.mul(size)).add(v2.mul(size)));
 			}else{
 				brush.setAffineTexture(0f,0f);
-				brush.arc(center, v1, vn2, size, 0,a);
+				brush.arc(center, v1, vn2, size, 0,a, 60);
 				brush.setAffineTexture(0.5f,  0.25f);
 			}
 			//segments	

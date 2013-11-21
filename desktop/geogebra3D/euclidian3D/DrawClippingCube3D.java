@@ -162,13 +162,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		int h = renderer.getHeight();
 		int d = renderer.getVisibleDepth();
 		frustumRadius = Math.sqrt(w*w+h*h+d*d)/(2*scale);
-		/*
-		double w = minMax[0][1]-minMax[0][0];
-		double h = minMax[2][1]-minMax[2][0];
-		double d = minMax[1][1]-minMax[1][0];
-		//frustumRadius = Math.sqrt(w*w+h*h+d*d);
-		frustumRadius = h/2;
-		*/
+		
+		//double h = minMax[2][1]-minMax[2][0]; frustumRadius = h/2;
+		
 		
 		view.setXYMinMax(minMax);
 

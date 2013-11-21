@@ -142,40 +142,42 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			
 		}else{
 
-			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-			brush.start(8);
+			if (visible != Visible.FRUSTUM_INSIDE){ // no outline when frustum inside
+				PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+				brush.start(8);
 
-			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());		
+				brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());		
 
 
-			brush.setAffineTexture(0f,0f);
-			switch(conic.getType()){
-			case GeoConicNDConstants.CONIC_CIRCLE:
-				updateCircle(brush);
-				break;
-			case GeoConicNDConstants.CONIC_ELLIPSE:
-				updateEllipse(brush);
-				break;
-			case GeoConicNDConstants.CONIC_HYPERBOLA:
-				updateHyperbola(brush);				
-				break;
-			case GeoConicNDConstants.CONIC_PARABOLA:
-				updateParabola(brush);				
-				break;
-			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
-				break;
-			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				updateLines(brush);
-				break;
-			default:
-				break;
+				brush.setAffineTexture(0f,0f);
+				switch(conic.getType()){
+				case GeoConicNDConstants.CONIC_CIRCLE:
+					updateCircle(brush);
+					break;
+				case GeoConicNDConstants.CONIC_ELLIPSE:
+					updateEllipse(brush);
+					break;
+				case GeoConicNDConstants.CONIC_HYPERBOLA:
+					updateHyperbola(brush);				
+					break;
+				case GeoConicNDConstants.CONIC_PARABOLA:
+					updateParabola(brush);				
+					break;
+				case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+					brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
+					break;
+				case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+					updateLines(brush);
+					break;
+				default:
+					break;
 
+				}
+
+				setGeometryIndex(brush.end());
 			}
 
-			setGeometryIndex(brush.end());
-			
 			// surface
 			PlotterSurface surface = renderer.getGeometryManager().getSurface();
 			surface.start();
@@ -342,20 +344,28 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param surface surface plotter
 	 */
 	protected void updateEllipse(PlotterSurface surface){
-		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseStart(),getEllipseExtent());
+		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),getEllipseSurfaceExtent());
 	}
 
 
-	protected double getEllipseStart(){
-		if (visible == Visible.CENTER_OUTSIDE){
+	/**
+	 * 
+	 * @return start angle value for drawing ellipse surface
+	 */
+	protected double getEllipseSurfaceStart(){
+		if (visible == Visible.CENTER_OUTSIDE || visible == Visible.FRUSTUM_INSIDE){
 			return beta - alpha;
 		}
 		return 0;
 	}
 
-	protected double getEllipseExtent(){
+	/**
+	 * 
+	 * @return extent angle value for drawing ellipse surface
+	 */
+	protected double getEllipseSurfaceExtent(){
 		
-		if (visible == Visible.CENTER_OUTSIDE){
+		if (visible == Visible.CENTER_OUTSIDE || visible == Visible.FRUSTUM_INSIDE){
 			return 2 * alpha;
 		}
 		
@@ -370,9 +380,11 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	protected void updateCircle(PlotterBrush brush){
 		
 		if (visible == Visible.CENTER_OUTSIDE){
-			brush.arc(m, ev1, ev2, e1, beta - alpha, 2 * alpha);
+			longitude = brush.calcArcLongitudesNeeded(e1, alpha, getView3D().getScale());
+			brush.arc(m, ev1, ev2, e1, beta - alpha, 2 * alpha, longitude);
 		}else{
-			brush.circle(m, ev1, ev2, e1);
+			longitude = brush.calcArcLongitudesNeeded(e1, Math.PI, getView3D().getScale());
+			brush.circle(m, ev1, ev2, e1, longitude);
 		}
 
 	}
@@ -613,19 +625,23 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	private double alpha, beta;
 	
+	protected int longitude = 60;
+	
 	/**
 	 * Visibility flag
 	 * @author mathieu
 	 *
 	 */
 	private static enum Visible{
-		/** the quadric is totally outside */
+		/** the conic is totally outside */
 		TOTALLY_OUTSIDE, 
-		/** the quadric is totally inside */
+		/** the frustum is inside the conic */
+		FRUSTUM_INSIDE, 
+		/** the conic is totally inside */
 		TOTALLY_INSIDE,
-		/** the quadric is partly inside, center outside */
+		/** the conic is partly inside, center outside */
 		CENTER_OUTSIDE,
-		/** the quadric is partly inside, center inside */
+		/** the conic is partly inside, center inside */
 		CENTER_INSIDE
 	}
 	
@@ -633,11 +649,12 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	
 	/**
-	 * check if the sphere is (at least partially) visible
-	 * @param center sphere center
-	 * @param radius sphere radius
+	 * check if the ellipse is (at least partially) visible
+	 * @param center ellipse center
+	 * @param rMin min ellipse radius
+	 * @param rMax max ellipse radius
 	 */
-	private void checkCircleVisible(Coords center, double radius){
+	private void checkEllipseVisible(Coords center, double rMin, double rMax){
 		
 		double frustumRadius = getView3D().getFrustumRadius();
 		Coords origin = getView3D().getCenter();
@@ -645,28 +662,36 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		v.calcNorm();
 		double centersDistance = v.getNorm();
 		
-		if (centersDistance > radius + frustumRadius){ // sphere totally outside the frustum
+		if (centersDistance > rMax + frustumRadius){ // circle totally outside the frustum
 			visible = Visible.TOTALLY_OUTSIDE;
-		}else if (centersDistance + frustumRadius < radius){ // frustum totally inside the sphere
-			visible = Visible.TOTALLY_OUTSIDE;
-		}else if (centersDistance + radius < frustumRadius){ // totally inside
-			visible = Visible.TOTALLY_INSIDE;
 		}else if (centersDistance < frustumRadius){ // center inside
 			visible = Visible.CENTER_INSIDE;
+		}else if (centersDistance + frustumRadius < rMin){ // frustum totally inside the circle
+			visible = Visible.FRUSTUM_INSIDE;
+			calcVisibleAngles(v, frustumRadius);
+		}else if (centersDistance + rMax < frustumRadius){ // totally inside
+			visible = Visible.TOTALLY_INSIDE;
 		}else{
-			visible = Visible.CENTER_OUTSIDE; // center outside
-			// calc angles to draw minimum longitudes
-			double x = v.dotproduct(ev1);
-			double y = v.dotproduct(ev2);
-			double horizontalDistance2 = x*x+y*y;
-			alpha = Math.acos((radius*radius+horizontalDistance2-frustumRadius*frustumRadius)/(2*Math.sqrt(horizontalDistance2)*radius));
-			beta = Math.atan2(y,x);
-			//App.debug("\nalpha="+(alpha*180/Math.PI)+"\nbeta="+(beta*180/Math.PI));
+			visible = Visible.CENTER_OUTSIDE; // center outside		
+			calcVisibleAngles(v, frustumRadius);
 		}	
 		
 	}
-	
-	
+
+	/** 
+	 * calc angles to draw minimum longitudes 
+	 */
+	private void calcVisibleAngles(Coords v, double frustumRadius){
+		// calc angles to draw minimum longitudes
+		double x = v.dotproduct(ev1);
+		double y = v.dotproduct(ev2);
+		double horizontalDistance2 = x*x+y*y;
+		alpha = Math.asin(frustumRadius/Math.sqrt(horizontalDistance2));
+		beta = Math.atan2(y * e1, x * e2);
+		//App.debug("\nalpha="+(alpha*180/Math.PI)+"\nbeta="+(beta*180/Math.PI));
+	}
+
+
 	/**
 	 * check if conic is visible. Note that midpoint, etc. are updated here
 	 */
@@ -691,7 +716,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			ev2 = conic.getEigenvec3D(1);
 			e1 = conic.getHalfAxis(0);
 			e2 = e1;
-			checkCircleVisible(m, e1);
+			checkEllipseVisible(m, e1, e2);
 			break;
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			m = conic.getMidpoint3D();
@@ -707,7 +732,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				eMax = e2;
 				eMin = e1;
 			}
-			checkCircleVisible(m, eMax);
+			checkEllipseVisible(m, eMin, eMax);
 			
 			// dilate angle
 			if (alpha * eMax >= Math.PI * eMin){

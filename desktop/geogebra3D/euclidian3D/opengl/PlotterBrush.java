@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.plots.CurveMesh;
 import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.euclidian3D.plots.MarchingCubes;
@@ -377,19 +378,51 @@ public class PlotterBrush implements PathPlotter {
 	 * @param v1
 	 * @param v2
 	 * @param radius
+	 * @param longitude 
 	 */
-	public void circle(Coords center, Coords v1, Coords v2, double radius){
+	public void circle(Coords center, Coords v1, Coords v2, double radius, int longitude){
 		
-		arc(center, v1, v2, radius, 0, 2*Math.PI);
+		arc(center, v1, v2, radius, 0, 2*Math.PI, longitude);
+	}
+	
+	/**
+	 * 
+	 * @param radius radius of the arc
+	 * @param halfExtent arc half extent
+	 * @param viewScale view scale
+	 * @return longitude length needed to render the arc
+	 */
+	public int calcArcLongitudesNeeded(double radius, double halfExtent, double viewScale){
+
+		int longitude;
+		double size=radius * halfExtent * viewScale;
+		if (size > 1048576){ // longitude would be > 2048
+			longitude = 2048;
+		}else{
+			longitude = 8;
+			while(longitude*longitude <= 4*size){//find the correct longitude size 
+				longitude*=2;
+			}
+		}
+		
+		App.debug("longitude="+longitude);
+		return longitude;
 	}
 
 	
-	public void arc(Coords center, Coords v1, Coords v2, double radius, double start, double extent){
+	/**
+	 * draw an arc
+	 * @param center
+	 * @param v1
+	 * @param v2
+	 * @param radius
+	 * @param start
+	 * @param extent
+	 */
+	public void arc(Coords center, Coords v1, Coords v2, double radius, double start, double extent, int longitude){
 		
 		
-		length=(float) (extent*radius); //TODO use integer to avoid bad dash cycle connection
-		
-		int longitude = 60;
+		length=(float) (extent*radius); 
 		
 		Coords vn1;
 		Coords vn2 = v2.crossProduct(v1);
