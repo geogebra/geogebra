@@ -116,7 +116,7 @@ public class PointerEvent extends AbstractEvent {
 	}
 	
 	public static PointerEvent wrapEvent(NativeEvent nativeEvent,HasOffsets off) {
-		PointerEvent evt = wrapEvent(nativeEvent.getClientX(), nativeEvent.getClientY(), PointerEventType.MOUSE, 
+		PointerEvent evt = wrapEvent(nativeEvent.getClientX(), nativeEvent.getClientY(), off.getDefaultEventType(), 
 				 off, off.getMouseEventPool());
 		evt.alt = nativeEvent.getAltKey();
 		evt.control = nativeEvent.getCtrlKey();

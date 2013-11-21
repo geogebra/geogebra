@@ -1,5 +1,7 @@
 package geogebra.html5.event;
 
+import geogebra.common.euclidian.event.PointerEventType;
+
 import java.util.LinkedList;
 
 public interface HasOffsets {
@@ -10,4 +12,5 @@ public interface HasOffsets {
 	public int touchEventX(int clientX);
 	public int touchEventY(int clientY);
 	public int getEvID();
+	public PointerEventType getDefaultEventType();
 }

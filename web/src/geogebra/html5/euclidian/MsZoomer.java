@@ -3,7 +3,6 @@ package geogebra.html5.euclidian;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.html5.event.HasOffsets;
-import geogebra.html5.event.PointerEvent;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.event.ZeroOffset;
 
@@ -61,29 +60,21 @@ public class MsZoomer {
 		this.off = new MsOffset((EuclidianControllerW) tc);
 	}
 	
-	public void pointersUp(){
+	private void pointersUp(){
 		this.tc.setExternalHandling(false);
 	}
-	
-	public void pointerDown(double x, double y){
-		((EuclidianControllerW) this.tc).onMouseDown(new PointerEvent(x,y,PointerEventType.TOUCH,off));
-	}
-	
-	public void pointerMove(double x, double y){
-		((EuclidianControllerW) this.tc).wrapMouseMoveOrDrag(new PointerEvent(x,y,PointerEventType.TOUCH,off));
-	}
-	
-	public void pointerUp(double x, double y){
-		((EuclidianControllerW) this.tc).onMouseUp(new PointerEvent(x,y,PointerEventType.TOUCH,off));
-	}
 
-	public void twoPointersDown(double x1,double y1, double x2, double y2){
+	private void twoPointersDown(double x1,double y1, double x2, double y2){
 		this.tc.setExternalHandling(true);
 		this.tc.twoTouchStart(x1,y1,x2,y2);
 	}
 
-	public void twoPointersMove(double x1,double y1, double x2, double y2){
+	private void twoPointersMove(double x1,double y1, double x2, double y2){
 		this.tc.twoTouchMove(x1,y1,x2,y2);
+	}
+	
+	private void setPointerTypeTouch(boolean b){
+		this.tc.setDefaultEventType(b ? PointerEventType.TOUCH : PointerEventType.MOUSE);
 	}
 	
 	public native void reset()/*-{
@@ -108,9 +99,8 @@ public class MsZoomer {
 				$wnd.first.y = e.y;
 			}
 			
-		}else{
-			zoomer.@geogebra.html5.euclidian.MsZoomer::pointerMove(DD)(e.x,e.y);
 		}
+		zoomer.@geogebra.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2);		
 	});
 	
 	element.addEventListener("MSPointerDown",function(e) {
@@ -129,10 +119,9 @@ public class MsZoomer {
 		if($wnd.first.id >=0 && $wnd.second.id>=0){
 			zoomer.@geogebra.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,$wnd.first.y,
 			$wnd.second.x,$wnd.second.y);
-		}else{
-			zoomer.@geogebra.html5.euclidian.MsZoomer::pointerDown(DD)(e.x,e.y);
 		}
-
+		
+		zoomer.@geogebra.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2);
 	});
 	
 	element.addEventListener("MSPointerUp",function(e) {
@@ -142,9 +131,7 @@ public class MsZoomer {
 			$wnd.second.id = -1;
 		}
 		zoomer.@geogebra.html5.euclidian.MsZoomer::pointersUp()();
-		if($wnd.first.id <0 && $wnd.second.id<0){
-			zoomer.@geogebra.html5.euclidian.MsZoomer::pointerUp(DD)(e.x,e.y);
-		}
+		zoomer.@geogebra.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2);
 	});
 }-*/;
 

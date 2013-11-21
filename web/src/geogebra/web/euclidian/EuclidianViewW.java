@@ -126,11 +126,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	private void registerMouseTouchGestureHandlers(Canvas canvas, EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if(Browser.supportsPointerEvents()){
-			msZoomer = new MsZoomer(euclidianController);
-			MsZoomer.attachTo(euclidianViewPanel.getAbsolutePanel().getElement(),msZoomer);
-			return;
-		}
 		
 		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
@@ -138,6 +133,11 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 		
+		if(Browser.supportsPointerEvents()){
+			msZoomer = new MsZoomer(euclidianController);
+			MsZoomer.attachTo(evPanel.getElement(),msZoomer);
+			return;
+		}
 		
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());

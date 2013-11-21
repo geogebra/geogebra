@@ -1,5 +1,6 @@
 package geogebra.web.euclidian.event;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 
@@ -36,4 +37,8 @@ public class ZeroOffset implements HasOffsets {
 	public int touchEventY(int clientY) {
 		return clientY;
 	}
+
+	public PointerEventType getDefaultEventType() {
+	    return PointerEventType.MOUSE;
+    }
 }

@@ -9787,4 +9787,7 @@ public abstract class EuclidianController {
 	public int getViewID() {
 		return this.view.evNo;
 	}
+	public void setDefaultEventType(PointerEventType pointerEventType) {
+		// TODO Auto-generated method stub
+	}
 }

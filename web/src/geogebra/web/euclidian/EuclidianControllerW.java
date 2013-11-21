@@ -329,10 +329,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		event.preventDefault();
-		wrapMouseMoveOrDrag(e);
-	}
-	
-	public void wrapMouseMoveOrDrag(AbstractEvent e) {
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		
@@ -349,10 +345,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 		
 		onMouseMoveNow(e,time);
-	    
-    }
-
-
+	}
 
 	public void onMouseMoveNow(AbstractEvent event,long time) {
 		this.lastMoveEvent = time;
@@ -381,10 +374,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
-		onMouseUp(e);
-	}
-
-	public void onMouseUp(AbstractEvent e) {
 		this.moveIfWaiting();
 		EuclidianViewWeb.resetDelay();
 		DRAGMODE_MUST_BE_SELECTED = false;
@@ -396,9 +385,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		wrapMouseReleased(e);
 		e.release();
-	    
-    }
+	}
 
+	
 
 
 	public void onMouseDown(MouseDownEvent event) {
@@ -410,10 +399,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			event.preventDefault();
 		}
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
-		onMouseDown(e);
-	}
-	
-	public void onMouseDown(AbstractEvent e){
 		if (app.getGuiManager() != null)
 			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 
@@ -474,6 +459,15 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    return mousePool;
     }
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
+	private PointerEventType defaultEventType;
+	
+	@Override
+    public void setDefaultEventType(PointerEventType defaultEventType) {
+		this.defaultEventType = defaultEventType;
+	}
+
+
+
 	public LinkedList<PointerEvent> getTouchEventPool() {
 	    return touchPool;
     }
@@ -521,6 +515,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public int getEvID() {
 	    return view.getEuclidianViewNo();
+    }
+
+
+
+	public PointerEventType getDefaultEventType() {
+	    return defaultEventType;
     }
 
 }
