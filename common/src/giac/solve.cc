@@ -1223,7 +1223,7 @@ namespace giac {
 	return;
       }
     }
-    if (e._SYMBptr->sommet==at_inv || (e._SYMBptr->sommet==at_pow && ck_is_positive(-e._SYMBptr->feuille._VECTptr->back(),contextptr))){
+    if (e._SYMBptr->sommet==at_inv || (e._SYMBptr->sommet==at_pow && is_positive(-e._SYMBptr->feuille._VECTptr->back(),contextptr))){
       gen ef=e._SYMBptr->feuille;
       if (e._SYMBptr->sommet==at_pow)
 	ef=ef._VECTptr->front();

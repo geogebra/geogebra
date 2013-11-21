@@ -470,7 +470,7 @@ namespace giac {
       return add_print_neg(s,g.feuille,contextptr);
     if (g.sommet==at_inv)
       return add_print_inv(s,g.feuille,contextptr);
-    if (g.sommet==at_exp && calc_mode(contextptr)==1){
+    if (g.sommet==at_exp && (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38)){
       s += printasexp(g.feuille,0,contextptr);
       return s;
     }

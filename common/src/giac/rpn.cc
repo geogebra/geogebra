@@ -2160,7 +2160,7 @@ namespace giac {
 #else
     gen g=evalf_double(g0,1,contextptr);
 #endif
-    if (is_zero(g))
+    if (is_exactly_zero(g))
       return undef;
     gen gf=_floor(log10(abs(g,contextptr),contextptr),contextptr); 
     if (gf.type!=_INT_ && gf.type!=_FLOAT_)
@@ -2182,7 +2182,7 @@ namespace giac {
 #else
     gen g=evalf_double(g0,1,contextptr);
 #endif
-    if (is_zero(g))
+    if (is_exactly_zero(g))
       return g;
     gen gabs=abs(g,contextptr);
     gen gf=_floor(log10(gabs,contextptr),contextptr); 

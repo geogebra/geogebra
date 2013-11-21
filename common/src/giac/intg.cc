@@ -405,7 +405,7 @@ namespace giac {
 	gen c=b;
 	b=r2e(v[d],lprime,contextptr);
 	gen delta=b*b-4*a*c;
-	if (is_zero(delta))
+	if (is_positive(-delta,contextptr)) // FIXME was if (is_zero(delta))
 	  return false;
 	// int(num/(a*X^2n+b*X^n+c),X) = 
 	// sum(x=rootof(deno),num*x/(+/-n*sqrt(delta))*ln(X-x))
@@ -2926,6 +2926,7 @@ namespace giac {
   // returns approx value of int(f), of int(abs(f)) and error estimate
   // error estimated using embedded order 14 and 6 method as
   // err1=abs(i30-i14); err2=abs(i30-i6); err1*(err1/err2)^2
+#if 0
   static bool tegral_util(const gen & f,const gen &x, const gen &a,const gen &b,gen & i30,gen & i30abs, gen &err,GIAC_CONTEXT){
     gen h=evalf_double(b-a,1,contextptr),i14,i6;
     int s30=15,s14=14,s6=6;
@@ -2971,6 +2972,57 @@ namespace giac {
     }
     return true;
   }
+#else // using -1..1 scaling instead of 0..1
+  static bool tegral_util(const gen & f,const gen &x, const gen &a,const gen &b,gen & i30,gen & i30abs, gen &err,GIAC_CONTEXT){
+    gen h=evalf_double(b-a,1,contextptr),i14,i6;
+    int s30=15,s14=14,s6=6;
+    long_double c30[]={-0.98799251802048542849,-0.93727339240070590431,-0.84820658341042721620,-0.72441773136017004742,-0.57097217260853884754,-0.39415134707756336990,-0.20119409399743452230,0.00000000000000000000,0.20119409399743452230,0.39415134707756336990,0.57097217260853884754,0.72441773136017004742,0.84820658341042721620,0.93727339240070590429,0.98799251802048542849};
+    long_double b30[]={0.15376620998058634177e-1,0.35183023744054062355e-1,0.53579610233585967506e-1,0.69785338963077157224e-1,0.83134602908496966777e-1,0.93080500007781105513e-1,0.99215742663555788228e-1,0.10128912096278063644,0.99215742663555788228e-1,0.93080500007781105514e-1,0.83134602908496966777e-1,0.69785338963077157224e-1,0.53579610233585967507e-1,0.35183023744054062355e-1,0.15376620998058634177e-1};
+    long_double b14[]={0.21474028217339757006e-1,0.14373155100418764102e-1,0.92599218105237092609e-1,0.11827741709315709983e-1,0.15847003639679458478,0.38429189419875016111e-2,0.19741290152890658991,0.19741290152890658991,0.38429189419875016111e-2,0.15847003639679458478,0.11827741709315709983e-1,0.92599218105237092608e-1,0.14373155100418764102e-1,0.21474028217339757006e-1};
+    long_double b6[]={0.10715760948621577132,0.31130901929813818033e-1,0.36171148858397041065,0,0.36171148858397041065,0.31130901929813818033e-1,0.10715760948621577132};
+    vecteur v30(15),v30abs(15);
+    for (int i=0;i<15;i++){
+      v30[i]=evalf_double(subst(f,x,((a+b)+double(c30[i])*h)/2,false,contextptr),1,contextptr);
+      v30abs[i]=_l2norm(v30[i],contextptr);
+      if (v30abs[i].type!=_DOUBLE_)
+	return false;
+    }
+    i30abs=i30=i14=i6=0;
+    for (int i=0;i<=7;i++){
+      i30 += double(b30[i])*v30[i];
+      if (i<7)
+	i30 += double(b30[14-i])*v30[14-i];
+      i30abs += double(b30[i])*v30abs[i];
+      if (i<7)
+	i30abs += double(b30[14-i])*v30abs[14-i];
+    }
+    for (int i=0;i<=6;i++){
+      i14 += double(b14[i])*v30[i];
+    }
+    for (int i=8;i<=14;i++){
+      i14 += double(b14[i-1])*v30[i];
+    }
+    for (int i=1;i<15;i+=2){
+      if (i==7)
+	continue;
+      i6 += double(b6[(i-1)/2])*v30[i];
+    }
+    i30 = i30*h;
+    i30abs = i30abs*h;
+    i14 = i14*h;
+    i6 = i6*h;
+    gen err1=_l2norm(i30-i14,contextptr);
+    gen err2=_l2norm(i30-i6,contextptr);
+    // check if err1 and err2 corresponds to errors in h^14 and h^6
+    if (is_greater(abs(14./6.-ln(err1,contextptr)/ln(err2,contextptr)),.1,contextptr))
+      err=err1;
+    else {
+      err=err1/err2;
+      err=err1*(err*err);
+    }
+    return true;
+  }
+#endif
 
   // nmax=max number of subdivisions (may be 1000 or more...)
   bool tegral(const gen & f,const gen & x,const gen & a,const gen &b,const gen & eps,int nmax,gen & value,GIAC_CONTEXT){

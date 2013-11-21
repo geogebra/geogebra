@@ -411,7 +411,10 @@ namespace giac {
       gen extra_div=1;
       // if pcurx1x2cont is not 1, the following code may fail
       // example f:=3/5*a^2*b^2*c^2+129/20*a^2*b*c^3+18/5*a^2*b*c^2*d-1443/40*a^2*b*c^2+387/10*a^2*c^3*d-387*a^2*c^3-9/20*a^2*c^2*d+9/2*a^2*c^2-273/5*a*b^2*c^2*d+3/5*a*b^2*c^2-11739/20*a*b*c^3*d+129/20*a*b*c^3-18/5*a*b*c^2*d^2+1857/40*a*b*c^2*d-1443/40*a*b*c^2-387/10*a*c^3*d^2+4257/10*a*c^3*d-387*a*c^3+9/20*a*c^2*d^2-99/20*a*c^2*d+9/2*a*c^2+54*b^2*c^2*d^2-54*b^2*c^2*d+1161/2*b*c^3*d^2-1161/2*b*c^3*d-27/4*b*c^2*d^2+27/4*b*c^2*d; factor(f);
-      if (is_one(pcurx1x2cont)){
+      if (
+	  // is_one(pcurx1x2cont)
+	  is_zero(pcurx1x2cont.lexsorted_degree())
+	  ){
 	truncate_xk_xn(pcurx1x2,2);
 	if (!factor(pcurx1x2,pcurx1x2cont,fx1x2,true,false,false,1,extra_div) || extra_div!=1)
 	  return false;

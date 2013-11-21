@@ -2187,9 +2187,11 @@ namespace giac {
       delete [] rem;
       return 1;
     }
-    bool use_heap=(heap_mult>0 
-		   && v1v2>=heap_mult
-		   );
+    bool use_heap=false && 
+      (heap_mult>0 
+       && v1v2>=heap_mult
+       );
+#if 1 // heap division
     if (heap_mult<0 || use_heap || quo_only){
       if (debug_infolevel>20)
 	std::cerr << "heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
@@ -2318,6 +2320,7 @@ namespace giac {
 	  delete [] heap;
 	  return 0;
 	}
+	// FIXME check that heapu has all components>=bu, otherwise should be in remainder
 	// new quotient term
 	q.push_back(T_unsigned<T,U>(g,heapu-bu));
 	// explore qnouveau and add terms to the heap
@@ -2455,6 +2458,7 @@ namespace giac {
       delete [] heap;
       return 1;
     }    
+#endif // heap division
 #ifdef HASH_MAP_NAMESPACE
     typedef HASH_MAP_NAMESPACE::hash_map< U,T,hash_function_unsigned_object> hash_prod ;
     std::vector< hash_prod > produit(adeg+1);

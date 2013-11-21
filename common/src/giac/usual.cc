@@ -813,7 +813,7 @@ namespace giac {
   static const char _exp_s []="exp";
   string printasexp(const gen & g,const char * s,GIAC_CONTEXT){
     if (
-	calc_mode(contextptr)==1
+	calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38
 	// xcas_mode(contextptr)==0
 	){
       if (is_one(g))
@@ -4134,7 +4134,13 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_different(args);
-    gen res=args._VECTptr->front() != args._VECTptr->back();
+    gen res;
+#if 1
+    res=_same(args,contextptr);
+    if (res.type==_INT_)
+      return !res;
+#endif
+    res=args._VECTptr->front() != args._VECTptr->back();
     if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
       res.subtype=_INT_BOOLEAN;
     return res;

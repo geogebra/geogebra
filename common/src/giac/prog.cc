@@ -4984,7 +4984,11 @@ namespace giac {
 	    }
 	  }
 	}
-	wi=wi._SYMBptr->sommet(simplifier(f,contextptr),contextptr);
+	// check added for [] and () otherwise xcas_mode index shift is not taken in account
+	if (wi._SYMBptr->sommet==at_at || wi._SYMBptr->sommet==at_of)
+	  wi=symbolic(wi._SYMBptr->sommet,simplifier(f,contextptr));
+	else
+	  wi=wi._SYMBptr->sommet(simplifier(f,contextptr),contextptr);
       }
     }
     gen g_(g);

@@ -2813,6 +2813,9 @@ namespace giac {
 	  if (is_greater(0,p,contextptr) || is_greater(p,1,contextptr))
 	    return gensizeerr(contextptr);
 	  gen n=_round(moyenne/p,contextptr);
+	  p=moyenne/n;
+	  if (is_greater(0,p,contextptr) || is_greater(p,1,contextptr))
+	    return gensizeerr(contextptr);
 	  *logptr(contextptr) << gettext("Binomial: estimating n and p from data ") << n << " " << p << endl;
 	  w.push_back(n);
 	  w.push_back(p);
@@ -2896,7 +2899,7 @@ namespace giac {
 	gen res=0;
 	for (unsigned i=0;i<eff.size();++i){
 	  // theoric proba of class i from law
-	  loi._SYMBptr->feuille._VECTptr->back()=minX+int(i)-.5;
+	  loi._SYMBptr->feuille._VECTptr->back()=minX+int(i)+(discret?0:-.5);
 	  gen tmp=evalf_double(loi,1,contextptr);
 	  if (!discret){ // could be improved, we compute twice the cdf
 	    loi._SYMBptr->feuille._VECTptr->back()=minX+int(i+1)-.5;
@@ -2908,7 +2911,7 @@ namespace giac {
 	  res += tmp2*tmp2/tmp1;
 	}
 	loi._SYMBptr->feuille._VECTptr->back()=identificateur(".");
-	*logptr(contextptr) << gettext("Sample adequation to ")<< loi <<gettext(", Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << dof << ",0.95)=" <<  chisquare_icdf(dof,0.95,contextptr) << " or chisquare_icdf(" << dof <<",1-alpha) if alpha!=5%" << endl;	
+	*logptr(contextptr) << gettext("Sample adequation to ")<< loi <<gettext(", Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << dof << ",0.95)=" <<  chisquare_icdf(dof,0.95,contextptr) << gettext(" or chisquare_icdf(") << dof <<gettext(",1-alpha) if alpha!=5%") << endl;	
 	return res;
       } // end if is_integer_vecteur(x)
       if (discret)
@@ -3079,13 +3082,13 @@ namespace giac {
       if (mu0>mu1+sigma*falpha/sqrtn0)
 	ok=false;
     }
-    *logptr(contextptr) << "*** TEST RESULT " << (ok?"1 ***":"0 ***") << endl << "Summary " << (ztest?"Z-Test":"T-Test") << " null hypothesis " << (proportion?"p1=p2":"mu1=mu2") << ", alt. hyp. mu1" << (test==-1? "<":(test==0?"!=":">")) <<  "mu2." << endl;
-    *logptr(contextptr) << "Test returns 0 if probability to observe data is less than " << alpha << endl;
-    *logptr(contextptr) << "(null hyp. mu1=mu2 rejected with less than alpha probability error)" << endl;
-    *logptr(contextptr) << "Test returns 1 otherwise (can not reject null hypothesis)" << endl;
-    *logptr(contextptr) << "Data mean mu1=" << mu0 << ", population mean mu2=" << mu1 ;
+    *logptr(contextptr) << gettext("*** TEST RESULT ") << (ok?"1 ***":"0 ***") << endl << "Summary " << (ztest?"Z-Test":"T-Test") << " null hypothesis H0 " << (proportion?"p1=p2":"mu1=mu2") << ", alt. hyp. H1 mu1" << (test==-1? "<":(test==0?"!=":">")) <<  "mu2." << endl;
+    *logptr(contextptr) << gettext("Test returns 0 if probability to observe data is less than ") << alpha << endl;
+    *logptr(contextptr) << gettext("(null hyp. mu1=mu2 rejected with less than alpha probability error)") << endl;
+    *logptr(contextptr) << gettext("Test returns 1 otherwise (can not reject null hypothesis)") << endl;
+    *logptr(contextptr) << gettext("Data mean mu1=") << mu0 << gettext(", population mean mu2=") << mu1 ;
     if (!ztest)
-      *logptr(contextptr) << ", degrees of freedom " << dof;
+      *logptr(contextptr) << gettext(", degrees of freedom ") << dof;
     *logptr(contextptr) << endl << "alpha level " << alpha << ", multiplier*stddev/sqrt(sample size)= " << falpha << "*" << sigma << "/" << sqrtn0 << endl;
     return (ok?1:0);
   }

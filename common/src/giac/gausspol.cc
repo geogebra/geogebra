@@ -2053,6 +2053,8 @@ namespace giac {
     std::vector< monomial<gen> >::const_iterator it=other.coord.begin();
     int bdeg=it->index.front(),rdeg=th.lexsorted_degree(),ddeg=rdeg-bdeg;
 #if !defined( RTOS_THREADX) && !defined(BESTA_OS) && !defined(EMCC)
+    // FIXME hashdivrem may fail if not divisible if false is commented below
+    // search new quotient term in threaded.h if heap multiplication is used
     if (//false && 
 	ddeg>2 && os>10 
 	){
@@ -4383,7 +4385,7 @@ namespace giac {
 		  polynome tmp(*num._POLYptr);
 		  modularize(tmp,env->modulo);
 		  f.push_back(facteur<polynome>(tmp,it->mult));
-	}
+		}
 		essaimax=0;
 	      }
 	    }
@@ -5392,62 +5394,69 @@ namespace giac {
       if (try_sparse_factor(pcur,v,mult,f))
 	continue;
       /* Try Hensel lift factorization */
-      gen lm;
-      if (!listmax(p,lm))
-	lm=100;
-      if (p.dim>2 && !is_zero(b0) && is_greater(lm,10,context0)){
-	int b0d=b0.size();
-	// search a smaller b
-	for (int essai=0;essai<3;++essai){
-	  for (int i=0;i<b0d;++i){
-	    b[i]=1+iquo(rand(),RAND_MAX/3);
-	  }
-	  if (find_good_eval(pcur,pcur,Fb,Gb,b,(debug_infolevel>=2))){
-	    b0=b;
-	    break;
-	  }
-	}
-	// translate
-	vecteur vb0(b0d+1),vb1(b0d+1),lv(b0d+1);
-	lv[0]=gen("x0",context0);
-	vb0[0]=sym2r(lv[0],lv,context0);
-	vb1[0]=vb0[0];
-	for (int i=1;i<=b0d;i++){
-	  lv[i]=gen("x"+print_INT_(i),context0);
-	  vb0[i]=sym2r(lv[i]+b0[i-1],lv,context0);
-	  vb1[i]=sym2r(lv[i]-b0[i-1],lv,context0);
-	}
-	gen pb=peval(pcur,vb0,0,false),num,den;
-	fxnd(pb,num,den);
-	if (num.type!=_POLY){
-#ifndef NO_STDEXCEPT
-	  setsizeerr();
-#endif
-	  return false;
-	}
-	polynome ptrans=*num._POLYptr;
-	factorization ftrans;
-	b=vecteur(b.size());
-	find_good_eval(ptrans,ptrans,Fb,Gb,b,(debug_infolevel>=2));
-	if (is_zero(b)){
-	  factor(Fb,Gb,v0,false,false,false,1,extra_div);
-	  if (int(v0.size())<2*nfactbound && try_hensel_lift_factor(ptrans,Fb,v0,mult,ftrans)){
-	    factorization::const_iterator it=ftrans.begin(),itend=ftrans.end();
-	    for (;it!=itend;++it){
-	      pb=peval(it->fact,vb1,0,false);
-	      fxnd(pb,num,den);
-	      if (num.type!=_POLY){
-#ifndef NO_STDEXCEPT
-		setsizeerr();
-#endif
-		return false;
-	      }
-	      f.push_back(facteur<polynome>(*num._POLYptr,it->mult));
+      bool hensel_factored=false;
+      for (unsigned hensel_try=0;hensel_try<5;++hensel_try){
+	gen lm;
+	if (!listmax(p,lm))
+	  lm=100;
+	if (p.dim>2 && !is_zero(b0) && is_greater(lm,10,context0)){
+	  int b0d=b0.size();
+	  // search a smaller b
+	  for (int essai=0;essai<3;++essai){
+	    for (int i=0;i<b0d;++i){
+	      //b[i]=1+iquo(rand(),RAND_MAX/3);
+	      b[i]=1+iquo(giac_rand(context0),RAND_MAX/4);
 	    }
-	    continue;
+	    if (find_good_eval(pcur,pcur,Fb,Gb,b,(debug_infolevel>=2))){
+	      b0=b;
+	      break;
+	    }
+	  }
+	  // translate
+	  vecteur vb0(b0d+1),vb1(b0d+1),lv(b0d+1);
+	  lv[0]=gen("x0",context0);
+	  vb0[0]=sym2r(lv[0],lv,context0);
+	  vb1[0]=vb0[0];
+	  for (int i=1;i<=b0d;i++){
+	    lv[i]=gen("x"+print_INT_(i),context0);
+	    vb0[i]=sym2r(lv[i]+b0[i-1],lv,context0);
+	    vb1[i]=sym2r(lv[i]-b0[i-1],lv,context0);
+	  }
+	  gen pb=peval(pcur,vb0,0,false),num,den;
+	  fxnd(pb,num,den);
+	  if (num.type!=_POLY){
+#ifndef NO_STDEXCEPT
+	    setsizeerr();
+#endif
+	    return false;
+	  }
+	  polynome ptrans=*num._POLYptr;
+	  factorization ftrans;
+	  b=vecteur(b.size());
+	  find_good_eval(ptrans,ptrans,Fb,Gb,b,(debug_infolevel>=2));
+	  if (is_zero(b)){
+	    factor(Fb,Gb,v0,false,false,false,1,extra_div);
+	    if (int(v0.size())<2*nfactbound && try_hensel_lift_factor(ptrans,Fb,v0,mult,ftrans)){
+	      factorization::const_iterator it=ftrans.begin(),itend=ftrans.end();
+	      for (;it!=itend;++it){
+		pb=peval(it->fact,vb1,0,false);
+		fxnd(pb,num,den);
+		if (num.type!=_POLY){
+#ifndef NO_STDEXCEPT
+		  setsizeerr();
+#endif
+		  return false;
+		}
+		f.push_back(facteur<polynome>(*num._POLYptr,it->mult));
+	      }
+	      hensel_factored=true;
+	      break; // break loop on hensel_try
+	    }
 	  }
 	}
-      }
+      } // end loop on hensel_try
+      if (hensel_factored)
+	continue;
       if (is_zero(b0) && int(v0.size())<2*nfactbound && try_hensel_lift_factor(pcur,F0,v0,mult,f))
 	continue;
       /* Now try heuristic factorization then call unitaryfactor

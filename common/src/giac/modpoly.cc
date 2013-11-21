@@ -3066,10 +3066,8 @@ namespace giac {
 		return false;
 	      polynome pD,QP(dim),QQ(dim),R(dim);
 	      convert_back_xn(trygcd,pD);
-	      divremmod(p,pD,modulo,QP,R);
-	      if (R.coord.empty()){
-		divremmod(q,pD,modulo,QQ,R);
-		if (R.coord.empty()){
+	      if (divremmod(p,pD,modulo,QP,R) && R.coord.empty()){
+		if (divremmod(q,pD,modulo,QQ,R) && R.coord.empty()){
 		  pD=pD*cont;
 		  d=smod(pD*invmod(pD.coord.front().value,modulo),modulo);
 		  if (compute_cofactors){
