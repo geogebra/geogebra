@@ -101,7 +101,7 @@ public class EditMenuW extends MenuBar {
 				        public void execute() {
 					        app.setWaitCursor();
 					        CopyPaste.copyToXML(app, selection.getSelectedGeos());
-					        app.updateMenubar();
+					        initActions(); //app.updateMenubar(); - it's needn't to update the all menubar here
 					        app.setDefaultCursor();
 				        }
 			        });
