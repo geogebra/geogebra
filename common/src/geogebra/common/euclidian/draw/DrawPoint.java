@@ -72,8 +72,6 @@ public final class DrawPoint extends Drawable {
 
 	private double[] coords;
 
-	private PointerEventType hitType = PointerEventType.MOUSE;
-
 	/**
 	 * Creates new DrawPoint
 	 * 
@@ -327,9 +325,6 @@ public final class DrawPoint extends Drawable {
 		pointSize = P.getPointSize();
 		diameter = 2 * pointSize;
 		HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-		if(this.hitType  == PointerEventType.TOUCH){
-			HIGHLIGHT_OFFSET += 50;
-		}
 		// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 
@@ -508,10 +503,6 @@ public final class DrawPoint extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if(hitThreshold > view.getApplication().getCapturingThreshold(PointerEventType.MOUSE)){
-			this.hitType = PointerEventType.TOUCH;
-			updateDiameter();
-		}
 		int r = hitThreshold + SELECTION_DIAMETER_MIN;
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;

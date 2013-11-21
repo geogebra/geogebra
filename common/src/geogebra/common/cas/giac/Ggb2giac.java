@@ -730,7 +730,8 @@ public class Ggb2giac {
 		// bit do want it for Distance[(0.5,0.5),x^2+y^2=1]
 		// TODO: what about functions?
 		p("Distance.2", 
-				"[[[ggbans:=0/0],[ggbans:=regroup(distance(%0,%1))]]," +
+				"[[[ggbans:=0/0],[ggbans:=regroup(distance(%0,%1))]," +
+				"[ggbans:=when(diff(ggbans,x)==0,ggbans,subst)]]," +
 				"when(lname(ggbans)=={},normal(ggbans),ggbans)][1]");
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 

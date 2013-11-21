@@ -1097,6 +1097,7 @@ public abstract class AppW extends AppWeb {
 		}
 		
 		if ($doc.addEventListener) {
+			element.addEventListener("MSHoldVisual", function(e) { e.preventDefault(); }, false);
 			$doc.addEventListener('contextmenu', function(e) {
 				if (eventOnElement(e)) e.preventDefault();
 			}, false);
@@ -1113,6 +1114,8 @@ public abstract class AppW extends AppWeb {
 		$doc.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 		}, false);
+		$doc.addEventListener("MSHoldVisual", function(e) { e.preventDefault(); }, false);
+		
 	} else {
 		$doc.attachEvent('oncontextmenu', function() {
 			window.event.returnValue = false;
