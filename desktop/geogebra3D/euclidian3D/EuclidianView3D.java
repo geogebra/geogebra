@@ -1407,6 +1407,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public void setShowGrid(boolean flag){
 		getxOyPlane().setGridVisible(flag);
+		xOyPlaneDrawable.setWaitForUpdate();
 	}
 
 	@Override
@@ -2725,7 +2726,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void toggleGrid(){
 		
 		boolean flag = xOyPlane.isGridVisible();
-		xOyPlane.setGridVisible(!flag);
+		setShowGrid(!flag);
 		
 	}
 	
@@ -2967,6 +2968,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		// update xOyPlane
 		xOyPlaneDrawable.update();
+
 		
 		clippingCubeDrawable.update();
 		
@@ -3208,7 +3210,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	@Override
 	public void showGrid(boolean selected) {
-		xOyPlane.setGridVisible(selected);
+		setShowGrid(selected);
 		
 	}
 
