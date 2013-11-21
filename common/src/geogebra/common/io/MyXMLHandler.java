@@ -537,8 +537,8 @@ public class MyXMLHandler implements DocHandler {
 					int width = 0;
 					int height = 0;
 					if (!App.isFullAppGui()) {
-						width = app.getDataParamWidth() - 2; // 2: border
-						height = app.getDataParamHeight() - 2; // 2: border
+						width = app.getAppletWidth() - 2; // 2: border
+						height = app.getAppletHeight() - 2; // 2: border
 						if (width == 0 || height == 0) {
 							// setting a standard size, like in compabilityLayout
 							// fixing a real bug of height 0
@@ -1257,8 +1257,8 @@ public class MyXMLHandler implements DocHandler {
 			int height;
 			if (!App.isFullAppGui()) {// TODO: EV2 in Web!
 				// 2: border
-				width = (app.getDataParamWidth() > 2 && !app.getUseFullGui()) ? app.getDataParamWidth() - 2 :  Integer.parseInt(attrs.get("width"));
-				height = (app.getDataParamHeight() > 2 && !app.getUseFullGui()) ? app.getDataParamHeight() - 2 : Integer.parseInt(attrs.get("height"));
+				width = (app.getAppletWidth() > 2 && !app.getUseFullGui()) ? app.getAppletWidth() - 2 :  Integer.parseInt(attrs.get("width"));
+				height = (app.getAppletHeight() > 2 && !app.getUseFullGui()) ? app.getAppletHeight() - 2 : Integer.parseInt(attrs.get("height"));
 			} else {
 				width = app.getAppCanvasWidth();
 				height = app.getAppCanvasHeight();

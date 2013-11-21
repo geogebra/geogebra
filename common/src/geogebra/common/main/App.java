@@ -2615,8 +2615,8 @@ public abstract class App implements UpdateSelection{
 
 	/** whether transparent cursor should be used while dragging */
 	public boolean useTransparentCursorWhenDragging = false;
-	protected int dataParamWidth = 0;
-	protected int dataParamHeight = 0;
+	protected int appletWidth = 0;
+	protected int appletHeight = 0;
 	protected boolean useFullGui = false;
 
 	/**
@@ -3160,20 +3160,20 @@ public abstract class App implements UpdateSelection{
 		return needsSpreadsheetTableModel;
 	}
 	
-	public void setDataParamWidth(int width) {
-		this.dataParamWidth = width;
+	public void setAppletWidth(int width) {
+		this.appletWidth = width;
 	}
 
-	public void setDataParamHeight(int height) {
-		this.dataParamHeight = height;
+	public void setAppletHeight(int height) {
+		this.appletHeight = height;
 	}
 
-	public int getDataParamWidth() {
-		return dataParamWidth;
+	public int getAppletWidth() {
+		return appletWidth;
 	}
 
-	public int getDataParamHeight() {
-		return dataParamHeight;
+	public int getAppletHeight() {
+		return appletHeight;
 	}
 	
 	public void startCollectingRepaints(){

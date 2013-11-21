@@ -408,7 +408,7 @@ public class DockManagerW extends DockManager {
 				// Now find the correct applet window dimensions and resize the rootPane.
 				
 				// window width can be get almost exactly
-				windowWidth = app.getDataParamWidth() - 2; // 2: border
+				windowWidth = app.getAppletWidth() - 2; // 2: border
 
 				// if it is not 0, there will be some scaling later
 				if (windowWidth <= 0) {
@@ -422,7 +422,7 @@ public class DockManagerW extends DockManager {
 				// note that data-param settings now override GGB XML!
 
 				// this is applet window height 
-				windowHeight = app.getDataParamHeight() - 2; // 2: border
+				windowHeight = app.getAppletHeight() - 2; // 2: border
 				// but we want to know the available height for the rootPane
 				// so we either use the above as a heuristic,
 				// or we should substract the height(s) of

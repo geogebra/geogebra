@@ -62,10 +62,11 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	
 	
 	
-	/* 
+	/**
+	 * @param ae ArticleElement
+	 *
 	 * In the splashDialog onLoad handler will the application loading continue
-	 */
-	
+	 */	
 	protected void createSplash(ArticleElement ae) {
 		
 		int splashWidth = 427;
@@ -96,8 +97,8 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 
 		if (width > 0 && height > 0) {
 			setWidth((width - BORDER_WIDTH) + "px"); // 2: border
-			setDataParamWidth(ae.getDataParamWidth());
-			setDataParamHeight(ae.getDataParamHeight());
+			setComputedWidth(ae.getDataParamWidth());
+			setComputedHeight(ae.getDataParamHeight());
 			setHeight((height - BORDER_HEIGHT) + "px"); // 2: border
 			splash.addStyleName("splash");
 			splash.getElement().getStyle()
@@ -116,23 +117,23 @@ public abstract class GeoGebraFrame extends VerticalPanel implements HasAppletPr
 	
 	protected ArticleElement ae;
 	
-	protected int dataParamWidth = 0;
-	protected int dataParamHeight = 0;
+	protected int computedWidth = 0;
+	protected int computedHeight = 0;
 	
-	public void setDataParamWidth(int width) {
-		this.dataParamWidth = width;
+	public void setComputedWidth(int width) {
+		this.computedWidth = width;
 	}
 
-	public void setDataParamHeight(int height) {
-		this.dataParamHeight = height;
+	public void setComputedHeight(int height) {
+		this.computedHeight = height;
 	}
 
-	public int getDataParamWidth() {
-		return dataParamWidth;
+	public int getComputedWidth() {
+		return computedWidth;
 	}
 
-	public int getDataParamHeight() {
-		return dataParamHeight;
+	public int getComputedHeight() {
+		return computedHeight;
 	}
 
 	private static void setBorder(ArticleElement ae, GeoGebraFrame gf, String dpBorder, int px) {

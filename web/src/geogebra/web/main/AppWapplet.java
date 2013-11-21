@@ -57,8 +57,8 @@ public class AppWapplet extends AppW {
 		this.articleElement = ae;
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
-		setDataParamHeight(frame.getDataParamHeight());
-		setDataParamWidth(frame.getDataParamWidth());
+		setAppletHeight(frame.getComputedHeight());
+		setAppletWidth(frame.getComputedWidth());
 
 		this.useFullGui = !isApplet() ||
 				ae.getDataParamShowAlgebraInput() ||
