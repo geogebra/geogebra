@@ -362,8 +362,15 @@ public class RendererGL2 extends Renderer{
 
 
 	@Override
-	protected void setLight(int light, int attr, float[] values){
-		getGL2().glLightfv(light, attr, values, 0);
+	protected void setLightPosition(int light, float[] values){
+		getGL2().glLightfv(light, GLlocal.GL_POSITION, values, 0);
+	}
+	
+	@Override
+	protected void setLightAmbiantDiffuse(int light, float ambiant, float diffuse){
+
+		getGL2().glLightfv(light, GLlocal.GL_AMBIENT, new float[] {ambiant, ambiant, ambiant, 1.0f}, 0);
+		getGL2().glLightfv(light, GLlocal.GL_DIFFUSE, new float[] {diffuse, diffuse, diffuse, 1.0f}, 0);
 	}
 
 	@Override
@@ -541,6 +548,11 @@ public class RendererGL2 extends Renderer{
     			obliqueX,obliqueY,1,0, 
     			0,0,0,1
     	}, 0);  	
+    }
+    
+    @Override
+	protected Manager createManager(){
+    	return new ManagerGLList(this,view3D);   
     }
 
 }

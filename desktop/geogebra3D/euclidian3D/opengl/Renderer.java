@@ -1230,66 +1230,28 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     // LIGHTS
     //////////////////////////////////
 
-    static final public int LIGHT_NONE = 0;
-    static final public int LIGHT_STANDARD = 1;
-    static final public int LIGHT_HIGHLIGHTED = 2;
-        
-    private int light = LIGHT_NONE;
-    
-    /**
-     * turn off current light and
-     * turn on the light
-     * @param light
-     */
-    public void setLight(int light){
-    	if (this.light==light)
-    		return;
-    	
-    	disableLight(this.light);
-    	enableLight(light);
-    	this.light=light;
-    	
-    }   
-    
-    private void disableLight(int light){
-    	switch(light){
-    	case LIGHT_STANDARD:
-    		getGL().glDisable(GLlocal.GL_LIGHT0);
-    		break;
-    	case LIGHT_HIGHLIGHTED:
-    		getGL().glDisable(GLlocal.GL_LIGHT1);
-    		break;
-    	}
-    }
-    
-    private void enableLight(int light){
-    	switch(light){
-    	case LIGHT_STANDARD:
-    		getGL().glEnable(GLlocal.GL_LIGHT0);
-    		break;
-    	case LIGHT_HIGHLIGHTED:
-    		getGL().glEnable(GLlocal.GL_LIGHT1);
-    		break;
-    	}
-    }  
     
     private float[] light0Position = {1f, 0f, 1f, 0f};
-    //private float[] light2Position = {-1f, 0f, -1f, 0f};
     
     
     protected void setLightPosition(){
-    	setLight(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, light0Position);
-    	setLight(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, light0Position);
+    	setLightPosition(GLlocal.GL_LIGHT0, light0Position);
+    	setLightPosition(GLlocal.GL_LIGHT1, light0Position);
     }
     
     /**
-     * set light attributes
+     * set light position
      * @param light light
-     * @param attr attribute id
      * @param values attribute values
      */
-    abstract protected void setLight(int light, int attr, float[] values);
-    
+    abstract protected void setLightPosition(int light, float[] values);
+  
+    /**
+     * set light ambiant and diffuse values (white lights)
+     * 
+     */
+    abstract protected void setLightAmbiantDiffuse(int light, float ambiant, float diffuse);
+
     //////////////////////////////////
     // clear color
     
@@ -1313,6 +1275,19 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     //////////////////////////////////
     // initializations
     
+    /**
+     * init shaders (when used)
+     */
+    protected void initShaders(){
+    	
+    }
+    
+    /**
+     * 
+     * @return new geometry manager
+     */
+    abstract protected Manager createManager();
+    
     /** Called by the drawable immediately after the OpenGL context is
      * initialized for the first time. Can be used to perform one-time OpenGL
      * initialization such as setup of lights and display lists.
@@ -1335,6 +1310,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 
         setGL(drawable);
         
+        
         // check openGL version
         final String version = getGL().glGetString(GLlocal.GL_VERSION);
        
@@ -1347,32 +1323,26 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         
         AppD.debug("openGL version : "+version
         		+", vbo supported : "+VBOsupported);
-               
-        //TODO use gl lists / VBOs
-        //geometryManager = new GeometryManager(gl,GeometryManager.TYPE_DIRECT);
-        geometryManager = new ManagerGLList(this,view3D);               
         
-        float[] lightAmbient, lightDiffuse;
+
+        initShaders();
+               
+        
+        geometryManager = createManager();
+                    
+        
         
         //GL_LIGHT0
         float ambiant = 0.5f;
-        lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
-        float diffuse=1f-ambiant;
-        lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
-        
-        setLight(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, lightAmbient);
-        setLight(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, lightDiffuse);
- 
-         
+        float diffuse=1f-ambiant; 
+        setLightAmbiantDiffuse(GLlocal.GL_LIGHT0, ambiant, diffuse);
         
         //GL_LIGHT1
         ambiant = 0.4f;
-        lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
         diffuse=0.7f;//1f-ambiant;
-        lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
-        setLight(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, lightAmbient);
-        setLight(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, lightDiffuse);
+        setLightAmbiantDiffuse(GLlocal.GL_LIGHT1, ambiant, diffuse);
                 
+        
         
         
         //material and light
@@ -1384,6 +1354,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         getGL().glEnable(GLlocal.GL_LIGHT0);        
         setLightModel();        
         getGL().glEnable(GLlocal.GL_LIGHTING);
+        
    
         //common enabling
         getGL().glEnable(GLlocal.GL_DEPTH_TEST);

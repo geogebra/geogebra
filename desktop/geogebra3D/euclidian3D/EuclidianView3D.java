@@ -749,6 +749,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
 	}
 	
+	/**
+	 * 
+	 * @return current rotation matrix
+	 */
+	public CoordMatrix getRotationMatrix(){
+		return rotationMatrix;
+	}
+	
 	
 	protected void setGlobalMatrices(){
 

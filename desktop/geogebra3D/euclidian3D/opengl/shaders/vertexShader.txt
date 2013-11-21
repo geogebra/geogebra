@@ -52,16 +52,33 @@ precision mediump int;    // GLSL ES section 4.5.2
 #endif 
 
 //in
-uniform mat4    modelview ;  // Incomming data used by
+uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
 uniform mat4    projection;  
-attribute vec3  attribute_Position;  // the vertex shader
-attribute vec4  attribute_Color;     // uniform and attributes
+uniform mat3	normalMatrix;
+uniform vec4	lightPosition;
+attribute vec3  attribute_Position;  
+attribute vec3  attribute_Normal;  
+attribute vec4  attribute_Color;     
 
 //out
 varying vec4    varying_Color;  // Outgoing varying data
                                 // sent to the fragment shader
 void main(void) 
 { 
-  varying_Color = attribute_Color; 
+  
+  // position
   gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
+  
+  // color
+  //vec3 normal = normalMatrix * attribute_Normal;  
+  //varying_Color = attribute_Color * abs(normal[2]); 
+  //varying_Color[3] = attribute_Color[3]; // alpha doesn't change
+  
+  //vec3 normal = normalMatrix * attribute_Normal;  
+  float factor = abs(dot(attribute_Normal, lightPosition));
+  varying_Color = attribute_Color * factor; 
+  varying_Color[3] = attribute_Color[3]; // alpha doesn't change
+  
+  
+  
 } 
