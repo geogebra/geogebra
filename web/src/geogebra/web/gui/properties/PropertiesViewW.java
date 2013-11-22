@@ -268,6 +268,7 @@ public class PropertiesViewW extends
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
+		app.getKernel().getAnimatonManager().stopAnimation();
 		attached = true;
 	}
 	
@@ -275,6 +276,7 @@ public class PropertiesViewW extends
 	public void detachView() {
 		kernel.detach(this);
 		clearView();
+		app.getKernel().getAnimatonManager().startAnimation();
 		attached = false;
 	}
 
