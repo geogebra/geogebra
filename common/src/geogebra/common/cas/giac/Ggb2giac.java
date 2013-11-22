@@ -92,7 +92,7 @@ public class Ggb2giac {
 				"when(type(%1)==DOM_INT,"+
 						"regroup(diff(%0,when(count_eq(x,lname(%0))==0,lname(%0)[0],x),%1))"+
 						","+
-						"regroup(diff(%0,when(count_eq(x,lname(%0))==0,lname(%0)[0],x)))"+
+						"regroup(diff(%0,%1))"+
 				")");
 
 		p("Derivative.3", 
