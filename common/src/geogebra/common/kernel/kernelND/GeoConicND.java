@@ -1364,12 +1364,12 @@ Region3D, GeoDirectionND
 	    	   sbToValueString.append("?");
 	    	   return sbToValueString;
 	       }
-		coeffs[0] = matrix[0]; // x\u00b2
-		coeffs[2] = matrix[1]; // y\u00b2
-		coeffs[5] = matrix[2]; // constant
-		coeffs[1] = 2 * matrix[3]; // xy        
-		coeffs[3] = 2 * matrix[4]; // x
-		coeffs[4] = 2 * matrix[5]; // y  
+		coeffs[0] = matrix1[0]; // x\u00b2
+		coeffs[2] = matrix1[1]; // y\u00b2
+		coeffs[5] = matrix1[2]; // constant
+		coeffs[1] = 2 * matrix1[3]; // xy        
+		coeffs[3] = 2 * matrix1[4]; // x
+		coeffs[4] = 2 * matrix1[5]; // y  
 		if (tpl.hasType(StringType.GIAC)){
 			StringBuilder sb = sbToValueString;
 			sb.setLength(0);
@@ -1670,7 +1670,7 @@ Region3D, GeoDirectionND
 	 * Transforms coords of point P from real world space to Eigenvector space. 
 	 * Note: P.setCoords() is not called here!
 	 */
-	private void coordsRWtoEV(GeoPoint P) {
+	/*private void coordsRWtoEV(GeoPoint P) { TODO delete if not needed
 		// translate by -b
 		P.x = P.x - P.z * b.getX();
 		P.y = P.y - P.z * b.getY();
@@ -1679,7 +1679,7 @@ Region3D, GeoDirectionND
 		double px = P.x;	
 		P.x = px * eigenvec[0].getX() + P.y * eigenvec[0].getY();
 		P.y = px * eigenvec[1].getX() + P.y * eigenvec[1].getY();
-	}
+	}*/
 	
 	/** @return copy of flat matrix 	 */
 	final public double[] getMatrix() {
@@ -1993,7 +1993,7 @@ Region3D, GeoDirectionND
 	/**
 	 * rotate this conic by angle phi around Q
 	 * @param phiVal angle
-	 * @param Q rotation center
+	 * @param point rotation center
 	 */
 	public void rotate(NumberValue phiVal, GeoPointND point) {
 		Coords Q = point.getInhomCoords();
@@ -2098,6 +2098,10 @@ Region3D, GeoDirectionND
 		 setPositiveEigenvectorOrientation(oldOrientation);
 	 }
 	
+	/**
+	 * Dilate the conic wrt point (0,0)
+	 * @param factor dilation factor
+	 */
 	protected final void doDilate(double factor) {
 		// calc dilated matrix
 		double r = 1d/factor;
@@ -2289,6 +2293,9 @@ Region3D, GeoDirectionND
 	
 
 	
+	/**
+	 * Update conic type and properties
+	 */
 	protected void classifyConic() {
 		classifyConic(false);
 	}
