@@ -810,7 +810,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					} else {
 						sb.append(" - ");
 					}
-					sb.append(rightStr.substring(3));
+					append(sb,rightStr.substring(3),right,Operation.PLUS);
 				} else {
 					if (stringType.equals(StringType.LATEX)
 							&& isInsertLineBreaks()) {
@@ -818,7 +818,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					} else {
 						sb.append(" + ");
 					}
-					sb.append(rightStr);
+					append(sb,rightStr,right,Operation.PLUS);
 				}
 			}
 			break;
