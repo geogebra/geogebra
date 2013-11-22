@@ -1536,7 +1536,7 @@ __GGB__keysVar.es.menu = {
     "Move": "Elige y Mueve",
     "Move_Help": "Arrastra o selecciona objetos (Esc)",
     "MoveRotate": "Gira en torno a un Punto",
-    "MoveRotate_Help": "Centro de rotaci\xf3n. Luego, arrastrar objeto a girar",
+    "MoveRotate_Help": "Centro de rotaci\xf3n. Luego, arrastre del objeto a girar",
     "MovementTools": "Herramientas de Movimiento",
     "MultiVarStats": "An\xe1lisis Multivariable",
     "MultiVarStats_Help": "Analiza dos o m\xe1s conjuntos de datos de columnas seleccionadas",
