@@ -1496,7 +1496,7 @@ public class AlgebraProcessor {
 		// equ.getNormalForm());
 
 		try {
-			equ.initEquation();
+			equ.initEquation(false);
 			// AbstractApplication.debug("EQUATION: " + equ.getNormalForm());
 			// check no terms in z
 			checkNoTermsInZ(equ);
@@ -1580,7 +1580,6 @@ public class AlgebraProcessor {
 		Polynomial lhs = equ.getNormalForm();
 		boolean isExplicit = equ.isExplicit("y");
 		boolean isIndependent = lhs.isConstant();
-
 		if (isIndependent) {
 			// get coefficients
 			a = lhs.getCoeffValue("x");

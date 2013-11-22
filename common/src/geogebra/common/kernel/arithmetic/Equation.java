@@ -187,7 +187,7 @@ public class Equation extends ValidExpression {
      * Call this method to check that this is a valid equation.
      * May throw MyError (InvalidEquation).     
      */
-    public void initEquation() {
+    public void initEquation(boolean expandFunctions) {
  /*   	ExpressionNode en=lhs.getCopy(kernel);
     	en.makePolynomialTree();
 //    	en.evaluate();
@@ -225,8 +225,8 @@ public class Equation extends ValidExpression {
         
  
         // ensure that they only consist of polynomials
-        leftEN.makePolynomialTree(this);
-        rightEN.makePolynomialTree(this);		
+        leftEN.makePolynomialTree(this, expandFunctions);
+        rightEN.makePolynomialTree(this, expandFunctions);		
 
         // simplify the both sides to single polynomials
         leftPoly  = (Polynomial) leftEN.evaluate(StringTemplate.defaultTemplate);

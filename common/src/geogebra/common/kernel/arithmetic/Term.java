@@ -161,8 +161,8 @@ public class Term implements Comparable<Object>, Serializable {
 	// return a + b
 	private ExpressionValue add(ExpressionValue a, ExpressionValue b) {
 		Kernel kernel = a.getKernel();
-		boolean aconst = a.isConstant();
-		boolean bconst = b.isConstant();
+		boolean aconst = false;//a.isConstant();
+		boolean bconst = false;//b.isConstant();
 		double aval, bval;
 
 		// add constant?

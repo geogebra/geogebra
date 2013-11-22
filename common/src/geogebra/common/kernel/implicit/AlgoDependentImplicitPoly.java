@@ -131,7 +131,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 //						}
 //					}
 					if (!functions.equals(dependentFromFunctions)){
-						equation.initEquation();
+						equation.initEquation(true);
 						coeff=equation.getNormalForm().getCoeff();
 						dependentFromFunctions=functions;
 					}

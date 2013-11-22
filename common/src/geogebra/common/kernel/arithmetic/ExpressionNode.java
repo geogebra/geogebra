@@ -1040,9 +1040,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @param equ
 	 *            equation
 	 */
-	protected final void makePolynomialTree(Equation equ) {
+	protected final void makePolynomialTree(Equation equ, boolean expandFunctions) {
 
-		if (operation == Operation.FUNCTION_NVAR) {
+		if (expandFunctions && operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
 				MyList list = ((MyList) right);
 				FunctionNVar func = ((FunctionalNVar) left).getFunction();
@@ -1071,12 +1071,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					throw new MyError(loc,
 							new String[] { "IllegalArgumentNumber" });
 				}
-				expr.makePolynomialTree(equ);
+				expr.makePolynomialTree(equ, expandFunctions);
 				left = expr.left;
 				right = expr.right;
 				operation = expr.getOperation();
 			}
-		} else if (operation == Operation.FUNCTION) {
+		} else if (expandFunctions && operation == Operation.FUNCTION) {
 			if (left instanceof GeoFunction) {
 				Function func = ((Functional) left).getFunction();
 				ExpressionNode expr = func.getExpression().getCopy(kernel);
@@ -1091,7 +1091,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					equ.setFunctionDependent(true);
 				}
 				expr = expr.replace(func.getFunctionVariable(), right).wrap();
-				expr.makePolynomialTree(equ);
+				expr.makePolynomialTree(equ, expandFunctions);
 				left = expr.left;
 				right = expr.right;
 				operation = expr.getOperation();
@@ -1108,7 +1108,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		// transfer left subtree
 		if (left.isExpressionNode()) {
-			((ExpressionNode) left).makePolynomialTree(equ);
+			((ExpressionNode) left).makePolynomialTree(equ, expandFunctions);
 		} else if (!(left.isPolynomialInstance())) {
 			left = new Polynomial(kernel, new Term( left, ""));
 		}
@@ -1116,13 +1116,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// transfer right subtree
 		if (right != null) {
 			if (right.isExpressionNode()) {
-				((ExpressionNode) right).makePolynomialTree(equ);
+				((ExpressionNode) right).makePolynomialTree(equ, expandFunctions);
 			} else if (right instanceof MyList) {
 				MyList list = (MyList) right;
 				for (int i = 0; i < list.size(); i++) {
 					ExpressionValue ev = list.getListElement(i);
 					if (ev instanceof ExpressionNode) {
-						((ExpressionNode) ev).makePolynomialTree(equ);
+						((ExpressionNode) ev).makePolynomialTree(equ, expandFunctions);
 					}
 				}
 			} else if (!(right.isPolynomialInstance())) {

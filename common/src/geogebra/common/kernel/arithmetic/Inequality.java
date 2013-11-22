@@ -159,7 +159,7 @@ public class Inequality {
 					replace(fv[1], yVar).wrap();
 			Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
 			try{
-				equ.initEquation();			
+				equ.initEquation(true);			
 			}
 			catch(Throwable t){
 				type = IneqType.INEQUALITY_INVALID;
