@@ -155,6 +155,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * list of registered outputHandler of this AlgoElement
 	 */
 	private List<OutputHandler<?>> outputHandler;
+	private boolean mayHaveRandomAncestors = true;
 
 	/**
 	 * One OutputHandler has been changed, we put together the new output.
@@ -538,28 +539,36 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	/**
 	 *  update input random numbers without label
+	 *  @return whether something was updated
 	 */
 	public boolean updateUnlabeledRandomGeos() {
+		if(!mayHaveRandomAncestors){
+			return false;
+		}
 		boolean ret = false;
-				for (int i = 0; i < input.length; i++) {
-						if(!input[i].isLabelSet()){
-							if(input[i].getParentAlgorithm()!=null){
-								//if Mod[RandomBetween[1,3],2], we must go deeper and update
-								//if just RandomBetween[1,3] we just update
-								if(input[i].getParentAlgorithm().updateUnlabeledRandomGeos()
-										|| input[i].isRandomGeo()){
-									input[i].getParentAlgorithm().compute();
-									ret = true;
-								}
-							}else{
-								//random() has no parent algo
-								if(input[i].isRandomGeo()){
-									input[i].updateRandomGeo();
-									ret = true;
-								}
-							}
+		for (int i = 0; i < input.length; i++) {
+				if(!input[i].isLabelSet()){
+					if(input[i].getParentAlgorithm()!=null){
+						//if Mod[RandomBetween[1,3],2], we must go deeper and update
+						//if just RandomBetween[1,3] we just update
+						if(input[i].getParentAlgorithm().updateUnlabeledRandomGeos()
+								|| input[i].isRandomGeo()){
+							input[i].getParentAlgorithm().compute();
+							ret = true;
 						}
 					}
+					else{
+						//random() has no parent algo
+						if(input[i].isRandomGeo()){
+							input[i].updateRandomGeo();
+							ret = true;
+					}
+				}
+			}
+		}
+		if(!ret){
+			this.mayHaveRandomAncestors  = false;
+		}
 		return ret;
 	}
 
@@ -649,17 +658,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	protected void doSetDependencies() {
-		setRandomUnlabeledInput();
+		this.mayHaveRandomAncestors = true;
 		setOutputDependencies();
 		cons.addToAlgorithmList(this);
-	}
-
-	/**
-	 * Builds a list of all random input numbers that are unlabeled. These
-	 * numbers need to be updated in update() before compute() is called.
-	 */
-	private void setRandomUnlabeledInput() {
-		//TODO
 	}
 
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
