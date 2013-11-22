@@ -3144,6 +3144,7 @@ namespace giac {
       vp_pos=0;
       // construct new index without constant variables
       // and find value of index inside vp
+      // iti index in current monomial of p, piit index in list of variables (p or q cst), vit index in v
       for (int j=0;j!=p.dim;++iti,++j){
 	if (piit!=piitend && j==*piit){
 	  ++piit;

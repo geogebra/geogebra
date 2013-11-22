@@ -4529,6 +4529,8 @@ namespace giac {
 	}
 	else
 	  sol=solve(eq,v[1],0,contextptr);
+	if (calc_mode(contextptr)==1 && sol.empty())
+	  return undef;
 	sol.push_back(v[3]);
 	// find smallest 
 	const_iterateur it=sol.begin(),itend=sol.end();

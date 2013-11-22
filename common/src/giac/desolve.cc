@@ -489,9 +489,9 @@ namespace giac {
     // replace in conditions
     conditions=*eval(subst(conditions,substin,substout,false,contextptr),eval_level(contextptr),contextptr)._VECTptr;
     // solve system over _c0..._cn-1
-    bool save_xcas_mode=xcas_mode(contextptr)?true:false;
+    int save_xcas_mode=xcas_mode(contextptr);
     xcas_mode(contextptr)=0;
-    bool save_calc_mode=calc_mode(contextptr)?true:false;
+    int save_calc_mode=calc_mode(contextptr);
     calc_mode(contextptr)=0;
     vecteur parameters_solutions=*_solve(gen(makevecteur(conditions,parameters),_SEQ__VECT),contextptr)._VECTptr;
     xcas_mode(contextptr)=save_xcas_mode;

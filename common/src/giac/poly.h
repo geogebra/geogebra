@@ -322,7 +322,7 @@ namespace giac {
     if (!dim) return res;
     index_t::iterator itresbeg=res.begin(),itresend=res.end(),itres;
     index_t::const_iterator ittemp,ittemp2,ittempend;
-    if (//false &&
+    if (false &&
 	is_strictly_greater==i_lex_is_strictly_greater){
       for (;it!=it_end;++it){
 	ittemp=it->index.begin();
