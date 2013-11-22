@@ -2738,12 +2738,12 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				Drawable3D d = (Drawable3D) view3D.getDrawableND(geo);
 				//App.debug("\nhits("+i+"): "+geo+"\nd="+d);
 				if (d != null){
-					//App.debug("\nzmin="+d.zPickMin+"\nzmax="+d.zPickMax);
+					//App.debug("\nd.getZPickNear()="+d.getZPickNear()+"\nzNear="+zNear);
 					if (d.getZPickNear() < zNear){
 						//all next drawables are behind the intersection curve
 						checking=false;
 					}else if(d.getZPickNear() > zNear + 1 //check if existing geo is really over the curve, with 1 pixel tolerance 
-							&& (!geo.isRegion() || geo.getAlphaValue() > 0.5f)){
+							&& (!geo.isRegion() || geo.getAlphaValue() > 0.8f)){
 						//only non-region or non-transparent surfaces can hide the curve
 						checking=false;
 						resultedGeo = null;
