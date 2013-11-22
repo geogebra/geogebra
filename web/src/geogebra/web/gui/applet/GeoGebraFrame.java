@@ -16,13 +16,13 @@ import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -34,9 +34,6 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 
 	private static final int BORDER_WIDTH = 2;
 	private static final int BORDER_HEIGHT = 2;
-
-	private static final int WINDOW_WIDTH_PADDING = 16;
-	private static final int WINDOW_HEIGHT_PADDING = 16;
 
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
@@ -81,6 +78,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		//to not touch the DOM twice when computing widht and height
 		computeMinDim();
 		computeMaxDim();
+		preProcessFitToSceen();
 			
 		int width = computeWidth();
 		int height = computeHeight();
@@ -125,6 +123,16 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		add(splash);
 	}
 	
+	private void preProcessFitToSceen() {
+	    if (ae.getDataParamFitToScreen()) {
+	    	Document.get().getDocumentElement().getStyle().setHeight(99, Unit.PCT);
+	    	RootPanel.getBodyElement().getStyle().setHeight(99, Unit.PCT);
+	    	RootPanel.getBodyElement().getStyle().setOverflow(Overflow.HIDDEN);
+	    	ae.getStyle().setHeight(99, Unit.PCT);
+	    }
+	    
+    }
+
 	private int [] minDim;
 	private int [] maxDim;
 	
@@ -148,8 +156,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		//do we have fit to screen?
 		
 		if (ae.getDataParamFitToScreen()) {
-			//we must say the bodyelement to resize itself
-			height = Window.getClientHeight() - WINDOW_HEIGHT_PADDING;
+			height = ae.getOffsetHeight() - ae.getDataParamHeightCrop();
 		}
 		if (minHeight > 0 && height < minHeight ) {
 			height = minHeight;
@@ -181,9 +188,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		
 		//do we have fit to screen?
 		if (ae.getDataParamFitToScreen()) {
-			width = Window.getClientWidth() - WINDOW_WIDTH_PADDING;
-			//kill the scrollbars. We don't need them anymore
-			RootPanel.get().getElement().getStyle().setOverflow(Overflow.HIDDEN);
+			width = RootPanel.getBodyElement().getOffsetWidth() - ae.getDataParamWidthCrop();
 		}
 		if (minWidth > 0 && width < minWidth ) {
 			width = minWidth;

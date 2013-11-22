@@ -400,6 +400,24 @@ public final class ArticleElement extends Element {
 		return Float.parseFloat(this.getAttribute("data-scalex"));
 	}
 
+	/**
+	 * @return the data-param-heightcrop attribute, that will be
+	 * cropped from the applet height
+	 */
+	public int getDataParamHeightCrop() {
+		String crop = this.getAttribute("data-param-heightcrop");
+		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)  : 0; 
+    }
+	
+	/**
+	 * @return the data-param-widthcrop attribute,
+	 * taht will be cropped from the applet width
+	 */
+	public int getDataParamWidthCrop() {
+		String crop = this.getAttribute("data-param-widthcrop");
+		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)  : 0; 
+    }
+
 	
 	
 	
