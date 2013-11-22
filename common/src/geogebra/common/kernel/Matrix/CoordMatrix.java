@@ -1104,6 +1104,26 @@ public class CoordMatrix {
 		
 	}
 	
+	/**
+	 * 
+	 * @return 3x3 submatrix values in openGL format
+	 */
+	public float[] get3x3ForGL(){
+		float[] ret = new float[9];
+		
+		int index = 0;
+		for (int x = 0 ; x < 3 ; x++){
+			for (int y = 0 ; y < 3 ; y++){
+				ret[index] = (float) val[x * columns + y];
+				index++;
+			}
+		
+		}
+		
+		return ret;
+		
+	}
+	
 	// /////////////////////////////////////////////////:
 	// testing the package
 	/**
