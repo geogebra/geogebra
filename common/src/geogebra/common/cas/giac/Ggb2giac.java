@@ -793,7 +793,7 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
-				"when(type(%0)==DOM_LIST,normalize(%0),when(%0[0]='pnt' && size(%0[1])==3,unitV(%0),convert(unitV([real(%0[1]),im(%0[1])]),25)))");
+				"when(type(%0)==DOM_LIST,normalize(%0),when(%0[0]='pnt' && size(%0[1])==3,normal(unitV(%0)),convert(unitV([real(%0[1]),im(%0[1])]),25)))");
 		
 		return commandMap;
 	}
