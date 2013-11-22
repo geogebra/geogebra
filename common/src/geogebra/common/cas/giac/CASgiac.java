@@ -25,7 +25,6 @@ import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
-import geogebra.common.util.debug.Log;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -289,7 +288,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			boolean toRoot = ve.getKernel().getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
 			ve = ve.traverse(DiffReplacer.INSTANCE);
-			Log.debug(ve);
 			ve.traverse(PowerRootReplacer.getReplacer(toRoot));
 			if (arbconst != null) {
 				arbconst.reset();

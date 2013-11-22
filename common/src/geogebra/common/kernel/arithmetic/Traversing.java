@@ -551,16 +551,12 @@ public interface Traversing {
 			
 			String expStr = en.getLeft().toString(StringTemplate.defaultTemplate);
 			int nameEnd = expStr.indexOf('(');
-			Log.debug("Strings");
 			if(expStr.indexOf('[')>0){
-				Log.debug(nameEnd+","+expStr.indexOf('['));
 				nameEnd = nameEnd > 0 ? Math.min(nameEnd, expStr.indexOf('[')) : expStr.indexOf('[');
 			}
 			String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
 					: expStr;
 			
-			Log.debug(expStr);
-			Log.debug(funLabel);
 			ExpressionValue diffArg = new MyDouble(kernel,Double.NaN);
 			ExpressionNode mult = new MyDouble(kernel,1).wrap();
 			if(en.getLeft().unwrap() instanceof Command){
@@ -579,9 +575,6 @@ public interface Traversing {
 					new Variable(kernel, funLabel), // function label "f"
 					Operation.DERIVATIVE, new MyDouble(kernel, 1));
 			// function of given variable gives f'(t)
-			Log.debug("Result");
-			Log.debug(derivative);
-			Log.debug(mult);
 			return new ExpressionNode(kernel, derivative,
 					Operation.FUNCTION, diffArg).multiplyR(mult); // Variable
 		}
