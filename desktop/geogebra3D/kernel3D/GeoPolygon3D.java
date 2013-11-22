@@ -316,6 +316,68 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 		if (coordSys.makeOrthoMatrix(false, false)) {
 			checkPointsAreOnCoordSys();
+			
+			
+			/*
+			for (int i=0; i<points.length; i++){
+				App.debug(i+":"+getPointX(i)+" "+getPointY(i));
+			}
+			// select the first point of the convex hull
+			int firstPointInd = 0;
+			double minY = getPointY(0);
+			double currentY = 0;
+			for (int i=1; i<points.length; i++){
+				currentY=getPointY(i);
+				if (currentY<minY) {
+					firstPointInd = i;
+					minY = currentY;
+				}
+			}
+			App.debug(firstPointInd+" "+minY);
+			// select the second point
+			double maxCos = -1;
+			double firstPointX = getPointX(firstPointInd);
+			int secondPointInd = 0;
+			double firstSegLength = 0;
+			for (int i=0; i<points.length; i++){
+				if (i!=firstPointInd){
+					double dx = getPointX(i)-firstPointX;
+					double dy = getPointY(i)-minY;
+					double distance = Math.sqrt(dx*dx+dy*dy);
+					double currentCos = dx/distance;
+					if (currentCos>maxCos) {
+						maxCos = currentCos;
+						secondPointInd = i;
+						firstSegLength = distance;
+					}
+				}		
+
+			}
+			App.debug("->"+secondPointInd);
+			// select the third point
+			double firstVecdX = getPointX(secondPointInd)-firstPointX;
+			double firstVecdY = getPointY(secondPointInd)-minY;
+			maxCos = -1;
+			int thirdPointInd = 0;
+			for (int i=0; i<points.length; i++){
+				if ((i!=firstPointInd)&&(i!=secondPointInd)){
+					double dx = getPointX(i)-getPointX(secondPointInd);
+					double dy = getPointY(i)-getPointY(secondPointInd);
+					double distance = Math.sqrt(dx*dx+dy*dy);
+					double currentCos = (dx*firstVecdX+dy*firstVecdY)/(firstSegLength*distance);
+					if (currentCos>maxCos) {
+						maxCos = currentCos;
+						thirdPointInd = i;
+					}
+				}
+			}
+			App.debug("-->"+thirdPointInd);
+			// test for the direction of the normal vec
+			double indMin12 = Math.min(firstPointInd,secondPointInd);
+			double indMax12 = Math.max(firstPointInd,secondPointInd);
+			if ((thirdPointInd>indMin12)&&(thirdPointInd<indMax12)){
+				App.debug("inversion");
+			} */
 		} else
 			return false;
 
