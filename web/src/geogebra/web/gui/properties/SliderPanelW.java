@@ -51,7 +51,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private FlowPanel intervalPanel, sliderPanel, animationPanel;
 	private boolean useTabbedPane, includeRandom;
 	private boolean actionPerforming;
-	
+
 	private boolean widthUnit = false;
 
 	public SliderPanelW(AppW app,
@@ -60,7 +60,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		kernel = app.getKernel();
 		model = new SliderModel(app, this);
 		setModel(model);
-		
+
 		this.useTabbedPane = useTabbedPane;
 		this.includeRandom = includeRandom;
 
@@ -72,19 +72,19 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		cbSliderFixed.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
-	            model.applyFixed(cbSliderFixed.getValue());
-	            
-            }});
+				model.applyFixed(cbSliderFixed.getValue());
+
+			}});
 		sliderPanel.add(cbSliderFixed);
 
 		cbRandom = new CheckBox();
 		cbRandom.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
-	            model.applyRandom(cbRandom.getValue());
-	            
-            }});
-;
+				model.applyRandom(cbRandom.getValue());
+
+			}});
+		;
 		sliderPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
@@ -92,42 +92,45 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 			public void onChange(ChangeEvent event) {
 				model.applyDirection(lbSliderHorizontal.getSelectedIndex());
-				
-            }});
-		
+
+			}});
+
 		sliderPanel.add(lbSliderHorizontal);
 
 		tfMin = new AngleTextFieldW(6, app);
 		tfMin.addKeyDownHandler(new KeyDownHandler(){
 
 			public void onKeyDown(KeyDownEvent event) {
-	            applyMin();
-	          
-            }});
-		
+				if (event.getNativeEvent().getKeyCode() == 13) {
+					applyMin();
+				}
+
+			}});
+
 		tfMax = new AngleTextFieldW(6, app);
 		tfMax.addKeyDownHandler(new KeyDownHandler(){
 
 			public void onKeyDown(KeyDownEvent event) {
-	            applyMax();
-	          
-            }});
-	
-		
+				if (event.getNativeEvent().getKeyCode() == 13) {
+					applyMax();
+				}
+			}});
+
+
 		tfWidth = new AutoCompleteTextFieldW(4, app);
 		tfWidth.addKeyHandler(new KeyHandler(){
 
 			public void keyReleased(KeyEvent e) {
-	            if (e.isEnterKey()) {
-	            	applyWidth();
-	            }
-            }});
-		
+				if (e.isEnterKey()) {
+					applyWidth();
+				}
+			}});
+
 		maxLabel = new Label();
 		minLabel = new Label();
 		widthLabel = new Label();
 		widthUnitLabel = new Label();
-			
+
 		FlowPanel minPanel = new FlowPanel();
 		minPanel.add(minLabel);
 		minPanel.add(tfMin);
@@ -142,7 +145,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthPanel.add(widthLabel);
 		widthPanel.add(tfWidth);
 		widthPanel.add(widthUnitLabel);
-		
+
 		sliderPanel.add(widthPanel);
 
 		// add increment to intervalPanel
@@ -164,19 +167,19 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		return super.update(geos);
 	}
 	protected void applyMin() {
-	    model.applyMin(getNumberFromInput(tfMin.getText().trim()));
-	    
-    }
+		model.applyMin(getNumberFromInput(tfMin.getText().trim()));
+
+	}
 
 	protected void applyMax() {
-	    model.applyMax(getNumberFromInput(tfMax.getText().trim()));
-	    
-    }
+		model.applyMax(getNumberFromInput(tfMax.getText().trim()));
+
+	}
 
 	protected void applyWidth() {
-	    model.applyWidth(getNumberFromInput(tfWidth.getText().trim()).getDouble());
-	    
-    }
+		model.applyWidth(getNumberFromInput(tfWidth.getText().trim()).getDouble());
+
+	}
 
 	private void initPanels() {
 		FlowPanel mainPanel = new FlowPanel();
@@ -190,13 +193,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			mainPanel.add(tabPanel);
 			tabPanel.selectTab(0);
 		} else { // no tabs
-//			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//			intervalPanel.setBorder(BorderFactory.createTitledBorder(app
-//					.getPlain("Interval")));
-//			sliderPanel.setBorder(BorderFactory.createTitledBorder(app
-//					.getPlain("Slider")));
-//			animationPanel.setBorder(BorderFactory.createTitledBorder(app
-//					.getPlain("Animation")));
+			//			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			//			intervalPanel.setBorder(BorderFactory.createTitledBorder(app
+			//					.getPlain("Interval")));
+			//			sliderPanel.setBorder(BorderFactory.createTitledBorder(app
+			//					.getPlain("Slider")));
+			//			animationPanel.setBorder(BorderFactory.createTitledBorder(app
+			//					.getPlain("Animation")));
 			mainPanel.add(intervalPanel);
 			mainPanel.add(sliderPanel);
 			mainPanel.add(animationPanel);
@@ -220,14 +223,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		lbSliderHorizontal.setSelectedIndex(selectedIndex);
 
-		
+
 		minLabel.setText(app.getPlain("min") + ":");
 		maxLabel.setText(app.getPlain("max") + ":");
 		widthLabel.setText(app.getPlain("Width") + ":"); 
-		
+
 		model.setLabelForWidthUnit();
-		
-		
+
+
 		stepPanel.setLabels();
 		speedPanel.setLabels();
 	}
