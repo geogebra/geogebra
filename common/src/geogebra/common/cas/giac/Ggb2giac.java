@@ -81,10 +81,20 @@ public class Ggb2giac {
 				"degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
 		p("Denominator.1", "denom(%0)");
+		
+		// this chooses x if it's in the expression
+		// otherwise the first variable alphabetcially
+		//when(count_eq(x,lname(%0))==0,lname(%0)[0],x)
+		
 		p("Derivative.1",
-				"regroup(diff(%0, x))");
+				"regroup(diff(%0, when(count_eq(x,lname(%0))==0,lname(%0)[0],x)))");
 		p("Derivative.2", 
-				"if type(%1)==DOM_INT then regroup(diff(%0,x,%1)) else regroup(diff(%0,%1)) fi");
+				"when(type(%1)==DOM_INT,"+
+						"regroup(diff(%0,when(count_eq(x,lname(%0))==0,lname(%0)[0],x),%1))"+
+						","+
+						"regroup(diff(%0,when(count_eq(x,lname(%0))==0,lname(%0)[0],x)))"+
+				")");
+
 		p("Derivative.3", 
 				"regroup(diff(%0,%1,%2))");
 		p("Determinant.1", "det(%0)");
