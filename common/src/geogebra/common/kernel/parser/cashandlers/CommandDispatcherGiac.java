@@ -346,6 +346,11 @@ public class CommandDispatcherGiac {
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 			case diff:
+				
+				if (args.getLength() > 2) {
+					return new ExpressionNode(kernel, Double.NaN);
+				}
+				
 				ret = new ExpressionNode(kernel,args.getItem(0),Operation.DIFF,args.getItem(1));
 				break;
 			}
