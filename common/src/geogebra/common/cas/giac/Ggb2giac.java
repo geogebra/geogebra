@@ -84,7 +84,7 @@ public class Ggb2giac {
 		p("Derivative.1",
 				"regroup(diff(%0, x))");
 		p("Derivative.2", 
-				"regroup(diff(%0,%1))");
+				"if type(%1)==DOM_INT then regroup(diff(%0,x,%1)) else regroup(diff(%0,%1)) fi");
 		p("Derivative.3", 
 				"regroup(diff(%0,%1,%2))");
 		p("Determinant.1", "det(%0)");
