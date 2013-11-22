@@ -15,6 +15,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
+import javax.media.opengl.GLAutoDrawable;
+
 /**
  * Renderer using GL2
  * @author mathieu
@@ -367,10 +369,25 @@ public class RendererGL2 extends Renderer{
 	}
 	
 	@Override
-	protected void setLightAmbiantDiffuse(int light, float ambiant, float diffuse){
+	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
 
-		getGL2().glLightfv(light, GLlocal.GL_AMBIENT, new float[] {ambiant, ambiant, ambiant, 1.0f}, 0);
-		getGL2().glLightfv(light, GLlocal.GL_DIFFUSE, new float[] {diffuse, diffuse, diffuse, 1.0f}, 0);
+		getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, new float[] {ambiant0, ambiant0, ambiant0, 1.0f}, 0);
+		getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, new float[] {diffuse0, diffuse0, diffuse0, 1.0f}, 0);
+		
+		getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, new float[] {ambiant1, ambiant1, ambiant1, 1.0f}, 0);
+		getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, new float[] {diffuse1, diffuse1, diffuse1, 1.0f}, 0);
+	}
+	
+	
+	@Override
+	protected void setLight(int light){
+		if (light == GLlocal.GL_LIGHT0){
+			getGL().glDisable(GLlocal.GL_LIGHT1);
+			getGL().glEnable(GLlocal.GL_LIGHT0);
+		}else{
+			getGL().glDisable(GLlocal.GL_LIGHT0);
+			getGL().glEnable(GLlocal.GL_LIGHT1);
+		}
 	}
 
 	@Override
@@ -554,5 +571,12 @@ public class RendererGL2 extends Renderer{
 	protected Manager createManager(){
     	return new ManagerGLList(this,view3D);   
     }
+    
+    
+
+	public void dispose(GLAutoDrawable arg0) {
+		// nothing to do ?		
+	}
+
 
 }

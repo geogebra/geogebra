@@ -51,34 +51,50 @@ precision mediump float;  // Precision Qualifiers
 precision mediump int;    // GLSL ES section 4.5.2
 #endif 
 
-//in
+
+//in -- unifrom
 uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
 uniform mat4    projection;  
-uniform mat3	normalMatrix;
+//uniform mat3	normalMatrix; // no need since light position is model view system based
 uniform vec4	lightPosition;
+uniform vec2	ambiantDiffuse;
+uniform vec4	color;
+
+//in -- attributes
 attribute vec3  attribute_Position;  
 attribute vec3  attribute_Normal;  
-attribute vec4  attribute_Color;     
+attribute vec4  attribute_Color;  
+attribute vec2	attribute_Texture;   
+
 
 //out
-varying vec4    varying_Color;  // Outgoing varying data
-                                // sent to the fragment shader
+varying vec4    varying_Color;  
+varying vec2	coordTexture;
+
+
 void main(void) 
 { 
   
   // position
   gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
   
-  // color
-  //vec3 normal = normalMatrix * attribute_Normal;  
-  //varying_Color = attribute_Color * abs(normal[2]); 
-  //varying_Color[3] = attribute_Color[3]; // alpha doesn't change
-  
-  //vec3 normal = normalMatrix * attribute_Normal;  
+  // color with light
   float factor = abs(dot(attribute_Normal, lightPosition));
-  varying_Color = attribute_Color * factor; 
-  varying_Color[3] = attribute_Color[3]; // alpha doesn't change
+  float ambiant = ambiantDiffuse[0];
+  float diffuse = ambiantDiffuse[1];
+  vec4 c;
+  if (color[0] < 0){ // then use per-vertex-color
+  	c = attribute_Color;
+  }else{ // use per-object-color
+  	c = color;
+  }
   
+  varying_Color.xyz = c.xyz * (ambiant + diffuse * factor);
+  varying_Color.a = c.a;
   
+                       
+  // texture
+  coordTexture = attribute_Texture;
+                        
   
 } 

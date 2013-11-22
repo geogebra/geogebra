@@ -29,6 +29,7 @@
 //	final static private int GLSL_ATTRIB_POSITION = 0; 
 //	final static private int GLSL_ATTRIB_COLOR = 1; 
 //	final static private int GLSL_ATTRIB_NORMAL = 2; 
+//	final static private int GLSL_ATTRIB_TEXTURE = 3; 
 //
 //
 //
@@ -79,47 +80,6 @@
 //	
 //
 //
-//
-//
-//    private void glMultMatrixf(FloatBuffer a, FloatBuffer b, FloatBuffer d) {
-//        final int aP = a.position();
-//        final int bP = b.position();
-//        final int dP = d.position();
-//        for (int i = 0; i < 4; i++) {
-//            final float ai0=a.get(aP+i+0*4),  ai1=a.get(aP+i+1*4),  ai2=a.get(aP+i+2*4),  ai3=a.get(aP+i+3*4);
-//            d.put(dP+i+0*4 , ai0 * b.get(bP+0+0*4) + ai1 * b.get(bP+1+0*4) + ai2 * b.get(bP+2+0*4) + ai3 * b.get(bP+3+0*4) );
-//            d.put(dP+i+1*4 , ai0 * b.get(bP+0+1*4) + ai1 * b.get(bP+1+1*4) + ai2 * b.get(bP+2+1*4) + ai3 * b.get(bP+3+1*4) );
-//            d.put(dP+i+2*4 , ai0 * b.get(bP+0+2*4) + ai1 * b.get(bP+1+2*4) + ai2 * b.get(bP+2+2*4) + ai3 * b.get(bP+3+2*4) );
-//            d.put(dP+i+3*4 , ai0 * b.get(bP+0+3*4) + ai1 * b.get(bP+1+3*4) + ai2 * b.get(bP+2+3*4) + ai3 * b.get(bP+3+3*4) );
-//        }
-//    }
-//
-//    private float[] multiply(float[] a,float[] b){
-//        float[] tmp = new float[16];
-//        glMultMatrixf(FloatBuffer.wrap(a),FloatBuffer.wrap(b),FloatBuffer.wrap(tmp));
-//        return tmp;
-//    }
-//
-//    private float[] translate(float[] m,float x,float y,float z){
-//        float[] t = { 1.0f, 0.0f, 0.0f, 0.0f,
-//                      0.0f, 1.0f, 0.0f, 0.0f,
-//                      0.0f, 0.0f, 1.0f, 0.0f,
-//                      x, y, z, 1.0f };
-//        return multiply(m, t);
-//    }
-//
-//    private float[] rotate(float[] m,float a,float x,float y,float z){
-//        float s, c;
-//        s = (float)Math.sin(Math.toRadians(a));
-//        c = (float)Math.cos(Math.toRadians(a));
-//        float[] r = {
-//            x * x * (1.0f - c) + c,     y * x * (1.0f - c) + z * s, x * z * (1.0f - c) - y * s, 0.0f,
-//            x * y * (1.0f - c) - z * s, y * y * (1.0f - c) + c,     y * z * (1.0f - c) + x * s, 0.0f,
-//            x * z * (1.0f - c) + y * s, y * z * (1.0f - c) - x * s, z * z * (1.0f - c) + c,     0.0f,
-//            0.0f, 0.0f, 0.0f, 1.0f };
-//            return multiply(m, r);
-//        }
-//
 ///* Introducing the GL2ES2 demo
 // *
 // * How to render a triangle using ~500 lines of code using the RAW
@@ -132,19 +92,22 @@
 //    private double theta;
 //    private double s;
 //    
-//    private int width=1920;
-//    private int height=1080;
-//    private int depth=width;
 //
 //    private int shaderProgram;
 //    private int vertShader;
 //    private int fragShader;
-//    //private int ModelViewProjectionMatrix_location;
-//    private int modelviewLocation, projectionLocation, normalMatrixLocation, lightPositionLocation;
+//    
+//    // location values for shader fields
+//    private int modelviewLocation, projectionLocation; // matrices
+//    private int lightPositionLocation, ambiantDiffuseLocation; // light
+//    private int fadingLocation; // textures
+//    private int colorLocation; // color
+//    //private int normalMatrixLocation;
 //
 //    int[] vboHandles;
-//    private int vboVertices, vboColors, vboNormals;
+//    private int vboVertices, vboColors, vboNormals, vboTextureCoords;
 //    
+//    static final private float[] PER_VERTEX_COLOR = {-1,0,1,1};
 //    
 //    private String readTxt(String file) throws IOException{
 //    	BufferedReader br = new BufferedReader(new FileReader("geogebra3D/euclidian3D/opengl/shaders/"+file+".txt"));
@@ -269,18 +232,24 @@
 //        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_POSITION, "attribute_Position");
 //        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_COLOR, "attribute_Color");
 //        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_NORMAL, "attribute_Normal");
+//        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_TEXTURE, "attribute_Texture");
 //
 //        getGL2ES2().glLinkProgram(shaderProgram);
 //
 //        //Get a id number to the uniform_Projection matrix
 //        //so that we can update it.
-//        //ModelViewProjectionMatrix_location = getGL2ES2().glGetUniformLocation(shaderProgram, "uniform_Projection");
 //        modelviewLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "modelview");
 //        projectionLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "projection");
-//        normalMatrixLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");
 //        
+//        //normalMatrixLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");        
 //        lightPositionLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "lightPosition");
+//        ambiantDiffuseLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
+//        
+//        //texture
+//        fadingLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "fading");
 //               
+//        //color
+//        colorLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "color");
 //
 //        /* GL2ES2 also includes the intersection of GL3 core
 //         * GL3 core and later mandates that a "Vector Buffer Object" must
@@ -292,12 +261,12 @@
 //         * Generate two VBO pointers / handles
 //         * VBO is data buffers stored inside the graphics card memory.
 //         */
-//        vboHandles = new int[3];
-//        getGL2ES2().glGenBuffers(3, vboHandles, 0);
+//        vboHandles = new int[4];
+//        getGL2ES2().glGenBuffers(4, vboHandles, 0);
 //        vboColors = vboHandles[GLSL_ATTRIB_COLOR];
 //        vboVertices = vboHandles[GLSL_ATTRIB_POSITION];
 //        vboNormals = vboHandles[GLSL_ATTRIB_NORMAL];
-//       
+//        vboTextureCoords = vboHandles[GLSL_ATTRIB_TEXTURE];
 //        //super.init(drawable);
 //        
 //        
@@ -305,7 +274,7 @@
 //    }
 //
 //    
-//    private void drawTriangle(float[] vertices, float[] normals, float[] colors){
+//    private void drawTriangle(float[] vertices, float[] normals, float[] colors, float[] textureCoords){
 //    	
 //    	
 //    	getGL().glDisable(GLlocal.GL_CULL_FACE);
@@ -389,11 +358,136 @@
 //        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 //
 //        
+//        /////////////////////////////////////
+//        // VBO - texture
+//
+//
+//                                             
+//        FloatBuffer fbTextures = Buffers.newDirectFloatBuffer(textureCoords);
+//
+//        // Select the VBO, GPU memory data, to use for normals 
+//        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboTextureCoords);
+//        numBytes = textureCoords.length * 4; // 4 bytes per float
+//        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
+//        fbTextures = null; // It is OK to release CPU color memory after transfer to GPU
+//
+//        // Associate Vertex attribute 1 with the last bound VBO
+//        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
+//                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
+//                                 0 /* The bound VBO data offset */);
+//
+//        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+//
+//        
+//        
+//        
+//        
+//        
+//        
 //        /////////////////////////
 //        // draw
 //
 //        getGL2ES2().glDrawArrays(GL2ES2.GL_TRIANGLES, 0, 3); //Draw the vertices as triangle // 3 <=> 1 triangle
 //    }
+//    
+//    
+//    
+//    private void drawTriangle(float[] vertices, float[] normals, float[] textureCoords){
+//    	
+//    	
+//    	getGL().glDisable(GLlocal.GL_CULL_FACE);
+//    	
+//    	
+//    	 /////////////////////////////////////
+//        // VBO - vertices
+//        
+//  
+//
+//        // Observe that the vertex data passed to glVertexAttribPointer must stay valid
+//        // through the OpenGL rendering lifecycle.
+//        // Therefore it is mandatory to allocate a NIO Direct buffer that stays pinned in memory
+//        // and thus can not get moved by the java garbage collector.
+//        // Also we need to keep a reference to the NIO Direct buffer around up untill
+//        // we call glDisableVertexAttribArray first then will it be safe to garbage collect the memory. 
+//        // I will here use the com.jogamp.common.nio.Buffers to quicly wrap the array in a Direct NIO buffer.
+//        FloatBuffer fbVertices = Buffers.newDirectFloatBuffer(vertices);
+//
+//        // Select the VBO, GPU memory data, to use for vertices
+//        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
+//
+//        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
+//        int numBytes = vertices.length * 4; // 4 bytes per float
+//        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbVertices, GL.GL_STATIC_DRAW);
+//        fbVertices = null; // It is OK to release CPU vertices memory after transfer to GPU
+//
+//        // Associate Vertex attribute 0 with the last bound VBO
+//        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION /* the vertex attribute */, 3,
+//                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
+//                                 0 /* The bound VBO data offset */);
+//
+//        // VBO
+//        // getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, 0); // You can unbind the VBO after it have been associated using glVertexAttribPointer
+//
+//        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+//
+//        
+//        
+//        
+//        
+//        
+//        /////////////////////////////////////
+//        // VBO - normals
+//
+//
+//                                             
+//        FloatBuffer fbNormals = Buffers.newDirectFloatBuffer(normals);
+//
+//        // Select the VBO, GPU memory data, to use for normals 
+//        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+//        numBytes = normals.length * 4; // 4 bytes per float
+//        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbNormals, GL.GL_STATIC_DRAW);
+//        fbNormals = null; // It is OK to release CPU color memory after transfer to GPU
+//
+//        // Associate Vertex attribute 1 with the last bound VBO
+//        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /* 3 normal values used for each vertex */,
+//                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
+//                                 0 /* The bound VBO data offset */);
+//
+//        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+//
+//        
+//        /////////////////////////////////////
+//        // VBO - texture
+//
+//
+//                                             
+//        FloatBuffer fbTextures = Buffers.newDirectFloatBuffer(textureCoords);
+//
+//        // Select the VBO, GPU memory data, to use for normals 
+//        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboTextureCoords);
+//        numBytes = textureCoords.length * 4; // 4 bytes per float
+//        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
+//        fbTextures = null; // It is OK to release CPU color memory after transfer to GPU
+//
+//        // Associate Vertex attribute 1 with the last bound VBO
+//        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
+//                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
+//                                 0 /* The bound VBO data offset */);
+//
+//        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+//
+//        
+//        
+//        
+//        
+//        
+//        
+//        /////////////////////////
+//        // draw
+//
+//        getGL2ES2().glDrawArrays(GL2ES2.GL_TRIANGLES, 0, 3); //Draw the vertices as triangle // 3 <=> 1 triangle
+//    }
+//
 //
 //    @Override
 //    public void display(GLAutoDrawable drawable) {
@@ -471,10 +565,10 @@
 //        float[] modelview = view3D.getToScreenMatrix().getForGL();
 //               
 //        float[] projection = {
-//                2.0f/width, 0.0f, 0.0f, 0.0f,
-//                0.0f, 2.0f/height, 0.0f, 0.0f,
-//                0.0f, 0.0f, -2.0f/depth, 0f,
-//                0.0f, 0.0f, -1f/depth, 1.0f,
+//                2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
+//                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
+//                0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
+//                0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
 //        };
 //        
 //        
@@ -495,7 +589,7 @@
 //         */
 //        
 //        
-//        float[] normalMatrix = view3D.getRotationMatrix().get3x3ForGL();
+//        
 //        
 //        /*
 //        float[] normalMatrix = {
@@ -514,23 +608,32 @@
 //
 //        getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, modelview, 0);
 //        getGL2ES2().glUniformMatrix4fv(projectionLocation, 1, false, projection, 0);
-//        getGL2ES2().glUniformMatrix3fv(normalMatrixLocation, 1, false, normalMatrix, 0);
+//        
+//        //float[] normalMatrix = view3D.getRotationMatrix().get3x3ForGL();
+//        //getGL2ES2().glUniformMatrix3fv(normalMatrixLocation, 1, false, normalMatrix, 0);
 //
 //        
 //        
-//        
+//        // light
 //        
 //        setLightPosition();
+//        setLight(GLlocal.GL_LIGHT0);
 //        
 //        
 //        
-//        /*
-//        float[] vertices = {  0.0f,  1.0f, 1.0f, //Top
-//                -1.0f, -1.0f, 0.0f, //Bottom Left
-//                 1.0f, -1.0f, 0.0f  //Bottom Right
-//                                 };
-//           
-//                                 */
+//        // texture
+//        
+//        getGL2ES2().glUniform1i(fadingLocation, 1);
+//        
+//        
+//        float[] textureCoords = { 
+//        		0, 0,
+//                0, 3f,
+//                3f, 3f
+//        };
+//        
+//        
+//        // draw
 //        
 //        
 //        float l = 1f;
@@ -548,13 +651,12 @@
 //
 //        float alpha = 1f;
 //        
-//        float[] colors = {    1.0f, 0.0f, 0.0f, alpha, //Top color (red)
-//                1.0f, 0.0f, 0.0f, alpha, //Bottom Left color (black)
-//                1.0f, 0.0f, 0.0f, alpha  //Bottom Right color (yellow) with 10% transparence
-//                                     };
 //
-//        drawTriangle(vertices, normals, colors);
+//        float[] color = {1,0,1,1};
+//        getGL2ES2().glUniform4fv(colorLocation, 1, color, 0);
+//        drawTriangle(vertices, normals, textureCoords);
 //        
+//        getGL2ES2().glUniform4fv(colorLocation, 1, PER_VERTEX_COLOR, 0);
 //        
 //        float[] vertices2 = {  0.0f,  0f, 0f,
 //                l, 0, 0f,
@@ -572,7 +674,8 @@
 //               0.0f, 1.0f, 0.0f, alpha  //Bottom Right color (yellow) with 10% transparence
 //                                    };
 //       
-//       drawTriangle(vertices2, normals2, colors2);
+//       
+//       drawTriangle(vertices2, normals2, colors2, textureCoords);
 //       
 //       
 //
@@ -587,7 +690,7 @@
 //    		   0, 0, 1  
 //       };
 //
-//       drawTriangle(vertices4, normals4, colors2);
+//       drawTriangle(vertices4, normals4, colors2, textureCoords);
 //
 //  
 //       float z = 0f;
@@ -601,19 +704,20 @@
 //       0.0f, 0.0f, 1.0f, alpha  //Bottom Right color (yellow) with 10% transparence
 //       };
 //
-//       drawTriangle(vertices3, normals4, colors3);
+//       drawTriangle(vertices3, normals4, colors3, textureCoords);
 //
 //
 //     
 //       
 //       
-//        getGL2ES2().glDisableVertexAttribArray(0); // Allow release of vertex position memory
-//        getGL2ES2().glDisableVertexAttribArray(1); // Allow release of vertex color memory		
+//        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow release of vertex position memory
+//        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR); // Allow release of vertex color memory		
+//        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL); // Allow release of vertex normal memory		
+//        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE); // Allow release of vertex texture memory		
 //
 //        getGL2ES2().glDeleteBuffers(2, vboHandles, 0); // Release VBO, color and vertices, buffer GPU memory.
 //    }
 //
-//    @Override
 //	public void dispose(GLAutoDrawable drawable){
 //        System.out.println("cleanup, remember to release shaders");
 //
@@ -626,25 +730,6 @@
 //        getGL2ES2().glDeleteShader(fragShader);
 //        getGL2ES2().glDeleteProgram(shaderProgram);
 //        //System.exit(0);
-//    }
-//
-//
-//    @Override
-//	public void reshape(GLAutoDrawable drawable, int x, int y, int z, int h) {
-//    	System.out.println("Window resized to width=" + z + " height=" + h);
-//    	width = z;
-//    	height = h;
-//    	depth = width;
-//
-//    	// Get gl
-//    	setGL(drawable);
-//    	
-//
-//    	// Optional: Set viewport
-//    	// Render to a square at the center of the window.
-//    	//getGL2ES2().glViewport((width-height)/2,0,height,height);
-//    	
-//
 //    }
 //
 //
@@ -1057,15 +1142,28 @@
 //	}
 //
 //
+//	private float[][] ambiantDiffuse;
 //	
 //	@Override
-//	protected void setLightAmbiantDiffuse(int light, float ambiant, float diffuse){
-//        //TODO		
+//	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
+//       
+//		ambiantDiffuse = new float[][] {
+//				{ambiant0, diffuse0},
+//				{ambiant1, diffuse1}
+//		};
+//        
 //	}
 //
 //
 //
-//
+//	@Override
+//	protected void setLight(int light){
+//		int l = 1;
+//		if (light == GLlocal.GL_LIGHT0){
+//			l = 0;
+//		}
+//		getGL2ES2().glUniform2fv(ambiantDiffuseLocation, 1, ambiantDiffuse[l], 0);
+//	}
 //
 //
 //

@@ -215,9 +215,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		//getGL().glDisable(GLlocal.GL_TEXTURE_2D);
 		//TODO improve this !
 		
-		getGL().glDisable(GLlocal.GL_LIGHT0);
-		getGL().glEnable(GLlocal.GL_LIGHT1);
-		//getGL().glEnable(GLlocal.GL_LIGHT2);
+		setLight(GLlocal.GL_LIGHT1);
 		
 		getGL().glEnable(GLlocal.GL_CULL_FACE);
 		getGL().glCullFace(GLlocal.GL_FRONT); 
@@ -236,11 +234,15 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		}
 		
 
-		//getGL().glDisable(GLlocal.GL_LIGHT2);
-		getGL().glDisable(GLlocal.GL_LIGHT1);
-		getGL().glEnable(GLlocal.GL_LIGHT0);
+		setLight(GLlocal.GL_LIGHT0);
 
 	}
+	
+	/**
+	 * switch GL_LIGHT0 / GL_LIGHT1
+	 * @param light GL_LIGHT0 or GL_LIGHT1
+	 */
+	abstract protected void setLight(int light);
 		
 	private void drawNotTransp(){
 		
@@ -253,9 +255,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         drawable3DLists.drawNotTransparentSurfaces(this);
 
         
-		getGL().glDisable(GLlocal.GL_LIGHT0);
-		getGL().glEnable(GLlocal.GL_LIGHT1);
-		//getGL().glEnable(GLlocal.GL_LIGHT2);
+        setLight(GLlocal.GL_LIGHT1);
 		
 		//TODO improve this !
 		getGL().glEnable(GLlocal.GL_CULL_FACE);
@@ -275,9 +275,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		}
 		
 
-		//getGL().glDisable(GLlocal.GL_LIGHT2);
-		getGL().glDisable(GLlocal.GL_LIGHT1);
-		getGL().glEnable(GLlocal.GL_LIGHT0);
+		setLight(GLlocal.GL_LIGHT0);
 	}
 	
 	/**
@@ -595,7 +593,8 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         //init drawing matrix to view3D toScreen matrix
         setMatrixView(); 
  
-        setLightPosition();      
+        setLightPosition();     
+        setLight(GLlocal.GL_LIGHT0);
 
         //drawing the cursor
         //getGL().glEnable(GLlocal.GL_BLEND);
@@ -1250,7 +1249,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
      * set light ambiant and diffuse values (white lights)
      * 
      */
-    abstract protected void setLightAmbiantDiffuse(int light, float ambiant, float diffuse);
+    abstract protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1);
 
     //////////////////////////////////
     // clear color
@@ -1332,15 +1331,14 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
                     
         
         
-        //GL_LIGHT0
-        float ambiant = 0.5f;
-        float diffuse=1f-ambiant; 
-        setLightAmbiantDiffuse(GLlocal.GL_LIGHT0, ambiant, diffuse);
+        //GL_LIGHT0 & GL_LIGHT1
+        float ambiant0 = 0.5f;
+        float diffuse0=1f-ambiant0; 
         
-        //GL_LIGHT1
-        ambiant = 0.4f;
-        diffuse=0.7f;//1f-ambiant;
-        setLightAmbiantDiffuse(GLlocal.GL_LIGHT1, ambiant, diffuse);
+        float ambiant1 = 0.4f;
+        float diffuse1=0.7f;//1f-ambiant;
+        
+        setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
                 
         
         
@@ -1351,7 +1349,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         
         
         
-        getGL().glEnable(GLlocal.GL_LIGHT0);        
+        //setLight(GLlocal.GL_LIGHT0);        
         setLightModel();        
         getGL().glEnable(GLlocal.GL_LIGHTING);
         
@@ -1705,10 +1703,6 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     	view3D.setViewChanged();
     	view3D.setWaitForUpdate();
     }
-
-	public void dispose(GLAutoDrawable arg0) {
-		// TODO Auto-generated method stub		
-	}
 
 
 
