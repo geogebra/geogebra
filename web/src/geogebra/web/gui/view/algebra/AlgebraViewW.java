@@ -119,7 +119,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		// add small border
 		//setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 0));
 
-		// initializes the tree model
+		// initializes the tree model, important to set tree mode first to avoid inf. loop #3651
+		this.treeMode = intToMode(app.getSettings().getAlgebra().getTreeMode());
 		initModel();
 
 		setLabels();

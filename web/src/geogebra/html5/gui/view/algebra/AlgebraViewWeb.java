@@ -278,20 +278,21 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 
 	public void setTreeMode(int mode) {
+		setTreeMode(intToMode(mode));
+	}
+	
+	protected static SortMode intToMode(int mode){
 		switch (mode) {
 		case 0:
-			setTreeMode(SortMode.DEPENDENCY);
-			break;
+			return SortMode.DEPENDENCY;
 		case 1:
-			setTreeMode(SortMode.TYPE);
-			break;
+			return SortMode.TYPE;
 		case 2:
-			setTreeMode(SortMode.LAYER);
-			break;
+			return SortMode.LAYER;
 		case 3:
-			setTreeMode(SortMode.ORDER);
-			break;
+			return SortMode.ORDER;
 		}
+		return SortMode.TYPE;
 	}
 
 	/**
