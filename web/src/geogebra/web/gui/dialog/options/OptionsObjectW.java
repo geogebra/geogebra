@@ -1505,6 +1505,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public void setLabels() {
 			title.setText(loc.getMenu("DynamicColors"));
+			tfRed.setVisible(false);
 			if (allowSetComboBoxLabels) {
 				cbColorSpace.clear();
 				cbColorSpace.addItem(loc.getMenu("RGB"));

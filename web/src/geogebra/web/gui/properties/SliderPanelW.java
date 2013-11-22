@@ -188,6 +188,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			tabPanel.add(sliderPanel, app.getMenu("Slider"));
 			tabPanel.add(animationPanel, app.getPlain("Animation"));
 			mainPanel.add(tabPanel);
+			tabPanel.selectTab(0);
 		} else { // no tabs
 //			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //			intervalPanel.setBorder(BorderFactory.createTitledBorder(app
