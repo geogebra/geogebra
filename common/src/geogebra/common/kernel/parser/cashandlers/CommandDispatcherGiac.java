@@ -347,7 +347,7 @@ public class CommandDispatcherGiac {
 				break;
 			case diff:
 				
-				if (args.getLength() > 2) {
+				if (args.getLength() == 3 && !"1".equals(args.getItem(2).toString(StringTemplate.giacTemplate))) {
 					return new ExpressionNode(kernel, Double.NaN);
 				}
 				
