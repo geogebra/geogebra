@@ -1,6 +1,7 @@
 package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.CASException;
+import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
@@ -357,8 +358,16 @@ public class CommandDispatcherGiac {
 				String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
 						: expStr;
 				ExpressionValue diffArg = new MyDouble(args.getItem(0).getKernel(),Double.NaN);
+				ExpressionNode mult = new MyDouble(kernel,1).wrap();
 				if(args.getItem(0).unwrap() instanceof Command){
 					diffArg = ((Command)args.getItem(0).unwrap()).getArgument(0);
+					
+					CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+					Command derivCommand = new Command(kernel,"Derivative",false);
+					derivCommand.addArgument(diffArg.wrap());
+					derivCommand.addArgument(args.getItem(1).wrap());
+					derivCommand.addArgument(new MyDouble(kernel,1).wrap());
+					mult = cas.evaluateToExpression(derivCommand, null).wrap();
 				}
 				Log.debug(args.getItem(0));
 				// derivative of f gives f'
@@ -367,7 +376,7 @@ public class CommandDispatcherGiac {
 						Operation.DERIVATIVE, new MyDouble(kernel, 1));
 				// function of given variable gives f'(t)
 				ret = new ExpressionNode(kernel, derivative,
-						Operation.FUNCTION, diffArg); // Variable
+						Operation.FUNCTION, diffArg).multiplyR(mult); // Variable
 				// "t"
 				break;
 			}

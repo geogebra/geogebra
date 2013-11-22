@@ -76,7 +76,7 @@ public interface Traversing {
 					return ev;
 				MyList argList = new MyList(c.getKernel()); 
 				for(int i=0;i<c.getArgumentNumber();i++){
-					argList.addListElement(c.getItem(i));
+					argList.addListElement(c.getItem(i).traverse(this));
 				}
 				return new ExpressionNode(c.getKernel(),
 						new GeoDummyVariable(c.getKernel().getConstruction(),c.getName()),
