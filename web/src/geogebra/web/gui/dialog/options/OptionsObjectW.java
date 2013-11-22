@@ -1622,7 +1622,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private static final long serialVersionUID = 1L;
 	
 		public LayerPanel() {
-			super(loc, loc.getMenu("Layer") + ":");
+			super(loc, loc.getPlain("Layer") + ":");
 			setModel(new LayerModel(this));
 		}
 	} 

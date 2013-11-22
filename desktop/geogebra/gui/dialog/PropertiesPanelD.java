@@ -1798,7 +1798,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 	
 		public LayerPanel() {
-			super(loc.getMenu("Layer") + ":");
+			super(loc.getPlain("Layer") + ":");
 			setModel(new LayerModel(this));
 		}
 	} // TooltipPanel
