@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -118,7 +119,9 @@ public class CmdIf extends CommandProcessor {
 		FunctionVariable fv = ifFun.getFunctionVariables()[0];
 		ExpressionNode expr;
 		
-		boolean mayIndependent = boolFun.isIndependent() && ifFun.isIndependent() && (elseFun == null || elseFun.isIndependent());
+		boolean mayIndependent = !Inspecting.dynamicGeosFinder.check(boolFun) && 
+				!Inspecting.dynamicGeosFinder.check(ifFun) && (elseFun == null || 
+						!Inspecting.dynamicGeosFinder.check(elseFun));
 		
 		if(elseFun==null){
 			expr = new ExpressionNode(kernelA,wrap(boolFun,fv, mayIndependent),Operation.IF,wrap(ifFun,fv,mayIndependent));
