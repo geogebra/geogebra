@@ -261,6 +261,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 		actionPerforming = true;
 		String inputText = source.getText().trim();
 		boolean emptyString = inputText.equals("");
+		
 		NumberValue value = new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,

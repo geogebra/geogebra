@@ -329,7 +329,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
 		rightAnglePanel = new RightAnglePanel();
-		// END
+ 		// END
 		fillingPanel = new FillingPanel();
 		fadingPanel = new FadingPanel();
 		lodPanel = new LodPanel();

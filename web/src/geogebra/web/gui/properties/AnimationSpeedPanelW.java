@@ -79,7 +79,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
     }
 
 	public void setPartOfSliderPanel() {
-	    // TODO Auto-generated method stub
+	    model.setShowSliders(true);
 	    
     }
 	

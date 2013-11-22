@@ -71,8 +71,7 @@ implements ITextFieldListener {
 	}
 
 	public void setPartOfSliderPanel() {
-	    // TODO Auto-generated method stub
-	    
+		model.setPartOfSlider(true);
     }
 
 }
