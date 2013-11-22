@@ -1,17 +1,13 @@
 package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.CASException;
-import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.GetItem;
-import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.MyVecNode;
-import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.Log;
@@ -350,34 +346,7 @@ public class CommandDispatcherGiac {
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 			case diff:
-				// e.g. diff(f(var),var) from Giac becomes f'(var)
-				// see http://www.geogebra.org/trac/ticket/1420
-				
-				String expStr = args.getItem(0).toString(tpl);
-				int nameEnd = expStr.indexOf('(');
-				String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
-						: expStr;
-				ExpressionValue diffArg = new MyDouble(args.getItem(0).getKernel(),Double.NaN);
-				ExpressionNode mult = new MyDouble(kernel,1).wrap();
-				if(args.getItem(0).unwrap() instanceof Command){
-					diffArg = ((Command)args.getItem(0).unwrap()).getArgument(0);
-					
-					CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
-					Command derivCommand = new Command(kernel,"Derivative",false);
-					derivCommand.addArgument(diffArg.wrap());
-					derivCommand.addArgument(args.getItem(1).wrap());
-					derivCommand.addArgument(new MyDouble(kernel,1).wrap());
-					mult = cas.evaluateToExpression(derivCommand, null).wrap();
-				}
-				Log.debug(args.getItem(0));
-				// derivative of f gives f'
-				ExpressionNode derivative = new ExpressionNode(kernel,
-						new Variable(kernel, funLabel), // function label "f"
-						Operation.DERIVATIVE, new MyDouble(kernel, 1));
-				// function of given variable gives f'(t)
-				ret = new ExpressionNode(kernel, derivative,
-						Operation.FUNCTION, diffArg).multiplyR(mult); // Variable
-				// "t"
+				ret = new ExpressionNode(kernel,args.getItem(0),Operation.DIFF,args.getItem(1));
 				break;
 			}
 

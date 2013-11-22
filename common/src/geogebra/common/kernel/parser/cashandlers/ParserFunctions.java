@@ -270,6 +270,8 @@ public class ParserFunctions {
 		put(1, "fractionalPart", Operation.FRACTIONAL_PART);
 		put(1, "FractionalPart", Operation.FRACTIONAL_PART);
 
+		put(2, "ggbdiff", Operation.DIFF);
+		
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
 		RESERVED_FUNCTION_NAMES.add("freehand");
 

@@ -3161,7 +3161,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			sb.append(rightStr);
 			sb.append(tpl.rightBracket());
 			break;
-
+		case DIFF:
+			//we only serialize this temporarily during GIAC parsing, so only default template needed
+			//GIAC template added for safety
+			if(tpl.hasType(StringType.GIAC)){
+				sb.append("diff(");
+			}else{
+				sb.append("ggbdiff(");
+			}
+			sb.append(leftStr);
+			sb.append(',');
+			sb.append(rightStr);
+			sb.append(")");
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
 			if (tpl.hasType(StringType.GIAC)){

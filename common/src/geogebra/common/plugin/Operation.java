@@ -1409,6 +1409,13 @@ public enum Operation {
 			} else
 				return ev.polynomialOrDie(lt, this, "zeta(");
 		}
+	}, DIFF {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			return new MyDouble(lt.getKernel(),Double.NaN);
+		}
 	};
 
 	public static boolean isSimpleFunction(Operation op) {

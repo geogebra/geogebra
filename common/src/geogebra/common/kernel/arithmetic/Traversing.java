@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -532,6 +533,60 @@ public interface Traversing {
 			replacer.toRoot = toRoot;
 			return replacer;
 		}
+	}
+	
+	public class DiffReplacer implements Traversing{
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if(!ev.isExpressionNode()){
+				return ev;
+			}
+			ExpressionNode en = (ExpressionNode)ev;
+			Log.debug(en);
+			if(en.getOperation()!=Operation.DIFF){
+				return ev;
+			}
+			Kernel kernel = ev.getKernel();
+			
+			String expStr = en.getLeft().toString(StringTemplate.defaultTemplate);
+			int nameEnd = expStr.indexOf('(');
+			Log.debug("Strings");
+			if(expStr.indexOf('[')>0){
+				Log.debug(nameEnd+","+expStr.indexOf('['));
+				nameEnd = nameEnd > 0 ? Math.min(nameEnd, expStr.indexOf('[')) : expStr.indexOf('[');
+			}
+			String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
+					: expStr;
+			
+			Log.debug(expStr);
+			Log.debug(funLabel);
+			ExpressionValue diffArg = new MyDouble(kernel,Double.NaN);
+			ExpressionNode mult = new MyDouble(kernel,1).wrap();
+			if(en.getLeft().unwrap() instanceof Command){
+				diffArg = ((Command)en.getLeft().unwrap()).getArgument(0);
+				
+				CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+				Command derivCommand = new Command(kernel,"Derivative",false);
+				derivCommand.addArgument(diffArg.wrap());
+				derivCommand.addArgument(en.getRight().wrap());
+				derivCommand.addArgument(new MyDouble(kernel,1).wrap());
+				mult = cas.evaluateToExpression(derivCommand, null).wrap();
+			}
+			
+			// derivative of f gives f'
+			ExpressionNode derivative = new ExpressionNode(kernel,
+					new Variable(kernel, funLabel), // function label "f"
+					Operation.DERIVATIVE, new MyDouble(kernel, 1));
+			// function of given variable gives f'(t)
+			Log.debug("Result");
+			Log.debug(derivative);
+			Log.debug(mult);
+			return new ExpressionNode(kernel, derivative,
+					Operation.FUNCTION, diffArg).multiplyR(mult); // Variable
+		}
+		
+		public static final DiffReplacer INSTANCE = new DiffReplacer();
 	}
 	
 	/**

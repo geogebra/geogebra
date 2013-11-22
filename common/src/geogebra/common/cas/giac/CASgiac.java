@@ -14,6 +14,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PolyReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
@@ -24,6 +25,7 @@ import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
+import geogebra.common.util.debug.Log;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -286,6 +288,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (ve != null) {
 			boolean toRoot = ve.getKernel().getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
+			ve = ve.traverse(DiffReplacer.INSTANCE);
+			Log.debug(ve);
 			ve.traverse(PowerRootReplacer.getReplacer(toRoot));
 			if (arbconst != null) {
 				arbconst.reset();
