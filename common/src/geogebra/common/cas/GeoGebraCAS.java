@@ -195,9 +195,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return result;
 
 		sbPolyCoeffs.setLength(0);
-		sbPolyCoeffs.append("coeff(");
+		sbPolyCoeffs.append("when(is\\_polynomial("); // first check if expression is polynomial
+		sbPolyCoeffs.append(polyExpr);
+		sbPolyCoeffs.append(',');
+		sbPolyCoeffs.append(variable);
+		sbPolyCoeffs.append("),");
+		sbPolyCoeffs.append("coeff("); // if it is then return with it's coefficients
 		sbPolyCoeffs.append(getPolynomialCoeffsSB.toString());
-		sbPolyCoeffs.append(')');
+		sbPolyCoeffs.append("),{})"); // if not return {}
 
 		try {
 			// expand expression and get coefficients of
