@@ -47,7 +47,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		bottomPoints = new GeoPointND[points.length-1];
 		for (int i=0; i<points.length-1; i++)
 			bottomPoints[i] = points[i];
-		topPoint = points[points.length-1];
+		setTopPoint(points[points.length-1]);
 		shift=1; //output points are shifted of 1 to input points (one less)
 			
 		
@@ -90,7 +90,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		bottom = polygon;
 		bottomAsInput = true;
-		topPoint = point;
+		
+		setTopPoint(point);
 		shift=1; //output points are shifted of 1 to input points (one less)
 		
 		createPolyhedron();
@@ -116,7 +117,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
 		
 	}
-	
+
 	
 	
 	@Override
@@ -206,7 +207,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		shift=0; //output points correspond to input points
 		
 		outputPoints.augmentOutputSize(1);
-		topPoint=outputPoints.getElement(0);
+		setTopPoint(outputPoints.getElement(0));
 		polyhedron.addPointCreated((GeoPoint3D) topPoint);
 		createPolyhedron();
 		
@@ -394,6 +395,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	}
 
 
+	private void setTopPoint(GeoPointND p){
+		topPoint = p;
+	}
 
     
     

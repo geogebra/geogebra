@@ -4,7 +4,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /** Algo that compute the net for a polyhedron
@@ -70,44 +69,41 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 
 	@Override
-	public void compute(double f, GeoPointND[] points,AlgoPolyhedronPoints algo) {
+	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
+
+		// update top points
+		outputPointsSide.adjustOutputSize(points.length);
+		outputPointsSide.setLabels(null);
+
+		Coords topCoords = p.getTopPoint();
+		Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
+		double d1 = p.getOrientedHeight();
+
+		Coords faceDirection = bottomPolygon.getDirectionInD3();
 		
-				// update top points
-			outputPointsSide.adjustOutputSize(points.length);
-			outputPointsSide.setLabels(null);
-			GeoPolygon bottomPolygon = algo.getBottom();
-			GeoPointND topPoint = algo.getTopPoint();
+		if (d1 < 0) { // top point below the bottom face : negative rotation
+			f *= -1;
+			d1 *= -1;
+		}
 
-			Coords topCoords = topPoint.getInhomCoordsInD(3);
-			Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
-			double d1 = p.getOrientedHeight();
-
-			Coords faceDirection = bottomPolygon.getDirectionInD3();
-
-			if (d1 < 0) { // top point below the bottom face : negative rotation
-				f *= -1;
-				d1 *= -1;
-			}
-
-			GeoSegmentND[] bottomSegments = bottomPolygon.getSegments();
-
-			for (int i = 0 ; i < outputPointsSide.size() ; i++) {
-				GeoPoint3D wpoint = outputPointsSide.getElement(i);
-				wpoint.setCoords(topPoint);
-
-				// angle between side face and bottom face
-				GeoSegmentND si = bottomSegments[i];
-				Coords o = points[i].getInhomCoordsInD(3);
-				Coords vs = si.getDirectionInD3();
-				GeoPoint3D wpoint1 = outputPointsSide.getElement(i);
-				Coords cCoord = wpoint1.getInhomCoordsInD(3);
-				rotate(wpoint1, cCoord, p1, o, vs, f, faceDirection, d1, false);
-			}
+		int n = outputPointsSide.size();
+		Coords o2 = points[0];
 		
+		for (int i = 0 ; i < n ; i++) {
+			GeoPoint3D wpoint = outputPointsSide.getElement(i);
+			wpoint.setCoords(topCoords, false);
+			
+			// angle between side face and bottom face
+			Coords o = o2;
+			o2 = points[(i+1) % n];
+			Coords vs = o2.sub(o).normalized();
+			rotate(wpoint, topCoords, p1, o, vs, f, faceDirection, d1, false);
+		}
+
 
 
 	}
 
-	
+
 
 }

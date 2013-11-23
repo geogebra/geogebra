@@ -77,10 +77,10 @@ HasHeight
 
 	/** faces linked */
 	protected TreeSet<GeoPolygon> polygonsLinked;
-
+	
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
-
+	
 
 	/** face currently constructed */
 	private ConstructionElementCycle currentFace;
@@ -950,6 +950,7 @@ HasHeight
 			// global
 			type = polyhedron.type;
 			setVolume(polyhedron.getVolume());
+			setOrientedHeight(polyhedron.getOrientedHeight());
 			
 			// set polygons
 			//polygons.clear();
@@ -964,14 +965,15 @@ HasHeight
 					index++;
 				}
 			}
+			
 
 			// set last polygons undefined
 			if(!polygons.isEmpty()){
 				for (int i = index; i < polygons.lastKey() ; i++){
 					polygons.get(i).setUndefined();
 				}
-			}
-			
+			}			
+
 
 			// set segments
 			//segments.clear();
@@ -995,7 +997,6 @@ HasHeight
 			}
 
 	
-
 		}
 	}
 	
@@ -1378,6 +1379,53 @@ HasHeight
 	
 	public double getOrientedHeight() {
 		return orientedHeight;
+	}
+
+	
+	/**
+	 * 
+	 * @return bottom face (for pyramid & prism)
+	 */
+	public GeoPolygon getBottomFace(){
+		if (polygonsLinked.isEmpty()){
+			return polygons.get(0);
+		}
+		return polygonsLinked.first();
+	}
+	
+	
+	/**
+	 * 
+	 * @return top face (for prism)
+	 */
+	public GeoPolygon getTopFace(){
+		return polygons.lastEntry().getValue();
+	}
+	
+	
+
+	
+	/**
+	 * 
+	 * @return first side face (for prism)
+	 */
+	public GeoPolygon getFirstSideFace(){
+		if (polygonsLinked.isEmpty()){
+			return polygons.get(1);
+		}
+		return polygons.get(0);
+	}
+	
+	
+
+	/**
+	 * 
+	 * @return top point (for pyramid)
+	 */
+	public Coords getTopPoint() {
+		GeoPolygon p = getFirstSideFace();		
+		return p.getPoint3D(p.getPointsLength() - 1);
+		
 	}
 
 	

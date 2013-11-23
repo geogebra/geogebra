@@ -221,6 +221,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 	}
+	
 
 	@Override
 	final public void setCoords(Coords v) {

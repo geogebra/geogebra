@@ -7,7 +7,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 import java.util.Collection;
@@ -62,8 +61,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		outputSegmentsSide = createOutputSegments();
 		outputSegmentsTop = createOutputSegments();
 
-		AlgoPolyhedronPoints algo = (AlgoPolyhedronPoints) p.getParentAlgorithm();
-		int n = algo.getBottomPoints().length;
+		int n = p.getBottomFace().getPointsLength();
 		createNet(n);
 
 		input = new GeoElement[] {p, (GeoElement) v};		
@@ -195,24 +193,43 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	}
 
 
-protected abstract void compute(double f, GeoPointND[] points,AlgoPolyhedronPoints algo);
+	/**
+	 * compute with f value for opening, and bottom points
+	 * @param f value for opening
+	 * @param bottomPolygon bottom face of the pyramid/prism
+	 * @param points bottom points
+	 */
+	protected abstract void compute(double f, GeoPolygon bottomPolygon, Coords[] points);
 
 
 	@Override
 	public void compute() {
-		//App.debug("coucou");
-		//App.printStacktrace("coucou");
+
 		double f = v.getDouble();
 
 		// update bottom points
-		AlgoPolyhedronPoints algo = (AlgoPolyhedronPoints) p.getParentAlgorithm();
-		GeoPointND[] points = algo.getBottomPoints();
+		GeoPolygon bottomFace = p.getBottomFace();
+		Coords[] points = getPointsCoords(bottomFace);
 		outputPointsBottom.adjustOutputSize(points.length);
 		outputPointsBottom.setLabels(null);
-		for (int i = 0 ; i < outputPointsBottom.size() ; i++) {
-			outputPointsBottom.getElement(i).setCoords(points[i].getInhomCoordsInD(3));
+		for (int i = 0 ; i < points.length ; i++) {
+			outputPointsBottom.getElement(i).setCoords(points[i]);
 		}
-		compute(f, points, algo);
+		compute(f, bottomFace, points);
+	}
+	
+	/**
+	 * 
+	 * @param polygon polygon
+	 * @return 3D coords of all points
+	 */
+	protected static final Coords[] getPointsCoords(GeoPolygon polygon){
+		int l = polygon.getPointsLength();
+		Coords[] points = new Coords[l];
+		for (int i = 0 ; i < l ; i++){
+			points[i] = polygon.getPoint3D(i);
+		}
+		return points;
 	}
 
 	@Override

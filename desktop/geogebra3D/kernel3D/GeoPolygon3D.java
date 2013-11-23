@@ -168,8 +168,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public Coords getPoint3D(int i) {
 		
-		
-		
 		Coords v = super.getPoint3D(i);
 		return coordSys.getPoint(v.getX(), v.getY());
 		
@@ -625,6 +623,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	@Override
 	public Coords getDirectionInD3() {
+		
+		if (reverseDirection){
+			return getCoordSys().getNormal().mul(-1);
+		}
+		
 		return getCoordSys().getNormal();
 	}
 

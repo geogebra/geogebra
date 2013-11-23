@@ -104,6 +104,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
     	else
     		polyhedron.createFaces();
     }
+    
+    
 	
 	/**
 	 * create the output segments handlers

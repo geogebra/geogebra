@@ -445,4 +445,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		outputPolygonsTop.updateParentAlgorithm();
 	}
 	
+	
+
+	
 }
