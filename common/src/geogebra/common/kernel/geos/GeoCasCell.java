@@ -573,6 +573,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// TODO this always translates input.
 		updateLocalizedInput(StringTemplate.defaultTemplate, getInputVE().toAssignmentString(StringTemplate.defaultTemplate));
+
+		if (suppressOutput) { // append ; if output is suppressed
+			input = input + ";";
+			localizedInput = localizedInput + ";";
+		}
 	}
 
 	/**
