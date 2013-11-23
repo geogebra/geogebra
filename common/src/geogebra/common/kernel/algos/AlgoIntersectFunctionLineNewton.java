@@ -35,8 +35,11 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     private GeoFunction f; // input
     private GeoLine line; // input
     private GeoPoint startPoint, rootPoint;
+    private GeoPoint tangentPoint;
     
-    private Function diffFunction;    
+    private Function diffFunction;
+    
+    private boolean isDefinedAsTangent;
                 
     public AlgoIntersectFunctionLineNewton(Construction cons, String label, 
                 GeoFunction f, GeoLine line, GeoPoint startPoint) {    	
@@ -51,9 +54,16 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	    this.f = f;
 	    this.line = line;
 	    this.startPoint = startPoint;
-	            
-	    diffFunction = new Function(kernel);
-	            
+	    
+	    if (line.getParentAlgorithm() instanceof TangentAlgo) {
+	    	TangentAlgo algo = (TangentAlgo) line.getParentAlgorithm();
+	    	tangentPoint = algo.getTangentPoint(f, line);
+			isDefinedAsTangent = (tangentPoint != null);
+	    }
+	    if (!isDefinedAsTangent) {
+	    	diffFunction = new Function(kernel);
+	    }
+	    
 	    // output
 	    rootPoint = new GeoPoint(cons);
 	    setInputOutput(); // for AlgoElement    
@@ -97,45 +107,52 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	public final void compute() {          	
         if (!(f.isDefined() && line.isDefined() && startPoint.isDefined())) {           
             rootPoint.setUndefined();
-        } else {
-            double x;
-            //  check for vertical line a*x + c = 0: intersection at x=-c/a 
-            if (Kernel.isZero(line.y)) {
-                x = -line.z / line.x;                               
-            } 
-            // standard case
-            else {
-                //get difference f - line
-                Function.difference(f.getFunction(startPoint.inhomX), line, diffFunction);            	                
-                x = calcRoot(diffFunction, startPoint.inhomX);                                 
-            }               
-                        
-            if (Double.isNaN(x)) {
-                rootPoint.setUndefined();
-                return;
-            }
-            double y = f.evaluate(x);
-            rootPoint.setCoords(x, y, 1.0);
-            
-            // check if the intersection point really is on the line
-            // this is important for segments and rays            
-        	if (!line.isIntersectionPointIncident(rootPoint, Kernel.MIN_PRECISION) ) {
-        		 rootPoint.setUndefined();
-                 return;       	                
-            } 
-        	
-        	// if we got here we have a new valid rootPoint
-        	// in order to make dynamic moving of the intersecting objects
-        	// a little bit more stable, we try to be clever here:
-        	// let's take the new rootPoints position as the next starting point
-        	// for Newton's method. 
-        	// Note: we should only do this if the starting point is not labeled,
-        	// i.e. not visible on screen (and was probably created by clicking
-        	// on an intersection)
-        	if (!startPoint.isLabelSet() && startPoint.isIndependent() && rootPoint.isDefined()) {
-        		startPoint.setCoords(rootPoint);
-        	}
-        }                   
+            return;
+		}
+        
+        if (isDefinedAsTangent) {
+        	rootPoint.setCoords(tangentPoint);
+        	return;
+        }
+        
+		double x;
+		// check for vertical line a*x + c = 0: intersection at x=-c/a
+		if (Kernel.isZero(line.y)) {
+			x = -line.z / line.x;
+		}
+		// standard case
+		else {
+			// get difference f - line
+			Function.difference(f.getFunction(startPoint.inhomX), line, diffFunction);
+			x = calcRoot(diffFunction, startPoint.inhomX);
+		}
+
+		if (Double.isNaN(x)) {
+			rootPoint.setUndefined();
+			return;
+		}
+		double y = f.evaluate(x);
+		rootPoint.setCoords(x, y, 1.0);
+
+		// check if the intersection point really is on the line
+		// this is important for segments and rays
+		if (!line.isIntersectionPointIncident(rootPoint, Kernel.MIN_PRECISION)) {
+			rootPoint.setUndefined();
+			return;
+		}
+
+		// if we got here we have a new valid rootPoint
+		// in order to make dynamic moving of the intersecting objects
+		// a little bit more stable, we try to be clever here:
+		// let's take the new rootPoints position as the next starting point
+		// for Newton's method.
+		// Note: we should only do this if the starting point is not labeled,
+		// i.e. not visible on screen (and was probably created by clicking
+		// on an intersection)
+		if (!startPoint.isLabelSet() && startPoint.isIndependent() && rootPoint.isDefined()) {
+			startPoint.setCoords(rootPoint);
+		}
+                         
     }
     
     public GeoPoint getIntersectionPoint() {

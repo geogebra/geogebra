@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoCommonTangents extends AlgoElement {
+public class AlgoCommonTangents extends AlgoElement implements TangentAlgo {
 
     private GeoPoint P, P2; // tmp
     private GeoConic c, c2; // input
@@ -265,12 +265,8 @@ public class AlgoCommonTangents extends AlgoElement {
 
     } // end of compute
     
-    /**
-     * return intersection point of tangent line and conic c.
-     * return null if line is not defined as tangent of conic c.
-     */
-    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
-        if (conic != c || conic != c2) return null;
+    public GeoPoint getTangentPoint(GeoElement conic, GeoLine line) {
+        if (conic != c && conic != c2) return null;
         if (conic == c) {
         	if (line == tangents[0]) {
         		return tangentPoints[0];

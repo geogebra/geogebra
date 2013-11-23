@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.GetCommand;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -16,7 +17,7 @@ import geogebra.common.kernel.geos.GeoSpline;
  * 
  *         For tangents of splines
  */
-public class AlgoTangentList extends AlgoElement {
+public class AlgoTangentList extends AlgoElement implements TangentAlgo {
 
 	private GeoPoint P;
 	private GeoSpline list;
@@ -83,5 +84,12 @@ public class AlgoTangentList extends AlgoElement {
 	@Override
 	public GetCommand getClassName() {
 		return Commands.Tangent;
+	}
+
+	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo == list && line == tangent) {
+			return P;
+		}
+		return null;
 	}
 }

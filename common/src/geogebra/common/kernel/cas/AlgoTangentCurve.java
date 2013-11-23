@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -27,7 +28,7 @@ import geogebra.common.kernel.geos.GeoPoint;
  *         tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
  */
 
-public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
+public class AlgoTangentCurve extends AlgoUsingTempCASalgo implements TangentAlgo {
 
 	private GeoPoint P; // input
 	private GeoCurveCartesian f, df; // input f
@@ -158,6 +159,13 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 		algoCAS = new AlgoDerivative(cons, f);
 		this.df = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
+	}
+
+	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo == f && line == tangent) {
+			return getTangentPoint();
+		}
+		return null;
 	}
 
 	// TODO Consider locusequability

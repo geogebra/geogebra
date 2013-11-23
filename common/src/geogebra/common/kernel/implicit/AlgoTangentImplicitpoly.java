@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -25,7 +26,7 @@ import geogebra.common.kernel.geos.GeoPoint;
  *	Algorithm to calculate all tangents to the implicit polynomial equation
  *	either going threw a given point or parallel to given line.
  */
-public class AlgoTangentImplicitpoly extends AlgoElement {
+public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo {
 	
 	private GeoImplicitPoly p;
 	private GeoPoint R;
@@ -218,6 +219,14 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	 */
 	public GeoPoint[] getTangentPoints() {
 		return ip;
+	}
+
+
+	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo == p && line == g && R != null && pointOnPath) {
+			return R;
+		}
+		return null;
 	}
 
 	// TODO Consider locusequability

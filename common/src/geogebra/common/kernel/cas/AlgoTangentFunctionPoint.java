@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -25,7 +26,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 /**
  * Algorithm for tangent of function
  */
-public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
+public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo implements TangentAlgo {
 
 	private GeoPoint P; // input
 	private GeoLine tangent; // output
@@ -127,6 +128,15 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 	GeoPoint getTangentPoint() {
 		return T;
 	}
+	
+    public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+        if (geo != f)
+            return null;
+        if (line != tangent) {
+        	return null;
+        }
+        return T;
+    }
 
 	// calc tangent at x=a
 	@Override

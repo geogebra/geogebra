@@ -35,7 +35,7 @@ import geogebra.common.kernel.geos.GeoVector;
  * @author  Markus
  * @version 
  */
-public class AlgoTangentLine extends AlgoElement implements TangentAlgo{
+public class AlgoTangentLine extends AlgoElement implements TangentAlgo {
 
     private GeoLine g;  // input
     private GeoConic c;  // input
@@ -185,6 +185,18 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo{
         // simplified to allow better Chinese translation
     	return loc.getPlain("TangentToAParallelToB",c.getLabel(tpl),g.getLabel(tpl));
     }
+
+	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo != g) {
+			return null;
+		}
+		if (line == tangents[0]) {
+			return tangentPoints[0];
+		} else if (line == tangents[1]) {
+			return tangentPoints[1];
+		}
+		return null;
+	}
 
 	// TODO Consider locusequability
 }

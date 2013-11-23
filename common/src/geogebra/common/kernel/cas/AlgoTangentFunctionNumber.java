@@ -21,6 +21,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +33,7 @@ import geogebra.common.kernel.geos.GeoPoint;
  * 
  * @author Markus
  */
-public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
+public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo implements TangentAlgo {
 
 	private NumberValue n; // input
 	private GeoElement ngeo;
@@ -132,6 +133,13 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 		algoCAS = new AlgoDerivative(cons, f);
 		deriv = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
+	}
+
+	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo == f && line == tangent) {
+			return T;
+		}
+		return null;
 	}
 
 	// TODO Consider locusequability

@@ -121,12 +121,8 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
         return c;
     }       
 
-    /**
-     * return intersection point of tangent line and conic c.
-     * return null if line is not defined as tangent of conic c.
-     */
-    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
-        if (conic != c)
+    public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+        if (geo != c)
             return null;
 
         if (line == tangents[0])
