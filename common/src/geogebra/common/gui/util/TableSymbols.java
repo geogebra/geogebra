@@ -75,9 +75,9 @@ public class TableSymbols {
 				{ Unicode.Superscript_2+"" , app.getMenu("Symbol.Square" )},   //exponents^2
 				{ Unicode.Superscript_3+"" , app.getMenu("Symbol.Cube" )},   //exponents^3
 				{ Unicode.degree , app.getMenu("Symbol.Degree" )},   //degree
-				{ Unicode.IMAGINARY , Unicode.IMAGINARY },   //sqrt(-1)
-				{ Unicode.PI_STRING , Unicode.PI_STRING },   //pi
-				{ Unicode.EULER_STRING , Unicode.EULER_STRING },   //e
+				{ " " + Unicode.IMAGINARY + " " , Unicode.IMAGINARY },   //sqrt(-1)
+				{ " " + Unicode.PI_STRING + " " , Unicode.PI_STRING },   //pi
+				{ " " + Unicode.EULER_STRING + " " , Unicode.EULER_STRING },   //e
 				{ Unicode.NBSP , app.getMenu("Symbol.NBSP" ) },   // non-breaking space
 		};
 
