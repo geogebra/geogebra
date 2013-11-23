@@ -110,11 +110,7 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo {
     GeoLine getLine() { return g; }
     GeoConic getConic() { return c; }
     
-    /**
-     * return intersection point of tangent line and conic c.
-     * return null if line is not defined as tangent of conic c.
-     */
-    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
+    public GeoPoint getTangentPoint(GeoElement conic, GeoLine line) {
         if (conic != c) return null;
         
         if (line == tangents[0]) {
@@ -185,18 +181,6 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo {
         // simplified to allow better Chinese translation
     	return loc.getPlain("TangentToAParallelToB",c.getLabel(tpl),g.getLabel(tpl));
     }
-
-	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
-		if (geo != g) {
-			return null;
-		}
-		if (line == tangents[0]) {
-			return tangentPoints[0];
-		} else if (line == tangents[1]) {
-			return tangentPoints[1];
-		}
-		return null;
-	}
 
 	// TODO Consider locusequability
 }

@@ -152,7 +152,6 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		if (!startPoint.isLabelSet() && startPoint.isIndependent() && rootPoint.isDefined()) {
 			startPoint.setCoords(rootPoint);
 		}
-                         
     }
     
     public GeoPoint getIntersectionPoint() {
