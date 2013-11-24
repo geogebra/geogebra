@@ -718,9 +718,12 @@ HasHeight
 
 
 
+	/**
+	 * set all polygons to reverse normals (for 3D drawing)
+	 */
 	public void setReverseNormals() {
 		for (GeoPolygon3D polygon : polygons.values()) {
-			polygon.setReverseNormal();
+			polygon.setReverseNormalForDrawing();
 		}
 	}
 

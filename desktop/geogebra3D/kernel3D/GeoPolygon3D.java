@@ -182,20 +182,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public Coords getMainDirection() {
 
-		if (reverseNormal)
-			return coordSys.getNormal().mul(-1);
-		
 		return coordSys.getNormal();
 
 	}
 
 
 
-	private boolean reverseNormal = false;
-
-	public void setReverseNormal(boolean value) {
-		reverseNormal = value;
-	}
     
 	/**
 	 * Returns the 2D points of this polygon. Note that this array may change
@@ -373,20 +365,21 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			if (secondPointInd<firstPointInd){
 				if (thirdPointInd<secondPointInd){
 					App.debug("inversion true");
-					setReverseNormal(true);
+					reverseDirection = true;
 				}
 				else {
-					setReverseNormal(false);
+					reverseDirection = false;
 					App.debug("inversion false");
 				} 
 			}
 			else {
-				setReverseNormal(false);
+				reverseDirection = false;
 				App.debug("inversion false");
 			} 
 			
-		} else
+		} else {
 			return false;
+		}
 
 		return true;
 

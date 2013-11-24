@@ -1762,4 +1762,26 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		}
 		return d;
 	}
+	
+	
+
+	///////////////////////////////////
+	// REVERSE ORIENTATION FOR DRAWING
+	///////////////////////////////////
+	
+	private boolean reverseNormalForDrawing = false;
+
+	/**
+	 * set that normal should be reversed for 3D drawing
+	 */
+	public void setReverseNormalForDrawing() {
+		reverseNormalForDrawing = true;
+	}
+	
+	/**
+	 * @return if normal should be reversed for 3D drawing
+	 */
+	public boolean getReverseNormalForDrawing(){
+		return reverseNormalForDrawing;
+	}
 }

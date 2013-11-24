@@ -221,6 +221,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		int index = renderer.startPolygons();
 		Coords n = polygon.getMainDirection();
+		if (polygon.getReverseNormalForDrawing()){
+			n = n.mul(-1);
+		}
 		renderer.drawPolygon(n, vertices);
 		renderer.endPolygons();
 		

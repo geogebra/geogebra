@@ -215,6 +215,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		}
 		
 		Coords n = polygon.getMainDirection();
+		if (polygon.getReverseNormalForDrawing()){
+			n = n.mul(-1);
+		}
 		Coords[] vertices = new Coords[pointLength];
 		for(int i=0;i<pointLength;i++){
 			vertices[i] = polygon.getPoint3D(i);
