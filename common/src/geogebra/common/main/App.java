@@ -19,12 +19,15 @@ import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
+import geogebra.common.gui.util.RelationMore;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.javax.swing.GOptionPane;
+import geogebra.common.javax.swing.RelationPane;
+import geogebra.common.javax.swing.RelationPane.RelationRow;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -43,6 +46,7 @@ import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
@@ -3064,9 +3068,67 @@ public abstract class App implements UpdateSelection{
 				new Relation(kernel).relation(a, b),
 				getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"),
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE);
-
 	}
 
+	/**
+	 * This is the proposed version of the new Relation Tool. To try it, rename
+	 * showRelation() to something else and rename this to showRelation.
+	 * This is just a prototype in a very early phase.
+	 */
+	public void showRelationDemo(final GeoElement ra, final GeoElement rb) {
+		RelationPane tablePane = getFactory().newRelationPane();
+		String relInfosAll = new Relation(kernel).relation(ra, rb);
+		String[] relInfos = relInfosAll.split("\\)\n");
+		int rels = relInfos.length;
+		final RelationRow rr[] = new RelationRow[rels];
+		for (int i=0; i<rels; i++) {
+			if (i < rels - 1) {
+				relInfos[i] += ")";
+			}
+			rr[i] = new RelationRow();
+			rr[i].info = "<html>" + relInfos[i].replace("\n", "<br>") + "</html>";
+
+			RelationMore rm = new RelationMore() {
+				
+				GeoElement a = ra;
+				GeoElement b = rb;
+				
+				@Override
+				public void action(RelationPane table, int row) {
+					final GeoSegment ga = (GeoSegment) a;
+					final GeoSegment gb = (GeoSegment) b;
+					final RelationRow rel = new RelationRow();
+					if (ga.hasSameLengthG(gb)) {
+						rel.info = "<html>Segments " + ga.getLabelSimple() + " and " 
+								+ gb.getLabelSimple() + " are <b>generically</b> equal.</html>";
+						RelationMore rm2 = new RelationMore() {
+							
+							@Override
+							public void action(RelationPane table2, int row2) {
+								rel.info = ga.hasSameLengthNDG(gb);
+								rel.callback = null;
+								table2.updateRow(row2, rel);
+							}
+						};
+						rel.callback = rm2;
+					} else {
+						rel.info = "<html>Segments " + ga.getLabelSimple() + " and " 
+								+ gb.getLabelSimple() + " are not generically equal.</html>";
+						rel.callback = null;
+					}
+					
+					table.updateRow(row, rel);
+					}
+			};
+			
+			if (!relInfos[i].contains(" not ")) {
+				rr[i].callback = rm;
+			}
+		}
+		
+		tablePane.showDialog(getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"), rr);
+	}
+		
 	//protected abstract Object getMainComponent();
 
 	private GeoElement geoForCopyStyle;

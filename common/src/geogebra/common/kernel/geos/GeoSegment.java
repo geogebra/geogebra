@@ -24,6 +24,8 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.prover.AlgoAreEqual;
+import geogebra.common.kernel.prover.AlgoProve;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -254,6 +256,41 @@ public final boolean showInAlgebraView() {
 			return false;
 		GeoSegment s = (GeoSegment) geo;
 		return startPoint.isEqual(s.startPoint) && endPoint.isEqual(s.endPoint);
+	}
+	
+	/**
+	 * Computes if two segments are generically equal in length.
+	 * TODO: This is just a prototype. We need a shorter version
+	 * which uses a general method handling many similar checks.
+	 * @param g
+	 *            segment
+	 * @return true if this segment and g are generically equal
+	 */
+	final public boolean hasSameLengthG(GeoSegment g) {
+		Boolean ret = null;
+		GeoElement root = new GeoBoolean(cons);
+		AlgoAreEqual aap = new AlgoAreEqual(cons, null, this, g);
+		root.setParentAlgorithm(aap);
+		AlgoProve ap = new AlgoProve(cons, null, root);
+		ap.compute();
+		GeoElement[] o = ap.getOutput();
+		ret = ((GeoBoolean) o[0]).getBoolean();
+		root.remove();
+		o[0].remove();
+		return ret;
+	}
+
+	/**
+	 * Prototype of a function returning an NDG for the new Relation tool.
+	 * TODO: This is a work-in-progress yet, don't use this function in
+	 * production. The HTML formatted NDG string should be created, however, by
+	 * the NDGCondition class itself.
+	 * @param geo segment
+	 * @return the NDG condition as HTML
+	 */
+	final public String hasSameLengthNDG(GeoElement geo) {	
+		return "<html>Segments " + this.getLabelSimple() + " and " + geo.getLabelSimple() + " are equal if:"
+				+ "<ul><li>condition 1 and<li>condition 2.</ul></html>";
 	}
 	
 	@Override

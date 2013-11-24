@@ -7,6 +7,7 @@ import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.javax.swing.GOptionPane;
+import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -26,6 +27,11 @@ public class FactoryD extends Factory{
 		return new geogebra.javax.swing.GOptionPaneD();
 	}
 
+	@Override
+	public RelationPane newRelationPane() {
+		return new geogebra.javax.swing.RelationPaneD();
+	}
+	
 	@Override
 	public TextInputDialog newTextInputDialog(App app, String title,
 			GeoText editGeo, GeoPointND startPoint, int cols, int rows,
@@ -47,6 +53,5 @@ public class FactoryD extends Factory{
 	    		initString, autoComplete, handler, geo);
 
 	}
-
 	
 }

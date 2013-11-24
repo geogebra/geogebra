@@ -6,6 +6,7 @@ import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.javax.swing.GOptionPane;
+import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -16,6 +17,7 @@ public abstract class Factory {
 	
 	public abstract RadioButtonMenuBar newRadioButtonMenuBar(App app);
 	public abstract GOptionPane newGOptionPane();
+	public abstract RelationPane newRelationPane();
 	public abstract TextInputDialog newTextInputDialog(App app, String title, GeoText editGeo,
             GeoPointND startPoint, int cols, int rows, boolean isTextMode);
 	public abstract InfoBar newInfoBar(App app);
@@ -31,6 +33,6 @@ public abstract class Factory {
 	}
 	public static void setPrototype(Factory ret) {
 		prototype = ret;
-		
 	}
+	
 }
