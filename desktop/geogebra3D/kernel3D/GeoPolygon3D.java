@@ -19,7 +19,6 @@ import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -321,7 +320,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 					minY = currentY;
 				}
 			}
-			App.debug("point 1 : "+firstPointInd);
+			//App.debug("point 1 : "+firstPointInd);
 		
 			// select the second point
 			double maxCos = -1;
@@ -342,7 +341,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				}		
 
 			}
-			App.debug("point 2 : "+secondPointInd);
+			//App.debug("point 2 : "+secondPointInd);
 			// select the third point
 			double firstVecdX = getPointX(secondPointInd)-firstPointX;
 			double firstVecdY = getPointY(secondPointInd)-minY;
@@ -360,21 +359,21 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 					}
 				}
 			}
-			App.debug("point 3 : "+thirdPointInd);
+			//App.debug("point 3 : "+thirdPointInd);
 			// test for the direction of the normal vec
 			if (secondPointInd<firstPointInd){
 				if (thirdPointInd<secondPointInd){
-					App.debug("inversion true");
-					reverseDirection = true;
+					//App.debug("inversion true");
+					reverseConvexOrientation = true;
 				}
 				else {
-					reverseDirection = false;
-					App.debug("inversion false");
+					reverseConvexOrientation = false;
+					//App.debug("inversion false");
 				} 
 			}
 			else {
-				reverseDirection = false;
-				App.debug("inversion false");
+				reverseConvexOrientation = false;
+				//App.debug("inversion false");
 			} 
 			
 		} else {
@@ -625,10 +624,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	@Override
 	public Coords getDirectionInD3() {
-		
-		if (reverseDirection){
-			return getCoordSys().getNormal().mul(-1);
-		}
 		
 		return getCoordSys().getNormal();
 	}

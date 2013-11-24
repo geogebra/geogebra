@@ -147,9 +147,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		
 		double m = (p1.inhomX-p0.inhomX)*(p2.inhomY-p0.inhomY) - (p2.inhomX-p0.inhomX)*(p1.inhomY-p0.inhomY);
 		if (m < 0){
-			reverseDirection = true;
+			reverseConvexOrientation = true;
 		}else{
-			reverseDirection = false;
+			reverseConvexOrientation = false;
 		}
 		
 	}
@@ -574,7 +574,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		}
 
 		setCoordSys(poly);
-		reverseDirection = poly.reverseDirection;
+		reverseConvexOrientation = poly.reverseConvexOrientation;
 		updateSegments();
 		defined = poly.defined;
 
@@ -1633,12 +1633,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	/**
 	 * says if the polygon direction (orientation) should be reversed
 	 */
-	protected boolean reverseDirection = false;
+	protected boolean reverseConvexOrientation = false;
+	
+	/**
+	 * 
+	 * @return true if convex orientation has to be reversed
+	 */
+	public boolean getReverseConvexOrientation(){
+		return reverseConvexOrientation;
+	}
 	
 	public Coords getDirectionInD3() {
-		if (reverseDirection){
-			return Coords.VZm;
-		}
+		
 		return Coords.VZ;
 	}
 	
