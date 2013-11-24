@@ -1468,7 +1468,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return true if the point is between min-max coords values
 	 */
 	public boolean isInside(Coords p){
-
+		
 		double val = p.getX();
 		if (val<getXmin()|| val>getXmax())
 			return false;
@@ -1567,22 +1567,17 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		animatedScaleStartY=getYZero();
 		animatedScaleStartZ=getZZero();
 
-		/*
-		double centerX = ox+renderer.getLeft();
-		double centerY = -oy+renderer.getTop();
-		Coords v = new Coords(centerX,centerY,0,1);
-		toSceneCoords3D(v);
-		v=v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
-		*/
+		
 		Coords v=cursor3D.getInhomCoords();
 		
-		if (!isInside(v)){//takes center of the scene for fixed point
+		if (!v.isDefined() || !isInside(v)){//takes center of the scene for fixed point
 			v = new Coords(-animatedScaleStartX,-animatedScaleStartY,-animatedScaleStartZ,1);
 		}
 		
 		//Application.debug(v);
 		
 		double factor=getScale()/newScale;
+		
 		animatedScaleEndX=-v.getX()+(animatedScaleStartX+v.getX())*factor;
 		animatedScaleEndY=-v.getY()+(animatedScaleStartY+v.getY())*factor;
 		animatedScaleEndZ=-v.getZ()+(animatedScaleStartZ+v.getZ())*factor;
@@ -1609,6 +1604,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public void setRotContinueAnimation(long delay, double rotSpeed){
 		//Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
+		
+		if (Double.isNaN(rotSpeed)){
+			stopRotAnimation();
+			return;
+		}
+		
 		double rotSpeed2 = rotSpeed;
 		//if last drag occured more than 200ms ago, then no animation
 		if (delay>200)
