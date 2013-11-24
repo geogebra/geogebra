@@ -19,6 +19,7 @@ import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -192,10 +193,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	private boolean reverseNormal = false;
 
-	public void setReverseNormal() {
-		reverseNormal = true;
+	public void setReverseNormal(boolean value) {
+		reverseNormal = value;
 	}
-
+    
 	/**
 	 * Returns the 2D points of this polygon. Note that this array may change
 	 * dynamically.
@@ -316,10 +317,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			checkPointsAreOnCoordSys();
 			
 			
-			/*
-			for (int i=0; i<points.length; i++){
-				App.debug(i+":"+getPointX(i)+" "+getPointY(i));
-			}
+			
 			// select the first point of the convex hull
 			int firstPointInd = 0;
 			double minY = getPointY(0);
@@ -331,7 +329,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 					minY = currentY;
 				}
 			}
-			App.debug(firstPointInd+" "+minY);
+			App.debug("point 1 : "+firstPointInd);
+		
 			// select the second point
 			double maxCos = -1;
 			double firstPointX = getPointX(firstPointInd);
@@ -351,7 +350,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				}		
 
 			}
-			App.debug("->"+secondPointInd);
+			App.debug("point 2 : "+secondPointInd);
 			// select the third point
 			double firstVecdX = getPointX(secondPointInd)-firstPointX;
 			double firstVecdY = getPointY(secondPointInd)-minY;
@@ -369,13 +368,23 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 					}
 				}
 			}
-			App.debug("-->"+thirdPointInd);
+			App.debug("point 3 : "+thirdPointInd);
 			// test for the direction of the normal vec
-			double indMin12 = Math.min(firstPointInd,secondPointInd);
-			double indMax12 = Math.max(firstPointInd,secondPointInd);
-			if ((thirdPointInd>indMin12)&&(thirdPointInd<indMax12)){
-				App.debug("inversion");
-			} */
+			if (secondPointInd<firstPointInd){
+				if (thirdPointInd<secondPointInd){
+					App.debug("inversion true");
+					setReverseNormal(true);
+				}
+				else {
+					setReverseNormal(false);
+					App.debug("inversion false");
+				} 
+			}
+			else {
+				setReverseNormal(false);
+				App.debug("inversion false");
+			} 
+			
 		} else
 			return false;
 

@@ -79,7 +79,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
 		double d1 = p.getOrientedHeight();
 
-		Coords faceDirection = bottomPolygon.getDirectionInD3();
+		Coords faceDirection = bottomPolygon.getMainDirection();
 		
 		if (d1 < 0) { // top point below the bottom face : negative rotation
 			f *= -1;
