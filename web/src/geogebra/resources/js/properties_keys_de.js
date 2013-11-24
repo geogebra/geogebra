@@ -117,7 +117,7 @@ __GGB__keysVar.de.command = {
     "CFactor": "KFaktorisiere",
     "CFactor_SyntaxCAS": "[ <Ausdruck> ]\n[ <Ausdruck>, <Variable> ]",
     "CIFactor": "KIFaktorisiere",
-    "CIFactor_Syntax": "[ <Ausdruck> ]\n[ <Ausdruck>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Ausdruck> ]\n[ <Ausdruck>, <Variable> ]",
     "CSolutions": "KL\xf6sungen",
     "CSolutions_SyntaxCAS": "[ <Gleichung> ]\n[ <Gleichung>, <Variable> ]\n[ <Liste von Gleichungen>, <Liste von Variablen> ]",
     "CSolve": "KL\xf6se",

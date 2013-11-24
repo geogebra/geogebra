@@ -117,7 +117,7 @@ __GGB__keysVar.xh.command = {
     "CFactor": "CFactor",
     "CFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "CIzisombululo",
     "CSolutions_SyntaxCAS": "[ <Isivakalisi> ]\n[ <Isivakalisi>, <Variable> ]\n[ <Uluhlu Lwezivakalisi>, <Uluhlu Loonobumba> ]",
     "CSolve": "CCazulula",

@@ -117,7 +117,7 @@ __GGB__keysVar.hr.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <izraz> ]\n[ <izraz>, <varijabla> ]",
     "CIFactor": "KompleksnaFaktorizacija",
-    "CIFactor_Syntax": "[ <izraz> ]\n[ <izraz>, <varijabla> ]",
+    "CIFactor_SyntaxCAS": "[ <izraz> ]\n[ <izraz>, <varijabla> ]",
     "CSolutions": "CRje\u0161enja",
     "CSolutions_SyntaxCAS": "[ <jednad\u017eba> ]\n[ <jednad\u017eba>, <varijabla> ]\n[ <lista jednad\u017ebi>, <lista varijabli> ]",
     "CSolve": "CRije\u0161i",

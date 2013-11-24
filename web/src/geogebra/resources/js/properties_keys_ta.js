@@ -117,7 +117,7 @@ __GGB__keysVar.ta.command = {
     "CFactor": "CFactor",
     "CFactor_SyntaxCAS": "[ <\u0b95\u0bcb\u0bb5\u0bc8> ]\n[ <\u0b95\u0bcb\u0bb5\u0bc8>, <\u0bae\u0bbe\u0bb1\u0bbf> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "CSolutions",
     "CSolutions_SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]",
     "CSolve": "CSolve",

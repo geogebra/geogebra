@@ -117,7 +117,7 @@ __GGB__keysVar.cy.command = {
     "CFactor": "CFfactor",
     "CFactor_SyntaxCAS": "[ <Mynegiad>, <Newidyn> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "CDatrysiadau",
     "CSolutions_SyntaxCAS": "[ <Hafaliad> ]\n[ <Hafaliad>, <Newidyn> ]\n[ <Rhestr Hafaliadau>, <Rhestr Newidynnau> ]",
     "CSolve": "CDatrys",

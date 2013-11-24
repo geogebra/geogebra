@@ -117,7 +117,7 @@ __GGB__keysVar.pt_PT.command = {
     "CFactor": "CFatorizar",
     "CFactor_SyntaxCAS": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
     "CIFactor": "FatorizaCI",
-    "CIFactor_Syntax": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
+    "CIFactor_SyntaxCAS": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
     "CSolutions": "CSolu\xe7\xf5es",
     "CSolutions_SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel> ]\n[ <Lista de equa\xe7\xf5es>, <Lista de vari\xe1veis> ]",
     "CSolve": "CResolver",

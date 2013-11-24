@@ -117,7 +117,7 @@ __GGB__keysVar.is.command = {
     "CFactor": "Tvinnt\xf6lu\xde\xe1ttun",
     "CFactor_SyntaxCAS": "[ <St\xe6\xf0a> ]\n[ <St\xe6\xf0a>, <Breyta> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "TvinnLausnir",
     "CSolutions_SyntaxCAS": "[ <Jafna> ]\n[ <Jafna>, <Breyta> ]",
     "CSolve": "Tvinnt\xf6luLausn",

@@ -117,7 +117,7 @@ __GGB__keysVar.zh_CN.command = {
     "CFactor": "\u590d\u6570\u56e0\u5b50",
     "CFactor_SyntaxCAS": "[ <\u8868\u8fbe\u5f0f> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf> ]",
     "CIFactor": "\u590d\u6570\u5206\u89e3",
-    "CIFactor_Syntax": "[ <\u8868\u8fbe\u5f0f> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf> ]",
+    "CIFactor_SyntaxCAS": "[ <\u8868\u8fbe\u5f0f> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf> ]",
     "CSolutions": "\u590d\u6570\u89e3\u96c6",
     "CSolutions_SyntaxCAS": "[ <\u65b9\u7a0b> ]\n[ <\u65b9\u7a0b>, <\u53d8\u91cf> ]\n[ <\u65b9\u7a0b\u7ec4>, <\u53d8\u91cf\u96c6\u5408> ]",
     "CSolve": "\u590d\u6570\u89e3",

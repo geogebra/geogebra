@@ -117,7 +117,7 @@ __GGB__keysVar.eo.command = {
     "CFactor": "KFaktorigi",
     "CFactor_SyntaxCAS": "[ <Esprimo> ]\n[ <Esprimo>, <Variablo> ]",
     "CIFactor": "NKFaktorigi",
-    "CIFactor_Syntax": "[ <Esprimo> ]\n[ <Esprimo>, <Variablo> ]",
+    "CIFactor_SyntaxCAS": "[ <Esprimo> ]\n[ <Esprimo>, <Variablo> ]",
     "CSolutions": "KSolvoj",
     "CSolutions_SyntaxCAS": "[ <Ekvacio> ]\n[ <Ekvacio>, <Variablo> ]\n[ <Listo de Ekvacioj>, <Listo de Variabloj> ]",
     "CSolve": "KSolvi",

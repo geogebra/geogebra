@@ -117,7 +117,7 @@ __GGB__keysVar.hu.command = {
     "CFactor": "SzorzatAlakKomplex",
     "CFactor_SyntaxCAS": "[ <Kifejez\xe9s> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3> ]",
     "CIFactor": "SzorzatAlakKomplexI",
-    "CIFactor_Syntax": "[ <Kifejez\xe9s> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3> ]",
+    "CIFactor_SyntaxCAS": "[ <Kifejez\xe9s> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3> ]",
     "CSolutions": "Megold\xe1sokKomplex",
     "CSolutions_SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3> ]\n[ <Egyenletek list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]",
     "CSolve": "MegoldKomplex",

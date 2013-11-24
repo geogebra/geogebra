@@ -117,7 +117,7 @@ __GGB__keysVar.sk.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <V\xfdraz> ]\n[ <V\xfdraz>, <Premenn\xe1> ]",
     "CIFactor": "CIFaktor",
-    "CIFactor_Syntax": "[ <V\xfdraz> ]\n[ <V\xfdraz>, <Premenn\xe1> ]",
+    "CIFactor_SyntaxCAS": "[ <V\xfdraz> ]\n[ <V\xfdraz>, <Premenn\xe1> ]",
     "CSolutions": "CRie\u0161enie",
     "CSolutions_SyntaxCAS": "[ <Rovnica> ]\n[ <Rovnica>, <Premenn\xe1> ]\n[ <Zoznam rovn\xedc>, <Zoznam premenn\xfdch> ]",
     "CSolve": "CRie\u0161i\u0165",

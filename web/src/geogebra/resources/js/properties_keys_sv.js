@@ -117,7 +117,7 @@ __GGB__keysVar.sv.command = {
     "CFactor": "FaktoriseraKomplext",
     "CFactor_SyntaxCAS": "[ <Uttryck> ]\n[ <Uttryck>, <Variabel> ]",
     "CIFactor": "FaktoriseraKomplexaIrrationella",
-    "CIFactor_Syntax": "[ <Uttryck> ]\n[ <Uttryck>, <Variabel> ]",
+    "CIFactor_SyntaxCAS": "[ <Uttryck> ]\n[ <Uttryck>, <Variabel> ]",
     "CSolutions": "L\xf6sningarKomplexa",
     "CSolutions_SyntaxCAS": "[ <Ekvation> ]\n[ <Ekvation>, <Variabel> ]\n[ <Lista med ekvationer>, <Lista med variabler> ]",
     "CSolve": "L\xf6sKomplext",

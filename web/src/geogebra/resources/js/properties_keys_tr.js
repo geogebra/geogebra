@@ -117,7 +117,7 @@ __GGB__keysVar.tr.command = {
     "CFactor": "C\xc7arpan",
     "CFactor_SyntaxCAS": "[ <\u0130fade> ]\n[ <\u0130fade>, <De\u011fi\u015fken> ]",
     "CIFactor": "CIFakt\xf6r",
-    "CIFactor_Syntax": "[ <\u0130fade> ]\n[ <\u0130fade>, <De\u011fi\u015fken> ]",
+    "CIFactor_SyntaxCAS": "[ <\u0130fade> ]\n[ <\u0130fade>, <De\u011fi\u015fken> ]",
     "CSolutions": "C\xc7\xf6z\xfcmler",
     "CSolutions_SyntaxCAS": "[ <Denklem> ]\n[ <Denklem>, <De\u011fi\u015fken> ]",
     "CSolve": "C\xc7\xf6z\xfcm",

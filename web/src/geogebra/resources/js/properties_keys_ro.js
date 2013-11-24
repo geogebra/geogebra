@@ -117,7 +117,7 @@ __GGB__keysVar.ro.command = {
     "CFactor": "CFactorizare",
     "CFactor_SyntaxCAS": "[ <Expresie> ]\n[ <Expresie>, <Variabil\u0103> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expresie> ]\n[ <Expresie>, <Variabil\u0103> ]",
+    "CIFactor_SyntaxCAS": "[ <Expresie> ]\n[ <Expresie>, <Variabil\u0103> ]",
     "CSolutions": "CSolu\u021bii",
     "CSolutions_SyntaxCAS": "[ <Ecua\u0163ie> ]\n[ <Ecua\u0163ie>, <Variabil\u0103> ]\n[ <List\u0103 de Ecua\u0163ii>, <List\u0103 de Variabile> ]",
     "CSolve": "CRezolv\u0103",

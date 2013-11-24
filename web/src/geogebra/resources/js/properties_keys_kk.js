@@ -117,7 +117,7 @@ __GGB__keysVar.kk.command = {
     "CFactor": "\u0421\u041a\u04e9\u0431\u0435\u0439\u0442\u043a\u0456\u0448",
     "CFactor_SyntaxCAS": "[ <\u04e8\u0440\u043d\u0435\u043a> ]\n[ <\u04e8\u0440\u043d\u0435\u043a>, <\u0410\u0439\u043d\u044b\u043c\u0430\u043b\u044b> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "C\u0428\u0435\u0448\u0456\u043c\u0434\u0435\u0440",
     "CSolutions_SyntaxCAS": "[ <\u0422\u0435\u04a3\u0434\u0435\u0443> ]\n[ <\u0422\u0435\u04a3\u0434\u0435\u0443>, <\u0422\u0435\u04a3\u0434\u0435\u0443> ]",
     "CSolve": "C\u0428\u0435\u0448\u0443",

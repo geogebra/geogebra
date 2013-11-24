@@ -117,7 +117,7 @@ __GGB__keysVar.pl.command = {
     "CFactor": "ZRozk\u0142adWielomianu",
     "CFactor_SyntaxCAS": "[ <Wyra\u017cenie> ]\n[ <Wyra\u017cenie>, <Zmienna> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "ZRozwi\u0105zania",
     "CSolutions_SyntaxCAS": "[ <R\xf3wnanie> ]\n[ <R\xf3wnanie>, <Zmienna> ]",
     "CSolve": "ZRozwi\u0105\u017c",

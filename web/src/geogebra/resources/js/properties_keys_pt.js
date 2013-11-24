@@ -117,7 +117,7 @@ __GGB__keysVar.pt.command = {
     "CFactor": "FatorarNosComplexos",
     "CFactor_SyntaxCAS": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
     "CIFactor": "FatorarNosComplexosComCoeficientesIrracionais",
-    "CIFactor_Syntax": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
+    "CIFactor_SyntaxCAS": "[ <Express\xe3o> ]\n[ <Express\xe3o>, <Vari\xe1vel> ]",
     "CSolutions": "Solu\xe7\xf5esNosComplexos",
     "CSolutions_SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel> ]\n[ <Lista de Equa\xe7\xf5es>, <Lista de Vari\xe1veis> ]",
     "CSolve": "ResolverNosComplexos",

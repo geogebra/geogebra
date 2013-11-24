@@ -117,7 +117,7 @@ __GGB__keysVar.sq.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <Shprehje> ]\n[ <Shprehje>, <Variabel> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "CZgjidhje",
     "CSolutions_SyntaxCAS": "[ <Ekuacion> ]\n[ <Ekuacion>, <Variabel> ]\n[ <Liste e Ekuacioneve>, <Liste e Variablave> ]",
     "CSolve": "CZgjidh",

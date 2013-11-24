@@ -117,7 +117,7 @@ __GGB__keysVar.lt.command = {
     "CFactor": "KompleksiniaiDauginamieji",
     "CFactor_SyntaxCAS": "[ <I\u0161rai\u0161ka> ]\n[ <I\u0161rai\u0161ka>, <Kintamasis> ]",
     "CIFactor": "CIFaktorius",
-    "CIFactor_Syntax": "[ <I\u0161rai\u0161ka> ]\n[ <I\u0161rai\u0161ka>, <Kintamasis> ]",
+    "CIFactor_SyntaxCAS": "[ <I\u0161rai\u0161ka> ]\n[ <I\u0161rai\u0161ka>, <Kintamasis> ]",
     "CSolutions": "CSprendiniai",
     "CSolutions_SyntaxCAS": "[ <Lygtis> ]\n[ <Lygtis>, <Kintamasis> ]\n[ <Lyg\u010di\u0173 s\u0105ra\u0161as>, <Kintam\u0173j\u0173 s\u0105ra\u0161as> ]",
     "CSolve": "CSpr\u0119sti",

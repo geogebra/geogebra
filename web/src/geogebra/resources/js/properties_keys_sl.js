@@ -117,7 +117,7 @@ __GGB__keysVar.sl.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <Izraz> ]\n[ <Izraz>, <spremenljivka> ]",
     "CIFactor": "CIFaktor",
-    "CIFactor_Syntax": "[ <izraz> ]\n[ <izraz>, <spremenljivka> ]",
+    "CIFactor_SyntaxCAS": "[ <izraz> ]\n[ <izraz>, <spremenljivka> ]",
     "CSolutions": "CRe\u0161itve",
     "CSolutions_SyntaxCAS": "[ <Ena\u010dba> ]\n[ <Ena\u010dba>, <spremenljivka> ]",
     "CSolve": "CRe\u0161i",

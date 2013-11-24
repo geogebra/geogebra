@@ -117,7 +117,7 @@ __GGB__keysVar.cs.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <V\xfdraz> ]\n[ <V\xfdraz>, <Prom\u011bnn\xe1> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "CReseni",
     "CSolutions_SyntaxCAS": "[ <Rovnice> ]\n[ <Rovnice>, <Prom\u011bnn\xe1> ]",
     "CSolve": "CVyresit",

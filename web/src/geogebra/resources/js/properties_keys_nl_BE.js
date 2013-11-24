@@ -117,7 +117,7 @@ __GGB__keysVar.nl_BE.command = {
     "CFactor": "Ontbind_in_complexe_factoren",
     "CFactor_SyntaxCAS": "[ <Uitdrukking> ]\n[ <Uitdrukking>, <Variabele> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "Oplossingenverzameling_in_C",
     "CSolutions_SyntaxCAS": "[ <Vergelijking> ]\n[ <Vergelijking>, <Variabele> ]\n[ <Stelsel van vergelijkingen>, <Lijst van veranderlijken> ]",
     "CSolve": "Los_Op_In_C",

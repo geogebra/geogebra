@@ -117,7 +117,7 @@ __GGB__keysVar.af.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "COplossings",
     "CSolutions_SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]",
     "CSolve": "COplos",

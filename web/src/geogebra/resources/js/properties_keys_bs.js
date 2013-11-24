@@ -117,7 +117,7 @@ __GGB__keysVar.bs.command = {
     "CFactor": "KFaktor",
     "CFactor_SyntaxCAS": "[ <Izraz> ]\n[ <Izraz>, <Promjenljiva> ]",
     "CIFactor": "KIFaktor",
-    "CIFactor_Syntax": "[ <Izraz> ]\n[ <izraz>, <Promjenljiva> ]",
+    "CIFactor_SyntaxCAS": "[ <Izraz> ]\n[ <izraz>, <Promjenljiva> ]",
     "CSolutions": "KRje\u0161enja",
     "CSolutions_SyntaxCAS": "[ <Jedna\u010dina> ]\n[ <Jedna\u010dina>, <Promjenljiva> ]\n[ <Lista jedna\u010dina>, <Lista promjenljivih> ]",
     "CSolve": "KRje\u0161enje",

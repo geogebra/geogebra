@@ -117,7 +117,7 @@ __GGB__keysVar.fi.command = {
     "CFactor": "CJaaTekij\xf6ihin",
     "CFactor_SyntaxCAS": "[ <Lauseke> ]\n[ <Lauseke>, <Muuttuja> ]",
     "CIFactor": "CITekij\xe4t",
-    "CIFactor_Syntax": "[ <Lauseke> ]\n[ <Lauseke>, <Muuttuja> ]",
+    "CIFactor_SyntaxCAS": "[ <Lauseke> ]\n[ <Lauseke>, <Muuttuja> ]",
     "CSolutions": "CRatkaisut",
     "CSolutions_SyntaxCAS": "[ <Yht\xe4l\xf6> ]\n[ <Yht\xe4l\xf6>, <Muuttuja> ]",
     "CSolve": "CRatkaise",

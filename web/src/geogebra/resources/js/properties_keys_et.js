@@ -117,7 +117,7 @@ __GGB__keysVar.et.command = {
     "CFactor": "KTegurda",
     "CFactor_SyntaxCAS": "[ <Avaldis> ]\n[ <Avaldis>, <Muutuja> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "KLahendid",
     "CSolutions_SyntaxCAS": "[ <V\xf5rrand> ]\n[ <V\xf5rrand>, <Muutuja> ]\n[ <V\xf5rrandite loend>, <Muutujate loend> ]",
     "CSolve": "KLahenda",

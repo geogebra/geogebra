@@ -117,7 +117,7 @@ __GGB__keysVar.ms.command = {
     "CFactor": "FaktorC",
     "CFactor_SyntaxCAS": "[ <Ungkapan> ]\n[ <Ungkapan>, <Pembolehubah> ]",
     "CIFactor": "FaktorCI",
-    "CIFactor_Syntax": "[ <Ungkapann> ]\n[ <Ungkapan>, <Pembolehubah> ]",
+    "CIFactor_SyntaxCAS": "[ <Ungkapann> ]\n[ <Ungkapan>, <Pembolehubah> ]",
     "CSolutions": "PenyelesaianC",
     "CSolutions_SyntaxCAS": "[ <Persamaan> ]\n[ <Persamaan>, <Pembolehubah> ]",
     "CSolve": "SelesaikanC",

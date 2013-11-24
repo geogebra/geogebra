@@ -117,7 +117,7 @@ __GGB__keysVar.it.command = {
     "CFactor": "FattorizzaC",
     "CFactor_SyntaxCAS": "[ <Espressione> ]\n[ <Espressione>, <Variabile> ]",
     "CIFactor": "FattorizzaCI",
-    "CIFactor_Syntax": "[ <Espressione> ]\n[ <Espressione>, <Variabile> ]",
+    "CIFactor_SyntaxCAS": "[ <Espressione> ]\n[ <Espressione>, <Variabile> ]",
     "CSolutions": "SoluzioniC",
     "CSolutions_SyntaxCAS": "[ <Equazione> ]\n[ <Equazione>, <Variabile> ]",
     "CSolve": "RisolviC",

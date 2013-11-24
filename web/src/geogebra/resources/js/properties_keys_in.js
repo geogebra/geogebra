@@ -117,7 +117,7 @@ __GGB__keysVar.in.command = {
     "CFactor": "FactorC",
     "CFactor_SyntaxCAS": "[ <Ekspresi> ]\n[ <Ekspresi>, <Variabel> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "SolusiC",
     "CSolutions_SyntaxCAS": "[ <Persamaan> ]\n[ <Persamaan>, <Variabel> ]\n[ <daftar Persamaan>, <Daftar Variabel> ]",
     "CSolve": "SelesaikanC",

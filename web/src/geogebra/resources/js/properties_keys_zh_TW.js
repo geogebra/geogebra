@@ -117,7 +117,7 @@ __GGB__keysVar.zh_TW.command = {
     "CFactor": "CFactor",
     "CFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <\u591a\u9805\u5f0f> ]\n[ <\u591a\u9805\u5f0f>, <\u8b8a\u6578> ]",
+    "CIFactor_SyntaxCAS": "[ <\u591a\u9805\u5f0f> ]\n[ <\u591a\u9805\u5f0f>, <\u8b8a\u6578> ]",
     "CSolutions": "CSolutions",
     "CSolutions_SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]",
     "CSolve": "CSolve",

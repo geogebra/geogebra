@@ -117,7 +117,7 @@ __GGB__keysVar.ja.command = {
     "CFactor": "CFactor",
     "CFactor_SyntaxCAS": "[ <\u5f0f> ]\n[ <\u5f0f>, <\u5909\u6570> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <\u5f0f> ]\n[ <\u5f0f>, <\u5909\u6570> ]",
+    "CIFactor_SyntaxCAS": "[ <\u5f0f> ]\n[ <\u5f0f>, <\u5909\u6570> ]",
     "CSolutions": "CSolutions",
     "CSolutions_SyntaxCAS": "[ <\u7b49\u5f0f> ]\n[ <\u7b49\u5f0f>, <\u5909\u6570> ]\n[ <\u7b49\u5f0f\u306e\u30ea\u30b9\u30c8>, <\u5909\u6570\u306e\u30ea\u30b9\u30c8> ]",
     "CSolve": "CSolve",

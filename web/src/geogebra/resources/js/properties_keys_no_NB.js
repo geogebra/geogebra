@@ -117,7 +117,7 @@ __GGB__keysVar.no_NB.command = {
     "CFactor": "CFaktor",
     "CFactor_SyntaxCAS": "[ <Uttrykk> ]\n[ <Uttrykk>, <Variabel> ]",
     "CIFactor": "CIFaktor",
-    "CIFactor_Syntax": "[ <Uttrykk> ]\n[ <Uttrykk>, <Variabel> ]",
+    "CIFactor_SyntaxCAS": "[ <Uttrykk> ]\n[ <Uttrykk>, <Variabel> ]",
     "CSolutions": "CL\xf8sninger",
     "CSolutions_SyntaxCAS": "[ <Likning> ]\n[ <Likning>, <Variabel> ]\n[ <Liste med likninger>, <Liste med variabler> ]",
     "CSolve": "CL\xf8s",

@@ -117,7 +117,7 @@ __GGB__keysVar.gl.command = {
     "CFactor": "FactorizaC",
     "CFactor_SyntaxCAS": "[ <Expresi\xf3n> ]\n[ <Expresi\xf3n>, <Variable> ]",
     "CIFactor": "FactorC",
-    "CIFactor_Syntax": "[ <Expresi\xf3n> ]\n[ <Expresi\xf3n>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expresi\xf3n> ]\n[ <Expresi\xf3n>, <Variable> ]",
     "CSolutions": "Soluci\xf3nsC",
     "CSolutions_SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Variable> ]\n[ <Lista de ecuaci\xf3ns>, <Lista de variables> ]",
     "CSolve": "ResolveC",

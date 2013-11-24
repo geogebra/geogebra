@@ -117,7 +117,7 @@ __GGB__keysVar.eu.command = {
     "CFactor": "CFaktorea",
     "CFactor_SyntaxCAS": "[ <Adierazpena> ]\n[ <Adierazpena>, <Aldagaia> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "CSoluzioak",
     "CSolutions_SyntaxCAS": "[ <Ekuazioa> ]\n[ <Ekuazioa>, <Aldagaia> ]",
     "CSolve": "CEbazpena",

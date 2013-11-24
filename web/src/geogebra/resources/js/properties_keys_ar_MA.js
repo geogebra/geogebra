@@ -117,7 +117,7 @@ __GGB__keysVar.ar_MA.command = {
     "CFactor": "\u0639\u0627\u0645\u0644_\u0645",
     "CFactor_SyntaxCAS": "[ <\u062a\u0639\u0628\u064a\u0631> ]\n[ <\u062a\u0639\u0628\u064a\u0631>, <\u0645\u062a\u063a\u064a\u0631> ]",
     "CIFactor": "CIFactor",
-    "CIFactor_Syntax": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
+    "CIFactor_SyntaxCAS": "[ <Expression> ]\n[ <Expression>, <Variable> ]",
     "CSolutions": "\u062d\u0644\u0648\u0644_\u0645",
     "CSolutions_SyntaxCAS": "[ <\u0645\u0639\u0627\u062f\u0644\u0629> ]\n[ <\u0645\u0639\u0627\u062f\u0644\u0629>, <\u0645\u062a\u063a\u064a\u0631> ]\n[ <\u0642\u0627\u0626\u0645\u0629 \u0645\u0639\u0627\u062f\u0644\u0627\u062a>, <\u0642\u0627\u0626\u0645\u0629 \u0645\u062a\u063a\u064a\u0631\u0627\u062a> ]",
     "CSolve": "\u062d\u0644_\u0645",
