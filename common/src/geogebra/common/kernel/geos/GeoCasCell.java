@@ -2373,7 +2373,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			computeOutput(false,false);
 			this.update();
 			clearStrings();
-			
+			cons.addToConstructionList(twinGeo, true);
 		} else {
 			App.debug("Fail" + oldEvalComment);
 			if (twinGeo != null && twinGeo.getLabelSimple() != null)
