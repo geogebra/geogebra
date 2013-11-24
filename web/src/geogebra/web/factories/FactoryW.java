@@ -6,6 +6,7 @@ import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.javax.swing.GOptionPane;
+import geogebra.common.javax.swing.RelationPane;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -46,6 +47,12 @@ public class FactoryW extends Factory{
 	        GeoElement geo) {
 	    return new InputDialogW((AppW)app, message, title,
 	    		initString, autoComplete, handler, geo);
+    }
+
+	@Override
+    public RelationPane newRelationPane() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 	
 }
