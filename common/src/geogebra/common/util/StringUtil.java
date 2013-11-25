@@ -245,8 +245,13 @@ public class StringUtil {
 			boolean convertGreekLetters) {
 		int length = str.length();
 		sbReplaceExp.setLength(0);
+		
+		char c = 0;
+		char previousChar;
+		
 		for (int i = 0; i < length; i++) {
-			char c = str.charAt(i);
+			previousChar = c;
+			c = str.charAt(i);
 
 
 			// Guy Hed 30.8.2009
@@ -275,7 +280,10 @@ public class StringUtil {
 			 */
 
 			case '%': // % -> \%
-				sbReplaceExp.append("\\%");
+				if (!(previousChar == '\\')) { 
+				 		                                        sbReplaceExp.append("\\");                                       
+				 		                                } 
+				 		                                sbReplaceExp.append("%");
 				break;
 				
 /* not needed for MathQuill / JLaTeXMath and in fact it doesn't work inside \text{}

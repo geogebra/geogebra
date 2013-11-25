@@ -53,6 +53,8 @@ public class DrawEquationWeb extends DrawEquation {
 		String eqstring = eqstringin;
 		
 		eqstring = eqstring.replace('\n', ' ');
+		
+		eqstring = eqstring.replace("\\%", "%");
 
 		// make sure eg FractionText[] works (surrounds with {} which doesn't
 		// draw well in MathQuill)
