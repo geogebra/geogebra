@@ -1300,10 +1300,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					getYmin(), getYmax(), getXscale(), getYscale());
 		}
 
-		if(coordTransform != null){
-			getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(),
-				getxZero(), getyZero());
-		}
+		getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(),
+			getxZero(), getyZero());
 
 		updateBackgroundImage();
 		updateAllDrawables(true);
