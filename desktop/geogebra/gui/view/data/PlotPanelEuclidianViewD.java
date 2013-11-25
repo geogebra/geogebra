@@ -52,11 +52,11 @@ import javax.swing.JPopupMenu;
  * @author G.Sturr 2010-6-30
  * 
  */
-public class PlotPanelEuclidianView extends EuclidianViewD implements
+public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		ComponentListener, DragGestureListener, DragSourceListener {
 
 	private final EuclidianControllerD ec;
-	private final PlotPanelEuclidianView plotPanelEV;
+	private final PlotPanelEuclidianViewD plotPanelEV;
 
 	private static boolean[] showAxes = { true, true };
 	private static boolean showGrid = false;
@@ -99,8 +99,8 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	/*************************************************
 	 * Construct the panel
 	 */
-	public PlotPanelEuclidianView(Kernel kernel, AbstractAction exportAction) {
-		super(new PlotPanelEuclidianController(kernel), showAxes, showGrid,
+	public PlotPanelEuclidianViewD(Kernel kernel, AbstractAction exportAction) {
+		super(new PlotPanelEuclidianControllerD(kernel), showAxes, showGrid,
 				null);
 
 		// set fields

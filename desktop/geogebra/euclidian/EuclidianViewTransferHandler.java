@@ -8,7 +8,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.view.data.PlotPanelEuclidianView;
+import geogebra.gui.view.data.PlotPanelEuclidianViewD;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 import geogebra.util.CASTransferHandler;
@@ -68,7 +68,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				supportedFlavors[1] = DataFlavor.stringFlavor;
 				supportedFlavors[2] = DataFlavor.javaFileListFlavor;
 				supportedFlavors[3] = AlgebraViewTransferHandler.algebraViewFlavor;
-				supportedFlavors[4] = PlotPanelEuclidianView.plotPanelFlavor;
+				supportedFlavors[4] = PlotPanelEuclidianViewD.plotPanelFlavor;
 			} else {
 				supportedFlavors = new DataFlavor[3];
 				supportedFlavors[0] = DataFlavor.imageFlavor;
@@ -141,10 +141,10 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		
 		
 		// try to get PlotPanel GeoElement copies
-		if (t.isDataFlavorSupported(PlotPanelEuclidianView.plotPanelFlavor)) {
+		if (t.isDataFlavorSupported(PlotPanelEuclidianViewD.plotPanelFlavor)) {
 	
 			try {
-				AbstractAction act = (AbstractAction) t.getTransferData(PlotPanelEuclidianView.plotPanelFlavor);
+				AbstractAction act = (AbstractAction) t.getTransferData(PlotPanelEuclidianViewD.plotPanelFlavor);
 				act.putValue("euclidianViewID", ev.getViewID());
 				act.actionPerformed(new ActionEvent(act, 0, null));
 			} catch (UnsupportedFlavorException e) {

@@ -4,9 +4,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.euclidian.EuclidianControllerD;
 
 
-public class PlotPanelEuclidianController extends EuclidianControllerD{
+public class PlotPanelEuclidianControllerD extends EuclidianControllerD{
 
-	public PlotPanelEuclidianController(Kernel kernel) {
+	public PlotPanelEuclidianControllerD(Kernel kernel) {
 		super(kernel);
 	}
 	

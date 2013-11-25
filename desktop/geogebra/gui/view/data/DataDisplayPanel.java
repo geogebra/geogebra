@@ -122,7 +122,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	// display panels
 	private JPanel displayCardPanel;
 	private JPanel metaPlotPanel, plotPanelNorth, plotPanelSouth;
-	private PlotPanelEuclidianView plotPanel;
+	private PlotPanelEuclidianViewD plotPanel;
 
 	private JLabel imageContainer;
 
@@ -265,7 +265,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					loc.borderEast());
 		}
 
-		plotPanel = new PlotPanelEuclidianView(app.getKernel(),
+		plotPanel = new PlotPanelEuclidianViewD(app.getKernel(),
 				exportToEVAction);
 
 		plotPanelNorth = new JPanel();

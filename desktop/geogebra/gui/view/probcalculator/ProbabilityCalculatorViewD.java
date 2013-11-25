@@ -15,7 +15,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.util.ListSeparatorRenderer;
-import geogebra.gui.view.data.PlotPanelEuclidianView;
+import geogebra.gui.view.data.PlotPanelEuclidianViewD;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
 
@@ -217,10 +217,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 			controlPanel.setMinimumSize(controlPanel.getPreferredSize());
 
 			// plot panel (extension of EuclidianView)
-			plotPanel = new PlotPanelEuclidianView(app.getKernel(),
+			plotPanel = new PlotPanelEuclidianViewD(app.getKernel(),
 					exportToEVAction);
-			((PlotPanelEuclidianView) plotPanel).setMouseEnabled(true, true);
-			((PlotPanelEuclidianView) plotPanel).setMouseMotionEnabled(true);
+			((PlotPanelEuclidianViewD) plotPanel).setMouseEnabled(true, true);
+			((PlotPanelEuclidianViewD) plotPanel).setMouseMotionEnabled(true);
 			((EuclidianViewND) plotPanel).setBorder(BorderFactory.createEmptyBorder());
 
 			// plot label panel
@@ -482,7 +482,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 		}
 
 		else if (source == btnExport) {
-			JPopupMenu menu = ((PlotPanelEuclidianView) plotPanel).getContextMenu();
+			JPopupMenu menu = ((PlotPanelEuclidianViewD) plotPanel).getContextMenu();
 			menu.show(btnExport,
 					-menu.getPreferredSize().width + btnExport.getWidth(),
 					btnExport.getHeight());
@@ -958,7 +958,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		((PlotPanelEuclidianView) plotPanel).updateSettings(plotSettings);
+		((PlotPanelEuclidianViewD) plotPanel).updateSettings(plotSettings);
 	}
 
 
@@ -1002,8 +1002,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 
 	
 
-	public PlotPanelEuclidianView getPlotPanel() {
-		return (PlotPanelEuclidianView) plotPanel;
+	public PlotPanelEuclidianViewD getPlotPanel() {
+		return (PlotPanelEuclidianViewD) plotPanel;
 	}
 
 	/**

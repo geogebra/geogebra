@@ -69,7 +69,7 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
 import geogebra.gui.view.data.DataAnalysisViewD;
-import geogebra.gui.view.data.PlotPanelEuclidianView;
+import geogebra.gui.view.data.PlotPanelEuclidianViewD;
 import geogebra.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
@@ -576,12 +576,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// PlotPanel ID handling
 	// =================================
 
-	private HashMap<Integer, PlotPanelEuclidianView> plotPanelIDMap;
+	private HashMap<Integer, PlotPanelEuclidianViewD> plotPanelIDMap;
 	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
 
-	private HashMap<Integer, PlotPanelEuclidianView> getPlotPanelIDMap() {
+	private HashMap<Integer, PlotPanelEuclidianViewD> getPlotPanelIDMap() {
 		if (plotPanelIDMap == null)
-			plotPanelIDMap = new HashMap<Integer, PlotPanelEuclidianView>();
+			plotPanelIDMap = new HashMap<Integer, PlotPanelEuclidianViewD>();
 		return plotPanelIDMap;
 	}
 
@@ -592,7 +592,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * @param plotPanel
 	 * @return
 	 */
-	public int assignPlotPanelID(PlotPanelEuclidianView plotPanel) {
+	public int assignPlotPanelID(PlotPanelEuclidianViewD plotPanel) {
 		lastUsedPlotPanelID--;
 		int viewID = lastUsedPlotPanelID;
 		getPlotPanelIDMap().put(viewID, plotPanel);
@@ -600,7 +600,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return viewID;
 	}
 
-	public PlotPanelEuclidianView getPlotPanelView(int viewID) {
+	public PlotPanelEuclidianViewD getPlotPanelView(int viewID) {
 		return getPlotPanelIDMap().get(viewID);
 	}
 
