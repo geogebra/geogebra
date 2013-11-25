@@ -257,6 +257,17 @@ public class Hits extends ArrayList<GeoElement> {
 		}						
 	}
 	
+	
+	/**
+	 * remove all hits after geo
+	 * @param geo last geo
+	 */
+	final public void removeGeosAfter(GeoElement geo){
+		for (int i = size() - 1 ; i >= 0 && get(i)!=geo ; i--){
+			remove(i);
+		}
+	}
+	
 	/**
 	 * remove segments from all present polygons
 	 */
@@ -586,6 +597,9 @@ public class Hits extends ArrayList<GeoElement> {
 		
 		return result;
 	}
+	
+	
+	
 	
 	/**
 	 * @param result hits to store result

@@ -4847,10 +4847,12 @@ public abstract class EuclidianController {
 	public GeoElement getMovedGeoPoint() {
 		return ((GeoElement) movedGeoPoint);
 	}
+	
 
 	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible, boolean chooseGeo, boolean complex) {
 			
+		
 				// create hits for region
 				Hits regionHits = getRegionHits(hits);
 				
@@ -4916,7 +4918,11 @@ public abstract class EuclidianController {
 							} else {
 								region = (Region) regionHits.get(0);
 							}
+							
 							if (region != null) {
+
+								hits.removeGeosAfter((GeoElement) region);
+								
 								if (((GeoElement) region).isGeoPolygon()) {
 									GeoSegmentND[] sides = ((GeoPolygon) region)
 											.getSegments();
@@ -4957,6 +4963,7 @@ public abstract class EuclidianController {
 																				// for
 																				// path
 										}
+										
 									} else {
 										if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
 											// if one wants a point on boundary of a
@@ -5000,6 +5007,7 @@ public abstract class EuclidianController {
 						}
 					}
 			
+					
 					// check if point lies on path and if we are allowed to place a
 					// point
 					// on a path
@@ -5031,7 +5039,6 @@ public abstract class EuclidianController {
 				//App.debug(region);
 				// Application.debug("createPoint 3 = "+createPoint);
 			
-				
 				if (createPoint) {
 					transformCoords(); // use point capturing if on
 					// branches reordered to prefer path, and then region
