@@ -65,13 +65,12 @@ import geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListene
 import geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
+import geogebra.common.gui.dialog.options.model.StartPointModel;
 import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -2366,18 +2365,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * panel for location of vectors and text
 	 */
 	private class StartPointPanel extends JPanel implements ActionListener,
-	FocusListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+	FocusListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel,
+	IComboListener {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
+		private StartPointModel model;
 		private JLabel label;
 		private JComboBox cbLocation;
 		private DefaultComboBoxModel cbModel;
 
 		public StartPointPanel() {
 			// textfield for animation step
+			model = new StartPointModel(app, this);
 			label = new JLabel();
 			cbLocation = new JComboBox();
 			cbLocation.setEditable(true);
@@ -2398,8 +2400,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
 
 			cbLocation.removeActionListener(this);
@@ -2412,53 +2414,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (points.size() != cbModel.getSize() - 1) {
 				cbModel.removeAllElements();
 				cbModel.addElement(null);
-				Iterator<GeoElement> it = points.iterator();
-				int count = 0;
-				while (it.hasNext() || ++count > MAX_COMBOBOX_ENTRIES) {
-					GeoElement p = it.next();
-					cbModel.addElement(p.getLabel(StringTemplate.editTemplate));
-				}
+				model.fillModes(loc);
 			}
-
-			// check if properties have same values
-			Locateable temp, geo0 = (Locateable) geos[0];
-			boolean equalLocation = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				temp = (Locateable) geos[i];
-				// same object visible value
-				if (geo0.getStartPoint() != temp.getStartPoint()) {
-					equalLocation = false;
-					break;
-				}
-
-			}
-
-			// set location textfield
-			GeoElement p = (GeoElement) geo0.getStartPoint();
-			if (equalLocation && p != null) {
-				cbLocation.setSelectedItem(p
-						.getLabel(StringTemplate.editTemplate));
-			} else
-				cbLocation.setSelectedItem(null);
-
+			model.updateProperties();
 			cbLocation.addActionListener(this);
 			return this;
 		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo instanceof Locateable && !((Locateable) geo)
-						.isAlwaysFixed()) || geo.isGeoImage()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
 		/**
 		 * handle textfield changes
 		 */
@@ -2469,26 +2430,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private void doActionPerformed() {
 			String strLoc = (String) cbLocation.getSelectedItem();
-			GeoPointND newLoc = null;
-
-			if (strLoc == null || strLoc.trim().length() == 0) {
-				// newLoc = null;
-			} else {
-				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-						true, true);
-			}
-
-			for (int i = 0; i < geos.length; i++) {
-				Locateable l = (Locateable) geos[i];
-				try {
-					l.setStartPoint(newLoc);
-					l.toGeoElement().updateRepaint();
-				} catch (CircularDefinitionException e) {
-					app.showError("CircularDefinition");
-				}
-			}
-
-			updateSelection(geos);
+			model.applyChanges(strLoc);
+			updateSelection(model.getGeos());
 		}
 
 		public void focusGained(FocusEvent arg0) {
@@ -2507,6 +2450,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void setSelectedIndex(int index) {
+			if (index == 0) {
+				GeoElement p = (GeoElement)model.getLocateableAt(0).getStartPoint();
+				cbLocation.setSelectedItem(p.getLabel(StringTemplate.editTemplate));
+			} else
+				cbLocation.setSelectedItem(null);
+
+		}
+
+		public void addItem(String item) {
+			cbModel.addElement(item);
+			
 		}
 	}
 

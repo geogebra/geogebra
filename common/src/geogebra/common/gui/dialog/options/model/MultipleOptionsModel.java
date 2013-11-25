@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public abstract class MultipleOptionsModel extends NumberOptionsModel {
+	public static final int MAX_CHOICES = 200;
 	private IComboListener listener;
 	public MultipleOptionsModel(IComboListener listener) {
 		this.listener = listener;
