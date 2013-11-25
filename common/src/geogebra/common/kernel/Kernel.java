@@ -209,6 +209,8 @@ public class Kernel {
 	public final static double STANDARD_PRECISION = 1E-8;
 	/** square root of standard precision */
 	public final static double STANDARD_PRECISION_SQRT = 1E-4;
+	/** square of standard precision */
+	public final static double STANDARD_PRECISION_SQUARE = 1E-16;
 
 	/** minimum precision */
 	public final static double MIN_PRECISION = 1E-5;

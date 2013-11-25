@@ -214,10 +214,16 @@ implements Traceable, CoordStyle {
      * @return true if this and other vector are linear dependent
      */
     final public boolean linDep(GeoVec3D v) {
-        // v lin.dep this  <=>  cross(v,w) = o            
-        return Kernel.isEqual(y * v.z, z * v.y)
-			&& Kernel.isEqual(z * v.x, x * v.z) 
-			&& Kernel.isEqual(x * v.y, y * v.x);       
+        // v lin.dep this <=> angle(v,w) ~ 0  <=>  cross(v,w) << |this|*|v|    
+    	double n1 = x*x + y*y + z*z;
+    	double n2 = v.x*v.x + v.y*v.y + v.z*v.z;
+    	
+    	double cx = y * v.z - z * v.y;
+    	double cy = z * v.x - x * v.z;
+    	double cz = x * v.y - y * v.x;
+    	double cn = cx*cx + cy*cy + cz*cz;
+    	
+        return Kernel.isZero(cn, n1 * n2 * Kernel.STANDARD_PRECISION_SQUARE);  
     }
     
     /**
