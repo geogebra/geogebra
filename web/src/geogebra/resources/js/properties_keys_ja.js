@@ -801,7 +801,7 @@ __GGB__keysVar.ja.command = {
     "Shear": "Shear",
     "Shear_Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u76f4\u7dda>, <\u6bd4\u7387> ]",
     "ShortestDistance": "ShortestDistance",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <\u7dda\u5206\u306e\u30ea\u30b9\u30c8>, <\u958b\u59cb\u70b9>, <\u7d42\u4e86\u70b9>, <Boolean Weighted> ]",
     "ShowAxes": "ShowAxes",
     "ShowAxes_Syntax": "[ ]\n[ <\u771f\u507d\u5024> ]\n[ <\u30d3\u30e5\u30fc>, <\u771f\u507d\u5024> ]",
     "ShowGrid": "ShowGrid",

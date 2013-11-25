@@ -801,7 +801,7 @@ __GGB__keysVar.pl.command = {
     "Shear": "Shear",
     "Shear_Syntax": "[ <Obiekt>, <Prosta>, <Stosunek> ]",
     "ShortestDistance": "Najkr\xf3tszaDroga",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Lista Odcink\xf3w>, <Punkt Startowy>, <Punkt Ko\u0144cowy>, <Czy Wa\u017cone> ]",
     "ShowAxes": "Poka\u017cOsie",
     "ShowAxes_Syntax": "[ ]\n[ <Logiczna> ]\n[ <Widok>, <Logiczna> ]",
     "ShowGrid": "Poka\u017cSiatk\u0119",

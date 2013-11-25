@@ -801,7 +801,7 @@ __GGB__keysVar.eu.command = {
     "Shear": "Irristatu",
     "Shear_Syntax": "[ <Objektua>, <Lerroa>, <Arrazoia> ]",
     "ShortestDistance": "DistantziaMotzena",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Zuzenkien Zerrenda>, <Hasierako Puntua>, <Bukaerako Puntua>, <Kontrol Boolearra> ]",
     "ShowAxes": "ErakutsiArdatzak",
     "ShowAxes_Syntax": "[ ]\n[ <Boolearra> ]\n[ <Ikuspegia>, <Boolearra> ]",
     "ShowGrid": "ErakutsiLaukiSarea",

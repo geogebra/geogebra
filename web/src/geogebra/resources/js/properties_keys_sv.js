@@ -801,7 +801,7 @@ __GGB__keysVar.sv.command = {
     "Shear": "Skjuva",
     "Shear_Syntax": "[ <Objekt>, <Linje>, <F\xf6rh\xe5llande> ]",
     "ShortestDistance": "KortasteAvst\xe5nd",
-    "ShortestDistance_Syntax": "[ <Kurva>, <Punkt> ]\n[ <Lista med segment>, <Startpunkt>, <Slutpunkt>, <true | false (viktat eller ej)> ]",
+    "ShortestDistance_Syntax": "[ <Lista med str\xe4ckor>, <Startpunkt>, <Slutpunkt>, <true | false (viktat eller ej)> ]",
     "ShowAxes": "VisaAxlar",
     "ShowAxes_Syntax": "[ ]\n[ <true | false (visa eller d\xf6lj)> ]\n[ <Ritomr\xe5de 1|2>, <true | false (visa eller d\xf6lj)> ]",
     "ShowGrid": "VisaRutn\xe4t",

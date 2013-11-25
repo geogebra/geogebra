@@ -801,7 +801,7 @@ __GGB__keysVar.ms.command = {
     "Shear": "Ricih",
     "Shear_Syntax": "[ <Objek>, <Garis>, <Nisbah> ]",
     "ShortestDistance": "JarakTerpendek",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Senarai Segmen>, <Titik Mula>, <Titik Tamat>, <Boolean Berpemberat> ]",
     "ShowAxes": "TunjukPaksi",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <Paparan>, <Boolean> ]",
     "ShowGrid": "TunjukGrid",

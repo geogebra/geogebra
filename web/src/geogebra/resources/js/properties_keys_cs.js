@@ -801,7 +801,7 @@ __GGB__keysVar.cs.command = {
     "Shear": "Zkoseni",
     "Shear_Syntax": "[ <Objekt>, <\u010c\xe1ra>, <Procento> ]",
     "ShortestDistance": "NejkratsiVzdalenost",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Seznam \xfase\u010dek>, <Po\u010d\xe1te\u010dn\xed bod>, <Koncov\xfd bod>, <Booleovska hodnota> ]",
     "ShowAxes": "ZobrazitOsy",
     "ShowAxes_Syntax": "[ ]\n[ <Pravdivostn\xed hodnota> ]\n[ <Pohled>, <Pravdivostn\xed hodnota> ]",
     "ShowGrid": "ZobrazitMrizku",

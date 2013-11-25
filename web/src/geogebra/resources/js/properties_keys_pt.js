@@ -801,7 +801,7 @@ __GGB__keysVar.pt.command = {
     "Shear": "Cisalhamento",
     "Shear_Syntax": "[ <Objeto>, <Reta>, <Raz\xe3o> ]",
     "ShortestDistance": "CaminhoM\xednimo",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Lista de Segmentos>, <Ponto Inicial>, <Ponto Final>, <Usar N\xfamero de Segmentos como Custo (true | false)> ]",
     "ShowAxes": "ExibirEixos",
     "ShowAxes_Syntax": "[ ]\n[ <Valor Booleano> ]\n[ <Janela de Visualiza\xe7\xe3o>, <Valor Booleano> ]",
     "ShowGrid": "ExibirMalha",

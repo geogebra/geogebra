@@ -801,7 +801,7 @@ __GGB__keysVar.lt.command = {
     "Shear": "Dalintis",
     "Shear_Syntax": "[ <Objektas>, <Ties\u0117>, <Santykis> ]",
     "ShortestDistance": "TrumpiausiasAtstumas",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Atkarp\u0173 s\u0105ra\u0161as>, <Prad\u017eios ta\u0161kas>, <Galo ta\u0161kas>, <Login\u0117 vert\u0117 - svoris> ]",
     "ShowAxes": "RodytiA\u0161is",
     "ShowAxes_Syntax": "[ ]\n[ <Login\u0117 vert\u0117> ]\n[ <Vaizdas>, <Login\u0117 vert\u0117> ]",
     "ShowGrid": "RodytiTinklel\u012f",

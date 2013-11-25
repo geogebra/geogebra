@@ -801,7 +801,7 @@ __GGB__keysVar.fi.command = {
     "Shear": "Liukumuunnos",
     "Shear_Syntax": "[ <Objekti>, <Suora>, <Suhde> ]",
     "ShortestDistance": "LyhinEt\xe4isyys",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Janalista>, <Alkupiste>, <Loppupiste>, <Totuusarvo> ]",
     "ShowAxes": "N\xe4yt\xe4Akselit",
     "ShowAxes_Syntax": "[ ]\n[ <Totuusarvo> ]\n[ <N\xe4kym\xe4>, <Totuusarvo> ]",
     "ShowGrid": "N\xe4yt\xe4Ruudukko",

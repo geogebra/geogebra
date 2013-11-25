@@ -801,7 +801,7 @@ __GGB__keysVar.ro.command = {
     "Shear": "Foarfece",
     "Shear_Syntax": "[ <Obiect>, <Dreapt\u0103>, <Ra\u0163ie> ]",
     "ShortestDistance": "Distan\u0163aMinim\u0103",
-    "ShortestDistance_Syntax": "[ <Drum>, <Punct> ]\n[ <List\u0103 de segmente>, <Punct de \xeenceput>, <Punct de sf\xe2r\u015fit>, <Cost boolean> ]",
+    "ShortestDistance_Syntax": "[ <List\u0103 de segmente>, <Punct de \xeenceput>, <Punct de sf\xe2r\u015fit>, <Boolean ponderat\u0103> ]",
     "ShowAxes": "Arat\u0103Axe",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <Vizualizare>, <Boolean> ]",
     "ShowGrid": "Arat\u0103Gril\u0103",

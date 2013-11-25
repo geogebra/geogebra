@@ -801,7 +801,7 @@ __GGB__keysVar.bg.command = {
     "Shear": "Shear",
     "Shear_Syntax": "[ <\u041e\u0431\u0435\u043a\u0442>, <\u041f\u0440\u0430\u0432\u0430>, <\u041e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0435> ]",
     "ShortestDistance": "\u041d\u0430\u0439_\u043a\u044a\u0441\u043e_\u0440\u0430\u0437\u0441\u0442\u043e\u044f\u043d\u0438\u0435",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <\u0421\u043f\u0438\u0441\u044a\u043a \u043e\u0442 \u043e\u0442\u0441\u0435\u0447\u043a\u0438>, <\u041d\u0430\u0447\u0430\u043b\u043d\u0430 \u0442\u043e\u0447\u043a\u0430>, <\u041a\u0440\u0430\u0439\u043d\u0430 \u0442\u043e\u0447\u043a\u0430>, <Boolean Weighted> ]",
     "ShowAxes": "ShowAxes",
     "ShowAxes_Syntax": "[]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "ShowGrid",

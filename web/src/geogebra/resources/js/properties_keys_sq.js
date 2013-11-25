@@ -801,7 +801,7 @@ __GGB__keysVar.sq.command = {
     "Shear": "TranslacionSiperfaqeKonstante",
     "Shear_Syntax": "[ <Objekt>, <Drejez>, <Raport> ]",
     "ShortestDistance": "DistancaMeeShkurter",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Lista e Segmenteve>, <Pike Fillimi>, <Pike Mbarimi>, <Bulean i Peshuar> ]",
     "ShowAxes": "ShfaqBoshtet",
     "ShowAxes_Syntax": "[ ]\n[ <Bulean> ]\n[ <Pamje>, <Bulean> ]",
     "ShowGrid": "ShfaqRrjete",

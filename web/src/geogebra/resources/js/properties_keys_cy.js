@@ -801,7 +801,7 @@ __GGB__keysVar.cy.command = {
     "Shear": "Croeswasgu",
     "Shear_Syntax": "[ <Gwrthrych>, <Llinell>, <Cymhareb> ]",
     "ShortestDistance": "PellterByrraf",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Rhestr Segmentau>, <Pwynt Cychwyn>, <Pwynt Gorffen>, <Pwysedd Boolean> ]",
     "ShowAxes": "ShowAxes",
     "ShowAxes_Syntax": "[]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "ShowGrid",

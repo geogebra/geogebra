@@ -801,7 +801,7 @@ __GGB__keysVar.hr.command = {
     "Shear": "Smicanje",
     "Shear_Syntax": "[ <objekt>, <pravac>, <omjer> ]",
     "ShortestDistance": "Najkra\u0107aPutanja",
-    "ShortestDistance_Syntax": "[ <putanja>, <to\u010dka> ]\n[ <lista du\u017eina>, <po\u010detna to\u010dka>, <zavr\u0161na to\u010dka>, <faktor uklju\u010divanja - logi\u010dka vrijednost> ]",
+    "ShortestDistance_Syntax": "[ <lista du\u017eina>, <po\u010detna to\u010dka>, <krajnja to\u010dka>, <faktor uklju\u010divanja - logi\u010dka vrijednost> ]",
     "ShowAxes": "Poka\u017eiOsi",
     "ShowAxes_Syntax": "[ ]\n[ <logi\u010dka vrijednost> ]\n[ <pogled>, <logi\u010dka vrijednost> ]",
     "ShowGrid": "Poka\u017eiMre\u017eu",

@@ -801,7 +801,7 @@ __GGB__keysVar.zh_TW.command = {
     "Shear": "Shear",
     "Shear_Syntax": "[ <Object>, <Line>, <Ratio> ]",
     "ShortestDistance": "ShortestDistance",
-    "ShortestDistance_Syntax": "[ <\u8def\u5f91>, <\u9ede> ]\n[ <\u7dda\u6bb5\u96c6\u5408>, <\u8d77\u9ede>, <\u7d42\u9ede>, <\u52a0\u6b0a\uff1f> ]",
+    "ShortestDistance_Syntax": "[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
     "ShowAxes": "ShowAxes",
     "ShowAxes_Syntax": "[]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "ShowGrid",

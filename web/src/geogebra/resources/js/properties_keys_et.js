@@ -801,7 +801,7 @@ __GGB__keysVar.et.command = {
     "Shear": "Nihe",
     "Shear_Syntax": "[ <Objekt>, <Joon>, <Suhe> ]",
     "ShortestDistance": "L\xfchimVahemaa",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <L\xf5ikude loend>, <Alguspunkt>, <L\xf5pppunkt>, <T\xf5ev\xe4\xe4rtus> ]",
     "ShowAxes": "N\xe4itaTelgi",
     "ShowAxes_Syntax": "[ ]\n[ <T\xf5ev\xe4\xe4rtus> ]\n[ <Vaade>, <T\xf5ev\xe4\xe4rtus> ]",
     "ShowGrid": "N\xe4itaRuudustikku",

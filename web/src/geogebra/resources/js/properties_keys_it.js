@@ -801,7 +801,7 @@ __GGB__keysVar.it.command = {
     "Shear": "Scorri",
     "Shear_Syntax": "[ <Oggetto>, <Retta>, <Rapporto> ]",
     "ShortestDistance": "DistanzaMinima",
-    "ShortestDistance_Syntax": "[ <Cammino>, <Punto> ]\n[ <Lista segmenti>, <Punto iniziale>, <Punto finale>, <Booleano Pesata> ]",
+    "ShortestDistance_Syntax": "[ <Lista di segmenti>, <Punto iniziale>, <Punto finale>, <Booleano Pesato> ]",
     "ShowAxes": "MostraAssi",
     "ShowAxes_Syntax": "[ ]\n[ <Booleano> ]\n[ <Vista>, <Booleano> ]",
     "ShowGrid": "MostraGriglia",

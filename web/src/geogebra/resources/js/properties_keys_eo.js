@@ -801,7 +801,7 @@ __GGB__keysVar.eo.command = {
     "Shear": "Tondi",
     "Shear_Syntax": "[ <Objekto>, <Rekto>, <Rilato> ]",
     "ShortestDistance": "ShortestDistance",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
     "ShowAxes": "MontriAksojn",
     "ShowAxes_Syntax": "[ ]\n[ <Bulea> ]\n[ <Vido>, <Bulea> ]",
     "ShowGrid": "MontriKradon",

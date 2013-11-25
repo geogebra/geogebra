@@ -801,7 +801,7 @@ __GGB__keysVar.sk.command = {
     "Shear": "Skosi\u0165",
     "Shear_Syntax": "[ <Objekt>, <Priamka>, <Pomer> ]",
     "ShortestDistance": "Najkrat\u0161iaCesta",
-    "ShortestDistance_Syntax": "[ <Cesta>, <Bod> ]\n[ <Zoznam \xfase\u010diek>, <Prv\xfd bod>, <Posledn\xfd bod>, <Logicky v\xe1\u017een\xe1> ]",
+    "ShortestDistance_Syntax": "[ <Zoznam \xfase\u010diek>, <Za\u010diatok>, <Koniec>, <Logick\xe1 v\xe1ha> ]",
     "ShowAxes": "Uk\xe1\u017eOsi",
     "ShowAxes_Syntax": "[ ]\n[ <Logick\xe1 hodnota> ]\n[ <Vzh\u013ead>, <Logick\xe1 hodnota> ]",
     "ShowGrid": "Uk\xe1\u017eMrie\u017eku",

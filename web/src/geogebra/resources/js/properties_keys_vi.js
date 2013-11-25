@@ -801,7 +801,7 @@ __GGB__keysVar.vi.command = {
     "Shear": "BienDang",
     "Shear_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng>, <T\u1ec9 s\u1ed1> ]",
     "ShortestDistance": "KhoangCachNhoNhat",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Danh s\xe1ch \u0111o\u1ea1n th\u1eb3ng>, <\u0110i\u1ec3m \u0111\u1ea7u>, <\u0110i\u1ec3m cu\u1ed1i>, <\u0110\u1ecbnh l\u01b0\u1ee3ng Boolean> ]",
     "ShowAxes": "HienThiHeTruc",
     "ShowAxes_Syntax": "[ ]\n[ <H\xe0m Boolean> ]\n[ <Hi\u1ec3n th\u1ecb>, <H\xe0m Boolean> ]",
     "ShowGrid": "HienThiLuoi",

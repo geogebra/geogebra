@@ -801,7 +801,7 @@ __GGB__keysVar.ji.command = {
     "Shear": "Shear",
     "Shear_Syntax": "[ <Object>, <Line>, <Ratio> ]",
     "ShortestDistance": "ShortestDistance",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
     "ShowAxes": "ShowAxes",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "ShowGrid",

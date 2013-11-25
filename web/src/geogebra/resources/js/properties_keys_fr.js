@@ -801,7 +801,7 @@ __GGB__keysVar.fr.command = {
     "Shear": "Transvection",
     "Shear_Syntax": "[ <Objet>, <Ligne>, <Rapport> ]",
     "ShortestDistance": "PlusCourteDistance",
-    "ShortestDistance_Syntax": "[ <Chemin>, <Point> ]\n[ <Liste Segments>, <Point Initial>, <Point Final>, <Bool\xe9en Pond\xe9r\xe9> ]",
+    "ShortestDistance_Syntax": "[ <Liste Segments>, <D\xe9part>, <Arriv\xe9e>, <Bool\xe9en \"pond\xe9r\xe9\"> ]",
     "ShowAxes": "AfficherAxes",
     "ShowAxes_Syntax": "[ ]\n[ <Bool\xe9en> ]\n[ <Vue>, <Bool\xe9en> ]",
     "ShowGrid": "AfficherGrille",

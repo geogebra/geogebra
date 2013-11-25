@@ -801,7 +801,7 @@ __GGB__keysVar.da.command = {
     "Shear": "Forskydning",
     "Shear_Syntax": "[ <objekt>, <linje>, <forhold> ]",
     "ShortestDistance": "KortesteAfstand",
-    "ShortestDistance_Syntax": "[ <Sti>, <Punkter> ]\n[ <Liste af Segmenter>, <Start Punkt>, <Slut Punkt>, <Boolesk v\xe6gtet> ]",
+    "ShortestDistance_Syntax": "[ <Liste af Segmenter>, <Start Punkt>, <Slut Punkt>, <Boolesk v\xe6gtet> ]",
     "ShowAxes": "VisAkser",
     "ShowAxes_Syntax": "[ ]\n[ <Boolesk> ]\n[ <Vis>, <Boolesk> ]",
     "ShowGrid": "VisNet",

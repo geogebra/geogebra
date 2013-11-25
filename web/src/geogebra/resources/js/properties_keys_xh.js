@@ -801,7 +801,7 @@ __GGB__keysVar.xh.command = {
     "Shear": "iShear",
     "Shear_Syntax": "[ <Object>, <Line>, <Ratio> ]",
     "ShortestDistance": "OwonaMgamaUmfutshane",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
     "ShowAxes": "BonisaUleleyoNomileyo",
     "ShowAxes_Syntax": "[]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "BonisaIGrid",

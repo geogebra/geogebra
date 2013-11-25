@@ -801,7 +801,7 @@ __GGB__keysVar.nl.command = {
     "Shear": "Vervormen",
     "Shear_Syntax": "[ <Object>, <Rechte>, <Ratio> ]",
     "ShortestDistance": "KortsteAfstand",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Lijst met lijnstukken>, <Startpunt>, <Eindpunt>, <Boolean Weighted> ]",
     "ShowAxes": "ToonAssen",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "ToonRooster",

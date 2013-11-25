@@ -801,7 +801,7 @@ __GGB__keysVar.sl.command = {
     "Shear": "Strig",
     "Shear_Syntax": "[ <objekt>, <premica>, <razmerje> ]",
     "ShortestDistance": "Najkraj\u0161aRazdalja",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <seznam daljic>, <za\u010detna to\u010dka>, <kon\u010dna to\u010dka>, <logi\u010dna vrednost obte\u017eitev> ]",
     "ShowAxes": "Poka\u017eiOsi",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <pogled>, <Boolean> ]",
     "ShowGrid": "Poka\u017eiMre\u017eo",

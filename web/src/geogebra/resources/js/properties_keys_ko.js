@@ -801,7 +801,7 @@ __GGB__keysVar.ko.command = {
     "Shear": "\uc808\ub2e8",
     "Shear_Syntax": "[ <\ub300\uc0c1>, <\uc9c1\uc120>, <\ube44\uc728> ]",
     "ShortestDistance": "\ucd5c\ub2e8\uac70\ub9ac",
-    "ShortestDistance_Syntax": "[ <\uacbd\ub85c>, <\uc810> ]\n[ <\uc120\ubd84\uc758 \ub9ac\uc2a4\ud2b8>, <\uc2dc\uc791\uc810>, <\ub05d\uc810>, <\uac00\uc911\uce58 true|false> ]",
+    "ShortestDistance_Syntax": "[ <\uc120\ubd84\uc758 \ub9ac\uc2a4\ud2b8>, <\uc2dc\uc791\uc810>, <\ub05d\uc810>, <\uac00\uc911\uce58 true|false> ]",
     "ShowAxes": "\ucd95\ubcf4\uc774\uae30",
     "ShowAxes_Syntax": "[ ]\n[ <true|false> ]\n[ <\uae30\ud558\ucc3d 1|2>, <true|false> ]",
     "ShowGrid": "\uaca9\uc790\ubcf4\uc774\uae30",

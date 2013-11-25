@@ -801,7 +801,7 @@ __GGB__keysVar.no_NB.command = {
     "Shear": "Forskyv",
     "Shear_Syntax": "[ <Objekt>, <Linje>, <Forhold> ]",
     "ShortestDistance": "KortesteAvstand",
-    "ShortestDistance_Syntax": "[ <Sti>, <Punkt> ]\n[ <Liste med linjestykker>, <Startpunkt>, <Sluttpunkt>, <Boolsk vektet> ]",
+    "ShortestDistance_Syntax": "[ <Liste med linjestykker>, <Startpunkt>, <Sluttpunkt>, <Boolsk Vektet> ]",
     "ShowAxes": "VisAkser",
     "ShowAxes_Syntax": "[ ]\n[ <Boolsk> ]\n[ <Vis>, <Boolsk> ]",
     "ShowGrid": "VisRutenett",

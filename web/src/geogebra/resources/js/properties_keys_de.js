@@ -801,7 +801,7 @@ __GGB__keysVar.de.command = {
     "Shear": "Verschiebung",
     "Shear_Syntax": "[ <Objekt>, <Gerade>, <Verh\xe4ltnis> ]",
     "ShortestDistance": "K\xfcrzesterPfad",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Liste von Strecken>, <Startpunkt>, <Endpunkt>, <Wahrheitswert Gewichtung> ]",
     "ShowAxes": "ZeigeAchsen",
     "ShowAxes_Syntax": "[ ]\n[ <Wahrheitswert> ]\n[ <Ansicht 1|2|3>, <Wahrheitswert> ]",
     "ShowGrid": "ZeigeGitter",

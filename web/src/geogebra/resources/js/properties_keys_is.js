@@ -801,7 +801,7 @@ __GGB__keysVar.is.command = {
     "Shear": "Skekking",
     "Shear_Syntax": "[ <Hlutur>, <L\xedna>, <Hlutfall> ]",
     "ShortestDistance": "StystaFjarl\xe6g\xf0",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Listi af l\xednustrikum>, <Upphafspunktur>, <Lokapunktur>, <Vegi\xf0 Boole-gildi> ]",
     "ShowAxes": "S\xfdna\xc1sa",
     "ShowAxes_Syntax": "[ ]\n[ <Boole> ]\n[ <S\xfdn>, <Boole> ]",
     "ShowGrid": "S\xfdnaGrind",

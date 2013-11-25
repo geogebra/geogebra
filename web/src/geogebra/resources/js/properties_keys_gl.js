@@ -801,7 +801,7 @@ __GGB__keysVar.gl.command = {
     "Shear": "Cisalla",
     "Shear_Syntax": "[ <Obxecto>, <Sentido (vector, recta, semirrecta o segmento)>, <Raz\xf3n> ]",
     "ShortestDistance": "Cami\xf1oM\xednimo",
-    "ShortestDistance_Syntax": "[ <Percorrido>, <Punto> ]\n[ <Lista de Segmentos>, <Punto Inicial>, <Punto Final>, <Ponderaci\xf3n Booleana> ]",
+    "ShortestDistance_Syntax": "[ <Lista de segmentos>, <Punto inicial>, <Punto final>, <Ponderaci\xf3n (booleana)> ]",
     "ShowAxes": "MostraEixes",
     "ShowAxes_Syntax": "[ ]\n[ <Booleana> ]\n[ <Vista>, <Booleana> ]",
     "ShowGrid": "MostraCuadr\xedcula",

@@ -801,7 +801,7 @@ __GGB__keysVar.bs.command = {
     "Shear": "Smicanje",
     "Shear_Syntax": "[ <Figura>, <Prava>, <Omjer> ]",
     "ShortestDistance": "Najkra\u0107aUdaljenost",
-    "ShortestDistance_Syntax": "[ <Putanja>, <Ta\u010dka> ]\n[ <Lista du\u017ei>, <Po\u010detna ta\u010dka>, <Krajnja ta\u010dka>, <Boolean-logi\u010dka vrijednost> ]",
+    "ShortestDistance_Syntax": "[ <Lista du\u017ei>, <Po\u010detna ta\u010dka>, <Krajnja ta\u010dka>, <Boolean-logi\u010dka vrijednost> ]",
     "ShowAxes": "Prika\u017eiOse",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean-logi\u010dka vrijednost> ]\n[ <Prikaz>, <Boolean-logi\u010dka vrijednost> ]",
     "ShowGrid": "Prika\u017eiMre\u017eu",

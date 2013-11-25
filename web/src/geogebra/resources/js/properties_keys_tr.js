@@ -801,7 +801,7 @@ __GGB__keysVar.tr.command = {
     "Shear": "Kayk\u0131l",
     "Shear_Syntax": "[ <Nesne>, <Do\u011fru>, <Oran> ]",
     "ShortestDistance": "EnK\u0131saMesafe",
-    "ShortestDistance_Syntax": "[ <Yol>, <Nokta> ]\n[ <Do\u011fru Par\xe7as\u0131 Listesi>, <Ba\u015flang\u0131\xe7 Noktas\u0131>, <Biti\u015f Noktas\u0131>, <Boolean A\u011f\u0131rl\u0131\u011f\u0131> ]",
+    "ShortestDistance_Syntax": "[ <Do\u011fru par\xe7as\u0131 Listesi>, <Ba\u015flang\u0131\xe7 Nokta>, <Biti\u015f Nokta>, <Mant\u0131ksal A\u011f\u0131rl\u0131kl\u0131> ]",
     "ShowAxes": "EksenleriG\xf6ster",
     "ShowAxes_Syntax": "[ ]\n[ <Mant\u0131ksal> ]\n[ <G\xf6r\xfcn\xfcm>, <Mant\u0131ksal> ]",
     "ShowGrid": "GridG\xf6ster",

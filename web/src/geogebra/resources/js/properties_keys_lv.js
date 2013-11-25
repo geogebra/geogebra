@@ -801,7 +801,7 @@ __GGB__keysVar.lv.command = {
     "Shear": "Shear",
     "Shear_Syntax": "[ <Objekts>, <Taisne>, <Koeficients> ]",
     "ShortestDistance": "\u012as\u0101kaisAtt\u0101lums",
-    "ShortestDistance_Syntax": "[ <Ce\u013c\u0161>, <Punkts> ]\n[ <Nogre\u017e\u0146u Saraksts>, <S\u0101kumPunkts>, <Beigu Punkts>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <Nogrie\u017e\u0146u saraksts>, <S\u0101kumPunkts>, <Beigu Punkts>, <Boolean Weighted> ]",
     "ShowAxes": "R\u0101d\u012btAsis",
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <View>, <Boolean> ]",
     "ShowGrid": "R\u0101d\u012btR\u016bti\u0146as",

@@ -801,7 +801,7 @@ __GGB__keysVar.ca_XV.command = {
     "Shear": "Transvecci\xf3",
     "Shear_Syntax": "[ <Objecte>, <Recta>, <Ra\xf3> ]",
     "ShortestDistance": "Dist\xe0nciaM\xe9sCurta",
-    "ShortestDistance_Syntax": "[ <Recorregut>, <Punt> ]\n[ <Llista de segments>, <Punt inicial>, <Punt final>, <Pesos aleatrois> ]",
+    "ShortestDistance_Syntax": "[ <Llista de segments del graf>, <Inici (punt del graf)>, <Final (punt del graf)>, <Amb longitud/nom\xe9s segments (true/false)> ]",
     "ShowAxes": "MostraEixos",
     "ShowAxes_Syntax": "[ ]\n[ <true | false> ]\n[ <Finestra>, <true | false> ]",
     "ShowGrid": "MostraGraella",

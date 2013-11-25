@@ -801,7 +801,7 @@ __GGB__keysVar.sr.command = {
     "Shear": "Smicanje",
     "Shear_Syntax": "[ <objekat>, <prava>, <odnos> ]",
     "ShortestDistance": "Najkra\u0107eRastojanje",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <lista du\u017ei>, <po\u010detna ta\u010dka>, <krajnja ta\u010dka>, <logi\u010dki ponderisano> ]",
     "ShowAxes": "Prika\u017eiOse",
     "ShowAxes_Syntax": "[ ]\n[ <logi\u010dka vrednost> ]\n[ <prikaz>, <logi\u010dka vrednost> ]",
     "ShowGrid": "Prika\u017eiMre\u017eu",

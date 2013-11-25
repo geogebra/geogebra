@@ -801,7 +801,7 @@ __GGB__keysVar.ar.command = {
     "Shear": "\u062c\u0632",
     "Shear_Syntax": "[ <\u0643\u0627\u0626\u0646>, <\u062e\u0637>, <\u0646\u0633\u0628\u0629> ]",
     "ShortestDistance": "\u0623\u0642\u0635\u0631_\u0645\u0633\u0627\u0641\u0629",
-    "ShortestDistance_Syntax": "[ <Path>, <Point> ]\n[ <List of Segments>, <Start Point>, <End Point>, <Boolean Weighted> ]",
+    "ShortestDistance_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0642\u0637\u0639>, <\u0646\u0642\u0637\u0629 \u0627\u0644\u0628\u062f\u0627\u064a\u0629>, <\u0646\u0642\u0637\u0629 \u0627\u0644\u0646\u0647\u0627\u064a\u0629>, <\u0645\u0646\u0637\u0642 \u0645\u0648\u0632\u0648\u0646> ]",
     "ShowAxes": "\u0623\u0638\u0647\u0631_\u0627\u0644\u0645\u062d\u0627\u0648\u0631",
     "ShowAxes_Syntax": "[ ]\n[ <\u0645\u0646\u0637\u0642\u064a> ]\n[ <\u0645\u0638\u0647\u0631>, <\u0645\u0646\u0637\u0642\u064a> ]",
     "ShowGrid": "\u0623\u0638\u0647\u0631_\u0627\u0644\u0634\u0628\u0643\u0629",
