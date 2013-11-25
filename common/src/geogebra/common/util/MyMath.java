@@ -15,6 +15,7 @@ package geogebra.common.util;
 //import geogebra.AbstracKernel.AbstracKernel;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.roots.RealRootFunction;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -202,6 +203,11 @@ public final class MyMath {
 		}
 	}
 	
+	public static double distancePointFunctionAt(final RealRootFunction fun, final double px, final double py, double x) { 
+		// D(x) = sqrt((x - a)^2+(f(x) - b)^2) 
+		return MyMath.length(x - px, fun.evaluate(x) - py); 
+	} 
+
 	/**
 	 * Computes length of a vector
 	 * @param x x-coordinate

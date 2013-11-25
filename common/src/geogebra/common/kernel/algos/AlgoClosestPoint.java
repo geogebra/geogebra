@@ -104,7 +104,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     		if (path instanceof GeoFunction) {
     			Function fun = (Function) ((GeoFunction)path).getFunction().deepCopy(kernel);
     			Coords coords = point.getCoordsInD(2);
-    			double val = AlgoShortestDistancePointObject.getClosestFunctionValueToPoint(
+    			double val = AlgoDistancePointObject.getClosestFunctionValueToPoint(
     					fun, coords.getX(), coords.getY());
     			((GeoPoint) P).setCoords(val, fun.evaluate(val), 1.0);
 			} else {
