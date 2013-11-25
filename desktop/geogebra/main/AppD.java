@@ -35,14 +35,12 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import geogebra.common.kernel.commands.CommandDispatcher;
-import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -52,7 +50,6 @@ import geogebra.common.main.AlgoKimberlingWeightsInterface;
 import geogebra.common.main.AlgoKimberlingWeightsParams;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
-import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
@@ -954,22 +951,6 @@ public class AppD extends App implements KeyEventDispatcher {
 				
 			} else {
 				App.debug("can't force font to be " + fontName + " (not found)");
-			}
-		}
-
-		if (args.containsArg("primary")) {
-			boolean primary = args.getBooleanValue("primary", false);
-			if (primary) {
-
-				getGuiManager().getLayout().applyPerspective("BasicGeometry");
-				GlobalKeyDispatcher.changeFontsAndGeoElements(this, 20, false);
-				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
-				setCapturingThreshold(10);
-				kernel.setPrintDecimals(0); // rounding to 0dp
-				GeoAngle defaultAngle = (GeoAngle) getKernel()
-						.getConstruction().getConstructionDefaults()
-						.getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE);
-				defaultAngle.setAllowReflexAngle(false);
 			}
 		}
 

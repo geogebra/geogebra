@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
 
@@ -239,7 +240,7 @@ public abstract class GlobalKeyDispatcher {
 					// AltGr
 					// Ctrl-1: set objects back to the default size (for font
 					// size 12)
-					changeFontsAndGeoElements(app, 12, false);
+					changeFontsAndGeoElements(app, 12, false, false);
 					consumed = true;
 				}
 				break;
@@ -261,7 +262,7 @@ public abstract class GlobalKeyDispatcher {
 					// Ctrl-2: large font size and thicker lines for projectors
 					// etc
 					int fontSize = Math.min(32, app.getFontSize() + 4);
-					changeFontsAndGeoElements(app, fontSize, false);
+					changeFontsAndGeoElements(app, fontSize, false, true);
 					consumed = true;
 				}
 				break;
@@ -282,7 +283,7 @@ public abstract class GlobalKeyDispatcher {
 					// AltGr
 					// Ctrl-3: set black/white mode printing and visually
 					// impaired users
-					changeFontsAndGeoElements(app, app.getFontSize(), true);
+					changeFontsAndGeoElements(app, app.getFontSize(), true, true);
 					consumed = true;
 				}
 				break;
@@ -624,14 +625,31 @@ public abstract class GlobalKeyDispatcher {
 	 *            12-32pt
 	 * @param blackWhiteMode
 	 *            whether only black should be used as a color
+	 * @param makeAxesBold force bold / not bold 
 	 * @return whether change was performed
 	 */
 	public static boolean changeFontsAndGeoElements(App app,
-			int fontSize, boolean blackWhiteMode) {
+			int fontSize, boolean blackWhiteMode, boolean makeAxesBold) {
 		if (app.isApplet())
 			return false;
 
 		app.setWaitCursor();
+		
+		// axes bold / not bold 
+		for (int ev = 1 ; ev <= 2 ; ev++) { 
+			EuclidianSettings settings = app.getSettings().getEuclidian(ev); 
+			int style = settings.getAxesLineStyle(); 
+
+			// set bold 
+			style = style | EuclidianStyleConstants.AXES_BOLD; 
+
+			if (!makeAxesBold) { 
+				// turn bold off again 
+				style = style ^ EuclidianStyleConstants.AXES_BOLD;                       
+			} 
+
+			settings.setAxesLineStyle(style); 
+		} 
 
 		// determine styles
 		// set new default line thickness
@@ -694,7 +712,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 
-		return incr;
+		return incr * 2;
 	}
 
 	private static void setGeoProperties(GeoElement geo, int lineThicknessIncr,
@@ -702,20 +720,20 @@ public abstract class GlobalKeyDispatcher {
 		if (!geo.isGeoText() && !geo.isGeoImage() && !geo.isGeoPolygon()) { // affects
 			// bounding
 			// box
-			int lineThickness = Math.max(0, geo.getLineThickness()
+			int lineThickness = Math.max(2, geo.getLineThickness()
 					+ lineThicknessIncr);
 			geo.setLineThickness(lineThickness);
 		}
 
 		if (geo instanceof PointProperties) {
 			PointProperties p = (PointProperties) geo;
-			int pointSize = Math.max(0, p.getPointSize() + pointSizeIncr);
+			int pointSize = Math.max(2, p.getPointSize() + pointSizeIncr);
 			p.setPointSize(pointSize);
 		}
 
 		if (geo.isGeoAngle()) {
 			GeoAngle angle = (GeoAngle) geo;
-			int angleSize = Math.max(0, angle.getArcSize() + angleSizeIncr);
+			int angleSize = Math.max(2, angle.getArcSize() + angleSizeIncr);
 			angle.setArcSize(angleSize);
 		}
 
