@@ -60,7 +60,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 	private Kernel kernel;
 	private PropertiesPanelD propPanel;
 	private JPanel intervalPanel, sliderPanel, animationPanel;
-	private boolean useTabbedPane, includeRandom;
+	private boolean useTabbedPane;
 	private boolean actionPerforming;
 	
 	private boolean widthUnit = false;
@@ -72,7 +72,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 		model = new SliderModel(app, this);
 		this.propPanel = propPanel;
 		this.useTabbedPane = useTabbedPane;
-		this.includeRandom = includeRandom;
+		model.setIncludeRandom(includeRandom);
 
 		intervalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		sliderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));

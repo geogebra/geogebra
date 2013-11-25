@@ -49,7 +49,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AnimationSpeedPanelW speedPanel;
 	private Kernel kernel;
 	private FlowPanel intervalPanel, sliderPanel, animationPanel;
-	private boolean useTabbedPane, includeRandom;
+	private boolean useTabbedPane;
 	private boolean actionPerforming;
 
 	private boolean widthUnit = false;
@@ -62,7 +62,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		setModel(model);
 
 		this.useTabbedPane = useTabbedPane;
-		this.includeRandom = includeRandom;
+		model.setIncludeRandom(includeRandom); 
 
 		intervalPanel = new FlowPanel();
 		sliderPanel = new FlowPanel();
