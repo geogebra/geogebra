@@ -4,6 +4,7 @@ import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.main.AppWeb;
 
@@ -50,20 +51,22 @@ public class ImageManager extends AbstractImageManager {
 
 	public void addExternalImage(String fileName, String src) {
 	   if (fileName != null && src != null) {
+		   String fn = StringUtil.removeLeadingSlash(fileName);
 		   ImageElement img = Document.get().createImageElement();
-		   externalImageSrcs.put(fileName, src);
-		   externalImageTable.put(fileName, img);
+		   externalImageSrcs.put(fn, src);
+		   externalImageTable.put(fn, img);
 	   }
     }
 	
 	public String getExternalImageSrc(String fileName){
-		return externalImageSrcs.get(fileName);
+		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 	
 	protected void checkIfAllLoaded() {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
+				App.debug("images loaded");
 				myXMLio.processXMLString(construction, true, false);
 				app.afterLoadFileAppOrNot();
 				imagesLoaded=0;
@@ -74,12 +77,8 @@ public class ImageManager extends AbstractImageManager {
     }
 
 	public ImageElement getExternalImage(String fileName) {
-		return externalImageTable.get(fileName);
+		return externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
 	}
-
-	public ImageElement getImageResource(String imageFileName) {
-	   return externalImageTable.get(imageFileName);
-    }
 
 	public static GBufferedImage toBufferedImage(ImageElement im) {
 	    return new geogebra.html5.awt.GBufferedImageW(im);
@@ -110,7 +109,7 @@ public class ImageManager extends AbstractImageManager {
 	}
 
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
-		ImageElement img = externalImageTable.get(imageFileName);
+		ImageElement img = getExternalImage(imageFileName);
 		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
 		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi);
 		ImageWrapper.nativeon(img, "error", i2);
@@ -124,7 +123,7 @@ public class ImageManager extends AbstractImageManager {
 		this.app = app;
 		if (externalImageSrcs.entrySet() != null) {
 			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
-				ImageWrapper img = new ImageWrapper(externalImageTable.get(imgSrc.getKey())); 
+				ImageWrapper img = new ImageWrapper(getExternalImage(imgSrc.getKey())); 
 				img.attachNativeLoadHandler(this);	
 				img.getElement().setSrc(imgSrc.getValue());
 			}

@@ -548,11 +548,8 @@ public abstract class AppWeb extends App implements SetLabels{
 			}
 
 			// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-			if (filename != null && filename.length() != 0
-			        && filename.charAt(0) == '/')
-				addExternalImage(filename.substring(1), binaryContent);
-			else
-				addExternalImage(filename, binaryContent);
+			
+			addExternalImage(filename, binaryContent);
 		}
 		
 		public void addExternalImage(String filename, String src) {

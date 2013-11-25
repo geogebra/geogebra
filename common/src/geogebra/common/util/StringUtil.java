@@ -1086,4 +1086,15 @@ public class StringUtil {
 		
 		return sb.toString();
 	}
+
+	/**
+	 * @param filename input filename
+	 * @return filename without leading slash
+	 */
+	public static String removeLeadingSlash(String filename) {
+		if (filename != null && filename.length() != 0
+		        && filename.charAt(0) == '/')
+			return filename.substring(1);
+		return filename;
+	}
 }
