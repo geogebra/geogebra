@@ -732,7 +732,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 translationMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix rotationMatrix;
 	protected CoordMatrix rotationAndScaleMatrix;
 
@@ -745,6 +747,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 		//scaling
 		updateScaleMatrix();
+		undoScaleMatrix.set(1,1,1/getXscale());
+		undoScaleMatrix.set(2,2,1/getYscale());
+		undoScaleMatrix.set(3,3,1/getZscale());		
 		
 		rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
 	}
@@ -768,7 +773,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		scale = 1;
 		 */
 
-		mInv.set(m.inverse());
+		
+		//mInv.set(m.inverse());
+		mInv.set(undoTranslationMatrix.mul(undoScaleMatrix.mul(undoRotationMatrix)));
+		
 		mInvTranspose.set(mInv.transposeCopy());
 
 		updateEye();
@@ -785,6 +793,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//translation
 		updateTranslationMatrix();
+		undoTranslationMatrix.set(1, 4, -getXZero());
+		undoTranslationMatrix.set(2, 4, -getYZero());
+		undoTranslationMatrix.set(3, 4, -getZZero());
+
 		
 		//set global matrix and inverse, and eye position
 		setGlobalMatrices();
