@@ -208,9 +208,9 @@ download libs for other architectures than the current one.
 	<target name="giac-mac" if="mac">
 		<!-- This is hardcoded for the moment since we don't have an automatic way to create the Mac version of giac yet. -->
 		<!-- Please don't change the filename or the format on the following line. It is used by the build system as well. -->
-		<get src="http://dev.geogebra.org/download/lib/giac/20131105/libjavagiac.jnilib" dest="lib/libjavagiac.jnilib"
+		<get src="http://dev.geogebra.org/download/lib/giac/20131122/libjavagiac.jnilib" dest="lib/libjavagiac.jnilib"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/20131105/libgmp.10.dylib" dest="libgmp.10.dylib"
+		<get src="http://dev.geogebra.org/download/lib/giac/20131122/libgmp.10.dylib" dest="libgmp.10.dylib"
 		    usetimestamp="true"/>
 		<copy file="libgmp.10.dylib" todir="lib"/> <!-- Needed for portable and jar preparation -->
 	</target>
