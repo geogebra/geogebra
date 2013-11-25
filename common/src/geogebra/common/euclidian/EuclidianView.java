@@ -544,6 +544,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		if (optionPanel != null)
 			optionPanel.updateBounds();
 		
+		if (this.coordTransform != null){
+			getCoordTransform().setTransform(xscale, 0.0d, 0.0d, -yscale,
+					xZero, yZero);
+		}
+		
 		if(updateDrawables){
 			this.updateAllDrawables(true);
 			this.updateBackgroundOnNextRepaint = true;
@@ -935,14 +940,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		this.setYscale(yscale);
 		// setScaleRatio(yscale / xscale);
 
-		// set transform for my coord system:
-		// ( xscale 0 xZero )
-		// ( 0 -yscale yZero )
-		// ( 0 0 1 )
-		if (getCoordTransform() != null)
-			getCoordTransform().setTransform(xscale, 0.0d, 0.0d, -yscale,
-					xZero, yZero);
-
 		// real world values
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
@@ -1303,8 +1300,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					getYmin(), getYmax(), getXscale(), getYscale());
 		}
 
-		getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(),
+		if(coordTransform != null){
+			getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(),
 				getxZero(), getyZero());
+		}
 
 		updateBackgroundImage();
 		updateAllDrawables(true);
