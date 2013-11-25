@@ -77,7 +77,18 @@ public class ImageManager extends AbstractImageManager {
     }
 
 	public ImageElement getExternalImage(String fileName) {
-		return externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
+		ImageElement match = externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
+		int md5length = app.getMD5folderLength(fileName);
+		//FIXME this is a bit hacky: if we did not get precise match, assume encoding problem and rely on MD5
+		if(match == null && fileName.length() > md5length){
+			String md5 = fileName.substring(0,md5length);
+			for(String s:externalImageTable.keySet()){
+				if(md5.equals(s.substring(0, md5length))){
+					return externalImageTable.get(s);
+				}
+			}
+		}
+		return match;
 	}
 
 	public static GBufferedImage toBufferedImage(ImageElement im) {
