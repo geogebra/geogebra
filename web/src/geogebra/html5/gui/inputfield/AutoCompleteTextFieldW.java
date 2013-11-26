@@ -273,16 +273,16 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	}
 
 	private void setBorderButtonVisible(int i, boolean b) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setBorderVisible() implementation needed"); // TODO Auto-generated
 	}
 
 	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
 	        ClickHandler al) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setBorderButton() implementation needed"); // TODO Auto-generated
 	}
 
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("geoElementSelected() implementation needed"); // TODO Auto-generated
 	}
 
 	public void showPopupSymbolButton(boolean b) {
@@ -389,17 +389,17 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	}
 
 	public void enableColoring(boolean b) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("enableColoring() implementation needed"); // TODO Auto-generated
 
 	}
 
 	public void setOpaque(boolean b) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setOpaque() implementation needed"); // TODO Auto-generated
 
 	}
 
 	public void setFont(GFont font) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setFont() implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -412,7 +412,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	}
 
 	public void setFocusable(boolean b) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setFocusable() implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -421,17 +421,17 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	}
 
 	public void setEditable(boolean b) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setEditable() implementation needed"); // TODO Auto-generated
 
 	}
 
 	public void setLabel(GLabel label) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setLabel() implementation needed"); // TODO Auto-generated
 
 	}
 
 	public void setVisible(boolean b) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("setVisible() implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -459,7 +459,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	}
 
 	public void wrapSetText(String s) {
-		App.debug("implementation needed"); // TODO Auto-generated
+		App.debug("wrapSetText() implementation needed"); // TODO Auto-generated
 
 	}
 
