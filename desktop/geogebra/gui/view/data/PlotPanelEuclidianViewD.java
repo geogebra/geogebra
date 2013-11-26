@@ -1,6 +1,7 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -58,23 +59,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	private final EuclidianControllerD ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
 
-	private static boolean[] showAxes = { true, true };
-	private static boolean showGrid = false;
-
-	/** Plot panel viewID. This is not a constant; it is assigned by GuiManager. */
-	private int viewID;
-
-	/** Settings to control EuclidianView features (e.g. axes visibility) */
-	private PlotSettings plotSettings;
-
+	private PlotPanelEuclidianViewCommon data = new PlotPanelEuclidianViewCommon(
+			false);
 	/** Mouse listener to trigger context menu */
 	private MyMouseListener myMouseListener;
-
-	/**
-	 * Flag to determine if the mouse is over the drag region, a thin rectangle
-	 * at the top of the panel
-	 */
-	private boolean overDragRegion = false;
 
 	/** Drag source for DnD */
 	private DragSource ds;
@@ -100,18 +88,18 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * Construct the panel
 	 */
 	public PlotPanelEuclidianViewD(Kernel kernel, AbstractAction exportAction) {
-		super(new PlotPanelEuclidianControllerD(kernel), showAxes, showGrid,
+		super(new PlotPanelEuclidianControllerD(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
 				null);
 
 		// set fields
 		plotPanelEV = this;
 		this.ec = this.getEuclidianController();
 		this.exportToEVAction = exportAction;
-		plotSettings = new PlotSettings();
+		data.setPlotSettings(new PlotSettings());
 
 		// get viewID from GuiManager
-		viewID = ((GuiManagerD) kernel.getApplication().getGuiManager())
-				.assignPlotPanelID(this);
+		data.setViewID(((GuiManagerD) kernel.getApplication().getGuiManager())
+				.assignPlotPanelID(this));
 
 		// create cursors for DnD
 		grabCursor = getCursorForImage(getApplication().getImageIcon(
@@ -158,7 +146,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	/** Returns viewID */
 	@Override
 	public int getViewID() {
-		return viewID;
+		return data.getViewID();
 	}
 
 	/**
@@ -194,7 +182,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * @return
 	 */
 	public PlotSettings getPlotSettings() {
-		return plotSettings;
+		return data.getPlotSettings();
 	}
 
 	/**
@@ -203,7 +191,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * @param plotSettings
 	 */
 	public void updateSettings(PlotSettings plotSettings) {
-		this.plotSettings = plotSettings;
+		this.data.setPlotSettings(plotSettings);
 		this.setEVParams();
 	}
 
@@ -213,66 +201,66 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 */
 	public void setEVParams() {
 
-		showGrid(plotSettings.showGrid);
+		showGrid(data.getPlotSettings().showGrid);
 		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
-				plotSettings.showYAxis, false);
+				data.getPlotSettings().showYAxis, false);
 		
 		setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
-				plotSettings.showXAxis, false);
+				data.getPlotSettings().showXAxis, false);
 
-		setAutomaticGridDistance(plotSettings.gridIntervalAuto);
-		if (!plotSettings.gridIntervalAuto) {
-			this.setGridDistances(plotSettings.gridInterval);
+		setAutomaticGridDistance(data.getPlotSettings().gridIntervalAuto);
+		if (!data.getPlotSettings().gridIntervalAuto) {
+			this.setGridDistances(data.getPlotSettings().gridInterval);
 		}
 
-		if (plotSettings.showArrows) {
+		if (data.getPlotSettings().showArrows) {
 			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		} else {
 			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 		}
 
-		setDrawBorderAxes(plotSettings.isEdgeAxis);
-		if (!plotSettings.isEdgeAxis[0]) {
+		setDrawBorderAxes(data.getPlotSettings().isEdgeAxis);
+		if (!data.getPlotSettings().isEdgeAxis[0]) {
 			setAxisCross(0, 0);
 		}
-		if (!plotSettings.isEdgeAxis[1]) {
+		if (!data.getPlotSettings().isEdgeAxis[1]) {
 			setAxisCross(1, 0);
 		}
 
-		setPositiveAxes(plotSettings.isPositiveOnly);
+		setPositiveAxes(data.getPlotSettings().isPositiveOnly);
 
-		if (plotSettings.forceXAxisBuffer) {
+		if (data.getPlotSettings().forceXAxisBuffer) {
 			// ensure that the axis labels are shown
 			// by forcing a fixed pixel height below the x-axis
 			double pixelOffset = (30 * getApplication().getSmallFont()
 					.getSize()) / 12.0;
 			double pixelHeight = this.getHeight();
-			plotSettings.yMin = (-pixelOffset * plotSettings.yMax)
+			data.getPlotSettings().yMin = (-pixelOffset * data.getPlotSettings().yMax)
 					/ (pixelHeight + pixelOffset);
 		}
 
 		setAxesCornerCoordsVisible(false);
 
-		this.setAutomaticAxesNumberingDistance(plotSettings.xAxesIntervalAuto,
+		this.setAutomaticAxesNumberingDistance(data.getPlotSettings().xAxesIntervalAuto,
 				0);
-		this.setAutomaticAxesNumberingDistance(plotSettings.yAxesIntervalAuto,
+		this.setAutomaticAxesNumberingDistance(data.getPlotSettings().yAxesIntervalAuto,
 				1);
-		if (!plotSettings.xAxesIntervalAuto) {
-			setAxesNumberingDistance(plotSettings.xAxesInterval, 0);
+		if (!data.getPlotSettings().xAxesIntervalAuto) {
+			setAxesNumberingDistance(data.getPlotSettings().xAxesInterval, 0);
 		} else {
-			plotSettings.xAxesInterval = getAxesNumberingDistances()[0];
+			data.getPlotSettings().xAxesInterval = getAxesNumberingDistances()[0];
 		}
-		if (!plotSettings.yAxesIntervalAuto) {
-			setAxesNumberingDistance(plotSettings.yAxesInterval, 1);
+		if (!data.getPlotSettings().yAxesIntervalAuto) {
+			setAxesNumberingDistance(data.getPlotSettings().yAxesInterval, 1);
 		} else {
-			plotSettings.yAxesInterval = getAxesNumberingDistances()[1];
+			data.getPlotSettings().yAxesInterval = getAxesNumberingDistances()[1];
 		}
 
-		setPointCapturing(plotSettings.pointCaptureStyle);
+		setPointCapturing(data.getPlotSettings().pointCaptureStyle);
 
 		// do this last ?
-		setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax,
-				plotSettings.yMin, plotSettings.yMax);
+		setRealWorldCoordSystem(data.getPlotSettings().xMin, data.getPlotSettings().xMax,
+				data.getPlotSettings().yMin, data.getPlotSettings().yMax);
 
 		repaint();
 	}
@@ -403,7 +391,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 		/** handles mouse motion over the drag region */
 		public void mouseMoved(MouseEvent e) {
-			overDragRegion = e.getPoint().y < 10;
+			data.setOverDragRegion(e.getPoint().y < 10);
 			setDefaultCursor();
 		}
 	}
@@ -414,7 +402,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 */
 	@Override
 	public void setDefaultCursor() {
-		if (overDragRegion) {
+		if (data.isOverDragRegion()) {
 			setCursor(grabCursor);
 		} else {
 			setCursor(defaultCursor);
@@ -587,7 +575,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
-		if (overDragRegion) {
+		if (data.isOverDragRegion()) {
 			plotPanelEV.setSelectionRectangle(null);
 			// start drag
 			ds.startDrag(dge, DragSource.DefaultCopyDrop, null,

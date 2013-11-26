@@ -5,6 +5,11 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 
+/**
+ * @author gabor
+ *
+ *Plot panel for ProbabilityCalculator
+ */
 public class PlotPanelEuclidianViewW extends EuclidianViewW {
 
 	public PlotPanelEuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
