@@ -22,12 +22,20 @@ public class ScrollableSuggestBox extends SuggestBox {
 		}
 	}
 
+	private static TextBox tb;
+
 	/**
 	 * Constructor for ScrollableSuggestBox
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
 	public ScrollableSuggestBox(SuggestOracle oracle) {
-		super(oracle, new TextBox(), new CustomSuggestionDisplay());
+		super(oracle, tb = new TextBox(), new CustomSuggestionDisplay());
+		
+		 // suggestion from here to disable autocomplete
+		 // https://code.google.com/p/google-web-toolkit/issues/detail?id=6065
+		 // 
+		 // #3878
+		tb.getElement().setAttribute("autocomplete", "off");
 	}
 
 }
