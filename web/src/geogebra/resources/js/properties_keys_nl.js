@@ -885,6 +885,7 @@ __GGB__keysVar.nl.command = {
     "Take_SyntaxCAS": "[ <Lijst>, <Start Position>, <End Position> ]",
     "Tangent": "Raaklijn",
     "Tangent_Syntax": "[ <Punt>, <Kegelsnede> ]\n[ <Rechte>, <Kegelsnede> ]\n[ <Getal>, <Functie> ]\n[ <Punt>, <Functie> ]\n[ <Punt>, <Kromme> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "Taylorveelterm",
     "TaylorSeries_Syntax": "[ <Functie>, <Getal>, <Getal> ]",
     "TaylorSeries_SyntaxCAS": "[ <Uitdrukking>, <x-waarde>, <Rangnummer> ]\n[ <Uitdrukking>, <vaiabele>, <Variabele-Waarde>, <Rangnummer> ]",

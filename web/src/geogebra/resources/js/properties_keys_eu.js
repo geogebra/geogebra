@@ -885,6 +885,7 @@ __GGB__keysVar.eu.command = {
     "Take_SyntaxCAS": "[ <Zerrenda>, <Hasierako Posizioa>, <Bukaerako Posizioa> ]",
     "Tangent": "Ukitzailea",
     "Tangent_Syntax": "[ <Puntua>, <Konika> ]\n[ <Puntua>, <Funtzioa> ]\n[ <Puntua Kurban>, <Kurba> ]\n[ <x-ren balioa>, <Funtzioa> ]\n[ <Zirkunferentzia>, <Zirkunferentzia> ]\n[ <Lerro Paraleloa (zuzena, zuzenerdia, zuzenkia)>, <Konika> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TaylorPolinomioa",
     "TaylorSeries_Syntax": "[ <Funtzioa>, <x-ren Balioa>, <Maila (zenbakia)> ]",
     "TaylorSeries_SyntaxCAS": "[ <Adierazpena>, <x-ren Balioa>, <Maila (zenbakia)> ]\n[ <Adierazpena>, <Aldagaia>, <Aldagaiaren Balioa>, <Maila (zenbakia)> ]",

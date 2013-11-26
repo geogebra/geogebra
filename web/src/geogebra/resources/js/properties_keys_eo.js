@@ -885,6 +885,7 @@ __GGB__keysVar.eo.command = {
     "Take_SyntaxCAS": "[ <Listo>, <Komenca Pozicio>, <Fina Pozicio> ]",
     "Tangent": "Tan\u011danto",
     "Tangent_Syntax": "[ <Punkto>, <Koniko> ]\n[ <Punkto>, <Funkcio> ]\n[ <Punkto sur Kurbo>, <Kurbo> ]\n[ <Valoro>, <Funkcio> ]\n[ <Rekto>, <Koniko> ]\n[ <Cirklo>, <Cirklo> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "PolinomoDeTaylor",
     "TaylorSeries_Syntax": "[ <Funkcio>, <Valoro>, <Ordo> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable Value>, <Order Number> ]",

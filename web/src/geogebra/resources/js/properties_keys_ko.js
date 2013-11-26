@@ -885,6 +885,7 @@ __GGB__keysVar.ko.command = {
     "Take_SyntaxCAS": "[ <\ub9ac\uc2a4\ud2b8>, <\uc2dc\uc791\uc810>, <\ub05d\uc810> ]",
     "Tangent": "\uc811\uc120",
     "Tangent_Syntax": "[ <\uc810>, <\uc6d0\ubfd4\uace1\uc120> ]\n[ <\uc810>, <\ud568\uc218> ]\n[ <\uc810>, <\uace1\uc120> ]\n[ <x-\uac12>, <\ud568\uc218> ]\n[ <\uc9c1\uc120>, <\uc6d0> ]\n[ <\uc6d0>, <\uc6d0> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "\ud14c\uc77c\ub7ec\uc804\uac1c",
     "TaylorSeries_Syntax": "[ <\ud568\uc218>, <x-\uac12>, <\ucc28\uc218> ]",
     "TaylorSeries_SyntaxCAS": "[ <\ud45c\ud604\uc2dd>, <x-\uac12>, <\ucc28\uc218> ]\n[ <\ud45c\ud604\uc2dd>, <\ubcc0\uc218>, <\ubcc0\uc218\uac12>, <\ucc28\uc218> ]",

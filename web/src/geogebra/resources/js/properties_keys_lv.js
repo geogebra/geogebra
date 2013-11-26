@@ -885,6 +885,7 @@ __GGB__keysVar.lv.command = {
     "Take_SyntaxCAS": "[ <Saraksts>, <S\u0101kuma Poz\u012bcija>, <Beigu Poz\u012bcija> ]",
     "Tangent": "Pieskare",
     "Tangent_Syntax": "[ <Punkts>, <Konisks> ]\n[ <Punkts>, <Funkcija> ]\n[ <Punkts uz L\u012bknes>, <L\u012bkne> ]\n[ <x-V\u0113rt\u012bba>, <Funkcija> ]\n[ <Taisne>, <Konisks> ]\n[ <Ri\u0146\u0137is>, <Ri\u0146\u0137is> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TaylorPolynomial",
     "TaylorSeries_Syntax": "[ <Funkcija>, <x-V\u0113rt\u012bba>, <K\u0101rtas Skaitlis> ]",
     "TaylorSeries_SyntaxCAS": "[ <Izteiksme>, <x-V\u0113rt\u012bba>, <K\u0101rtas Skaitlis> ]\n[ <Izteiksme>, <Main\u012bgais>, <Main\u012bg\u0101 V\u0113rt\u012bba>, <K\u0101rtas Skaitlis> ]",

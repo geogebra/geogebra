@@ -885,6 +885,7 @@ __GGB__keysVar.tg.command = {
     "Take_SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "Tangent",
     "Tangent_Syntax": "[ <Point>, <Conic> ]\n[ <Point>, <Function> ]\n[ <Point on Curve>, <Curve> ]\n[ <x-Value>, <Function> ]\n[ <Line>, <Conic> ]\n[ <Circle>, <Circle> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TaylorPolynomial",
     "TaylorSeries_Syntax": "[ <Function>, <x-Value>, <Order Number> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable Value>, <Order Number> ]",

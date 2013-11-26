@@ -885,6 +885,7 @@ __GGB__keysVar.tr.command = {
     "Take_SyntaxCAS": "[ <Liste>, <Ba\u015flang\u0131\xe7 Pozisyonu>, <Biti\u015f Pozisyonu> ]",
     "Tangent": "Te\u011fet",
     "Tangent_Syntax": "[ <Nokta>, <Konik> ]\n[ <Do\u011fru>, <Konik> ]\n[ <Say\u0131>, <\u0130\u015flev> ]\n[ <Nokta>, <\u0130\u015flev> ]\n[ <Nokta>, <E\u011fri> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TaylorPolinomu",
     "TaylorSeries_Syntax": "[ <\u0130\u015flev>, <Say\u0131>, <Say\u0131> ]",
     "TaylorSeries_SyntaxCAS": "[ <\u0130\u015flev>, <Say\u0131>, <Say\u0131> ]\n[ <\u0130\u015flev>, <De\u011fi\u015fken>, <De\u011fi\u015fken-De\u011feri>, <S\u0131ra Nosu> ]",

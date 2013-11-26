@@ -885,6 +885,7 @@ __GGB__keysVar.sk.command = {
     "Take_SyntaxCAS": "[ <Zoznam>, <od>, <do> ]",
     "Tangent": "Doty\u010dnica",
     "Tangent_Syntax": "[ <Bod>, <Ku\u017ee\u013eose\u010dka> ]\n[ <Bod>, <Funkcia> ]\n[ <Bod na krivke>, <Krivka> ]\n[ <x-ov\xe1 hodnota>, <Funkcia> ]\n[ <Rovnobe\u017en\xe1 priamka>, <Ku\u017ee\u013eose\u010dka> ]\n[ <Kru\u017enica>, <Kru\u017enica> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TaylorovPolyn\xf3m",
     "TaylorSeries_Syntax": "[ <Funkcia>, <x-ov\xe1 hodnota>, <Poradov\xe9 \u010d\xedslo> ]",
     "TaylorSeries_SyntaxCAS": "[ <V\xfdraz>, <x-ov\xe1 hodnota>, <Poradov\xe9 \u010d\xedslo> ]\n[ <V\xfdraz>, <Premenn\xe1>, <Hodnota premennej>, <Poradov\xe9 \u010d\xedslo> ]",

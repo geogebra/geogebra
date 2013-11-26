@@ -885,6 +885,7 @@ __GGB__keysVar.zh_CN.command = {
     "Take_SyntaxCAS": "[ <\u96c6\u5408>, <\u8d77\u59cb\u4f4d\u7f6e>, <\u7ec8\u6b62\u4f4d\u7f6e> ]",
     "Tangent": "\u5207\u7ebf",
     "Tangent_Syntax": "[ <\u70b9>, <\u5706\u9525\u66f2\u7ebf> ]\n[ <\u70b9>, <\u51fd\u6570> ]\n[ <\u66f2\u7ebf\u4e0a\u7684\u70b9>, <\u66f2\u7ebf> ]\n[ <x\u503c>, <\u51fd\u6570> ]\n[ <\u76f4\u7ebf>, <\u5706\u9525\u66f2\u7ebf> ]\n[ <\u57061>, <\u57062> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "\u6cf0\u52d2\u516c\u5f0f",
     "TaylorSeries_Syntax": "[ <\u51fd\u6570>, <x\u503c>, <\u9636\u6570> ]",
     "TaylorSeries_SyntaxCAS": "[ <\u8868\u8fbe\u5f0f>, <x\u503c>, <\u9636\u6570> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf>, <\u53d8\u91cf\u503c>, <\u9636\u6570> ]",

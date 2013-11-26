@@ -885,6 +885,7 @@ __GGB__keysVar.ms.command = {
     "Take_SyntaxCAS": "[ <Senarai>, <Kedudukan Mula>, <Kedudukan Akhir> ]",
     "Tangent": "Tangen",
     "Tangent_Syntax": "[ <Titik>, <Keratan Kon> ]\n[ <Titik>, <Fungsi> ]\n[ <Titik atas Lengkung>, <Lengkung> ]\n[ <Nilai-x>, <Fungsi> ]\n[ <Garis>, <Keratan Kon> ]\n[ <Bulatan>, <Bulatan> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "PolinomialTaylor",
     "TaylorSeries_Syntax": "[ <Fungsi>, <Nilai-x>, <Number Tertib> ]",
     "TaylorSeries_SyntaxCAS": "[ <Ungkapan>, <Nilai-x>, <Number Tertib> ]\n[ <Ungkapan>, <Pembolehubah>, <Nilai Pembolehubah>, <Number Tertib> ]",

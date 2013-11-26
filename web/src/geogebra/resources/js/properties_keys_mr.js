@@ -885,6 +885,7 @@ __GGB__keysVar.mr.command = {
     "Take_SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "\u0938\u094d\u092a\u0930\u094d\u0936\u093f\u0915\u093e",
     "Tangent_Syntax": "[ <\u092c\u093f\u0902\u0926\u0942>, <\u0936\u093e\u0902\u0915\u0935> ]\n[ <\u092c\u093f\u0902\u0926\u0942>, <\u092b\u0932> ]\n[ <\u0935\u0915\u094d\u0930 \u092c\u093f\u0902\u0926\u0942>, <\u0935\u0915\u094d\u0930> ]\n[ <x-\u0915\u093f\u0902\u092e\u0924>, <\u092b\u0932> ]\n[ <\u0930\u0947\u0937\u093e>, <\u0936\u093e\u0902\u0915\u0935> ]\n[ <\u0935\u0930\u094d\u0924\u0942\u0933>, <\u0935\u0930\u094d\u0924\u0942\u0933> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "\u091f\u0947\u0932\u0930\u091a\u0940\u092c\u0939\u0941\u092a\u0926\u0940",
     "TaylorSeries_Syntax": "[ <\u092b\u0932>, <x-\u0915\u093f\u0902\u092e\u0924>, <\u0915\u094b\u091f\u0940 \u0915\u094d\u0930\u092e\u093e\u0902\u0915> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable Value>, <Order Number> ]",

@@ -885,6 +885,7 @@ __GGB__keysVar.vi.command = {
     "Take_SyntaxCAS": "[ <Danh s\xe1ch>, <v\u1ecb tr\xed b\u1eaft \u0111\u1ea7u>, <v\u1ecb tr\xed k\u1ebft th\xfac> ]",
     "Tangent": "TiepTuyen",
     "Tangent_Syntax": "[ <\u0110i\u1ec3m>, <\u0110\u01b0\u1eddng c\xf4n\xedc> ]\n[ <\u0110i\u1ec3m>, <H\xe0m s\u1ed1> ]\n[ <\u0110i\u1ec3m tr\xean \u0111\u01b0\u1eddng cong>, <\u0110\u01b0\u1eddng cong> ]\n[ <Gi\xe1 tr\u1ecb x>, <H\xe0m s\u1ed1> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng c\xf4n\xedc> ]\n[ <\u0110\u01b0\u1eddng tr\xf2n>, <\u0110\u01b0\u1eddng tr\xf2n> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "KhaiTrienTaylor",
     "TaylorSeries_Syntax": "[ <H\xe0m s\u1ed1>, <S\u1ed1>, <S\u1ed1> ]",
     "TaylorSeries_SyntaxCAS": "[ <Bi\u1ec3u th\u1ee9c>, <Gi\xe1 tr\u1ecb x>, <S\u1ed1 b\u1eadc> ]\n[ <Bi\u1ec3u th\u1ee9c>, <Bi\u1ebfn>, <Gi\xe1 tr\u1ecb bi\u1ebfn>, <S\u1ed1 b\u1eadc> ]",

@@ -885,6 +885,7 @@ __GGB__keysVar.in.command = {
     "Take_SyntaxCAS": "[ <Daftar>, <Posisi Awa;>, <Posisi Akhir> ]",
     "Tangent": "GarisSinggung",
     "Tangent_Syntax": "[ <Titik>, <Konik> ]\n[ <Titik>, <Fungsi> ]\n[ <Titik>, <Kurva> ]\n[ <Nilai-x>, <Fungsi> ]\n[ <Garis Sejajar>, <Konik> ]\n[ <RuasGaris Sejajar>, <Konik> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "PolinomTaylor",
     "TaylorSeries_Syntax": "[ <Fungsi>, <Nilai-x>, <Urutan Angka> ]",
     "TaylorSeries_SyntaxCAS": "[ <Ekspresi>, <Nilai x>, <Nomor Urut> ]\n[ <Ekspresi>, <Variabel>, <Nilai Variabel>, <Nomor Urut> ]",

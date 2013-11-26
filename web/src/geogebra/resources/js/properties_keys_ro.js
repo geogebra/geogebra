@@ -885,6 +885,7 @@ __GGB__keysVar.ro.command = {
     "Take_SyntaxCAS": "[ <List\u0103>, <Pozi\u0163ie \xeenceput>, <Pozi\u0163ie sf\xe2r\u015fit> ]",
     "Tangent": "Tangent\u0103",
     "Tangent_Syntax": "[ <Punct>, <Conic\u0103> ]\n[ <Punct>, <Func\u0163ie> ]\n[ <Punct>, <Curb\u0103> ]\n[ <Valoare-x>, <Func\u0163ie> ]\n[ <Dreapt\u0103 paralel\u0103>, <Conic\u0103> ]\n[ <Segment paralel>, <Conic\u0103> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "SerieTaylor",
     "TaylorSeries_Syntax": "[ <Func\u0163ie>, <Valoare-x>, <Num\u0103r ordine> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expresie>, <Valoare x>, <Ordine> ]\n[ <Expresie>, <Variabil\u0103>, <Valoare variabil\u0103>, <Ordine> ]",
