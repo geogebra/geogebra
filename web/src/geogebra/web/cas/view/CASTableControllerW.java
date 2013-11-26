@@ -48,7 +48,6 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 			return;
 		if(c.getCellIndex()==CASTableW.COL_CAS_CELLS_WEB){
 			int rowIndex = c.getRowIndex();
-			view.getCASStyleBar().setSelectedRow(table.getGeoCasCell(rowIndex));
 			table.startEditingRow(rowIndex);
 		}
 	    

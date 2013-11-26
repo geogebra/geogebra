@@ -190,6 +190,7 @@ public class CASTableW extends Grid implements CASTable {
 	public void setSelectedRows(int from, int to) {
 		selectedRows = new int[0];
 		addSelectedRows(from, to);
+		view.getCASStyleBar().setSelectedRow(getGeoCasCell(from));
 	}
 
 	public void addSelectedRows(int a, int b) {
