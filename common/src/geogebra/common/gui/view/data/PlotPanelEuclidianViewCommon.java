@@ -135,4 +135,19 @@ public class PlotPanelEuclidianViewCommon {
 	
 		plotPanelEuclidianViewD.repaint();
 	}
+
+	public void updateSize(PlotPanelEuclidianViewInterface plotPanelEView) {
+		// record the old coord system
+		double xminTemp = plotPanelEView.getXmin();
+		double xmaxTemp = plotPanelEView.getXmax();
+		double yminTemp = plotPanelEView.getYmin();
+		double ymaxTemp = plotPanelEView.getYmax();
+		
+		plotPanelEView.updateSizeKeepDrawables();
+		
+		// now reset the coord system so that our view dimensions are restored
+		// using the new scaling factors.
+		plotPanelEView.setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
+		
+	}
 }

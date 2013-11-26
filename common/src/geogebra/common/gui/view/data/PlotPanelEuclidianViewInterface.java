@@ -26,4 +26,6 @@ public interface PlotPanelEuclidianViewInterface extends View, EuclidianViewInte
 	 */
 	public double getPixelOffset();
 
+	public void updateSizeKeepDrawables();
+
 }

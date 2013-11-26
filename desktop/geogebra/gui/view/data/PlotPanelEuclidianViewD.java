@@ -159,21 +159,12 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 */
 	@Override
 	public void updateSize() {
-
-		// record the old coord system
-		double xminTemp = getXmin();
-		double xmaxTemp = getXmax();
-		double yminTemp = getYmin();
-		double ymaxTemp = getYmax();
-
-		// standard update: change the coord system to match new window
-		// dimensions with the upper left corner fixed and the other bounds
-		// adjusted.
+		commonFields.updateSize(this);
+	}
+	
+	@Override
+	public void updateSizeKeepDrawables() {
 		super.updateSizeKeepDrawables();
-
-		// now reset the coord system so that our view dimensions are restored
-		// using the new scaling factors.
-		setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
 	}
 
 	// ==================================================
@@ -192,7 +183,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	/**
 	 * Uses the values stored in the plotSettings field to update the features
 	 * of this EuclidianView (e.g. axes visibility)
-	 * @deprecated Use {@link geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon#setEVParams(geogebra.gui.view.data.PlotPanelEuclidianViewD)} instead
 	 */
 	public void setEVParams() {
 		commonFields.setEVParams(this);

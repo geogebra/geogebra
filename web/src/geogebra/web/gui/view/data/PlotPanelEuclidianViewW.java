@@ -73,6 +73,24 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		
 		
 	}
+	
+	/*********** End Constructor **********************/
+
+	/**
+	 * Overrides EuclidianView setMode method so that no action is taken on a
+	 * mode change.
+	 */
+	@Override
+	public void setMode(int mode) {
+		// .... do nothing
+	}
+	
+	/** Returns viewID */
+	@Override
+	public int getViewID() {
+		return commonFields.getViewID();
+	}
+
 
 	public void setViewId(Kernel kernel) {
 	    // get viewID from GuiManager
@@ -81,14 +99,18 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
     }
 
 	public void setEVParams() {
-	    // TODO Auto-generated method stub
-	    
+	    commonFields.setEVParams(this);
     }
 
 	public double getPixelOffset() {
 		return (30 * getApplication().getFontSize()
 				) / 12.0;
     }
+	
+	@Override
+    public void updateSizeKeepDrawables() {
+		super.updateSizeKeepDrawables();
+	}
 
 
 }
