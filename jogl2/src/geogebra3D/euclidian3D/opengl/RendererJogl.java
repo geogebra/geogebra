@@ -41,6 +41,27 @@ public class RendererJogl {
 		gl2 = gLDrawable.getGL().getGL2();
 	}
 	
+	
+	
+	private javax.media.opengl.GL2ES2 gl2es2; 
+	
+	
+	/**
+	 * 
+	 * @return current GL (as GL2ES2)
+	 */
+	public javax.media.opengl.GL2ES2 getGL2ES2(){
+		
+		return gl2es2; 
+	}
+	
+	
+	
+	public void setGL2ES2(GLAutoDrawable gLDrawable){		
+		gl2es2 = gLDrawable.getGL().getGL2ES2();
+	}
+	
+	
 
 	public final static IntBuffer newIntBuffer(int size){
 		return GLBuffers.newDirectIntBuffer(size); 
@@ -52,6 +73,7 @@ public class RendererJogl {
 
 	public interface GLlocal extends GL2{}
 
+	public interface GL2ES2 extends javax.media.opengl.GL2ES2{}
 	
 	public static GLCapabilities caps;
 	

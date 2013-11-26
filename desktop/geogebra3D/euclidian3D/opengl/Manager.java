@@ -4,8 +4,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
-import java.nio.FloatBuffer;
-
 /**
  * Class that manage all geometry objects
  * 
@@ -63,7 +61,7 @@ abstract public class Manager {
 		
 		setRenderer(renderer);
 		
-		
+		initGeometriesList();
 		
 		// creating geometries
 		
@@ -82,6 +80,13 @@ abstract public class Manager {
 		this.view3D = view3D;
 		
 		
+	}
+	
+	/**
+	 * init list of geometries
+	 */
+	protected void initGeometriesList(){
+		// used only for shaders
 	}
 	
 	/**
@@ -128,14 +133,6 @@ abstract public class Manager {
 	 */
 	public EuclidianView3D getView3D(){
 		return view3D;
-	}
-	
-	/**
-	 * update manager stuff
-	 */
-	public void update(){
-		//color factor for highlighting
-		//colorFactor = ((float) (Math.sin(System.currentTimeMillis()/200.0)+1))/2f;
 	}
 	
 	
@@ -207,11 +204,12 @@ abstract public class Manager {
 		vertex((float) v.getX(),(float) v.getY(),(float) v.getZ());
 	}
 
-	
-	/** creates a vetices at the specified coordinates
-	 * @param v an array of x,y and z values of vertices
+		
+	/**
+	 * fill array of vertices
+	 * @param vertices array of vertices
 	 */
-	abstract protected void vertices(FloatBuffer v, int count);
+	abstract protected void vertices(double[] vertices);
 	
 	/** creates a normal at coordinates (x,y,z)
 	 * @param x x coord

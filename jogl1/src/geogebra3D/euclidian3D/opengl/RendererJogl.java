@@ -37,6 +37,21 @@ public class RendererJogl {
 	}
 	
 	
+	/**
+	 * 
+	 * @return current GL (as GL2ES2)
+	 */
+	public GL2ES2 getGL2ES2(){
+		// only used in jogl2
+		return null; 
+	}
+	
+	
+	
+	public void setGL2ES2(GLAutoDrawable gLDrawable){	
+		// only used in jogl2
+	}
+	
 	
 	public final static IntBuffer newIntBuffer(int size){
 		return BufferUtil.newIntBuffer(size); 
@@ -47,6 +62,12 @@ public class RendererJogl {
 	}
 
 	public interface GLlocal extends GL{}
+	
+	public interface GL2ES2 extends GL{
+
+		boolean isGL3core();
+
+	}
 
 
 	private static GLCapabilities caps;

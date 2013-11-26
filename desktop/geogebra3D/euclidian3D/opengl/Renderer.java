@@ -203,7 +203,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 			getGL().glDisable(GLlocal.GL_BLEND);
 	}
 	
-	private void drawTransp(){
+	protected void drawTransp(){
 			
 		getTextures().loadTextureLinear(Textures.FADING);
 		
@@ -244,7 +244,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 	 */
 	abstract protected void setLight(int light);
 		
-	private void drawNotTransp(){
+	protected void drawNotTransp(){
 		
 		getTextures().loadTextureLinear(Textures.FADING);
 
@@ -301,7 +301,9 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 
     	//double displayTime = System.currentTimeMillis();
         
-        setGL(gLDrawable);                
+        setGL(gLDrawable);         
+        
+        useShaderProgram();
         
         //picking        
         if(waitForPick){
@@ -325,7 +327,6 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 
         
         // update 3D view
-        geometryManager.update();
         view3D.update();
         view3D.updateOwnDrawablesNow();
         
@@ -489,7 +490,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     	getGL().glDisable(GLlocal.GL_MULTISAMPLE);
     }
    
-    private void drawFaceToScreen() {
+    protected void drawFaceToScreen() {
     	//draw face-to screen parts (labels, ...)
         //drawing labels
         //getGL().glEnable(GLlocal.GL_CULL_FACE);
@@ -903,7 +904,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     //drawing geometries
     
     
-    public Manager getGeometryManager(){
+    final public Manager getGeometryManager(){
     	return geometryManager;
     }
     
@@ -1278,7 +1279,14 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
      * init shaders (when used)
      */
     protected void initShaders(){
-    	
+    	// no shader here
+    }
+
+    /**
+     *  Use the shaderProgram that got linked during the init part.
+     */
+    protected void useShaderProgram(){
+    	// no shader here
     }
     
     /**
@@ -1621,7 +1629,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     protected static final int EYE_RIGHT = 1;
     protected int eye = EYE_ONE;
     
-    private void setColorMask(){
+    protected void setColorMask(){
 
     	if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES && !view3D.isPolarized()){
     		if (eye==EYE_LEFT) {

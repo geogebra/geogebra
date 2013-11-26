@@ -4,8 +4,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
-import java.nio.FloatBuffer;
-
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 
@@ -201,13 +199,10 @@ public class ManagerGLList extends Manager {
 	}
 
 	
+	
 	@Override
-	protected void vertices(FloatBuffer v, int count){
-		v.rewind();
-		renderer.getGL2().glEnableClientState(GLlocal.GL_VERTEX_ARRAY);
-		renderer.getGL2().glVertexPointer(3, GLlocal.GL_FLOAT, 0, v);
-		renderer.getGL2().glDrawArrays(GLlocal.GL_TRIANGLES, 0, 3);
-		renderer.getGL2().glDisableClientState(GLlocal.GL_VERTEX_ARRAY);
+	protected void vertices(double[] vertices){
+		renderer.getGL2().glVertex3dv(vertices, 0);
 	}
 	
 	@Override

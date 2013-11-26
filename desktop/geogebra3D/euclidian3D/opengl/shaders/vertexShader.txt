@@ -79,7 +79,10 @@ void main(void)
   gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
   
   // color with light
-  float factor = abs(dot(attribute_Normal, lightPosition));
+  float factor = dot(attribute_Normal, lightPosition);
+  if (factor < 0){
+  	factor = 0;
+  }
   float ambiant = ambiantDiffuse[0];
   float diffuse = ambiantDiffuse[1];
   vec4 c;
@@ -89,9 +92,12 @@ void main(void)
   	c = color;
   }
   
+  
   varying_Color.xyz = c.xyz * (ambiant + diffuse * factor);
   varying_Color.a = c.a;
   
+  
+  //varying_Color = c;
                        
   // texture
   coordTexture = attribute_Texture;
