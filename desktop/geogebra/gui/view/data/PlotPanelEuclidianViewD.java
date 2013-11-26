@@ -59,7 +59,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	private final EuclidianControllerD ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
 
-	private PlotPanelEuclidianViewCommon data = new PlotPanelEuclidianViewCommon(
+	private PlotPanelEuclidianViewCommon commonFields = new PlotPanelEuclidianViewCommon(
 			false);
 	/** Mouse listener to trigger context menu */
 	private MyMouseListener myMouseListener;
@@ -95,10 +95,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		plotPanelEV = this;
 		this.ec = this.getEuclidianController();
 		this.exportToEVAction = exportAction;
-		data.setPlotSettings(new PlotSettings());
+		commonFields.setPlotSettings(new PlotSettings());
 
 		// get viewID from GuiManager
-		data.setViewID(((GuiManagerD) kernel.getApplication().getGuiManager())
+		commonFields.setViewID(((GuiManagerD) kernel.getApplication().getGuiManager())
 				.assignPlotPanelID(this));
 
 		// create cursors for DnD
@@ -146,7 +146,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	/** Returns viewID */
 	@Override
 	public int getViewID() {
-		return data.getViewID();
+		return commonFields.getViewID();
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * @return
 	 */
 	public PlotSettings getPlotSettings() {
-		return data.getPlotSettings();
+		return commonFields.getPlotSettings();
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * @param plotSettings
 	 */
 	public void updateSettings(PlotSettings plotSettings) {
-		this.data.setPlotSettings(plotSettings);
+		this.commonFields.setPlotSettings(plotSettings);
 		this.setEVParams();
 	}
 
@@ -201,66 +201,66 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 */
 	public void setEVParams() {
 
-		showGrid(data.getPlotSettings().showGrid);
+		showGrid(commonFields.getPlotSettings().showGrid);
 		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
-				data.getPlotSettings().showYAxis, false);
+				commonFields.getPlotSettings().showYAxis, false);
 		
 		setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
-				data.getPlotSettings().showXAxis, false);
+				commonFields.getPlotSettings().showXAxis, false);
 
-		setAutomaticGridDistance(data.getPlotSettings().gridIntervalAuto);
-		if (!data.getPlotSettings().gridIntervalAuto) {
-			this.setGridDistances(data.getPlotSettings().gridInterval);
+		setAutomaticGridDistance(commonFields.getPlotSettings().gridIntervalAuto);
+		if (!commonFields.getPlotSettings().gridIntervalAuto) {
+			this.setGridDistances(commonFields.getPlotSettings().gridInterval);
 		}
 
-		if (data.getPlotSettings().showArrows) {
+		if (commonFields.getPlotSettings().showArrows) {
 			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		} else {
 			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 		}
 
-		setDrawBorderAxes(data.getPlotSettings().isEdgeAxis);
-		if (!data.getPlotSettings().isEdgeAxis[0]) {
+		setDrawBorderAxes(commonFields.getPlotSettings().isEdgeAxis);
+		if (!commonFields.getPlotSettings().isEdgeAxis[0]) {
 			setAxisCross(0, 0);
 		}
-		if (!data.getPlotSettings().isEdgeAxis[1]) {
+		if (!commonFields.getPlotSettings().isEdgeAxis[1]) {
 			setAxisCross(1, 0);
 		}
 
-		setPositiveAxes(data.getPlotSettings().isPositiveOnly);
+		setPositiveAxes(commonFields.getPlotSettings().isPositiveOnly);
 
-		if (data.getPlotSettings().forceXAxisBuffer) {
+		if (commonFields.getPlotSettings().forceXAxisBuffer) {
 			// ensure that the axis labels are shown
 			// by forcing a fixed pixel height below the x-axis
 			double pixelOffset = (30 * getApplication().getSmallFont()
 					.getSize()) / 12.0;
 			double pixelHeight = this.getHeight();
-			data.getPlotSettings().yMin = (-pixelOffset * data.getPlotSettings().yMax)
+			commonFields.getPlotSettings().yMin = (-pixelOffset * commonFields.getPlotSettings().yMax)
 					/ (pixelHeight + pixelOffset);
 		}
 
 		setAxesCornerCoordsVisible(false);
 
-		this.setAutomaticAxesNumberingDistance(data.getPlotSettings().xAxesIntervalAuto,
+		this.setAutomaticAxesNumberingDistance(commonFields.getPlotSettings().xAxesIntervalAuto,
 				0);
-		this.setAutomaticAxesNumberingDistance(data.getPlotSettings().yAxesIntervalAuto,
+		this.setAutomaticAxesNumberingDistance(commonFields.getPlotSettings().yAxesIntervalAuto,
 				1);
-		if (!data.getPlotSettings().xAxesIntervalAuto) {
-			setAxesNumberingDistance(data.getPlotSettings().xAxesInterval, 0);
+		if (!commonFields.getPlotSettings().xAxesIntervalAuto) {
+			setAxesNumberingDistance(commonFields.getPlotSettings().xAxesInterval, 0);
 		} else {
-			data.getPlotSettings().xAxesInterval = getAxesNumberingDistances()[0];
+			commonFields.getPlotSettings().xAxesInterval = getAxesNumberingDistances()[0];
 		}
-		if (!data.getPlotSettings().yAxesIntervalAuto) {
-			setAxesNumberingDistance(data.getPlotSettings().yAxesInterval, 1);
+		if (!commonFields.getPlotSettings().yAxesIntervalAuto) {
+			setAxesNumberingDistance(commonFields.getPlotSettings().yAxesInterval, 1);
 		} else {
-			data.getPlotSettings().yAxesInterval = getAxesNumberingDistances()[1];
+			commonFields.getPlotSettings().yAxesInterval = getAxesNumberingDistances()[1];
 		}
 
-		setPointCapturing(data.getPlotSettings().pointCaptureStyle);
+		setPointCapturing(commonFields.getPlotSettings().pointCaptureStyle);
 
 		// do this last ?
-		setRealWorldCoordSystem(data.getPlotSettings().xMin, data.getPlotSettings().xMax,
-				data.getPlotSettings().yMin, data.getPlotSettings().yMax);
+		setRealWorldCoordSystem(commonFields.getPlotSettings().xMin, commonFields.getPlotSettings().xMax,
+				commonFields.getPlotSettings().yMin, commonFields.getPlotSettings().yMax);
 
 		repaint();
 	}
@@ -391,7 +391,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 		/** handles mouse motion over the drag region */
 		public void mouseMoved(MouseEvent e) {
-			data.setOverDragRegion(e.getPoint().y < 10);
+			commonFields.setOverDragRegion(e.getPoint().y < 10);
 			setDefaultCursor();
 		}
 	}
@@ -402,7 +402,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 */
 	@Override
 	public void setDefaultCursor() {
-		if (data.isOverDragRegion()) {
+		if (commonFields.isOverDragRegion()) {
 			setCursor(grabCursor);
 		} else {
 			setCursor(defaultCursor);
@@ -575,7 +575,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
-		if (data.isOverDragRegion()) {
+		if (commonFields.isOverDragRegion()) {
 			plotPanelEV.setSelectionRectangle(null);
 			// start drag
 			ds.startDrag(dge, DragSource.DefaultCopyDrop, null,
