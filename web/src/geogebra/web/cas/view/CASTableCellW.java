@@ -112,6 +112,10 @@ public class CASTableCellW extends VerticalPanel {
 		add(outputPanel);
 	}
 	
+	public void setInput(){
+		casCell.setInput(textField.getText());
+	}
+	
 	/**
 	 * @return cas cell represented by this object
 	 */

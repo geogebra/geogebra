@@ -134,6 +134,10 @@ public class CASTableW extends Grid implements CASTable {
 		}
 
 	}
+	
+	public void setInput(){
+		editing.setInput();
+	}
 
 	public CASTableCellEditorW getEditor() {
 		if(editor == null){
@@ -151,6 +155,8 @@ public class CASTableW extends Grid implements CASTable {
 		if (rowNumber >= this.getRowCount()) {
 			resize(rowNumber + 1, 2);
 		}
+		if (casCell.isUseAsText()) setInput();
+		
 		Widget cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1,casCell, (AppW) getApplication());
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
