@@ -480,10 +480,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		toolbarPanel.removeAll();
 
 		for (ToolbarD toolbar : toolbars) {
-			if (toolbar != null) {
-				toolbar.buildGui();
-				toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
-			}
+			toolbar.buildGui();
+			toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 		}
 
 		toolbarPanel.show(Integer.toString(activeToolbar));
@@ -497,6 +495,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 *            toolbar to be added
 	 */
 	public void addToolbar(ToolbarD toolbar) {
+		
+		if (toolbar == null){
+			return;
+		}
+		
 		toolbars.add(toolbar);
 	}
 
@@ -511,6 +514,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 *            toolbar to be removed
 	 */
 	public void removeToolbar(ToolbarD toolbar) {
+		
+		if (toolbar == null){
+			return;
+		}
+		
 		toolbars.remove(toolbar);
 
 		if (getViewId(toolbar) == activeToolbar) {
