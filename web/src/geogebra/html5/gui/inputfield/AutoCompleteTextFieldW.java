@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -399,8 +400,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	}
 
 	public void setFont(GFont font) {
-		App.debug("setFont() implementation needed"); // TODO Auto-generated
-
+		textField.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
 	}
 
 	public void setForeground(GColor color) {
