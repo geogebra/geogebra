@@ -30,8 +30,8 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		getListBox().addChangeHandler(new ChangeHandler(){
 
 			public void onChange(ChangeEvent event) {
-				getMultipleModel().applyChanges(getListBox().getSelectedIndex());
-            }});
+				onListBoxChange();
+			}});
 		setWidget(mainWidget);
 	}
 
@@ -39,6 +39,10 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		return (MultipleOptionsModel)getModel();
 	}
 	
+	protected void onListBoxChange() {
+		getMultipleModel().applyChanges(getListBox().getSelectedIndex());
+        
+	}
 	@Override
     public void setLabels() {
 		getLabel().setText(getTitle());

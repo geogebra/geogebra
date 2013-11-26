@@ -172,12 +172,12 @@ public class PropertiesViewW extends
 	
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
-
+		App.debug("add(geo)");
 	}
 
 	public void remove(GeoElement geo) {
 		// TODO Auto-generated method stub
-
+		App.debug("remove(geo)");
 	}
 
 	public void rename(GeoElement geo) {
@@ -187,12 +187,12 @@ public class PropertiesViewW extends
 
 	public void update(GeoElement geo) {
 		// TODO Auto-generated method stub
-
+		App.debug("update(geo)");
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
-
+		App.debug("update visual style");
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
@@ -206,7 +206,7 @@ public class PropertiesViewW extends
 
 	public void reset() {
 		// TODO Auto-generated method stub
-
+		App.debug("reset");
 	}
 
 	public void clearView() {
@@ -231,7 +231,7 @@ public class PropertiesViewW extends
 
 	@Override
 	public void updateSelection() {
-		// TODO Auto-generated method stub
+		App.debug("updateSelection");// TODO Auto-generated method stub
 	}
 
 
@@ -248,8 +248,7 @@ public class PropertiesViewW extends
 
 	@Override
     public void updateSelection(ArrayList<GeoElement> geos) {
-	    // TODO Auto-generated method stub
-	    
+	   App.debug("updateSelection(geos)"); 
     }
 
 	@Override
@@ -282,11 +281,11 @@ public class PropertiesViewW extends
 
 	@Override
     public void updatePropertiesView() {
-		App.debug("unimplemented");
+		App.debug("updatePropertiesView");
     }
 
 	public void repaint() {
-		App.debug("unimplemented");
+		App.debug("repaint");
     }
 
 	public boolean isShowing() {

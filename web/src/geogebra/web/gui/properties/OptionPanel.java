@@ -10,6 +10,17 @@ public abstract class OptionPanel {
 
 	public boolean update(Object[] geos) {
 		getModel().setGeos(geos);
+		if (!setupPanel()) {
+			return false;
+		}
+		getModel().updateProperties();
+		setLabels();
+		return true;
+	}
+
+	protected boolean setupPanel() {
+		boolean result = false;
+		
 		if (!(getModel().checkGeos())) {
 			if (widget != null) {
 				widget.setVisible(false);
@@ -18,13 +29,11 @@ public abstract class OptionPanel {
 		}
 		if (widget != null) {
 			widget.setVisible(true);
+			result = true;
 		}
-
-		getModel().updateProperties();
-		setLabels();
-		return true;
+		
+		return result;
 	}
-
 	public Widget getWidget() {
 		return widget;
 	}

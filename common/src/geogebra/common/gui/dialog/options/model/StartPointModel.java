@@ -64,7 +64,7 @@ public class StartPointModel extends MultipleOptionsModel {
 	public List<String> getChoiches(Localization loc) {
 		TreeSet<GeoElement> points = kernel.getPointSet();
 		choices.clear();
-//		choices.add("");
+		choices.add("");
 		Iterator<GeoElement> it = points.iterator();
 		int count = 0;
 		while (it.hasNext() || ++count > MAX_CHOICES) {

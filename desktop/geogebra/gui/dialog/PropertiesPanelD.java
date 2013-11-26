@@ -2413,7 +2413,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			TreeSet<GeoElement> points = kernel.getPointSet();
 			if (points.size() != cbModel.getSize() - 1) {
 				cbModel.removeAllElements();
-				cbModel.addElement(null);
+				//cbModel.addElement(null);
 				model.fillModes(loc);
 			}
 			model.updateProperties();
@@ -2456,9 +2456,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (index == 0) {
 				GeoElement p = (GeoElement)model.getLocateableAt(0).getStartPoint();
 				cbLocation.setSelectedItem(p.getLabel(StringTemplate.editTemplate));
-			} else
+			} else {
 				cbLocation.setSelectedItem(null);
-
+			}
 		}
 
 		public void addItem(String item) {
