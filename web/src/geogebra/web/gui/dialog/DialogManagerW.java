@@ -417,5 +417,25 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		    	loadingAnimation.hide();;
 		    }
     }
+	
+	
+	/**
+	 * Update labels in the GUI.
+	 */
+	public void setLabels() {
+
+		//if (functionInspector != null)
+		//	functionInspector.setLabels();
+
+		if (textInputDialog != null)
+			((TextInputDialogW) textInputDialog).setLabels();
+
+		//if (fileChooser != null)
+		//	updateJavaUILanguage();
+		
+		//if (dataSourceDialog != null)
+		//	dataSourceDialog.setLabels();
+		
+	}
 
 }

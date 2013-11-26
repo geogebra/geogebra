@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -50,10 +51,12 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
-	private ToggleButton btnBold;
-	private ToggleButton btnItalic;
-	private ToggleButton btnSerif;
+
+	private ToggleButton btnBold, btnItalic, btnSerif;
 	private GeoElementSelectionListener sl;
+	private DisclosurePanel disclosurePanel;
+	private Localization loc;
+	private TextEditInsertPanel insertPanel;
 
 	/*****************************************************
 	 * @param app
@@ -61,6 +64,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	public TextEditPanel(AppW app) {
 		super();
 		this.app = app;
+		loc = app.getLocalization();
 
 		dTProcessor = new DynamicTextProcessor(app);
 
@@ -73,7 +77,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		// TODO: this panel is slow loading. Make this happen on demand ...
 		// after disclosure opens
-		TextEditInsertPanel insertPanel = new TextEditInsertPanel(app, this);
+		insertPanel = new TextEditInsertPanel(app, this);
 		previewer = insertPanel.getPreviewer();
 
 		createToolBar();
@@ -82,17 +86,21 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		// v.add(toolBar);
 		// v.add(insertPanel);
 
-		DisclosurePanel d = new DisclosurePanel("Options");
-		d.setContent(insertPanel);
-		d.getContent().getElement().getStyle().setMargin(0, Unit.PX);
-		d.getContent().getElement().getStyle().setPadding(0, Unit.PX);
-		d.getContent().getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-		d.getHeader().getElement().getStyle().setFontSize(80, Unit.PCT);
+		disclosurePanel = new DisclosurePanel(loc.getMenu("Advanced"));
+		disclosurePanel.setContent(insertPanel);
+		disclosurePanel.getContent().getElement().getStyle()
+		        .setMargin(0, Unit.PX);
+		disclosurePanel.getContent().getElement().getStyle()
+		        .setPadding(0, Unit.PX);
+		disclosurePanel.getContent().getElement().getStyle()
+		        .setBorderStyle(BorderStyle.NONE);
+		disclosurePanel.getHeader().getElement().getStyle()
+		        .setFontSize(80, Unit.PCT);
 
 		setSize("100%", "100%");
 		add(toolBar);
 		add(editor);
-		add(d);
+		add(disclosurePanel);
 
 		// force a dummy geo on first use
 		setEditGeo(null);
@@ -108,6 +116,8 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		};
 
 		editor.addFocusHandler(this);
+
+		setLabels();
 
 	}
 
@@ -174,6 +184,18 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 	}
 
+	public void setLabels() {
+
+		disclosurePanel.getHeaderTextAccessor()
+		        .setText(loc.getMenu("Advanced"));
+		btnLatex.setText(loc.getPlain("LaTeXFormula"));
+		btnSerif.setText("Serif");
+		if (insertPanel != null) {
+			insertPanel.setLabels();
+		}
+
+	}
+
 	// ======================================================
 	// Getters/Setters
 	// ======================================================
@@ -232,7 +254,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		btnSerif = new ToggleButton("Serif");
 		btnSerif.addClickHandler(this);
 
-		btnLatex = new ToggleButton("Latex");
+		btnLatex = new ToggleButton("LaTeX");
 		btnLatex.addClickHandler(this);
 
 		// TODO: put styles in css stylesheet

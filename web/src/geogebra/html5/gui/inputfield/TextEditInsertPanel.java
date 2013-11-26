@@ -5,6 +5,7 @@ import geogebra.common.gui.util.TableSymbolsLaTeX;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -43,11 +44,14 @@ public class TextEditInsertPanel extends TabLayoutPanel {
 	private VerticalPanel symbolPanel;
 	private VerticalPanel latexPanel;
 	private TextPreviewPanelW previewer;
+	private Localization loc;
 
 	public TextEditInsertPanel(AppW app, TextEditPanel editPanel) {
 		super(30, Unit.PX);
 		this.app = app;
 		this.editPanel = editPanel;
+
+		loc = app.getLocalization();
 
 		createGeoListBox();
 		createSymbolPanel();
@@ -60,23 +64,18 @@ public class TextEditInsertPanel extends TabLayoutPanel {
 		        .getSafeUri().asString());
 
 		this.setSize("350px", "150px");
-		this.add(new ScrollPanel(getPreviewer().getPanel()), "Preview");
+		this.add(new ScrollPanel(getPreviewer().getPanel()),
+		        loc.getMenu("Preview"));
 		this.add(geoPanel, geoTabImage);
 		this.add(new ScrollPanel(symbolPanel), Unicode.alphaBetaGamma + "");
-		this.add(new ScrollPanel(latexPanel), "LaTeX");
-
-		// set the font size of the tabs to 80%
-		// this is a temporary hack, should be done in css stylesheet
-		for (int i = 0; i < this.getWidgetCount(); i++) {
-			this.getTabWidget(i).getElement().getStyle()
-			        .setFontSize(80, Unit.PCT);
-		}
+		this.add(new ScrollPanel(latexPanel), loc.getMenu("LaTeXFormula"));
 
 		registerListeners();
+		setLabels();
 	}
 
 	private void registerListeners() {
-		
+
 		// update the geoPanel when selected
 		addSelectionHandler(new SelectionHandler<Integer>() {
 			public void onSelection(SelectionEvent<Integer> event) {
@@ -95,6 +94,18 @@ public class TextEditInsertPanel extends TabLayoutPanel {
 			previewer.getPanel().setStyleName("previewPanel");
 		}
 		return previewer;
+	}
+
+	public void setLabels() {
+		setTabText(0, loc.getMenu("Preview"));
+		setTabText(3, loc.getMenu("LaTeXFormula"));
+
+		// set the font size of the tabs to 80%
+		// TODO: should be done using setStyleName and  css stylesheet
+		for (int i = 0; i < this.getWidgetCount(); i++) {
+			this.getTabWidget(i).getElement().getStyle()
+			        .setFontSize(80, Unit.PCT);
+		}
 	}
 
 	// =====================================================

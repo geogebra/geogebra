@@ -200,6 +200,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		
 	}
 	
-	
+	public void setLabels(){
+		super.setLabels();
+		if(editor != null){
+			editor.setLabels();
+		}
+	}
 	
 }
