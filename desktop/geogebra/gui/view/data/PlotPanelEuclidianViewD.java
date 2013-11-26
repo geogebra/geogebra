@@ -2,6 +2,7 @@ package geogebra.gui.view.data;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
+import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -54,13 +55,12 @@ import javax.swing.JPopupMenu;
  * 
  */
 public class PlotPanelEuclidianViewD extends EuclidianViewD implements
-		ComponentListener, DragGestureListener, DragSourceListener {
+		ComponentListener, DragGestureListener, DragSourceListener, PlotPanelEuclidianViewInterface {
 
 	private final EuclidianControllerD ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
 
-	private PlotPanelEuclidianViewCommon commonFields = new PlotPanelEuclidianViewCommon(
-			false);
+	private PlotPanelEuclidianViewCommon commonFields;
 	/** Mouse listener to trigger context menu */
 	private MyMouseListener myMouseListener;
 
@@ -92,6 +92,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 				null);
 
 		// set fields
+		commonFields = new PlotPanelEuclidianViewCommon(
+				false);
 		plotPanelEV = this;
 		this.ec = this.getEuclidianController();
 		this.exportToEVAction = exportAction;

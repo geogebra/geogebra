@@ -8,6 +8,7 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
@@ -249,7 +250,7 @@ class GuiManagerT extends GuiManager {
 	}
 
 	@Override
-	public View getPlotPanelView(int id) {
+	public PlotPanelEuclidianViewInterface getPlotPanelView(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

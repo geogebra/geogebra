@@ -28,7 +28,6 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.event.MouseEventND;
@@ -69,7 +68,6 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
 import geogebra.gui.view.data.DataAnalysisViewD;
-import geogebra.gui.view.data.PlotPanelEuclidianViewD;
 import geogebra.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
@@ -105,7 +103,6 @@ import java.net.URI;
 import java.net.URL;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -572,37 +569,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// ==================================
 	// End XML
 
-	// ==================================
-	// PlotPanel ID handling
-	// =================================
-
-	private HashMap<Integer, PlotPanelEuclidianViewD> plotPanelIDMap;
-	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
-
-	private HashMap<Integer, PlotPanelEuclidianViewD> getPlotPanelIDMap() {
-		if (plotPanelIDMap == null)
-			plotPanelIDMap = new HashMap<Integer, PlotPanelEuclidianViewD>();
-		return plotPanelIDMap;
-	}
-
-	/**
-	 * Adds the given PlotPanelEuclidianView instance to the plotPanelIDMap and
-	 * returns a unique viewID
-	 * 
-	 * @param plotPanel
-	 * @return
-	 */
-	public int assignPlotPanelID(PlotPanelEuclidianViewD plotPanel) {
-		lastUsedPlotPanelID--;
-		int viewID = lastUsedPlotPanelID;
-		getPlotPanelIDMap().put(viewID, plotPanel);
-		Log.debug(viewID);
-		return viewID;
-	}
-
-	public PlotPanelEuclidianViewD getPlotPanelView(int viewID) {
-		return getPlotPanelIDMap().get(viewID);
-	}
+	
 
 	public EuclidianViewD getEuclidianView2() {
 		if (euclidianView2 == null) {

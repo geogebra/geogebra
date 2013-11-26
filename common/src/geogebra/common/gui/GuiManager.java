@@ -14,10 +14,14 @@ package geogebra.common.gui;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GuiManagerInterface;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.util.debug.Log;
+
+import java.util.HashMap;
 
 public abstract class GuiManager implements GuiManagerInterface {
 
@@ -424,4 +428,37 @@ public abstract class GuiManager implements GuiManagerInterface {
 		constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
 		constProtocolNavigation.setPlayButtonVisible(cps.showPlayButton());
 	}
+
+	// ==================================
+		// PlotPanel ID handling
+		// =================================
+
+		private HashMap<Integer, PlotPanelEuclidianViewInterface> plotPanelIDMap;
+		private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
+
+
+		protected HashMap<Integer, PlotPanelEuclidianViewInterface> getPlotPanelIDMap() {
+			if (plotPanelIDMap == null)
+				plotPanelIDMap = new HashMap<Integer, PlotPanelEuclidianViewInterface>();
+			return plotPanelIDMap;
+		}
+
+		/**
+		 * Adds the given PlotPanelEuclidianView instance to the plotPanelIDMap and
+		 * returns a unique viewID
+		 * 
+		 * @param plotPanel
+		 * @return
+		 */
+		public int assignPlotPanelID(PlotPanelEuclidianViewInterface plotPanel) {
+			lastUsedPlotPanelID--;
+			int viewID = lastUsedPlotPanelID;
+			getPlotPanelIDMap().put(viewID, plotPanel);
+			Log.debug(viewID);
+			return viewID;
+		}
+
+		public PlotPanelEuclidianViewInterface getPlotPanelView(int viewID) {
+			return getPlotPanelIDMap().get(viewID);
+		}
 }
