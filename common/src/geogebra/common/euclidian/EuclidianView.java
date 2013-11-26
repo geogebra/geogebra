@@ -540,14 +540,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					getYmin(), getYmax(), getXscale(), getYscale());
 		}
 
+		// needed for images eg in zoomed EV2
+		setCoordTransformIfNeeded();
+		
 		// tell option panel
 		if (optionPanel != null)
 			optionPanel.updateBounds();
-		
-		if (this.coordTransform != null){
-			getCoordTransform().setTransform(xscale, 0.0d, 0.0d, -yscale,
-					xZero, yZero);
-		}
 		
 		if(updateDrawables){
 			this.updateAllDrawables(true);
@@ -939,6 +937,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		this.setXscale(xscale);
 		this.setYscale(yscale);
 		// setScaleRatio(yscale / xscale);
+		
+		setCoordTransformIfNeeded();
 
 		// real world values
 		setXYMinMaxForSetCoordSystem();
@@ -1300,12 +1300,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					getYmin(), getYmax(), getXscale(), getYscale());
 		}
 
-		getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(),
-			getxZero(), getyZero());
+		setCoordTransformIfNeeded();
 
 		updateBackgroundImage();
 		updateAllDrawables(true);
 
+	}
+	
+	private void setCoordTransformIfNeeded() { 
+		if (coordTransform != null) { 
+			coordTransform.setTransform(xscale, 0.0d, 0.0d, -yscale, xZero, yZero); 
+		} 
 	}
 
 	/**
