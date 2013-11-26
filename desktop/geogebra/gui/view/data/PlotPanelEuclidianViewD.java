@@ -1,12 +1,10 @@
 package geogebra.gui.view.data;
 
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
@@ -60,7 +58,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	private final EuclidianControllerD ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
 
-	private PlotPanelEuclidianViewCommon commonFields;
+	public PlotPanelEuclidianViewCommon commonFields;
 	/** Mouse listener to trigger context menu */
 	private MyMouseListener myMouseListener;
 
@@ -192,83 +190,12 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	}
 
 	/**
-	 * Sets the plotSettings field and updates the panel accordingly.
-	 * 
-	 * @param plotSettings
-	 */
-	public void updateSettings(PlotSettings plotSettings) {
-		this.commonFields.setPlotSettings(plotSettings);
-		this.setEVParams();
-	}
-
-	/**
 	 * Uses the values stored in the plotSettings field to update the features
 	 * of this EuclidianView (e.g. axes visibility)
+	 * @deprecated Use {@link geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon#setEVParams(geogebra.gui.view.data.PlotPanelEuclidianViewD)} instead
 	 */
 	public void setEVParams() {
-
-		showGrid(commonFields.getPlotSettings().showGrid);
-		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
-				commonFields.getPlotSettings().showYAxis, false);
-		
-		setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
-				commonFields.getPlotSettings().showXAxis, false);
-
-		setAutomaticGridDistance(commonFields.getPlotSettings().gridIntervalAuto);
-		if (!commonFields.getPlotSettings().gridIntervalAuto) {
-			this.setGridDistances(commonFields.getPlotSettings().gridInterval);
-		}
-
-		if (commonFields.getPlotSettings().showArrows) {
-			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		} else {
-			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
-		}
-
-		setDrawBorderAxes(commonFields.getPlotSettings().isEdgeAxis);
-		if (!commonFields.getPlotSettings().isEdgeAxis[0]) {
-			setAxisCross(0, 0);
-		}
-		if (!commonFields.getPlotSettings().isEdgeAxis[1]) {
-			setAxisCross(1, 0);
-		}
-
-		setPositiveAxes(commonFields.getPlotSettings().isPositiveOnly);
-
-		if (commonFields.getPlotSettings().forceXAxisBuffer) {
-			// ensure that the axis labels are shown
-			// by forcing a fixed pixel height below the x-axis
-			double pixelOffset = (30 * getApplication().getSmallFont()
-					.getSize()) / 12.0;
-			double pixelHeight = this.getHeight();
-			commonFields.getPlotSettings().yMin = (-pixelOffset * commonFields.getPlotSettings().yMax)
-					/ (pixelHeight + pixelOffset);
-		}
-
-		setAxesCornerCoordsVisible(false);
-
-		this.setAutomaticAxesNumberingDistance(commonFields.getPlotSettings().xAxesIntervalAuto,
-				0);
-		this.setAutomaticAxesNumberingDistance(commonFields.getPlotSettings().yAxesIntervalAuto,
-				1);
-		if (!commonFields.getPlotSettings().xAxesIntervalAuto) {
-			setAxesNumberingDistance(commonFields.getPlotSettings().xAxesInterval, 0);
-		} else {
-			commonFields.getPlotSettings().xAxesInterval = getAxesNumberingDistances()[0];
-		}
-		if (!commonFields.getPlotSettings().yAxesIntervalAuto) {
-			setAxesNumberingDistance(commonFields.getPlotSettings().yAxesInterval, 1);
-		} else {
-			commonFields.getPlotSettings().yAxesInterval = getAxesNumberingDistances()[1];
-		}
-
-		setPointCapturing(commonFields.getPlotSettings().pointCaptureStyle);
-
-		// do this last ?
-		setRealWorldCoordSystem(commonFields.getPlotSettings().xMin, commonFields.getPlotSettings().xMax,
-				commonFields.getPlotSettings().yMin, commonFields.getPlotSettings().yMax);
-
-		repaint();
+		commonFields.setEVParams(this);
 	}
 
 	// ===========================================================
@@ -632,6 +559,11 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 			}
 			throw new UnsupportedFlavorException(flavor);
 		}
+	}
+
+	public double getPixelOffset() {
+		return (30 * getApplication().getSmallFont()
+				.getSize()) / 12.0;
 	}
 
 }

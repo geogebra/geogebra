@@ -657,7 +657,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				// update settings
 				statGeo.getHistogramSettings(dataListSelected, histogram,
 						settings);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 
 				if (hasControlPanel
 						&& settings.getDataSource().getGroupType() != GroupType.CLASS)
@@ -680,7 +680,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					plotGeoList.add(boxPlot);
 				}
 				statGeo.getBoxPlotSettings(dataListSelected, settings);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 				((CardLayout) displayCardPanel.getLayout()).show(
 						displayCardPanel, "plotPanel");
 				break;
@@ -720,7 +720,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				// update settings
 				statGeo.getBarChartSettings(dataListSelected, settings,
 						barChart);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 				((CardLayout) displayCardPanel.getLayout()).show(
 						displayCardPanel, "plotPanel");
 				break;
@@ -734,7 +734,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				}
 
 				statGeo.updateDotPlot(dataListSelected, dotPlot, settings);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 				((CardLayout) displayCardPanel.getLayout()).show(
 						displayCardPanel, "plotPanel");
 				break;
@@ -761,7 +761,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 					plotGeoList.add(nqPlot);
 				}
 				statGeo.updateNormalQuantilePlot(dataListSelected, settings);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 				((CardLayout) displayCardPanel.getLayout()).show(
 						displayCardPanel, "plotPanel");
 				break;
@@ -801,7 +801,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 				// update settings
 				statGeo.getScatterPlotSettings(dataListSelected, settings);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 
 				((CardLayout) displayCardPanel.getLayout()).show(
 						displayCardPanel, "plotPanel");
@@ -817,7 +817,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 						plotGeoList.add(residualPlot);
 						statGeo.getResidualPlotSettings(dataListSelected,
 								residualPlot, settings);
-						plotPanel.updateSettings(settings);
+						plotPanel.commonFields.updateSettings(plotPanel, settings);
 					} else if (residualPlot != null) {
 						residualPlot.remove();
 						residualPlot = null;
@@ -837,7 +837,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				}
 
 				statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
-				plotPanel.updateSettings(settings);
+				plotPanel.commonFields.updateSettings(plotPanel, settings);
 				boxPlotTitles = statGeo.createBoxPlotTitles(daView, settings);
 				for (int i = 0; i < boxPlotTitles.length; i++)
 					plotGeoList.add(boxPlotTitles[i]);

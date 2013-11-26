@@ -958,7 +958,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implem
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		((PlotPanelEuclidianViewD) plotPanel).updateSettings(plotSettings);
+		((PlotPanelEuclidianViewD) plotPanel).commonFields.updateSettings(((PlotPanelEuclidianViewD) plotPanel), plotSettings);
 	}
 
 
