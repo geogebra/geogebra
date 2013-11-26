@@ -806,7 +806,15 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	}
 
 	public void startAutoCompletion() {
-		resetCompletions();
+
+		// don't show autocompletion popup if the current word 
+		// is a defined variable 
+		if (app.getKernel().lookupLabel(curWord.toString()) != null) { 
+			cancelAutoCompletion(); 
+		} else { 
+			resetCompletions(); 
+		}
+
 		completionsPopup.showCompletions();
 	}
 
@@ -830,12 +838,22 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 		String command = completions.get(index);
 		String text = getText();
+		
+		String before = text.substring(0, curWordStart); 
+		String after = text.substring(curWordStart + curWord.length()); 
+		int bracketIndex = command.indexOf('['); 
+
+		if (bracketIndex > -1 && after.startsWith("[")) { 
+			// probably already have some arguments 
+			// eg user is just changing the command name 
+			command = command.substring(0, bracketIndex); 
+		}
+
 		StringBuilder sb = new StringBuilder();
-		sb.append(text.substring(0, curWordStart));
+		sb.append(before);
 		sb.append(command);
-		sb.append(text.substring(curWordStart + curWord.length()));
+		sb.append(after);
 		setText(sb.toString());
-		int bracketIndex = command.indexOf('[');// + 1;
 		// Special case if the completion is a built-in function
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
