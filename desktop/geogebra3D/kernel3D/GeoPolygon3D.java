@@ -308,7 +308,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			checkPointsAreOnCoordSys();
 			
 			
-			
+			/*
 			// select the first point of the convex hull
 			int firstPointInd = 0;
 			double minY = getPointY(0);
@@ -375,7 +375,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				reverseConvexOrientation = false;
 				//App.debug("inversion false");
 			} 
-			
+			*/
 		} else {
 			return false;
 		}
@@ -383,6 +383,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		return true;
 
 	}
+	
 	
 	/**
 	 * set cs for region as simplest orthonormal coord sys

@@ -1468,6 +1468,29 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return false; // TODO
 	}
 
+	/**
+	 * if this is a convex polygon
+	 * 
+	 * @return if this is a convex polygon
+	 */
+	public boolean isConvex() {
+		boolean answer = true;
+		int n = points.length;
+		Coords polyDirection = getDirectionInD3();
+		int i = 0;
+		while ((answer == true)&(i<n)) {
+			Coords vec1 = points[(i+1)%n].getInhomCoordsInD(3).sub(points[i].getInhomCoordsInD(3));
+			Coords vec2 = points[(i+2)%n].getInhomCoordsInD(3).sub(points[(i+1)%n].getInhomCoordsInD(3));
+			if (polyDirection.crossProduct(vec1).dotproduct(vec2)<0) {
+				answer = false;
+			}
+			i++;
+		}
+		return answer;
+	}
+	
+	
+	
 	@Override
 	public boolean hasDrawable3D() {
 		return true;
@@ -1649,9 +1672,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 	
 
+	
 
-
-
+    
+    
+    
+    
+    
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		
