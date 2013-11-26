@@ -44,14 +44,18 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		
 		commonFields.setPlotSettings(new PlotSettings());
 
-		// get viewID from GuiManager
-		commonFields.setViewID(((GuiManagerW) kernel.getApplication().getGuiManager())
-				.assignPlotPanelID(this));
+		setViewId(kernel);
 		
 		plotPanelEV = this;
 		this.ec = this.getEuclidianController();
 		this.exportToEvAction = exportAction;
 	}
+
+	public void setViewId(Kernel kernel) {
+	    // get viewID from GuiManager
+		commonFields.setViewID(((GuiManagerW) kernel.getApplication().getGuiManager())
+				.assignPlotPanelID(this));
+    }
 
 
 }

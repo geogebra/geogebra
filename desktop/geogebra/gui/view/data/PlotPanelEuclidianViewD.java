@@ -99,9 +99,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		this.exportToEVAction = exportAction;
 		commonFields.setPlotSettings(new PlotSettings());
 
-		// get viewID from GuiManager
-		commonFields.setViewID(((GuiManagerD) kernel.getApplication().getGuiManager())
-				.assignPlotPanelID(this));
+		setViewId(kernel);
 
 		// create cursors for DnD
 		grabCursor = getCursorForImage(getApplication().getImageIcon(
@@ -132,6 +130,12 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		addComponentListener(this);
 		enableDnD();
 
+	}
+
+	public void setViewId(Kernel kernel) {
+		// get viewID from GuiManager
+		commonFields.setViewID(((GuiManagerD) kernel.getApplication().getGuiManager())
+				.assignPlotPanelID(this));
 	}
 
 	/*********** End Constructor **********************/
