@@ -851,6 +851,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setRotXYinDegrees(double a, double b){
 		
 		//Application.debug("setRotXY: "+a+","+b);
+		if (Double.isNaN(a) || Double.isNaN(b)){
+			App.printStacktrace("NaN values for setRotXYinDegrees");
+			return;
+		}
 		
 		this.a = a;
 		this.b = b;
@@ -1618,6 +1622,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		//Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
 		
 		if (Double.isNaN(rotSpeed)){
+			App.printStacktrace("NaN values for setRotContinueAnimation");
 			stopRotAnimation();
 			return;
 		}
@@ -1677,6 +1682,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues){
 
+		
+		if (Double.isNaN(aN) || Double.isNaN(bN)){
+			App.printStacktrace("NaN values for setRotAnimation");
+			return;
+		}
 
 		//app.storeUndoInfo();
 		
