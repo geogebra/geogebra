@@ -178,13 +178,15 @@ public class ToolBar {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
 			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+			if (!html5) {
+				sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+			}
 		}
 			
 		// objects with actions
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SLIDER);
-		if(showAllMenu){
+		if(showAllMenu && !html5){
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			sb.append(" ");

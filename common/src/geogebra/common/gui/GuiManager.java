@@ -11,16 +11,22 @@ the Free Software Foundation.
 */
 package geogebra.common.gui;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GuiManagerInterface;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.debug.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class GuiManager implements GuiManagerInterface {
@@ -33,6 +39,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String ggbTubeTest = "test.geogebratube.org";	
 	private static final String material = "/material/show/id/";
+	
+	protected Kernel kernel;
+	protected App app;
 	
 
 	public void updateMenubar() { } // temporarily nothing
@@ -461,4 +470,78 @@ public abstract class GuiManager implements GuiManagerInterface {
 		public PlotPanelEuclidianViewInterface getPlotPanelView(int viewID) {
 			return getPlotPanelIDMap().get(viewID);
 		}
+		
+		private boolean setModeFinished;
+		protected ProbabilityCalcualtorView probCalculator;
+		
+		public void setMode(int mode,ModeSetter m) {
+
+			setModeFinished = false;
+			
+			// can't move this after otherwise Object Properties doesn't work
+			kernel.notifyModeChanged(mode,m);
+
+			//notifyModeChanged called another setMode => nothing to do here
+			if(setModeFinished)
+				return;
+			// select toolbar button, returns *actual* mode selected
+			int newMode = setToolbarMode(mode);
+
+			if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
+				mode = newMode;
+				kernel.notifyModeChanged(mode,m);
+			}
+
+			if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
+
+				// show or focus the probability calculator
+					if (showView(App.VIEW_PROBABILITY_CALCULATOR)) {
+						this
+								.getLayout()
+								.getDockManager()
+								.setFocusedPanel(
+										App.VIEW_PROBABILITY_CALCULATOR);
+					} else {
+						setShowView(true,
+								App.VIEW_PROBABILITY_CALCULATOR);
+						probCalculator.setProbabilityCalculator(
+								DIST.NORMAL, null,
+								false);
+					}
+
+				// nothing more to do, so reset to move mode
+				app.setMoveMode();
+			}
+			
+			if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
+					|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
+					|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
+				// save the selected geos so they can be re-selected later
+				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+				if(app.getSelectionManager().getSelectedGeos() != null){
+					for(GeoElement geo : app.getSelectionManager().getSelectedGeos()){
+						temp.add(geo);
+					}
+				}
+				
+				if (app.getGuiManager() != null) {
+					app.getDialogManager().showDataSourceDialog(mode, true);
+					app.setMoveMode();
+				}
+				
+				// reselect the geos
+				app.getSelectionManager().setSelectedGeos(temp);
+			}
+
+			setModeFinished = true;
+		}
+
+		/**
+		 * @param mode
+		 * @return sets the toolbar's mode
+		 */
+		protected int setToolbarMode(int mode) {
+			return 0;
+			//should be implemented in subclasses if needed
+		};
 }

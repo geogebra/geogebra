@@ -260,7 +260,7 @@ public class ToolBarW extends MenuBar {
 	public static String getAllTools(AppW app) {
 		StringBuilder sb = new StringBuilder();
 	
-		sb.append(geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(false, true));
+		sb.append(geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(true, true));
 	
 		// macros
 		Kernel kernel = app.getKernel();

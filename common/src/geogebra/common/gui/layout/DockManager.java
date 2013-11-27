@@ -7,5 +7,7 @@ public abstract class DockManager implements SetLabels{
 
 	public abstract GetViewId getFocusedEuclidianPanel();
 
+	public abstract boolean setFocusedPanel(int panel);
+
 
 }
