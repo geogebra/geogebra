@@ -208,7 +208,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 			int i = casView.getConsoleTable().getEditingRow();
 //			int pos = (casView.getConsoleTable().getEditor().getCaretPosition();
 			applyUseAsText(targetGeos);
-			casView.getConsoleTable().startEditingRow(i);			
+			if (i>0) casView.getConsoleTable().startEditingRow(i);			
 		}
 		
 		updateStyleBar();
