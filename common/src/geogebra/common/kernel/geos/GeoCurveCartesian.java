@@ -685,7 +685,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		distFun.setDistantPoint(coords.getX() / coords.getZ(), coords.getY() / coords.getZ());
 
 		// check if P is on this curve and has the right path parameter already
-		if (P.getPath() == this || true) {
+		if (P.getPath() == this) {
 			// point A is on curve c, take its parameter
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
