@@ -4,6 +4,7 @@ package geogebra.web.gui.dialog.options;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
@@ -1745,7 +1746,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			}
 			ListBox lb = getListBox();
 			TreeSet<GeoElement> points = kernel.getPointSet();
-			if (true){//points.size() != lb.getItemCount() - 1) {
+			if (points.size() != lb.getItemCount() - 1) {
 				lb.clear();
 				lb.addItem("");
 				getStartPointModel().fillModes(loc);
@@ -1773,9 +1774,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		private void setFirstLabel() {
 			GeoElement p = (GeoElement)getStartPointModel().getLocateableAt(0).getStartPoint();
-			String coords = p.getLabel(StringTemplate.editTemplate); 
-			getListBox().setItemText(0, coords);
-
+			if (p != null) {
+				String coords = p.getLabel(StringTemplate.editTemplate); 
+				getListBox().setItemText(0, coords);
+			}
 		}
 
 		@Override
@@ -1783,6 +1785,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			getLabel().setText(getTitle());
 		}
 	} // StartPointPanel
+
+	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
+		public AbsoluteScreenLocationPanel(){
+			super(app.getPlain("AbsoluteScreenLocation"));
+			setModel(new AbsoluteScreenLocationModel(app, this));
+		}
+
+	}
 
 
 	//-----------------------------------------------
@@ -1999,8 +2009,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		OptionsTab tab;
 		OptionPanel startPointPanel = new StartPointPanel();
 		tab = new OptionsTab(loc.getMenu("Properties.Position"));
-		tab.add(startPointPanel);
-
+		tab.addPanelList(
+				Arrays.asList(startPointPanel,
+					new AbsoluteScreenLocationPanel()
+				));
 		return tab;
 
 	}

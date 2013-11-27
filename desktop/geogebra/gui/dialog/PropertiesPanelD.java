@@ -15,10 +15,10 @@ package geogebra.gui.dialog;
 import geogebra.awt.GColorD;
 import geogebra.awt.GFontD;
 import geogebra.common.awt.GColor;
-import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.UpdateFonts;
+import geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
 import geogebra.common.gui.dialog.options.model.AuxObjectModel;
@@ -76,9 +76,7 @@ import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.AngleProperties;
-import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoElement;
@@ -328,7 +326,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
 		rightAnglePanel = new RightAnglePanel();
- 		// END
+		// END
 		fillingPanel = new FillingPanel();
 		fadingPanel = new FadingPanel();
 		lodPanel = new LodPanel();
@@ -889,7 +887,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.checkbox = checkbox;
 		}
 	}
-	
+
 
 	private class ComboPanel extends JPanel implements ActionListener,
 	SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
@@ -901,7 +899,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		protected JComboBox comboBox;
 		private MultipleOptionsModel model;
 		private String title;
-		
+
 		public ComboPanel(final String title) {
 			this.setModel(model);
 			this.setTitle(title);
@@ -924,7 +922,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			comboBox.setSelectedIndex(selectedIndex);
 			comboBox.addActionListener(this);
 		}
-		
+
 		public JPanel update(Object[] geos) {
 			model.setGeos(geos);
 			if (!model.checkGeos()) { 
@@ -954,12 +952,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedIndex(int index) {
 			comboBox.setSelectedIndex(index);
-			
+
 		}
 
 		public void addItem(String item) {
 			comboBox.addItem(item);
-			
+
 		}
 
 
@@ -1786,7 +1784,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	private class TooltipPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-	
+
 		public TooltipPanel() {
 			super(loc.getMenu("Tooltip") + ":");
 			setModel(new TooltipModel(this));
@@ -1795,7 +1793,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	private class LayerPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-	
+
 		public LayerPanel() {
 			super(loc.getPlain("Layer") + ":");
 			setModel(new LayerModel(this));
@@ -1804,101 +1802,101 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 
 	//	/*
-//	 * panel with layers properties Michael Borcherds
-//	 */
-//	private class LayerPanel extends JPanel implements ItemListener,
-//	ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-//	IComboListener {
-//		/**
-//		 * 
-//		 */
-//		private static final long serialVersionUID = 1L;
-//		private LayerModel model;
-//		private JComboBox layerModeCB;
-//		private JLabel layerLabel;
-//
-//		public LayerPanel() {
-//			model = new LayerModel(this);
-//			layerLabel = new JLabel();
-//			layerLabel.setLabelFor(layerModeCB);
-//
-//			// combo box for label mode: name or algebra
-//			layerModeCB = new JComboBox();
-//
-//			model.addLayers();
-//
-//			layerModeCB.addActionListener(this);
-//
-//			// labelPanel with show checkbox
-//			setLayout(new FlowLayout(FlowLayout.LEFT));
-//			add(layerLabel);
-//			add(layerModeCB);
-//		}
-//
-//		public void setLabels() {
-//			layerLabel.setText(app.getPlain("Layer") + ":");
-//		}
-//
-//		public JPanel update(Object[] geos) {
-//			model.setGeos(geos);
-//			if (!model.checkGeos()) {
-//				return null;
-//			}
-//
-//			layerModeCB.removeActionListener(this);
-//
-//			// check if properties have same values
-//			model.updateProperties();
-//			// locus in selection
-//			layerModeCB.addActionListener(this);
-//			return this;
-//		}
-//
-//
-//		/**
-//		 * listens to checkboxes and sets object and label visible state
-//		 */
-//		public void itemStateChanged(ItemEvent e) {
-//		}
-//
-//		/**
-//		 * action listener implementation for label mode combobox
-//		 */
-//		public void actionPerformed(ActionEvent e) {
-//			Object source = e.getSource();
-//			if (source == layerModeCB) {
-//				model.applyChanges(layerModeCB.getSelectedIndex());
-//
-//			}
-//		}
-//
-//		public void updateFonts() {
-//			Font font = app.getPlainFont();
-//
-//			layerLabel.setFont(font);
-//			layerModeCB.setFont(font);
-//		}
-//
-//		public void updateVisualStyle(GeoElement geo) {
-//			// TODO Auto-generated method stub
-//
-//		}
-//
-//		public void setSelectedIndex(int index) {
-//			if (index == -1) {
-//				layerModeCB.setSelectedItem(null);
-//			} else {
-//				layerModeCB.setSelectedIndex(index);
-//			}
-//
-//		}
-//
-//		public void addItem(String item) {
-//			layerModeCB.addItem(item);
-//		}
-//
-//	} // LayersPanel
-//
+	//	 * panel with layers properties Michael Borcherds
+	//	 */
+	//	private class LayerPanel extends JPanel implements ItemListener,
+	//	ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+	//	IComboListener {
+	//		/**
+	//		 * 
+	//		 */
+	//		private static final long serialVersionUID = 1L;
+	//		private LayerModel model;
+	//		private JComboBox layerModeCB;
+	//		private JLabel layerLabel;
+	//
+	//		public LayerPanel() {
+	//			model = new LayerModel(this);
+	//			layerLabel = new JLabel();
+	//			layerLabel.setLabelFor(layerModeCB);
+	//
+	//			// combo box for label mode: name or algebra
+	//			layerModeCB = new JComboBox();
+	//
+	//			model.addLayers();
+	//
+	//			layerModeCB.addActionListener(this);
+	//
+	//			// labelPanel with show checkbox
+	//			setLayout(new FlowLayout(FlowLayout.LEFT));
+	//			add(layerLabel);
+	//			add(layerModeCB);
+	//		}
+	//
+	//		public void setLabels() {
+	//			layerLabel.setText(app.getPlain("Layer") + ":");
+	//		}
+	//
+	//		public JPanel update(Object[] geos) {
+	//			model.setGeos(geos);
+	//			if (!model.checkGeos()) {
+	//				return null;
+	//			}
+	//
+	//			layerModeCB.removeActionListener(this);
+	//
+	//			// check if properties have same values
+	//			model.updateProperties();
+	//			// locus in selection
+	//			layerModeCB.addActionListener(this);
+	//			return this;
+	//		}
+	//
+	//
+	//		/**
+	//		 * listens to checkboxes and sets object and label visible state
+	//		 */
+	//		public void itemStateChanged(ItemEvent e) {
+	//		}
+	//
+	//		/**
+	//		 * action listener implementation for label mode combobox
+	//		 */
+	//		public void actionPerformed(ActionEvent e) {
+	//			Object source = e.getSource();
+	//			if (source == layerModeCB) {
+	//				model.applyChanges(layerModeCB.getSelectedIndex());
+	//
+	//			}
+	//		}
+	//
+	//		public void updateFonts() {
+	//			Font font = app.getPlainFont();
+	//
+	//			layerLabel.setFont(font);
+	//			layerModeCB.setFont(font);
+	//		}
+	//
+	//		public void updateVisualStyle(GeoElement geo) {
+	//			// TODO Auto-generated method stub
+	//
+	//		}
+	//
+	//		public void setSelectedIndex(int index) {
+	//			if (index == -1) {
+	//				layerModeCB.setSelectedItem(null);
+	//			} else {
+	//				layerModeCB.setSelectedIndex(index);
+	//			}
+	//
+	//		}
+	//
+	//		public void addItem(String item) {
+	//			layerModeCB.addItem(item);
+	//		}
+	//
+	//	} // LayersPanel
+	//
 	/**
 	 * panel for trace
 	 * 
@@ -2050,132 +2048,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	private class AbsoluteScreenLocationPanel extends JPanel implements
-	ItemListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+	
+	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox cbAbsScreenLoc;
 
-		public AbsoluteScreenLocationPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
-
-			// check boxes for show trace
-			cbAbsScreenLoc = new JCheckBox();
-			cbAbsScreenLoc.addItemListener(this);
-
-			// put it all together
-			add(cbAbsScreenLoc);
+		public AbsoluteScreenLocationPanel(){
+			super(app.getPlain("AbsoluteScreenLocation"));
+			setModel(new AbsoluteScreenLocationModel(app, this));
+			app.setFlowLayoutOrientation(this);
 		}
 
-		public void setLabels() {
-			cbAbsScreenLoc.setText(app.getPlain("AbsoluteScreenLocation"));
-		}
-
-		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
-				return null;
-
-			cbAbsScreenLoc.removeItemListener(this);
-
-			// check if properties have same values
-			boolean pinned = ((GeoElement) geos[0]).isPinned();
-			boolean equalVal = true;
-
-			for (int i = 0; i < geos.length; i++) {
-				// same object visible value
-				if (((GeoElement) geos[i]).isPinned() != pinned)
-					equalVal = false;
-			}
-
-			// set checkbox
-			if (equalVal)
-				cbAbsScreenLoc.setSelected(((GeoElement) geos[0]).isPinned());
-			else
-				cbAbsScreenLoc.setSelected(false);
-
-			cbAbsScreenLoc.addItemListener(this);
-			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (geo instanceof AbsoluteScreenLocateable) {
-					AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
-					if (!absLoc.isAbsoluteScreenLocateable()
-							|| geo.isGeoBoolean() || geo instanceof Furniture)
-						return false;
-				} else if (!geo.isPinnable()) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			AbsoluteScreenLocateable geo;
-			Object source = e.getItemSelectable();
-
-			// absolute screen location flag changed
-			if (source == cbAbsScreenLoc) {
-				boolean flag = cbAbsScreenLoc.isSelected();
-				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-				for (int i = 0; i < geos.length; i++) {
-
-					if (geos[i] instanceof AbsoluteScreenLocateable) {
-
-						geo = (AbsoluteScreenLocateable) geos[i];
-						if (flag) {
-							// convert real world to screen coords
-							int x = ev.toScreenCoordX(geo.getRealWorldLocX());
-							int y = ev.toScreenCoordY(geo.getRealWorldLocY());
-							if (!geo.isAbsoluteScreenLocActive())
-								geo.setAbsoluteScreenLoc(x, y);
-						} else {
-							// convert screen coords to real world
-							double x = ev.toRealWorldCoordX(geo
-									.getAbsoluteScreenLocX());
-							double y = ev.toRealWorldCoordY(geo
-									.getAbsoluteScreenLocY());
-							if (geo.isAbsoluteScreenLocActive())
-								geo.setRealWorldLoc(x, y);
-						}
-						geo.setAbsoluteScreenLocActive(flag);
-						geo.toGeoElement().updateRepaint();
-					} else if (((GeoElement) geos[i]).isPinnable()) {
-						ArrayList<GeoElement> al = new ArrayList<GeoElement>();
-						al.add((GeoElement) geos[i]);
-
-						// geo could be redefined, so need to change geos[i] to
-						// new geo
-						geos[i] = EuclidianStyleBarStatic.applyFixPosition(al,
-								flag, app.getActiveEuclidianView());
-					}
-				}
-
-				updateSelection(geos);
-			}
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			cbAbsScreenLoc.setFont(font);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
 	}
-
+	
 	/**
 	 * panel to set whether GeoLists are drawn as ComboBoxes
 	 * 
@@ -2463,7 +2350,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void addItem(String item) {
 			cbModel.addElement(item);
-			
+
 		}
 	}
 
@@ -2880,10 +2767,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	
+
 	private class CoordsPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-	
+
 		public CoordsPanel() { 
 			super(loc.getMenu("Coordinates") + ":");
 			setModel(new CoordsModel(this));
@@ -2892,7 +2779,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	private class LineEqnPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-	
+
 		public LineEqnPanel() {
 			super(loc.getMenu("Equation") + ":");
 			setModel(new LineEqnModel(this));
@@ -2920,7 +2807,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				comboBox.addActionListener(this);
 			}
 		}
-		
+
 	} // ConicEqnPanel
 
 
