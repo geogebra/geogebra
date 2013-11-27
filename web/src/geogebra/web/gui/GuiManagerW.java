@@ -16,8 +16,6 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -25,6 +23,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.html5.event.PointerEvent;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
@@ -82,14 +81,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 */
 	public AttachedToDOM currentPopup;
 
-	protected Kernel kernel;
-
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
 	private EuclidianViewW euclidianView2;
 
-	private final AppW app;
 	private AbsolutePanel main;
 
 	private LayoutW layout;
@@ -125,17 +121,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void updateMenubarSelection() {
-		if (app.getObjectPool().getGgwMenubar() != null) {
-			app.getObjectPool().getGgwMenubar().getMenubar().updateSelection();
+		if (((AppW) app).getObjectPool().getGgwMenubar() != null) {
+			((AppW) app).getObjectPool().getGgwMenubar().getMenubar().updateSelection();
 		}
 
 	}
 
 	@Override
 	public void updateMenubar() {
-		GGWMenuBar ggwMenuBar = app.getObjectPool().getGgwMenubar();
+		GGWMenuBar ggwMenuBar = ((AppW) app).getObjectPool().getGgwMenubar();
 		if (ggwMenuBar != null) {
-			GeoGebraMenubarW menuBar = app.getObjectPool().getGgwMenubar().getMenubar();
+			GeoGebraMenubarW menuBar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
 			if (menuBar != null) {
 				menuBar.updateMenubar();
 			}
@@ -145,7 +141,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	@Override
 	public void updateActions() {
-		GGWMenuBar ggwMenuBar = app.getObjectPool().getGgwMenubar();
+		GGWMenuBar ggwMenuBar = ((AppW) app).getObjectPool().getGgwMenubar();
 		if (ggwMenuBar != null) {
 			ggwMenuBar.getMenubar().updateSelection();
 		}
@@ -190,20 +186,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public AlgebraContextMenuW getAlgebraContextMenu(){
 		removePopup();
-		currentPopup = new AlgebraContextMenuW(app);
+		currentPopup = new AlgebraContextMenuW((AppW) app);
 		return (AlgebraContextMenuW)currentPopup;
 	}
 	
 	public RowHeaderPopupMenuW getCASContextMenu(RowHeaderWidget rowHeader, CASTableW table){
 		removePopup();
-		currentPopup = new RowHeaderPopupMenuW(rowHeader, table, app);
+		currentPopup = new RowHeaderPopupMenuW(rowHeader, table, (AppW) app);
 		return (RowHeaderPopupMenuW)currentPopup;
 	}
 	
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
 	        GPoint location) {
 		removePopup();
-		currentPopup = new ContextMenuGeoElementW(app, geos, location);
+		currentPopup = new ContextMenuGeoElementW((AppW) app, geos, location);
 		((ContextMenuGeoElementW)currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
@@ -251,13 +247,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public void setFocusedPanel(int evID, boolean updatePropertiesView) {
 
-		if (!(app.getEuclidianViewpanel() instanceof DockPanel)) {
+		if (!(((AppW) app).getEuclidianViewpanel() instanceof DockPanel)) {
 			App.debug("This part of the code should not have run!");
 			return;
 		}
 
 		if (evID == 1)
-			setFocusedPanel((DockPanel)app.getEuclidianViewpanel(), updatePropertiesView);
+			setFocusedPanel((DockPanel)((AppW) app).getEuclidianViewpanel(), updatePropertiesView);
 		else if (evID == 2)
 			setFocusedPanel(getEuclidianView2DockPanel(), updatePropertiesView);
 	}
@@ -279,7 +275,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		app.setWaitCursor();
 
-		ImageFileInputDialog dialog = new ImageFileInputDialog(app, loc);
+		ImageFileInputDialog dialog = new ImageFileInputDialog((AppW) app, loc);
 		dialog.setVisible(true);
 	}
 
@@ -313,7 +309,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(int x, int y) {
-		currentPopup = new ContextMenuGraphicsWindowW(app, x, y);
+		currentPopup = new ContextMenuGraphicsWindowW((AppW) app, x, y);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
@@ -382,7 +378,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public View getCasView() {
 		if (casView == null)
-			casView = new CASViewW(app);
+			casView = new CASViewW((AppW) app);
 		return casView;
 	}
 
@@ -393,7 +389,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public SpreadsheetViewW getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
-			spreadsheetView = new SpreadsheetViewW(app);
+			spreadsheetView = new SpreadsheetViewW((AppW) app);
 		}
 
 		return spreadsheetView;
@@ -403,7 +399,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public View getProbabilityCalculator() {
 		if (probabilityCalculatorView == null) {
-			probabilityCalculatorView = new ProbabilityCalculatorViewW(app);
+			probabilityCalculatorView = new ProbabilityCalculatorViewW((AppW) app);
 		}
 
 		return propertiesView;
@@ -426,8 +422,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void resize(int width, int height) {
 		int fullWidth = width;
 		int fullHeight = height;
-		int calcWidth = width - getLayout().getRootComponent().getOffsetWidth() + app.getEuclidianViewpanel().getOffsetWidth();
-		int calcHeight = height - getLayout().getRootComponent().getOffsetHeight() + app.getEuclidianViewpanel().getOffsetHeight();		
+		int calcWidth = width - getLayout().getRootComponent().getOffsetWidth() + ((AppW) app).getEuclidianViewpanel().getOffsetWidth();
+		int calcHeight = height - getLayout().getRootComponent().getOffsetHeight() + ((AppW) app).getEuclidianViewpanel().getOffsetHeight();		
 		if (calcWidth < 100) {
 			calcWidth = 100;
 			fullWidth += calcWidth;
@@ -437,8 +433,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			fullHeight += calcHeight;
 		}
 		getLayout().getRootComponent().setPixelSize(fullWidth, fullHeight);
-		app.getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);		
-		app.getEuclidianViewpanel().onResize();
+		((AppW) app).getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);		
+		((AppW) app).getEuclidianViewpanel().onResize();
 	}
 
 	public ToolBarW getGeneralToolbar() {
@@ -512,8 +508,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		// register euclidian view
 		// this is done earlier
-		if (app.getEuclidianViewpanel() instanceof DockPanelW) {
-			layout.registerPanel((DockPanelW)app.getEuclidianViewpanel());
+		if (((AppW) app).getEuclidianViewpanel() instanceof DockPanelW) {
+			layout.registerPanel((DockPanelW)((AppW) app).getEuclidianViewpanel());
 		} else {
 			App.debug("This part of the code should not have been called!");
 			return;
@@ -533,14 +529,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		layout.registerPanel(getEuclidianView2DockPanel());
 
 		// register ConstructionProtocol view
-		layout.registerPanel(new ConstructionProtocolDockPanelW(app));
+		layout.registerPanel(new ConstructionProtocolDockPanelW((AppW) app));
 
 		// register ProbabilityCalculator view
 	//	layout.registerPanel(new ProbabilityCalculatorDockPanel(app));
 
 		// register Properties view
 		
-		layout.registerPanel(new PropertiesDockPanelW(app));
+		layout.registerPanel(new PropertiesDockPanelW((AppW) app));
 
 		// register data analysis view
 	//	layout.registerPanel(new DataAnalysisViewDockPanel(app));
@@ -574,7 +570,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
-			toolbarPanel = (GGWToolBar)app.getToolbar();
+			toolbarPanel = (GGWToolBar)((AppW) app).getToolbar();
 			if (toolbarPanel != null && !toolbarPanel.isInited()) {
 				toolbarPanel.init(app);
 			}
@@ -655,21 +651,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			algebraView.detachView();
 	}
 
-	public void setMode(int mode, ModeSetter m) {
-
-		// can't move this after otherwise Object Properties doesn't work
-		kernel.notifyModeChanged(mode, m);
-
-		// select toolbar button, returns *actual* mode selected
-		// int newMode = setToolbarMode(mode);
-		//
-		// if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode !=
-		// mode) {
-		// mode = newMode;
-		// kernel.notifyModeChanged(mode);
-		// }
-	}
-
 	public void applyAlgebraViewSettings() {
 		if (algebraView != null)
 			algebraView.applySettings();
@@ -681,7 +662,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesViewW(app);
+			propertiesView = new PropertiesViewW((AppW) app);
 		}
 
 		return propertiesView;
@@ -723,14 +704,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// do saving here if getBase64 will be good
 		GeoGebraFileChooserW fileChooser = ((DialogManagerW) app
 		        .getDialogManager()).getFileChooser();
-		if (app.getFileName() != null) {
-			fileChooser.setFileName(app.getFileName());
+		if (((AppW) app).getFileName() != null) {
+			fileChooser.setFileName(((AppW) app).getFileName());
 		} else {
 			fileChooser.setFileName("");
 		}
 
-		if (app.getFileDescription() != null) {
-			fileChooser.setDescription(app.getFileDescription());
+		if (((AppW) app).getFileDescription() != null) {
+			fileChooser.setDescription(((AppW) app).getFileDescription());
 		} else {
 			fileChooser.setDescription("");
 		}
@@ -743,7 +724,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void openURL() {
-		InputDialogOpenURL id = new InputDialogOpenURL(app);
+		InputDialogOpenURL id = new InputDialogOpenURL((AppW) app);
 		id.setVisible(true);
 	}
 	
@@ -753,7 +734,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	@Override
 	protected boolean loadURL_GGB(String url) {
-		app.loadURL_GGB(url);
+		((AppW) app).loadURL_GGB(url);
 		return true;
 	}
 
@@ -958,7 +939,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		switch (type) {
 		case COMMAND:
-			pageName = app.getEnglishCommand(pageName);
+			pageName = ((AppWeb) app).getEnglishCommand(pageName);
 			// String pageNameOffline = pageName.replace(":",
 			// "%3A").replace(" ",
 			// "_");
@@ -1083,10 +1064,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			GGWToolBar.getToolBar().buildGui();
 		}
 
-		if (app.getObjectPool().getGgwMenubar() != null &&
-			app.getObjectPool().getGgwMenubar().getMenubar() != null) {
-			app.getObjectPool().getGgwMenubar().removeMenus();
-			app.getObjectPool().getGgwMenubar().init(app);
+		if (((AppW) app).getObjectPool().getGgwMenubar() != null &&
+			((AppW) app).getObjectPool().getGgwMenubar().getMenubar() != null) {
+			((AppW) app).getObjectPool().getGgwMenubar().removeMenus();
+			((AppW) app).getObjectPool().getGgwMenubar().init((AppW) app);
 		}
 
 		if (algebraView != null) {
@@ -1155,7 +1136,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			return new EuclidianViewW(getEuclidianView2DockPanel(), new EuclidianControllerW(kernel), showAxis,
 				showGrid, id, app.getSettings().getEuclidian(id));
 		}
-		return new EuclidianViewW(app.getEuclidianViewpanel(), new EuclidianControllerW(kernel), showAxis,
+		return new EuclidianViewW(((AppW) app).getEuclidianViewpanel(), new EuclidianControllerW(kernel), showAxis,
 			showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
@@ -1224,7 +1205,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	@Override
 	protected AppW getApp() {
-		return app;
+		return (AppW) app;
 	}
 
 	public void openFromGoogleDrive() {
@@ -1254,7 +1235,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
     public ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
-			constructionProtocolView = new ConstructionProtocolViewW(app);
+			constructionProtocolView = new ConstructionProtocolViewW((AppW) app);
 		}
 
 		return constructionProtocolView;
@@ -1306,8 +1287,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 * @param show wheter to show the menubar or not
 	 */
 	public void showMenuBar(boolean show) {
-	   if (app.getObjectPool().getGgwMenubar() != null) {
-		   app.getObjectPool().getGgwMenubar().setVisible(show);
+	   if (((AppW) app).getObjectPool().getGgwMenubar() != null) {
+		   ((AppW) app).getObjectPool().getGgwMenubar().setVisible(show);
 	   } else {
 		   ((AppWapplet) app).attachMenubar();
 	   }
