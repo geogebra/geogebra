@@ -29,23 +29,10 @@ class TabletHeaderUndoRedo extends HorizontalPanel {
 		this.app = app;
 		this.model = model;
 
-		// FIXME temporary hack for apple, move this to LAF
-		/*final String param = RootPanel.getBodyElement().getAttribute(
-				"data-param-laf");
-		if ("apple".equals(param)) {
-
-			this.undo = new StandardButton("undo");
-			this.undo.addStyleName("textButton");
-			this.undo.addStyleName("first");
-			this.redo = new StandardButton("redo");
-			this.redo.addStyleName("textButton");
-			this.redo.addStyleName("last");
-		} else {*/
 			this.undo = new StandardButton(TouchEntryPoint.getLookAndFeel()
 					.getIcons().undo());
 			this.redo = new StandardButton(TouchEntryPoint.getLookAndFeel()
 					.getIcons().redo());
-		//}
 
 		this.addUndoButton();
 		this.addRedoButton();
