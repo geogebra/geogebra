@@ -9762,6 +9762,8 @@ public abstract class EuclidianController {
 	}
 	
 	private double oldDistance;
+
+	private PointerEventType defaultEventType;
 	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
@@ -9791,10 +9793,16 @@ public abstract class EuclidianController {
 	public boolean isExternalHandling(){
 		return externalHandling;
 	}
+
 	public int getViewID() {
 		return this.view.evNo;
 	}
-	public void setDefaultEventType(PointerEventType pointerEventType) {
-		// TODO Auto-generated method stub
+
+	public final void setDefaultEventType(PointerEventType pointerEventType) {
+		this.defaultEventType = pointerEventType;
+	}
+
+	public final PointerEventType getDefaultEventType() {
+		return this.defaultEventType;
 	}
 }

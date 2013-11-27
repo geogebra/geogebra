@@ -6,7 +6,6 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -39,15 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianViewT extends EuclidianViewWeb {
 
 	private Canvas canvas;
-	private Hits hits;
 	private EuclidianViewPanel panel;
-	private final int selectionFactor = 3;
-	private static int SELECTION_DIAMETER_MIN = 25; // taken from
-
-	// geogebra.common.euclidian.draw.DrawPoint
-
-	// accepting range for hitting a point is multiplied with this factor
-	// (for anything other see App)
 
 	EuclidianViewT(final EuclidianViewPanel euclidianViewPanel,
 			final TouchController ec, final Widget widget, final int width,
@@ -59,7 +50,6 @@ public class EuclidianViewT extends EuclidianViewWeb {
 		this.setAllowShowMouseCoords(false);
 		this.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 
-		this.hits = new Hits();
 		this.init(euclidianViewPanel, widget, width, height);
 		// make sure we listen to the changes of settings, eg if file is loaded
 		if (this.evNo == 1 || this.evNo == 2) {
@@ -100,11 +90,6 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	@Override
 	public EuclidianController getEuclidianController() {
 		return this.euclidianController;
-	}
-
-	@Override
-	public Hits getHits() {
-		return this.hits;
 	}
 
 	@Override

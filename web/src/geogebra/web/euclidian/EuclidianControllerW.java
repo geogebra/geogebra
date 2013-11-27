@@ -459,14 +459,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    return mousePool;
     }
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
-	private PointerEventType defaultEventType;
-	
-	@Override
-    public void setDefaultEventType(PointerEventType defaultEventType) {
-		this.defaultEventType = defaultEventType;
-	}
-
-
 
 	public LinkedList<PointerEvent> getTouchEventPool() {
 	    return touchPool;
@@ -515,12 +507,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public int getEvID() {
 	    return view.getEuclidianViewNo();
-    }
-
-
-
-	public PointerEventType getDefaultEventType() {
-	    return defaultEventType;
     }
 
 }
