@@ -9248,7 +9248,6 @@ public abstract class EuclidianController {
 					|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
 					|| (app.isShiftDragZoomEnabled() &&
 							shiftOrMeta);
-		App.debug("ZOOM"+allowMouseWheel+"-"+shiftOrMeta);
 		if (!allowMouseWheel) {
 			return;
 		}
