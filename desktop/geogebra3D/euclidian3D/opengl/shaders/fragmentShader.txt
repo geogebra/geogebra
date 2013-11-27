@@ -43,6 +43,7 @@ precision mediump int;
 
 // uniform
 uniform int fading;
+uniform int texturesEnabled;
 
 // in (incomming varying data to the frament shader sent from the vertex shader)
 varying   vec4    varying_Color;  
@@ -56,22 +57,31 @@ void main (void)
 	
 	gl_FragColor.xyz  = varying_Color.xyz;
 	
-	// first test if there is a fading (e.g. for plane edges)
-	if (fading == 1){
-		float factor;
-		float x = mod(coordTexture.x, 1);
-		float y = mod(coordTexture.y, 1);
-		if (x > y){
-			factor = 1 - x;
+	if (texturesEnabled == 1){
+		// first test if there is a fading (e.g. for plane edges)
+		if (fading == 1){
+			float factor;
+			float x = mod(coordTexture.x, 1);
+			float y = mod(coordTexture.y, 1);
+			if (x > y){
+				factor = 1 - x;
+			}else{
+				factor = 1 - y;
+			}
+			//gl_FragColor.a = varying_Color.a * factor;
+			if (factor > 0.5){
+				gl_FragColor.a = 0;
+			}else{
+				gl_FragColor.a = varying_Color.a;
+			}		
 		}else{
-			factor = 1 - y;
+			float x = mod(coordTexture.x, 1);
+			if (x > 0.5){
+				discard; // don't write
+			}else{
+				gl_FragColor.a = varying_Color.a;
+			}	
 		}
-		//gl_FragColor.a = varying_Color.a * factor;
-		if (x > 0.5){
-			gl_FragColor.a = 0;
-		}else{
-			gl_FragColor.a = varying_Color.a;
-		}		
 	}else{
 		gl_FragColor.a = varying_Color.a;
 	}

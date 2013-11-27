@@ -50,7 +50,7 @@ public class ManagerShaders extends Manager {
 		return fb;
 	}
 	
-	private ArrayList<Float> vertices, normals;
+	private ArrayList<Float> vertices, normals, textures;
 	
 	@Override
 	protected void initGeometriesList(){
@@ -59,6 +59,7 @@ public class ManagerShaders extends Manager {
 		
 		vertices = new ArrayList<Float>();
 		normals = new ArrayList<Float>();
+		textures = new ArrayList<Float>();
 		
 	}
 
@@ -89,7 +90,7 @@ public class ManagerShaders extends Manager {
 		 */
 		private int type;
 		
-		private FloatBuffer v, n;
+		private FloatBuffer v, n, t;
 		
 		private int length;
 		
@@ -115,7 +116,7 @@ public class ManagerShaders extends Manager {
 		}
 		
 		/**
-		 * set float buffer vertices
+		 * set float buffer for vertices
 		 * @param fb float buffer
 		 */
 		public void setVertices(FloatBuffer fb){
@@ -131,7 +132,7 @@ public class ManagerShaders extends Manager {
 		}
 		
 		/**
-		 * set float buffer vertices
+		 * set float buffer for normals
 		 * @param fb float buffer
 		 */
 		public void setNormals(FloatBuffer fb){
@@ -140,10 +141,26 @@ public class ManagerShaders extends Manager {
 		
 		/**
 		 * 
-		 * @return vertices buffer
+		 * @return normals buffer
 		 */
 		public FloatBuffer getNormals(){
 			return n;
+		}
+		
+		/**
+		 * set float buffer for texture
+		 * @param fb float buffer
+		 */
+		public void setTextures(FloatBuffer fb){
+			this.t = fb;
+		}
+		
+		/**
+		 * 
+		 * @return texture buffer
+		 */
+		public FloatBuffer getTextures(){
+			return t;
 		}
 
 		
@@ -210,6 +227,12 @@ public class ManagerShaders extends Manager {
 			}
 		}
 		
+		public void setTextures(ArrayList<Float> textures){
+			if (!textures.isEmpty()){
+				currentGeometry.setTextures(ManagerShaders.floatBuffer(textures));
+			}
+		}
+		
 	
 		
 	}
@@ -247,12 +270,14 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet.startGeometry(type);
 		vertices.clear();
 		normals.clear();
+		textures.clear();
 	}
 	
 	@Override
 	public void endGeometry(){
 		currentGeometriesSet.setVertices(vertices);
 		currentGeometriesSet.setNormals(normals);
+		currentGeometriesSet.setTextures(textures);
 		currentGeometriesSet.endGeometry();
 	}
 	
@@ -316,15 +341,19 @@ public class ManagerShaders extends Manager {
 			for (Geometry geometry : currentGeometriesSet){
 				renderer.loadVertexBuffer(geometry.getVertices(), geometry.getLength());
 				renderer.loadNormalBuffer(geometry.getNormals(), geometry.getLength());
+				if (renderer.areTexturesEnabled()){
+					renderer.loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
+				}
 				renderer.draw(geometry.getType(), geometry.getLength());
-
 			}
 		}
 	}
 	
 	@Override
 	protected void texture(float x, float y){		
-		//renderer.getGL2().glTexCoord2f(x,y);	
+		
+		textures.add(x);
+		textures.add(y);
 	}
 	
 	

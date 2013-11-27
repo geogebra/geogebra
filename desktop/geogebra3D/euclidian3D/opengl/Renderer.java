@@ -465,16 +465,12 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     /**
      * enable textures
      */
-    final public void enableTextures(){  	
-    	getGL().glEnable(GLlocal.GL_TEXTURE_2D);
-    }
-
+    abstract public void enableTextures();
+    
     /**
      * disable multi samples (for antialiasing)
      */
-    final public void disableTextures(){
-    	getGL().glDisable(GLlocal.GL_TEXTURE_2D);
-    }
+    abstract public void disableTextures();
    
     /**
      * enable  multi samples (for antialiasing)

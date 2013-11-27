@@ -88,6 +88,7 @@ public class RendererShaders extends Renderer {
     private int modelviewLocation, projectionLocation; // matrices
     private int lightPositionLocation, ambiantDiffuseLocation; // light
     private int fadingLocation; // textures
+    private int texturesEnabledLocation; // textures
     private int colorLocation; // color
     //private int normalMatrixLocation;
 
@@ -235,6 +236,7 @@ public class RendererShaders extends Renderer {
         
         //texture
         fadingLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "fading");
+        texturesEnabledLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "texturesEnabled");
                
         //color
         colorLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "color");
@@ -522,6 +524,27 @@ public class RendererShaders extends Renderer {
 
 	   getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
    }
+   
+   
+   public void loadTextureBuffer(FloatBuffer fbTextures, int length){
+
+	   if (fbTextures == null){
+		   return;
+	   }
+
+       // Select the VBO, GPU memory data, to use for normals 
+       getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
+       int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
+       getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
+       fbTextures = null; // It is OK to release CPU color memory after transfer to GPU
+
+       // Associate Vertex attribute 1 with the last bound VBO
+       getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
+                                GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
+                                0 /* The bound VBO data offset */);
+
+       getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+   }
 
   
    
@@ -536,11 +559,7 @@ public class RendererShaders extends Renderer {
     @Override
 	protected void draw(){
     	
-    	float[] color = {1,0,1,1};
-        getGL2ES2().glUniform4fv(colorLocation, 1, color, 0);
-    	
-    	
-    	
+     	disableTextures();
     	
         //labels
         //drawFaceToScreen();
@@ -564,7 +583,7 @@ public class RendererShaders extends Renderer {
         getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts 
         drawable3DLists.drawHiddenNotTextured(this);
         enableTextures();
-        //drawable3DLists.drawHiddenTextured(this);
+        drawable3DLists.drawHiddenTextured(this);
         //drawNotTransp();
         disableTextures();
         getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
@@ -630,7 +649,7 @@ public class RendererShaders extends Renderer {
         
         //drawing not hidden parts
         getGL().glEnable(GLlocal.GL_CULL_FACE);
-        drawable3DLists.draw(this);        
+        //drawable3DLists.draw(this);        
         
             
         //FPS
@@ -1491,10 +1510,31 @@ public class RendererShaders extends Renderer {
     }
     
     
-    
-    
-    
-    
+
+	private boolean texturesEnabled;
+
+	@Override
+	final public void enableTextures(){  	
+		texturesEnabled = true;
+		getGL2ES2().glUniform1i(texturesEnabledLocation, 1);
+		//getGL().glEnable(GLlocal.GL_TEXTURE_2D);
+	}
+
+
+	@Override
+	final public void disableTextures(){
+		texturesEnabled = false;
+		getGL2ES2().glUniform1i(texturesEnabledLocation, 0);
+		//getGL().glDisable(GLlocal.GL_TEXTURE_2D);
+	}
+	
+	/**
+	 * @return true if textures are enabled
+	 */
+	public boolean areTexturesEnabled(){
+		return texturesEnabled;
+	}
+
     
 
 

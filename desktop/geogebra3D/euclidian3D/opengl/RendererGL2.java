@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.main.App;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.EuclidianController3D;
@@ -578,6 +577,19 @@ public class RendererGL2 extends Renderer{
 	public void dispose(GLAutoDrawable arg0) {
 		// nothing to do ?		
 	}
+	
+	
+
+    @Override
+	final public void enableTextures(){  	
+    	getGL().glEnable(GLlocal.GL_TEXTURE_2D);
+    }
+
+
+    @Override
+	final public void disableTextures(){
+    	getGL().glDisable(GLlocal.GL_TEXTURE_2D);
+    }
 
 
 }
