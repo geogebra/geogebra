@@ -45,7 +45,7 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 	}
 	@Override
     public void setLabels() {
-		getLabel().setText(getTitle());
+		getLabel().setText(loc.getPlain(getTitle()) + ":");
 
 		int idx = getListBox().getSelectedIndex();
 		getListBox().clear();
