@@ -88,7 +88,7 @@ public class RendererShaders extends Renderer {
     private int modelviewLocation, projectionLocation; // matrices
     private int lightPositionLocation, ambiantDiffuseLocation; // light
     private int fadingLocation; // textures
-    private int texturesEnabledLocation; // textures
+    private int texturesEnabledLocation, hasTextureLocation; // textures
     private int colorLocation; // color
     //private int normalMatrixLocation;
 
@@ -237,6 +237,7 @@ public class RendererShaders extends Renderer {
         //texture
         fadingLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "fading");
         texturesEnabledLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "texturesEnabled");
+        hasTextureLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "hasTexture");
                
         //color
         colorLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "color");
@@ -528,15 +529,17 @@ public class RendererShaders extends Renderer {
    
    public void loadTextureBuffer(FloatBuffer fbTextures, int length){
 
-	   if (fbTextures == null){
+	   if (fbTextures == null){		
+		   setCurrentGeometryHasNoTexture();
 		   return;
 	   }
-
+	   
+	   setCurrentGeometryHasTexture();
+	   
        // Select the VBO, GPU memory data, to use for normals 
        getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
        int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
-       fbTextures = null; // It is OK to release CPU color memory after transfer to GPU
 
        // Associate Vertex attribute 1 with the last bound VBO
        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
@@ -584,35 +587,35 @@ public class RendererShaders extends Renderer {
         drawable3DLists.drawHiddenNotTextured(this);
         enableTextures();
         drawable3DLists.drawHiddenTextured(this);
-        //drawNotTransp();
-        disableTextures();
+        enableFading();
+        drawNotTransp();
+        //disableTextures();
         getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
         
                 
         //drawing transparents parts
         getGL().glDepthMask(false);
         enableTextures();
-        //drawTransp();      
+        drawTransp();      
         getGL().glDepthMask(true);
        
-        //drawing labels
-        disableTextures();
+        
         getGL().glEnable(GLlocal.GL_CULL_FACE);
         getGL().glDisable(GLlocal.GL_BLEND);        
         
         //drawing hiding parts
         getGL().glColorMask(false,false,false,false); //no writing in color buffer		
         getGL().glCullFace(GLlocal.GL_FRONT); //draws inside parts    
-        /*
+        disableTextures();
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces back-faces
         if (drawable3DLists.containsClippedSurfaces()){
         	enableClipPlanesIfNeeded();
         	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
         	disableClipPlanesIfNeeded();
         }
-        */
-        getGL().glDisable(GLlocal.GL_CULL_FACE);
-        //drawable3DLists.drawSurfacesForHiding(this); //non closed surfaces
+        
+        getGL().glDisable(GLlocal.GL_CULL_FACE);      
+        drawable3DLists.drawSurfacesForHiding(this); //non closed surfaces
         setColorMask();
 
         //re-drawing transparents parts for better transparent effect
@@ -620,6 +623,7 @@ public class RendererShaders extends Renderer {
         enableTextures();
         getGL().glDepthMask(false);
         getGL().glEnable(GLlocal.GL_BLEND);
+        enableFading();
         drawTransp();
         getGL().glDepthMask(true);
         disableTextures();
@@ -629,14 +633,12 @@ public class RendererShaders extends Renderer {
         getGL().glDisable(GLlocal.GL_BLEND);
         getGL().glEnable(GLlocal.GL_CULL_FACE);
         getGL().glCullFace(GLlocal.GL_BACK); //draws inside parts
-        /*
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces front-faces
         if (drawable3DLists.containsClippedSurfaces()){
         	enableClipPlanesIfNeeded();
         	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
         	disableClipPlanesIfNeeded();
         }
-        */
         setColorMask();        
         
         //re-drawing transparents parts for better transparent effect
@@ -644,12 +646,15 @@ public class RendererShaders extends Renderer {
         enableTextures();
         getGL().glDepthMask(false);
         getGL().glEnable(GLlocal.GL_BLEND);
-        //drawTransp();
+        enableFading();
+        drawTransp();
         getGL().glDepthMask(true);
         
         //drawing not hidden parts
+        disableTextures();
+        disableFading();
         getGL().glEnable(GLlocal.GL_CULL_FACE);
-        //drawable3DLists.draw(this);        
+        drawable3DLists.draw(this);        
         
             
         //FPS
@@ -1514,10 +1519,13 @@ public class RendererShaders extends Renderer {
 	private boolean texturesEnabled;
 
 	@Override
-	final public void enableTextures(){  	
+	final public void enableTextures(){  
 		texturesEnabled = true;
 		getGL2ES2().glUniform1i(texturesEnabledLocation, 1);
-		//getGL().glEnable(GLlocal.GL_TEXTURE_2D);
+		
+		// init current geometry
+		currentGeometryHasTexture = false;
+		setCurrentGeometryHasTexture();
 	}
 
 
@@ -1525,8 +1533,45 @@ public class RendererShaders extends Renderer {
 	final public void disableTextures(){
 		texturesEnabled = false;
 		getGL2ES2().glUniform1i(texturesEnabledLocation, 0);
-		//getGL().glDisable(GLlocal.GL_TEXTURE_2D);
 	}
+
+	
+	private boolean currentGeometryHasTexture = false;
+	
+	/**
+	 * tells that current geometry has a texture
+	 */
+	final public void setCurrentGeometryHasTexture(){
+		if (areTexturesEnabled() && !currentGeometryHasTexture){
+			currentGeometryHasTexture = true;
+			getGL2ES2().glUniform1i(hasTextureLocation, 1);
+		}
+	}
+
+	/**
+	 * tells that current geometry has no texture
+	 */
+	final public void setCurrentGeometryHasNoTexture(){
+		if (areTexturesEnabled() && currentGeometryHasTexture){
+			currentGeometryHasTexture = false;
+			getGL2ES2().glUniform1i(hasTextureLocation, 0);
+		}
+	}
+
+	/**
+	 * enable fading (e.g. for planes)
+	 */
+	final public void enableFading(){  
+		getGL2ES2().glUniform1i(fadingLocation, 1);
+	}
+	
+	/**
+	 * disable fading (e.g. for planes)
+	 */
+	final public void disableFading(){  
+		getGL2ES2().glUniform1i(fadingLocation, 0);
+	}
+	
 	
 	/**
 	 * @return true if textures are enabled

@@ -222,13 +222,13 @@ public class ManagerShaders extends Manager {
 		}
 		
 		public void setNormals(ArrayList<Float> normals){
-			if (!normals.isEmpty()){
+			if (normals.size() == 3 * currentGeometry.getLength()){
 				currentGeometry.setNormals(ManagerShaders.floatBuffer(normals));
 			}
 		}
 		
 		public void setTextures(ArrayList<Float> textures){
-			if (!textures.isEmpty()){
+			if (textures.size() == 2 * currentGeometry.getLength()){
 				currentGeometry.setTextures(ManagerShaders.floatBuffer(textures));
 			}
 		}
