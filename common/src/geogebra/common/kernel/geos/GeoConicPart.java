@@ -125,8 +125,6 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 		posOrientation = cp.posOrientation;
 		conic_part_type = cp.conic_part_type;
 
-		setLines(cp);
-
 		value = cp.value;
 		area = cp.area;
 		value_defined = cp.value_defined;
