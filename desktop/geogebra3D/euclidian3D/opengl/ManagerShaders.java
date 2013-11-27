@@ -5,6 +5,7 @@ import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.TreeMap;
 
 import javax.media.opengl.glu.GLUtessellator;
@@ -56,6 +57,7 @@ public class ManagerShaders extends Manager {
 	protected void initGeometriesList(){
 		geometriesSetList = new TreeMap<Integer, ManagerShaders.GeometriesSet>();
 		geometriesSetMaxIndex = -1;
+		indicesRemoved = new Stack<Integer>();
 		
 		vertices = new ArrayList<Float>();
 		normals = new ArrayList<Float>();
@@ -243,14 +245,24 @@ public class ManagerShaders extends Manager {
 	
 	private GeometriesSet currentGeometriesSet;
 	
+	private Stack<Integer> indicesRemoved;
+	
 
 	@Override
 	public int startNewList(){
-		geometriesSetMaxIndex++;
-		currentGeometriesSet = new GeometriesSet();
-		geometriesSetList.put(geometriesSetMaxIndex, currentGeometriesSet);
 		
-		return geometriesSetMaxIndex;
+		int index;
+		if (indicesRemoved.empty()){
+			geometriesSetMaxIndex++;
+			index = geometriesSetMaxIndex;
+		}else{
+			index = indicesRemoved.pop();
+		}
+		
+		currentGeometriesSet = new GeometriesSet();
+		geometriesSetList.put(index, currentGeometriesSet);
+		
+		return index;
 	}
 	
 	
@@ -307,13 +319,14 @@ public class ManagerShaders extends Manager {
     }
     
     
-    /** remove the polygon from gl memory
-     * @param index
-     */
+ 
     @Override
 	public void remove(int index){
     	
-    	//renderer.getGL2().glDeleteLists(index, 1);  	
+    	if (index >= 0){ // negative index is for no geometry
+    		indicesRemoved.push(index);
+    		geometriesSetList.remove(index);
+    	}
     }
 	
 	
