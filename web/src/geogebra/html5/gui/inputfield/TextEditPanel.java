@@ -15,7 +15,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -56,7 +55,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	private GeoElementSelectionListener sl;
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;
-	private TextEditInsertPanel insertPanel;
+	private TextEditAdvancedPanel advancedPanel;
 
 	/*****************************************************
 	 * @param app
@@ -69,55 +68,33 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		dTProcessor = new DynamicTextProcessor(app);
 
 		editor = new GeoTextEditor(app, this);
-		editor.setSize("350px", "120px");
-		// TODO: styling done in stylesheet
-		editor.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
-		editor.getElement().getStyle().setBorderColor("lightgray");
-		editor.getElement().getStyle().setBorderWidth(1, Unit.PX);
-
-		// TODO: this panel is slow loading. Make this happen on demand ...
-		// after disclosure opens
-		insertPanel = new TextEditInsertPanel(app, this);
-		previewer = insertPanel.getPreviewer();
-
+		editor.addStyleName("textEditor");
+		
 		createToolBar();
-
-		// VerticalPanel v = new VerticalPanel();
-		// v.add(toolBar);
-		// v.add(insertPanel);
-
+		
+		// TODO: advancedPanel is slow loading. Make this happen on demand.
+		advancedPanel = new TextEditAdvancedPanel(app, this);
+		previewer = advancedPanel.getPreviewer();
+		
 		disclosurePanel = new DisclosurePanel(loc.getMenu("Advanced"));
-		disclosurePanel.setContent(insertPanel);
-		disclosurePanel.getContent().getElement().getStyle()
-		        .setMargin(0, Unit.PX);
-		disclosurePanel.getContent().getElement().getStyle()
-		        .setPadding(0, Unit.PX);
-		disclosurePanel.getContent().getElement().getStyle()
-		        .setBorderStyle(BorderStyle.NONE);
-		disclosurePanel.getHeader().getElement().getStyle()
-		        .setFontSize(80, Unit.PCT);
+		disclosurePanel.setContent(advancedPanel);
+		disclosurePanel.getContent().removeStyleName("content");
+		disclosurePanel.getContent().addStyleName(
+		        "textEditorDisclosurePanelContent");
+		disclosurePanel.getHeader().addStyleName(
+		        "textEditorDisclosurePanelHeader");
 
+		// build our panel
 		setSize("100%", "100%");
 		add(toolBar);
 		add(editor);
 		add(disclosurePanel);
 
-		// force a dummy geo on first use
-		setEditGeo(null);
-
-		sl = new GeoElementSelectionListener() {
-			public void geoElementSelected(GeoElement geo,
-			        boolean addToSelection) {
-				if (geo != editGeo) {
-					editor.insertGeoElement(geo);
-				}
-				// inputPanel.getTextComponent().requestFocusInWindow();
-			}
-		};
-
-		editor.addFocusHandler(this);
-
+		registerListeners();
 		setLabels();
+
+		// force a dummy geo to be created on first use
+		setEditGeo(null);
 
 	}
 
@@ -190,10 +167,24 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		        .setText(loc.getMenu("Advanced"));
 		btnLatex.setText(loc.getPlain("LaTeXFormula"));
 		btnSerif.setText("Serif");
-		if (insertPanel != null) {
-			insertPanel.setLabels();
+		if (advancedPanel != null) {
+			advancedPanel.setLabels();
 		}
 
+	}
+
+	private void registerListeners() {
+
+		sl = new GeoElementSelectionListener() {
+			public void geoElementSelected(GeoElement geo,
+			        boolean addToSelection) {
+				if (geo != editGeo) {
+					editor.insertGeoElement(geo);
+				}
+			}
+		};
+
+		editor.addFocusHandler(this);
 	}
 
 	// ======================================================

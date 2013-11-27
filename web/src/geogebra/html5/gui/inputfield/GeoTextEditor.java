@@ -56,7 +56,7 @@ public class GeoTextEditor extends RichTextArea {
 	 * Constructor
 	 * 
 	 * @param app
-	 * @param editor
+	 * @param editPanel
 	 */
 	public GeoTextEditor(AppW app, TextEditPanel editPanel) {
 
@@ -66,7 +66,7 @@ public class GeoTextEditor extends RichTextArea {
 
 		formatter = getFormatter();
 
-		// style must be set after the editor has been initialized
+		// styles and handlers must be set after the editor has been initialized
 		addInitializeHandler(new InitializeHandler() {
 			public void onInitialize(InitializeEvent event) {
 				setStyle();
@@ -134,6 +134,7 @@ public class GeoTextEditor extends RichTextArea {
 
 		getBody().setAttribute("style",
 		        "font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
+		
 		getBody().setAttribute("spellcheck", "false");
 		getBody().setAttribute("oncontextmenu", "return false");
 		getBody().setAttribute("word-wrap", "normal");
@@ -158,7 +159,7 @@ public class GeoTextEditor extends RichTextArea {
 		return head;
 	}
 
-	private BodyElement getBody() {
+	protected BodyElement getBody() {
 		return getDocument().getBody();
 	}
 
@@ -196,14 +197,24 @@ public class GeoTextEditor extends RichTextArea {
 
 	public void handlePaste() {
 		editPanel.updatePreviewPanel();
-		App.debug("Paste!");
+		// App.debug("Paste!");
 	}
 
 	public void handleCut() {
 		editPanel.updatePreviewPanel();
-		App.debug("Cut!");
+		// App.debug("Cut!");
 	}
 
+	/**
+	 * Inserts an HTML element at the current cursor position and updates the
+	 * editor.
+	 * 
+	 * Note: The insertHTML method is not supported in IE11 so it can't be used
+	 * here. Instead, insertImage (browser safe) is used to insert a dummy image
+	 * element which is then replaced with the actual element to be inserted.
+	 * 
+	 * @param elem
+	 */
 	public void insertElement(Element elem) {
 		String dummyURL = dummyImageURL();
 		formatter.insertImage(dummyURL);
@@ -251,13 +262,15 @@ public class GeoTextEditor extends RichTextArea {
 	public Element createValueElement(String value) {
 
 		Element elem = getDocument().createElement("input");
+		elem.setPropertyString("type", "button");
+		elem.setPropertyString("value", value);
+
+		// set style 
+		// TODO: get this to work from the css file 
 		elem.getStyle().clearBackgroundImage();
 		elem.getStyle().clearBackgroundColor();
 		elem.getStyle().clearTextDecoration();
 		elem.getStyle().clearOpacity();
-
-		elem.setPropertyString("type", "button");
-		elem.setPropertyString("value", value);
 		elem.getStyle().setBorderStyle(BorderStyle.SOLID);
 		elem.getStyle().setBorderWidth(2, Unit.PX);
 		elem.getStyle().setBorderColor("lightgray");

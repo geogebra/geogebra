@@ -1982,6 +1982,35 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /*=========== Construction protocol end =============*/
 
+
+/* ========== Text Editor ============ */
+
+.textEditor{
+	border: 1px solid lightgray;
+	width: 380px;
+	height: 100px;
+}
+
+.textEditorAdvancedPanel{
+	width: 380px;
+	height: 180px;
+}
+
+.textEditorDisclosurePanelContent{
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	font-size: 80%;
+}
+
+.textEditorDisclosurePanelHeader{
+	font-size: 80%;
+}
+
+/* ========== Text Editor end ============ */
+
+
+
 .elemHeadingName{
 	position:absolute;
 	left:10px;
