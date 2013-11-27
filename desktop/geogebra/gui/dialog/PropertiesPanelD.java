@@ -1531,7 +1531,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
-				boolean hasBackground) {
+				boolean hasBackground, boolean hasOpacity) {
 			// initialize selected color and opacity
 			selectedColor = null;
 			Color selectedBGColor = null;
@@ -1572,7 +1572,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// set the opacity
 			opacitySlider.removeChangeListener(this);
-			if (allFillable) { // show opacity slider and set to first geo's
+			if (allFillable && hasOpacity) { // show opacity slider and set to first geo's
 				// alpha value
 				opacityPanel.setVisible(true);
 				alpha = geo0.getAlphaValue();

@@ -2,6 +2,7 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
@@ -13,7 +14,8 @@ public class ColorObjectModel extends OptionsModel {
 
 		void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
-				boolean hasBackground);
+				boolean hasBackground,
+				boolean hasAlpha);
 
 		void updatePreview(GColor col, float alpha);
 
@@ -97,9 +99,17 @@ public class ColorObjectModel extends OptionsModel {
 				}
 		}
 		
-		listener.updateChooser(equalObjColor, equalObjColorBackground, allFillable, hasBackground);
+		listener.updateChooser(equalObjColor, equalObjColorBackground, allFillable, hasBackground,
+				hasOpacity(geo0));
 	}
 
+	protected boolean hasOpacity(GeoElement geo) {
+		boolean hasOpacity = true;
+		if (geo instanceof GeoButton) {
+			hasOpacity = false;
+		}
+		return hasOpacity;
+	}
 	
 	/**
 	 * Sets color of selected GeoElements

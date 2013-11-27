@@ -500,7 +500,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
-				boolean hasBackground) {
+				boolean hasBackground, boolean hasOpacity) {
 			// TODO Auto-generated method stub
 			selectedColor = null;
 			GColor selectedBGColor = null;
@@ -524,7 +524,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 					}
 				}
 			}
+			
+			colorChooser.setSliderVisible(hasOpacity);
 			colorChooser.update(model.getGeos());
+			
 		}
 
 

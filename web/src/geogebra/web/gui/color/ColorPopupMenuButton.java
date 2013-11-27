@@ -52,14 +52,17 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		getMySlider().setMajorTickSpacing(25);
 		getMySlider().setMinorTickSpacing(5);
 		setSliderValue(100);
-		getMySlider().setVisible(hasSlider);
-
+		setSliderVisible(hasSlider);
 		updateColorTable();	
 		//addActionListener(this);
 		setKeepVisible(false);
 		
 	}
+	public void setSliderVisible(boolean visible) {
+		hasSlider = visible;
+		getMySlider().setVisible(hasSlider);
 
+	}
 	public void updateColorTable(){
 		getMyTable().populateModel(getColorSwatchIcons(colorSet, getSliderValue()/100f, iconSize, colorSetType));
 	}
