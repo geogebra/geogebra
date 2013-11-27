@@ -848,7 +848,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			checkbox.setText(title);
+			checkbox.setText(app.getPlain(title));
 			app.setComponentOrientation(this);
 
 		}
@@ -912,7 +912,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			label.setText(getTitle());
+			label.setText(loc.getMenu(getTitle()) + ":");
 
 			int selectedIndex = comboBox.getSelectedIndex();
 			comboBox.removeActionListener(this);
@@ -1058,7 +1058,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public ShowObjectPanel() {
-			super(app.getPlain("ShowObject"));
+			super("ShowObject");
 			setModel(new ShowObjectModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1074,7 +1074,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private static final long serialVersionUID = 1L;
 		public SelectionAllowedPanel() {
-			super(app.getPlain("SelectionAllowed"));
+			super("SelectionAllowed");
 			setModel(new SelectionAllowedModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1088,7 +1088,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private static final long serialVersionUID = 1L;
 		public ShowTrimmedIntersectionLines() {
-			super(app.getPlain("ShowTrimmed"));
+			super("ShowTrimmed");
 			setModel(new TrimmedIntersectionLinesModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1103,7 +1103,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public CheckBoxFixPanel() {
-			super(app.getPlain("FixCheckbox"));
+			super("FixCheckbox");
 			setModel(new FixCheckboxModel(this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1115,7 +1115,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public IneqPanel() {
-			super(app.getPlain("ShowOnXAxis"));
+			super("ShowOnXAxis");
 			setModel(new IneqStyleModel(this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1786,7 +1786,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public TooltipPanel() {
-			super(loc.getMenu("Tooltip") + ":");
+			super("Tooltip");
 			setModel(new TooltipModel(this));
 		}
 	} // TooltipPanel
@@ -1795,108 +1795,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public LayerPanel() {
-			super(loc.getPlain("Layer") + ":");
+			super("Layer");
 			setModel(new LayerModel(this));
 		}
 	} // TooltipPanel
 
 
-	//	/*
-	//	 * panel with layers properties Michael Borcherds
-	//	 */
-	//	private class LayerPanel extends JPanel implements ItemListener,
-	//	ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-	//	IComboListener {
-	//		/**
-	//		 * 
-	//		 */
-	//		private static final long serialVersionUID = 1L;
-	//		private LayerModel model;
-	//		private JComboBox layerModeCB;
-	//		private JLabel layerLabel;
-	//
-	//		public LayerPanel() {
-	//			model = new LayerModel(this);
-	//			layerLabel = new JLabel();
-	//			layerLabel.setLabelFor(layerModeCB);
-	//
-	//			// combo box for label mode: name or algebra
-	//			layerModeCB = new JComboBox();
-	//
-	//			model.addLayers();
-	//
-	//			layerModeCB.addActionListener(this);
-	//
-	//			// labelPanel with show checkbox
-	//			setLayout(new FlowLayout(FlowLayout.LEFT));
-	//			add(layerLabel);
-	//			add(layerModeCB);
-	//		}
-	//
-	//		public void setLabels() {
-	//			layerLabel.setText(app.getPlain("Layer") + ":");
-	//		}
-	//
-	//		public JPanel update(Object[] geos) {
-	//			model.setGeos(geos);
-	//			if (!model.checkGeos()) {
-	//				return null;
-	//			}
-	//
-	//			layerModeCB.removeActionListener(this);
-	//
-	//			// check if properties have same values
-	//			model.updateProperties();
-	//			// locus in selection
-	//			layerModeCB.addActionListener(this);
-	//			return this;
-	//		}
-	//
-	//
-	//		/**
-	//		 * listens to checkboxes and sets object and label visible state
-	//		 */
-	//		public void itemStateChanged(ItemEvent e) {
-	//		}
-	//
-	//		/**
-	//		 * action listener implementation for label mode combobox
-	//		 */
-	//		public void actionPerformed(ActionEvent e) {
-	//			Object source = e.getSource();
-	//			if (source == layerModeCB) {
-	//				model.applyChanges(layerModeCB.getSelectedIndex());
-	//
-	//			}
-	//		}
-	//
-	//		public void updateFonts() {
-	//			Font font = app.getPlainFont();
-	//
-	//			layerLabel.setFont(font);
-	//			layerModeCB.setFont(font);
-	//		}
-	//
-	//		public void updateVisualStyle(GeoElement geo) {
-	//			// TODO Auto-generated method stub
-	//
-	//		}
-	//
-	//		public void setSelectedIndex(int index) {
-	//			if (index == -1) {
-	//				layerModeCB.setSelectedItem(null);
-	//			} else {
-	//				layerModeCB.setSelectedIndex(index);
-	//			}
-	//
-	//		}
-	//
-	//		public void addItem(String item) {
-	//			layerModeCB.addItem(item);
-	//		}
-	//
-	//	} // LayersPanel
-	//
 	/**
 	 * panel for trace
 	 * 
@@ -1906,7 +1810,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public TracePanel() {
-			super(app.getPlain("ShowTrace"));
+			super("ShowTrace");
 			setModel(new TraceModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1925,7 +1829,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public AnimatingPanel() {
-			super(app.getPlain("Animating"));
+			super("Animating");
 			setModel(new AnimatingModel(app, this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -2037,7 +1941,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public FixPanel() {
-			super(app.getPlain("FixObject"));
+			super("FixObject");
 			setModel(new FixObjectModel(this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -2056,7 +1960,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public AbsoluteScreenLocationPanel(){
-			super(app.getPlain("AbsoluteScreenLocation"));
+			super("AbsoluteScreenLocation");
 			setModel(new AbsoluteScreenLocationModel(app, this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -2074,7 +1978,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 
 		public ListsAsComboBoxPanel() {
-			super(app.getPlain("DrawAsDropDownList"));
+			super("DrawAsDropDownList");
 			setModel(new ListAsComboModel(app, this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -2203,7 +2107,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;;
 
 		public AllowOutlyingIntersectionsPanel() {
-			super(app.getPlain("allowOutlyingIntersections"));
+			super("allowOutlyingIntersections");
 			setModel(new OutlyingIntersectionsModel(this));
 			app.setFlowLayoutOrientation(this);
 
@@ -2224,7 +2128,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public BackgroundImagePanel() {
-			super(app.getPlain("BackgroundImage"));
+			super("BackgroundImage");
 			setModel(new BackgroundImageModel(this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -2241,7 +2145,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public AuxiliaryObjectPanel() {
-			super(app.getPlain("AuxiliaryObject"));
+			super("AuxiliaryObject");
 			setModel(new AuxObjectModel(this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -2772,7 +2676,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public CoordsPanel() { 
-			super(loc.getMenu("Coordinates") + ":");
+			super("Coordinates");
 			setModel(new CoordsModel(this));
 		}
 	} // CoordsPanel
@@ -2781,7 +2685,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public LineEqnPanel() {
-			super(loc.getMenu("Equation") + ":");
+			super("Equation");
 			setModel(new LineEqnModel(this));
 		}
 	} // LineEqnPanel
@@ -2790,13 +2694,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public ConicEqnPanel() {
-			super(loc.getMenu("Equation") + ":");
+			super("Equation");
 			setModel(new ConicEqnModel(this, loc));
 		}
 
 		@Override
 		public void setLabels() {
-			getLabel().setText(getTitle());
+			getLabel().setText(loc.getMenu(getTitle()));
 			if (getModel().hasGeos() && getModel().checkGeos()) {
 				int selectedIndex = comboBox.getSelectedIndex();
 				comboBox.removeActionListener(this);
@@ -5349,7 +5253,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		RightAnglePanel() {
 
-			super(app.getPlain("EmphasizeRightAngle"));
+			super("EmphasizeRightAngle");
 			setModel(new RightAngleModel(this));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
