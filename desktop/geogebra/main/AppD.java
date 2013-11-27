@@ -4097,8 +4097,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public void showMessage(final String message) {
-		AppD.printStacktrace("showMessage: " + message);
-
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
 		SwingUtilities.invokeLater(new Runnable() {
