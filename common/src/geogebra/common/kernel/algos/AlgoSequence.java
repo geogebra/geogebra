@@ -366,6 +366,9 @@ public class AlgoSequence extends AlgoElement {
 		// copy current expression value to listElement
 		if (!expIsFunctionOrCurve) {
 			listElement.set(expression);
+			if(listElement.isGeoList()){
+				((GeoList)listElement).replaceChildrenByValues(var);
+			}
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
 					&& drawAlgo instanceof DrawInformationAlgo) {
@@ -407,7 +410,6 @@ public class AlgoSequence extends AlgoElement {
 				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
 				fnv.replaceChildrenByValues(var);
 			}
-
 		}
 
 		return listElement;
@@ -439,8 +441,12 @@ public class AlgoSequence extends AlgoElement {
 
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
-			if (expression.isDefined())
+			if (expression.isDefined()){
 				listElement.set(expression);
+				if(listElement.isGeoList()){
+					((GeoList)listElement).replaceChildrenByValues(var);
+				}
+			}
 			else
 				listElement.setUndefined();
 			if (listElement instanceof GeoNumeric

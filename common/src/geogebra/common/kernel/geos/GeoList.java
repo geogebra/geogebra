@@ -39,6 +39,7 @@ import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.App;
@@ -2787,5 +2788,34 @@ AngleProperties {
 		return emphasizeRightAngle;
 	}
 
-	
+	public void replaceChildrenByValues(GeoNumeric var) {
+		if(this.elementType != GeoClass.FUNCTION &&
+				this.elementType != GeoClass.CURVE_CARTESIAN &&
+				this.elementType != GeoClass.FUNCTION_NVAR &&
+				this.elementType != GeoClass.LIST &&
+				this.elementType != ELEMENT_TYPE_MIXED){
+			return;
+		}
+		for(GeoElement listElement:this.geoList){
+			if (listElement.isGeoFunction()
+					|| listElement.isGeoFunctionBoolean()) {
+				GeoFunction f = (GeoFunction) listElement;
+				f.replaceChildrenByValues(var);
+			}
+			// GeoCurve
+			else if (listElement.isGeoCurveCartesian()) {
+				GeoCurveCartesianND curve = (GeoCurveCartesianND) listElement;
+				curve.replaceChildrenByValues(var);
+			}
+
+			else if (listElement.isGeoFunctionNVar()) {
+				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
+				fnv.replaceChildrenByValues(var);
+			}
+			else if(listElement.isGeoList()){
+				((GeoList)listElement).replaceChildrenByValues(var);
+			}
+		}
+		
+	}
 }
