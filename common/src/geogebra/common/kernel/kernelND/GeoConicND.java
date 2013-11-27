@@ -1054,15 +1054,9 @@ Region3D, GeoDirectionND
 		p = co.p;
 		mu[0] = co.mu[0];
 		mu[1] = co.mu[1];
-		if (co.lines != null) {
-			if (lines == null) {
-				lines = new GeoLine[2];
-				lines[0] = new GeoLine(cons);
-				lines[1] = new GeoLine(cons);
-			}
-			lines[0].setCoords(co.lines[0]);
-			lines[1].setCoords(co.lines[1]);
-		}
+		
+		setLines(co);
+		
 		if (co.singlePoint != null) {
 			if (singlePoint == null)
 				singlePoint = new GeoPoint(cons);
@@ -1084,6 +1078,18 @@ Region3D, GeoDirectionND
 		super.set(geo);
 	}		
 	
+	protected void setLines(GeoConicND co) {
+		if (co.lines != null) {
+			if (lines == null) {
+				lines = new GeoLine[2];
+				lines[0] = new GeoLine(cons);
+				lines[1] = new GeoLine(cons);
+			}
+			lines[0].setCoords(co.lines[0]);
+			lines[1].setCoords(co.lines[1]);
+		}
+	}
+
 	/**
 	 * Updates this conic. If the transform has changed, we call makePathParametersInvalid()
 	 * to force an update of all path parameters of all points on this conic.
