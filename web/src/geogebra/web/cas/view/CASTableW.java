@@ -136,7 +136,7 @@ public class CASTableW extends Grid implements CASTable {
 	}
 	
 	public void setInput(){
-		editing.setInput();
+		if (editing !=null) editing.setInput();
 	}
 
 	public CASTableCellEditorW getEditor() {
