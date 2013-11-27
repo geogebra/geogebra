@@ -15,8 +15,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-import javax.media.opengl.GLAutoDrawable;
-
 /**
  * Renderer using GL2
  * @author mathieu
@@ -572,13 +570,7 @@ public class RendererGL2 extends Renderer{
     	return new ManagerGLList(this,view3D);   
     }
     
-    
-
-	public void dispose(GLAutoDrawable arg0) {
-		// nothing to do ?		
-	}
-	
-	
+ 	
 
     @Override
 	final public void enableTextures(){  	
