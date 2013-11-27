@@ -1754,4 +1754,9 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		return Double.POSITIVE_INFINITY;
 	}
 	
+	
+	public void dispose(GLAutoDrawable arg0) {
+		// NOTHING TO DO HERE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE VERSIONS	
+	}
+	
 }
