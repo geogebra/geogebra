@@ -84,7 +84,13 @@ public abstract class Drawable3DList extends Drawable3D {
 	
 	@Override
 	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
-		
+
+		// check pickability 	
+		if (!getGeoElement().isPickable())
+			return null;
+		if(!isVisible())
+			return null;	
+				
 		return getDrawablePicked();
 		
 	}

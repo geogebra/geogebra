@@ -595,18 +595,19 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
 		
+		// check pickability 	
+		if (!getGeoElement().isPickable())
+			return null;
+		if(!isVisible())
+			return null;	
+
 		
 		if (intersection){ // used for intersection tool
 			
 			drawGeometryForPickingIntersection(renderer);
 			
-		}else{ // check pickability only if needed		
+		}else{ 
 
-			if (!getGeoElement().isPickable())
-				return null;
-			if(!isVisible())
-				return null;
-			
 			drawGeometryForPicking(renderer, type);
 			
 		}

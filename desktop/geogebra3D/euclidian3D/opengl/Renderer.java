@@ -1115,7 +1115,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     }
     */
     
-    protected int oldGeoToPickSize = -1;
+    protected int oldGeoToPickSize;
     protected int geoToPickSize = EuclidianView3D.DRAWABLES_NB;
 
 	protected IntBuffer selectBuffer;
@@ -1186,9 +1186,10 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     	//App.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);  	
     	//Application.debug("1");
     	glLoadName(pickingLoop);//Application.debug("2");
-    	Drawable3D ret = d.drawForPicking(this,intersection, type);	//Application.debug("3");
+    	Drawable3D ret = d.drawForPicking(this,intersection, type);	
+    	//App.debug(pickingLoop+": "+ret);
     	if (ret!=null){
-    		//App.debug(pickingLoop+","+ret);
+    		//App.debug("---"+ret.getGeoElement());
     		drawHits[pickingLoop] = ret;//Application.debug("4");
     		pickingLoop++;//Application.debug("5");
     	}
@@ -1302,7 +1303,10 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
      */
     public void init(GLAutoDrawable drawable) {
     	
+    	// reset picking
+    	oldGeoToPickSize = -1;
     	
+    	// start init
     	App.debug("\n"+RendererJogl.getGLInfos(drawable)); 
         
         // JOGL2 only, don't commit

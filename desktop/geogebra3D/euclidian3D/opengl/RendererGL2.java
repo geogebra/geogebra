@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.App;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.EuclidianController3D;
@@ -259,12 +260,12 @@ public class RendererGL2 extends Renderer{
 	protected void doPick(){
 
 
-		if (geoToPickSize!=oldGeoToPickSize || needsNewPickingBuffer){
-			int bufSize=geoToPickSize*2+1 +20; //TODO remove "+20" due to intersection curve
-			selectBuffer=createSelectBufferForPicking(bufSize);
-			drawHits=createDrawableListForPicking(bufSize);
-			oldGeoToPickSize=geoToPickSize;
-			needsNewPickingBuffer=false;
+		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer){
+			int bufSize = geoToPickSize*2+1 +20; //TODO remove "+20" due to intersection curve
+			selectBuffer = createSelectBufferForPicking(bufSize);
+			drawHits = createDrawableListForPicking(bufSize);
+			oldGeoToPickSize = geoToPickSize;
+			needsNewPickingBuffer = false;
 		}
 
 		setGLForPicking();
