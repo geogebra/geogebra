@@ -491,10 +491,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 			
 			// can't move this after otherwise Object Properties doesn't work
 			kernel.notifyModeChanged(mode,m);
-			
-			if (caller_APP == WEB) {
-				return;
-			}
 			//notifyModeChanged called another setMode => nothing to do here
 			if(setModeFinished)
 				return;
