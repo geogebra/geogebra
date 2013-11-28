@@ -270,6 +270,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	private JTabbedPane tabs;
 
+	private String localize(final String id) {
+        // TODO Auto-generated method stub
+        String txt = loc.getPlain(id);
+        if (txt.equals(id)) {
+        	txt = loc.getMenu(id);
+        }
+        return txt;
+    }
+
 	/**
 	 * @param app
 	 * @param colChooser
@@ -848,7 +857,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			checkbox.setText(app.getPlain(title));
+			checkbox.setText(localize(title));
 			app.setComponentOrientation(this);
 
 		}
@@ -912,7 +921,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			label.setText(loc.getMenu(getTitle()) + ":");
+			label.setText(localize(getTitle()) + ":");
 
 			int selectedIndex = comboBox.getSelectedIndex();
 			comboBox.removeActionListener(this);
