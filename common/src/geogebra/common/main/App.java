@@ -167,7 +167,7 @@ public abstract class App implements UpdateSelection{
 	 * geogebra.common.euclidian.DrawPoint)
 	 */
 	private int capturingThreshold = DEFAULT_THRESHOLD;
-	private int capturingThresholdTouch = 5 * DEFAULT_THRESHOLD;
+	private int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
 
 	/**
 	 * Whether inputbar should be shown on top
@@ -312,7 +312,7 @@ public abstract class App implements UpdateSelection{
 	 */
 	public void setCapturingThreshold(int i) {
 		this.capturingThreshold = i;
-		this.capturingThresholdTouch = 5 * i;
+		this.capturingThresholdTouch = 3 * i;
 	}
 	
 	/** whether we should use antialisaing in EV */
