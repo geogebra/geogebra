@@ -98,10 +98,6 @@ public abstract class MyXMLio {
 	 */
 	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
 		cons.setFileLoading(true);
-		if(!isGgtFile){
-			// hide navigation bar for construction steps if visible
-			app.setShowConstructionProtocolNavigation(false);
-		}
 		processXMLString(xml,clearConstruction,isGgtFile,true);
 		cons.setFileLoading(false);
 	}

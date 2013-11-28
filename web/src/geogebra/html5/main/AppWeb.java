@@ -437,6 +437,12 @@ public abstract class AppWeb extends App implements SetLabels{
 				// Process Construction
 				// construction =
 				// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
+				
+				//Before opening the file,
+				//hide navigation bar for construction steps if visible.
+				//(Don't do this for ggt files.)
+				setShowConstructionProtocolNavigation(false);
+				
 				App.debug("start processing"+System.currentTimeMillis());
 				getXMLio().processXMLString(construction, true, false);
 				App.debug("end processing"+System.currentTimeMillis());
