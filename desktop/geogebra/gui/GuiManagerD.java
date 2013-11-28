@@ -3165,4 +3165,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void logout() {
 		app.getDialogManager().showLogOutDialog();
 	}
+
+	@Override
+	protected void setCallerApp() {
+		caller_APP = DESKTOP;
+	}
 }

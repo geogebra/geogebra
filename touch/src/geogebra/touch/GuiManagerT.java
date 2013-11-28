@@ -621,4 +621,9 @@ class GuiManagerT extends GuiManager {
 		
 	}
 
+	@Override
+	protected void setCallerApp() {
+		this.caller_APP = TOUCH;
+	}
+
 }

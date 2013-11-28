@@ -39,9 +39,19 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String ggbTubeTest = "test.geogebratube.org";	
 	private static final String material = "/material/show/id/";
+	public static final int DESKTOP = 0;
+	public static final int WEB = 1;
+	public static final int TOUCH = 2;
 	
 	protected Kernel kernel;
 	protected App app;
+	
+	/**
+	 * Abstract constructor
+	 */
+	public GuiManager () {
+		setCallerApp();
+	}
 	
 
 	public void updateMenubar() { } // temporarily nothing
@@ -473,6 +483,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		
 		private boolean setModeFinished;
 		protected ProbabilityCalcualtorView probCalculator;
+		protected int caller_APP;
 		
 		public void setMode(int mode,ModeSetter m) {
 
@@ -480,18 +491,22 @@ public abstract class GuiManager implements GuiManagerInterface {
 			
 			// can't move this after otherwise Object Properties doesn't work
 			kernel.notifyModeChanged(mode,m);
-
+			
+			if (caller_APP == WEB) {
+				return;
+			}
 			//notifyModeChanged called another setMode => nothing to do here
 			if(setModeFinished)
 				return;
-			// select toolbar button, returns *actual* mode selected
-			int newMode = setToolbarMode(mode);
+			// select toolbar button, returns *actual* mode selected - only for desktop
+			if (caller_APP == DESKTOP) {
+				int newMode = setToolbarMode(mode);
 
-			if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
-				mode = newMode;
-				kernel.notifyModeChanged(mode,m);
+				if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
+					mode = newMode;
+					kernel.notifyModeChanged(mode,m);
+				}
 			}
-
 			if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
 
 				// show or focus the probability calculator
@@ -544,4 +559,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 			return 0;
 			//should be implemented in subclasses if needed
 		};
+		
+		/**
+		 * setst the caller app to the prober value
+		 */
+		protected abstract void setCallerApp();
 }

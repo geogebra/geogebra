@@ -405,7 +405,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return propertiesView;
 	}
 
-	public PlotPanelEuclidianViewInterface getPlotPanelView(int id) {
+	@Override
+    public PlotPanelEuclidianViewInterface getPlotPanelView(int id) {
 		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
@@ -1314,6 +1315,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    } else {
 	    	((AppWapplet) app).attachAlgebraInput();
 	    }
+    }
+
+	@Override
+    protected void setCallerApp() {
+	   this.caller_APP = WEB;
     }
     
 }
