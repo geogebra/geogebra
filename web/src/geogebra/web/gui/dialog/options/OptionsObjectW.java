@@ -97,6 +97,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -165,12 +166,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 
 	private class OptionsTab extends FlowPanel {
-		private String title;
+		private String titleId;
 		private int index;
 		private List<OptionPanel> panels;
+		private boolean hasAdded;
 		public OptionsTab(final String title) {
 			super();
-			this.title = title;
+			this.titleId = title;
+			hasAdded = false;
 			panels = new ArrayList<OptionPanel>();
 			setStyleName("ObjectPropertiesTab");
 		}
@@ -187,19 +190,30 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 
 		public boolean update(Object[] geos) {
-			boolean visible = false;
+			boolean enabled = false;
 			for (OptionPanel panel: panels) {
-				visible = panel.update(geos) || visible;
+				enabled = panel.update(geos) || enabled;
 			}
-			tabPanel.getTabBar().setTabText(index, loc.getMenu(title));
-			tabPanel.getTabBar().setTabEnabled(index, visible);
 			
-			return visible;
+			TabBar tabBar = tabPanel.getTabBar();
+			tabBar.setTabText(index, getTabText());
+			tabBar.setTabEnabled(index, enabled);	
+			return enabled;
 		}
 
+		private String getTabText() {
+	        // TODO Auto-generated method stub
+	        String txt = loc.getPlain(titleId);
+	        if (txt.equals(titleId)) {
+	        	txt = loc.getMenu(titleId);
+	        }
+	        return txt;
+        }
+
 		public void addToTabPanel() {
-			tabPanel.add(this, loc.getMenu(title));
+			tabPanel.add(this, getTabText());
 			index = tabPanel.getWidgetIndex(this);
+			hasAdded = true;
 		}
 	}
 
@@ -248,7 +262,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	private class TracePanel extends CheckboxPanel {
 		public TracePanel() {
-			super(app.getPlain("ShowTrace"));
+			super("ShowTrace");
 			setModel(new TraceModel(this));
 		}
 
@@ -433,8 +447,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		}
 
-
-
 		public void updateSelection(Object[] geos) {
 			// TODO Auto-generated method stub
 
@@ -448,6 +460,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private ColorPopupMenuButton colorChooser;
 		private GColor selectedColor;
 		private SelectionTable colorTable;
+		private Label chooseLabel;
 
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
@@ -488,8 +501,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			colorChooser.setKeepVisible(false);
 			mainPanel = new VerticalPanel();
 			FlowPanel colorPanel = new FlowPanel();
-			Label label = new Label("Choose color:");
-			colorPanel.add(label);
+			chooseLabel = new Label();
+			colorPanel.add(chooseLabel);
 			colorPanel.add(colorChooser);
 			mainPanel.add(colorPanel);
 			setWidget(mainPanel);
@@ -562,8 +575,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		@Override
 		public void setLabels() {
-			// TODO Auto-generated method stub
-
+			chooseLabel.setText(app.getPlain("Color"));
 		}
 
 	}
