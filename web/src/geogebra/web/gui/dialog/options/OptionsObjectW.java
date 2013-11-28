@@ -26,6 +26,7 @@ import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraph
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
+import geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LayerModel;
@@ -70,6 +71,7 @@ import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.color.ColorPopupMenuButton;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
 import geogebra.web.gui.properties.ListBoxPanel;
@@ -92,6 +94,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -1813,6 +1816,84 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
+	private class ImageCornerPanel extends ListBoxPanel {
+		private static final long serialVersionUID = 1L;
+		private ImageCornerModel model;
+		public ImageCornerPanel(int cornerIdx) {
+			super(loc, "CornerModel");
+			model = new ImageCornerModel(app, this);
+			model.setCornerIdx(cornerIdx);
+			setModel(model);
+			//getLabel().setIcon(getAppW().getImageIcon("corner" + 
+			//		model.getCornerNumber() + ".png"));
+		}
+
+		private void setIcon() {
+			ImageResource res;
+			switch (model.getCornerNumber()) { 
+			case 1:
+				res = AppResources.INSTANCE.corner1();
+				break;
+			case 2:
+				res = AppResources.INSTANCE.corner2();
+				break;
+			case 4:
+					res = AppResources.INSTANCE.corner4();
+			break;		
+			}
+			
+		}
+		@Override
+		protected void onListBoxChange() {
+			final String item = getListBox().getValue(getListBox().getSelectedIndex());
+			model.applyChanges(item);
+	        
+		}
+		
+		@Override
+		public void setLabels() {
+			super.setLabels();
+			String strLabelStart = app.getPlain("CornerPoint");
+			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
+		
+		}
+	}
+
+	private class CornerPointsPanel extends OptionPanel
+	{
+	
+		private ImageCornerPanel corner0;
+		private ImageCornerPanel corner1;
+		private ImageCornerPanel corner2;
+
+		public CornerPointsPanel() {
+			corner0 = new ImageCornerPanel(0); 
+			corner1 = new ImageCornerPanel(1); 
+			corner2 = new ImageCornerPanel(2);
+			FlowPanel mainPanel = new FlowPanel();
+			mainPanel.add(corner0.getWidget());
+			mainPanel.add(corner1.getWidget());
+			mainPanel.add(corner2.getWidget());
+			setWidget(mainPanel);
+		}
+
+		public void setLabels() {
+			corner0.setLabels();
+			corner1.setLabels();
+			corner2.setLabels();
+		}
+
+		public boolean update(Object[] geos) {
+			if (geos == null) {
+				return false;
+			}
+			
+		 boolean result = corner0.update(geos);
+			result = corner1.update(geos) || result;
+			result = corner2.update(geos) || result;
+			return result;
+		}
+	}
 
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -1868,8 +1949,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		selectTab(0);
 
 	}
-
-
 
 	private void createBasicTab() {
 		basicTab = new OptionsTab("Properties.Basic");
@@ -2032,6 +2111,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		tab = new OptionsTab("Properties.Position");
 		tab.addPanelList(
 				Arrays.asList(startPointPanel,
+					new CornerPointsPanel(),
 					new AbsoluteScreenLocationPanel()
 				));
 		return tab;
