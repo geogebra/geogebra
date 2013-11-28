@@ -40,6 +40,7 @@ import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraph
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.ISliderListener;
 import geogebra.common.gui.dialog.options.model.ITextFieldListener;
+import geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import geogebra.common.gui.dialog.options.model.LayerModel;
@@ -83,18 +84,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
@@ -142,7 +140,6 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -271,13 +268,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private JTabbedPane tabs;
 
 	private String localize(final String id) {
-        // TODO Auto-generated method stub
-        String txt = loc.getPlain(id);
-        if (txt.equals(id)) {
-        	txt = loc.getMenu(id);
-        }
-        return txt;
-    }
+		// TODO Auto-generated method stub
+		String txt = loc.getPlain(id);
+		if (txt.equals(id)) {
+			txt = loc.getMenu(id);
+		}
+		return txt;
+	}
 
 	/**
 	 * @param app
@@ -1961,7 +1958,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	
+
 	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
 		/**
 		 * 
@@ -1975,7 +1972,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 	}
-	
+
 	/**
 	 * panel to set whether GeoLists are drawn as ComboBoxes
 	 * 
@@ -2267,182 +2264,84 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 	}
 
-	/**
-	 * panel for three corner points of an image (A, B and D)
-	 */
-	private class CornerPointsPanel extends JPanel implements ActionListener,
-	FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts {
-		/**
-		 * 
-		 */
+
+	private class ImageCornerPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JLabel[] labelLocation;
-		private JComboBox[] cbLocation;
-		private DefaultComboBoxModel[] cbModel;
+		private ImageCornerModel model;
+		public ImageCornerPanel(int cornerIdx) {
+			super("CornerModel");
+			model = new ImageCornerModel(app, this);
+			model.setCornerIdx(cornerIdx);
+			setModel(model);
+			getLabel().setIcon(app.getImageIcon("corner" + 
+					model.getCornerNumber() + ".png"));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == comboBox) {
+				model.applyChanges((String)comboBox.getSelectedItem());
+			}
+		}
+
+		
+		@Override
+		public void setLabels() {
+			super.setLabels();
+			String strLabelStart = app.getPlain("CornerPoint");
+			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
+		
+		}
+
+
+	}
+
+	private class CornerPointsPanel extends JPanel implements
+	UpdateablePropertiesPanel, SetLabels, UpdateFonts /**
+	 * 
+	 */
+	{
+		private static final long serialVersionUID = 1L;
+
+
+		private ImageCornerPanel corner0;
+		private ImageCornerPanel corner1;
+		private ImageCornerPanel corner2;
 
 		public CornerPointsPanel() {
-			labelLocation = new JLabel[3];
-			cbLocation = new JComboBox[3];
-			cbModel = new DefaultComboBoxModel[3];
+			corner0 = new ImageCornerPanel(0); 
+			corner1 = new ImageCornerPanel(1); 
+			corner2 = new ImageCornerPanel(2);
 
-			// put it all together
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			add(corner0);
+			add(corner1);
+			add(corner2);
 
-			// textfield for animation step
-			for (int i = 0; i < 3; i++) {
-				labelLocation[i] = new JLabel();
-				cbLocation[i] = new JComboBox();
-				cbLocation[i].setEditable(true);
-				cbModel[i] = new DefaultComboBoxModel();
-				cbLocation[i].setModel(cbModel[i]);
-				labelLocation[i].setLabelFor(cbLocation[i]);
-				cbLocation[i].addActionListener(this);
-				cbLocation[i].addFocusListener(this);
-				cbLocation[i].setEditor(new GeoGebraComboBoxEditor(app, 10));
-
-				JPanel locPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-				locPanel.add(labelLocation[i]);
-				locPanel.add(cbLocation[i]);
-				add(locPanel);
-			}
-
-			labelLocation[0].setIcon(app.getImageIcon("corner1.png"));
-			labelLocation[1].setIcon(app.getImageIcon("corner2.png"));
-			labelLocation[2].setIcon(app.getImageIcon("corner4.png"));
-
-
+		}
+		public void updateFonts() {
+			corner0.updateFonts();
+			corner1.updateFonts();
+			corner2.updateFonts();
 		}
 
 		public void setLabels() {
-			String strLabelStart = app.getPlain("CornerPoint");
-
-			for (int i = 0; i < 3; i++) {
-				int pointNumber = i < 2 ? (i + 1) : (i + 2);
-				labelLocation[i].setText(strLabelStart + " " + pointNumber
-						+ ":");
-			}
+			corner0.setLabels();
+			corner1.setLabels();
+			corner2.setLabels();
 		}
 
 		public JPanel update(Object[] geos) {
-			this.geos = geos;
-			if (!checkGeos(geos))
+			if (geos == null) {
 				return null;
-
-			for (int k = 0; k < 3; k++) {
-				cbLocation[k].removeActionListener(this);
 			}
-
-			// repopulate model with names of points from the geoList's model
-			// take all points from construction
-			TreeSet<GeoElement> points = kernel.getConstruction()
-					.getGeoSetLabelOrder(GeoClass.POINT);
-			if (points.size() != cbModel[0].getSize() - 1) {
-				// clear models
-				for (int k = 0; k < 3; k++) {
-					cbModel[k].removeAllElements();
-					cbModel[k].addElement(null);
-				}
-
-				// insert points
-				Iterator<GeoElement> it = points.iterator();
-				int count = 0;
-				while (it.hasNext() || ++count > MAX_COMBOBOX_ENTRIES) {
-					GeoPointND p = (GeoPointND) it.next();
-
-					for (int k = 0; k < 3; k++) {
-						cbModel[k].addElement(p
-								.getLabel(StringTemplate.defaultTemplate));
-					}
-				}
+			if (corner0.update(geos) == null){
+				//		return null;
 			}
-
-			for (int k = 0; k < 3; k++) {
-				// check if properties have same values
-				GeoImage temp, geo0 = (GeoImage) geos[0];
-				boolean equalLocation = true;
-
-				for (int i = 0; i < geos.length; i++) {
-					temp = (GeoImage) geos[i];
-					// same object visible value
-					if (geo0.getCorner(k) != temp.getCorner(k)) {
-						equalLocation = false;
-						break;
-					}
-				}
-
-				// set location textfield
-				GeoPoint p = geo0.getCorner(k);
-				if (equalLocation && p != null) {
-					cbLocation[k].setSelectedItem(p
-							.getLabel(StringTemplate.defaultTemplate));
-				} else
-					cbLocation[k].setSelectedItem(null);
-
-				cbLocation[k].addActionListener(this);
-			}
+			corner1.update(geos);
+			corner2.update(geos);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (geo instanceof GeoImage) {
-					GeoImage img = (GeoImage) geo;
-					if (img.isAbsoluteScreenLocActive() || !img.isIndependent())
-						return false;
-				} else
-					return false;
-			}
-			return true;
-		}
-
-		/**
-		 * handle textfield changes
-		 */
-		public void actionPerformed(ActionEvent e) {
-			doActionPerformed(e.getSource());
-		}
-
-		private void doActionPerformed(Object source) {
-			int number = 0;
-			if (source == cbLocation[1])
-				number = 1;
-			else if (source == cbLocation[2])
-				number = 2;
-
-			String strLoc = (String) cbLocation[number].getSelectedItem();
-			GeoPointND newLoc = null;
-
-			if (strLoc == null || strLoc.trim().length() == 0) {
-				// newLoc = null;
-			} else {
-				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-						true, true);
-			}
-
-			for (int i = 0; i < geos.length; i++) {
-				GeoImage im = (GeoImage) geos[i];
-				im.setCorner((GeoPoint) newLoc, number);
-				im.updateRepaint();
-			}
-
-			updateSelection(geos);
-		}
-
-		public void focusGained(FocusEvent arg0) {
-		}
-
-		public void focusLost(FocusEvent e) {
-			doActionPerformed(e.getSource());
-		}
-
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			for (int i = 0; i < 3; i++) {
-				labelLocation[i].setFont(font);
-			}
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
