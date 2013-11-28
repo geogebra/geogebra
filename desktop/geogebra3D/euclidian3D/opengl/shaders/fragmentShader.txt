@@ -42,9 +42,9 @@ precision mediump int;
 
 
 // uniform
-uniform int fading;
-uniform int texturesEnabled;
-uniform int hasTexture;
+uniform int textureType;
+
+uniform sampler2D Texture0;
 
 // in (incomming varying data to the frament shader sent from the vertex shader)
 varying   vec4    varying_Color;  
@@ -56,33 +56,41 @@ varying   vec2	  coordTexture;
 void main (void) 
 { 
 	
-	gl_FragColor.xyz  = varying_Color.xyz;
-	
-	if (texturesEnabled == 1 && hasTexture == 1){
-		// first test if there is a fading (e.g. for plane edges)
-		if (fading == 1){
-			float factor;
-			float x = coordTexture.x;
-			float y = coordTexture.y;
-			if (x < 0){
-				x = 0;
-			}
-			if (y < 0){
-				y = 0;
-			}
-			gl_FragColor.a = varying_Color.a * (1 - x) * (1 - y);
-		}else{
-			float x = mod(coordTexture.x, 1);
-			if (x > 0.5){
-				discard; // don't write
-			}else{
-				gl_FragColor.a = varying_Color.a;
-			}	
+	if (textureType == 0){ // TEXTURE_TYPE_NONE = 0
+		gl_FragColor = varying_Color;
+		
+	} else if (textureType == 1){ // TEXTURE_TYPE_FADING = 1
+		float factor;
+		float x = coordTexture.x;
+		float y = coordTexture.y;
+		if (x < 0){
+			x = 0;
 		}
-	}else{
-		gl_FragColor.a = varying_Color.a;
+		if (y < 0){
+			y = 0;
+		}
+		gl_FragColor.xyz  = varying_Color.xyz;
+		gl_FragColor.a = varying_Color.a * (1 - x) * (1 - y);
+		
+	}else if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;
+		vec4 textureVal = texture2D(Texture0, coordTexture);
+		if (textureVal.a == 0){
+	  		discard; // don't write
+	  	}else{
+			gl_FragColor.xyz = varying_Color.xyz;
+			gl_FragColor.a = textureVal.a;
+		}
+		
+	}else if (textureType == 4){ // TEXTURE_TYPE_DASH = 4;
+		float x = mod(coordTexture.x, 1);
+		if (x > 0.5){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
 	}
-	  
+	
+	
 
 } 
 

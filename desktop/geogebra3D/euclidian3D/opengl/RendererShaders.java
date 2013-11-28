@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -87,10 +88,15 @@ public class RendererShaders extends Renderer {
     // location values for shader fields
     private int modelviewLocation, projectionLocation; // matrices
     private int lightPositionLocation, ambiantDiffuseLocation; // light
-    private int fadingLocation; // textures
-    private int texturesEnabledLocation, hasTextureLocation; // textures
+    private int textureTypeLocation; // textures
     private int colorLocation; // color
     //private int normalMatrixLocation;
+    
+    final static private int TEXTURE_TYPE_NONE = 0;
+    final static private int TEXTURE_TYPE_FADING = 1;
+    final static private int TEXTURE_TYPE_TEXT = 2;
+    final static private int TEXTURE_TYPE_DASH = 4;
+       
 
     int[] vboHandles;
     private int vboVertices, vboColors, vboNormals, vboTextureCoords;
@@ -235,9 +241,7 @@ public class RendererShaders extends Renderer {
         ambiantDiffuseLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
         
         //texture
-        fadingLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "fading");
-        texturesEnabledLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "texturesEnabled");
-        hasTextureLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "hasTexture");
+        textureTypeLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
                
         //color
         colorLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "color");
@@ -267,217 +271,48 @@ public class RendererShaders extends Renderer {
     
     private void drawTriangle(float[] vertices, float[] normals, float[] colors, float[] textureCoords){
     	
+    	//getGL2ES2().glUniform1i(getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
+    	//getGL().glActiveTexture(GLlocal.GL_TEXTURE0);
+
+    	java.nio.ByteBuffer buffer = java.nio.ByteBuffer.allocate(6);
+    	/*
+    	for (int i = 0; i < 6; i++){
+    		buffer.put((byte) 127);
+    	}*/
+       	buffer.put((byte) 255);buffer.put((byte) 255);buffer.put((byte) 255);
+       	buffer.put((byte) 0);buffer.put((byte) 0);buffer.put((byte) 0);
+           	
+    	buffer.rewind();
+    	int texture = getTextures().createAlphaTexture(2, 2, buffer);
     	
-    	getGL().glDisable(GLlocal.GL_CULL_FACE);
+
+    	getGL().glEnable(GLlocal.GL_TEXTURE_2D);  
+    	getTextures().setTextureLinear(texture);
+    	//getGL().glActiveTexture(GLlocal.GL_TEXTURE0);
+    	//getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, texture);
     	
     	
-    	 /////////////////////////////////////
-        // VBO - vertices
+    	//enableTextures();
+    	//enableFading();
+    	
+    	ArrayList<Float> array = new ArrayList<Float>();
+    	
+    	for (int i = 0; i < 3 * 3; i++){ array.add(vertices[i]); }
+    	loadVertexBuffer(ManagerShaders.floatBuffer(array), 3);
+    	
+    	array.clear(); for (int i = 0; i < 3 * 3; i++){ array.add(normals[i]); }
+		loadNormalBuffer(ManagerShaders.floatBuffer(array), 3);
+		
+		array.clear(); for (int i = 0; i < 3 * 2; i++){ array.add(textureCoords[i]); }
+		loadTextureBuffer(ManagerShaders.floatBuffer(array), 3);	
+		
+		draw(GLlocal.GL_TRIANGLES, 3);
+		
+		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D,  0);
+		getTextures().removeTexture(texture);
         
-  
-
-        // Observe that the vertex data passed to glVertexAttribPointer must stay valid
-        // through the OpenGL rendering lifecycle.
-        // Therefore it is mandatory to allocate a NIO Direct buffer that stays pinned in memory
-        // and thus can not get moved by the java garbage collector.
-        // Also we need to keep a reference to the NIO Direct buffer around up untill
-        // we call glDisableVertexAttribArray first then will it be safe to garbage collect the memory. 
-        // I will here use the com.jogamp.common.nio.Buffers to quicly wrap the array in a Direct NIO buffer.
-        FloatBuffer fbVertices = null;//Buffers.newDirectFloatBuffer(vertices);
-
-        // Select the VBO, GPU memory data, to use for vertices
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
-
-        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
-        int numBytes = vertices.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbVertices, GL.GL_STATIC_DRAW);
-        fbVertices = null; // It is OK to release CPU vertices memory after transfer to GPU
-
-        // Associate Vertex attribute 0 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION /* the vertex attribute */, 3,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        // VBO
-        // getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, 0); // You can unbind the VBO after it have been associated using glVertexAttribPointer
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
-
-        
-        
-        /////////////////////////////////////
-        // VBO - colors
-
-
-                                             
-        FloatBuffer fbColors = null; //Buffers.newDirectFloatBuffer(colors);
-
-        // Select the VBO, GPU memory data, to use for colors 
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboColors);
-        numBytes = colors.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbColors, GL.GL_STATIC_DRAW);
-        fbColors = null; // It is OK to release CPU color memory after transfer to GPU
-
-        // Associate Vertex attribute 1 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR /* the vertex attribute */, 4 /* four positions used for each vertex */,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
-        
-        
-        
-        
-        /////////////////////////////////////
-        // VBO - normals
-
-
-                                             
-        FloatBuffer fbNormals = null;// Buffers.newDirectFloatBuffer(normals);
-
-        // Select the VBO, GPU memory data, to use for normals 
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
-        numBytes = normals.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbNormals, GL.GL_STATIC_DRAW);
-        fbNormals = null; // It is OK to release CPU color memory after transfer to GPU
-
-        // Associate Vertex attribute 1 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /* 3 normal values used for each vertex */,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-
-        
-        /////////////////////////////////////
-        // VBO - texture
-
-
-                                             
-        FloatBuffer fbTextures = null;//Buffers.newDirectFloatBuffer(textureCoords);
-
-        // Select the VBO, GPU memory data, to use for normals 
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboTextureCoords);
-        numBytes = textureCoords.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
-        fbTextures = null; // It is OK to release CPU color memory after transfer to GPU
-
-        // Associate Vertex attribute 1 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
-
-        
-        
-        
-        
-        
-        
-        /////////////////////////
-        // draw
-
-        getGL2ES2().glDrawArrays(GL2ES2.GL_TRIANGLES, 0, 3); //Draw the vertices as triangle // 3 <=> 1 triangle
     }
     
-    
-    
-    private void drawTriangle(float[] vertices, float[] normals, float[] textureCoords){
-    	
-    	
-    	//getGL().glDisable(GLlocal.GL_CULL_FACE);
-    	
-    	
-    	 /////////////////////////////////////
-        // VBO - vertices
-        
-  
-
-        // Observe that the vertex data passed to glVertexAttribPointer must stay valid
-        // through the OpenGL rendering lifecycle.
-        // Therefore it is mandatory to allocate a NIO Direct buffer that stays pinned in memory
-        // and thus can not get moved by the java garbage collector.
-        // Also we need to keep a reference to the NIO Direct buffer around up untill
-        // we call glDisableVertexAttribArray first then will it be safe to garbage collect the memory. 
-        // I will here use the com.jogamp.common.nio.Buffers to quicly wrap the array in a Direct NIO buffer.
-        FloatBuffer fbVertices = null; //Buffers.newDirectFloatBuffer(vertices);
-
-        // Select the VBO, GPU memory data, to use for vertices
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
-
-        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
-        int numBytes = vertices.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbVertices, GL.GL_STATIC_DRAW);
-        fbVertices = null; // It is OK to release CPU vertices memory after transfer to GPU
-
-        // Associate Vertex attribute 0 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION /* the vertex attribute */, 3,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        // VBO
-        // getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, 0); // You can unbind the VBO after it have been associated using glVertexAttribPointer
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
-
-        
-        
-        
-        
-        
-        /////////////////////////////////////
-        // VBO - normals
-
-
-                                             
-        FloatBuffer fbNormals = null; // Buffers.newDirectFloatBuffer(normals);
-
-        // Select the VBO, GPU memory data, to use for normals 
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
-        numBytes = normals.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbNormals, GL.GL_STATIC_DRAW);
-        fbNormals = null; // It is OK to release CPU color memory after transfer to GPU
-
-        // Associate Vertex attribute 1 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /* 3 normal values used for each vertex */,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-
-        
-        /////////////////////////////////////
-        // VBO - texture
-
-
-                                             
-        FloatBuffer fbTextures = null; // Buffers.newDirectFloatBuffer(textureCoords);
-
-        // Select the VBO, GPU memory data, to use for normals 
-        getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
-        numBytes = textureCoords.length * 4; // 4 bytes per float
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
-        fbTextures = null; // It is OK to release CPU color memory after transfer to GPU
-
-        // Associate Vertex attribute 1 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
-                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
-                                 0 /* The bound VBO data offset */);
-
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
-
-        
-        
-        
-        
-        
-        
-        /////////////////////////
-        // draw
-
-        getGL2ES2().glDrawArrays(GL2ES2.GL_TRIANGLES, 0, 3); //Draw the vertices as triangle // 3 <=> 1 triangle
-    }
     
     
     
@@ -562,10 +397,22 @@ public class RendererShaders extends Renderer {
     @Override
 	protected void draw(){
     	
+    	// NOT NEEDED (default value)
+    	//getGL2ES2().glUniform1i(getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
+    	
+    	
      	disableTextures();
     	
         //labels
-        //drawFaceToScreen();
+     	float[] m = new float[]{
+     			1,0,0,0,
+     			0,1,0,0,
+     			0,0,1,0,
+     			0,0,0,1
+     	};
+     	getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, m, 0);
+     	enableTexturesForText();
+        drawFaceToScreen();
         
         //init drawing matrix to view3D toScreen matrix
         setMatrixView(); 
@@ -583,10 +430,12 @@ public class RendererShaders extends Renderer {
                  
         
         //drawing hidden part
+        disableTextures();
         getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts 
         drawable3DLists.drawHiddenNotTextured(this);
-        enableTextures();
+        enableDash();
         drawable3DLists.drawHiddenTextured(this);
+        
         enableFading();
         drawNotTransp();
         //disableTextures();
@@ -595,7 +444,7 @@ public class RendererShaders extends Renderer {
                 
         //drawing transparents parts
         getGL().glDepthMask(false);
-        enableTextures();
+        enableFading();
         drawTransp();      
         getGL().glDepthMask(true);
        
@@ -620,7 +469,6 @@ public class RendererShaders extends Renderer {
 
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
-        enableTextures();
         getGL().glDepthMask(false);
         getGL().glEnable(GLlocal.GL_BLEND);
         enableFading();
@@ -643,7 +491,6 @@ public class RendererShaders extends Renderer {
         
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
-        enableTextures();
         getGL().glDepthMask(false);
         getGL().glEnable(GLlocal.GL_BLEND);
         enableFading();
@@ -652,7 +499,6 @@ public class RendererShaders extends Renderer {
         
         //drawing not hidden parts
         disableTextures();
-        disableFading();
         getGL().glEnable(GLlocal.GL_CULL_FACE);
         drawable3DLists.draw(this);        
         
@@ -668,7 +514,11 @@ public class RendererShaders extends Renderer {
     	getGL().glEnable(GLlocal.GL_DEPTH_TEST);
     	getGL().glEnable(GLlocal.GL_LIGHTING);    
     	
-    	//drawSample();
+        
+        /*
+        getGL().glDisable(GLlocal.GL_CULL_FACE);
+        drawSample();
+        */
     }    
 
     
@@ -753,13 +603,13 @@ public class RendererShaders extends Renderer {
 
         // texture
         
-        getGL2ES2().glUniform1i(fadingLocation, 0);
+        //getGL2ES2().glUniform1i(fadingLocation, 0);
         
         
         float[] textureCoords = { 
         		0, 0,
-                0, 3f,
-                3f, 3f
+                0, 1f,
+                1f, 1f
         };
         
         
@@ -1521,7 +1371,7 @@ public class RendererShaders extends Renderer {
 	@Override
 	final public void enableTextures(){  
 		texturesEnabled = true;
-		getGL2ES2().glUniform1i(texturesEnabledLocation, 1);
+		//getGL2ES2().glUniform1i(textureTypeLocation, 1);
 		
 		// init current geometry
 		currentGeometryHasTexture = false;
@@ -1532,7 +1382,7 @@ public class RendererShaders extends Renderer {
 	@Override
 	final public void disableTextures(){
 		texturesEnabled = false;
-		getGL2ES2().glUniform1i(texturesEnabledLocation, 0);
+		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_NONE);
 	}
 
 	
@@ -1544,7 +1394,7 @@ public class RendererShaders extends Renderer {
 	final public void setCurrentGeometryHasTexture(){
 		if (areTexturesEnabled() && !currentGeometryHasTexture){
 			currentGeometryHasTexture = true;
-			getGL2ES2().glUniform1i(hasTextureLocation, 1);
+			//getGL2ES2().glUniform1i(hasTextureLocation, 1);
 		}
 	}
 
@@ -1554,7 +1404,7 @@ public class RendererShaders extends Renderer {
 	final public void setCurrentGeometryHasNoTexture(){
 		if (areTexturesEnabled() && currentGeometryHasTexture){
 			currentGeometryHasTexture = false;
-			getGL2ES2().glUniform1i(hasTextureLocation, 0);
+			//getGL2ES2().glUniform1i(hasTextureLocation, 0);
 		}
 	}
 
@@ -1562,15 +1412,28 @@ public class RendererShaders extends Renderer {
 	 * enable fading (e.g. for planes)
 	 */
 	final public void enableFading(){  
-		getGL2ES2().glUniform1i(fadingLocation, 1);
+		enableTextures();
+		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_FADING);
 	}
 	
 	/**
-	 * disable fading (e.g. for planes)
+	 * enable fading (e.g. for planes)
 	 */
-	final public void disableFading(){  
-		getGL2ES2().glUniform1i(fadingLocation, 0);
+	final public void enableDash(){  
+		enableTextures();
+		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_DASH);
 	}
+
+	
+	/**
+	 * enable text textures 
+	 */
+	final public void enableTexturesForText(){  
+		enableTextures();
+		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_TEXT);
+	}
+
+	
 	
 	
 	/**

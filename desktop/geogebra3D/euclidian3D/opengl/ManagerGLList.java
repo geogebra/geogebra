@@ -226,7 +226,15 @@ public class ManagerGLList extends Manager {
 	}
 	
 	
-	
+	@Override
+	public void rectangle(int x, int y, int z, int width, int height){
+		getText().rectangle(x, y, z, width, height);
+	}
+
+	@Override
+	public void rectangleBounds(int x, int y, int z, int width, int height){
+		getText().rectangleBounds(x, y, z, width, height);
+	}
 
 
 }

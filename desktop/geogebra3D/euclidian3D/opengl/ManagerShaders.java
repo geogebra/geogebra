@@ -336,19 +336,7 @@ public class ManagerShaders extends Manager {
 
 	@Override
 	public void draw(int index){
-		
-		/*
-		vertices.clear();
-		vertices.add(0f);vertices.add(0f);vertices.add(0f);
-		vertices.add(0f);vertices.add(1f);vertices.add(0f);
-		vertices.add(0f);vertices.add(0f);vertices.add(1f);
-		
-		FloatBuffer fbVertices = floatBuffer(vertices);
-				
-		renderer.loadVertexBuffer(fbVertices, 3*3);//, normals, textureCoords);
-		renderer.draw(Manager.TRIANGLES, 3);
-		*/
-		
+
 		currentGeometriesSet = geometriesSetList.get(index);
 		if (currentGeometriesSet != null){
 			for (Geometry geometry : currentGeometriesSet){
@@ -359,6 +347,17 @@ public class ManagerShaders extends Manager {
 				}
 				renderer.draw(geometry.getType(), geometry.getLength());
 			}
+		}
+	}
+	
+	private void drawCurrentGeometriesSet(){
+		for (Geometry geometry : currentGeometriesSet){
+			renderer.loadVertexBuffer(geometry.getVertices(), geometry.getLength());
+			renderer.loadNormalBuffer(geometry.getNormals(), geometry.getLength());
+			if (renderer.areTexturesEnabled()){
+				renderer.loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
+			}
+			renderer.draw(geometry.getType(), geometry.getLength());
 		}
 	}
 	
@@ -388,9 +387,8 @@ public class ManagerShaders extends Manager {
 	}
 	
 	@Override
-	protected void vertexInt(int x, int y, int z){
-		
-		//renderer.getGL2().glVertex3i(x,y,z); 	
+	protected void vertexInt(int x, int y, int z){		
+		vertex(x,y,z);
 	}
 
 	
@@ -421,7 +419,35 @@ public class ManagerShaders extends Manager {
 	}
 	
 	
-	
+	@Override
+	public void rectangle(int x, int y, int z, int width, int height){
+		
+		currentGeometriesSet = new GeometriesSet();
+		startGeometry(Manager.QUADS);
+		texture(0, 0);
+		vertexInt(x,y,z); 
+		texture(1, 0);
+		vertexInt(x+width,y,z); 
+		texture(1, 1);
+		vertexInt(x+width,y+height,z); 
+		texture(0, 1);
+		vertexInt(x,y+height,z); 	
+		endGeometry();
+		
+		for (Geometry geometry : currentGeometriesSet){
+			renderer.loadVertexBuffer(geometry.getVertices(), geometry.getLength());
+			//renderer.loadNormalBuffer(geometry.getNormals(), geometry.getLength());
+			if (renderer.areTexturesEnabled()){
+				renderer.loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
+			}
+			renderer.draw(geometry.getType(), geometry.getLength());
+		}
+	}
+
+	@Override
+	public void rectangleBounds(int x, int y, int z, int width, int height){
+		getText().rectangleBounds(x, y, z, width, height);
+	}
 
 
 }

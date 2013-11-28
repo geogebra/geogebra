@@ -61,7 +61,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			renderer.disableMultisample();
 			renderer.setLineWidth(geo.getLineThickness()/2);
 			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
-			renderer.getGeometryManager().getText().rectangleBounds(x, y, z, width, height);
+			renderer.getGeometryManager().rectangleBounds(x, y, z, width, height);
 			renderer.enableMultisample();
 			renderer.enableTextures();
 		}

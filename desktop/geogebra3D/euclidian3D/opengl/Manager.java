@@ -116,9 +116,11 @@ abstract public class Manager {
 		return surface;
 	}
 	
-	public PlotterText getText(){
+	
+	protected PlotterText getText(){
 		return text;
-	}	
+	}
+	
 	
 	public PlotterMouseCursor getMouseCursor(){
 		return mouseCursor;
@@ -340,8 +342,20 @@ abstract public class Manager {
 		return colorHighlighted;
 	}
 
-
 	
+	/**
+	 * draws a rectangle
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param width
+	 * @param height
+	 */
+	abstract public void rectangle(int x, int y, int z, int width, int height);
+
+	abstract public void rectangleBounds(int x, int y, int z, int width, int height);
+	
+
 	
 
 }

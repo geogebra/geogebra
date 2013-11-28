@@ -262,7 +262,7 @@ public class DrawLabel3D {
 		
 
 		if (forPicking){
-			renderer.getGeometryManager().getText().rectangle(x, y, z, width, height);
+			renderer.getGeometryManager().rectangle(x, y, z, width, height);
 			
 		}else{
 
@@ -270,7 +270,7 @@ public class DrawLabel3D {
 			if (backgroundColor!=null){
 				renderer.setColor(backgroundColor);
 				renderer.disableTextures();
-				renderer.getGeometryManager().getText().rectangle(x, y, z, width, height);
+				renderer.getGeometryManager().rectangle(x, y, z, width, height);
 			}
 
 			//draw text
@@ -291,7 +291,7 @@ public class DrawLabel3D {
 		renderer.setColor(color);
 		renderer.enableTextures();
 		renderer.getTextures().setTextureLinear(textureIndex);
-		renderer.getGeometryManager().getText().rectangle(x, y, z, width2, height2);
+		renderer.getGeometryManager().rectangle(x, y, z, width2, height2);
 
 	}
 
