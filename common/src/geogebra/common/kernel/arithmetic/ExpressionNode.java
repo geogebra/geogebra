@@ -2564,9 +2564,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append('}');
 				break;
 			case GIAC:
-				sb.append("ggbabs(");
+				sb.append("ggbabs((");
 				sb.append(leftStr);
-				sb.append(')');
+				sb.append("))");
 				break;
 
 			default:
