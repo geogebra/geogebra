@@ -640,9 +640,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {3, 3>ggbtmpvarx}
 	// eg {3>ggbtmpvarx, x^2}
 	// eg {3>ggbtmpvarx}
-	//private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{\\(])([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^,}\\(\\)]+)([,}\\)])(.*)");
-	// works only for variables in form [A-Za-z]+
-	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{\\(])([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)([,}\\)])(.*)");
+	// works only for variables in form [A-Za-z]+ and if it's a simple number
+	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{])(\\(*)?([-0-9.E]+)(\\)*)?>(=*)([A-Za-z]+)([,}\\)])(.*)");
+
+	// old version, causes problems with eg Solve[exp(x)<2]
+	//private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{\\(])([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)([,}\\)])(.*)");
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7
@@ -694,9 +696,41 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap {3>x, 6>y} into {x<3, y<6}
 		while ((matcher = inequalitySimpleInList.exec(ret)) != null ) {	
+			
+			// matcher.getGroup(6) is either "" or "="
+			
+			//App.debug("1 "+matcher.getGroup(1));
+			//App.debug("2 "+matcher.getGroup(2));
+			//App.debug("3XX"+matcher.getGroup(3)+"XX");
+			//App.debug(""+matcher.getGroup(3).equals("undefined"));
+			//App.debug("4 "+matcher.getGroup(4));
+			//App.debug("5XX"+matcher.getGroup(5)+"XX");
+			//App.debug("6 "+matcher.getGroup(6));
+			//App.debug("7 "+matcher.getGroup(7));
+			//App.debug("8 "+matcher.getGroup(8));
+			//App.debug("9 "+matcher.getGroup(9));
+			
+			String g3 = matcher.getGroup(3);
+			String g5 = matcher.getGroup(5);
+			
+			
+			// GWT regex bug? eg Solve[(2exp(x)-4)/(exp(x)-1) > 1], Solve[(x^2-x-2)/(-x^3+7x^2-14x+8)<2]
+			if (g3.equals("undefined")) {
+				g3 = "";
+			}
+			if (g5.equals("undefined")) {
+				g5 = "";
+			}
+			
+			//App.debug("g3= "+g3);
+			//App.debug("g5= "+g5);
 
-			ret = matcher.getGroup(1) + matcher.getGroup(2) + matcher.getGroup(5) + "<" + matcher.getGroup(4) + matcher.getGroup(3) + matcher.getGroup(6) + matcher.getGroup(7);
-			//App.debug(ret);
+			
+			// eg "(" + "-2" + ")"
+			String g345 = g3 + matcher.getGroup(4) + g5;
+			String g7 = matcher.getGroup(7);
+
+			ret = matcher.getGroup(1) + matcher.getGroup(2) + g7 + "<" + matcher.getGroup(6) + g345 + matcher.getGroup(8) + matcher.getGroup(9);
 		}
 
 
