@@ -866,12 +866,9 @@ namespace giac {
     return  s=="index.htm";
   }
 #else
-// This is required on Mac OS X 10.6:
-// #if defined(__APPLE__) || ( defined(__FreeBSD_version) && __FreeBSD_version<800501)
-// This is required on Mac OS X 10.8:
-#if ( defined(__APPLE__) && __APPLE_CC__<5658 ) || ( defined(__FreeBSD_version) && __FreeBSD_version<800501)
-// It would be important to find a condition which works on both. Until then we keep two
-// versions of help.cc and Bernard will not update GeoGebra's version of it.
+// __APPLE_CC__ == 5666 on Mac OS X 10.6
+// __APPLE_CC__ == 5658 on Mac OS X 10.8
+#if ( defined(__APPLE__) && __APPLE_CC__ != 5658 ) || ( defined(__FreeBSD_version) && __FreeBSD_version<800501)
   static int dir_select (struct dirent *d){
 #else
   static int dir_select (const struct dirent *d){
