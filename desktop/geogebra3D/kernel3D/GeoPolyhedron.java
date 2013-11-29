@@ -1063,8 +1063,7 @@ HasHeight
 
 	@Override
 	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
-		return true;
+		return isDefined();
 	}
 
 	@Override

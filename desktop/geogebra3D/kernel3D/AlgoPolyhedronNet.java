@@ -210,13 +210,19 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		// update bottom points
 		GeoPolygon bottomFace = p.getBottomFace();
 		if (bottomFace.isConvex()) {
-		Coords[] points = getPointsCoords(bottomFace);
-		outputPointsBottom.adjustOutputSize(points.length);
-		outputPointsBottom.setLabels(null);
-		for (int i = 0 ; i < points.length ; i++) {
-			outputPointsBottom.getElement(i).setCoords(points[i]);
-		}
-		compute(f, bottomFace, points);
+			getNet().setDefined();
+			Coords[] points = getPointsCoords(bottomFace);
+			outputPointsBottom.adjustOutputSize(points.length);
+			outputPointsBottom.setLabels(null);
+			for (int i = 0 ; i < points.length ; i++) {
+				outputPointsBottom.getElement(i).setCoords(points[i]);
+			}
+			compute(f, bottomFace, points);
+		}else{
+			getNet().setUndefined();
+			outputPointsBottom.setUndefined();
+			outputPointsSide.setUndefined();
+			outputPointsTop.setUndefined();
 		}
 	}
 	

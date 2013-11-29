@@ -378,6 +378,16 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 		
 		/**
+		 * set all geos undefined
+		 */
+		public void setUndefined() {
+			for (int i = 0; i < outputList.size(); i++) {
+				outputList.get(i).setUndefined();
+			}
+		}
+		
+		
+		/**
 		 * call update for each geo
 		 */
 		public void update(){
