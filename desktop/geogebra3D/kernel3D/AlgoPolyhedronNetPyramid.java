@@ -47,33 +47,70 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 		//create side faces
 		for (int i=0; i<n; i++){
-			net.startNewFace();
-			net.addPointToCurrentFace(outputPointsBottom.getElement(i));
-			net.addPointToCurrentFace(outputPointsBottom.getElement((i+1)%n));
-			net.addPointToCurrentFace(outputPointsSide.getElement(i));
-			net.endCurrentFace();
+			createSideFace(net, i, n);
 		}
+	}
+	
+	private void createSideFace(GeoPolyhedronNet net, int index, int bottomPointsLength){
+		net.startNewFace();
+		net.addPointToCurrentFace(outputPointsBottom.getElement(index));
+		net.addPointToCurrentFace(outputPointsBottom.getElement((index+1)%bottomPointsLength));
+		net.addPointToCurrentFace(outputPointsSide.getElement(index));
+		net.endCurrentFace();
 	}
 
 	@Override
 	protected void setOutputSideTop(int n, GeoPolygon3D polygon, int step, GeoSegmentND[] segments){
 
-		outputPolygonsSide.addOutput( polygon, false);
+		setOutputSide(polygon);
+	}
+
+
+	private void setOutputSide(GeoPolygon3D polygon){
+
+		outputPolygonsSide.addOutput(polygon, false);
 		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
 		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
 	}
 
 
+	@Override
+	protected int adjustOutputSize(int newBottomPointsLength){
+		
+		int nOld = super.adjustOutputSize(newBottomPointsLength);
+		
+		if (newBottomPointsLength > nOld){
+			// update top points
+			outputPointsSide.adjustOutputSize(newBottomPointsLength);
+			outputPointsSide.setLabels(null);
 
+			// update edges
+			GeoPolyhedronNet net = getNet();
 
+			//create new sides
+			for (int i = nOld; i < newBottomPointsLength; i++){
+				createSideFace(net, i, newBottomPointsLength);
+				GeoPolygon3D polygon = net.createPolygon(i+1); // +1 shift since bottom is face #0
+				setOutputSide(polygon);
+			}
+			
+			outputSegmentsSide.setLabels(null);	
+			outputPolygonsSide.setLabels(null);
 
+			refreshOutput();
+			
+			
+		}
+		
+		return nOld;
+	}
+
+	
 
 	@Override
 	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
 
-		// update top points
-		outputPointsSide.adjustOutputSize(points.length);
-		outputPointsSide.setLabels(null);
+		
 
 		Coords topCoords = p.getTopPoint();
 		Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];

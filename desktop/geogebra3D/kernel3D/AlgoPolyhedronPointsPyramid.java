@@ -133,7 +133,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			polyhedron.updateSegmentsLinked();
 
 			//create new sides
-			for (int i=nOld; i<newBottomPointsLength; i++){
+			for (int i = nOld; i < newBottomPointsLength; i++){
 				polyhedron.startNewFace();
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
 				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%newBottomPointsLength]);

@@ -202,6 +202,27 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	protected abstract void compute(double f, GeoPolygon bottomPolygon, Coords[] points);
 
 
+	/**
+	 * adjust output for n bottom points
+	 * @param n new bottom points length
+	 * @return old bottom points length
+	 */
+	protected int adjustOutputSize(int n){
+		
+		int nOld = outputPointsBottom.size();
+		
+		// if same length, do nothing
+		if (n == nOld){
+			//App.error("pareil");
+		}else{
+			//App.error("pas pareil");
+			outputPointsBottom.adjustOutputSize(n);
+		}
+		
+		return nOld;
+		
+	}
+	
 	@Override
 	public void compute() {
 
@@ -212,7 +233,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		if (bottomFace.isConvex()) {
 			getNet().setDefined();
 			Coords[] points = getPointsCoords(bottomFace);
-			outputPointsBottom.adjustOutputSize(points.length);
+			adjustOutputSize(points.length);
 			outputPointsBottom.setLabels(null);
 			for (int i = 0 ; i < points.length ; i++) {
 				outputPointsBottom.getElement(i).setCoords(points[i]);
