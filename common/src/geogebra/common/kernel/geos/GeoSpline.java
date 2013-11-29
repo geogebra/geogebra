@@ -26,8 +26,8 @@ import java.util.Arrays;
  */
 
 public class GeoSpline extends GeoElement implements Transformable, VarString,
-		ParametricCurve, Translateable, PointRotateable,
-		Mirrorable, ConicMirrorable, Dilateable, MatrixTransformable {
+		ParametricCurve, Translateable, PointRotateable, Mirrorable,
+		ConicMirrorable, Dilateable, MatrixTransformable {
 
 	private GeoList points;
 	private GeoList curves;
@@ -222,11 +222,11 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 	}
 
 	public void pointChanged(GeoPointND PI) {
-		curves.pointChanged(PI);
+		curveOfDistance(PI).pointChanged(PI);
 	}
 
 	public void pathChanged(GeoPointND PI) {
-		curves.pathChanged(PI);
+		((GeoCurveCartesian)curves.get(getParameterIndex(PI.getPathParameter().t))).pathChanged(PI);
 	}
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -763,25 +763,24 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 		recalculate();
 	}
 
-	
-	public double[] newDoubleArray(){
+	public double[] newDoubleArray() {
 		return new double[2];
 	}
-	
-	public double[] getDefinedInterval(double a, double b){
+
+	public double[] getDefinedInterval(double a, double b) {
 		double[] intervalX = RealRootUtil.getDefinedInterval(
 				getRealRootFunctionX(), a, b);
 		double[] intervalY = RealRootUtil.getDefinedInterval(
 				getRealRootFunctionY(), a, b);
-		
-		if (intervalX[0] < intervalY[0]){
+
+		if (intervalX[0] < intervalY[0]) {
 			intervalX[0] = intervalY[0];
 		}
-		
-		if (intervalX[1] > intervalY[1]){
+
+		if (intervalX[1] > intervalY[1]) {
 			intervalX[1] = intervalY[1];
 		}
-		
+
 		return intervalX;
 	}
 }
