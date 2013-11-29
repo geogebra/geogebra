@@ -510,15 +510,15 @@ public class AlgoTableText extends AlgoElement {
 			for (int r = 0; r < rows; r++) {
 				
 				char c0 = charAt(horizontalLinesArray, r);
+				char c1 = charAt(horizontalLinesArray, r + 1);
 				
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
 				} else if (r == 0 && (horizontalLinesJustEdges || c0 == '1')) {
-					sb.append("\\ggbtrlt{");
-				} else if (r == rows-1) {
-					
-					char c1 = charAt(horizontalLinesArray, r + 1);
 
+					sb.append("\\ggbtrlt{");
+
+				} else if (r == rows-1) {
 					
 					if (horizontalLinesJustEdges) {
 						// bottom
@@ -547,17 +547,30 @@ public class AlgoTableText extends AlgoElement {
 				for (int c = 0; c < columns; c++) {
 					
 					c0 = charAt(verticalLinesArray, c);
+					c1 = charAt(verticalLinesArray, c + 1);
 
 					
 					String jc = String.valueOf(getJustification(c)).toUpperCase();
 					if (!verticalLines) {
 						sb.append("\\ggbtd"+jc+"{");
+					} else if (columns == 1 && (verticalLinesJustEdges || c0 == '1' || c1 == '1')) {
+						
+						if (verticalLinesJustEdges || (c0 == '1' && c1 == '1')) {
+							// both
+							sb.append("\\ggbtdl"+jc+"{");
+						} else if (c0 == '1') {
+							// left
+							sb.append("\\ggbtdll"+jc+"{");
+						} else if (c1 == '1') {
+							// right
+							sb.append("\\ggbtdlr"+jc+"{");
+						}
+						
 					} else if (c == 0 && (verticalLinesJustEdges || c0 == '1')) {
 						sb.append("\\ggbtdll"+jc+"{");
 					} else if (c == columns - 1) {
 					
 						
-						char c1 = charAt(verticalLinesArray, c + 1);
 
 						
 						if (verticalLinesJustEdges) {
@@ -596,15 +609,27 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				
 				char c0 = charAt(horizontalLinesArray, c);
+				char c1 = charAt(horizontalLinesArray, c + 1);
 
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
+				} else if (columns == 1 && (horizontalLinesJustEdges || c0 == '1' || c1 == '1')) {
+					
+					if (horizontalLinesJustEdges || (c0 == '1' && c1 == '1')) {
+						// both
+						sb.append("\\ggbtrl{");
+					} else if (c0 == '1') {
+						// top
+						sb.append("\\ggbtrlt{");						
+					} else if (c1 == '1') {
+						// bottom
+						sb.append("\\ggbtrlb{");							
+					}				
+					
 				} else if (c == 0 && (horizontalLinesJustEdges || c0 == '1')) {
 					sb.append("\\ggbtrlt{");
 				} else if (c == columns - 1) {
-					
-					char c1 = charAt(horizontalLinesArray, c + 1);
-					
+										
 					if (horizontalLinesJustEdges) {
 						// bottom
 						sb.append("\\ggbtrlb{");
@@ -638,7 +663,7 @@ public class AlgoTableText extends AlgoElement {
 						sb.append("\\ggbtdll"+jc+"{");
 					} else if (r == rows - 1) {
 
-						char c1 = charAt(verticalLinesArray, r + 1);
+						c1 = charAt(verticalLinesArray, r + 1);
 
 						
 						if (verticalLinesJustEdges) {
