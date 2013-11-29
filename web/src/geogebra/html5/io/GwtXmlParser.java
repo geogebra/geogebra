@@ -20,9 +20,10 @@ import com.google.gwt.xml.client.XMLParser;
 public class GwtXmlParser implements XmlParser {
 	
 	public void parse(DocHandler docHandler, String xml) throws Exception {
-		if(!GWT.isProdMode()){
+		//FIXME trying to use QDParser always to fix problem with invalid XML files
+		//if(!GWT.isProdMode()){
 			parseDirty(docHandler, xml);
-			return;
+		/*	return;
 		}
 		Document doc = null;
 		try{
@@ -34,7 +35,7 @@ public class GwtXmlParser implements XmlParser {
 			//In Win8 app the parser may fail
 			App.debug("Native parser failed"+e.getCause());
 			parseDirty(docHandler, xml);
-		}
+		}*/
 		
 	}
 
