@@ -24,9 +24,10 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
 /**
@@ -36,17 +37,21 @@ import geogebra.common.kernel.geos.GeoVector;
  */
 public class AlgoTranslateVector extends AlgoElement {
 
-    private GeoPoint A;   // input
-    private GeoVec3D v;  // input
-    private GeoVector w;     // output        
-            
-    public AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint A) {
+    private GeoPointND A;   // input
+    protected GeoVectorND v;  // input
+    protected GeoVectorND w;     // output        
+       
+    public AlgoTranslateVector(Construction cons, String label,  GeoVector v, GeoPointND A) {
+    	this(cons, label, (GeoVectorND) v, A);
+    }
+    
+    protected AlgoTranslateVector(Construction cons, String label,  GeoVectorND v, GeoPointND A) {
         super(cons);
         this.A = A;        
         this.v = v;
         
         // create new Point
-        w = new GeoVector(cons);  
+        w = newGeoVector(cons);  
         
         try {     
             w.setStartPoint(A);
@@ -56,7 +61,16 @@ public class AlgoTranslateVector extends AlgoElement {
                 
         compute();        
         w.setLabel(label);
-    }           
+    } 
+    
+    
+    /**
+     * @param cons construction
+     * @return new vector
+     */
+    protected GeoVectorND newGeoVector(Construction cons){
+    	return new GeoVector(cons);  
+    }
     
     @Override
 	public Commands getClassName() {
@@ -72,22 +86,22 @@ public class AlgoTranslateVector extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = v;        
-        input[1] = A;        
+        input[0] = (GeoElement) v;        
+        input[1] = (GeoElement) A;        
         
         setOutputLength(1);        
-        setOutput(0,w);        
+        setOutput(0,(GeoElement) w);        
         setDependencies(); // done by AlgoElement
     }           
         
-    GeoPoint getPoint() { return A; }
-    GeoVec3D getVector() { return v; }
-    public GeoVector getTranslatedVector() { return w; }
+    GeoPointND getPoint() { return A; }
+    GeoVectorND getVector() { return v; }
+    public GeoVectorND getTranslatedVector() { return w; }
         
     // simply copy v
     @Override
-	public final void compute() {
-        w.setCoords(v);        
+	public void compute() {
+        ((GeoVector) w).setCoords((GeoVec3D) v);        
     }       
     
     @Override

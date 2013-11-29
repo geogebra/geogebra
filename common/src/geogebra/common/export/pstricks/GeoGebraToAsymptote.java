@@ -1296,14 +1296,15 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     // draw vector with EndArrow(6)
     @Override
 	protected void drawGeoVector(GeoVector geo){
-        GeoPoint pointStart = geo.getStartPoint();
+        GeoPointND pointStart = geo.getStartPoint();
         String x1, y1;
         if (pointStart == null){
             x1 = "0"; y1 = "0";
         }
         else {
-            x1 = format(pointStart.getX()/pointStart.getZ());
-            y1 = format(pointStart.getY()/pointStart.getZ());
+        	Coords c = pointStart.getCoords();
+            x1 = format(c.getX()/c.getZ());
+            y1 = format(c.getY()/c.getZ());
         }
         double[] coord = new double[3];
         geo.getCoords(coord);

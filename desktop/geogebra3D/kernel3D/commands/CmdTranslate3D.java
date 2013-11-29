@@ -2,13 +2,17 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoTranslateVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdTranslate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
+import geogebra3D.kernel3D.AlgoTranslateVector3D;
+import geogebra3D.kernel3D.GeoVector3D;
 
 public class CmdTranslate3D extends CmdTranslate {
 	
@@ -51,5 +55,16 @@ public class CmdTranslate3D extends CmdTranslate {
 		
 	    return super.process(c);
 	}
+	
+	@Override
+	protected AlgoTranslateVector getAlgoTranslateVector(String label, GeoElement v, GeoElement P){
+
+		if (v.isGeoElement3D()){
+			return new AlgoTranslateVector3D(cons, label, (GeoVector3D) v, (GeoPointND) P);
+		}
+		
+		return super.getAlgoTranslateVector(label, v, P);
+	}
+	
 	
 }

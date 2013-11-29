@@ -62,7 +62,7 @@ final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
 Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
-	private GeoPoint startPoint;
+	private GeoPointND startPoint;
 
 	// for path interface we use a segment
 	private GeoSegment pathSegment;
@@ -145,7 +145,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			if (vec.startPoint != null) {
 				if (vec.hasAbsoluteLocation()) {
 					//	create new location point	
-					setStartPoint(new GeoPoint(vec.startPoint));
+					setStartPoint(vec.startPoint.copy());
 				} else {
 					//	take existing location point	
 					setStartPoint(vec.startPoint);
@@ -194,15 +194,15 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	/**
 	 * Retuns starting point of this vector or null.
 	 */
-	final public GeoPoint getStartPoint() {
+	final public GeoPointND getStartPoint() {
 		return startPoint;
 	}   
 
-	public GeoPoint [] getStartPoints() {
+	public GeoPointND [] getStartPoints() {
 		if (startPoint == null)
 			return null;
 
-		GeoPoint [] ret = new GeoPoint[1];
+		GeoPointND [] ret = new GeoPointND[1];
 		ret[0] = startPoint;
 		return ret;			
 	}
@@ -235,9 +235,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 
 
-	public void setStartPoint(GeoPointND pI) throws CircularDefinitionException {  
-
-		GeoPoint p = (GeoPoint) pI;
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {  
 
 		if (startPoint == p) return;
 
@@ -591,8 +589,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	private void initPathSegment() {
-		if (startPoint != null) {
-			pathStartPoint = startPoint;
+		if (startPoint != null  && ! startPoint.isGeoElement3D()) { //TODO 3D case
+			pathStartPoint = (GeoPoint) startPoint;
 		} else {
 			pathStartPoint = new GeoPoint(cons);
 			pathStartPoint.setCoords(0, 0, 1);
@@ -880,4 +878,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		updateGeo();
 		kernel.notifyUpdateLocation(this);	
 	}
+	
+	
+
 }

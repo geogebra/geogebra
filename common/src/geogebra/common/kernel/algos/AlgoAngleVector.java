@@ -19,9 +19,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 
@@ -89,7 +89,7 @@ public class AlgoAngleVector extends AlgoElement implements AngleAlgo{
 
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		if(vec.isGeoVector()){
-			GeoPoint vertex = ((GeoVector)vec).getStartPoint();
+			GeoPointND vertex = ((GeoVector)vec).getStartPoint();
 			if (vertex != null)			
 				vertex.getInhomCoords(m);
 			return vertex!=null && vertex.isDefined() && !vertex.isInfinite();

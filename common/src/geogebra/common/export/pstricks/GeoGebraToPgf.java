@@ -1583,14 +1583,15 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoVector(GeoVector geo) {
-		GeoPoint pointStart = geo.getStartPoint();
+		GeoPointND pointStart = geo.getStartPoint();
 		double x1, y1;
 		if (null == pointStart) {
 			x1 = 0;
 			y1 = 0;
 		} else {
-			x1 = pointStart.getX() / pointStart.getZ();
-			y1 = pointStart.getY() / pointStart.getZ();
+			Coords c = pointStart.getCoords();
+            x1 = c.getX()/c.getZ();
+            y1 = c.getY()/c.getZ();
 		}
 		double[] coord = new double[3];
 		geo.getCoords(coord);

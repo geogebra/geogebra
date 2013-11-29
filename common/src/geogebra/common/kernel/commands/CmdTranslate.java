@@ -5,11 +5,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoTranslateVector;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -48,12 +48,10 @@ public class CmdTranslate extends CommandProcessor {
 
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoVector v = (GeoVector) arg[0];
-				GeoPoint P = (GeoPoint) arg[1];
 				
-				AlgoTranslateVector algo = new AlgoTranslateVector(cons, label, v, P);
+				AlgoTranslateVector algo = getAlgoTranslateVector(label, arg[0], arg[1]);
 
-				ret[0] = algo.getTranslatedVector();
+				ret[0] = (GeoElement) algo.getTranslatedVector();
 
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof Translateable
@@ -74,5 +72,16 @@ public class CmdTranslate extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param label label
+	 * @param v input vector
+	 * @param P starting point
+	 * @return new algo translate vector
+	 */
+	protected AlgoTranslateVector getAlgoTranslateVector(String label, GeoElement v, GeoElement P){
+		return new AlgoTranslateVector(cons, label, (GeoVector) v, (GeoPointND) P);
 	}
 }

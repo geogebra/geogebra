@@ -5758,12 +5758,13 @@ public abstract class EuclidianController {
 	}
 
 	protected final void moveVector(boolean repaint) {
-		GeoPoint P = movedGeoVector.getStartPoint();
+		GeoPointND P = movedGeoVector.getStartPoint();
 		if (P == null) {
 			movedGeoVector.setCoords(xRW - transformCoordsOffset[0], yRW
 					- transformCoordsOffset[1], 0.0);
 		} else {
-			movedGeoVector.setCoords(xRW - P.inhomX, yRW - P.inhomY, 0.0);
+			Coords c = P.getInhomCoords();
+			movedGeoVector.setCoords(xRW - c.getX(), yRW - c.getY(), 0.0);
 		}
 	
 		if (repaint) {
@@ -5774,7 +5775,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final void moveVectorStartPoint(boolean repaint) {
-		GeoPoint P = movedGeoVector.getStartPoint();
+		GeoPointND P = movedGeoVector.getStartPoint();
 		P.setCoords(xRW, yRW, 1.0);
 	
 		if (repaint) {
@@ -6975,12 +6976,13 @@ public abstract class EuclidianController {
 			// point
 			// then move the startpoint of the vector
 			if (movedGeoVector.hasAbsoluteLocation()) {
-				GeoPoint sP = movedGeoVector.getStartPoint();
+				GeoPointND sP = movedGeoVector.getStartPoint();
 				double sx = 0;
 				double sy = 0;
 				if (sP != null) {
-					sx = sP.inhomX;
-					sy = sP.inhomY;
+					Coords c = sP.getInhomCoords();
+					sx = c.getX();
+					sy = c.getY();
 				}
 				// if |mouse - startpoint| < 1/2 * |vec| then move
 				// startpoint

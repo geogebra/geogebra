@@ -29,11 +29,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -142,13 +142,14 @@ public class AlgoShearOrStretch extends AlgoTransformation {
         n=num.getDouble();
         }
         else{
-        	GeoPoint sp = ((GeoVector)l).getStartPoint();
+        	GeoPointND sp = ((GeoVector)l).getStartPoint();
         	if(sp!=null){
-        	 qx = -((GeoVector)l).getStartPoint().x;
-        	 qy = -((GeoVector)l).getStartPoint().y;
+        		Coords qCoords = ((GeoVector)l).getStartPoint().getCoordsInD(2);
+        		qx = - qCoords.getX();
+        		qy = - qCoords.getY();
         	}        	
-        	 c=-l.y/n;
-             s=l.x/n;             
+        	c=-l.y/n;
+        	s=l.x/n;             
         }        
         	
         // translate -Q

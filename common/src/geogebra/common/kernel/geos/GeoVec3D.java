@@ -126,10 +126,7 @@ implements Traceable, CoordStyle {
      * @return this vector as coords
      */
     final public Coords getCoords() {
-    	Coords coords = new Coords(3);
-    	coords.setX(x);
-    	coords.setY(y);
-    	coords.setZ(z);
+    	Coords coords = new Coords(x, y, z);
     	return coords;        
     }
     

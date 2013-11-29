@@ -20,7 +20,6 @@ public interface GeoVectorND extends GeoDirectionND, Locateable {
 	 */
 	public void setCoords(double[] c);
 	
-	
 	/**
 	 * @param dimension dimension of desired coordinates
 	 * @return the coords of the vector in the given dimension (extended or projected)
@@ -51,4 +50,6 @@ public interface GeoVectorND extends GeoDirectionND, Locateable {
 	 * @return true if tracing
 	 */
 	public boolean getTrace();
+
+	
 }
