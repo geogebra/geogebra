@@ -193,10 +193,12 @@ public class LayoutD extends Layout implements SettingListener {
 			// is updated, so we have to take care of this by ourself
 			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
 				DockSplitPane parent = panels[i].getParentSplitPane();
-				if (parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-					panels[i].setEmbeddedSize(panels[i].getWidth());
-				} else {
-					panels[i].setEmbeddedSize(panels[i].getHeight());
+				if (parent != null) {
+					if (parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+						panels[i].setEmbeddedSize(panels[i].getWidth());
+					} else {
+						panels[i].setEmbeddedSize(panels[i].getHeight());
+					}
 				}
 				panels[i].setEmbeddedDef(panels[i].calculateEmbeddedDef());
 			}
