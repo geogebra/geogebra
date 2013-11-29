@@ -1426,14 +1426,15 @@ public class Manager3D implements Manager3DInterface {
 		switch(((GeoPolyhedron) p).getType()) {
 
 		case GeoPolyhedron.TYPE_PYRAMID:
-			AlgoPolyhedronNet algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p, v);
+			AlgoElement algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p, v);
 			return algo.getOutput();
 		
 		case GeoPolyhedron.TYPE_PRISM:
 			algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p, v);
 			return algo.getOutput();	
 		default:
-			return null;
+			algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p, v);
+			return algo.getOutput();	
 		}
 		
 	}
