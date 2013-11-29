@@ -371,7 +371,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 ";"			index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
 "§"                  index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return T_SEMI; return TI_SEMI;
 ":"			if (spread_formula(yyextra)) return T_DEUXPOINTS; if ( xcas_mode(yyextra)==3 ) { index_status(yyextra)=0; return TI_DEUXPOINTS; }  index_status(yyextra)=0; if (xcas_mode(yyextra)>0) { (*yylval)=1; return T_SEMI; } else return T_DEUXPOINTS;
-":;"                    (*yylval)=1; return T_SEMI;
+":;"                    index_status(yyextra)=0; (*yylval)=1; return T_SEMI;
 "::"                    index_status(yyextra)=0;return T_DOUBLE_DEUX_POINTS;
 
 			/* special values */

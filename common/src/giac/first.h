@@ -239,9 +239,9 @@ struct giac_bcdfloat {
   giac_bcdfloat(double d){ f=bcd_set_double(d);}
 };
 typedef giac_bcdfloat giac_float;
-inline void print_float(const giac_bcdfloat & f,char * ch,u32 bcd_decpoint,u32 bcd_mantissa,u32 bcd_flags){
-  bcd_print(f.f,ch,bcd_decpoint,bcd_mantissa,bcd_flags);
-}
+inline void print_float(const giac_bcdfloat & f,char * ch, CHPPrintData &pd) { bcd_print(f.f,ch, pd); }
+void print_float(const giac_bcdfloat & f,char * ch);
+
 inline giac_bcdfloat operator + (const giac_bcdfloat & f1,const giac_bcdfloat & f2){
   return fradd_g(f1.f,f2.f);
 }
@@ -326,7 +326,8 @@ inline bool fis_inf_notmax(const giac_bcdfloat & f){ return fInf_g(f.f); }
 inline giac_bcdfloat fpi(){ return fpi_g(); }
 inline giac_bcdfloat atan2f(const giac_bcdfloat & re,const giac_bcdfloat & im,int anglemode=0){ return fatan2_g(re.f,im.f,anglemode); }
 
-inline giac_bcdfloat strtobcd(const char *nptr,const char **endptr,char decpoint,char thousand,int base){ return fstrtobcd(nptr,endptr,decpoint,thousand,base); }
+inline giac_bcdfloat strtobcd(const char *nptr,const char **endptr, CHPPrintData const &pd){ return fstrtobcd(nptr,endptr,pd); }
+giac_bcdfloat strtobcd(const char *nptr,const char **endptr);
 inline double get_double(const giac_bcdfloat & f) { 
   // FIXME
 #ifdef ASPEN_GEOMETRY

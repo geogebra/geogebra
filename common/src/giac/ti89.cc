@@ -442,7 +442,7 @@ namespace giac {
   index_t rand_index(int dim,int tdeg,GIAC_CONTEXT){
     index_t res(dim);
     index_t w(tdeg+dim);
-    for (int i=0;i<w.size();++i)
+    for (unsigned int i=0;i<w.size();++i)
       w[i]=i;
     for (int i=0;i<dim;++i){
       int tmp=int((double(giac_rand(contextptr))*w.size())/rand_max2);
@@ -483,7 +483,7 @@ namespace giac {
       int dim=v[2]._VECTptr->size();
       vecteur w=vranm(nterms,f,contextptr);
       polynome p(dim);
-      for (unsigned i=0;i<nterms;++i){
+      for (int i=0;i<nterms;++i){
 	index_t current=rand_index(dim,tdeg,contextptr);
 	p.coord.push_back(monomial<gen>(w[i],current));
       }

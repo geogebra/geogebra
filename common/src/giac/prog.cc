@@ -4955,7 +4955,7 @@ namespace giac {
   */
 
   gen simplifier(const gen & g,GIAC_CONTEXT){
-    if (g.type!=_SYMB || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation)
+    if (g.type!=_SYMB || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation || g._SYMBptr->sommet==at_unit)
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);

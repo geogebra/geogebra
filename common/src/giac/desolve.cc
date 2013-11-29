@@ -428,7 +428,7 @@ namespace giac {
     return v[0];
   }
 
-  static gen in_desolve_with_conditions(const vecteur & v_,const gen & x,const gen & y,const gen & solution_generale,const vecteur & parameters,GIAC_CONTEXT){
+  static gen in_desolve_with_conditions(const vecteur & v_,const gen & x,const gen & y,const gen & solution_generale,const vecteur & parameters,const gen & f,GIAC_CONTEXT){
     gen yy(y);
     vecteur v(v_);
     if (yy.type!=_IDNT)
@@ -500,27 +500,40 @@ namespace giac {
     it=parameters_solutions.begin(),itend=parameters_solutions.end();
     vecteur res;
     for (;it!=itend;++it){
-      res.push_back(eval(subst(solution_generale,parameters,*it,false,contextptr),eval_level(contextptr),contextptr));
+      gen solgen=eval(subst(solution_generale,parameters,*it,false,contextptr),eval_level(contextptr),contextptr);
+      // check if f is valid at points where conditions hold (3rd column of yvar)
+      gen solgenchk=eval(subst(f,y,solgen,false,contextptr),1,contextptr);
+      bool ok=true;
+      for (unsigned i=0;i<yvar.size();++i){
+	gen tmp=subst(solgenchk,x,yvar[2],false,contextptr);
+	if (lidnt(tmp).empty() && !is_zero(simplify(tmp,contextptr))){
+	  ok=false;
+	  break;
+	}
+      }
+      if (ok)
+	res.push_back(solgen);
     }
     if (res.size()==1) 
       return res.front();
     return res;
   }
-  static gen desolve_with_conditions(const vecteur & v,const gen & x,const gen & y,GIAC_CONTEXT){
+
+  static gen desolve_with_conditions(const vecteur & v,const gen & x,const gen & y,gen & f,GIAC_CONTEXT){
     if (v.empty())
       return gensizeerr(contextptr);
     int ordre;
     vecteur parameters;
-    gen solution_generale(desolve(v.front(),x,y,ordre,parameters,contextptr));
+    gen solution_generale(desolve_f(v.front(),x,y,ordre,parameters,f,contextptr));
     if (solution_generale.type!=_VECT) 
-      return in_desolve_with_conditions(v,x,y,solution_generale,parameters,contextptr);
+      return in_desolve_with_conditions(v,x,y,solution_generale,parameters,f,contextptr);
     const_iterateur it=solution_generale._VECTptr->begin(),itend=solution_generale._VECTptr->end();
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it){
       if (it->type==_VECT)
 	*logptr(contextptr) << gettext("Boundary conditions for parametric curve not implemented") << endl;
-      gen tmp=in_desolve_with_conditions(v,x,y,*it,parameters,contextptr);
+      gen tmp=in_desolve_with_conditions(v,x,y,*it,parameters,f,contextptr);
       if (is_undef(tmp))
 	return tmp;
       if (tmp.type==_VECT)
@@ -570,7 +583,7 @@ namespace giac {
     }
   }
 
-  gen desolve(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,GIAC_CONTEXT){
+  gen desolve_f(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,gen & fres,GIAC_CONTEXT){
     gen x(x_orig);
     if ( (x_orig.type==_VECT) && (x_orig._VECTptr->size()==1) )
       x=x_orig._VECTptr->front();
@@ -578,15 +591,17 @@ namespace giac {
       gen vx,vy;
       ggb_varxy(f_orig,vx,vy,contextptr);
       if (x_orig.type==_VECT)
-	return desolve_with_conditions(makevecteur(f_orig,x_orig,y_orig),vx,vy,contextptr);
+	return desolve_with_conditions(makevecteur(f_orig,x_orig,y_orig),vx,vy,fres,contextptr);
       else
-	return desolve_with_conditions(makevecteur(f_orig,makevecteur(x_orig,y_orig)),vx,vy,contextptr);
+	return desolve_with_conditions(makevecteur(f_orig,makevecteur(x_orig,y_orig)),vx,vy,fres,contextptr);
     }
     if (y_orig.type==_VECT) // FIXME: differential system
       return gensizeerr(contextptr);
-    gen f(remove_and(f_orig,at_and));
-    if (f.type==_VECT)
-      return desolve_with_conditions(*f._VECTptr,x,y_orig,contextptr);
+    gen f=remove_and(f_orig,at_and);
+    if (f.type==_VECT){
+      vecteur fv=*f._VECTptr;
+      return desolve_with_conditions(fv,x,y_orig,fres,contextptr);
+    }
     gen y(y_orig),yof(y_orig);
     if (y_orig.type==_IDNT){
       yof=symb_of(y,gen(vecteur(1,x),_SEQ__VECT));
@@ -603,7 +618,7 @@ namespace giac {
     calc_mode(0,contextptr);
     f=remove_equal(eval(f,eval_level(contextptr),contextptr));
     calc_mode(save,contextptr);
-    f=quotesubst(f,yof,y,contextptr);
+    fres=f=quotesubst(f,yof,y,contextptr);
     vx_var=save_vx;
     // Here f= f(derive(y,x),y) for a 1st order equation
     int n=diffeq_order(f,y);
@@ -973,10 +988,11 @@ namespace giac {
 	return desolve(v[0],(*v[1]._SYMBptr->feuille._VECTptr)[1],(*v[1]._SYMBptr->feuille._VECTptr)[0],ordre,parameters,contextptr);
       return ggbputinlist(desolve( v[0],vx_var,v[1],ordre,parameters,contextptr),contextptr);
     }
+    gen f;
     if (s==4)
-      return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3]),v[1],v[2],contextptr),contextptr);
+      return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3]),v[1],v[2],f,contextptr),contextptr);
     if (s==5)
-      return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3],v[4]),v[1],v[2],contextptr),contextptr);
+      return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3],v[4]),v[1],v[2],f,contextptr),contextptr);
     if (s!=3)
       return gensizeerr(contextptr);
     return ggbputinlist(desolve( v[0],v[1],v[2],ordre,parameters,contextptr),contextptr);    
@@ -1008,6 +1024,11 @@ namespace giac {
     if (s==x)
       res=subst(res,t,x,false,contextptr);
     return ratnormal(res);
+  }
+
+  gen desolve(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,GIAC_CONTEXT){
+    gen f;
+    return desolve_f(f_orig,x_orig,y_orig,ordre,parameters,f,contextptr);
   }
 
   // "unary" version

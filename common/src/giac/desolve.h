@@ -43,6 +43,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_ilaplace ;
 
   gen desolve(const gen & f,const gen & x,const gen & y,int & ordre,vecteur & parameters,GIAC_CONTEXT);
+  gen desolve_f(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,gen & f,GIAC_CONTEXT);
   gen _desolve(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_desolve ;
   gen ztrans(const gen & f,const gen & x,const gen & s,GIAC_CONTEXT);

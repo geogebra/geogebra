@@ -1778,7 +1778,7 @@ namespace giac {
 	  vd.push_back(v[i]);
 	}
 	vecteur resd=proot(vd,eps,rprec,ck_exact),res;
-	for (int i=0;i<resd.size();++i){
+	for (int i=0;i<int(resd.size());++i){
 	  gen r=pow(resd[i],inv(gcddeg,context0),context0);
 	  for (int j=0;j<gcddeg;++j){
 	    res.push_back(r*exp(j*cst_two_pi*cst_i/gcddeg,context0));
@@ -5632,7 +5632,9 @@ namespace giac {
 	}
 	// make the reduction
 	if (fullreduction) {
+#ifndef GIAC_HAS_STO_38
 	  int l1,l2,l3;
+#endif
 	  for (int ltemp=linit;ltemp<lmax;++ltemp){
 	    if (ltemp==l || N[ltemp].empty() || !N[ltemp][pivotcol])
 	      continue;
@@ -10861,6 +10863,8 @@ namespace giac {
       return symbolic(at_svd,args);
     // if (!is_zero(im(args,contextptr),contextptr)) return gensizeerr(gettext("Complex entry!"));
     gen argsf=args;
+    if (!is_zero(im(argsf,contextptr)))
+      return gensizeerr(gettext("Real matrix expected"));
     if (method>=0 && is_fully_numeric( (argsf=evalf_double(args,1,contextptr)) )){
 #ifdef HAVE_LIBLAPACK
       if (!CAN_USE_LAPACK
@@ -10927,7 +10931,7 @@ namespace giac {
       delete [] VT;
       delete [] work;
       
-      return gen(makevecteur(mU,s,mVT),_SEQ__VECT);
+      return gen(makevecteur(mU,s,mtran(mVT)),_SEQ__VECT);
 #endif // HAVE_LIBLAPACK
 #ifdef HAVE_LIBGSL
       {   

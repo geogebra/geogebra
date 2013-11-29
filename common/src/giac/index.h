@@ -30,7 +30,9 @@
 //#endif
 //========================================
 #ifndef ConnectivityKit
+#ifndef _MSC_VER
 #pragma anon_unions
+#endif
 #endif
 ///////////////////////////////////////////
 

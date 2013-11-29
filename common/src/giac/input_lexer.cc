@@ -2061,7 +2061,7 @@ if (spread_formula(yyextra)) return T_DEUXPOINTS; if ( xcas_mode(yyextra)==3 ) {
 case 35:
 YY_RULE_SETUP
 #line 374 "input_lexer.ll"
-(*yylval)=1; return T_SEMI;
+index_status(yyextra)=0; (*yylval)=1; return T_SEMI;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP

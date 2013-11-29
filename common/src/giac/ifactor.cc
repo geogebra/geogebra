@@ -601,18 +601,18 @@ namespace giac {
 #endif
       register unsigned pos=bit->root1,pos2=bit->root2;
       if (pos==pos2){
-	for (;pos<SLICEEND; pos += p){
+	for (;int(pos)<SLICEEND; pos += p){
 	  slice[pos] -= nbits;
 	}
 	bit->root2=bit->root1 = pos-SLICEEND; // save for next slice
       }
       else {
-	for (;pos<SLICEEND; pos += p){
+	for (;int(pos)<SLICEEND; pos += p){
 	  slice[pos] -= nbits;
 	}
 	bit->root1 = pos-SLICEEND; // save for next slice
 	// second root, polynomial has 2 distinct roots
-	for (;pos2<SLICEEND;pos2 += p){
+	for (;int(pos2)<SLICEEND;pos2 += p){
 	  slice[pos2] -= nbits;
 	}
 	bit->root2 = pos2-SLICEEND;

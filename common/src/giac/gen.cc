@@ -1173,7 +1173,7 @@ namespace giac {
 #ifdef SMARTPTR64
     * ((longlong * ) this) = longlong(new ref_unary_function_ptr(*f)) << 16;
 #else
-    _FUNC_ = unsigned(* (unsigned *) f);
+    _FUNC_ = (unsigned long) (* (unsigned long*) f);
     // __FUNCptr= new ref_unary_function_ptr(f);
 #endif
     type=_FUNC;
@@ -1184,7 +1184,7 @@ namespace giac {
 #ifdef SMARTPTR64
     * ((longlong * ) this) = longlong(new ref_unary_function_ptr(f)) << 16;
 #else
-    _FUNC_ = unsigned(* (unsigned *) &f);
+    _FUNC_ = (unsigned long)(* (unsigned long *) &f);
     // __FUNCptr= new ref_unary_function_ptr(f);
 #endif
     type=_FUNC;
@@ -4045,6 +4045,8 @@ namespace giac {
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
     if (a.is_symb_of_sommet(at_unit)){
+      if (is_zero(b))
+	return a;
       if (b.is_symb_of_sommet(at_unit)){
 	vecteur & va=*a._SYMBptr->feuille._VECTptr;
 	vecteur & vb=*b._SYMBptr->feuille._VECTptr;
@@ -4061,6 +4063,8 @@ namespace giac {
       return g+b;
     }
     if (b.is_symb_of_sommet(at_unit)){
+      if (is_zero(a))
+	return b;
       gen g=mksa_reduce(b,contextptr);
       gen tmp=chk_not_unit(g);
       if (is_undef(tmp)) return tmp;
@@ -8351,7 +8355,7 @@ namespace giac {
     mpz_gcdext(d,u,v,a,b);
   }
   bool my_mpz_invert(mpz_t & ainv,const mpz_t & a,const mpz_t & m){
-    return mpz_invert(ainv,a,m);
+    return mpz_invert(ainv,a,m)!=0;
   }
 #endif
 
@@ -9556,7 +9560,7 @@ namespace giac {
       if (*endchar){
 #ifdef BCD
       giac_float gf;
-      gf=strtobcd(s,(const char **)&endchar,'.',0,10);
+      gf=strtobcd(s,(const char **)&endchar);
       if (!*endchar)
 	return gf;
       // if (abs_calc_mode(contextptr)==38) return gensizeerr(gettext("Invalid float"));
@@ -11175,7 +11179,7 @@ namespace giac {
     if (is_zero(f-i))
       return print_INT_(i)+'.';
 #endif
-    print_float(f,ch,bcd_decpoint(contextptr),bcd_mantissa(contextptr),bcd_flags(contextptr));
+    print_float(f,ch);
 #else
     print_float(f,ch);
 #endif

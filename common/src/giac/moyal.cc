@@ -2922,6 +2922,9 @@ namespace giac {
 	m=*x._VECTptr;
       else
 	m=effectifs(*x._VECTptr,classmin,classsize,contextptr);
+      dof=m.size()-dof;
+      if (dof<2)
+	return gensizeerr(gettext("Not enough degree of freedom with default values. Add classes,classmin,classsize parameters"));
       efftotal=0.0;
       for (unsigned i=0;i<m.size();++i){
 	gen effi=m[i][1];
