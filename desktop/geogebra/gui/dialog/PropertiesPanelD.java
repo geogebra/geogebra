@@ -1991,12 +1991,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
-			if (geo.getViewSet().contains(app.getActiveEuclidianView())){
+			if (geo.getViewSet().contains(app.getActiveEuclidianView())) {
 				app.getActiveEuclidianView().drawListAsComboBox(geo, value);
 			} else {
-				if (app.getActiveEuclidianView().getViewID() == App.VIEW_EUCLIDIAN){
+				if (app.getActiveEuclidianView().getViewID() == App.VIEW_EUCLIDIAN) {
 					app.getEuclidianView2().drawListAsComboBox(geo, value);
-				} else app.getEuclidianView1().drawListAsComboBox(geo, value);
+				} else {
+					app.getEuclidianView1().drawListAsComboBox(geo, value);
+				}
 			}
 		}
 	}
