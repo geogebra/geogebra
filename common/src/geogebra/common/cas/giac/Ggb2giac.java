@@ -312,7 +312,7 @@ public class Ggb2giac {
 				"apply(x->convert([x,0],25),%0)");
 		p("Invert.1", "[[ggbans:=0/0], [ggbarg:=%0], [ggbans:=when(type(ggbarg)!=DOM_LIST,"+
 				// invert function (answer is function, not mapping)
-				"subst(right([op(solve(tmpvar=ggbarg,lname(ggbarg)[0]))][0]),tmpvar,lname(ggbarg)[0])"+
+				"subst(right(revlist([op(solve(tmpvar=ggbarg,lname(ggbarg)[0]))])[0]),tmpvar,lname(ggbarg)[0])"+
 				","+
 				// invert matrix
 				"inv(ggbarg))"+
