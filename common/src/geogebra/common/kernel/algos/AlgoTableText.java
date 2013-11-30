@@ -27,7 +27,6 @@ import geogebra.common.util.StringUtil;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
-
 /**
  * Algo for TableText[matrix], TableText[matrix,args]
  *
@@ -514,6 +513,19 @@ public class AlgoTableText extends AlgoElement {
 				
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
+				} else if (rows == 1 && (horizontalLinesJustEdges || c0 == '1' || c1 == '1')) {
+					
+					if (verticalLinesJustEdges || (c0 == '1' && c1 == '1')) {
+						// both
+						sb.append("\\ggbtrl{");
+					} else if (c0 == '1') {
+						// top
+						sb.append("\\ggbtrlt{");
+					} else if (c1 == '1') {
+						// bottom
+						sb.append("\\ggbtrlb{");
+					}
+					
 				} else if (r == 0 && (horizontalLinesJustEdges || c0 == '1')) {
 
 					sb.append("\\ggbtrlt{");
@@ -655,15 +667,28 @@ public class AlgoTableText extends AlgoElement {
 				for (int r = 0; r < rows; r++) {
 					
 					c0 = charAt(verticalLinesArray, r);
+					c1 = charAt(verticalLinesArray, r + 1);
 					
 					String jc = String.valueOf(getJustification(r)).toUpperCase();
 					if (!verticalLines) {
 						sb.append("\\ggbtd"+jc+"{");
+					} else if (rows == 1 && (verticalLinesJustEdges || c0 == '1' || c1 == '1')) {
+						
+						if (verticalLinesJustEdges || (c0 == '1' && c1 == '1')) {
+							// both
+							sb.append("\\ggbtdl"+jc+"{");
+						} else if (c0 == '1') {
+							// left
+							sb.append("\\ggbtdll"+jc+"{");
+						} else if (c1 == '1') {
+							// right
+							sb.append("\\ggbtdlr"+jc+"{");
+						}				
+						
 					} else if (r == 0  && (verticalLinesJustEdges || c0 == '1')) {
 						sb.append("\\ggbtdll"+jc+"{");
 					} else if (r == rows - 1) {
 
-						c1 = charAt(verticalLinesArray, r + 1);
 
 						
 						if (verticalLinesJustEdges) {
@@ -702,7 +727,7 @@ public class AlgoTableText extends AlgoElement {
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('}');
-	}
+	}	
 
 	private void addCellLaTeX(int c, int r, boolean finalCell,StringTemplate tpl) {
 		if (geoLists[c].size() > r) { // check list has an element at this
