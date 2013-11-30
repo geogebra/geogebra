@@ -28,6 +28,7 @@ public class PointerEvent extends AbstractEvent {
 		this.off = off;
 		this.point = new GPoint((int)Math.round(x), (int)Math.round(y));
 		this.type = type;
+		this.evID = off.getEvID();
 	}
 
 	@Override
