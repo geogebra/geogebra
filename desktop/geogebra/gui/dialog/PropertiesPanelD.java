@@ -90,6 +90,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -1990,8 +1991,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
-			app.getActiveEuclidianView().drawListAsComboBox(geo, value);
-
+			if (geo.getViewSet().contains(app.getActiveEuclidianView())){
+				app.getActiveEuclidianView().drawListAsComboBox(geo, value);
+			} else {
+				if (app.getActiveEuclidianView().getViewID() == App.VIEW_EUCLIDIAN){
+					app.getEuclidianView2().drawListAsComboBox(geo, value);
+				} else app.getEuclidianView1().drawListAsComboBox(geo, value);
+			}
 		}
 	}
 
