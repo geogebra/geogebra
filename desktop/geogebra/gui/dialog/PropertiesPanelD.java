@@ -141,6 +141,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -1991,14 +1992,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
-			if (geo.getViewSet().contains(app.getActiveEuclidianView())) {
-				app.getActiveEuclidianView().drawListAsComboBox(geo, value);
-			} else {
-				if (app.getActiveEuclidianView().getViewID() == App.VIEW_EUCLIDIAN) {
-					app.getEuclidianView2().drawListAsComboBox(geo, value);
-				} else {
+			
+			Iterator<Integer> it = geo.getViewSet().iterator();
+			
+			// #3929
+			while (it.hasNext()) {
+				Integer view = it.next();
+				if (view.intValue() == App.VIEW_EUCLIDIAN) {
 					app.getEuclidianView1().drawListAsComboBox(geo, value);
+				} else if (view.intValue() == App.VIEW_EUCLIDIAN2 && app.hasEuclidianView2()) {
+					app.getEuclidianView2().drawListAsComboBox(geo, value);
 				}
+
 			}
 		}
 	}
