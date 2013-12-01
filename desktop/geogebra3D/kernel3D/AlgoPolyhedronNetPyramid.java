@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /** Algo that compute the net for a polyhedron
@@ -80,22 +81,34 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		int nOld = super.adjustOutputSize(newBottomPointsLength);
 		
 		if (newBottomPointsLength > nOld){
-			// update top points
+			// update side points
 			outputPointsSide.adjustOutputSize(newBottomPointsLength);
 			outputPointsSide.setLabels(null);
 
-			// update edges
-			GeoPolyhedronNet net = getNet();
+			 
+			// update bottom segment
+			GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(nOld-1);
+			segmentBottom.modifyInputPoints(outputPointsBottom.getElement(nOld-1), outputPointsBottom.getElement(nOld));
+
+			// update bottom
+			updateBottom(newBottomPointsLength);
+			
 
 			//create new sides
+			GeoPolyhedronNet net = getNet();
 			for (int i = nOld; i < newBottomPointsLength; i++){
 				createSideFace(net, i, newBottomPointsLength);
 				GeoPolygon3D polygon = net.createPolygon(i+1); // +1 shift since bottom is face #0
 				setOutputSide(polygon);
+				outputSegmentsBottom.addOutput((GeoSegment3D) polygon.getSegments()[0], false);	// add segment to bottom list now
 			}
-			
+			outputSegmentsBottom.setLabels(null);	
 			outputSegmentsSide.setLabels(null);	
 			outputPolygonsSide.setLabels(null);
+			
+			//update last side
+			updateSide(nOld-1, newBottomPointsLength);
+
 
 			refreshOutput();
 			
@@ -104,7 +117,47 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		
 		return nOld;
 	}
+	
+	
+	private void updateBottom(int newBottomPointsLength){
 
+		GeoPolygon polygon = outputPolygonsBottom.getElement(0);			
+		polygon.modifyInputPoints(outputPointsBottom.getOutput(new GeoPoint3D[newBottomPointsLength]));
+		polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[newBottomPointsLength]));
+		polygon.calcArea();  
+		
+	}
+
+	
+	private void updateSide(int index, int bottomPointsLength){
+		
+		GeoPointND pointBottom1 = outputPointsBottom.getElement(index);
+		GeoPointND pointBottom2 = outputPointsBottom.getElement((index+1) % bottomPointsLength);
+		GeoPointND pointSide = outputPointsSide.getElement(index);
+				
+		//update segments
+		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
+		GeoSegmentND segmentSide1 = outputSegmentsSide.getElement(2*index);
+		GeoSegmentND segmentSide2 = outputSegmentsSide.getElement((2*index+1) % (2*bottomPointsLength));
+		//segmentBottom.modifyInputPoints(pointBottom1,pointBottom2);	 // use side face order
+		segmentSide2.modifyInputPoints(pointBottom2,pointSide);		
+		segmentSide1.modifyInputPoints(pointSide,pointBottom1);		
+		
+		//update side
+		GeoPolygon polygon = outputPolygonsSide.getElement(index);
+		GeoPointND[] points = new GeoPointND[3];
+		points[0] = pointBottom1;
+		points[1] = pointBottom2;
+		points[2] = pointSide;
+		polygon.modifyInputPoints(points);
+		GeoSegmentND[] s = new GeoSegmentND[3];
+		s[0] = segmentBottom;
+		s[1] = segmentSide2;
+		s[2] = segmentSide1;
+		polygon.setSegments(s);
+		polygon.calcArea();  
+		
+	}
 	
 
 	@Override
