@@ -143,6 +143,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 				outputPolygonsSide.addOutput(polygon, false);
 				outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);
 			}
+			outputPolygonsSide.setLabels(null);	
 			outputSegmentsSide.setLabels(null);	
 			
 			refreshOutput();
@@ -155,7 +156,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			p[0] = bottomPoints[newBottomPointsLength-1];
 			p[1] = bottomPoints[0];
 			p[2] = getTopPoint();
-			polygon.setPoints(p,null,false); //don't create segments
+			polygon.modifyInputPoints(p);
 			GeoSegmentND[] s = new GeoSegmentND[3];
 			s[0] = getBottom().getSegments()[newBottomPointsLength-1];
 			s[1] = outputSegmentsSide.getElement(newBottomPointsLength-1);
@@ -190,7 +191,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		p[0] = bottomPoints[index-1];
 		p[1] = bottomPoints[index];
 		p[2] = getTopPoint();
-		polygon.setPoints(p,null,false); //don't create segments
+		polygon.modifyInputPoints(p); 
 		GeoSegmentND[] s = new GeoSegmentND[3];
 		s[0] = getBottom().getSegments()[index-1];
 		s[1] = outputSegmentsSide.getElement(index);
