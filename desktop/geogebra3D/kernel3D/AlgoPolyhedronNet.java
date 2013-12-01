@@ -226,6 +226,11 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	@Override
 	public void compute() {
 
+		if (!p.isDefined()){
+			setUndefined();
+			return;
+		}
+		
 		double f = v.getDouble();
 
 		// update bottom points
@@ -240,11 +245,15 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 			}
 			compute(f, bottomFace, points);
 		}else{
-			getNet().setUndefined();
-			outputPointsBottom.setUndefined();
-			outputPointsSide.setUndefined();
-			outputPointsTop.setUndefined();
+			setUndefined();
 		}
+	}
+	
+	private void setUndefined(){
+		getNet().setUndefined();
+		outputPointsBottom.setUndefined();
+		outputPointsSide.setUndefined();
+		outputPointsTop.setUndefined();
 	}
 	
 	/**
