@@ -39,6 +39,7 @@ public class SplashDialog extends SimplePanel {
 			html += GuiResources.INSTANCE.ggbSplashHtml().getText();
 			html += GuiResources.INSTANCE.ggbSpinnerHtml().getText();
 		} else if (showLogo) {
+			//wide enough, show the loading text
 			html += "<div style=\"position: absolute; width: 150px; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; border: 1px solid black; \">" +
 					"GeoGebra loading..." + 
 					"<span style=\"position:absolute; display:inline-block; bottom:0px; right: 10px; \">" +
@@ -46,6 +47,11 @@ public class SplashDialog extends SimplePanel {
 					"</span>" +
 					"</div>"; 
 			
+		}else {
+			//too small, show spinner only
+				html += "<div style=\"position: absolute; width: 150px; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; \">" + 
+						GuiResources.INSTANCE.ggbSpinnerHtml().getText() +
+						"</div>"; 
 		}
 		html += "</div>";
 	    HTML splash = new HTML(html);	
