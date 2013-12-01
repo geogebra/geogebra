@@ -188,7 +188,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			
 			if (getPolyhedron().allLabelsAreSet()){
 				outputSegmentsSide.setLabels(null);
-				outputSegmentsTop.setLabels(null);	
+				outputSegmentsTop.setLabels(null);
+				outputPolygonsSide.setLabels(null);
 			}
 				
 			
@@ -207,8 +208,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			GeoPointND[] p = new GeoPointND[newBottomPointsLength];
 			p[0]=getTopPoint();
 			for(int i=0;i<newBottomPointsLength-1;i++)
-				p[1+i] = getTopPoint(i+1);				
-			//polygon.setPoints(p,null,false); //don't create segments
+				p[1+i] = getTopPoint(i+1);			
 			polygon.modifyInputPoints(p);
 			polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[newBottomPointsLength]));
 			polygon.calcArea();  
@@ -256,7 +256,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		p[0]=getTopPoint();
 		for(int i=0;i<n-1;i++)
 			p[1+i] = getTopPoint(i+1);				
-		//polygon.setPoints(p,null,false); //don't create segments
 		polygon.modifyInputPoints(p);
 		polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[n]));
 		polygon.calcArea();  
@@ -270,7 +269,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		p[1] = bottomPoints[index];
 		p[2] = getTopPoint(index);
 		p[3] = getTopPoint(index-1);
-		polygon.setPoints(p,null,false); //don't create segments
+		polygon.modifyInputPoints(p); //don't create segments
 		GeoSegmentND[] s = new GeoSegmentND[4];
 		s[0] = getBottom().getSegments()[index-1];
 		s[1] = outputSegmentsSide.getElement(index);

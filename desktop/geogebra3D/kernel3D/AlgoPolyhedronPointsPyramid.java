@@ -143,8 +143,11 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 				outputPolygonsSide.addOutput(polygon, false);
 				outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);
 			}
-			outputPolygonsSide.setLabels(null);	
-			outputSegmentsSide.setLabels(null);	
+			
+			if (getPolyhedron().allLabelsAreSet()){
+				outputSegmentsSide.setLabels(null);
+				outputPolygonsSide.setLabels(null);
+			}
 			
 			refreshOutput();
 		}else if (newBottomPointsLength<nOld){
