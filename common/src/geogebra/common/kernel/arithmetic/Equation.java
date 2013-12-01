@@ -225,8 +225,8 @@ public class Equation extends ValidExpression {
         
  
         // ensure that they only consist of polynomials
-        leftEN.makePolynomialTree(this, expandFunctions);
-        rightEN.makePolynomialTree(this, expandFunctions);		
+        leftEN.makePolynomialTree(this);
+        rightEN.makePolynomialTree(this);
 
         // simplify the both sides to single polynomials
         leftPoly  = (Polynomial) leftEN.evaluate(StringTemplate.defaultTemplate);
