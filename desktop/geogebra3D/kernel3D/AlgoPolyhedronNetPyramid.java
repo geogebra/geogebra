@@ -122,10 +122,6 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 			d1 *= -1;
 		}
 		
-		if (bottomPolygon.getReverseConvexOrientation()){
-			f *= -1;
-			faceDirection = faceDirection.mul(-1);
-		}
 
 		int n = outputPointsSide.size();
 		Coords o2 = points[0];
