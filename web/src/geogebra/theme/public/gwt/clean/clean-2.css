@@ -2103,4 +2103,12 @@ label {
 .loadinganimation {
 	border-color:transparent;
 }
+
+.imageCorner {
+	background-repeat: no-repeat;	
+	align: left;
+	display: inline; 
+	padding: 20px;
+}
+
 }

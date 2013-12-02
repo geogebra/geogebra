@@ -1834,25 +1834,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			model = new ImageCornerModel(app, this);
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
-			//getLabel().setIcon(getAppW().getImageIcon("corner" + 
-			//		model.getCornerNumber() + ".png"));
 		}
 
-		private void setIcon() {
-			ImageResource res;
-			switch (model.getCornerNumber()) { 
-			case 1:
-				res = AppResources.INSTANCE.corner1();
-				break;
-			case 2:
-				res = AppResources.INSTANCE.corner2();
-				break;
-			case 4:
-					res = AppResources.INSTANCE.corner4();
-			break;		
+		public void setIcon(ImageResource res) {
+			if (res == null) {
+				return;
 			}
-			
+			Label label = getLabel();
+			label.setStyleName("imageCorner");
+			label.getElement().getStyle().setProperty("backgroundImage", "url(" + 
+					res.getURL() + ")");
 		}
+		
 		@Override
 		protected void onListBoxChange() {
 			final String item = getListBox().getValue(getListBox().getSelectedIndex());
@@ -1865,32 +1858,34 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			super.setLabels();
 			String strLabelStart = app.getPlain("CornerPoint");
 			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
-		
 		}
 	}
 
 	private class CornerPointsPanel extends OptionPanel
 	{
 	
-		private ImageCornerPanel corner0;
 		private ImageCornerPanel corner1;
 		private ImageCornerPanel corner2;
+		private ImageCornerPanel corner4;
 
 		public CornerPointsPanel() {
-			corner0 = new ImageCornerPanel(0); 
-			corner1 = new ImageCornerPanel(1); 
-			corner2 = new ImageCornerPanel(2);
+			corner1 = new ImageCornerPanel(0); 
+			corner2 = new ImageCornerPanel(1); 
+			corner4 = new ImageCornerPanel(2);
 			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.add(corner0.getWidget());
 			mainPanel.add(corner1.getWidget());
 			mainPanel.add(corner2.getWidget());
+			mainPanel.add(corner4.getWidget());
 			setWidget(mainPanel);
+			corner1.setIcon(AppResources.INSTANCE.corner1());
+			corner2.setIcon(AppResources.INSTANCE.corner2());
+			corner4.setIcon(AppResources.INSTANCE.corner4());
 		}
 
 		public void setLabels() {
-			corner0.setLabels();
 			corner1.setLabels();
 			corner2.setLabels();
+			corner4.setLabels();
 		}
 
 		public boolean update(Object[] geos) {
@@ -1898,9 +1893,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				return false;
 			}
 			
-		 boolean result = corner0.update(geos);
-			result = corner1.update(geos) || result;
+		 boolean result = corner1.update(geos);
 			result = corner2.update(geos) || result;
+			result = corner4.update(geos) || result;
 			return result;
 		}
 	}
