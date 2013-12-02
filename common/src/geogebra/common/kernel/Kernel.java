@@ -4460,5 +4460,21 @@ public class Kernel {
 		return true;
 	}
 
+	public void notifyBatchUpdate() {
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				views[i].startBatchUpdate();
+			}
+		}
+	}
+	
+	public void notifyEndBatchUpdate() {
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				views[i].endBatchUpdate();
+			}
+		}
+	}
+
 
 }

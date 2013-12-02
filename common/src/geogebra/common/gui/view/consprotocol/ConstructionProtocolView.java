@@ -345,6 +345,18 @@ public class ConstructionProtocolView {
 			geoMap = new HashMap<GeoElement, RowData>();
 		}
 		
+		@Override
+		public void startBatchUpdate() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void endBatchUpdate() {
+			// TODO Auto-generated method stub
+			
+		}
+		
 		public ArrayList<RowData> getrowList(){
 			return rowList;
 		}

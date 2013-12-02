@@ -984,5 +984,14 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public final void setLastSelectedGeo(GeoElement geo) {
 	    lastSelectedGeo = geo;	    
     }
+	
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

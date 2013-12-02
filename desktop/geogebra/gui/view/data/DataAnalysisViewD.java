@@ -943,5 +943,15 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 	public JPopupMenu getExportMenu() {
 		return dataDisplayPanel1.getExportMenu();
 	}
+	
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

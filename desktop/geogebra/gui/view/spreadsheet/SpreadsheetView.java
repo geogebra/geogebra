@@ -1323,5 +1323,15 @@ public class SpreadsheetView extends JPanel implements
 						spreadsheet.getColumnHeader() },
 				{ spreadsheet.getRowHeader(), table } };
 	}
+	
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

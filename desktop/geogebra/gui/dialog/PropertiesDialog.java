@@ -551,6 +551,15 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			addMouseListener(this);
 		}
 
+		public void startBatchUpdate() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void endBatchUpdate() {
+			// TODO Auto-generated method stub
+			
+		}
 		public void setLabels() {
 			root.setUserObject(loc.getPlain("Objects"));
 

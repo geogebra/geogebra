@@ -1744,5 +1744,15 @@ public abstract class ProbabilityCalcualtorView implements View, SettingListener
 		sb.append("</probabilityCalculator>\n");
 	}
 
+	@Override
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

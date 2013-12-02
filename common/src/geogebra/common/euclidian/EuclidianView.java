@@ -62,6 +62,7 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1026,6 +1027,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	private boolean[] automaticAxesNumberingDistances = { true, true };
 
 	private double[] axesNumberingDistances = { 2, 2 };
+	private boolean needsAllDrawablesUpdate;
+	private boolean batchUpdate;
 
 	/**
 	 * @param flag
@@ -1318,8 +1321,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            true to repaint
 	 */
 	final public void updateAllDrawables(boolean repaint) {
+		if(repaint && this.batchUpdate){
+			this.needsAllDrawablesUpdate = true;
+			return;
+		}
 		allDrawableList.updateAll();
 		if (repaint) {
+			repaint();
+		}
+	}
+	
+	final public void  startBatchUpdate(){
+		this.batchUpdate = true;
+	}
+	
+	final public void endBatchUpdate(){
+		this.batchUpdate = false;
+		if(this.needsAllDrawablesUpdate){
+			allDrawableList.updateAll();
 			repaint();
 		}
 	}

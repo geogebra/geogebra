@@ -157,4 +157,16 @@ public class EventDispatcher implements View {
 		return false;
 	}
 
+	@Override
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

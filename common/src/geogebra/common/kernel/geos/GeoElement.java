@@ -3488,8 +3488,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * afterwards! synchronized for animation
 	 */
 	public void updateCascade() {
+		kernel.notifyBatchUpdate();
 		update();
 		updateDependentObjects();
+		kernel.notifyEndBatchUpdate();
 	}
 
 	private void updateDependentObjects() {

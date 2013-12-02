@@ -384,4 +384,16 @@ public abstract class CASView implements View{
 		return value.isOutputEmpty() && !value.isUseAsText();
 	}
 	
+	@Override
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

@@ -1212,4 +1212,18 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, ge
 		
 	}
 
+
+
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 } // AlgebraView

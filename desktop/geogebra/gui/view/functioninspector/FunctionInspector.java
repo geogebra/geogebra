@@ -1658,7 +1658,15 @@ KeyListener, SpecialNumberFormatInterface {
 		return false;
 	}
 	
-	
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

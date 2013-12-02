@@ -73,4 +73,6 @@ public interface View {
 	public boolean hasFocus();
 
 	public boolean isShowing();
+	public void startBatchUpdate();
+	public void endBatchUpdate();
 }

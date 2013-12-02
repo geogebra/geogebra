@@ -1600,4 +1600,14 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 	public ScrollPanel getScrollPanel() {
 		return this;
 	}
+	
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

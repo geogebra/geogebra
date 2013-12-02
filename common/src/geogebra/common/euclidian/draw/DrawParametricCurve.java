@@ -27,6 +27,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.util.debug.Log;
 
 
 /**
@@ -60,6 +61,7 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
+		Log.debug("UPDATE");
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible)
 			return;

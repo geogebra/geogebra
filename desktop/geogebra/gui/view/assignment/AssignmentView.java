@@ -132,6 +132,16 @@ public class AssignmentView extends JPanel implements View, Gridable {
 		return null;
 	}
 
+	public void startBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void endBatchUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 		
 	
 }
