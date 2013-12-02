@@ -1843,7 +1843,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 			Label label = getLabel();
 			label.setStyleName("imageCorner");
 			label.getElement().getStyle().setProperty("backgroundImage", "url(" + 
-					res.getURL() + ")");
+					res.getSafeUri().asString() + ")");
 		}
 		
 		@Override

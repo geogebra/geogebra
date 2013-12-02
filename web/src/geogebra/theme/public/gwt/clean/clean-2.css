@@ -2107,8 +2107,12 @@ label {
 .imageCorner {
 	background-repeat: no-repeat;	
 	align: left;
-	display: inline; 
-	padding: 20px;
+	display: inline-block; 
+	padding-left: 20px;
+}
+
+.optionsPanel {
+	display: inline-block;
 }
 
 }
