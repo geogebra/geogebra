@@ -83,7 +83,22 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		//current length
 		int nOld = outputPointsSide.size();
 
+		//update existing segments / sides
+		if (newBottomPointsLength > bottomPointsLength){
+			for(int i = bottomPointsLength; i < newBottomPointsLength && i <= nOld; i++){
+				// update bottom segments
+				GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(i-1);
+				segmentBottom.modifyInputPoints(outputPointsBottom.getElement(i-1), outputPointsBottom.getElement(i));				
+			}
+			
+			for(int i = bottomPointsLength - 1; i < newBottomPointsLength && i < nOld; i++){
+				//update last sides
+				updateSide(i, newBottomPointsLength);
+			}
+
+		}
 		
+				
 		//create sides if needed
 		if (newBottomPointsLength > nOld){
 
@@ -109,14 +124,6 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 		//updates
 		if (newBottomPointsLength > bottomPointsLength){
-			for(int i=bottomPointsLength; i<newBottomPointsLength; i++){
-				// update bottom segments
-				GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(i-1);
-				segmentBottom.modifyInputPoints(outputPointsBottom.getElement(i-1), outputPointsBottom.getElement(i));
-				//update last sides
-				updateSide(i-1, newBottomPointsLength);
-			}
-			
 
 			// update bottom
 			updateBottom(newBottomPointsLength);
@@ -163,16 +170,16 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	}
 
 	
-	private void updateSide(int index, int bottomPointsLength){
+	private void updateSide(int index, int newBottomPointsLength){
 		
 		GeoPointND pointBottom1 = outputPointsBottom.getElement(index);
-		GeoPointND pointBottom2 = outputPointsBottom.getElement((index+1) % bottomPointsLength);
+		GeoPointND pointBottom2 = outputPointsBottom.getElement((index+1) % newBottomPointsLength);
 		GeoPointND pointSide = outputPointsSide.getElement(index);
 				
 		//update segments
 		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
 		GeoSegmentND segmentSide1 = outputSegmentsSide.getElement(2*index);
-		GeoSegmentND segmentSide2 = outputSegmentsSide.getElement((2*index+1) % (2*bottomPointsLength));
+		GeoSegmentND segmentSide2 = outputSegmentsSide.getElement((2*index+1) % (2*newBottomPointsLength));
 		segmentSide2.modifyInputPoints(pointBottom2,pointSide);		
 		segmentSide1.modifyInputPoints(pointSide,pointBottom1);		
 		
