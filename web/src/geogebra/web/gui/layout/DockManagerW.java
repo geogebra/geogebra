@@ -495,14 +495,27 @@ public class DockManagerW extends DockManager {
 	 * @param windowWidth
 	 */
 	private void setSplitPaneDividers(DockSplitPaneData[] spData, DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth){
+
+		double sdl = 0;
+
 		// set the dividers of the split panes
 		for (int i = 0; i < spData.length; ++i) {
 			splitPanes[i].clear();
 			// don't set splitpane width/height here, because that would call onResize
+
+			sdl = spData[i].getDividerLocation();
+			if (sdl == Double.POSITIVE_INFINITY ||
+				sdl == Double.NaN) {
+
+				// if omitted, divider locations should be computed (fixing problems in most cases, but maybe not in all)
+				// sdl should be x that 0 <= x <= 1
+				sdl = splitPanes[i].computeDividerLocationRecursive();
+			}
+
 			if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-				splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowHeight ));
+				splitPanes[i].setDividerLocationSilent((int)(sdl * windowHeight ));
 			} else {
-				splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowWidth ));
+				splitPanes[i].setDividerLocationSilent((int)(sdl * windowWidth ));
 			}
 		}
 

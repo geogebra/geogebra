@@ -2,6 +2,7 @@ package geogebra.web.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockSplitPaneData;
+import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -71,6 +72,127 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 	public void setResizeWeight(double d) {
 		resizeWeight = d;
+	}
+
+	public double computeDividerLocationRecursive() {
+
+		double sizeLeft = 0;
+
+		if (getLeftComponent() instanceof DockSplitPaneW) {
+			sizeLeft = ((DockSplitPaneW)getLeftComponent()).computeSizeRecursive(orientation);
+		} else if (getLeftComponent() instanceof DockPanelW) {
+			sizeLeft = ((DockPanelW)getLeftComponent()).getEmbeddedSize();
+		}
+
+		double sizeAll = computeSizeRecursive(orientation);
+
+		if (sizeAll == 0)
+			return 0;
+
+		return sizeLeft / sizeAll;
+	}
+
+	public double computeSizeRecursive(int parentOrientation) {
+
+		double size = 0;
+
+		if (orientation == parentOrientation) {
+			if (getLeftComponent() instanceof DockSplitPaneW) {
+				size += ((DockSplitPaneW)getLeftComponent()).computeSizeRecursive(orientation);
+			} else if (getLeftComponent() instanceof DockPanelW) {
+				size += ((DockPanelW)getLeftComponent()).getEmbeddedSize();
+			}
+
+			if (getRightComponent() instanceof DockSplitPaneW) {
+				size += ((DockSplitPaneW)getRightComponent()).computeSizeRecursive(orientation);
+			} else if (getRightComponent() instanceof DockPanelW) {
+				size += ((DockPanelW)getRightComponent()).getEmbeddedSize();
+			}
+
+			return size;
+		}
+
+		double size2 = 0;
+
+		if (getLeftComponent() instanceof DockSplitPaneW) {
+			size = ((DockSplitPaneW)getLeftComponent()).computeSizeRecursive(parentOrientation);
+		} else if (getLeftComponent() instanceof DockPanelW) {
+			// if orientation is different, use settings instead of embeddedSize
+			if (parentOrientation == VERTICAL_SPLIT) {
+				switch (((DockPanelW)getLeftComponent()).getViewId()) {
+					case App.VIEW_EUCLIDIAN:
+						size = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
+						break;
+					case App.VIEW_EUCLIDIAN2:
+						size = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
+						break;
+					case App.VIEW_SPREADSHEET:
+						size = app.getSettings().getSpreadsheet().preferredSize().getHeight();
+						break;
+					default:
+						// probably won't work
+						size = ((DockPanelW)getLeftComponent()).getOffsetHeight();
+						break;
+				}
+			} else {
+				switch (((DockPanelW)getLeftComponent()).getViewId()) {
+					case App.VIEW_EUCLIDIAN:
+						size = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
+						break;
+					case App.VIEW_EUCLIDIAN2:
+						size = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
+						break;
+					case App.VIEW_SPREADSHEET:
+						size = app.getSettings().getSpreadsheet().preferredSize().getWidth();
+						break;
+					default:
+						// probably won't work
+						size = ((DockPanelW)getLeftComponent()).getOffsetWidth();
+						break;
+				}
+			}
+		}
+
+		if (getRightComponent() instanceof DockSplitPaneW) {
+			size2 = ((DockSplitPaneW)getRightComponent()).computeSizeRecursive(parentOrientation);
+		} else if (getRightComponent() instanceof DockPanelW) {
+			// if orientation is different, use settings instead of embeddedSize
+			if (parentOrientation == VERTICAL_SPLIT) {
+				switch (((DockPanelW)getRightComponent()).getViewId()) {
+					case App.VIEW_EUCLIDIAN:
+						size2 = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
+						break;
+					case App.VIEW_EUCLIDIAN2:
+						size2 = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
+						break;
+					case App.VIEW_SPREADSHEET:
+						size2 = app.getSettings().getSpreadsheet().preferredSize().getHeight();
+						break;
+					default:
+						// probably won't work
+						size2 = ((DockPanelW)getRightComponent()).getOffsetHeight();
+						break;
+				}
+			} else {
+				switch (((DockPanelW)getRightComponent()).getViewId()) {
+					case App.VIEW_EUCLIDIAN:
+						size2 = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
+						break;
+					case App.VIEW_EUCLIDIAN2:
+						size2 = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
+						break;
+					case App.VIEW_SPREADSHEET:
+						size2 = app.getSettings().getSpreadsheet().preferredSize().getWidth();
+						break;
+					default:
+						// probably won't work
+						size2 = ((DockPanelW)getRightComponent()).getOffsetWidth();
+						break;
+				}
+			}
+		}
+
+		return Math.max(size, size2);
 	}
 
 	public void setDividerLocation(int location) {

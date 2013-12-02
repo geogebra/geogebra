@@ -677,6 +677,8 @@ public class StringUtil {
 	public static double parseDouble(String s){
 		if("NaN".equals(s))
 			return Double.NaN;
+		else if ("Infinity".equals(s))
+			return Double.POSITIVE_INFINITY;
 		return Double.parseDouble(s);
 	}
 
