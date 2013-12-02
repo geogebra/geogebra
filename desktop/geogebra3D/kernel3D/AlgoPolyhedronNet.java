@@ -21,6 +21,8 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	protected NumberValue v;
 
 	protected OutputHandler<GeoPolyhedronNet> outputNet;
+	
+	protected int bottomPointsLength;
 
 	/** points generated as output  */
 	protected OutputHandler<GeoPoint3D> outputPointsBottom, outputPointsSide, outputPointsTop;
@@ -61,8 +63,8 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		outputSegmentsSide = createOutputSegments();
 		outputSegmentsTop = createOutputSegments();
 
-		int n = p.getBottomFace().getPointsLength();
-		createNet(n);
+		bottomPointsLength = p.getBottomFace().getPointsLength();
+		createNet(bottomPointsLength);
 
 		input = new GeoElement[] {p, (GeoElement) v};		
 		for (int i = 0; i < input.length; i++) {
@@ -71,7 +73,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 		getNet().createFaces();
 
-		setOutput(n);
+		setOutput(bottomPointsLength);
 
 
 		// set labels
@@ -205,21 +207,14 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	/**
 	 * adjust output for n bottom points
 	 * @param n new bottom points length
-	 * @return old bottom points length
 	 */
-	protected int adjustOutputSize(int n){
+	protected void adjustOutputSize(int n){
 		
-		int nOld = outputPointsBottom.size();
 		
-		// if same length, do nothing
-		if (n == nOld){
-			//App.error("pareil");
-		}else{
-			//App.error("pas pareil");
+		if (n > outputPointsBottom.size()){ // augment output points bottom
 			outputPointsBottom.adjustOutputSize(n);
 		}
 		
-		return nOld;
 		
 	}
 	

@@ -76,23 +76,20 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 
 	@Override
-	protected int adjustOutputSize(int newBottomPointsLength){
+	protected void adjustOutputSize(int newBottomPointsLength){
 		
-		int nOld = super.adjustOutputSize(newBottomPointsLength);
+		super.adjustOutputSize(newBottomPointsLength);
 		
+		//current length
+		int nOld = outputPointsSide.size();
+
+		
+		//create sides if needed
 		if (newBottomPointsLength > nOld){
+
 			// update side points
 			outputPointsSide.adjustOutputSize(newBottomPointsLength);
 			outputPointsSide.setLabels(null);
-
-			 
-			// update bottom segment
-			GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(nOld-1);
-			segmentBottom.modifyInputPoints(outputPointsBottom.getElement(nOld-1), outputPointsBottom.getElement(nOld));
-
-			// update bottom
-			updateBottom(newBottomPointsLength);
-			
 
 			//create new sides
 			GeoPolyhedronNet net = getNet();
@@ -105,25 +102,62 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 			outputSegmentsBottom.setLabels(null);	
 			outputSegmentsSide.setLabels(null);	
 			outputPolygonsSide.setLabels(null);
-			
-			//update last side
-			updateSide(nOld-1, newBottomPointsLength);
-
-
 			refreshOutput();
 			
-			
 		}
+
+
+		//updates
+		if (newBottomPointsLength > bottomPointsLength){
+			for(int i=bottomPointsLength; i<newBottomPointsLength; i++){
+				// update bottom segments
+				GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(i-1);
+				segmentBottom.modifyInputPoints(outputPointsBottom.getElement(i-1), outputPointsBottom.getElement(i));
+				//update last sides
+				updateSide(i-1, newBottomPointsLength);
+			}
+			
+
+			// update bottom
+			updateBottom(newBottomPointsLength);
+			
+		}else if (newBottomPointsLength < bottomPointsLength){
+			// update side points
+			for(int i = newBottomPointsLength; i < bottomPointsLength; i++){
+    			outputPointsSide.getElement(i).setUndefined();
+    			outputPointsBottom.getElement(i).setUndefined();
+			}
+			
+			// update bottom segment
+			GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(newBottomPointsLength-1);
+			segmentBottom.modifyInputPoints(outputPointsBottom.getElement(newBottomPointsLength-1), outputPointsBottom.getElement(0));
+			
+			// update bottom face
+			updateBottom(newBottomPointsLength);
+			
+			//update last side
+			updateSide(newBottomPointsLength-1, newBottomPointsLength);
+
+		}
+
 		
-		return nOld;
+		
+		bottomPointsLength = newBottomPointsLength;
 	}
+	
 	
 	
 	private void updateBottom(int newBottomPointsLength){
 
-		GeoPolygon polygon = outputPolygonsBottom.getElement(0);			
-		polygon.modifyInputPoints(outputPointsBottom.getOutput(new GeoPoint3D[newBottomPointsLength]));
-		polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[newBottomPointsLength]));
+		GeoPolygon polygon = outputPolygonsBottom.getElement(0);
+		GeoPoint3D[] points = new GeoPoint3D[newBottomPointsLength];
+		GeoSegment3D[] segments = new GeoSegment3D[newBottomPointsLength];
+		for (int i = 0 ; i < newBottomPointsLength ; i++){
+			points[i] = outputPointsBottom.getElement(i);
+			segments[i] = outputSegmentsBottom.getElement(i);
+		}
+		polygon.modifyInputPoints(points);
+		polygon.setSegments(segments);
 		polygon.calcArea();  
 		
 	}
@@ -139,7 +173,6 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
 		GeoSegmentND segmentSide1 = outputSegmentsSide.getElement(2*index);
 		GeoSegmentND segmentSide2 = outputSegmentsSide.getElement((2*index+1) % (2*bottomPointsLength));
-		//segmentBottom.modifyInputPoints(pointBottom1,pointBottom2);	 // use side face order
 		segmentSide2.modifyInputPoints(pointBottom2,pointSide);		
 		segmentSide1.modifyInputPoints(pointSide,pointBottom1);		
 		
@@ -176,7 +209,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		}
 		
 
-		int n = outputPointsSide.size();
+		int n = points.length;
 		Coords o2 = points[0];
 		
 		for (int i = 0 ; i < n ; i++) {
