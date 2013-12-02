@@ -1080,7 +1080,7 @@ __GGB__keysVar.es_UY.error = {
     "UndefinedVariable": "Variable no definida",
     "UnknownCommand": "Comando desconocido",
     "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible en el equipo.",
-    "VectorExpected": "Se esperaba un punto o vector",
+    "VectorExpected": "Se requieren punto o vector",
 }
 
 
@@ -1954,9 +1954,9 @@ __GGB__keysVar.es_UY.menu = {
     "Values": "Valores",
     "ValuesAndFrequency": "Valores y frecuencia",
     "Vector": "Vector",
-    "Vector_Help": "Punto inicial de origen y luego, el punto del extremo final",
+    "Vector_Help": "Puntos de origen y punta (ya creados o no)",
     "VectorFromPoint": "Vector desde un punto",
-    "VectorFromPoint_Help": "Punto inicial de origen y luego, vector",
+    "VectorFromPoint_Help": "Origen; luego, vector [ya creados]",
     "VectorMenu": "Vector",
     "VectorPolygon": "Pol\xedgono vectorial",
     "VectorPolygon_Help": "Selecci\xf3n o creaci\xf3n de los v\xe9rtices, punto por punto, reiterando el primero",
