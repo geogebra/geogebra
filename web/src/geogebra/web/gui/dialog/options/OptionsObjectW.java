@@ -63,7 +63,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LineStylePopup;
@@ -84,6 +83,7 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -840,8 +840,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
-			//TODO: implement the following:
-			((EuclidianViewWeb)(app.getActiveEuclidianView())).drawListAsComboBox(geo, value);
+			Iterator<Integer> it = geo.getViewSet().iterator();
+			
+			// #3929
+			while (it.hasNext()) {
+				Integer view = it.next();
+				if (view.intValue() == App.VIEW_EUCLIDIAN) {
+					app.getEuclidianView1().drawListAsComboBox(geo, value);
+				} else if (view.intValue() == App.VIEW_EUCLIDIAN2 && app.hasEuclidianView2()) {
+					app.getEuclidianView2().drawListAsComboBox(geo, value);
+				}
+
+			}
 		}
 
 	}
