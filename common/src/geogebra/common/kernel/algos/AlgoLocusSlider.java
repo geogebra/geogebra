@@ -282,7 +282,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		try {
 			// get XML for macro construction of P -> Q
 			String locusConsXML = Macro
-					.buildMacroXML(kernel, locusConsElements);
+					.buildMacroXML(kernel, locusConsElements).toString();
 
 			macroKernel.loadXML(locusConsXML);
 

@@ -23,6 +23,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,7 +46,7 @@ public class Macro  {
 	private boolean showInToolBar = true;
 				
 	private Construction macroCons; // macro construction
-	//private String macroConsXML;
+	private StringBuilder macroConsXML;
 	private GeoElement [] macroInput, macroOutput; // input and output objects 
 	private String [] macroInputLabels, macroOutputLabels;
 	private Test [] inputTypes;
@@ -129,7 +130,8 @@ public class Macro  {
 	 */
 	public void initMacro(Construction macroCons1, String [] inputLabels, String [] outputLabels) {				
 		this.macroCons = macroCons1;
-		//this.macroConsXML = macroCons.getConstructionXML();
+		this.macroConsXML = new StringBuilder();
+		macroCons.getConstructionXML(macroConsXML);
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;	
 		
@@ -285,7 +287,7 @@ public class Macro  {
     	}    	    	
     	    	
 		// 5) create XML representation for macro-construction
-    	String macroConsXML = buildMacroXML(input[0].kernel, macroConsOrigElements);
+    	macroConsXML = buildMacroXML(input[0].kernel, macroConsOrigElements);
     	 	    
     	// if we used temp labels in step (4) remove them again
     	for (int i=0; i < input.length; i++) {    		
@@ -299,9 +301,9 @@ public class Macro  {
     		if (!isOutputLabeled[i])		
     			output[i].labelSet = false;        
     	}    	    	    	    	    
-    	App.debug(macroConsXML);
+    	Log.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
-    	Construction macroCons2 = createMacroConstruction(macroConsXML); 
+    	Construction macroCons2 = createMacroConstruction(macroConsXML.toString()); 
     	    	
     	// init macro 
     	initMacro(macroCons2, inputLabels, outputLabels);
@@ -369,7 +371,7 @@ public class Macro  {
 	 * @param macroConsElements elements involved in macro (input, internal, output)
 	 * @return XML string of macro construction
 	 */
-	 public static String buildMacroXML(Kernel kernel, Set<ConstructionElement> macroConsElements) {	
+	 public static StringBuilder buildMacroXML(Kernel kernel, Set<ConstructionElement> macroConsElements) {	
 		
 		 
     	// get the XML for all macro construction elements
@@ -394,7 +396,7 @@ public class Macro  {
     	macroConsXML.append("</construction>\n");
     	macroConsXML.append("</geogebra>");
     	   	
-    	return macroConsXML.toString();
+    	return macroConsXML;
 	 }
     	
 	 /**
@@ -640,8 +642,11 @@ public class Macro  {
         sb.append("/>\n");            
         
         // macro construction XML
-       // sb.append(macroConsXML);
-        macroCons.getConstructionXML(sb);
+        if(macroConsXML!=null && macroConsXML.length()>0){
+        	sb.append(macroConsXML.toString());
+        }else{
+        	macroCons.getConstructionXML(sb);
+        }
         
         sb.append("</macro>\n");           
     }
