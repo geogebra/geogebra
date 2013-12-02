@@ -464,6 +464,14 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 			ret[2 + i] = (GeoPointND) outputPoints.getElement(i);
 		return ret;
 	}
+	
+	
+	public GeoSegmentND[] getSegments(){
+		GeoSegmentND[] ret = new GeoSegmentND[outputSegments.size()];
+		for (int i = 0; i < outputSegments.size(); i++)
+			ret[i] = (GeoSegmentND) outputSegments.getElement(i);
+		return ret;
+	}
 
 	@Override
 	public boolean isLocusEquable() {

@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * @author ggb3D
@@ -164,21 +165,25 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		if (n>outputSegmentsSide.size()){
 			GeoPointND[] bottomPoints1;
+			GeoSegmentND[] bottomSegments1;
 			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND){
 				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
 				bottomPoints1 = algo.getPoints();
+				bottomSegments1 = algo.getSegments();
 				// if no sufficient bottom points, force augment outputs for AlgoPolygonRegular
 				if (bottomPoints1.length < n){
 					int nOld = bottomPoints1.length;
 					algo.compute(n);
 					bottomPoints1 = algo.getPoints();
+					bottomSegments1 = algo.getSegments();
 					algo.compute(nOld);
 				}
 			}else{
 				bottomPoints1 = getBottomPoints();
+				bottomSegments1 = getBottom().getSegments();
 			}
 	
-			updateOutput(n,bottomPoints1);
+			updateOutput(n,bottomPoints1,bottomSegments1);
 			
 		}
 	}
@@ -271,7 +276,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * @param newBottomPointsLength new bottom points length
 	 * @param bottomPoints current bottom points
 	 */
-	protected abstract void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints);
+	protected abstract void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints, GeoSegmentND[] bottomSegments);
 	
 	/**
 	 * sets the bottom of the polyhedron
@@ -332,7 +337,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 				return false;
 			}
 			polyhedron.setDefined();
-			updateOutput(bottom.getPointsLength(),getBottomPoints());
+			updateOutput(bottom.getPointsLength(),getBottomPoints(),getBottom().getSegments());
 		}//else updateOutputPoints();
 		
 		
