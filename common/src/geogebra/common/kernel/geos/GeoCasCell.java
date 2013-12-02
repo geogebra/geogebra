@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -1406,8 +1407,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		arbconst.reset();
 		outputVE.traverse(repl);
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
+		
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
+			if(twinGeo instanceof GeoImplicitPoly){
+				((GeoImplicitPoly)twinGeo).setInputForm();
+			}
 			if (newTwinGeo instanceof GeoNumeric) {
 				newTwinGeo.setLabelVisible(true);
 			}
