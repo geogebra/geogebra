@@ -1019,6 +1019,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if (geo == null) {
 				// now lookup other GeoElements
 				geo = kernel.lookupLabel(varLabel);
+				
+				if (geo != null && geo.getCorrespondingCasCell() != null) {
+					// this is a twin geo of a CAS cell
+					// input will be set from CAS
+					geo = geo.getCorrespondingCasCell();
+				}
 			}
 
 			if (geo != null) {
