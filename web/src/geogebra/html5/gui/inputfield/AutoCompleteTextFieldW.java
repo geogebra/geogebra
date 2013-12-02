@@ -38,6 +38,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -227,6 +228,13 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 		init();
 	}
+
+	/**
+	 * @param app creates new AutoCompleteTextField with app.
+	 */
+	public AutoCompleteTextFieldW(App app) {
+	  this(0,app);
+    }
 
 	private void init() {
 		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
@@ -1253,4 +1261,14 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		this.updateCurrentWord(true);
 		return this.getCurrentWord();
 	}
+
+	/**
+	 * @param hanlder
+	 * Adds a focus handler to the wrapped textfield.
+	 */
+	public void addFocusHandler(
+            FocusHandler hanlder) {
+	    textField.getValueBox().addFocusHandler(hanlder);
+	    
+    }
 }
