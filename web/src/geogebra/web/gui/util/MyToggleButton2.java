@@ -63,6 +63,21 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	    initButton(iconHeight);
     }
 
+	/**
+	 * @param upIcon the icon to show as upImage
+	 */
+	public MyToggleButton2(ImageResource upIcon) {
+		this(new Image(upIcon.getSafeUri()));
+    }
+
+	/**
+	 * @param image an Image to use as an up Image
+	 */
+	public MyToggleButton2(Image image) {
+	    super(image);
+	    initButton(image.getHeight());
+    }
+
 	private void initButton(int height) {
 		this.buttonHeight = height;
 		setDown(false);

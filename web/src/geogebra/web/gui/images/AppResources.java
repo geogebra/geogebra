@@ -94,7 +94,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/corner4.png")
 	ImageResource corner4();
 	
-	@Source("geogebra/web/gui/images/cumulative_distribution.png")
+	@Source("icons/png16x16/cumulative_distribution.png")
 	ImageResource cumulative_distribution();
 	
 	@Source("geogebra/web/gui/images/cursor_arrow.png")
@@ -529,6 +529,15 @@ public interface AppResources extends ClientBundleWithLookup {
 	
 	@Source("icons/png30x30/stylingbar_point-right.png")
 	ImageResource point_right();
+
+	@Source("icons/png16x16/interval-left.png")
+	ImageResource interval_left();
+	
+	@Source("icons/png16x16/interval-right.png")
+	ImageResource interval_right();
+	
+	@Source("icons/png16x16/interval-between.png")
+	ImageResource interval_between();
 
 	
 }
