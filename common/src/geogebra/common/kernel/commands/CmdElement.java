@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -46,20 +47,25 @@ public class CmdElement extends CommandProcessor {
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
 			}
-			
+			App.printStacktrace(arg[0]);
+			App.printStacktrace(arg[1]);
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			
 		default:
 			arg = resArgs(c);
 			// list
 			GeoNumberValue[] nvs = new GeoNumberValue[n-1];
-			if (!arg[0].isGeoList())
+			if (!arg[0].isGeoList()){
+				App.printStacktrace(arg[0]);
 				throw argErr(app, c.getName(), arg[0]);
+			}
 			for (int i = 1; i < n; i++) {
 				if (arg[i] instanceof GeoNumberValue)
 					nvs[i - 1] = (GeoNumberValue) arg[i];
-				else
+				else{
+					App.printStacktrace(arg[0]);
 					throw argErr(app, c.getName(), arg[i]);
+				}
 			}
 
 			AlgoListElement algo = new AlgoListElement(cons, c.getLabel(), (GeoList) arg[0],

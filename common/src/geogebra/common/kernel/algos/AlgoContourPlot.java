@@ -133,7 +133,7 @@ public class AlgoContourPlot extends AlgoElement {
 
 	private void addToList(GeoList list1, double value) {
 		equ = new Equation(kernel, en, new MyDouble(kernel, value));
-		equ.initEquation(true);
+		equ.initEquation();
 		poly = equ.getNormalForm();
 		implicitPoly.setCoeff(poly.getCoeff());
 		list1.add(new GeoImplicitPoly(implicitPoly));
@@ -264,7 +264,7 @@ public class AlgoContourPlot extends AlgoElement {
 			en.replace(fvars[0], xVar);
 			en.replace(fvars[1], yVar);
 			equ = new Equation(kernel, en, new MyDouble(kernel));
-			equ.initEquation(true);
+			equ.initEquation();
 			poly = equ.getNormalForm();
 			implicitPoly.setCoeff(poly.getCoeff());
 			for (int i = 0; i < divisionPoints; i++) {

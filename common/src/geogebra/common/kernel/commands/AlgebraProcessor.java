@@ -1496,7 +1496,7 @@ public class AlgebraProcessor {
 		// equ.getNormalForm());
 
 		try {
-			equ.initEquation(false);
+			equ.initEquation();
 			// AbstractApplication.debug("EQUATION: " + equ.getNormalForm());
 			// check no terms in z
 			checkNoTermsInZ(equ);

@@ -55,7 +55,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 			en.replace(fvars[0], xVar);
 			en.replace(fvars[1], yVar);
 			Equation equ=new Equation(kernel,en,new MyDouble(kernel));	
-			equ.initEquation(true);
+			equ.initEquation();
 			Polynomial poly =  equ.getNormalForm();
 			implicitPoly.setCoeff(poly.getCoeff());
 		}catch(MyError e){

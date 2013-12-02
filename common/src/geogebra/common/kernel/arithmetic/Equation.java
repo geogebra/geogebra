@@ -187,7 +187,7 @@ public class Equation extends ValidExpression {
      * Call this method to check that this is a valid equation.
      * May throw MyError (InvalidEquation).     
      */
-    public void initEquation(boolean expandFunctions) {
+    public void initEquation() {
  /*   	ExpressionNode en=lhs.getCopy(kernel);
     	en.makePolynomialTree();
 //    	en.evaluate();
