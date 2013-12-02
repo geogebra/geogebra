@@ -16,6 +16,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoAxisND;
@@ -84,9 +85,9 @@ public class Hits extends ArrayList<GeoElement> {
 	@Override
 	public boolean add(GeoElement geo) {
 
-		if (!geo.isSelectionAllowed())
+		if (!geo.isSelectionAllowed() && !(geo instanceof GeoList)){
 			return false;
-
+		}
 		if (geo.isGeoList()) {
 			listCount++;
 		} else if (geo.isGeoImage()) {
