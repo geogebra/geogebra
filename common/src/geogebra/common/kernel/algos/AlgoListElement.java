@@ -17,7 +17,9 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.main.App;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * n-th element of a GeoList object.
@@ -63,14 +65,15 @@ public class AlgoListElement extends AlgoElement {
 		// init return element as copy of initIndex list element
 		if (geoList.size() > initIndex) {
 			// create copy of initIndex GeoElement in list
-			element = geoList.get(initIndex).copyInternal(cons);
+			element = getGenericElement(geoList,initIndex).copyInternal(cons);
 		}
 
 		// if not enough elements in list:
 		// init return element as copy of first list element
 		else if (geoList.size() > 0) {
 			// create copy of first GeoElement in list
-			element = geoList.get(0).copyInternal(cons);
+			
+			element = getGenericElement(geoList,0).copyInternal(cons);
 		}
 
 		// desperate case: empty list 
@@ -87,6 +90,18 @@ public class AlgoListElement extends AlgoElement {
 		}
 		setInputOutput();
 		compute();
+	}
+
+	private static GeoElement getGenericElement(GeoList geoList, int index) {
+		GeoElement toCopy = geoList.get(index);
+		if(geoList.getElementType() == GeoClass.DEFAULT){
+			for(int i=1;i<geoList.size();i++){
+				if(Test.canSet(geoList.get(i),toCopy)){
+					toCopy = geoList.get(i);
+				}
+			}
+		}
+		return toCopy;
 	}
 
 	/**
@@ -114,14 +129,16 @@ public class AlgoListElement extends AlgoElement {
 				// init return element as copy of initIndex list element
 				if (((GeoList)current).size() > initIndex) {
 					// create copy of initIndex GeoElement in list
-					current = ((GeoList)current).get(initIndex);
+					current = k == num2.length -1 ? getGenericElement((GeoList)current,initIndex) :
+						((GeoList)current).get(initIndex);
 				}
 
 				// if not enough elements in list:
 				// init return element as copy of first list element
 				else if (geoList.size() > 0) {
 					// create copy of first GeoElement in list
-					current = ((GeoList)current).get(0);
+					current = k == num2.length -1 ? getGenericElement((GeoList)current,0) :
+						((GeoList)current).get(0);
 				}
 				k++;
 			} while (current.isGeoList() && k < num2.length);
@@ -186,15 +203,7 @@ public class AlgoListElement extends AlgoElement {
 			int n = (int) Math.round(num.getDouble()) - 1;
 			if (n >= 0 && n < geoList.size()) {
 				GeoElement nth = geoList.get(n);
-				// check type:
-				if (nth.getGeoClassType() == element.getGeoClassType()) {
-					element.set(nth);
-					if(nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
-						element.setDrawAlgorithm(((DrawInformationAlgo)nth.getDrawAlgorithm()).copy());
-
-				} else {
-					element.setUndefined();
-				}
+				setElement(nth);
 			} else {
 				element.setUndefined();
 			}
@@ -227,18 +236,23 @@ public class AlgoListElement extends AlgoElement {
 					return;
 				}
 
-				// check type:
-				if (current.getGeoClassType() == element.getGeoClassType()) {
-					element.set(current);
-					if(current.getDrawAlgorithm() instanceof DrawInformationAlgo)
-						element.setDrawAlgorithm(((DrawInformationAlgo)current.getDrawAlgorithm()).copy());
-
-				} else {
-					element.setUndefined();
-				}
+				setElement(current);
 			
 
 		}
+	}
+
+	private void setElement(GeoElement nth) {
+		// check type:
+		if (nth.getGeoClassType() == element.getGeoClassType() || Test.canSet(element, nth)) {
+			element.set(nth);
+			if(nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
+				element.setDrawAlgorithm(((DrawInformationAlgo)nth.getDrawAlgorithm()).copy());
+
+		} else {
+			element.setUndefined();
+		}
+		
 	}
 	
 	/*@Override

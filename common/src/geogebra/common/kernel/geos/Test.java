@@ -29,7 +29,6 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
-import geogebra.common.util.debug.Log;
 
 
 /***
@@ -515,7 +514,6 @@ Test {
 	public static Test getSpecificTest(Object obj) {
 		for (Test t : Test.values()) {
 			if (t.check(obj)) {
-				Log.debug(t);
 				return t;
 			}
 		}
