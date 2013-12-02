@@ -34,29 +34,21 @@ public class SplashDialog extends SimplePanel {
 	public SplashDialog(boolean showLogo, String articleId) {
 		this.articleId = articleId;
 		isPreviewExists = checkIfPreviewExists();
-		String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
+		
 		if (!isPreviewExists) {
-			html += GuiResources.INSTANCE.ggbSplashHtml().getText();
+			String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
+			if (showLogo){
+				html += GuiResources.INSTANCE.ggbSplashHtml().getText();
+			}
 			html += GuiResources.INSTANCE.ggbSpinnerHtml().getText();
-		} else if (showLogo) {
-			//wide enough, show the loading text
-			html += "<div style=\"position: absolute; width: 150px; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; border: 1px solid black; \">" +
-					"GeoGebra loading..." + 
-					"<span style=\"position:absolute; display:inline-block; bottom:0px; right: 10px; \">" +
-					GuiResources.INSTANCE.ggbSpinnerHtml().getText() +
-					"</span>" +
-					"</div>"; 
-			
-		}else {
-			//too small, show spinner only
-				html += "<div style=\"position: absolute; width: 150px; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; \">" + 
-						GuiResources.INSTANCE.ggbSpinnerHtml().getText() +
-						"</div>"; 
+			html += "</div>";
+		    HTML splash = new HTML(html);
+		    addNativeLoadHandler(splash.getElement());
+		    add(splash);
+		}else{
+			this.triggerImageLoaded();
 		}
-		html += "</div>";
-	    HTML splash = new HTML(html);	
-	    addNativeLoadHandler(splash.getElement());
-	    add(splash);
+		
 	    t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
     }
 	
