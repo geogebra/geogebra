@@ -522,15 +522,16 @@ implements AlgoMacroInterface {
 
 	@Override
 	public boolean drawBefore(GeoElement geoElement, GeoElement other) {
+		int myIndex = 0, otherIndex = 0;
 		for(int i=0;i<this.getOutputLength(); i++){
-			if(getOutput(i) == geoElement){
-				return true;
+			if(this.algoOutputAndReferencedGeos.get(i) == geoElement){
+				myIndex = this.macroOutputAndReferencedGeos.get(i).getConstructionIndex();
 			}
-			if(getOutput(i) == other){
-				return false;
+			if(this.algoOutputAndReferencedGeos.get(i) == other){
+				otherIndex = this.macroOutputAndReferencedGeos.get(i).getConstructionIndex();
 			}
 		}
-		return false;
+		return myIndex < otherIndex;
 	}
 
 	// TODO Consider locusequability
