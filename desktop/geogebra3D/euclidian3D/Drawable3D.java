@@ -14,6 +14,7 @@ import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -555,7 +556,16 @@ public abstract class Drawable3D extends DrawableND {
 
 		}
 
-	} 	
+	} 
+	
+	/**
+	 * draw in .obj format through renderer
+	 * @param renderer renderer
+	 * @throws IOException exception if write failed
+	 */
+	public void drawInObjFormat(Renderer renderer) throws IOException{
+		// default : do nothing 
+	}
 	
 	/**
 	 * set dash texture for lines

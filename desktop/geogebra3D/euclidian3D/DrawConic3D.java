@@ -11,6 +11,8 @@ import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
+import java.io.IOException;
+
 /**
  * @author ggb3D
  * 
@@ -69,6 +71,14 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 	}
 
+
+	@Override
+	public void drawInObjFormat(Renderer renderer) throws IOException{
+		if(isVisible()){
+			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),getGeometryIndex());
+		}
+	}
+	
 	
 
 

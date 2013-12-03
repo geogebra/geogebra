@@ -1,8 +1,12 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+
+import java.io.IOException;
 
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
@@ -172,6 +176,11 @@ public class ManagerGLList extends Manager {
 	@Override
 	public void draw(int index){
 		renderer.getGL2().glCallList(index);
+	}
+	
+	@Override
+	public void drawInObjFormat(GeoElement geo, int index) throws IOException{
+		App.error(".obj format not possible with this manager");
 	}
 	
 	@Override

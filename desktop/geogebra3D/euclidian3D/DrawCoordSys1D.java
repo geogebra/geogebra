@@ -9,6 +9,7 @@ import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -71,6 +72,15 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 	
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getGeometryIndex());
+	}
+	
+	
+
+	@Override
+	public void drawInObjFormat(Renderer renderer) throws IOException{
+		if(isVisible()){
+			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),getGeometryIndex());
+		}
 	}
 	
 	

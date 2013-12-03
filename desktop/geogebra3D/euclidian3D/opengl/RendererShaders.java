@@ -4,11 +4,14 @@ package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -515,12 +518,29 @@ public class RendererShaders extends Renderer {
     	getGL().glEnable(GLlocal.GL_LIGHTING);    
     	
         
-        /*
-        getGL().glDisable(GLlocal.GL_CULL_FACE);
-        drawSample();
-        */
+    	//if (!objDone){ doObj(); objDone = true;}
+    	
     }    
+    
+    
+    private boolean objDone = false;
 
+    private void doObj(){
+    	try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("geogebra3D/test.obj"));
+			writer.write("######## CREATED WITH GEOGEBRA ########");
+			
+			((ManagerShaders) getGeometryManager()).startObjFile(writer);
+			
+	    	App.debug("=== Creating .OBJ === ");
+	    	drawable3DLists.drawInObjFormat(this);
+	    	
+	    	writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     /*
     @Override

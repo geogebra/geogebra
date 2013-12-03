@@ -4,6 +4,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -222,6 +223,19 @@ public class Drawable3DLists {
 		// points TODO hidden aspect ?
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS].iterator(); d.hasNext();) 
 			d.next().drawHidden(renderer);
+	}
+	
+	/**
+	 * draw in .obj format through renderer
+	 * @param renderer renderer
+	 * @throws IOException exception if write failed
+	 */
+	public void drawInObjFormat(Renderer renderer) throws IOException{
+		for(Drawable3DList list : lists){
+			for (Drawable3D d : list){
+				d.drawInObjFormat(renderer);
+			}
+		}
 	}
 	
 	

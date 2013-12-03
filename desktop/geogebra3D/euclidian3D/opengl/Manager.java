@@ -1,8 +1,11 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+
+import java.io.IOException;
 
 /**
  * Class that manage all geometry objects
@@ -183,6 +186,9 @@ abstract public class Manager {
 
 	
 	abstract public void draw(int index);
+	
+	abstract public void drawInObjFormat(GeoElement geo, int index) throws IOException;
+	
 	abstract public void remove(int index);
 
 	/** creates a vertex at coordinates (x,y,z)

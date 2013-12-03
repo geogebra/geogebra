@@ -1,8 +1,12 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -350,16 +354,126 @@ public class ManagerShaders extends Manager {
 		}
 	}
 	
-	private void drawCurrentGeometriesSet(){
-		for (Geometry geometry : currentGeometriesSet){
-			renderer.loadVertexBuffer(geometry.getVertices(), geometry.getLength());
-			renderer.loadNormalBuffer(geometry.getNormals(), geometry.getLength());
-			if (renderer.areTexturesEnabled()){
-				renderer.loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
+	private int objCurrentIndex;
+	
+	private BufferedWriter objBufferedWriter;
+	
+	/**
+	 * start .obj file (set writer and vertex index)
+	 * @param writer .obj file writer
+	 */
+	public void startObjFile(BufferedWriter writer){
+		objCurrentIndex = 0;
+		objBufferedWriter = writer;
+	}
+	
+	@Override
+	public void drawInObjFormat(GeoElement geo, int index) throws IOException{
+		
+		
+		currentGeometriesSet = geometriesSetList.get(index);
+		if (currentGeometriesSet != null){
+			for (Geometry geometry : currentGeometriesSet){
+				
+				printToObjFile("\n##########################\n\no "+geo.getLabelSimple()+"\n");
+				
+				switch(geometry.getType()){
+				case Manager.QUADS:										
+					
+					//vertices
+					FloatBuffer fb = geometry.getVertices();
+					for (int i = 0; i < geometry.getLength(); i++){
+						printToObjFile("\nv");
+						for (int j = 0; j < 3; j++){
+							printToObjFile(" "+fb.get());
+						}
+					}
+					fb.rewind();
+
+					/*
+					//normals
+					printToObjFile("\n");
+					fb = geometry.getNormals();
+					for (int i = 0; i < geometry.getLength(); i++){
+						printToObjFile("\nvn");
+						for (int j = 0; j < 3; j++){
+							printToObjFile(" "+fb.get());
+						}
+					}
+					fb.rewind();
+					*/
+
+					//faces
+					printToObjFile("\n");
+					for (int i = 0; i < geometry.getLength()/4; i++){
+						printToObjFile("\nf");
+						for (int j = 0; j < 4; j++){
+							objCurrentIndex++;
+							//printToObjFile(" "+objCurrentIndex+"//"+objCurrentIndex);
+							printToObjFile(" "+objCurrentIndex);
+						}
+					}
+					
+					printToObjFile("\n##########################\n\n");
+					break;
+					
+				case Manager.QUAD_STRIP:										
+					
+					//vertices
+					fb = geometry.getVertices();
+					for (int i = 0; i < geometry.getLength(); i++){
+						printToObjFile("\nv");
+						for (int j = 0; j < 3; j++){
+							printToObjFile(" "+fb.get());
+						}
+					}
+					fb.rewind();
+
+					/*
+					//normals
+					printToObjFile("\n");
+					fb = geometry.getNormals();
+					for (int i = 0; i < geometry.getLength(); i++){
+						printToObjFile("\nvn");
+						for (int j = 0; j < 3; j++){
+							printToObjFile(" "+fb.get());
+						}
+					}
+					fb.rewind();
+					*/
+					
+					//faces
+					printToObjFile("\n");
+					for (int i = 0; i < geometry.getLength()/2 - 1; i++){
+						printToObjFile("\nf");
+						printToObjFile(" "
+								+ (objCurrentIndex+1) + " "
+								+ (objCurrentIndex+2) + " "
+								+ (objCurrentIndex+4) + " "
+								+ (objCurrentIndex+3)
+								);
+						
+						objCurrentIndex += 2;
+					}
+					
+					objCurrentIndex += 2; // last shift
+					printToObjFile("\n##########################\n\n");
+					break;
+					
+				default:
+					App.error("geometry type not handled : "+geometry.getType());
+					break;
+				}
 			}
-			renderer.draw(geometry.getType(), geometry.getLength());
 		}
 	}
+	
+	
+	private void printToObjFile(String s) throws IOException{
+		//System.out.print(s);
+		objBufferedWriter.write(s);
+	}
+	
 	
 	@Override
 	protected void texture(float x, float y){		
