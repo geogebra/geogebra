@@ -1592,16 +1592,13 @@ public abstract class EuclidianController {
 			 */
 	
 			// now just choose geo with highest drawing priority:
-			int maxIndex = 0;
-			long maxDrawingPriority = Integer.MIN_VALUE;
+			ret = geos.get(0);
 			
 			for (int i = 0 ; i < geos.size() ; i++) {
-				if (geos.get(i).getDrawingPriority() > maxDrawingPriority) {
-					maxDrawingPriority = geos.get(i).getDrawingPriority();
-					maxIndex = i;
+				if (geos.get(i).drawBefore(ret)) {
+					ret = geos.get(i);
 				}
 			}
-			ret = geos.get(maxIndex);
 		}
 		return ret;
 	

@@ -14,6 +14,8 @@ package geogebra.common.euclidian;
 
 
 //import java.awt.Graphics2D;
+import geogebra.common.kernel.geos.GeoElement;
+
 import java.util.Iterator;
 
 /**
@@ -57,18 +59,18 @@ public class DrawableList {
 
 			// Michael Borcherds 2008-02-29 BEGIN
 			// add in the list according to when we want it drawn
-			long priority = d.getGeoElement().getDrawingPriority();
+			GeoElement priority = d.getGeoElement();
 			Link cur = head;
 			Link last = head;
 
-			while ((cur.d.getGeoElement().getDrawingPriority() < priority)
+			while ((cur.d.getGeoElement().drawBefore(priority))
 					&& !cur.equals(tail)) {
 				last = cur;
 				cur = cur.next;
 			}
 
 			if (cur.equals(head)) {
-				if (cur.d.getGeoElement().getDrawingPriority() < priority) {// add
+				if (cur.d.getGeoElement().drawBefore(priority)) {// add
 																			// at
 																			// end
 																			// (list
@@ -82,7 +84,7 @@ public class DrawableList {
 					head.next = temp2;
 				}
 			} else if (cur.equals(tail)) {
-				if ((cur.d.getGeoElement().getDrawingPriority() < priority)) {
+				if ((cur.d.getGeoElement().drawBefore(priority))) {
 					// add at end
 					Link temp = new Link(d, null);
 					tail.next = temp;

@@ -42,6 +42,7 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntegralODE;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.AlgoName;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -75,6 +76,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1148,100 +1150,100 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return drawing priority (lower = drawn first)
 	 */
 	// Michael Borcherds 2008-02-23
-	public long getDrawingPriority() {
-
-		long typePriority;
-
+	
+	private int typePriority(){
 		switch (getGeoClassType()) {
 		case AXIS:
-			typePriority = 10;
-			break;
+			return 10;
 		case PENSTROKE:
-			typePriority = 15;
-			break;
+			return 15;
 		case IMAGE:
 		case TURTLE:
 		case BOOLEAN:
-			typePriority = 20;
-			break;
+			return 20;
 		case LIST:
-			typePriority = 40;
-			break;
+			return 40;
 		case POLYGON:
 		case POLYGON3D:
-			typePriority = 50;
-			break;
+			return 50;
 		case POLYLINE:
-			typePriority = 51;
-			break;
+			return 51;
 		case IMPLICIT_POLY:
-			typePriority = 60;
-			break;
+			return 60;
 		case CONIC:
 		case CONICPART:
 		case CONIC3D:
 		case CONICSECTION:
-			typePriority = 70;
-			break;
+			return 70;
 		case ANGLE:
 		case ANGLE3D:
 		case NUMERIC:
-			typePriority = 80;
-			break;
+			return 80;
 		case SPLINE:
 		case INTERVAL: // not drawable
 		case FUNCTION:
 		case FUNCTIONCONDITIONAL:
 		case CURVE_CARTESIAN:
 		case CURVE_POLAR:
-			typePriority = 90;
-			break;
+			return 90;
 		case LINE:
 		case LINE3D:
-			typePriority = 100;
-			break;
-		case LINEAR_INEQUALITY:
-			typePriority = 101;
-			break;
+			return 100;
 		case FUNCTION_NVAR:
-			typePriority = 102;
-			break;
+			return 102;
 		case RAY:
 		case SEGMENT:
 		case RAY3D:
 		case SEGMENT3D:
-			typePriority = 110;
-			break;
+			return 110;
 		case VECTOR:
 		case VECTOR3D:
-			typePriority = 120;
-			break;
+			return 120;
 		case LOCUS:
-			typePriority = 130;
-			break;
+			return 130;
 		case POINT:
 		case POINT3D:
-			typePriority = 140;
-			break;
+			return 140;
 		case TEXT:
-			typePriority = 150;
-			break;
+			return 150;
 		case TEXTFIELD:
 		case BUTTON:
 			// drawn last
 			// in GeoGebra 4 (Java) the buttons/textfields were drawn by swing so were on top
-			typePriority = 155;
-			break;
+			return 155;
 		default: // shouldn't occur
 			App.debug("missing case in getDrawingPriority() for "+getGeoClassType());
-			typePriority = 160;
+			return 160;
 		}
+	}
+	
+	/**
+	 * Compare drawing priority with another object
+	 * @param other the other object
+	 * @return whether this should be drawn fist
+	 */
+	public boolean drawBefore(GeoElement other) {
 
-		// priority = 100 000 000
-		final long ret = (long) ((typePriority * 10E9) + getConstructionIndex());
-
-		// Application.debug("priority: " + ret + ", " + this);
-		return ret;
+		if(this.typePriority() < other.typePriority()){
+			return true;
+		}
+		
+		if(this.typePriority() > other.typePriority()){
+			return false;
+		}
+		
+		if(this.getConstructionIndex() < other.getConstructionIndex()){
+			return true;
+		}
+		
+		if(this.getConstructionIndex() > other.getConstructionIndex()){
+			return false;
+		}
+		if(this.getParentAlgorithm() instanceof AlgoMacroInterface){
+			return ((AlgoMacroInterface)this.getParentAlgorithm()).drawBefore(this, other);
+		}
+		Log.warn("Objects "+this+" and "+other+" have the same drawing priority.");
+		return true;
 	}
 	/**
 	 * Changes transparency of this geo
@@ -2061,7 +2063,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		case CONICPART:
 		case IMAGE:
 		case LINE:
-		case LINEAR_INEQUALITY:
 		case RAY:
 		case SEGMENT:
 		case TEXT:

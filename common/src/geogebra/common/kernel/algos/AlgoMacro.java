@@ -351,7 +351,6 @@ implements AlgoMacroInterface {
 				break;									
 										
 			case LINE:						
-			case LINEAR_INEQUALITY:						
 				initLine((GeoLine) macroGeo, (GeoLine) algoGeo);
 				break;	
 				
@@ -519,6 +518,19 @@ implements AlgoMacroInterface {
 		else if (right.isExpressionNode()) {
 			replaceReferencedMacroObjects((ExpressionNode) right);
 		}		
+	}
+
+	@Override
+	public boolean drawBefore(GeoElement geoElement, GeoElement other) {
+		for(int i=0;i<this.getOutputLength(); i++){
+			if(getOutput(i) == geoElement){
+				return true;
+			}
+			if(getOutput(i) == other){
+				return false;
+			}
+		}
+		return false;
 	}
 
 	// TODO Consider locusequability
