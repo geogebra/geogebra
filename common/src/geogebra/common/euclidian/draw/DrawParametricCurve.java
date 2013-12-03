@@ -27,6 +27,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.main.App;
 
 
 /**
@@ -207,6 +208,27 @@ public class DrawParametricCurve extends Drawable {
 			
 			// workaround for #2364
 			if (geo.isGeoFunction()) {
+				GeoFunction f = (GeoFunction) geo;
+				double rwx = view.toRealWorldCoordX(x);
+				double low = view.toRealWorldCoordY(y + hitThreshold);
+				double high = view.toRealWorldCoordY(y - hitThreshold);
+				double dx = hitThreshold*view.getInvXscale();
+				double left = f.evaluate(rwx - dx);
+				if(left >= low && left <= high){
+					return true;
+				}
+				double right = f.evaluate(rwx + dx);
+				if(right >= low && right <= high){
+					return true;
+				}
+				double middle = f.evaluate(rwx);
+				if(middle >= low && middle <= high){
+					return true;
+				}
+				if((right < low && left < low && middle < low) || (right > high && left > high && middle > high)){
+					return false;
+				}
+				App.debug("FALLBACK TO BUGGY AWT:"+middle+":"+low+"-"+high);
 				return gp.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold) && !gp.contains(x - hitThreshold, y - hitThreshold,
 							2 * hitThreshold, 2 * hitThreshold);
