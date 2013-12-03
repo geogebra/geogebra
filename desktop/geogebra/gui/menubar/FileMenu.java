@@ -83,7 +83,10 @@ class FileMenu extends BaseMenu {
 		if (AppD.hasFullPermissions()) {
 			mi = add(loadAction);
 			setMenuShortCutAccelerator(mi, 'O'); // open
-			add(loadURLAction);
+			
+			if (!app.isApplet()) {
+				add(loadURLAction);
+			}
 		
 			// recent SubMenu
 			JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
@@ -309,7 +312,7 @@ class FileMenu extends BaseMenu {
 				
 				// Open the Search dialog only when javafx is available.
 				// The User can force opening the old 'Open URL' dialog by pressing shift.
-				if (! javaFx22Available || ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0)) {
+				if (javaFx22Available && ((e.getModifiers() & ActionEvent.SHIFT_MASK) == 0)) {
 					
 					app.getGuiManager().openFromGGT();
 				} else {
