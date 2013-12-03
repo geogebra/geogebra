@@ -56,9 +56,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanelEuclidianViewInterface {
 	
-	private final EuclidianControllerW ec;
-	private PlotPanelEuclidianViewCommon commonFields = new PlotPanelEuclidianViewCommon(
-			false);
+	private EuclidianControllerW ec;
+	private PlotPanelEuclidianViewCommon commonFields;
 	
 	private MyPointerHandler myPointerHandler;
 
@@ -69,16 +68,11 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		super(new EuclidianDockPanelW(false), new PlotPanelEuclidianControllerW(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
 				1, null);
 
-		// set fields
-		commonFields = new PlotPanelEuclidianViewCommon(
-				false);	
-		commonFields.setPlotSettings(new PlotSettings());
-
-		setViewId(kernel);
-		
-		this.ec = this.getEuclidianController();
 		
 		
+		if (commonFields == null) {
+			setCommonFields();
+		}
 		/*Mouse handling needed? We will see...
 		 * 
 		 * 
@@ -103,6 +97,17 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		
 	}
 	
+	private void setCommonFields() {
+		// set fields
+				commonFields = new PlotPanelEuclidianViewCommon(
+						false);	
+				commonFields.setPlotSettings(new PlotSettings());
+
+				setViewId(kernel);
+				
+				this.ec = this.getEuclidianController();
+	}
+	
 	/*********** End Constructor **********************/
 
 	/**
@@ -117,6 +122,9 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	/** Returns viewID */
 	@Override
 	public int getViewID() {
+		if (commonFields == null) {
+			setCommonFields();
+		}
 		return commonFields.getViewID();
 	}
 
