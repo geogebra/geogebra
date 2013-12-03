@@ -5,10 +5,15 @@ import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
+import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
 import geogebra.web.main.AppW;
 
+import java.util.HashMap;
+
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -51,6 +56,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private AutoCompleteTextFieldW fldHigh;
 	private AutoCompleteTextFieldW fldResult;
 	private Label lblMeanSigma;
+	private FlowPanel controlPanel;
+	private ScheduledCommand exportAction;
+	private ScheduledCommand exportToEVAction;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -62,12 +70,56 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   wrappedPanel.addStyleName("GGWPropabilityCalculator");
 	   
 	   createGUIElements();
+	   createExportToEvAction();
 	   createLayoutPanels();
 	   buildProbCalcPanel();
 	   isIniting = false;
 	   
     }
 	
+	private void createExportToEvAction() {
+		/**
+		 * Action to export all GeoElements that are currently displayed in this
+		 * panel to a EuclidianView. The viewID for the target EuclidianView is
+		 * stored as a property with key "euclidianViewID".
+		 * 
+		 * This action is passed as a parameter to plotPanel where it is used in the
+		 * plotPanel context menu and the EuclidianView transfer handler when the
+		 * plot panel is dragged into an EV.
+		 */
+		exportToEVAction = new ScheduledCommand() {
+			
+			private HashMap<String, Object> value = new HashMap<String, Object>();
+			
+			public Object getValue(String key) {
+				return value.get(key);
+			}
+			
+			public void putValue(String key, Object value) {
+				this.value.put(key, value);
+			}
+			
+			public void execute() {
+				Integer euclidianViewID = (Integer) this
+						.getValue("euclidianViewID");
+
+			
+				// if null ID then use EV1 unless shift is down, then use EV2
+				if (euclidianViewID == null) {
+					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2()
+							.getViewID() : app.getEuclidianView1().getViewID();
+				}
+
+				// do the export
+				exportGeosToEV(euclidianViewID);
+
+				// null out the ID property
+				this.putValue("euclidianViewID", null);
+			}
+		};
+
+	}
+
 	private void buildProbCalcPanel() {
 	    // TODO Auto-generated method stub
 	    
@@ -76,6 +128,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private void createLayoutPanels() {
 		//control panel
 	    createControlPanel();
+	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
+	    ((PlotPanelEuclidianViewW) plotPanel).setMouseMotionEnabled(true, true);
 	    
     }
 
@@ -93,10 +147,30 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		// interval panel
 		// continue here.....
+		FlowPanel tb = new FlowPanel();
+		tb.add(btnIntervalLeft);
+		tb.add(btnIntervalBetween);
+		tb.add(btnIntervalRight);
+		
+		FlowPanel p = new FlowPanel();
+		p.add(btnCumulative);
+		p.add(lblMeanSigma);
+		
+		controlPanel = new FlowPanel();
+		controlPanel.add(btnCumulative);
+		controlPanel.add(cbPanel);
+		controlPanel.add(parameterPanel);
+		controlPanel.add(tb);
+		controlPanel.add(lblProbOf);
+		controlPanel.add(fldLow);
+		controlPanel.add(lblBetween);
+		controlPanel.add(fldHigh);
+		controlPanel.add(lblEndProbOf);
+		controlPanel.add(fldResult);		
     }
 
 	private void createGUIElements() {
-		setLabelArrays();;
+		setLabelArrays();
 	    comboDistributon = new ListBox();
 	    comboDistributon.addChangeHandler(this);
 	    

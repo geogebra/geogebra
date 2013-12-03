@@ -18,6 +18,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.event.PointerEvent;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.model.TouchModel;
@@ -38,7 +39,7 @@ import com.google.gwt.user.client.Timer;
  * @see geogebra.common.euclidian.EuclidianController EuclidianController
  * 
  */
-public class TouchController extends EuclidianController {
+public class TouchController extends EuclidianController implements IsEuclidianController {
 	/**
 	 * Maximum time in ms between touch move was stopped (finger not moving, but
 	 * still down) and event is handled

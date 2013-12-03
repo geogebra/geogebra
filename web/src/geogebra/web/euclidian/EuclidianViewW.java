@@ -14,6 +14,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.euclidian.MsZoomer;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.javax.swing.GBoxW;
@@ -87,7 +88,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 		if(this.getViewID() != App.VIEW_TEXT_PREVIEW){
 			registerKeyHandlers(canvas);
-			registerMouseTouchGestureHandlers(canvas, euclidianViewPanel, (EuclidianControllerW) euclidiancontroller);
+			registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianControllerW) euclidiancontroller);
 		}
 		
 		canvas.addBlurHandler(new BlurHandler() {
@@ -123,7 +124,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		
 	}
 	
-	private void registerMouseTouchGestureHandlers(Canvas canvas, EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
+	private void registerMouseTouchGestureHandlers(EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 		
@@ -134,7 +135,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 		
 		if(Browser.supportsPointerEvents()){
-			msZoomer = new MsZoomer(euclidianController);
+			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
 			MsZoomer.attachTo(evPanel.getElement(),msZoomer);
 			return;
 		}

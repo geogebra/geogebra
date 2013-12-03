@@ -12,6 +12,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EnvironmentStyleW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -57,7 +58,7 @@ import com.google.gwt.user.client.Window;
 
 public class EuclidianControllerW extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, 
 MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, TouchStartHandler, TouchEndHandler, 
-TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets {
+TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets, IsEuclidianController {
 
 	private long lastMoveEvent = 0;
 	private AbstractEvent waitingTouchMove = null;

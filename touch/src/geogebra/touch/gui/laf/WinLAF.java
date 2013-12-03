@@ -1,6 +1,7 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.euclidian.MsZoomer;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.WorksheetGUI;
@@ -101,7 +102,7 @@ public class WinLAF extends DefaultLAF {
 	@Override
 	public void attachExternalEvents(final EuclidianViewT view,
 			final Element element) {
-		this.zoomer = new MsZoomer(view.getEuclidianController());
+		this.zoomer = new MsZoomer((IsEuclidianController) view.getEuclidianController());
 		MsZoomer.attachTo(element, this.zoomer);
 	}
 

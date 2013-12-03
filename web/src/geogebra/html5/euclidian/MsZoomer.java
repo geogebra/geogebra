@@ -1,6 +1,5 @@
 package geogebra.html5.euclidian;
 
-import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.html5.event.HasOffsets;
 import geogebra.web.euclidian.EuclidianControllerW;
@@ -10,7 +9,7 @@ import com.google.gwt.user.client.Element;
 
 public class MsZoomer {
 	
-	private final EuclidianController tc;
+	private final IsEuclidianController tc;
 	private HasOffsets off;
 	
 	private class MsOffset extends ZeroOffset{
@@ -54,7 +53,7 @@ public class MsZoomer {
 		
 	}
 	
-	public MsZoomer(EuclidianController tc){
+	public MsZoomer(IsEuclidianController tc){
 		this.tc = tc;
 		//this.off = (HasOffsets)this.tc;
 		this.off = new MsOffset((EuclidianControllerW) tc);
