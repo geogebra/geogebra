@@ -937,9 +937,17 @@ public class DockManagerW extends DockManager {
 				((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
 			}
 		}
-		
+
 		panel.updatePanel();
-		
+
+		// here we need to resize both panel and opposite
+		// TODO: make a workaround instead of this, without deferred call
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				rootPane.onResize();
+			}
+		});
+
 		//update dispatching of new space
 		updateSplitPanesResizeWeight();
 		
@@ -1109,6 +1117,13 @@ public class DockManagerW extends DockManager {
 
 			if (opposite instanceof DockPanelW)
 				((DockPanelW)opposite).onResize();
+
+			// TODO: make a workaround instead of this, without deferred call
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				public void execute() {
+					rootPane.onResize();
+				}
+			});
 
 			if(panel.hasToolbar()) {
 			//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();

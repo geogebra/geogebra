@@ -440,12 +440,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	private VerticalPanel componentPanel;
 	
 	public int getHeight(){
-	return dockPanel.getOffsetHeight();	
+		return dockPanel.getOffsetHeight();	
 	}
 	
 	public int getWidth(){
 		return dockPanel.getOffsetWidth();	
-		}
+	}
 
 	public void buildDockPanel() {
 
@@ -563,6 +563,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (!isVisible())
 			return;
 
+		// FIXME: setLayout is called twice if this is necessary!!!
 		buildGUIIfNecessary();
 
 		dockPanel.clear();

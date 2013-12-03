@@ -7,8 +7,6 @@ import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -126,27 +124,21 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		
 			if (app != null) {
 
-				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-					public void execute() {
+				int h = dockPanel.getComponentInteriorHeight();
+				int w = dockPanel.getComponentInteriorWidth();
 
-						int h = dockPanel.getComponentInteriorHeight();
-						int w = dockPanel.getComponentInteriorWidth();
-
-						// TODO handle this better?
-						// exit if new size cannot be determined
-						if (h <= 0 || w <= 0) {
-							return;
-						}
-						App.debug("h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
-						if (h != oldHeight || w != oldWidth) {
-							app.ggwGraphicsViewDimChanged(w, h);
-							oldHeight = h;
-							oldWidth = w;
-							App.debug("changed h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
-						}
-					}
-				});
-
+				// TODO handle this better?
+				// exit if new size cannot be determined
+				if (h <= 0 || w <= 0) {
+					return;
+				}
+				App.debug("h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
+				if (h != oldHeight || w != oldWidth) {
+					app.ggwGraphicsViewDimChanged(w, h);
+					oldHeight = h;
+					oldWidth = w;
+					App.debug("changed h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
+				}
 			}
 		}
 

@@ -5,8 +5,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -81,25 +79,19 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 		
 			if (app != null) {
 
-				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-					public void execute() {
+				int h = dockPanel.getComponentInteriorHeight();
+				int w = dockPanel.getComponentInteriorWidth();
 
-						int h = dockPanel.getComponentInteriorHeight();
-						int w = dockPanel.getComponentInteriorWidth();
-
-						// TODO handle this better?
-						// exit if new size cannot be determined
-						if (h <= 0 || w <= 0) {
-							return;
-						}
-						if (h != oldHeight || w != oldWidth) {
-							app.ggwGraphicsView2DimChanged(w, h);
-							oldHeight = h;
-							oldWidth = w;
-						}
-					}
-				});
-
+				// TODO handle this better?
+				// exit if new size cannot be determined
+				if (h <= 0 || w <= 0) {
+					return;
+				}
+				if (h != oldHeight || w != oldWidth) {
+					app.ggwGraphicsView2DimChanged(w, h);
+					oldHeight = h;
+					oldWidth = w;
+				}
 			}
 		}
 	}

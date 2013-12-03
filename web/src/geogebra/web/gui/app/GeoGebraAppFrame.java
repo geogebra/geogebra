@@ -60,7 +60,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	DockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
-	AppW app;
+	public AppW app;
 	
 	public GeoGebraAppFrame() {
 		frameLayout = new GGWFrameLayoutPanel();		

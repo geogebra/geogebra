@@ -39,6 +39,7 @@ public class AppWapplication extends AppW {
 	        boolean undoActive) {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
+		appFrame.app = this;
 		this.objectPool = new ObjectPool();
 		createAppSplash();
 		App.useFullAppGui = true;
@@ -117,6 +118,7 @@ public class AppWapplication extends AppW {
 		                .newDimension(appCanvasWidth, appCanvasHeight));
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
+		//getEuclidianViewpanel().onResize();
 		stopCollectingRepaints();
 		appFrame.finishAsyncLoading(articleElement, appFrame, this);
 	}
@@ -151,23 +153,19 @@ public class AppWapplication extends AppW {
     public void afterLoadFileAppOrNot() {
 
 		getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
-		
+
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
 		kernel.initUndoInfo();
 
-		getEuclidianView1().synCanvasSize();
-
 		splashDialog.canNowHide();
-		updateCenterPanel(true);
-		getEuclidianView1().doRepaint2();
+
 		stopCollectingRepaints();
 		// Well, it may cause freeze if we attach this too early
 		attachViews();
-		((SplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
+
+		// this is needed otherwise the coordinate system of EV1 would not be OK
 		((SplitLayoutPanel)getSplitLayoutPanel()).onResize();
-		this.getEuclidianViewpanel().onResize();
-		getEuclidianView1().doRepaint2();
 
 		this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();
@@ -178,6 +176,11 @@ public class AppWapplication extends AppW {
 	@Override
 	public boolean menubarRestricted() {
 		return false;
+	}
+
+	@Override
+	public void buildApplicationPanel() {
+		updateCenterPanel(true);
 	}
 
 	@Override

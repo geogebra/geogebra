@@ -353,10 +353,14 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		forceLayout();
 		if (getLeftComponent() instanceof DockSplitPaneW) {
 			((DockSplitPaneW)getLeftComponent()).setComponentsSilentRecursive();
-		}
+		} /*else if (getLeftComponent() instanceof DockPanelW) {
+			((DockPanelW)getLeftComponent()).updatePanel();
+		}*/
 		if (getRightComponent() instanceof DockSplitPaneW) {
 			((DockSplitPaneW)getRightComponent()).setComponentsSilentRecursive();
-		}
+		} /*else if (getRightComponent() instanceof DockPanelW) {
+			((DockPanelW)getRightComponent()).updatePanel();
+		}*/
 	}
 
 	/**
