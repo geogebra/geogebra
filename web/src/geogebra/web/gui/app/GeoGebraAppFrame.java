@@ -62,6 +62,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
 	
+	boolean onceRun = false;
+	
 	public GeoGebraAppFrame() {
 		frameLayout = new GGWFrameLayoutPanel();		
 		initWidget(frameLayout);
@@ -187,24 +189,50 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		ch = Window.getClientHeight() ;
 		
 		app = createApplication(article,this);
+
+		// problem is here: if there is ggb file, AppWapplication.afterLoadFileAppOrNot either before or after the following things
+
 		setCloseMessage(app);
 		
 //		((AppW)app).initializeLanguage();
-				
-		frameLayout.setLayout(app);
-		frameLayout.getGGWGraphicsView().addNavigationBar();
-		
-		//ggwSplitLayoutPanel.attachApp(app);
-		ggwCommandLine.attachApp(app);
-		ggwMenuBar.init(app);
-		app.getObjectPool().setGgwMenubar(ggwMenuBar);
-		
+
+		onceAfterSetFrameLayout();
+
 		//Debugging purposes
 		AppW.displayLocaleCookie();
     }
-	
 
-	
+	/**
+	 * This method should only run once, at the startup of the application
+	 * In contrast, setFrameLayout runs every time a new ggb file loads
+	 */
+	public void onceAfterSetFrameLayout() {
+
+		if (onceRun)
+			return;
+
+		onceRun = true;
+
+		// layout things - moved to AppWapplication, appropriate places
+		// frameLayout.setLayout(app);
+
+		// Graphics view
+		frameLayout.getGGWGraphicsView().attachApp(app);
+
+		// Algebra input
+		ggwCommandLine.attachApp(app);
+
+		// Menu bar
+		ggwMenuBar.init(app);
+		app.getObjectPool().setGgwMenubar(ggwMenuBar);
+
+		// Toolbar
+		if (!ggwToolBar.isInited()) {
+			ggwToolBar.init(app);
+			ggwToolBar.updateToolbarPanel();
+		}
+	}
+
 	/**
 	 * @return int computed width of the canvas
 	 * 

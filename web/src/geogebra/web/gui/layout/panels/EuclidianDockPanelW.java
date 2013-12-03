@@ -57,6 +57,10 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
+		attachApp(application);
+	}
+
+	public void attachApp(AppW application) {
 		app = application;
 
 		// GuiManager can be null at the startup of the application,

@@ -55,6 +55,21 @@ public class LoadFilePresenter{
 		else {
 			//we dont have content, it is an app
 			Log.debug("no base64content, possibly App loaded?");
+
+			// code moved here from AppWapplication.afterCoreObjectsInited - start
+
+			app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives());
+
+			// ?
+			app.getSettings().getEuclidian(1).setPreferredSize(
+					geogebra.common.factories.AwtFactory.prototype
+					.newDimension(app.getAppCanvasWidth(), app.getAppCanvasHeight()));
+			app.getEuclidianView1().synCanvasSize();
+			app.getEuclidianView1().doRepaint2();
+			app.stopCollectingRepaints();
+
+			// code moved here from AppWapplication.afterCoreObjectsInited - end
+
 			app.appSplashCanNowHide();
 			
 			Storage stockStore = null;

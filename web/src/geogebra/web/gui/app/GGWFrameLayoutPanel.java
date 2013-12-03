@@ -52,12 +52,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			dockPanel.addSouth(getCommandLine(), COMMAND_LINE_HEIGHT);
 		}
 
-		dockPanel.add(app.getGuiManager().getLayout().getRootComponent());
+		if (app.getGuiManager().getLayout().getRootComponent() != null) {
+			dockPanel.add(app.getGuiManager().getLayout().getRootComponent());
+			app.getGuiManager().getLayout().getRootComponent().setStyleName("ApplicationPanel");
+		}
 
-		app.getGuiManager().getLayout().getRootComponent().setStyleName("ApplicationPanel");
-		
-		onResize();		
-
+		onResize();
 	}
 
 	class MyDockPanelLayout extends DockLayoutPanel {

@@ -111,15 +111,6 @@ public class AppWapplication extends AppW {
 	@Override
 	protected void afterCoreObjectsInited() {
 		initGuiManager();
-		getGuiManager().getLayout().setPerspectives(tmpPerspectives);
-
-		getSettings().getEuclidian(1).setPreferredSize(
-		        geogebra.common.factories.AwtFactory.prototype
-		                .newDimension(appCanvasWidth, appCanvasHeight));
-		getEuclidianView1().synCanvasSize();
-		getEuclidianView1().doRepaint2();
-		//getEuclidianViewpanel().onResize();
-		stopCollectingRepaints();
 		appFrame.finishAsyncLoading(articleElement, appFrame, this);
 	}
 
@@ -188,6 +179,7 @@ public class AppWapplication extends AppW {
 		LayoutPanel centerPanel = null;
 		
 		if (isUsingFullGui()) {
+			appFrame.onceAfterSetFrameLayout();
 			appFrame.setFrameLayout();
 		} else {
 			//TODO: handle applets?
