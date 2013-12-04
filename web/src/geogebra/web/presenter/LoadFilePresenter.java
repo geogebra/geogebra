@@ -63,8 +63,6 @@ public class LoadFilePresenter{
 			app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives());
 
 			if (app instanceof AppW) {
-				((AppW)app).ggwGraphicsViewDimChanged(app.getAppCanvasWidth(), app.getAppCanvasHeight());
-
 				// default layout doesn't have a Graphics View 2
 				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 					public void execute() {
