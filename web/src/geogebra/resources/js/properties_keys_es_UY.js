@@ -767,7 +767,7 @@ __GGB__keysVar.es_UY.command = {
     "SetConditionToShowObject": "Condici\xf3nParaMostrar",
     "SetConditionToShowObject_Syntax": "[ <Objeto>, <Condici\xf3n> ]",
     "SetCoords": "Coordenadas",
-    "SetCoords_Syntax": "[ <Objeto>, <x>, <y> ]",
+    "SetCoords_Syntax": "[ <Punto>, <x>, <y> ]",
     "SetDynamicColor": "ColorDin\xe1mico",
     "SetDynamicColor_Syntax": "[ <Objeto>, <Rojo>, <Verde>, <Azul> ]\n[ <Objeto>, <Rojo>, <Verde>, <Azul>, <Opacidad> ]",
     "SetFilling": "Sombreado",
