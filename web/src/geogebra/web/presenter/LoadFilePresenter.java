@@ -7,8 +7,10 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.web.WebStatic;
 import geogebra.web.WebStatic.GuiToLoad;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter{
@@ -37,7 +39,7 @@ public class LoadFilePresenter{
 		String fileId;
 		String filename;
 		
-		AppWeb app = view.getApplication();
+		final AppWeb app = view.getApplication();
 		if(WebStatic.urlToOpen != null ){
 			getView().showLoadAnimation();
 			getView().processFileName(WebStatic.urlToOpen);
@@ -60,13 +62,16 @@ public class LoadFilePresenter{
 
 			app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives());
 
-			// ?
-			app.getSettings().getEuclidian(1).setPreferredSize(
-					geogebra.common.factories.AwtFactory.prototype
-					.newDimension(app.getAppCanvasWidth(), app.getAppCanvasHeight()));
-			app.getEuclidianView1().synCanvasSize();
-			app.getEuclidianView1().doRepaint2();
-			app.stopCollectingRepaints();
+			if (app instanceof AppW) {
+				((AppW)app).ggwGraphicsViewDimChanged(app.getAppCanvasWidth(), app.getAppCanvasHeight());
+
+				// quick (?) fix for a bug - to be fixed in a better way later
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					public void execute() {
+						((AppW)app).getEuclidianViewpanel().onResize();
+					}
+				});
+			}
 
 			// code moved here from AppWapplication.afterCoreObjectsInited - end
 
