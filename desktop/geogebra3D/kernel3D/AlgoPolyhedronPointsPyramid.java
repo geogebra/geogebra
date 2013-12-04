@@ -8,6 +8,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 
 import java.util.Collection;
 
@@ -114,9 +115,12 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 	@Override
-	protected void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints, GeoSegmentND[] bottomSegments) {
+	protected void updateOutput(int newBottomPointsLength) {
 		
 		updateOutputPoints();
+		
+		GeoPointND[] bottomPoints = getBottomPoints(); 
+		GeoSegmentND[] bottomSegments = getBottom().getSegments();
 		
 		//current length
 		int nOld = outputSegmentsSide.size();
@@ -134,8 +138,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 			//create new sides
 			for (int i = nOld; i < newBottomPointsLength; i++){
-				//App.debug("bottomPoints["+i+"]="+bottomPoints[i]);
-				//App.debug("bottomPoints["+((i+1)%newBottomPointsLength)+"]="+bottomPoints[(i+1)%newBottomPointsLength]);
+				App.debug("bottomPoints["+i+"]="+bottomPoints[i]);
+				App.debug("bottomPoints["+((i+1)%newBottomPointsLength)+"]="+bottomPoints[(i+1)%newBottomPointsLength]);
 				polyhedron.startNewFace();
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
 				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%newBottomPointsLength]);

@@ -332,7 +332,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 
 		// update new segments
 		for (int i = numOld - 1; i < n; i++) {
-			// Application.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
+			//App.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
 			((GeoSegmentND) outputSegments.getElement(i)).modifyInputPoints(points[i],
 					points[(i + 1) % n]);
 		}
@@ -354,6 +354,14 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		numOld = n;
 	}
 	
+	/**
+	 * 
+	 * @return current points length
+	 */
+	public int getCurrentPointsLength(){
+		return numOld;
+	}
+	
 	
 	/**
 	 * Ensures that the pointList holds n points.
@@ -364,7 +372,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 
 		int nOld = outputPoints.size() + 2;
 
-		// Application.debug("nOld="+nOld+", n="+n);
+		//App.error("nOld="+nOld+", n="+n);
 
 		if (nOld == n)
 			return;
@@ -466,13 +474,6 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 	}
 	
 	
-	public GeoSegmentND[] getSegments(){
-		GeoSegmentND[] ret = new GeoSegmentND[outputSegments.size()];
-		for (int i = 0; i < outputSegments.size(); i++)
-			ret[i] = (GeoSegmentND) outputSegments.getElement(i);
-		return ret;
-	}
-
 	@Override
 	public boolean isLocusEquable() {
 		return true;

@@ -387,12 +387,17 @@ HasHeight
 		// check if this segment is not already created
 		if (segmentsIndex.containsKey(key)){
 			//Application.debug(startPoint.getLabel() + endPoint.getLabel());
+			//App.error("segmentsIndex : "+key);
 			return segments.get(segmentsIndex.get(key));
 		}
 
 		// check if this segment is not a segment linked
-		if (segmentsLinked.containsKey(key))
+		if (segmentsLinked.containsKey(key)){
+			//App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
+		}
+		
+		//App.error("new segment : "+key);
 
 		GeoSegment3D segment;
 		

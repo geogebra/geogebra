@@ -149,12 +149,14 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 
 	@Override
-	protected void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints, GeoSegmentND[] bottomSegments) {
+	protected void updateOutput(int newBottomPointsLength) {
 		
 		//current length of top points
 		int nOld = outputPoints.size()+getShift();
 		
-		
+		GeoPointND[] bottomPoints = getBottomPoints(); 
+		GeoSegmentND[] bottomSegments = getBottom().getSegments();
+
 		
 		if (newBottomPointsLength>nOld){
 			//update segments linked
