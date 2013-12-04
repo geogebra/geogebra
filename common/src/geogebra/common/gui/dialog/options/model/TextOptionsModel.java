@@ -8,8 +8,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.StringUtil;
 
-import java.awt.Font;
-
 public class TextOptionsModel extends OptionsModel {
 	public interface ITextOptionsListener {
 
@@ -23,10 +21,7 @@ public class TextOptionsModel extends OptionsModel {
 
 		void setSecondLineVisible(boolean noDecimals);
 
-		void selectBold(boolean isSeleced);
-
-		void selectItalic(boolean isSeleced);
-
+		void selectFontStyle(int style);
 		void updatePreview();
 	}
 
@@ -110,12 +105,7 @@ public class TextOptionsModel extends OptionsModel {
 
 
 
-		int style = geo0.getFontStyle();
-		listener.selectBold(style == Font.BOLD
-				|| style == (Font.BOLD + Font.ITALIC));
-		listener.selectItalic(style == Font.ITALIC
-				|| style == (Font.BOLD + Font.ITALIC));
-
+		listener.selectFontStyle(geo0.getFontStyle());
 
 	}
 	public void applyFontSizeFromString(String percentStr) {

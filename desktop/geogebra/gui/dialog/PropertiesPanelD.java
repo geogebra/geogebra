@@ -2892,7 +2892,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private JPanel secondLine;
 		private boolean secondLineVisible = false;
-		private boolean justDisplayFontSize = true;
 		private TextEditPanel editPanel;
 		
 		public TextOptionsPanel() {
@@ -3127,20 +3126,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
-		public void selectBold(boolean isSeleced) {
-			btBold.setSelected(isSeleced);
-			
-		}
-
-		public void selectItalic(boolean isSelected) {
-			btItalic.setSelected(isSelected);
-			
-		}
-
 		public void updatePreview() {
 			if (textEditPanel != null) {
 				textEditPanel.td.handleDocumentEvent();
 			}
+		}
+
+		public void selectFontStyle(int style) {
+			btBold.setSelected(style == Font.BOLD
+					|| style == (Font.BOLD + Font.ITALIC));
+			btItalic.setSelected(style == Font.ITALIC
+					|| style == (Font.BOLD + Font.ITALIC));
+
+
 		}
 	}
 
