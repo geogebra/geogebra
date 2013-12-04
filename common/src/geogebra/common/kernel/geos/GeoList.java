@@ -2245,13 +2245,8 @@ AngleProperties {
 
 		if (size() > 0) {
 			for (int i = 0 ; i < size() ; i++) {
-				GeoElement geo = get(i);
 				String item;
-				if (geo.isLabelSet()) {
-					item = geo.getLabel(StringTemplate.defaultTemplate);
-				} else {
-					item = get(i).toValueString(StringTemplate.defaultTemplate);
-				}
+				item = get(i).toValueString(StringTemplate.defaultTemplate);
 				cb.addItem(item);
 			}
 			cb.setSelectedIndex(getSelectedIndex());			
@@ -2281,14 +2276,9 @@ AngleProperties {
 
 		if (size() > 0) {
 			for (int i = 0 ; i < size() ; i++) {
-				GeoElement geo = get(i);
 				String item;
-				if (geo.isLabelSet()) {
-					item = geo.getLabel(StringTemplate.defaultTemplate);
-				} else {
-					item = get(i).toValueString(StringTemplate.defaultTemplate);
-				}
-
+				
+				item = get(i).toValueString(StringTemplate.defaultTemplate);
 
 				if (!cb.getItemAt(i).toString().equals(item)) {
 					// list changed, so rebuild
