@@ -65,7 +65,7 @@ public class LoadFilePresenter{
 			if (app instanceof AppW) {
 				((AppW)app).ggwGraphicsViewDimChanged(app.getAppCanvasWidth(), app.getAppCanvasHeight());
 
-				// quick (?) fix for a bug - to be fixed in a better way later
+				// default layout doesn't have a Graphics View 2
 				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 					public void execute() {
 						((AppW)app).getEuclidianViewpanel().onResize();
