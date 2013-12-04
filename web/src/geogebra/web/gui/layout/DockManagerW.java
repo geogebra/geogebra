@@ -26,6 +26,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -883,11 +884,11 @@ public class DockManagerW extends DockManager {
 
 		panel.updatePanel();
 
+		final DockSplitPaneW dsp = panel.getParentSplitPane();
 		// here we need to resize both panel and opposite
-		// TODO: make a workaround instead of this, without deferred call
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				rootPane.onResize();
+				dsp.onResize();
 			}
 		});
 
@@ -1058,13 +1059,12 @@ public class DockManagerW extends DockManager {
 		//		app.validateComponent();
 		//	}
 
-			if (opposite instanceof DockPanelW)
-				((DockPanelW)opposite).onResize();
-
-			// TODO: make a workaround instead of this, without deferred call
+			final Widget dsp = opposite.getParent();
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				public void execute() {
-					rootPane.onResize();
+					if (dsp instanceof RequiresResize) {
+						((RequiresResize)dsp).onResize();
+					}
 				}
 			});
 
