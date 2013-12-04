@@ -68,6 +68,8 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListe
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import geogebra.common.gui.dialog.options.model.StartPointModel;
 import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
+import geogebra.common.gui.dialog.options.model.TextOptionsModel;
+import geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
 import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
@@ -86,7 +88,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
@@ -94,7 +95,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
@@ -2881,9 +2881,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class TextOptionsPanel extends JPanel implements ActionListener,
-	SetLabels, UpdateFonts, UpdateablePropertiesPanel, FocusListener {
+	SetLabels, UpdateFonts, UpdateablePropertiesPanel, FocusListener,
+		ITextOptionsListener {
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
+		private TextOptionsModel model;
 
 		private JLabel decimalLabel;
 		private JComboBox cbFont, cbSize, cbDecimalPlaces;
@@ -2893,17 +2894,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private boolean secondLineVisible = false;
 		private boolean justDisplayFontSize = true;
 		private TextEditPanel editPanel;
-		private String[] fontSizes = app.getLocalization().getFontSizeStrings();
-
+		
 		public TextOptionsPanel() {
-			// font: serif, sans serif
-			String[] fonts = { "Sans Serif", "Serif" };
-			cbFont = new JComboBox(fonts);
+
+			model = new TextOptionsModel(app, this);
+			
+			cbFont = new JComboBox(model.getFonts());
 			cbFont.addActionListener(this);
 
 			// font size
 			// TODO require font phrases F.S.
-			cbSize = new JComboBox(fontSizes);
+			cbSize = new JComboBox(model.getFontSizes());
 			cbSize.addActionListener(this);
 			cbFont.addFocusListener(this);
 			// toggle buttons for bold and italic
@@ -2998,114 +2999,34 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-
-			this.geos = geos;
+			model.setGeos(geos);
 			return update();
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null)
+			if (!model.hasGeos()) {
 				return;
+			}
 			update();
 		}
 
 		public JPanel update() {
 			// check geos
-			if (!checkGeos(geos))
+			if (!model.checkGeos()) {
 				return null;
-
-			// hide most options for Textfields
-			cbFont.setVisible(!justDisplayFontSize);
-			btBold.setVisible(!justDisplayFontSize);
-			btItalic.setVisible(!justDisplayFontSize);
-			secondLine.setVisible(!justDisplayFontSize);
-			secondLineVisible = !justDisplayFontSize;
-
-			if (((GeoElement) geos[0]).isGeoButton()) {
-				secondLine.setVisible(justDisplayFontSize);
-				secondLineVisible = justDisplayFontSize;
 			}
+
 
 			cbSize.removeActionListener(this);
 			cbFont.removeActionListener(this);
 			cbDecimalPlaces.removeActionListener(this);
-
-			// set value to first text's size and style
-			TextProperties geo0 = (TextProperties) geos[0];
-
-			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0
-					.getFontSizeMultiplier())); // font
-			// size
-			// ranges
-			// from
-			// -6
-			// to
-			// 6,
-			// transform
-			// this
-			// to
-			// 0,1,..,6
-			cbFont.setSelectedIndex(geo0.isSerifFont() ? 1 : 0);
-			int selItem = -1;
-
-			int decimals = geo0.getPrintDecimals();
-			if (decimals > 0 && decimals < AppD.decimalsLookup.length
-					&& !geo0.useSignificantFigures())
-				selItem = AppD.decimalsLookup[decimals];
-
-			int figures = geo0.getPrintFigures();
-			if (figures > 0 && figures < AppD.figuresLookup.length
-					&& geo0.useSignificantFigures())
-				selItem = AppD.figuresLookup[figures];
-
-			cbDecimalPlaces.setSelectedIndex(selItem);
-
-			if (((GeoElement) geo0).isIndependent()
-					|| (geo0 instanceof GeoList)) { // don't want rounding
-				// option for lists of
-				// texts?
-				if (secondLineVisible) {
-					secondLineVisible = false;
-				}
-			} else {
-				if (!secondLineVisible) {
-					secondLineVisible = true;
-				}
-
-				secondLine.setVisible(secondLineVisible);
-			}
-
-			int style = geo0.getFontStyle();
-			btBold.setSelected(style == Font.BOLD
-					|| style == (Font.BOLD + Font.ITALIC));
-			btItalic.setSelected(style == Font.ITALIC
-					|| style == (Font.BOLD + Font.ITALIC));
-
+			
+			model.updateProperties();
+			
 			cbSize.addActionListener(this);
 			cbFont.addActionListener(this);
 			cbDecimalPlaces.addActionListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			justDisplayFontSize = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-
-				if ((geo instanceof TextProperties && !((TextProperties) geo)
-						.justFontSize()) || geo.isGeoButton()) {
-					justDisplayFontSize = false;
-				}
-
-				if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) {
-					if (!((GeoElement) geos[i]).isGeoButton()) {
-						geosOK = false;
-						break;
-					}
-				}
-			}
-			return geosOK;
 		}
 
 		/**
@@ -3115,102 +3036,25 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			Object source = e.getSource();
 
 			if (source == cbSize) {
-
-				double multiplier;
-
-				if (cbSize.getSelectedIndex() == 7) {
-					String percentStr = JOptionPane.showInputDialog(
+				boolean isCustom = (cbSize.getSelectedIndex() == 7);
+				if (isCustom) {
+					final String percentStr = JOptionPane.showInputDialog(
 							app.getFrame(),
 							app.getPlain("EnterPercentage"),
-							Math.round(((TextProperties) geos[0])
+							Math.round(model.getTextPropertiesAt(0)
 									.getFontSizeMultiplier() * 100) + "%");
-
-					if (percentStr == null) {
-						// Cancel
-						return;
-					}
-					percentStr = percentStr.replaceAll("%", "");
-
-					try {
-						multiplier = StringUtil.parseDouble(percentStr) / 100;
-
-						if (multiplier < 0.01) {
-							multiplier = 0.01;
-						} else if (multiplier > 100) {
-							multiplier = 100;
-						}
-					} catch (NumberFormatException e2) {
-						app.showError("InvalidInput");
-						return;
-					}
-
+					
+					model.applyFontSizeFromString(percentStr);
 				} else {
-					// transform indices to a multiplier
-					multiplier = GeoText.getRelativeFontSize(cbSize
+					model.applyFontSizeFromIndex(cbSize
 							.getSelectedIndex());
 				}
-				TextProperties text;
-				for (int i = 0; i < geos.length; i++) {
-					text = (TextProperties) geos[i];
-					text.setFontSizeMultiplier(multiplier);
-					((GeoElement) text).updateVisualStyleRepaint();
-				}
-				// update preview panel
-				if (textEditPanel != null)
-					textEditPanel.td.handleDocumentEvent();
 			} else if (source == cbFont) {
-				boolean serif = cbFont.getSelectedIndex() == 1;
-				TextProperties text;
-				for (int i = 0; i < geos.length; i++) {
-					text = (TextProperties) geos[i];
-					text.setSerifFont(serif);
-					((GeoElement) text).updateVisualStyleRepaint();
-
-					// update preview panel
-					if (textEditPanel != null)
-						textEditPanel.td.handleDocumentEvent();
-				}
+				model.applyFont(cbFont.getSelectedIndex() == 1);
 			} else if (source == cbDecimalPlaces) {
-				int decimals = cbDecimalPlaces.getSelectedIndex();
-				// Application.debug(decimals+"");
-				// Application.debug(roundingMenuLookup[decimals]+"");
-				TextProperties text;
-				for (int i = 0; i < geos.length; i++) {
-					text = (TextProperties) geos[i];
-					if (decimals < 8) // decimal places
-					{
-						// Application.debug("decimals"+roundingMenuLookup[decimals]+"");
-						text.setPrintDecimals(
-								AppD.roundingMenuLookup[decimals], true);
-					} else // significant figures
-					{
-						// Application.debug("figures"+roundingMenuLookup[decimals]+"");
-						text.setPrintFigures(AppD.roundingMenuLookup[decimals],
-								true);
-					}
-					((GeoElement) text).updateRepaint();
-
-					// update preview panel
-					if (textEditPanel != null)
-						textEditPanel.td.handleDocumentEvent();
-				}
+				model.applyDecimalPlaces(cbDecimalPlaces.getSelectedIndex());
 			} else if (source == btBold || source == btItalic) {
-				int style = 0;
-				if (btBold.isSelected())
-					style += 1;
-				if (btItalic.isSelected())
-					style += 2;
-
-				TextProperties text;
-				for (int i = 0; i < geos.length; i++) {
-					text = (TextProperties) geos[i];
-					text.setFontStyle(style);
-					((GeoElement) text).updateVisualStyleRepaint();
-				}
-
-				// update preview panel
-				if (textEditPanel != null)
-					textEditPanel.td.handleDocumentEvent();
+				model.applyFontStyle(btBold.isSelected(), btItalic.isSelected());
 			}
 		}
 
@@ -3230,13 +3074,73 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void focusGained(FocusEvent arg0) {
-			TextProperties geo0 = (TextProperties) geos[0];
-			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0
+			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(model.getTextPropertiesAt(0)
 					.getFontSizeMultiplier()));
 		}
 
 		public void focusLost(FocusEvent arg0) {
 
+		}
+
+		public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
+			// hide most options for Textfields
+			cbFont.setVisible(showFontDetails);
+			btBold.setVisible(showFontDetails);
+			btItalic.setVisible(showFontDetails);
+			secondLine.setVisible(showFontDetails);
+			secondLineVisible = showFontDetails;
+
+			if (isButton) {
+				secondLine.setVisible(!showFontDetails);
+				secondLineVisible = !showFontDetails;
+			}
+			
+		}
+
+		public void selectSize(int index) {
+			cbSize.setSelectedIndex(index);
+			
+		}
+
+		public void selectFont(int index) {
+			cbFont.setSelectedIndex(index);
+			
+		}
+
+		public void selectDecimalPlaces(int index) {
+			cbDecimalPlaces.setSelectedIndex(index);
+		}
+
+		public void setSecondLineVisible(boolean noDecimals) {
+			if (noDecimals) {
+
+				if (secondLineVisible) {
+					secondLineVisible = false;
+				}
+			} else {
+				if (!secondLineVisible) {
+					secondLineVisible = true;
+				}
+
+				secondLine.setVisible(secondLineVisible);
+			}
+
+		}
+
+		public void selectBold(boolean isSeleced) {
+			btBold.setSelected(isSeleced);
+			
+		}
+
+		public void selectItalic(boolean isSelected) {
+			btItalic.setSelected(isSelected);
+			
+		}
+
+		public void updatePreview() {
+			if (textEditPanel != null) {
+				textEditPanel.td.handleDocumentEvent();
+			}
 		}
 	}
 
