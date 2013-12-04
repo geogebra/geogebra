@@ -448,9 +448,7 @@ public class DockManagerW extends DockManager {
 			// don't set splitpane width/height here, because that would call onResize
 
 			sdl = spData[i].getDividerLocation();
-			if (sdl == Double.POSITIVE_INFINITY ||
-				sdl == Double.NEGATIVE_INFINITY ||
-				sdl == Double.NaN) {
+			if (Double.isNaN(sdl) || Double.isInfinite(sdl)) {
 
 				// if omitted, divider locations should be computed (fixing problems in most cases, but maybe not in all)
 				// sdl should be x that 0 <= x <= 1
