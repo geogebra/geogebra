@@ -284,7 +284,7 @@ namespace giac {
       return 0;
     if (w.size()==1)
       return w.front();
-    return symbolic(at_plus,w);
+    return symbolic(at_plus,gen(w,_SEQ__VECT));
   }
 
   static void tadd(vecteur & res,const gen & coeff,const gen & angle,GIAC_CONTEXT){

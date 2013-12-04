@@ -219,6 +219,15 @@ namespace giac {
     if (is_constant_wrt(e,x,contextptr) || (e==x) )
       return f(e,x,remains,contextptr);
     // e must be of type _SYMB
+    if (e.type==_VECT){
+      vecteur v(*e._VECTptr);
+      vecteur r(v.size());
+      for (unsigned i=0;i<v.size();++i){
+	v[i]=linear_apply(v[i],x,r[i],contextptr,f);
+      }
+      remains=r;
+      return gen(v,e.subtype);
+    }
     if (e.type!=_SYMB) return gensizeerr(gettext("in linear_apply"));
     unary_function_ptr u(e._SYMBptr->sommet);
     gen arg(e._SYMBptr->feuille);
@@ -4420,11 +4429,11 @@ namespace giac {
       double t0=t0_e._DOUBLE_val;
       double t1=t1_e._DOUBLE_val;
       bool time_reverse=(t1<t0);
-      double t=t0;
       if (time_reverse){
 	t0=-t0;
 	t1=-t1;
       }
+      double t=t0;
       if (time_reverse)
 	tmp=-subst(tmp,t_id,-t_id,false,contextptr);
       vecteur odesolve_f;

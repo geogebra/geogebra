@@ -5030,7 +5030,7 @@ namespace giac {
     vecteur conditions;
     conditions.reserve(itend-it);
     for (;it!=itend;++it){
-	conditions.push_back(remove_equal(*it));
+      conditions.push_back(remove_equal(*it));
     }
     return conditions;
   }

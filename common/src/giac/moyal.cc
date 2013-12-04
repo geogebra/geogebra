@@ -3115,7 +3115,7 @@ namespace giac {
   // 12 geometric, 13 uniformd, 14 exponentiald
   int is_distribution(const gen & args){
     if (args.type==_SYMB)
-      return is_distribution(args._SYMBptr->sommet);
+      return is_distribution(args._SYMBptr->sommet) && args._SYMBptr->sommet!=at_exp;
     if (args.type==_FUNC){
       if (args==at_normald || args==at_NORMALD)
 	return 1;

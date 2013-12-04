@@ -9860,10 +9860,12 @@ namespace giac {
 	}
       }
     } // end for factorization
-    if (!eigenvalues_only)
-      p=mtran(p);
-    if (jordan)
-      d=mtran(d);
+    if (!p.empty()){
+      if (!eigenvalues_only)
+	p=mtran(p);
+      if (jordan)
+	d=mtran(d);
+    }
     return true;
   }
   matrice megv(const matrice & e,GIAC_CONTEXT){

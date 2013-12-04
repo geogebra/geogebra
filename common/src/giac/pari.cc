@@ -766,7 +766,11 @@ namespace giac {
 	  for (int j=1;k<9 && *s && *s!='\n';++s){
 	    switch(*s){
 	    case 'L': // long
-	      if (j==vs) setsizeerr();
+	      if (j==vs) {
+		gen res=string2gen("PARI: Bad argument count",false);
+		res.subtype=-1;
+		return res;
+	      }
 	      argvec[k]= (GEN) v[j].val;
 	      ++j; ++k;
 	      break;
@@ -812,7 +816,11 @@ namespace giac {
 	      ++k; 
 	      break;
 	    default:
-	      if (j==vs) setsizeerr();
+	      if (j==vs) {
+		gen res=string2gen("PARI: Bad argument count",false);
+		res.subtype=-1;
+		return res;
+	      }
 	      argvec[k]=ingen2GEN(v[j],vars,contextptr);
 	      ++j; ++k;
 	      break;

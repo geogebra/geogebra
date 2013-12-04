@@ -3924,9 +3924,11 @@ namespace giac {
     case _IDNT__IDNT:
       if (a==unsigned_inf && b==unsigned_inf)
 	return undef;
+      if (b==undef)
+	return b;
       if (a==undef || a==unsigned_inf)
 	return a;
-      if (b==undef || b==unsigned_inf)
+      if (b==unsigned_inf)
 	return b;
       return new_ref_symbolic(symbolic(at_plus,makesequence(a,b)));
     default:

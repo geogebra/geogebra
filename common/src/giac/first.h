@@ -239,7 +239,7 @@ struct giac_bcdfloat {
   giac_bcdfloat(double d){ f=bcd_set_double(d);}
 };
 typedef giac_bcdfloat giac_float;
-inline void print_float(const giac_bcdfloat & f,char * ch, CHPPrintData &pd) { bcd_print(f.f,ch, pd); }
+inline void print_float(const giac_bcdfloat & f,char * ch, CHPPrintData const &pd) { bcd_print(f.f,ch, pd); }
 void print_float(const giac_bcdfloat & f,char * ch);
 
 inline giac_bcdfloat operator + (const giac_bcdfloat & f1,const giac_bcdfloat & f2){

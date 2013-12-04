@@ -435,6 +435,30 @@ namespace giac {
       yy=function_of(y,x);
     if (is_undef(yy))
       return yy;
+    // special handling for systems
+    if (solution_generale.type==_VECT && v.size()==2){
+      gen init=v[1],point=0;
+      if (init.is_symb_of_sommet(at_equal)){
+	point=init._SYMBptr->feuille[0];
+	init=init._SYMBptr->feuille[1];
+	if (!point.is_symb_of_sommet(at_of) || point._SYMBptr->feuille[0]!=y)
+	  return gensizeerr("Bad initial condition");
+	point=point._SYMBptr->feuille[1];
+      }
+      gen systeme=subst(solution_generale,x,point,false,contextptr)-init;
+      gen s=_solve(makesequence(systeme,parameters),contextptr);
+      if (s.type!=_VECT)
+	return gensizeerr("Bad initial condition");
+      vecteur res;
+      for (unsigned i=0;i<s._VECTptr->size();++i){
+	gen tmp=subst(solution_generale,parameters,s[i],false,contextptr);
+	tmp=ratnormal(tmp);
+	res.push_back(tmp);
+      }
+      return res;
+    }
+    if (solution_generale.type==_VECT)
+      *logptr(contextptr) << gettext("Boundary conditions for parametric curve not implemented") << endl;
     // solve boundary conditions
     iterateur jt=v.begin()+1,jtend=v.end();
     for (unsigned ndiff=0;jt!=jtend;++ndiff,++jt){
@@ -527,12 +551,12 @@ namespace giac {
     gen solution_generale(desolve_f(v.front(),x,y,ordre,parameters,f,contextptr));
     if (solution_generale.type!=_VECT) 
       return in_desolve_with_conditions(v,x,y,solution_generale,parameters,f,contextptr);
+    if (parameters.empty())
+      return solution_generale;
     const_iterateur it=solution_generale._VECTptr->begin(),itend=solution_generale._VECTptr->end();
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it){
-      if (it->type==_VECT)
-	*logptr(contextptr) << gettext("Boundary conditions for parametric curve not implemented") << endl;
       gen tmp=in_desolve_with_conditions(v,x,y,*it,parameters,f,contextptr);
       if (is_undef(tmp))
 	return tmp;
@@ -637,6 +661,42 @@ namespace giac {
 	gen & a=v[0];
 	gen & b=v[1];
 	gen & c=v[2];
+	if (a.type==_VECT){
+	  // y'+inv(a)*b(x)*y+inv(a)*c(x)=0
+	  // take laplace transform
+	  // p*Y-Y(0)+bsura*Y+csura=0
+	  // (p+bsura)*Y=Y(0)-csura
+	  int n=a._VECTptr->size();
+	  if (!ckmatrix(a) || !ckmatrix(b))
+	    return gensizeerr(contextptr);
+	  gen inva=inv(a,contextptr);
+	  gen bsura=inva*b,csura,cl;
+	  if (!is_zero(derive(bsura,x,contextptr)))
+	    return gensizeerr("Non constant linear differential system");
+	  if (c.type==_VECT){
+	    vecteur & cv=*c._VECTptr;
+	    for (unsigned i=0;i<cv.size();++i){
+	      if (cv[i].type==_VECT && cv[i]._VECTptr->size()==1)
+		cv[i]=cv[i]._VECTptr->front();
+	    }
+	    csura=inva*c;
+	    cl=laplace(csura,x,x,contextptr);
+	  }
+	  else {
+	    if (!is_zero(c))
+	      return gensizeerr("Invalid second member");
+	    cl=vecteur(n);
+	  }
+	  if (cl.type!=_VECT || cl._VECTptr->size()!=n)
+	    return gensizeerr("Invalid second member");	    
+	  for (int i=0;i<n;++i){
+	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	    (*cl._VECTptr)[i] = parameters.back()- (*cl._VECTptr)[i];
+	  }
+	  cl=inv(bsura+x,contextptr)*cl;
+	  cl=ilaplace(cl,x,x,contextptr);
+	  return vecteur(1,ratnormal(cl));
+	}
 	gen i=simplify(exp(integrate_without_lnabs(rdiv(b,a,contextptr),x,contextptr),contextptr),contextptr);
 	gen C=integrate_without_lnabs(ratnormal(rdiv(-c,a,contextptr)*i),x,contextptr);
 	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
@@ -959,12 +1019,16 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int ordre;
     vecteur parameters;
-    if (args.type!=_VECT || (!args._VECTptr->empty() && is_equal(args._VECTptr->back()) )){
+    if (args.type!=_VECT || args.subtype!=_SEQ__VECT || (!args._VECTptr->empty() && is_equal(args._VECTptr->back()) )){
       // guess x and y
       vecteur lv(lop(args,at_of));
       vecteur f;
-      if (lv.size()>=1 && lv[0]._SYMBptr->feuille.type==_VECT && (f=*lv[0]._SYMBptr->feuille._VECTptr).size()==2)
-	return desolve(args,f[1],f[0],ordre,parameters,contextptr);
+      if (lv.size()>=1 && lv[0]._SYMBptr->feuille.type==_VECT && (f=*lv[0]._SYMBptr->feuille._VECTptr).size()==2){
+	gen f1=vx_var;
+	if (f[1].type==_IDNT || f[1].is_symb_of_sommet(at_at))
+	  f1=f[1];
+	return desolve(args,f1,f[0],ordre,parameters,contextptr);
+      }
       gen vx,vy;
       ggb_varxy(args,vx,vy,contextptr);
       return _desolve(makesequence(args,vx,vy),contextptr);

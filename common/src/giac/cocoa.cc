@@ -7652,10 +7652,18 @@ namespace giac {
     for (unsigned i=0;i<res.size();++i)
       G[i]=i;
     vectpoly8 vtmp,tocheck;
-    tocheck.reserve(res.size()*10); // wild guess
+    vector< pair<unsigned,unsigned> > tocheckpairs;
+    if (eps>0 && eps<2e-9)
+      modularcheck=true;
+    if (modularcheck)
+      tocheck.reserve(res.size()*10); // wild guess
+    else
+      tocheckpairs.reserve(res.size()*10);
     int order=res.front().order,dim=res.front().dim;
     poly8 TMP1(order,res.front().dim),TMP2(TMP1),
       spol(TMP1),spolred(TMP1);
+    polymod spolmod(order,dim),TMP1mod(order,dim);
+    vectpolymod resmod;
     for (unsigned i=0;i<res.size();++i){
       const poly8 & h = res[i];
       const tdeg_t & h0=h.coord.front().u;
@@ -7671,11 +7679,6 @@ namespace giac {
       const poly8 & resi = res[i];
       const tdeg_t & resi0=resi.coord.front().u;
       for (unsigned j=i+1;j<res.size();++j){
-	if (interrupted || ctrl_c){
-	  cerr << "Check interrupted, assuming Groebner basis. Press Ctrl-C again to interrupt computation" << endl;
-	  interrupted=ctrl_c=false;
-	  return true;
-	}
 	if (disjoint(resi0,res[j].coord.front().u,order,dim))
 	  continue;
 	// criterion M, F
@@ -7706,28 +7709,53 @@ namespace giac {
 	// compute and reduce s-poly
 	if (debug_infolevel>1)
 	  cerr <<  j << ",";
-	spoly(resi,res[j],spol,TMP1,0);
-	tocheck.push_back(poly8(order,dim));
-	swap(tocheck.back(),spol);
+	if (modularcheck){
+	  spoly(resi,res[j],spol,TMP1,0);
+	  tocheck.push_back(poly8(order,dim));
+	  swap(tocheck.back(),spol);
+	}
+	else
+	  tocheckpairs.push_back(pair<unsigned,unsigned>(i,j));
       } // end j loop
       if (debug_infolevel>1)
 	cerr << endl;
     }
     if (debug_infolevel>0)
-      cerr << "Number of critical pairs to check " << tocheck.size() << endl;
-    if (eps>0 || modularcheck) // modular check is sometimes slow
+      cerr << "Number of critical pairs to check " << (modularcheck?tocheck.size():tocheckpairs.size()) << endl;
+    if (modularcheck) // modular check is sometimes slow
       return checkf4buchberger(tocheck,res,G,-1,eps); // split version is slower!
-    // integer check
-    for (unsigned i=0;i<tocheck.size();++i){
-      reduce(tocheck[i],res,G,-1,vtmp,spolred,TMP1,TMP2,0);
-      // gen den; heap_reduce(spol,res,G,-1,vtmp,spolred,TMP1,den,0);
-      if (!spolred.coord.empty())
-	return false;
-      if (debug_infolevel>0)
+    // integer check or modular check for one modulus (!= from first prime already used)
+    modint p=(prevprime((1<<29)-30000000)).val;
+    if (eps>0)
+      convert(res,resmod,p);
+    for (unsigned i=0;i<tocheckpairs.size();++i){
+      if (interrupted || ctrl_c){
+	cerr << "Check interrupted, assuming Groebner basis. Press Ctrl-C again to interrupt computation" << endl;
+	interrupted=ctrl_c=false;
+	return true;
+      }
+      if (eps>0){
+	spolymod(resmod[tocheckpairs[i].first],resmod[tocheckpairs[i].second],spolmod,TMP1mod,p);
+	reducemod(spolmod,resmod,G,-1,TMP1mod,p);
+	// gen den; heap_reduce(spol,res,G,-1,vtmp,spolred,TMP1,den,0);
+	if (!TMP1mod.coord.empty())
+	  return false;
+      }
+      else {
+	spoly(res[tocheckpairs[i].first],res[tocheckpairs[i].second],spol,TMP1,0);
+	reduce(spol,res,G,-1,vtmp,spolred,TMP1,TMP2,0);
+	// gen den; heap_reduce(spol,res,G,-1,vtmp,spolred,TMP1,den,0);
+	if (!spolred.coord.empty())
+	  return false;
+      }
+      if (debug_infolevel>0){
 	cerr << "+";
+	if (i%512==511)
+	  cerr << tocheckpairs.size()-i << " remaining" << endl; 
+      }
     }
     if (debug_infolevel)
-      cerr << endl << "Successfull check of " << tocheck.size() << " critical pairs" << endl;
+      cerr << endl << "Successfull check of " << tocheckpairs.size() << " critical pairs" << endl;
     return true;
   }
 
