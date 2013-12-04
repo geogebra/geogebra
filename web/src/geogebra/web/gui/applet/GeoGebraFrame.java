@@ -95,8 +95,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		*/
 		
 		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
-		splash = new SplashDialog(showLogo, ae.getId());
-		splash.setGeoGebraFrame(this);
+		splash = new SplashDialog(showLogo, ae.getId(), this);
 
 		if (splash.isPreviewExists()) {
 			splashWidth = width;

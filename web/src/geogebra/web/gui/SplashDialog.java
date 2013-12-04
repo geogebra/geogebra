@@ -27,12 +27,13 @@ public class SplashDialog extends SimplePanel {
 		}
 	};
 	
-	private GeoGebraFrame geogebraFrame;
+	private final GeoGebraFrame geogebraFrame;
 	
 	
 
-	public SplashDialog(boolean showLogo, String articleId) {
+	public SplashDialog(boolean showLogo, String articleId, GeoGebraFrame frame) {
 		this.articleId = articleId;
+		this.geogebraFrame = frame;
 		isPreviewExists = checkIfPreviewExists();
 		
 		if (!isPreviewExists) {
@@ -102,10 +103,6 @@ public class SplashDialog extends SimplePanel {
 
 	public boolean isPreviewExists() {
 	    return isPreviewExists;
-    }
-
-	public void setGeoGebraFrame(GeoGebraFrame ggf) {
-	    this.geogebraFrame = ggf;	    
     }
 
 }
