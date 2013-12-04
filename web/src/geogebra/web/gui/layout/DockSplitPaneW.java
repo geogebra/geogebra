@@ -129,9 +129,9 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		} else if (getRightComponent() instanceof DockPanelW) {
 			// if orientation is different, use settings instead of embeddedSize
 			if (parentOrientation == VERTICAL_SPLIT) {
-				size = ((DockPanelW)getRightComponent()).getEstimatedSize().getHeight();
+				size2 = ((DockPanelW)getRightComponent()).getEstimatedSize().getHeight();
 			} else {
-				size = ((DockPanelW)getRightComponent()).getEstimatedSize().getWidth();
+				size2 = ((DockPanelW)getRightComponent()).getEstimatedSize().getWidth();
 			}
 		}
 
