@@ -302,39 +302,11 @@ public class DockManagerW extends DockManager {
 
 				
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-					switch (panel.getViewId()) {
-						case App.VIEW_EUCLIDIAN:
-							panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
-							break;
-						case App.VIEW_EUCLIDIAN2:
-							panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
-							break;
-						case App.VIEW_SPREADSHEET:
-							panelDim = app.getSettings().getSpreadsheet().preferredSize().getWidth();
-							break;
-						default:
-							// probably won't work
-							panelDim = panel.getOffsetWidth();
-							break;
-					}
+					panelDim = panel.getEstimatedSize().getWidth();
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
 					spw.put(currentParent, Math.max(spw.get(currentParent), panelDim));
 				} else {
-					switch (panel.getViewId()) {
-						case App.VIEW_EUCLIDIAN:
-							panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
-							break;
-						case App.VIEW_EUCLIDIAN2:
-							panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
-							break;
-						case App.VIEW_SPREADSHEET:
-							panelDim = app.getSettings().getSpreadsheet().preferredSize().getHeight();
-							break;
-						default:
-							// probably won't work
-							panelDim = panel.getOffsetHeight();
-							break;
-					}
+					panelDim = panel.getEstimatedSize().getHeight();
 					spw.put(currentParent, spw.get(currentParent) + dpData[i].getEmbeddedSize());
 					sph.put(currentParent, Math.max(sph.get(currentParent), panelDim));
 				}
@@ -345,39 +317,11 @@ public class DockManagerW extends DockManager {
 						oldParent = (DockSplitPaneW)oldParent.getParent();
 						
 						if (oldParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-							switch (panel.getViewId()) {
-								case App.VIEW_EUCLIDIAN:
-									panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
-									break;
-								case App.VIEW_EUCLIDIAN2:
-									panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
-									break;
-								case App.VIEW_SPREADSHEET:
-									panelDim = app.getSettings().getSpreadsheet().preferredSize().getWidth();
-									break;
-								default:
-									// probably won't work
-									panelDim = panel.getOffsetWidth();
-									break;
-							}
+							panelDim = panel.getEstimatedSize().getWidth();
 							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
 							spw.put(oldParent, Math.max(spw.get(oldParent), panelDim));
 						} else {
-							switch (panel.getViewId()) {
-								case App.VIEW_EUCLIDIAN:
-									panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
-									break;
-								case App.VIEW_EUCLIDIAN2:
-									panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
-									break;
-								case App.VIEW_SPREADSHEET:
-									panelDim = app.getSettings().getSpreadsheet().preferredSize().getHeight();
-									break;
-								default:
-									// probably won't work
-									panelDim = panel.getOffsetHeight();
-									break;
-							}
+							panelDim = panel.getEstimatedSize().getHeight();
 							spw.put(oldParent, spw.get(oldParent) + dpData[i].getEmbeddedSize());
 							sph.put(oldParent, Math.max(sph.get(oldParent), panelDim));
 						}
@@ -505,6 +449,7 @@ public class DockManagerW extends DockManager {
 
 			sdl = spData[i].getDividerLocation();
 			if (sdl == Double.POSITIVE_INFINITY ||
+				sdl == Double.NEGATIVE_INFINITY ||
 				sdl == Double.NaN) {
 
 				// if omitted, divider locations should be computed (fixing problems in most cases, but maybe not in all)

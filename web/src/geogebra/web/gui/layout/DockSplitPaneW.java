@@ -2,7 +2,6 @@ package geogebra.web.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockSplitPaneData;
-import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -119,37 +118,9 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		} else if (getLeftComponent() instanceof DockPanelW) {
 			// if orientation is different, use settings instead of embeddedSize
 			if (parentOrientation == VERTICAL_SPLIT) {
-				switch (((DockPanelW)getLeftComponent()).getViewId()) {
-					case App.VIEW_EUCLIDIAN:
-						size = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
-						break;
-					case App.VIEW_EUCLIDIAN2:
-						size = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
-						break;
-					case App.VIEW_SPREADSHEET:
-						size = app.getSettings().getSpreadsheet().preferredSize().getHeight();
-						break;
-					default:
-						// probably won't work
-						size = ((DockPanelW)getLeftComponent()).getOffsetHeight();
-						break;
-				}
+				size = ((DockPanelW)getLeftComponent()).getEstimatedSize().getHeight();
 			} else {
-				switch (((DockPanelW)getLeftComponent()).getViewId()) {
-					case App.VIEW_EUCLIDIAN:
-						size = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
-						break;
-					case App.VIEW_EUCLIDIAN2:
-						size = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
-						break;
-					case App.VIEW_SPREADSHEET:
-						size = app.getSettings().getSpreadsheet().preferredSize().getWidth();
-						break;
-					default:
-						// probably won't work
-						size = ((DockPanelW)getLeftComponent()).getOffsetWidth();
-						break;
-				}
+				size = ((DockPanelW)getLeftComponent()).getEstimatedSize().getWidth();
 			}
 		}
 
@@ -158,37 +129,9 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		} else if (getRightComponent() instanceof DockPanelW) {
 			// if orientation is different, use settings instead of embeddedSize
 			if (parentOrientation == VERTICAL_SPLIT) {
-				switch (((DockPanelW)getRightComponent()).getViewId()) {
-					case App.VIEW_EUCLIDIAN:
-						size2 = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
-						break;
-					case App.VIEW_EUCLIDIAN2:
-						size2 = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
-						break;
-					case App.VIEW_SPREADSHEET:
-						size2 = app.getSettings().getSpreadsheet().preferredSize().getHeight();
-						break;
-					default:
-						// probably won't work
-						size2 = ((DockPanelW)getRightComponent()).getOffsetHeight();
-						break;
-				}
+				size = ((DockPanelW)getRightComponent()).getEstimatedSize().getHeight();
 			} else {
-				switch (((DockPanelW)getRightComponent()).getViewId()) {
-					case App.VIEW_EUCLIDIAN:
-						size2 = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
-						break;
-					case App.VIEW_EUCLIDIAN2:
-						size2 = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
-						break;
-					case App.VIEW_SPREADSHEET:
-						size2 = app.getSettings().getSpreadsheet().preferredSize().getWidth();
-						break;
-					default:
-						// probably won't work
-						size2 = ((DockPanelW)getRightComponent()).getOffsetWidth();
-						break;
-				}
+				size = ((DockPanelW)getRightComponent()).getEstimatedSize().getWidth();
 			}
 		}
 
