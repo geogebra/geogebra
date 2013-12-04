@@ -565,8 +565,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (!isVisible())
 			return;
 
-		// FIXME: setLayout is called twice if this is necessary!!!
-		buildGUIIfNecessary();
+		if (componentPanel == null) {
+			buildGUIIfNecessary();
+
+			// here we can return as long as buildGUIIfNecessary calls setLayout too
+			return;
+		}
 
 		dockPanel.clear();
 
