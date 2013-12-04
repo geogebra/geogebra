@@ -111,6 +111,7 @@ public class AppWapplication extends AppW {
 	@Override
 	protected void afterCoreObjectsInited() {
 		initGuiManager();
+		appFrame.onceAfterCoreObjectsInited();
 		appFrame.finishAsyncLoading(articleElement, appFrame, this);
 	}
 
@@ -188,7 +189,6 @@ public class AppWapplication extends AppW {
 		LayoutPanel centerPanel = null;
 		
 		if (isUsingFullGui()) {
-			appFrame.onceAfterSetFrameLayout();
 			appFrame.setFrameLayout();
 		} else {
 			//TODO: handle applets?

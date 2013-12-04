@@ -61,9 +61,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	DockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
-	
-	boolean onceRun = false;
-	
+
 	public GeoGebraAppFrame() {
 		frameLayout = new GGWFrameLayoutPanel();		
 		initWidget(frameLayout);
@@ -190,13 +188,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		
 		app = createApplication(article,this);
 
-		// problem is here: if there is ggb file, AppWapplication.afterLoadFileAppOrNot either before or after the following things
-
 		setCloseMessage(app);
-		
-//		((AppW)app).initializeLanguage();
 
-		onceAfterSetFrameLayout();
+//		((AppW)app).initializeLanguage();
 
 		//Debugging purposes
 		AppW.displayLocaleCookie();
@@ -206,12 +200,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	 * This method should only run once, at the startup of the application
 	 * In contrast, setFrameLayout runs every time a new ggb file loads
 	 */
-	public void onceAfterSetFrameLayout() {
-
-		if (onceRun)
-			return;
-
-		onceRun = true;
+	public void onceAfterCoreObjectsInited() {
 
 		// layout things - moved to AppWapplication, appropriate places
 		// frameLayout.setLayout(app);
