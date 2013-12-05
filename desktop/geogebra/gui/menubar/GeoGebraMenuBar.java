@@ -111,8 +111,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		add(editMenu);
 
 		// "View"
-		viewMenu = app.isApplet()? new ViewMenu(app, layout) : new ViewMenuApplicationD(app, layout);
-		add(viewMenu);
+		// #3711 viewMenu = app.isApplet()? new ViewMenu(app, layout) : new ViewMenuApplicationD(app, layout); 
+	 	viewMenu = new ViewMenuApplicationD(app, layout);
+	 	add(viewMenu);
 
 		// "Perspectives"
 		//if(!app.isApplet()) {
