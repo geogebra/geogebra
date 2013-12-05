@@ -20,6 +20,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
@@ -248,6 +249,11 @@ public class AlgoZip extends AlgoElement {
 		// copy current expression value to listElement
 		if (!expIsFunctionOrCurve) {
 			listElement.set(expression);
+			if(listElement.isGeoList()){
+				for (int j = 0; j < varCount; j++){
+					((GeoList)listElement).replaceChildrenByValues(vars[j]);
+				}
+			}
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
 					&& drawAlgo instanceof DrawInformationAlgo) {
@@ -277,6 +283,11 @@ public class AlgoZip extends AlgoElement {
 			// GeoFunction
 			if (listElement.isGeoFunction()) {
 				GeoFunction f = (GeoFunction) listElement;
+				for (int i = 0; i < varCount; i++)
+					f.replaceChildrenByValues(vars[i]);
+			}
+			else if (listElement.isGeoFunctionNVar()) {
+				GeoFunctionNVar f = (GeoFunctionNVar) listElement;
 				for (int i = 0; i < varCount; i++)
 					f.replaceChildrenByValues(vars[i]);
 			}
@@ -315,8 +326,14 @@ public class AlgoZip extends AlgoElement {
 
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
-			if (expression.isDefined())
+			if (expression.isDefined()){
 				listElement.set(expression);
+				if(listElement.isGeoList()){
+					for (int j = 0; j < varCount; j++){
+						((GeoList)listElement).replaceChildrenByValues(vars[j]);
+					}
+				}
+			}
 			else
 				listElement.setUndefined();
 			if (listElement instanceof GeoNumeric

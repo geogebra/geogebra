@@ -86,7 +86,14 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		 */
 		UNBOUNDED(3);
 		
-		public int xmlVal;
+		private int xmlVal;
+		
+		/**
+		 * @return number for this style in XML
+		 */
+		public int getXmlVal(){
+			return xmlVal;
+		}
 
 		AngleStyle(int xmlVal) {
 			this.xmlVal = xmlVal;
@@ -529,7 +536,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 */
 		
 		sb.append("\t<angleStyle val=\"");
-		sb.append(angleStyle.xmlVal);
+		sb.append(angleStyle.getXmlVal());
 		sb.append("\"/>\n");
 	}
 	

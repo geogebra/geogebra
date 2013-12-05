@@ -102,7 +102,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Returns the direction
      * @return direction vector
      */
-    GeoVector getv() {
+    public GeoVector getv() {
         return v;
     }
 

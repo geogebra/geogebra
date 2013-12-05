@@ -58,7 +58,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		}
 
 		if (equalangleStyle) {
-			getListener().setSelectedIndex(geo0.getAngleStyle().xmlVal);
+			getListener().setSelectedIndex(geo0.getAngleStyle().getXmlVal());
 		}
 
 

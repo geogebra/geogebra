@@ -7085,6 +7085,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 	}
 	
+	/**
+	 * @return whether line properties of this object should be editable by Prop. View
+	 */
 	public boolean showLineProperties(){
 		return isPath()
 				|| (isGeoNumeric() && (((GeoNumeric) this)

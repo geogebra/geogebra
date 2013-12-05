@@ -2778,7 +2778,10 @@ AngleProperties {
 		return emphasizeRightAngle;
 	}
 
-	public void replaceChildrenByValues(GeoNumeric var) {
+	/**
+	 * @param vars sequence variable that should be replaced by its free copy
+	 */
+	public void replaceChildrenByValues(GeoElement vars) {
 		if(this.elementType != GeoClass.FUNCTION &&
 				this.elementType != GeoClass.CURVE_CARTESIAN &&
 				this.elementType != GeoClass.FUNCTION_NVAR &&
@@ -2790,20 +2793,20 @@ AngleProperties {
 			if (listElement.isGeoFunction()
 					|| listElement.isGeoFunctionBoolean()) {
 				GeoFunction f = (GeoFunction) listElement;
-				f.replaceChildrenByValues(var);
+				f.replaceChildrenByValues(vars);
 			}
 			// GeoCurve
 			else if (listElement.isGeoCurveCartesian()) {
 				GeoCurveCartesianND curve = (GeoCurveCartesianND) listElement;
-				curve.replaceChildrenByValues(var);
+				curve.replaceChildrenByValues(vars);
 			}
 
 			else if (listElement.isGeoFunctionNVar()) {
 				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
-				fnv.replaceChildrenByValues(var);
+				fnv.replaceChildrenByValues(vars);
 			}
 			else if(listElement.isGeoList()){
-				((GeoList)listElement).replaceChildrenByValues(var);
+				((GeoList)listElement).replaceChildrenByValues(vars);
 			}
 		}
 		
