@@ -2,6 +2,7 @@
 package geogebra.web.gui.dialog.options;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -53,6 +54,8 @@ import geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListe
 import geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import geogebra.common.gui.dialog.options.model.StartPointModel;
 import geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
+import geogebra.common.gui.dialog.options.model.TextOptionsModel;
+import geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
 import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
@@ -87,6 +90,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -98,10 +102,12 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -1900,6 +1906,198 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		}
 	}
 
+	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener {
+		private static final int FontBOLD = 1;
+
+		private static final int FontITALIC = 2;
+
+		private TextOptionsModel model;
+
+		private Label decimalLabel;
+		private ListBox lbFont;
+		private ListBox lbSize; 
+		private ListBox lbDecimalPlaces;
+		private ToggleButton btnBold;
+		private ToggleButton  btnItalic;
+
+		private FlowPanel secondLine;
+		private boolean secondLineVisible = false;
+
+		public TextOptionsPanel() {
+
+			model = new TextOptionsModel(app, this);
+			setModel(model);
+			
+			lbFont = new ListBox();
+			for (String item: model.getFonts()) {
+				lbFont.addItem(item);
+			}
+			
+			lbFont.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					model.applyFont(lbFont.getSelectedIndex() == 1);
+	            }});
+			lbSize = new ListBox();
+			for (String item : model.getFonts()) {
+				lbSize.addItem(item);
+			}
+			lbSize.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					boolean isCustom = (lbSize.getSelectedIndex() == 7);
+					if (isCustom) {
+						final String percentStr = "100%";
+//						final String percentStr = JOptionPane.showInputDialog(
+//								app.getFrame(),
+//								app.getPlain("EnterPercentage"),
+//								Math.round(model.getTextPropertiesAt(0)
+//										.getFontSizeMultiplier() * 100) + "%");
+//						
+						model.applyFontSizeFromString(percentStr);
+					} else {
+						model.applyFontSizeFromIndex(lbSize
+								.getSelectedIndex());
+					}
+				}
+			});
+			
+			// font size
+			// TODO require font phrases F.S.
+			// toggle buttons for bold and italic
+			btnBold = new ToggleButton(new Image(AppResources.INSTANCE
+			        .format_text_bold().getSafeUri().asString()));
+			btnItalic = new ToggleButton(new Image(AppResources.INSTANCE
+			        .format_text_italic().getSafeUri().asString()));
+			btnBold.getElement().getStyle().setWidth(18, Unit.PX);
+			btnBold.getElement().getStyle().setHeight(18, Unit.PX);
+			btnItalic.getElement().getStyle().setWidth(18, Unit.PX);
+			btnItalic.getElement().getStyle().setHeight(18, Unit.PX);
+			
+			ClickHandler styleClick = new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
+                }};
+
+            btnBold.addClickHandler(styleClick);
+            btnItalic.addClickHandler(styleClick);
+            
+			// decimal places
+			lbDecimalPlaces = new ListBox();
+			for (String item : loc.getRoundingMenu()) {
+				lbDecimalPlaces.addItem(item);
+			}
+
+			lbDecimalPlaces.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
+                }});
+			
+			// font, size
+			FlowPanel mainPanel = new FlowPanel();
+			FlowPanel firstLine = new FlowPanel();
+			firstLine.setStyleName("textOptionsToolBar");
+			firstLine.add(lbFont);
+			firstLine.add(lbSize);
+			firstLine.add(btnBold);
+			firstLine.add(btnItalic);
+
+			// bold, italic
+			secondLine = new FlowPanel();
+			decimalLabel = new Label();
+			secondLine.add(decimalLabel);
+			secondLine.add(lbDecimalPlaces);
+
+			mainPanel.add(firstLine);
+			mainPanel.add(secondLine);
+			secondLineVisible = true;
+			setWidget(mainPanel);
+		}
+
+
+		@Override
+        public void setLabels() {
+			String[] fontSizes = app.getLocalization().getFontSizeStrings();
+
+			int selectedIndex = lbSize.getSelectedIndex();
+			lbSize.clear();
+
+			for (int i = 0; i < fontSizes.length; ++i) {
+				lbSize.addItem(fontSizes[i]);
+			}
+
+			lbSize.addItem(app.getMenu("Custom") + "...");
+
+			lbSize.setSelectedIndex(selectedIndex);
+			
+//			btnItalic.setText(app.getPlain("Italic").substring(0, 1));
+//			btnBold.setText(app.getPlain("Bold").substring(0, 1));
+
+			decimalLabel.setText(app.getMenu("Rounding") + ":");
+	        
+        }
+		public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
+			// hide most options for Textfields
+			lbFont.setVisible(showFontDetails);
+			btnBold.setVisible(showFontDetails);
+			btnItalic.setVisible(showFontDetails);
+			secondLine.setVisible(showFontDetails);
+			secondLineVisible = showFontDetails;
+
+			if (isButton) {
+				secondLine.setVisible(!showFontDetails);
+				secondLineVisible = !showFontDetails;
+			}        
+        }
+		
+		public void selectSize(int index) {
+			lbSize.setSelectedIndex(index);
+			
+		}
+
+		public void selectFont(int index) {
+			lbFont.setSelectedIndex(index);
+			
+		}
+
+		public void selectDecimalPlaces(int index) {
+			lbDecimalPlaces.setSelectedIndex(index);
+		}
+
+		public void setSecondLineVisible(boolean noDecimals) {
+			if (noDecimals) {
+
+				if (secondLineVisible) {
+					secondLineVisible = false;
+				}
+			} else {
+				if (!secondLineVisible) {
+					secondLineVisible = true;
+				}
+
+				secondLine.setVisible(secondLineVisible);
+			}
+
+		}
+
+		public void updatePreview() {
+//			if (textEditPanel != null) {
+//				textEditPanel.td.handleDocumentEvent();
+//			}
+		}
+
+		public void selectFontStyle(int style) {
+			btnBold.setValue(style == GFont.BOLD
+					|| style == (GFont.BOLD + GFont.ITALIC));
+			btnItalic.setValue(style == GFont.ITALIC
+					|| style == (GFont.BOLD + GFont.ITALIC));
+
+
+		}
+	
+	}
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -1932,6 +2130,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		tabs = Arrays.asList(
 				basicTab,
+				addTextTab(),
 				addSliderTab(),
 				addColorTab(),
 				addStyleTab(),
@@ -2033,6 +2232,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	}
 
+	private OptionsTab addTextTab() {
+		OptionsTab tab = new OptionsTab("Text");
+		tab.setStyleName("objectPropertiesTab");
+		TextOptionsPanel textOptionsPanel = new TextOptionsPanel();
+		tab.add(textOptionsPanel);
+		return tab;
+	}
+
 	private OptionsTab addSliderTab() {
 		OptionsTab tab = new OptionsTab("Slider");
 		tab.setStyleName("objectPropertiesTab");
@@ -2040,7 +2247,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		tab.add(sliderPanel);
 		return tab;
 	}
-
+	
 	private OptionsTab addColorTab() {
 		OptionsTab tab = new OptionsTab("Color");
 		tab.setStyleName("objectPropertiesTab");

@@ -2115,4 +2115,12 @@ label {
 	display: inline-block;
 }
 
+.textOptionsToolBar {
+	display: inline-block;
+	
 }
+
+.textOptionsToolBar .gwt-ToggleButton {
+	display:inline-block;
+}
+
