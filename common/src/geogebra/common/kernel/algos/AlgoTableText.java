@@ -561,8 +561,13 @@ public class AlgoTableText extends AlgoElement {
 					c0 = charAt(verticalLinesArray, c);
 					c1 = charAt(verticalLinesArray, c + 1);
 
-					
+
 					String jc = String.valueOf(getJustification(c)).toUpperCase();
+					if ("C".equals(jc)) {
+						// syntax is without "C" to maintain backwards-compatibility
+						jc = "";
+					}
+
 					if (!verticalLines) {
 						sb.append("\\ggbtd"+jc+"{");
 					} else if (columns == 1 && (verticalLinesJustEdges || c0 == '1' || c1 == '1')) {
@@ -670,6 +675,11 @@ public class AlgoTableText extends AlgoElement {
 					c1 = charAt(verticalLinesArray, r + 1);
 					
 					String jc = String.valueOf(getJustification(r)).toUpperCase();
+					if ("C".equals(jc)) {
+						// syntax is without "C" to maintain backwards-compatibility
+						jc = "";
+					}
+
 					if (!verticalLines) {
 						sb.append("\\ggbtd"+jc+"{");
 					} else if (rows == 1 && (verticalLinesJustEdges || c0 == '1' || c1 == '1')) {

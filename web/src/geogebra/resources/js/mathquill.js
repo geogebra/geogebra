@@ -2073,10 +2073,10 @@ LatexCmds.ggbtdlR = bind(SomethingHTML, '\\ggbtdlR', ggbtdlRHTML);
 LatexCmds.ggbtdllR = bind(SomethingHTML, '\\ggbtdllR', ggbtdllRHTML);
 LatexCmds.ggbtdlrR = bind(SomethingHTML, '\\ggbtdlrR', ggbtdlrRHTML);
 
-LatexCmds.ggbtdC = bind(SomethingHTML, '\\ggbtdC', ggbtdCHTML);
-LatexCmds.ggbtdlC = bind(SomethingHTML, '\\ggbtdlC', ggbtdlCHTML);
-LatexCmds.ggbtdllC = bind(SomethingHTML, '\\ggbtdllC', ggbtdllCHTML);
-LatexCmds.ggbtdlrC = bind(SomethingHTML, '\\ggbtdlrC', ggbtdlrCHTML);
+LatexCmds.ggbtd = bind(SomethingHTML, '\\ggbtd', ggbtdCHTML);
+LatexCmds.ggbtdl = bind(SomethingHTML, '\\ggbtdl', ggbtdlCHTML);
+LatexCmds.ggbtdll = bind(SomethingHTML, '\\ggbtdll', ggbtdllCHTML);
+LatexCmds.ggbtdlr = bind(SomethingHTML, '\\ggbtdlr', ggbtdlrCHTML);
 
 LatexCmds.ggbtdL = bind(SomethingHTML, '\\ggbtdL', ggbtdLHTML);
 LatexCmds.ggbtdlL = bind(SomethingHTML, '\\ggbtdlL', ggbtdlLHTML);
