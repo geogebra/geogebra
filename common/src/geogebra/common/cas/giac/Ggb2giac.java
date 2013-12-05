@@ -496,7 +496,8 @@ public class Ggb2giac {
 				"normal(stddev(%0))");
 		p("Shuffle.1", "randperm(%0)");
 		// regroup for r*r^n
-		p("Simplify.1", "tlin(simplify(regroup(%0)))");
+		// tlin() removed, see #3956
+		p("Simplify.1", "simplify(regroup(%0))");
 
 		p("Solutions.1",
 				"ggbsort(normal(zeros(%0,x)))");
