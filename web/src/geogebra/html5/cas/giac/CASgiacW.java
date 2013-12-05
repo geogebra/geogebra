@@ -119,23 +119,18 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}-*/;
 
 	public void initialize() {
-		if (!JavaScriptInjector.injected(CASResources.INSTANCE.giacJs())) {
-			GWT.runAsync(new RunAsyncCallback() {
-				public void onSuccess() {
-					App.debug("giac.js loading success");
-					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
-					CASgiacW.this.jsLoaded = true;
-					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-				}
-
-				public void onFailure(Throwable reason) {
-					App.debug("giac.js loading failure");
-				}
-			});
-		} else {
-			CASgiacW.this.jsLoaded = true;
-			CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-		}
+					GWT.runAsync(new RunAsyncCallback() {
+						public void onSuccess() {
+							App.debug("giac.js loading success");
+							JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+							CASgiacW.this.jsLoaded = true;
+							CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+						}
+		
+						public void onFailure(Throwable reason) {
+							App.debug("giac.js loading failure");
+						}
+					});
 	}
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
