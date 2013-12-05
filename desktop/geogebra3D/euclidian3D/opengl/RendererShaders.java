@@ -93,6 +93,7 @@ public class RendererShaders extends Renderer {
     private int lightPositionLocation, ambiantDiffuseLocation; // light
     private int textureTypeLocation; // textures
     private int colorLocation; // color
+    private int normalLocation; // one normal for all vertices
     //private int normalMatrixLocation;
     
     final static private int TEXTURE_TYPE_NONE = 0;
@@ -249,6 +250,9 @@ public class RendererShaders extends Renderer {
         //color
         colorLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "color");
 
+        //color
+        normalLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "normal");
+
         /* GL2ES2 also includes the intersection of GL3 core
          * GL3 core and later mandates that a "Vector Buffer Object" must
          * be created and bound before calls such as gl.glDrawArrays is used.
@@ -340,16 +344,30 @@ public class RendererShaders extends Renderer {
         // VBO
         getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
    }
+   
 
+   
+   private boolean oneNormalForAllVertices = false;
 
    public void loadNormalBuffer(FloatBuffer fbNormals, int length){
 
-	   if (fbNormals == null){
+	   if (fbNormals == null){ // no normals
+		   return;
+	   }
+	   
+	   if (fbNormals.capacity() == 3){ // one normal for all vertices
+		   getGL2ES2().glUniform3fv(normalLocation, 1, fbNormals.array(), 0);
+		   oneNormalForAllVertices = true;
 		   return;
 	   }
 
 	   /////////////////////////////////////
 	   // VBO - normals
+	   
+	   if(oneNormalForAllVertices){
+		   oneNormalForAllVertices = false;
+		   getGL2ES2().glUniform3f(normalLocation, 2,2,2);
+	   }
 
 	   // Select the VBO, GPU memory data, to use for normals 
 	   getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
@@ -1391,30 +1409,24 @@ public class RendererShaders extends Renderer {
 	@Override
 	final public void enableTextures(){  
 		texturesEnabled = true;
-		//getGL2ES2().glUniform1i(textureTypeLocation, 1);
-		
-		// init current geometry
-		currentGeometryHasTexture = false;
-		setCurrentGeometryHasTexture();
+		setCurrentGeometryHasNoTexture(); // let first geometry init textures
 	}
 
 
 	@Override
 	final public void disableTextures(){
 		texturesEnabled = false;
-		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_NONE);
+		setCurrentTextureType(TEXTURE_TYPE_NONE);
 	}
 
 	
-	private boolean currentGeometryHasTexture = false;
 	
 	/**
 	 * tells that current geometry has a texture
 	 */
 	final public void setCurrentGeometryHasTexture(){
-		if (areTexturesEnabled() && !currentGeometryHasTexture){
-			currentGeometryHasTexture = true;
-			//getGL2ES2().glUniform1i(hasTextureLocation, 1);
+		if (areTexturesEnabled() && currentTextureType == TEXTURE_TYPE_NONE){
+			setCurrentTextureType(oldTextureType);
 		}
 	}
 
@@ -1422,9 +1434,10 @@ public class RendererShaders extends Renderer {
 	 * tells that current geometry has no texture
 	 */
 	final public void setCurrentGeometryHasNoTexture(){
-		if (areTexturesEnabled() && currentGeometryHasTexture){
-			currentGeometryHasTexture = false;
-			//getGL2ES2().glUniform1i(hasTextureLocation, 0);
+		if (areTexturesEnabled() && currentTextureType != TEXTURE_TYPE_NONE){
+			oldTextureType = currentTextureType;
+			setCurrentTextureType(TEXTURE_TYPE_NONE);
+			
 		}
 	}
 
@@ -1433,7 +1446,7 @@ public class RendererShaders extends Renderer {
 	 */
 	final public void enableFading(){  
 		enableTextures();
-		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_FADING);
+		setCurrentTextureType(TEXTURE_TYPE_FADING);
 	}
 	
 	/**
@@ -1441,7 +1454,7 @@ public class RendererShaders extends Renderer {
 	 */
 	final public void enableDash(){  
 		enableTextures();
-		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_DASH);
+		setCurrentTextureType(TEXTURE_TYPE_DASH);
 	}
 
 	
@@ -1450,9 +1463,17 @@ public class RendererShaders extends Renderer {
 	 */
 	final public void enableTexturesForText(){  
 		enableTextures();
-		getGL2ES2().glUniform1i(textureTypeLocation, TEXTURE_TYPE_TEXT);
+		setCurrentTextureType(TEXTURE_TYPE_TEXT);
 	}
 
+	
+	private int currentTextureType = TEXTURE_TYPE_NONE;
+	private int oldTextureType = TEXTURE_TYPE_NONE;
+	
+	private void setCurrentTextureType(int type){
+		currentTextureType = type;
+		getGL2ES2().glUniform1i(textureTypeLocation, type);
+	}
 	
 	
 	

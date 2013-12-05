@@ -59,6 +59,7 @@ uniform mat4    projection;
 uniform vec4	lightPosition;
 uniform vec2	ambiantDiffuse;
 uniform vec4	color;
+uniform vec3	normal;
 
 //in -- attributes
 attribute vec3  attribute_Position;  
@@ -79,7 +80,13 @@ void main(void)
   gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
   
   // color with light
-  float factor = dot(attribute_Normal, lightPosition);
+  vec3 n;
+  if (normal.x == 2){ // then use per-vertex normal
+  	n = attribute_Normal;
+  }else{
+  	n = normal;
+  }
+  float factor = dot(n, lightPosition);
   if (factor < 0){
   	factor = 0;
   }
@@ -97,8 +104,7 @@ void main(void)
   varying_Color.a = c.a;
   
   
-  //varying_Color = c;
-                       
+      
   // texture
   coordTexture = attribute_Texture;
                         

@@ -174,6 +174,13 @@ abstract public class Manager {
      */
 	abstract public void drawPolygon(Coords n, Coords[] v);
 	
+    /**
+     * draw a convex polygon
+     * @param n normal
+     * @param v vertices
+     */
+	abstract public void drawPolygonConvex(Coords n, Coords[] v);
+	
 	/**
 	 * end the polygons
 	 */

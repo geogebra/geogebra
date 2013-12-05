@@ -151,6 +151,12 @@ public class ManagerGLList extends Manager {
     	
     }
     
+    
+    @Override
+	public void drawPolygonConvex(Coords n, Coords[] v){
+    	drawPolygon(n, v);
+    }
+    
     @Override
 	public void endPolygons(){
     	

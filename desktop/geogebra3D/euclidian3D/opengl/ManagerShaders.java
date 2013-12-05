@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 import javax.media.opengl.glu.GLUtessellator;
 
+
 /**
  * 
  * Manager using shaders
@@ -50,6 +51,23 @@ public class ManagerShaders extends Manager {
 		FloatBuffer fb= FloatBuffer.allocate(array.size());
 		for (int i = 0; i < array.size(); i++){
 			fb.put(array.get(i));
+		}
+		fb.rewind();
+		return fb;
+	}
+	
+	/**
+	 * creates a float buffer from the array
+	 * @param array float array
+	 * @param repetition values are repeted
+	 * @return float buffer
+	 */
+	static final public FloatBuffer floatBuffer(ArrayList<Float> array, int repetition){
+		FloatBuffer fb= FloatBuffer.allocate(array.size() * repetition);
+		for (int j = 0; j < repetition; j++){
+			for (int i = 0; i < array.size(); i++){
+				fb.put(array.get(i));
+			}
 		}
 		fb.rewind();
 		return fb;
@@ -228,7 +246,10 @@ public class ManagerShaders extends Manager {
 		}
 		
 		public void setNormals(ArrayList<Float> normals){
-			if (normals.size() == 3 * currentGeometry.getLength()){
+			if (normals.size() == 3){ // only one normal for all vertices
+				//currentGeometry.setNormals(ManagerShaders.floatBuffer(normals, currentGeometry.getLength()));
+				currentGeometry.setNormals(ManagerShaders.floatBuffer(normals));
+			}else if (normals.size() == 3 * currentGeometry.getLength()){
 				currentGeometry.setNormals(ManagerShaders.floatBuffer(normals));
 			}
 		}
@@ -303,23 +324,51 @@ public class ManagerShaders extends Manager {
 	/////////////////////////////////////////////
 	
 
-	
     
 	@Override
 	public int startPolygons(){
+		
+    	int index = startNewList();
+    	
+	    return index;
 	    
-	    return -1;
 	}
     
     @Override
 	public void drawPolygon(Coords n, Coords[] v){
     	
+    	startGeometry(Manager.TRIANGLES);
     	
+    	// set normal
+    	normal(n);
+       	
+       	for (int i = 0 ; i < 3/*v.length*/ ; i++){
+      		vertex(v[i]);
+       	}
+       	
+       	endGeometry();
+    
     }
+    
+
+    @Override
+    public void drawPolygonConvex(Coords n, Coords[] v){
+    	startGeometry(Manager.TRIANGLE_FAN);
+
+    	// set normal
+    	normal(n);
+
+    	for (int i = 0 ; i < v.length ; i++){
+    		vertex(v[i]);
+    	}
+
+    	endGeometry();
+    }
+    
     
     @Override
 	public void endPolygons(){
-    	
+    	endList();
     }
     
     

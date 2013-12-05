@@ -224,7 +224,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (polygon.getReverseNormalForDrawing()){
 			n = n.mul(-1);
 		}
-		renderer.drawPolygon(n, vertices);
+		if (polygon.isConvex()){
+			renderer.getGeometryManager().drawPolygonConvex(n, vertices);
+		}else{
+			renderer.drawPolygon(n, vertices);
+		}
 		renderer.endPolygons();
 		
 		setSurfaceIndex(index);				
