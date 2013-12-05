@@ -2399,8 +2399,8 @@ LatexCmds.right = P(MathCommand, function(_) {
   };
 });
 
-/*LatexCmds.lbrace =
-CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');*/
+LatexCmds.lbrace =
+CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');
 LatexCmds.langle =
 LatexCmds.lang = bind(Bracket, '&lang;','&rang;','\\langle ','\\rangle ');
 
@@ -2421,8 +2421,8 @@ var CloseBracket = P(Bracket, function(_, _super) {
   };
 });
 
-/*LatexCmds.rbrace =
-CharCmds['}'] = bind(CloseBracket, '{','}','\\{','\\}');*/
+LatexCmds.rbrace =
+CharCmds['}'] = bind(CloseBracket, '{','}','\\{','\\}');
 LatexCmds.rangle =
 LatexCmds.rang = bind(CloseBracket, '&lang;','&rang;','\\langle ','\\rangle ');
 
@@ -2772,10 +2772,10 @@ var VanillaSymbol = P(Symbol, function(_, _super) {
   };
 });
 
-LatexCmds.lbrace = CharCmds['{'] =
-  bind(VanillaSymbol, '\\lbrace ', '{');
-LatexCmds.rbrace = CharCmds['}'] =
-  bind(VanillaSymbol, '\\rbrace ', '}');
+//LatexCmds.lbrace = CharCmds['{'] =
+//  bind(VanillaSymbol, '\\lbrace ', '{');
+//LatexCmds.rbrace = CharCmds['}'] =
+//  bind(VanillaSymbol, '\\rbrace ', '}');
 
 CharCmds[' '] = bind(VanillaSymbol, ' ', ' ');
 

@@ -105,8 +105,8 @@ public class DrawEquationWeb extends DrawEquation {
 		// substitute every \$ with $ 
 	 	eqstring = eqstring.replace("\\$", "$"); 
 
-		eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
-		eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
+		//eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
+		//eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
 
 		// this might remove necessary space
 		// eqstring = eqstring.replace(" ", "");
