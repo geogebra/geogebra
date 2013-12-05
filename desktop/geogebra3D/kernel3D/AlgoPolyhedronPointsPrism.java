@@ -2,7 +2,6 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -60,25 +59,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	
 	@Override
-	protected void createPolyhedron(){
+	protected void createPolyhedron(GeoPointND[] bottomPoints){
 		
-		polyhedron.setType(GeoPolyhedron.TYPE_PRISM);
-
-		GeoPointND[] bottomPoints = getBottomPoints();
-		
-		
-		if (bottomPoints == null){
-			// force polygon regular to have at least 3 points
-			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND){
-				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
-				algo.compute(3);
-				bottomPoints = algo.getPoints();
-				setBottom(polyhedron);
-				algo.compute(2);
-			}
-		}else{
-			setBottom(polyhedron);
-		}
+		setBottom(polyhedron);
 		
 
 		GeoPointND topPoint = getTopPoint();
@@ -132,6 +115,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		
 		//for (int i=0; i<faces.length; i++) Application.debug(faces[i]);
 
+		
+
+		polyhedron.setType(GeoPolyhedron.TYPE_PRISM);
 		
 	}
 	

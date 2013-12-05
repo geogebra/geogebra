@@ -262,9 +262,32 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	
 	/**
 	 * create the polyhedron (faces and edges)
-	 * @param polyhedron
 	 */
-	protected abstract void createPolyhedron();
+	final private void createPolyhedron(){
+
+		GeoPointND[] bottomPoints1 = getBottomPoints();
+		
+		
+		if (bottomPoints1 == null){
+			// force polygon regular to have at least 3 points
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND){
+				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
+				algo.compute(3);
+				bottomPoints1 = getBottomPoints();
+				createPolyhedron(bottomPoints1);
+				algo.compute(2);
+			}
+		}else{
+			createPolyhedron(bottomPoints1);
+		}
+	}
+		
+	
+	/**
+	 * create the polyhedron (faces and edges) with given bottom points
+	 * @param bottomPoints1 bottom points
+	 */
+	protected abstract void createPolyhedron(GeoPointND[] bottomPoints1);
 	
 	/**
 	 * update output

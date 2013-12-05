@@ -396,7 +396,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		} else {
 			for (int i = n; i < nOld; i++) {
 				outputPoints.getElement(i - 2).setUndefined();
-				// outputSegments.getElement(i).setUndefined();
+				outputSegments.getElement(i).setUndefined();
 			}
 			// update last segment
 			if (n > 2)
@@ -460,18 +460,6 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		}
 	}
 
-	/**
-	 * 
-	 * @return all points of the algo, comprising undefined ones
-	 */
-	public GeoPointND[] getPoints() {
-		GeoPointND[] ret = new GeoPointND[2 + outputPoints.size()];
-		ret[0] = A;
-		ret[1] = B;
-		for (int i = 0; i < outputPoints.size(); i++)
-			ret[2 + i] = (GeoPointND) outputPoints.getElement(i);
-		return ret;
-	}
 	
 	
 	@Override
