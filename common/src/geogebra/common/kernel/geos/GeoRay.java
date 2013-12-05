@@ -87,7 +87,17 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		GeoRay ray = (GeoRay) geo;		
 		keepTypeOnGeometricTransform = ray.keepTypeOnGeometricTransform; 
 										
-		startPoint.set((GeoElement) ray.startPoint);		
+		startPoint.set((GeoElement) ray.startPoint);
+		
+		//Need to adjust the second defining object too, see #3770
+		if(getParentAlgorithm() instanceof AlgoJoinPointsRay && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay){
+			((AlgoJoinPointsRay)getParentAlgorithm()).getQ()
+			.set((GeoElement)((AlgoJoinPointsRay)geo.getParentAlgorithm()).getQ());
+		}
+		else if(getParentAlgorithm() instanceof AlgoRayPointVector && geo.getParentAlgorithm() instanceof AlgoRayPointVector){
+			((AlgoRayPointVector)getParentAlgorithm()).getv()
+			.set(((AlgoRayPointVector)geo.getParentAlgorithm()).getv());
+		}
 	}
 	
 	/**
