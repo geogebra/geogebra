@@ -59,6 +59,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private FlowPanel controlPanel;
 	private ScheduledCommand exportAction;
 	private ScheduledCommand exportToEVAction;
+	private FlowPanel plotPanelPlus;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -121,15 +122,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	}
 
 	private void buildProbCalcPanel() {
-	    // TODO Auto-generated method stub
-	    
+		//TODO: continue here!
+		wrappedPanel.clear();
+		
     }
 
 	private void createLayoutPanels() {
 		//control panel
 	    createControlPanel();
 	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
-	    ((PlotPanelEuclidianViewW) plotPanel).setMouseMotionEnabled(true, true);
+	    //TODO: do events right
+	    ((PlotPanelEuclidianViewW) plotPanel).setMouseEnabled(true, true);
+	    ((PlotPanelEuclidianViewW) plotPanel).setMouseMotionEnabled(true);
+	    
+	    FlowPanel plotLabelPanel = new FlowPanel();
+	    plotLabelPanel.add(lblMeanSigma);
+	    plotPanelPlus = new FlowPanel();
+	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
+	    //TODO: continue with table
+	    
+	    
 	    
     }
 

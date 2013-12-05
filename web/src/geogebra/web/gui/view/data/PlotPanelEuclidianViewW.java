@@ -342,15 +342,23 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		
 	}
 
-	public void setMouseMotionEnabled(boolean enableECMouseListener, boolean enableMyMouseListener) {
+	public void setMouseMotionEnabled(boolean enable) {
+	
+    }
+
+	private void removeMyPointerHandler(MyPointerHandler handler) {
+		handler.removeHandlers();
+    }
+
+	public void setMouseEnabled(boolean enableECMouseListener, boolean enableMyMouseListener) {
 		if (myPointerHandler == null) {
 			myPointerHandler = new MyPointerHandler(EVPanel);
 		}
 		removeMyPointerHandler(myPointerHandler);	    
     }
 
-	private void removeMyPointerHandler(MyPointerHandler handler) {
-		handler.removeHandlers();
+	public Widget getComponent() {
+	    return EVPanel.getAbsolutePanel();
     }
 
 
