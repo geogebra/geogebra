@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
@@ -164,7 +165,15 @@ public abstract class CommandProcessor {
 		Construction cmdCons = c.getKernel().getConstruction();
 		GeoNumeric num = new GeoNumeric(cmdCons);
 		cmdCons.addLocalVariable(localVarName, num);
-
+		if (localVarName.equals("z")) {
+			// parse again to undo z*z -> Function
+			try {
+				c.setArgument(0, kernelA.getParser().parseGeoGebraExpression(c.getArgument(0).toString(StringTemplate.xmlTemplate)).wrap());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		// initialize first value of local numeric variable from initPos
 		if (initPos != varPos) {
 			boolean oldval = cons.isSuppressLabelsActive();
