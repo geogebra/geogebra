@@ -82,6 +82,8 @@ import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.helper.AsyncOperation;
+import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -1947,14 +1949,31 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				public void onChange(ChangeEvent event) {
 					boolean isCustom = (lbSize.getSelectedIndex() == 7);
 					if (isCustom) {
-						final String percentStr = "100%";
-//						final String percentStr = JOptionPane.showInputDialog(
-//								app.getFrame(),
-//								app.getPlain("EnterPercentage"),
-//								Math.round(model.getTextPropertiesAt(0)
-//										.getFontSizeMultiplier() * 100) + "%");
-//						
-						model.applyFontSizeFromString(percentStr);
+						GOptionPaneW.showInputDialog(getAppW(),
+								loc.getPlain("EnterPercentage"), new AsyncOperation() {
+							
+							private String percentStr = Math.round(model.getTextPropertiesAt(0)
+									.getFontSizeMultiplier() * 100) + "%";
+							
+							public void callback() {
+								model.applyFontSizeFromString(percentStr);				
+							}
+							
+							void setPercentStr(String str) {
+								this.percentStr = str;
+							}
+
+							public Object getData() {
+	                            return percentStr;
+                            }
+
+							public void setData(Object data) {
+	                           percentStr = (String) data;
+                            }
+						});
+								
+						
+			
 					} else {
 						model.applyFontSizeFromIndex(lbSize
 								.getSelectedIndex());
