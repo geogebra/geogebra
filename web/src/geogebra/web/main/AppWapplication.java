@@ -12,6 +12,7 @@ import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
+import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
@@ -160,6 +161,12 @@ public class AppWapplication extends AppW {
 		getEuclidianViewpanel().deferredOnResize();
 		if (hasEuclidianView2()) {
 			getGuiManager().getEuclidianView2DockPanel().deferredOnResize();
+		}
+		if (getGuiManager().hasSpreadsheetView()) {
+			DockPanelW sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+			if (sp != null) {
+				sp.deferredOnResize();
+			}
 		}
 
 		this.getEuclidianViewpanel().updateNavigationBar();

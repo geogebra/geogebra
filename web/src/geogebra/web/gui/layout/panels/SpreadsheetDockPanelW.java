@@ -9,8 +9,6 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,48 +57,38 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	public void onResize() {
 		super.onResize();
 
-		// TODO: onResize should not be deferred (as in the case of Graphics views)!
+		if (app != null) {
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			public void execute() {
+			if (sview != null) {
 
-				if (app != null) {
+				int width2 = ((MyTableW) sview.getSpreadsheetTable())
+				        .getOffsetWidth();
+				int height2 = ((MyTableW) sview.getSpreadsheetTable())
+				        .getOffsetHeight();
 
-					if (sview != null) {
+				sview.getFocusPanel().setWidth(width2 + "px");
+				sview.getFocusPanel().setHeight(height2 + "px");
 
-						int width2 = ((MyTableW) sview.getSpreadsheetTable())
-						        .getOffsetWidth();
-						int height2 = ((MyTableW) sview.getSpreadsheetTable())
-						        .getOffsetHeight();
+				int width = getComponentInteriorWidth();
+				int height = getComponentInteriorHeight();
 
-						sview.getFocusPanel().setWidth(width2 + "px");
-						sview.getFocusPanel().setHeight(height2 + "px");
-
-
-						int width = getComponentInteriorWidth();
-						int height = getComponentInteriorHeight();
-
-						if (width < 0 || height < 0) {
-							return;
-						}
-
-						wrapview.setPixelSize(width, height);
-
-						if (app.getSettings().getSpreadsheet().showHScrollBar())
-							sview.getScrollPanel().setHeight(height + "px");
-						else // scrollbar's height usually doesn't exceed 20px
-							sview.getScrollPanel().setHeight((height + 20) + "px");
-
-						if (app.getSettings().getSpreadsheet().showVScrollBar())
-							sview.getScrollPanel().setWidth(width + "px");
-						else // scrollbar's width usually doesn't exceed 20px
-							sview.getScrollPanel().setWidth((width + 20) + "px");
-					}
+				if (width < 0 || height < 0) {
+					return;
 				}
 
-			}
-		});
+				wrapview.setPixelSize(width, height);
 
+				if (app.getSettings().getSpreadsheet().showHScrollBar())
+					sview.getScrollPanel().setHeight(height + "px");
+				else // scrollbar's height usually doesn't exceed 20px
+					sview.getScrollPanel().setHeight((height + 20) + "px");
+
+				if (app.getSettings().getSpreadsheet().showVScrollBar())
+					sview.getScrollPanel().setWidth(width + "px");
+				else // scrollbar's width usually doesn't exceed 20px
+					sview.getScrollPanel().setWidth((width + 20) + "px");
+			}
+		}
 	}
 
 	public SpreadsheetViewW getSpreadsheet() {
