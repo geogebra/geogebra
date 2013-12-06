@@ -92,5 +92,9 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 		return root.toString(tpl);
 	}
 
+	public ExpressionNode getExpression() {
+		return root;
+	}
+
 	// TODO Consider locusequability
 }
