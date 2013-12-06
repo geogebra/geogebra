@@ -10,6 +10,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -513,6 +514,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 				titleBarPanel.remove(toglStyleBtn);
 				titleBarPanel.insert(toglStyleBtn2, 2, 0, 0);
 				setLayout();
+
+				// quick (?) workaround for now - a better solution should be found
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					public void execute() {
+						onResize();
+					}
+				});
 			}
 		};
 
@@ -522,6 +530,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 				titleBarPanel.remove(toglStyleBtn2);
 				titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
 				setLayout();
+
+				// quick (?) workaround for now - a better solution should be found
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					public void execute() {
+						onResize();
+					}
+				});
 			}
 		};
 
