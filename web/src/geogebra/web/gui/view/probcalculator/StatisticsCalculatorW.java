@@ -60,6 +60,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private FlowPanel panelSample1;
 	private FlowPanel panelSample2;
 	private FlowPanel panelTestAndCI;
+	private ChiSquarePanelW panelChiSquare;
 
 	public StatisticsCalculatorW(App app) {
 		super(app);
@@ -73,6 +74,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		createGUIElements();
 		createControlPanel();
 		setInputPanelLayout();
+		
+		panelChiSquare = new ChiSquarePanelW(app, this);
 		
 	    
     }

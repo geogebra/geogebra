@@ -58,14 +58,7 @@ public class ChiSquarePanelD extends geogebra.common.gui.view.probcalculator.Chi
 	 * @param statCalc
 	 */
 	public ChiSquarePanelD(AppD app, StatisticsCalculator statCalc) {
-
-		this.app = app;
-		this.statCalc = statCalc;
-		this.statProcessor = statCalc.getStatProcessor();
-		this.sc = statCalc.getStatististicsCollection();
-
-		sc.setChiSqData(3, 3);
-
+		super(app, statCalc);
 		createGUI();
 		setLabels();
 
