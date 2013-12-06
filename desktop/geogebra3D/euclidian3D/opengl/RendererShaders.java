@@ -398,12 +398,36 @@ public class RendererShaders extends Renderer {
        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
 
        // Associate Vertex attribute 1 with the last bound VBO
-       getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the vertex attribute */, 2 /* 2 texture values used for each vertex */,
+       getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the texture attribute */, 2 /* 2 texture values used for each vertex */,
                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
                                 0 /* The bound VBO data offset */);
 
        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
    }
+   
+   public void loadColorBuffer(FloatBuffer fbColors, int length){
+
+	   if (fbColors == null){
+		   return;
+	   }
+	   
+	   setColor(-1, -1, -1, -1);
+	   
+       // Select the VBO, GPU memory data, to use for normals 
+       getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
+       int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
+       getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbColors, GL.GL_STATIC_DRAW);
+
+       // Associate Vertex attribute 1 with the last bound VBO
+       getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR/* the color attribute */, 4 /* 4 color values used for each vertex */,
+                                GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
+                                0 /* The bound VBO data offset */);
+
+       getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+   }
+   
+ 
+   
 
   
    
@@ -867,28 +891,28 @@ public class RendererShaders extends Renderer {
 
 	@Override
 	public void setColor(Coords color) {
-		float[] c = new float[]{
+		setColor(
 				(float) color.getX(),
 				(float) color.getY(),
 				(float) color.getZ(),
 				(float) color.getW()
-		};
+		);
 		
-        getGL2ES2().glUniform4fv(colorLocation, 1, c, 0);
-		
+	}
+	
+	private void setColor(float r, float g, float b, float a){
+		getGL2ES2().glUniform4f(colorLocation, r,g,b,a);
 	}
 
 
 	@Override
 	public void setColor(GColor color) {
-		float[] c = new float[]{
+		setColor(
 				color.getRed() / 255f,
 				color.getGreen() / 255f,
 				color.getBlue() / 255f,
 				color.getAlpha() / 255f
-		};
-		
-        getGL2ES2().glUniform4fv(colorLocation, 1, c, 0);
+		);
 	}
 
 
