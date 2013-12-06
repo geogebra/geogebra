@@ -442,7 +442,6 @@ public class SelectionManager {
 			GeoElement geo = it.next();
 			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible() || !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
-				App.debug("removing"+geo.getLabelSimple());
 			}
 		}
 
