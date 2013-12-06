@@ -258,4 +258,14 @@ public class StatTableW extends FlowPanel {
 		
 	}
 
+	public void setValueAt(String value, int row, int column) {
+	   myTable.setWidget(row, column, new Label(value));
+    }
+
+
+
+	public Grid getTable() {
+	    return myTable;
+    }
+
 }

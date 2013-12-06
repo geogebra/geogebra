@@ -1,6 +1,5 @@
 package geogebra.gui.view.probcalculator;
 
-import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.gui.view.data.StatTable;
@@ -24,10 +23,8 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 	
 	
 	private ProbabilityCalculatorViewD probCalc;
-	private ProbabilityManager probManager;
 	private StatTable statTable;
 
-	private String[] columnNames;
 	private DIST distType;
 	private int xMin, xMax;
 	private boolean isIniting;
@@ -101,11 +98,6 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 		isIniting = false;
 	}
 
-	private boolean isCumulative(){
-		return probCalc.isCumulative();
-	}
-
-	
 	public void updateFonts(Font font){
 		statTable.updateFonts(font);
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -119,18 +111,6 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 
 	}
 
-	public void setColumnNames(){
-
-		columnNames = new String[2];
-		columnNames[0] = "k";
-		if(isCumulative())
-			columnNames[1] = app.getMenu("ProbabilityOf") + "X ≤ k" + app.getMenu("EndProbabilityOf");
-		else
-			columnNames[1] = app.getMenu("ProbabilityOf") + "X = k" + app.getMenu("EndProbabilityOf");
-		
-	}
-
-	
 	public void setLabels(){
 		setTable( distType, parms, xMin, xMax);	
 	}
