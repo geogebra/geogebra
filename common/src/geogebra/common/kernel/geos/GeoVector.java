@@ -34,6 +34,8 @@ import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -657,8 +659,22 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			String[] inputs;
 			if (symbolic && getParentAlgorithm() instanceof AlgoDependentVector) {
 				AlgoDependentVector algo = (AlgoDependentVector)getParentAlgorithm();
-				String symbolicStr = algo.toString(tpl);
-				inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(",");
+				
+				// need to do something different for (xx,yy) and a (1,2) + c
+				
+				ExpressionNode en = algo.getExpression();
+				ExpressionValue ev = en.unwrap();
+				
+				if (ev instanceof MyVecNode) {
+					MyVecNode vn = (MyVecNode) ev;
+					
+					inputs = new String[2];
+					inputs[0] = vn.getX().toString(tpl);
+					inputs[1] = vn.getY().toString(tpl);
+				} else {
+					return algo.toString(tpl);
+				}
+				
 			} else {
 				inputs = new String[2];
 				inputs[0] = kernel.format(x,tpl);
