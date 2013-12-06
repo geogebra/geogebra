@@ -60,6 +60,17 @@ public abstract class StatisticsCalculator {
 		// Getters/Setters
 		// =========================================
 
+		public StatisticsCalculator(App app2) {
+			this.app = app;
+			cons = app.getKernel().getConstruction();
+			kernel = cons.getKernel();
+			sc = new StatisticsCollection();
+			statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
+			statHTML = new StatisticsCalculatorHTML(app, this, sc);
+
+			selectedProcedure = Procedure.ZMEAN_TEST;
+		}
+
 		public Procedure getSelectedProcedure() {
 			return selectedProcedure;
 		}

@@ -1,9 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.view.probcalculator.StatisticsCalculatorHTML;
-import geogebra.common.gui.view.probcalculator.StatisticsCalculatorProcessor;
-import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
@@ -91,14 +88,7 @@ public class StatisticsCalculatorD extends geogebra.common.gui.view.probcalculat
 	 * @param app
 	 */
 	public StatisticsCalculatorD(AppD app) {
-		this.app = app;
-		cons = app.getKernel().getConstruction();
-		kernel = cons.getKernel();
-		sc = new StatisticsCollection();
-		statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
-		statHTML = new StatisticsCalculatorHTML(app, this, sc);
-
-		selectedProcedure = Procedure.ZMEAN_TEST;
+		super(app);
 		createGUI();
 	}
 

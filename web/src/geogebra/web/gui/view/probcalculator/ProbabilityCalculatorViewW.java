@@ -60,6 +60,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private ScheduledCommand exportAction;
 	private ScheduledCommand exportToEVAction;
 	private FlowPanel plotPanelPlus;
+	private FlowPanel tablePanel;
+	private FlowPanel plotSplitPane;
+	private FlowPanel mainSplitPane;
+	private FlowPanel probCalcPanel;
+	private StatisticsCalculatorW statCalculator;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -74,6 +79,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   createExportToEvAction();
 	   createLayoutPanels();
 	   buildProbCalcPanel();
+	   
+	   statCalculator = new StatisticsCalculatorW(app);
 	   isIniting = false;
 	   
     }
@@ -122,8 +129,19 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	}
 
 	private void buildProbCalcPanel() {
-		//TODO: continue here!
 		wrappedPanel.clear();
+		plotSplitPane = new FlowPanel();
+		plotSplitPane.add(plotPanelPlus);
+		
+		mainSplitPane = new FlowPanel();
+		mainSplitPane.add(plotSplitPane);
+		probCalcPanel = new FlowPanel();
+		
+		probCalcPanel.add(mainSplitPane);
+		
+		//TODO: do css here!
+		
+		
 		
     }
 
@@ -131,7 +149,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		//control panel
 	    createControlPanel();
 	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
-	    //TODO: do events right
+
 	    ((PlotPanelEuclidianViewW) plotPanel).setMouseEnabled(true, true);
 	    ((PlotPanelEuclidianViewW) plotPanel).setMouseMotionEnabled(true);
 	    
@@ -142,9 +160,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    
 	    //table panel
 	    table  = new ProbablitiyTableW(app, this);
-	    
-	    
-	    
+	    tablePanel = new FlowPanel();
+	    tablePanel.add(((ProbablitiyTableW)table).getWrappedPanel());    
     }
 
 	private void createControlPanel() {
@@ -255,7 +272,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	 * inits the gui of ProbablityCalculatorView
 	 */
 	public void initGUI() {
-		this.wrappedPanel = new FlowPanel();	
+		this.wrappedPanel = new FlowPanel();
 	}
 	
 	/**

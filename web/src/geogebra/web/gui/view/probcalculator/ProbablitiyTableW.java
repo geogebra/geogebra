@@ -36,6 +36,8 @@ public class ProbablitiyTableW extends ProbabilityTable {
 	   
 	   statTable = new StatTableW(app);
 	   
+	   wrappedPanel.add(statTable);
+	   
 	   //blank table
 	   setTable(null, null, 0, 10);
     }
@@ -84,6 +86,10 @@ public class ProbablitiyTableW extends ProbabilityTable {
 	public void setSelectionByRowValue(int lowValue, int highValue) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public FlowPanel getWrappedPanel() {
+		return wrappedPanel;
 	}
 	
 	//TODO: valueChanged!
