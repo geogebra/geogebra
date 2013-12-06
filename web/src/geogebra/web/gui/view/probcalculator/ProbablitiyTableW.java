@@ -76,10 +76,16 @@ public class ProbablitiyTableW extends ProbabilityTable {
 		isIniting = false;
 	}
 	
+	public void setLabels() {
+		setTable(distType, parms, xMin, xMax);
+	}
+	
 	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue) {
 		// TODO Auto-generated method stub
 
 	}
+	
+	//TODO: valueChanged!
 
 }

@@ -25,10 +25,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 	private ProbabilityCalculatorViewD probCalc;
 	private StatTable statTable;
 
-	private DIST distType;
-	private int xMin, xMax;
-	private boolean isIniting;
-	private double[] parms;
+	
 
 	private JPanel wrappedPanel;
 	

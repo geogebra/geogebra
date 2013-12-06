@@ -1,6 +1,7 @@
 package geogebra.common.gui.view.probcalculator;
 
 import geogebra.common.main.App;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 
 /**
  * @author gabor
@@ -17,6 +18,11 @@ public abstract class ProbabilityTable {
 	protected ProbabilityManager probManager;
 	protected ProbabilityCalcualtorView probCalc;
 	protected String[] columnNames;
+	
+	protected DIST distType;
+	protected int xMin, xMax;
+	protected boolean isIniting;
+	protected double[] parms;
 
 	/**
 	 * @param lowValue lowest value
