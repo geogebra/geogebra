@@ -8,6 +8,7 @@ import geogebra.gui.util.ListSeparatorRenderer;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -125,7 +126,7 @@ public class StatisticsCalculatorD extends geogebra.common.gui.view.probcalculat
 		procedurePanel.add(panelChiSquare.getWrappedPanel());
 		procedurePanel.add(Box.createVerticalStrut(20));
 		procedurePanel.add(resultPanel);
-		procedurePanel.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
+		procedurePanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
 		// wrapper for procedure panel
 		JPanel procedureWrapper = new JPanel(new BorderLayout());
@@ -164,26 +165,26 @@ public class StatisticsCalculatorD extends geogebra.common.gui.view.probcalculat
 		if (panelBasicProcedures == null) {
 			panelBasicProcedures = new JPanel();
 			panelBasicProcedures.setLayout(new GridBagLayout());
-			panelBasicProcedures.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
+			panelBasicProcedures.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 
 		if (panelSample1 == null) {
 			panelSample1 = new JPanel();
 			panelSample1
 					.setLayout(new BoxLayout(panelSample1, BoxLayout.Y_AXIS));
-			panelSample1.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
+			panelSample1.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 		if (panelSample2 == null) {
 			panelSample2 = new JPanel();
 			panelSample2
 					.setLayout(new BoxLayout(panelSample2, BoxLayout.Y_AXIS));
-			panelSample2.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
+			panelSample2.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 		if (panelTestAndCI == null) {
 			panelTestAndCI = new JPanel();
 			panelTestAndCI.setLayout(new BoxLayout(panelTestAndCI,
 					BoxLayout.Y_AXIS));
-			panelTestAndCI.setAlignmentY(wrappedPanel.TOP_ALIGNMENT);
+			panelTestAndCI.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 
 		panelBasicProcedures.removeAll();

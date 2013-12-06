@@ -55,6 +55,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private AutoCompleteTextFieldW[] fldSampleStat1;
 	private Label[] lblSampleStat2;
 	private AutoCompleteTextFieldW[] fldSampleStat2;
+	private FlowPanel panelControl;
+	private FlowPanel panelBasicProcedures;
+	private FlowPanel panelSample1;
+	private FlowPanel panelSample2;
+	private FlowPanel panelTestAndCI;
 
 	public StatisticsCalculatorW(App app) {
 		super(app);
@@ -66,7 +71,106 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		this.wrappedPanel = new FlowPanel();
 		
 		createGUIElements();
+		createControlPanel();
+		setInputPanelLayout();
+		
 	    
+    }
+
+	private void setInputPanelLayout() {
+	   if (panelBasicProcedures == null) {
+		   panelBasicProcedures = new FlowPanel();
+	   }
+	   
+	   if (panelSample1 == null) {
+		   panelSample1 = new FlowPanel();
+	   }
+	   
+	   if (panelSample2 == null) {
+		   panelSample2 = new FlowPanel();
+	   }
+	   
+	   if (panelTestAndCI == null) {
+		   panelTestAndCI = new FlowPanel();
+	   }
+	   
+	   // ---- add components
+	   
+	   panelBasicProcedures.clear();
+	   panelSample1.clear();
+	   panelSample2.clear();
+	   panelTestAndCI.clear();
+	   
+	   panelSample1.add(lblSampleHeader1);
+	   
+	   for (int i = 0; i < lblSampleStat1.length; i++) {
+			panelSample1.add(lblSampleStat1[i]);
+			panelSample1.add(fldSampleStat1[i]);
+		}
+	   
+	   panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
+	   panelSample2.add(lblSampleHeader2);
+	   
+	   for (int i = 0; i < lblSampleStat2.length; i++) {
+			panelSample2.add(lblSampleStat2[i]);
+			panelSample2.add(fldSampleStat2[i]);
+		}
+	   
+	   switch (selectedProcedure) {
+		case ZMEAN_TEST:
+		case ZMEAN2_TEST:
+		case TMEAN_TEST:
+		case TMEAN2_TEST:
+		case ZPROP_TEST:
+		case ZPROP2_TEST:
+
+			if (app.getLocalization().isRightToLeftReadingOrder()) {
+				// eg 1.1 = mu
+				panelTestAndCI.add(fldNullHyp);
+				panelTestAndCI.add(lblHypParameter);
+			} else {
+				// eg mu = 1.1
+				panelTestAndCI.add(lblHypParameter);
+				panelTestAndCI.add(fldNullHyp );				
+			}
+			panelTestAndCI.add(lblTailType);
+			panelTestAndCI.add(btnLeft); 
+			panelTestAndCI.add(btnRight);
+			panelTestAndCI.add(btnTwo);
+			panelTestAndCI.add(ckPooled);
+			break;
+
+		case ZMEAN_CI:
+		case ZMEAN2_CI:
+		case TMEAN_CI:
+		case TMEAN2_CI:
+		case ZPROP_CI:
+		case ZPROP2_CI:
+
+			panelTestAndCI.add(lblConfLevel);
+			panelTestAndCI.add(fldConfLevel);
+			panelTestAndCI.add(ckPooled);
+			break;
+		}
+
+		
+		panelBasicProcedures.add(panelSample1);
+
+		
+		panelBasicProcedures.add(panelSample2);
+
+		
+
+		panelBasicProcedures.add(panelTestAndCI);
+	   
+	   
+	   
+	   
+    }
+
+	private void createControlPanel() {
+	   panelControl = new FlowPanel();
+	   panelControl.add(cbProcedure);
     }
 
 	private void createGUIElements() {
@@ -154,15 +258,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyHandler(this);
 			fldSampleStat2[i].addFocusHandler(this);
-		}
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+		}	    
 	    
     }
 
