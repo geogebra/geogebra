@@ -885,7 +885,7 @@ __GGB__keysVar.bs.command = {
     "Take_SyntaxCAS": "[ <Lista>, <od>, <do> ]",
     "Tangent": "Tangenta",
     "Tangent_Syntax": "[ <Ta\u010dka>, <Konika> ]\n[ <Ta\u010dka>, <Funkcija> ]\n[ <Ta\u010dka na krivoj>, <Kriva> ]\n[ <x-vrijednost>, <Funkcija> ]\n[ <Prava>, <Konika> ]\n[ <Kru\u017enica>, <Kru\u017enica> ]",
-    "TangentThroughPoint_SyntaxCAS": "[ <Point>, <Function> ]",
+    "TangentThroughPoint_SyntaxCAS": "[ <Ta\u010dka>, <Funkcija> ]",
     "TaylorSeries": "TaylorRed",
     "TaylorSeries_Syntax": "[ <Funkcija>, <x-vrijednost>, <Stepen> ]",
     "TaylorSeries_SyntaxCAS": "[ <Izraz>, <x-vrijednost>, <Stepen> ]\n[ <Izraz>, <Promjenljiva>, <Vrijednost promjenljive>, <Red> ]",
