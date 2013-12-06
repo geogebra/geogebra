@@ -50,4 +50,9 @@ public class GeoPenStroke extends GeoPolyLine {
 		return true;
 	}
 	
+	@Override 
+	public boolean isLabelVisible() { 
+		return false; 
+	}
+
 }
