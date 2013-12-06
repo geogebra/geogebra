@@ -60,7 +60,7 @@ public abstract class StatisticsCalculator {
 		// Getters/Setters
 		// =========================================
 
-		public StatisticsCalculator(App app2) {
+		public StatisticsCalculator(App app) {
 			this.app = app;
 			cons = app.getKernel().getConstruction();
 			kernel = cons.getKernel();
