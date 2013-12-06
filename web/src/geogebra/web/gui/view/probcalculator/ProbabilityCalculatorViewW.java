@@ -139,7 +139,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    plotLabelPanel.add(lblMeanSigma);
 	    plotPanelPlus = new FlowPanel();
 	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
-	    //TODO: continue with table
+	    
+	    //table panel
+	    table  = new ProbablitiyTableW(app, this);
 	    
 	    
 	    
