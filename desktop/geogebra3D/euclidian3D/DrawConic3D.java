@@ -696,9 +696,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		double x = v.dotproduct(ev1);
 		double y = v.dotproduct(ev2);
 		double horizontalDistance2 = x*x+y*y;
-		alpha = Math.asin(frustumRadius/Math.sqrt(horizontalDistance2));
+		alpha = Math.atan2(frustumRadius, Math.sqrt(horizontalDistance2));
 		beta = Math.atan2(y * e1, x * e2);
-		//App.debug("\nalpha="+(alpha*180/Math.PI)+"\nbeta="+(beta*180/Math.PI));
 	}
 
 

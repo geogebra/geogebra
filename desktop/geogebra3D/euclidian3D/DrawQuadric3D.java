@@ -122,7 +122,7 @@ implements Previewable {
 			visible = Visible.CENTER_OUTSIDE; // center outside
 			// calc angles to draw minimum longitudes
 			double horizontalDistance2 = v.getX()*v.getX()+v.getY()*v.getY();
-			alpha = Math.asin(frustumRadius/Math.sqrt(horizontalDistance2));
+			alpha = Math.atan2(frustumRadius, Math.sqrt(horizontalDistance2));
 			beta = Math.atan2(v.getY(), v.getX());
 		}	
 		
