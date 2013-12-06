@@ -1559,27 +1559,28 @@ public abstract class AppW extends AppWeb {
 	@Override
 	public void scheduleUpdateConstruction() {
 
-		// set up a scheduler in case 0.5 seconds would not be enough for the
-		// computer
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-
-				// 0.5 seconds is good for the user and maybe for the computer
-				// too
-				Timer timeruc = new Timer() {
-					@Override
-					public void run() {
-						boolean force = kernel.getForceUpdatingBoundingBox();
-						kernel.setForceUpdatingBoundingBox(true);
-						kernel.getConstruction().updateConstruction();
-						kernel.notifyRepaint();
-						kernel.setForceUpdatingBoundingBox(force);
-					}
-				};
-				timeruc.schedule(500);
-			}
-		});
+		// set up a scheduler in case 0.5 seconds would not be enough for the computer
+		Scheduler.get().scheduleDeferred(sucCallback);
 	}
+
+	Timer timeruc = new Timer() {
+		@Override
+		public void run() {
+			boolean force = kernel.getForceUpdatingBoundingBox();
+			kernel.setForceUpdatingBoundingBox(true);
+			kernel.getConstruction().updateConstruction();
+			kernel.notifyRepaint();
+			kernel.setForceUpdatingBoundingBox(force);
+		}
+	};
+
+	Scheduler.ScheduledCommand sucCallback = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			// 0.5 seconds is good for the user and maybe for the computer
+			// too
+			timeruc.schedule(500);
+		}
+	};
 
 	@Override
 	public void createNewWindow() {

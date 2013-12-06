@@ -221,12 +221,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 			public void onFocus(FocusEvent fe) {
 				verticalScrollPosition = getVerticalScrollPosition();
 				horizontalScrollPosition = getHorizontalScrollPosition();
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					public void execute() {
-						setVerticalScrollPosition(verticalScrollPosition);
-						setHorizontalScrollPosition(horizontalScrollPosition);
-					}
-				});
+				Scheduler.get().scheduleDeferred(onFocusCommand);
 			}
 		});
 
@@ -269,6 +264,13 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		table.addComponentListener(this);
 */
 	}
+
+	Scheduler.ScheduledCommand onFocusCommand = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			setVerticalScrollPosition(verticalScrollPosition);
+			setHorizontalScrollPosition(horizontalScrollPosition);
+		}
+	};
 
 	public SimplePanel getEditorPanel() {
 		return editorPanel;
@@ -1460,12 +1462,14 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		//if (table != null)
 		//	table.requestFocus();
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				spreadsheetWrapper.setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(requestFocusCommand);
 	}
+
+	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			spreadsheetWrapper.setFocus(true);
+		}
+	};
 
 	private int verticalScrollPosition = -1;
 	private int horizontalScrollPosition = -1;
@@ -1584,14 +1588,16 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 	public void scheduleRepaint() {
 		if (!repaintScheduled) {
 			repaintScheduled = true;
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				public void execute() {
-					repaintScheduled = false;
-					repaint();
-				}
-			});
+			Scheduler.get().scheduleDeferred(scheduleRepaintCommand);
 		}
 	}
+
+	Scheduler.ScheduledCommand scheduleRepaintCommand = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			repaintScheduled = false;
+			repaint();
+		}
+	};
 
 	public FocusPanel getFocusPanel() {
 		return spreadsheetWrapper;

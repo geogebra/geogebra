@@ -58,6 +58,9 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	public void onResize() {
 		super.onResize();
+
+		// TODO: onResize should not be deferred (as in the case of Graphics views)!
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
 
