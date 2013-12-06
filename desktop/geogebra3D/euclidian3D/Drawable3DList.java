@@ -88,9 +88,11 @@ public abstract class Drawable3DList extends Drawable3D {
 		// check pickability 	
 		if (!getGeoElement().isPickable())
 			return null;
+		
 		if(!isVisible())
 			return null;	
 				
+		
 		return getDrawablePicked();
 		
 	}

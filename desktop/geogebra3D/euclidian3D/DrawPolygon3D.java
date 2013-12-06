@@ -227,6 +227,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (polygon.isConvex()){
 			renderer.getGeometryManager().drawPolygonConvex(n, vertices);
 		}else{
+			//polygon.getTriangulation();
 			renderer.drawPolygon(n, vertices);
 		}
 		renderer.endPolygons();

@@ -40,10 +40,13 @@ import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Stack;
 import java.util.TreeSet;
 
 /**
@@ -1487,6 +1490,180 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			i++;
 		}
 		return answer;
+	}
+	
+	
+	/**
+	 * 
+	 * @return list of vertex indices, which forms triangles tessalating the polygon
+	 */
+	public ArrayList<Integer> getTriangulation(){
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		
+		final int length = getPointsLength();
+		
+		// put 2D indices in sweep order (smaller x, then smaller y)
+		TreeSet<Integer> sweepTree = new TreeSet<Integer>(getSweepComparator());
+		for (int i = 0; i < length; i++){
+			sweepTree.add(i);
+		}
+		App.error("sweepTree:");
+		for (int i : sweepTree){
+			App.debug(i+": "+getPointsND()[i]);
+		}
+		
+		
+		
+		/*
+		// find points with edges both on right or both on left
+		double x0 = getPointX(length - 2);
+		double x1 = getPointX(length - 1);
+		double x2;
+		for (int i = 0 ; i < length ; i++){
+			x2 = getPointX(i);
+			if (Kernel.isGreater(x1, x0) && Kernel.isGreater(x1, x2)){
+				App.debug((i-1)+" : both left");
+			}else if (Kernel.isGreater(x0, x1) && Kernel.isGreater(x2, x1)){
+				App.debug((i-1)+" : both right");
+			}
+			x0 = x1;
+			x1 = x2;
+		}
+		*/
+		
+		int[] sweepArray = new int[length];
+		int index = 0;
+		for (int i : sweepTree){
+			sweepArray[index] = i;
+			index++;
+		}
+		
+		int min = sweepArray[0];
+		int max = sweepArray[length - 1];
+		boolean startOrientation = true;
+		if (min > max){
+			int tmp = min;
+			min = max;
+			max = tmp;
+			startOrientation = false;
+		}	
+		App.debug(min+","+max);
+		
+		// init stack
+		Stack<Integer> stack = new Stack<Integer>();
+		stack.push(sweepArray[0]);
+		stack.push(sweepArray[1]);
+		
+		// loop
+		for (int i = 2 ; i < length ; i++){
+			int top = stack.peek();
+			int vi = sweepArray[i];
+			debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
+			if ((vi > min && vi < max) ^ (top > min && top < max)){ // vi and top are not on the same chain
+				debugDiagonal("case 2 ",top,vi);
+				while (!stack.isEmpty()){
+					int v = stack.pop();
+					debugDiagonal("diagonal : ",vi,v);
+				}
+				stack.push(top);
+				stack.push(vi);
+				
+			}else{ // vi and top are on the same chain
+				debugDiagonal("case 1 ",top,vi);
+				double xi = getPointX(vi);
+				double yi = getPointY(vi);
+				
+				// first correct point
+				int vk = stack.pop();
+				debugDiagonal("diagonal : ",vi,vk);
+				double dx2 = getPointX(vk) - xi;
+				double dy2 = getPointY(vk) - yi;
+				
+				boolean go = true;
+				while (!stack.isEmpty() && go){
+					double dx1 = dx2;
+					double dy1 = dy2;
+					int v = stack.pop();
+					dx2 = getPointX(v) - xi;
+					dy2 = getPointY(v) - yi;
+					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ startOrientation){ // not same orientation
+						stack.push(v); //re-push v in stack
+						go = false;
+					}else{
+						vk = v;
+						debugDiagonal("diagonal : ",vi,vk);
+					}
+				}
+				stack.push(vk);
+				stack.push(vi);
+			}
+			
+		}
+		
+		return ret;
+	}
+	
+	private void debugDiagonal(String s, int vi, int vk){
+		App.debug(s+" : "+((GeoElement) getPointsND()[vi]).getLabelSimple()+"--"+((GeoElement) getPointsND()[vk]).getLabelSimple());
+	}
+	
+	private SweepComparator sweepComparator;
+	
+	private SweepComparator getSweepComparator(){
+		if (sweepComparator == null){
+			sweepComparator = new SweepComparator(this);
+		}
+		return sweepComparator;
+	}
+	
+	
+	private class SweepComparator implements Comparator<Integer>{
+
+		private GeoPolygon p;
+		
+		/**
+		 * constructor
+		 * @param p polygon 
+		 */
+		public SweepComparator(GeoPolygon p) {
+			this.p = p;
+		}
+
+		public int compare(Integer i1, Integer i2) {
+			
+			// smallest x
+			double x1 = p.getPointX(i1);
+			double x2 = p.getPointX(i2);
+			if (Kernel.isGreater(x2, x1)){
+				return -1;
+			}			
+			if (Kernel.isGreater(x1, x2)){
+				return 1;
+			}
+			
+			// then smallest y
+			double y1 = p.getPointY(i1);
+			double y2 = p.getPointY(i2);
+			if (Kernel.isGreater(y2, y1)){
+				return -1;
+			}			
+			if (Kernel.isGreater(y1, y2)){
+				return 1;
+			}
+			
+			// then smallest index
+			if (i1 < i2){
+				return -1;
+			}
+			if (i1 > i2){
+				return 1;
+			}
+			
+			// same point
+			return 0;
+		}
+
+		
 	}
 	
 	

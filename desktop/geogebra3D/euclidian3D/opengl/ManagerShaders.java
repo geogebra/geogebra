@@ -73,7 +73,7 @@ public class ManagerShaders extends Manager {
 		return fb;
 	}
 	
-	private ArrayList<Float> vertices, normals, textures;
+	private ArrayList<Float> vertices, normals, textures, colors;
 	
 	@Override
 	protected void initGeometriesList(){
@@ -84,6 +84,7 @@ public class ManagerShaders extends Manager {
 		vertices = new ArrayList<Float>();
 		normals = new ArrayList<Float>();
 		textures = new ArrayList<Float>();
+		colors = new ArrayList<Float>();
 		
 	}
 
@@ -114,7 +115,7 @@ public class ManagerShaders extends Manager {
 		 */
 		private int type;
 		
-		private FloatBuffer v, n, t;
+		private FloatBuffer v, n, t, c;
 		
 		private int length;
 		
@@ -135,10 +136,7 @@ public class ManagerShaders extends Manager {
 			return type;
 		}
 		
-		public void end(){
-			
-		}
-		
+
 		/**
 		 * set float buffer for vertices
 		 * @param fb float buffer
@@ -179,6 +177,9 @@ public class ManagerShaders extends Manager {
 			this.t = fb;
 		}
 		
+		
+
+		
 		/**
 		 * 
 		 * @return texture buffer
@@ -186,6 +187,25 @@ public class ManagerShaders extends Manager {
 		public FloatBuffer getTextures(){
 			return t;
 		}
+
+		
+		/**
+		 * set float buffer for colors
+		 * @param fb float buffer
+		 */
+		public void setColors(FloatBuffer fb){
+			this.c = fb;
+		}
+		
+		
+		/**
+		 * 
+		 * @return colors buffer
+		 */
+		public FloatBuffer getColors(){
+			return c;
+		}
+
 
 		
 		/**
@@ -230,13 +250,6 @@ public class ManagerShaders extends Manager {
 		}
 		
 		/**
-		 * end the current geometry
-		 */
-		public void endGeometry(){
-			currentGeometry.end();
-		}
-		
-		/**
 		 * set vertices for current geometry
 		 * @param vertices vertices
 		 */
@@ -260,6 +273,11 @@ public class ManagerShaders extends Manager {
 			}
 		}
 		
+		public void setColors(ArrayList<Float> colors){
+			if (colors.size() == 4 * currentGeometry.getLength()){
+				currentGeometry.setColors(ManagerShaders.floatBuffer(colors));
+			}
+		}
 	
 		
 	}
@@ -308,6 +326,7 @@ public class ManagerShaders extends Manager {
 		vertices.clear();
 		normals.clear();
 		textures.clear();
+		colors.clear();
 	}
 	
 	@Override
@@ -315,7 +334,8 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet.setVertices(vertices);
 		currentGeometriesSet.setNormals(normals);
 		currentGeometriesSet.setTextures(textures);
-		currentGeometriesSet.endGeometry();
+		currentGeometriesSet.setColors(colors);
+		//currentGeometriesSet.endGeometry();
 	}
 	
 	
@@ -360,6 +380,8 @@ public class ManagerShaders extends Manager {
 
     	for (int i = 0 ; i < v.length ; i++){
     		vertex(v[i]);
+    		//color(1f,0,0);
+    		color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3);
     	}
 
     	endGeometry();
@@ -395,6 +417,7 @@ public class ManagerShaders extends Manager {
 			for (Geometry geometry : currentGeometriesSet){
 				renderer.loadVertexBuffer(geometry.getVertices(), geometry.getLength());
 				renderer.loadNormalBuffer(geometry.getNormals(), geometry.getLength());
+				renderer.loadColorBuffer(geometry.getColors(), geometry.getLength());
 				if (renderer.areTexturesEnabled()){
 					renderer.loadTextureBuffer(geometry.getTextures(), geometry.getLength());	
 				}
@@ -558,12 +581,15 @@ public class ManagerShaders extends Manager {
 	
 	@Override
 	protected void color(float r, float g, float b){
-		//renderer.getGL2().glColor3f(r,g,b);
+		color(r,g,b,1f);
 	}
 	
 	@Override
 	protected void color(float r, float g, float b, float a){
-		//renderer.getGL2().glColor4f(r,g,b,a);
+		colors.add(r);
+		colors.add(g);
+		colors.add(b);
+		colors.add(a);
 	}
 	
 	@Override
