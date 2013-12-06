@@ -1583,11 +1583,15 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		animatedScaleStartY=getYZero();
 		animatedScaleStartZ=getZZero();
 
-		
-		Coords v=cursor3D.getInhomCoords();
-		
-		if (!v.isDefined() || !isInside(v)){//takes center of the scene for fixed point
-			v = new Coords(-animatedScaleStartX,-animatedScaleStartY,-animatedScaleStartZ,1);
+		Coords v;
+		if (getCursor3DType() == PREVIEW_POINT_NONE){ // use cursor only if on point/path/region or xOy plane
+			v = new Coords(-animatedScaleStartX,-animatedScaleStartY,-animatedScaleStartZ,1); //takes center of the scene for fixed point
+		}else{
+			v=cursor3D.getInhomCoords();
+			//App.debug("\n"+v);
+			if (!v.isDefined()){
+				v = new Coords(-animatedScaleStartX,-animatedScaleStartY,-animatedScaleStartZ,1); //takes center of the scene for fixed point
+			}
 		}
 		
 		//Application.debug(v);
@@ -1760,6 +1764,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			updateMatrix();
 			setViewChangedByZoom();
 			setViewChangedByTranslate();
+			
+			
+			//euclidianController3D.setFlagMouseMoved();
 			
 		}
 		

@@ -1606,6 +1606,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 	}
 	
+	/**
+	 * set flag "mouseMoved" true
+	 */
+	public void setFlagMouseMoved(){
+		mouseMoved = true;
+	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseMoved = false;
