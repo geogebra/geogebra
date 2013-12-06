@@ -145,6 +145,7 @@ public class SelectionManager {
 	 */
 	public final void addSelectedGeo(GeoElement geo, boolean repaint,
 			boolean updateSelection) {
+		
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
 		}
@@ -428,16 +429,20 @@ public class SelectionManager {
 
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
+		
+		tree = new TreeSet<GeoElement>(tree);
 
 		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
 
 		Iterator<GeoElement> it = copy.iterator();
 
 		// remove geos that don't have isSelectionAllowed()==true
+		// or are not visible in the view
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed()) {
+			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible() || !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
+				App.debug("removing"+geo.getLabelSimple());
 			}
 		}
 
@@ -454,7 +459,7 @@ public class SelectionManager {
 		if (selectedGeos.size() != 1) {
 			return;
 		}
-
+		
 		// one selected, select next one
 		GeoElement selGeo = selectedGeos.get(0);
 		while (it.hasNext()) {
@@ -488,13 +493,16 @@ public class SelectionManager {
 		GeoElement lastGeo = null;
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
+		
+		tree = new TreeSet<GeoElement>(tree);
+
 		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
 		Iterator<GeoElement> it = copy.iterator();
 
 		// remove geos that don't have isSelectionAllowed()==true
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed()) {
+			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible() || !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
 			}
 		}
