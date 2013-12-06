@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 	private AppW app;
-	protected TextEditPanel editPanel;
+	protected ITextEditPanel editPanel;
 
 	private ListBox geoPanel;
 	private VerticalPanel symbolPanel;
@@ -45,7 +45,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private TextPreviewPanelW previewer;
 	private Localization loc;
 
-	public TextEditAdvancedPanel(AppW app, TextEditPanel editPanel) {
+	public TextEditAdvancedPanel(AppW app, ITextEditPanel editPanel) {
 		super(30, Unit.PX);
 		this.app = app;
 		this.editPanel = editPanel;

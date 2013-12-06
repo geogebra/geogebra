@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 public class TextEditPanel extends VerticalPanel implements ClickHandler,
-        FocusHandler {
+        FocusHandler, ITextEditPanel {
 
 	protected AppW app;
 	protected DynamicTextProcessor dTProcessor;
@@ -78,7 +78,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		
 		disclosurePanel = new DisclosurePanel(loc.getMenu("Advanced"));
 		disclosurePanel.setContent(advancedPanel);
-		disclosurePanel.getContent().removeStyleName("content");
+		disclosurePanel. getContent().removeStyleName("content");
 		disclosurePanel.getContent().addStyleName(
 		        "textEditorDisclosurePanelContent");
 		disclosurePanel.getHeader().addStyleName(
@@ -309,7 +309,6 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		editor.setText(list);
 
 		if (geo == null) {
-
 			btnLatex.setValue(false);
 			btnSerif.setValue(false);
 			btnBold.setValue(false);

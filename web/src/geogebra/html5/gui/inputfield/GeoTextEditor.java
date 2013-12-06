@@ -46,7 +46,7 @@ public class GeoTextEditor extends RichTextArea {
 
 	private AppW app;
 	GFontW font;
-	protected TextEditPanel editPanel;
+	protected ITextEditPanel editPanel;
 	protected Formatter formatter;
 
 	protected PopupPanel textEditPopup;
@@ -58,7 +58,7 @@ public class GeoTextEditor extends RichTextArea {
 	 * @param app
 	 * @param editPanel
 	 */
-	public GeoTextEditor(AppW app, TextEditPanel editPanel) {
+	public GeoTextEditor(AppW app, ITextEditPanel editPanel) {
 
 		this.app = app;
 		this.font = (GFontW) app.getPlainFontCommon();
