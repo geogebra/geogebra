@@ -6,6 +6,7 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -37,6 +38,35 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 	private AppW app;
 
 	private boolean splittersFrozen = false;
+
+	/**
+	 * For calling the onResize method in a deferred way
+	 */
+	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			onResize();
+		}
+	};
+
+	/**
+	 * For calling the onResize method in a deferred way
+	 */
+	public void deferredOnResize() {
+		Scheduler.get().scheduleDeferred(deferredOnRes);
+	}
+
+	/* other option; maybe not so good...
+	public void deferredOnResize() {
+		for (Widget c : getChildren()) {
+			if (c instanceof DockSplitPaneW) {
+				((DockSplitPaneW)c).deferredOnResize();
+			} else if (c instanceof DockPanelW) {
+				((DockPanelW)c).deferredOnResize();
+			} else if (c instanceof RequiresResize) {
+				((RequiresResize)c).onResize();
+			}
+		}
+	}*/
 
 	/*********************************************
 	 * Constructs a DockSplitPaneW with default horizontal orientation
