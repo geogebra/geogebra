@@ -461,7 +461,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		initWidget(dockPanel);
 	}
 
-	public void buildGUIIfNecessary(){
+	public void buildGUIIfNecessary(boolean setlayout) {
 
 		// This way it is safe to call buildGUI multiple times
 		if (componentPanel != null) {
@@ -547,7 +547,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarLabel.addStyleName("TitleBarLabel");
 		titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
 
-		setLayout();
+		if (setlayout) {
+			setLayout();
+		}
 	}
 
 	public void setLabels() {
@@ -565,12 +567,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (!isVisible())
 			return;
 
-		if (componentPanel == null) {
-			buildGUIIfNecessary();
-
-			// here we can return as long as buildGUIIfNecessary calls setLayout too
-			return;
-		}
+		buildGUIIfNecessary(false);
 
 		dockPanel.clear();
 
@@ -913,7 +910,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * 
 	 */
 	protected void updateTitleBarIfNecessary() {
-		buildGUIIfNecessary();
+		buildGUIIfNecessary(true);
 		if (theRealTitleBarPanel.isVisible() && theRealTitleBarPanel.isAttached()) {
 			updateTitleBar();
 		}
@@ -1101,7 +1098,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/** loads the styleBar and puts it into the stylBarPanel */
 	private void setStyleBar() {
 		if (styleBar == null) {
-			buildGUIIfNecessary();
+			buildGUIIfNecessary(false);
 			styleBar = loadStyleBar();
 			styleBarPanel.add(styleBar, 2, 0);
 		}
@@ -1123,7 +1120,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (!isVisible())
 			return;
 
-		buildGUIIfNecessary();
+		buildGUIIfNecessary(true);
 
 		styleBarPanel.setVisible(isStyleBarVisible());
 		//TODO updateToggleStyleBarButtons();
