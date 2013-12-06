@@ -1436,7 +1436,7 @@ public abstract class AppW extends AppWeb {
 	// EXPORT & GEOTUBE
 	// ========================================
 	public void copyEVtoClipboard() {
-		Window.open(getEuclidianView1().getExportImageDataUrl(3, false),
+		Window.open(getEuclidianView1().getExportImageDataUrl(3, true),
 		        "_blank", null);
 	}
 
