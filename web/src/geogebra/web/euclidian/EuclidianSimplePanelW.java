@@ -212,5 +212,10 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 		}
     }
 
+	public void deferredOnResize() {
+		// TODO: onResize should not be deferred!
+		onResize();
+	}
+
 	public void updateNavigationBar() { }
 }

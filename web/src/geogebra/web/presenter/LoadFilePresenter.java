@@ -10,7 +10,6 @@ import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter{
@@ -64,11 +63,7 @@ public class LoadFilePresenter{
 
 			if (app instanceof AppW) {
 				// default layout doesn't have a Graphics View 2
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					public void execute() {
-						((AppW)app).getEuclidianViewpanel().onResize();
-					}
-				});
+				((AppW)app).getEuclidianViewpanel().deferredOnResize();
 			}
 
 			// code moved here from AppWapplication.afterCoreObjectsInited - end

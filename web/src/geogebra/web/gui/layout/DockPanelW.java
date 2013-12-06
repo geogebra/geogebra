@@ -7,6 +7,7 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
@@ -248,6 +249,22 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * and afterwards, titleBarLabel can be set
 	 */
 	private boolean titleBarLabelCanSet = false;
+
+	/**
+	 * For calling the onResize method in a deferred way
+	 */
+	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			onResize();
+		}
+	};
+
+	/**
+	 * For calling the onResize method in a deferred way
+	 */
+	public void deferredOnResize() {
+		Scheduler.get().scheduleDeferred(deferredOnRes);
+	}
 
 	/**
 	 * If the view needs a menu bar when undocked, its is kept here
@@ -513,14 +530,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 				showStyleBar = false;
 				titleBarPanel.remove(toglStyleBtn);
 				titleBarPanel.insert(toglStyleBtn2, 2, 0, 0);
-				setLayout();
-
-				// quick (?) workaround for now - a better solution should be found
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					public void execute() {
-						onResize();
-					}
-				});
+				setLayout(true);
 			}
 		};
 
@@ -529,14 +539,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 				showStyleBar = true;
 				titleBarPanel.remove(toglStyleBtn2);
 				titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
-				setLayout();
-
-				// quick (?) workaround for now - a better solution should be found
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					public void execute() {
-						onResize();
-					}
-				});
+				setLayout(true);
 			}
 		};
 
@@ -563,7 +566,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
 
 		if (setlayout) {
-			setLayout();
+			setLayout(false);
 		}
 	}
 
@@ -577,7 +580,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * sets the layout of the stylebar and title panel
 	 */
-	protected void setLayout(){
+	protected void setLayout(boolean deferred) {
 
 		if (!isVisible())
 			return;
@@ -625,9 +628,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			dockPanel.add(componentPanel);
 		}
 
-		onResize();
+		if (deferred && (this instanceof EuclidianDockPanelWAbstract)) {
+			deferredOnResize();
+		} else {
+			onResize();
+		}
 	}
-	
+
 	public int getComponentInteriorHeight() {
 		
 		if (dockPanel != null) {
@@ -918,7 +925,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			component = loadComponent();
 		}
 
-		setLayout();
+		setLayout(false);
 	}
 
 	/**

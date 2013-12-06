@@ -435,8 +435,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			fullHeight += calcHeight;
 		}
 		getLayout().getRootComponent().setPixelSize(fullWidth, fullHeight);
-		((AppW) app).getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);		
-		((AppW) app).getEuclidianViewpanel().onResize();
+		((AppW) app).getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);
+
+		// maybe onResize is good here too, but call deferredOnResize for security
+		((AppW) app).getEuclidianViewpanel().deferredOnResize();
 	}
 
 	public ToolBarW getGeneralToolbar() {

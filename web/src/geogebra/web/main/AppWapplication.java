@@ -14,7 +14,6 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
@@ -158,15 +157,10 @@ public class AppWapplication extends AppW {
 
 		// this is needed otherwise the coordinate system of EV would not be OK
 		// put in a deferred call because of drag & dropping files
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				getEuclidianViewpanel().onResize();
-
-				if (hasEuclidianView2()) {
-					getGuiManager().getEuclidianView2DockPanel().onResize();
-				}
-			}
-		});
+		getEuclidianViewpanel().deferredOnResize();
+		if (hasEuclidianView2()) {
+			getGuiManager().getEuclidianView2DockPanel().deferredOnResize();
+		}
 
 		this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();

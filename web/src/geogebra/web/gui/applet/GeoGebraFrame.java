@@ -433,7 +433,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 			app.getGuiManager().resize(width, getOffsetHeight());
 		} else {
 			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
-			app.getEuclidianViewpanel().onResize();
+
+			// maybe onResize is OK too
+			app.getEuclidianViewpanel().deferredOnResize();
 		}
 	}
 	
@@ -448,7 +450,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 			app.getGuiManager().resize(getOffsetWidth(), height);
 		} else {
 			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height );
-			app.getEuclidianViewpanel().onResize();
+
+			// maybe onResize is OK too
+			app.getEuclidianViewpanel().deferredOnResize();
 		}
 	}
 	

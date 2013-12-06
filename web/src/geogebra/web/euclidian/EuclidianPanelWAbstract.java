@@ -18,6 +18,7 @@ public interface EuclidianPanelWAbstract {
 	public int getOffsetWidth();
 	public int getOffsetHeight();
 	public void onResize();
+	public void deferredOnResize();
 	public void updateNavigationBar();
 	public Element getElement();
 }

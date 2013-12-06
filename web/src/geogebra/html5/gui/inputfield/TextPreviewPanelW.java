@@ -203,6 +203,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 		//	ev.setCoordinateSpaceSizeDirectly(100, 100);
 		}
 
+		public void deferredOnResize() {
+		}
+
 		public void updateNavigationBar() {
 			// TODO Auto-generated method stub
 
