@@ -224,12 +224,16 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (polygon.getReverseNormalForDrawing()){
 			n = n.mul(-1);
 		}
+		
+		renderer.drawPolygon(n, vertices);
+		/*
 		if (polygon.isConvex()){
 			renderer.getGeometryManager().drawPolygonConvex(n, vertices);
 		}else{
-			//polygon.getTriangulation();
+			polygon.getTriangulation();
 			renderer.drawPolygon(n, vertices);
 		}
+		*/
 		renderer.endPolygons();
 		
 		setSurfaceIndex(index);				
