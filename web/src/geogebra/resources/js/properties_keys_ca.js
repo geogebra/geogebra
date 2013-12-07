@@ -582,7 +582,7 @@ __GGB__keysVar.ca.command = {
     "Parameter_Syntax": "[ <Par\xe0bola> ]",
     "ParametricDerivative": "DerivadaParam\xe8trica",
     "ParametricDerivative_Syntax": "[ <Corba> ]",
-    "ParseToFunction": "DonaValorAFunci\xf3",
+    "ParseToFunction": "D\xf3naValorAFunci\xf3",
     "ParseToFunction_Syntax": "[ <Funci\xf3>, <Cadena> ]",
     "ParseToNumber": "D\xf3naValorANombre",
     "ParseToNumber_Syntax": "[ <Nombre>, <Cadena> ]",
