@@ -118,14 +118,19 @@ implements Previewable {
 			visible = Visible.TOTALLY_INSIDE;
 		}else if (centersDistance < frustumRadius){ // center inside
 			visible = Visible.CENTER_INSIDE;
-		}else{
-			visible = Visible.CENTER_OUTSIDE; // center outside
+		}else{			
 			// calc angles to draw minimum longitudes
-			double horizontalDistance2 = v.getX()*v.getX()+v.getY()*v.getY();
-			alpha = Math.atan2(frustumRadius, Math.sqrt(horizontalDistance2));
-			beta = Math.atan2(v.getY(), v.getX());
+			double horizontalDistance = Math.sqrt(v.getX()*v.getX()+v.getY()*v.getY());
+			if (horizontalDistance > frustumRadius){
+				alpha = Math.asin(frustumRadius/horizontalDistance);
+				beta = Math.atan2(v.getY(), v.getX());
+				//App.debug("alpha = "+(alpha*180/Math.PI)+"°, beta = "+(beta*180/Math.PI)+"°");
+				visible = Visible.CENTER_OUTSIDE; // center outside
+			}else{
+				visible = Visible.CENTER_INSIDE; // do as if center inside
+			}
 		}	
-		
+
 	}
 	
 	

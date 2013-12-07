@@ -682,8 +682,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		}else if (centersDistance + rMax < frustumRadius){ // totally inside
 			visible = Visible.TOTALLY_INSIDE;
 		}else{
-			visible = Visible.CENTER_OUTSIDE; // center outside		
-			calcVisibleAngles(v, frustumRadius);
+			visible = calcVisibleAngles(v, frustumRadius);
 		}	
 		
 	}
@@ -691,13 +690,19 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	/** 
 	 * calc angles to draw minimum longitudes 
 	 */
-	private void calcVisibleAngles(Coords v, double frustumRadius){
+	private Visible calcVisibleAngles(Coords v, double frustumRadius){
 		// calc angles to draw minimum longitudes
 		double x = v.dotproduct(ev1);
 		double y = v.dotproduct(ev2);
-		double horizontalDistance2 = x*x+y*y;
-		alpha = Math.atan2(frustumRadius, Math.sqrt(horizontalDistance2));
-		beta = Math.atan2(y * e1, x * e2);
+		double horizontalDistance = Math.sqrt(x*x+y*y);
+		if (horizontalDistance > frustumRadius){
+			alpha = Math.asin(frustumRadius/horizontalDistance);
+			beta = Math.atan2(y * e1, x * e2);
+			//App.debug("alpha = "+(alpha*180/Math.PI)+"°, beta = "+(beta*180/Math.PI)+"°");
+			return Visible.CENTER_OUTSIDE; // center outside
+		}
+		
+		return Visible.CENTER_INSIDE; // do as if center inside
 	}
 
 
