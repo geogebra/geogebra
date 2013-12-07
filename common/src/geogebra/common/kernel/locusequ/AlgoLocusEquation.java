@@ -95,12 +95,14 @@ public class AlgoLocusEquation extends AlgoElement {
 	public void compute() {
 		EquationSystem system = getOriginalIdeal();
 
-		if(system != null) {
+		if (system != null) {
 			EquationTranslator trans = new CASTranslator(cons.getKernel());
 			try{
 				this.geoPoly.setCoeff(trans.eliminateSystem(system));
+				this.geoPoly.setDefined();
+				
 			//Timeout => set undefined	
-			}catch(Exception e){
+			} catch(Exception e) {
 				this.geoPoly.setUndefined();
 			}
 		} else {
