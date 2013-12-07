@@ -1,5 +1,6 @@
 package geogebra.common.gui.dialog.options.model;
 
+import geogebra.common.gui.inputfield.DynamicTextElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
@@ -7,6 +8,8 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.StringUtil;
+
+import java.util.ArrayList;
 
 public class TextOptionsModel extends OptionsModel {
 	public interface ITextOptionsListener {
@@ -197,6 +200,37 @@ public class TextOptionsModel extends OptionsModel {
 		}
 		
 		listener.updatePreview();
+		
+	}
+
+	public GeoText getEditGeo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void cancelEditGeo() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void applyEditedGeo(String text, boolean latex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getGeoGebraString(
+			ArrayList<DynamicTextElement> dynamicTextList, boolean latex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GeoText getGeoTextAt(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setEditGeo(GeoText geoTextAt) {
+		// TODO Auto-generated method stub
 		
 	}
 }
