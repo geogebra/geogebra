@@ -1620,6 +1620,24 @@ public class Kernel {
 	}
 
 	/**
+	 * 
+	 * @param x first value
+	 * @param y second value
+	 * @return 0 if x ~ y ; -1 if x < y ; 1 if x > y
+	 */
+	final public static int compare(double x, double y) {
+		if (isGreater(x, y)){
+			return 1;
+		}
+		
+		if (isGreater(y, x)){
+			return -1;
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Returns whether x is greater than y
 	 * @param x x
 	 * @param y y
