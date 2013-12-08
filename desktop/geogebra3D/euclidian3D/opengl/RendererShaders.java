@@ -347,7 +347,12 @@ public class RendererShaders extends Renderer {
    
 
    
-   private boolean oneNormalForAllVertices = false;
+   private boolean oneNormalForAllVertices;
+   
+   private void resetOneNormalForAllVertices(){
+	   oneNormalForAllVertices = false;
+	   getGL2ES2().glUniform3f(normalLocation, 2,2,2);
+   }
 
    public void loadNormalBuffer(FloatBuffer fbNormals, int length){
 
@@ -365,8 +370,7 @@ public class RendererShaders extends Renderer {
 	   // VBO - normals
 	   
 	   if(oneNormalForAllVertices){
-		   oneNormalForAllVertices = false;
-		   getGL2ES2().glUniform3f(normalLocation, 2,2,2);
+		   resetOneNormalForAllVertices();
 	   }
 
 	   // Select the VBO, GPU memory data, to use for normals 
@@ -445,7 +449,7 @@ public class RendererShaders extends Renderer {
     	// NOT NEEDED (default value)
     	//getGL2ES2().glUniform1i(getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
     	
-    	
+    	resetOneNormalForAllVertices();
      	disableTextures();
     	
         //labels
