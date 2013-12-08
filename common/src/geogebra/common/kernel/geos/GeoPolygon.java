@@ -1477,18 +1477,50 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 * @return if this is a convex polygon
 	 */
 	public boolean isConvex() {
+		
+		int n = getPointsLength();
+		if (n<=3){
+			return true;
+		}
+		
+		double x1 = getPointX(n-1);
+		double y1 = getPointY(n-1);
+		double dx1 = x1 - getPointX(n-2);
+		double dy1 = y1 - getPointY(n-2);
+		
+		double x2 = getPointX(0);
+		double y2 = getPointY(0);
+		double dx2 = x2 - x1;
+		double dy2 = y2 - y1;
+		
+		// calc first orientation
+		int orientation = Kernel.compare(dy1*dx2, dx1*dy2);
+
 		boolean answer = true;
-		int n = points.length;
-		Coords polyDirection = getDirectionInD3();
-		int i = 0;
-		while ((answer == true)&(i<n)) {
-			Coords vec1 = points[(i+1)%n].getInhomCoordsInD(3).sub(points[i].getInhomCoordsInD(3));
-			Coords vec2 = points[(i+2)%n].getInhomCoordsInD(3).sub(points[(i+1)%n].getInhomCoordsInD(3));
-			if (polyDirection.crossProduct(vec1).dotproduct(vec2)<0) {
-				answer = false;
+		int i = 1;
+		while ((answer == true)&&(i<n)) {
+			dx1 = dx2;
+			dy1 = dy2;
+			x1 = x2;
+			y1 = y2;
+			x2 = getPointX(i);
+			y2 = getPointY(i);
+			dx2 = x2 - x1;
+			dy2 = y2 - y1;
+			int orientation2 = Kernel.compare(dy1*dx2, dx1*dy2);
+			//App.debug("i : "+i+" -- orientations : "+orientation+","+orientation2+" -- answer : "+answer);
+			if (orientation == 0){ // no orientation for now
+				orientation = orientation2;
+			}else{				
+				if (orientation2 != 0 && orientation2 != orientation){
+					answer = false;
+				}
 			}
 			i++;
 		}
+		
+		//App.debug(""+answer);
+		
 		return answer;
 	}
 	
@@ -1540,14 +1572,24 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		
 		int min = sweepArray[0];
 		int max = sweepArray[length - 1];
-		boolean startOrientation = true;
+		
+		boolean inverseMinMax = false;
 		if (min > max){
 			int tmp = min;
 			min = max;
 			max = tmp;
-			startOrientation = false;
+			inverseMinMax = true;
 		}	
 		App.debug(min+","+max);
+		
+		//check if top chain is indices between min and max or not
+		int minN1 = (min + 1) % length;
+		int minN2 = (min - 1) % length;
+		double xMin = getPointX(min);
+		double yMin = getPointY(min);
+		boolean topBetween = inverseMinMax ^ Kernel.isGreater((getPointX(minN2)-xMin)*(getPointY(minN1)-yMin), (getPointX(minN1)-xMin)*(getPointY(minN2)-yMin));
+		App.error(""+topBetween);
+
 		
 		// init stack
 		Stack<Integer> stack = new Stack<Integer>();
@@ -1558,8 +1600,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		for (int i = 2 ; i < length ; i++){
 			int top = stack.peek();
 			int vi = sweepArray[i];
+			boolean viBetween = vi > min && vi < max;
 			debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
-			if ((vi > min && vi < max) ^ (top > min && top < max)){ // vi and top are not on the same chain
+			if (viBetween ^ (top > min && top < max)){ // vi and top are not on the same chain
 				debugDiagonal("case 2 ",top,vi);
 				while (!stack.isEmpty()){
 					int v = stack.pop();
@@ -1586,7 +1629,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 					int v = stack.pop();
 					dx2 = getPointX(v) - xi;
 					dy2 = getPointY(v) - yi;
-					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ startOrientation){ // not same orientation
+					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ (viBetween ^ !topBetween)){ // not same orientation
 						stack.push(v); //re-push v in stack
 						go = false;
 					}else{

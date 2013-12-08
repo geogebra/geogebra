@@ -234,6 +234,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			renderer.drawPolygon(n, vertices);
 		}
 		*/
+		
 		renderer.endPolygons();
 		
 		setSurfaceIndex(index);				
