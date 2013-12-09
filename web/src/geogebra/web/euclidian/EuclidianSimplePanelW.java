@@ -5,12 +5,14 @@ import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPanelWAbstract {
+public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPanelWAbstract, RequiresResize {
 
 	AppW app;
 	int oldHeight = 0;
@@ -76,12 +78,39 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 	}
 
 	public void onResize() {
-		// no call
+
+		// This is probably not needed, but what if yes?
+
+		if (app != null) {
+			int h = getOffsetHeight();
+			int w = getOffsetWidth();
+
+			// exit if new size cannot be determined
+			if (h <= 0 || w <= 0) {
+				return;
+			}
+
+			if (h != oldHeight || w != oldWidth) {
+				app.ggwGraphicsViewDimChanged(w, h);
+				oldHeight = h;
+				oldWidth = w;
+			}
+		}
     }
 
 	public void deferredOnResize() {
-		// no call
+
+		// There is probably no need for deferred call here, but what if yes?
+
+		Scheduler.get().scheduleDeferred(onResizeCmd);
+		//onResize();
 	}
+
+	Scheduler.ScheduledCommand onResizeCmd = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			onResize();
+		}
+	};
 
 	public void updateNavigationBar() { }
 }
