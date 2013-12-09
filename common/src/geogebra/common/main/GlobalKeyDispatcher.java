@@ -8,9 +8,11 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.PointProperties;
@@ -549,8 +551,45 @@ public abstract class GlobalKeyDispatcher {
 					}
 					app.setUnsaved();
 					consumed = true;
-					break;
+				} else {
+					
+					// Ctrl-Shift-D
+					// toggle "selection allowed" for all objects
+					// except visible sliders, unfixed points, buttons, checkboxes, InputBoxes, drop-down lists 
+					
+					// what to set all objects to
+					boolean selectionAllowed = false;
+					
+					// check if any geos already have selectionAllowed = false
+					// if so then we will set all to be true
+					TreeSet<GeoElement> objects = app.getKernel().getConstruction().getGeoSetConstructionOrder();
+					Iterator<GeoElement> it = objects.iterator();
+					while (it.hasNext()) {
+						GeoElement geo = it.next();
+						if (!geo.isSelectionAllowed()) {
+							selectionAllowed = true;
+							break;
+						}
+					}
+					
+					it = objects.iterator();
+					while (it.hasNext()) {
+						GeoElement geo = it.next();
+						
+						if (geo instanceof Furniture || 
+								(geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider()) ||
+								(geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) ||
+								geo.isGeoBoolean() ||
+								(geo.isGeoPoint() && !geo.isFixed()) ) {
+							
+							geo.setSelectionAllowed(true);
+						} else {
+							geo.setSelectionAllowed(selectionAllowed);
+						}
+					}
+					
 				}
+				break;
 			}
 		}
 
