@@ -241,4 +241,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	public boolean hasCoords() {
 		return true;
 	}
+
+	public void setSphericalPolarCoords(ExpressionValue r, ExpressionValue theta, ExpressionValue phi) {
+			setCoords(r, theta, phi);
+			//mode = Kernel.COORD_SPHERICAL;
+		}
 }

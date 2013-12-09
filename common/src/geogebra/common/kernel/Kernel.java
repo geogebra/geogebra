@@ -170,6 +170,9 @@ public class Kernel {
 	final public static int COORD_COMPLEX = 5;
 	/** Coord system: 3D cartesian */
 	final public static int COORD_CARTESIAN_3D = 6;
+	/** Coord system: 3D spherical polar */
+	final public static int COORD_SPHERICAL = 7;
+
 	/** 2*Pi */
 	final public static double PI_2 = 2.0 * Math.PI;
 	/** Pi/2 */

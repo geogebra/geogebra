@@ -1636,6 +1636,11 @@ ExpressionValue enelement():
     ev = polarvector()
         { return ev; } 
  |
+    // spherical polar vector   
+    LOOKAHEAD(2147483647)
+    ev = sphericalvector()
+        { return ev; } 
+ |
 	// text (between " ... ")
 	c = <TEXT>
     { 
@@ -2165,6 +2170,25 @@ VectorValue polarvector():
         {                            
              v = new MyVecNode(kernel);                         
              v.setPolarCoords(r, phi);     
+             return v;
+        }          
+}
+
+/**
+ * sphericalvector = ( expression ; expression ; expression )             
+ */
+Vector3DValue sphericalvector():
+{     
+    ExpressionValue r, phi, theta;                  
+    MyVec3DNode v;
+}
+{   
+    (  
+     ( "(" r = expression() <POLAR_SEPARATOR> theta = expression() <POLAR_SEPARATOR> phi = expression() ")" )
+    )   
+        {                            
+             v = new MyVec3DNode(kernel);                         
+             v.setSphericalPolarCoords(r, theta, phi);     
              return v;
         }          
 }
