@@ -2,14 +2,11 @@ package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
-import geogebra.common.gui.view.probcalculator.StatisticsCollection;
-import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +14,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -43,7 +39,7 @@ public class ChiSquarePanelD extends geogebra.common.gui.view.probcalculator.Chi
 	// ======================================
 	private JPanel pnlCount, pnlControl;
 	private JComboBox cbRows, cbColumns;
-	private ChiSquareCell[][] cell;
+	private ChiSquareCellD[][] cell;
 	private JCheckBox ckExpected, ckChiDiff, ckRowPercent, ckColPercent;
 	private JLabel lblRows, lblColumns;
 
@@ -149,13 +145,15 @@ public class ChiSquarePanelD extends geogebra.common.gui.view.probcalculator.Chi
 		pnlCount.removeAll();
 		pnlCount.setLayout(new BoxLayout(pnlCount, BoxLayout.Y_AXIS));
 
-		cell = new ChiSquareCell[sc.rows + 2][sc.columns + 2];
+		cell = new ChiSquareCellD[sc.rows + 2][sc.columns + 2];
 
 		// create grid of cells
 		for (int r = 0; r < sc.rows + 2; r++) {
 			JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
 			for (int c = 0; c < sc.columns + 2; c++) {
-				cell[r][c] = new ChiSquareCell(sc, r, c);
+				cell[r][c] = new ChiSquareCellD(sc, r, c);
+				cell[r][c].setApp(app);
+				cell[r][c].setStatCalc(statCalc);
 				cell[r][c].getInputField().addActionListener(this);
 				cell[r][c].getInputField().addFocusListener(this);
 
@@ -164,7 +162,7 @@ public class ChiSquarePanelD extends geogebra.common.gui.view.probcalculator.Chi
 					cell[r][c].setColumns(10);
 				}
 
-				row.add(cell[r][c]);
+				row.add(cell[r][c].getWrappedPanel());
 			}
 			pnlCount.add(row);
 		}
@@ -352,183 +350,7 @@ public class ChiSquarePanelD extends geogebra.common.gui.view.probcalculator.Chi
 
 	}
 
-	/*****************************************************************
-	 * 
-	 * Class ChiSquareCell: extended JPanel to hold cell components
-	 * 
-	 ***************************************************************** 
-	 */
-	public class ChiSquareCell extends JPanel implements ActionListener,
-			FocusListener {
-
-		private static final long serialVersionUID = 1L;
-
-		private StatisticsCollection sc;
-
-		private MyTextField fldInput;
-		private JLabel[] label;
-
-		private boolean isMarginCell = false;
-		private boolean isHeaderCell = false;
-
-		private int row, column;
-
-		/**
-		 * Construct ChiSquareCell with given row, column
-		 */
-		public ChiSquareCell(StatisticsCollection sc, int row, int column) {
-			this(sc);
-			this.row = row;
-			this.column = column;
-		}
-
-		/**
-		 * Construct ChiSquareCell
-		 */
-		public ChiSquareCell(StatisticsCollection sc) {
-
-			this.sc = sc;
-			setOpaque(true);
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-			fldInput = new MyTextField((AppD) app);
-			fldInput.addActionListener(this);
-			fldInput.addFocusListener(this);
-			add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));
-
-			label = new JLabel[5];
-			for (int i = 0; i < label.length; i++) {
-				label[i] = new JLabel();
-				label[i].setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-				add(LayoutUtil.flowPanelCenter(0, 0, 0, label[i]));
-			}
-			setColumns(4);
-			setVisualStyle();
-			hideAllLabels();
-
-		}
-
-		public void setColumns(int columns) {
-			fldInput.setColumns(columns);
-
-			// force a minimum width for margin cells
-			add(Box.createHorizontalStrut(fldInput.getPreferredSize().width));
-
-		}
-
-		/**
-		 * hide all labels
-		 */
-		public void hideAllLabels() {
-			for (int i = 0; i < label.length; i++) {
-				label[i].setVisible(false);
-			}
-		}
-
-		/**
-		 * hide all
-		 */
-		public void hideAll() {
-			hideAllLabels();
-			fldInput.setVisible(false);
-			setBorder(BorderFactory.createEmptyBorder());
-		}
-
-		/**
-		 * @return input field
-		 */
-		public MyTextField getInputField() {
-			return fldInput;
-		}
-
-		/**
-		 * @return label array
-		 */
-		public JLabel[] getLabel() {
-			return label;
-		}
-
-		public void setLabelText(int index, String s) {
-			label[index].setText(s);
-		}
-
-		public void setLabelVisible(int index, boolean isVisible) {
-			label[index].setVisible(isVisible);
-		}
-
-		public void setMarginCell(boolean isMarginCell) {
-			this.isMarginCell = isMarginCell;
-			setVisualStyle();
-		}
-
-		public void setHeaderCell(boolean isHeaderCell) {
-			this.isHeaderCell = isHeaderCell;
-			setVisualStyle();
-		}
-
-		private void setVisualStyle() {
-			setBackground(null);
-			fldInput.setVisible(false);
-
-			if (isMarginCell) {
-				setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-				setLabelVisible(0, true);
-
-			} else if (isHeaderCell) {
-				setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-				fldInput.setVisible(true);
-				fldInput.setBackground(geogebra.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
-
-			} else {
-				fldInput.setVisible(true);
-				setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-				fldInput.setBackground(geogebra.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.WHITE));
-			}
-
-		}
-
-		public int getRow() {
-			return row;
-		}
-
-		public void setRow(int row) {
-			this.row = row;
-		}
-
-		public int getColumn() {
-			return column;
-		}
-
-		public void setColumn(int column) {
-			this.column = column;
-		}
-
-		private void updateCellData() {
-			sc.chiSquareData[row][column] = fldInput.getText();
-		}
-
-		public void focusGained(FocusEvent e) {
-			if (e.getSource() instanceof MyTextField) {
-				((MyTextField) e.getSource()).selectAll();
-			}
-		}
-
-		public void focusLost(FocusEvent e) {
-			updateCellData();
-			statCalc.updateResult();
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			updateCellData();
-			statCalc.updateResult();
-
-		}
-		
-		
-
-	}
+	
 	
 	/**
 	 * @return the GUI wrapper panel

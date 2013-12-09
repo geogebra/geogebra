@@ -1271,4 +1271,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	    textField.getValueBox().addFocusHandler(hanlder);
 	    
     }
+
+	public void selectAll() {
+		textField.getValueBox().selectAll();
+	}
 }
