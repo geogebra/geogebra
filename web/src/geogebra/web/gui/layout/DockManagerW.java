@@ -509,7 +509,7 @@ public class DockManagerW extends DockManager {
 		}
 		
 		// Hide the source first
-		hide(source, false);
+		hide(source, false, true);
 		
 		source.setVisible(true);
 		
@@ -597,9 +597,7 @@ public class DockManagerW extends DockManager {
 		
 		app.updateCenterPanel(true);
 		//updatePanels();
-		
-		
-		
+
 		double dividerLocation = 0;
 		
 		if(dndRegion == DnDState.LEFT || dndRegion == DnDState.LEFT_OUT
@@ -640,9 +638,8 @@ public class DockManagerW extends DockManager {
 		// TODO What does the resize do which will update the component ?!
 		//app.repaintEuclidianViews(rootPane);
 		//rootPane.onResize();
-		
-	 }
-	
+	}
+
 	private void setDividerLocation(DockSplitPaneW splitPane,
 	        double dividerLocation) {
 		final double dividerLoc = dividerLocation;
@@ -650,16 +647,11 @@ public class DockManagerW extends DockManager {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
 				sp.setDividerLocation(dividerLoc);
-			}
-		});
-		
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			public void execute() {
-				app.doOnResize();
+				rootPane.deferredOnResize();
 			}
 		});
 	}
-	
+
 	/**
 	 * Show a DockPanel identified by its ID.
 	 * 
@@ -920,7 +912,7 @@ public class DockManagerW extends DockManager {
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(int viewId, boolean isPermanent) {
-		return hide(getPanel(viewId), isPermanent);
+		return hide(getPanel(viewId), isPermanent, false);
 	}
 	
 	/**
@@ -930,7 +922,7 @@ public class DockManagerW extends DockManager {
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(DockPanelW panel) {
-		return hide(panel, true);
+		return hide(panel, true, false);
 	}
 
 	/**
@@ -948,7 +940,7 @@ public class DockManagerW extends DockManager {
 	 * @param isPermanent says if the close is permanent
 	 */
 	public void closePanel(DockPanelW panel, boolean isPermanent){
-		if (hide(panel, isPermanent)){
+		if (hide(panel, isPermanent, false)){
 			app.updateMenubar();
 
 			if(getFocusedPanel() == panel) {
@@ -974,7 +966,7 @@ public class DockManagerW extends DockManager {
 	 * @param isPermanent If this change is permanent.
 	 * @return true if it succeeded to hide the panel
 	 */
-	public boolean hide(DockPanelW panel, boolean isPermanent) {
+	public boolean hide(DockPanelW panel, boolean isPermanent, boolean fromDrop) {
 		if(!panel.isVisible()) {
 			// some views (especially CAS) will close so slowly that the user is able
 			// to issue another "close" call, therefore we quit quietly
@@ -1053,10 +1045,18 @@ public class DockManagerW extends DockManager {
 		//		app.validateComponent();
 		//	}
 
-			if (opposite.getParent() instanceof DockSplitPaneW) {
-				((DockSplitPaneW)opposite.getParent()).deferredOnResize();
-			} else if (opposite instanceof DockSplitPaneW) {
-				((DockSplitPaneW)opposite).deferredOnResize();
+			if (fromDrop) {
+				if (opposite.getParent() instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite.getParent()).onResize();
+				} else if (opposite instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite).onResize();
+				}
+			} else {
+				if (opposite.getParent() instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite.getParent()).deferredOnResize();
+				} else if (opposite instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite).deferredOnResize();
+				}
 			}
 
 			if(panel.hasToolbar()) {
@@ -1699,7 +1699,7 @@ public class DockManagerW extends DockManager {
 		restorePerspective = layout.createPerspective("tmp");
 		for (int i = 0; i < getPanels().length; i++) {
 			if (getPanels()[i] != dp) {
-				hide(getPanels()[i], false);
+				hide(getPanels()[i], false, false);
 			}
 		}
 		isMaximized = true;

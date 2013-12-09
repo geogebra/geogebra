@@ -164,14 +164,12 @@ public class ChiSquareCellW extends ChiSquareCell implements KeyHandler, FocusHa
 		return wrappedPanel;
 	}
 
-	@Override
     public void keyReleased(KeyEvent e) {
 		updateCellData();
 		statCalc.updateResult();
 	    
     }
 
-	@Override
     public void onFocus(FocusEvent event) {
 		if (event.getSource() instanceof AutoCompleteTextFieldW) { //possibly wont be good
 			((AutoCompleteTextFieldW) event.getSource()).selectAll();

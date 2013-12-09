@@ -184,10 +184,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	    return euclidianpanel;
     }
 
-	public void onResize() {
-		super.onResize();
-    }
-
 	public void add(Widget w, int x, int y) {
 	    euclidianpanel.add(w,x,y);
     }
