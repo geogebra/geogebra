@@ -33,7 +33,7 @@ public interface GeoGebraConstants {
 	public static final String VERSION_URL_MINOR = "http://www.geogebra.org/download/version50.txt";
 	// This is used for checking whether a major update exists (monthly):
 	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
-	public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://code.google.com/p/geogebra/downloads/list?can=2&q=4.9"
+	public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://download.geogebra.org/installers/5.0"
 			: "http://www.geogebra.org/installers";
 
 	/** Splash filename -- used for online */
