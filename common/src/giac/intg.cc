@@ -2101,13 +2101,13 @@ namespace giac {
       b=f._VECTptr->back();
       if (is_minus_one(b))
 	return rdiv(lnabs(f._VECTptr->front(),contextptr),a,contextptr);
-      return gen_x*symbolic(at_surd,f)/(a+a/b);
+      return f._VECTptr->front()*symbolic(at_surd,f)/(a+a/b);
     }
     if ( (u==at_NTHROOT) && is_constant_wrt(f._VECTptr->front(),gen_x,contextptr) && is_linear_wrt(f._VECTptr->back(),gen_x,a,b,contextptr) ){
       b=f._VECTptr->front();
       if (is_minus_one(b))
 	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
-      return gen_x*symbolic(at_NTHROOT,f)/(a+a/b);
+      return f._VECTptr->back()*symbolic(at_NTHROOT,f)/(a+a/b);
     }
 #ifndef EMCC
     if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
@@ -3864,6 +3864,10 @@ namespace giac {
       if (type==2)
 	return prodsum(v,false);
     }
+    // This will not work if v[0] has auto-quoting functions inside
+    // because arguments are not evaled, hence replacement of v[1] by value
+    // is not done inside arguments.
+    // Example Ya:=desolve([y'+x*y=0,y(0)=a]); seq(plot(Ya),a,1,3); 
     gen debut=v[2],fin=v[3];
     if (is_greater(abs(fin-debut),LIST_SIZE_LIMIT,contextptr))
       return gendimerr(contextptr);
@@ -3873,7 +3877,8 @@ namespace giac {
 	step=-step;
       for (;!ctrl_c && !interrupted && is_greater(debut,fin,contextptr);debut=debut+step){
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
-	tmp=quotesubst(eval(tmp,contextptr),v[1],debut,contextptr);
+	tmp=eval(tmp,contextptr);
+	tmp=quotesubst(tmp,v[1],debut,contextptr);
 #ifdef RTOS_THREADX
 	tmp=evalf(tmp,1,contextptr);
 #endif
@@ -3885,7 +3890,8 @@ namespace giac {
 	step=-step;
       for (;!ctrl_c && !interrupted && is_greater(fin,debut,contextptr);debut=debut+step){
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
-	tmp=quotesubst(eval(tmp,contextptr),v[1],debut,contextptr);
+	tmp=eval(tmp,contextptr);
+	tmp=quotesubst(tmp,v[1],debut,contextptr);
 #ifdef RTOS_THREADX
 	tmp=evalf(tmp,1,contextptr);
 #endif

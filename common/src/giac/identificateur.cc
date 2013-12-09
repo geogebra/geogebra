@@ -802,7 +802,7 @@ namespace giac {
     }
     return false;
     size_t ss=strlen(s);
-#ifdef ASPEN_GEOMETRY
+#ifdef GIAC_HAS_STO_38
     if (
 	(ss>1 && s[0]=='G')
 #ifndef CAS38_DISABLED

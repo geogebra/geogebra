@@ -1125,6 +1125,21 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,sqrt(b,contextptr)),_SEQ__VECT));
     if (e.is_symb_of_sommet(at_inv))
       return inv(sqrt(e._SYMBptr->feuille,contextptr),contextptr);
+    if (e.type==_SYMB){
+      vecteur v=lvar(e);
+      if (v.size()==1 && v.front().is_symb_of_sommet(at_pow) && v.front()._SYMBptr->feuille[1]==plus_one_half && is_integer(v.front()._SYMBptr->feuille[0])){
+	gen a,b,c=v.front()._SYMBptr->feuille[0];
+	if (is_linear_wrt(e,v.front(),b,a,contextptr) && (is_integer(a) ||a.type==_FRAC) && (is_integer(b) || b.type==_FRAC)){
+	  gen d=a*a-b*b*c;
+	  if (is_positive(d,contextptr)){
+	    d=sqrt(d,contextptr);
+	    if (is_integer(d) || d.type==_FRAC){
+	      return sqrt((a+d)/2,contextptr)+sign(b,contextptr)*sqrt((a-d)/2,contextptr);
+	    }
+	  }
+	}
+      }
+    }
     return pow(e,plus_one_half,contextptr);
   }
   static gen d_sqrt(const gen & e,GIAC_CONTEXT){

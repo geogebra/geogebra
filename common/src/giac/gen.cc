@@ -5290,6 +5290,13 @@ namespace giac {
       return base;
     if (is_undef(exponent))
       return exponent;
+    {
+      gen a,b;
+      if (is_algebraic_program(base,a,b))
+	return symbolic(at_program,gen(makevecteur(a,0,pow(b,exponent,contextptr)),_SEQ__VECT));
+      if (is_algebraic_program(exponent,a,b))
+	return symbolic(at_program,gen(makevecteur(a,0,pow(base,b,contextptr)),_SEQ__VECT));
+    }
     if (base.type==_VECT && base.subtype!=_POLY1__VECT && !is_squarematrix(base)){
       *logptr(contextptr) << gettext("Warning, ^ is ambiguous on non square matrices. Use .^ to apply ^ element by element.") << endl;
       if (exponent.type==_VECT)
@@ -5306,6 +5313,21 @@ namespace giac {
 	  return sqrt(base,contextptr);
 	if (exponent==minus_one_half)
 	  return inv(sqrt(base,contextptr),contextptr);
+      }
+      if (exponent._FRACptr->num==1 && exponent._FRACptr->den==2 && base.type==_SYMB){
+	vecteur v=lvar(base);
+	if (v.size()==1 && v.front().is_symb_of_sommet(at_pow) && v.front()._SYMBptr->feuille[1]==plus_one_half && is_integer(v.front()._SYMBptr->feuille[0])){
+	  gen a,b,c=v.front()._SYMBptr->feuille[0];
+	  if (is_linear_wrt(base,v.front(),b,a,contextptr) && (is_integer(a) ||a.type==_FRAC) && (is_integer(b) || b.type==_FRAC)){
+	    gen d=a*a-b*b*c;
+	    if (is_positive(d,contextptr)){
+	      d=sqrt(d,contextptr);
+	      if (is_integer(d) || d.type==_FRAC){
+		return sqrt((a+d)/2,contextptr)+sign(b,contextptr)*sqrt((a-d)/2,contextptr);
+	      }
+	    }
+	  }
+	}
       }
       return pow(base,new_ref_symbolic(symbolic(at_prod,makesequence(exponent._FRACptr->num,symb_inv(exponent._FRACptr->den)))),contextptr);
     }

@@ -974,6 +974,8 @@ namespace giac {
   // AND m is not already defined as an array
   bool is_array_index(const gen & m,const gen & i,GIAC_CONTEXT);
 
+  gen _autosimplify(const gen & g,GIAC_CONTEXT);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

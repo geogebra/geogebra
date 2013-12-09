@@ -3179,6 +3179,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_complex_variables_=_complex_variables_;
      ptr->globalptr->_increasing_power_=_increasing_power_;
      ptr->globalptr->_approx_mode_=_approx_mode_;
+     ptr->globalptr->_autosimplify_=_autosimplify_();
      ptr->globalptr->_angle_mode_=_angle_mode_;
      ptr->globalptr->_variables_are_files_=_variables_are_files_;
      ptr->globalptr->_bounded_function_no_=_bounded_function_no_;
@@ -3204,7 +3205,8 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_rand_seed=_rand_seed;
      ptr->globalptr->_language_=_language_;
      ptr->globalptr->_max_sum_sqrt_=_max_sum_sqrt_;      
-     ptr->globalptr->_max_sum_add_=_max_sum_add_;      
+     ptr->globalptr->_max_sum_add_=_max_sum_add_;   
+     
   }
 
   context * clone_context(const context * contextptr) {

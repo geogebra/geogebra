@@ -330,7 +330,7 @@ inline giac_bcdfloat strtobcd(const char *nptr,const char **endptr, CHPPrintData
 giac_bcdfloat strtobcd(const char *nptr,const char **endptr);
 inline double get_double(const giac_bcdfloat & f) { 
   // FIXME
-#ifdef ASPEN_GEOMETRY
+#ifdef GIAC_HAS_STO_38
   return bcd_get_float(f.f);
 #else
   char ch[32]; char * endchar;
