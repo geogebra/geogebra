@@ -1073,6 +1073,8 @@ public class DockManagerW extends DockManager {
 						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
 					else if (app.getGuiManager().hasCasView() && app.getGuiManager().getCasView().isShowing())
 						app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
+					//else if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().isShowing())
+					//	app.getGuiManager().setActiveToolbarId(App.VIEW_SPREADSHEET);
 					// what else can it be??
 					else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
 						app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);

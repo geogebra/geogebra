@@ -9,6 +9,7 @@ import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.awt.GRectangle2DW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -181,6 +182,10 @@ public class SpreadsheetMouseListenerW implements
 	}*/
 
 	public void onMouseDown(MouseDownEvent e) {
+
+		if (app.getGuiManager() != null) {
+			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_SPREADSHEET);
+		}
 
 		if (this.editEnabled) {
 			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
