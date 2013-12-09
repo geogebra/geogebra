@@ -82,7 +82,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    
 	    //drop down menu for rows/columns 2-12
 	    
-	    ArrayList<String> num = new ArrayList<>();
+	    ArrayList<String> num = new ArrayList<String>();
 	    
 	    cbRows = new ListBox();
 	    cbColumns = new ListBox();
@@ -101,13 +101,13 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	        
     }
 
-	@Override
+	//@Override
     public void onValueChange(ValueChangeEvent<Boolean> event) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	//@Override
     public void onChange(ChangeEvent event) {
 	    // TODO Auto-generated method stub
 	    
