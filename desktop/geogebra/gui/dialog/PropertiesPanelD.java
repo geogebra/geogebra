@@ -73,6 +73,7 @@ import geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsLis
 import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import geogebra.common.gui.inputfield.DynamicTextElement;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
@@ -3101,7 +3102,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			
 		}
 
-		public void selectFont(int index) {
+	 	public void selectFont(int index) {
 			cbFont.setSelectedIndex(index);
 			
 		}
@@ -3139,6 +3140,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					|| style == (Font.BOLD + Font.ITALIC));
 
 
+		}
+
+		public void setEditorText(ArrayList<DynamicTextElement> list) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 

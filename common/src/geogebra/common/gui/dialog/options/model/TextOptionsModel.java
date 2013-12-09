@@ -1,6 +1,7 @@
 package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.gui.inputfield.DynamicTextElement;
+import geogebra.common.gui.inputfield.DynamicTextProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
@@ -25,6 +26,9 @@ public class TextOptionsModel extends OptionsModel {
 		void setSecondLineVisible(boolean noDecimals);
 
 		void selectFontStyle(int style);
+		
+		void setEditorText(ArrayList<DynamicTextElement> list);
+		
 		void updatePreview();
 	}
 
@@ -35,11 +39,14 @@ public class TextOptionsModel extends OptionsModel {
 	private String[] fonts = { "Sans Serif", "Serif" };
 	private App app;
 	private Localization loc;
-
+    private DynamicTextProcessor dTProcessor; 
+    private GeoText editGeo;
 	public TextOptionsModel(App app, ITextOptionsListener listener) {
 		this.listener = listener;
 		this.app = app;
 		loc = app.getLocalization();
+		dTProcessor = new DynamicTextProcessor(app);
+		editGeo = null;
 	}
 
 	@Override
@@ -68,9 +75,15 @@ public class TextOptionsModel extends OptionsModel {
 		return true;
 	}
 
+	
 	public TextProperties getTextPropertiesAt(int index) {
 		return (TextProperties) getObjectAt(index);
 	}
+	
+	public GeoText getGeoTextAt(int index) {
+		return (GeoText) getObjectAt(index);
+	}
+	
 	@Override
 	public void updateProperties() {
 		listener.setWidgetsVisible(!justDisplayFontSize, getGeoAt(0).isGeoButton());
@@ -106,8 +119,7 @@ public class TextOptionsModel extends OptionsModel {
 		listener.setSecondLineVisible(getGeoAt(0).isIndependent()
 				|| (geo0 instanceof GeoList));
 
-
-
+		listener.setEditorText(dTProcessor.buildDynamicTextList(getGeoTextAt(0)));
 		listener.selectFontStyle(geo0.getFontStyle());
 
 	}
@@ -145,7 +157,7 @@ public class TextOptionsModel extends OptionsModel {
 			text.setFontSizeMultiplier(value);
 			getGeoAt(i).updateVisualStyleRepaint();
 		}
-
+		((TextProperties)editGeo).setFontSizeMultiplier(value);
 		listener.updatePreview();
 	}
 
@@ -163,6 +175,8 @@ public class TextOptionsModel extends OptionsModel {
 			text.setSerifFont(isSerif);
 			getGeoAt(i).updateVisualStyleRepaint();
 		}
+
+		((TextProperties)editGeo).setSerifFont(isSerif);
 		listener.updatePreview();
 	}
 
@@ -203,34 +217,29 @@ public class TextOptionsModel extends OptionsModel {
 		
 	}
 
+	public String getGeoGebraString(ArrayList<DynamicTextElement> list,
+			boolean isLatex) {
+		return dTProcessor.buildGeoGebraString(list, isLatex);
+	}
+
 	public GeoText getEditGeo() {
-		// TODO Auto-generated method stub
-		return null;
+		return editGeo;
+	}
+
+	public void setEditGeo(GeoText editGeo) {
+		this.editGeo = editGeo;
+	}
+
+	public void applyEditedGeo(String text, boolean isLatex) {
+		GeoText geo0 = getGeoTextAt(0);
+		geo0.setTextString(text);
+		geo0.setLaTeX(isLatex, true);
+		geo0.updateRepaint();
+		editGeo = null;
 	}
 
 	public void cancelEditGeo() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void applyEditedGeo(String text, boolean latex) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public String getGeoGebraString(
-			ArrayList<DynamicTextElement> dynamicTextList, boolean latex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public GeoText getGeoTextAt(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setEditGeo(GeoText geoTextAt) {
-		// TODO Auto-generated method stub
-		
+		editGeo = null;
+		listener.updatePreview();
 	}
 }

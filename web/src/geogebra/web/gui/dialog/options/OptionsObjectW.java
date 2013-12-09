@@ -2062,7 +2062,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
 				previewer = advancedPanel.getPreviewer();
 				mainPanel.add(advancedPanel);
-	
+				//mainPanel.add(previewer.getPanel());
+				
 				btnPanel = new FlowPanel();
 				btnOk = new Button();
 				btnPanel.add(btnOk);
