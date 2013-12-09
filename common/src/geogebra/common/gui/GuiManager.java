@@ -198,7 +198,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 					processedUrlString = "http://www.geogebratube.org/files/material-";
 				}
 				
+				// Add the login token to assure that private files of the loggen in user can be accessed
 				processedUrlString += id + ".ggb";
+				if (app.getLoginOperation().isLoggedIn()) {
+					String token = app.getLoginOperation().getModel().getLoggedInUser().getLoginToken();
+					if (token != null) {
+						processedUrlString += "?lt=" + token;
+					}
+				}
 	
 				App.debug(processedUrlString);
 				success = loadURL_GGB(processedUrlString);
