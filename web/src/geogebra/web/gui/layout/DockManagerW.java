@@ -1053,9 +1053,10 @@ public class DockManagerW extends DockManager {
 		//		app.validateComponent();
 		//	}
 
-			final Widget dsp = opposite.getParent();
 			if (opposite.getParent() instanceof DockSplitPaneW) {
 				((DockSplitPaneW)opposite.getParent()).deferredOnResize();
+			} else if (opposite instanceof DockSplitPaneW) {
+				((DockSplitPaneW)opposite).deferredOnResize();
 			}
 
 			if(panel.hasToolbar()) {
