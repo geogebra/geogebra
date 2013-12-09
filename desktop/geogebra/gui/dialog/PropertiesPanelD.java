@@ -2040,17 +2040,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void setLabels() {
 			intervalLabel.setText(app.getPlain("AngleBetween"));
 
+			intervalCombo.removeActionListener(this);
 			setComboLabels();
+			intervalCombo.addActionListener(this);
 		}
 
 		@SuppressWarnings("unchecked")
 		public void setComboLabels() {
-			intervalCombo.removeActionListener(this);
+			int idx = intervalCombo.getSelectedIndex();
 			intervalCombo.removeAllItems();
 
 			model.fillModes(loc);
-
-			intervalCombo.addActionListener(this);
+			intervalCombo.setSelectedIndex(idx);
 		}
 
 		public JPanel update(Object[] geos) {
