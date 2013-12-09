@@ -7,6 +7,7 @@ import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
@@ -155,6 +156,12 @@ public class ManagerGLList extends Manager {
     @Override
 	public void drawPolygonConvex(Coords n, Coords[] v){
     	drawPolygon(n, v);
+    }
+    
+    
+    @Override
+	public void drawTriangleFan(Coords n, Coords[] v, ArrayList<Integer> triFan){
+    	// TODO merge this
     }
     
     @Override

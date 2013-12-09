@@ -40,13 +40,11 @@ import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Stack;
 import java.util.TreeSet;
 
 /**
@@ -1478,18 +1476,45 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 */
 	public boolean isConvex() {
 		
-		int n = getPointsLength();
+		// remove same successive points
+		ArrayList<Double> xList = new ArrayList<Double>();
+		ArrayList<Double> yList = new ArrayList<Double>();
+		double x0 = getPointX(0);
+		double y0 = getPointY(0);
+		xList.add(x0);
+		yList.add(y0);
+		for (int i = 1; i < getPointsLength(); i++){
+			double x1 = getPointX(i);
+			double y1 = getPointY(i);
+			if (!Kernel.isEqual(x0, x1) || !Kernel.isEqual(y0, y1)){
+				xList.add(x1);
+				yList.add(y1);
+				x0 = x1;
+				y0 = y1;
+			}
+		}
+		
+		int n = xList.size();
+		
+		// remove last point if equals first points
+		if (!Kernel.isEqual(xList.get(0), xList.get(n-1)) || !Kernel.isEqual(yList.get(0), yList.get(n-1))){
+			xList.remove(n-1);
+			yList.remove(n-1);
+			n--;
+		}
+		
+		
 		if (n<=3){
 			return true;
 		}
 		
-		double x1 = getPointX(n-1);
-		double y1 = getPointY(n-1);
-		double dx1 = x1 - getPointX(n-2);
-		double dy1 = y1 - getPointY(n-2);
+		double x1 = xList.get(n-1);
+		double y1 = yList.get(n-1);
+		double dx1 = x1 - xList.get(n-2);
+		double dy1 = y1 - yList.get(n-2);
 		
-		double x2 = getPointX(0);
-		double y2 = getPointY(0);
+		double x2 = xList.get(0);
+		double y2 = yList.get(0);
 		double dx2 = x2 - x1;
 		double dy2 = y2 - y1;
 		
@@ -1503,12 +1528,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			dy1 = dy2;
 			x1 = x2;
 			y1 = y2;
-			x2 = getPointX(i);
-			y2 = getPointY(i);
+			x2 = xList.get(i);
+			y2 = yList.get(i);
 			dx2 = x2 - x1;
 			dy2 = y2 - y1;
 			int orientation2 = Kernel.compare(dy1*dx2, dx1*dy2);
-			//App.debug("i : "+i+" -- orientations : "+orientation+","+orientation2+" -- answer : "+answer);
+			//App.debug(""+answer);
+			//App.debug("i : "+i+" -- orientations : "+orientation+","+orientation2);
 			if (orientation == 0){ // no orientation for now
 				orientation = orientation2;
 			}else{				
@@ -1525,139 +1551,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 	
 	
-	/**
-	 * 
-	 * @return list of vertex indices, which forms triangles tessalating the polygon
-	 */
-	public ArrayList<Integer> getTriangulation(){
-		ArrayList<Integer> ret = new ArrayList<Integer>();
-		
-		final int length = getPointsLength();
-		
-		// put 2D indices in sweep order (smaller x, then smaller y)
-		TreeSet<Integer> sweepTree = new TreeSet<Integer>(getSweepComparator());
-		for (int i = 0; i < length; i++){
-			sweepTree.add(i);
-		}
-		App.error("sweepTree:");
-		for (int i : sweepTree){
-			App.debug(i+": "+getPointsND()[i]);
-		}
-		
-		
-		
-		/*
-		// find points with edges both on right or both on left
-		double x0 = getPointX(length - 2);
-		double x1 = getPointX(length - 1);
-		double x2;
-		for (int i = 0 ; i < length ; i++){
-			x2 = getPointX(i);
-			if (Kernel.isGreater(x1, x0) && Kernel.isGreater(x1, x2)){
-				App.debug((i-1)+" : both left");
-			}else if (Kernel.isGreater(x0, x1) && Kernel.isGreater(x2, x1)){
-				App.debug((i-1)+" : both right");
-			}
-			x0 = x1;
-			x1 = x2;
-		}
-		*/
-		
-		int[] sweepArray = new int[length];
-		int index = 0;
-		for (int i : sweepTree){
-			sweepArray[index] = i;
-			index++;
-		}
-		
-		int min = sweepArray[0];
-		int max = sweepArray[length - 1];
-		
-		boolean inverseMinMax = false;
-		if (min > max){
-			int tmp = min;
-			min = max;
-			max = tmp;
-			inverseMinMax = true;
-		}	
-		App.debug(min+","+max);
-		
-		//check if top chain is indices between min and max or not
-		int minN1 = (min + 1) % length;
-		int minN2 = (min - 1) % length;
-		double xMin = getPointX(min);
-		double yMin = getPointY(min);
-		boolean topBetween = inverseMinMax ^ Kernel.isGreater((getPointX(minN2)-xMin)*(getPointY(minN1)-yMin), (getPointX(minN1)-xMin)*(getPointY(minN2)-yMin));
-		App.error(""+topBetween);
-
-		
-		// init stack
-		Stack<Integer> stack = new Stack<Integer>();
-		stack.push(sweepArray[0]);
-		stack.push(sweepArray[1]);
-		
-		// loop
-		for (int i = 2 ; i < length ; i++){
-			int top = stack.peek();
-			int vi = sweepArray[i];
-			boolean viBetween = vi > min && vi < max;
-			debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
-			if (viBetween ^ (top > min && top < max)){ // vi and top are not on the same chain
-				debugDiagonal("case 2 ",top,vi);
-				while (!stack.isEmpty()){
-					int v = stack.pop();
-					debugDiagonal("diagonal : ",vi,v);
-				}
-				stack.push(top);
-				stack.push(vi);
-				
-			}else{ // vi and top are on the same chain
-				debugDiagonal("case 1 ",top,vi);
-				double xi = getPointX(vi);
-				double yi = getPointY(vi);
-				
-				// first correct point
-				int vk = stack.pop();
-				debugDiagonal("diagonal : ",vi,vk);
-				double dx2 = getPointX(vk) - xi;
-				double dy2 = getPointY(vk) - yi;
-				
-				boolean go = true;
-				while (!stack.isEmpty() && go){
-					double dx1 = dx2;
-					double dy1 = dy2;
-					int v = stack.pop();
-					dx2 = getPointX(v) - xi;
-					dy2 = getPointY(v) - yi;
-					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ (viBetween ^ !topBetween)){ // not same orientation
-						stack.push(v); //re-push v in stack
-						go = false;
-					}else{
-						vk = v;
-						debugDiagonal("diagonal : ",vi,vk);
-					}
-				}
-				stack.push(vk);
-				stack.push(vi);
-			}
-			
-		}
-		
-		return ret;
-	}
 	
-	private void debugDiagonal(String s, int vi, int vk){
-		App.debug(s+" : "+((GeoElement) getPointsND()[vi]).getLabelSimple()+"--"+((GeoElement) getPointsND()[vk]).getLabelSimple());
-	}
 	
-	private SweepComparator sweepComparator;
-	
-	private SweepComparator getSweepComparator(){
-		if (sweepComparator == null){
-			sweepComparator = new SweepComparator(this);
-		}
-		return sweepComparator;
-	}
 	
 	
 	private class SweepComparator implements Comparator<Integer>{

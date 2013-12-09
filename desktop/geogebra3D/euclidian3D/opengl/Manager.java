@@ -6,6 +6,7 @@ import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Class that manage all geometry objects
@@ -180,6 +181,15 @@ abstract public class Manager {
      * @param v vertices
      */
 	abstract public void drawPolygonConvex(Coords n, Coords[] v);
+	
+	
+	/**
+	 * draw a triangle fan
+	 * @param n normal
+	 * @param v vertices
+	 * @param triFan indices
+	 */
+	abstract public void drawTriangleFan(Coords n, Coords[] v, ArrayList<Integer> triFan);
 	
 	/**
 	 * end the polygons
