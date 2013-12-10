@@ -2364,7 +2364,7 @@ __GGB__keysVar.pt_PT.plain = {
     "LineThroughAParallelToBPerpendicularToC": "Reta contendo %0 paralela a %1 e perpendicular a %2",
     "LineThroughAPerpendicularToB": "Reta que cont\xe9m %0 e \xe9 perpendicular a %1",
     "LineThroughAPerpendicularToBAndC": "Reta contendo %0 perpendicular a %1 e %2",
-    "LineThroughAPerpendicularToBInXOYPlane": "Reta no plano contendo %0, perpendicular \xe0 interse\xe7\xe3o %1",
+    "LineThroughAPerpendicularToBInXOYPlane": "Reta no plano xOy contendo %0, perpendicular \xe0 interse\xe7\xe3o %1",
     "LineThroughAPerpendicularToBParallelToC": "Reta contendo %0 perpendicular a %1 e paralela a %2",
     "LineThroughAPerpendicularToBinSpace": "Reta no espa\xe7o contendo %0, perpendicular \xe0 interse\xe7\xe3o %1",
     "LineThroughAwithDirectionB": "Reta que cont\xe9m %0 com a dire\xe7\xe3o de %1",
