@@ -157,7 +157,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
 		case GIAC:			
-			if (mode == Kernel.COORD_SPHERICAL) {
+			switch (mode) {
+			case Kernel.COORD_SPHERICAL:
 				sb.append("point((");
 				sb.append(print(x, values, tpl));
 				sb.append(")*cos(");
@@ -175,12 +176,34 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 				sb.append(")*sin(");
 				sb.append(print(z, values, tpl));
 				sb.append("))");
-			} else {			
+				break;
+				
+			case Kernel.COORD_CARTESIAN_3D:
+				sb.append("point(");
+				sb.append(print(x, values, tpl));
+				sb.append(',');
+				sb.append(print(y, values, tpl));
+				sb.append(',');
+				sb.append(print(z, values, tpl));
+				sb.append(")");
+				break;
+				
+			case Kernel.COORD_COMPLEX:
+				sb.append("(");
+				sb.append(print(x, values, tpl));
+				sb.append("+i*(");
+				sb.append(print(y, values, tpl));
+				sb.append("))");
+				break;
+				
+			default:
+			case Kernel.COORD_CARTESIAN:
 				sb.append("point(");
 				sb.append(print(x, values, tpl));
 				sb.append(',');
 				sb.append(print(y, values, tpl));
 				sb.append(")");
+				break;
 			}
 			break;
 		default:
