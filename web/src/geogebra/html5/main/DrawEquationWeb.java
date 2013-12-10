@@ -354,11 +354,13 @@ public class DrawEquationWeb extends DrawEquation {
 			// adding rotateDegree again, just for the id
 			eqstringid = "\\rotatebox{" + rotateDegree + "}{ " + eqstring + " }";
 		}
-		eqstringid = prestring + "@" + eqstringid + "@" + geo.getID();
 
 		int fontSizeR = 16;
 		if (fontSize <= 10)
 			fontSizeR = 10;
+
+		eqstringid = "\\scaling{" + eqstringid + "}{ " + fontSize + "}";
+		eqstringid = prestring + "@" + eqstringid + "@" + geo.getID();
 
 		SpanElement ih = equations.get(eqstringid);
 		equationAges.put(eqstringid, 0);
