@@ -66,6 +66,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
@@ -120,7 +121,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsObjectW extends
-geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
+geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW,
+GeoElementSelectionListener {
 	private Localization loc;
 
 	TabPanel tabPanel;
@@ -1915,7 +1917,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 	}
 
 	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
-	ITextEditPanel {
+	ITextEditPanel, GeoElementSelectionListener {
 		private static final int FontBOLD = 1;
 
 		private static final int FontITALIC = 2;
@@ -1941,6 +1943,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		private TextEditAdvancedPanel advancedPanel;
 
 		private TextPreviewPanelW previewer;
+		private GeoText orig;
 		public TextOptionsPanel() {
 
 			model = new TextOptionsModel(app, this);
@@ -2023,7 +2026,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 					public void onClick(ClickEvent event) {
 	                    model.getEditGeo().setLaTeX(isLatex(), true);
-                    }});
+	                    updatePreview();
+					}});
+				
 				// decimal places
 				lbDecimalPlaces = new ListBox();
 				for (String item : loc.getRoundingMenu()) {
@@ -2034,6 +2039,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 					public void onChange(ChangeEvent event) {
 						model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
+						updatePreview();
 					}});
 
 				// font, size
@@ -2083,17 +2089,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 				
 				mainPanel.add(btnPanel);
 				setWidget(mainPanel);
+				orig = null;
 		}
 
 
 		@Override
 		public boolean update(Object[] geos) {
 			boolean visible = true;
-			if (model.getEditGeo() == null) {
+			GeoText geo0 = (GeoText)geos[0];
+			if (geo0 != orig) {
 				visible = super.update(geos);
-				model.setEditGeo(model.getGeoTextAt(0));
+				orig = geo0;
+				model.setEditGeo(orig);
 				updatePreview();
 			}
+			
 			return visible;
 			
 		}
@@ -2218,7 +2228,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 		public GeoText getEditGeo() {
 	        return model.getEditGeo();
-        }	
+        }
+
+
+		public void geoElementSelected(GeoElement geo, boolean addToSelection) {
+	         model.cancelEditGeo();
+	        
+        }
+
+
 	}
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -2227,6 +2245,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 		kernel = app.getKernel();
 		loc = app.getLocalization();
 		// build GUI
+		app.setSelectionListenerMode(this);
 		initGUI();
 	}
 
@@ -2484,6 +2503,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	public void selectTab(int index) {
 		tabPanel.selectTab(index);	    
+	}
+
+	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
+	    updateGUI();
+	    App.debug("HASHAHSHAHSHASS geoElementSelected");
 	}
 
 }
