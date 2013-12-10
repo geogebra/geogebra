@@ -14,15 +14,19 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
  * @author gabor
@@ -65,6 +69,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private FlowPanel mainSplitPane;
 	private FlowPanel probCalcPanel;
 	private StatisticsCalculatorW statCalculator;
+	private TabLayoutPanel tabbedPane;
+	private ProbabilityCalculatorStyleBarW styleBar;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -81,6 +87,19 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   buildProbCalcPanel();
 	   
 	   statCalculator = new StatisticsCalculatorW(app);
+	   
+	   tabbedPane = new TabLayoutPanel(30, Unit.PX);
+	   tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
+	   tabbedPane.add(((StatisticsCalculatorW) statCalculator).getWrappedPanel(), loc.getMenu("Statistics"));
+	   
+	   tabbedPane.addSelectionHandler(new SelectionHandler<Integer>() {
+
+		public void onSelection(SelectionEvent<Integer> event) {
+			if (styleBar != null)
+				styleBar.updateLayout();
+		   }
+	   });
+	   
 	   isIniting = false;
 	   
     }

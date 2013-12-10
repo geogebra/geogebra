@@ -728,4 +728,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		 updateResult();
     }
 
+	/**
+	 * @return the wrapped Panel
+	 */
+	public FlowPanel getWrappedPanel() {
+	    return wrappedPanel;
+    }
+
 }
