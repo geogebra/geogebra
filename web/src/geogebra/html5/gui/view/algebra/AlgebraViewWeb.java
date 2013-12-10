@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -634,7 +635,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			if (parent == null) {
 				String transTypeString = geo
 				        .translatedTypeStringForAlgebraView();
-				parent = new TreeItem(transTypeString);
+				parent = new TreeItem(SafeHtmlUtils.fromString(transTypeString));
 				setUserObject(parent, transTypeString);
 				typeNodesMap.put(typeString, parent);
 
@@ -659,7 +660,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			// do we have to create the parent node?
 			if (parent == null) {
 				String layerStr = loc.getPlain("LayerA", layer + "");
-				parent = new TreeItem(layerStr);
+				parent = new TreeItem(SafeHtmlUtils.fromString(layerStr));
 
 				setUserObject(parent, layerStr);
 

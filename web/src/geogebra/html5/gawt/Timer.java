@@ -20,8 +20,12 @@ public class Timer extends com.google.gwt.user.client.Timer {
 	public void run() {
 		this.am.actionPerformed();
 	}
-
-	public boolean isRunning() {
+	/**
+	 * TODO this method somehow doubles isRunning which is implemented in GWT 2.6
+	 * We shall remove it once we switch to GWT >= 2.6.
+	 * @return whether timer is running or not
+	 */
+	public boolean isGgbRunning() {
 		return isrunning;
 	}
 

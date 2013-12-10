@@ -13,7 +13,7 @@ public class AnimationManagerW extends AnimationManager implements HasTimerActio
 
 	@Override
     public boolean isRunning() {
-	    return timer.isRunning();
+	    return timer.isGgbRunning();
     }
 
 	@Override
