@@ -177,7 +177,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 				sb.append(print(z, values, tpl));
 				sb.append("))");
 				break;
-				
+			
+			default:
 			case Kernel.COORD_CARTESIAN_3D:
 				sb.append("point(");
 				sb.append(print(x, values, tpl));
@@ -188,22 +189,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 				sb.append(")");
 				break;
 				
-			case Kernel.COORD_COMPLEX:
-				sb.append("(");
-				sb.append(print(x, values, tpl));
-				sb.append("+i*(");
-				sb.append(print(y, values, tpl));
-				sb.append("))");
-				break;
-				
-			default:
-			case Kernel.COORD_CARTESIAN:
-				sb.append("point(");
-				sb.append(print(x, values, tpl));
-				sb.append(',');
-				sb.append(print(y, values, tpl));
-				sb.append(")");
-				break;
 			}
 			break;
 		default:
