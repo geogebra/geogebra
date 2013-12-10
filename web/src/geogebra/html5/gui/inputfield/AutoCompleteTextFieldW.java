@@ -51,6 +51,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -1266,9 +1267,9 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	 * @param hanlder
 	 * Adds a focus handler to the wrapped textfield.
 	 */
-	public void addFocusHandler(
+	public HandlerRegistration addFocusHandler(
             FocusHandler hanlder) {
-	    textField.getValueBox().addFocusHandler(hanlder);
+	    return textField.getValueBox().addFocusHandler(hanlder);
 	    
     }
 
@@ -1284,8 +1285,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	 * 
 	 * Added to tetxtfield as handler
 	 */
-	public void addKeyPressHandler(KeyPressHandler handler) {
-	    textField.getValueBox().addKeyPressHandler(handler);
+	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
+	    return textField.getValueBox().addKeyPressHandler(handler);
 	    
     }
 }

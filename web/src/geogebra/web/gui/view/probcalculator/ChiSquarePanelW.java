@@ -507,5 +507,12 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    updateCellContent();
     }
 
+	/**
+	 * @return the wrapped panel
+	 */
+	public FlowPanel getWrappedPanel() {
+	    return wrappedPanel;
+    }
+
 
 }
