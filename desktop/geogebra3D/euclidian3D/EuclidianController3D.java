@@ -17,7 +17,6 @@ import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
@@ -1413,7 +1412,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				return true;
 			}else if (selConics() == 1) {
 				GeoConicND[] basis = getSelectedConicsND();
-				GeoNumeric[] height = getSelectedNumbers();
+				NumberValue[] height = getSelectedNumberValues();
 				if(mode==EuclidianConstants.MODE_EXTRUSION)
 					getKernel().getManager3D().CylinderLimited(null, basis[0], height[0]);
 				else
