@@ -142,6 +142,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 					oldHeight = h;
 					oldWidth = w;
 					App.debug("changed h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
+				} else {
+					// it's possible that the width/height didn't change but the position of EV did
+					app.getEuclidianView1().getEuclidianController().calculateEnvironment();
 				}
 			}
 		}

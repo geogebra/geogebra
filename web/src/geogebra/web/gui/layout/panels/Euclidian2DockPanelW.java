@@ -91,6 +91,11 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 					app.ggwGraphicsView2DimChanged(w, h);
 					oldHeight = h;
 					oldWidth = w;
+				} else {
+					// it's possible that the width/height didn't change but the position of EV did
+					if (app.hasEuclidianView2EitherShowingOrNot()) {
+						app.getEuclidianView2().getEuclidianController().calculateEnvironment();
+					}
 				}
 			}
 		}
