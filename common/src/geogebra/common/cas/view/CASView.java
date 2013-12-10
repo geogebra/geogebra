@@ -309,8 +309,9 @@ public abstract class CASView implements View{
 				undoNeeded = true;
 			}
 		}
-		
-		getConsoleTable().resetRowNumbers(selRows[0]);
+		if(selRows.length > 0){
+			getConsoleTable().resetRowNumbers(selRows[0]);
+		}
 		
 		return undoNeeded;
 	}
