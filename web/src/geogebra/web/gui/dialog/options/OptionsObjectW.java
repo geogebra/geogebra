@@ -121,8 +121,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsObjectW extends
-geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW,
-GeoElementSelectionListener {
+geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
+{
 	private Localization loc;
 
 	TabPanel tabPanel;
@@ -2025,7 +2025,7 @@ GeoElementSelectionListener {
 				btnLatex.addClickHandler(new ClickHandler(){
 
 					public void onClick(ClickEvent event) {
-	                    model.getEditGeo().setLaTeX(isLatex(), true);
+						model.setLaTeX(isLatex(), true);
 	                    updatePreview();
 					}});
 				
@@ -2095,16 +2095,23 @@ GeoElementSelectionListener {
 
 		@Override
 		public boolean update(Object[] geos) {
-			boolean visible = true;
+			getModel().setGeos(geos);
+			
+			if (!getModel().checkGeos()) {
+				model.cancelEditGeo();
+				return false;
+			}
+			
 			GeoText geo0 = (GeoText)geos[0];
 			if (geo0 != orig) {
-				visible = super.update(geos);
 				orig = geo0;
 				model.setEditGeo(orig);
+				getModel().updateProperties();
+				setLabels();
 				updatePreview();
 			}
 			
-			return visible;
+			return true;
 			
 		}
 		
@@ -2202,8 +2209,8 @@ GeoElementSelectionListener {
 				return;
 			}
 
-			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-			        editor.getDynamicTextList(), isLatex()), isLatex());
+//			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
+//			        editor.getDynamicTextList(), isLatex()), isLatex());
 		}
 
 
@@ -2245,7 +2252,6 @@ GeoElementSelectionListener {
 		kernel = app.getKernel();
 		loc = app.getLocalization();
 		// build GUI
-		app.setSelectionListenerMode(this);
 		initGUI();
 	}
 
@@ -2503,11 +2509,6 @@ GeoElementSelectionListener {
 
 	public void selectTab(int index) {
 		tabPanel.selectTab(index);	    
-	}
-
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-	    updateGUI();
-	    App.debug("HASHAHSHAHSHASS geoElementSelected");
 	}
 
 }

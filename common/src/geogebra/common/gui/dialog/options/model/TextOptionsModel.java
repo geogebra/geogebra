@@ -50,32 +50,28 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean checkGeos() {
-		justDisplayFontSize = true;
-		return super.checkGeos();
+	public boolean checkGeos() { 
+		boolean geosOK = true; 
+		justDisplayFontSize = true; 
+		for (int i = 0; i < getGeosLength(); i++) { 
+			GeoElement geo = getGeoAt(i); 
 
-	}
+			if ((geo instanceof TextProperties && !((TextProperties) geo) 
+					.justFontSize()) || geo.isGeoButton()) { 
+				justDisplayFontSize = false; 
+			} 
 
-	@Override
-	protected boolean isValidAt(int index) {
-		GeoElement geo = getGeoAt(index);
+			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) { 
+				if ((getGeoAt(i).isGeoButton())) { 
+					geosOK = false; 
+					break; 
+				} 
+			} 
+		} 
+		return geosOK; 
+	} 
 
-		if ((geo instanceof TextProperties && !((TextProperties) geo)
-				.justFontSize()) || geo.isGeoButton()) {
-			justDisplayFontSize = false;
-		}
 
-		if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) {
-			if (!geo.isGeoButton()) {
-				return false;
-
-			}	
-
-		}
-		return true;
-	}
-
-	
 	public TextProperties getTextPropertiesAt(int index) {
 		return (TextProperties) getObjectAt(index);
 	}
@@ -241,5 +237,20 @@ public class TextOptionsModel extends OptionsModel {
 	public void cancelEditGeo() {
 		editGeo = null;
 		listener.updatePreview();
+	}
+
+	public void setLaTeX(boolean isLatex, boolean updateAlgo) {
+		if (editGeo == null) {
+			return;
+		}
+		
+		editGeo.setLaTeX(isLatex, updateAlgo);
+		listener.updatePreview();
+	}
+
+	@Override
+	protected boolean isValidAt(int index) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
