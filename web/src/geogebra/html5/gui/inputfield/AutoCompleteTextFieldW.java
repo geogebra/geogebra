@@ -1272,7 +1272,20 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	    
     }
 
+	/**
+	 * selects all text
+	 */
 	public void selectAll() {
 		textField.getValueBox().selectAll();
 	}
+
+	/**
+	 * @param handler Keypresshandler
+	 * 
+	 * Added to tetxtfield as handler
+	 */
+	public void addKeyPressHandler(KeyPressHandler handler) {
+	    textField.getValueBox().addKeyPressHandler(handler);
+	    
+    }
 }
