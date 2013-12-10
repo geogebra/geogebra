@@ -247,6 +247,11 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
      */
 	public void setCartesian3D();
 
+    /**
+     * Changes coord style to SPHERICAL
+     */
+	public void setSpherical();
+
 	
 	/**
 	 * 

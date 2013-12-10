@@ -17,6 +17,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
 import java.util.Set;
@@ -423,6 +424,22 @@ public abstract class ValidExpression implements ExpressionValue {
 	
 	public boolean evaluatesTo3DVector() {
 		return false;
+	}
+	
+	
+	/**
+	 * print expression as value or geo label
+	 * @param x2 expression
+	 * @param values value or label
+	 * @param tpl template
+	 * @return value or geo
+	 */
+	protected static String print(ExpressionValue x2, boolean values, StringTemplate tpl) {
+		if(values){
+			return x2.toValueString(tpl);
+		}
+		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
+				.toString(tpl);
 	}
 
 }

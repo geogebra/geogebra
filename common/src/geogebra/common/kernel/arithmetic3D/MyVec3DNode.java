@@ -40,6 +40,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
 	private Kernel kernel;
+	
+	private int mode = Kernel.COORD_CARTESIAN_3D;
 
 	/** Creates new MyVec3D 
 	 * @param kernel kernel */
@@ -62,8 +64,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
-		return new MyVec3DNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1),
+		MyVec3DNode ret =  new MyVec3DNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1),
 				z.deepCopy(kernel1));
+		ret.mode = mode;
+		return ret;
 	}
 
 	public void resolveVariables(boolean forEquation) {
@@ -122,34 +126,85 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 
+		
+		if (mode == Kernel.COORD_SPHERICAL) {
+			double r = ((NumberValue) evx).getDouble();
+			// allow negative radius for US
+			double theta = ((NumberValue) evy).getDouble();
+			double phi = ((NumberValue) evz).getDouble();
+			double[] ret = { 
+					r * Math.cos(theta) * Math.cos(phi), 
+					r * Math.sin(theta) * Math.cos(phi),
+					r * Math.sin(phi)};
+			return ret;
+		}
+		
+		// CARTESIAN 3D
 		double[] ret = { ((NumberValue) evx).getDouble(),
 				((NumberValue) evy).getDouble(),
 				((NumberValue) evz).getDouble() };
 		return ret;
 
 	}
-
+	
+	
 	@Override
 	final public String toString(StringTemplate tpl) {
+		return toString(tpl, false);
+	}
+	
+	private String toString(StringTemplate tpl, boolean values) {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
-		case GIAC:
-			sb.append("point");
+		case GIAC:			
+			if (mode == Kernel.COORD_SPHERICAL) {
+				sb.append("point((");
+				sb.append(print(x, values, tpl));
+				sb.append(")*cos(");
+				sb.append(print(y, values, tpl));
+				sb.append(")*cos(");
+				sb.append(print(z, values, tpl));
+				sb.append("),(");
+				sb.append(print(x, values, tpl));
+				sb.append(")*sin(");
+				sb.append(print(y, values, tpl));
+				sb.append(")*cos(");
+				sb.append(print(z, values, tpl));
+				sb.append("),(");
+				sb.append(print(x, values, tpl));
+				sb.append(")*sin(");
+				sb.append(print(z, values, tpl));
+				sb.append("))");
+			} else {			
+				sb.append("point(");
+				sb.append(print(x, values, tpl));
+				sb.append(',');
+				sb.append(print(y, values, tpl));
+				sb.append(")");
+			}
+			break;
 		default:
 			sb.append(tpl.leftBracket());
-			sb.append(x.toString(tpl));
-			sb.append(", ");
-			sb.append(y.toString(tpl));
-			sb.append(", ");
-			sb.append(z.toString(tpl));
+			sb.append(print(x,values,tpl));
+			appendSeparator(sb);
+			sb.append(print(y,values,tpl));
+			appendSeparator(sb);
+			sb.append(print(z,values,tpl));
 			sb.append(tpl.rightBracket());
 		}
 		return sb.toString();
 	}
+	
+	private void appendSeparator(StringBuilder sb){
+		if (mode == Kernel.COORD_CARTESIAN_3D)
+			sb.append(", ");
+		else
+			sb.append("; ");
+	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(tpl);
+		return toString(tpl, true);
 	}
 
 	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
@@ -207,9 +262,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	}
 
 	public Geo3DVec get3DVec() {
-		return kernel.getManager3D().newGeo3DVec( x.evaluateDouble(),
+		Geo3DVec ret = kernel.getManager3D().newGeo3DVec( x.evaluateDouble(),
 				y.evaluateDouble(),
 				z.evaluateDouble());
+		return ret;
 	}
 
 	public String toOutputValueString(StringTemplate tpl) {
@@ -244,6 +300,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 
 	public void setSphericalPolarCoords(ExpressionValue r, ExpressionValue theta, ExpressionValue phi) {
 			setCoords(r, theta, phi);
-			//mode = Kernel.COORD_SPHERICAL;
+			mode = Kernel.COORD_SPHERICAL;
 		}
+	
+	public int getMode(){
+		return mode;
+	}
 }

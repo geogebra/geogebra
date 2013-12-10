@@ -32,7 +32,7 @@ public interface Vector3DValue extends ExpressionValue {
 	 * @return array of coords
 	 */
     public double[] getPointAsDouble();    
-    //public int getMode(); // POLAR or CARTESIAN
+    public int getMode(); // SPHERICAL or CARTESIAN_3D
     //public void setMode(int mode);       
     /** converts vector to GeoVec3D 
      * @return vector

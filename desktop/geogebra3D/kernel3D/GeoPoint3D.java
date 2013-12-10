@@ -614,9 +614,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return z2D;
 	}
 
-	public int getMode() {
-		return toStringMode;
-	}
 
 	/**
 	 * update 3D coords regarding 2D coords (if coordsys!=null, use it; else if
@@ -804,10 +801,19 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		sbToString.setLength(0);
 		
-		if (toStringMode==Kernel.COORD_CARTESIAN_3D || !Kernel.isZero(p.getZ()))
+		if (getMode()==Kernel.COORD_CARTESIAN_3D){
 			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
-		else
-			GeoPoint.buildValueString(kernel, tpl, toStringMode,  p.getX(), p.getY(), sbToString);
+		}else if (getMode()==Kernel.COORD_SPHERICAL){
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
+		}else if (!Kernel.isZero(p.getZ())){
+			if (getMode()==Kernel.COORD_POLAR){
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);				
+			}else{
+				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
+			}
+		}else{
+			GeoPoint.buildValueString(kernel, tpl, getMode(),  p.getX(), p.getY(), sbToString);
+		}
 
 
 		return sbToString.toString();
@@ -894,6 +900,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		case Kernel.COORD_CARTESIAN:
 			sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+			break;
+
+		case Kernel.COORD_SPHERICAL:
+			sb.append("\t<coordStyle style=\"spherical\"/>\n");
 			break;
 
 		default:
@@ -1226,21 +1236,15 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return true;
 	}
 
-    public void setCartesian() { toStringMode = Kernel.COORD_CARTESIAN; }
-    public void setCartesian3D() { toStringMode = Kernel.COORD_CARTESIAN_3D; }
+    public void setCartesian() { setMode(Kernel.COORD_CARTESIAN); }
+    public void setCartesian3D() { setMode(Kernel.COORD_CARTESIAN_3D); }
+    public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
 	
 	
-    /**
-     * Sets the coord style
-     * @param mode new coord style
-     */
-    public void setMode(int mode ) {
-        toStringMode = mode;
-    }
 
-    public void setPolar() { toStringMode = Kernel.COORD_POLAR; }
+    public void setPolar() { setMode(Kernel.COORD_POLAR); }
 
-    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }
+    public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
 
     
     

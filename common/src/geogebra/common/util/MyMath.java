@@ -233,6 +233,8 @@ public final class MyMath {
 		return res;
 
 	}
+	
+	
 
 	/**
 	 * @param m1 first matrix

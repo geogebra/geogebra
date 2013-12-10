@@ -30,6 +30,7 @@ import geogebra.common.main.MyError;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoLine3D;
 import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra3D.kernel3D.GeoVec4D;
 
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
@@ -53,11 +54,13 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			ExpressionValue evaluate) {
 		String label = n.getLabel();		
 
+		
 		double[] p = ((Vector3DValue) evaluate).getPointAsDouble();
+		int mode = ((Vector3DValue) evaluate).getMode();
 
 		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = n.isConstant();
-
+		
 		// make vector, if label begins with lowercase character
 		if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by MyXMLHandler
@@ -87,6 +90,11 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				ret[0] = kernel.getManager3D().DependentPoint3D(label, n);
 		}
 
+		if (mode == Kernel.COORD_SPHERICAL){
+			((GeoVec4D) ret[0]).setMode(Kernel.COORD_SPHERICAL);
+			ret[0].updateRepaint();
+		}
+		
 		return ret;
 	}
 

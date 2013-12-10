@@ -1199,10 +1199,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			return sbBuildValueString;
 		}
 
-		if (toStringMode==Kernel.COORD_CARTESIAN_3D)
+		if (getMode()==Kernel.COORD_CARTESIAN_3D){
 			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(), getInhomY(), 0, sbBuildValueString);
-		else
+		}else if (getMode()==Kernel.COORD_SPHERICAL){	
+			buildValueStringCoordSpherical(kernel, tpl, getInhomX(), getInhomY(), 0, sbBuildValueString);
+		}else{
 			buildValueString(kernel, tpl, toStringMode, getInhomX(), getInhomY(), sbBuildValueString);
+		}
 	
 		return sbBuildValueString;
 	}
@@ -1239,6 +1242,33 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		sbBuildValueString.append(')');
 	}
+	
+	
+	/**
+	 * @param kernel kernel
+	 * @param tpl string template
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param z z-coord
+	 * @param sbBuildValueString string builder
+	 */
+	public static final void buildValueStringCoordSpherical(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
+		
+		double lengthXY = MyMath.length(x, y);
+		
+		sbBuildValueString.append('(');
+		sbBuildValueString.append(kernel.format(
+				MyMath.length(lengthXY, z), tpl));
+		sbBuildValueString.append("; ");
+		sbBuildValueString.append(kernel.formatAngle(
+				Math.atan2(y, x), tpl, false));
+		sbBuildValueString.append("; ");
+		sbBuildValueString.append(kernel.formatAngle(
+				Math.atan2(z, lengthXY), tpl, true));
+		sbBuildValueString.append(')');
+		
+	}
+
 	/**
 	 * @param kernel kernel
 	 * @param tpl string template
@@ -1340,6 +1370,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		case Kernel.COORD_CARTESIAN_3D:
 			sb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
+			break;
+			
+		case Kernel.COORD_SPHERICAL:
+			sb.append("\t<coordStyle style=\"spherical\"/>\n");
 			break;
 
 		default:

@@ -181,13 +181,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return sb.toString();
 	}
 
-	private static String print(ExpressionValue x2, boolean values, StringTemplate tpl) {
-		if(values){
-			return x2.toValueString(tpl);
-		}
-		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
-				.toString(tpl);
-	}
+
 
 	@Override
 	public String toValueString(StringTemplate tpl) {

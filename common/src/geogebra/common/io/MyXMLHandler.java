@@ -3730,6 +3730,8 @@ public class MyXMLHandler implements DocHandler {
 			v.setComplex();
 		} else if (style.equals("cartesian3d")) {
 			v.setCartesian3D();
+		} else if (style.equals("spherical")) {
+			v.setSpherical();
 		} else {
 			System.err.println("unknown style in <coordStyle>: " + style);
 			return false;

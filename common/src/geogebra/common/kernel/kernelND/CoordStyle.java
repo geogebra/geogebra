@@ -15,6 +15,8 @@ public interface CoordStyle {
 	public void setComplex();
 	/** set to 3D cartesian coords */
 	public void setCartesian3D();
+	/** set to spherical coords */
+	public void setSpherical();
 	/** @return toStringMode */
 	public int getMode();
 	/**

@@ -172,6 +172,9 @@ implements Traceable, CoordStyle {
      * Changes coord style to CARTESIAN 3D
      */
     public void setCartesian3D() { toStringMode = Kernel.COORD_CARTESIAN_3D; }
+    
+    public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
+
        
 	@Override
 	public boolean isTraceable() {
