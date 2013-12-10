@@ -493,7 +493,9 @@ namespace giac {
 
   // "unary" version
   gen _derive(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_STRNG && args.subtype==-1) return  args;
+    if (is_equal(args))
+      return apply_to_equal(args,_derive,contextptr);
     if (calc_mode(contextptr)==1 && args.type!=_VECT)
       return _derive(makesequence(args,ggb_var(args)),contextptr);
     vecteur v;
