@@ -679,33 +679,53 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	}
 
 	public void onChange(ChangeEvent event) {
-	    // TODO Auto-generated method stub
-	    
+		selectedProcedure = mapNameToProcedure.get(cbProcedure.getValue(cbProcedure.getSelectedIndex()));
+		updateGUI();
+		updateResult();
+		//setLabels();
+
+		// reset the scrollpane to the top
+		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		//	public void run() {
+		//		scroller.getVerticalScrollBar().setValue(0);
+		//	}
+		//});
     }
 
 	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	   doButtonEvents(event);
+    }
+
+	private void doButtonEvents(ClickEvent event) {
+		updateResult();
     }
 
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-	    // TODO Auto-generated method stub
-	    
-    }
+		if (event.getSource() == ckPooled) {
+			sc.pooled = ckPooled.getValue();
+			updateResult();
+		}
+	}
 
 	public void onKeyPress(KeyPressEvent e) {
-	    // TODO Auto-generated method stub
-	    
+	   doTextFieldActionPerformed();
     }
 
 	public void onFocus(FocusEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	   if (event.getSource() instanceof AutoCompleteTextFieldW) {
+		   ((AutoCompleteTextFieldW) event.getSource()).selectAll();
+	   }
     }
 
 	public void onBlur(BlurEvent event) {
-	    // TODO Auto-generated method stub
+	    if (event.getSource() instanceof AutoCompleteTextFieldW) {
+	    	doTextFieldActionPerformed();
+	    }
 	    
+    }
+
+	private void doTextFieldActionPerformed() {
+		 updateResult();
     }
 
 }
