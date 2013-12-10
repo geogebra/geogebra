@@ -7,6 +7,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -575,16 +576,22 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 	@Override
 	public void onResize() {
-		super.onResize();
+		//super.onResize();
 
 		// it's only important to resize components so that
 		// the divider should be inside
 
-		if (getLeftComponent() instanceof DockSplitPaneW)
-			((DockSplitPaneW)getLeftComponent()).updateDumb();
-		if (getRightComponent() instanceof DockSplitPaneW)
-			((DockSplitPaneW)getRightComponent()).updateDumb();
-		
+		if (getLeftComponent() instanceof RequiresResize) {
+			((RequiresResize)getLeftComponent()).onResize();
+		}
+
+		if (getRightComponent() instanceof DockSplitPaneW) {
+			((DockSplitPaneW)getRightComponent()).checkDividerIsOutside();
+			((RequiresResize)getRightComponent()).onResize();
+		} else if (getRightComponent() instanceof RequiresResize) {
+			((RequiresResize)getRightComponent()).onResize();
+		}
+
 		if (app.getArticleElement().getScaleX() != 1.0 ||
 				app.getArticleElement().getScaleY() != 1.0) {
 			freezeSplitters();
@@ -616,7 +623,7 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		}
 	}-*/;
 
-	public void updateDumb() {
+	public void checkDividerIsOutside() {
 
 		// w, h should contain the dimensions visible on screen
 		int w = this.getElement().getClientWidth();
@@ -624,8 +631,8 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 		if (orientation == HORIZONTAL_SPLIT) {
 			// vertical split not considered yet
-			if (getDividerLocation() >= w) {
-				//setDividerLocation(0.5);
+			if (getDividerLocation() >= w && (w > 0)) {
+				setDividerLocation(0.5);
 			}
 			//saveDividerLocation();
 		}
