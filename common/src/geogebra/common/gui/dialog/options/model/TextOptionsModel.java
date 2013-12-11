@@ -62,10 +62,8 @@ public class TextOptionsModel extends OptionsModel {
 			} 
 
 			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) { 
-				if ((getGeoAt(i).isGeoButton())) { 
 					geosOK = false; 
 					break; 
-				} 
 			} 
 		} 
 		return geosOK; 
