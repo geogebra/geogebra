@@ -55,7 +55,7 @@ import javax.swing.JPopupMenu;
 public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		ComponentListener, DragGestureListener, DragSourceListener, PlotPanelEuclidianViewInterface {
 
-	private final EuclidianControllerD ec;
+	private EuclidianControllerD ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
 
 	public PlotPanelEuclidianViewCommon commonFields;
@@ -90,14 +90,12 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 				null);
 
 		// set fields
-		commonFields = new PlotPanelEuclidianViewCommon(
-				false);
+		if (commonFields == null) {
+			setCommonFields();
+		}
+		
 		plotPanelEV = this;
-		this.ec = this.getEuclidianController();
-		this.exportToEVAction = exportAction;
-		commonFields.setPlotSettings(new PlotSettings());
-
-		setViewId(kernel);
+		
 
 		// create cursors for DnD
 		grabCursor = getCursorForImage(getApplication().getImageIcon(
@@ -129,6 +127,17 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		enableDnD();
 
 	}
+	
+	private void setCommonFields() {
+		// set fields
+				commonFields = new PlotPanelEuclidianViewCommon(
+						false);	
+				commonFields.setPlotSettings(new PlotSettings());
+
+				setViewId(kernel);
+				
+				this.ec = this.getEuclidianController();
+	}
 
 	public void setViewId(Kernel kernel) {
 		// get viewID from GuiManager
@@ -150,6 +159,9 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	/** Returns viewID */
 	@Override
 	public int getViewID() {
+		if (commonFields == null) {
+			setCommonFields();
+		}
 		return commonFields.getViewID();
 	}
 

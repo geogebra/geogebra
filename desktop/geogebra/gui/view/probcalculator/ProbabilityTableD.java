@@ -20,9 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class ProbabilityTableD extends ProbabilityTable  implements ListSelectionListener{
 
 	private static final long serialVersionUID = 1L;
-	
-	
-	private ProbabilityCalculatorViewD probCalc;
+
 	private StatTable statTable;
 
 	
@@ -129,7 +127,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			//System.out.println(low + " , " + high);
-			probCalc.setInterval(low,high);
+			((ProbabilityCalculatorViewD) probCalc).setInterval(low,high);
 		}
 		else if(probCalc.getProbMode() == ProbabilityCalculatorViewD.PROB_LEFT){
 			String lowStr = (String) statTable.getTable().getModel().getValueAt(0, 0);
@@ -137,7 +135,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			//System.out.println(low + " , " + high);
-			probCalc.setInterval(low,high);
+			((ProbabilityCalculatorViewD) probCalc).setInterval(low,high);
 
 			// adjust the selection
 			table.getSelectionModel().removeListSelectionListener(this);
@@ -161,7 +159,7 @@ public class ProbabilityTableD extends ProbabilityTable  implements ListSelectio
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			//System.out.println(low + " , " + high);
-			probCalc.setInterval(low,high);
+			((ProbabilityCalculatorViewD) probCalc).setInterval(low,high);
 
 			table.getSelectionModel().removeListSelectionListener(this);
 			table.changeSelection(maxRow,0, false,false);
