@@ -14,8 +14,21 @@ import java.util.TreeSet;
  *
  */
 public class PolygonTriangulation implements Comparator<Integer> {
+	
+	private class Point{
+		public double x, y;
+		public String name;
+		public int orientation;
+		
+		public Point(double x, double y){
+			this.x = x;
+			this.y = y;
+		}
+	}
 
 	private GeoPolygon p;
+	
+	private ArrayList<Point> pointsList;
 	
 	/**
 	 * Constructor
@@ -23,9 +36,22 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	 */
 	public PolygonTriangulation(GeoPolygon p){
 		this.p = p;
+		pointsList = new ArrayList<Point>();
 	}
 	
+	public void updatePoints(){
+		pointsList.clear();
+		for (int i = 0; i < p.getPointsLength(); i++){
+			Point point = new Point(p.getPointX(i), p.getPointY(i));
+			pointsList.add(point);
+		}
+	}
 	
+	final private Point getPoint(int i){
+		return pointsList.get(i);
+	}
+
+	/*
 	private double getPointX(int i){
 		return p.getPointX(i);
 	}
@@ -33,9 +59,10 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	private double getPointY(int i){
 		return p.getPointY(i);
 	}
+	*/
 	
 	private int getPointsLength(){
-		return p.getPointsLength();
+		return pointsList.size();
 	}
 
 	//////////////////////////////////////
@@ -45,22 +72,20 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	public int compare(Integer i1, Integer i2) {
 		
 		// smallest x
-		double x1 = getPointX(i1);
-		double x2 = getPointX(i2);
-		if (Kernel.isGreater(x2, x1)){
+		Point p1 = getPoint(i1);
+		Point p2 = getPoint(i2);
+		if (Kernel.isGreater(p2.x, p1.x)){
 			return -1;
 		}			
-		if (Kernel.isGreater(x1, x2)){
+		if (Kernel.isGreater(p1.x, p2.x)){
 			return 1;
 		}
 		
 		// then smallest y
-		double y1 = getPointY(i1);
-		double y2 = getPointY(i2);
-		if (Kernel.isGreater(y2, y1)){
+		if (Kernel.isGreater(p2.y, p1.y)){
 			return -1;
 		}			
-		if (Kernel.isGreater(y1, y2)){
+		if (Kernel.isGreater(p1.y, p2.y)){
 			return 1;
 		}
 		
@@ -140,9 +165,10 @@ public class PolygonTriangulation implements Comparator<Integer> {
 		//check if top chain is indices between min and max or not
 		int minN1 = (min + 1) % length;
 		int minN2 = (min - 1) % length;
-		double xMin = getPointX(min);
-		double yMin = getPointY(min);
-		boolean topBetween = inverseMinMax ^ Kernel.isGreater((getPointX(minN2)-xMin)*(getPointY(minN1)-yMin), (getPointX(minN1)-xMin)*(getPointY(minN2)-yMin));
+		Point pMin = getPoint(min);
+		Point pMinN1 = getPoint(minN1);
+		Point pMinN2 = getPoint(minN2);
+		boolean topBetween = inverseMinMax ^ Kernel.isGreater((pMinN2.x-pMin.x)*(pMinN1.y-pMin.y), (pMinN1.x-pMin.x)*(pMinN2.y-pMin.y));
 		//App.error(""+topBetween);
 
 		
@@ -171,8 +197,7 @@ public class PolygonTriangulation implements Comparator<Integer> {
 				
 			}else{ // vi and top are on the same chain
 				//debugDiagonal("case 1 ",top,vi);
-				double xi = getPointX(vi);
-				double yi = getPointY(vi);
+				Point pi = getPoint(vi);
 				
 				currentTriangleFan.add(vi);
 				
@@ -180,16 +205,18 @@ public class PolygonTriangulation implements Comparator<Integer> {
 				int vk = stack.pop();
 				currentTriangleFan.add(vk);
 				//debugDiagonal("diagonal : ",vi,vk);
-				double dx2 = getPointX(vk) - xi;
-				double dy2 = getPointY(vk) - yi;
+				Point pk = getPoint(vk);
+				double dx2 = pk.x - pi.x;
+				double dy2 = pk.y - pi.y;
 				
 				boolean go = true;
 				while (!stack.isEmpty() && go){
 					double dx1 = dx2;
 					double dy1 = dy2;
 					int v = stack.pop();
-					dx2 = getPointX(v) - xi;
-					dy2 = getPointY(v) - yi;
+					Point pv = getPoint(v);
+					dx2 = pv.x - pi.x;
+					dy2 = pv.y - pi.y;
 					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ (viBetween ^ !topBetween)){ // not same orientation
 						stack.push(v); //re-push v in stack
 						go = false;

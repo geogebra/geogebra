@@ -226,17 +226,20 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 		
 		renderer.getGeometryManager().drawPolygonConvex(n, vertices);
+		
 		/*
 		if (polygon.isConvex()){
 			renderer.getGeometryManager().drawPolygonConvex(n, vertices);
 		}else{
 			PolygonTriangulation pt = new PolygonTriangulation(polygon);
+			pt.updatePoints();
 			ArrayList<ArrayList<Integer>> triFanList = pt.getTriangulation();
 			for (ArrayList<Integer> triFan : triFanList){
 				renderer.getGeometryManager().drawTriangleFan(n, vertices, triFan);
 			}
 		}
 		*/
+		
 		
 		
 		renderer.endPolygons();
