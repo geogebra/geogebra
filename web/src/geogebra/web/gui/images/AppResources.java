@@ -539,5 +539,19 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png16x16/interval-between.png")
 	ImageResource interval_between();
 
+	@Source("icons/png16x16/step_graph.png")
+	ImageResource step_graph();
+	
+	@Source("icons/png16x16/bar_graph.png")
+	ImageResource bar_graph();
+
+	@Source("icons/png16x16/export16.png")
+	ImageResource export16();
+	
+	@Source("icons/png16x16/normal-overlay.png")
+	ImageResource normal_overlay();
+	
+
+
 	
 }

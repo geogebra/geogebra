@@ -4,6 +4,7 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.gui.images.AppResources;
@@ -23,6 +24,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -42,7 +44,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	 */
 	
 	private FlowPanel wrappedPanel;
-	private ListBox comboDistributon;
 	private Label lblDist;
 	private MyToggleButton2 btnCumulative;
 	private MyToggleButton2 btnIntervalLeft;
@@ -51,7 +52,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private MyToggleButton2 btnExport;
 	private Label[] lblParameterArray;
 	private AutoCompleteTextFieldW[] fldParamterArray;
-	private ListBox comboProbType;
+	private ListBox comboProbType, comboDistribution;
 	private Label lblProb;
 	private Label lblProbOf;
 	private Label lblBetween;
@@ -71,6 +72,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private StatisticsCalculatorW statCalculator;
 	private TabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
+	private HandlerRegistration comboProbHandler, comboDistributionHandler;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -186,7 +188,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private void createControlPanel() {
 	    //distribution combobox panel
 		FlowPanel cbPanel = new FlowPanel();
-		cbPanel.add(comboDistributon);
+		cbPanel.add(comboDistribution);
 		FlowPanel parameterPanel = new FlowPanel();
 		
 		//parameter panel
@@ -221,8 +223,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 	private void createGUIElements() {
 		setLabelArrays();
-	    comboDistributon = new ListBox();
-	    comboDistributon.addChangeHandler(this);
+	    comboDistribution = new ListBox();
+	    comboDistribution.addChangeHandler(this);
 	    
 	    lblDist = new Label();
 	    
@@ -260,7 +262,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    }
 	    
 	    comboProbType = new ListBox();
-	    comboProbType.addChangeHandler(this);
+	    comboProbHandler = comboProbType.addChangeHandler(this);
 	    
 	    lblProb = new Label();
 	    
@@ -343,6 +345,79 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	public void onFocus(FocusEvent event) {
 	    // TODO Auto-generated method stub
 	    
+    }
+	
+	private void setProbabilityComboBoxMenu() {
+
+		comboProbType.clear();
+		comboProbHandler.removeHandler();
+		if (isCumulative)
+			comboProbType.addItem(loc.getMenu("LeftProb"));
+		else {
+			comboProbType.addItem(loc.getMenu("IntervalProb"));
+			comboProbType.addItem(loc.getMenu("LeftProb"));
+			comboProbType.addItem(loc.getMenu("RightProb"));
+		}
+		comboProbHandler = comboProbType.addChangeHandler(this);
+
+	}
+
+	private void setDistributionComboBoxMenu() {
+
+		comboDistributionHandler.removeHandler();
+		comboDistribution.clear();
+		comboDistribution.addItem(distributionMap.get(DIST.NORMAL));
+		comboDistribution.addItem(distributionMap.get(DIST.STUDENT));
+		comboDistribution.addItem(distributionMap.get(DIST.CHISQUARE));
+		comboDistribution.addItem(distributionMap.get(DIST.F));
+		comboDistribution.addItem(distributionMap.get(DIST.EXPONENTIAL));
+		comboDistribution.addItem(distributionMap.get(DIST.CAUCHY));
+		comboDistribution.addItem(distributionMap.get(DIST.WEIBULL));
+		comboDistribution.addItem(distributionMap.get(DIST.GAMMA));
+		comboDistribution.addItem(distributionMap.get(DIST.LOGNORMAL));
+		comboDistribution.addItem(distributionMap.get(DIST.LOGISTIC));
+
+
+		comboDistribution.addItem(distributionMap.get(DIST.BINOMIAL));
+		comboDistribution.addItem(distributionMap.get(DIST.PASCAL));
+		comboDistribution.addItem(distributionMap.get(DIST.POISSON));
+		comboDistribution.addItem(distributionMap.get(DIST.HYPERGEOMETRIC));
+
+		comboDistribution.setSelectedIndex(getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+		comboDistribution.addChangeHandler(this);
+
+	}
+
+	private static int getIndexOf(String value, ListBox lb) {
+		int indexToFind = -1;
+		for (int i = 0; i < lb.getItemCount(); i++) {
+		    if (lb.getValue(i).equals(value)) {
+		        indexToFind = i;
+		        break;
+		    }
+		};
+		return indexToFind;
+    }
+
+	public void setCumulative(boolean isCumulative) {
+		if (this.isCumulative == isCumulative)
+			return;
+
+		this.isCumulative = isCumulative;
+
+		// in cumulative mode only left-sided intervals are allowed
+		setProbabilityComboBoxMenu();
+		if (!isCumulative)
+			// make sure left-sided is still selected when reverting to
+			// non-cumulative mode
+			comboProbType.setSelectedIndex(PROB_LEFT);
+
+		if (isCumulative) {
+			graphType = graphTypeCDF;
+		} else {
+			graphType = graphTypePDF;
+		}
+		updateAll();
     }
 
 }
