@@ -5,8 +5,6 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GRadioButtonMenuItem;
 
-import java.util.List;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -68,8 +66,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		}
 
 		try {
-			 //TODO: find out someting for this!!!!!!List<GRadioButtonMenuItem> m = menu.getMenuItems();
-			///((GRadioButtonMenuItem) m.get(pos)).setSelected(true);
+			 Object[] m = menu.getMenuItems();
+			((GRadioButtonMenuItem) m[pos]).setSelected(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,7 +98,7 @@ public class ProbabilityCalculatorStyleBarW extends
 					mi.setSelected(true);
 				}
 				mi.addValueChangeHandler(al);
-				menu.addItem(mi.getMenuItem());
+				menu.addItem(mi);
 				
 				
 			}
@@ -124,8 +122,8 @@ public class ProbabilityCalculatorStyleBarW extends
 			super();
 		}
 		
-		public List<MenuItem> getMenuItems() {
-			return this.getItems();
+		public Object[] getMenuItems() {
+			return super.getItems().toArray();
 		}
 		
 	}
