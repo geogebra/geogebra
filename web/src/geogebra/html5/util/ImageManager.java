@@ -120,6 +120,7 @@ public class ImageManager extends AbstractImageManager {
 	}
 
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
+		this.app = (AppWeb) geoi.getKernel().getApplication();
 		ImageElement img = getExternalImage(imageFileName);
 		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
 		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi);

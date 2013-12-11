@@ -766,14 +766,20 @@ public abstract class AppW extends AppWeb {
 				reader2.onloadend = function(eev) {
 					if (reader2.readyState === reader2.DONE) {
 						var fileStr = base64result;
-						var fileStr2 = reader2.result;
+						var fileStr2 = "";
+						var bytes = new Uint8Array(reader2.result);
+						var length = bytes.byteLength;
+						for (var i = 0; i < length; i++) {
+							fileStr2 += String.fromCharCode(bytes[i]);
+						}
 						var fileName = fileToHandle.name;
-						appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, null);
-						if (callback != null)
+						appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr, null);
+						if (callback != null){
 							callback();
+						}
 					}
 				}
-				reader2.readAsBinaryString(fileToHandle);
+				reader2.readAsArrayBuffer(fileToHandle);
 			}
 		};
 		reader.readAsDataURL(fileToHandle);
