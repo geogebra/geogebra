@@ -52,10 +52,10 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		}
 	}
 	
-	private void createSideFace(GeoPolyhedronNet net, int index, int bottomPointsLength){
+	private void createSideFace(GeoPolyhedronNet net, int index, int newBottomPointsLength){
 		net.startNewFace();
 		net.addPointToCurrentFace(outputPointsBottom.getElement(index));
-		net.addPointToCurrentFace(outputPointsBottom.getElement((index+1)%bottomPointsLength));
+		net.addPointToCurrentFace(outputPointsBottom.getElement((index+1)%newBottomPointsLength));
 		net.addPointToCurrentFace(outputPointsSide.getElement(index));
 		net.endCurrentFace();
 	}
@@ -154,20 +154,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	
 	
 	
-	private void updateBottom(int newBottomPointsLength){
 
-		GeoPolygon polygon = outputPolygonsBottom.getElement(0);
-		GeoPoint3D[] points = new GeoPoint3D[newBottomPointsLength];
-		GeoSegment3D[] segments = new GeoSegment3D[newBottomPointsLength];
-		for (int i = 0 ; i < newBottomPointsLength ; i++){
-			points[i] = outputPointsBottom.getElement(i);
-			segments[i] = outputSegmentsBottom.getElement(i);
-		}
-		polygon.modifyInputPoints(points);
-		polygon.setSegments(segments);
-		polygon.calcArea();  
-		
-	}
 
 	
 	private void updateSide(int index, int newBottomPointsLength){

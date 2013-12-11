@@ -217,6 +217,26 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		
 	}
 	
+	
+	/**
+	 * update bottom face for new length
+	 * @param newBottomPointsLength new bottom points length
+	 */
+	protected void updateBottom(int newBottomPointsLength){
+
+		GeoPolygon polygon = outputPolygonsBottom.getElement(0);
+		GeoPoint3D[] points = new GeoPoint3D[newBottomPointsLength];
+		GeoSegment3D[] segments = new GeoSegment3D[newBottomPointsLength];
+		for (int i = 0 ; i < newBottomPointsLength ; i++){
+			points[i] = outputPointsBottom.getElement(i);
+			segments[i] = outputSegmentsBottom.getElement(i);
+		}
+		polygon.modifyInputPoints(points);
+		polygon.setSegments(segments);
+		polygon.calcArea();  
+		
+	}
+	
 	@Override
 	public void compute() {
 

@@ -4,7 +4,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 
 /** Algo that compute the net for a polyhedron
  * @author Vincent
@@ -44,12 +46,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 		//create side faces
 		for (int i=0; i<n; i++){
-			net.startNewFace();
-			net.addPointToCurrentFace(outputPointsBottom.getElement(i));
-			net.addPointToCurrentFace(outputPointsBottom.getElement((i+1)%n));
-			net.addPointToCurrentFace(outputPointsSide.getElement((2*i+1)%(2*n)));
-			net.addPointToCurrentFace(outputPointsSide.getElement(2*i));
-			net.endCurrentFace();
+			createSideFace(net, i, n);
 		}
 
 		//create top face
@@ -70,11 +67,17 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 				outputSegmentsTop.addOutput((GeoSegment3D) segments[i], false);	
 			}
 		} else {
-			outputPolygonsSide.addOutput(polygon, false);
-			outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[3], false);
-			outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
-			outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
+			setOutputSide(polygon);		
 		}
+	}
+	
+	
+	private void setOutputSide(GeoPolygon3D polygon){
+
+		outputPolygonsSide.addOutput(polygon, false);
+		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[3], false);
+		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
+		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1], false);		
 	}
 
 
@@ -167,6 +170,140 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		}
 
 
+	}
+	
+	
+	
+	@Override
+	protected void adjustOutputSize(int newBottomPointsLength){
+		
+		super.adjustOutputSize(newBottomPointsLength);
+		
+		
+		
+		
+		//current length
+		int nOld = outputPointsSide.size()/2;
+		
+		//update existing segments / sides
+		if (newBottomPointsLength > bottomPointsLength){
+			for(int i = bottomPointsLength; i < newBottomPointsLength && i <= nOld; i++){
+				// update bottom segments
+				GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(i-1);
+				segmentBottom.modifyInputPoints(outputPointsBottom.getElement(i-1), outputPointsBottom.getElement(i));				
+			}
+			
+			for(int i = bottomPointsLength - 1; i < newBottomPointsLength && i < nOld; i++){
+				//update last sides
+				updateSide(i, newBottomPointsLength);
+			}
+
+		}
+
+
+				
+		//create sides if needed
+		if (newBottomPointsLength > nOld){
+
+			App.debug(newBottomPointsLength+", nOld : "+nOld+", top size : "+outputPointsTop.size());
+
+			// adjust side points length
+			outputPointsSide.adjustOutputSize(newBottomPointsLength * 2);
+			outputPointsSide.setLabels(null);
+
+			// adjust top points length
+			outputPointsTop.adjustOutputSize(newBottomPointsLength - 2);
+			outputPointsTop.setLabels(null);
+
+			//create new sides
+			GeoPolyhedronNet net = getNet();
+			for (int i = nOld; i < newBottomPointsLength; i++){
+				createSideFace(net, i, newBottomPointsLength);
+				GeoPolygon3D polygon = net.createPolygon(i+1); // +1 shift since bottom is face #0
+				setOutputSide(polygon);
+				outputSegmentsBottom.addOutput((GeoSegment3D) polygon.getSegments()[0], false);	// add segment to bottom list now
+			}
+			outputSegmentsBottom.setLabels(null);	
+			outputSegmentsSide.setLabels(null);	
+			outputPolygonsSide.setLabels(null);
+			refreshOutput();
+			
+		}
+
+
+		//updates
+		if (newBottomPointsLength > bottomPointsLength){
+
+			// update bottom
+			updateBottom(newBottomPointsLength);
+			
+		}else if (newBottomPointsLength < bottomPointsLength){
+			// update side points
+			for(int i = newBottomPointsLength; i < bottomPointsLength; i++){
+    			outputPointsSide.getElement(i).setUndefined();
+    			outputPointsBottom.getElement(i).setUndefined();
+			}
+			
+			// update bottom segment
+			GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(newBottomPointsLength-1);
+			segmentBottom.modifyInputPoints(outputPointsBottom.getElement(newBottomPointsLength-1), outputPointsBottom.getElement(0));
+			
+			// update bottom face
+			updateBottom(newBottomPointsLength);
+			
+			//update last side
+			updateSide(newBottomPointsLength-1, newBottomPointsLength);
+
+		}
+
+		
+		
+		bottomPointsLength = newBottomPointsLength;
+	}
+	
+	
+	private void updateSide(int index, int newBottomPointsLength){
+		
+		GeoPointND pointBottom1 = outputPointsBottom.getElement(index);
+		GeoPointND pointBottom2 = outputPointsBottom.getElement((index+1) % newBottomPointsLength);
+		GeoPointND pointSide2 = outputPointsSide.getElement(2*index);
+		GeoPointND pointSide1 = outputPointsSide.getElement((2*index+1)%(2*newBottomPointsLength));
+				
+		//update segments
+		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
+		GeoSegmentND segmentSide3 = outputSegmentsSide.getElement(3*index);
+		GeoSegmentND segmentSide2 = outputSegmentsSide.getElement(3*index+1);
+		GeoSegmentND segmentSide1 = outputSegmentsSide.getElement((3*index+2) % (2*newBottomPointsLength));
+		segmentSide1.modifyInputPoints(pointBottom2,pointSide1);		
+		segmentSide2.modifyInputPoints(pointSide1, pointSide2);
+		segmentSide3.modifyInputPoints(pointSide2,pointBottom1);		
+		
+		//update side
+		GeoPolygon polygon = outputPolygonsSide.getElement(index);
+		GeoPointND[] points = new GeoPointND[4];
+		points[0] = pointBottom1;
+		points[1] = pointBottom2;
+		points[2] = pointSide1;
+		points[3] = pointSide2;
+		polygon.modifyInputPoints(points);
+		GeoSegmentND[] s = new GeoSegmentND[4];
+		s[0] = segmentBottom;
+		s[1] = segmentSide1;
+		s[2] = segmentSide2;
+		s[2] = segmentSide3;
+		polygon.setSegments(s);
+		polygon.calcArea();  
+		
+	}
+	
+	
+	private void createSideFace(GeoPolyhedronNet net, int index, int newBottomPointsLength){		
+		net.startNewFace();
+		net.addPointToCurrentFace(outputPointsBottom.getElement(index));
+		net.addPointToCurrentFace(outputPointsBottom.getElement((index+1)%newBottomPointsLength));
+		net.addPointToCurrentFace(outputPointsSide.getElement((2*index+1)%(2*newBottomPointsLength)));
+		net.addPointToCurrentFace(outputPointsSide.getElement(2*index));
+		net.endCurrentFace();
 	}
 
 

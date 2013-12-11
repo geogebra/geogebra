@@ -210,6 +210,16 @@ HasHeight
 		
 	}
 	
+	private int topFaceIndex;
+	
+	/**
+	 * says that current face created is the top face (for prism)
+	 * (warn : call it before endCurrentFace())
+	 */
+	public void setCurrentFaceIsTopFace(){
+		topFaceIndex = polygonsIndexMax;
+	}
+	
 
 	/**
 	 * update the faces regarding vertices and faces description
@@ -960,6 +970,8 @@ HasHeight
 			setVolume(polyhedron.getVolume());
 			setOrientedHeight(polyhedron.getOrientedHeight());
 			
+			topFaceIndex = polyhedron.topFaceIndex;
+			
 			// set polygons
 			//polygons.clear();
 			int index = 0;
@@ -1406,7 +1418,11 @@ HasHeight
 	 * @return top face (for prism)
 	 */
 	public GeoPolygon getTopFace(){
-		return polygons.lastEntry().getValue();
+		int index = topFaceIndex;
+		if (polygonsLinked.isEmpty()){
+			index++;
+		}
+		return polygons.get(index);
 	}
 	
 	
