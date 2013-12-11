@@ -435,7 +435,10 @@ namespace giac {
     return f;
   }
   gen derive(const gen & e,const gen & vars,GIAC_CONTEXT){
-          //  cout << e << " " << vars << endl;
+    //  cout << e << " " << vars << endl;
+    if (is_equal(e))
+      return symb_equal(derive(e._SYMBptr->feuille[0],vars,contextptr),
+			derive(e._SYMBptr->feuille[1],vars,contextptr));
     switch (vars.type){
     case _IDNT:
       return derive(e,*vars._IDNTptr,contextptr);
@@ -450,6 +453,9 @@ namespace giac {
   }
 
   gen derive(const gen & e,const gen & vars,const gen & nderiv,GIAC_CONTEXT){
+    if (is_equal(e))
+      return symb_equal(derive(e._SYMBptr->feuille[0],vars,nderiv,contextptr),
+			derive(e._SYMBptr->feuille[1],vars,nderiv,contextptr));
     if (nderiv.type==_INT_){
       int n=nderiv.val;
       gen ecopie(e),eprime(e);
