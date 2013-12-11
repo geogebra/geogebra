@@ -129,16 +129,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private FlowPanel wrappedPanel;
 	private OptionsTab basicTab;
-	//	private OptionsTab colorTab;
-	//	private OptionsTab styleTab;
-	//	private OptionsTab lineStyleTab;
-	//	private OptionsTab sliderTab;
-	//	private OptionsTab textTab;
-	//	private OptionsTab positionTab;
-	//	private OptionsTab algebraTab;
-	//	private OptionsTab scriptTab;
-	//	private OptionsTab advancedTab;
-
+	
 	//Basic
 	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
@@ -226,6 +217,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			TabBar tabBar = tabPanel.getTabBar();
 			tabBar.setTabText(index, getTabText());
 			tabBar.setTabEnabled(index, enabled);	
+			if (!enabled && tabBar.getSelectedTab() == index) {
+				tabBar.selectTab(0);
+			}
 			return enabled;
 		}
 
@@ -245,6 +239,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private final String titleId;
 		public CheckboxPanel(final String title) {
 			checkbox = new CheckBox();
+			checkbox.setStyleName("CheckBoxPanel");
 			setWidget(getCheckbox());
 			this.titleId = title;
 
