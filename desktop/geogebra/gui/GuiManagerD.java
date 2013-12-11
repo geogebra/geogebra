@@ -53,6 +53,7 @@ import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.gui.layout.panels.PythonDockPanel;
 import geogebra.gui.layout.panels.SpreadsheetDockPanel;
 import geogebra.gui.menubar.GeoGebraMenuBar;
+import geogebra.gui.nssavepanel.NSSavePanel;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.toolbar.ToolbarD;
 import geogebra.gui.util.BrowserLauncher;
@@ -98,7 +99,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -1789,6 +1789,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (((AppD)app).macsandbox) {
 			while (!done) {
 
+				NSSavePanel panel = new NSSavePanel();
+				String result = panel.saveDialog(app.getMenu("Save"), fileExtension);
+				file = new File(result);
+				done = true;
+				
+				/*
 				FileDialog fd = new FileDialog(((AppD) app).getFrame());
 				fd.setModal(true);
 				File currentPath = ((AppD) app).getCurrentPath();
@@ -1843,6 +1849,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				// Don't ask overwrite question again. Mac will do it already.
 				done = true;
+				*/
 			}
 			return file;
 		}			
