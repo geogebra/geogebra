@@ -978,6 +978,12 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionValue integral(FunctionVariable fv) {
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
-
-
+	
+	/**
+	 * @param d number
+	 * @return whether d is valid finite real number
+	 */
+	public static boolean isFinite(double d){
+		return !Double.isNaN(d) && !Double.isInfinite(d);
+	}
 }
