@@ -1477,6 +1477,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 */
 	public boolean isConvex() {
 		
+		if (getPointsLength() <= 3){
+			return true;
+		}
+		
 		if(Kernel.isZero(getArea())){ // flat polygon
 			return true;
 		}
