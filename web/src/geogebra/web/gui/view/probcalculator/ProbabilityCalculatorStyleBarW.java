@@ -69,7 +69,7 @@ public class ProbabilityCalculatorStyleBarW extends
 
 	}
 
-	private void updateGUI() {
+	void updateGUI() {
 		btnLineGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
 				probCalc.getSelectedDist()));
 		btnStepGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(

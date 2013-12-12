@@ -2,10 +2,13 @@ package geogebra.web.gui.view.probcalculator;
 
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.gui.images.AppResources;
@@ -52,7 +55,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private MyToggleButton2 btnIntervalRight;
 	private MyToggleButton2 btnExport;
 	private Label[] lblParameterArray;
-	private AutoCompleteTextFieldW[] fldParamterArray;
+	private AutoCompleteTextFieldW[] fldParameterArray;
 	private ListBox comboProbType, comboDistribution;
 	private Label lblProb;
 	private Label lblProbOf;
@@ -103,9 +106,61 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		   }
 	   });
 	   
+	   wrappedPanel.add(tabbedPane);
+	   
+	   setLabels();
+	   
+	   attachView();
+	   settingsChanged(app.getSettings().getProbCalcSettings());
+	   
+	   
 	   isIniting = false;
 	   
     }
+	
+	public void setLabels() {
+
+		tabbedPane.setTabText(0, loc.getMenu("Distribution"));
+
+		((SetLabels) statCalculator).setLabels();
+		tabbedPane.setTabText(1, loc.getMenu("Statistics"));
+
+		setLabelArrays();
+
+		lblDist.setText(loc.getMenu("Distribution") + ": ");
+		lblProb.setText(loc.getMenu("Probability") + ": ");
+
+		setProbabilityComboBoxMenu();
+
+		lblBetween.setText(loc.getMenu("XBetween")); // <= X <=
+		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
+		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
+
+		setDistributionComboBoxMenu();
+
+		if (table != null)
+			((ProbabilityTableW) table).setLabels();
+		if (styleBar != null)
+			styleBar.setLabels();
+
+		btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
+
+		btnIntervalLeft.setToolTipText(loc.getMenu("LeftProb"));
+		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
+		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
+
+	}
+	
+	/**
+	 * @return The style bar for this view.
+	 */
+	public ProbabilityCalculatorStyleBarW getStyleBar() {
+		if (styleBar == null) {
+			styleBar = new ProbabilityCalculatorStyleBarW( app, this);
+		}
+
+		return styleBar;
+	}
 	
 	private void createExportToEvAction() {
 		/**
@@ -181,9 +236,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
 	    
 	    //table panel
-	    table  = new ProbablitiyTableW(app, this);
+	    table  = new ProbabilityTableW(app, this);
 	    tablePanel = new FlowPanel();
-	    tablePanel.add(((ProbablitiyTableW)table).getWrappedPanel());    
+	    tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());    
     }
 
 	private void createControlPanel() {
@@ -195,7 +250,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		//parameter panel
 		for (int i = 0; i < maxParameterCount; i++) {
 			parameterPanel.add(lblParameterArray[i]);
-			parameterPanel.add(fldParamterArray[i]);
+			parameterPanel.add(fldParameterArray[i]);
 		}
 		
 		// interval panel
@@ -252,14 +307,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    btnExport.addClickHandler(this);
 	    
 	    lblParameterArray = new Label[maxParameterCount];
-	    fldParamterArray = new AutoCompleteTextFieldW[maxParameterCount];
+	    fldParameterArray = new AutoCompleteTextFieldW[maxParameterCount];
 	    
 	    for (int i = 0; i < maxParameterCount; i++) {
 	    	lblParameterArray[i] = new Label();
-	    	fldParamterArray[i] = new AutoCompleteTextFieldW(app);
-	    	fldParamterArray[i].setColumns(5);
-	    	fldParamterArray[i].addKeyHandler(this);
-	    	fldParamterArray[i].addFocusHandler(this);
+	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
+	    	fldParameterArray[i].setColumns(5);
+	    	fldParameterArray[i].addKeyHandler(this);
+	    	fldParameterArray[i].addFocusHandler(this);
 	    }
 	    
 	    comboProbType = new ListBox();
@@ -306,30 +361,265 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 	@Override
     public void updateAll() {
-	    // TODO Auto-generated method stub
-	    
+		//updateFonts();
+		updateDistribution();
+		updatePlotSettings();
+		updateIntervalProbability();
+		updateDiscreteTable();
+		setXAxisPoints();
+		updateProbabilityType();
+		updateGUI();
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}
+
     }
+	
+	private void updateProbabilityType() {
+
+		if (isIniting)
+			return;
+
+		boolean isDiscrete = probmanagerIsDiscrete();
+		int oldProbMode = probMode;
+
+		if (isCumulative) {
+			probMode = PROB_LEFT;
+		} else {
+			if (btnIntervalLeft.isSelected()) {
+				probMode = this.PROB_LEFT;
+			} else if (btnIntervalBetween.isSelected()) {
+				probMode = this.PROB_INTERVAL;
+			} else {
+				probMode = this.PROB_RIGHT;
+			}
+		}
+		this.getPlotDimensions();
+
+		if (probMode == PROB_INTERVAL) {
+			lowPoint.setEuclidianVisible(showProbGeos);
+			highPoint.setEuclidianVisible(showProbGeos);
+			fldLow.setVisible(true);
+			fldHigh.setVisible(true);
+			lblBetween.setText(loc.getMenu("XBetween"));
+
+			low = plotSettings.xMin + 0.4
+					* (plotSettings.xMax - plotSettings.xMin);
+			high = plotSettings.xMin + 0.6
+					* (plotSettings.xMax - plotSettings.xMin);
+
+		}
+
+		else if (probMode == PROB_LEFT) {
+			lowPoint.setEuclidianVisible(false);
+			highPoint.setEuclidianVisible(showProbGeos);
+			fldLow.setVisible(false);
+			fldHigh.setVisible(true);
+			lblBetween.setText(loc.getMenu("XLessThanOrEqual"));
+
+			if (oldProbMode == PROB_RIGHT) {
+				high = low;
+			}
+
+			if (isDiscrete)
+				low = ((GeoNumeric) discreteValueList.get(0)).getDouble();
+			else
+				low = plotSettings.xMin - 1; // move offscreen so the integral
+												// looks complete
+
+		}
+
+		else if (probMode == PROB_RIGHT) {
+			lowPoint.setEuclidianVisible(showProbGeos);
+			highPoint.setEuclidianVisible(false);
+			fldLow.setVisible(true);
+			fldHigh.setVisible(false);
+			lblBetween.setText(loc.getMenu("LessThanOrEqualToX"));
+
+			if (oldProbMode == PROB_LEFT) {
+				low = high;
+			}
+
+			if (isDiscrete)
+				high = ((GeoNumeric) discreteValueList.get(discreteValueList
+						.size() - 1)).getDouble();
+			else
+				high = plotSettings.xMax + 1; // move offscreen so the integral
+												// looks complete
+
+		}
+
+		// make result field editable for inverse probability calculation
+		if (probMode != PROB_INTERVAL) {
+			//fldResult.setBackground(fldLow.getBackground());
+			//fldResult.setBorder(fldLow.getBorder());
+			fldResult.setEditable(true);
+			fldResult.setFocusable(true);
+
+		} else {
+
+			//fldResult.setBackground(wrapperPanel.getBackground());
+			//fldResult.setBorder(BorderFactory.createEmptyBorder());
+			fldResult.setEditable(false);
+			fldResult.setFocusable(false);
+
+		}
+
+		if (isDiscrete) {
+			high = Math.round(high);
+			low = Math.round(low);
+
+			// make sure arrow keys move points in 1s
+			lowPoint.setAnimationStep(1);
+			highPoint.setAnimationStep(1);
+		} else {
+			lowPoint.setAnimationStep(0.1);
+			highPoint.setAnimationStep(0.1);
+		}
+		setXAxisPoints();
+		updateIntervalProbability();
+		updateGUI();
+	}
+	/**
+	 * Sets the distribution type. This will destroy all GeoElements and create
+	 * new ones.
+	 */
+	protected void updateDistribution() {
+
+		hasIntegral = !isCumulative;
+		createGeoElements();
+		// setSliderDefaults();
+
+		// update
+		if (probmanagerIsDiscrete()) {
+			discreteGraph.update();
+			discreteIntervalGraph.update();
+			// updateDiscreteTable();
+			addRemoveTable(true);
+			// this.fldParameterArray[0].requestFocus();
+
+		} else {
+			addRemoveTable(false);
+			densityCurve.update();
+			if (hasIntegral)
+				integral.update();
+		}
+
+		setMeanSigma();
+		//wrapperPanel.repaint();
+
+	}
+	
+	public void setMeanSigma() {
+		Double[] val = probManager.getDistributionMeasures(selectedDist,
+				parameters);
+
+		// mean/sigma are undefined for the Cauchy distribution
+		if (selectedDist == DIST.CAUCHY) {
+			lblMeanSigma.setText("");
+			return;
+		}
+
+		String distStr = distributionMap.get(selectedDist) + "(";
+		for (int i = 0; i < parameters.length; i++) {
+			distStr += format(parameters[i]);
+			if (i < parameters.length - 1) {
+				distStr += ",";
+			}
+		}
+		distStr += ")";
+
+		String mean = val[0] == null ? "" : format(val[0]);
+		String sigma = val[1] == null ? "" : format(val[1]);
+
+		String meanSigmaStr = Unicode.mu + " = " + mean + "   " + Unicode.sigma
+				+ " = " + sigma;
+
+		lblMeanSigma.setText(meanSigmaStr);
+	}
+	
+	private void addRemoveTable(boolean showTable) {
+		if (showTable) {
+			plotSplitPane.add(tablePanel);
+			//plotSplitPane.setDividerSize(defaultDividerSize);
+		} else {
+			plotSplitPane.remove(tablePanel);
+			//plotSplitPane.setDividerSize(0);
+		}
+	}
 
 	@Override
     protected void plotPanelUpdateSettings(PlotSettings settings) {
-	    // TODO Auto-generated method stub
-	    
-    }
+		((PlotPanelEuclidianViewW) plotPanel).commonFields.updateSettings(((PlotPanelEuclidianViewW) plotPanel), plotSettings);
+	}
 
 	@Override
     protected void updateDiscreteTable() {
-	    // TODO Auto-generated method stub
-	    
+		if (!probmanagerIsDiscrete())
+			return;
+		int[] firstXLastX = generateFirstXLastXCommon();
+		((ProbabilityTableW) table).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
     }
 
 	@Override
     protected void updateGUI() {
-	    // TODO Auto-generated method stub
-	    
+		// set visibility and text of the parameter labels and fields
+				for (int i = 0; i < maxParameterCount; ++i) {
+
+					boolean hasParm = i < ProbabilityManager.getParmCount(selectedDist);
+
+					lblParameterArray[i].setVisible(hasParm);
+					fldParameterArray[i].setVisible(hasParm);
+
+					// hide sliders for now ... need to work out slider range for each
+					// parm (tricky)
+					// sliderArray[i].setVisible(false);
+
+					if (hasParm) {
+						// set label
+						lblParameterArray[i].setVisible(true);
+						lblParameterArray[i].setText(parameterLabels[selectedDist
+								.ordinal()][i]);
+						// set field
+						//fldParameterArray[i].removeActionListener(this);
+						fldParameterArray[i].setText("" + format(parameters[i]));
+						fldParameterArray[i].setCaretPosition(0);
+						//fldParameterArray[i].addActionListener(this);
+					}
+				}
+
+				// set low/high interval field values
+				fldLow.setText("" + format(low));
+				fldLow.setCaretPosition(0);
+				fldHigh.setText("" + format(high));
+				fldHigh.setCaretPosition(0);
+				fldResult.setText("" + format(probability));
+				fldResult.setCaretPosition(0);
+
+				// set distribution combo box
+				//comboDistribution.removeActionListener(this);
+				if (comboDistribution.getValue(comboDistribution.getSelectedIndex()) != distributionMap
+						.get(selectedDist))
+					comboDistribution
+							.setSelectedIndex(getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+				//comboDistribution.addActionListener(this);
+
+				//btnIntervalLeft.removeActionListener(this);
+				//btnIntervalBetween.removeActionListener(this);
+				//btnIntervalRight.removeActionListener(this);
+
+				btnCumulative.setSelected(isCumulative);
+				btnIntervalLeft.setSelected(probMode == PROB_LEFT);
+				btnIntervalBetween.setSelected(probMode == PROB_INTERVAL);
+				btnIntervalRight.setSelected(probMode == PROB_RIGHT);
+
+				//btnIntervalLeft.addActionListener(this);
+				//btnIntervalBetween.addActionListener(this);
+				//btnIntervalRight.addActionListener(this);
     }
 
 	public void onChange(ChangeEvent event) {
-	    // TODO Auto-generated method stub
+	    // TODO continue here tomorrow with events!
 	    
     }
 

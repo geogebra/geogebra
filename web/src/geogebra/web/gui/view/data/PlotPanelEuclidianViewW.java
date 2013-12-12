@@ -57,7 +57,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanelEuclidianViewInterface {
 	
 	private EuclidianControllerW ec;
-	private PlotPanelEuclidianViewCommon commonFields;
+	public PlotPanelEuclidianViewCommon commonFields;
 	
 	private MyPointerHandler myPointerHandler;
 

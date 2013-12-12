@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * ProbablityTable for Web
  *
  */
-public class ProbablitiyTableW extends ProbabilityTable {
+public class ProbabilityTableW extends ProbabilityTable {
 
 	
 	private FlowPanel wrappedPanel;
@@ -27,7 +27,7 @@ public class ProbablitiyTableW extends ProbabilityTable {
 	 * @param app Application
 	 * @param probCalc ProbablityCalculator
 	 */
-	public ProbablitiyTableW(App app,
+	public ProbabilityTableW(App app,
             ProbabilityCalculatorViewW probCalc) {
 	   this.app = app;
 	   this.probCalc = probCalc;
