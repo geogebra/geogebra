@@ -24,6 +24,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
@@ -225,7 +226,8 @@ public class DrawParametricCurve extends Drawable {
 				if(middle >= low && middle <= high){
 					return true;
 				}
-				if((right < low && left < low && middle < low) || (right > high && left > high && middle > high)){
+				if((right < low && left < low && middle < low) || (right > high && left > high && middle > high)
+						|| (!MyDouble.isFinite(right) && !MyDouble.isFinite(left) && !MyDouble.isFinite(middle))){
 					return false;
 				}
 				App.debug("FALLBACK TO BUGGY AWT:"+middle+":"+low+"-"+high);
