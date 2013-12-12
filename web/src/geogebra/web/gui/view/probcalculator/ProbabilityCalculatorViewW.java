@@ -4,6 +4,7 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
@@ -418,6 +419,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			graphType = graphTypePDF;
 		}
 		updateAll();
+    }
+
+	/**
+	 * @return wheter distribution tab is open
+	 */
+	public boolean isDistributionTabOpen() {
+		return tabbedPane.getSelectedIndex() == 0;
+    }
+
+	/**
+	 * @return ProbabilitiManager
+	 */
+	public ProbabilityManager getProbManager() {
+	   return probManager;
     }
 
 }

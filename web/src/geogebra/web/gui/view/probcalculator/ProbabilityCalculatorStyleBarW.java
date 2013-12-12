@@ -4,14 +4,16 @@ import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.menubar.GCheckBoxMenuItem;
 import geogebra.web.gui.menubar.GRadioButtonMenuItem;
 import geogebra.web.gui.util.MyToggleButton2;
+import geogebra.web.helper.SafeHtmlFactory;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -21,18 +23,18 @@ import com.google.gwt.user.client.ui.MenuItem;
  *
  */
 public class ProbabilityCalculatorStyleBarW extends
-        ProbabiltyCalculatorStyleBar implements ValueChangeHandler<Boolean>, ClickHandler {
+        ProbabiltyCalculatorStyleBar implements ValueChangeHandler<Boolean>, ClickHandler, ScheduledCommand {
 	
 	private MenuBar wrappedToolbar;
 	private MenuItem btnRounding;
 	private MyMenuBar roundingPopup;
 	private MyToggleButton2 btnCumulative;
-	private MyToggleButton2 btnLineGraph;
-	private MyToggleButton2 btnStepGraph;
-	private MyToggleButton2 btnBarGraph;
+	private GCheckBoxMenuItem btnLineGraph;
+	private GCheckBoxMenuItem btnStepGraph;
+	private GCheckBoxMenuItem btnBarGraph;
 	private MyToggleButton2 btnGrid;
-	private MyToggleButton2 btnExport;
-	private MyToggleButton2 btnNormalOverLay;
+	private MenuItem btnExport;
+	private GCheckBoxMenuItem btnNormalOverlay;
 
 	public ProbabilityCalculatorStyleBarW(App app, ProbabilityCalculatorViewW probCalc) {
 		this.wrappedToolbar = new MenuBar();
@@ -41,7 +43,36 @@ public class ProbabilityCalculatorStyleBarW extends
 		
 		createGUI();
 		updateLayout();
+		updateGUI();
 	}
+
+	private void updateGUI() {
+		btnLineGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
+				probCalc.getSelectedDist()));
+		btnStepGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
+				probCalc.getSelectedDist()));
+		btnBarGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
+				probCalc.getSelectedDist()));
+
+		//btnLineGraph.removeActionListener(this);
+		//btnStepGraph.removeActionListener(this);
+		//btnBarGraph.removeActionListener(this);
+		//btnNormalOverlay.removeActionListener(this);
+
+		btnLineGraph
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_LINE);
+		btnStepGraph
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_STEP);
+		btnBarGraph
+				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_BAR);
+
+		btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
+
+		//btnLineGraph.addActionListener(this);
+		//btnStepGraph.addActionListener(this);
+		//btnBarGraph.addActionListener(this);
+		//btnNormalOverlay.addActionListener(this);
+    }
 
 	private void createGUI() {
 		wrappedToolbar.clearItems();
@@ -57,19 +88,14 @@ public class ProbabilityCalculatorStyleBarW extends
 			}
 		});
 		
-		btnLineGraph = new MyToggleButton2(AppResources.INSTANCE.line_graph());
-		btnLineGraph.addClickHandler(this);
+		btnLineGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.line_graph()));
+		btnLineGraph.setScheduledCommand(this);
 		
-		btnStepGraph = new MyToggleButton2(AppResources.INSTANCE.step_graph());
-		btnStepGraph.addClickHandler(this);
+		btnStepGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.step_graph()));
+		btnStepGraph.setScheduledCommand(this);
 		
-		btnBarGraph = new MyToggleButton2(AppResources.INSTANCE.bar_graph());
-		btnBarGraph.addClickHandler(this);
-		
-		FlowPanel bg = new FlowPanel();
-		bg.add(btnBarGraph);
-		bg.add(btnLineGraph);
-		bg.add(btnStepGraph);
+		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()));
+		btnBarGraph.setScheduledCommand(this);
 		
 		btnGrid = new MyToggleButton2(AppResources.INSTANCE.grid());
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
@@ -84,11 +110,11 @@ public class ProbabilityCalculatorStyleBarW extends
 			}
 		});
 		
-		btnExport = new MyToggleButton2(AppResources.INSTANCE.export16());
-		btnExport.addClickHandler(this);
+		btnExport = new MenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.export16()));
+		btnExport.setScheduledCommand(this);
 		
-		btnNormalOverLay = new MyToggleButton2(AppResources.INSTANCE.normal_overlay());
-		btnNormalOverLay.addClickHandler(this);
+		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()));
+		btnNormalOverlay.setScheduledCommand(this);
 	    
     }
 
@@ -163,8 +189,28 @@ public class ProbabilityCalculatorStyleBarW extends
     }
 
 	public void updateLayout() {
-	    // TODO Continue here tomorrow! Auto-generated method stub
-	    
+		wrappedToolbar.clearItems();
+
+		if (((ProbabilityCalculatorViewW) probCalc).isDistributionTabOpen()) {
+			// add(btnRounding);
+			// addSeparator();
+			// add(btnCumulative);
+			// addSeparator();
+			wrappedToolbar.addItem(btnLineGraph);
+			wrappedToolbar.addItem(btnStepGraph);
+			wrappedToolbar.addItem(btnBarGraph);
+			wrappedToolbar.addSeparator();
+			wrappedToolbar.addItem(btnNormalOverlay);
+
+			wrappedToolbar.addSeparator();
+			wrappedToolbar.addItem(btnExport);
+			// add(btnGrid); (grid doesn't work well with discrete graphs and
+			// point
+			// capturing)
+		}else{
+			// keep bar height uniform 
+			///wrappedToolbar.add(Box.createVerticalStrut(20));
+		}
     }
 
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -186,6 +232,11 @@ public class ProbabilityCalculatorStyleBarW extends
 
 	@Override
     public void onClick(ClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void execute() {
 	    // TODO Auto-generated method stub
 	    
     }
