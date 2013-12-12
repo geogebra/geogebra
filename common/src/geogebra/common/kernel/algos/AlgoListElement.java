@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -94,8 +95,12 @@ public class AlgoListElement extends AlgoElement {
 
 	private static GeoElement getGenericElement(GeoList geoList, int index) {
 		GeoElement toCopy = geoList.get(index);
-		if(geoList.getElementType() == GeoClass.DEFAULT){
-			for(int i=1;i<geoList.size();i++){
+		if(geoList.getElementType() == GeoClass.DEFAULT && 
+				//we have list {2,x}, not eg Factors[2x]
+				(geoList.getParentAlgorithm() == null || geoList.getParentAlgorithm() instanceof AlgoDependentList)
+				//for {a,x} also return number a, not function
+				&& !Inspecting.dynamicGeosFinder.check(toCopy)){
+			for(int i=0;i<geoList.size();i++){
 				if(Test.canSet(geoList.get(i),toCopy)){
 					toCopy = geoList.get(i);
 				}
