@@ -1042,7 +1042,7 @@ __GGB__keysVar.es_UY.error = {
     "FileFormatUnknown": "Formato de archivo desconocido",
     "FileIsTooLarge": "Archivo de datos demasiado extenso",
     "FileNotFound": "Archivo no hallado",
-    "FunctionExpected": "Se espera una funci\xf3n",
+    "FunctionExpected": "Se requiere una funci\xf3n",
     "HelpNotFound": "No se encontr\xf3 la ayuda en l\xednea.",
     "IllegalAddition": "Adici\xf3n ilegal",
     "IllegalArgument": "Argumento ilegal",
@@ -1065,7 +1065,7 @@ __GGB__keysVar.es_UY.error = {
     "LengthMustBeConstant": "Toda longitud debe ser constante",
     "LoadFileFailed": "Error al abrir el archivo",
     "NameUsed": "Este r\xf3tulo ya est\xe1 en uso",
-    "NumberExpected": "Se esperaba un n\xfamero",
+    "NumberExpected": "Se requiere un n\xfamero",
     "PasteImageFailed": "Lamentablemente, no puede pegarse la imagen del portapapeles",
     "RenameFailed": "Error al renombrar",
     "ReplaceFailed": "Error al redefinir",
@@ -1080,7 +1080,7 @@ __GGB__keysVar.es_UY.error = {
     "UndefinedVariable": "Variable no definida",
     "UnknownCommand": "Comando desconocido",
     "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible en el equipo.",
-    "VectorExpected": "Se requieren punto o vector",
+    "VectorExpected": "Se requiere un punto o vector",
 }
 
 
@@ -2101,6 +2101,7 @@ __GGB__keysVar.es_UY.plain = {
     "Cancel": "Cancela",
     "Caption": "Subt\xedtulo",
     "CartesianCoords": "Coordenadas cartesiana",
+    "CartesianCoords3D": "Coordenadas cartesianas 3D",
     "CasCell": "Formulaci\xf3n en celda CAS",
     "CasTimeout": "Plazo de espera de CAS (en segundos)",
     "CellAisNotDefined": "Celda %0 no definida",
@@ -2574,6 +2575,7 @@ __GGB__keysVar.es_UY.plain = {
     "Sphere": "Esfera",
     "SphereThroughAwithCenterB": "Esfera a trav\xe9s de %0 con centro en %1",
     "SphereWithCenterAandRadiusB": "Esfera con centro en %0 y radio %1",
+    "Spherical": "Coordenadas esf\xe9ricas",
     "Spreadsheet": "Hoja de c\xe1lculo",
     "StandardObject": "Objeto est\xe1ndar",
     "StandardView": "Vista est\xe1ndar",
