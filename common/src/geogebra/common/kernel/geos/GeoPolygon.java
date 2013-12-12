@@ -1468,6 +1468,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public boolean isPartOfClosedSurface() {
 		return false; // TODO
 	}
+	
 
 	/**
 	 * if this is a convex polygon
@@ -1475,6 +1476,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 * @return if this is a convex polygon
 	 */
 	public boolean isConvex() {
+		
+		if(Kernel.isZero(getArea())){ // flat polygon
+			return true;
+		}
 		
 		// remove same successive points
 		ArrayList<Double> xList = new ArrayList<Double>();
@@ -1495,18 +1500,29 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		}
 		
 		int n = xList.size();
+		if (n<=3){
+			return true;
+		}
+		
 		
 		// remove last point if equals first points
-		if (!Kernel.isEqual(xList.get(0), xList.get(n-1)) || !Kernel.isEqual(yList.get(0), yList.get(n-1))){
+		if (Kernel.isEqual(xList.get(0), xList.get(n-1)) && Kernel.isEqual(yList.get(0), yList.get(n-1))){
+			if (n==4){
+				return true;
+			}
 			xList.remove(n-1);
 			yList.remove(n-1);
 			n--;
 		}
 		
 		
-		if (n<=3){
-			return true;
-		}
+		
+		
+		
+
+		// check orientations
+		boolean answer = true;
+		boolean hasAngle360 = false;
 		
 		double x1 = xList.get(n-1);
 		double y1 = yList.get(n-1);
@@ -1518,10 +1534,19 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		double dx2 = x2 - x1;
 		double dy2 = y2 - y1;
 		
+		
 		// calc first orientation
 		int orientation = Kernel.compare(dy1*dx2, dx1*dy2);
+		if (orientation == 0){
+			if (Kernel.isGreater(0, dx1*dx2+dy1*dy2)){ // U-turn
+				answer = false; 
+			}
+		}
+		
+		
+	
 
-		boolean answer = true;
+		
 		int i = 1;
 		while ((answer == true)&&(i<n)) {
 			dx1 = dx2;
@@ -1533,19 +1558,28 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			dx2 = x2 - x1;
 			dy2 = y2 - y1;
 			int orientation2 = Kernel.compare(dy1*dx2, dx1*dy2);
-			//App.debug(""+answer);
+			//App.debug(""+answer+","+hasAngle360);
 			//App.debug("i : "+i+" -- orientations : "+orientation+","+orientation2);
-			if (orientation == 0){ // no orientation for now
-				orientation = orientation2;
-			}else{				
-				if (orientation2 != 0 && orientation2 != orientation){
+			
+			if (!hasAngle360 && orientation2 == 0){ // U-turn
+				if (Kernel.isGreater(0, dx1*dx2+dy1*dy2)){
 					answer = false;
+				}
+			}
+
+			if (answer){
+				if (orientation == 0){ // no orientation for now
+					orientation = orientation2;
+				}else{				
+					if (orientation2 != 0 && orientation2 != orientation){
+						answer = false; // stop here
+					}
 				}
 			}
 			i++;
 		}
+
 		
-		//App.debug(""+answer);
 		
 		return answer;
 	}
