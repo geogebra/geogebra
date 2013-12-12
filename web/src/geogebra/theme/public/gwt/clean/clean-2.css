@@ -2115,6 +2115,55 @@ label {
 	display: inline-block;
 }
 
+.checkBoxPanel {
+	display: block;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	
+}
+
+.listBoxPanel {
+	display: block;
+}
+
+.listBoxPanel .gwt-Label {
+	display: inline;
+	padding-right: 2px;
+}
+
+.optionsInput {
+	display: inline-block;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	
+}
+
+.optionsInput table {
+	display: inline-table;
+}
+
+.optionsInput .gwt-Label {
+	display: inline;
+	padding-right: 2px;
+}
+
+
+.optionsSlider {
+	display: inline-block;
+}
+
+
+.optionsSlider .gwt-Label {
+	display: inline;
+	padding-left: 2px;
+	padding-right: 2px;
+	
+}
+
+.optionsInput .gwt-Label {
+	padding-left: 10px;
+}
+
 .textOptionsToolBar {
 	display: inline-block;
 	

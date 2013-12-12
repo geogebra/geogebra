@@ -117,7 +117,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsObjectW extends
@@ -239,7 +238,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private final String titleId;
 		public CheckboxPanel(final String title) {
 			checkbox = new CheckBox();
-			checkbox.setStyleName("CheckBoxPanel");
+			checkbox.setStyleName("checkBoxPanel");
 			setWidget(getCheckbox());
 			this.titleId = title;
 
@@ -475,7 +474,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private class ColorPanel extends OptionPanel implements IColorObjectListener {
 		private ColorObjectModel model;
-		private VerticalPanel mainPanel;
+		private FlowPanel mainPanel;
 		private ColorPopupMenuButton colorChooser;
 		private GColor selectedColor;
 		private SelectionTable colorTable;
@@ -518,7 +517,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			};
 
 			colorChooser.setKeepVisible(false);
-			mainPanel = new VerticalPanel();
+			mainPanel = new FlowPanel();
 			FlowPanel colorPanel = new FlowPanel();
 			chooseLabel = new Label();
 			colorPanel.add(chooseLabel);
@@ -607,15 +606,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private ObjectNameModel model;
 		private AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
-		//	private Runnable doActionStopped = new Runnable() {
-		//		public void run() {
-		//			actionPerforming = false;
-		//		}
-		//	};
 		private Label nameLabel, defLabel, captionLabel;
 		private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
 
-		private VerticalPanel mainWidget;
+		private FlowPanel mainWidget;
 		private FlowPanel namePanel;
 		private FlowPanel defPanel;
 		private FlowPanel captionPanel;
@@ -690,12 +684,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					}
 				}});
 
-			mainWidget = new VerticalPanel();
+			mainWidget = new FlowPanel();
 
 			// name panel
 			namePanel = new FlowPanel();
 			nameLabel = new Label();
-			namePanel.add(nameLabel);
+			inputPanelName.insert(nameLabel, 0);
+			
 			namePanel.add(inputPanelName);
 			mainWidget.add(namePanel);
 
@@ -713,6 +708,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			captionPanel.add(inputPanelCap);
 			mainWidget.add(captionPanel);
 
+			namePanel.setStyleName("optionsInput");
+			defPanel.setStyleName("optionsInput");
+			captionPanel.setStyleName("optionsInput");
 			setWidget(mainWidget);
 			updateGUI(true, true);
 		}
@@ -1001,7 +999,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			minLabel = new Label("1");
 			flow.add(minLabel);
-
+			flow.setStyleName("optionsSlider");
 			slider = new Slider(1, 9);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
@@ -1092,7 +1090,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainPanel.add(sliderLabel);
 
 			FlowPanel flow = new FlowPanel();
-
+			flow.setStyleName("optionsSlider");
 			minLabel = new Label("1");
 			flow.add(minLabel);
 			slider = new Slider(1, GeoElement.MAX_LINE_WIDTH);
@@ -1179,6 +1177,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			FlowPanel flow = new FlowPanel();
 
 			minLabel = new Label("10");
+			flow.setStyleName("optionsSlider");
 			flow.add(minLabel);
 
 			slider = new Slider(10, 100);
@@ -1231,6 +1230,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			minLabel = new Label("1");
 			flow.add(minLabel);
+			flow.setStyleName("optionsSlider");
 
 			slider = new Slider(1, 10);
 			slider.setMajorTickSpacing(1);
@@ -1432,6 +1432,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
 		private ColorFunctionModel model;
+		private InputPanelW inputPanelA;
 		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
 		private Button btRemove;
 		private Label title;
@@ -1454,7 +1455,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), 1, -1, true);
 			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1, true);
 			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1, true);
-			InputPanelW inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
+			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
 			tfRed = (AutoCompleteTextFieldW) inputPanelR.getTextComponent();
 			tfGreen = (AutoCompleteTextFieldW) inputPanelG.getTextComponent();
 			tfBlue = (AutoCompleteTextFieldW) inputPanelB.getTextComponent();
@@ -1638,7 +1639,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void showAlpha(boolean value) {
-			tfAlpha.setVisible(value);
+			inputPanelA.setVisible(value);
 			nameLabelA.setVisible(value);
 		}
 
@@ -2306,7 +2307,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			basicTab.add(namePanel);
 		}
 
-		VerticalPanel checkboxPanel = new VerticalPanel();
+		FlowPanel checkboxPanel = new FlowPanel();
 		basicTab.add(checkboxPanel);
 
 

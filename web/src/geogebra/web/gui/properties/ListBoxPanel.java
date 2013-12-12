@@ -23,7 +23,8 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		setLabel(new Label());
 		listBox = new ListBox();
 		FlowPanel mainWidget = new FlowPanel(); 
-		
+		mainWidget.setStyleName("listBoxPanel");
+
 		mainWidget.add(getLabel());
 		mainWidget.add(getListBox());
 		
