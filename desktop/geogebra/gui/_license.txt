@@ -167,7 +167,7 @@ TRANSLATORS
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
       Nguyen Danh Nam (Vietnam)
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
-      Gwyn Jones, Sera Roberts (Wales)
+      Gwyn Jones, Sera Roberts, Geraint Rowlands (Wales)
   * Yiddish: Eliezer Niborski (France, Israel)
 
 
