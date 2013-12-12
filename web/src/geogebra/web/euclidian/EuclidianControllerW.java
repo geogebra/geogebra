@@ -24,6 +24,7 @@ import geogebra.web.main.AppW;
 import java.util.LinkedList;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureChangeHandler;
@@ -294,14 +295,34 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 	
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
-
+	private int deltaSum = 0;
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
-		 event.preventDefault();
-		 wrapMouseWheelMoved(mouseEventX(event.getClientX()),mouseEventY(event.getClientY()),event.getDeltaY(),
+		double delta = event.getDeltaY();
+		//we are on device where many small scrolls come, we want to merge them
+		if(delta==0){
+			deltaSum += getNativeDelta(event.getNativeEvent());
+			if(Math.abs(deltaSum)>40){
+				double ds = deltaSum;
+				deltaSum = 0;
+				wrapMouseWheelMoved(mouseEventX(event.getClientX()),mouseEventY(event.getClientY()),ds,
+						 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
+			}
+		//normal scrolling
+		}else{
+			deltaSum=0;
+			wrapMouseWheelMoved(mouseEventX(event.getClientX()),mouseEventY(event.getClientY()),delta,
 				 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
+		}
+		event.preventDefault(); 
 	}
+
+	private native double getNativeDelta(NativeEvent evt) /*-{
+	    return -evt.wheelDelta;
+    }-*/;
+
+
 
 	public void onMouseOver(MouseOverEvent event) {
 		 wrapMouseEntered();
@@ -394,6 +415,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public void onMouseDown(MouseDownEvent event) {
+		deltaSum = 0;
 		if(this.ignoreNextMouseEvent){
 			this.ignoreNextMouseEvent = false;
 			return;
