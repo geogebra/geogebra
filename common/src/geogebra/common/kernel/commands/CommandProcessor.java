@@ -165,15 +165,7 @@ public abstract class CommandProcessor {
 		Construction cmdCons = c.getKernel().getConstruction();
 		GeoNumeric num = new GeoNumeric(cmdCons);
 		cmdCons.addLocalVariable(localVarName, num);
-		if (localVarName.equals("z")) {
-			// parse again to undo z*z -> Function
-			try {
-				c.setArgument(0, kernelA.getParser().parseGeoGebraExpression(c.getArgument(0).toString(StringTemplate.xmlTemplate)).wrap());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		replaceZvarIfNeeded(localVarName, c);
 		// initialize first value of local numeric variable from initPos
 		if (initPos != varPos) {
 			boolean oldval = cons.isSuppressLabelsActive();
@@ -193,6 +185,19 @@ public abstract class CommandProcessor {
 		// remove local variable name from kernel again
 		cmdCons.removeLocalVariable(localVarName);
 		return arg;
+	}
+
+	private void replaceZvarIfNeeded(String name,Command c) {
+		if (name.equals("z")) {
+			// parse again to undo z*z -> Function
+			try {
+				c.setArgument(0, kernelA.getParser().parseGeoGebraExpression(c.getArgument(0).toString(StringTemplate.xmlTemplate)).wrap());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	/**
@@ -242,6 +247,7 @@ public abstract class CommandProcessor {
 			}
 
 			cmdCons.addLocalVariable(localVarName, num);
+			replaceZvarIfNeeded(localVarName, c);
 			// set local variable as our varPos argument
 			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
 			vars[varPos / 2] = num.toGeoElement();
