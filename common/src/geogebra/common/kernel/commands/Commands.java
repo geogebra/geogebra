@@ -240,7 +240,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Reflect(TABLE_ENGLISH),
    	CFactor(TABLE_CAS),
    	CIFactor(TABLE_CAS),
-   	IFactor(TABLE_CAS),
+   	IFactor(TABLE_ALGEBRA),
    	CommonDenominator(TABLE_ALGEBRA),
    	Cross(TABLE_CAS),
    	CSolutions(TABLE_CAS),
