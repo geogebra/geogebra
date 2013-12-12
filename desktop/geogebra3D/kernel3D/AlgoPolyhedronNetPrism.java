@@ -61,7 +61,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 	@Override
 	protected void setOutputSideTop(int n, GeoPolygon3D polygon, int step, GeoSegmentND[] segments){
-		if (step == n) {
+		if (step == n + 2) { // top
 			outputPolygonsTop.addOutput(polygon, false);
 			for (int i=1; i<segments.length; i++) {
 				outputSegmentsTop.addOutput((GeoSegment3D) segments[i], false);	
@@ -219,7 +219,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 			GeoPolyhedronNet net = getNet();
 			for (int i = nOld; i < newBottomPointsLength; i++){
 				createSideFace(net, i, newBottomPointsLength);
-				GeoPolygon3D polygon = net.createPolygon(i+1); // +1 shift since bottom is face #0
+				GeoPolygon3D polygon = net.createPolygon(i+2); // +2 shift for bottom and top
 				setOutputSide(polygon);
 				outputSegmentsBottom.addOutput((GeoSegment3D) polygon.getSegments()[0], false);	// add segment to bottom list now
 			}
@@ -268,18 +268,19 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		GeoPointND pointBottom2 = outputPointsBottom.getElement((index+1) % newBottomPointsLength);
 		GeoPointND pointSide2 = outputPointsSide.getElement(2*index);
 		GeoPointND pointSide1 = outputPointsSide.getElement((2*index+1)%(2*newBottomPointsLength));
-				
+		
 		//update segments
 		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
 		GeoSegmentND segmentSide3 = outputSegmentsSide.getElement(3*index);
 		GeoSegmentND segmentSide2 = outputSegmentsSide.getElement(3*index+1);
-		GeoSegmentND segmentSide1 = outputSegmentsSide.getElement((3*index+2) % (2*newBottomPointsLength));
+		GeoSegmentND segmentSide1 = outputSegmentsSide.getElement((3*index+2) % (3*newBottomPointsLength));
 		segmentSide1.modifyInputPoints(pointBottom2,pointSide1);		
 		segmentSide2.modifyInputPoints(pointSide1, pointSide2);
-		segmentSide3.modifyInputPoints(pointSide2,pointBottom1);		
-		
+		segmentSide3.modifyInputPoints(pointSide2,pointBottom1);	
+				
 		//update side
 		GeoPolygon polygon = outputPolygonsSide.getElement(index);
+		App.debug(polygon+"");
 		GeoPointND[] points = new GeoPointND[4];
 		points[0] = pointBottom1;
 		points[1] = pointBottom2;
@@ -297,7 +298,8 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 	}
 	
 	
-	private void createSideFace(GeoPolyhedronNet net, int index, int newBottomPointsLength){		
+	private void createSideFace(GeoPolyhedronNet net, int index, int newBottomPointsLength){
+
 		net.startNewFace();
 		net.addPointToCurrentFace(outputPointsBottom.getElement(index));
 		net.addPointToCurrentFace(outputPointsBottom.getElement((index+1)%newBottomPointsLength));
