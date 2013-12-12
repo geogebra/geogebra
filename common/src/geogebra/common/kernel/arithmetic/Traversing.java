@@ -12,7 +12,6 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -535,6 +534,11 @@ public interface Traversing {
 		}
 	}
 	
+	/**
+	 * Replaces diff function comming from GIAC
+	 * @author Zbynek
+	 *
+	 */
 	public class DiffReplacer implements Traversing{
 
 		@Override
@@ -543,7 +547,7 @@ public interface Traversing {
 				return ev;
 			}
 			ExpressionNode en = (ExpressionNode)ev;
-			Log.debug(en);
+
 			if(en.getOperation()!=Operation.DIFF){
 				return ev;
 			}
@@ -579,6 +583,9 @@ public interface Traversing {
 					Operation.FUNCTION, diffArg).multiplyR(mult); // Variable
 		}
 		
+		/**
+		 * Singleton instance
+		 */
 		public static final DiffReplacer INSTANCE = new DiffReplacer();
 	}
 	
