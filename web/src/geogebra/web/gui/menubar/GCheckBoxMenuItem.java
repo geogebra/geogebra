@@ -1,11 +1,19 @@
 package geogebra.web.gui.menubar;
 
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * @author gabor
+ * 
+ * Menuitem that uses checkbox
+ *
+ */
 public class GCheckBoxMenuItem extends MenuItem {
 
 	private FlowPanel panel;
@@ -26,8 +34,15 @@ public class GCheckBoxMenuItem extends MenuItem {
 
 	public void setSelected(boolean selected) {
 	    checkbox.setValue(selected);
-	    this.setHTML(panel.getElement().getInnerHTML());
-	    
+	    this.setHTML(panel.getElement().getInnerHTML());	    
+    }
+	
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
+		return checkbox.addValueChangeHandler(handler);
+	}
+
+	public boolean isSelected() {
+	    return checkbox.getValue() == true;
     }
 	
 	

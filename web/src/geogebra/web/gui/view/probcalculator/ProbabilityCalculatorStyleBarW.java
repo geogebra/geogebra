@@ -14,16 +14,18 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.RadioButton;
 
 /**
  * @author gabor Probability Calculator Stylebar for web
  *
  */
 public class ProbabilityCalculatorStyleBarW extends
-        ProbabiltyCalculatorStyleBar implements ValueChangeHandler<Boolean>, ClickHandler, ScheduledCommand {
+        ProbabiltyCalculatorStyleBar implements ValueChangeHandler<Boolean> {
 	
 	private MenuBar wrappedToolbar;
 	private MenuItem btnRounding;
@@ -35,6 +37,10 @@ public class ProbabilityCalculatorStyleBarW extends
 	private MyToggleButton2 btnGrid;
 	private MenuItem btnExport;
 	private GCheckBoxMenuItem btnNormalOverlay;
+	private HandlerRegistration btnLineGraphHandler;
+	private HandlerRegistration btnStepGraphHandler;
+	private HandlerRegistration btnBarGraphHandler;
+	private HandlerRegistration btnNormalOverlayHandler;
 
 	public ProbabilityCalculatorStyleBarW(App app, ProbabilityCalculatorViewW probCalc) {
 		this.wrappedToolbar = new MenuBar();
@@ -44,6 +50,23 @@ public class ProbabilityCalculatorStyleBarW extends
 		createGUI();
 		updateLayout();
 		updateGUI();
+		setLabels();
+	}
+	
+	/**
+	 * Updates localized labels
+	 */
+	public void setLabels() {
+		btnRounding.setText(app.getMenu("Rounding"));
+		btnExport.setTitle(app.getMenu("Export"));
+		btnLineGraph.setTitle(app.getMenu("LineGraph"));
+
+		btnStepGraph.setTitle(app.getMenu("StepGraph"));
+		btnBarGraph.setTitle(app.getMenu("BarChart"));
+		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
+
+		// btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+
 	}
 
 	private void updateGUI() {
@@ -54,10 +77,10 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
 				probCalc.getSelectedDist()));
 
-		//btnLineGraph.removeActionListener(this);
-		//btnStepGraph.removeActionListener(this);
-		//btnBarGraph.removeActionListener(this);
-		//btnNormalOverlay.removeActionListener(this);
+		btnLineGraphHandler.removeHandler();
+		btnStepGraphHandler.removeHandler();
+		btnBarGraphHandler.removeHandler();
+		btnNormalOverlayHandler.removeHandler();
 
 		btnLineGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_LINE);
@@ -68,10 +91,10 @@ public class ProbabilityCalculatorStyleBarW extends
 
 		btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
 
-		//btnLineGraph.addActionListener(this);
-		//btnStepGraph.addActionListener(this);
-		//btnBarGraph.addActionListener(this);
-		//btnNormalOverlay.addActionListener(this);
+		btnLineGraphHandler = btnLineGraph.addValueChangeHandler(this);
+		btnStepGraphHandler = btnStepGraph.addValueChangeHandler(this);
+		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
+		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
     }
 
 	private void createGUI() {
@@ -89,13 +112,13 @@ public class ProbabilityCalculatorStyleBarW extends
 		});
 		
 		btnLineGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.line_graph()));
-		btnLineGraph.setScheduledCommand(this);
+		btnLineGraphHandler = btnLineGraph.addValueChangeHandler(this);
 		
 		btnStepGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.step_graph()));
-		btnStepGraph.setScheduledCommand(this);
+		btnStepGraphHandler = btnStepGraph.addValueChangeHandler(this);
 		
 		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()));
-		btnBarGraph.setScheduledCommand(this);
+		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 		
 		btnGrid = new MyToggleButton2(AppResources.INSTANCE.grid());
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
@@ -111,10 +134,18 @@ public class ProbabilityCalculatorStyleBarW extends
 		});
 		
 		btnExport = new MenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.export16()));
-		btnExport.setScheduledCommand(this);
+		btnExport.setScheduledCommand(new ScheduledCommand() {
+			
+			public void execute() {
+				//JPopupMenu menu = ((ProbabilityCalculatorViewD) probCalc).getPlotPanel().getContextMenu();
+				//menu.show(btnExport,
+				//		-menu.getPreferredSize().width + btnExport.getWidth(),
+				//TODO		btnExport.getHeight());
+			}
+		});
 		
 		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()));
-		btnNormalOverlay.setScheduledCommand(this);
+		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
 	    
     }
 
@@ -214,7 +245,56 @@ public class ProbabilityCalculatorStyleBarW extends
     }
 
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-	    // TODO Auto-generated method stub
+		Object source = event.getSource();
+		if (source instanceof RadioButton) {
+			String cmd = ((RadioButton) source).getElement().getAttribute("data-command");
+		    
+		    if (cmd != null) {
+		 		if (cmd.endsWith("decimals")) {
+		 			try {
+		 				String decStr = cmd.substring(0, 2).trim();
+		 				int decimals = Integer.parseInt(decStr);
+		 				// Application.debug("decimals " + decimals);
+		 				((ProbabilityCalculatorViewW) probCalc).updatePrintFormat(decimals, -1);
+	
+		 			} catch (Exception ex) {
+		 				app.showError(ex.toString());
+		 			}
+		 		}
+	
+		 		// significant figures
+		 		else if (cmd.endsWith("figures")) {
+		 			try {
+		 				String decStr = cmd.substring(0, 2).trim();
+		 				int figures = Integer.parseInt(decStr);
+		 				// Application.debug("figures " + figures);
+		 				((ProbabilityCalculatorViewW) probCalc).updatePrintFormat(-1, figures);
+	
+		 			} catch (Exception ex) {
+		 				app.showError(ex.toString());
+		 			}
+		 		}
+		    }
+		} else if (event.getSource() == btnLineGraph) {
+			if (btnLineGraph.isSelected())
+				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_LINE);
+		}
+
+		else if (event.getSource() == btnBarGraph) {
+			if (btnBarGraph.isSelected())
+				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_BAR);
+		}
+
+		else if (event.getSource() == btnStepGraph) {
+			if (btnStepGraph.isSelected())
+				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_STEP);
+		}
+
+		else if (event.getSource() == btnNormalOverlay) {
+			probCalc.setShowNormalOverlay(btnNormalOverlay.isSelected());
+			probCalc.updateAll();
+		}
+	    
 	    
     }
 	
@@ -229,16 +309,5 @@ public class ProbabilityCalculatorStyleBarW extends
 		}
 		
 	}
-
-	@Override
-    public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void execute() {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 }

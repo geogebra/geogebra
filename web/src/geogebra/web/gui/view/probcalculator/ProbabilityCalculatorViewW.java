@@ -435,4 +435,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   return probManager;
     }
 
+	public void updatePrintFormat(int printDecimals, int printFigures) {
+		this.printDecimals = printDecimals;
+		this.printFigures = printFigures;
+		updateGUI();
+		updateDiscreteTable();
+    }
+
 }

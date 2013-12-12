@@ -46,4 +46,11 @@ public class GRadioButtonMenuItem extends MenuItem {
 	    base.radio.addValueChangeHandler(al);
     }
 	
+	/**
+	 * @return the action command
+	 */
+	public String getActionCommand() {
+		return base.radio.getElement().getAttribute("data-command");
+	}
+	
 }

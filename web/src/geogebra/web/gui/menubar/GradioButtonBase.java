@@ -27,6 +27,7 @@ public class GradioButtonBase {
 	 */
 	public GradioButtonBase(String html, String cmd, String groupName) {
 		radio = new RadioButton(groupName);
+		radio.getElement().setAttribute("data-command", cmd);
 		itemPanel = new FlowPanel();
 		itemPanel.add(radio);
 		itemPanel.add(new HTML(html));
