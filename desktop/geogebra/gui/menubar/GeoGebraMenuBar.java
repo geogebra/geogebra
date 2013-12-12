@@ -19,7 +19,8 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.LocalizationD;
-import geogebra.move.ggtapi.models.GeoGebraTubeAPID;
+import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
+import geogebra.move.ggtapi.models.LoginOperationD;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -162,14 +163,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				App.error("JavaFX 2.2 not available");
 			}
 			
-			boolean ggtAPIAvailable = GeoGebraTubeAPID.getInstance().isAvailable(); 
-			if (! ggtAPIAvailable) {
-				App.error("GeoGebraTube not available. Hiding Sign In Button.");
-			}
-			
 			// JavaFX 2.2 available by default only on Java 7u6 or higher
 			// http://www.oracle.com/us/corporate/press/1735645
-			if (javaFx22Available && ggtAPIAvailable) {
+			if (javaFx22Available) {
 				
 				// try needed for eg OSX 10.6 with fake jfxrt.jar
 				try {
@@ -267,13 +263,14 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		signInButton.setFocusPainted(false);
 		Localization loc = app.getLocalization();
 		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));
-
 		
 		// Add the menu bar as a listener for login/logout operations
 		LogInOperation signIn = app.getLoginOperation();
 		signIn.getView().add(this);
 		if (signIn.isLoggedIn()) {
 			onLogin(true, signIn.getModel().getLoggedInUser(), true);
+		} else if (! ((LoginOperationD) signIn).isTubeAvailable()) {
+			signInButton.setVisible(false);
 		}
 	}
 	
@@ -283,11 +280,23 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginAttemptEvent) {
 			signInButton.setAction(signInInProgressAction);
+			signInButton.setVisible(true);
 		} else if (event instanceof LogOutEvent) {
 			signInButton.setAction(signInAction);
+			signInButton.setVisible(true);
 		} else if (event instanceof LoginEvent) {
 			LoginEvent loginEvent = (LoginEvent) event;
 			onLogin(loginEvent.isSuccessful(), loginEvent.getUser(), loginEvent.isAutomatic());
+			signInButton.setVisible(true);
+		} else if (event instanceof TubeAvailabilityCheckEvent) {
+			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
+			onTubeAvailable(checkEvent.isAvailable());
+		}
+	}
+	
+	private void onTubeAvailable(boolean available) {
+		if (available) {
+			signInButton.setVisible(true);
 		}
 	}
 	
