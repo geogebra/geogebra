@@ -20,6 +20,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Try to expand the given function
@@ -97,6 +98,20 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			} else {
 				// read result back into list
 				g.set(kernel.getAlgebraProcessor().evaluateToList(listOut));
+				// force first element in each row to be a function, even if constant
+				for(int i=0;i<g.size() && g.get(i) instanceof GeoList;i++){
+					GeoList factor = (GeoList) g.get(i);
+					if(factor.get(0) instanceof GeoNumeric){
+						GeoElement constant = factor.get(0);
+						GeoElement exponent = factor.get(1);
+						factor.remove(1);
+						factor.remove(0);
+						GeoFunction fn = new GeoFunction(cons);
+						fn.set(constant);
+						factor.add(fn);
+						factor.add(exponent);
+					}
+				}
 			}
 		} catch (Throwable th) {
 			g.setUndefined();
