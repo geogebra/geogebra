@@ -215,6 +215,7 @@ public class EuclidianDraw {
 								ConstructionDefaults.DEFAULT_NUMBER)
 								.getObjectColor();
 						geo.setObjColor(col);
+						geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 					} else {
 						geogebra.common.awt.GColor col = consDef.getDefaultGeo(
 								ConstructionDefaults.DEFAULT_POLYGON)

@@ -50,7 +50,10 @@ import java.util.TreeSet;
 public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 
-	public static final int DEFAULT_THICKNESS = 10;
+	/** eg boxplot */
+	public static final int DEFAULT_THICKNESS = 2;
+	/** sliders */
+	public static final int DEFAULT_SLIDER_THICKNESS = 10;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
 	/** 
@@ -1373,7 +1376,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		num.setAnimationType(defaultNum.getAnimationType());
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());
 		num.setRandom(defaultNum.isRandom());
-		num.setLineThickness(defaultNum.getLineThickness());
+		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
 		num.update();
 		return num;
 	}
