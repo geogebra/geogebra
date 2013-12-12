@@ -1,5 +1,6 @@
 package geogebra.html5.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
@@ -249,4 +250,9 @@ public class GeoGebraTubeAPIW extends geogebra.common.move.ggtapi.models.GeoGebr
 		}
 		return requestJSON;
 	}
+
+	@Override
+    public boolean isAvailable() {
+	    return true;
+    }
 }

@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.export.pstricks.GeoGebraToPgfD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
+import geogebra.move.ggtapi.models.GeoGebraTubeAPID;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -84,7 +85,7 @@ class FileMenu extends BaseMenu {
 			mi = add(loadAction);
 			setMenuShortCutAccelerator(mi, 'O'); // open
 			
-			if (!app.isApplet()) {
+			if (!app.isApplet() && GeoGebraTubeAPID.getInstance().isAvailable()) {
 				add(loadURLAction);
 			}
 		

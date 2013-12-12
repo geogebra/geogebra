@@ -1,5 +1,6 @@
 package geogebra.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.util.HttpRequest;
 
@@ -15,7 +16,8 @@ import org.json.JSONTokener;
  */
 public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebraTubeAPI
 {
-	
+	private boolean available = true;
+	private boolean availabilityCheckDone = false;
 	
 	@Override
 	protected geogebra.common.util.HttpRequest createHttpRequest() {
@@ -39,7 +41,9 @@ public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebr
 	public int authorizeUser(GeoGebraTubeUser user) {
 		HttpRequest request = performRequest(buildTokenLoginRequest(user.getLoginToken()).toString());
 		try{
+			this.availabilityCheckDone = true;
 			if (request.isSuccessful()) {
+				this.available = true;
 				JSONTokener tokener = new JSONTokener(request.getResponse());
 				JSONObject response = new JSONObject(tokener);
 				
@@ -54,7 +58,8 @@ public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebr
 				}
 				
 				return LOGIN_TOKEN_VALID;
-			} 
+			}
+			this.available = false;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -133,5 +138,33 @@ public class GeoGebraTubeAPID extends geogebra.common.move.ggtapi.models.GeoGebr
 			e.printStackTrace();
 		}
 		return requestJSON;
+	}
+
+	@Override
+	public boolean isAvailable() {
+		if (this.availabilityCheckDone) {
+			return this.available;
+		}
+		return checkIfAvailable();
+	}
+	
+	/**
+	 * Sends a test request to GeoGebraTube to check if it is available
+	 * The result is stored in a boolean variable. Subsequent calls to isAvailable() will return
+	 * the value of the stored variable and don't send the request again.
+	 * 
+	 * @return boolean if the request was successful.
+	 */
+	public boolean checkIfAvailable() {
+		this.available = false;
+		try{
+			HttpRequest request = performRequest("{\"request\": {\"-api\": \"1.0.0\",\"task\": {\"-type\": \"info\"}}}");
+			this.available = request.isSuccessful();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		this.availabilityCheckDone = true;
+		return this.available;
 	}
 }

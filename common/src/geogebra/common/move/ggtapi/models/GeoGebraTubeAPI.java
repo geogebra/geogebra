@@ -64,6 +64,10 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	abstract public int authorizeUser(GeoGebraTubeUser user);
 	
-
-
+	/**
+	 * Checks if the GeoGebraTube API is available by sending a test request
+	 * 
+	 * @return boolean if available
+	 */
+	abstract public boolean isAvailable();
 }

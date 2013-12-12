@@ -19,6 +19,7 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.LocalizationD;
+import geogebra.move.ggtapi.models.GeoGebraTubeAPID;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -161,9 +162,14 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				App.error("JavaFX 2.2 not available");
 			}
 			
+			boolean ggtAPIAvailable = GeoGebraTubeAPID.getInstance().isAvailable(); 
+			if (! ggtAPIAvailable) {
+				App.error("GeoGebraTube not available. Hiding Sign In Button.");
+			}
+			
 			// JavaFX 2.2 available by default only on Java 7u6 or higher
 			// http://www.oracle.com/us/corporate/press/1735645
-			if (javaFx22Available) {
+			if (javaFx22Available && ggtAPIAvailable) {
 				
 				// try needed for eg OSX 10.6 with fake jfxrt.jar
 				try {
