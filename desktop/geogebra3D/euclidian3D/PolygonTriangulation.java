@@ -1,7 +1,9 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,7 +20,8 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	private class Point{
 		public double x, y;
 		public String name;
-		public int orientation;
+		public double orientation;
+		Point left, right;
 		
 		public Point(double x, double y){
 			this.x = x;
@@ -28,7 +31,6 @@ public class PolygonTriangulation implements Comparator<Integer> {
 
 	private GeoPolygon p;
 	
-	private ArrayList<Point> pointsList;
 	
 	/**
 	 * Constructor
@@ -36,33 +38,214 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	 */
 	public PolygonTriangulation(GeoPolygon p){
 		this.p = p;
-		pointsList = new ArrayList<Point>();
 	}
 	
+	/**
+	 * @deprecated used only for debug
+	 * @param point
+	 * @param i
+	 */
+	private void setName(Point point, int i){
+		point.name = ((GeoElement) p.getPointsND()[i]).getLabelSimple();
+	}
+	
+	/**
+	 * update points list
+	 */
 	public void updatePoints(){
-		pointsList.clear();
+		
+		// feed the list with no successively equal points
+		Point point = new Point(p.getPointX(0), p.getPointY(0));
+		setName(point, 0);
+		Point firstPoint = point;
+		int n = 1;
 		for (int i = 0; i < p.getPointsLength(); i++){
-			Point point = new Point(p.getPointX(i), p.getPointY(i));
-			pointsList.add(point);
+			double x1 = p.getPointX(i); 
+			double y1 = p.getPointY(i);
+			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)){
+				point.right = new Point(x1, y1);
+				setName(point.right, i);
+				point.right.left = point;
+				point = point.right;				
+				n++;
+			}
+			
 		}
+		
+		
+		// check first point <> last point
+		if (Kernel.isEqual(point.x, firstPoint.x) && Kernel.isEqual(point.y, firstPoint.y)){
+			firstPoint = firstPoint.right;
+			n--;
+		}	
+		point.right = firstPoint;
+		firstPoint.left = point;
+
+		
+		
+		// set orientations and remove flat points
+		Point oldPoint = firstPoint;
+		point = oldPoint.right;
+		oldPoint.orientation = Math.atan2(point.y - oldPoint.y, point.x - oldPoint.x);
+		
+		for (int i = 0; i < n ; i++){
+			Point nextPoint = point.right;
+			point.orientation = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
+			// delta orientation between 0 and 2pi
+			double delta = point.orientation - oldPoint.orientation; 
+			if (delta < 0){
+				delta += 2*Math.PI;
+			}
+			App.debug(oldPoint.name+"/"+point.name+"/"+nextPoint.name+" : "+(delta*180/Math.PI));
+			if (Kernel.isZero(delta)){ // point aligned				
+				// right is next point
+				oldPoint.right = nextPoint;
+				nextPoint.left = oldPoint;
+				point = nextPoint;
+			}else if (Kernel.isEqual(delta, Math.PI)){ // U-turn
+				App.debug("U-turn");
+				if(Kernel.isEqual(nextPoint.x, oldPoint.x) && Kernel.isEqual(nextPoint.y, oldPoint.y)){
+					// same point : ignore next, update orientation
+					App.debug(oldPoint.name+"=="+nextPoint.name);
+					/*
+					nextPoint = nextPoint.right;
+					oldPoint.orientation = Math.atan2(nextPoint.y - oldPoint.y, nextPoint.x - oldPoint.x);	
+					*/
+					// right is next point
+					oldPoint.right = nextPoint;
+					nextPoint.left = oldPoint;
+					point = nextPoint;
+				}else if (Kernel.isGreater(0, (nextPoint.x - oldPoint.x)*(point.x - oldPoint.x) + (nextPoint.y - oldPoint.y)*(point.y - oldPoint.y))){
+					// next point is back old point
+					App.debug(" next point is back old point - "+(oldPoint.orientation*180/Math.PI));
+					if (oldPoint.orientation > 0){
+						oldPoint.orientation -= Math.PI;
+					}else{
+						oldPoint.orientation += Math.PI;
+					}
+					// right is next point
+					oldPoint.right = nextPoint;
+					nextPoint.left = oldPoint;
+					point = nextPoint;
+				}else{
+					// right is next point
+					oldPoint.right = nextPoint;
+					nextPoint.left = oldPoint;
+					point = nextPoint;
+				}
+				
+			}else{
+				oldPoint = point;	
+				point = nextPoint;
+			}
+			
+			
+
+			
+		}
+		
+		
+		/*
+		ArrayList<Point> noFlatPoints = new ArrayList<Point>();
+		
+		Point oldPoint = pointsList.get(n-2);
+		point = pointsList.get(n-1);
+		oldPoint.orientation = Math.atan2(point.y - oldPoint.y, point.x - oldPoint.x);
+		
+		for (int i = 0; i < n ; i++){
+			Point nextPoint = pointsList.get(i);
+			point.orientation = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
+			// delta orientation between 0 and 2pi
+			double delta = point.orientation - oldPoint.orientation; 
+			if (delta < 0){
+				delta += 2*Math.PI;
+			}
+			App.debug(oldPoint.name+"/"+point.name+"/"+nextPoint.name+" : "+(delta*180/Math.PI));
+			if (Kernel.isZero(delta)){ // point aligned				
+				// no need to change oldPoint 
+			}else if (Kernel.isEqual(delta, Math.PI)){ // U-turn
+				App.debug("U-turn");
+				if(Kernel.isEqual(nextPoint.x, oldPoint.x) && Kernel.isEqual(nextPoint.y, oldPoint.y)){
+					// same point : ignore next, update orientation
+					App.debug(oldPoint.name+"=="+nextPoint.name);
+					i++;
+					if (i < n){ // check if there are still points
+						nextPoint = pointsList.get(i);
+						oldPoint.orientation = Math.atan2(nextPoint.y - oldPoint.y, nextPoint.x - oldPoint.x);
+					}else{
+						App.debug("last");
+						if(noFlatPoints.get(0) == nextPoint){
+							App.debug("remove");
+							oldPoint.orientation = nextPoint.orientation;
+							noFlatPoints.remove(0);
+							//nextPoint = noFlatPoints.get(0);
+							//oldPoint.orientation = Math.atan2(nextPoint.y - oldPoint.y, nextPoint.x - oldPoint.x);
+						}
+						
+					}
+				}else if (Kernel.isGreater(0, (nextPoint.x - oldPoint.x)*(point.x - oldPoint.x) + (nextPoint.y - oldPoint.y)*(point.y - oldPoint.y))){
+					// next point is back old point
+					App.debug(" next point is back old point - "+(oldPoint.orientation*180/Math.PI));
+					if (oldPoint.orientation > 0){
+						oldPoint.orientation -= Math.PI;
+					}else{
+						oldPoint.orientation += Math.PI;
+					}
+				}
+			}else{
+				noFlatPoints.add(point);
+				oldPoint = point;			
+			}
+			
+			point = nextPoint;
+
+			
+		}
+		
+		
+		pointsList = noFlatPoints;
+
+		if (Kernel.isEqual(point.x, x0) && Kernel.isEqual(point.y, y0)){
+			pointsList.remove(pointsList.size()-1);
+		}
+		*/
+		
+		/*
+		String s = "";
+		for (int i = 0 ; i < pointsList.size() ; i++){
+			s+="\n"+pointsList.get(i).name+"("+(pointsList.get(i).orientation*180/Math.PI)+"°), ";
+		}
+		App.debug(s);
+		*/
+		
+		String s = "========";
+		point = firstPoint;
+		for (point = firstPoint; point.right != firstPoint; point = point.right){
+			s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°), ";
+		}
+		s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°) **";
+		App.debug(s);
+		
+		
+		s = "========";
+		point = firstPoint;
+		for (point = firstPoint; point.left != firstPoint; point = point.left){
+			s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°), ";
+		}
+		s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°) **";
+		App.debug(s);
+
+
+		
 	}
 	
 	final private Point getPoint(int i){
-		return pointsList.get(i);
+		return null;
 	}
+	
 
-	/*
-	private double getPointX(int i){
-		return p.getPointX(i);
-	}
-	
-	private double getPointY(int i){
-		return p.getPointY(i);
-	}
-	*/
-	
 	private int getPointsLength(){
-		return pointsList.size();
+		return 0;
 	}
 
 	//////////////////////////////////////
