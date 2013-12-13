@@ -114,7 +114,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	    
     }
 
-	private void setLabels() {
+	void setLabels() {
 		lblResult.setText(app.getMenu("Result"));
 		lblNull.setText(app.getMenu("NullHypothesis"));
 		lblTailType.setText(app.getMenu("AlternativeHypothesis"));

@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -43,6 +45,8 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianViewWeb {
@@ -58,6 +62,14 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
+	/**
+	 * @param euclidianViewPanel
+	 * @param euclidiancontroller
+	 * @param showAxes
+	 * @param showGrid
+	 * @param evNo 
+	 * @param settings
+	 */
 	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
@@ -66,15 +78,31 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		
 		EVPanel = euclidianViewPanel;
 		
-		Canvas canvas = euclidianViewPanel.getCanvas();
-		if (evNo == 2) {
-			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN2);
-		} else if(evNo == 1) {
-			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
-		} else {
-			canvas.getElement().setId("View_"+ getViewID());
-		}
-		this.evNo = evNo;
+		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo);
+    }
+	
+	/**
+	 * @param euclidiancontroller
+	 * @param showAxes
+	 * @param showGrid
+	 * @param evNo
+	 * @param settings
+	 */
+	public EuclidianViewW(EuclidianController euclidiancontroller, boolean[] showAxes,
+            boolean showGrid, int evNo, EuclidianSettings settings) {
+		super(euclidiancontroller, settings);
+		
+		EVPanel = new MyEuclidianViewPanel(this);
+		
+		initBaseComponents(EVPanel, euclidiancontroller, evNo);
+		
+		
+	}
+
+	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
+            EuclidianController euclidiancontroller, int evNo) {
+	    Canvas canvas = euclidianViewPanel.getCanvas();
+		setEvNo(evNo, canvas);
 	    
 
 		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);
@@ -115,6 +143,19 @@ public class EuclidianViewW extends EuclidianViewWeb {
 			es.addListener(this);
 		}
     }
+
+	private void setEvNo(int evNo, Canvas canvas) {
+	    if (evNo == 2) {
+			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN2);
+		} else if(evNo == 1) {
+			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
+		} else {
+			canvas.getElement().setId("View_"+ getViewID());
+		}
+		this.evNo = evNo;
+    }
+	
+	
 	
 	private void registerKeyHandlers(Canvas canvas){
 		
@@ -456,4 +497,52 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	    	msZoomer.reset();
 	    }
     }
+	
+	private class MyEuclidianViewPanel extends AbsolutePanel implements
+			EuclidianPanelWAbstract {
+
+			private Canvas canvas;
+			private EuclidianView ev;
+
+			public MyEuclidianViewPanel(EuclidianView ev) {
+				super();
+				this.ev = ev;
+				canvas = Canvas.createIfSupported();
+				canvas.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+				canvas.getElement().getStyle().setZIndex(0);
+				add(canvas);
+
+}
+
+			public AbsolutePanel getAbsolutePanel() {
+				return this;
+			}
+
+			public Panel getEuclidianPanel() {
+				return this;
+			}
+
+			public Canvas getCanvas() {
+				return canvas;
+			}
+
+			public EuclidianView getEuclidianView() {
+
+				return ev;
+			}
+
+			public void onResize() {
+				//	ev.setCoordinateSpaceSizeDirectly(100, 100);
+			}
+
+			public void deferredOnResize() {
+			}
+
+			public void updateNavigationBar() {
+				// TODO Auto-generated method stub
+
+			}
+
+	}
+	
 }

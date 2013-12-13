@@ -62,7 +62,7 @@ public class StatTableW extends FlowPanel {
 	public void setStatTable(int rows, String[] rowNames, int columns,
 			String[] columnNames) {
 
-		myTable.resize(rows, columns);
+		myTable.resize(rows + 1, columns + 1);
 		// set column names
 		if (columnNames == null) {
 			//myTable.setTableHeader(null);

@@ -2,7 +2,6 @@ package geogebra.web.gui.view.probcalculator;
 
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
-import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
@@ -96,7 +95,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   
 	   tabbedPane = new TabLayoutPanel(30, Unit.PX);
 	   tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
-	   tabbedPane.add(((StatisticsCalculatorW) statCalculator).getWrappedPanel(), loc.getMenu("Statistics"));
+	   tabbedPane.add(statCalculator.getWrappedPanel(), loc.getMenu("Statistics"));
 	   
 	   tabbedPane.addSelectionHandler(new SelectionHandler<Integer>() {
 
@@ -122,7 +121,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 		tabbedPane.setTabText(0, loc.getMenu("Distribution"));
 
-		((SetLabels) statCalculator).setLabels();
+		statCalculator.setLabels();
 		tabbedPane.setTabText(1, loc.getMenu("Statistics"));
 
 		setLabelArrays();
@@ -280,7 +279,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private void createGUIElements() {
 		setLabelArrays();
 	    comboDistribution = new ListBox();
-	    comboDistribution.addChangeHandler(this);
+	    comboDistributionHandler = comboDistribution.addChangeHandler(this);
 	    
 	    lblDist = new Label();
 	    

@@ -87,8 +87,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private SpreadsheetViewW spreadsheetView;
 	private EuclidianViewW euclidianView2;
 
-	private AbsolutePanel main;
-
 	private LayoutW layout;
 
 	private CASViewW casView;
@@ -396,14 +394,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return spreadsheetView;
 	}
 	
-	private ProbabilityCalculatorViewW probabilityCalculatorView;
-
 	public View getProbabilityCalculator() {
-		if (probabilityCalculatorView == null) {
-			probabilityCalculatorView = new ProbabilityCalculatorViewW((AppW) app);
+		if (probCalculator == null) {
+			probCalculator = new ProbabilityCalculatorViewW((AppW) app);
 		}
 
-		return propertiesView;
+		return probCalculator;
 	}
 
 	@Override
@@ -831,7 +827,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void attachProbabilityCalculatorView() {
-		App.debug("unimplemented");
+		getProbabilityCalculator();
+		probCalculator.attachView();
 	}
 
 	public void attachAssignmentView() {

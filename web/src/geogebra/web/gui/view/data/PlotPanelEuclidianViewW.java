@@ -15,7 +15,6 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 
 import java.util.LinkedList;
 
@@ -65,7 +64,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	 * Construct the panel
 	 */
 	public PlotPanelEuclidianViewW(Kernel kernel, ScheduledCommand exportAction) {
-		super(new EuclidianDockPanelW(false), new PlotPanelEuclidianControllerW(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
+		super(new PlotPanelEuclidianControllerW(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
 				1, null);
 
 		
@@ -360,6 +359,8 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	public Widget getComponent() {
 	    return EVPanel.getAbsolutePanel();
     }
+	
+	
 
 
 }
