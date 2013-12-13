@@ -356,4 +356,6 @@ public final class EuclidianConstants {
 
 	public static final long DOUBLE_CLICK_DELAY = 300;
 
+	public static final int DEFAULT_ERASER_SIZE = 20;
+
 }

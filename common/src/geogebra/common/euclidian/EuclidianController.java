@@ -385,7 +385,7 @@ public abstract class EuclidianController {
 	// ==============================================
 	// Delete tool
 	
-	private int deleteToolSize=100;
+	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
 	protected Hits handleAddSelectedArrayList = new Hits();
 

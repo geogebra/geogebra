@@ -545,6 +545,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			
 		};
 		btnDeleteSize.getMySlider().setMinimum(10);
+		btnDeleteSize.getMySlider().setValue(EuclidianConstants.DEFAULT_ERASER_SIZE);
 		btnDeleteSize.getMySlider().setMaximum(100);
 		btnDeleteSize.getMySlider().setMajorTickSpacing(20);
 		btnDeleteSize.getMySlider().setMinorTickSpacing(5);
