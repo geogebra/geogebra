@@ -257,17 +257,19 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
 		String locusLib = SingularWebService.getLocusLib();
-		locusLib = "";
+		// locusLib = ""; // Here you can disable the grobcov library based computation.
 
 		if (locusLib.length() != 0) {
 			script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + this.getVarsToEliminate()).
 					append("),dp;").
 					append("short=0;ideal I=" + convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
-					append(";def Gp=grobcov(I);locus2d(Gp);");
+					append(";def Gp=grobcov(I);list l=" + SingularWebService.getLocusCommand() + "(Gp);poly pp=l[1][1][1];").
+					append("string s=string(pp);int sl=size(s);string pg=\"poly p=\"+s[2,sl-2];").
+					append("ring rr=0,(x,y),dp;;execute(pg);").
+					append("printf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
+					append("coeffs(coeffs(p,x),y));").toString();
 			Log.debug(script);
-			String result = App.singularWS.directCommand(script.toString());
-			Log.debug(result);
-			script = new StringBuilder();
+			return script.toString();
 		}
 		
 		final String SINGULAR_COEFFS = "0"; // "(real,30)"; // may be "real", but inaccurate for cubic computations
