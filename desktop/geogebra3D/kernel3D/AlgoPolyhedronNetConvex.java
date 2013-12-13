@@ -17,6 +17,11 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	protected OutputHandler<GeoPolyhedronNet> outputNet;
 
+	/** points generated as output  */
+	protected OutputHandler<GeoPoint3D> outputPointsNet;
+	
+	
+	
 	
 	private class SegmentParents{
 		int segmentParent1;
@@ -26,6 +31,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	private class PolygonInfoElement{
 		int linkSegNumber;
 		int rank;
+		ArrayList<Integer> pointsIndex = new ArrayList<Integer>();
+		
 	}
 	
 	
@@ -47,11 +54,16 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 		});
 
+		outputNet.adjustOutputSize(1);
+
+		
 		input = new GeoElement[] {p, (GeoElement) v};		
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
 		}
 
+		outputPointsNet = createOutputPoints();
+		
 		refreshOutput();
 
 		ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
@@ -66,6 +78,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user
 		makeNetMap(p,iBottom,polygonChildSegsList,segmentParentsList,netMap,polygonInfo);
 
+		createNet(iBottom, polygonInfo);
 	}
 
 	
@@ -190,9 +203,88 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	}
 
+	
+	private OutputHandler<GeoPoint3D> createOutputPoints() {
+		return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
+			public GeoPoint3D newElement() {
+				GeoPoint3D p=new GeoPoint3D(cons);
+				p.setCoords(0, 0, 0, 1);
+				p.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
+				getNet().addPointCreated(p);
+				return p;
+			}
+		});
+	}
+	
+	/**
+	 * @return the polyhedron
+	 */
+	public GeoPolyhedronNet getNet(){
+		return outputNet.getElement(0);
+	}
+
+
+
 	@Override
 	public GetCommand getClassName() {
 		return Commands.PolyhedronNet;
 	}
+
+
+
+	/**
+	 * adjust output for n points
+	 * @param n new points length
+	 */
+	protected void adjustOutputSize(int n){
+
+
+		if (n > outputPointsNet.size()){ // augment output points
+			outputPointsNet.adjustOutputSize(n);
+		}
+	}
+
+	//iBottomFace : number of the face used as bottom
+	protected void createNet(int iBottomFace, ArrayList<PolygonInfoElement> polygonInfo ) {
+
+		GeoPolyhedronNet net = getNet();
+		
+		//Number of points needed in the net
+		int iNetPoints = 0;
+		for (int i=0; i < p.getPolygons().size(); i++ ){
+			iNetPoints = iNetPoints+p.getFace(i).getPointsLength();
+			if (i != iBottomFace){
+				iNetPoints -= 2;
+			}
+		}
+		//App.debug("nb points:"+iNetPoints);
+		outputPointsNet.adjustOutputSize(iNetPoints);
+		
+		//create bottom face
+		
+		net.startNewFace();
+		for (int i = 0; i < p.getFace(iBottomFace).getPointsLength(); i++){
+			net.addPointToCurrentFace(outputPointsNet.getElement(i));
+			//Add the point number in the list of this polygon
+			polygonInfo.get(iBottomFace).pointsIndex.add(i);
+		}
+		net.endCurrentFace();
+
+		//create child faces
+		/*
+		for (int i=0; i<n; i++){
+			createChildFace(net, i, n);
+		}
+		*/
+	}
+	
+	private void createChildFace(GeoPolyhedronNet net, int index, int bottomPointsLength){
+		net.startNewFace();
+		//net.addPointToCurrentFace(outputPointsNet.getElement(index));
+		//net.addPointToCurrentFace(outputPointsNet.getElement((index+1)%bottomPointsLength));
+		//net.addPointToCurrentFace(outputPointsNet.getElement(index));
+		net.endCurrentFace();
+	}
+
 
 }
