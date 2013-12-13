@@ -237,7 +237,7 @@ public class EuclidianDraw {
 
 		case CONIC:
 		case CONIC3D:
-			d = new DrawConic(ev, (GeoConicND) geo);
+			d = new DrawConic(ev, (GeoConicND) geo, false);
 			break;
 			
 		case CONICSECTION:

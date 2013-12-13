@@ -210,12 +210,14 @@ public class Inequality {
 			border = funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-		} else
+		} else {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+		}
 	}
 
 	private void setAboveBorderFromConic() {
-		if(conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY){
+		if(conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY
+	 ||conicBorder.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT){
 			isAboveBorder = conicBorder.evaluateInSignificantPoint() >= 0;
 			return;
 		}

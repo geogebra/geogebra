@@ -159,7 +159,7 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawInequality1Var(ineq, view, geo, true);
 			break;
 		case INEQUALITY_CONIC:
-			drawable = new DrawConic(view, ineq.getConicBorder());
+			drawable = new DrawConic(view, ineq.getConicBorder(), !ineq.isStrict());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
 		case INEQUALITY_LINEAR:

@@ -3156,6 +3156,9 @@ Region3D, GeoDirectionND
 		case CONIC_PARABOLA:
 			return evaluate(b.getX() + p * eigenvec[0].getX(),
 					b.getY() + p * eigenvec[0].getY());	
+		case CONIC_SINGLE_POINT:
+			return evaluate(b.getX() + 1,
+					b.getY());
 		default:
 			return evaluate(b.getX(),b.getY()); 
 		}

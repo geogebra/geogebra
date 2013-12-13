@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GArea;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -353,7 +354,7 @@ public final class DrawPoint extends Drawable {
 			drawable = new DrawRay(view, (GeoLineND) geo2);
 			break;
 		case CONIC:
-			drawable = new DrawConic(view, (GeoConic) geo2);
+			drawable = new DrawConic(view, (GeoConic) geo2, false);
 			break;
 		case FUNCTION:
 			drawable = new DrawParametricCurve(view, (GeoFunction) geo2);
@@ -574,6 +575,18 @@ public final class DrawPoint extends Drawable {
 
 	private int getSelectionDiamaterMin() {
 		return view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_DIAMETER_MIN;
+	}
+
+	public void setPointStyle(int pointType) {
+		if(pointType == this.P.getPointStyle()){
+			return;
+		}
+		P.setPointStyle(pointType);
+		update();
+	}
+
+	public GArea getDot() {
+		return AwtFactory.prototype.newArea(this.circle);
 	}
 
 }

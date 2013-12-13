@@ -37,7 +37,7 @@ public class DrawConicSection extends DrawConic {
 	 * @param c conic
 	 */
 	public DrawConicSection(EuclidianView view, GeoConicND c) {
-		super(view, c);
+		super(view, c, false);
 	}
 
 	/**
