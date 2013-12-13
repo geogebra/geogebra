@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.Log;
@@ -214,6 +215,10 @@ public class Inequality {
 	}
 
 	private void setAboveBorderFromConic() {
+		if(conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY){
+			isAboveBorder = conicBorder.evaluateInSignificantPoint() >= 0;
+			return;
+		}
 		isAboveBorder = conicBorder.evaluateInSignificantPoint()<0;		
 	}
 	

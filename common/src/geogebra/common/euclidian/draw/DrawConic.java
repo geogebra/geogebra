@@ -266,9 +266,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 		switch (type) {
 		case GeoConicNDConstants.CONIC_EMPTY:
-			setShape(conic.evaluate(0, 0) < 0 ? null : AwtFactory.prototype.newArea(
-					view.getBoundingPath()));
+			setShape(null);
 			shape = null;
+			break;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			updateSinglePoint();
 			break;
