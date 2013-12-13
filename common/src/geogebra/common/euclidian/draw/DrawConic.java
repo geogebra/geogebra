@@ -266,6 +266,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		switch (type) {
 		case GeoConicNDConstants.CONIC_EMPTY:
+			App.debug("nulling shape");
 			setShape(null);
 			shape = null;
 			break;
@@ -1122,7 +1123,11 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_LINE:
 			drawLines[0].draw(g2);
 			break;
-
+		case GeoConicNDConstants.CONIC_EMPTY:
+			if (conic.isInverseFill()) {
+				fill(g2, getShape(), false);
+			}
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
