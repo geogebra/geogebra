@@ -1481,9 +1481,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			return true;
 		}
 		
+		/* not suitable for now
 		if(Kernel.isZero(getArea())){ // flat polygon
 			return true;
 		}
+		*/
 		
 		// remove same successive points
 		ArrayList<Double> xList = new ArrayList<Double>();
