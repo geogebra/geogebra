@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -793,7 +794,7 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof ExpressionNode){ 
 				final ExpressionNode en = (ExpressionNode) ev;
-				if(en.getOperation()==Operation.FUNCTION || en.getOperation()==Operation.FUNCTION_NVAR){
+				if(en.getOperation()==Operation.FUNCTION || en.getOperation()==Operation.FUNCTION_NVAR || en.getOperation()==Operation.VEC_FUNCTION){
 					ExpressionValue geo = en.getLeft().unwrap();
 					ExpressionValue deriv = null;
 					if(geo instanceof ExpressionNode && ((ExpressionNode)geo).getOperation()==Operation.DERIVATIVE){
@@ -806,7 +807,12 @@ public interface Traversing {
 					}
 					ExpressionNode en2 = null;
 					FunctionVariable[] fv = null;
-					
+					if(geo instanceof GeoCurveCartesian){
+						ExpressionValue en2x = ((GeoCurveCartesian)geo).getFunX().getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
+						ExpressionValue en2y = ((GeoCurveCartesian)geo).getFunY().getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
+						en2 = new MyVecNode(geo.getKernel(),en2x,en2y).wrap();
+						fv = ((GeoCurveCartesian)geo).getFunctionVariables();
+					}
 					if(geo instanceof FunctionalNVar){
 						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
 						fv = ((FunctionalNVar)geo).getFunction().getFunctionVariables();
