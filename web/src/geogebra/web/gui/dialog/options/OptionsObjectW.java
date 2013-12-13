@@ -75,6 +75,7 @@ import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.TextEditAdvancedPanel;
 import geogebra.html5.gui.inputfield.TextPreviewPanelW;
+import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
@@ -475,6 +476,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private class ColorPanel extends OptionPanel implements IColorObjectListener {
 		private ColorObjectModel model;
 		private FlowPanel mainPanel;
+		private ColorChooserW colorChooserW; 
 		private ColorPopupMenuButton colorChooser;
 		private GColor selectedColor;
 		private SelectionTable colorTable;
@@ -483,8 +485,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
 			setModel(model);
-
 			final GDimensionW colorIconSize = new GDimensionW(20, 20);
+			final GDimensionW colorIconSizeW = new GDimensionW(15, 15);
+			
+			colorChooserW = new ColorChooserW(800, 300, colorIconSizeW, 2);
+			
 			colorChooser = new ColorPopupMenuButton((AppW) app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
@@ -523,6 +528,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			colorPanel.add(chooseLabel);
 			colorPanel.add(colorChooser);
 			mainPanel.add(colorPanel);
+			mainPanel.add(colorChooserW);
 			setWidget(mainPanel);
 
 		}
@@ -564,7 +570,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			colorChooser.setSliderVisible(hasOpacity);
 			colorChooser.update(model.getGeos());
-
+			colorChooserW.update();
 		}
 
 
