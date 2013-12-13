@@ -1301,7 +1301,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		}
 
 		else if (source == btnDeleteSize){
-			ec.setDeleteToolSize(btnDeleteSize.getSliderValue());
+			ev.getSettings().setDeleteToolSize(btnDeleteSize.getSliderValue());
 		}
 	}
 	

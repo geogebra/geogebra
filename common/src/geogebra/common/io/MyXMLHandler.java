@@ -1228,6 +1228,10 @@ public class MyXMLHandler implements DocHandler {
 				ev.setAllowToolTips(Integer.parseInt(att));
 			else
 				ev.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
+			
+			String del = attrs.get("deleteToolSize");
+			if (del != null)
+				ev.setDeleteToolSize(Integer.parseInt(del));
 
 			// v3.0: appearance of right angle
 			String strRightAngleStyle = attrs.get("rightAngleStyle");

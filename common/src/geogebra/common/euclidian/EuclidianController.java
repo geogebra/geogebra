@@ -385,7 +385,7 @@ public abstract class EuclidianController {
 	// ==============================================
 	// Delete tool
 	
-	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
+	//private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
 	protected Hits handleAddSelectedArrayList = new Hits();
 
@@ -9701,13 +9701,11 @@ public abstract class EuclidianController {
 
 
 	public int getDeleteToolSize() {
-		return deleteToolSize;
+		return this.view.getSettings().getDeleteToolSize();
 	}
 
 
-	public void setDeleteToolSize(int deleteToolSize) {
-		this.deleteToolSize = deleteToolSize;
-	}
+	
 	
 	public boolean isCollectingRepaints() {
 	    return collectingRepaints > 0;

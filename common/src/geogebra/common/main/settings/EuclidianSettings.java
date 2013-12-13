@@ -2,11 +2,13 @@ package geogebra.common.main.settings;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 
@@ -312,6 +314,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private boolean allowShowMouseCoords = false;
 
 	private Double lockedAxesRatio = null;
+
+	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -773,6 +777,15 @@ public class EuclidianSettings extends AbstractSettings {
 		if (oldAxesLineStyle != axesLineStyle) {
 			settingChanged();
 		}
+	}
+
+	public int getDeleteToolSize() {
+		return this.deleteToolSize;
+	}
+	
+	public void setDeleteToolSize(int size) {
+		App.printStacktrace(size);
+		this.deleteToolSize = size;
 	}
 
 

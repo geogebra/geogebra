@@ -1475,7 +1475,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		}
 		
 		else if (source == btnDeleteSize){
-			ec.setDeleteToolSize(btnDeleteSize.getSliderValue());
+			ev.getSettings().setDeleteToolSize(btnDeleteSize.getSliderValue());
 		}
 		else if (source == btnFixPosition) {
 			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos, btnFixPosition.isSelected(), ev) != null;

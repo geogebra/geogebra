@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 
 import java.util.ArrayList;
@@ -752,6 +753,8 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setViewShowAllObjects(boolean b);
 
 	public void zoomAxesRatio(double axesratio, boolean b);
+
+	public EuclidianSettings getSettings();
 
 
 }

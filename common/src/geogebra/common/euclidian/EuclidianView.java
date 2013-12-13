@@ -62,7 +62,6 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -3957,6 +3956,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// xmin
 		setLockedAxesRatio(evs.getLockedAxesRatio());
 	}
+	
+	public EuclidianSettings getSettings(){
+		return this.settings;
+	}
 
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
@@ -4386,6 +4389,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 			sbxml.append("\" allowToolTips=\"");
 			sbxml.append(getAllowToolTips());
+			
+			sbxml.append("\" deleteToolSize=\"");
+			sbxml.append(getEuclidianController().getDeleteToolSize());
 		}
 
 		sbxml.append("\" checkboxSize=\"");
