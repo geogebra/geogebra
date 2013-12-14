@@ -77,6 +77,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private void createGUI() {
 	   
 		this.wrappedPanel = new FlowPanel();
+		wrappedPanel.addStyleName("StatisticsCalculatorW");
 		
 		createGUIElements();
 		createControlPanel();

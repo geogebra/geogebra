@@ -84,7 +84,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   super(app);
 	   
 	   wrappedPanel = new FlowPanel();
-	   wrappedPanel.addStyleName("GGWPropabilityCalculator");
+	   wrappedPanel.addStyleName("PropabilityCalculatorViewW");
 	   
 	   createGUIElements();
 	   createExportToEvAction();
@@ -212,6 +212,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		mainSplitPane = new FlowPanel();
 		mainSplitPane.add(plotSplitPane);
 		probCalcPanel = new FlowPanel();
+		probCalcPanel.addStyleName("ProbCalcPanel");
 		
 		probCalcPanel.add(mainSplitPane);
 		
