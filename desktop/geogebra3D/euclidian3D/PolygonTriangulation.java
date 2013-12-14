@@ -6,8 +6,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Stack;
 import java.util.TreeSet;
 
 /**
@@ -15,22 +13,100 @@ import java.util.TreeSet;
  * @author mathieu
  *
  */
-public class PolygonTriangulation implements Comparator<Integer> {
+public class PolygonTriangulation {
 	
-	private class Point{
+	private class Point implements Comparable<Point>{
 		public double x, y;
+		public int id;
 		public String name;
-		public double orientation;
-		Point left, right;
+		public double orientationToPrev, orientationToNext;
+		Point prev, next; // previous and next point
+		
+		TreeSet<PointToPoint> ptpSet;
 		
 		public Point(double x, double y){
 			this.x = x;
 			this.y = y;
 		}
+		
+		public void addPointToPoint(double orientation, Point nextPoint){
+			if (ptpSet == null){
+				ptpSet = new TreeSet<PointToPoint>();
+			}
+			
+			ptpSet.add(new PointToPoint(orientation, nextPoint));
+		}
+
+		final public int compareTo(Point p2) {
+			
+			
+			
+			// smallest x
+			if (Kernel.isGreater(p2.x, x)){
+				return -1;
+			}			
+			if (Kernel.isGreater(x, p2.x)){
+				return 1;
+			}
+			
+			// then smallest y
+			if (Kernel.isGreater(p2.y, y)){
+				return -1;
+			}			
+			if (Kernel.isGreater(y, p2.y)){
+				return 1;
+			}
+						
+			// same point : add all point-to-point set to existing point
+			App.error(this.name+"=="+p2.name);			
+			p2.ptpSet.addAll(ptpSet);
+			return 0;
+		}
+	}
+	
+	
+	private class PointToPoint implements Comparable<PointToPoint>{
+		double orientation;
+		Point nextPoint;
+		Segment segment;
+		
+		public PointToPoint(double orientation, Point nextPoint){
+			this.orientation = orientation;
+			this.nextPoint = nextPoint;
+		}
+		
+		public int compareTo(PointToPoint ptp) {
+			
+			if (Kernel.isGreater(ptp.orientation, orientation)){
+				return -1;
+			}
+			
+			if (Kernel.isGreater(orientation, ptp.orientation)){
+				return 1;
+			}
+			
+			// same orientation : check next point id
+			if (nextPoint.id < ptp.nextPoint.id){
+				return -1;
+			}
+			
+			if (nextPoint.id > ptp.nextPoint.id){
+				return 1;
+			}
+			
+			// same ptp
+			return 0;
+		}
+	}
+	
+	
+	private class Segment{
+		Segment next, previous;
 	}
 
 	private GeoPolygon p;
 	
+	private Point firstPoint;
 	
 	/**
 	 * Constructor
@@ -41,11 +117,12 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	}
 	
 	/**
-	 * @deprecated used only for debug
+	 * set point id
 	 * @param point
 	 * @param i
 	 */
-	private void setName(Point point, int i){
+	private void setId(Point point, int i){
+		point.id = i;
 		point.name = ((GeoElement) p.getPointsND()[i]).getLabelSimple();
 	}
 	
@@ -56,17 +133,17 @@ public class PolygonTriangulation implements Comparator<Integer> {
 		
 		// feed the list with no successively equal points
 		Point point = new Point(p.getPointX(0), p.getPointY(0));
-		setName(point, 0);
-		Point firstPoint = point;
+		setId(point, 0);
+		firstPoint = point;
 		int n = 1;
 		for (int i = 0; i < p.getPointsLength(); i++){
 			double x1 = p.getPointX(i); 
 			double y1 = p.getPointY(i);
 			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)){
-				point.right = new Point(x1, y1);
-				setName(point.right, i);
-				point.right.left = point;
-				point = point.right;				
+				point.next = new Point(x1, y1);
+				setId(point.next, i);
+				point.next.prev = point;
+				point = point.next;				
 				n++;
 			}
 			
@@ -75,18 +152,18 @@ public class PolygonTriangulation implements Comparator<Integer> {
 		
 		// check first point <> last point
 		if (Kernel.isEqual(point.x, firstPoint.x) && Kernel.isEqual(point.y, firstPoint.y)){
-			firstPoint = firstPoint.right;
+			firstPoint = firstPoint.next;
 			n--;
 		}	
-		point.right = firstPoint;
-		firstPoint.left = point;
+		point.next = firstPoint;
+		firstPoint.prev = point;
 
 		
 		
 		// set orientations and remove flat points
-		Point oldPoint = firstPoint;
-		point = oldPoint.right;
-		oldPoint.orientation = Math.atan2(point.y - oldPoint.y, point.x - oldPoint.x);
+		Point prevPoint = firstPoint;
+		point = prevPoint.next;
+		prevPoint.orientationToNext = Math.atan2(point.y - prevPoint.y, point.x - prevPoint.x);
 		
 		int removedPoints = 0;
 		for (int i = 0; i < n && removedPoints < n-1 ; i++){ 
@@ -95,68 +172,67 @@ public class PolygonTriangulation implements Comparator<Integer> {
 			// * we remove 2 points and go back
 			// * we go on
 			// so each point is visited at least once
-			Point nextPoint = point.right;
-			point.orientation = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
+			Point nextPoint = point.next;
+			point.orientationToNext = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
 			// delta orientation between 0 and 2pi
-			double delta = point.orientation - oldPoint.orientation; 
+			double delta = point.orientationToNext - prevPoint.orientationToNext; 
 			if (delta < 0){
 				delta += 2*Math.PI;
 			}
-			App.debug(oldPoint.name+"/"+point.name+"/"+nextPoint.name+" : "+(delta*180/Math.PI));
+			App.debug(prevPoint.name+"/"+point.name+"/"+nextPoint.name+" : "+(delta*180/Math.PI));
 			if (Kernel.isZero(delta)){ // point aligned				
-				// right is next point
-				oldPoint.right = nextPoint;
-				nextPoint.left = oldPoint;
+				// remove point
+				prevPoint.next = nextPoint;
+				nextPoint.prev = prevPoint;
 				removedPoints++;
 				point = nextPoint;
 			}else if (Kernel.isEqual(delta, Math.PI)){ // U-turn
 				App.debug("U-turn");
-				if(Kernel.isEqual(nextPoint.x, oldPoint.x) && Kernel.isEqual(nextPoint.y, oldPoint.y)){
+				if(Kernel.isEqual(nextPoint.x, prevPoint.x) && Kernel.isEqual(nextPoint.y, prevPoint.y)){
 					// same point
-					App.debug(oldPoint.name+"=="+nextPoint.name);
+					App.debug(prevPoint.name+"=="+nextPoint.name);
 					// go back
-					point = oldPoint; 
-					oldPoint = oldPoint.left;
+					point = prevPoint; 
+					prevPoint = prevPoint.prev;
 					// remove point and nextPoint
-					point.right = nextPoint.right;
-					nextPoint.right.left = point;
+					point.next = nextPoint.next;
+					nextPoint.next.prev = point;
 					removedPoints += 2;
-				}else if (Kernel.isGreater(0, (nextPoint.x - oldPoint.x)*(point.x - oldPoint.x) + (nextPoint.y - oldPoint.y)*(point.y - oldPoint.y))){
+				}else if (Kernel.isGreater(0, (nextPoint.x - prevPoint.x)*(point.x - prevPoint.x) + (nextPoint.y - prevPoint.y)*(point.y - prevPoint.y))){
 					// next point is back old point
-					App.debug(" next point is back old point - "+(oldPoint.orientation*180/Math.PI));
-					if (oldPoint.orientation > 0){
-						oldPoint.orientation -= Math.PI;
+					App.debug(" next point is back old point - "+(prevPoint.orientationToNext*180/Math.PI));
+					if (prevPoint.orientationToNext > 0){
+						prevPoint.orientationToNext -= Math.PI;
 					}else{
-						oldPoint.orientation += Math.PI;
+						prevPoint.orientationToNext += Math.PI;
 					}
-					// right is next point
-					oldPoint.right = nextPoint;
-					nextPoint.left = oldPoint;
+					// remove point
+					prevPoint.next = nextPoint;
+					nextPoint.prev = prevPoint;
 					removedPoints++;
 					point = nextPoint;
 				}else{
-					// right is next point
-					oldPoint.right = nextPoint;
-					nextPoint.left = oldPoint;
+					// remove point
+					prevPoint.next = nextPoint;
+					nextPoint.prev = prevPoint;
 					point = nextPoint;
 				}
 				
 			}else{
-				oldPoint = point;	
+				prevPoint = point;	
 				point = nextPoint;
 			}
 			
-			
-
-			
 		}
 		
+		
+		firstPoint = point; // in case old firstPoint has been removed
+		
 		String s = "";
-		point = firstPoint;
-		for (point = firstPoint; point.right != firstPoint; point = point.right){
-			s+=point.name+"("+(point.orientation*180/Math.PI)+"°), ";
+		for (point = firstPoint; point.next != firstPoint; point = point.next){
+			s+=point.name+"("+(point.orientationToNext*180/Math.PI)+"°), ";
 		}
-		s+=point.name+"("+(point.orientation*180/Math.PI)+"°)";
+		s+=point.name+"("+(point.orientationToNext*180/Math.PI)+"°)";
 		App.debug(s);
 		
 		
@@ -170,42 +246,93 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	private int getPointsLength(){
 		return 0;
 	}
-
+	
+	
 	//////////////////////////////////////
-	// COMPARATOR
+	// INTERSECTIONS
 	//////////////////////////////////////
 	
-	public int compare(Integer i1, Integer i2) {
+	/**
+	 * set intersections
+	 */
+	public void setIntersections(){
 		
-		// smallest x
-		Point p1 = getPoint(i1);
-		Point p2 = getPoint(i2);
-		if (Kernel.isGreater(p2.x, p1.x)){
-			return -1;
-		}			
-		if (Kernel.isGreater(p1.x, p2.x)){
-			return 1;
-		}
+		// store all points in sweep order
+		TreeSet<Point> pointSet = new TreeSet<Point>();
 		
-		// then smallest y
-		if (Kernel.isGreater(p2.y, p1.y)){
-			return -1;
-		}			
-		if (Kernel.isGreater(p1.y, p2.y)){
-			return 1;
+		Point point;
+		for (point = firstPoint; point.next != firstPoint; point = point.next){
+			setPointToPoint(point);
+			pointSet.add(point);
 		}
+		setPointToPoint(point);
+		pointSet.add(point);
 		
-		// then smallest index
-		if (i1 < i2){
-			return -1;
-		}
-		if (i1 > i2){
-			return 1;
-		}
 		
-		// same point
-		return 0;
+		String s = "";
+		for (Point pt : pointSet){
+			s+=pt.name+"|";
+			for (PointToPoint ptp : pt.ptpSet){
+				s+=((int) (ptp.orientation*180/Math.PI))+"°:"+ptp.nextPoint.name+"|";
+			}
+			s+=" - ";
+		}
+		App.debug(s);
+		
+		
+		/*
+		for (Point pt : pointSet){
+			App.debug(pt.name+"--"+pt.next.name+"/"+pt.prev.name);
+			SortedSet<Point> tail = pointSet.tailSet(pt, false);
+			s = "";
+			for (Point pt2 : tail){
+				s+=pt2.name+",";
+			}
+			App.debug(s);
+		}
+		*/
+		
+		/*
+		firstPoint = pointSet.first();
+		setOrientationToPrev(firstPoint);
+		setOrientationToPrev(firstPoint.next);
+		*/
+		
 	}
+	
+	final static private double getReverseOrientation(double orientation){
+		if (orientation > 0){
+			return orientation - Math.PI;
+		}
+		
+		return orientation + Math.PI;
+
+	}
+
+
+	
+	private void setPointToPoint(Point point){
+		App.debug(point.name+"-"+point.prev.name+"/"+point.next.name);
+		point.addPointToPoint(point.orientationToNext, point.next);
+		point.addPointToPoint(getReverseOrientation(point.prev.orientationToNext), point.prev);
+		
+		point.prev.addPointToPoint(point.prev.orientationToNext, point);
+		
+		point.next.addPointToPoint(getReverseOrientation(point.orientationToNext), point);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
@@ -216,6 +343,7 @@ public class PolygonTriangulation implements Comparator<Integer> {
 	public ArrayList<ArrayList<Integer>> getTriangulation(){
 		ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
 		
+		/*
 		final int length = getPointsLength();
 		
 		// put 2D indices in sweep order (smaller x, then smaller y)
@@ -223,31 +351,11 @@ public class PolygonTriangulation implements Comparator<Integer> {
 		for (int i = 0; i < length; i++){
 			sweepTree.add(i);
 		}
-		/*
-		App.error("sweepTree:");
-		for (int i : sweepTree){
-			App.debug(i+": "+getPointsND()[i]);
-		}
-		*/
 		
 		
 		
-		/*
-		// find points with edges both on right or both on left
-		double x0 = getPointX(length - 2);
-		double x1 = getPointX(length - 1);
-		double x2;
-		for (int i = 0 ; i < length ; i++){
-			x2 = getPointX(i);
-			if (Kernel.isGreater(x1, x0) && Kernel.isGreater(x1, x2)){
-				App.debug((i-1)+" : both left");
-			}else if (Kernel.isGreater(x0, x1) && Kernel.isGreater(x2, x1)){
-				App.debug((i-1)+" : both right");
-			}
-			x0 = x1;
-			x1 = x2;
-		}
-		*/
+		
+		
 		
 		int[] sweepArray = new int[length];
 		int index = 0;
@@ -341,7 +449,7 @@ public class PolygonTriangulation implements Comparator<Integer> {
 			}
 			
 		}
-		
+		*/
 		return ret;
 	}
 	
