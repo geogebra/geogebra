@@ -88,7 +88,13 @@ public class PolygonTriangulation implements Comparator<Integer> {
 		point = oldPoint.right;
 		oldPoint.orientation = Math.atan2(point.y - oldPoint.y, point.x - oldPoint.x);
 		
-		for (int i = 0; i < n ; i++){
+		int removedPoints = 0;
+		for (int i = 0; i < n && removedPoints < n-1 ; i++){ 
+			// make it n times since at each step :
+			// * we remove 1 point and go on
+			// * we remove 2 points and go back
+			// * we go on
+			// so each point is visited at least once
 			Point nextPoint = point.right;
 			point.orientation = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
 			// delta orientation between 0 and 2pi
@@ -101,20 +107,20 @@ public class PolygonTriangulation implements Comparator<Integer> {
 				// right is next point
 				oldPoint.right = nextPoint;
 				nextPoint.left = oldPoint;
+				removedPoints++;
 				point = nextPoint;
 			}else if (Kernel.isEqual(delta, Math.PI)){ // U-turn
 				App.debug("U-turn");
 				if(Kernel.isEqual(nextPoint.x, oldPoint.x) && Kernel.isEqual(nextPoint.y, oldPoint.y)){
-					// same point : ignore next, update orientation
+					// same point
 					App.debug(oldPoint.name+"=="+nextPoint.name);
-					/*
-					nextPoint = nextPoint.right;
-					oldPoint.orientation = Math.atan2(nextPoint.y - oldPoint.y, nextPoint.x - oldPoint.x);	
-					*/
-					// right is next point
-					oldPoint.right = nextPoint;
-					nextPoint.left = oldPoint;
-					point = nextPoint;
+					// go back
+					point = oldPoint; 
+					oldPoint = oldPoint.left;
+					// remove point and nextPoint
+					point.right = nextPoint.right;
+					nextPoint.right.left = point;
+					removedPoints += 2;
 				}else if (Kernel.isGreater(0, (nextPoint.x - oldPoint.x)*(point.x - oldPoint.x) + (nextPoint.y - oldPoint.y)*(point.y - oldPoint.y))){
 					// next point is back old point
 					App.debug(" next point is back old point - "+(oldPoint.orientation*180/Math.PI));
@@ -126,6 +132,7 @@ public class PolygonTriangulation implements Comparator<Integer> {
 					// right is next point
 					oldPoint.right = nextPoint;
 					nextPoint.left = oldPoint;
+					removedPoints++;
 					point = nextPoint;
 				}else{
 					// right is next point
@@ -144,98 +151,14 @@ public class PolygonTriangulation implements Comparator<Integer> {
 			
 		}
 		
-		
-		/*
-		ArrayList<Point> noFlatPoints = new ArrayList<Point>();
-		
-		Point oldPoint = pointsList.get(n-2);
-		point = pointsList.get(n-1);
-		oldPoint.orientation = Math.atan2(point.y - oldPoint.y, point.x - oldPoint.x);
-		
-		for (int i = 0; i < n ; i++){
-			Point nextPoint = pointsList.get(i);
-			point.orientation = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
-			// delta orientation between 0 and 2pi
-			double delta = point.orientation - oldPoint.orientation; 
-			if (delta < 0){
-				delta += 2*Math.PI;
-			}
-			App.debug(oldPoint.name+"/"+point.name+"/"+nextPoint.name+" : "+(delta*180/Math.PI));
-			if (Kernel.isZero(delta)){ // point aligned				
-				// no need to change oldPoint 
-			}else if (Kernel.isEqual(delta, Math.PI)){ // U-turn
-				App.debug("U-turn");
-				if(Kernel.isEqual(nextPoint.x, oldPoint.x) && Kernel.isEqual(nextPoint.y, oldPoint.y)){
-					// same point : ignore next, update orientation
-					App.debug(oldPoint.name+"=="+nextPoint.name);
-					i++;
-					if (i < n){ // check if there are still points
-						nextPoint = pointsList.get(i);
-						oldPoint.orientation = Math.atan2(nextPoint.y - oldPoint.y, nextPoint.x - oldPoint.x);
-					}else{
-						App.debug("last");
-						if(noFlatPoints.get(0) == nextPoint){
-							App.debug("remove");
-							oldPoint.orientation = nextPoint.orientation;
-							noFlatPoints.remove(0);
-							//nextPoint = noFlatPoints.get(0);
-							//oldPoint.orientation = Math.atan2(nextPoint.y - oldPoint.y, nextPoint.x - oldPoint.x);
-						}
-						
-					}
-				}else if (Kernel.isGreater(0, (nextPoint.x - oldPoint.x)*(point.x - oldPoint.x) + (nextPoint.y - oldPoint.y)*(point.y - oldPoint.y))){
-					// next point is back old point
-					App.debug(" next point is back old point - "+(oldPoint.orientation*180/Math.PI));
-					if (oldPoint.orientation > 0){
-						oldPoint.orientation -= Math.PI;
-					}else{
-						oldPoint.orientation += Math.PI;
-					}
-				}
-			}else{
-				noFlatPoints.add(point);
-				oldPoint = point;			
-			}
-			
-			point = nextPoint;
-
-			
-		}
-		
-		
-		pointsList = noFlatPoints;
-
-		if (Kernel.isEqual(point.x, x0) && Kernel.isEqual(point.y, y0)){
-			pointsList.remove(pointsList.size()-1);
-		}
-		*/
-		
-		/*
 		String s = "";
-		for (int i = 0 ; i < pointsList.size() ; i++){
-			s+="\n"+pointsList.get(i).name+"("+(pointsList.get(i).orientation*180/Math.PI)+"°), ";
-		}
-		App.debug(s);
-		*/
-		
-		String s = "========";
 		point = firstPoint;
 		for (point = firstPoint; point.right != firstPoint; point = point.right){
-			s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°), ";
+			s+=point.name+"("+(point.orientation*180/Math.PI)+"°), ";
 		}
-		s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°) **";
+		s+=point.name+"("+(point.orientation*180/Math.PI)+"°)";
 		App.debug(s);
 		
-		
-		s = "========";
-		point = firstPoint;
-		for (point = firstPoint; point.left != firstPoint; point = point.left){
-			s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°), ";
-		}
-		s+="\n"+point.name+"("+(point.orientation*180/Math.PI)+"°) **";
-		App.debug(s);
-
-
 		
 	}
 	
