@@ -133,7 +133,13 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	@Override
 	public void set(GeoElement geo) {
-		super.set(geo);	
+		if(geo.isGeoPoint()){
+			GeoPoint p= (GeoPoint) geo;
+			setCoords(p.getX()/p.getZ(), p.getY()/p.getZ(), 0.0d);
+		}else{
+			super.set(geo);
+		}
+		
 		if (!geo.isGeoVector()) return;
 
 		GeoVector vec = (GeoVector) geo;		
