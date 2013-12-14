@@ -407,7 +407,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);").
 				append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];").
 				append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;").
-				append("cc:=append(cc,ee); od; od], cc][7][0]")
+				append("cc:=append(cc,ee); od; od],cc][8]")
 				// See CASTranslator.createSingularScript for more details.
 
 				.toString();
