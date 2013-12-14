@@ -46,7 +46,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	 * creates new probabilitycalculatorView
 	 */
 	
-	private FlowPanel wrappedPanel;
 	private Label lblDist;
 	private MyToggleButton2 btnCumulative;
 	private MyToggleButton2 btnIntervalLeft;
@@ -83,8 +82,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	public ProbabilityCalculatorViewW(AppW app) {
 	   super(app);
 	   
-	   wrappedPanel = new FlowPanel();
-	   wrappedPanel.addStyleName("PropabilityCalculatorViewW");
+	   tabbedPane = new TabLayoutPanel(30, Unit.PX);
+	   tabbedPane.addStyleName("PropabilityCalculatorViewW");
 	   
 	   createGUIElements();
 	   createExportToEvAction();
@@ -104,9 +103,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				styleBar.updateLayout();
 		   }
 	   });
-	   
-	   wrappedPanel.add(tabbedPane);
-	   
+	   	   
 	   setLabels();
 	   
 	   attachView();
@@ -205,7 +202,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	}
 
 	private void buildProbCalcPanel() {
-		wrappedPanel.clear();
+		tabbedPane.clear();
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);
 		
@@ -344,19 +341,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    lblMeanSigma = new Label();
 	    	  
     }
-
-	/**
-	 * inits the gui of ProbablityCalculatorView
-	 */
-	public void initGUI() {
-		this.wrappedPanel = new FlowPanel();
-	}
 	
 	/**
 	 * @return the wrapper panel of this view
 	 */
-	public FlowPanel getWrapperPanel() {
-		return wrappedPanel;
+	public TabLayoutPanel getWrapperPanel() {
+		return tabbedPane;
 	}
 
 	@Override
