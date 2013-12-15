@@ -2093,6 +2093,7 @@ __GGB__keysVar.ca.plain = {
     "Boolean": "Boole\xe0",
     "Breakpoint": "Punt d'interrupci\xf3",
     "Button": "Bot\xf3",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "El nom %0 ja existia i ha estat canviat a %1",
     "CASFieldHelp": "<html><body><p><b>Finestra de CAS en \xfas</b></p><table border=\"1\"><tr><td>Enter </td><td>Avalua l\'entrada</td></tr><tr><td>; </td><td>Suprimeix el resultat</td></tr><tr><td>Ctrl + Enter </td><td>Avalua en mode num\xe8ric</td></tr><tr><td>Alt + Enter </td><td>Revisa l\'entrada</td></tr><tr><td>ESC</td><td>Esborra l\'entrada</td></tr><tr><td>$</td><td>Resultat anterior (refer\xe8ncia din\xe0mica)</td></tr><tr><td>#</td><td>Resultat anterior (refer\xe8ncia est\xe0tica)</td></tr><tr><td>$3</td><td>Resultat de la 3a cel\xb7la (refer\xe8ncia din\xe0mica)</td></tr><tr><td>#3</td><td>Resultat de la 3a cel\xb7la (refer\xe8ncia est\xe0tica)</td></tr><tr><td>F1</td><td>Ajuda del comandament actual</td></tr><tr><td>TAB</td><td>Mostra el comandament seg\xfcent que coincideix</td></tr></table><p><br><b>Auto-completaci\xf3 de comandaments</b><br>Quan s\'escriuen les dues primeres lletres d\'un comandament<br>el GeoGebra us en mostrar\xe0 l\'escriptura completa.</p><table border=\"1\"><tr><td>Enter </td><td>Accepta el comandament proposat</td></tr><tr><td>Una altra lletra</td><td>Adapta el comandament proposat</td></tr></table></body></html>",

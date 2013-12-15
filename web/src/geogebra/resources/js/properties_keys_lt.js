@@ -2093,6 +2093,7 @@ __GGB__keysVar.lt.plain = {
     "Boolean": "Login\u0117 vert\u0117",
     "Breakpoint": "Tr\u016bkio ta\u0161kas",
     "Button": "Mygtukas",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Pavadinimas %0 naudojamas, tad buvo pakeistas \u012f %1",
     "CASFieldHelp": "<html><body><p><b>CAS laukas</b></p><table border=\"1\"><tr><td>Enter </td><td>\u012evestis</td></tr><tr><td>; </td><td>I\u0161vestis</td></tr><tr><td>Ctrl + Enter </td><td>\u012evertinti</td></tr><tr><td>Alt + Enter </td><td>Tikrinti \u012fvest\u012f</td></tr><tr><td>Escape</td><td>I\u0161valyti \u012fvest\u012f</td></tr><tr><td>$</td><td>Praeita i\u0161vestis (dinamin\u0117 nuoroda)</td></tr><tr><td>#</td><td>Praeita i\u0161vestis (statin\u0117 nuoroda)</td></tr><tr><td>$3</td><td>Tre\u010dios eilut\u0117s i\u0161vestis (dinamin\u0117 nuoroda)</td></tr><tr><td>#3</td><td>Tre\u010dios eilut\u0117s i\u0161vestis (statin\u0117 nuoroda)</td></tr><tr><td>F1</td><td>Pagalba</td></tr><tr><td>TAB</td><td>Rodyti gimining\u0105 komand\u0105</td></tr></table><p><br><b>Komand\u0173 automatinis u\u0161pildymas</b><br>Para\u0161ius pirmas dvi komandos raides<br>GeoGebra u\u017ebaigs komand\u0105 automati\u0161kai.</p><table border=\"1\"><tr><td>Enter </td><td>Patvirtinti komand\u0105</td></tr><tr><td>Kita raid\u0117</td><td>Adaptuoti</td></tr></table></body></html>",

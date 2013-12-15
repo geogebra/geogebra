@@ -2093,6 +2093,7 @@ __GGB__keysVar.da.plain = {
     "Boolean": "Boolesk v\xe6rdi",
     "Breakpoint": "stoppunkt",
     "Button": "Knap",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Navnet %0 er allerede brugt og er blevet lavet om til %1",
     "CASFieldHelp": "<html><body><p><b>At benyttet CAS</b></p><table border=\"1\"><tr><td>Enter </td><td>Beregn input</td></tr><tr><td>; </td><td>Skjul output</td></tr><tr><td>Ctrl + Enter </td><td>Beregn numerisk</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Slet input</td></tr><tr><td>$</td><td>Foreg\xe5ende output (dynamisk reference)</td></tr><tr><td>#</td><td>Foreg\xe5ende output (statisk reference)</td></tr><tr><td>$3</td><td>Output i 3. celle (dynamisk reference)</td></tr><tr><td>#3</td><td>Output i 3. celle (statisk reference)</td></tr><tr><td>F1</td><td>Hj\xe6lp til den p\xe5g\xe6ldende n\xf8gleord</td></tr><tr><td>TAB</td><td>Vis den n\xe6ste matchende n\xf8gleord</td></tr></table><p><br><b>Auto-afslutning af n\xf8gleord</b><br>N\xe5r du har tastet de to f\xf8rste bogstaver i et n\xf8gleord<br>GeoGebra vil afslutte den for dig.</p><table border=\"1\"><tr><td>Enter </td><td>Accepter den foresl\xe5ede n\xf8gleord</td></tr><tr><td>Et andet bogstav</td><td>Adapter foresl\xe5et n\xf8gleord</td></tr></table></body></html>",

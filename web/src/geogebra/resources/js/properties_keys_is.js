@@ -2093,6 +2093,7 @@ __GGB__keysVar.is.plain = {
     "Boolean": "Boole-gildi",
     "Breakpoint": "Rofsta\xf0ur",
     "Button": "Hnappur",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Nafni\xf0 %0 er \xfeegar \xed notkun og hefur veri\xf0 breytt \xed %1",
     "CASFieldHelp": "<html><body><p><b>Nota CAS s\xfdn</b></p><table border=\"1\"><tr><td>Enter </td><td>Reikna gildi inntaks</td></tr><tr><td>; </td><td>Fela \xfattak</td></tr><tr><td>Ctrl + Enter </td><td>Reikna me\xf0 t\xf6lulegum a\xf0fer\xf0um</td></tr><tr><td>Alt + Enter </td><td>Kanna inntak</td></tr><tr><td>Escape</td><td>Hreinsa inntak</td></tr><tr><td>$</td><td>Fyrra \xfattak (kvik tilv\xedsun)</td></tr><tr><td>#</td><td>Fyrra \xfattak (f\xf6st tilv\xedsun)</td></tr><tr><td>$3</td><td>\xdattak 3ja reitar (kvik tilv\xedsun)</td></tr><tr><td>#3</td><td>\xdattak 3ja reitar (f\xf6st tilv\xedsun)</td></tr><tr><td>F1</td><td>Hj\xe1lp fyrir skipun \xed notkun</td></tr><tr><td>TAB</td><td>S\xfdna n\xe6stu skipun sem passar</td></tr></table><p><br><b>Loki\xf0 vi\xf0 skipanir \xe1 sj\xe1lfvirkan h\xe1tt</b><br>Eftir a\xf0 fyrstu tveir b\xf3kstafir \xed nafni skipunar hafa veri\xf0 slegnir inn l\xfdkur <br>GeoGebra sj\xe1lfkrafa vi\xf0 skipunina.</p><table border=\"1\"><tr><td>Enter </td><td>Sam\xfeykkja skipun sem stungi\xf0 er upp \xe1 </td></tr><tr><td>Annar b\xf3kstafur</td><td>A\xf0lagar skipun sem stungi\xf0 er upp \xe1</td></tr></table></body></html>",

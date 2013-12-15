@@ -2093,6 +2093,7 @@ __GGB__keysVar.ca_XV.plain = {
     "Boolean": "Boole\xe0",
     "Breakpoint": "Punt d'interrupci\xf3",
     "Button": "Bot\xf3",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "El nom %0 ja existia i s'ha canviat a %1.",
     "CASFieldHelp": "<html><body><p><b>Finestra del CAS en \xfas</b></p><table border=\"1\"><tr><td>Retorn </td><td>Avalua l\'entrada</td></tr><tr><td>; </td><td>Suprimix el resultat</td></tr><tr><td>Ctrl + Retorn </td><td>Avalua en mode num\xe8ric</td></tr><tr><td>Alt + Retorn </td><td>Revisa l\'entrada</td></tr><tr><td>Esc</td><td>Esborra l\'entrada</td></tr><tr><td>$</td><td>Resultat anterior (refer\xe8ncia din\xe0mica)</td></tr><tr><td>#</td><td>Resultat anterior (refer\xe8ncia est\xe0tica)</td></tr><tr><td>$3</td><td>Resultat de la 3a cel\xb7la (refer\xe8ncia din\xe0mica)</td></tr><tr><td>#3</td><td>Resultat de la 3a cel\xb7la (refer\xe8ncia est\xe0tica)</td></tr><tr><td>F1</td><td>Ajuda per a l\'orde actual</td></tr><tr><td>Tab</td><td>Mostra l\'orde seg\xfcent que coincidix</td></tr></table><p><br><b>Autocompleci\xf3 d\'ordes</b><br>Quan s\'escriuen les dos primeres lletres d\'una orde<br>el GeoGebra vos en mostrar\xe0 l\'orde completa.</p><table border=\"1\"><tr><td>Retorn </td><td>Accepta l\'orde proposada</td></tr><tr><td>Una altra lletra</td><td>Adapta l\'orde proposada</td></tr></table></body></html>",

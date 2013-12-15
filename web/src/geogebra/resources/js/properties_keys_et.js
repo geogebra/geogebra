@@ -2093,6 +2093,7 @@ __GGB__keysVar.et.plain = {
     "Boolean": "T\xf5ev\xe4\xe4rtus",
     "Breakpoint": "Katkestuspunkt",
     "Button": "Nupp",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "T\xe4his %0 on juba kasutusel ja muudeti t\xe4hiseks %1",
     "CASFieldHelp": "<html><body><p><b>CASi vaate kasutamine</b></p><table border=\"1\"><tr><td>Enter </td><td>Arvuta sisend</td></tr><tr><td>; </td><td>Eira v\xe4ljundit</td></tr><tr><td>Ctrl + Enter </td><td>Arvuta numbriliselt</td></tr><tr><td>Alt + Enter </td><td>Kontrolli sisendit</td></tr><tr><td>Escape</td><td>T\xfchjenda sisend</td></tr><tr><td>$</td><td>Eelmine v\xe4ljund (d\xfcnaamiline viide)</td></tr><tr><td>#</td><td>Eelmine v\xe4ljund (staatiline viide)</td></tr><tr><td>$3</td><td>3. lahtri v\xe4ljund (d\xfcnaamiline viide)</td></tr><tr><td>#3</td><td>3. lahtri v\xe4ljund (staatiline viide)</td></tr><tr><td>F1</td><td>Antud k\xe4su abi</td></tr><tr><td>TAB</td><td>N\xe4ita j\xe4rgmist sobivat k\xe4sku</td></tr></table><p><br><b>K\xe4skude automaatne l\xf5petamine</b><br>Peale k\xe4su kahe esimese t\xe4he kirjutamist<br>esitab GeoGebra ise v\xf5imaliku k\xe4su.</p><table border=\"1\"><tr><td>Enter </td><td>Aktsepteeri esitatud k\xe4sk</td></tr><tr><td>J\xe4rgmine t\xe4ht</td><td>Kohandatakse esitatavat k\xe4sku</td></tr></table></body></html>",

@@ -2093,6 +2093,7 @@ __GGB__keysVar.fi.plain = {
     "Boolean": "Looginen arvo",
     "Breakpoint": "Katkoskohta",
     "Button": "Painike",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Nimi %0 on jo k\xe4yt\xf6ss\xe4. Vaihdettiin nimeksi %1",
     "CASFieldHelp": "<html><body><p><b>Jos K\xe4ytet\xe4\xe4n CAS-n\xe4kym\xe4\xe4</b></p><table border=\"1\"><tr><td>Enter </td><td>Laskee sy\xf6t\xf6n</td></tr><tr><td>; </td><td>Vaientaa tulostuksen</td></tr><tr><td>Ctrl + Enter </td><td>Laskee numeerisessa tilassa</td></tr><tr><td>Alt + Enter </td><td>Tarkista sy\xf6tt\xf6</td></tr><tr><td>Escape</td><td>Tyhjenn\xe4 sy\xf6tt\xf6</td></tr><tr><td>$</td><td>Edellinen tulostus (dynaaminen viite)</td></tr><tr><td>#</td><td>Edellinen tulostus (staattinen viite)</td></tr><tr><td>$3</td><td>Kolmannen solun tulostus (dynaaminen viite)</td></tr><tr><td>#3</td><td>Kolmannen solun tulostus (staatinen viite)</td></tr><tr><td>F1</td><td>Opastusta nykyiselle komennolle</td></tr><tr><td>TAB</td><td>N\xe4yt\xe4 seuraava sopiva komento</td></tr></table><p><br><b>Komentojen Automaattinen T\xe4ydent\xe4minen</b><br>Kahden ensimm\xe4isen kirjainmen j\xe4lkeen GeoGebra t\xe4ydent\xe4\xe4 komennot itsen\xe4isesti.</p><table border=\"1\"><tr><td>Enter </td><td>Hyv\xe4ksyy esitetyn komennon</td></tr><tr><td>Toinen kirjain</td><td>Muokkaa esitetyn komennon</td></tr></table></body></html>",

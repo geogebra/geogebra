@@ -2093,6 +2093,7 @@ __GGB__keysVar.sr.plain = {
     "Boolean": "Logi\u010dka vrednost",
     "Breakpoint": "Kontrolna ta\u010dka",
     "Button": "Dugme",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Ime %0 je ve\u0107 bilo upotrebljeno i promenjeno je u %1",
     "CASFieldHelp": "<html><body><p><b>Upotreba CAS prikaza</b></p><table border=\"1\"><tr><td>Enter </td><td>Izvr\u0161i unos</td></tr><tr><td>; </td><td>Sakrij izlaz</td></tr><tr><td>Ctrl + Enter </td><td>Izra\u010dunaj numeri\u010dki</td></tr><tr><td>Alt + Enter </td><td>Proveri unos</td></tr><tr><td>Escape</td><td>Obri\u0161i unos</td></tr><tr><td>$</td><td>Prethodni izlaz (dinami\u010dka referenca)</td></tr><tr><td>#</td><td>Prethodni izlaz (stati\u010dka referenca)</td></tr><tr><td>$3</td><td>Izlaz 3. \u0107elije (dinami\u010dka referenca)</td></tr><tr><td>#3</td><td>Izlaz 3. \u0107elije (stati\u010dka referenca)</td></tr><tr><td>F1</td><td>Pomo\u0107 za teku\u0107u naredbu</td></tr><tr><td>TAB</td><td>Prika\u017ei slede\u0107u odgovaraju\u0107u naredbu</td></tr></table><p><br><b>Automatsko dovr\u0161avanje naredbi</b><br>Kada unesete prva dva slova naredbe<br>GeoGebra \u0107e je dovr\u0161iti za Vas.</p><table border=\"1\"><tr><td>Enter </td><td>Prihvati predlo\u017eenu naredbu</td></tr><tr><td>Neko drugo slovo</td><td>Izbor predlo\u017eene naredbe</td></tr></table></body></html>",

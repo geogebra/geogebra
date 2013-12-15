@@ -2093,6 +2093,7 @@ __GGB__keysVar.no_NB.plain = {
     "Boolean": "Boolsk verdi",
     "Breakpoint": "Etappepunkt",
     "Button": "Knapp",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Navnet %0 er allerede i bruk, og har blitt endret til %1",
     "CASFieldHelp": "<html><body><p><b>Bruk av CAS-delen</b></p><table border=\"1\"><tr><td>Enter </td><td>Beregn inntastet uttrykk</td></tr><tr><td>; </td><td>Utelat resultatet</td></tr><tr><td>Ctrl + Enter </td><td>Beregn numerisk</td></tr><tr><td>Alt + Enter </td><td>Kontroller inntasting</td></tr><tr><td>Avbryt</td><td>Slett inntasting</td></tr><tr><td>$</td><td>Tidligere resultat (dynamisk kobling)</td></tr><tr><td>#</td><td>Tidligere resultat(statisk kobling)</td></tr><tr><td>$3</td><td>Resultat fra tredje celle (dynamisk kobling)</td></tr><tr><td>#3</td><td>Resultat fra tredje celle (statisk kobling)</td></tr><tr><td>F1</td><td>Hjelp for denne kommandoen</td></tr><tr><td>TAB</td><td>Vis neste passende kommando</td></tr></table><p><br><b>Auto-fullf\xf8ring av kommandoer</b><br>Etter \xe5 ha skrevet de to f\xf8rste bokstavene av en kommando<br>vil GeoGebra fullf\xf8re kommandoen for deg.</p><table border=\"1\"><tr><td>Enter </td><td>Aksepter foresl\xe5tte kommando</td></tr><tr><td>En bokstav til</td><td>Tilpasser foresl\xe5tte kommando</td></tr></table></body></html>",

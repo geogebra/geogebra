@@ -2093,6 +2093,7 @@ __GGB__keysVar.eu.plain = {
     "Boolean": "Balio Boolearra",
     "Breakpoint": "Eten-puntua",
     "Button": "Botoia",
+    "ButtonSize": "Button Size",
     "CAS": "CAS - Kalkulu Formala",
     "CAS_AutomaticRename": "Dagoeneko %0 izena erabili da, eta %1 izenera aldatu da",
     "CASFieldHelp": "<html><body><p><b>CAS ikuspegia erabiliz</b></p><table border=\"1\"><tr><td>Sartu </td><td>Sarrerako datuak ebaluatu</td></tr><tr><td>; </td><td>Irteerako datuak indargabetu</td></tr><tr><td>Ctrl + Intro </td><td>Ebaluatu zenbakizko moduan</td></tr><tr><td>Alt + Intro </td><td>Sarrerako datuak egiaztatu</td></tr><tr><td>Iheserako karakterea</td><td>Garbitu sarrerako datuak</td></tr><tr><td>$</td><td>Azken irteerako datua (erreferentzia dinamikoa)</td></tr><tr><td>#</td><td>Azken irteerako datua (erreferentzia estatikoa)</td></tr><tr><td>$3</td><td>Hirugarren kutxatilako irteera-datua (erreferentzia dinamikoa)</td></tr><tr><td>#3</td><td>Hirugarren kutxatilako irteera-datua (erreferentzia estatikoa)</td></tr><tr><td>F1</td><td>Uneko aginduaren laguntza</td></tr><tr><td>TAB</td><td>Erakutsi hurbilen dagoen hurrengo agindua </td></tr></table><p><br><b>Aginduen osatze automatikoa </b><br>Agindu baten lehenengo bi letrak idatzi ondoren <br>GeoGebrak agindua osatuko du.</p><table border=\"1\"><tr><td>Sartu</td><td>Onartu proposaturiko agindua</td></tr><tr><td>Beste letra bat</td><td>Proposaturiko agindua aldatu</td></tr></table></body></html>",

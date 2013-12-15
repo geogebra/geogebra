@@ -2093,6 +2093,7 @@ __GGB__keysVar.nl_BE.plain = {
     "Boolean": "Booleaanse waarde",
     "Breakpoint": "Stoppunt",
     "Button": "Actieknop",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Deze naam %0 is reeds in gebruik en moet gewijzigd worden in %1",
     "CASFieldHelp": "<html><body><p><b>Gebruik the CAS venster</b></p><table border=\"1\"><tr><td>Enter </td><td>Evalueer input</td></tr><tr><td>; </td><td>Onderdruk output</td></tr><tr><td>Ctrl + Enter </td><td>Evalueer in numerieke modus</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Wis input</td></tr><tr><td>$</td><td>Vorige output (dynamische verwijzing)</td></tr><tr><td>#</td><td>Vorige output (statische verwijzing)</td></tr><tr><td>$3</td><td>Output of derde cel (dynamisch verwijzing</td></tr><tr><td>#3</td><td>Output van 3rd cel (statische verwijzing)</td></tr><tr><td>F1</td><td>Help voor huidig commando</td></tr><tr><td>TAB</td><td>Toon volgend matching commando</td></tr></table><p><br><b>Auto-aanvulling van commando\'s</b><br>Na het typen van de eerste twee letters<br>GeoGebra zal commando aanvullen.</p><table border=\"1\"><tr><td>Enter </td><td>Aanvaard voorgesteld commando</td></tr><tr><td>Andere letter</td><td>Pas voorgesteld commando aan</td></tr></table></body></html>",

@@ -2093,6 +2093,7 @@ __GGB__keysVar.in.plain = {
     "Boolean": "Nilai Boolean",
     "Breakpoint": "Titik patah",
     "Button": "Tombol",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Nama %0 sudah digunakan dan sudah diubah ke %1",
     "CASFieldHelp": "<html><body><p><b>Gunakan Tampilan CAS</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluasi Masukan</td></tr><tr><td>; </td><td>Dorong Keluaran</td></tr><tr><td>Ctrl + Enter </td><td>Evaluasi pada mode numerik</td></tr><tr><td>Alt + Enter </td><td>Cek Masukan</td></tr><tr><td>Escape</td><td>Hapus Masukan</td></tr><tr><td>$</td><td>Keluaran Sebelumnya(referensi dinamis)</td></tr><tr><td>#</td><td>Keluaran Sebelumnya(Referensi statik)</td></tr><tr><td>$3</td><td>Keluaran dari sel ketiga(Referensi dinamik)</td></tr><tr><td>#3</td><td>Keluaran dari sel ketiga (referensi statis)</td></tr><tr><td>F1</td><td>Bantuan untuk perintah ini</td></tr><tr><td>TAB</td><td>Tampilkan perintah cocok selanjutnya</td></tr></table><p><br><b>Pelengkap Otomatis dari perintah</b><br>Setelah mengetik dua huruf pertama dari perintah<br>GeoGebra akan melengkapi perintah untuk Anda.</p><table border=\"1\"><tr><td>Enter </td><td>Terima perintah yang diajukan</td></tr><tr><td>Huruf lainnya</td><td>Adaptasikan perintah yang diajukan</td></tr></table></body></html>",

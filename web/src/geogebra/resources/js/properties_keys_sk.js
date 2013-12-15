@@ -2093,6 +2093,7 @@ __GGB__keysVar.sk.plain = {
     "Boolean": "Logick\xe1 hodnota",
     "Breakpoint": "Bod lomu",
     "Button": "Tla\u010didlo",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Pomenovanie %0 bol pou\u017e\xedvan\xfd a bol zmenen\xfd na %1",
     "CASFieldHelp": "<html><body><p><b>Pomocou vzh\u013eadu CAS</b></p><table border=\"1\"><tr><td>Enter </td><td>Vypo\u010d\xedta\u0165 vstup</td></tr><tr><td>; </td><td>Potla\u010di\u0165 v\xfdstup</td></tr><tr><td>Ctrl + Enter </td><td>Vypo\u010d\xedta\u0165 numericky</td></tr><tr><td>Alt + Enter </td><td>Skontrolova\u0165 vstup</td></tr><tr><td>Esc</td><td>Vymaza\u0165 vstup</td></tr><tr><td>$</td><td>Predch\xe1dzaj\xfaci v\xfdsledok (dynamick\xfd odkaz)</td></tr><tr><td>#</td><td>>Predch\xe1dzaj\xfaci v\xfdsledok (statick\xfd odkaz)</td></tr><tr><td>$3</td><td>V\xfdsledok 3. bunky (dynamick\xfd odkaz)</td></tr><tr><td>#3</td><td>V\xfdsledok 3. bunky (statick\xfd odkaz)</td></tr><tr><td>F1</td><td>Pomoc k aktu\xe1lnemu pr\xedkazu</td></tr><tr><td>TAB</td><td>Zobrazi\u0165 \u010fal\u0161\xed zodpovedaj\xfaci pr\xedkaz</td></tr></table><p><br><b>Automatick\xe9 dokon\u010denie pr\xedkazov</b><br>Po zadan\xed prv\xfdch dvoch p\xedsmen\xe1ch pr\xedkazu<br>GeoGebra pom\xf4\u017ee dokon\u010di\u0165 pr\xedkaz.</p><table border=\"1\"><tr><td>Enter </td><td>Prija\u0165 navrhnut\xfd pr\xedkaz</td></tr><tr><td>\u010eal\u0161ie p\xedsmeno</td><td>Adaptova\u0165 navrhnut\xfd pr\xedkaz</td></tr></table></body></html>",

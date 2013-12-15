@@ -2093,6 +2093,7 @@ __GGB__keysVar.ro.plain = {
     "Boolean": "Valori booleene",
     "Breakpoint": "Breakpoint",
     "Button": "Buton",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Numele %0 este deja utilizat \u0219i va fi modificat \xeen %1",
     "CASFieldHelp": "<html><body><p><b>Utilizare vizualizare CAS</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluare input</td></tr><tr><td>; </td><td>Eliminare output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluare \xeen mod numeric</td></tr><tr><td>Alt + Enter </td><td>Verificare input</td></tr><tr><td>Escape</td><td>\u0218tergere input</td></tr><tr><td>$</td><td>Output anterior (referin\u021b\u0103 dinamic\u0103)</td></tr><tr><td>#</td><td>Output anterior (referin\u021b\u0103 static\u0103)</td></tr><tr><td>$3</td><td>Output al celei de-a 3-a celule (referin\u021b\u0103 dinamic\u0103)</td></tr><tr><td>#3</td><td>Output al celei de-a 3-a celule (referin\u021b\u0103 static\u0103)</td></tr><tr><td>F1</td><td>Ajutor pentru comanda curent\u0103</td></tr><tr><td>TAB</td><td>Arat\u0103 urm\u0103toarea comand\u0103</td></tr></table><p><br><b>Auto-Completarea comenzilor</b><br>Dup\u0103 tastarea primelor dou\u0103 litere ale unei comenzi<br>GeoGebra va completa comanda pentru dumneavoastr\u0103.</p><table border=\"1\"><tr><td>Enter </td><td>Accept\u0103 comand\u0103 propus\u0103</td></tr><tr><td>Alt\u0103 liter\u0103</td><td>Adapteaz\u0103 comanda propus\u0103</td></tr></table></body></html>",

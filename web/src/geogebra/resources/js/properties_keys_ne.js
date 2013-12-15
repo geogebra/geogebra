@@ -2093,6 +2093,7 @@ __GGB__keysVar.ne.plain = {
     "Boolean": "\u092c\u0941\u0932\u0928\u0915\u094b \u092e\u093e\u0928",
     "Breakpoint": "\u092c\u094d\u0930\u0947\u0915\u092c\u093f\u0928\u094d\u0926\u0941",
     "Button": "\u092c\u091f\u0928",
+    "ButtonSize": "Button Size",
     "CAS": "\u0915\u094d\u092f\u093e\u0938",
     "CAS_AutomaticRename": "%0 \u0915\u094b \u0928\u093e\u092e \u0905\u0917\u093e\u0921\u093f\u0928\u0948 \u092a\u094d\u0930\u092f\u094b\u0917\u092e\u093e \u091b \u0930 %1 \u092e\u093e \u092c\u0926\u0932\u093f\u090f\u0915\u094b \u091b",
     "CASFieldHelp": "<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",

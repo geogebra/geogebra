@@ -2093,6 +2093,7 @@ __GGB__keysVar.bg.plain = {
     "Boolean": "\u041b\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0430 \u0441\u0442\u043e\u0439\u043d\u043e\u0441\u0442",
     "Breakpoint": "\u041f\u043e\u043a\u0430\u0436\u0438 \u0442\u043e\u0437\u0438 \u043e\u0431\u0435\u043a\u0442",
     "Button": "\u0411\u0443\u0442\u043e\u043d",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "The name %0 is already in use and has been changed to %1",
     "CASFieldHelp": "<html><body><p><b>Using the CAS View</b></p><table border=\"1\"><tr><td>Enter </td><td>Evaluate input</td></tr><tr><td>; </td><td>Suppress output</td></tr><tr><td>Ctrl + Enter </td><td>Evaluate in numeric mode</td></tr><tr><td>Alt + Enter </td><td>Check input</td></tr><tr><td>Escape</td><td>Clear input</td></tr><tr><td>$</td><td>Previous output (dynamic reference)</td></tr><tr><td>#</td><td>Previous output (static reference)</td></tr><tr><td>$3</td><td>Output of 3rd cell (dynamic reference)</td></tr><tr><td>#3</td><td>Output of 3rd cell (static reference)</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",

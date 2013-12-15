@@ -2093,6 +2093,7 @@ __GGB__keysVar.gl.plain = {
     "Boolean": "Valor booleano",
     "Breakpoint": "Punto de pausa",
     "Button": "Bot\xf3n",
+    "ButtonSize": "Button Size",
     "CAS": "CAS - C\xe1lculo Simb\xf3lico",
     "CAS_AutomaticRename": "Estando o nome %0 xa en uso, cambiouse por %1",
     "CASFieldHelp": "<html><body><p><b>Usando a Vista CAS de \xe1lxebra simb\xf3lica</b></p><table border=\"1\"><tr><td>Intro </td><td>Avalia entrada</td></tr><tr><td>; </td><td>Suprime sa\xedda</td></tr><tr><td>Ctrl + Intro </td><td>Avalia en modo num\xe9rico</td></tr><tr><td>Alt + Intro </td><td>Controla entrada</td></tr><tr><td>Escape</td><td>Borra entrada</td></tr><tr><td>$</td><td>Sa\xedda previa (referencia din\xe1mica)</td></tr><tr><td>#</td><td>Sa\xedda previa (referencia est\xe1tica)</td></tr><tr><td>$3</td><td>Sa\xedda de 3ra cela (referencia din\xe1mica)</td></tr><tr><td>#3</td><td>Sa\xedda de 3ra cela (referencia est\xe1tica)</td></tr><tr><td>F1</td><td>Axuda sobre o comando en uso</td></tr><tr><td>TAB</td><td>Amosa o seguinte comando concoerdante</td></tr></table><p><br><b>Auto-Completado de Comandos</b><br>Unha vez anotadas as d\xfaas primeiras letras dun  comando<br>GeoGebra completar\xe1 o comando autom\xe1ticamente.</p><table border=\"1\"><tr><td>Intro </td><td>Acepta o comando proposto</td></tr><tr><td>Outra letra</td><td>Axusta o comando proposto</td></tr></table></body></html>",

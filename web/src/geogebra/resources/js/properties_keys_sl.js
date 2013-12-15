@@ -2093,6 +2093,7 @@ __GGB__keysVar.sl.plain = {
     "Boolean": "Logi\u010dne vrednosti",
     "Breakpoint": "Prekinitvena to\u010dka",
     "Button": "Gumb",
+    "ButtonSize": "Button Size",
     "CAS": "Simbolno ra\u010dunanje",
     "CAS_AutomaticRename": "Ime je \u017ee v uporabi %0 in je bilo spremenjeno v %1",
     "CASFieldHelp": "<html><body><p><b>Uporaba SSR pogleda</b></p><table border=\"1\"><tr><td>Enter </td><td>Prera\u010duna vnos </td></tr><tr><td>; </td><td>Prepre\u010di izpis rezultata</td></tr><tr><td>Ctrl + Enter </td><td>Prera\u010duna v numeri\u010dnem na\u010dinu</td></tr><tr><td>Alt + Enter </td><td>Preveri vnos</td></tr><tr><td>Escape</td><td>Po\u010disti vnos</td></tr><tr><td>$</td><td>Prej\u0161nji rezultat (dinami\u010dni sklic)</td></tr><tr><td>#</td><td>Prej\u0161nji rezultat (stati\u010dni sklic)</td></tr><tr><td>$3</td><td>Rezultat tretje celice (dinami\u010dni sklic)</td></tr><tr><td>#3</td><td>Rezultat tretje celice (stati\u010dni sklic)</td></tr><tr><td>F1</td><td>Pomo\u010d za trenutni ukaz</td></tr><tr><td>TAB</td><td>Prikaz naslednjega ujemajo\u010dega se ukaza</td></tr></table><p><br><b>Avtomatsko dopolnjevanje ukaza</b><br>Potem ko vtipka\u0161 \u0161rvi dve \u010drki ukaza<br>bo GeoGebra avtomatsko dopolnila ukaz do konca.</p><table border=\"1\"><tr><td>Enter </td><td>Sprejmi predagan ukaz</td></tr><tr><td>Druga \u010drka</td><td>Prilagodi predlagan ukaz</td></tr></table></body></html>",

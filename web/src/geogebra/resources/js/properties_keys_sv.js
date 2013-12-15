@@ -2093,6 +2093,7 @@ __GGB__keysVar.sv.plain = {
     "Boolean": "Logiskt (booleskt) v\xe4rde",
     "Breakpoint": "Brytpunkt",
     "Button": "Button",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Namnet %0 anv\xe4nds redan och har \xe4ndrats till %1",
     "CASFieldHelp": "<html><body><p><b>Att anv\xe4nda CAS-f\xf6nstret</b></p><table border=\"1\"><tr><td>Enter </td><td>Utv\xe4rdera inmatning</td></tr><tr><td>; </td><td>Undrertryck utdata</td></tr><tr><td>Ctrl + Enter </td><td>Utv\xe4rdera numeriskt</td></tr><tr><td>Alt + Enter </td><td>Kontrollera inmatning</td></tr><tr><td>Escape</td><td>Rensa inmatning</td></tr><tr><td>$</td><td>F\xf6reg\xe5ende utdata (dynamisk referens)</td></tr><tr><td>#</td><td>F\xf6reg\xe5ende utdata (statisk referens)</td></tr><tr><td>$3</td><td>Utdata fr\xe5n 3:e raden (dynamisk referens)</td></tr><tr><td>#3</td><td>Utdata fr\xe5n 3:e raden (statisk referens)</td></tr><tr><td>F1</td><td>Hj\xe4lp f\xf6r aktuellt kommando</td></tr><tr><td>TAB</td><td>Visa n\xe4sta matchande kommando</td></tr></table><p><br><b>Automatisk ifyllnad av kommandon</b><br>Efter att du skrivit de tv\xe5 f\xf6rsta tecknen<br>kompletterar GeoGebra automatiskt kommandot f\xf6r dig.</p><table border=\"1\"><tr><td>Enter </td><td>Acceptera f\xf6reslaget kommando</td></tr><tr><td>Ytterligare en bokstav</td><td>Justerar f\xf6reslaget kommando</td></tr></table></body></html>",

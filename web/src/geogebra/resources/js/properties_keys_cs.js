@@ -2093,6 +2093,7 @@ __GGB__keysVar.cs.plain = {
     "Boolean": "Boolovsk\xe1 hodnota",
     "Breakpoint": "Bod zastaven\xed",
     "Button": "Tla\u010d\xedtko",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "N\xe1zev %0 je ji\u017e pou\u017eit a byl zm\u011bn\u011bn\u011bn na %1",
     "CASFieldHelp": "<html><body><p><b>Pou\u017e\xedv\xe1n\xed CAS n\xe1hledu</b></p><table border=\"1\"><tr><td>Enter </td><td>vyhodnot\xed vstup</td></tr><tr><td>; </td><td>Potla\u010d\xed v\xfdstup</td></tr><tr><td>Ctrl + Enter </td><td>Vyhodnot\xed numericky</td></tr><tr><td>Alt + Enter </td><td>Zkontroluje vstup</td></tr><tr><td>Escape</td><td>Sma\u017ee vstup</td></tr><tr><td>$</td><td>P\u0159edchoz\xed vstup (dynamick\xfd odkaz)</td></tr><tr><td>#</td><td>P\u0159edchoz\xed v\xfdstup (statick\xfd odkaz)</td></tr><tr><td>#3</td><td>V\xfdstup 3. bu\u0148ky (dynamick\xfd odkaz)</td></tr><tr><td>$3</td><td>V\xfdstup 3. bu\u0148ky (statick\xfd odkaz)</td></tr><tr><td>F1</td><td>N\xe1pov\u011bda pro aktu\xe1ln\xed p\u0159\xedkaz</td></tr><tr><td>TAB</td><td>N\xe1sleduj\xedc\xed vyhovuj\xedc\xed p\u0159\xedkaz</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",

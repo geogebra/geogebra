@@ -2093,6 +2093,7 @@ __GGB__keysVar.ms.plain = {
     "Boolean": "Nilai Boolean",
     "Breakpoint": "Titik putus",
     "Button": "Butang",
+    "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Nama %0 sedang diguna dan telah ditukarkan kepada %1",
     "CASFieldHelp": "<html><badan><p><b>Menggunakan CAS View</b></p><bingkai meja=\"1\"><tr><td>Enter</td><td>Menilai input</td></tr><tr><td>; </td><td>Menekan output</td></tr><tr><td>Ctrl + Enter </td><td>Menilai dalam mod nombor</td></tr><tr><td>Alt + Enter </td><td>Periksa input</td></tr><tr><td>Escape</td><td>Memadam input</td></tr><tr><td>$</td><td>Output sebelum (dynamic reference)</td></tr><tr><td>#</td><td>Output Sebelum (static reference)</td></tr><tr><td>$3</td><td>Output Sel ke 3 (dynamic reference)</td></tr><tr><td>#3</td><td>Output Sel ke 3 (static reference)</td></tr><tr><td>F1</td><td>Bantuan untuk command semasa</td></tr><tr><td>TAB</td><td>Tunjuk command seterusnya yang padan</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>Selepas menaip dua huruf yang pertama dalam satu commandd<br>GeoGebra akan melengkapkan command untuk anda.</p><table border=\"1\"><tr><td>Enter </td><td>Terima command yang dicadangkan</td></tr><tr><td>Huruf lain</td><td>Penyesuaian command yang dicadangkan</td></tr></table></body></html>",

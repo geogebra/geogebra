@@ -2093,6 +2093,7 @@ __GGB__keysVar.es_UY.plain = {
     "Boolean": "Valor booleano",
     "Breakpoint": "Punto de interrupci\xf3n",
     "Button": "Bot\xf3n",
+    "ButtonSize": "Medida del Bot\xf3n",
     "CAS": "CAS - C\xe1lculo simb\xf3lico",
     "CAS_AutomaticRename": "El nombre %0 ya est\xe1 en uso, se lo reemplaz\xf3 por %1",
     "CASFieldHelp": "<html><body><p><b>Uso de la Vista CAS - C\xe1lculo simb\xf3lico</b></p><table border=\"1\"><tr><td>Intro </td><td>Eval\xfaa entrada</td></tr><tr><td>; </td><td>Suprime salida</td></tr><tr><td>Ctrl + Intro </td><td>Eval\xfaa en modo num\xe9rico</td></tr><tr><td>Alt + Intro </td><td>Controla entrada</td></tr><tr><td>Escape</td><td>Borra entrada</td></tr><tr><td>$</td><td>Salida previa (referencia din\xe1mica)</td></tr><tr><td>#</td><td>Salida previa (referencia est\xe1tica)</td></tr><tr><td>$3</td><td>Salida de tercera celda (referencia din\xe1mica)</td></tr><tr><td>#3</td><td>Salida de tercera celda (referencia est\xe1tica)</td></tr><tr><td>F1</td><td>Ayuda sobre el comando en uso</td></tr><tr><td>TAB</td><td>Muestra el siguiente comando acorde</td></tr></table><p><br><b>Autocompletado de comandos</b><br>Tras anotar las primeras dos letras de un comando<br>GeoGebra completar\xe1 el comando autom\xe1ticamente.</p><table border=\"1\"><tr><td>Intro </td><td>Acepta el comando propuesto</td></tr><tr><td>Otra letra</td><td>Ajusta el comando propuesto</td></tr></table></body></html>",
