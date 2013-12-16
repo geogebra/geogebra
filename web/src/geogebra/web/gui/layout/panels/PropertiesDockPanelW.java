@@ -57,5 +57,13 @@ public class PropertiesDockPanelW extends DockPanelW {
 	    // TODO Auto-generated method stub
 	    
     }
-	
+
+	@Override
+	public void onResize() {
+
+		// this hack may be temporary
+		if (view != null) {
+			view.repaintView();
+		}
+	}
 }
