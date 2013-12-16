@@ -1452,7 +1452,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				barsPanel = new JPanel(new GridLayout(0, 3 ,5,5));
 				barsPanel.setBorder(new TitledBorder(app.getPlain("SelectedBar")));
 				for (int i = 0; i < numBar + 1; i++) {
-					selectionBarButtons[i] = new JToggleButton(app.getPlain("Bar") +" "+ i);
+					selectionBarButtons[i] = new JToggleButton(loc.getPlain("BarA", i+""));
 					selectionBarButtons[i].setSelected(false);
 					selectionBarButtons[i].setActionCommand(""+i);
 					selectionBarButtons[i].addActionListener(new ActionListener(){
@@ -4170,7 +4170,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				barsPanel = new JPanel(new GridLayout(0, 5 ,5,5));
 				barsPanel.setBorder(new TitledBorder(app.getPlain("SelectedBar")));
 				for (int i = 0; i < numBar + 1; i++) {
-					selectionBarButtons[i] = new JToggleButton(app.getPlain("Bar") +" "+ i);
+					selectionBarButtons[i] = new JToggleButton(loc.getPlain("BarA", i+""));
 					selectionBarButtons[i].setSelected(false);
 					selectionBarButtons[i].setActionCommand(""+i);
 					selectionBarButtons[i].addActionListener(new ActionListener(){
