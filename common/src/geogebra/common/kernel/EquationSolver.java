@@ -149,7 +149,7 @@ public class EquationSolver implements EquationSolverInterface {
 		} else {
 			// From Numerical Recipes, 5.6, Quadratic and Cubic Equations
 			double d = b * b - 4.0 * a * c;
-			if (Math.abs(d) < eps * b * b)
+			if (Math.abs(d) < eps || Math.abs(d) < eps * b * b)
 				res[roots++] = -b / (2.0 * a);
 			else {
 				if (d < 0.0)
