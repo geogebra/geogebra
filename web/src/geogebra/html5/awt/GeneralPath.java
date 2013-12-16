@@ -154,4 +154,16 @@ public class GeneralPath extends geogebra.common.awt.GGeneralPath implements
 	public void quadTo(float f, float g, float h, float i) {
 		impl.quadTo(f,g,h,i);
 	}
+	
+	/**
+	 * Returns the fill style winding rule.
+	 *
+	 * @return an integer representing the current winding rule.
+	 * @see #WIND_EVEN_ODD
+	 * @see #WIND_NON_ZERO
+	 * @see #setWindingRule
+	 */
+	public int getWindingRule() {
+		return impl.getWindingRule();
+	}
 }

@@ -114,7 +114,8 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GGeneralPath newGeneralPath() {
-		return new geogebra.html5.awt.GeneralPath();
+		// default winding rule changed for ggb50 (for Polygons) #3983
+		return new geogebra.html5.awt.GeneralPath(geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD);
 	}
 
 	@Override

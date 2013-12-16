@@ -18,6 +18,7 @@ import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
@@ -42,7 +43,7 @@ import com.google.gwt.user.client.Element;
 public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	protected final Canvas canvas;
-	private final Context2d context;
+	private final MyContext2d context;
 	protected geogebra.common.awt.GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
@@ -65,7 +66,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		this.canvas = canvas;
 		setDirection();
 		
-		this.context = canvas.getContext2d();
+		this.context = (MyContext2d) canvas.getContext2d();
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
 		//TODO put this back in
@@ -273,7 +274,24 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		doDrawShape(shape, false);
-		context.fill();		
+		
+		App.debug((shape instanceof GeneralPath)+"");
+		App.debug((shape instanceof GeneralPathClipped)+"");
+		App.debug((shape.getClass().toString())+"");
+		
+		// default winding rule changed for ggb50 (for Polygons) #3983
+		if (shape instanceof geogebra.html5.openjdk.awt.geom.GeneralPath) {
+			geogebra.html5.openjdk.awt.geom.GeneralPath gp = (geogebra.html5.openjdk.awt.geom.GeneralPath)shape;
+			int rule = gp.getWindingRule();
+			if (rule == geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD) {
+				context.fill("evenodd");		
+			} else {
+				// context.fill("") differs between browsers
+				context.fill();
+			}
+		} else {
+			context.fill();
+		}
 	}
 
 
@@ -869,7 +887,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight) {
 		roundRect(x,y,width,height,arcHeight);
-		context.fill();
+		context.fill("evenodd");
 		
 	}
 

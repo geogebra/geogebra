@@ -8,6 +8,8 @@ import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.main.AppD;
 
+import java.awt.geom.Path2D;
+
 
 public class GGeneralPathD extends geogebra.common.awt.GGeneralPath implements geogebra.awt.GShapeD{
 	
@@ -16,7 +18,8 @@ public class GGeneralPathD extends geogebra.common.awt.GGeneralPath implements g
 		impl = g;
 	}
 	public GGeneralPathD() {
-		impl = new java.awt.geom.GeneralPath();			
+		// default winding rule changed for ggb50 (for Polygons) #3983
+		impl = new java.awt.geom.GeneralPath(Path2D.WIND_EVEN_ODD);			
 	}
 	
 	public GGeneralPathD(int rule) {
