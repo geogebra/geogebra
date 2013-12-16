@@ -1430,7 +1430,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			labelHeight.setText(loc.getPlain("Height"));
 			labelPixelW.setText(loc.getMenu("Pixels.short"));
 			labelPixelH.setText(loc.getMenu("Pixels.short"));
-			cbUseFixedSize.setText(loc.getPlain("Fixed"));
+			cbUseFixedSize.setText(loc.getPlain("fixed"));
 
 		}
 

@@ -5723,7 +5723,7 @@ UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
 		labelPixelW = new JLabel(loc.getMenu("Pixels.short"));
 		labelPixelH = new JLabel(loc.getMenu("Pixels.short"));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		cbUseFixedSize = new JCheckBox(loc.getPlain("Fixed"));
+		cbUseFixedSize = new JCheckBox(loc.getPlain("fixed"));
 		tfButtonWidth = new MyTextField(app, 3);
 		tfButtonHeight = new MyTextField(app, 3);
 		tfButtonHeight.setInputVerifier(new SizeVerify());
