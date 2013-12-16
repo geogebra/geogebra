@@ -12,10 +12,14 @@ import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -210,6 +214,12 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			WindowMenuW windowMenu = new WindowMenuW(app);
 			addItem(app.getMenu("Window"), windowMenu);
 		}
+		/*
+		public MenuItem addItem(String name, MenuBar submenu){
+			String fontsizeString = app.getGUIFontSize() + "px";
+			submenu.getElement().getStyle().setProperty("font-size", fontsizeString);
+			return super.addItem(name, submenu);
+		}*/
 				
 		/**
 		 * Gives back an html source of an enabled menuitem.
@@ -312,6 +322,23 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			} else if (event instanceof LoginEvent) {
 				LoginEvent loginEvent = (LoginEvent) event;
 				onLogin(loginEvent.isSuccessful(), loginEvent.getUser());
+			}
+        }
+
+		
+		public void updateFonts() {
+			String fontsizeString = app.getGUIFontSize() + "px";
+			NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
+			for(int i=0; i<fontsizeElements.getLength(); i++){
+				fontsizeElements.getItem(i).removeFromParent();
+			}
+			Element fontsizeElement = DOM.createElement("style");
+			fontsizeElement.addClassName("GGWFontsize");
+			fontsizeElement.setInnerText(".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}");
+			
+			NodeList<Element> geogebrawebElements = Dom.getElementsByClassName("geogebraweb");
+			for(int i=0; i<geogebrawebElements.getLength(); i++){
+				geogebrawebElements.getItem(i).appendChild(fontsizeElement);
 			}
         }
 		

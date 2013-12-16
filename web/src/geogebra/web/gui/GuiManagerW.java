@@ -281,7 +281,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void updateFonts() {
 		// TODO Auto-generated method stub
 		//App.debug("unimplemented method");
-
+		
+		if (((AppW) app).getObjectPool().getGgwMenubar() != null){
+			GeoGebraMenubarW menubar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
+			if (menubar != null) menubar.updateFonts();
+		}
 	}
 
 	public boolean isInputFieldSelectionListener() {

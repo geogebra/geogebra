@@ -1542,6 +1542,8 @@ public abstract class AppW extends AppWeb {
 		        .getResource(funcName));
 		String iconString = imgRes.getSafeUri().asString();
 
+		if (subMenu instanceof MenuBar) ((MenuBar)subMenu).addStyleName("GeoGebraMenuBar");
+		
 		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(iconString, name),
 		        true, (MenuBar) subMenu);
 	}
