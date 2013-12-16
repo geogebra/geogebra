@@ -130,6 +130,9 @@ public class DrawInequality extends Drawable {
 				createDrawable();
 			} else if (ineq.getType() == IneqType.INEQUALITY_CONIC) {
 				ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
+				if(drawable instanceof DrawConic){
+					((DrawConic)drawable).setIgnoreSingularities(!ineq.isStrict() == ineq.isAboveBorder());
+				}
 			}
 			drawable.update();
 			setShape(drawable.getShape());
@@ -159,7 +162,7 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawInequality1Var(ineq, view, geo, true);
 			break;
 		case INEQUALITY_CONIC:
-			drawable = new DrawConic(view, ineq.getConicBorder(), !ineq.isStrict());
+			drawable = new DrawConic(view, ineq.getConicBorder(), !ineq.isStrict() == ineq.isAboveBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
 		case INEQUALITY_LINEAR:

@@ -400,7 +400,7 @@ public class DrawConic extends Drawable implements Previewable {
 			// drawPoint.font = view.fontConic;
 		}
 		
-		setShape(conic.isInverseFill() && !ignoreSingularities ? drawPoint.getDot() : null);
+		setShape(!ignoreSingularities ? drawPoint.getDot() : null);
 		
 		// looks if it's on view
 		Coords p = view.getCoordsForView(conic.getMidpoint3D());
@@ -1114,13 +1114,13 @@ public class DrawConic extends Drawable implements Previewable {
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			int pointType;
-			if (conic.isInverseFill()) {
+			if ((conic ==geo  && conic.isInverseFill()) ||geo.isInverseFill() != conic.isInverseFill()) {
 				fill(g2, getShape(), false);
 				pointType = EuclidianStyleConstants.POINT_STYLE_CIRCLE; 
 			}else{
 				pointType = EuclidianStyleConstants.POINT_STYLE_DOT;
 			}
-			if(ignoreSingularities != conic.isInverseFill()){
+			if(!ignoreSingularities){
 				drawPoint.setPointStyle(pointType);
 				drawPoint.draw(g2);
 			}
@@ -1561,5 +1561,10 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	public GeoConicND getConic() {
 		return conic;
+	}
+
+	public void setIgnoreSingularities(boolean ignore) {
+		this.ignoreSingularities = ignore;
+		
 	}
 }
