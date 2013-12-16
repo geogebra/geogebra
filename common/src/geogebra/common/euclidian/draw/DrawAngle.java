@@ -158,6 +158,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible || Kernel.isZero(angle.getValue())) {
 			shape = null;
+			labelVisible = false;
 			//we may return here; the object is not offscreen, but invisible.
 			return;
 		}
