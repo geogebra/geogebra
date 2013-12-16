@@ -89,12 +89,12 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	 * @param settings
 	 */
 	public EuclidianViewW(EuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid, int evNo, EuclidianSettings settings) {
+            boolean showGrid, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
 		
 		EVPanel = new MyEuclidianViewPanel(this);
 		
-		initBaseComponents(EVPanel, euclidiancontroller, evNo);
+		initBaseComponents(EVPanel, euclidiancontroller, -1);
 		
 		
 	}

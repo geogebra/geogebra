@@ -8,6 +8,7 @@ import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Unicode;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.gui.images.AppResources;
@@ -72,7 +73,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private FlowPanel mainSplitPane;
 	private FlowPanel probCalcPanel;
 	private StatisticsCalculatorW statCalculator;
-	private TabLayoutPanel tabbedPane;
+	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
 	
@@ -82,7 +83,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	public ProbabilityCalculatorViewW(AppW app) {
 	   super(app);
 	   
-	   tabbedPane = new TabLayoutPanel(30, Unit.PX);
+	   tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
 	   tabbedPane.addStyleName("PropabilityCalculatorViewW");
 	   
 	   createGUIElements();
@@ -92,7 +93,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	   
 	   statCalculator = new StatisticsCalculatorW(app);
 	   
-	   tabbedPane = new TabLayoutPanel(30, Unit.PX);
+	   tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
 	   tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
 	   tabbedPane.add(statCalculator.getWrappedPanel(), loc.getMenu("Statistics"));
 	   
@@ -496,6 +497,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		}
 
 		setMeanSigma();
+		plotPanel.repaintView();
 		//wrapperPanel.repaint();
 
 	}
@@ -721,5 +723,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		updateGUI();
 		updateDiscreteTable();
     }
+	
+	private class MyTabLayoutPanel extends TabLayoutPanel {
+
+		public MyTabLayoutPanel(int splitterSize, Unit px) {
+	        super(splitterSize, px);
+        }
+		
+		@Override
+        public void onResize() { 
+			int width = this.getOffsetWidth();
+			int height = this.getOffsetHeight();
+			plotPanel.getSettings().setPreferredSize(new GDimensionW(width, height));
+			plotPanel.repaintView();
+		}
+		
+	}
 
 }
