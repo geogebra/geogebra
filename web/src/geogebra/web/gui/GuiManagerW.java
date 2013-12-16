@@ -13,7 +13,6 @@ import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.View;
@@ -404,13 +403,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 
 		return probCalculator;
-	}
-
-	@Override
-    public PlotPanelEuclidianViewInterface getPlotPanelView(int id) {
-		//App.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void updateSpreadsheetColumnWidths() {

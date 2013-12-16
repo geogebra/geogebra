@@ -430,6 +430,8 @@ public abstract class AppW extends AppWeb {
 
 		return (EuclidianViewW)getGuiManager().getEuclidianView2();
 	}
+	
+
 
 	@Override
 	public EuclidianViewInterfaceCommon getActiveEuclidianView() {

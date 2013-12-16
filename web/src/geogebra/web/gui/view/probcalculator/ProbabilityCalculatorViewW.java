@@ -11,6 +11,7 @@ import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
@@ -732,12 +733,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		@Override
         public void onResize() { 
-			int width = this.getOffsetWidth();
-			int height = this.getOffsetHeight();
-			plotPanel.getSettings().setPreferredSize(new GDimensionW(width, height));
+			int width = probCalcPanel.getOffsetWidth();
+			int height = probCalcPanel.getOffsetHeight();
+			plotPanel.setPreferredSize(new GDimensionW(width, height));
 			plotPanel.repaintView();
 		}
 		
 	}
+
+	public EuclidianViewW getPlotPanelEuclidianView() {
+	    return (EuclidianViewW) plotPanel;
+    }
 
 }

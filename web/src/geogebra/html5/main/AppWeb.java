@@ -899,4 +899,23 @@ public abstract class AppWeb extends App implements SetLabels{
 	 * @return GeoGebraFrame like frame
 	 */
 	public abstract HasAppletProperties getAppletFrame();
+
+	/**
+	 * @param viewId 
+	 * @return the plotpanel euclidianview
+	 */
+	public EuclidianViewWeb getPlotPanelEuclidianView(int viewId) {
+		if (getGuiManager() == null) {
+			return null;
+		}
+		return (EuclidianViewWeb) getGuiManager().getPlotPanelView(viewId);
+	}
+
+	public boolean isPlotPanelEuclidianView(int viewID) {
+	    if (getGuiManager() == null) {
+	    	return false;
+	    }
+	    return getGuiManager().getPlotPanelView(viewID) != null;
+    }
+	
 }

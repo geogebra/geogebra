@@ -107,7 +107,7 @@ public abstract class ProbabilityCalcualtorView implements View, SettingListener
 	
 	
 	protected int defaultDividerSize;
-	protected EuclidianView plotPanel;
+	public EuclidianView plotPanel;
 	
 	protected ProbabilityTable table;
 	// enable/disable integral ---- use for testing

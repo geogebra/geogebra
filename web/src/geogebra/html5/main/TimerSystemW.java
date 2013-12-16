@@ -34,6 +34,7 @@ public class TimerSystemW {
 
 	EuclidianViewWeb euclidianView1 = null;
 	EuclidianViewWeb euclidianView2 = null;
+	EuclidianViewWeb plotPanelEuclidianView = null;
 	AlgebraViewWeb algebraView = null;
 	SpreadsheetViewWeb spreadsheetView = null;
 
@@ -64,6 +65,10 @@ public class TimerSystemW {
 				// quick insertion, may be optimized later too
 				if (euclidianView2 != null)
 					euclidianView2.doRepaint();
+				
+				if (plotPanelEuclidianView != null) {
+					plotPanelEuclidianView.doRepaint();
+				}
 
 				if (nextrepainttime <= 0) {
 					if (nextbigview == 0 && algebraTimed) {
@@ -125,6 +130,7 @@ public class TimerSystemW {
 				repaintTimer.schedule(commonMillis());
 		}
 	};
+	
 
 	public boolean repaintTimed() {
 		return euclidian1Timed || algebraTimed || spreadsheetTimed;
@@ -138,7 +144,7 @@ public class TimerSystemW {
 
 		if (view == null)
 			return;
-		else if (view == euclidianView1 || view == euclidianView2)
+		else if (view == euclidianView1 || view == euclidianView2 || view == plotPanelEuclidianView)
 			euclidianRepaint();
 		else if (view == algebraView)
 			algebraRepaint();
@@ -154,6 +160,11 @@ public class TimerSystemW {
 					euclidianView2 = (EuclidianViewWeb)application.getEuclidianView2();
 					if (view == euclidianView2)
 						euclidianRepaint();
+				}
+			} else if (application.isPlotPanelEuclidianView(view.getViewID())) {
+				plotPanelEuclidianView = application.getPlotPanelEuclidianView(view.getViewID());
+				if (view == plotPanelEuclidianView) {
+					euclidianRepaint();
 				}
 			} else if (view.getViewID() == App.VIEW_ALGEBRA) {
 				algebraView = (AlgebraViewWeb)application.getAlgebraView();

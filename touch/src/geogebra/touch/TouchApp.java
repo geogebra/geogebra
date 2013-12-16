@@ -710,4 +710,10 @@ public class TouchApp extends AppWeb {
 		return null;
 	}
 
+	@Override
+	public EuclidianViewWeb getPlotPanelEuclidianView(int viewID) {
+		//TODO: do this when ported to touch .-)
+		return null;
+	}
+
 }
