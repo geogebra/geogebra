@@ -41,16 +41,21 @@ public class TextOptionsModel extends OptionsModel {
 	private Localization loc;
     private DynamicTextProcessor dTProcessor; 
     private GeoText editGeo;
+    private GeoText lastGeo;
 	public TextOptionsModel(App app, ITextOptionsListener listener) {
 		this.listener = listener;
 		this.app = app;
 		loc = app.getLocalization();
 		dTProcessor = new DynamicTextProcessor(app);
 		editGeo = null;
+		lastGeo = null;
 	}
 
 	@Override
 	public boolean checkGeos() { 
+		if (!hasGeos()) {
+			return false;
+		}
 		boolean geosOK = true; 
 		justDisplayFontSize = true; 
 		for (int i = 0; i < getGeosLength(); i++) { 
@@ -80,10 +85,15 @@ public class TextOptionsModel extends OptionsModel {
 	
 	@Override
 	public void updateProperties() {
+		if (lastGeo == editGeo) {
+			return;
+		}
 		listener.setWidgetsVisible(!justDisplayFontSize, getGeoAt(0).isGeoButton());
 
 		TextProperties geo0 = getTextPropertiesAt(0);	
 
+		setEditGeo(getGeoTextAt(0));
+			
 		listener.selectSize(GeoText.getFontSizeIndex(geo0
 				.getFontSizeMultiplier())); // font
 		// size
@@ -151,6 +161,10 @@ public class TextOptionsModel extends OptionsModel {
 			text.setFontSizeMultiplier(value);
 			getGeoAt(i).updateVisualStyleRepaint();
 		}
+		if (editGeo == null) {
+			return;
+		}
+		
 		((TextProperties)editGeo).setFontSizeMultiplier(value);
 		listener.updatePreview();
 	}
@@ -164,6 +178,10 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void applyFont(boolean isSerif) { 
+		if (editGeo == null) {
+			return;
+		}
+
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			text.setSerifFont(isSerif);
@@ -222,6 +240,7 @@ public class TextOptionsModel extends OptionsModel {
 
 	public void setEditGeo(GeoText editGeo) {
 		this.editGeo = editGeo;
+		lastGeo = editGeo;
 	}
 
 	public void applyEditedGeo(String text, boolean isLatex) {

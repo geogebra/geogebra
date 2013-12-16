@@ -2288,6 +2288,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			model = new ImageCornerModel(app, this);
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
+			comboBox.setEditable(true);
 			getLabel().setIcon(app.getImageIcon("corner" + 
 					model.getCornerNumber() + ".png"));
 		}
@@ -2348,12 +2349,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			if (geos == null) {
+			if (geos == null  || 
+					corner0.update(geos) == null) {
 				return null;
 			}
-			if (corner0.update(geos) == null){
-				//		return null;
-			}
+			
+			;
 			corner1.update(geos);
 			corner2.update(geos);
 			return this;
@@ -2366,7 +2367,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	/**
-	 * panel for text editing
+	 * panel for text editingA
 	 */
 	public class TextEditPanel extends JPanel implements ActionListener,
 	UpdateablePropertiesPanel, SetLabels, UpdateFonts {
@@ -3014,10 +3015,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public JPanel update() {
 			// check geos
 			if (!model.checkGeos()) {
+				model.cancelEditGeo();
 				return null;
 			}
-
-
+		
 			cbSize.removeActionListener(this);
 			cbFont.removeActionListener(this);
 			cbDecimalPlaces.removeActionListener(this);
@@ -3080,7 +3081,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void focusLost(FocusEvent arg0) {
-
+			model.cancelEditGeo();
 		}
 
 		public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {

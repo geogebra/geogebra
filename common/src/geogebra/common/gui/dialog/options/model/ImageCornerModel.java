@@ -111,16 +111,18 @@ public class ImageCornerModel extends MultipleOptionsModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		GeoElement geo = getGeoAt(index);
+		Object geo = getObjectAt(index);
 		if (geo instanceof GeoImage) {
 			GeoImage img = (GeoImage) geo;
 			if (img.isAbsoluteScreenLocActive() || !img.isIndependent()) {
 				return false;
 			}
-		} else {
-			return false;
+			
+			return true;
+			
 		}
-		return true;
+		
+		return false;
 	}
 
 	public int getCornerIdx() {
