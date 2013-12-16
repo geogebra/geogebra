@@ -12,6 +12,7 @@ import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.locusequ.CmdEnvelope;
 import geogebra.common.kernel.locusequ.CmdLocusEquation;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorLines;
@@ -568,8 +569,7 @@ public class LocusEquation {
 	 * @return processor for Envelope command
 	 */
 	public static CommandProcessor newCmdEnvelope(Kernel kernel) {
-		//return new CmdEnvelope(kernel);
-		return null;
+		return new CmdEnvelope(kernel);
 	}
 
 	/**
