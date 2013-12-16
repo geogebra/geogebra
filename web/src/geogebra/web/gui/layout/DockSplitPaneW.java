@@ -116,8 +116,16 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 		double sizeAll = computeSizeRecursive(orientation);
 
-		if (sizeAll == 0)
+		if (sizeAll <= 0) {
 			return 0;
+		}
+
+		if (sizeLeft < 0) {
+			sizeLeft = 0;
+		} else if (sizeLeft > sizeAll) {
+			// well, why not return with 1?
+			return 1;
+		}
 
 		return sizeLeft / sizeAll;
 	}

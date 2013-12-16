@@ -388,11 +388,11 @@ public class DockManagerW extends DockManager {
 
 
 				// Set the window dimensions to the ggb xml <window> tag size.
-				windowWidth = app.getPreferredSize().getWidth();
-				windowHeight = app.getPreferredSize().getHeight();
+				int windowWidth2 = app.getPreferredSize().getWidth();
+				int windowHeight2 = app.getPreferredSize().getHeight();
 				
 				// Set the split pane dividers
-				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth);
+				setSplitPaneDividers(spData, splitPanes, windowHeight2, windowWidth2, windowHeight, windowWidth);
 
 				// for debugging
 				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
@@ -410,7 +410,7 @@ public class DockManagerW extends DockManager {
 				// this might be good as well:
 				//rootPane.setPixelSize(windowWidth, windowHeight);
 				
-				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth);
+				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth, windowHeight, windowWidth);
 			}
 
 		
@@ -438,9 +438,10 @@ public class DockManagerW extends DockManager {
 	 * @param windowHeight
 	 * @param windowWidth
 	 */
-	private void setSplitPaneDividers(DockSplitPaneData[] spData, DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth){
+	private void setSplitPaneDividers(DockSplitPaneData[] spData, DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth, int theRealWindowHeight, int theRealWindowWidth) {
 
 		double sdl = 0;
+		int divLoc = 0;
 
 		// set the dividers of the split panes
 		for (int i = 0; i < spData.length; ++i) {
@@ -456,9 +457,19 @@ public class DockManagerW extends DockManager {
 			}
 
 			if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-				splitPanes[i].setDividerLocationSilent((int)(sdl * windowHeight ));
+				divLoc = (int)(sdl * windowHeight);
+				if (divLoc <= theRealWindowHeight - splitPanes[i].getSplitterSize()) {
+					splitPanes[i].setDividerLocationSilent(divLoc);
+				} else {
+					splitPanes[i].setDividerLocationSilent(theRealWindowHeight - splitPanes[i].getSplitterSize());
+				}
 			} else {
-				splitPanes[i].setDividerLocationSilent((int)(sdl * windowWidth ));
+				divLoc = (int)(sdl * windowWidth);
+				if (divLoc <= theRealWindowWidth - splitPanes[i].getSplitterSize()) {
+					splitPanes[i].setDividerLocationSilent(divLoc);
+				} else {
+					splitPanes[i].setDividerLocationSilent(theRealWindowWidth - splitPanes[i].getSplitterSize());
+				}
 			}
 		}
 
