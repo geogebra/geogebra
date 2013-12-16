@@ -1,9 +1,12 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.export.pstricks.GeoGebraToPgfD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
+import geogebra.move.ggtapi.events.TubeAvailabilityCheckEvent;
 import geogebra.move.ggtapi.models.LoginOperationD;
 
 import java.awt.event.ActionEvent;
@@ -20,7 +23,7 @@ import javax.swing.KeyStroke;
 /**
  * The "File" menu.
  */
-class FileMenu extends BaseMenu {
+class FileMenu extends BaseMenu implements EventRenderable {
 	private static final long serialVersionUID = -5154067739481481835L;
 	
 	private AbstractAction
@@ -38,6 +41,8 @@ class FileMenu extends BaseMenu {
 		exportPSTricksAction,
 		exportAsymptoteAction
 	;
+	
+	JMenuItem loadURLMenuItem;
 
 	AbstractAction exportGeoGebraTubeAction;
 
@@ -85,8 +90,15 @@ class FileMenu extends BaseMenu {
 			mi = add(loadAction);
 			setMenuShortCutAccelerator(mi, 'O'); // open
 			
-			if (!app.isApplet() && ((LoginOperationD) app.getLoginOperation()).isTubeAvailable()) {
-				add(loadURLAction);
+			LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
+			if (!app.isApplet() && (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
+				loadURLMenuItem = add(loadURLAction);
+
+				// If GeoGebraTube is not available we disable the item and listen to the event that tube becomes available
+				if (! signIn.isTubeAvailable()) {
+					signIn.getView().add(this);
+					loadURLAction.setEnabled(false);
+				}
 			}
 		
 			// recent SubMenu
@@ -549,6 +561,17 @@ class FileMenu extends BaseMenu {
 	public void update() {
 		// 
 		
+	}
+
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof TubeAvailabilityCheckEvent) {
+			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
+			if (!checkEvent.isAvailable()) {
+				remove(loadURLMenuItem);
+			} else {
+				loadURLAction.setEnabled(true);
+			}
+		}
 	}
 
 

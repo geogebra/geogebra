@@ -20,6 +20,7 @@ import javax.swing.SwingWorker;
 public class LoginOperationD extends LogInOperation {
 
 	boolean tubeAvailable = false;
+	boolean tubeCheckDone = false;
 
 
 	/**
@@ -67,6 +68,7 @@ public class LoginOperationD extends LogInOperation {
         public Void doInBackground() {
     		doPerformTokenLogin(token, automatic);
     		tubeAvailable = getGeoGebraTubeAPI().isAvailable();
+    		tubeCheckDone = true;
     		return null;
         }
     }
@@ -94,6 +96,14 @@ public class LoginOperationD extends LogInOperation {
 		return tubeAvailable;
 	}
 	
+
+	/**
+	 * @return boolean if the check for the availability of tube is finished
+	 */
+	public boolean isTubeCheckDone() {
+		return tubeCheckDone;
+	}
+	
 	
 	/**
 	 * Sends a test request to the tube API to check if it is available
@@ -107,6 +117,7 @@ public class LoginOperationD extends LogInOperation {
 				GeoGebraTubeAPI api = getGeoGebraTubeAPI();
 
 				tubeAvailable = api.isAvailable();
+				tubeCheckDone = true;
 				
 				// Send API request to check if the token is valid
 				if (tubeAvailable) {
