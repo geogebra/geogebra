@@ -576,7 +576,12 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 	@Override
 	public void onResize() {
-		//super.onResize();
+
+		if (orientation == HORIZONTAL_SPLIT) {
+			setDividerLocationSilent(getLeftComponent().getOffsetWidth());
+		} else {
+			setDividerLocationSilent(getLeftComponent().getOffsetHeight());
+		}
 
 		// it's only important to resize components so that
 		// the divider should be inside
@@ -586,8 +591,8 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		}
 
 		if (getRightComponent() instanceof DockSplitPaneW) {
-			((DockSplitPaneW)getRightComponent()).checkDividerIsOutside();
 			((RequiresResize)getRightComponent()).onResize();
+			((DockSplitPaneW)getRightComponent()).checkDividerIsOutside();
 		} else if (getRightComponent() instanceof RequiresResize) {
 			((RequiresResize)getRightComponent()).onResize();
 		}
@@ -630,11 +635,13 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		int h = this.getElement().getClientHeight();
 
 		if (orientation == HORIZONTAL_SPLIT) {
-			// vertical split not considered yet
 			if (getDividerLocation() >= w && (w > 0)) {
 				setDividerLocation(0.5);
 			}
-			//saveDividerLocation();
+		} else {
+			if (getDividerLocation() >= h && (h > 0)) {
+				setDividerLocation(0.5);
+			}
 		}
 	}
 }
