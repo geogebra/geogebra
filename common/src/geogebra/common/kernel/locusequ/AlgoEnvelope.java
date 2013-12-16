@@ -203,6 +203,13 @@ public class AlgoEnvelope extends AlgoElement {
         	return null;
         }
         
+		// Changing "2.0" to "2", "x1*-x2" to "x1*(-x2)" and other formatting to satisfy Singular:
+        CASTranslator ct = new CASTranslator(kernel);
+        EquationSystem es = new EquationSystem(restrictions, scope);
+        Collection<StringBuilder> restrictionsT = ct.translate(es);
+        es = new EquationSystem(last, scope);
+        Collection<StringBuilder> lastT = ct.translate(es);
+        
 		/* The equation is not yet in the form we want: the last two variables
 		 * should be changed to x and y. So we collect all variables and
 		 * change them by string replacing. This is quite ugly: if there would
@@ -221,8 +228,8 @@ public class AlgoEnvelope extends AlgoElement {
 		// Variables to replace are in first two elements of scopeVarsS.
 		
 		// Now we do the replacement for the last equation (obtained for the path):
-		String[] lastS = new String[last.size()];
-		it = last.iterator();
+		String[] lastS = new String[lastT.size()];
+		it = lastT.iterator();
 		i = 0;	
 		while (it.hasNext()) {
 			 String eq = it.next().toString();
@@ -240,22 +247,17 @@ public class AlgoEnvelope extends AlgoElement {
 				vars += ",";
 			}
 		}
-		
-		// Changing "2.0" to "2", "x1*-x2" to "x1*(-x2)" and other formatting to satisfy Singular:
-        CASTranslator ct = new CASTranslator(kernel);
-        EquationSystem es = new EquationSystem(restrictions, scope);
-        Collection<StringBuilder> restrictionsT = ct.translate(es);
-        
+		        
         // Obtaining polynomials:
 		String polys = "";
 		it = restrictionsT.iterator();
 		while (it.hasNext()) {
 			polys += CASTranslator.convertFloatsToRationals(it.next().toString()) + ",";
 		}
-		int lastN = lastS.length;
-		for (i=0; i<lastN; ++i) {
-			polys += lastS[i];
-			if (i<lastN - 1) {
+		it = lastT.iterator();
+		for (i=0; i<lastS.length; ++i) {
+			polys += CASTranslator.convertFloatsToRationals(lastS[i]);
+			if (i<lastS.length-1) {
 				polys += ",";
 			}
 		}
