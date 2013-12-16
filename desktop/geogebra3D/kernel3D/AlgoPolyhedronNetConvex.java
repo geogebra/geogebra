@@ -19,6 +19,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	/** points generated as output  */
 	protected OutputHandler<GeoPoint3D> outputPointsNet;
+	int pointsCounter = 0; //counter of the current number of points created in the net
 
 
 
@@ -78,7 +79,12 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		setSegmentsToFacesLink(p,segmentList);
 
 
-		int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user
+		
+		
+		int iBottom = 7; // number of the polygon used as bottom -> may be selected by the user
+		
+		
+		
 		makeNetMap(p,iBottom,segmentInfoList);
 
 		createNet(iBottom);
@@ -284,7 +290,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private void createFace(int faceNumber) {
-		int pointsCounter=0; //only for the App.debut writing
 		App.debug("face: "+faceNumber );
 		int linkSegNumber = polygonInfo.get(faceNumber).linkSegNumber;
 		App.debug("Segment: "+ linkSegNumber);
@@ -294,29 +299,69 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			SegmentInfo linkSeg = segmentInfoList.get(linkSegNumber);
 			//	App.debug("linkSeg : "+linkSeg.pointIndex1+","+linkSeg.pointIndex1);
 			int linkSegIndex;
-			for (linkSegIndex = 0 ; linkSegIndex<currentPolygonSegList.size(); linkSegIndex++ ){
-				if (currentPolygonSegList.get(linkSegIndex)==linkSegNumber){
-					if (linkSegIndex==0) {//seg is the first of the list
-						segmentInfoList.get(currentPolygonSegList.get(1)).pointIndex1=segmentInfoList.get(currentPolygonSegList.get(0)).pointIndex2;
-						segmentInfoList.get(currentPolygonSegList.get(currentPolygonSegList.size()-1)).pointIndex2=segmentInfoList.get(currentPolygonSegList.get(0)).pointIndex1;
+			App.debug("recherche du linkseg");
+			// -1 until the link segment is found
+			for (linkSegIndex = 0 ; (currentPolygonSegList.get(linkSegIndex) != linkSegNumber); linkSegIndex++ ){
+				App.debug("Seg:   "+currentPolygonSegList.get(linkSegIndex) );
+				
+				if (currentPolygonSegList.get(linkSegIndex)!=linkSegNumber){
+					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex1=-1;
+					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2=-1;
+				}
+			}
+			App.debug("linkseg : "+linkSegNumber+" position : "+linkSegIndex);
+			// link segment found	//warning: the seg is seen in the reverse order of the parent polygon
+			if (linkSegIndex==0) {//seg is the first of the list
+				segmentInfoList.get(currentPolygonSegList.get(1)).pointIndex1=segmentInfoList.get(currentPolygonSegList.get(0)).pointIndex1;
+				segmentInfoList.get(currentPolygonSegList.get(currentPolygonSegList.size()-1)).pointIndex2=segmentInfoList.get(currentPolygonSegList.get(0)).pointIndex2;
+			}
+			else {
+				segmentInfoList.get(currentPolygonSegList.get((linkSegIndex+1)%currentPolygonSegList.size())).pointIndex1=segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex1;
+				segmentInfoList.get(currentPolygonSegList.get(linkSegIndex-1)).pointIndex2=segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2;
+			}
+			//reverse the linkseg
+			int temp = segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex1;
+			segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex1 = segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2;
+			segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2 = temp;
+			// -1 until the end of the list
+			for (int linkSegIndex2 = linkSegIndex+1 ; linkSegIndex2<currentPolygonSegList.size(); linkSegIndex2++ ){
+				App.debug("Seg:   "+currentPolygonSegList.get(linkSegIndex2) );
+				if (linkSegIndex2 > linkSegIndex+1){
+					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex2)).pointIndex1=-1;
+				}
+				if ((linkSegIndex2 < currentPolygonSegList.size()-1)||(linkSegIndex != 0)){
+					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex2)).pointIndex2=-1;
+				}
+			}
+
+			// second turn -> create needed points
+			App.debug("Etat Seg Info List");
+			for (int segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){	
+				App.debug(currentPolygonSegList.get(segNumber)+": "+segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1+"<->"+segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2);
+			}
+			for (int segNumber = 0 ; segNumber<currentPolygonSegList.size(); segNumber++ ){
+				if (segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1 == -1){
+					App.debug("Create Point "+pointsCounter);
+					segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1=pointsCounter;
+					//notice it is the second point of the precedent segment
+					if (segNumber>0){
+						segmentInfoList.get(currentPolygonSegList.get((segNumber-1))).pointIndex2=pointsCounter;
 					}
 					else {
-
-						segmentInfoList.get(currentPolygonSegList.get((linkSegIndex+1)%currentPolygonSegList.size())).pointIndex1=segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2;
-						segmentInfoList.get(currentPolygonSegList.get(linkSegIndex-1)).pointIndex2=segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex1;
+						segmentInfoList.get(currentPolygonSegList.get((currentPolygonSegList.size()-1))).pointIndex2=pointsCounter;	
 					}
+					pointsCounter++;			
 				}
-				else{ 
-					// TO DO
-					// do nothing, segmentinfolist(...) is initialized to -1
-					// not so true: points for this seg may have been created for another face
+				if (segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2 == -1){
+					App.debug("Create Point "+pointsCounter);
+					segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2=pointsCounter;
+					//notice it is the first point of the next segment
+					segmentInfoList.get(currentPolygonSegList.get((segNumber+1)%(currentPolygonSegList.size()))).pointIndex1=pointsCounter;
+					pointsCounter++;			
 				}
-				// second turn -> create needed points
 			}
 			//Write the result
-			for (int segNumber=0;segNumber<segmentInfoList.size();segNumber++){	
-				App.debug(segmentInfoList.get(segNumber).pointIndex1+"<->"+segmentInfoList.get(segNumber).pointIndex2);
-			}
+
 		}
 		else { //bottom face
 			App.debug("Face de base: "+faceNumber);
