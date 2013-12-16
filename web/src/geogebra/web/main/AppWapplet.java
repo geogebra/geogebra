@@ -286,9 +286,20 @@ public class AppWapplet extends AppW {
 		requestFocusInWindow();
 
 		if (isUsingFullGui()) {
-			if (needsSpreadsheetTableModel())
+			if (needsSpreadsheetTableModel()) {
 				getSpreadsheetTableModel();
+			}
 			refreshSplitLayoutPanel();
+
+			// probably this method can be changed by more,
+			// to be more like AppWapplication's method with the same name,
+			// but preferring to change what is needed only to avoid new unknown bugs
+			if (getGuiManager().hasSpreadsheetView()) {
+				DockPanelW sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+				if (sp != null) {
+					sp.deferredOnResize();
+				}
+			}
 		}
 
 		if (isUsingFullGui())
