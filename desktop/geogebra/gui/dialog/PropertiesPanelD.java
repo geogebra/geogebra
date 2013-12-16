@@ -3891,7 +3891,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				cbFillType.setSelectedIndex(geo.getFillType().ordinal());
 			} else {
 				AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm();
-				if (algo.getBarFillType(selectedBarButton)!=null){
+				if (algo != null && algo.getBarFillType(selectedBarButton)!=null){
 					cbFillType.setSelectedIndex(algo.getBarFillType(selectedBarButton).ordinal());
 				}
 			}
