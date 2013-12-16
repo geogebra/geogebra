@@ -187,7 +187,7 @@ public class EuclidianPen {
 	 */
 	public void setDefaults() {
 		penSize = 3;
-		eraserSize = 32;
+		eraserSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.black;
 		setAbsoluteScreenPosition(true);
