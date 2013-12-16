@@ -38,6 +38,12 @@ public class EquationScope implements EquationScopeInterface {
         this.initAuxiliarPoints();
     }
     
+    public EquationScope(GeoElement path, GeoPoint movingPoint) {
+        this.pointMap = new EquationPointMap(path, movingPoint, this);
+        this.elementsMap = new EquationElementMap(this);
+        this.initAuxiliarPoints();
+    }
+    
     private void initAuxiliarPoints() {
         this.auxiliarPoints = new HashSet<EquationAuxiliarSymbolicPoint>();
         this.auxPointIndex = 1;
@@ -73,7 +79,7 @@ public class EquationScope implements EquationScopeInterface {
     	
     	if(algo instanceof RestrictionAlgoForLocusEquation) {
     		return ((EquationRestriction) algo.buildEquationElementForGeo(null, this)).getEquationList();
-    	} 
+    	}
     	return EquationList.getEmptyList();
     }
     

@@ -769,6 +769,7 @@ public abstract class CommandDispatcher {
 				
 				
 			case LocusEquation:
+			case Envelope:
 			case Expand:
 			case Factor:
 			case IFactor:

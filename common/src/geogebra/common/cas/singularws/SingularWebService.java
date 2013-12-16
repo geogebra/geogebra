@@ -29,7 +29,7 @@ public class SingularWebService {
 	private static String locusLib = ""; 
     private static boolean fastConn;
 	
-	private final String[] SINGULAR_LIB_GROBCOVs = {"grobcovF2m", "grobcovC1", "grobcovC0"};
+	private final String[] SINGULAR_LIB_GROBCOVs = {"grobcovG", "grobcovF2m", "grobcovC1", "grobcovC0"};
 	
 	private final int CONNECTION_SPEED_NO_TESTS = 3;
 	private final int CONNECTION_SPEED_THRESHOLD = 100;
@@ -245,7 +245,7 @@ public class SingularWebService {
 	 * @return
 	 */
 	public static String getLocusCommand() {
-		if (locusLib.endsWith("F2m")) {
+		if (locusLib.endsWith("F2m") || locusLib.endsWith("G")) {
 			return "locus";		
 		}
 		return "locus2d";

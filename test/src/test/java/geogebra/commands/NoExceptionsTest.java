@@ -1162,6 +1162,11 @@ public class NoExceptionsTest {
 		t("LocusEquation[ Depoint, ptonpath1 ]");
 		t("LocusEquation[ loc ]");
 	}
+	
+	@Test
+	public void cmdEnvelope() {
+		t("Envelope[ Depoint, ptonpath1 ]");
+	}	
 
 	@Test
 	public void cmdLogistic() {

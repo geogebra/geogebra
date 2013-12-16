@@ -29,6 +29,8 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 
 		case LocusEquation:
 			return LocusEquation.newCmdLocusEquation(kernel);
+		case Envelope:
+			return LocusEquation.newCmdEnvelope(kernel);
 
 		case TrigSimplify:
 		case Expand:
