@@ -270,7 +270,14 @@ public class AlgoEnvelope extends AlgoElement {
 		script.append(polys);
 		script.append(";poly D=det(jacob(m));ideal S=" + polys + ",D;list e=envelopeto(grobcov(S));");
 		script.append("ring rr=0,(x,y),dp;");
-		script.append("execute(\"poly p=\" + e[1][4,find(e[1],\"]\")-4]);");
+		// The output envelope can be a curve either in [[[x^2+y^2-3*x+...],[[...]]] form,
+		// or a single point in [[[(y-2),(x-2)],[[..]]] form. In this latter case we rewrite it to
+		// (y-2)^2+(x-2)^2 since it can be handled in GeoGebra as an implicit curve having
+		// exactly one point.
+		script.append("string w=e[1][4,find(e[1],\"]\")-4];int f=find(w,\",\");");
+		script.append("if (f>0) {string ex=\"poly p=(\" + w[1,f-1] + \")^2+(\" + w[f+1,size(w)] + \")^2\";};");
+		script.append("if (f<1) {string ex=\"poly p=\" + w;};"); // here an "else" would be more elegant, FIXME
+		script.append("execute(ex);");
 		// Now we obtain the coefficients (see exactly the same code for locus equation):
 		script.append("printf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
 			append("coeffs(coeffs(p,x),y));");
