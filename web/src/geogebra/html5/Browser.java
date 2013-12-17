@@ -1,5 +1,7 @@
 package geogebra.html5;
 
+import com.google.gwt.core.client.GWT;
+
 public class Browser {
 	public static boolean webWorkerSupported = false;
 
@@ -21,7 +23,14 @@ public class Browser {
 		return false;
 	}-*/;
 
-	public static native boolean checkWorkerSupport(String workerpath) /*-{
+	public static  boolean checkWorkerSupport(String workerpath){
+		if("touch".equals(GWT.getModuleName())){
+			return false;
+		}
+		return nativeCheckWorkerSupport(workerpath);
+	}
+
+	public static native boolean nativeCheckWorkerSupport(String workerpath) /*-{
 		// Worker support in Firefox is incompatible at the moment for zip.js,
 		// see http://gildas-lormeau.github.com/zip.js/ for details:
 		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
