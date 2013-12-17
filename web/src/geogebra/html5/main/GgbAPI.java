@@ -150,6 +150,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }
     
     public static String zipJSworkerURL() {
+    	//FIXME disabled workers in Touch for now
+    	if("touch".equals(GWT.getModuleName())){
+    		return "false";
+    	}
 	    return Browser.webWorkerSupported ? GWT.getModuleBaseURL() + "/js/zipjs/" : "false";
     }
     
