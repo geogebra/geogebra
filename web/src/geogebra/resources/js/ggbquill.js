@@ -1956,7 +1956,7 @@ if (transformPropName) {
     jQ.css(transformPropName, 'scale('+x+','+y+')');
   };
 }
-else if ('filter' in div_style) { //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/ggbquill/wiki/Transforms
+else if ('filter' in div_style) { //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/mathquill/wiki/Transforms
   forceIERedraw = function(el){ el.className = el.className; };
   scale = function(jQ, x, y) { //NOTE: assumes y > x
     x /= (1+(y-1)/2);
