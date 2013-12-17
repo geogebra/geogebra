@@ -481,6 +481,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private GColor selectedColor;
 		private SelectionTable colorTable;
 		private Label chooseLabel;
+		private Label rgbLabel;
 
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
@@ -525,8 +526,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainPanel = new FlowPanel();
 			FlowPanel colorPanel = new FlowPanel();
 			chooseLabel = new Label();
+			rgbLabel = new Label();
 			colorPanel.add(chooseLabel);
 			colorPanel.add(colorChooser);
+			colorPanel.add(rgbLabel);
 			mainPanel.add(colorPanel);
 			mainPanel.add(colorChooserW);
 			setWidget(mainPanel);
@@ -571,12 +574,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			colorChooser.setSliderVisible(hasOpacity);
 			colorChooser.update(model.getGeos());
 			colorChooserW.update();
+			updatePreview(selectedColor, 1);
 		}
 
 
 		public void updatePreview(GColor col, float alpha) {
-			// TODO Auto-generated method stub
-
+			rgbLabel.setText(ColorObjectModel.getColorAsString(col));
 		}
 
 		public boolean isBackgroundColorSelected() {

@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.Color;
 
@@ -33,9 +34,10 @@ public class ColorObjectModel extends OptionsModel {
 	private IColorObjectListener listener;
 	private Kernel kernel;
 	private Color selectedColor;
-
+	private static App app;
 	public ColorObjectModel(App app, IColorObjectListener listener) {
 		this.listener = listener;
+		this.app = app;
 		kernel = app.getKernel();
 	}
 
@@ -178,6 +180,38 @@ public class ColorObjectModel extends OptionsModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	private static String toHex2(int num) {
+		// GWT lacks of String.format() so it must be done old school
+		if (num > 255) {
+			return "-";
+		}
+		String chars = "0123456789ABCDEF";
+		String result = "";
+		int high = num / 16;
+		int low = num % 16;
+		if (high > 	0) {
+			result += chars.charAt(high);
+		} else {
+			result = "0";
+		}
+		
+		result += chars.charAt(low);
+		return result;
+	}
 
-
+	public static String getColorAsString(GColor color) {
+		String result = "";
+		int blue = color.getBlue();
+		String rgbDec = color.getRed() + ", " + color.getGreen() + ", " + blue;
+		String name = GeoGebraColorConstants.getGeogebraColorName(app, color);
+		if (name != null) {
+			result = name + " " + rgbDec;
+		} else {
+			result = rgbDec;
+		}
+		
+		result +=  " (#" + toHex2(color.getRed()) + toHex2(color.getGreen()) + toHex2(blue) + ")";
+		return result;
+	}
 }

@@ -1400,14 +1400,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * @return
 		 */
 		public String getToolTipText(Color color) {
-			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					new geogebra.awt.GColorD(color));
-			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
-					+ color.getBlue();
-			if (name != null) {
-				return name + "  " + rgbStr;
-			}
-			return rgbStr;
+			return ColorObjectModel.getColorAsString(new geogebra.awt.GColorD(color));
 		}
 
 
