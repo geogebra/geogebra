@@ -27,7 +27,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	private class SegmentInfo{
 		int segmentParent1;
 		int segmentParent2;
-		boolean isLink = false;
 		int pointIndex1 = -1;
 		int pointIndex2 = -1;
 	}
@@ -35,6 +34,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	private class PolygonInfoElement{
 		int linkSegNumber;
 		int rank;
+		ArrayList<Integer> pointIndex = new ArrayList<Integer>();
 	}
 
 
@@ -81,7 +81,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 		
 		
-		int iBottom = 7; // number of the polygon used as bottom -> may be selected by the user
+		int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user
 		
 		
 		
@@ -128,27 +128,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 			polygonChildSegsList.add(segsList);
 		}
-		//write the result:
-		//for (int i=0 ; i<segmentList.size();i++){
-		//	App.debug(" "+i+" -> "+segmentParentsList.get(i).segmentParent1+" "+segmentParentsList.get(i).segmentParent2);
-		//}
-		// create the list of segs for each polygon
-		/*
-		 for (int iP=0 ; iP<polygonList.length ; iP++){
-
-			ArrayList<Integer> segsList = new ArrayList<Integer>();
-			polygonChildSegsList.add(segsList);
-		}
-		for (int i=0 ; i<segmentParentsList.size(); i++ ) {
-			polygonChildSegsList.get(segmentParentsList.get(i).segmentParent1).add(i);
-			polygonChildSegsList.get(segmentParentsList.get(i).segmentParent2).add(i);
-		}
-		 */
-		//write the result:
-		//App.debug("list of segs :");
-		//for (int i=0 ; i<polygonChildSegsList.size();i++){
-		//	App.debug(" "+i+" -> "+polygonChildSegsList.get(i));
-		//}
+		
 	}
 
 	/**
@@ -196,7 +176,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 							netMap.get(iChildPoly).add(iP);
 							polygonInfo.get(iChildPoly).rank = maxRank;  
 							polygonInfo.get(iChildPoly).linkSegNumber = iSeg; 
-							segmentParentsList.get(iSeg).isLink = true;
 							foundedFaces++;
 							// set it as a new iP child
 							netMap.get(iP).add(iChildPoly);						}
@@ -204,14 +183,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				}
 			}
 		}
-		//write the result:
-		App.debug("netMap :");
-		for (int i=0 ; i<netMap.size();i++){
-			App.debug(" "+i+" -> "+netMap.get(i));
-			App.debug("rank: "+polygonInfo.get(i).rank);
-			App.debug("seg: "+polygonInfo.get(i).linkSegNumber);
-			App.debug("liste des segs: "+polygonChildSegsList.get(i)) ;
-		}
+		
 	}
 
 
@@ -275,41 +247,33 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				iNetPoints -= 2;
 			}
 		}
-		//App.debug("nb points:"+iNetPoints);
 		outputPointsNet.adjustOutputSize(iNetPoints);
 
-		//create bottom face
+		//create bottom face and recursive call for child faces
 		createFace(iBottomFace);
 
-		//create child faces
-		/*
-		for (int i=0; i<n; i++){
-			createChildFace(net, i, n);
+		//write the result
+		App.debug("Points list for each polygon");
+		for (int pNum=0;pNum<polygonInfo.size();pNum++){	
+			App.debug(pNum+": "+polygonInfo.get(pNum).pointIndex);
 		}
-		 */
+	
 	}
 
 	private void createFace(int faceNumber) {
-		App.debug("face: "+faceNumber );
 		int linkSegNumber = polygonInfo.get(faceNumber).linkSegNumber;
-		App.debug("Segment: "+ linkSegNumber);
 		ArrayList<Integer> currentPolygonSegList = polygonChildSegsList.get(faceNumber);
 
 		if (linkSegNumber != -1){
 			SegmentInfo linkSeg = segmentInfoList.get(linkSegNumber);
-			//	App.debug("linkSeg : "+linkSeg.pointIndex1+","+linkSeg.pointIndex1);
 			int linkSegIndex;
-			App.debug("recherche du linkseg");
 			// -1 until the link segment is found
 			for (linkSegIndex = 0 ; (currentPolygonSegList.get(linkSegIndex) != linkSegNumber); linkSegIndex++ ){
-				App.debug("Seg:   "+currentPolygonSegList.get(linkSegIndex) );
-				
 				if (currentPolygonSegList.get(linkSegIndex)!=linkSegNumber){
 					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex1=-1;
 					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2=-1;
 				}
 			}
-			App.debug("linkseg : "+linkSegNumber+" position : "+linkSegIndex);
 			// link segment found	//warning: the seg is seen in the reverse order of the parent polygon
 			if (linkSegIndex==0) {//seg is the first of the list
 				segmentInfoList.get(currentPolygonSegList.get(1)).pointIndex1=segmentInfoList.get(currentPolygonSegList.get(0)).pointIndex1;
@@ -325,7 +289,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2 = temp;
 			// -1 until the end of the list
 			for (int linkSegIndex2 = linkSegIndex+1 ; linkSegIndex2<currentPolygonSegList.size(); linkSegIndex2++ ){
-				App.debug("Seg:   "+currentPolygonSegList.get(linkSegIndex2) );
 				if (linkSegIndex2 > linkSegIndex+1){
 					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex2)).pointIndex1=-1;
 				}
@@ -335,13 +298,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 
 			// second turn -> create needed points
-			App.debug("Etat Seg Info List");
-			for (int segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){	
-				App.debug(currentPolygonSegList.get(segNumber)+": "+segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1+"<->"+segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2);
-			}
 			for (int segNumber = 0 ; segNumber<currentPolygonSegList.size(); segNumber++ ){
 				if (segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1 == -1){
-					App.debug("Create Point "+pointsCounter);
 					segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1=pointsCounter;
 					//notice it is the second point of the precedent segment
 					if (segNumber>0){
@@ -353,28 +311,33 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 					pointsCounter++;			
 				}
 				if (segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2 == -1){
-					App.debug("Create Point "+pointsCounter);
 					segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2=pointsCounter;
 					//notice it is the first point of the next segment
 					segmentInfoList.get(currentPolygonSegList.get((segNumber+1)%(currentPolygonSegList.size()))).pointIndex1=pointsCounter;
 					pointsCounter++;			
 				}
 			}
-			//Write the result
-
+			//create the pointIndex list for this face
+			for (int segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){	
+				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1);
+			}
+			// READY TO CREATE A NEW FACE
 		}
 		else { //bottom face
-			App.debug("Face de base: "+faceNumber);
 			int segNumber;
 			for (segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){
 				//create the second point of the segment
-				App.debug("Create Point "+pointsCounter);
 				segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex2=pointsCounter;
 				//notice it is the second point of the precedent segment
 				segmentInfoList.get(currentPolygonSegList.get((segNumber+1)%(currentPolygonSegList.size()))).pointIndex1=pointsCounter;
 				pointsCounter++;
 			}
-
+			//create the pointIndex list for this face
+			for (segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){	
+				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1);
+			}
+			// READY TO CREATE THE FIRST FACE
+		
 		}
 		//recursive call
 		for (int childPolygonIndex=1;childPolygonIndex<netMap.get(faceNumber).size();childPolygonIndex++){	
