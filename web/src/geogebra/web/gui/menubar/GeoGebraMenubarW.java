@@ -348,27 +348,32 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		
 		public void updateFonts() {
 			String fontsizeString = app.getGUIFontSize() + "px";
-			NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
-			for(int i=0; i<fontsizeElements.getLength(); i++){
-				fontsizeElements.getItem(i).removeFromParent();
-			}
-			Element fontsizeElement = DOM.createElement("style");
-			fontsizeElement.addClassName("GGWFontsize");
 			int imagesize = Math.round(app.getGUIFontSize() * 4/3);
 			int toolbariconSize = 2*app.getGUIFontSize();
 			//until we have no enough place for the big icons in the toolbar, don't enable to increase too much the size of icons.
 			if (toolbariconSize > 45) toolbariconSize = 45;
+			
 			String innerText = ".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}"+
 			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}" +
 			".GeoGebraMenuBar input[type=\"checkbox\"], input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+fontsizeString +";}" +
 			".toolbar_menuitem{font-size: "+fontsizeString+";}" +
 			".toolbar_menuitem img{width: "+toolbariconSize+"px;}";
-			fontsizeElement.setInnerText(innerText);
+
 			
+			//Create a new style element for font size changes, and remove the old ones, if already exist.
+			//Then add the new element for all GeoGebraWeb applets or application.
+			NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
+			for(int i=0; i<fontsizeElements.getLength(); i++){
+				fontsizeElements.getItem(i).removeFromParent();
+			}
+			Element fontsizeElement = DOM.createElement("style");
+			fontsizeElement.addClassName("GGWFontsize");				
+			fontsizeElement.setInnerText(innerText);
 			NodeList<Element> geogebrawebElements = Dom.getElementsByClassName("geogebraweb");
 			for(int i=0; i<geogebrawebElements.getLength(); i++){
 				geogebrawebElements.getItem(i).appendChild(fontsizeElement);
 			}
+			
         }
 		
 }
