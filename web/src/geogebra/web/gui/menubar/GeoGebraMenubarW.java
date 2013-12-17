@@ -355,9 +355,14 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			Element fontsizeElement = DOM.createElement("style");
 			fontsizeElement.addClassName("GGWFontsize");
 			int imagesize = Math.round(app.getGUIFontSize() * 4/3);
+			int toolbariconSize = 2*app.getGUIFontSize();
+			//until we have no enough place for the big icons in the toolbar, don't enable to increase too much the size of icons.
+			if (toolbariconSize > 45) toolbariconSize = 45;
 			String innerText = ".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}"+
 			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}" +
-			".GeoGebraMenuBar input[type=\"checkbox\"], input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+app.getGUIFontSize()+"px;}";
+			".GeoGebraMenuBar input[type=\"checkbox\"], input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+fontsizeString +";}" +
+			".toolbar_menuitem{font-size: "+fontsizeString+";}" +
+			".toolbar_menuitem img{width: "+toolbariconSize+"px;}";
 			fontsizeElement.setInnerText(innerText);
 			
 			NodeList<Element> geogebrawebElements = Dom.getElementsByClassName("geogebraweb");
