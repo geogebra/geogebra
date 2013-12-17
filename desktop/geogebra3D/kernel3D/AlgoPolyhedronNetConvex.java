@@ -5,10 +5,12 @@ import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
@@ -20,6 +22,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	/** points generated as output  */
 	protected OutputHandler<GeoPoint3D> outputPointsNet;
 	int pointsCounter = 0; //counter of the current number of points created in the net
+
+	
+	protected OutputHandler<GeoSegment3D> outputSegments;
+	protected OutputHandler<GeoPolygon3D> outputPolygons;
 
 
 
@@ -63,31 +69,57 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		});
 
 		outputNet.adjustOutputSize(1);
+		
 
+		outputPointsNet = createOutputPoints();		
+		outputPolygons = createOutputPolygons();
+		outputSegments = createOutputSegments();
 
+		
+		
+		ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
+
+		setSegmentsToFacesLink(p,segmentList);
+
+		
+		int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user		
+		makeNetMap(p,iBottom,segmentInfoList);
+		createNet(iBottom);
+		
+		
+		// set input
 		input = new GeoElement[] {p, (GeoElement) v};		
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
 		}
 
-		outputPointsNet = createOutputPoints();
+		// create faces
+		getNet().createFaces();
+
+		GeoPolyhedronNet net = getNet();
+		Collection<GeoPolygon3D> faces = net.getFacesCollection();
+
+		for (GeoPolygon polygon : net.getFacesCollection()){
+			outputPolygons.addOutput((GeoPolygon3D) polygon, false);
+		}
+		
+		for (GeoSegment3D segment : net.getSegments3D()){
+			outputSegments.addOutput(segment, false);
+		}
+		
+	
 
 		refreshOutput();
-
-		ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
-
-		setSegmentsToFacesLink(p,segmentList);
-
-
 		
+		// set labels
+		setLabels(labels);
 		
-		int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user
-		
-		
-		
-		makeNetMap(p,iBottom,segmentInfoList);
 
-		createNet(iBottom);
+		update();
+
+
+		updateOutputSegmentsAndPolygonsParentAlgorithms();
+
 	}
 
 
@@ -252,10 +284,16 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		//create bottom face and recursive call for child faces
 		createFace(iBottomFace);
 
-		//write the result
+		//create faces
 		App.debug("Points list for each polygon");
 		for (int pNum=0;pNum<polygonInfo.size();pNum++){	
 			App.debug(pNum+": "+polygonInfo.get(pNum).pointIndex);
+			net.startNewFace();
+			for (int i : polygonInfo.get(pNum).pointIndex) {
+				net.addPointToCurrentFace(outputPointsNet.getElement(i));
+			}
+			net.endCurrentFace();
+			
 		}
 	
 	}
@@ -347,13 +385,50 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 
 
-	private void createChildFace(GeoPolyhedronNet net, int index, int bottomPointsLength){
-		net.startNewFace();
-		//net.addPointToCurrentFace(outputPointsNet.getElement(index));
-		//net.addPointToCurrentFace(outputPointsNet.getElement((index+1)%bottomPointsLength));
-		//net.addPointToCurrentFace(outputPointsNet.getElement(index));
-		net.endCurrentFace();
+	
+	
+	private OutputHandler<GeoSegment3D> createOutputSegments(){
+		return new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
+			public GeoSegment3D newElement() {
+				GeoSegment3D s=new GeoSegment3D(cons);
+				//s.setParentAlgorithm(AlgoPolyhedron.this);
+				return s;
+			}
+		});
 	}
 
+	private OutputHandler<GeoPolygon3D> createOutputPolygons(){
+		return new OutputHandler<GeoPolygon3D>(new elementFactory<GeoPolygon3D>() {
+			public GeoPolygon3D newElement() {
+				GeoPolygon3D p=new GeoPolygon3D(cons);
+				//p.setParentAlgorithm(AlgoPolyhedron.this);
+				return p;
+			}
+		});
+	}
+
+	
+	private void setLabels(String[] labels){
+
+		if (labels==null || labels.length <= 1)
+			getNet().initLabels(labels);
+		else{
+			getNet().setAllLabelsAreSet(true);
+			for (int i=0; i<labels.length; i++){
+				getOutput(i).setLabel(labels[i]);
+			}
+		}
+
+	}
+	
+	
+	/**
+	 * force update for segments and polygons at creation
+	 */
+	private void updateOutputSegmentsAndPolygonsParentAlgorithms(){
+		outputSegments.updateParentAlgorithm();
+		outputPolygons.updateParentAlgorithm();
+		
+	}
 
 }
