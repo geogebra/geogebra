@@ -245,9 +245,10 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 //					"<span style=\"color:gray;\">"+text+"</span>";
 //		}
 		
-		/**Gives back an html source of a disabled menuitem.
+		/**Gives back an html source of a menuitem.
 		 * @param url an icon's url
 		 * @param text menuitem's text
+		 * @param enabled true if the menuitem is enabled
 		 * @return html source of a menuitem
 		 */
 		public static String getMenuBarHtml(String url,String text, Boolean enabled) {		
