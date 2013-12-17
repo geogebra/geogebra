@@ -286,7 +286,7 @@ public class StringUtil {
 				 		                                sbReplaceExp.append("%");
 				break;
 				
-/* not needed for MathQuill / JLaTeXMath and in fact it doesn't work inside \text{}
+/* not needed for GGBQuill / JLaTeXMath and in fact it doesn't work inside \text{}
 				// Exponents
 			// added by Loïc Le Coq 2009/11/04
 			case '\u2070': // ^0

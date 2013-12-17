@@ -19,14 +19,14 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 		
 		String myModuleBase = GWT.getModuleBaseForStaticFiles();
-		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText().
+		String ggbquillcss = GuiResources.INSTANCE.ggbquillCss().getText().
 				replace("url(web/font/Symbola", "url(" + myModuleBase + "font/Symbola");
-		StyleInjector.inject(mathquillcss);
+		StyleInjector.inject(ggbquillcss);
 	
 		//insert zip.js
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.ggbquillJs());
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());

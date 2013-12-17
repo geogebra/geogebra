@@ -2661,14 +2661,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
 				break;
 			case LATEX:
-				if (!tpl.isMathQuill()) {
-					// MathQuill doesn't support this
+				if (!tpl.isGGBQuill()) {
+					// GGBQuill doesn't support this
 					sb.append("\\left");
 				}
 				sb.append("\\lfloor ");
 				sb.append(leftStr);
-				if (!tpl.isMathQuill()) {
-					// MathQuill doesn't support this
+				if (!tpl.isGGBQuill()) {
+					// GGBQuill doesn't support this
 					sb.append("\\right");
 				}
 				sb.append("\\rfloor ");
@@ -2692,14 +2692,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
 				break;
 			case LATEX:
-				if (!tpl.isMathQuill()) {
-					// MathQuill doesn't support this
+				if (!tpl.isGGBQuill()) {
+					// GGBQuill doesn't support this
 					sb.append("\\left");
 				}
 				sb.append("\\lceil ");
 				sb.append(leftStr);
-				if (!tpl.isMathQuill()) {
-					// MathQuill doesn't support this
+				if (!tpl.isGGBQuill()) {
+					// GGBQuill doesn't support this
 					sb.append("\\right");
 				}
 				sb.append("\\rceil ");
@@ -3429,14 +3429,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		} else {
 			switch (tpl.getStringType()) {
 			case LATEX:
-				if (tpl.isMathQuill()) {
+				if (tpl.isGGBQuill()) {
 					
 					String translatedKey = loc.getFunction(key);
 
 					/*
 					 * no point doing this at the moment, no visible difference
 					 * 
-					// supported operators in MathQuill
+					// supported operators in GGBQuill
 					if ("arccos arcsin arctan cos cosh cot coth csc  exp lg ln log sec sin sinh tan tanh".indexOf(translatedKey) > -1) {
 						sb.append(" \\");						
 						sb.append(translatedKey);						

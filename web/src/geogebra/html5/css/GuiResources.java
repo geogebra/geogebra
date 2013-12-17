@@ -58,14 +58,14 @@ public interface GuiResources extends ClientBundle {
 	TextResource arrayBufferJs();
 
 	
-	@Source("geogebra/resources/css/mathquill.css")
-	TextResource mathquillCss();
+	@Source("geogebra/resources/css/ggbquill.css")
+	TextResource ggbquillCss();
 	
 	@Source("geogebra/resources/js/jquery-1.7.2.min.js")
 	TextResource jQueryJs();
 
-	@Source("geogebra/resources/js/mathquill.js")
-	TextResource mathquillJs();
+	@Source("geogebra/resources/js/ggbquill.js")
+	TextResource ggbquillJs();
 
 	@Source("geogebra/resources/js/properties_keys_en.js")
 	TextResource propertiesKeysJS();

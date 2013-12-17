@@ -51,7 +51,7 @@ public class CASTableCellW extends VerticalPanel {
 		                .getLaTeXOutput());
 				int el = eqstring.length();
 				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
-				DrawEquationWeb.drawEquationMathQuill(outputSpan, eqstring, 0, 0,
+				DrawEquationWeb.drawEquationGGBQuill(outputSpan, eqstring, 0, 0,
 				        outputLabel.getElement(),false, el == eqstring.length(), true, 0);
 				outputSpan.getStyle().setColor(GColor.getColorString(casCell.getAlgebraColor()));
 				outputLabel.getElement().appendChild(outputSpan);

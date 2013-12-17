@@ -62,7 +62,7 @@ public class AppWsimple extends AppW {
 		canvas.setCoordinateSpaceWidth(1);
 		initCoreObjects(undoActive, this);
 		//this may only be called after factories are initialized
-		StringTemplate.latexIsMathQuill = true;
+		StringTemplate.latexIsGGBQuill = true;
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 

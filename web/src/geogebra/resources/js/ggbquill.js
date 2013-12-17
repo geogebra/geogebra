@@ -1,9 +1,16 @@
 /**
+ * GGBQuill is a fork of MathQuill used and incorporated in
+ * the mobile, touch and web versions of GeoGebra.
+ * 
+ * 
+ * Information on the original license of MathQuill:
  * Copyleft 2010-2011 Jay and Han (laughinghan@gmail.com)
  *   under the GNU Lesser General Public License
  *     http://www.gnu.org/licenses/lgpl.html
  * Project Website: http://mathquill.com
  *
+ *
+ * Information on GGBQuill:
  * This file was modified by the colleagues at GeoGebra Inc.
  * The file became part of the web version of the software GeoGebra.
  * Appropriate license terms apply.
@@ -15,8 +22,8 @@ $ggbQuery = jQuery;
 
 var $ = $ggbQuery;
   undefined,
-  mqCmdId = 'mathquill-command-id',
-  mqBlockId = 'mathquill-block-id',
+  mqCmdId = 'ggbquill-command-id',
+  mqBlockId = 'ggbquill-block-id',
   min = Math.min,
   max = Math.max;
 	
@@ -108,7 +115,7 @@ function bind(cons /*, args... */) {
 /**
  * a development-only debug method.  This definition and all
  * calls to `pray` will be stripped from the minified
- * build of mathquill.
+ * build of ggbquill.
  *
  * This function must be called by name to be removed
  * at compile time.  Do not define another function
@@ -653,7 +660,7 @@ var Parser = P(function(_, _super, Parser) {
   });
 });
 /*************************************************
- * Base classes of the MathQuill virtual DOM tree
+ * Base classes of the ggbquill virtual DOM tree
  *
  * Only doing tree node manipulation via these
  * adopt/ disown methods guarantees well-formedness
@@ -710,7 +717,7 @@ var Point = P(function(_) {
 });
 
 /**
- * MathQuill virtual-DOM tree-node abstract base class
+ * ggbquill virtual-DOM tree-node abstract base class
  */
 var Node = P(function(_) {
   _[L] = 0;
@@ -734,7 +741,7 @@ var Node = P(function(_) {
 
   _.dispose = function() { delete Node.byId[this.id]; };
 
-  _.toString = function() { return '{{ MathQuill Node #'+this.id+' }}'; };
+  _.toString = function() { return '{{ ggbquill Node #'+this.id+' }}'; };
 
   _.jQ = $();
   _.jQadd = function(jQ) { this.jQ = this.jQ.add(jQ); };
@@ -743,8 +750,8 @@ var Node = P(function(_) {
     var jQ = $(this.html());
     jQ.find('*').andSelf().each(function() {
       var jQ = $(this),
-        cmdId = jQ.attr('mathquill-command-id'),
-        blockId = jQ.attr('mathquill-block-id');
+        cmdId = jQ.attr('ggbquill-command-id'),
+        blockId = jQ.attr('ggbquill-block-id');
       if (cmdId) Node.byId[cmdId].jQadd(jQ);
       if (blockId) Node.byId[blockId].jQadd(jQ);
     });
@@ -1141,7 +1148,7 @@ var MathCommand = P(MathElement, function(_, _super) {
   };
 
   // editability methods: called by the cursor for editing, cursor movements,
-  // and selection of the MathQuill tree, these all take in a direction and
+  // and selection of the ggbquill tree, these all take in a direction and
   // the cursor
   _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this.ch[-dir]); };
 
@@ -1221,7 +1228,7 @@ var MathCommand = P(MathElement, function(_, _super) {
     // See html.test.js for example templates and intended outputs.
     //
     // Given an .htmlTemplate as described above,
-    // - insert the mathquill-command-id attribute into all top-level tags,
+    // - insert the ggbquill-command-id attribute into all top-level tags,
     //   which will be used to set this.jQ in .jQize().
     //   This is straightforward:
     //     * tokenize into tags and non-tags
@@ -1233,7 +1240,7 @@ var MathCommand = P(MathElement, function(_, _super) {
     // - for each block content marker,
     //     + replace it with the contents of the corresponding block,
     //       rendered as HTML
-    //     + insert the mathquill-block-id attribute into the containing tag
+    //     + insert the ggbquill-block-id attribute into the containing tag
     //   This is even easier, a quick regex replace, since block tags cannot
     //   contain anything besides the block content marker.
     //
@@ -1251,7 +1258,7 @@ var MathCommand = P(MathElement, function(_, _super) {
 
     var cmd = this;
     var blocks = cmd.blocks;
-    var cmdId = ' mathquill-command-id=' + cmd.id;
+    var cmdId = ' ggbquill-command-id=' + cmd.id;
     var tokens = cmd.htmlTemplate.match(/<[^<>]+>|[^<>]+/g);
 
     pray('no unmatched angle brackets', tokens.join('') === this.htmlTemplate);
@@ -1285,7 +1292,7 @@ var MathCommand = P(MathElement, function(_, _super) {
       }
     }
     return tokens.join('').replace(/>&(\d+)/g, function($0, $1) {
-      return ' mathquill-block-id=' + blocks[$1].id + '>' + blocks[$1].join('html');
+      return ' ggbquill-block-id=' + blocks[$1].id + '>' + blocks[$1].join('html');
     });
   };
 
@@ -1376,7 +1383,7 @@ var MathBlock = P(MathElement, function(_) {
   };
 
   // editability methods: called by the cursor for editing, cursor movements,
-  // and selection of the MathQuill tree, these all take in a direction and
+  // and selection of the ggbquill tree, these all take in a direction and
   // the cursor
   _.moveOutOf = function(dir, cursor) {
     if (this[dir]) cursor.appendDir(-dir, this[dir]);
@@ -1442,13 +1449,13 @@ function createRoot(jQ, root, textbox, editable) {
   var contents = jQ.contents().detach();
 
   if (!textbox) {
-    jQ.addClass('mathquill-rendered-math');
+    jQ.addClass('ggbquill-rendered-math');
   }
 
   root.jQ = jQ.attr(mqBlockId, root.id);
   root.revert = function() {
-    jQ.empty().unbind('.mathquill')
-      .removeClass('mathquill-rendered-math mathquill-editable mathquill-textbox')
+    jQ.empty().unbind('.ggbquill')
+      .removeClass('ggbquill-rendered-math ggbquill-editable ggbquill-textbox')
       .append(contents);
   };
 
@@ -1483,14 +1490,14 @@ function createRoot(jQ, root, textbox, editable) {
   }
 
   //prevent native selection except textarea
-  jQ.bind('selectstart.mathquill', function(e) {
+  jQ.bind('selectstart.ggbquill', function(e) {
     if (e.target !== textarea[0]) e.preventDefault();
     e.stopPropagation();
   });
 
   //drag-to-select event handling
   var anticursor, blink = cursor.blink;
-  jQ.bind('mousedown.mathquill', function(e) {
+  jQ.bind('mousedown.ggbquill', function(e) {
     function mousemove(e) {
       cursor.seek($(e.target), e.pageX, e.pageY);
 
@@ -1586,7 +1593,7 @@ function createRoot(jQ, root, textbox, editable) {
     paste: function(text) {
       // FIXME HACK the parser in RootTextBlock needs to be moved to
       // Cursor::writeLatex or something so this'll work with
-      // MathQuill textboxes
+      // ggbquill textboxes
       if (text.slice(0,1) === '$' && text.slice(-1) === '$') {
         text = text.slice(1, -1);
       }
@@ -1601,9 +1608,9 @@ function createRoot(jQ, root, textbox, editable) {
   jQ.prepend(textareaSpan);
 
   //root CSS classes
-  jQ.addClass('mathquill-editable');
+  jQ.addClass('ggbquill-editable');
   if (textbox)
-    jQ.addClass('mathquill-textbox');
+    jQ.addClass('ggbquill-textbox');
 
   //focus and blur handling
   textarea.focus(function(e) {
@@ -1624,7 +1631,7 @@ function createRoot(jQ, root, textbox, editable) {
     e.stopPropagation();
   });
 
-  jQ.bind('focus.mathquill blur.mathquill', function(e) {
+  jQ.bind('focus.ggbquill blur.ggbquill', function(e) {
     textarea.trigger(e);
   }).blur();
 }
@@ -1821,7 +1828,7 @@ var RootMathCommand = P(MathCommand, function(_, _super) {
     _super.init.call(this, '$');
     this.cursor = cursor;
   };
-  _.htmlTemplate = '<span class="mathquill-rendered-math">&0</span>';
+  _.htmlTemplate = '<span class="ggbquill-rendered-math">&0</span>';
   _.createBlocks = function() {
     this.ch[L] =
     this.ch[R] =
@@ -1949,7 +1956,7 @@ if (transformPropName) {
     jQ.css(transformPropName, 'scale('+x+','+y+')');
   };
 }
-else if ('filter' in div_style) { //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/mathquill/wiki/Transforms
+else if ('filter' in div_style) { //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/ggbquill/wiki/Transforms
   forceIERedraw = function(el){ el.className = el.className; };
   scale = function(jQ, x, y) { //NOTE: assumes y > x
     x /= (1+(y-1)/2);
@@ -2035,7 +2042,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
   };
 });
 
-// MathQuill hacks by GeoGebra
+// ggbquill hacks by GeoGebra
 var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
 LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
@@ -2969,7 +2976,7 @@ var LatexFragment = P(MathCommand, function(_) {
 // predate Unicode, dating back to [ISO-8859-1][3], apparently also
 // known as "Latin-1", which among other things [Windows-1252][4]
 // largely coincides with, so Microsoft Word sometimes inserts them
-// and they get copy-pasted into MathQuill.
+// and they get copy-pasted into ggbquill.
 //
 // (Irrelevant but funny story: Windows-1252 is actually a strict
 // superset of the "closely related but distinct"[3] "ISO 8859-1" --
@@ -3219,7 +3226,7 @@ LatexCmds.frown = bind(VanillaSymbol, '\\frown ', '&#8994;');
 LatexCmds.vdash = bind(VanillaSymbol, '\\vdash ', '&#8870;');
 LatexCmds.dashv = bind(VanillaSymbol, '\\dashv ', '&#8867;');
 
-//GeogebraWeb or previous MathQuill ?
+//GeogebraWeb or previous ggbquill ?
 LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;');
 
 //arrows
@@ -3447,12 +3454,12 @@ imaginary : 1,
 round : 1,
 fractionalPart : 1
 }, AutoCmds = {
-// GeoGebra+MathQuill
+// GeoGebra+ggbquill
 sqrt: 1,
 Sqrt: 1,
 nthroot: 2,
 nroot: 2,
-// MathQuill
+// ggbquill
 //sum: 1,
 pi: 1
 //theta: 1,
@@ -3579,13 +3586,13 @@ var TextBlock = P(Node, function(_, _super) {
 	if (this.ctrlSeq == '\\textsf') {
 		// manual hack
 		return (
-				'<span class="sans-serif text" mathquill-command-id='+this.id+'>'
+				'<span class="sans-serif text" ggbquill-command-id='+this.id+'>'
 				+   this.textContents()
 				+ '</span>'
 		);
 	}
     return (
-        '<span class="text" mathquill-command-id='+this.id+'>'
+        '<span class="text" ggbquill-command-id='+this.id+'>'
       +   this.textContents()
       + '</span>'
     );
@@ -4365,7 +4372,7 @@ var Selection = P(Fragment, function(_, _super) {
 
 //The publicy exposed method of jQuery.prototype, available (and meant to be
 //called) on jQuery-wrapped HTML DOM elements.
-$.fn.mathquill = function(cmd, latex) {
+$.fn.ggbquill = function(cmd, latex) {
   switch (cmd) {
   case 'redraw':
     return this.each(function() {
@@ -4456,18 +4463,18 @@ $.fn.mathquill = function(cmd, latex) {
       //
       // This line should be deleted when either a) or b) is
       // accomplished.
-      if (cmd === 'eqnarray') $(this).unbind('.mathquill');
+      if (cmd === 'eqnarray') $(this).unbind('.ggbquill');
     });
   }
 };
 
-//on document ready, mathquill-ify all `<tag class="mathquill-*">latex</tag>`
+//on document ready, ggbquill-ify all `<tag class="ggbquill-*">latex</tag>`
 //elements according to their CSS class.
 $(function() {
-  $('.mathquill-editable:not(.mathquill-rendered-math)').mathquill('editable');
-  $('.mathquill-textbox:not(.mathquill-rendered-math)').mathquill('textbox');
-  $('.mathquill-eqnarray:not(.mathquill-rendered-math)').mathquill('eqnarray');
-  $('.mathquill-embedded-latex').mathquill();
+  $('.ggbquill-editable:not(.ggbquill-rendered-math)').ggbquill('editable');
+  $('.ggbquill-textbox:not(.ggbquill-rendered-math)').ggbquill('textbox');
+  $('.ggbquill-eqnarray:not(.ggbquill-rendered-math)').ggbquill('eqnarray');
+  $('.ggbquill-embedded-latex').ggbquill();
 });
 //set back the original namespace
 jQuery.noConflict(true);
