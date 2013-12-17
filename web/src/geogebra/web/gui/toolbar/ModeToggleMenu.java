@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Element;
@@ -87,7 +89,7 @@ public class ModeToggleMenu extends MenuBar{
 	 * geogebra.gui.toolbar.ModeToggleMenu.selectItem(JMenuItem mi)
 	 */
 	void selectMenuItem(MenuItem mi) {
-		String miMode = mi.getElement().getAttribute("mode");
+		final String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals(true)
 				&& tbutton.getElement().getAttribute("mode").equals(miMode)) {
@@ -116,7 +118,13 @@ public class ModeToggleMenu extends MenuBar{
 		// tbutton.requestFocus();*/
 		
 		//temporary - until we have only one toolbar
-		setMode(Integer.parseInt(miMode));
+		//ScheduleDeferred is there to make sure the blue border already happened -- otherwise user has no feedback
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			  @Override
+			  public void execute() {
+				  setMode(Integer.parseInt(miMode));
+			  }
+		});
 	}
 
 	public void addMode(int mode) {
