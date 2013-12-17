@@ -2328,6 +2328,54 @@ LatexCmds.nthroot = P(SquareRoot, function(_, _super) {
   };
 });
 
+
+var HalfBracket = P(MathCommand, function(_, _super) {
+  _.init = function(open, close, ctrlSeq) {
+    _super.init.call(this, ctrlSeq,
+      '<span class="non-leaf paren-parent">'
+      +   '<span class="scaled paren">'+open+'</span>'
+      +   '<span class="non-leaf">&0</span>'
+      +   '<span class="scaled paren">'+close+'</span>'
+      + '</span>',
+    [open, close]);
+
+    // note that either open or close should be empty,
+    // or this makes a different syntax to brackets!
+    // different syntax was created for making it easier
+    // to use different kinds of brackets for opening and closing...
+  };
+
+  _.jQadd = function() {
+    _super.jQadd.apply(this, arguments);
+    var jQ = this.jQ;
+    this.bracketjQs = jQ.children(':first').add(jQ.children(':last'));
+  };
+
+  _.latex = function() {
+    return this.ctrlSeq + "{" + this.ch[L].latex() + "}";
+  };
+
+  _.redraw = function() {
+	var blockjQ = this.ch[L].jQ;
+
+	var height = blockjQ.outerHeight()/+blockjQ.css('fontSize').slice(0,-2);
+
+	scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 0.9 * height);
+  };
+});
+
+LatexCmds.openbraceonly = bind(HalfBracket, '{', '', '\\openbraceonly');
+LatexCmds.closebraceonly = bind(HalfBracket, '', '}', '\\closebraceonly');
+
+LatexCmds.openbracketonly = bind(HalfBracket, '[', '', '\\openbracketonly');
+LatexCmds.closebracketonly = bind(HalfBracket, '', ']', '\\closebracketonly');
+
+LatexCmds.openparenonly = bind(HalfBracket, '(', '', '\\openparenonly');
+LatexCmds.closeparenonly = bind(HalfBracket, '', ')', '\\closeparenonly');
+
+// In theory, it's possible to add mixed brackets, but why?
+
+
 // Round/Square/Curly/Angle Brackets (aka Parens/Brackets/Braces)
 var Bracket = P(MathCommand, function(_, _super) {
   _.init = function(open, close, ctrlSeq, end) {

@@ -573,14 +573,32 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			String param = getVarString(tpl);
 			
 			if (kernel.getApplication().isHTML5Applet()) {
-				// mathquill friendly
-				sbTemp.append("\\binom{x}{y} = \\binom{");
+				// mathquill friendly - try 1
+				/*sbTemp.append("\\binom{x}{y} = \\binom{");
 				sbTemp.append(funX.toLaTeXString(symbolic, tpl));
 				sbTemp.append("}{");
 				sbTemp.append(funY.toLaTeXString(symbolic, tpl));
 				sbTemp.append("} ");
 				if (!hideRangeInFormula) {
 					sbTemp.append(",");
+					sbTemp.append(kernel.format(startParam, tpl));
+					sbTemp.append(" \\le ");
+					sbTemp.append(param);
+					sbTemp.append(" \\le ");
+					sbTemp.append(kernel.format(endParam, tpl));
+				}*/
+
+				// mathquill friendly - try 2
+				if (!hideRangeInFormula) {
+					sbTemp.append("\\closebraceonly{ ");
+				}
+				sbTemp.append("\\ggbtable{ \\ggbtr{ \\ggbtdL{  x = ");
+				sbTemp.append(funX.toLaTeXString(symbolic, tpl));
+				sbTemp.append("} } \\ggbtr{ \\ggbtdL{ y = ");
+				sbTemp.append(funY.toLaTeXString(symbolic, tpl));
+				sbTemp.append("} } }");
+				if (!hideRangeInFormula) {
+					sbTemp.append("}");
 					sbTemp.append(kernel.format(startParam, tpl));
 					sbTemp.append(" \\le ");
 					sbTemp.append(param);
