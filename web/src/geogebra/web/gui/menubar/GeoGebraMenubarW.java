@@ -356,7 +356,8 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			fontsizeElement.addClassName("GGWFontsize");
 			int imagesize = Math.round(app.getGUIFontSize() * 4/3);
 			String innerText = ".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}"+
-			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}";
+			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}" +
+			".GeoGebraMenuBar input[type=\"checkbox\"], input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+app.getGUIFontSize()+"px;}";
 			fontsizeElement.setInnerText(innerText);
 			
 			NodeList<Element> geogebrawebElements = Dom.getElementsByClassName("geogebraweb");
