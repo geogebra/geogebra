@@ -355,7 +355,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			
 			String innerText = ".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}"+
 			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}" +
-			".GeoGebraMenuBar input[type=\"checkbox\"], input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+fontsizeString +";}" +
+			".GeoGebraMenuBar input[type=\"checkbox\"], .GeogebraMenuBar input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+fontsizeString +";}" +
 			".toolbar_menuitem{font-size: "+fontsizeString+";}" +
 			".toolbar_menuitem img{width: "+toolbariconSize+"px;}";
 
