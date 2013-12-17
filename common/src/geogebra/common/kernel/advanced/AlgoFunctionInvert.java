@@ -85,6 +85,12 @@ public class AlgoFunctionInvert extends AlgoElement {
         }    
         
         ExpressionValue root = f.getFunctionExpression();
+        if (root == null || root.isConstant()) {
+        	// eg f(x) = 2
+        	g.setUndefined();
+        	return;
+        }
+
         FunctionVariable oldFV = f.getFunction().getFunctionVariable();
         
         // make sure sin(y) inverts to arcsin(y)
