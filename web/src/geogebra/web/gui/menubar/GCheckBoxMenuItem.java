@@ -25,11 +25,28 @@ public class GCheckBoxMenuItem extends MenuItem {
 	 */
 	public GCheckBoxMenuItem(SafeHtml html) {
 	    super(html);
-	    checkbox = new CheckBox();
+	    initGui(html, true);
+	    
+    }
+	
+	private void initGui(SafeHtml html, boolean showCheckbox) {
+		addStyleName("GChecBoxMenuItem");
+		checkbox = new CheckBox();
 	    panel = new FlowPanel();
-	    panel.add(checkbox);
+	    if (showCheckbox) {
+	    	panel.add(checkbox);
+	    }
 	    panel.add(new HTML(html));
 	    this.setHTML(panel.getElement().getInnerHTML());
+	}
+
+	/**
+	 * @param html menuItems html
+	 * @param showCheckbox wether to show checkbox
+	 */
+	public GCheckBoxMenuItem(SafeHtml html, boolean showCheckbox) {
+	    super(html);
+	    initGui(html, showCheckbox);
     }
 
 	public void setSelected(boolean selected) {

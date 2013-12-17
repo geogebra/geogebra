@@ -439,11 +439,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 	}
 
-	public void setVisible(boolean b) {
-		App.debug("setVisible() implementation needed"); // TODO Auto-generated
-
-	}
-
 	public void setColumns(int length) {
 		getTextBox().setWidth(length + "em");
 	}

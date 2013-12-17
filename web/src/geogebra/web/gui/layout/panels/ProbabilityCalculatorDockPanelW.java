@@ -31,6 +31,7 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 
 		this.app = app;
 		this.setOpenInFrame(true);
+		this.setEmbeddedSize(300);
 		
 	    this.app = app;
     }
@@ -43,6 +44,11 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	@Override
 	public void showView(boolean b) {
 		
+	}
+	
+	@Override
+	protected Widget loadStyleBar() {
+		return ((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator()).getStyleBar().getWrappedToolBar();
 	}
 
 }

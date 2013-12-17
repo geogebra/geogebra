@@ -42,8 +42,13 @@ public class ProbabilityCalculatorStyleBarW extends
 	private HandlerRegistration btnBarGraphHandler;
 	private HandlerRegistration btnNormalOverlayHandler;
 
+	/**
+	 * @param app Application
+	 * @param probCalc ProbabilityCalculatorViewW
+	 */
 	public ProbabilityCalculatorStyleBarW(App app, ProbabilityCalculatorViewW probCalc) {
 		this.wrappedToolbar = new MenuBar();
+		this.wrappedToolbar.addStyleName("ProbabilityCalculatorStyleBarW");
 		this.probCalc = probCalc;
 		this.app = app;
 		
@@ -144,7 +149,7 @@ public class ProbabilityCalculatorStyleBarW extends
 			}
 		});
 		
-		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()));
+		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()), false);
 		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
 	    
     }
@@ -308,6 +313,13 @@ public class ProbabilityCalculatorStyleBarW extends
 			return super.getItems().toArray();
 		}
 		
+	}
+	
+	/**
+	 * @return the toolbar wrapped to this stylebar
+	 */
+	public MenuBar getWrappedToolBar() {
+		return wrappedToolbar;
 	}
 
 }

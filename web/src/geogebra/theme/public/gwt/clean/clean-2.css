@@ -2170,6 +2170,28 @@ label {
 	display:inline-block;
 }
 
+/*=========== Checkbox menuitem =============*/
+
+.gwt-MenuBar-horizontal .GChecBoxMenuItem {
+	margin: 0;
+	padding: 0;
+	vertical-align:top;
+}
+
+/* TODO selected here*/
+
+/*=========== Probability Calculator =============*/
+
+.ProbabilityCalculatorStyleBarW {
+}
+
+.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
+	margin: 0;
+	padding: 0;
+}
+
+/*=========== Probability Calculator End =============*/
+
 .ggw_glabel{
 	white-space: nowrap;
 }

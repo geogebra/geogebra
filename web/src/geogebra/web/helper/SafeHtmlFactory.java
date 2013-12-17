@@ -2,7 +2,6 @@ package geogebra.web.helper;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * @author gabor
@@ -15,12 +14,17 @@ public class SafeHtmlFactory {
 	 * @param imgres ImageResource for safehtml
 	 * @return The safehtml string of the image
 	 */
-	public static SafeHtml getImageHtml(ImageResource imgres) {
-		final Image img = new Image(imgres);
+	public static SafeHtml getImageHtml(final ImageResource imgres) {
 		return new SafeHtml() {
 			
 			public String asString() {
-				return img.getElement().getInnerHTML();
+				return "<img width=\"" + 
+							imgres.getWidth() + 
+						"\" height=\"" + 
+							imgres.getHeight() + 
+						"\" src=\"" +
+							imgres.getSafeUri().asString() +
+							"\" />";
 			}
 		};
 	}
