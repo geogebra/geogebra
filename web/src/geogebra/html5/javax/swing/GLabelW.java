@@ -14,10 +14,12 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 	
 	GLabelW(){
 		impl = new com.google.gwt.user.client.ui.HTML();
+		impl.addStyleName("ggw_glabel");
 	}
 	
 	public GLabelW(String string) {
 		impl = new com.google.gwt.user.client.ui.HTML(string);
+		impl.addStyleName("ggw_glabel");
     }
 
 	public static com.google.gwt.user.client.ui.Label getImpl(GLabelW label){

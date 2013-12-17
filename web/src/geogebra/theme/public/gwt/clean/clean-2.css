@@ -2170,3 +2170,6 @@ label {
 	display:inline-block;
 }
 
+.ggw_glabel{
+	white-space: nowrap;
+}
