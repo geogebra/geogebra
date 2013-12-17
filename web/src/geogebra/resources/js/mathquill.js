@@ -2373,6 +2373,12 @@ LatexCmds.closebracketonly = bind(HalfBracket, '', ']', '\\closebracketonly');
 LatexCmds.openparenonly = bind(HalfBracket, '(', '', '\\openparenonly');
 LatexCmds.closeparenonly = bind(HalfBracket, '', ')', '\\closeparenonly');
 
+LatexCmds.openlineonly = bind(HalfBracket, '|', '', '\\openlineonly');
+LatexCmds.closelineonly = bind(HalfBracket, '', '|', '\\closelineonly');
+
+LatexCmds.opendoubleonly = bind(HalfBracket, '||', '', '\\opendoubleonly');
+LatexCmds.closedoubleonly = bind(HalfBracket, '', '||', '\\closedoubleonly');
+
 // In theory, it's possible to add mixed brackets, but why?
 
 

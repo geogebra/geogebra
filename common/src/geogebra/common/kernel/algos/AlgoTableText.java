@@ -501,7 +501,53 @@ public class AlgoTableText extends AlgoElement {
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('{');
 
-		sb.append(openBracket);
+		//sb.append(openBracket);
+
+		int closingSignsNeeded = 0;
+
+		// Here adding opening & closing brackets in two steps
+		if (!"".equals(openBracket)) {
+			// if there is any bracket
+			if (!"\\left.".equals(openBracket)) {
+				// if there is an open bracket
+				if ("||".equals(openString)) {
+					sb.append(" \\opendoubleonly{ ");
+					closingSignsNeeded++;
+				} else if ("|".equals(openString)) {
+					sb.append(" \\openlineonly{ ");
+					closingSignsNeeded++;
+				} else if ("(".equals(openString)) {
+					sb.append(" \\openparenonly{ ");
+					closingSignsNeeded++;
+				} else if ("[".equals(openString)) {
+					sb.append(" \\openbracketonly{ ");
+					closingSignsNeeded++;
+				} else if ("{".equals(openString)) {
+					sb.append(" \\openbraceonly{ ");
+					closingSignsNeeded++;
+				}
+			}
+			if (!"\\right.".equals(closeBracket)) {
+				// if there is a close bracket
+				if ("||".equals(closeString)) {
+					sb.append(" \\closedoubleonly{ ");
+					closingSignsNeeded++;
+				} else if ("|".equals(closeString)) {
+					sb.append(" \\closelineonly{ ");
+					closingSignsNeeded++;
+				} else if (")".equals(closeString)) {
+					sb.append(" \\closeparenonly{ ");
+					closingSignsNeeded++;
+				} else if ("]".equals(closeString)) {
+					sb.append(" \\closebracketonly{ ");
+					closingSignsNeeded++;
+				} else if ("}".equals(closeString)) {
+					sb.append(" \\closebraceonly{ ");
+					closingSignsNeeded++;
+				}
+			}
+		}
+
 		sb.append(" \\ggbtable{ ");
 
 		if (alignment == Alignment.VERTICAL) {
@@ -732,7 +778,11 @@ public class AlgoTableText extends AlgoElement {
 		}
 
 		sb.append("} ");
-		sb.append(closeBracket);
+		// sb.append(closeBracket);
+		while (closingSignsNeeded > 0) {
+			sb.append("} ");
+			closingSignsNeeded--;
+		}
 
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
