@@ -88,7 +88,7 @@ public enum ToolBarMenu {
 	ActionObject(ToolBarCommand.Slider,
 			new ToolBarCommand[] { ToolBarCommand.Slider,
 			// ToolBarCommand.CheckBoxToShowHideObjects,
-			// ToolBarCommand.InsertButton,
+			 ToolBarCommand.InsertButton,
 			// ToolBarCommand.InsertInputBox
 			});
 

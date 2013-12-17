@@ -27,11 +27,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-public class InputDialog extends DialogT implements CustomKeyListener,
-		ResizeListener, ErrorHandler {
+public class InputDialog extends DialogT implements CustomKeyListener, ResizeListener, ErrorHandler {
 
 	public enum DialogType {
-		InputField, Redefine, NumberValue, Angle, Slider, RedefineSlider;
+		InputField, Redefine, NumberValue, Angle, Slider, RedefineSlider, Button;
 	}
 
 	// panelContainer contains all elements
@@ -60,8 +59,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	private boolean handlingExpected = false;
 	private InputHandler inputHandler;
 
-	public InputDialog(final TouchApp app, final DialogType type,
-			final TouchModel touchModel) {
+	public InputDialog(final TouchApp app, final DialogType type, final TouchModel touchModel) {
 		// hide when clicked outside
 		super(true, false);
 
@@ -119,9 +117,11 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 	private void addContentPanel() {
 		this.contentPanel.setStyleName("contentPanel");
-		//this.contentPanel.getElement().getStyle().setMarginLeft(this.laf.getPaddingLeftOfDialog(), Unit.PX);
-		//this.contentPanel.getElement().getStyle().setMarginRight(this.laf.getPaddingLeftOfDialog(), Unit.PX);
-		
+		// this.contentPanel.getElement().getStyle().setMarginLeft(this.laf.getPaddingLeftOfDialog(),
+		// Unit.PX);
+		// this.contentPanel.getElement().getStyle().setMarginRight(this.laf.getPaddingLeftOfDialog(),
+		// Unit.PX);
+
 		this.inputFieldPanel.setStyleName("inputFieldPanel");
 		this.contentPanel.add(this.inputFieldPanel);
 		this.dialogPanel.add(this.contentPanel);
@@ -150,8 +150,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	}
 
 	private void addTextBox() {
-		this.textBox = new InputField(this.type == DialogType.Slider ? this.app
-				.getLocalization().getCommand("Name") : null, true);
+		this.textBox = new InputField(this.type == DialogType.Slider ? this.app.getLocalization().getCommand("Name") : null, true);
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler() {
 			@Override
@@ -174,8 +173,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	private void buildErrorBox() {
 		this.iconWarning = this.laf.getIcons().icon_warning();
 		final Panel iconPanel = new LayoutPanel();
-		final String html = "<img src=\""
-				+ this.iconWarning.getSafeUri().asString() + "\" />";
+		final String html = "<img src=\"" + this.iconWarning.getSafeUri().asString() + "\" />";
 		iconPanel.getElement().setInnerHTML(html);
 		iconPanel.setStyleName("iconPanel");
 		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -192,8 +190,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	}
 
 	public boolean isClockwise() {
-		return this.type == DialogType.Angle
-				&& this.radioButton[1].isActivated();
+		return this.type == DialogType.Angle && this.radioButton[1].isActivated();
 	}
 
 	/**
@@ -231,8 +228,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	@Override
 	public void onCustomKeyPressed(final CustomKey c) {
 		final int pos = this.textBox.getCursorPos();
-		setInputText(this.textBox.getText().substring(0, pos) + c.toString()
-				+ this.textBox.getText().substring(pos));
+		setInputText(this.textBox.getText().substring(0, pos) + c.toString() + this.textBox.getText().substring(pos));
 		this.textBox.setCursorPos(pos + 1);
 	}
 
@@ -256,6 +252,9 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 			if (this.mode != null && this.mode.length() > 0) {
 				setTitle(this.app.getLocalization().getMenu(this.mode));
 			}
+			break;
+		case Button:
+			setTitle(this.app.getLocalization().getCommand("Button"));
 			break;
 		default:
 			break;
@@ -299,16 +298,12 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 		this.radioButtonPanel.setVisible(false);
 		if (this.type == DialogType.Angle) {
-			showRadioButtons(
-					this.app.getLocalization().getPlain("counterClockwise"),
-					this.app.getLocalization().getPlain("clockwise"));
+			showRadioButtons(this.app.getLocalization().getPlain("counterClockwise"), this.app.getLocalization().getPlain("clockwise"));
 		}
 
-		
-		if (this.type != DialogType.Slider
-				&& this.type != DialogType.RedefineSlider) {
+		if (this.type != DialogType.Slider && this.type != DialogType.RedefineSlider && this.type != DialogType.Button) {
 			this.customKeys.setVisible(true);
-		}else{
+		} else {
 			this.customKeys.setVisible(false);
 		}
 

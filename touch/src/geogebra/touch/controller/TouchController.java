@@ -109,7 +109,6 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		// do not handle event, if an optionPanel of the styleBar was still open
 		if (activeOption != OptionType.None
 				&& activeOption != OptionType.ToolBar) {
-
 			return;
 		}
 

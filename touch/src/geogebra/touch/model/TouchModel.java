@@ -22,6 +22,7 @@ import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoAxis;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -42,11 +43,18 @@ import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.Operation;
+import geogebra.common.plugin.ScriptError;
+import geogebra.common.plugin.ScriptType;
+import geogebra.common.plugin.script.Script;
 import geogebra.touch.TouchApp;
+import geogebra.touch.gui.dialogs.ButtonDialog;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.dialogs.SliderDialog;
+import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.awt.geom.Point2D;
@@ -64,8 +72,14 @@ public class TouchModel {
 	private final Kernel kernel;
 	private final GuiModel guiModel;
 	private EuclidianView euclidianView;
+
 	private InputDialog inputDialog;
 	private SliderDialog sliderDialog;
+	private ButtonDialog buttonDialog;
+
+	private GeoNumeric redefineSlider, actualSlider;
+	private GeoButton redefineButton;
+
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
 	private boolean controlClicked = true;
@@ -75,7 +89,6 @@ public class TouchModel {
 	private final CmdIntersect cmdIntersect;
 	private GeoElement redefineGeo;
 	private GPoint eventCoordinates = new GPoint(0, 0);
-	private GeoNumeric redefineSlider, actualSlider;
 	private String oldRedefineText;
 	private final App app;
 
@@ -86,24 +99,28 @@ public class TouchModel {
 		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
 
-	private InputDialog getInputDialog(){
-		if(this.inputDialog == null){
-			this.inputDialog = new InputDialog((TouchApp) this.app,
-					DialogType.NumberValue, this);
+	private InputDialog getInputDialog() {
+		if (this.inputDialog == null) {
+			this.inputDialog = new InputDialog((TouchApp) this.app, DialogType.NumberValue, this);
 		}
 		return this.inputDialog;
 	}
 
-	private SliderDialog getSliderDialog(){
-		if(this.sliderDialog == null){
-			this.sliderDialog = new SliderDialog((TouchApp) this.app,
-				DialogType.Slider, this);
+	private SliderDialog getSliderDialog() {
+		if (this.sliderDialog == null) {
+			this.sliderDialog = new SliderDialog((TouchApp) this.app, DialogType.Slider, this);
 		}
 		return this.sliderDialog;
 	}
 
-	private static void addAll(final ArrayList<GeoElementND> newGeoElements,
-			final GeoElement[] regularPolygon) {
+	private ButtonDialog getButtonDialog() {
+		if (this.buttonDialog == null) {
+			this.buttonDialog = new ButtonDialog((TouchApp) this.app, DialogType.Button, this);
+		}
+		return this.buttonDialog;
+	}
+
+	private static void addAll(final ArrayList<GeoElementND> newGeoElements, final GeoElement[] regularPolygon) {
 		for (final GeoElement geo : regularPolygon) {
 			newGeoElements.add(geo);
 		}
@@ -111,23 +128,18 @@ public class TouchModel {
 	}
 
 	private void attachDetach(final Hits hits, final GPoint c) {
-		final EuclidianViewInterfaceCommon view = this.app
-				.getActiveEuclidianView();
+		final EuclidianViewInterfaceCommon view = this.app.getActiveEuclidianView();
 
 		// a point and a path/line/conic/function/... or just a point
 		if (!this.select(hits, Test.GEOPOINT, 1)) {
-			this.selectOutOf(hits, new Test[] { Test.PATH, Test.GEOCONICND,
-					Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR, Test.REGION3D }, 1);
+			this.selectOutOf(hits, new Test[] { Test.PATH, Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR, Test.REGION3D }, 1);
 		}
 
 		final GeoPoint point = (GeoPoint) this.getElement(Test.GEOPOINT);
 		final Path path = (Path) this.getElement(Test.PATH);
-		final Region region = (Region) this.getElementFrom(new Test[] {
-				Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR,
-				Test.REGION3D });
+		final Region region = (Region) this.getElementFrom(new Test[] { Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR, Test.REGION3D });
 		if (point != null) {
-			final GPoint p = c != null ? c : new GPoint((int) point.getX(),
-					(int) point.getY());
+			final GPoint p = c != null ? c : new GPoint((int) point.getX(), (int) point.getY());
 
 			if (!point.isIndependent()) // detach
 			{
@@ -137,15 +149,13 @@ public class TouchModel {
 				this.commandFinished = true;
 			} else if (path != null) // attach to path
 			{
-				this.kernel.getAlgoDispatcher().attach(point, path, view,
-						p.getX(), p.getY());
+				this.kernel.getAlgoDispatcher().attach(point, path, view, p.getX(), p.getY());
 				this.resetSelection();
 				this.changeSelectionState(point);
 				this.commandFinished = true;
 			} else if (region != null) // attach to region
 			{
-				this.kernel.getAlgoDispatcher().attach(point, region, view,
-						p.getX(), p.getY());
+				this.kernel.getAlgoDispatcher().attach(point, region, view, p.getX(), p.getY());
 				this.resetSelection();
 				this.changeSelectionState(point);
 				this.commandFinished = true;
@@ -184,8 +194,7 @@ public class TouchModel {
 	 *            maximum number of elements to be selected
 	 * @return success
 	 */
-	private boolean changeSelectionState(final Hits hits, final Test geoclass,
-			final int max) {
+	private boolean changeSelectionState(final Hits hits, final Test geoclass, final int max) {
 		boolean success = false;
 		final Hits h = new Hits();
 		hits.getHits(geoclass, h);
@@ -258,8 +267,7 @@ public class TouchModel {
 	}
 
 	private boolean finishedPolygon(final Hits hits) {
-		return this.selectedElements.size() >= 3
-				&& hits.indexOf(this.selectedElements.get(0)) != -1;
+		return this.selectedElements.size() >= 3 && hits.indexOf(this.selectedElements.get(0)) != -1;
 	}
 
 	/**
@@ -402,94 +410,72 @@ public class TouchModel {
 		return this.selectedElements.size();
 	}
 
-	private void handleDraw(final Point2D pointRW, final GPoint mouse,
-			final boolean singlePointForIntersection) {
+	private void handleDraw(final Point2D pointRW, final GPoint mouse, final boolean singlePointForIntersection) {
 		boolean draw = true;
 		final ArrayList<GeoElementND> newElements = new ArrayList<GeoElementND>();
 
 		switch (this.command) {
 		case LineThroughTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().Line(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case SegmentBetweenTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().Segment(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Segment(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case RayThroughTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().Ray(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Ray(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case VectorBetweenTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().Vector(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Vector(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case CircleWithCenterThroughPoint:
-			newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case Semicircle:
-			newElements.add(this.kernel.getAlgoDispatcher().Semicircle(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Semicircle(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case Locus:
-			newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Locus(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case PerpendicularLine:
-			newElements.add(this.kernel.getAlgoDispatcher().OrthogonalLine(
-					null, (GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().OrthogonalLine(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoLine) this.getElement(Test.GEOLINE)));
 			break;
 		case ParallelLine:
-			newElements.add(this.kernel.getAlgoDispatcher().Line(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Line(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoLine) this.getElement(Test.GEOLINE)));
 			break;
 		case MidpointOrCenter:
 			if (this.getNumberOf(Test.GEOSEGMENT) > 0) {
-				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(null,
-						(GeoSegment) this.getElement(Test.GEOSEGMENT)));
+				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(null, (GeoSegment) this.getElement(Test.GEOSEGMENT)));
 			} else if (this.getNumberOf(Test.GEOCONIC) > 0) {
-				newElements.add(this.kernel.getAlgoDispatcher().Center(null,
-						(GeoConic) this.getElement(Test.GEOCONIC)));
+				newElements.add(this.kernel.getAlgoDispatcher().Center(null, (GeoConic) this.getElement(Test.GEOCONIC)));
 			} else if (this.getNumberOf(Test.GEOPOINT) >= 2) {
-				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(null,
-						(GeoPoint) this.getElement(Test.GEOPOINT),
+				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 						(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			}
 			break;
 		case PerpendicularBisector:
 			if (this.getNumberOf(Test.GEOSEGMENT) > 0) {
-				newElements.add(this.kernel.getAlgoDispatcher().LineBisector(
-						null, (GeoSegment) this.getElement(Test.GEOSEGMENT)));
+				newElements.add(this.kernel.getAlgoDispatcher().LineBisector(null, (GeoSegment) this.getElement(Test.GEOSEGMENT)));
 			} else if (this.getNumberOf(Test.GEOPOINT) >= 2) {
-				newElements.add(this.kernel.getAlgoDispatcher().LineBisector(
-						null, (GeoPoint) this.getElement(Test.GEOPOINT),
+				newElements.add(this.kernel.getAlgoDispatcher().LineBisector(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 						(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			}
 			break;
 		case IntersectTwoObjects:
-			final GeoElement geoA = this.selectedElements
-					.get(this.selectedElements.size() - 1);
-			final GeoElement geoB = this.selectedElements
-					.get(this.selectedElements.size() - 2);
+			final GeoElement geoA = this.selectedElements.get(this.selectedElements.size() - 1);
+			final GeoElement geoB = this.selectedElements.get(this.selectedElements.size() - 2);
 			// intersection of two curves needs 4 params
-			if (geoA instanceof GeoCurveCartesian
-					&& geoB instanceof GeoCurveCartesian
-					&& singlePointForIntersection && pointRW != null) {
-				for (final GeoElement g : this.kernel.getAlgoDispatcher()
-						.IntersectCurveCurveSingle(new String[] { null },
-								(GeoCurveCartesian) geoA,
-								(GeoCurveCartesian) geoB, pointRW.getX(),
-								pointRW.getY())) {
+			if (geoA instanceof GeoCurveCartesian && geoB instanceof GeoCurveCartesian && singlePointForIntersection && pointRW != null) {
+				for (final GeoElement g : this.kernel.getAlgoDispatcher().IntersectCurveCurveSingle(new String[] { null }, (GeoCurveCartesian) geoA,
+						(GeoCurveCartesian) geoB, pointRW.getX(), pointRW.getY())) {
 					newElements.add(g);
 				}
 				break;
@@ -500,8 +486,7 @@ public class TouchModel {
 			c.addArgument(geoB.wrap());
 			// intersection with specified initial point needs 3 params
 			if (singlePointForIntersection && pointRW != null) {
-				final GeoPoint p = new GeoPoint(this.kernel.getConstruction(),
-						pointRW.getX(), pointRW.getY(), 1);
+				final GeoPoint p = new GeoPoint(this.kernel.getConstruction(), pointRW.getX(), pointRW.getY(), 1);
 				c.addArgument(new ExpressionNode(this.kernel, p));
 			}
 
@@ -518,51 +503,41 @@ public class TouchModel {
 
 			break;
 		case Parabola:
-			newElements.add(this.kernel.getAlgoDispatcher().Parabola(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
+			newElements.add(this.kernel.getAlgoDispatcher().Parabola(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 					(GeoLine) this.getElement(Test.GEOLINE)));
 			break;
 		case DistanceOrLength:
 			GeoElement distance = distance(mouse);
-			if(distance!=null){
+			if (distance != null) {
 				newElements.add(distance);
 			}
 			break;
-			//$FALL-THROUGH$
+		//$FALL-THROUGH$
 		case ReflectObjectAboutLine:
 			// get the line that was selected last
-			final GeoLine line = this.getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) this
-					.getElement(Test.GEOLINE, 1) : (GeoLine) this
+			final GeoLine line = this.getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) this.getElement(Test.GEOLINE, 1) : (GeoLine) this
 					.getElement(Test.GEOLINE);
 			this.deselect(line);
 			for (final GeoElement source : this.selectedElements) {
-				addAll(newElements,
-						this.kernel.getAlgoDispatcher().Mirror(null, source,
-								line));
+				addAll(newElements, this.kernel.getAlgoDispatcher().Mirror(null, source, line));
 			}
 			break;
 		case ReflectObjectAboutCircle:
 			// get the circle that was selected last
-			final GeoConic circle = this.getNumberOf(Test.GEOCONIC) > 1 ? (GeoConic) this
-					.getElement(Test.GEOCONIC, 1) : (GeoConic) this
+			final GeoConic circle = this.getNumberOf(Test.GEOCONIC) > 1 ? (GeoConic) this.getElement(Test.GEOCONIC, 1) : (GeoConic) this
 					.getElement(Test.GEOCONIC);
 			this.deselect(circle);
 			for (final GeoElement source : this.selectedElements) {
-				addAll(newElements,
-						this.kernel.getAlgoDispatcher().Mirror(null, source,
-								circle));
+				addAll(newElements, this.kernel.getAlgoDispatcher().Mirror(null, source, circle));
 			}
 			break;
 		case ReflectObjectAboutPoint:
 			// get the point that was selected last
-			final GeoPoint mirrorPoint = this.getNumberOf(Test.GEOPOINT) > 1 ? (GeoPoint) this
-					.getElement(Test.GEOPOINT, 1) : (GeoPoint) this
+			final GeoPoint mirrorPoint = this.getNumberOf(Test.GEOPOINT) > 1 ? (GeoPoint) this.getElement(Test.GEOPOINT, 1) : (GeoPoint) this
 					.getElement(Test.GEOPOINT);
 			this.deselect(mirrorPoint);
 			for (final GeoElement source : this.selectedElements) {
-				addAll(newElements,
-						this.kernel.getAlgoDispatcher().Mirror(null, source,
-								mirrorPoint));
+				addAll(newElements, this.kernel.getAlgoDispatcher().Mirror(null, source, mirrorPoint));
 			}
 			break;
 		case CirclePointRadius:
@@ -601,37 +576,28 @@ public class TouchModel {
 			return;
 		case TranslateObjectByVector:
 			// get the point that was selected last
-			final GeoVector vector = this.getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) this
-					.getElement(Test.GEOVECTOR, 1) : (GeoVector) this
+			final GeoVector vector = this.getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) this.getElement(Test.GEOVECTOR, 1) : (GeoVector) this
 					.getElement(Test.GEOVECTOR);
 			this.deselect(vector);
 			for (final GeoElement source : this.selectedElements) {
-				addAll(newElements,
-						this.kernel.getAlgoDispatcher().Translate(null, source,
-								vector));
+				addAll(newElements, this.kernel.getAlgoDispatcher().Translate(null, source, vector));
 			}
 			break;
 		case Tangents:
 			GeoElement[] lines;
 			if (this.getElement(Test.GEOPOINT) != null) {
-				final GeoElement g = this.getElementFrom(new Test[] {
-						Test.GEOCONIC, Test.GEOFUNCTION });
+				final GeoElement g = this.getElementFrom(new Test[] { Test.GEOCONIC, Test.GEOFUNCTION });
 				if (g instanceof GeoConic) {
 					// GeoPoint + GeoConic
-					lines = this.kernel.getAlgoDispatcher().Tangent(null,
-							(GeoPoint) this.getElement(Test.GEOPOINT),
-							(GeoConic) g);
+					lines = this.kernel.getAlgoDispatcher().Tangent(null, (GeoPoint) this.getElement(Test.GEOPOINT), (GeoConic) g);
 				} else {
 					// GeoPoint + GeoFunction
 					lines = new GeoElement[1];
-					lines[0] = this.kernel.getAlgoDispatcher().Tangent(null,
-							(GeoPoint) this.getElement(Test.GEOPOINT),
-							(GeoFunction) g);
+					lines[0] = this.kernel.getAlgoDispatcher().Tangent(null, (GeoPoint) this.getElement(Test.GEOPOINT), (GeoFunction) g);
 				}
 			} else {
 				// GeoLine + GeoConic
-				lines = this.kernel.getAlgoDispatcher().Tangent(null,
-						(GeoLine) this.getElement(Test.GEOLINE),
+				lines = this.kernel.getAlgoDispatcher().Tangent(null, (GeoLine) this.getElement(Test.GEOLINE),
 						(GeoConic) this.getElement(Test.GEOCONIC));
 			}
 			for (final GeoElement l : lines) {
@@ -639,83 +605,56 @@ public class TouchModel {
 			}
 			break;
 		case VectorFromPoint:
-			final GeoPoint endPoint = (GeoPoint) this.kernel
-					.getAlgoDispatcher().Translate(null,
-							this.getElement(Test.GEOPOINT),
-							(GeoVec3D) this.getElement(Test.GEOVECTOR))[0];
-			newElements.add(this.kernel.getAlgoDispatcher().Vector(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT), endPoint));
+			final GeoPoint endPoint = (GeoPoint) this.kernel.getAlgoDispatcher().Translate(null, this.getElement(Test.GEOPOINT),
+					(GeoVec3D) this.getElement(Test.GEOVECTOR))[0];
+			newElements.add(this.kernel.getAlgoDispatcher().Vector(null, (GeoPoint) this.getElement(Test.GEOPOINT), endPoint));
 			break;
 		case CircleThroughThreePoints:
-			newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case CircularArcWithCenterBetweenTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().CircleArc(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().CircleArc(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case CircularSectorWithCenterBetweenTwoPoints:
-			newElements.add(this.kernel.getAlgoDispatcher().CircleSector(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().CircleSector(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case CircumCirculuarArcThroughThreePoints:
-			newElements.add(this.kernel.getAlgoDispatcher().CircumcircleArc(
-					null, (GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case CircumCircularSectorThroughThreePoints:
-			newElements.add(this.kernel.getAlgoDispatcher().CircumcircleSector(
-					null, (GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case Ellipse:
-			newElements.add(this.kernel.getAlgoDispatcher().Ellipse(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().Ellipse(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case Hyperbola:
-			newElements.add(this.kernel.getAlgoDispatcher().Hyperbola(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			newElements.add(this.kernel.getAlgoDispatcher().Hyperbola(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+					(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			break;
 		case Compasses:
 			if (this.getNumberOf(Test.GEOPOINT) >= 3) {
-				final AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(
-						this.kernel.getConstruction(),
-						(GeoPoint) this.getElement(Test.GEOPOINT),
-						(GeoPoint) this.getElement(Test.GEOPOINT, 1), null);
-				this.kernel.getConstruction().removeFromConstructionList(
-						algoSegment);
+				final AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(this.kernel.getConstruction(),
+						(GeoPoint) this.getElement(Test.GEOPOINT), (GeoPoint) this.getElement(Test.GEOPOINT, 1), null);
+				this.kernel.getConstruction().removeFromConstructionList(algoSegment);
 
-				final AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
-						this.kernel.getConstruction(), null,
-						(GeoPoint) this.getElement(Test.GEOPOINT, 2),
-						algoSegment.getSegment(), true);
+				final AlgoCirclePointRadius algo = new AlgoCirclePointRadius(this.kernel.getConstruction(), null, (GeoPoint) this.getElement(
+						Test.GEOPOINT, 2), algoSegment.getSegment(), true);
 				final GeoConic compassCircle = algo.getCircle();
 				compassCircle.setToSpecific();
 				compassCircle.update();
 				newElements.add(compassCircle);
 			} else if (this.getNumberOf(Test.GEOCONIC) >= 1) {
-				final AlgoRadius radius = new AlgoRadius(
-						this.kernel.getConstruction(),
-						(GeoConic) this.getElement(Test.GEOCONIC));
-				this.kernel.getConstruction()
-						.removeFromConstructionList(radius);
+				final AlgoRadius radius = new AlgoRadius(this.kernel.getConstruction(), (GeoConic) this.getElement(Test.GEOCONIC));
+				this.kernel.getConstruction().removeFromConstructionList(radius);
 
-				final AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
-						this.kernel.getConstruction(), null,
-						(GeoPoint) this.getElement(Test.GEOPOINT),
-						radius.getRadius());
+				final AlgoCirclePointRadius algo = new AlgoCirclePointRadius(this.kernel.getConstruction(), null,
+						(GeoPoint) this.getElement(Test.GEOPOINT), radius.getRadius());
 				final GeoConic compassCircle2 = algo.getCircle();
 				compassCircle2.setToSpecific();
 				compassCircle2.update();
@@ -723,26 +662,20 @@ public class TouchModel {
 			} else
 			// segment
 			{
-				newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
-						(GeoPoint) this.getElement(Test.GEOPOINT),
+				newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 						(GeoSegment) this.getElement(Test.GEOSEGMENT)));
 			}
 
 			break;
 		case Angle:
 			if (this.getNumberOf(Test.GEOPOINT) >= 3) {
-				newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
-						(GeoPoint) this.getElement(Test.GEOPOINT),
-						(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-						(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+				newElements.add(this.kernel.getAlgoDispatcher().Angle(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+						(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			} else if (this.getNumberOf(Test.GEOLINE) >= 2) {
-				newElements.add(this.kernel.getAlgoDispatcher().createLineAngle(
-						(GeoLine) this.getElement(Test.GEOLINE),
+				newElements.add(this.kernel.getAlgoDispatcher().createLineAngle((GeoLine) this.getElement(Test.GEOLINE),
 						(GeoLine) this.getElement(Test.GEOLINE, 1)));
 			} else {
-				for (final GeoElement geo : this.kernel.getAlgoDispatcher()
-						.Angles(null,
-								(GeoPolygon) this.getElement(Test.GEOPOLYGON))) {
+				for (final GeoElement geo : this.kernel.getAlgoDispatcher().Angles(null, (GeoPolygon) this.getElement(Test.GEOPOLYGON))) {
 					newElements.add(geo);
 				}
 			}
@@ -753,26 +686,21 @@ public class TouchModel {
 		case Area:
 			GeoNumberValue area;
 			GeoElement source = this.getElement(Test.GEOELEMENT);
-			if(source instanceof GeoConicND){
+			if (source instanceof GeoConicND) {
 				area = this.kernel.getAlgoDispatcher().Area(null, (GeoConicND) source);
-			
-			}else{ //polygons
+
+			} else { // polygons
 				area = (GeoNumberValue) source;
 			}
 			newElements.add(this.getTextDispatcher().getAreaText(source, area, mouse)[0]);
 			break;
 		case AngleBisector:
 			if (this.getNumberOf(Test.GEOPOINT) >= 3) {
-				newElements.add(this.kernel.getAlgoDispatcher()
-						.AngularBisector(null,
-								(GeoPoint) this.getElement(Test.GEOPOINT),
-								(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-								(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+				newElements.add(this.kernel.getAlgoDispatcher().AngularBisector(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+						(GeoPoint) this.getElement(Test.GEOPOINT, 1), (GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 			} else {
-				for (final GeoElement e : this.kernel.getAlgoDispatcher()
-						.AngularBisector(null,
-								(GeoLine) this.getElement(Test.GEOLINE),
-								(GeoLine) this.getElement(Test.GEOLINE, 1))) {
+				for (final GeoElement e : this.kernel.getAlgoDispatcher().AngularBisector(null, (GeoLine) this.getElement(Test.GEOLINE),
+						(GeoLine) this.getElement(Test.GEOLINE, 1))) {
 					newElements.add(e);
 				}
 			}
@@ -780,16 +708,13 @@ public class TouchModel {
 		case ConicThroughFivePoints:
 			newElements.add(this.kernel.getAlgoDispatcher().Conic(
 					null,
-					new GeoPoint[] { (GeoPoint) this.getElement(Test.GEOPOINT),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 2),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 3),
+					new GeoPoint[] { (GeoPoint) this.getElement(Test.GEOPOINT), (GeoPoint) this.getElement(Test.GEOPOINT, 1),
+							(GeoPoint) this.getElement(Test.GEOPOINT, 2), (GeoPoint) this.getElement(Test.GEOPOINT, 3),
 							(GeoPoint) this.getElement(Test.GEOPOINT, 4), }));
 			break;
 		case PolylineBetweenPoints:
 			final ArrayList<GeoElement> geos = this.getAll(Test.GEOPOINT);
-			final GeoElement[] geoArray = this.kernel.PolyLineND(null,
-					geos.toArray(new GeoPoint[geos.size()]));
+			final GeoElement[] geoArray = this.kernel.PolyLineND(null, geos.toArray(new GeoPoint[geos.size()]));
 			for (final GeoElement geo : geoArray) {
 				newElements.add(geo);
 			}
@@ -810,24 +735,21 @@ public class TouchModel {
 			// is drawn
 		case Polygon:
 			final ArrayList<GeoElement> geos2 = this.getAll(Test.GEOPOINT);
-			final GeoElement[] geoArray2 = this.kernel.Polygon(null,
-					geos2.toArray(new GeoPoint[geos2.size()]));
+			final GeoElement[] geoArray2 = this.kernel.Polygon(null, geos2.toArray(new GeoPoint[geos2.size()]));
 			for (final GeoElement geo : geoArray2) {
 				newElements.add(geo);
 			}
 			break;
 		case RigidPolygon:
 			final ArrayList<GeoElement> geos3 = this.getAll(Test.GEOPOINT);
-			final GeoElement[] geoArray3 = this.kernel.RigidPolygon(null,
-					geos3.toArray(new GeoPoint[geos3.size()]));
+			final GeoElement[] geoArray3 = this.kernel.RigidPolygon(null, geos3.toArray(new GeoPoint[geos3.size()]));
 			for (final GeoElement geo : geoArray3) {
 				newElements.add(geo);
 			}
 			break;
 		case VectorPolygon:
 			final ArrayList<GeoElement> geos4 = this.getAll(Test.GEOPOINT);
-			final GeoElement[] geoArray4 = this.kernel.VectorPolygon(null,
-					geos4.toArray(new GeoPoint[geos4.size()]));
+			final GeoElement[] geoArray4 = this.kernel.VectorPolygon(null, geos4.toArray(new GeoPoint[geos4.size()]));
 			for (final GeoElement geo : geoArray4) {
 				newElements.add(geo);
 			}
@@ -851,20 +773,20 @@ public class TouchModel {
 	private GeoElement distance(GPoint mouseLoc) {
 		if (this.getNumberOf(Test.GEOPOINTND) >= 2) {
 
-			return getTextDispatcher().createDistanceText( (GeoPointND) this.getElement(Test.GEOPOINT, 0) , 
+			return getTextDispatcher().createDistanceText((GeoPointND) this.getElement(Test.GEOPOINT, 0),
 					(GeoPointND) this.getElement(Test.GEOPOINT, 1));
 		}
-		
+
 		// POINT AND LINE
 		else if ((this.getNumberOf(Test.GEOPOINTND) >= 1) && (this.getNumberOf(Test.GEOLINE) >= 1)) {
-			
+
 			return getTextDispatcher().createDistanceText((GeoPointND) this.getElement(Test.GEOPOINT, 0), (GeoLine) this.getElement(Test.GEOLINE, 0));
-			
+
 		}
-	
+
 		// SEGMENT
 		// make this after point-line
-		else if (this.getNumberOf(Test.GEOSEGMENT) == 1) { 
+		else if (this.getNumberOf(Test.GEOSEGMENT) == 1) {
 			// length
 			GeoElement seg = this.getElement(Test.GEOSEGMENT, 0);
 			if (seg.isLabelVisible()) {
@@ -875,31 +797,28 @@ public class TouchModel {
 			seg.setLabelVisible(true);
 			seg.updateRepaint();
 			return seg; // return this not null because the kernel has
-								// changed
+						// changed
 		}
-	
+
 		// TWO LINES
 		else if (this.getNumberOf(Test.GEOLINE) == 2) {
 
-			
-			return this.kernel.getAlgoDispatcher().Distance(null, (GeoLine) this.getElement(Test.GEOLINE, 0), 
+			return this.kernel.getAlgoDispatcher().Distance(null, (GeoLine) this.getElement(Test.GEOLINE, 0),
 					(GeoLine) this.getElement(Test.GEOLINE, 1));
-			
-		}
-	
 
-	
+		}
+
 		// circumference of CONIC
 		else if (this.getNumberOf(Test.GEOCONIC) == 1) {
 			GeoConicND conic = (GeoConicND) this.getElement(Test.GEOCONICND, 0);
-			
+
 			return getTextDispatcher().createCircumferenceText(conic, mouseLoc)[0];
 		}
-	
+
 		// perimeter of POLYGON
 		else if (this.getNumberOf(Test.GEOPOLYGON) == 1) {
 			GeoPolygon poly = (GeoPolygon) this.getElement(Test.GEOPOLYGON);
-			return getTextDispatcher().createPerimeterText(poly , mouseLoc)[0];
+			return getTextDispatcher().createPerimeterText(poly, mouseLoc)[0];
 		}
 		return null;
 	}
@@ -908,8 +827,7 @@ public class TouchModel {
 		return new TextDispatcher(this.kernel, this.kernel.getApplication().getEuclidianView1());
 	}
 
-	public void handleEvent(final Hits hits, final GPoint point,
-			final Point2D pointRW) {
+	public void handleEvent(final Hits hits, final GPoint point, final Point2D pointRW) {
 		this.kernel.setNotifyRepaintActive(false);
 
 		this.eventCoordinates = point;
@@ -922,322 +840,326 @@ public class TouchModel {
 
 		boolean singlePointForIntersection = false;
 
-		switch (this.command) {
-		// commands that only draw one point
-		case NewPoint:
-		case ComplexNumbers:
-		case PointOnObject:
-			resetSelection();
-			changeSelectionState(hits, Test.GEOPOINT, 1);
-			this.changeColorAllowed = true;
-
-			this.commandFinished = true;
-
-			break;
-
-		// special command: slider
-		case Slider:
-			// FIXME
-			resetSelection();
-			selectOutOf(hits, new Test[] { Test.GEONUMERIC }, 1);
-
-			if (this.selectedElements.size() == 0) {
-				this.getSliderDialog().show();
-			}
-			break;
-
-		// special command: attach/detach: needs a point (detach) or a point and
-		// a region/path (attach)
-		case AttachDetachPoint:
-			attachDetach(hits, point);
-			break;
-
-		// special command: rotate around point: needs one point as center of
-		// the roation and an other element to rotate
-		case RotateAroundPoint:
-			// deselect all elements except for the center point (index 0)
-			// needed if there is another rotation
-			while (this.selectedElements.size() > 1) {
-				deselect(this.selectedElements.get(1));
-			}
-
-			if (this.getTotalNumber() > 0
-					&& hits.contains(this.selectedElements.get(0))) {
-				deselect(this.selectedElements.get(0));
-			} else if (this.getNumberOf(Test.GEOPOINT) > 0) {
-				// one Point is already selected!
-				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
-						Test.GEOLINE, Test.GEOSEGMENTND, Test.GEORAY,
-						Test.GEOVECTOR, Test.GEOPOLYGON, Test.GEOPOLYLINE }, 2);
-			} else {
-				select(hits, Test.GEOPOINT, 1);
-			}
-
-			// it should not be allowed to rotate the axes
-			if (this.selectedElements.size() >= 2
-					&& this.selectedElements.get(1) instanceof GeoAxis) {
-				deselect(this.selectedElements.get(1));
-			}
-
-			break;
-
-		// commands that need two points
-		case LineThroughTwoPoints:
-		case SegmentBetweenTwoPoints:
-		case RayThroughTwoPoints:
-		case VectorBetweenTwoPoints:
-		case CircleWithCenterThroughPoint:
-		case Semicircle:
-		case Locus:
-		case AngleFixed:
-			changeSelectionState(hits, Test.GEOPOINT, 1);
-			draw = getNumberOf(Test.GEOPOINT) >= 2;
-			break;
-		//tools that need one point
-		case SegmentFixed:
-		case CirclePointRadius:
-			select(hits, Test.GEOPOINT, 1);
-			draw = getNumberOf(Test.GEOPOINT) >= 1;
-			break;
-
-		// commands that need one point and one line
-		case PerpendicularLine:
-		case ParallelLine:
-		case Parabola:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE },
-					new int[] { 1, 1 });
-			draw = getNumberOf(Test.GEOPOINT) >= 1
-					&& getNumberOf(Test.GEOLINE) >= 1;
-			break;
-
-		// commands that need two points or one point and one line or two lines
-		// or one segment or a circle
-		case DistanceOrLength:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
-					Test.GEOSEGMENT, Test.GEOCONIC }, new int[] { 2, 2, 1, 1 });
-			draw = getNumberOf(Test.GEOPOINT) >= 2
-					|| getNumberOf(Test.GEOPOINT) >= 1
-					&& getNumberOf(Test.GEOLINE) >= 1
-					|| getNumberOf(Test.GEOLINE) >= 2
-					|| getNumberOf(Test.GEOSEGMENT) >= 1
-					|| getNumberOf(Test.GEOCONIC) >= 1;
-			break;
-
-		// commands that need one line and any other object
-		case ReflectObjectAboutLine:
-			if (!changeSelectionState(hits, Test.GEOLINE, 1)
-					&& getTotalNumber() > 0) {
-				changeSelectionState(hits.get(0));
-			}
-			draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
-			break;
-
-		// commands that need one circle and any other object
-		case ReflectObjectAboutCircle:
-			if (!select(hits, Test.GEOCONIC, 2)) {
-				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
-						Test.GEOSEGMENTND, Test.GEORAY, Test.GEOPOLYGON,
-						Test.GEOPOLYLINE, Test.GEOCURVECARTESIAN,
-						Test.GEOIMPLICITPOLY }, 1);
-			}
-			draw = getNumberOf(Test.GEOCONIC) >= 1 && getTotalNumber() >= 2;
-			break;
-
-		// commands that need one point and any other object
-		case ReflectObjectAboutPoint:
-		case Dilate:
-		case RotateObjectByAngle:
-			if (!changeSelectionState(hits, Test.GEOPOINT, 1)
-					&& hits.size() > 0) {
-				changeSelectionState(hits.get(0));
-			}
-			draw = getNumberOf(Test.GEOPOINT) >= 1 && getTotalNumber() >= 2;
-			break;
-
-		// commands that need one vector and any other object
-		case TranslateObjectByVector:
-			if (!changeSelectionState(hits, Test.GEOVECTOR, 1)
-					&& hits.size() > 0) {
-				changeSelectionState(hits.get(0));
-			}
-			draw = getNumberOf(Test.GEOVECTOR) >= 1 && getTotalNumber() >= 2;
-			break;
-
-		// commands that need one point or line and one circle or conic
-		case Tangents:
-			if (!selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE },
-					1)) {
-				selectOutOf(hits,
-						new Test[] { Test.GEOCONIC, Test.GEOFUNCTION }, 1);
-			}
-			draw = getNumberOf(Test.GEOPOINT) + getNumberOf(Test.GEOLINE) >= 1
-					&& getNumberOf(Test.GEOCONIC)
-							+ getNumberOf(Test.GEOFUNCTION) >= 1;
-			break;
-
-		// commands that need one point and one vector
-		case VectorFromPoint:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR },
-					new int[] { 1, 1 });
-			draw = getNumberOf(Test.GEOPOINT) >= 1
-					&& getNumberOf(Test.GEOVECTOR) >= 1;
-			break;
-
-		// commands that need two points or one segment
-		case MidpointOrCenter:
-			if (!changeSelectionState(hits, Test.GEOPOINT, 1)
-					&& !changeSelectionState(hits, Test.GEOCONIC, 1)) {
-				changeSelectionState(hits, Test.GEOSEGMENT, 1);
-			}
-			draw = getNumberOf(Test.GEOSEGMENT) >= 1
-					|| getNumberOf(Test.GEOCONIC) >= 1
-					|| getNumberOf(Test.GEOPOINT) >= 2;
-			break;
-		case PerpendicularBisector:
-			if (!changeSelectionState(hits, Test.GEOPOINT, 1)) {
-				changeSelectionState(hits, Test.GEOSEGMENT, 1);
-			}
-			draw = getNumberOf(Test.GEOSEGMENT) >= 1
-					|| getNumberOf(Test.GEOPOINT) >= 2;
-			break;
-
-		// commands that need any two objects
-		case IntersectTwoObjects:
-			// polygon needs to be the last element of the array
-			final Test[] classes = new Test[] { Test.GEOLINE,
-					Test.GEOCURVECARTESIAN, Test.GEOPOLYLINE, Test.GEOCONIC,
-					Test.GEOFUNCTION, Test.GEOIMPLICITPOLY, Test.GEOPOLYGON };
-
-			final boolean success = selectOutOf(hits, classes, 2);
-
-			if (success && hits.size() >= 2) { // try to select another element
-				// to prevent problems when
-				// selecting the sides of the
-				// polygon
-				hits.removePolygons();
-				hits.remove(this.selectedElements.get(this.selectedElements
-						.size() - 1));
-				if (selectOutOf(hits, classes, 2)) {
-					singlePointForIntersection = true;
-				}
-			}
-
-			draw = getTotalNumber() >= 2;
-
-			break;
-
-		// commands that need tree points
-		case CircleThroughThreePoints:
-		case CircularArcWithCenterBetweenTwoPoints:
-		case CircularSectorWithCenterBetweenTwoPoints:
-		case CircumCirculuarArcThroughThreePoints:
-		case CircumCircularSectorThroughThreePoints:
-		case Ellipse:
-		case Hyperbola:
-			changeSelectionState(hits, Test.GEOPOINT, 1);
-			draw = getNumberOf(Test.GEOPOINT) >= 3;
-			break;
-
-		// commands that need one point and two additional points or one circle
-		// or
-		// one segment
-		case Compasses:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOSEGMENT,
-					Test.GEOCONIC }, new int[] { 3, 1, 1 });
-			if (lastSelected() instanceof GeoConic
-					&& !((GeoConic) lastSelected()).isCircle()) {
-				deselect(lastSelected());
-			}
-			draw = getNumberOf(Test.GEOPOINT) >= 3
-					|| getNumberOf(Test.GEOPOINT) >= 1
-					&& (getNumberOf(Test.GEOCONIC) >= 1 || getNumberOf(Test.GEOSEGMENT) >= 1);
-			break;
-
-		// commands that need three points or two lines
-		case Angle:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
-					Test.GEOPOLYGON }, new int[] { 3, 2, 1 });
-			draw = getNumberOf(Test.GEOPOINT) >= 3
-					|| getNumberOf(Test.GEOLINE) >= 2
-					|| getNumberOf(Test.GEOPOLYGON) >= 1;
-			break;
-		case Slope:
-			this.select(hits, Test.GEOLINE, 1);
-			draw = getNumberOf(Test.GEOLINE) > 0;
-			break;
-		case Area:
-			this.selectOutOf(hits, new Test[] {Test.GEOCONICND, Test.GEOPOLYGON}, 1);
-			draw = getNumberOf(Test.GEOCONICND) + getNumberOf(Test.GEOPOLYGON) > 0;
-			break;
-		case AngleBisector:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE },
-					new int[] { 3, 2 });
-			draw = getNumberOf(Test.GEOPOINT) >= 3
-					|| getNumberOf(Test.GEOLINE) >= 2;
-			break;
-
-		// commands that need five points
-		case ConicThroughFivePoints:
-			changeSelectionState(hits, Test.GEOPOINT, 1);
-			draw = getNumberOf(Test.GEOPOINT) >= 5;
-			break;
-
-		// commands that need two points and special input
-		case RegularPolygon:
-			changeSelectionState(hits, Test.GEOPOINT, 1);
-			draw = getNumberOf(Test.GEOPOINT) >= 2;
-			break;
-
-		// commands that need an unknown number of points
-		case PolylineBetweenPoints:
-		case Polygon:
-		case RigidPolygon:
-		case VectorPolygon:
-			// checking for draw prevents unintended deselecting of the
-			// start-point
-			draw = finishedPolygon(hits);
-			if (!draw) {
-				changeSelectionState(hits, Test.GEOPOINT, 1);
-			}
-			createPreviewObject(!draw);
-			break;
-
-		// special commands
-		case Move_Mobile:
-			for (final GeoElement geo : hits) {
-				select(geo);
-			}
-			this.changeColorAllowed = true;
-			break;
-
-		case Select:
-			if (hits.size() == 0) {
+		GeoButton button = (GeoButton) hits.getFirstHit(Test.GEOBUTTON);
+		Script script = hits.size() == 0 ? null : hits.getFirstHit(Test.GEOELEMENT).getScript(EventType.CLICK);
+		if (this.command == ToolBarCommand.Move_Mobile && (button != null || script != null)) {
+			try {
 				resetSelection();
-			}
-
-			for (final GeoElement geo : hits) {
-				if (geo.isSelected()) {
-					if (!hits.containsGeoPoint()) {
-						deselect(geo);
-					} else if (geo instanceof GeoPoint) {
-						deselect(geo);
-					}
-				} else {
-					changeSelectionState(geo);
+				if (script == null) {
+					script = button == null ? null : button.getScript(EventType.CLICK);
 				}
+				if (script != null) {
+					script.run(new Event(EventType.CLICK, button));
+				}
+			} catch (ScriptError e) {
+				e.printStackTrace(); // TODO: invalid script
 			}
-			this.changeColorAllowed = true;
-			break;
-		case DeleteObject:
-			for (final GeoElement geo : hits) {
-				// geo.remove();
-				geo.removeOrSetUndefinedIfHasFixedDescendent();
-			}
-			this.commandFinished = true;
-			break;
+		} else {
+			switch (this.command) {
+			// commands that only draw one point
+			case NewPoint:
+			case ComplexNumbers:
+			case PointOnObject:
+				resetSelection();
+				changeSelectionState(hits, Test.GEOPOINT, 1);
+				this.changeColorAllowed = true;
 
-		default:
-			break;
+				this.commandFinished = true;
+
+				break;
+
+			// special command: slider
+			case Slider:
+				// FIXME
+				resetSelection();
+				selectOutOf(hits, new Test[] { Test.GEONUMERIC }, 1);
+
+				if (this.selectedElements.size() == 0) {
+					this.getSliderDialog().show();
+				}
+				break;
+
+			// special command: button
+			case InsertButton:
+				// FIXME
+				resetSelection();
+				selectOutOf(hits, new Test[] { Test.GEOBUTTON }, 1);
+
+				this.getButtonDialog().show();
+				if (this.selectedElements.size() != 0) {
+					GeoButton geoButton = (GeoButton) hits.getFirstHit(Test.GEOBUTTON);
+					this.getButtonDialog().setInputText(geoButton.getCaptionSimple());
+					Script oldScript = this.selectedElements.get(0).getScript(EventType.CLICK);
+					String scriptStr = oldScript == null ? "" : oldScript.getText();
+					this.getButtonDialog().setScript(scriptStr);
+					this.redefineButton = geoButton;
+				}
+				this.getButtonDialog().setRedefine(this.selectedElements.size() > 0);
+				break;
+
+			// special command: attach/detach: needs a point (detach) or a point
+			// and
+			// a region/path (attach)
+			case AttachDetachPoint:
+				attachDetach(hits, point);
+				break;
+
+			// special command: rotate around point: needs one point as center
+			// of
+			// the roation and an other element to rotate
+			case RotateAroundPoint:
+				// deselect all elements except for the center point (index 0)
+				// needed if there is another rotation
+				while (this.selectedElements.size() > 1) {
+					deselect(this.selectedElements.get(1));
+				}
+
+				if (this.getTotalNumber() > 0 && hits.contains(this.selectedElements.get(0))) {
+					deselect(this.selectedElements.get(0));
+				} else if (this.getNumberOf(Test.GEOPOINT) > 0) {
+					// one Point is already selected!
+					selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC, Test.GEOLINE, Test.GEOSEGMENTND, Test.GEORAY, Test.GEOVECTOR,
+							Test.GEOPOLYGON, Test.GEOPOLYLINE }, 2);
+				} else {
+					select(hits, Test.GEOPOINT, 1);
+				}
+
+				// it should not be allowed to rotate the axes
+				if (this.selectedElements.size() >= 2 && this.selectedElements.get(1) instanceof GeoAxis) {
+					deselect(this.selectedElements.get(1));
+				}
+
+				break;
+
+			// commands that need two points
+			case LineThroughTwoPoints:
+			case SegmentBetweenTwoPoints:
+			case RayThroughTwoPoints:
+			case VectorBetweenTwoPoints:
+			case CircleWithCenterThroughPoint:
+			case Semicircle:
+			case Locus:
+			case AngleFixed:
+				changeSelectionState(hits, Test.GEOPOINT, 1);
+				draw = getNumberOf(Test.GEOPOINT) >= 2;
+				break;
+			// tools that need one point
+			case SegmentFixed:
+			case CirclePointRadius:
+				select(hits, Test.GEOPOINT, 1);
+				draw = getNumberOf(Test.GEOPOINT) >= 1;
+				break;
+
+			// commands that need one point and one line
+			case PerpendicularLine:
+			case ParallelLine:
+			case Parabola:
+				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, new int[] { 1, 1 });
+				draw = getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOLINE) >= 1;
+				break;
+
+			// commands that need two points or one point and one line or two
+			// lines
+			// or one segment or a circle
+			case DistanceOrLength:
+				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOSEGMENT, Test.GEOCONIC }, new int[] { 2, 2, 1, 1 });
+				draw = getNumberOf(Test.GEOPOINT) >= 2 || getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOLINE) >= 1
+						|| getNumberOf(Test.GEOLINE) >= 2 || getNumberOf(Test.GEOSEGMENT) >= 1 || getNumberOf(Test.GEOCONIC) >= 1;
+				break;
+
+			// commands that need one line and any other object
+			case ReflectObjectAboutLine:
+				if (!changeSelectionState(hits, Test.GEOLINE, 1) && getTotalNumber() > 0) {
+					changeSelectionState(hits.get(0));
+				}
+				draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
+				break;
+
+			// commands that need one circle and any other object
+			case ReflectObjectAboutCircle:
+				if (!select(hits, Test.GEOCONIC, 2)) {
+					selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOSEGMENTND, Test.GEORAY, Test.GEOPOLYGON, Test.GEOPOLYLINE,
+							Test.GEOCURVECARTESIAN, Test.GEOIMPLICITPOLY }, 1);
+				}
+				draw = getNumberOf(Test.GEOCONIC) >= 1 && getTotalNumber() >= 2;
+				break;
+
+			// commands that need one point and any other object
+			case ReflectObjectAboutPoint:
+			case Dilate:
+			case RotateObjectByAngle:
+				if (!changeSelectionState(hits, Test.GEOPOINT, 1) && hits.size() > 0) {
+					changeSelectionState(hits.get(0));
+				}
+				draw = getNumberOf(Test.GEOPOINT) >= 1 && getTotalNumber() >= 2;
+				break;
+
+			// commands that need one vector and any other object
+			case TranslateObjectByVector:
+				if (!changeSelectionState(hits, Test.GEOVECTOR, 1) && hits.size() > 0) {
+					changeSelectionState(hits.get(0));
+				}
+				draw = getNumberOf(Test.GEOVECTOR) >= 1 && getTotalNumber() >= 2;
+				break;
+
+			// commands that need one point or line and one circle or conic
+			case Tangents:
+				if (!selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, 1)) {
+					selectOutOf(hits, new Test[] { Test.GEOCONIC, Test.GEOFUNCTION }, 1);
+				}
+				draw = getNumberOf(Test.GEOPOINT) + getNumberOf(Test.GEOLINE) >= 1 && getNumberOf(Test.GEOCONIC) + getNumberOf(Test.GEOFUNCTION) >= 1;
+				break;
+
+			// commands that need one point and one vector
+			case VectorFromPoint:
+				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR }, new int[] { 1, 1 });
+				draw = getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOVECTOR) >= 1;
+				break;
+
+			// commands that need two points or one segment
+			case MidpointOrCenter:
+				if (!changeSelectionState(hits, Test.GEOPOINT, 1) && !changeSelectionState(hits, Test.GEOCONIC, 1)) {
+					changeSelectionState(hits, Test.GEOSEGMENT, 1);
+				}
+				draw = getNumberOf(Test.GEOSEGMENT) >= 1 || getNumberOf(Test.GEOCONIC) >= 1 || getNumberOf(Test.GEOPOINT) >= 2;
+				break;
+			case PerpendicularBisector:
+				if (!changeSelectionState(hits, Test.GEOPOINT, 1)) {
+					changeSelectionState(hits, Test.GEOSEGMENT, 1);
+				}
+				draw = getNumberOf(Test.GEOSEGMENT) >= 1 || getNumberOf(Test.GEOPOINT) >= 2;
+				break;
+
+			// commands that need any two objects
+			case IntersectTwoObjects:
+				// polygon needs to be the last element of the array
+				final Test[] classes = new Test[] { Test.GEOLINE, Test.GEOCURVECARTESIAN, Test.GEOPOLYLINE, Test.GEOCONIC, Test.GEOFUNCTION,
+						Test.GEOIMPLICITPOLY, Test.GEOPOLYGON };
+
+				final boolean success = selectOutOf(hits, classes, 2);
+
+				if (success && hits.size() >= 2) { // try to select another
+													// element
+					// to prevent problems when
+					// selecting the sides of the
+					// polygon
+					hits.removePolygons();
+					hits.remove(this.selectedElements.get(this.selectedElements.size() - 1));
+					if (selectOutOf(hits, classes, 2)) {
+						singlePointForIntersection = true;
+					}
+				}
+
+				draw = getTotalNumber() >= 2;
+
+				break;
+
+			// commands that need tree points
+			case CircleThroughThreePoints:
+			case CircularArcWithCenterBetweenTwoPoints:
+			case CircularSectorWithCenterBetweenTwoPoints:
+			case CircumCirculuarArcThroughThreePoints:
+			case CircumCircularSectorThroughThreePoints:
+			case Ellipse:
+			case Hyperbola:
+				changeSelectionState(hits, Test.GEOPOINT, 1);
+				draw = getNumberOf(Test.GEOPOINT) >= 3;
+				break;
+
+			// commands that need one point and two additional points or one
+			// circle
+			// or
+			// one segment
+			case Compasses:
+				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOSEGMENT, Test.GEOCONIC }, new int[] { 3, 1, 1 });
+				if (lastSelected() instanceof GeoConic && !((GeoConic) lastSelected()).isCircle()) {
+					deselect(lastSelected());
+				}
+				draw = getNumberOf(Test.GEOPOINT) >= 3 || getNumberOf(Test.GEOPOINT) >= 1
+						&& (getNumberOf(Test.GEOCONIC) >= 1 || getNumberOf(Test.GEOSEGMENT) >= 1);
+				break;
+
+			// commands that need three points or two lines
+			case Angle:
+				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOPOLYGON }, new int[] { 3, 2, 1 });
+				draw = getNumberOf(Test.GEOPOINT) >= 3 || getNumberOf(Test.GEOLINE) >= 2 || getNumberOf(Test.GEOPOLYGON) >= 1;
+				break;
+			case Slope:
+				this.select(hits, Test.GEOLINE, 1);
+				draw = getNumberOf(Test.GEOLINE) > 0;
+				break;
+			case Area:
+				this.selectOutOf(hits, new Test[] { Test.GEOCONICND, Test.GEOPOLYGON }, 1);
+				draw = getNumberOf(Test.GEOCONICND) + getNumberOf(Test.GEOPOLYGON) > 0;
+				break;
+			case AngleBisector:
+				selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, new int[] { 3, 2 });
+				draw = getNumberOf(Test.GEOPOINT) >= 3 || getNumberOf(Test.GEOLINE) >= 2;
+				break;
+
+			// commands that need five points
+			case ConicThroughFivePoints:
+				changeSelectionState(hits, Test.GEOPOINT, 1);
+				draw = getNumberOf(Test.GEOPOINT) >= 5;
+				break;
+
+			// commands that need two points and special input
+			case RegularPolygon:
+				changeSelectionState(hits, Test.GEOPOINT, 1);
+				draw = getNumberOf(Test.GEOPOINT) >= 2;
+				break;
+
+			// commands that need an unknown number of points
+			case PolylineBetweenPoints:
+			case Polygon:
+			case RigidPolygon:
+			case VectorPolygon:
+				// checking for draw prevents unintended deselecting of the
+				// start-point
+				draw = finishedPolygon(hits);
+				if (!draw) {
+					changeSelectionState(hits, Test.GEOPOINT, 1);
+				}
+				createPreviewObject(!draw);
+				break;
+
+			// special commands
+			case Move_Mobile:
+				for (final GeoElement geo : hits) {
+					select(geo);
+				}
+				this.changeColorAllowed = true;
+				break;
+
+			case Select:
+				if (hits.size() == 0) {
+					resetSelection();
+				}
+
+				for (final GeoElement geo : hits) {
+					if (geo.isSelected()) {
+						if (!hits.containsGeoPoint()) {
+							deselect(geo);
+						} else if (geo instanceof GeoPoint) {
+							deselect(geo);
+						}
+					} else {
+						changeSelectionState(geo);
+					}
+				}
+				this.changeColorAllowed = true;
+				break;
+			case DeleteObject:
+				for (final GeoElement geo : hits) {
+					// geo.remove();
+					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
+				this.commandFinished = true;
+				break;
+
+			default:
+				break;
+			}
 		}
 
 		// draw anything other than a point
@@ -1251,8 +1173,7 @@ public class TouchModel {
 			this.app.storeUndoInfo();
 		}
 
-		if (this.commandFinished || this.command == ToolBarCommand.Select
-				|| this.command == ToolBarCommand.Move_Mobile) {
+		if (this.commandFinished || this.command == ToolBarCommand.Select || this.command == ToolBarCommand.Move_Mobile) {
 			this.guiModel.updateStyleBar();
 		}
 	}
@@ -1261,6 +1182,9 @@ public class TouchModel {
 
 		if (type == DialogType.Slider || type == DialogType.RedefineSlider) {
 			return handleSliderDialog(input);
+		}
+		if (type == DialogType.Button) {
+			return handleButtonDialog(input);
 		}
 		return handleInputDialog(input);
 	}
@@ -1288,27 +1212,21 @@ public class TouchModel {
 
 			final boolean redefine = !this.redefineGeo.isPointOnPath();
 
-			final GeoElement redefined = TouchModel.this.kernel
-					.getAlgebraProcessor().changeGeoElement(this.redefineGeo,
-							input, redefine, true);
+			final GeoElement redefined = TouchModel.this.kernel.getAlgebraProcessor().changeGeoElement(this.redefineGeo, input, redefine, true);
 			return redefined != null;
 		}
 
 		// avoid labeling of num
-		final boolean oldVal = this.kernel.getConstruction()
-				.isSuppressLabelsActive();
+		final boolean oldVal = this.kernel.getConstruction().isSuppressLabelsActive();
 		this.kernel.getConstruction().setSuppressLabelCreation(true);
-		final String signedInput = this.getInputDialog().isClockwise() ? "-("
-				+ input + ")" : input;
+		final String signedInput = this.getInputDialog().isClockwise() ? "-(" + input + ")" : input;
 
 		final ArrayList<GeoElementND> newGeoElements = new ArrayList<GeoElementND>();
 
-		final GeoElement[] result = this.kernel.getAlgebraProcessor()
-				.processAlgebraCommand(signedInput, false);
+		final GeoElement[] result = this.kernel.getAlgebraProcessor().processAlgebraCommand(signedInput, false);
 		this.kernel.getConstruction().setSuppressLabelCreation(oldVal);
 
-		if (result == null || result.length == 0
-				|| !(result[0] instanceof NumberValue)) {
+		if (result == null || result.length == 0 || !(result[0] instanceof NumberValue)) {
 			// invalid input; nothing to do anymore.
 			return false;
 		}
@@ -1316,28 +1234,22 @@ public class TouchModel {
 		switch (this.command) {
 		case RegularPolygon:
 			addAll(newGeoElements,
-					this.kernel.getAlgoDispatcher().RegularPolygon(null,
-							(GeoPoint) this.getElement(Test.GEOPOINT),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-							(NumberValue) result[0]));
+					this.kernel.getAlgoDispatcher().RegularPolygon(null, (GeoPoint) this.getElement(Test.GEOPOINT),
+							(GeoPoint) this.getElement(Test.GEOPOINT, 1), (NumberValue) result[0]));
 			break;
 
 		case Dilate:
 			final GeoPoint start = (GeoPoint) this.getElement(Test.GEOPOINT);
 			this.deselect(start);
 			for (final GeoElement source : this.selectedElements) {
-				addAll(newGeoElements,
-						this.kernel.getAlgoDispatcher().Dilate(null, source,
-								(NumberValue) result[0], start));
+				addAll(newGeoElements, this.kernel.getAlgoDispatcher().Dilate(null, source, (NumberValue) result[0], start));
 			}
 			break;
 		case CirclePointRadius:
 			GeoPoint circleCenter = (GeoPoint) this.getElement(Test.GEOPOINT);
-			if(circleCenter!=null){
+			if (circleCenter != null) {
 				this.deselect(circleCenter);
-				newGeoElements.add(
-						this.kernel.getAlgoDispatcher().Circle(null, circleCenter,
-								(NumberValue) result[0]));
+				newGeoElements.add(this.kernel.getAlgoDispatcher().Circle(null, circleCenter, (NumberValue) result[0]));
 			}
 			break;
 		case AngleFixed:
@@ -1345,10 +1257,9 @@ public class TouchModel {
 			GeoPoint vertex = (GeoPoint) this.getElement(Test.GEOPOINT, 1);
 			this.deselect(leg);
 			this.deselect(vertex);
-			newGeoElements.add(
-						this.kernel.getAlgoDispatcher().Angle(null, leg, vertex, (GeoNumberValue) result[0], 
-								!getInputDialog().isClockwise())[0]);
-			
+			newGeoElements
+					.add(this.kernel.getAlgoDispatcher().Angle(null, leg, vertex, (GeoNumberValue) result[0], !getInputDialog().isClockwise())[0]);
+
 			break;
 		case SegmentFixed:
 			circleCenter = (GeoPoint) this.getElement(Test.GEOPOINT);
@@ -1358,13 +1269,11 @@ public class TouchModel {
 			newGeoElements.add(this.kernel.getAlgoDispatcher().Segment(null, circleCenter, algo.getNumber())[0]);
 			break;
 		case RotateObjectByAngle:
-			final GeoPoint center = this.lastSelected() instanceof GeoPoint ? (GeoPoint) this
-					.lastSelected() : (GeoPoint) this.getElement(Test.GEOPOINT);
+			final GeoPoint center = this.lastSelected() instanceof GeoPoint ? (GeoPoint) this.lastSelected() : (GeoPoint) this
+					.getElement(Test.GEOPOINT);
 			this.deselect(center);
 			for (final GeoElement source : this.selectedElements) {
-				addAll(newGeoElements,
-						this.kernel.getAlgoDispatcher().Rotate(null, source,
-								(GeoNumberValue) result[0], center));
+				addAll(newGeoElements, this.kernel.getAlgoDispatcher().Rotate(null, source, (GeoNumberValue) result[0], center));
 			}
 			break;
 
@@ -1396,8 +1305,7 @@ public class TouchModel {
 
 		try {
 			// turns f.e. "a=2" into "a"
-			strLabel = this.app.getKernel().getAlgebraProcessor()
-					.parseLabel(input);
+			strLabel = this.app.getKernel().getAlgebraProcessor().parseLabel(input);
 		} catch (Exception e) {
 		}
 
@@ -1405,15 +1313,12 @@ public class TouchModel {
 		double val = 0;
 
 		// handle names like "a=2"
-		if (strLabel != null && input.indexOf('=') > -1
-				&& input.indexOf('=') == input.lastIndexOf('=')
-				&& input.indexOf('=') < input.length() - 1) {
+		if (strLabel != null && input.indexOf('=') > -1 && input.indexOf('=') == input.lastIndexOf('=') && input.indexOf('=') < input.length() - 1) {
 
 			try {
 				String value = input.substring(input.indexOf('=') + 1);
 
-				NumberValue numeric = this.kernel.getAlgebraProcessor()
-						.evaluateToNumeric(value, false);
+				NumberValue numeric = this.kernel.getAlgebraProcessor().evaluateToNumeric(value, false);
 
 				val = ((GeoNumeric) numeric).getValue();
 
@@ -1438,23 +1343,19 @@ public class TouchModel {
 		}
 
 		if (this.command == ToolBarCommand.Slider) {
-			this.kernel.getConstruction().setSuppressLabelCreation(
-					this.kernel.getConstruction().isSuppressLabelsActive());
+			this.kernel.getConstruction().setSuppressLabelCreation(this.kernel.getConstruction().isSuppressLabelsActive());
 
-			final GeoNumeric slider = this.getSliderDialog().isNumber() ? new GeoNumeric(
-					this.kernel.getConstruction()) : new GeoAngle(
+			final GeoNumeric slider = this.getSliderDialog().isNumber() ? new GeoNumeric(this.kernel.getConstruction()) : new GeoAngle(
 					this.kernel.getConstruction());
-			if(slider instanceof GeoAngle){
-				((GeoAngle)slider).setAngleStyle(AngleStyle.UNBOUNDED);
+			if (slider instanceof GeoAngle) {
+				((GeoAngle) slider).setAngleStyle(AngleStyle.UNBOUNDED);
 			}
 			// the slider will be removed in case of an Exception while parsing
 			// the texts from the textfields (min, max, increment)
 			this.actualSlider = slider;
 
-			slider.setLabel(strLabel == null || strLabel.equals("") ? null
-					: strLabel);
-			slider.setSliderLocation(this.eventCoordinates.x,
-					this.eventCoordinates.y, true);
+			slider.setLabel(strLabel == null || strLabel.equals("") ? null : strLabel);
+			slider.setSliderLocation(this.eventCoordinates.x, this.eventCoordinates.y, true);
 			setSliderProperties(slider);
 			slider.setSliderFixed(true);
 			slider.setEuclidianVisible(true);
@@ -1471,6 +1372,45 @@ public class TouchModel {
 		}
 
 		updateAfterInputDialog();
+		return true;
+	}
+
+	/**
+	 * @see Desktop: geogebra.gui.dialog.ButtonDialog#actionPerformed
+	 */
+	private boolean handleButtonDialog(String input) { // TODO
+
+		GeoButton button;
+		if (getButtonDialog().isRedefine()) {
+			button = this.redefineButton;
+		} else {
+			Construction cons = this.app.getKernel().getConstruction();
+			button = GeoButton.getNewButton(cons);
+			button.setEuclidianVisible(true);
+			button.setAbsoluteScreenLoc(this.eventCoordinates.x, this.eventCoordinates.y);
+			button.setLabel(null);
+		}
+
+		Script script = this.app.createScript(ScriptType.GGBSCRIPT, getButtonDialog().getScript(), true);
+		button.setClickScript(script);
+
+		// set caption text
+		String strCaption = input;
+		if (strCaption.length() > 0) {
+			button.setCaption(strCaption);
+		}
+
+		button.setEuclidianVisible(true);
+		button.setLabelVisible(true);
+		button.updateRepaint();
+
+		//
+		// geoResult = button;
+		// setVisible(false);
+
+		// getButtonDialog().setVisible(false);
+		this.app.storeUndoInfo();
+
 		return true;
 	}
 
@@ -1495,8 +1435,7 @@ public class TouchModel {
 	private String calcSliderName(final String name) {
 		String str;
 		try {
-			str = name.equals("") ? null : this.kernel.getAlgebraProcessor()
-					.parseLabel(name);
+			str = name.equals("") ? null : this.kernel.getAlgebraProcessor().parseLabel(name);
 		} catch (final Exception e) {
 			str = null;
 		}
@@ -1504,14 +1443,10 @@ public class TouchModel {
 	}
 
 	private void setSliderProperties(final GeoNumeric slider) {
-		slider.setIntervalMin(this.kernel.getAlgebraProcessor()
-				.evaluateToNumeric(this.getSliderDialog().getMin(), false));
-		slider.setIntervalMax(this.kernel.getAlgebraProcessor()
-				.evaluateToNumeric(this.getSliderDialog().getMax(), false));
-		slider.setAnimationStep(this.kernel.getAlgebraProcessor()
-				.evaluateToNumeric(this.getSliderDialog().getIncrement(), false));
-		slider.setLineThickness(this.kernel.getAlgoDispatcher()
-				.getDefaultNumber(false).getLineThickness());
+		slider.setIntervalMin(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.getSliderDialog().getMin(), false));
+		slider.setIntervalMax(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.getSliderDialog().getMax(), false));
+		slider.setAnimationStep(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.getSliderDialog().getIncrement(), false));
+		slider.setLineThickness(this.kernel.getAlgoDispatcher().getDefaultNumber(false).getLineThickness());
 	}
 
 	public boolean isColorChangeAllowed() {
@@ -1524,8 +1459,7 @@ public class TouchModel {
 	 *         selected element
 	 */
 	public GeoElement lastSelected() {
-		return this.selectedElements.size() > 0 ? this.selectedElements
-				.get(this.selectedElements.size() - 1) : null;
+		return this.selectedElements.size() > 0 ? this.selectedElements.get(this.selectedElements.size() - 1) : null;
 	}
 
 	/**
@@ -1541,8 +1475,7 @@ public class TouchModel {
 			if (input == null || input.length() == 0) {
 				return true;
 			}
-			this.app.getEuclidianView1().getEuclidianController()
-					.startCollectingMinorRepaints();
+			this.app.getEuclidianView1().getEuclidianController().startCollectingMinorRepaints();
 			// this.app.setScrollToShow(true);
 			GeoElement[] geos;
 			try {
@@ -1553,9 +1486,13 @@ public class TouchModel {
 					((TouchApp) this.app).setLanguage(cmd);
 					geos = new GeoElement[0];
 				} else {
-					geos = this.kernel.getAlgebraProcessor()
-							.processAlgebraCommandNoExceptionHandling(input,
-									true, false, true, true);
+					geos = this.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(input, true, false, true, true);
+
+					// TODO different from the web-project
+					if (geos.length == 1 && geos[0] instanceof GeoButton) {
+						((GeoButton) geos[0]).setLabelOffset(0, EuclidianViewT.SLIDER_OFFSET_T);
+						((GeoButton) geos[0]).update();
+					}
 
 					// need label if we type just eg
 					// lnx
@@ -1584,14 +1521,11 @@ public class TouchModel {
 
 					final Construction cons = text.getConstruction();
 
-					final EuclidianViewInterfaceCommon ev = this.app
-							.getActiveEuclidianView();
+					final EuclidianViewInterfaceCommon ev = this.app.getActiveEuclidianView();
 
-					final boolean oldSuppressLabelsStatus = cons
-							.isSuppressLabelsActive();
+					final boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 					cons.setSuppressLabelCreation(true);
-					final GeoPoint p = new GeoPoint(text.getConstruction(),
-							null, (ev.getXmin() + ev.getXmax()) / 2,
+					final GeoPoint p = new GeoPoint(text.getConstruction(), null, (ev.getXmin() + ev.getXmax()) / 2,
 							(ev.getYmin() + ev.getYmax()) / 2, 1.0);
 					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 
@@ -1615,22 +1549,19 @@ public class TouchModel {
 	}
 
 	private void stopCollecting() {
-		this.app.getEuclidianView1().getEuclidianController()
-				.stopCollectingMinorRepaints();
+		this.app.getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	public void redefine(final GeoElement geo) {
 
-		if (geo.isGeoNumeric() && geo.isEuclidianVisible()
-				&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
+		if (geo.isGeoNumeric() && geo.isEuclidianVisible() && ((GeoNumeric) geo).getIntervalMaxObject() != null) {
 			this.getSliderDialog().setType(DialogType.RedefineSlider);
 			this.redefineSlider = (GeoNumeric) geo;
 			this.redefineGeo = null;
 			this.getSliderDialog().redefineSlider(this.redefineSlider);
 			this.getSliderDialog().show();
 		} else {
-			this.getInputDialog().redefine(DialogType.Redefine,
-					geo.getDefinitionForInputBar());
+			this.getInputDialog().redefine(DialogType.Redefine, geo.getDefinitionForInputBar());
 			this.redefineGeo = geo;
 			this.redefineSlider = null;
 			this.getInputDialog().show();
@@ -1698,8 +1629,7 @@ public class TouchModel {
 	 * @return success (false if there is no element of any of the given
 	 *         classes)
 	 */
-	private boolean selectOutOf(final Hits hits, final Test[] geoclass,
-			final int max) {
+	private boolean selectOutOf(final Hits hits, final Test[] geoclass, final int max) {
 		boolean selectAllowed = true;
 		int sum = 0;
 		for (final Test t : geoclass) {
@@ -1739,8 +1669,7 @@ public class TouchModel {
 	 * @return success (false if there is no element of any of the given
 	 *         classes)
 	 */
-	private boolean selectOutOf(final Hits hits, final Test[] geoclass,
-			final int[] max) {
+	private boolean selectOutOf(final Hits hits, final Test[] geoclass, final int[] max) {
 		if (geoclass.length != max.length) {
 			return false;
 		}
@@ -1823,7 +1752,7 @@ public class TouchModel {
 	public int getPointStyle() {
 		for (GeoElement geo : this.selectedElements) {
 			if (geo.getGeoElementForPropertiesDialog() instanceof PointProperties) {
-				return ((PointProperties)geo).getPointStyle();
+				return ((PointProperties) geo).getPointStyle();
 			}
 		}
 		return -1;

@@ -39,6 +39,8 @@ public class EuclidianViewT extends EuclidianViewWeb {
 
 	private Canvas canvas;
 	private EuclidianViewPanel panel;
+	
+	public static final int SLIDER_OFFSET_T = 110;
 
 	EuclidianViewT(final EuclidianViewPanel euclidianViewPanel,
 			final TouchController ec, final Widget widget, final int width,
@@ -94,7 +96,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 
 	@Override
 	public int getSliderOffsetY() {
-		return 110;
+		return EuclidianViewT.SLIDER_OFFSET_T;
 	}
 
 	@Override

@@ -13,19 +13,19 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class InputField extends VerticalPanel {
+public class InputArea extends VerticalPanel {
 
-	private final TextBox textBox;
+	private final TextArea textArea;
 	private Panel underline;
 	private Label nameLabel;
 
 	/**
 	 * equal to AndroidTextBox(null)
 	 */
-	public InputField() {
+	public InputArea() {
 		this(null, true);
 	}
 
@@ -35,18 +35,18 @@ public class InputField extends VerticalPanel {
 	 * @param caption
 	 *            caption of the TextField (will NOT(!) be translated)
 	 */
-	public InputField(final String caption, final boolean useUnderline) {
+	public InputArea(final String caption, final boolean useUnderline) {
 		if (caption != null) {
 			this.nameLabel = new Label(caption);
 			this.add(this.nameLabel);
 		}
 
-		this.textBox = new TextBox();
-		this.textBox.addStyleName("textBox");
-		this.textBox.getElement().setAttribute("autocorrect", "off");
-		this.textBox.getElement().setAttribute("autocapitalize", "off");
-		this.textBox.addStyleName("inactive");
-		this.add(this.textBox);
+		this.textArea = new TextArea();
+		this.textArea.addStyleName("textBox");
+		this.textArea.getElement().setAttribute("autocorrect", "off");
+		this.textArea.getElement().setAttribute("autocapitalize", "off");
+		this.textArea.addStyleName("inactive");
+		this.add(this.textArea);
 
 		if (useUnderline) {
 			this.underline = new LayoutPanel();
@@ -56,7 +56,7 @@ public class InputField extends VerticalPanel {
 		}
 		this.setStyleName("inputField");
 
-		this.textBox.addFocusHandler(new FocusHandler() {
+		this.textArea.addFocusHandler(new FocusHandler() {
 			@Override
 			public void onFocus(final FocusEvent event) {
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -69,7 +69,7 @@ public class InputField extends VerticalPanel {
 			}
 		});
 
-		this.textBox.addBlurHandler(new BlurHandler() {
+		this.textArea.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(final BlurEvent event) {
 				onBlurTextBox();
@@ -86,27 +86,27 @@ public class InputField extends VerticalPanel {
 	}
 
 	protected void onFocusTextBox() {
-		this.textBox.setFocus(true);
+		this.textArea.setFocus(true);
 		if (this.underline != null) {
 			this.underline.removeStyleName("inactive");
 			this.underline.addStyleName("active");
 		}
-		this.textBox.removeStyleName("inactive");
-		this.textBox.addStyleName("active");
+		this.textArea.removeStyleName("inactive");
+		this.textArea.addStyleName("active");
 	}
 
 	protected void onBlurTextBox() {
-		this.textBox.setFocus(false);
+		this.textArea.setFocus(false);
 		if (this.underline != null) {
 			this.underline.removeStyleName("active");
 			this.underline.addStyleName("inactive");
 		}
-		this.textBox.removeStyleName("active");
-		this.textBox.addStyleName("inactive");
+		this.textArea.removeStyleName("active");
+		this.textArea.addStyleName("inactive");
 	}
 
 	protected void onClickTextBox() {
-		this.textBox.setFocus(true);
+		this.textArea.setFocus(true);
 	}
 
 	public void addErrorBox(final HorizontalPanel errorBox) {
@@ -115,34 +115,34 @@ public class InputField extends VerticalPanel {
 		if (this.nameLabel != null) {
 			this.add(this.nameLabel);
 		}
-		this.add(this.textBox);
+		this.add(this.textArea);
 		if (this.underline != null) {
 			this.add(this.underline);
 		}
 	}
 
 	public void addKeyDownHandler(final KeyDownHandler keyDownHandler) {
-		this.textBox.addKeyDownHandler(keyDownHandler);
+		this.textArea.addKeyDownHandler(keyDownHandler);
 	}
 
 	public int getCursorPos() {
-		return this.textBox.getCursorPos();
+		return this.textArea.getCursorPos();
 	}
 
 	public String getText() {
-		return this.textBox.getText().trim();
+		return this.textArea.getText().trim();
 	}
 
 	public void setCursorPos(final int i) {
-		this.textBox.setCursorPos(i);
+		this.textArea.setCursorPos(i);
 	}
 
 	public void setFocus(final boolean b) {
-		this.textBox.setFocus(b);
+		this.textArea.setFocus(b);
 	}
 
 	public void setText(final String string) {
-		this.textBox.setText(string);
+		this.textArea.setText(string);
 	}
 
 	public void setLabelText(final String name) {
