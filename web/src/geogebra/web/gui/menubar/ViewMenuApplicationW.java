@@ -39,7 +39,7 @@ public class ViewMenuApplicationW extends ViewMenuW{
 	protected void initActions() {
 
 		itemAlgebra = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_algebra24()
-		        .getSafeUri().asString(), app.getPlain("AlgebraWindow")),
+		        .getSafeUri().asString(), app.getPlain("AlgebraWindow"), true),
 		        new Command() {
 			        public void execute() {
 			        	int viewId = App.VIEW_ALGEBRA;
@@ -77,7 +77,7 @@ public class ViewMenuApplicationW extends ViewMenuW{
 		addItem(itemAlgebra.getMenuItem());
 		
 		itemSpreadsheet = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_spreadsheet24()
-		        .getSafeUri().asString(), app.getPlain("Spreadsheet")),
+		        .getSafeUri().asString(), app.getPlain("Spreadsheet"), true),
 		        new Command() {
 			        public void execute() {
 			        	int viewId = App.VIEW_SPREADSHEET;
@@ -98,7 +98,7 @@ public class ViewMenuApplicationW extends ViewMenuW{
 		addItem(itemSpreadsheet.getMenuItem());
 		
 		itemCAS = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_cas24()
-		        .getSafeUri().asString(), app.getPlain("CAS")),
+		        .getSafeUri().asString(), app.getPlain("CAS"), true),
 		        new Command() {
 			        public void execute() {
 			        	
@@ -119,7 +119,7 @@ public class ViewMenuApplicationW extends ViewMenuW{
 		addItem(itemCAS.getMenuItem());
 		
 		itemEuclidian = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_graphics24()
-		        .getSafeUri().asString(), app.getPlain("DrawingPad")),
+		        .getSafeUri().asString(), app.getPlain("DrawingPad"), true),
 		        new Command() {
 			        public void execute() {
 
@@ -133,7 +133,7 @@ public class ViewMenuApplicationW extends ViewMenuW{
 		addItem(itemEuclidian.getMenuItem());
 		
 		itemEuclidian2 = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_graphics224()
-		        .getSafeUri().asString(), app.getPlain("DrawingPad2")),
+		        .getSafeUri().asString(), app.getPlain("DrawingPad2"), true),
 		        new Command() {
 			        public void execute() {
 
@@ -155,7 +155,7 @@ public class ViewMenuApplicationW extends ViewMenuW{
 
 		
 		itemConsprot = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_constructionprotocol24()
-		        .getSafeUri().asString(), app.getPlain("ConstructionProtocol")),
+		        .getSafeUri().asString(), app.getPlain("ConstructionProtocol"), true),
 		        new Command() {
 			        public void execute() {
 

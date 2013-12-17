@@ -1546,7 +1546,7 @@ public abstract class AppW extends AppWeb {
 
 		if (subMenu instanceof MenuBar) ((MenuBar)subMenu).addStyleName("GeoGebraMenuBar");
 		
-		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(iconString, name),
+		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(iconString, name, true),
 		        true, (MenuBar) subMenu);
 	}
 

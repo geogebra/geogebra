@@ -29,7 +29,7 @@ public class HelpMenuW extends MenuBar {
 	    
 	    // Help
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.help().getSafeUri().asString(),
-	    		app.getMenu("Help")),true,new Command() {
+	    		app.getMenu("Help"), true),true,new Command() {
 			public void execute() {
 				app.getGuiManager().openHelp(App.WIKI_MANUAL);
 				
@@ -38,7 +38,7 @@ public class HelpMenuW extends MenuBar {
 	    
 	    // Tutorials
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("Tutorials")),true,new Command() {
+	    		app.getMenu("Tutorials"), true),true,new Command() {
 			public void execute() {
 				app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
             }
@@ -46,7 +46,7 @@ public class HelpMenuW extends MenuBar {
 	    
 	    // GeoGebraTube (no translation, deliberate)
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
-	    		"GeoGebraTube"),true,new Command() {
+	    		"GeoGebraTube", true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "?lang="+app.getLocalization().getLanguage(), "_blank","");
             }
@@ -56,7 +56,7 @@ public class HelpMenuW extends MenuBar {
 	    
 	    // Report Bug
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("ReportBug")),true,new Command() {
+	    		app.getMenu("ReportBug"), true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
             }
@@ -65,7 +65,7 @@ public class HelpMenuW extends MenuBar {
 	    addSeparator();
 
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.info().getSafeUri().asString(),
-	    		app.getMenu("AboutLicense")),true,new Command() {
+	    		app.getMenu("AboutLicense"), true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +
 						"&version=" + GeoGebraConstants.VERSION_STRING + 

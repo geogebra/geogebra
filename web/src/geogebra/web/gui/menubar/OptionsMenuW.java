@@ -52,13 +52,13 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	private void addLanguageMenu() {
 		languageMenu = new LanguageMenuW(app);
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .empty().getSafeUri().asString(), app.getMenu("Language")), true, languageMenu);
+		        .empty().getSafeUri().asString(), app.getMenu("Language"), true), true, languageMenu);
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .empty().getSafeUri().asString(), app.getMenu("Settings.ResetDefault")),
+		        .empty().getSafeUri().asString(), app.getMenu("Settings.ResetDefault"), true),
 		        true, new Command() {
 			        public void execute() {
 			        	GeoGebraPreferencesW.getPref().clearPreferences();
@@ -99,7 +99,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	private void addSaveSettingsMenu(){
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-				.document_save().getSafeUri().asString(), app.getMenu("Settings.Save")),
+				.document_save().getSafeUri().asString(), app.getMenu("Settings.Save"), true),
 		        true, new Command() {
 			        public void execute() {
 			        	GeoGebraPreferencesW.getPref().saveXMLPreferences(app);

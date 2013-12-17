@@ -38,7 +38,7 @@ public class FileMenuW extends MenuBar {
 	private void initActions() {
 
 		// this is enabled always
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New")),true,new Command() {
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
 
 			public void execute() {
 				app.setWaitCursor();
@@ -48,10 +48,10 @@ public class FileMenuW extends MenuBar {
 		});
 
 	    openMenu = new OpenMenuW(app);
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open")),true, openMenu);
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
 	   
 		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
 		
 			public void execute() {
 				app.getGuiManager().save();
@@ -60,7 +60,7 @@ public class FileMenuW extends MenuBar {
 			
 
 		// this is enabled always
-	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
+	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
 	    	public void execute() {
 	    		app.uploadToGeoGebraTube();
 	    	}

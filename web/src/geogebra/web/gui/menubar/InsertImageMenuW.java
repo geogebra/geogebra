@@ -33,7 +33,7 @@ public class InsertImageMenuW extends MenuBar {
 
 	private void initActions() {
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File")),true,new Command() {
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File"), true),true,new Command() {
 	    	public void execute() {
 	    		ImageFileInputDialog dialog = new ImageFileInputDialog((AppW) app, null);
 	    		dialog.setVisible(true);
@@ -48,7 +48,7 @@ public class InsertImageMenuW extends MenuBar {
 	    	}
 	    });*/
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam")),true,new Command() {
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam"), true),true,new Command() {
 	    	public void execute() {
 	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (AppW) app);
 	    		dialog.setVisible(true);

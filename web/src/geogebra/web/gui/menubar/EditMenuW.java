@@ -56,15 +56,15 @@ public class EditMenuW extends MenuBar {
 		// undo menu
 		if (app.getKernel().undoPossible())
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo")),
+			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo"), true),
 			        true, new Command() {
 				        public void execute() {
 					        app.getGuiManager().undo();
 				        }
 			        });
 		else
-			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE
-			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo")),
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo"), false),
 			        true, new Command() {
 				public void execute() {
 					// do nothing
@@ -75,15 +75,15 @@ public class EditMenuW extends MenuBar {
 		// redo menu
 		if (app.getKernel().redoPossible())
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo")),
+			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo"), true),
 			        true, new Command() {
 				        public void execute() {
 					        app.getGuiManager().redo();
 				        }
 			        });
 		else
-			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE
-			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo")),
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo"), false),
 			        true, new Command() {
 				public void execute() {
 					// do nothing
@@ -96,7 +96,7 @@ public class EditMenuW extends MenuBar {
 		// copy menu
 		if (!selection.getSelectedGeos().isEmpty())
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy")),
+			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy"), true),
 			        true, new Command() {
 				        public void execute() {
 					        app.setWaitCursor();
@@ -106,8 +106,8 @@ public class EditMenuW extends MenuBar {
 				        }
 			        });
 		else
-			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE
-			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy")),
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy"), false),
 			        true, new Command() {
 				        public void execute() {
 					        // do nothing
@@ -118,7 +118,7 @@ public class EditMenuW extends MenuBar {
 		if (!CopyPaste.isEmpty())
 			addItem(GeoGebraMenubarW
 			        .getMenuBarHtml(AppResources.INSTANCE.edit_paste()
-			                .getSafeUri().asString(), app.getMenu("Paste")),
+			                .getSafeUri().asString(), app.getMenu("Paste"), true),
 			        true, new Command() {
 				        public void execute() {
 					        app.setWaitCursor();
@@ -128,8 +128,8 @@ public class EditMenuW extends MenuBar {
 			        });
 		else
 			addItem(GeoGebraMenubarW
-			        .getMenuBarHtmlGrayout(AppResources.INSTANCE.edit_paste()
-			                .getSafeUri().asString(), app.getMenu("Paste")),
+			        .getMenuBarHtml(AppResources.INSTANCE.edit_paste()
+			                .getSafeUri().asString(), app.getMenu("Paste"), false),
 			        true, new Command() {
 				        public void execute() {
 					        // do nothing
@@ -138,7 +138,7 @@ public class EditMenuW extends MenuBar {
 
 		// copy graphics view menu
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .edit_copy().getSafeUri().asString(), app.getMenu("CopyImage")),
+		        .edit_copy().getSafeUri().asString(), app.getMenu("CopyImage"), true),
 		        true, new Command() {
 			        public void execute() {
 				        ((AppW) app).copyEVtoClipboard();
@@ -149,7 +149,7 @@ public class EditMenuW extends MenuBar {
 		addSeparator();
 
 	
-		addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon, app.getMenu("InsertImageFrom")),
+		addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon, app.getMenu("InsertImageFrom"), true),
 		        true, iim);
 		
 		addSeparator();
@@ -159,7 +159,7 @@ public class EditMenuW extends MenuBar {
 			if (!app.getKernel().isEmpty()){
 				addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 			        .view_properties16().getSafeUri().asString(), app.getPlain("Properties")
-					+ " ..."),
+					+ " ...", true),
 			        true, new Command() {
 				        public void execute() {
 				        	((AppW) app).getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
@@ -173,14 +173,14 @@ public class EditMenuW extends MenuBar {
 		// select all menu
 		if (!app.getKernel().isEmpty())
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectAll")), true, new Command() {
+			        app.getMenu("SelectAll"), true), true, new Command() {
 				public void execute() {
 					selection.selectAll(-1);
 				}
 			});
 		else
-			addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(noIcon,
-			        app.getMenu("SelectAll")), true, new Command() {
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("SelectAll"), false), true, new Command() {
 				public void execute() {
 					// do nothing
 				}
@@ -189,7 +189,7 @@ public class EditMenuW extends MenuBar {
 		//select current layer menu
 		if(selection.getSelectedLayer() >= 0){
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectCurrentLayer")), true, new Command() {
+			        app.getMenu("SelectCurrentLayer"), true), true, new Command() {
 				public void execute() {
 					int layer1 = selection.getSelectedLayer();
 					if (layer1 != -1)
@@ -201,7 +201,7 @@ public class EditMenuW extends MenuBar {
 		if(haveSelection){
 			//select descendants menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectDescendants")), true, new Command() {
+			        app.getMenu("SelectDescendants"), true), true, new Command() {
 				public void execute() {
 					selection.selectAllDescendants();
 				}
@@ -209,7 +209,7 @@ public class EditMenuW extends MenuBar {
 		
 			//select ancestors menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectAncestors")), true, new Command() {
+			        app.getMenu("SelectAncestors"), true), true, new Command() {
 				public void execute() {
 					selection.selectAllPredecessors();
 				}
@@ -219,7 +219,7 @@ public class EditMenuW extends MenuBar {
 			
 			//invert selection menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("InvertSelection")), true, new Command() {
+			        app.getMenu("InvertSelection"), true), true, new Command() {
 				public void execute() {
 					selection.invertSelection();
 				}
@@ -229,14 +229,14 @@ public class EditMenuW extends MenuBar {
 		//show/hide objects and show/hide labels menus
 		if (layer != -1){
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("ShowHide")), true, new Command() {
+			        app.getMenu("ShowHide"), true), true, new Command() {
 				public void execute() {
 					selection.showHideSelection();
 				}
 			});	
 			
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
-			        app.getMenu("ShowHideLabels")), true, new Command() {
+			        app.getMenu("ShowHideLabels"), true), true, new Command() {
 				public void execute() {
 					selection.showHideSelectionLabels();
 				}
@@ -248,7 +248,7 @@ public class EditMenuW extends MenuBar {
 			addSeparator();
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 			        .edit_copy().getSafeUri().asString(),
-			        app.getMenu("Delete")), true, new Command() {
+			        app.getMenu("Delete"), true), true, new Command() {
 				public void execute() {
 					app.deleteSelectedObjects();
 				}

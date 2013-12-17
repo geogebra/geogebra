@@ -39,7 +39,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 
 	private void initActions() {
 		
-		 addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open")), true, new Command() {
+		 addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open"), true), true, new Command() {
 				
 				public void execute() {
 		    		GgbFileInputDialog dialog = new GgbFileInputDialog((AppW) app, null);
@@ -49,13 +49,13 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 			});
 		    
 			// this is enabled always
-		  openURL = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage")),true,new Command() {
+		  openURL = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage"), true),true,new Command() {
 		    	public void execute() {
 		    		app.getGuiManager().openURL();
 		    	}
 		    });	
-		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getOpenFromGoogleDriveCommand());
-		openFromGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(), app.getMenu("OpenFromGeoGebraTube")),true, getOpenFromGeoGebraTubeCommand());
+		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive"), true),true, getOpenFromGoogleDriveCommand());
+		openFromGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(), app.getMenu("OpenFromGeoGebraTube"), true),true, getOpenFromGeoGebraTubeCommand());
 		
 		 ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
 				

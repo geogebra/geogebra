@@ -34,7 +34,7 @@ public class ViewMenuW extends MenuBar {
 	protected void initActions() {
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
-		        .getSafeUri().asString(), app.getMenu("Refresh")), true,
+		        .getSafeUri().asString(), app.getMenu("Refresh"), true), true,
 		        new Command() {
 			        public void execute() {
 				        app.refreshViews();
@@ -42,7 +42,7 @@ public class ViewMenuW extends MenuBar {
 		        });
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
-		        .getSafeUri().asString(), app.getMenu("RecomputeAllViews")),
+		        .getSafeUri().asString(), app.getMenu("RecomputeAllViews"), true),
 		        true, new Command() {
 			        public void execute() {
 				        app.getKernel().updateConstruction();

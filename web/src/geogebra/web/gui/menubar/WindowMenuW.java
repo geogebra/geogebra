@@ -29,7 +29,7 @@ public class WindowMenuW extends MenuBar{
 		clearItems();
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), app.getMenu("NewWindow")),
+				.empty().getSafeUri().asString(), app.getMenu("NewWindow"), true),
 		        true, new Command() {
 			        public void execute() {
 			        	com.google.gwt.user.client.Window.open(Window.Location.getHref(), "_blank", "");

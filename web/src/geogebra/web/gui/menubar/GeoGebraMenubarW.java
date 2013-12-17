@@ -238,12 +238,31 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		 * @param text menuitem's text
 		 * @return html source of a menuitem
 		 */
-		public static String getMenuBarHtmlGrayout(String url,String text) {		
+//		public static String getMenuBarHtmlGrayout(String url,String text) {		
+//			//TODO: Resize images for this real size, if it is good.
+//			text = text.replace("\"", "'");
+//			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
+//					"<span style=\"color:gray;\">"+text+"</span>";
+//		}
+		
+		/**Gives back an html source of a disabled menuitem.
+		 * @param url an icon's url
+		 * @param text menuitem's text
+		 * @return html source of a menuitem
+		 */
+		public static String getMenuBarHtml(String url,String text, Boolean enabled) {		
 			//TODO: Resize images for this real size, if it is good.
-			text = text.replace("\"", "'");
-			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
-					"<span style=\"color:gray;\">"+text+"</span>";
+			
+			String text2 = text.replace("\"", "'");
+			String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
+			return	"<img class=\"GeoGebraMenuImage\" alt=\""+text2+"\" src=\""+url+"\" />"+" "+ text3;
+					
 		}
+		
+		
+		
+		
+		
 		
 		/**
 		 * Update the "Edit" menu
@@ -334,7 +353,10 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			}
 			Element fontsizeElement = DOM.createElement("style");
 			fontsizeElement.addClassName("GGWFontsize");
-			fontsizeElement.setInnerText(".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}");
+			int imagesize = Math.round(app.getGUIFontSize() * 4/3);
+			String innerText = ".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}"+
+			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}";
+			fontsizeElement.setInnerText(innerText);
 			
 			NodeList<Element> geogebrawebElements = Dom.getElementsByClassName("geogebraweb");
 			for(int i=0; i<geogebrawebElements.getLength(); i++){

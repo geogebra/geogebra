@@ -82,7 +82,7 @@ public class LanguageMenuW extends MenuBar {
 					}	
 					
 
-					String menuBarHTML = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text);
+					String menuBarHTML = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text, true);
 					LanguageCommand lc = new LanguageCommand(l, (AppW) app);
 
 					if(ch <= 'D') {
