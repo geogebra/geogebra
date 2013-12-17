@@ -269,6 +269,8 @@ __GGB__keysVar.vi.command = {
     "Ellipse": "Elip",
     "Ellipse_Syntax": "[ <Ti\xeau \u0111i\u1ec3m>, <Ti\xeau \u0111i\u1ec3m>, <\u0110\u1ed9 d\xe0i n\u1eeda tr\u1ee5c l\u1edbn> ]\n[ <Ti\xeau \u0111i\u1ec3m>, <Ti\xeau \u0111i\u1ec3m>, <\u0110o\u1ea1n th\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "Ends": "DiemCuoi",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "XacSuatErlang",
     "Erlang_Syntax": "[ <H\xecnh>, <T\u1ec9 l\u1ec7>, x ]\n[ <H\xecnh>, <T\u1ec9 l\u1ec7>, <Gi\xe1 tr\u1ecb bi\u1ebfn> ]\n[ <H\xecnh>, <T\u1ec9 l\u1ec7>, x, <T\xedch l\u0169y Boolean> ]",
     "Evaluate": "Evaluate",

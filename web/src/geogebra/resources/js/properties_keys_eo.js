@@ -269,6 +269,8 @@ __GGB__keysVar.eo.command = {
     "Ellipse": "Elipso",
     "Ellipse_Syntax": "[ <Fokuso>, <Fokuso>, <Longo de granda duonakso> ]\n[ <Fokuso>, <Fokuso>, <Streko> ]\n[ <Fokuso>, <Fokuso>, <Punkto> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

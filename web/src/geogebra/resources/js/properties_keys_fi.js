@@ -269,6 +269,8 @@ __GGB__keysVar.fi.command = {
     "Ellipse": "Ellipsi",
     "Ellipse_Syntax": "[ <Polttopiste>, <Polttopiste>, <P\xe4\xe4akselin pituus> ]\n[ <Polttopiste>, <Polttopiste>, <Jana> ]\n[ <Polttopiste>, <Polttopiste>, <Ellipsin piste> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Muoto>, <Aste>, x ]\n[ <Muoto>, <Aste>, <Muuttujan arvo> ]\n[ <Muoto>, <Aste>, x, <Totuusarvo: kertym\xe4/ei> ]",
     "Evaluate": "Evaluate",

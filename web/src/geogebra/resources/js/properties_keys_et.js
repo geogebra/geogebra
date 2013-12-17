@@ -269,6 +269,8 @@ __GGB__keysVar.et.command = {
     "Ellipse": "Ellips",
     "Ellipse_Syntax": "[ <Fookus>, <Fookus>, <Fokaalpooltelje pikkus> ]\n[ <Fookus>, <Fookus>, <L\xf5ik> ]\n[ <Fookus>, <Fookus>, <Punkt> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Kuju>, <Suhtarv>, x ]\n[ <Kuju>, <Suhtarv>, <Muutuja v\xe4\xe4rtus> ]\n[ <Kuju>, <Suhtarv>, x, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
     "Evaluate": "Evaluate",

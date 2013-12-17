@@ -269,6 +269,8 @@ __GGB__keysVar.hr.command = {
     "Ellipse": "Elipsa",
     "Ellipse_Syntax": "[ <\u017eari\u0161te>, <\u017eari\u0161te>, <glavna poluos> ]\n[ <\u017eari\u0161te>, <\u017eari\u0161te>, <du\u017eina> ]\n[ <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
     "Ends": "Baze",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "ErlangovaRazdioba",
     "Erlang_Syntax": "[ <oblik>, <stopa>, x ]\n[ <oblik>, <stopa>, <vrijednost varijable> ]\n[ <oblik>, <stopa>, x, <kumulacija - logi\u010dka vrijednost> ]",
     "Evaluate": "Izra\u010dunaj",

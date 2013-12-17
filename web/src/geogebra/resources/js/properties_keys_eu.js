@@ -269,6 +269,8 @@ __GGB__keysVar.eu.command = {
     "Ellipse": "Elipsea",
     "Ellipse_Syntax": "[ <Fokua>, <Fokua>, <Ardatzerdi Handiaren Luzera> ]\n[ <Fokua>, <Fokua>, <Zuzenkia> ]\n[ <Fokua>, <Fokua>, <Puntua> ]",
     "Ends": "Bukaerak",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forma-Parametroa>, <Tasa>, x ]\n[ <Forma-Parametroa>, <Tasa>, <Balio Aldakorra> ]\n[ <Forma-Parametroa>, <Tasa>, x, <Metatu Boolearra> ]",
     "Evaluate": "Evaluate",

@@ -269,6 +269,8 @@ __GGB__keysVar.ka.command = {
     "Ellipse": "\u10d4\u10da\u10d8\u10e4\u10e1\u10d8",
     "Ellipse_Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8>, <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8>, <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d8> ]\n[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8>, <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8>, <\u10db\u10dd\u10dc\u10d0\u10d9\u10d5\u10d4\u10d7\u10d8> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

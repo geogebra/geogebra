@@ -269,6 +269,8 @@ __GGB__keysVar.it.command = {
     "Ellipse": "Ellisse",
     "Ellipse_Syntax": "[ <Fuoco>, <Fuoco>, <Lunghezza semiasse maggiore> ]\n[ <Fuoco>, <Fuoco>, <Segmento> ]\n[ <Punto>, <Punto>, <Punto> ]",
     "Ends": "BasiInfSup",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forma>, <Intensit\xe0>, x ]\n[ <Forma>, <Intensit\xe0>, <Valore variabile> ]\n[ <Forma>, <Intensit\xe0>, x, <Booleano Cumulativa> ]",
     "Evaluate": "Calcola",

@@ -269,6 +269,8 @@ __GGB__keysVar.da.command = {
     "Ellipse": "Ellipse",
     "Ellipse_Syntax": "[ <Punkt>, <Punkt>, <Halvakse l\xe6ngde> ]\n[ <Punkt>, <Punkt>, <Afsnit> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "Ends": "Afslutter",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <k>, <lambda>, x ]\n[ <k>, <lambda>, <Variabel v\xe6rdi> ]\n[ <k>, <lambda>, x, <Akkumuleret? True/False> ]",
     "Evaluate": "Evaluer",

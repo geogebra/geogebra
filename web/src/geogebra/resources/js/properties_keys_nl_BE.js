@@ -269,6 +269,8 @@ __GGB__keysVar.nl_BE.command = {
     "Ellipse": "Ellips",
     "Ellipse_Syntax": "[ <Punt>, <Punt>, <Getal> ]\n[ <Punt>, <Punt>, <Lijnstuk> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ \u03bb, n, x ]\n[ \u03bb, n, <Waarde Variabele> ]\n[ \u03bb, n, x, <Logisch Cumulatief> ]",
     "Evaluate": "Evaluate",

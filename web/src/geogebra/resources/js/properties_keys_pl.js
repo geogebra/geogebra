@@ -269,6 +269,8 @@ __GGB__keysVar.pl.command = {
     "Ellipse": "Elipsa",
     "Ellipse_Syntax": "[ <Ognisko>, <Ognisko>, <O\u015b g\u0142owna> ]\n[ <Ognisko>, <Ognisko>, <Odcinek> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Rozk\u0142adErlanga",
     "Erlang_Syntax": "[ <Kszta\u0142t>, <Cz\u0119sto\u015b\u0107>, x ]\n[ <Kszta\u0142t>, <Cz\u0119sto\u015b\u0107>, <Warto\u015b\u0107 Zmiennej> ]\n[ <Kszta\u0142t>, <Cz\u0119sto\u015b\u0107>, x, <Czy Skumulowany> ]",
     "Evaluate": "Evaluate",

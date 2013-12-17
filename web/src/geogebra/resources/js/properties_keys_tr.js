@@ -269,6 +269,8 @@ __GGB__keysVar.tr.command = {
     "Ellipse": "Elips",
     "Ellipse_Syntax": "[ <Nokta>, <Nokta>, <Say\u0131> ]\n[ <Nokta>, <Nokta>, <Do\u011fru Par\xe7as\u0131> ]",
     "Ends": "Biti\u015fler",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <\u015eekil>, <Oran>, x ]\n[ <\u015eekil>, <Oran>, <De\u011fi\u015fken De\u011feri> ]\n[ <\u015eekil>, <Oran>, x, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]",
     "Evaluate": "Hesapla",

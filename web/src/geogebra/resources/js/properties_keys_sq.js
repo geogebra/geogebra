@@ -269,6 +269,8 @@ __GGB__keysVar.sq.command = {
     "Ellipse": "Elipsi",
     "Ellipse_Syntax": "[ <Pike Vatrore>, <Pike Vatrore>, <Gjatesi e Gjysem-Boshtit te Madh> ]\n[ <Pike Vatrore>, <Pike Vatrore>, <Segment> ]\n[ <Pike>, <Pike>, <Pike> ]",
     "Ends": "Skaje",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forme>, <Ritem>, x ]\n[ <Forme>, <Ritem>, <Vlere Variabli> ]\n[ <Forme>, <Ritem>, x, <Grumbullum Bulean> ]",
     "Evaluate": "Evaluate",

@@ -269,6 +269,8 @@ __GGB__keysVar.pt.command = {
     "Ellipse": "Elipse",
     "Ellipse_Syntax": "[ <Foco>, <Foco>, <Comprimento do Semieixo Maior> ]\n[ <Foco>, <Foco>, <Segmento> ]\n[ <Ponto>, <Ponto>, <Ponto> ]",
     "Ends": "Bases",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Distribui\xe7\xe3oDeErlang",
     "Erlang_Syntax": "[ <Forma>, <Taxa>, x> ]\n[ <Forma>, <Taxa>, <Valor da Vari\xe1vel> ]\n[ <Forma>, <Taxa>, x, <Acumulada (true | false)> ]",
     "Evaluate": "Avaliar",

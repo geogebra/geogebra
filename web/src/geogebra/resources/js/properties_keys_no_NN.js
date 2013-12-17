@@ -269,6 +269,8 @@ __GGB__keysVar.no_NN.command = {
     "Ellipse": "Ellipse",
     "Ellipse_Syntax": "[ <Brennpunkt>, <Brennpunkt>, <Lengde p\xe5 store halvakse> ]\n[ <Brennpunkt>, <Brennpunkt>, <Linjestykke> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "Ends": "Endeflater",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Form>, <Fart>, x ]\n[ <Form>, <Fart>, <Variabelverdi> ]\n[ <Form>, <Fart>, x, <Boolsk Kumulativ> ]",
     "Evaluate": "Evaluer",

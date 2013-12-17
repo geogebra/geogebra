@@ -269,6 +269,8 @@ __GGB__keysVar.lt.command = {
     "Ellipse": "Elips\u0117",
     "Ellipse_Syntax": "[ <\u017didinio ta\u0161kas>, <\u017didinio ta\u0161kas>, <A\u0161ies ilgis> ]\n[ <\u017didinio ta\u0161kas>, <\u017didinio ta\u0161kas>, <Atkarpa> ]\n[ <Ta\u0161kas>, <Ta\u0161kas>, <Ta\u0161kas> ]",
     "Ends": "Galai",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forma>, <Da\u017enis>, x ]\n[ <Forma>, <Da\u017enis>, <Kintamojo vert\u0117> ]\n[ <Forma>, <Da\u017enis>, x, <Login\u0117 vert\u0117> ]",
     "Evaluate": "\u012evertinti",

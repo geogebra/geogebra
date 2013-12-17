@@ -269,6 +269,8 @@ __GGB__keysVar.mr.command = {
     "Ellipse": "\u0932\u0902\u092c\u0935\u0930\u094d\u0924\u0941\u0933",
     "Ellipse_Syntax": "[ <\u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942>, <\u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942>, <\u0905\u0930\u094d\u0927\u0926\u093f\u0930\u094d\u0918\u093e\u0915\u094d\u0937\u093e\u091a\u0940 \u0932\u093e\u0902\u092c\u0940> ]\n[ <\u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942>, <\u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942>, <\u0930\u0947\u0937\u093e\u0916\u0902\u0921> ]\n[ <\u092c\u093f\u0902\u0926\u0942>, <\u092c\u093f\u0902\u0926\u0942>, <\u092c\u093f\u0902\u0926\u0942> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

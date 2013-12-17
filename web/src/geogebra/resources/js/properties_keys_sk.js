@@ -269,6 +269,8 @@ __GGB__keysVar.sk.command = {
     "Ellipse": "Elipsa",
     "Ellipse_Syntax": "[ <Ohnisko>, <Ohnisko>, <Hlavn\xe1 polos> ]\n[ <Ohnisko>, <Ohnisko>, <\xdase\u010dka> ]\n[ <Bod>, <Bod>, <Bod> ]",
     "Ends": "Konce",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Tvar>, <Hodnotenie>, x ]\n[ <Tvar>, <Hodnotenie>, <Hodnota premennej> ]\n[ <Tvar>, <Hodnotenie>, x, <Logicky kumulat\xedvne> ]",
     "Evaluate": "Vypo\u010d\xedta\u0165",

@@ -269,6 +269,8 @@ __GGB__keysVar.xh.command = {
     "Ellipse": "iEllipse",
     "Ellipse_Syntax": "[ <Focus>, <Focus>, <Semimajor Axis Length> ]\n[ <Focus>, <Focus>, <Segment> ]\n[ <Focus>, <Focus>, <Point> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "iErlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Hlalutya",

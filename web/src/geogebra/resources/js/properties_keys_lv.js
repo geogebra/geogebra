@@ -269,6 +269,8 @@ __GGB__keysVar.lv.command = {
     "Ellipse": "Elipse",
     "Ellipse_Syntax": "[ <Fokuss>, <Fokuss>, <Semimajor Ass Garums> ]\n[ <Fokuss>, <Fokuss>, <Nogrieznis> ]\n[ <Fokuss>, <Fokuss>, <Punkts> ]",
     "Ends": "Beigas",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Kont\u016bra>, <Koeficients>, x ]\n[ <Kont\u016bra>, <Koeficients>, <Main\u012bg\u0101 V\u0113rt\u012bba> ]\n[ <Kont\u016bra>, <Koeficients>, x, <Boolean Kumul\u0101ta> ]",
     "Evaluate": "Nov\u0113rt\u0113",

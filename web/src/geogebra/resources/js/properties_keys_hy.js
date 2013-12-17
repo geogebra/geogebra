@@ -269,6 +269,8 @@ __GGB__keysVar.hy.command = {
     "Ellipse": "\u0537\u056c\u056b\u057a\u057d",
     "Ellipse_Syntax": "[ <\u0556\u0578\u056f\u0578\u0582\u057d>, <\u0556\u0578\u056f\u0578\u0582\u057d>, <\u0533\u056c\u056d\u0561\u057e\u0578\u0580 \u056f\u056b\u057d\u0561\u0561\u057c\u0561\u0576\u0581\u0584\u056b \u0565\u0580\u056f\u0561\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0568> ]\n[ <\u0556\u0578\u056f\u0578\u0582\u057d>, <\u0556\u0578\u056f\u0578\u0582\u057d>, <\u0540\u0561\u057f\u057e\u0561\u056e> ]\n[ <\u053f\u0565\u057f>, <\u053f\u0565\u057f>, <\u053f\u0565\u057f> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "\u0537\u0580\u056c\u0561\u0576\u0563",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

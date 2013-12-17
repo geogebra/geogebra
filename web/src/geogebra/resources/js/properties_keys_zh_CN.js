@@ -269,6 +269,8 @@ __GGB__keysVar.zh_CN.command = {
     "Ellipse": "\u692d\u5706",
     "Ellipse_Syntax": "[ <\u7126\u70b91>, <\u7126\u70b92>, <\u534a\u957f\u8f74\u957f> ]\n[ <\u7126\u70b91>, <\u7126\u70b92>, <\u7ebf\u6bb5> ]\n[ <\u7126\u70b91>, <\u7126\u70b92>, <\u70b9> ]",
     "Ends": "\u7ed3\u675f",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "\u7231\u5c14\u6717\u5206\u5e03",
     "Erlang_Syntax": "[ <\u5f62\u72b6\u53c2\u6570k>, <\u6bd4\u7387\u53c2\u6570\u03bb>, x ]\n[ <\u5f62\u72b6\u53c2\u6570k>, <\u6bd4\u7387\u53c2\u6570\u03bb>, <\u53d8\u91cf\u503c> ]\n[ <\u5f62\u72b6\u53c2\u6570k>, <\u6bd4\u7387\u53c2\u6570\u03bb>, x, <\u662f\u5426\u7d2f\u79ef?> ]",
     "Evaluate": "\u8ba1\u7b97",

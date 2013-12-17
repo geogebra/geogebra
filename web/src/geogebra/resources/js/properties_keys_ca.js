@@ -269,6 +269,8 @@ __GGB__keysVar.ca.command = {
     "Ellipse": "El\xb7lipse",
     "Ellipse_Syntax": "[ <Focus>, <Focus>, <Longitud semieix major> ]\n[ <Focus>, <Focus>, <Segment> ]\n[ <Focus>, <Focus>, <Punt de la corba> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forma>, <Ra\xf3>, x ]\n[ <Forma>, <Ra\xf3>, <Valor de la variable> ]\n[ <Forma>, <Ra\xf3>, x, <Acumulada true/false> ]",
     "Evaluate": "Avalua",

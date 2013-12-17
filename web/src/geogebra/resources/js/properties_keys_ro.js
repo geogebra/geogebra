@@ -269,6 +269,8 @@ __GGB__keysVar.ro.command = {
     "Ellipse": "Elips\u0103",
     "Ellipse_Syntax": "[ <Focar>, <Focar>, <Lungime Axa Mare> ]\n[ <Focar>, <Focar>, <Segment> ]\n[ <Focar>, <Focar>, <Punct> ]",
     "Ends": "Finaluri",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Form\u0103>, <Rat\u0103>, x ]\n[ <Form\u0103>, <Rat\u0103>, <Valoare Variabil\u0103> ]\n[ <Form\u0103>, <Rat\u0103>, x, <Cumulativ Boolean> ]",
     "Evaluate": "evalua",

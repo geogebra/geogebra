@@ -269,6 +269,8 @@ __GGB__keysVar.ja.command = {
     "Ellipse": "Ellipse",
     "Ellipse_Syntax": "[ <\u7126\u70b9>, <\u7126\u70b9>, <\u9577\u8ef8\u306e\u9577\u3055> ]\n[ <\u7126\u70b9>, <\u7126\u70b9>, <\u7dda\u5206> ]\n[ <\u70b9>, <\u70b9>, <\u70b9> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <\u30b7\u30a7\u30a4\u30d7>, <\u30ec\u30fc\u30c8>, x ]\n[ <\u30b7\u30a7\u30a4\u30d7>, <\u30ec\u30fc\u30c8>, <\u5909\u6570\u5024> ]\n[ <\u30b7\u30a7\u30a4\u30d7>, <\u30ec\u30fc\u30c8>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

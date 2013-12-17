@@ -269,6 +269,8 @@ __GGB__keysVar.fr.command = {
     "Ellipse": "Ellipse",
     "Ellipse_Syntax": "[ <Foyer>, <Foyer>, <Demi Longueur Axe Principal> ]\n[ <Foyer>, <Foyer>, <Segment> ]\n[ <Foyer>, <Foyer>, <Point> ]",
     "Ends": "Finaux",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Chemin>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forme>, <Intensit\xe9>, x ]\n[ <Forme>, <Intensit\xe9>, <Valeur Variable> ]\n[ <Forme>, <Intensit\xe9>, x, <Bool\xe9en Cumul> ]",
     "Evaluate": "Evaluer",

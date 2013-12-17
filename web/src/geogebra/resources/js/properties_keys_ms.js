@@ -269,6 +269,8 @@ __GGB__keysVar.ms.command = {
     "Ellipse": "Elips",
     "Ellipse_Syntax": "[ <Titik Fokus>, <Titik Fokus>, <Panjang Paksi SemiMajor> ]\n[ <Titik Fokus>, <Titik Fokus>, <Segmen> ]\n[ <Titik>, <Titik>, <Titik> ]",
     "Ends": "Tamat",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Bentuk>, <Kadar>, x ]\n[ <Bentuk>, <Kadar>, <Niali Pembolehubah> ]\n[ <Bentuk>, <Kadar>, x, <Longgokan Boolean> ]",
     "Evaluate": "Nilaikan",

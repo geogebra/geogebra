@@ -269,6 +269,8 @@ __GGB__keysVar.ji.command = {
     "Ellipse": "Ellipse",
     "Ellipse_Syntax": "[ <Focal Point>, <Focal Point>, <Semimajor Axis Length> ]\n[ <Focal Point>, <Focal Point>, <Segment> ]\n[ <Point>, <Point>, <Point> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

@@ -269,6 +269,8 @@ __GGB__keysVar.ta.command = {
     "Ellipse": "\u0ba8\u0bc0\u0bb3\u0bcd\u0bb5\u0b9f\u0bcd\u0b9f\u0bae\u0bcd",
     "Ellipse_Syntax": "[ <Focus>, <Focus>, <Semimajor Axis Length> ]\n[ <Focus>, <Focus>, <Segment> ]\n[ <Focus>, <Focus>, <Point> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

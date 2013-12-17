@@ -269,6 +269,8 @@ __GGB__keysVar.gl.command = {
     "Ellipse": "Elipse",
     "Ellipse_Syntax": "[ <Foco>, <Foco>, <Semieixe principal (n\xfamero)> ]\n[ <Foco>, <Foco>, <Semieixe principal (segmento)> ]\n[ <Foco>, <Foco>, <Punto polo que pasa> ]",
     "Ends": "Extremos",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Distribuci\xf3nErlang",
     "Erlang_Syntax": "[ <Forma (n\xfamero)>, <Raz\xf3n>, x ]\n[ <Forma (n\xfamero)>, <Raz\xf3n>, x, <Acumula (booleana)> ]\n[ <Forma (n\xfamero)>, <Raz\xf3n>, <Valor da variable> ]",
     "Evaluate": "Aval\xeda",

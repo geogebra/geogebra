@@ -269,6 +269,8 @@ __GGB__keysVar.si.command = {
     "Ellipse": "\u0d89\u0dbd\u0dd2\u0db4\u0dca\u0dc3\u0dba",
     "Ellipse_Syntax": "[ <\u0db1\u0dcf\u0db7\u0dd2\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0db1\u0dcf\u0db7\u0dd2\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0daf\u0dd9\u0dc0\u0db1\u0db4\u0dca\u200d\u0dbb\u0db0\u0dcf\u0db1_\u0d85\u0d9a\u0dca\u0dc2\u0dba\u0dda_\u0daf\u0dd2\u0d9c> ]\n[ <\u0db1\u0dcf\u0db7\u0dd2\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0db1\u0dcf\u0db7\u0dd2\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0d9b\u0dab\u0dca\u0da9\u0dba> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

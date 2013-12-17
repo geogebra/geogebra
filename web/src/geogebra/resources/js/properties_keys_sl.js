@@ -269,6 +269,8 @@ __GGB__keysVar.sl.command = {
     "Ellipse": "Elipsa",
     "Ellipse_Syntax": "[ <gori\u0161\u010de>, <gori\u0161\u010de>, <dol\u017eina glavne osi> ]\n[ <gori\u0161\u010de>, <gori\u0161\u010de>, <daljica> ]\n[ <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
     "Ends": "Temena",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "ErlangovaPorazdelitev",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <logi\u010dna vrednost Cumulative> ]",
     "Evaluate": "Izra\u010dunaj",

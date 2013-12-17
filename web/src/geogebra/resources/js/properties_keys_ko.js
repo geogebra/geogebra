@@ -269,6 +269,8 @@ __GGB__keysVar.ko.command = {
     "Ellipse": "\ud0c0\uc6d0",
     "Ellipse_Syntax": "[ <\ucd08\uc810>, <\ucd08\uc810>, <\uc8fc\ucd95\uc758 \ubc18\uc9c0\ub984> ]\n[ <\ucd08\uc810>, <\ucd08\uc810>, <\uc120\ubd84> ]\n[ <\uc810>, <\uc810>, <\uc810> ]",
     "Ends": "\ub05d",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "\uc5b4\ub791\ubd84\ud3ec",
     "Erlang_Syntax": "[ <shape>, <\ube44\uc728>, x ]\n[ <shape>, <\ube44\uc728>, <\ubcc0\ub7c9> ]\n[ <shape>, <\ube44\uc728>, x, <\ub204\uc801 true|false> ]",
     "Evaluate": "\uacc4\uc0b0",

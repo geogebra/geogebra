@@ -269,6 +269,8 @@ __GGB__keysVar.cs.command = {
     "Ellipse": "Elipsa",
     "Ellipse_Syntax": "[ <Ohnisko>, <Ohnisko>, <D\xe9lka hlavn\xed poloosy> ]\n[ <Ohnisko>, <Ohnisko>, <\xdase\u010dka> ]\n[ <Ohnisko>, <Ohnisko>, <Bod> ]",
     "Ends": "Okraje",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Tvar>, <Pom\u011br>, x ]\n[ <Tvar>, <Pom\u011br>, <Hodnota prom\u011bnn\xe9> ]\n[ <Tvar>, <Pom\u011br>, x, <Kumulativn\xed (logick\xe1 hodnota)> ]",
     "Evaluate": "Evaluate",

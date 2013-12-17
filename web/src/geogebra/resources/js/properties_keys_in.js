@@ -269,6 +269,8 @@ __GGB__keysVar.in.command = {
     "Ellipse": "Elips",
     "Ellipse_Syntax": "[ <Titik Fokus>, <Titik Fokus>, <Panjang Sumbu Utama> ]\n[ <Titik Fokus>, <Titik Fokus>, <RuasGaris> ]\n[ <Titik>, <Titik>, <Titik> ]",
     "Ends": "Ujung",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "DistribusiErlang",
     "Erlang_Syntax": "[ <Bentuk>, <Tingkat Perubahan>, x ]\n[ <Shape>, <Tingkat Perubahan>, <Nilai Variabel> ]\n[ <Shape>, <Tingkat Perubahan>, x, <Boolean Kumulatif> ]",
     "Evaluate": "Evaluate",

@@ -269,6 +269,8 @@ __GGB__keysVar.sr.command = {
     "Ellipse": "Elipsa",
     "Ellipse_Syntax": "[ <fokus>, <fokus>, <du\u017eina glavne ose> ]\n[ <fokus>, <fokus>, <du\u017e> ]\n[ <ta\u010dka>, <ta\u010dka>, <ta\u010dka> ]",
     "Ends": "Baze",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <oblik>, <stopa>, x ]\n[ <oblik>, <stopa>, <vrednost promenljive> ]\n[ <oblik>, <stopa>, x, <logi\u010dki kumulativno> ]",
     "Evaluate": "Evaluate",

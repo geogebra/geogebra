@@ -269,6 +269,8 @@ __GGB__keysVar.sv.command = {
     "Ellipse": "Ellips",
     "Ellipse_Syntax": "[ <Fokuspunkt>, <Fokuspunkt>, <Halva storaxelns l\xe4ngd> ]\n[ <Fokuspunkt>, <Fokuspunkt>, <Str\xe4cka f\xf6r halva storaxeln> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "Ends": "\xc4ndar",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlangf\xf6rdelning",
     "Erlang_Syntax": "[ <Form>, <Hastighet>, x ]\n[ <Form>, <Hastighet>, <Variabelv\xe4rde> ]\n[ <Form>, <Hastighet>, x, <true | false (kumulativt eller ej)> ]",
     "Evaluate": "Utv\xe4rdera",

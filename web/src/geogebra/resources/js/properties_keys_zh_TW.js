@@ -269,6 +269,8 @@ __GGB__keysVar.zh_TW.command = {
     "Ellipse": "Ellipse",
     "Ellipse_Syntax": "[ <\u7126\u9ede>, <\u7126\u9ede>, <\u9577\u8ef8\u534a\u9577> ]\n[ <\u7126\u9ede>, <\u7126\u9ede>, <\u9577\u8ef8\u534a\u9577\u7dda\u6bb5> ]\n[ <\u7126\u9ede>, <\u7126\u9ede>, <\u9ede> ]",
     "Ends": "Ends",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Shape>, <Rate>, x ]\n[ <Shape>, <Rate>, <Variable Value> ]\n[ <Shape>, <Rate>, x, <Boolean Cumulative> ]",
     "Evaluate": "Evaluate",

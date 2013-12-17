@@ -269,6 +269,8 @@ __GGB__keysVar.cy.command = {
     "Ellipse": "Hirgylch",
     "Ellipse_Syntax": "[ <Ffocws>, <Ffocws>, <Hyd y Brif Echelin> ]\n[ <Ffocws>, <Ffocws>, <Segment> ]\n[ <Ffocws>, <Ffocws>, <Ffocws> ]",
     "Ends": "Pennau",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Si\xe2p>, <Cyfradd>, x ]\n[ <Si\xe2p>, <Cyfradd>, <Gwerth y Newidyn> ]\n[ <Si\xe2p>, <Cyfradd>, x, <Cronnus Boolean> ]",
     "Evaluate": "Evaluate",

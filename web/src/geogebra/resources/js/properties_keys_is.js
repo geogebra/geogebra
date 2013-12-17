@@ -269,6 +269,8 @@ __GGB__keysVar.is.command = {
     "Ellipse": "Sporbaugur",
     "Ellipse_Syntax": "[ <Brennipunktur>, <Brennipunktur>, <H\xe1lfLengd Lang\xe1ss> ]\n[ <Brennipunktur>, <Brennipunktur>, <L\xednustrik> ]\n[ <Punktur>, <Punktur>, <Punktur> ]",
     "Ends": "Endar",
+    "Envelope": "Envelope",
+    "Envelope_Syntax": "[ <Path>, <Point> ]",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Sni\xf0>, <Hlutfall>, x ]\n[ <Sni\xf0>, <Hlutfall>, x, <Dreififall> ]\n[ <Sni\xf0>, <Hlutfall>, x, <Gildi Breytu> ]",
     "Evaluate": "Evaluate",
