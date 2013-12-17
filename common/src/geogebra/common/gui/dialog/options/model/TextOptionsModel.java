@@ -85,9 +85,9 @@ public class TextOptionsModel extends OptionsModel {
 	
 	@Override
 	public void updateProperties() {
-		if (lastGeo == editGeo) {
-			return;
-		}
+//		if (lastGeo == editGeo) {
+//			return;
+//		}
 		listener.setWidgetsVisible(!justDisplayFontSize, getGeoAt(0).isGeoButton());
 
 		TextProperties geo0 = getTextPropertiesAt(0);	

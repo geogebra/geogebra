@@ -187,6 +187,7 @@ public class PropertiesViewW extends
 
 	public void update(GeoElement geo) {
 		// TODO Auto-generated method stub
+		getObjectPanel().updateGUI();
 		App.debug("update(geo)");
 	}
 
@@ -201,7 +202,6 @@ public class PropertiesViewW extends
 	}
 
 	public void repaintView() {
-		getObjectPanel().updateGUI();
 	}
 
 	public void reset() {
@@ -232,6 +232,7 @@ public class PropertiesViewW extends
 	@Override
 	public void updateSelection() {
 		App.debug("updateSelection");// TODO Auto-generated method stub
+		getObjectPanel().updateGUI();
 	}
 
 
@@ -248,6 +249,7 @@ public class PropertiesViewW extends
 
 	@Override
     public void updateSelection(ArrayList<GeoElement> geos) {
+		getObjectPanel().updateGUI();
 	   App.debug("updateSelection(geos)"); 
     }
 

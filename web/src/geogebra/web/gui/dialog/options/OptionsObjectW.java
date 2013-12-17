@@ -2107,14 +2107,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				return false;
 			}
 			
-			GeoText geo0 = (GeoText)geos[0];
-			if (geo0 != orig) {
-				orig = geo0;
-				model.setEditGeo(orig);
-				getModel().updateProperties();
-				setLabels();
-				updatePreview();
-			}
+			getModel().updateProperties();
+			setLabels();
+			updatePreview();
 			
 			return true;
 			
