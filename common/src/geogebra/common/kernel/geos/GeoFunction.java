@@ -2073,22 +2073,42 @@ public class GeoFunction extends GeoElement implements VarString,
 			ArrayList<ExpressionNode> cases = new ArrayList<ExpressionNode>();
 			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
 			boolean complete = collectCases(expr,cases, conditions, new Bounds());
-			sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
-			for (int i = 0; i < cases.size(); i++) {
-				sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
-				sbLaTeX.append("& : ");
-				if (i == cases.size() - 1 && complete) {
-					sbLaTeX.append("\\text{");
-					sbLaTeX.append(loc.getPlain("otherwise"));
-					sbLaTeX.append("}");
-				} else {
-					sbLaTeX.append(conditions.get(i).toLaTeXString(
-							!substituteNumbers, getVarString(tpl), tpl));
-					if (i != cases.size() - 1)
-						sbLaTeX.append("\\\\ ");
+
+			if (kernel.getApplication().isHTML5Applet()) {
+				sbLaTeX.append("\\openbraceonly{ \\ggbtable{ ");
+				for (int i = 0; i < cases.size(); i++) {
+					sbLaTeX.append("\\ggbtr{ \\ggbtdL{ ");
+					sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+					sbLaTeX.append("} \\ggbtdL{ : \\space ");
+					if (i == cases.size() - 1 && complete) {
+						sbLaTeX.append("\\text{");
+						sbLaTeX.append(loc.getPlain("otherwise"));
+						sbLaTeX.append("}");
+					} else {
+						sbLaTeX.append(conditions.get(i).toLaTeXString(
+								!substituteNumbers, getVarString(tpl), tpl));
+					}
+					sbLaTeX.append(" } } ");
 				}
+				sbLaTeX.append(" } } ");
+			} else {
+				sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
+				for (int i = 0; i < cases.size(); i++) {
+					sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+					sbLaTeX.append("& : ");
+					if (i == cases.size() - 1 && complete) {
+						sbLaTeX.append("\\text{");
+						sbLaTeX.append(loc.getPlain("otherwise"));
+						sbLaTeX.append("}");
+					} else {
+						sbLaTeX.append(conditions.get(i).toLaTeXString(
+								!substituteNumbers, getVarString(tpl), tpl));
+						if (i != cases.size() - 1)
+							sbLaTeX.append("\\\\ ");
+					}
+				}
+				sbLaTeX.append(" \\end{array}\\right. ");
 			}
-			sbLaTeX.append(" \\end{array}\\right. ");
 		}
 
 		return sbLaTeX.toString();
