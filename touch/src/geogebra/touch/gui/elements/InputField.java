@@ -21,6 +21,7 @@ public class InputField extends VerticalPanel {
 	private final TextBox textBox;
 	private Panel underline;
 	private Label nameLabel;
+	boolean active = true;
 
 	/**
 	 * equal to AndroidTextBox(null)
@@ -63,6 +64,7 @@ public class InputField extends VerticalPanel {
 
 					@Override
 					public void execute() {
+						InputField.this.active = true;
 						onFocusTextBox();
 					}
 				});
@@ -72,12 +74,12 @@ public class InputField extends VerticalPanel {
 		this.textBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(final BlurEvent event) {
+				InputField.this.active = false;
 				onBlurTextBox();
 			}
 		});
 
 		this.addDomHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(final ClickEvent event) {
 				onClickTextBox();
@@ -151,5 +153,9 @@ public class InputField extends VerticalPanel {
 
 	public void setInactive() {
 		onBlurTextBox();
+	}
+
+	public boolean isActive() {
+		return this.active;
 	}
 }

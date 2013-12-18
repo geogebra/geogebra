@@ -49,7 +49,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	protected StandardRadioGroup radioGroup = new StandardRadioGroup();
 	protected StandardRadioButton[] radioButton = new StandardRadioButton[2];
 	protected FlowPanel inputFieldPanel = new FlowPanel();
-	private InputField textBox = new InputField();
+	protected InputField textBox = new InputField();
 
 	protected TouchApp app;
 	private DialogType type;
@@ -149,8 +149,8 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	}
 
 	private void addTextBox() {
-		this.textBox = new InputField(this.type == DialogType.Slider ? this.app
-				.getLocalization().getCommand("Name") : null, true);
+		this.textBox = new InputField(this.type == DialogType.Slider || this.type == DialogType.Button ? this.app.getLocalization()
+				.getCommand("Name") : null, true);
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler() {
 			@Override
@@ -306,7 +306,6 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 					this.app.getLocalization().getPlain("clockwise"));
 		}
 
-		
 		if (this.type != DialogType.Slider
 				&& this.type != DialogType.RedefineSlider) {
 			this.customKeys.setVisible(true);

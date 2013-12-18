@@ -51,11 +51,12 @@ import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.dialogs.ImageDialog;
 import geogebra.touch.gui.dialogs.ButtonDialog;
+import geogebra.touch.gui.dialogs.ImageDialog;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.dialogs.SliderDialog;
+import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.utils.ToolBarCommand;
 
@@ -1604,7 +1605,13 @@ public class TouchModel {
 			button.setLabel(null);
 		}
 
-		Script script = this.app.createScript(ScriptType.GGBSCRIPT, getButtonDialog().getScript(), true);
+		String scriptStr = getButtonDialog().getScript();
+		for (final CustomKey c : CustomKey.values()) {
+			if (!c.getReplace().equals("")) {
+				scriptStr = scriptStr.replace(c.toString(), c.getReplace());
+			}
+		}
+		Script script = this.app.createScript(ScriptType.GGBSCRIPT, scriptStr, true);
 		button.setClickScript(script);
 
 		// set caption text
@@ -1617,11 +1624,6 @@ public class TouchModel {
 		button.setLabelVisible(true);
 		button.updateRepaint();
 
-		//
-		// geoResult = button;
-		// setVisible(false);
-
-		// getButtonDialog().setVisible(false);
 		this.app.storeUndoInfo();
 
 		return true;

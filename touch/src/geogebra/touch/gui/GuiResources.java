@@ -7,6 +7,6 @@ import com.google.gwt.resources.client.TextResource;
 public interface GuiResources extends ClientBundle {
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
-	@Source("geogebra/resources/css/ggbquill.css")
+	@Source("geogebra/resources/css/mathquillggb.css")
 	TextResource mathquillCss();
 }
