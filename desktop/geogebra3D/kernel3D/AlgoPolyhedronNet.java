@@ -237,6 +237,8 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		
 	}
 	
+
+	
 	@Override
 	public void compute() {
 

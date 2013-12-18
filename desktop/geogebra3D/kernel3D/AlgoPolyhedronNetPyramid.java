@@ -190,8 +190,6 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	@Override
 	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
 
-		
-
 		Coords topCoords = p.getTopPoint();
 		Coords p1 = topCoords.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];
 		double d1 = p.getOrientedHeight();
