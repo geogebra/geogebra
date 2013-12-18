@@ -201,4 +201,8 @@ public class TouchEntryPoint implements EntryPoint {
 	static boolean hasBrowseGUI() {
 		return TouchEntryPoint.browseGUI != null;
 	}
+	
+	public static PhoneGap getPhoneGap() {
+		return TouchEntryPoint.phoneGap;
+	}
 }
