@@ -9,7 +9,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.common.util.debug.Log;
 /**
  * TriangleCurve[Point,Point,Point,Equation in A,B,C]
  * @author Zbynek
@@ -46,6 +45,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.addLocalVariable("B", tb);
 			cons.addLocalVariable("C", tc);
 			if(!(c.getArgument(3).unwrap() instanceof Equation)){
+				clearLocal();
 				throw argErr(app, c.getName(), c.getArgument(3));	
 			}
 			//need to allow constants as A+B=C does not include x
@@ -53,7 +53,6 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.setSuppressLabelCreation(true);
 			arg[3] = kernelA.getAlgebraProcessor().processEquation((Equation)c.getArgument(3).unwrap(),true)[0];
 			cons.setSuppressLabelCreation(oldMacroMode);
-			Log.debug(arg[3]);
 			if ((ok[0] = arg[0].isGeoPoint()) &&
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
@@ -64,17 +63,23 @@ public class CmdTriangleCurve extends CommandProcessor {
 						(GeoImplicitPoly) arg[3],ta,tb,tc);
 				
 				GeoElement[] ret = { algo.getResult() } ;
-				cons.removeLocalVariable("A");
-				cons.removeLocalVariable("B");
-				cons.removeLocalVariable("C");
+				clearLocal();
 				return ret;
 				
-			}			
+			}
+			clearLocal();
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			
 		default:
+			clearLocal();
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	private void clearLocal(){
+		cons.removeLocalVariable("A");
+		cons.removeLocalVariable("B");
+		cons.removeLocalVariable("C");
 	}
 	private final GeoElement resArg(Command c,int pos) throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
