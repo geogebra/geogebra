@@ -29,7 +29,7 @@ public final class CustomElements {
 
 	private static native void register(String element) /*-{
 	    if (@geogebra.html5.util.CustomElements::supported) {    	
-	    	$doc.reqister(element);
+	    	$doc.register(element);
 	    } else {
 	    	//TODO: fallback
 	    	$wnd.console.log("custom elements are not supported");
