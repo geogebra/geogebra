@@ -2172,13 +2172,29 @@ label {
 
 /*=========== Checkbox menuitem =============*/
 
-.gwt-MenuBar-horizontal .GChecBoxMenuItem {
+/* Stefi do you magic here :-) */
+
+.gwt-MenuBar-horizontal .GChecBoxMenuItem, .gwt-MenuBar-vertical .GChecBoxMenuItem {
 	margin: 0;
 	padding: 0;
 	vertical-align:top;
+	overflow:hidden;
 }
 
-/* TODO selected here*/
+.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected, .gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
+	background : #C0C5CF;
+}
+
+.GChecBoxMenuItem .gwt-CheckBox {
+	float:left;
+}
+
+.GChecBoxMenuItem .gwt-HTML {
+	float:right;
+}
+
+
+
 
 /*=========== Probability Calculator =============*/
 
