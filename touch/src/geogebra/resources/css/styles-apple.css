@@ -78,6 +78,7 @@ body .inputbarPanel input {
 
 /* POPUP */
 
+body .imageDialog,
 body .inputDialog,
 body .infoDialog {
 	padding: 6px;
@@ -108,6 +109,7 @@ body .infoDialog {
 	background-color: #434967;
 }
 
+.imageDialog .title,
 .inputDialog .title,
 .infoDialog .title {
 	padding: 10px;
@@ -117,6 +119,7 @@ body .infoDialog {
 	text-shadow: 0px -2px 2px #111111;
 }
 
+.imageDialog .gwt-Label,
 .inputDialog .gwt-Label,
 .infoDialog .gwt-Label {
 	text-align: center;
@@ -160,6 +163,22 @@ body .inputDialog .iconPanel img {
 	text-shadow: 0px -2px 2px #111111;
 }
 
+.imageDialog .insertChoicePanel div.button {
+	background-image: none;
+	padding: 12px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.buttonPanel td {
+	text-align: center;
+}
+
+.imageDialog .insertChoicePanel {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body .imageDialog button,
 body .inputDialog button,
 body .infoDialog .button,
 body .infoDialog button {
@@ -192,6 +211,7 @@ body .infoDialog button {
 	text-shadow: 0px -2px 2px #111111;
 }
 
+body .imageDialog .buttonPanel button,
 body .infoDialog .buttonPanel button,
 body .errorDialog .buttonPanel button,
 body .sliderDialog .buttonPanel button {

@@ -29,6 +29,7 @@ body .inputbarPanel .iconPanel {
 
 /* POPUP Dialog INPUT */
 
+body .imageDialog,
 body .inputDialog,
 body .infoDialog {
 	padding: 0px 0px 20px 0px;
@@ -50,6 +51,7 @@ body .infoDialog {
 	width: 100%;
 }
 
+body .imageDialog .titlePanel,
 body .inputDialog .titlePanel,
 body .infoDialog .titlePanel {
 	background-color: #7676C4;
@@ -67,6 +69,7 @@ body .infoDialog .titlePanel {
 	border-spacing: 0px;
 }
 
+.imageDialog .gwt-Label,
 .inputDialog .gwt-Label,
 .infoDialog .gwt-Label {
 	text-align: left;

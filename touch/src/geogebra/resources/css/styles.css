@@ -627,12 +627,14 @@ body .buttonPanel {
 	width: 100%;
 }
 
+/*
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
 	z-index: 20;
 	filter: alpha(opacity = 30);
 }
+*/
 
 .sliderDialog .sliderPanel .gwt-TextBox {
 	width: 90px;
