@@ -5,10 +5,17 @@ import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.html5.Dom;
+import geogebra.web.main.AppW;
 import geogebra.web.main.GeoGebraPreferencesW;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * The "Options" menu.
@@ -17,8 +24,10 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	
 	private static App app;
 	static Kernel kernel;
+	private static int currentZoom = 1;
 	
 	private LanguageMenuW languageMenu;
+	private double origFontSize;
 	/**
 	 * Constructs the "Option" menu
 	 * @param app Application instance
@@ -47,6 +56,61 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 			addSaveSettingsMenu();
 			addRestoreDefaultSettingsMenu();
 		}
+		
+		/*
+		addSeparator();
+		addZoomMenu();
+		addGlobalFontSizeMenu();
+		*/
+	}
+	
+	private class ZoomMenu extends MenuBar implements MenuInterface{
+		
+		public ZoomMenu(){
+			super(true);
+		}
+	}
+	
+	private void addZoomMenu(){
+		MenuBar zoomMenu = new ZoomMenu();
+		
+		zoomMenu.addItem(getZoomMenuItem("1"));
+		zoomMenu.addItem(getZoomMenuItem("1.2"));
+		zoomMenu.addItem(getZoomMenuItem("1.4"));
+		zoomMenu.addItem(getZoomMenuItem("1.6"));
+		app.addMenuItem((MenuInterface)this, "font.png", /*app.getMenu("FontSize")*/ "Zoom", true, (MenuInterface)zoomMenu);
+	}
+	
+	public MenuItem getZoomMenuItem(final String name){
+		ScheduledCommand cmd = new ScheduledCommand(){
+			@Override
+            public void execute() {
+	           zoom(name);      
+            }
+		};
+		return new MenuItem(name, cmd);
+		
+	}
+	
+	public void zoom(String d){
+		((AppW) app).getFrameElement().getStyle().setProperty("zoom", d);
+		
+	}
+	
+	private void addGlobalFontSizeMenu(){
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+				.empty().getSafeUri().asString(), "font size: 32px", true),
+		        true, new Command() {
+			        public void execute() {
+						//Remove the style element(s) if already exist
+						NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
+						for(int i=0; i<fontsizeElements.getLength(); i++){
+							fontsizeElements.getItem(i).removeFromParent();
+						}
+						
+			        	((AppW) app).getFrameElement().getStyle().setFontSize(32, Unit.PT);
+			        }
+		        });	
 	}
 	
 	private void addLanguageMenu() {

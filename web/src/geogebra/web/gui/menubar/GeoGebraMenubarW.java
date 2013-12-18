@@ -353,9 +353,11 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 			//until we have no enough place for the big icons in the toolbar, don't enable to increase too much the size of icons.
 			if (toolbariconSize > 45) toolbariconSize = 45;
 			
-			String innerText = ".GeoGebraMenuBar{font-size: "+fontsizeString+" !important}"+
+			String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu{font-size: "+fontsizeString+" !important}"+
 			".GeoGebraMenuImage{height: "+imagesize+"px; width: "+imagesize+"px;}" +
-			".GeoGebraMenuBar input[type=\"checkbox\"], .GeogebraMenuBar input[type=\"radio\"]{height: "+app.getGUIFontSize()+"px; width: "+fontsizeString +";}" +
+			".GeoGebraMenuBar input[type=\"checkbox\"], .GeogebraMenuBar input[type=\"radio\"], "+
+			".GeoGebraPopupMenu input[type=\"checkbox\"], .GeogebraPopupMenu input[type=\"radio\"] "+
+				"{height: "+fontsizeString+"; width: "+fontsizeString +";}" +
 			".toolbar_menuitem{font-size: "+fontsizeString+";}" +
 			".toolbar_menuitem img{width: "+toolbariconSize+"px;}";
 
