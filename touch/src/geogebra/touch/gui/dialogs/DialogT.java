@@ -8,6 +8,13 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public abstract class DialogT extends PopupPanel {
 
+	/**
+	 * 
+	 * @param autoHide <code>true</code> if the {@link PopupPanel} should be automatically
+   *          hidden when the user clicks outside of it
+	 * @param modal <code>true</code> if keyboard or mouse events that do not
+   *          target the {@link PopupPanel} or its children should be ignored
+	 */
 	public DialogT(boolean autoHide, boolean modal) {
 		super(autoHide, modal);
 	}
