@@ -3,6 +3,7 @@ package geogebra.web.gui.view.probcalculator;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import geogebra.common.main.App;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GCheckBoxMenuItem;
 import geogebra.web.gui.menubar.GRadioButtonMenuItem;
@@ -15,6 +16,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -142,10 +144,11 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnExport.setScheduledCommand(new ScheduledCommand() {
 			
 			public void execute() {
-				//JPopupMenu menu = ((ProbabilityCalculatorViewD) probCalc).getPlotPanel().getContextMenu();
-				//menu.show(btnExport,
-				//		-menu.getPreferredSize().width + btnExport.getWidth(),
-				//TODO		btnExport.getHeight());
+				
+				Window.open(((EuclidianViewW) ((ProbabilityCalculatorViewW)probCalc).plotPanel).getExportImageDataUrl(3, true),
+				        "_blank", null);
+				
+				
 			}
 		});
 		
