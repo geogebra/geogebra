@@ -79,8 +79,9 @@ public enum ToolBarMenu {
 	SpecialObject(ToolBarCommand.Pen /* TODO: ToolBarCommand.InsertText */,
 			new ToolBarCommand[] {
 					// ToolBarCommand.InsertText,
-					// ToolBarCommand.InsertImage,
-					ToolBarCommand.Pen, ToolBarCommand.FreehandShape
+					ToolBarCommand.InsertImage,
+					ToolBarCommand.Pen, 
+					ToolBarCommand.FreehandShape
 			// , ToolBarCommand.RelationBetweenTwoObjects
 			}),
 
