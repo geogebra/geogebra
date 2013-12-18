@@ -2206,6 +2206,36 @@ label {
 	padding: 0;
 }
 
+.lblMeanSigma {
+	text-align: right;
+}
+
+.controlPanel > div {
+	margin: 5px;
+}
+
+.cbPanel .gwt-ToggleButton, cbPanel .gwt-ListBox {
+	display: inline-block;
+}
+
+.controlPanel .parameterPanel, .controlPanel .resultPanel {
+	margin-left: 20px;
+}
+
+.parameterPanel > *, .resultPanel > * {
+	display: inline-block;
+	margin:0 5px;
+	padding: 0px;
+}
+
+.parameterPanel .gwt-SuggestBox, .resultPanel .gwt-SuggestBox {
+	margin: 0px;
+	padding: 0px;
+}
+
+.intervalPanel > * {
+	display: inline-block;
+}
 /*=========== Probability Calculator End =============*/
 
 .ggw_glabel{

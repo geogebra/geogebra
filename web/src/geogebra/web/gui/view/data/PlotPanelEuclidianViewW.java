@@ -15,6 +15,7 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 
 import java.util.LinkedList;
 
@@ -55,6 +56,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanelEuclidianViewInterface {
 	
+	/**
+	 * default height ot PlotPanelEuclidianViewW
+	 */
+	public static int DEFAULT_HEIGHT = 300;
+	
 	private EuclidianControllerW ec;
 	public PlotPanelEuclidianViewCommon commonFields;
 	
@@ -89,7 +95,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		
 		// set preferred size so that updateSize will work and this EV can be
 		// properly initialized
-		setPreferredSize(new GDimensionW(300, 200));
+		setPreferredSize(new GDimensionW(ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		updateSize();
 
 		

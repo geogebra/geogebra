@@ -210,6 +210,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		mainSplitPane = new FlowPanel();
 		mainSplitPane.add(plotSplitPane);
+		mainSplitPane.add(controlPanel);
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
 		
@@ -229,10 +230,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    ((PlotPanelEuclidianViewW) plotPanel).setMouseEnabled(true, true);
 	    ((PlotPanelEuclidianViewW) plotPanel).setMouseMotionEnabled(true);
 	    
-	    FlowPanel plotLabelPanel = new FlowPanel();
-	    plotLabelPanel.add(lblMeanSigma);
+
+	    
 	    plotPanelPlus = new FlowPanel();
+	    plotPanelPlus.addStyleName("PlotPanelPlus");
 	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
+	    plotPanelPlus.add(lblMeanSigma);
 	    
 	    //table panel
 	    table  = new ProbabilityTableW(app, this);
@@ -243,8 +246,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private void createControlPanel() {
 	    //distribution combobox panel
 		FlowPanel cbPanel = new FlowPanel();
+		cbPanel.addStyleName("cbPanel");
+		cbPanel.add(btnCumulative);
 		cbPanel.add(comboDistribution);
 		FlowPanel parameterPanel = new FlowPanel();
+		parameterPanel.addStyleName("parameterPanel");
 		
 		//parameter panel
 		for (int i = 0; i < maxParameterCount; i++) {
@@ -255,25 +261,32 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		// interval panel
 		// continue here.....
 		FlowPanel tb = new FlowPanel();
+		tb.addStyleName("intervalPanel");
 		tb.add(btnIntervalLeft);
 		tb.add(btnIntervalBetween);
 		tb.add(btnIntervalRight);
 		
-		FlowPanel p = new FlowPanel();
-		p.add(btnCumulative);
-		p.add(lblMeanSigma);
+		//FlowPanel p = new FlowPanel();
+		//p.add(btnCumulative);
+		//p.add(lblMeanSigma);
+		
+		FlowPanel resultPanel = new FlowPanel();
+		resultPanel.addStyleName("resultPanel");
+		resultPanel.add(lblProbOf);
+		resultPanel.add(fldLow);
+		resultPanel.add(lblBetween);
+		resultPanel.add(fldHigh);
+		resultPanel.add(lblEndProbOf);
+		resultPanel.add(fldResult);	
 		
 		controlPanel = new FlowPanel();
-		controlPanel.add(btnCumulative);
+		controlPanel.addStyleName("controlPanel");
+		//controlPanel.add(btnCumulative);
 		controlPanel.add(cbPanel);
 		controlPanel.add(parameterPanel);
 		controlPanel.add(tb);
-		controlPanel.add(lblProbOf);
-		controlPanel.add(fldLow);
-		controlPanel.add(lblBetween);
-		controlPanel.add(fldHigh);
-		controlPanel.add(lblEndProbOf);
-		controlPanel.add(fldResult);		
+		controlPanel.add(resultPanel);
+			
     }
 
 	private void createGUIElements() {
@@ -341,6 +354,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    fldResult.addFocusHandler(this);
 	    
 	    lblMeanSigma = new Label();
+	    lblMeanSigma.addStyleName("lblMeanSigma");
 	    	  
     }
 	
@@ -734,8 +748,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		@Override
         public void onResize() { 
 			int width = probCalcPanel.getOffsetWidth();
-			int height = probCalcPanel.getOffsetHeight();
-			plotPanel.setPreferredSize(new GDimensionW(width, height));
+			//int height = probCalcPanel.getOffsetHeight();
+			plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 			plotPanel.repaintView();
 		}
 		

@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	
+	/**
+	 * default width of this panel
+	 */
+	public static final int DEFAULT_WIDTH = 480;
 	private App app;
 
 	/**
@@ -31,7 +35,7 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 
 		this.app = app;
 		this.setOpenInFrame(true);
-		this.setEmbeddedSize(300);
+		this.setEmbeddedSize(DEFAULT_WIDTH);
 		
 	    this.app = app;
     }
