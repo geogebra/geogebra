@@ -14,7 +14,7 @@ class SubToolBarButton extends ToolButton {
 	OptionsClickedListener ancestor;
 
 	/**
-	 * Initializes the button of the options-menu and adds a {@link TapHandler}.
+	 * Initializes the button of the options-menu and adds a {@link FastClickHandler}.
 	 * 
 	 * @param cmd
 	 *            ToolBarCommand

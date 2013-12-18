@@ -25,18 +25,15 @@ public enum ToolBarCommand {
 
 	// Point
 	AttachDetachPoint(EuclidianConstants.MODE_ATTACH_DETACH, toolIcons()
-			.attach_detach_point(), StyleBarDefaultSettings.Point), ComplexNumbers(
-			EuclidianConstants.MODE_COMPLEX_NUMBER, toolIcons()
-					.complex_number(), StyleBarDefaultSettings.Point), IntersectTwoObjects(
-			EuclidianConstants.MODE_INTERSECT, toolIcons()
-					.intersect_two_objects(),
-			StyleBarDefaultSettings.DependentPoints), MidpointOrCenter(
-			EuclidianConstants.MODE_MIDPOINT, toolIcons()
-					.midpoint_or_center(),
-			StyleBarDefaultSettings.DependentPoints), NewPoint(
-			EuclidianConstants.MODE_POINT, toolIcons().new_point(),
-			StyleBarDefaultSettings.Point), PointOnObject(
-			EuclidianConstants.MODE_POINT_ON_OBJECT, toolIcons()
+			.attach_detach_point(), StyleBarDefaultSettings.Point), 
+	ComplexNumbers(EuclidianConstants.MODE_COMPLEX_NUMBER, toolIcons()
+			.complex_number(), StyleBarDefaultSettings.Point), 
+	IntersectTwoObjects(EuclidianConstants.MODE_INTERSECT, toolIcons()
+			.intersect_two_objects(), StyleBarDefaultSettings.DependentPoints), 
+	MidpointOrCenter(EuclidianConstants.MODE_MIDPOINT, toolIcons().midpoint_or_center(),
+			StyleBarDefaultSettings.DependentPoints), 
+	NewPoint(EuclidianConstants.MODE_POINT, toolIcons().new_point(),StyleBarDefaultSettings.Point), 
+	PointOnObject(EuclidianConstants.MODE_POINT_ON_OBJECT, toolIcons()
 					.point_on_object(), StyleBarDefaultSettings.PointOnObject),
 
 	// Line
