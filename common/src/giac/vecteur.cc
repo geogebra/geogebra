@@ -10865,9 +10865,8 @@ namespace giac {
       return symbolic(at_svd,args);
     // if (!is_zero(im(args,contextptr),contextptr)) return gensizeerr(gettext("Complex entry!"));
     gen argsf=args;
-    if (!is_zero(im(argsf,contextptr)))
-      return gensizeerr(gettext("Real matrix expected"));
-    if (method>=0 && is_fully_numeric( (argsf=evalf_double(args,1,contextptr)) )){
+    bool real=is_zero(im(argsf,contextptr));
+    if (real && method>=0 && is_fully_numeric( (argsf=evalf_double(args,1,contextptr)) )){
 #ifdef HAVE_LIBLAPACK
       if (!CAN_USE_LAPACK
 	  || dgeqrf_ == NULL
@@ -10936,7 +10935,7 @@ namespace giac {
       return gen(makevecteur(mU,s,mtran(mVT)),_SEQ__VECT);
 #endif // HAVE_LIBLAPACK
 #ifdef HAVE_LIBGSL
-      {   
+      if (1){   
 	gsl_matrix * u=matrice2gsl_matrix(*args._VECTptr,contextptr);
 	int s1=u->size1,s2=u->size2;
 	gsl_vector * work=gsl_vector_alloc (s1);
@@ -10964,14 +10963,24 @@ namespace giac {
       }
 #endif // HAVE_LIBGSL
     }    
-    // non numeric code
-    matrice mtm,p,d,pd,invpd,v;
-    gen tmg=_trn(argsf,contextptr); // mtran(*args._VECTptr,tm);
-    if (!ckmatrix(tmg))
+    // non numeric code/also for complex
+    if (!ckmatrix(argsf))
       return gensizeerr(contextptr);
-    const matrice & tm=*tmg._VECTptr;
-    mmult(*argsf._VECTptr,tm,mtm);
-    if (!egv(mtm,p,d,contextptr,true,false,false))
+    matrice M=*argsf._VECTptr;
+    bool transposed=M.size()<M.front()._VECTptr->size();
+    if (transposed){
+      gen tM=_trn(M,contextptr);
+      if (!ckmatrix(tM))
+	return gensizeerr(contextptr);
+      M=*tM._VECTptr;
+    }
+    matrice tMM,p,d,Mp,invs,u;
+    gen tMg=_trn(M,contextptr); // mtrn(*args._VECTptr,tm);
+    if (!ckmatrix(tMg))
+      return gensizeerr(contextptr);
+    const matrice & tM=*tMg._VECTptr;
+    mmult(tM,M,tMM);
+    if (!egv(tMM,p,d,contextptr,true,false,false))
       return gensizeerr(contextptr);
     // should reorder eigenvalue (decreasing order)
     int s=d.size();
@@ -10980,6 +10989,7 @@ namespace giac {
     for (int i=0;i<s;++i){
       vecteur vi=*d[i]._VECTptr;
       gen & di=vi[i];
+      di=re(di,contextptr);
       di=sqrt(di,contextptr);
       svl.push_back(di);
       d[i]=vi;
@@ -10988,12 +10998,50 @@ namespace giac {
     }
     if (method==-2)
       return svl;
-    // now m*tran(m)=p*d*tran(p)
-    mmult(p,d,pd);
-    invpd=minv(pd,contextptr);
-    mmult(invpd,*argsf._VECTptr,v);
-    gen tv=_trn(v,contextptr);
-    return gen(makevecteur(p,svl,tv),_SEQ__VECT); // M=p*diag(svl)*trn(tv)
+    // M=u*s*trn(q), u and q unitary => tM*M=q*s^2*trn(q)
+    // here tM*M=p*d^2*trn(p) so q=p is known, and u=M*q*inv(s)
+    mmult(M,p,Mp);
+    invs=d;
+    for (int i=0;i<s;++i){
+      invs[i]=*d[i]._VECTptr;
+      gen & tmp=(*invs[i]._VECTptr)[i];
+      tmp=inv(tmp,contextptr);
+    }
+    mmult(Mp,invs,u); 
+    int complete=u.size()-u.front()._VECTptr->size();
+    if (complete>0){
+      // complete u to a unitary matrix by adding columns
+      matrice tu;
+      tu=*_trn(u,contextptr)._VECTptr;
+      unsigned n=u.size();
+      // take random vectors from canonical basis
+      while (1){
+	vector<int> v(n);
+	for (unsigned i=0;i<n;++i)
+	  v[i]=i;
+	for (int i=0;i<complete;++i){
+	  int j=int(double(rand()*v.size())/RAND_MAX);
+	  vecteur tmp(n);
+	  tmp[v[j]]=1;
+	  tu.push_back(tmp);
+	  v.erase(v.begin()+j);
+	}
+	gen uqr=qr(_trn(tu,contextptr),contextptr);
+	if (uqr.type==_VECT && uqr._VECTptr->size()>=2 && is_squarematrix(uqr._VECTptr->front()) &&is_squarematrix((*uqr._VECTptr)[1]) ){
+	  u=*uqr._VECTptr->front()._VECTptr;
+	  tu=*_trn(u,contextptr)._VECTptr;
+	  vecteur r=*(*uqr._VECTptr)[1]._VECTptr;
+	  for (unsigned i=0;i<n;++i){
+	    tu[i]=divvecteur(*tu[i]._VECTptr,r[i][i]);
+	  }
+	  u=*_trn(tu,contextptr)._VECTptr;
+	  break;
+	}
+      }
+    }
+    if (transposed)
+      return gen(makevecteur(p,svl,u),_SEQ__VECT); 
+    return gen(makevecteur(u,svl,p),_SEQ__VECT); 
   }
   static const char _svd_s []="svd";
   static define_unary_function_eval (__svd,&giac::_svd,_svd_s);

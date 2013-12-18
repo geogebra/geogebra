@@ -311,6 +311,17 @@ namespace giac {
       }
       return gensizeerr(contextptr);
     }
+    if (s.sommet==at_of && s.feuille.type==_VECT && s.feuille._VECTptr->size()==2){
+      // assuming we do not have an index in a list or matrix!
+      gen f=s.feuille._VECTptr->front();
+      gen arg=s.feuille._VECTptr->back();
+      gen darg=derive(arg,i,contextptr);
+      if (!is_one(darg)){
+	// f(arg)'=arg'*f'(arg)
+	gen fprime=symbolic(at_derive,f);
+	return darg*symbolic(at_of,makesequence(fprime,arg));
+      }
+    }
     // multi derivative and multi-indice derivatives
     if (s.sommet==at_derive){
       if (s.feuille.type!=_VECT)

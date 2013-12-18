@@ -2475,7 +2475,7 @@ namespace giac {
     if (!tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr))
       return exactvalue;
     tmp2=evalf_double(tmp2,1,contextptr);
-    if (tmp2.type!=_DOUBLE_ || std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<1e-3*std::abs(tmp2._DOUBLE_val))
+    if (tmp2.type!=_DOUBLE_ || std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<=1e-3*std::abs(tmp2._DOUBLE_val))
       return simplifier(exactvalue,contextptr);
     *logptr(contextptr) << gettext("Error while checking exact value with approximate value, returning both!") << endl;
     return makevecteur(exactvalue,tmp2);
@@ -3022,12 +3022,16 @@ namespace giac {
     i6 = i6*h;
     gen err1=_l2norm(i30-i14,contextptr);
     gen err2=_l2norm(i30-i6,contextptr);
-    // check if err1 and err2 corresponds to errors in h^14 and h^6
-    if (is_greater(abs(14./6.-ln(err1,contextptr)/ln(err2,contextptr)),.1,contextptr))
-      err=err1;
+    if (is_zero(err1) || is_zero(err2))
+      err=0;
     else {
-      err=err1/err2;
-      err=err1*(err*err);
+      // check if err1 and err2 corresponds to errors in h^14 and h^6
+      if (is_greater(abs(14./6.-ln(err1,contextptr)/ln(err2,contextptr)),.1,contextptr))
+	err=err1;
+      else {
+	err=err1/err2;
+	err=err1*(err*err);
+      }
     }
     return true;
   }
@@ -3052,7 +3056,7 @@ namespace giac {
 	i30 += w[2];
 	I30ABS += w[3];
 	ERR += w[4];
-	if (is_greater(w[4],maxerr,contextptr)){
+	if (is_strictly_greater(w[4],maxerr,contextptr)){
 	  maxerrpos=i;
 	  maxerr=w[4];
 	}

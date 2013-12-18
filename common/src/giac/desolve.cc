@@ -724,24 +724,24 @@ namespace giac {
 	gen & a=v[0];
 	gen & b=v[1];
 	gen & c=v[2];
-	gen & d=v[3];
-	gen u=-b/a,v=-c/a,w=-d/a,
-	  k=simplify(u*u/4-derive(u,x,contextptr)/2+v,contextptr);
-	// y''=u*y'+v*y+w  (with u,v,w functions of x)
+	gen & d=cst;
+	gen u=-b/a,V=-c/a,w=-d/a,
+	  k=simplify(u*u/4-derive(u,x,contextptr)/2+V,contextptr);
+	// y''=u*y'+V*y+w  (with u,V,w functions of x)
 	// Pseudo-code from fhub on HP Museum Forum
 	/* 
-	   k:=u^2/4-u'/2+v 
+	   k:=u^2/4-u'/2+V 
 	   if k==const or k*x^2=const then 
 	     if k=const 
 	       then s:=x; t:=e^(int(u,x)/2); 
-	       else u:=u*x+1; k:=u^2/4+v*x^2; s:=ln(x); t:=x^(u/2); 
+	       else u:=u*x+1; k:=u^2/4+V*x^2; s:=ln(x); t:=x^(u/2); 
 	     endif;
-	     if k=0 then u:=t*s; v:=t; 
-	       elseif k>0 then u:=t*e^(sqrt(k)*s); v:=t*e^(-sqrt(k)*s); 
-	       else u:=t*cos(sqrt(-k)*s); v:=t*sin(sqrt(-k)*s); 
+	     if k=0 then u:=t*s; V:=t; 
+	       elseif k>0 then u:=t*e^(sqrt(k)*s); V:=t*e^(-sqrt(k)*s); 
+	       else u:=t*cos(sqrt(-k)*s); V:=t*sin(sqrt(-k)*s); 
 	     endif;
-	     w:=w/(u*v'-v*u'); w:=v*int(u*w,x)-u*int(v*w,x);
-	     solution: y=c1*u+c2*v+w 
+	     w:=w/(u*V'-V*u'); w:=V*int(u*w,x)-u*int(V*w,x);
+	     solution: y=c1*u+c2*V+w 
 	   endif
 	 */
 	bool cst=is_zero(derive(k,x,contextptr));
@@ -753,30 +753,30 @@ namespace giac {
 	    t=simplify(exp(integrate_without_lnabs(u,x,contextptr)/2,contextptr),contextptr);
 	  }
 	  else {
-	    u=u*x+1; k=simplify(u*u/4+v*x*x,contextptr); 
+	    u=u*x+1; k=simplify(u*u/4+V*x*x,contextptr); 
 	    s=ln(x,contextptr); t=pow(x,u/2,contextptr);
 	  }
 	  if (is_zero(k)){
-	    u=t*s; v=t;
+	    u=t*s; V=t;
 	  }
 	  else {
 	    if (is_strictly_positive(k,contextptr)){
 	      gen tmp=sqrt(k,contextptr)*s;
 	      u=t*exp(tmp,contextptr); 
-	      v=t*exp(-tmp,contextptr); 
+	      V=t*exp(-tmp,contextptr); 
 	    }
 	    else {
 	      gen tmp=sqrt(-k,contextptr)*s;
 	      u=t*cos(tmp,contextptr); 
-	      v=t*sin(tmp,contextptr);
+	      V=t*sin(tmp,contextptr);
 	    }
 	  }
-	  w=simplify(w/(u*derive(v,x,contextptr)-v*derive(u,x,contextptr)),contextptr); 
-	  w=v*integrate_without_lnabs(u*w,x,contextptr)-
-	    u*integrate_without_lnabs(v*w,x,contextptr);
+	  w=simplify(w/(u*derive(V,x,contextptr)-V*derive(u,x,contextptr)),contextptr); 
+	  w=V*integrate_without_lnabs(u*w,x,contextptr)-
+	    u*integrate_without_lnabs(V*w,x,contextptr);
 	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	  parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));	
-	  gen sol=w+parameters[parameters.size()-2]*u+parameters[parameters.size()-1]*v;
+	  gen sol=w+parameters[parameters.size()-2]*u+parameters[parameters.size()-1]*V;
 	  return sol;
 	}
       }

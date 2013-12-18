@@ -1708,7 +1708,9 @@ namespace giac {
     identificateur idx("taylorx"+print_INT_(taylorxn));
     ++taylorxn;
     newx=idx;
-    v[0]=subst(eval(subst(v[0],x,newx,false,contextptr),eval_level(contextptr),contextptr),x,newx,false,contextptr);
+    gen tmp=subst(v[0],x,newx,false,contextptr);
+    tmp=eval(tmp,eval_level(contextptr),contextptr);
+    v[0]=tmp=subst(tmp,x,newx,false,contextptr);
     v[1]=newx;
     int s=v.size();
     for (int i=2;i<s;++i)
@@ -1790,7 +1792,11 @@ namespace giac {
 	gen x,newx;
 	hp38_eval(v,x,newx,contextptr);
 	gen tmp=_integrate(gen(v,_SEQ__VECT),contextptr);
-	return subst(tmp,newx,x,false,contextptr);
+	if (eval(x,1,contextptr)!=x)
+	  return tmp; 
+	else
+	  return subst(tmp,newx,x,false,contextptr);
+	// if we subst then the value of x may alter tmp even with subst
       }
     }
 #ifndef CAS38_DISABLED
@@ -2010,7 +2016,7 @@ namespace giac {
 
   gen _SVD(const gen & args0,GIAC_CONTEXT){
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
-    if (!is_squarematrix(args0))
+    if (!ckmatrix(args0))
       return gentypeerr(contextptr);
     gen args=evalf(args0,1,contextptr);
     gen res= _svd(gen(makevecteur(args,-1),_SEQ__VECT),contextptr);
@@ -2023,7 +2029,7 @@ namespace giac {
 
   gen _SVL(const gen & args0,GIAC_CONTEXT){
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
-    if (!is_squarematrix(args0))
+    if (!ckmatrix(args0))
       return gentypeerr(contextptr);
     gen args=evalf(args0,1,contextptr);
     return _svd(gen(makevecteur(args,-2),_SEQ__VECT),contextptr);
