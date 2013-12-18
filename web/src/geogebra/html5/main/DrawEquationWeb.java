@@ -57,7 +57,7 @@ public class DrawEquationWeb extends DrawEquation {
 		eqstring = eqstring.replace("\\%", "%");
 
 		// make sure eg FractionText[] works (surrounds with {} which doesn't
-		// draw well in ggbquill)
+		// draw well in MathQuillGGB)
 		if (eqstring.length() >= 2)
 			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
 				eqstring = eqstring.substring(1, eqstring.length() - 1);
@@ -215,7 +215,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
-		drawEquationGGBQuill(ih, eqstring, 0, 0, parentElement, true,
+		drawEquationMathQuillGGB(ih, eqstring, 0, 0, parentElement, true,
 		        el == eqstring.length(), true, 0);
 	}
 
@@ -379,7 +379,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationGGBQuill(ih, eqstring, fontSize, fontSizeR,
+			drawEquationMathQuillGGB(ih, eqstring, fontSize, fontSizeR,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2, rotateDegree);
 
@@ -469,7 +469,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
-	 * The JavaScript/$ggbQuery bit of drawing an equation with GGBQuill More
+	 * The JavaScript/$ggbQuery bit of drawing an equation with MathQuillGGB More
 	 * could go into GWT, but it was easier with JSNI
 	 * 
 	 * @param el
@@ -484,7 +484,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            true = normal LaTeX, flase = LaTeX with \begin{eqnarray} in
 	 *            the beginning
 	 */
-	public static native void drawEquationGGBQuill(Element el, String htmlt, int fontSize, int fontSizeRel,
+	public static native void drawEquationMathQuillGGB(Element el, String htmlt, int fontSize, int fontSizeRel,
 	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible, double rotateDegree) /*-{
 
 		el.style.cursor = "default";
@@ -545,11 +545,11 @@ public class DrawEquationWeb extends DrawEquation {
 		parentElement.appendChild(el);
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecondInside).ggbquill();
+			$wnd.$ggbQuery(elsecondInside).mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elsecondInside).ggbquill('latex', htmlt);
+				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
 			}, 500);
 
 			// it's not ok for IE8, but it's good for ie9 and above
@@ -557,18 +557,18 @@ public class DrawEquationWeb extends DrawEquation {
 			//	if ($doc.readyState === 'complete' ||
 			//		$doc.readyState === 'loaded') {
 			//		$wnd.console.log('Doesnt run in Chrome');
-			//		$wnd.$ggbQuery(elsecond).ggbquill('latex', htmlt);
+			//		$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
 			//	}
 			//}, false);
 		} else {
-			$wnd.$ggbQuery(elsecondInside).ggbquill('eqnarray');
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
 			//				// TODO: this needs more testing,
 			//				// also for the editing of it
-			//				//$wnd.$ggbQuery(elsecond).ggbquill('latex', htmlt);
-			//				$wnd.$ggbQuery(elsecond).ggbquill('eqnarray');
+			//				//$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
+			//				$wnd.$ggbQuery(elsecond).mathquillggb('eqnarray');
 			//			});
 		}
 
@@ -622,14 +622,14 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
-	 * Edits a GGBQuill equation which was created by drawEquationGGBQuill
+	 * Edits a MathQuillGGB equation which was created by drawEquationMathQuillGGB
 	 * 
 	 * @param rbti
 	 *            the tree item for callback
 	 * @param parentElement
-	 *            the same element as in drawEquationGGBQuill
+	 *            the same element as in drawEquationMathQuillGGB
 	 */
-	public static native void editEquationGGBQuill(RadioButtonTreeItem rbti,
+	public static native void editEquationMathQuillGGB(RadioButtonTreeItem rbti,
 	        Element parentElement) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
@@ -640,7 +640,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var elsecondInside = elsecond.lastChild; 
 
-		$wnd.$ggbQuery(elsecondInside).ggbquill('revert').ggbquill('editable').focus(); 
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb('editable').focus(); 
 
 		$wnd
 				.$ggbQuery(elsecondInside)
@@ -653,9 +653,9 @@ public class DrawEquationWeb extends DrawEquation {
 								code = event.which;
 							}
 							if (code == 13) {
-								@geogebra.html5.main.DrawEquationWeb::endEditingEquationGGBQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							} else if (code == 27) {
-								@geogebra.html5.main.DrawEquationWeb::escEditingEquationGGBQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							}
 							event.stopPropagation();
 							event.preventDefault();
@@ -671,7 +671,7 @@ public class DrawEquationWeb extends DrawEquation {
 				.focusout(
 						function(event) {
 							if ($wnd.mousein.mout) {
-								@geogebra.html5.main.DrawEquationWeb::escEditingEquationGGBQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							}
 							event.stopPropagation();
 							event.preventDefault();
@@ -684,7 +684,7 @@ public class DrawEquationWeb extends DrawEquation {
 				});
 	}-*/;
 
-	public static native void escEditingEquationGGBQuill(
+	public static native void escEditingEquationMathQuillGGB(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
@@ -693,55 +693,55 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var latexq = null;
 		elsecond.previousSibling.style.display = "block";
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationGGBQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
-		thisjq.ggbquill('revert').ggbquill();
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
-	public static native void endEditingEquationGGBQuill(
+	public static native void endEditingEquationMathQuillGGB(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
-		var latexq = thisjq.ggbquill('text');
+		var latexq = thisjq.mathquillggb('text');
 		elsecond.previousSibling.style.display = "block";
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationGGBQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
-		thisjq.ggbquill('revert').ggbquill();
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
-	public static void endEditingEquationGGBQuill(RadioButtonTreeItem rbti,
+	public static void endEditingEquationMathQuillGGB(RadioButtonTreeItem rbti,
 	        String latex) {
 		rbti.stopEditing(latex);
 	}
 
 	/**
-	 * Updates a GGBQuill equation which was created by drawEquationGGBQuill
+	 * Updates a MathQuillGGB equation which was created by drawEquationMathQuillGGB
 	 * 
 	 * @param parentElement
-	 *            the same element as in drawEquationGGBQuill
+	 *            the same element as in drawEquationMathQuillGGB
 	 */
-	public static native void updateEquationGGBQuill(String htmlt,
+	public static native void updateEquationMathQuillGGB(String htmlt,
 	        Element parentElement, boolean noEqnArray) /*-{
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecondInside).ggbquill('revert').html(htmlt).ggbquill();
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt).mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elsecondInside).ggbquill('latex', htmlt);
+				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
 			});
 		} else {
-			$wnd.$ggbQuery(elsecondInside).ggbquill('revert').html(htmlt).ggbquill(
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt).mathquillggb(
 					'eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
 			//				// TODO: needs testing
-			//				//$wnd.$ggbQuery(elsecond).ggbquill('latex', htmlt);
-			//				$wnd.$ggbQuery(elsecond).ggbquill('eqnarray');
+			//				//$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
+			//				$wnd.$ggbQuery(elsecond).mathquillggb('eqnarray');
 			//			});
 		}
 

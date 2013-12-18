@@ -599,7 +599,7 @@ public class MyList extends ValidExpression implements ListValue,
 			// in schools the emptyset symbol is typically not used, see #
 			// return "\\emptyset";
 			
-			// changed from "\\{ \\}" as GGBQuill doesn't render that correctly
+			// changed from "\\{ \\}" as MathQuillGGB doesn't render that correctly
 			return "\\left\\{ \\right\\}";
 		} else if (isMatrix()) {
 			if (kernel.getApplication().isHTML5Applet()) {

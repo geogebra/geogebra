@@ -687,7 +687,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 				inputs[1] = kernel.format(y,tpl);
 			}
 			
-			// GGBQuill can't render v = \left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
+			// MathQuillGGB can't render v = \left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
 			// so use eg \binom{ -10 }{ 0 } in web
 			// see #1987
 			if (inputs.length == 2 && kernel.getApplication().isHTML5Applet()) {

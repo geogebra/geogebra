@@ -245,7 +245,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			int tl = text.length();
 			text = DrawEquationWeb.stripEqnArray(text);
 			updateColor(seMayLatex);
-			DrawEquationWeb.updateEquationGGBQuill("\\mathrm{"+text+"}", seMayLatex,
+			DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{"+text+"}", seMayLatex,
 			        tl == text.length());
 			updateColor(seMayLatex);
 		} else if (!LaTeX && !newLaTeX) {
@@ -287,7 +287,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void cancelEditing() {
 		if (LaTeX) {
-			DrawEquationWeb.endEditingEquationGGBQuill(this, seMayLatex);
+			DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
 		} else {
 			remove(tb);
 			add(ihtml);
@@ -298,7 +298,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void startEditing() {
 		thisIsEdited = true;
 		if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
-			geogebra.html5.main.DrawEquationWeb.editEquationGGBQuill(this,seMayLatex);
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex);
 		} else {
 			remove(ihtml);
 			tb = new TextBox();

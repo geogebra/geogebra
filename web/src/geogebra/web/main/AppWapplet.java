@@ -83,7 +83,7 @@ public class AppWapplet extends AppW {
 		canvas.setCoordinateSpaceWidth(1);
 		initCoreObjects(undoActive, this);
 		//this may only be called after factories are initialized
-		StringTemplate.latexIsGGBQuill = true;
+		StringTemplate.latexIsMathQuillGGB = true;
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 

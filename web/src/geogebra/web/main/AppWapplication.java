@@ -62,7 +62,7 @@ public class AppWapplication extends AppW {
 
 		// initing = true;
 		//this may only be called after factories are initialized
-		StringTemplate.latexIsGGBQuill = true;
+		StringTemplate.latexIsMathQuillGGB = true;
 		removeDefaultContextMenu();
 	}
 

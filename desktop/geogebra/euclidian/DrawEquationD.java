@@ -94,7 +94,7 @@ public class DrawEquationD extends DrawEquation {
 				Iterator<String> it = ggbCols.keySet().iterator();
 				
 				// add commands eg \red{text}
-				// same commands added to GGBQuill
+				// same commands added to MathQuillGGB
 				while (it.hasNext()) {
 					String colStr = it.next();
 					
@@ -113,7 +113,7 @@ public class DrawEquationD extends DrawEquation {
 						initJLM.append(col.getBlue());
 						initJLM.append("}{#1}} ");
 						
-						// generate JavaScript code for GGBQuill
+						// generate JavaScript code for MathQuillGGB
 						//System.out.println("LatexCmds."+colStr+" = bind(Style, '\\\\"+colStr+"', '<span style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
 
 					}
