@@ -1990,6 +1990,24 @@ var Style = P(MathCommand, function(_, _super) {
   _.init = function(ctrlSeq, tagName, attrs) {
     _super.init.call(this, ctrlSeq, '<'+tagName+' '+attrs+'>&0</'+tagName+'>');
   };
+  _.text = function() {
+    var i = 0;
+    var thisMathCommand = this;
+    return this.foldChildren(this.textTemplate[i], function(text, child) {
+      i += 1;
+      var child_text = child.text();
+      if (child_text[0] === '(' && child_text.slice(-1) === ')') {
+    	// There may be cases when the '(' and ')' are harmful!
+    	// Only one pair of '(' and ')' should remain,
+    	// and this is OK at the parent node of this Style.
+    	// But if the parent node of this Style is RootMathBlock,
+    	// then there will be no '(' and ')', so OK.
+      	child_text = child_text.slice(1, -1);
+        //return text + child_text.slice(1, -1) + thisMathCommand.textTemplate[i];
+      }
+      return text + child_text + (thisMathCommand.textTemplate[i] || '');
+    });
+  };
 });
 
 //fonts
