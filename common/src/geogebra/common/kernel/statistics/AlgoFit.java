@@ -74,7 +74,7 @@ public class AlgoFit extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.FitPow;
+		return Commands.Fit;
 	}
 
 	@Override
