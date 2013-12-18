@@ -330,6 +330,14 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 		}
 
+		/*************************************************************************
+		 * If g2 is not painting in EV1 or EV2, then assume g2 is being used for
+		 * temporary drawing. In this case, the canvas associated with g2 does
+		 * not have a parent element so we cannot add HTML elements to it. To
+		 * handle this problem elements are instead drawn invisibly into either
+		 * EV1 or EV2.
+		 *************************************************************************/
+
 		GGraphics2DW g2visible = (GGraphics2DW)g2;
 		if (!visible1 && !visible2) {
 			if (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) {
