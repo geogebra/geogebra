@@ -3,6 +3,7 @@ package geogebra.html5.javax.swing;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 
 public class GLabelW extends geogebra.common.javax.swing.GLabel {
@@ -50,7 +51,7 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 	@Override
     public void setFont(GFont font) {
 	    //App.debug("GLabelW.setFont() implementation needed"); // TODO Auto-generated
-	    impl.getElement().getStyle().setProperty("font-size", font.getSize()+"px");
+	    impl.getElement().getStyle().setFontSize(font.getSize(), Unit.PT);
 	    
     }
 
