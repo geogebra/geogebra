@@ -1449,7 +1449,7 @@ __GGB__keysVar.no_NN.menu = {
     "Isometric": "Isometrisk",
     "JavaOnly": "Eksporter berre til Java",
     "JavaWithHTML5": "Eksporter til Java (med HTML5 som alternativ)",
-    "Join": "Linje gjennom to punkt",
+    "Join": "Linje",
     "Join_Help": "To punkt",
     "KeepDotColors": "Behald punktfargar",
     "KeepInput": "Behald inntasting",
