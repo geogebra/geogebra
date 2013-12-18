@@ -259,7 +259,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		for (int i = 1; i < netMap.get(iFace).size(); i++){
 			pointsToRotate.addAll(rotateFace(netMap.get(iFace).get(i), f));
 		}
-
+		double angle = 0;
 		if (iFace!=iBottom){
 			//add points index to the list
 			for (int index = 2; index<polygonInfo.get(iFace).pointIndex.size(); index++){
@@ -270,18 +270,30 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			Coords cCoord = facePoint.getInhomCoordsInD(3);
 			Coords projCoord = cCoord.projectPlane(p.getFace(netMap.get(iFace).get(0)).getCoordSys().getMatrixOrthonormal())[0];
 			double dist =  projCoord.distance(cCoord);
-			Coords o = (outputPointsNet.getElement(polygonInfo.get(iFace).pointIndex.get(0))).getInhomCoordsInD(3);
+			Coords o = (outputPointsNet.getElement(polygonInfo.get(iFace).pointIndex.get(1))).getInhomCoordsInD(3);
+			Coords o1 = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getStartPoint().getInhomCoordsInD(3);
 			Coords vs = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getDirectionInD3();
-			Coords v2 = projCoord.sub(o);
-			double d2 = cCoord.distLine(o, vs);
-			double angle = Math.asin(dist/d2);		
-			if (v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) < 0) { // top point is inside bottom face
-				angle = Math.PI - angle;
+			int sgn=1;
+			if (o1.distance(o) > 0.01){
+				App.debug("pb: "+iFace);
+				o = (outputPointsNet.getElement(polygonInfo.get(iFace).pointIndex.get(0))).getInhomCoordsInD(3);
+				//vs.mul(-1.);
+				sgn=-1;
 			}
+			Coords v2 = projCoord.sub(o);
+		
+			double d2 = cCoord.distLine(o, vs);
+			App.debug(iFace+"dist = "+dist+ " d2 = "+d2);
+			double frac = Math.min(1,dist/d2);
+			angle = Math.asin(frac);		
+			if (((sgn==1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) < 0))|((sgn==-1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) > 0))) { // top point is inside bottom face
+				angle =   Math.PI - angle;
+			}
+			App.debug("->"+angle);
 			// rotate the points of the list
 			for (int iPoint = 0 ; iPoint < pointsToRotate.size() ; iPoint++) {
 				facePoint = outputPointsNet.getElement(pointsToRotate.get(iPoint));
-				facePoint.rotate(f * angle, o, vs);
+				facePoint.rotate(f*sgn*angle,o,vs);
 			}
 		}
 
