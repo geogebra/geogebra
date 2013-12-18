@@ -3,13 +3,13 @@ package geogebra.common.kernel.barycentric;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
+import geogebra.common.util.debug.Log;
 /**
  * TriangleCurve[Point,Point,Point,Equation in A,B,C]
  * @author Zbynek
@@ -46,11 +46,14 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.addLocalVariable("B", tb);
 			cons.addLocalVariable("C", tc);
 			if(!(c.getArgument(3).unwrap() instanceof Equation)){
-				throw argErr(app, c.getName(), getBadArg(ok,arg));	
+				throw argErr(app, c.getName(), c.getArgument(3));	
 			}
 			//need to allow constants as A+B=C does not include x
+			boolean oldMacroMode = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
 			arg[3] = kernelA.getAlgebraProcessor().processEquation((Equation)c.getArgument(3).unwrap(),true)[0];
-
+			cons.setSuppressLabelCreation(oldMacroMode);
+			Log.debug(arg[3]);
 			if ((ok[0] = arg[0].isGeoPoint()) &&
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
@@ -78,16 +81,13 @@ public class CmdTriangleCurve extends CommandProcessor {
 		cons.setSuppressLabelCreation(true);
 
 		// resolve arguments to get GeoElements
-		ExpressionNode[] arg = c.getArguments();
-		
 
-		
-			// resolve variables in argument expression
-			arg[pos].resolveVariables(false);
+		// resolve variables in argument expression
+		c.getArgument(pos).resolveVariables(false);
 
-			// resolve i-th argument and get GeoElements
-			// use only first resolved argument object for result
-			GeoElement result = resArg(arg[pos])[0];
+		// resolve i-th argument and get GeoElements
+		// use only first resolved argument object for result
+		GeoElement result = resArg(c.getArgument(pos))[0];
 		
 
 		cons.setSuppressLabelCreation(oldMacroMode);
