@@ -3,7 +3,6 @@ package geogebra.touch.gui.algebra;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
-import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
@@ -149,10 +148,11 @@ class AlgebraViewT extends AlgebraViewWeb {
 					.getElement().getFirstChildElement(), "display",
 					"inline-block");
 		} else {
-			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
+			ti.setWidget(new GroupHeaderT(this.app.getSelectionManager(), ti, ob
 					.toString(), DefaultResources.INSTANCE.triangle_left()
-					.getSafeUri(), getLafIcons().triangle_left().getSafeUri()));
-		}
+					.getSafeUri(), getLafIcons().triangle_left().getSafeUri(), 
+					this.controller));
+		}		
 	}
 
 	@Override

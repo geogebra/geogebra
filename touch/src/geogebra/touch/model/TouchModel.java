@@ -1380,6 +1380,17 @@ public class TouchModel {
 		return handleInputDialog(input);
 	}
 
+	public void handleAlgebraHeaderClicked(ArrayList<GeoElement> list) {
+		if(this.command == ToolBarCommand.Move_Mobile){		
+			resetSelection();
+			for(GeoElement geo : list){
+				select(geo);
+			}
+			this.guiModel.updateStyleBar();
+			this.kernel.notifyRepaint();
+		}
+	}
+
 	private boolean handleInputDialog(final String input) {
 		this.getInputDialog().setInputText("");
 

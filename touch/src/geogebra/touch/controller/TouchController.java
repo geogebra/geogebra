@@ -435,4 +435,8 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		this.clicked = false;
 		TouchEntryPoint.getLookAndFeel().resetNativeHandlers();
 	}
+
+	public void handleAlgebraHeaderClicked(ArrayList<GeoElement> list) {
+		this.model.handleAlgebraHeaderClicked(list);
+	}
 }
