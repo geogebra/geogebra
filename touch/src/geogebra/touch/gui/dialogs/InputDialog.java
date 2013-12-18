@@ -207,11 +207,11 @@ public class InputDialog extends DialogT implements CustomKeyListener, ResizeLis
 		return ret;
 	}
 
-	protected void onCancel() {
+	public void onCancel() {
 		this.hide();
 	}
 
-	protected void onOK() {
+	public void onOK() {
 		this.handlingExpected = true;
 		String input = this.textBox.getText();
 		for (final CustomKey c : CustomKey.values()) {

@@ -10,21 +10,14 @@ import geogebra.touch.gui.elements.radioButton.RadioChangeEvent;
 import geogebra.touch.gui.elements.radioButton.RadioChangeHandler;
 import geogebra.touch.model.TouchModel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class SliderDialog extends InputDialog {
+public class SliderDialog extends InputDialog implements ButtonPanelListener {
 	private HorizontalPanel sliderPanel;
 	private InputField min, max, increment;
-	private HorizontalPanel buttonPanel;
-	private final Button ok = new Button();
-	private final Button cancel = new Button();
+	private ButtonPanel buttonPanel;
 
-	public SliderDialog(final TouchApp app, final DialogType type,
-			final TouchModel touchModel) {
+	public SliderDialog(final TouchApp app, final DialogType type, final TouchModel touchModel) {
 		super(app, type, touchModel);
 		createSliderDesign();
 	}
@@ -38,12 +31,9 @@ public class SliderDialog extends InputDialog {
 	}
 
 	private void addValuePanel() {
-		this.min = new InputField(this.app.getLocalization().getPlain("min"),
-				true);
-		this.max = new InputField(this.app.getLocalization().getPlain("max"),
-				true);
-		this.increment = new InputField(this.app.getLocalization().getMenu(
-				"Step"), true);
+		this.min = new InputField(this.app.getLocalization().getPlain("min"), true);
+		this.max = new InputField(this.app.getLocalization().getPlain("max"), true);
+		this.increment = new InputField(this.app.getLocalization().getMenu("Step"), true);
 		this.increment.addStyleName("last");
 
 		this.sliderPanel = new HorizontalPanel();
@@ -68,55 +58,28 @@ public class SliderDialog extends InputDialog {
 	}
 
 	private void addButtonPanel() {
-		this.buttonPanel = new HorizontalPanel();
-		this.buttonPanel
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		this.buttonPanel.setStyleName("buttonPanel");
-
-		this.ok.addStyleName("ok");
-		this.ok.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				onOK();
-			}
-		});
-
-		this.cancel.setStyleName("last");
-		this.cancel.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				onCancel();
-			}
-		});
-		this.buttonPanel.add(this.ok);
-		this.buttonPanel.add(this.cancel);
+		this.buttonPanel = new ButtonPanel(this);
 		this.contentPanel.add(this.buttonPanel);
 	}
 
 	public void redefineSlider(final GeoNumeric geo) {
-		setInputText(geo.getLabel(StringTemplate.defaultTemplate) + "="
-				+ geo.getValueForInputBar());
-		this.increment.setText(geo.getAnimationStepObject().getLabel(
-				StringTemplate.editTemplate));
-		this.max.setText(geo.getIntervalMaxObject().getLabel(
-				StringTemplate.editTemplate));
-		this.min.setText(geo.getIntervalMinObject().getLabel(
-				StringTemplate.editTemplate));
+		setInputText(geo.getLabel(StringTemplate.defaultTemplate) + "=" + geo.getValueForInputBar());
+		this.increment.setText(geo.getAnimationStepObject().getLabel(StringTemplate.editTemplate));
+		this.max.setText(geo.getIntervalMaxObject().getLabel(StringTemplate.editTemplate));
+		this.min.setText(geo.getIntervalMinObject().getLabel(StringTemplate.editTemplate));
 	}
 
 	protected void setDefaultValues() {
 		if (this.isNumber()) {
-			final GeoNumeric num = new GeoNumeric(this.app.getKernel()
-					.getConstruction());
+			final GeoNumeric num = new GeoNumeric(this.app.getKernel().getConstruction());
 			setInputText(num.getFreeLabel(null) + "=1");
 
 			this.min.setText("-5");
 			this.max.setText("5");
 			this.increment.setText("0.1");
 		} else {
-			final GeoAngle angle = new GeoAngle(this.app.getKernel()
-					.getConstruction());
-			
+			final GeoAngle angle = new GeoAngle(this.app.getKernel().getConstruction());
+
 			// allow outside range 0-360
 			angle.setAngleStyle(AngleStyle.UNBOUNDED);
 
@@ -148,8 +111,7 @@ public class SliderDialog extends InputDialog {
 	public void show() {
 		super.show();
 		if (getType() == DialogType.Slider) {
-			showRadioButtons(this.app.getLocalization().getMenu("Number"),
-					this.app.getLocalization().getMenu("Angle"));
+			showRadioButtons(this.app.getLocalization().getMenu("Number"), this.app.getLocalization().getMenu("Angle"));
 			setDefaultValues();
 		}
 	}
@@ -168,14 +130,12 @@ public class SliderDialog extends InputDialog {
 	@Override
 	public void setLabels() {
 		setTitle(this.app.getLocalization().getMenu("Slider"));
-		this.ok.setText(this.app.getLocalization().getPlain("Apply"));
-		this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+		this.buttonPanel.setOKText(this.app.getLocalization().getPlain("Apply"));
+		this.buttonPanel.setCancelText(this.app.getLocalization().getPlain("Cancel"));
 		this.min.setLabelText(this.app.getLocalization().getPlain("min"));
 		this.max.setLabelText(this.app.getLocalization().getPlain("max"));
 		this.increment.setLabelText(this.app.getLocalization().getMenu("Step"));
-		this.radioButton[0].setLabel(this.app.getLocalization().getMenu(
-				"Number"));
-		this.radioButton[1].setLabel(this.app.getLocalization()
-				.getMenu("Angle"));
+		this.radioButton[0].setLabel(this.app.getLocalization().getMenu("Number"));
+		this.radioButton[1].setLabel(this.app.getLocalization().getMenu("Angle"));
 	}
 }
