@@ -28,7 +28,7 @@ public class PolygonTriangulation {
 			this.x = x;
 			this.y = y;
 		}
-		
+
 		public void removeSegmentToRight(Segment segment){
 			toRight.remove(segment);
 		}
@@ -51,6 +51,10 @@ public class PolygonTriangulation {
 				toLeft = new TreeSet<Segment>();
 			}
 			toLeft.add(segment);
+		}
+
+		public boolean hasNoSegment(){
+			return (toLeft == null || toLeft.isEmpty()) && (toRight == null || toRight.isEmpty()); 
 		}
 
 		final public int compareTo(Point p2) {
@@ -76,21 +80,34 @@ public class PolygonTriangulation {
 			}
 
 			// same point : add all point-to-point set to existing point
-			App.error(this.name+"=="+p2.name);		
-			if (p2.toRight == null){
-				p2.toRight = toRight;
-			}else{
-				p2.toRight.addAll(toRight);
+			App.error(this.name+"=="+p2.name);
+
+
+			if (toRight != null){
+				if (p2.toRight == null){
+					p2.toRight = new TreeSet<Segment>();
+				}
+				for (Segment seg : toRight){
+					seg.leftPoint = p2;
+					p2.toRight.add(seg);
+				}
 			}
-			if (p2.toLeft == null){
-				p2.toLeft = toLeft;
-			}else{
-				p2.toLeft.addAll(toLeft);
+
+			if (toLeft != null){
+				if (p2.toLeft == null){
+					p2.toLeft = new TreeSet<Segment>();
+				}
+				for (Segment seg : toLeft){
+					seg.rightPoint = p2;
+					p2.toLeft.add(seg);
+				}
 			}
+
+
 			return 0;
 		}
-		
-		
+
+
 		final public int compareToOnly(Point p2) {
 
 			// smallest x
@@ -108,7 +125,7 @@ public class PolygonTriangulation {
 			if (Kernel.isGreater(y, p2.y)){
 				return 1;
 			}
-			
+
 			return 0;
 
 		}
@@ -119,6 +136,7 @@ public class PolygonTriangulation {
 		double orientation;
 		Point leftPoint, rightPoint;
 		Segment above, below;
+		Segment next;
 
 		// equation vector
 		double x, y, z;
@@ -159,6 +177,14 @@ public class PolygonTriangulation {
 			}
 
 			return "dummy";
+		}
+
+		/**
+		 * remove this segment from left and right points
+		 */
+		public void removeFromPoints(){
+			leftPoint.removeSegmentToRight(this);
+			rightPoint.removeSegmentToLeft(this);
 		}
 
 		public int compareTo(Segment seg) {
@@ -438,20 +464,95 @@ public class PolygonTriangulation {
 			App.debug(s);
 		}
 
-		
+
+
+
+
 		App.debug("=========== non self-intersecting polygons ==============");
-		/*
-		Point start = pointSet.first();
-		Segment seg = start.toRight.first();
-		boolean go = true;
-		while(go){
-			start.removeSegmentToRight(seg);
-			Point pt = seg.rightPoint;
+
+		while (!pointSet.isEmpty()){
+			App.debug("=========================");
+			Point start = pointSet.first();
+			Point currentPoint; 
+			Point nextPoint = start;
+			Segment segStart = start.toRight.first();
+			Segment segment = segStart;
+			Segment next = null;
+
+			running = Running.RIGHT;
+
+			while (running != Running.STOP){
+				currentPoint = nextPoint;
+				//App.debug(segment+"");
+				if (running == Running.RIGHT){
+					nextPoint = segment.rightPoint;
+					if (nextPoint == start){
+						running = Running.STOP;
+					}else{
+						next = nextPoint.toLeft.lower(segment);
+						if (next == null){
+							if (nextPoint.toRight != null){
+								next = nextPoint.toRight.last();
+							}
+							if (next == null){ // no to-right segment
+								next = nextPoint.toLeft.higher(segment);
+								running = Running.LEFT;
+							}
+						}else{
+							running = Running.LEFT;
+						}
+
+					}
+				}else{ //while (running == Running.LEFT){
+					nextPoint = segment.leftPoint;
+					if (nextPoint == start){
+						running = Running.STOP;
+					}else{
+						next = nextPoint.toRight.lower(segment);
+						if (next == null){
+							if (nextPoint.toLeft != null){
+								next = nextPoint.toLeft.first();
+							}
+							if (next == null){ // no to-left segment
+								next = nextPoint.toRight.higher(segment);
+								running = Running.RIGHT;
+							}
+						}else{
+							running = Running.RIGHT;
+						}
+
+					}
+				}
+
+				// remove this segment from left and right points
+				segment.removeFromPoints();			
+				segment = next;
+
+				if (currentPoint.hasNoSegment()){
+					App.debug(currentPoint.name+" : remove");
+					pointSet.remove(currentPoint);
+				}else{
+					App.debug(currentPoint.name+" : keep");
+				}
+			}
+
+			// remove this segment from left and right points
+			segment.removeFromPoints();
+			if (start.hasNoSegment()){
+				App.debug(start.name+" : remove");
+				pointSet.remove(start);
+			}else{
+				App.debug(start.name+" : keep");
+			}
 		}
-		 */
 
 
 	}
+
+	private enum Running  { RIGHT, LEFT, STOP };
+	private Running running;
+
+
 
 	final private void checkIntersection(Segment a, Segment b, TreeSet<Point> pointSet){
 
@@ -460,12 +561,12 @@ public class PolygonTriangulation {
 		if (a.isDummy() || b.isDummy()){
 			return;
 		}
-		
-		
+
+
 		if (a.rightPoint == b.rightPoint){
 			return;
 		}		
-		
+
 		// ensure a and b have correct equation
 		a.setEquation();
 		b.setEquation();
