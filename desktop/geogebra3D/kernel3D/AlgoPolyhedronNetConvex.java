@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
@@ -16,6 +17,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	protected GeoPolyhedron p ; 
 	protected NumberValue v;
+	protected int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user		
+
 
 	protected OutputHandler<GeoPolyhedronNet> outputNet;
 
@@ -23,7 +26,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	protected OutputHandler<GeoPoint3D> outputPointsNet;
 	int pointsCounter = 0; //counter of the current number of points created in the net
 
-	
+
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
 
@@ -40,6 +43,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	private class PolygonInfoElement{
 		int linkSegNumber;
 		int rank;
+		int segShift;
 		ArrayList<Integer> pointIndex = new ArrayList<Integer>();
 	}
 
@@ -69,24 +73,23 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		});
 
 		outputNet.adjustOutputSize(1);
-		
+
 
 		outputPointsNet = createOutputPoints();		
 		outputPolygons = createOutputPolygons();
 		outputSegments = createOutputSegments();
 
-		
-		
+
+
 		ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
 
 		setSegmentsToFacesLink(p,segmentList);
 
-		
-		int iBottom = 0; // number of the polygon used as bottom -> may be selected by the user		
+
 		makeNetMap(p,iBottom,segmentInfoList);
 		createNet(iBottom);
-		
-		
+
+
 		// set input
 		input = new GeoElement[] {p, (GeoElement) v};		
 		for (int i = 0; i < input.length; i++) {
@@ -102,18 +105,18 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		for (GeoPolygon polygon : net.getFacesCollection()){
 			outputPolygons.addOutput((GeoPolygon3D) polygon, false);
 		}
-		
+
 		for (GeoSegment3D segment : net.getSegments3D()){
 			outputSegments.addOutput(segment, false);
 		}
-		
-	
+
+
 
 		refreshOutput();
-		
+
 		// set labels
 		setLabels(labels);
-		
+
 
 		update();
 
@@ -160,7 +163,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 			polygonChildSegsList.add(segsList);
 		}
-		
+
 	}
 
 	/**
@@ -215,17 +218,61 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				}
 			}
 		}
-		
+
 	}
 
 
+	
+	
+	
+	
 	@Override
 	public void compute() {
-		// TODO Auto-generated method stub
 
+		double f = v.getDouble();
+
+		// update net points 
+		outputPointsNet.setLabels(null);
+		for (int iPoly = 0 ; iPoly<polygonInfo.size(); iPoly++){
+			GeoPolygon currentFace = p.getFace(iPoly);
+			Coords[] points = getPointsCoords(currentFace);
+			int iBegin = 2;
+			if (iPoly == iBottom){
+				iBegin=0;
+			}
+			for (int i = iBegin ; i < points.length ; i++) {
+				outputPointsNet.getElement(polygonInfo.get(iPoly).pointIndex.get(i)).setCoords(points[(i+polygonInfo.get(iPoly).segShift)%(points.length)]);
+			}
+		}
+		//rotate faces by recursive call
+		ArrayList <Integer> pointsToRotate = new ArrayList <Integer>();
+		rotateFace(iBottom, f, pointsToRotate);
 	}
 
-
+	
+	private void rotateFace(int iFace, double f, ArrayList <Integer> pointsToRotate){
+		//recursive call
+		for (int i = 1; i < netMap.get(iFace).size(); i++){
+			rotateFace(netMap.get(iFace).get(i), f, pointsToRotate);
+		}
+		//add points index to the list
+		for (int index = 2; index<polygonInfo.get(iFace).pointIndex.size(); index++){
+			pointsToRotate.add(polygonInfo.get(iFace).pointIndex.get(index));
+		}
+		//rotation angle
+		
+		// rotate the points of the list
+		if (iFace!=iBottom){
+			App.debug("Face : "+iFace+" -> "+pointsToRotate);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 	private OutputHandler<GeoPoint3D> createOutputPoints() {
 		return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
 			public GeoPoint3D newElement() {
@@ -285,17 +332,18 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		createFace(iBottomFace);
 
 		//create faces
-		App.debug("Points list for each polygon");
 		for (int pNum=0;pNum<polygonInfo.size();pNum++){	
-			App.debug(pNum+": "+polygonInfo.get(pNum).pointIndex);
 			net.startNewFace();
 			for (int i : polygonInfo.get(pNum).pointIndex) {
 				net.addPointToCurrentFace(outputPointsNet.getElement(i));
 			}
 			net.endCurrentFace();
-			
 		}
-	
+		App.debug("Points list for each polygon");
+		for (int pNum=0;pNum<polygonInfo.size();pNum++){	
+			App.debug(pNum+": "+polygonInfo.get(pNum).pointIndex);
+		}
+
 	}
 
 	private void createFace(int faceNumber) {
@@ -312,6 +360,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 					segmentInfoList.get(currentPolygonSegList.get(linkSegIndex)).pointIndex2=-1;
 				}
 			}
+			polygonInfo.get(faceNumber).segShift = linkSegIndex;
 			// link segment found	//warning: the seg is seen in the reverse order of the parent polygon
 			if (linkSegIndex==0) {//seg is the first of the list
 				segmentInfoList.get(currentPolygonSegList.get(1)).pointIndex1=segmentInfoList.get(currentPolygonSegList.get(0)).pointIndex1;
@@ -356,10 +405,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				}
 			}
 			//create the pointIndex list for this face
-			for (int segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){	
-				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1);
+			for (int segNumber=polygonInfo.get(faceNumber).segShift;segNumber<polygonInfo.get(faceNumber).segShift+currentPolygonSegList.size();segNumber++){	
+				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList.get(currentPolygonSegList.get((segNumber)%(currentPolygonSegList.size()))).pointIndex1);
 			}
-			// READY TO CREATE A NEW FACE
+
 		}
 		else { //bottom face
 			int segNumber;
@@ -371,11 +420,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				pointsCounter++;
 			}
 			//create the pointIndex list for this face
-			for (segNumber=0;segNumber<currentPolygonSegList.size();segNumber++){	
-				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList.get(currentPolygonSegList.get(segNumber)).pointIndex1);
+			for (segNumber=polygonInfo.get(faceNumber).segShift;segNumber<polygonInfo.get(faceNumber).segShift+currentPolygonSegList.size();segNumber++){	
+				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList.get(currentPolygonSegList.get((segNumber)%(currentPolygonSegList.size()))).pointIndex1);
 			}
-			// READY TO CREATE THE FIRST FACE
-		
+
 		}
 		//recursive call
 		for (int childPolygonIndex=1;childPolygonIndex<netMap.get(faceNumber).size();childPolygonIndex++){	
@@ -385,8 +433,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 
 
-	
-	
+
+
 	private OutputHandler<GeoSegment3D> createOutputSegments(){
 		return new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
 			public GeoSegment3D newElement() {
@@ -407,7 +455,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		});
 	}
 
-	
+
 	private void setLabels(String[] labels){
 
 		if (labels==null || labels.length <= 1)
@@ -420,15 +468,31 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		}
 
 	}
-	
-	
+
+
 	/**
 	 * force update for segments and polygons at creation
 	 */
 	private void updateOutputSegmentsAndPolygonsParentAlgorithms(){
 		outputSegments.updateParentAlgorithm();
 		outputPolygons.updateParentAlgorithm();
-		
+
+	}
+
+
+
+	/**
+	 * 
+	 * @param polygon polygon
+	 * @return 3D coords of all points
+	 */
+	protected static final Coords[] getPointsCoords(GeoPolygon polygon){
+		int l = polygon.getPointsLength();
+		Coords[] points = new Coords[l];
+		for (int i = 0 ; i < l ; i++){
+			points[i] = polygon.getPoint3D(i);
+		}
+		return points;
 	}
 
 }
