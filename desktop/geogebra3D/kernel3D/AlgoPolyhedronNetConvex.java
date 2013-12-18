@@ -245,16 +245,20 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 		}
 		//rotate faces by recursive call
-		ArrayList <Integer> pointsToRotate = new ArrayList <Integer>();
-		rotateFace(iBottom, f, pointsToRotate);
+		
+		rotateFace(iBottom, f);
 	}
 
 	
-	private void rotateFace(int iFace, double f, ArrayList <Integer> pointsToRotate){
+	private ArrayList<Integer> rotateFace(int iFace, double f){
+		
+		ArrayList<Integer> pointsToRotate = new ArrayList <Integer>();
+		
 		//recursive call
 		for (int i = 1; i < netMap.get(iFace).size(); i++){
-			rotateFace(netMap.get(iFace).get(i), f, pointsToRotate);
+			pointsToRotate.addAll(rotateFace(netMap.get(iFace).get(i), f));
 		}
+		
 		//add points index to the list
 		for (int index = 2; index<polygonInfo.get(iFace).pointIndex.size(); index++){
 			pointsToRotate.add(polygonInfo.get(iFace).pointIndex.get(index));
@@ -265,6 +269,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		if (iFace!=iBottom){
 			App.debug("Face : "+iFace+" -> "+pointsToRotate);
 		}
+		
+		return pointsToRotate;
 	}
 	
 	
