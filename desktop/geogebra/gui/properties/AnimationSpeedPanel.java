@@ -167,4 +167,9 @@ public class AnimationSpeedPanel
 	public void setText(String text) {
 		tfAnimSpeed.setText(text);
 	}
+
+	public void setSelectedItem(String item) {
+		// TODO Auto-generated method stub
+		
+	}
 }

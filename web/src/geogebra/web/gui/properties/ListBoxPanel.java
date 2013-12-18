@@ -83,5 +83,10 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
         this.label = label;
     }
 
+	public void setSelectedItem(String item) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 	
 }

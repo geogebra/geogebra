@@ -1004,6 +1004,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.title = title;
 		}
 
+		public void setSelectedItem(String item) {
+			comboBox.setSelectedItem(item);
+		}
+
 	}
 
 
@@ -2106,6 +2110,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			intervalCombo.addItem(item);
 		}
 
+		public void setSelectedItem(String item) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 	/**
@@ -2269,6 +2278,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void addItem(String item) {
 			cbModel.addElement(item);
 
+		}
+
+		public void setSelectedItem(String item) {
+			cbLocation.setSelectedItem(item);
+			
 		}
 	}
 
@@ -2867,6 +2881,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void addItem(String item) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void setSelectedItem(String item) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	}

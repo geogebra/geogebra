@@ -175,7 +175,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private List<OptionsTab> tabs;
 
 
-	private String localize(final String id) {
+	String localize(final String id) {
 		// TODO Auto-generated method stub
 		String txt = loc.getPlain(id);
 		if (txt.equals(id)) {
@@ -942,6 +942,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}	        
 		}
 
+		public void setSelectedItem(String item) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
 
 	}
 
@@ -1077,6 +1082,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// TODO Auto-generated method stub
 
 		}
+		public void setSelectedItem(String item) {
+	        // TODO Auto-generated method stub
+	        
+        }
 
 
 	} 
@@ -1954,6 +1963,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			model = new TextOptionsModel(app, this);
 			setModel(model);
 
+			editor = new GeoTextEditor(getAppW(), this);
+
 			lbFont = new ListBox();
 			for (String item: model.getFonts()) {
 				lbFont.addItem(item);
@@ -2067,7 +2078,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				mainPanel.add(secondLine);
 				secondLineVisible = true;
 				
-				editor = new GeoTextEditor(getAppW(), this);
 				mainPanel.add(editor);
 				
 				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
@@ -2205,12 +2215,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreviewPanel() {
-			if (previewer == null) {
+			if (previewer == null || model.getEditGeo() == null ) {
 				return;
 			}
 
-//			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-//			        editor.getDynamicTextList(), isLatex()), isLatex());
+			//previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
+			//        editor.getDynamicTextList(), isLatex()), isLatex());
 		}
 
 

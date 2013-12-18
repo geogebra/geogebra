@@ -41,8 +41,7 @@ public class ImageCornerModel extends MultipleOptionsModel {
 		}
 	
 		if (isEqual && p0 != null) {
-			getListener().setSelectedIndex(indexOf(p0
-					.getLabel(StringTemplate.defaultTemplate)));
+			getListener().setSelectedItem(p0.getLabel(StringTemplate.defaultTemplate));
 		} else {
 			getListener().setSelectedIndex(-1);
 		}

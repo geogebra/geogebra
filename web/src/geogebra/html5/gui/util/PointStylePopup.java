@@ -123,4 +123,9 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	    
     }
 
+	public void setSelectedItem(String item) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }
