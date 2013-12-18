@@ -81,9 +81,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 		// remove all \; and \,
 		// doesn't work inside \text eg \text{some\;text}
-		eqstring = eqstring.replace("\\;", " ");
-		eqstring = eqstring.replace("\\,", " ");
-		eqstring = eqstring.replace("\\ ", " ");
+		eqstring = eqstring.replace("\\;", "\\space ");
+		eqstring = eqstring.replace("\\,", "\\space ");
+		eqstring = eqstring.replace("\\ ", "\\space ");
 		
 		
 		if (eqstring.indexOf("{\\it ") > -1) {

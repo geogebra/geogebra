@@ -365,12 +365,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		doUpdate();
 	}
 
-	public void stopEditing(String newValue) {
+	public void stopEditing(String newValue0) {
 
 		thisIsEdited = false;
 		av.cancelEditing();
 		
-		if (newValue != null) {
+		if (newValue0 != null) {
+
+			String newValue = newValue0.replace("space *", " ");
+			newValue = newValue.replace("* space", " ");
+
+			newValue = newValue.replace("space*", " ");
+			newValue = newValue.replace("*space", " ");
+
+			newValue = newValue.replace("space ", " ");
+			newValue = newValue.replace(" space", " ");
+			newValue = newValue.replace("space", " ");
+
 			// Formula Hacks ... Currently only functions are considered
 			StringBuilder sb = new StringBuilder();
 			boolean switchw = false;
