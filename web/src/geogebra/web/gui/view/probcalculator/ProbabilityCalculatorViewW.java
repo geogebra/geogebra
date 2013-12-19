@@ -6,6 +6,7 @@ import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
@@ -13,6 +14,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.ButtonGroupPanel;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
 import geogebra.web.main.AppW;
@@ -259,7 +261,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		// interval panel
 		// continue here.....
-		FlowPanel tb = new FlowPanel();
+		ButtonGroupPanel tb = new ButtonGroupPanel();
 		tb.addStyleName("intervalPanel");
 		tb.add(btnIntervalLeft);
 		tb.add(btnIntervalBetween);
@@ -388,12 +390,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		if (isCumulative) {
 			probMode = PROB_LEFT;
 		} else {
-			if (btnIntervalLeft.isSelected()) {
-				probMode = this.PROB_LEFT;
-			} else if (btnIntervalBetween.isSelected()) {
-				probMode = this.PROB_INTERVAL;
+			if (btnIntervalLeft.getValue()) {
+				probMode = ProbabilityCalcualtorView.PROB_LEFT;
+			} else if (btnIntervalBetween.getValue()) {
+				probMode = ProbabilityCalcualtorView.PROB_INTERVAL;
 			} else {
-				probMode = this.PROB_RIGHT;
+				probMode = ProbabilityCalcualtorView.PROB_RIGHT;
 			}
 		}
 		this.getPlotDimensions();
@@ -607,10 +609,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				//btnIntervalBetween.removeActionListener(this);
 				//btnIntervalRight.removeActionListener(this);
 
-				btnCumulative.setSelected(isCumulative);
-				btnIntervalLeft.setSelected(probMode == PROB_LEFT);
-				btnIntervalBetween.setSelected(probMode == PROB_INTERVAL);
-				btnIntervalRight.setSelected(probMode == PROB_RIGHT);
+				btnCumulative.setValue(isCumulative);
+				btnIntervalLeft.setValue(probMode == PROB_LEFT);
+				btnIntervalBetween.setValue(probMode == PROB_INTERVAL);
+				btnIntervalRight.setValue(probMode == PROB_RIGHT);
+				App.debug(probMode + "");
 
 				//btnIntervalLeft.addActionListener(this);
 				//btnIntervalBetween.addActionListener(this);
@@ -619,6 +622,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 	public void onChange(ChangeEvent event) {
 		Object source = event.getSource();
+		App.debug("changeevent: " + source.toString());
 		if (source == comboDistribution) {
 
 			if (comboDistribution.getSelectedIndex() > -1)
@@ -768,8 +772,19 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
     }
 
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-	    // TODO Auto-generated method stub
-	    
+		Object source = event.getSource();
+		App.debug("valuechangeevent: " + source.toString());
+		if (source == btnCumulative) {
+			setCumulative(btnCumulative.isSelected());
+
+		} else if (source == btnIntervalLeft || source == btnIntervalBetween
+				|| source == btnIntervalRight) {
+
+			if (!isCumulative) {
+				updateProbabilityType();
+			}
+		}
+
     }
 
 }
