@@ -130,13 +130,19 @@ public class PolygonTriangulation {
 
 		}
 	}
+	
+	private Segment comparedSameOrientationSegment;
+	private int comparedSameOrientationValue;
 
-
+	
 	private class Segment implements Comparable<Segment>{
 		double orientation;
 		Point leftPoint, rightPoint;
 		Segment above, below;
 		Segment next;
+		
+		int usable;
+				
 
 		// equation vector
 		double x, y, z;
@@ -154,6 +160,9 @@ public class PolygonTriangulation {
 			this.orientation = orientation;
 			this.leftPoint = leftPoint;
 			this.rightPoint = rightPoint;
+			
+			// first usable from left or from right
+			usable = 2;
 		}
 
 
@@ -186,9 +195,22 @@ public class PolygonTriangulation {
 			leftPoint.removeSegmentToRight(this);
 			rightPoint.removeSegmentToLeft(this);
 		}
+		
+		
+		/**
+		 * add this segment to left and right points
+		 */
+		public void addToPoints(){
+			leftPoint.addSegmentToRight(this);
+			rightPoint.addSegmentToLeft(this);
+		}
+		
 
 		public int compareTo(Segment seg) {
 			
+			if (this==seg){
+				return 0;
+			}
 
 			if (Kernel.isGreater(seg.orientation, orientation)){
 				return -1;
@@ -198,8 +220,26 @@ public class PolygonTriangulation {
 				return 1;
 			}
 
+
+			comparedSameOrientationSegment = seg;
+			comparedSameOrientationValue = rightPoint.compareToOnly(seg.rightPoint);			
+			//App.error(this+","+seg+" : "+c);		
+			/*
+			if (c > 0){ 
+				seg.rightPoint.removeSegmentToLeft(seg);
+				rightPoint.addSegmentToLeft(seg);
+				seg.rightPoint = rightPoint;
+			}else{			
+				rightPoint.removeSegmentToLeft(this);
+			}
+				*/		
+						
+						
 			
 			// same orientation : check next point id
+			
+			
+			
 			if (rightPoint.id < seg.rightPoint.id){
 				return -1;
 			}
@@ -208,23 +248,11 @@ public class PolygonTriangulation {
 				return 1;
 			}
 			
-			
 			/*
-			// same orientation
+			// same right point : augment usability
 			if (rightPoint.id == seg.rightPoint.id){
-				return 0;
-			}
-
-			
-			// only 1 segment, use far point as right point
-			int c = rightPoint.compareToOnly(seg.rightPoint);			
-			App.error(rightPoint.name+","+seg.rightPoint.name+" : "+c);			
-			if (c > 0){ 
-				seg.rightPoint.removeSegmentToLeft(seg);
-				rightPoint.addSegmentToLeft(seg);
-				seg.rightPoint = rightPoint;
-			}else{			
-				rightPoint.removeSegmentToLeft(this);
+				seg.usable += usable/2; // usable is always multiple of 2, and will be add twice (from left and from right)
+				App.debug(seg+": "+seg.usable);
 			}
 			*/
 			
@@ -389,6 +417,28 @@ public class PolygonTriangulation {
 	//////////////////////////////////////
 	// INTERSECTIONS
 	//////////////////////////////////////
+	
+	
+	private void cut(Segment segment, Point pt){
+		// cut the segment
+		segment.removeFromPoints();
+		Segment segment2 = new Segment(segment.orientation, pt, segment.rightPoint);
+		segment2.usable = segment.usable;
+		segment.rightPoint = pt;		
+		segment.addToPoints();
+		comparedSameOrientationSegment = null;
+		segment2.addToPoints();
+		if (comparedSameOrientationSegment!=null){
+			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
+			if (comparedSameOrientationValue < 0){
+				cut(comparedSameOrientationSegment, segment2.rightPoint);
+			}else if (comparedSameOrientationValue > 0){
+				cut(segment2, comparedSameOrientationSegment.rightPoint);
+			}else{
+				comparedSameOrientationSegment.usable += segment2.usable;
+			}
+		}
+	}
 
 	/**
 	 * set intersections
@@ -454,33 +504,23 @@ public class PolygonTriangulation {
 				checkIntersection(below, above, pointSet);
 				
 				
-				// check if new point is aligned with existing segment
+				// check if new point is aligned with existing segment			
 				boolean go = true;
 				for (Segment segment = bottom.above ; segment != top && go ; segment = segment.above){
 					double orientation = Math.atan2(pt.y - segment.leftPoint.y, pt.x - segment.leftPoint.x);
 					//App.error(segment.leftPoint.name+pt.name+" : "+orientation);
 					if (Kernel.isEqual(orientation, segment.orientation)){
-						App.error(pt.name+" aligned with "+segment);
+						App.error("(1)"+pt.name+" aligned with "+segment);
+						
 						// cut the segment
-						segment.rightPoint.removeSegmentToLeft(segment);
-						segment.leftPoint.removeSegmentToRight(segment);
-						pt.addSegmentToLeft(segment);
-						Segment segment2 = new Segment(segment.orientation, pt, segment.rightPoint);
-						pt.addSegmentToRight(segment2);
-						segment.rightPoint.addSegmentToLeft(segment2);
-						segment.rightPoint = pt;							
-						App.debug("created : "+segment+"("+segment.leftPoint.toRight.contains(segment)+"),"+segment2);
-						segment.leftPoint.addSegmentToRight(segment);
+						cut(segment, pt);
 						
 						// remove new left segment
 						above = segment.above;
 						below = segment.below;
-
-						//App.debug(below+"<"+segment+"<"+above);
 						below.above = above;
 						above.below = below;
 						segment = below;
-						//checkIntersection(below, above, pointSet);
 												
 					}else if (orientation < segment.orientation){
 						go = false;
@@ -496,21 +536,18 @@ public class PolygonTriangulation {
 					double orientation = Math.atan2(pt.y - segment.leftPoint.y, pt.x - segment.leftPoint.x);
 					//App.error(segment.leftPoint.name+pt.name+" : "+orientation);
 					if (Kernel.isEqual(orientation, segment.orientation)){
-						App.error(pt.name+" aligned with "+segment);
+						App.error("(2)"+pt.name+" aligned with "+segment);
+						
 						// cut the segment
-						segment.rightPoint.removeSegmentToLeft(segment);
-						pt.addSegmentToLeft(segment);
-						Segment segment2 = new Segment(segment.orientation, pt, segment.rightPoint);
-						pt.addSegmentToRight(segment2);
-						segment.rightPoint.addSegmentToLeft(segment2);
-						segment.rightPoint = pt;					
+						cut(segment, pt);
 						
 						// remove new left segment
 						above = segment.above;
 						below = segment.below;
-						checkIntersection(below, above, pointSet);
+						below.above = above;
+						above.below = below;
 						
-						go = false;
+						//go = false;
 						
 					}else if (orientation < segment.orientation){ // found the place
 						go = false;
@@ -524,6 +561,7 @@ public class PolygonTriangulation {
 					below = above.below;
 				}
 			}
+			
 
 			// put to-right segments
 			if (pt.toRight!=null){
@@ -552,7 +590,7 @@ public class PolygonTriangulation {
 
 		
 
-		//if (1==1){ return; }
+		if (1==1){ return; }
 		
 		App.debug("=========== non self-intersecting polygons ==============");
 
@@ -759,25 +797,23 @@ public class PolygonTriangulation {
 
 				App.debug("inter : "+pt.name+" : "+pt.x+","+pt.y);
 
-				// remove old segments from old right points
-				a.rightPoint.removeSegmentToLeft(a);
-				b.rightPoint.removeSegmentToLeft(b);
-
-				// add old segments to intersection point
-				pt.addSegmentToLeft(a);
-				pt.addSegmentToLeft(b);
+				// remove old segments 
+				a.removeFromPoints();
+				b.removeFromPoints();
 
 				// create new segments
 				Segment a2 = new Segment(a.orientation, pt, a.rightPoint);
 				Segment b2 = new Segment(b.orientation, pt, b.rightPoint);
-				pt.addSegmentToRight(a2);
-				pt.addSegmentToRight(b2);
-				a.rightPoint.addSegmentToLeft(a2);
-				b.rightPoint.addSegmentToLeft(b2);
+				a2.addToPoints();
+				b2.addToPoints();
 
 				// set old segments right point
 				a.rightPoint = pt;
 				b.rightPoint = pt;
+				
+				// re-add old segments (with correct right points)
+				a.addToPoints();
+				b.addToPoints();
 
 				// says that old segments need an update for equation
 				//a.equationNeedsUpdate();
@@ -793,15 +829,15 @@ public class PolygonTriangulation {
 
 
 	final private void createSegment(Point point){
+		
+		Segment segment;
 		if (Kernel.isGreater(point.orientationToNext, -Math.PI/2) && Kernel.isGreaterEqual(Math.PI/2,point.orientationToNext)){ // point is left point
-			Segment segment = new Segment(point.orientationToNext, point, point.next);
-			point.addSegmentToRight(segment);
-			point.next.addSegmentToLeft(segment);
+			segment = new Segment(point.orientationToNext, point, point.next);
 		}else{ // point is right point
-			Segment segment = new Segment(getReverseOrientation(point.orientationToNext), point.next, point);
-			point.next.addSegmentToRight(segment);
-			point.addSegmentToLeft(segment);
+			segment = new Segment(getReverseOrientation(point.orientationToNext), point.next, point);			
 		}
+		
+		segment.addToPoints();
 	}
 
 	final static private double getReverseOrientation(double orientation){
