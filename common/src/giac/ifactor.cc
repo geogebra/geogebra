@@ -3437,7 +3437,7 @@ namespace giac {
       return gensizeerr("Interrupted");
     gen ba=n/a;
     a=ifactor2(a,v,do_pollard,contextptr);
-    if (is_greater(a,1,contextptr))
+    if (is_greater(ba,1,contextptr))
       a=ifactor2(ba,v,do_pollard,contextptr);
     return a;
   }

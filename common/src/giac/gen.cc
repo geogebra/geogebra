@@ -6319,6 +6319,13 @@ namespace giac {
     case _VECT__VECT:
       if (a.subtype==_POLY1__VECT || b.subtype==_POLY1__VECT)
 	return fraction(a,b).normal();
+      if (is_squarematrix(b)){
+	if (abs_calc_mode(contextptr)==38){
+	  *logptr(contextptr) << gettext("Warning: A/B with B a square matrix is a misleading notation interpreted as inv(B)*A") << endl;
+	  return inv(b,contextptr)*a;
+	}
+	*logptr(contextptr) << gettext("Warning, pointwise division of a by b. For matrix division, please use inv(b)*a or a*inv(b)") << endl;
+      }
       if (b._VECTptr->size()==1)
 	return rdiv(a,b._VECTptr->front(),contextptr);
       return apply(a,b,contextptr,rdiv);
