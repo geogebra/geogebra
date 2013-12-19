@@ -24,11 +24,12 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,7 +42,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  * ProbablityCalculatorView for web
  *
  */
-public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, ClickHandler, KeyHandler, FocusHandler {
+public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, KeyHandler, FocusHandler, ValueChangeHandler<Boolean> {
 
 	/**
 	 * @param app App
@@ -53,7 +54,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private MyToggleButton2 btnIntervalLeft;
 	private MyToggleButton2 btnIntervalBetween;
 	private MyToggleButton2 btnIntervalRight;
-	private MyToggleButton2 btnExport;
 	private Label[] lblParameterArray;
 	private AutoCompleteTextFieldW[] fldParameterArray;
 	private ListBox comboProbType, comboDistribution;
@@ -66,7 +66,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private AutoCompleteTextFieldW fldResult;
 	private Label lblMeanSigma;
 	private FlowPanel controlPanel;
-	private ScheduledCommand exportAction;
 	private ScheduledCommand exportToEVAction;
 	private FlowPanel plotPanelPlus;
 	private FlowPanel tablePanel;
@@ -304,19 +303,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    
 	    btnIntervalRight = new MyToggleButton2(AppResources.INSTANCE.interval_right());
 	    
-	    btnCumulative.addClickHandler(this);
-	    btnIntervalLeft.addClickHandler(this);
-	    btnIntervalBetween.addClickHandler(this);
-	    btnIntervalRight.addClickHandler(this);
+	    btnCumulative.addValueChangeHandler(this);
+	    btnIntervalLeft.addValueChangeHandler(this);
+	    btnIntervalBetween.addValueChangeHandler(this);
+	    btnIntervalRight.addValueChangeHandler(this);
 	    
 	    //buttonGroup
 	    FlowPanel gp = new FlowPanel();
 	    gp.add(btnIntervalLeft);
 	    gp.add(btnIntervalBetween);
 	    gp.add(btnIntervalRight);
-	    
-	    btnExport = new MyToggleButton2(AppResources.INSTANCE.export());
-	    btnExport.addClickHandler(this);
 	    
 	    lblParameterArray = new Label[maxParameterCount];
 	    fldParameterArray = new AutoCompleteTextFieldW[maxParameterCount];
@@ -527,15 +523,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			return;
 		}
 
-		String distStr = distributionMap.get(selectedDist) + "(";
 		for (int i = 0; i < parameters.length; i++) {
-			distStr += format(parameters[i]);
+			format(parameters[i]);
 			if (i < parameters.length - 1) {
-				distStr += ",";
 			}
 		}
-		distStr += ")";
-
 		String mean = val[0] == null ? "" : format(val[0]);
 		String sigma = val[1] == null ? "" : format(val[1]);
 
@@ -626,8 +618,24 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
     }
 
 	public void onChange(ChangeEvent event) {
-	    // TODO continue here tomorrow with events!
-	    
+		Object source = event.getSource();
+		if (source == comboDistribution) {
+
+			if (comboDistribution.getSelectedIndex() > -1)
+				
+				if (!selectedDist.equals(this.reverseDistributionMap
+						.get(comboDistribution.getSelectedIndex()))) {
+
+					selectedDist = reverseDistributionMap.get(comboDistribution
+							.getSelectedIndex());
+					parameters = ProbabilityManager
+							.getDefaultParameters(selectedDist);
+					this.setProbabilityCalculator(selectedDist, parameters,
+							isCumulative);
+				}
+		} else if (source == comboProbType) {
+			updateProbabilityType();
+		}
     }
 
 	public void onClick(ClickEvent event) {
@@ -757,6 +765,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 	public EuclidianViewW getPlotPanelEuclidianView() {
 	    return (EuclidianViewW) plotPanel;
+    }
+
+	public void onValueChange(ValueChangeEvent<Boolean> event) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 }
