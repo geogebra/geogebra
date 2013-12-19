@@ -3433,24 +3433,24 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					
 					String translatedKey = loc.getFunction(key);
 
-					/*
-					 * no point doing this at the moment, no visible difference
-					 * 
 					// supported operators in MathQuillGGB
 					if ("arccos arcsin arctan cos cosh cot coth csc  exp lg ln log sec sin sinh tan tanh".indexOf(translatedKey) > -1) {
-						sb.append(" \\");						
-						sb.append(translatedKey);						
+
+						/*
+						 * It is important to do this for MathQuill edited in Algebra view
+						 * more times, e.g. f(x)=x, f(x)=x+sin(x), f(x)=x+sin(x)+cos(x)
+						 * 
+						 * By the way, if things are translated differently,
+						 * then it would probably be better to just use "latex" instead of \\"translatedKey"
+						 */
+
+						sb.append(" \\");
+						sb.append(translatedKey);
 					} else {
 						sb.append(" ");
 						sb.append(translatedKey);
-						sb.append(" ");						
-					} */
-					
-					sb.append(" ");
-					sb.append(translatedKey);
-					sb.append(" ");						
-					
-					
+						sb.append(" ");	
+					}
 				} else if(tpl.isPrintLocalizedCommandNames()) {
 					sb.append("\\operatorname{");
 					sb.append(loc.getFunction(key));
