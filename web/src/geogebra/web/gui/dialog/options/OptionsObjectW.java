@@ -2146,7 +2146,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			if (advancedPanel != null) {
 				advancedPanel.setLabels();
 			}
-			btnOk.setText(localize("Ok"));
+			btnOk.setText(localize("OK"));
 			btnCancel.setText(localize("Cancel"));
 			}
 		
