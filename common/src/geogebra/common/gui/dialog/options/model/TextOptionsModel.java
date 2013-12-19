@@ -252,6 +252,10 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void cancelEditGeo() {
+		if (editGeo == null) {
+			return;
+		}
+		
 		editGeo = null;
 		listener.updatePreview();
 	}

@@ -2215,19 +2215,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreviewPanel() {
-			if (previewer == null || model.getEditGeo() == null ) {
-				return;
-			}
-
-			//previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-			//        editor.getDynamicTextList(), isLatex()), isLatex());
+//			if (previewer == null || model.getEditGeo() == null ) {
+//				return;
+//			}
+//
+//			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
+//			        editor.getDynamicTextList(), isLatex()), isLatex());
 		}
 
 
 
 		public void setEditorText(ArrayList<DynamicTextElement> list) {
-			editor.setText(list);
 
+			editor.setText(list);
 
 		}
 

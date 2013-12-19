@@ -45,6 +45,8 @@ import com.google.gwt.user.client.ui.RichTextArea;
 public class GeoTextEditor extends RichTextArea {
 
 	private AppW app;
+	private boolean initialized = false;
+	private ArrayList<DynamicTextElement> dynamicList = null;
 	GFontW font;
 	protected ITextEditPanel editPanel;
 	protected Formatter formatter;
@@ -124,6 +126,17 @@ public class GeoTextEditor extends RichTextArea {
 				}
 			}
 		});
+		
+		addInitializeHandler(new InitializeHandler() {
+			
+			public void onInitialize(InitializeEvent event) {
+				initialized = true;
+				if (dynamicList != null) {
+					setDynamicText();
+				}
+			}
+		});
+		
 
 	}
 
@@ -310,10 +323,10 @@ public class GeoTextEditor extends RichTextArea {
 		}
 	}
 
-	public void setText(ArrayList<DynamicTextElement> list) {
+	protected void setDynamicText() {
 		setHTML("");
 		Element lineElement = getBody();
-		for (DynamicTextElement dt : list) {
+		for (DynamicTextElement dt : dynamicList) {
 			if (dt.type == DynamicTextType.STATIC) {
 				String[] lineSplit = dt.text.split("\n");
 				lineElement.appendChild(createTextElement(lineSplit[0]));
@@ -326,6 +339,14 @@ public class GeoTextEditor extends RichTextArea {
 				lineElement.appendChild(createValueElement(dt.text));
 			}
 		}
+	}
+	public void setText(ArrayList<DynamicTextElement> list) {
+		dynamicList = list;
+		
+		if (initialized) {
+			setDynamicText();
+		}
+		
 	}
 
 	/**
