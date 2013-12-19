@@ -26,22 +26,26 @@ class AlgebraViewT extends AlgebraViewWeb {
 	}
 
 	private TouchController controller;
+	private AlgebraViewPanel panel;
+	
 	private boolean editing = false;
 	private boolean showing = true;
 
 	/**
 	 * Creates new AlgebraView.
+	 * @param algebraViewPanel 
 	 * 
 	 * @param algCtrl
 	 *            : AlgebraController
 	 * 
 	 */
-	AlgebraViewT(TouchController ctr) {
+	AlgebraViewT(TouchController ctr, AlgebraViewPanel algebraViewPanel) {
 		super((AppWeb) ctr.getApplication());
 		// this is the default value
 		this.treeMode = SortMode.TYPE;
 
 		this.controller = ctr;
+		this.panel = algebraViewPanel;
 
 		// initializes the tree model
 		this.initModel();
@@ -130,6 +134,12 @@ class AlgebraViewT extends AlgebraViewWeb {
 		}
 	}
 
+	@Override
+	public void add(GeoElement geo) {
+		super.add(geo);
+		this.panel.onResize();
+	}
+	
 	@Override
 	public void setUserObject(TreeItem ti, final Object ob) {
 		ti.setUserObject(ob);

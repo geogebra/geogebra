@@ -44,7 +44,7 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 			final Kernel kernel) {
 		this.gui = (TabletGUI) ((TouchApp) kernel.getApplication())
 				.getTouchGui();
-		this.algebraView = new AlgebraViewT(controller);
+		this.algebraView = new AlgebraViewT(controller, this);
 		kernel.attach(this.algebraView);
 		this.stylebar = new FlowPanel();
 
