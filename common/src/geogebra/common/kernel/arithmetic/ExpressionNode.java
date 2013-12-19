@@ -3434,7 +3434,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					String translatedKey = loc.getFunction(key);
 
 					// supported operators in MathQuillGGB - TODO: are there more?
-					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(translatedKey) > -1) {
+					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh".indexOf(translatedKey) > -1) {
 
 						/*
 						 * It is important to do this for MathQuill edited in Algebra view
@@ -3446,6 +3446,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 						sb.append(" \\");
 						sb.append(translatedKey);
+					} else if ("cossech arcsh arcch arcth argsh argch argth arcos arcosh arsinh artanh arch arsh arth ch sh th cth sen tg asen atg arcsen arctg senh tgh asenh atgh arcsenh arctgh cotg cotgh".indexOf(translatedKey) > -1) {
+
+						// International trigonometric functions - not everything!
+						// These are also entered into mathquillggb.js!
+
+						sb.append(" \\");
+						sb.append(translatedKey);
+
 					/*} else if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(key) > -1) {
 
 						// This branch might be helping in cases for what we did not care yet;

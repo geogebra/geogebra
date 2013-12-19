@@ -3460,9 +3460,35 @@ sup : 1,
 tan : 1,
 tanh : 1,
 
-// Spanish, Hungarian
-sen : 1,
-tg : 1,
+// Portugese
+cossech: 1,
+
+// Romanian special
+arcsh: 1,
+arcch: 1,
+arcth: 1,
+
+// French special
+argsh: 1,
+argch: 1,
+argth: 1,
+
+// Spanish special
+arcos: 1,
+arcosh: 1,
+
+// German special
+arsinh: 1,
+artanh: 1,
+
+// Hungarian (??)
+arch: 1,
+arsh: 1,
+arth: 1,
+ch: 1,
+sh: 1,
+th: 1,
+cth: 1,
 
 // special GeoGebra functions
 sgn : 1,
@@ -3490,7 +3516,7 @@ pi: 1
 
 (function() {
   var trigs = {
-    sin: 1, cos: 1, tan: 1
+    sin: 1, cos: 1, tan: 1, sen: 1, tg: 1
     // capital/ar forms not needed, GeoGebra won't serialise to them
     // and users don't need them
     // although it can parse them
@@ -3509,6 +3535,7 @@ pi: 1
 	//,Sec: 1, Cosec: 1, Csc: 1,
 	,cotan: 1, cot: 1, ctg: 1
 	//,Cotan: 1, Cot: 1, Ctg: 1
+	,cotg : 1
 	};
   for (var trig in trigs) {
 	UnItalicizedCmds[trig] =
