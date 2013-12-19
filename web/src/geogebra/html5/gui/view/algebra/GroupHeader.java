@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 
 public class GroupHeader extends FlowPanel{
 	
-	private GroupNameLabel il;
+	protected GroupNameLabel il;
 	public GroupHeader(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl,SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
