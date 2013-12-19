@@ -3446,6 +3446,21 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 						sb.append(" \\");
 						sb.append(translatedKey);
+					/*} else if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(key) > -1) {
+
+						// This branch might be helping in cases for what we did not care yet;
+						// allowing entering the command, but renaming it to a syntax that is known to MathQuill.
+
+						// Tested on Spanish, f(x)=arcos(x)+sin(x) --> f(x)=acos(x)+sin(x)
+						// OK, but it would be better to support "arcos"
+
+						// Tested on Arabic, (x)"Arabic letters" --> f(x)=sin(x) instead of f(x)=(x)"Arabic letters"
+						// Maybe wrong than before, maybe better (with Arabic, things looked nice)
+
+						// Thus this else branch might not be needed if we support "arcos" and other forms in the previous branch
+
+						sb.append(" \\");
+						sb.append(key);*/
 					} else {
 						sb.append(" ");
 						sb.append(translatedKey);
