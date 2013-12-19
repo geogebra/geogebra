@@ -62,6 +62,7 @@ import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
+import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 import geogebra.web.main.AppWapplet;
 
@@ -69,7 +70,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -278,12 +283,67 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void updateFonts() {
-		// TODO Auto-generated method stub
-		//App.debug("unimplemented method");
 		
-		if (((AppW) app).getObjectPool().getGgwMenubar() != null){
-			GeoGebraMenubarW menubar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
-			if (menubar != null) menubar.updateFonts();
+		((AppW) app).getFrameElement().getStyle().setFontSize(app.getFontSize(), Unit.PX);
+		
+		// if (((AppW) app).getObjectPool().getGgwMenubar() != null){
+		//	GeoGebraMenubarW menubar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
+		//	if (menubar != null) menubar.updateFonts();
+		// }
+
+		updateFontSizeStyleElement();
+			
+	}
+	
+	
+	private void updateFontSizeStyleElement(){
+		
+		String fontsizeString = app.getGUIFontSize() + "px";
+		int imagesize = Math.round(app.getGUIFontSize() * 4 / 3);
+		int toolbariconSize = 2 * app.getGUIFontSize();
+
+		// until we have no enough place for the big icons in the toolbar, don't
+		// enable to increase too much the size of icons.
+		if (toolbariconSize > 45)
+			toolbariconSize = 45;
+
+		
+		// Build inner text for a style element that handles font size 
+		// =============================================================
+		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, .gwt-PopupPanel, .ToolTip";
+		innerText += "{font-size: " + fontsizeString + " !important}";
+
+		innerText += ".GeoGebraMenuImage{height: " + imagesize + "px; width: "
+		        + imagesize + "px;}";
+
+		innerText += ".GeoGebraMenuBar input[type=\"checkbox\"], .GeogebraMenuBar input[type=\"radio\"], "
+		        + ".GeoGebraPopupMenu input[type=\"checkbox\"], .GeogebraPopupMenu input[type=\"radio\"] ";
+		innerText += "{height: " + fontsizeString + "; width: "
+		        + fontsizeString + ";}";
+
+		innerText += ".toolbar_menuitem{font-size: " + fontsizeString + ";}";
+		innerText += ".toolbar_menuitem img{width: " + toolbariconSize + "px;}";
+		
+		// ============================================================
+
+		// Create a new style element for font size changes, and remove the old
+		// ones, if they already exist. Then add the new element for all
+		// GeoGebraWeb applets or application.
+
+		NodeList<Element> fontsizeElements = Dom
+		        .getElementsByClassName("GGWFontsize");
+		for (int i = 0; i < fontsizeElements.getLength(); i++) {
+			fontsizeElements.getItem(i).removeFromParent();
+		}
+
+		Element fontsizeElement = DOM.createElement("style");
+		fontsizeElement.addClassName("GGWFontsize");
+		fontsizeElement.setInnerText(innerText);
+
+		NodeList<Element> geogebrawebElements = Dom
+		        .getElementsByClassName("geogebraweb");
+		for (int i = 0; i < geogebrawebElements.getLength(); i++) {
+			geogebrawebElements.getItem(i).appendChild(fontsizeElement);
 		}
 	}
 
