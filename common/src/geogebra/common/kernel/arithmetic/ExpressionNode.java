@@ -3433,13 +3433,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					
 					String translatedKey = loc.getFunction(key);
 
-					// supported operators in MathQuillGGB
-					if ("arccos arcsin arctan cos cosh cot coth csc  exp lg ln log sec sin sinh tan tanh".indexOf(translatedKey) > -1 ||
-						"acos asin atan csch sech acosh asinh atanh".indexOf(translatedKey) > -1) {
-						
-						// Trig can be called with the following ones too:
-						// "csch sech acosh asinh atanh"
-						// but they are not checked!
+					// supported operators in MathQuillGGB - TODO: are there more?
+					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh".indexOf(translatedKey) > -1) {
 
 						/*
 						 * It is important to do this for MathQuill edited in Algebra view
