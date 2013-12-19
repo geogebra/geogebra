@@ -25,7 +25,7 @@ public class ButtonGroupPanel extends FlowPanel implements ValueChangeHandler<Bo
 	 */
 	public ButtonGroupPanel() {
 		super();
-		buttons = new ArrayList<>();
+		buttons = new ArrayList<MyToggleButton2>();
 	}
 	
 	/**
