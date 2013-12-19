@@ -589,7 +589,7 @@ public class PolygonTriangulation {
 						}
 
 					}
-				}else{ //while (running == Running.LEFT){
+				}else{ // running == Running.LEFT
 					nextPoint = segment.leftPoint;
 					if (nextPoint == start){
 						running = Running.STOP;
@@ -597,7 +597,7 @@ public class PolygonTriangulation {
 						next = nextPoint.toRight.lower(segment);
 						if (next == null){
 							if (nextPoint.toLeft != null){
-								next = nextPoint.toLeft.first();
+								next = nextPoint.toLeft.last();
 							}
 							if (next == null){ // no to-left segment
 								next = nextPoint.toRight.higher(segment);
