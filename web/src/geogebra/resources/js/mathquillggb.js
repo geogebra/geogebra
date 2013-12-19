@@ -3460,6 +3460,10 @@ sup : 1,
 tan : 1,
 tanh : 1,
 
+// Spanish, Hungarian
+sen : 1,
+tg : 1,
+
 // special GeoGebra functions
 sgn : 1,
 round : 1,

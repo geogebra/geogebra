@@ -3434,7 +3434,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					String translatedKey = loc.getFunction(key);
 
 					// supported operators in MathQuillGGB - TODO: are there more?
-					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh".indexOf(translatedKey) > -1) {
+					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(translatedKey) > -1) {
 
 						/*
 						 * It is important to do this for MathQuill edited in Algebra view
