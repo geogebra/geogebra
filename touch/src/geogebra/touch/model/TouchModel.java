@@ -162,8 +162,15 @@ public class TouchModel {
 		gsp2.update();
 		geoImage.setCorner(gsp2, 1);
 
+		// make sure the image is shown in the AlgebraView
+		boolean showAuxiliaryObjects = this.app.showAuxiliaryObjects();
+		this.app.setShowAuxiliaryObjects(true);
+		
 		geoImage.setLabel(null);
 		GeoImage.updateInstances();
+		
+		// reset flag
+		this.app.setShowAuxiliaryObjects(showAuxiliaryObjects);
 
 		// these things are done in Desktop GuiManager.loadImage too
 		GeoElement[] geos = { geoImage };
@@ -1394,6 +1401,8 @@ public class TouchModel {
 	private boolean handleInputDialog(final String input) {
 		this.getInputDialog().setInputText("");
 
+		String inputTrimmed = input.trim();
+		
 		if (!this.getInputDialog().isHandlingExpected(true)) {
 			resetSelection();
 			// still false! includes a repaint
@@ -1407,16 +1416,27 @@ public class TouchModel {
 				return false;
 			}
 
-			if (input.trim().equals(this.oldRedefineText)) {
-				System.out.println("TRUE");
+			if (inputTrimmed.equals(this.oldRedefineText)) {
 				return true;
 			}
 
+			if(this.redefineGeo instanceof GeoImage && inputTrimmed.length() > 0){
+				// make sure the image is shown in the AlgebraView
+				boolean showAuxiliaryObjects = this.app.showAuxiliaryObjects();
+				this.app.setShowAuxiliaryObjects(true);
+				
+				this.redefineGeo.setLabel(inputTrimmed);
+				
+				// reset flag
+				this.app.setShowAuxiliaryObjects(showAuxiliaryObjects);				
+				return true;
+			}
+			
 			final boolean redefine = !this.redefineGeo.isPointOnPath();
 
 			final GeoElement redefined = TouchModel.this.kernel
 					.getAlgebraProcessor().changeGeoElement(this.redefineGeo,
-							input, redefine, true);
+							inputTrimmed, redefine, true);
 			return redefined != null;
 		}
 
@@ -1425,7 +1445,7 @@ public class TouchModel {
 				.isSuppressLabelsActive();
 		this.kernel.getConstruction().setSuppressLabelCreation(true);
 		final String signedInput = this.getInputDialog().isClockwise() ? "-("
-				+ input + ")" : input;
+				+ inputTrimmed + ")" : inputTrimmed;
 
 		final ArrayList<GeoElementND> newGeoElements = new ArrayList<GeoElementND>();
 

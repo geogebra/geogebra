@@ -28,7 +28,7 @@ public class GroupHeaderT extends GroupHeader {
 	public GroupHeaderT(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl, SafeUri hiddenUrl, TouchController controller) {
 		super(selection, parent, strlab, showUrl, hiddenUrl);
 
-		this.clear();
+		this.remove(this.il);
 		this.il = new GroupNameLabelT(selection,parent,strlab);
 		this.add(this.il);
 		
