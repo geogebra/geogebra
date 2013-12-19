@@ -131,4 +131,13 @@ public abstract class GColor implements GPaint{
 		if (alpha < 0) alpha = 0;
 		return ((alpha*256+red)*256+green)*256+blue;
 	}
+	
+	
+	/**
+	 * 
+	 * @return gray scale value corresponding to this color
+	 */
+	public double getGrayScale() {
+		return 0.2989 * getRed() + 0.5870 * getGreen() + 0.1140 * getBlue();
+	}
 }

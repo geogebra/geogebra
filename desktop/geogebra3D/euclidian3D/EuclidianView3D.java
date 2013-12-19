@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
@@ -65,7 +66,6 @@ import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
 import geogebra3D.kernel3D.Kernel3D;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -1231,7 +1231,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@Override
 	protected void initView(boolean repaint) {
 		super.initView(repaint);
-		setBackground(Color.white);
+		setBackground(GColor.white);
 		updateMatrix();
 	}
 
@@ -3684,20 +3684,32 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	protected Color bgColor;
+	protected GColor bgColor;
 	
-	public Color getBackground() {
+	public GColor getBackground() {
 		return bgColor;
 	}
 
-	public void setBackground(Color bgColor) {
-		if (bgColor != null){
-			this.bgColor = bgColor;
-			if (renderer!=null)
+
+	@Override
+	public void setBackground(GColor color) {
+		if (color != null){
+			this.bgColor = color;
+			if (renderer!=null){
 				renderer.setWaitForUpdateClearColor();
+			}
+			super.setBackground(color);	
 		}
+			
 	}
 	
+	/*
+	@Override
+	public geogebra.common.awt.GColor getBackgroundCommon() {
+		return new geogebra.awt.GColorD(getBackground());
+		
+	}
+	*/
 	
 	
 	//////////////////////////////////////
@@ -3727,16 +3739,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 	
-	@Override
-	public void setBackground(geogebra.common.awt.GColor color) {
-		setBackground(geogebra.awt.GColorD.getAwtColor(color));
-		
-	}
-	@Override
-	public geogebra.common.awt.GColor getBackgroundCommon() {
-		return new geogebra.awt.GColorD(getBackground());
-		
-	}
 	
 
 	

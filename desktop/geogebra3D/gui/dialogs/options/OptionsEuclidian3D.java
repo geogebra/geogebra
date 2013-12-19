@@ -1,6 +1,8 @@
 package geogebra3D.gui.dialogs.options;
 
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.AxisPanel;
 import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.inputfield.MyTextField;
@@ -102,8 +104,6 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	private void enableStuff(boolean flag){
 		//	TODO remove when implemented
 		
-
-		//btBackgroundColor.setEnabled(flag);
 
 		tfMinX.setEnabled(flag);
 		tfMaxX.setEnabled(flag);
@@ -523,4 +523,13 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 		}	
 	}	
 
+	
+	@Override
+	protected void actionBtBackgroundColor(){
+		App.debug("ici");
+		view.setBackground(
+				new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
+						.showColorChooser(
+								((EuclidianView3D) view).getBackground())));
+	}
 }

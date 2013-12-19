@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -12,7 +13,6 @@ import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
 
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
@@ -1260,10 +1260,18 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     
     private void updateClearColor(){
 
-    	Color c = view3D.getBackground();
-    	float r = (float) c.getRed()/255;
-    	float g = view3D.isShutDownGreen() ? 0 : (float) c.getGreen()/255;
-    	float b = (float) c.getBlue()/255;
+    	GColor c = view3D.getBackground();
+    	float r,g,b;
+    	if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES
+    			&& !view3D.isPolarized()) { //grayscale for anaglyph glasses
+    		r = (float) (c.getGrayScale()/255);
+    		g = r;
+    		b = r;
+    	}else{
+    		r = (float) c.getRed()/255;
+    		g = view3D.isShutDownGreen() ? 0 : (float) c.getGreen()/255;
+    		b = (float) c.getBlue()/255;
+    	}
     	
         getGL().glClearColor(r,g,b, 1.0f);   
     }

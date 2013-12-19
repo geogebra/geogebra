@@ -739,32 +739,39 @@ public class OptionsEuclidianD extends
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
+	
+	/**
+	 * acts when the background color button is hitted
+	 */
+	protected void actionBtBackgroundColor(){
+		if (view == app.getEuclidianView1()) {
+			app.getSettings()
+					.getEuclidian(1)
+					.setBackground(
+							new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
+									.showColorChooser(
+											app.getSettings()
+													.getEuclidian(1)
+													.getBackground())));
+		} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+			view.setBackground(view.getBackgroundCommon());
+		} else if (view == app.getEuclidianView2()) {
+			app.getSettings()
+					.getEuclidian(2)
+					.setBackground(
+							new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
+									.showColorChooser(
+											app.getSettings()
+													.getEuclidian(2)
+													.getBackground())));
+		} else {
+			view.setBackground(view.getBackgroundCommon());
+		}
+	}
 
 	protected void doActionPerformed(Object source) {
 		if (source == btBackgroundColor) {
-			if (view == app.getEuclidianView1()) {
-				app.getSettings()
-						.getEuclidian(1)
-						.setBackground(
-								new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
-										.showColorChooser(
-												app.getSettings()
-														.getEuclidian(1)
-														.getBackground())));
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setBackground(view.getBackgroundCommon());
-			} else if (view == app.getEuclidianView2()) {
-				app.getSettings()
-						.getEuclidian(2)
-						.setBackground(
-								new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
-										.showColorChooser(
-												app.getSettings()
-														.getEuclidian(2)
-														.getBackground())));
-			} else {
-				view.setBackground(view.getBackgroundCommon());
-			}
+			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
 			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(((GuiManagerD)app.getGuiManager()).showColorChooser(view.getAxesColor()));
 			if (view == app.getEuclidianView1()) {
