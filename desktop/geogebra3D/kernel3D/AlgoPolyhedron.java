@@ -71,9 +71,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 					visible = true;
 					labelVisible = true;
 				}
-				App.debug(p+","+visible);
+
 				p.setEuclidianVisible(visible);
-				//p.setLabelVisible(labelVisible);
+				p.setLabelVisible(labelVisible);
 				
 				return p;
 			}
