@@ -1768,6 +1768,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isLabelVisible() {
 		return labelVisible && isLabelSet();
 	}
+	
+	/**
+	 * 
+	 * @return value of labelVisible
+	 */
+	final public boolean getLabelVisible() {
+		return labelVisible;
+	}
+
 
 	/**
 	 * Returns whether the label can be shown in Euclidian view.

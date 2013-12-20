@@ -63,9 +63,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 				boolean labelVisible = false;
 				int size = outputPoints.size();
 				if (size > 0){ // check if at least one element is visible
-					for (int i = 0; i < size && !visible ; i++){
+					for (int i = 0; i < size && !visible && !labelVisible; i++){
 						visible = visible || outputPoints.getElement(i).isEuclidianVisible();
-						labelVisible = labelVisible || outputPoints.getElement(i).isLabelVisible();
+						labelVisible = labelVisible || outputPoints.getElement(i).getLabelVisible();
 					}
 				}else{ // no element yet
 					visible = true;
