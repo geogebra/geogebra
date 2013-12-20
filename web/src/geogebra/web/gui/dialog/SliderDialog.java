@@ -17,7 +17,9 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.properties.SliderPanelW;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -31,6 +33,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -44,6 +47,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 */
 	private static final long serialVersionUID = 1L;
 	private Button btApply, btCancel;
+	private Label nameLabel;
+	private AutoCompleteTextFieldW tfLabel;
 	private RadioButton rbNumber, rbAngle, rbInteger;
 	private SliderPanelW sliderPanel;
 	
@@ -130,6 +135,16 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 		sliderPanel = new SliderPanelW(app, true, true);
 		rightWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		
+//		FlowPanel namePanel = new FlowPanel();
+		nameLabel = new Label(app.getPlain("Name"));
+		rightWidget.add(nameLabel);
+		
+		InputPanelW inputPanel = new InputPanelW(null, app, -1, false);
+		tfLabel = inputPanel.getTextComponent();
+		tfLabel.setAutoComplete(false);
+		rightWidget.add(tfLabel);
+		
 		rightWidget.add(sliderPanel.getWidget());
 
 
@@ -153,11 +168,39 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 * @return GeoElement: the geoResult itself
 	 */
 	public GeoElement getResult() {
-		if (geoResult != null) {
-			geoResult.setLabel(geoResult.getDefaultLabel(false));
+		if (geoResult != null) {		
+			// set label of geoResult
+			String strLabel;
+			String text = tfLabel.getText();
+			try {								
+				strLabel = app.getKernel().getAlgebraProcessor().
+								parseLabel(text);
+			} catch (Exception e) {
+				strLabel = null;
+			}			
+			geoResult.setLabel(strLabel);
+			
+			// allow eg a=2 in the Name dialog to set the initial value
+			if (strLabel != null && text.indexOf('=') > -1 && text.indexOf('=') == text.lastIndexOf('=')) {
+				
+				try {
+					double val = Double.parseDouble(text.substring(text.indexOf('=')+1));
+					
+					GeoNumeric geoNum = ((GeoNumeric)geoResult);
+					
+					if (val > geoNum.getIntervalMax()) geoNum.setIntervalMax(val);
+					else if (val < geoNum.getIntervalMin()) geoNum.setIntervalMin(val);
+					
+					geoNum.setValue(val);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		
 		return geoResult;
 	}
+
 
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
@@ -166,6 +209,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			getResult();
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			geoResult.setLabelVisible(true);
+			sliderPanel.applyAll(geoResult);
 			geoResult.update();
 			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
 

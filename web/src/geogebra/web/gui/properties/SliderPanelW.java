@@ -7,6 +7,7 @@ import geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListen
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.AngleTextFieldW;
 import geogebra.web.main.AppW;
@@ -276,5 +277,16 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	public void setWidthUnitText(String text) {
 		widthUnitLabel.setText(text);
+	}
+
+	public void applyAll(GeoElement geoResult) {
+		Object geos[] =  {geoResult};
+		model.setGeos(geos);
+		model.applyFixed(cbSliderFixed.getValue());
+		model.applyRandom(cbRandom.getValue());
+		model.applyDirection(lbSliderHorizontal.getSelectedIndex());
+		applyMin();
+		applyMax();
+		applyWidth();
 	}
 }
