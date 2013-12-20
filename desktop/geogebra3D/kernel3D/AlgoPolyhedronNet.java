@@ -145,6 +145,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 				p.setCoords(0, 0, 0, 1);
 				p.setParentAlgorithm(AlgoPolyhedronNet.this);
 				getNet().addPointCreated(p);
+				p.setLabelVisible(false);
 				return p;
 			}
 		});
@@ -185,8 +186,13 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 		Coords v2 = projectCoords.sub(o);
 		double d2 = pointCoords.distLine(o, vs);
-		double angle = Math.asin(dist/d2);		
-
+		double angle;
+		if (Kernel.isEqual(dist, d2)){
+			angle = Math.PI/2;
+		}
+		else{
+			angle = Math.asin(dist/d2);	
+		}
 		if (test ^ (v2.crossProduct(vs).dotproduct(fd) < 0)) { // top point is inside bottom face
 			angle = Math.PI - angle;
 		}	
@@ -212,7 +218,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		
 		
 		if (n > outputPointsBottom.size()){ // augment output points bottom
-			outputPointsBottom.adjustOutputSize(n);
+			outputPointsBottom.adjustOutputSize(n,false);
 		}
 		
 		

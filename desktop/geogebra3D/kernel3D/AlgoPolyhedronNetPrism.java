@@ -32,9 +32,9 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 		GeoPolyhedronNet net = getNet();
 
-		outputPointsBottom.adjustOutputSize(n);
-		outputPointsSide.adjustOutputSize(2 * n);
-		outputPointsTop.adjustOutputSize(n - 2);
+		outputPointsBottom.adjustOutputSize(n,false);
+		outputPointsSide.adjustOutputSize(2 * n,false);
+		outputPointsTop.adjustOutputSize(n - 2,false);
 
 		//create bottom face
 		net.startNewFace();
@@ -183,7 +183,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 		if (newBottomPointsLength > nOld){
 			// adjust top points length
-			outputPointsTop.adjustOutputSize(newBottomPointsLength - 2);
+			outputPointsTop.adjustOutputSize(newBottomPointsLength - 2,false);
 			outputPointsTop.setLabels(null);
 			
 			// create new top segments
@@ -227,7 +227,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		if (newBottomPointsLength > nOld){
 
 			// adjust side points length
-			outputPointsSide.adjustOutputSize(newBottomPointsLength * 2);
+			outputPointsSide.adjustOutputSize(newBottomPointsLength * 2,false);
 			outputPointsSide.setLabels(null);
 
 			//create new sides

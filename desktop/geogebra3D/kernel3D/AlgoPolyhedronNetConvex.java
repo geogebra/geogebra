@@ -225,7 +225,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		getNet().setDefined();
 		
 		// update net points 
-		outputPointsNet.setLabels(null);
 		for (int iPoly = 0 ; iPoly<polygonInfo.size(); iPoly++){
 			GeoPolygon currentFace = p.getFace(iPoly);
 			Coords[] points = getPointsCoords(currentFace);
@@ -307,6 +306,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				p.setCoords(0, 0, 0, 1);
 				p.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
 				getNet().addPointCreated(p);
+				p.setLabelVisible(false);
 				return p;
 			}
 		});
@@ -328,18 +328,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 
 
-	/**
-	 * adjust output for n points
-	 * @param n new points length
-	 */
-	protected void adjustOutputSize(int n){
-
-
-		if (n > outputPointsNet.size()){ // augment output points
-			outputPointsNet.adjustOutputSize(n);
-		}
-	}
-
+	
 	//iBottomFace : number of the face used as bottom
 	protected void createNet() {
 
@@ -353,7 +342,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				iNetPoints -= 2;
 			}
 		}
-		outputPointsNet.adjustOutputSize(iNetPoints);
+		outputPointsNet.adjustOutputSize(iNetPoints,false);
+		outputPointsNet.setLabels(null);
 
 		//create bottom face and recursive call for child faces
 		createFace(iBottom);

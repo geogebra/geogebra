@@ -38,8 +38,8 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 
 		//create bottom face
-		outputPointsBottom.adjustOutputSize(n);
-		outputPointsSide.adjustOutputSize(n);
+		outputPointsBottom.adjustOutputSize(n,false);
+		outputPointsSide.adjustOutputSize(n,false);
 		net.startNewFace();
 		for (int i = 0; i < n; i++){
 			net.addPointToCurrentFace(outputPointsBottom.getElement(i));
@@ -103,7 +103,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		if (newBottomPointsLength > nOld){
 
 			// update side points
-			outputPointsSide.adjustOutputSize(newBottomPointsLength);
+			outputPointsSide.adjustOutputSize(newBottomPointsLength,false);
 			outputPointsSide.setLabels(null);
 
 			//create new sides
