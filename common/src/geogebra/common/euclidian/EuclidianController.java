@@ -6252,7 +6252,6 @@ public abstract class EuclidianController {
 		setStartPointLocation(xRW, yRW);
 		pt1.setCoords(pt1.getX()+dx,pt1.getY()-dy,1);
 		pt2.setCoords(pt2.getX()+dx,pt2.getY()-dy,1);
-		App.debug(xRW+","+yRW+":"+getStartPointX()+","+getStartPointY());
 		algo.update();
 		 
 		if (repaint) {
