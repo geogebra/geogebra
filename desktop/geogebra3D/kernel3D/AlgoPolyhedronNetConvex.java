@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -254,15 +255,19 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			Coords o1 = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getStartPoint().getInhomCoordsInD(3);
 			Coords vs = segmentList.get(polygonInfo.get(iFace).linkSegNumber).getDirectionInD3();
 			int sgn=1;
-			if (o1.distance(o) > 0.01){
+			if (Kernel.isGreater(o1.distance(o), 0)){
 				sgn=-1;
 			}
 			Coords v2 = projCoord.sub(o);
-		
+
 			double d2 = cCoord.distLine(o, vs);
-			double frac = Math.min(1,dist/d2); //some bugs occur at E-15... dist>d2
-			
-			double angle = Math.asin(frac);		
+			double angle;
+			if (Kernel.isEqual(dist, d2)){
+				angle = Math.PI/2;
+			}
+			else{
+				angle = Math.asin(dist/d2);	
+			}
 			if (((sgn==1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) < 0))|((sgn==-1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) > 0))) { // top point is inside bottom face
 				angle =   Math.PI - angle;
 			}
