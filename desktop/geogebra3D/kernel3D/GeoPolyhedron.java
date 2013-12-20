@@ -960,7 +960,7 @@ HasHeight
 
 	@Override
 	public void set(GeoElement geo) {
-		if (geo instanceof GeoPolyhedron) {
+		if (geo .isGeoPolyhedron()) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
 			
 			isDefined = polyhedron.isDefined;

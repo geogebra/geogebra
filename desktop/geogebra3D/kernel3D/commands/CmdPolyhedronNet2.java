@@ -30,7 +30,7 @@ public class CmdPolyhedronNet2 extends CommandProcessor {
 	    case 2 :
 	    	arg = resArgs(c);
 	    	if (
-	    			(ok[0] = (arg[0] instanceof GeoPolyhedron ) )
+	    			(ok[0] = (arg[0] .isGeoPolyhedron() ) )
 	    			&& (ok[1] = (arg[1].isNumberValue() ))
 	    	) {
 	    		return kernelA.getManager3D().PolyhedronNet2(

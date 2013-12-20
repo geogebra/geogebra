@@ -32,7 +32,7 @@ public class CmdIntersectRegion3D extends CmdIntersectRegion {
 
 			if (
 					(ok[0] = (arg[0] .isGeoPlane()))
-					&& (ok[1] = (arg[1] instanceof GeoPolyhedron)))
+					&& (ok[1] = (arg[1] .isGeoPolyhedron())))
 				return kernelA.getManager3D().IntersectRegion(
 						c.getLabels(),
 						(GeoPlane3D) arg[0],
@@ -40,7 +40,7 @@ public class CmdIntersectRegion3D extends CmdIntersectRegion {
 						c.getOutputSizes());
 			else if (
 					(ok[1] = (arg[1] .isGeoPlane()))
-					&& (ok[0] = (arg[0] instanceof GeoPolyhedron)))
+					&& (ok[0] = (arg[0] .isGeoPolyhedron())))
 				return kernelA.getManager3D().IntersectRegion(
 						c.getLabels(),
 						(GeoPlane3D) arg[1],

@@ -73,14 +73,14 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			/*
     	if (
     			(ok[0] = (arg[0] .isGeoPlane()))
-    			&& (ok[1] = (arg[1] instanceof GeoPolyhedron)))
+    			&& (ok[1] = (arg[1].isGeoPolyhedron())))
     		return kernelA.getManager3D().IntersectPath(
     				c.getLabels(),
     				(GeoPlane3D) arg[0],
     				(GeoPolyhedron) arg[1]);
     	else if (
     			(ok[1] = (arg[1] .isGeoPlane()))
-    			&& (ok[0] = (arg[0] instanceof GeoPolyhedron)))
+    			&& (ok[0] = (arg[0].isGeoPolyhedron())))
     		return kernelA.getManager3D().IntersectPath(
     				c.getLabels(),
     				(GeoPlane3D) arg[1],
