@@ -275,7 +275,7 @@ public final class EuclidianConstants {
 	public static final int MODE_CONIFY = 534;
 	
 	/** polyhedronNet */
-	public static final int MODE_POLYHEDRON_NET = 535;
+	public static final int MODE_NET = 535;
 	
 
 	/** rotate the view */

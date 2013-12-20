@@ -451,7 +451,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append( EuclidianConstants.MODE_EXTRUSION);
 		sb.append( " , " );
-		sb.append( EuclidianConstants.MODE_POLYHEDRON_NET);
+		sb.append( EuclidianConstants.MODE_NET);
 		sb.append( " | " );
 		
 		//spheres

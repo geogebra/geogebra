@@ -18,7 +18,7 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 
 	@Override
 	public String getTypeString() {
-		return "PolyhedronNet";
+		return "Net";
 	}
 	
 	@Override

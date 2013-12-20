@@ -301,7 +301,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 	@Override
 	public GetCommand getClassName() {
-		return Commands.PolyhedronNet;
+		return Commands.Net;
 	}
 
 	/**
@@ -330,7 +330,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 	 @Override
 		public int getRelatedModeID() {
-	    	return EuclidianConstants.MODE_POLYHEDRON_NET;
+	    	return EuclidianConstants.MODE_NET;
 	    }   
 	    
 

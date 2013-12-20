@@ -103,7 +103,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdArchimedeanSolid(kernel, Commands.Icosahedron);
 			
 			
-			case PolyhedronNet:
+			case Net:
 				return new CmdPolyhedronNet(kernel);
 			
 				/*

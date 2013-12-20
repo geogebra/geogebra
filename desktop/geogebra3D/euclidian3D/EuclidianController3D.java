@@ -1931,7 +1931,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			changedKernel = cylinderTwoPointsRadius(hits);
 			break;
 		
-		case EuclidianConstants.MODE_POLYHEDRON_NET:
+		case EuclidianConstants.MODE_NET:
 			changedKernel = polyhedronNet(hits);
 			break;
 	
@@ -1994,7 +1994,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_AREA:
 		case EuclidianConstants.MODE_VOLUME:
 		case EuclidianConstants.MODE_EXTRUSION:
-		case EuclidianConstants.MODE_POLYHEDRON_NET:
+		case EuclidianConstants.MODE_NET:
 		case EuclidianConstants.MODE_CONIFY:
 			hits.removeAllPolygonsButOne();
 			break;
@@ -2132,7 +2132,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			break;
-		case EuclidianConstants.MODE_POLYHEDRON_NET:
+		case EuclidianConstants.MODE_NET:
 			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			break;
