@@ -107,13 +107,13 @@ public  GeoElement[] process(Command c) throws MyError {
         		/*
         		else if (
         				(arg[0] instanceof GeoPlane3D)
-        				&& (arg[1] instanceof GeoPolyhedron))
+        				&& (arg[1].isGeoPolyhedron()))
         			return kernelA.getManager3D().IntersectionPoint(
         					c.getLabels(),
         					(GeoPlane3D) arg[0],
         					(GeoPolyhedron) arg[1]);
         		else if (
-        				(arg[0] instanceof GeoPolyhedron)
+        				(arg[0].isGeoPolyhedron())
         				&& (arg[1] instanceof GeoPlane3D))
         			return kernelA.getManager3D().IntersectionPoint(
         					c.getLabels(),
@@ -251,7 +251,7 @@ public  GeoElement[] process(Command c) throws MyError {
            		// Plane - Polyhedron
            		if (
            				(ok[0] = (arg[0] .isGeoPlane()))
-           				&& (ok[1] = (arg[1] instanceof GeoPolyhedron)))
+           				&& (ok[1] = (arg[1].isGeoPolyhedron())))
            			return kernelA.getManager3D().IntersectRegion(
            					c.getLabels(),
            					(GeoPlane3D) arg[0],
@@ -259,7 +259,7 @@ public  GeoElement[] process(Command c) throws MyError {
            					c.getOutputSizes());
            		else if (
            				(ok[1] = (arg[1] .isGeoPlane()))
-           				&& (ok[0] = (arg[0] instanceof GeoPolyhedron)))
+           				&& (ok[0] = (arg[0].isGeoPolyhedron())))
            			return kernelA.getManager3D().IntersectRegion(
            					c.getLabels(),
            					(GeoPlane3D) arg[1],

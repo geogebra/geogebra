@@ -776,7 +776,7 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput();
 		}
 		
-		if (s instanceof GeoPolyhedron) {
+		if (s .isGeoPolyhedron()) {
 			AlgoIntersectPlanePolyhedron algo = new AlgoIntersectPlanePolyhedron(
 					cons, labels, (GeoPlane3D) plane, (GeoPolyhedron) s);
 			return algo.getOutput();
@@ -841,7 +841,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoElement p, int[] outputSizes) {
 
 		
-		if (p instanceof GeoPolyhedron) {
+		if (p .isGeoPolyhedron()) {
 			AlgoIntersectRegionPlanePolyhedron algo = new AlgoIntersectRegionPlanePolyhedron(cons, labels, (GeoPlane3D) plane,
 					(GeoPolyhedron) p, outputSizes);
 			return algo.getOutput();
@@ -855,7 +855,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoElement p) {
 
 		
-		if (p instanceof GeoPolyhedron) {
+		if (p .isGeoPolyhedron()) {
 			AlgoIntersectRegionPlanePolyhedron algo = new AlgoIntersectRegionPlanePolyhedron(cons, (GeoPlane3D) plane,
 					(GeoPolyhedron) p);
 			algo.update();
