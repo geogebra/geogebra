@@ -3430,49 +3430,56 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			switch (tpl.getStringType()) {
 			case LATEX:
 				if (tpl.isMathQuillGGB()) {
-					
 					String translatedKey = loc.getFunction(key);
 
-					// supported operators in MathQuillGGB - TODO: are there more?
-					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh".indexOf(translatedKey) > -1) {
+					if (left.getKernel().getApplication().isHTML5Applet()) {
 
-						/*
-						 * It is important to do this for MathQuill edited in Algebra view
-						 * more times, e.g. f(x)=x, f(x)=x+sin(x), f(x)=x+sin(x)+cos(x)
-						 * 
-						 * By the way, if things are translated differently,
-						 * then it would probably be better to just use "latex" instead of \\"translatedKey"
-						 */
+						// supported operators in MathQuillGGB - TODO: are there more?
+						if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh".indexOf(translatedKey) > -1) {
 
-						sb.append(" \\");
-						sb.append(translatedKey);
-					} else if ("cossech arcsh arcch arcth argsh argch argth arcos arcosh arsinh artanh arch arsh arth ch sh th cth sen tg asen atg arcsen arctg senh tgh asenh atgh arcsenh arctgh cotg cotgh".indexOf(translatedKey) > -1) {
+							/*
+							 * It is important to do this for MathQuill edited in Algebra view
+							 * more times, e.g. f(x)=x, f(x)=x+sin(x), f(x)=x+sin(x)+cos(x)
+							 * 
+							 * By the way, if things are translated differently,
+							 * then it would probably be better to just use "latex" instead of \\"translatedKey"
+							 */
 
-						// International trigonometric functions - not everything!
-						// These are also entered into mathquillggb.js!
+							sb.append(" \\");
+							sb.append(translatedKey);
+						} else if ("cossech arcsh arcch arcth argsh argch argth arcos arcosh arsinh artanh arch arsh arth ch sh th cth sen tg asen atg arcsen arctg senh tgh asenh atgh arcsenh arctgh cotg cotgh".indexOf(translatedKey) > -1) {
 
-						sb.append(" \\");
-						sb.append(translatedKey);
+							// International trigonometric functions - not everything!
+							// These are also entered into mathquillggb.js!
 
-					/*} else if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(key) > -1) {
+							sb.append(" \\");
+							sb.append(translatedKey);
 
-						// This branch might be helping in cases for what we did not care yet;
-						// allowing entering the command, but renaming it to a syntax that is known to MathQuill.
+							/*} else if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(key) > -1) {
 
-						// Tested on Spanish, f(x)=arcos(x)+sin(x) --> f(x)=acos(x)+sin(x)
-						// OK, but it would be better to support "arcos"
+							// This branch might be helping in cases for what we did not care yet;
+							// allowing entering the command, but renaming it to a syntax that is known to MathQuill.
 
-						// Tested on Arabic, (x)"Arabic letters" --> f(x)=sin(x) instead of f(x)=(x)"Arabic letters"
-						// Maybe wrong than before, maybe better (with Arabic, things looked nice)
+							// Tested on Spanish, f(x)=arcos(x)+sin(x) --> f(x)=acos(x)+sin(x)
+							// OK, but it would be better to support "arcos"
 
-						// Thus this else branch might not be needed if we support "arcos" and other forms in the previous branch
+							// Tested on Arabic, (x)"Arabic letters" --> f(x)=sin(x) instead of f(x)=(x)"Arabic letters"
+							// Maybe wrong than before, maybe better (with Arabic, things looked nice)
 
-						sb.append(" \\");
-						sb.append(key);*/
+							// Thus this else branch might not be needed if we support "arcos" and other forms in the previous branch
+
+							sb.append(" \\");
+							sb.append(key);*/
+						} else {
+							sb.append(" ");
+							sb.append(translatedKey);
+							sb.append(" ");	
+						}
 					} else {
+						// Java version, do not change anything
 						sb.append(" ");
 						sb.append(translatedKey);
-						sb.append(" ");	
+						sb.append(" ");
 					}
 				} else if(tpl.isPrintLocalizedCommandNames()) {
 					sb.append("\\operatorname{");
