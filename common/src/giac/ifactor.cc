@@ -3400,6 +3400,8 @@ namespace giac {
       do_pollard=false;
       if (msieve(a,b,contextptr)) return b; else return -1; }
 #endif
+    if (b==-1)
+      b=a;
     return b;
   }
 #endif // USE_GMP_REPLACEMENTS
@@ -3438,8 +3440,13 @@ namespace giac {
     if (ctrl_c || interrupted)
       return gensizeerr("Interrupted");
     gen ba=n/a;
-    a=ifactor2(a,v,do_pollard,contextptr);
-    if (is_greater(ba,1,contextptr))
+    if (a!=n)
+      a=ifactor2(a,v,do_pollard,contextptr);
+    else {
+      a=1;
+      v.push_back(n);
+    }
+    if (is_strictly_greater(ba,1,contextptr))
       a=ifactor2(ba,v,do_pollard,contextptr);
     return a;
   }
