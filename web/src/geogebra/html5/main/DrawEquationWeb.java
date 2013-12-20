@@ -680,7 +680,7 @@ public class DrawEquationWeb extends DrawEquation {
 					$wnd.mousein.mout = false;
 				}).mouseleave(function(event3) {
 					$wnd.mousein.mout = true;
-					$(this).focus();
+					$wnd.$ggbQuery(this).focus();
 				});
 	}-*/;
 
