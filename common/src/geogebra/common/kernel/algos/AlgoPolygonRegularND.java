@@ -110,6 +110,16 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 						GeoElement segment = (GeoElement) outputPolygon
 								.getElement(0).createSegment(A, B, true);
 						segment.setAuxiliaryObject(true);
+						boolean segmentsVisible = false;
+						int size = outputSegments.size();
+						if (size > 0){ // check if at least one segment is visible
+							for (int i = 0; i < size && !segmentsVisible ; i++){
+								segmentsVisible = segmentsVisible || outputSegments.getElement(i).isEuclidianVisible();
+							}
+						}else{ // no segment yet
+							segmentsVisible = true;
+						}
+						segment.setEuclidianVisible(segmentsVisible);
 						segment.setLabelVisible(showNewSegmentsLabels);
 						segment.setViewFlags(((GeoElement) A).getViewSet());
 						return segment;
