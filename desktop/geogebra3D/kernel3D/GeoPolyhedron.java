@@ -1088,6 +1088,11 @@ HasHeight
 
 		return isDefined();
 	}
+	
+	@Override
+	public boolean isGeoPolyhedron() {
+		return true;
+	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {

@@ -5462,6 +5462,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isGeoPolygon() {
 		return false;
 	}
+	/**
+	 * @return true for polyhedrons
+	 */
+	public boolean isGeoPolyhedron() {
+		return false;
+	}
 
 	/**
 	 * @return true for rays

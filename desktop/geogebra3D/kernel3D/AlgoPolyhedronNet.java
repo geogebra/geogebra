@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -327,5 +328,10 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		}
 	}
 
+	 @Override
+		public int getRelatedModeID() {
+	    	return EuclidianConstants.MODE_POLYHEDRON_NET;
+	    }   
+	    
 
 }

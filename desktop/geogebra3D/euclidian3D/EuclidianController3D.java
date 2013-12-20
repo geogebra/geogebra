@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
@@ -1101,6 +1102,37 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param hits geos hitted
+	 * @return net of a polyhedron
+	 */
+	final protected boolean polyhedronNet(Hits hits) {
+		if (hits.isEmpty())
+			return false;
+		
+		addSelectedGeo(hits.getPolyhedronsIncludingMetaHits(), 1, false);
+
+		if (selGeos() == 1) {
+			GeoElement polyhedron = getSelectedGeos()[0];
+			GeoNumeric slider = GeoNumeric.setSliderFromDefault(new GeoNumeric(kernel.getConstruction()), false);
+			slider.setIntervalMin(0);
+			slider.setIntervalMax(1);
+			slider.setAnimationStep(0.01);			
+			slider.setLabel(null);
+			slider.setValue(1);
+			//slider.setSliderLocation(x, y, true);
+			slider.setEuclidianVisible(false);
+			slider.update();
+
+			kernel.getManager3D().PolyhedronNet(null, polyhedron, slider);
+			return true;
+
+		} 
+		
+		return false;
+		
+	}
 
 	
 	/**
@@ -1899,7 +1931,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			changedKernel = cylinderTwoPointsRadius(hits);
 			break;
 		
-			
+		case EuclidianConstants.MODE_POLYHEDRON_NET:
+			changedKernel = polyhedronNet(hits);
+			break;
+	
 			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			changedKernel = viewInFrontOf(hits);
@@ -1959,6 +1994,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_AREA:
 		case EuclidianConstants.MODE_VOLUME:
 		case EuclidianConstants.MODE_EXTRUSION:
+		case EuclidianConstants.MODE_POLYHEDRON_NET:
 		case EuclidianConstants.MODE_CONIFY:
 			hits.removeAllPolygonsButOne();
 			break;
@@ -2093,6 +2129,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//no need to do anything for preview when mouse is pressed
 			break;
 		case EuclidianConstants.MODE_VOLUME:
+			view.setHits(mouseLoc, type);
+			hits = view.getHits();
+			break;
+		case EuclidianConstants.MODE_POLYHEDRON_NET:
 			view.setHits(mouseLoc, type);
 			hits = view.getHits();
 			break;

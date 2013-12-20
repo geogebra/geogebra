@@ -450,6 +450,8 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_CONIFY);
 		sb.append(" ");
 		sb.append( EuclidianConstants.MODE_EXTRUSION);
+		sb.append( " , " );
+		sb.append( EuclidianConstants.MODE_POLYHEDRON_NET);
 		sb.append( " | " );
 		
 		//spheres

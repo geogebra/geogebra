@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -516,5 +517,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		getNet().setUndefined();
 		outputPointsNet.setUndefined();
 	}
-	
+
+	 @Override
+		public int getRelatedModeID() {
+	    	return EuclidianConstants.MODE_POLYHEDRON_NET;
+	    }   
+	    
 }

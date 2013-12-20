@@ -21,6 +21,10 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		return "PolyhedronNet";
 	}
 	
+	@Override
+	public boolean isGeoPolyhedron() {
+		return false;
+	}
 	
 }
 

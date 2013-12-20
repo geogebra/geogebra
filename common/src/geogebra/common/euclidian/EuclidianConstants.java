@@ -273,6 +273,10 @@ public final class EuclidianConstants {
 	
 	/** creates a pyramid/cone with basis and height */
 	public static final int MODE_CONIFY = 534;
+	
+	/** polyhedronNet */
+	public static final int MODE_POLYHEDRON_NET = 535;
+	
 
 	/** rotate the view */
 	public static final int MODE_ROTATEVIEW = 540;
