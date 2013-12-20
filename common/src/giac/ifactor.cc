@@ -1,6 +1,8 @@
 // -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c ifactor.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
-#define GIAC_MPQS // define if you want to use giac for sieving (currently only 1 poly, maybe more later)
+#ifndef __MINGW_H
+#define GIAC_MPQS // define if you want to use giac for sieving 
+#endif
 
 // Thanks to Jason Papadopoulos, author of msieve
 #ifdef BESTA_OS
