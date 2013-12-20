@@ -210,8 +210,20 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	@Override
 	public void compute() {
 
+		if (!p.isDefined()){
+			setUndefined();
+			return;
+		}
+		
 		double f = v.getDouble();
+		
+		if (Kernel.isGreater(f, 1)||Kernel.isGreater(0,f)){
+			setUndefined();
+			return;
+		}
 
+		getNet().setDefined();
+		
 		// update net points 
 		outputPointsNet.setLabels(null);
 		for (int iPoly = 0 ; iPoly<polygonInfo.size(); iPoly++){
@@ -510,4 +522,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		return points;
 	}
 
+	private void setUndefined(){
+		getNet().setUndefined();
+		outputPointsNet.setUndefined();
+	}
+	
 }

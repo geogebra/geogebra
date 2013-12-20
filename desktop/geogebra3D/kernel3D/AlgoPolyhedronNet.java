@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -249,6 +250,11 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		
 		double f = v.getDouble();
 
+		if (Kernel.isGreater(f, 1)||Kernel.isGreater(0,f)){
+			setUndefined();
+			return;
+		}
+		
 		// update bottom points
 		GeoPolygon bottomFace = p.getBottomFace();
 		if (bottomFace.isConvex()) {
