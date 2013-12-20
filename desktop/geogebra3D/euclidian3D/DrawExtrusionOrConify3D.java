@@ -252,7 +252,9 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 							//check basis direction / view direction to say if the sign has to be forced
 							basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
 							app.getPlain("PositiveValuesFollowTheView"));
-				hits.add((GeoElement) num);
+				if (num != null){
+					hits.add((GeoElement) num);
+				}
 			}else
 				hits.add(height);
 			
