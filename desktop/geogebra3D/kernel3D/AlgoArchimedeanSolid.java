@@ -159,7 +159,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		IArchimedeanSolid solid = ArchimedeanSolidFactory.create(name);
 		int vertexCount = solid.getVertexCount();
 		
-		outputPoints.augmentOutputSize(vertexCount-2);
+		outputPoints.augmentOutputSize(vertexCount-2, false);
 		if (getPolyhedron().allLabelsAreSet()){
 			outputPoints.setLabels(null);
 		}

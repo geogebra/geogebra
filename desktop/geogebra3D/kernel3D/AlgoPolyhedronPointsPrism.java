@@ -150,7 +150,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polyhedron.updateSegmentsLinked();
 			
 			int length=newBottomPointsLength-nOld;
-			outputPoints.augmentOutputSize(length);
+			outputPoints.augmentOutputSize(length, false);
 			if (getPolyhedron().allLabelsAreSet()){
 				outputPoints.setLabels(null);
 			}

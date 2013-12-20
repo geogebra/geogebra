@@ -206,7 +206,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		this.height = height;
 		shift=0; //output points correspond to input points
 		
-		outputPoints.augmentOutputSize(1);
+		outputPoints.augmentOutputSize(1, false);
 		setTopPoint(outputPoints.getElement(0));
 		polyhedron.addPointCreated((GeoPoint3D) topPoint);
 		createPolyhedron();
