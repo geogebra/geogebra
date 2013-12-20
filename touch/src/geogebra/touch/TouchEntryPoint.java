@@ -28,6 +28,8 @@ import com.googlecode.gwtphonegap.client.PhoneGap;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
+
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -80,7 +82,7 @@ public class TouchEntryPoint implements EntryPoint {
 									}
 								});
 			}
-
+			
 			@Override
 			public void onFailure(final Throwable reason) {
 				// App.debug(reason);

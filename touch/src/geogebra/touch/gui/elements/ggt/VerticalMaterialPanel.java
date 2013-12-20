@@ -61,7 +61,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 			this.setMaterials(this.columns, this.materials,
 					Math.max(0, this.start - pageCapacity()));
 		}
-
 	}
 
 	boolean hasPrevPage() {
@@ -107,8 +106,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 			updateWidth();
 		}
 	}
-
-
 
 	private void updateHeight() {
 		final Iterator<MaterialListElement> material = this.titlesToPreviews

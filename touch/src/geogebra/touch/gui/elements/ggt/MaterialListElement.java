@@ -194,14 +194,13 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
-		this.deleteButton.addDomHandler(new ClickHandler() {
-
+		this.deleteButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
+			public void onClick() {
 				onDelete();
 			}
-		}, ClickEvent.getType());
+		});
 	}
 
 	void onDelete() {
@@ -215,7 +214,6 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 			@Override
 			public void onClick() {
 				onEdit();
-				
 			}
 		});
 	}
