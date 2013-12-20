@@ -1964,7 +1964,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(model);
 
 			editor = new GeoTextEditor(getAppW(), this);
-
+			editor.setStyleName("objectPropertiesTextEditor");
 			lbFont = new ListBox();
 			for (String item: model.getFonts()) {
 				lbFont.addItem(item);

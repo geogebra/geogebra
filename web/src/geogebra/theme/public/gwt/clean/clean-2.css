@@ -2166,6 +2166,10 @@ label {
 	
 }
 
+.objectPropertiesTextEditor {
+	width:100%;
+	height: 100px;	
+}
 .textOptionsToolBar .gwt-ToggleButton {
 	display:inline-block;
 }
