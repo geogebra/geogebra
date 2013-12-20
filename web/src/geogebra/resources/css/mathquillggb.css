@@ -23,12 +23,14 @@
   display: -moz-inline-box;
   display: inline-block;
   padding-top: .075em;/* for GeoGebra */
+  position: relative;
+  z-index: 3;
 }
 .mathquillggb-editable .cursor {
   border-left: 1px solid black;
   margin-right: -1px;
   position: relative;
-  z-index: 1;
+  z-index: 4;
   /*padding: 0;*/
   display: -moz-inline-box;
   display: inline-block;
