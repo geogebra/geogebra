@@ -1,6 +1,5 @@
 package geogebra.web.main;
 
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -61,8 +60,6 @@ public class AppWapplication extends AppW {
 		initCoreObjects(undoActive, this);
 
 		// initing = true;
-		//this may only be called after factories are initialized
-		StringTemplate.latexIsMathQuillGGB = true;
 		removeDefaultContextMenu();
 	}
 

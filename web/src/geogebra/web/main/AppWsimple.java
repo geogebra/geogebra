@@ -1,7 +1,6 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.main.HasAppletProperties;
@@ -61,8 +60,6 @@ public class AppWsimple extends AppW {
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
 		initCoreObjects(undoActive, this);
-		//this may only be called after factories are initialized
-		StringTemplate.latexIsMathQuillGGB = true;
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 

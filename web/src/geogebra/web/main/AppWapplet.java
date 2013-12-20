@@ -3,7 +3,6 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -82,8 +81,6 @@ public class AppWapplet extends AppW {
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
 		initCoreObjects(undoActive, this);
-		//this may only be called after factories are initialized
-		StringTemplate.latexIsMathQuillGGB = true;
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 
