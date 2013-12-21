@@ -502,14 +502,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if(setModeFinished)
 				return;
 			// select toolbar button, returns *actual* mode selected - only for desktop
-			if (caller_APP == DESKTOP) {
+//			if (caller_APP == DESKTOP) {
 				int newMode = setToolbarMode(mode);
 
 				if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
 					mode = newMode;
 					kernel.notifyModeChanged(mode,m);
 				}
-			}
+//			}
 			if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
 
 				// show or focus the probability calculator

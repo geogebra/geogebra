@@ -202,7 +202,7 @@ public class ToolBarW extends MenuBar {
 
 			for (int k = 0; k < menu.size(); k++) {
 				// separator
-				int addMode = menu.get(k).intValue();
+				final int addMode = menu.get(k).intValue();
 				if (addMode < 0) {
 					// separator within menu:
 					tm.addSeparator();
@@ -219,6 +219,7 @@ public class ToolBarW extends MenuBar {
 						com = new Command(){
 							public void execute() {
 								tm.selectMenuItem(item);
+								app.setMode(addMode);
                             }
 						};
 						item.setScheduledCommand(com);
@@ -302,7 +303,7 @@ public class ToolBarW extends MenuBar {
 		if ((DOM.eventGetType(event) == Event.ONCLICK) && (item != null)
 		        && !((ModeToggleMenu.MyJToggleButton)item).isTriangleHighlighted()) {
 			((ModeToggleMenu) item.getSubMenu()).selectMenuItem(item);
-
+			app.setMode(Integer.parseInt(item.getElement().getAttribute("mode")));
 		} else
 			super.onBrowserEvent(event);
 	}

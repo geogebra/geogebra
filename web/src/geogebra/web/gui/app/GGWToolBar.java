@@ -44,6 +44,7 @@ public class GGWToolBar extends Composite {
 	//panel for toolbar (without undo-redo buttons)
 	FlowPanel toolBPanel;
 	boolean inited = false;
+	private Integer activeToolbar = -1;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -57,6 +58,10 @@ public class GGWToolBar extends Composite {
 	}
 	
 	public void setActiveToolbar(Integer viewID){
+		if (activeToolbar == viewID){
+			return;
+		}
+		activeToolbar = viewID;
 		for(ToolBarW bar:toolbars){
 			bar.setActiveView(viewID);
 		}
@@ -512,5 +517,37 @@ public class GGWToolBar extends Composite {
 	 */
 	public static ToolBarW getToolBar(){
 		return toolBar;
+	}
+	
+	/**
+	 * Select a mode.
+	 * 
+	 * @param mode
+	 *            new mode
+	 * @return -1 //mode that was actually selected
+	 */
+	public int setMode(int mode) {
+		int ret = -1;
+		for (ToolBarW toolbar : toolbars) {
+			int tmp = toolbar.setMode(mode);
+
+			// this will be the actual mode set
+			if (getViewId(toolbar) == activeToolbar) {
+				ret = tmp;
+			}
+		}
+
+//		updateHelpText();
+
+		return ret;
+    }
+	
+	/**
+	 * @param toolbar
+	 * @return The ID of the dock panel associated with the passed toolbar or -1
+	 */
+	private static int getViewId(ToolBarW toolbar) {
+		return (toolbar.getDockPanel() != null ? toolbar.getDockPanel()
+				.getViewId() : -1);
 	}
 }

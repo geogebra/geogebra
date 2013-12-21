@@ -1378,4 +1378,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	   this.caller_APP = WEB;
     }
     
+	@Override
+	public int setToolbarMode(int mode) {
+		if (toolbarPanel == null) {
+			return -1;
+		}
+
+		int ret = toolbarPanel.setMode(mode);
+//		layout.getDockManager().setToolbarMode(mode);
+		return ret;
+//		return mode;
+	}
 }

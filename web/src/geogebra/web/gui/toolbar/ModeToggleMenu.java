@@ -1,6 +1,7 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.AppW;
@@ -117,14 +118,6 @@ public class ModeToggleMenu extends MenuBar{
 		
 		// tbutton.requestFocus();*/
 		
-		//temporary - until we have only one toolbar
-		//ScheduleDeferred is there to make sure the blue border already happened -- otherwise user has no feedback
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			  @Override
-			  public void execute() {
-				  setMode(Integer.parseInt(miMode));
-			  }
-		});
 	}
 
 	public void addMode(int mode) {
