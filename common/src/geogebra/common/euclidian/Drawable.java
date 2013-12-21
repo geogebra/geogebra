@@ -36,6 +36,8 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 
+import java.util.ArrayList;
+
 
 /**
  * 
@@ -100,7 +102,7 @@ public abstract class Drawable extends DrawableND {
 	/** tracing */
 	protected boolean isTracing = false;
 	
-	private GPaint hatchPaint = null;
+	private ArrayList <GPaint>  hatchPaint = null;
 
 	// boolean createdByDrawList = false;
 
@@ -498,20 +500,20 @@ public abstract class Drawable extends DrawableND {
 			return;
 		if (geo.isHatchingEnabled()) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
-			if(hatchPaint == null){
-			hatchPaint = getHatchingHandler().setHatching(g2, decoStroke,
-					geo.getObjectColor(),
-					geo.getBackgroundColor(),
-					geo.getAlphaValue(), geo.getHatchingDistance(),
-					geo.getHatchingAngle(),
-					geo.getFillType(),
-					geo.getFillSymbol(),
-					geo.getKernel().getApplication());
-			}else{
-				g2.setPaint(hatchPaint);
+			if (hatchPaint == null) {
+				hatchPaint = new ArrayList<GPaint>();
 			}
-			
-			
+			GPaint gpaint = getHatchingHandler().setHatching(g2, decoStroke,
+					geo.getObjectColor(), geo.getBackgroundColor(),
+					geo.getAlphaValue(), geo.getHatchingDistance(),
+					geo.getHatchingAngle(), geo.getFillType(),
+					geo.getFillSymbol(), geo.getKernel().getApplication());
+
+			if (!hatchPaint.contains(gpaint)) {
+				hatchPaint.add(gpaint);
+			}
+			g2.setPaint(hatchPaint.get(hatchPaint.size() - 1));
+
 			if (!geo.getKernel().getApplication().isHTML5Applet()) {
 				if (usePureStroke)
 					EuclidianStatic.fillWithValueStrokePure(fillShape, g2);
