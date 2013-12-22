@@ -1976,8 +1976,7 @@ namespace giac {
       if (is_undef(first_try) && first_try.type==_STRNG)
 	return first_try;
       if (!is_undef(first_try)){
-	if (!direction) 
-	  return first_try;
+	// if (!direction) return first_try;
 	if (first_try!=unsigned_inf)
 	  return first_try;
       }
@@ -2017,8 +2016,16 @@ namespace giac {
 	return genmaxordererr();
       if (p.empty() || ck_is_strictly_positive(p.front().exponent,contextptr))
 	return 0;
-      if (ck_is_strictly_positive(-p.front().exponent,contextptr))
+      if (ck_is_strictly_positive(-p.front().exponent,contextptr)){
+	if (p.front().exponent.type==_INT_ && p.front().exponent.val%2==0){
+	  int s=fastsign(p.front().coeff,contextptr);
+	  if (s==1)
+	    return plus_inf;
+	  if (s==-1)
+	    return minus_inf;
+	}
 	return unsigned_inf;
+      }
       if (is_zero(p.front().exponent)){
 	if (contains(p.front().coeff,x)){
 	  return gensizeerr(gettext("Try unidirectional series"));
