@@ -80,7 +80,12 @@ public class TextOptionsModel extends OptionsModel {
 	}
 	
 	public GeoText getGeoTextAt(int index) {
-		return (GeoText) getObjectAt(index);
+		Object ret = getObjectAt(index);
+		if (ret instanceof GeoText) {
+			return (GeoText) ret;
+		}
+		
+		return null;
 	}
 	
 	@Override
