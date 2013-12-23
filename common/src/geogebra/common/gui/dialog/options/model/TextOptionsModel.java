@@ -2,6 +2,7 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.gui.inputfield.DynamicTextElement;
 import geogebra.common.gui.inputfield.DynamicTextProcessor;
+import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
@@ -26,9 +27,9 @@ public class TextOptionsModel extends OptionsModel {
 		void setSecondLineVisible(boolean noDecimals);
 
 		void selectFontStyle(int style);
-		
+
 		void setEditorText(ArrayList<DynamicTextElement> list);
-		
+
 		void updatePreview();
 	}
 
@@ -39,9 +40,9 @@ public class TextOptionsModel extends OptionsModel {
 	private String[] fonts = { "Sans Serif", "Serif" };
 	private App app;
 	private Localization loc;
-    private DynamicTextProcessor dTProcessor; 
-    private GeoText editGeo;
-    private GeoText lastGeo;
+	private DynamicTextProcessor dTProcessor; 
+	private GeoText editGeo;
+	private GeoText lastGeo;
 	public TextOptionsModel(App app, ITextOptionsListener listener) {
 		this.listener = listener;
 		this.app = app;
@@ -67,8 +68,8 @@ public class TextOptionsModel extends OptionsModel {
 			} 
 
 			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) { 
-					geosOK = false; 
-					break; 
+				geosOK = false; 
+				break; 
 			} 
 		} 
 		return geosOK; 
@@ -78,27 +79,27 @@ public class TextOptionsModel extends OptionsModel {
 	public TextProperties getTextPropertiesAt(int index) {
 		return (TextProperties) getObjectAt(index);
 	}
-	
+
 	public GeoText getGeoTextAt(int index) {
 		Object ret = getObjectAt(index);
 		if (ret instanceof GeoText) {
 			return (GeoText) ret;
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public void updateProperties() {
-//		if (lastGeo == editGeo) {
-//			return;
-//		}
+		//		if (lastGeo == editGeo) {
+		//			return;
+		//		}
 		listener.setWidgetsVisible(!justDisplayFontSize, getGeoAt(0).isGeoButton());
 
 		TextProperties geo0 = getTextPropertiesAt(0);	
 
 		setEditGeo(getGeoTextAt(0));
-			
+
 		listener.selectSize(GeoText.getFontSizeIndex(geo0
 				.getFontSizeMultiplier())); // font
 		// size
@@ -128,7 +129,9 @@ public class TextOptionsModel extends OptionsModel {
 		listener.setSecondLineVisible(getGeoAt(0).isIndependent()
 				|| (geo0 instanceof GeoList));
 
-		listener.setEditorText(dTProcessor.buildDynamicTextList(getGeoTextAt(0)));
+		if (getGeoTextAt(0).getParentAlgorithm() instanceof AlgoDependentText) {
+			listener.setEditorText(dTProcessor.buildDynamicTextList(getGeoTextAt(0)));
+		}
 		listener.selectFontStyle(geo0.getFontStyle());
 
 	}
@@ -159,7 +162,7 @@ public class TextOptionsModel extends OptionsModel {
 	public void applyFontSizeFromIndex(int index) {
 		applyFontSize(GeoText.getRelativeFontSize(index));
 	}
-	
+
 	public void applyFontSize(double value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
@@ -169,7 +172,7 @@ public class TextOptionsModel extends OptionsModel {
 		if (editGeo == null) {
 			return;
 		}
-		
+
 		((TextProperties)editGeo).setFontSizeMultiplier(value);
 		listener.updatePreview();
 	}
@@ -213,10 +216,10 @@ public class TextOptionsModel extends OptionsModel {
 			}
 			((GeoElement) text).updateRepaint();
 		}
-			listener.updatePreview();
-		
+		listener.updatePreview();
+
 	}
-	
+
 	public void applyFontStyle(boolean isBold, boolean isItalic) {
 		int style = 0;
 		if (isBold)
@@ -229,9 +232,9 @@ public class TextOptionsModel extends OptionsModel {
 			text.setFontStyle(style);
 			((GeoElement) text).updateVisualStyleRepaint();
 		}
-		
+
 		listener.updatePreview();
-		
+
 	}
 
 	public String getGeoGebraString(ArrayList<DynamicTextElement> list,
@@ -260,7 +263,7 @@ public class TextOptionsModel extends OptionsModel {
 		if (editGeo == null) {
 			return;
 		}
-		
+
 		editGeo = null;
 		listener.updatePreview();
 	}
@@ -269,7 +272,7 @@ public class TextOptionsModel extends OptionsModel {
 		if (editGeo == null) {
 			return;
 		}
-		
+
 		editGeo.setLaTeX(isLatex, updateAlgo);
 		listener.updatePreview();
 	}
