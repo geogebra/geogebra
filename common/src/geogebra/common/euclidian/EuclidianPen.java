@@ -767,10 +767,11 @@ public class EuclidianPen {
 		Construction cons = app.getKernel().getConstruction();
 		
 		GeoList list = new GeoList(cons);
-		list.add(new GeoNumeric(cons, view.toRealWorldCoordX(minX)));
-		list.add(new GeoNumeric(cons, view.toRealWorldCoordX(maxX)));
+		// checkDecimalFraction() -> shorter XML
+		list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(view.toRealWorldCoordX(minX))));
+		list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(view.toRealWorldCoordX(maxX))));
 		for (int i = 0; i < n; i++) {
-			list.add(new GeoNumeric(cons, (freehand1[i])));
+			list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(freehand1[i])));
 		}
 		
 		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, null, list);
