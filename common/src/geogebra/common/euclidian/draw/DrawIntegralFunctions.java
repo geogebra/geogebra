@@ -103,8 +103,8 @@ public class DrawIntegralFunctions extends Drawable {
 			init();
 
 		// init gp
-		double aRW = a.getDouble();
-		double bRW = b.getDouble();
+		double aRW = Math.min(a.getDouble(), b.getDouble());
+		double bRW = Math.max(a.getDouble(), b.getDouble());
 
 		// for DrawParametricCurve.plotCurve to work with special values,
 		// these changes are needed (also filter out out of screen integrals)
