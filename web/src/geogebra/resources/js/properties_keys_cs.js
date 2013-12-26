@@ -2590,7 +2590,7 @@ __GGB__keysVar.cs.plain = {
     "StandardObject": "Standardn\xed objekt",
     "StandardView": "Standardn\xed n\xe1hled",
     "StartingPoint": "Po\u010d\xe1te\u010dn\xed bod",
-    "StemPlot_KeyAMeansB": "Kl\xed\u010d: %0 pr\u016fm\u011br %1",
+    "StemPlot_KeyAMeansB": "Kl\xed\u010d: %0 znamen\xe1 %1",
     "StemPlot_high": "Vysok\xfd",
     "StemPlot_low": "N\xedzk\xfd",
     "StickToEdge": "P\u0159i\u0159adit k hran\u011b",
