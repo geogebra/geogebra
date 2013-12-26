@@ -487,9 +487,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			model = new ColorObjectModel(app, this);
 			setModel(model);
 			final GDimensionW colorIconSize = new GDimensionW(20, 20);
-			final GDimensionW colorIconSizeW = new GDimensionW(15, 15);
+			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 			
-			colorChooserW = new ColorChooserW(800, 300, colorIconSizeW, 2);
+			colorChooserW = new ColorChooserW(800, 300, colorIconSizeW, 4);
 			
 			colorChooser = new ColorPopupMenuButton((AppW) app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
