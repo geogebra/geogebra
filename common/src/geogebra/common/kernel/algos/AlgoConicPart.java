@@ -16,8 +16,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.kernelND.GeoConicND;
 
 
 /**
@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
  */
 public abstract class AlgoConicPart extends AlgoElement {
 
-    public GeoConic conic; // input
+    public GeoConicND conic; // input
     public NumberValue startParam; // input((Construction) 
 	public NumberValue endParam;
     public GeoConicPart conicPart; // output//package private   

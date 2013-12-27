@@ -2,12 +2,12 @@ package geogebra.common.kernel;
 
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTransformation;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.AlgoTransformable;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -191,8 +191,8 @@ public abstract class Transform {
 	 * @return transformed conic
 	 */
 	
-	public GeoConic getTransformedConic(GeoConic conic) {
-		GeoConic ret = (GeoConic) doTransform(conic);
+	public GeoConicND getTransformedConic(GeoConicND conic) {
+		GeoConicND ret = (GeoConicND) doTransform(conic);
 		ret.setVisualStyleForTransformations(conic);
 		return ret;
 	}

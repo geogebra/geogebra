@@ -36,6 +36,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.integration.EllipticArcLength;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
@@ -733,7 +734,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 
 			// transform points and circle
 			points = t.transformPoints(points);
-			GeoConic transformedCircle = t
+			GeoConicND transformedCircle = t
 					.getTransformedConic(circle);
 			cons.removeFromConstructionList(transformedCircle
 					.getParentAlgorithm());
@@ -767,7 +768,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 		} else if (algoParent instanceof AlgoConicPartConicParameters) {
 			AlgoConicPartConicParameters algo = (AlgoConicPartConicParameters) algoParent;
 
-			GeoConic transformedConic = t
+			GeoConicND transformedConic = t
 					.getTransformedConic(algo.conic);
 			cons.removeFromConstructionList(transformedConic
 					.getParentAlgorithm());
@@ -783,9 +784,9 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 			AlgoConicPartConicPoints algo = (AlgoConicPartConicPoints) algoParent;
 			GeoPointND[] points = { algo.getStartPoint(), algo.getEndPoint() };
 			points = t.transformPoints(points);
-			GeoConic orgConic = algo.getConic();
+			GeoConicND orgConic = algo.getConic();
 
-			GeoConic transformedConic = t
+			GeoConicND transformedConic = t
 					.getTransformedConic(orgConic);
 			cons.removeFromConstructionList(transformedConic
 					.getParentAlgorithm());
@@ -814,7 +815,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 			} else {
 
 				GeoConic orgConic = ((AlgoSemicircle) algo).getConic();
-				GeoConic transformedConic = t
+				GeoConicND transformedConic = t
 						.getTransformedConic(orgConic);
 				(cons).removeFromConstructionList(transformedConic
 						.getParentAlgorithm());
@@ -839,7 +840,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 			return geos;
 		} else {
 			// create CONIC
-			GeoConic transformedConic = t.getTransformedConic(this);
+			GeoConicND transformedConic = t.getTransformedConic(this);
 			transformedConic.setLabel(transformedLabel);
 			GeoElement[] ret = { transformedConic };
 			return ret;

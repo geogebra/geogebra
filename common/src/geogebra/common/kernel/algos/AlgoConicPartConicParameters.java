@@ -14,9 +14,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 
 
 /**
@@ -30,7 +30,7 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
      * GeoConicPart.CONIC_PART_ARC       
      */
     public AlgoConicPartConicParameters(Construction cons, String label,
-    		GeoConic circle, NumberValue startParameter, NumberValue endParameter,
+    		GeoConicND circle, NumberValue startParameter, NumberValue endParameter,
     		int type) {
         super(cons, type);        
         conic = circle;
