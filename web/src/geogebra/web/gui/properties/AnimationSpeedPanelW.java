@@ -20,7 +20,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	private AppW app;
 	
 	public AnimationSpeedPanelW(AppW app) {
-        super(app.getLocalization(), app.getPlain("AnimationSpeed") + ": ");
+        super(app.getLocalization(), app.getPlain("AnimationSpeed"));
         this.app = app;
     	model = new AnimationSpeedModel(app, this) ;
     	setModel(model);
@@ -71,6 +71,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	@Override
 	public void setLabels() {
 		super.setLabels();
+		getLabel().setText(app.getPlain("AnimationSpeed") + ":");
 		modeLabel.setText(app.getPlain("Repeat") + ": ");
 	}
 

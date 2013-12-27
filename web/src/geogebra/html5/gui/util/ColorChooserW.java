@@ -1,6 +1,9 @@
 package geogebra.html5.gui.util;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
+import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 
 import java.util.Arrays;
@@ -17,7 +20,7 @@ public class ColorChooserW extends FlowPanel {
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 100;
 	private static final int MARGIN_TOP = 20;
-	public static final String BOX_COLOR = "#000000";
+	public static final int BOX_COLOR = 0x0;
 	private static final int MARGIN_X = 5;
 	private Canvas canvas;
 	private Context2d ctx;
@@ -27,18 +30,18 @@ public class ColorChooserW extends FlowPanel {
 	private ColorTable mainTable;
 	private ColorTable recentTable;
 	private ColorTable otherTable;
-	private String selectedColor;
+	private int selectedColor;
 	
 	private class ColorTable {
 		private int startX;
 		private int startY;
 		private int maxCol;
 		private int maxRow;
-		private List<String> data;
+		private List<Integer> data;
 		private int width;
 		private int height;
 
-		public ColorTable(int x, int y, int col, int row, List<String> data)
+		public ColorTable(int x, int y, int col, int row, List<Integer> data)
 		{
 			startX = x;
 			startY = y;
@@ -63,7 +66,7 @@ public class ColorChooserW extends FlowPanel {
 					final String color = getDataAt(col, row);
 					ctx.setFillStyle(color);
 					ctx.fillRect(x + padding , y + padding, w - padding, h - padding);	
-					ctx.setFillStyle(BOX_COLOR);
+					ctx.setFillStyle("#" + StringUtil.toHexString(BOX_COLOR));
 					ctx.rect(x + padding , y + padding, w - padding, h - padding);	
 					x += w ;
 				}	
@@ -80,7 +83,8 @@ public class ColorChooserW extends FlowPanel {
 		
 		private final String getDataAt(int col, int row) {
 			int idx = row * maxCol + col;
-			return data != null && idx < data.size() ? data.get(idx) : "#ffffff";
+			Integer color = (data != null && idx < data.size() ? data.get(idx) : 0xffffff);
+			return "#" + StringUtil.toHexString(color);
 		}
 
 		public int getHeight() {
@@ -99,16 +103,16 @@ public class ColorChooserW extends FlowPanel {
 	        this.width = width;
         }
 
-		public String getColorAt(int x, int y) {
+		public int getColorAt(int x, int y) {
 	        if (x < startX || x > (startX + width) ||
 	        		y < startY || y > (startY + height)	) {
-	        	return null;
+	        	return -1;
 	        }
 	        
 	        int col = (x - startX) / (colorIconSize.getWidth() + padding);
 	        int row = (y - startY) / (colorIconSize.getHeight() + padding);
 	        App.debug("HIT! " + col + ", " + row);
-	        return getDataAt(col, row);
+	        return 0xff;//getDataAt(col, row);
  
         }
 
@@ -127,15 +131,15 @@ public class ColorChooserW extends FlowPanel {
 		int x = MARGIN_X;
 		leftTable = new ColorTable(x, MARGIN_TOP, 2, 8, 
 				Arrays.asList(
-						"#ffffff", "#ff0000",
-						"#e0e0e0", "#ff7f00",
-						"#c0c0c0", "#ffff00",
-						"#a0a0a0", "#bfff00",
-						"#808080", "#00ff00",
-						"#606060", "#00ffff",
-						"#404040", "#0000ff",
-						"#202020", "#7f00ff",
-						"#000000", "#ff00ff"
+						0xffffff, 0xff0000,
+						0xe0e0e0, 0xff7f00,
+						0xc0c0c0, 0xffff00,
+						0xa0a0a0, 0xbfff00,
+						0x808080, 0x00ff00,
+						0x606060, 0x00ffff,
+						0x404040, 0x0000ff,
+						0x202020, 0x7f00ff,
+						0x000000, 0xff00ff
 							)
 				);
 		
@@ -143,15 +147,15 @@ public class ColorChooserW extends FlowPanel {
 		
 		mainTable = new ColorTable(x, 20, 8, 8, 
 				Arrays.asList(
-						"#ffc0cb", "#ff99cc", "#ff6699", "#ff3366", "#ff0033", "#cc0000", "#800000", "#330000", 
-						"#ffefd5", "#ffcc33", "#ff9900", "#ff9933", "#ff6600", "#cc6600", "#996600", "#333300", 
-						"#ffeacd", "#ffff99",  "#ffff66", "#ffd700", "#ffcc66", "#cc9900", "#993300", "#663300", 
-						"#ccffcc", "#ccff66", "#99ff00", "#99cc00", "#66cc00", "#669900", "#339900", "#006633", 
-						"#d0f0c0", "#99ff99", "#66ff00", "#33ff00", "#00cc00", "#009900", "#006400", "#003300", 
-						"#afeeee", "#99ffff", "#33ffcc", "#0099ff", "#0099cc", "#006699", "#0033cc", "#003399", 
-						"#bcd4e6", "#99ccff", "#66ccff", "#6699ff", "#7d7dff", "#3333ff", "#0000cc", "#000033", 
-						"#ccccff", "#cc99ff", "#cc66ff", "#9966ff", "#6600cc", "#800080", "#4b0082", "#330033", 
-						"#e0b0ff", "#ff99ff", "#ff9999", "#ff33cc", "#dc143c", "#cc0066", "#990033", "#660099"
+						0xffc0cb, 0xff99cc, 0xff6699, 0xff3366, 0xff0033, 0xcc0000, 0x800000, 0x330000, 
+						0xffefd5, 0xffcc33, 0xff9900, 0xff9933, 0xff6600, 0xcc6600, 0x996600, 0x333300, 
+						0xffeacd, 0xffff99,  0xffff66, 0xffd700, 0xffcc66, 0xcc9900, 0x993300, 0x663300, 
+						0xccffcc, 0xccff66, 0x99ff00, 0x99cc00, 0x66cc00, 0x669900, 0x339900, 0x006633, 
+						0xd0f0c0, 0x99ff99, 0x66ff00, 0x33ff00, 0x00cc00, 0x009900, 0x006400, 0x003300, 
+						0xafeeee, 0x99ffff, 0x33ffcc, 0x0099ff, 0x0099cc, 0x006699, 0x0033cc, 0x003399, 
+						0xbcd4e6, 0x99ccff, 0x66ccff, 0x6699ff, 0x7d7dff, 0x3333ff, 0x0000cc, 0x000033, 
+						0xccccff, 0xcc99ff, 0xcc66ff, 0x9966ff, 0x6600cc, 0x800080, 0x4b0082, 0x330033, 
+						0xe0b0ff, 0xff99ff, 0xff9999, 0xff33cc, 0xdc143c, 0xcc0066, 0x990033, 0x660099
 						)); 
 		
 		x += mainTable.getWidth() + 5;
@@ -164,23 +168,23 @@ public class ColorChooserW extends FlowPanel {
 			public void onClick(ClickEvent event) {
 				int x = event.getRelativeX(canvas.getElement());
 				int y = event.getRelativeY(canvas.getElement());
-	            String color = leftTable.getColorAt(x, y);
-	            if (color == null) {
+	            int color = leftTable.getColorAt(x, y);
+	            if (color == -1) {
 	            	 color = mainTable.getColorAt(x, y);
 	  	             	
 	            }
 	            
-	            if (color == null) {
+	            if (color == -1) {
 	            	 color = recentTable.getColorAt(x, y);
 	  	             	
 	            }
 	            
-	            if (color == null) {
+	            if (color == -1) {
 	            	 color = otherTable.getColorAt(x, y);
 	  	             	
 	            }
 	           
-	            if (color != null) {
+	            if (color != -1) {
 	            	setSelectedColor(color);
 	            
 	            }
@@ -198,22 +202,26 @@ public class ColorChooserW extends FlowPanel {
 		}
 	
 	private void drawPreview() {
-	    if (selectedColor == null) {
+	    if (selectedColor == -1) {
 	    	return;
 	    }
 	    ctx.save();
 	    int x = padding;
 	    int y = MARGIN_TOP + leftTable.getHeight() + 10;
-	    ctx.setFillStyle(selectedColor);
+	    ctx.setFillStyle("#" + StringUtil.toHexString(selectedColor));
 	    ctx.fillRect(x, y, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 	    ctx.restore();
     }
 
-	public String getSelectedColor() {
+	public int getSelectedColor() {
         return selectedColor;
     }
 
-	public void setSelectedColor(String selectedColor) {
+	public GColor getSelectedGColor() {
+        return new GColorW(selectedColor);
+    }
+
+	public void setSelectedColor(int selectedColor) {
         this.selectedColor = selectedColor;
         update();
 	}	
