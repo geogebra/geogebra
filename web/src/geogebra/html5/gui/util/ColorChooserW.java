@@ -1,5 +1,6 @@
 package geogebra.html5.gui.util;
 
+import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 
 import java.util.Arrays;
@@ -7,10 +8,15 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ColorChooserW extends FlowPanel {
 
+	private static final int PREVIEW_HEIGHT = 40;
+	private static final int PREVIEW_WIDTH = 100;
+	private static final int MARGIN_TOP = 20;
 	public static final String BOX_COLOR = "#000000";
 	private static final int MARGIN_X = 5;
 	private Canvas canvas;
@@ -21,6 +27,7 @@ public class ColorChooserW extends FlowPanel {
 	private ColorTable mainTable;
 	private ColorTable recentTable;
 	private ColorTable otherTable;
+	private String selectedColor;
 	
 	private class ColorTable {
 		private int startX;
@@ -30,7 +37,7 @@ public class ColorChooserW extends FlowPanel {
 		private List<String> data;
 		private int width;
 		private int height;
-		
+
 		public ColorTable(int x, int y, int col, int row, List<String> data)
 		{
 			startX = x;
@@ -40,7 +47,6 @@ public class ColorChooserW extends FlowPanel {
 			this.data = data;
 			setWidth(col * (colorIconSize.getWidth() + padding)); 
 			setHeight(row * (colorIconSize.getHeight() + padding));
-			add(canvas);
 		}
 		
 		public void draw() {
@@ -54,7 +60,7 @@ public class ColorChooserW extends FlowPanel {
 			int w = colorIconSize.getWidth(); 
 			for (int row = 0; row < maxRow; row++) {
 				for (int col = 0; col < maxCol; col++) {
-					final String color = getColorAt(col, row);
+					final String color = getDataAt(col, row);
 					ctx.setFillStyle(color);
 					ctx.fillRect(x + padding , y + padding, w - padding, h - padding);	
 					ctx.setFillStyle(BOX_COLOR);
@@ -64,14 +70,15 @@ public class ColorChooserW extends FlowPanel {
 				x = padding;
 				y += h;
 			}
+		
 			ctx.setLineWidth(1);
-			ctx.rect(0, 0, getWidth(), getHeight());
+		//	ctx.rect(0, 0, getWidth(), getHeight());
 			ctx.stroke();
 			ctx.restore();
 			
 		}
 		
-		private final String getColorAt(int col, int row) {
+		private final String getDataAt(int col, int row) {
 			int idx = row * maxCol + col;
 			return data != null && idx < data.size() ? data.get(idx) : "#ffffff";
 		}
@@ -91,7 +98,23 @@ public class ColorChooserW extends FlowPanel {
 		public void setWidth(int width) {
 	        this.width = width;
         }
+
+		public String getColorAt(int x, int y) {
+	        if (x < startX || x > (startX + width) ||
+	        		y < startY || y > (startY + height)	) {
+	        	return null;
+	        }
+	        
+	        int col = (x - startX) / (colorIconSize.getWidth() + padding);
+	        int row = (y - startY) / (colorIconSize.getHeight() + padding);
+	        App.debug("HIT! " + col + ", " + row);
+	        return getDataAt(col, row);
+ 
+        }
+
+
 	}
+
 	public ColorChooserW(int width, int height, GDimensionW colorIconSize, int padding) {
 		canvas = Canvas.createIfSupported();
 		canvas.setSize(width + "px", height + "px");
@@ -100,8 +123,9 @@ public class ColorChooserW extends FlowPanel {
 		ctx = canvas.getContext2d();
 		this.colorIconSize = colorIconSize;
 		this.padding = padding;
-		
-		leftTable = new ColorTable(MARGIN_X, 20, 2, 8, 
+
+		int x = MARGIN_X;
+		leftTable = new ColorTable(x, MARGIN_TOP, 2, 8, 
 				Arrays.asList(
 						"#ffffff", "#ff0000",
 						"#e0e0e0", "#ff7f00",
@@ -115,7 +139,9 @@ public class ColorChooserW extends FlowPanel {
 							)
 				);
 		
-		mainTable = new ColorTable(MARGIN_X + leftTable.getWidth() + 5, 20, 8, 8, 
+		x += leftTable.getWidth() + 5;
+		
+		mainTable = new ColorTable(x, 20, 8, 8, 
 				Arrays.asList(
 						"#ffc0cb", "#ff99cc", "#ff6699", "#ff3366", "#ff0033", "#cc0000", "#800000", "#330000", 
 						"#ffefd5", "#ffcc33", "#ff9900", "#ff9933", "#ff6600", "#cc6600", "#996600", "#333300", 
@@ -127,8 +153,40 @@ public class ColorChooserW extends FlowPanel {
 						"#ccccff", "#cc99ff", "#cc66ff", "#9966ff", "#6600cc", "#800080", "#4b0082", "#330033", 
 						"#e0b0ff", "#ff99ff", "#ff9999", "#ff33cc", "#dc143c", "#cc0066", "#990033", "#660099"
 						)); 
-		recentTable = new ColorTable(300, 42, 6, 4, null); 
-		otherTable = new ColorTable(300, 160, 6, 2, null); 
+		
+		x += mainTable.getWidth() + 5;
+		
+		recentTable = new ColorTable(x, 22, 6, 4, null); 
+		otherTable = new ColorTable(x, 140, 6, 2, null); 
+	
+		add(canvas);
+		canvas.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				int x = event.getRelativeX(canvas.getElement());
+				int y = event.getRelativeY(canvas.getElement());
+	            String color = leftTable.getColorAt(x, y);
+	            if (color == null) {
+	            	 color = mainTable.getColorAt(x, y);
+	  	             	
+	            }
+	            
+	            if (color == null) {
+	            	 color = recentTable.getColorAt(x, y);
+	  	             	
+	            }
+	            
+	            if (color == null) {
+	            	 color = otherTable.getColorAt(x, y);
+	  	             	
+	            }
+	           
+	            if (color != null) {
+	            	setSelectedColor(color);
+	            
+	            }
+
+	            
+            }});
 	}
 	
 	public void update() {
@@ -136,7 +194,27 @@ public class ColorChooserW extends FlowPanel {
 		mainTable.draw();
 		recentTable.draw();
 		otherTable.draw();
+		drawPreview();
 		}
 	
-	
+	private void drawPreview() {
+	    if (selectedColor == null) {
+	    	return;
+	    }
+	    ctx.save();
+	    int x = padding;
+	    int y = MARGIN_TOP + leftTable.getHeight() + 10;
+	    ctx.setFillStyle(selectedColor);
+	    ctx.fillRect(x, y, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+	    ctx.restore();
+    }
+
+	public String getSelectedColor() {
+        return selectedColor;
+    }
+
+	public void setSelectedColor(String selectedColor) {
+        this.selectedColor = selectedColor;
+        update();
+	}	
 }
