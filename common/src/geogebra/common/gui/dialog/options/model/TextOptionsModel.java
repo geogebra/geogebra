@@ -67,10 +67,13 @@ public class TextOptionsModel extends OptionsModel {
 				justDisplayFontSize = false; 
 			} 
 
-			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) { 
-				geosOK = false; 
-				break; 
-			} 
+
+			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) {
+				if (!geo.isGeoButton()) {
+					geosOK = false;
+					break;
+				}
+			}
 		} 
 		return geosOK; 
 	} 
@@ -129,9 +132,13 @@ public class TextOptionsModel extends OptionsModel {
 		listener.setSecondLineVisible(getGeoAt(0).isIndependent()
 				|| (geo0 instanceof GeoList));
 
-		if (getGeoTextAt(0).getParentAlgorithm() instanceof AlgoDependentText) {
-			listener.setEditorText(dTProcessor.buildDynamicTextList(getGeoTextAt(0)));
+		GeoText text0 = getGeoTextAt(0);
+		if (text0 != null) {
+			if (text0.getParentAlgorithm() instanceof AlgoDependentText) {
+				listener.setEditorText(dTProcessor.buildDynamicTextList(text0));
+			}
 		}
+		
 		listener.selectFontStyle(geo0.getFontStyle());
 
 	}
