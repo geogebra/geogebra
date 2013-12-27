@@ -119,6 +119,11 @@ import java.util.TreeSet;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
+	
+	/**
+	 * max value for alpha to consider an object transparent (i.e. we can see through it)
+	 */
+	protected static final float MAX_TRANSPARENT_ALPHA_VALUE = 0.8f;
 
 	protected static final int POLYGON_NORMAL = 0;
 
@@ -4918,7 +4923,10 @@ public abstract class EuclidianController {
 							
 							if (region != null) {
 
-								hits.removeGeosAfter((GeoElement) region);
+								//check if region is opaque
+								if(((GeoElement) region).getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE){
+									hits.removeGeosAfter((GeoElement) region);
+								}
 								
 								if (((GeoElement) region).isGeoPolygon()) {
 									GeoSegmentND[] sides = ((GeoPolygon) region)
@@ -5033,7 +5041,7 @@ public abstract class EuclidianController {
 					}
 				}
 			
-				//App.debug(region);
+				//App.debug(region+"\n"+hits);
 				// Application.debug("createPoint 3 = "+createPoint);
 			
 				if (createPoint) {

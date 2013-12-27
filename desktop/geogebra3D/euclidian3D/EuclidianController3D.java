@@ -2789,7 +2789,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 						//all next drawables are behind the intersection curve
 						checking=false;
 					}else if(d.getZPickNear() > zNear + 1 //check if existing geo is really over the curve, with 1 pixel tolerance 
-							&& (!geo.isRegion() || geo.getAlphaValue() > 0.8f)){
+							&& (!geo.isRegion() || geo.getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE)){
 						//only non-region or non-transparent surfaces can hide the curve
 						checking=false;
 						resultedGeo = null;
