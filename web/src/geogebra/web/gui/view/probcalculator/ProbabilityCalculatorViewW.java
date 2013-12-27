@@ -78,6 +78,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
+	private boolean valueChanged;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -394,7 +395,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				probMode = ProbabilityCalcualtorView.PROB_LEFT;
 			} else if (btnIntervalBetween.getValue()) {
 				probMode = ProbabilityCalcualtorView.PROB_INTERVAL;
-			} else {
+			} else if (btnIntervalRight.getValue()) {
 				probMode = ProbabilityCalcualtorView.PROB_RIGHT;
 			}
 		}
@@ -609,12 +610,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				//btnIntervalBetween.removeActionListener(this);
 				//btnIntervalRight.removeActionListener(this);
 
+				
 				btnCumulative.setValue(isCumulative);
 				btnIntervalLeft.setValue(probMode == PROB_LEFT);
 				btnIntervalBetween.setValue(probMode == PROB_INTERVAL);
 				btnIntervalRight.setValue(probMode == PROB_RIGHT);
 				App.debug(probMode + "");
-
+				
 				//btnIntervalLeft.addActionListener(this);
 				//btnIntervalBetween.addActionListener(this);
 				//btnIntervalRight.addActionListener(this);
@@ -628,10 +630,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			if (comboDistribution.getSelectedIndex() > -1)
 				
 				if (!selectedDist.equals(this.reverseDistributionMap
-						.get(comboDistribution.getSelectedIndex()))) {
+						.get(comboDistribution.getValue(comboDistribution.getSelectedIndex())))) {
 
-					selectedDist = reverseDistributionMap.get(comboDistribution
-							.getSelectedIndex());
+					selectedDist = reverseDistributionMap.get(comboDistribution.getValue(comboDistribution
+							.getSelectedIndex()));
 					parameters = ProbabilityManager
 							.getDefaultParameters(selectedDist);
 					this.setProbabilityCalculator(selectedDist, parameters,
@@ -772,6 +774,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
     }
 
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
+		
 		Object source = event.getSource();
 		App.debug("valuechangeevent: " + source.toString());
 		if (source == btnCumulative) {
@@ -779,12 +782,30 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 		} else if (source == btnIntervalLeft || source == btnIntervalBetween
 				|| source == btnIntervalRight) {
+			simulateRadioButtons((MyToggleButton2) source);
 
 			if (!isCumulative) {
 				updateProbabilityType();
 			}
 		}
+		
 
+    }
+
+	private void simulateRadioButtons(MyToggleButton2 source) {
+	   if (source.getValue()) {
+		   if (source == btnIntervalRight) {
+			   btnIntervalLeft.setValue(false);
+			   btnIntervalBetween.setValue(false);
+		   } else if (source == btnIntervalBetween) {
+			   btnIntervalLeft.setValue(false);
+			   btnIntervalRight.setValue(false);
+		   } else if (source == btnIntervalLeft) {
+			   btnIntervalRight.setValue(false);
+			   btnIntervalBetween.setValue(false);
+		   }
+	   }
+	   
     }
 
 }
