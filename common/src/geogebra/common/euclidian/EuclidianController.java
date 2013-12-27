@@ -4928,10 +4928,11 @@ public abstract class EuclidianController {
 									hits.removeGeosAfter((GeoElement) region);
 								}
 								
+								boolean sideInHits = false;
 								if (((GeoElement) region).isGeoPolygon()) {
 									GeoSegmentND[] sides = ((GeoPolygon) region)
 											.getSegments();
-									boolean sideInHits = false;
+									
 									if (sides!=null){
 										for (int k = 0; k < sides.length; k++) {
 											// sideInHits = sideInHits ||
@@ -4943,33 +4944,8 @@ public abstract class EuclidianController {
 											}
 										}
 									}
-			
-									if (!sideInHits) {
-										createPoint = true;
-										hits.removePolygonsIfSideNotPresent(); // if a
-																				// polygon
-																				// is a
-																				// region,
-																				// need
-																				// only
-																				// polygons
-																				// that
-																				// should
-																				// be a
-																				// path
-										if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
-											hits.removeSegmentsFromPolygons(); // remove
-																				// polygon's
-																				// segments
-																				// to
-																				// take
-																				// the
-																				// polygon
-																				// for
-																				// path
-										}
-										
-									} else {
+								
+									if(sideInHits) {
 										if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
 											// if one wants a point on boundary of a
 											// polygon
@@ -4978,12 +4954,13 @@ public abstract class EuclidianController {
 										} else {
 											createPoint = false;
 											hits.remove(region); // (OPTIONAL) if side
-																	// is in hits, still
-																	// don't need the
-																	// polygon as a path
+											// is in hits, still
+											// don't need the
+											// polygon as a path
 											region = null;
 										}
 									}
+									
 								} else if (((GeoElement) region).isGeoConic()) {
 									if (createNewPointInRegionPossible((GeoConicND) region)) {
 										createPoint = true;
@@ -4992,6 +4969,7 @@ public abstract class EuclidianController {
 									}else{
 										createPoint = true;
 									}
+									
 								} else if (region instanceof GeoFunction) {
 									// eg x<4, y<4 (check not needed here for x+y<4)
 									if (((GeoFunction)region).isInequality()) {
@@ -5001,6 +4979,35 @@ public abstract class EuclidianController {
 									} else {
 										createPoint = true;
 									}
+								}
+								
+								// if no polygon side in hits, then remove all polygons for path
+								// (use it also when region is conic, etc.)
+								if (!sideInHits) {
+									createPoint = true;
+									hits.removePolygonsIfSideNotPresent(); // if a
+																			// polygon
+																			// is a
+																			// region,
+																			// need
+																			// only
+																			// polygons
+																			// that
+																			// should
+																			// be a
+																			// path
+									if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
+										hits.removeSegmentsFromPolygons(); // remove
+																			// polygon's
+																			// segments
+																			// to
+																			// take
+																			// the
+																			// polygon
+																			// for
+																			// path
+									}
+									
 								}
 							} else {
 								createPoint = true;
