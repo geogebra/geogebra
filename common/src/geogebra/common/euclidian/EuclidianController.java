@@ -123,7 +123,7 @@ public abstract class EuclidianController {
 	/**
 	 * max value for alpha to consider an object transparent (i.e. we can see through it)
 	 */
-	protected static final float MAX_TRANSPARENT_ALPHA_VALUE = 0.8f;
+	public static final float MAX_TRANSPARENT_ALPHA_VALUE = 0.8f;
 
 	protected static final int POLYGON_NORMAL = 0;
 
@@ -4854,6 +4854,7 @@ public abstract class EuclidianController {
 	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible, boolean chooseGeo, boolean complex) {
 			
+		//App.printStacktrace("\n"+hits);
 		
 				// create hits for region
 				Hits regionHits = getRegionHits(hits);

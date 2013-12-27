@@ -128,8 +128,7 @@ public abstract class Drawable3DList extends Drawable3D {
     
 	@Override
 	public boolean isTransparent() {
-		// TODO Auto-generated method stub
-		return false;
+		return getDrawablePicked().isTransparent();
 	}
 
 

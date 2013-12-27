@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -631,6 +632,15 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		return lastPickingType;
 	}
 
+	
+	@Override
+	public boolean isTransparent() {
+		if (getPickingType() == PickingType.SURFACE){
+			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
+		}
+		
+		return false;
+	}
 	
 	
 	private double alpha, beta;

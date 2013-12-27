@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
@@ -127,7 +128,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	public boolean isTransparent() {
-		return getAlpha()<0.99f;
+		return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
 	}
 	
 	
