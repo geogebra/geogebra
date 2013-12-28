@@ -46,7 +46,6 @@ import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -65,6 +64,7 @@ import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
@@ -232,7 +232,7 @@ public class EuclidianDraw {
 			break;
 
 		case CONICPART:
-			d = new DrawConicPart(ev, (GeoConicPart) geo);
+			d = new DrawConicPart(ev, (GeoConicPartND) geo);
 			break;
 
 		case CONIC:

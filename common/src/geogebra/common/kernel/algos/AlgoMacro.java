@@ -399,13 +399,13 @@ implements AlgoMacroInterface {
 	 * in its construction.
 	 */			
 	private void initConic(GeoConic macroConic, GeoConic conic) {
-		ArrayList<GeoPoint> macroPoints = macroConic.getPointsOnConic();
+		ArrayList<GeoPointND> macroPoints = macroConic.getPointsOnConic();
 		if (macroPoints == null) return;
 		
 		int size = macroPoints.size();
-		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(size);		
+		ArrayList<GeoPointND> points = new ArrayList<GeoPointND>(size);		
 		for (int i=0; i < size; i++) {
-			points.add((GeoPoint)getAlgoGeo(macroPoints.get(i)));
+			points.add((GeoPointND)getAlgoGeo((GeoElement) macroPoints.get(i)));
 		}
 		conic.setPointsOnConic(points);					
 	}

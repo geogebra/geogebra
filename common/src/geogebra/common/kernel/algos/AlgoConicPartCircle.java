@@ -19,6 +19,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  * Circular arc or sector defined by the circle's center, one point on the
@@ -128,7 +129,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 
 		// now take the parameters from the temp points
 		conicPart.set(conic);
-		conicPart.setParameters(P.getPathParameter().t, Q.getPathParameter().t,
+		((GeoConicPartND) conicPart).setParameters(P.getPathParameter().t, Q.getPathParameter().t,
 				true);
 	}
 
@@ -140,5 +141,11 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleArc(geo, this, scope);
 	}
+	
+
+	@Override
+	public GeoConicPart getConicPart() {
+        return (GeoConicPart) super.getConicPart();
+    }
 
 }

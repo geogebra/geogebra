@@ -48,6 +48,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.CoordStyle;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -61,6 +62,7 @@ import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra3D.euclidian3D.Drawable3D;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
@@ -1499,10 +1501,187 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 	}
 
-	public void addIncidence(GeoElement path) {
-		// TODO 
-		
+
+	
+	
+	
+	
+	
+	
+	// for identifying incidence by construction
+	// case by case.
+	// currently implemented for
+	// lines: line by two point, intersect lines, line/conic, point on line
+	// TODO: parallel line, perpenticular line
+	private ArrayList<GeoElement> incidenceList;
+	private ArrayList<GeoElement> nonIncidenceList;
+
+	/**
+	 * @return list of objects incident by construction
+	 */
+	public ArrayList<GeoElement> getIncidenceList() {
+		return incidenceList;
+	}
+	
+	/**
+	 * @return list of objects NOT incident by construction
+	 */
+	public ArrayList<GeoElement> getNonIncidenceList() {
+		return nonIncidenceList;
 	}
 
+	/**
+	 * @param list list of objects incident by construction
+	 */
+	public void setIncidenceList(ArrayList<GeoElement> list) {
+		if (list==null)
+			incidenceList = new ArrayList<GeoElement>();
+		else
+			incidenceList = new ArrayList<GeoElement>(list);
+	}
+
+	/**
+	 * initialize incidenceList, and add the point itself to the list as the
+	 * first element.
+	 */
+	public void createIncidenceList() {
+		incidenceList = new ArrayList<GeoElement>();
+		incidenceList.add(this);
+	}
+	/**
+	 * Resets the list of object that are not incident by construction
+	 */
+	public void createNonIncidenceList() {
+		nonIncidenceList = new ArrayList<GeoElement>();
+	}
+
+	/**
+	 * add geo to incidenceList of this, and also add this to pointsOnConic
+	 * (when geo is a conic) or to pointsOnLine (when geo is a line)
+	 * 
+	 * @param geo incident object
+	 */
+	public void addIncidence(GeoElement geo) {
+		if (incidenceList == null)
+			createIncidenceList();
+		if (!incidenceList.contains(geo))
+			incidenceList.add(geo);
+
+		// GeoConicND, GeoLine, GeoPoint are the three types who have an
+		// incidence list
+		if (geo.isGeoConic())
+			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
+		else if (geo.isGeoLine())
+			((GeoLineND) geo).addPointOnLine(this);
+		// TODO: if geo instanceof GeoPoint...
+	}
+
+	/**
+	 * Add non-incident object
+	 * @param geo object thatisnot incident by construction
+	 */
+	public void addNonIncidence(GeoElement geo) {
+		if (nonIncidenceList == null)
+			createNonIncidenceList();
+		if (!nonIncidenceList.contains(geo))
+			nonIncidenceList.add(geo);
+	}
+
+	/**
+	 * @param geo incident geo tobe removed
+	 */
+	public final void removeIncidence(GeoElement geo) {
+		if (incidenceList != null)
+			incidenceList.remove(geo);
+
+		if (geo.isGeoConic())
+			((GeoConicND) geo).removePointOnConic(this);
+		else if (geo.isGeoLine())
+			((GeoLineND) geo).removePointOnLine(this);
+		// TODO: if geo instanceof GeoPoint...
+	}
+
+	/**
+	 * @param geo possibly incident geo
+	 * @return true iff incident
+	 */
+	public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
+		boolean incident = false;
+
+		// check if this is currently on geo
+		if (geo.isGeoPoint() && this.isEqual(geo) || geo.isPath()
+				&& ((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION)) {
+
+			incident = true;
+
+			// get all "randomizable" predecessors of this and geo
+			TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
+			ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
+			TreeSet<AlgoElement> tmpSet = GeoElement.getTempSet();
+
+			predList.addAll(pred);
+			pred.addAll(geo.getAllRandomizablePredecessors());
+
+			// store parameters of current construction
+			Iterator<GeoElement> it = pred.iterator();
+			while (it.hasNext()) {
+				GeoElement predGeo = it.next();
+				predGeo.storeClone();
+			}
+
+			// alter parameters of construction and test if this is still on
+			// geo. Do it N times
+			for (int i = 0; i < 5; ++i) {
+				it = pred.iterator();
+				while (it.hasNext()) {
+					GeoElement predGeo = it.next();
+					predGeo.randomizeForProbabilisticChecking();
+				}
+
+				GeoElement.updateCascadeUntil(predList,
+						new TreeSet<AlgoElement>(), this.algoParent);
+				GeoElement.updateCascadeUntil(predList,
+						new TreeSet<AlgoElement>(), geo.getParentAlgorithm());
+				/*
+				 * if (!this.isFixed()) this.updateCascade(); if
+				 * (!geo.isFixed()) geo.updateCascade();
+				 */
+
+				if (geo.isGeoPoint()) {
+					if (!this.isEqual(geo))
+						incident = false;
+				} else if (geo.isPath()) {
+					if (!((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION))
+						incident = false;
+				} else {
+					incident = false;
+				}
+				if (!incident)
+					break;
+			}
+
+			// recover parameters of current construction
+			it = pred.iterator();
+			while (it.hasNext()) {
+				GeoElement predGeo = it.next();
+				if (!predGeo.isIndependent()) {
+					GeoElement.updateCascadeUntil(predList, tmpSet,
+							predGeo.getParentAlgorithm());
+				}
+				predGeo.recoverFromClone();
+			}
+
+			GeoElement.updateCascade(predList, tmpSet, false);
+			
+			
+			// if all of the cases are good, add incidence
+			if (incident)
+				addIncidence(geo);
+			else
+				addNonIncidence(geo);
+		}
+
+		return incident;
+	}
 
 }

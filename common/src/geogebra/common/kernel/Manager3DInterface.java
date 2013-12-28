@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -747,4 +748,18 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] PolyhedronNet2(String[] labels, GeoElement p, NumberValue v);
 
+	
+	/**
+	 * circle arc from three points
+	 */
+	public GeoConicPartND CircumcircleArc3D(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C);
+	
+	/**
+	 * circle sector from three points
+	 */
+	public GeoConicPartND CircumcircleSector3D(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C);
+	
+	
 }

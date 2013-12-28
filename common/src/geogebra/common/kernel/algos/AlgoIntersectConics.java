@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
@@ -58,7 +59,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     
     private GeoConic A, B;
     private GeoPoint [] P, D, Q;     // points  
-    ArrayList<GeoPoint> preexistPoints; // pre-existing intersection points before this Algo is constructed
+    ArrayList<GeoPointND> preexistPoints; // pre-existing intersection points before this Algo is constructed
     ArrayList<GeoPoint> newPoints;
     
     private HashMap<GeoElement,Polynomial[]> botanaPolynomials;
@@ -123,7 +124,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         D  = new GeoPoint[4];
         Q  = new GeoPoint[4];       
         
-        preexistPoints = new ArrayList<GeoPoint>();
+        preexistPoints = new ArrayList<GeoPointND>();
         newPoints = new ArrayList<GeoPoint>();
         isQonPath = new boolean[4];    
         isPalive = new boolean[4];
@@ -143,8 +144,8 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         
         setInputOutput(); // for AlgoElement
         
-    	ArrayList<GeoPoint> list1 = A.getPointsOnConic();
-    	ArrayList<GeoPoint> list2 = B.getPointsOnConic();
+    	ArrayList<GeoPointND> list1 = A.getPointsOnConic();
+    	ArrayList<GeoPointND> list2 = B.getPointsOnConic();
     	
     	if (list1!=null && list2!=null) {
     		for (int i = 0; i<list1.size(); i++) {
@@ -325,7 +326,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     			}    	
             	
             	if (Kernel.isGreaterEqual(gap/2, minDistance)  )
-            		P[i].setCoords(preexistPoints.get(closestPointIndex));
+            		P[i].setCoordsFromPoint(preexistPoints.get(closestPointIndex));
         	}
 
         		
@@ -347,7 +348,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	
     		
 		// check if we have a point on A that is also on B
-    	GeoPoint pointOnConic = getPointFrom1on2(A, B);
+    	GeoPointND pointOnConic = getPointFrom1on2(A, B);
     	if (pointOnConic == null) 
     		// check if we have a point on B that is also on A
     		 pointOnConic = getPointFrom1on2(B, A); 
@@ -366,7 +367,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         int secondIndex = (firstIndex + 1) % 2;
                 
         if (firstIntersection && didSetIntersectionPoint(firstIndex)) {           
-        	if (!P[firstIndex].isEqual(pointOnConic)) {
+        	if (!P[firstIndex].isEqual((GeoElement) pointOnConic)) {
             	// pointOnConic is NOT equal to the loaded intersection point:
         		// we need to swap the indices
         		int temp = firstIndex;
@@ -378,7 +379,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         	firstIntersection = false;
         } 
         
-        P[firstIndex].setCoords(pointOnConic);         
+        P[firstIndex].setCoordsFromPoint(pointOnConic);         
 
         // the other intersection point should be the second one
         boolean didSetP1 = false;
@@ -390,7 +391,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 	   		}
 	    }   
         if (!didSetP1) { // this happens when both intersection points are equal 
-        	P[secondIndex].setCoords(pointOnConic);          	
+        	P[secondIndex].setCoordsFromPoint(pointOnConic);          	
         }
 	   	 
 	   	if (isLimitedPathSituation) {
@@ -405,16 +406,16 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 	   	return true;
     }
     
-    private static GeoPoint getPointFrom1on2(GeoConic A, GeoConic B) {
-    	GeoPoint pointOnConic = null;
+    private static GeoPointND getPointFrom1on2(GeoConic A, GeoConic B) {
+    	GeoPointND pointOnConic = null;
     	
     	// check if a point on A is also on B
 		// get points on conic and see if one of them is on line g
-		ArrayList<GeoPoint> pointsOnConic = A.getPointsOnConic();
+		ArrayList<GeoPointND> pointsOnConic = A.getPointsOnConic();
 		if (pointsOnConic != null) {
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
-				GeoPoint p = pointsOnConic.get(i);
+				GeoPointND p = pointsOnConic.get(i);
 				//if (B.isOnPath(p, AbstractKernel.MIN_PRECISION)) {
 				if (p.isLabelSet() && 
 						p.getIncidenceList()!=null && 

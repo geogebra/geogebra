@@ -114,7 +114,7 @@ Region3D, GeoDirectionND
 	/** start points for lines in degenerate cases*/
 	protected GeoPoint [] startPoints;
 	/** points on this conic*/
-	protected ArrayList<GeoPoint> pointsOnConic;
+	protected ArrayList<GeoPointND> pointsOnConic;
 	
 	
 	// for classification
@@ -986,7 +986,7 @@ Region3D, GeoDirectionND
 	 * May return null.
 	 * @return list of points that this conic passes through.
 	 */
-	public final ArrayList<GeoPoint> getPointsOnConic() {
+	public final ArrayList<GeoPointND> getPointsOnConic() {
 		return pointsOnConic;
 	}
 	
@@ -995,7 +995,7 @@ Region3D, GeoDirectionND
 	 * This method should only be used by AlgoMacro.
 	 * @param points list of points that this conic passes through
 	 */
-	public final void setPointsOnConic(ArrayList<GeoPoint> points) {
+	public final void setPointsOnConic(ArrayList<GeoPointND> points) {
 		pointsOnConic = points;
 	}
 	
@@ -1005,10 +1005,10 @@ Region3D, GeoDirectionND
 	 */
 	public final void addPointOnConic(GeoPointND pt) {
 		if (pointsOnConic == null)
-			pointsOnConic = new ArrayList<GeoPoint>();
+			pointsOnConic = new ArrayList<GeoPointND>();
 		
 		if (!pointsOnConic.contains(pt))
-			pointsOnConic.add((GeoPoint)pt);				
+			pointsOnConic.add(pt);				
 	}
 	
 	/**
@@ -2289,7 +2289,7 @@ Region3D, GeoDirectionND
 													
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
-				GeoPoint point = pointsOnConic.get(i);
+				GeoPointND point = pointsOnConic.get(i);
 				if (point.getPath() == this) {					
 					point.getPathParameter().setT(Double.NaN);				
 				}
@@ -3501,7 +3501,7 @@ Region3D, GeoDirectionND
 		
 		if (pointsOnConic!=null) {
 			for (int i=0; i<pointsOnConic.size(); ++i) {
-				GeoPoint pt = pointsOnConic.get(i);
+				GeoPointND pt = pointsOnConic.get(i);
 				pt.removeIncidence(this);
 			}
 		}

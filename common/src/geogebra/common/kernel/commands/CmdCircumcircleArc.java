@@ -33,9 +33,8 @@ public class CmdCircumcircleArc extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher()
-						.CircumcircleArc(c.getLabel(), (GeoPoint) arg[0],
-								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
+				GeoElement[] ret = { getArc(c.getLabel(), arg[0],
+								arg[1], arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
@@ -43,5 +42,18 @@ public class CmdCircumcircleArc extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * @param label label
+	 * @param A center
+	 * @param B start point
+	 * @param C end point
+	 * @return arc
+	 */
+	protected GeoElement getArc(String label, GeoElement A, GeoElement B, GeoElement C){
+		return getAlgoDispatcher()
+				.CircumcircleArc(label, (GeoPoint) A,
+						(GeoPoint) B, (GeoPoint) C);
 	}
 }

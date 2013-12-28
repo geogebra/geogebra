@@ -21,7 +21,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
@@ -33,6 +32,7 @@ import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -555,7 +555,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				break;	
 				
 			case CONICPART:					
-				d = new DrawConicPart3D(this, (GeoConicPart) geo);
+				d = new DrawConicPart3D(this, (GeoConicPartND) geo);
 				break;	
 
 			case CONICSECTION:					

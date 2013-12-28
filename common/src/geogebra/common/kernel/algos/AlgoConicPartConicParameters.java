@@ -60,5 +60,9 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 
 	// TODO Consider locusequability
 
-    
+
+	@Override
+	public GeoConicPart getConicPart() {
+        return (GeoConicPart) super.getConicPart();
+    }
 }

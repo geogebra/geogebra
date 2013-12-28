@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 
 
 
@@ -101,10 +102,15 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
     	// now take the parameters from the temp points
     	conicPart.set(conic);
     	    	   	    
-    	conicPart.setParameters(P.getPathParameter().t, Q.getPathParameter().t, 
+    	((GeoConicPartND) conicPart).setParameters(P.getPathParameter().t, Q.getPathParameter().t, 
     			true);
     }
 
 	// TODO Consider locusequability
     
+
+	@Override
+	public GeoConicPart getConicPart() {
+        return (GeoConicPart) super.getConicPart();
+    }
 }

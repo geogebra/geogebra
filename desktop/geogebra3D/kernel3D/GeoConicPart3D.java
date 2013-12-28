@@ -14,7 +14,7 @@ the Free Software Foundation.
  * Created on 03.12.2004
  */
 
-package geogebra.common.kernel.geos;
+package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -23,19 +23,15 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Transform;
-import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.Matrix.CoordNearest;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
-import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
-import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
 import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoConicPartParameters;
@@ -48,7 +44,7 @@ import geogebra.common.plugin.GeoClass;
  * @author Markus Hohenwarter
  * 
  */
-public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPath, GeoNumberValue {
+public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNumberValue {
 
 
 	// parameters (e.g. angles) for arc
@@ -61,7 +57,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	 * @param type
 	 *            CONIC_PART_ARC or CONIC_PART_SECTOR
 	 */
-	public GeoConicPart(Construction c, int type) {
+	public GeoConicPart3D(Construction c, int type) {
 		super(c);
 		parameters = new GeoConicPartParameters(this, type);
 		setConstructionDefaults();
@@ -72,7 +68,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	 * 
 	 * @param conic conic to copy
 	 */
-	public GeoConicPart(GeoConicPart conic) {
+	public GeoConicPart3D(GeoConicPart3D conic) {
 		this(conic.cons, conic.getConicPartType());
 		set(conic);
 	}
@@ -98,7 +94,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 	@Override
 	public GeoElement copyInternal(Construction construction) {
-		GeoConicPart ret = new GeoConicPart(construction, parameters.conic_part_type);
+		GeoConicPart3D ret = new GeoConicPart3D(construction, parameters.conic_part_type);
 		ret.set(this);
 		return ret;
 	}
@@ -109,7 +105,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		if (!geo.isGeoConicPart())
 			return;
 
-		GeoConicPart cp = (GeoConicPart) geo;
+		GeoConicPart3D cp = (GeoConicPart3D) geo;
 
 		// class specific attributes
 		parameters.set(cp.parameters);
@@ -120,9 +116,13 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		super.setVisualStyle(geo);
 
 		if (geo.isGeoConicPart()) {
-			GeoConicPart cp = (GeoConicPart) geo;
-			parameters.allowOutlyingIntersections = cp.parameters.allowOutlyingIntersections;
+			GeoConicPartND cp = (GeoConicPartND) geo;
+			parameters.allowOutlyingIntersections = cp.getParameters().allowOutlyingIntersections;
 		}
+	}
+	
+	public GeoConicPartParameters getParameters(){
+		return parameters;
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		if (!geo.isGeoConicPart())
 			return false;
 
-		GeoConicPart other = (GeoConicPart) geo;
+		GeoConicPart3D other = (GeoConicPart3D) geo;
 
 		return parameters.isEqual(other.parameters)
 				&& super.isEqual(other);
@@ -360,15 +360,6 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	@Override
 	public boolean isClosedPath() {
 		return false;
-	}
-
-	/**
-	 * super method
-	 * @param P
-	 * @param pp
-	 */
-	public void superPointChanged(Coords P, PathParameter pp) {
-		super.pointChanged(P, pp);
 	}
 
 	@Override
@@ -570,6 +561,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		return true;
 	}
 
+	/* TODO
 	public GeoElement[] createTransformedObject(Transform t, String transformedLabel) {
 		if (parameters.keepTypeOnGeometricTransform) {
 			algoParent = getParentAlgorithm();
@@ -602,7 +594,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(
 					cons, transformedLabel, transformedCircle, (GeoPoint) points[1],
 					(GeoPoint) points[2], conic_part_type);
-			GeoConicPart conicPart = algoResult.getConicPart();
+			GeoConicPart3D conicPart = algoResult.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { conicPart, (GeoElement) points[0],
 					(GeoElement) points[2], (GeoElement) points[1] };
@@ -617,7 +609,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(
 					cons, transformedLabel, (GeoPoint) points[0], (GeoPoint) points[1],
 					(GeoPoint) points[2], conic_part_type);
-			GeoConicPart res = algo.getConicPart();
+			GeoConicPart3D res = algo.getConicPart();
 			res.setLabel(transformedLabel);
 			res.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { res, (GeoElement) points[1],
@@ -652,7 +644,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			algo = new AlgoConicPartConicPoints(cons, transformedLabel, transformedConic,
 					(GeoPoint) points[0], (GeoPoint) points[1],
 					conic_part_type);
-			GeoConicPart conicPart = algo.getConicPart();
+			GeoConicPart3D conicPart = algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { conicPart, (GeoPoint) points[0],
 					(GeoPoint) points[1] };
@@ -685,7 +677,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
 							transformedConic, (GeoPoint) points[1],
 							(GeoPoint) points[0], conic_part_type);
-				GeoConicPart conicPart = ((AlgoConicPartConicPoints) algo)
+				GeoConicPart3D conicPart = ((AlgoConicPartConicPoints) algo)
 						.getConicPart();
 				conicPart.setVisualStyleForTransformations(this);
 				GeoElement[] geos = { conicPart, (GeoElement) points[0],
@@ -704,10 +696,11 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			return ret;
 		}
 	}
+	*/
 
 	@Override
 	final public GeoElement copy() {
-		return new GeoConicPart(this);
+		return new GeoConicPart3D(this);
 	}
 
 	@Override
@@ -846,8 +839,13 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	}
 	
 
-	public GeoConicPartParameters getParameters(){
-		return parameters;
+	/**
+	 * super method
+	 * @param P
+	 * @param pp
+	 */
+	public void superPointChanged(Coords P, PathParameter pp) {
+		super.pointChanged(P, pp);
 	}
 
 }

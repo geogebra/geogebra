@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
@@ -295,14 +296,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		 * AbstractKernel.MIN_PRECISION)) { pointOnConic = p; break; } } } }
 		 */
 
-		GeoPoint existingIntersection = null;
+		GeoPointND existingIntersection = null;
 
 		// find a point from conic c on line g
-		ArrayList<GeoPoint> pointsOnConic = c.getPointsOnConic();
+		ArrayList<GeoPointND> pointsOnConic = c.getPointsOnConic();
 		if (pointsOnConic != null) {
 			// get a point from pointsOnConic to see if it is on g.
 			for (int i = 0; i < pointsOnConic.size(); ++i) {
-				GeoPoint p = pointsOnConic.get(i);
+				GeoPointND p = pointsOnConic.get(i);
 				if (p.isLabelSet()) { // an existing intersection should be a
 										// labeled one
 					if (p.getIncidenceList() != null
@@ -381,7 +382,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		int secondIndex = (firstIndex + 1) % 2;
 
 		if (firstIntersection && didSetIntersectionPoint(firstIndex)) {
-			if (!P[firstIndex].isEqual(existingIntersection)) {
+			if (!P[firstIndex].isEqual((GeoElement) existingIntersection)) {
 				// pointOnConic is NOT equal to the loaded intersection point:
 				// we need to swap the indices
 				int temp = firstIndex;
@@ -394,7 +395,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		}
 
 		// pointOnConic should be first intersection point
-		P[firstIndex].setCoords(existingIntersection);
+		P[firstIndex].setCoordsFromPoint(existingIntersection);
 
 		// the other intersection point should be the second one
 		boolean didSetP1 = false;
@@ -406,7 +407,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			}
 		}
 		if (!didSetP1) // this happens when both intersection points are equal
-			P[secondIndex].setCoords(existingIntersection);
+			P[secondIndex].setCoordsFromPoint(existingIntersection);
 
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path

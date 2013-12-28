@@ -192,7 +192,7 @@ implements GeoElement3DInterface, RotateableND, MirrorableAtPlane {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = new StringBuilder();
 		sbToString.setLength(0);

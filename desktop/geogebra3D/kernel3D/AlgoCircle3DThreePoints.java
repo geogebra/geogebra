@@ -41,6 +41,19 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 		
 	}
 
+	/**
+	 * Basic constructor
+	 * @param cons construction
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 */
+	public AlgoCircle3DThreePoints(Construction cons,
+			GeoPointND A, GeoPointND B, GeoPointND C) {
+		super(cons, A, B, C);
+		
+	}
+
 	
 	
     @Override
@@ -65,6 +78,15 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     	
     	
     	
+    }
+    
+    /**
+     * 
+     * @param i index
+     * @return i-th 2D point
+     */
+    public GeoPoint getPoint2D(int i){
+    	return points2D[i];
     }
 
     

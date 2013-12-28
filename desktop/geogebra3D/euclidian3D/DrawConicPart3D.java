@@ -1,13 +1,14 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 
 public class DrawConicPart3D extends DrawConic3D {
 
-	public DrawConicPart3D(EuclidianView3D view3d, GeoConicPart conic) {
-		super(view3d, conic);
+	public DrawConicPart3D(EuclidianView3D view3d, GeoConicPartND conic) {
+		super(view3d, (GeoConicND) conic);
 	}
 	
 	
@@ -17,12 +18,12 @@ public class DrawConicPart3D extends DrawConic3D {
 	@Override
 	protected double getEllipseSurfaceStart(){
 		//return 0;
-		return ((GeoConicPart) getGeoElement()).getParameterStart();
+		return ((GeoConicPartND) getGeoElement()).getParameterStart();
 	}
 	
 	@Override
 	protected double getEllipseSurfaceExtent(){
-		return ((GeoConicPart) getGeoElement()).getParameterExtent();
+		return ((GeoConicPartND) getGeoElement()).getParameterExtent();
 	}
 	
 
@@ -50,7 +51,7 @@ public class DrawConicPart3D extends DrawConic3D {
 	private void updateSectorSegments(PlotterBrush brush, double start, double end){
 			
 		//if sector draws segments
-		if (((GeoConicPart) getGeoElement()).getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){
+		if (((GeoConicPartND) getGeoElement()).getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){
 			brush.setAffineTexture(0.5f,  0.25f);
 			brush.segment(m, m.add(ev1.mul(e1*Math.cos(start))).add(ev2.mul(e2*Math.sin(start))));
 			brush.segment(m, m.add(ev1.mul(e1*Math.cos(end))).add(ev2.mul(e2*Math.sin(end))));

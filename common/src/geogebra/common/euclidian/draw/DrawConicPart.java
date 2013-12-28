@@ -26,12 +26,14 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoSemicircle;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
  */
 public class DrawConicPart extends Drawable implements Previewable {
 
-	private GeoConicPart conicPart;
+	private GeoConicPartND conicPart;
 
 	private boolean isVisible, labelVisible;
 
@@ -75,18 +77,18 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 * @param view view
 	 * @param conicPart conic part
 	 */
-	public DrawConicPart(EuclidianView view, GeoConicPart conicPart) {
+	public DrawConicPart(EuclidianView view, GeoConicPartND conicPart) {
 		this.view = view;
 		initConicPart(conicPart);
 		update();
 	}
 
-	private void initConicPart(GeoConicPart initConicPart) {
+	private void initConicPart(GeoConicPartND initConicPart) {
 		this.conicPart = initConicPart;
-		geo = initConicPart;
+		geo = (GeoElement) initConicPart;
 
 		// center = conicPart.getTranslationVector();
-		halfAxes = initConicPart.getHalfAxes();
+		halfAxes = ((GeoConicND) initConicPart).getHalfAxes();
 		// arc or sector?
 		closure = initConicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR ? GArc2D.PIE
 				: GArc2D.OPEN;
@@ -118,9 +120,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 		isVisible = geo.isEuclidianVisible() && geo.isDefined();
 		if (isVisible) {
 			labelVisible = geo.isLabelVisible();
-			updateStrokes(conicPart);
+			updateStrokes((GeoConicND) conicPart);
 
-			switch (conicPart.getType()) {
+			switch (((GeoConicND) conicPart).getType()) {
 			case GeoConicNDConstants.CONIC_CIRCLE:
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 				updateEllipse();
@@ -146,7 +148,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 
 			// draw trace
-			if (conicPart.getTrace()) {
+			if (((Traceable) conicPart).getTrace()) {
 				isTracing = true;
 				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
@@ -179,7 +181,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(conicPart.getAffineTransform());
+		transform.concatenate(((GeoConicND) conicPart).getAffineTransform());
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
@@ -212,13 +214,13 @@ public class DrawConicPart extends Drawable implements Previewable {
 				// also needs re-initing when changing Rays <-> Segment
 				|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
 				|| (!conicPart.positiveOrientation() && draw_type != DRAW_TYPE_RAYS)) { // init
-			GeoLine[] lines = conicPart.getLines();
+			GeoLine[] lines = ((GeoConicND) conicPart).getLines();
 			drawSegment = new DrawSegment(view, lines[0]);
 			drawRay1 = new DrawRay(view, lines[0]);
 			drawRay2 = new DrawRay(view, lines[1]);
-			drawSegment.setGeoElement(conicPart);
-			drawRay1.setGeoElement(conicPart);
-			drawRay2.setGeoElement(conicPart);
+			drawSegment.setGeoElement((GeoElement) conicPart);
+			drawRay1.setGeoElement((GeoElement) conicPart);
+			drawRay2.setGeoElement((GeoElement) conicPart);
 		}
 
 		if (conicPart.positiveOrientation()) {
@@ -351,7 +353,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 
 		if (conicPart != null)
-			conicPart.setLabelVisible(false);
+			((GeoElement) conicPart).setLabelVisible(false);
 	}
 
 	final public void updatePreview() {
@@ -382,7 +384,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	public void disposePreview() {
 		if (conicPart != null) {
-			conicPart.remove();
+			((GeoConicND) conicPart).remove();
 		}
 	}
 	
@@ -468,11 +470,11 @@ public class DrawConicPart extends Drawable implements Previewable {
 			return false;
 		}
 		if(pathHit){
-			this.conicPart.setLastHitType(HitType.ON_BOUNDARY);
+			((GeoConicND) this.conicPart).setLastHitType(HitType.ON_BOUNDARY);
 		}else if(regionHit){
-			this.conicPart.setLastHitType(HitType.ON_FILLING);
+			((GeoConicND) this.conicPart).setLastHitType(HitType.ON_FILLING);
 		}else{
-			this.conicPart.setLastHitType(HitType.NONE);
+			((GeoConicND) this.conicPart).setLastHitType(HitType.NONE);
 		}
 		return pathHit || regionHit;
 	}

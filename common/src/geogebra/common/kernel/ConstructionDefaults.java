@@ -34,6 +34,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -594,7 +595,7 @@ public class ConstructionDefaults {
 			break;
 
 		case CONICPART:
-			GeoConicPart conicPart = (GeoConicPart) geo;
+			GeoConicPartND conicPart = (GeoConicPartND) geo;
 			if (conicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 				type = DEFAULT_CONIC_SECTOR;
 			} else {

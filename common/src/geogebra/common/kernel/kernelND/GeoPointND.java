@@ -14,6 +14,8 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
 
+import java.util.ArrayList;
+
 
 
 /**
@@ -272,5 +274,10 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 
 	
 	public void setCoordsFromPoint(GeoPointND point);
+	
+	
+	public void removeIncidence(GeoElement geo);
+	
+	public ArrayList<GeoElement> getIncidenceList();
 
 }

@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -1447,5 +1448,24 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 	
+	/**
+	 * circle arc from three points
+	 */
+	final public GeoConicPart3D CircumcircleArc3D(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C) {
+		AlgoConicPartCircumcircle3D algo = new AlgoConicPartCircumcircle3D(cons,
+				label, A, B, C, GeoConicPart.CONIC_PART_ARC);
+		return algo.getConicPart();
+	}
+
+	/**
+	 * circle sector from three points
+	 */
+	final public GeoConicPart3D CircumcircleSector3D(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C) {
+		AlgoConicPartCircumcircle3D algo = new AlgoConicPartCircumcircle3D(cons,
+				label, A, B, C, GeoConicPart.CONIC_PART_SECTOR);
+		return algo.getConicPart();
+	}
 
 }
