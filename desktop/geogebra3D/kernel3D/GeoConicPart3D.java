@@ -269,10 +269,12 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 		parameters.keepTypeOnGeometricTransform = flag;
 	}
 
+	/* TODO
 	@Override
 	final public boolean isLimitedPath() {
 		return true;
 	}
+	*/
 
 	@Override
 	public boolean isIntersectionPointIncident(GeoPoint pt, double eps) {

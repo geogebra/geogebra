@@ -23,6 +23,8 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoSemicircle;
@@ -172,6 +174,21 @@ public class DrawConicPart extends Drawable implements Previewable {
 			isVisible = false;
 			return;
 		}
+		
+		// check if in view
+		Coords M = view.getCoordsForView(((GeoConicND) conicPart).getMidpoint3D());
+		if (!Kernel.isZero(M.getZ())) {// check if in view
+			isVisible = false;
+			return;
+		}
+		Coords[] ev = new Coords[2];
+		for (int j = 0; j < 2; j++) {
+			ev[j] = view.getCoordsForView(((GeoConicND) conicPart).getEigenvec3D(j));
+			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+				isVisible = false;
+				return;
+			}
+		}
 
 		// set arc
 		arc.setArc(-halfAxes[0], -halfAxes[1], 2 * halfAxes[0],
@@ -181,7 +198,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(((GeoConicND) conicPart).getAffineTransform());
+		transform.concatenate(view.getTransform((GeoConicND) conicPart, M, ev));
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
