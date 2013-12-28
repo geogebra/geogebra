@@ -22,6 +22,7 @@ DEVELOPERS
   * Laszlo Gal (Hungary 2013)
   * Zbynek Konecny (Czech Republic 2010-)
   * Zoltan Kovacs (Hungary 2010-)
+  * Stefan Lizelfelner (Austria 2013-)
   * Bernard Parisse (France 2013-)
   * George Sturr (USA 2009-)
 
