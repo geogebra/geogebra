@@ -112,10 +112,10 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 	/* used for update */
 	protected Coords m;
-	private Coords d;
+	protected Coords d;
 	protected Coords[] points = new Coords[4];
-	private double[] minmax;
-	private GeoConicND conic;
+	protected double[] minmax;
+	protected GeoConicND conic;
 	protected Coords ev1, ev2;
 	protected double e1, e2;
 
@@ -232,10 +232,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 */
 	protected double[] getLineMinMax(int i){
 
-		return getView3D().getRenderer().getIntervalInFrustum(
+		return getView3D().getIntervalClipped(
 				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				getView3D().getToScreenMatrix().mul(m), 
-				getView3D().getToScreenMatrix().mul(d), true);
+				m,d);
 	}
 	
 	

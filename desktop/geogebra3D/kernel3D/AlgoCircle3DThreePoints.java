@@ -117,6 +117,7 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     @Override
 	public void compute(){
     	
+    	
 
     	coordSys.resetCoordSys();
     	for(int i=0;i<3;i++)

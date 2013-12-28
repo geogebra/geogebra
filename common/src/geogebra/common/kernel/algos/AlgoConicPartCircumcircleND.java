@@ -121,11 +121,16 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
         setDependencies();
     }
+	
+	/**
+	 * set arc/sector when circle parent is undefined
+	 */
+	abstract protected void setFromUndefinedCircle();
     
     @Override
 	public void compute() {
     	if (!conic.isDefined()) {
-    		conicPart.setUndefined();
+    		setFromUndefinedCircle();
     		return;
     	}
     	

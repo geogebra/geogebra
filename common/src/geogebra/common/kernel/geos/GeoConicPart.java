@@ -849,5 +849,16 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	public GeoConicPartParameters getParameters(){
 		return parameters;
 	}
+	
+	
+	@Override
+	public Coords getOrigin3D(int i) {
+		return new Coords(lines[i].startPoint.inhomX, lines[i].startPoint.inhomY, 0, 1);
+	}
+
+
+	public Coords getEnd3D(int i) {
+		return new Coords(lines[i].endPoint.inhomX, lines[i].endPoint.inhomY, 0, 1);
+	}
 
 }

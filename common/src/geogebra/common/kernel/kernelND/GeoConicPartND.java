@@ -50,5 +50,12 @@ public interface GeoConicPartND {
 	 * @return arc/sector parameters
 	 */
 	public GeoConicPartParameters getParameters();
+	
+	/**
+	 * 
+	 * @param i index
+	 * @return coords of i-th end point
+	 */
+	public Coords getEnd3D(int i);
 }
 

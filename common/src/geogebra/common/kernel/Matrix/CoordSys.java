@@ -465,9 +465,9 @@ public class CoordSys {
 				matrixOrthonormal.set(0);
 				if (getMadeCoordSys() == 0)
 					matrixOrthonormal.setOrigin(getOrigin());
-				getVx().set(0);
-				return false;
+				getVx().set(0);				
 			}
+			return false;
 
 		}
 

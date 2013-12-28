@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircleND;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 
 /**
  * Circle arc or sector defined by three points.
@@ -77,4 +78,10 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
         return (GeoConicPart3D) super.getConicPart();
     }
 
+	
+	@Override
+	protected void setFromUndefinedCircle(){
+		App.debug("ici");
+		conicPart.setUndefined();
+	}
 }

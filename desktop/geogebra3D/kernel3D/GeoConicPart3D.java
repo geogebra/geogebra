@@ -849,5 +849,15 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 	public void superPointChanged(Coords P, PathParameter pp) {
 		super.pointChanged(P, pp);
 	}
+	
+	@Override
+	public Coords getOrigin3D(int i) {
+		return new Coords(0,0, 0, 1);
+	}
+
+
+	public Coords getEnd3D(int i) {
+		return new Coords(1,0, 0, 1);
+	}
 
 }

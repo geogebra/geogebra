@@ -4,6 +4,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
+import geogebra3D.euclidian3D.opengl.PlotterSurface;
 
 public class DrawConicPart3D extends DrawConic3D {
 
@@ -56,6 +57,27 @@ public class DrawConicPart3D extends DrawConic3D {
 			brush.segment(m, m.add(ev1.mul(e1*Math.cos(start))).add(ev2.mul(e2*Math.sin(start))));
 			brush.segment(m, m.add(ev1.mul(e1*Math.cos(end))).add(ev2.mul(e2*Math.sin(end))));
 		}
+	}
+	
+	
+	@Override
+	protected void updateLines(PlotterBrush brush){
+
+		if (((GeoConicPartND) conic).positiveOrientation()){
+			brush.segment(conic.getOrigin3D(0), ((GeoConicPartND) conic).getEnd3D(0));
+		}else{
+			m = conic.getOrigin3D(0);
+			d = ((GeoConicPartND) conic).getEnd3D(0).sub(m);
+			minmax = getLineMinMax(0); //get min/max with current (m,d)
+			
+			brush.segment(m, m.add(d.mul(minmax[0])));
+			brush.segment(conic.getOrigin3D(1), m.add(d.mul(minmax[1])));
+			
+		}
+	}
+	
+	protected void updateParallelLines(PlotterSurface surface){
+		
 	}
 
 }

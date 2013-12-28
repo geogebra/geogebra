@@ -97,4 +97,10 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
         return (GeoConicPart) super.getConicPart();
     }
 	
+	
+	@Override
+	protected void setFromUndefinedCircle(){
+		conicPart.setUndefined();
+	}
+	
 }
