@@ -14,7 +14,6 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.util.ButtonGroupPanel;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
 import geogebra.web.main.AppW;
@@ -46,6 +45,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, KeyHandler, FocusHandler, ValueChangeHandler<Boolean> {
 
+	private static final String SEPARATOR = "--------------------";
 	/**
 	 * @param app App
 	 * creates new probabilitycalculatorView
@@ -262,7 +262,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		// interval panel
 		// continue here.....
-		ButtonGroupPanel tb = new ButtonGroupPanel();
+		FlowPanel tb = new FlowPanel();
 		tb.addStyleName("intervalPanel");
 		tb.add(btnIntervalLeft);
 		tb.add(btnIntervalBetween);
@@ -294,6 +294,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private void createGUIElements() {
 		setLabelArrays();
 	    comboDistribution = new ListBox();
+	    comboDistribution.addStyleName("comboDistribution");
 	    comboDistributionHandler = comboDistribution.addChangeHandler(this);
 	    
 	    lblDist = new Label();
@@ -627,7 +628,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		App.debug("changeevent: " + source.toString());
 		if (source == comboDistribution) {
 
-			if (comboDistribution.getSelectedIndex() > -1)
+			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution.getValue(comboDistribution.getSelectedIndex()).equals(SEPARATOR))
 				
 				if (!selectedDist.equals(this.reverseDistributionMap
 						.get(comboDistribution.getValue(comboDistribution.getSelectedIndex())))) {
@@ -688,6 +689,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		comboDistribution.addItem(distributionMap.get(DIST.GAMMA));
 		comboDistribution.addItem(distributionMap.get(DIST.LOGNORMAL));
 		comboDistribution.addItem(distributionMap.get(DIST.LOGISTIC));
+		
+		comboDistribution.addItem(SEPARATOR);
 
 
 		comboDistribution.addItem(distributionMap.get(DIST.BINOMIAL));
@@ -700,6 +703,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 	}
 
+	
 	private static int getIndexOf(String value, ListBox lb) {
 		int indexToFind = -1;
 		for (int i = 0; i < lb.getItemCount(); i++) {

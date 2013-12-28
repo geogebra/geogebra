@@ -31,6 +31,7 @@ public class ProbabilityTableW extends ProbabilityTable {
             ProbabilityCalculatorViewW probCalc) {
 	   this.app = app;
 	   this.probCalc = probCalc;
+	   this.probManager = probCalc.getProbManager();
 	   
 	   this.wrappedPanel = new FlowPanel();
 	   
