@@ -669,7 +669,7 @@ __GGB__keysVar.si.command = {
     "RandomPolynomial_Syntax": "[ <Degree>, <Minimum for Coefficients>, <Maximum for Coefficients> ]",
     "RandomPolynomial_SyntaxCAS": "[ <Degree>, <Minimum for Coefficients>, <Maximum for Coefficients> ]\n[ <Variable>, <Degree>, <Minimum for Coefficients>, <Maximum for Coefficients> ]",
     "RandomUniform": "RandomUniform",
-    "RandomUniform_Syntax": "[ <Min>, <Max> ]",
+    "RandomUniform_Syntax": "[ <Min>, <Max> ]\n[ <Min>, <Max>, <Number of Samples> ]",
     "Rationalize": "Rationalize",
     "Rationalize_SyntaxCAS": "[ <Number> ]",
     "Ray": "\u0d9a\u0dd2\u0dbb\u0dab",

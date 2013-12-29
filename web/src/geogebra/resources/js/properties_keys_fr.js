@@ -669,7 +669,7 @@ __GGB__keysVar.fr.command = {
     "RandomPolynomial_Syntax": "[ <Degr\xe9>, <Minimum pour Coefficients>, <Maximum pour Coefficients> ]",
     "RandomPolynomial_SyntaxCAS": "[ <Degr\xe9>, <Minimum pour les Coefficients>, <Maximum pour les Coefficients> ]\n[ <Variable>, <Degr\xe9>, <Minimum pour les Coefficients>, <Maximum pour les Coefficients> ]",
     "RandomUniform": "Al\xe9aUniforme",
-    "RandomUniform_Syntax": "[ <Min>, <Max> ]",
+    "RandomUniform_Syntax": "[ <Min>, <Max> ]\n[ <Min>, <Max>, <Nombre de tirages> ]",
     "Rationalize": "EcritureRationnelle",
     "Rationalize_SyntaxCAS": "[ <Nombre> ]",
     "Ray": "DemiDroite",
