@@ -303,7 +303,25 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		$wnd[ggbApplet].setValue = function(objName, x) {
-			ggbAPI.@geogebra.html5.main.GgbAPI::setValue(Ljava/lang/String;D)(objName,x);
+			// #4035 
+ 		    // need to support possible syntax error 
+ 		    // eg setValue("a","3") rather than setValue("a",3) 
+ 		    if (typeof x === "string") { 
+ 		    	if (x ===  "true") { 
+ 		        	x = true; 
+ 		        } else if (x === "false") { 
+ 		        	x = false; 
+ 		        } else { 
+ 		        	// force string -> number (might give NaN) 
+ 		        	x = x * 1; 
+ 		        } 
+ 		    } 
+
+ 		    if (typeof x !== "number" && typeof x !== "boolean") { 
+ 		    	// avoid possible strange effects 
+ 		        return; 
+ 		    }
+ 		    ggbAPI.@geogebra.html5.main.GgbAPI::setValue(Ljava/lang/String;D)(objName,x);
 		};
 
 		$wnd[ggbApplet].setRepaintingActive = function(flag) {
