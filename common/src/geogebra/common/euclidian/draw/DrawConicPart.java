@@ -227,26 +227,32 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	private void updateParallelLines() {
-		if (drawSegment == null
-				// also needs re-initing when changing Rays <-> Segment
-				|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
-				|| (!conicPart.positiveOrientation() && draw_type != DRAW_TYPE_RAYS)) { // init
-			GeoLine[] lines = ((GeoConicND) conicPart).getLines();
-			drawSegment = new DrawSegment(view, lines[0]);
-			drawRay1 = new DrawRay(view, lines[0]);
-			drawRay2 = new DrawRay(view, lines[1]);
-			drawSegment.setGeoElement((GeoElement) conicPart);
-			drawRay1.setGeoElement((GeoElement) conicPart);
-			drawRay2.setGeoElement((GeoElement) conicPart);
-		}
+		
+		if (((GeoElement) conicPart).isGeoElement3D()){
+			//TODO
+			isVisible = false;
+		}else{
+			if (drawSegment == null
+					// also needs re-initing when changing Rays <-> Segment
+					|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
+					|| (!conicPart.positiveOrientation() && draw_type != DRAW_TYPE_RAYS)) { // init
+				GeoLine[] lines = ((GeoConicND) conicPart).getLines();
+				drawSegment = new DrawSegment(view, lines[0]);
+				drawRay1 = new DrawRay(view, lines[0]);
+				drawRay2 = new DrawRay(view, lines[1]);
+				drawSegment.setGeoElement((GeoElement) conicPart);
+				drawRay1.setGeoElement((GeoElement) conicPart);
+				drawRay2.setGeoElement((GeoElement) conicPart);
+			}
 
-		if (conicPart.positiveOrientation()) {
-			draw_type = DRAW_TYPE_SEGMENT;
-			drawSegment.update();
-		} else {
-			draw_type = DRAW_TYPE_RAYS;
-			drawRay1.update(false); // don't show labels
-			drawRay2.update(false);
+			if (conicPart.positiveOrientation()) {
+				draw_type = DRAW_TYPE_SEGMENT;
+				drawSegment.update();
+			} else {
+				draw_type = DRAW_TYPE_RAYS;
+				drawRay1.update(false); // don't show labels
+				drawRay2.update(false);
+			}
 		}
 	}
 

@@ -850,14 +850,41 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 		super.pointChanged(P, pp);
 	}
 	
+	
+	private Coords lineOrigin1, lineOrigin2, lineEnd;
+	
+
+	/**
+	 * set origin and end of first segment/ray (for degenerate cases)
+	 * @param o origin
+	 * @param end end
+	 */
+	public void setFirstLine(Coords o, Coords end){
+		lineOrigin1 = o;
+		lineEnd = end;
+	}
+	
+	/**
+	 * set origin of first segment/ray (for degenerate cases)
+	 * @param o origin
+	 */
+	public void setSecondLineOrigin(Coords o){
+		lineOrigin2 = o;
+	}
+	
+	
 	@Override
 	public Coords getOrigin3D(int i) {
-		return new Coords(0,0, 0, 1);
+		if (i==0){
+			return lineOrigin1;
+		}
+		
+		return lineOrigin2;
 	}
 
 
-	public Coords getEnd3D(int i) {
-		return new Coords(1,0, 0, 1);
+	public Coords getSegmentEnd3D() {
+		return lineEnd;
 	}
 
 }

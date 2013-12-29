@@ -64,10 +64,10 @@ public class DrawConicPart3D extends DrawConic3D {
 	protected void updateLines(PlotterBrush brush){
 
 		if (((GeoConicPartND) conic).positiveOrientation()){
-			brush.segment(conic.getOrigin3D(0), ((GeoConicPartND) conic).getEnd3D(0));
+			brush.segment(conic.getOrigin3D(0), ((GeoConicPartND) conic).getSegmentEnd3D());
 		}else{
 			m = conic.getOrigin3D(0);
-			d = ((GeoConicPartND) conic).getEnd3D(0).sub(m);
+			d = ((GeoConicPartND) conic).getSegmentEnd3D().sub(m);
 			minmax = getLineMinMax(0); //get min/max with current (m,d)
 			
 			brush.segment(m, m.add(d.mul(minmax[0])));
@@ -76,8 +76,9 @@ public class DrawConicPart3D extends DrawConic3D {
 		}
 	}
 	
+	@Override
 	protected void updateParallelLines(PlotterSurface surface){
-		
+		// no surface here
 	}
 
 }

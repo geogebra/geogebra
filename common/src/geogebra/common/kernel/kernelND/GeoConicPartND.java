@@ -52,10 +52,9 @@ public interface GeoConicPartND {
 	public GeoConicPartParameters getParameters();
 	
 	/**
-	 * 
-	 * @param i index
-	 * @return coords of i-th end point
+	 * segment end point for degenerate case
+	 * @return coords of segment end point
 	 */
-	public Coords getEnd3D(int i);
+	public Coords getSegmentEnd3D();
 }
 
