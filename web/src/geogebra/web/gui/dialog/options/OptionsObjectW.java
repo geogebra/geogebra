@@ -75,6 +75,7 @@ import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.TextEditAdvancedPanel;
 import geogebra.html5.gui.inputfield.TextPreviewPanelW;
+import geogebra.html5.gui.util.ColorChangeHandler;
 import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
@@ -490,7 +491,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 			
 			colorChooserW = new ColorChooserW(800, 300, colorIconSizeW, 4);
-			
+			colorChooserW.addChangeHandler(new ColorChangeHandler(){
+
+				public void onChangeColor(GColor color) {
+					applyChanges();
+	                
+                }});
 			colorChooser = new ColorPopupMenuButton((AppW) app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
@@ -528,7 +534,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			chooseLabel = new Label();
 			rgbLabel = new Label();
 			colorPanel.add(chooseLabel);
-			colorPanel.add(colorChooser);
+		//	colorPanel.add(colorChooser);
 			colorPanel.add(rgbLabel);
 			mainPanel.add(colorPanel);
 			mainPanel.add(colorChooserW);
@@ -538,8 +544,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void applyChanges() {
-			float alpha = colorChooser.getSliderValue() / 100.0f;
-			GColor color = colorChooser.getSelectedColor();
+			float alpha = colorChooserW.getAlphaValue();
+			GColor color = colorChooserW.getSelectedColor();
 			model.applyChanges(color, alpha, false);
 
 		}
@@ -573,7 +579,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			colorChooser.setSliderVisible(hasOpacity);
 			colorChooser.update(model.getGeos());
-			colorChooserW.update();
+			colorChooserW.setSelectedColor(selectedColor);
 			updatePreview(selectedColor, 1);
 		}
 
