@@ -18,7 +18,6 @@ import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
@@ -274,10 +273,12 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		doDrawShape(shape, false);
-		
+
+		/*
 		App.debug((shape instanceof GeneralPath)+"");
 		App.debug((shape instanceof GeneralPathClipped)+"");
 		App.debug((shape.getClass().toString())+"");
+		*/
 		
 		// default winding rule changed for ggb50 (for Polygons) #3983
 		if (shape instanceof geogebra.html5.openjdk.awt.geom.GeneralPath) {
