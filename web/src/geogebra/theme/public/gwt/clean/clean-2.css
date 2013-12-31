@@ -1271,7 +1271,7 @@ td.datePickerMonth {
 
 /*============ App common styles ============*/
 .GeoGebraAppFrame, .GeoGebraFrame,
-.GeoGebraPopup, .DialogBox {
+.GeoGebraPopup, .DialogBox, .gwt-PopupPanel, .gwt-SuggestBoxPopup {
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -1282,7 +1282,7 @@ td.datePickerMonth {
 	outline: none; /* Fixing Chrome's default outline on focus */
 }
 
-.GeoGebraPopup{
+.GeoGebraPopup {
 	padding:0px;
 }
 
@@ -1592,11 +1592,14 @@ Paddings for menuitems.
 .ToolTip {
 	display: block;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	font-size: 80%;
 	background: whitesmoke;
 	border: 1px solid lightgray;
 	box-shadow: 2px 2px 8px -1px #ccc;
 	padding: 2px;
+}
+
+.toolTipHTML {
+	font-size: 80%;
 }
 
 

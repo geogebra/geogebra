@@ -120,7 +120,9 @@ public class ToolTipManagerW {
 		if (tipPanel != null || !enabled) {
 			return;
 		}
-
+		
+		tipHTML.setStyleName("toolTipHTML");
+		
 		tipPanel = new SimplePanel();
 		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
 		tipPanel.add(tipHTML);

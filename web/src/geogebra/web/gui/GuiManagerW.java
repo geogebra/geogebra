@@ -310,7 +310,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		
 		// Build inner text for a style element that handles font size 
 		// =============================================================
-		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, .gwt-PopupPanel, .ToolTip";
+		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, .gwt-PopupPanel, .ToolTip, .gwt-SuggestBoxPopup";
 		innerText += "{font-size: " + fontsizeString + " !important}";
 
 		innerText += ".GeoGebraMenuImage{height: " + imagesize + "px; width: "
