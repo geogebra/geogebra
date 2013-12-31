@@ -654,7 +654,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null)
-			inputHelpPanel = new InputBarHelpPanelW(app);
+			inputHelpPanel = new InputBarHelpPanelW((AppW) app);
 		return inputHelpPanel;
 	}
 

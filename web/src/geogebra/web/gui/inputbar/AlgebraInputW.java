@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
@@ -22,8 +23,12 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,8 +46,10 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	protected Label inputLabel;
 	protected InputPanelW inputPanel;
 	protected AutoCompleteTextFieldW inputField;
-	protected HorizontalPanel eastPanel,innerPanel, labelPanel;
-	private ToggleButton btnHelpToggle;
+	protected FlowPanel eastPanel;
+	protected HorizontalPanel innerPanel, labelPanel;
+	protected ToggleButton btnHelpToggle;
+	protected PopupPanel helpPopup;
 
 	/**
 	 * Creates AlgebraInput for Web
@@ -79,10 +86,13 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	    
 	    //AG updateFonts()
 	    
-	    //AG not needed yet btnHelpToggle = new ToggleButton();
-	    ///btnHelpToggle.addStyleName("btnHelpToggle");
+		btnHelpToggle = new ToggleButton(new Image(AppResources.INSTANCE
+		        .inputhelp_left_20x20().getSafeUri().asString()), new Image(
+		        AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri()
+		                .asString()));
+	   btnHelpToggle.addStyleName("inputHelp-toggleButton");
 	    
-	    //btnHelpToggle.addClickHandler(this);
+	    btnHelpToggle.addClickHandler(this);
 	    
 	   //in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
 	   //in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
@@ -96,12 +106,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		labelPanel.getElement().getStyle().setMarginRight(4, Style.Unit.PX);
 
 	    // TODO: eastPanel should hold the command help button
-	    eastPanel = new HorizontalPanel();
-	    eastPanel.setHorizontalAlignment(ALIGN_RIGHT);
-	    eastPanel.setVerticalAlignment(ALIGN_MIDDLE);
-	    /*AGif (app.showInputHelpToggle()) {
-	    	eastPanel.add(btnHelpToggle);
-	    }*/
+		eastPanel = new FlowPanel();
+		eastPanel.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		if (app.showInputHelpToggle()) {
+			eastPanel.add(btnHelpToggle);
+		}
 	    
 		// place all components in an inner panel
 	    innerPanel = new HorizontalPanel();	    
@@ -111,14 +120,12 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	    innerPanel.add(inputPanel);
 	    innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
 	    innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
-	    innerPanel.add(eastPanel);
-	    innerPanel.setCellHorizontalAlignment(eastPanel, ALIGN_LEFT);
-	    innerPanel.setCellVerticalAlignment(eastPanel, ALIGN_MIDDLE);
 	    setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
 
 	    // add innerPanel to wrapper (this panel)
 	    setVerticalAlignment(ALIGN_MIDDLE);
 	    add(innerPanel);
+	    add(eastPanel);
 	    setCellVerticalAlignment(this, ALIGN_MIDDLE);
 
 	    setLabels();
@@ -164,6 +171,10 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		if (inputField != null) {
 			setInputFieldWidth();
 		}
+		
+		// hide the help popup
+		btnHelpToggle.setValue(false);
+		setShowInputHelpPanel(false);
 	}
 
 	/**
@@ -171,14 +182,18 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	 */
 	public void setLabels() {
 		if (inputLabel != null)
-			inputLabel.setText( app.getPlain("InputLabel") + ":");
+			inputLabel.setText(app.getPlain("InputLabel") + ":");
 
-		if(btnHelpToggle!=null)
+		if (btnHelpToggle != null) {
 			btnHelpToggle.setTitle(app.getMenu("InputHelp"));
-		
+		}
+
+		if (helpPopup != null) {
+			app.getGuiManager().getInputHelpPanel().setLabels();
+		}
+
 		inputField.setDictionary(app.getCommandDictionary());
-	}	
-	
+	}
 	
 	/**
 	 * Sets the content of the input textfield and gives focus
@@ -303,16 +318,48 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 
-		if (source == btnHelpToggle) { 
-			if(btnHelpToggle.isDown()){
-				InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel();
-				helpPanel.setLabels();
-				helpPanel.setCommands();
-				app.setShowInputHelpPanel(true);
-			}else{
-				app.setShowInputHelpPanel(false);
+		if (source == btnHelpToggle) {
+			if (btnHelpToggle.isDown()) {
+				setShowInputHelpPanel(true);
+			} else {
+				setShowInputHelpPanel(false);
 			}
 		}
-    }
+	}
+
+	private void setHelpPopup(){
+		if (helpPopup == null) {
+			helpPopup = new PopupPanel();
+			helpPopup.setAutoHideEnabled(false);
+			helpPopup.add(app.getGuiManager().getInputHelpPanel());
+			helpPopup.addStyleName("GeoGebraPopup");
+			//helpPopup.setAnimationEnabled(true);
+		}
+	}
+	
+	public void setShowInputHelpPanel(boolean show) {
+
+		if (show) {
+			InputBarHelpPanelW helpPanel = app.getGuiManager()
+			        .getInputHelpPanel();
+			helpPanel.updateGUI();
+			setHelpPopup();
+		
+			helpPopup.setPopupPositionAndShow(new PositionCallback() {
+				public void setPosition(int offsetWidth, int offsetHeight) {
+
+					int left = (getAbsoluteLeft() + getOffsetWidth() - offsetWidth);
+					int top = (getAbsoluteTop() - offsetHeight);
+
+					helpPopup.setPopupPosition(left, top);
+					helpPopup.show();
+				}
+			});
+
+		} else if (helpPopup != null) {
+			helpPopup.hide();
+		}
+
+	}
 
 }

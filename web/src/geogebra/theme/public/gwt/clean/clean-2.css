@@ -1282,6 +1282,10 @@ td.datePickerMonth {
 	outline: none; /* Fixing Chrome's default outline on focus */
 }
 
+.GeoGebraPopup{
+	padding:0px;
+}
+
 .geogebraweb {
 	display:inline-block;
 	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
@@ -1574,6 +1578,13 @@ Paddings for menuitems.
  
 .historyList a:hover, .historyList a:focus, .historyList a.highlight {
 	background: #D5E2FF;
+}
+
+.inputHelpToggleButton {
+	text-decoration:none;
+	border:none;
+	background:none;
+	width:100%;
 }
 
 /*=========== ToolTip =============*/
@@ -2006,6 +2017,77 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /* ========== Text Editor end ============ */
 
+/* ========== Input Help  ============ */
+
+.inputHelp-tree{
+	border: none;
+	font-size: 85%;
+	line-height: 100%;
+	padding: 10px 4px;
+}
+
+.inputHelp-treeItem{
+	padding: 0px 8px;
+	font-weight: bold	
+}
+
+.inputHelp-leaf{
+	font-weight: normal;
+}
+
+.inputHelp-leaf:hover{
+	background: #ebeff9;
+}
+
+.inputHelp-detailPanelTitle {
+	width:100%;
+	font-size: 85%;
+	font-weight: bold;
+	padding: 1px 10px;
+	background: #ebeff9;
+	border-bottom: 1px solid lightgray;
+}
+
+.inputHelp-cmdSyntax{
+	font-size: 85%;
+	margin: 4px;
+	padding-top: 10px;
+	padding-left: 35px;
+    text-indent: -25px;
+    line-height:120%;
+	word-wrap: normal;	
+}
+
+.inputHelp-CAScmdSyntax {
+	font-style: italic;
+	color:darkred;
+}
+
+.inputHelp-headerCAS {
+	font-style: italic;
+	color:darkred;
+	text-decoration: underline;
+}
+
+.inputHelp-functionTable {
+	font-size: 85%;
+	padding: 10px;
+}
+
+.inputHelp-functionTable td{
+	padding: 0px 4px;
+    line-height:160%;
+    white-space: nowrap;
+}
+
+
+.inputHelp-toggleButton{
+	background: none;
+	text-decoration: none;
+	border: none;
+}
+
+/* ========== Input Help  end ============ */
 
 
 .elemHeadingName{
