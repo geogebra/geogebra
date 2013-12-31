@@ -916,26 +916,41 @@ public class StringUtil {
 	 * @return text with replaced {s
 	 */
 	public static String ignoreIndices(String text) {
-		if(text==null)
+		if (text==null) {
 			return null;
+		}
 		StringBuilder sb = new StringBuilder(80);
 		boolean ignore = false;
 		boolean underscore = false;
-		for(int i=0;i<text.length();i++){
-			if(ignore && text.charAt(i)=='}'){
+		boolean comment = true;
+		for (int i = 0 ; i < text.length() ; i++) {
+			
+			char ch = text.charAt(i);
+			
+			if (comment && ch != '"') {
+				continue;
+			}
+
+			if (ch == '"') {
+				comment = !comment;
+				continue;
+			}
+
+			if (ignore && ch == '}') {
 				ignore = false;
 			}
 			
-			if(!ignore)
-				sb.append(text.charAt(i));
-			else
+			if(!ignore) {
+				sb.append(ch);
+			} else {
 				sb.append('X');
+			}
 			
-			if(underscore && text.charAt(i)=='{'){
+			if (underscore && ch == '{') {
 				ignore = true;
 			}
-			else if(!ignore){
-				underscore = text.charAt(i)=='_';
+			else if (!ignore){
+				underscore = ch == '_';
 			}
 			
 		}
@@ -948,13 +963,16 @@ public class StringUtil {
 		int round = 0;
 		Stack<Integer> closingBrackets = new Stack<Integer>();
 		boolean comment = false;
-		for(int i=parseString.length()-1;i>=0;i--){
+		for (int i = parseString.length() - 1 ; i >= 0 ; i--){
 			char ch = parseString.charAt(i);
-			if(comment && ch!='"')
+			
+			if (comment && ch != '"') {
 				continue;
-			switch(ch){
+			}
+			
+			switch (ch){
 				case '"':
-					comment=!comment;
+					comment = !comment;
 					break;
 				case '}': 
 					closingBrackets.add(i); 
@@ -962,8 +980,9 @@ public class StringUtil {
 					break;
 				case '{': 
 					curly--;
-					if(curly<0)
+					if (curly < 0) {
 						return i;
+					}
 					closingBrackets.pop();
 					break;
 				case ']':
@@ -972,8 +991,9 @@ public class StringUtil {
 					break;
 				case '[':	
 					square--;
-					if(square<0)
+					if (square < 0) {
 						return i;
+					}
 					closingBrackets.pop();
 					break;
 				case ')':
@@ -982,14 +1002,16 @@ public class StringUtil {
 					break;
 				case '(':	
 					round--;
-					if(round<0)
+					if (round < 0) {
 						return i;
+					}
 					closingBrackets.pop();
 					break;	
 			}
 		}
-		if(!closingBrackets.isEmpty())
+		if (!closingBrackets.isEmpty()) {
 			return closingBrackets.pop();
+		}
 		return -1;
 	}
 
