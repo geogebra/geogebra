@@ -160,6 +160,43 @@ public class TableSymbols {
 		return ret;
 	}
 
+	/**
+	 * convert eg sin(x) into sen(x)
+	 * @param app app
+	 * @return translated names eg sin(x) -> sen(x)
+	 */
+	public final static String[][] getTranslatedFunctionsGrouped(App app) {
+
+		StringBuilder sb = new StringBuilder();
+
+		String[][] ret = new String[functionsGrouped.length][];
+		for (int i = 0; i < functionsGrouped.length; i++) {
+			
+			ret[i] = new String[functionsGrouped[i].length];
+			
+			for (int j = 0; j < functionsGrouped[i].length; j++) {
+			
+				String[] strs = functionsGrouped[i][j].split("\\(");
+				String functionName = strs[0].trim();
+				String translatedFunctionName = app.getPlain("Function."
+						+ functionName);
+				if (translatedFunctionName.startsWith("Function.")) {
+					// translation not supported for this function
+					ret[i][j] = functionsGrouped[i][j];
+				} else {
+					sb.setLength(0);
+					sb.append(' ');
+					sb.append(translatedFunctionName);
+					sb.append('(');
+					sb.append(strs[1]);
+					ret[i][j] = sb.toString();
+				}
+			}
+		}
+
+		return ret;
+	}
+	
 	// spaces either side (for multiply when inserted into the input bar)
 	private final static String [] functions = { 	
 		" sqrt(x) ",
@@ -216,8 +253,37 @@ public class TableSymbols {
 	};
 
 
+	// spaces either side (for multiply when inserted into the input bar)
+	private final static String[][] functionsGrouped = {
+			{ " random() " },
+			{ " sqrt(x) ", " cbrt(x) ", " nroot(x, n) " },
 
+			{ " abs(x) ", " sgn(x) " },
+			{ " arg(x) ", " conjugate(x) ", " real(x) ", " imaginary(x) " },
 
+			{ " floor(x) ", " ceil(x) ", " round(x) ", " fractionalPart(x) " },
+
+			{ " log(b,x) ", " exp(x) ", " ln(x) ", " lg(x) ", " ld(x) " },
+
+			{ " sin(x) ", " cos(x) ", " tan(x) " },
+			{ " sec(x) ", " cosec(x) ", " cot(x) " },
+			{ " asin(x) ", " acos(x) ", " atan(x) " },
+			{ " atan2(y, x) " },
+
+			{ " sinh(x) ", " cosh(x) ", " tanh(x) " },
+			{ " sech(x) ", " cosech(x) ", " coth(x) " },
+			{ " asinh(x) ", " acosh(x) ", " atanh(x) " },
+		
+			{ " gamma(x) ", " gamma(a, x) ", " gammaRegularized(a, x) " },
+			{ " psi(x) " , " polyGamma(m, x) " },
+
+			{ " beta(a, b) ", " beta(a, b, x) ", " betaRegularized(a, b, x) " },
+			
+			{ " erf(x) " },
+			{ " sinIntegral(x) ", " cosIntegral(x) ", " expIntegral(x) " },
+			
+			{ " zeta(x) " }, };
+		
 	public final static String [] greekLowerCase = {
 		"\u03b1", "\u03b2", "\u03b3", "\u03b4", "\u03b5", "\u03b6", "\u03b7", "\u03b8",
 		"\u03b9", "\u03ba", "\u03bb", "\u03bc", "\u03bd", "\u03be", "\u03bf", "\u03c0", 
