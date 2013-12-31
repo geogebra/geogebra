@@ -14,6 +14,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
+import geogebra.common.util.MyCallbackObject;
 
 import java.util.ArrayList;
 
@@ -96,17 +97,15 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public NumberValue showNumberInputDialog(String title, String message,
-			String initText) {
+	public void showNumberInputDialog(String title, String message,
+			String initText, MyCallbackObject callback) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public Object[] showAngleInputDialog(String title, String message,
-			String initText) {
+	public void showAngleInputDialog(String title, String message,
+			String initText, MyCallbackObject callback) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

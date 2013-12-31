@@ -31,6 +31,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.util.MyCallbackObject;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -1877,7 +1878,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// PROCESS MODE
 	
 	@Override
-	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown){
+	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown, MyCallbackObject callback){
 		
 		boolean changedKernel = false;
 		
@@ -1962,7 +1963,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		default:
-			changedKernel = super.switchModeForProcessMode(hits, isControlDown);
+			changedKernel = super.switchModeForProcessMode(hits, isControlDown, callback);
 			break;
 		}
 		

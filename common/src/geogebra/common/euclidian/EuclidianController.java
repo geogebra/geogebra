@@ -108,6 +108,7 @@ import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.MyCallbackObject;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
@@ -347,6 +348,12 @@ public abstract class EuclidianController {
 	
 	private long lastMouseRelease;
 	
+	private Hits hits;
+	private boolean control;
+	private boolean alt;
+	private PointerEventType type;
+	int index;
+		
 	public EuclidianController(App app){
 		this.app = app;
 		this.selection = app.getSelectionManager();
@@ -5130,9 +5137,9 @@ public abstract class EuclidianController {
 	 * @param hits
 	 * @return
 	 */
-	protected final boolean macro(Hits hits) {
+	protected final void macro(Hits hits, final MyCallbackObject callback2) {
 		// try to get next needed type of macroInput
-		int index = selGeos();
+		index = selGeos();
 	
 		// standard case: try to get one object of needed input type
 		boolean objectFound = 1 == handleAddSelected(hits,
@@ -5142,7 +5149,8 @@ public abstract class EuclidianController {
 	
 		// we're done if in selection preview
 		if (selectionPreview) {
-			return false;
+			if (callback2 != null) callback2.process(false);
+			return;
 		}
 	
 		// only one point needed: try to create it
@@ -5155,69 +5163,95 @@ public abstract class EuclidianController {
 				pointCreated = false;
 			}
 		}
-	
+			
 		// object found in handleAddSelected()
 		if (objectFound || macroInput[index].equals(Test.GEONUMERIC)
 				|| macroInput[index].equals(Test.GEOANGLE)) {
 			if (!objectFound) {
 				index--;
 			}
-			// look ahead if we need a number or an angle next
-			while (++index < macroInput.length) {
-				// maybe we need a number
-				if (macroInput[index].equals(Test.GEONUMERIC)) {
-					NumberValue num = app
-							.getDialogManager()
-							.showNumberInputDialog(
-									macro.getToolOrCommandName(),
-									l10n.getPlain("Numeric"), null);
+			
+			MyCallbackObject callback3 = new MyCallbackObject(){
+				private boolean finish = false;
+				
+				@Override
+				public void setField(){
+					finish = true;
+				}
+
+				@Override
+				public void process(Object num) {
 					if (num == null) {
 						// no success: reset mode
 						view.resetMode();
-						return false;
+						if (callback2 != null) callback2.process(false);
+						return;
 					}
 					// great, we got our number
-					if (num.isGeoElement()) {
-						selectedGeos.add(num.toGeoElement());
+					if (num instanceof NumberValue && ((NumberValue)num).isGeoElement()) {
+						selectedGeos.add(((NumberValue)num).toGeoElement());
+					}
+					
+					readNumberOrAngleIfNeeded(this);
+					
+					if (selGeos() == macroInput.length){
+						macroProcess(callback2);
+						finish = false;
 					}
 				}
-	
-				// maybe we need an angle
-				else if (macroInput[index].equals(Test.GEOANGLE)) {
-					Object[] ob = app
-							.getDialogManager()
-							.showAngleInputDialog(macro.getToolOrCommandName(),
-									l10n.getPlain("Angle"), "45\u00b0");
-					NumberValue num = (NumberValue) ob[0];
-	
-					if (num == null) {
-						// no success: reset mode
-						view.resetMode();
-						return false;
-					}
-					// great, we got our angle
-					if (num.isGeoElement()) {
-						selectedGeos.add(num.toGeoElement());
-					}
-				} else {
-					break;
-				}
-			}
+				
+			};
+			// look ahead if we need a number or an angle next
+			readNumberOrAngleIfNeeded(callback3);
+			
 		}
 	
 		// Application.debug("index: " + index + ", needed type: " +
 		// macroInput[index]);
+		
+		macroProcess(callback2);
+
+	}
+
 	
+	public void readNumberOrAngleIfNeeded(MyCallbackObject callback3){
+		if (++index < macroInput.length) {
+			//There are some code, which must run after we got or number and angle.
+			//To enable for detect this in callback funcion, it's needed to set a variable
+			if (index == macroInput.length) callback3.setField();
+			
+			// maybe we need a number
+			if (macroInput[index].equals(Test.GEONUMERIC)) {
+				app.getDialogManager()
+						.showNumberInputDialog(
+								macro.getToolOrCommandName(),
+								l10n.getPlain("Numeric"), null, callback3);
+		
+			}
+
+			// maybe we need an angle
+			else if (macroInput[index].equals(Test.GEOANGLE)) {
+				app.getDialogManager()
+						.showAngleInputDialog(macro.getToolOrCommandName(),
+								l10n.getPlain("Angle"), "45\u00b0", callback3);
+
+			}
+		}
+
+	}
+	
+	public void macroProcess(MyCallbackObject callback2){
 		// do we have everything we need?
 		if (selGeos() == macroInput.length) {
 			checkZooming(); 
 			
 			kernel.useMacro(null, macro, getSelectedGeos());
-			return true;
+			if (callback2 != null) callback2.process(true);
+			return;
 		}
-		return false;
+		if (callback2 != null) callback2.process(false);		
 	}
-
+	
 	protected final boolean button(boolean textfield) {
 		if (!selectionPreview && (mouseLoc != null)) {
 			getDialogManager()
@@ -5226,7 +5260,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 	
-	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown) {
+	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown, final MyCallbackObject callback) {
 	
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
@@ -5497,8 +5531,22 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_MACRO:
-			changedKernel = macro(hits);
-			break;
+			//TODO: is memorizeJustCreatedGeos... needed here?
+			//if not, wee needn't callback2 here, we can use the
+			//another callback object in macro, which we got
+			//in parameter.
+			
+			MyCallbackObject callback2 = new MyCallbackObject(){
+				@Override
+				public void process(Object ret) {
+					memorizeJustCreatedGeosAfterProcessMode(null);
+					if (callback != null) callback.process(ret);
+				}
+			};
+			
+			macro(hits,callback2);
+			return false;
+//			break;
 	
 		case EuclidianConstants.MODE_AREA:
 			ret = area(hits);
@@ -5545,6 +5593,8 @@ public abstract class EuclidianController {
 	
 		memorizeJustCreatedGeosAfterProcessMode(ret);
 	
+		if (callback != null) callback.process(changedKernel || (ret!=null));
+		
 		if (!changedKernel) {
 			return ret != null;
 		}
@@ -5610,9 +5660,25 @@ public abstract class EuclidianController {
 		if (hits == null) {
 			hits = new Hits();
 		}
+		
+		changedKernel = switchModeForProcessMode(hits, isControlDown, null);
 	
-		changedKernel = switchModeForProcessMode(hits, isControlDown);
+		return changedKernel;
+	}
 	
+	public final void processModeWithCallback(Hits processHits, boolean isControlDown, MyCallbackObject callback){
+		Hits hits = processHits;
+		boolean changedKernel = false;
+	
+		if (hits == null) {
+			hits = new Hits();
+		}
+		
+		switchModeForProcessMode(hits, isControlDown, callback);
+		
+	}
+	
+	public void endOfProcessMode(boolean changedKernel){
 		// update preview
 		if (view.getPreviewDrawable() != null) {
 			view.updatePreviewableForProcessMode();
@@ -5626,8 +5692,7 @@ public abstract class EuclidianController {
 			}
 			view.repaintView();
 		}
-	
-		return changedKernel;
+		if (changedKernel) app.storeUndoInfo();	
 	}
 
 	/**
@@ -8872,10 +8937,10 @@ public abstract class EuclidianController {
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
-		boolean control = app.isControlDown(event);
-		boolean alt = event.isAltDown();
+		/*boolean*/ control = app.isControlDown(event);
+		/*boolean*/ alt = event.isAltDown();
 		boolean meta = event.isPopupTrigger() || event.isMetaDown();
-		PointerEventType type = event.getType();
+		/*PointerEventType*/ type = event.getType();
 	
 		if(this.doubleClickStarted){
 			this.doubleClickStarted = false;
@@ -8982,7 +9047,7 @@ public abstract class EuclidianController {
 		setMouseLocation(alt, x, y);
 	
 		transformCoords();
-		Hits hits = null;
+		/*Hits*/ hits = null;
 	
 		if (hitResetIcon()) {
 			app.reset();
@@ -9001,7 +9066,7 @@ public abstract class EuclidianController {
 		// allow drag with right mouse button or ctrl
 		// make sure Ctrl still works for selection (when no dragging occured)
 		if (right || (control && draggingOccured))// &&
-																			// !TEMPORARY_MODE)
+												// !TEMPORARY_MODE)
 		{
 			if (processRightReleaseFor3D(type)) {
 				return;
@@ -9101,13 +9166,31 @@ public abstract class EuclidianController {
 		// also needed for right-drag
 		else {
 			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-				changedKernel = processMode(hits, control);
+				MyCallbackObject callback = new MyCallbackObject(){
+					boolean changedKernel = false;
+					
+					@Override
+					public void process(Object changedKernel) {
+						if ((changedKernel).getClass().equals(boolean.class)){
+							if (changedKernel.equals("true")) {
+								app.storeUndoInfo();
+							}
+						}
+						endOfWrapMouseReleased();
+					}
+				};
+				processModeWithCallback(hits, control, callback);
 			}
 			if (changedKernel) {
 				app.storeUndoInfo();
 			}
 		}
+		
+		endOfWrapMouseReleased();
+
+	}
 	
+	private void endOfWrapMouseReleased(){
 		if (!hits.isEmpty()) {
 			// Application.debug("hits ="+hits);
 			view.setDefaultCursor();
@@ -9138,7 +9221,7 @@ public abstract class EuclidianController {
 					altClicked(type);
 				}
 		stopCollectingMinorRepaints();
-		kernel.notifyRepaint();
+		kernel.notifyRepaint();		
 	}
 
 	private void altClicked(PointerEventType type) {

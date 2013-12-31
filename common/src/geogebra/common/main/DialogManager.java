@@ -39,6 +39,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.MyCallbackObject;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public abstract class DialogManager {
 	 * Dialog for styling text objects.
 	 */
 	protected TextInputDialog textInputDialog;
+	
+	protected boolean oldVal;
 
 	public DialogManager() {
 	}
@@ -187,14 +190,14 @@ public abstract class DialogManager {
 	public abstract void showNumberInputDialogCirclePointRadius(String title,
 			GeoPointND geoPointND, EuclidianView view);
 
-	public abstract NumberValue showNumberInputDialog(String title, String message,
-			String initText);
+	public abstract void showNumberInputDialog(String title, String message,
+			String initText, MyCallbackObject callback);
 	
 	public abstract NumberValue showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText);
 
-	public abstract Object[] showAngleInputDialog(String title, String message,
-			String initText);
+	public abstract void showAngleInputDialog(String title, String message,
+			String initText, MyCallbackObject callback);
 
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 

@@ -22,6 +22,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.util.MyCallbackObject;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
@@ -64,10 +65,18 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	}
 
 	@Override
-	public NumberValue showNumberInputDialog(String title, String message,
-			String initText) {
-		// TODO Auto-generated method stub
-		return null;
+	public void showNumberInputDialog(String title, String message,
+			String initText, MyCallbackObject callback) {
+		// avoid labeling of num
+		Construction cons = app.getKernel().getConstruction();
+		oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor(),callback, app, oldVal);
+		InputDialogW id = new InputDialogW(((AppW) app), message, title,
+				initText, false, handler, true, false, null);
+		id.setVisible(true);
 	}
 	
 	@Override
@@ -95,23 +104,19 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	}
 
 	@Override
-	public Object[] showAngleInputDialog(String title, String message,
-			String initText) {
+	public void showAngleInputDialog(String title, String message,
+			String initText, MyCallbackObject callback) {
 
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+				.getAlgebraProcessor(),callback, app, oldVal);
 		AngleInputDialog id = new AngleInputDialog(((AppW) app), message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
-
-		cons.setSuppressLabelCreation(oldVal);
-		Object[] ret = { handler.getNum(), id };
-		return ret;
 	}
 
 	@Override
