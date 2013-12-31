@@ -335,12 +335,13 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 			return null;
 		}
 		cmdPrefix = curWord.toString();
-
-		if (korean)
-			completions = dict.getCompletionsKorean(cmdPrefix);
-		else
-			completions = dict.getCompletions(cmdPrefix);
-
+		if (dict != null) {
+			if (korean) {
+				completions = dict.getCompletionsKorean(cmdPrefix);
+			} else {
+				completions = dict.getCompletions(cmdPrefix);
+			}
+		}
 		List<String> commandCompletions = getSyntaxes(completions);
 
 		// Start with the built-in function completions
@@ -1244,6 +1245,14 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
 
 	}
+	
+	/**
+	 * @param hanlder Handler to key up events
+	 * @return the handler
+	 */
+	public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
+		return textField.getValueBox().addKeyUpHandler(handler);
+	}
 
 	public void setWidth(int width) {
 		if (textField != null && showSymbolButton != null) {
@@ -1283,5 +1292,14 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 	    return textField.getValueBox().addKeyPressHandler(handler);
 	    
+    }
+
+	/**
+	 * @param handler Blurhandler attached to texbox
+	 */
+	public void addBlurHandler(
+            BlurHandler handler) {
+	    getTextBox().addBlurHandler(handler);
+
     }
 }

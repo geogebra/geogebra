@@ -1,10 +1,10 @@
 package geogebra.web.gui.view.probcalculator;
 
 import geogebra.common.euclidian.event.KeyEvent;
-import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
@@ -22,11 +22,15 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -36,6 +40,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author gabor
@@ -43,7 +48,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  * ProbablityCalculatorView for web
  *
  */
-public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, KeyHandler, FocusHandler, ValueChangeHandler<Boolean> {
+public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, FocusHandler, ValueChangeHandler<Boolean>, BlurHandler, KeyUpHandler {
 
 	private static final String SEPARATOR = "--------------------";
 	/**
@@ -325,8 +330,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    	lblParameterArray[i] = new Label();
 	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
 	    	fldParameterArray[i].setColumns(5);
-	    	fldParameterArray[i].addKeyHandler(this);
+	    	fldParameterArray[i].addKeyUpHandler(this);
 	    	fldParameterArray[i].addFocusHandler(this);
+	    	fldParameterArray[i].addBlurHandler(this);
 	    }
 	    
 	    comboProbType = new ListBox();
@@ -340,18 +346,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    
 	    fldLow = new AutoCompleteTextFieldW(app);
 	    fldLow.setColumns(5);
-	    fldLow.addKeyHandler(this);
+	    fldLow.addKeyUpHandler(this);
 	    fldLow.addFocusHandler(this);
+	    fldLow.addBlurHandler(this);
 	    
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(6);
-	    fldHigh.addKeyHandler(this);
+	    fldHigh.addKeyUpHandler(this);
 	    fldHigh.addFocusHandler(this);
+	    fldHigh.addBlurHandler(this);
 	    
 	    fldResult = new AutoCompleteTextFieldW(app);
 	    fldResult.setColumns(6);
-	    fldResult.addKeyHandler(this);
+	    fldResult.addKeyUpHandler(this);
 	    fldResult.addFocusHandler(this);
+	    fldResult.addBlurHandler(this);
 	    
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
@@ -586,18 +595,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 						// set field
 						//fldParameterArray[i].removeActionListener(this);
 						fldParameterArray[i].setText("" + format(parameters[i]));
-						fldParameterArray[i].setCaretPosition(0);
+						//fldParameterArray[i].setCaretPosition(0); //calls onblur every time it set
 						//fldParameterArray[i].addActionListener(this);
 					}
 				}
 
 				// set low/high interval field values
 				fldLow.setText("" + format(low));
-				fldLow.setCaretPosition(0);
+				//fldLow.setCaretPosition(0);
 				fldHigh.setText("" + format(high));
-				fldHigh.setCaretPosition(0);
+				//fldHigh.setCaretPosition(0);
 				fldResult.setText("" + format(probability));
-				fldResult.setCaretPosition(0);
+				//fldResult.setCaretPosition(0);
 
 				// set distribution combo box
 				//comboDistribution.removeActionListener(this);
@@ -615,9 +624,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				btnCumulative.setValue(isCumulative);
 				btnIntervalLeft.setValue(probMode == PROB_LEFT);
 				btnIntervalBetween.setValue(probMode == PROB_INTERVAL);
-				btnIntervalRight.setValue(probMode == PROB_RIGHT);
-				App.debug(probMode + "");
-				
+				btnIntervalRight.setValue(probMode == PROB_RIGHT);				
 				//btnIntervalLeft.addActionListener(this);
 				//btnIntervalBetween.addActionListener(this);
 				//btnIntervalRight.addActionListener(this);
@@ -656,8 +663,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
     }
 
 	public void onFocus(FocusEvent event) {
-	    // TODO Auto-generated method stub
-	    
+		Object source = event.getSource();
+	    if (source instanceof TextBox) {	    	
+	    	((TextBox)event.getSource()).selectAll();
+	    }
     }
 	
 	private void setProbabilityComboBoxMenu() {
@@ -810,6 +819,89 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		   }
 	   }
 	   
+    }
+	
+	private void doTextFieldActionPerformed(TextBox source) {
+		if (isIniting)
+			return;
+		try {
+			String inputText = source.getText().trim();
+			if (!inputText.equals("")) {
+			// Double value = Double.parseDouble(source.getText());
+
+				// allow input such as sqrt(2)
+				NumberValue nv;
+				nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
+						false);
+				double value = nv.getDouble();
+	
+				if (source == fldLow.getTextBox()) {
+					if (isValidInterval(probMode, value, high)) {
+						low = value;
+						setXAxisPoints();
+					} else {
+						updateGUI();
+					}
+	
+				}
+	
+				else if (source == fldHigh.getTextBox()) {
+					if (isValidInterval(probMode, low, value)) {
+						high = value;
+						setXAxisPoints();
+					} else {
+						updateGUI();
+					}
+				}
+	
+				// handle inverse probability
+				else if (source == fldResult.getTextBox()) {
+					if (value < 0 || value > 1) {
+						updateGUI();
+					} else {
+						if (probMode == PROB_LEFT) {
+							high = inverseProbability(value);
+						}
+						if (probMode == PROB_RIGHT) {
+							low = inverseProbability(1 - value);
+						}
+						setXAxisPoints();
+					}
+				}
+	
+				else
+					// handle parameter entry
+					for (int i = 0; i < parameters.length; ++i)
+						if (source == fldParameterArray[i].getTextBox()) {
+	
+							if (isValidParameter(value, i)) {
+								parameters[i] = value;
+								updateAll();
+							}
+	
+						}
+	
+				updateIntervalProbability();
+				updateGUI();
+			}
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+    public void onBlur(BlurEvent event) {
+		TextBox source = (TextBox) event.getSource();
+	    doTextFieldActionPerformed(source);
+	    updateGUI();
+    }
+
+	@Override
+    public void onKeyUp(KeyUpEvent event) {
+	    TextBox source = (TextBox) event.getSource();
+	    doTextFieldActionPerformed(source);
     }
 
 }
