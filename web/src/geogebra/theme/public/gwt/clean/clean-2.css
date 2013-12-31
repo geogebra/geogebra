@@ -1570,15 +1570,13 @@ Paddings for menuitems.
     display:block;
 }
 
-.historyList a {
-	text-decoration:none;
-	color:black;
-	display:block;
+.historyList {	
+	min-width: 200px;
+	font-size: inherit;
+	border: none;
+	margin: 0px;
 }
- 
-.historyList a:hover, .historyList a:focus, .historyList a.highlight {
-	background: #D5E2FF;
-}
+
 
 .inputHelpToggleButton {
 	text-decoration:none;
