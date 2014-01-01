@@ -247,18 +247,27 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 		m = conic.getOrigin3D(0);
 		d = conic.getDirection3D(0);
-		minmax = getLineMinMax(0);
-		points[0] = m.add(d.mul(minmax[0]));
-		points[1] = m.add(d.mul(minmax[1]));
+		if (d.isDefined()){
+			minmax = getLineMinMax(0);
+			points[0] = m.add(d.mul(minmax[0]));
+			points[1] = m.add(d.mul(minmax[1]));
+
+			brush.segment(points[0], points[1]);
+		}else{ // tells the surface that second line is infinite
+			points[0] = null;
+		}
 		
 		m = conic.getOrigin3D(1);
 		d = conic.getDirection3D(1);
-		minmax = getLineMinMax(1);
-		points[3] = m.add(d.mul(minmax[0]));
-		points[2] = m.add(d.mul(minmax[1]));				
+		if (d.isDefined()){
+			minmax = getLineMinMax(1);
+			points[3] = m.add(d.mul(minmax[0]));
+			points[2] = m.add(d.mul(minmax[1]));				
 
-		brush.segment(points[0], points[1]);
-		brush.segment(points[2], points[3]);
+			brush.segment(points[2], points[3]);
+		}else{ // tells the surface that second line is infinite
+			points[0] = null;
+		}
 		
 	}
 	
@@ -267,7 +276,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param surface surface plotter
 	 */
 	protected void updateParallelLines(PlotterSurface surface){
-		surface.drawQuad(points[0], points[1], points[2], points[3]);
+		if (points[0]!=null){ // in case second line is infinite
+			surface.drawQuad(points[0], points[1], points[2], points[3]);
+		}
 	}
 	
 	/**
