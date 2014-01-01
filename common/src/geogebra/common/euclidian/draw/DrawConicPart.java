@@ -227,45 +227,49 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	private void updateParallelLines() {
-		
-		/*
-		if (((GeoElement) conicPart).isGeoElement3D()){
-			//TODO
-			isVisible = false;
-		}else{
-		*/
-			if (drawSegment == null
-					// also needs re-initing when changing Rays <-> Segment
-					|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
-					|| (!conicPart.positiveOrientation() && draw_type != DRAW_TYPE_RAYS)) { // init
-				GeoLine[] lines = ((GeoConicND) conicPart).getLines();
-				drawSegment = new DrawSegment(view, lines[0]);
-				drawRay1 = new DrawRay(view, lines[0]);
-				drawRay2 = new DrawRay(view, lines[1]);
-				drawSegment.setGeoElement((GeoElement) conicPart);
-				drawRay1.setGeoElement((GeoElement) conicPart);
-				drawRay2.setGeoElement((GeoElement) conicPart);
-			}
-			
 
-			if (conicPart.positiveOrientation()) {
-				draw_type = DRAW_TYPE_SEGMENT;
-				drawSegment.update();
-			} else {
-				draw_type = DRAW_TYPE_RAYS;
-				Coords s = view.getCoordsForView(((GeoConicND) conicPart).getOrigin3D(0));
-				if (!Kernel.isZero(s.getZ())){
-					isVisible = false;
-					return;
-				}
-				Coords d = view.getCoordsForView(conicPart.getSegmentEnd3D().sub(s));
-				if (!Kernel.isZero(d.getZ())){
-					isVisible = false;
-					return;
-				}
-				drawRay1.update(s, d.mul(-1), false); // don't show labels
-				drawRay2.update(((GeoConicND) conicPart).getOrigin3D(1), d, false);
+		if (drawSegment == null
+				// also needs re-initing when changing Rays <-> Segment
+				|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
+				|| (!conicPart.positiveOrientation() && draw_type != DRAW_TYPE_RAYS)) { // init
+			GeoLine[] lines = ((GeoConicND) conicPart).getLines();
+			drawSegment = new DrawSegment(view, lines[0]);
+			drawRay1 = new DrawRay(view, lines[0]);
+			drawRay2 = new DrawRay(view, lines[1]);
+			drawSegment.setGeoElement((GeoElement) conicPart);
+			drawRay1.setGeoElement((GeoElement) conicPart);
+			drawRay2.setGeoElement((GeoElement) conicPart);
+		}
+
+
+		if (conicPart.positiveOrientation()) {
+			draw_type = DRAW_TYPE_SEGMENT;
+			Coords s = view.getCoordsForView(((GeoConicND) conicPart).getOrigin3D(0));
+			if (!Kernel.isZero(s.getZ())){
+				isVisible = false;
+				return;
 			}
+			Coords e = view.getCoordsForView(conicPart.getSegmentEnd3D());
+			if (!Kernel.isZero(e.getZ())){
+				isVisible = false;
+				return;
+			}
+			drawSegment.update(s,e);
+		} else {
+			draw_type = DRAW_TYPE_RAYS;
+			Coords s = view.getCoordsForView(((GeoConicND) conicPart).getOrigin3D(0));
+			if (!Kernel.isZero(s.getZ())){
+				isVisible = false;
+				return;
+			}
+			Coords d = view.getCoordsForView(conicPart.getSegmentEnd3D()).sub(s);
+			if (!Kernel.isZero(d.getZ())){
+				isVisible = false;
+				return;
+			}
+			drawRay1.update(s, d.mul(-1), false); // don't show labels
+			drawRay2.update(((GeoConicND) conicPart).getOrigin3D(1), d, false);
+		}
 	}
 
 	@Override

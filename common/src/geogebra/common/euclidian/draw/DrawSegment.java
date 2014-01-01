@@ -98,6 +98,17 @@ public class DrawSegment extends Drawable implements Previewable {
 
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
 		Coords B = view.getCoordsForView(s.getEndInhomCoords());
+		
+		update(A, B);
+	}
+		
+	/**
+	 * update with A, B for end points
+	 * @param A end point
+	 * @param B end point
+	 */
+	final public void update(Coords A, Coords B) {
+
 
 		// check if in view
 		if (!Kernel.isZero(A.getZ())
