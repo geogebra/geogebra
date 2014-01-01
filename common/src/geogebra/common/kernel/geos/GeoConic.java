@@ -98,49 +98,6 @@ public class GeoConic extends GeoConicND implements
 
 
 
-	/**
-	 * makes this conic a circle with midpoint M through Point P
-	 */
-	@Override
-	final public void setCircle(GeoPoint M, GeoPoint P) {
-		defined = M.isDefined() && P.isDefined() && !P.isInfinite();
-		if (!defined) {
-			return;
-		}
-
-		if (M.isInfinite()) {
-			// midpoint at infinity -> parallelLines
-			// one through P, the other through infinite point M
-			/*
-			 * b.x = P.inhomX; b.y = P.inhomY;
-			 */
-			double[] coords = new double[3];
-			P.getCoords(coords);
-			setMidpoint(coords);
-			// M is normalvector of double line
-			eigenvecX = -M.y;
-			eigenvecY = M.x;
-			setEigenvectors();
-			halfAxes[0] = Double.POSITIVE_INFINITY;
-			halfAxes[1] = Double.POSITIVE_INFINITY;
-			mu[0] = 0.0; // line at infinity is not drawn
-			parallelLines(mu);
-			// set line at infinity 0 = 1
-			lines[1].x = Double.NaN;
-			lines[1].y = Double.NaN;
-			lines[1].z = Double.NaN;
-			// set degenerate matrix
-			matrix[0] = 0.0d;
-			matrix[1] = 0.0d;
-			matrix[2] = lines[0].z;
-			matrix[3] = 0.0d;
-			matrix[4] = lines[0].x / 2.0;
-			matrix[5] = lines[0].y / 2.0;
-		} else {
-			setCircleMatrix(M, M.distance(P));
-		}
-		setAffineTransform();
-	}
 
 	/**
 	 * Return angle of rotation from x-axis to the major axis of ellipse

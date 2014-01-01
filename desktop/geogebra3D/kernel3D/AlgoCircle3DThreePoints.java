@@ -117,28 +117,36 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     @Override
 	public void compute(){
     	
-    	
-
     	coordSys.resetCoordSys();
     	for(int i=0;i<3;i++)
 			 coordSys.addPoint(points[i].getInhomCoordsInD(3));
    	
   
+    	/*
     	if (!coordSys.makeOrthoMatrix(false,false)){
     		circle.setUndefined();
     		return;
     	}
+    	*/
     	
-    	//Application.debug("coordSys=\n"+coordSys.getMatrixOrthonormal().toString());
+    	if (!coordSys.isMadeCoordSys()){
+    		// force 2D coord sys (for line, or single point)
+    		coordSys.completeCoordSys2D();
+    	}
+
+    	coordSys.makeOrthoMatrix(false,false);
+    	
+    	
+    	//App.debug("coordSys=\n"+coordSys.getMatrixOrthonormal().toString());
 
    
-    	
+
     	for(int i=0;i<3;i++){
     		//project the point on the coord sys
     		//Coords[] project=points[i].getCoordsInD(3).projectPlane(coordSys.getMatrixOrthonormal());
     		Coords[] project=coordSys.getNormalProjection(points[i].getInhomCoordsInD(3));
-			 //set the 2D points
-			 points2D[i].setCoords(project[1].getX(), project[1].getY(), project[1].getW());
+    		//set the 2D points
+    		points2D[i].setCoords(project[1].getX(), project[1].getY(), project[1].getW());
 
     	}
 

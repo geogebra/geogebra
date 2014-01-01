@@ -186,6 +186,8 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		by = getB().inhomY;
 		cx = getC().inhomX;
 		cy = getC().inhomY;
+		
+		//App.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
 
 		// A = B = C
 		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ax, cx)
@@ -228,7 +230,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 			casenr = 2;
 			maxDet = det[2];
 		}
-
+		
 		// A, B, C are collinear: set M to infinite point
 		// in perpendicular direction of AB
 		if (Kernel.isZero(maxDet)) {

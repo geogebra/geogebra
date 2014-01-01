@@ -9,7 +9,6 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -335,11 +334,6 @@ implements GeoElement3DInterface, RotateableND, MirrorableAtPlane {
 
 	}
 
-	@Override
-	public void setCircle(GeoPoint M, GeoPoint P) {
-		// TODO Auto-generated method stub
-
-	}
 
 	// //////////////////////////////////
 	// XML

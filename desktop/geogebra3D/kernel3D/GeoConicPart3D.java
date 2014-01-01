@@ -873,6 +873,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 	}
 	
 	
+	/*
 	@Override
 	public Coords getOrigin3D(int i) {
 		if (i==0){
@@ -885,6 +886,17 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 
 	public Coords getSegmentEnd3D() {
 		return lineEnd;
+	}
+	*/
+	
+	@Override
+	public Coords getOrigin3D(int i) {
+		return getCoordSys().getPoint(lines[i].startPoint.inhomX, lines[i].startPoint.inhomY);
+	}
+
+
+	public Coords getSegmentEnd3D() {
+		return getCoordSys().getPoint(lines[0].endPoint.inhomX, lines[0].endPoint.inhomY);
 	}
 
 }

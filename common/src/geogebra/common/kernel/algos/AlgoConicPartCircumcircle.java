@@ -98,9 +98,5 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
     }
 	
 	
-	@Override
-	protected void setFromUndefinedCircle(){
-		conicPart.setUndefined();
-	}
 	
 }
