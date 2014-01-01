@@ -24,7 +24,6 @@ import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -248,19 +247,6 @@ public class DrawConicPart extends Drawable implements Previewable {
 				drawRay2.setGeoElement((GeoElement) conicPart);
 			}
 			
-			
-			CoordMatrix m = null;
-			if (view.getMatrix()==null){
-				if (((GeoConicND) conicPart).isGeoElement3D()){
-					m = ((GeoConicND) conicPart).getCoordSys().getMatrixOrthonormal().inverse();	
-				}
-			}else{
-				if (((GeoConicND) conicPart).isGeoElement3D()){
-					m = ((GeoConicND) conicPart).getCoordSys().getMatrixOrthonormal().inverse().mul(view.getMatrix());	
-				}else{
-					m = view.getMatrix();
-				}
-			}
 
 			if (conicPart.positiveOrientation()) {
 				draw_type = DRAW_TYPE_SEGMENT;
