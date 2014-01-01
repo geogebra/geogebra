@@ -82,16 +82,15 @@ public class DrawRay extends Drawable implements Previewable {
 	final public void update() {
 		update(true);
 	}
-
+	
 	/**
 	 * @param showLabel true if label should be shown
 	 */
 	public void update(boolean showLabel) {
+		
+		
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
-			labelVisible = showLabel && geo.isLabelVisible();
-			updateStrokes(ray);
-
 			// calc direction vector of ray in screen coords
 			Coords equation = ray.getCartesianEquationVector(view.getMatrix());
 			if (equation == null) {
@@ -101,12 +100,30 @@ public class DrawRay extends Drawable implements Previewable {
 
 			// calc start point of ray in screen coords
 			Coords A = view.getCoordsForView(ray.getStartInhomCoords());
-			a[0] = A.getX();
-			a[1] = A.getY();
+			
+			update(A, new Coords(equation.getY(), equation.getX()), showLabel);
+
+		}
+	}
+
+		
+		
+
+	/**
+	 * @param showLabel true if label should be shown
+	 */
+	public void update(Coords startPoint, Coords direction, boolean showLabel) {
+
+		labelVisible = showLabel && geo.isLabelVisible();
+		updateStrokes(ray);
+
+			// calc start point of ray in screen coords
+			a[0] = startPoint.getX();
+			a[1] = startPoint.getY();
 			view.toScreenCoords(a);
 
-			v[0] = equation.getY() * view.getXscale();
-			v[1] = equation.getX() * view.getYscale();
+			v[0] = direction.getX() * view.getXscale();
+			v[1] = direction.getY() * view.getYscale();
 
 			setClippedLine();
 
@@ -150,7 +167,7 @@ public class DrawRay extends Drawable implements Previewable {
 				yLabel = (int) (a[1] + v[1] / 2.0 + ny * unit);
 				addLabelOffset();
 			}
-		}
+		
 	}
 
 	private void setClippedLine() {

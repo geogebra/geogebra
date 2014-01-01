@@ -24,6 +24,7 @@ import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -228,10 +229,12 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	private void updateParallelLines() {
 		
+		/*
 		if (((GeoElement) conicPart).isGeoElement3D()){
 			//TODO
 			isVisible = false;
 		}else{
+		*/
 			if (drawSegment == null
 					// also needs re-initing when changing Rays <-> Segment
 					|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
@@ -244,16 +247,39 @@ public class DrawConicPart extends Drawable implements Previewable {
 				drawRay1.setGeoElement((GeoElement) conicPart);
 				drawRay2.setGeoElement((GeoElement) conicPart);
 			}
+			
+			
+			CoordMatrix m = null;
+			if (view.getMatrix()==null){
+				if (((GeoConicND) conicPart).isGeoElement3D()){
+					m = ((GeoConicND) conicPart).getCoordSys().getMatrixOrthonormal().inverse();	
+				}
+			}else{
+				if (((GeoConicND) conicPart).isGeoElement3D()){
+					m = ((GeoConicND) conicPart).getCoordSys().getMatrixOrthonormal().inverse().mul(view.getMatrix());	
+				}else{
+					m = view.getMatrix();
+				}
+			}
 
 			if (conicPart.positiveOrientation()) {
 				draw_type = DRAW_TYPE_SEGMENT;
 				drawSegment.update();
 			} else {
 				draw_type = DRAW_TYPE_RAYS;
-				drawRay1.update(false); // don't show labels
-				drawRay2.update(false);
+				Coords s = view.getCoordsForView(((GeoConicND) conicPart).getOrigin3D(0));
+				if (!Kernel.isZero(s.getZ())){
+					isVisible = false;
+					return;
+				}
+				Coords d = view.getCoordsForView(conicPart.getSegmentEnd3D().sub(s));
+				if (!Kernel.isZero(d.getZ())){
+					isVisible = false;
+					return;
+				}
+				drawRay1.update(s, d.mul(-1), false); // don't show labels
+				drawRay2.update(((GeoConicND) conicPart).getOrigin3D(1), d, false);
 			}
-		}
 	}
 
 	@Override
