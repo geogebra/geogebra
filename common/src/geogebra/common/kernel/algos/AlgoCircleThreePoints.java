@@ -189,13 +189,32 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		
 		//App.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
 
-		// A = B = C
-		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ax, cx)
-				&& Kernel.isEqual(ay, by)
-				&& Kernel.isEqual(ay, cy)) {
-			circle.setCircle(getA(), 0.0); // single point
+		// same points
+		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ay, by)){ // A = B
+			if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)){ // A = B = C
+				circle.setCircle(getA(), 0.0); // single point
+				return;
+			}//else{ // A = B <> C
+				ACx = cx - ax;
+				ACy = cy - ay;
+				center.setCoords(-ACy, ACx, 0.0d);
+				circle.setCircle(center, getA());
+				return;
+			//}
+		}else if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)){ // A = C <> B
+			ABx = bx - ax;
+			ABy = by - ay;
+			center.setCoords(-ABy, ABx, 0.0d);
+			circle.setCircle(center, getA());
+			return;
+		}else if  (Kernel.isEqual(bx, cx) && Kernel.isEqual(by, cy)){ // B = C <> A
+			ACx = cx - ax;
+			ACy = cy - ay;
+			center.setCoords(-ACy, ACx, 0.0d);
+			circle.setCircle(center, getA());
 			return;
 		}
+				
 
 		// calc vectors AB, AC, BC
 		ABx = bx - ax;
