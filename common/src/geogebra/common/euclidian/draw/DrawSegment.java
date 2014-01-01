@@ -97,7 +97,17 @@ public class DrawSegment extends Drawable implements Previewable {
 		updateStrokes(geo);
 
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
+		// check if in view
+		if (!Kernel.isZero(A.getZ())) {
+			isVisible = false;
+			return;
+		}
 		Coords B = view.getCoordsForView(s.getEndInhomCoords());
+		// check if in view
+		if (!Kernel.isZero(B.getZ())) {
+			isVisible = false;
+			return;
+		}
 		
 		update(A, B);
 	}
@@ -108,19 +118,6 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param B end point
 	 */
 	final public void update(Coords A, Coords B) {
-
-
-		// check if in view
-		if (!Kernel.isZero(A.getZ())
-				|| !Kernel.isZero(B.getZ())) {
-			isVisible = false;
-			return;
-		}
-
-		/*
-		 * if (s.getEndPoint().getLabel().equals("S3'"))
-		 * Application.debug("start=\n"+s.getStartInhomCoords()+"\nA=\n"+A);
-		 */
 
 		coordsA[0] = A.getX();
 		coordsA[1] = A.getY();
