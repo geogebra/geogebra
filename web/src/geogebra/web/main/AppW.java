@@ -48,6 +48,7 @@ import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.dialog.DialogManagerW;
+import geogebra.web.gui.dialog.ErrorMessageDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
@@ -72,22 +73,15 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends AppWeb {
@@ -959,43 +953,9 @@ public abstract class AppW extends AppWeb {
 		// TODO
 		App.debug("TODO later: make sure splash screen not showing");
 
-		
-
-		final PopupPanel dialog = new PopupPanel(false, true);
-
-		Button ok = new Button(getPlain("OK"));
-		ok.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialog.removeFromParent();
-			}
-		});
-		Button showHelp = new Button(getPlain("ShowOnlineHelp"));
-		showHelp.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if (getGuiManager() != null) {
-					getGuiManager().openCommandHelp(command);
-				}
-				dialog.removeFromParent();
-			}
-		});
-
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("DialogButtonPanel");
-		buttonPanel.add(ok);
-		buttonPanel.add(showHelp);
-
-		VerticalPanel panel = new VerticalPanel();
-		String[] lines = message.split("\n");
-		for (String item : lines) {
-			panel.add(new Label(item));
-		}
-
-		panel.add(buttonPanel);
-		dialog.setWidget(panel);
-		dialog.center();
-		dialog.show();
-		ok.getElement().focus();
-
+		ErrorMessageDialog errorDialog = new ErrorMessageDialog(this, command, message);
+		errorDialog.center();
+		errorDialog.show();
 	}
 
 	@Override
@@ -1014,14 +974,11 @@ public abstract class AppW extends AppWeb {
 	@Override
 	public void showErrorDialog(final String msg) {
 		App.printStacktrace("");
-		final PopupPanel dialog = new PopupPanel(false, true);
-		// dialog.setText(getPlain("ApplicationName") + " - " +
-		// getMenu("Info"));
-
-		GOptionPaneW.INSTANCE.showConfirmDialog(null, msg,
-		        getPlain("ApplicationName") + " - "
-		                + getLocalization().getError("Error"),
-		        GOptionPane.DEFAULT_OPTION, 0);
+		
+		ErrorMessageDialog errorDialog = new ErrorMessageDialog(this, null, msg);
+		errorDialog.center();
+		errorDialog.show();
+		
 	}
 
 	@Override

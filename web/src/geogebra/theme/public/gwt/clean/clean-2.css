@@ -1772,14 +1772,16 @@ body[dir=rtl] .GGWToolbar table{
 
 .DialogButtonPanel {
 	text-align: right;
+	padding-top: 10px;
+	min-width: 200px;
 }
 
 .DialogButtonPanel button{
-	margin: 1px;
+	margin: 0px 0px 0px 6px;
 }
 
 .gwt-DialogBox .Caption {
-  font-size:80%;
+  font-size:85%;
 }
 
 
