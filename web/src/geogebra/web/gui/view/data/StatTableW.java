@@ -40,6 +40,7 @@ public class StatTableW extends FlowPanel {
 
 	private void initTable() {
 	    myTable = new MyTable();
+	    this.add(myTable);
 	    
 	    //coloring and things here with css....
     }

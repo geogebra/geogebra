@@ -14,8 +14,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *
  */
 public class ProbabilityTableW extends ProbabilityTable {
-
 	
+	
+
+	/**
+	 * default width of table
+	 */
+	public static int DEFAULT_WIDTH = 200;
 	private FlowPanel wrappedPanel;
 	private StatTableW statTable;
 	private boolean isIniting;
@@ -34,6 +39,7 @@ public class ProbabilityTableW extends ProbabilityTable {
 	   this.probManager = probCalc.getProbManager();
 	   
 	   this.wrappedPanel = new FlowPanel();
+	   this.wrappedPanel.addStyleName("ProbabilityTableW");
 	   
 	   statTable = new StatTableW(app);
 	   
@@ -93,6 +99,7 @@ public class ProbabilityTableW extends ProbabilityTable {
 		return wrappedPanel;
 	}
 	
-	//TODO: valueChanged!
-
+	public StatTableW getStatTable() {
+		return statTable;
+	}
 }

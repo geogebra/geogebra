@@ -571,6 +571,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			return;
 		int[] firstXLastX = generateFirstXLastXCommon();
 		((ProbabilityTableW) table).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
+		tabbedPane.onResize();
+		
     }
 
 	@Override
@@ -632,7 +634,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 
 	public void onChange(ChangeEvent event) {
 		Object source = event.getSource();
-		App.debug("changeevent: " + source.toString());
 		if (source == comboDistribution) {
 
 			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution.getValue(comboDistribution.getSelectedIndex()).equals(SEPARATOR))
@@ -774,8 +775,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		@Override
         public void onResize() { 
-			int width = probCalcPanel.getOffsetWidth();
-			//int height = probCalcPanel.getOffsetHeight();
+			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth();
+			
 			plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 			plotPanel.repaintView();
 		}
