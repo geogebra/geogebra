@@ -93,9 +93,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible)
 			return;
-		labelVisible = geo.isLabelVisible();
-		updateStrokes(geo);
-
+		
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
 		// check if in view
 		if (!Kernel.isZero(A.getZ())) {
@@ -118,6 +116,9 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param B end point
 	 */
 	final public void update(Coords A, Coords B) {
+		
+		labelVisible = geo.isLabelVisible();
+		updateStrokes(geo);
 
 		coordsA[0] = A.getX();
 		coordsA[1] = A.getY();
@@ -521,6 +522,13 @@ public class DrawSegment extends Drawable implements Previewable {
 			return null;
 		}
 		return AwtFactory.prototype.newRectangle(line.getBounds());
+	}
+	
+	/**
+	 * set visible
+	 */
+	public void setIsVisible(){
+		isVisible = true;
 	}
 
 }

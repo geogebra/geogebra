@@ -254,6 +254,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				isVisible = false;
 				return;
 			}
+			drawSegment.setIsVisible();
 			drawSegment.update(s,e);
 		} else {
 			draw_type = DRAW_TYPE_RAYS;
@@ -267,7 +268,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 				isVisible = false;
 				return;
 			}
+			drawRay1.setIsVisible();
 			drawRay1.update(s, d.mul(-1), false); // don't show labels
+			drawRay2.setIsVisible();
 			drawRay2.update(((GeoConicND) conicPart).getOrigin3D(1), d, false);
 		}
 	}

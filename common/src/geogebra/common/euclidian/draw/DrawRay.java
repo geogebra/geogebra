@@ -353,6 +353,12 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 	
 	
+	/**
+	 * set visible
+	 */
+	public void setIsVisible(){
+		isVisible = true;
+	}
 	
 	
 
