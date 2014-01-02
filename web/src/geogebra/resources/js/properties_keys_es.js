@@ -60,7 +60,7 @@ __GGB__keysVar.es.command = {
     "ANOVA_Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "Raz\xf3nSimple",
     "AffineRatio_Syntax": "[ <Punto origen>, <Punto final>, <Punto alineado> ]",
-    "Angle": "Angulo",
+    "Angle": "\xc1ngulo",
     "Angle_Syntax": "[ <Objeto> ]\n[ <Vector>, <Vector> ]\n[ <Recta>, <Recta> ]\n[ <Punto inicial>, <V\xe9rtice>, <Punto final (en sentido antihorario)> ]\n[ <Punto inicial>, <V\xe9rtice>, <\xc1ngulo de rotaci\xf3n (en sentido antihorario)> ]",
     "AngularBisector": "Bisectriz",
     "AngularBisector_Syntax": "[ <Recta-semirrecta o segmento-(lado)>, <Recta-semirrecta o segmento-(lado)> ]\n[ <Punto inicial>, <V\xe9rtice>, <Punto final (en sentido antihorario)> ]",
