@@ -4829,7 +4829,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		getEuclidianController().startCollectingMinorRepaints();
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
-				isControlDown);
+				isControlDown, null);
 		if (changedKernel) {
 			getApplication().storeUndoInfo();
 		}

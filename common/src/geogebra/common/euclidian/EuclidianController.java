@@ -3690,7 +3690,7 @@ public abstract class EuclidianController {
 		// TODO - this can trigger a tool on mouse-move
 		// https://www.geogebra.org/forum/viewtopic.php?f=8&t=33719
 		// removing breaks previews in trunk
-		processMode(hits, isControlDown); // build highlightedGeos List
+		processMode(hits, isControlDown, null); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
@@ -5643,7 +5643,7 @@ public abstract class EuclidianController {
 	}
 
 	
-	public final boolean processMode(Hits processHits, boolean isControlDown) {
+	public final boolean processMode(Hits processHits, boolean isControlDown, MyCallbackObject callback){
 		Hits hits = processHits;
 		boolean changedKernel = false;
 	
@@ -5651,21 +5651,9 @@ public abstract class EuclidianController {
 			hits = new Hits();
 		}
 		
-		changedKernel = switchModeForProcessMode(hits, isControlDown, null);
+		changedKernel = switchModeForProcessMode(hits, isControlDown, callback);
 	
 		return changedKernel;
-	}
-	
-	public final void processModeWithCallback(Hits processHits, boolean isControlDown, MyCallbackObject callback){
-		Hits hits = processHits;
-		boolean changedKernel = false;
-	
-		if (hits == null) {
-			hits = new Hits();
-		}
-		
-		switchModeForProcessMode(hits, isControlDown, callback);
-		
 	}
 	
 	public void endOfProcessMode(boolean changedKernel){
@@ -8782,7 +8770,7 @@ public abstract class EuclidianController {
 			removeParentPoints(hits);
 			selectedGeos.addAll(hits);
 			setAppSelectedGeos(hits);
-			changedKernel = processMode(hits, isControlDown);
+			changedKernel = processMode(hits, isControlDown, null);
 			view.setSelectionRectangle(null);
 			break;
 	
@@ -8793,7 +8781,7 @@ public abstract class EuclidianController {
 				if (hits.get(0).isGeoList()) {
 					selectedGeos.addAll(hits);
 					setAppSelectedGeos(hits);
-					changedKernel = processMode(hits, isControlDown);
+					changedKernel = processMode(hits, isControlDown, null);
 					view.setSelectionRectangle(null);
 					break;
 				}
@@ -8814,7 +8802,7 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				setAppSelectedGeos(hits);
-				changedKernel = processMode(hits, isControlDown);
+				changedKernel = processMode(hits, isControlDown, null);
 				view.setSelectionRectangle(null);
 			}
 			break;
@@ -8903,7 +8891,7 @@ public abstract class EuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				setAppSelectedGeos(hits);
-				processMode(hits, false);
+				processMode(hits, false, null);
 
 				view.setSelectionRectangle(null);
 			}
@@ -9169,7 +9157,7 @@ public abstract class EuclidianController {
 						endOfWrapMouseReleased();
 					}
 				};
-				processModeWithCallback(hits, control, callback);
+				processMode(hits, control, callback);
 			}
 			if (changedKernel) {
 				app.storeUndoInfo();
