@@ -140,20 +140,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public void setCoordSys(CoordSys cs) {
 		//nothing to do here
 	}
-	
-	/**
-	 * update the orientation (-vz / vz)
-	 */
-	public void updateOrientation() {
-		
-		double m = (p1.inhomX-p0.inhomX)*(p2.inhomY-p0.inhomY) - (p2.inhomX-p0.inhomX)*(p1.inhomY-p0.inhomY);
-		if (m < 0){
-			reverseOrientation = true;
-		}else{
-			reverseOrientation = false;
-		}
-		
-	}
+
 
 	/**
 	 * for 3D stuff (unused here)
@@ -575,7 +562,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		}
 
 		setCoordSys(poly);
-		reverseOrientation = poly.reverseOrientation;
 		updateSegments();
 		defined = poly.defined;
 
@@ -1278,7 +1264,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		this.p2 = newp2;
 		numCS = 3;
 		
-		updateOrientation();
 	}
 	
 	/**
@@ -1332,9 +1317,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
 		}
 		
-		if (numCS == 3){
-			updateOrientation();
-		}
 
 	}
 
@@ -1808,18 +1790,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return true;
 	}
 
-	/**
-	 * says if the polygon direction (orientation) should be reversed
-	 */
-	private boolean reverseOrientation = false;
-	
 	
 	public Coords getDirectionInD3() {
-		
-		if (reverseOrientation){
-			return Coords.VZm;
-		}
-		
+
 		return Coords.VZ;
 	}
 	
