@@ -277,6 +277,14 @@ public final class EuclidianConstants {
 	/** polyhedronNet */
 	public static final int MODE_NET = 535;
 	
+	/** creates a cube */
+	public static final int MODE_CUBE = 536;
+
+	/** creates a tetrahedron */
+	public static final int MODE_TETRAHEDRON = 537;
+
+
+	
 
 	/** rotate the view */
 	public static final int MODE_ROTATEVIEW = 540;

@@ -72,6 +72,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		polyhedron.createFaces();
 		
+		// faces are oriented to the inside
 		polyhedron.setReverseNormals();
 		setOutput();
 		

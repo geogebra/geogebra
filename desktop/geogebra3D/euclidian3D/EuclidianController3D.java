@@ -13,6 +13,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -25,6 +26,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1102,6 +1104,35 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		}
 		return false;
 	}
+	/**
+	 * get two points and eventually direction
+	 * @param hits hits
+	 * @param name name of the solid
+	 * @return true if solid created
+	 */
+	final protected boolean archimedeanSolid(Hits hits, Commands name) {
+		if (hits.isEmpty())
+			return false;
+
+		if (addSelectedPoint(hits, 2, false) == 0){		
+			// select a direction only if no point is selected
+			addSelectedDirection(hits, 1, false);
+		}
+
+		// we got the center point
+		if (selPoints() == 2) {	
+			GeoPointND[] points = getSelectedPointsND();
+			GeoDirectionND direction;
+			if (selDirections() == 1){
+				direction = getSelectedDirections()[0];
+			}else{
+				direction = kernel.getXOYPlane();
+			}
+			kernel.getManager3D().ArchimedeanSolid(null, points[0], points[1], direction, name);
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * 
@@ -1912,6 +1943,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			changedKernel = extrusionOrConify(hits);
 			break;
 			
+		case EuclidianConstants.MODE_TETRAHEDRON:
+			changedKernel = archimedeanSolid(hits, Commands.Tetrahedron);
+			break;
+
+		case EuclidianConstants.MODE_CUBE:
+			changedKernel = archimedeanSolid(hits, Commands.Cube);
+			break;
+
+			
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 			changedKernel = pyramidOrPrism(hits);
@@ -1990,6 +2030,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			((Hits3D) hits).removePolygonsIfNotOnlyCS2D();
 			break;
+		case EuclidianConstants.MODE_TETRAHEDRON:
+		case EuclidianConstants.MODE_CUBE:
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 		case EuclidianConstants.MODE_AREA:
@@ -2101,7 +2143,14 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 		
 		
-		
+		case EuclidianConstants.MODE_TETRAHEDRON:
+		case EuclidianConstants.MODE_CUBE:
+			view.setHits(mouseLoc, type);
+			hits = view.getHits();
+			//switchModeForRemovePolygons(hits);
+			//createNewPoint(hits, true, false, false, true, false);
+			break;
+	
 			
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:

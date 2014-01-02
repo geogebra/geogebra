@@ -135,6 +135,12 @@ public class Kernel3D extends Kernel {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return "ParallelPlane";
 
+		case EuclidianConstants.MODE_CUBE:
+			return "Cube";
+
+		case EuclidianConstants.MODE_TETRAHEDRON:
+			return "Tetrahedron";
+			
 		case EuclidianConstants.MODE_PRISM:
 			return "Prism";
 

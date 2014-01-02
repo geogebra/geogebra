@@ -181,6 +181,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public Coords getMainDirection() {
 
+		if (reverseNormal){
+			return coordSys.getNormal().mul(-1);
+		}
+		
 		return coordSys.getNormal();
 
 	}
@@ -626,7 +630,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public Coords getDirectionInD3() {
 		
-		return getCoordSys().getNormal();
+		return getMainDirection();
 	}
 
 
@@ -831,5 +835,31 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		this.calcArea();
 		
 	}
+	
+
+	///////////////////////////////////
+	// REVERSE ORIENTATION 
+	///////////////////////////////////
+
+	private boolean reverseNormal = false;
+
+	/**
+	 * set that normal should be reversed 
+	 */
+	public void setReverseNormal() {
+		reverseNormal = true;
+	}
+	
+	
+	@Override
+	public void set(GeoElement geo) {
+		if (geo.isGeoPolygon() && geo.isGeoElement3D()){
+			reverseNormal = ((GeoPolygon3D) geo).reverseNormal;
+		}
+		
+		super.set(geo);
+	}
+
+		
 
 }

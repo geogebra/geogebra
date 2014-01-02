@@ -1948,7 +1948,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return d;
 	}
 	
-	
+
 
 	///////////////////////////////////
 	// REVERSE ORIENTATION FOR DRAWING
