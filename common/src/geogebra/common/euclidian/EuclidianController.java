@@ -348,10 +348,6 @@ public abstract class EuclidianController {
 	
 	private long lastMouseRelease;
 	
-	private Hits hits;
-	private boolean control;
-	private boolean alt;
-	private PointerEventType type;
 	int index;
 		
 	public EuclidianController(App app){
@@ -8911,14 +8907,14 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void wrapMouseReleased(AbstractEvent event){
+	public void wrapMouseReleased(final AbstractEvent event){
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
-		/*boolean*/ control = app.isControlDown(event);
-		/*boolean*/ alt = event.isAltDown();
-		boolean meta = event.isPopupTrigger() || event.isMetaDown();
-		/*PointerEventType*/ type = event.getType();
+		boolean control = app.isControlDown(event);
+		boolean alt = event.isAltDown();
+		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
+		PointerEventType type = event.getType();
 	
 		if(this.doubleClickStarted){
 			this.doubleClickStarted = false;
@@ -9025,7 +9021,7 @@ public abstract class EuclidianController {
 		setMouseLocation(alt, x, y);
 	
 		transformCoords();
-		/*Hits*/ hits = null;
+		Hits hits = null;
 	
 		if (hitResetIcon()) {
 			app.reset();
@@ -9144,8 +9140,8 @@ public abstract class EuclidianController {
 		// also needed for right-drag
 		else {
 			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
+				final Hits hits2 = hits;
 				MyCallbackObject callback = new MyCallbackObject(){
-					boolean changedKernel = false;
 					
 					@Override
 					public void process(Object changedKernel) {
@@ -9154,7 +9150,7 @@ public abstract class EuclidianController {
 								app.storeUndoInfo();
 							}
 						}
-						endOfWrapMouseReleased();
+						endOfWrapMouseReleased(hits2, event);
 					}
 				};
 				processMode(hits, control, callback);
@@ -9164,11 +9160,14 @@ public abstract class EuclidianController {
 			}
 		}
 		
-		endOfWrapMouseReleased();
+		endOfWrapMouseReleased(hits, event);
 
 	}
 	
-	private void endOfWrapMouseReleased(){
+	public void endOfWrapMouseReleased(Hits hits, AbstractEvent event){
+		boolean control = app.isControlDown(event);
+		boolean alt = event.isAltDown();
+		PointerEventType type = event.getType();
 		if (!hits.isEmpty()) {
 			// Application.debug("hits ="+hits);
 			view.setDefaultCursor();
