@@ -553,9 +553,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private void addRemoveTable(boolean showTable) {
 		if (showTable) {
 			plotSplitPane.add(((ProbabilityTableW)table).getWrappedPanel());
+			tabbedPane.onResize();
 			//plotSplitPane.setDividerSize(defaultDividerSize);
 		} else {
 			plotSplitPane.remove(((ProbabilityTableW)table).getWrappedPanel());
+			tabbedPane.onResize();
 			//plotSplitPane.setDividerSize(0);
 		}
 	}
