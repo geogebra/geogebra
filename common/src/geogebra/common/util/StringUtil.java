@@ -1133,4 +1133,10 @@ public class StringUtil {
 			return filename.substring(1);
 		return filename;
 	}
+	
+	public static String toHtmlColor(GColor color) {
+        return "#" + toHexString(color);
+       
+    }
+
 }

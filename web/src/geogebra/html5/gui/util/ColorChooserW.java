@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +13,11 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 
 public class ColorChooserW extends FlowPanel {
 
@@ -43,7 +46,11 @@ public class ColorChooserW extends FlowPanel {
 		private List<GColor> palette;
 		private int width;
 		private int height;
-
+		private ImageElement checkMark;
+		private int checkX;
+		private int checkY;
+		private boolean checkNeeded;
+		
 		public ColorTable(int x, int y, int col, int row, List<Integer> data)
 		{
 			startX = x;
@@ -61,6 +68,10 @@ public class ColorChooserW extends FlowPanel {
 			
 			setWidth(col * (colorIconSize.getWidth() + padding)); 
 			setHeight(row * (colorIconSize.getHeight() + padding));
+			checkMark = ImageElement.as(new Image(AppResources.INSTANCE.color_chooser_check().getSafeUri()).getElement());
+			checkX = (colorIconSize.getWidth() - checkMark.getWidth()) / 2 + padding;
+			checkY = (colorIconSize.getHeight() - checkMark.getHeight()) / 2  + padding;
+			checkNeeded = false;
 		}
 		
 		public void draw() {
@@ -75,11 +86,15 @@ public class ColorChooserW extends FlowPanel {
 			for (int row = 0; row < maxRow; row++) {
 				for (int col = 0; col < maxCol; col++) {
 					GColor color = getColorFromPalette(col, row);
-					ctx.setFillStyle(toHtmlColor(color));
+					ctx.setFillStyle(StringUtil.toHtmlColor(color));
 					ctx.fillRect(x + padding , y + padding, w - padding, h - padding);	
-					ctx.setFillStyle(colorEquals(color, selectedColor) ? toHtmlColor(BOX_COLOR) :
-						toHtmlColor(SELECTED_BOX_COLOR));
+					
+					ctx.setFillStyle(StringUtil.toHtmlColor(colorEquals(color, selectedColor) ? BOX_COLOR:
+						SELECTED_BOX_COLOR));
 					ctx.rect(x + padding , y + padding, w - padding, h - padding);
+					if (checkNeeded && colorEquals(color, selectedColor)) { 
+						ctx.drawImage(checkMark, x + checkX, y + checkY);
+					}
 					x += w ;
 				}	
 				x = padding;
@@ -121,8 +136,8 @@ public class ColorChooserW extends FlowPanel {
 	        	return null;
 	        }
 	        
-	        int col = (x - startX) / (colorIconSize.getWidth() + padding);
-	        int row = (y - startY) / (colorIconSize.getHeight() + padding);
+	        int col = (x - startX + padding) / (colorIconSize.getWidth() + padding);
+	        int row = (y - startY + padding) / (colorIconSize.getHeight() + padding);
 	        App.debug("HIT! " + col + ", " + row);
 	        return getColorFromPalette(col, row);
  
@@ -131,6 +146,14 @@ public class ColorChooserW extends FlowPanel {
 		public void injectColor(GColor color) {
 			palette.add(0, color);
 		}
+
+		public boolean isCheckNeeded() {
+	        return checkNeeded;
+        }
+
+		public void setCheckNeeded(boolean checkNeeded) {
+	        this.checkNeeded = checkNeeded;
+        }
 
 	}
 
@@ -178,6 +201,9 @@ public class ColorChooserW extends FlowPanel {
 		recentTable = new ColorTable(x, 22, 6, 4, null); 
 		otherTable = new ColorTable(x, 140, 6, 2, null); 
 	
+		leftTable.setCheckNeeded(true);
+		mainTable.setCheckNeeded(true);
+		
 		add(canvas);
 		canvas.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
@@ -224,21 +250,8 @@ public class ColorChooserW extends FlowPanel {
 		mainTable.draw();
 		recentTable.draw();
 		otherTable.draw();
-		drawPreview();
 		}
 	
-	private void drawPreview() {
-	    if (selectedColor == null) {
-	    	return;
-	    }
-	    ctx.save();
-	    int x = padding;
-	    int y = MARGIN_TOP + leftTable.getHeight() + 10;
-	    ctx.setFillStyle(toHtmlColor(selectedColor));
-	    ctx.fillRect(x, y, PREVIEW_WIDTH, PREVIEW_HEIGHT);
-	    ctx.restore();
-    }
-
 	public GColor getSelectedColor() {
         return selectedColor;
     }
@@ -247,11 +260,6 @@ public class ColorChooserW extends FlowPanel {
         selectedColor = color;
         update();
 	}	
-
-	private static String toHtmlColor(GColor color) {
-        return "#" + StringUtil.toHexString(color);
-       
-    }
 
 	public void addChangeHandler(ColorChangeHandler changeHandler) {
 	    this.changeHandler = changeHandler;

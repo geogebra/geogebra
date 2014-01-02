@@ -68,6 +68,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -81,7 +82,6 @@ import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.openjdk.awt.geom.Dimension;
-import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
@@ -478,66 +478,55 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private ColorObjectModel model;
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
-		private ColorPopupMenuButton colorChooser;
 		private GColor selectedColor;
 		private SelectionTable colorTable;
-		private Label chooseLabel;
-		private Label rgbLabel;
+		private PreviewPanel previewPanel;
+		
+		private class PreviewPanel extends FlowPanel {
+			private Label title;
+			private FlowPanel preview;
+			private Label rgb;
+	
+			public PreviewPanel() {
+				title = new Label();
+				preview = new FlowPanel();
+				preview.setStyleName("colorPreview");
+				rgb = new Label();
+				add(title);
+				add(preview);
+				add(rgb);
+			}
+			
+			public void update(GColor color) {
+				preview.getElement().getStyle().setProperty("backgroundColor", StringUtil.toHtmlColor(color));
+				rgb.setText(ColorObjectModel.getColorAsString(color));
+			}
+			
+			public void setLabels() {
+				title.setText(localize("Preview"));
+			}
 
+		}
+		
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
 			setModel(model);
-			final GDimensionW colorIconSize = new GDimensionW(20, 20);
+
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 			
-			colorChooserW = new ColorChooserW(800, 300, colorIconSizeW, 4);
+			colorChooserW = new ColorChooserW(800, 200, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
 				public void onChangeColor(GColor color) {
 					applyChanges();
 	                
                 }});
-			colorChooser = new ColorPopupMenuButton((AppW) app, colorIconSize,
-					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
-				@Override
-				public void update(Object[] geos) {
-
-					updateColorTable();
-					GeoElement geo0 = model.getGeoAt(0);
-					int index = this.getColorIndex(geo0.getObjectColor());
-					setSelectedIndex(index);
-					setDefaultColor(geo0.getAlphaValue(), geo0.getObjectColor());
-				};
-
-				@Override
-				public void handlePopupActionEvent(){
-					super.handlePopupActionEvent();
-					applyChanges();
-				}
-
-				@Override
-				public void setSliderValue(int value) {
-					super.setSliderValue(value);
-					if (!model.hasGeos()) {
-						return;
-					}
-					float alpha = value / 100.0f;
-					GColor color = model.getGeoAt(0).getObjectColor();
-					model.applyChanges(color, alpha, true);
-				}
-			};
-
-			colorChooser.setKeepVisible(false);
 			mainPanel = new FlowPanel();
-			FlowPanel colorPanel = new FlowPanel();
-			chooseLabel = new Label();
-			rgbLabel = new Label();
-			colorPanel.add(chooseLabel);
-		//	colorPanel.add(colorChooser);
-			colorPanel.add(rgbLabel);
-			mainPanel.add(colorPanel);
 			mainPanel.add(colorChooserW);
+			previewPanel = new PreviewPanel();
+			mainPanel.add(previewPanel);
+		
 			setWidget(mainPanel);
 
 		}
@@ -546,8 +535,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void applyChanges() {
 			float alpha = colorChooserW.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
+			previewPanel.update(color);
 			model.applyChanges(color, alpha, false);
-
 		}
 
 		public void updateChooser(boolean equalObjColor,
@@ -577,15 +566,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}
 			}
 
-			colorChooser.setSliderVisible(hasOpacity);
-			colorChooser.update(model.getGeos());
+//			colorChooser.setSliderVisible(hasOpacity);
+//			colorChooser.update(model.getGeos());
 			colorChooserW.setSelectedColor(selectedColor);
 			updatePreview(selectedColor, 1);
 		}
 
 
-		public void updatePreview(GColor col, float alpha) {
-			rgbLabel.setText(ColorObjectModel.getColorAsString(col));
+		public void updatePreview(GColor color, float alpha) {
+			previewPanel.update(color);
 		}
 
 		public boolean isBackgroundColorSelected() {
@@ -608,7 +597,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void setLabels() {
-			chooseLabel.setText(localize("Color"));
+			previewPanel.setLabels();
 		}
 
 	}

@@ -193,7 +193,7 @@ public class ColorObjectModel extends OptionsModel {
 			result = rgbDec;
 		}
 		
-		result +=  " (#" + StringUtil.toHexString(color) + ")";
+		result +=  " (" + StringUtil.toHtmlColor(color) + ")";
 		return result;
 	}
 }
