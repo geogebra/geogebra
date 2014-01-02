@@ -365,7 +365,15 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param surface surface plotter
 	 */
 	protected void updateEllipse(PlotterSurface surface){
-		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),getEllipseSurfaceExtent());
+		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),getEllipseSurfaceExtent(), isSector());
+	}
+	
+	/**
+	 * 
+	 * @return true if is a sector (for surface drawing)
+	 */
+	protected boolean isSector(){
+		return true;
 	}
 
 

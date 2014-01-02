@@ -80,5 +80,11 @@ public class DrawConicPart3D extends DrawConic3D {
 	protected void updateParallelLines(PlotterSurface surface){
 		// no surface here
 	}
+	
+	
+	@Override
+	protected boolean isSector(){
+		return ((GeoConicPartND) conic).getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
+	}
 
 }
