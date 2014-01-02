@@ -5172,12 +5172,6 @@ public abstract class EuclidianController {
 			}
 			
 			MyCallbackObject callback3 = new MyCallbackObject(){
-				private boolean finish = false;
-				
-				@Override
-				public void setField(){
-					finish = true;
-				}
 
 				@Override
 				public void process(Object num) {
@@ -5196,7 +5190,6 @@ public abstract class EuclidianController {
 					
 					if (selGeos() == macroInput.length){
 						macroProcess(callback2);
-						finish = false;
 					}
 				}
 				
@@ -5216,9 +5209,6 @@ public abstract class EuclidianController {
 	
 	public void readNumberOrAngleIfNeeded(MyCallbackObject callback3){
 		if (++index < macroInput.length) {
-			//There are some code, which must run after we got or number and angle.
-			//To enable for detect this in callback funcion, it's needed to set a variable
-			if (index == macroInput.length) callback3.setField();
 			
 			// maybe we need a number
 			if (macroInput[index].equals(Test.GEONUMERIC)) {
