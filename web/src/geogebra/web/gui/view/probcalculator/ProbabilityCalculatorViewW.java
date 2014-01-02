@@ -75,7 +75,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private FlowPanel controlPanel;
 	private ScheduledCommand exportToEVAction;
 	private FlowPanel plotPanelPlus;
-	private FlowPanel tablePanel;
 	private FlowPanel plotSplitPane;
 	private FlowPanel mainSplitPane;
 	private FlowPanel probCalcPanel;
@@ -216,6 +215,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		plotSplitPane.add(plotPanelPlus);
 		
 		mainSplitPane = new FlowPanel();
+		mainSplitPane.addStyleName("mainSplitPanel");
 		mainSplitPane.add(plotSplitPane);
 		mainSplitPane.add(controlPanel);
 		probCalcPanel = new FlowPanel();
@@ -246,8 +246,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    
 	    //table panel
 	    table  = new ProbabilityTableW(app, this);
-	    tablePanel = new FlowPanel();
-	    tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());    
+	    //tablePanel = new FlowPanel();
+	    //tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());    
     }
 
 	private void createControlPanel() {
@@ -552,10 +552,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	
 	private void addRemoveTable(boolean showTable) {
 		if (showTable) {
-			plotSplitPane.add(tablePanel);
+			plotSplitPane.add(((ProbabilityTableW)table).getWrappedPanel());
 			//plotSplitPane.setDividerSize(defaultDividerSize);
 		} else {
-			plotSplitPane.remove(tablePanel);
+			plotSplitPane.remove(((ProbabilityTableW)table).getWrappedPanel());
 			//plotSplitPane.setDividerSize(0);
 		}
 	}
@@ -775,7 +775,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		@Override
         public void onResize() { 
-			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth();
+			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 20;
 			
 			plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 			plotPanel.repaintView();

@@ -2295,6 +2295,22 @@ label {
 	padding: 0;
 }
 
+.ProbCalcPanel .mainSplitPanel {
+	overflow: auto;
+}
+
+.ProbCalcPanel .PlotPanelPlus {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+.ProbCalcPanel .ProbabilityTableW {
+	float: right;
+	margin: 0;
+	padding: 0;
+}
+
 .lblMeanSigma {
 	text-align: right;
 }
