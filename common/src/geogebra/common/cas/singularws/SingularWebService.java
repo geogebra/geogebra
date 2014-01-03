@@ -253,12 +253,12 @@ public class SingularWebService {
 	
 	/**
 	 * Decides if we are using a new or an old version of the grobcov library. In old
-	 * versions the "locus" command was "locus2d".
+	 * versions the "locusdg" command was "locus2d".
 	 * @return
 	 */
 	public static String getLocusCommand() {
 		if (locusLib.endsWith("F2m") || locusLib.endsWith("G")) {
-			return "locus";		
+			return "locusdg";		
 		}
 		return "locus2d";
 	}
