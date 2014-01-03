@@ -2334,6 +2334,24 @@ label {
 	overflow: auto;
 }
 
+.ProbCalcPanel .ProbabilityTableW table {
+	border-collapse: collapse;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none
+}
+
+.ProbCalcPanel .ProbabilityTableW td {
+	border: 1px solid black;
+}
+
+.ProbCalcPanel .ProbabilityTableW tr:hover {
+	background:#ebeff9;
+}
+
 .lblMeanSigma {
 	text-align: right;
 }
