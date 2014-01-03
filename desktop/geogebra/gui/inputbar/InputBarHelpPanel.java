@@ -675,7 +675,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
-				&& !descriptionCAS.equals(cmd + Localization.syntaxCAS)) {
+				&& loc.isCASCommand(cmd)) {
 			if (!description.equals(cmd + Localization.syntaxStr))
 				try {
 					doc.insertString(doc.getLength(), description + "\n",

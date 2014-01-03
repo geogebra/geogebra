@@ -361,12 +361,14 @@ public class InputBarHelpPanelW extends VerticalPanel {
 
 		// internal name of selected command
 		String cmd = app.getReverseCommand(getSelectedCommand());
+		
+		Localization loc = app.getLocalization();
 
-		String syntaxBasic = app.getLocalization().getCommandSyntax(cmd);
-		String syntaxCAS = app.getLocalization().getCommandSyntaxCAS(cmd);
+		String syntaxBasic = loc.getCommandSyntax(cmd);
+		String syntaxCAS = loc.getCommandSyntaxCAS(cmd);
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
-		        && !syntaxCAS.equals(cmd + Localization.syntaxCAS)) {
+		        && loc.isCASCommand(cmd)) {
 
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
 				sb.append(formattedHTMLString(syntaxBasic + "\n"));

@@ -934,6 +934,23 @@ public abstract class Localization {
 			return syntax;
 		}
 		/**
+		 * 
+		 * @param key (internal) command name to check
+		 * @return true if this command has a CAS-specific syntax
+		 */
+		public boolean isCASCommand(String key) {
+			
+			String keyCAS = key + syntaxCAS;
+
+			String syntax = getCommand(keyCAS);
+			
+			if (syntax.equals(keyCAS)) {
+				return false;
+			}
+			
+			return true;
+		}
+		/**
 		 * @param string
 		 *            key
 		 * @return translation of key from menu bundle in tooltip language
@@ -990,5 +1007,6 @@ public abstract class Localization {
 		public String getFunction(String key) {
 			return getPlain("Function." + key);
 		}
+
 	
 }
