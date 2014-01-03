@@ -72,7 +72,7 @@ __GGB__keysVar.zh_CN.command = {
     "Arc_Syntax": "[ <\u5706>, <\u70b91>, <\u70b92> ]\n[ <\u692d\u5706>, <\u70b91>, <\u70b92> ]\n[ <\u5706>, <\u53c2\u6570\u503c1>, <\u53c2\u6570\u503c2> ]\n[ <\u692d\u5706>, <\u53c2\u6570\u503c1>, <\u53c2\u6570\u503c2> ]",
     "AreCollinear": "\u5171\u7ebf",
     "AreCollinear_Syntax": "[ <\u70b91>, <\u70b92>, <\u70b93> ]",
-    "AreConcurrent": "\u5171\u5411",
+    "AreConcurrent": "\u5171\u70b9",
     "AreConcurrent_Syntax": "[ <\u76f4\u7ebf1>, <\u76f4\u7ebf2>, <\u76f4\u7ebf3> ]",
     "AreConcyclic": "\u5171\u5706",
     "AreConcyclic_Syntax": "[ <\u70b91>, <\u70b92>, <\u70b93>, <\u70b94> ]",
