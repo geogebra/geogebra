@@ -72,7 +72,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	private AutoCompleteTextFieldW fldHigh;
 	private AutoCompleteTextFieldW fldResult;
 	private Label lblMeanSigma;
-	private FlowPanel controlPanel;
+	FlowPanel controlPanel;
 	private ScheduledCommand exportToEVAction;
 	private FlowPanel plotPanelPlus;
 	private FlowPanel plotSplitPane;
@@ -220,6 +220,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		mainSplitPane.add(controlPanel);
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
+		probCalcPanel.getElement().setId("ProbCalcPanel");
 		
 		probCalcPanel.add(mainSplitPane);
 		
@@ -782,6 +783,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 				plotPanel.repaintView();
 				plotPanel.getEuclidianController().calculateEnvironment();
+				controlPanel.setWidth(width + "px");
 			}
 		}
 		

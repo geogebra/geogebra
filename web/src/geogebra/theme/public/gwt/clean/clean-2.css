@@ -2317,7 +2317,7 @@ label {
 	padding: 0;
 }
 
-.ProbCalcPanel .mainSplitPanel {
+#ProbCalcPanel {
 	overflow: auto;
 }
 
@@ -2331,6 +2331,7 @@ label {
 	float: right;
 	margin: 0;
 	padding: 0;
+	overflow: auto;
 }
 
 .lblMeanSigma {
