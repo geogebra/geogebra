@@ -5192,7 +5192,6 @@ public abstract class EuclidianController {
 			};
 			// look ahead if we need a number or an angle next
 			readNumberOrAngleIfNeeded(callback3);
-			
 		}
 	
 		// Application.debug("index: " + index + ", needed type: " +
@@ -9145,10 +9144,8 @@ public abstract class EuclidianController {
 					
 					@Override
 					public void process(Object changedKernel) {
-						if ((changedKernel).getClass().equals(boolean.class)){
-							if (changedKernel.equals("true")) {
-								app.storeUndoInfo();
-							}
+						if (changedKernel.equals(true)) {
+							app.storeUndoInfo();
 						}
 						endOfWrapMouseReleased(hits2, event);
 					}
