@@ -16,4 +16,30 @@ public class SingularWSSettings {
      * Timeout for a SingularWS session to run in seconds.
      */
     public static int singularWebServiceTimeout = 5;
+    /**
+     * Use caching on server side? It's possible to use server side default by
+     * setting this to null, otherwise we'll override the server setting.
+     */
+    public static Boolean useCaching = null;
+	/**
+	 * Reports current caching setting in human readable form.
+	 * @return "false", "true" or "auto"
+	 */
+	public static String getCachingText() {
+		if (useCaching == null) {
+			return "auto";
+		}
+		return useCaching.toString();
+	}
+	/**
+	 * Sets the useCaching value to the requested setting.
+	 * @param s the requested value
+	 */
+	public static void setCachingFromText(String s) {
+		if ("auto".equals(s.toLowerCase())) {
+			useCaching = null;
+		}
+		useCaching = Boolean.valueOf(s).booleanValue();
+	}
+
 }

@@ -801,6 +801,9 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "]\n"
 							+ "      timeout:SECS\tset the timeout ["
 							+ SingularWSSettings.singularWebServiceTimeout
+							+ "]\n"
+							+ "      caching:BOOLEAN\tset server side caching ["
+							+ SingularWSSettings.getCachingText()
 							+ "]\n" + "  Example: singularWS=timeout:3\n");
 			System.exit(0);
 		}
@@ -1087,6 +1090,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		if ("timeout".equalsIgnoreCase(str[0])) {
 			SingularWSSettings.singularWebServiceTimeout = Integer
 					.parseInt(str[1]);
+			return;
+		}
+		if ("caching".equalsIgnoreCase(str[0])) {
+			SingularWSSettings.setCachingFromText(str[1]);
 			return;
 		}
 		Log.warn("Prover option not recognized: ".concat(option));

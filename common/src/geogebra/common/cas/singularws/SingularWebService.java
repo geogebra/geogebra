@@ -46,6 +46,7 @@ public class SingularWebService {
 	private String swsCommandResult(String command, String parameters) {
 		String url1 = wsHost + "/";
 		String encodedParameters = "";
+		String caching = cachingString();
 		if (parameters != null) {
 			URLEncoder urle = UtilFactory.prototype.newURLEncoder();
 			encodedParameters = urle.encode(parameters);
@@ -55,9 +56,9 @@ public class SingularWebService {
 		// Varnish currently cannot do caching for POST requests,
 		// so we prefer GET for the shorter Singular programs:
 		if (encodedParameters.length() + url1.length() + command.length() + 6 <= GET_REQUEST_MAX_SIZE)
-			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters);
+			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters + caching);
 		else
-			httpr.sendRequestPost(url1,"c=" + command + "&p=" + encodedParameters);
+			httpr.sendRequestPost(url1,"c=" + command + "&p=" + encodedParameters + caching);
 		String response = httpr.getResponse(); // will not work in web, TODO: callback!
 		if (response == null)
 			return null; // avoiding NPE in web
@@ -67,6 +68,17 @@ public class SingularWebService {
 		if (response.endsWith("\n"))
 			response = response.substring(0, response.length()-1);
 		return response;
+	}
+	
+	private static String cachingString() {
+		if (SingularWSSettings.useCaching == null) {
+			return "";
+		}
+		final String prefix = "&l="; 
+		if (SingularWSSettings.useCaching) {
+			return prefix + "1";
+		}
+		return prefix + "0";
 	}
 	
 	/**
