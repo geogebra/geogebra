@@ -1603,6 +1603,23 @@ Paddings for menuitems.
 
 /*=========== ToolBar =============*/
 
+.menubar2 {
+	outline: 0px;
+	background: lightsteelblue;
+	border-top: 1px solid steelblue;
+	border-bottom:1px solid steelblue;
+	border-left:none;
+	border-right:none;
+}
+
+.menubar2-ggbLogo {
+	font-variant: small-caps;
+	letter-spacing:1pt;
+	font-size: larger;
+	text-shadow: 1px 1px 1px black;
+}
+
+
 .undoPanel {
 	position:relative;
 	right:5px;
