@@ -269,21 +269,35 @@ public class AlgoEnvelope extends AlgoElement {
 			}
 		}
        	
-        // Constructing the Singular script.
+        // Constructing the Singular script. This code contains a modified version
+		// of Francisco Botana's locusdgto() and envelopeto() procedures in the grobcov library.
+		// I.e. we no longer use these two commands, but locusto(), locus() and locusdg() only.
         StringBuilder script = new StringBuilder();
-        script.append("");
-		script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + vars).
+        // Single points [y-A,x-B] are returned in the form (x-B)^2+(y-A)^2.
+        // Empty envelopes are drawn as 0=-1.
+        // Multiple curves are drawn as products of the curves.
+        script.append("proc mylocusdgto(list L) {" +
+        		"poly p=1;" +
+        		"int i; int j; int k;" +
+        		"for(i=1;i<=size(L);i++) { if(L[i][3]==\"Relevant\")" +
+        		" { if(size(L[i][1])>1) {p=p*((L[i][1][1])^2+(L[i][1][2])^2);}" +
+        			"else {p=p*L[i][1][1];}" +
+    			"} } return(p); }");
+        script.append("proc myenvelopeto (list GG) {" +
+        		"list GGG;" +
+        		"if (GG[1][2][1]<>1) { GGG=delete(GG,1); }" +
+        		"else { GGG=GG; };" +
+        		"string SLo=locusto(locus(GGG));" +
+        		"if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0)" +
+        			"{ return(1); }" +
+        		"else { return(mylocusdgto(locusdg(GGG))); } }");
+  		script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + vars).
 			append("),dp;short=0;ideal m=");
 		script.append(polys);
-		script.append(";poly D=det(jacob(m));ideal S=" + polys + ",D;list e=envelopeto(grobcov(S));");
+		script.append(";poly D=det(jacob(m));ideal S=" + polys + ",D;list e=myenvelopeto(grobcov(S));");
+		// This trick is required to push the result polynomial to the new ring world:
+		script.append("string ex=\"poly p=\" + string(e[1]);");
 		script.append("ring rr=0,(x,y),dp;");
-		// The output envelope can be a curve either in [[[x^2+y^2-3*x+...],[[...]]] form,
-		// or a single point in [[[(y-2),(x-2)],[[..]]] form. In this latter case we rewrite it to
-		// (y-2)^2+(x-2)^2 since it can be handled in GeoGebra as an implicit curve having
-		// exactly one point.
-		script.append("string w=e[1][4,find(e[1],\"]\")-4];int f=find(w,\",\");");
-		script.append("if (f>0) {string ex=\"poly p=(\" + w[1,f-1] + \")^2+(\" + w[f+1,size(w)] + \")^2\";};");
-		script.append("if (f<1) {string ex=\"poly p=\" + w;};"); // here an "else" would be more elegant, FIXME
 		script.append("execute(ex);");
 		// Now we obtain the coefficients (see exactly the same code for locus equation):
 		script.append("printf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").

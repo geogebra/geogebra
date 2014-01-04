@@ -240,7 +240,13 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 
 
 	public static double[][] getBivarPolyCoefficientsSingular(String rawResult) {
-		String[] flatData = rawResult.split(",");
+		String[] allrows = rawResult.split("\n");
+		/* We use only the last row. Some extra algorithms in Singular may mess up
+		 * the result with some extra text, e.g. "locus detected that the mover must
+		 * avoid point (x1-5,x4+x2-4) in order to obtain the correct locus"
+		 * which cannot be parsed here correctly.
+		 */
+		String[] flatData = allrows[allrows.length - 1].split(",");
 		int xLength = Integer.parseInt(flatData[0]);
 		int yLength = Integer.parseInt(flatData[1]);
 		double[][] result = new double[xLength][yLength];
