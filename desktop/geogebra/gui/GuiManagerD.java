@@ -2648,9 +2648,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public int setToolbarMode(int mode) {
 		if (toolbarPanel == null) {
-			return -1;
+			return 0;
 		}
-
+		
 		int ret = toolbarPanel.setMode(mode);
 		layout.getDockManager().setToolbarMode(mode);
 		return ret;
