@@ -101,9 +101,10 @@ public class AlgoLocusEquation extends AlgoElement {
 				this.geoPoly.setCoeff(trans.eliminateSystem(system));
 				this.geoPoly.setDefined();
 				
-			//Timeout => set undefined	
+			// Timeout or other error => set undefined	
 			} catch(Exception e) {
 				this.geoPoly.setUndefined();
+				throw e;
 			}
 		} else {
 			this.geoPoly.setUndefined();

@@ -5,6 +5,7 @@ package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.singularws.SingularWebService;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.locusequ.arith.Equation;
@@ -213,7 +214,11 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		if (App.singularWS != null && App.singularWS.isAvailable() && App.singularWS.isFast()) {
 			script = this.createSingularScript(translatedRestrictions);
 			Log.info("[LocusEqu] input to singular: "+script);
-			result = App.singularWS.directCommand(script);
+			try {
+				result = App.singularWS.directCommand(script);
+			} catch (Throwable e) {
+				throw new CASException("Error in SingularWS computation");
+			}
 			Log.info("[LocusEqu] output from singular: "+result);
 			// Comment this to disable computation via SingularWS:
 			return getBivarPolyCoefficientsSingular(result);

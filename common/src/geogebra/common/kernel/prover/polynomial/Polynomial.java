@@ -1,6 +1,7 @@
 package geogebra.common.kernel.prover.polynomial;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
@@ -900,13 +901,17 @@ public class Polynomial implements Comparable<Polynomial> {
 				App.debug(solvableProgram.length() + " bytes -> singular");
 			else
 				App.debug(solvableProgram + " -> singular");
-			solvableResult = App.singularWS.directCommand(solvableProgram);
-			if (solvableResult.length()>500)
-				App.debug("singular -> " + solvableResult.length() + " bytes");
-			else
-				App.debug("singular -> " + solvableResult);
-			if ("0".equals(solvableResult))
-				return false; // no solution
+			try {
+				solvableResult = App.singularWS.directCommand(solvableProgram);
+				if (solvableResult.length()>500)
+					App.debug("singular -> " + solvableResult.length() + " bytes");
+				else
+					App.debug("singular -> " + solvableResult);
+				if ("0".equals(solvableResult))
+					return false; // no solution
+			} catch (Throwable e) {
+				throw new CASException("Couldn't compute ");
+			}
 			return true; // at least one solution exists
 		}
 
@@ -1068,15 +1073,18 @@ public class Polynomial implements Comparable<Polynomial> {
 						+ " bytes -> singular");
 			else
 				App.debug(elimProgram + " -> singular");
-			elimResult = App.singularWS
-					.directCommand(elimProgram);
-			if (elimResult == null) {
-				return null;
+			try {
+				elimResult = App.singularWS.directCommand(elimProgram);
+				if (elimResult == null) {
+					return null;
+				}
+				if (elimResult.length() > 500)
+					App.debug("singular -> " + elimResult.length() + " bytes");
+				else
+					App.debug("singular -> " + elimResult);
+			} catch (Throwable e) {
+				throw new CASException("Cannot compute elimination with SingularWS");
 			}
-			if (elimResult.length() > 500)
-				App.debug("singular -> " + elimResult.length() + " bytes");
-			else
-				App.debug("singular -> " + elimResult);
 		} else {
 			
 			// If SingularWS is not applicable, then we try to use the internal CAS:

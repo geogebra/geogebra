@@ -39,11 +39,11 @@ public class SingularWebService {
 	 */
 	public SingularWebService() {}
 	
-	private String swsCommandResult(String command) {
+	private String swsCommandResult(String command) throws Throwable {
 		return swsCommandResult(command, "");
 	}
 	
-	private String swsCommandResult(String command, String parameters) {
+	private String swsCommandResult(String command, String parameters) throws Throwable {
 		String url1 = wsHost + "/";
 		String encodedParameters = "";
 		String caching = cachingString();
@@ -59,6 +59,7 @@ public class SingularWebService {
 			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters + caching);
 		else
 			httpr.sendRequestPost(url1,"c=" + command + "&p=" + encodedParameters + caching);
+		// In fact we will not use Varnish after changing SingularWS to version >= 3 (2014-01-03).
 		String response = httpr.getResponse(); // will not work in web, TODO: callback!
 		if (response == null)
 			return null; // avoiding NPE in web
@@ -67,6 +68,11 @@ public class SingularWebService {
 			response = response.substring(0, response.length()-2);
 		if (response.endsWith("\n"))
 			response = response.substring(0, response.length()-1);
+		if (response.contains("error")) {
+			// Intuitive detection of error in computation. TODO: be more strict.
+			App.error("Computation error in SingularWS: " + response);
+			throw new geogebra.common.cas.error.ComputationException("Computation error in SingularWS");
+		}
 		return response;
 	}
 	
@@ -117,7 +123,12 @@ public class SingularWebService {
 			
 		// App.debug("TEST: " + convertFloatsToRationals("((6.56*(x-x1))-(-0.2197*(y-x2)))"));
 		
-		String result = swsCommandResult(testConnectionCommand); 
+		String result = null;
+		try {
+			result = swsCommandResult(testConnectionCommand);
+		} catch (Throwable e) {
+			App.error("Failure while testing SingularWS connection");
+		} 
 		if (result == null)
 			return false;
 		if (result.equals("ok")) {
@@ -126,7 +137,11 @@ public class SingularWebService {
 			for (int i = 0; i < CONNECTION_SPEED_NO_TESTS && fastConn; ++i) {
 		    	Date date = new Date();
 		        long startTime = date.getTime();
-		    	swsCommandResult(testConnectionCommand);
+		    	try {
+					swsCommandResult(testConnectionCommand);
+				} catch (Throwable e) {
+					App.error("Failure while testing SingularWS connection");
+				}
 		    	date = new Date();
 		    	long elapsedTime = date.getTime() - startTime;
 		    	App.debug("Measuring speed to SWS #" + i + ": " + elapsedTime + " ms");
@@ -147,12 +162,17 @@ public class SingularWebService {
 	}
 	
 	private boolean testLib(String name) {
-		String result = directCommand("LIB \"" + name + ".lib\";");
-		if (result.length() == 0) {
-			App.debug("SingularWS supports library " + name);
-			return true;
+		String result;
+		try {
+			result = directCommand("LIB \"" + name + ".lib\";");
+			if (result.length() == 0) {
+				App.debug("SingularWS supports library " + name);
+				return true;
+			}
+			App.debug("SingularWS doesn't support library " + name + " (" + result + ")");
+		} catch (Throwable e) {
+			App.error("Failure connecting to SingularWS");
 		}
-		App.debug("SingularWS doesn't support library " + name + " (" + result + ")");
 		return false;	
 	}
 	
@@ -161,8 +181,9 @@ public class SingularWebService {
 
 	 * @param singularProgram The program code to be sent directly to Singular
 	 * @return the answer
+	 * @throws Throwable ComputationException when problem occurs
 	 */
-	public String directCommand(String singularProgram) {
+	public String directCommand(String singularProgram) throws Throwable {
 		return swsCommandResult(singularDirectCommand, singularProgram);
 	}
 
@@ -222,7 +243,11 @@ public class SingularWebService {
 	 */
 	public String getVersion() {
 		if (isAvailable()) {
-			return directCommand("system(\"version\");");
+			try {
+				return directCommand("system(\"version\");");
+			} catch (Throwable e) {
+				App.error("Failure while getting SingularWS version");
+			}
 		}
 		return null;
 	}

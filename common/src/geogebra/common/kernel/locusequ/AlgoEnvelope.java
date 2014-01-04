@@ -1,6 +1,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.singularws.SingularWebService;
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -126,7 +127,12 @@ public class AlgoEnvelope extends AlgoElement {
 	@Override
 	public void compute() {
 		
-		String result = getImplicitPoly();
+		String result;
+		try {
+			result = getImplicitPoly();
+		} catch (Throwable ex) {
+			throw new CASException("Error computing implicit curve");
+		}
 
 		if (result != null) {
 			try{
@@ -142,12 +148,13 @@ public class AlgoEnvelope extends AlgoElement {
 		}
 	}
 
-	private String getImplicitPoly() {
+	private String getImplicitPoly() throws Throwable {
 
         String locusLib = SingularWebService.getLocusLib();
         
-        if (locusLib.length() == 0) 
-        	return null; // No Envelope support.
+        if (locusLib.length() == 0) {
+        	throw new CASException("No envelope support in CAS");
+        }       	
         		
 		/* First we collect all the restriction equations except for the linear itself.
 		 * This is exactly the same as in AlgoLocusEquation.
