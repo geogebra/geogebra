@@ -443,10 +443,6 @@ public class ToolBar {
 		sb.append( " | ");
 		
 		//prisms/pyramids/cones/cylinders
-		sb.append(EuclidianConstants.MODE_TETRAHEDRON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CUBE);
-		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_PYRAMID);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PRISM);
@@ -455,6 +451,10 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append( EuclidianConstants.MODE_EXTRUSION);
 		sb.append( " , " );
+		sb.append(EuclidianConstants.MODE_TETRAHEDRON);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CUBE);
+		sb.append(" , ");
 		sb.append( EuclidianConstants.MODE_NET);
 		sb.append( " | " );
 		
