@@ -280,7 +280,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			else{
 				angle = Math.asin(dist/d2);	
 			}
-			if (((sgn==1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) < 0))|((sgn==-1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) > 0))) { // top point is inside bottom face
+			if (((sgn==1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) > 0))|((sgn==-1)&&(v2.crossProduct(vs).dotproduct(p.getFace(netMap.get(iFace).get(0)).getDirectionInD3()) < 0))) { // top point is inside bottom face
 				angle =   Math.PI - angle;
 			}
 			
