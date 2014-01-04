@@ -669,7 +669,7 @@ __GGB__keysVar.hr.command = {
     "RandomPolynomial_Syntax": "[ <stupanj>, <najmanja vrijednost koeficijenata>, <najve\u0107a vrijednost koeficijenata> ]",
     "RandomPolynomial_SyntaxCAS": "[ <stupanj>, <minimum za koeficijente>, <maksimum za koeficijente> ]\n[ <varijabla>, <stupanj>, <minimum za koeficijente>, <maksimum za koeficijente> ]",
     "RandomUniform": "Slu\u010dajniUniformniBroj",
-    "RandomUniform_Syntax": "[ <min>, <max> ]",
+    "RandomUniform_Syntax": "[ <min>, <max> ]\n[ <min>, <max>, <broj uzoraka> ]",
     "Rationalize": "Racionaliziraj",
     "Rationalize_SyntaxCAS": "[ <broj> ]",
     "Ray": "Zraka",
