@@ -928,10 +928,12 @@ public class StringUtil {
 			char ch = text.charAt(i);
 			
 			if (comment && ch != '"') {
+				sb.append(ch);
 				continue;
 			}
 
 			if (ch == '"') {
+				sb.append(ch);
 				comment = !comment;
 				continue;
 			}
