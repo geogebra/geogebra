@@ -1463,7 +1463,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					barsPanel.add(selectionBarButtons[i]);
 					group.add(selectionBarButtons[i]);
 				}
-				selectionBarButtons[0].setText(app.getPlain("AllBars"));
+				selectionBarButtons[0].setText(loc.getPlain("AllBars"));
 				selectionBarButtons[selectedBarButton].setSelected(true);
 				add(barsPanel, loc.borderEast());
 			}
@@ -4197,7 +4197,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					group.add(selectionBarButtons[i]);
 					barsPanel.add(selectionBarButtons[i]);
 				}
-				selectionBarButtons[0].setText(app.getPlain("All"));
+				selectionBarButtons[0].setText(loc.getPlain("AllBars"));
 				selectionBarButtons[selectedBarButton].setSelected(true);
 				add(barsPanel);
 			}
