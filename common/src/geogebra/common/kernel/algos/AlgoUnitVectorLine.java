@@ -18,15 +18,11 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.util.MyMath;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -34,67 +30,29 @@ import geogebra.common.util.MyMath;
  * @author  Markus
  * @version 
  */
-public class AlgoUnitVectorLine extends AlgoElement {
+public class AlgoUnitVectorLine extends AlgoUnitVector2D {
     
-    private GeoLine g; // input
-    private GeoVector  u;     // output       
     
-    private double length; 
-        
     /** Creates new AlgoOrthoVectorLine */
-    public AlgoUnitVectorLine(Construction cons, String label,GeoLine g) {        
-        super(cons);
-        this.g = g;                
-        u = new GeoVector(cons); 
-       
-        GeoPoint possStartPoint = g.getStartPoint();
-        if (possStartPoint != null && possStartPoint.isLabelSet()) {
-	        try{
-	            u.setStartPoint(possStartPoint);
-	        } catch (CircularDefinitionException e) {}
-        }
-        
-        setInputOutput(); // for AlgoElement
-        
-        // compute line through P, Q
-        u.z = 0.0d;
-        compute();      
-        u.setLabel(label);
-    }   
+    public AlgoUnitVectorLine(Construction cons, String label,GeoLineND g) {        
+        super(cons, label, (GeoElement) g);
+    } 
+    
+     
+    
     
     @Override
-	public Commands getClassName() {
-        return Commands.UnitVector;
+	final protected void setXY(){
+    	x = ((GeoLine) inputGeo).y;
+    	y = -((GeoLine) inputGeo).x;
     }
 
-	// TODO Consider locusequability
+
+	@Override
+	final protected GeoPointND getInputStartPoint() {
+		return ((GeoLine) inputGeo).getStartPoint();
+	}
+
+
     
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[1];        
-        input[0] = g;
-             
-        super.setOutputLength(1);
-        super.setOutput(0, u);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoVector getVector() { return u; }    
-    GeoLine getg() { return g; }
-    
-    // line through P normal to v
-    @Override
-	public final void compute() {        
-        length = MyMath.length(g.x, g.y);
-        u.x = g.y / length;
-        u.y = -g.x / length;        
-    }   
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-31
-        // simplified to allow better translation
-        return loc.getPlain("UnitVectorOfA",g.getLabel(tpl));
-    }
 }

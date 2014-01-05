@@ -18,14 +18,11 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.MyMath;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
 /**
@@ -33,66 +30,26 @@ import geogebra.common.util.MyMath;
  * @author  Markus
  * @version 
  */
-public class AlgoUnitVectorVector extends AlgoElement {
+public class AlgoUnitVectorVector extends AlgoUnitVector2D {
     
-    private GeoVector v; // input
-    private GeoVector  u;     // output       
-    
-    private double length;
         
     /** Creates new AlgoOrthoVectorVector */
-    public AlgoUnitVectorVector(Construction cons, String label,GeoVector v) {        
-        super(cons);
-        this.v = v;                
-        u = new GeoVector(cons); 
-        
-        GeoPointND possStartPoint = v.getStartPoint();
-        if (possStartPoint != null && possStartPoint.isLabelSet()) {
-	        try{
-	            u.setStartPoint(possStartPoint);
-	        } catch (CircularDefinitionException e) {}
-        }
-        
-        setInputOutput(); // for AlgoElement
-        
-        u.z = 0.0d;
-        compute();      
-        u.setLabel(label);
+    public AlgoUnitVectorVector(Construction cons, String label,GeoVectorND v) {        
+        super(cons, label, (GeoElement) v);
     }   
     
-    // for AlgoElement
+
     @Override
-	protected void setInputOutput() {
-        input = new GeoElement[1];        
-        input[0] = v;
-        
-        super.setOutputLength(1);
-        super.setOutput(0, u);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    @Override
-	public Commands getClassName() {
-        return Commands.UnitVector;
-    }
-    
-    public GeoVector getVector() { return u; }    
-    GeoVector getv() { return v; }
-    
-    // unit vector of v
-    @Override
-	public final void compute() {
-        length = MyMath.length(v.x, v.y);        
-        u.x = v.x / length;
-        u.y = v.y / length;
-    }   
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-31
-        // simplified to allow better translation
-    	return loc.getPlain("UnitVectorOfA",v.getLabel(tpl));
+	final protected void setXY(){
+    	x = ((GeoVector) inputGeo).x;
+    	y = ((GeoVector) inputGeo).y;
     }
 
-	// TODO Consider locusequability
+
+
+	@Override
+	final protected GeoPointND getInputStartPoint() {
+		return ((GeoVector) inputGeo).getStartPoint();
+	}   
+    
 }
