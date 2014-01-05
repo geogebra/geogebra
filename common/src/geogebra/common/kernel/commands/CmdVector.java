@@ -65,10 +65,10 @@ public class CmdVector extends CommandProcessor {
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
 				GeoElement[] ret =
 				{
-						getAlgoDispatcher().Vector(
+						vector(
 								c.getLabel(),
-								(GeoPoint) arg[0],
-								(GeoPoint) arg[1])};
+								(GeoPointND) arg[0],
+								(GeoPointND) arg[1])};
 				return ret;
 			}
 			
@@ -77,5 +77,19 @@ public class CmdVector extends CommandProcessor {
 		default :
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param label vector name
+	 * @param p0 first point
+	 * @param p1 second point
+	 * @return vector (p0,p1)
+	 */
+	protected GeoElement vector(String label, GeoPointND p0, GeoPointND p1){
+		return getAlgoDispatcher().Vector(
+				label,
+				(GeoPoint) p0,
+				(GeoPoint) p1);
 	}
 }
