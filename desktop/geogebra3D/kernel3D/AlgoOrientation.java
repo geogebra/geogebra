@@ -41,12 +41,25 @@ public class AlgoOrientation extends AlgoElement3D {
 	private GeoVector3D vector;
 
 
-    /** Creates new AlgoIntersectLinePlane 
+    /**
      * @param cons the construction
      * @param label name of point
      * @param direction geo that has a direction (orientation)
      */    
     public AlgoOrientation(Construction cons, String label, GeoDirectionND direction) {
+
+    	this(cons, direction);
+
+    	vector.setLabel(label);
+ 
+    }
+    
+ 
+    /** 
+     * @param cons the construction
+     * @param direction geo that has a direction (orientation)
+     */    
+    public AlgoOrientation(Construction cons,  GeoDirectionND direction) {
 
     	super(cons);
 
@@ -57,11 +70,9 @@ public class AlgoOrientation extends AlgoElement3D {
   
     	setInputOutput(new GeoElement[] {(GeoElement) direction}, new GeoElement[] {vector});
 
-    	vector.setLabel(label);
  
     }
     
- 
 
 
 

@@ -12,6 +12,8 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.FromMeta;
@@ -33,14 +35,17 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyCallbackObject;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
+import geogebra3D.kernel3D.AlgoDependentVector3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
+import geogebra3D.kernel3D.AlgoOrientation;
 import geogebra3D.kernel3D.GeoConic3D;
 import geogebra3D.kernel3D.GeoConicSection;
 import geogebra3D.kernel3D.GeoCoordSys1D;
@@ -50,6 +55,7 @@ import geogebra3D.kernel3D.GeoPolygon3D;
 import geogebra3D.kernel3D.GeoQuadric3D;
 import geogebra3D.kernel3D.GeoQuadric3DLimited;
 import geogebra3D.kernel3D.GeoQuadric3DPart;
+import geogebra3D.kernel3D.GeoVector3D;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -1128,7 +1134,17 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			}else{
 				direction = kernel.getXOYPlane();
 			}
+			Coords v = direction.getDirectionInD3();
+			if(v.dotproduct(view3D.getViewDirection()) > 0){ // reverse direction
+				MyDouble a = new MyDouble(kernel);
+				a.set(-1);
+				GeoVector3D orientation = (new AlgoOrientation(kernel.getConstruction(), direction)).getVector();
+				ExpressionNode en = new ExpressionNode(kernel, a, Operation.MULTIPLY, orientation);
+				direction = new AlgoDependentVector3D(kernel.getConstruction(), en).getVector3D();				
+			}
+			
 			kernel.getManager3D().ArchimedeanSolid(null, points[0], points[1], direction, name);
+			
 			return true;
 		}
 		return false;

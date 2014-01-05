@@ -42,6 +42,14 @@ public class AlgoDependentVector3D extends AlgoElement3D {
         
     /** Creates new AlgoDependentVector */
     public AlgoDependentVector3D(Construction cons, String label, ExpressionNode root) {
+    	
+    	this(cons, root);
+    	
+        vec.setLabel(label);
+    }   
+    
+    /** Creates new AlgoDependentVector */
+    public AlgoDependentVector3D(Construction cons, ExpressionNode root) {
     	super(cons);
         this.root = root;        
         
@@ -50,8 +58,7 @@ public class AlgoDependentVector3D extends AlgoElement3D {
         
         // compute value of dependent number
         //v.z = 0.0d;  
-        compute();      
-        vec.setLabel(label);
+        compute();     
     }   
     
 	@Override
