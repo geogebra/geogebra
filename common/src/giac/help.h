@@ -88,7 +88,7 @@ namespace giac {
   aide helpon(const std::string & demande,const std::vector<aide> & v,int language,int count,bool with_op=true);
   std::string writehelp(const aide & cur_aide,int language);
 
-#ifndef RTOS_THREADX
+#if !defined(RTOS_THREADX) && !defined(EMCC)
   extern std::multimap<std::string,std::string> html_mtt,html_mall;
   extern std::vector<std::string> html_vtt,html_vall;
 
@@ -99,8 +99,8 @@ namespace giac {
   // Return all HTML nodes refered to s in mtt
   std::vector<std::string> html_help(std::multimap<std::string,std::string> & mtt,const std::string & s);
   std::string html_help_init(const char * arg,int language,bool verbose=true,bool force_rebuild=false);
-#endif
   std::string xcasroot_dir(const char * arg);
+#endif
 
   std::string localize(const std::string & s,int language);
   std::string unlocalize(const std::string & s);

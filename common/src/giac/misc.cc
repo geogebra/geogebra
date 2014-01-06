@@ -4595,7 +4595,12 @@ static define_unary_function_eval (__hamdist,&_hamdist,_hamdist_s);
       else
 	return gensizeerr(gettext("plotarea(f(x),x=a..b[,n,method])"));
       if (s>=2){
-	gen graph=funcplotfunc(gen(vecteur(v.begin(),v.begin()+s),_SEQ__VECT),false,contextptr); // must be a graph of fcn
+	int s1=s-1;
+	for (;s1>0;--s1){
+	  if (v[s1].type!=_INT_)
+	    break;
+	}
+	gen graph=funcplotfunc(gen(vecteur(v.begin(),v.begin()+s1+1),_SEQ__VECT),false,contextptr); // must be a graph of fcn
 	if (is_undef(graph))
 	  return graph;
 	// extract polygon

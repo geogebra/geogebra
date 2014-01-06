@@ -55,7 +55,7 @@ using namespace std;
   u32 AspenGetNow();
 #endif
 
-#ifdef EMCC
+#if defined(EMCC) && !defined(PNACL)
 extern "C" double emcctime(); 
 // definition of emcctime should be added in emscripten directory src/library.js
 // search for _time definition, and return only Date.now() for _emcctime
@@ -318,7 +318,7 @@ namespace giac {
     double delta;
     int ntimes=1,i=0;
     int level=eval_level(contextptr);
-#ifdef EMCC
+#if defined(EMCC) && !defined(PNACL)
     // time_t t1,t2;
     // time(&t1);
     // eval(a,level,contextptr);

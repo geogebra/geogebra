@@ -21,6 +21,13 @@
 
 #ifndef _GIAC_FIRST_H_
 #define _GIAC_FIRST_H_
+
+#ifdef PNACL
+#define EMCC
+#undef HAVE_LIBPTHREAD
+#undef HAVE_PTHREAD_H
+#endif
+
 #ifdef RTOS_THREADX
 #define NO_STDEXCEPT 1
 #endif

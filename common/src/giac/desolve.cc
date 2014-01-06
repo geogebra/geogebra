@@ -181,7 +181,7 @@ namespace giac {
       vecteur varx(lvarx(coeff,x));
       int varxs=varx.size();
       if (!varxs){ // Dirac function
-	res += e*symbolic(at_Dirac,x);
+	res += coeff*exp(expb,contextptr)*symbolic(at_Dirac,x+expa);
 	continue;
       }
       if ( (varxs>1) || (varx.front()!=x) ) {

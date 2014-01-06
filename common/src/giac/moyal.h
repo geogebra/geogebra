@@ -64,6 +64,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_cauchy ;
   extern const unary_function_ptr * const  at_cauchy_cdf ;
   extern const unary_function_ptr * const  at_cauchy_icdf ;
+  extern const unary_function_ptr * const  at_multinomial ;
 
   gen _UTPN(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_UTPN ;

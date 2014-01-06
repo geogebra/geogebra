@@ -852,6 +852,12 @@ namespace giac {
     }
     if (ck_is_strictly_greater(a,b,contextptr))
       return sturmab(g,x,b,a,contextptr);
+    if (a==b){
+      gen tmp=subst(g,x,a,false,contextptr);
+      int s=fastsign(tmp,contextptr);
+      if (s==1 || s==-1)
+	return (s-1)/2;
+    }
 #ifdef NO_STDEXCEPT
     if (lvar(g)!=vecteur(1,x))
       return -2;

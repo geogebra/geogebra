@@ -711,6 +711,39 @@ namespace giac {
   static define_unary_function_eval (__multinomial,&_multinomial,_multinomial_s);
   define_unary_function_ptr5( at_multinomial ,alias_at_multinomial,&__multinomial,0,true);
 
+  gen _randmultinomial(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT || args._VECTptr->empty())
+      return gensizeerr(contextptr);
+    gen g1(args._VECTptr->front());
+    if (args._VECTptr->size()==2 && g1.type==_VECT){
+      gen g2(args._VECTptr->back());
+      if (g2.type!=_VECT || g2._VECTptr->size()!=g1._VECTptr->size() || !is_zero(1-_sum(g1,contextptr)) )
+	return gensizeerr(contextptr);
+      double u=giac_rand(contextptr)/(rand_max2+1.0);
+      gen somme=0;
+      for (unsigned i=0;i<g1._VECTptr->size();++i){
+	somme += g1[i];
+	if (is_greater(somme,u,contextptr))
+	  return g2[i];
+      }
+      return undef;
+    }
+    if (!is_zero(1-_sum(args,contextptr)))
+      return gensizeerr(contextptr);
+    double u=giac_rand(contextptr)/(rand_max2+1.0);
+    gen somme=0;
+    for (unsigned i=0;i<args._VECTptr->size();++i){
+      somme += (*args._VECTptr)[i];
+      if (is_greater(somme,u,contextptr))
+	return int(i);
+    }
+    return undef;
+  }
+  static const char _randmultinomial_s []="randmultinomial";
+  static define_unary_function_eval (__randmultinomial,&_randmultinomial,_randmultinomial_s);
+  define_unary_function_ptr5( at_randmultinomial ,alias_at_randmultinomial,&__randmultinomial,0,true);
+
   gen _negbinomial(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)

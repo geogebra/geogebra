@@ -437,6 +437,12 @@ namespace giac {
     return  "<mo>&VerticalBar;</mo>"+gen2mathml(e._SYMBptr->feuille,contextptr)+ "<mo>&VerticalBar;</mo>";
   }
 
+  static string mathml_printasunit(const gen e,GIAC_CONTEXT){
+    vecteur v = *e._SYMBptr->feuille._VECTptr;
+    if (v.size()!=2)
+      return "<mtext>"+e.print(contextptr)+"</mtext>";
+    return  "<msub><mrow>"+gen2mathml(eval(v[0],eval_level(contextptr),contextptr),contextptr)+"</mrow><mrow>"+gen2mathml(v[1],contextptr)+"</mrow></msub>";
+  }
 
 
   //---------------- Zone SVG  ---------------
@@ -993,6 +999,8 @@ namespace giac {
       return mathml_printassum(e,contextptr);
     else if (e.type==_SYMB && e._SYMBptr->sommet==at_abs)
       return mathml_printasabs(e,contextptr);
+    else if (e.type==_SYMB && e._SYMBptr->sommet==at_unit)      
+      return mathml_printasunit(e,contextptr);
     else
       switch (e.type){
       case _INT_: case _ZINT:                        

@@ -7264,6 +7264,56 @@ namespace giac {
       res= vecteur(1,gensizeerr(contextptr));
       return;
     }
+    if (f.is_symb_of_sommet(at_multinomial) && f._SYMBptr->feuille.type==_VECT){
+      gen P=f._SYMBptr->feuille;
+      vecteur val;
+      if (P._VECTptr->size()==2 && P._VECTptr->front().type==_VECT){
+	if (P._VECTptr->back().type!=_VECT || P._VECTptr->front()._VECTptr->size()!=P._VECTptr->back()._VECTptr->size()){
+	  res=vecteur(1,gensizeerr(contextptr));
+	  return;
+	}
+	val=*P._VECTptr->back()._VECTptr;
+	P=P._VECTptr->front();
+      }
+      if (!is_zero(1-_sum(P,contextptr))){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      const vecteur & v=*P._VECTptr;
+      // cdf of probabilities
+      unsigned vs=v.size();
+      vector<double> tableau(vs+1);
+      vector<int> eff(vs);
+      if (!val.empty())
+	res.reserve(n);
+      gen g=evalf_double(v[0],1,contextptr);
+      if (g.type!=_DOUBLE_){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      tableau[1]=g._DOUBLE_val*rand_max2;
+      for (unsigned i=1;i<vs;++i){
+	g=evalf_double(v[i],1,contextptr);
+	if (g.type!=_DOUBLE_){
+	  res=vecteur(1,gensizeerr(contextptr));
+	  return;
+	}
+	tableau[i+1]=g._DOUBLE_val*rand_max2+tableau[i];
+      }
+      // generate n random values, count them if val=0 
+      for (unsigned i=0;i<n;++i){
+	int j=dichotomy(tableau,giac_rand(contextptr));
+	if (j>=vs)
+	  j=vs;
+	if (val.empty())
+	  ++eff[j];
+	else 
+	  res.push_back(val[j]);
+      }
+      if (val.empty())
+	vector_int2vecteur(eff,res);
+      return;
+    }
     if ( (f.is_symb_of_sommet(at_binomial) || f.is_symb_of_sommet(at_BINOMIAL))
 	 && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
       gen N=f._SYMBptr->feuille._VECTptr->front();
@@ -7392,16 +7442,24 @@ namespace giac {
 	    }
 	    return m;
 	  }
-	  if (loi.type==_FUNC)
-	    loi=loi(e._VECTptr->back(),contextptr);
+	  if (loi.type==_FUNC){
+	    if (loi==at_multinomial)
+	      loi=symbolic(at_multinomial,e._VECTptr->back());
+	    else
+	      loi=loi(e._VECTptr->back(),contextptr);
+	  }
 	  else
 	    loi=symb_of(loi,e._VECTptr->back());
 	  return mranm(n,m,loi,contextptr);
 	}
 	if (e._VECTptr->size()>4){
 	  gen loi=(*e._VECTptr)[2];
-	  if (loi.type==_FUNC)
-	    loi=loi(gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT),contextptr);
+	  if (loi.type==_FUNC){
+	    if (loi==at_multinomial)
+	      loi=symbolic(at_multinomial,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
+	    else
+	      loi=loi(gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT),contextptr);
+	  }
 	  else
 	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
 	  return mranm(n,m,loi,contextptr);
@@ -7449,14 +7507,22 @@ namespace giac {
 	    }
 	    return res;
 	  } 
-	  if (loi.type==_FUNC)
-	    loi=loi(e._VECTptr->back(),contextptr);
+	  if (loi.type==_FUNC){
+	    if (loi==at_multinomial)
+	      loi=symbolic(at_multinomial,e._VECTptr->back());
+	    else
+	      loi=loi(e._VECTptr->back(),contextptr);
+	  }
 	  else
 	    loi=symb_of(loi,e._VECTptr->back());
 	}
 	if (e._VECTptr->size()>3){
-	  if (loi.type==_FUNC)
-	    loi=loi(gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT),contextptr);
+	  if (loi.type==_FUNC){
+	    if (loi==at_multinomial)
+	      loi=symbolic(at_multinomial,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
+	    else
+	      loi=loi(gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT),contextptr);
+	  }
 	  else
 	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
 	}

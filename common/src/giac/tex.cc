@@ -699,7 +699,7 @@ namespace giac {
   // This function is an adaptation of drawing.c from eukleides by C. Obrecht
   // v is the output history
   // output is written to file or to sres if file==NULL
-  static bool pnt2tex(FILE * file,const vecteur & v,double xmin,double ymin,double xmax,double ymax,double & xd,double & yd,bool & drawlegende, int & labelpos,int & couleur,string * sres,GIAC_CONTEXT){
+  static bool pnt2tex_(FILE * file,const vecteur & v,double xmin,double ymin,double xmax,double ymax,double & xd,double & yd,bool & drawlegende, int & labelpos,int & couleur,string * sres,GIAC_CONTEXT){
     drawlegende=true;
     int s=v.size();
     if (!s)
@@ -878,6 +878,13 @@ namespace giac {
     if (sres)
       *sres += printstring;
     return true;
+  }
+
+  static bool pnt2tex(FILE * file,const vecteur & v,double xmin,double ymin,double xmax,double ymax,double & xd,double & yd,bool & drawlegende, int & labelpos,int & couleur,string * sres,GIAC_CONTEXT){
+    specialtexprint_double(true,contextptr);
+    bool b=pnt2tex_(file,v,xmin,ymin,xmax,ymax,xd,yd,drawlegende,labelpos,couleur,sres,contextptr);
+    specialtexprint_double(false,contextptr);
+    return b;
   }
 
   static void invectpnt2tex(FILE * file,const gen & g,double X1,double X2,double Y1,double Y2,double xunit,double yunit,string * resptr,GIAC_CONTEXT){
@@ -1090,7 +1097,7 @@ namespace giac {
 	  return opstring+gen2tex(feu,contextptr) ;
 	return opstring+string("\\left(") + gen2tex(feu,contextptr) +string("\\right)");
       }
-      if (mys.sommet==at_inv && (feu.is_symb_of_sommet(at_prod) || feu.type<=_IDNT) ){
+      if (mys.sommet==at_inv && (feu.is_symb_of_sommet(at_prod) || feu.is_symb_of_sommet(at_plus) || feu.type<=_IDNT) ){
 	return string("\\frac{1}{") + gen2tex(feu,contextptr) +string("}");
       }
       return opstring + "\\left(" + gen2tex(feu,contextptr) +"\\right)" ;

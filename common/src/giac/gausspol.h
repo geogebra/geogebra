@@ -551,7 +551,7 @@ namespace giac {
       convert_from<T,U>(it,itend,deg,jt,0); 
       return;
     }
-#ifdef HAVE_PTHREAD_H
+#if defined(HAVE_PTHREAD_H) && !defined(EMCC)
     unsigned taille=itend-it;
     if (nthreads>1 
 	&& int(taille)>nthreads*1000

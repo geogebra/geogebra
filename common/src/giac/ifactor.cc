@@ -3437,6 +3437,8 @@ namespace giac {
       }
     }
     gen a=pollardsieve(n,1,do_pollard,contextptr);
+    if (a==-1)
+      return a;
     if (ctrl_c || interrupted)
       return gensizeerr("Interrupted");
     gen ba=n/a;
