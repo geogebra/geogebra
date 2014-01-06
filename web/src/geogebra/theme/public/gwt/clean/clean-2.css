@@ -2348,8 +2348,8 @@ label {
 	border: 1px solid black;
 }
 
-.ProbCalcPanel .ProbabilityTableW tr:hover {
-	background:#ebeff9;
+.ProbCalcPanel .ProbabilityTableW tr:hover, .ProbCalcPanel .ProbabilityTableW tr.selected  {
+	background: #ebeff9;
 }
 
 .lblMeanSigma {

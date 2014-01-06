@@ -778,7 +778,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		
 		@Override
         public void onResize() { 
-			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 20;
+			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 30;
 			if (width > 0) { 
 				plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 				plotPanel.repaintView();

@@ -264,8 +264,12 @@ public class StatTableW extends FlowPanel {
 
 		private void clearSelection(Cell c) {
 	        for (int i = 0; i < this.getRowCount(); i++) {
-	        	if (c.getRowIndex() != i) {
-	        		getRowFormatter().getElement(i).removeClassName("selected");
+	        	if (c != null) {
+	        		if (c.getRowIndex() != i) {
+	        			getRowFormatter().getElement(i).removeClassName("selected");
+	        		}
+	        	} else {
+        			getRowFormatter().getElement(i).removeClassName("selected");
 	        	}
 	        }
         }
@@ -294,9 +298,24 @@ public class StatTableW extends FlowPanel {
 	        return this.getText(i, j);
         }
 
-		public void changeSelection(int row) {
-	        // TODO Auto-generated method stub
-	        
+		public void changeSelection(int row, boolean toggle, boolean extend) {
+		   int start = -1;
+	       if (!toggle && !extend) {
+	    	   clearSelection(null);
+	    	   this.getRowFormatter().getElement(row).addClassName("selected");
+	       } else if (!toggle && extend) {
+	    	   for (int i = 0; i < this.getRowCount(); i++) {
+	    		   if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= row) {
+	    			   start = i;
+	    			   break;
+	    		   }
+	    	   }
+	    	   if (start > -1) {
+	    		   for (int i = start + 1; i<= row; i++) {
+	    			   this.getRowFormatter().getElement(i).addClassName("selected");
+	    		   }
+	    	   }
+	       }
         }
 		
 	}

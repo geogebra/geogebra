@@ -95,7 +95,32 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	
 	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue) {
-		// TODO Auto-generated method stub
+		//if(!probManager.isDiscrete(distType)) 
+				//	return;
+
+				//try {
+					//statTable.getTable().getSelectionModel().removeListSelectionListener(this);
+
+					int lowIndex = lowValue - xMin;
+					if(lowIndex < 0) lowIndex = 0;
+					int highIndex = highValue - xMin;
+					//System.out.println("-------------");
+					//System.out.println(lowIndex + " , " + highIndex);
+					
+					if(isCumulative()){
+						statTable.getTable().changeSelection(highIndex,false,false);
+					}
+					else
+					{
+						statTable.getTable().changeSelection(lowIndex,false,false);
+						statTable.getTable().changeSelection(highIndex,false,true);
+					}
+					//wrappedPanel.repaint();
+					//statTable.getTable().getSelectionModel().addListSelectionListener(this);
+				//} catch (Exception e) {
+					// TODO Auto-generated catch block
+				//	e.printStackTrace();
+				//}
 
 	}
 	
@@ -139,13 +164,13 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			//table.getSelectionModel().removeListSelectionListener(this);
 			if(isCumulative()){
 				// single row selected
-				table.changeSelection(selRow[selRow.length-1]);
+				table.changeSelection(selRow[selRow.length-1], false, false);
 			}
 			else
 			{
 				// select multiple rows: first up to selected
-				table.changeSelection(0);
-				table.changeSelection(selRow[selRow.length-1]);
+				table.changeSelection(0, false, false);
+				table.changeSelection(selRow[selRow.length-1], false, true);
 				//table.scrollRectToVisible(table.getCellRect(selRow[selRow.length-1], 0, true));
 			}
 			//table.getSelectionModel().addListSelectionListener(this);
@@ -160,8 +185,8 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			((ProbabilityCalculatorViewW) probCalc).setInterval(low,high);
 
 			//table.getSelectionModel().removeListSelectionListener(this);
-			table.changeSelection(maxRow);
-			table.changeSelection(selRow[0]);
+			table.changeSelection(maxRow, false, false);
+			table.changeSelection(selRow[0], false, true);
 			//table.scrollRectToVisible(table.getCellRect(selRow[0], 0, true));
 			//table.getSelectionModel().addListSelectionListener(this);
 		}
