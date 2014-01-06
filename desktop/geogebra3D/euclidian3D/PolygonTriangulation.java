@@ -101,11 +101,11 @@ public class PolygonTriangulation {
 				for (Segment seg : toLeft){
 					seg.rightPoint = p2;
 					p2.toLeft.add(seg);
-					
+					/*
 					if (comparedSameOrientationSegment!=null){
 						App.debug(seg+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
 					}
-					
+					*/
 				}
 			}
 
@@ -384,6 +384,7 @@ public class PolygonTriangulation {
 					removedPoints++;
 					point = nextPoint;
 				}else{
+					// next point is in same direction as old point
 					// remove point
 					prevPoint.next = nextPoint;
 					nextPoint.prev = prevPoint;
