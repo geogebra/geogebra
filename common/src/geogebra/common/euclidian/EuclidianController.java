@@ -5638,7 +5638,7 @@ public abstract class EuclidianController {
 	}
 
 	
-	public final boolean processMode(Hits processHits, boolean isControlDown, MyCallbackObject callback){
+	public final boolean processMode(Hits processHits, boolean isControlDown, final MyCallbackObject callback){
 		Hits hits = processHits;
 		boolean changedKernel = false;
 	
@@ -5646,7 +5646,21 @@ public abstract class EuclidianController {
 			hits = new Hits();
 		}
 		
-		changedKernel = switchModeForProcessMode(hits, isControlDown, callback);
+		MyCallbackObject callback2;
+		if (callback == null){
+			callback2=null;
+		} else {
+			callback2 = new MyCallbackObject(){
+	
+				@Override
+				public void process(Object ret) {
+					callback.process(ret);
+					endOfProcessMode(ret.equals("true"));
+				}
+			};
+		}
+		
+		changedKernel = switchModeForProcessMode(hits, isControlDown, callback2);
 		
 		if (callback == null) endOfProcessMode(changedKernel);
 	
