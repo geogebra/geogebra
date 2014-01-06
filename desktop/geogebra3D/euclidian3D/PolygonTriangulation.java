@@ -167,8 +167,8 @@ public class PolygonTriangulation {
 			this.leftPoint = leftPoint;
 			this.rightPoint = rightPoint;
 			
-			// first usable from left or from right
-			usable = 2;
+			// first usable once
+			usable = 1;
 		}
 
 
@@ -207,6 +207,9 @@ public class PolygonTriangulation {
 		 * add this segment to left and right points
 		 */
 		public void addToPoints(){
+			if (leftPoint == rightPoint){
+				App.printStacktrace("ICI : "+leftPoint.name);
+			}
 			leftPoint.addSegmentToRight(this);
 			rightPoint.addSegmentToLeft(this);
 		}
@@ -443,11 +446,29 @@ public class PolygonTriangulation {
 		if (comparedSameOrientationSegment!=null){
 			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
 			if (comparedSameOrientationValue < 0){
-				cut(comparedSameOrientationSegment, segment2.rightPoint);
+				//remove segment2 and segment2 part from comparedSameOrientationSegment		
+				Segment s = comparedSameOrientationSegment;
+				comparedSameOrientationSegment = null;				
+				s.removeFromPoints();
+				s.leftPoint = segment2.rightPoint;
+				segment2.removeFromPoints();
+				comparedSameOrientationSegment = null;
+				s.addToPoints();
+				cutAfterComparison(s);
 			}else if (comparedSameOrientationValue > 0){
-				cut(segment2, comparedSameOrientationSegment.rightPoint);
+				//remove comparedSameOrientationSegment and comparedSameOrientationSegment part from segment2
+				Segment s = comparedSameOrientationSegment;
+				comparedSameOrientationSegment = null;	
+				segment2.removeFromPoints();
+				segment2.leftPoint = s.rightPoint;
+				s.removeFromPoints();							
+				comparedSameOrientationSegment = null;
+				segment2.addToPoints();
+				cutAfterComparison(segment2);
 			}else{
-				comparedSameOrientationSegment.usable += segment2.usable;
+				// same segment : can remove it
+				comparedSameOrientationSegment = null;
+				segment2.removeFromPoints();
 			}
 		}
 	}
@@ -509,6 +530,7 @@ public class PolygonTriangulation {
 			
 			// remove to-left segments
 			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
+				App.error(pt.toLeft.first()+"/"+pt.toLeft.last());
 				above = pt.toLeft.first().above;
 				below = pt.toLeft.last().below;
 				below.above = above;
@@ -602,7 +624,7 @@ public class PolygonTriangulation {
 
 		
 
-		if (1==1){ return; }
+		//if (1==1){ return; }
 		
 		App.debug("=========== non self-intersecting polygons ==============");
 
@@ -627,7 +649,7 @@ public class PolygonTriangulation {
 					}else{
 						next = nextPoint.toLeft.lower(segment);
 						if (next == null){
-							if (nextPoint.toRight != null){
+							if (nextPoint.toRight != null && !nextPoint.toRight.isEmpty()){
 								next = nextPoint.toRight.last();
 							}
 							if (next == null){ // no to-right segment
@@ -646,7 +668,7 @@ public class PolygonTriangulation {
 					}else{
 						next = nextPoint.toRight.lower(segment);
 						if (next == null){
-							if (nextPoint.toLeft != null){
+							if (nextPoint.toLeft != null && !nextPoint.toLeft.isEmpty()){
 								next = nextPoint.toLeft.last();
 							}
 							if (next == null){ // no to-left segment
@@ -660,8 +682,11 @@ public class PolygonTriangulation {
 					}
 				}
 
-				// remove this segment from left and right points
-				segment.removeFromPoints();			
+				// remove this segment from left and right points if not usable anymore
+				segment.usable -- ;
+				if (segment.usable == 0){
+					segment.removeFromPoints();	
+				}
 				segment = next;
 
 				if (currentPoint.hasNoSegment()){
@@ -719,7 +744,7 @@ public class PolygonTriangulation {
 			// create intersection point
 			Point pt = new Point(x/z, y/z);
 
-			/*
+			
 			// check intersection point is inside segments		
 			int al, ar, bl, br;
 			if ((al = pt.compareToOnly(a.leftPoint)) < 0 
@@ -730,6 +755,7 @@ public class PolygonTriangulation {
 				
 				
 			}else if(al == 0){ // happen only after some aligned points and a.leftPoint is current point in sweep line
+				/*
 				pt = a.leftPoint;
 				App.debug("al : "+pt.name);
 				
@@ -742,11 +768,14 @@ public class PolygonTriangulation {
 				
 				// add segment b to new left point
 				pt.addSegmentToRight(b);
-				
+				*/
 			}else if(ar == 0){
 				pt = a.rightPoint;
-				App.debug("ar : "+pt.name);
-								
+				App.error("ar : "+pt.name);
+				
+				cut(b,pt);
+				
+				/*
 				// remove old segments from old right point
 				b.rightPoint.removeSegmentToLeft(b);
 
@@ -760,9 +789,10 @@ public class PolygonTriangulation {
 
 				// set old segment right point
 				b.rightPoint = pt;
-				
+				*/
 				
 			}else if(bl == 0){ // happen only after some aligned points and b.leftPoint is current point in sweep line
+				/*
 				pt = b.leftPoint;
 				App.debug("bl : "+pt.name+" "+a+"/"+b);
 				
@@ -776,11 +806,15 @@ public class PolygonTriangulation {
 				// add segment a to new left point
 				pt.addSegmentToRight(a);
 				
-				
+				*/
 			}else if(br == 0){
 				pt = b.rightPoint;
-				App.debug("br : "+pt.name);
-								
+				App.error("br : "+pt.name);
+					
+				
+				cut(a,pt);
+				
+				/*
 				// remove old segments from old right point
 				a.rightPoint.removeSegmentToLeft(a);
 
@@ -794,15 +828,17 @@ public class PolygonTriangulation {
 
 				// set old segment right point
 				a.rightPoint = pt;
-				
-			}else{ // point strictly inside the segments 	*/
+				*/
+			}else{ // point strictly inside the segments 	
 			
-				
+			/*
 			// check if point is strictly inside the segments 
 			if (pt.compareToOnly(a.leftPoint) > 0 
 					&& pt.compareToOnly(a.rightPoint) < 0 
 					&& pt.compareToOnly(b.leftPoint) > 0 
 					&& pt.compareToOnly(b.rightPoint) < 0){
+				
+			*/
 				pt.id = maxPointIndex;
 				pt.name = Integer.toString(pt.id);
 				maxPointIndex++;
@@ -818,6 +854,8 @@ public class PolygonTriangulation {
 				Segment b2 = new Segment(b.orientation, pt, b.rightPoint);
 				a2.addToPoints();
 				b2.addToPoints();
+				a2.usable = a.usable;
+				b2.usable = b.usable;
 
 				// set old segments right point
 				a.rightPoint = pt;
