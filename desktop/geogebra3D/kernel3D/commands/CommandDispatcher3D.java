@@ -87,9 +87,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case UnitVector:
 				return new CmdUnitVector3D(kernel);
 				
-			case Orientation:
-				return new CmdOrientation(kernel);
-				
 				
 			case Curve:	
 			case CurveCartesian:

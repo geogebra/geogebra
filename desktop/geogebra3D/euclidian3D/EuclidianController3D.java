@@ -45,7 +45,7 @@ import geogebra3D.kernel3D.AlgoDependentVector3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
-import geogebra3D.kernel3D.AlgoOrientation;
+import geogebra3D.kernel3D.AlgoUnitVector3D;
 import geogebra3D.kernel3D.GeoConic3D;
 import geogebra3D.kernel3D.GeoConicSection;
 import geogebra3D.kernel3D.GeoCoordSys1D;
@@ -1138,7 +1138,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			if(v.dotproduct(view3D.getViewDirection()) > 0){ // reverse direction
 				MyDouble a = new MyDouble(kernel);
 				a.set(-1);
-				GeoVector3D orientation = (new AlgoOrientation(kernel.getConstruction(), direction)).getVector();
+				GeoVector3D orientation = (GeoVector3D) (new AlgoUnitVector3D(kernel.getConstruction(), direction)).getVector();
 				ExpressionNode en = new ExpressionNode(kernel, a, Operation.MULTIPLY, orientation);
 				direction = new AlgoDependentVector3D(kernel.getConstruction(), en).getVector3D();				
 			}

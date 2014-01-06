@@ -40,7 +40,7 @@ public abstract class AlgoUnitVector extends AlgoElement {
     protected double length;
         
     /** Creates new AlgoOrthoVectorVector */
-    public AlgoUnitVector(Construction cons, String label,GeoElement inputGeo) {        
+    public AlgoUnitVector(Construction cons, GeoElement inputGeo) {        
         super(cons);    
         
         this.inputGeo = inputGeo;
@@ -55,7 +55,12 @@ public abstract class AlgoUnitVector extends AlgoElement {
         
         setInputOutput(); // for AlgoElement
         
-        compute();      
+        compute();    
+    }
+    
+    public AlgoUnitVector(Construction cons, String label,GeoElement inputGeo) {        
+
+    	this(cons, inputGeo);
         u.setLabel(label);
     } 
     

@@ -45,12 +45,23 @@ public class CmdUnitVector extends CommandProcessor {
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
 				return ret;
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				return processNotLineNotVector(c, arg[0]);
 			}
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * process command in case arg is not a line nor a vector
+	 * @param c
+	 * @param arg
+	 * @return result
+	 * @throws MyError
+	 */
+	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg) throws MyError {
+		throw argErr(app, c.getName(), arg);
 	}
 	
 	/**
