@@ -911,4 +911,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    doTextFieldActionPerformed(source);
     }
 
+	public void setInterval(double low, double high) {
+		this.low = low;
+		this.high = high;
+		fldLow.setText("" + low);
+		fldHigh.setText("" + high);
+		setXAxisPoints();
+		updateIntervalProbability();
+		updateGUI();
+	}
 }

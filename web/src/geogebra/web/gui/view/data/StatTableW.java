@@ -7,6 +7,7 @@ import geogebra.html5.awt.GPointW;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -204,7 +205,13 @@ public class StatTableW extends FlowPanel {
 	}
 
 	
-	private class MyTable extends Grid /*do it with CellTable later*/ {
+	/**
+	 * @author gabor
+	 * 
+	 * Table for StatTable
+	 *
+	 */
+	public class MyTable extends Grid /*do it with CellTable later*/ {
 
 		private boolean allowCellEdith;
 		private Object comboBoxEditorMap;
@@ -238,6 +245,59 @@ public class StatTableW extends FlowPanel {
 			//return comboBoxEditorMap.keySet().contains(cell);
 			return false;
 		}
+
+		public void handleSelection(ClickEvent event) {
+	       Cell c = this.getCellForEvent(event);
+	       if (c.getElement().getParentElement().hasClassName("selected")) {
+	    	   c.getElement().getParentElement().removeClassName("selected");
+	       } else {
+	    	   c.getElement().getParentElement().addClassName("selected");
+	       }
+	       //only subsequent selections allowed
+	       if (!(c.getElement().getParentElement().getPreviousSiblingElement() != null &&
+	    		   c.getElement().getParentElement().getPreviousSiblingElement().hasClassName("selected") ||
+	    		   c.getElement().getParentElement().getNextSiblingElement() != null &&
+	    		   c.getElement().getParentElement().getNextSiblingElement().hasClassName("selected"))) {
+	    			   clearSelection(c);
+	    		   }
+        }
+
+		private void clearSelection(Cell c) {
+	        for (int i = 0; i < this.getRowCount(); i++) {
+	        	if (c.getRowIndex() != i) {
+	        		getRowFormatter().getElement(i).removeClassName("selected");
+	        	}
+	        }
+        }
+
+		public int[] getSelectedRows() {
+			int start = 0;
+			int end = 0;
+			int [] result;
+	        for (int i = 0; i < this.getRowCount(); i++) {
+	        	if (this.getRowFormatter().getElement(i).hasClassName("selected")) {
+	        		if (end == 0) {
+	        			start = i;
+	        		}
+	        		end++;
+	        	}
+	        }
+	        result = new int [end];
+	        for (int i = 0; i < end; i++) {
+	        	result[i] = start + i;
+	        }
+	        
+	       return result;
+        }
+
+		public String getValueAt(int i, int j) {
+	        return this.getText(i, j);
+        }
+
+		public void changeSelection(int row) {
+	        // TODO Auto-generated method stub
+	        
+        }
 		
 	}
 	
@@ -265,7 +325,7 @@ public class StatTableW extends FlowPanel {
 
 
 
-	public Grid getTable() {
+	public MyTable getTable() {
 	    return myTable;
     }
 
