@@ -90,6 +90,7 @@ public class PolygonTriangulation {
 				for (Segment seg : toRight){
 					seg.leftPoint = p2;
 					p2.toRight.add(seg);
+					cutAfterComparison(seg);
 				}
 			}
 
@@ -100,6 +101,11 @@ public class PolygonTriangulation {
 				for (Segment seg : toLeft){
 					seg.rightPoint = p2;
 					p2.toLeft.add(seg);
+					
+					if (comparedSameOrientationSegment!=null){
+						App.debug(seg+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
+					}
+					
 				}
 			}
 
@@ -131,8 +137,8 @@ public class PolygonTriangulation {
 		}
 	}
 	
-	private Segment comparedSameOrientationSegment;
-	private int comparedSameOrientationValue;
+	protected Segment comparedSameOrientationSegment;
+	protected int comparedSameOrientationValue;
 
 	
 	private class Segment implements Comparable<Segment>{
@@ -237,9 +243,6 @@ public class PolygonTriangulation {
 						
 			
 			// same orientation : check next point id
-			
-			
-			
 			if (rightPoint.id < seg.rightPoint.id){
 				return -1;
 			}
@@ -357,6 +360,9 @@ public class PolygonTriangulation {
 				if(Kernel.isEqual(nextPoint.x, prevPoint.x) && Kernel.isEqual(nextPoint.y, prevPoint.y)){
 					// same point
 					App.debug(prevPoint.name+"=="+nextPoint.name);
+					// set correct orientation
+					//App.error(prevPoint.orientationToNext*180/Math.PI+"/"+nextPoint.orientationToNext*180/Math.PI);
+					prevPoint.orientationToNext = nextPoint.orientationToNext;
 					// go back
 					point = prevPoint; 
 					prevPoint = prevPoint.prev;
@@ -428,6 +434,11 @@ public class PolygonTriangulation {
 		segment.addToPoints();
 		comparedSameOrientationSegment = null;
 		segment2.addToPoints();
+		cutAfterComparison(segment2);
+	}
+	
+	
+	protected void cutAfterComparison(Segment segment2){
 		if (comparedSameOrientationSegment!=null){
 			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
 			if (comparedSameOrientationValue < 0){
@@ -491,7 +502,7 @@ public class PolygonTriangulation {
 			Segment above = null;
 			Segment below = null;
 
-			//App.debug(s);
+			App.debug(s);
 			
 
 			
@@ -830,6 +841,7 @@ public class PolygonTriangulation {
 
 	final private void createSegment(Point point){
 		
+		App.debug(point.name+", "+((int) (point.orientationToNext*180/Math.PI))+"°, "+point.next.name);
 		Segment segment;
 		if (Kernel.isGreater(point.orientationToNext, -Math.PI/2) && Kernel.isGreaterEqual(Math.PI/2,point.orientationToNext)){ // point is left point
 			segment = new Segment(point.orientationToNext, point, point.next);
