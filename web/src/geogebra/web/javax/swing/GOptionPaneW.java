@@ -2,9 +2,9 @@ package geogebra.web.javax.swing;
 
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.helper.AsyncOperation;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;

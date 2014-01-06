@@ -1,4 +1,4 @@
-package geogebra.web.helper;
+package geogebra.common.util;
 
 public interface AsyncOperation {
 	

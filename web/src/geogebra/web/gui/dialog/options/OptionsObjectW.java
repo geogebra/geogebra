@@ -68,6 +68,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
@@ -91,7 +92,6 @@ import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.helper.AsyncOperation;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
