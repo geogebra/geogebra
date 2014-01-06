@@ -5655,19 +5655,19 @@ public abstract class EuclidianController {
 				@Override
 				public void callback(Object ret) {
 					callback.callback(ret);
-					endOfProcessMode(ret.equals("true"));
+					updatePreview();
 				}
 			};
 		}
 		
 		changedKernel = switchModeForProcessMode(hits, isControlDown, callback2);
 		
-		if (callback == null) endOfProcessMode(changedKernel);
+		if (callback == null) updatePreview();
 	
 		return changedKernel;
 	}
 	
-	public void endOfProcessMode(boolean changedKernel){
+	public void updatePreview(){
 		// update preview
 		if (view.getPreviewDrawable() != null) {
 			view.updatePreviewableForProcessMode();
@@ -5681,7 +5681,6 @@ public abstract class EuclidianController {
 			}
 			view.repaintView();
 		}
-		if (changedKernel) app.storeUndoInfo();	
 	}
 
 	/**
