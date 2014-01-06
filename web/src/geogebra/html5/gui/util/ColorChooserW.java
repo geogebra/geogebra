@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,6 +29,8 @@ public class ColorChooserW extends FlowPanel {
 	public static final GColor DEFAULT_COLOR = new GColorW(0);
 	public static final GColor BOX_COLOR = new GColorW(0);
 	public static final GColor SELECTED_BOX_COLOR = new GColorW(255, 0, 0);
+	public static final String TITLE_FONT = "14pt geogebra-sans-serif";
+	public static final int TITLE_HEIGHT = 20;
 	private Canvas canvas;
 	private Context2d ctx;
 	private GDimensionW colorIconSize;
@@ -41,8 +44,10 @@ public class ColorChooserW extends FlowPanel {
 	private class ColorTable {
 		private int startX;
 		private int startY;
+		private int tableOffsetY;
 		private int maxCol;
 		private int maxRow;
+		private String title;
 		private List<GColor> palette;
 		private int width;
 		private int height;
@@ -50,16 +55,22 @@ public class ColorChooserW extends FlowPanel {
 		private int checkX;
 		private int checkY;
 		private boolean checkNeeded;
+		private double titleOffsetX;
+		private double titleOffsetY;
+		private int currentCol;
+		private int currentRow;
 		
 		public ColorTable(int x, int y, int col, int row, List<Integer> data)
 		{
 			startX = x;
 			startY = y;
+			tableOffsetY = 0;
 			maxCol = col;
 			maxRow = row;
-			
+			this.title = "";
 			palette = new ArrayList<GColor>();
-			
+			currentCol = -1;
+			currentRow = -1;
 			if (data != null) {
 				for (Integer code: data) {
 					palette.add(new GColorW(code));
@@ -74,13 +85,39 @@ public class ColorChooserW extends FlowPanel {
 			checkNeeded = false;
 		}
 		
+		protected void drawTitle() {
+			if (title.isEmpty()) {
+				return;
+			}
+			
+			ctx.setTextBaseline(TextBaseline.TOP);
+			ctx.clearRect(0, 0, width, TITLE_HEIGHT);
+			ctx.setFont(TITLE_FONT);
+			ctx.fillText(title, titleOffsetX, titleOffsetY);
+			tableOffsetY = TITLE_HEIGHT;
+			
+		}
+		protected void drawRect(int col, int row, GColor color) {
+			ctx.save();
+			//ctx.translate((double)startX, (double)startY);
+
+			int h = colorIconSize.getHeight();
+			int w = colorIconSize.getWidth(); 
+			int x = padding + (col * w);
+			int y = tableOffsetY + padding + (row * h);
+			ctx.setStrokeStyle(StringUtil.toHtmlColor(color));
+			ctx.strokeRect(x + padding , y + padding, w - padding, h - padding);
+			ctx.restore();
+		}
+		
 		public void draw() {
 			ctx.save();
 			ctx.scale(1, 1);
 			ctx.setLineWidth(0.5);
 			ctx.translate((double)startX, (double)startY);
+			drawTitle();
 			int x = padding;
-			int y = padding;
+			int y = tableOffsetY + padding;
 			int h = colorIconSize.getHeight();
 			int w = colorIconSize.getWidth(); 
 			for (int row = 0; row < maxRow; row++) {
@@ -89,26 +126,30 @@ public class ColorChooserW extends FlowPanel {
 					ctx.setFillStyle(StringUtil.toHtmlColor(color));
 					ctx.fillRect(x + padding , y + padding, w - padding, h - padding);	
 					
-					ctx.setFillStyle(StringUtil.toHtmlColor(colorEquals(color, selectedColor) ? BOX_COLOR:
-						SELECTED_BOX_COLOR));
-					ctx.rect(x + padding , y + padding, w - padding, h - padding);
 					if (checkNeeded && colorEquals(color, selectedColor)) { 
 						ctx.drawImage(checkMark, x + checkX, y + checkY);
+						ctx.setStrokeStyle(StringUtil.toHtmlColor(SELECTED_BOX_COLOR));
+						ctx.strokeRect(x + padding , y + padding, w - padding, h - padding);
 					}
+					
 					x += w ;
+					drawRect(col, row, BOX_COLOR);
 				}	
 				x = padding;
 				y += h;
 			}
 		
-			ctx.setLineWidth(1);
-		//	ctx.rect(0, 0, getWidth(), getHeight());
-			ctx.stroke();
 			ctx.restore();
 			
 		}
-		
-
+			
+		public void setFocus(int x, int y) {
+			if (currentCol != -1 && currentRow != -1) {
+				drawRect(currentCol, currentRow, BOX_COLOR);
+			}
+			
+			int col = (x - startX - padding);
+		}
 		private final GColor getColorFromPalette(int col, int row) {
 			int idx = row * maxCol + col;
 			return (palette != null && idx < palette.size() ? palette.get(idx) : DEFAULT_COLOR);
@@ -132,12 +173,12 @@ public class ColorChooserW extends FlowPanel {
 
 		public GColor getColorAt(int x, int y) {
 	        if (x < startX || x > (startX + width) ||
-	        		y < startY || y > (startY + height)	) {
+	        		y < startY + tableOffsetY || y > (startY + height + tableOffsetY)	) {
 	        	return null;
 	        }
 	        
-	        int col = (x - startX + padding) / (colorIconSize.getWidth() + padding);
-	        int row = (y - startY + padding) / (colorIconSize.getHeight() + padding);
+	        int col = (x - startX) / (colorIconSize.getWidth());
+	        int row = (y - startY - tableOffsetY) / (colorIconSize.getHeight());
 	        App.debug("HIT! " + col + ", " + row);
 	        return getColorFromPalette(col, row);
  
@@ -153,6 +194,17 @@ public class ColorChooserW extends FlowPanel {
 
 		public void setCheckNeeded(boolean checkNeeded) {
 	        this.checkNeeded = checkNeeded;
+        }
+
+		public String getTitle() {
+	        return title;
+        }
+
+		public void setTitle(String title, int offsetX, int offsetY) {
+	        this.title = title;
+	        titleOffsetX = offsetX;
+	        titleOffsetY = offsetY;
+	        drawTitle();
         }
 
 	}
@@ -260,7 +312,12 @@ public class ColorChooserW extends FlowPanel {
         selectedColor = color;
         update();
 	}	
-
+	
+	public void setTitles(String recentTitle, String otherTitle) {
+		leftTable.setTitle("", 0, 0);
+		recentTable.setTitle(recentTitle, 0, 0);
+		otherTable.setTitle(otherTitle, 0, 0);
+	}
 	public void addChangeHandler(ColorChangeHandler changeHandler) {
 	    this.changeHandler = changeHandler;
     }

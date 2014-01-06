@@ -598,6 +598,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		@Override
 		public void setLabels() {
 			previewPanel.setLabels();
+			colorChooserW.setTitles(localize("Recent"), localize("Other"));
 		}
 
 	}
