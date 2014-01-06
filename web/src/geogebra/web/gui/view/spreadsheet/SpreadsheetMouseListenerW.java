@@ -312,8 +312,11 @@ public class SpreadsheetMouseListenerW implements
 						// almost like MyCellEditorW.stopCellEditing(int,int)
 					}
 				} else if (table.isOverDot && table.showCanDragBlueDot()) {
+					App.debug("table.isOverDot = OK");
 					table.isDragingDot = true;
 					eConsumed = true;
+				} else {
+					App.debug("table.isOverDot = "+table.isOverDot);
 				}
 			}
 	
@@ -741,11 +744,19 @@ public class SpreadsheetMouseListenerW implements
 					int s = MyTableW.DOT_SIZE + 2;
 					GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
 					boolean overDot = dotRect.contains(e.getClientX(), e.getClientY());
-					if (table.isOverDot != overDot && table.showCanDragBlueDot()) {
-						// double-check: if there is no dot, there is no over
+					if (table.isOverDot != overDot) {
+						// do not add && to the if above, because we need this to run
+						// if overDot is false or true, too
 						table.isOverDot = overDot;
-						//TODO//setTableCursor();
-						table.repaint();
+
+						if (table.showCanDragBlueDot()) {
+							// now double-check can be added here: if there is no dot, there is no over
+							//TODO//setTableCursor();
+
+							// onMouseMove: too frequent
+							//App.debug("table.isOverDot = "+overDot);
+							table.repaint();
+						}
 					}
 				}
 	
