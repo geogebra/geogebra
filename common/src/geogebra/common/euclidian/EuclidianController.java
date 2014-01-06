@@ -108,7 +108,7 @@ import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.MyCallbackObject;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
@@ -5133,7 +5133,7 @@ public abstract class EuclidianController {
 	 * @param hits
 	 * @return
 	 */
-	protected final void macro(Hits hits, final MyCallbackObject callback2) {
+	protected final void macro(Hits hits, final AsyncOperation callback2) {
 		// try to get next needed type of macroInput
 		index = selGeos();
 	
@@ -5145,7 +5145,7 @@ public abstract class EuclidianController {
 	
 		// we're done if in selection preview
 		if (selectionPreview) {
-			if (callback2 != null) callback2.process(false);
+			if (callback2 != null) callback2.callback(false);
 			return;
 		}
 	
@@ -5167,14 +5167,14 @@ public abstract class EuclidianController {
 				index--;
 			}
 			
-			MyCallbackObject callback3 = new MyCallbackObject(){
+			AsyncOperation callback3 = new AsyncOperation(){
 
 				@Override
-				public void process(Object num) {
+				public void callback(Object num) {
 					if (num == null) {
 						// no success: reset mode
 						view.resetMode();
-						if (callback2 != null) callback2.process(false);
+						if (callback2 != null) callback2.callback(false);
 						return;
 					}
 					// great, we got our number
@@ -5202,7 +5202,7 @@ public abstract class EuclidianController {
 	}
 
 	
-	public void readNumberOrAngleIfNeeded(MyCallbackObject callback3){
+	public void readNumberOrAngleIfNeeded(AsyncOperation callback3){
 		if (++index < macroInput.length) {
 			
 			// maybe we need a number
@@ -5225,16 +5225,16 @@ public abstract class EuclidianController {
 
 	}
 	
-	public void macroProcess(MyCallbackObject callback2){
+	public void macroProcess(AsyncOperation callback2){
 		// do we have everything we need?
 		if (selGeos() == macroInput.length) {
 			checkZooming(); 
 			
 			kernel.useMacro(null, macro, getSelectedGeos());
-			if (callback2 != null) callback2.process(true);
+			if (callback2 != null) callback2.callback(true);
 			return;
 		}
-		if (callback2 != null) callback2.process(false);		
+		if (callback2 != null) callback2.callback(false);		
 	}
 	
 	protected final boolean button(boolean textfield) {
@@ -5245,7 +5245,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 	
-	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown, final MyCallbackObject callback) {
+	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown, final AsyncOperation callback) {
 	
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
@@ -5521,11 +5521,11 @@ public abstract class EuclidianController {
 			//another callback object in macro, which we got
 			//in parameter.
 			
-			MyCallbackObject callback2 = new MyCallbackObject(){
+			AsyncOperation callback2 = new AsyncOperation(){
 				@Override
-				public void process(Object ret) {
+				public void callback(Object ret) {
 					memorizeJustCreatedGeosAfterProcessMode(null);
-					if (callback != null) callback.process(ret);
+					if (callback != null) callback.callback(ret);
 				}
 			};
 			
@@ -5578,7 +5578,7 @@ public abstract class EuclidianController {
 	
 		memorizeJustCreatedGeosAfterProcessMode(ret);
 	
-		if (callback != null) callback.process(changedKernel || (ret!=null));
+		if (callback != null) callback.callback(changedKernel || (ret!=null));
 		
 		if (!changedKernel) {
 			return ret != null;
@@ -5638,7 +5638,7 @@ public abstract class EuclidianController {
 	}
 
 	
-	public final boolean processMode(Hits processHits, boolean isControlDown, final MyCallbackObject callback){
+	public final boolean processMode(Hits processHits, boolean isControlDown, final AsyncOperation callback){
 		Hits hits = processHits;
 		boolean changedKernel = false;
 	
@@ -5646,15 +5646,15 @@ public abstract class EuclidianController {
 			hits = new Hits();
 		}
 		
-		MyCallbackObject callback2;
+		AsyncOperation callback2;
 		if (callback == null){
 			callback2=null;
 		} else {
-			callback2 = new MyCallbackObject(){
+			callback2 = new AsyncOperation(){
 	
 				@Override
-				public void process(Object ret) {
-					callback.process(ret);
+				public void callback(Object ret) {
+					callback.callback(ret);
 					endOfProcessMode(ret.equals("true"));
 				}
 			};
@@ -9156,10 +9156,10 @@ public abstract class EuclidianController {
 		else {
 			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
 				final Hits hits2 = hits;
-				MyCallbackObject callback = new MyCallbackObject(){
+				AsyncOperation callback = new AsyncOperation(){
 					
 					@Override
-					public void process(Object changedKernel) {
+					public void callback(Object changedKernel) {
 						if (changedKernel.equals(true)) {
 							app.storeUndoInfo();
 						}

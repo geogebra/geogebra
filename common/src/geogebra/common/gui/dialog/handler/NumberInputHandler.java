@@ -5,12 +5,12 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.App;
-import geogebra.common.util.MyCallbackObject;
+import geogebra.common.util.AsyncOperation;
 
 public class NumberInputHandler implements InputHandler {
   private AlgebraProcessor algebraProcessor;
   private GeoNumberValue num = null;
-  private MyCallbackObject callback;
+  private AsyncOperation callback;
   private boolean oldVal;
   private App app;
   
@@ -19,7 +19,7 @@ public class NumberInputHandler implements InputHandler {
   	this.algebraProcessor = algebraProcessor;
   }
 
-  public NumberInputHandler(AlgebraProcessor algebraProcessor, MyCallbackObject cb,
+  public NumberInputHandler(AlgebraProcessor algebraProcessor, AsyncOperation cb,
 		  App appl, boolean oldValue) {
 	this(algebraProcessor);
 	callback = cb;
@@ -35,7 +35,7 @@ public class NumberInputHandler implements InputHandler {
       setNum((GeoNumberValue) result[0]);
       if (callback != null){
     	  app.getKernel().getConstruction().setSuppressLabelCreation(oldVal);
-    	  callback.process(num);
+    	  callback.callback(num);
       }
     }
     return success;

@@ -39,7 +39,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.MyCallbackObject;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -191,13 +191,13 @@ public abstract class DialogManager {
 			GeoPointND geoPointND, EuclidianView view);
 
 	public abstract void showNumberInputDialog(String title, String message,
-			String initText, MyCallbackObject callback);
+			String initText, AsyncOperation callback);
 	
 	public abstract NumberValue showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText);
 
 	public abstract void showAngleInputDialog(String title, String message,
-			String initText, MyCallbackObject callback);
+			String initText, AsyncOperation callback);
 
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 

@@ -22,7 +22,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.common.util.MyCallbackObject;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
@@ -66,7 +66,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	@Override
 	public void showNumberInputDialog(String title, String message,
-			String initText, MyCallbackObject callback) {
+			String initText, AsyncOperation callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
 		oldVal = cons.isSuppressLabelsActive();
@@ -105,7 +105,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	@Override
 	public void showAngleInputDialog(String title, String message,
-			String initText, MyCallbackObject callback) {
+			String initText, AsyncOperation callback) {
 
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();

@@ -80,7 +80,7 @@ public class GOptionPaneW implements GOptionPane{
 
 			public void onClick(ClickEvent event) {
 				callback.setData(input.getText());
-				callback.callback();
+				callback.callback(null);
 				dialog.hide();
 			}
 		});

@@ -1,11 +1,16 @@
 package geogebra.common.util;
 
-public interface AsyncOperation {
+public abstract class AsyncOperation {
+	protected Object data=null;
 	
-	public void callback();
+	public abstract void callback(Object obj);
 	
-	public Object getData();
+	public Object getData(){
+		return data;
+	}
 	
-	public void setData(Object data);
+	public void setData(Object d){
+		data = d;
+	}
 
 }

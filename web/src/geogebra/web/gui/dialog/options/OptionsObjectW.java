@@ -1985,7 +1985,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 							private String percentStr = Math.round(model.getTextPropertiesAt(0)
 									.getFontSizeMultiplier() * 100) + "%";
 
-							public void callback() {
+							public void callback(Object obj) {
 								model.applyFontSizeFromString(percentStr);				
 							}
 

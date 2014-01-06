@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
-import geogebra.common.util.MyCallbackObject;
+import geogebra.common.util.AsyncOperation;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
@@ -291,7 +291,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	 */
 	@Override
 	public void showNumberInputDialog(String title, String message,
-			String initText, MyCallbackObject callback) {
+			String initText, AsyncOperation callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
 		oldVal = cons.isSuppressLabelsActive();
@@ -407,7 +407,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	 */
 	@Override
 	public void showAngleInputDialog(String title, String message,
-			String initText, MyCallbackObject callback) {
+			String initText, AsyncOperation callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
 		oldVal = cons.isSuppressLabelsActive();
