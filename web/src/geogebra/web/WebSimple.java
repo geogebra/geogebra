@@ -91,7 +91,7 @@ public class WebSimple implements EntryPoint {
     }
 	
 	private native void exportGGBElementRenderer() /*-{
- 		$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+ 		$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
 	}-*/;
 
 }
