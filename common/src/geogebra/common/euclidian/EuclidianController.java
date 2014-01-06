@@ -5648,7 +5648,7 @@ public abstract class EuclidianController {
 		
 		changedKernel = switchModeForProcessMode(hits, isControlDown, callback);
 		
-		endOfProcessMode(changedKernel);
+		if (callback == null) endOfProcessMode(changedKernel);
 	
 		return changedKernel;
 	}
