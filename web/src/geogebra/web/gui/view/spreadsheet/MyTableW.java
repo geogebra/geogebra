@@ -1057,18 +1057,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	}
 
 	protected GPoint getPixel(int column, int row, boolean min) {
+
 		if (column < 0 || row < 0) {
 			return null;
 		}
+
 		if (min && column == 0 && row == 0) {
+			// ? Why this returns 0, wt.getAbsoluteLeft would return a greater number!
 			return new GPoint(0, 0);
 		}
 
-		int y = this.getAbsoluteTop();
-		int x = this.getAbsoluteLeft();
-
 		Element wt = this.getCellFormatter().getElement(row, column);
-		//Widget wt = getWidget(row, column);
+
 		if (min) {
 			return new GPoint(wt.getAbsoluteLeft(), wt.getAbsoluteTop());
 		}

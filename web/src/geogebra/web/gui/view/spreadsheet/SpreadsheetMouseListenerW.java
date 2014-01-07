@@ -24,11 +24,13 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.user.client.Window;
 
 
 public class SpreadsheetMouseListenerW implements
@@ -70,11 +72,18 @@ public class SpreadsheetMouseListenerW implements
 	    return (geogebraweb.getScaleX() == 1 && geogebraweb.getScaleY() == 1);
     }
 
+	public static int getAbsoluteX(MouseEvent e) {
+		return e.getClientX() + Window.getScrollLeft();
+	}
+
+	public static int getAbsoluteY(MouseEvent e) {
+		return e.getClientY() + Window.getScrollTop();
+	}
+
 	public void onDoubleClick(DoubleClickEvent e) {
-		
-		
+
 		if (this.editEnabled) {
-			GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+			GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 	
 			if (point != null) {
 				// auto-fill down if dragging dot is double-clicked
@@ -109,11 +118,11 @@ public class SpreadsheetMouseListenerW implements
 
 	public void onClick(ClickEvent e) {
 		if (this.editEnabled) {
-			GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+			GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
-					point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+					point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 					if (point != null) {
 						int column = point.getX();
 						int row = point.getY();
@@ -188,7 +197,7 @@ public class SpreadsheetMouseListenerW implements
 		}
 
 		if (this.editEnabled) {
-			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 			if (p.getY() == 0 && p.getX() > 0) {
 				if (table.isEditing())
 					editor.cancelCellEditing();
@@ -238,7 +247,7 @@ public class SpreadsheetMouseListenerW implements
 	
 				// force column selection
 				if (view.isColumnSelect()) {
-					GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+					GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 					if (point != null) {
 						int column = point.getX();
 						table.setColumnSelectionInterval(column, column);
@@ -262,7 +271,7 @@ public class SpreadsheetMouseListenerW implements
 				if (editor.isEditing()) {
 					String text = editor.getEditingValue();
 					if (text.startsWith("=")) {
-						GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+						GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 						if (point != null &&
 							(point.getX() != editor.column || point.getY() != editor.row)) {
 							// in Web, it's necessary to distinguish the editor row and column
@@ -312,43 +321,11 @@ public class SpreadsheetMouseListenerW implements
 						// almost like MyCellEditorW.stopCellEditing(int,int)
 					}
 				} else if (table.isOverDot && table.showCanDragBlueDot()) {
-					App.debug("table.isOverDot = OK");
 					table.isDragingDot = true;
 					eConsumed = true;
-				} else {
-					// table.isOverDot is false in some cases in Chrome from remote URL
-					// no idea why... maybe it helps if we check isOverDot again.
-
-					// check if over the dragging dot and update accordingly
-					GPoint maxPoint = table.getMaxSelectionPixel();
-
-					if (maxPoint != null) {
-						int dotX = maxPoint.getX();
-						int dotY = maxPoint.getY();
-						int s = MyTableW.DOT_SIZE + 2;
-						GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
-						boolean overDot = dotRect.contains(e.getClientX(), e.getClientY());
-						if (table.isOverDot != overDot) {
-							// do not add && to the if above, because we need this to run
-							// if overDot is false or true, too
-							table.isOverDot = overDot;
-
-							if (table.showCanDragBlueDot()) {
-								App.debug("table.isOverDot = managed!");
-								table.isDragingDot = true;
-								eConsumed = true;
-							} else {
-								App.debug("table.isOverDot = "+table.isOverDot+"; showCanDragBlueDot is false");
-							}
-						} else {
-							App.debug("table.isOverDot = "+table.isOverDot+"; did not change");
-						}
-					} else {
-						App.debug("table.isOverDot = "+table.isOverDot+"; maxPoint is null");
-					}
 				}
 			}
-	
+
 			if (eConsumed)
 				return;
 	
@@ -375,7 +352,7 @@ public class SpreadsheetMouseListenerW implements
 	public void onMouseUp(MouseUpEvent e) {
 
 		if (this.editEnabled) {
-			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 			if (p.getY() == 0 && p.getX() > 0) {
 				if (table.isEditing())
 					editor.cancelCellEditing();
@@ -403,7 +380,7 @@ public class SpreadsheetMouseListenerW implements
 				if (editor.isEditing()) {
 					String text = editor.getEditingValue();
 					if (text.startsWith("=")) {
-						GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+						GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 						if (point != null) {
 							int column = point.getX();
 							int row = point.getY();
@@ -554,7 +531,7 @@ public class SpreadsheetMouseListenerW implements
 
 	public void onMouseMove(MouseMoveEvent e) {
 		if (this.editEnabled) {
-			GPoint p = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+			GPoint p = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 			if (p.getY() == 0 && p.getX() > 0) {
 				table.scc.onMouseMove(e);
 				return;
@@ -580,7 +557,7 @@ public class SpreadsheetMouseListenerW implements
 	
 				// handle editing mode drag
 				if (editor.isEditing()) {
-					GPoint point = table.getIndexFromPixel(e.getClientX(), e.getClientY());
+					GPoint point = table.getIndexFromPixel(getAbsoluteX(e), getAbsoluteY(e));
 					if (point != null && selectedCellName != null) {
 						int column2 = point.getX() - 1;
 						int row2 = point.getY() - 1;
@@ -624,8 +601,8 @@ public class SpreadsheetMouseListenerW implements
 				if (table.isDragingDot) {
 	
 					eConsumed = true;
-					int mouseX = e.getClientX();
-					int mouseY = e.getClientY();
+					int mouseX = getAbsoluteX(e);
+					int mouseY = getAbsoluteY(e);
 					GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
 	
 					// save the selected cell position so it can be re-selected if
@@ -660,7 +637,7 @@ public class SpreadsheetMouseListenerW implements
 						// scroll to show "highest" selected cell
 						//TODO//table.scrollRectToVisible(table.getCellRect(mouseCell.y, mouseCell.x, true));
 	
-						if (!selRect.contains(e.getClientX(), e.getClientY())) {
+						if (!selRect.contains(getAbsoluteX(e), getAbsoluteY(e))) {
 	
 							int rowOffset = 0, colOffset = 0;
 	
@@ -772,18 +749,13 @@ public class SpreadsheetMouseListenerW implements
 					int dotY = maxPoint.getY();
 					int s = MyTableW.DOT_SIZE + 2;
 					GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
-					boolean overDot = dotRect.contains(e.getClientX(), e.getClientY());
+					boolean overDot = dotRect.contains(getAbsoluteX(e), getAbsoluteY(e));
 					if (table.isOverDot != overDot) {
-						// do not add && to the if above, because we need this to run
-						// if overDot is false or true, too
 						table.isOverDot = overDot;
 
 						if (table.showCanDragBlueDot()) {
 							// now double-check can be added here: if there is no dot, there is no over
 							//TODO//setTableCursor();
-
-							// onMouseMove: too frequent
-							//App.debug("table.isOverDot = "+overDot);
 							table.repaint();
 						}
 					}
@@ -797,7 +769,7 @@ public class SpreadsheetMouseListenerW implements
 					int maxX = maxPoint.getX();
 					int w = maxX - minX;
 					GRectangle2DW dndRect = new GRectangle2DW(minX, minY - 2, w, 4);
-					boolean overDnD = dndRect.contains(e.getClientX(), e.getClientY());
+					boolean overDnD = dndRect.contains(getAbsoluteX(e), getAbsoluteY(e));
 					if (table.isOverDnDRegion != overDnD) {
 						table.isOverDnDRegion = overDnD;
 						//TODO//setTableCursor();
