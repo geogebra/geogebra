@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.TreeSet;
 
 /**
@@ -14,6 +15,8 @@ import java.util.TreeSet;
  *
  */
 public class PolygonTriangulation {
+	
+	private enum Chain {BOTH, BELOW, ABOVE};
 
 	private class Point implements Comparable<Point>{
 		public double x, y;
@@ -23,6 +26,8 @@ public class PolygonTriangulation {
 		Point prev, next; // previous and next point
 
 		TreeSet<Segment> toRight, toLeft;
+		
+		public Chain chain;
 
 		public Point(double x, double y){
 			this.x = x;
@@ -146,8 +151,8 @@ public class PolygonTriangulation {
 		Segment above, below;
 		Segment next;
 		
-		int usable;
-				
+		Running running = Running.STOP;
+		
 
 		// equation vector
 		double x, y, z;
@@ -165,9 +170,6 @@ public class PolygonTriangulation {
 			this.orientation = orientation;
 			this.leftPoint = leftPoint;
 			this.rightPoint = rightPoint;
-			
-			// first usable once
-			usable = 1;
 		}
 
 
@@ -187,6 +189,9 @@ public class PolygonTriangulation {
 		@Override
 		public String toString(){
 			if (leftPoint != null){
+				if (running == Running.LEFT){
+					return rightPoint.name+leftPoint.name;
+				}
 				return leftPoint.name+rightPoint.name;
 			}
 
@@ -273,6 +278,10 @@ public class PolygonTriangulation {
 	private int maxPointIndex;
 
 	private Point firstPoint;
+	
+	private ArrayList<TreeSet<Point>> polygonPointsList;
+	private ArrayList<Segment> polygonFirstSegmentList;
+
 
 	/**
 	 * Constructor
@@ -280,6 +289,10 @@ public class PolygonTriangulation {
 	 */
 	public PolygonTriangulation(GeoPolygon p){
 		this.polygon = p;
+		
+		polygonPointsList = new ArrayList<TreeSet<Point>>();
+		polygonFirstSegmentList = new ArrayList<Segment>();
+
 	}
 
 	/**
@@ -437,7 +450,6 @@ public class PolygonTriangulation {
 		// cut the segment
 		segment.removeFromPoints();
 		Segment segment2 = new Segment(segment.orientation, pt, segment.rightPoint);
-		segment2.usable = segment.usable;
 		segment.rightPoint = pt;		
 		segment.addToPoints();
 		comparedSameOrientationSegment = null;
@@ -641,26 +653,34 @@ public class PolygonTriangulation {
 		// now all intersections are computed, and points are correctly chained by oriented segments
 		// we can divide the polygon turning e.g. counter clock-wise 
 		
+		polygonFirstSegmentList.clear();
+		polygonPointsList.clear();
+		
 		App.debug("=========== non self-intersecting polygons ==============");
+		
 
 		while (!pointSet.isEmpty()){
 			App.debug("=========================");
+			TreeSet<Point> polygonPoints = new TreeSet<Point>();
 			Point start = pointSet.first();
 			Point currentPoint; 
 			Point nextPoint = start;
 			Segment segStart = start.toRight.first();
 			Segment segment = segStart;
+			polygonFirstSegmentList.add(segStart);
 			Segment next = null;
 
-			running = Running.RIGHT;
+			Running running = Running.RIGHT;
 
 			while (running != Running.STOP){
+				segment.running = running;
 				currentPoint = nextPoint;
 				//App.debug(segment+"");
 				if (running == Running.RIGHT){
 					nextPoint = segment.rightPoint;
 					if (nextPoint == start){
 						running = Running.STOP;
+						next = segStart;
 					}else{
 						next = nextPoint.toLeft.lower(segment);
 						if (next == null){
@@ -680,6 +700,7 @@ public class PolygonTriangulation {
 					nextPoint = segment.leftPoint;
 					if (nextPoint == start){
 						running = Running.STOP;
+						next = segStart;
 					}else{
 						next = nextPoint.toRight.lower(segment);
 						if (next == null){
@@ -698,18 +719,20 @@ public class PolygonTriangulation {
 				}
 
 				// remove this segment from left and right points if not usable anymore
-				segment.usable -- ;
-				if (segment.usable == 0){
-					segment.removeFromPoints();	
-				}
+				segment.removeFromPoints();	
+				segment.next = next;
 				segment = next;
 
+				// remove current point if no more segment
 				if (currentPoint.hasNoSegment()){
 					App.debug(currentPoint.name+" : remove");
 					pointSet.remove(currentPoint);
 				}else{
 					App.debug(currentPoint.name+" : keep");
 				}
+				
+				// add current point to current polygon
+				polygonPoints.add(currentPoint);
 			}
 
 			// remove this segment from left and right points
@@ -720,14 +743,26 @@ public class PolygonTriangulation {
 			}else{
 				App.debug(start.name+" : keep");
 			}
+			
+			// add current polygon to list
+			polygonPointsList.add(polygonPoints);
 		}
-
-
+		
+		
+		s = "==========================================================";
+		for (int i = 0 ; i < polygonFirstSegmentList.size() ; i++){			
+			Segment s1 = polygonFirstSegmentList.get(i);
+			s+="\npolygon "+i+" : "+s1;
+			for (Segment seg = s1.next ; seg != s1; seg = seg.next){
+				s+=","+seg.toString()+"("+seg.running+")";
+			}		
+		}
+		App.debug(s);
+		
 
 	}
 
 	private enum Running  { RIGHT, LEFT, STOP };
-	private Running running;
 
 
 
@@ -869,8 +904,6 @@ public class PolygonTriangulation {
 				Segment b2 = new Segment(b.orientation, pt, b.rightPoint);
 				a2.addToPoints();
 				b2.addToPoints();
-				a2.usable = a.usable;
-				b2.usable = b.usable;
 
 				// set old segments right point
 				a.rightPoint = pt;
@@ -923,13 +956,142 @@ public class PolygonTriangulation {
 
 
 
+	////////////////////////////////////////////////
+	// TRIANGULATION
+	////////////////////////////////////////////////
 
 
 
 
+	/**
+	 * 
+	 */
+	public void triangulate(){
+		
+		Segment firstSegment = polygonFirstSegmentList.get(0);
+		TreeSet<Point> pointSet = polygonPointsList.get(0);
 
 
+		
+		String s = "==========================================================";
+		firstSegment.leftPoint.chain = Chain.BOTH;
+		s+="\npolygon : "+firstSegment.leftPoint.name+"("+firstSegment.leftPoint.chain+")";
+		Chain currentChain = Chain.BELOW;
+		for (Segment seg = firstSegment.next ; seg != firstSegment; seg = seg.next){
+			if (seg.running == Running.RIGHT){
+				seg.leftPoint.chain = Chain.BELOW;
+				s+=","+seg.leftPoint.name+"("+seg.leftPoint.chain+")";
+			}else{ // seg.running == Running.RIGHT
+				if (currentChain == Chain.BELOW){
+					seg.rightPoint.chain = Chain.BOTH;
+					currentChain = Chain.ABOVE;
+				}else{
+					seg.rightPoint.chain = Chain.ABOVE;
+				}
+				s+=","+seg.rightPoint.name+"("+seg.rightPoint.chain+")";
+			}
+			
+			
 
+		}
+		App.debug(s);
+		
+		ArrayList<ArrayList<Point>> ret = new ArrayList<ArrayList<Point>>();
+
+		
+		
+		final int length = pointSet.size();
+		
+		// init stack
+		Stack<Point> stack = new Stack<Point>();
+		Point p0 = pointSet.pollFirst();
+		Point p1 = pointSet.pollFirst();
+		if (p1 == firstSegment.rightPoint){
+			App.debug(firstSegment+", below");
+		}else{
+			App.debug(firstSegment+", above");
+		}
+		
+		
+ 		stack.push(p0);
+		stack.push(p1);
+
+		// loop
+		for (int i = 2 ; i < length ; i++){
+			ArrayList<Point> currentTriangleFan = new ArrayList<Point>();
+			Point top = stack.peek();
+			Point vi = pointSet.pollFirst();
+			//boolean viBetween = vi > min && vi < max;
+			//debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
+			//if (viBetween ^ (top > min && top < max)){ // vi and top are not on the same chain
+			if (vi.chain != top.chain){ // vi and top are not on the same chain
+				//debugDiagonal("case 2 ",top,vi);
+				currentTriangleFan.add(vi);
+				while (!stack.isEmpty()){
+					Point v = stack.pop();
+					currentTriangleFan.add(v);
+					//debugDiagonal("diagonal : ",vi,v);
+				}
+				stack.push(top);
+				stack.push(vi);
+
+			}else{ // vi and top are on the same chain
+				//debugDiagonal("case 1 ",top,vi);
+
+				currentTriangleFan.add(vi);
+
+				// first correct point
+				Point vk = stack.pop();
+				currentTriangleFan.add(vk);
+				//debugDiagonal("diagonal ",vi,vk);
+				double dx2 = vk.x - vi.x;
+				double dy2 = vk.y - vi.y;
+
+				boolean go = true;
+				while (!stack.isEmpty() && go){
+					double dx1 = dx2;
+					double dy1 = dy2;
+					Point v = stack.pop();
+					dx2 = v.x - vi.x;
+					dy2 = v.y - vi.y;
+					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ (vi.chain != Chain.BELOW)){ // not same orientation
+						stack.push(v); //re-push v in stack
+						go = false;
+					}else{
+						vk = v;
+						currentTriangleFan.add(vk);
+						//debugDiagonal("diagonal ",vi,vk);
+					}
+				}
+				stack.push(vk);
+				stack.push(vi);
+			}
+
+			if (currentTriangleFan.size()>2){ // add fan only if at least 3 points
+				ret.add(currentTriangleFan);
+			}
+
+		}
+		
+		s="\nfans:";
+		for (ArrayList<Point> fan : ret){
+			s+="\n";
+			for (Point p : fan){
+				s+=p.name;
+			}
+		}
+		App.debug(s);
+		
+		
+		 
+
+	}
+
+	/*
+	private void debugDiagonal(String s, Point p1, Point p2){
+		App.debug(s+": "+p1.name+","+p2.name);
+	}
+*/
 
 
 	/**
