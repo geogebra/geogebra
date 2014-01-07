@@ -316,7 +316,36 @@ public class SpreadsheetMouseListenerW implements
 					table.isDragingDot = true;
 					eConsumed = true;
 				} else {
-					App.debug("table.isOverDot = "+table.isOverDot);
+					// table.isOverDot is false in some cases in Chrome from remote URL
+					// no idea why... maybe it helps if we check isOverDot again.
+
+					// check if over the dragging dot and update accordingly
+					GPoint maxPoint = table.getMaxSelectionPixel();
+
+					if (maxPoint != null) {
+						int dotX = maxPoint.getX();
+						int dotY = maxPoint.getY();
+						int s = MyTableW.DOT_SIZE + 2;
+						GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
+						boolean overDot = dotRect.contains(e.getClientX(), e.getClientY());
+						if (table.isOverDot != overDot) {
+							// do not add && to the if above, because we need this to run
+							// if overDot is false or true, too
+							table.isOverDot = overDot;
+
+							if (table.showCanDragBlueDot()) {
+								App.debug("table.isOverDot = managed!");
+								table.isDragingDot = true;
+								eConsumed = true;
+							} else {
+								App.debug("table.isOverDot = "+table.isOverDot+"; showCanDragBlueDot is false");
+							}
+						} else {
+							App.debug("table.isOverDot = "+table.isOverDot+"; did not change");
+						}
+					} else {
+						App.debug("table.isOverDot = "+table.isOverDot+"; maxPoint is null");
+					}
 				}
 			}
 	
@@ -726,13 +755,13 @@ public class SpreadsheetMouseListenerW implements
 				GeoElement geo = (GeoElement) model.getValueAt(row - 1, col - 1);
 	
 				// set tooltip with geo's description
-				if (geo != null & view.getAllowToolTips()) {
-					app.getLocalization().setTooltipFlag();
+				//if (geo != null & view.getAllowToolTips()) {
+					//app.getLocalization().setTooltipFlag();
 					//TODO//table.setToolTipText(geo.getLongDescriptionHTML(true, true));
-					app.getLocalization().clearTooltipFlag();
-				} else {
+					//app.getLocalization().clearTooltipFlag();
+				//} else {
 					//TODO//table.setToolTipText(null);
-				}
+				//}
 	
 				// check if over the dragging dot and update accordingly
 				GPoint maxPoint = table.getMaxSelectionPixel();
