@@ -69,7 +69,7 @@ Traceable{
 	
 	
 	/** flag for isDefined()*/
-	protected boolean defined = false;
+	protected boolean defined = true;
 	
 	/** midpoint */
 	protected Coords midpoint;
