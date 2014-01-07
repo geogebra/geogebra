@@ -21,6 +21,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private static int maxHeight() {
 		return TouchEntryPoint.getLookAndFeel().getContentWidgetHeight()
+				- TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight()
 				- BrowseGUI.CONTROLS_HEIGHT - BrowseGUI.HEADING_HEIGHT;
 	}
 

@@ -137,10 +137,13 @@ div.button { /* Border */
 		254, 254) ), color-stop(1, rgb(237, 237, 237) ) );
 }
 
-.disabled,
-body .browsegui .fileControlPanel .button.disabled {
+.disabled {
 	opacity: 0.3;
 	filter: alpha(opacity = 30);
+}
+
+body .browsegui .fileControlPanel .button.disabled {
+	visibility: hidden;
 }
 
 .transparent {
