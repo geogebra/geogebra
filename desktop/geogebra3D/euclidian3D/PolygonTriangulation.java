@@ -82,7 +82,6 @@ public class PolygonTriangulation {
 			// same point : add all point-to-point set to existing point
 			App.error(this.name+"=="+p2.name);
 
-
 			if (toRight != null){
 				if (p2.toRight == null){
 					p2.toRight = new TreeSet<Segment>();
@@ -207,9 +206,6 @@ public class PolygonTriangulation {
 		 * add this segment to left and right points
 		 */
 		public void addToPoints(){
-			if (leftPoint == rightPoint){
-				App.printStacktrace("ICI : "+leftPoint.name);
-			}
 			leftPoint.addSegmentToRight(this);
 			rightPoint.addSegmentToLeft(this);
 		}
@@ -297,7 +293,11 @@ public class PolygonTriangulation {
 	}
 
 	/**
-	 * update points list
+	 * update points list:
+	 * creates a chain from firstPoint to next points ; 
+	 * two consecutive points can't be equal ; 
+	 * three consecutive points can't be aligned.
+	 * For each point orientation to the next (angle about Ox) is stored.
 	 */
 	public void updatePoints(){
 
@@ -428,7 +428,11 @@ public class PolygonTriangulation {
 	// INTERSECTIONS
 	//////////////////////////////////////
 	
-	
+	/**
+	 * cut a segment in two by this point
+	 * @param segment segment
+	 * @param pt cutting point
+	 */
 	private void cut(Segment segment, Point pt){
 		// cut the segment
 		segment.removeFromPoints();
@@ -441,7 +445,10 @@ public class PolygonTriangulation {
 		cutAfterComparison(segment2);
 	}
 	
-	
+	/**
+	 * After adding a segment to the points, it may be redundant with an already existing segment in the left point
+	 * @param segment2 segment
+	 */
 	protected void cutAfterComparison(Segment segment2){
 		if (comparedSameOrientationSegment!=null){
 			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
@@ -486,12 +493,17 @@ public class PolygonTriangulation {
 		createSegment(point);
 
 		// store all points in sweep order
+		// same points are merged
+		// aligned segments to right are cut 
+		// aligned segments to left are ignored
 		TreeSet<Point> pointSet = new TreeSet<Point>();
 
 		for (point = firstPoint; point.next != firstPoint; point = point.next){
 			pointSet.add(point);
 		}
 		pointSet.add(point);
+		
+		// at this time, pointSet only contains different points, each points have to-left / to-right segments with different orientations
 
 
 		String s = "";
@@ -513,6 +525,9 @@ public class PolygonTriangulation {
 		App.debug(s);
 
 
+		// now compute intersections
+		// TODO use a better storage than linear chained segments
+		
 		// top and bottom (dummy) segments
 		Segment top = new Segment();
 		Segment bottom = new Segment();
@@ -524,13 +539,12 @@ public class PolygonTriangulation {
 			Segment above = null;
 			Segment below = null;
 
-			App.debug(s);
+			//App.debug(s);
 			
 
 			
 			// remove to-left segments
 			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
-				App.error(pt.toLeft.first()+"/"+pt.toLeft.last());
 				above = pt.toLeft.first().above;
 				below = pt.toLeft.last().below;
 				below.above = above;
@@ -624,7 +638,8 @@ public class PolygonTriangulation {
 
 		
 
-		//if (1==1){ return; }
+		// now all intersections are computed, and points are correctly chained by oriented segments
+		// we can divide the polygon turning e.g. counter clock-wise 
 		
 		App.debug("=========== non self-intersecting polygons ==============");
 
@@ -880,7 +895,7 @@ public class PolygonTriangulation {
 
 	final private void createSegment(Point point){
 		
-		App.debug(point.name+", "+((int) (point.orientationToNext*180/Math.PI))+"°, "+point.next.name);
+		//App.debug(point.name+", "+((int) (point.orientationToNext*180/Math.PI))+"°, "+point.next.name);
 		Segment segment;
 		if (Kernel.isGreater(point.orientationToNext, -Math.PI/2) && Kernel.isGreaterEqual(Math.PI/2,point.orientationToNext)){ // point is left point
 			segment = new Segment(point.orientationToNext, point, point.next);
