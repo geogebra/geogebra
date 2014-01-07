@@ -1274,7 +1274,7 @@ Region3D, GeoDirectionND
 
 	@Override
 	final protected boolean showInEuclidianView() {
-		return defined && (type != CONIC_EMPTY || isInverseFill());
+		return isDefined() && (type != CONIC_EMPTY || isInverseFill());
 	}
 
 	@Override
