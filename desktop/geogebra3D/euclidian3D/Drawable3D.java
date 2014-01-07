@@ -514,11 +514,6 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	abstract public void drawGeometry(Renderer renderer); 
 	
-	/**
-	 * draw the geometry for picked visibility
-	 * @param renderer the 3D renderer where to draw
-	 */
-	abstract public void drawGeometryPicked(Renderer renderer); 
 	
 	/**
 	 * draw the geometry to show the object is picked (highlighted)

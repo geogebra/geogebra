@@ -90,9 +90,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	
 	
 	@Override
-	public void drawGeometryPicked(Renderer renderer){}
-	
-	@Override
 	public void drawOutline(Renderer renderer) {
 		// no outline
 	}

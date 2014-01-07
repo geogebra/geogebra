@@ -78,12 +78,6 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void drawGeometryPicked(Renderer renderer) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	@Override
 	public void drawOutline(Renderer renderer) {

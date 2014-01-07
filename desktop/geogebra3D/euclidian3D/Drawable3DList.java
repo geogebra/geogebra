@@ -59,12 +59,6 @@ public abstract class Drawable3DList extends Drawable3D {
 	}
 
 	@Override
-	public void drawGeometryPicked(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void drawHidden(Renderer renderer) {
 		// TODO Auto-generated method stub
 		

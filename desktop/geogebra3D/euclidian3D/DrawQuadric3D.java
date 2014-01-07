@@ -55,12 +55,6 @@ implements Previewable {
 
 	}
 
-	@Override
-	public void drawGeometryPicked(Renderer renderer) {
-		// TODO Auto-generated method stub
-
-	}
-	
 	
 	
 	@Override

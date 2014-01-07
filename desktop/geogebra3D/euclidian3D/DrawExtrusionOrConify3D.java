@@ -47,10 +47,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 
 	}
 	
-	@Override
-	public void drawGeometryPicked(Renderer renderer){
-		drawGeometry(renderer);
-	}
 	
 	@Override
 	public void drawGeometryHiding(Renderer renderer) {

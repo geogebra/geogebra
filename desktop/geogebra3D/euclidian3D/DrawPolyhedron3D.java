@@ -73,11 +73,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	}
 	
 
-	
-	@Override
-	public void drawGeometryPicked(Renderer renderer){
-		drawSurfaceGeometry(renderer);
-	}
 	@Override
 	public void drawGeometryHiding(Renderer renderer) {
 		drawSurfaceGeometry(renderer);

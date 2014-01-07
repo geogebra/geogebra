@@ -81,11 +81,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 	
 
-	
-	@Override
-	public void drawGeometryPicked(Renderer renderer){
-		drawSurfaceGeometry(renderer);
-	}
 	@Override
 	public void drawGeometryHiding(Renderer renderer) {
 		drawSurfaceGeometry(renderer);
@@ -172,6 +167,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		//creates the polygon
 		GeoPolygon polygon = (GeoPolygon) getGeoElement();
+		
+		/*
+		PolygonTriangulation pt = new PolygonTriangulation(polygon);
+		pt.updatePoints();
+		pt.setIntersections();
+		*/
+		
+		
 		int pointLength = polygon.getPointsLength();
 		
 		if (pointLength<3 || Kernel.isZero(polygon.getArea())){ //no polygon
