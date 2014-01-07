@@ -9,9 +9,12 @@ import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.UserAwarenessListener;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -24,6 +27,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -109,7 +113,27 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		String ret = "?";
 		
 		try {
-			ret = kernel.evaluateGeoGebraCAS(cmdString, null, StringTemplate.numericDefault);
+			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		      //kernel.getConstruction().addToConstructionList(f, false);
+
+		      f.setInput(cmdString);
+
+		      f.computeOutput();
+
+		      boolean includesNumericCommand = false;
+		      HashSet<Command> commands = new HashSet<Command>();
+
+		      f.getInputVE().traverse(CommandCollector.getCollector(commands));
+
+		      if (!commands.isEmpty()) {
+		        for (Command cmd : commands) {
+		          String cmdName = cmd.getName();
+		          // Numeric used
+		          includesNumericCommand = includesNumericCommand || ("Numeric".equals(cmdName) && cmd.getArgumentNumber() > 1);
+		        }
+		      }
+
+		      ret = f.getOutputValidExpression() != null ? f.getOutputValidExpression().toString(StringTemplate.numericDefault) : f.getOutput(StringTemplate.testTemplate);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
