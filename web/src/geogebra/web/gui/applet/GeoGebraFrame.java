@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -371,14 +372,20 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 			break;
 		case Event.ONMOUSEMOVE:
 			if (resize == true) {
-				int width = DOM.eventGetClientX(event);
-				int height = DOM.eventGetClientY(event);
+				int width = DOM.eventGetClientX(event) + Window.getScrollLeft();
+				int height = DOM.eventGetClientY(event) + Window.getScrollTop();
+				int initialY = getAbsoluteTop();
+				int initialX = getAbsoluteLeft();
+				width -= initialX;
+				height -= initialY;
 
 				setPixelSize(width, height);
 				if (app.getGuiManager() != null) {
 					app.getGuiManager().resize(width, height);
 				}
 			} else if (move == true) {
+				// move is always false; if it will be true,
+				// note that eventGetClientX needs Window.getScrollLeft added
 				RootPanel.get().setWidgetPosition(this, DOM.eventGetClientX(event),
 						DOM.eventGetClientY(event));
 			}
@@ -403,11 +410,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 * @return true if cursor is within a 10x10 frame on the bottom right position
 	 */
 	protected boolean isCursorAtResizePosition(Event event) {
-		int cursorY = DOM.eventGetClientY(event);
+		int cursorY = DOM.eventGetClientY(event) + Window.getScrollTop();
 		int initialY = getAbsoluteTop();
 		int height = getOffsetHeight();
 
-		int cursorX = DOM.eventGetClientX(event);
+		int cursorX = DOM.eventGetClientX(event) + Window.getScrollLeft();
 		int initialX = getAbsoluteLeft();
 		int width = getOffsetWidth();
 
