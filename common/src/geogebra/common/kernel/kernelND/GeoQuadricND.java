@@ -69,7 +69,7 @@ Traceable{
 	
 	
 	/** flag for isDefined()*/
-	protected boolean defined = true;
+	protected boolean defined = false;
 	
 	/** midpoint */
 	protected Coords midpoint;
@@ -507,21 +507,10 @@ Traceable{
 	
 	
 	
-	//TODO implements methods below from GeoConic
 	/**
 	 * Update to become single point
 	 */
-	protected void singlePoint() {
-		/*
-		type = GeoConic.CONIC_SINGLE_POINT;
-
-		if (singlePoint == null)
-			singlePoint = new GeoPoint(cons);
-		singlePoint.setCoords(b.x, b.y, 1.0d);
-		//Application.debug("singlePoint : " + b);
-		 */
-		 
-	}
+	abstract protected void singlePoint();
 	
 	/**
 	 * Update affine transform

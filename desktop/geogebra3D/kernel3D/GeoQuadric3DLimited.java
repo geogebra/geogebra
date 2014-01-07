@@ -16,6 +16,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
@@ -686,6 +687,19 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable {
 		
 		double r = Math.abs(rval.getDouble());		
 		volume *= r*r*r;
+
+	}
+	
+	
+	
+	
+	
+	
+	@Override
+	final protected void singlePoint() {
+		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
+		
+		//TODO more ?
 
 	}
 

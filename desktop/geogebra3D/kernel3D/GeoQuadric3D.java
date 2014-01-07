@@ -24,6 +24,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.kernel.kernelND.RotateableND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.main.AppD;
 
@@ -379,8 +380,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		case QUADRIC_CYLINDER:
 			eigenRet = new Coords(Math.cos(u), Math.sin(u), v, 1);
 			break;
+		case QUADRIC_SINGLE_POINT:
+			return getMidpoint3D();
+			
 		default:
 			eigenRet = null;
+			App.error(this+" has wrong type : "+type);
 			break;
 		}
 
@@ -612,8 +617,14 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	}
 
 	public void pointChangedForRegion(GeoPointND P) {
-
+		
 		GeoPoint3D p = (GeoPoint3D) P;
+		
+		if (type == QUADRIC_SINGLE_POINT){
+			p.setCoords(getMidpoint3D(), false);
+			p.updateCoords();
+			return;
+		}
 
 		Coords willingCoords = p.getWillingCoords();
 		if (willingCoords == null)
@@ -677,8 +688,16 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			pointChangedForRegion(P);
 			return;
 		}
+		
 
 		GeoPoint3D p = (GeoPoint3D) P;
+		
+		if (type == QUADRIC_SINGLE_POINT){
+			p.setCoords(getMidpoint3D(), false);
+			p.updateCoords();
+			return;
+		}
+
 		RegionParameters rp = p.getRegionParameters();
 		Coords coords = getPoint(rp.getT1(), rp.getT2());
 		p.setCoords(coords, false);
@@ -926,5 +945,14 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		super.setUndefined();
 		volume = Double.NaN;
 	}
+	
+	
+	
+	@Override
+	final protected void singlePoint() {
+		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
+		
+	}
+
 
 }
