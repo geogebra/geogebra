@@ -174,7 +174,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * 
 	 * @return new ExpressionNode as result
 	 */
-	protected static ExpressionValue expandFunctionDerivativeNodes(
+	public static ExpressionValue expandFunctionDerivativeNodes(
 			ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;

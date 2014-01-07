@@ -22,6 +22,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoDependentFunction;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -136,7 +137,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            new x-coord function
 	 */
 	final public void setFunctionX(Function funX) {
-		this.fun[0] = funX;
+		setFun(0, funX);
 	}
 
 	/**
@@ -146,7 +147,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            new y-coord function
 	 */
 	final public void setFunctionY(Function funY) {
-		this.fun[1] = funY;
+		setFun(1, funY);
 	}
 
 	/**
@@ -158,11 +159,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
-		if (this.fun[0] != null) {
-			this.fun[0].replaceChildrenByValues(geo);
+		if (getFun(0) != null) {
+			getFun(0).replaceChildrenByValues(geo);
 		}
-		if (this.fun[1] != null) {
-			this.fun[1].replaceChildrenByValues(geo);
+		if (getFun(1) != null) {
+			getFun(1).replaceChildrenByValues(geo);
 		}
 	}
 
@@ -182,18 +183,18 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		super.setInterval(startParam, endParam);
 
 		// update isClosedPath, i.e. startPoint == endPoint
-		this.isClosedPath = Kernel.isEqual(this.fun[0].evaluate(startParam),
-				this.fun[0].evaluate(endParam), Kernel.MIN_PRECISION)
-				&& Kernel.isEqual(this.fun[1].evaluate(startParam),
-						this.fun[1].evaluate(endParam), Kernel.MIN_PRECISION);
+		this.isClosedPath = Kernel.isEqual(getFun(0).evaluate(startParam),
+				getFun(0).evaluate(endParam), Kernel.MIN_PRECISION)
+				&& Kernel.isEqual(getFun(1).evaluate(startParam),
+						getFun(1).evaluate(endParam), Kernel.MIN_PRECISION);
 	}
 
 	@Override
 	public void set(GeoElement geo) {
 		GeoCurveCartesian geoCurve = (GeoCurveCartesian) geo;
 
-		this.fun[0] = new Function(geoCurve.fun[0], this.kernel);
-		this.fun[1] = new Function(geoCurve.fun[1], this.kernel);
+		setFun(0, new Function(geoCurve.fun[0], this.kernel));
+		setFun(1, new Function(geoCurve.fun[1], this.kernel));
 		this.startParam = geoCurve.startParam;
 		this.endParam = geoCurve.endParam;
 		this.isDefined = geoCurve.isDefined;
@@ -209,8 +210,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				// we need to check the references to all geos in its function's
 				// expression
 				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
-				algoMacro.initFunction(this.fun[0]);
-				algoMacro.initFunction(this.fun[1]);
+				algoMacro.initFunction(getFun(0));
+				algoMacro.initFunction(getFun(1));
 				// System.out.println("   funX after: " +
 				// funX.toLaTeXString(true));
 			}
@@ -228,11 +229,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		if (c.isDefined()) {
 			//register the variable name to make sure parsing of CAS output runs OK, see #3006
 			GeoNumeric geo = new GeoNumeric(this.cons);
-			this.cons.addLocalVariable(this.fun[0].getVarString(StringTemplate.defaultTemplate), geo);
-			this.fun[0] = (Function) c.fun[0].evalCasCommand(ggbCasCmd, symbolic,arbconst);
-			this.fun[1] = (Function) c.fun[1].evalCasCommand(ggbCasCmd, symbolic,arbconst);
-			this.cons.removeLocalVariable(this.fun[0].getVarString(StringTemplate.defaultTemplate));
-			this.isDefined = !(this.fun[0] == null || this.fun[1] == null);
+			this.cons.addLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate), geo);
+			setFun(0, (Function) c.getFunExpanded(0).evalCasCommand(ggbCasCmd, symbolic,arbconst));
+			setFun(1, (Function) c.getFunExpanded(1).evalCasCommand(ggbCasCmd, symbolic,arbconst));
+			this.cons.removeLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate));
+			this.isDefined = !(getFun(0) == null || getFun(1) == null);
 			if (this.isDefined)
 				setInterval(c.startParam, c.endParam);
 		} else {
@@ -264,9 +265,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public void setDerivative(GeoCurveCartesian curve, int n) {
 		if (curve.isDefined()) {
-			this.fun[0] = curve.fun[0].getDerivative(n);
-			this.fun[1] = curve.fun[1].getDerivative(n);
-			this.isDefined = !(this.fun[0] == null || this.fun[1] == null);
+			setFun(0, curve.getFunExpanded(0).getDerivative(n));
+			setFun(1, curve.getFunExpanded(1).getDerivative(n));
+			this.isDefined = !(getFun(0) == null || getFun(1) == null);
 			if (this.isDefined)
 				setInterval(curve.startParam, curve.endParam);
 		} else {
@@ -275,6 +276,17 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.distFun = new ParametricCurveDistanceFunction(this);
 	}
 
+	private Function getFunExpanded(int i) {
+		if(!this.containsFunctions[i]){
+			return getFun(i);
+		}
+		if(this.funExpanded[i] == null){
+			this.funExpanded[i] = new Function(getFun(i),this.kernel);
+			ExpressionNode expr = AlgoDependentFunction.expandFunctionDerivativeNodes(getFun(i).getExpression().deepCopy(this.kernel)).wrap();
+			this.funExpanded[i].setExpression(expr);
+		}
+		return this.funExpanded[i];
+	}
 	/**
 	 * Sets this curve to the parametric derivative of the given curve c. The
 	 * parametric derivative of a curve c(t) = (x(t), y(t)) is defined as (x(t),
@@ -283,9 +295,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public void setParametricDerivative(GeoCurveCartesian curve) {
 		if (curve.isDefined()) {
-			this.fun[0] = curve.fun[0];
-			this.fun[1] = Function.getDerivativeQuotient(curve.fun[0], curve.fun[1]);
-			this.isDefined = !(this.fun[0] == null || this.fun[1] == null);
+			setFun(0, curve.fun[0]);
+			setFun(1, Function.getDerivativeQuotient(curve.fun[0], curve.fun[1]));
+			this.isDefined = !(getFun(0) == null || getFun(1) == null);
 			if (this.isDefined)
 				setInterval(curve.startParam, curve.endParam);
 		} else {
@@ -294,13 +306,18 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.distFun = new ParametricCurveDistanceFunction(this);
 	}
 
+	private void setFun(int i, Function f) {
+		this.fun[i] = f;
+		this.funExpanded[i]=null;
+		this.containsFunctions[i]=AlgoDependentFunction.containsFunctions(this.fun[i].getExpression());
+	}
 	// added by Loic Le Coq 2009/08/12
 	/**
 	 * @param tpl string template
 	 * @return value string x-coord function
 	 */
 	final public String getFunX(StringTemplate tpl) {
-		return this.fun[0].toValueString(tpl);
+		return getFun(0).toValueString(tpl);
 	}
 
 	/**
@@ -308,25 +325,25 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @return value string y-coord function
 	 */
 	final public String getFunY(StringTemplate tpl) {
-		return this.fun[1].toValueString(tpl);
+		return getFun(1).toValueString(tpl);
 	}
 
 	// end Loic Le Coq
 
 	final public RealRootFunction getRealRootFunctionX() {
-		return this.fun[0];
+		return getFun(0);
 	}
 
 	final public RealRootFunction getRealRootFunctionY() {
-		return this.fun[1];
+		return getFun(1);
 	}
 
 	/**
 	 * translate function by vector v
 	 */
 	final public void translate(Coords v) {
-		this.fun[0].translateY(v.getX());
-		this.fun[1].translateY(v.getY());
+		getFun(0).translateY(v.getX());
+		getFun(1).translateY(v.getY());
 	}
 
 	@Override
@@ -348,8 +365,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            y-coord of the translation vector
 	 */
 	final public void translate(double vx, double vy) {
-		this.fun[0].translateY(vx);
-		this.fun[1].translateY(vy);
+		getFun(0).translateY(vx);
+		getFun(1).translateY(vy);
 	}
 
 	final public void rotate(NumberValue phi, GeoPointND point) {
@@ -402,13 +419,13 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	
 	public void dilate(NumberValue ratio, Coords P) {
 		translate(-P.getX(), -P.getY());
-		ExpressionNode exprX = ((Function) this.fun[0].deepCopy(this.kernel))
+		ExpressionNode exprX = ((Function) getFun(0).deepCopy(this.kernel))
 				.getExpression();
-		ExpressionNode exprY = ((Function) this.fun[1].deepCopy(this.kernel))
+		ExpressionNode exprY = ((Function) getFun(1).deepCopy(this.kernel))
 				.getExpression();
-		this.fun[0].setExpression(new ExpressionNode(this.kernel, ratio,
+		getFun(0).setExpression(new ExpressionNode(this.kernel, ratio,
 				Operation.MULTIPLY, exprX));
-		this.fun[1].setExpression(new ExpressionNode(this.kernel, ratio,
+		getFun(1).setExpression(new ExpressionNode(this.kernel, ratio,
 				Operation.MULTIPLY, exprY));
 		translate(P.getX(), P.getY());
 	}
@@ -440,8 +457,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		for (double i = 0, v = startInterval; i < n; i++, v += step) {
 			double[] point = new double[2];
-			point[0] = this.fun[0].evaluate(v);
-			point[1] = this.fun[1].evaluate(v);
+			point[0] = getFun(0).evaluate(v);
+			point[1] = getFun(1).evaluate(v);
 			pointList.add(new GeoPoint(this.cons, point[0], point[1], 1));
 		}
 
@@ -465,14 +482,14 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		MyDouble mb = new MyDouble(this.kernel, b);
 		MyDouble mc = new MyDouble(this.kernel, c);
 		MyDouble md = new MyDouble(this.kernel, d);
-		ExpressionNode exprX = ((Function) this.fun[0].deepCopy(this.kernel))
+		ExpressionNode exprX = ((Function) getFun(0).deepCopy(this.kernel))
 				.getExpression();
-		ExpressionNode exprY = ((Function) this.fun[1].deepCopy(this.kernel))
+		ExpressionNode exprY = ((Function) getFun(1).deepCopy(this.kernel))
 				.getExpression();
 		ExpressionNode transX = exprX.multiply(ma).plus(exprY.multiply(mb));
 		ExpressionNode transY = exprX.multiply(mc).plus(exprY.multiply(md));
-		this.fun[0].setExpression(transX);
-		this.fun[1].setExpression(transY);
+		getFun(0).setExpression(transX);
+		getFun(1).setExpression(transY);
 	}
 
 	@Override
@@ -519,11 +536,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				// eg plotparam([t,t^2],t,-10,10)
 				// TODO: remove wrapping in equation when Giac supports intersecting equation, parametric
 				sbTemp.append("equation(plotparam([");
-				sbTemp.append(this.fun[0].toValueString(tpl));
+				sbTemp.append(getFun(0).toValueString(tpl));
 				sbTemp.append(',');
-				sbTemp.append(this.fun[1].toValueString(tpl));
+				sbTemp.append(getFun(1).toValueString(tpl));
 				sbTemp.append("],");
-				sbTemp.append(this.fun[0].getFunctionVariable().toString(StringTemplate.giacTemplate));
+				sbTemp.append(getFun(0).getFunctionVariable().toString(StringTemplate.giacTemplate));
 				sbTemp.append(',');
 				sbTemp.append(this.kernel.format(getMinParameter(), StringTemplate.giacTemplate));
 				sbTemp.append(',');
@@ -532,9 +549,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			} else {
 
 				sbTemp.append('(');
-				sbTemp.append(this.fun[0].toValueString(tpl));
+				sbTemp.append(getFun(0).toValueString(tpl));
 				sbTemp.append(", ");
-				sbTemp.append(this.fun[1].toValueString(tpl));
+				sbTemp.append(getFun(1).toValueString(tpl));
 				sbTemp.append(')');
 			}
 
@@ -552,9 +569,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			StringBuilder sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
 			sbTemp.append('(');
-			sbTemp.append(this.fun[0].toString(tpl));
+			sbTemp.append(getFun(0).toString(tpl));
 			sbTemp.append(", ");
-			sbTemp.append(this.fun[1].toString(tpl));
+			sbTemp.append(getFun(1).toString(tpl));
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
@@ -577,9 +594,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					sbTemp.append("\\closebraceonly{ ");
 				}
 				sbTemp.append("\\ggbtable{ \\ggbtr{ \\ggbtdL{  x = ");
-				sbTemp.append(this.fun[0].toLaTeXString(symbolic, tpl));
+				sbTemp.append(getFun(0).toLaTeXString(symbolic, tpl));
 				sbTemp.append("} } \\ggbtr{ \\ggbtdL{ y = ");
-				sbTemp.append(this.fun[1].toLaTeXString(symbolic, tpl));
+				sbTemp.append(getFun(1).toLaTeXString(symbolic, tpl));
 				sbTemp.append("} } }");
 				if (!this.hideRangeInFormula) {
 					sbTemp.append("}");
@@ -595,9 +612,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					sbTemp.append("\\left.");
 				}
 				sbTemp.append("\\begin{array}{ll} x = ");
-				sbTemp.append(this.fun[0].toLaTeXString(symbolic, tpl));
+				sbTemp.append(getFun(0).toLaTeXString(symbolic, tpl));
 				sbTemp.append("\\\\ y = ");
-				sbTemp.append(this.fun[1].toLaTeXString(symbolic, tpl));
+				sbTemp.append(getFun(1).toLaTeXString(symbolic, tpl));
 				sbTemp.append(" \\end{array}");
 				if (!this.hideRangeInFormula) {
 					sbTemp.append("\\right\\} \\; ");
@@ -635,8 +652,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
 		double t = getClosestParameter(P, pp.t);
-		boolean onPath = Math.abs(this.fun[0].evaluate(t) - P.getInhomX()) <= eps
-				&& Math.abs(this.fun[1].evaluate(t) - P.getInhomY()) <= eps;
+		boolean onPath = Math.abs(getFun(0).evaluate(t) - P.getInhomX()) <= eps
+				&& Math.abs(getFun(1).evaluate(t) - P.getInhomY()) <= eps;
 		return onPath;
 	}
 
@@ -665,7 +682,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			pp.t = this.endParam;
 
 		// calc point for given parameter
-		P.setCoords2D(this.fun[0].evaluate(pp.t), this.fun[1].evaluate(pp.t), 1);
+		P.setCoords2D(getFun(0).evaluate(pp.t), getFun(1).evaluate(pp.t), 1);
 		P.updateCoordsFrom2D(false, null);
 	}
 
@@ -809,12 +826,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * parameter paramVal. The result is written to out.
 	 */
 	public void evaluateCurve(double paramVal, double[] out) {
-		out[0] = this.fun[0].evaluate(paramVal);
-		out[1] = this.fun[1].evaluate(paramVal);
+		out[0] = getFun(0).evaluate(paramVal);
+		out[1] = getFun(1).evaluate(paramVal);
 	}
 
 	public GeoVec2D evaluateCurve(double t) {
-		return new GeoVec2D(this.kernel, this.fun[0].evaluate(t), this.fun[1].evaluate(t));
+		return new GeoVec2D(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t));
 	}
 
 	/**
@@ -825,10 +842,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public double evaluateCurvature(double t) {
 		Function f1X, f1Y, f2X, f2Y;
-		f1X = this.fun[0].getDerivative(1);
-		f1Y = this.fun[1].getDerivative(1);
-		f2X = this.fun[0].getDerivative(2);
-		f2Y = this.fun[1].getDerivative(2);
+		f1X = getFun(0).getDerivative(1);
+		f1Y = getFun(1).getDerivative(1);
+		f2X = getFun(0).getDerivative(2);
+		f2Y = getFun(1).getDerivative(2);
 
 		if (f1X == null || f1Y == null || f2X == null || f2Y == null)
 			return Double.NaN;
@@ -850,7 +867,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	public String getVarString(StringTemplate tpl) {
-		return this.fun[0].getVarString(tpl);
+		return getFun(0).getVarString(tpl);
 	}
 
 	final public boolean isFunctionInX() {
@@ -884,9 +901,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			double a = midpoint.getX();
 			double b = midpoint.getY();
 			this.translate(-a, -b);
-			ExpressionNode exprX = ((Function) this.fun[0].deepCopy(this.kernel))
+			ExpressionNode exprX = ((Function) getFun(0).deepCopy(this.kernel))
 					.getExpression();
-			ExpressionNode exprY = ((Function) this.fun[1].deepCopy(this.kernel))
+			ExpressionNode exprY = ((Function) getFun(1).deepCopy(this.kernel))
 					.getExpression();
 			MyDouble d2 = new MyDouble(this.kernel, 2);
 			ExpressionNode sf = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
@@ -894,8 +911,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					exprY.power(d2)));
 			ExpressionNode transX = exprX.multiply(sf);
 			ExpressionNode transY = exprY.multiply(sf);
-			this.fun[0].setExpression(transX);
-			this.fun[1].setExpression(transY);
+			getFun(0).setExpression(transX);
+			getFun(1).setExpression(transY);
 			this.translate(a, b);
 
 		} else {
@@ -910,8 +927,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	@Override
 	public double distance(GeoPoint p) {
 		double t = getClosestParameter(p, 0);
-		return MyMath.length(this.fun[0].evaluate(t) - p.getX(),
-				this.fun[1].evaluate(t) - p.getY());
+		return MyMath.length(getFun(0).evaluate(t) - p.getX(),
+				getFun(1).evaluate(t) - p.getY());
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
@@ -926,9 +943,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		MyDouble ma21 = new MyDouble(this.kernel, a21);
 		MyDouble ma22 = new MyDouble(this.kernel, a22);
 
-		ExpressionNode exprX = ((Function) this.fun[0].deepCopy(this.kernel))
+		ExpressionNode exprX = ((Function) getFun(0).deepCopy(this.kernel))
 				.getExpression();
-		ExpressionNode exprY = ((Function) this.fun[1].deepCopy(this.kernel))
+		ExpressionNode exprY = ((Function) getFun(1).deepCopy(this.kernel))
 				.getExpression();
 		ExpressionNode transX = exprX.multiply(ma00).plus(exprY.multiply(ma01))
 				.plus(ma02);
@@ -936,9 +953,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				.plus(ma12);
 		ExpressionNode transZ = exprX.multiply(ma20).plus(exprY.multiply(ma21))
 				.plus(ma22);
-		this.fun[0].setExpression(new ExpressionNode(this.kernel, transX, Operation.DIVIDE,
+		getFun(0).setExpression(new ExpressionNode(this.kernel, transX, Operation.DIVIDE,
 				transZ));
-		this.fun[1].setExpression(new ExpressionNode(this.kernel, transY, Operation.DIVIDE,
+		getFun(1).setExpression(new ExpressionNode(this.kernel, transY, Operation.DIVIDE,
 				transZ));
 
 	}
@@ -1008,26 +1025,26 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	public FunctionVariable[] getFunctionVariables() {
-		return this.fun[0].getFunctionVariables();
+		return getFun(0).getFunctionVariables();
 	}
 
 	/**
 	 * @return x-function
 	 */
 	public Function getFunX() {
-		return this.fun[0];
+		return getFun(0);
 	}
 
 	/**
 	 * @return y-function
 	 */
 	public Function getFunY() {
-		return this.fun[1];
+		return getFun(1);
 	}
 
 	public void clearCasEvalMap(String key) {
-		this.fun[0].clearCasEvalMap(key);
-		this.fun[1].clearCasEvalMap(key);		
+		getFun(0).clearCasEvalMap(key);
+		getFun(1).clearCasEvalMap(key);		
 	}
 	
 	@Override
@@ -1056,18 +1073,5 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		
 		return intervalX;
 	}
-	
-	
-	@Override
-	public Function getFun(int i){
-		switch(i){
-		case 0:
-			return this.fun[0];
-		case 1:
-			return this.fun[1];
-		default:
-			return null;
-		}
-	}
-	
+
 }
