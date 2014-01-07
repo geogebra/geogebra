@@ -128,7 +128,7 @@ public abstract class Drawable3DList extends Drawable3D {
     
 	@Override
 	public boolean isTransparent() {
-		return getDrawablePicked().isTransparent();
+		return false;
 	}
 
 
