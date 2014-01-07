@@ -50,7 +50,10 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, FocusHandler, ValueChangeHandler<Boolean>, BlurHandler, KeyUpHandler {
 
-	private static final String SEPARATOR = "--------------------";
+	/**
+	 * separator for list boxes
+	 */
+	public static final String SEPARATOR = "--------------------";
 	/**
 	 * @param app App
 	 * creates new probabilitycalculatorView

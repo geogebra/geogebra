@@ -347,7 +347,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
     		this.sc = sc;
     		this.wrappedPanel = new FlowPanel();
-
+    		this.wrappedPanel.addStyleName("ChiSquarePanelW");
     		fldInput = new AutoCompleteTextFieldW(app);
     		fldInput.addKeyPressHandler(this);
     		fldInput.addFocusHandler(this);

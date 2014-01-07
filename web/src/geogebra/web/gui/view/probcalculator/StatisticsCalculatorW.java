@@ -100,13 +100,14 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		FlowPanel procedureWrapper = new FlowPanel();
 		procedureWrapper.add(procedurePanel);
 		
-		scroller = new FlowPanel(); //do with css
+		scroller = new FlowPanel();
+		scroller.addStyleName("scroller");
 		scroller.add(procedureWrapper);
 		
 		//main content panel
 		FlowPanel main = new FlowPanel();
-		main.add(scroller);
 		main.add(panelControl);
+		main.add(scroller);
 		
 		wrappedPanel.add(main);
 		
@@ -194,7 +195,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_TEST));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_TEST));
 
-		//set separator here with css
+		cbProcedure.addItem(ProbabilityCalculatorViewW.SEPARATOR);
+		
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_CI));
@@ -202,7 +204,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_CI));
 
-		/// csscbProcedure.addItem(ListSeparatorRenderer.SEPARATOR);
+		cbProcedure.addItem(ProbabilityCalculatorViewW.SEPARATOR);
+		
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.GOF_TEST));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
 
@@ -375,6 +378,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	}
 
 	private void setInputPanelLayout() {
+	   fldNullHyp.removeStyleName("breakafter");
+	   lblHypParameter.removeStyleName("breakafter");
+	   
 	   if (panelBasicProcedures == null) {
 		   panelBasicProcedures = new FlowPanel();
 	   }
@@ -389,6 +395,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   
 	   if (panelTestAndCI == null) {
 		   panelTestAndCI = new FlowPanel();
+		   panelTestAndCI.addStyleName("panelTestAndCI");
 	   }
 	   
 	   // ---- add components
@@ -423,12 +430,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 			if (app.getLocalization().isRightToLeftReadingOrder()) {
 				// eg 1.1 = mu
+				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(fldNullHyp);
 				panelTestAndCI.add(lblHypParameter);
+				lblHypParameter.addStyleName("breakafter");
 			} else {
 				// eg mu = 1.1
+				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(lblHypParameter);
-				panelTestAndCI.add(fldNullHyp );				
+				panelTestAndCI.add(fldNullHyp );
+				fldNullHyp.addStyleName("breakafter");
 			}
 			panelTestAndCI.add(lblTailType);
 			panelTestAndCI.add(btnLeft); 
@@ -449,6 +460,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			panelTestAndCI.add(ckPooled);
 			break;
 		}
+	   
+	   panelBasicProcedures.add(panelTestAndCI);
 
 		
 		panelBasicProcedures.add(panelSample1);
@@ -458,7 +471,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 		
 
-		panelBasicProcedures.add(panelTestAndCI);
+		
 	   
 	   
 	   
@@ -467,6 +480,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 	private void createControlPanel() {
 	   panelControl = new FlowPanel();
+	   panelControl.addStyleName("panelControl");
 	   panelControl.add(cbProcedure);
     }
 
@@ -577,7 +591,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 		String htmlString = "<html><body>\n" + bodyText.toString()
 				+ "</body>\n";
-		resultPane.setText(htmlString);
+		resultPane.setHTML(htmlString);;
 
 	}
 	

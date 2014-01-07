@@ -2374,7 +2374,7 @@ label {
 	padding: 0px;
 }
 
-.parameterPanel .gwt-SuggestBox, .resultPanel .gwt-SuggestBox {
+.parameterPanel .gwt-SuggestBox, .resultPanel .gwt-SuggestBox, .StatisticsCalculatorW .gwt-SuggestBox {
 	margin: 0px;
 	padding: 0px;
 }
@@ -2382,6 +2382,29 @@ label {
 .intervalPanel > * {
 	display: inline-block;
 }
+
+.StatisticsCalculatorW .controlPanel {
+	
+}
+
+.StatisticsCalculatorW .scroller {
+	overflow:auto;
+	margin-left:20px;
+}
+
+.StatisticsCalculatorW .panelTestAndCI {
+	
+}
+
+.StatisticsCalculatorW .panelTestAndCI > * {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.StatisticsCalculatorW .breakafter:after {
+	display:block; padding-left:6ex; visibility:hidden;
+}
+
 /*=========== Probability Calculator End =============*/
 
 .ggw_glabel{
