@@ -18,7 +18,7 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 
 	
 	/** coordinates  functions */
-	protected Function[] fun;
+	protected final Function[] fun;
 	/** derivative  functions */
 	protected Function[] funD1;
 	/** second derivative  functions */
@@ -35,9 +35,9 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 	/** common constructor
 	 * @param c construction
 	 */
-	public GeoCurveCartesianND(Construction c) {
+	public GeoCurveCartesianND(Construction c, int dimension) {
 		super(c);
-		
+		this.fun = new Function[dimension];
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
@@ -50,7 +50,8 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 	 * @param fun functions of parameter
 	 */
 	public GeoCurveCartesianND(Construction c, Function[] fun) {
-		this(c);
+		super(c);
+		setConstructionDefaults();
 		this.fun = fun;
 	}	
 	
@@ -59,7 +60,9 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 	 * @param fun functions
 	 */
 	public void setFun(Function[] fun){
-		this.fun = fun;
+		for(int i=0; i<fun.length;i++){
+			this.fun[i] = fun[i];
+		}
 	}
 
 	@Override
