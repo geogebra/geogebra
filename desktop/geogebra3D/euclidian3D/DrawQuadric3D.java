@@ -194,6 +194,13 @@ implements Previewable {
 			setSurfaceIndex(surface.end());
 			
 			break;
+			
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start();
+			surface.drawSphere(quadric.getLineThickness(),quadric.getMidpoint3D(), quadric.getLineThickness()/getView3D().getScale()*DrawPoint3D.DRAW_POINT_FACTOR);
+			setSurfaceIndex(surface.end());
+			break;
 
 		}
 		
@@ -296,6 +303,7 @@ implements Previewable {
 			break;
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			updateForItSelf();
 			break;
 		}
