@@ -7,6 +7,7 @@ import geogebra.html5.awt.GPointW;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -248,18 +249,33 @@ public class StatTableW extends FlowPanel {
 
 		public void handleSelection(ClickEvent event) {
 	       Cell c = this.getCellForEvent(event);
-	       if (c.getElement().getParentElement().hasClassName("selected")) {
-	    	   c.getElement().getParentElement().removeClassName("selected");
+	       Element parentRow = c.getElement().getParentElement();
+	       if (parentRow.hasClassName("selected")) {
+	    	   parentRow.removeClassName("selected");
 	       } else {
-	    	   c.getElement().getParentElement().addClassName("selected");
+	    	   parentRow.addClassName("selected");
 	       }
-	       //only subsequent selections allowed
-	       if (!(c.getElement().getParentElement().getPreviousSiblingElement() != null &&
-	    		   c.getElement().getParentElement().getPreviousSiblingElement().hasClassName("selected") ||
-	    		   c.getElement().getParentElement().getNextSiblingElement() != null &&
-	    		   c.getElement().getParentElement().getNextSiblingElement().hasClassName("selected"))) {
-	    			   clearSelection(c);
-	    		   }
+	       
+	       if (parentRow.hasClassName("selected")) {
+	    	   if (!(parentRow.getPreviousSiblingElement() != null &&
+	    		   		parentRow.getPreviousSiblingElement().hasClassName("selected") ||
+	    		   		parentRow.getNextSiblingElement() != null &&
+	    		   		parentRow.getNextSiblingElement().hasClassName("selected"))) {
+	    			   		clearSelection(c);
+	    		   	}
+			} else {
+				clearSelectionFrom(c);
+			}
+		}
+			
+
+		private void clearSelectionFrom(Cell c) {
+			if (c != null) {
+				for (int i = c.getRowIndex(); i < this.getRowCount(); i++) {
+		        	getRowFormatter().getElement(i).removeClassName("selected");
+		        }
+			}
+	        
         }
 
 		private void clearSelection(Cell c) {
@@ -297,23 +313,32 @@ public class StatTableW extends FlowPanel {
 		public String getValueAt(int i, int j) {
 	        return this.getText(i, j);
         }
+		
+		private int getFirstSelectedRow(int to) {
+			 for (int i = 0; i < this.getRowCount(); i++) {
+	    		   if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= to) {
+	    			   return i;
+	    		   }
+	    	   }
+			 return -1;
+			 
+		}
+		
+		private void selectTableRows(int from, int to) {
+			for (int i = from; i<= to; i++) {
+ 			   this.getRowFormatter().getElement(i).addClassName("selected");
+ 		   }
+		}
 
 		public void changeSelection(int row, boolean toggle, boolean extend) {
-		   int start = -1;
+		   int start;
 	       if (!toggle && !extend) {
 	    	   clearSelection(null);
 	    	   this.getRowFormatter().getElement(row).addClassName("selected");
 	       } else if (!toggle && extend) {
-	    	   for (int i = 0; i < this.getRowCount(); i++) {
-	    		   if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= row) {
-	    			   start = i;
-	    			   break;
-	    		   }
-	    	   }
+	    	   start = getFirstSelectedRow(row);
 	    	   if (start > -1) {
-	    		   for (int i = start + 1; i<= row; i++) {
-	    			   this.getRowFormatter().getElement(i).addClassName("selected");
-	    		   }
+	    		   selectTableRows(start, row);
 	    	   }
 	       }
         }
