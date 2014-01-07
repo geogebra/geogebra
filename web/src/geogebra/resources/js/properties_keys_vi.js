@@ -966,7 +966,7 @@ __GGB__keysVar.vi.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <V\xe9c t\u01a1> ]",
     "UnitVector": "VectoChiPhuongDonVi",
-    "UnitVector_Syntax": "[ <V\xe9c t\u01a1> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng> ]\n[ <\u0110o\u1ea1n th\u1eb3ng> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <V\xe9c t\u01a1> ]",
     "UpdateConstruction": "CapNhatDungHinh",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

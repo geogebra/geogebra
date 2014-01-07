@@ -966,7 +966,7 @@ __GGB__keysVar.eu.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Bektorea> ]",
     "UnitVector": "BektoreUnitarioa",
-    "UnitVector_Syntax": "[ <Bektorea> ]\n[ <Zuzenkia> ]\n[ <Zuzena (zuzena, zuzenerdia)> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Bektorea> ]",
     "UpdateConstruction": "EguneratuEraikuntza",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

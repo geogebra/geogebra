@@ -966,7 +966,7 @@ __GGB__keysVar.nl.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "Eenheidsvector",
-    "UnitVector_Syntax": "[ <Vector> ]\n[ <Rechte> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vector> ]",
     "UpdateConstruction": "UpdateConstruction",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

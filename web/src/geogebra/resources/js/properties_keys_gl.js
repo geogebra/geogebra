@@ -966,7 +966,7 @@ __GGB__keysVar.gl.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Recta> ]\n[ <Segmento> ]\n[ <Vector> ]\n[ <Plano> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Recta, semirecta ou segmento> ]\n[ <Vector> ]",
     "UnitVector": "VectorUnitario",
-    "UnitVector_Syntax": "[ <Vector> ]\n[ <Recta, semirecta ou segmento> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vector> ]",
     "UpdateConstruction": "ActualizaConstruci\xf3n",
     "UpdateConstruction_Syntax": "[ ]\n[ <NN\xfamero de veces> ]",

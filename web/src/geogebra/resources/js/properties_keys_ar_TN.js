@@ -966,7 +966,7 @@ __GGB__keysVar.ar_TN.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <\u0645\u0633\u062a\u0642\u064a\u0645> ]\n[ <\u0642\u0637\u0639\u0629 \u0645\u0633\u062a\u0642\u064a\u0645> ]\n[ <\u0645\u0648\u062c\u0647> ]\n[ <\u0645\u0633\u062a\u0648\u0649> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u0645\u062a\u062c\u0647> ]",
     "UnitVector": "\u0645\u0648\u062c\u0647_\u0648\u062d\u064a\u062f\u064a",
-    "UnitVector_Syntax": "[ <\u0645\u0648\u062c\u0647> ]\n[ <\u0645\u0633\u062a\u0642\u064a\u0645> ]\n[ <\u0642\u0637\u0639\u0629 \u0645\u0633\u062a\u0642\u064a\u0645> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <\u0645\u062a\u062c\u0647> ]",
     "UpdateConstruction": "\u062a\u062d\u064a\u064a\u0646_\u0627\u0644\u0631\u0633\u0645",
     "UpdateConstruction_Syntax": "[ ]\n[ <\u0639\u062f\u062f \u0627\u0644\u0645\u0631\u0627\u062a> ]",

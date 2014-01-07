@@ -966,7 +966,7 @@ __GGB__keysVar.tr.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Do\u011fru> ]\n[ <Do\u011fru Par\xe7as\u0131> ]\n[ <Vekt\xf6r> ]\n[ <Uzay> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vekt\xf6r> ]",
     "UnitVector": "BirimVekt\xf6r",
-    "UnitVector_Syntax": "[ <Vekt\xf6r> ]\n[ <Do\u011fru> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vekt\xf6r> ]",
     "UpdateConstruction": "Yap\u0131y\u0131G\xfcncelle",
     "UpdateConstruction_Syntax": "[ ]\n[ <Ka\xe7 kere> ]",

@@ -966,7 +966,7 @@ __GGB__keysVar.cy.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "FectorUned",
-    "UnitVector_Syntax": "[ <Fector> ]\n[ <Llinell> ]\n[ <Segment> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vector> ]",
     "UpdateConstruction": "DiweddaruLluniad",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

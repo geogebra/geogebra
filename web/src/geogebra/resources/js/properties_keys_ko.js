@@ -966,7 +966,7 @@ __GGB__keysVar.ko.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <\uc9c1\uc120> ]\n[ <\uc120\ubd84> ]\n[ <\ubca1\ud130> ]\n[ <\ud3c9\uba74> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\ubca1\ud130> ]",
     "UnitVector": "\ub2e8\uc704\ubca1\ud130",
-    "UnitVector_Syntax": "[ <\ubca1\ud130> ]\n[ <\uc9c1\uc120> ]\n[ <\uc120\ubd84> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <\ubca1\ud130> ]",
     "UpdateConstruction": "\uad6c\uc131\uc0c8\ub85c\uace0\uce68",
     "UpdateConstruction_Syntax": "[ ]\n[ <\ud69f\uc218> ]",

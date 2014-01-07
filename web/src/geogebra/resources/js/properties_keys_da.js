@@ -966,7 +966,7 @@ __GGB__keysVar.da.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "EnhedsVektor",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <Linje> ]\n[ <Udsnit> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "OpdaterKonstruktionen",
     "UpdateConstruction_Syntax": "[ ]\n[ <Antal gange> ]",

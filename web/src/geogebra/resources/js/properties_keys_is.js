@@ -966,7 +966,7 @@ __GGB__keysVar.is.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vigur> ]",
     "UnitVector": "EiningarVigur",
-    "UnitVector_Syntax": "[ <Vigur> ]\n[ <L\xedna> ]\n[ <L\xednustrik> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vigur> ]",
     "UpdateConstruction": "Uppf\xe6raSm\xed\xf0",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

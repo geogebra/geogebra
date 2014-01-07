@@ -966,7 +966,7 @@ __GGB__keysVar.mn.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <\u0428\u0443\u043b\u0443\u0443\u043d> ]\n[ <\u0425\u044d\u0440\u0447\u0438\u043c> ]\n[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]\n[ <\u0425\u0430\u0432\u0442\u0433\u0430\u0439> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]",
     "UnitVector": "\u041d\u044d\u0433\u0436\u0412\u0435\u043a\u0442\u043e\u0440",
-    "UnitVector_Syntax": "[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]\n[ <\u0428\u0443\u043b\u0443\u0443\u043d> ]\n[ <\u0425\u044d\u0440\u0447\u0438\u043c> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]",
     "UpdateConstruction": "\u0411\u0430\u0439\u0433\u0443\u0443\u043b\u0430\u043b\u0442\u0428\u0438\u043d\u044d\u0447\u043b\u044d\u043b",
     "UpdateConstruction_Syntax": "[ ]\n[ <\u04ae\u0440\u0436\u0432\u044d\u0440\u04af\u04af\u0434\u0438\u0439\u043d \u0442\u043e\u043e> ]",

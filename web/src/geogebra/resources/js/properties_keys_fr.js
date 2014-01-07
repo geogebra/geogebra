@@ -966,7 +966,7 @@ __GGB__keysVar.fr.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Droite> ]\n[ <Segment> ]\n[ <Vecteur> ]\n[ <Plan> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vecteur> ]",
     "UnitVector": "VecteurUnitaire",
-    "UnitVector_Syntax": "[ <Vecteur> ]\n[ <Droite> ]\n[ <Segment> ]",
+    "UnitVector_Syntax": "[ <Objet> ]",
     "UnitVector_SyntaxCAS": "[ <Vecteur> ]",
     "UpdateConstruction": "ActualiserConstruction",
     "UpdateConstruction_Syntax": "[ ]\n[ <Nombre de fois> ]",

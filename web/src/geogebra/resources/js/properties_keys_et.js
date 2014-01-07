@@ -966,7 +966,7 @@ __GGB__keysVar.et.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Sirge> ]\n[ <L\xf5ik> ]\n[ <Vektor> ]\n[ <Tasand> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "\xdchikvektor",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <Sirge> ]\n[ <L\xf5ik> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "V\xe4rskendaKonstruktsiooni",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

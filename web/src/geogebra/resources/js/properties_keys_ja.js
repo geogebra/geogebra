@@ -966,7 +966,7 @@ __GGB__keysVar.ja.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <\u76f4\u7dda> ]\n[ <\u7dda\u5206> ]\n[ <\u30d9\u30af\u30c8\u30eb> ]\n[ <\u5e73\u9762> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u30d9\u30af\u30c8\u30eb> ]",
     "UnitVector": "UnitVector",
-    "UnitVector_Syntax": "[ <\u30d9\u30af\u30c8\u30eb> ]\n[ <\u76f4\u7dda> ]\n[ <\u7dda\u5206> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <\u30d9\u30af\u30c8\u30eb> ]",
     "UpdateConstruction": "UpdateConstruction",
     "UpdateConstruction_Syntax": "[ ]\n[ <\u56de\u6570> ]",

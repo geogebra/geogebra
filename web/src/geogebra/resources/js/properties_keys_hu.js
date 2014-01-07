@@ -966,7 +966,7 @@ __GGB__keysVar.hu.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Egyenes> ]\n[ <Szakasz> ]\n[ <Vektor> ]\n[ <S\xedk> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Egys\xe9gVektor",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <Egyenes> ]\n[ <Szakasz> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "Szerkeszt\xe9sFriss\xedt\xe9se",
     "UpdateConstruction_Syntax": "[ ]\n[ <H\xe1nyszor> ]",

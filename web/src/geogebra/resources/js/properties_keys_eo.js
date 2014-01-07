@@ -966,7 +966,7 @@ __GGB__keysVar.eo.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Rekto> ]\n[ <Streko> ]\n[ <Vektoro> ]\n[ <Ebeno> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektoro> ]",
     "UnitVector": "UnitVector",
-    "UnitVector_Syntax": "[ <Vektoro> ]\n[ <Rekto> ]\n[ <Streko> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektoro> ]",
     "UpdateConstruction": "UpdateConstruction",
     "UpdateConstruction_Syntax": "[ ]\n[ <Kiom da fojoj> ]",

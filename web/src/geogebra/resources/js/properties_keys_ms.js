@@ -966,7 +966,7 @@ __GGB__keysVar.ms.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Garis> ]\n[ <Segmen> ]\n[ <Vektor> ]\n[ <Satah> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "VektorUnit",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <Garis> ]\n[ <Segmen> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "KemaskiniPembinaan",
     "UpdateConstruction_Syntax": "[ ]\n[ <Bilanagan Kali> ]",

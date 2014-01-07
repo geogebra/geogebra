@@ -966,7 +966,7 @@ __GGB__keysVar.ta.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "\u0b85\u0bb2\u0b95\u0bc1\u0b95\u0bcd\u0b95\u0bbe\u0bb5\u0bbf",
-    "UnitVector_Syntax": "[ <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd> ]\n[ <\u0b95\u0bcb\u0b9f\u0bc1> ]\n[ <\u0ba4\u0bc1\u0ba3\u0bcd\u0b9f\u0bae\u0bcd> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vector> ]",
     "UpdateConstruction": "UpdateConstruction",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

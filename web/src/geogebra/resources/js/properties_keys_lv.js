@@ -966,7 +966,7 @@ __GGB__keysVar.lv.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Taisne> ]\n[ <Nogrieznis> ]\n[ <Vektors> ]\n[ <Plakne> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektors> ]",
     "UnitVector": "Vien\u012bbasVektors",
-    "UnitVector_Syntax": "[ <Vektors> ]\n[ <Taisne> ]\n[ <Nogrieznis> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektors> ]",
     "UpdateConstruction": "AtjaunoKonstrukciju",
     "UpdateConstruction_Syntax": "[ ]\n[ <Rei\u017eu skaits> ]",

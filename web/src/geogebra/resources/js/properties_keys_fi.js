@@ -966,7 +966,7 @@ __GGB__keysVar.fi.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektori> ]",
     "UnitVector": "Yksikk\xf6vektori",
-    "UnitVector_Syntax": "[ <Vektori> ]\n[ <Suora> ]\n[ <Jana> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektori> ]",
     "UpdateConstruction": "P\xe4ivit\xe4Konstruktio",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

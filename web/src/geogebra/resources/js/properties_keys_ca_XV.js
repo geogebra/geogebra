@@ -966,7 +966,7 @@ __GGB__keysVar.ca_XV.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <L\xednia> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Pla> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "Versor",
-    "UnitVector_Syntax": "[ <Vector> ]\n[ <Recta> ]\n[ <Segment> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vector> ]",
     "UpdateConstruction": "ActualitzaConstrucci\xf3",
     "UpdateConstruction_Syntax": "[ ]\n[ <Nombre de vegades> ]",

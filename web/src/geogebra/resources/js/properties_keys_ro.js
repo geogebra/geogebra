@@ -966,7 +966,7 @@ __GGB__keysVar.ro.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Dreapt\u0103> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plan> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vector> ]",
     "UnitVector": "VectorUnitate",
-    "UnitVector_Syntax": "[ <Vector> ]\n[ <Dreapt\u0103> ]\n[ <Segment> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vector> ]",
     "UpdateConstruction": "ActualizareConstruc\u0163ie",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

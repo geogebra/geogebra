@@ -966,7 +966,7 @@ __GGB__keysVar.cs.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <P\u0159\xedmka> ]\n[ <\xdase\u010dka> ]\n[ <Vektor> ]\n[ <Rovina> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "JednotkovyVektor",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <P\u0159\xedmka> ]\n[ <\u010c\xedslo> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "AktualizaceKonstrukce",
     "UpdateConstruction_Syntax": "[ ]\n[ <Po\u010det opakov\xe1n\xed> ]",

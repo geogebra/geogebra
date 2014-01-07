@@ -966,7 +966,7 @@ __GGB__keysVar.hy.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <\u054e\u0565\u056f\u057f\u0578\u0580> ]",
     "UnitVector": "\u0544\u056b\u0561\u057e\u0578\u0580\u054e\u0565\u056f\u057f\u0578\u0580",
-    "UnitVector_Syntax": "[ <\u054e\u0565\u056f\u057f\u0578\u0580> ]\n[ <\u0548\u0582\u0572\u056b\u0572> ]\n[ <\u0540\u0561\u057f\u057e\u0561\u056e> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <\u054e\u0565\u056f\u057f\u0578\u0580> ]",
     "UpdateConstruction": "\u0539\u0561\u0580\u0574\u0561\u0581\u0576\u0565\u0574",
     "UpdateConstruction_Syntax": "[ ]\n[ <Number of times> ]",

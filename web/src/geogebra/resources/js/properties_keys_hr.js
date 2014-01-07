@@ -966,7 +966,7 @@ __GGB__keysVar.hr.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <pravac> ]\n[ <du\u017eina> ]\n[ <vektor> ]\n[ <ravnina> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <vektor> ]",
     "UnitVector": "Jedini\u010dniVektor",
-    "UnitVector_Syntax": "[ <vektor> ]\n[ <pravac> ]\n[ <du\u017eina> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <vektor> ]",
     "UpdateConstruction": "A\u017eurirajKonstrukciju",
     "UpdateConstruction_Syntax": "[ ]\n[ <broj ponavljanja> ]",

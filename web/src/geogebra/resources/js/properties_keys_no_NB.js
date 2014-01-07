@@ -966,7 +966,7 @@ __GGB__keysVar.no_NB.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Linje> ]\n[ <Linjestykke> ]\n[ <Vektor> ]\n[ <Plan> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Enhetsvektor",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <Linje> ]\n[ <Linjestykke> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <Vektor> ]",
     "UpdateConstruction": "OppdaterFiguren",
     "UpdateConstruction_Syntax": "[ ]\n[ <Antall ganger> ]",

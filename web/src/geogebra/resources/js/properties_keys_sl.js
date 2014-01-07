@@ -966,7 +966,7 @@ __GGB__keysVar.sl.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <premica> ]\n[ <daljica> ]\n[ <vektor> ]\n[ <ravnina> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <vektor> ]",
     "UnitVector": "EnotskiVektor",
-    "UnitVector_Syntax": "[ <vektor> ]\n[ <premica> ]\n[ <daljica> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <vektor> ]",
     "UpdateConstruction": "Osve\u017eiKonstrukcijo",
     "UpdateConstruction_Syntax": "[ ]\n[ <\u0161tevilo ponovitev> ]",

@@ -966,7 +966,7 @@ __GGB__keysVar.xh.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <uMgca> ]\n[ <iSiJungquSomgca> ]\n[ <iVector> ]\n[ <iPlane> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <iVector> ]",
     "UnitVector": "UnitVector",
-    "UnitVector_Syntax": "[ <iVector> ]\n[ <Umgca> ]\n[ <iSegment> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <iVector> ]",
     "UpdateConstruction": "HlaziyaIConstruction",
     "UpdateConstruction_Syntax": "[ ]\n[ <Amaxa> ]",

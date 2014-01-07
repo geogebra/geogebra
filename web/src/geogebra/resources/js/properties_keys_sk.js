@@ -966,7 +966,7 @@ __GGB__keysVar.sk.command = {
     "UnitOrthogonalVector_Syntax3D": "[ <Priamka> ]\n[ <\xdase\u010dka> ]\n[ <Vektor> ]\n[ <Rovina> ]",
     "UnitOrthogonalVector_SyntaxCAS": "[ <Vektor> ]",
     "UnitVector": "Jednotkov\xfdVektor",
-    "UnitVector_Syntax": "[ <Vektor> ]\n[ <Priamka> ]\n[ <\xdase\u010dka> ]",
+    "UnitVector_Syntax": "[ <Object> ]",
     "UnitVector_SyntaxCAS": "[ <\xdase\u010dka> ]",
     "UpdateConstruction": "Aktualizova\u0165Kon\u0161trukciu",
     "UpdateConstruction_Syntax": "[ ]\n[ <Po\u010det opakovan\xed> ]",
