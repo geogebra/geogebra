@@ -48,19 +48,18 @@ import geogebra.common.plugin.EuclidianStyleConstants;
  */
 public final class DrawPoint extends Drawable {
 
-	private int HIGHLIGHT_OFFSET, SELECTION_OFFSET;
+	private int HIGHLIGHT_OFFSET;
 
 	// used by getSelectionDiamaterMin()
-	private static int SELECTION_DIAMETER_MIN = 25;
+	private static final int SELECTION_RADIUS_MIN = 12;
 
 	private GeoPointND P;
 
-	private int diameter, hightlightDiameter, selDiameter, pointSize;
+	private int diameter, hightlightDiameter, pointSize;
 	private boolean isVisible, labelVisible;
 	// for dot and selection
 	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
 	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.GEllipse2DDouble circleSel = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
 	private geogebra.common.awt.GLine2D line1, line2, line3, line4;// for cross
 	private geogebra.common.awt.GGeneralPath gp = null;
 
@@ -296,9 +295,6 @@ public final class DrawPoint extends Drawable {
 		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET,
 				yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
 
-		circleSel.setFrame(xUL - SELECTION_OFFSET, yUL - SELECTION_OFFSET,
-				selDiameter, selDiameter);
-
 
 
 		// draw trace
@@ -328,15 +324,6 @@ public final class DrawPoint extends Drawable {
 		HIGHLIGHT_OFFSET = pointSize / 2 + 1;
 		// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
-
-		selDiameter = hightlightDiameter;
-
-		if (selDiameter < getSelectionDiamaterMin())
-			selDiameter = getSelectionDiamaterMin();
-		
-		
-
-		SELECTION_OFFSET = (selDiameter - diameter) / 2;
 	}
 
 	private Drawable drawable;
@@ -504,7 +491,7 @@ public final class DrawPoint extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		int r = hitThreshold + SELECTION_DIAMETER_MIN;
+		int r = hitThreshold + SELECTION_RADIUS_MIN;
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
@@ -529,7 +516,15 @@ public final class DrawPoint extends Drawable {
 		if (!geo.isEuclidianVisible()) {
 			return null;
 		}
-		return circleSel.getBounds();
+
+		int selRadius = pointSize + HIGHLIGHT_OFFSET;
+		int minRadius = view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
+		if (selRadius < minRadius){
+			selRadius = minRadius;
+		}
+
+		return AwtFactory.prototype.newRectangle((int)coords[0] - selRadius, (int)coords[1] - selRadius,
+				2 * selRadius, 2 * selRadius);
 	}
 
 	@Override
@@ -573,10 +568,9 @@ public final class DrawPoint extends Drawable {
 		return fillStrokes[pointSize];
 	}
 
-	private int getSelectionDiamaterMin() {
-		return view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_DIAMETER_MIN;
-	}
-
+	/**
+	 * @param pointType point style
+	 */
 	public void setPointStyle(int pointType) {
 		if(pointType == this.P.getPointStyle()){
 			return;
@@ -585,6 +579,9 @@ public final class DrawPoint extends Drawable {
 		update();
 	}
 
+	/**
+	 * @return the circle as area
+	 */
 	public GArea getDot() {
 		return AwtFactory.prototype.newArea(this.circle);
 	}

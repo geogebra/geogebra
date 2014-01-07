@@ -164,6 +164,7 @@ public class DrawSlider extends Drawable {
 	 * 
 	 * @param x mouse x-coord
 	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y, int hitThreshold) {
@@ -180,6 +181,7 @@ public class DrawSlider extends Drawable {
 	 * 
 	 * @param x mouse x-coord
 	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
