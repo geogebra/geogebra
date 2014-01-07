@@ -6,6 +6,7 @@ import geogebra.web.main.AppW;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Window;
 
 public class RowHeaderHandler implements MouseUpHandler{
 
@@ -42,7 +43,7 @@ public class RowHeaderHandler implements MouseUpHandler{
 		    	// because it must store in GuiManagerW.currentPopup - in this way the popup will hide
 		    	// when a newer popup will be shown.
 		    	RowHeaderPopupMenuW popupMenu = app.getGuiManager().getCASContextMenu(rowHeader, table);
-		    	popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
+		    	popupMenu.show(new GPoint(event.getClientX() + Window.getScrollLeft(), event.getClientY() + Window.getScrollTop()));
 			}
 	    }    
 	    
