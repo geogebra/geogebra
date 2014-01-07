@@ -90,7 +90,6 @@ import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.gui.util.PopupMenuHandler;
-import geogebra.web.gui.util.SelectionTable;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
@@ -479,9 +478,46 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
 		private GColor selectedColor;
-		private SelectionTable colorTable;
 		private PreviewPanel previewPanel;
+		private OpacityPanel opacityPanel;
 		
+		private class OpacityPanel extends FlowPanel {
+			private Label title;
+			private Label minLabel;
+			private Slider slider;
+			private Label maxLabel;
+			
+			public OpacityPanel() {
+				super();
+				mainPanel = new FlowPanel();
+				title = new Label();
+				add(title);
+				minLabel = new Label("1");
+				add(minLabel);
+		
+				slider = new Slider(1, 100);
+				slider.setMajorTickSpacing(2);
+				slider.setMinorTickSpacing(1);
+				slider.setPaintTicks(true);
+				slider.setPaintLabels(true);
+				add(slider);
+				maxLabel = new Label("100");
+				add(maxLabel);
+				slider.addChangeHandler(new ChangeHandler(){
+
+					public void onChange(ChangeEvent event) {
+	                    applyChanges();
+                    }});
+			}
+
+			public float getAlphaValue() {
+	            return isVisible() ? slider.getValue() : 1.0f;
+            }
+			
+			public void setLabels() {
+			
+			}
+		}
 		private class PreviewPanel extends FlowPanel {
 			private Label title;
 			private FlowPanel preview;
@@ -526,14 +562,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainPanel.add(colorChooserW);
 			previewPanel = new PreviewPanel();
 			mainPanel.add(previewPanel);
-		
+//			opacityPanel = new OpacityPanel();
+//			mainPanel.add(opacityPanel);
 			setWidget(mainPanel);
 
 		}
 
 
 		public void applyChanges() {
-			float alpha = colorChooserW.getAlphaValue();
+			float alpha = opacityPanel.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
 			previewPanel.update(color);
 			model.applyChanges(color, alpha, false);
@@ -566,7 +603,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}
 			}
 
-//			colorChooser.setSliderVisible(hasOpacity);
+			opacityPanel.setVisible(hasOpacity);
 //			colorChooser.update(model.getGeos());
 			colorChooserW.setSelectedColor(selectedColor);
 			updatePreview(selectedColor, 1);
