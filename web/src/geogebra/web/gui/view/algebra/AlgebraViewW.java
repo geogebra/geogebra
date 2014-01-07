@@ -36,6 +36,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -397,7 +398,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 					if(ob instanceof GeoElement) {
 						ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 						temp.add((GeoElement)ob);
-						GPoint point = new GPoint(evt.getClientX(), evt.getClientY());
+						GPoint point = new GPoint(evt.getClientX() + Window.getScrollLeft(), evt.getClientY() + Window.getScrollTop());
 						((GuiManagerW)app.getGuiManager()).showPopupMenu(temp, AlgebraViewW.this, point);
 					}
 				}
