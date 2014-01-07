@@ -922,7 +922,7 @@ public class StringUtil {
 		StringBuilder sb = new StringBuilder(80);
 		boolean ignore = false;
 		boolean underscore = false;
-		boolean comment = true;
+		boolean comment = false;
 		for (int i = 0 ; i < text.length() ; i++) {
 			
 			char ch = text.charAt(i);
@@ -932,7 +932,7 @@ public class StringUtil {
 				continue;
 			}
 
-			if (ch == '"') {
+			if (ch == '"' && !underscore) {
 				sb.append(ch);
 				comment = !comment;
 				continue;

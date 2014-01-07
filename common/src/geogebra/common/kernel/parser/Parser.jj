@@ -98,7 +98,7 @@ public class Parser implements ParserInterface{
     
     // reset for new parsing
     public void myReInit(String parseString) throws ParseException {
-        if(StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
+        if(!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
           throw new BracketsError(loc,parseString);
         }
     	ReInit(new java.io.StringReader(parseString));    	
