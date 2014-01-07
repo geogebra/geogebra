@@ -20,7 +20,7 @@ public class SingularWSSettings {
      * Use caching on server side? It's possible to use server side default by
      * setting this to null, otherwise we'll override the server setting.
      */
-    public static Boolean useCaching = null;
+    public static Boolean useCaching = true;
 	/**
 	 * Reports current caching setting in human readable form.
 	 * @return "false", "true" or "auto"
