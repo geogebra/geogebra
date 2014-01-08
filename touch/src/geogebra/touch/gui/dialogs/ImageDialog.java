@@ -27,6 +27,7 @@ public class ImageDialog extends DialogT {
 	private final Localization loc;
 	private Button cancelButton = new Button();
 	private Label title = new Label();
+	private Label description = new Label();
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 
@@ -54,11 +55,13 @@ public class ImageDialog extends DialogT {
 	}
 
 	private void addInsertChoice() {
-		HorizontalPanel insertChoicePanel = new HorizontalPanel();
+		VerticalPanel insertChoicePanel = new VerticalPanel();
 		insertChoicePanel.setStyleName("insertChoicePanel");
+		
+		insertChoicePanel.add(this.description);
 
 		// TODO use/search for new icons
-		StandardButton insertFromCamera = new StandardButton(LafIcons.document_new());
+		StandardButton insertFromCamera = new StandardButton(LafIcons.icon_kamera(), "Camera");
 		insertFromCamera.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -67,7 +70,7 @@ public class ImageDialog extends DialogT {
 			}
 		});
 
-		StandardButton insertFromGallery = new StandardButton(LafIcons.document_open());
+		StandardButton insertFromGallery = new StandardButton(LafIcons.icon_gallery(), "Gallery");
 		insertFromGallery.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -168,6 +171,7 @@ public class ImageDialog extends DialogT {
 
 	public void setLabels() {
 		this.cancelButton.setText(this.loc.getMenu("Cancel"));
-		this.title.setText(this.loc.getMenu("InsertImageFrom"));
+		this.title.setText(this.loc.getMenu("Image"));
+		this.description.setText(this.loc.getMenu("InsertImageFrom"));
 	}
 }

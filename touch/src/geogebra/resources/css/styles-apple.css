@@ -163,20 +163,38 @@ body .inputDialog .iconPanel img {
 	text-shadow: 0px -2px 2px #111111;
 }
 
-.imageDialog .insertChoicePanel div.button {
-	background-image: none;
-	padding: 12px;
-	margin-right: 10px;
-	margin-left: 10px;
-}
 .buttonPanel td {
 	text-align: center;
 }
 
+/* Image Dialog */
+
 .imageDialog .insertChoicePanel {
-	margin-left: auto;
-	margin-right: auto;
+	padding: 0 15px;
+	min-width: 200px;
 }
+
+.imageDialog .insertChoicePanel div.button {
+	background-image: none;
+	padding: 5px 5px 1px 5px;
+	margin-top: 10px;
+	border: none;
+}
+
+.insertChoicePanel .button .image {
+	float: left;
+	margin-right: 15px;
+}
+
+.insertChoicePanel .button .gwt-Label {
+	float: left;
+	margin-top: 7px;
+}
+
+.imageDialog .buttonPanel {
+	margin-top: 15px;
+}
+
 
 body .imageDialog button,
 body .inputDialog button,

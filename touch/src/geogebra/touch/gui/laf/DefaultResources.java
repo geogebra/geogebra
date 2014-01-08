@@ -38,6 +38,14 @@ public interface DefaultResources extends ClientBundle {
 	@Source("icons/svg/algebra_shown.svg")
 	@Validated(validated = false)
 	SVGResource algebra_shown();
+	
+	@Source("icons/svg/android/kamera.svg")
+	@Validated(validated = false)
+	SVGResource icon_kamera();
+	
+	@Source("icons/svg/android/gallery.svg")
+	@Validated(validated = false)
+	SVGResource icon_gallery();
 
 	// Header
 

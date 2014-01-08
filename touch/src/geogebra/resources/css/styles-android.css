@@ -131,16 +131,25 @@ body .errorDialog .textPanel {
 }
 
 .imageDialog .insertChoicePanel {
-	/*width: 100%;*/
-	margin-left: auto;
-	margin-right: auto;
+	padding: 0 15px;
+	min-width: 200px;
 }
 
 .imageDialog .insertChoicePanel div.button {
 	background-image: none;
-	padding: 12px;
-	margin-right: 10px;
-	margin-left: 10px;
+	padding: 5px 5px 1px 5px;
+	margin-top: 10px;
+	border: none;
+}
+
+.insertChoicePanel .button .image {
+	float: left;
+	margin-right: 15px;
+}
+
+.insertChoicePanel .button .gwt-Label {
+	float: left;
+	margin-top: 7px;
 }
 
 .imageDialog .titlePanel,
