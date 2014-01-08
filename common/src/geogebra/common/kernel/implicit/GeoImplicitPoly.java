@@ -51,6 +51,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -1335,6 +1336,10 @@ Dilateable, Transformable, EuclidianViewCE {
 			if (viewBounds[0]==Double.POSITIVE_INFINITY){ //no active View
 				viewBounds=new double[]{-10,10,-10,10,10,10}; //get some value...
 			}
+			//increase grid size for big screen, #1563
+			gridWidth = Math.min(60,Math.max(30,(int) (viewBounds[4]*(viewBounds[1]-viewBounds[0])/40)));
+			gridHeight = Math.min(60, Math.max(30,(int)(viewBounds[5] *(viewBounds[3]-viewBounds[2])/30)));
+			App.debug(gridWidth+"x"+gridHeight+","+(viewBounds[1]-viewBounds[0]));
 			updatePath(viewBounds[0], viewBounds[2], viewBounds[1]-viewBounds[0],
 					viewBounds[3]-viewBounds[2], 1./viewBounds[4]/viewBounds[5]);
 		}
