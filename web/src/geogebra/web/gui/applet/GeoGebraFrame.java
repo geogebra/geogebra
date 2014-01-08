@@ -384,10 +384,10 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 					app.getGuiManager().resize(width, height);
 				}
 			} else if (move == true) {
-				// move is always false; if it will be true,
+				// move is always false; if it will be true, the following thing should be tested:
 				// note that eventGetClientX needs Window.getScrollLeft added
-				RootPanel.get().setWidgetPosition(this, DOM.eventGetClientX(event),
-						DOM.eventGetClientY(event));
+				RootPanel.get().setWidgetPosition(this, DOM.eventGetClientX(event) + Window.getScrollLeft(),
+						DOM.eventGetClientY(event) + Window.getScrollTop());
 			}
 			break;
 		case Event.ONMOUSEUP:
