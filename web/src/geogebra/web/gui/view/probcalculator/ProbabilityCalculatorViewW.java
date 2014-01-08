@@ -1,6 +1,5 @@
 package geogebra.web.gui.view.probcalculator;
 
-import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
@@ -26,7 +25,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -657,16 +655,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		} else if (source == comboProbType) {
 			updateProbabilityType();
 		}
-    }
-
-	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void keyReleased(KeyEvent e) {
-	    // TODO Auto-generated method stub
-	    
     }
 
 	public void onFocus(FocusEvent event) {

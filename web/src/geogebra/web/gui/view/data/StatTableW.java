@@ -260,10 +260,12 @@ public class StatTableW extends FlowPanel {
 	    	   if (!(parentRow.getPreviousSiblingElement() != null &&
 	    		   		parentRow.getPreviousSiblingElement().hasClassName("selected") ||
 	    		   		parentRow.getNextSiblingElement() != null &&
-	    		   		parentRow.getNextSiblingElement().hasClassName("selected"))) {
+	    		   		parentRow.getNextSiblingElement().hasClassName("selected")) && !event.isShiftKeyDown()) {
 	    			   		clearSelection(c);
+	    		   	} else if (event.isShiftKeyDown()) {
+	    		   		selectTableRows(getFirstSelectedRow(c.getRowIndex()), c.getRowIndex());
 	    		   	}
-			} else {
+			} else if (!event.isShiftKeyDown()) {
 				clearSelectionFrom(c);
 			}
 		}
@@ -325,9 +327,13 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		private void selectTableRows(int from, int to) {
-			for (int i = from; i<= to; i++) {
- 			   this.getRowFormatter().getElement(i).addClassName("selected");
- 		   }
+			App.debug(from + ", " + to);
+			int fr = from > -1 ? from : 0;
+			if (fr <= to) {
+				for (int i = fr; i<= to; i++) {
+					this.getRowFormatter().getElement(i).addClassName("selected");
+				}
+			}
 		}
 
 		public void changeSelection(int row, boolean toggle, boolean extend) {
