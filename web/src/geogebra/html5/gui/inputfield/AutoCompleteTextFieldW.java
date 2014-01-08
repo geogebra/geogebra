@@ -146,6 +146,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 			setColumns(columns);
 		}
 		setVerticalAlignment(ALIGN_MIDDLE);
+		addStyleName("AutoCompleteTextFieldW");
 
 		String id = DOM.createUniqueId();
 		// App.debug(id);

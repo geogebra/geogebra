@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -342,13 +343,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		setSampleFieldLabels();
 		setSampleFieldText();
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
-			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
-			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
-			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
+			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null && lblSampleStat1[i].getText() != "");
+			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null && lblSampleStat1[i].getText() != "");
+			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null && lblSampleStat2[i].getText() != "");
+			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null && lblSampleStat2[i].getText() != "");
 		}
 
-		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null));
+		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null && lblSampleStat2[0].getText() != ""));
 
 		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
 				|| selectedProcedure == Procedure.TMEAN2_CI);
@@ -378,19 +379,18 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	}
 
 	private void setInputPanelLayout() {
-	   fldNullHyp.removeStyleName("breakafter");
-	   lblHypParameter.removeStyleName("breakafter");
-	   
 	   if (panelBasicProcedures == null) {
 		   panelBasicProcedures = new FlowPanel();
 	   }
 	   
 	   if (panelSample1 == null) {
 		   panelSample1 = new FlowPanel();
+		   panelSample1.addStyleName("panelSample1");
 	   }
 	   
 	   if (panelSample2 == null) {
 		   panelSample2 = new FlowPanel();
+		   panelSample2.addStyleName("panelSample2");
 	   }
 	   
 	   if (panelTestAndCI == null) {
@@ -410,14 +410,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   for (int i = 0; i < lblSampleStat1.length; i++) {
 			panelSample1.add(lblSampleStat1[i]);
 			panelSample1.add(fldSampleStat1[i]);
+			panelSample1.getElement().appendChild(Document.get().createBRElement());
 		}
 	   
-	   panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
+	   //panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
 	   panelSample2.add(lblSampleHeader2);
 	   
 	   for (int i = 0; i < lblSampleStat2.length; i++) {
 			panelSample2.add(lblSampleStat2[i]);
 			panelSample2.add(fldSampleStat2[i]);
+			panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
 	   
 	   switch (selectedProcedure) {
@@ -433,19 +435,21 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(fldNullHyp);
 				panelTestAndCI.add(lblHypParameter);
-				lblHypParameter.addStyleName("breakafter");
+				panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(lblHypParameter);
-				panelTestAndCI.add(fldNullHyp );
-				fldNullHyp.addStyleName("breakafter");
+				panelTestAndCI.add(fldNullHyp);
+				panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
+
 			}
 			panelTestAndCI.add(lblTailType);
 			panelTestAndCI.add(btnLeft); 
 			panelTestAndCI.add(btnRight);
 			panelTestAndCI.add(btnTwo);
 			panelTestAndCI.add(ckPooled);
+			panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 
 		case ZMEAN_CI:
@@ -458,6 +462,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			panelTestAndCI.add(lblConfLevel);
 			panelTestAndCI.add(fldConfLevel);
 			panelTestAndCI.add(ckPooled);
+			panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 		}
 	   
@@ -582,11 +587,21 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 		bodyText = new StringBuilder();
 		bodyText.append(statHTML.getStatString());
+		bodyText.append(getStyleForBodyText());
 		updateResultText();
 
 		
 	}
 	
+	private String getStyleForBodyText() {
+		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
+	    return "<style>" +
+	    		"body {color:#00008B; font : 9pt verdana; margin: 4px;  }" +
+	    		"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
+						+ padding + "}" +
+	    "</style>";
+    }
+
 	private void updateResultText() {
 
 		String htmlString = "<html><body>\n" + bodyText.toString()

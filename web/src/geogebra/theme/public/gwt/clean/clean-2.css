@@ -2383,22 +2383,39 @@ label {
 	display: inline-block;
 }
 
-.StatisticsCalculatorW .controlPanel {
-	
+.StatisticsCalculatorW .panelControl {
+	margin: 5px 0 5px 20px;
 }
 
 .StatisticsCalculatorW .scroller {
-	overflow:auto;
-	margin-left:20px;
+	overflow: auto;
+	margin-left: 20px;
 }
 
+.StatisticsCalculatorW .panelSample2 > .gwt-Label, .StatisticsCalculatorW .panelSample2 > .AutoCompleteTextFieldW,
+.StatisticsCalculatorW .panelSample1 > .gwt-Label, .StatisticsCalculatorW .panelSample1 > .AutoCompleteTextFieldW {
+	display:inline-block;
+	margin: 2px 5px;
+}
+
+.StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
+	text-align: right;
+	margin-right: 50%;
+}
+
+.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child, .StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
+	display:block;
+}
+
+
+
 .StatisticsCalculatorW .panelTestAndCI {
-	
+	margin-bottom: 5px;
 }
 
 .StatisticsCalculatorW .panelTestAndCI > * {
 	display: inline-block;
-	margin: 0 5px;
+	margin: 2px 5px;
 }
 
 .StatisticsCalculatorW .breakafter:after {
