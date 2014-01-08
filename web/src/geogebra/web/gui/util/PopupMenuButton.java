@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
-import geogebra.html5.awt.GPointW;
 import geogebra.html5.gui.util.Slider;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
@@ -166,9 +165,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				if(prepareToShowPopup() == false) {
 					return;
 				}
-				
-				GPointW locButton = new GPointW(event.getX(),event.getY());
-				
+
+				// locButton is not used currently!!
+				// GPointW locButton = new GPointW(event.getX(),event.getY());
+
 				// trigger popup 
 				// default: trigger only when the mouse is over the right side of the button
 				// if isStandardButton: pressing anywhere triggers the popup
