@@ -550,7 +550,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 			
-			colorChooserW = new ColorChooserW(800, 200, colorIconSizeW, 4);
+			colorChooserW = new ColorChooserW(800, 220, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
 				public void onChangeColor(GColor color) {
@@ -603,8 +603,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}
 			}
 
-			opacityPanel.setVisible(hasOpacity);
-//			colorChooser.update(model.getGeos());
+//			opacityPanel.setVisible(hasOpacity);
 			colorChooserW.setSelectedColor(selectedColor);
 			updatePreview(selectedColor, 1);
 		}

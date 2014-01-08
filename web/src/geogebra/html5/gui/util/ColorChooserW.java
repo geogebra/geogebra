@@ -17,6 +17,8 @@ import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
@@ -31,19 +33,24 @@ public class ColorChooserW extends FlowPanel {
 	public static final GColor SELECTED_BOX_COLOR = new GColorW(255, 0, 0);
 	public static final String TITLE_FONT = "14pt geogebra-sans-serif";
 	public static final int TITLE_HEIGHT = 20;
+	public static final GColor FOCUS_COLOR = new GColorW(0, 0, 255);
+	public static final double BORDER_WIDTH = 2;
 	private Canvas canvas;
+	private Canvas previewCanvas;
 	private Context2d ctx;
 	private GDimensionW colorIconSize;
 	private int padding;
+	private List<ColorTable> tables;
 	private ColorTable leftTable;
 	private ColorTable mainTable;
 	private ColorTable recentTable;
 	private ColorTable otherTable;
 	private GColor selectedColor;
 	private ColorChangeHandler changeHandler;
+	private Context2d previewCtx;
 	private class ColorTable {
-		private int startX;
-		private int startY;
+		private int left;
+		private int top;
 		private int tableOffsetY;
 		private int maxCol;
 		private int maxRow;
@@ -59,153 +66,208 @@ public class ColorChooserW extends FlowPanel {
 		private double titleOffsetY;
 		private int currentCol;
 		private int currentRow;
-		
+		private int selectedCol;
+		private int selectedRow;
+		private int capacity;
+
 		public ColorTable(int x, int y, int col, int row, List<Integer> data)
 		{
-			startX = x;
-			startY = y;
+			left = x;
+			top = y;
 			tableOffsetY = 0;
 			maxCol = col;
 			maxRow = row;
+			capacity = maxCol * maxRow;
 			this.title = "";
 			palette = new ArrayList<GColor>();
 			currentCol = -1;
 			currentRow = -1;
+			selectedCol = -1;
+			selectedRow = -1;
 			if (data != null) {
 				for (Integer code: data) {
 					palette.add(new GColorW(code));
 				}
 			}
-			
-			setWidth(col * (colorIconSize.getWidth() + padding)); 
-			setHeight(row * (colorIconSize.getHeight() + padding));
+
+			setWidth(col * colorIconSize.getWidth() + padding); 
+			setHeight(row * colorIconSize.getHeight() + padding);
+
 			checkMark = ImageElement.as(new Image(AppResources.INSTANCE.color_chooser_check().getSafeUri()).getElement());
+
 			checkX = (colorIconSize.getWidth() - checkMark.getWidth()) / 2 + padding;
 			checkY = (colorIconSize.getHeight() - checkMark.getHeight()) / 2  + padding;
 			checkNeeded = false;
 		}
-		
+
 		protected void drawTitle() {
 			if (title.isEmpty()) {
 				return;
 			}
-			
+			ctx.save();
+			ctx.translate((double)left, (double)top);
+
 			ctx.setTextBaseline(TextBaseline.TOP);
 			ctx.clearRect(0, 0, width, TITLE_HEIGHT);
 			ctx.setFont(TITLE_FONT);
 			ctx.fillText(title, titleOffsetX, titleOffsetY);
-			tableOffsetY = TITLE_HEIGHT;
-			
-		}
-		protected void drawRect(int col, int row, GColor color) {
-			ctx.save();
-			//ctx.translate((double)startX, (double)startY);
-
-			int h = colorIconSize.getHeight();
-			int w = colorIconSize.getWidth(); 
-			int x = padding + (col * w);
-			int y = tableOffsetY + padding + (row * h);
-			ctx.setStrokeStyle(StringUtil.toHtmlColor(color));
-			ctx.strokeRect(x + padding , y + padding, w - padding, h - padding);
 			ctx.restore();
+
+			tableOffsetY = TITLE_HEIGHT;
 		}
-		
+
+
 		public void draw() {
+			drawTitle();
 			ctx.save();
 			ctx.scale(1, 1);
-			ctx.setLineWidth(0.5);
-			ctx.translate((double)startX, (double)startY);
-			drawTitle();
+
+			ctx.translate((double)left, (double)top);
 			int x = padding;
 			int y = tableOffsetY + padding;
-			int h = colorIconSize.getHeight();
-			int w = colorIconSize.getWidth(); 
 			for (int row = 0; row < maxRow; row++) {
 				for (int col = 0; col < maxCol; col++) {
-					GColor color = getColorFromPalette(col, row);
-					ctx.setFillStyle(StringUtil.toHtmlColor(color));
-					ctx.fillRect(x + padding , y + padding, w - padding, h - padding);	
-					
-					if (checkNeeded && colorEquals(color, selectedColor)) { 
-						ctx.drawImage(checkMark, x + checkX, y + checkY);
-						ctx.setStrokeStyle(StringUtil.toHtmlColor(SELECTED_BOX_COLOR));
-						ctx.strokeRect(x + padding , y + padding, w - padding, h - padding);
-					}
-					
-					x += w ;
-					drawRect(col, row, BOX_COLOR);
+					drawColorTile(col, row);
 				}	
-				x = padding;
-				y += h;
 			}
-		
+
+
+			ctx.strokeRect(0, 0, getWidth(), getHeight());
 			ctx.restore();
-			
+
 		}
+
+		private void drawColorTile(int col, int row) {
+			int h = colorIconSize.getHeight();
+			int w = colorIconSize.getWidth(); 
+
+			int x = (col * w);
+			int y = tableOffsetY + (row * h);
+
+			GColor borderColor = BOX_COLOR;
+			ctx.setLineWidth(1);
 			
-		public void setFocus(int x, int y) {
-			if (currentCol != -1 && currentRow != -1) {
-				drawRect(currentCol, currentRow, BOX_COLOR);
+			
+			GColor fillColor = getColorFromPalette(col, row);
+			ctx.setFillStyle(StringUtil.toHtmlColor(fillColor));
+			
+			ctx.fillRect(x + padding, y + padding, w - padding, h - padding);
+			
+			if (col == currentCol && row == currentRow) {
+				ctx.setLineWidth(BORDER_WIDTH);
+				borderColor = FOCUS_COLOR;				
+			} else if (col == selectedCol && row == selectedRow) {
+				ctx.setLineWidth(BORDER_WIDTH);
+				if (checkNeeded) {
+					ctx.drawImage(checkMark, x + checkX, y + checkY);
+					borderColor = SELECTED_BOX_COLOR;
+				}
+				
 			}
 			
-			int col = (x - startX - padding);
+			
+			ctx.setStrokeStyle(StringUtil.toHtmlColor(borderColor));
+			ctx.strokeRect(x + padding, y + padding, w - padding, h - padding);
+			//	ctx.stroke();
 		}
+
+		public boolean setFocus(int x, int y) {
+
+			if (x < left || x > (left + width) ||
+					y < top + tableOffsetY || y > (top + height + tableOffsetY)	) {
+				focusLost();
+				return false;
+			}
+
+			boolean result = false;
+
+			int col = (x - left) / colorIconSize.getWidth();
+			int row = (y - top - tableOffsetY) / colorIconSize.getHeight();
+			App.debug("Focus " + col + ", " + row);
+
+
+			if (isValidCol(col) && isValidRow(row)) {
+				currentCol = col;
+				currentRow = row;
+				draw();
+				result = true;
+			}
+			return result;
+		}
+
+		private void focusLost() {
+			currentCol = -1;
+			currentRow = -1;
+			draw();
+		}
+
+		private boolean isValidCol(int col) {
+			return (col  >= 0 && col < maxCol);
+		}
+
+		private boolean isValidRow(int row) {
+			return (row  >= 0 && row < maxRow);
+		}
+
 		private final GColor getColorFromPalette(int col, int row) {
 			int idx = row * maxCol + col;
 			return (palette != null && idx < palette.size() ? palette.get(idx) : DEFAULT_COLOR);
 		}
 
 		public int getHeight() {
-	        return height;
-        }
+			return tableOffsetY + height;
+		}
 
 		public void setHeight(int height) {
-	        this.height = height;
-        }
+			this.height = height;
+		}
 
 		public int getWidth() {
-	        return width;
-        }
+			return width;
+		}
 
 		public void setWidth(int width) {
-	        this.width = width;
-        }
+			this.width = width;
+		}
 
-		public GColor getColorAt(int x, int y) {
-	        if (x < startX || x > (startX + width) ||
-	        		y < startY + tableOffsetY || y > (startY + height + tableOffsetY)	) {
-	        	return null;
-	        }
-	        
-	        int col = (x - startX) / (colorIconSize.getWidth());
-	        int row = (y - startY - tableOffsetY) / (colorIconSize.getHeight());
-	        App.debug("HIT! " + col + ", " + row);
-	        return getColorFromPalette(col, row);
- 
-        }
+		public GColor getSelectedColor() {
+			if (!(isValidCol(currentCol) && isValidRow(currentRow))) {
+				selectedCol = -1;
+				selectedRow = -1;
+				return null;
+			}
+			selectedCol = currentCol;
+			selectedRow = currentRow;
+			
+			return getColorFromPalette(currentCol, currentRow);
+
+		}
 
 		public void injectColor(GColor color) {
 			palette.add(0, color);
+			draw();
+			if (palette.size() > capacity) {
+				palette.remove(capacity);
+			}
 		}
 
 		public boolean isCheckNeeded() {
-	        return checkNeeded;
-        }
+			return checkNeeded;
+		}
 
 		public void setCheckNeeded(boolean checkNeeded) {
-	        this.checkNeeded = checkNeeded;
-        }
+			this.checkNeeded = checkNeeded;
+		}
 
 		public String getTitle() {
-	        return title;
-        }
+			return title;
+		}
 
 		public void setTitle(String title, int offsetX, int offsetY) {
-	        this.title = title;
-	        titleOffsetX = offsetX;
-	        titleOffsetY = offsetY;
-	        drawTitle();
-        }
+			this.title = title;
+			titleOffsetX = offsetX;
+			titleOffsetY = offsetY;
+		}
 
 	}
 
@@ -215,6 +277,13 @@ public class ColorChooserW extends FlowPanel {
 		canvas.setCoordinateSpaceHeight(height);
 		canvas.setCoordinateSpaceWidth(width);
 		ctx = canvas.getContext2d();
+		
+		previewCanvas = Canvas.createIfSupported();
+		previewCanvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
+		previewCanvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
+		previewCanvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
+		previewCtx = previewCanvas.getContext2d();
+	
 		this.colorIconSize = colorIconSize;
 		this.padding = padding;
 
@@ -230,11 +299,11 @@ public class ColorChooserW extends FlowPanel {
 						0x404040, 0x0000ff,
 						0x202020, 0x7f00ff,
 						0x000000, 0xff00ff
-							)
+						)
 				);
-		
+
 		x += leftTable.getWidth() + 5;
-		
+
 		mainTable = new ColorTable(x, 20, 8, 8, 
 				Arrays.asList(
 						0xffc0cb, 0xff99cc, 0xff6699, 0xff3366, 0xff0033, 0xcc0000, 0x800000, 0x330000, 
@@ -247,83 +316,88 @@ public class ColorChooserW extends FlowPanel {
 						0xccccff, 0xcc99ff, 0xcc66ff, 0x9966ff, 0x6600cc, 0x800080, 0x4b0082, 0x330033, 
 						0xe0b0ff, 0xff99ff, 0xff9999, 0xff33cc, 0xdc143c, 0xcc0066, 0x990033, 0x660099
 						)); 
-		
+
 		x += mainTable.getWidth() + 5;
-		
+
 		recentTable = new ColorTable(x, 22, 6, 4, null); 
 		otherTable = new ColorTable(x, 140, 6, 2, null); 
-	
+
 		leftTable.setCheckNeeded(true);
 		mainTable.setCheckNeeded(true);
-		
+
+		tables = Arrays.asList(leftTable, mainTable, recentTable, otherTable);
+		setTitles("Recent", "Other");
+
 		add(canvas);
 		canvas.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
+				GColor color = null;
+				boolean insertToRecent = false;
+				for (ColorTable table: tables) {
+					color = table.getSelectedColor();
+					if (color != null) {
+						insertToRecent = table != recentTable;
+						break;
+					}
+				}		
+
+				if (color != null) {
+					selectedColor = color;
+					if (insertToRecent == true) {
+						recentTable.injectColor(selectedColor);
+					}
+					if (changeHandler != null) {
+						changeHandler.onChangeColor(selectedColor);
+					}
+				}
+
+			}});
+
+		canvas.addMouseMoveHandler(new MouseMoveHandler() {
+
+			public void onMouseMove(MouseMoveEvent event) {
 				int x = event.getRelativeX(canvas.getElement());
 				int y = event.getRelativeY(canvas.getElement());
-	            GColor color = leftTable.getColorAt(x, y);
-	            if (color == null) {
-	            	 color = mainTable.getColorAt(x, y);
-	  	             	
-	            }
-	            
-	            boolean fromRecent = false;
-	            if (color == null) {
-	            	 color = recentTable.getColorAt(x, y);
-	  	             fromRecent = (color != null);
-	            }
-	            
-	            if (color == null) {
-	            	 color = otherTable.getColorAt(x, y);
-	  	             	
-	            }
-	           
-	            if (color != null) {
-	            	if (!fromRecent) {
-	            		recentTable.injectColor(color);
-	            	} 
-	
-	            	setSelectedColor(color);
-	            	if (changeHandler != null) {
-	            		changeHandler.onChangeColor(color);
-	            	}
-	            }
-
-	            
-            }});
+				for (ColorTable table: tables) {
+					table.setFocus(x, y);
+				}				
+			}});
 	}
-	
+
 	public boolean colorEquals(GColor color1, GColor color2) {
-	    return color1.getRGB() == color2.getRGB();
-    }
+		return color1.getRGB() == color2.getRGB();
+	}
 
 	public void update() {
-		leftTable.draw();		
-		mainTable.draw();
-		recentTable.draw();
-		otherTable.draw();
+		for (ColorTable table: tables) {
+			table.draw();
 		}
-	
+	}
+
+	public void updatePreview() {
+		
+	}
 	public GColor getSelectedColor() {
-        return selectedColor;
-    }
+		return selectedColor;
+	}
 
 	public void setSelectedColor(GColor color) {
-        selectedColor = color;
-        update();
+		selectedColor = color;
+		update();
 	}	
-	
+
 	public void setTitles(String recentTitle, String otherTitle) {
 		leftTable.setTitle("", 0, 0);
 		recentTable.setTitle(recentTitle, 0, 0);
 		otherTable.setTitle(otherTitle, 0, 0);
+		update();
 	}
 	public void addChangeHandler(ColorChangeHandler changeHandler) {
-	    this.changeHandler = changeHandler;
-    }
+		this.changeHandler = changeHandler;
+	}
 
 	public float getAlphaValue() {
-	    // TODO Auto-generated method stub
-	    return 1.0f;
-    }
+		// TODO Auto-generated method stub
+		return 1.0f;
+	}
 }
