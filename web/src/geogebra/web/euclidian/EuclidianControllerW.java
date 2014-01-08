@@ -329,8 +329,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onMouseOut(MouseOutEvent event) {
 		// hide dialogs if they are open
-		int x = event.getClientX();
-		int y = event.getClientY();
+		int x = event.getClientX() + Window.getScrollLeft();
+		int y = event.getClientY() + Window.getScrollTop(); // why scrollLeft & scrollTop; see ticket #4049
+
 		int ex = ((EuclidianViewW) view).getAbsoluteLeft();
 		int ey = ((EuclidianViewW) view).getAbsoluteTop();
 		int eWidth = ((EuclidianViewW) view).getWidth();

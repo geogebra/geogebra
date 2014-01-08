@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasValue;
@@ -151,9 +152,9 @@ public class ImageList extends FocusWidget implements HasChangeHandlers, HasValu
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-		int x = event.getClientX();
-		int y = event.getClientY();
-		
+		int x = event.getClientX() + Window.getScrollLeft(); // why scrollLeft & scrollTop; see ticket #4049
+		int y = event.getClientY() + Window.getScrollTop();
+
 		for(int i = 0; i < ul.getWidgetCount(); i++) {
 			Widget w = ul.getWidget(i);
 			int left = w.getAbsoluteLeft();
