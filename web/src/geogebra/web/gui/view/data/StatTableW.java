@@ -327,7 +327,6 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		private void selectTableRows(int from, int to) {
-			App.debug(from + ", " + to);
 			int fr = from > -1 ? from : 0;
 			if (fr <= to) {
 				for (int i = fr; i<= to; i++) {
