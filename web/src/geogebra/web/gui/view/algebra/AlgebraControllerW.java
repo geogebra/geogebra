@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Window;
 
 
 public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
@@ -45,13 +46,13 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 		}
 
 		// get GeoElement at mouse location		
-		Object tp = view.getPathForLocation(e.getX(), e.getY());
+		Object tp = view.getPathForLocation(e.getX() + Window.getScrollLeft(), e.getY() + Window.getScrollTop());
 		GeoElement geo = view.getGeoElementForPath(tp);
 
 		// check if we clicked on the 16x16 show/hide icon
 		if (geo != null) {
 			GRectangle rect = (GRectangle)view.getPathBounds(tp);
-			boolean iconClicked = rect != null && e.getX() - rect.getX() < 16; // distance from left border				
+			boolean iconClicked = rect != null && e.getX() + Window.getScrollLeft() - rect.getX() < 16; // distance from left border				
 			if (iconClicked) {
 				// icon clicked: toggle show/hide
 				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
@@ -162,7 +163,9 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 			// The default algebra menu will be created here (not for GeoElements).
 			/*e.consume(); FIXME*/
 			AlgebraContextMenuW contextMenu = ((GuiManagerW)app.getGuiManager()).getAlgebraContextMenu();
-			contextMenu.show(view, e.getPoint().x, e.getPoint().y);
+
+			// Window.getScrollLeft and .getScrollTop are necessary; see ticket #4049
+			contextMenu.show(view, e.getPoint().x + Window.getScrollLeft(), e.getPoint().y + Window.getScrollTop());
 
 			// LEFT CLICK	
 		} else {
@@ -180,7 +183,9 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 
 			skipSelection = false; // flag to prevent duplicate selection in MouseClicked
 
-			Object tp = view.getPathForLocation(e.getX(), e.getY());
+			// view.getPathForLocation is not yet implemented, but if it will be, note Window.getScrollLeft() (ticket #4049)
+			Object tp = view.getPathForLocation(e.getX() + Window.getScrollLeft(), e.getY() + Window.getScrollTop());
+
 			GeoElement geo = view.getGeoElementForPath(tp);	
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			int mode = ev.getMode();
@@ -215,8 +220,8 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 		if (view.isEditing())
 			return;
 
-		int x = e.getX();
-		int y = e.getY();
+		int x = e.getX() + Window.getScrollLeft(); // #4049
+		int y = e.getY() + Window.getScrollTop();
 
 		GeoElement geo = view.getGeoElementForLocation(view, x, y);
 
@@ -249,11 +254,13 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		// TODO: make it care for mouse down too 
+		// TODO: make it care for mouse down too
+		// currently, this event is not used
 		mouseClicked(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
+		// currently, this event is not used
 		mouseMoved(PointerEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
