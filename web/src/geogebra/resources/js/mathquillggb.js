@@ -2060,6 +2060,9 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
   };
 });
 
+var gapHTML = '<span style="visibility: hidden;">&0</span>';
+LatexCmds.phantom = bind(SomethingHTML, '\\phantom', gapHTML);
+
 // MathQuillGGB hacks by GeoGebra
 var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
