@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -350,7 +351,12 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 	public void onMouseMove(MouseMoveEvent event) {
 		if (dragInProgress) {
-			mouseDragged(event.getX(), event.getY());
+			// It is not exactly known what should event.getX() and event.getY() mean
+			// mouseDragged(event.getX(), event.getY());
+
+			// Thus trying to use the following solution instead,
+			// because it fits to the contents of that method (for more info, see #4049)
+			mouseDragged(event.getClientX() + Window.getScrollLeft(), event.getClientY() + Window.getScrollTop());
 		}
 	}
 
