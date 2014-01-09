@@ -163,7 +163,7 @@ public class View {
 	
 	private int zippedLength = 0;
 	
-	private void putIntoArciveContent(String key, String value) {
+	private void putIntoArchiveContent(String key, String value) {
 		archiveContent.put(key, value);
 		if (archiveContent.size() == zippedLength) {
 			maybeLoadFile();
@@ -243,7 +243,7 @@ public class View {
 		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
 		                        var filenameParts = filename.split(".");
 		                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]), function (data) {
-		                            view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
+		                            view.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 		                        });
 		                    } else {
 		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
@@ -251,12 +251,12 @@ public class View {
 		                        	@geogebra.common.main.App::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 			                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-			                          	view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
+			                          	view.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 			                         });
 		                        } else {
 		                        	@geogebra.common.main.App::debug(Ljava/lang/String;)("worker");
 		                        	entry.getData(new ASCIIWriter(), function(text) {
-			                          	view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
+			                          	view.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 			                         });
 		                        }
 		                        	
@@ -354,7 +354,7 @@ public class View {
 				                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
 				                        var filenameParts = filename.split(".");
 				                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length -1]), function (data) {
-				                            view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
+				                            view.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				                        });
 				                    } else {
 				                        @geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
@@ -362,12 +362,12 @@ public class View {
 				                            @geogebra.common.main.App::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-					                          	view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
+					                          	view.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 					                         });
 				                        } else {
 				                        	@geogebra.common.main.App::debug(Ljava/lang/String;)("worker");
 				                        	entry.getData(new ASCIIWriter(), function(text) {
-					                          	view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
+					                          	view.@geogebra.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 					                         });
 				                        }
 				                        	

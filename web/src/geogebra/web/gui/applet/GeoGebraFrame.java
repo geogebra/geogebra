@@ -551,7 +551,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 * @param frame GeoGebraFrame subclasses
 	 *
 	 */
-	public static void renderArticleElemntWithFrame(final Element element, GeoGebraFrame frame) {
+	public static void renderArticleElementWithFrame(final Element element, GeoGebraFrame frame) {
 		final ArticleElement article = ArticleElement.as(element);
 		article.clear();
 		Date creationDate = new Date();

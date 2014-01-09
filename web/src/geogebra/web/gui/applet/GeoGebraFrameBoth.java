@@ -111,6 +111,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	 * @param el html element to render into
 	 */
 	public static void renderArticleElement(Element el) {
-		GeoGebraFrame.renderArticleElemntWithFrame(el, new GeoGebraFrameBoth());
+		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth());
 	}
 }

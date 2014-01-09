@@ -48,6 +48,6 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	 * @param el html element to render into
 	 */
 	public static void renderArticleElement(Element el) {
-		GeoGebraFrame.renderArticleElemntWithFrame(el, new GeoGebraFrameSimple());
+		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameSimple());
 	}
 }
