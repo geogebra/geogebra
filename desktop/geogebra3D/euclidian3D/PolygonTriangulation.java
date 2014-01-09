@@ -151,6 +151,7 @@ public class PolygonTriangulation {
 		Point leftPoint, rightPoint;
 		Segment above, below;
 		Segment next;
+		Segment diagonalToLeft, diagonalToRight;
 		
 		Running running = Running.STOP;
 		
@@ -170,7 +171,11 @@ public class PolygonTriangulation {
 		}
 
 		public Segment(double orientation, Point leftPoint, Point rightPoint){
+			this(leftPoint, rightPoint);
 			this.orientation = orientation;
+		}
+
+		public Segment(Point leftPoint, Point rightPoint){
 			this.leftPoint = leftPoint;
 			this.rightPoint = rightPoint;
 		}
@@ -199,6 +204,16 @@ public class PolygonTriangulation {
 			}
 
 			return "dummy";
+		}
+		
+		
+		public Point getFirstPoint(){
+			if (running == Running.LEFT){
+				return rightPoint;
+			}
+			
+			//running == Running.RIGHT
+			return leftPoint;
 		}
 
 		/**
@@ -283,18 +298,10 @@ public class PolygonTriangulation {
 
 		public int compare(Segment seg1, Segment seg2) {
 			
-			return getFirstPoint(seg1).compareToOnly(getFirstPoint(seg2));
+			return seg1.getFirstPoint().compareToOnly(seg2.getFirstPoint());
 			
 		}
 		
-		private Point getFirstPoint(Segment seg){
-			if (seg.running == Running.LEFT){
-				return seg.rightPoint;
-			}
-			
-			//seg.running == Running.RIGHT
-			return seg.leftPoint;
-		}
 		
 	}
 
@@ -792,19 +799,178 @@ public class PolygonTriangulation {
 			Segment segStart = polygonFirstSegmentList.get(i);
 			TreeSet<Point> ptSet = polygonPointsList.get(i);
 			TreeSet<Segment> segSet = polygonSegmentsList.get(i);
-			//s+="\npolygon "+i+" : ";
-			for (Segment seg = segStart ; seg.next != segStart ; seg = seg.next){ // last segment needs no check
+			App.debug("polygon "+i+" : ");
+			for (Segment seg = segStart.next ; seg != segStart ; seg = seg.next){ // last segment needs no check
 				//App.debug(""+seg);
 				if (seg.needsDiagonal){
 					if (seg.running == Running.RIGHT){
-						Segment seg2 = segSet.higher(seg.next);
-						App.debug("right : "+seg.rightPoint.name+"--"+seg2);
+						Segment seg2 = segSet.lower(seg);
+						Point pt = seg.leftPoint;
+						Point pt2 = seg2.getFirstPoint();
+						App.debug("right : ("+seg+"/"+seg2+")"+pt.name+"--"+pt2.name);
+						Segment diagonal = new Segment(pt2,pt);
+						Segment diagonal2 = new Segment(pt2,pt);
+						seg.diagonalToLeft = diagonal;
+						diagonal.next = seg2;
+						diagonal.running = Running.LEFT;
+						seg2.diagonalToRight = diagonal2;
+						diagonal2.next = seg;
+						diagonal2.running = Running.RIGHT;
 					}else{ // seg.running == Running.LEFT
-						Segment seg2 = segSet.lower(seg.next);
-						App.debug("left : "+seg.leftPoint.name+"--"+seg2);
+						Segment seg2 = segSet.higher(seg);
+						Point pt = seg.rightPoint;
+						Point pt2 = seg2.getFirstPoint();
+						App.debug("left : ("+seg+"/"+seg2+")"+pt.name+"--"+pt2.name);
+						Segment diagonal = new Segment(pt,pt2);
+						Segment diagonal2 = new Segment(pt,pt2);
+						seg.diagonalToRight = diagonal;
+						diagonal.next = seg2;		
+						diagonal.running = Running.RIGHT;
+						seg2.diagonalToLeft = diagonal2;
+						diagonal2.next = seg;
+						diagonal2.running = Running.LEFT;
+					}
+				}				
+			}
+			
+			Stack<Segment> segStartStack = new Stack<Segment>();
+			segStartStack.push(segStart);
+			int nb = 0;
+			while (!segStartStack.isEmpty() && nb < 4){
+				nb++;
+				App.debug("======= MONOTONE PIECE ==========");
+				segStart = segStartStack.pop();
+				Segment seg = segStart;
+				boolean go = true;
+				Segment diagonal2 = null;
+				Running onDiagonal = Running.STOP;
+				int nb2 = 0;
+				while(go && nb2 < 10){
+					nb2++;
+					App.debug(seg+"");
+					Segment diagonal = null;
+					
+					
+					switch(onDiagonal){
+					case STOP:
+						if (seg.running == Running.RIGHT){
+							diagonal = seg.next.diagonalToLeft;							
+							if (diagonal != null){
+								seg.next.diagonalToLeft = null;
+								App.debug("diagonal to left : "+diagonal);
+								diagonal2 = diagonal.next.diagonalToRight;
+								onDiagonal = Running.LEFT;
+							}else {
+								diagonal = seg.next.diagonalToRight;
+								if (diagonal != null){
+									seg.next.diagonalToRight = null;
+									App.debug("diagonal to right : "+diagonal);
+									diagonal2 = diagonal.next.diagonalToLeft;
+									onDiagonal = Running.RIGHT;
+								}
+							}
+
+						}else{ //seg.running == Running.LEFT						
+							diagonal = seg.next.diagonalToRight;							
+							if (diagonal != null){
+								seg.next.diagonalToRight = null;
+								App.debug("diagonal to right : "+diagonal);
+								diagonal2 = diagonal.next.diagonalToLeft;
+								onDiagonal = Running.RIGHT;
+							}else{
+								diagonal = seg.next.diagonalToLeft;
+								if (diagonal != null){
+									seg.next.diagonalToLeft = null;
+									App.debug("diagonal to left : "+diagonal);
+									diagonal2 = diagonal.next.diagonalToRight;
+									onDiagonal = Running.LEFT;
+								}
+							}
+						}
+						break;
+						
+					case RIGHT:
+						if (seg.next.running == Running.RIGHT){
+							diagonal = seg.next.diagonalToRight;
+							if (diagonal != null){
+								seg.next.diagonalToRight = null;
+								App.debug("diagonal to right : "+diagonal);
+								diagonal2 = diagonal.next.diagonalToLeft;
+								onDiagonal = Running.RIGHT;
+							}
+						}
+						break;
+						
+					case LEFT:
+						if (seg.next.running == Running.LEFT){
+							diagonal = seg.next.diagonalToLeft;
+							if (diagonal != null){
+								seg.next.diagonalToLeft = null;
+								App.debug("diagonal to left : "+diagonal);
+								diagonal2 = diagonal.next.diagonalToRight;
+								onDiagonal = Running.LEFT;
+							}
+						}
+						break;
+						
+					}
+					
+					/*
+					if (seg.running == Running.RIGHT){
+						if (onDiagonal!=Running.RIGHT){ // prevent U-turn
+							diagonal = seg.next.diagonalToLeft;
+						}
+						if (diagonal != null){
+							seg.next.diagonalToLeft = null;
+							App.debug("diagonal to left : "+diagonal);
+							diagonal2 = diagonal.next.diagonalToRight;
+							onDiagonal = Running.LEFT;
+						}else if (onDiagonal!=Running.LEFT){
+							diagonal = seg.next.diagonalToRight;
+							if (diagonal != null){
+								seg.next.diagonalToRight = null;
+								App.debug("diagonal to right : "+diagonal);
+								diagonal2 = diagonal.next.diagonalToLeft;
+								onDiagonal = Running.RIGHT;
+							}
+						}
+
+					}else{ //seg.running == Running.LEFT
+						if (onDiagonal!=Running.LEFT){ // prevent U-turn
+							diagonal = seg.next.diagonalToRight;
+						}
+						if (diagonal != null){
+							seg.next.diagonalToRight = null;
+							App.debug("diagonal to right : "+diagonal);
+							diagonal2 = diagonal.next.diagonalToLeft;
+							onDiagonal = Running.RIGHT;
+						}else if (onDiagonal!=Running.RIGHT){
+							diagonal = seg.next.diagonalToLeft;
+							if (diagonal != null){
+								seg.next.diagonalToLeft = null;
+								App.debug("diagonal to left : "+diagonal);
+								diagonal2 = diagonal.next.diagonalToRight;
+								onDiagonal = Running.LEFT;
+							}
+						}
+					}
+					*/
+
+					if (diagonal != null){
+						App.debug("-- next diagonal : "+diagonal2);
+						if (diagonal2 != null){
+							segStartStack.push(diagonal2);
+						}
+						seg = diagonal;
+					}else{
+						seg = seg.next;
+						onDiagonal = Running.STOP;
+					}
+					
+					if (seg == segStart){
+						go = false;
 					}
 				}
-				
 			}
 
 		}
@@ -818,7 +984,7 @@ public class PolygonTriangulation {
 	private void needsDiagonal(Segment seg1, Segment seg2){
 		//App.debug(seg1+"("+((int) (seg1.orientation*180/Math.PI))+"°)"+","+seg2+"("+((int) (seg2.orientation*180/Math.PI))+"°)");
 		if (seg1.orientation < seg2.orientation){
-			seg1.needsDiagonal = true;
+			seg2.needsDiagonal = true;
 			
 		}
 	}
