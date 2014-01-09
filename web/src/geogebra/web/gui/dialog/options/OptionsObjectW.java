@@ -69,7 +69,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
-import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -478,72 +477,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
 		private GColor selectedColor;
-		private PreviewPanel previewPanel;
-		private OpacityPanel opacityPanel;
-		
-		private class OpacityPanel extends FlowPanel {
-			private Label title;
-			private Label minLabel;
-			private Slider slider;
-			private Label maxLabel;
-			
-			public OpacityPanel() {
-				super();
-				mainPanel = new FlowPanel();
-				title = new Label();
-				add(title);
-				minLabel = new Label("1");
-				add(minLabel);
-		
-				slider = new Slider(1, 100);
-				slider.setMajorTickSpacing(2);
-				slider.setMinorTickSpacing(1);
-				slider.setPaintTicks(true);
-				slider.setPaintLabels(true);
-				add(slider);
-				maxLabel = new Label("100");
-				add(maxLabel);
-				slider.addChangeHandler(new ChangeHandler(){
-
-					public void onChange(ChangeEvent event) {
-	                    applyChanges();
-                    }});
-			}
-
-			public float getAlphaValue() {
-	            return isVisible() ? slider.getValue() : 1.0f;
-            }
-			
-			public void setLabels() {
-			
-			}
-		}
-		private class PreviewPanel extends FlowPanel {
-			private Label title;
-			private FlowPanel preview;
-			private Label rgb;
-	
-			public PreviewPanel() {
-				title = new Label();
-				preview = new FlowPanel();
-				preview.setStyleName("colorPreview");
-				rgb = new Label();
-				add(title);
-				add(preview);
-				add(rgb);
-			}
-			
-			public void update(GColor color) {
-				preview.getElement().getStyle().setProperty("backgroundColor", StringUtil.toHtmlColor(color));
-				rgb.setText(ColorObjectModel.getColorAsString(color));
-			}
-			
-			public void setLabels() {
-				title.setText(localize("Preview"));
-			}
-
-		}
-		
+				
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
 			setModel(model);
@@ -560,19 +494,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
-			previewPanel = new PreviewPanel();
-			mainPanel.add(previewPanel);
-//			opacityPanel = new OpacityPanel();
-//			mainPanel.add(opacityPanel);
 			setWidget(mainPanel);
 
 		}
 
 
 		public void applyChanges() {
-			float alpha = opacityPanel.getAlphaValue();
+			float alpha = colorChooserW.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
-			previewPanel.update(color);
 			model.applyChanges(color, alpha, false);
 		}
 
@@ -602,20 +531,20 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					}
 				}
 			}
-
-//			opacityPanel.setVisible(hasOpacity);
-			colorChooserW.setSelectedColor(selectedColor);
-			updatePreview(selectedColor, 1);
+			colorChooserW.enableOpacity(hasOpacity);
+			colorChooserW.enableBackgroundColorPanel(hasBackground);
+			updatePreview(selectedColor, alpha);
 		}
 
 
 		public void updatePreview(GColor color, float alpha) {
-			previewPanel.update(color);
+			colorChooserW.setSelectedColor(selectedColor);
+			colorChooserW.setAlphaValue(alpha);
+		
 		}
 
 		public boolean isBackgroundColorSelected() {
-			// TODO Auto-generated method stub
-			return false;
+			return colorChooserW.isBackgroundColorSelected();
 		}
 
 
@@ -633,8 +562,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void setLabels() {
-			previewPanel.setLabels();
-			colorChooserW.setTitles(localize("Recent"), localize("Other"));
+			colorChooserW.setTitles(localize("Recent"), localize("Other"), localize("Preview"),
+					localize("BackgroundColor"), localize("ForegroundColor"));
+			colorChooserW.setOpacityTitle(localize("Opacity"));
 		}
 
 	}

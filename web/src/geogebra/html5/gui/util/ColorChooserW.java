@@ -1,6 +1,7 @@
 package geogebra.html5.gui.util;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GColorW;
@@ -15,12 +16,16 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 
 public class ColorChooserW extends FlowPanel {
 
@@ -35,8 +40,8 @@ public class ColorChooserW extends FlowPanel {
 	public static final int TITLE_HEIGHT = 20;
 	public static final GColor FOCUS_COLOR = new GColorW(0, 0, 255);
 	public static final double BORDER_WIDTH = 2;
+	public static final double PREVIEW_BORDER_WIDTH = 14;
 	private Canvas canvas;
-	private Canvas previewCanvas;
 	private Context2d ctx;
 	private GDimensionW colorIconSize;
 	private int padding;
@@ -46,8 +51,11 @@ public class ColorChooserW extends FlowPanel {
 	private ColorTable recentTable;
 	private ColorTable otherTable;
 	private GColor selectedColor;
-	private ColorChangeHandler changeHandler;
-	private Context2d previewCtx;
+	ColorChangeHandler changeHandler;
+	private PreviewPanel previewPanel;
+	private OpacityPanel opacityPanel;
+	private BackgroundColorPanel backgroundColorPanel;
+	
 	private class ColorTable {
 		private int left;
 		private int top;
@@ -146,13 +154,13 @@ public class ColorChooserW extends FlowPanel {
 
 			GColor borderColor = BOX_COLOR;
 			ctx.setLineWidth(1);
-			
-			
+
+
 			GColor fillColor = getColorFromPalette(col, row);
 			ctx.setFillStyle(StringUtil.toHtmlColor(fillColor));
-			
+
 			ctx.fillRect(x + padding, y + padding, w - padding, h - padding);
-			
+
 			if (col == currentCol && row == currentRow) {
 				ctx.setLineWidth(BORDER_WIDTH);
 				borderColor = FOCUS_COLOR;				
@@ -162,12 +170,12 @@ public class ColorChooserW extends FlowPanel {
 					ctx.drawImage(checkMark, x + checkX, y + checkY);
 					borderColor = SELECTED_BOX_COLOR;
 				}
-				
+
 			}
-			
-			
+
+
 			ctx.setStrokeStyle(StringUtil.toHtmlColor(borderColor));
-			ctx.strokeRect(x + padding, y + padding, w - padding, h - padding);
+        	ctx.strokeRect(x + padding, y + padding, w - padding, h - padding);
 			//	ctx.stroke();
 		}
 
@@ -238,7 +246,7 @@ public class ColorChooserW extends FlowPanel {
 			}
 			selectedCol = currentCol;
 			selectedRow = currentRow;
-			
+
 			return getColorFromPalette(currentCol, currentRow);
 
 		}
@@ -271,6 +279,106 @@ public class ColorChooserW extends FlowPanel {
 
 	}
 
+	private class PreviewPanel extends FlowPanel {
+		private Label title;
+		private Canvas canvas;
+		private Context2d ctx;
+		private Label rgb;
+
+		public PreviewPanel() {
+			title = new Label();
+			canvas = Canvas.createIfSupported();
+			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
+			canvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
+			canvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
+			ctx = canvas.getContext2d();
+			rgb = new Label();
+			add(title);
+			add(canvas);
+			add(rgb);
+		}
+
+		public void update(GColor color) {
+			rgb.setText(ColorObjectModel.getColorAsString(color));
+			ctx.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+			String htmlColor = StringUtil.toHtmlColor(color);
+			ctx.setFillStyle(htmlColor);
+			ctx.setGlobalAlpha(getAlphaValue());
+			ctx.fillRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+
+			ctx.setStrokeStyle(htmlColor);
+			ctx.setGlobalAlpha(1.0);
+			ctx.setLineWidth(PREVIEW_BORDER_WIDTH);
+			ctx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+
+		}
+		
+		public void setLabels(String previewTitle) {
+			title.setText(previewTitle);
+		}
+
+	}
+	private class OpacityPanel extends FlowPanel {
+		private Label title;
+		private Label minLabel;
+		private Slider slider;
+		private Label maxLabel;
+		
+		public OpacityPanel() {
+			title = new Label();
+			add(title);
+			minLabel = new Label("1");
+			add(minLabel);
+	
+			slider = new Slider(1, 100);
+			slider.setMajorTickSpacing(2);
+			slider.setMinorTickSpacing(1);
+			slider.setPaintTicks(true);
+			slider.setPaintLabels(true);
+			add(slider);
+			maxLabel = new Label("100");
+			add(maxLabel);
+			slider.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					colorChanged();
+					previewPanel.update(selectedColor);
+                }});
+		}
+
+		public float getAlphaValue() {
+            return isVisible() ? slider.getValue() / 100.0f : 1.0f;
+        }
+		
+		public void setLabels(String opacity) {
+			title.setText(opacity);
+		}
+
+		public void setAlpaValue(float alpha) {
+	        slider.setValue((int) (alpha * 100));
+        }
+	}
+
+	private class BackgroundColorPanel extends FlowPanel {
+		private RadioButton backgroundButton;
+		private RadioButton foregroundButton;
+		
+		public BackgroundColorPanel() {
+			backgroundButton = new RadioButton("bg");
+			foregroundButton = new RadioButton("fg");
+			backgroundButton.setName("bgfg");
+			foregroundButton.setName("bgfg");
+			add(backgroundButton);
+			add(foregroundButton);
+			
+		}
+		
+		public void setLabels(String bgLabel, String fgLabel) {
+			backgroundButton.setText(bgLabel);
+			foregroundButton.setText(bgLabel);
+		}
+	}
+	
 	public ColorChooserW(int width, int height, GDimensionW colorIconSize, int padding) {
 		canvas = Canvas.createIfSupported();
 		canvas.setSize(width + "px", height + "px");
@@ -278,12 +386,8 @@ public class ColorChooserW extends FlowPanel {
 		canvas.setCoordinateSpaceWidth(width);
 		ctx = canvas.getContext2d();
 		
-		previewCanvas = Canvas.createIfSupported();
-		previewCanvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
-		previewCanvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
-		previewCanvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
-		previewCtx = previewCanvas.getContext2d();
-	
+		changeHandler = null;
+
 		this.colorIconSize = colorIconSize;
 		this.padding = padding;
 
@@ -324,15 +428,24 @@ public class ColorChooserW extends FlowPanel {
 
 		leftTable.setCheckNeeded(true);
 		mainTable.setCheckNeeded(true);
-
+		
+		
+		previewPanel = new PreviewPanel();
+		
+		opacityPanel = new OpacityPanel();
+		backgroundColorPanel = new BackgroundColorPanel();
 		tables = Arrays.asList(leftTable, mainTable, recentTable, otherTable);
-		setTitles("Recent", "Other");
+		setTitles("Recent", "Other", "Preview", "Backround", "Foreground");
 
 		add(canvas);
+		add(previewPanel);
+		add(opacityPanel);
+		add(backgroundColorPanel);
+		
 		canvas.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				GColor color = null;
-				boolean insertToRecent = false;
+ 				boolean insertToRecent = false;
 				for (ColorTable table: tables) {
 					color = table.getSelectedColor();
 					if (color != null) {
@@ -341,14 +454,13 @@ public class ColorChooserW extends FlowPanel {
 					}
 				}		
 
-				if (color != null) {
-					selectedColor = color;
+ 				if (color != null) {
+					setSelectedColor(color);
 					if (insertToRecent == true) {
 						recentTable.injectColor(selectedColor);
 					}
-					if (changeHandler != null) {
-						changeHandler.onChangeColor(selectedColor);
-					}
+					
+					colorChanged();
 				}
 
 			}});
@@ -362,7 +474,15 @@ public class ColorChooserW extends FlowPanel {
 					table.setFocus(x, y);
 				}				
 			}});
+
 	}
+
+	protected void colorChanged() {
+		if (changeHandler != null) {
+			changeHandler.onChangeColor(selectedColor);
+		}
+		previewPanel.update(getSelectedColor());
+    }
 
 	public boolean colorEquals(GColor color1, GColor color2) {
 		return color1.getRGB() == color2.getRGB();
@@ -374,9 +494,7 @@ public class ColorChooserW extends FlowPanel {
 		}
 	}
 
-	public void updatePreview() {
-		
-	}
+
 	public GColor getSelectedColor() {
 		return selectedColor;
 	}
@@ -384,20 +502,45 @@ public class ColorChooserW extends FlowPanel {
 	public void setSelectedColor(GColor color) {
 		selectedColor = color;
 		update();
-	}	
+		}	
 
-	public void setTitles(String recentTitle, String otherTitle) {
+
+	public void setTitles(String recentTitle, String otherTitle, String previewTitle,
+			String bg, String fg) {
 		leftTable.setTitle("", 0, 0);
 		recentTable.setTitle(recentTitle, 0, 0);
 		otherTable.setTitle(otherTitle, 0, 0);
+        previewPanel.setTitle(previewTitle);
+        backgroundColorPanel.setLabels(bg, fg);
 		update();
+	}
+	
+	public void setOpacityTitle(String title) {
+		opacityPanel.setLabels(title);
 	}
 	public void addChangeHandler(ColorChangeHandler changeHandler) {
 		this.changeHandler = changeHandler;
 	}
 
 	public float getAlphaValue() {
-		// TODO Auto-generated method stub
-		return 1.0f;
+		return opacityPanel.getAlphaValue();
 	}
+
+	public void setAlphaValue(float alpha) {
+	    opacityPanel.setAlpaValue(alpha);
+	    
+    }
+
+	public void enableOpacity(boolean enabled) {
+		opacityPanel.setVisible(enabled);
+	}
+	
+	public void enableBackgroundColorPanel(boolean enable) {
+		backgroundColorPanel.setVisible(enable);
+	}
+
+	public boolean isBackgroundColorSelected() {
+		
+	    return backgroundColorPanel.backgroundButton.getValue();
+    }
 }
