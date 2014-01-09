@@ -474,6 +474,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public void resize(int width, int height) {
+		App.debug("resize: " + width + ", " + height);
 		int fullWidth = width;
 		int fullHeight = height;
 		int calcWidth = width - getLayout().getRootComponent().getOffsetWidth() + ((AppW) app).getEuclidianViewpanel().getOffsetWidth();
@@ -487,6 +488,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			fullHeight += calcHeight;
 		}
 		getLayout().getRootComponent().setPixelSize(fullWidth, fullHeight);
+		App.debug(" resizecalc: " + calcWidth + ", " + calcHeight);
 		((AppW) app).getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);
 
 		// maybe onResize is good here too, but call deferredOnResize for security

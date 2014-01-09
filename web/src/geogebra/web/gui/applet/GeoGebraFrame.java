@@ -437,9 +437,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	public void setWidth(int width) {
 		setWidth(width + "px");
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().resize(width, getOffsetHeight());
+			app.getGuiManager().resize(width, getOffsetHeight() - BORDER_HEIGHT);
 		} else {
-			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
+			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight() - BORDER_HEIGHT);
 
 			// maybe onResize is OK too
 			app.getEuclidianViewpanel().deferredOnResize();
@@ -454,9 +454,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	public void setHeight(int height) {
 		setHeight(height + "px");
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().resize(getOffsetWidth(), height);
+			app.getGuiManager().resize(getOffsetWidth() - BORDER_WIDTH, height);
 		} else {
-			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height );
+			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth() - BORDER_WIDTH, height );
 
 			// maybe onResize is OK too
 			app.getEuclidianViewpanel().deferredOnResize();
