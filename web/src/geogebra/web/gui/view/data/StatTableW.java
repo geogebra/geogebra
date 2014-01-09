@@ -335,9 +335,8 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		private void selectTableRows(int from, int to) {
-			App.debug(from + ", " + to);
 			int fr = from > -1 ? from : 0;
-			int t = to > this.getRowCount() ? t = this.getRowCount() : to;
+			int t = to > this.getRowCount() ? this.getRowCount() : to;
 			if (fr > this.getRowCount()) {
 				fr = this.getRowCount();
 			}
@@ -345,11 +344,11 @@ public class StatTableW extends FlowPanel {
 				t = 0;
 			}
 			if (fr <= t) {
-				for (int i = fr; i<= t; i++) {
+				for (int i = fr; i <= t; i++) {
 					this.getRowFormatter().getElement(i).addClassName("selected");
 				}
 			} else {
-				for (int i = t; i >= from; i--) {
+				for (int i = fr; i >= t; i--) {
 					this.getRowFormatter().getElement(i).addClassName("selected");
 				}
 			}
