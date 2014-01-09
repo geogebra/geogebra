@@ -142,8 +142,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		// Create components to be displayed
 		inputPanel = new InputPanelW(initString, app, rows, columns,
 		        showSymbolPopupIcon/* , type */);
-		inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
-
+		
+		// add key handler for ENTER if inputPanel uses a text field
+		if (inputPanel.getTextComponent() != null) {
+			inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
+		}
+		
 		// create buttons
 		btProperties = new Button();
 		btProperties.addClickHandler(this);
