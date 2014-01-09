@@ -13,8 +13,11 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -58,7 +61,17 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	
 	public InputDialogW(boolean modal) {
 
-		wrappedPopup = new DialogBox(false, false);
+		wrappedPopup = new DialogBox(false, false){
+			
+			// close dialog on ESC 
+			@Override
+			protected void onPreviewNativeEvent(final NativePreviewEvent event) {
+				super.onPreviewNativeEvent(event);
+				if (event.getTypeInt() == Event.ONKEYUP && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {	
+					setVisible(false);
+					}
+			}};
+			
 		wrappedPopup.addStyleName("DialogBox");
 	}
 
@@ -240,7 +253,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	@Override
     public void onKeyUp(KeyUpEvent event) {
 		//enter press
-		if (event.getNativeKeyCode() == 13){
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
 			actionPerformed(event);
 			return;
 		}
