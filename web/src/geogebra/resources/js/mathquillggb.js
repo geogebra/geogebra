@@ -2063,6 +2063,10 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
 var gapHTML = '<span style="visibility: hidden;">&0</span>';
 LatexCmds.phantom = bind(SomethingHTML, '\\phantom', gapHTML);
 
+// this is like \\cr but it has an argument that is currently neglected
+var brHTML = '<span><span style="display: none;">&0</span><br/></span>';
+LatexCmds.vspace = bind(SomethingHTML, '\\vspace', brHTML);
+
 // MathQuillGGB hacks by GeoGebra
 var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
