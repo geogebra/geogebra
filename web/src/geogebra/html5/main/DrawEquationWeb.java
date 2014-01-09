@@ -84,8 +84,13 @@ public class DrawEquationWeb extends DrawEquation {
 		eqstring = eqstring.replace("\\;", "\\space ");
 		eqstring = eqstring.replace("\\,", "\\space ");
 		eqstring = eqstring.replace("\\ ", "\\space ");
-		
-		
+
+		// negative space is not implemented, let it be positive space
+		// the following code might avoid e.g. x\\!1
+		eqstring = eqstring.replace("\\! ", " ");
+		eqstring = eqstring.replace(" \\!", " ");
+		eqstring = eqstring.replace("\\!", " ");
+
 		if (eqstring.indexOf("{\\it ") > -1) {
 			
 			//replace {\it A} by A
