@@ -7,6 +7,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DomEvent;
 
 public class InputDialogRegularPolygonW extends InputDialogW{
 	private GeoPointND geoPoint1, geoPoint2;
@@ -24,13 +25,18 @@ public class InputDialogRegularPolygonW extends InputDialogW{
 
 	/**
 	 * Handles button clicks for dialog.
-	 */
+	 */	
 	@Override
-	public void onClick(ClickEvent e) {
+    public void onClick(ClickEvent e) {
+		actionPerformed(e);
+	}
+	
+	@Override
+	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
 
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent()) {
+			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				processInput();
 				wrappedPopup.hide();
 //				setVisibleForTools(!processInput());

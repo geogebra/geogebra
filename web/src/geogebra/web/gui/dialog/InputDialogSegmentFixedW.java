@@ -5,11 +5,11 @@ import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DomEvent;
 
 public class InputDialogSegmentFixedW extends InputDialogW {
 	private GeoPoint geoPoint1;
@@ -26,14 +26,18 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 
 	/**
 	 * Handles button clicks for dialog.
-	 */
+	 */	
 	@Override
-	public void onClick(ClickEvent e) {
-		App.debug("inputdialogsegmentfixed actionperformed");
+    public void onClick(ClickEvent e) {
+		actionPerformed(e);
+	}
+	
+	@Override
+	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
 
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent()) {
+			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				setVisible(!processInput());
 			} else if (source == btApply) {
 				processInput();

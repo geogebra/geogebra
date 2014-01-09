@@ -4,6 +4,7 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DomEvent;
 
 public class InputDialogImageURL extends InputDialogW{
 
@@ -22,11 +23,20 @@ public class InputDialogImageURL extends InputDialogW{
 		inputPanel.getTextComponent().getTextField().setFocus(true);
 	}
 
-	public void onClick(ClickEvent e) {
+	/**
+	 * Handles button clicks for dialog.
+	 */	
+	@Override
+    public void onClick(ClickEvent e) {
+		actionPerformed(e);
+	}
+	
+	@Override
+	protected void actionPerformed(DomEvent e) {
 	    Object source = e.getSource();
 
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent()) {
+			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				if(processInput()) wrappedPopup.hide();
 				app.getActiveEuclidianView().requestFocusInWindow();
 //			} else if (source == btApply) {

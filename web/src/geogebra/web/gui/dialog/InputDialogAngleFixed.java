@@ -7,7 +7,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -16,9 +15,8 @@ import geogebra.web.main.AppW;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 
-public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHandler {
+public class InputDialogAngleFixed extends AngleInputDialog{
 	private static final long serialVersionUID = 1L;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
@@ -38,7 +36,6 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 		this.selGeos = selGeos;
 		this.kernel = kernel;
 		
-		this.inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
 	}
 
 	/**
@@ -49,7 +46,8 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 		actionPerformed(e);
 	}
 	
-	private void actionPerformed(DomEvent e){
+	@Override
+	protected void actionPerformed(DomEvent e){
 		Object source = e.getSource();
 		
 		try {
@@ -135,12 +133,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 	 * auto-insert degree symbol when appropriate
 	 */
 	public void onKeyUp(KeyUpEvent e) {
-		
-		//enter press
-		if (e.getNativeKeyCode() == 13){
-			actionPerformed(e);
-			return;
-		}
+		super.onKeyUp(e);
 		
 		// return unless digit typed (instead of !Character.isDigit)
 		if (e.getNativeKeyCode() < 48 ||

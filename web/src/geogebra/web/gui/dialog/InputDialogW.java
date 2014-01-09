@@ -12,6 +12,9 @@ import geogebra.web.main.AppW;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -20,7 +23,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InputDialogW extends InputDialog implements ClickHandler,
-        SetLabels {
+        SetLabels, KeyUpHandler {
 
 	protected AppW app;
 
@@ -139,6 +142,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		// Create components to be displayed
 		inputPanel = new InputPanelW(initString, app, rows, columns,
 		        showSymbolPopupIcon/* , type */);
+		inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
 
 		// create buttons
 		btProperties = new Button();
@@ -187,8 +191,15 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		wrappedPopup.setWidget(centerPanel);
 
 	}
-
-	public void onClick(ClickEvent event) {
+	
+	/**
+	 * Handles button clicks for dialog.
+	 */	
+    public void onClick(ClickEvent e) {
+		actionPerformed(e);
+	}
+	
+	protected void actionPerformed(DomEvent event) {
 		Widget source = (Widget) event.getSource();
 		if (source == btOK) {
 			inputText = inputPanel.getText();
@@ -221,5 +232,16 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		btCancel.setText(app.getPlain("Cancel"));
 		btProperties.setText(app.getPlain("Properties") + "...");
 	}
+
+	@Override
+    public void onKeyUp(KeyUpEvent event) {
+		//enter press
+		if (event.getNativeKeyCode() == 13){
+			actionPerformed(event);
+			return;
+		}
+
+	    
+    }
 
 }

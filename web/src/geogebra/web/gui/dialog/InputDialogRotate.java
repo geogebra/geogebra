@@ -12,6 +12,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
@@ -46,9 +47,14 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 
 	/**
 	 * Handles button clicks for dialog.
-	 */
+	 */	
 	@Override
-	public void onClick(ClickEvent e) {
+    public void onClick(ClickEvent e) {
+		actionPerformed(e);
+	}
+	
+	@Override
+	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
 
 		try {

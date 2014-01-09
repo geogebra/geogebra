@@ -13,20 +13,14 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.main.OptionType;
-import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class AngleInputDialog extends InputDialogW implements ClickHandler {
 	
@@ -76,7 +70,16 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 		return rbCounterClockWise.getValue();
 	}
 	
-	public void onClick(ClickEvent e) {
+	/**
+	 * Handles button clicks for dialog.
+	 */	
+	@Override
+    public void onClick(ClickEvent e) {
+		actionPerformed(e);
+	}
+	
+	@Override
+	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
 
 		boolean finished = false;
