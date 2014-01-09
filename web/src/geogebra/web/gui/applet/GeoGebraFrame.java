@@ -476,7 +476,15 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		}
 
 	}
-	
+
+	/**
+	 * Before loading a new GGB file, the size should be set to "auto" 
+	 */
+	public void resetAutoSize() {
+		setWidth("auto");
+		setHeight("auto");
+	}
+
 	/**
 	 * @param enable
 	 * wheter geogebra-web applet rightclick enabled or not

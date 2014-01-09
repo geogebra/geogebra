@@ -26,6 +26,11 @@ public interface HasAppletProperties {
 	 * sets the geogebra-web applet size (width, height)
 	 */
 	public void setSize(int width, int height);
+
+	/**
+	 * Before loading a new GGB file, the size should be set to "auto"
+	 */
+	public void resetAutoSize();
 	
 	/**
 	 * @param enable

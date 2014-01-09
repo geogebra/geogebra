@@ -276,7 +276,9 @@ public class AppWapplet extends AppW {
 		kernel.initUndoInfo();
 
 		getEuclidianView1().synCanvasSize();
-		
+
+		getAppletFrame().resetAutoSize();
+
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
