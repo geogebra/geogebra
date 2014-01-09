@@ -5,6 +5,7 @@ import geogebra.common.main.Localization;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
@@ -26,9 +27,7 @@ public class ErrorMessageDialog extends DialogBox implements ClickHandler {
 
 	public ErrorMessageDialog(App app, String command, String message) {
 
-		// The dialog must be non-modal so that it will not steal focus from a
-		// text field that generated the error.
-		super(true, false);
+		super(false, true);
 
 		this.app = app;
 		this.message = message;
@@ -86,20 +85,15 @@ public class ErrorMessageDialog extends DialogBox implements ClickHandler {
 
 	
 	/**
-	 * Hide the dialog on any key event.
-	 * 
-	 * The dialog is non-modal and normally will remain on screen if the user
-	 * keeps typing in a text field. To fix this the dialog is hidden after any
-	 * key press (not just escape).
+	 * Hide the dialog when on enter press.
 	 */
 	@Override
 	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
 		super.onPreviewNativeEvent(event);
-
-		switch (event.getTypeInt()) {
-		case Event.ONKEYDOWN:
+		
+		if(event.getTypeInt() == Event.ONKEYUP &&
+				event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER){
 			close();
-			break;
 		}
 	}
 
