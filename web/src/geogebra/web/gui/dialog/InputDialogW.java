@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -161,6 +162,14 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
 		}
 		
+		// message panel 
+		VerticalPanel messagePanel = new VerticalPanel();
+		String[] lines = message.split("\n");
+		for (String item : lines) {
+			messagePanel.add(new Label(item));
+		}
+		messagePanel.addStyleName("Dialog-messagePanel");
+		
 		// create buttons
 		btProperties = new Button();
 		btProperties.addClickHandler(this);
@@ -195,13 +204,10 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		setLabels();
 
-		// =====================================================================
-		// Create the optionPane: a panel with message label on top, button
-		// panel on bottom. The center panel holds the inputPanel, which is
-		// added later.
-		// =====================================================================
 
 		VerticalPanel centerPanel = new VerticalPanel();
+		centerPanel.addStyleName("Dialog-content");
+		centerPanel.add(messagePanel);
 		centerPanel.add(inputPanel);
 		centerPanel.add(btPanel);
 

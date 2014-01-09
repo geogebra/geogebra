@@ -1725,7 +1725,36 @@ body[dir=rtl] .GGWToolbar table{
 	margin: auto;
 }
 
-/*========= FileChooser & Dialogs ===========*/
+/*========= Dialogs ===========*/
+
+.Dialog-content {
+	padding:4px;
+}
+
+.DialogButtonPanel {
+	text-align: right;
+	padding-top: 10px;
+	min-width: 200px;
+}
+
+.DialogButtonPanel button{
+	margin: 0px 0px 0px 6px;
+}
+
+
+.Dialog-messagePanel td{
+	border-spacing: 6px;
+}
+
+.Dialog-messagePanel {
+	font-size:85%;
+}
+
+/*========= End Dialogs ===========*/
+
+
+
+/*========= FileChooser ===========*/
 
 .GeoGebraFileChooser .fileNamePanel {
     width: 100%;
@@ -1787,20 +1816,6 @@ body[dir=rtl] .GGWToolbar table{
 	font-size: 80%;
 }
 
-.DialogButtonPanel {
-	text-align: right;
-	padding-top: 10px;
-	min-width: 200px;
-}
-
-.DialogButtonPanel button{
-	margin: 0px 0px 0px 6px;
-}
-
-.gwt-DialogBox .Caption {
-  font-size:85%;
-}
-
 
 .linkDownload{
 	font: -webkit-small-control;
@@ -1840,6 +1855,8 @@ body[dir=rtl] .GeoGebraMenuBar table{
 .ggbfilelink.selected, .ggbfilelink:hover {
 	background-color: #E3E8F3;
 }
+
+/*========= End FileChooser ===========*/
 
 /*============== CAS ============== */
 .casView table{
