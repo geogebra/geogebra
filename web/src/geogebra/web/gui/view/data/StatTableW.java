@@ -246,29 +246,36 @@ public class StatTableW extends FlowPanel {
 			//return comboBoxEditorMap.keySet().contains(cell);
 			return false;
 		}
+		
+		
 
 		public void handleSelection(ClickEvent event) {
 	       Cell c = this.getCellForEvent(event);
 	       Element parentRow = c.getElement().getParentElement();
-	       if (parentRow.hasClassName("selected")) {
-	    	   parentRow.removeClassName("selected");
+	       if (!event.isShiftKeyDown()) {
+	    	   toggleSelection(parentRow);
+		       if (parentRow.hasClassName("selected")) {
+		    	   if (!(parentRow.getPreviousSiblingElement() != null &&
+		    		   		parentRow.getPreviousSiblingElement().hasClassName("selected") ||
+		    		   		parentRow.getNextSiblingElement() != null &&
+		    		   		parentRow.getNextSiblingElement().hasClassName("selected"))) {
+		    			   		clearSelection(c);
+		    	   }
+				} else {
+					clearSelectionFrom(c);
+				}
 	       } else {
-	    	   parentRow.addClassName("selected");
+	    	   selectTableRows(getFirstSelectedRow(-1), c.getRowIndex());
 	       }
-	       
-	       if (parentRow.hasClassName("selected")) {
-	    	   if (!(parentRow.getPreviousSiblingElement() != null &&
-	    		   		parentRow.getPreviousSiblingElement().hasClassName("selected") ||
-	    		   		parentRow.getNextSiblingElement() != null &&
-	    		   		parentRow.getNextSiblingElement().hasClassName("selected")) && !event.isShiftKeyDown()) {
-	    			   		clearSelection(c);
-	    		   	} else if (event.isShiftKeyDown()) {
-	    		   		selectTableRows(getFirstSelectedRow(c.getRowIndex()), c.getRowIndex());
-	    		   	}
-			} else if (!event.isShiftKeyDown()) {
-				clearSelectionFrom(c);
-			}
 		}
+
+		private void toggleSelection(Element parentRow) {
+	        if (parentRow.hasClassName("selected")) {
+		    	   parentRow.removeClassName("selected");
+		       } else {
+		    	   parentRow.addClassName("selected");
+		       }
+        }
 			
 
 		private void clearSelectionFrom(Cell c) {
@@ -317,8 +324,9 @@ public class StatTableW extends FlowPanel {
         }
 		
 		private int getFirstSelectedRow(int to) {
+			int t = to > -1 ? to : this.getRowCount();
 			 for (int i = 0; i < this.getRowCount(); i++) {
-	    		   if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= to) {
+	    		   if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= t) {
 	    			   return i;
 	    		   }
 	    	   }
@@ -327,9 +335,21 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		private void selectTableRows(int from, int to) {
+			App.debug(from + ", " + to);
 			int fr = from > -1 ? from : 0;
-			if (fr <= to) {
-				for (int i = fr; i<= to; i++) {
+			int t = to > this.getRowCount() ? t = this.getRowCount() : to;
+			if (fr > this.getRowCount()) {
+				fr = this.getRowCount();
+			}
+			if (t < 0) {
+				t = 0;
+			}
+			if (fr <= t) {
+				for (int i = fr; i<= t; i++) {
+					this.getRowFormatter().getElement(i).addClassName("selected");
+				}
+			} else {
+				for (int i = t; i >= from; i--) {
 					this.getRowFormatter().getElement(i).addClassName("selected");
 				}
 			}
