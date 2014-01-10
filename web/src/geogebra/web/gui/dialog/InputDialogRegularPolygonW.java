@@ -37,8 +37,9 @@ public class InputDialogRegularPolygonW extends InputDialogW{
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
-				processInput();
-				wrappedPopup.hide();
+				if(processInput()){
+					wrappedPopup.hide();
+				}
 //				setVisibleForTools(!processInput());
 //			} else if (source == btApply) {  //There is no apply button.
 //				processInput();
