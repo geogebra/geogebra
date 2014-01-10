@@ -28,6 +28,8 @@ public class PolygonTriangulation {
 
 		TreeSet<Segment> toRight, toLeft;
 		
+		boolean needsDiagonal = false;
+		
 		public Chain chain;
 
 		public Point(double x, double y, int id){
@@ -202,7 +204,6 @@ public class PolygonTriangulation {
 		
 		Running running = Running.STOP;
 		
-		boolean needsDiagonal = false;
 		
 
 		// equation vector
@@ -620,23 +621,10 @@ public class PolygonTriangulation {
 		// at this time, pointSet only contains different points, each points have to-left / to-right segments with different orientations
 
 
-		String s = "";
+		
 		for (Point pt : pointSet){
-			s+="\n"+pt.name;
-			if (pt.toRight != null){
-				s+="\nto right : ";
-				for (Segment segment : pt.toRight){
-					s+=((int) (segment.orientation*180/Math.PI))+"°:"+segment.rightPoint.name+", ";
-				}
-			}
-			if (pt.toLeft != null){
-				s+="\nto left : ";
-				for (Segment segment : pt.toLeft){
-					s+=((int) (segment.orientation*180/Math.PI))+"°:"+segment.leftPoint.name+", ";
-				}
-			}
+			App.debug(pt.debugSegments());
 		}
-		App.debug(s);
 
 
 		// now compute intersections
@@ -649,7 +637,7 @@ public class PolygonTriangulation {
 		top.below = bottom;
 
 		for (Point pt = pointSet.first() ; pt != pointSet.last() ; pt = pointSet.higher(pt) ){
-			s=pt.name+" : ";
+			String s=pt.name+" : ";
 			Segment above = null;
 			Segment below = null;
 
@@ -782,6 +770,7 @@ public class PolygonTriangulation {
 				segment.running = running;
 				currentPoint = nextPoint;
 				currentPointNew = nextPointNew;
+				boolean needsDiagonal = false;
 				//App.debug(segment+"");
 				if (running == Running.RIGHT){
 					nextPoint = segment.rightPoint;
@@ -797,11 +786,11 @@ public class PolygonTriangulation {
 							if (next == null){ // no to-right segment
 								next = nextPoint.toLeft.higher(segment);
 								running = Running.LEFT;
-								needsDiagonal(segment, next);
+								needsDiagonal = needsDiagonal(segment, next);
 							}
 						}else{
 							running = Running.LEFT;
-							needsDiagonal(segment, next);
+							needsDiagonal = needsDiagonal(segment, next);
 						}
 
 					}
@@ -819,11 +808,11 @@ public class PolygonTriangulation {
 							if (next == null){ // no to-left segment
 								next = nextPoint.toRight.higher(segment);
 								running = Running.RIGHT;
-								needsDiagonal(segment, next);
+								needsDiagonal = needsDiagonal(segment, next);
 							}
 						}else{
 							running = Running.RIGHT;
-							needsDiagonal(segment, next);
+							needsDiagonal = needsDiagonal(segment, next);
 						}
 
 					}
@@ -848,6 +837,8 @@ public class PolygonTriangulation {
 				}
 				segment.addToPoints();
 				
+				// says if the point needs a diagonal
+				nextPointNew.needsDiagonal = needsDiagonal;
 
 				// add current point to current polygon
 				polygonPoints.add(nextPointNew);
@@ -1065,10 +1056,83 @@ public class PolygonTriangulation {
 		String s = "set diagonals of ";
 		for (Point pt : polygonPoints){
 			s+=pt.name;
+			if (pt.needsDiagonal){
+				s+="(*)";
+			}
 		}
 		
 		App.debug(s);
 		
+		
+		// top and bottom (dummy) segments
+		Segment top = new Segment();
+		Segment bottom = new Segment();
+		bottom.above = top;
+		top.below = bottom;
+
+		
+		for (Point pt : polygonPoints){
+			
+			s = pt.name + " : ";
+			
+			Segment above = null;
+			Segment below = null;
+
+		
+			// remove to-left segments
+			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
+				above = pt.toLeft.first().above;
+				below = pt.toLeft.last().below;
+				below.above = above;
+				above.below = below;
+				
+
+				if (pt.needsDiagonal){
+					App.error("diagonal to right : "+below+"<"+pt.name+"<"+above);
+				}
+				
+			}else{ // search for the correct place for to-right segments
+				//App.error(pt.name);
+				boolean go = true;
+				for (Segment segment = bottom.above ; segment != top && go ; segment = segment.above){
+					double orientation = Math.atan2(pt.y - segment.leftPoint.y, pt.x - segment.leftPoint.x);
+					if (orientation < segment.orientation){ // found the place
+						go = false;
+						above = segment;
+						below = above.below;					
+					}		
+				}
+				if (go){ // when there are no segment between top and bottom
+					above = top;
+					below = above.below;
+				}
+				
+				if (pt.needsDiagonal){
+					App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
+				}
+				
+			}
+			
+			
+			// put to-right segments
+			if (pt.toRight!=null){
+				for (Segment seg : pt.toRight){
+					below.above = seg;
+					seg.below = below;
+					below = seg;
+				}
+				below.above = above;
+				above.below = below;
+			}
+
+			
+
+			for (Segment seg = bottom.above ; seg != top; seg = seg.above){
+				s+=seg.toString()+",";
+			}
+			App.debug(s);
+
+		}
 		
 		/*
 		s=">> ";
@@ -1140,12 +1204,12 @@ public class PolygonTriangulation {
 	
 	}
 	
-	private void needsDiagonal(Segment seg1, Segment seg2){
+	private boolean needsDiagonal(Segment seg1, Segment seg2){
 		//App.debug(seg1+"("+((int) (seg1.orientation*180/Math.PI))+"°)"+","+seg2+"("+((int) (seg2.orientation*180/Math.PI))+"°)");
 		if (seg1.orientation < seg2.orientation){
-			seg2.needsDiagonal = true;
-			
+			return true;
 		}
+		return false;
 	}
 	
 	
