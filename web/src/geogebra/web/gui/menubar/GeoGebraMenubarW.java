@@ -11,16 +11,13 @@ import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -44,7 +41,6 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		private HelpMenuW helpMenu;
 		private OptionsMenuW optionsMenu;
 		private MenuItem signIn;
-		private MenuItem linktoggb;
 		private ViewMenuW viewMenu;
 		private SignedInMenuW signedIn;
 		private MenuItem signedInMenu;
@@ -82,9 +78,6 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		if (!app.menubarRestricted()) {
 			createSignIn();
 		}
-		
-		createLinkToGGBT();
-		
 	}
 
 	
@@ -169,21 +162,6 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 		}
 		else return "";
 	}-*/;
-
-		
-
-		
-
-		private void createLinkToGGBT() {
-	        linktoggb = addItem(getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),""),true, new Command() {
-				
-				public void execute() {
-					Window.open("http://geogebratube.org", "", "");
-				}
-			});
-			linktoggb.setStyleName("linktoggbtube");
-			linktoggb.setTitle("Go to GeoGebraTube");
-        }
 
 		private void createFileMenu() {
 	        fileMenu = new FileMenuW(app);
