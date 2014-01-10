@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.event.PointerEvent;
@@ -1316,14 +1317,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    }
 	}
 
-    public boolean checkAutoCreateSliders(String string, AsyncOperation callback) {
+    public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {
 	    // TODO #3490
        	GOptionPaneW optionPane = new GOptionPaneW();
 
-    	String[] options = { app.getPlain("CreateSliders"),
+       	Localization loc = ((AppW) app).getLocalization();
+       	
+    	String[] options = { loc.getPlain("CreateSliders"),
 				app.getMenu("Cancel") };
     	optionPane.showOptionDialog2(app,
-    			"CreateSliders", null,options, callback);
+    			loc.getPlain("CreateSlidersForA", s), null,options, callback);
     	
 	    return false;
     }
