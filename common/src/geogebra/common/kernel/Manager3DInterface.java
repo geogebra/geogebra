@@ -739,14 +739,6 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p, NumberValue v);
 
-	/**
-	 * Net of a polyhedron (with side faces collected)
-	 * @param labels labels
-	 * @param p polyhedron
-	 * @param v value "opening" the net
-	 * @return net, faces, etc.
-	 */
-	public GeoElement[] PolyhedronNet2(String[] labels, GeoElement p, NumberValue v);
 
 	
 	/**
