@@ -11,6 +11,7 @@ import geogebra.common.main.MyError;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -272,14 +273,15 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 								geos[0].setLabel(geos[0].getDefaultLabel());
 							}
 					} catch (Exception ee) {
-						app.showError(ee,inputField);
+						GOptionPaneW.setCaller(inputField.getTextBox());
+						app.showError(ee, inputField);
+						return;
+					} catch (MyError ee) {
+						GOptionPaneW.setCaller(inputField.getTextBox());
+						inputField.showError(ee);
 						return;
 					}
-				 catch (MyError ee) {
-					inputField.showError(ee);
-					return;
-				 }
-					
+
 					// create texts in the middle of the visible view
 					// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
 					if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {

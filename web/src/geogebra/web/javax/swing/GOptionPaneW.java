@@ -14,6 +14,7 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -49,6 +50,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	 */
 	public static GOptionPane INSTANCE = new GOptionPaneW();
 
+	private static FocusWidget caller;
 	/**
 	 * Constructor.
 	 */
@@ -75,9 +77,15 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 				returnValue = inputField.getText();
 			}
 		}
+		if (caller != null) caller.setFocus(true);
+		caller = null;
 		hide();
 	}
 
+	public static void setCaller(FocusWidget c){
+		caller = c;
+	}
+	
 	public String getReturnValue() {
 		return returnValue;
 	}
