@@ -23,6 +23,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.util.AsyncOperation;
 
 import java.util.ArrayList;
 
@@ -331,7 +332,7 @@ public interface GuiManagerInterface {
 	 * @param string eg "a, b"
 	 * @return true/false
 	 */
-	public boolean checkAutoCreateSliders(String string);
+	public boolean checkAutoCreateSliders(String string, AsyncOperation callback);
 
 	public void applyCPsettings(ConstructionProtocolSettings cpSettings);
 

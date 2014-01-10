@@ -264,8 +264,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 					app.setScrollToShow(true);
 					GeoElement[] geos;
 					try {
-						
-							geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true );
+							geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true, true);
+							if (geos != null && geos.length == 0){
+								inputField.setIsSuggestionJustHappened(false);  //TODO: check this. Must we get the real geos before?
+								return;
+							}
 							
 							// need label if we type just eg
 							// lnx

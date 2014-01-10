@@ -89,6 +89,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.AsyncOperation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -435,6 +436,13 @@ public class AlgebraProcessor {
 		}
 	}
 
+	public GeoElement[] processAlgebraCommandNoExceptionHandling(String cmd,
+			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, boolean autoCreateSliders)
+					throws Exception {
+		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, false);
+	}
+	
+	
 	// G.Sturr 2010-7-5
 	// added 'allowErrorDialog' flag to handle the case of unquoted text
 	// entries in the spreadsheet
@@ -447,17 +455,17 @@ public class AlgebraProcessor {
 	 * @return resulting geos
 	 * @throws Exception e.g. circular definition or parse exception
 	 */
-	public GeoElement[] processAlgebraCommandNoExceptionHandling(String cmd,
-			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, boolean autoCreateSliders)
+	public GeoElement[] processAlgebraCommandNoExceptionHandling(final String cmd,
+			final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, Boolean waitingForAnswer)
 					throws Exception {
-		ValidExpression ve;
+		final ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);	
 
 			// collect undefined variables
 			CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 			ve.traverse(collecter);
-			TreeSet<String> undefinedVariables = collecter.getResult();
+			final TreeSet<String> undefinedVariables = collecter.getResult();
 
 			// check if there's already an "x" in expression. Create one if not.
 			// eg sinx + x -> sin(x) + x
@@ -553,7 +561,52 @@ public class AlgebraProcessor {
 					//Yes: create sliders and draw line
 					//No: go back into input bar and allow user to change input	
 					if (app.getGuiManager() != null) {
-						autoCreateSlidersAnswer = app.getGuiManager().checkAutoCreateSliders(sb.toString());
+						AsyncOperation callback = null;
+						if (waitingForAnswer){
+							
+							final FunctionVariable fvX2 = fvX;
+							
+							callback = new AsyncOperation(){
+								
+								
+								@Override
+								public void callback(Object obj){
+									//TODO: need we to catch the Exception here,
+									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
+									if (obj.toString() == "0"){
+										insertStarIfNeeded(undefinedVariables, ve, fvX2);
+										replaceUndefinedVariables(ve);
+										try {
+											processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+										} catch (Exception e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										};
+										try {
+											addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX2);
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										//TODO: app.setScrollToShow(false) - currently this function does nothing,
+										//so I don't deal with this now.
+										
+										//TODO: save to history
+										//TODO: clear algebra input
+									}
+									
+								}
+								
+							};
+						}
+						autoCreateSlidersAnswer = app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
+						// On web we won't get answer at this point,
+						// so the function will return dummy array to show, it is not the final list of geos.
+						// TODO return null gives the same result?
+						if (waitingForAnswer){
+							GeoElement[] geos = {};
+							return geos;
+						}
 					}
 
 					if (!autoCreateSlidersAnswer) 
@@ -567,57 +620,19 @@ public class AlgebraProcessor {
 				// ==========================
 				// step5: replace mx -> m*x
 				// ==========================
-				it = undefinedVariables.iterator();
-				while (it.hasNext()) {
-					String label = it.next();
-
-					if (label.endsWith("x")) {
-
-						String labelNoX = label.substring(0, label.length() - 1);
-
-						// eg mx -> m*x
-
-						GeoElement geo = kernel.lookupLabel(labelNoX);
-						if (geo == null) {
-							geo = new GeoNumeric(cons, labelNoX, 1);
-							GeoNumeric.setSliderFromDefault((GeoNumeric)geo, false);
-							cons.moveInConstructionList(geo, 0); 
-						}
-						
-						ExpressionValue toReplace;
-						if (ve instanceof Equation) {
-							// eg y=mx
-							toReplace = new Polynomial(kernel,new Term(geo, "x"));
-						} else {
-							// eg f(x)=mx
-							toReplace = new ExpressionNode(kernel, geo, Operation.MULTIPLY, fvX);
-						}
-						
-						VariableReplacer varep = VariableReplacer.getReplacer(label, toReplace);						
-						ve.traverse(varep);
-
-					}
-
-				}
-
+				insertStarIfNeeded(undefinedVariables, ve, fvX);
+				
 				// ==========================
 				// step6: replace undefined variables
 				// ==========================
-				ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables();
-				ve.traverse(replacer);
+				replaceUndefinedVariables(ve);
 			}
 
 
 			// Step 7:
 			// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
 			// #3605
-			ve = parser.parseGeoGebraExpression(cmd);	
-			collecter = new Traversing.CollectUndefinedVariables();
-			ve.traverse(collecter);
-			undefinedVariables = collecter.getResult();
-			if (undefinedVariables.size() > 0) {
-				wrapXinparentheses(ve, undefinedVariables, fvX, new ArrayList<String>());
-			}
+			addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX);
 			
 		} catch (Exception e) {
 
@@ -645,6 +660,11 @@ public class AlgebraProcessor {
 		}
 
 		// process ValidExpression (built by parser)
+	
+		return processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+	}
+
+	public GeoElement[] processValidExpression(boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, ValidExpression ve) throws Exception{
 		GeoElement[] geoElements = null;
 		try {	
 					
@@ -677,7 +697,65 @@ public class AlgebraProcessor {
 		}
 		return geoElements;
 	}
+	
+	/*
+	 * replace mx -> m*x
+	 */
+	public void insertStarIfNeeded(TreeSet<String> undefinedVariables, ValidExpression ve, FunctionVariable fvX){
+		Iterator<String> it = undefinedVariables.iterator();
+		while (it.hasNext()) {
+			App.debug("undefinedVariables - next");
+			
+			String label = it.next();
 
+			if (label.endsWith("x")) {
+
+				String labelNoX = label.substring(0, label.length() - 1);
+
+				// eg mx -> m*x
+
+				GeoElement geo = kernel.lookupLabel(labelNoX);
+				if (geo == null) {
+					geo = new GeoNumeric(cons, labelNoX, 1);
+					GeoNumeric.setSliderFromDefault((GeoNumeric)geo, false);
+					cons.moveInConstructionList(geo, 0); 
+				}
+				
+				ExpressionValue toReplace;
+				if (ve instanceof Equation) {
+					// eg y=mx
+					toReplace = new Polynomial(kernel,new Term(geo, "x"));
+				} else {
+					// eg f(x)=mx
+					toReplace = new ExpressionNode(kernel, geo, Operation.MULTIPLY, fvX);
+				}
+				
+				VariableReplacer varep = VariableReplacer.getReplacer(label, toReplace);						
+				ve.traverse(varep);
+
+			}
+
+		}
+	}
+	
+	public void replaceUndefinedVariables(ValidExpression ve){
+		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables();
+		ve.traverse(replacer);
+
+	}
+	
+	// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
+	// #3605
+	public void addBracketsIfNeeded(String cmd, ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX) throws ParseException{
+		ve = parser.parseGeoGebraExpression(cmd);	
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+		ve.traverse(collecter);
+		undefinedVariables = collecter.getResult();
+		if (undefinedVariables.size() > 0) {
+			wrapXinparentheses(ve, undefinedVariables, fvX, new ArrayList<String>());
+		}
+	}
+	
 	private void wrapXinparentheses(ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX, ArrayList<String> toRemove) {
 		Iterator<String> it = undefinedVariables.iterator();
 		while (it.hasNext()) {

@@ -22,6 +22,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -3122,7 +3123,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		
 	}
 
-	public boolean checkAutoCreateSliders(String s) {
+	public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {
 		Component comp = ((AppD) app).getMainComponent();
 		if (((AppD) app).getFrame() instanceof GeoGebraFrame) {
 			GeoGebraFrame frame = (GeoGebraFrame) ((AppD) app).getFrame();

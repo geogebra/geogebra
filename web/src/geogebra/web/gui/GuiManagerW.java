@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.cas.view.CASTableW;
@@ -63,6 +64,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.html5.Dom;
+import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.AppWapplet;
 
@@ -1314,8 +1316,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    }
 	}
 
-    public boolean checkAutoCreateSliders(String string) {
+    public boolean checkAutoCreateSliders(String string, AsyncOperation callback) {
 	    // TODO #3490
+       	GOptionPaneW optionPane = new GOptionPaneW();
+
+    	String[] options = { app.getPlain("CreateSliders"),
+				app.getMenu("Cancel") };
+    	optionPane.showOptionDialog2(app,
+    			"CreateSliders", null,options, callback);
+    	
 	    return false;
     }
     

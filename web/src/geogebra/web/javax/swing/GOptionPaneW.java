@@ -3,6 +3,7 @@ package geogebra.web.javax.swing;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -251,6 +252,38 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 	}
 
+	//TODO: remove this method use showOptionDialog instead of this
+	public void showOptionDialog2(App app, String message,
+            String title, String[] options, final AsyncOperation handler) {
+		
+		DialogBox dialogbox = new DialogBox();
+	
+		final PopupPanel dialog = new PopupPanel(false, true);
+		
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("DialogButtonPanel");
+		for (int i = 0; i<options.length; i++){
+			Button bt = new Button(options[i]);
+			final int selectedOption = i;
+			bt.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event){
+					handler.callback(selectedOption);
+					dialog.hide();
+				}
+			});
+			buttonPanel.add(bt);
+		}
+		
+		FlowPanel panel = new FlowPanel();
+		panel.add(new Label(message));
+		panel.add(buttonPanel);
+
+		dialog.setWidget(panel);
+		dialog.center();
+		dialog.show();
+	
+    }
+
 	public void showOptionDialog(App app, String message, String title,
 	        int optionType, int messageType, String[] optionNames,
 	        Object closeHandler) {
@@ -282,5 +315,4 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		showDialog();
 
 	}
-
 }
