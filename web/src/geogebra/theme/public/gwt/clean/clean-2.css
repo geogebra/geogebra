@@ -1733,8 +1733,8 @@ body[dir=rtl] .GGWToolbar table{
 
 .DialogButtonPanel {
 	text-align: right;
-	padding-top: 10px;
-	min-width: 200px;
+	padding-top: 16px;
+	min-width: 250px;
 }
 
 .DialogButtonPanel button{

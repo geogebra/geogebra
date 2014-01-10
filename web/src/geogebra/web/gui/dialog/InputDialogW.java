@@ -9,7 +9,6 @@ import geogebra.common.main.OptionType;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -156,22 +155,16 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		// create buttons
 		btProperties = new Button();
 		btProperties.addClickHandler(this);
-		// btProperties.setActionCommand("OpenProperties");
-		// btProperties.addActionListener(this);
-
+	
 		btOK = new Button();
-		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btOK.addClickHandler(this);
 
 		btCancel = new Button();
-		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 
 		btApply = new Button();
 		btApply.addClickHandler(this);
-		// btApply.setActionCommand("Apply");
-		// btApply.addActionListener(this);
-
+	
 		// create button panel
 		FlowPanel btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
