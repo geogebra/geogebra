@@ -514,7 +514,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	    btnLeft.setText(tail_left);
 	    btnRight = new RadioButton("tail");
 	    btnRight.setText(tail_right);
-	    btnTwo = new RadioButton(tail_two);
+	    btnTwo = new RadioButton("tail");
 	    btnTwo.setText(tail_two);
 	    
 	    FlowPanel group = new FlowPanel();
@@ -729,8 +729,17 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
     }
 
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		if (event.getSource() == ckPooled) {
+		Object source = event.getSource();
+		if (source == ckPooled) {
 			sc.pooled = ckPooled.getValue();
+			updateResult();
+		}
+		
+		if (source == btnLeft || source == btnRight || source == btnTwo) {
+			updateResult();
+		}
+		
+		if (source == btnCalculate) {
 			updateResult();
 		}
 	}

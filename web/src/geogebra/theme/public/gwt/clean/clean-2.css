@@ -2432,7 +2432,8 @@ label {
 
 .StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
 	text-align: right;
-	max-width: 40%,
+	max-width: 40%;
+	display: inline-block;
 }
 
 .StatisticsCalculatorW .panelSample1 .gwt-Label:first-child, .StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
