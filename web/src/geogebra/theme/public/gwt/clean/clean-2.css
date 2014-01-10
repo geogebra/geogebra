@@ -1282,6 +1282,14 @@ td.datePickerMonth {
 	outline: none; /* Fixing Chrome's default outline on focus */
 }
 
+.GeoGebraAppFrame select,
+.GeoGebraFrame select,
+.GeoGebraPopup select,
+.DialogBox select {
+	border: 1px solid gray; /* Undo fixed styling of Safari dropdowns  */
+	font-size: smaller;
+}
+
 .GeoGebraPopup {
 	padding:0px;
 }
