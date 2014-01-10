@@ -14,11 +14,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -26,6 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author gabor
@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
  * Statistics calculator for web
  *
  */
-public class StatisticsCalculatorW extends StatisticsCalculator implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, FocusHandler, BlurHandler, KeyPressHandler {
+public class StatisticsCalculatorW extends StatisticsCalculator implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, FocusHandler, BlurHandler, KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
 	private RichTextArea resultPane;
@@ -67,8 +67,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private FlowPanel panelTestAndCI;
 	private ChiSquarePanelW panelChiSquare;
 	private FlowPanel scroller;
-	private HandlerRegistration[] fldSampleStat1KeyHandlers;
-	private HandlerRegistration[] fldSampleStat2KeyHandlers;
 
 	public StatisticsCalculatorW(App app) {
 		super(app);
@@ -225,8 +223,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private void setSampleFieldLabels() {
 
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setText(null);
-			lblSampleStat2[i].setText(null);
+			lblSampleStat1[i].setText("");
+			lblSampleStat2[i].setText("");
 		}
 
 		switch (selectedProcedure) {
@@ -284,10 +282,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private void setSampleFieldText() {
 
 		for (int i = 0; i < 3; i++) {
-			fldSampleStat1KeyHandlers[i].removeHandler();
-			fldSampleStat2KeyHandlers[i].removeHandler();
-			fldSampleStat1[i].setText(null);
-			fldSampleStat2[i].setText(null);
+			//fldSampleStat1KeyHandlers[i].removeHandler();
+			//fldSampleStat2KeyHandlers[i].removeHandler();
+			fldSampleStat1[i].setText("");
+			fldSampleStat2[i].setText("");
 		}
 
 		switch (selectedProcedure) {
@@ -327,10 +325,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			break;
 		}
 
-		for (int i = 0; i < 3; i++) {
-			fldSampleStat1KeyHandlers[i] = fldSampleStat1[i].addKeyPressHandler(this);
-			fldSampleStat2KeyHandlers[i] = fldSampleStat2[i].addKeyPressHandler(this);
-		}
+		//for (int i = 0; i < 3; i++) {
+			//fldSampleStat1KeyHandlers[i] = fldSampleStat1[i].addKeyUpHandler(this);
+			//fldSampleStat2KeyHandlers[i] = fldSampleStat2[i].addKeyUpHandler(this);
+		//}
 
 		fldConfLevel.setText(format(sc.level));
 		fldNullHyp.setText(format(sc.nullHyp));
@@ -343,13 +341,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		setSampleFieldLabels();
 		setSampleFieldText();
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null && lblSampleStat1[i].getText() != "");
-			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null && lblSampleStat1[i].getText() != "");
-			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null && lblSampleStat2[i].getText() != "");
-			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null && lblSampleStat2[i].getText() != "");
+			lblSampleStat1[i].setVisible(!"".equals(lblSampleStat1[i].getText()));
+			fldSampleStat1[i].setVisible(!"".equals(lblSampleStat1[i].getText()));
+			lblSampleStat2[i].setVisible(!"".equals(lblSampleStat2[i].getText()));
+			fldSampleStat2[i].setVisible(!"".equals(lblSampleStat2[i].getText()));
 		}
 
-		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null && lblSampleStat2[0].getText() != ""));
+		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null && !"".equals(lblSampleStat2[0].getText())));
 
 		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
 				|| selectedProcedure == Procedure.TMEAN2_CI);
@@ -535,19 +533,19 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 		fldNullHyp = new AutoCompleteTextFieldW(app);
 		fldNullHyp.setColumns(fieldWidth);
-		fldNullHyp.addKeyPressHandler(this);
+		fldNullHyp.addKeyUpHandler(this);
 		fldNullHyp.addFocusHandler(this);
 
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
-		fldConfLevel.addKeyPressHandler(this);
+		fldConfLevel.addKeyUpHandler(this);
 		fldConfLevel.addFocusHandler(this);
 
 		lblSigma = new Label();
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
-		fldSigma.addKeyPressHandler(this);
+		fldSigma.addKeyUpHandler(this);
 		fldSigma.addFocusHandler(this);
 
 		lblSampleStat1 = new Label[3];
@@ -556,11 +554,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		}
 
 		fldSampleStat1 = new AutoCompleteTextFieldW[3];
-		fldSampleStat1KeyHandlers = new HandlerRegistration[3];
+		//fldSampleStat1KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
-			fldSampleStat1KeyHandlers[i] = fldSampleStat1[i].addKeyPressHandler(this);
+			fldSampleStat1[i].addKeyUpHandler(this);
 			fldSampleStat1[i].addFocusHandler(this);
 		}
 
@@ -570,11 +568,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		}
 
 		fldSampleStat2 = new AutoCompleteTextFieldW[3];
-		fldSampleStat2KeyHandlers = new HandlerRegistration[3];
+		//fldSampleStat2KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
-			fldSampleStat2KeyHandlers[i] = fldSampleStat2[i].addKeyPressHandler(this);
+			fldSampleStat2[i].addKeyUpHandler(this);
 			fldSampleStat2[i].addFocusHandler(this);
 		}	    
 	    
@@ -737,18 +735,21 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		}
 	}
 
-	public void onKeyPress(KeyPressEvent e) {
-	   doTextFieldActionPerformed();
+	public void onKeyUp(KeyUpEvent e) {
+		TextBox source = (TextBox) e.getSource();
+		if (source.getValue() != null && source.getValue() != "") {
+			doTextFieldActionPerformed();
+		}
     }
 
 	public void onFocus(FocusEvent event) {
-	   if (event.getSource() instanceof AutoCompleteTextFieldW) {
-		   ((AutoCompleteTextFieldW) event.getSource()).selectAll();
+	   if (event.getSource() instanceof TextBox) {
+		   ((TextBox) event.getSource()).selectAll();
 	   }
     }
 
 	public void onBlur(BlurEvent event) {
-	    if (event.getSource() instanceof AutoCompleteTextFieldW) {
+	    if (event.getSource() instanceof TextBox) {
 	    	doTextFieldActionPerformed();
 	    }
 	    
