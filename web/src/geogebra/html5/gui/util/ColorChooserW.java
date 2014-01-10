@@ -602,7 +602,9 @@ public class ColorChooserW extends FlowPanel {
     }
 
 	public boolean colorEquals(GColor color1, GColor color2) {
-		return color1.getRGB() == color2.getRGB();
+		return color1.getRed() == color2.getRed() &&
+				color1.getGreen() == color2.getGreen() &&
+				color1.getBlue() == color2.getBlue();
 	}
 
 	public void update() {
