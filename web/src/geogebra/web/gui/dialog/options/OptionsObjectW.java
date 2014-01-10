@@ -488,10 +488,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			colorChooserW = new ColorChooserW(800, 220, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
-				public void onChangeColor(GColor color) {
-					applyChanges();
-	                
-                }});
+				public void onColorChange() {
+					applyChanges(false);
+                }
+
+				public void onAlphaChange() {
+					applyChanges(true);
+				
+				}});
 
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
@@ -500,10 +504,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
-		public void applyChanges() {
+		public void applyChanges(boolean alphaOnly) {
 			float alpha = colorChooserW.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
-			model.applyChanges(color, alpha, false);
+			model.applyChanges(color, alpha, alphaOnly);
 		}
 
 		public void updateChooser(boolean equalObjColor,
@@ -563,8 +567,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void setLabels() {
-			colorChooserW.setTitles(localize("Recent"), localize("Other"), localize("Preview"),
-					localize("BackgroundColor"), localize("ForegroundColor"));
+			colorChooserW.setPaletteTitles(localize("RecentColor"), localize("Other"));
+			colorChooserW.setPreviewTitle(localize("Preview"));
+			colorChooserW.setBgFgTitles(localize("BackgroundColor"), localize("ForegroundColor"));
 			colorChooserW.setOpacityTitle(localize("Opacity"));
 		}
 

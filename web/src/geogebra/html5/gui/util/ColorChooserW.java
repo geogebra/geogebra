@@ -48,11 +48,12 @@ public class ColorChooserW extends FlowPanel {
 	private List<ColorTable> tables;
 	private ColorTable leftTable;
 	private ColorTable mainTable;
-	private ColorTable recentTable;
+	private RecentTable recentTable;
 	private ColorTable otherTable;
+	private ColorTable lastSource;
 	private GColor selectedColor;
 	ColorChangeHandler changeHandler;
-	private PreviewPanel previewPanel;
+	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
 	
@@ -85,13 +86,13 @@ public class ColorChooserW extends FlowPanel {
 			tableOffsetY = 0;
 			maxCol = col;
 			maxRow = row;
-			capacity = maxCol * maxRow;
+			setCapacity(maxCol * maxRow);
 			this.title = "";
 			palette = new ArrayList<GColor>();
 			currentCol = -1;
 			currentRow = -1;
-			selectedCol = -1;
-			selectedRow = -1;
+			setSelectedCol(-1);
+			setSelectedRow(-1);
 			if (data != null) {
 				for (Integer code: data) {
 					palette.add(new GColorW(code));
@@ -164,7 +165,7 @@ public class ColorChooserW extends FlowPanel {
 			if (col == currentCol && row == currentRow) {
 				ctx.setLineWidth(BORDER_WIDTH);
 				borderColor = FOCUS_COLOR;				
-			} else if (col == selectedCol && row == selectedRow) {
+			} else if (col == getSelectedCol() && row == getSelectedRow()) {
 				ctx.setLineWidth(BORDER_WIDTH);
 				if (checkNeeded) {
 					ctx.drawImage(checkMark, x + checkX, y + checkY);
@@ -202,10 +203,22 @@ public class ColorChooserW extends FlowPanel {
 			}
 			return result;
 		}
-
 		private void focusLost() {
 			currentCol = -1;
 			currentRow = -1;
+			draw();
+
+		}
+		
+		public void unselect() {
+			setSelectedCol(-1);
+			setSelectedRow(-1);
+			draw();
+		}
+
+		public void select(int col, int row) {
+			setSelectedCol(col);
+			setSelectedRow(row);
 			draw();
 		}
 
@@ -217,8 +230,11 @@ public class ColorChooserW extends FlowPanel {
 			return (row  >= 0 && row < maxRow);
 		}
 
+		protected int getIndex(int col, int row) { 
+			return row * maxCol + col;
+		}
 		private final GColor getColorFromPalette(int col, int row) {
-			int idx = row * maxCol + col;
+			int idx = getIndex(col, row);
 			return (palette != null && idx < palette.size() ? palette.get(idx) : DEFAULT_COLOR);
 		}
 
@@ -240,23 +256,25 @@ public class ColorChooserW extends FlowPanel {
 
 		public GColor getSelectedColor() {
 			if (!(isValidCol(currentCol) && isValidRow(currentRow))) {
-				selectedCol = -1;
-				selectedRow = -1;
+				setSelectedCol(-1);
+				setSelectedRow(-1);
 				return null;
 			}
-			selectedCol = currentCol;
-			selectedRow = currentRow;
+			setSelectedCol(currentCol);
+			setSelectedRow(currentRow);
 
 			return getColorFromPalette(currentCol, currentRow);
 
 		}
 
-		public void injectColor(GColor color) {
+		public boolean injectColor(GColor color) {
 			palette.add(0, color);
 			draw();
-			if (palette.size() > capacity) {
-				palette.remove(capacity);
+			if (palette.size() > getCapacity()) {
+				palette.remove(getCapacity());
+				return true;
 			}
+			return false;
 		}
 
 		public boolean isCheckNeeded() {
@@ -277,8 +295,65 @@ public class ColorChooserW extends FlowPanel {
 			titleOffsetY = offsetY;
 		}
 
+		public int getSelectedCol() {
+	        return selectedCol;
+        }
+
+		public void setSelectedCol(int selectedCol) {
+	        this.selectedCol = selectedCol;
+        }
+
+		public int getSelectedRow() {
+	        return selectedRow;
+        }
+
+		public void setSelectedRow(int selectedRow) {
+	        this.selectedRow = selectedRow;
+        }
+
+		public int getCapacity() {
+	        return capacity;
+        }
+
+		public void setCapacity(int capacity) {
+	        this.capacity = capacity;
+        }
+
 	}
 
+	private class RecentTable extends ColorTable {
+		private class Entry {
+			ColorTable table;
+			int col;
+			int row;
+			public Entry(ColorTable table) {
+				this.table = table;
+				this.col = table.getSelectedCol();
+				this.row = table.getSelectedRow();
+			}
+		}
+		
+		private List<Entry> entries;
+		public RecentTable(int x, int y, int col, int row) {
+	        super(x, y, col, row, null);
+	        entries = new ArrayList<Entry>();
+        }
+		
+		public void injectFrom(ColorTable source) {
+			boolean overflow = injectColor(source.getSelectedColor());
+			entries.add(0, new Entry(source));
+			if (overflow) {
+				entries.remove(source.getCapacity());
+			}
+		}
+		
+		public void apply() {
+			Entry entry = entries.get(getIndex(getSelectedCol(), getSelectedRow()));
+			entry.table.select(entry.col, entry.row);
+		}
+		
+		
+	}
 	private class PreviewPanel extends FlowPanel {
 		private Label title;
 		private Canvas canvas;
@@ -298,15 +373,21 @@ public class ColorChooserW extends FlowPanel {
 			add(rgb);
 		}
 
-		public void update(GColor color) {
+		public void update(){
+			
+			GColor color = getSelectedColor();
 			rgb.setText(ColorObjectModel.getColorAsString(color));
 			ctx.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+			
 			String htmlColor = StringUtil.toHtmlColor(color);
+			
 			ctx.setFillStyle(htmlColor);
+			
 			ctx.setGlobalAlpha(getAlphaValue());
 			ctx.fillRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 
 			ctx.setStrokeStyle(htmlColor);
+			
 			ctx.setGlobalAlpha(1.0);
 			ctx.setLineWidth(PREVIEW_BORDER_WIDTH);
 			ctx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
@@ -341,8 +422,10 @@ public class ColorChooserW extends FlowPanel {
 			slider.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
-					colorChanged();
-					previewPanel.update(selectedColor);
+					if (changeHandler != null) {
+						changeHandler.onAlphaChange();
+					}
+					previewPanel.update();
                 }});
 		}
 
@@ -375,7 +458,7 @@ public class ColorChooserW extends FlowPanel {
 		
 		public void setLabels(String bgLabel, String fgLabel) {
 			backgroundButton.setText(bgLabel);
-			foregroundButton.setText(bgLabel);
+			foregroundButton.setText(fgLabel);
 		}
 	}
 	
@@ -387,6 +470,7 @@ public class ColorChooserW extends FlowPanel {
 		ctx = canvas.getContext2d();
 		
 		changeHandler = null;
+		lastSource = null;
 
 		this.colorIconSize = colorIconSize;
 		this.padding = padding;
@@ -423,7 +507,7 @@ public class ColorChooserW extends FlowPanel {
 
 		x += mainTable.getWidth() + 5;
 
-		recentTable = new ColorTable(x, 22, 6, 4, null); 
+		recentTable = new RecentTable(x, 22, 6, 4); 
 		otherTable = new ColorTable(x, 140, 6, 2, null); 
 
 		leftTable.setCheckNeeded(true);
@@ -435,8 +519,12 @@ public class ColorChooserW extends FlowPanel {
 		opacityPanel = new OpacityPanel();
 		backgroundColorPanel = new BackgroundColorPanel();
 		tables = Arrays.asList(leftTable, mainTable, recentTable, otherTable);
-		setTitles("Recent", "Other", "Preview", "Backround", "Foreground");
 
+		setPaletteTitles("RecentColor", "Other");
+		setPreviewTitle("Preview");
+		setBgFgTitles("BackgroundColor", "ForegroundColor");
+		setOpacityTitle("Opacity");
+		
 		add(canvas);
 		add(previewPanel);
 		add(opacityPanel);
@@ -444,25 +532,14 @@ public class ColorChooserW extends FlowPanel {
 		
 		canvas.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				GColor color = null;
- 				boolean insertToRecent = false;
 				for (ColorTable table: tables) {
-					color = table.getSelectedColor();
+					GColor color = table.getSelectedColor();
 					if (color != null) {
-						insertToRecent = table != recentTable;
+						colorChanged(table, color);
 						break;
 					}
 				}		
-
- 				if (color != null) {
-					setSelectedColor(color);
-					if (insertToRecent == true) {
-						recentTable.injectColor(selectedColor);
-					}
-					
-					colorChanged();
-				}
-
+ 				
 			}});
 
 		canvas.addMouseMoveHandler(new MouseMoveHandler() {
@@ -477,11 +554,32 @@ public class ColorChooserW extends FlowPanel {
 
 	}
 
-	protected void colorChanged() {
-		if (changeHandler != null) {
-			changeHandler.onChangeColor(selectedColor);
+	protected void colorChanged(ColorTable source, GColor color) {
+
+		selectedColor = color;
+		previewPanel.update();
+		
+		if (lastSource != null && lastSource != source &&
+				lastSource != recentTable) {
+			lastSource.unselect();
 		}
-		previewPanel.update(getSelectedColor());
+
+		lastSource = source;
+		
+		if (source != recentTable) {
+			recentTable.injectFrom(source);
+		} else {
+			recentTable.apply();
+		}
+		
+		
+		if (changeHandler != null) {
+			changeHandler.onColorChange();
+		}
+		
+		if (source != null) {
+			source.draw();
+		}
     }
 
 	public boolean colorEquals(GColor color1, GColor color2) {
@@ -492,6 +590,7 @@ public class ColorChooserW extends FlowPanel {
 		for (ColorTable table: tables) {
 			table.draw();
 		}
+		
 	}
 
 
@@ -505,19 +604,25 @@ public class ColorChooserW extends FlowPanel {
 		}	
 
 
-	public void setTitles(String recentTitle, String otherTitle, String previewTitle,
-			String bg, String fg) {
+	public void setPaletteTitles(String recent, String other) {
 		leftTable.setTitle("", 0, 0);
-		recentTable.setTitle(recentTitle, 0, 0);
-		otherTable.setTitle(otherTitle, 0, 0);
-        previewPanel.setTitle(previewTitle);
-        backgroundColorPanel.setLabels(bg, fg);
+		recentTable.setTitle(recent, 0, 0);
+		otherTable.setTitle(other, 0, 0);
+	}
+	
+	public void setPreviewTitle(String title) {
+			previewPanel.setTitle(title);
+	}
+	
+	public void setBgFgTitles(String bg, String fg) {
+		backgroundColorPanel.setLabels(bg, fg);
 		update();
 	}
 	
 	public void setOpacityTitle(String title) {
 		opacityPanel.setLabels(title);
 	}
+	
 	public void addChangeHandler(ColorChangeHandler changeHandler) {
 		this.changeHandler = changeHandler;
 	}
@@ -543,4 +648,5 @@ public class ColorChooserW extends FlowPanel {
 		
 	    return backgroundColorPanel.backgroundButton.getValue();
     }
+
 }
