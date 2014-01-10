@@ -1655,12 +1655,27 @@ body[dir=rtl] .undoPanel {
 	padding: 1px;
 }
 
+
 [isSelected=true] .toolbar_icon{
-	border: 2px solid #000099;
+	border: 3px solid steelblue;
+	margin-top: -2px;
+	opacity:1.0;
+	
 }
 
 [isSelected=false] .toolbar_icon{
-	border: 1px solid lightgray;
+	border: 1px solid lightsteelblue;
+	margin-top: 0px
+	opacity:.9;
+}
+
+[isSelected=false] .toolbar_icon:hover{
+	border: 4px solid lightsteelblue;
+	margin-top: -3px;
+	margin-left: 0px;
+	margin-right: 0px;
+	opacity:1.0;
+	
 }
 
 .red_triangle{

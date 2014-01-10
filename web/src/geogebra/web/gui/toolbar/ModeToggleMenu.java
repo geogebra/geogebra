@@ -1,7 +1,6 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.AppW;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Element;
@@ -198,6 +195,12 @@ public class ModeToggleMenu extends MenuBar{
 			this.addNativeToolTipHandler(this.getElement(), this);
 		}
 
+		// prevent gwt menubar hover styling
+		 @Override
+        protected void setSelectionStyle(boolean selected) {
+			 // do nothing
+		 }
+		 
 		String toolTipText;
 		public void setToolTipText(String string) {
 			toolTipText = string;
