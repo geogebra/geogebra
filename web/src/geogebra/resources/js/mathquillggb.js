@@ -2067,6 +2067,9 @@ LatexCmds.phantom = bind(SomethingHTML, '\\phantom', gapHTML);
 var brHTML = '<span><span style="display: none;">&0</span><br/></span>';
 LatexCmds.vspace = bind(SomethingHTML, '\\vspace', brHTML);
 
+var hatHTML = '<span class="array non-leaf vbottom"><span class="hat">^</span><span>&0</span></span>';
+LatexCmds.hat = bind(SomethingHTML, '\\hat', hatHTML);
+
 // MathQuillGGB hacks by GeoGebra
 var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);

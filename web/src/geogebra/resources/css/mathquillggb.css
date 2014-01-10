@@ -258,6 +258,13 @@
   font-style: normal;
   padding-right: .2em;
 }
+.mathquillggb-rendered-math .hat {
+	padding-bottom: 0px;
+	margin-bottom: -0.9em;
+}
+.mathquillggb-rendered-math .vbottom {
+	vertical-align: bottom;
+}
 .mathquillggb-rendered-math .fraction {
   font-size: 90%;
   text-align: center;
