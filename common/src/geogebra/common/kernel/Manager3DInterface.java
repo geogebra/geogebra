@@ -737,7 +737,7 @@ public interface Manager3DInterface {
 	 * @param v value "opening" the net
 	 * @return net, faces, etc.
 	 */
-	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p, NumberValue v);
+	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p, NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments);
 
 
 	
