@@ -2060,6 +2060,9 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
   };
 });
 
+var scbHTML = '<span><span style="display: none;">&0</span><span>&1</span></span>';
+LatexCmds.scalebox = bind(SomethingHTML, '\\scalebox', scbHTML);
+
 var gapHTML = '<span style="visibility: hidden;">&0</span>';
 LatexCmds.phantom = bind(SomethingHTML, '\\phantom', gapHTML);
 
