@@ -229,6 +229,15 @@ public class ColorChooserW extends FlowPanel {
 			draw();
 		}
 
+		public void selectByColor(GColor color) {
+			for (int idx = 0; idx < palette.size(); idx++) {
+				if (colorEquals(color, palette.get(idx))) {
+					select(idx % maxRow, idx / maxRow);
+					break;
+				}
+			}
+		}
+
 		private boolean isValidCol(int col) {
 			return (col  >= 0 && col < maxCol);
 		}
@@ -383,6 +392,9 @@ public class ColorChooserW extends FlowPanel {
 		public void update(){
 			
 			GColor color = getSelectedColor();
+			if (color == null) {
+				return;
+			}
 			rgb.setText(ColorObjectModel.getColorAsString(color));
 			ctx.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 			
@@ -597,7 +609,7 @@ public class ColorChooserW extends FlowPanel {
 		for (ColorTable table: tables) {
 			table.draw();
 		}
-		
+		previewPanel.update();
 	}
 
 
@@ -607,8 +619,10 @@ public class ColorChooserW extends FlowPanel {
 
 	public void setSelectedColor(GColor color) {
 		selectedColor = color;
-		update();
-		}	
+		leftTable.selectByColor(color);
+		mainTable.selectByColor(color);
+		
+	}	
 
 
 	public void setPaletteTitles(String recent, String other) {

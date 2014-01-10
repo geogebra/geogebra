@@ -543,9 +543,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreview(GColor color, float alpha) {
-			colorChooserW.setSelectedColor(selectedColor);
+			colorChooserW.setSelectedColor(color);
 			colorChooserW.setAlphaValue(alpha);
-		
+			colorChooserW.update();
 		}
 
 		public boolean isBackgroundColorSelected() {
