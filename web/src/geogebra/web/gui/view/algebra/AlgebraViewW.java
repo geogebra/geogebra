@@ -361,10 +361,12 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 					case KeyCodes.KEY_LEFT:
 					case KeyCodes.KEY_RIGHT:
 					// this may be enough for Safari too, because it is not onkeypress
-						app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(event);
-						event.stopPropagation();
-						event.preventDefault();
-						return;
+						if (!editing) {
+							app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(event);
+							event.stopPropagation();
+							event.preventDefault();
+							return;
+						}
 				}
 		}
 		if (!editing)
