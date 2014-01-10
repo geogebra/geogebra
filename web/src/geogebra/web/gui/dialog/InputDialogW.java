@@ -19,7 +19,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,26 +40,10 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	protected GeoElement geo;
 
-	private CheckBox checkBox;
-
 	private String title;
 
 	protected VerticalPanel messagePanel;
 
-	
-	/**
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param autoComplete
-	 * @param handler
-	 */
-	public InputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler) {
-		this(app, message, title, initString, autoComplete, handler, false,
-				false, null);
-	}
 	
 	public InputDialogW(boolean modal) {
 
@@ -83,7 +66,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	        boolean modal, boolean selectInitText, GeoElement geo) {
 
 		this(app, message, title, initString, autoComplete, handler, modal,
-		        selectInitText, geo, null, DialogType.GeoGebraEditor);
+		        selectInitText, geo, DialogType.GeoGebraEditor);
 	}
 
 	/**
@@ -101,8 +84,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 */
 	public InputDialogW(AppW app, String message, String title,
 	        String initString, boolean autoComplete, InputHandler handler,
-	        boolean modal, boolean selectInitText, GeoElement geo,
-	        CheckBox checkBox, DialogType type) {
+	        boolean modal, boolean selectInitText, GeoElement geo, DialogType type) {
 
 		this(modal);
 
@@ -110,7 +92,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		this.geo = geo;
 		this.inputHandler = handler;
 		this.initString = initString;
-		this.checkBox = checkBox;
 
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
 		        selectInitText, geo != null, geo != null, type);
