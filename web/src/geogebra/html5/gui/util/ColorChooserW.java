@@ -33,9 +33,10 @@ public class ColorChooserW extends FlowPanel {
 	private static final int PREVIEW_WIDTH = 100;
 	private static final int MARGIN_TOP = 20;
 	private static final int MARGIN_X = 5;
-	public static final GColor DEFAULT_COLOR = new GColorW(0);
-	public static final GColor BOX_COLOR = new GColorW(0);
-	public static final GColor SELECTED_BOX_COLOR = new GColorW(255, 0, 0);
+	public static final GColor NO_TILE_COLOR = new GColorW(255, 255, 255);
+	public static final GColor NORMAL_TILE_COLOR = new GColorW(0);
+	public static final GColor EMPTY_TILE_COLOR = new GColorW(16, 16, 16);
+	public static final GColor SELECTED_TILE_COLOR = new GColorW(255, 0, 0);
 	public static final String TITLE_FONT = "14pt geogebra-sans-serif";
 	public static final int TITLE_HEIGHT = 20;
 	public static final GColor FOCUS_COLOR = new GColorW(0, 0, 255);
@@ -140,8 +141,7 @@ public class ColorChooserW extends FlowPanel {
 				}	
 			}
 
-
-			ctx.strokeRect(0, 0, getWidth(), getHeight());
+//			ctx.strokeRect(0, 0, getWidth(), getHeight());
 			ctx.restore();
 
 		}
@@ -153,31 +153,37 @@ public class ColorChooserW extends FlowPanel {
 			int x = (col * w);
 			int y = tableOffsetY + (row * h);
 
-			GColor borderColor = BOX_COLOR;
+			GColor borderColor = NORMAL_TILE_COLOR;
 			ctx.setLineWidth(1);
 
 
 			GColor fillColor = getColorFromPalette(col, row);
+
+			boolean emptyTile = (fillColor == null);
+			if (emptyTile == true) {
+				fillColor = NO_TILE_COLOR;
+	      	}
+			
 			ctx.setFillStyle(StringUtil.toHtmlColor(fillColor));
 
 			ctx.fillRect(x + padding, y + padding, w - padding, h - padding);
 
-			if (col == currentCol && row == currentRow) {
+			if (emptyTile == true) {
+				borderColor = EMPTY_TILE_COLOR;
+			} else	if (col == currentCol && row == currentRow && !emptyTile) {
 				ctx.setLineWidth(BORDER_WIDTH);
 				borderColor = FOCUS_COLOR;				
 			} else if (col == getSelectedCol() && row == getSelectedRow()) {
 				ctx.setLineWidth(BORDER_WIDTH);
 				if (checkNeeded) {
 					ctx.drawImage(checkMark, x + checkX, y + checkY);
-					borderColor = SELECTED_BOX_COLOR;
+					borderColor = SELECTED_TILE_COLOR;
 				}
 
 			}
 
-
 			ctx.setStrokeStyle(StringUtil.toHtmlColor(borderColor));
         	ctx.strokeRect(x + padding, y + padding, w - padding, h - padding);
-			//	ctx.stroke();
 		}
 
 		public boolean setFocus(int x, int y) {
@@ -213,7 +219,8 @@ public class ColorChooserW extends FlowPanel {
 		public void unselect() {
 			setSelectedCol(-1);
 			setSelectedRow(-1);
-			draw();
+			currentCol = -1;
+			currentRow = -1;
 		}
 
 		public void select(int col, int row) {
@@ -235,7 +242,7 @@ public class ColorChooserW extends FlowPanel {
 		}
 		private final GColor getColorFromPalette(int col, int row) {
 			int idx = getIndex(col, row);
-			return (palette != null && idx < palette.size() ? palette.get(idx) : DEFAULT_COLOR);
+			return (palette != null && idx < palette.size() ? palette.get(idx) : null);
 		}
 
 		public int getHeight() {
