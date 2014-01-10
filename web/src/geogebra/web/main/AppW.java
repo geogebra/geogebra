@@ -48,7 +48,6 @@ import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.dialog.ErrorMessageDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
@@ -73,6 +72,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
@@ -948,14 +949,30 @@ public abstract class AppW extends AppWeb {
 	// ERROR HANDLING
 	// ================================================
 
+
 	@Override
     public void showCommandError(final String command, final String message) {
 		// TODO
 		App.debug("TODO later: make sure splash screen not showing");
+		
+		String title = getLocalization().getPlain("ApplicationName") + " - "
+		        + getLocalization().getError("Error");
+		
+		String[] optionNames = {getLocalization().getPlain("OK"), getLocalization().getPlain("ShowOnlineHelp")};
+	
+		GOptionPaneW.INSTANCE.showOptionDialog(this, message, title, GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE,
+				optionNames, new CloseHandler(){
 
-		ErrorMessageDialog errorDialog = new ErrorMessageDialog(this, command, message);
-		errorDialog.center();
-		errorDialog.show();
+					@Override
+                    public void onClose(CloseEvent event) {
+	                    if(GOptionPaneW.INSTANCE.getReturnOption() == 1){
+	                    	if (getGuiManager() != null) {
+	            				getGuiManager().openCommandHelp(command);
+	            			}
+	                    }
+	                    
+                    }});
+			
 	}
 
 	@Override
@@ -968,17 +985,18 @@ public abstract class AppW extends AppWeb {
 		App.printStacktrace("showMessage: " + message);
 		GOptionPaneW.INSTANCE.showConfirmDialog(null, message,
 		        getPlain("ApplicationName") + " - " + getMenu("Info"),
-		        GOptionPane.DEFAULT_OPTION, 0);
+		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
 	public void showErrorDialog(final String msg) {
 		App.printStacktrace("");
 		
-		ErrorMessageDialog errorDialog = new ErrorMessageDialog(this, null, msg);
-		errorDialog.center();
-		errorDialog.show();
+		String title = getLocalization().getPlain("ApplicationName") + " - "
+		        + getLocalization().getError("Error");
 		
+		GOptionPaneW.INSTANCE.showConfirmDialog(this, msg, title,
+		        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
