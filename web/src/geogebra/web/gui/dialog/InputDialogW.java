@@ -200,7 +200,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	
 	protected void actionPerformed(DomEvent event) {
 		Widget source = (Widget) event.getSource();
-		if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+		if (source == btOK
+		        || (inputPanel.getTextComponent() != null && source == inputPanel
+		                .getTextComponent().getTextField())) {
 			inputText = inputPanel.getText();
 			setVisible(!processInputHandler());
 		} else if (source == btApply) {
