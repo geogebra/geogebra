@@ -393,8 +393,17 @@ public abstract class GlobalKeyDispatcher {
 
 				}
 				break;
-			case B:
 			case M:
+				if (isShiftDown) {
+					// TODO
+					App.debug("TODO: Ctrl-Shift-M");
+				} else {
+					// Ctrl-M: standard view
+					app.setStandardView();
+				}
+				break;
+
+			case B:
 				// copy base64 string to clipboard
 				if (isShiftDown) {
 					app.copyBase64ToClipboard();
