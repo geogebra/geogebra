@@ -1173,7 +1173,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			slider.setEuclidianVisible(false);
 			slider.update();
 
-			kernel.getManager3D().PolyhedronNet(null, polyhedron, slider);
+			kernel.getManager3D().PolyhedronNet(null, polyhedron, slider, null, null); // no bottom face, no pivot segments
 			return true;
 
 		} 

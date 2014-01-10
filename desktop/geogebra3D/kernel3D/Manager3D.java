@@ -1422,7 +1422,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
-			NumberValue v) {
+			NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments) {
 		
 		switch(((GeoPolyhedron) p).getType()) {
 
@@ -1434,7 +1434,7 @@ public class Manager3D implements Manager3DInterface {
 			algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p, v);
 			return algo.getOutput();	
 		default:
-			algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p, v);
+			algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p, v, bottomFace, pivotSegments);
 			return algo.getOutput();	
 		}
 		
