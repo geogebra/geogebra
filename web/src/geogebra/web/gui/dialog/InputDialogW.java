@@ -45,6 +45,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	private String title;
 
+	protected VerticalPanel messagePanel;
+
 	
 	/**
 	 * @param app
@@ -163,7 +165,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		}
 		
 		// message panel 
-		VerticalPanel messagePanel = new VerticalPanel();
+		messagePanel = new VerticalPanel();
 		String[] lines = message.split("\n");
 		for (String item : lines) {
 			messagePanel.add(new Label(item));

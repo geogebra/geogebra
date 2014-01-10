@@ -18,7 +18,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 
 	public InputDialogSegmentFixedW(AppW app, String title,
 			InputHandler handler, GeoPoint point1, Kernel kernel) {
-		super(app, app.getPlain("Length"), title, "", false, handler);
+		super(app, app.getPlain("Length"), title, "", false, handler, null);
 
 		geoPoint1 = point1;
 		this.kernel = kernel;

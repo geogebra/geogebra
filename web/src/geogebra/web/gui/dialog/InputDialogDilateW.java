@@ -3,7 +3,6 @@ package geogebra.web.gui.dialog;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
-import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -13,8 +12,6 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogDilateW extends InputDialogW {
 	GeoPointND[] points;
@@ -26,25 +23,17 @@ public class InputDialogDilateW extends InputDialogW {
 
 	public InputDialogDilateW(AppW app, String title, InputHandler handler,
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
-		super(false);
-
+	
+		super(app, app.getMenu("Dilate.Factor"), title, null, false, handler, false);
+		
 		this.app = app;
 		inputHandler = handler;
 
 		this.points = points;
 		this.selGeos = selGeos;
-		this.kernel = kernel;
-		
+		this.kernel = kernel;	
 		this.ec = ec;
 
-		createGUI(title, app.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
-				1, true, false, false, false, DialogType.GeoGebraEditor);
-		
-		FlowPanel centerPanel = new FlowPanel();
-		centerPanel.add(inputPanel);
-		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
-		
-		wrappedPopup.center();
 	}
 
 	/**

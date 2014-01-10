@@ -48,7 +48,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 		String id = DOM.createUniqueId();
 		rbCounterClockWise = new RadioButton(id, app.getPlain("counterClockwise"));
 		rbClockWise = new RadioButton(id, app.getPlain("clockwise"));
-		rbCounterClockWise.setChecked(true);
+		rbCounterClockWise.setValue(true);
 
 		VerticalPanel rbPanel = new VerticalPanel();
 		rbPanel.add(rbCounterClockWise);
@@ -57,6 +57,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
 
 		VerticalPanel centerPanel = new VerticalPanel();
+		centerPanel.add(messagePanel);
 		centerPanel.add(inputPanel);
 		centerPanel.add(rbPanel);
 		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
