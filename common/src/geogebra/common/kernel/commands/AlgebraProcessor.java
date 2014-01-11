@@ -567,13 +567,14 @@ public class AlgebraProcessor {
 							final FunctionVariable fvX2 = fvX;
 							
 							callback = new AsyncOperation(){
-								
-								
+																
 								@Override
 								public void callback(Object obj){
+									String[] dialogResult = (String[])obj;
+									
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
-									if (obj.toString() == "0"){
+									if (dialogResult[0] == "0"){
 										insertStarIfNeeded(undefinedVariables, ve, fvX2);
 										replaceUndefinedVariables(ve);
 										try {

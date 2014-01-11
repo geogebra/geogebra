@@ -68,6 +68,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -104,8 +105,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -1959,12 +1958,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 						GOptionPaneW.INSTANCE.showInputDialog(app,
 						        loc.getPlain("EnterPercentage"), currentSize,
-						        new CloseHandler() {
-
+						        null, new AsyncOperation() {
+							
 							        @Override
-							        public void onClose(CloseEvent event) {
-								        model.applyFontSizeFromString(GOptionPaneW.INSTANCE
-								                .getReturnValue());
+							        public void callback(Object obj) {
+							        	String[] dialogResult = (String[])obj;
+								        model.applyFontSizeFromString(dialogResult[1]);
 							        }
 						        });
 

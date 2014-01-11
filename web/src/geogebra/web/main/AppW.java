@@ -22,6 +22,7 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
@@ -72,8 +73,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
@@ -951,28 +950,30 @@ public abstract class AppW extends AppWeb {
 
 
 	@Override
-    public void showCommandError(final String command, final String message) {
+	public void showCommandError(final String command, final String message) {
 		// TODO
 		App.debug("TODO later: make sure splash screen not showing");
-		
+
 		String title = getLocalization().getPlain("ApplicationName") + " - "
 		        + getLocalization().getError("Error");
-		
-		String[] optionNames = {getLocalization().getPlain("OK"), getLocalization().getPlain("ShowOnlineHelp")};
-	
-		GOptionPaneW.INSTANCE.showOptionDialog(this, message, title, GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE,
-				optionNames, new CloseHandler(){
 
-					@Override
-                    public void onClose(CloseEvent event) {
-	                    if(GOptionPaneW.INSTANCE.getReturnOption() == 1){
-	                    	if (getGuiManager() != null) {
-	            				getGuiManager().openCommandHelp(command);
-	            			}
-	                    }
-	                    
-                    }});
-			
+		String[] optionNames = { getLocalization().getPlain("OK"),
+		        getLocalization().getPlain("ShowOnlineHelp") };
+
+		GOptionPaneW.INSTANCE.showOptionDialog(this, message, title,
+		        GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE, null,
+		        optionNames, new AsyncOperation() {
+			        @Override
+			        public void callback(Object obj) {
+			        	String[] dialogResult = (String[])obj;
+				        if (dialogResult[1] == "1") {
+					        if (getGuiManager() != null) {
+						        getGuiManager().openCommandHelp(command);
+					        }
+				        }
+			        }
+		        });
+
 	}
 
 	@Override
@@ -981,22 +982,23 @@ public abstract class AppW extends AppWeb {
 	}
 
 	@Override
-    public void showMessage(final String message) {
+	public void showMessage(final String message) {
 		App.printStacktrace("showMessage: " + message);
 		GOptionPaneW.INSTANCE.showConfirmDialog(null, message,
 		        getPlain("ApplicationName") + " - " + getMenu("Info"),
-		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.INFORMATION_MESSAGE);
+		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.INFORMATION_MESSAGE,
+		        null);
 	}
 
 	@Override
 	public void showErrorDialog(final String msg) {
 		App.printStacktrace("");
-		
+
 		String title = getLocalization().getPlain("ApplicationName") + " - "
 		        + getLocalization().getError("Error");
-		
+
 		GOptionPaneW.INSTANCE.showConfirmDialog(this, msg, title,
-		        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE);
+		        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
 	}
 
 	@Override

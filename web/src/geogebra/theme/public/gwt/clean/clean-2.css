@@ -1765,12 +1765,16 @@ body[dir=rtl] .GGWToolbar table{
 }
 
 
+.Dialog-messagePanel {
+	font-size:85%;
+}
+
 .Dialog-messagePanel td{
 	border-spacing: 6px;
 }
 
-.Dialog-messagePanel {
-	font-size:85%;
+.Dialog-messagePanel img {
+	margin:10px;
 }
 
 /*========= End Dialogs ===========*/

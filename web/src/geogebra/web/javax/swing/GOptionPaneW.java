@@ -5,26 +5,27 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Generates simple option and input dialogs modeled after the dialogs generated
  * by the JOptionPane class.
  * 
- * TODO: support for icons  
  */
 public class GOptionPaneW extends DialogBox implements GOptionPane,
         ClickHandler {
@@ -37,28 +38,31 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	private int optionType, messageType;
 	private boolean requiresReturnValue;
 	private Localization loc;
+	private AsyncOperation returnHandler;
 
 	private AutoCompleteTextFieldW inputField;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
 	private int returnOption;
 	private String returnValue;
-	private VerticalPanel messagePanel;
+	private VerticalPanel messageTextPanel;
+
+	private Image icon;
+	private HorizontalPanel messagePanel;
+
+	private static FocusWidget caller;
 
 	/**
-	 * Singleton instance of GOptionPaneW. Provides an entry point for all calls
-	 * to show dialogs or access getters/setters.
+	 * Singleton instance of GOptionPaneW. Provides entry point for all calls
+	 * to show a dialog or access getters/setters.
 	 */
 	public static GOptionPane INSTANCE = new GOptionPaneW();
 
-	private static FocusWidget caller;
 	/**
-	 * Constructor.
+	 * A private constructor is used to force use of singleton instance.
 	 */
-	public GOptionPaneW() {
+	private GOptionPaneW() {
 		super(false, true);
-		this.setGlassEnabled(true);
-		this.addStyleName("DialogBox");
 		createGUI();
 	}
 
@@ -68,6 +72,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		center();
 		show();
 	}
+	
 
 	protected void close() {
 
@@ -78,24 +83,35 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 				returnValue = inputField.getText();
 			}
 		}
-		if (caller != null) caller.setFocus(true);
+
+		if (returnHandler != null) {
+			App.debug("option: " + returnOption + "  value: " + returnValue);
+			String[] dialogResult = { returnOption + "", returnValue };
+			returnHandler.callback(dialogResult);
+		}
+
+		// return the focus to the input field calling this dialog
+		if (caller != null)
+			caller.setFocus(true);
 		caller = null;
+
 		hide();
 	}
 
-	public static void setCaller(FocusWidget c){
+	public static void setCaller(FocusWidget c) {
 		caller = c;
 	}
 	
-	public String getReturnValue() {
-		return returnValue;
-	}
-
-	public int getReturnOption() {
-		return returnOption;
+	@Override
+    public void setGlassEnabled(boolean enabled){
+		super.setGlassEnabled(enabled);
 	}
 
 	private void createGUI() {
+
+		setGlassEnabled(true);
+		addStyleName("DialogBox");
+
 		btnOK = new Button();
 		btnOK.addClickHandler(this);
 
@@ -105,8 +121,11 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("DialogButtonPanel");
 
-		messagePanel = new VerticalPanel();
+		messagePanel = new HorizontalPanel();
 		messagePanel.addStyleName("Dialog-messagePanel");
+		messagePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+
+		messageTextPanel = new VerticalPanel();
 
 		mainPanel = new FlowPanel();
 		mainPanel.addStyleName("Dialog-content");
@@ -140,7 +159,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		switch (optionType) {
 		case GOptionPane.CUSTOM_OPTION:
 			optionButtons = new Button[optionNames.length];
-			for (int i = optionNames.length-1; i >= 0; i--) {
+			for (int i = optionNames.length - 1; i >= 0; i--) {
 				optionButtons[i] = new Button(optionNames[i]);
 				optionButtons[i].addClickHandler(this);
 				buttonPanel.add(optionButtons[i]);
@@ -164,10 +183,18 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	private void updateMessagePanel() {
 
 		messagePanel.clear();
+		messageTextPanel.clear();
+
+		updateIcon();
+		if (icon != null) {
+			messagePanel.add(icon);
+		}
+
 		String[] lines = message.split("\n");
 		for (String item : lines) {
-			messagePanel.add(new Label(item));
+			messageTextPanel.add(new Label(item));
 		}
+		messagePanel.add(messageTextPanel);
 
 	}
 
@@ -183,6 +210,33 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		}
 		inputField.setText(initialSelectionValue);
 
+	}
+
+	private void updateIcon() {
+
+		if (icon != null) {
+			return;
+		}
+
+		switch (messageType) {
+
+		// TODO: better icons
+		case GOptionPane.ERROR_MESSAGE:
+			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			break;
+		case GOptionPane.INFORMATION_MESSAGE:
+			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			break;
+		case GOptionPane.WARNING_MESSAGE:
+			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			break;
+		case GOptionPane.QUESTION_MESSAGE:
+			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			break;
+		case GOptionPane.PLAIN_MESSAGE:
+			icon = null;
+			break;
+		}
 	}
 
 	@Override
@@ -210,7 +264,6 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 	/**
 	 * Close the dialog on key events ENTER or ESC.
-	 * 
 	 */
 	@Override
 	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
@@ -237,13 +290,20 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	// Dialog Launching Methods
 	// ===================================================================
 
+	/**
+	 * Launches a confirm dialog.
+	 */
 	public int showConfirmDialog(App app, String message, String title,
-	        int optionType, int messageType) {
+	        int optionType, int messageType, Object icon) {
 
 		this.app = app;
 		this.message = message;
 		this.title = title;
 		this.optionType = optionType;
+		this.messageType = messageType;
+		this.icon = (Image) icon;
+
+		this.returnHandler = null;
 		requiresReturnValue = false;
 
 		showDialog();
@@ -252,67 +312,89 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 	}
 
-	//TODO: remove this method use showOptionDialog instead of this
-	public void showOptionDialog2(App app, String message,
-            String title, String[] options, final AsyncOperation handler) {
-		
-		DialogBox dialogbox = new DialogBox();
-	
-		final PopupPanel dialog = new PopupPanel(false, true);
-		
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("DialogButtonPanel");
-		for (int i = 0; i<options.length; i++){
-			Button bt = new Button(options[i]);
-			final int selectedOption = i;
-			bt.addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event){
-					handler.callback(selectedOption);
-					dialog.hide();
-				}
-			});
-			buttonPanel.add(bt);
-		}
-		
-		FlowPanel panel = new FlowPanel();
-		panel.add(new Label(message));
-		panel.add(buttonPanel);
-
-		dialog.setWidget(panel);
-		dialog.center();
-		dialog.show();
-	
-    }
-
+	/**
+	 * Launches a customizable option dialog.
+	 * 
+	 * The dialog result is returned in the parameter of the handler callback
+	 * function as an array of two strings: <br>
+	 * 
+	 * dialogResult[0] = returnOption <br>
+	 * dialogResult[1] = returnValue <br>
+	 * 
+	 * (Note that returnValue is meaningless here.)
+	 */
 	public void showOptionDialog(App app, String message, String title,
-	        int optionType, int messageType, String[] optionNames,
-	        Object closeHandler) {
+	        int optionType, int messageType, Object icon, String[] optionNames,
+	        AsyncOperation handler) {
 
 		this.app = app;
 		this.message = message;
 		this.title = title;
 		this.optionType = optionType;
+		this.messageType = messageType;
+		this.icon = (Image) icon;
+
 		this.optionNames = optionNames;
-		this.addCloseHandler((CloseHandler<PopupPanel>) closeHandler);
+		this.returnHandler = handler;
 		requiresReturnValue = false;
 
 		showDialog();
 
 	}
 
-	
+	/**
+	 * Launches a simple input dialog. The dialog result is returned in the
+	 * parameter of the handler callback function as an array of two strings: <br>
+	 * 
+	 * dialogResult[0] = returnOption <br>
+	 * dialogResult[1] = returnValue
+	 * 
+	 */
 	public void showInputDialog(App app, String message,
-	        String initialSelectionValue, Object closeHandler) {
+	        String initialSelectionValue, Object icon, AsyncOperation handler) {
 
 		this.app = app;
 		this.message = message;
 		this.title = null;
-		this.initialSelectionValue = initialSelectionValue;
-		this.addCloseHandler((CloseHandler<PopupPanel>) closeHandler);
 		this.optionType = GOptionPane.OK_CANCEL_OPTION;
+		this.messageType = GOptionPane.PLAIN_MESSAGE;
+		this.icon = (Image) icon;
+
+		this.initialSelectionValue = initialSelectionValue;
+		this.returnHandler = handler;
 		requiresReturnValue = true;
 
 		showDialog();
 
 	}
+
+	/**
+	 * Launches a customizable input dialog. The dialog result is returned in
+	 * the parameter of the handler callback function as an array of two
+	 * strings: <br>
+	 * 
+	 * dialogResult[0] = returnOption <br>
+	 * dialogResult[1] = returnValue
+	 * 
+	 */
+	public void showInputDialog(App app, String message, String title,
+	        String initialSelectionValue, int optionType, int messageType,
+	        Object icon, String[] optionNames, AsyncOperation handler) {
+
+		this.app = app;
+		this.message = message;
+		this.title = null;
+		this.optionType = optionType;
+		this.messageType = messageType;
+		this.icon = (Image) icon;
+
+		this.optionNames = optionNames;
+		this.initialSelectionValue = initialSelectionValue;
+		this.returnHandler = handler;
+		requiresReturnValue = true;
+
+		showDialog();
+
+	}
+
 }

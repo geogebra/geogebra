@@ -14,6 +14,7 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.gui.view.properties.PropertiesView;
+import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -80,6 +81,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
@@ -1319,16 +1321,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
     public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {
 	    // TODO #3490
-       	GOptionPaneW optionPane = new GOptionPaneW();
-
+       	
        	Localization loc = ((AppW) app).getLocalization();
        	
-    	String[] options = { loc.getPlain("CreateSliders"),
-				app.getMenu("Cancel") };
-    	optionPane.showOptionDialog2(app,
-    			loc.getPlain("CreateSlidersForA", s), null,options, callback);
-    	
-	    return false;
+		String[] options = { loc.getPlain("CreateSliders"),
+		        app.getMenu("Cancel") };
+		
+		Image icon  = new Image(GGWToolBar.getMyIconResourceBundle().mode_slider_32().getSafeUri());
+		icon.getElement().getStyle().setProperty("border", "3px solid steelblue");
+		
+		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getPlain("CreateSlidersForA", s),
+		        loc.getPlain("CreateSliders"), GOptionPane.CUSTOM_OPTION,
+		        GOptionPane.INFORMATION_MESSAGE, icon, options, callback);
+
+		return false;
     }
     
     @Override
@@ -1348,7 +1354,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
     }
 
 	/**
-	 * @param show wheter to show the menubar or not
+	 * @param show whether to show the menubar or not
 	 */
 	public void showMenuBar(boolean show) {
 	   if (((AppW) app).getObjectPool().getGgwMenubar() != null) {

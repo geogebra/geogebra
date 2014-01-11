@@ -14,6 +14,7 @@ import geogebra.common.main.App;
 import geogebra.web.gui.dialog.InputDialogW;
 import geogebra.web.gui.dialog.TextInputDialogW;
 import geogebra.web.gui.infobar.InfoBarW;
+import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
 public class FactoryW extends Factory{
@@ -25,7 +26,7 @@ public class FactoryW extends Factory{
 
 	@Override
     public GOptionPane newGOptionPane() {
-		return new geogebra.web.javax.swing.GOptionPaneW();
+		return GOptionPaneW.INSTANCE;
     }
 
 	@Override

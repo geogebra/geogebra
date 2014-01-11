@@ -3067,7 +3067,7 @@ public abstract class App implements UpdateSelection{
 		optionPane.showConfirmDialog(this,
 				new Relation(kernel).relation(a, b),
 				getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"),
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE);
+				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE, null);
 	}
 
 	/**
