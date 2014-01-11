@@ -3140,7 +3140,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				loc.getPlain("CreateSliders"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE,
 
-				null, options, options[0]);
+				((AppD) app).getModeIcon(EuclidianConstants.MODE_SLIDER), options, options[0]);
 		
 		return returnVal == 0;
 		
