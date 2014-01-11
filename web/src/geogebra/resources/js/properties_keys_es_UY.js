@@ -1672,7 +1672,7 @@ __GGB__keysVar.es_UY.menu = {
     "RecentColor": "Reciente",
     "RecomputeAllViews": "Rec\xe1lculo de todos los objetos",
     "RecordToSpreadsheet": "Registro en Hoja de c\xe1lculo",
-    "RecordToSpreadsheet_Help": "Objeto a rastrear; luego, introducir alg\xfan cambio",
+    "RecordToSpreadsheet_Help": "Objeto a rastrear; luego, realizar alg\xfan cambio",
     "RecoveryCancel": "Cancelar",
     "RecoveryCancelQuestion": "\xbfSe cancela la recuperaci\xf3n aunque se pierdan los archivos no guardados?",
     "RecoveryOpen": "Abre",
