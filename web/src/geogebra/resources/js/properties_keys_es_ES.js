@@ -1726,7 +1726,7 @@ __GGB__keysVar.es_ES.menu = {
     "SaveAs": "Guarda como...",
     "SaveCurrentFileQuestion": "\xbfGuardar los cambios realizados?",
     "SaveCurrentPerspective": "Guarda Apariencia actual",
-    "SavePrintUndo": "Habilita Guardar e Imprimir",
+    "SavePrintUndo": "Guardar/Imprimir habilitados",
     "SaveToGoogleDrive": "Guarda en Google Drive",
     "SaveToSkyDrive": "Guarda en SkyDrive",
     "SaveToXML": "Guarda como XML",

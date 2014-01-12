@@ -1898,7 +1898,7 @@ __GGB__keysVar.es_UY.menu = {
     "Tool": "Herramienta",
     "Tool_CreateNew": "Creaci\xf3n de nueva herramienta",
     "Tool_CreationSuccess": "Nueva herramienta creada exitosamente",
-    "Tool_DeleteQuestion": "\xbfSe eliminan definitivamente las herramientas seleccionadas?",
+    "Tool_DeleteQuestion": "\xbfDefinitivamente se eliminan las herramientas seleccionadas?",
     "Tool_Manage": "Gesti\xf3n de herramientas",
     "Tool_SelectObjects": "Objetos (escoger de la lista o de la construcci\xf3n)",
     "ToolHelp": "Ayuda de la herramienta",
