@@ -279,6 +279,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			setUndefined();
 			return;
 		}
+		if (getNet().isDefined() == false){
+			setUndefined();
+			return;
+		}
 		double f = v.getDouble();
 
 		if (Kernel.isGreater(f, 1)||Kernel.isGreater(0,f)){
