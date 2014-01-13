@@ -1110,10 +1110,12 @@ public class PolygonTriangulation {
 					pt.usable++;
 					pt2.usable++;
 					
+					/*
 					diagonal.above = above;
 					above.below = diagonal;
 					diagonal.below = below;
 					below.above = diagonal;
+					*/
 					App.error("diagonal to right : "+diagonal);
 				}
 				
@@ -1135,19 +1137,43 @@ public class PolygonTriangulation {
 				
 				if (pt.needsDiagonal){
 					App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
-					Point pt2;
-					if (below.leftPoint.compareToOnly(above.leftPoint) < 0){
-						pt2 = above.leftPoint;
+					if (below.isDiagonal){
+						below.removeFromPoints();
+						below.rightPoint.usable--;
+						pt.usable++;
+						below.rightPoint = pt;
+						below.addToPoints();
+						App.error("below is diagonal, replace : "+below);
+						// remove below
+						below = below.below;
+						below.above = above;
+						above.below = below;
+					}else if (above.isDiagonal){
+						above.removeFromPoints();
+						above.rightPoint.usable--;
+						pt.usable++;
+						above.rightPoint = pt;
+						above.addToPoints();
+						App.error("above is diagonal, replace : "+above);
+						// remove above
+						above = above.above;
+						below.above = above;
+						above.below = below;
 					}else{
-						pt2 = below.leftPoint;
-					}			
-					Segment diagonal = new Segment( Math.atan2(pt.y - pt2.y, pt.x - pt2.x), pt2, pt);
-					diagonal.addToPoints();
-					diagonal.isDiagonal = true;
-					pt.usable++;
-					pt2.usable++;
+						Point pt2;
+						if (below.leftPoint.compareToOnly(above.leftPoint) < 0){
+							pt2 = above.leftPoint;
+						}else{
+							pt2 = below.leftPoint;
+						}			
+						Segment diagonal = new Segment( Math.atan2(pt.y - pt2.y, pt.x - pt2.x), pt2, pt);
+						diagonal.addToPoints();
+						diagonal.isDiagonal = true;
+						pt.usable++;
+						pt2.usable++;
 
-					App.error("diagonal to left : "+diagonal);
+						App.error("diagonal to left : "+diagonal);
+					}
 				}
 				
 			}
@@ -1180,6 +1206,7 @@ public class PolygonTriangulation {
 			Point start = polygonPoints.first();
 			Point currentPoint = start;
 			Point nextPoint;
+			App.debug(start.name);
 			Segment segStart = start.toRight.first();
 			Segment segment = segStart;
 			Segment next = null;
