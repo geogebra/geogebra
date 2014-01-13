@@ -1079,6 +1079,9 @@ public class PolygonTriangulation {
 		top.below = bottom;
 
 		
+		//////////////////////////////////////////////
+		// set diagonals
+		
 		for (Point pt : polygonPoints){
 			
 			s = pt.name + " : ";
@@ -1096,7 +1099,7 @@ public class PolygonTriangulation {
 				
 
 				if (pt.needsDiagonal){
-					App.error("diagonal to right : "+below+"<"+pt.name+"<"+above);
+					//App.error("diagonal to right : "+below+"<"+pt.name+"<"+above);
 					Point pt2;
 					if (below.rightPoint.compareToOnly(above.rightPoint) < 0){
 						pt2 = below.rightPoint;
@@ -1109,14 +1112,8 @@ public class PolygonTriangulation {
 					diagonal.isDiagonal = true;
 					pt.usable++;
 					pt2.usable++;
-					
-					/*
-					diagonal.above = above;
-					above.below = diagonal;
-					diagonal.below = below;
-					below.above = diagonal;
-					*/
-					App.error("diagonal to right : "+diagonal);
+									
+					//App.error("diagonal to right : "+diagonal);
 				}
 				
 			}else{ // search for the correct place for to-right segments
@@ -1136,14 +1133,14 @@ public class PolygonTriangulation {
 				}
 				
 				if (pt.needsDiagonal){
-					App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
+					//App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
 					if (below.isDiagonal){
 						below.removeFromPoints();
 						below.rightPoint.usable--;
 						pt.usable++;
 						below.rightPoint = pt;
 						below.addToPoints();
-						App.error("below is diagonal, replace : "+below);
+						//App.error("below is diagonal, replace : "+below);
 						// remove below
 						below = below.below;
 						below.above = above;
@@ -1154,7 +1151,7 @@ public class PolygonTriangulation {
 						pt.usable++;
 						above.rightPoint = pt;
 						above.addToPoints();
-						App.error("above is diagonal, replace : "+above);
+						//App.error("above is diagonal, replace : "+above);
 						// remove above
 						above = above.above;
 						below.above = above;
@@ -1172,7 +1169,7 @@ public class PolygonTriangulation {
 						pt.usable++;
 						pt2.usable++;
 
-						App.error("diagonal to left : "+diagonal);
+						//App.error("diagonal to left : "+diagonal);
 					}
 				}
 				
@@ -1195,10 +1192,12 @@ public class PolygonTriangulation {
 			for (Segment seg = bottom.above ; seg != top; seg = seg.above){
 				s+=seg.toString()+",";
 			}
-			App.debug(s);
+			//App.debug(s);
 
 		}
 		
+		//////////////////////////////////////////////
+		// cut in monotone pieces
 		
 		while (!polygonPoints.isEmpty()){
 			s="Monotone piece : ";
@@ -1206,7 +1205,7 @@ public class PolygonTriangulation {
 			Point start = polygonPoints.first();
 			Point currentPoint = start;
 			Point nextPoint;
-			App.debug(start.name);
+			//App.debug(start.name);
 			Segment segStart = start.toRight.first();
 			Segment segment = segStart;
 			Segment next = null;
@@ -1267,7 +1266,7 @@ public class PolygonTriangulation {
 
 				if (oldRunning == Running.LEFT){		
 					if (segment.isDiagonal){
-						App.debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
+						//App.debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
 						segment.isDiagonal = false ; // no more a diagonal, clone it
 						Segment clone = segment.clone();
 						segment.removeFromPoints();
@@ -1280,7 +1279,7 @@ public class PolygonTriangulation {
 
 				}else{ // oldRunning == Running.RIGHT					
 					if (segment.isDiagonal){
-						App.debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
+						//App.debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
 						segment.isDiagonal = false ; // no more a diagonal, clone it
 						Segment clone = segment.clone();
 						segment.removeFromPoints();
@@ -1305,6 +1304,7 @@ public class PolygonTriangulation {
 
 			}
 
+			/*
 			s+="\nabove : ";
 			for (Segment seg = segment ; seg != null ; seg = seg.next ){
 				s += seg+",";
@@ -1313,8 +1313,11 @@ public class PolygonTriangulation {
 			for (Segment seg = segStart ; seg != null ; seg = seg.next ){
 				s += seg+",";
 			}
+			*/
 			
 			App.debug(s);
+			
+			triangulate(segStart, segment);
 		}
 		
 		
@@ -1542,8 +1545,9 @@ public class PolygonTriangulation {
 	
 
 	
-	public void triangulate(){
+	public void triangulate(Segment firstBelow, Segment firstAbove){
 		
+		/*
 		//Segment firstSegment = polygonFirstSegmentList.get(0);
 		Segment firstSegment = null;
 
@@ -1583,19 +1587,21 @@ public class PolygonTriangulation {
 		
 		
 		App.debug(s);
+		*/
 		
-		
-		s="chains:";
+		/*
+		String s="chains:";
 		s+="\n"+firstAbove.leftPoint.name;
-		for (seg = firstAbove ; seg != null ; seg = seg.next){
+		for (Segment seg = firstAbove ; seg != null ; seg = seg.next){
 			s+=seg.rightPoint.name;
 		}
 		s+="\n"+firstBelow.leftPoint.name;
-		for (seg = firstBelow ; seg != null ; seg = seg.next){
+		for (Segment seg = firstBelow ; seg != null ; seg = seg.next){
 			s+=seg.rightPoint.name;
 		}
 		
 		App.debug(s);
+		*/
 		
 		ArrayList<ArrayList<Point>> ret = new ArrayList<ArrayList<Point>>();
 
@@ -1610,12 +1616,12 @@ public class PolygonTriangulation {
 		Point pAbove = firstAbove.rightPoint;
 		Point pBelow = firstBelow.rightPoint;
 		if (pAbove.compareToOnly(pBelow) < 0){
-			App.debug("above : "+pAbove.name);
+			//App.debug("above : "+pAbove.name);
 			chain = Chain.ABOVE;
 			stack.push(pAbove);
 			firstAbove = firstAbove.next;
 		}else{
-			App.debug("below : "+pBelow.name);
+			//App.debug("below : "+pBelow.name);
 			chain = Chain.BELOW;
 			stack.push(pBelow);
 			firstBelow = firstBelow.next;
@@ -1631,7 +1637,7 @@ public class PolygonTriangulation {
 			Point top = stack.peek();
 			Point vi;
 			Chain viChain;
-			App.debug(firstAbove+"/"+firstBelow);
+			//App.debug(firstAbove+"/"+firstBelow);
 			if (chain == Chain.ABOVE){ // top point is pAbove
 				//if (firstAbove != null){
 					pAbove = firstAbove.rightPoint;
@@ -1726,12 +1732,12 @@ public class PolygonTriangulation {
 
 		}
 		
-		s="\nfans:";
+		String s="fans: ";
 		for (ArrayList<Point> fan : ret){
-			s+="\n";
 			for (Point p : fan){
 				s+=p.name;
 			}
+			s+=", ";
 		}
 		App.debug(s);
 		
@@ -1742,7 +1748,7 @@ public class PolygonTriangulation {
 
 	
 	private void debugDiagonal(String s, Point p1, Point p2){
-		App.debug(s+": "+p1.name+","+p2.name);
+		//App.debug(s+": "+p1.name+","+p2.name);
 	}
 
 
