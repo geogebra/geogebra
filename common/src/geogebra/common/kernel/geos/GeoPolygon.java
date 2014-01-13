@@ -1715,52 +1715,53 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).rotate(r);
+		updatePathRegion();
 	}
 
 	public void rotate(NumberValue r, GeoPointND S) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).rotate(r, S);
+		updatePathRegion();
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).matrixTransform(a00, a01, a10, a11);
-		this.calcArea();
+		calcArea();
+		updatePathRegion();
 	}
 
 	public void translate(Coords v) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).translate(v);
+		updatePathRegion();
 	}
 
 	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).dilate(r, S);
 		this.calcArea();
+		updatePathRegion();
 	}
 
 	public void mirror(Coords Q) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).mirror(Q);
+		updatePathRegion();
+	}
+
+	private void updatePathRegion() {
+		updateRegionCS();
+		this.updateSegments();
 	}
 
 	public void mirror(GeoLineND g) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).mirror(g);
+		updatePathRegion();
 	}
 
 	/**
@@ -1811,6 +1812,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a02, a10, a11,
 					a12, a20, a21, a22);
 		}
+		calcArea();
+		updatePathRegion();
 		
 	}
 
