@@ -1,6 +1,12 @@
 package geogebra.html5.gui.tooltip;
 
+import geogebra.common.util.AsyncOperation;
+
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -12,6 +18,7 @@ import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * <p>
@@ -94,7 +101,7 @@ public class ToolTipManagerW {
 	 * relative to this element.
 	 */
 	private Element tipElement;
-	private static boolean enabled = true; 
+	private static boolean enabled = true;
 
 	/** Singleton instance of ToolTipManager. */
 	final static ToolTipManagerW sharedInstance = new ToolTipManagerW();
@@ -120,9 +127,9 @@ public class ToolTipManagerW {
 		if (tipPanel != null || !enabled) {
 			return;
 		}
-		
+
 		tipHTML.setStyleName("toolTipHTML");
-		
+
 		tipPanel = new SimplePanel();
 		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
 		tipPanel.add(tipHTML);
@@ -191,7 +198,7 @@ public class ToolTipManagerW {
 	 * toolTip on a mouseDown event.
 	 */
 	private void registerMouseListeners() {
-		if(!enabled){
+		if (!enabled) {
 			return;
 		}
 
@@ -279,7 +286,7 @@ public class ToolTipManagerW {
 	 *            text to be displayed
 	 */
 	public void showToolTip(Element element, String toolTipText) {
-		if(!enabled){
+		if (!enabled) {
 			return;
 		}
 		tipElement = element;
@@ -297,7 +304,7 @@ public class ToolTipManagerW {
 	 *            text to be displayed
 	 */
 	public void showToolTip(String toolTipText) {
-		if(!enabled){
+		if (!enabled) {
 			return;
 		}
 		tipElement = null;
@@ -329,7 +336,7 @@ public class ToolTipManagerW {
 	 * Show the toolTip.
 	 */
 	protected void show() {
-		if(!enabled){
+		if (!enabled) {
 			return;
 		}
 		// locate and show the toolTip
@@ -350,7 +357,7 @@ public class ToolTipManagerW {
 	 * Hide the toolTip.
 	 */
 	public void hideToolTip() {
-		if(!enabled){
+		if (!enabled) {
 			return;
 		}
 		// exit if toolTip is already hidden
@@ -363,9 +370,9 @@ public class ToolTipManagerW {
 		oldText = "";
 		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
 
-		// cancel the timer in case of a delayed call to show() 
+		// cancel the timer in case of a delayed call to show()
 		cancelTimer();
-		
+
 		// but, if in immediate mode, reset the reshow timer
 		if (showImmediately) {
 			setReshowTimer();
@@ -426,7 +433,48 @@ public class ToolTipManagerW {
 		}
 	}
 
-	public static void setEnabled(boolean allowToolTips){
+	public static void setEnabled(boolean allowToolTips) {
 		enabled = allowToolTips;
 	}
+
+	public void registerWidget(final Widget widget,
+	        final AsyncOperation toolTipHandler, final boolean alignToElement,
+	        final boolean showImmediately) {
+
+		MouseOverHandler mouseOverHandler = new MouseOverHandler() {
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				boolean oldDelay = false;
+				if (showImmediately) {
+					oldDelay = sharedInstance().enableDelay;
+					sharedInstance().setEnableDelay(false);
+				}
+				toolTipHandler.callback(null);
+				if (alignToElement) {
+					sharedInstance().showToolTip(widget.getElement(),
+					        (String) toolTipHandler.getData());
+				} else {
+					sharedInstance().showToolTip(
+					        (String) toolTipHandler.getData());
+				}
+
+				if (showImmediately) {
+					sharedInstance().setEnableDelay(oldDelay);
+				}
+
+			}
+		};
+
+		MouseOutHandler mouseOutHandler = new MouseOutHandler() {
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				ToolTipManagerW.sharedInstance().showToolTip(null);
+			}
+		};
+
+		widget.addDomHandler(mouseOverHandler, MouseOverEvent.getType());
+		widget.addDomHandler(mouseOutHandler, MouseOutEvent.getType());
+
+	}
+
 }
