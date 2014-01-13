@@ -232,7 +232,7 @@ public class ColorChooserW extends FlowPanel {
 		public void selectByColor(GColor color) {
 			for (int idx = 0; idx < palette.size(); idx++) {
 				if (colorEquals(color, palette.get(idx))) {
-					select(idx % maxRow, idx / maxRow);
+					select(idx % maxCol, idx / maxCol);
 					break;
 				}
 			}
