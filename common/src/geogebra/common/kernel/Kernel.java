@@ -3168,7 +3168,10 @@ public class Kernel {
 	private ArrayList<AlgoElement> renameListenerAlgos;
 
 	private void notifyRenameListenerAlgos() {
-		AlgoElement.updateCascadeAlgos(renameListenerAlgos);
+		// #4073 command Object[] registers rename listeners 
+		if (cons != null && !cons.isFileLoading()) { 
+			AlgoElement.updateCascadeAlgos(renameListenerAlgos); 
+		}	
 	}
 
 	final public void notifyAddAll(View view, int consStep) {

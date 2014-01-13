@@ -1895,6 +1895,8 @@ Region3D, GeoDirectionND
 		if (B.isInfinite() || C.isInfinite() || a < -Kernel.STANDARD_PRECISION) {
 			defined = false;
 			return;
+		} else {
+			defined = true;
 		}
 
 		// set conics's matrix
