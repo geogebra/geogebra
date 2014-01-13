@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -254,7 +255,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 				int keyCode = event.getNativeKeyCode();
 				if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 					app.getKernel().clearJustCreatedGeosInViews();
-					String input = inputField.getText();					   
+					final String input = inputField.getText();					   
 					if (input == null || input.length() == 0)
 					{
 						app.getActiveEuclidianView().requestFocusInWindow(); // Michael Borcherds 2008-05-12
@@ -262,19 +263,59 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 					}
 
 					app.setScrollToShow(true);
-					GeoElement[] geos;
+//					GeoElement[] geos;
 					try {
-							geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true, true);
-							if (geos != null && geos.length == 0){
-								inputField.setIsSuggestionJustHappened(false);  //TODO: check this. Must we get the real geos before?
-								return;
-							}
+							AsyncOperation callback = new AsyncOperation(){
+
+								@Override
+                                public void callback(Object obj) {
+									if (!(obj instanceof GeoElement[])) return;
+									
+									GeoElement[] geos = (GeoElement[]) obj;
+									
+									// need label if we type just eg
+									// lnx
+									if (geos.length == 1 && !geos[0].labelSet) {
+										geos[0].setLabel(geos[0].getDefaultLabel());
+									}
+									
+									// create texts in the middle of the visible view
+									// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
+									if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
+										GeoText text = (GeoText)geos[0];
+										if (!text.isTextCommand() && text.getStartPoint() == null) {
+
+											Construction cons = text.getConstruction();
+											EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+											boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
+											cons.setSuppressLabelCreation(true);
+											GeoPoint p = new GeoPoint(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
+											cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+
+											try {
+												text.setStartPoint(p);
+												text.update();
+											} catch (CircularDefinitionException e1) {
+												e1.printStackTrace();
+											}
+										}
+									}
+
+									app.setScrollToShow(false);
+	
+									
+									inputField.addToHistory(input);
+									inputField.setText(null);
+									
+									inputField.setIsSuggestionJustHappened(false);
+                                }
+								
+							};
 							
-							// need label if we type just eg
-							// lnx
-							if (geos.length == 1 && !geos[0].labelSet) {
-								geos[0].setLabel(geos[0].getDefaultLabel());
-							}
+							app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true, callback);
+														
+
 					} catch (Exception ee) {
 						GOptionPaneW.setCaller(inputField.getTextBox());
 						app.showError(ee, inputField);
@@ -283,36 +324,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 						GOptionPaneW.setCaller(inputField.getTextBox());
 						inputField.showError(ee);
 						return;
-					}
-
-					// create texts in the middle of the visible view
-					// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-					if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
-						GeoText text = (GeoText)geos[0];
-						if (!text.isTextCommand() && text.getStartPoint() == null) {
-
-							Construction cons = text.getConstruction();
-							EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-
-							boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
-							cons.setSuppressLabelCreation(true);
-							GeoPoint p = new GeoPoint(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
-							cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-							try {
-								text.setStartPoint(p);
-								text.update();
-							} catch (CircularDefinitionException e1) {
-								e1.printStackTrace();
-							}
-						}
-					}
-
-					app.setScrollToShow(false);
-
-											   
-					inputField.addToHistory(input);
-					inputField.setText(null);  							  			   
+					}				  			   
 								  
 				} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V && keyCode != GWTKeycodes.KEY_X) { 
 					app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab 

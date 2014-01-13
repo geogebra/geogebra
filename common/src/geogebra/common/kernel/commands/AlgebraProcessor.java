@@ -107,7 +107,7 @@ public class AlgebraProcessor {
 	protected final Kernel kernel;
 	/** construction */
 	protected final Construction cons;
-	private final App app;
+	final App app;
 	private final Localization loc;
 	private final ParserInterface parser;
 	/** command dispatcher */
@@ -439,7 +439,7 @@ public class AlgebraProcessor {
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(String cmd,
 			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, boolean autoCreateSliders)
 					throws Exception {
-		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, false);
+		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, null);
 	}
 	
 	
@@ -456,7 +456,7 @@ public class AlgebraProcessor {
 	 * @throws Exception e.g. circular definition or parse exception
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(final String cmd,
-			final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, Boolean waitingForAnswer)
+			final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, final AsyncOperation callback0)
 					throws Exception {
 		final ValidExpression ve;
 		try {
@@ -555,14 +555,14 @@ public class AlgebraProcessor {
 						return null;
 					}
 					
-					boolean autoCreateSlidersAnswer = false;
+//					boolean autoCreateSlidersAnswer = false;
 
 					//"Create sliders for a, b?" Create Sliders / Cancel
 					//Yes: create sliders and draw line
 					//No: go back into input bar and allow user to change input	
 					if (app.getGuiManager() != null) {
 						AsyncOperation callback = null;
-						if (waitingForAnswer){
+						if (callback0 != null){
 							
 							final FunctionVariable fvX2 = fvX;
 							
@@ -575,44 +575,27 @@ public class AlgebraProcessor {
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
 									if (dialogResult[0] == "0"){
+										GeoElement[] geos;
 										insertStarIfNeeded(undefinedVariables, ve, fvX2);
 										replaceUndefinedVariables(ve);
 										try {
-											processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
-										} catch (Exception e1) {
-											// TODO Auto-generated catch block
-											e1.printStackTrace();
-										};
-										try {
 											addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX2);
-										} catch (ParseException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										//TODO: app.setScrollToShow(false) - currently this function does nothing,
-										//so I don't deal with this now.
-										
-										//TODO: save to history
-										//TODO: clear algebra input
+											processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+										} catch (Exception ee) {
+											AlgebraProcessor.this.app.showError(ee.getMessage());
+											return;
+										}			
+										callback0.callback(null);
 									}
 									
 								}
 								
 							};
 						}
-						autoCreateSlidersAnswer = app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
-						// On web we won't get answer at this point,
-						// so the function will return dummy array to show, it is not the final list of geos.
-						// TODO return null gives the same result?
-						if (waitingForAnswer){
-							GeoElement[] geos = {};
-							return geos;
+						app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
+						if (callback0 != null){
+							return null;
 						}
-					}
-
-					if (!autoCreateSlidersAnswer) 
-					{
-						return null;
 					}
 				}
 
@@ -661,8 +644,9 @@ public class AlgebraProcessor {
 		}
 
 		// process ValidExpression (built by parser)
-	
-		return processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+		GeoElement[] geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+		if (callback0 != null) callback0.callback(geos);
+		return geos;
 	}
 
 	public GeoElement[] processValidExpression(boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, ValidExpression ve) throws Exception{
