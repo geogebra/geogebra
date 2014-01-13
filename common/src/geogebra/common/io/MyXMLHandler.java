@@ -2226,9 +2226,6 @@ public class MyXMLHandler implements DocHandler {
 				}
 				toolbarStr = converted.toString();
 				
-				App.debug(toolbarStr);
-
-
 				tmp_perspective.setShowToolBar(true);
 				tmp_perspective.setToolbarDefinition(toolbarStr);
 		
