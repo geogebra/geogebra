@@ -44,7 +44,6 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.TreeSet;
 
 /**
@@ -567,6 +566,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 		if (poly.hasChangeableCoordParentNumbers())
 			setChangeableCoordParent(poly.changeableCoordParent.getNumber(),poly.changeableCoordParent.getDirector());
+		updateRegionCS();
 	}
 
 	
@@ -1576,7 +1576,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	
 	
 	
-	
+	/*
 	private class SweepComparator implements Comparator<Integer>{
 
 		private GeoPolygon p;
@@ -1584,7 +1584,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		/**
 		 * constructor
 		 * @param p polygon 
-		 */
+		 *
 		public SweepComparator(GeoPolygon p) {
 			this.p = p;
 		}
@@ -1625,7 +1625,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 		
 	}
-	
+	*/
 	
 	
 	@Override
