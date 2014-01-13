@@ -198,9 +198,6 @@ public class ColorChooserW extends FlowPanel {
 
 			int col = (x - left) / colorIconSize.getWidth();
 			int row = (y - top - tableOffsetY) / colorIconSize.getHeight();
-			App.debug("Focus " + col + ", " + row);
-
-
 			if (isValidCol(col) && isValidRow(row)) {
 				currentCol = col;
 				currentRow = row;
@@ -284,14 +281,13 @@ public class ColorChooserW extends FlowPanel {
 
 		}
 
-		public boolean injectColor(GColor color) {
+		public void injectColor(GColor color) {
 			palette.add(0, color);
 			draw();
 			if (palette.size() > getCapacity()) {
 				palette.remove(getCapacity());
-				return true;
 			}
-			return false;
+			
 		}
 
 		public boolean isCheckNeeded() {
@@ -354,13 +350,15 @@ public class ColorChooserW extends FlowPanel {
 		public RecentTable(int x, int y, int col, int row) {
 	        super(x, y, col, row, null);
 	        entries = new ArrayList<Entry>();
-        }
+	    	
+		}
 		
 		public void injectFrom(ColorTable source) {
-			boolean overflow = injectColor(source.getSelectedColor());
+			injectColor(source.getSelectedColor());
 			entries.add(0, new Entry(source));
-			if (overflow) {
-				entries.remove(source.getCapacity());
+			App.debug("capacity: " + getCapacity() + " Entries size: " + entries.size());
+			if (entries.size() > getCapacity()) {
+				entries.remove(getCapacity());
 			}
 		}
 		
