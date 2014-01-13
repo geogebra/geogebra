@@ -287,5 +287,49 @@ public class SingularWebService {
 		}
 		return "locus2d";
 	}
+
+	/**
+	 * Helper computations from Singular. Note that the returned string
+	 * will be post-processed by GeoGebra and GeoGebraCAS.
+	 * @param command the GeoGebra command pattern
+	 * @return its translation to Singular commands
+	 */
+	public String getTranslatedCASCommand(String command) {
+		if (command.equals("CIFactor.1")) {
+			StringBuilder sb = new StringBuilder();
+			// return "%0";
+			sb.append("LIB \"absfact.lib\";").
+			append("ring R=0, (x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w), ds; short=0;").
+			append("poly q=%0;").
+			append("def S=absFactorize(q); setring(S); list af=absolute_factors;").
+			append("string Z=\"\";").
+			append("int i; int p=size(af[1]); string sub=\"@c\";").
+			append("proc quadpolyroot(poly P, int I) {").
+			append("string PS=string(P);").
+			append("string RS=string(\"poly PP=\",PS[2,size(PS)-2]);").
+			append("def RR=basering; ring NR=0,(@c),ds;	execute(RS);").
+			append("matrix L=coeffs(PP,@c); int A=int(L[3,1]); int B=int(L[2,1]); int C=int(L[1,1]);").
+			append("string SC; if (I==1) { SC=\"+\"; } if (I==2) { SC=\"-\"; }").
+			append("string RV=string(\"((\",(-B),SC,\"sqrt(\",(B*B)-(4*A*C),\"))/(\",(2*A),\"))\");").
+			append("setring(RR); return(RV); }").
+
+			append("proc polydeg(poly P) { string PS=string(P); string RS=string(\"poly PP=\",PS[2,size(PS)-2]);").
+			append("def RR=basering; ring NR=0,(@c),ds; execute(RS); int L=size(coeffs(PP,@c))-1; setring(RR); return(L); }").
+
+			append("proc replace(string HS, string N, string TO) { int found=1; while (found>0) { found=find(HS,N);").
+			append("if (found>0) { string BEF=HS[1,found-1]; string AFT; if (found+size(N)<=size(HS)) {").
+			append("AFT=HS[found+size(N),size(HS)]; } HS=string(BEF,TO,AFT); } } return(HS); }").
+			
+			append("for (i=1; i<=p; i++) { poly s=af[3][i]; if (polydeg(s)>2) { print(\"error\"); }").
+			append("string f=string(\"(\",af[1][i],\")\");").
+			append("if (polydeg(s)==2) { string f1=replace(f,\"@c\",quadpolyroot(s,1));").
+			append("string f2=replace(f,\"@c\",quadpolyroot(s,2)); f=string(f1,\"*\",f2); }").
+			append("if (af[2][i]!=1) { f=string(f,\"^\",af[2][i]); }").
+			append("Z=string(Z,f); if (i<p) { Z=string(Z,\"*\"); } } Z;");
+			
+			return sb.toString();
+		}
+		return null;
+	}
 	
 }

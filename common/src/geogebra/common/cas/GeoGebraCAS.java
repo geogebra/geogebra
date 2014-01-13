@@ -248,6 +248,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl) {
+		return getCASCommand(name, args, symbolic, tpl, true);
+	}
+	
+	final synchronized private String getCASCommand(final String name,
+			final ArrayList<ExpressionNode> args, boolean symbolic,
+			StringTemplate tpl, boolean allowOutsourcing) {
 		StringBuilder sbCASCommand = new StringBuilder(80);
 
 		// build command key as name + ".N"
@@ -293,9 +299,20 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// add eg '3'
 		sbCASCommand.append(args.size());
 
+		boolean outsourced = false;
+		// check if there is support in the outsourced CAS (now SingularWS) for this command:
+		if (allowOutsourcing && app.singularWS.isAvailable()) {
+			translation = app.singularWS.getTranslatedCASCommand(sbCASCommand.toString());
+			if (translation != null) {
+				outsourced = true;
+			}
+		}
+					
 		// get translation ggb -> MathPiper/Maxima
-		translation = casParser
+		if (!outsourced) {
+			translation = casParser
 				.getTranslatedCASCommand(sbCASCommand.toString());
+		}
 		sbCASCommand.setLength(0);
 
 		// no translation found:
@@ -424,6 +441,20 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 
+		if (outsourced) {
+			try {
+				String retval = app.singularWS.directCommand(sbCASCommand.toString());
+				if (retval == null || retval.equals("")) {
+					// if there was a problem, try again without using Singular:
+					return getCASCommand(name, args, symbolic, tpl, false);
+				}
+				return retval;
+			} catch (Throwable e) {
+				// try again without Singular:
+				return getCASCommand(name, args, symbolic, tpl, false);
+			}
+		}
+		
 		return sbCASCommand.toString();
 	}
 
