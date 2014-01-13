@@ -2192,60 +2192,42 @@ public class MyXMLHandler implements DocHandler {
 			String toolbarStr = attrs.get("str");
 			if (toolbarStr != null) {
 				// GeoGebra 3.2 or older
+				
+				// eg 0 39 59 || 1001 5 19 | 2 15 45 18 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 || 16 51 | 10 34 53 11 , 24 20 22 , 21 23 | 55 56 57 , 12 || 36 46 , 38 49 50 | 30 29 54 32 31 33 | 25 52 , 17 26 , 14 || 40 41 42 , 27 28 35 , 6
 
 				// substitute 1000+x to 100000+x (macro numbers)
-				// this seems to be easier with a loop
-				boolean afterspace = true;
-				int thousande = 0;
-				StringBuilder addendum = new StringBuilder();
 				StringBuilder converted = new StringBuilder();
 				for (int lv = 0; lv < toolbarStr.length(); lv++) {
-					if (toolbarStr.charAt(lv) == ' ') {
-						afterspace = true;
-						thousande = 0;
-						addendum = new StringBuilder();
-						converted.append(toolbarStr.charAt(lv));
-					} else if (afterspace) {
-						if (thousande == 0) {
-							if (toolbarStr.charAt(lv) == '1') {
-								thousande++;
-								addendum = new StringBuilder();
-								addendum.append(toolbarStr.charAt(lv));
-							} else {
-								afterspace = false;
-								thousande = 0;
-								converted.append(toolbarStr.charAt(lv));
-							}
-						} else if (thousande < 4) {
-							if (StringUtil.isDigit(toolbarStr.charAt(lv))) {
-								thousande++;
-								addendum.append(toolbarStr.charAt(lv));
-							} else {
-								thousande = 0;
-								afterspace = false;
-								converted.append(addendum);
-								converted.append(toolbarStr.charAt(lv));
-							}
+					
+					char c = toolbarStr.charAt(lv);
+					if (Character.isDigit(c)) {
+						
+						StringBuilder numStr = new StringBuilder();
+						char cc;
+						while (lv < toolbarStr.length() && Character.isDigit(cc = toolbarStr.charAt(lv))) {
+							numStr.append(cc);
+							lv++;
 						}
-						if (thousande == 4) {
-							if (lv + 1 == toolbarStr.length()) {
-								converted.append("100"
-										+ addendum.toString().substring(1));
-							} else if (!StringUtil.isDigit(toolbarStr
-									.charAt(lv + 1))) {
-								converted.append("100"
-										+ addendum.toString().substring(1));
-							} else {
-								converted.append(addendum);
-							}
-							afterspace = false;
-							thousande = 0;
+						
+						int num = Integer.parseInt(numStr.toString());
+						
+						if (num > 999) {
+							num = num + 100000 - 1000;
 						}
+						
+						converted.append(num);
+						converted.append(" ");
+						
+						
 					} else {
-						converted.append(toolbarStr.charAt(lv));
+						// space or comma or |
+						converted.append(c);
 					}
 				}
 				toolbarStr = converted.toString();
+				
+				App.debug(toolbarStr);
+
 
 				tmp_perspective.setShowToolBar(true);
 				tmp_perspective.setToolbarDefinition(toolbarStr);
