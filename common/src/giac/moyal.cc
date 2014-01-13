@@ -758,7 +758,9 @@ namespace giac {
 	swapgen(k,p);
       if (is_integral(p))
 	swapgen(k,p);
-      return binomial(r+k-1,k,p,contextptr)*(1-p);
+      if (is_zero(k))
+	return pow(p,r,contextptr);
+      return binomial(r+k-1,r,p,contextptr)*(1-p)*r/k;
     }
     return gensizeerr(contextptr);
   }
@@ -774,7 +776,11 @@ namespace giac {
     int s=v.size();
     if (s==3){
       gen n=v[0],p=v[1],k=v[2];
-      return 1-_Beta(makesequence(k+1,n,p,1),contextptr);
+      return _Beta(makesequence(n,k+1,p,1),contextptr);
+    }
+    if (s==4){
+      gen n=v[0],p=v[1],k1=v[2],k2=v[3];
+      return _Beta(makesequence(n,k2+1,p,1),contextptr)-_Beta(makesequence(n,k1+1,p,1),contextptr);
     }
     return gensizeerr(contextptr);
   }
@@ -798,16 +804,16 @@ namespace giac {
 	return 0;
       if (t>=1)
 	return 1;
-      long_double cumul=std::pow(1-p,r),current=cumul;
+      long_double cumul=std::pow(p,r),current=cumul;
       if (cumul==0){
 	*logptr(contextptr) << gettext("Underflow") <<endl;
 	return undef;
       }
-      // negbinomial(r,p,k+1)/negbinomial(r,p,k)))=p*(k+r)/(k+1)
+      // negbinomial(r,p,k+1)/negbinomial(r,p,k)))=(1-p)*(k+r)/(k+1)
       for (int k=0;;){
 	if (cumul>=t)
 	  return k;
-	current=current*(k+r)*p/(k+1);
+	current=current*(k+r)*(1-p)/(k+1);
 	if (cumul==cumul+current)
 	  return k;
 	++k;
@@ -3147,8 +3153,8 @@ namespace giac {
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
   // 12 geometric, 13 uniformd, 14 exponentiald
   int is_distribution(const gen & args){
-    if (args.type==_SYMB)
-      return is_distribution(args._SYMBptr->sommet) && args._SYMBptr->sommet!=at_exp;
+    if (args.type==_SYMB && args._SYMBptr->sommet!=at_exp)
+      return is_distribution(args._SYMBptr->sommet) ;
     if (args.type==_FUNC){
       if (args==at_normald || args==at_NORMALD)
 	return 1;
@@ -3220,7 +3226,7 @@ namespace giac {
     if (nd==2)
       return pow((1-v[2])+v[2]*exp(t,contextptr),v[1],contextptr);
     if (nd==3)
-      return pow((1-v[2])/(1-v[2]*exp(t,contextptr)),v[1],contextptr);
+      return pow(v[2]/(1-(1-v[2])*exp(t,contextptr)),v[1],contextptr);
     if (nd==4)
       return exp(v[1]*(exp(t,contextptr)-1),contextptr);
     if (nd==10)

@@ -2551,6 +2551,8 @@ namespace giac {
       return true;
     case _CPLX:
       return subtype==3 || (_CPLXptr->is_approx() && (_CPLXptr+1)->is_approx());
+    case _VECT:
+      return has_num_coeff(*this);
     default:
       return false;
     }
@@ -3255,7 +3257,7 @@ namespace giac {
 	}
 	bool n_pos=(n>0);
 	if (!n_pos)
-	  return im(inv(pow(f,-n),contextptr),contextptr);
+	  return im(inv(pow(e,-n),contextptr),contextptr);
 	vecteur v=pascal_nth_line(n);
 	vecteur somme;
 	gen signe=plus_one; 
@@ -5041,65 +5043,102 @@ namespace giac {
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
       return adjust_complex_display(gen(*a._CPLXptr * (*b._CPLXptr) - *(a._CPLXptr+1)* (*(b._CPLXptr+1)), (*b._CPLXptr) * (*(a._CPLXptr+1)) + *(b._CPLXptr+1) * (*a._CPLXptr)),a,b);
-    case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL:
+    case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL: {
+      gen A(a),B(b);
+      if (A.is_approx() && !is_fully_numeric(B))
+	B=evalf(b,1,contextptr);
+      else {
+	if (B.is_approx() && !is_fully_numeric(A)){
+	  A=evalf(a,1,contextptr);
+	  if (A.type!=_VECT)
+	    A=a;
+	}
+      }
       // matrix * point -> point
-      if (b.is_symb_of_sommet(at_pnt)){
-	gen tmp=complex2vecteur(remove_at_pnt(b),contextptr);
-	if (ckmatrix(a)){
-	  tmp=multmatvecteur(*a._VECTptr,*tmp._VECTptr);
+      if (B.is_symb_of_sommet(at_pnt)){
+	gen tmp=complex2vecteur(remove_at_pnt(B),contextptr);
+	if (ckmatrix(A)){
+	  tmp=multmatvecteur(*A._VECTptr,*tmp._VECTptr);
 	  return _point(tmp,contextptr);	
 	}
-	if (a._VECTptr->size()==tmp._VECTptr->size())
-	  return dotvecteur(*a._VECTptr,*tmp._VECTptr);
+	if (A._VECTptr->size()==tmp._VECTptr->size())
+	  return dotvecteur(*A._VECTptr,*tmp._VECTptr);
       }
-      if (a.subtype==_VECTOR__VECT && a._VECTptr->size()==2)
-	return vector2vecteur(*a._VECTptr)*b;
-      if (a.subtype==_PNT__VECT)
-	return gen(multfirst(b,*a._VECTptr),_PNT__VECT);
-      if (a.subtype==_POLY1__VECT){
-	if (is_zero(b,contextptr))
-	  return b;
+      if (A.subtype==_VECTOR__VECT && A._VECTptr->size()==2)
+	return vector2vecteur(*A._VECTptr)*B;
+      if (A.subtype==_PNT__VECT)
+	return gen(multfirst(B,*A._VECTptr),_PNT__VECT);
+      if (A.subtype==_POLY1__VECT){
+	if (is_zero(B,contextptr))
+	  return B;
 	//if (b.type==_POLY) return a*(*b._POLYptr);
       }
-      return multgen_poly(b,*a._VECTptr,a.subtype); // gen(multvecteur(b,*a._VECTptr),a.subtype);
-    case _INT___VECT: case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT:
-      if (a.is_symb_of_sommet(at_pnt)){
-	gen tmp=complex2vecteur(remove_at_pnt(a),contextptr);
-	if (ckmatrix(b))
-	  return _point(multvecteurmat(*tmp._VECTptr,*b._VECTptr),contextptr);
-	if (tmp._VECTptr->size()==b._VECTptr->size())
-	  return dotvecteur(*tmp._VECTptr,*b._VECTptr,contextptr);
+      return multgen_poly(B,*A._VECTptr,A.subtype); // gen(multvecteur(b,*a._VECTptr),a.subtype);
+    }
+    case _INT___VECT: case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT: {
+      gen A(a),B(b);
+      if (A.is_approx() && !is_fully_numeric(B)){
+	B=evalf(b,1,contextptr);
+	if (B.type!=_VECT)
+	  B=b;
       }
-      if (b.subtype==_VECTOR__VECT && b._VECTptr->size()==2)
-	return a*vector2vecteur(*b._VECTptr);
-      if (b.subtype==_PNT__VECT)
-	return gen(multfirst(a,*b._VECTptr),_PNT__VECT);
-      if (b.subtype==_POLY1__VECT){
-	if (is_zero(a,contextptr))
-	  return a;
+      else {
+	if (B.is_approx() && !is_fully_numeric(A)){
+	  A=evalf(a,1,contextptr);
+	}
+      }
+      if (A.is_symb_of_sommet(at_pnt)){
+	gen tmp=complex2vecteur(remove_at_pnt(A),contextptr);
+	if (ckmatrix(B))
+	  return _point(multvecteurmat(*tmp._VECTptr,*B._VECTptr),contextptr);
+	if (tmp._VECTptr->size()==B._VECTptr->size())
+	  return dotvecteur(*tmp._VECTptr,*B._VECTptr,contextptr);
+      }
+      if (B.subtype==_VECTOR__VECT && B._VECTptr->size()==2)
+	return A*vector2vecteur(*B._VECTptr);
+      if (B.subtype==_PNT__VECT)
+	return gen(multfirst(A,*B._VECTptr),_PNT__VECT);
+      if (B.subtype==_POLY1__VECT){
+	if (is_zero(A,contextptr))
+	  return A;
 	// if (a.type==_POLY) return b*(*a._POLYptr);
       }
-      return multgen_poly(a,*b._VECTptr,b.subtype); // gen(multvecteur(a,*b._VECTptr),b.subtype);
-    case _VECT__VECT:
-      if (abs_calc_mode(contextptr)==38 && (a.subtype==_MATRIX__VECT ||b.subtype==_MATRIX__VECT) && ckmatrix(a) && ckmatrix(b)){
-	if (a._VECTptr->front()._VECTptr->size()!=b._VECTptr->size())
+      return multgen_poly(A,*B._VECTptr,B.subtype); // gen(multvecteur(a,*b._VECTptr),b.subtype);
+    }
+    case _VECT__VECT: {
+      gen A(a),B(b);
+      if (A.is_approx() && !is_fully_numeric(B)){
+	B=evalf(b,1,contextptr);
+	if (B.type!=_VECT)
+	  B=b;
+      }
+      else {
+	if (B.is_approx() && !is_fully_numeric(A)){
+	  A=evalf(a,1,contextptr);
+	  if (A.type!=_VECT)
+	    A=a;
+	}
+      }
+      if (abs_calc_mode(contextptr)==38 && (A.subtype==_MATRIX__VECT ||B.subtype==_MATRIX__VECT) && ckmatrix(A) && ckmatrix(B)){
+	if (A._VECTptr->front()._VECTptr->size()!=B._VECTptr->size())
 	  return gendimerr(contextptr);
 	gen res(new ref_vecteur(0),_MATRIX__VECT);
-	mmult(*a._VECTptr,*b._VECTptr,*res._VECTptr);
+	mmult(*A._VECTptr,*B._VECTptr,*res._VECTptr);
 	return res;
       }
-      if ( (a.subtype==_POLY1__VECT) || (b.subtype==_POLY1__VECT) )
-	return multgen_poly(*a._VECTptr,*b._VECTptr);
-      if ( (a.subtype==_LIST__VECT) || (b.subtype==_LIST__VECT) )
-	return matrix_apply(a,b,contextptr,operator_times);
-      { gen res=ckmultmatvecteur(*a._VECTptr,*b._VECTptr);
+      if ( (A.subtype==_POLY1__VECT) || (B.subtype==_POLY1__VECT) )
+	return multgen_poly(*A._VECTptr,*B._VECTptr);
+      if ( (A.subtype==_LIST__VECT) || (B.subtype==_LIST__VECT) )
+	return matrix_apply(A,B,contextptr,operator_times);
+      { gen res=ckmultmatvecteur(*A._VECTptr,*B._VECTptr);
 	if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && res.type==_VECT){
-	  res.subtype=b.subtype;
+	  res.subtype=B.subtype;
 	  if (res.subtype==0)
-	    res.subtype=a.subtype;
+	    res.subtype=A.subtype;
 	}
 	return res;
       }
+    }
     case _POLY__POLY:
       return mulpoly(a,b);
     case _FRAC__FRAC:
@@ -5910,8 +5949,16 @@ namespace giac {
 	if (is_one(abs(*(a._CPLXptr+1),contextptr)))
 	  return -a;
       }
-      if ( a._CPLXptr->type==_DOUBLE_ || a._CPLXptr->type==_FLOAT_ ||a._CPLXptr->type==_REAL || (a._CPLXptr+1)->type==_DOUBLE_ || (a._CPLXptr+1)->type==_FLOAT_ || (a._CPLXptr+1)->type==_REAL )
-	return gen(rdiv(no_context_evalf(a.re(contextptr)),no_context_evalf(a.squarenorm(contextptr)),contextptr),rdiv(no_context_evalf(-a.im(contextptr)),no_context_evalf(a.squarenorm(contextptr)),contextptr));
+      if ( a._CPLXptr->type==_DOUBLE_ || a._CPLXptr->type==_FLOAT_ ||a._CPLXptr->type==_REAL || (a._CPLXptr+1)->type==_DOUBLE_ || (a._CPLXptr+1)->type==_FLOAT_ || (a._CPLXptr+1)->type==_REAL ){
+	gen a2=no_context_evalf(a.squarenorm(contextptr));
+	if (is_inf(a2)){
+	  gen theta=arg(a,contextptr);
+	  theta=cos(theta,contextptr)-cst_i*sin(theta,contextptr);
+	  a2=re(a*theta,contextptr);
+	  return inv(a2,contextptr)*theta;
+	}
+	return gen(rdiv(no_context_evalf(a.re(contextptr)),a2,contextptr),rdiv(no_context_evalf(-a.im(contextptr)),a2,contextptr));
+      }
       return fraction(1,a);
     case _IDNT:
       if (a==undef)
@@ -9648,6 +9695,19 @@ namespace giac {
   int giac_yyparse(void * scanner);
 
   static int try_parse(const string & s,GIAC_CONTEXT){
+#if !defined(WIN32) && defined(HAVE_PTHREAD_H)
+    if (contextptr && thread_param_ptr(contextptr)->stackaddr){
+      gen er;
+      short int err=s.size();
+      if (debug_infolevel>10000)
+	cerr << (unsigned long) &err << " " << ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536 << endl;
+      if ( ((unsigned long) &err) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536){
+	gensizeerr(gettext("Too many recursion levels"),er);
+	parsed_gen(er,contextptr); 
+	return 1;
+      }
+    }
+#endif // pthread
     int res;
     int isqrt=i_sqrt_minus1(contextptr);
 #ifndef NO_STDEXCEPT

@@ -2240,8 +2240,8 @@ namespace giac {
 
   gen _mean(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    int nd;
-    if (g.type==_SYMB && (nd=is_distribution(g))){
+    int nd=is_distribution(g);
+    if (g.type==_SYMB && nd){
       gen f=g._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==1)
 	f=f._VECTptr->front();
@@ -2253,7 +2253,7 @@ namespace giac {
       if (nd==2)
 	return f[0]*f[1];
       if (nd==3)
-	return f[0]*f[1]/(1-f[1]);
+	return f[0]*(1-f[1])/f[1];
       if (nd==4 || nd==11)
 	return f;
       if (nd==5)
@@ -2332,7 +2332,7 @@ namespace giac {
       if (nd==2)
 	return sqrt(f[0]*f[1]*(1-f[1]),contextptr);
       if (nd==3)
-	return sqrt(f[0]*f[1],contextptr)/(1-f[1]);
+	return sqrt(f[0]*(1-f[1]),contextptr)/f[1];
       if (nd==4)
 	return sqrt(f,contextptr);
       if (nd==11)

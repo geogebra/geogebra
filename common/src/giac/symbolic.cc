@@ -1369,6 +1369,15 @@ namespace giac {
       return ans;
     } // if (sommet.quoted())
     else {
+      // pnt check required because pnt name might be the identifier->recursion
+      if (sommet==at_pnt && feuille.type==_VECT && feuille._VECTptr->size()==3){
+	ans=(*sommet.ptr())(gen(vecteur(feuille._VECTptr->begin(),feuille._VECTptr->begin()+2),feuille.subtype).in_eval(level,ans,contextptr)?ans:feuille,contextptr);
+	if (!last.empty())
+	  last.pop_back();
+	if (!lastarg.empty())
+	  lastarg.pop_back();
+	return ans;
+      }
       if ((sommet==at_neg) && (feuille.type==_IDNT) && !strcmp(feuille._IDNTptr->id_name,string_infinity)){
 	if (!last.empty())
 	  last.pop_back();

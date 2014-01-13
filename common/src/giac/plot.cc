@@ -2071,7 +2071,11 @@ namespace giac {
     if (is_zero(eqx) && is_zero(eqy) && is_zero(eqz) )
       return gensizeerr(contextptr);
     // equation: eqx*x+eqy*y+eqz*z+cte=0
-    gen cte=subst(eq,makevecteur(x,y,z),vecteur(3,zero),false,contextptr),A,B;
+    gen cte,A,B;
+    if (est_plan)
+      cte=subst(eq,makevecteur(x,y,z),vecteur(3,zero),false,contextptr);
+    else
+      cte=subst(eq,makevecteur(x,y),vecteur(2,zero),false,contextptr);
     if (est_plan){
       B=makevecteur(eqx,eqy,eqz);
       if (is_zero(eqz)){

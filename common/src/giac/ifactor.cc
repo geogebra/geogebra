@@ -3252,6 +3252,38 @@ namespace giac {
   static define_unary_function_eval (__ithprime,&giac::_ithprime,_ithprime_s);
   define_unary_function_ptr5( at_ithprime ,alias_at_ithprime,&__ithprime,0,true);
 
+  static const char _nprimes_s []="nprimes";
+  static gen nprimes(const gen & g_,GIAC_CONTEXT){
+    gen g(g_);
+    if (!is_integral(g))
+      return gentypeerr(contextptr);
+    if (g.type!=_INT_)
+      return gensizeerr(contextptr); // symb_ithprime(g);
+    int i=g.val;
+    if (i<0)
+      return gensizeerr(contextptr);
+    if (i<2)
+      return 0;
+    vector<bool> * vptr=0;
+    if (!eratosthene2(i+2,vptr))
+      return gensizeerr(contextptr);
+    unsigned count=1; // 2 is prime, then count odd primes
+    i=(i-1)/2;
+    for (unsigned k=1;k<=i;++k){
+      if ((*vptr)[k])
+	++count;
+    }
+    return int(count);
+  }
+  gen _nprimes(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT)
+      return apply(args,_nprimes,contextptr);
+    return nprimes(args,contextptr);
+  }
+  static define_unary_function_eval (__nprimes,&giac::_nprimes,_nprimes_s);
+  define_unary_function_ptr5( at_nprimes ,alias_at_nprimes,&__nprimes,0,true);
+
   bool is_divisible_by(const gen & n,unsigned long a){
     if (n.type==_ZINT){
 #ifdef USE_GMP_REPLACEMENTS

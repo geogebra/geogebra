@@ -849,6 +849,18 @@ namespace giac {
     }
     return "error";
   }
+  gen _svg(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG){
+      ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
+      of << gen2svg(g._VECTptr->front(),contextptr) << endl;
+      return plus_one;
+    }
+    return string2gen(gen2svg(g,contextptr),false);
+  }
+  static const char _svg_s []="svg";
+  static define_unary_function_eval (__svg,&_svg,_svg_s);
+  define_unary_function_ptr5( at_svg ,alias_at_svg,&__svg,0,true);
 
   // --------------------- End SVG --------------------
 

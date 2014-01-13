@@ -7190,7 +7190,7 @@ namespace giac {
     }
     if (f==at_normald || f==at_NORMALD || f==at_normal || f==at_randNorm || f==at_randnormald)
       f=symbolic(at_normald,makesequence(0,1));
-    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_NORMALD) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)|| f.is_symb_of_sommet(at_randnormald)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_NORMALD) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm) || f.is_symb_of_sommet(at_randnormald)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
       gen M=evalf_double(f._SYMBptr->feuille._VECTptr->front(),1,contextptr);
       f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
       if (is_squarematrix(f)){
@@ -7224,7 +7224,8 @@ namespace giac {
       gen g1(f._SYMBptr->feuille._VECTptr->front()),g2(f._SYMBptr->feuille._VECTptr->back());
       if ( is_integral(g1) && g1.type==_INT_ && g1.val>0 && g1.val<=1000 && is_integral(g2) && g2.type==_INT_ && g2.val>0 && g2.val<=1000){
 	int k1=g1.val,k2=g2.val;
-	res.push_back(randchisquare(k1,contextptr)/k1/(randchisquare(k2,contextptr)/k2));
+	for (int i=0;i<n;++i)
+	  res.push_back(randchisquare(k1,contextptr)/k1/(randchisquare(k2,contextptr)/k2));
 	return ;
       }
     }
@@ -7520,7 +7521,7 @@ namespace giac {
 	  if (loi.type==_FUNC){
 	    if (loi==at_multinomial)
 	      loi=symbolic(at_multinomial,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
-	    else
+	    else 
 	      loi=loi(gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT),contextptr);
 	  }
 	  else
@@ -11118,10 +11119,10 @@ namespace giac {
     if (!is_squarematrix(_args))
       return gensizeerr(contextptr);
     gen args;
-    if (_args==_tran(_args,contextptr))
+    if (_args==_trn(_args,contextptr))
       args=_args;
     else
-      args=(_args+_tran(_args,contextptr))/2;
+      args=(_args+_trn(_args,contextptr))/2;
 #ifdef HAVE_LIBGSL
     if (is_fully_numeric(args) && is_zero(im(args,contextptr),contextptr)){
       gsl_matrix * m=matrice2gsl_matrix(*args._VECTptr,contextptr);
@@ -11150,7 +11151,7 @@ namespace giac {
 	  if (is_zero(C[k][k],contextptr)) 
 	    return gensizeerr(gettext("Not invertible matrice"));
 	  //if (is_strictly_positive(-C[k][k])) setsizeerr(gettext("Not a positive define matrice"));
-	  s=s+C[l][k]*C[j][k]/C[k][k];
+	  s=s+C[l][k]*conj(C[j][k],contextptr)/C[k][k];
 	}
 	C[l][j]=ratnormal(A[l][j]-s);
       }

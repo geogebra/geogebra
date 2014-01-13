@@ -4062,6 +4062,8 @@ namespace giac {
     vecteur v(*args._VECTptr);
     maple_sum_product_unquote(v,contextptr);
     int s=v.size();
+    if (is_zero(v[0]))
+      return 0;
     if (!adjust_int_sum_arg(v,s))
       return gensizeerr(contextptr);
     if (v[1].type==_INT_){

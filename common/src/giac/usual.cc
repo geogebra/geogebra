@@ -1647,7 +1647,7 @@ namespace giac {
 	int n,d;
 	if (is_rational(kk,n,d)){
 	  if (d==10)
-	    return inv(tan(cst_pi/2-e,contextptr),contextptr);
+	    return inv(tan((angle_radian(contextptr)?cst_pi/2:90)-e,contextptr),contextptr);
 	  if (d==5){
 	    n %= 5;
 	    if (n<0)
@@ -5727,10 +5727,19 @@ namespace giac {
     vecteur & v=*args._VECTptr;
     if (v.front().type!=_INT_ || v.back().type!=_INT_)
       return comb(v.front(),v.back(),contextptr); 
+    if (v.front().val<0){
+      int n=v.front().val;
+      int k=v.back().val;
+      if (k<0)
+	return gensizeerr(contextptr);
+      gen res=1;
+      for (int i=0;i<k;++i){
+	res=(n-i)*res;
+      }
+      return res/factorial(k);
+    }
     if (v.front().val<v.back().val)
       return zero;
-    if (v.front().val<0)
-      return undef;
     return comb((unsigned long int) v.front().val,(unsigned long int) v.back().val);
   }
   static const char _comb_s []="comb";
@@ -6212,7 +6221,7 @@ namespace giac {
     complex_long_double res;
     if (x.real()<0.5)
 #ifndef HAVE_LONG_DOUBLE
-      res=std::log(M_PIL) -std::log(std::sin(M_PIL*x)) - lngamma(1.-x);
+      res=std::log(M_PI) -std::log(std::sin(M_PI*x)) - lngamma(1.-x);
 #else
       res=std::log(M_PIL) -std::log(std::sin(M_PIL*x)) - lngamma(1.L-x);
 #endif

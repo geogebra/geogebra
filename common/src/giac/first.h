@@ -26,6 +26,9 @@
 #define EMCC
 #undef HAVE_LIBPTHREAD
 #undef HAVE_PTHREAD_H
+#undef __x86_64__
+#undef SMARTPTR64
+#undef HAVE_LONG_DOUBLE
 #endif
 
 #ifdef RTOS_THREADX

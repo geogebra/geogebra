@@ -4476,6 +4476,7 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   void init_geogebra(bool on,GIAC_CONTEXT){
+    setlocale(LC_NUMERIC,"POSIX");
     _decimal_digits_=on?13:12;
     _all_trig_sol_=on;
     _withsqrt_=!on;
@@ -4486,7 +4487,6 @@ unsigned int ConvertUTF8toUTF16 (
     calc_mode(on?1:0,contextptr);
     powlog2float=3e4;
     MPZ_MAXLOG2=33300;
-    setlocale(LC_NUMERIC,"POSIX");
 #ifdef TIMEOUT
     caseval_maxtime=5;
     caseval_n=0;
