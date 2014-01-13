@@ -442,5 +442,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		//	dataSourceDialog.setLabels();
 		
 	}
+	/**
+	 * Creates a new, custom color .
+	 * @param origColor The original color for initial purposes and preview.
+	 * @return whether a color was given or not
+	 */
+
 
 }

@@ -2325,6 +2325,11 @@ label {
 	display:inline-block;
 }
 
+.colorComponent {
+	display: block;
+	
+}
+
 /*=========== Checkbox menuitem =============*/
 
 /* Stefi do you magic here :-) */

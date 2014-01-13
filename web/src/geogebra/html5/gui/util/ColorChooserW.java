@@ -6,6 +6,8 @@ import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.web.gui.dialog.CustomColorDialog;
+import geogebra.web.gui.dialog.CustomColorDialog.ICustomColor;
 import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
@@ -22,12 +24,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 
-public class ColorChooserW extends FlowPanel {
+public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 100;
@@ -57,7 +60,8 @@ public class ColorChooserW extends FlowPanel {
 	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
-	
+	private Button addCustomColor;
+	private App app;
 	private class ColorTable {
 		private int left;
 		private int top;
@@ -480,7 +484,8 @@ public class ColorChooserW extends FlowPanel {
 		}
 	}
 	
-	public ColorChooserW(int width, int height, GDimensionW colorIconSize, int padding) {
+	public ColorChooserW(App app, int width, int height, GDimensionW colorIconSize, int padding) {
+		this.app = app;
 		canvas = Canvas.createIfSupported();
 		canvas.setSize(width + "px", height + "px");
 		canvas.setCoordinateSpaceHeight(height);
@@ -530,7 +535,7 @@ public class ColorChooserW extends FlowPanel {
 
 		leftTable.setCheckNeeded(true);
 		mainTable.setCheckNeeded(true);
-		
+		otherTable.setCheckNeeded(true);
 		
 		previewPanel = new PreviewPanel();
 		
@@ -542,8 +547,17 @@ public class ColorChooserW extends FlowPanel {
 		setPreviewTitle("Preview");
 		setBgFgTitles("BackgroundColor", "ForegroundColor");
 		setOpacityTitle("Opacity");
-		
+		addCustomColor = new Button("+");
+
+		addCustomColor.addClickHandler(new ClickHandler(){
+
+			public void onClick(ClickEvent event) {
+				showCustomColorDialog();
+            }
+
+			});
 		add(canvas);
+		add(addCustomColor);
 		add(previewPanel);
 		add(opacityPanel);
 		add(backgroundColorPanel);
@@ -622,6 +636,7 @@ public class ColorChooserW extends FlowPanel {
 		selectedColor = color;
 		leftTable.selectByColor(color);
 		mainTable.selectByColor(color);
+		otherTable.selectByColor(color);
 		
 	}	
 
@@ -670,5 +685,18 @@ public class ColorChooserW extends FlowPanel {
 		
 	    return backgroundColorPanel.backgroundButton.getValue();
     }
+	
+	private void showCustomColorDialog() {
+		app.setWaitCursor();
 
+		CustomColorDialog dialog = new CustomColorDialog(app, this);
+		dialog.center();
+
+		app.setDefaultCursor();
+    }
+
+	public void onCustomColor(GColor color) {
+	    otherTable.injectColor(color);
+	    colorChanged(otherTable, color);
+    }
 }

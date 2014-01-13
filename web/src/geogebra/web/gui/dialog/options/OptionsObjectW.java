@@ -484,7 +484,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 			
-			colorChooserW = new ColorChooserW(800, 220, colorIconSizeW, 4);
+			colorChooserW = new ColorChooserW(app, 800, 220, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
 				public void onColorChange() {

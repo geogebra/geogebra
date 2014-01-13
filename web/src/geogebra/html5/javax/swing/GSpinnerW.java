@@ -6,11 +6,46 @@ public class GSpinnerW extends TextBox{
 
 	public GSpinnerW(){
 		super();
+		getElement().setAttribute("type", "number");
 		this.setValue("2");
-		this.getElement().setAttribute("type", "number");
-		this.getElement().setAttribute("min", "0.25");
-		this.getElement().setAttribute("max", "10");
-		this.getElement().setAttribute("step", "0.25");
+		setMinValue(0.25);
+		setMaxValue(10.0);
+		setStepValue(0.25);
+	}
+	
+	public void setMinValue(Double value){
+		getElement().setAttribute("min", value.toString());
+	}
+	
+	public void setMaxValue(Double value){
+		getElement().setAttribute("max", value.toString());
+	}
+
+	public void setStepValue(Double value){
+		getElement().setAttribute("step", value.toString());
+	}
+
+	public void setMinValue(Integer value){
+		getElement().setAttribute("min", value.toString());
+	}
+	
+	public void setMaxValue(Integer value){
+		getElement().setAttribute("max", value.toString());
+	}
+
+	public void setStepValue(Integer value){
+		getElement().setAttribute("step", value.toString());
+	}
+	
+	public double getMinValue(Double value){
+		return Double.parseDouble(getElement().getAttribute("min"));
+	}
+	
+	public double getMaxValue(Double value){
+		return Double.parseDouble(getElement().getAttribute("max"));
+	}
+	public double getStepValue(Double value){
+		return Double.parseDouble(getElement().getAttribute("step"));
 	}
 	
 }
