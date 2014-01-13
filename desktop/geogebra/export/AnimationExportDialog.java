@@ -97,7 +97,7 @@ public class AnimationExportDialog extends JDialog {
 		Iterator<GeoElement> it = sortedSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isGeoNumeric() && ((GeoNumeric)geo).isSlider() ) {
+			if (geo.isGeoNumeric() && ((GeoNumeric)geo).isIntervalMinActive() && ((GeoNumeric)geo).isIntervalMaxActive()) {
 				comboModel.addElement(geo);
 			}
 		}
