@@ -3,11 +3,13 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -213,4 +215,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
     public void showView(boolean b) {
 	    // TODO Auto-generated method stub	    
     }
+	
+	@Override
+    public ImageResource getIcon() {
+		return AppResources.INSTANCE.view_graphics24();
+	}
 }

@@ -1601,7 +1601,7 @@ Paddings for menuitems.
 	background: whitesmoke;
 	border: 1px solid lightgray;
 	box-shadow: 2px 2px 8px -1px #ccc;
-	padding: 2px;
+	padding: 2px 4px;
 }
 
 .toolTipHTML {

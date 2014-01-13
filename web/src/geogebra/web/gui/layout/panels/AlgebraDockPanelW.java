@@ -1,9 +1,11 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -69,4 +71,9 @@ public class AlgebraDockPanelW extends DockPanelW {
     public void showView(boolean b) {
 	    // TODO Auto-generated method stub	    
     }
+	
+	@Override
+    public ImageResource getIcon() {
+		return AppResources.INSTANCE.view_algebra24();
+	}
 }

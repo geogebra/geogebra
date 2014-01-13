@@ -5,9 +5,11 @@ import geogebra.common.main.App;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.VerticalPanelSmart;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -110,5 +112,10 @@ public class CASDockPanelW extends DockPanelW {
 	@Override
 	protected Widget loadStyleBar() {
 		return ((CASViewW)((GuiManagerW)app.getGuiManager()).getCasView()).getCASStyleBar();
+	}
+	
+	@Override
+    public ImageResource getIcon() {
+		return AppResources.INSTANCE.view_cas24();
 	}
 }

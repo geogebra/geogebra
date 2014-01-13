@@ -4,8 +4,10 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
@@ -13,14 +15,18 @@ import geogebra.web.main.AppW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -352,13 +358,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 *         will return the empty icon or null for Win Vista / 7 to prevent
 	 *         the "checkbox bug"
 	 */
-	/*public ImageIcon getIcon() {
-		if (AppD.WINDOWS_VISTA_OR_LATER) {
-			return null;
-		} else {
-			return app.getEmptyIcon();
-		}
-	}*/
+	public ImageResource getIcon() {
+		return AppResources.INSTANCE.empty();
+	}
 
 	/**
 	 * @return The style bar. Note: Unless this method is overridden a dummy
@@ -495,13 +497,15 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		theRealTitleBarPanel = new HorizontalPanel();
 		theRealTitleBarPanel.setStyleName("TitleBarPanel");
 		theRealTitleBarPanel.addStyleName("cursor_drag");
-
+		
 		titleBarPanel = new AbsolutePanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
 
 		theRealTitleBarPanel.add(titleBarPanel);
 
+		ToolTipManagerW.sharedInstance().registerWidget(theRealTitleBarPanel, toolTipHandler, false, true);
+				
 		closeButton = new PushButton(new Image(AppResources.INSTANCE.view_close()));
 		closeButton.setStyleName("CloseButton");
 		//closeButton.setFocusPainted(false);
@@ -557,7 +561,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarPanel.add(toglStyleBtn2, 2, 0);
 
 		if (App.isFullAppGui() || titleBarLabelCanSet) {
-			titleBarLabel = new Label(getPlainTitle());
+			//titleBarLabel = new Label(getPlainTitle());
+			titleBarLabel = new Label("");
 		} else {
 			titleBarLabel = new Label("");
 		}
@@ -572,7 +577,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public void setLabels() {
 		if (titleBarLabel != null) {
 			titleBarLabelCanSet = true;
-			titleBarLabel.setText(getPlainTitle());
+			// don't show title bar text
+			//titleBarLabel.setText(getPlainTitle());
 		}
 	}
 
@@ -740,6 +746,33 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		return app.getPlain(title);
 	}
 
+	/**
+	 * 
+	 * @return toolTip text as HTML string with image and title
+	 */
+	protected String getToolTip() {
+		
+		Image img = new Image(getIcon());
+		img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
+		img.getElement().getStyle().setMarginRight(4, Unit.PX);
+		
+		FlowPanel p = new FlowPanel();
+		p.add(img);
+		p.add(new InlineLabel(app.getPlain(title)));
+		
+		return p.getElement().getInnerHTML();
+	}
+
+	private AsyncOperation toolTipHandler = new AsyncOperation() {
+		@Override
+		public void callback(Object obj) {
+			 setData(getToolTip());
+		}
+	};
+        
+        
+		
+	
 	/**
 	 * Create a frame for this DockPanel. The frame will either be a JFrame or a
 	 * JDialog depending on the isDialog flag.
