@@ -1,9 +1,13 @@
 package geogebra.html5.cas.giac;
 
+import geogebra.common.main.App;
 import geogebra.html5.event.CustomEvent;
+import geogebra.html5.util.JSON;
+import geogebra.html5.util.JavaScriptEventHandler;
 
 import java.util.Set;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Document;
@@ -24,6 +28,14 @@ public class PNaCl {
 	   return false;
     }
 
+	/**
+	 * the naCl module
+	 */
+	Element naclModule;
+
+	/**
+	 * Initializing CAS
+	 */
 	public void initialize() {
 	    // TODO Auto-generated method stub
 	    
@@ -70,6 +82,7 @@ public class PNaCl {
 	    // to ensure that the listeners are active before the NaCl module 'load'
 	    // event fires.
 	    Element listenerDiv = Document.get().createDivElement();
+	    listenerDiv.setAttribute("id", "listener");
 	    Document.get().getBody().appendChild(listenerDiv);
 	    listenerDiv.appendChild(moduleEl);
 
@@ -89,6 +102,80 @@ public class PNaCl {
 		}, 100);
 	  }
 	  }
+	  
+	  
+	  
+	  /**
+	   * Add the default "load" and "message" event listeners to the element with
+	   * id "listener".
+	   *
+	   * The "load" event is sent when the module is successfully loaded. The
+	   * "message" event is sent when the naclModule posts a message using
+	   * PPB_Messaging.PostMessage() (in C) or pp::Instance().PostMessage() (in
+	   * C++).
+	   */
+	  private void attachDefaultListeners() {
+	    Element listenerDiv = Document.get().getElementById("listener");
+	    CustomEvent.addEventListener("load", listenerDiv, moduleDidLoad(), true);
+	    CustomEvent.addEventListener("message", listenerDiv, handleMessage(), true);
+	    CustomEvent.addEventListener("crash", listenerDiv, handleCrash(), true);
+	    //if (typeof window.attachListeners !== 'undefined') {
+	    //  window.attachListeners();
+	    //}
+	  }
 
+	  private JavaScriptEventHandler handleCrash() {
+	    return new JavaScriptEventHandler() {
+			
+			public void execute(JavaScriptObject event) {
+				//todo check if this is good or not
+				if (naclModule.getAttribute("exitStatus") == "-1") {
+				      updateStatus("CRASHED");
+				    } else {
+				      updateStatus("EXITED [" + naclModule.getAttribute("exitStatus") + "]");
+				    }
+				   // if (typeof window.handleCrash !== 'undefined') {
+				   //   window.handleCrash(common.naclModule.lastError);
+				   // }
+			}
+		};
+    }
+
+	private JavaScriptEventHandler handleMessage() {
+	    //debug for now, but later pass it to GGB;
+		return new JavaScriptEventHandler() {
+			
+			public void execute(JavaScriptObject event) {
+				App.debug(JSON.get(event, "data"));
+			}
+		};
+    }
+
+	/**
+	   * Called when the NaCl module is loaded.
+	   *
+	   * This event listener is registered in attachDefaultListeners above.
+	 * @return The javascript event handler
+	   */
+	  JavaScriptEventHandler moduleDidLoad() {
+		  return new JavaScriptEventHandler() {
+			
+			public void execute(JavaScriptObject event) {
+				naclModule = Document.get().getElementById("nacl_module");
+			    updateStatus("RUNNING");
+			}
+		};
+	    
+
+	    // if (typeof window.moduleDidLoad !== 'undefined') {
+	    //   window.moduleDidLoad();
+	    // }
+	  }
+
+	private static void updateStatus(String msg) {
+	    App.debug(msg);
+    }
+	  
+	  
 
 }
