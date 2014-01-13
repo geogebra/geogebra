@@ -102,7 +102,7 @@ public class Unicode {
 	public static final String PLUSMINUS = "\u00b1";
 	public static final String NOTEQUAL = "\u2260";
 
-
+	public static final String QUESTEQ = "\u225f";
 
 	
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';

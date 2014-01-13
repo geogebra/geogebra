@@ -364,7 +364,7 @@ public class TableSymbols {
 		"\u2203", //THERE EXISTS
 		"\u2204", //THERE DOES NOT EXIST
 
-		"\u225f", //Boolean identity \\stackrel{?}{=}
+		Unicode.QUESTEQ, //Boolean identity \\questeq
 		"\u2261", //IDENTICAL TO
 		"\u2262", //NOT IDENTICAL TO
 

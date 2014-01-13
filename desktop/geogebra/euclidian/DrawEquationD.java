@@ -89,6 +89,9 @@ public class DrawEquationD extends DrawEquation {
 				initJLM.append("\\DeclareMathOperator{\\round}{round} ");
 				initJLM.append("\\newcommand{\\space}[0]{\\ } ");
 				
+				// #4068 so that we can use \questeq in Java and HTML5 
+			 	initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } "); 
+				
 				HashMap<String, geogebra.common.awt.GColor> ggbCols = GeoGebraColorConstants.getGeoGebraColors();
 				
 				Iterator<String> it = ggbCols.keySet().iterator();

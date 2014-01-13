@@ -49,7 +49,7 @@ public interface ExpressionNodeConstants {
 	/** greater equal */
 	public static final String strGREATER_EQUAL = "\u2265";
 	/** = with question mark */
-	public static final String strEQUAL_BOOLEAN = "\u225f";
+	public static final String strEQUAL_BOOLEAN = Unicode.QUESTEQ;
 	/** not equal */
 	public static final String strNOT_EQUAL = "\u2260";
 	/** parallel */
