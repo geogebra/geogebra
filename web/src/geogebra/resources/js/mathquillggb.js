@@ -2129,7 +2129,7 @@ LatexCmds.ggbtdlrL = bind(SomethingHTML, '\\ggbtdlrL', ggbtdlrLHTML);
 // [Mozilla docs]: https://developer.mozilla.org/en-US/docs/CSS/color_value#Values
 // [W3C spec]: http://dev.w3.org/csswg/css3-color/#colorunits
 var TextColor = LatexCmds.textcolor = P(MathCommand, function(_, _super) {
-  _.htmlTemplate = '<span class="mq-textcolor">&0</span>';
+  _.htmlTemplate = '<span>&0</span>';
   _.jQadd = function() {
     _super.jQadd.apply(this, arguments);
     this.jQ.css('color', this.color);
@@ -2150,6 +2150,20 @@ var TextColor = LatexCmds.textcolor = P(MathCommand, function(_, _super) {
         return _super.parser.call(self);
       })
     ;
+  };
+});
+
+var ForeGroundColor = LatexCmds.fgcolor = P(TextColor, function(_, _super) {
+  _.jQadd = function() {
+    _super.jQadd.apply(this, arguments);
+    this.jQ.css('color', '#'+this.color);
+  };
+});
+
+var BackGroundColor = LatexCmds.bgcolor = P(TextColor, function(_, _super) {
+  _.jQadd = function() {
+    _super.jQadd.apply(this, arguments);
+    this.jQ.css('backgroundColor', '#'+this.color);
   };
 });
 
