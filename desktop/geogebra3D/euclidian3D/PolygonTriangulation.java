@@ -761,7 +761,7 @@ public class PolygonTriangulation {
 								next = nextPoint.toRight.last();
 							}
 							if (next == null){ // no to-right segment
-								next = nextPoint.toLeft.higher(segment);
+								next = nextPoint.toLeft.last();
 								running = Running.LEFT;
 								needsDiagonal = needsDiagonal(segment, next);
 							}
@@ -783,7 +783,7 @@ public class PolygonTriangulation {
 								next = nextPoint.toLeft.last();
 							}
 							if (next == null){ // no to-left segment
-								next = nextPoint.toRight.higher(segment);
+								next = nextPoint.toRight.last();
 								running = Running.RIGHT;
 								needsDiagonal = needsDiagonal(segment, next);
 							}
@@ -845,9 +845,6 @@ public class PolygonTriangulation {
 			
 			// add current polygon to list
 			polygonPointsList.add(polygonPoints);
-			
-			
-			
 			
 
 		}
