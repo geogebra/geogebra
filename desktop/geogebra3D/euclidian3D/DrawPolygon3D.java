@@ -4,7 +4,6 @@
 
 
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
@@ -168,16 +167,12 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		//creates the polygon
 		GeoPolygon polygon = (GeoPolygon) getGeoElement();
 		
-		/*
-		PolygonTriangulation pt = new PolygonTriangulation(polygon);
-		pt.updatePoints();
-		pt.setIntersections();
-		*/
+		
 		
 		
 		int pointLength = polygon.getPointsLength();
 		
-		if (pointLength<3 || Kernel.isZero(polygon.getArea())){ //no polygon
+		if (pointLength<3 /*|| Kernel.isZero(polygon.getArea())*/){ //no polygon
 			setSurfaceIndex(-1);
 			return true;
 		}
@@ -229,6 +224,20 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 		
 		renderer.getGeometryManager().drawPolygonConvex(n, vertices);
+		
+		
+		/*
+		PolygonTriangulation pt = new PolygonTriangulation(polygon);
+		pt.updatePoints();
+		pt.setIntersections();
+		pt.triangulate();
+		
+		Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys());
+		
+		for (ArrayList<Integer> triFan : pt.getTriangleFans()){
+			renderer.getGeometryManager().drawTriangleFan(n, verticesWithIntersections, triFan);
+		}
+		*/
 		
 		/*
 		if (polygon.isConvex()){

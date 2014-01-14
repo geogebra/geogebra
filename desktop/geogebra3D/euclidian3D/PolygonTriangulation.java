@@ -1,6 +1,9 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.App;
@@ -8,6 +11,7 @@ import geogebra.common.main.App;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.TreeSet;
+
 
 /**
  * Class to convert a GeoPolygon to a set of triangles
@@ -187,6 +191,14 @@ public class PolygonTriangulation {
 
 			return 0;
 		}
+		
+		/**
+		 * convert it to GPoint2D.Double
+		 * @return (x,y) GPoint2D.Double
+		 */
+		public GPoint2D.Double toDouble(){
+			return new GPoint2D.Double(x, y);
+		}
 	}
 	
 	protected Segment comparedSameOrientationSegment;
@@ -198,7 +210,6 @@ public class PolygonTriangulation {
 		Point leftPoint, rightPoint;
 		Segment above, below;
 		Segment next;
-		Segment diagonalToLeft, diagonalToRight;
 		boolean isDiagonal;
 		
 		Running running = Running.STOP;
@@ -351,6 +362,10 @@ public class PolygonTriangulation {
 	private Point firstPoint;
 	
 	private ArrayList<TreeSet<Point>> polygonPointsList;
+	
+	private ArrayList<ArrayList<Integer>> fansList;
+	
+	private GPoint2D.Double[] pointsArray;
 
 
 	/**
@@ -361,6 +376,7 @@ public class PolygonTriangulation {
 		this.polygon = p;
 		
 		polygonPointsList = new ArrayList<TreeSet<Point>>();
+		fansList = new ArrayList<ArrayList<Integer>>();
 	}
 
 	/**
@@ -692,11 +708,17 @@ public class PolygonTriangulation {
 
 
 
-
+		setNonSelfIntersecting(pointSet);
+	}
+	
+	
 		
 		
 		
+	private void setNonSelfIntersecting(TreeSet<Point> pointSet){
 		
+		// prepare points as an array
+		pointsArray = new GPoint2D.Double[maxPointIndex];
 
 		// now all intersections are computed, and points are correctly chained by oriented segments
 		// we can divide the polygon turning e.g. counter clock-wise 
@@ -798,12 +820,11 @@ public class PolygonTriangulation {
 				// add current point to current polygon
 				polygonPoints.add(nextPointNew);
 				
-				
-				
 				// remove current point if no more segment
 				if (currentPoint.hasNoSegment()){
 					//App.debug(currentPoint.name+" : remove");
 					pointSet.remove(currentPoint);
+					pointsArray[currentPoint.id] = new GPoint2D.Double(currentPoint.x, currentPoint.y);
 				}else{
 					//App.debug(currentPoint.name+" : keep");
 				}
@@ -817,6 +838,7 @@ public class PolygonTriangulation {
 			if (start.hasNoSegment()){
 				//App.debug(start.name+" : remove");
 				pointSet.remove(start);
+				pointsArray[start.id] = new GPoint2D.Double(start.x, start.y);
 			}else{
 				//App.debug(start.name+" : keep");
 			}
@@ -1049,6 +1071,8 @@ public class PolygonTriangulation {
 	 * triangulate since polygon has been cut into non-self-intersecting pieces
 	 */
 	public void triangulate(){
+		
+		fansList.clear();
 		
 		for (TreeSet<Point> polygonPoints : polygonPointsList){
 			triangulate(polygonPoints);
@@ -1394,9 +1418,7 @@ public class PolygonTriangulation {
 		App.debug(s);
 		*/
 		
-		ArrayList<ArrayList<Point>> ret = new ArrayList<ArrayList<Point>>();
-
-		
+			
 		
 		
 		// init stack
@@ -1424,7 +1446,7 @@ public class PolygonTriangulation {
 
 		// loop
 		while (firstAbove != null && firstBelow != null){
-			ArrayList<Point> currentTriangleFan = new ArrayList<Point>();
+			ArrayList<Integer> currentTriangleFan = new ArrayList<Integer>();
 			Point top = stack.peek();
 			Point vi;
 			Chain viChain;
@@ -1473,10 +1495,10 @@ public class PolygonTriangulation {
 			//debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
 			if (viChain != chain){ // vi and top are not on the same chain
 				debugDiagonal("case 2 ",top,vi);
-				currentTriangleFan.add(vi);
+				currentTriangleFan.add(vi.id);
 				while (!stack.isEmpty()){
 					Point v = stack.pop();
-					currentTriangleFan.add(v);
+					currentTriangleFan.add(v.id);
 					debugDiagonal("diagonal : ",vi,v);
 				}
 				stack.push(top);
@@ -1485,11 +1507,11 @@ public class PolygonTriangulation {
 			}else{ // vi and top are on the same chain
 				debugDiagonal("case 1 ",top,vi);
 
-				currentTriangleFan.add(vi);
+				currentTriangleFan.add(vi.id);
 
 				// first correct point
 				Point vk = stack.pop();
-				currentTriangleFan.add(vk);
+				currentTriangleFan.add(vk.id);
 				debugDiagonal("diagonal ",vi,vk);
 				double dx2 = vk.x - vi.x;
 				double dy2 = vk.y - vi.y;
@@ -1506,7 +1528,7 @@ public class PolygonTriangulation {
 						go = false;
 					}else{
 						vk = v;
-						currentTriangleFan.add(vk);
+						currentTriangleFan.add(vk.id);
 						debugDiagonal("diagonal ",vi,vk);
 					}
 				}
@@ -1516,13 +1538,14 @@ public class PolygonTriangulation {
 			}
 
 			if (currentTriangleFan.size()>2){ // add fan only if at least 3 points
-				ret.add(currentTriangleFan);
+				fansList.add(currentTriangleFan);
 			}
 			
 			chain = viChain;
 
 		}
 		
+		/*
 		String s="fans: ";
 		for (ArrayList<Point> fan : ret){
 			for (Point p : fan){
@@ -1531,7 +1554,7 @@ public class PolygonTriangulation {
 			s+=", ";
 		}
 		App.debug(s);
-		
+		*/
 		
 		 
 
@@ -1546,118 +1569,36 @@ public class PolygonTriangulation {
 
 	/**
 	 * 
-	 * @return list of list of vertex indices, which forms triangle fans tessalating the polygon
+	 * @return list of list of points indices, which constitute triangle fans covering the polygon
 	 */
-	public ArrayList<ArrayList<Integer>> getTriangulation(){
-		ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+	public ArrayList<ArrayList<Integer>> getTriangleFans(){
+		return fansList;
 
-		/*
-		final int length = getPointsLength();
-
-		// put 2D indices in sweep order (smaller x, then smaller y)
-		TreeSet<Integer> sweepTree = new TreeSet<Integer>(this);
-		for (int i = 0; i < length; i++){
-			sweepTree.add(i);
+	}
+	
+	/**
+	 * 
+	 * @param vertices
+	 * @param cs
+	 * @return complete vertex array (with intersections)
+	 */
+	public Coords[] getCompleteVertices(Coords[] vertices, CoordSys cs){
+		if (pointsArray.length == vertices.length){
+			return vertices;
 		}
-
-
-
-
-
-
-		int[] sweepArray = new int[length];
-		int index = 0;
-		for (int i : sweepTree){
-			sweepArray[index] = i;
-			index++;
+		
+		Coords[] ret = new Coords[pointsArray.length];
+		for (int i = 0 ; i < vertices.length; i++){
+			ret[i] = vertices[i];
 		}
-
-		int min = sweepArray[0];
-		int max = sweepArray[length - 1];
-
-		boolean inverseMinMax = false;
-		if (min > max){
-			int tmp = min;
-			min = max;
-			max = tmp;
-			inverseMinMax = true;
-		}	
-		//App.debug(min+","+max);
-
-		//check if top chain is indices between min and max or not
-		int minN1 = (min + 1) % length;
-		int minN2 = (min - 1) % length;
-		Point pMin = getPoint(min);
-		Point pMinN1 = getPoint(minN1);
-		Point pMinN2 = getPoint(minN2);
-		boolean topBetween = inverseMinMax ^ Kernel.isGreater((pMinN2.x-pMin.x)*(pMinN1.y-pMin.y), (pMinN1.x-pMin.x)*(pMinN2.y-pMin.y));
-		//App.error(""+topBetween);
-
-
-		// init stack
-		Stack<Integer> stack = new Stack<Integer>();
-		stack.push(sweepArray[0]);
-		stack.push(sweepArray[1]);
-
-		// loop
-		for (int i = 2 ; i < length ; i++){
-			ArrayList<Integer> currentTriangleFan = new ArrayList<Integer>();
-			int top = stack.peek();
-			int vi = sweepArray[i];
-			boolean viBetween = vi > min && vi < max;
-			//debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
-			if (viBetween ^ (top > min && top < max)){ // vi and top are not on the same chain
-				//debugDiagonal("case 2 ",top,vi);
-				currentTriangleFan.add(vi);
-				while (!stack.isEmpty()){
-					int v = stack.pop();
-					currentTriangleFan.add(v);
-					//debugDiagonal("diagonal : ",vi,v);
-				}
-				stack.push(top);
-				stack.push(vi);
-
-			}else{ // vi and top are on the same chain
-				//debugDiagonal("case 1 ",top,vi);
-				Point pi = getPoint(vi);
-
-				currentTriangleFan.add(vi);
-
-				// first correct point
-				int vk = stack.pop();
-				currentTriangleFan.add(vk);
-				//debugDiagonal("diagonal : ",vi,vk);
-				Point pk = getPoint(vk);
-				double dx2 = pk.x - pi.x;
-				double dy2 = pk.y - pi.y;
-
-				boolean go = true;
-				while (!stack.isEmpty() && go){
-					double dx1 = dx2;
-					double dy1 = dy2;
-					int v = stack.pop();
-					Point pv = getPoint(v);
-					dx2 = pv.x - pi.x;
-					dy2 = pv.y - pi.y;
-					if (Kernel.isGreater(dx1*dy2, dx2*dy1) ^ (viBetween ^ !topBetween)){ // not same orientation
-						stack.push(v); //re-push v in stack
-						go = false;
-					}else{
-						vk = v;
-						currentTriangleFan.add(vk);
-						//debugDiagonal("diagonal : ",vi,vk);
-					}
-				}
-				stack.push(vk);
-				stack.push(vi);
+		for (int i = vertices.length ; i < pointsArray.length; i++){
+			GPoint2D.Double point = pointsArray[i];
+			if (point!=null){
+				ret[i] = cs.getPoint(point.x, point.y);
 			}
-
-			if (currentTriangleFan.size()>2){ // add fan only if at least 3 points
-				ret.add(currentTriangleFan);
-			}
-
 		}
-		 */
+	
+		
 		return ret;
 	}
 
