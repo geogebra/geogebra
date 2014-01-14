@@ -9,6 +9,8 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.TreeSet;
 
@@ -352,6 +354,54 @@ public class PolygonTriangulation {
 			return 0;
 		}
 	}
+	
+	
+	public class TriangleFan extends LinkedList<Integer>{
+		
+		private boolean isClockWise;		
+		private int apex;
+		
+		private Iterator<Integer> iterator;
+		
+		/**
+		 * 
+		 * @param apex of the fan
+		 * @param isClockWise orientation
+		 */
+		public TriangleFan(int apex, boolean isClockWise){
+			this.apex = apex;
+			this.isClockWise = isClockWise;
+		}
+
+		/**
+		 * 
+		 * @return apex point and sets the iterator regarding clockwise/anti clockwise orientation
+		 */
+		public int getApexPoint() {
+			if (isClockWise){
+				iterator = this.descendingIterator();
+			}else{
+				iterator = this.iterator();
+			}
+			return apex;
+		}
+		
+		/**
+		 * 
+		 * @return true if the iterator has a next point
+		 */
+		public boolean hasNext(){
+			return iterator.hasNext();
+		}
+		
+		/**
+		 * 
+		 * @return next point
+		 */
+		public int next(){
+			return iterator.next();
+		}
+	}
 
 	
 
@@ -363,7 +413,7 @@ public class PolygonTriangulation {
 	
 	private ArrayList<TreeSet<Point>> polygonPointsList;
 	
-	private ArrayList<ArrayList<Integer>> fansList;
+	private ArrayList<TriangleFan> fansList;
 	
 	private GPoint2D.Double[] pointsArray;
 
@@ -376,7 +426,7 @@ public class PolygonTriangulation {
 		this.polygon = p;
 		
 		polygonPointsList = new ArrayList<TreeSet<Point>>();
-		fansList = new ArrayList<ArrayList<Integer>>();
+		fansList = new ArrayList<TriangleFan>();
 	}
 
 	/**
@@ -1357,63 +1407,6 @@ public class PolygonTriangulation {
 	
 	public void triangulate(Segment firstBelow, Segment firstAbove){
 		
-		/*
-		//Segment firstSegment = polygonFirstSegmentList.get(0);
-		Segment firstSegment = null;
-
-		Segment firstBelow = firstSegment;
-		
-		
-		String s = "==========================================================\n";
-
-		Segment seg = firstSegment;
-		
-		// go to U-turn
-		while (seg.next.running == Running.RIGHT){
-			s+=seg+",";
-			seg = seg.next;
-		}	
-		
-
-		Segment lastBelowSeg = seg;
-		seg = seg.next;
-		lastBelowSeg.next = null;
-		
-		s+="/";
-		
-		// go to start
-		Segment segRight = null;
-		while (seg.running == Running.LEFT){
-			Segment segLeft = seg.next;
-			seg.next = segRight;
-			s+=seg+"-"+segLeft+",";
-			segRight = seg;
-			seg = segLeft;
-		}
-		
-		s+=" == "+segRight;
-		
-		Segment firstAbove = segRight;
-		
-		
-		App.debug(s);
-		*/
-		
-		/*
-		String s="chains:";
-		s+="\n"+firstAbove.leftPoint.name;
-		for (Segment seg = firstAbove ; seg != null ; seg = seg.next){
-			s+=seg.rightPoint.name;
-		}
-		s+="\n"+firstBelow.leftPoint.name;
-		for (Segment seg = firstBelow ; seg != null ; seg = seg.next){
-			s+=seg.rightPoint.name;
-		}
-		
-		App.debug(s);
-		*/
-		
-			
 		
 		
 		// init stack
@@ -1441,7 +1434,9 @@ public class PolygonTriangulation {
 
 		// loop
 		while (firstAbove != null && firstBelow != null){
-			ArrayList<Integer> currentTriangleFan = new ArrayList<Integer>();
+			String s = "fan : ";
+			//ArrayList<Integer> currentTriangleFan = new ArrayList<Integer>();
+			TriangleFan currentTriangleFan;
 			Point top = stack.peek();
 			Point vi;
 			Chain viChain;
@@ -1486,14 +1481,22 @@ public class PolygonTriangulation {
 				*/			
 			}
 			
+			boolean clockWise = false;
+			
 			//boolean viBetween = vi > min && vi < max;
 			//debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi > min && vi < max)+","+(top > min && top < max),vi,top);
 			if (viChain != chain){ // vi and top are not on the same chain
 				debugDiagonal("case 2 ",top,vi);
-				currentTriangleFan.add(vi.id);
+				//App.debug("case 2, "+viChain+" : "+vi.name);
+				if (viChain == Chain.ABOVE){
+					clockWise = true;
+				}
+				currentTriangleFan = new TriangleFan(vi.id, clockWise);
+				s+=vi.name;
 				while (!stack.isEmpty()){
 					Point v = stack.pop();
 					currentTriangleFan.add(v.id);
+					s+=v.name;
 					debugDiagonal("diagonal : ",vi,v);
 				}
 				stack.push(top);
@@ -1501,12 +1504,18 @@ public class PolygonTriangulation {
 
 			}else{ // vi and top are on the same chain
 				debugDiagonal("case 1 ",top,vi);
-
-				currentTriangleFan.add(vi.id);
+				//App.debug("case 1, "+viChain+" : "+vi.name);
+				if (viChain == Chain.BELOW){
+					clockWise = true;
+				}				
+				currentTriangleFan = new TriangleFan(vi.id, clockWise);
+				
+				s+=vi.name;
 
 				// first correct point
 				Point vk = stack.pop();
 				currentTriangleFan.add(vk.id);
+				s+=vk.name;
 				debugDiagonal("diagonal ",vi,vk);
 				double dx2 = vk.x - vi.x;
 				double dy2 = vk.y - vi.y;
@@ -1524,6 +1533,7 @@ public class PolygonTriangulation {
 					}else{
 						vk = v;
 						currentTriangleFan.add(vk.id);
+						s+=vk.name;
 						debugDiagonal("diagonal ",vi,vk);
 					}
 				}
@@ -1532,8 +1542,13 @@ public class PolygonTriangulation {
 				
 			}
 
-			if (currentTriangleFan.size()>2){ // add fan only if at least 3 points
+			if (currentTriangleFan.size()>1){ // add fan only if at least 3 points
 				fansList.add(currentTriangleFan);
+				if (clockWise){
+					App.error(s);
+				}else{
+					App.debug(s);
+				}
 			}
 			
 			chain = viChain;
@@ -1566,7 +1581,7 @@ public class PolygonTriangulation {
 	 * 
 	 * @return list of list of points indices, which constitute triangle fans covering the polygon
 	 */
-	public ArrayList<ArrayList<Integer>> getTriangleFans(){
+	public ArrayList<TriangleFan> getTriangleFans(){
 		return fansList;
 
 	}

@@ -388,23 +388,6 @@ public class ManagerShaders extends Manager {
     }
     
     
-    @Override
-	public void drawTriangleFan(Coords n, Coords[] v, ArrayList<Integer> triFan){
-    	startGeometry(Manager.TRIANGLE_FAN);
-
-    	// set normal
-    	normal(n);
-
-    	//int i = 0;
-    	for (int index : triFan){
-    		vertex(v[index]);
-    		//color(1f,0,0);
-    		//color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3); i++;
-    	}
-
-    	endGeometry();
-    }
-    
     
     @Override
 	public void endPolygons(){

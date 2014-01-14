@@ -3,10 +3,10 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Class that manage all geometry objects
@@ -189,7 +189,28 @@ abstract public class Manager {
 	 * @param v vertices
 	 * @param triFan indices
 	 */
-	abstract public void drawTriangleFan(Coords n, Coords[] v, ArrayList<Integer> triFan);
+	final public void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan){
+		startGeometry(Manager.TRIANGLE_FAN);
+
+    	//set texture
+    	texture(0,0); //TODO remove this
+
+    	// set normal
+    	normal(n);
+    	
+
+    	//fan apex
+    	vertex(v[triFan.getApexPoint()]);
+    	
+    	//int i = 0;
+    	while (triFan.hasNext()){
+    		vertex(v[triFan.next()]);
+    		//color(1f,0,0);
+    		//color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3); i++;
+    	}
+
+    	endGeometry();
+	}
 	
 	/**
 	 * end the polygons

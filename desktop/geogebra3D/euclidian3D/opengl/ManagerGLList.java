@@ -7,7 +7,6 @@ import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
@@ -159,25 +158,6 @@ public class ManagerGLList extends Manager {
     }
     
     
-    @Override
-	public void drawTriangleFan(Coords n, Coords[] v, ArrayList<Integer> triFan){
-    	startGeometry(Manager.TRIANGLE_FAN);
-
-    	// set normal
-    	normal(n);
-    	
-    	//set texture
-    	texture(0,0);
-
-    	//int i = 0;
-    	for (int index : triFan){
-    		vertex(v[index]);
-    		//color(1f,0,0);
-    		//color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3); i++;
-    	}
-
-    	endGeometry();
-    }
     
     @Override
 	public void endPolygons(){
