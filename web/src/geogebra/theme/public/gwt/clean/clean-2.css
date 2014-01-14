@@ -1439,6 +1439,11 @@ Paddings for menuitems.
 	width: 100%;
 }
 
+.TitleBarPanel-focus {
+	background: url("images/hborder.png") repeat-x 0px -60px;
+}
+
+
 .TitleBarPanel {
 	height: 16px;
 }

@@ -505,7 +505,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		theRealTitleBarPanel.add(titleBarPanel);
 
 		ToolTipManagerW.sharedInstance().registerWidget(theRealTitleBarPanel, toolTipHandler, false, true);
-				
+		
+		
 		closeButton = new PushButton(new Image(AppResources.INSTANCE.view_close()));
 		closeButton.setStyleName("CloseButton");
 		//closeButton.setFocusPainted(false);
@@ -1539,16 +1540,25 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	}
 
 	/**
-	 * sets the title label when this has not the focus
+	 * Set the title bar focus style
+	 * 
+	 * TODO: Focus is indicated by change in title bar style instead of bold
+	 * text, so refactor to express this correctly
+	 * 
 	 */
 	protected void setTitleLabelFocus() {
-		App.debug("unimplemented");
-		/*if (dockManager.hasFullFocusSystem()) {
-			if (titleIsBold())
-				titleLabel.setFont(app.getBoldFont());
-			else
-				titleLabel.setFont(app.getPlainFont());
-		}*/
+		
+		App.debug(this.getPlainTitle() + " title is bold? " + titleIsBold());
+		
+		// if (dockManager.hasFullFocusSystem()) {
+		if (titleIsBold()) {
+			theRealTitleBarPanel.addStyleName("TitleBarPanel-focus");
+			titleBarPanel.addStyleName("TitleBarPanel-focus");
+		} else {
+			theRealTitleBarPanel.removeStyleName("TitleBarPanel-focus");
+			titleBarPanel.removeStyleName("TitleBarPanel-focus");
+		}
+		// }
 	}
 
 	/**
