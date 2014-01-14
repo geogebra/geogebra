@@ -4,7 +4,9 @@ import geogebra.common.main.App;
 import geogebra.html5.event.CustomEvent;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.JavaScriptEventHandler;
+import geogebra.html5.util.URL;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -12,7 +14,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.json.client.JSONObject;
 
 /**
  * @author gabor
@@ -23,10 +24,34 @@ import com.google.gwt.json.client.JSONObject;
 public class PNaCl {
 
 	private static final String DEFAULT_MIME_TYPE = "application/x-nacl" ;
+	private static final String data_name = "giac";
+	private static final String data_tools = "pnacl newlib glibc linux";
+	private static final String data_configs = "Debug Release";
+	private static final String data_path = "{tc}{config}";
+	private static enum STATUS {
+		CREATING_EMBED,
+		CRASHED,
+		EXITED,
+		RUNNING,
+		PAGE_LOADED,
+		DOES_NOT_SUPPORT_NACL_OR_NACL_DISABLED,
+		WAITING
+	};
 
+	private STATUS currentStatus = STATUS.PAGE_LOADED;
+	
 	public static boolean isEnabled() {
-	   return false;
+	   return isBrowserSupportNaCl() && isNaClEnabled();
     }
+
+	private static boolean isNaClEnabled() {
+	    //hack for now
+		return URL.getQueryParameterAsString("nacl").equals("true");
+    }
+
+	private native static boolean isBrowserSupportNaCl() /*-{
+	    return $wnd.navigator.mimeTypes && $wnd.navigator.mimeTypes[this.@geogebra.html5.cas.giac.PNaCl::DEFAULT_MIME_TYPE];
+    }-*/;
 
 	/**
 	 * the naCl module
@@ -56,7 +81,7 @@ public class PNaCl {
 	   * @param height The height to create the plugin.
 	   * @param attrs Dictionary of attributes to set on the module.
 	   */
-	  private void createNaClModule(String name, String tool, String path, int width, int height, JSONObject attrs) {
+	  private void createNaClModule(String name, String tool, String path, int width, int height, HashMap<String, String> attrs) {
 	    final Element moduleEl = Document.get().createElement("embed");
 	    moduleEl.setAttribute("name", "nacl_module");
 	    moduleEl.setAttribute("id", "nacl_module");
@@ -69,7 +94,7 @@ public class PNaCl {
 	    if (attrs != null) {
 	    	Set<String> keys = attrs.keySet();
 	      for (String key : keys) {
-	    	  moduleEl.setAttribute(key, attrs.get(key).toString());
+	    	  moduleEl.setAttribute(key, attrs.get(key));
 	      }
 	    }
 
@@ -174,6 +199,48 @@ public class PNaCl {
 
 	private static void updateStatus(String msg) {
 	    App.debug(msg);
+    }
+	
+	private void DOMContentLoaded() {
+	      String[] toolchains = data_tools.split(" ");
+	      String[] configs = data_configs.split(" ");
+
+	      HashMap<String, String> attrs = new HashMap<>();
+	     
+	      String tc = toolchains[0];
+	      String config = configs[0];
+	      String pathFormat = data_path;
+	      String path = pathFormat.replace("{tc}", tc).replace("{config}", config);
+
+	      boolean isRelease = path.toLowerCase().indexOf("release") != -1;
+
+	      loadFunction(data_name, tc, path, 0,
+	                   0, attrs);
+	    }
+
+	private void loadFunction(String name, String tool, String path, int width,
+            int height, HashMap<String, String> attrs) {
+		// If the page loads before the Native Client module loads, then set the
+	    // status message indicating that the module is still loading.  Otherwise,
+	    // do not change the status message.
+	    updateStatus("Page loaded.");
+	    if (!isBrowserSupportNaCl()) {
+	      updateStatus(
+	          "Browser does not support NaCl (" + tool + "), or NaCl is disabled");
+	    } else if (naclModule == null) {
+	      updateStatus("Creating embed: " + tool);
+
+	      // We use a non-zero sized embed to give Chrome space to place the bad
+	      // plug-in graphic, if there is a problem.
+	      attachDefaultListeners();
+	      createNaClModule(name, tool, path, width, height, attrs);
+	    } else {
+	      // It's possible that the Native Client module onload event fired
+	      // before the page's onload event.  In this case, the status message
+	      // will reflect 'SUCCESS', but won't be displayed.  This call will
+	      // display the current message.
+	      updateStatus("Waiting.");
+	    }
     }
 	  
 	  
