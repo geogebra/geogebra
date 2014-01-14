@@ -290,8 +290,9 @@
   display: inline-block;
 }
 .mathquillggb-rendered-math .limit {
-  vertical-align: top;
+  vertical-align: -1.2em;
   text-align: center;
+  padding: 0 .2em;
 }
 .mathquillggb-rendered-math .limittop,
 .mathquillggb-rendered-math .limitbottom,
