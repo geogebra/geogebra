@@ -96,8 +96,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.gwt.user.client.ui.FocusWidget;
-
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements 
  * @author Markus
@@ -590,10 +588,10 @@ public class AlgebraProcessor {
 										callback0.callback(geos);
 									}
 									
-									Object caller = callback0.getProperty("caller");
-									if (caller != null && caller instanceof FocusWidget) {
-										((FocusWidget)caller).setFocus(true);
-									}
+//									Object caller = callback0.getProperty("caller");
+//									if (caller != null && caller instanceof FocusWidget) {
+//										((FocusWidget)caller).setFocus(true);
+//									}
 								}
 								
 							};
