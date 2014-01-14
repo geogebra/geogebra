@@ -95,11 +95,12 @@ public class AlgoIntegralFunctions extends AlgoElement  implements DrawInformati
 	}
 	
     public AlgoIntegralFunctions copy(){
+    	
     	return new AlgoIntegralFunctions((GeoFunction)f.copy(),
     			(GeoFunction)g.copy(), 
     			new MyDouble(kernel,a.getDouble()), 
-    			new MyDouble(kernel,b.getDouble()), 
-    			(GeoBoolean)evaluate.copy());
+    			new MyDouble(kernel,b.getDouble()),
+    			evaluate == null ? null : (GeoBoolean)evaluate.copy());
 
     }
 
