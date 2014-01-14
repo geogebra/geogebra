@@ -394,12 +394,27 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		if (f.isDefined()) {
 			fun = f.fun.getDerivative(n);
-			isDefined = fun != null;
+			
+			checkDefined();
+			
 		} else {
 			isDefined = false;
 		}
 	}
 
+	/**
+	 * #4076 make sure if CAS returns "?" function is undefined 
+	 * so eg Integral[f,a,b] uses numerical method 
+	 */
+	private void checkDefined() {
+		isDefined = fun != null;
+
+		if (fun != null && "?".equals(fun.toValueString(StringTemplate.defaultTemplate))) { 
+			isDefined = false; 
+		}
+		
+	}
+	
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
 	 * 
@@ -415,13 +430,8 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		if (ff.isDefined()) {
 			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,arbconst);
-			isDefined = fun != null;
 			
-			// #4076 make sure if CAS returns "?" function is undefined
-			// so eg Integral[f,a,b] uses numerical method
-			if (fun != null && "?".equals(fun.toValueString(StringTemplate.defaultTemplate))) {
-				isDefined = false;
-			}
+			checkDefined();
 
 		} else {
 			isDefined = false;
