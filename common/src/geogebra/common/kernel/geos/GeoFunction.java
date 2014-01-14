@@ -416,6 +416,13 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (ff.isDefined()) {
 			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,arbconst);
 			isDefined = fun != null;
+			
+			// #4076 make sure if CAS returns "?" function is undefined
+			// so eg Integral[f,a,b] uses numerical method
+			if (fun != null && "?".equals(fun.toValueString(StringTemplate.defaultTemplate))) {
+				isDefined = false;
+			}
+
 		} else {
 			isDefined = false;
 		}
