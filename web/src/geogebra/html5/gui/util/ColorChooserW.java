@@ -227,6 +227,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		public void select(int col, int row) {
 			setSelectedCol(col);
 			setSelectedRow(row);
+			currentCol = col;
+			currentRow = row;
+
 			draw();
 		}
 
@@ -697,6 +700,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 	public void onCustomColor(GColor color) {
 	    otherTable.injectColor(color);
+	    otherTable.select(0, 0);
 	    colorChanged(otherTable, color);
     }
 }
