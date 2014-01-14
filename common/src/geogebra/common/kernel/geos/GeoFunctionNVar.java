@@ -232,6 +232,19 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}	
 	
 	/**
+	 * #4076 make sure if CAS returns "?" function is undefined 
+	 * so eg Integral[f,a,b] uses numerical method 
+	 */
+	private void checkDefined() {
+		isDefined = fun != null;
+
+		if (fun != null && "?".equals(fun.toValueString(StringTemplate.defaultTemplate))) { 
+			isDefined = false; 
+		}
+		
+	}
+	
+	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
 	 * 
 	 * @param ggbCasCmd the GeoGebraCAS command needs to include % in all places
@@ -244,7 +257,9 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		
 		if (ff.isDefined()) {
 			fun = ff.fun.evalCasCommand(ggbCasCmd, symbolic,arbconst);
-			isDefined = fun != null;
+			
+			checkDefined();
+			
 		} else {
 			isDefined = false;
 		}		
