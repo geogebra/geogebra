@@ -17,6 +17,7 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
@@ -367,18 +368,20 @@ public class MyCellRendererW {
 
 		if (view.allowSpecialEditor() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			if (geo.isGeoBoolean()) {
+				FlowPanel fp = new FlowPanel();
 				CheckBox checkbox = new CheckBox();
+				fp.add(checkbox);
 				checkbox.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
 				checkbox.getElement().getStyle().setProperty("display", "-moz-inline-box");
 				checkbox.getElement().getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-				checkbox.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+				fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
 				checkbox.setEnabled(geo.isIndependent());
 
 				if (geo.isLabelVisible()) {
 					// checkBox.setText(geo.getCaption());
 				}
 				checkbox.setValue(((GeoBoolean) geo).getBoolean());
-				table.setWidget(row, column, checkbox);
+				table.setWidget(row, column, fp);
 				return;
 			}
 		}
