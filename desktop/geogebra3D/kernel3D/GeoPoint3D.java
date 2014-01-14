@@ -54,6 +54,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.kernel.kernelND.RotateableND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -70,18 +71,18 @@ import java.util.TreeSet;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		Vector3DValue, MatrixTransformable, CoordStyle,
-		RotateableND, Transformable,
-		Traceable, MirrorableAtPlane, Dilateable{
+Vector3DValue, MatrixTransformable, CoordStyle,
+RotateableND, Transformable,
+Traceable, MirrorableAtPlane, Dilateable{
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 
 	// mouse moving
 	private Coords willingCoords = null; // = new Ggb3DVector( new double[]
-											// {0,0,0,1.0});
+	// {0,0,0,1.0});
 	private Coords willingDirection = null; // new Ggb3DVector( new double[]
-											// {0,0,1,0.0});
+	// {0,0,1,0.0});
 
 	// paths
 	private Path path;
@@ -223,14 +224,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 	}
-	
+
 
 	@Override
 	final public void setCoords(Coords v) {
 		setCoords(v, true);
 	}
-	
-	
+
+
 	public void setCoordsFromPoint(GeoPointND point){
 		setCoords(point.getInhomCoordsInD(3));
 	}
@@ -264,7 +265,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		else {
 			isInfinite = false;
 			isDefined = v.isDefined();
-			
+
 
 			if (isDefined) {
 				// make sure the z coordinate is always positive
@@ -349,7 +350,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		if (getWillingDirection() == null) // use normal direction for
-											// projection
+			// projection
 			project = coords.projectPlane(matrix);
 		else
 			// use willing direction for projection
@@ -483,7 +484,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (!(path.toGeoElement().isGeoElement3D() || path.toGeoElement().isGeoList()))
 			updateCoordsFrom2D(false, null);
 		updateCoords();
-		
+
 	}
 
 	// copied on GeoPoint
@@ -568,7 +569,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			coords = getCoords();
 
 		if (getWillingDirection() == null) { // use normal direction for
-												// projection
+			// projection
 			project = ((Region3D) region).getNormalProjection(coords);
 			// coords.projectPlane(coordSys2D.getMatrix4x4());
 		} else { // use willing direction for projection
@@ -688,7 +689,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			// move from Dependent to Independent in AlgebraView
 			if (kernel.getApplication().isUsingFullGui())
 				((AlgebraViewD) (kernel.getApplication().getAlgebraView()))
-						.rename(this);
+				.rename(this);
 		}
 
 	}
@@ -799,10 +800,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			} else
 				return app.getPlain("NotIncluded");
 		}
-		*/
+		 */
 
 		sbToString.setLength(0);
-		
+
 		if (getMode()==Kernel.COORD_CARTESIAN_3D){
 			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
 		}else if (getMode()==Kernel.COORD_SPHERICAL){
@@ -820,14 +821,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		return sbToString.toString();
 	}
-
 	@Override
 	public boolean isEqual(GeoElement geo) {
-
+		App.debug("ICI");
 		if (!geo.isGeoPoint())
 			return false;
 
-		GeoPointND P = (GeoPointND) geo;
+		GeoPoint3D P = (GeoPoint3D) geo;
 
 		if (!(isDefined() && P.isDefined()))
 			return false;
@@ -916,8 +916,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		sb.append("\t<pointSize val=\"");
 		sb.append(pointSize);
 		sb.append("\"/>\n");
-		
-		
+
+
 
 	}
 
@@ -951,7 +951,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			locateableList = new LocateableList(this);
 		return locateableList;
 	}
-	
+
 
 	public boolean hasLocateableList() {
 		return locateableList != null;
@@ -1070,13 +1070,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			return MOVE_MODE_NONE;
 		else if (hasPath())
 			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when
-									// not lines
+		// not lines
 		else if (hasRegion())
 			return MOVE_MODE_XY;
 		else
 			return moveMode;
 	}
-	
+
 	/**
 	 * 
 	 * @return value of moveMode
@@ -1126,7 +1126,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (algorithm != null)
 			setConstructionDefaults(); // set colors to dependent colors
 	}
-	
+
 	@Override
 	public void updateColumnHeadingsForTraceValues(){
 
@@ -1159,21 +1159,21 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
-	
-		
+
+
 	}
-	
+
 
 	@Override
 	public TraceModesEnum getTraceModes(){
 		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
-	
+
 
 	@Override
 	public String getTraceDialogAsValues(){
 		String name = getLabelTextOrHTML(false);
-	
+
 		StringBuilder sb1 = new StringBuilder();
 		sb1.append("x(");
 		sb1.append(name);
@@ -1182,11 +1182,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		sb1.append("), z(");
 		sb1.append(name);
 		sb1.append(")");
-				
+
 		return sb1.toString();
 	}
 
-	
+
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, inhom.getX());
@@ -1198,7 +1198,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	public void matrixTransform(double a, double b, double c, double d) {
-		
+
 		double x = getX();
 		double y = getY();
 
@@ -1219,11 +1219,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double x1 = a00 * x + a01 * y + a02 * z;
 		double y1 = a10 * x + a11 * y + a12 * z;
 		double z1 = a20 * x + a21 * y + a22 * z;
-		
+
 		setCoords(x1, y1, z1, getW());
 
 	}
-	
+
 	@Override
 	public boolean isMatrixTransformable() {
 		return true;
@@ -1232,27 +1232,27 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public int getDimension() {
 		return 3;
 	}
-	
+
 	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
 
-    public void setCartesian() { setMode(Kernel.COORD_CARTESIAN); }
-    public void setCartesian3D() { setMode(Kernel.COORD_CARTESIAN_3D); }
-    public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
-	
-	
+	public void setCartesian() { setMode(Kernel.COORD_CARTESIAN); }
+	public void setCartesian3D() { setMode(Kernel.COORD_CARTESIAN_3D); }
+	public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
 
-    public void setPolar() { setMode(Kernel.COORD_POLAR); }
 
-    public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
 
-    
-    
-    
+	public void setPolar() { setMode(Kernel.COORD_POLAR); }
+
+	public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
+
+
+
+
 	final public void rotate(NumberValue phiValue) {
-		
+
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -1260,7 +1260,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double x = getX();
 		double y = getY();
 		double z = getZ();
-	
+
 		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
 	}
 
@@ -1269,7 +1269,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		
+
 		double x = getX();
 		double y = getY();
 		double z = getZ();
@@ -1284,17 +1284,17 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
-		
+
 		Coords o1 = S.getInhomCoordsInD(3);
 		Coords vn = orientation.getDirectionInD3();
-		
-		
+
+
 		rotate(phiValue, o1, vn);
-		
+
 	}
-	
+
 	private void rotate(NumberValue phiValue, Coords o1, Coords vn){
-		
+
 		rotate(phiValue.getDouble(), o1, vn);
 	}
 
@@ -1305,51 +1305,51 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * @param vn vector
 	 */
 	public void rotate(double phi, Coords o1, Coords vn){
-		
+
 		if (vn.isZero()){
 			setUndefined();
 			return;
 		}
-		
+
 		Coords point = getInhomCoordsInD(3);
 		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
-		
+
 		Coords v1 = point.sub(o);
-		
+
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 		Coords vn2 = vn.normalized();
 		Coords v2 = vn2.crossProduct4(v1);
 		setCoords(o.add(v1.mul(cos)).add(v2.mul(sin)));
-		
-		
-	}
-	
-	public void rotate(NumberValue phiValue, GeoLineND line){
-		
-		rotate(phiValue.getDouble(), line);
-		
+
 
 	}
-	
+
+	public void rotate(NumberValue phiValue, GeoLineND line){
+
+		rotate(phiValue.getDouble(), line);
+
+
+	}
+
 	/**
 	 * rotate around line with angle phi
 	 * @param phi angle
 	 * @param line line
 	 */
 	public void rotate(double phi, GeoLineND line){
-		
+
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
-		
-		
+
+
 		rotate(phi, o1, vn);
-		
+
 
 	}
-	
-	
-	
+
+
+
 	/////////////////////////////
 	// PATH OR POINT INTERFACE
 	/////////////////////////////
@@ -1382,14 +1382,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public PathMover createPathMover() {
 		return null;
 	}
-	
-	
+
+
 	public double distanceToPath(PathOrPoint path){
-		
+
 		if (getWillingCoords() == null){
 			return path.toGeoElement().distance(this);
 		}
-		
+
 
 
 		//Region region = getRegion();
@@ -1405,11 +1405,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		setCoords(coordsOld, false);
 		return d;
-	
-		
-		
+
+
+
 	}
-	
+
 
 	/** matrix used as orientation by the {@link Drawable3D} */
 	private CoordMatrix4x4 m_drawingMatrix = null;
@@ -1419,18 +1419,18 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public CoordMatrix4x4 getDrawingMatrix(){
 		return m_drawingMatrix;
 	}
-	
+
 	/** sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
 	 * @param a_drawingMatrix the drawing matrix*/
 	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix){
 		this.m_drawingMatrix = a_drawingMatrix;
 	}	
 
-	
-	
+
+
 
 	private boolean trace;	
-	
+
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -1444,12 +1444,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return trace;
 	}
 
-	
-	
+
+
 	////////////////////////
 	// MIRROR
 	////////////////////////
-	
+
 	public void mirror(Coords Q) {
 		double w = getW();
 		double qx = w * Q.getX();
@@ -1457,11 +1457,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double qz = w * Q.getZ();
 
 		setCoords(2.0 * qx - getX(), 2.0 * qy - getY(), 2.0 * qz - getZ(), w);
-		
+
 	}
 
 	public void mirror(GeoLineND line) {
-	
+
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
@@ -1470,44 +1470,44 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		//mirror at projected point
 		mirror(o);
-		
+
 	}
-	
+
 
 	public void mirror(GeoPlane3D plane) {
-		
+
 		Coords p = getInhomCoordsInD(3).projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
 		mirror(p);
-		
+
 	}
-	
+
 	////////////////////////
 	// DILATE
 	////////////////////////
 
 
 	public void dilate(NumberValue rval, Coords S) {
-		
+
 		double r = rval.getDouble();
 		double temp = (1 - r);
-		
+
 		double w = getW();
-		
+
 		setCoords(r * getX() + temp * S.getX() * w,
 				r * getY() + temp * S.getY() * w, 
 				r * getZ() + temp * S.getZ() * w, 				
 				w);
-		
-		
+
+
 	}
 
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	// for identifying incidence by construction
 	// case by case.
 	// currently implemented for
@@ -1522,7 +1522,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public ArrayList<GeoElement> getIncidenceList() {
 		return incidenceList;
 	}
-	
+
 	/**
 	 * @return list of objects NOT incident by construction
 	 */
@@ -1672,8 +1672,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			}
 
 			GeoElement.updateCascade(predList, tmpSet, false);
-			
-			
+
+
 			// if all of the cases are good, add incidence
 			if (incident)
 				addIncidence(geo);

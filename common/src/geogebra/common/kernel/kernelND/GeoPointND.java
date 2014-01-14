@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public interface GeoPointND extends PointProperties, Translateable, SpreadsheetTraceable, PointRotateable{
 
 	
+	
 	/** @return whether this point has changeable numbers as coordinates */
 	public boolean hasChangeableCoordParentNumbers();
 
@@ -262,6 +263,7 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	 */
 	public double distanceToPath(PathOrPoint path);
 
+	
 	public void addIncidence(GeoElement path);
 
 	public void setPath(Path path);
@@ -279,5 +281,9 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public void removeIncidence(GeoElement geo);
 	
 	public ArrayList<GeoElement> getIncidenceList();
+
+	public boolean isEqual(GeoElement geo);
+
+	public boolean isGeoPoint();
 
 }
