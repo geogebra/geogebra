@@ -493,6 +493,9 @@ public interface AppResources extends ClientBundleWithLookup {
 	
 	@Source("geogebra/web/gui/images/social-twitter.png")
 	ImageResource social_twitter();
+
+	@Source("geogebra/web/gui/images/standard_view.gif")
+	ImageResource standard_view();
 	
 	@Source("geogebra/web/gui/images/menuBarSubMenuIconLTR.gif")
 	ImageResource menuBarSubMenuIconLTR();

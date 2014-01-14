@@ -433,6 +433,12 @@ public class EuclidianStyleBarStatic {
 			ev.repaint();
 		}
 
+		else if (actionCommand.equals("standardView")) {
+
+			// no parameters, always do this
+			app.setStandardView();
+		}
+
 		else if (actionCommand.equals("pointCapture")) {
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 

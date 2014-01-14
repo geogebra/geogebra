@@ -165,7 +165,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	private PopupMenuButton btnDeleteSize;
 
 	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowGrid,
-	btnShowAxes;
+	btnShowAxes, btnStandardView;
 
 	MyToggleButton2 btnBold;
 
@@ -307,6 +307,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.StandardView"));
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
 		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
 		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
@@ -507,6 +508,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	protected void setActionCommands(){
 		setActionCommand(btnShowAxes, "showAxes");
 		setActionCommand(btnShowGrid, "showGrid");
+		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
@@ -576,6 +578,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	protected void addGraphicsDecorationsButtons(){
 		add(btnShowAxes);
 		add(btnShowGrid);
+		add(btnStandardView);
 	}
 
 	protected void addBtnPointCapture() {
@@ -584,7 +587,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	protected MyToggleButton2[] newToggleBtnList() {
 		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, btnShowGrid,
-				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
+				btnShowAxes, btnStandardView, btnBold, btnItalic, btnDelete, btnLabel,
 				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
 				btnTableTextLinesH };
 	}
@@ -682,7 +685,12 @@ public class EuclidianStyleBarW extends StyleBarW
 			iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addValueChangeHandler(this);
-		
+
+		btnStandardView = new MyToggleButtonForEV(
+			AppResources.INSTANCE.standard_view(),
+			iconHeight);
+		btnStandardView.addValueChangeHandler(this);
+
 		// ========================================
 		// line style button
 
@@ -1225,6 +1233,10 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnShowGrid.removeValueChangeHandler();
 		btnShowGrid.setSelected(ev.getShowGrid());
 		btnShowGrid.addValueChangeHandler(this);
+
+		btnStandardView.removeValueChangeHandler();
+		btnStandardView.setSelected(false);
+		btnStandardView.addValueChangeHandler(this);
 	}
 
 	public void onValueChange(ValueChangeEvent event) {
@@ -1270,6 +1282,10 @@ public class EuclidianStyleBarW extends StyleBarW
 	 * @param targetGeos
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+
+		/*if (source == btnStandardView) {
+			btnStandardView.setSelected(false);
+		}*/
 
 		if ((source instanceof Widget)
 				&& (EuclidianStyleBarStatic.processSourceCommon(

@@ -110,6 +110,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	protected MyToggleButton btnShowGrid;
 
+	protected MyToggleButton btnStandardView;
+
 	protected MyToggleButton btnShowAxes;
 
 	private MyToggleButton btnBold;
@@ -385,6 +387,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected void setActionCommands(){
 		btnShowAxes.setActionCommand("showAxes");
 		btnShowGrid.setActionCommand("showGrid");
+		btnStandardView.setActionCommand("standardView");
 		btnPointCapture.setActionCommand("pointCapture");
 	}
 
@@ -449,6 +452,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected void addGraphicsDecorationsButtons() {
 		add(btnShowAxes);
 		add(btnShowGrid);
+		add(btnStandardView);
 	}
 
 	protected PopupMenuButton[] newPopupBtnList() {
@@ -458,7 +462,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	}
 
 	protected MyToggleButton[] newToggleBtnList() {
-		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes,
+		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes, btnStandardView,
 				btnBold, btnItalic, btnDelete, btnTableTextLinesV,
 				btnTableTextLinesH, btnFixPosition };
 	}
@@ -570,6 +574,13 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnShowGrid = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("grid.gif"), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addActionListener(this);
+
+		// ========================================
+		// standard view button
+		btnStandardView = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("standard_view.gif"), iconHeight);
+		// btnShowGrid.setPreferredSize(new Dimension(16,16));
+		//btnStandardView.setRolloverEnabled(false);
+		btnStandardView.addActionListener(this);
 
 		// ========================================
 		// line style button
@@ -1403,6 +1414,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnShowGrid.removeActionListener(this);
 		btnShowGrid.setSelected(ev.getShowGrid());
 		btnShowGrid.addActionListener(this);
+
+		btnStandardView.removeActionListener(this);
+		btnStandardView.setSelected(false);
+		btnStandardView.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -1441,6 +1456,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	 * @param targetGeos
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+
+		/*if (source == btnStandardView) {
+			// trying to make sure this button is never visually selected
+			btnStandardView.setSelected(false);
+		}*/
 
 		if ((source instanceof JButton)
 				&& (EuclidianStyleBarStatic.processSourceCommon(
@@ -1538,6 +1558,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.StandardView"));
 		btnPointCapture.setToolTipText(loc.getPlainTooltip("stylebar.Capture"));
 
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
