@@ -54,7 +54,7 @@ public class MyToggleButton extends JButton {
 	public void update(Object[] geos) {
 	}
 
-	protected void toggle() {
+	private void toggle() {
 		this.setSelected(!this.isSelected());
 	}
 }

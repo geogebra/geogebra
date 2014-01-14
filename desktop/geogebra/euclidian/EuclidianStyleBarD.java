@@ -579,7 +579,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// standard view button
 		btnStandardView = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("standard_view.gif"), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
-		//btnStandardView.setRolloverEnabled(false);
+		btnStandardView.setFocusPainted(false);
+		btnStandardView.setBorderPainted(false);
+		btnStandardView.setContentAreaFilled(false);
 		btnStandardView.addActionListener(this);
 
 		// ========================================
@@ -1456,11 +1458,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	 * @param targetGeos
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
-
-		/*if (source == btnStandardView) {
-			// trying to make sure this button is never visually selected
-			btnStandardView.setSelected(false);
-		}*/
 
 		if ((source instanceof JButton)
 				&& (EuclidianStyleBarStatic.processSourceCommon(

@@ -1283,10 +1283,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
-		/*if (source == btnStandardView) {
-			btnStandardView.setSelected(false);
-		}*/
-
 		if ((source instanceof Widget)
 				&& (EuclidianStyleBarStatic.processSourceCommon(
 						getActionCommand((Widget) source), targetGeos, ev)))
