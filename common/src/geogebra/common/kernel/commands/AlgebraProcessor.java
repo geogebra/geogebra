@@ -96,6 +96,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.google.gwt.user.client.ui.FocusWidget;
+
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements 
  * @author Markus
@@ -567,32 +569,36 @@ public class AlgebraProcessor {
 							final FunctionVariable fvX2 = fvX;
 							
 							callback = new AsyncOperation(){
-																
+								
 								@Override
 								public void callback(Object obj){
 									String[] dialogResult = (String[])obj;
+									GeoElement[] geos;
 									
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
 									if (dialogResult[0] == "0"){
-										GeoElement[] geos;
 										insertStarIfNeeded(undefinedVariables, ve, fvX2);
 										replaceUndefinedVariables(ve);
 										try {
 											addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX2);
-											processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+											geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
 										} catch (Exception ee) {
 											AlgebraProcessor.this.app.showError(ee.getMessage());
 											return;
 										}			
-										callback0.callback(null);
+										callback0.callback(geos);
 									}
 									
+									Object caller = callback0.getProperty("caller");
+									if (caller != null && caller instanceof FocusWidget) {
+										((FocusWidget)caller).setFocus(true);
+									}
 								}
 								
 							};
 						}
-						app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
+						this.app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
 						if (callback0 != null){
 							return null;
 						}

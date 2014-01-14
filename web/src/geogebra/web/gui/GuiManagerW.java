@@ -1319,9 +1319,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    }
 	}
 
-    public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {
-	    // TODO #3490
-       	
+    public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {       	
        	Localization loc = ((AppW) app).getLocalization();
        	
 		String[] options = { loc.getPlain("CreateSliders"),

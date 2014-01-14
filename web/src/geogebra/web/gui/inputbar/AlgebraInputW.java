@@ -263,9 +263,16 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 					}
 
 					app.setScrollToShow(true);
-//					GeoElement[] geos;
+
 					try {
 							AsyncOperation callback = new AsyncOperation(){
+								
+								{
+									if (inputField != null){
+										setProperty("caller", inputField.getTextBox());
+									}
+								}
+								
 
 								@Override
                                 public void callback(Object obj) {

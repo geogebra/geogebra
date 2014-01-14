@@ -253,6 +253,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 			close();
 		}
 
+		
 		for (int i = 0; i < optionButtons.length; i++) {
 			if (source == optionButtons[i]) {
 				returnOption = i;
