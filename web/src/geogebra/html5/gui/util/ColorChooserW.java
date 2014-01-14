@@ -439,10 +439,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			
 			FlowPanel sp = new FlowPanel();
 			sp.setStyleName("colorSlider");
-			minLabel = new Label("1");
+			minLabel = new Label("0");
 			sp.add(minLabel);
 			
-			slider = new Slider(1, 100);
+			slider = new Slider(0, 100);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
