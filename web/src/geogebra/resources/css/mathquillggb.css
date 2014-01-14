@@ -279,13 +279,19 @@
   padding: 0 .2em;
 }
 .mathquillggb-rendered-math .fraction,
+.mathquillggb-rendered-math .limit,
 .mathquillggb-rendered-math x:-moz-any-link {
   display: -moz-groupbox;
 }
 .mathquillggb-rendered-math .fraction,
+.mathquillggb-rendered-math .limit,
 .mathquillggb-rendered-math x:-moz-any-link,
 .mathquillggb-rendered-math x:default {
   display: inline-block;
+}
+.mathquillggb-rendered-math .limit {
+  vertical-align: top;
+  text-align: center;
 }
 .mathquillggb-rendered-math .limittop,
 .mathquillggb-rendered-math .limitbottom,

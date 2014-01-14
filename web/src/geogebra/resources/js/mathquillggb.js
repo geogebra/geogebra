@@ -2306,7 +2306,6 @@ var Limit =
 	      '<span class="limit non-leaf">'
 	    +   '<span class="limittop">lim</span>'
 	    +   '<span class="limitbottom">&0</span>'
-	    +   '<span style="display:inline-block;width:0">&nbsp;</span>'
 	    + '</span>'
 	  ;
 	  _.textTemplate = ['(', '/', ')'];
