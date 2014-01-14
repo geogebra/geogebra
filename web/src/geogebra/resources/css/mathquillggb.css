@@ -290,7 +290,7 @@
   display: inline-block;
 }
 .mathquillggb-rendered-math .limit {
-  vertical-align: -1.2em;
+  vertical-align: -0.8em;
   text-align: center;
   padding: 0 .2em;
 }
@@ -320,7 +320,7 @@
   padding: 0 0.1em;
   margin-right: -0.1em;
   margin-left: -0.1em;
-  margin-bottom: -0.115em;
+  margin-bottom: -0.6em;
 }
 .mathquillggb-rendered-math .limitbottom {
   font-size: 80%;
