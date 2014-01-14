@@ -377,22 +377,25 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		
 	}
 	private class PreviewPanel extends FlowPanel {
-		private Label title;
+		private Label titleLabel;
 		private Canvas canvas;
 		private Context2d ctx;
 		private Label rgb;
 
 		public PreviewPanel() {
-			title = new Label();
+			FlowPanel m = new FlowPanel();
+			m.setStyleName("colorChooserPreview");
+			titleLabel = new Label();
 			canvas = Canvas.createIfSupported();
 			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
 			canvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
 			canvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
 			ctx = canvas.getContext2d();
 			rgb = new Label();
-			add(title);
-			add(canvas);
-			add(rgb);
+			add(titleLabel);
+			m.add(canvas);
+			m.add(rgb);
+			add(m);
 		}
 
 		public void update(){
@@ -420,7 +423,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 		
 		public void setLabels(String previewTitle) {
-			title.setText(previewTitle);
+			titleLabel.setText(previewTitle);
 		}
 
 	}
@@ -433,17 +436,21 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		public OpacityPanel() {
 			title = new Label();
 			add(title);
+			
+			FlowPanel sp = new FlowPanel();
+			sp.setStyleName("colorSlider");
 			minLabel = new Label("1");
-			add(minLabel);
-	
+			sp.add(minLabel);
+			
 			slider = new Slider(1, 100);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
-			add(slider);
+			sp.add(slider);
 			maxLabel = new Label("100");
-			add(maxLabel);
+			sp.add(maxLabel);
+			add(sp);
 			slider.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
@@ -472,6 +479,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		private RadioButton foregroundButton;
 		
 		public BackgroundColorPanel() {
+			setStyleName("BackgroundColorPanel");
 			backgroundButton = new RadioButton("bg");
 			foregroundButton = new RadioButton("fg");
 			backgroundButton.setName("bgfg");
@@ -551,7 +559,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		setBgFgTitles("BackgroundColor", "ForegroundColor");
 		setOpacityTitle("Opacity");
 		addCustomColor = new Button("+");
-
+		addCustomColor.setStyleName("CustomColorButton");
 		addCustomColor.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -651,7 +659,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 	
 	public void setPreviewTitle(String title) {
-			previewPanel.setTitle(title);
+			previewPanel.setLabels(title);
 	}
 	
 	public void setBgFgTitles(String bg, String fg) {

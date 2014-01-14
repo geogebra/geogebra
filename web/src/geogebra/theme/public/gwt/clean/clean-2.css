@@ -2322,10 +2322,18 @@ label {
 	height: 100px;	
 }
 
-.colorPreview {
-	width: 80px;
-	height: 40px;	
+.colorChooserPreview {
+	display: block;
 }
+
+.colorChooserPreview  > * {
+	display: inline-block;
+}
+
+.colorChooserPreview .gwt-Label {
+	padding: 5px;
+}
+
 .textOptionsToolBar .gwt-ToggleButton {
 	display:inline-block;
 }
@@ -2333,6 +2341,34 @@ label {
 .colorComponent {
 	display: block;
 	
+}
+
+
+.colorComponent > * {
+	display: inline-block;
+
+}
+
+.colorSlider > * {
+	display: inline-block;
+}
+
+.ColorDialog-content {
+	padding: 8px;
+}
+
+.CustomColorPreview {
+	align: center;
+}
+
+.CustomColorButton {
+	position: absolute;
+	left: 233px;
+	top: 245px;
+}
+
+.BackgroundColorPanel > * {
+	display: block;
 }
 
 /*=========== Checkbox menuitem =============*/

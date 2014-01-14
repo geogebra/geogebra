@@ -26,7 +26,8 @@ public class CustomColorDialog extends PopupPanel  {
     };
     
 	private static final int PREVIEW_HEIGHT = 40;
-	private static final int PREVIEW_WIDTH = 120;
+	private static final int PREVIEW_WIDTH = 230;
+	private Label titleLabel;
 	private ColorComponent red;
 	private ColorComponent green;
 	private ColorComponent blue;
@@ -45,28 +46,31 @@ public class CustomColorDialog extends PopupPanel  {
 		private Slider slider;
 		private GSpinnerW spinner;
 		public ColorComponent() {
-			FlowPanel sp = new FlowPanel();
-			sp.setStyleName("optionsSlider");
-			Label minLabel = new Label("0");
-			sp.add(minLabel);
 			setStyleName("colorComponent");
+			
+			FlowPanel sp = new FlowPanel();
+			
+			Label minLabel = new Label("0");
 			slider = new Slider(0, 255);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
-			sp.add(slider);
 			
 			Label maxLabel = new Label("255");
+		
+			sp.setStyleName("colorSlider");
+			sp.add(minLabel);
+			sp.add(slider);
 			sp.add(maxLabel);
 	
 			spinner = new GSpinnerW();
 			spinner.setMinValue(0);
 			spinner.setMaxValue(255);
 			spinner.setStepValue(1);
-			sp.add(spinner);
-			mainWidget.add(sp);			
-			
+			add(sp);			
+			add(spinner);
+					
 			spinner.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
@@ -101,6 +105,7 @@ public class CustomColorDialog extends PopupPanel  {
 		private Context2d ctx;
 
 		public PreviewPanel() {
+			setStyleName("CustomColorPreview");
 			title = new Label();
 			add(title);
 			canvas = Canvas.createIfSupported();
@@ -153,21 +158,26 @@ public class CustomColorDialog extends PopupPanel  {
     }
 
 	protected void createGUI() {
+		titleLabel = new Label();
+		mainWidget.add(titleLabel);
+		FlowPanel contents = new FlowPanel();
+		contents.setStyleName("ColorDialog-content");
 		red = new ColorComponent();
 		green = new ColorComponent();
 		blue = new ColorComponent();
 		setOriginalValues();
-		mainWidget.add(red);
-		mainWidget.add(green);
-		mainWidget.add(blue);
+		contents.add(red);
+		contents.add(green);
+		contents.add(blue);
 		preview = new PreviewPanel();
-		mainWidget.add(preview);	
+		contents.add(preview);	
+		mainWidget.add(contents);
 		
 		FlowPanel btnPanel = new FlowPanel();
 		btnOk = new Button();
 		btnCancel = new Button();
 		btnReset = new Button();
-		
+		btnPanel.addStyleName("DialogButtonPanel");
 		btnPanel.add(btnOk);
 		btnPanel.add(btnCancel);
 		btnPanel.add(btnReset);
@@ -203,12 +213,14 @@ public class CustomColorDialog extends PopupPanel  {
     }
 
 	public void setLabels() {
+		setTitle(loc.getPlain("ChooseColor"));
+		titleLabel.setText(loc.getPlain("ChooseColor"));
 		red.setTitle(loc.getMenu("Red"));
 		green.setTitle(loc.getMenu("Green"));
 		blue.setTitle(loc.getMenu("Blue"));
 		
 		preview.setTitle(loc.getMenu("Preview"));
-		btnOk.setText(loc.getMenu("Ok"));
+		btnOk.setText(loc.getPlain("OK"));
 		btnCancel.setText(loc.getMenu("Cancel"));
 		btnReset.setText(loc.getMenu("Reset"));
 	}

@@ -484,7 +484,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 			
-			colorChooserW = new ColorChooserW(app, 800, 220, colorIconSizeW, 4);
+			colorChooserW = new ColorChooserW(app, 800, 210, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
 				public void onColorChange() {
@@ -513,10 +513,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasOpacity) {
 			// TODO Auto-generated method stub
-			selectedColor = null;
-			GColor selectedBGColor = null;
+				GColor selectedBGColor = null;
 			float alpha = 1;
 			GeoElement geo0 = model.getGeoAt(0);
+			selectedColor = null;
+
 			if (equalObjColorBackground) {
 				selectedBGColor = geo0.getBackgroundColor();
 			}
