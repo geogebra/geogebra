@@ -6,6 +6,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
@@ -15,6 +16,7 @@ import geogebra.web.main.AppW;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
@@ -322,6 +324,62 @@ public class MyCellRendererW {
 				//		.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
 
+			}
+		}
+
+
+		/*if (view.allowSpecialEditor()
+		&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+
+	if (geo.isGeoBoolean()) {
+		checkBox.setBackground(table.getBackground());
+		checkBox.setHorizontalAlignment(CENTER);
+		checkBox.setEnabled(geo.isIndependent());
+
+		if (geo.isLabelVisible()) {
+			// checkBox.setText(geo.getCaption());
+		}
+		checkBox.setSelected(((GeoBoolean) geo).getBoolean());
+
+		return checkBox;
+	}
+
+	if (geo.isGeoButton()) {
+		// button.setBackground(table.getBackground());
+		button.setHorizontalAlignment(CENTER);
+		button.setText(geo.getCaption(StringTemplate.defaultTemplate));
+		button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
+				.getObjectColor()));
+		return button;
+	}
+
+	if (geo.isGeoList()) {
+		GeoList list = (GeoList) geo;
+		comboBox.setBackground(table.getBackground());
+		cbModel.removeAllElements();
+		if (list.size() > 0)
+			cbModel.addElement(list.get(list.getSelectedIndex()));
+		// comboBox.setSelected(((GeoBoolean)geo).getBoolean());
+
+		return comboBox;
+	}
+}*/
+
+		if (view.allowSpecialEditor() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+			if (geo.isGeoBoolean()) {
+				CheckBox checkbox = new CheckBox();
+				checkbox.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
+				checkbox.getElement().getStyle().setProperty("display", "-moz-inline-box");
+				checkbox.getElement().getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+				checkbox.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+				checkbox.setEnabled(geo.isIndependent());
+
+				if (geo.isLabelVisible()) {
+					// checkBox.setText(geo.getCaption());
+				}
+				checkbox.setValue(((GeoBoolean) geo).getBoolean());
+				table.setWidget(row, column, checkbox);
+				return;
 			}
 		}
 
