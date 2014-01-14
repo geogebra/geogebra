@@ -932,7 +932,7 @@ __GGB__keysVar.it.command = {
     "Triangular_Syntax": "[ <Limite inferiore>, <Limite superiore>, <Moda>, x ]\n[ <Limite inferiore>, <Limite superiore>, <Moda>, <Valore variabile> ]\n[ <Limite inferiore>, <Limite superiore>, <Moda>, x, <Booleano Cumulativa> ]",
     "TrigCombine": "TrigCombina",
     "TrigCombine_Syntax": "[ <Espressione> ]\n[ <Espressione>, <Funzione obiettivo> ]",
-    "TrigExpand": "SviluppaTrig",
+    "TrigExpand": "TrigSviluppa",
     "TrigExpand_Syntax": "[ <Espressione> ]\n[ <Espressione>, <Funzione obiettivo> ]",
     "TrigExpand_SyntaxCAS": "[ <Espressione> ]\n[ <Espressione>, <Funzione obiettivo> ]\n[ <Espressione>, <Funzione obiettivo>, <Variabile obiettivo> ]\n[ <Espressione>, <Funzione obiettivo>, <Variabile obiettivo>, <Variabile obiettivo> ]",
     "TrigSimplify": "TrigSemplifica",

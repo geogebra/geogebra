@@ -2102,7 +2102,7 @@ __GGB__keysVar.sv.plain = {
     "Bold": "Fet stil",
     "Boolean": "Logiskt (booleskt) v\xe4rde",
     "Breakpoint": "Brytpunkt",
-    "Button": "Button",
+    "Button": "Kommandoknapp",
     "ButtonSize": "Button Size",
     "CAS": "CAS",
     "CAS_AutomaticRename": "Namnet %0 anv\xe4nds redan och har \xe4ndrats till %1",

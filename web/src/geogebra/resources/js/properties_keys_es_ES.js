@@ -2095,7 +2095,7 @@ __GGB__keysVar.es_ES.plain = {
     "AxisOfA": "Eje de %0",
     "AxisTicks": "Gradaciones",
     "AxisUnitLabel": "Unidad",
-    "Back": "Previo",
+    "Back": "Anterior",
     "BackgroundColor": "Color de Fondo",
     "BackgroundImage": "Imagen de Fondo",
     "BarA": "Barra %0",
