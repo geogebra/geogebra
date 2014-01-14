@@ -12,7 +12,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -106,18 +105,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		App.debug("entree");
 		if (!geo.isGeoSegment())
 			return false;
 		GeoSegment3D s = (GeoSegment3D) geo;
-		if ((((GeoPoint3D) startPoint).isEqual((GeoPoint3D)s.startPoint) && ((GeoPoint3D) endPoint).isEqual((GeoPoint3D)s.endPoint))
-				|(((GeoPoint3D) startPoint).isEqual((GeoPoint3D)s.endPoint) && ((GeoPoint3D) endPoint).isEqual((GeoPoint3D)s.startPoint))){
-			App.debug("true");
-		}else{
-			App.debug("false");
-		}
+		
 		return ((((GeoPoint3D) startPoint).isEqual((GeoPoint3D)s.startPoint) && ((GeoPoint3D) endPoint).isEqual((GeoPoint3D)s.endPoint))
-				|(((GeoPoint3D) startPoint).isEqual((GeoPoint3D)s.endPoint) && ((GeoPoint3D) endPoint).isEqual((GeoPoint3D)s.startPoint)));
+				||(((GeoPoint3D) startPoint).isEqual((GeoPoint3D)s.endPoint) && ((GeoPoint3D) endPoint).isEqual((GeoPoint3D)s.startPoint)));
 	}
 
 

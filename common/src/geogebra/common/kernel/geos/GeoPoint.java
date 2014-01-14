@@ -81,10 +81,10 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class GeoPoint extends GeoVec3D implements VectorValue,
-		PathOrPoint, Mirrorable, Dilateable,
-		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
-		Transformable, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo {
+PathOrPoint, Mirrorable, Dilateable,
+MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
+Transformable, SymbolicParametersAlgo,
+SymbolicParametersBotanaAlgo {
 
 	// don't set point size here as this would overwrite
 	// setConstructionDefaults()
@@ -130,7 +130,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		setUndefined();
 
 	}
-	
+
 	/**
 	 * @param c construction
 	 * @param isTurtle dummy param
@@ -317,7 +317,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		return isPointChangeable(this);
 	}
-	
+
 	/**
 	 * static method for used in GeoPoint3D
 	 * @param point point
@@ -382,7 +382,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 					double maxDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMax()));
 					if (maxDiff > Math.PI)
 						maxDiff = Kernel.PI_2 - maxDiff;
-	
+
 					if (minDiff < maxDiff)
 						angle = angle - Kernel.PI_2;
 					else
@@ -457,7 +457,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		}
 
 		boolean ret = (num1 instanceof MyDouble || ((GeoNumeric)num1).isChangeable()) &&
-				      (num2 instanceof MyDouble || ((GeoNumeric)num2).isChangeable());
+				(num2 instanceof MyDouble || ((GeoNumeric)num2).isChangeable());
 
 		return ret;
 	}
@@ -496,27 +496,27 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 						// coords (r; phi)
 						ExpressionValue xcoord = vn.getX();
 						ExpressionValue ycoord = vn.getY();
-						
+
 						NumberValue xNum = getCoordNumber(xcoord,
 								!hasPolarParentNumbers);
 						NumberValue yNum = getCoordNumber(ycoord,
 								!hasPolarParentNumbers);
-						
+
 						if (xNum instanceof GeoNumeric && yNum instanceof GeoNumeric) {
 							GeoNumeric xvar = (GeoNumeric) xNum;
 							GeoNumeric yvar = (GeoNumeric) yNum;
 							if (!xcoord.contains(yvar) && !ycoord.contains(xvar)) { // avoid
-																					// (a,a)
+								// (a,a)
 								changeableCoordNumbers.add(xvar);
 								changeableCoordNumbers.add(yvar);
 							}
-							
+
 						} else if ((xNum instanceof GeoNumeric && yNum instanceof MyDouble) || (yNum instanceof GeoNumeric && xNum instanceof MyDouble)) {
 							// eg (a,3)
 							changeableCoordNumbers.add(xNum);
 							changeableCoordNumbers.add(yNum);
 						}
-						
+
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
 						e.printStackTrace();
@@ -548,7 +548,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			throws Throwable {
 		// simple variable "a"
 		if (ev.isLeaf()) {
-			
+
 			// handle (a,1) and (1,a) case
 			// 1 is MyDouble
 			if (ev.isExpressionNode()) {
@@ -556,7 +556,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 					return (NumberValue) ((ExpressionNode) ev).getLeft();
 				}
 			}
-			
+
 			GeoElement geo = kernel.lookupLabel(
 					ev.isGeoElement() ? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate) : ev
 							.toString(StringTemplate.defaultTemplate), false);
@@ -834,7 +834,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	final public boolean isEqual(GeoElement geo) {
 		return isEqual(geo,Kernel.STANDARD_PRECISION);
 	}
-	
+
 	/**
 	 * Checks whether geo is a point and whether it's same as this with given precision
 	 * @param geo element
@@ -852,9 +852,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			return false;
 
 		// both finite
-		if (isFinite() && P.isFinite())
-			return Kernel.isEqual(inhomX, P.inhomX)
-					&& Kernel.isEqual(inhomY, P.inhomY);
+		if (isFinite() && P.isFinite()){
+			if (geo.isGeoElement3D()){
+				return geo.isEqual(this); //do the 3D test
+			} else {
+				return Kernel.isEqual(inhomX, P.inhomX)
+						&& Kernel.isEqual(inhomY, P.inhomY);
+			}
+		}
 		else if (isInfinite() && P.isInfinite())
 			return linDep(P);
 		else
@@ -1012,7 +1017,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		setCoords(r * x + temp * S.getX() * z,
 				r * y + temp * S.getY() * z, z);
 	}
-	
+
 	/**
 	 * dilate from O
 	 * @param r ratio
@@ -1062,7 +1067,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	final public void mirror(GeoConic c) {
 		if (c.getType() == 4/* GeoConic.CONIC_CIRCLE */) { // Mirror point in
-															// circle
+			// circle
 			double r = c.getHalfAxes()[0];
 			GeoVec2D midpoint = (c.getTranslationVector());
 			double a = midpoint.getX();
@@ -1085,7 +1090,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	 * mirror this point at line g
 	 */
 	final public void mirror(GeoLineND g1) {
-		
+
 		GeoLine g = (GeoLine) g1;
 
 		// Y = S(phi).(X - Q) + Q
@@ -1167,7 +1172,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			return sbBuildValueString.toString();
 		}
 		sbBuildValueString
-				.append(regrFormat(inhomX) + " " + regrFormat(inhomY));
+		.append(regrFormat(inhomX) + " " + regrFormat(inhomY));
 		return sbBuildValueString.toString();
 	}
 
@@ -1206,11 +1211,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		}else{
 			buildValueString(kernel, tpl, toStringMode, getInhomX(), getInhomY(), sbBuildValueString);
 		}
-	
+
 		return sbBuildValueString;
 	}
-	
-	
+
+
 	/**
 	 * @param kernel kernel
 	 * @param tpl string template
@@ -1242,8 +1247,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		sbBuildValueString.append(')');
 	}
-	
-	
+
+
 	/**
 	 * @param kernel kernel
 	 * @param tpl string template
@@ -1253,9 +1258,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	 * @param sbBuildValueString string builder
 	 */
 	public static final void buildValueStringCoordSpherical(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
-		
+
 		double lengthXY = MyMath.length(x, y);
-		
+
 		sbBuildValueString.append('(');
 		sbBuildValueString.append(kernel.format(
 				MyMath.length(lengthXY, z), tpl));
@@ -1266,7 +1271,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		sbBuildValueString.append(kernel.formatAngle(
 				Math.atan2(z, lengthXY), tpl, true));
 		sbBuildValueString.append(')');
-		
+
 	}
 
 	/**
@@ -1313,7 +1318,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(')');
 		}
-		
+
 	}
 
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
@@ -1334,7 +1339,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		
+
 		AlgoElement algo;
 		if (((algo = getParentAlgorithm()) instanceof AlgoPointOnPath)) {
 
@@ -1345,7 +1350,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				sb.append(" t=\"");
 				sb.append(getPathParameter().t);
 				sb.append("\"");
-		        sb.append("/>\n");
+				sb.append("/>\n");
 
 			}
 		}
@@ -1371,7 +1376,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		case Kernel.COORD_CARTESIAN_3D:
 			sb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
 			break;
-			
+
 		case Kernel.COORD_SPHERICAL:
 			sb.append("\t<coordStyle style=\"spherical\"/>\n");
 			break;
@@ -1406,7 +1411,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		} else {
 			sb.append("exp=\"");
 			StringUtil
-					.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
+			.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
 
 			sb.append("\"");
 		}
@@ -1442,8 +1447,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			System.out.print(incidenceList.get(i).getLabel(StringTemplate.defaultTemplate) + " = " + incidenceList.get(i).toString(StringTemplate.defaultTemplate) + " ");
 		}}
 		System.out.println();
-		*/
-		
+		 */
+
 		// update all registered locatables (they have this point as start
 		// point)
 		if (locateableList != null) {
@@ -1890,7 +1895,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	public ArrayList<GeoElement> getIncidenceList() {
 		return incidenceList;
 	}
-	
+
 	/**
 	 * @return list of objects NOT incident by construction
 	 */
@@ -2040,8 +2045,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			}
 
 			GeoElement.updateCascade(predList, tmpSet, false);
-			
-			
+
+
 			// if all of the cases are good, add incidence
 			if (incident)
 				addIncidence(geo);
@@ -2104,8 +2109,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	@Override
 	public void updateColumnHeadingsForTraceValues(){
 		resetSpreadsheetColumnHeadings();
-	
-		
+
+
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 
 						new ExpressionNode(kernel,
@@ -2124,28 +2129,28 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
-		
-		
+
+
 	}
-	
+
 
 	@Override
 	public TraceModesEnum getTraceModes(){
 		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
-	
-	
+
+
 	@Override
 	public String getTraceDialogAsValues(){
 		String name = getLabelTextOrHTML(false);
-	
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("x(");
 		sb.append(name);
 		sb.append("), y(");
 		sb.append(name);
 		sb.append(")");
-				
+
 		return sb.toString();
 	}
 
@@ -2191,7 +2196,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
+
 	public int[] getDegrees() throws NoSymbolicParametersException{
 		if (algoParent == null) {
 			GeoElement[] fixedElements = AbstractProverReciosMethod.getFixedPoints();
@@ -2207,7 +2212,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 					return result;
 				}
 			}
-			
+
 			int[] result={1,1,0};
 			return result;
 		}
@@ -2219,7 +2224,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
-			throws NoSymbolicParametersException {
+					throws NoSymbolicParametersException {
 		if (algoParent == null) {
 			BigInteger[] result = new BigInteger[3];
 			result[0] = values.get(variableCoordinate1);
@@ -2239,20 +2244,20 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		// if this is a free point
-				if (algoParent == null) {
-					if (variableCoordinate1 == null) {
-						variableCoordinate1 = new Variable(this);
-					}
-					if (variableCoordinate2 == null) {
-						variableCoordinate2 = new Variable(this);
-					}
-					Polynomial[] ret = {new Polynomial(variableCoordinate1), new Polynomial(variableCoordinate2), new Polynomial(1)};
-					return ret;
-				}
-				if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-					return ((SymbolicParametersAlgo) algoParent).getPolynomials();
-				}
-				throw new NoSymbolicParametersException();
+		if (algoParent == null) {
+			if (variableCoordinate1 == null) {
+				variableCoordinate1 = new Variable(this);
+			}
+			if (variableCoordinate2 == null) {
+				variableCoordinate2 = new Variable(this);
+			}
+			Polynomial[] ret = {new Polynomial(variableCoordinate1), new Polynomial(variableCoordinate2), new Polynomial(1)};
+			return ret;
+		}
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 	public Variable[] getBotanaVars(GeoElement geo) {
@@ -2268,7 +2273,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				App.debug("Free point " + geo.getLabelSimple() + "(" + botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 		}
-		
+
 		return botanaVars;
 	}
 
@@ -2283,9 +2288,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	public int getDimension() {
 		return 2;
 	}
-	
-	
-	
+
+
+
 
 	public double distanceToPath(PathOrPoint path1){
 		return path1.toGeoElement().distance(this);
@@ -2302,5 +2307,5 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	public void setCoordsFromPoint(GeoPointND point){
 		setCoords((GeoPoint) point);
 	}
-	
+
 }

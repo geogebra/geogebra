@@ -54,7 +54,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.kernel.kernelND.RotateableND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -823,7 +822,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 	}
 	@Override
 	public boolean isEqual(GeoElement geo) {
-		App.debug("ICI");
 		if (!geo.isGeoPoint())
 			return false;
 
