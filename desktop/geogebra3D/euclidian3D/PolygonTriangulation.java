@@ -1282,13 +1282,12 @@ public class PolygonTriangulation {
 				s+=currentPoint.name;
 
 
-
+				segment.removeFromPoints();
 				if (oldRunning == Running.LEFT){		
 					if (segment.isDiagonal){
 						//App.debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
 						segment.isDiagonal = false ; // no more a diagonal, clone it
 						Segment clone = segment.clone();
-						segment.removeFromPoints();
 						clone.addToPoints();	
 					}
 					
@@ -1301,7 +1300,6 @@ public class PolygonTriangulation {
 						//App.debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
 						segment.isDiagonal = false ; // no more a diagonal, clone it
 						Segment clone = segment.clone();
-						segment.removeFromPoints();
 						clone.addToPoints();
 					}
 					
