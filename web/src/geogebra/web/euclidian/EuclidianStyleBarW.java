@@ -874,7 +874,7 @@ public class EuclidianStyleBarW extends StyleBarW
 				iconHeight)); 
 		//must be done in callback btnPointCapture.setIcon(ptCaptureIcon); 
 		AppResourcesConverter.setIcon(ptCaptureIcon, btnPointCapture); 
-		btnPointCapture.addActionListener(this);
+		//btnPointCapture.addActionListener(this);
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
 
