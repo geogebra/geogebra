@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Stack;
 import java.util.TreeSet;
 
@@ -17,7 +16,6 @@ import java.util.TreeSet;
  */
 public class PolygonTriangulation {
 	
-	private enum Chain {BOTH, BELOW, ABOVE};
 
 	private class Point implements Comparable<Point>{
 		public double x, y;
@@ -29,8 +27,6 @@ public class PolygonTriangulation {
 		TreeSet<Segment> toRight, toLeft;
 		
 		boolean needsDiagonal = false;
-		
-		public Chain chain;
 		
 		public int usable = 1;
 
@@ -347,47 +343,7 @@ public class PolygonTriangulation {
 	}
 
 	
-	private class SegmentFirstPointComparator implements Comparator<Segment>{
 
-		public SegmentFirstPointComparator() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public int compare(Segment seg1, Segment seg2) {
-			
-			return seg1.getFirstPoint().compareToOnly(seg2.getFirstPoint());
-			
-		}
-		
-		
-	}
-
-	private class SegmentComparator implements Comparator<Segment>{
-
-		public SegmentComparator() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public int compare(Segment seg1, Segment seg2) {
-			
-			Point p1 = seg1.leftPoint;
-			Point p2 = seg2.leftPoint;
-			int c = p1.compareToOnly(p2);
-			if (c == 0){
-				if (seg1.orientation < seg2.orientation){
-					return -1;
-				}
-				
-				return 1; //equality of orientations should not happen
-			}
-			
-			return c;
-			
-			
-		}
-		
-		
-	}
 	private GeoPolygon polygon;
 
 	private int maxPointIndex;
@@ -536,15 +492,6 @@ public class PolygonTriangulation {
 		App.debug(s);
 
 
-	}
-
-	final private Point getPoint(int i){
-		return null;
-	}
-
-
-	private int getPointsLength(){
-		return 0;
 	}
 
 
@@ -883,459 +830,9 @@ public class PolygonTriangulation {
 
 		}
 
-
-		/*
-		s = "==========================================================";
-		for (int i = 0 ; i < polygonFirstSegmentList.size() ; i++){			
-			App.debug("polygon "+i+" : ");
-			
-			TreeSet<Segment> polygonSegments = polygonSegmentsList.get(i);
-			s="\n";
-			Segment bottom1, top1;
-			for (Segment seg : polygonSegments){
-				s+=seg;
-				if (seg.needsDiagonal){
-					s+=" - diagonal";
-					if (seg.running == Running.LEFT){
-						s+=" to right";
-					}else{
-						s+=" to left";
-					}
-				}
-				s+="\n";
-			}
-			App.debug(s);
-			/*
-			Segment segStart = polygonFirstSegmentList.get(i);
-			TreeSet<Segment> segSet = polygonSegmentsList.get(i);
-			for (Segment seg = segStart.next ; seg != segStart ; seg = seg.next){ // last segment needs no check
-				//App.debug(""+seg);
-				if (seg.needsDiagonal){
-					if (seg.running == Running.RIGHT){
-						Segment seg2 = segSet.lower(seg);
-						Point pt = seg.leftPoint;
-						Point pt2 = seg2.getFirstPoint();
-						App.debug("right : ("+seg+"/"+seg2+")"+pt.name+"--"+pt2.name);
-						Segment diagonal = new Segment(pt2,pt);
-						Segment diagonal2 = new Segment(pt2,pt);
-						seg.diagonalToLeft = diagonal;
-						diagonal.next = seg2;
-						diagonal.running = Running.LEFT;
-						seg2.diagonalToRight = diagonal2;
-						diagonal2.next = seg;
-						diagonal2.running = Running.RIGHT;
-					}else{ // seg.running == Running.LEFT
-						Segment seg2 = segSet.higher(seg);
-						Point pt = seg.rightPoint;
-						Point pt2 = seg2.getFirstPoint();
-						App.debug("left : ("+seg+"/"+seg2+")"+pt.name+"--"+pt2.name);
-						Segment diagonal = new Segment(pt,pt2);
-						Segment diagonal2 = new Segment(pt,pt2);
-						seg.diagonalToRight = diagonal;
-						diagonal.next = seg2;		
-						diagonal.running = Running.RIGHT;
-						seg2.diagonalToLeft = diagonal2;
-						diagonal2.next = seg;
-						diagonal2.running = Running.LEFT;
-					}
-				}				
-			}
-			*/
-			
-			/*
-			Stack<Segment> segStartStack = new Stack<Segment>();
-			segStartStack.push(segStart);
-			while (!segStartStack.isEmpty()){
-				App.debug("======= MONOTONE PIECE ==========");
-				segStart = segStartStack.pop();
-				Segment seg = segStart;
-				boolean go = true;
-				Segment diagonal2 = null;
-				Running onDiagonal = Running.STOP;
-				while(go){
-					App.debug(seg+"");
-					Segment diagonal = null;
-					
-					
-					switch(onDiagonal){
-					case STOP:
-						if (seg.running == Running.RIGHT){
-							diagonal = seg.next.diagonalToLeft;							
-							if (diagonal != null){
-								seg.next.diagonalToLeft = null;
-								App.debug("diagonal to left : "+diagonal);
-								diagonal2 = diagonal.next.diagonalToRight;
-								onDiagonal = Running.LEFT;
-							}else {
-								diagonal = seg.next.diagonalToRight;
-								if (diagonal != null){
-									seg.next.diagonalToRight = null;
-									App.debug("diagonal to right : "+diagonal);
-									diagonal2 = diagonal.next.diagonalToLeft;
-									onDiagonal = Running.RIGHT;
-								}
-							}
-
-						}else{ //seg.running == Running.LEFT						
-							diagonal = seg.next.diagonalToRight;							
-							if (diagonal != null){
-								seg.next.diagonalToRight = null;
-								App.debug("diagonal to right : "+diagonal);
-								diagonal2 = diagonal.next.diagonalToLeft;
-								onDiagonal = Running.RIGHT;
-							}else{
-								diagonal = seg.next.diagonalToLeft;
-								if (diagonal != null){
-									seg.next.diagonalToLeft = null;
-									App.debug("diagonal to left : "+diagonal);
-									diagonal2 = diagonal.next.diagonalToRight;
-									onDiagonal = Running.LEFT;
-								}
-							}
-						}
-						break;
-						
-					case RIGHT:
-						if (seg.next.running == Running.RIGHT){
-							diagonal = seg.next.diagonalToRight;
-							if (diagonal != null){
-								seg.next.diagonalToRight = null;
-								App.debug("diagonal to right : "+diagonal);
-								diagonal2 = diagonal.next.diagonalToLeft;
-								onDiagonal = Running.RIGHT;
-							}
-						}
-						break;
-						
-					case LEFT:
-						if (seg.next.running == Running.LEFT){
-							diagonal = seg.next.diagonalToLeft;
-							if (diagonal != null){
-								seg.next.diagonalToLeft = null;
-								App.debug("diagonal to left : "+diagonal);
-								diagonal2 = diagonal.next.diagonalToRight;
-								onDiagonal = Running.LEFT;
-							}
-						}
-						break;
-						
-					}
-					
-
-					if (diagonal != null){
-						App.debug("-- next diagonal : "+diagonal2);
-						if (diagonal2 != null){
-							segStartStack.push(diagonal2);
-						}
-						seg = diagonal;
-					}else{
-						seg = seg.next;
-						onDiagonal = Running.STOP;
-					}
-					
-					if (seg == segStart){
-						go = false;
-					}
-				}
-			}
-			
-			*
-
-		}
-	*/
-		
-		//App.debug(s);
 		
 
 	}
-	
-	
-	/**
-	 * set diagonals since polygon has been cut into non-self-intersecting pieces
-	 */
-	public void setDiagonals(){
-		
-		for (TreeSet<Point> polygonPoints : polygonPointsList){
-			setDiagonals(polygonPoints);
-		}
-	}
-	
-	private void setDiagonals(TreeSet<Point> polygonPoints){
-		String s = "set diagonals of ";
-		for (Point pt : polygonPoints){
-			s+=pt.name;
-			if (pt.needsDiagonal){
-				s+="(*)";
-			}
-		}
-		
-		App.debug(s);
-		
-		
-		// top and bottom (dummy) segments
-		Segment top = new Segment();
-		Segment bottom = new Segment();
-		bottom.above = top;
-		top.below = bottom;
-
-		
-		//////////////////////////////////////////////
-		// set diagonals
-		
-		for (Point pt : polygonPoints){
-			
-			s = pt.name + " : ";
-			
-			Segment above = null;
-			Segment below = null;
-
-		
-			// remove to-left segments
-			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
-				above = pt.toLeft.first().above;
-				below = pt.toLeft.last().below;
-				below.above = above;
-				above.below = below;
-				
-
-				if (pt.needsDiagonal){
-					//App.error("diagonal to right : "+below+"<"+pt.name+"<"+above);
-					Point pt2;
-					if (below.rightPoint.compareToOnly(above.rightPoint) < 0){
-						pt2 = below.rightPoint;
-					}else{
-						pt2 = above.rightPoint;
-					}					
-					
-					Segment diagonal = new Segment( Math.atan2(pt2.y - pt.y, pt2.x - pt.x), pt, pt2);
-					diagonal.addToPoints();
-					diagonal.isDiagonal = true;
-					pt.usable++;
-					pt2.usable++;
-									
-					//App.error("diagonal to right : "+diagonal);
-				}
-				
-			}else{ // search for the correct place for to-right segments
-				//App.error(pt.name);
-				boolean go = true;
-				for (Segment segment = bottom.above ; segment != top && go ; segment = segment.above){
-					double orientation = Math.atan2(pt.y - segment.leftPoint.y, pt.x - segment.leftPoint.x);
-					if (orientation < segment.orientation){ // found the place
-						go = false;
-						above = segment;
-						below = above.below;					
-					}		
-				}
-				if (go){ // when there are no segment between top and bottom
-					above = top;
-					below = above.below;
-				}
-				
-				if (pt.needsDiagonal){
-					//App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
-					if (below.isDiagonal){
-						below.removeFromPoints();
-						below.rightPoint.usable--;
-						pt.usable++;
-						below.rightPoint = pt;
-						below.addToPoints();
-						//App.error("below is diagonal, replace : "+below);
-						// remove below
-						below = below.below;
-						below.above = above;
-						above.below = below;
-					}else if (above.isDiagonal){
-						above.removeFromPoints();
-						above.rightPoint.usable--;
-						pt.usable++;
-						above.rightPoint = pt;
-						above.addToPoints();
-						//App.error("above is diagonal, replace : "+above);
-						// remove above
-						above = above.above;
-						below.above = above;
-						above.below = below;
-					}else{
-						Point pt2;
-						if (below.leftPoint.compareToOnly(above.leftPoint) < 0){
-							pt2 = above.leftPoint;
-						}else{
-							pt2 = below.leftPoint;
-						}			
-						Segment diagonal = new Segment( Math.atan2(pt.y - pt2.y, pt.x - pt2.x), pt2, pt);
-						diagonal.addToPoints();
-						diagonal.isDiagonal = true;
-						pt.usable++;
-						pt2.usable++;
-
-						//App.error("diagonal to left : "+diagonal);
-					}
-				}
-				
-			}
-			
-			
-			// put to-right segments
-			if (pt.toRight!=null){
-				for (Segment seg : pt.toRight){
-					below.above = seg;
-					seg.below = below;
-					below = seg;
-				}
-				below.above = above;
-				above.below = below;
-			}
-
-			
-
-			for (Segment seg = bottom.above ; seg != top; seg = seg.above){
-				s+=seg.toString()+",";
-			}
-			//App.debug(s);
-
-		}
-		
-		//////////////////////////////////////////////
-		// cut in monotone pieces
-		
-		while (!polygonPoints.isEmpty()){
-			s="Monotone piece : ";
-
-			Point start = polygonPoints.first();
-			Point currentPoint = start;
-			Point nextPoint;
-			//App.debug(start.name);
-			Segment segStart = start.toRight.first();
-			Segment segment = segStart;
-			Segment next = null;
-
-			Running running = Running.RIGHT;
-			Running oldRunning;
-			
-			
-			while (running != Running.STOP){
-				oldRunning = running;
-				if (running == Running.RIGHT){
-					nextPoint = segment.rightPoint;
-					if (nextPoint == start){
-						running = Running.STOP;
-						//next = segStart;
-					}else{
-						next = nextPoint.toLeft.lower(segment);
-						if (next == null){
-							if (nextPoint.toRight != null && !nextPoint.toRight.isEmpty()){
-								next = nextPoint.toRight.last();
-							}
-							if (next == null){ // no to-right segment
-								next = nextPoint.toLeft.higher(segment);
-								running = Running.LEFT;
-							}
-						}else{
-							running = Running.LEFT;
-						}
-
-					}
-				}else{ // running == Running.LEFT
-					nextPoint = segment.leftPoint;
-					if (nextPoint == start){
-						running = Running.STOP;
-						//next = segStart;
-					}else{
-						next = nextPoint.toRight.lower(segment);
-						if (next == null){
-							if (nextPoint.toLeft != null && !nextPoint.toLeft.isEmpty()){
-								next = nextPoint.toLeft.last();
-							}
-							if (next == null){ // no to-left segment
-								next = nextPoint.toRight.higher(segment);
-								running = Running.RIGHT;
-							}
-						}else{
-							running = Running.RIGHT;
-						}
-
-					}
-				}
-
-				
-				
-				s+=currentPoint.name;
-
-
-
-				if (oldRunning == Running.LEFT){		
-					if (segment.isDiagonal){
-						//App.debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
-						segment.isDiagonal = false ; // no more a diagonal, clone it
-						Segment clone = segment.clone();
-						segment.removeFromPoints();
-						clone.addToPoints();
-					}
-					
-					if (running == Running.LEFT){
-						next.next = segment;
-					}
-
-				}else{ // oldRunning == Running.RIGHT					
-					if (segment.isDiagonal){
-						//App.debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
-						segment.isDiagonal = false ; // no more a diagonal, clone it
-						Segment clone = segment.clone();
-						segment.removeFromPoints();
-						clone.addToPoints();
-					}
-					
-					if (running == Running.RIGHT){
-						segment.next = next;
-					}
-				}
-				
-				currentPoint.usable--;
-				if (currentPoint.usable == 0){
-					polygonPoints.remove(currentPoint);
-				}
-					
-				
-			
-				
-				segment = next;
-				currentPoint = nextPoint;
-
-			}
-
-			/*
-			s+="\nabove : ";
-			for (Segment seg = segment ; seg != null ; seg = seg.next ){
-				s += seg+",";
-			}
-			s+="\nbelow : ";
-			for (Segment seg = segStart ; seg != null ; seg = seg.next ){
-				s += seg+",";
-			}
-			*/
-			
-			App.debug(s);
-			
-			triangulate(segStart, segment);
-		}
-		
-		
-		
-		
-
-	
-	}
-	
-	private boolean needsDiagonal(Segment seg1, Segment seg2){
-		//App.debug(seg1+"("+((int) (seg1.orientation*180/Math.PI))+"°)"+","+seg2+"("+((int) (seg2.orientation*180/Math.PI))+"°)");
-		if (seg1.orientation < seg2.orientation){
-			return true;
-		}
-		return false;
-	}
-	
-	
 	
 	
 	
@@ -1532,6 +1029,8 @@ public class PolygonTriangulation {
 
 
 
+	
+	
 
 
 
@@ -1542,8 +1041,300 @@ public class PolygonTriangulation {
 
 
 	
-	
 
+	private enum Chain {BOTH, BELOW, ABOVE}
+
+	
+	/**
+	 * triangulate since polygon has been cut into non-self-intersecting pieces
+	 */
+	public void triangulate(){
+		
+		for (TreeSet<Point> polygonPoints : polygonPointsList){
+			triangulate(polygonPoints);
+		}
+	}
+	
+	/**
+	 * triangulate a polygon : cut it into monotone pieces, then feed the fans list
+	 * @param polygonPoints
+	 */
+	private void triangulate(TreeSet<Point> polygonPoints){
+		String s = "set diagonals of ";
+		for (Point pt : polygonPoints){
+			s+=pt.name;
+			if (pt.needsDiagonal){
+				s+="(*)";
+			}
+		}
+		
+		App.debug(s);
+		
+		
+		// top and bottom (dummy) segments
+		Segment top = new Segment();
+		Segment bottom = new Segment();
+		bottom.above = top;
+		top.below = bottom;
+
+		
+		//////////////////////////////////////////////
+		// set diagonals
+		
+		for (Point pt : polygonPoints){
+			
+			s = pt.name + " : ";
+			
+			Segment above = null;
+			Segment below = null;
+
+		
+			// remove to-left segments
+			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
+				above = pt.toLeft.first().above;
+				below = pt.toLeft.last().below;
+				below.above = above;
+				above.below = below;
+				
+
+				if (pt.needsDiagonal){
+					//App.error("diagonal to right : "+below+"<"+pt.name+"<"+above);
+					Point pt2;
+					if (below.rightPoint.compareToOnly(above.rightPoint) < 0){
+						pt2 = below.rightPoint;
+					}else{
+						pt2 = above.rightPoint;
+					}					
+					
+					Segment diagonal = new Segment( Math.atan2(pt2.y - pt.y, pt2.x - pt.x), pt, pt2);
+					diagonal.addToPoints();
+					diagonal.isDiagonal = true;
+					pt.usable++;
+					pt2.usable++;
+									
+					//App.error("diagonal to right : "+diagonal);
+				}
+				
+			}else{ // search for the correct place for to-right segments
+				//App.error(pt.name);
+				boolean go = true;
+				for (Segment segment = bottom.above ; segment != top && go ; segment = segment.above){
+					double orientation = Math.atan2(pt.y - segment.leftPoint.y, pt.x - segment.leftPoint.x);
+					if (orientation < segment.orientation){ // found the place
+						go = false;
+						above = segment;
+						below = above.below;					
+					}		
+				}
+				if (go){ // when there are no segment between top and bottom
+					above = top;
+					below = above.below;
+				}
+				
+				if (pt.needsDiagonal){
+					//App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
+					if (below.isDiagonal){
+						below.removeFromPoints();
+						below.rightPoint.usable--;
+						pt.usable++;
+						below.rightPoint = pt;
+						below.addToPoints();
+						//App.error("below is diagonal, replace : "+below);
+						// remove below
+						below = below.below;
+						below.above = above;
+						above.below = below;
+					}else if (above.isDiagonal){
+						above.removeFromPoints();
+						above.rightPoint.usable--;
+						pt.usable++;
+						above.rightPoint = pt;
+						above.addToPoints();
+						//App.error("above is diagonal, replace : "+above);
+						// remove above
+						above = above.above;
+						below.above = above;
+						above.below = below;
+					}else{
+						Point pt2;
+						if (below.leftPoint.compareToOnly(above.leftPoint) < 0){
+							pt2 = above.leftPoint;
+						}else{
+							pt2 = below.leftPoint;
+						}			
+						Segment diagonal = new Segment( Math.atan2(pt.y - pt2.y, pt.x - pt2.x), pt2, pt);
+						diagonal.addToPoints();
+						diagonal.isDiagonal = true;
+						pt.usable++;
+						pt2.usable++;
+
+						//App.error("diagonal to left : "+diagonal);
+					}
+				}
+				
+			}
+			
+			
+			// put to-right segments
+			if (pt.toRight!=null){
+				for (Segment seg : pt.toRight){
+					below.above = seg;
+					seg.below = below;
+					below = seg;
+				}
+				below.above = above;
+				above.below = below;
+			}
+
+			
+
+			for (Segment seg = bottom.above ; seg != top; seg = seg.above){
+				s+=seg.toString()+",";
+			}
+			//App.debug(s);
+
+		}
+		
+		//////////////////////////////////////////////
+		// cut in monotone pieces
+		
+		while (!polygonPoints.isEmpty()){
+			s="Monotone piece : ";
+
+			Point start = polygonPoints.first();
+			Point currentPoint = start;
+			Point nextPoint;
+			Segment segStart = start.toRight.first();
+			Segment segment = segStart;
+			Segment next = null;
+
+			Running running = Running.RIGHT;
+			Running oldRunning;
+			
+			
+			while (running != Running.STOP){
+				oldRunning = running;
+				if (running == Running.RIGHT){
+					nextPoint = segment.rightPoint;
+					if (nextPoint == start){
+						running = Running.STOP;
+						//next = segStart;
+					}else{
+						next = nextPoint.toLeft.lower(segment);
+						if (next == null){
+							if (nextPoint.toRight != null && !nextPoint.toRight.isEmpty()){
+								next = nextPoint.toRight.last();
+							}
+							if (next == null){ // no to-right segment
+								next = nextPoint.toLeft.higher(segment);
+								running = Running.LEFT;
+							}
+						}else{
+							running = Running.LEFT;
+						}
+
+					}
+				}else{ // running == Running.LEFT
+					nextPoint = segment.leftPoint;
+					if (nextPoint == start){
+						running = Running.STOP;
+						//next = segStart;
+					}else{
+						next = nextPoint.toRight.lower(segment);
+						if (next == null){
+							if (nextPoint.toLeft != null && !nextPoint.toLeft.isEmpty()){
+								next = nextPoint.toLeft.last();
+							}
+							if (next == null){ // no to-left segment
+								next = nextPoint.toRight.higher(segment);
+								running = Running.RIGHT;
+							}
+						}else{
+							running = Running.RIGHT;
+						}
+
+					}
+				}
+
+				
+				
+				s+=currentPoint.name;
+
+
+
+				if (oldRunning == Running.LEFT){		
+					if (segment.isDiagonal){
+						//App.debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
+						segment.isDiagonal = false ; // no more a diagonal, clone it
+						Segment clone = segment.clone();
+						segment.removeFromPoints();
+						clone.addToPoints();	
+					}
+					
+					if (running == Running.LEFT){
+						next.next = segment;
+					}
+
+				}else{ // oldRunning == Running.RIGHT					
+					if (segment.isDiagonal){
+						//App.debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
+						segment.isDiagonal = false ; // no more a diagonal, clone it
+						Segment clone = segment.clone();
+						segment.removeFromPoints();
+						clone.addToPoints();
+					}
+					
+					if (running == Running.RIGHT){
+						segment.next = next;
+					}
+				}
+				
+				currentPoint.usable--;
+				if (currentPoint.usable == 0){
+					polygonPoints.remove(currentPoint);
+				}
+					
+				
+			
+				
+				segment = next;
+				currentPoint = nextPoint;
+
+			}
+
+			/*
+			s+="\nabove : ";
+			for (Segment seg = segment ; seg != null ; seg = seg.next ){
+				s += seg+",";
+			}
+			s+="\nbelow : ";
+			for (Segment seg = segStart ; seg != null ; seg = seg.next ){
+				s += seg+",";
+			}
+			*/
+			
+			App.debug(s);
+			
+			triangulate(segStart, segment);
+		}
+		
+		
+		
+		
+
+	
+	}
+	
+	private boolean needsDiagonal(Segment seg1, Segment seg2){
+		//App.debug(seg1+"("+((int) (seg1.orientation*180/Math.PI))+"°)"+","+seg2+"("+((int) (seg2.orientation*180/Math.PI))+"°)");
+		if (seg1.orientation < seg2.orientation){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	public void triangulate(Segment firstBelow, Segment firstAbove){
 		
