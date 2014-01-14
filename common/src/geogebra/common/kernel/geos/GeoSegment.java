@@ -255,7 +255,8 @@ public final boolean showInAlgebraView() {
 		if (!geo.isGeoSegment())
 			return false;
 		GeoSegment s = (GeoSegment) geo;
-		return startPoint.isEqual(s.startPoint) && endPoint.isEqual(s.endPoint);
+		return ((startPoint.isEqual(s.startPoint) && endPoint.isEqual(s.endPoint))
+				|(startPoint.isEqual(s.endPoint) && endPoint.isEqual(s.startPoint)));
 	}
 	
 	/**
