@@ -6,6 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
@@ -266,18 +267,14 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 					try {
 							AsyncOperation callback = new AsyncOperation(){
-								
-								{
-									if (inputField != null){
-										setProperty("caller", inputField.getTextBox());
-									}
-								}
-								
 
 								@Override
                                 public void callback(Object obj) {
-									if (!(obj instanceof GeoElement[])) return;
 									
+									if (!(obj instanceof GeoElement[])){
+										inputField.getTextBox().setFocus(true);
+										return;
+									}
 									GeoElement[] geos = (GeoElement[]) obj;
 									
 									// need label if we type just eg

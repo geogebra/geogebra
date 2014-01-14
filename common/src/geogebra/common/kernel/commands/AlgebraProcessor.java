@@ -571,7 +571,7 @@ public class AlgebraProcessor {
 								@Override
 								public void callback(Object obj){
 									String[] dialogResult = (String[])obj;
-									GeoElement[] geos;
+									GeoElement[] geos=null;
 									
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
@@ -585,13 +585,8 @@ public class AlgebraProcessor {
 											AlgebraProcessor.this.app.showError(ee.getMessage());
 											return;
 										}			
-										callback0.callback(geos);
 									}
-									
-//									Object caller = callback0.getProperty("caller");
-//									if (caller != null && caller instanceof FocusWidget) {
-//										((FocusWidget)caller).setFocus(true);
-//									}
+									callback0.callback(geos);
 								}
 								
 							};
