@@ -50,7 +50,7 @@ public class PNaCl {
     }
 
 	private native static boolean isBrowserSupportNaCl() /*-{
-	    return $wnd.navigator.mimeTypes && $wnd.navigator.mimeTypes[this.@geogebra.html5.cas.giac.PNaCl::DEFAULT_MIME_TYPE];
+	    return $wnd.navigator.mimeTypes && $wnd.navigator.mimeTypes[@geogebra.html5.cas.giac.PNaCl::DEFAULT_MIME_TYPE];
     }-*/;
 
 	/**
