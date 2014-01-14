@@ -705,10 +705,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Returns point capturing mode.
 	 */
 	final public int getPointCapturingMode() {
-		if (euclidianSettings1 == null) {
-			return pointCapturingMode;
-		}
-		return euclidianSettings1.getPointCapturingMode();
+		return pointCapturingMode;
 	}
 
 	/**
@@ -717,19 +714,12 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @return true if setting changed
 	 */
 	public boolean setPointCapturing(int mode) {
-		if (euclidianSettings1 == null) {
-			if (pointCapturingMode == mode) {
-				return false;
-			}
-			pointCapturingMode = mode;
-			settingChanged();
-			return true;
-		}
-		if (euclidianSettings1.setPointCapturing(mode)) {
-			settingChanged();
-			return true;
-		}
 
+		if (pointCapturingMode == mode) {
+			return false;
+		}
+		pointCapturingMode = mode;
+		settingChanged();
 		return false;
 	}
 
