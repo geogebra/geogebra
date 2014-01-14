@@ -2278,24 +2278,43 @@ LatexCmds.supscript =
 LatexCmds['^'] = bind(SupSub, '^', 'sup', '^');
 
 var Fraction =
-LatexCmds.frac =
-LatexCmds.dfrac =
-LatexCmds.cfrac =
-LatexCmds.fraction = P(MathCommand, function(_, _super) {
-  _.ctrlSeq = '\\frac';
-  _.htmlTemplate =
-      '<span class="fraction non-leaf">'
-    +   '<span class="numerator">&0</span>'
-    +   '<span class="denominator">&1</span>'
-    +   '<span style="display:inline-block;width:0">&nbsp;</span>'
-    + '</span>'
-  ;
-  _.textTemplate = ['(', '/', ')'];
-  _.finalizeTree = function() {
-    this.upInto = this.ch[R].upOutOf = this.ch[L];
-    this.downInto = this.ch[L].downOutOf = this.ch[R];
-  };
-});
+	LatexCmds.frac =
+	LatexCmds.dfrac =
+	LatexCmds.cfrac =
+	LatexCmds.fraction = P(MathCommand, function(_, _super) {
+	  _.ctrlSeq = '\\frac';
+	  _.htmlTemplate =
+	      '<span class="fraction non-leaf">'
+	    +   '<span class="numerator">&0</span>'
+	    +   '<span class="denominator">&1</span>'
+	    +   '<span style="display:inline-block;width:0">&nbsp;</span>'
+	    + '</span>'
+	  ;
+	  _.textTemplate = ['(', '/', ')'];
+	  _.finalizeTree = function() {
+	    this.upInto = this.ch[R].upOutOf = this.ch[L];
+	    this.downInto = this.ch[L].downOutOf = this.ch[R];
+	  };
+	});
+
+// eg FormulaText["\lim_{x \to 33} \left( x^2 \right)"]
+var Limit =
+	LatexCmds.lim =
+	LatexCmds.lim_ = P(MathCommand, function(_, _super) {
+	  _.ctrlSeq = '\\lim_';
+	  _.htmlTemplate =
+	      '<span class="limit non-leaf">'
+	    +   '<span class="limittop">lim</span>'
+	    +   '<span class="limitbottom">&0</span>'
+	    +   '<span style="display:inline-block;width:0">&nbsp;</span>'
+	    + '</span>'
+	  ;
+	  _.textTemplate = ['(', '/', ')'];
+	  _.finalizeTree = function() {
+	    this.upInto = this.ch[R].upOutOf = this.ch[L];
+	    this.downInto = this.ch[L].downOutOf = this.ch[R];
+	  };
+	});
 
 var LiveFraction =
 LatexCmds.over =
@@ -3479,7 +3498,7 @@ hom : 1,
 inf : 1,
 ker : 1,
 lg : 1,
-lim : 1,
+//lim : 1,
 ln : 1,
 log : 1,
 max : 1,

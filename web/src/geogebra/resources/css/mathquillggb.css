@@ -199,21 +199,28 @@
 .mathquillggb-rendered-math sub .unary-operator {
   padding-left: .1em;
 }
-.mathquillggb-rendered-math sup.limit,
-.mathquillggb-rendered-math sub.limit,
 .mathquillggb-rendered-math sup.nthroot,
 .mathquillggb-rendered-math sub.nthroot {
   font-size: 80%;
+}
+.mathquillggb-rendered-math sup .limit,
+.mathquillggb-rendered-math sub .limit {
+  font-size: 100%;
+  vertical-align: -0.4em;
 }
 .mathquillggb-rendered-math sup .fraction,
 .mathquillggb-rendered-math sub .fraction {
   font-size: 70%;
   vertical-align: -0.4em;
 }
+.mathquillggb-rendered-math sup .limittop,
+.mathquillggb-rendered-math sub .limittop,
 .mathquillggb-rendered-math sup .numerator,
 .mathquillggb-rendered-math sub .numerator {
   padding-bottom: 0;
 }
+.mathquillggb-rendered-math sup .limitbottom,
+.mathquillggb-rendered-math sub .limitbottom,
 .mathquillggb-rendered-math sup .denominator,
 .mathquillggb-rendered-math sub .denominator {
   padding-top: 0;
@@ -280,6 +287,8 @@
 .mathquillggb-rendered-math x:default {
   display: inline-block;
 }
+.mathquillggb-rendered-math .limittop,
+.mathquillggb-rendered-math .limitbottom,
 .mathquillggb-rendered-math .numerator,
 .mathquillggb-rendered-math .denominator {
   display: block;
@@ -293,6 +302,21 @@
   margin-bottom: -0.115em;
 }
 .mathquillggb-rendered-math .denominator {
+  float: right;
+  width: 100%;
+  padding: 0 0.1em;
+  margin-right: -0.1em;
+  margin-left: -0.1em;
+}
+.mathquillggb-rendered-math .limittop {
+  width: 100%;
+  padding: 0 0.1em;
+  margin-right: -0.1em;
+  margin-left: -0.1em;
+  margin-bottom: -0.115em;
+}
+.mathquillggb-rendered-math .limitbottom {
+  font-size: 80%;
   float: right;
   width: 100%;
   padding: 0 0.1em;
