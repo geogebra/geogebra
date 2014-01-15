@@ -681,6 +681,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	public Path getBoundary() {
+		boolean suppress = this.cons.isSuppressLabelsActive();
 		this.getConstruction().getKernel().setSilentMode(true);
 
 		GeoPointND[] pointsForPolyLine = new GeoPointND[getPointsLength() + 1];
@@ -691,7 +692,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 				pointsForPolyLine);
 
 		this.getConstruction().getKernel().setSilentMode(false);
-
+		cons.setSuppressLabelCreation(suppress);
 		return pl;
 	}
 
