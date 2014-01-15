@@ -1108,17 +1108,21 @@ public abstract class GgbAPI implements JavaScriptAPI{
     /**
      * Cast undo
      */
-    public void undo(){
+    public void undo(boolean repaint){
     	app.getKernel().undo();
-    	app.doRepaintViews();
+    	if(repaint){
+    		app.doRepaintViews();
+    	}
     }
     
     /**
      * Cast redo
      */
-    public void redo(){
+    public void redo(boolean repaint){
     	app.getKernel().redo();
-    	app.doRepaintViews();
+    	if(repaint){
+    		app.doRepaintViews();
+    	}
     }
     
     /**

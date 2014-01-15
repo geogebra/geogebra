@@ -425,12 +425,12 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@geogebra.html5.main.GgbAPI::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
 		
-		$wnd[ggbApplet].undo = function() {
-				ggbAPI.@geogebra.html5.main.GgbAPI::undo()();
+		$wnd[ggbApplet].undo = function(repaint) {
+				ggbAPI.@geogebra.html5.main.GgbAPI::undo(Z)(repaint == true);
 		};
 		
-		$wnd[ggbApplet].redo = function() {
-				ggbAPI.@geogebra.html5.main.GgbAPI::redo()();
+		$wnd[ggbApplet].redo = function(repaint) {
+				ggbAPI.@geogebra.html5.main.GgbAPI::redo(Z)(repaint == true);
 		};
 		
 		$wnd[ggbApplet].newConstruction = function(){ 

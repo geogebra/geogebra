@@ -12,7 +12,7 @@ public class GeoScriptRunner implements EventListener {
 	}
 
 	public void sendEvent(Event evt) {
-		if (app.isScriptingDisabled()) {
+		if (app.isScriptingDisabled() || evt.target == null) {
 			return;
 		}
 		Script script = evt.target.getScript(evt.type);
