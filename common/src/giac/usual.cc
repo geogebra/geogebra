@@ -6220,13 +6220,13 @@ namespace giac {
   static complex_long_double lngamma(complex_long_double x){
     complex_long_double res;
     if (x.real()<0.5)
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
       res=std::log(M_PI) -std::log(std::sin(M_PI*x)) - lngamma(1.-x);
 #else
       res=std::log(M_PIL) -std::log(std::sin(M_PIL*x)) - lngamma(1.L-x);
 #endif
 	else {
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
       x=x-1.;
 #else
       x=x-1.L;
@@ -6235,7 +6235,7 @@ namespace giac {
       for (int i = 1; i < 9; ++i) {
 	a+= L9[i]/(x+(long_double)(i));
       }
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
       res= (LN_SQRT2PI + std::log(a) - 7.) + (x+.5)*(std::log(x+7.5)-1.);
 #else
       res= (LN_SQRT2PI + std::log(a) - 7.L) + (x+.5L)*(std::log(x+7.5L)-1.L);
@@ -7063,7 +7063,7 @@ namespace giac {
 	  if (std::abs(pi)<1e-17)
 	    break;
 	}
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
 	res=(2.0/std::sqrt(M_PI))*z*res;
 #else
 	res=(2.0L/std::sqrt(M_PI))*z*res;
@@ -7079,7 +7079,7 @@ namespace giac {
 	// asymptotic expansion at infinity of int(exp(-t^2),t=x..inf)
 	// z=1/x
 	// z*exp(-x^2)*(1/2 - 1/4 z^2 +3/8 z^4-15/16 z^6 + ...)
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
 	z=1.0/z;
 	complex_long_double z2=z*z/2.0,res=0,pi=0.5;
 #else
@@ -7092,7 +7092,7 @@ namespace giac {
 	  if (std::abs(pi)<1e-16)
 	    break;
 	}
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
 	res=complex_long_double(2.0/std::sqrt(M_PI))*std::exp(-1.0/z/z)*z*res;
 #else
 	res=complex_long_double(2.0/std::sqrt(M_PI))*std::exp(-1.0L/z/z)*z*res;
@@ -7111,7 +7111,7 @@ namespace giac {
 	for (long_double n=40;n>=1;n--){
 	  res=(n/2)/(z+res);
 	}
-#ifndef HAVE_LONG_DOUBLE
+#if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
 	res=1.0/(z+res);
 #else
 	res=1.0L/(z+res);

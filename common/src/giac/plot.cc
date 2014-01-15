@@ -4073,7 +4073,7 @@ namespace giac {
     gen M,N;
     vecteur n;
     if (perpendiculaire_commune(makevecteur(a1,a2),makevecteur(b1,b2),M,N,n,contextptr)){
-      if (is_zero(M-N))
+      if (is_zero(ratnormal(M-N)))
 	return remove_not_in_segment(b1,b2,bsub,remove_not_in_segment(a1,a2,asub,makevecteur(symb_pnt(M,default_color(contextptr),contextptr)),contextptr),contextptr);
     }
     return vecteur(0);

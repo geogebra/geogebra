@@ -40,7 +40,7 @@ namespace giac {
   typedef vecteur::const_iterator const_iterateur;
   typedef vecteur::iterator iterateur;
   typedef std::complex<double> complex_double;
-#ifdef HAVE_LONG_DOUBLE
+#if defined(HAVE_LONG_DOUBLE) && !defined(PNACL)
   typedef long double long_double;
 #else
   typedef double long_double;

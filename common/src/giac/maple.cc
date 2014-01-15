@@ -328,7 +328,7 @@ namespace giac {
     eval(a,level,contextptr);
     return (emcctime()-t1)/1000;
 #endif
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(PNACL)
     unsigned u1=clock();
     struct timezone tz;
     struct timeval debut,fin;

@@ -1049,7 +1049,10 @@ namespace giac {
 	      }
 	      gof=quotesubst(g,vin,vout,contextptr);
 	      gof=_exp2pow(gof/x,contextptr);
+	      // bool b=complex_mode(contextptr);
+	      // complex_mode(true,contextptr);
 	      gof=recursive_normal(gof,contextptr);
+	      // complex_mode(b,contextptr);
 	      // Sucess! Now integration of gof on the unit circle using residues
 	      *logptr(contextptr) << gettext("Searching int of ") << gof << gettext(" where ") << x << gettext(" is on the unit circle, using residues") << endl;
 	      vecteur w=singular(gof,x,contextptr);

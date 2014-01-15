@@ -6328,6 +6328,8 @@ namespace giac {
     case _CPLX__CPLX: 
       adjust_complex_display(rdiv(a*conj(b,contextptr),b.squarenorm(contextptr),contextptr),a,b);
     case _DOUBLE___CPLX: case _FLOAT___CPLX: case _INT___CPLX: case _ZINT__CPLX: case _REAL__CPLX:
+      if (is_one(a))
+	return inv(b,contextptr);
       return rdiv(a*conj(b,contextptr),b.squarenorm(contextptr),contextptr);
     case _DOUBLE___DOUBLE_:
       return a._DOUBLE_val/b._DOUBLE_val;
