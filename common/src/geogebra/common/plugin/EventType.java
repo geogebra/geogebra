@@ -4,6 +4,7 @@ public enum EventType {
 	CLICK("click"),
 	UPDATE("update"),
 	ADD("add"),
+	STOREUNDO("add"),
 	REMOVE("remove"),
 	RENAME("rename");
 	

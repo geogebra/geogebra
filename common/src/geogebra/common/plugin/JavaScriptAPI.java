@@ -537,6 +537,8 @@ public interface JavaScriptAPI {
 	 * @see #setChangeListener
 	 */
 	public void unregisterObjectClickListener(String objName);
+	
+	public void registerStoreUndoListener(String objName);
 
 	public void drawToImage(String label,double[] x, double[] y);
 	

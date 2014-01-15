@@ -17,6 +17,7 @@ public abstract class ScriptManager implements EventListener{
 	protected HashMap<GeoElement, String> updateListenerMap;
 	protected HashMap<GeoElement, String> clickListenerMap;
 	protected ArrayList<String> addListeners = new ArrayList<String>();
+	protected ArrayList<String> storeUndoListeners = new ArrayList<String>();
 	protected ArrayList<String>	removeListeners  = new ArrayList<String>();
 	protected ArrayList<String>	renameListeners  = new ArrayList<String>();
 	protected ArrayList<String>	updateListeners  = new ArrayList<String>();
@@ -51,6 +52,9 @@ public abstract class ScriptManager implements EventListener{
 		case ADD:
 			callListeners(addListeners, evt);
 			break;
+		case STOREUNDO:
+			callListeners(storeUndoListeners, evt);
+			break;
 		case REMOVE:
 			callListeners(removeListeners, evt);
 			break;
@@ -65,6 +69,9 @@ public abstract class ScriptManager implements EventListener{
 	
 	private static Object[] getArguments(Event evt) {
 		GeoElement geo = evt.target;
+		if(geo == null){
+			return new Object[0];
+		}
 		String label = geo.getLabel(StringTemplate.defaultTemplate);
 		if (evt.type == EventType.RENAME) {
 			return new Object[] {geo.getOldLabel(), label};
@@ -105,6 +112,10 @@ public abstract class ScriptManager implements EventListener{
 		if (addListeners != null) {
 			addListeners.clear();
 		}
+		
+		if (storeUndoListeners != null) {
+			storeUndoListeners.clear();
+		}
 
 		if (removeListeners != null) {
 			removeListeners.clear();
@@ -140,6 +151,15 @@ public abstract class ScriptManager implements EventListener{
 		registerGlobalListener(addListeners,JSFunctionName,"registerAddListener");
 	}
 	
+	/**
+	 * Registers a JavaScript function as an add listener for the applet's construction.
+	 *  Whenever a new object is created in the GeoGebraApplet's construction, the JavaScript 
+	 *  function JSFunctionName is called using the name of the newly created object as a single argument. 
+	 */
+	public synchronized void registerStoreUndoListener(String JSFunctionName) {
+		registerGlobalListener(storeUndoListeners,JSFunctionName,"registerStoreUndoListener");
+	}
+	
 	private void registerGlobalListener(ArrayList<String> listenerList,
 			String jSFunctionName, String string) {
 		if (jSFunctionName == null || jSFunctionName.length() == 0) {
@@ -149,11 +169,10 @@ public abstract class ScriptManager implements EventListener{
 		initJavaScript();
 		
 		// init list
-		if (listenerList == null) {
-			listenerList = new ArrayList<String>();			
+		if (listenerList != null) {
+			listenerList.add(jSFunctionName);			
 		}		
-		listenerList.add(jSFunctionName);				
-		App.debug(string + ": " + jSFunctionName);
+		App.debug(string + " (" + listenerList.size()+") : " + jSFunctionName);
 		
 	}
 

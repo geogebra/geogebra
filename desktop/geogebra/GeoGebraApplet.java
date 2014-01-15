@@ -615,6 +615,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public synchronized void unregisterObjectClickListener(String objName) {
 		getAppletImplementation().unregisterObjectClickListener(objName);
 	}
+	
+	public synchronized void registerStoreUndoListener(String objName) {
+		getAppletImplementation().registerStoreUndoListener(objName);
+	}
 
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		getAppletImplementation().unregisterRemoveListener(JSFunctionName);

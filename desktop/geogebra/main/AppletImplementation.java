@@ -1488,4 +1488,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ob.toString();
 	}
 
+	public void registerStoreUndoListener(String objName) {
+		ggbApi.registerStoreUndoListener(objName);
+		
+	}
+
 }

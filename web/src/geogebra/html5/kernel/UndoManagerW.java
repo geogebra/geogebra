@@ -3,6 +3,8 @@ package geogebra.html5.kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.main.App;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventType;
 import geogebra.common.util.CopyPaste;
 
 import com.google.gwt.storage.client.Storage;
@@ -94,6 +96,7 @@ public class UndoManagerW extends UndoManager {
 			AppState appStateToAdd = new AppStateWeb(undoXML.toString());
 			iterator.add(appStateToAdd);
 			pruneStateList();
+			app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
 
 		} catch (Exception e) {
 			App.debug("storeUndoInfo: " + e.toString());

@@ -662,6 +662,10 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		app.getScriptManager().unregisterObjectClickListener(objName);
 	}
 	
+	public synchronized void registerStoreUndoListener(String JSFunctionName) {
+		app.getScriptManager().registerStoreUndoListener(JSFunctionName);
+	}
+	
 	public boolean isMoveable(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) 

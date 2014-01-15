@@ -15,6 +15,8 @@ package geogebra.kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.main.App;
+import geogebra.common.plugin.Event;
+import geogebra.common.plugin.EventType;
 import geogebra.common.util.CopyPaste;
 import geogebra.io.MyXMLioD;
 import geogebra.main.AppD;
@@ -137,6 +139,7 @@ public class UndoManagerD extends UndoManager {
 					AppState appStateToAdd = new AppStateDesktop(undoInfo);
 					iterator.add(appStateToAdd);
 					pruneStateList();
+					app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
 					
 				} catch (Exception e) {
 					App.debug("storeUndoInfo: " + e.toString());

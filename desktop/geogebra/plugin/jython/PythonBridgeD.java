@@ -165,7 +165,9 @@ public class PythonBridgeD extends PythonBridge implements EventListener, GeoEle
 	 * Implementation of EventListener
 	 */
 	public void sendEvent(Event evt) {
-		pyInterface.handleEvent(evt.type.getName(), evt.target);
+		if(evt.target != null){
+			pyInterface.handleEvent(evt.type.getName(), evt.target);
+		}
 	}
 
 	public void reset() {
