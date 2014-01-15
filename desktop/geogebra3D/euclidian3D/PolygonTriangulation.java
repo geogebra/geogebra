@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -21,6 +22,58 @@ import java.util.TreeSet;
  *
  */
 public class PolygonTriangulation {
+	
+	protected Point nextNewPointForNonSelfIntersectingPolygon = null;
+	
+	final private Comparator<Point> nonSelfIntersectingPolygonPointComparator = new Comparator<Point>() {
+
+		public int compare(Point p1, Point p2) {
+			
+			if (p1 == p2){
+				return 0;
+			}
+			
+			if (p1.id == p2.id){
+				App.error("same ids");
+				App.debug(p1.debugSegments());
+				App.debug(p2.debugSegments());
+				
+				// copy segments
+				if (p1.toRight != null){
+					if (p2.toRight == null){
+						p2.toRight = new TreeSet<Segment>();
+					}
+					for (Segment seg : p1.toRight){
+						seg.leftPoint = p2;
+						p2.toRight.add(seg);
+					}
+				}
+
+				if (p1.toLeft != null){
+					if (p2.toLeft == null){
+						p2.toLeft = new TreeSet<Segment>();
+					}
+					for (Segment seg : p1.toLeft){
+						seg.rightPoint = p2;
+						p2.toLeft.add(seg);
+					}
+				}
+				
+				// add diagonal need
+				if (p1.needsDiagonal){
+					p2.needsDiagonal = true;
+				}
+				
+				nextNewPointForNonSelfIntersectingPolygon = p2;
+				
+				return 0;
+			}
+			
+			
+			return p1.compareToOnly(p2);
+		}
+		
+	};
 	
 
 	private class Point implements Comparable<Point>{
@@ -775,11 +828,11 @@ public class PolygonTriangulation {
 		
 		polygonPointsList.clear();
 		
-		//App.debug("=========== non self-intersecting polygons ==============");
+		App.error("=========== non self-intersecting polygons ==============");
 		
 
 		while (!pointSet.isEmpty()){
-			TreeSet<Point> polygonPoints = new TreeSet<Point>();
+			TreeSet<Point> polygonPoints = new TreeSet<Point>(nonSelfIntersectingPolygonPointComparator);
 			Point start = pointSet.first();
 			Point currentPoint; 
 			Point currentPointNew;
@@ -823,7 +876,7 @@ public class PolygonTriangulation {
 					}
 				}else{ // running == Running.LEFT
 					nextPoint = segment.leftPoint;
-					if (nextPoint == start){
+					if (nextPoint == start && start.toRight.higher(segStart) == segment){ // check if there are no segment between current and segStart
 						running = Running.STOP;
 						next = segStart;
 					}else{
@@ -854,6 +907,7 @@ public class PolygonTriangulation {
 					nextPointNew = nextPoint.clone();
 				}else{					
 					nextPointNew = startPointNew;
+					//App.error(nextPointNew.debugSegments());
 				}
 				if (segment.running == Running.RIGHT){
 					segment.leftPoint = currentPointNew;
@@ -867,8 +921,11 @@ public class PolygonTriangulation {
 				// says if the point needs a diagonal
 				nextPointNew.needsDiagonal = needsDiagonal;
 
-				// add current point to current polygon
+				// add current point to current polygon, check if not already in it
+				nextNewPointForNonSelfIntersectingPolygon = nextPointNew;
 				polygonPoints.add(nextPointNew);
+				nextPointNew = nextNewPointForNonSelfIntersectingPolygon;
+				//App.debug(nextPointNew.debugSegments());
 				
 				// remove current point if no more segment
 				if (currentPoint.hasNoSegment()){
@@ -900,6 +957,7 @@ public class PolygonTriangulation {
 		}
 
 		
+		App.error("=========== END ==============");
 
 	}
 	
@@ -1065,6 +1123,8 @@ public class PolygonTriangulation {
 				
 				// add point to set
 				pointSet.add(pt);
+				
+				//App.error(pt.debugSegments());
 			}
 		}
 		
@@ -1141,6 +1201,7 @@ public class PolygonTriangulation {
 		
 		App.debug(s);
 		
+
 		
 		// top and bottom (dummy) segments
 		Segment top = new Segment();
@@ -1266,6 +1327,7 @@ public class PolygonTriangulation {
 
 		}
 		
+		
 		//////////////////////////////////////////////
 		// cut in monotone pieces
 		
@@ -1358,12 +1420,19 @@ public class PolygonTriangulation {
 					}
 				}
 				
+				/*
 				currentPoint.usable--;
 				if (currentPoint.usable == 0){
 					polygonPoints.remove(currentPoint);
 				}
+				*/
 					
-				
+				if (currentPoint.hasNoSegment()){
+					polygonPoints.remove(currentPoint);
+					App.debug("remove : "+currentPoint.name);
+				}else{
+					App.debug("keep : "+currentPoint.name);
+				}
 			
 				
 				segment = next;
@@ -1381,6 +1450,14 @@ public class PolygonTriangulation {
 				s += seg+",";
 			}
 			*/
+			
+			if (start.hasNoSegment()){
+				polygonPoints.remove(start);
+				App.debug("remove : "+start.name);
+			}else{
+				App.debug("keep : "+start.name);
+			}
+		
 			
 			App.debug(s);
 			
