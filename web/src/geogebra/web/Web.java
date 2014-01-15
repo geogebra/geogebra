@@ -7,6 +7,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
+import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
@@ -87,6 +88,9 @@ public class Web implements EntryPoint {
 		} else if (WebStatic.currentGUI.equals(GuiToLoad.APP)) {
 			loadAppAsync();
 		}
+		
+		//just debug for now
+		PNaCl.exportPNaCltoConsole();
 	}
 
 	private void loadExtensionAsync() {
@@ -209,7 +213,7 @@ public class Web implements EntryPoint {
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
 		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags);
-	    
+	   
     }
 
 }

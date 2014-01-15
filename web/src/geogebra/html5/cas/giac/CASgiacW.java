@@ -26,7 +26,6 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	/** flag indicating that JS file was loaded */
 	boolean jsLoaded = false;
 	private Evaluate giac;
-	private PNaCl PNaCl;
 	
 	/**
 	 * Creates new CAS
@@ -44,8 +43,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		// asynchronous initialization, runs update as callback
 		//try NaCl first
 		if (geogebra.html5.cas.giac.PNaCl.isEnabled()) {
-			this.PNaCl = new PNaCl();
-			this.PNaCl.initialize();
+			geogebra.html5.cas.giac.PNaCl.get().initialize();;
 		} else if(Browser.isFloat64supported()){
 			initialize();
 		}

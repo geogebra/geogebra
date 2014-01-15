@@ -2,6 +2,7 @@ package geogebra.html5.cas.giac;
 
 import geogebra.common.main.App;
 import geogebra.html5.event.CustomEvent;
+import geogebra.html5.util.EmbedElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.JavaScriptEventHandler;
 import geogebra.html5.util.URL;
@@ -26,8 +27,8 @@ public class PNaCl {
 	private static final String DEFAULT_MIME_TYPE = "application/x-nacl" ;
 	private static final String data_name = "giac";
 	private static final String data_tools = "pnacl newlib glibc linux";
-	private static final String data_configs = "Debug Release";
-	private static final String data_path = "{tc}{config}";
+	private static final String data_configs = "giac_nacl/pnacl/Debug giac_nacl/pnacl/Release";
+	private static final String data_path = "{config}";
 	private static enum STATUS {
 		CREATING_EMBED,
 		CRASHED,
@@ -37,6 +38,8 @@ public class PNaCl {
 		DOES_NOT_SUPPORT_NACL_OR_NACL_DISABLED,
 		WAITING
 	};
+	
+	private static PNaCl INSTANCE = null;
 
 	private STATUS currentStatus = STATUS.PAGE_LOADED;
 	
@@ -50,20 +53,19 @@ public class PNaCl {
     }
 
 	private native static boolean isBrowserSupportNaCl() /*-{
-	    return $wnd.navigator.mimeTypes && $wnd.navigator.mimeTypes[@geogebra.html5.cas.giac.PNaCl::DEFAULT_MIME_TYPE];
+	    return ($wnd.navigator.mimeTypes !== undefined) && ($wnd.navigator.mimeTypes[@geogebra.html5.cas.giac.PNaCl::DEFAULT_MIME_TYPE] !== undefined);
     }-*/;
 
 	/**
 	 * the naCl module
 	 */
-	Element naclModule;
+	EmbedElement naclModule;
 
 	/**
 	 * Initializing CAS
 	 */
 	public void initialize() {
-	    // TODO Auto-generated method stub
-	    
+	    DOMContentLoaded();
     }
 	
 	private boolean isHostToolchain(String tool) {
@@ -88,7 +90,7 @@ public class PNaCl {
 	    moduleEl.setAttribute("width", String.valueOf(width));
 	    moduleEl.setAttribute("height", String.valueOf(height));
 	    moduleEl.setAttribute("path", path);
-	    moduleEl.setAttribute("src", path + '/' + name + ".nmf");
+	    moduleEl.setAttribute("src",  path + '/' + name + ".nmf");
 
 	    // Add any optional arguments
 	    if (attrs != null) {
@@ -109,6 +111,7 @@ public class PNaCl {
 	    Element listenerDiv = Document.get().createDivElement();
 	    listenerDiv.setAttribute("id", "listener");
 	    Document.get().getBody().appendChild(listenerDiv);
+	    attachDefaultListeners();
 	    listenerDiv.appendChild(moduleEl);
 
 	    // Host plugins don't send a moduleDidLoad message. We'll fake it here.
@@ -186,9 +189,10 @@ public class PNaCl {
 		  return new JavaScriptEventHandler() {
 			
 			public void execute(JavaScriptObject event) {
-				naclModule = Document.get().getElementById("nacl_module");
+				naclModule = EmbedElement.as(Document.get().getElementById("nacl_module"));
 			    updateStatus("RUNNING");
 			}
+
 		};
 	    
 
@@ -232,7 +236,7 @@ public class PNaCl {
 
 	      // We use a non-zero sized embed to give Chrome space to place the bad
 	      // plug-in graphic, if there is a problem.
-	      attachDefaultListeners();
+	      //attachDefaultListeners(); //called in createNaclModule
 	      createNaClModule(name, tool, path, width, height, attrs);
 	    } else {
 	      // It's possible that the Native Client module onload event fired
@@ -242,7 +246,49 @@ public class PNaCl {
 	      updateStatus("Waiting.");
 	    }
     }
-	  
+
+	/**
+	 * @return the instance of PNACL;
+	 */
+	public static PNaCl get() {
+	   if (INSTANCE == null) {
+		   INSTANCE = new PNaCl();
+	   }
+	   return INSTANCE;
+    }
+	
+	/**
+	 * @param msg post Message to to embed element
+	 */
+	public void postMessage(String msg) {
+		naclModule.postMessage(msg);
+	};
+	
+	
+	
+	/* JUST for debug */
+	
+	
+
+	public static native void exportPNaCltoConsole() /*-{
+			$wnd.giacPNaClInit = $entry(@geogebra.html5.cas.giac.PNaCl::initPNaClFromConsole());
+	}-*/;
+	
+	public static void sendToPNaClCas(String msg) {
+		PNaCl.get().postMessage(msg);
+	}
+	
+	public static void initPNaClFromConsole() {
+		PNaCl.get().initialize();
+		PNaCl.get();
+		PNaCl.exportPostMessageToConsole();
+	}
+
+	private static native void exportPostMessageToConsole() /*-{
+	    $wnd.giacPNaCl_postMessage = $entry(@geogebra.html5.cas.giac.PNaCl::sendToPNaClCas(Ljava/lang/String;));
+    }-*/;
+	
+	
 	  
 
 }
