@@ -845,20 +845,21 @@ SymbolicParametersBotanaAlgo {
 
 		if (!geo.isGeoPoint())
 			return false;
+		
+		if (geo.isGeoElement3D()){
+			return geo.isEqual(this); //do the 3D test
+		}
+
 
 		GeoPoint P = (GeoPoint) geo;
 
-		if (!(isDefined() && P.isDefined()))
+		if (!(isDefined() && geo.isDefined()))
 			return false;
 
 		// both finite
 		if (isFinite() && P.isFinite()){
-			if (geo.isGeoElement3D()){
-				return geo.isEqual(this); //do the 3D test
-			} else {
-				return Kernel.isEqual(inhomX, P.inhomX)
-						&& Kernel.isEqual(inhomY, P.inhomY);
-			}
+			return Kernel.isEqual(inhomX, P.inhomX)
+					&& Kernel.isEqual(inhomY, P.inhomY);
 		}
 		else if (isInfinite() && P.isInfinite())
 			return linDep(P);
