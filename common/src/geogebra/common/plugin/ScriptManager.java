@@ -109,6 +109,8 @@ public abstract class ScriptManager implements EventListener{
 	 * needed for eg File -> New
 	 */
 	public void reset() {
+		if (!listenersEnabled) return;
+		
 		if (addListeners != null) {
 			addListeners.clear();
 		}
