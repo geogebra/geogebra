@@ -128,7 +128,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private FlowPanel wrappedPanel;
 	private OptionsTab basicTab;
-	
+
 	//Basic
 	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
@@ -477,23 +477,23 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
 		private GColor selectedColor;
-				
+
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
 			setModel(model);
 
 			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
-			
+
 			colorChooserW = new ColorChooserW(app, 800, 210, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
 				public void onColorChange() {
 					applyChanges(false);
-                }
+				}
 
 				public void onAlphaChange() {
 					applyChanges(true);
-				
+
 				}});
 
 			mainPanel = new FlowPanel();
@@ -513,7 +513,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasOpacity) {
 			// TODO Auto-generated method stub
-				GColor selectedBGColor = null;
+			GColor selectedBGColor = null;
 			float alpha = 1;
 			GeoElement geo0 = model.getGeoAt(0);
 			selectedColor = null;
@@ -667,7 +667,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			namePanel = new FlowPanel();
 			nameLabel = new Label();
 			inputPanelName.insert(nameLabel, 0);
-			
+
 			namePanel.add(inputPanelName);
 			mainWidget.add(namePanel);
 
@@ -911,9 +911,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setSelectedItem(String item) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 
 	}
@@ -1051,9 +1051,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 		public void setSelectedItem(String item) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 
 	} 
@@ -1916,16 +1916,20 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		private FlowPanel secondLine;
 
+		private FlowPanel editorPanel;
 		private FlowPanel btnPanel;
 		private Button btnOk;
 		private Button btnCancel;
-		
+
 		private boolean secondLineVisible = false;
 		private GeoTextEditor editor;
 		private TextEditAdvancedPanel advancedPanel;
 
 		private TextPreviewPanelW previewer;
 		private GeoText orig;
+		
+		// ugly hack preventing infinite loop of update()
+		private boolean redrawFromPreview; 
 		public TextOptionsPanel() {
 
 			model = new TextOptionsModel(app, this);
@@ -1953,20 +1957,20 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					boolean isCustom = (lbSize.getSelectedIndex() == 7);
 					if (isCustom) {
 						String currentSize = Math
-						        .round(model.getTextPropertiesAt(0)
-						                .getFontSizeMultiplier() * 100)
-						        + "%";
+								.round(model.getTextPropertiesAt(0)
+										.getFontSizeMultiplier() * 100)
+										+ "%";
 
 						GOptionPaneW.INSTANCE.showInputDialog(app,
-						        loc.getPlain("EnterPercentage"), currentSize,
-						        null, new AsyncOperation() {
-							
-							        @Override
-							        public void callback(Object obj) {
-							        	String[] dialogResult = (String[])obj;
-								        model.applyFontSizeFromString(dialogResult[1]);
-							        }
-						        });
+								loc.getPlain("EnterPercentage"), currentSize,
+								null, new AsyncOperation() {
+
+							@Override
+							public void callback(Object obj) {
+								String[] dialogResult = (String[])obj;
+								model.applyFontSizeFromString(dialogResult[1]);
+							}
+						});
 
 					} else {
 						model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
@@ -2000,9 +2004,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 					public void onClick(ClickEvent event) {
 						model.setLaTeX(isLatex(), true);
-	                    updatePreview();
+						updatePreview();
 					}});
-				
+
 				// decimal places
 				lbDecimalPlaces = new ListBox();
 				for (String item : loc.getRoundingMenu()) {
@@ -2035,31 +2039,32 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				mainPanel.add(firstLine);
 				mainPanel.add(secondLine);
 				secondLineVisible = true;
-				
-				mainPanel.add(editor);
-				
+
+			
+				editorPanel = new FlowPanel();
+				editorPanel.add(editor);
 				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
-				previewer = advancedPanel.getPreviewer();
-				mainPanel.add(advancedPanel);
-				//mainPanel.add(previewer.getPanel());
-				
+				redrawFromPreview = false;
+				editorPanel.add(advancedPanel);
+				mainPanel.add(editorPanel);
+
 				btnPanel = new FlowPanel();
 				btnOk = new Button();
 				btnPanel.add(btnOk);
 				btnOk.addClickHandler(new ClickHandler(){
 
 					public void onClick(ClickEvent event) {
-	                    model.applyEditedGeo(editor.getText(), isLatex());
-                    }}); 
-				
+						model.applyEditedGeo(editor.getText(), isLatex());
+					}}); 
+
 				btnCancel = new Button();
 				btnPanel.add(btnCancel);
 				btnCancel.addClickHandler(new ClickHandler(){
 
 					public void onClick(ClickEvent event) {
-	                    model.cancelEditGeo();
-                    }}); 
-				
+						model.cancelEditGeo();
+					}}); 
+
 				mainPanel.add(btnPanel);
 				setWidget(mainPanel);
 				orig = null;
@@ -2068,21 +2073,27 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public boolean update(Object[] geos) {
-			getModel().setGeos(geos);
+			// Ugly hack preventing infinite loop
+			if (redrawFromPreview) {
+				redrawFromPreview = false; 
+				return true;
+			} 
 			
+			getModel().setGeos(geos);
+
 			if (!getModel().checkGeos()) {
 				model.cancelEditGeo();
 				return false;
 			}
-			
+
 			getModel().updateProperties();
 			setLabels();
 			updatePreview();
-			
+
 			return true;
-			
+
 		}
-		
+
 		@Override
 		public void setLabels() {
 			String[] fontSizes = app.getLocalization().getFontSizeStrings();
@@ -2106,8 +2117,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 			btnOk.setText(localize("OK"));
 			btnCancel.setText(localize("Cancel"));
-			}
-		
+		}
+
 		public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
 			// hide most options for Textfields
 			lbFont.setVisible(showFontDetails);
@@ -2150,6 +2161,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				secondLine.setVisible(secondLineVisible);
 			}
 
+			editorPanel.setVisible(model.isTextEditable());
+			lbFont.setVisible(model.isTextEditable());
+			btnLatex.setVisible(model.isTextEditable());
+			btnPanel.setVisible(model.isTextEditable());
+			
 		}
 
 		public void updatePreview() {
@@ -2157,8 +2173,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		private boolean isLatex() {
-	        return btnLatex.getValue();
-        }
+			return btnLatex.getValue();
+		}
 
 
 		public void selectFontStyle(int style) {
@@ -2173,12 +2189,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreviewPanel() {
-//			if (previewer == null || model.getEditGeo() == null ) {
-//				return;
-//			}
-//
-//			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-//			        editor.getDynamicTextList(), isLatex()), isLatex());
+			
 		}
 
 
@@ -2186,6 +2197,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void setEditorText(ArrayList<DynamicTextElement> list) {
 
 			editor.setText(list);
+
+		}
+
+		public void setEditorText(String text) {
+
+			editor.setText(text);
 
 		}
 
@@ -2197,19 +2214,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void insertTextString(String text, boolean isLatex) {
 			editor.insertTextString(text, isLatex);
-       
-        }
+
+		}
 
 
 		public GeoText getEditGeo() {
-	        return model.getEditGeo();
-        }
+			return model.getEditGeo();
+		}
 
 
 		public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-	         model.cancelEditGeo();
-	        
-        }
+			model.cancelEditGeo();
+
+		}
 
 
 	}
@@ -2454,6 +2471,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	public void updateGUI() {
+		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 		if (geos != null && geos.length != 0) {

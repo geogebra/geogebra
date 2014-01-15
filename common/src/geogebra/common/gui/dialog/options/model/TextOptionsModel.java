@@ -29,6 +29,7 @@ public class TextOptionsModel extends OptionsModel {
 		void selectFontStyle(int style);
 
 		void setEditorText(ArrayList<DynamicTextElement> list);
+		void setEditorText(String text);
 
 		void updatePreview();
 	}
@@ -94,9 +95,7 @@ public class TextOptionsModel extends OptionsModel {
 
 	@Override
 	public void updateProperties() {
-		//		if (lastGeo == editGeo) {
-		//			return;
-		//		}
+
 		listener.setWidgetsVisible(!justDisplayFontSize, getGeoAt(0).isGeoButton());
 
 		TextProperties geo0 = getTextPropertiesAt(0);	
@@ -136,6 +135,8 @@ public class TextOptionsModel extends OptionsModel {
 		if (text0 != null) {
 			if (text0.getParentAlgorithm() instanceof AlgoDependentText) {
 				listener.setEditorText(dTProcessor.buildDynamicTextList(text0));
+			} else {
+				listener.setEditorText(text0.getTextString());
 			}
 		}
 		
@@ -288,5 +289,11 @@ public class TextOptionsModel extends OptionsModel {
 	protected boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public boolean isTextEditable() {
+		return getGeosLength() == 1 && getObjectAt(0) instanceof GeoText
+				&& !getGeoTextAt(0).isTextCommand()
+				&& !getGeoTextAt(0).isFixed();
 	}
 }

@@ -3086,6 +3086,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			editPanel.setFont(font);
 		}
+		
 
 		public void focusGained(FocusEvent arg0) {
 			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(model.getTextPropertiesAt(0)
@@ -3108,6 +3109,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				secondLine.setVisible(!showFontDetails);
 				secondLineVisible = !showFontDetails;
 			}
+			
+			cbFont.setVisible(model.isTextEditable());
 			
 		}
 
@@ -3157,6 +3160,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setEditorText(ArrayList<DynamicTextElement> list) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setEditorText(String text) {
 			// TODO Auto-generated method stub
 			
 		}
