@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+import geogebra.common.util.AsyncOperation;
 
 import java.util.ArrayList;
 
@@ -82,7 +83,7 @@ class GuiManagerT extends GuiManager {
 	}
 
 	@Override
-	public boolean checkAutoCreateSliders(String string) {
+	public boolean checkAutoCreateSliders(String string, AsyncOperation o) {
 		// TODO #3490
 		return true;
 	}
