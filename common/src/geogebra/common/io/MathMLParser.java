@@ -3,8 +3,6 @@
  */
 package geogebra.common.io;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Hashtable;
 
 /**
@@ -386,8 +384,6 @@ public class MathMLParser {
 	 * Generates the substitution table from the default file path in
 	 * field SUBSTITUTIONS_FILE.
 	 * 
-	 * @throws FileNotFoundException if no file was found at the default position
-	 * @throws IOException if an I/O error occurs
 	 */
 	public MathMLParser() {
 		substitutions = latexMap;
@@ -398,10 +394,8 @@ public class MathMLParser {
 	 * Generates the substitution table from the given file path.
 	 * 
 	 * @param substitutionsTable the substitution table.
-	 * @throws FileNotFoundException if the file could not be found
-	 * @throws IOException if an I/O error occurs
 	 */
-	public MathMLParser(Hashtable<String, String> substitutionsTable) throws IOException {
+	public MathMLParser(Hashtable<String, String> substitutionsTable) {
 		substitutions = substitutionsTable;
 	}
 
@@ -991,7 +985,6 @@ public class MathMLParser {
 	 * 
 	 * @param filePath the path of the substitutions file
 	 * @return a hashtable containing all found substitutions 
-	 * @throws IOException if an I/O error occurs
 	 *
 	Hashtable getSubstitutionTable(String fileName)
 	throws IOException {
