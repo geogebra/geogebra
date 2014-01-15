@@ -508,6 +508,9 @@ public class MathMLParser {
 	void parseBlock(String startTag) throws Exception {
 
 		String endTag = generateEndTag(startTag);
+		
+		System.out.println(startTag+ " "+endTag);
+		
 		int blockEnd = getBlockEnd(startTag, endTag);
 
 		String substBuf;
