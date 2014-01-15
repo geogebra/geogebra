@@ -3,7 +3,7 @@
  */
 package geogebra.common.io;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 /**
  * Apache 2.0 Licence
@@ -17,7 +17,7 @@ import java.util.Hashtable;
  */
 public class MathMLParser {
 
-	private static Hashtable<String, String> latexMap = new Hashtable<String, String>();
+	private static HashMap<String, String> latexMap = new HashMap<String, String>();
 
 	/*
 	 * ** Links stehen zu findende Ausdrücke, rechts (getrennt durch einen oder mehrere
@@ -365,7 +365,7 @@ public class MathMLParser {
 	protected final char[] leftBraces  = {'(','{','['};
 	protected final char[] rightBraces = {')','{',']'};
 
-	protected Hashtable<String, String> substitutions;
+	protected HashMap<String, String> substitutions;
 	protected StringBuilder result;
 	protected String strBuf;
 	protected int pos;
@@ -395,7 +395,7 @@ public class MathMLParser {
 	 * 
 	 * @param substitutionsTable the substitution table.
 	 */
-	public MathMLParser(Hashtable<String, String> substitutionsTable) {
+	public MathMLParser(HashMap<String, String> substitutionsTable) {
 		substitutions = substitutionsTable;
 	}
 
