@@ -92,7 +92,7 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
     @Override
 	public void compute() {
-		FunctionVariable fv = new FunctionVariable(kernel);
+		FunctionVariable fv = ret.getFunctionVariables()[0];
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 		//ExpressionNode meanEn = new ExpressionNode(kernel, mean);
 		ExpressionNode sdEn = new ExpressionNode(kernel, sd);
