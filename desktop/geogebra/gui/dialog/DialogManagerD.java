@@ -251,7 +251,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 			} else {
 				functionInspector.insertGeoElement(function);
 			}
-			functionInspector.setVisible(true);
+			functionInspector.show();
 
 		} catch (Exception e) {
 			success = false;
@@ -427,6 +427,9 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	@Override
 	public void closeAll() {
 		// closePropertiesDialog();
+		if(functionInspector != null){
+			functionInspector.hide();
+		}
 	}
 
 	/**
