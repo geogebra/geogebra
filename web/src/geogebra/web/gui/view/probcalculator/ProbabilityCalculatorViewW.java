@@ -824,7 +824,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			return;
 		try {
 			String inputText = source.getText().trim();
-			if (!inputText.equals("")) {
+			App.debug(inputText);
+			if (!inputText.equals("") && !(inputText.charAt(inputText.length() -1) == '.')) {
 			// Double value = Double.parseDouble(source.getText());
 
 				// allow input such as sqrt(2)
@@ -832,6 +833,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
 						false);
 				double value = nv.getDouble();
+				App.debug(value + "");
 	
 				if (source == fldLow.getTextBox()) {
 					if (isValidInterval(probMode, value, high)) {

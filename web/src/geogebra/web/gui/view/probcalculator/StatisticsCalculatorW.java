@@ -502,7 +502,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	    bodyText = new StringBuilder();
 	    
 	    ckPooled = new CheckBox();
+	    ckPooled.addStyleName("ckPooled");
 	    ckPooled.setValue(false);
+	    ckPooled.addValueChangeHandler(this);
 	    
 	    cbProcedure = new ListBox();
 	    cbProcedure.addChangeHandler(this);
@@ -690,9 +692,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		if (s == null || s.length() == 0) {
 			return Double.NaN;
 		}
+		
 
 		try {
 			String inputText = s.trim();
+			
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
@@ -746,7 +750,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 	public void onKeyUp(KeyUpEvent e) {
 		TextBox source = (TextBox) e.getSource();
-		if (source.getValue() != null && source.getValue() != "") {
+		String value = source.getValue();
+		if (value != null && !value.equals("") && value.charAt(value.length() - 1) != '.') {
 			doTextFieldActionPerformed();
 		}
     }

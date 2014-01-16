@@ -8,8 +8,6 @@ import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
-import java.util.ArrayList;
-
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -290,24 +288,26 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    ckRowPercent.addValueChangeHandler(this);
 	    ckColPercent.addValueChangeHandler(this);
 	    
+
 	    
-	    //drop down menu for rows/columns 2-12
-	    
-	    ArrayList<String> num = new ArrayList<String>();
+	    // drop down menu for rows/columns 2-12
+	 	String[] num = new String[11];
+	 		for (int i = 0; i < num.length; i++) {
+	 			num[i] = "" + (i + 2);
+	 	}
 	    
 	    cbRows = new ListBox();
 	    cbColumns = new ListBox();
 	    
-	    for (int i = 0; i < num.size(); i++) {
-	    	num.add("" + (i + 2));
-	    	cbRows.addItem(num.get(i));
-	    	cbColumns.addItem(num.get(i));
+	    for (int i = 0; i < num.length; i++) {
+	    	cbRows.addItem(num[i]);
+	    	cbColumns.addItem(num[i]);
 	    }
 	    
-	    cbRows.setSelectedIndex(num.indexOf("" + sc.rows));
+	    cbRows.setSelectedIndex(sc.rows);
 	    cbRows.addChangeHandler(this);
 	    
-	    cbColumns.setSelectedIndex(num.indexOf("" + sc.columns));
+	    cbColumns.setSelectedIndex(sc.columns);
 	    cbColumnsonChange = cbColumns.addChangeHandler(this);
 	        
     }

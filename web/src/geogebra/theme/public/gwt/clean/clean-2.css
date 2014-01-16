@@ -2490,7 +2490,7 @@ label {
 
 .StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
 	text-align: right;
-	max-width: 40%;
+	max-width: 50%;
 	display: inline-block;
 }
 
@@ -2507,6 +2507,10 @@ label {
 .StatisticsCalculatorW .panelTestAndCI > * {
 	display: inline-block;
 	margin: 2px 5px;
+}
+
+.StatisticsCalculatorW .panelTestAndCI .ckPooled {
+	display:block;
 }
 
 .StatisticsCalculatorW .breakafter:after {
