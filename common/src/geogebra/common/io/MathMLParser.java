@@ -774,13 +774,15 @@ public class MathMLParser {
 	 * all subblocks. The end index is the position of the character before the closing
 	 * tag of the block.
 	 * 
-	 * @param startTag the tag that opened the block
+	 * @param startTag0 the tag that opened the block
 	 * @param endTag the end tag to seek
 	 * @return the index of the closing tag
 	 */
-	int getBlockEnd(String startTag, String endTag) {
+	int getBlockEnd(String startTag0, String endTag) {
 
-		if (startTag != endTag) {
+		if (startTag0 != endTag) {
+
+			String startTag = new String(startTag0);
 
 			int pos2 = pos;
 			int subBlocks = 1;
@@ -818,7 +820,7 @@ public class MathMLParser {
 			return (pos2 - endTag.length());
 		}
 
-		return pos - startTag.length();
+		return pos - startTag0.length();
 	}
 
 
@@ -1064,7 +1066,7 @@ public class MathMLParser {
 		// quadratic formula
 		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> <mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &PlusMinus; </mo> <msqrt> <msup> <mrow> <mi> b </mi> </mrow> <mrow> <mn> 2 </mn> </mrow> </msup> <mo> - </mo> <mn> 4 </mn> <mi> a </mi> <mi> c </mi> </msqrt> </mrow> <mrow> <mn> 2 </mn> <mi> a </mi> </mrow> </mfrac> </mstyle> </math>",
 		// quadratic formula with comment
-		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> <mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &#x00B1;<!--plus-minus sign--> </mo> <msqrt> <msup> <mrow> <mi> b </mi> </mrow> <mrow> <mn> 2 </mn> </mrow> </msup> <mo> - </mo> <mn> 4 </mn> <mi> a </mi> <mi> c </mi> </msqrt> </mrow> <mrow> <mn> 2 </mn> <mi> a </mi> </mrow> </mfrac> </mstyle>",
+		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> <mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &#x00B1;<!--plus-minus sign--> </mo> <msqrt> <msup> <mrow> <mi> b </mi> </mrow> <mrow> <mn> 2 </mn> </mrow> </msup> <mo> - </mo> <mn> 4 </mn> <mi> a </mi> <mi> c </mi> </msqrt> </mrow> <mrow> <mn> 2 </mn> <mi> a </mi> </mrow> </mfrac> </mstyle> </math>",
 		
 		// MathJax tests http://www.mathjax.org/demos/mathml-samples/
 		// quadratic formula
