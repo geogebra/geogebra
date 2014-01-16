@@ -3303,6 +3303,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("outlyingIntersections".equals(eName)) {
 				ok = handleOutlyingIntersections(attrs);
 				break;
+			} else if ("objectListener".equals(eName)){
+				ok = handleObjectListener(attrs);
+				break;
 			} /*
 			 * else if ("objCoords".equals(eName)) { ok =
 			 * handleObjCoords(attrs); break; }
@@ -3722,6 +3725,15 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
+	private boolean handleObjectListener(LinkedHashMap<String, String> attrs){
+		try {
+			app.getScriptManager().getUpdateObjectListenerMap().put(geo, attrs.get("val"));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	private boolean handleCaption(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setCaption(attrs.get("val"));

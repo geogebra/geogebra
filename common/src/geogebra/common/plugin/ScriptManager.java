@@ -325,7 +325,11 @@ public abstract class ScriptManager implements EventListener{
 				map.remove(geo);
 			}
 		}
-	}			
+	}	
+	
+	public HashMap<GeoElement, String> getUpdateObjectListenerMap(){
+		return updateListenerMap;
+	}
 	
 	/**
 	 * Register a JavaScript function that will run when an object is updated

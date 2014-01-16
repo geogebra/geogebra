@@ -79,6 +79,7 @@ import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -4805,9 +4806,25 @@ public abstract class GeoElement extends ConstructionElement implements
 		getXMLtags(sb);
 		getCaptionXML(sb);
 		getExtraTagsXML(sb);
+		getObjectListenerTagXML(sb);
 		getElementCloseTagXML(sb);
-
+	
+	}
+	
+	private void getObjectListenerTagXML(StringBuilder sb){
 		
+		HashMap<GeoElement, String> map = kernel.getApplication().getScriptManager().getUpdateObjectListenerMap();
+		if (map == null) return;
+		
+		String objectListener = map.get(this);
+
+		if (objectListener != null){
+			
+			sb.append("\t<objectListener val=\"");
+			sb.append(objectListener);
+			sb.append("\"/>\n");
+
+		}		
 	}
 
 	/**
