@@ -301,8 +301,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		boolean outsourced = false;
 		// check if there is support in the outsourced CAS (now SingularWS) for this command:
-		if (allowOutsourcing && app.singularWS.isAvailable()) {
-			translation = app.singularWS.getTranslatedCASCommand(sbCASCommand.toString());
+		if (allowOutsourcing && App.singularWS!= null && App.singularWS.isAvailable()) {
+			translation = App.singularWS.getTranslatedCASCommand(sbCASCommand.toString());
 			if (translation != null) {
 				outsourced = true;
 			}
@@ -443,7 +443,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		if (outsourced) {
 			try {
-				String retval = app.singularWS.directCommand(sbCASCommand.toString());
+				String retval = App.singularWS.directCommand(sbCASCommand.toString());
 				if (retval == null || retval.equals("")) {
 					// if there was a problem, try again without using Singular:
 					return getCASCommand(name, args, symbolic, tpl, false);
