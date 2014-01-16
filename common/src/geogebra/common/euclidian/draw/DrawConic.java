@@ -285,7 +285,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 		case GeoConicNDConstants.CONIC_LINE:
-			updateLines();
+			updateLines();			
 			break;
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
@@ -443,7 +443,7 @@ public class DrawConic extends Drawable implements Previewable {
 			drawLines[0] = new DrawLine(view, lines[0]);
 			drawLines[1] = new DrawLine(view, lines[1]);
 			drawLines[0].setGeoElement(geo);
-			drawLines[1].setGeoElement(geo);
+			drawLines[1].setGeoElement(geo);			
 			// drawLines[0].font = view.fontConic;
 			// drawLines[1].font = view.fontConic;
 		}
@@ -464,6 +464,8 @@ public class DrawConic extends Drawable implements Previewable {
 		for (int i = 0; i < 2; i++) {
 			drawLines[i].forceLineType(conic.lineType);
 			drawLines[i].update(m);
+			//thickness needs update #4087
+			drawLines[i].updateStrokesJustLineThickness(geo);
 		}
 
 		if (conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES
