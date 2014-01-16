@@ -34,9 +34,11 @@ public class PolygonTriangulation {
 			}
 			
 			if (p1.id == p2.id){
+				/*
 				App.error("same ids");
 				App.debug(p1.debugSegments());
 				App.debug(p2.debugSegments());
+				*/
 				
 				// copy segments
 				if (p1.toRight != null){
@@ -403,7 +405,7 @@ public class PolygonTriangulation {
 			*/
 			
 			
-			App.error("same points : "+this+","+seg);
+			//App.error("same points : "+this+","+seg);
 			comparedSameSegment = seg;
 
 			// same ptp
@@ -634,6 +636,7 @@ public class PolygonTriangulation {
 		segment.addToPoints();
 		comparedSameOrientationSegment = null;
 		segment2.addToPoints();
+		segment2.usable = segment.usable;
 		cutAfterComparison(segment2);
 	}
 	
@@ -645,7 +648,7 @@ public class PolygonTriangulation {
 		if (comparedSameOrientationSegment!=null){
 			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
 			if (comparedSameOrientationValue < 0){
-				//remove segment2 and segment2 part from comparedSameOrientationSegment		
+				//segment2 can be used once more	
 				Segment s = comparedSameOrientationSegment;
 				comparedSameOrientationSegment = null;				
 				s.removeFromPoints();
@@ -656,7 +659,7 @@ public class PolygonTriangulation {
 				s.addToPoints();
 				cutAfterComparison(s);
 			}else if (comparedSameOrientationValue > 0){
-				//remove comparedSameOrientationSegment and comparedSameOrientationSegment part from segment2
+				//comparedSameOrientationSegment can be used once more
 				Segment s = comparedSameOrientationSegment;
 				comparedSameOrientationSegment = null;	
 				segment2.removeFromPoints();
@@ -888,7 +891,8 @@ public class PolygonTriangulation {
 					}
 				}else{ // running == Running.LEFT
 					nextPoint = segment.leftPoint;
-					if (nextPoint == start && start.toRight.higher(segStart) == segment){ // check if there are no segment between current and segStart
+					if (nextPoint == start 
+							&& (start.toRight.higher(segStart) == segment || segStart == segment)){ // check if there are no segment between current and segStart
 						running = Running.STOP;
 						next = segStart;
 					}else{
@@ -913,12 +917,15 @@ public class PolygonTriangulation {
 				// remove this segment from left and right points
 				if (segment.usable == 1){
 					segment.removeFromPoints();	
+					App.debug("remove " +segment);
 				}else{
-					App.debug(segment+", "+segment.usable);
+					App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
 					segment.usable --;
 					Segment clone = segment.clone();
 					clone.running = segment.running;
+					App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
 					segment = clone;
+					//App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
 				}
 
 				
@@ -936,10 +943,11 @@ public class PolygonTriangulation {
 					segment.leftPoint = nextPointNew;
 					segment.rightPoint = currentPointNew;					
 				}
-				App.debug(segment+"");
+				//App.debug(segment+"");
 				if (!segment.addToPoints()){
-					App.debug("not new : "+segment+", "+segment.usable);
 					comparedSameSegment.usable ++;
+					App.debug("not new : "+segment+", "+segment.usable);
+					App.debug(segment.hashCode()+" / "+comparedSameSegment.hashCode());
 				}
 				
 				// says if the point needs a diagonal
@@ -1136,6 +1144,8 @@ public class PolygonTriangulation {
 				Segment b2 = new Segment(b.orientation, pt, b.rightPoint);
 				a2.addToPoints();
 				b2.addToPoints();
+				a2.usable = a.usable;
+				b2.usable = b.usable;
 
 				// set old segments right point
 				a.rightPoint = pt;
@@ -1219,6 +1229,7 @@ public class PolygonTriangulation {
 	 * @param polygonPoints
 	 */
 	private void triangulate(TreeSet<Point> polygonPoints){
+		
 		String s = "set diagonals of ";
 		for (Point pt : polygonPoints){
 			s+=pt.name;
@@ -1228,6 +1239,12 @@ public class PolygonTriangulation {
 		}
 		
 		App.debug(s);
+		
+		if (polygonPoints.size() < 3){
+			// not a drawable polygon
+			App.error("*** not a polygon ***");
+			return;
+		}
 		
 
 		
