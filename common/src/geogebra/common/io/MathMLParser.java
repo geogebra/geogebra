@@ -453,6 +453,8 @@ public class MathMLParser {
 		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
 		String strBuf1 = strBuf0.replaceAll("(?s)<!--.*?-->", "");
 
+		strBuf1 = strBuf1.replaceAll("><", "> <");
+
 		if (strBuf1 != null) {
 			this.strBuf = strBuf1;
 			this.wrappedEntities = wrappedEntities;
