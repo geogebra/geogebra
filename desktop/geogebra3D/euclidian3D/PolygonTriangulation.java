@@ -653,7 +653,6 @@ public class PolygonTriangulation {
 				comparedSameOrientationSegment = null;				
 				s.removeFromPoints();
 				s.leftPoint = segment2.rightPoint;
-				//segment2.removeFromPoints();
 				segment2.usable ++;
 				comparedSameOrientationSegment = null;
 				s.addToPoints();
@@ -664,16 +663,14 @@ public class PolygonTriangulation {
 				comparedSameOrientationSegment = null;	
 				segment2.removeFromPoints();
 				segment2.leftPoint = s.rightPoint;
-				//s.removeFromPoints();	
 				s.usable ++;
 				comparedSameOrientationSegment = null;
 				segment2.addToPoints();
 				cutAfterComparison(segment2);
 			}else{
 				// same segment : add usability
-				comparedSameOrientationSegment = null;
-				//segment2.removeFromPoints();
 				segment2.usable += comparedSameOrientationSegment.usable; 
+				comparedSameOrientationSegment = null;
 			}
 		}
 	}
