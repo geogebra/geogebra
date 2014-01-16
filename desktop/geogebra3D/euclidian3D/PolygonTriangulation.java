@@ -87,7 +87,6 @@ public class PolygonTriangulation {
 		
 		boolean needsDiagonal = false;
 		
-		public int usable = 1;
 
 		public Point(double x, double y, int id){
 			this.x = x;
@@ -265,7 +264,7 @@ public class PolygonTriangulation {
 		Point leftPoint, rightPoint;
 		Segment above, below;
 		Segment next;
-		boolean isDiagonal;
+		int usable = 1;
 		
 		Running running = Running.STOP;
 		
@@ -695,10 +694,11 @@ public class PolygonTriangulation {
 		// at this time, pointSet only contains different points, each points have to-left / to-right segments with different orientations
 
 
-		
+		App.error("================== before intersections ===================");
 		for (Point pt : pointSet){
 			App.debug(pt.debugSegments());
 		}
+		App.error("================== END ===================");
 
 
 		// now compute intersections
@@ -809,6 +809,11 @@ public class PolygonTriangulation {
 			App.debug(s);
 		}
 
+		App.error("================== after intersections ===================");
+		for (Point pt : pointSet){
+			App.debug(pt.debugSegments());
+		}
+		App.error("================== END ===================");
 
 
 		setNonSelfIntersecting(pointSet);
@@ -1240,9 +1245,7 @@ public class PolygonTriangulation {
 					
 					Segment diagonal = new Segment( Math.atan2(pt2.y - pt.y, pt2.x - pt.x), pt, pt2);
 					diagonal.addToPoints();
-					diagonal.isDiagonal = true;
-					pt.usable++;
-					pt2.usable++;
+					diagonal.usable ++;
 									
 					//App.error("diagonal to right : "+diagonal);
 				}
@@ -1265,10 +1268,8 @@ public class PolygonTriangulation {
 				
 				if (pt.needsDiagonal){
 					//App.error("diagonal to left : "+below+"<"+pt.name+"<"+above);
-					if (below.isDiagonal){
+					if (below.usable > 1){
 						below.removeFromPoints();
-						below.rightPoint.usable--;
-						pt.usable++;
 						below.rightPoint = pt;
 						below.addToPoints();
 						//App.error("below is diagonal, replace : "+below);
@@ -1276,10 +1277,8 @@ public class PolygonTriangulation {
 						below = below.below;
 						below.above = above;
 						above.below = below;
-					}else if (above.isDiagonal){
+					}else if (above.usable  > 1){
 						above.removeFromPoints();
-						above.rightPoint.usable--;
-						pt.usable++;
 						above.rightPoint = pt;
 						above.addToPoints();
 						//App.error("above is diagonal, replace : "+above);
@@ -1296,9 +1295,7 @@ public class PolygonTriangulation {
 						}			
 						Segment diagonal = new Segment( Math.atan2(pt.y - pt2.y, pt.x - pt2.x), pt2, pt);
 						diagonal.addToPoints();
-						diagonal.isDiagonal = true;
-						pt.usable++;
-						pt2.usable++;
+						diagonal.usable ++;
 
 						//App.error("diagonal to left : "+diagonal);
 					}
@@ -1396,9 +1393,9 @@ public class PolygonTriangulation {
 
 				segment.removeFromPoints();
 				if (oldRunning == Running.LEFT){		
-					if (segment.isDiagonal){
+					if (segment.usable > 1){
 						//App.debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
-						segment.isDiagonal = false ; // no more a diagonal, clone it
+						segment.usable -- ; // usable once less, clone it
 						Segment clone = segment.clone();
 						clone.addToPoints();	
 					}
@@ -1408,9 +1405,9 @@ public class PolygonTriangulation {
 					}
 
 				}else{ // oldRunning == Running.RIGHT					
-					if (segment.isDiagonal){
+					if (segment.usable > 1){
 						//App.debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
-						segment.isDiagonal = false ; // no more a diagonal, clone it
+						segment.usable -- ; // usable once less, clone it
 						Segment clone = segment.clone();
 						clone.addToPoints();
 					}
