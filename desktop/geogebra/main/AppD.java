@@ -77,6 +77,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.app.GeoGebraFrame;
+import geogebra.gui.dialog.AxesStyleListRenderer;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
@@ -4889,7 +4890,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
-			if (!(renderer instanceof DashListRenderer)){
+			if (!(renderer instanceof DashListRenderer || renderer instanceof AxesStyleListRenderer)){
 				//if we didn't load GUI yet, assume there is no tool creation dialog
 				if (getGuiManager() == null || !getGuiManager().belongsToToolCreator(renderer)){
 					renderer = new DefaultListCellRenderer();
