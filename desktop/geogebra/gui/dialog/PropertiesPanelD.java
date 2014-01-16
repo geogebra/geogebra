@@ -271,7 +271,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private JTabbedPane tabs;
 
 	private String localize(final String id) {
-		// TODO Auto-generated method stub
 		String txt = loc.getPlain(id);
 		if (txt.equals(id)) {
 			txt = loc.getMenu(id);
@@ -5768,6 +5767,12 @@ UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
 
 	public void setLabels() {
 		setBorder(BorderFactory.createTitledBorder(loc.getPlain("ButtonSize")));
+		labelWidth.setText(loc.getPlain("Width"));
+		labelHeight.setText(loc.getPlain("Height"));
+		labelPixelW.setText(loc.getMenu("Pixels.short"));
+		labelPixelH.setText(loc.getMenu("Pixels.short"));
+		cbUseFixedSize.setText(loc.getPlain("fixed"));
+		
 	}
 
 	public JPanel update(Object[] geos) {
