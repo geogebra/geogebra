@@ -447,9 +447,14 @@ public class MathMLParser {
 	 * @return a StringBuilder containig the LaTeX representation of the input
 	 * @throws Exception if an error occurs while parsing
 	 */
-	public String parse(String strBuf, boolean wrappedEntities, boolean skipUnknownEntities) {
-		if (strBuf != null) {
-			this.strBuf = strBuf;
+	public String parse(String strBuf0, boolean wrappedEntities, boolean skipUnknownEntities) {
+
+		// I am not sure this would include new lines
+		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
+		String strBuf1 = strBuf0.replaceAll("(?s)<!--.*?-->", "");
+
+		if (strBuf1 != null) {
+			this.strBuf = strBuf1;
 			this.wrappedEntities = wrappedEntities;
 			this.skipUnknownEntities = skipUnknownEntities;
 
