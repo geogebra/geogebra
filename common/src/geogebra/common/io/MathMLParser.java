@@ -342,42 +342,31 @@ public class MathMLParser {
 	}
 
 	/**
-	 * The default path of the substitutions file
-	 */
-	//protected final String SUBSTITUTIONS_FILE = "substitutions.txt";
-
-	/**
-	 * The comment prefix for the substitutions file. All lines of the
-	 * substitutions file beginning with the comment prefix are ignored.
-	 */
-	protected final String COMMENT_PREFIX = "**";
-
-	/**
 	 * The place holder for blocks in substitutions. If a substitution contains
 	 * a block place holder it is replaced by the LaTeX representation of
 	 * the followig block.<br>
 	 * Syntax: PH_BLOCKSTART + blockNumber + PH_BLOCKEND, e.g. '#BLOCK1#'.
 	 */
-	protected final String PH_BLOCK_START = "%BLOCK";
-	protected final char PH_BLOCK_END = '%';
+	private final String PH_BLOCK_START = "%BLOCK";
+	private final char PH_BLOCK_END = '%';
 
-	protected final char[] specialCharacters = {'%','#','_','$'};
-	protected final char[] leftBraces  = {'(','{','['};
-	protected final char[] rightBraces = {')','{',']'};
+	private final char[] specialCharacters = {'%','#','_','$'};
+	private final char[] leftBraces  = {'(','{','['};
+	private final char[] rightBraces = {')','{',']'};
 
-	protected HashMap<String, String> substitutions;
-	protected StringBuilder result;
-	protected String strBuf;
-	protected int pos;
-	protected boolean wrappedEntities;
-	protected boolean skipUnknownEntities;
+	private HashMap<String, String> substitutions;
+	private StringBuilder result;
+	private String strBuf;
+	private int pos;
+	private boolean wrappedEntities;
+	private boolean skipUnknownEntities;
 
 	// temporary variables (declared global for better performance)
 	//protected String startTag, endTag;
-	protected String nextTag;
-	protected StringBuilder tagBuf = new StringBuilder(200);  // used by readNextTag() & getBlockEnd()
-	protected StringBuilder entity = new StringBuilder(32); // used by replaceEntities()
-	protected String entitySubst = ""; // used by replaceEntities()
+	private String nextTag;
+	private StringBuilder tagBuf = new StringBuilder(200);  // used by readNextTag() & getBlockEnd()
+	private StringBuilder entity = new StringBuilder(32); // used by replaceEntities()
+	private String entitySubst = ""; // used by replaceEntities()
 
 
 	/**
@@ -441,13 +430,13 @@ public class MathMLParser {
 	 * an ampersand sign (e.g. '&amp;equals;'), or the "HTML wrapped" notation startig with an
 	 * entity for the ampersand sign (e.g. '&amp;amp;equals;'). 
 	 * 
-	 * @param strBuf a StringBuilder containig the MathML code to parse
-	 * @param wrappedEntities indicates whether the entities in the MathML code are
+	 * @param strBuf0 a String containig the MathML code to parse
+	 * @param wrappedEntities1 indicates whether the entities in the MathML code are
 	 * HTML wrapped (e.g. '&amp;amp;PlusMinus;'), or not (e.g. '&amp;PlusMinus;')
+	 * @param skipUnknownEntities1 skipUnknownEntities
 	 * @return a StringBuilder containig the LaTeX representation of the input
-	 * @throws Exception if an error occurs while parsing
 	 */
-	public String parse(String strBuf0, boolean wrappedEntities, boolean skipUnknownEntities) {
+	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1) {
 
 		// I am not sure this would include new lines
 		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
@@ -457,8 +446,8 @@ public class MathMLParser {
 
 		if (strBuf1 != null) {
 			this.strBuf = strBuf1;
-			this.wrappedEntities = wrappedEntities;
-			this.skipUnknownEntities = skipUnknownEntities;
+			this.wrappedEntities = wrappedEntities1;
+			this.skipUnknownEntities = skipUnknownEntities1;
 
 			// usually the MathML input should have more characters as the output
 			result = new StringBuilder(strBuf.length());
@@ -508,8 +497,7 @@ public class MathMLParser {
 	 * </pre>
 	 * </p>
 	 * 
-	 * @param areaEnd the end of the area to parse
-	 * @return a StringBuilder with the LaTeX representation of the input
+	 * @param startTag startTag
 	 * @throws Exception if an error occurs while parsing
 	 */
 	void parseBlock(String startTag) throws Exception {
@@ -646,7 +634,7 @@ public class MathMLParser {
 	/**
 	 * Jumps to the next tag, reads it into 'startTag' an generates the corresponding 'endTag'.
 	 */
-	String getNextTag() {
+	private String getNextTag() {
 
 		while (strBuf.charAt(pos) != '<') {
 			pos++;
@@ -677,16 +665,13 @@ public class MathMLParser {
 
 			if (startTag.indexOf(' ') > -1) {
 				// delete parameters of startTag
-				return new String("</"+startTag.substring(1, startTag.indexOf(' '))+">");
+				return "</" + startTag.substring(1, startTag.indexOf(' ')) + ">";
 			}
-			else {
-				return new String("</"+startTag.substring(1, startTag.length()));
-			}
+			
+			return "</" + startTag.substring(1, startTag.length());
 		}
-		else {
-			// if the tag is self-closing (e.g. "<mprescripts/>"), the endTag is the startTag
-			return startTag;
-		}
+		// if the tag is self-closing (e.g. "<mprescripts/>"), the endTag is the startTag
+		return startTag;
 	}
 
 
@@ -944,6 +929,10 @@ public class MathMLParser {
 			sbIndex = sbIndex + 2;
 		}
 
+		/*
+		 * removed by GeoGebra
+		 * 
+		 * the LateX renderers we use can handle Unicode
 		// replace german "umlauts"
 		sbIndex = 0;
 		while ((sbIndex = sb.indexOf("ä", sbIndex)) > -1) {
@@ -986,88 +975,12 @@ public class MathMLParser {
 			sb.replace(sbIndex, (sbIndex+1), "\\protect\"s");
 			sbIndex = sbIndex + 10;
 		}
+		
+		*/
 
 
 		return sb.toString();
 	}
-
-
-	/**
-	 * Parses the substitution table from the given file.
-	 * 
-	 * @param filePath the path of the substitutions file
-	 * @return a hashtable containing all found substitutions 
-	 *
-	Hashtable getSubstitutionTable(String fileName)
-	throws IOException {
-
-		BufferedReader file;
-
-		try {
-			file = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
-		}
-		catch (FileNotFoundException fnfe) {
-			try {
-				file = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(fileName)));
-			}
-			catch (NullPointerException npe) {
-				throw new IOException("The substitutions file ("+fileName+") could not be read.");
-			}
-		}
-
-		Hashtable substitutionTable = new Hashtable();
-		int lineNo = 0;
-		String line;
-
-		String tmpStr;
-		String[] subStrings;
-
-		try
-		{
-			while ((line = file.readLine()) != null)
-			{
-				lineNo++;
-
-				if ((!line.startsWith(COMMENT_PREFIX)) && (line.indexOf('\t') > -1)) {
-
-					// reduce multiple tabs to one
-					tmpStr = line.replaceAll("\t+", "\t");
-
-					if (tmpStr.indexOf('\t') == tmpStr.lastIndexOf('\t')) {
-
-						// split at tab
-						subStrings = tmpStr.split("\t");
-
-						// add to table
-						try {
-							substitutionTable.put(subStrings[0], new StringBuilder(subStrings[1]));
-						}
-						catch (ArrayIndexOutOfBoundsException aioobe) {
-							aioobe.printStackTrace();
-							throw new IOException("Error in substitutions file ("+fileName+") at line "+lineNo);
-						}
-					}
-				}
-			}
-		}
-		catch (IOException ioe)
-		{
-			throw ioe;
-		}
-		finally
-		{
-			try
-			{
-				file.close();
-			}
-			catch (IOException ioe)
-			{
-				ioe.printStackTrace();				
-			}
-		}
-
-		return substitutionTable;
-	}*/
 
 	private static String[] mathmlTest = {
 		// quadratic formula
@@ -1092,6 +1005,11 @@ public class MathMLParser {
 		"<math display='block'><mrow><msup><mrow><mo>(</mo><msub><mrow><mo>&#x2207;</mo></mrow><mrow><mi>X</mi></mrow></msub><mi>Y</mi><mo>)</mo></mrow><mrow><mi>k</mi></mrow></msup><mo>=</mo><msup><mrow><mi>X</mi></mrow><mrow><mi>i</mi></mrow></msup><msup><mrow><mo stretchy='false'>(</mo><msub><mrow><mo>&#x2207;</mo></mrow><mrow><mi>i</mi></mrow></msub><mi>Y</mi><mo stretchy='false'>)</mo></mrow><mrow><mi>k</mi></mrow></msup><mo>=</mo><msup><mrow><mi>X</mi></mrow><mrow><mi>i</mi></mrow></msup><mrow><mo>(</mo><mfrac><mrow><mo>&#x2202;</mo><msup><mrow><mi>Y</mi></mrow><mrow><mi>k</mi></mrow></msup></mrow><mrow><mo>&#x2202;</mo><msup><mrow><mi>x</mi></mrow><mrow><mi>i</mi></mrow></msup></mrow></mfrac><mo>+</mo><msubsup><mrow><mi>&#x0393;</mi></mrow><mrow><mi>i</mi><mi>m</mi></mrow><mrow><mi>k</mi></mrow></msubsup><msup><mrow><mi>Y</mi></mrow><mrow><mi>m</mi></mrow></msup><mo>)</mo></mrow></mrow></math>"
 	};
 
+	/**
+	 * just for running test-cases
+	 * 
+	 * @param args args
+	 */
 	public static void main(String[] args){
 		MathMLParser mathmlParser = new MathMLParser();
 
