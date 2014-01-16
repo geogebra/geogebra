@@ -849,145 +849,169 @@ public class PolygonTriangulation {
 		while (!pointSet.isEmpty()){
 			TreeSet<Point> polygonPoints = new TreeSet<Point>(nonSelfIntersectingPolygonPointComparator);
 			Point start = pointSet.first();
-			Point currentPoint; 
-			Point currentPointNew;
-			Point nextPoint = start;
-			Point nextPointNew = nextPoint.clone();
-			Point startPointNew = nextPointNew;
-			//polygonPoints.add(nextPointNew);
 			Segment segStart = start.toRight.first();
-			Segment segment = segStart;
-			Segment next = null;
+			
 
-			Running running = Running.RIGHT;
+			if (segStart.usable > 1){
+				App.debug("*** "+segStart+" : "+segStart.usable);
+				segStart.usable = segStart.usable % 2;
+			}
 
-			while (running != Running.STOP){
-				segment.running = running;
-				currentPoint = nextPoint;
-				currentPointNew = nextPointNew;
-				boolean needsDiagonal = false;
-				//App.debug(segment+"");
-				if (running == Running.RIGHT){
-					nextPoint = segment.rightPoint;
-					if (nextPoint == start){
-						running = Running.STOP;
-						next = segStart;
-					}else{
-						next = nextPoint.toLeft.lower(segment);
-						if (next == null){
-							if (nextPoint.toRight != null && !nextPoint.toRight.isEmpty()){
-								next = nextPoint.toRight.last();
-							}
-							if (next == null){ // no to-right segment
-								next = nextPoint.toLeft.last();
+			if (segStart.usable == 0){ // check if not set to 0 just above
+				segStart.removeFromPoints();
+				if (start.hasNoSegment()){
+					pointSet.remove(start);
+					pointsArray[start.id] = new GPoint2D.Double(start.x, start.y);
+				}
+				start = segStart.rightPoint; // check right point
+				if (start.hasNoSegment()){
+					pointSet.remove(start);
+					pointsArray[start.id] = new GPoint2D.Double(start.x, start.y);
+				}
+
+			}else{
+
+				Point currentPoint; 
+				Point currentPointNew;
+				Point nextPoint = start;
+				Point nextPointNew = nextPoint.clone();
+				Point startPointNew = nextPointNew;
+				//polygonPoints.add(nextPointNew);
+				
+				Segment segment = segStart;
+				Segment next = null;
+
+				Running running = Running.RIGHT;
+
+
+				while (running != Running.STOP){
+					segment.running = running;
+					currentPoint = nextPoint;
+					currentPointNew = nextPointNew;
+					boolean needsDiagonal = false;
+					App.debug(nextPoint.name+", "+segment+"");
+					if (running == Running.RIGHT){
+						nextPoint = segment.rightPoint;
+						if (nextPoint == start){
+							running = Running.STOP;
+							next = segStart;
+						}else{
+							next = nextPoint.toLeft.lower(segment);
+							if (next == null){
+								if (nextPoint.toRight != null && !nextPoint.toRight.isEmpty()){
+									next = nextPoint.toRight.last();
+								}
+								if (next == null){ // no to-right segment
+									next = nextPoint.toLeft.last();
+									running = Running.LEFT;
+									needsDiagonal = needsDiagonal(segment, next);
+								}
+							}else{
 								running = Running.LEFT;
 								needsDiagonal = needsDiagonal(segment, next);
 							}
-						}else{
-							running = Running.LEFT;
-							needsDiagonal = needsDiagonal(segment, next);
 						}
-
-					}
-				}else{ // running == Running.LEFT
-					nextPoint = segment.leftPoint;
-					if (nextPoint == start 
-							&& (start.toRight.higher(segStart) == segment || segStart == segment)){ // check if there are no segment between current and segStart
-						running = Running.STOP;
-						next = segStart;
-					}else{
-						next = nextPoint.toRight.lower(segment);
-						if (next == null){
-							if (nextPoint.toLeft != null && !nextPoint.toLeft.isEmpty()){
-								next = nextPoint.toLeft.last();
-							}
-							if (next == null){ // no to-left segment
-								next = nextPoint.toRight.last();
+						App.debug("next : "+next);
+					}else{ // running == Running.LEFT
+						nextPoint = segment.leftPoint;
+						if (nextPoint == start 
+								&& (start.toRight.higher(segStart) == segment || segStart == segment)){ // check if there are no segment between current and segStart
+							running = Running.STOP;
+							next = segStart;
+						}else{
+							next = nextPoint.toRight.lower(segment);
+							if (next == null){
+								if (nextPoint.toLeft != null && !nextPoint.toLeft.isEmpty()){
+									next = nextPoint.toLeft.last();
+								}
+								if (next == null){ // no to-left segment
+									next = nextPoint.toRight.last();
+									running = Running.RIGHT;
+									needsDiagonal = needsDiagonal(segment, next);
+								}
+							}else{
 								running = Running.RIGHT;
 								needsDiagonal = needsDiagonal(segment, next);
 							}
-						}else{
-							running = Running.RIGHT;
-							needsDiagonal = needsDiagonal(segment, next);
+
 						}
-
 					}
+
+					// remove this segment from left and right points
+					if (segment.usable == 1){
+						segment.removeFromPoints();	
+						//App.debug("remove " +segment);
+					}else{
+						//App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
+						segment.usable --;
+						Segment clone = segment.clone();
+						clone.running = segment.running;
+						//App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
+						segment = clone;
+						//App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
+					}
+
+
+					// reconfigure segment to new points
+					if (running != Running.STOP){
+						nextPointNew = nextPoint.clone();
+					}else{					
+						nextPointNew = startPointNew;
+						//App.error(nextPointNew.debugSegments());
+					}
+					if (segment.running == Running.RIGHT){
+						segment.leftPoint = currentPointNew;
+						segment.rightPoint = nextPointNew;
+					}else{
+						segment.leftPoint = nextPointNew;
+						segment.rightPoint = currentPointNew;					
+					}
+					//App.debug(segment+"");
+					if (!segment.addToPoints()){
+						comparedSameSegment.usable ++;
+						//App.debug("not new : "+segment+", "+segment.usable);
+						//App.debug(segment.hashCode()+" / "+comparedSameSegment.hashCode());
+					}
+
+					// says if the point needs a diagonal
+					nextPointNew.needsDiagonal = needsDiagonal;
+
+					// add current point to current polygon, check if not already in it
+					nextNewPointForNonSelfIntersectingPolygon = nextPointNew;
+					polygonPoints.add(nextPointNew);
+					nextPointNew = nextNewPointForNonSelfIntersectingPolygon;
+					//App.debug(nextPointNew.debugSegments());
+
+					// remove current point if no more segment
+					if (currentPoint.hasNoSegment()){
+						//App.debug(currentPoint.name+" : remove");
+						pointSet.remove(currentPoint);
+						pointsArray[currentPoint.id] = new GPoint2D.Double(currentPoint.x, currentPoint.y);
+					}else{
+						//App.debug(currentPoint.name+" : keep");
+					}
+
+
+					// go on with next segment
+					segment = next;
+
 				}
 
-				// remove this segment from left and right points
-				if (segment.usable == 1){
-					segment.removeFromPoints();	
-					App.debug("remove " +segment);
+				if (start.hasNoSegment()){
+					//App.debug(start.name+" : remove");
+					pointSet.remove(start);
+					pointsArray[start.id] = new GPoint2D.Double(start.x, start.y);
 				}else{
-					App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
-					segment.usable --;
-					Segment clone = segment.clone();
-					clone.running = segment.running;
-					App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
-					segment = clone;
-					//App.debug(" ("+segment.usable+") "+segment+","+segment.hashCode());
+					//App.debug(start.name+" : keep");
 				}
 
-				
-				// reconfigure segment to new points
-				if (running != Running.STOP){
-					nextPointNew = nextPoint.clone();
-				}else{					
-					nextPointNew = startPointNew;
-					//App.error(nextPointNew.debugSegments());
-				}
-				if (segment.running == Running.RIGHT){
-					segment.leftPoint = currentPointNew;
-					segment.rightPoint = nextPointNew;
-				}else{
-					segment.leftPoint = nextPointNew;
-					segment.rightPoint = currentPointNew;					
-				}
-				//App.debug(segment+"");
-				if (!segment.addToPoints()){
-					comparedSameSegment.usable ++;
-					App.debug("not new : "+segment+", "+segment.usable);
-					App.debug(segment.hashCode()+" / "+comparedSameSegment.hashCode());
-				}
-				
-				// says if the point needs a diagonal
-				nextPointNew.needsDiagonal = needsDiagonal;
+				// add current polygon to list
+				polygonPointsList.add(polygonPoints);
 
-				// add current point to current polygon, check if not already in it
-				nextNewPointForNonSelfIntersectingPolygon = nextPointNew;
-				polygonPoints.add(nextPointNew);
-				nextPointNew = nextNewPointForNonSelfIntersectingPolygon;
-				//App.debug(nextPointNew.debugSegments());
-				
-				// remove current point if no more segment
-				if (currentPoint.hasNoSegment()){
-					//App.debug(currentPoint.name+" : remove");
-					pointSet.remove(currentPoint);
-					pointsArray[currentPoint.id] = new GPoint2D.Double(currentPoint.x, currentPoint.y);
-				}else{
-					//App.debug(currentPoint.name+" : keep");
+				App.debug("--------------------------------");
+				for (Point p : polygonPoints){
+					App.debug(p.debugSegments());
 				}
-
-
-				// go on with next segment
-				segment = next;
-				 
-			}
-
-			if (start.hasNoSegment()){
-				//App.debug(start.name+" : remove");
-				pointSet.remove(start);
-				pointsArray[start.id] = new GPoint2D.Double(start.x, start.y);
-			}else{
-				//App.debug(start.name+" : keep");
-			}
-			
-			// add current polygon to list
-			polygonPointsList.add(polygonPoints);
-			
-			App.debug("--------------------------------");
-			for (Point p : polygonPoints){
-				App.debug(p.debugSegments());
 			}
 
 		}
