@@ -316,7 +316,7 @@ public class SingularWebService {
 			append("string RS=string(\"poly PP=\",PS[2,size(PS)-2]);").
 			// @c is the variable name for the rootof-like polynomial. 
 			append("def RR=basering; ring NR=0,(@c),ds;	execute(RS);").
-			append("matrix L=coeffs(PP,@c); int A=int(L[3,1]); int B=int(L[2,1]); int C=int(L[1,1]);").
+			append("matrix L=coeffs(PP,@c); bigint A=int(L[3,1]); bigint B=int(L[2,1]); bigint C=int(L[1,1]);").
 			append("string SC; if (I==1) { SC=\"+\"; } if (I==2) { SC=\"-\"; }").
 			append("string RV=string(\"((\",(-B),SC,\"sqrt(\",(B*B)-(4*A*C),\"))/(\",(2*A),\"))\");").
 			append("setring(RR); return(RV); }").
