@@ -338,7 +338,10 @@ public class MathMLParser {
 		latexMap.put("&colon;", ":");
 		latexMap.put("&ApplyFunction;", " ");
 		latexMap.put("&squ;", " ");
-
+		latexMap.put("&#x2212;", "- ");
+		latexMap.put("&#x2192", "\\to ");
+		latexMap.put("&#x222b", "\\int ");
+		latexMap.put("&#x2061", " ");
 	}
 
 	/**
@@ -442,7 +445,9 @@ public class MathMLParser {
 		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
 		String strBuf1 = strBuf0.replaceAll("(?s)<!--.*?-->", "");
 
+		// Avoiding bugs due to wrong parsing (quick workarounds)
 		strBuf1 = strBuf1.replace("><", "> <");
+		strBuf1 = strBuf1.replace(";&#x", "; &#x");
 
 		// Adding "inferred mrow" to those elements that need it
 		// according to W3C and also there in latexMap;
@@ -924,10 +929,30 @@ public class MathMLParser {
 					sbIndex++;
 				}
 				else {
-					sb.insert(sbIndex - entity.length(), "NOTFOUND:'");
-					sbIndex = sbIndex + 10;
-					sb.insert(sbIndex, "' ");
-					sbIndex = sbIndex + 2;
+					String entityWorkout = entity.toString();
+					if (entityWorkout.startsWith("&\\#x")) {
+						entityWorkout = entityWorkout.substring(4, entityWorkout.length() - 1);
+					} else if (entityWorkout.startsWith("\\&\\#x")) {
+						entityWorkout = entityWorkout.substring(5, entityWorkout.length() - 1);
+					} else if (entityWorkout.startsWith("&#x")) {
+						// this case is experimentally not found though
+						entityWorkout = entityWorkout.substring(3, entityWorkout.length() - 1);
+					} else if (entityWorkout.startsWith("\\&#x")) {
+						// this case is experimentally not found though
+						entityWorkout = entityWorkout.substring(4, entityWorkout.length() - 1);
+					}
+					if (isValidUnicode(entityWorkout)) {
+						// assuming our LaTeX parser will know these things
+						int hex = Integer.parseInt(entityWorkout, 16);
+						Character hexChar = (char)hex;
+						sb.replace(sbIndex - entity.length(), sbIndex, hexChar.toString());
+					} else {
+						//old school
+						sb.insert(sbIndex - entity.length(), "NOTFOUND:'");
+						sbIndex = sbIndex + 10;
+						sb.insert(sbIndex, "' ");
+						sbIndex = sbIndex + 2;
+					}
 				}
 			}
 		}
@@ -990,6 +1015,25 @@ public class MathMLParser {
 
 
 		return sb.toString();
+	}
+
+	/**
+	 * Determines whether this is valid Unicode
+	 * @param vu
+	 * @return
+	 */
+	private static boolean isValidUnicode(String vu) {
+
+		if (vu.length() != 4)
+			return false;
+
+		char[] ca = vu.toLowerCase().toCharArray();
+
+		for (int i = 0; i < 4; i++)
+			if (!Character.isDigit(ca[i]) && (ca[i] < 'a' || ca[i] > 'f'))
+				return false;
+
+		return true;
 	}
 
 	private static String[] mathmlTest = {
