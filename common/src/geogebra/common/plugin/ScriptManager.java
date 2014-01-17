@@ -110,6 +110,17 @@ public abstract class ScriptManager implements EventListener{
 	 */
 	public void reset() {
 		
+		if (updateListenerMap != null) {
+			updateListenerMap = null;
+		}
+		
+		if (clickListenerMap != null) {
+			clickListenerMap = null;
+		}
+		
+		//If undo clicked, mustn't clear the global listeners
+		if (!listenersEnabled) return;
+		
 		if (addListeners != null) {
 			addListeners.clear();
 		}
@@ -132,14 +143,6 @@ public abstract class ScriptManager implements EventListener{
 
 		if (clearListeners != null) {
 			clearListeners.clear();
-		}
-		
-		if (updateListenerMap != null) {
-			updateListenerMap = null;
-		}
-		
-		if (clickListenerMap != null) {
-			clickListenerMap = null;
 		}
 	}
 	
