@@ -520,9 +520,10 @@ public class PolygonTriangulation {
 		setName(point, 0);
 		firstPoint = point;
 		int n = 1;
-		for (int i = 0; i < polygon.getPointsLength(); i++){
+		for (int i = 1; i < polygon.getPointsLength(); i++){
 			double x1 = polygon.getPointX(i); 
 			double y1 = polygon.getPointY(i);
+			//App.debug(point.name+" : "+point.x+","+point.y);
 			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)){
 				point.next = new Point(x1, y1, i);
 				setName(point.next, i);
@@ -532,7 +533,8 @@ public class PolygonTriangulation {
 			}
 
 		}
-
+		
+		//App.debug(point.name+" : "+point.x+","+point.y);
 
 		// check first point <> last point
 		if (Kernel.isEqual(point.x, firstPoint.x) && Kernel.isEqual(point.y, firstPoint.y)){
@@ -563,6 +565,7 @@ public class PolygonTriangulation {
 			if (delta < 0){
 				delta += 2*Math.PI;
 			}
+			App.debug(prevPoint.name+" : "+(prevPoint.orientationToNext*180/Math.PI));
 			App.debug(prevPoint.name+"/"+point.name+"/"+nextPoint.name+" : "+(delta*180/Math.PI));
 			if (Kernel.isZero(delta)){ // point aligned				
 				// remove point
@@ -787,6 +790,7 @@ public class PolygonTriangulation {
 		for (Point pt = pointSet.first() ; pt != pointSet.last() ; pt = pointSet.higher(pt) ){
 			
 			String s=pt.name+" : ";
+			/*
 			for (Segment seg = bottom.above ; seg != top; seg = seg.above){
 				s+=seg.toString()+"("+seg.hashCode()+")"+",";
 			}
@@ -794,6 +798,7 @@ public class PolygonTriangulation {
 			App.debug(s);
 			
 			s=pt.name+" : ";
+			*/
 			Segment above = null;
 			Segment below = null;
 
@@ -805,7 +810,7 @@ public class PolygonTriangulation {
 			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
 				above = pt.toLeft.first().above;
 				below = pt.toLeft.last().below;
-				App.debug(pt.name+" : "+pt.toLeft.first()+"("+pt.toLeft.first().hashCode()+")"+" -- "+pt.toLeft.last()+"("+below+")");
+				//App.debug(pt.name+" : "+pt.toLeft.first()+"("+pt.toLeft.first().hashCode()+")"+" -- "+pt.toLeft.last()+"("+below+")");
 				below.above = above;
 				above.below = below;
 				checkIntersection(below, above, pointSet);
@@ -836,7 +841,7 @@ public class PolygonTriangulation {
 				}
 				
 			}else{ // search for the correct place for to-right segments
-				//App.error(pt.name);
+				App.debug("search the correct place : "+pt.name);
 				boolean go = true;
 				for (Segment segment = bottom.above ; segment != top && go ; segment = segment.above){
 					//App.error(segment.leftPoint.name+segment.rightPoint.name+" : "+segment.orientation);
@@ -874,7 +879,7 @@ public class PolygonTriangulation {
 			if (pt.toRight!=null){
 				Segment oldBelow = below;
 				for (Segment seg : pt.toRight){
-					App.debug(seg+"("+seg.hashCode()+")");
+					//App.debug(seg+"("+seg.hashCode()+")");
 					below.above = seg;
 					seg.below = below;
 					below = seg;
