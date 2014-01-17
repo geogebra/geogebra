@@ -2517,6 +2517,32 @@ label {
 	display:block; padding-left:6ex; visibility:hidden;
 }
 
+.StatisticsCalculatorW .pnlCount {
+	overflow: auto;
+	text-align: right;
+}
+
+.StatisticsCalculatorW .chirow .ChiSquarePanelW {
+	display:inline-block;
+	max-width:200px;
+	height: 20px;
+	margin: 5px;
+}
+
+.StatisticsCalculatorW .chirow .ChiSquarePanelW > * {
+	display: block;
+	text-align: center;
+}
+
+.StatisticsCalculatorW .chirow .headercell, .StatisticsCalculatorW .chirow .headercell input {
+	background: #ebeff9;
+}
+
+.StatisticsCalculatorW .chirow .headercell input:focus {
+	background: white;
+}
+
+
 /*=========== Probability Calculator End =============*/
 
 .ggw_glabel{

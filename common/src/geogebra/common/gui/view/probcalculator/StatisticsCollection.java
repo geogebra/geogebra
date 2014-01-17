@@ -1,6 +1,7 @@
 package geogebra.common.gui.view.probcalculator;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.main.App;
 
 /**
  * @author G. Sturr
@@ -48,6 +49,7 @@ public class StatisticsCollection {
 	}
 
 	public void setChiSqData(int rows, int columns) {
+		App.debug(rows + " : " + columns);
 		this.rows = rows;
 		this.columns = columns;
 

@@ -7,7 +7,9 @@ import geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.ListBoxApi;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -16,11 +18,11 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author gabor
@@ -41,7 +43,6 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	private ListBox cbColumns;
 	private FlowPanel pnlCount;
 	private ChiSquareCellW[][] cell;
-	private HandlerRegistration cbColumnsonChange;
 	private boolean showColumnMargin;
 	private FlowPanel pnlControl;
 
@@ -55,6 +56,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	public ChiSquarePanelW(App app, StatisticsCalculator statcalc) {
 	    super(app, statcalc);
 	    createGUI();
+	    setLabels();
 	    
 	    
     }
@@ -69,6 +71,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    FlowPanel p = new FlowPanel();
 	    p.add(pnlCount);
 	    wrappedPanel.add(pnlControl);
+	    wrappedPanel.add(p);
 	    
 	    
     }
@@ -77,6 +80,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 		pnlControl = new FlowPanel();
 		pnlControl.add(lblRows);
 		pnlControl.add(cbRows);
+		pnlControl.getElement().appendChild(Document.get().createBRElement());
 		pnlControl.add(lblColumns);
 		pnlControl.add(cbColumns);
 		pnlControl.add(ckRowPercent);
@@ -89,6 +93,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	private void createCountPanel() {
 	    if (pnlCount == null) {
 	    	pnlCount = new FlowPanel();
+	    	pnlCount.addStyleName("pnlCount");
 	    }
 	    
 	    pnlCount.clear();
@@ -96,13 +101,14 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    
 	    for (int r = 0; r < sc.rows + 2; r++) {
 	    	FlowPanel row = new FlowPanel();
+	    	row.addStyleName("chirow");
 	    	for (int c = 0; c < sc.columns + 2; c++) {
 	    		cell[r][c] = new ChiSquareCellW(sc, r, c);
 	    		cell[r][c].getInputField().addKeyPressHandler(this);
 	    		cell[r][c].getInputField().addFocusHandler(this);
 	    		
 	    		if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
-	    			cell[r][c].setColumns(10);
+	    			//cell[r][c].setColumns(10);
 	    		}
 	    		
 	    		row.add(cell[r][c].getWrappedPanel());
@@ -157,10 +163,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 				ckExpected.setVisible(false);
 				ckChiDiff.setVisible(false);
 
-				// only two columns for GOF
-				cbColumnsonChange.removeHandler();
-				cbColumns.setSelectedIndex(2);
-				cbColumnsonChange = cbColumns.addChangeHandler(this);
+				cbColumns.setSelectedIndex(0);
 
 			}
 
@@ -304,24 +307,29 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    	cbColumns.addItem(num[i]);
 	    }
 	    
-	    cbRows.setSelectedIndex(sc.rows);
+	    App.debug(sc.rows + " :: " + sc.columns);
+	    cbRows.setSelectedIndex(ListBoxApi.getIndexOf(String.valueOf(sc.rows), cbRows));
 	    cbRows.addChangeHandler(this);
 	    
-	    cbColumns.setSelectedIndex(sc.columns);
-	    cbColumnsonChange = cbColumns.addChangeHandler(this);
+	    cbColumns.setSelectedIndex(ListBoxApi.getIndexOf(String.valueOf(sc.columns -1), cbColumns));
+	    cbColumns.addChangeHandler(this);
 	        
     }
 
 	//@Override
     public void onValueChange(ValueChangeEvent<Boolean> event) {
-	     
-	    
+    	  Object source = event.getSource();
+    	  
+
+  		if (source == ckExpected || source == ckChiDiff
+  				|| source == ckRowPercent || source == ckColPercent) {
+  			updateVisibility();
+  		}
     }
 
 	//@Override
     public void onChange(ChangeEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	    updateGUI();
     }
     
     public class ChiSquareCellW extends ChiSquareCell implements FocusHandler, KeyPressHandler {
@@ -430,11 +438,13 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		} else if (isHeaderCell) {
     			
     			fldInput.setVisible(true);
+    			wrappedPanel.addStyleName("headercell");
     			//TODO CSSfldInput.setBackground(geogebra.awt.GColorD
     					//.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
     		} else {
     			fldInput.setVisible(true);
+    			wrappedPanel.removeStyleName("headercell");
     			//TODO csswrappedPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
     			//TODO cssfldInput.setBackground(geogebra.awt.GColorD
     					//.getAwtColor(GeoGebraColorConstants.WHITE));
@@ -482,28 +492,28 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
         }
 
         public void onFocus(FocusEvent event) {
-    		if (event.getSource() instanceof AutoCompleteTextFieldW) { //possibly wont be good
-    			((AutoCompleteTextFieldW) event.getSource()).selectAll();
+    		if (event.getSource() instanceof TextBox) {
+    			((TextBox) event.getSource()).selectAll();
     		}
         }
 
     }
 
 	public void onFocus(FocusEvent event) {
-	    if (event.getSource() instanceof AutoCompleteTextFieldW) {
-	    	((AutoCompleteTextFieldW) event.getSource()).selectAll();
+	    if (event.getSource() instanceof TextBox) {
+	    	((TextBox) event.getSource()).selectAll();
 	    }
 	    
     }
 
 	public void onKeyPress(KeyPressEvent event) {
 	   Object source = event.getSource();
-	   if (source instanceof AutoCompleteTextFieldW) {
-		   doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
+	   if (source instanceof TextBox) {
+		   doTextFieldActionPerformed((TextBox) source);
 	   }
     }
 
-	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
+	private void doTextFieldActionPerformed(TextBox source) {
 	    updateCellContent();
     }
 

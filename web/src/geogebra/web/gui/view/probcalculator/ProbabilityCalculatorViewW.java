@@ -10,6 +10,7 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
@@ -619,7 +620,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 				if (comboDistribution.getValue(comboDistribution.getSelectedIndex()) != distributionMap
 						.get(selectedDist))
 					comboDistribution
-							.setSelectedIndex(getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+							.setSelectedIndex(ListBoxApi.getIndexOf(distributionMap.get(selectedDist), comboDistribution));
 				//comboDistribution.addActionListener(this);
 
 				//btnIntervalLeft.removeActionListener(this);
@@ -702,22 +703,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 		comboDistribution.addItem(distributionMap.get(DIST.POISSON));
 		comboDistribution.addItem(distributionMap.get(DIST.HYPERGEOMETRIC));
 
-		comboDistribution.setSelectedIndex(getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+		comboDistribution.setSelectedIndex(ListBoxApi.getIndexOf(distributionMap.get(selectedDist), comboDistribution));
 		comboDistribution.addChangeHandler(this);
 
 	}
 
 	
-	private static int getIndexOf(String value, ListBox lb) {
-		int indexToFind = -1;
-		for (int i = 0; i < lb.getItemCount(); i++) {
-		    if (lb.getValue(i).equals(value)) {
-		        indexToFind = i;
-		        break;
-		    }
-		};
-		return indexToFind;
-    }
+	
 
 	public void setCumulative(boolean isCumulative) {
 		if (this.isCumulative == isCumulative)
