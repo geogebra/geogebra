@@ -70,7 +70,7 @@ public class MathMLParser {
 		geogebraMap.put("&dd;", "d ");
 
 
-		// griechisches Alphabet ... may be implemented by Java unicode codes \u.
+		// griechisches Alphabet ... may be implemented by Java unicode codes.
 		geogebraMap.put("&alpha;", "# ");
 		geogebraMap.put("&beta;", "# ");
 		geogebraMap.put("&gamma;", "# ");
