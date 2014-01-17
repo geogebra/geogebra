@@ -20,6 +20,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
+import geogebra.common.gui.dialog.options.model.FillingModel;
+import geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
@@ -63,6 +65,7 @@ import geogebra.common.gui.inputfield.DynamicTextElement;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
@@ -75,7 +78,6 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.TextEditAdvancedPanel;
-import geogebra.html5.gui.inputfield.TextPreviewPanelW;
 import geogebra.html5.gui.util.ColorChangeHandler;
 import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
@@ -155,6 +157,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private IneqPanel ineqStylePanel;
 	private TextFieldSizePanel textFieldSizePanel;
+	private FillingPanel fillingPanel;
 
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
@@ -172,6 +175,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private ConicEqnPanel conicEqnPanel;
 
 	private List<OptionsTab> tabs;
+
 
 
 	String localize(final String id) {
@@ -1924,8 +1928,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private boolean secondLineVisible = false;
 		private GeoTextEditor editor;
 		private TextEditAdvancedPanel advancedPanel;
-
-		private TextPreviewPanelW previewer;
 		private GeoText orig;
 		
 		// ugly hack preventing infinite loop of update()
@@ -2189,7 +2191,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreviewPanel() {
-			
+
 		}
 
 
@@ -2229,6 +2231,101 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+	}
+	
+	private class FillingPanel extends OptionPanel implements IFillingListener {
+		private FillingModel model;
+		private ListBox lbFillType;
+		private CheckBox cbFillInverse;
+		private FlowPanel mainWidget;
+		private FlowPanel fillTypePanel;
+		private Label fillTypeTitle;
+		
+		public FillingPanel() {
+			model = new FillingModel(this);
+			setModel(model);
+			mainWidget = new FlowPanel();
+			fillTypePanel = new FlowPanel();
+			fillTypeTitle = new Label();
+			lbFillType = new ListBox();
+			
+			fillTypePanel.add(fillTypeTitle);
+			fillTypePanel.add(lbFillType);
+			
+			cbFillInverse = new CheckBox();
+			fillTypePanel.add(cbFillInverse);
+			lbFillType.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyFillType(lbFillType.getSelectedIndex());
+	            }});
+			
+			cbFillInverse.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.applyFillingInverse(cbFillInverse.getValue());
+                }});
+
+			mainWidget.add(fillTypePanel);
+			setWidget(mainWidget);
+			setLabels();
+		}
+
+		@Override
+		public boolean update(Object[] geos) {
+			getModel().setGeos(geos);
+
+			if (!getModel().checkGeos()) {
+				return false;
+			}
+			return true;
+		}
+
+		public void setSelectedIndex(int index) {
+	        lbFillType.setSelectedIndex(index);
+        }
+
+		public void addItem(String item) {
+	        lbFillType.addItem(item);
+        }
+
+		public void setSelectedItem(String item) {
+	       // lbFillType.setSelectedIndex(FillType.));
+        }
+
+		public void setSymbolsVisible(boolean isVisible) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setFillingImage(String imageFileName) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void updateFillTypePanel(FillType fillType) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setFillInverseVisible(boolean isVisible) {
+	        cbFillInverse.setVisible(isVisible);
+        }
+
+		public void setFillTypeVisible(boolean isVisible) {
+			  lbFillType.setVisible(isVisible);  
+        }
+
+		@Override
+        public void setLabels() {
+	        fillTypeTitle.setText(localize("Filling") + ":");
+	        cbFillInverse.setText(localize("InverseFilling"));
+			int idx = lbFillType.getSelectedIndex();
+			lbFillType.clear();
+			model.fillModes(loc);
+			lbFillType.setSelectedIndex(idx);
+		}
+		
 	}
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -2399,6 +2496,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		ineqStylePanel = new IneqPanel();
 		textFieldSizePanel = new TextFieldSizePanel();
 		buttonSizePanel = new ButtonSizePanel();
+		fillingPanel = new FillingPanel();
 
 		tab.addPanelList(Arrays.asList(pointSizePanel,
 				pointStylePanel,
@@ -2407,7 +2505,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				slopeTriangleSizePanel,
 				ineqStylePanel,
 				buttonSizePanel,
-				textFieldSizePanel));
+				textFieldSizePanel,
+				fillingPanel));
 		return tab;
 	}
 

@@ -58,7 +58,8 @@ public class FillingModel extends MultipleOptionsModel {
 		return false;
 	}
 	
-	public void applyFillType(FillType fillType) {
+	public void applyFillType(int index) {
+		FillType fillType = FillType.values()[index];
 		GeoElement geo0 = getGeoAt(0);
 		if (fillType == FillType.IMAGE
 				&& geo0.getFillImage() != null) {
