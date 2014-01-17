@@ -565,7 +565,7 @@ public class MathMLParser {
 					int substIndex = 0;
 
 					// parse subblocks recursively 
-					while ( ((phIndex = substBuf.indexOf(PH_BLOCK_START, substIndex)) > -1) && (pos < blockEnd)) { // blockEnd-1 ??
+					while ( ((phIndex = substBuf.indexOf(PH_BLOCK_START, substIndex)) > -1) && (pos - 2 < blockEnd)) {
 
 						// write substitution up to the block marker
 						while (substIndex < phIndex) {
