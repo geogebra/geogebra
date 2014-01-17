@@ -591,8 +591,8 @@ public class AlgebraProcessor {
 								
 							};
 						}
-						this.app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
-						if (callback0 != null){
+						boolean autoCreateSlidersAnswer = this.app.getGuiManager().checkAutoCreateSliders(sb.toString(), callback);
+						if (!autoCreateSlidersAnswer){
 							return null;
 						}
 					}
