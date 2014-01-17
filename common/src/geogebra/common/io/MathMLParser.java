@@ -345,7 +345,7 @@ public class MathMLParser {
 		latexMap.put("&#x2212;", "- ");
 		latexMap.put("&#x2192;", "\\to ");
 		latexMap.put("&#x222b;", "\\int ");
-		latexMap.put("&#x2061;", " ");
+		latexMap.put("&#x2061;", "");
 	}
 
 	/**
