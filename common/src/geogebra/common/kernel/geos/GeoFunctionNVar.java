@@ -388,7 +388,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
-		if (getListenersToo) getObjectListenerTagXML(sb);
+		if (getListenersToo) getListenerTagsXML(sb);
 		//sb.append(sb);
 		sb.append("</element>\n");
 	}

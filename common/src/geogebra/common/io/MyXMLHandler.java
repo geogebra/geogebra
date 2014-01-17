@@ -3288,6 +3288,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("listType".equals(eName)) {
 				ok = handleListType(attrs);
 				break;
+			} else if ("listener".equals(eName)){
+				ok = handleListeners(attrs);
+				break;
 			}
 
 		case 'm':
@@ -3303,9 +3306,6 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			} else if ("outlyingIntersections".equals(eName)) {
 				ok = handleOutlyingIntersections(attrs);
-				break;
-			} else if ("objectListener".equals(eName)){
-				ok = handleObjectListener(attrs);
 				break;
 			} /*
 			 * else if ("objCoords".equals(eName)) { ok =
@@ -3726,9 +3726,11 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleObjectListener(LinkedHashMap<String, String> attrs){
+	private boolean handleListeners(LinkedHashMap<String, String> attrs){
 		try {
-			app.getScriptManager().getUpdateObjectListenerMap().put(geo, attrs.get("val"));
+			if (attrs.get("type") == "object") {
+				app.getScriptManager().getUpdateObjectListenerMap().put(geo, attrs.get("val"));	
+			}
 			return true;
 		} catch (Exception e) {
 			Log.error(e.getMessage());

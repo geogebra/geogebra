@@ -4806,25 +4806,23 @@ public abstract class GeoElement extends ConstructionElement implements
 		getXMLtags(sb);
 		getCaptionXML(sb);
 		getExtraTagsXML(sb);
-		if (getListenersToo) getObjectListenerTagXML(sb);
+		if (getListenersToo) getListenerTagsXML(sb);
 		getElementCloseTagXML(sb);
 	
 	}
 	
-	protected void getObjectListenerTagXML(StringBuilder sb){
-		
+	protected void getListenerTagsXML(StringBuilder sb){
+
+		//updateObjectListenerMap
 		HashMap<GeoElement, String> map = kernel.getApplication().getScriptManager().getUpdateObjectListenerMap();
-		if (map == null) return;
-		
-		String objectListener = map.get(this);
-
-		if (objectListener != null){
-			
-			sb.append("\t<objectListener val=\"");
-			sb.append(objectListener);
-			sb.append("\"/>\n");
-
-		}		
+		if (map != null){;
+			String objectListener = map.get(this);
+			if (objectListener != null){
+				sb.append("\t<listener type=\"object\" val=\"");
+				sb.append(objectListener);
+				sb.append("\"/>\n");
+			}
+		}
 	}
 
 	/**

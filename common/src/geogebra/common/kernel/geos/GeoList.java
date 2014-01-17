@@ -898,7 +898,7 @@ AngleProperties {
 
 		// for ComboBoxes (and comments)
 		getCaptionXML(sb);
-		if (getListenersToo) getObjectListenerTagXML(sb);
+		if (getListenersToo) getListenerTagsXML(sb);
 
 		sb.append("</element>\n");
 

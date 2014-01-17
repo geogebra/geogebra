@@ -546,7 +546,7 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
-		if (getListenersToo) getObjectListenerTagXML(sb);
+		if (getListenersToo) getListenerTagsXML(sb);
 		sb.append("</element>\n");
 
 	}
