@@ -451,7 +451,7 @@ public class MathMLParser {
 
 		// Avoiding bugs due to wrong parsing (quick workarounds)
 		strBuf1 = strBuf1.replace("><", "> <");
-		strBuf1 = strBuf1.replace(";&#x", "; &#x");
+		//strBuf1 = strBuf1.replace(";&#x", "; &#x");
 
 		// Adding "inferred mrow" to those elements that need it
 		// according to W3C and also there in latexMap;
@@ -950,12 +950,13 @@ public class MathMLParser {
 						int hex = Integer.parseInt(entityWorkout, 16);
 						Character hexChar = (char)hex;
 						sb.replace(sbIndex - entity.length(), sbIndex, hexChar.toString());
+						sbIndex -= entity.length() - 1; 
 					} else {
 						//old school
 						sb.insert(sbIndex - entity.length(), "NOTFOUND:'");
-						sbIndex = sbIndex + 10;
+						sbIndex += 10;
 						sb.insert(sbIndex, "' ");
-						sbIndex = sbIndex + 2;
+						sbIndex += 2;
 					}
 				}
 			}
