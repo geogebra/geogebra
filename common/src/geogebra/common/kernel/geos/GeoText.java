@@ -520,7 +520,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 * save object in XML format
 	 */
 	@Override
-	public final void getXML(StringBuilder sb) {
+	public final void getXML(boolean getListenersToo, StringBuilder sb) {
 
 		// an independent text needs to add
 		// its expression itself
@@ -546,6 +546,7 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
+		if (getListenersToo) getObjectListenerTagXML(sb);
 		sb.append("</element>\n");
 
 	}

@@ -1080,7 +1080,7 @@ public class Construction {
 	 * @param sb
 	 *            StringBuilder to which the XML is appended
 	 */
-	public void getConstructionXML(StringBuilder sb) {
+	public void getConstructionXML(StringBuilder sb, boolean getListenersToo) {
 
 		try {
 			// save construction elements
@@ -1101,7 +1101,7 @@ public class Construction {
 				sb.append("\"/>\n");
 			}
 
-			getConstructionElementsXML(sb);
+			getConstructionElementsXML(sb, getListenersToo);
 
 			sb.append("</construction>\n");
 		} catch (Exception e) {
@@ -1115,13 +1115,13 @@ public class Construction {
 	 * the rest is ignored. 
 	 * @param sb String builder 
 	 */
-	public void getConstructionElementsXML(StringBuilder sb) {
+	public void getConstructionElementsXML(StringBuilder sb, boolean getListenersToo) {
 
 		ConstructionElement ce;
 		int size = ceList.size();
 		for (int i = 0; i < size; ++i) {
 			ce = ceList.get(i);
-			ce.getXML(sb);
+			ce.getXML(getListenersToo, sb);
 		}
 	}
 
@@ -1446,7 +1446,7 @@ public class Construction {
 					.getLabel(StringTemplate.defaultTemplate);
 		}
 		// get current construction XML
-		StringBuilder consXML = getCurrentUndoXML();
+		StringBuilder consXML = getCurrentUndoXML(false);
 
 		// 3) replace oldGeo by newGeo in XML
 		doReplaceInXML(consXML, oldGeo, newGeo);
@@ -1488,7 +1488,7 @@ public class Construction {
 			return;
 
 		// get current construction XML
-		StringBuilder consXML = getCurrentUndoXML();
+		StringBuilder consXML = getCurrentUndoXML(false);
 
 		// replace all oldGeo -> newGeo pairs in XML
 		Iterator<GeoElement> it = redefineMap.keySet().iterator();
@@ -1529,7 +1529,7 @@ public class Construction {
 		updateConstructionOrder(casCell);
 
 		// get current construction XML
-		StringBuilder consXML = getCurrentUndoXML();
+		StringBuilder consXML = getCurrentUndoXML(false);
 
 		// build new construction to make sure all ceIDs are correct after the
 		// redefine
@@ -2590,8 +2590,8 @@ public class Construction {
 	 * 
 	 * @return StringBuilder with xml of this construction.
 	 */
-	public StringBuilder getCurrentUndoXML() {
-		return MyXMLio.getUndoXML(this);
+	public StringBuilder getCurrentUndoXML(boolean getListenersToo) {
+		return MyXMLio.getUndoXML(this, getListenersToo);
 	}
 	/**
 	 * Each construction has its own IO because of strong coupling between those.

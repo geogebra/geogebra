@@ -808,7 +808,7 @@ AngleProperties {
 	 * save object in XML format
 	 */
 	@Override
-	public final void getXML(final StringBuilder sb) {
+	public final void getXML(boolean getListenersToo, final StringBuilder sb) {
 
 		// an independent list needs to add
 		// its expression itself
@@ -898,6 +898,7 @@ AngleProperties {
 
 		// for ComboBoxes (and comments)
 		getCaptionXML(sb);
+		if (getListenersToo) getObjectListenerTagXML(sb);
 
 		sb.append("</element>\n");
 

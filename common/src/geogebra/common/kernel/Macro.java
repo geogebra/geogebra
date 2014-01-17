@@ -131,7 +131,7 @@ public class Macro  {
 	public void initMacro(Construction macroCons1, String [] inputLabels, String [] outputLabels) {				
 		this.macroCons = macroCons1;
 		this.macroConsXML = new StringBuilder();
-		macroCons.getConstructionXML(macroConsXML);
+		macroCons.getConstructionXML(macroConsXML, false);
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;	
 		
@@ -385,7 +385,7 @@ public class Macro  {
     		ConstructionElement ce = it.next();    		    		
     		
     		if (ce.isGeoElement()) {
-    			ce.getXML(macroConsXML);
+    			ce.getXML(false, macroConsXML);
     		}
     		else if (ce.isAlgoElement()) {
     			AlgoElement algo = (AlgoElement) ce;
@@ -645,7 +645,7 @@ public class Macro  {
         if(macroConsXML!=null && macroConsXML.length()>0){
         	sb.append(macroConsXML.toString());
         }else{
-        	macroCons.getConstructionXML(sb);
+        	macroCons.getConstructionXML(sb, false);
         }
         
         sb.append("</macro>\n");           

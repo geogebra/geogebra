@@ -172,7 +172,7 @@ public class GeoCanvasImage extends GeoImage {
 	
 	
 	@Override
-	public void getXML(StringBuilder sb) {
+	public void getXML(boolean getListenersToo, StringBuilder sb) {
 		/*
 		 * Since objects of this class are always created by commands 
 		 * you must override the method to prevent the XML result 

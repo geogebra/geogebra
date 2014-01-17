@@ -56,7 +56,7 @@ public abstract class MyXMLio {
 	 * undo.
 	 * @param c construction
 	 * @return construction XML for undo step*/
-	public final static synchronized StringBuilder getUndoXML(Construction c) {
+	public final static synchronized StringBuilder getUndoXML(Construction c, boolean getListenersToo) {
 		
 		Kernel constructionKernel = c.getKernel();
 		boolean kernelIsGettingUndo = constructionKernel.isGettingUndo();
@@ -76,7 +76,7 @@ public abstract class MyXMLio {
 		c.getKernel().getKernelXML(sb, false);
 
 		// save construction
-		c.getConstructionXML(sb);
+		c.getConstructionXML(sb, getListenersToo);
 		
 		// save ProbabilityCalculator settings
 		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null && consApp.getGuiManager().hasProbabilityCalculator()){
@@ -170,7 +170,7 @@ public abstract class MyXMLio {
 		sb.append(app.getCompleteUserInterfaceXML(false));		
 
 		// save construction
-		cons.getConstructionXML(sb);
+		cons.getConstructionXML(sb, false);
 		
 		sb.append("</geogebra>");
 		return sb.toString();

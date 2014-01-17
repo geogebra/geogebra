@@ -553,7 +553,7 @@ public class CopyPaste {
 			for (int i = 0; i < cons.steps(); ++i) {
 				ce = cons.getConstructionElement(i);
 				if (geoslocal.contains(ce))
-					ce.getXML(copiedXML);
+					ce.getXML(false, copiedXML);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -579,7 +579,7 @@ public class CopyPaste {
 			for (int i = 0; i < cons.steps(); ++i) {
 				ce = cons.getConstructionElement(i);
 				if (geoslocalsw.contains(ce))
-					ce.getXML(copiedXMLforSameWindow);
+					ce.getXML(false, copiedXMLforSameWindow);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

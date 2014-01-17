@@ -52,7 +52,7 @@ public class UndoManagerW extends UndoManager {
 	public void storeUndoInfoAfterPasteOrAdd() {
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
-		final StringBuilder currentUndoXML = construction.getCurrentUndoXML();
+		final StringBuilder currentUndoXML = construction.getCurrentUndoXML(true);
 
 		//Thread undoSaverThread = new Thread() {
 		//	@Override
@@ -69,7 +69,7 @@ public class UndoManagerW extends UndoManager {
 
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
-		final StringBuilder currentUndoXML = construction.getCurrentUndoXML();
+		final StringBuilder currentUndoXML = construction.getCurrentUndoXML(true);
 
 		//Thread undoSaverThread = new Thread() {
 		//	@Override

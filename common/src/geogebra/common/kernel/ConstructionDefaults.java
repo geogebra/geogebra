@@ -523,7 +523,7 @@ public class ConstructionDefaults {
 	 * @param sb string builder
 	 */
 	protected void getXML(GeoElement geo, StringBuilder sb){
-		geo.getXML(sb);
+		geo.getXML(false, sb);
 	}
 
 	/**

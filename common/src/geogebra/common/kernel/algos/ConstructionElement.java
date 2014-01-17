@@ -148,16 +148,17 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns XML representation of this object. GeoGebra File Format.
+	 * @param getListentersToo 
 	 * @param sb string builder
 	 */
-	public abstract void getXML(StringBuilder sb);
+	public abstract void getXML(boolean getListentersToo, StringBuilder sb);
 
 	/**
 	 * Returns XML representation of this object. OGP format.
 	 * @param sb string builder
 	 */
 	public void getXML_OGP(StringBuilder sb) {
-		getXML(sb);
+		getXML(false, sb);
 	}
 
 	

@@ -4787,7 +4787,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String getXML() {
 		final StringBuilder sb = new StringBuilder();
-		getXML(sb);
+		getXML(false, sb);
 		return sb.toString();
 	}
 
@@ -4795,7 +4795,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * save object in xml format GeoGebra File Format
 	 */
 	@Override
-	public void getXML(final StringBuilder sb) {
+	public void getXML(boolean getListenersToo, final StringBuilder sb) {
 		
 		// make sure numbers are not put in XML in eg Arabic
 		//final boolean oldI8NValue = Kernel.internationalizeDigits;
@@ -4806,12 +4806,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		getXMLtags(sb);
 		getCaptionXML(sb);
 		getExtraTagsXML(sb);
-		getObjectListenerTagXML(sb);
+		if (getListenersToo) getObjectListenerTagXML(sb);
 		getElementCloseTagXML(sb);
 	
 	}
 	
-	private void getObjectListenerTagXML(StringBuilder sb){
+	protected void getObjectListenerTagXML(StringBuilder sb){
 		
 		HashMap<GeoElement, String> map = kernel.getApplication().getScriptManager().getUpdateObjectListenerMap();
 		if (map == null) return;

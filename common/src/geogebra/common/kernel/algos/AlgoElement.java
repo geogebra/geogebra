@@ -1188,7 +1188,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * format. GeoGebra File Format.
 	 */
 	@Override
-	public void getXML(StringBuilder sb) {
+	public void getXML(boolean getlistenersToo, StringBuilder sb) {
 		getXML(sb, true);
 	}
 
@@ -1291,7 +1291,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			// save only GeoElements that have a valid label
 			// Application.debug(geo.toString()+"--"+geo.isLabelSet());
 			if (geo.isLabelSet()) {
-				geo.getXML(sb);
+				geo.getXML(false, sb);
 			}
 		}
 	}

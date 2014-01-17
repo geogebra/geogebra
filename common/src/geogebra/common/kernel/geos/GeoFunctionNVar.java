@@ -363,7 +363,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * save object in xml format
 	 */ 
 	@Override
-	public final void getXML(StringBuilder sb) {
+	public final void getXML(boolean getListenersToo, StringBuilder sb) {
 
 		// an indpendent function needs to add
 		// its expression itself
@@ -388,6 +388,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
+		if (getListenersToo) getObjectListenerTagXML(sb);
 		//sb.append(sb);
 		sb.append("</element>\n");
 	}

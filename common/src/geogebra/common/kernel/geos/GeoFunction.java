@@ -741,7 +741,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * save object in xml format
 	 */
 	@Override
-	public final void getXML(StringBuilder sbxml) {
+	public final void getXML(boolean getListenersToo, StringBuilder sbxml) {
 
 		// an independent function needs to add
 		// its expression itself
@@ -767,6 +767,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		sbxml.append("\">\n");
 		getXMLtags(sbxml);
 		getCaptionXML(sbxml);
+		if (getListenersToo) getObjectListenerTagXML(sb);
 		sbxml.append("</element>\n");
 	}
 
