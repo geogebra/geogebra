@@ -62,7 +62,7 @@ public class MathMLParser {
 		latexMap.put("&equals;", "\\Relbar ");
 		latexMap.put("&forall;", "\\forall ");
 		latexMap.put("&exist;", "\\exists ");
-		latexMap.put("&%x220d;", "\\ni ");
+		latexMap.put("&#x220d;", "\\ni ");
 		latexMap.put("&lowast;", "* ");
 		latexMap.put("&minus;", "- ");
 		latexMap.put("&frasl;", "/ ");
