@@ -648,7 +648,7 @@ __GGB__keysVar.zh_CN.command = {
     "Q1_Syntax": "[ <\u539f\u59cb\u6570\u636e\u96c6\u5408> ]\n[ <\u6570\u96c6>, <\u9891\u6570\u96c6\u5408> ]",
     "Q3": "\u7b2c\u4e09\u56db\u5206\u4f4d\u6570",
     "Q3_Syntax": "[ <\u539f\u59cb\u6570\u636e\u96c6\u5408> ]\n[ <\u6570\u96c6>, <\u9891\u6570\u96c6\u5408> ]",
-    "QuadricSide": "\u4e8c\u6b21\u8fb9",
+    "QuadricSide": "\u4fa7\u9762",
     "QuadricSide_Syntax": "[ <\u4e8c\u6b21\u66f2\u9762> ]",
     "RSquare": "\u53ef\u51b3\u7cfb\u6570R\xb2",
     "RSquare_Syntax": "[ <\u70b9\u96c6>, <\u51fd\u6570> ]",
