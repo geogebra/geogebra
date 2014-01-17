@@ -357,7 +357,7 @@ public class MathMLParser {
 	private final String PH_BLOCK_START = "%BLOCK";
 	private final char PH_BLOCK_END = '%';
 
-	private final char[] specialCharacters = {'%','#','_','$'};
+	private final char[] specialCharacters = {'%','_','$'};
 	private final char[] leftBraces  = {'(','{','['};
 	private final char[] rightBraces = {')','{',']'};
 
@@ -934,16 +934,11 @@ public class MathMLParser {
 				}
 				else {
 					String entityWorkout = entity.toString();
-					if (entityWorkout.startsWith("&\\#x")) {
-						entityWorkout = entityWorkout.substring(4, entityWorkout.length() - 1);
-					} else if (entityWorkout.startsWith("\\&\\#x")) {
-						entityWorkout = entityWorkout.substring(5, entityWorkout.length() - 1);
-					} else if (entityWorkout.startsWith("&#x")) {
-						// this case is experimentally not found though
+					if (entityWorkout.startsWith("&#x")) {
 						entityWorkout = entityWorkout.substring(3, entityWorkout.length() - 1);
-					} else if (entityWorkout.startsWith("\\&#x")) {
-						// this case is experimentally not found though
-						entityWorkout = entityWorkout.substring(4, entityWorkout.length() - 1);
+					} else if (entityWorkout.startsWith("\\&\\#x")) {
+						// not sure whether this is needed any more...
+						entityWorkout = entityWorkout.substring(5, entityWorkout.length() - 1);
 					}
 					if (isValidUnicode(entityWorkout)) {
 						// assuming our LaTeX parser will know these things
@@ -965,6 +960,13 @@ public class MathMLParser {
 		// replace '&'
 		sbIndex = 0;
 		while ((sbIndex = sb.indexOf("&", sbIndex)) > -1) {
+			sb.insert(sbIndex, '\\');
+			sbIndex = sbIndex + 2;
+		}
+
+		// replace '#'
+		sbIndex = 0;
+		while ((sbIndex = sb.indexOf("#", sbIndex)) > -1) {
 			sb.insert(sbIndex, '\\');
 			sbIndex = sbIndex + 2;
 		}
