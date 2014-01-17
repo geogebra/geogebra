@@ -79,7 +79,7 @@ public class ScriptManagerW extends ScriptManager {
 			if(param2){
 				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64(ZLcom/google/gwt/core/client/JavaScriptObject;)(param1, param2);
 			}else if(param1){
-				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64(ZLcom/google/gwt/core/client/JavaScriptObject;)(true, param1);
+				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64(ZLcom/google/gwt/core/client/JavaScriptObject;)(false, param1);
 			}else{
 				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64()();
 			}
