@@ -160,24 +160,38 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
 		
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, zipJSworkerURL());
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, zipJSworkerURL(), false);
     }
     
 
 
+    private class StoreString implements StringHandler{
+		private String result = "";
+		public StoreString() {
+		    
+	    }
+	
+		@Override
+	    public void handle(String s) {
+	        this.result = s;
+	    }
+		
+		public String getResult(){
+			return result;
+		}
+	}
+
 	public String getBase64(boolean includeThumbnail) {
-    	Map<String,String>archiveContent = createArchiveContent(false);
+		StoreString storeString = new StoreString();
+    	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	JavaScriptObject jso = prepareToEntrySet(archiveContent);
-		getNativeBase64ZipJs(jso, getDefaultBase64Callback(), zipJSworkerURL());
-		return null;
+		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
+		return storeString.getResult();
 
     }
     
     public void getBase64(StringHandler callback) {
-    	Map<String,String>archiveContent = createArchiveContent(true);
-    	JavaScriptObject jsCallback = nativeCallback(callback);
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), jsCallback, zipJSworkerURL());
-
+    	getBase64(false, nativeCallback(callback));
     }
     
     private native JavaScriptObject nativeCallback(StringHandler callback) /*-{
@@ -185,13 +199,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	    	callback.@geogebra.html5.main.StringHandler::handle(Ljava/lang/String;)(b);
 	    };
     }-*/;
-
-	public void getBase64(JavaScriptObject callback) {
-		Map<String,String>archiveContent = createArchiveContent(false);
-
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, zipJSworkerURL());
-
-    }
 
 	public HashMap<String,String> createArchiveContent(boolean includeThumbnail) {
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
@@ -357,10 +364,11 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	 }-*/;
     
-	private native void getNativeBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,String workerUrls) /*-{
+	private native void getNativeBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,String workerUrls, boolean sync) /*-{
 
-		if (workerUrls === "false") {
+		if (workerUrls === "false" || synchronous) {
 			    	$wnd.zip.useWebWorkers = false;
+			    	$wnd.zip.synchronous = sync;
 			    } else {
 		    		$wnd.zip.workerScriptsPath = workerUrls;
 			    }

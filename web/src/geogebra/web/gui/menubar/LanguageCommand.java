@@ -80,7 +80,7 @@ public class LanguageCommand implements Command {
 		//Otherwise only the language will change, and the setting related with language.
 		if (newDirRTL != app.getLocalization().rightToLeftReadingOrder){
 			JavaScriptObject callback = saveBase64ToLocalStorage();
-			app.getGgbApi().getBase64(callback);
+			app.getGgbApi().getBase64(false, callback);
 		} else {
 			app.setLanguage(localeCode);			
 		}

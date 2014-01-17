@@ -114,7 +114,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 					//wont save if . exist in filename 
 					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
 					JavaScriptObject callback = ((AppW) app).getGoogleDriveOperation().getPutFileCallback(saveName, description.getText());
-					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(callback);
+					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(true, callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
 			}

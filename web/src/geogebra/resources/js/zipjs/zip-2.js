@@ -464,7 +464,7 @@
 		step();
 	}
 
-	function launchProcess(process, reader, writer, offset, size, onappend, onprogress, onend, onreaderror, onwriteerror) {
+	function launchProcess(process, reader, writer, offset, size, onappend, onprogress, onend, onreaderror, onwriteerror, synchronous) {
 		var chunkIndex = 0, index, outputSize = 0;
 
 		function step() {
@@ -481,7 +481,11 @@
 					writer.writeUint8Array(outputData, function() {
 						onappend(false, outputData);
 						chunkIndex++;
-						setTimeout(step, 1);
+						if(synchronous){
+							step();
+						}else{
+							setTimeout(step, 1);
+						}
 					}, onwriteerror);
 					if (onprogress)
 						onprogress(index, size);
@@ -514,11 +518,11 @@
 			onend(outputSize, crc32.get());
 		}
 
-		if (obj.zip.useWebWorkers) {
+		if (!obj.zip.synchronous && obj.zip.useWebWorkers) {
 			worker = new Worker(obj.zip.workerScriptsPath + INFLATE_JS);
 			launchWorkerProcess(worker, reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror);
 		} else
-			launchProcess(new obj.zip.Inflater(), reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror);
+			launchProcess(new obj.zip.Inflater(), reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror, obj.zip.synchronous);
 		return worker;
 	}
 
@@ -539,7 +543,7 @@
 			launchWorkerProcess(worker, reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror);
 		}
 
-		if (obj.zip.useWebWorkers) {
+		if (!obj.zip.synchronous && obj.zip.useWebWorkers) {
 			worker = new Worker(obj.zip.workerScriptsPath + DEFLATE_JS);
 			worker.addEventListener("message", onmessage, false);
 			worker.postMessage({
@@ -547,7 +551,7 @@
 				level : level
 			});
 		} else
-			launchProcess(new obj.zip.Deflater(), reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror);
+			launchProcess(new obj.zip.Deflater(), reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror, obj.zip.synchronous);
 		return worker;
 	}
 
