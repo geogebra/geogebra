@@ -398,7 +398,7 @@ public class FileManagerT {
 			}
 		};
 
-		((geogebra.html5.main.GgbAPI) app.getGgbApi()).getBase64(base64saver);
+		((geogebra.html5.main.GgbAPI) app.getGgbApi()).getBase64(true, base64saver);
 
 		// extract metadata
 		final Material mat = new Material(0, MaterialType.ggb);

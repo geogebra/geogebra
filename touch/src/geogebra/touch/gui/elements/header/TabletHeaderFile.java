@@ -167,7 +167,7 @@ class TabletHeaderFile extends HorizontalPanel {
 	}
 
 	protected void onShare() {
-		this.app.getGgbApi().getBase64(new StringHandler() {
+		this.app.getGgbApi().getBase64(true, new StringHandler() {
 
 			@Override
 			public void handle(final String s) {

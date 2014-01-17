@@ -190,8 +190,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     }
     
-    public void getBase64(StringHandler callback) {
-    	getBase64(false, nativeCallback(callback));
+    public void getBase64(boolean includeThumbnail, StringHandler callback) {
+    	getBase64(includeThumbnail, nativeCallback(callback));
     }
     
     private native JavaScriptObject nativeCallback(StringHandler callback) /*-{
