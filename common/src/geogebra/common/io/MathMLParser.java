@@ -45,7 +45,7 @@ public class MathMLParser {
 		latexMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");
 		latexMap.put("<msqrt>", "\\sqrt{%BLOCK1%}");
 		latexMap.put("<mroot>", "\\sqrt[%BLOCK2%]{%BLOCK1%}");
-		latexMap.put("<mfenced>", "\\left(%BLOCK1%\right)");
+		latexMap.put("<mfenced>", "\\left(%BLOCK1%\\right)");
 		latexMap.put("<msubsup>", "%BLOCK1%_{%BLOCK2%}^{%BLOCK3%}");
 		latexMap.put("<munderover>", "%BLOCK1%_{%BLOCK2%}^{%BLOCK3%}");
 		latexMap.put("<munder>", "%BLOCK1%_{%BLOCK2%}");
@@ -343,9 +343,9 @@ public class MathMLParser {
 		latexMap.put("&ApplyFunction;", " ");
 		latexMap.put("&squ;", " ");
 		latexMap.put("&#x2212;", "- ");
-		latexMap.put("&#x2192", "\\to ");
-		latexMap.put("&#x222b", "\\int ");
-		latexMap.put("&#x2061", " ");
+		latexMap.put("&#x2192;", "\\to ");
+		latexMap.put("&#x222b;", "\\int ");
+		latexMap.put("&#x2061;", " ");
 	}
 
 	/**
