@@ -3728,8 +3728,11 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleListeners(LinkedHashMap<String, String> attrs){
 		try {
-			if (attrs.get("type") == "object") {
-				app.getScriptManager().getUpdateObjectListenerMap().put(geo, attrs.get("val"));	
+			if (attrs.get("type") == "objectUpdate") {
+				app.getScriptManager().getUpdateListenerMap().put(geo, attrs.get("val"));	
+			}
+			if (attrs.get("type") == "objectClick") {
+				app.getScriptManager().getClickListenerMap().put(geo, attrs.get("val"));	
 			}
 			return true;
 		} catch (Exception e) {

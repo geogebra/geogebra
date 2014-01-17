@@ -324,13 +324,6 @@ public abstract class ScriptManager implements EventListener{
 				map.remove(geo);
 			}
 		}
-	}	
-	
-	public HashMap<GeoElement, String> getUpdateObjectListenerMap(){
-		if (updateListenerMap == null){
-			updateListenerMap = new HashMap<GeoElement, String>();
-		}
-		return updateListenerMap;
 	}
 	
 	/**
@@ -373,6 +366,65 @@ public abstract class ScriptManager implements EventListener{
 	}
 
 	abstract public void callJavaScript(String jsFunction, Object [] args);
+	
+	
+	//------ getters for listeners -------------
+	
+	public ArrayList<String> getAddListeners(){
+		if (addListeners == null){
+			addListeners = new ArrayList<String>();
+		}
+		return addListeners;
+	}
+	
+	public ArrayList<String> getStoreUndoListeners(){
+		if (storeUndoListeners == null){
+			storeUndoListeners = new ArrayList<String>();
+		}
+		return storeUndoListeners;
+	}
+	
+	public ArrayList<String> getRemoveListeners(){
+		if (removeListeners == null){
+			removeListeners = new ArrayList<String>();
+		}
+		return removeListeners;
+	}
+	
+	public ArrayList<String> getRenameListeners(){
+		if (renameListeners == null){
+			renameListeners = new ArrayList<String>();
+		}
+		return renameListeners;
+	}
+	
+	public ArrayList<String> getupdateListeners(){
+		if (updateListeners == null){
+			updateListeners = new ArrayList<String>();
+		}
+		return updateListeners;
+	}
+	
+	public ArrayList<String> getClearListeners(){
+		if (clearListeners == null){
+			clearListeners = new ArrayList<String>();
+		}
+		return clearListeners;
+	}
+	
+	public HashMap<GeoElement, String> getUpdateListenerMap(){
+		if (updateListenerMap == null){
+			updateListenerMap = new HashMap<GeoElement, String>();
+		}
+		return updateListenerMap;
+	}
+	
+	public HashMap<GeoElement, String> getClickListenerMap(){
+		if (clickListenerMap == null){
+			clickListenerMap = new HashMap<GeoElement, String>();
+		}
+		return clickListenerMap;
+	}
 }
 
 

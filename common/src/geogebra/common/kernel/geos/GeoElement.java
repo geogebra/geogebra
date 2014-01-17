@@ -68,6 +68,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.Language;
@@ -4812,17 +4813,23 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 	
 	protected void getListenerTagsXML(StringBuilder sb){
+		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
+		//updateListenerMap
+		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(), "objectUpdate");
+		//clickListenerMap
+		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(), "objectClick");
 
-		//updateObjectListenerMap
-		HashMap<GeoElement, String> map = kernel.getApplication().getScriptManager().getUpdateObjectListenerMap();
+	}
+	
+	private void getListenerTagXML(StringBuilder sb, HashMap<GeoElement, String> map, String type){
 		if (map != null){;
 			String objectListener = map.get(this);
 			if (objectListener != null){
-				sb.append("\t<listener type=\"object\" val=\"");
+				sb.append("\t<listener type=\""+type+"\" val=\"");
 				sb.append(objectListener);
 				sb.append("\"/>\n");
 			}
-		}
+		}	
 	}
 
 	/**
