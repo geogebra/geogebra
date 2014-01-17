@@ -33,6 +33,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
+import geogebra.common.gui.dialog.options.model.FillingModel;
+import geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import geogebra.common.gui.dialog.options.model.FixObjectModel;
 import geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
@@ -1989,9 +1991,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void drawListAsComboBox(GeoList geo, boolean value) {
-			
+
 			Iterator<Integer> it = geo.getViewSet().iterator();
-			
+
 			// #3929
 			while (it.hasNext()) {
 				Integer view = it.next();
@@ -2111,7 +2113,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 	}
@@ -2281,7 +2283,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedItem(String item) {
 			cbLocation.setSelectedItem(item);
-			
+
 		}
 	}
 
@@ -2307,13 +2309,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 		}
 
-		
+
 		@Override
 		public void setLabels() {
 			super.setLabels();
 			String strLabelStart = app.getPlain("CornerPoint");
 			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
-		
+
 		}
 
 
@@ -2359,7 +2361,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					corner0.update(geos) == null) {
 				return null;
 			}
-			
+
 			;
 			corner1.update(geos);
 			corner2.update(geos);
@@ -2884,7 +2886,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 	}
@@ -2896,7 +2898,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 */
 	private class TextOptionsPanel extends JPanel implements ActionListener,
 	SetLabels, UpdateFonts, UpdateablePropertiesPanel, FocusListener,
-		ITextOptionsListener {
+	ITextOptionsListener {
 		private static final long serialVersionUID = 1L;
 		private TextOptionsModel model;
 
@@ -2907,11 +2909,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JPanel secondLine;
 		private boolean secondLineVisible = false;
 		private TextEditPanel editPanel;
-		
+
 		public TextOptionsPanel() {
 
 			model = new TextOptionsModel(app, this);
-			
+
 			cbFont = new JComboBox(model.getFonts());
 			cbFont.addActionListener(this);
 
@@ -3029,13 +3031,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				model.cancelEditGeo();
 				return null;
 			}
-		
+
 			cbSize.removeActionListener(this);
 			cbFont.removeActionListener(this);
 			cbDecimalPlaces.removeActionListener(this);
-			
+
 			model.updateProperties();
-			
+
 			cbSize.addActionListener(this);
 			cbFont.addActionListener(this);
 			cbDecimalPlaces.addActionListener(this);
@@ -3056,7 +3058,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 							app.getPlain("EnterPercentage"),
 							Math.round(model.getTextPropertiesAt(0)
 									.getFontSizeMultiplier() * 100) + "%");
-					
+
 					model.applyFontSizeFromString(percentStr);
 				} else {
 					model.applyFontSizeFromIndex(cbSize
@@ -3085,7 +3087,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			editPanel.setFont(font);
 		}
-		
+
 
 		public void focusGained(FocusEvent arg0) {
 			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(model.getTextPropertiesAt(0)
@@ -3108,19 +3110,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				secondLine.setVisible(!showFontDetails);
 				secondLineVisible = !showFontDetails;
 			}
-			
+
 			cbFont.setVisible(model.isTextEditable());
-			
+
 		}
 
 		public void selectSize(int index) {
 			cbSize.setSelectedIndex(index);
-			
+
 		}
 
-	 	public void selectFont(int index) {
+		public void selectFont(int index) {
 			cbFont.setSelectedIndex(index);
-			
+
 		}
 
 		public void selectDecimalPlaces(int index) {
@@ -3160,12 +3162,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setEditorText(ArrayList<DynamicTextElement> list) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void setEditorText(String text) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
@@ -3399,15 +3401,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author Markus Hohenwarter
 	 */
-	class FillingPanel extends JPanel implements ChangeListener, SetLabels,
-	UpdateFonts, UpdateablePropertiesPanel, ActionListener {
+	private class FillingPanel extends JPanel implements ChangeListener, SetLabels,
+	UpdateFonts, UpdateablePropertiesPanel, ActionListener, IFillingListener {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
-
+		private FillingModel model;
 		private FillingPanel fillingPanel;
 
 		private JSlider fillingSlider;
@@ -3440,6 +3442,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public FillingPanel() {
 
 			// For filling whit unicode char
+			model = new FillingModel(this);
 			btInsertUnicode = new PopupMenuButton(app);
 			buildInsertUnicodeButton();
 			btInsertUnicode.addActionListener(this);
@@ -3603,15 +3606,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			cbFillType.removeActionListener(this);
 			cbFillType.removeAllItems();
 
-			cbFillType.addItem(app.getMenu("Filling.Standard")); // index 0
-			cbFillType.addItem(app.getMenu("Filling.Hatch")); // index 1
-			cbFillType.addItem(app.getMenu("Filling.Crosshatch")); // index 2
-			cbFillType.addItem(app.getMenu("Filling.Chessboard")); // index 3
-			cbFillType.addItem(app.getMenu("Filling.Dotted")); // index 4
-			cbFillType.addItem(app.getMenu("Filling.Honeycomb"));// index 5
-			cbFillType.addItem(app.getMenu("Filling.Brick"));// index 6
-			cbFillType.addItem(app.getMenu("Filling.Symbol"));// index 7
-			cbFillType.addItem(app.getMenu("Filling.Image")); // index 8
+			model.fillModes(loc);
 
 			cbFillType.setSelectedIndex(selectedIndex);
 			cbFillType.addActionListener(this);
@@ -3674,7 +3669,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return imagePanel;
 		}
 
-		private void updateFillTypePanel(FillType fillType) {
+		public void updateFillTypePanel(FillType fillType) {
 
 			switch (fillType) {
 
@@ -3786,9 +3781,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JPanel update(Object[] geos) {
 			// check geos
+			
 			if (!checkGeos(geos))
 				return null;
 
+			model.setGeos(geos);
 			cbFillType.removeActionListener(this);
 			// set selected fill type to first geo's fill type
 			if (isBarChart){
@@ -3997,48 +3994,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// handle change in fill type
 			if (source == cbFillType) {
 				fillType = FillType.values()[cbFillType.getSelectedIndex()];
-				// set selected image to first geo image
-				if (fillType == FillType.IMAGE
-						&& ((GeoElement) geos[0]).getFillImage() != null) {
-					btnImage.setSelectedIndex(this.imgFileNameList
-							.lastIndexOf(((GeoElement) geos[0])
-									.getImageFileName()));	
-				} else {
-					btnImage.setSelectedIndex(-1);
-				}
-				if (fillType == fillType.SYMBOLS) {
-					btInsertUnicode.setVisible(true);
-					lblSymbols.setVisible(true);
-					lblSelectedSymbol.setVisible(true);
-					lblMsgSelected.setVisible(true);
-				} else {
-					lblSymbols.setVisible(false);
-					btInsertUnicode.setVisible(false);
-					lblMsgSelected.setVisible(false);
-					lblSelectedSymbol.setVisible(false);
-					lblSelectedSymbol.setText("");
-					for (int i = 0; i < geos.length; i++) {
-						geo = (GeoElement) geos[i];						
-						if(isBarChart){
-							if (!updateBarsFillType(geo,1,null)){
-								geo.setFillType(fillType);
-							}
-						} else {
-							geo.setFillType(fillType);
-						}
-						geo.updateRepaint();
-					}
-				}
-
-				fillingPanel.updateFillTypePanel(fillType);
-
+				model.applyFillType(fillType);
+				
 			} else if (source == cbFillInverse) {
 
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setInverseFill(cbFillInverse.isSelected());
-					geo.updateRepaint();
-				}
+				model.applyFillingInverse(cbFillInverse.isSelected());
+				
 
 			}
 			// handle image button selection
@@ -4322,6 +4283,44 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					} 
 					popupButton.handlePopupActionEvent();
 				}
+			}
+		}
+
+		public void setSelectedIndex(int index) {
+			cbFillType.setSelectedIndex(index);
+		}
+
+		public void addItem(String item) {
+			cbFillType.addItem(item);
+
+		}
+
+		public void setSelectedItem(String item) {
+			cbFillType.setSelectedItem(item);
+		}
+
+		public void setSymbolsVisible(boolean isVisible) {
+
+			if (isVisible) {
+				btInsertUnicode.setVisible(true);
+				lblSymbols.setVisible(true);
+				lblSelectedSymbol.setVisible(true);
+				lblMsgSelected.setVisible(true);
+			} else {
+				lblSymbols.setVisible(false);
+				btInsertUnicode.setVisible(false);
+				lblMsgSelected.setVisible(false);
+				lblSelectedSymbol.setVisible(false);
+				lblSelectedSymbol.setText("");
+			}
+		}
+
+		public void setFillingImage(String imageFileName) {
+			if (imageFileName != null) {
+				btnImage.setSelectedIndex(imgFileNameList
+						.lastIndexOf(imageFileName));
+			} else {
+				btnImage.setSelectedIndex(-1);
 			}
 		}
 	}
@@ -5772,7 +5771,7 @@ UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
 		labelPixelW.setText(loc.getMenu("Pixels.short"));
 		labelPixelH.setText(loc.getMenu("Pixels.short"));
 		cbUseFixedSize.setText(loc.getPlain("fixed"));
-		
+
 	}
 
 	public JPanel update(Object[] geos) {
