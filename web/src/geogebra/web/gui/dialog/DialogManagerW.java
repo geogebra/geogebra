@@ -388,7 +388,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof GoogleLoginEvent) {
 	    	if (!((GoogleLoginEvent) event).isSuccessFull()) {
-	    		getAlertDialog().get(app.getLocalization().getMenu("LoginToGoogleWasUnSuccesFull"));
+	    		App.debug("Login to Google failed");
 	    	}
 	    }
 	    
