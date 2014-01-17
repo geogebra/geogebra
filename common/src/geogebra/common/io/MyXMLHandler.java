@@ -3297,6 +3297,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 		case 'o':
+			App.debug("case o");
 			if ("objColor".equals(eName)) {
 				ok = handleObjColor(attrs);
 				break;
@@ -3730,6 +3731,7 @@ public class MyXMLHandler implements DocHandler {
 			app.getScriptManager().getUpdateObjectListenerMap().put(geo, attrs.get("val"));
 			return true;
 		} catch (Exception e) {
+			Log.error(e.getMessage());
 			return false;
 		}
 	}
