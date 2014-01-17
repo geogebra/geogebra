@@ -442,7 +442,17 @@ public class MathMLParser {
 		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
 		String strBuf1 = strBuf0.replaceAll("(?s)<!--.*?-->", "");
 
-		strBuf1 = strBuf1.replaceAll("><", "> <");
+		strBuf1 = strBuf1.replace("><", "> <");
+
+		// Adding "inferred mrow" to those elements that need it
+		// according to W3C and also there in latexMap;
+		// but also take care of the possible attributes!
+		// As the algorithm itself neglects them,
+		// this "quick" solution can do that too.
+		strBuf1 = strBuf1.replaceAll("(?s)<msqrt.*?>", "<msqrt> <mrow>");
+		strBuf1 = strBuf1.replace("</msqrt>", "</mrow> </msqrt>");
+		strBuf1 = strBuf1.replaceAll("(?s)<mtd.*?>", "<mtd> <mrow>");
+		strBuf1 = strBuf1.replace("</mtd>", "</mrow> </mtd>");
 
 		if (strBuf1 != null) {
 			this.strBuf = strBuf1;
@@ -984,7 +994,7 @@ public class MathMLParser {
 
 	private static String[] mathmlTest = {
 		// quadratic formula
-		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> <mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &PlusMinus; </mo> <msqrt> <msup> <mrow> <mi> b </mi> </mrow> <mrow> <mn> 2 </mn> </mrow> </msup> <mo> - </mo> <mn> 4 </mn> <mi> a </mi> <mi> c </mi> </msqrt> </mrow> <mrow> <mn> 2 </mn> <mi> a </mi> </mrow> </mfrac> </mstyle> </math>",
+		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> <mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &PlusMinus; </mo> <msqrt> <mrow> <msup> <mrow> <mi> b </mi> </mrow> <mrow> <mn> 2 </mn> </mrow> </msup> <mo> - </mo> <mn> 4 </mn> <mi> a </mi> <mi> c </mi> </mrow> </msqrt> </mrow> <mrow> <mn> 2 </mn> <mi> a </mi> </mrow> </mfrac> </mstyle> </math>",
 		// quadratic formula with comment
 		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mstyle displaystyle=\"true\"> <mfrac> <mrow> <mo> - </mo> <mi> b </mi> <mo> &#x00B1;<!--plus-minus sign--> </mo> <msqrt> <msup> <mrow> <mi> b </mi> </mrow> <mrow> <mn> 2 </mn> </mrow> </msup> <mo> - </mo> <mn> 4 </mn> <mi> a </mi> <mi> c </mi> </msqrt> </mrow> <mrow> <mn> 2 </mn> <mi> a </mi> </mrow> </mfrac> </mstyle> </math>",
 		
