@@ -182,7 +182,7 @@ public class PolygonTriangulation {
 				for (Segment seg : toRight){
 					seg.leftPoint = p2;
 					p2.toRight.add(seg);
-					cutAfterComparison(seg);
+					cutAfterComparisonToRight(seg);
 				}
 			}
 
@@ -193,11 +193,7 @@ public class PolygonTriangulation {
 				for (Segment seg : toLeft){
 					seg.rightPoint = p2;
 					p2.toLeft.add(seg);
-					/*
-					if (comparedSameOrientationSegment!=null){
-						App.debug(seg+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
-					}
-					*/
+					cutAfterComparisonToLeft(seg);
 				}
 			}
 
@@ -228,7 +224,14 @@ public class PolygonTriangulation {
 
 		}
 		
+		/**
+		 * this method is only used for intersection
+		 * @param x1 x
+		 * @param y1 y
+		 * @return -1 if this is before (x1,y1); 1 if this is after (x1,y1); 0 otherwise
+		 */
 		final public int compareTo(double x1, double y1){
+			
 			// smallest x
 			if (Kernel.isGreater(x1, x)){
 				return -1;
@@ -373,7 +376,11 @@ public class PolygonTriangulation {
 
 
 			comparedSameOrientationSegment = seg;
-			comparedSameOrientationValue = rightPoint.compareToOnly(seg.rightPoint);			
+			if (rightPoint.id != seg.rightPoint.id){
+				comparedSameOrientationValue = rightPoint.compareToOnly(seg.rightPoint);
+			}else{
+				comparedSameOrientationValue = leftPoint.compareToOnly(seg.leftPoint);
+			}
 			//App.error(this+","+seg+" : "+c);		
 			/*
 			if (c > 0){ 
@@ -502,8 +509,9 @@ public class PolygonTriangulation {
 	 * two consecutive points can't be equal ; 
 	 * three consecutive points can't be aligned.
 	 * For each point orientation to the next (angle about Ox) is stored.
+	 * @return points left
 	 */
-	public void updatePoints(){
+	public int updatePoints(){
 
 		maxPointIndex = polygon.getPointsLength();
 
@@ -567,6 +575,9 @@ public class PolygonTriangulation {
 				if(Kernel.isEqual(nextPoint.x, prevPoint.x) && Kernel.isEqual(nextPoint.y, prevPoint.y)){
 					// same point
 					App.debug(prevPoint.name+"=="+nextPoint.name);
+					
+					// index is going back
+					i--;
 					// set correct orientation
 					//App.error(prevPoint.orientationToNext*180/Math.PI+"/"+nextPoint.orientationToNext*180/Math.PI);
 					prevPoint.orientationToNext = nextPoint.orientationToNext;
@@ -616,6 +627,8 @@ public class PolygonTriangulation {
 		App.debug(s);
 
 
+		App.debug(n+ " - " +removedPoints);
+		return n - removedPoints;
 	}
 
 
@@ -637,14 +650,14 @@ public class PolygonTriangulation {
 		comparedSameOrientationSegment = null;
 		segment2.addToPoints();
 		segment2.usable = segment.usable;
-		cutAfterComparison(segment2);
+		cutAfterComparisonToRight(segment2);
 	}
 	
 	/**
 	 * After adding a segment to the points, it may be redundant with an already existing segment in the left point
 	 * @param segment2 segment
 	 */
-	protected void cutAfterComparison(Segment segment2){
+	protected void cutAfterComparisonToRight(Segment segment2){
 		if (comparedSameOrientationSegment!=null){
 			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
 			if (comparedSameOrientationValue < 0){
@@ -655,8 +668,9 @@ public class PolygonTriangulation {
 				s.leftPoint = segment2.rightPoint;
 				segment2.usable ++;
 				comparedSameOrientationSegment = null;
+				segment2.addToPoints(); // check why this is necessary
 				s.addToPoints();
-				cutAfterComparison(s);
+				cutAfterComparisonToRight(s);
 			}else if (comparedSameOrientationValue > 0){
 				//comparedSameOrientationSegment can be used once more
 				Segment s = comparedSameOrientationSegment;
@@ -665,11 +679,64 @@ public class PolygonTriangulation {
 				segment2.leftPoint = s.rightPoint;
 				s.usable ++;
 				comparedSameOrientationSegment = null;
+				s.addToPoints(); // check why this is necessary
 				segment2.addToPoints();
-				cutAfterComparison(segment2);
+				cutAfterComparisonToRight(segment2);
 			}else{
 				// same segment : add usability
-				segment2.usable += comparedSameOrientationSegment.usable; 
+				Segment s = comparedSameOrientationSegment;
+				App.debug(segment2.hashCode()+" / "+s.hashCode());
+				comparedSameOrientationSegment = null;
+				// same segment : add usability
+				segment2.usable += s.usable; 
+				segment2.removeFromPoints();
+				s.removeFromPoints();
+				comparedSameOrientationSegment = null;
+				segment2.addToPoints();
+				comparedSameOrientationSegment = null;
+			}
+		}
+	}
+	
+	/**
+	 * After adding a segment to the points, it may be redundant with an already existing segment in the left point
+	 * @param segment2 segment
+	 */
+	protected void cutAfterComparisonToLeft(Segment segment2){
+		if (comparedSameOrientationSegment!=null){
+			App.debug(segment2+","+comparedSameOrientationSegment+" : "+comparedSameOrientationValue);
+			if (comparedSameOrientationValue > 0){
+				//comparedSameOrientationSegment can be used once more	
+				Segment s = comparedSameOrientationSegment;
+				comparedSameOrientationSegment = null;				
+				s.removeFromPoints();
+				s.rightPoint = segment2.leftPoint;
+				segment2.usable ++;
+				comparedSameOrientationSegment = null;
+				segment2.addToPoints(); // check why this is necessary
+				s.addToPoints();
+				cutAfterComparisonToLeft(s);
+			}else if (comparedSameOrientationValue < 0){
+				//segment2 can be used once more
+				Segment s = comparedSameOrientationSegment;
+				comparedSameOrientationSegment = null;	
+				segment2.removeFromPoints();
+				segment2.rightPoint = s.leftPoint;
+				s.usable ++;
+				comparedSameOrientationSegment = null;
+				s.addToPoints(); // check why this is necessary
+				segment2.addToPoints();
+				cutAfterComparisonToLeft(segment2);
+			}else{
+				Segment s = comparedSameOrientationSegment;
+				App.debug(segment2.hashCode()+" / "+s.hashCode());
+				comparedSameOrientationSegment = null;
+				// same segment : add usability
+				segment2.usable += s.usable; 
+				segment2.removeFromPoints();
+				s.removeFromPoints();
+				comparedSameOrientationSegment = null;
+				segment2.addToPoints();
 				comparedSameOrientationSegment = null;
 			}
 		}
@@ -718,7 +785,15 @@ public class PolygonTriangulation {
 		top.below = bottom;
 
 		for (Point pt = pointSet.first() ; pt != pointSet.last() ; pt = pointSet.higher(pt) ){
+			
 			String s=pt.name+" : ";
+			for (Segment seg = bottom.above ; seg != top; seg = seg.above){
+				s+=seg.toString()+"("+seg.hashCode()+")"+",";
+			}
+			s+=" (before)";
+			App.debug(s);
+			
+			s=pt.name+" : ";
 			Segment above = null;
 			Segment below = null;
 
@@ -730,6 +805,7 @@ public class PolygonTriangulation {
 			if (pt.toLeft!=null && !pt.toLeft.isEmpty()){ // will put to-right segments in place of to-left segments
 				above = pt.toLeft.first().above;
 				below = pt.toLeft.last().below;
+				App.debug(pt.name+" : "+pt.toLeft.first()+"("+pt.toLeft.first().hashCode()+")"+" -- "+pt.toLeft.last()+"("+below+")");
 				below.above = above;
 				above.below = below;
 				checkIntersection(below, above, pointSet);
@@ -798,6 +874,7 @@ public class PolygonTriangulation {
 			if (pt.toRight!=null){
 				Segment oldBelow = below;
 				for (Segment seg : pt.toRight){
+					App.debug(seg+"("+seg.hashCode()+")");
 					below.above = seg;
 					seg.below = below;
 					below = seg;
@@ -823,11 +900,11 @@ public class PolygonTriangulation {
 		App.error("================== END ===================");
 
 
+		
 		setNonSelfIntersecting(pointSet);
 	}
 	
 	
-		
 		
 		
 	private void setNonSelfIntersecting(TreeSet<Point> pointSet){
@@ -1083,7 +1160,6 @@ public class PolygonTriangulation {
 			}else if(ar == 0){
 				Point pt = a.rightPoint;
 				App.error("ar : "+pt.name);
-				
 				cut(b,pt);
 				
 				/*
@@ -1121,7 +1197,6 @@ public class PolygonTriangulation {
 			}else if(br == 0){
 				Point pt = b.rightPoint;
 				App.error("br : "+pt.name);
-					
 				
 				cut(a,pt);
 				
@@ -1154,6 +1229,7 @@ public class PolygonTriangulation {
 				pt.name = Integer.toString(pt.id);
 				maxPointIndex++;
 
+				App.error(a+"-"+b);
 				App.debug("inter : "+pt.name+" : "+pt.x+","+pt.y);
 
 				// remove old segments 
@@ -1267,7 +1343,6 @@ public class PolygonTriangulation {
 			return;
 		}
 		
-
 		
 		// top and bottom (dummy) segments
 		Segment top = new Segment();
