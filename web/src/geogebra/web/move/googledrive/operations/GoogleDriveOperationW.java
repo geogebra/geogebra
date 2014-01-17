@@ -147,6 +147,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
     			if ("open".equals(getAction())) {
     				login(false);
     			}
+    			login(false);
     			App.debug("Something went wrong");
     		}
     		return;
