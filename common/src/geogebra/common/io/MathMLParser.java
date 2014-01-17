@@ -231,7 +231,8 @@ public class MathMLParser {
 		latexMap.put("&darr;", "\\downarrow ");
 		latexMap.put("&dArr;", "\\Downarrow ");
 		latexMap.put("&Del;", "\\nabla ");
-		latexMap.put("&DoubleDownArrow;", "\\Downarrow ");
+		latexMap.put("&Del;", "\\nabla ");
+		latexMap.put("&DifferentialD;", "\u2146 ");
 		latexMap.put("&DoubleLeftArrow;", "\\Leftarrow ");
 		latexMap.put("&DoubleLeftRightArrow;", "\\Leftrightarrow ");
 		latexMap.put("&DoubleRightArrow;", "\\Rightarrow ");
@@ -244,6 +245,7 @@ public class MathMLParser {
 		latexMap.put("&equiv;", "\\equiv ");
 		latexMap.put("&exist;", "\\exists ");
 		latexMap.put("&Exist;", "\\exists ");
+		latexMap.put("&exponentiale;", "\u2147 ");
 		latexMap.put("&forall;", "\\forall ");
 		latexMap.put("&ForAll;", "\\forall ");
 		latexMap.put("&ge;", "\\geq ");
@@ -273,7 +275,8 @@ public class MathMLParser {
 		latexMap.put("&Leftrightarrow;", "\\Leftrightarrow ");
 		latexMap.put("&LeftRightArrow;", "\\leftrightarrow ");
 		latexMap.put("&leq;", "\\leq ");
-		latexMap.put("&lowast;", "\\ast ");
+		latexMap.put("&leq;", "\\leq ");
+		latexMap.put("&Longleftrightarrow;", "\\Longleftrightarrow ");
 		latexMap.put("&minus;", "- ");
 		latexMap.put("&nabla;", "\\nabla ");
 		latexMap.put("&ne;", "\\neq ");
@@ -321,6 +324,7 @@ public class MathMLParser {
 		latexMap.put("&Tilde;", "\\sim ");
 		latexMap.put("&TildeFullEqual;", "\\cong ");
 		latexMap.put("&TildeTilde;", "\\approx ");
+		latexMap.put("&tprime;", "\u2034 ");
 		latexMap.put("&uarr;", "\\uparrow ");
 		latexMap.put("&uArr;", "\\Uparrow ");
 		latexMap.put("&uparrow;", "\\uparrow ");
@@ -519,7 +523,7 @@ public class MathMLParser {
 
 		String endTag = generateEndTag(startTag);
 		
-		System.out.println(startTag+ " "+endTag);
+		//System.out.println(startTag+ " "+endTag);
 		
 		int blockEnd = getBlockEnd(startTag, endTag);
 
