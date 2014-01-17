@@ -17,6 +17,319 @@ import java.util.HashMap;
  */
 public class MathMLParser {
 
+	private static HashMap<String, String> geogebraMap = new HashMap<String, String>();
+
+	static {
+
+		// Tags:
+		geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
+		geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
+		geogebraMap.put("<msub>", "%BLOCK1%");// ignored for now
+		geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
+		geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
+		geogebraMap.put("<mfenced>", "(%BLOCK1%)");
+		geogebraMap.put("<msubsup>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
+		geogebraMap.put("<munderover>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
+		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now
+		geogebraMap.put("<mtable>", "{%BLOCKS%}");
+		geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
+		geogebraMap.put("<mtd>", "%BLOCK1%, ");
+
+
+		// Entities
+		geogebraMap.put("&dot;", "* ");
+		geogebraMap.put("&sdot;", "* ");
+		geogebraMap.put("&middot;", "* ");
+		geogebraMap.put("&times;", "* ");
+		geogebraMap.put("&equals;", " = ");
+		geogebraMap.put("&forall;", "# ");
+		geogebraMap.put("&exist;", "# ");
+		geogebraMap.put("&#x220d;", "# ");
+		geogebraMap.put("&lowast;", "* ");
+		geogebraMap.put("&minus;", "- ");
+		geogebraMap.put("&frasl;", "/ ");
+		geogebraMap.put("&ratio;", ": ");
+		geogebraMap.put("&lt;", "< ");
+		geogebraMap.put("&gt;", "> ");
+		geogebraMap.put("&cong;", "# ");
+		geogebraMap.put("&InvisibleTimes;", " ");
+
+
+		// Pfeile
+		geogebraMap.put("&harr;", "# ");
+		geogebraMap.put("&larr;", "# ");
+		geogebraMap.put("&rarr;", "# ");
+		geogebraMap.put("&hArr;", "# ");
+		geogebraMap.put("&lArr;", "# ");
+		geogebraMap.put("&rArr;", "# ");
+
+		// dynamische Zeichen
+		geogebraMap.put("&sum;", "# ");
+		geogebraMap.put("&prod;", "# ");
+		geogebraMap.put("&Integral;", "# ");
+		geogebraMap.put("&dd;", "d ");
+
+
+		// griechisches Alphabet ... may be implemented by Java unicode codes \u.
+		geogebraMap.put("&alpha;", "# ");
+		geogebraMap.put("&beta;", "# ");
+		geogebraMap.put("&gamma;", "# ");
+		geogebraMap.put("&delta;", "# ");
+		geogebraMap.put("&epsi;", "# ");
+		geogebraMap.put("&eta;", "# ");
+		geogebraMap.put("&iota;", "# ");
+		geogebraMap.put("&kappa;", "# ");
+		geogebraMap.put("&lambda;", "# ");
+		geogebraMap.put("&mu;", "# ");
+		geogebraMap.put("&mgr;", "# ");
+		geogebraMap.put("&nu;", "# ");
+		geogebraMap.put("&omicron;", "o ");
+		geogebraMap.put("&pi;", "pi ");
+		geogebraMap.put("&theta;", "# ");
+		geogebraMap.put("&rho;", "# ");
+		geogebraMap.put("&rgr;", "# ");
+		geogebraMap.put("&sigma;", "# ");
+		geogebraMap.put("&tau;", "# ");
+		geogebraMap.put("&upsilon;", "# ");
+		geogebraMap.put("&phiv;", "# ");
+		geogebraMap.put("&phi;", "# ");
+		geogebraMap.put("&chi;", "# ");
+		geogebraMap.put("&piv;", "# ");
+		geogebraMap.put("&pgr;", "pi ");
+		geogebraMap.put("&ohgr;", "# ");
+		geogebraMap.put("&omega;", "# ");
+		geogebraMap.put("&xi;", "# ");
+		geogebraMap.put("&psi;", "# ");
+		geogebraMap.put("&zeta;", "# ");
+		geogebraMap.put("&Delta;", "# ");
+		geogebraMap.put("&Phi;", "# ");
+		geogebraMap.put("&Gamma;", "# ");
+		geogebraMap.put("&Lambda;", "# ");
+		geogebraMap.put("&Pi;", "# ");
+		geogebraMap.put("&tgr;", "# ");
+		geogebraMap.put("&Theta;", "# ");
+		geogebraMap.put("&Sigma;", "# ");
+		geogebraMap.put("&Upsilon;", "# ");
+		geogebraMap.put("&sigmaf;", "# ");
+		geogebraMap.put("&Omega;", "# ");
+		geogebraMap.put("&Xi;", "# ");
+		geogebraMap.put("&Psi;", "# ");
+		geogebraMap.put("&epsiv;", "# ");
+		geogebraMap.put("&phgr;", "# ");
+		geogebraMap.put("&ggr;", "# ");
+		geogebraMap.put("&eegr;", "# ");
+		geogebraMap.put("&igr;", "# ");
+		geogebraMap.put("&phgr;", "# ");
+		geogebraMap.put("&kgr;", "# ");
+		geogebraMap.put("&lgr;", "# ");
+		geogebraMap.put("&ngr;", "# ");
+		geogebraMap.put("&ogr;", "o ");
+		geogebraMap.put("&thgr;", "# ");
+		geogebraMap.put("&sgr;", "# ");
+		geogebraMap.put("&ugr;", "# ");
+		geogebraMap.put("&zgr;", "# ");
+		geogebraMap.put("&Agr;", "A ");
+		geogebraMap.put("&Bgr;", "B ");
+		geogebraMap.put("&KHgr;", "X ");
+		geogebraMap.put("&Egr;", "E ");
+		geogebraMap.put("&PHgr;", "# ");
+		geogebraMap.put("&Ggr;", "# ");
+		geogebraMap.put("&EEgr;", "H ");
+		geogebraMap.put("&Igr;", "I ");
+		geogebraMap.put("&THgr;", "# ");
+		geogebraMap.put("&Kgr;", "K ");
+		geogebraMap.put("&Lgr;", "# ");
+		geogebraMap.put("&Mgr;", "M ");
+		geogebraMap.put("&Ngr;", "N ");
+		geogebraMap.put("&Ogr;", "O ");
+		geogebraMap.put("&Pgr;", "# ");
+		geogebraMap.put("&Rgr;", "P ");
+		geogebraMap.put("&Sgr;", "# ");
+		geogebraMap.put("&Tgr;", "T ");
+		geogebraMap.put("&Ugr;", "# ");
+		geogebraMap.put("&OHgr;", "# ");
+		geogebraMap.put("&Zgr;", "Z ");
+
+
+		// Pfeile und andere Operatoren
+		geogebraMap.put("&#x2212;", "-");
+		geogebraMap.put("&perp;", "# ");
+		geogebraMap.put("&sim;", "~ ");
+		geogebraMap.put("&prime;", "# ");
+		geogebraMap.put("&le;", "<= ");
+		geogebraMap.put("&ge;", ">= ");
+		geogebraMap.put("&infin;", "# ");//IMPORTANT
+		geogebraMap.put("&clubs;", "# ");
+		geogebraMap.put("&diams;", "# ");
+		geogebraMap.put("&hearts;", "# ");
+		geogebraMap.put("&spades;", "# ");
+		geogebraMap.put("&PlusMinus;", "# ");//??
+		geogebraMap.put("&Prime;", "# ");
+		geogebraMap.put("&prop;", "# ");
+		geogebraMap.put("&part;", "# ");
+		geogebraMap.put("&bull;", "# ");
+		geogebraMap.put("&ne;", "# ");
+		geogebraMap.put("&equiv;", "# ");
+		geogebraMap.put("&asymp;", "# ");
+		geogebraMap.put("&hellip;", "... ");
+		geogebraMap.put("&VerticalBar;", "# ");
+		geogebraMap.put("&crarr;", "# ");
+		geogebraMap.put("&alefsym;", "# ");
+		geogebraMap.put("&image;", "# ");//???
+		geogebraMap.put("&real;", "# ");//???
+		geogebraMap.put("&weierp;", "# ");
+		geogebraMap.put("&otimes;", "# ");
+		geogebraMap.put("&oplus;", "# ");
+		geogebraMap.put("&empty;", "# ");
+		geogebraMap.put("&cap;", "# ");
+		geogebraMap.put("&cup;", "# ");
+		geogebraMap.put("&sup;", "# ");
+		geogebraMap.put("&supe;", "# ");
+		geogebraMap.put("&nsub;", "# ");
+		geogebraMap.put("&sub;", "# ");
+		geogebraMap.put("&sube;", "# ");
+		geogebraMap.put("&isin;", "# ");
+		geogebraMap.put("&notin;", "# ");
+		geogebraMap.put("&ang;", "# ");
+		geogebraMap.put("&nabla;", "# ");
+		geogebraMap.put("&radic;", "# ");
+		geogebraMap.put("&and;", "# ");
+		geogebraMap.put("&or;", "# ");
+		geogebraMap.put("&and;", "# ");
+		geogebraMap.put("&ang;", "# ");
+		geogebraMap.put("&angle;", "# ");
+		geogebraMap.put("&ap;", "# ");
+		geogebraMap.put("&approx;", "# ");
+		geogebraMap.put("&bigoplus;", "# ");
+		geogebraMap.put("&bigotimes;", "# ");
+		geogebraMap.put("&bot;", "# ");
+		geogebraMap.put("&bottom;", "# ");
+		geogebraMap.put("&cap;", "# ");
+		geogebraMap.put("&CirclePlus;", "# ");
+		geogebraMap.put("&CircleTimes;", "# ");
+		geogebraMap.put("&cong;", "# ");
+		geogebraMap.put("&Congruent;", "# ");
+		geogebraMap.put("&cup;", "# ");
+		geogebraMap.put("&darr;", "# ");
+		geogebraMap.put("&dArr;", "# ");
+		geogebraMap.put("&Del;", "# ");
+		geogebraMap.put("&Del;", "# ");
+		geogebraMap.put("&DifferentialD;", "\u2146 ");
+		geogebraMap.put("&DoubleLeftArrow;", "# ");
+		geogebraMap.put("&DoubleLeftRightArrow;", "# ");
+		geogebraMap.put("&DoubleRightArrow;", "# ");
+		geogebraMap.put("&DoubleUpArrow;", "# ");
+		geogebraMap.put("&downarrow;", "# ");
+		geogebraMap.put("&Downarrow;", "# ");
+		geogebraMap.put("&DownArrow;", "# ");
+		geogebraMap.put("&Element;", "# ");
+		geogebraMap.put("&emptyv;", "# ");
+		geogebraMap.put("&equiv;", "# ");
+		geogebraMap.put("&exist;", "# ");
+		geogebraMap.put("&Exist;", "# ");
+		geogebraMap.put("&exponentiale;", "\u2147 ");
+		geogebraMap.put("&forall;", "# ");
+		geogebraMap.put("&ForAll;", "# ");
+		geogebraMap.put("&ge;", ">= ");
+		geogebraMap.put("&geq;", ">= ");
+		geogebraMap.put("&GreaterEqual;", ">= ");
+		geogebraMap.put("&harr;", "# ");
+		geogebraMap.put("&hArr;", "# ");
+		geogebraMap.put("&iff;", "# ");
+		geogebraMap.put("&Implies;", "# ");
+		geogebraMap.put("&in;", "# ");
+		geogebraMap.put("&infin;", "# ");// IMPORTANT
+		geogebraMap.put("&int;", "# ");
+		geogebraMap.put("&Integral;", "# ");
+		geogebraMap.put("&isin;", "# ");
+		geogebraMap.put("&isinv;", "# ");
+		geogebraMap.put("&diam;", "# ");
+		geogebraMap.put("&diamond;", "# ");
+		geogebraMap.put("&lang;", "# ");
+		geogebraMap.put("&langle;", "# ");
+		geogebraMap.put("&larr;", "# ");
+		geogebraMap.put("&lArr;", "# ");
+		geogebraMap.put("&le;", "<= ");
+		geogebraMap.put("&LeftAngleBracket;", "# ");
+		geogebraMap.put("&Leftarrow;", "# ");
+		geogebraMap.put("&LeftArrow;", "# ");
+		geogebraMap.put("&leftrightarrow;", "# ");
+		geogebraMap.put("&Leftrightarrow;", "# ");
+		geogebraMap.put("&LeftRightArrow;", "# ");
+		geogebraMap.put("&leq;", "<= ");
+		geogebraMap.put("&leq;", "<= ");
+		geogebraMap.put("&Longleftrightarrow;", "# ");
+		geogebraMap.put("&minus;", "- ");
+		geogebraMap.put("&nabla;", "# ");
+		geogebraMap.put("&ne;", "# ");
+		geogebraMap.put("&NotElement;", "# ");
+		geogebraMap.put("&NotEqual;", "# ");
+		geogebraMap.put("&notin;", "# ");
+		geogebraMap.put("&oplus;", "# ");
+		geogebraMap.put("&or;", "# ");
+		geogebraMap.put("&otimes;", "# ");
+		geogebraMap.put("&part;", "# ");
+		geogebraMap.put("&partialD;", "# ");
+		geogebraMap.put("&perp;", "# ");
+		geogebraMap.put("&prod;", "# ");
+		geogebraMap.put("&Product;", "# ");
+		geogebraMap.put("&rang;", "# ");
+		geogebraMap.put("&rangle;", "# ");
+		geogebraMap.put("&rarr;", "# ");
+		geogebraMap.put("&rArr;", "# ");
+		geogebraMap.put("&RightAngleBracket;", "# ");
+		geogebraMap.put("&rightarrow;", "# ");
+		geogebraMap.put("&Rightarrow;", "# ");
+		geogebraMap.put("&RightArrow;", "# ");
+		geogebraMap.put("&sdot;", "* ");
+		geogebraMap.put("&sim;", "# ");
+		geogebraMap.put("&prop;", "# ");
+		geogebraMap.put("&Proportional;", "# ");
+		geogebraMap.put("&propto;", "# ");
+		geogebraMap.put("&sub;", "# ");
+		geogebraMap.put("&sube;", "# ");
+		geogebraMap.put("&subE;", "# ");
+		geogebraMap.put("&subset;", "# ");
+		geogebraMap.put("&subseteq;", "# ");
+		geogebraMap.put("&subseteqq;", "# ");
+		geogebraMap.put("&SubsetEqual;", "# ");
+		geogebraMap.put("&sum;", "# ");
+		geogebraMap.put("&Sum;", "# ");
+		geogebraMap.put("&sup;", "# ");
+		geogebraMap.put("&supe;", "# ");
+		geogebraMap.put("&supE;", "# ");
+		geogebraMap.put("&Superset;", "# ");
+		geogebraMap.put("&SupersetEqual;", "# ");
+		geogebraMap.put("&supset;", "# ");
+		geogebraMap.put("&supseteq;", "# ");
+		geogebraMap.put("&supseteqq;", "# ");
+		geogebraMap.put("&Tilde;", "# ");
+		geogebraMap.put("&TildeFullEqual;", "# ");
+		geogebraMap.put("&TildeTilde;", "# ");
+		geogebraMap.put("&tprime;", "\u2034 ");
+		geogebraMap.put("&uarr;", "# ");
+		geogebraMap.put("&uArr;", "# ");
+		geogebraMap.put("&uparrow;", "# ");
+		geogebraMap.put("&Uparrow;", "# ");
+		geogebraMap.put("&UpArrow;", "# ");
+		geogebraMap.put("&UpTee;", "# ");
+		geogebraMap.put("&varnothing;", "# ");
+		geogebraMap.put("&varpropto;", "# ");
+		geogebraMap.put("&vee;", "# ");
+		geogebraMap.put("&vprop;", "# ");
+		geogebraMap.put("&wedge;", "# ");
+		geogebraMap.put("&xoplus;", "# ");
+		geogebraMap.put("&xotime;", "# ");
+		geogebraMap.put("&Space;", " ");
+		geogebraMap.put("&colon;", ":");
+		geogebraMap.put("&ApplyFunction;", " ");
+		geogebraMap.put("&squ;", " ");
+		geogebraMap.put("&#x2212;", "- ");
+		geogebraMap.put("&#x2192;", "# ");
+		geogebraMap.put("&#x222b;", "# ");
+		geogebraMap.put("&#x2061;", "");
+	}
+
 	private static HashMap<String, String> latexMap = new HashMap<String, String>();
 
 	/*
@@ -1091,6 +1404,7 @@ public class MathMLParser {
 			String s = mathmlTest[i];
 
 			String latex = mathmlParser.parse(s, false, false);
+			//String latex = mathmlParser.parse(s, false, true);// for testing GeoGebra output
 
 			System.out.println(latex);
 		}
