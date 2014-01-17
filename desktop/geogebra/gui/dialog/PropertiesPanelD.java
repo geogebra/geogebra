@@ -80,7 +80,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -3781,11 +3780,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JPanel update(Object[] geos) {
 			// check geos
-			
-			if (!checkGeos(geos))
-				return null;
-
 			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
 			cbFillType.removeActionListener(this);
 			// set selected fill type to first geo's fill type
 			if (isBarChart){
@@ -3914,37 +3913,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			hasGeoButton = false;
-			cbFillInverse.setVisible(true);
-			lblFillInverse.setVisible(true);
-			lblFillType.setVisible(true); // TODO remove this (see below)
-			cbFillType.setVisible(true); // TODO remove this (see below)
-			for (int i = 0; i < geos.length; i++) {
-				hasGeoButton = ((GeoElement) geos[i]).isGeoButton();
-				if (!(((GeoElement) geos[i]).isInverseFillable())
-						// transformed objects copy inverse filling from parents, so
-						// users can't change this
-						|| (((GeoElement) geos[i]).getParentAlgorithm() instanceof AlgoTransformation)) {
-					cbFillInverse.setVisible(false);
-					lblFillInverse.setVisible(false);
-				}
-				if (!((GeoElement) geos[i]).isFillable()) {
-					geosOK = false;
-					break;
-				}
-
-				// TODO add fill type for 3D elements
-				if (((GeoElement) geos[i]).isGeoElement3D()
-						|| ((GeoElement) geos[i]).isGeoImage()) {
-					lblFillType.setVisible(false);
-					cbFillType.setVisible(false);
-				}
-			}
-			return geosOK;
+		public void setFillInverseVisible(boolean isVisible) {
+			cbFillInverse.setVisible(isVisible);
+			lblFillInverse.setVisible(isVisible);
 		}
-
+		
+		public void setFillTypeVisible(boolean isVisible) {
+			lblFillType.setVisible(isVisible);
+			cbFillType.setVisible(isVisible);
+		}
+		
 		/**
 		 * change listener implementation for slider
 		 */

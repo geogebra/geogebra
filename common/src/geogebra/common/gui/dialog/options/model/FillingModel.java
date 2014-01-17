@@ -1,5 +1,6 @@
 package geogebra.common.gui.dialog.options.model;
 
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.main.Localization;
@@ -14,6 +15,8 @@ public class FillingModel extends MultipleOptionsModel {
 		void setSymbolsVisible(boolean isVisible);
 		void setFillingImage(String imageFileName);
 		void updateFillTypePanel(FillType fillType);
+		void setFillInverseVisible(boolean isVisible);
+		void setFillTypeVisible(boolean isVisible);
 	}
 	
 	public FillingModel(IFillingListener listener) {
@@ -95,5 +98,36 @@ public class FillingModel extends MultipleOptionsModel {
 			geo.updateRepaint();
 		}
 	}
+
+	@Override
+	public boolean checkGeos() {
+		boolean geosOK = true;
+		boolean hasGeoButton = false;
+		getFillingListener().setFillInverseVisible(true);
+		getFillingListener().setFillTypeVisible(true);
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			hasGeoButton = geo.isGeoButton();
+			if (!geo.isInverseFillable()
+					// transformed objects copy inverse filling from parents, so
+					// users can't change this
+					|| geo.getParentAlgorithm() instanceof AlgoTransformation) {
+
+				getFillingListener().setFillInverseVisible(false);
+			}
+			if (!geo.isFillable()) {
+				geosOK = false;
+				break;
+			}
+
+			// TODO add fill type for 3D elements
+			if (geo.isGeoElement3D()
+					|| geo.isGeoImage()) {
+				getFillingListener().setFillTypeVisible(false);
+			}
+		}
+		return geosOK;
+	}
+
 
 }
