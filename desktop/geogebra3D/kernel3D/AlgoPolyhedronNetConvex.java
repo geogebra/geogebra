@@ -171,8 +171,11 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		for (int iP=0 ; iP<polygonList.length ; iP++){
 			ArrayList<Integer> segsList = new ArrayList<Integer>();
 			GeoPolygon3D thisPolygon = polygonList[iP];
-			if (bottomFace == thisPolygon){
-				iBottom = iP;
+			if (iBottom<0){ //user selected bottom face not yet found
+
+				if (bottomFace.isEqual(thisPolygon)){
+					iBottom = iP;
+				}
 			}
 			for (GeoSegmentND thisSegment : thisPolygon.getSegments()) {
 				// search for thisSegment in the segment list

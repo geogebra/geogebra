@@ -52,9 +52,9 @@ import java.util.TreeSet;
  * @author Markus Hohenwarter
  */
 public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
-		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
-		Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
-		GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
+GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
+Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
+GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 100;
@@ -164,7 +164,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	@Override
 	public String getTypeString() {
-		
+
 		if (notFixedPointsLength || points == null)
 			return "Polygon";
 
@@ -398,8 +398,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			for (int i = 0; i < oldSegments.length; i++) {
 				if (i < segments.length
 						&& oldSegments[i].getStartPointAsGeoElement() == points[i]
-						&& oldSegments[i].getEndPointAsGeoElement() == points[(i + 1)
-								% getPointsLength()]) {
+								&& oldSegments[i].getEndPointAsGeoElement() == points[(i + 1)
+								                                                      % getPointsLength()]) {
 					// reuse old segment
 					segments[i] = oldSegments[i];
 				} else {
@@ -443,7 +443,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (parentAlgo instanceof AlgoJoinPointsSegment)
 			((AlgoJoinPointsSegment) parentAlgo).removeSegmentOnly();
 	}
-	
+
 	/**
 	 * return a segment joining startPoint and endPoint
 	 * 
@@ -481,7 +481,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (condShowObject != null) {
 			try {
 				((GeoElement) segment)
-						.setShowObjectCondition(getShowObjectCondition());
+				.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception e) {
 				//circular definition
 			}
@@ -499,9 +499,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public GeoElement copy() {
 		return new GeoNumeric(cons, getArea());
 	}
-	
 
-	
+
+
 
 
 	@Override
@@ -511,7 +511,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		copyInternal(cons1, ret);
 		return ret;
 	}
-	
+
 	/**
 	 * @param cons1 consctruction
 	 * @param ret poly where to copy
@@ -541,7 +541,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (poly.getPoints() == null) { 
 			return;
 		}
-		
+
 		int l = 0;
 		if (getPoints() != null){
 			l = getPoints().length;
@@ -569,8 +569,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		updateRegionCS();
 	}
 
-	
-	
+
+
 
 
 	/**
@@ -594,7 +594,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public GeoPointND[] getPoints() {
 		return points;
 	}
-	
+
 	/**
 	 * set the 2D points
 	 * @param points 2D points
@@ -748,7 +748,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		}
 		sum += GeoPoint.det((GeoPoint) points2[last], (GeoPoint) points2[0]);
 		return sum / 2.0; // positive (anticlockwise points) or negative
-							// (clockwise)
+		// (clockwise)
 	}
 
 	/**
@@ -775,12 +775,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			ysum += (pointsClosedY(i) + pointsClosedY(i + 1)) * factor;
 		}
 		centroid.setCoords(xsum, ysum, 6.0 * getAreaWithSign()); // getArea
-																	// includes
-																	// the +/-
-																	// to
-																	// compensate
-																	// for
-																	// clockwise/anticlockwise
+		// includes
+		// the +/-
+		// to
+		// compensate
+		// for
+		// clockwise/anticlockwise
 	}
 
 	private double pointsClosedX(int i) {
@@ -846,12 +846,79 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 * Yields true if the area of this polygon is equal to the area of polygon
 	 * p.
 	 */
-	// Michael Borcherds 2008-04-30
-	@Override
-	final public boolean isEqual(GeoElement geo) {
+	// this method is the original isEqual, modified 2014-01
+	public boolean hasSameArea(GeoElement geo) {
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
 			return Kernel.isEqual(getArea(), ((GeoPolygon) geo).getArea());
+		}
+		return false;
+	}
+
+	/**
+	 * Yields true if the points of this polygon is equal to the points of polygon
+	 * p.
+	 */
+	@Override
+	public boolean isEqual(GeoElement geo) {
+		// test 3D is geo is 3D
+		if (geo.isGeoElement3D()) {
+			return geo.isEqual(this);
+		}
+		// return false if it's a different type
+		if (geo.isGeoPolygon()) {
+			GeoPolygon g = (GeoPolygon) geo;
+
+			//return false if the number of points is different
+			int gLength = g.getPointsLength(); 
+			if (gLength == this.getPointsLength()){
+
+				//search for a first common point
+				GeoPoint firstPoint = this.getPoint(0);
+				boolean fPointFound = false;
+				int iFirstPoint = 0;
+				while ((!fPointFound)&&(iFirstPoint < gLength)){
+					if (firstPoint.isEqual(g.getPoint(iFirstPoint))) {
+						fPointFound = true;
+					} else {
+						iFirstPoint++;
+					}
+				}
+
+				//next point
+				if (fPointFound) {
+					boolean sPointFound = false;
+					int step = 1;
+					if (this.getPoint(1).isEqual(g.getPoint((iFirstPoint+step)%gLength))){
+						sPointFound = true;
+					} else {
+						step = -1;
+						int j = iFirstPoint+step;
+						if (j<0) j = gLength-1;
+						if (this.getPoint(1).isEqual(g.getPoint(j))){
+							sPointFound = true;
+						}
+					}
+
+					//other points
+					if (sPointFound){
+						int i = 2;
+						int j = iFirstPoint+step+step;
+						if (j<0) j = gLength-2;
+						j = j%gLength;
+						boolean pointOK = true;
+						while ((pointOK)&&(i<gLength)){
+							pointOK =  (this.getPoint(i).isEqual(g.getPoint((j)%gLength)));
+							if (pointOK) {
+								j = j + step; 
+								if (j<0) j = gLength-1;
+								i++;
+							}
+							return pointOK;
+						}
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -1232,8 +1299,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			rp.setIsOnPath(true);
 		} else {
 			if (numCS != 3) { // if the coord sys is not defined by 3
-								// independent points, then the point lies on
-								// the path
+				// independent points, then the point lies on
+				// the path
 				pointChanged(P);
 				rp.setIsOnPath(true);
 			} else {
@@ -1264,9 +1331,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		this.p1 = newp1;
 		this.p2 = newp2;
 		numCS = 3;
-		
+
 	}
-	
+
 	/**
 	 * update the region coord sys with the 3 first points
 	 */
@@ -1317,7 +1384,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			// thirdPoint++;
 			// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
 		}
-		
+
 
 	}
 
@@ -1451,7 +1518,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public boolean isPartOfClosedSurface() {
 		return false; // TODO
 	}
-	
+
 
 	/**
 	 * if this is a convex polygon
@@ -1459,17 +1526,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 * @return if this is a convex polygon
 	 */
 	public boolean isConvex() {
-		
+
 		if (getPointsLength() <= 3){
 			return true;
 		}
-		
+
 		/* not suitable for now
 		if(Kernel.isZero(getArea())){ // flat polygon
 			return true;
 		}
-		*/
-		
+		 */
+
 		// remove same successive points
 		ArrayList<Double> xList = new ArrayList<Double>();
 		ArrayList<Double> yList = new ArrayList<Double>();
@@ -1487,13 +1554,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 				y0 = y1;
 			}
 		}
-		
+
 		int n = xList.size();
 		if (n<=3){
 			return true;
 		}
-		
-		
+
+
 		// remove last point if equals first points
 		if (Kernel.isEqual(xList.get(0), xList.get(n-1)) && Kernel.isEqual(yList.get(0), yList.get(n-1))){
 			if (n==4){
@@ -1503,27 +1570,27 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			yList.remove(n-1);
 			n--;
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 
 		// check orientations
 		boolean answer = true;
 		boolean hasAngle360 = false;
-		
+
 		double x1 = xList.get(n-1);
 		double y1 = yList.get(n-1);
 		double dx1 = x1 - xList.get(n-2);
 		double dy1 = y1 - yList.get(n-2);
-		
+
 		double x2 = xList.get(0);
 		double y2 = yList.get(0);
 		double dx2 = x2 - x1;
 		double dy2 = y2 - y1;
-		
-		
+
+
 		// calc first orientation
 		int orientation = Kernel.compare(dy1*dx2, dx1*dy2);
 		if (orientation == 0){
@@ -1531,11 +1598,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 				answer = false; 
 			}
 		}
-		
-		
-	
 
-		
+
+
+
+
 		int i = 1;
 		while ((answer == true)&&(i<n)) {
 			dx1 = dx2;
@@ -1549,7 +1616,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			int orientation2 = Kernel.compare(dy1*dx2, dx1*dy2);
 			//App.debug(""+answer+","+hasAngle360);
 			//App.debug("i : "+i+" -- orientations : "+orientation+","+orientation2);
-			
+
 			if (!hasAngle360 && orientation2 == 0){ // U-turn
 				if (Kernel.isGreater(0, dx1*dx2+dy1*dy2)){
 					answer = false;
@@ -1568,30 +1635,30 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			i++;
 		}
 
-		
-		
+
+
 		return answer;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/*
 	private class SweepComparator implements Comparator<Integer>{
 
 		private GeoPolygon p;
-		
+
 		/**
-		 * constructor
-		 * @param p polygon 
-		 *
+	 * constructor
+	 * @param p polygon 
+	 *
 		public SweepComparator(GeoPolygon p) {
 			this.p = p;
 		}
 
 		public int compare(Integer i1, Integer i2) {
-			
+
 			// smallest x
 			double x1 = p.getPointX(i1);
 			double x2 = p.getPointX(i2);
@@ -1601,7 +1668,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			if (Kernel.isGreater(x1, x2)){
 				return 1;
 			}
-			
+
 			// then smallest y
 			double y1 = p.getPointY(i1);
 			double y2 = p.getPointY(i2);
@@ -1611,7 +1678,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			if (Kernel.isGreater(y1, y2)){
 				return 1;
 			}
-			
+
 			// then smallest index
 			if (i1 < i2){
 				return -1;
@@ -1619,16 +1686,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			if (i1 > i2){
 				return 1;
 			}
-			
+
 			// same point
 			return 0;
 		}
 
-		
+
 	}
-	*/
-	
-	
+	 */
+
+
 	@Override
 	public boolean hasDrawable3D() {
 		return true;
@@ -1687,9 +1754,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		changeableCoordParent = new ChangeableCoordParent(this, number, direction);
 	}
 
-	
-	
-	
+
+
+
 	@Override
 	public boolean hasChangeableCoordParentNumbers() {
 		return (changeableCoordParent != null);
@@ -1710,7 +1777,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (changeableCoordParent == null) {
 			return false;
 		}
-		
+
 		return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
 
 
@@ -1792,37 +1859,37 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return true;
 	}
 
-	
+
 	public Coords getDirectionInD3() {
 
 		return Coords.VZ;
 	}
-	
 
-	
 
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		
+
 		for (int i = 0; i < getPointsLength(); i++){
 			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a02, a10, a11,
 					a12, a20, a21, a22);
 		}
 		calcArea();
 		updatePathRegion();
-		
+
 	}
 
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
 		curve.setFromPolyLine(points, true);
 	}
 
-	
+
 
 
 	@Override
@@ -1871,25 +1938,25 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		// It's OK to return null here:
 		return null;
 	}
-	
-	
+
+
 	@Override
 	public int getMetasLength(){
 		if (metas == null){
 			return 0;
 		}
-		
+
 		return metas.size();
 	}
-	
+
 	public GeoElement[] getMetas(){
 		GeoElement[] ret = new GeoElement[metas.size()];
 		metas.toArray(ret);
 		return ret;
 	}
-	
+
 	private TreeSet<GeoElement> metas;
-	
+
 	/**
 	 * add the polyhedron has meta geo for this (e.g. parent polyhedron, or linked polyhedron)
 	 * @param polyhedron polyhedron
@@ -1901,7 +1968,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 		metas.add(polyhedron);
 	}
-	
+
 	/**
 	 * remove polyhedron as meta for this
 	 * @param polyhedron polyhedron
@@ -1909,10 +1976,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public void removeMeta(GeoElement polyhedron){
 		metas.remove(polyhedron);
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public double distance(final GeoPoint p) {
 		double d = Double.POSITIVE_INFINITY;
@@ -1924,13 +1991,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		}
 		return d;
 	}
-	
+
 
 
 	///////////////////////////////////
 	// REVERSE ORIENTATION FOR DRAWING
 	///////////////////////////////////
-	
+
 	private boolean reverseNormalForDrawing = false;
 
 	/**
@@ -1939,7 +2006,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public void setReverseNormalForDrawing() {
 		reverseNormalForDrawing = true;
 	}
-	
+
 	/**
 	 * @return if normal should be reversed for 3D drawing
 	 */

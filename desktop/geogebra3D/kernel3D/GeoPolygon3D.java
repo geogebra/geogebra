@@ -35,7 +35,7 @@ import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
-		GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
+GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys;
@@ -167,10 +167,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 */
 	@Override
 	public Coords getPoint3D(int i) {
-		
+
 		Coords v = super.getPoint3D(i);
 		return coordSys.getPoint(v.getX(), v.getY());
-		
+
 	}
 
 	/**
@@ -184,14 +184,14 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		if (reverseNormal){
 			return coordSys.getNormal().mul(-1);
 		}
-		
+
 		return coordSys.getNormal();
 
 	}
 
 
 
-    
+
 	/**
 	 * Returns the 2D points of this polygon. Note that this array may change
 	 * dynamically.
@@ -200,7 +200,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	public GeoPointND[] getPoints() {
 		return points2D;
 	}
-	
+
 
 	@Override
 	public void setPoints2D(GeoPoint[] points){
@@ -244,8 +244,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			updateCoordSys();
 		}
 	}
-	
-	
+
+
 	@Override
 	public void setCoordSys(GeoPolygon p) {
 		if (coordSys == null) {
@@ -303,15 +303,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 			coordSys.addPoint(points[i].getInhomCoordsInD(3));
 		}
-		
+
 		if(coordSys.getMadeCoordSys()!=2){
 			coordSys.completeCoordSys2D();
 		}
 
 		if (coordSys.makeOrthoMatrix(false, false)) {
 			checkPointsAreOnCoordSys();
-			
-			
+
+
 			/*
 			// select the first point of the convex hull
 			int firstPointInd = 0;
@@ -325,7 +325,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				}
 			}
 			//App.debug("point 1 : "+firstPointInd);
-		
+
 			// select the second point
 			double maxCos = -1;
 			double firstPointX = getPointX(firstPointInd);
@@ -379,7 +379,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				reverseConvexOrientation = false;
 				//App.debug("inversion false");
 			} 
-			*/
+			 */
 		} else {
 			return false;
 		}
@@ -387,8 +387,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		return true;
 
 	}
-	
-	
+
+
 	/**
 	 * set cs for region as simplest orthonormal coord sys
 	 */
@@ -480,8 +480,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 
 
-	
-	
+
+
 	public GeoElement getGeoElement2D() {
 		return null;
 	}
@@ -500,7 +500,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	// TODO merge with GeoPolygon
 	@Override
 	public void pathChanged(GeoPointND PI) {
-		
+
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
 		if(!getKernel().usePathAndRegionParameters(PI)){
 			pointChanged(PI);
@@ -517,8 +517,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 		// remember old parameter
 		double oldT = pp.getT();
-		
-		
+
+
 		// find the segment where the point lies
 		int index = (int) pp.getT();
 		GeoSegmentND seg;
@@ -557,12 +557,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		double minDist = Double.POSITIVE_INFINITY;
 		Coords res = null;
 		double param = 0;
-		
+
 		GeoSegment3D segment = null;
 		if (segments == null){
 			segment = new GeoSegment3D(cons);
 		}
-		
+
 		// find closest point on each segment
 		PathParameter pp = P.getPathParameter();
 		for (int i = 0; i < getPointsLength(); i++) {
@@ -596,7 +596,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 		P.setCoords(res, false);
 		pp.setT(param);
-		
+
 		P.setRegion(region);
 	}
 
@@ -625,16 +625,16 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	protected GeoPolygon newGeoPolygon(Construction cons) {
 		return new GeoPolygon3D(cons, null);
 	}
-	
+
 
 	@Override
 	public Coords getDirectionInD3() {
-		
+
 		return getMainDirection();
 	}
 
 
-	
+
 
 	// ////////////////////////////////
 	// 2D VIEW
@@ -645,35 +645,35 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		euclidianViewForPlane = ((App3D) kernel.getApplication()).createEuclidianViewForPlane(this,true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
-	
+
 	public void removeView2D(){
 		euclidianViewForPlane.doRemove();
 	}
-	
+
 	public void setEuclidianViewForPlane(EuclidianView view){
 		euclidianViewForPlane = (EuclidianViewForPlane) view;
 	}
-	
+
 	public boolean hasView2DVisible(){
 		return euclidianViewForPlane!=null && kernel.getApplication().getGuiManager().showView(euclidianViewForPlane.getId());
 	}
-	
+
 
 	public void setView2DVisible(boolean flag){
-		
+
 		if (euclidianViewForPlane==null){
 			if (flag)
 				createView2D();
 			return;
 		}
-		
+
 		kernel.getApplication().getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
 
 	@Override
 	public void update() {
@@ -682,10 +682,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			euclidianViewForPlane.updateForPlane();
 		}
 	}
-	
-	
 
-	
+
+
+
 	@Override
 	public void doRemove() {
 		if (euclidianViewForPlane != null){
@@ -693,19 +693,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		}
 		super.doRemove();
 	}
-	
-	
+
+
 	@Override
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
-		
+
 		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
 		m.set(1,1, a00);
 		m.set(1,2, a01);
 		m.set(2,1, a10);
 		m.set(2,2, a11);
-		
+
 		double[] ret = getCoordSys().matrixTransform(m);	
-		
+
 		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
 	}
 
@@ -714,28 +714,28 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			double a11, double a12, double a20, double a21, double a22) {
 
 		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
-		
+
 		m.set(1,1, a00);
 		m.set(1,2, a01);		
 		m.set(1,3, a02);
-		
-		
+
+
 		m.set(2,1, a10);
 		m.set(2,2, a11);
 		m.set(2,3, a12);
-		
-		
+
+
 		m.set(3,1, a20);
 		m.set(3,2, a21);		
 		m.set(3,3, a22);
-		
-		
+
+
 		double[] ret = getCoordSys().matrixTransform(m);	
-		
+
 		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
-		
+
 	}
-	
+
 	/**
 	 * set that init label has been called (or not)
 	 * @param flag flag
@@ -743,41 +743,41 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	public void setInitLabelsCalled(boolean flag){
 		initLabelsCalled = flag;
 	}
-	
-	
+
+
 
 	//////////////////////////////////////////////
 	// ROTATION
 	//////////////////////////////////////////////
-	
-	
+
+
 	@Override
 	public void rotate(NumberValue r) {
 		getCoordSys().rotate(r.getDouble(), Coords.O);
 	}
-	
+
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD(3));
 	}
 
 	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
-		
+
 		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
-		
+
 	}
 
 	public void rotate(NumberValue phiVal, GeoLineND line) {
-		
+
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
-		
+
 	}
-	
+
 	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
 		getCoordSys().rotate(phiVal.getDouble(), center, direction.normalized());
 	}
-	
-	
+
+
 	//////////////////////////////////////////////
 	// TRANSLATE
 	//////////////////////////////////////////////
@@ -786,13 +786,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
 	}
-	
-	
+
+
 
 	////////////////////////
 	// MIRROR
 	////////////////////////
-	
+
 	@Override
 	public void mirror(Coords Q) {
 		getCoordSys().mirror(Q);		
@@ -820,22 +820,22 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
-		
+
 		double r = rval.getDouble();
-		
+
 		getCoordSys().dilate(r,S);	
-		
+
 		if (r < 0){ //mirror was done in coord sys
 			r = -r;
 		}
-		
+
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).dilate(r);
-		
+
 		this.calcArea();
-		
+
 	}
-	
+
 
 	///////////////////////////////////
 	// REVERSE ORIENTATION 
@@ -849,17 +849,81 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	public void setReverseNormal() {
 		reverseNormal = true;
 	}
-	
-	
+
+
 	@Override
 	public void set(GeoElement geo) {
 		if (geo.isGeoPolygon() && geo.isGeoElement3D()){
 			reverseNormal = ((GeoPolygon3D) geo).reverseNormal;
 		}
-		
+
 		super.set(geo);
 	}
 
-		
+	/**
+	 * Yields true if the points of this polygon are equal to the points of polygon
+	 * p.
+	 */
+	@Override
+	final public boolean isEqual(GeoElement geo) {
+			// return false if it's a different type
+		if (geo.isGeoPolygon()) {
+			//2D or 3D ?
+			//if (geo.isGeoElement3D()){
+			GeoPolygon g = (GeoPolygon) geo;
+			//}else {
+				//GeoPolygon g = (GeoPolygon) geo;
+			//}
+			//return false if the number of points is different
+			int gLength = g.getPointsLength(); 
+			if (gLength == this.getPointsLength()){
+				
+				//search for a first common point
+				Coords firstPoint =  this.getPoint3D(0);
+				boolean fPointFound = false;
+				int iFirstPoint = 0;
+				while ((!fPointFound)&&(iFirstPoint < gLength)){
+					if (firstPoint.equalsForKernel(g.getPoint3D(iFirstPoint))) {
+						fPointFound = true;
+					} else {
+						iFirstPoint++;
+					}
+				}
+
+				//next point
+				if (fPointFound) {
+					boolean sPointFound = false;
+					int step = 1;
+					if (this.getPoint3D(1).equalsForKernel(g.getPoint3D((iFirstPoint+step)%gLength))){
+						sPointFound = true;
+					} else {
+						step = -1;
+						int j = iFirstPoint+step;
+						if (j<0) j = gLength-1;
+						if (this.getPoint3D(1).equalsForKernel(g.getPoint3D(j))){
+							sPointFound = true;
+						}
+					}
+
+					//other points
+					if (sPointFound){
+						int i = 2;
+						int j = iFirstPoint+step+step;
+						if (j<0) j = gLength-2;
+						j = j%gLength;
+						boolean pointOK = true;
+						while ((pointOK)&&(i<gLength)){
+							pointOK =  (this.getPoint3D(i).equalsForKernel(g.getPoint3D(j)));
+							j = j + step; 
+							if (j<0) j = gLength-1;
+							i++;
+						}
+						return pointOK;
+					}
+				}
+			}
+		}
+		return false;
+	}	
 
 }
