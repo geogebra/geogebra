@@ -2036,7 +2036,7 @@ __GGB__keysVar.hu.plain = {
     "AandBareLinearlyIndependent": "%0 \xe9s %1 line\xe1risan f\xfcggetlenek",
     "AandBareNotEqual": "%0 \xe9s %1 nem egyeznek meg",
     "AandBareParallel": "%0 \xe9s %1 p\xe1rhuzamosak",
-    "AandBarePerpendicular": "%0 \xe9s %1 mer\u0151legsek",
+    "AandBarePerpendicular": "%0 \xe9s %1 mer\u0151legesek",
     "AandBcannotBeCompared": "%0-t \xe9s %1-t nem lehet \xf6sszehasonl\xedtani",
     "AbsoluteScreenLocation": "Abszol\xfat poz\xedci\xf3 a k\xe9perny\u0151n",
     "AdoesNotLieOnB": "%0 nem fekszik %1-n",

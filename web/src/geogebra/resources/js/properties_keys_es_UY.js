@@ -808,7 +808,7 @@ __GGB__keysVar.es_UY.command = {
     "ShortestDistance_Syntax": "[ <Lista de segmentos>, <Punto inicial>, <Punto final>, <Ponderado o no (true/false)> ]",
     "ShowAxes": "MuestraEjes",
     "ShowAxes_Syntax": "[ ]\n[ <Mostrar o no (true/false)> ]\n[ <Vista 1|2|3>, <Mostrar o no (true/false)> ]",
-    "ShowGrid": "Cuadr\xedcula",
+    "ShowGrid": "MuestraCuadr\xedcula",
     "ShowGrid_Syntax": "[ ]\n[ <Mostrar o no (true/false)> ]\n[ <Vista 1|2|3>, <Mostrar o no (true/false)> ]",
     "ShowLabel": "MuestraEtiqueta",
     "ShowLabel_Syntax": "[ <Objeto>, <Mostrar o no (true/false)> ]",
@@ -1068,7 +1068,7 @@ __GGB__keysVar.es_UY.error = {
     "InvalidInput": "Entrada no v\xe1lida",
     "LengthMustBeConstant": "Toda longitud debe ser constante",
     "LoadFileFailed": "Error al abrir el archivo",
-    "NameUsed": "Tal etiqueta ya est\xe1 rotulando un objeto.",
+    "NameUsed": "Este r\xf3tulo ya est\xe1 en uso",
     "NumberExpected": "Se esperaba un n\xfamero.",
     "PasteImageFailed": "Lamentablemente, no puede pegarse la imagen del portapapeles.",
     "RenameFailed": "Error al renombrar",
@@ -1084,7 +1084,7 @@ __GGB__keysVar.es_UY.error = {
     "UndefinedVariable": "Variable no definida",
     "UnknownCommand": "Comando desconocido.",
     "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible.",
-    "VectorExpected": "Se requiere un punto o un vector.",
+    "VectorExpected": "Se esperaba un punto o un vector.",
 }
 
 
@@ -1843,8 +1843,8 @@ __GGB__keysVar.es_UY.menu = {
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",
     "SumCells_Help": "Selecci\xf3n de conjunto de celdas",
-    "SumSquaredErrors_short": "SECs",
-    "SumSquares_short": "SC",
+    "SumSquaredErrors_short": "SSE - Suma errores cuadrados",
+    "SumSquares_short": "SS - Suma cuadrados",
     "SumsAndIntegrals": "Sumas e integrales",
     "Sx": "Sx",
     "Sxx": "Sxx",
