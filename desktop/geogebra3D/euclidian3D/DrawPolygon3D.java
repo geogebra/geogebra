@@ -225,29 +225,26 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		renderer.getGeometryManager().drawPolygon(n, vertices);
 		
-
-
 		/*
 		PolygonTriangulation pt = new PolygonTriangulation(polygon);
-		if (pt.updatePoints() > 2){
-			pt.setIntersections();
+		try{
+			if (pt.updatePoints() > 2){
+				pt.setIntersections();
 
+				pt.triangulate();
 
-			
-			pt.triangulate();
+				Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys());
 
+				for (TriangleFan triFan : pt.getTriangleFans()){
+					renderer.getGeometryManager().drawTriangleFan(n, verticesWithIntersections, triFan);
+				}
 
-			Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys());
-
-			for (TriangleFan triFan : pt.getTriangleFans()){
-				renderer.getGeometryManager().drawTriangleFan(n, verticesWithIntersections, triFan);
 			}
-
-
+		}catch(Exception e){
+			App.debug(e.getMessage());
 		}
+		 */
 
-		*/
-		
 		
 		renderer.endPolygons();
 		
