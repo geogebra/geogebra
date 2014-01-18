@@ -356,7 +356,8 @@ public class AlgoMirror extends AlgoTransformation {
 					((GeoSegment)a).getStartPoint(),
 					transformedPoint);
 			compute();
-			
+			//if start point itself is on path, transformed point may have wrong path param #2306
+			transformedPoint.removePath();
 			arc.pathChanged(transformedPoint);
 			double d = transformedPoint.getPathParameter().getT();
 			
