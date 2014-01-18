@@ -66,6 +66,7 @@ import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * Represents implicit bivariat polynomial equations, with degree greater than 2.
+ * @author ?
  */
 public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
