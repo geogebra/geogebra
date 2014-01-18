@@ -231,11 +231,6 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	}
 
 	@Override
-	public boolean swapOrientation(boolean posOrientation) {
-		return false;
-	}
-
-	@Override
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {
 		if (!(a instanceof GeoConicPart)) {
 			super.transformLimitedPath(a, b);

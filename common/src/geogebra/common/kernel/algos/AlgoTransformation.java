@@ -90,13 +90,13 @@ public abstract class AlgoTransformation extends AlgoElement {
 			double q = ((GeoConicPart) a).getParameterEnd();
 			// Application.debug(p+","+q);
 			((GeoConicPart) b).setParameters(p, q,
-					swapOrientation(((GeoConicPart) a).positiveOrientation()));
+					swapOrientation((GeoConicPart) a));
 		}
 	}
 
-	public boolean swapOrientation(boolean positiveOrientation) {
+	public boolean swapOrientation(GeoConicPart p) {
 		// Application.debug(positiveOrientation);
-		return positiveOrientation;
+		return p == null || p.positiveOrientation();
 	}
 
 	private AlgoClosestPoint pt;
@@ -106,21 +106,22 @@ public abstract class AlgoTransformation extends AlgoElement {
 
 		GeoConicPart arc = (GeoConicPart) b;
 		if (a instanceof GeoConicPart) {
-			((GeoConicPart) b).setParameters(0, Kernel.PI_2, true);
+			GeoConicPart source = (GeoConicPart) a;
+			arc.setParameters(0, Kernel.PI_2, true);
 			if (pt == null) {
 				transformedPoint = new GeoPoint(cons);
 				pt = new AlgoClosestPoint( cons, arc, transformedPoint);
 				cons.removeFromConstructionList(pt);
 			}
 			transformedPoint.removePath();
-			setTransformedObject(((GeoConicPart) a).getPointParam(0),
+			setTransformedObject(source.getPointParam(0),
 					transformedPoint);
 			compute();
 			transformedPoint.updateCascade();
 			// Application.debug("start"+transformedPoint);
 			double d = pt.getP().getPathParameter().getT();
 			transformedPoint.removePath();
-			setTransformedObject(((GeoConicPart) a).getPointParam(1),
+			setTransformedObject(source.getPointParam(1),
 					transformedPoint);
 			compute();
 			transformedPoint.updateCascade();
@@ -128,7 +129,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 			double e = pt.getP().getPathParameter().getT();
 			// Application.debug(d+","+e);
 			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2,
-					swapOrientation(((GeoConicPart) a).positiveOrientation()));
+					swapOrientation(source));
 
 			setTransformedObject(a, b);
 		}

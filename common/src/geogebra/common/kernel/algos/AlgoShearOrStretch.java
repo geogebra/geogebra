@@ -189,10 +189,10 @@ public class AlgoShearOrStretch extends AlgoTransformation {
     }
     
     @Override
-	public boolean swapOrientation(boolean posOrientation){
+	public boolean swapOrientation(GeoConicPart arc){
  	   if(shear || num == null)
- 		   return posOrientation;
- 	   return posOrientation ^ (num.getDouble()<0);
+ 		   return (arc == null || arc.positiveOrientation());
+ 	   return (arc == null || arc.positiveOrientation()) ^ (num.getDouble()<0);
     }
 
 	// TODO Consider locusequability

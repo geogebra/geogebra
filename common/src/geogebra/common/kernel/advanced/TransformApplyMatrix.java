@@ -42,7 +42,7 @@ public class TransformApplyMatrix extends Transform {
 	public boolean changesOrientation() {
 		AlgoTransformation at = getTransformAlgo(new GeoPoint(cons));
 		cons.removeFromConstructionList(at);
-		return at.swapOrientation(true);
+		return at.swapOrientation(null);
 	}
 
 }

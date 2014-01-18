@@ -181,13 +181,13 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	}
 
 	@Override
-	public boolean swapOrientation(boolean posOrientation) {
+	public boolean swapOrientation(GeoConicPart arc) {
 		double a, b, c, d;
 		a = ((NumberValue) (matrix.get(0, 0))).getDouble();
 		b = ((NumberValue) (matrix.get(1, 0))).getDouble();
 		c = ((NumberValue) (matrix.get(0, 1))).getDouble();
 		d = ((NumberValue) (matrix.get(1, 1))).getDouble();
-		return posOrientation ^ (((a * d) - (b * c)) < 0);
+		return (arc == null || arc.positiveOrientation()) ^ (((a * d) - (b * c)) < 0);
 	}
 
 	@Override

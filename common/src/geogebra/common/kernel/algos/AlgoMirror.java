@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 
 /**
  *
@@ -381,8 +382,16 @@ public class AlgoMirror extends AlgoTransformation {
 	}
     
     @Override
-	public boolean swapOrientation(boolean positiveOrientation) {		
-		return positiveOrientation;
+	public boolean swapOrientation(GeoConicPart arc) {
+    	if(arc == null){
+    		return true;
+    	}else if(mirror!= mirrorConic){
+    		return arc.positiveOrientation();
+    	}
+		GeoVec2D arcCentre = arc.getTranslationVector();
+		GeoVec2D mirrorCentre = mirrorConic.getTranslationVector();
+		double dist = MyMath.length(arcCentre.getX()-mirrorCentre.getX(),arcCentre.getY()-mirrorCentre.getY());
+		return !Kernel.isGreater(dist, arc.halfAxes[0]);
 	}
 
 	// TODO Consider locusequability
