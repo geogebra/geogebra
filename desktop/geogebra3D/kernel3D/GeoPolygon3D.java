@@ -19,6 +19,7 @@ import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -866,18 +867,16 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 	 */
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-			// return false if it's a different type
+		App.debug("Entrée 3D");
+		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
-			//2D or 3D ?
-			//if (geo.isGeoElement3D()){
+
 			GeoPolygon g = (GeoPolygon) geo;
-			//}else {
-				//GeoPolygon g = (GeoPolygon) geo;
-			//}
-			//return false if the number of points is different
+
 			int gLength = g.getPointsLength(); 
 			if (gLength == this.getPointsLength()){
-				
+
+				App.debug("Polygones de même longueur");
 				//search for a first common point
 				Coords firstPoint =  this.getPoint3D(0);
 				boolean fPointFound = false;
@@ -890,6 +889,7 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 					}
 				}
 
+				App.debug("Premier point commun : "+iFirstPoint);
 				//next point
 				if (fPointFound) {
 					boolean sPointFound = false;
@@ -905,6 +905,7 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 						}
 					}
 
+					App.debug("Second point commun : "+(iFirstPoint+step));
 					//other points
 					if (sPointFound){
 						int i = 2;
@@ -914,8 +915,14 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 						boolean pointOK = true;
 						while ((pointOK)&&(i<gLength)){
 							pointOK =  (this.getPoint3D(i).equalsForKernel(g.getPoint3D(j)));
+							if (pointOK){
+								App.debug("Point suivant : "+j);
+							}else {
+								App.debug("Arrêt : "+j);
+							}
 							j = j + step; 
 							if (j<0) j = gLength-1;
+							j = j%gLength;
 							i++;
 						}
 						return pointOK;

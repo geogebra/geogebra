@@ -912,6 +912,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 							if (pointOK) {
 								j = j + step; 
 								if (j<0) j = gLength-1;
+								j = j%gLength;
 								i++;
 							}
 							return pointOK;
