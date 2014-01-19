@@ -910,10 +910,11 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 					if (sPointFound){
 						int i = 2;
 						int j = iFirstPoint+step+step;
-						if (j<0) j = gLength-2;
+						if (j<0) j = j+ gLength;
 						j = j%gLength;
 						boolean pointOK = true;
 						while ((pointOK)&&(i<gLength)){
+							App.debug("Recherche pour : "+i+"="+j);
 							pointOK =  (this.getPoint3D(i).equalsForKernel(g.getPoint3D(j)));
 							if (pointOK){
 								App.debug("Point suivant : "+j);

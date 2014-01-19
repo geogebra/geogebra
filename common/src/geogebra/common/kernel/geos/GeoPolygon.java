@@ -904,11 +904,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 					if (sPointFound){
 						int i = 2;
 						int j = iFirstPoint+step+step;
-						if (j<0) j = gLength-2;
+						if (j<0) j = j+ gLength;
 						j = j%gLength;
 						boolean pointOK = true;
 						while ((pointOK)&&(i<gLength)){
-							pointOK =  (this.getPoint(i).isEqual(g.getPoint((j)%gLength)));
+							pointOK =  (this.getPoint(i).isEqual(g.getPoint(j)));
 							if (pointOK) {
 								j = j + step; 
 								if (j<0) j = gLength-1;
