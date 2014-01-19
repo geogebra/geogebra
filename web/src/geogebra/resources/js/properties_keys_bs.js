@@ -2505,7 +2505,7 @@ __GGB__keysVar.bs.plain = {
     "Prism": "Prizma",
     "ProbabilityCalculator": "Kalkulator vjerovatno\u0107e",
     "Properties": "Osobine",
-    "PropertiesOfA": "Osobine od %0",
+    "PropertiesOfA": "Osobine - %0",
     "Pyramid": "Piramida",
     "Quadrangle": "\u010cetverougao",
     "Quadrilateral": "\u010cetverougao",
