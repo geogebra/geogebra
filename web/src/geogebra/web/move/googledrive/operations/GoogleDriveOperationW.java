@@ -146,9 +146,9 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
     		} else {
     			if ("open".equals(getAction())) {
     				login(false);
-    			}
-    			login(false);
-    			App.debug("Something went wrong");
+    			} else if (getModel().lastLoggedInFromGoogleDrive()) {
+    				login(false);
+    			}    		
     		}
     		return;
     	}
@@ -158,17 +158,21 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	    		if (type.indexOf("www.google.com") != -1) {
 	    			if (this.isDriveLoaded) {
 	    				this.login(true);
+	    				this.getModel().setLoggedInFromGoogleDrive(true);
 	    			} else {
 	    				getView().add(new EventRenderable() {
 							
 							public void renderEvent(BaseEvent loadevent) {
 								if (loadevent instanceof GoogleDriveLoadedEvent) {
 									login(true);
+				    				GoogleDriveOperationW.this.getModel().setLoggedInFromGoogleDrive(true);
 								}
 								
 							}
 						});
 	    			}
+	    		} else {
+    				GoogleDriveOperationW.this.getModel().setLoggedInFromGoogleDrive(false);
 	    		}
 	    	} else {
 	    		logOut();
@@ -273,6 +277,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	 */
 	public void logOut() {
 		this.onEvent(new GoogleLogOutEvent());
+		this.getModel().setLoggedInFromGoogleDrive(false);
 	}
 	
 	/**

@@ -11,7 +11,7 @@ import com.google.gwt.storage.client.Storage;
  */
 public class AuthenticationModelW extends AuthenticationModel {
 	
-	private Storage storage = null;
+	protected Storage storage = null;
 	
 	/**
 	 * creates a new login model for Web
