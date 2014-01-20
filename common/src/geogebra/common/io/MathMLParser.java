@@ -26,13 +26,13 @@ public class MathMLParser {
 		// Tags:
 		geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
 		geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
-		geogebraMap.put("<msub>", "%BLOCK1%");// ignored for now
+		geogebraMap.put("<msub>", "%BLOCK1%");// ignored for now, FIXME
 		geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
 		geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
-		geogebraMap.put("<mfenced>", "(%BLOCK1%)");
+		geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial coefficient, FIXME
 		geogebraMap.put("<msubsup>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
 		geogebraMap.put("<munderover>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
-		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now
+		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
 		geogebraMap.put("<mtable>", "{%BLOCKS%}");
 		geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
 		geogebraMap.put("<mtd>", "%BLOCK1%, ");
@@ -1393,7 +1393,12 @@ public class MathMLParser {
 		"<math display=\"block\"> <mrow> <msubsup> <mo>&Integral;</mo> <mn>0</mn> <mn>1</mn> </msubsup> <msup> <mi>x</mi> <mi>x</mi> </msup> <mo rspace=\"mediummathspace\">&InvisibleTimes;</mo> <mo rspace=\"0\">&DifferentialD;</mo> <mi>x</mi> <mo>=</mo> <munderover> <mo>&Sum;</mo> <mrow> <mi>n</mi> <mo>=</mo> <mn>1</mn> </mrow> <mn>&infin;</mn> </munderover> <msup> <mfenced> <mrow> <mo form=\"prefix\">&minus;</mo> <mn>1</mn> </mrow> </mfenced> <mrow> <mi>n</mi> <mo>+</mo> <mn>1</mn> </mrow> </msup> <mo>&InvisibleTimes;</mo> <msup> <mi>n</mi> <mrow> <mo form=\"prefix\">&minus;</mo> <mi>n</mi> </mrow> </msup> </mrow> </math>",
 		// nested roots
 		"<math style=\"font-size: 8pt\" display=\"block\"> <mrow> <mfrac> <msqrt> <mn>1</mn> <mo>+</mo> <mroot> <mrow> <mn>2</mn> <mo>+</mo> <mroot> <mrow> <mn>3</mn> <mo>+</mo> <mroot> <mrow> <mn>4</mn> <mo>+</mo> <mroot> <mrow> <mn>5</mn> <mo>+</mo> <mroot> <mrow> <mn>6</mn> <mo>+</mo> <mroot> <mrow> <mn>7</mn> <mo>+</mo> <mroot> <mi>A</mi> <mn>19</mn> </mroot> </mrow> <mn>17</mn> </mroot> </mrow> <mn>13</mn> </mroot> </mrow> <mn>11</mn> </mroot> </mrow> <mn>7</mn> </mroot> </mrow> <mn>5</mn> </mroot> </mrow> <mn>3</mn> </mroot> </msqrt> <msup> <mi>&exponentiale;</mi> <mi>&pi;</mi> </msup> </mfrac> <mo>=</mo> <msup> <mi>x</mi> <mo style=\"font-size: larger;\">&tprime;</mo> </msup> </mrow> </math>",
-	
+
+		// Some other tests - temporarily
+		// factorial
+		"<math style=\"font-size: 8pt\" display=\"block\"> <mrow><mi>n</mi><mo>!</mo></mrow> </math>",
+		// greek letters
+		"<math style=\"font-size: 8pt\" display=\"block\"> <mrow><mi>&alpha;</mi><mo>+</mo><mi>&beta;</mi><mo>+</mo><mi>&gamma;</mi></mrow> </math>",
 	};
 
 	/**
