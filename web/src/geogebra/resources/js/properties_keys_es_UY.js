@@ -1028,9 +1028,9 @@ __GGB__keysVar.es_UY.error = {
     "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
     "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito",
     "AssignmentToFixed": "Un objeto fijo no puede modificarse",
-    "CAS_GeneralErrorMessage": "Para superar el error surgido, debiera replantearse la entrada.",
+    "CAS_GeneralErrorMessage": "Para superar el error surgido, la entrada debiera replantearse",
     "CAS_InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias",
-    "CAS_SelectionStructureError": "Para superar el error surgido, replantear la estructura de la selecci\xf3n.",
+    "CAS_SelectionStructureError": "Para superar el error surgido, la estructura de la selecci\xf3n debiera replantearse",
     "CAS_TimeoutError": "Se cancel\xf3 el c\xe1lculo por demorar demasiado.",
     "CAS_VariableIsDynamicReference": "Referencia din\xe1mica err\xf3nea",
     "CannotUnsnap": "No se puede pasar a la vista de pantalla completa.",
@@ -1068,7 +1068,7 @@ __GGB__keysVar.es_UY.error = {
     "InvalidInput": "Entrada no v\xe1lida",
     "LengthMustBeConstant": "Toda longitud debe ser constante",
     "LoadFileFailed": "Error al abrir el archivo",
-    "NameUsed": "Este r\xf3tulo ya est\xe1 en uso",
+    "NameUsed": "Tal etiqueta ya est\xe1 rotulando un objeto",
     "NumberExpected": "Se esperaba un n\xfamero.",
     "PasteImageFailed": "Lamentablemente, no puede pegarse la imagen del portapapeles.",
     "RenameFailed": "Error al renombrar",
@@ -1084,7 +1084,7 @@ __GGB__keysVar.es_UY.error = {
     "UndefinedVariable": "Variable no definida",
     "UnknownCommand": "Comando desconocido.",
     "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible.",
-    "VectorExpected": "Se esperaba un punto o vector.",
+    "VectorExpected": "Se requiere un punto o un vector",
 }
 
 
@@ -1843,7 +1843,7 @@ __GGB__keysVar.es_UY.menu = {
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",
     "SumCells_Help": "Selecci\xf3n de conjunto de celdas",
-    "SumSquaredErrors_short": "SSE",
+    "SumSquaredErrors_short": "SECs",
     "SumSquares_short": "SC",
     "SumsAndIntegrals": "Sumas e integrales",
     "Sx": "Sx",
