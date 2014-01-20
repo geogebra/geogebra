@@ -3971,8 +3971,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// handle change in fill type
 			if (source == cbFillType) {
-				fillType = FillType.values()[cbFillType.getSelectedIndex()];
-				model.applyFillType(fillType);
+				model.applyFillType(cbFillType.getSelectedIndex());
 				
 			} else if (source == cbFillInverse) {
 
