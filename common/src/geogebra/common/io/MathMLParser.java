@@ -158,19 +158,19 @@ public class MathMLParser {
 		geogebraMap.put("&perp;", "# ");
 		geogebraMap.put("&sim;", "~ ");
 		geogebraMap.put("&prime;", "# ");
-		geogebraMap.put("&le;", "<= ");
-		geogebraMap.put("&ge;", ">= ");
-		geogebraMap.put("&infin;", "# ");//IMPORTANT
+		geogebraMap.put("&le;", Unicode.LESS_EQUAL+"");
+		geogebraMap.put("&ge;", Unicode.GREATER_EQUAL+"");
+		geogebraMap.put("&infin;", Unicode.Infinity+"");
 		geogebraMap.put("&clubs;", "# ");
 		geogebraMap.put("&diams;", "# ");
 		geogebraMap.put("&hearts;", "# ");
 		geogebraMap.put("&spades;", "# ");
-		geogebraMap.put("&PlusMinus;", "# ");//??
+		geogebraMap.put("&PlusMinus;", Unicode.PLUSMINUS+"");
 		geogebraMap.put("&Prime;", "# ");
 		geogebraMap.put("&prop;", "# ");
 		geogebraMap.put("&part;", "# ");
 		geogebraMap.put("&bull;", "# ");
-		geogebraMap.put("&ne;", "# ");
+		geogebraMap.put("&ne;", Unicode.NOTEQUAL+"");
 		geogebraMap.put("&equiv;", "# ");
 		geogebraMap.put("&asymp;", "# ");
 		geogebraMap.put("&hellip;", "... ");
@@ -232,15 +232,13 @@ public class MathMLParser {
 		geogebraMap.put("&exponentiale;", "\u2147 ");
 		geogebraMap.put("&forall;", "# ");
 		geogebraMap.put("&ForAll;", "# ");
-		geogebraMap.put("&ge;", ">= ");
-		geogebraMap.put("&geq;", ">= ");
-		geogebraMap.put("&GreaterEqual;", ">= ");
+		geogebraMap.put("&geq;", Unicode.GREATER_EQUAL+"");
+		geogebraMap.put("&GreaterEqual;", Unicode.GREATER_EQUAL+"");
 		geogebraMap.put("&harr;", "# ");
 		geogebraMap.put("&hArr;", "# ");
 		geogebraMap.put("&iff;", "# ");
 		geogebraMap.put("&Implies;", "# ");
 		geogebraMap.put("&in;", "# ");
-		geogebraMap.put("&infin;", "# ");// IMPORTANT
 		geogebraMap.put("&int;", "# ");
 		geogebraMap.put("&Integral;", "# ");
 		geogebraMap.put("&isin;", "# ");
@@ -251,21 +249,19 @@ public class MathMLParser {
 		geogebraMap.put("&langle;", "# ");
 		geogebraMap.put("&larr;", "# ");
 		geogebraMap.put("&lArr;", "# ");
-		geogebraMap.put("&le;", "<= ");
 		geogebraMap.put("&LeftAngleBracket;", "# ");
 		geogebraMap.put("&Leftarrow;", "# ");
 		geogebraMap.put("&LeftArrow;", "# ");
 		geogebraMap.put("&leftrightarrow;", "# ");
 		geogebraMap.put("&Leftrightarrow;", "# ");
 		geogebraMap.put("&LeftRightArrow;", "# ");
-		geogebraMap.put("&leq;", "<= ");
-		geogebraMap.put("&leq;", "<= ");
+		geogebraMap.put("&leq;", Unicode.LESS_EQUAL+"");
+		geogebraMap.put("&leq;", Unicode.LESS_EQUAL+"");
 		geogebraMap.put("&Longleftrightarrow;", "# ");
 		geogebraMap.put("&minus;", "- ");
 		geogebraMap.put("&nabla;", "# ");
-		geogebraMap.put("&ne;", "# ");
 		geogebraMap.put("&NotElement;", "# ");
-		geogebraMap.put("&NotEqual;", "# ");
+		geogebraMap.put("&NotEqual;", Unicode.NOTEQUAL+"");//??? is this good in LaTeX?
 		geogebraMap.put("&notin;", "# ");
 		geogebraMap.put("&oplus;", "# ");
 		geogebraMap.put("&or;", "# ");
@@ -594,7 +590,6 @@ public class MathMLParser {
 		latexMap.put("&Longleftrightarrow;", "\\Longleftrightarrow ");
 		latexMap.put("&minus;", "- ");
 		latexMap.put("&nabla;", "\\nabla ");
-		latexMap.put("&ne;", "\\neq ");
 		latexMap.put("&NotElement;", "\\notin ");
 		latexMap.put("&NotEqual;", "\\notin ");
 		latexMap.put("&notin;", "\\notin ");
@@ -1408,7 +1403,7 @@ public class MathMLParser {
 	 */
 	public static void main(String[] args){
 
-		boolean geogebraSyntax0 = false; // change this to true for testing GeoGebra syntax (work in progress)
+		boolean geogebraSyntax0 = true; // change this to true for testing GeoGebra syntax (work in progress)
 
 		MathMLParser mathmlParser = new MathMLParser(geogebraSyntax0);
 
