@@ -3,6 +3,8 @@
  */
 package geogebra.common.io;
 
+import geogebra.common.util.Unicode;
+
 import java.util.HashMap;
 
 /**
@@ -71,84 +73,84 @@ public class MathMLParser {
 
 
 		// griechisches Alphabet ... may be implemented by Java unicode codes.
-		geogebraMap.put("&alpha;", "# ");
-		geogebraMap.put("&beta;", "# ");
-		geogebraMap.put("&gamma;", "# ");
-		geogebraMap.put("&delta;", "# ");
-		geogebraMap.put("&epsi;", "# ");
-		geogebraMap.put("&eta;", "# ");
-		geogebraMap.put("&iota;", "# ");
-		geogebraMap.put("&kappa;", "# ");
-		geogebraMap.put("&lambda;", "# ");
-		geogebraMap.put("&mu;", "# ");
-		geogebraMap.put("&mgr;", "# ");
-		geogebraMap.put("&nu;", "# ");
-		geogebraMap.put("&omicron;", "o ");
-		geogebraMap.put("&pi;", "pi ");
-		geogebraMap.put("&theta;", "# ");
-		geogebraMap.put("&rho;", "# ");
-		geogebraMap.put("&rgr;", "# ");
-		geogebraMap.put("&sigma;", "# ");
-		geogebraMap.put("&tau;", "# ");
-		geogebraMap.put("&upsilon;", "# ");
-		geogebraMap.put("&phiv;", "# ");
-		geogebraMap.put("&phi;", "# ");
-		geogebraMap.put("&chi;", "# ");
-		geogebraMap.put("&piv;", "# ");
-		geogebraMap.put("&pgr;", "pi ");
-		geogebraMap.put("&ohgr;", "# ");
-		geogebraMap.put("&omega;", "# ");
-		geogebraMap.put("&xi;", "# ");
-		geogebraMap.put("&psi;", "# ");
-		geogebraMap.put("&zeta;", "# ");
-		geogebraMap.put("&Delta;", "# ");
-		geogebraMap.put("&Phi;", "# ");
-		geogebraMap.put("&Gamma;", "# ");
-		geogebraMap.put("&Lambda;", "# ");
-		geogebraMap.put("&Pi;", "# ");
-		geogebraMap.put("&tgr;", "# ");
-		geogebraMap.put("&Theta;", "# ");
-		geogebraMap.put("&Sigma;", "# ");
-		geogebraMap.put("&Upsilon;", "# ");
-		geogebraMap.put("&sigmaf;", "# ");
-		geogebraMap.put("&Omega;", "# ");
-		geogebraMap.put("&Xi;", "# ");
-		geogebraMap.put("&Psi;", "# ");
-		geogebraMap.put("&epsiv;", "# ");
-		geogebraMap.put("&phgr;", "# ");
-		geogebraMap.put("&ggr;", "# ");
-		geogebraMap.put("&eegr;", "# ");
-		geogebraMap.put("&igr;", "# ");
-		geogebraMap.put("&phgr;", "# ");
-		geogebraMap.put("&kgr;", "# ");
-		geogebraMap.put("&lgr;", "# ");
-		geogebraMap.put("&ngr;", "# ");
-		geogebraMap.put("&ogr;", "o ");
-		geogebraMap.put("&thgr;", "# ");
-		geogebraMap.put("&sgr;", "# ");
-		geogebraMap.put("&ugr;", "# ");
-		geogebraMap.put("&zgr;", "# ");
-		geogebraMap.put("&Agr;", "A ");
-		geogebraMap.put("&Bgr;", "B ");
-		geogebraMap.put("&KHgr;", "X ");
-		geogebraMap.put("&Egr;", "E ");
-		geogebraMap.put("&PHgr;", "# ");
-		geogebraMap.put("&Ggr;", "# ");
-		geogebraMap.put("&EEgr;", "H ");
-		geogebraMap.put("&Igr;", "I ");
-		geogebraMap.put("&THgr;", "# ");
-		geogebraMap.put("&Kgr;", "K ");
-		geogebraMap.put("&Lgr;", "# ");
-		geogebraMap.put("&Mgr;", "M ");
-		geogebraMap.put("&Ngr;", "N ");
-		geogebraMap.put("&Ogr;", "O ");
-		geogebraMap.put("&Pgr;", "# ");
-		geogebraMap.put("&Rgr;", "P ");
-		geogebraMap.put("&Sgr;", "# ");
-		geogebraMap.put("&Tgr;", "T ");
-		geogebraMap.put("&Ugr;", "# ");
-		geogebraMap.put("&OHgr;", "# ");
-		geogebraMap.put("&Zgr;", "Z ");
+		geogebraMap.put("&alpha;", Unicode.alpha+"");
+		geogebraMap.put("&beta;", Unicode.beta+"");
+		geogebraMap.put("&gamma;", Unicode.gamma+"");
+		geogebraMap.put("&delta;", Unicode.delta+"");
+		geogebraMap.put("&epsi;", Unicode.epsilon+"");
+		geogebraMap.put("&eta;", Unicode.eta+"");
+		geogebraMap.put("&iota;", Unicode.iota+"");
+		geogebraMap.put("&kappa;", Unicode.kappa+"");
+		geogebraMap.put("&lambda;", Unicode.lambda+"");
+		geogebraMap.put("&mu;", Unicode.mu+"");
+		geogebraMap.put("&mgr;", Unicode.mu+"");
+		geogebraMap.put("&nu;", Unicode.nu+"");
+		geogebraMap.put("&omicron;", Unicode.omicron+"");
+		geogebraMap.put("&pi;", Unicode.pi+"");
+		geogebraMap.put("&theta;", Unicode.theta+"");
+		geogebraMap.put("&rho;", Unicode.rho+"");
+		geogebraMap.put("&rgr;", Unicode.rho+"");
+		geogebraMap.put("&sigma;", Unicode.sigma+"");
+		geogebraMap.put("&tau;", Unicode.tau+"");
+		geogebraMap.put("&upsilon;", Unicode.upsilon+"");
+		geogebraMap.put("&phiv;", Unicode.phi+"");
+		geogebraMap.put("&phi;", Unicode.phi+"");//\\varphi
+		geogebraMap.put("&chi;", Unicode.chi+"");
+		geogebraMap.put("&piv;", Unicode.pi+"");//\\varpi
+		geogebraMap.put("&pgr;", Unicode.pi+"");
+		geogebraMap.put("&ohgr;", Unicode.omega+"");
+		geogebraMap.put("&omega;", Unicode.omega+"");
+		geogebraMap.put("&xi;", Unicode.xi+"");
+		geogebraMap.put("&psi;", Unicode.psi+"");
+		geogebraMap.put("&zeta;", Unicode.zeta+"");
+		geogebraMap.put("&Delta;", Unicode.Delta+"");
+		geogebraMap.put("&Phi;", Unicode.Phi+"");
+		geogebraMap.put("&Gamma;", Unicode.Gamma+"");
+		geogebraMap.put("&Lambda;", Unicode.Lambda+"");
+		geogebraMap.put("&Pi;", Unicode.Pi+"");
+		geogebraMap.put("&tgr;", Unicode.tau+"");
+		geogebraMap.put("&Theta;", Unicode.Theta+"");
+		geogebraMap.put("&Sigma;", Unicode.Sigma+"");
+		geogebraMap.put("&Upsilon;", Unicode.Upsilon+"");
+		geogebraMap.put("&sigmaf;", Unicode.sigma+"");//\\varsigma
+		geogebraMap.put("&Omega;", Unicode.Omega+"");
+		geogebraMap.put("&Xi;", Unicode.Xi+"");
+		geogebraMap.put("&Psi;", Unicode.Psi+"");
+		geogebraMap.put("&epsiv;", Unicode.epsilon+"");
+		geogebraMap.put("&phgr;", Unicode.phi+"");
+		geogebraMap.put("&ggr;", Unicode.gamma+"");
+		geogebraMap.put("&eegr;", Unicode.eta+"");
+		geogebraMap.put("&igr;", Unicode.iota+"");
+		geogebraMap.put("&phgr;", Unicode.phi+"");
+		geogebraMap.put("&kgr;", Unicode.kappa+"");
+		geogebraMap.put("&lgr;", Unicode.lambda+"");
+		geogebraMap.put("&ngr;", Unicode.nu+"");
+		geogebraMap.put("&ogr;", Unicode.omega+"");
+		geogebraMap.put("&thgr;", Unicode.theta+"");
+		geogebraMap.put("&sgr;", Unicode.sigma+"");
+		geogebraMap.put("&ugr;", Unicode.upsilon+"");
+		geogebraMap.put("&zgr;", Unicode.zeta+"");
+		geogebraMap.put("&Agr;", Unicode.Alpha+"");
+		geogebraMap.put("&Bgr;", Unicode.Beta+"");
+		geogebraMap.put("&KHgr;", Unicode.Chi+"");
+		geogebraMap.put("&Egr;", Unicode.Epsilon+"");
+		geogebraMap.put("&PHgr;", Unicode.Phi+"");
+		geogebraMap.put("&Ggr;", Unicode.Gamma+"");
+		geogebraMap.put("&EEgr;", Unicode.Eta+"");
+		geogebraMap.put("&Igr;", Unicode.Iota+"");
+		geogebraMap.put("&THgr;", Unicode.Theta+"");
+		geogebraMap.put("&Kgr;", Unicode.Kappa+"");
+		geogebraMap.put("&Lgr;", Unicode.Lambda+"");
+		geogebraMap.put("&Mgr;", Unicode.Mu+"");
+		geogebraMap.put("&Ngr;", Unicode.Nu+"");
+		geogebraMap.put("&Ogr;", Unicode.Omicron+"");
+		geogebraMap.put("&Pgr;", Unicode.Pi+"");
+		geogebraMap.put("&Rgr;", Unicode.Rho+"");
+		geogebraMap.put("&Sgr;", Unicode.Sigma+"");
+		geogebraMap.put("&Tgr;", Unicode.Tau+"");
+		geogebraMap.put("&Ugr;", Unicode.Upsilon+"");
+		geogebraMap.put("&OHgr;", Unicode.Omega+"");
+		geogebraMap.put("&Zgr;", Unicode.Zeta+"");
 
 
 		// Pfeile und andere Operatoren
@@ -696,6 +698,7 @@ public class MathMLParser {
 	 * 
 	 */
 	public MathMLParser(boolean geogebraSyntax1) {
+		this.geogebraSyntax = geogebraSyntax1;
 		if (geogebraSyntax1) {
 			substitutions = geogebraMap;
 		} else {
@@ -761,7 +764,7 @@ public class MathMLParser {
 	 * @param skipUnknownEntities1 skipUnknownEntities
 	 * @return a StringBuilder containig the LaTeX representation of the input
 	 */
-	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1, boolean geogebraSyntax1) {
+	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1) {
 
 		// I am not sure this would include new lines
 		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
@@ -785,7 +788,6 @@ public class MathMLParser {
 			this.strBuf = strBuf1;
 			this.wrappedEntities = wrappedEntities1;
 			this.skipUnknownEntities = skipUnknownEntities1;
-			this.geogebraSyntax = geogebraSyntax1;
 
 			// usually the MathML input should have more characters as the output
 			result = new StringBuilder(strBuf.length());
@@ -1413,7 +1415,7 @@ public class MathMLParser {
 		for (int i = 0; i < mathmlTest.length ; i++) {
 			String s = mathmlTest[i];
 
-			String latex = mathmlParser.parse(s, false, false, geogebraSyntax0);
+			String latex = mathmlParser.parse(s, false, false);
 
 			System.out.println(latex);
 		}
