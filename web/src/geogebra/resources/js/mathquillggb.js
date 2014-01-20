@@ -2371,7 +2371,36 @@ LatexCmds['\u221a'] = P(MathCommand, function(_, _super) {
   };
   _.redraw = function() {
     var block = this.ch[R].jQ;
-    scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2));
+    var bh = block.innerHeight();
+    var fs = 0;
+    if (block.css('fontSize').length > 2) {
+      if (block.css('fontSize').substr(-2) == "px") {
+    	fs = block.css('fontSize').slice(0,-2);
+      }
+    }
+    if ((fs > 0) && (bh > 0)) {
+      scale(block.prev(), 1, bh/fs);
+    /*} else if (fs > 0) {
+      //block.prev().css('fontSize', fs + 'em');
+      this.html();
+      block = this.ch[R].jQ;
+      bh = block.innerHeight();
+      if (bh > 0) {
+        scale(block.prev(), 1, bh/fs);
+      }*/ // this doesn't work
+    } else {
+      // ?? this doesn't work
+      /*if (fs > 0) {
+        bh = block.height();
+        if (bh > 0) {
+          scale(block.prev(), 1, bh/fs);
+        } else {
+          console.log("...fs:"+fs+";bh:"+bh+";");
+        }
+      } else {
+        console.log("fs:"+fs+";bh:"+bh+";");
+      }*/
+    }
   };
 });
 
