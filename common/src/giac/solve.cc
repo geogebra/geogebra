@@ -1627,6 +1627,10 @@ namespace giac {
       }
     }
     // Checking for fractional power
+    vecteur surd1,surd2; // ggb 4089
+    surd2pow(expr,surd1,surd2,contextptr);
+    if (!surd1.empty())
+      expr=subst(expr,surd1,surd2,false,contextptr);
     // Remark: algebraic extension could also be solved using resultant
     vecteur ls(lvarfracpow(expr,x,contextptr));
     if (!ls.empty()){ // Use auxiliary variables
@@ -2056,6 +2060,11 @@ namespace giac {
       }
       if (args.type!=_VECT)
 	return _solve(makesequence(args,ggb_var(args)),contextptr);
+    }
+    if (has_op(args,*at_irem)){
+      vector<const unary_function_ptr *> v(1,at_irem);
+      vector<gen_op_context> w(1,_normalmod);
+      return _solve(subst(args,v,w,false,contextptr),contextptr);
     }
     vecteur v(solvepreprocess(args,complex_mode(contextptr),contextptr));
     int s=v.size();

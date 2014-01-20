@@ -76,6 +76,28 @@ namespace giac {
 	s[i]=' ';
   }
 
+
+   string string2mathml(const string & m){
+     string s=m;
+     string t="";
+     string mat[4]={"&","<",">","\n"};
+     string rep[4]={"&amp;","&lt;","&gt;","</mi></mtd></mtr><mtr><mtd><mi>"};
+     //start with & before adding new ones
+     for(int siz=0;siz<4;siz++){
+       int c=0,k=-1,le=s.length();
+       while (c<le){
+         k=s.find(mat[siz],c);
+         if (k!=-1){
+	   s.replace(k,1,rep[siz]);c=k+rep[siz].length()-1;le=le+rep[siz].length()-1;
+         }
+         else{
+	   c=le;
+         }
+       }
+     }
+     return "<mtable columnalign=\"left\"><mtr><mtd><mi>"+s+"</mi></mtd></mtr></mtable>";
+   }
+
   string spread2mathml(const matrice & m,int formule,GIAC_CONTEXT){
     int l=m.size();
     if (!l)
@@ -238,9 +260,6 @@ namespace giac {
 	s += "<mo>*</mo>";  
     }
   }
-
-
-
 
 
   // // --------------------------------- recopi?? de unary.cc ---------------------------------------
@@ -1046,7 +1065,7 @@ namespace giac {
 	if (e==cst_pi)
 	  return "<mi>&pi;</mi>";
 	if (e==undef)
-      return "<mi>undef</mi>";
+	  return "<mi>undef</mi>";
 	return  "<mi>"+e.print(contextptr)+"</mi>";
       case _SYMB:                        
 	return symbolic2mathml(*e._SYMBptr, svg,contextptr);
@@ -1064,11 +1083,13 @@ namespace giac {
       case _EXT: 
 	return "";
       case _STRNG:
-	return "<mi>"+(*e._STRNGptr)+"</mi>";
+	return string2mathml(*e._STRNGptr);
+	// return "<mi>"+(*e._STRNGptr)+"</mi>";
       case _FUNC: case _MAP:
 	return "<mi>"+e.print(contextptr)+"</mi>";
       case _USER:
-	return "<mi>"+e._USERptr->texprint(contextptr)+"</mi>"; // <--------------------------- A traduire ?
+	return string2mathml(e.print(contextptr));
+	// return "<mi>"+e._USERptr->texprint(contextptr)+"</mi>"; 
       case _MOD:
 	return gen2mathml(*e._MODptr,contextptr)+"<mo>%</mo>"+gen2mathml(*(e._MODptr+1),contextptr);
       default:

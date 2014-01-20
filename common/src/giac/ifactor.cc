@@ -2802,6 +2802,8 @@ namespace giac {
       vector<short_t> p(bs), add_p(additional_primes.size());
       for (int j=0;j<l32;++j){
 	if (j<int(axbmodn.size()) && (i==j || (relations2[j] && (relations2[j][i/32] & (1<<(i%32)))))){
+	  if (axbmodn[j].aindex>=sqrtavals.size() || axbmodn[j].bindex>=bvals.size())
+	    return false; // check added because ifactor(nextprime(alog10(17))*nextprime(alog10(19))); fails on Prime (and unable to do parallel debug in giac)
 	  update_xy(axbmodn[j],zx,zy,p,add_p,N,basis,additional_primes,sqrtavals,bvals,puissancestab,zq,zr,alloc1,alloc2,alloc3,alloc4,alloc5);
 #ifdef ADDITIONAL_PRIMES_HASHMAP
 	  unsigned u=largep(axbmodn[j],puissancestab);
@@ -3618,6 +3620,9 @@ namespace giac {
     if (n0.type==_VECT && !n0._VECTptr->empty())
       return giac_ifactors(n0._VECTptr->front(),contextptr);
 #ifdef HAVE_LIBPARI
+#ifdef __APPLE__
+    return vecteur(1,gensizeerr(gettext("Number too large for Pollard-rho and sieve. If you think EEM should work better, try pari(""factor""),")+n0.print(contextptr)+")"));
+#endif
     if (!is_integer(n0) || is_zero(n0))
       return vecteur(1,gensizeerr(gettext("ifactors")));
     if (is_one(n0))

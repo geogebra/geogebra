@@ -6020,7 +6020,7 @@ namespace giac {
 
 
   string version(){
-    return string("giac ")+VERSION;
+    return string("giac ")+VERSION+string(", (c) B. Parisse and R. De Graeve, Institut Fourier, Universite de Grenoble I");
   }
   gen _version(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;

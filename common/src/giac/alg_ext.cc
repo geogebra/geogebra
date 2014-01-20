@@ -148,7 +148,8 @@ namespace giac {
     if (va.type==_FRAC)
         return ext_reduce(horner(*a._VECTptr,*va._FRACptr),vb);
     if (va.type!=_VECT){
-      if (vb.type!=_VECT)  return gensizeerr(gettext("alg_ext.cc/ext_reduce"));
+      if (vb.type!=_VECT)  
+	return gensizeerr(gettext("alg_ext.cc/ext_reduce"));
       return algebraic_EXTension( (*a._VECTptr) % (*vb._VECTptr),v);
     }
     return ext_reduce(horner(*a._VECTptr,gen(*va._VECTptr,_POLY1__VECT)),vb);
@@ -156,7 +157,8 @@ namespace giac {
 
   gen ext_reduce(const gen & e){
 #ifdef DEBUG_SUPPORT
-    if (e.type!=_EXT)  return gensizeerr(gettext("alg_ext.cc/ext_reduce"));
+    if (e.type!=_EXT)  
+      return gensizeerr(gettext("alg_ext.cc/ext_reduce"));
 #endif    
     if ( (e._EXTptr->type==_VECT) && ((e._EXTptr+1)->type==_VECT) && 
 	 (e._EXTptr->_VECTptr->size()<(e._EXTptr+1)->_VECTptr->size()) )
