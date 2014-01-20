@@ -680,6 +680,7 @@ public class MathMLParser {
 	private int pos;
 	private boolean wrappedEntities;
 	private boolean skipUnknownEntities;
+	private boolean geogebraSyntax;
 
 	// temporary variables (declared global for better performance)
 	//protected String startTag, endTag;
@@ -694,8 +695,12 @@ public class MathMLParser {
 	 * field SUBSTITUTIONS_FILE.
 	 * 
 	 */
-	public MathMLParser() {
-		substitutions = latexMap;
+	public MathMLParser(boolean geogebraSyntax1) {
+		if (geogebraSyntax1) {
+			substitutions = geogebraMap;
+		} else {
+			substitutions = latexMap;
+		}
 	}
 
 
@@ -756,7 +761,7 @@ public class MathMLParser {
 	 * @param skipUnknownEntities1 skipUnknownEntities
 	 * @return a StringBuilder containig the LaTeX representation of the input
 	 */
-	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1) {
+	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1, boolean geogebraSyntax1) {
 
 		// I am not sure this would include new lines
 		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
@@ -780,6 +785,7 @@ public class MathMLParser {
 			this.strBuf = strBuf1;
 			this.wrappedEntities = wrappedEntities1;
 			this.skipUnknownEntities = skipUnknownEntities1;
+			this.geogebraSyntax = geogebraSyntax1;
 
 			// usually the MathML input should have more characters as the output
 			result = new StringBuilder(strBuf.length());
@@ -1170,22 +1176,23 @@ public class MathMLParser {
 		}
 
 		// replace braces
-		for (int i = 0; i < leftBraces.length; i++) {
-			sbIndex = 0;
-			while ((sbIndex = sb.indexOf(String.valueOf(leftBraces[i]), sbIndex)) > -1) {
-				sb.insert(sbIndex, "\\left");
-				sbIndex = sbIndex + 6;
+		if (!geogebraSyntax) {
+			for (int i = 0; i < leftBraces.length; i++) {
+				sbIndex = 0;
+				while ((sbIndex = sb.indexOf(String.valueOf(leftBraces[i]), sbIndex)) > -1) {
+					sb.insert(sbIndex, "\\left");
+					sbIndex = sbIndex + 6;
+				}
+			}
+
+			for (int i = 0; i < rightBraces.length; i++) {
+				sbIndex = 0;
+				while ((sbIndex = sb.indexOf(String.valueOf(rightBraces[i]), sbIndex)) > -1) {
+					sb.insert(sbIndex, "\\right");
+					sbIndex = sbIndex + 7;
+				}
 			}
 		}
-
-		for (int i = 0; i < rightBraces.length; i++) {
-			sbIndex = 0;
-			while ((sbIndex = sb.indexOf(String.valueOf(rightBraces[i]), sbIndex)) > -1) {
-				sb.insert(sbIndex, "\\right");
-				sbIndex = sbIndex + 7;
-			}
-		}
-
 
 		// replace special characters
 		for (int i = 0; i < specialCharacters.length; i++) {
@@ -1398,13 +1405,15 @@ public class MathMLParser {
 	 * @param args args
 	 */
 	public static void main(String[] args){
-		MathMLParser mathmlParser = new MathMLParser();
+
+		boolean geogebraSyntax0 = false; // change this to true for testing GeoGebra syntax (work in progress)
+
+		MathMLParser mathmlParser = new MathMLParser(geogebraSyntax0);
 
 		for (int i = 0; i < mathmlTest.length ; i++) {
 			String s = mathmlTest[i];
 
-			String latex = mathmlParser.parse(s, false, false);
-			//String latex = mathmlParser.parse(s, false, true);// for testing GeoGebra output
+			String latex = mathmlParser.parse(s, false, false, geogebraSyntax0);
 
 			System.out.println(latex);
 		}
