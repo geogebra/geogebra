@@ -9,6 +9,8 @@ import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
+import geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
@@ -223,27 +225,38 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			n = n.mul(-1);
 		}
 		
-		renderer.getGeometryManager().drawPolygon(n, vertices);
+		//renderer.getGeometryManager().drawPolygon(n, vertices);
 		
-		/*
+		
 		PolygonTriangulation pt = new PolygonTriangulation(polygon);
 		try{
+			// simplify the polygon and check if there are at least 3 points left
 			if (pt.updatePoints() > 2){
-				pt.setIntersections();
+				
+				// check if the polygon is convex
+				if(pt.checkIsConvex()){
+					renderer.getGeometryManager().drawPolygonConvex(n, vertices);
+				}else{
+					// set intersections (if needed) and divide the polygon into non self-intersecting polygons
+					pt.setIntersections();
 
-				pt.triangulate();
+					// convert the set of polygons to triangle fans
+					pt.triangulate();
 
-				Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys());
+					// compute 3D coords for intersections
+					Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, polygon.getCoordSys());
 
-				for (TriangleFan triFan : pt.getTriangleFans()){
-					renderer.getGeometryManager().drawTriangleFan(n, verticesWithIntersections, triFan);
+					// draw the triangle fans
+					for (TriangleFan triFan : pt.getTriangleFans()){
+						renderer.getGeometryManager().drawTriangleFan(n, verticesWithIntersections, triFan);
+					}
 				}
 
 			}
 		}catch(Exception e){
 			App.debug(e.getMessage());
 		}
-		 */
+		 
 
 		
 		renderer.endPolygons();
