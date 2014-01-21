@@ -1577,6 +1577,31 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	@Override
+	public void setAnimatedCoordSystem(double x0, double y0, int steps, boolean storeUndo){		
+		
+		double newScale = SCALE_STANDARD;
+		
+		animatedScaleStartX=getXZero();
+		animatedScaleStartY=getYZero();
+		animatedScaleStartZ=getZZero();
+
+		
+		animatedScaleEndX=-1;
+		animatedScaleEndY=-1;
+		animatedScaleEndZ=-1;
+
+		
+		
+		animatedScaleStart = getScale();
+		animatedScaleTimeStart = System.currentTimeMillis();
+		animatedScaleEnd = newScale;
+		animatedScale = true;
+		
+		animatedScaleTimeFactor =  0.0003*steps; 
+		
+	}
+	
+	@Override
 	public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,
 			int steps, boolean storeUndo) {
 		

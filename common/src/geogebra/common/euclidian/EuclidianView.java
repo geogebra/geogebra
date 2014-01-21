@@ -4925,11 +4925,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			axesRatioZoomer.setStandardViewAfter(xzero, yzero);
 			axesRatioZoomer.startAnimation();
 		} else {
-			setAnimatedCoordSystem(xzero, yzero, 0, SCALE_STANDARD, 15, false);
+			setAnimatedCoordSystem(xzero, yzero, 15, false);
 		}
 		if (storeUndo) {
 			getApplication().storeUndoInfo();
 		}
+	}
+	
+	/**
+	 * Sets coord system of this view to standard. Just like setCoordSystem but with
+	 * previous animation.
+	 * 
+	 * 
+	 */
+	public void setAnimatedCoordSystem(double originX, double originY, int steps, boolean storeUndo){		
+		setAnimatedCoordSystem(originX, originY, 0, SCALE_STANDARD, steps, storeUndo);
 	}
 
 	/**
