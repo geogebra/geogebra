@@ -1579,9 +1579,9 @@ Paddings for menuitems.
     overflow:auto;
 }
 
-.InputPanel input.TextField {
+/*.InputPanel input.TextField {
     display:block;
-}
+}*/
 
 .historyList {	
 	min-width: 200px;
@@ -2371,6 +2371,24 @@ label {
 	display: block;
 }
 
+/*============ AutocompleteTextFieldW =======*/
+.AutoCompleteTextFieldW {
+	
+}
+
+.AutoCompleteTextFieldW .TextField {
+	display: inline-block;
+}
+
+.AutoCompleteTextFieldW .SymbolToggleButton {
+	display: none;
+}
+
+.AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
+	display: inline-block;
+}
+
+
 /*=========== Checkbox menuitem =============*/
 
 /* Stefi do you magic here :-) */
@@ -2436,6 +2454,11 @@ label {
 
 .ProbCalcPanel .ProbabilityTableW td {
 	border: 1px solid black;
+}
+
+.ProbCalcPanel .ProbabilityTableW td.headercell {
+	font-weight: bold;
+	font-style: italic;
 }
 
 .ProbCalcPanel .ProbabilityTableW tr:hover, .ProbCalcPanel .ProbabilityTableW tr.selected  {
@@ -2520,12 +2543,16 @@ label {
 .StatisticsCalculatorW .pnlCount {
 	overflow: auto;
 	text-align: right;
+	display: table;
+	border-collapse: separate;
+}
+
+.StatisticsCalculatorW .chirow {
+	display: table-row;
 }
 
 .StatisticsCalculatorW .chirow .ChiSquarePanelW {
-	display:inline-block;
-	max-width:200px;
-	height: 20px;
+	display: table-cell;
 	margin: 5px;
 }
 

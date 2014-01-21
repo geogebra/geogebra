@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -65,25 +66,17 @@ public class StatTableW extends FlowPanel {
 	public void setStatTable(int rows, String[] rowNames, int columns,
 			String[] columnNames) {
 
-		myTable.resize(rows + 1, columns + 1);
+		myTable.resize(rows, columns);
 		// set column names
-		if (columnNames == null) {
-			//myTable.setTableHeader(null);
-			//this.setColumnHeaderView(null);
-		} else {
-			//tableModel.setColumnCount(0);
-			for (int i = 0; i < columnNames.length; i++) {
-				myTable.setWidget(0, i + 1, new Label(columnNames[i]));
-			}
-		}
+		myTable.setHeaderCells(columnNames);
 
 		// create row header
 		if (rowNames != null) {
 			//rowHeader = new MyRowHeader(myTable, rowNames, this);
 			// rowHeaderModel = new DefaultListModel();
 			// .setModel(rowHeaderModel);
-			for (int i = 0; i < rowNames.length; i++) {
-				myTable.setWidget(i+1, 0, new Label(rowNames[i]));
+			for (int i = 1; i < rowNames.length + 1; i++) {
+				myTable.setWidget(i, 0, new Label(rowNames[i]));
 			}
 		} else {
 			//setRowHeaderView(null);
@@ -216,9 +209,21 @@ public class StatTableW extends FlowPanel {
 
 		private boolean allowCellEdith;
 		private Object comboBoxEditorMap;
+		private int firstRow = 0;
 
 		public MyTable() {
 	        super();
+        }
+
+		public void setHeaderCells(String[] columnNames) {
+	        if (columnNames != null) {
+	        	firstRow = 1;
+	        	resizeRows(getRowCount() + 1);
+	        	for (int i = 0; i < columnNames.length; i++) {
+	        		this.setWidget(0, i, new Label(columnNames[i]));
+	        		this.getCellFormatter().getElement(0, i).addClassName("headercell");
+	        	}
+	        }
         }
 
 		public int convertColumnIndexToModel(int column) {
@@ -251,6 +256,9 @@ public class StatTableW extends FlowPanel {
 
 		public void handleSelection(ClickEvent event) {
 	       Cell c = this.getCellForEvent(event);
+	       if (c.getElement().hasClassName("headercell")) {
+	    	   return;
+	       }
 	       Element parentRow = c.getElement().getParentElement();
 	       if (!event.isShiftKeyDown()) {
 	    	   toggleSelection(parentRow);
@@ -288,7 +296,7 @@ public class StatTableW extends FlowPanel {
         }
 
 		private void clearSelection(Cell c) {
-	        for (int i = 0; i < this.getRowCount(); i++) {
+	        for (int i = firstRow; i < this.getRowCount(); i++) {
 	        	if (c != null) {
 	        		if (c.getRowIndex() != i) {
 	        			getRowFormatter().getElement(i).removeClassName("selected");
@@ -300,10 +308,10 @@ public class StatTableW extends FlowPanel {
         }
 
 		public int[] getSelectedRows() {
-			int start = 0;
+			int start = firstRow;
 			int end = 0;
 			int [] result;
-	        for (int i = 0; i < this.getRowCount(); i++) {
+	        for (int i = firstRow; i < this.getRowCount(); i++) {
 	        	if (this.getRowFormatter().getElement(i).hasClassName("selected")) {
 	        		if (end == 0) {
 	        			start = i;
@@ -335,7 +343,7 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		private void selectTableRows(int from, int to) {
-			int fr = from > -1 ? from : 0;
+			int fr = from > -1 ? from : firstRow;
 			int t = to > this.getRowCount() ? this.getRowCount() : to;
 			if (fr > this.getRowCount()) {
 				fr = this.getRowCount();
@@ -366,6 +374,16 @@ public class StatTableW extends FlowPanel {
 	    	   }
 	       }
         }
+
+		/**
+		 * @param row row
+		 * @param column column
+		 * @param widget widget
+		 */
+		@Override
+        public void setWidget(int row, int column, Widget widget) {
+			super.setWidget(row + firstRow, column, widget);
+		}
 		
 	}
 	

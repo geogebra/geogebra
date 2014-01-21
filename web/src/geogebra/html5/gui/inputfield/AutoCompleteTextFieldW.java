@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -54,16 +56,15 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AutoCompleteTextFieldW extends HorizontalPanel implements
+public class AutoCompleteTextFieldW extends FlowPanel implements
         AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField,
         KeyDownHandler, KeyUpHandler, KeyPressHandler,
         ValueChangeHandler<String>, SelectionHandler<Suggestion>,
@@ -145,7 +146,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		if (columns > 0) {
 			setColumns(columns);
 		}
-		setVerticalAlignment(ALIGN_MIDDLE);
+		//setVerticalAlignment(ALIGN_MIDDLE);
 		addStyleName("AutoCompleteTextFieldW");
 
 		String id = DOM.createUniqueId();
@@ -168,7 +169,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 			}
 		};
 		showSymbolButton.getElement().setId(id + "_SymbolButton");
-		showSymbolButton.getElement().setAttribute("style", "display: none");
+		//showSymbolButton.getElement().setAttribute("style", "display: none");
 		showSymbolButton.setText(Unicode.alpha + "");
 		showSymbolButton.addStyleName("SymbolToggleButton");
 		showSymbolButton.addBlurHandler(new BlurHandler() {
@@ -443,6 +444,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 	public void setColumns(int length) {
 		getTextBox().setWidth(length + "em");
+		super.setWidth(length + "em");
 	}
 
 	public String getCurrentWord() {
@@ -1105,9 +1107,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		// temp
 		// TODO: don't fix the popup button here, but it should appear if mouse
 		// clicked into the textfield.
-		String display = (showSymbolTableIcon) && app.isAllowedSymbolTables() ? "block"
-		        : "none";
-		showSymbolButton.getElement().setAttribute("display", display);
+		if ((showSymbolTableIcon) && app.isAllowedSymbolTables()) {
+			showSymbolButton.getElement().addClassName("shown");
+		} else {
+			showSymbolButton.getElement().removeClassName("shown");
+		}
 	}
 
 	private SymbolTablePopupW getTablePopup() {
@@ -1189,15 +1193,13 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 		if (source instanceof Widget) {
 			String id = ((Widget) source).getElement().getId();
 			if (id != null) {
-				Element element = DOM.getElementById(id + "_SymbolButton");
+				Element element = Document.get().getElementById(id + "_SymbolButton");
 				if (element != null) {
-					if ((element.getAttribute("display") != "none")
-					        && (show || element.getClassName().indexOf(
-					                "ShowSymbolButtonFocused") < 0)) {
-						String display = (show) ? "block" : "none";
-						element.setAttribute("style", "display: " + display);
+					if (show) {
+						element.addClassName("shown");
+					} else {
+						element.removeClassName("shown");
 					}
-					// if the button will be focused, don't hide it
 				}
 			}
 		}
@@ -1257,8 +1259,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements
 
 	public void setWidth(int width) {
 		if (textField != null && showSymbolButton != null) {
-			width = width - 20; // adjust for symbolToggleButton
-			textField.setWidth(width + "px");
+			int textFieldWidth = width - 50; // adjust for symbolToggleButton
+			textField.setWidth(textFieldWidth + "px");
 		}
 		super.setWidth(width + "px");
 	}

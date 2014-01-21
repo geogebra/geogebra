@@ -373,7 +373,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     	}
 
     	public void setColumns(int columns) {
-    		fldInput.setColumns(columns);
+    		//fldInput.setColumns(columns); no good for layout
 
     		// force a minimum width for margin cells
     		wrappedPanel.add(fldInput);
