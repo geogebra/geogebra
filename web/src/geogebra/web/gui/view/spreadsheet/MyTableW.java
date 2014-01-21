@@ -1357,27 +1357,33 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			editColumn = col;
 			Object mce = getCellEditor(row, col);
 
-			// do this now, and do it later in renderCells - memorized row and col
-			AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
-				((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
+			if (mce instanceof MyCellEditorW) {
+				// do this now, and do it later in renderCells - memorized row and col
+				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
+						((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
 
-			int cew = getCellFormatter().getElement(row, col).getOffsetWidth();
-			cew -= minusColumnWidth;
-			if (cew <= 0)
-				cew = preferredColumnWidth-minusColumnWidth;
+				int cew = getCellFormatter().getElement(row, col).getOffsetWidth();
+				cew -= minusColumnWidth;
+				if (cew <= 0)
+					cew = preferredColumnWidth-minusColumnWidth;
 
-			int ceh = getCellFormatter().getElement(row, col).getOffsetHeight();
-			ceh -= minusRowHeight + 2;
-			if (ceh <= 0)
-				ceh = minimumRowHeight - minusRowHeight - 2;
+				int ceh = getCellFormatter().getElement(row, col).getOffsetHeight();
+				ceh -= minusRowHeight + 2;
+				if (ceh <= 0)
+					ceh = minimumRowHeight - minusRowHeight - 2;
 
-			w.getTextField().setPixelSize(cew, ceh);
+				w.getTextField().setPixelSize(cew, ceh);
 
-			view.positionEditorPanel(true, row, col);
-			
-			w.requestFocus();
-			renderSelection();
-			return true;
+				view.positionEditorPanel(true, row, col);
+
+				w.requestFocus();
+				renderSelection();
+				return true;
+			} else if (mce instanceof MyCellEditorBooleanW) {
+				view.positionEditorPanel(true, row, col);
+				renderSelection();
+				return true;
+			}
 		}
 		getCellEditor(row, col).cancelCellEditing();
 		return false;// TODO: implementation needed

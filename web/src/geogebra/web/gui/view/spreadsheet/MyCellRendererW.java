@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyCellRendererW {
@@ -328,44 +329,6 @@ public class MyCellRendererW {
 			}
 		}
 
-
-		/*if (view.allowSpecialEditor()
-		&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
-
-	if (geo.isGeoBoolean()) {
-		checkBox.setBackground(table.getBackground());
-		checkBox.setHorizontalAlignment(CENTER);
-		checkBox.setEnabled(geo.isIndependent());
-
-		if (geo.isLabelVisible()) {
-			// checkBox.setText(geo.getCaption());
-		}
-		checkBox.setSelected(((GeoBoolean) geo).getBoolean());
-
-		return checkBox;
-	}
-
-	if (geo.isGeoButton()) {
-		// button.setBackground(table.getBackground());
-		button.setHorizontalAlignment(CENTER);
-		button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-		button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
-				.getObjectColor()));
-		return button;
-	}
-
-	if (geo.isGeoList()) {
-		GeoList list = (GeoList) geo;
-		comboBox.setBackground(table.getBackground());
-		cbModel.removeAllElements();
-		if (list.size() > 0)
-			cbModel.addElement(list.get(list.getSelectedIndex()));
-		// comboBox.setSelected(((GeoBoolean)geo).getBoolean());
-
-		return comboBox;
-	}
-}*/
-
 		if (view.allowSpecialEditor() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			if (geo.isGeoBoolean()) {
 				FlowPanel fp = new FlowPanel();
@@ -382,6 +345,33 @@ public class MyCellRendererW {
 				}
 				checkbox.setValue(((GeoBoolean) geo).getBoolean());
 				table.setWidget(row, column, fp);
+				return;
+			}
+
+			/*if (geo.isGeoButton()) {
+				// button.setBackground(table.getBackground());
+				button.setHorizontalAlignment(CENTER);
+				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
+				button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
+						.getObjectColor()));
+				return button;
+			}*/
+
+			if (geo.isGeoList()) {
+				GeoList list = (GeoList) geo;
+				ListBox lb = new ListBox();
+				lb.setVisibleItemCount(1);
+				lb.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
+				if (list.size() > 0) {
+					for (int i = 0; i < list.size(); i++)
+						// toString doesn't work for some reason
+						lb.addItem(list.get(i).toValueString(StringTemplate.defaultTemplate));
+					lb.setSelectedIndex(list.getSelectedIndex());
+				}
+
+				table.setWidget(row, column, lb);
+				lb.setWidth("100%");
+				lb.setHeight("100%");
 				return;
 			}
 		}
