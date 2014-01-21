@@ -17,12 +17,11 @@ import geogebra.touch.utils.ToolBarMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -47,7 +46,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private StandardButton showHideClosed;
 	private StandardButton showHideOpened;
 
-	private final SVGResource iconFx = TouchEntryPoint.getLookAndFeel()
+	private final ImageResource iconFx = TouchEntryPoint.getLookAndFeel()
 			.getIcons().icon_fx();
 	private Panel underline;
 	private static final int toolBarButtonWidth = 56;

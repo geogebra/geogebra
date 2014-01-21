@@ -1,9 +1,7 @@
 package geogebra.touch.gui.laf;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-import org.vectomatic.dom.svg.ui.SVGResource.Validated;
-
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ImageResource;
 
 interface AppleResources extends DefaultResources {
 
@@ -12,102 +10,82 @@ interface AppleResources extends DefaultResources {
 	// Dialogs
 
 	@Override
-	@Source("icons/svg/android/arrow_go_next.svg")
-	@Validated(validated = false)
-	SVGResource arrow_go_next();
+	@Source("icons/png/android/arrow_go_next.png")
+	ImageResource arrow_go_next();
 
 	@Override
-	@Source("icons/svg/android/arrow_go_previous.svg")
-	@Validated(validated = false)
-	SVGResource arrow_go_previous();
+	@Source("icons/png/android/arrow_go_previous.png")
+	ImageResource arrow_go_previous();
 
 	@Override
-	@Source("icons/svg/apple/menu_back.svg")
-	@Validated(validated = false)
-	SVGResource back();
+	@Source("icons/png/iOS7/menu_back.png")
+	ImageResource back();
 
 	@Override
-	@Source("icons/svg/apple/button_cancel.svg")
-	@Validated(validated = false)
-	SVGResource dialog_cancel();
+	@Source("icons/png/iOS7/button_cancel.png")
+	ImageResource dialog_cancel();
 
 	// Header
 
 	@Override
-	@Source("icons/svg/apple/button_trashcan.svg")
-	@Validated(validated = false)
-	SVGResource dialog_trash();
+	@Source("icons/png/iOS7/button_trashcan.png")
+	ImageResource dialog_trash();
 
 	@Override
-	@Source("icons/svg/apple/document-edit.svg")
-	@Validated(validated = false)
-	SVGResource document_edit();
+	@Source("icons/png/iOS7/document_edit.png")
+	ImageResource document_edit();
 
 	@Override
-	@Source("icons/svg/apple/document-new.svg")
-	@Validated(validated = false)
-	SVGResource document_new();
+	@Source("icons/png/iOS7/document_new.png")
+	ImageResource document_new();
 
 	@Override
-	@Source("icons/svg/apple/document-open.svg")
-	@Validated(validated = false)
-	SVGResource document_open();
+	@Source("icons/png/iOS7/document_open.png")
+	ImageResource document_open();
 
 	@Override
-	@Source("icons/svg/android/document-save.svg")
-	@Validated(validated = false)
-	SVGResource document_save();
+	@Source("icons/png/iOS7/document_save.png")
+	ImageResource document_save();
 
 	// GeoGebraTube View
 
 	@Override
-	@Source("icons/svg/apple/document-share.svg")
-	@Validated(validated = false)
-	SVGResource document_share();
+	@Source("icons/png/iOS7/document_share.png")
+	ImageResource document_share();
 
 	@Override
-	@Source("icons/svg/android/document_viewer.svg")
-	@Validated(validated = false)
-	SVGResource document_viewer();
+	@Source("icons/png/android/document_viewer.png")
+	ImageResource document_viewer();
 
 	@Override
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource icon_fx();
+	@Source("icons/png/empty.png")
+	ImageResource icon_fx();
 
 	@Override
-	@Source("icons/svg/android/icon_question.svg")
-	@Validated(validated = false)
-	SVGResource icon_question();
+	@Source("icons/png/android/icon_question.png")
+	ImageResource icon_question();
 
 	@Override
-	@Source("icons/svg/android/icon_warning.svg")
-	@Validated(validated = false)
-	SVGResource icon_warning();
+	@Source("icons/png/android/icon_warning.png")
+	ImageResource icon_warning();
 
 	@Override
-	@Source("icons/svg/apple/menu_edit_redo.svg")
-	@Validated(validated = false)
-	SVGResource redo();
+	@Source("icons/png/iOS7/menu_edit_redo.png")
+	ImageResource redo();
 
 	@Override
-	@Source("icons/svg/apple/search.svg")
-	@Validated(validated = false)
-	SVGResource search();
+	@Source("icons/png/iOS7/search.png")
+	ImageResource search();
 
 	@Override
-	@Source("icons/svg/apple/menu_edit_undo.svg")
-	@Validated(validated = false)
-	SVGResource undo();
+	@Source("icons/png/iOS7/menu_edit_undo.png")
+	ImageResource undo();
 
 	@Override
-	@Source("icons/svg/apple/elem_radioButtonActive.svg")
-	@Validated(validated = false)
-	SVGResource radioButtonActive();
+	@Source("icons/png/iOS7/elem_radioButtonActive.png")
+	ImageResource radioButtonActive();
 
 	@Override
-	@Source("icons/svg/apple/elem_radioButtonInactive.svg")
-	@Validated(validated = false)
-	SVGResource radioButtonInactive();
-
+	@Source("icons/png/iOS7/elem_radioButtonInactive.png")
+	ImageResource radioButtonInactive();
 }

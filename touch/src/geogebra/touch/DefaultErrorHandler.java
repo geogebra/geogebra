@@ -4,10 +4,9 @@ import geogebra.common.main.Localization;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.laf.LookAndFeel;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -35,7 +34,7 @@ class DefaultErrorHandler implements ErrorHandler {
 		private final Label title;
 
 		private final HorizontalPanel textPanel;
-		private final SVGResource iconWarning;
+		private final ImageResource iconWarning;
 		private final Label infoText;
 
 		private HorizontalPanel buttonContainer;

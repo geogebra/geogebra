@@ -1,394 +1,297 @@
 package geogebra.touch.gui;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-import org.vectomatic.dom.svg.ui.SVGResource.Validated;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
 public interface ToolbarResources extends ClientBundle{
 	public static final ToolbarResources INSTANCE = GWT.create(ToolbarResources.class);
 	
-	@Source("icons/svg/tools_specialline_best_fit_line.svg")
-	@Validated(validated = false)
-	SVGResource best_fit_line();
+	@Source("icons/png/toolbar/tools_specialline_best_fit_line.png")
+	ImageResource best_fit_line();
 
-	@Source("icons/svg/tools_actionobject_checkbox_show_hide_objects.svg")
-	@Validated(validated = false)
-	SVGResource checkbox_to_show_hide_objects();
+	@Source("icons/png/toolbar/tools_actionobject_checkbox_show_hide_objects.png")
+	ImageResource checkbox_to_show_hide_objects();
 
-	@Source("icons/svg/tools_circleandarc_circle_through_three_points.svg")
-	@Validated(validated = false)
-	SVGResource circle_through_three_points();
+	@Source("icons/png/toolbar/tools_circleandarc_circle_through_three_points.png")
+	ImageResource circle_through_three_points();
 
-	@Source("icons/svg/tools_circleandarc_circle_with_center_radius.svg")
-	@Validated(validated = false)
-	SVGResource circle_with_center_and_radius();
+	@Source("icons/png/toolbar/tools_circleandarc_circle_with_center_radius.png")
+	ImageResource circle_with_center_and_radius();
 
-	@Source("icons/svg/tools_circleandarc_circle_with_center_through_point.svg")
-	@Validated(validated = false)
-	SVGResource circle_with_center_through_point();
+	@Source("icons/png/toolbar/tools_circleandarc_circle_with_center_through_point.png")
+	ImageResource circle_with_center_through_point();
 
-	@Source("icons/svg/tools_circleandarc_circular_arc_with_center_between_two_points.svg")
-	@Validated(validated = false)
-	SVGResource circular_arc_with_center_between_two_points();
+	@Source("icons/png/toolbar/tools_circleandarc_circular_arc_with_center_between_two_points.png")
+	ImageResource circular_arc_with_center_between_two_points();
 
-	@Source("icons/svg/tools_circleandarc_circular_sector_with_center_between_two_points.svg")
-	@Validated(validated = false)
-	SVGResource circular_sector_with_center_between_two_points();
+	@Source("icons/png/toolbar/tools_circleandarc_circular_sector_with_center_between_two_points.png")
+	ImageResource circular_sector_with_center_between_two_points();
 
-	@Source("icons/svg/tools_circleandarc_circumcircular_arc_through_three_points.svg")
-	@Validated(validated = false)
-	SVGResource circumcircular_arc_through_three_points();
+	@Source("icons/png/toolbar/tools_circleandarc_circumcircular_arc_through_three_points.png")
+	ImageResource circumcircular_arc_through_three_points();
 
-	@Source("icons/svg/tools_circleandarc_circumcircular_sector_through_three_points.svg")
-	@Validated(validated = false)
-	SVGResource circumcircular_sector_through_three_points();
+	@Source("icons/png/toolbar/tools_circleandarc_circumcircular_sector_through_three_points.png")
+	ImageResource circumcircular_sector_through_three_points();
 	
-	@Source("icons/svg/tools_measurement_angle.svg")
-	@Validated(validated = false)
-	SVGResource angle();
+	@Source("icons/png/toolbar/tools_measurement_angle.png")
+	ImageResource angle();
 	
-	@Source("icons/svg/tools_measurement_angle_with_given_size.svg")
-	@Validated(validated = false)
-	SVGResource angle_fixed();
+	@Source("icons/png/toolbar/tools_measurement_angle_with_given_size.png")
+	ImageResource angle_fixed();
 
-	@Source("icons/svg/tools_specialline_angle_bisector.svg")
-	@Validated(validated = false)
-	SVGResource angle_bisector();
+	@Source("icons/png/toolbar/tools_specialline_angle_bisector.png")
+	ImageResource angle_bisector();
 
-	@Source("icons/svg/tools_measurement_area.svg")
-	@Validated(validated = false)
-	SVGResource area();
+	@Source("icons/png/toolbar/tools_measurement_area.png")
+	ImageResource area();
 	
-	@Source("icons/svg/tools_point_attach_detach_point.svg")
-	@Validated(validated = false)
-	SVGResource attach_detach_point();
+	@Source("icons/png/toolbar/tools_point_attach_detach_point.png")
+	ImageResource attach_detach_point();
 	
-	@Source("icons/svg/tools_circleandarc_compasses.svg")
-	@Validated(validated = false)
-	SVGResource compasses();
+	@Source("icons/png/toolbar/tools_circleandarc_compasses.png")
+	ImageResource compasses();
 
-	@Source("icons/svg/tools_point_complex_number.svg")
-	@Validated(validated = false)
-	SVGResource complex_number();
+	@Source("icons/png/toolbar/tools_point_complex_number.png")
+	ImageResource complex_number();
 
-	@Source("icons/svg/tools_conicsection_conic_through_5_points.svg")
-	@Validated(validated = false)
-	SVGResource conic_through_5_points();
+	@Source("icons/png/toolbar/tools_conicsection_conic_through_5_points.png")
+	ImageResource conic_through_5_points();
 
-	@Source("icons/svg/tools_generaltools_copy_visual_style.svg")
-	@Validated(validated = false)
-	SVGResource copy_visual_style();
+	@Source("icons/png/toolbar/tools_generaltools_copy_visual_style.png")
+	ImageResource copy_visual_style();
 
 	// ToolBar
 
-	@Source("icons/svg/tools_measurement_create_list.svg")
-	@Validated(validated = false)
-	SVGResource create_list();
+	@Source("icons/png/toolbar/tools_measurement_create_list.png")
+	ImageResource create_list();
 
-	@Source("icons/svg/tools_generaltools_delete.svg")
-	@Validated(validated = false)
-	SVGResource delete_object();
+	@Source("icons/png/toolbar/tools_generaltools_delete.png")
+	ImageResource delete_object();
 
-	@Source("icons/svg/tools_conicsection_ellipse.svg")
-	@Validated(validated = false)
-	SVGResource ellipse();
+	@Source("icons/png/toolbar/tools_conicsection_ellipse.png")
+	ImageResource ellipse();
 
-	@Source("icons/svg/tools_cas_evaluate.svg")
-	@Validated(validated = false)
-	SVGResource evaluate();
+	@Source("icons/png/toolbar/tools_cas_evaluate.png")
+	ImageResource evaluate();
 
-	@Source("icons/svg/tools_cas_expand.svg")
-	@Validated(validated = false)
-	SVGResource expand();
+	@Source("icons/png/toolbar/tools_cas_expand.png")
+	ImageResource expand();
 
-	@Source("icons/svg/tools_cas_factor.svg")
-	@Validated(validated = false)
-	SVGResource factor();
+	@Source("icons/png/toolbar/tools_cas_factor.png")
+	ImageResource factor();
 	
-	@Source("icons/svg/tools_cas_derivative.svg")
-	@Validated(validated = false)
-	SVGResource derivative();
+	@Source("icons/png/toolbar/tools_cas_derivative.png")
+	ImageResource derivative();
 	
-	@Source("icons/svg/tools_cas_solve_numerically.svg")
-	@Validated(validated = false)
-	SVGResource nsolve();
+	@Source("icons/png/toolbar/tools_cas_solve_numerically.png")
+	ImageResource nsolve();
 	
-	@Source("icons/svg/tools_spreadsheet_two_variable_regression_analysis.svg")
-	@Validated(validated = false)
-	SVGResource two_variable();
+	@Source("icons/png/toolbar/tools_spreadsheet_two_variable_regression_analysis.png")
+	ImageResource two_variable();
 
-	@Source("icons/svg/tools_specialobject_freehand_shape.svg")
-	@Validated(validated = false)
-	SVGResource freehand_shape();
+	@Source("icons/png/toolbar/tools_specialobject_freehand_shape.png")
+	ImageResource freehand_shape();
 
-	@Source("icons/svg/tools_specialobject_function_inspector.svg")
-	@Validated(validated = false)
-	SVGResource function_inspector();
+	@Source("icons/png/toolbar/tools_specialobject_function_inspector.png")
+	ImageResource function_inspector();
 
-	@Source("icons/svg/tools_conicsection_hyperbola.svg")
-	@Validated(validated = false)
-	SVGResource hyperbola();
+	@Source("icons/png/toolbar/tools_conicsection_hyperbola.png")
+	ImageResource hyperbola();
 
-	@Source("icons/svg/tools_actionobject_insert_button.svg")
-	@Validated(validated = false)
-	SVGResource insert_button();
+	@Source("icons/png/toolbar/tools_actionobject_insert_button.png")
+	ImageResource insert_button();
 
-	@Source("icons/svg/tools_specialobject_insert_image.svg")
-	@Validated(validated = false)
-	SVGResource insert_image();
+	@Source("icons/png/toolbar/tools_specialobject_insert_image.png")
+	ImageResource insert_image();
 
-	@Source("icons/svg/tools_actionobject_insert_input_box.svg")
-	@Validated(validated = false)
-	SVGResource insert_input_box();
+	@Source("icons/png/toolbar/tools_actionobject_insert_input_box.png")
+	ImageResource insert_input_box();
 
-	@Source("icons/svg/tools_specialobject_insert_text.svg")
-	@Validated(validated = false)
-	SVGResource insert_text();
+	@Source("icons/png/toolbar/tools_specialobject_insert_text.png")
+	ImageResource insert_text();
 
-	@Source("icons/svg/tools_cas_integral.svg")
-	@Validated(validated = false)
-	SVGResource integral();
+	@Source("icons/png/toolbar/tools_cas_integral.png")
+	ImageResource integral();
 
-	@Source("icons/svg/tools_point_intersect_two_objects.svg")
-	@Validated(validated = false)
-	SVGResource intersect_two_objects();
+	@Source("icons/png/toolbar/tools_point_intersect_two_objects.png")
+	ImageResource intersect_two_objects();
 
-	@Source("icons/svg/tools_cas_keep_input.svg")
-	@Validated(validated = false)
-	SVGResource keep_input();
+	@Source("icons/png/toolbar/tools_cas_keep_input.png")
+	ImageResource keep_input();
 
-	@Source("icons/svg/tools_generaltools_label.svg")
-	@Validated(validated = false)
-	SVGResource label();
+	@Source("icons/png/toolbar/tools_generaltools_label.png")
+	ImageResource label();
 
-	@Source("icons/svg/tools_line_line_through_two_points.svg")
-	@Validated(validated = false)
-	SVGResource line_through_two_points();
+	@Source("icons/png/toolbar/tools_line_line_through_two_points.png")
+	ImageResource line_through_two_points();
 
-	@Source("icons/svg/tools_specialline_locus.svg")
-	@Validated(validated = false)
-	SVGResource locus();
+	@Source("icons/png/toolbar/tools_specialline_locus.png")
+	ImageResource locus();
 
-	@Source("icons/svg/tools_point_midpoint_or_center.svg")
-	@Validated(validated = false)
-	SVGResource midpoint_or_center();
+	@Source("icons/png/toolbar/tools_point_midpoint_or_center.png")
+	ImageResource midpoint_or_center();
 
-	@Source("icons/svg/tools_movement_move.svg")
-	@Validated(validated = false)
-	SVGResource move();
+	@Source("icons/png/toolbar/tools_movement_move.png")
+	ImageResource move();
 
-	@Source("icons/svg/tools_generaltools_move_graphics_view.svg")
-	@Validated(validated = false)
-	SVGResource move_graphics_view();
+	@Source("icons/png/toolbar/tools_generaltools_move_graphics_view.png")
+	ImageResource move_graphics_view();
 
-	@Source("icons/svg/tools_point_new_point.svg")
-	@Validated(validated = false)
-	SVGResource new_point();
+	@Source("icons/png/toolbar/tools_point_new_point.png")
+	ImageResource new_point();
 
-	@Source("icons/svg/tools_cas_numeric.svg")
-	@Validated(validated = false)
-	SVGResource numeric();
+	@Source("icons/png/toolbar/tools_cas_numeric.png")
+	ImageResource numeric();
 
-	@Source("icons/svg/tools_conicsection_parabola.svg")
-	@Validated(validated = false)
-	SVGResource parabola();
+	@Source("icons/png/toolbar/tools_conicsection_parabola.png")
+	ImageResource parabola();
 
-	@Source("icons/svg/tools_specialline_parallel_line.svg")
-	@Validated(validated = false)
-	SVGResource parallel_line();
+	@Source("icons/png/toolbar/tools_specialline_parallel_line.png")
+	ImageResource parallel_line();
 
-	@Source("icons/svg/tools_specialobject_pen.svg")
-	@Validated(validated = false)
-	SVGResource pen();
+	@Source("icons/png/toolbar/tools_specialobject_pen.png")
+	ImageResource pen();
 
-	@Source("icons/svg/tools_specialline_perpendicular_bisector.svg")
-	@Validated(validated = false)
-	SVGResource perpendicular_bisector();
+	@Source("icons/png/toolbar/tools_specialline_perpendicular_bisector.png")
+	ImageResource perpendicular_bisector();
 
-	@Source("icons/svg/tools_specialline_perpendicular_line.svg")
-	@Validated(validated = false)
-	SVGResource perpendicular_line();
+	@Source("icons/png/toolbar/tools_specialline_perpendicular_line.png")
+	ImageResource perpendicular_line();
 
-	@Source("icons/svg/tools_point_point_on_object.svg")
-	@Validated(validated = false)
-	SVGResource point_on_object();
+	@Source("icons/png/toolbar/tools_point_point_on_object.png")
+	ImageResource point_on_object();
 
-	@Source("icons/svg/tools_specialline_polar_or_diameter_line.svg")
-	@Validated(validated = false)
-	SVGResource polar_or_diameter_line();
+	@Source("icons/png/toolbar/tools_specialline_polar_or_diameter_line.png")
+	ImageResource polar_or_diameter_line();
 
-	@Source("icons/svg/tools_polygon_polygon.svg")
-	@Validated(validated = false)
-	SVGResource polygon();
+	@Source("icons/png/toolbar/tools_polygon_polygon.png")
+	ImageResource polygon();
 
-	@Source("icons/svg/tools_line_polyline_between_points.svg")
-	@Validated(validated = false)
-	SVGResource polyline_between_points();
+	@Source("icons/png/toolbar/tools_line_polyline_between_points.png")
+	ImageResource polyline_between_points();
 
-	@Source("icons/svg/tools_specialobject_probability_calculator.svg")
-	@Validated(validated = false)
-	SVGResource probability_calculator();
+	@Source("icons/png/toolbar/tools_specialobject_probability_calculator.png")
+	ImageResource probability_calculator();
 	
-	@Source("icons/svg/tools_line_ray_through_two_points.svg")
-	@Validated(validated = false)
-	SVGResource ray_through_two_points();
+	@Source("icons/png/toolbar/tools_line_ray_through_two_points.png")
+	ImageResource ray_through_two_points();
 
-	@Source("icons/svg/tools_movement_record_to_spreadsheet.svg")
-	@Validated(validated = false)
-	SVGResource record_to_spreadsheet();
+	@Source("icons/png/toolbar/tools_movement_record_to_spreadsheet.png")
+	ImageResource record_to_spreadsheet();
 
-	@Source("icons/svg/tools_transformation_reflect_object_about_circle.svg")
-	@Validated(validated = false)
-	SVGResource reflect_object_about_circle();
+	@Source("icons/png/toolbar/tools_transformation_reflect_object_about_circle.png")
+	ImageResource reflect_object_about_circle();
 
-	@Source("icons/svg/tools_transformation_reflect_object_about_line.svg")
-	@Validated(validated = false)
-	SVGResource reflect_object_about_line();
+	@Source("icons/png/toolbar/tools_transformation_reflect_object_about_line.png")
+	ImageResource reflect_object_about_line();
 
-	@Source("icons/svg/tools_transformation_reflect_object_about_point.svg")
-	@Validated(validated = false)
-	SVGResource reflect_object_about_point();
+	@Source("icons/png/toolbar/tools_transformation_reflect_object_about_point.png")
+	ImageResource reflect_object_about_point();
 
-	@Source("icons/svg/tools_polygon_regular_polygon.svg")
-	@Validated(validated = false)
-	SVGResource regular_polygon();
+	@Source("icons/png/toolbar/tools_polygon_regular_polygon.png")
+	ImageResource regular_polygon();
 
-	@Source("icons/svg/tools_specialobject_relation_between_two_objects.svg")
-	@Validated(validated = false)
-	SVGResource relation_between_two_objects();
+	@Source("icons/png/toolbar/tools_specialobject_relation_between_two_objects.png")
+	ImageResource relation_between_two_objects();
 
-	@Source("icons/svg/tools_polygon_rigid_polygon.svg")
-	@Validated(validated = false)
-	SVGResource rigid_polygon();
+	@Source("icons/png/toolbar/tools_polygon_rigid_polygon.png")
+	ImageResource rigid_polygon();
 
-	@Source("icons/svg/tools_movement_rotate_around_point.svg")
-	@Validated(validated = false)
-	SVGResource rotate_around_point();
+	@Source("icons/png/toolbar/tools_movement_rotate_around_point.png")
+	ImageResource rotate_around_point();
 
-	@Source("icons/svg/tools_transformation_rotate_object_about_point_by_angle.svg")
-	@Validated(validated = false)
-	SVGResource rotate_object_about_point_by_angle();
+	@Source("icons/png/toolbar/tools_transformation_rotate_object_about_point_by_angle.png")
+	ImageResource rotate_object_about_point_by_angle();
 
-	@Source("icons/svg/tools_line_segment_between_two_points.svg")
-	@Validated(validated = false)
-	SVGResource segment_between_two_points();
+	@Source("icons/png/toolbar/tools_line_segment_between_two_points.png")
+	ImageResource segment_between_two_points();
 
-	@Source("icons/svg/tools_line_segment_with_given_length_from_point.svg")
-	@Validated(validated = false)
-	SVGResource segment_with_given_length_from_point();
+	@Source("icons/png/toolbar/tools_line_segment_with_given_length_from_point.png")
+	ImageResource segment_with_given_length_from_point();
 
-	@Source("icons/svg/tools_circleandarc_semicircle.svg")
-	@Validated(validated = false)
-	SVGResource semicircle();
+	@Source("icons/png/toolbar/tools_circleandarc_semicircle.png")
+	ImageResource semicircle();
 
-	@Source("icons/svg/tools_generaltools_label.svg")
-	@Validated(validated = false)
-	SVGResource show_hide_label();
+	@Source("icons/png/toolbar/tools_generaltools_label.png")
+	ImageResource show_hide_label();
 
-	@Source("icons/svg/tools_generaltools_show_hide_object.svg")
-	@Validated(validated = false)
-	SVGResource show_hide_object();
+	@Source("icons/png/toolbar/tools_generaltools_show_hide_object.png")
+	ImageResource show_hide_object();
 	
-	@Source("icons/svg/tools_actionobject_slider.svg")
-	@Validated(validated = false)
-	SVGResource slider();
+	@Source("icons/png/toolbar/tools_actionobject_slider.png")
+	ImageResource slider();
 
-	@Source("icons/svg/tools_measurement_slope.svg")
-	@Validated(validated = false)
-	SVGResource slope();
+	@Source("icons/png/toolbar/tools_measurement_slope.png")
+	ImageResource slope();
 
-	@Source("icons/svg/tools_cas_solve.svg")
-	@Validated(validated = false)
-	SVGResource solve();
+	@Source("icons/png/toolbar/tools_cas_solve.png")
+	ImageResource solve();
 
-	@Source("icons/svg/tools_cas_solve_numerically.svg")
-	@Validated(validated = false)
-	SVGResource solve_numerically();
+	@Source("icons/png/toolbar/tools_cas_solve_numerically.png")
+	ImageResource solve_numerically();
 
-	@Source("icons/svg/tools_cas_substitute.svg")
-	@Validated(validated = false)
-	SVGResource substitute();
+	@Source("icons/png/toolbar/tools_cas_substitute.png")
+	ImageResource substitute();
 
-	@Source("icons/svg/tools_line_vector_between_two_points.svg")
-	@Validated(validated = false)
-	SVGResource vector_between_two_points();
+	@Source("icons/png/toolbar/tools_line_vector_between_two_points.png")
+	ImageResource vector_between_two_points();
 
-	@Source("icons/svg/tools_line_vector_from_point.svg")
-	@Validated(validated = false)
-	SVGResource vector_from_point();
+	@Source("icons/png/toolbar/tools_line_vector_from_point.png")
+	ImageResource vector_from_point();
 
-	@Source("icons/svg/tools_polygon_vector_polygon.svg")
-	@Validated(validated = false)
-	SVGResource vector_polygon();
+	@Source("icons/png/toolbar/tools_polygon_vector_polygon.png")
+	ImageResource vector_polygon();
 
-	@Source("icons/svg/tools_generaltools_zoom_in.svg")
-	@Validated(validated = false)
-	SVGResource zoom_in();
+	@Source("icons/png/toolbar/tools_generaltools_zoom_in.png")
+	ImageResource zoom_in();
 
-	@Source("icons/svg/tools_generaltools_zoom_out.svg")
-	@Validated(validated = false)
-	SVGResource zoom_out();
+	@Source("icons/png/toolbar/tools_generaltools_zoom_out.png")
+	ImageResource zoom_out();
 
-	@Source("icons/svg/tools_specialline_tangents.svg")
-	@Validated(validated = false)
-	SVGResource tangents();
+	@Source("icons/png/toolbar/tools_specialline_tangents.png")
+	ImageResource tangents();
 
-	@Source("icons/svg/tools_transformation_translate_object_by_vector.svg")
-	@Validated(validated = false)
-	SVGResource translate_object_by_vector();
+	@Source("icons/png/toolbar/tools_transformation_translate_object_by_vector.png")
+	ImageResource translate_object_by_vector();
 	
-	@Source("icons/svg/tools_transformation_dilate_object_from_point_by_factor.svg")
-	@Validated(validated = false)
-	SVGResource dilate_object_from_point_by_factor();
+	@Source("icons/png/toolbar/tools_transformation_dilate_object_from_point_by_factor.png")
+	ImageResource dilate_object_from_point_by_factor();
 
-	@Source("icons/svg/tools_measurement_distance_or_length.svg")
-	@Validated(validated = false)
-	SVGResource distance_or_length();
+	@Source("icons/png/toolbar/tools_measurement_distance_or_length.png")
+	ImageResource distance_or_length();
 	
-	@Source("icons/svg/tools_spreadsheet_create_polyline.svg")
-	@Validated(validated = false)
-	SVGResource create_polyline();
+	@Source("icons/png/toolbar/tools_spreadsheet_create_polyline.png")
+	ImageResource create_polyline();
 	
-	@Source("icons/svg/tools_spreadsheet_create_matrix.svg")
-	@Validated(validated = false)
-	SVGResource create_matrix();
+	@Source("icons/png/toolbar/tools_spreadsheet_create_matrix.png")
+	ImageResource create_matrix();
 	
-	@Source("icons/svg/tools_spreadsheet_create_list_of_points.svg")
-	@Validated(validated = false)
-	SVGResource create_point_list();
+	@Source("icons/png/toolbar/tools_spreadsheet_create_list_of_points.png")
+	ImageResource create_point_list();
 
-	@Source("icons/svg/tools_spreadsheet_create_table.svg")
-	@Validated(validated = false)
-	SVGResource create_table();
+	@Source("icons/png/toolbar/tools_spreadsheet_create_table.png")
+	ImageResource create_table();
 
-	@Source("icons/svg/tools_spreadsheet_maximum.svg")
-	@Validated(validated = false)
-	SVGResource max();
+	@Source("icons/png/toolbar/tools_spreadsheet_maximum.png")
+	ImageResource max();
 	
-	@Source("icons/svg/tools_spreadsheet_minimum.svg")
-	@Validated(validated = false)
-	SVGResource min();
+	@Source("icons/png/toolbar/tools_spreadsheet_minimum.png")
+	ImageResource min();
 	
-	@Source("icons/svg/tools_spreadsheet_mean.svg")
-	@Validated(validated = false)
-	SVGResource mean();
+	@Source("icons/png/toolbar/tools_spreadsheet_mean.png")
+	ImageResource mean();
 	
-	@Source("icons/svg/tools_spreadsheet_count.svg")
-	@Validated(validated = false)
-	SVGResource count();
+	@Source("icons/png/toolbar/tools_spreadsheet_count.png")
+	ImageResource count();
 	
-	@Source("icons/svg/tools_spreadsheet_sum.svg")
-	@Validated(validated = false)
-	SVGResource sum();
+	@Source("icons/png/toolbar/tools_spreadsheet_sum.png")
+	ImageResource sum();
 	
-	@Source("icons/svg/tools_spreadsheet_multiple_variable_analysis.svg")
-	@Validated(validated = false)
-	SVGResource multiple_variable();
+	@Source("icons/png/toolbar/tools_spreadsheet_multiple_variable_analysis.png")
+	ImageResource multiple_variable();
 	
-	@Source("icons/svg/tools_spreadsheet_one_variable_analysis.svg")
-	@Validated(validated = false)
-	SVGResource one_variable();
+	@Source("icons/png/toolbar/tools_spreadsheet_one_variable_analysis.png")
+	ImageResource one_variable();
 
 }

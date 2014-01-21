@@ -1,13 +1,12 @@
 package geogebra.touch.gui.elements;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 
 public class StandardClickButton extends StandardButton {
 
-	public StandardClickButton(SVGResource icon) {
+	public StandardClickButton(ImageResource icon) {
 		super(icon);
 	}
 
@@ -15,7 +14,7 @@ public class StandardClickButton extends StandardButton {
 		super(label);
 	}
 
-	public StandardClickButton(SVGResource icon, String label) {
+	public StandardClickButton(ImageResource icon, String label) {
 		super(icon, label);
 	}
 

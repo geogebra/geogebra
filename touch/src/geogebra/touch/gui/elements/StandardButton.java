@@ -3,16 +3,16 @@ package geogebra.touch.gui.elements;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.laf.LookAndFeel;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
+import com.google.gwt.resources.client.ImageResource;
 
 public class StandardButton extends FastButton {
 
 	protected static LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
 
-	private SVGResource icon;
+	private ImageResource icon;
 	private String label;
 
-	public StandardButton(final SVGResource icon) {
+	public StandardButton(final ImageResource icon) {
 		setIconAndLabel(icon, null);
 	}
 
@@ -20,20 +20,20 @@ public class StandardButton extends FastButton {
 		setIconAndLabel(null, label);
 	}
 
-	public StandardButton(final SVGResource icon, final String label) {
+	public StandardButton(final ImageResource icon, final String label) {
 		setIconAndLabel(icon, label);
 	}
 
-	private void setIconAndLabel(final SVGResource icon, final String label) {
+	private void setIconAndLabel(final ImageResource image, final String label) {
 
-		this.icon = icon;
+		this.icon = image;
 		this.label = label;
 
 		String html = "";
 
-		if (icon != null) {
+		if (image != null) {
 			html = "<div class=\"image\"> <img src=\""
-					+ icon.getSafeUri().asString() + "\" /></div>";
+					+ image.getSafeUri().asString() + "\" /></div>";
 		}
 
 		if (label != null) {
@@ -75,11 +75,11 @@ public class StandardButton extends FastButton {
 		setIconAndLabel(this.icon, label);
 	}
 
-	public SVGResource getIcon() {
+	public ImageResource getIcon() {
 		return this.icon;
 	}
 
-	public void setIcon(final SVGResource icon) {
+	public void setIcon(final ImageResource icon) {
 		setIconAndLabel(icon, this.label);
 
 	}

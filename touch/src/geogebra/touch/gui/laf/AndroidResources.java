@@ -1,9 +1,7 @@
 package geogebra.touch.gui.laf;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-import org.vectomatic.dom.svg.ui.SVGResource.Validated;
-
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ImageResource;
 
 interface AndroidResources extends DefaultResources {
 
@@ -13,91 +11,74 @@ interface AndroidResources extends DefaultResources {
 
 	@Override
 	@Source("icons/svg/android/arrow_go_next.svg")
-	@Validated(validated = false)
-	SVGResource arrow_go_next();
+	ImageResource arrow_go_next();
 
 	@Override
 	@Source("icons/svg/android/arrow_go_previous.svg")
-	@Validated(validated = false)
-	SVGResource arrow_go_previous();
+	ImageResource arrow_go_previous();
 
 	@Override
 	@Source("icons/svg/android/menu_back.svg")
-	@Validated(validated = false)
-	SVGResource back();
+	ImageResource back();
 
 	@Override
 	@Source("icons/svg/android/button_cancel.svg")
-	@Validated(validated = false)
-	SVGResource dialog_cancel();
+	ImageResource dialog_cancel();
 
 	// Header
 
 	@Override
 	@Source("icons/svg/android/button_trashcan.svg")
-	@Validated(validated = false)
-	SVGResource dialog_trash();
+	ImageResource dialog_trash();
 
 	@Override
 	@Source("icons/svg/android/document_edit.svg")
-	@Validated(validated = false)
-	SVGResource document_edit();
+	ImageResource document_edit();
 
 	@Override
 	@Source("icons/svg/android/document-new.svg")
-	@Validated(validated = false)
-	SVGResource document_new();
+	ImageResource document_new();
 
 	@Override
 	@Source("icons/svg/android/document-open.svg")
-	@Validated(validated = false)
-	SVGResource document_open();
+	ImageResource document_open();
 
 	@Override
 	@Source("icons/svg/android/document-save.svg")
-	@Validated(validated = false)
-	SVGResource document_save();
+	ImageResource document_save();
 
 	// GeoGebraTube View
 
 	@Override
 	@Source("icons/svg/android/document_share.svg")
-	@Validated(validated = false)
-	SVGResource document_share();
+	ImageResource document_share();
 
 	@Override
 	@Source("icons/svg/android/document_viewer.svg")
-	@Validated(validated = false)
-	SVGResource document_viewer();
+	ImageResource document_viewer();
 
 	@Override
 	@Source("icons/svg/android/icon_fx.svg")
-	@Validated(validated = false)
-	SVGResource icon_fx();
+	ImageResource icon_fx();
 
 	@Override
 	@Source("icons/svg/android/icon_question.svg")
-	@Validated(validated = false)
-	SVGResource icon_question();
+	ImageResource icon_question();
 
 	@Override
 	@Source("icons/svg/android/icon_warning.svg")
-	@Validated(validated = false)
-	SVGResource icon_warning();
+	ImageResource icon_warning();
 
 	@Override
 	@Source("icons/svg/android/menu_edit_redo.svg")
-	@Validated(validated = false)
-	SVGResource redo();
+	ImageResource redo();
 
 	@Override
 	@Source("icons/svg/android/document-open.svg")
-	@Validated(validated = false)
-	SVGResource search();
+	ImageResource search();
 
 	@Override
 	@Source("icons/svg/android/menu_edit_undo.svg")
-	@Validated(validated = false)
-	SVGResource undo();
+	ImageResource undo();
 
 }

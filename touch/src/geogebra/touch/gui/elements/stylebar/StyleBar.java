@@ -24,14 +24,13 @@ import geogebra.touch.utils.StyleBarDefaultSettings;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -275,7 +274,7 @@ public class StyleBar extends FlowPanel {
 	 *         EventHandler
 	 */
 	private FastButton createStyleBarButton(final String process,
-			final SVGResource svg) {
+			final ImageResource svg) {
 		final FastButton newButton = new StandardButton(svg);
 
 		newButton.addFastClickHandler(new FastClickHandler() {

@@ -1,8 +1,5 @@
 package geogebra.touch.gui.laf;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-import org.vectomatic.dom.svg.ui.SVGResource.Validated;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
@@ -31,230 +28,179 @@ public interface DefaultResources extends ClientBundle {
 	
 	// Dialogs
 
-	@Source("icons/svg/algebra_hidden.svg")
-	@Validated(validated = false)
-	SVGResource algebra_hidden();
+	@Source("icons/png/algebra_hidden.png")
+	ImageResource algebra_hidden();
 
-	@Source("icons/svg/algebra_shown.svg")
-	@Validated(validated = false)
-	SVGResource algebra_shown();
+	@Source("icons/png/algebra_shown.png")
+	ImageResource algebra_shown();
 	
-	@Source("icons/svg/android/kamera.svg")
-	@Validated(validated = false)
-	SVGResource icon_kamera();
+	@Source("icons/png/android/kamera.png")
+	ImageResource icon_kamera();
 	
-	@Source("icons/svg/android/gallery.svg")
-	@Validated(validated = false)
-	SVGResource icon_gallery();
+	@Source("icons/png/android/gallery.png")
+	ImageResource icon_gallery();
 
 	// Header
 
-	@Source("icons/svg/arrow_cursor_finger.svg")
-	@Validated(validated = false)
-	SVGResource arrow_cursor_finger();
+	@Source("icons/png/arrow_cursor_finger.png")
+	ImageResource arrow_cursor_finger();
 
-	@Source("icons/svg/arrow_cursor_grab.svg")
-	@Validated(validated = false)
-	SVGResource arrow_cursor_grab();
+	@Source("icons/png/arrow_cursor_grab.png")
+	ImageResource arrow_cursor_grab();
 
 	// show - hide (AlgebraView and StylingBar)
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource arrow_go_next();
+	@Source("icons/png/empty.png")
+	ImageResource arrow_go_next();
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource arrow_go_previous();
+	@Source("icons/png/empty.png")
+	ImageResource arrow_go_previous();
 
 
 	// AlgebraView
 
-	@Source("icons/svg/arrow_go_previous_gray.svg")
-	@Validated(validated = false)
-	SVGResource back();
+	@Source("icons/png/arrow_go_previous_gray.png")
+	ImageResource back();
 
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource color();
+	@Source("icons/png/empty.png")
+	ImageResource color();
 
 	
-	@Source("icons/svg/button_cancel.svg")
-	@Validated(validated = false)
-	SVGResource dialog_cancel();
+	@Source("icons/png/android/button_cancel.png")
+	ImageResource dialog_cancel();
 
-	@Source("icons/svg/button_trashcan.svg")
-	@Validated(validated = false)
-	SVGResource dialog_trash();
+	@Source("icons/png/android/button_trashcan.png")
+	ImageResource dialog_trash();
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource document_edit();
+	@Source("icons/png/empty.png")
+	ImageResource document_edit();
 
-	@Source("icons/svg/document-new.svg")
-	@Validated(validated = false)
-	SVGResource document_new();
+	@Source("icons/png/document-new.png")
+	ImageResource document_new();
 
-	@Source("icons/svg/document-open.svg")
-	@Validated(validated = false)
-	SVGResource document_open();
+	@Source("icons/png/document-open.png")
+	ImageResource document_open();
 
-	@Source("icons/svg/document-save.svg")
-	@Validated(validated = false)
-	SVGResource document_save();
+	@Source("icons/png/document-save.png")
+	ImageResource document_save();
 
-	@Source("icons/svg/document-save.svg")
-	@Validated(validated = false)
-	SVGResource document_share();
+	@Source("icons/png/document-save.png")
+	ImageResource document_share();
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource document_viewer();
+	@Source("icons/png/empty.png")
+	ImageResource document_viewer();
 
 	
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource icon_fx();
+	@Source("icons/png/empty.png")
+	ImageResource icon_fx();
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource icon_question();
+	@Source("icons/png/empty.png")
+	ImageResource icon_question();
 
-	@Source("icons/svg/empty.svg")
-	@Validated(validated = false)
-	SVGResource icon_warning();
+	@Source("icons/png/empty.png")
+	ImageResource icon_warning();
 
 	
-	@Source("icons/svg/stylingbar_line-dash-dot.svg")
-	@Validated(validated = false)
-	SVGResource line_dash_dot();
+	@Source("icons/png/stylingbar/stylingbar_line-dash-dot.png")
+	ImageResource line_dash_dot();
 
-	@Source("icons/svg/stylingbar_line-dashed-long.svg")
-	@Validated(validated = false)
-	SVGResource line_dashed_long();
+	@Source("icons/png/stylingbar/stylingbar_line-dashed-long.png")
+	ImageResource line_dashed_long();
 
-	@Source("icons/svg/stylingbar_line-dashed-short.svg")
-	@Validated(validated = false)
-	SVGResource line_dashed_short();
+	@Source("icons/png/stylingbar/stylingbar_line-dashed-short.png")
+	ImageResource line_dashed_short();
 
-	@Source("icons/svg/stylingbar_line-dotted.svg")
-	@Validated(validated = false)
-	SVGResource line_dotted();
+	@Source("icons/png/stylingbar/stylingbar_line-dotted.png")
+	ImageResource line_dotted();
 
-	@Source("icons/svg/stylingbar_line-solid.svg")
-	@Validated(validated = false)
-	SVGResource line_solid();
+	@Source("icons/png/stylingbar/stylingbar_line-solid.png")
+	ImageResource line_solid();
 	
-	@Source("icons/svg/stylingbar_point-full.svg")
-	@Validated(validated = false)
-	SVGResource point_full();
+	@Source("icons/png/stylingbar/stylingbar_point-full.png")
+	ImageResource point_full();
 	
-	@Source("icons/svg/stylingbar_point-empty.svg")
-	@Validated(validated = false)
-	SVGResource point_empty();
+	@Source("icons/png/stylingbar/stylingbar_point-empty.png")
+	ImageResource point_empty();
 	
-	@Source("icons/svg/stylingbar_point-cross.svg")
-	@Validated(validated = false)
-	SVGResource point_cross();
+	@Source("icons/png/stylingbar/stylingbar_point-cross.png")
+	ImageResource point_cross();
 	
-	@Source("icons/svg/stylingbar_point-cross-diag.svg")
-	@Validated(validated = false)
-	SVGResource point_cross_diag();
+	@Source("icons/png/stylingbar/stylingbar_point-cross-diag.png")
+	ImageResource point_cross_diag();
 	
-	@Source("icons/svg/stylingbar_point-diamond-full.svg")
-	@Validated(validated = false)
-	SVGResource point_diamond();
+	@Source("icons/png/stylingbar/stylingbar_point-diamond-full.png")
+	ImageResource point_diamond();
 	
-	@Source("icons/svg/stylingbar_point-diamond-empty.svg")
-	@Validated(validated = false)
-	SVGResource point_diamond_empty();
+	@Source("icons/png/stylingbar/stylingbar_point-diamond-empty.png")
+	ImageResource point_diamond_empty();
 	
-	@Source("icons/svg/stylingbar_point-up.svg")
-	@Validated(validated = false)
-	SVGResource point_up();
+	@Source("icons/png/stylingbar/stylingbar_point-up.png")
+	ImageResource point_up();
 	
-	@Source("icons/svg/stylingbar_point-down.svg")
-	@Validated(validated = false)
-	SVGResource point_down();
+	@Source("icons/png/stylingbar/stylingbar_point-down.png")
+	ImageResource point_down();
 	
-	@Source("icons/svg/stylingbar_point-left.svg")
-	@Validated(validated = false)
-	SVGResource point_left();
+	@Source("icons/png/stylingbar/stylingbar_point-left.png")
+	ImageResource point_left();
 	
-	@Source("icons/svg/stylingbar_point-right.svg")
-	@Validated(validated = false)
-	SVGResource point_right();
+	@Source("icons/png/stylingbar/stylingbar_point-right.png")
+	ImageResource point_right();
 
 	
-	@Source("icons/svg/optionsBoxArrow.svg")
-	@Validated(validated = false)
-	SVGResource optionsBoxArrow();
+	@Source("icons/png/optionsBoxArrow.png")
+	ImageResource optionsBoxArrow();
 
 	
-	@Source("icons/svg/stylingbar_graphicsview_point_capturing.svg")
-	@Validated(validated = false)
-	SVGResource point_capturing();
+	@Source("icons/png/stylingbar/stylingbar_graphicsview_point_capturing.png")
+	ImageResource point_capturing();
 
 	
 	@Source("gif/progress_indicator.gif")
 	ImageResource progressIndicator();
 
-	@Source("icons/svg/properties_defaults_2.svg")
-	@Validated(validated = false)
-	SVGResource properties_default();
+	@Source("icons/png/properties_defaults_2.png")
+	ImageResource properties_default();
 
-	@Source("icons/svg/android/elem_radioButtonActive.svg")
-	@Validated(validated = false)
-	SVGResource radioButtonActive();
+	@Source("icons/png/android/elem_radioButtonActive.png")
+	ImageResource radioButtonActive();
 
-	@Source("icons/svg/android/elem_radioButtonInactive.svg")
-	@Validated(validated = false)
-	SVGResource radioButtonInactive();
+	@Source("icons/png/android/elem_radioButtonInactive.png")
+	ImageResource radioButtonInactive();
 
-	@Source("icons/svg/menu_edit_redo.svg")
-	@Validated(validated = false)
-	SVGResource redo();
+	@Source("icons/png/menu_edit_redo.png")
+	ImageResource redo();
 
 	
 	// GeoGebraTube View
-	@Source("icons/svg/view_zoom.svg")
-	@Validated(validated = false)
-	SVGResource search();
+	@Source("icons/png/view_zoom.png")
+	ImageResource search();
 
 	
-	@Source("icons/svg/stylingbar_spreadsheetview_show_input_bar.svg")
-	@Validated(validated = false)
-	SVGResource show_input_bar();
+	@Source("icons/png/stylingbar/stylingbar_spreadsheetview_show_input_bar.png")
+	ImageResource show_input_bar();
 
-	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_axes.svg")
-	@Validated(validated = false)
-	SVGResource show_or_hide_the_axes();
+	@Source("icons/png/stylingbar/stylingbar_graphicsview_show_or_hide_the_axes.png")
+	ImageResource show_or_hide_the_axes();
 
-	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_grid.svg")
-	@Validated(validated = false)
-	SVGResource show_or_hide_the_grid();
+	@Source("icons/png/stylingbar/stylingbar_graphicsview_show_or_hide_the_grid.png")
+	ImageResource show_or_hide_the_grid();
 
 	
 	// New Styles
-	@Source("icons/svg/subToolbarArrow.svg")
-	@Validated(validated = false)
-	SVGResource subToolBarArrow();
+	@Source("icons/png/subToolbarArrow.png")
+	ImageResource subToolBarArrow();
 
 
-	@Source("icons/svg/arrow_dockbar_triangle_down.svg")
-	@Validated(validated = false)
-	SVGResource triangle_down();
+	/*@Source("icons/png/arrow_dockbar_triangle_down.png")
+	ImageResource triangle_down();*/
 
-	@Source("icons/svg/arrow_dockbar_triangle_left.svg")
-	@Validated(validated = false)
-	SVGResource triangle_left();
+	@Source("icons/png/arrow_dockbar_triangle_left.png")
+	ImageResource triangle_left();
 
-	@Source("icons/svg/arrow_dockbar_triangle_right.svg")
-	@Validated(validated = false)
-	SVGResource triangle_right();
-
-	@Source("icons/svg/menu_edit_undo.svg")
-	@Validated(validated = false)
-	SVGResource undo();
+	/*@Source("icons/png/arrow_dockbar_triangle_right.png")
+	ImageResource triangle_right();*/
+	
+	@Source("icons/png/menu_edit_undo.png")
+	ImageResource undo();
 }

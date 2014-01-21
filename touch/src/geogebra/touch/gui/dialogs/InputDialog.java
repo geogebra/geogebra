@@ -15,11 +15,10 @@ import geogebra.touch.gui.elements.radioButton.StandardRadioGroup;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.TouchModel;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -42,7 +41,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 	private final Label title = new Label();
 	private final HorizontalPanel errorBox = new HorizontalPanel();
-	private SVGResource iconWarning;
+	private ImageResource iconWarning;
 	private final Label errorText = new Label();
 
 	private final FlowPanel radioButtonPanel = new FlowPanel();

@@ -5,7 +5,7 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ToolbarResources;
 import geogebra.touch.gui.laf.DefaultResources;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
+import com.google.gwt.resources.client.ImageResource;
 
 
 /**
@@ -188,18 +188,18 @@ public enum ToolBarCommand {
 	}
 
 	private int mode;
-	private SVGResource icon;
+	private ImageResource icon;
 
 	private StyleBarDefaultSettings entries;
 
-	ToolBarCommand(final int mode, final SVGResource icon,
+	ToolBarCommand(final int mode, final ImageResource icon,
 			final StyleBarDefaultSettings stylingBarEntries) {
 		this.mode = mode;
 		this.icon = icon;
 		this.entries = stylingBarEntries;
 	}
 
-	public SVGResource getIcon() {
+	public ImageResource getIcon() {
 		return this.icon;
 	}
 

@@ -8,10 +8,9 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.GuiModel;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -34,7 +33,7 @@ public class InfoDialog extends DialogT {
 	private final Button cancelButton = new Button();
 	private final Button saveButton = new Button();
 	private final Button dontSaveButton = new Button();
-	private final SVGResource iconQuestion = getLafIcons().icon_question();
+	private final ImageResource iconQuestion = getLafIcons().icon_question();
 	private final VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
 	private final HorizontalPanel textPanel;
