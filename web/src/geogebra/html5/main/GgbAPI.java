@@ -202,7 +202,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	public HashMap<String,String> createArchiveContent(boolean includeThumbnail) {
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
-    	boolean issaving = getKernel().isSaving();
+    	boolean isSaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
     	getKernel().setSaving(true);
     	adjustConstructionImages(getConstruction(),"");
@@ -232,6 +232,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	}
 
     	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
+    	getKernel().setSaving(isSaving);
     	return archiveContent;
     }
 
