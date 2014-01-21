@@ -137,11 +137,11 @@ public class DrawElementManager {
 		// App.debug("clearing latexs");
 		HashMap<String, Element> elementMap = getElementMap(g2);
 
-		Iterator<Element> eei = elementMap.values().iterator();
-		while (eei.hasNext()) {
+		Iterator<String> it = elementMap.keySet().iterator();
+		while (it.hasNext()) {
 
-			Element elem = eei.next();
-
+			String keyString  = it.next();
+			Element elem = elementMap.get(keyString);
 			// get the age counter value
 			int age = (elem.getAttribute("data-age") == null || elem
 			        .getAttribute("data-age").equals("")) ? 0 : Integer
@@ -153,7 +153,7 @@ public class DrawElementManager {
 			// and hide the element
 			if (age > 5) {
 				elem.removeFromParent();
-				elementMap.remove(elem);
+				elementMap.remove(keyString);
 			} else {
 				elem.setAttribute("data-age", ++age + "");
 				elem.getStyle().setVisibility(Style.Visibility.HIDDEN);
