@@ -529,9 +529,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		addBtnPointCapture();
 
 		// add color and style buttons
-		if(btnColor.isVisible() || btnTextColor.isVisible()) {
-			addSeparator();
-		}
 		
 		add(btnColor);
 		add(btnBgColor);
