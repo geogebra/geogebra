@@ -5,7 +5,6 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -15,10 +14,6 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JsArrayInteger;
@@ -34,10 +29,13 @@ public class DrawEquationWeb extends DrawEquation {
 
 	static boolean scriptloaded = false;
 
-	private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
-	private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
+	//private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
+	//private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
+	
+	private DrawElementManager elementManager;
 
 	public DrawEquationWeb() {
+		elementManager = new DrawElementManager();
 	}
 
 	protected native void cvmBoxInit(String moduleBaseURL) /*-{
@@ -150,6 +148,10 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
 	public void clearLaTeXes(EuclidianViewWeb ev) {
+		
+		elementManager.clearLaTeXes(ev);
+		
+		/*
 		Iterator<String> eei = equations.keySet().iterator();
 		ArrayList<String> dead = new ArrayList<String>();
 		while (eei.hasNext()) {
@@ -178,6 +180,7 @@ public class DrawEquationWeb extends DrawEquation {
 			equations.remove(dead.get(i));
 			equationAges.remove(dead.get(i));
 		}
+		*/
 	}
 
 	/**
@@ -188,6 +191,10 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
 	public void deleteLaTeXes(EuclidianViewWeb ev) {
+		
+		elementManager.deleteLaTeXes(ev);
+		
+		/*
 		Iterator<SpanElement> eei = equations.values().iterator();
 		while (eei.hasNext()) {
 			Element toclear = eei.next();
@@ -196,6 +203,7 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 		equations.clear();
 		equationAges.clear();
+		*/
 	}
 
 	/**
@@ -323,6 +331,8 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 		}
 
+		
+		/*
 		// whether we are painting on EV1 now
 		boolean visible1 =
 				(((GGraphics2DW)g2).getCanvas() == ((AppWeb)app1).getCanvas());
@@ -334,6 +344,7 @@ public class DrawEquationWeb extends DrawEquation {
 				visible2 = true;
 			}
 		}
+		*/
 
 		/*************************************************************************
 		 * If g2 is not painting in EV1 or EV2, then assume g2 is being used for
@@ -343,6 +354,7 @@ public class DrawEquationWeb extends DrawEquation {
 		 * EV1 or EV2.
 		 *************************************************************************/
 
+		/*
 		GGraphics2DW g2visible = (GGraphics2DW)g2;
 		if (!visible1 && !visible2) {
 			if (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) {
@@ -355,77 +367,89 @@ public class DrawEquationWeb extends DrawEquation {
 				g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1()).getGraphicsForPen();
 			}
 		}
+		*/
 
-		String prestring = "0";
-		if (visible1)
-			prestring = "1";
-		else if (visible2)
-			prestring = "2";
+		
+		boolean isVisible = ((GGraphics2DW)g2).getCanvas().getParent() != null;
+		
+		
+		// Set relative font size
+		int fontSizeR = 16;
+		if (fontSize <= 10)
+			fontSizeR = 10;
 
+		// Determine id string 
 		String eqstringid = eqstring;
 		if (rotateDegree != 0) {
 			// adding rotateDegree again, just for the id
 			eqstringid = "\\rotatebox{" + rotateDegree + "}{ " + eqstring + " }";
 		}
-
-		int fontSizeR = 16;
-		if (fontSize <= 10)
-			fontSizeR = 10;
-
 		eqstringid = "\\scaling{" + eqstringid + "}{ " + fontSize + "}";
-		eqstringid = prestring + "@" + eqstringid + "@" + geo.getID();
+		eqstringid = eqstringid + "@" + geo.getID();
 
-		SpanElement ih = equations.get(eqstringid);
-		equationAges.put(eqstringid, 0);
+		// Try to get an existing element that uses this id string.
+		// If no matching element exists a new element is created.
+		SpanElement ih = (SpanElement) elementManager.getElement((GGraphics2DW) g2, eqstringid);
+				
 		if (ih == null) {
+			
+			// create a new latex element
 			ih = DOM.createSpan().cast();
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 			ih.setDir("ltr");
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuillGGB(ih, eqstring, fontSize, fontSizeR,
-					g2visible.getCanvas().getCanvasElement().getParentElement(),
-					true, el == eqstring.length(), visible1 || visible2, rotateDegree);
+			// register it 
+			elementManager.registerElement((GGraphics2DW) g2, ih, eqstringid);
 
-			equations.put(eqstringid, ih);
+			// draw it
+			Element parentElement = elementManager
+			        .getParentElement((GGraphics2DW) g2);
+			drawEquationMathQuillGGB(ih, eqstring, fontSize, fontSizeR,
+			        parentElement, true, el == eqstring.length(), true,
+			        rotateDegree);
 
 			// set a flag that the kernel needs a new update
 			app1.getKernel().setUpdateAgain(true);
-		} else {
-			ih.getStyle().setDisplay(Style.Display.INLINE);
-			if (visible1 || visible2)
-				ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
-			// otherwise do not set it invisible, just leave everything as it is
+
 		}
-		if (visible1 || visible2) {
-			// if it's not visible, leave at its previous place to prevent lag
+
+		if (isVisible) {
+
+			// set position
 			ih.getStyle().setLeft(x, Style.Unit.PX);
 			ih.getStyle().setTop(y, Style.Unit.PX);
 
 			// as the background is usually (or always) the background of the
-			// canvas,
-			// it is better if this is transparent, because the grid should be shown
-			// just like in the Java version
+			// canvas, it is better if this is transparent, because the grid
+			// should be shown just like in the Java version
 			if (shouldPaintBackground)
-				ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+				ih.getStyle()
+			        .setBackgroundColor(GColor.getColorString(bgColor));
 
 			if (fgColor != null)
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
+
+			ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
 		}
+		
+		// reset the element's age counter
+		ih.setAttribute("data-age", "0");
 
+		// get the dimensions 
 		GDimension ret = null;
-
 		ret = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, true)),
 				(int)Math.ceil(getScaledHeight(ih, true)));
 
+		// adjust dimensions for rotation 
 		if (rotateDegree != 0) {
 			GDimension ret0 = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, false)),
 		 			(int)Math.ceil(getScaledHeight(ih, false)));
 
 			GDimension corr = computeCorrection(ret, ret0, rotateDegree);
 
-			if (visible1 || visible2) {
+			if (isVisible) {
 				// if it's not visible, leave at its previous place to prevent lag
 				ih.getStyle().setLeft(x - corr.getWidth(), Style.Unit.PX);
 				ih.getStyle().setTop(y - corr.getHeight(), Style.Unit.PX);
@@ -434,7 +458,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 		return ret;
 	}
-
+	
+		
+	
 	public static native double getScaledWidth(Element el, boolean inside) /*-{
 		var ell = el;
 		if (el.lastChild) {//elsecond
