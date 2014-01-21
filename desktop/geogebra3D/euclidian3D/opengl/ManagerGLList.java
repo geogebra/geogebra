@@ -151,12 +151,7 @@ public class ManagerGLList extends Manager {
     	
     }
     
-    
-    @Override
-	public void drawPolygonConvex(Coords n, Coords[] v){
-    	drawPolygon(n, v);
-    }
-    
+  
     
     
     @Override
@@ -195,6 +190,13 @@ public class ManagerGLList extends Manager {
 	protected void texture(float x, float y){		
 		renderer.getGL2().glTexCoord2f(x,y);	
 	}
+	
+
+	@Override
+	protected void setDummyTexture(){
+		texture(0,0);
+	}
+	
 	
 	
 	@Override

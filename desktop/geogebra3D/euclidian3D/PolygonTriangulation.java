@@ -727,6 +727,43 @@ public class PolygonTriangulation {
 		debug(n+ " - " +removedPoints);
 		return n - removedPoints;
 	}
+	
+	//////////////////////////////////////
+	// CONVEX POLYGON ?
+	//////////////////////////////////////
+
+	/**
+	 * 
+	 * @return true if the polygon is convex after simplification
+	 */
+	public boolean checkIsConvex(){
+				
+		Point point1 = firstPoint;
+		Point point2 = point1.next;
+		boolean increase = (point2.orientationToNext > point1.orientationToNext);
+		debug(point1.name+"("+(point1.orientationToNext*180/Math.PI)+"°)");
+		debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°)");
+		debug("increase : "+increase);
+		boolean convex = true;
+		point1 = point2;
+		point2 = point1.next;
+		boolean loopDone = false;
+		while (point1 != firstPoint && convex){
+			convex = increase ^ (point2.orientationToNext < point1.orientationToNext);
+			debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°) -- "+convex);
+			if (!convex && !loopDone){
+				convex = true;
+				loopDone = true;
+				debug("loop done");
+			}
+			point1 = point2;
+			point2 = point1.next;
+
+		}
+		
+		return convex;
+
+	}
 
 
 	//////////////////////////////////////

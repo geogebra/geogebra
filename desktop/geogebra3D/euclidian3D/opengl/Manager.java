@@ -174,15 +174,36 @@ abstract public class Manager {
      * @param v vertices
      */
 	abstract public void drawPolygon(Coords n, Coords[] v);
+
+	/**
+	 * draw a convex polygon
+	 * @param n normal
+	 * @param v vertices
+	 */
+	final public void drawPolygonConvex(Coords n, Coords[] v){
+		startGeometry(Manager.TRIANGLE_FAN);
+		
+	   	//set texture
+		setDummyTexture();
+
+		// set normal
+		normal(n);
+
+		for (int i = 0 ; i < v.length ; i++){
+			vertex(v[i]);
+			//color(1f,0,0);
+			//color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3);
+		}
+
+		endGeometry();
+	}	
 	
-    /**
-     * draw a convex polygon
-     * @param n normal
-     * @param v vertices
-     */
-	abstract public void drawPolygonConvex(Coords n, Coords[] v);
 	
-	
+	/**
+	 * set dummy texture (needed for GLList)
+	 */
+	abstract protected void setDummyTexture();
+
 	/**
 	 * draw a triangle fan
 	 * @param n normal
@@ -193,7 +214,7 @@ abstract public class Manager {
 		startGeometry(Manager.TRIANGLE_FAN);
 
     	//set texture
-    	texture(0,0); //TODO remove this
+		setDummyTexture();
 
     	// set normal
     	normal(n);

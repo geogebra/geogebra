@@ -371,22 +371,6 @@ public class ManagerShaders extends Manager {
     }
     
 
-    @Override
-    public void drawPolygonConvex(Coords n, Coords[] v){
-    	startGeometry(Manager.TRIANGLE_FAN);
-
-    	// set normal
-    	normal(n);
-
-    	for (int i = 0 ; i < v.length ; i++){
-    		vertex(v[i]);
-    		//color(1f,0,0);
-    		color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3);
-    	}
-
-    	endGeometry();
-    }
-    
     
     
     @Override
@@ -553,6 +537,12 @@ public class ManagerShaders extends Manager {
 		
 		textures.add(x);
 		textures.add(y);
+	}
+	
+	
+	@Override
+	protected void setDummyTexture(){
+		//nothing needed for the shader
 	}
 	
 	
