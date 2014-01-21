@@ -22,7 +22,6 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 	 */
 	private App app;
 	private MenuItem openFromGoogleDrive;
-	private MenuItem openURL;
 	private MenuItem openFromGGT;
 
 	/**
@@ -49,11 +48,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 			});
 		    
 			// this is enabled always
-		  openURL = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage"), true),true,new Command() {
-		    	public void execute() {
-		    		app.getGuiManager().openURL();
-		    	}
-		    });	
+		 
 		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive"), true),true, getOpenFromGoogleDriveCommand());
 		openFromGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(), app.getMenu("OpenFromGeoGebraTube"), true),true, getOpenFromGeoGebraTubeCommand());
 		
@@ -91,19 +86,16 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 	void renderNetworkOperation(boolean online) {
 	    openFromGoogleDrive.setEnabled(online);
 	    //openFromSkyDrive.setEnabled(online);
-	    openURL.setEnabled(online);
 	    openFromGGT.setEnabled(online);
 	    
 	    if (!online) {
 	    	openFromGoogleDrive.setTitle(app.getMenu("YouAreOffline")); 
 	    	openFromGGT.setTitle(app.getMenu("YouAreOffline"));
 	    	//openFromSkyDrive.setTitle("YouAreOffline");
-	    	openURL.setTitle("YouAreOffline");
 	    } else {
 	    	openFromGoogleDrive.setTitle("");
 	    	openFromGGT.setTitle("");
 	    	//openFromSkyDrive.setTitle("");
-	    	openURL.setTitle("");
 	    }
     }
 	
