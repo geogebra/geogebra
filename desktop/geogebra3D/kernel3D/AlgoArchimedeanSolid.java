@@ -8,6 +8,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra3D.archimedean.support.IFace;
@@ -53,7 +54,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		this.name = name;
 		
-		setVolumeAndHeightFactors();
+		setVolumeAreaAndHeightFactors();
 
 
 		this.A=A;
@@ -242,6 +243,10 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		//update volume
 		polyhedron.setVolume(l*l*l*volumeFactor);
 		
+		//update area
+		polyhedron.setArea(l*l*areaFactor);
+		App.debug("Aire "+polyhedron.getArea());
+		
 		//update height
 		polyhedron.setOrientedHeight(l*heightFactor);
 		
@@ -259,32 +264,42 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	 */	
 	private double heightFactor;
 
-	private void setVolumeAndHeightFactors(){
+	/**
+	 * factor to calculate the area
+	 */	
+	private double areaFactor;
+	
+	private void setVolumeAreaAndHeightFactors(){
 
 		switch (name) {
 		case Tetrahedron:
 			volumeFactor = Math.sqrt(2)/12;
 			heightFactor = Math.sqrt(2./3.);
+			areaFactor = Math.sqrt(3);   
 			break;
 
 		case Cube:
 			volumeFactor = 1;
 			heightFactor = 1;
+			areaFactor = 6;   
 			break;
 
 		case Octahedron:
 			volumeFactor = Math.sqrt(2)/3;
 			heightFactor = Math.sqrt(2./3.);
+			areaFactor = 2*Math.sqrt(3); 
 			break;
 
 		case Dodecahedron:
 			volumeFactor = (15+7*Math.sqrt(5))/4;
 			heightFactor = Math.sqrt(2.5+1.1*Math.sqrt(5));
+			areaFactor = 3*Math.sqrt(25+10*Math.sqrt(5)); 
 			break;				
 
 		case Icosahedron:
 			volumeFactor = (15+5*Math.sqrt(5))/12;
 			heightFactor = (3+Math.sqrt(5))/(2*Math.sqrt(3));
+			areaFactor = 5*Math.sqrt(3); 
 			break;
 
 		}

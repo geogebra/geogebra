@@ -77,10 +77,10 @@ HasHeight
 
 	/** faces linked */
 	protected TreeSet<GeoPolygon> polygonsLinked;
-	
+
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
-	
+
 
 	/** face currently constructed */
 	private ConstructionElementCycle currentFace;
@@ -112,8 +112,8 @@ HasHeight
 
 		pointsCreated = new ArrayList<GeoPoint3D>();
 	}
-	
-	
+
+
 	/**
 	 * Update segments linked set with the polygon's segment
 	 * @param polygon source polygon
@@ -125,7 +125,7 @@ HasHeight
 			}
 		}
 	}
-	
+
 	/**
 	 * update set of segments linked to this
 	 */
@@ -169,7 +169,7 @@ HasHeight
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+
 	/**
 	 * 
 	 * @return the type of polyhedron
@@ -200,18 +200,18 @@ HasHeight
 	 */
 	public void endCurrentFace() {
 		currentFace.setDirection();
-		
+
 		//Application.debug(polygonsIndexMax);
 
 		//add to index
 		polygonsIndex.put(currentFace, new Integer(polygonsIndexMax));
 		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
-		
+
 	}
-	
+
 	private int topFaceIndex;
-	
+
 	/**
 	 * says that current face created is the top face (for prism)
 	 * (warn : call it before endCurrentFace())
@@ -219,7 +219,7 @@ HasHeight
 	public void setCurrentFaceIsTopFace(){
 		topFaceIndex = polygonsIndexMax;
 	}
-	
+
 
 	/**
 	 * update the faces regarding vertices and faces description
@@ -227,7 +227,7 @@ HasHeight
 	 */
 	@Deprecated
 	public void updateFacesDeprecated() {
-		
+
 		App.debug("old file version");
 
 		// create missing faces
@@ -268,15 +268,15 @@ HasHeight
 			for (int i = 0; i < p.length; i++)
 				st += p[i].getLabel();
 			Application.debug(st);
-			*/
+			 */
 
 			GeoPolygon3D polygon = createPolygon(p);
 			polygons.put(polygonsIndex.get(currentFace), polygon);
 			polygon.setSegments(s);
 		}
 	}
-	
-	
+
+
 
 	/**
 	 * creates a polygon corresponding to the index
@@ -284,7 +284,7 @@ HasHeight
 	 * @return polygon corresponding
 	 */
 	public GeoPolygon3D createPolygon(int index) {
-		
+
 		currentFace = polygonsDescriptions.get(index);
 
 		// vertices of the face
@@ -292,7 +292,7 @@ HasHeight
 
 		// edges linked to the face
 		GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
-		
+
 		GeoPointND endPoint = (GeoPointND) currentFace.get(0);
 		p[0] = endPoint; // first point for the polygon
 		GeoPointND firstPoint = endPoint;
@@ -314,10 +314,10 @@ HasHeight
 		GeoPolygon3D polygon = createPolygon(p);
 		polygons.put(index, polygon);
 		polygon.setSegments(s);
-		
+
 		return polygon;
 	}
-	
+
 	/**
 	 * update the faces
 	 */
@@ -343,14 +343,14 @@ HasHeight
 		polygon = (GeoPolygon3D) algo.getPoly();
 		// refresh color to ensure segments have same color as polygon:
 		polygon.setObjColor(getObjectColor());
-		
+
 		// force init labels called to avoid polygon to draw edges
 		polygon.setInitLabelsCalled(true);
-		
+
 		return polygon;
 	}
-	
-	
+
+
 
 	/**
 	 * add the polygon as a polygon linked to this (e.g basis of a prism)
@@ -361,10 +361,10 @@ HasHeight
 		polygonsLinked.add(polygon);
 		addSegmentsLinked(polygon);
 		polygon.addMeta(this);
-		
-		
+
+
 	}
-	
+
 
 	/**
 	 * add the point as created point (by algo)
@@ -406,11 +406,11 @@ HasHeight
 			//App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
 		}
-		
+
 		//App.error("new segment : "+key);
 
 		GeoSegment3D segment;
-		
+
 
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
@@ -428,7 +428,7 @@ HasHeight
 		return segment;
 
 	}
-	
+
 	public GeoSegmentND getSegment(GeoPointND startPoint, GeoPointND endPoint) {
 
 		//Application.debug(startPoint.getLabel() + endPoint.getLabel());
@@ -436,16 +436,16 @@ HasHeight
 		ConstructionElementCycle key = ConstructionElementCycle
 				.SegmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
-		
+
 		// check if this segment is already created
 		if (segmentsIndex.containsKey(key))
 			return segments.get(segmentsIndex.get(key));
-		
+
 
 		// check if this segment is a segment linked
 		if (segmentsLinked.containsKey(key))
 			return segmentsLinked.get(key);
-		
+
 		return null;
 	}
 
@@ -472,7 +472,7 @@ HasHeight
 		defaultSegmentLabels();
 
 	}
-	
+
 	private boolean allLabelsAreSet = false;
 
 	/**
@@ -484,7 +484,7 @@ HasHeight
 	final public boolean allLabelsAreSet() {
 		return allLabelsAreSet;
 	}
-	
+
 	/**
 	 * set init labels called 
 	 * @param flag
@@ -492,7 +492,7 @@ HasHeight
 	public void setAllLabelsAreSet(boolean flag){
 		allLabelsAreSet = flag;
 	}
-	
+
 	/**
 	 * Inits the labels of this polyhedron, its faces and edges. labels[0] for
 	 * polyhedron itself, labels[1..n] for faces and edges,
@@ -506,7 +506,7 @@ HasHeight
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
-		
+
 		setAllLabelsAreSet(true);
 
 		if (labels == null || labels.length == 0) {
@@ -565,7 +565,7 @@ HasHeight
 		}
 
 	}
-	
+
 	private void defaultPointsLabels() {
 		for (GeoPointND point : pointsCreated)
 			point.setLabel(null);
@@ -692,7 +692,7 @@ HasHeight
 		}
 		return ret;
 	}
-	
+
 	public GeoSegment3D[] getSegments3D() {
 
 		GeoSegment3D[] ret = new GeoSegment3D[segments.size()];
@@ -714,11 +714,11 @@ HasHeight
 
 		return polygonsArray;
 	}
-	
+
 	public Collection<GeoPolygon3D> getFacesCollection(){
 		return polygons.values();
 	}
-	
+
 	public GeoPolygon3D getFace(int index){
 		return polygons.get(index);
 	}
@@ -971,16 +971,16 @@ HasHeight
 	public void set(GeoElement geo) {
 		if (geo .isGeoPolyhedron()) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
-			
+
 			isDefined = polyhedron.isDefined;
-			
+
 			// global
 			type = polyhedron.type;
 			setVolume(polyhedron.getVolume());
 			setOrientedHeight(polyhedron.getOrientedHeight());
-			
+
 			topFaceIndex = polyhedron.topFaceIndex;
-			
+
 			// set polygons
 			//polygons.clear();
 			int index = 0;
@@ -994,7 +994,7 @@ HasHeight
 					index++;
 				}
 			}
-			
+
 
 			// set last polygons undefined
 			if(!polygons.isEmpty()){
@@ -1025,16 +1025,16 @@ HasHeight
 				}
 			}
 
-	
+
 		}
 	}
-	
+
 	private boolean setPolygon(int index, GeoPolygon p){
-		
+
 		if (!p.isDefined()){
 			return false;
 		}
-		
+
 		GeoPolygon3D poly = polygons.get(index);
 		if (poly == null){
 			poly = new GeoPolygon3D(getConstruction());
@@ -1043,20 +1043,20 @@ HasHeight
 		poly.set(p);
 		return true;
 	}
-	
+
 	private boolean setSegment(long index, GeoSegmentND s){
-		
+
 		if (!s.isDefined()){
 			return false;
 		}
-		
+
 		GeoSegment3D seg = segments.get(index);
 		if (seg == null){
 			seg = new GeoSegment3D(getConstruction());
 			segments.put(index, seg);
 		}
 		seg.setSegment(s);
-		
+
 		return true;
 	}
 
@@ -1065,7 +1065,7 @@ HasHeight
 	@Override
 	public void setUndefined() {
 		isDefined = false;
-		
+
 		volume = Double.NaN;
 
 		/*
@@ -1097,7 +1097,7 @@ HasHeight
 
 		return isDefined();
 	}
-	
+
 	@Override
 	public boolean isGeoPolyhedron() {
 		return true;
@@ -1109,9 +1109,9 @@ HasHeight
 	}
 
 	private StringBuilder sbToString = new StringBuilder(50);
-	
+
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -1120,7 +1120,7 @@ HasHeight
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
+	public String toStringMinimal(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(getVolume()));
 		return sbToString.toString();
@@ -1189,7 +1189,7 @@ HasHeight
 
 	@Override
 	public void remove() {
-		
+
 		for (GeoPolygon polygon : polygonsLinked){
 			polygon.removeMeta(this);
 		}
@@ -1199,14 +1199,14 @@ HasHeight
 		if (this != getConstruction().getKeepGeo())
 			super.remove();
 	}
-	
-	
+
+
 	////////////////////////////
 	// VOLUME
 	////////////////////////////
-	
+
 	private double volume = Double.NaN;
-	
+
 	/**
 	 * sets the volume
 	 * @param volume volume
@@ -1225,14 +1225,38 @@ HasHeight
 		return isDefined();
 	}
 
-	
-	
+	////////////////////////////
+	// AREA
+	////////////////////////////
+
+	private double area = Double.NaN;
+
+	/**
+	 * sets the area (total area of the faces)
+	 * @param area area
+	 */
+	public void setArea(double area){
+		this.area =  area;
+	}
+
+
+	public double getArea() {
+		return area;
+	}
+
+
+	public boolean hasFiniteArea() {
+		return isDefined();
+	}
+
+
+
 	//////////////////
 	// TRACE
 	//////////////////
 
 	private boolean trace;	
-	
+
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -1241,16 +1265,16 @@ HasHeight
 	public boolean getTrace() {
 		return trace;
 	}
-	
-	
+
+
 	public void setTrace(boolean trace) {
-		
+
 		this.trace = trace;
 
 		if (polygons == null){
 			return;
 		}
-		
+
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setTrace(trace);
@@ -1270,9 +1294,9 @@ HasHeight
 
 		getKernel().notifyRepaint();
 	}
-	
-	
-	
+
+
+
 	//////////////////////////////////
 	// TRANSFORM
 	//////////////////////////////////
@@ -1282,7 +1306,7 @@ HasHeight
 		for (GeoSegment3D seg: segments.values()){
 			seg.rotate(r, S);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.rotate(r, S);
 		}
@@ -1290,15 +1314,15 @@ HasHeight
 
 
 	public void rotate(NumberValue r) {
-		
+
 		for (GeoSegment3D seg: segments.values()){
 			seg.rotate(r);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.rotate(r);
 		}
-		
+
 	}
 
 
@@ -1306,7 +1330,7 @@ HasHeight
 		for (GeoSegment3D seg: segments.values()){
 			seg.rotate(r, S, orientation);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.rotate(r, S, orientation);
 		}
@@ -1317,14 +1341,14 @@ HasHeight
 		for (GeoSegment3D seg: segments.values()){
 			seg.rotate(r, line);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.rotate(r, line);
 		}
-		
+
 	}
 
-	
+
 	@Override
 	final public boolean isTranslateable() {
 		return true;
@@ -1334,23 +1358,23 @@ HasHeight
 		for (GeoSegment3D seg: segments.values()){
 			seg.translate(v);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.translate(v);
 		}	
 	}
-	
-	
-	
+
+
+
 	////////////////////////
 	// MIRROR
 	////////////////////////
-	
+
 	public void mirror(Coords Q) {
 		for (GeoSegment3D seg: segments.values()){
 			seg.mirror(Q);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.mirror(Q);
 		}	
@@ -1360,40 +1384,40 @@ HasHeight
 		for (GeoSegment3D seg: segments.values()){
 			seg.mirror(g);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.mirror(g);
 		}	
 	}
-	
+
 	public void mirror(GeoPlane3D plane) {
 		for (GeoSegment3D seg: segments.values()){
 			seg.mirror(plane);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.mirror(plane);
 		}	
 	}
-	
+
 	////////////////////////
 	// DILATE
 	////////////////////////
 
 
 	public void dilate(NumberValue rval, Coords S) {
-		
+
 		for (GeoSegment3D seg: segments.values()){
 			seg.dilate(rval,S);
 		}
-		
+
 		for (GeoPolygon3D p : polygons.values()){
 			p.dilate(rval,S);
 		}	
 
 		double r = Math.abs(rval.getDouble());		
 		volume *= r*r*r;
-		
+
 	}
 
 
@@ -1401,7 +1425,7 @@ HasHeight
 	 * oriented (positive or negative) height
 	 */
 	private double orientedHeight;
-	
+
 	/**
 	 * set oriented (positive or negative) height
 	 * @param height height
@@ -1409,12 +1433,12 @@ HasHeight
 	public void setOrientedHeight(double height){
 		orientedHeight = height;
 	}
-	
+
 	public double getOrientedHeight() {
 		return orientedHeight;
 	}
 
-	
+
 	/**
 	 * 
 	 * @return bottom face (for pyramid & prism)
@@ -1425,8 +1449,8 @@ HasHeight
 		}
 		return polygonsLinked.first();
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @return top face (for prism)
@@ -1438,10 +1462,10 @@ HasHeight
 		}
 		return polygons.get(index);
 	}
-	
-	
 
-	
+
+
+
 	/**
 	 * 
 	 * @return first side face (for prism)
@@ -1452,8 +1476,8 @@ HasHeight
 		}
 		return polygons.get(0);
 	}
-	
-	
+
+
 
 	/**
 	 * 
@@ -1462,8 +1486,8 @@ HasHeight
 	public Coords getTopPoint() {
 		GeoPolygon p = getFirstSideFace();		
 		return p.getPoint3D(p.getPointsLength() - 1);
-		
+
 	}
 
-	
+
 }
