@@ -65,6 +65,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		model.setGeos(geos);
 		
 		if (!model.hasGeos()) {
+			this.setVisible(false);
 			return;
 		}
 		

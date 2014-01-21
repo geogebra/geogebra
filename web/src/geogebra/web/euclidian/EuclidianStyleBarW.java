@@ -105,6 +105,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			model.setGeos(geos);
 
 			if (!model.hasGeos() ) {
+				this.setVisible(false);
 				return;
 			}
 
@@ -861,12 +862,11 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnPointCapture = new PopupMenuButton((AppW) app, strPointCapturing, -1, 1, 
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode));
+				// same as axes
+				this.setVisible(geos.length == 0  && !EuclidianView.isPenMode(mode)
+						&& mode != EuclidianConstants.MODE_DELETE);
 			}
 
 			@Override
