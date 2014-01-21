@@ -233,8 +233,6 @@ public class PlotterBrush implements PathPlotter {
 		
 		// draw curve part
 		manager.startGeometry(Manager.QUAD_STRIP);
-		if(hasColor)
-			manager.color(red, green, blue, alpha);
 		//manager.startGeometry(Manager.TRIANGLE_STRIP);
     	float dt = (float) 1/latitude;
     	float da = (float) (2*Math.PI *dt) ; 
@@ -284,9 +282,23 @@ public class PlotterBrush implements PathPlotter {
 
 		}
 		
-		//set vertex
-		manager.vertex(vectors[1]);
 		
+		//set vertex
+		vertex(vectors[1]);
+		
+	}
+	
+	
+	private void vertex(Coords v){
+		
+		//set color
+		if(hasColor){
+			manager.color(red, green, blue, alpha);
+		}
+				
+		//set vertex
+		manager.vertex(v);
+
 	}
 	
 

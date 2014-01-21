@@ -917,7 +917,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     /** draws a 3D cross cursor
      * @param type 
      */    
-    public void drawCursor(int type){
+    final public void drawCursor(int type){
     	
     	if (!PlotterCursor.isTypeAlready(type))
     		getGL().glDisable(GLlocal.GL_LIGHTING);

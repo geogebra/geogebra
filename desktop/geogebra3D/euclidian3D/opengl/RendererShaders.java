@@ -475,11 +475,13 @@ public class RendererShaders extends Renderer {
         getGL().glEnable(GLlocal.GL_CULL_FACE);
         
         
-        //view3D.drawCursor(this);
+        
+        disableTextures();
+        view3D.drawCursor(this);
                  
         
-        //drawing hidden part
-        disableTextures();
+        
+        //drawing hidden part     
         getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts 
         drawable3DLists.drawHiddenNotTextured(this);
         enableDash();
@@ -939,33 +941,32 @@ public class RendererShaders extends Renderer {
 
 	@Override
 	public void initMatrix() {
-		// TODO Auto-generated method stub
-		
+		 getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().mul(getMatrix()).getForGL(), 0);		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 	@Override
 	public void resetMatrix() {
-		// TODO Auto-generated method stub
-		
+		setMatrixView();
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

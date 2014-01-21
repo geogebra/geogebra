@@ -108,43 +108,43 @@ public class PlotterCursor {
 		//cube
 		index[TYPE_CUBE] = manager.startNewList();
 		manager.startGeometry(Manager.QUADS);
-		manager.color(0.5f,0.5f,0.5f);
+		color(0.5f,0.5f,0.5f);
 		//up
 		manager.normal(0,0,1);
-		manager.vertex(size_cube, size_cube, size_cube);
-		manager.vertex(-size_cube, size_cube, size_cube);
-		manager.vertex(-size_cube, -size_cube, size_cube);
-		manager.vertex(size_cube, -size_cube, size_cube);
+		vertex(size_cube, size_cube, size_cube);
+		vertex(-size_cube, size_cube, size_cube);
+		vertex(-size_cube, -size_cube, size_cube);
+		vertex(size_cube, -size_cube, size_cube);
 		//down
 		manager.normal(0,0,-1);
-		manager.vertex(size_cube, size_cube, -size_cube);
-		manager.vertex(size_cube, -size_cube, -size_cube);
-		manager.vertex(-size_cube, -size_cube, -size_cube);
-		manager.vertex(-size_cube, size_cube, -size_cube);
+		vertex(size_cube, size_cube, -size_cube);
+		vertex(size_cube, -size_cube, -size_cube);
+		vertex(-size_cube, -size_cube, -size_cube);
+		vertex(-size_cube, size_cube, -size_cube);
 		//right
 		manager.normal(1,0,0);
-		manager.vertex(size_cube, size_cube, size_cube);
-		manager.vertex(size_cube, -size_cube, size_cube);
-		manager.vertex(size_cube, -size_cube, -size_cube);
-		manager.vertex(size_cube, size_cube, -size_cube);
+		vertex(size_cube, size_cube, size_cube);
+		vertex(size_cube, -size_cube, size_cube);
+		vertex(size_cube, -size_cube, -size_cube);
+		vertex(size_cube, size_cube, -size_cube);
 		//left
 		manager.normal(-1,0,0);
-		manager.vertex(-size_cube, size_cube, size_cube);
-		manager.vertex(-size_cube, size_cube, -size_cube);
-		manager.vertex(-size_cube, -size_cube, -size_cube);
-		manager.vertex(-size_cube, -size_cube, size_cube);
+		vertex(-size_cube, size_cube, size_cube);
+		vertex(-size_cube, size_cube, -size_cube);
+		vertex(-size_cube, -size_cube, -size_cube);
+		vertex(-size_cube, -size_cube, size_cube);
 		//back
 		manager.normal(0,1,0);
-		manager.vertex(size_cube, size_cube, size_cube);
-		manager.vertex(size_cube, size_cube, -size_cube);
-		manager.vertex(-size_cube, size_cube, -size_cube);
-		manager.vertex(-size_cube, size_cube, size_cube);
+		vertex(size_cube, size_cube, size_cube);
+		vertex(size_cube, size_cube, -size_cube);
+		vertex(-size_cube, size_cube, -size_cube);
+		vertex(-size_cube, size_cube, size_cube);
 		//front
 		manager.normal(0,-1,0);
-		manager.vertex(size_cube, -size_cube, size_cube);
-		manager.vertex(-size_cube, -size_cube, size_cube);
-		manager.vertex(-size_cube, -size_cube, -size_cube);
-		manager.vertex(size_cube, -size_cube, -size_cube);
+		vertex(size_cube, -size_cube, size_cube);
+		vertex(-size_cube, -size_cube, size_cube);
+		vertex(-size_cube, -size_cube, -size_cube);
+		vertex(size_cube, -size_cube, -size_cube);
 
 		
 		manager.endGeometry();
@@ -161,7 +161,24 @@ public class PlotterCursor {
 
 
 	}
+	
+	private float r,g,b,a;
+	
+	private void color(float r, float g, float b, float a){
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.a = a;
+	}
 
+	private void color(float r, float g, float b){
+		color(r,g,b,1f);
+	}
+
+	private void vertex(float x, float y, float z){
+		manager.color(r,g,b,a);
+		manager.vertex(x, y, z);
+	}
 	
 	
 	/**
@@ -220,44 +237,44 @@ public class PlotterCursor {
 
 		
 		//white parts
-		manager.color(1,1,1);
+		color(1,1,1);
 
 		//up
-		manager.vertex(thickness, size, depth);
-		manager.vertex(-thickness, size, depth);
-		manager.vertex(-thickness, -size, depth);
-		manager.vertex(thickness, -size, depth);
+		vertex(thickness, size, depth);
+		vertex(-thickness, size, depth);
+		vertex(-thickness, -size, depth);
+		vertex(thickness, -size, depth);
 				
-		manager.vertex(size, thickness, depth);
-		manager.vertex(thickness, thickness, depth);
-		manager.vertex(thickness, -thickness, depth);
-		manager.vertex(size, -thickness, depth);
+		vertex(size, thickness, depth);
+		vertex(thickness, thickness, depth);
+		vertex(thickness, -thickness, depth);
+		vertex(size, -thickness, depth);
 		
-		manager.vertex(-size, thickness, depth);
-		manager.vertex(-size, -thickness, depth);
-		manager.vertex(-thickness, -thickness, depth);
-		manager.vertex(-thickness, thickness, depth);
+		vertex(-size, thickness, depth);
+		vertex(-size, -thickness, depth);
+		vertex(-thickness, -thickness, depth);
+		vertex(-thickness, thickness, depth);
 		
 		//down
-		manager.vertex(thickness, size, -depth);
-		manager.vertex(thickness, -size, -depth);
-		manager.vertex(-thickness, -size, -depth);
-		manager.vertex(-thickness, size, -depth);
+		vertex(thickness, size, -depth);
+		vertex(thickness, -size, -depth);
+		vertex(-thickness, -size, -depth);
+		vertex(-thickness, size, -depth);
 				
-		manager.vertex(size, thickness, -depth);
-		manager.vertex(size, -thickness, -depth);
-		manager.vertex(thickness, -thickness, -depth);
-		manager.vertex(thickness, thickness, -depth);
+		vertex(size, thickness, -depth);
+		vertex(size, -thickness, -depth);
+		vertex(thickness, -thickness, -depth);
+		vertex(thickness, thickness, -depth);
 		
-		manager.vertex(-size, thickness, -depth);
-		manager.vertex(-thickness, thickness, -depth);
-		manager.vertex(-thickness, -thickness, -depth);
-		manager.vertex(-size, -thickness, -depth);
+		vertex(-size, thickness, -depth);
+		vertex(-thickness, thickness, -depth);
+		vertex(-thickness, -thickness, -depth);
+		vertex(-size, -thickness, -depth);
 		
 		
 		
 		//black parts
-		manager.color(0,0,0);
+		color(0,0,0);
 		
 
 		//up and down
@@ -319,7 +336,7 @@ public class PlotterCursor {
 		float size2 = size+thickness2;
 		
 		//white parts
-		manager.color(1,1,1);
+		color(1,1,1);
 		
 		quadSymxOyRotOz90SymOz(
 				thickness, t, t, 
@@ -366,7 +383,7 @@ public class PlotterCursor {
 		
 		
 		//black parts
-		manager.color(0,0,0);
+		color(0,0,0);
 		
 		quadSymxOyRotOz90SymOz(
 				t, t, t, 
@@ -493,7 +510,7 @@ public class PlotterCursor {
     	float t2 = 1f-2*t1;
     	
     	//black parts
-		manager.color(0,0,0);
+		color(0,0,0);
     	
     	quadSymxOyRotOz90SymOz(1f, 0f, 0f,	        
     			t2, t1, t1,	        
@@ -512,7 +529,7 @@ public class PlotterCursor {
     			1f, 0f, 0f);
     	
 		//white parts
-		manager.color(1,1,1);
+		color(1,1,1);
 		
 		quadSymxOyRotOz90SymOz(
 				t2, t1, t1,
@@ -542,7 +559,7 @@ public class PlotterCursor {
 
     	
     	//white parts
-		manager.color(1,1,1);
+		color(1,1,1);
 		  	
 		//ring
     	y1 = 2 * r2 * (float) Math.sin ( da ); 
@@ -554,10 +571,10 @@ public class PlotterCursor {
     		y1 = 2 * r2 * (float) Math.sin ( (2*i+1) * da ); 
     		z1 = 2 * r2 * (float) Math.cos ( (2*i+1) * da ); 
 
-    		manager.vertex(-x2,y0,z0); 
-    		manager.vertex(x2,y0,z0); 
-    		manager.vertex(x2,y1,z1); 
-    		manager.vertex(-x2,y1,z1); 
+    		vertex(-x2,y0,z0); 
+    		vertex(x2,y0,z0); 
+    		vertex(x2,y1,z1); 
+    		vertex(-x2,y1,z1); 
 
 
     	} 
@@ -582,7 +599,7 @@ public class PlotterCursor {
 
 
     	//black parts
-		manager.color(0,0,0);
+		color(0,0,0);
 		
 		//ring
     	y1 = 2 * (float) Math.sin ( da ); 
@@ -613,7 +630,7 @@ public class PlotterCursor {
 		
 		float gray = 0.25f;
 		float alpha = 0.25f;
-		manager.color(gray, gray, gray, alpha);
+		color(gray, gray, gray, alpha);
 		
 		int latitude = 8;
 		int r = 15;
@@ -654,15 +671,15 @@ public class PlotterCursor {
 				y3 = si * rcjp;
 				
 				
-				manager.vertex(x1, y1, z1);
-				manager.vertex(x2, y2, z1);
-				manager.vertex(x3, y3, z3);
-				manager.vertex(x4, y4, z3);
+				vertex(x1, y1, z1);
+				vertex(x2, y2, z1);
+				vertex(x3, y3, z3);
+				vertex(x4, y4, z3);
 				
-				manager.vertex(x1, y1, -z1);
-				manager.vertex(x4, y4, -z3);
-				manager.vertex(x3, y3, -z3);
-				manager.vertex(x2, y2, -z1);
+				vertex(x1, y1, -z1);
+				vertex(x4, y4, -z3);
+				vertex(x3, y3, -z3);
+				vertex(x2, y2, -z1);
 				
 
 				
@@ -751,21 +768,21 @@ public class PlotterCursor {
 			float x3, float y3, float z3,
 			float x4, float y4, float z4){
 		
-		manager.vertex(x1,y1,z1);
-		manager.vertex(x2,y2,z2);
-		manager.vertex(x3,y3,z3);
-		manager.vertex(x4,y4,z4);
+		vertex(x1,y1,z1);
+		vertex(x2,y2,z2);
+		vertex(x3,y3,z3);
+		vertex(x4,y4,z4);
 		
-		manager.vertex(-x1,-y1,z1);
-		manager.vertex(-x2,-y2,z2);
-		manager.vertex(-x3,-y3,z3);
-		manager.vertex(-x4,-y4,z4);
+		vertex(-x1,-y1,z1);
+		vertex(-x2,-y2,z2);
+		vertex(-x3,-y3,z3);
+		vertex(-x4,-y4,z4);
 		
 		/*
-		manager.vertex(-x1,y1,z1);
-		manager.vertex(-x4,y4,z4);
-		manager.vertex(-x3,y3,z3);
-		manager.vertex(-x2,y2,z2);
+		vertex(-x1,y1,z1);
+		vertex(-x4,y4,z4);
+		vertex(-x3,y3,z3);
+		vertex(-x2,y2,z2);
 		*/
 		
 	}
