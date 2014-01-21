@@ -90,6 +90,7 @@ import geogebra.web.gui.properties.AnimationStepPanelW;
 import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
+import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.javax.swing.GOptionPaneW;
@@ -2235,11 +2236,32 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	
 	private class FillingPanel extends OptionPanel implements IFillingListener {
 		private FillingModel model;
+		private Slider fillingSlider;
+		private Slider angleSlider;
+		private Slider distanceSlider;
+		private Label fillingSliderTitle;
+		private Label angleSliderTitle;
+		private Label distanceSliderTitle;
+		
+		private FlowPanel transparencyPanel, hatchFillPanel, imagePanel,
+				anglePanel, distancePanel;
+		private Label lblFillType;
+		private Label lblSelectedSymbol;
+		private Label lblMsgSelected;
+		private Button btnOpenFile;
+
+		private PopupMenuButton btnImage;
+		private Label lblFillInverse;
+		private Label lblSymbols;
+		private ArrayList<String> imgFileNameList;
+		private PopupMenuButton btInsertUnicode;
+
 		private ListBox lbFillType;
 		private CheckBox cbFillInverse;
 		private FlowPanel mainWidget;
 		private FlowPanel fillTypePanel;
 		private Label fillTypeTitle;
+		private boolean hasGeoButton;
 		
 		public FillingPanel() {
 			model = new FillingModel(getAppW(), this);
@@ -2266,10 +2288,213 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	                model.applyFillingInverse(cbFillInverse.getValue());
                 }});
 
-			mainWidget.add(fillTypePanel);
+			FlowPanel panel = new FlowPanel();
+			panel.add(fillTypePanel);
+			
+			btInsertUnicode = new PopupMenuButton(getAppW());
+			//buildInsertUnicodeButton();
+			btInsertUnicode.setVisible(false);
+			lblMsgSelected = new Label(loc.getMenu("Filling.CurrentSymbol")
+					+ ":");
+			lblMsgSelected.setVisible(false);
+			fillingPanel = this;
+			lblSymbols = new Label(app.getMenu("Filling.Symbol") + ":");
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol = new Label();
+
+			fillingSlider = new Slider(0, 100);
+			fillingSlider.setMajorTickSpacing(25);
+			fillingSlider.setMinorTickSpacing(5);
+			fillingSlider.setPaintTicks(true);
+			fillingSlider.setPaintLabels(true);
+
+			angleSlider = new Slider(0, 180);
+			angleSlider.setMajorTickSpacing(45);
+			angleSlider.setMinorTickSpacing(5);
+			angleSlider.setPaintTicks(true);
+			angleSlider.setPaintLabels(true);
+			
+			distanceSlider = new Slider(5, 50);
+			// distanceSlider.setPreferredSize(new Dimension(150,50));
+			distanceSlider.setMajorTickSpacing(10);
+			distanceSlider.setMinorTickSpacing(5);
+			distanceSlider.setPaintTicks(true);
+			distanceSlider.setPaintLabels(true);
+			FlowPanel symbolPanel = new FlowPanel(); 
+			symbolPanel.add(lblSymbols);
+			symbolPanel.add(btInsertUnicode);
+			symbolPanel.add(lblMsgSelected);
+			lblSelectedSymbol.setVisible(false);
+			symbolPanel.add(lblSelectedSymbol);
+			panel.add(symbolPanel);
+			// panels to hold sliders
+			transparencyPanel = new FlowPanel();
+			fillingSliderTitle = new Label();
+			transparencyPanel.add(fillingSliderTitle);
+			transparencyPanel.add(fillingSlider);
+
+			anglePanel = new FlowPanel();
+			angleSliderTitle = new Label();
+			anglePanel.add(angleSliderTitle);
+			anglePanel.add(angleSlider);
+
+			distanceSliderTitle = new Label();
+			distancePanel = new FlowPanel();
+			distancePanel.add(distanceSliderTitle);
+			distancePanel.add(distanceSlider);
+
+			// hatchfill panel: only shown when hatch fill option is selected
+			hatchFillPanel = new FlowPanel();
+			hatchFillPanel.add(anglePanel);
+			hatchFillPanel.add(distancePanel);
+			hatchFillPanel.setVisible(false);
+
+			// image panel: only shown when image fill option is selected
+			createImagePanel();
+			imagePanel.setVisible(false);
+
+			// ===========================================================
+			// put all the sub panels together
+
+			mainWidget.add(panel);
+			mainWidget.add(transparencyPanel);
+			mainWidget.add(hatchFillPanel);
+			mainWidget.add(imagePanel);
+
+			mainWidget.add(symbolPanel);
 			setWidget(mainWidget);
-			setLabels();
+	
+			fillingSlider.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyFillingValue(fillingSlider.getValue());
+                }});
+		
+			ChangeHandler angleAndDistanceHandler = new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyAngleAndDistance(angleSlider.getValue(),
+							distanceSlider.getValue());
+
+                }};
+
+    		angleSlider.addChangeHandler(angleAndDistanceHandler);
+    		distanceSlider.addChangeHandler(angleAndDistanceHandler);
+			
+    		setLabels();
 		}
+
+		private void createImagePanel() {
+	        imagePanel = new FlowPanel();
+        }
+
+		public void setStandardFillType() {
+			transparencyPanel.setVisible(false);
+			hatchFillPanel.setVisible(false);
+			imagePanel.setVisible(false);
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol.setVisible(false);
+			btInsertUnicode.setVisible(false);
+		}
+
+		public void setHatchFillType() {
+			distanceSlider.setMinimum(5);
+			transparencyPanel.setVisible(false);
+			hatchFillPanel.setVisible(true);
+			imagePanel.setVisible(false);
+			anglePanel.setVisible(true);
+			angleSlider.setMaximum(180);
+			angleSlider.setMinorTickSpacing(5);
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol.setVisible(false);
+			btInsertUnicode.setVisible(false);
+		}
+
+		public void setCrossHatchedFillType() {
+			distanceSlider.setMinimum(5);
+			transparencyPanel.setVisible(false);
+			hatchFillPanel.setVisible(true);
+			imagePanel.setVisible(false);
+			anglePanel.setVisible(true);
+			// Only at 0, 45 and 90 degrees texturepaint not have mismatches
+			angleSlider.setMaximum(45);
+			angleSlider.setMinorTickSpacing(45);
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol.setVisible(false);
+			btInsertUnicode.setVisible(false);
+
+		}
+
+		public void setBrickFillType() {
+			distanceSlider.setMinimum(5);
+			transparencyPanel.setVisible(false);
+			hatchFillPanel.setVisible(true);
+			imagePanel.setVisible(false);
+			anglePanel.setVisible(true);
+			angleSlider.setMaximum(180);
+			angleSlider.setMinorTickSpacing(45);
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol.setVisible(false);
+			btInsertUnicode.setVisible(false);
+		}
+
+		public void setSymbolFillType() {
+			distanceSlider.setMinimum(10);
+			transparencyPanel.setVisible(false);
+			hatchFillPanel.setVisible(true);
+			imagePanel.setVisible(false);
+			// for dotted angle is useless
+			anglePanel.setVisible(false);
+			lblSymbols.setVisible(true);
+			lblSelectedSymbol.setVisible(true);
+			btInsertUnicode.setVisible(true);
+		}
+
+		public void setDottedFillType() {
+			distanceSlider.setMinimum(5);
+			transparencyPanel.setVisible(false);
+			hatchFillPanel.setVisible(true);
+			imagePanel.setVisible(false);
+			// for dotted angle is useless
+			anglePanel.setVisible(false);
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol.setVisible(false);
+			btInsertUnicode.setVisible(false);
+		}
+
+		public void setImageFillType() {
+			transparencyPanel.setVisible(true);
+			hatchFillPanel.setVisible(false);
+			imagePanel.setVisible(true);
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol.setVisible(false);
+			btInsertUnicode.setVisible(false);
+			this.btnImage.setVisible(true);
+
+			// for GeoButtons only show the image file button
+			if (hasGeoButton) {
+				transparencyPanel.setVisible(false);
+				lblFillType.setVisible(false);
+				lbFillType.setVisible(false);
+				this.btnImage.setVisible(true);
+			}
+		
+//		if (hasGeoButton) {
+//			int index = imgFileNameList.lastIndexOf(model.getGeoAt(0)
+//					.getImageFileName());
+//
+//			btnImage.setSelectedIndex(index > 0 ? index : 0);
+//		} else {
+//			btnImage.setSelectedIndex(0);
+//		}
+		addSelectionBar();
+	}
+		
+
+		private void addSelectionBar() {
+	        // TODO Auto-generated method stub
+	        
+        }
 
 		@Override
 		public boolean update(Object[] geos) {
@@ -2278,6 +2503,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			if (!getModel().checkGeos()) {
 				return false;
 			}
+			model.updateProperties();
+
 			return true;
 		}
 
@@ -2287,20 +2514,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void addItem(String item) {
 	        lbFillType.addItem(item);
-        }
-
-		public void setSelectedItem(String item) {
-	       // lbFillType.setSelectedIndex(FillType.));
-        }
-
-		public void setSymbolsVisible(boolean isVisible) {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setFillingImage(String imageFileName) {
-	        // TODO Auto-generated method stub
-	        
         }
 
 		public void updateFillTypePanel(FillType fillType) {
@@ -2324,99 +2537,91 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lbFillType.clear();
 			model.fillModes(loc);
 			lbFillType.setSelectedIndex(idx);
+			fillingSliderTitle.setText(localize("Opacity"));
+			angleSliderTitle.setText(localize("Angle"));
+			distanceSliderTitle.setText(localize("Spacing"));
+		//	imagePanel.setBorder(BorderFactory.createTitledBorder(app
+		//			.getMenu("Images")));
+
+		}
+
+
+		public void setSelectedItem(String item) {
+			int idx = 0;
+			lbFillType.setSelectedIndex(idx);
+		}
+
+		public void setSymbolsVisible(boolean isVisible) {
+
+			if (isVisible) {
+				btInsertUnicode.setVisible(true);
+				lblSymbols.setVisible(true);
+				lblSelectedSymbol.setVisible(true);
+				lblMsgSelected.setVisible(true);
+			} else {
+				lblSymbols.setVisible(false);
+				btInsertUnicode.setVisible(false);
+				lblMsgSelected.setVisible(false);
+				lblSelectedSymbol.setVisible(false);
+				lblSelectedSymbol.setText("");
+			}
+		}
+
+		public void setFillingImage(String imageFileName) {
+//			if (imageFileName != null) {
+//				int idx = imgFileNameList.lastIndexOf(imageFileName);
+//				btnImage.setSelectedIndex(idx > 0 ? idx : 0);
+//			} else {
+//				btnImage.setSelectedIndex(-1);
+//			}
+		}
+
+		public void setFillValue(int value) {
+			fillingSlider.setValue(value);
+		}
+
+		public void setAngleValue(int value) {
+			angleSlider.setValue(value);
+		}
+
+		public void setDistanceValue(int value) {
+			distanceSlider.setValue(value);
+		}
+
+		public int getSelectedBarIndex() {
+			return 0;
+		}
+
+		public void selectSymbol(String symbol) {
+			lblSelectedSymbol.setText(symbol);
+		}
+
+		public String getSelectedSymbolText() {
+			return lblSelectedSymbol.getText();
+		}
+
+		public float getFillingValue() {
+			return fillingSlider.getValue();
+		}
+
+		public FillType getSelectedFillType() {
+			return model.getFillTypeAt(lbFillType.getSelectedIndex());
+		}
+
+		public int getDistanceValue() {
+			return distanceSlider.getValue();
+		}
+
+		public int getAngleValue() {
+			return angleSlider.getValue();
 		}
 
 		public void setFillInverseSelected(boolean value) {
-	        // TODO Auto-generated method stub
-	        
+	        cbFillInverse.setValue(value);
         }
-
-		public void setFillValue(int value) {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setAngleValue(int value) {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setDistanceValue(int value) {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setImageFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setDottedFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setSymbolFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setBrickFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setCrossHatchedFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setHatchFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public void setStandardFillType() {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public int getSelectedBarIndex() {
-	        // TODO Auto-generated method stub
-	        return 0;
-        }
-
-		public void selectSymbol(String barSymbol) {
-	        // TODO Auto-generated method stub
-	        
-        }
-
-		public String getSelectedSymbolText() {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
-
-		public float getFillingValue() {
-	        // TODO Auto-generated method stub
-	        return 0;
-        }
-
-		public FillType getSelectedFillType() {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
-
-		public int getDistanceValue() {
-	        // TODO Auto-generated method stub
-	        return 0;
-        }
-
-		public int getAngleValue() {
-	        // TODO Auto-generated method stub
-	        return 0;
-        }
-		
 	}
+
+	
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
