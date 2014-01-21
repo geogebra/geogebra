@@ -1078,7 +1078,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 
 	public boolean showCanDragBlueDot() {
-		boolean showBlueDot = !editor.isEditing();
+		boolean showBlueDot = !editor.isEditing() && !view.isTraceDialogVisible();
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
