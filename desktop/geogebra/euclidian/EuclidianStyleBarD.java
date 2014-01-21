@@ -237,7 +237,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					oldDefaultMode);
 	}
 	
-	private ArrayList<GeoElement> activeGeoList;
+	protected ArrayList<GeoElement> activeGeoList;
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
@@ -337,7 +337,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	}
 	
-	private void updateButtons(){
+	protected void updateButtons(){
 		// -----------------------------------------------------
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
@@ -452,7 +452,15 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected void addGraphicsDecorationsButtons() {
 		add(btnShowAxes);
 		add(btnShowGrid);
+		addBtnShowPlane();
 		add(btnStandardView);
+	}
+	
+	/**
+	 * in 3D, add show plane button
+	 */
+	protected void addBtnShowPlane(){
+		//nothing to do in 2D
 	}
 
 	protected PopupMenuButton[] newPopupBtnList() {

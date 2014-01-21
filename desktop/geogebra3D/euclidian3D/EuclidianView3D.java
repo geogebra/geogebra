@@ -51,7 +51,7 @@ import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
-import geogebra3D.euclidian3D.opengl.RendererGL2;
+import geogebra3D.euclidian3D.opengl.RendererShaders;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 import geogebra3D.kernel3D.GeoConicSection;
 import geogebra3D.kernel3D.GeoElement3D;
@@ -310,8 +310,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		geosToBeAdded = new TreeSet<GeoElement>();
 		
 		App.debug("create gl renderer");
-		renderer = new RendererGL2(this, !app.isApplet());
-		//renderer = new RendererShaders(this); 
+		//renderer = new RendererGL2(this, !app.isApplet());
+		renderer = new RendererShaders(this); 
 		
 		
 		renderer.setDrawable3DLists(drawable3DLists);

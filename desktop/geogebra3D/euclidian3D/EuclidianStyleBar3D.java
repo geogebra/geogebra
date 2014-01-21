@@ -53,18 +53,18 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 	
 	@Override
-	protected void addGraphicsDecorationsButtons(){
-		super.addGraphicsDecorationsButtons();
+	protected void addBtnShowPlane(){
 		add(btnShowPlane);
 	}
 
 	@Override
 	protected void addBtnPointCapture(){}
+	
 
 	@Override
 	protected void addBtnRotateView(){
 		
-		//addSeparator();
+		addSeparator();
 		
 		add(btnRotateView);
 		//add(textRotateX);
