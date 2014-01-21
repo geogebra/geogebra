@@ -216,6 +216,6 @@ public abstract class GeoElement3D extends GeoElement implements
 		return sbBuildValueString;
 	}
 
-	//public boolean isEqual(GeoElement3D geo);
+
 
 }

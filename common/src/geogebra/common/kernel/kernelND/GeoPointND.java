@@ -283,6 +283,7 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public ArrayList<GeoElement> getIncidenceList();
 
 	public boolean isEqual(GeoElement geo);
+	
 
 	public boolean isGeoPoint();
 

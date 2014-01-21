@@ -825,7 +825,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		if (!geo.isGeoPoint())
 			return false;
 
-		GeoPoint3D P = (GeoPoint3D) geo;
+		GeoPointND P = (GeoPointND) geo;
 
 		if (!(isDefined() && P.isDefined()))
 			return false;
