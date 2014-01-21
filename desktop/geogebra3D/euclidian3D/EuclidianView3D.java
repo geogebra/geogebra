@@ -119,10 +119,17 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private boolean[] positiveAxes = {false, false, false};
 	private boolean[] drawBorderAxes = {false,false, false};
 	
+	/** default scene x-coord of origin */
+	public static final double XZERO_SCENE_STANDARD = 0;
+	/** default scene y-coord of origin */
+	public static final double YZERO_SCENE_STANDARD = 0;
+	/** default scene z-coord of origin */
+	public static final double ZZERO_SCENE_STANDARD = -1.5;
+	
 	//viewing values
-	protected double XZero = 0;
-	protected double YZero = 0;
-	protected double ZZero = -1.5;
+	protected double XZero = XZERO_SCENE_STANDARD;
+	protected double YZero = YZERO_SCENE_STANDARD;
+	protected double ZZero = ZZERO_SCENE_STANDARD;
 	
 	protected double XZeroOld = 0;
 	protected double YZeroOld = 0;
@@ -1586,9 +1593,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		animatedScaleStartZ=getZZero();
 
 		
-		animatedScaleEndX=-1;
-		animatedScaleEndY=-1;
-		animatedScaleEndZ=-1;
+		animatedScaleEndX=XZERO_SCENE_STANDARD;
+		animatedScaleEndY=YZERO_SCENE_STANDARD;
+		animatedScaleEndZ=ZZERO_SCENE_STANDARD;
 
 		
 		
