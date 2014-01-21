@@ -209,7 +209,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		//========================================
 		// view perspective button	
-		btnViewDefault = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_default.gif"), iconHeight);
+		btnViewDefault = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("standard_view_rotate.gif"), iconHeight);
 		
 		btnViewDefault.addActionListener(this);
 		
