@@ -757,9 +757,9 @@ Parametric parametric():
 {    
     (      lhs = < LABEL >
       < EQUAL >
-    ) P = cartesianvector()
+    ) P = multterm()
     ( 
-     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = cartesianvector()
+     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
          {                                    
             if (s.kind == MINUS) 
                 v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                  
