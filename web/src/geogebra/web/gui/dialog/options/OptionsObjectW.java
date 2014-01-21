@@ -2242,7 +2242,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label fillTypeTitle;
 		
 		public FillingPanel() {
-			model = new FillingModel(this);
+			model = new FillingModel(getAppW(), this);
 			setModel(model);
 			mainWidget = new FlowPanel();
 			fillTypePanel = new FlowPanel();
@@ -2325,6 +2325,96 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			model.fillModes(loc);
 			lbFillType.setSelectedIndex(idx);
 		}
+
+		public void setFillInverseSelected(boolean value) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setFillValue(int value) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setAngleValue(int value) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setDistanceValue(int value) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setImageFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setDottedFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setSymbolFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setBrickFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setCrossHatchedFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setHatchFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setStandardFillType() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public int getSelectedBarIndex() {
+	        // TODO Auto-generated method stub
+	        return 0;
+        }
+
+		public void selectSymbol(String barSymbol) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public String getSelectedSymbolText() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
+
+		public float getFillingValue() {
+	        // TODO Auto-generated method stub
+	        return 0;
+        }
+
+		public FillType getSelectedFillType() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
+
+		public int getDistanceValue() {
+	        // TODO Auto-generated method stub
+	        return 0;
+        }
+
+		public int getAngleValue() {
+	        // TODO Auto-generated method stub
+	        return 0;
+        }
 		
 	}
 	//-----------------------------------------------
