@@ -37,6 +37,11 @@ public class GlobalKeyDispatcherW extends
 		controlDown = ev.isControlKeyDown();
 		shiftDown = ev.isShiftKeyDown();
 	}
+
+	/**
+	 * Used if we need tab working properly
+	 */
+	public static boolean InFocus = true;
 	
 	/**
 	 * @param app application
@@ -54,13 +59,17 @@ public class GlobalKeyDispatcherW extends
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
 		event.stopPropagation();
-		event.preventDefault();
+		if (InFocus ) {
+			event.preventDefault();
+		}
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		//AbstractApplication.debug("onkeyup");
-		event.preventDefault();
+		if (InFocus) {
+			event.preventDefault();
+		}
 		event.stopPropagation();
 		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
 		dispatchEvent(event);
@@ -71,7 +80,13 @@ public class GlobalKeyDispatcherW extends
 		//id-s or data-param-attributes
 		
 		//we have keypress here only
-		handleKeyPressed(event);
+		//do this only, if we really have focus
+		App.debug(InFocus + "");
+		if (InFocus) {
+			handleKeyPressed(event);
+		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
+			InFocus = true;
+		}
 	    
     }
 
@@ -121,7 +136,9 @@ public class GlobalKeyDispatcherW extends
 	public void onKeyDown(KeyDownEvent event) {
 		setDownKeys(event);
 		//AbstractApplication.debug("onkeydown");
-	    event.preventDefault();
+		if (InFocus) {
+			event.preventDefault();
+		}
 	    event.stopPropagation();
 
 		// SELECTED GEOS:

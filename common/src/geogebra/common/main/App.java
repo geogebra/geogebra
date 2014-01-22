@@ -3447,4 +3447,11 @@ public abstract class App implements UpdateSelection{
 
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
 
+	/**
+	 * Should lose focus on Web applets, ipmelment only where appropriate
+	 */
+	public void loseFocus() {
+			App.debug("Should lose focus on Web applets, ipmelment (override) only where appropriate");
+	}
+
 }

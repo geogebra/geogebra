@@ -1735,4 +1735,19 @@ public abstract class AppW extends AppWeb {
 	    //Should be implemented in subclasses
 	    return null;
     }
+	
+	private static native void nativeLoseFocus(Element element) /*-{
+		var active = $doc.activeElement
+		if (active && 
+				((active === element) || 
+					(active.compareDocumentPosition(element) & $wnd.Node.DOCUMENT_POSITION_CONTAINS))) {
+							active.blur();
+							@geogebra.html5.main.GlobalKeyDispatcherW::InFocus = false;
+		}
+	}-*/;
+	
+	@Override
+	public void loseFocus() {
+		nativeLoseFocus(articleElement);
+	}
 }

@@ -141,9 +141,13 @@ public abstract class GlobalKeyDispatcher {
 		switch (key) {
 		case ESCAPE:
 			// ESC: set move mode
-			app.setMoveMode();
-			app.getActiveEuclidianView().getEuclidianController()
-			.deletePastePreviewSelected();
+			if (app.isApplet() && !app.showToolBar()) {
+				app.loseFocus();
+			} else {
+				app.setMoveMode();
+				app.getActiveEuclidianView().getEuclidianController()
+				.deletePastePreviewSelected();
+			}
 			consumed = true;
 			break;
 
