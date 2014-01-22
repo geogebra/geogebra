@@ -966,7 +966,7 @@ public abstract class AppW extends AppWeb {
 			        @Override
 			        public void callback(Object obj) {
 			        	String[] dialogResult = (String[])obj;
-				        if (dialogResult[1] == "1") {
+				        if ("1".equals(dialogResult[0])) {
 					        if (getGuiManager() != null) {
 						        getGuiManager().openCommandHelp(command);
 					        }
