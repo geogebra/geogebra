@@ -83,6 +83,7 @@ import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.Slider;
+import geogebra.html5.gui.util.SliderPanel;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
@@ -2236,9 +2237,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	
 	private class FillingPanel extends OptionPanel implements IFillingListener {
 		private FillingModel model;
-		private Slider fillingSlider;
-		private Slider angleSlider;
-		private Slider distanceSlider;
+		private SliderPanel fillingSlider;
+		private SliderPanel angleSlider;
+		private SliderPanel distanceSlider;
 		private Label fillingSliderTitle;
 		private Label angleSliderTitle;
 		private Label distanceSliderTitle;
@@ -2262,7 +2263,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private FlowPanel fillTypePanel;
 		private Label fillTypeTitle;
 		private boolean hasGeoButton;
+		private Label fillingMin;
 		
+
 		public FillingPanel() {
 			model = new FillingModel(getAppW(), this);
 			setModel(model);
@@ -2302,19 +2305,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol = new Label();
 
-			fillingSlider = new Slider(0, 100);
+			fillingSlider = new SliderPanel(0, 100);
 			fillingSlider.setMajorTickSpacing(25);
 			fillingSlider.setMinorTickSpacing(5);
 			fillingSlider.setPaintTicks(true);
 			fillingSlider.setPaintLabels(true);
 
-			angleSlider = new Slider(0, 180);
+			angleSlider = new SliderPanel(0, 180);
 			angleSlider.setMajorTickSpacing(45);
 			angleSlider.setMinorTickSpacing(5);
 			angleSlider.setPaintTicks(true);
 			angleSlider.setPaintLabels(true);
 			
-			distanceSlider = new Slider(5, 50);
+			distanceSlider = new SliderPanel(5, 50);
 			// distanceSlider.setPreferredSize(new Dimension(150,50));
 			distanceSlider.setMajorTickSpacing(10);
 			distanceSlider.setMinorTickSpacing(5);
@@ -2386,6 +2389,55 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		private void createImagePanel() {
 	        imagePanel = new FlowPanel();
+//			imgFileNameList = new ArrayList<String>();
+//			String imagePath = "/geogebra/gui/images/";
+//
+//			imgFileNameList.add(""); // for delete
+//			imgFileNameList.add(imagePath + "go-down.png");
+//			imgFileNameList.add(imagePath + "go-up.png");
+//			imgFileNameList.add(imagePath + "go-previous.png");
+//			imgFileNameList.add(imagePath + "go-next.png");
+//			imgFileNameList.add(imagePath + "nav_fastforward.png");
+//			imgFileNameList.add(imagePath + "nav_rewind.png");
+//			imgFileNameList.add(imagePath + "nav_skipback.png");
+//			imgFileNameList.add(imagePath + "nav_skipforward.png");
+//			imgFileNameList.add("/geogebra/main/nav_play.png");
+//			imgFileNameList.add("/geogebra/main/nav_pause.png");
+//
+//			imgFileNameList.add(imagePath + "exit.png");
+//
+//			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+//			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
+//			for (int i = 1; i < iconArray.length; i++) {
+//				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
+//						imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
+//			}
+//			// ============================================
+//
+//			// panel for button to open external file
+//
+//			btnImage = new PopupMenuButton(getAppW(), iconArray, -1, 4,
+//					new Dimension(32, 32),
+//					geogebra.common.gui.util.SelectionTable.MODE_ICON);
+//			btnImage.setSelectedIndex(1);
+//			btnImage.setStandardButton(true);
+//			btnImage.setKeepVisible(false);
+//			btnImage.addActionListener(this);
+//
+//			btnOpenFile = new JButton();
+//			btnOpenFile.addActionListener(this);
+//
+//			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//			btnPanel.add(btnImage);
+//			btnPanel.add(btnOpenFile);
+//
+//			// =====================================
+//			// put all sub panels together
+//
+//			imagePanel = new JPanel(new BorderLayout());
+//			imagePanel.add(btnPanel, BorderLayout.CENTER);
+//			return imagePanel;
+
         }
 
 		public void setStandardFillType() {
