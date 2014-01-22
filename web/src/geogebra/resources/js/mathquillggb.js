@@ -2375,7 +2375,7 @@ LatexCmds['\u221a'] = P(MathCommand, function(_, _super) {
     var fs = 0;
     if (block.css('fontSize').length > 2) {
       if (block.css('fontSize').substr(-2) == "px") {
-    	fs = block.css('fontSize').slice(0,-2);
+        fs = block.css('fontSize').slice(0,-2);
       }
     }
     if ((fs > 0) && (bh > 0)) {
@@ -2384,17 +2384,22 @@ LatexCmds['\u221a'] = P(MathCommand, function(_, _super) {
         delete this.tries;
       }
     } else if (fs > 0) {
-   	  if (this.tries) {
-   	    this.tries--;
-   	  } else {
-        this.tries = 4;
-   	  }
-   	  if (this.tries > 0) {
+      if (this.tries) {
+        this.tries--;
+      } else {
+        this.tries = 20;
+      }
+      if (this.tries > 0) {
         var thisfunction = this.redraw.bind(this);
-        setTimeout(thisfunction, 300);
-   	  } else {
-   		delete this.tries;
-   	  }
+
+        // assume 60 FPS refresh rate; meaning refresh 
+        // in every 0.0166 seconds, or 16.6 milliseconds 
+        // 60 ms is probably good, almost in every third frame 
+        // this way "tries" is no more than 20 
+        setTimeout(thisfunction, 60); 
+      } else {
+        delete this.tries;
+      }
     }
   };
 });
