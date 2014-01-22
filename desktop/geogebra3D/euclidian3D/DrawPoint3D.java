@@ -275,4 +275,23 @@ implements Previewable, Functional2Var{
 	protected double getColorShift(){
 		return COLOR_SHIFT_POINTS;
 	}
+	
+	
+	
+	@Override
+	public boolean hit(Hitting hitting){
+		if (!isVisible()){
+			return false;
+		}
+		
+		GeoPointND point = (GeoPointND) getGeoElement();
+		Coords p = point.getInhomCoordsInD(3);
+		Coords[] project = p.projectLine(hitting.origin, hitting.direction);
+		double d = p.distance(project[0]);
+		if (d * getView3D().getScale() <= point.getPointSize() + 2){
+			return true;
+		}
+		
+		return false;
+	}
 }

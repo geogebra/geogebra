@@ -1423,6 +1423,16 @@ public abstract class Drawable3D extends DrawableND {
 	
 	
 	
+	/**
+	 * says if the drawable is hit by the hitting (e.g. ray)
+	 * @param hitting e.g. ray
+	 * @return true if hit
+	 */
+	public boolean hit(Hitting hitting){
+		// do nothing by default
+		return false;
+	}
+	
 }
 
 

@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
@@ -95,11 +96,12 @@ public class Drawable3DLists {
 	
 		//TODO fix it
 		if (drawable!=null){
-			//Application.debug(drawable.getGeoElement());
+			//App.debug(drawable.getGeoElement()+"");
 			drawable.removeFromDrawable3DLists(this);
 			//Application.debug(size());
-			if (drawable.getGeoElement()!=null && drawable.getGeoElement().isPickable())
+			if (drawable.getGeoElement()!=null && !drawable.createdByDrawList() && drawable.getGeoElement().isPickable()){
 				view3D.removeOneGeoToPick();
+			}
 		}
 		
 	}
@@ -518,6 +520,25 @@ public class Drawable3DLists {
 		
 		//return loop;
 
+	}
+	
+	
+	
+	/**
+	 * process the hit
+	 * @param hitting e.g. ray
+	 */
+	public void hit(Hitting hitting, Hits3D hits){
+		for(int i=0; i<Drawable3D.DRAW_TYPE_MAX; i++){
+			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
+	        	Drawable3D d = iter.next();
+	        	if (d.hit(hitting)){
+	        		App.debug(d.getGeoElement()+"");
+	        		hits.addDrawable3D(d, PickingType.POINT_OR_CURVE);
+	        	}
+	        	
+			}
+		}
 	}
 	
 

@@ -1126,8 +1126,9 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		geoToPickSize--;
 		/*
 		if (geoToPickSize<0)
-			Application.printStacktrace("");
+			App.printStacktrace("");
 			*/
+			
 	}
 	
 	

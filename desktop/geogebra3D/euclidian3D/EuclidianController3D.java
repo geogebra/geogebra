@@ -1675,8 +1675,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 		view3D.setHits3D(mouseLoc);	
 		
-
-		
 		//for next mouse move process
 		mouseEvent = e;
 		mouseMoved = true;

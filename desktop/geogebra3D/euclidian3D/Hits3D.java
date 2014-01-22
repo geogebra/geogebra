@@ -174,6 +174,28 @@ public class Hits3D extends Hits {
 			hitsOthers.add(d, zNear, zFar);	
 		
 		
+	}
+	
+	/** insert a drawable in the hitSet
+	 * @param d the drawable
+	 * @param type type of picking
+	 * */
+	public void addDrawable3D(Drawable3D d, PickingType type){
+
+		if (type == PickingType.LABEL){
+			if (!d.getGeoElement().isGeoText()){
+				hitsLabels.add(d);
+			}
+		}else{ //remember last type for picking
+			d.setPickingType(type);
+		}
+		
+		//App.debug("\n"+d+"\n"+type);
+		
+		if(d.getPickOrder()<Drawable3D.DRAW_PICK_ORDER_MAX)
+			hitSet[d.getPickOrder()].add(d);
+		else
+			hitsOthers.add(d);	
 		
 		
 	}
