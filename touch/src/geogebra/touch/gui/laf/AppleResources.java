@@ -88,4 +88,18 @@ interface AppleResources extends DefaultResources {
 	@Override
 	@Source("icons/png/iOS7/elem_radioButtonInactive.png")
 	ImageResource radioButtonInactive();
+	
+	@Override
+	@Source("icons/png/iOS7/arrow_dockbar_triangle_left.png")
+	ImageResource triangle_left();
+	
+	// Stylingbar
+	
+	@Override
+	@Source("icons/png/iOS7/stylingbar_graphicsview_show_or_hide_the_axes.png")
+	ImageResource show_or_hide_the_axes();
+
+	@Override
+	@Source("icons/png/iOS7/stylingbar_graphicsview_show_or_hide_the_grid.png")
+	ImageResource show_or_hide_the_grid();
 }

@@ -1,14 +1,10 @@
-body .headerbar {
-	height:70px;
-}
-
-body .worksheetTitle, body div .worksheetgui .headerbar, body div .browsegui .headerbar{
+/*body .headerbar {
 	padding-top:20px;
-}
+}*/
 
-html body .headerbar div.button {
+/*html body .headerbar div.button {
 	margin-top: 20px;
-}
+}*/
 
 /*#########################
 #   NEW STYLES FOR iOS7   #
@@ -27,14 +23,16 @@ body {
 
 /*++++++ HEADER +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-body .headerbar,
-body .worksheetTitle {
+body .headerbar {
 	color: #333333;
 	border-bottom: 1px solid #EDEDED;
 	background-color: #F8F8F8;
+	background-image: none;
+	height: 50px;
+	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
 }
 
-.worksheetTitle,
+body .worksheetTitle,
 body .browsegui .headerbar .gwt-Label,
 body .worksheetgui .headerbar .gwt-Label {
 	font-size: 20px;
@@ -42,28 +40,87 @@ body .worksheetgui .headerbar .gwt-Label {
 	filter: alpha(opacity=1);
 }
 
-body .headerbar div.button {
-	/*background: none;
+body .headerbar .button {
+	width: 40px;
+	height: 40px;
+	margin: 5px 6px 5px 0px;
+}
+
+body .headerbar .button img {
+	width: 40px;
+	height: 40px;
+}
+
+body .headerFirst td,
+body .headerSecond td {
+	padding-top: 0px;
+}
+
+.appContentPanel {
+	z-index: -1;
+}
+
+.euclidianViewPanel {
+	z-index: -5;
+}
+
+/*++++++ STYLEBAR +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+body .stylebar {
 	background-image: none;
-	background-color: none;
+	background-color: #FFFFFF;
 	border: none;
-	padding: 0px;*/
-	margin: 0px 10px 0px 6px;
+	opacity: 0.95;
+	filter: alpha(opacity=0.95);
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
-body .button.shareButton img {
-	width: 35px;
-	margin-top: -2px;
+body .stylebar .button.active {
+	border: 1px solid #6666FF;
+	width: 30px;
+	height: 30px;
+}
+
+/*++++++ ALGEBRA VIEW +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+body .algebraViewButtonPanel {
+	background-color: #FFFFFF;
+	border: none;
+	opacity: 0.95;
+	filter: alpha(opacity=0.95);
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+}
+
+body .algebraViewArrowPanel {
+	border: none;
+	padding: 8px 0px 0px 7px;
+}
+
+body .algebraViewAndStylebar {
+	background-color: #FFFFFF;
+	background-image: none;
+	border: none;
+	opacity: 0.95;
+	filter: alpha(opacity=0.95);
+}
+
+body .algebraView {
 	margin-left: 3px;
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
-
-/* ALGEBRA VIEW */
 
 body .elemHeadingName {
 	position: static;
 }
 
-/* TOOLBAR -> INPUT */
+/*++++++ TOOLBAR +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+body .toolbar {
+	border-top: 1px solid #EDEDED;
+	background-color: #F8F8F8;
+	background-image: none;
+	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
+}
 
 body .inputPanel {
 	width: 100%;
@@ -71,16 +128,16 @@ body .inputPanel {
 }
 
 body .inputbarPanel input {
-	border: #CCCCCC solid 1px;
+	border: #EDEDED solid 1px;
 	color: #BABABA;
 	background: #FFFFFF;
 	width: 100%;
-	padding: 4px 10px;
+	padding: 4px 5px;
 	
-	-webkit-border-radius: 15px;
-	-khtml-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 /* POPUP */

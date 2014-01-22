@@ -164,6 +164,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		TouchEntryPoint.getLookAndFeel().buildTabletHeader(this.touchModel);
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
+		this.contentPanel.setStyleName("appContentPanel");
 
 		this.touchController = new TouchController(this.touchModel,
 				this.app);
@@ -178,6 +179,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		final int width = Window.getClientWidth() - computeAlgebraWidth();
 		final int height = TouchEntryPoint.getLookAndFeel()
 				.getContentWidgetHeight();
+		this.euclidianViewPanel.setStyleName("euclidianViewPanel");
 		this.euclidianViewPanel.setPixelSize(width, height);
 		this.euclidianViewPanel.initEuclidianView(this.touchController, super.getHeaderWidget(),
 				width, height);

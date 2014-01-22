@@ -188,6 +188,7 @@ body .browsegui .fileControlPanel .button.disabled {
 }
 
 input.worksheetTitle {
+	height: 48px;
 	border: none;
 	background: none;
 	width: 100%;
