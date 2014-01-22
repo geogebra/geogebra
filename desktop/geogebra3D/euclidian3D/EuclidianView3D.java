@@ -1878,6 +1878,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	}
 	
+	
 	/*
 	public void setHits3D(GPoint mouseLoc){
 		if (mouseLoc == null) return;
@@ -1886,12 +1887,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			hitting = new Hitting();
 		}
 		
-		hits.clear();
+		hits.init();
 		
 		Coords o = getPickPoint(mouseLoc); 
 		toSceneCoords3D(o);
 		hitting.set(o, getViewDirection());
 		drawable3DLists.hit(hitting, hits);
+		
+		hits.sort();
 		
 	}
 	

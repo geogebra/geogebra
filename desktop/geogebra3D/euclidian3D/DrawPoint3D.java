@@ -289,6 +289,8 @@ implements Previewable, Functional2Var{
 		Coords[] project = p.projectLine(hitting.origin, hitting.direction);
 		double d = p.distance(project[0]);
 		if (d * getView3D().getScale() <= point.getPointSize() + 2){
+			double z = -project[1].getX();
+			setZPick(z, z);
 			return true;
 		}
 		

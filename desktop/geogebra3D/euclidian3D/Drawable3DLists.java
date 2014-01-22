@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
@@ -533,7 +532,7 @@ public class Drawable3DLists {
 			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
 	        	Drawable3D d = iter.next();
 	        	if (d.hit(hitting)){
-	        		App.debug(d.getGeoElement()+"");
+	        		//App.debug(d.getGeoElement()+"");
 	        		hits.addDrawable3D(d, PickingType.POINT_OR_CURVE);
 	        	}
 	        	
