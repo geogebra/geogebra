@@ -27,14 +27,24 @@ public class DrawElementManager {
 	// graphics canvas has no parent element
 	private GGraphics2DW dummyG2;
 
-	private HashMap<GGraphics2DW, HashMap<String, Element>> elementMapCollection;
+	private class ElementRecord {
+		public Element element = null;
+		public int age = 0;
+
+		public ElementRecord(Element element, int age) {
+			this.element = element;
+			this.age = age;
+		}
+	}
+
+	private HashMap<GGraphics2DW, HashMap<String, ElementRecord>> elementMapCollection;
 
 	/**
 	 * Constructs new DrawElementManager
 	 */
 	public DrawElementManager() {
 
-		elementMapCollection = new HashMap<GGraphics2DW, HashMap<String, Element>>();
+		elementMapCollection = new HashMap<GGraphics2DW, HashMap<String, ElementRecord>>();
 
 		// Create a dummy parent element for a canvas with no parent.
 		// The dummy parent is a document fragment that provides a safe place
@@ -49,7 +59,7 @@ public class DrawElementManager {
 		// temporary element storage.
 
 		dummyG2 = new GGraphics2DW(dummyCanvas);
-		elementMapCollection.put(dummyG2, new HashMap<String, Element>());
+		elementMapCollection.put(dummyG2, new HashMap<String, ElementRecord>());
 
 	}
 
@@ -65,14 +75,16 @@ public class DrawElementManager {
 	 */
 	public Element getElement(GGraphics2DW g2, String stringID) {
 
-		HashMap<String, Element> elementMap = elementMapCollection
+		HashMap<String, ElementRecord> elementMap = elementMapCollection
 		        .get(dummyCheck(g2));
-
-		if (elementMap != null) {
-			return elementMap.get(stringID);
+	
+		if (elementMap == null) {
+			return null;
 		}
-
-		return null;
+		if (elementMap.get(stringID) == null) {
+			return null;
+		}
+		return elementMap.get(stringID).element;
 	}
 
 	/**
@@ -80,12 +92,12 @@ public class DrawElementManager {
 	 * @return Element map using the given graphics environment as a key.
 	 *         Creates a new map if none exists.
 	 */
-	public HashMap<String, Element> getElementMap(GGraphics2DW g2) {
+	private HashMap<String, ElementRecord> getElementMap(GGraphics2DW g2) {
 
-		HashMap<String, Element> elementMap = elementMapCollection
+		HashMap<String, ElementRecord> elementMap = elementMapCollection
 		        .get(dummyCheck(g2));
 		if (elementMap == null) {
-			elementMap = new HashMap<String, Element>();
+			elementMap = new HashMap<String, ElementRecord>();
 			elementMapCollection.put(g2, elementMap);
 		}
 		return elementMap;
@@ -98,9 +110,11 @@ public class DrawElementManager {
 	 * @param g2
 	 * @param elem
 	 * @param stringID
+	 * @param age 
 	 */
-	public void registerElement(GGraphics2DW g2, Element elem, String stringID) {
-		getElementMap(dummyCheck(g2)).put(stringID, elem);
+	public void registerElement(GGraphics2DW g2, Element elem, String stringID, int age) {
+		
+		getElementMap(dummyCheck(g2)).put(stringID, new ElementRecord(elem, age));
 		// debugMapCollection();
 	}
 
@@ -109,6 +123,10 @@ public class DrawElementManager {
 			return dummyG2;
 		}
 		return g2;
+	}
+
+	public void setElementAge(GGraphics2DW g2, String stringID, int age) {
+		getElementMap(g2).get(stringID).age = age;
 	}
 
 	// =================================================================
@@ -135,17 +153,14 @@ public class DrawElementManager {
 	public void clearLaTeXes(GGraphics2DW g2) {
 
 		// App.debug("clearing latexs");
-		HashMap<String, Element> elementMap = getElementMap(g2);
+		HashMap<String, ElementRecord> elementMap = getElementMap(g2);
 
 		Iterator<String> it = elementMap.keySet().iterator();
 		while (it.hasNext()) {
 
-			String keyString  = it.next();
-			Element elem = elementMap.get(keyString);
-			// get the age counter value
-			int age = (elem.getAttribute("data-age") == null || elem
-			        .getAttribute("data-age").equals("")) ? 0 : Integer
-			        .parseInt(elem.getAttribute("data-age"));
+			String keyString = it.next();
+			Element elem = elementMap.get(keyString).element;
+			int age = elementMap.get(keyString).age;
 
 			// App.debug("elem: " + elem.getInnerText() + "age: " + age);
 
@@ -155,7 +170,7 @@ public class DrawElementManager {
 				elem.removeFromParent();
 				elementMap.remove(keyString);
 			} else {
-				elem.setAttribute("data-age", ++age + "");
+				elementMap.get(keyString).age++;
 				elem.getStyle().setVisibility(Style.Visibility.HIDDEN);
 			}
 		}
@@ -178,12 +193,12 @@ public class DrawElementManager {
 	 */
 	public void deleteLaTeXes(GGraphics2DW g2) {
 		// App.debug("deleting latexs");
-		HashMap<String, Element> elementMap = getElementMap(g2);
+		HashMap<String, ElementRecord> elementMap = getElementMap(g2);
 
-		Iterator<Element> eei = elementMap.values().iterator();
-		while (eei.hasNext()) {
-			Element elem = eei.next();
-			elem.removeFromParent();
+		Iterator<ElementRecord> it = elementMap.values().iterator();
+		while (it.hasNext()) {
+			ElementRecord elemValue = it.next();
+			elemValue.element.removeFromParent();
 		}
 
 		elementMap.clear();

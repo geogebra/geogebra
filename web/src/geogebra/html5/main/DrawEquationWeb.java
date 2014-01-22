@@ -400,8 +400,8 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			// register it 
-			elementManager.registerElement((GGraphics2DW) g2, ih, eqstringid);
+			// register the element with initial age = 0 
+			elementManager.registerElement((GGraphics2DW) g2, ih, eqstringid, 0);
 
 			// draw it
 			Element parentElement = elementManager
@@ -413,6 +413,10 @@ public class DrawEquationWeb extends DrawEquation {
 			// set a flag that the kernel needs a new update
 			app1.getKernel().setUpdateAgain(true);
 
+		} else{
+			
+			// reset the element's age counter
+			elementManager.setElementAge((GGraphics2DW) g2, eqstringid, 0);		
 		}
 
 		if (isVisible) {
@@ -434,8 +438,7 @@ public class DrawEquationWeb extends DrawEquation {
 			ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
 		}
 		
-		// reset the element's age counter
-		ih.setAttribute("data-age", "0");
+		
 
 		// get the dimensions 
 		GDimension ret = null;
