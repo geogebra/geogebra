@@ -217,12 +217,12 @@ public class StatTableW extends FlowPanel {
 
 		public void setHeaderCells(String[] columnNames) {
 	        if (columnNames != null) {
-	        	firstRow = 1;
 	        	resizeRows(getRowCount() + 1);
 	        	for (int i = 0; i < columnNames.length; i++) {
 	        		this.setWidget(0, i, new Label(columnNames[i]));
 	        		this.getCellFormatter().getElement(0, i).addClassName("headercell");
 	        	}
+	        	firstRow = 1;
 	        }
         }
 
@@ -256,10 +256,12 @@ public class StatTableW extends FlowPanel {
 
 		public void handleSelection(ClickEvent event) {
 	       Cell c = this.getCellForEvent(event);
+	       Element parentRow = c.getElement().getParentElement();
 	       if (c.getElement().hasClassName("headercell")) {
+	    	   parentRow.removeClassName("selected");
 	    	   return;
 	       }
-	       Element parentRow = c.getElement().getParentElement();
+	       
 	       if (!event.isShiftKeyDown()) {
 	    	   toggleSelection(parentRow);
 		       if (parentRow.hasClassName("selected")) {
@@ -333,7 +335,7 @@ public class StatTableW extends FlowPanel {
 		
 		private int getFirstSelectedRow(int to) {
 			int t = to > -1 ? to : this.getRowCount();
-			 for (int i = 0; i < this.getRowCount(); i++) {
+			 for (int i = firstRow; i < this.getRowCount(); i++) {
 	    		   if (this.getRowFormatter().getElement(i).hasClassName("selected") && i <= t) {
 	    			   return i;
 	    		   }
@@ -364,13 +366,14 @@ public class StatTableW extends FlowPanel {
 
 		public void changeSelection(int row, boolean toggle, boolean extend) {
 		   int start;
+		   int r = row + firstRow;
 	       if (!toggle && !extend) {
 	    	   clearSelection(null);
-	    	   this.getRowFormatter().getElement(row).addClassName("selected");
+	    	   this.getRowFormatter().getElement(r).addClassName("selected");
 	       } else if (!toggle && extend) {
-	    	   start = getFirstSelectedRow(row);
+	    	   start = getFirstSelectedRow(r);
 	    	   if (start > -1) {
-	    		   selectTableRows(start, row);
+	    		   selectTableRows(start, r);
 	    	   }
 	       }
         }
