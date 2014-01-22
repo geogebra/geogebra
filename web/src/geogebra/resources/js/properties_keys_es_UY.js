@@ -1028,11 +1028,11 @@ __GGB__keysVar.es_UY.error = {
     "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
     "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito",
     "AssignmentToFixed": "Un objeto fijo no puede modificarse",
-    "CAS_GeneralErrorMessage": "Para superar el error surgido, debiera replantearse la entrada",
+    "CAS_GeneralErrorMessage": "Para superar el error surgido, debiera reformularse la entrada",
     "CAS_InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias",
-    "CAS_SelectionStructureError": "Debiera replantearse la estructura de lo seleccionado",
+    "CAS_SelectionStructureError": "Debe replantearse la estructura de lo seleccionado",
     "CAS_TimeoutError": "Se cancel\xf3 el c\xe1lculo por demorar demasiado",
-    "CAS_VariableIsDynamicReference": "Err\xf3neo intento de asignar v\xeda una referencia din\xe1mica",
+    "CAS_VariableIsDynamicReference": "Es err\xf3nea la asignaci\xf3n por referencia din\xe1mica",
     "CannotUnsnap": "No se puede pasar a vista completa de la aplicaci\xf3n",
     "ChangeDependent": "Los objetos dependientes no pueden modificarse",
     "CircularDefinition": "Definici\xf3n circular",
@@ -1084,7 +1084,7 @@ __GGB__keysVar.es_UY.error = {
     "UndefinedVariable": "Variable no definida",
     "UnknownCommand": "Comando desconocido",
     "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible",
-    "VectorExpected": "Se requiere un punto o un vector",
+    "VectorExpected": "Corresponde un punto o un vector",
 }
 
 
@@ -1699,7 +1699,7 @@ __GGB__keysVar.es_UY.menu = {
     "ResidualPlot": "Diagrama residual",
     "Result": "Resultado",
     "ResultsFor": "Resultados para el %0",
-    "ReturnAngleInverseTrig": "\xc1ngulo desde trigonom\xe9tricas inversas",
+    "ReturnAngleInverseTrig": "Grados para los \xe1ngulos resultantes de trigonom\xe9tricas inversas",
     "RightAngleStyle": "Estilo de \xe1ngulo recto",
     "RightClassRule": "< x \u2264",
     "RightProb": "Por lado derecho",
