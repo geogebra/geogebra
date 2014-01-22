@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -85,7 +86,7 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 	
 	
 	
-	
+	private Coords startPoint, endPoint;
 	
 	protected boolean updateForItSelf(){
 		
@@ -93,7 +94,7 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 		
 		GeoLineND cs = (GeoLineND) getGeoElement();
 		double[] minmax = getDrawMinMax(); 
-		updateForItSelf(cs.getPointInD(3,minmax[0]).getInhomCoords(),cs.getPointInD(3,minmax[1]).getInhomCoords());
+		updateForItSelf(cs.getPointInD(3,minmax[0]).getInhomCoords(), cs.getPointInD(3,minmax[1]).getInhomCoords());
 		
 		return true;
 	}
@@ -103,9 +104,11 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 	 * @param p1
 	 * @param p2
 	 */
-	protected void updateForItSelf(Coords p1, Coords p2){
+	final protected void updateForItSelf(Coords p1, Coords p2){
 
 		//TODO prevent too large values
+		startPoint = p1;
+		endPoint = p2;
 		
 		double[] minmax = getDrawMinMax(); 
 		
@@ -234,6 +237,35 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 		setWaitForUpdate();	
 	}
 	
+	
+
+	
+	@Override
+	public boolean hit(Hitting hitting){
+		
+		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin, hitting.direction, startPoint, endPoint.sub(startPoint));
+		
+		// check if hitting and line are parallel
+		double parameterOnHitting = project[2].getX();
+		if (Double.isNaN(parameterOnHitting)){
+			return false;
+		}
+		
+		// check if point on line is visible
+		double parameterOnCS = project[2].getY();
+		if (parameterOnCS < 0 || parameterOnCS > 1){
+			return false;
+		}
+		
+		double d = project[0].distance(project[1]);
+		if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2){
+			double z = -parameterOnHitting;
+			setZPick(z, z);
+			return true;
+		}
+		
+		return false;
+	}
 	
 
 

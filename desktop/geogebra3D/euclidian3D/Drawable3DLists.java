@@ -526,16 +526,15 @@ public class Drawable3DLists {
 	/**
 	 * process the hit
 	 * @param hitting e.g. ray
+	 * @param hits hits where drawables are stored
 	 */
 	public void hit(Hitting hitting, Hits3D hits){
-		for(int i=0; i<Drawable3D.DRAW_TYPE_MAX; i++){
-			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
-	        	Drawable3D d = iter.next();
-	        	if (d.hit(hitting)){
+		for(Drawable3DList list : lists){
+			for (Drawable3D d : list) {
+	        	if (d.isVisible() && d.hit(hitting)){
 	        		//App.debug(d.getGeoElement()+"");
 	        		hits.addDrawable3D(d, PickingType.POINT_OR_CURVE);
-	        	}
-	        	
+	        	}	        	
 			}
 		}
 	}

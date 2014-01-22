@@ -280,9 +280,6 @@ implements Previewable, Functional2Var{
 	
 	@Override
 	public boolean hit(Hitting hitting){
-		if (!isVisible()){
-			return false;
-		}
 		
 		GeoPointND point = (GeoPointND) getGeoElement();
 		Coords p = point.getInhomCoordsInD(3);
@@ -296,4 +293,6 @@ implements Previewable, Functional2Var{
 		
 		return false;
 	}
+	
+	
 }
