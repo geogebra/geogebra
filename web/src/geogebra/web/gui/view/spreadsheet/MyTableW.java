@@ -1352,12 +1352,14 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 		// STANDARD case: in cell editing
 		if (isCellEditable(row - 1, col - 1) && !isEditing) {
-			isEditing = true;
-			editRow = row;
-			editColumn = col;
-			Object mce = getCellEditor(row, col);
+			Object mce = getCellEditor(row - 1, col - 1);
 
 			if (mce instanceof MyCellEditorW) {
+
+				isEditing = true;
+				editRow = row;
+				editColumn = col;
+
 				// do this now, and do it later in renderCells - memorized row and col
 				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
 						((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
@@ -1380,14 +1382,22 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				renderSelection();
 				return true;
 			} else if (mce instanceof MyCellEditorBooleanW) {
-				view.positionEditorPanel(true, row, col);
+
+				// instead of editing the checkbox, do not go into editing mode at all,
+				// because we don't know when to stop editing
+
+				isEditing = false;
+				view.positionEditorPanel(false, 0, 0);
+
 				renderSelection();
 				return true;
 			}
 		}
-		getCellEditor(row, col).cancelCellEditing();
+
+		BaseCellEditor mce = getCellEditor(row - 1, col - 1);
+		if (mce != null)
+			mce.cancelCellEditing();
 		return false;// TODO: implementation needed
-		//return super.editCellAt(row, col);
 	}
 
 	// This handles ctrl-select dragging of cell blocks

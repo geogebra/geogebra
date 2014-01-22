@@ -15,6 +15,8 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -332,7 +334,7 @@ public class MyCellRendererW {
 		if (view.allowSpecialEditor() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			if (geo.isGeoBoolean()) {
 				FlowPanel fp = new FlowPanel();
-				CheckBox checkbox = new CheckBox();
+				final CheckBox checkbox = new CheckBox();
 				fp.add(checkbox);
 				checkbox.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
 				checkbox.getElement().getStyle().setProperty("display", "-moz-inline-box");
@@ -340,10 +342,28 @@ public class MyCellRendererW {
 				fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
 				checkbox.setEnabled(geo.isIndependent());
 
+				// styling to overcome the selection frame
+				checkbox.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+				checkbox.getElement().getStyle().setZIndex(10);
+
 				if (geo.isLabelVisible()) {
 					// checkBox.setText(geo.getCaption());
 				}
 				checkbox.setValue(((GeoBoolean) geo).getBoolean());
+
+				final GeoBoolean geoBoolean = (GeoBoolean) geo;
+
+				checkbox.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent ce) {
+						if (view.allowSpecialEditor()) {
+							checkbox.setValue(!geoBoolean.getBoolean());
+							geoBoolean.setValue(checkbox.getValue());
+							geoBoolean.updateCascade();
+						}
+					}
+				});
+
+				
 				table.setWidget(row, column, fp);
 				return;
 			}
