@@ -260,7 +260,8 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 		double d = project[0].distance(project[1]);
 		if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2){
 			double z = -parameterOnHitting;
-			setZPick(z, z);
+			double dz = getGeoElement().getLineThickness()/getView3D().getScale();
+			setZPick(z+dz, z-dz);
 			return true;
 		}
 		
