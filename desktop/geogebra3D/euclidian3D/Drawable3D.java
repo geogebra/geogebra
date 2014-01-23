@@ -1428,10 +1428,26 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param hitting e.g. ray
 	 * @return true if hit
 	 */
-	public boolean hit(Hitting hitting){
+	protected boolean hit(Hitting hitting){
 		// do nothing by default
 		return false;
 	}
+	
+	
+	/**
+	 * says if the drawable is hit by the hitting (e.g. ray),
+	 * checking first if visible and pickable
+	 * @param hitting e.g. ray
+	 * @return true if hit
+	 */
+	final public boolean hitIfVisibleAndPickable(Hitting hitting){
+		if (isVisible() && getGeoElement().isPickable()){
+			return hit(hitting);			
+		}
+		
+		return false;
+	}
+
 	
 }
 

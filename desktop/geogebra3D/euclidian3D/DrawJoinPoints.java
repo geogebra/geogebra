@@ -276,7 +276,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	
 	
 	@Override
-	public boolean hit(Hitting hitting){
+	protected boolean hit(Hitting hitting){
 		
 		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin, hitting.direction, startPoint, endPoint.sub(startPoint));
 		
