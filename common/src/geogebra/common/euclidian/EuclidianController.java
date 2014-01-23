@@ -1282,7 +1282,7 @@ public abstract class EuclidianController {
 	
 			case CONICPART:
 				GeoConicPart cp = (GeoConicPart) geo;
-				ArrayList<GeoPoint> ip = cp.getParentAlgorithm()
+				ArrayList<GeoPointND> ip = cp.getParentAlgorithm()
 						.getInputPoints();
 				tempArrayList.removeAll(ip);
 				break;
@@ -8075,15 +8075,15 @@ public abstract class EuclidianController {
 			if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
 				AlgoVector algo = (AlgoVector) topHit
 						.getParentAlgorithm();
-				GeoPoint p = algo.getInputPoints().get(0);
-				GeoPoint q = algo.getInputPoints().get(1);
+				GeoPointND p = algo.getInputPoints().get(0);
+				GeoPointND q = algo.getInputPoints().get(1);
 				checkZooming(); 
 				
 				GeoVector vec = getAlgoDispatcher().Vector(null, 0, 0);
 				vec.setEuclidianVisible(false);
 				vec.setAuxiliaryObject(true);
-				GeoElement[] pp = getAlgoDispatcher().Translate(null, p, vec);
-				GeoElement[] qq = getAlgoDispatcher().Translate(null, q, vec);
+				GeoElement[] pp = getAlgoDispatcher().Translate(null, (GeoElement) p, vec);
+				GeoElement[] qq = getAlgoDispatcher().Translate(null, (GeoElement) q, vec);
 				AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
 						(GeoPointND) pp[0], (GeoPointND) qq[0]);
 				transformCoordsOffset[0] = xRW;

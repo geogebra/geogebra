@@ -25,7 +25,6 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.locusequ.EquationScope;
@@ -1034,12 +1033,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @return list of input points
 	 */
-	public ArrayList<GeoPoint> getInputPoints() {
+	public ArrayList<GeoPointND> getInputPoints() {
 		if (inputPoints == null) {
-			inputPoints = new ArrayList<GeoPoint>(input.length);
+			inputPoints = new ArrayList<GeoPointND>(input.length);
 			for (int i = 0; i < input.length; i++) {
 				if (input[i].isGeoPoint()) {
-					inputPoints.add((GeoPoint) input[i]);
+					inputPoints.add((GeoPointND) input[i]);
 				}
 			}
 		}
@@ -1047,7 +1046,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return inputPoints;
 	}
 
-	private ArrayList<GeoPoint> inputPoints;
+	private ArrayList<GeoPointND> inputPoints;
 
 	@Override
 	final public boolean isIndependent() {
