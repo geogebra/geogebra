@@ -41,7 +41,6 @@ public class WebApplication implements EntryPoint {
 		//}
 
 		// instead of that, load the application version always
-		WebStatic.currentGUI = GuiToLoad.APP;
 		loadAppAsync();
 	}
 

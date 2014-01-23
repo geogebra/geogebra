@@ -6,7 +6,6 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.html5.Dom;
 
 import java.util.ArrayList;
@@ -61,9 +60,6 @@ public class WebSimple implements EntryPoint {
 			//we dont want to parse out of the box sometimes...
 		//	loadAppletAsync();
 		//}
-
-		// instead, load it always as simple here
-		WebStatic.currentGUI = GuiToLoad.VIEWER;
 
 		//loadAppletAsync();
 		// instead, load it immediately

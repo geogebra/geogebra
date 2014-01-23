@@ -417,6 +417,10 @@ public final class ArticleElement extends Element {
 		String crop = this.getAttribute("data-param-widthcrop");
 		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)  : 0; 
     }
+	
+	public boolean getDataParamApp() {
+		return "true".equals(this.getAttribute("data-param-app")); 
+    }
 
 	
 	

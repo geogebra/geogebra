@@ -11,7 +11,6 @@ import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
-import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.Dom;
 
@@ -50,6 +49,16 @@ public class Web implements EntryPoint {
 		}
 		return articleNodes;
 	}
+	
+	private static boolean checkAppNeeded() {
+		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		for (int i = 0; i < nodes.getLength(); i++) {
+			if("true".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * set true if Google Api Js loaded
@@ -68,9 +77,6 @@ public class Web implements EntryPoint {
 		
 		GeoGebraProfiler.getInstance().profile();
 
-		
-		WebStatic.currentGUI = checkIfNeedToLoadGUI();
-		
 		CustomElements.registerGeoGebraWebElement();
 		exportGGBElementRenderer();
 		
@@ -78,14 +84,14 @@ public class Web implements EntryPoint {
 		
 //		setLocaleToQueryParam();
 				
-		if (WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
+		if (!Web.checkAppNeeded()) {
 			//we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
 			} else {
 				loadExtensionAsync();
 			}
-		} else if (WebStatic.currentGUI.equals(GuiToLoad.APP)) {
+		} else {
 			loadAppAsync();
 		}
 		
@@ -131,7 +137,7 @@ public class Web implements EntryPoint {
 			
 			public void onSuccess() {
 				ResourcesInjector.injectResources();
-				GeoGebraAppFrame app = new GeoGebraAppFrame();
+				new GeoGebraAppFrame();
 			}
 
 			public void onFailure(Throwable reason) {
@@ -141,21 +147,7 @@ public class Web implements EntryPoint {
 	    
     }
 	
-	
-	/*
-	 * Checks, if the <body data-param-app="true" exists in html document
-	 * if yes, GeoGebraWeb will be loaded as a full app.
-	 * 
-	 * @return true if bodyelement has data-param-app=true
-	 */
-	private static GuiToLoad checkIfNeedToLoadGUI() {
-	    if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-app"))) {
-	    	return GuiToLoad.APP;
-	    } else if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-mobile"))) {
-	    	return GuiToLoad.MOBILE;
-	    }
-	    return GuiToLoad.VIEWER;
-    }
+
 	
 	native void exportArticleTagRenderer() /*-{
 	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));

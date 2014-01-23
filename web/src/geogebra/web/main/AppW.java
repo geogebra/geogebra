@@ -43,7 +43,6 @@ import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
 import geogebra.web.WebStatic;
-import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -282,7 +281,7 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public boolean isApplet() {
-		return !GuiToLoad.APP.equals(WebStatic.currentGUI);
+		return !articleElement.getDataParamApp();
 	}
 
 	public boolean onlyGraphicsViewShowing() {

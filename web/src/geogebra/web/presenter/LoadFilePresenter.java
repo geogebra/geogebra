@@ -6,7 +6,6 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.web.WebStatic;
-import geogebra.web.WebStatic.GuiToLoad;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
@@ -104,7 +103,7 @@ public class LoadFilePresenter{
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
 		
 		
-		boolean undoActive = (showToolBar || showMenuBar || WebStatic.currentGUI.equals(GuiToLoad.APP));
+		boolean undoActive = (showToolBar || showMenuBar || view.getDataParamApp());
 
 		app.setUndoActive(undoActive);			
 

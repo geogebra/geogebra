@@ -398,6 +398,10 @@ public class View {
 	    return workerUrls;
     }
 
+	public boolean getDataParamApp() {
+	    return ((ArticleElement) container).getDataParamApp();
+    }
+
 
 
 

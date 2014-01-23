@@ -35,7 +35,6 @@ public class WebStatic {
 	/**
 	 * GUI currently Loaded
 	 */
-	public static GuiToLoad currentGUI = null;
 	public static Panel panelForApplets;
 	public static String urlToOpen;
 	public static AppW lastApp;
