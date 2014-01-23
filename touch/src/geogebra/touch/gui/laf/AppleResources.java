@@ -7,6 +7,14 @@ interface AppleResources extends DefaultResources {
 
 	static AppleResources INSTANCE = GWT.create(AppleResources.class);
 
+	@Override
+	@Source("icons/png/iOS7/algebra_hidden.png")
+	ImageResource algebra_hidden();
+
+	@Override
+	@Source("icons/png/iOS7/algebra_shown.png")
+	ImageResource algebra_shown();
+	
 	// Dialogs
 
 	@Override
@@ -54,7 +62,7 @@ interface AppleResources extends DefaultResources {
 	ImageResource document_share();
 
 	@Override
-	@Source("icons/png/android/document_viewer.png")
+	@Source("icons/png/iOS7/document_view.png")
 	ImageResource document_viewer();
 
 	@Override
