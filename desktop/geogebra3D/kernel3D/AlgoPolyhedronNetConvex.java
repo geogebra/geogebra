@@ -137,7 +137,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				for (GeoSegment3D segment : net.getSegments3D()){
 					outputSegments.addOutput(segment, false);
 				}
-
+				
+				getNet().setAlgoParentPolygons(outputPolygons);
 
 			}
 

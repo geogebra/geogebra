@@ -108,17 +108,7 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 	// ///////////////////////////////////////
 	// Overwrite GeoPolygon
 
-	/**
-	 * remove an old segment
-	 * 
-	 * @param oldSegment
-	 *            the old segment
-	 */
-
-	@Override
-	public void removeSegment(GeoSegmentND oldSegment) {
-		((GeoSegment3D) oldSegment).getParentAlgorithm().remove();
-	}
+	
 
 	/**
 	 * return a segment joining startPoint and endPoint

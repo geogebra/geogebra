@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
@@ -270,8 +271,7 @@ HasHeight
 			Application.debug(st);
 			 */
 
-			GeoPolygon3D polygon = createPolygon(p);
-			polygons.put(polygonsIndex.get(currentFace), polygon);
+			GeoPolygon3D polygon = createPolygon(p, polygonsIndex.get(currentFace));
 			polygon.setSegments(s);
 		}
 	}
@@ -311,11 +311,21 @@ HasHeight
 		s[j-1] = createSegment(endPoint, firstPoint);
 
 
-		GeoPolygon3D polygon = createPolygon(p);
-		polygons.put(index, polygon);
+		GeoPolygon3D polygon = createPolygon(p, index);		
 		polygon.setSegments(s);
 
 		return polygon;
+	}
+	
+	
+	private OutputHandler<GeoPolygon3D> algoParentPolygons;
+	
+	/**
+	 * 
+	 * @param algoParentPolygons algoParent output polygons
+	 */
+	public void setAlgoParentPolygons(OutputHandler<GeoPolygon3D> algoParentPolygons){
+		this.algoParentPolygons = algoParentPolygons;
 	}
 
 	/**
@@ -334,18 +344,29 @@ HasHeight
 	 *            vertices of the polygon
 	 * @return the polygon
 	 */
-	public GeoPolygon3D createPolygon(GeoPointND[] points) {
+	public GeoPolygon3D createPolygon(GeoPointND[] points, int index) {
+		
 		GeoPolygon3D polygon;
+		
+		if (algoParentPolygons == null || index >= algoParentPolygons.size()){
 
-		AlgoPolygon3D algo = new AlgoPolygon3D(cons, points, false, this);
-		cons.removeFromConstructionList(algo);
+			AlgoPolygon3D algo = new AlgoPolygon3D(cons, points, false, this);
+			cons.removeFromConstructionList(algo);
 
-		polygon = (GeoPolygon3D) algo.getPoly();
-		// refresh color to ensure segments have same color as polygon:
-		polygon.setObjColor(getObjectColor());
+			polygon = (GeoPolygon3D) algo.getPoly();
+			// refresh color to ensure segments have same color as polygon:
+			polygon.setObjColor(getObjectColor());
 
-		// force init labels called to avoid polygon to draw edges
-		polygon.setInitLabelsCalled(true);
+			// force init labels called to avoid polygon to draw edges
+			polygon.setInitLabelsCalled(true);
+
+			// put the polygon into the collection
+			polygons.put(index, polygon);
+			
+		}else{ // reuse algoParent output
+			polygon = algoParentPolygons.getElement(index);
+			polygon.modifyInputPoints(points); 
+		}
 
 		return polygon;
 	}
@@ -998,7 +1019,7 @@ HasHeight
 
 			// set last polygons undefined
 			if(!polygons.isEmpty()){
-				for (int i = index; i < polygons.lastKey() ; i++){
+				for (int i = index; i <= polygons.lastKey() ; i++){
 					polygons.get(i).setUndefined();
 				}
 			}			
@@ -1020,7 +1041,7 @@ HasHeight
 
 			// set last segments undefined
 			if (!segments.isEmpty()){
-				for (int i = index; i < segments.lastKey() ; i++){
+				for (int i = index; i <= segments.lastKey() ; i++){
 					segments.get((long) i).setUndefined();
 				}
 			}
