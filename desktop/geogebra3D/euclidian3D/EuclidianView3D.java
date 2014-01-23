@@ -1871,6 +1871,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** sets the 3D hits regarding point location
 	 * @param p point location
 	 */
+	
 	public void setHits3D(GPoint p) {
 			
 		//sets the flag and mouse location for openGL picking
@@ -1892,6 +1893,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		Coords o = getPickPoint(mouseLoc); 
 		toSceneCoords3D(o);
 		hitting.set(o, getViewDirection());
+		
+		for (int i = 0; i < 3; i++) {
+			axisDrawable[i].hitIfVisibleAndPickable(hitting, hits);
+		}
 		drawable3DLists.hit(hitting, hits);
 		
 		hits.sort();
