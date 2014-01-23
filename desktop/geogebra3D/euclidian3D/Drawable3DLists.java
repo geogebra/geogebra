@@ -531,7 +531,7 @@ public class Drawable3DLists {
 	public void hit(Hitting hitting, Hits3D hits){
 		for(Drawable3DList list : lists){
 			for (Drawable3D d : list) {
-	        	if (d.isVisible() && d.hit(hitting)){
+	        	if (d.isVisible() && d.getGeoElement().isPickable() && d.hit(hitting)){
 	        		//App.debug(d.getGeoElement()+"");
 	        		hits.addDrawable3D(d, PickingType.POINT_OR_CURVE);
 	        	}	        	

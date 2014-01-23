@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra3D.kernel3D.GeoSegment3D;
@@ -70,16 +71,13 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		
 	}	
 
-
 	@Override
-	protected boolean updateForItSelf(){
-
-		//updateColors();
-
+	protected Coords[] calcPoints(){
 		GeoSegmentND seg = (GeoSegmentND) getGeoElement();
-		updateForItSelf(seg.getStartInhomCoords(),seg.getEndInhomCoords());
-
-		return true;
+		return new Coords[] {seg.getStartInhomCoords(), seg.getEndInhomCoords()};
 	}
+	
+
+	
 
 }

@@ -74,7 +74,7 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 
 	@Override
 	protected void updateForView(){
-		if (getView3D().viewChangedByZoom())
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate())
 			updateForItSelf();
 	}
 	
