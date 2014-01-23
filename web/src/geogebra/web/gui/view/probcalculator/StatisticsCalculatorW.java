@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -748,10 +749,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		}
 	}
 
-	public void onKeyUp(KeyUpEvent e) {
-		TextBox source = (TextBox) e.getSource();
+	public void onKeyUp(KeyUpEvent event) {
+		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
-		if (value != null && !value.equals("") && value.charAt(value.length() - 1) != '.') {
+		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) && 
+				value != null && !value.equals("") && value.charAt(value.length() - 1) != '.') {
 			doTextFieldActionPerformed();
 		}
     }

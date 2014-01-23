@@ -22,5 +22,11 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	public void showDrawingPadPopup(geogebra.common.awt.GPoint mouseLoc){
 		// do nothing		
 	}
+	
+	@Override
+    protected void wrapMouseWheelMoved(int x, int y, double delta, boolean shiftOrMeta, boolean alt) {
+		//scolling disabled
+		return;
+	}
 
 }

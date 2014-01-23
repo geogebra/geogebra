@@ -28,6 +28,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -237,8 +238,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    createControlPanel();
 	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
 
-	    ((PlotPanelEuclidianViewW) plotPanel).setMouseEnabled(true, true);
-	    ((PlotPanelEuclidianViewW) plotPanel).setMouseMotionEnabled(true);
 	    
 
 	    
@@ -893,7 +892,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	@Override
     public void onKeyUp(KeyUpEvent event) {
 	    TextBox source = (TextBox) event.getSource();
-	    doTextFieldActionPerformed(source);
+	    if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
+	    	doTextFieldActionPerformed(source);
+	    }
     }
 
 	public void setInterval(double low, double high) {
