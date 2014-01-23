@@ -204,7 +204,9 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 	}
 	
 	protected void drawTransp(){
-			
+
+		setLight(GLlocal.GL_LIGHT1);
+
 		getTextures().loadTextureLinear(Textures.FADING);
 		
 		getGL().glDisable(GLlocal.GL_CULL_FACE);
@@ -215,7 +217,6 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		//getGL().glDisable(GLlocal.GL_TEXTURE_2D);
 		//TODO improve this !
 		
-		setLight(GLlocal.GL_LIGHT1);
 		
 		getGL().glEnable(GLlocal.GL_CULL_FACE);
 		getGL().glCullFace(GLlocal.GL_FRONT); 
@@ -245,7 +246,9 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 	abstract protected void setLight(int light);
 		
 	protected void drawNotTransp(){
-		
+
+        setLight(GLlocal.GL_LIGHT1);
+
 		getTextures().loadTextureLinear(Textures.FADING);
 
         getGL().glEnable(GLlocal.GL_BLEND);
@@ -254,9 +257,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		getGL().glDisable(GLlocal.GL_CULL_FACE);
         drawable3DLists.drawNotTransparentSurfaces(this);
 
-        
-        setLight(GLlocal.GL_LIGHT1);
-		
+       		
 		//TODO improve this !
 		getGL().glEnable(GLlocal.GL_CULL_FACE);
 		getGL().glCullFace(GLlocal.GL_FRONT); 
@@ -1350,7 +1351,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         
         //GL_LIGHT0 & GL_LIGHT1
         float ambiant0 = 0.5f;
-        float diffuse0=1f-ambiant0; 
+        float diffuse0 = 1f-ambiant0; 
         
         float ambiant1 = 0.4f;
         float diffuse1=0.7f;//1f-ambiant;

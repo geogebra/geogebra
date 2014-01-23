@@ -99,9 +99,14 @@ void main(void)
   	c = color;
   }
   
+  //if (ambiant > 0.45){
   
-  varying_Color.xyz = c.xyz * (ambiant + diffuse * factor);
+  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
   varying_Color.a = c.a;
+  
+  //}else{
+  //varying_Color = vec4(1,0,0,1);
+  //}
   
   
       
