@@ -2373,15 +2373,21 @@ label {
 
 /*============ AutocompleteTextFieldW =======*/
 .AutoCompleteTextFieldW {
-	
+	box-sizing: border-box;
+	position: relative;
 }
 
 .AutoCompleteTextFieldW .TextField {
 	display: inline-block;
+	box-sizing: border-box;
+	padding-right:50px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	display: none;
+	position: absolute;
+	right: 2px;
+	top: 13%;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {

@@ -1258,10 +1258,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setWidth(int width) {
-		if (textField != null && showSymbolButton != null) {
-			int textFieldWidth = width - 50; // adjust for symbolToggleButton
-			textField.setWidth(textFieldWidth + "px");
-		}
+		textField.setWidth(width + "px");
 		super.setWidth(width + "px");
 	}
 
