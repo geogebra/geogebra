@@ -2575,6 +2575,11 @@ label {
 	background: white;
 }
 
+.StatisticsCalculatorW .resultPane {
+	width: 99%;
+	min-height: 50%;
+}
+
 
 /*=========== Probability Calculator End =============*/
 

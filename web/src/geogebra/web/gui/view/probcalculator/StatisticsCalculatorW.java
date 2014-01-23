@@ -490,6 +490,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 	private void createGUIElements() {
 	    resultPane = new RichTextArea();
+	    resultPane.addStyleName("resultPane");
 	    resultPane.setEnabled(false);
 	    
 	    s1 = new double[3];
@@ -781,5 +782,4 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	public FlowPanel getWrappedPanel() {
 	    return wrappedPanel;
     }
-
 }
