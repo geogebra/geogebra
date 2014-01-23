@@ -46,7 +46,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	
 	public InputDialogW(boolean modal) {
 
-		wrappedPopup = new DialogBox(false, false){
+		wrappedPopup = new DialogBox(false, modal){
 			
 			// close dialog on ESC 
 			@Override
@@ -58,6 +58,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			}};
 			
 		wrappedPopup.addStyleName("DialogBox");
+		wrappedPopup.setGlassEnabled(true);
 	}
 
 	public InputDialogW(AppW app, String message, String title,
