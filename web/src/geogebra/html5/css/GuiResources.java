@@ -42,7 +42,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/js/zipjs/dataview.js")
 	TextResource dataViewJs();
 	
-	@Source("geogebra/resources/js/zipjs/zip-2.js")
+	@Source("geogebra/resources/js/zipjs/zip-3.js")
 	TextResource zipJs();
 	
 	@Source("geogebra/resources/js/zipjs/deflate.js")
