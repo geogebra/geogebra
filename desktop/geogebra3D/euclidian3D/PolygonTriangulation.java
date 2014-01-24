@@ -585,7 +585,9 @@ public class PolygonTriangulation {
 	 * @param i
 	 */
 	private void setName(Point point, int i){
-		point.name = ((GeoElement) polygon.getPointsND()[i]).getLabelSimple();
+		if (DEBUG){
+			point.name = ((GeoElement) polygon.getPointsND()[i]).getLabelSimple();
+		}
 	}
 
 	/**

@@ -255,6 +255,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			}
 		}catch(Exception e){
 			App.debug(e.getMessage());
+			e.printStackTrace();
 		}
 		 
 
