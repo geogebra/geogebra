@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra3D.euclidian3D.PolygonTriangulation.Convexity;
 import geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -198,34 +199,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		
 		// surface
-		/*
-		Coords v = polygon.getMainDirection();
-		int index = renderer.startPolygon((float) v.get(1),(float) v.get(2),(float) v.get(3));
-		
-		// if index==0, no polygon have been created
-		if (index==0){
-			setSurfaceIndex(-1);
-			return true;
-		}
-		
-		
-		for(int i=0;i<pointLength;i++){
-			v = vertices[i];
-			renderer.addToPolygon(v.get(1),v.get(2),v.get(3));
-			//App.debug("v["+i+"]="+v.get(1)+","+v.get(2)+","+v.get(3));
-			
-		}		
-		renderer.endPolygon();
-			*/
-		
-		
 		int index = renderer.startPolygons();
 		Coords n = polygon.getMainDirection();
-		if (polygon.getReverseNormalForDrawing()){
-			n = n.mul(-1);
-		}
-		
-		//renderer.getGeometryManager().drawPolygon(n, vertices);
 		
 		
 		PolygonTriangulation pt = new PolygonTriangulation(polygon);
@@ -234,8 +209,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			if (pt.updatePoints() > 2){
 				
 				// check if the polygon is convex
-				if(pt.checkIsConvex()){
-					renderer.getGeometryManager().drawPolygonConvex(n, vertices);
+				Convexity convexity = pt.checkIsConvex();
+				if(convexity != Convexity.NOT){
+					boolean reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
+					renderer.getGeometryManager().drawPolygonConvex(n, vertices, reverse);
 				}else{
 					// set intersections (if needed) and divide the polygon into non self-intersecting polygons
 					pt.setIntersections();

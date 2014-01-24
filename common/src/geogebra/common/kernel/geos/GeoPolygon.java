@@ -2027,9 +2027,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	/**
 	 * set that normal should be reversed for 3D drawing
+	 * @param flag flag
 	 */
-	public void setReverseNormalForDrawing() {
-		reverseNormalForDrawing = true;
+	public void setReverseNormalForDrawing(boolean flag) {
+		reverseNormalForDrawing = flag;
 	}
 
 	/**

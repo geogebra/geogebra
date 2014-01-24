@@ -733,12 +733,14 @@ public class PolygonTriangulation {
 	//////////////////////////////////////
 	// CONVEX POLYGON ?
 	//////////////////////////////////////
+	
+	public enum Convexity { CLOCKWISE, ANTI_CLOCKWISE, NOT}
 
 	/**
 	 * 
 	 * @return true if the polygon is convex after simplification
 	 */
-	public boolean checkIsConvex(){
+	public Convexity checkIsConvex(){
 				
 		Point point1 = firstPoint;
 		Point point2 = point1.next;
@@ -763,7 +765,15 @@ public class PolygonTriangulation {
 
 		}
 		
-		return convex;
+		if(convex){
+			if (increase){
+				return Convexity.ANTI_CLOCKWISE;
+			}
+			
+			return Convexity.CLOCKWISE;
+		}
+		
+		return Convexity.NOT;
 
 	}
 

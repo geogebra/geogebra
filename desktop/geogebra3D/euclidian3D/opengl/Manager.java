@@ -179,8 +179,9 @@ abstract public class Manager {
 	 * draw a convex polygon
 	 * @param n normal
 	 * @param v vertices
+	 * @param reverse vertex order has to be reversed
 	 */
-	final public void drawPolygonConvex(Coords n, Coords[] v){
+	final public void drawPolygonConvex(Coords n, Coords[] v, boolean reverse){
 		startGeometry(Manager.TRIANGLE_FAN);
 		
 	   	//set texture
@@ -188,11 +189,17 @@ abstract public class Manager {
 
 		// set normal
 		normal(n);
+		
+		vertex(v[0]);
 
-		for (int i = 0 ; i < v.length ; i++){
-			vertex(v[i]);
-			//color(1f,0,0);
-			//color((i % 3 +1)/3, ((i+1) % 3 +1)/3, ((i+2) % 3 +1)/3);
+		if (reverse){
+			for (int i = v.length - 1 ; i > 0 ; i--){
+				vertex(v[i]);
+			}
+		}else{
+			for (int i = 1 ; i < v.length ; i++){
+				vertex(v[i]);
+			}
 		}
 
 		endGeometry();
