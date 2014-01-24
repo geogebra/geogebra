@@ -86,7 +86,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		int sz = points.length;
 				
 		
-		Coords[] topP = getPointsCoords(p.getTopFace());
+		Coords[] topP = getPointsCoords(p.getLastFace());
 
 		Coords topCo = topP[0];
 		Coords pp1 = topCo.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal())[0];

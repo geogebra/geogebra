@@ -211,14 +211,17 @@ HasHeight
 
 	}
 
-	private int topFaceIndex;
+	/**
+	 * last face index (for pyramid/prism)
+	 */
+	private int lastFaceIndex;
 
 	/**
-	 * says that current face created is the top face (for prism)
-	 * (warn : call it before endCurrentFace())
+	 * says that current face created is the last face (for pyramid/prism)
+	 * (warn : call it AFTER endCurrentFace())
 	 */
-	public void setCurrentFaceIsTopFace(){
-		topFaceIndex = polygonsIndexMax;
+	public void setCurrentFaceIsLastFace(){
+		lastFaceIndex = polygonsIndexMax - 1;
 	}
 
 
@@ -1000,7 +1003,7 @@ HasHeight
 			setVolume(polyhedron.getVolume());
 			setOrientedHeight(polyhedron.getOrientedHeight());
 
-			topFaceIndex = polyhedron.topFaceIndex;
+			lastFaceIndex = polyhedron.lastFaceIndex;
 
 			// set polygons
 			//polygons.clear();
@@ -1486,10 +1489,10 @@ HasHeight
 
 	/**
 	 * 
-	 * @return top face (for prism)
+	 * @return last face (for pyramid/prism)
 	 */
-	public GeoPolygon getTopFace(){
-		int index = topFaceIndex;
+	public GeoPolygon getLastFace(){
+		int index = lastFaceIndex;
 		if (polygonsLinked.isEmpty()){
 			index++;
 		}

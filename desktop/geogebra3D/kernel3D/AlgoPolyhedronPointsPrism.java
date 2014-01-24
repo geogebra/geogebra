@@ -109,10 +109,10 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		//top of the prism
 		polyhedron.startNewFace();
 		for (int i=0; i<bottomPointsLength; i++)
-			polyhedron.addPointToCurrentFace(points[bottomPointsLength+i]);
-		
-		polyhedron.setCurrentFaceIsTopFace();
+			polyhedron.addPointToCurrentFace(points[bottomPointsLength+i]);		
 		polyhedron.endCurrentFace();
+		
+		polyhedron.setCurrentFaceIsLastFace();
 		
 		//for (int i=0; i<faces.length; i++) Application.debug(faces[i]);
 
