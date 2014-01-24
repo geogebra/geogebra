@@ -4,15 +4,18 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.UserAwarenessListener;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
@@ -437,6 +440,38 @@ public abstract class GgbAPI implements JavaScriptAPI{
 			return;
 		geo.setObjColor(geogebra.common.factories.AwtFactory.prototype
 				.newColor(red, green, blue));
+		geo.updateRepaint();
+	}
+
+	public synchronized void setCorner(String objName, double x, double y){
+		setCorner(objName, x, y, 1);
+	}
+
+	public synchronized void setCorner(String objName, double x, double y,
+			int index) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (!(geo instanceof AbsoluteScreenLocateable))
+			return;
+		AbsoluteScreenLocateable loc =((AbsoluteScreenLocateable)geo);
+		if(loc.isAbsoluteScreenLocActive()){
+			loc.setAbsoluteScreenLoc((int)Math.round(x), (int)Math.round(y));
+		}
+		else if(geo instanceof Locateable){
+			GeoPoint corner = new GeoPoint(kernel.getConstruction());
+			EuclidianView ev = app.getEuclidianView1();
+			if(geo.isVisibleInView(ev.getViewID()) && app.hasEuclidianView2EitherShowingOrNot()
+					&& geo.isVisibleInView(app.getEuclidianView2().getViewID())){
+				App.debug("EV2");
+				//ev = app.getEuclidianView2();
+			}
+			corner.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1);
+			try {
+				((Locateable)loc).setStartPoint(corner, index);
+			} catch (CircularDefinitionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		geo.updateRepaint();
 	}
 

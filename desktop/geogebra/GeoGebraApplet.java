@@ -494,6 +494,15 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 			int blue) {
 		getAppletImplementation().setColor(objName, red, green, blue);
 	}
+	
+	public synchronized void setCorner(String objName, double x, double y,
+			int index) {
+		getAppletImplementation().setCorner(objName, x, y, index);
+	}
+
+	public synchronized void setCorner(String objName, double x, double y) {
+		getAppletImplementation().setCorner(objName, x, y);
+	}
 
 	public synchronized void setLineThickness(String objName, int thickness) {
 		getAppletImplementation().setLineThickness(objName, thickness);

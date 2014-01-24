@@ -1008,6 +1008,15 @@ public class AppletImplementation implements AppletImplementationInterface {
 			int blue) {
 		ggbApi.setColor(objName, red, green, blue);
 	}
+	
+	public synchronized void setCorner(String objName, double x, double y,
+			int index) {
+		ggbApi.setCorner(objName, x, y, index);
+	}
+	
+	public synchronized void setCorner(String objName, double x, double y) {
+		ggbApi.setCorner(objName, x, y);
+	}
 
 	public synchronized void setLineStyle(String objName, int style) {
 		ggbApi.setLineStyle(objName, style);

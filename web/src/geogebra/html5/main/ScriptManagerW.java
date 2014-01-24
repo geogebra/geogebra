@@ -193,6 +193,13 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setColor(Ljava/lang/String;III)(objName,red,green,blue);
 		};
 
+		$wnd[ggbApplet].setCorner = function(objName, x, y, index) {
+			if(!index){
+				index = 1;
+			}
+			ggbAPI.@geogebra.html5.main.GgbAPI::setCorner(Ljava/lang/String;DDI)(objName,x,y,index);
+		};
+
 		$wnd[ggbApplet].setLineStyle = function(objName, style) {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setLineStyle(Ljava/lang/String;I)(objName,style);
 		};
@@ -279,6 +286,10 @@ public class ScriptManagerW extends ScriptManager {
 
 		$wnd[ggbApplet].getValueString = function(objName) {
 			return ggbAPI.@geogebra.html5.main.GgbAPI::getValueString(Ljava/lang/String;)(objName);
+		};
+		
+		$wnd[ggbApplet].getListValue = function(objName, index) {
+			return ggbAPI.@geogebra.html5.main.GgbAPI::getListValue(Ljava/lang/String;I)(objName, index);
 		};
 
 		$wnd[ggbApplet].getDefinitionString = function(objName) {

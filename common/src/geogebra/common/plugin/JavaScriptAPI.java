@@ -556,6 +556,11 @@ public interface JavaScriptAPI {
 	 *  
 	 * Returns Double.NaN if the object is not a GeoNumeric/Angle 
 	 */ 
-	public double getListValue(String objName, int index); 
+	public double getListValue(String objName, int index);
+	
+	public void setCorner(String objName, double x, double y,
+			int index);
+	
+	public void setCorner(String objName, double x, double y);
 
 }
