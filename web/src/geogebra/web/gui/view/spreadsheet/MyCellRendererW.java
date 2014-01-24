@@ -15,8 +15,14 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -26,7 +32,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MyCellRendererW {
+public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
@@ -363,7 +369,6 @@ public class MyCellRendererW {
 					}
 				});
 
-				
 				table.setWidget(row, column, fp);
 				return;
 			}
@@ -378,16 +383,35 @@ public class MyCellRendererW {
 			}*/
 
 			if (geo.isGeoList()) {
-				GeoList list = (GeoList) geo;
-				ListBox lb = new ListBox();
+				final GeoList list = (GeoList) geo;
+				final ListBox lb = new ListBox();
 				lb.setVisibleItemCount(1);
+				lb.setEnabled(true);
+
 				lb.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
+
 				if (list.size() > 0) {
 					for (int i = 0; i < list.size(); i++)
 						// toString doesn't work for some reason
 						lb.addItem(list.get(i).toValueString(StringTemplate.defaultTemplate));
 					lb.setSelectedIndex(list.getSelectedIndex());
 				}
+
+				// styling to overcome the selection frame
+				lb.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+				lb.getElement().getStyle().setZIndex(10);
+
+
+				lb.addMouseDownHandler(this);
+				lb.addMouseUpHandler(this);
+
+				lb.addChangeHandler(new ChangeHandler() {
+					public void onChange(ChangeEvent ce) {
+						if (view.allowSpecialEditor()) {
+							list.setSelectedIndex(lb.getSelectedIndex(), true);
+						}
+					}
+				});
 
 				table.setWidget(row, column, lb);
 				lb.setWidth("100%");
@@ -443,6 +467,14 @@ public class MyCellRendererW {
 		} else {
 			table.getCellFormatter().getElement(row, column).getStyle().setProperty("textAlign", "right");
 		}
+	}
+
+	public void onMouseDown(MouseDownEvent e) {
+		e.stopPropagation();
+	}
+
+	public void onMouseUp(MouseUpEvent e) {
+		e.stopPropagation();
 	}
 
 	public Widget getTableCellRendererWidget(Grid table, Object value,

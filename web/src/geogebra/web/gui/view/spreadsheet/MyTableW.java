@@ -22,6 +22,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.OptionType;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.common.plugin.GeoClass;
 import geogebra.html5.awt.GBasicStrokeW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -60,7 +61,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected Kernel kernel;
 	protected AppW app;
 	protected MyCellEditorW editor;
-	private MyCellEditorBooleanW editorBoolean;
+	// private MyCellEditorBooleanW editorBoolean;
 	// private MyCellEditorButton editorButton;
 	// private MyCellEditorList editorList;
 
@@ -402,11 +403,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * Returns boolean editor (checkbox) for this table. If none exists, a new
 	 * one is created.
 	 */
-	public MyCellEditorBooleanW getEditorBoolean() {
+	/*public MyCellEditorBooleanW getEditorBoolean() {
 		if (editorBoolean == null)
 			editorBoolean = new MyCellEditorBooleanW(kernel);
 		return editorBoolean;
-	}
+	}*/
 
 	/**
 	 * Returns button editor for this table. If none exists, a new one is
@@ -458,17 +459,21 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	}
 
-	public BaseCellEditor getCellEditor(int row, int column) {
+	public GeoClass getCellEditorType(int row, int column) {
 		GPoint p = new GPoint(column, row);
 		if (view.allowSpecialEditor() &&
 			oneClickEditMap.containsKey(p) && kernel.getAlgebraStyle() ==
 			Kernel.ALGEBRA_STYLE_VALUE) {
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
-				case BOOLEAN: return getEditorBoolean();
-				case BUTTON: return null;//TODO! getEditorButton();
-				case LIST: return null;//TODO! getEditorList();
+				case BOOLEAN: return GeoClass.BOOLEAN;
+				case BUTTON: return GeoClass.BUTTON;
+				case LIST: return GeoClass.LIST;
 			}
 		}
+		return GeoClass.DEFAULT;
+	}
+
+	public BaseCellEditor getCellEditor(int row, int column) {
 		return editor;
 	}
 
@@ -1352,17 +1357,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 		// STANDARD case: in cell editing
 		if (isCellEditable(row - 1, col - 1) && !isEditing) {
-			Object mce = getCellEditor(row - 1, col - 1);
-
-			if (mce instanceof MyCellEditorW) {
-
+			switch (getCellEditorType(row - 1, col - 1)) {
+			case DEFAULT:
 				isEditing = true;
 				editRow = row;
 				editColumn = col;
 
 				// do this now, and do it later in renderCells - memorized row and col
 				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
-						((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
+						((MyCellEditorW)getCellEditor(row - 1, col - 1)).getTableCellEditorWidget(this, ob, false, row, col);
 
 				int cew = getCellFormatter().getElement(row, col).getOffsetWidth();
 				cew -= minusColumnWidth;
@@ -1381,8 +1384,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				w.requestFocus();
 				renderSelection();
 				return true;
-			} else if (mce instanceof MyCellEditorBooleanW) {
-
+			case BOOLEAN:
+			case BUTTON:
+			case LIST:
 				// instead of editing the checkbox, do not go into editing mode at all,
 				// because we don't know when to stop editing
 
