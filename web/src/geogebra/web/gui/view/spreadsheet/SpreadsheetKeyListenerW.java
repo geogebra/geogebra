@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GWTKeycodes;
+import geogebra.common.plugin.GeoClass;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
@@ -599,7 +600,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 					ch = new String(Character.toChars(charcode));
 
 				Object ce = table.getCellEditor(table.getSelectedRow()+1, table.getSelectedColumn()+1);
-				if (ce instanceof MyCellEditorW && ch != "") {
+				GeoClass ceType = table.getCellEditorType(table.getSelectedRow()+1, table.getSelectedColumn()+1);
+				if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT && ch != "") {
 					((MyCellEditorW)ce).setText(ch);
 					((AutoCompleteTextFieldW)((MyCellEditorW)ce).getTextfield()).setCaretPosition(
 						((MyCellEditorW)ce).getEditingValue().length()
