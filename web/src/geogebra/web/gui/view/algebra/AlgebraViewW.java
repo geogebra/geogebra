@@ -30,7 +30,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -412,7 +411,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
 			        AppResources.INSTANCE.shown().getSafeUri(),
 			        AppResources.INSTANCE.hidden().getSafeUri(),mdh));
-			ti.getElement().getStyle().setPadding(0, Unit.PX);
+			//ti.getElement().getStyle().setPadding(0, Unit.PX);
 
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
