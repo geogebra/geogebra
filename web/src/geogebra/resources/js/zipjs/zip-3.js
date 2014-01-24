@@ -464,7 +464,7 @@
 		step();
 	}
 
-	function launchProcess(process, reader, writer, offset, size, onappend, onprogress, onend, onreaderror, onwriteerror, synchronous) {
+	function launchProcess(process, reader, writer, offset, size, onappend, onprogress, onend, onreaderror, onwriteerror) {
 		var chunkIndex = 0, index, outputSize = 0;
 
 		function step() {
@@ -481,11 +481,45 @@
 					writer.writeUint8Array(outputData, function() {
 						onappend(false, outputData);
 						chunkIndex++;
-						if(synchronous){
-							step();
-						}else{
-							setTimeout(step, 1);
-						}
+						setTimeout(step, 1);
+					}, onwriteerror);
+					if (onprogress)
+						onprogress(index, size);
+				}, onreaderror);
+			else {
+				outputData = process.flush();
+				if (outputData) {
+					outputSize += outputData.length;
+					writer.writeUint8Array(outputData, function() {
+						onappend(false, outputData);
+						onend(outputSize);
+					}, onwriteerror);
+				} else
+					onend(outputSize);
+			}
+		}
+
+		step();
+	}
+	
+	function launchSynchronousProcess(process, reader, writer, offset, size, onappend, onprogress, onend, onreaderror, onwriteerror) {
+		var chunkIndex = 0, index, outputSize = 0;
+
+		function step() {
+			var outputData;
+			index = chunkIndex * CHUNK_SIZE;
+			if (index < size)
+				reader.readUint8Array(offset + index, Math.min(CHUNK_SIZE, size - index), function(inputData) {
+					var outputData = process.append(inputData, function() {
+						if (onprogress)
+							onprogress(offset + index, size);
+					});
+					outputSize += outputData.length;
+					onappend(true, inputData);
+					writer.writeUint8Array(outputData, function() {
+						onappend(false, outputData);
+						chunkIndex++;
+						step();
 					}, onwriteerror);
 					if (onprogress)
 						onprogress(index, size);
@@ -517,12 +551,14 @@
 		function oninflateend(outputSize) {
 			onend(outputSize, crc32.get());
 		}
-
-		if (!obj.zip.synchronous && obj.zip.useWebWorkers) {
+		if (obj.zip.synchronous){
+			launchSynchronousProcess(new obj.zip.Inflater(), reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror);
+		}
+		else if (obj.zip.useWebWorkers) {
 			worker = new Worker(obj.zip.workerScriptsPath + INFLATE_JS);
 			launchWorkerProcess(worker, reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror);
 		} else
-			launchProcess(new obj.zip.Inflater(), reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror, obj.zip.synchronous);
+			launchProcess(new obj.zip.Inflater(), reader, writer, offset, size, oninflateappend, onprogress, oninflateend, onreaderror, onwriteerror);
 		return worker;
 	}
 
@@ -543,7 +579,10 @@
 			launchWorkerProcess(worker, reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror);
 		}
 
-		if (!obj.zip.synchronous && obj.zip.useWebWorkers) {
+		if(obj.zip.synchronous){
+			launchSynchronousProcess(new obj.zip.Deflater(), reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror);
+		}
+		else if (obj.zip.useWebWorkers) {
 			worker = new Worker(obj.zip.workerScriptsPath + DEFLATE_JS);
 			worker.addEventListener("message", onmessage, false);
 			worker.postMessage({
@@ -551,7 +590,7 @@
 				level : level
 			});
 		} else
-			launchProcess(new obj.zip.Deflater(), reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror, obj.zip.synchronous);
+			launchProcess(new obj.zip.Deflater(), reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror);
 		return worker;
 	}
 
