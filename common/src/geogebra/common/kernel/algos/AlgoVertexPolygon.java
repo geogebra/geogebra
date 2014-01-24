@@ -94,6 +94,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		super(cons);
 		this.p = p;
 		outputPoints=createOutputPoints();
+		outputPoints.adjustOutputSize(1);
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
@@ -185,7 +186,10 @@ public class AlgoVertexPolygon extends AlgoElement {
 		
 		int length = p.getPoints().length;
 		//Log.debug(length);
-		outputPoints.adjustOutputSize(length >0?length : 1);
+		if (length > outputPoints.size()){
+			outputPoints.adjustOutputSize(length);
+			refreshOutput();
+		}
 		
 		
 		for (int i =0; i<length; i++){
