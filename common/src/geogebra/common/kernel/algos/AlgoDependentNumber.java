@@ -59,7 +59,7 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
             
             // check fileloading to make loading old files (<=4.2) works
             // no allowReflexAngle or forceReflexAngle in XML by default
-            if (!cons.isFileLoading()) {
+            if (!cons.isFileLoading() || cons.isAllowUnboundedAngles()) {
             	// make sure eg summing angles of polygon a+b+c+d gives correct answer
             	((GeoAngle)number).setAngleStyle(AngleStyle.UNBOUNDED);
             }

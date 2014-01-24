@@ -2772,6 +2772,7 @@ public class Construction {
 	/** algo set currently updated by GeoElement.updateDependentObjects() */
 	private AlgorithmSet algoSetCurrentlyUpdated;
 	private boolean spreadsheetTraces;
+	private boolean allowUnboundedAngles = true;
 	
 	/** set the algo set currently updated by GeoElement.updateDependentObjects() 
 	 * @param algoSetCurrentlyUpdated algo set
@@ -2825,6 +2826,17 @@ public class Construction {
 	 */
 	public void addTracingGeo() {
 		spreadsheetTraces = true;
+	}
+	
+	public void setAllowUnboundedAngles(boolean b) {
+		this.allowUnboundedAngles = b;
+	}
+	
+	/**
+	 * @return whether unbounded angles are allowed on file load
+	 */
+	public boolean isAllowUnboundedAngles() {
+		return this.allowUnboundedAngles;
 	}
 
 }
