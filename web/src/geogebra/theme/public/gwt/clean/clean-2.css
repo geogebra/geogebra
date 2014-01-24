@@ -1548,10 +1548,7 @@ Paddings for menuitems.
 	height: 100%;
 }
 
-.SymbolToggleButton {
-    width:18px;
-    height:18px;
-}
+
 
 .SymbolTablePopup {
     padding:0px;
@@ -2383,8 +2380,14 @@ label {
 	padding-right:50px;
 }
 
+.SymbolToggleButton {
+   width:18px;
+   height:18px;
+   display: none;
+}
+
 .AutoCompleteTextFieldW .SymbolToggleButton {
-	display: none;
+	
 	position: absolute;
 	right: 2px;
 	top: 13%;
