@@ -59,6 +59,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	protected ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
 
 	protected ArrayList<SegmentInfo> segmentInfoList = new ArrayList<SegmentInfo>();
+	
+	private boolean netComplete = true;
 
 	/**
 	 * @param c construction
@@ -115,11 +117,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 		if (iBottom != -1) {
 
-			boolean netComplete = makeNetMap(p);
-			if (!netComplete) {
-				setUndefined();
-				App.debug("Not complete");
-			}else {
+			netComplete = makeNetMap(p);
+			if (netComplete){
 				createNet();
 
 
@@ -284,7 +283,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			setUndefined();
 			return;
 		}
-		if (getNet().isDefined() == false){
+		if (!netComplete){
 			setUndefined();
 			return;
 		}
