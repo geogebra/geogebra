@@ -7,6 +7,7 @@ import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
@@ -24,6 +25,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -373,14 +375,38 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				return;
 			}
 
-			/*if (geo.isGeoButton()) {
+			if (geo.isGeoButton()) {
+				final GeoButton gb = (GeoButton)geo;
+				final Button button = new Button();
+				button.setWidth("100%");
+				button.setHeight("100%");
+
 				// button.setBackground(table.getBackground());
-				button.setHorizontalAlignment(CENTER);
+				button.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
+
+				//button.setHorizontalAlignment(CENTER);
+				button.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+
 				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-				button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
-						.getObjectColor()));
-				return button;
-			}*/
+
+				//button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
+				//		.getObjectColor()));
+				button.getElement().getStyle().setColor(geo.getObjectColor().toString());
+
+				// styling to overcome the selection frame
+				button.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+				button.getElement().getStyle().setZIndex(10);
+
+				button.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent ce) {
+						gb.runClickScripts(null);
+						gb.getKernel().updateConstruction();
+					}
+				});
+
+				table.setWidget(row, column, button);
+				return;
+			}
 
 			if (geo.isGeoList()) {
 				final GeoList list = (GeoList) geo;
