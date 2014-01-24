@@ -762,6 +762,10 @@ HasHeight
 	 * @param flag flag
 	 */
 	public void setReverseNormalsForDrawing(boolean flag) {
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.setReverseNormalForDrawing(flag);
+		}
+
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setReverseNormalForDrawing(flag);
 		}
@@ -775,7 +779,6 @@ HasHeight
 			polygon.setReverseNormal();
 		}
 		
-		setReverseNormalsForDrawing(true);
 	}
 
 	@Override

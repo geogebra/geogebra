@@ -744,29 +744,35 @@ public class PolygonTriangulation {
 				
 		Point point1 = firstPoint;
 		Point point2 = point1.next;
-		boolean increase = (point2.orientationToNext > point1.orientationToNext);
+		double delta = point1.orientationToNext + Math.PI - point2.orientationToNext;
+		if (delta < -Math.PI){
+			delta += 2 * Math.PI;
+		}else if (delta > Math.PI){
+			delta -= 2 * Math.PI;
+		}
+		boolean positive = (delta > 0);
 		debug(point1.name+"("+(point1.orientationToNext*180/Math.PI)+"°)");
 		debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°)");
-		debug("increase : "+increase);
+		debug("delta : "+(delta*180/Math.PI)+"°)");
+		debug("increase : "+positive);
 		boolean convex = true;
 		point1 = point2;
 		point2 = point1.next;
-		boolean loopDone = false;
 		while (point1 != firstPoint && convex){
-			convex = increase ^ (point2.orientationToNext < point1.orientationToNext);
-			debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°) -- "+convex);
-			if (!convex && !loopDone){
-				convex = true;
-				loopDone = true;
-				debug("loop done");
+			delta = point1.orientationToNext + Math.PI - point2.orientationToNext;
+			if (delta < -Math.PI){
+				delta += 2 * Math.PI;
+			}else if (delta > Math.PI){
+				delta -= 2 * Math.PI;
 			}
+			convex = positive ^ (delta < 0);
+			debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°) -- "+"("+(delta*180/Math.PI)+"°) -- "+convex);
 			point1 = point2;
 			point2 = point1.next;
-
 		}
 		
 		if(convex){
-			if (increase){
+			if (!positive){
 				return Convexity.ANTI_CLOCKWISE;
 			}
 			

@@ -443,19 +443,7 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 	}
 
 
-	/**
-	 * set the alpha value to alpha for openGL
-	 * 
-	 * @param alpha
-	 *            alpha value
-	 */
-	/*
-	 * public void setAlphaValue(float alpha) {
-	 * 
-	 * alphaValue = alpha;
-	 * 
-	 * }
-	 */
+
 
 	/**
 	 * set if this is a part of a closed surface

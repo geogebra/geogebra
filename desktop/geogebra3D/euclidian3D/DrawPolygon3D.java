@@ -212,6 +212,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				Convexity convexity = pt.checkIsConvex();
 				if(convexity != Convexity.NOT){
 					boolean reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
+					//App.debug(polygon+" : "+reverse+" = "+polygon.getReverseNormalForDrawing()+" , "+convexity);
+					//reverse = false;
 					renderer.getGeometryManager().drawPolygonConvex(n, vertices, reverse);
 				}else{
 					// set intersections (if needed) and divide the polygon into non self-intersecting polygons
