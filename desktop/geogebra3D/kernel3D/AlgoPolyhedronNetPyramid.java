@@ -214,8 +214,8 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 			Coords vs = o2.sub(o).normalized();
 			rotate(wpoint, topCoords, p1, o, vs, f, faceDirection, d1, false);
 		}
-
-
+		
+		getNet().setArea(p.getArea());
 
 	}
 

@@ -1270,7 +1270,19 @@ HasHeight
 		return isDefined();
 	}
 
+	public void updateArea() {
+		if ((type==TYPE_PYRAMID)||(type==TYPE_PRISM)){
+			
+			area = 0;
 
+			for (GeoPolygon p:polygonsLinked){
+				area += p.getArea();
+			}
+			for (GeoPolygon p:polygons.values()){
+				area += p.getArea();
+			}
+		}
+	}
 
 	//////////////////
 	// TRACE

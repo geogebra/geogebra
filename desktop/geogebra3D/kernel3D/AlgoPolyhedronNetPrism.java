@@ -165,6 +165,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 			}
 		}
 
+		getNet().setArea(p.getArea());
 
 	}
 	

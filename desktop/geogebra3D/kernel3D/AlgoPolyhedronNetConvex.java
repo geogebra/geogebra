@@ -308,7 +308,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				outputPointsNet.getElement(polygonInfo.get(iPoly).pointIndex.get(i)).setCoords(points[(i+polygonInfo.get(iPoly).segShift)%(points.length)]);
 			}
 		}
-
+		
+		//update area
+		getNet().setArea(p.getArea());
+		
 		//rotate faces by recursive call
 		rotateFace(iBottom, f);
 	}
