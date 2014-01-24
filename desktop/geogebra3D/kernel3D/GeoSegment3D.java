@@ -109,8 +109,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 			return false;
 		GeoSegment3D s = (GeoSegment3D) geo;
 		
-		return (((startPoint).isEqual((GeoPoint3D)s.startPoint) && (endPoint).isEqual((GeoPoint3D)s.endPoint))
-				||(( startPoint).isEqual((GeoPoint3D)s.endPoint) && ( endPoint).isEqual((GeoPoint3D)s.startPoint)));
+		return (((startPoint).isEqualPointND(s.startPoint) && (endPoint).isEqualPointND(s.endPoint))
+				||(( startPoint).isEqualPointND(s.endPoint) && ( endPoint).isEqualPointND(s.startPoint)));
 	}
 
 

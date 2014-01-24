@@ -845,15 +845,27 @@ SymbolicParametersBotanaAlgo {
 
 		if (!geo.isGeoPoint())
 			return false;
-		
+
 		if (geo.isGeoElement3D()){
 			return geo.isEqual(this); //do the 3D test
 		}
+		
+		return isEqualPoint2D((GeoPoint) geo);
+
+	}
+	
+	public boolean isEqualPointND(GeoPointND geo){
+		if (geo.isGeoElement3D()){
+			return geo.isEqualPointND(this); //do the 3D test
+		}
+		
+		return isEqualPoint2D((GeoPoint) geo);
+	}
 
 
-		GeoPoint P = (GeoPoint) geo;
+	private boolean isEqualPoint2D(GeoPoint P){
 
-		if (!(isDefined() && geo.isDefined()))
+		if (!(isDefined() && P.isDefined()))
 			return false;
 
 		// both finite

@@ -825,7 +825,11 @@ Traceable, MirrorableAtPlane, Dilateable{
 		if (!geo.isGeoPoint())
 			return false;
 
-		GeoPointND P = (GeoPointND) geo;
+		return  isEqualPointND((GeoPointND) geo);
+		
+	}
+	
+	public boolean isEqualPointND(GeoPointND P){
 
 		if (!(isDefined() && P.isDefined()))
 			return false;
