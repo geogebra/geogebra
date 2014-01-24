@@ -53,7 +53,7 @@ public class CmdVertex extends CommandProcessor {
 			}
 			if (arg[0] instanceof GeoPoly) {
 				
-				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
+				AlgoVertexPolygon algo = kernelA.getAlgoDispatcher().newAlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
 
 				return algo.getVertex();
 			}
@@ -128,16 +128,6 @@ public class CmdVertex extends CommandProcessor {
 		return algo.getCorner();
 	}
 	
-	/**
-	 * 
-	 * @param cons
-	 * @param labels
-	 * @param p
-	 * @return algo for corners of a polygon/polyline
-	 */
-	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p){
-		return new AlgoVertexPolygon(cons, labels, p);
-	}
 	
 	/**
 	 * @param cons

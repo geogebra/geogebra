@@ -197,7 +197,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param points
 	 *            the vertices
 	 */
-	public void setPoints(GeoPointND[] points) {
+	final public void setPoints(GeoPointND[] points) {
 		setPoints(points, null, true);
 	}
 
@@ -553,7 +553,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			for (int i = 0; i < tempPoints.length; i++) {
 				tempPoints[i] = i < l ? getPoint(i) : new GeoPoint(cons);//newGeoPoint();
 			}
-			setPoints(tempPoints);
+			setPoints2D(tempPoints);
 		}
 
 		for (int i = 0; i < getPoints().length; i++) {
@@ -609,7 +609,12 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * 
 	 * @return points of this polygon
 	 */
-	public GeoPointND[] getPointsND() {
+	final public GeoPointND[] getPointsND() {
+		/*
+		if (points == null){
+			//AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, null, this);
+		}
+		*/
 		return points;
 	}
 
@@ -619,7 +624,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param i index
 	 * @return i-th pointt
 	 */
-	public GeoPointND getPointND(int i) {
+	final public GeoPointND getPointND(int i) {
 		return points[i];
 	}
 

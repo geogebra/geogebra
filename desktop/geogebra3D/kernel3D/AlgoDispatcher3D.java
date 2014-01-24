@@ -5,8 +5,10 @@ import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDispatcher;
+import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -103,6 +105,18 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	
 	private Manager3DInterface getManager3D(){
 		return cons.getKernel().getManager3D();
+	}
+	
+	
+
+	@Override
+	public AlgoVertexPolygon newAlgoVertexPolygon(Construction cons1, String[] labels, GeoPoly p){
+		
+		if (p.isGeoElement3D()){
+			return new AlgoVertexPolygon3D(cons1, labels, p);
+		}
+		
+		return super.newAlgoVertexPolygon(cons1, labels, p);
 	}
 
 

@@ -42,15 +42,6 @@ public class CmdVertex3D extends CmdVertex{
 		return algo.getCorner();
 	}
 	
-	@Override
-	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p){
-		
-		if (p.isGeoElement3D()){
-			return new AlgoVertexPolygon3D(cons, labels, p);
-		}
-		
-		return super.newAlgoVertexPolygon(cons, labels, p);
-	}
 	
 	@Override
 	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String label, GeoPoly p, GeoNumberValue v){	

@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
@@ -1667,6 +1668,17 @@ public class AlgoDispatcher {
 		}
 	
 		return angle;
+	}
+	
+	/**
+	 * 
+	 * @param cons
+	 * @param labels
+	 * @param p
+	 * @return new AlgoVertexPolygon
+	 */
+	public AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p){
+		return new AlgoVertexPolygon(cons, labels, p);
 	}
 
 }
