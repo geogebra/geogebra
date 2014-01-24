@@ -15,14 +15,14 @@ public class ImageFileInputDialog extends FileInputDialog{
 
 	protected void createGUI() {
 		super.createGUI();
-		addGgbChangeHandler(inputWidget.getElement(), app);
+		addGgbChangeHandler(getInputWidget().getElement(), app);
 	}
 
 	public native void addGgbChangeHandler(Element el, AppW appl) /*-{
 		var dialog = this;
 		el.setAttribute("accept", "image/*");
 		el.onchange = function(event) {
-			var files = this.files;
+			var file = this.files;
 			if (files.length) {
 				var fileTypes = /^image.*$/;
 				for (var i = 0, j = files.length; i < j; ++i) {

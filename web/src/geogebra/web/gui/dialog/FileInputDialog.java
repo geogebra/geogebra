@@ -16,7 +16,7 @@ public class FileInputDialog extends PopupPanel implements ClickHandler{
 	protected AppW app;
 	protected GeoPoint location;
 
-	protected FileUpload inputWidget;
+	private FileUpload inputWidget;
 	protected Button btCancel;
 
 	public FileInputDialog(AppW app, GeoPoint location){
@@ -31,7 +31,7 @@ public class FileInputDialog extends PopupPanel implements ClickHandler{
 
 	protected void createGUI() {
 
-		inputWidget = new FileUpload();
+		setInputWidget(new FileUpload());
 		//addGgbChangeHandler(inputWidget.getElement(), app);
 
 		btCancel = new Button(app.getPlain("Cancel"));
@@ -39,7 +39,7 @@ public class FileInputDialog extends PopupPanel implements ClickHandler{
 		btCancel.addClickHandler(this);
 
 		VerticalPanel centerPanel = new VerticalPanel();
-		centerPanel.add(inputWidget);
+		centerPanel.add(getInputWidget());
 		centerPanel.add(btCancel);
 
 		setWidget(centerPanel);
@@ -59,4 +59,12 @@ public class FileInputDialog extends PopupPanel implements ClickHandler{
     	hide();
 		app.getActiveEuclidianView().requestFocusInWindow();
 	}
+
+	public FileUpload getInputWidget() {
+	    return inputWidget;
+    }
+
+	public void setInputWidget(FileUpload inputWidget) {
+	    this.inputWidget = inputWidget;
+    }
 }

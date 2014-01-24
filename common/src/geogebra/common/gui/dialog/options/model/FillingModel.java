@@ -237,6 +237,7 @@ public class FillingModel extends MultipleOptionsModel {
 				}
 			} else {
 				geo.setImageFileName(fileName);
+				App.debug("geo.setImageFileName(" + fileName + ")");
 			}
 			geo.updateRepaint();
 		}
@@ -262,18 +263,20 @@ public class FillingModel extends MultipleOptionsModel {
 		}
 	}
 	
-	public void applyFillingValue(int value) {
-		if (isBarChart()) {
-			for (int i = 0; i < getGeosLength(); i++) {
-				GeoElement geo = getGeoAt(i);
+	public void applyOpacity(int value) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			if (isBarChart()) {
 				updateBarsFillType(geo, 4, null);
-				geo.updateVisualStyle();
+			} else {
+				geo.setAlphaValue(value / 100.0f);
 			}
-			kernel.notifyRepaint();
+			geo.updateVisualStyle();
+
 		}
-		
+		kernel.notifyRepaint();
 	}
-	
+		
 	public void applyAngleAndDistance(int angle, int distance) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);

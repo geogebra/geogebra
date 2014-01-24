@@ -1426,9 +1426,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			algo.setBarAlpha(alpha, selectedBarButton);
 			// For barchart opacity color and
 			// opacity image have same value if there is a tag
-			fillingPanel.fillingSlider.removeChangeListener(fillingPanel);
-			fillingPanel.fillingSlider.setValue(Math.round(alpha * 100));
-			fillingPanel.fillingSlider.addChangeListener(fillingPanel);
+			fillingPanel.opacitySlider.removeChangeListener(fillingPanel);
+			fillingPanel.opacitySlider.setValue(Math.round(alpha * 100));
+			fillingPanel.opacitySlider.addChangeListener(fillingPanel);
 		}
 
 		// Add panel for single bar if is a BarChart
@@ -3407,7 +3407,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 		private FillingModel model;
 
-		private JSlider fillingSlider;
+		private JSlider opacitySlider;
 		private JSlider angleSlider;
 		private JSlider distanceSlider;
 		private JComboBox cbFillType;
@@ -3450,12 +3450,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			lblSelectedSymbol.setFont(new Font("SansSerif", Font.PLAIN, 24));
 
 			// JLabel sizeLabel = new JLabel(app.getPlain("Filling") + ":");
-			fillingSlider = new JSlider(0, 100);
-			fillingSlider.setMajorTickSpacing(25);
-			fillingSlider.setMinorTickSpacing(5);
-			fillingSlider.setPaintTicks(true);
-			fillingSlider.setPaintLabels(true);
-			fillingSlider.setSnapToTicks(true);
+			opacitySlider = new JSlider(0, 100);
+			opacitySlider.setMajorTickSpacing(25);
+			opacitySlider.setMinorTickSpacing(5);
+			opacitySlider.setPaintTicks(true);
+			opacitySlider.setPaintLabels(true);
+			opacitySlider.setSnapToTicks(true);
 
 			angleSlider = new JSlider(0, 180);
 			// angleSlider.setPreferredSize(new Dimension(150,50));
@@ -3489,7 +3489,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			 */
 
 			// set label font
-			Dictionary<?, ?> labelTable = fillingSlider.getLabelTable();
+			Dictionary<?, ?> labelTable = opacitySlider.getLabelTable();
 			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
@@ -3538,7 +3538,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			panel.add(syPanel);
 			// panels to hold sliders
 			transparencyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			transparencyPanel.add(fillingSlider);
+			transparencyPanel.add(opacitySlider);
 
 			anglePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			anglePanel.add(angleSlider);
@@ -3781,7 +3781,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			cbFillType.removeActionListener(this);
 			cbFillInverse.removeActionListener(this);
-			fillingSlider.removeChangeListener(this);
+			opacitySlider.removeChangeListener(this);
 			angleSlider.removeChangeListener(this);
 			distanceSlider.removeChangeListener(this);
 
@@ -3789,7 +3789,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			cbFillType.addActionListener(this);
 			cbFillInverse.addActionListener(this);
-			fillingSlider.addChangeListener(this);
+			opacitySlider.addChangeListener(this);
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
 
@@ -3825,8 +3825,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void stateChanged(ChangeEvent e) {
 			// For barchart opacity color and
 			// opacity image have same value if there is a tag
-			if (e.getSource() == fillingSlider) {
-				model.applyFillingValue(fillingSlider.getValue());
+			if (e.getSource() == opacitySlider) {
+				model.applyOpacity(opacitySlider.getValue());
 				kernel.notifyRepaint();
 				return;
 			}
@@ -4097,7 +4097,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setFillValue(int value) {
-			fillingSlider.setValue(value);
+			opacitySlider.setValue(value);
 		}
 
 		public void setAngleValue(int value) {
@@ -4121,7 +4121,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public float getFillingValue() {
-			return fillingSlider.getValue();
+			return opacitySlider.getValue();
 		}
 
 		public FillType getSelectedFillType() {

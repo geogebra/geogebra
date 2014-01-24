@@ -62,16 +62,19 @@ import geogebra.common.gui.dialog.options.model.TooltipModel;
 import geogebra.common.gui.dialog.options.model.TraceModel;
 import geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import geogebra.common.gui.inputfield.DynamicTextElement;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
+import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -82,15 +85,16 @@ import geogebra.html5.gui.util.ColorChangeHandler;
 import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
-import geogebra.html5.gui.util.Slider;
 import geogebra.html5.gui.util.SliderPanel;
 import geogebra.html5.openjdk.awt.geom.Dimension;
+import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
 import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
+import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -103,6 +107,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -971,10 +978,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private class PointSizePanel extends OptionPanel implements ISliderListener {
 		private PointSizeModel model;
-		private Slider slider;
+		private SliderPanel slider;
 		private Label titleLabel;
-		private Label minLabel;
-		private Label maxLabel;
 		public PointSizePanel() {
 			model = new PointSizeModel(this);
 			setModel(model);
@@ -983,22 +988,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			titleLabel = new Label();
 			mainPanel.add(titleLabel);
 
-			FlowPanel flow = new FlowPanel();
-
-			minLabel = new Label("1");
-			flow.add(minLabel);
-			flow.setStyleName("optionsSlider");
-			slider = new Slider(1, 9);
+			slider = new SliderPanel(1, 9);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
 			//			slider.setSnapToTicks(true);
-			flow.add(slider);
-
-			maxLabel = new Label("9");
-			flow.add(maxLabel);
-			mainPanel.add(flow);
+			mainPanel.add(slider);
 
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
@@ -1067,9 +1063,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private class LineStylePanel extends OptionPanel implements ILineStyleListener {
 		LineStyleModel model;
 		private Label sliderLabel;
-		private Slider slider;
-		private Label minLabel;
-		private Label maxLabel;
+		private SliderPanel slider;
 		private Label popupLabel;
 		LineStylePopup btnLineStyle;
 		private int iconHeight = 24;
@@ -1081,21 +1075,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			sliderLabel = new Label();
 			mainPanel.add(sliderLabel);
 
-			FlowPanel flow = new FlowPanel();
-			flow.setStyleName("optionsSlider");
-			minLabel = new Label("1");
-			flow.add(minLabel);
-			slider = new Slider(1, GeoElement.MAX_LINE_WIDTH);
+			slider = new SliderPanel(1, GeoElement.MAX_LINE_WIDTH);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
 			//			slider.setSnapToTicks(true);
-			flow.add(slider);
-
-			maxLabel = new Label("" + GeoElement.MAX_LINE_WIDTH);
-			flow.add(maxLabel);
-			mainPanel.add(flow);
+			mainPanel.add(slider);
 
 			slider.addChangeHandler(new ChangeHandler() {
 
@@ -1154,10 +1140,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private class AngleArcSizePanel extends OptionPanel implements ISliderListener {
 		private AngleArcSizeModel model;
-		private Slider slider;
+		private SliderPanel slider;
 		private Label titleLabel;
-		private Label minLabel;
-		private Label maxLabel;
 		public AngleArcSizePanel() {
 			model = new AngleArcSizeModel(this);
 			setModel(model);
@@ -1166,23 +1150,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			titleLabel = new Label();
 			mainPanel.add(titleLabel);
 
-			FlowPanel flow = new FlowPanel();
-
-			minLabel = new Label("10");
-			flow.setStyleName("optionsSlider");
-			flow.add(minLabel);
-
-			slider = new Slider(10, 100);
+			slider = new SliderPanel(10, 100);
 			slider.setMajorTickSpacing(10);
 			slider.setMinorTickSpacing(5);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
 			//			slider.setSnapToTicks(true);
-			flow.add(slider);
-
-			maxLabel = new Label("100");
-			flow.add(maxLabel);
-			mainPanel.add(flow);
+			mainPanel.add(slider);
 
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
@@ -1206,10 +1180,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private class SlopeTriangleSizePanel extends OptionPanel implements ISliderListener {
 		private SlopeTriangleSizeModel model;
-		private Slider slider;
+		private SliderPanel slider;
 		private Label titleLabel;
-		private Label minLabel;
-		private Label maxLabel;
 		public SlopeTriangleSizePanel() {
 			model = new SlopeTriangleSizeModel(this);
 			setModel(model);
@@ -1218,23 +1190,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			titleLabel = new Label();
 			mainPanel.add(titleLabel);
 
-			FlowPanel flow = new FlowPanel();
-
-			minLabel = new Label("1");
-			flow.add(minLabel);
-			flow.setStyleName("optionsSlider");
-
-			slider = new Slider(1, 10);
+			slider = new SliderPanel(1, 10);
 			slider.setMajorTickSpacing(1);
 			slider.setMinorTickSpacing(2);
 			slider.setPaintTicks(true);
 			slider.setPaintLabels(true);
 			//			slider.setSnapToTicks(true);
-			flow.add(slider);
-
-			maxLabel = new Label("10");
-			flow.add(maxLabel);
-			mainPanel.add(flow);
+			mainPanel.add(slider);
 
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
@@ -2235,16 +2197,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	}
 	
-	private class FillingPanel extends OptionPanel implements IFillingListener {
+	class FillingPanel extends OptionPanel implements IFillingListener {
 		private FillingModel model;
-		private SliderPanel fillingSlider;
+		private SliderPanel opacitySlider;
 		private SliderPanel angleSlider;
 		private SliderPanel distanceSlider;
 		private Label fillingSliderTitle;
 		private Label angleSliderTitle;
 		private Label distanceSliderTitle;
 		
-		private FlowPanel transparencyPanel, hatchFillPanel, imagePanel,
+		private FlowPanel opacityPanel, hatchFillPanel, imagePanel,
 				anglePanel, distancePanel;
 		private Label lblFillType;
 		private Label lblSelectedSymbol;
@@ -2264,6 +2226,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label fillTypeTitle;
 		private boolean hasGeoButton;
 		private Label fillingMin;
+		private FlowPanel btnPanel;
 		
 
 		public FillingPanel() {
@@ -2305,11 +2268,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol = new Label();
 
-			fillingSlider = new SliderPanel(0, 100);
-			fillingSlider.setMajorTickSpacing(25);
-			fillingSlider.setMinorTickSpacing(5);
-			fillingSlider.setPaintTicks(true);
-			fillingSlider.setPaintLabels(true);
+			opacitySlider = new SliderPanel(0, 100);
+			opacitySlider.setMajorTickSpacing(25);
+			opacitySlider.setMinorTickSpacing(5);
+			opacitySlider.setPaintTicks(true);
+			opacitySlider.setPaintLabels(true);
 
 			angleSlider = new SliderPanel(0, 180);
 			angleSlider.setMajorTickSpacing(45);
@@ -2331,10 +2294,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			symbolPanel.add(lblSelectedSymbol);
 			panel.add(symbolPanel);
 			// panels to hold sliders
-			transparencyPanel = new FlowPanel();
+			opacityPanel = new FlowPanel();
 			fillingSliderTitle = new Label();
-			transparencyPanel.add(fillingSliderTitle);
-			transparencyPanel.add(fillingSlider);
+			opacityPanel.add(fillingSliderTitle);
+			opacityPanel.add(opacitySlider);
 
 			anglePanel = new FlowPanel();
 			angleSliderTitle = new Label();
@@ -2360,17 +2323,17 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// put all the sub panels together
 
 			mainWidget.add(panel);
-			mainWidget.add(transparencyPanel);
+			mainWidget.add(opacityPanel);
 			mainWidget.add(hatchFillPanel);
 			mainWidget.add(imagePanel);
 
 			mainWidget.add(symbolPanel);
 			setWidget(mainWidget);
 	
-			fillingSlider.addChangeHandler(new ChangeHandler(){
+			opacitySlider.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
-					model.applyFillingValue(fillingSlider.getValue());
+					model.applyOpacity(opacitySlider.getValue());
                 }});
 		
 			ChangeHandler angleAndDistanceHandler = new ChangeHandler(){
@@ -2389,59 +2352,149 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		private void createImagePanel() {
 	        imagePanel = new FlowPanel();
-//			imgFileNameList = new ArrayList<String>();
-//			String imagePath = "/geogebra/gui/images/";
-//
-//			imgFileNameList.add(""); // for delete
-//			imgFileNameList.add(imagePath + "go-down.png");
-//			imgFileNameList.add(imagePath + "go-up.png");
-//			imgFileNameList.add(imagePath + "go-previous.png");
-//			imgFileNameList.add(imagePath + "go-next.png");
-//			imgFileNameList.add(imagePath + "nav_fastforward.png");
-//			imgFileNameList.add(imagePath + "nav_rewind.png");
-//			imgFileNameList.add(imagePath + "nav_skipback.png");
-//			imgFileNameList.add(imagePath + "nav_skipforward.png");
-//			imgFileNameList.add("/geogebra/main/nav_play.png");
-//			imgFileNameList.add("/geogebra/main/nav_pause.png");
-//
-//			imgFileNameList.add(imagePath + "exit.png");
-//
-//			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
-//			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
-//			for (int i = 1; i < iconArray.length; i++) {
-//				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
-//						imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
-//			}
+	        btnPanel = new FlowPanel();
+			imgFileNameList = new ArrayList<String>();
+			String imagePath = "/geogebra/gui/images/";
+
+			imgFileNameList.add(""); // for delete
+			imgFileNameList.add(AppResources.INSTANCE.go_down().getSafeUri().asString());
+			imgFileNameList.add(AppResources.INSTANCE.go_up().getSafeUri().asString());
+			imgFileNameList.add(imagePath + "go-previous.png");
+			imgFileNameList.add(imagePath + "go-next.png");
+			imgFileNameList.add(imagePath + "nav_fastforward.png");
+			imgFileNameList.add(imagePath + "nav_rewind.png");
+			imgFileNameList.add(imagePath + "nav_skipback.png");
+			imgFileNameList.add(imagePath + "nav_skipforward.png");
+			imgFileNameList.add("/geogebra/main/nav_play.png");
+			imgFileNameList.add("/geogebra/main/nav_pause.png");
+
+			imgFileNameList.add(imagePath + "exit.png");
+
+			ImageData[] iconArray = new ImageData[imgFileNameList.size()];
+			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
+			for (int i = 1; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
+						imgFileNameList.get(i), 1.0f, new GDimensionW(32, 32));
+			}
 //			// ============================================
 //
 //			// panel for button to open external file
 //
-//			btnImage = new PopupMenuButton(getAppW(), iconArray, -1, 4,
-//					new Dimension(32, 32),
-//					geogebra.common.gui.util.SelectionTable.MODE_ICON);
-//			btnImage.setSelectedIndex(1);
-//			btnImage.setStandardButton(true);
-//			btnImage.setKeepVisible(false);
-//			btnImage.addActionListener(this);
-//
-//			btnOpenFile = new JButton();
-//			btnOpenFile.addActionListener(this);
-//
-//			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//			btnPanel.add(btnImage);
-//			btnPanel.add(btnOpenFile);
-//
-//			// =====================================
-//			// put all sub panels together
-//
-//			imagePanel = new JPanel(new BorderLayout());
-//			imagePanel.add(btnPanel, BorderLayout.CENTER);
-//			return imagePanel;
+			btnImage = new PopupMenuButton(getAppW(), iconArray, -1, 4,
+					new GDimensionW(32, 32),
+					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+				@Override
+				public void handlePopupActionEvent(){
+					super.handlePopupActionEvent();
+					String fileName = null;
+					int idx = getSelectedIndex();
+					if (idx == 0) {
+						fileName = "";
+					} else {
+						fileName = imgFileNameList.get(idx);
+						
+					}
+					model.applyImage(fileName);
+					App.debug("Applying " + fileName + " at index " + idx);
+				}
+				
+			};
+			btnImage.setSelectedIndex(1);
+			btnImage.setStandardButton(true);
+			btnImage.setKeepVisible(false);
+			btnOpenFile = new Button();
+			btnOpenFile.addClickHandler(new ClickHandler(){
+				@Override
+				public void onClick(ClickEvent event) {
+					ImageFileInputDialog dialog = new ImageFileInputDialog(getAppW(), null){
+						public native void addGgbChangeHandler(Element el, AppW appl)/*-{
+							var dialog = this;
+							el.setAttribute("accept", "image/*");
+							el.onchange = function(event) {
+								var file = this.files;
+								if (files.length) {
+									var fileTypes = /^image.*$/;
+									for (var i = 0, j = files.length; i < j; ++i) {
+										if (!files[i].type.match(fileTypes)) {
+											continue;
+										}
+										$wnd.console.log("adccdccccd")
+										var fileToHandle = files[i];
+										appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::getNativeHideAndFocus()());				
+										break
+									}
+								}
+							};
+						}-*/;
+						
+						
+					};
+					dialog.addGgbChangeHandler(dialog.getInputWidget().getElement(), getAppW());
+
+				}});
+
+				
+			btnPanel.add(btnImage);
+			btnPanel.add(btnOpenFile);
+			
+			
+			imagePanel.add(btnPanel);
 
         }
+		public native boolean openFileAsImage(JavaScriptObject fileToHandle,
+		        JavaScriptObject callback) /*-{
+			var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
+			if (!fileToHandle.name.toLowerCase().match(imageRegEx))
+				return false;
 
+			var appl = this;
+			var reader = new FileReader();
+			reader.onloadend = function(ev) {
+				if (reader.readyState === reader.DONE) {
+					var fileData = reader.result;
+					var fileName = fileToHandle.name;
+					$wnd.console.log(fileData, fileName);
+					appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
+					if (callback != null){
+						callback();
+					}
+				}
+			};
+			reader.readAsDataURL(fileToHandle);
+			return true;
+		}-*/;
+
+
+
+		public void applyImage(String fileName, String fileData) {
+			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+			String zip_directory = md5e.encrypt(fileData);
+
+			String fn = fileName;
+			int index = fileName.lastIndexOf('/');
+			if (index != -1) {
+				fn = fn.substring(index + 1, fn.length()); // filename without
+			}
+			// path
+			fn = geogebra.common.util.Util.processFilename(fn);
+
+			// filename will be of form
+			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+			fileName = zip_directory + '/' + fn;
+
+			Construction cons = getAppW().getKernel().getConstruction();
+			getAppW().getImageManager().addExternalImage(fileName,
+			        fileName);
+			GeoImage geoImage = new GeoImage(cons);
+			getAppW().getImageManager().triggerSingleImageLoading(
+			        fileName, geoImage);
+			model.applyImage(fileName);
+			App.debug("Applying " + fileName + " from dialog");
+			
+		}
+		
 		public void setStandardFillType() {
-			transparencyPanel.setVisible(false);
+			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(false);
 			imagePanel.setVisible(false);
 			lblSymbols.setVisible(false);
@@ -2451,7 +2504,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void setHatchFillType() {
 			distanceSlider.setMinimum(5);
-			transparencyPanel.setVisible(false);
+			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
 			imagePanel.setVisible(false);
 			anglePanel.setVisible(true);
@@ -2464,7 +2517,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void setCrossHatchedFillType() {
 			distanceSlider.setMinimum(5);
-			transparencyPanel.setVisible(false);
+			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
 			imagePanel.setVisible(false);
 			anglePanel.setVisible(true);
@@ -2479,7 +2532,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void setBrickFillType() {
 			distanceSlider.setMinimum(5);
-			transparencyPanel.setVisible(false);
+			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
 			imagePanel.setVisible(false);
 			anglePanel.setVisible(true);
@@ -2492,7 +2545,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void setSymbolFillType() {
 			distanceSlider.setMinimum(10);
-			transparencyPanel.setVisible(false);
+			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
 			imagePanel.setVisible(false);
 			// for dotted angle is useless
@@ -2504,7 +2557,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void setDottedFillType() {
 			distanceSlider.setMinimum(5);
-			transparencyPanel.setVisible(false);
+			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(true);
 			imagePanel.setVisible(false);
 			// for dotted angle is useless
@@ -2515,7 +2568,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setImageFillType() {
-			transparencyPanel.setVisible(true);
+			opacityPanel.setVisible(true);
 			hatchFillPanel.setVisible(false);
 			imagePanel.setVisible(true);
 			lblSymbols.setVisible(false);
@@ -2525,7 +2578,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			// for GeoButtons only show the image file button
 			if (hasGeoButton) {
-				transparencyPanel.setVisible(false);
+				opacityPanel.setVisible(false);
 				lblFillType.setVisible(false);
 				lbFillType.setVisible(false);
 				this.btnImage.setVisible(true);
@@ -2592,8 +2645,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			fillingSliderTitle.setText(localize("Opacity"));
 			angleSliderTitle.setText(localize("Angle"));
 			distanceSliderTitle.setText(localize("Spacing"));
-		//	imagePanel.setBorder(BorderFactory.createTitledBorder(app
-		//			.getMenu("Images")));
+			btnOpenFile.setText(localize("ChooseFromFile") + "...");
 
 		}
 
@@ -2629,7 +2681,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setFillValue(int value) {
-			fillingSlider.setValue(value);
+			opacitySlider.setValue(value);
 		}
 
 		public void setAngleValue(int value) {
@@ -2653,7 +2705,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public float getFillingValue() {
-			return fillingSlider.getValue();
+			return opacitySlider.getValue();
 		}
 
 		public FillType getSelectedFillType() {
@@ -2941,6 +2993,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	public void selectTab(int index) {
 		tabPanel.selectTab(index);	    
+	}
+	
+	public void openFileAsImage(String fileName) {
+		App.debug(fileName);
+	
 	}
 
 }

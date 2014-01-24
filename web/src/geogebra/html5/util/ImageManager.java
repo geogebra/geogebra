@@ -51,6 +51,7 @@ public class ImageManager extends AbstractImageManager {
 
 	public void addExternalImage(String fileName, String src) {
 	   if (fileName != null && src != null) {
+		   App.debug("addExternalImage(" + fileName + "," + src + ")") ;
 		   String fn = StringUtil.removeLeadingSlash(fileName);
 		   ImageElement img = Document.get().createImageElement();
 		   externalImageSrcs.put(fn, src);

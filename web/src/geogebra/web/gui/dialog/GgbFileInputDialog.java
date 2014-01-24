@@ -16,7 +16,7 @@ public class GgbFileInputDialog extends FileInputDialog{
 		super.createGUI();
 //		inputWidget.getElement().setPropertyString("accept", "application/zip");
 //		inputWidget.getElement().setPropertyString("accept", "application/octet-stream");
-		addGgbChangeHandler(inputWidget.getElement(), app);
+		addGgbChangeHandler(getInputWidget().getElement(), app);
 	}
 	
 	public native void addGgbChangeHandler(Element el, AppW appl) /*-{
