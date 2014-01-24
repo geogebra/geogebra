@@ -28,7 +28,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
-import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -604,9 +603,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		this.points = points;
 	}
 	
-	private AlgoVertexPolygon algoVertex;
-	
-	private GeoPointND[] algoVertexPoints;
 
 	/**
 	 * Returns the points of this polygon as GeoPointNDs. Note that this array
@@ -614,25 +610,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * 
 	 * @return points of this polygon
 	 */
-	final public GeoPointND[] getPointsND() {
-
-		if (points == null){
-			if (algoVertex == null){
-				algoVertex = getKernel().getAlgoDispatcher().newAlgoVertexPolygon(cons, null, this);			
-			}
-
-			if (algoVertexPoints == null || algoVertexPoints.length != algoVertex.getVertex().length){
-				GeoElement[] output = algoVertex.getVertex();
-				algoVertexPoints = new GeoPointND[output.length];
-				for (int i = 0 ; i < output.length ; i++){
-					algoVertexPoints[i] = (GeoPointND) output[i];
-				}
-			}
-			
-			return algoVertexPoints;
-			
-		}
-	
+	public GeoPointND[] getPointsND() {
 
 		return points;
 	}

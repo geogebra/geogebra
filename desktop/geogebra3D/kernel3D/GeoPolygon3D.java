@@ -8,6 +8,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -923,8 +924,47 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 		}
 		return false;
 	}	
+	
+	
+	
+	
+	
+	private AlgoVertexPolygon algoVertex;
+	
+	private GeoPointND[] algoVertexPoints;
+
+
+	@Override
+	final public GeoPointND[] getPointsND() {
+		
+		 GeoPointND[] ret = super.getPointsND();
+
+		if (ret == null){
+			if (algoVertex == null){
+				algoVertex = getKernel().getAlgoDispatcher().newAlgoVertexPolygon(cons, null, this);			
+			}
+
+			if (algoVertexPoints == null || algoVertexPoints.length != algoVertex.getVertex().length){
+				GeoElement[] output = algoVertex.getVertex();
+				algoVertexPoints = new GeoPointND[output.length];
+				for (int i = 0 ; i < output.length ; i++){
+					algoVertexPoints[i] = (GeoPointND) output[i];
+				}
+			}
+			
+			return algoVertexPoints;
+			
+		}
+	
+
+		return ret;
+	}
 
 	
+	
+
+	
+	@Override
 	public void calcArea() {
 		super.calcArea();
 		
