@@ -28,6 +28,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
+import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -612,7 +613,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	final public GeoPointND[] getPointsND() {
 		/*
 		if (points == null){
-			//AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, null, this);
+			AlgoVertexPolygon algo = getKernel().getAlgoDispatcher().newAlgoVertexPolygon(cons, null, this);
 		}
 		*/
 		return points;
