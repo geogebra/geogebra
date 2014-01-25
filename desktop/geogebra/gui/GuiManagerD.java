@@ -3137,8 +3137,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				app.getMenu("Cancel") };
 		int returnVal = JOptionPane.showOptionDialog(comp,
 				loc.getPlain("CreateSlidersForA", s),
-				loc.getPlain("CreateSliders"), JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
+				loc.getPlain("CreateSliders"), JOptionPane.OK_OPTION,
+				JOptionPane.PLAIN_MESSAGE,
 
 				((AppD) app).getModeIcon(EuclidianConstants.MODE_SLIDER), options, options[0]);
 		
