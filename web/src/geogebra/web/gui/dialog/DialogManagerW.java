@@ -152,7 +152,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
-		InputDialogW id = new InputDialogW((AppW) app, app.getPlain("NewNameForA") + geo.getNameDescription(),
+		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
 				app.getPlain("Rename"), initText, false, handler, false, selectInitText, null);
 
 		id.setVisible(true);
