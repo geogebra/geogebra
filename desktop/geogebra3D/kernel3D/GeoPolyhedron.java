@@ -1010,6 +1010,7 @@ HasHeight
 			// global
 			type = polyhedron.type;
 			setVolume(polyhedron.getVolume());
+			setArea(polyhedron.getArea());
 			setOrientedHeight(polyhedron.getOrientedHeight());
 
 			lastFaceIndex = polyhedron.lastFaceIndex;
@@ -1468,8 +1469,11 @@ HasHeight
 			p.dilate(rval,S);
 		}	
 
-		double r = Math.abs(rval.getDouble());		
-		volume *= r*r*r;
+		double r = rval.getDouble();
+		double rAbs = Math.abs(r);		
+		volume *= rAbs*rAbs*rAbs;
+		area *= rAbs*rAbs;
+		orientedHeight *= r;
 
 	}
 
