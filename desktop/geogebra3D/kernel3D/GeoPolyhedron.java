@@ -779,6 +779,8 @@ HasHeight
 			polygon.setReverseNormal();
 		}
 		
+		setReverseNormalsForDrawing(true);
+		
 	}
 
 	@Override

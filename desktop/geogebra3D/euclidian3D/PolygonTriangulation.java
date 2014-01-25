@@ -754,7 +754,7 @@ public class PolygonTriangulation {
 		debug(point1.name+"("+(point1.orientationToNext*180/Math.PI)+"°)");
 		debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°)");
 		debug("delta : "+(delta*180/Math.PI)+"°)");
-		debug("increase : "+positive);
+		debug("positive : "+positive);
 		boolean convex = true;
 		point1 = point2;
 		point2 = point1.next;
@@ -772,7 +772,7 @@ public class PolygonTriangulation {
 		}
 		
 		if(convex){
-			if (!positive){
+			if (positive){
 				return Convexity.ANTI_CLOCKWISE;
 			}
 			

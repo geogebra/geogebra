@@ -201,6 +201,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		// surface
 		int index = renderer.startPolygons();
 		Coords n = polygon.getMainDirection();
+		//App.debug(polygon+"\n"+n);
+		if (polygon.getReverseNormalForDrawing()){
+			n = n.mul(-1);
+		}
 		
 		
 		PolygonTriangulation pt = new PolygonTriangulation(polygon);
