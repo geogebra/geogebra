@@ -352,7 +352,16 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		return name;
 	}
 	
+	@Override
+	final protected boolean isFirstInputPointVisible(){
+		return true;
+	}
 	
+
+	@Override
+	final protected boolean isFirstInputPointLabelVisible(){
+		return true;
+	}
 	
 	
 }

@@ -537,7 +537,17 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		return height;
 	}
     
+	@Override
+	final protected boolean isFirstInputPointVisible(){
+		GeoElement point = (GeoElement) getBottomPoints()[0];
+		return point.isEuclidianVisible() && point.isLabelSet();
+	}
+	
 
+	@Override
+	final protected boolean isFirstInputPointLabelVisible(){
+		return ((GeoElement) getBottomPoints()[0]).getLabelVisible();
+	}
 
 	
 }

@@ -68,8 +68,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 						labelVisible = labelVisible || outputPoints.getElement(i).getLabelVisible();
 					}
 				}else{ // no element yet
-					visible = true;
-					labelVisible = true;
+					visible = isFirstInputPointVisible();
+					labelVisible = isFirstInputPointLabelVisible();
 				}
 
 				p.setEuclidianVisible(visible);
@@ -93,6 +93,17 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 		
 	}
 	
+	/**
+	 * 
+	 * @return true if no input point or if first input point is visible
+	 */
+	abstract protected boolean isFirstInputPointVisible();
+	
+	/**
+	 * 
+	 * @return true if no input point or if first input point has label visible
+	 */
+	abstract protected boolean isFirstInputPointLabelVisible();
 	
 	private boolean isOldFileVersion;
 	
