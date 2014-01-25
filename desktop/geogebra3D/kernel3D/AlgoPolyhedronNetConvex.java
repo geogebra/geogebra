@@ -198,7 +198,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 					//search if thisSegment is selected by the user as a cut
 					if (userCutSegments != null){
 						for (GeoSegmentND pSeg : userCutSegments) {
-							if (((GeoSegment3D) pSeg).isEqual((GeoSegment3D) thisSegment)){
+							if (pSeg.isEqual(thisSegment)){
 								newSegParent.userCut = true;
 								App.debug("Cut found -----");
 							}

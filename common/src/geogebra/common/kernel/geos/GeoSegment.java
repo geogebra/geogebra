@@ -263,6 +263,13 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 				|| (startPoint.isEqual(s.endPoint) && endPoint.isEqual(s.startPoint)));
 	}
 
+	final public boolean isEqual(GeoSegmentND geo) {
+		
+		return (((startPoint).isEqualPointND(geo.getStartPoint()) && (endPoint).isEqualPointND(geo.getEndPoint()))
+				||((startPoint).isEqualPointND(geo.getEndPoint()) && (endPoint).isEqualPointND(geo.getStartPoint())));
+	}
+
+	
 	/**
 	 * Computes if two segments are generically equal in length.
 	 * TODO: This is just a prototype. We need a shorter version

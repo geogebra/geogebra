@@ -58,6 +58,9 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 	 * @param Q new second point
 	 */
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q);
+
+
+	public boolean isEqual(GeoSegmentND thisSegment);
 	
 	
 

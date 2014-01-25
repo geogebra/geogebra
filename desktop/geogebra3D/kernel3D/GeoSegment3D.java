@@ -112,7 +112,13 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return (((startPoint).isEqualPointND(s.startPoint) && (endPoint).isEqualPointND(s.endPoint))
 				||(( startPoint).isEqualPointND(s.endPoint) && ( endPoint).isEqualPointND(s.startPoint)));
 	}
-
+	
+	
+	final public boolean isEqual(GeoSegmentND geo) {
+		
+		return (((startPoint).isEqualPointND(geo.getStartPoint()) && (endPoint).isEqualPointND(geo.getEndPoint()))
+				||((startPoint).isEqualPointND(geo.getEndPoint()) && (endPoint).isEqualPointND(geo.getStartPoint())));
+	}
 
 
 
