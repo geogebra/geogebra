@@ -29,10 +29,10 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
@@ -78,8 +78,8 @@ public class Relation {
 			return relation((GeoPoint) a, (GeoPoint) b);
 		else if (a instanceof GeoVector && b instanceof GeoVector)
 			return relation((GeoVector) a, (GeoVector) b);
-		else if (a instanceof GeoSegment && b instanceof GeoSegment)
-			return relation((GeoSegment) a, (GeoSegment) b);
+		else if (a instanceof GeoSegmentND && b instanceof GeoSegmentND)
+			return relation((GeoSegmentND) a, (GeoSegmentND) b);
 		else if (a instanceof GeoLine && b instanceof GeoLine)
 			return relation((GeoLine) a, (GeoLine) b);
 		else if (a instanceof GeoConicPart && b instanceof GeoConicPart)
@@ -137,9 +137,9 @@ public class Relation {
 	 * description of the relation between segment a and segment b (equal,
 	 * unequal)
 	 */
-	final private String relation(GeoSegment a, GeoSegment b) {
+	final private String relation(GeoSegmentND a, GeoSegmentND b) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(equalityStringNumerical(a, b, a.isEqual(b)));
+		sb.append(equalityStringNumerical((GeoElement) a, (GeoElement) b, a.isEqual(b)));
 		sb.append("\n");
 		// sb.append(getPlain("Length"));
 		// sb.append(": ");
@@ -147,10 +147,10 @@ public class Relation {
 		if (Kernel.isEqual(((NumberValue) a).getDouble(),
 				((NumberValue) b).getDouble()))
 			sb.append(getPlainNumerical("AhasTheSameLengthAsB",
-					a.getNameDescription(), b.getNameDescription()));
+					((GeoElement) a).getNameDescription(), ((GeoElement) b).getNameDescription()));
 		else
 			sb.append(getPlainNumerical("AdoesNothaveTheSameLengthAsB",
-					a.getNameDescription(), b.getNameDescription()));
+					((GeoElement) a).getNameDescription(), ((GeoElement) b).getNameDescription()));
 		return sb.toString();
 	}
 
