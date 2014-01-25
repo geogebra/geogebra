@@ -929,7 +929,7 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 
 		if (ret == null){
 			if (algoVertex == null){
-				algoVertex = getKernel().getAlgoDispatcher().newAlgoVertexPolygon(cons, null, this);			
+				algoVertex = new AlgoVertexPolygon3D(getConstruction(), this);			
 			}
 
 			if (algoVertexPoints == null || algoVertexPoints.length != algoVertex.getVertex().length){

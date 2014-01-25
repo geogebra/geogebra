@@ -90,7 +90,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param cons construction
 	 * @param p polygon or polyline
 	 */
-	AlgoVertexPolygon(Construction cons, GeoPoly p) {
+	protected AlgoVertexPolygon(Construction cons, GeoPoly p) {
 		super(cons);
 		this.p = p;
 		outputPoints=createOutputPoints();

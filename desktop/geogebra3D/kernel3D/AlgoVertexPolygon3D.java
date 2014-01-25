@@ -19,6 +19,11 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 		super(cons, labels, p);
 	}
 	
+	public AlgoVertexPolygon3D(Construction cons, GeoPoly p) {
+		super(cons, p);
+	}
+
+	
 	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p,
 			NumberValue v) {
 		super(cons,label,p,v);
