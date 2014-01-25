@@ -1519,7 +1519,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @return if this is a part of a closed surface
 	 */
 	public boolean isPartOfClosedSurface() {
-		return (getMetasLength() > 0);
+		return false;
+		//return (getMetasLength() > 0);
 	}
 
 
