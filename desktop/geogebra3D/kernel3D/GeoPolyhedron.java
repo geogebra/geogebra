@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -1272,7 +1273,28 @@ HasHeight
 	}
 
 
+	/**
+	 * Note : recalc area when from pyramid/prism algo
+	 * @return area
+	 */
 	public double getArea() {
+		
+		// if parent algo is prism/pyramid, update area from faces
+		AlgoElement algo = getParentAlgorithm();
+		if (algo != null && algo instanceof AlgoPolyhedronPoints){ 
+			area = 0;
+
+			for (GeoPolygon p:polygonsLinked){
+				area += p.getArea();
+			}
+			for (GeoPolygon p:polygons.values()){
+				if (p.isDefined()){
+					area += p.getArea();
+				}
+			}
+		}
+		
+		
 		return area;
 	}
 
@@ -1281,19 +1303,6 @@ HasHeight
 		return isDefined();
 	}
 
-	public void updateArea() {
-		if ((type==TYPE_PYRAMID)||(type==TYPE_PRISM)){
-			
-			area = 0;
-
-			for (GeoPolygon p:polygonsLinked){
-				area += p.getArea();
-			}
-			for (GeoPolygon p:polygons.values()){
-				area += p.getArea();
-			}
-		}
-	}
 
 	//////////////////
 	// TRACE

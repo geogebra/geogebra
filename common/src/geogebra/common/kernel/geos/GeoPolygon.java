@@ -660,7 +660,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * Calculates this polygon's area . This method should only be called by its
 	 * parent algorithm of type AlgoPolygon
 	 */
-	public void calcArea() {
+	final public void calcArea() {
 		area = calcAreaWithSign(getPoints());
 		defined = !(Double.isNaN(area) || Double.isInfinite(area));
 	}

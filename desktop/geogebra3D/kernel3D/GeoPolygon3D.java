@@ -952,15 +952,5 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 	
 
 	
-	@Override
-	public void calcArea() {
-		super.calcArea();
-		
-		if (getMetasLength()==0) return;
-		
-		for (GeoElement p:getMetas()){
-			((GeoPolyhedron)p).updateArea();
-		}
-	}
 
 }
