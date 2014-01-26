@@ -758,6 +758,9 @@ public class PolygonTriangulation {
 		boolean convex = true;
 		point1 = point2;
 		point2 = point1.next;
+		int pointLengthMinus2 = -1;
+		double deltaSum = delta;
+		
 		while (point1 != firstPoint && convex){
 			delta = point1.orientationToNext + Math.PI - point2.orientationToNext;
 			if (delta < -Math.PI){
@@ -769,7 +772,13 @@ public class PolygonTriangulation {
 			debug(point2.name+"("+(point2.orientationToNext*180/Math.PI)+"°) -- "+"("+(delta*180/Math.PI)+"°) -- "+convex);
 			point1 = point2;
 			point2 = point1.next;
+			pointLengthMinus2 ++;
+			deltaSum += delta;
 		}
+		
+		// check if (angle sum) == (n-2)*pi
+		debug((deltaSum*180/Math.PI)+" , "+(pointLengthMinus2-2)*180);		
+		convex = convex && Kernel.isEqual(Math.abs(deltaSum), pointLengthMinus2*Math.PI);
 		
 		if(convex){
 			if (positive){
