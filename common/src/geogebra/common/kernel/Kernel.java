@@ -4477,11 +4477,11 @@ public class Kernel {
 	}
 
 	public boolean useCASforDerivatives() {
-		return true;
+		return !app.isScreenshotGenerator();
 	}
 	
 	public boolean useCASforIntegrals() {
-		return true;
+		return !app.isScreenshotGenerator();
 	}
 
 	public void notifyBatchUpdate() {

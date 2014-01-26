@@ -120,6 +120,9 @@ public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInte
 			}
 		}
 		
+		if(kernel.getApplication().isScreenshotGenerator()){
+			return;
+		}
 		if (inputDefined) {
 			// compute output of CAS cell and update twin GeoElement
 			casCell.computeOutput();

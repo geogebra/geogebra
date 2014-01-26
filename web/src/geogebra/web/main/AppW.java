@@ -1749,4 +1749,8 @@ public abstract class AppW extends AppWeb {
 	public void loseFocus() {
 		nativeLoseFocus(articleElement);
 	}
+	@Override
+	public boolean isScreenshotGenerator(){
+		return this.articleElement.getDataParamScreenshotGenerator();
+	}
 }

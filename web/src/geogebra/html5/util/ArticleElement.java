@@ -421,6 +421,10 @@ public final class ArticleElement extends Element {
 	public boolean getDataParamApp() {
 		return "true".equals(this.getAttribute("data-param-app")); 
     }
+	
+	public boolean getDataParamScreenshotGenerator() {
+		return "true".equals(this.getAttribute("data-param-screenshotGenerator")); 
+    }
 
 	
 	

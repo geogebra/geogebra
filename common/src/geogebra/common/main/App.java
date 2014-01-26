@@ -3453,5 +3453,14 @@ public abstract class App implements UpdateSelection{
 	public void loseFocus() {
 			App.debug("Should lose focus on Web applets, ipmelment (override) only where appropriate");
 	}
+	
+	/**
+	 * Whether the app is running just to create a screenshot, 
+	 * some recomputations can be avoided in such case
+	 * @return false by defaul, overridden in AppW
+	 */
+	public boolean isScreenshotGenerator(){
+		return false;
+	}
 
 }

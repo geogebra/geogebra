@@ -44,7 +44,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		//try NaCl first
 		if (geogebra.html5.cas.giac.PNaCl.isEnabled()) {
 			geogebra.html5.cas.giac.PNaCl.get().initialize();;
-		} else if(Browser.isFloat64supported()){
+		} else if(Browser.isFloat64supported() && !kernel.getApplication().isScreenshotGenerator()){
 			initialize();
 		}
 	}
