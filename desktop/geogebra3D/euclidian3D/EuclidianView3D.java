@@ -3985,6 +3985,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	@Override
 	public BufferedImage getExportImage(double scale) {
+		getRenderer().needExportImage();
+
 		return getRenderer().getExportImage();
 	}
 

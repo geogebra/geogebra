@@ -5055,4 +5055,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	public CommandDispatcher getCommandDispatcher(Kernel kernel2) {
 		return new CommandDispatcher(kernel2){};
 	}
+
+	/**
+	 * only for 3D so thumbnail can be generated. Overridden in App3D
+	 */
+	public void uploadToGeoGebraTubeOnCallback() {
+
+		uploadToGeoGebraTube();
+	}
 }

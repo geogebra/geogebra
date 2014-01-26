@@ -171,7 +171,6 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 	 */
 	public void display(){
 	
-		App.debug("RRR");
 		canvas.display();
 	}		
 	
@@ -440,6 +439,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 			break;
 			
         case CLIPBOARD:
+			exportType = ExportType.NONE;
         	App.debug("Exporting to clipboard");
         	
         	setExportImage();
@@ -453,7 +453,22 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 						.setContents(imgSel, null);
 			}
 			
+      	
+        	break;
+        case UPLOAD_TO_GEOGEBRATUBE:
 			exportType = ExportType.NONE;
+        	App.debug("Uploading to GeoGebraTube");
+        	
+        	setExportImage();
+        	
+			if (bi == null) {
+				App.error("image null");
+			} else {
+				
+				view3D.getApplication().uploadToGeoGebraTube();
+				
+			}
+			
       	
         	break;
 
@@ -772,6 +787,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
      * @return a BufferedImage containing last export image created
      */
     public BufferedImage getExportImage(){
+    	App.debug("thumbnail");
     	return bi;
     }   
     
@@ -1657,7 +1673,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 
     }
     
-    enum ExportType { NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD };
+    enum ExportType { NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE };
     
     protected double obliqueX;
 	protected double obliqueY;
@@ -1748,6 +1764,11 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 
 	public void exportToClipboard() {
 		exportType = ExportType.CLIPBOARD;
+		
+	}
+
+	public void uploadToGeoGebraTube() {
+		exportType = ExportType.UPLOAD_TO_GEOGEBRATUBE;
 		
 	}
 

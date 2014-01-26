@@ -533,11 +533,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 								app.getSelectionManager().clearSelectedGeos(true,false);
 								app.updateSelection(false);
 								
-								// create new exporter
-								geogebra.export.GeoGebraTubeExportDesktop exporter
-									= new geogebra.export.GeoGebraTubeExportDesktop(app);
-								
-								exporter.uploadWorksheet(null);
+								// callback for 3D
+								app.uploadToGeoGebraTubeOnCallback();
 								
 							} catch (Exception e1) {
 								App.debug("Uploading failed");

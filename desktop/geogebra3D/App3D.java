@@ -524,7 +524,7 @@ public class App3D extends AppD {
 	
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
-
+		
 		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
 				maxY / getEuclidianView1().getSelectedHeight());
 		
@@ -536,6 +536,23 @@ public class App3D extends AppD {
 
 		return getActiveEuclidianView().getExportImage(scale);
 	}
+	
+	/**
+	 * only for 3D really. Overridden in App3D
+	 */
+	public void uploadToGeoGebraTubeOnCallback() {
+		
+		EuclidianView3D ev3D = getEuclidianView3D();
+		
+		if (ev3D.isShowing()) {
+			ev3D.getRenderer().uploadToGeoGebraTube();
+		} else {
+			uploadToGeoGebraTube();
+		}
+		
+		
+	}
+
 
 
 	
