@@ -539,7 +539,7 @@ public abstract class AppWeb extends App implements SetLabels{
 
 		private void maybeProcessImage(String filename, String binaryContent) {
 			String fn = filename.toLowerCase();
-			if (fn.equals("geogebra_thumbnail.png")) {
+			if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
 				return; // Ignore thumbnail
 			}
 
@@ -917,5 +917,11 @@ public abstract class AppWeb extends App implements SetLabels{
 	    }
 	    return getGuiManager().getPlotPanelView(viewID) != null;
     }
+	
+	@Override
+	public void loseFocus() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
