@@ -301,7 +301,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            vertical translation
 	 */
 	final public void translateY(double vy) {
-		try { // is there a constant number to the right
+		if(expression.getRight() instanceof MyDouble) { // is there a constant number to the right
 			MyDouble num = (MyDouble) expression.getRight();
 			if (num == fVars[0]) { // right side might be the function variable
 				addNumber(Kernel.checkDecimalFraction(vy));
@@ -338,7 +338,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			default:
 				addNumber(vy);
 			}
-		} catch (Exception e) {
+		} else {
 			addNumber(vy);
 		}
 	}
