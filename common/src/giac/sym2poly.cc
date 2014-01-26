@@ -2697,7 +2697,8 @@ namespace giac {
     return ordered_factor(e,l,with_sqrt,contextptr);
   }
 
-  static gen in_factor(const gen & e,bool with_sqrt,const gen & divide_an_by,GIAC_CONTEXT){
+  static gen in_factor(const gen & e_,bool with_sqrt,const gen & divide_an_by,GIAC_CONTEXT){
+    gen e(normalize_sqrt(e_,contextptr));
     if (e.type==_VECT){
       vecteur w;
       vecteur::const_iterator it=e._VECTptr->begin(),itend=e._VECTptr->end();

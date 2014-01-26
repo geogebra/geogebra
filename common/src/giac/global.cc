@@ -2362,10 +2362,17 @@ extern "C" void Sleep(unsigned int miliSecond);
      /* If we have a POSIX path list, convert to win32 path list */
      if (_epath != NULL && *_epath != 0
          && cygwin_posix_path_list_p (_epath)){
+#ifdef __x86_64__
+       int s = cygwin_conv_path (CCP_POSIX_TO_WIN_W , _epath, NULL, 0);
+       char * _win32path = (char *) malloc(s);
+       cygwin_conv_path(CCP_POSIX_TO_WIN_W,_epath, _win32path,s);
+       s=strlen(_win32path);
+#else
        char * _win32path = (char *) malloc
 	 (cygwin_posix_to_win32_path_list_buf_size (_epath));
        cygwin_posix_to_win32_path_list (_epath, _win32path);
        int s=strlen(_win32path);
+#endif
        res.clear();
        for (int i=0;i<s;++i){
 	 char ch=_win32path[i];
@@ -2617,9 +2624,14 @@ extern "C" void Sleep(unsigned int miliSecond);
       _epath = res.c_str()  ;
       if (_epath != NULL && *_epath != 0
 	  && cygwin_posix_path_list_p (_epath)){
-	char * _win32path = (char *) malloc
-	  (cygwin_posix_to_win32_path_list_buf_size (_epath));
+#ifdef __x86_64__
+	int s = cygwin_conv_path (CCP_POSIX_TO_WIN_W , _epath, NULL, 0);
+	char * _win32path = (char *) malloc(s);
+	cygwin_conv_path(CCP_POSIX_TO_WIN_W,_epath, _win32path,s);
+#else
+	char * _win32path = (char *) malloc (cygwin_posix_to_win32_path_list_buf_size (_epath));
 	cygwin_posix_to_win32_path_list (_epath, _win32path);
+#endif
 	res = _win32path;
 	free(_win32path);
       }

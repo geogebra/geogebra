@@ -1717,10 +1717,10 @@ namespace giac {
     for (;it!=itend;++it){
       // remove ^ if exponent does not depend on x
       if ( (it->type==_SYMB) 
-	   && (it->_SYMBptr->sommet==at_pow) 
-	   && !contains((*(it->_SYMBptr->feuille._VECTptr))[1],x)
+	   && ( (it->_SYMBptr->sommet==at_pow && !contains((*(it->_SYMBptr->feuille._VECTptr))[1],x)) ||
+		(it->_SYMBptr->sommet==at_NTHROOT && !contains((*(it->_SYMBptr->feuille._VECTptr))[0],x)) )
 	   ){
-	vecteur tmp(lvarx((*(it->_SYMBptr->feuille._VECTptr))[0],x));
+	vecteur tmp(lvarx((*(it->_SYMBptr->feuille._VECTptr))[(it->_SYMBptr->sommet==at_pow)?0:1],x));
 	const_iterateur it=tmp.begin(),itend=tmp.end();
 	for (;it!=itend;++it){
 	  if (!equalposcomp(res,*it))

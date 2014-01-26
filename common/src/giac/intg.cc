@@ -4079,12 +4079,18 @@ namespace giac {
       if (is_zero(v[2]-v[3]-1))
 	return zero;
       if (is_integral(v[2])){
-	while (is_exactly_zero(subst(v[0],v[1],v[2],false,contextptr)))
+	while (is_exactly_zero(subst(v[0],v[1],v[2],false,contextptr))){
+	  if (v[2]==v[3])
+	    return 0;
 	  v[2]+=1;
+	}
       }
       if (is_integral(v[3])){
-	while (is_exactly_zero(subst(v[0],v[1],v[3],false,contextptr)))
+	while (is_exactly_zero(subst(v[0],v[1],v[3],false,contextptr))){
+	  if (v[2]==v[3])
+	    return 0;
 	  v[3]-=1;
+	}
       }
       if (is_zero(v[2]-v[3]-1))
 	return zero;

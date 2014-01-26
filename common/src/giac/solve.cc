@@ -1314,11 +1314,29 @@ namespace giac {
     }
   }
 
-  // find the arguments of sqrt inside expression e
+  // find the arguments of fractional power inside expression e
   static vecteur lvarfracpow(const gen & e){
     vecteur l0=lvar(e),l;
     const_iterateur it=l0.begin(),itend=l0.end();
     for (;it!=itend;++it){
+      if (it->_SYMBptr->sommet==at_surd){
+	vecteur & arg=*it->_SYMBptr->feuille._VECTptr;
+	if (arg.size()==2 && arg.back().type==_INT_){
+	  l.push_back(arg[0]);
+	  l.push_back(arg[1]);
+	  l.push_back(*it);
+	}
+	continue;
+      }
+      if (it->_SYMBptr->sommet==at_NTHROOT){
+	vecteur & arg=*it->_SYMBptr->feuille._VECTptr;
+	if (arg.size()==2 && arg.front().type==_INT_){
+	  l.push_back(arg[1]);
+	  l.push_back(arg[0]);
+	  l.push_back(*it);
+	}
+	continue;
+      }
       if (it->_SYMBptr->sommet!=at_pow)
 	continue;
       vecteur & arg=*it->_SYMBptr->feuille._VECTptr;
@@ -1627,10 +1645,9 @@ namespace giac {
       }
     }
     // Checking for fractional power
-    vecteur surd1,surd2; // ggb 4089
-    surd2pow(expr,surd1,surd2,contextptr);
-    if (!surd1.empty())
-      expr=subst(expr,surd1,surd2,false,contextptr);
+    //vecteur surd1,surd2; // ggb 4089
+    //surd2pow(expr,surd1,surd2,contextptr);
+    //if (!surd1.empty()) expr=subst(expr,surd1,surd2,false,contextptr);
     // Remark: algebraic extension could also be solved using resultant
     vecteur ls(lvarfracpow(expr,x,contextptr));
     if (!ls.empty()){ // Use auxiliary variables

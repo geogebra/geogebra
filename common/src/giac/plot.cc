@@ -7736,6 +7736,20 @@ namespace giac {
     }
     // e= symb_curve or line or cercle
     gen e=remove_at_pnt(v.front());
+    if (e.is_symb_of_sommet(at_Bezier)){
+      gen f=e._SYMBptr->feuille;
+      if (f.type!=_VECT || f._VECTptr->size()<2)
+	return gensizeerr(contextptr);
+      gen t=v[1];
+      vecteur & w=*f._VECTptr;
+      int s=w.size()-1;
+      vecteur coeff=pascal_nth_line(s);
+      gen res=0;
+      for (int i=0;i<=s;++i){
+	res += coeff[i]*pow(t,i,contextptr)*pow(1-t,s-i,contextptr)*w[i];
+      }
+      return res;
+    }
     if (e.is_symb_of_sommet(at_hypersurface)){
       gen & f = e._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==3){
@@ -8018,9 +8032,12 @@ namespace giac {
     return res;
   }
 
-  vecteur remove_not_in_arc(const vecteur & v,const gen & g,GIAC_CONTEXT){
-    if (is_undef(v))
-      return v;
+  vecteur remove_not_in_arc(const vecteur & v_,const gen & g,GIAC_CONTEXT){
+    vecteur v;
+    for (unsigned i=0;i<v_.size();++i){
+      if (!is_undef(v_[i]))
+	v.push_back(v_[i]);
+    }
     if (!g.is_symb_of_sommet(at_cercle))
       return v;
     gen &f=g._SYMBptr->feuille;
@@ -14516,9 +14533,19 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(v,attributs,contextptr);
+    bool parameq=false;
+    v=vecteur(v.begin(),v.begin()+s);
+    if (v.back().type==_FUNC){
+      parameq=true;
+      v.pop_back();
+    }
     for (int i=0;i<s;++i)
       v[i]=remove_at_pnt(v[i]);
-    return pnt_attrib(symbolic(at_Bezier,gen(vecteur(v.begin(),v.begin()+s),_GROUP__VECT)),attributs,contextptr);
+    if (parameq){
+      gen peq=_parameq(gen(makevecteur(symbolic(at_Bezier,gen(v,_GROUP__VECT)),t__IDNT_e),_SEQ__VECT),contextptr);
+      return plotparam(peq,t__IDNT_e,attributs,false,-1e300,1e300,-1e300,1e300,0,1,0.01,undef,peq,contextptr);
+    }
+    return pnt_attrib(symbolic(at_Bezier,gen(v,_GROUP__VECT)),attributs,contextptr);
   }
   static const char _bezier_s []="bezier";
   static define_unary_function_eval (__bezier,&_bezier,_bezier_s);

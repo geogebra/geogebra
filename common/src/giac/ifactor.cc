@@ -3587,7 +3587,7 @@ namespace giac {
       if (k==5) k=7;
       if (k==3) k=5;
     }
-    f=pfacprem(n,false,contextptr);
+    //f=pfacprem(n,false,contextptr);
     //cout<<n<<" "<<f<<endl;
     while (n!=1) {
       g=facprem(n,contextptr);
@@ -3614,14 +3614,14 @@ namespace giac {
     return g;
   }
 
-  vecteur ifactors(const gen & n0,GIAC_CONTEXT){
+  static vecteur ifactors1(const gen & n0,GIAC_CONTEXT){
     if (is_greater(1e71,n0,contextptr))
       return giac_ifactors(n0,contextptr);
     if (n0.type==_VECT && !n0._VECTptr->empty())
       return giac_ifactors(n0._VECTptr->front(),contextptr);
 #ifdef HAVE_LIBPARI
 #ifdef __APPLE__
-    return vecteur(1,gensizeerr(gettext("Number too large for Pollard-rho and sieve. If you think EEM should work better, try pari(""factor""),")+n0.print(contextptr)+")"));
+    return vecteur(1,gensizeerr(gettext("(Mac OS) Large number, you can try pari(); pari_factor(")+n0.print(contextptr)+")"));
 #endif
     if (!is_integer(n0) || is_zero(n0))
       return vecteur(1,gensizeerr(gettext("ifactors")));
@@ -3641,6 +3641,12 @@ namespace giac {
     }
 #endif // LIBPARI
     return giac_ifactors(n0,contextptr);
+  }
+
+  vecteur ifactors(const gen & n0,GIAC_CONTEXT){
+    gen n(n0);
+    vecteur f=pfacprem(n,false,contextptr);
+    return mergevecteur(f,ifactors1(n,contextptr));
   }
 
   vecteur ifactors(const gen & r,const gen & i,const gen & ri,GIAC_CONTEXT){
