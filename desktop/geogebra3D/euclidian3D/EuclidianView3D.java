@@ -70,6 +70,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
@@ -3980,6 +3981,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public double getNumbersDistance(int axis){
 		return axisDrawable[axis].getNumbersDistance();
+	}
+
+	@Override
+	public BufferedImage getExportImage(double scale) {
+		return getRenderer().getExportImage();
 	}
 
 	

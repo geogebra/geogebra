@@ -55,6 +55,7 @@ import geogebra3D.util.ImageManager3D;
 
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -520,6 +521,22 @@ public class App3D extends AppD {
 	public void createNewWindow(){
 		GeoGebraFrame3D.createNewWindow3D(null);
 	}
+	
+	public BufferedImage getExportImage(double maxX, double maxY)
+			throws OutOfMemoryError {
+
+		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
+				maxY / getEuclidianView1().getSelectedHeight());
+		
+		EuclidianView3D ev3D = getEuclidianView3D();
+		
+		if (ev3D.isShowing()) {
+			return getEuclidianView3D().getRenderer().getExportImage();
+		}
+
+		return getActiveEuclidianView().getExportImage(scale);
+	}
+
 
 	
 }

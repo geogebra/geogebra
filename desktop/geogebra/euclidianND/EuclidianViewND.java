@@ -473,4 +473,7 @@ public abstract class EuclidianViewND extends EuclidianView{
 			styleBar.updateVisualStyle(geo);
 	}
 
+
+	public abstract BufferedImage getExportImage(double scale);
+
 }
