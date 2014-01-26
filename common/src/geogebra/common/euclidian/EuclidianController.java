@@ -3808,9 +3808,7 @@ public abstract class EuclidianController {
 				}
 			}
 		}
-		int mx = mouseLoc.x;
-		int my = mouseLoc.y;
-		
+				
 		if (selPoints() == 1) {
 			if ((selPaths() == 1) && !isAltDown()) { // press alt to force region
 													// (ie inside) not path
@@ -3829,7 +3827,7 @@ public abstract class EuclidianController {
 								.getLastHitType() == HitType.ON_FILLING))) {
 					
 					checkZooming(); 
-					boolean ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, mx, my);
+					boolean ret = getAlgoDispatcher().attach(points[0], (Region) paths[0], view, mouseLoc);
 					
 					if (ret) {
 						clearSelections();
@@ -3839,7 +3837,7 @@ public abstract class EuclidianController {
 				}
 	
 				checkZooming(); 
-				boolean ret =  getAlgoDispatcher().attach(points[0], paths[0], view, mx, my);
+				boolean ret =  getAlgoDispatcher().attach(points[0], paths[0], view, mouseLoc);
 	
 				if (ret) {
 					clearSelections();
@@ -3853,7 +3851,7 @@ public abstract class EuclidianController {
 				if (!((GeoElement) regions[0]).isChildOf((GeoElement) points[0])) {
 					
 					checkZooming(); 
-					boolean ret = getAlgoDispatcher().attach(points[0], regions[0], view, mx, my);
+					boolean ret = getAlgoDispatcher().attach(points[0], regions[0], view, mouseLoc);
 					
 					if (ret) {
 						clearSelections();

@@ -1,5 +1,6 @@
 package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -1453,7 +1454,7 @@ public class AlgoDispatcher {
 
 	}
 	
-	public boolean attach(GeoPointND p, Path path, EuclidianViewInterfaceCommon view, double mx, double my) {
+	public boolean attach(GeoPointND p, Path path, EuclidianViewInterfaceCommon view, GPoint loc) {
 		
 		GeoPoint point = (GeoPoint) p;
 	
@@ -1462,9 +1463,15 @@ public class AlgoDispatcher {
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
 			
-			GeoPoint newPoint = Point(null, path,
-					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
+			GeoPoint newPoint;
+			if(loc == null){
+				newPoint = Point(null, path, 0, 0,
+						false, false, p.getMode()!=Kernel.COORD_CARTESIAN_3D);
+			}
+			else{
+				newPoint = Point(null, path, view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y),
 					false, false, p.getMode()!=Kernel.COORD_CARTESIAN_3D);
+			}
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace(point, newPoint);
 			//clearSelections();
@@ -1475,7 +1482,7 @@ public class AlgoDispatcher {
 		}
 	}
 
-	public boolean attach(GeoPointND p, Region region, EuclidianViewInterfaceCommon view, double mx, double my) {
+	public boolean attach(GeoPointND p, Region region, EuclidianViewInterfaceCommon view, GPoint loc) {
 	
 		GeoPoint point = (GeoPoint) p;
 		
@@ -1484,9 +1491,15 @@ public class AlgoDispatcher {
 			cons.setSuppressLabelCreation(true);
 			//checkZooming(); 
 			
-			GeoPoint newPoint = PointIn(null, region,
-					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
+			GeoPoint newPoint;
+			if(loc == null){
+				newPoint = PointIn(null, region, 0, 0,
+						false, false, true);
+			}else{
+				newPoint = PointIn(null, region,
+					view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y),
 					false, false, true);
+			}
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace(point, newPoint);
 			//clearSelections();
