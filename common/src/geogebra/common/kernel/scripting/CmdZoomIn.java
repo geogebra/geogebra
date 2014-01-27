@@ -9,6 +9,7 @@ import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
+import geogebra.common.main.settings.EuclidianSettings;
 
 
 /**
@@ -82,12 +83,11 @@ public class CmdZoomIn extends CmdScripting {
 					throw argErr(app, c.getName(),arg[i]);
 				}
 			}
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			ev.setXminObject((GeoNumeric)arg[0]);
-			ev.setXmaxObject((GeoNumeric)arg[2]);
-			ev.setYminObject((GeoNumeric)arg[1]);
-			ev.setYmaxObject((GeoNumeric)arg[3]);
-			ev.updateBounds(true);
+			EuclidianSettings evs = app.getActiveEuclidianView().getSettings();
+			evs.setXminObject((GeoNumeric)arg[0],false);
+			evs.setXmaxObject((GeoNumeric)arg[2],false);
+			evs.setYminObject((GeoNumeric)arg[1],false);
+			evs.setYmaxObject((GeoNumeric)arg[3],true);
 			
 			return;
 						
