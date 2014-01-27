@@ -363,10 +363,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 				checkbox.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent ce) {
-						if (view.allowSpecialEditor()) {
-							checkbox.setValue(!geoBoolean.getBoolean());
-							geoBoolean.setValue(checkbox.getValue());
-							geoBoolean.updateCascade();
+						if (view.allowSpecialEditor() && !geoBoolean.isCheckboxFixed()) {
+							geoBoolean.setValue(!geoBoolean.getBoolean());
+							kernel.updateConstruction();
 						}
 					}
 				});
