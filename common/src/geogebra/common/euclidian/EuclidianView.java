@@ -5284,7 +5284,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return MAX_PROBLEM_BISECTIONS;
 	}
 	
+	public int getAbsoluteTop(){
+		return -1;
+	}
 	
-	
+	public int getAbsoluteLeft(){
+		return -1;
+	}
 
 }

@@ -499,6 +499,10 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::showResetIcon(Z)(show);
 		};
 		
+		$wnd[ggbApplet].getViewProperties = function(show){ 
+				return ggbAPI.@geogebra.html5.main.GgbAPI::getViewProperties(I)(show);
+		};
+		
 		
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];
