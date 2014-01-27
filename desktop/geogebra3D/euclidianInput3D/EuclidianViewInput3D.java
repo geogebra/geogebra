@@ -151,6 +151,7 @@ public class EuclidianViewInput3D extends EuclidianView3D{
 				
 		// update the view
 		updateTranslationMatrix();
+		updateUndoTranslationMatrix();
 		setGlobalMatrices();
 		
 		setViewChangedByTranslate();

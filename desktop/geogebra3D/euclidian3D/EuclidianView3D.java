@@ -802,16 +802,21 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		//translation
 		updateTranslationMatrix();
-		undoTranslationMatrix.set(1, 4, -getXZero());
-		undoTranslationMatrix.set(2, 4, -getYZero());
-		undoTranslationMatrix.set(3, 4, -getZZero());
-
+		updateUndoTranslationMatrix();
 		
 		//set global matrix and inverse, and eye position
 		setGlobalMatrices();
 		
 		
 	}
+	
+	
+	protected void updateUndoTranslationMatrix(){
+		undoTranslationMatrix.set(1, 4, -getXZero());
+		undoTranslationMatrix.set(2, 4, -getYZero());
+		undoTranslationMatrix.set(3, 4, -getZZero());
+	}
+
 	
 	private void updateEye(){
 		
