@@ -214,14 +214,14 @@ public class TouchModel {
 			} else if (path != null) // attach to path
 			{
 				this.kernel.getAlgoDispatcher().attach(point, path, view,
-						p.getX(), p.getY());
+						new GPoint(p.getX(), p.getY()));
 				this.resetSelection();
 				this.changeSelectionState(point);
 				this.commandFinished = true;
 			} else if (region != null) // attach to region
 			{
 				this.kernel.getAlgoDispatcher().attach(point, region, view,
-						p.getX(), p.getY());
+						new GPoint(p.getX(), p.getY()));
 				this.resetSelection();
 				this.changeSelectionState(point);
 				this.commandFinished = true;
