@@ -533,7 +533,7 @@ __GGB__keysVar.es_UY.command = {
     "MixedNumber": "N\xfameroMixto",
     "MixedNumber_SyntaxCAS": "[ <N\xfamero> ]",
     "Mod": "Resto",
-    "Mod_Syntax": "[ <N\xfamero (dividendo)>, <N\xfamero (divisor)> ]\n[ <Polinomio (dividendo)>, <Polinomio (divisor)> ]",
+    "Mod_Syntax": "[ <N\xfamero (dividendo)>, <N\xfamero (divisor)> ]\n[ <Polinomio dividendo>, <Polinomio divisor> ]",
     "Mode": "Moda",
     "Mode_Syntax": "[ <Lista de n\xfameros> ]",
     "NIntegral": "IntegralN",
@@ -797,11 +797,11 @@ __GGB__keysVar.es_UY.command = {
     "SetTrace": "Rastro",
     "SetTrace_Syntax": "[ <Objeto>, <Deja rastro o no (true/false)> ]",
     "SetValue": "Valor",
-    "SetValue_Syntax": "[ <Valor l\xf3gico>, <true/false (\xf3 1/0)> ]\n[ <Objeto>, <Objeto> ]\n[ <Lista>, <N\xfamero>, <Objeto> ]",
+    "SetValue_Syntax": "[ <Valor l\xf3gico>, <true/false (o 1/0)> ]\n[ <Objeto>, <Objeto> ]\n[ <Lista>, <N\xfamero>, <Objeto> ]",
     "SetViewDirection": "Direcci\xf3nVista",
     "SetViewDirection_Syntax": "[ <Direcci\xf3n> ]",
     "SetVisibleInView": "Visibilidad",
-    "SetVisibleInView_Syntax": "[ <Objeto>, <N\xfamero de Vista (1 \xf3 2)>, <Visible o no (true/false)> ]",
+    "SetVisibleInView_Syntax": "[ <Objeto>, <N\xfamero de Vista (1 o 2)>, <Visible o no (true/false)> ]",
     "Shear": "Desliza",
     "Shear_Syntax": "[ <Objeto>, <Direcci\xf3n (vector, recta, semirrecta o segmento)>, <Raz\xf3n> ]",
     "ShortestDistance": "MenorDistancia",
@@ -1023,7 +1023,7 @@ __GGB__keysVar.es_UY.command = {
  ***********************************************/
 
 __GGB__keysVar.es_UY.error = {
-    "AngleMustBeConstant": "Todo \xe1ngulo debe ser constante.",
+    "AngleMustBeConstant": "Cada \xe1ngulo debe ser constante.",
     "AppletWindowClosing": "Para salir de GeoGebra, se debe cerrar ls ventana del navegador",
     "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
     "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito",
