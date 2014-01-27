@@ -1529,7 +1529,7 @@ Paddings for menuitems.
 }
 
 .geogebraweb-popup-spreadsheet {
-	z-index: 9;
+	z-index: 11;
 }
 
 .geogebraweb-popup-spreadsheet .gwt-MenuBar {
