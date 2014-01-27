@@ -345,14 +345,10 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				final CheckBox checkbox = new CheckBox();
 				fp.add(checkbox);
 				checkbox.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
-				checkbox.getElement().getStyle().setProperty("display", "-moz-inline-box");
-				checkbox.getElement().getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 				fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
 				checkbox.setEnabled(geo.isIndependent());
 
-				// styling to overcome the selection frame
-				checkbox.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-				checkbox.getElement().getStyle().setZIndex(10);
+				checkbox.getElement().addClassName("geogebraweb-checkbox-spreadsheet");
 
 				if (geo.isLabelVisible()) {
 					// checkBox.setText(geo.getCaption());
@@ -377,24 +373,10 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			if (geo.isGeoButton()) {
 				final GeoButton gb = (GeoButton)geo;
 				final Button button = new Button();
-				button.setWidth("100%");
-				button.setHeight("100%");
-
-				// button.setBackground(table.getBackground());
 				button.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
-
-				//button.setHorizontalAlignment(CENTER);
-				button.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
-
 				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-
-				//button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
-				//		.getObjectColor()));
 				button.getElement().getStyle().setColor(geo.getObjectColor().toString());
-
-				// styling to overcome the selection frame
-				button.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-				button.getElement().getStyle().setZIndex(10);
+				button.getElement().addClassName("geogebraweb-button-spreadsheet");
 
 				button.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent ce) {
@@ -414,6 +396,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				lb.setEnabled(true);
 
 				lb.getElement().getStyle().setBackgroundColor(table.getElement().getStyle().getBackgroundColor());
+				lb.getElement().addClassName("geogebraweb-select-spreadsheet");
 
 				if (list.size() > 0) {
 					for (int i = 0; i < list.size(); i++)
@@ -421,11 +404,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 						lb.addItem(list.get(i).toValueString(StringTemplate.defaultTemplate));
 					lb.setSelectedIndex(list.getSelectedIndex());
 				}
-
-				// styling to overcome the selection frame
-				lb.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-				lb.getElement().getStyle().setZIndex(10);
-
 
 				lb.addMouseDownHandler(this);
 				lb.addMouseUpHandler(this);
@@ -439,8 +417,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				});
 
 				table.setWidget(row, column, lb);
-				lb.setWidth("100%");
-				lb.setHeight("100%");
 				return;
 			}
 		}

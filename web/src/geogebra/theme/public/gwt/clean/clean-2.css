@@ -1536,6 +1536,31 @@ Paddings for menuitems.
 	background-color: white;
 }
 
+.geogebraweb-button-spreadsheet,
+.geogebraweb-checkbox-spreadsheet,
+.geogebraweb-select-spreadsheet {
+	position: relative;
+	z-index: 10;
+}
+
+.geogebraweb-button-spreadsheet {
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.geogebraweb-checkbox-spreadsheet {
+	display: -moz-inline-box;
+	display: inline-block;
+}
+
+.geogebraweb-select-spreadsheet {
+	width: 100%;
+	height: 100%;
+}
+
 .SpreadsheetEditorCell {
 	
 }
