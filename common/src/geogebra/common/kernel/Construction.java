@@ -1347,6 +1347,8 @@ public class Construction {
 			
 			// make sure b=a+1 also updates
 			AlgoElement.updateCascadeAlgos(ae);
+			//repaint here to make sure #4114 is OK
+			kernel.notifyRepaint();
 			return;
 		}
 			
