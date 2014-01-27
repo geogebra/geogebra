@@ -1,6 +1,5 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -33,12 +32,7 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	/**
 	 * Appw app
 	 */
-	private FileMenuW fileMenu;
-	private EditMenuW editMenu;
-	private HelpMenuW helpMenu;
-	private OptionsMenuW optionsMenu;
 	private MenuItem signIn;
-	private ViewMenuW viewMenu;
 	private SignedInMenuW signedIn;
 	private MenuItem signedInMenu;
 	
@@ -84,7 +78,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		drop = addItem("\u2630", true, new Command() {
 			
 
-			public void execute() {
+			@Override
+            public void execute() {
 				if (menuPopup == null) {
 					createPopupMenu();
 				}
@@ -101,7 +96,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		//drop.getElement().getStyle().setFontSize(120, Unit.PCT);
 
 		MenuItem ggb = addItem("GeoGebra", true, new Command() {
-			public void execute() {
+			@Override
+            public void execute() {
 				// do nothing
 			}
 		});
@@ -121,7 +117,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 
 		app.getNetworkOperation().getView().add(new BooleanRenderable() {
 
-			public void render(boolean b) {
+			@Override
+            public void render(boolean b) {
 				renderNetworkOperation(b);
 			}
 		});
@@ -154,7 +151,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	private ScheduledCommand getSignOutCommand() {
 		return new ScheduledCommand() {
 
-			public void execute() {
+			@Override
+            public void execute() {
 				app.getLoginOperation().performLogOut();
 			}
 		};
@@ -171,7 +169,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	 *            network state of the app renders the online - offline network
 	 *            state
 	 */
-	void renderNetworkOperation(boolean online) {
+	@Override
+    void renderNetworkOperation(boolean online) {
 		signIn.setEnabled(online);
 		if (!online) {
 			signIn.setTitle(app.getMenu("YouAreOffline"));
@@ -184,7 +183,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 
 		return new ScheduledCommand() {
 
-			public void execute() {
+			@Override
+            public void execute() {
 				app.getGuiManager().login();
 			}
 		};
@@ -196,32 +196,6 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		} else
 			return "";
 	}-*/;
-
-	private void createFileMenu() {
-		fileMenu = new FileMenuW(app);
-		addItem(app.getMenu("File"), fileMenu);
-	}
-
-	private void createEditMenu() {
-		editMenu = new EditMenuW(app);
-		addItem(app.getMenu("Edit"), editMenu);
-	}
-
-	private void createViewMenu() {
-		viewMenu = (app.isApplet()) ? new ViewMenuW(app)
-		        : new ViewMenuApplicationW(app);
-		addItem(app.getMenu("View"), viewMenu);
-	}
-
-	private void createHelpMenu() {
-		helpMenu = new HelpMenuW(app);
-		addItem(app.getMenu("Help"), helpMenu);
-	}
-
-	private void createOptionsMenu() {
-		optionsMenu = new OptionsMenuW(app);
-		addItem(app.getMenu("Options"), optionsMenu);
-	}
 
 	private void createWindowMenu() {
 		WindowMenuW windowMenu = new WindowMenuW(app);
@@ -294,20 +268,21 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	 * Update the "Edit" menu
 	 */
 
-	public void updateSelection() {
-		editMenu.initActions();
+	@Override
+    public void updateSelection() {
+		if(dropMenu!=null){
+			dropMenu.getEditMenu().initActions();
+		}
 	}
 
 	/**
 	 * Updates the menubar.
 	 */
-	public void updateMenubar() {
-		App.debug("implementation needed - just finishing");
-		/*app.getOptionsMenu().update();
-		if (!app.isApplet()) {
-			((ViewMenuApplicationW) viewMenu).update();
-		}*/
-
+	@Override
+    public void updateMenubar() {
+		if(this.dropMenu != null){
+			this.dropMenu.updateMenubar();
+		}
 	}
 
 	public static void setMenuSelected(MenuItem m, boolean visible) {
@@ -318,19 +293,18 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		}
 	}
 
-	public FileMenuW getFileMenu() {
-		return fileMenu;
-	}
-
-	public MenuItem getSignIn() {
+	@Override
+    public MenuItem getSignIn() {
 		return signIn;
 	}
 
-	public void success(JSONObject response) {
+	@Override
+    public void success(JSONObject response) {
 		renderSignedInState();
 	}
 
-	public void fail(JSONObject resonse) {
+	@Override
+    public void fail(JSONObject resonse) {
 		renderSignInState();
 	}
 
@@ -351,11 +325,13 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		signIn.setVisible(false);
 	}
 
-	public void render() {
+	@Override
+    public void render() {
 		renderSignInState();
 	}
 
-	public void renderEvent(BaseEvent event) {
+	@Override
+    public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginAttemptEvent) {
 			signIn.setText(app.getMenu("SignInProgress"));
 		} else if (event instanceof LogOutEvent) {
@@ -368,7 +344,8 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		}
 	}
 
-	public void updateFonts() {
+	@Override
+    public void updateFonts() {
 		String fontsizeString = app.getGUIFontSize() + "px";
 		int imagesize = Math.round(app.getGUIFontSize() * 4 / 3);
 		int toolbariconSize = 2 * app.getGUIFontSize();

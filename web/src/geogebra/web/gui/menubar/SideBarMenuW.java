@@ -68,5 +68,16 @@ public class SideBarMenuW extends VerticalPanel {
 		//addItem(app.getMenu("Options"), optionsMenu);
 	}
 
+	public EditMenuW getEditMenu() {
+	    return editMenu;
+    }
+
+	public void updateMenubar() {
+		app.getOptionsMenu().update();
+		if (!app.isApplet()) {
+			((ViewMenuApplicationW) viewMenu).update();
+		}
+    }
+
 	
 }
