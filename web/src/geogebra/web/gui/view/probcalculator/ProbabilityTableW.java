@@ -26,11 +26,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	public static int DEFAULT_WIDTH = 200;
 	private FlowPanel wrappedPanel;
 	private StatTableW statTable;
-	private boolean isIniting;
-	private DIST distType;
-	private int xMin;
-	private int xMax;
-	private double[] parms;
 	/**
 	 * @param app Application
 	 * @param probCalc ProbablityCalculator

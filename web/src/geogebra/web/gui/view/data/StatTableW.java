@@ -66,7 +66,7 @@ public class StatTableW extends FlowPanel {
 	public void setStatTable(int rows, String[] rowNames, int columns,
 			String[] columnNames) {
 
-		myTable.resize(rows, columns);
+ 		myTable.resize(rows, columns);
 		// set column names
 		myTable.setHeaderCells(columnNames);
 
@@ -367,15 +367,17 @@ public class StatTableW extends FlowPanel {
 		public void changeSelection(int row, boolean toggle, boolean extend) {
 		   int start;
 		   int r = row + firstRow;
-	       if (!toggle && !extend) {
-	    	   clearSelection(null);
-	    	   this.getRowFormatter().getElement(r).addClassName("selected");
-	       } else if (!toggle && extend) {
-	    	   start = getFirstSelectedRow(r);
-	    	   if (start > -1) {
-	    		   selectTableRows(start, r);
-	    	   }
-	       }
+		   if (r < getRowCount()) {
+		       if (!toggle && !extend) {
+		    	   clearSelection(null);
+		    	   this.getRowFormatter().getElement(r).addClassName("selected");
+		       } else if (!toggle && extend) {
+		    	   start = getFirstSelectedRow(r);
+		    	   if (start > -1) {
+		    		   selectTableRows(start, r);
+		    	   }
+		       }
+		   }
         }
 
 		/**

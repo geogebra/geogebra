@@ -815,7 +815,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			return;
 		try {
 			String inputText = source.getText().trim();
-			App.debug(inputText);
 			if (!inputText.equals("") && !(inputText.charAt(inputText.length() -1) == '.')) {
 			// Double value = Double.parseDouble(source.getText());
 
