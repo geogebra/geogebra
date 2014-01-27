@@ -10,7 +10,6 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BooleanRenderable;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 
@@ -20,7 +19,6 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -35,13 +33,11 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	/**
 	 * Appw app
 	 */
-	AppW app;
 	private FileMenuW fileMenu;
 	private EditMenuW editMenu;
 	private HelpMenuW helpMenu;
 	private OptionsMenuW optionsMenu;
 	private MenuItem signIn;
-	private MenuItem linktoggb;
 	private ViewMenuW viewMenu;
 	private SignedInMenuW signedIn;
 	private MenuItem signedInMenu;
@@ -117,11 +113,6 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		if (!app.menubarRestricted()) {
 			createSignIn();
 		}
-
-		createLinkToGGBT();
-
-		linktoggb.getElement().getStyle().setPadding(0, Unit.PX);
-
 	}
 
 	private void createSignIn() {
@@ -205,19 +196,6 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 		} else
 			return "";
 	}-*/;
-
-	private void createLinkToGGBT() {
-		linktoggb = addItem(
-		        getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube()
-		                .getSafeUri().asString(), ""), true, new Command() {
-
-			        public void execute() {
-				        Window.open("http://geogebratube.org", "", "");
-			        }
-		        });
-		linktoggb.setStyleName("linktoggbtube");
-		linktoggb.setTitle("Go to GeoGebraTube");
-	}
 
 	private void createFileMenu() {
 		fileMenu = new FileMenuW(app);
@@ -325,10 +303,10 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	 */
 	public void updateMenubar() {
 		App.debug("implementation needed - just finishing");
-		app.getOptionsMenu().update();
+		/*app.getOptionsMenu().update();
 		if (!app.isApplet()) {
 			((ViewMenuApplicationW) viewMenu).update();
-		}
+		}*/
 
 	}
 

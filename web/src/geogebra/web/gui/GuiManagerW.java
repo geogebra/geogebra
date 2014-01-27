@@ -628,7 +628,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (toolbarPanel == null) {
 			toolbarPanel = (GGWToolBar)((AppW) app).getToolbar();
 			if (toolbarPanel != null && !toolbarPanel.isInited()) {
-				toolbarPanel.init(app);
+				toolbarPanel.init((AppW)app);
 			}
 		}
 

@@ -426,6 +426,10 @@ public final class ArticleElement extends Element {
 		return "true".equals(this.getAttribute("data-param-screenshotGenerator")); 
     }
 
+	public String getDataParamLAF() {
+	    return this.getAttribute("data-param-laf");
+    }
+
 	
 	
 	

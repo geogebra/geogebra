@@ -6,6 +6,7 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class GGWToolBar extends Composite {
 	 * 
 	 * @param app1 application
 	 */
-	public void init(App app1) {
+	public void init(AppW app1) {
 
 		this.inited = true;
 		this.app = app1;
@@ -84,10 +85,11 @@ public class GGWToolBar extends Composite {
 		toolBarPanel.addStyleName("toolbarPanel");
 		
 		//toolBarPanel.setSize("100%", "100%");
-		toolBar.init((geogebra.web.main.AppW) app);
+		toolBar.init(app1);
 		addToolbar(toolBar);
-
-		addUndoPanel();
+		if(app1.getLAF().undoRedoSupported()){
+			addUndoPanel();
+		}
 	}
 
 //	/**

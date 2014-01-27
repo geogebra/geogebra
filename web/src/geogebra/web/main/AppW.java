@@ -29,6 +29,8 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
@@ -99,7 +101,7 @@ public abstract class AppW extends AppWeb {
 	
 	
 
-	protected ArticleElement articleElement;
+	protected final ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
@@ -107,6 +109,7 @@ public abstract class AppW extends AppWeb {
 
 	private boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
+	private final GLookAndFeel laf;
 
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
@@ -122,8 +125,16 @@ public abstract class AppW extends AppWeb {
 	 * Constructors will be called from subclasses
 	 * AppWapplication, AppWapplet, and AppWsimple
 	 */
-	protected AppW() {
-		super();
+	protected AppW(ArticleElement ae) {
+		super();		
+		this.articleElement = ae;
+		if("smart".equals(ae.getDataParamLAF())){
+			this.laf = new SmartLookAndFeel();
+		}else if("modern".equals(ae.getDataParamLAF())){
+			this.laf = new SmartLookAndFeel();
+		}else{
+			this.laf = new GLookAndFeel();
+		}
 	}
 
 	// ========================================================
@@ -1192,6 +1203,7 @@ public abstract class AppW extends AppWeb {
 	 *            wrapper (splitlayoutpanel center)
 	 */
 	public void ggwGraphicsViewDimChanged(int width, int height) {
+		App.debug("dim changed"+getSettings().getEuclidian(1));
 		getSettings().getEuclidian(1).setPreferredSize(
 		        geogebra.common.factories.AwtFactory.prototype.newDimension(
 		                width, height));
@@ -1199,7 +1211,7 @@ public abstract class AppW extends AppWeb {
 		// simple setting temp.
 		appCanvasHeight = height;
 		appCanvasWidth = width;
-
+		App.debug("syn size");
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
@@ -1753,4 +1765,8 @@ public abstract class AppW extends AppWeb {
 	public boolean isScreenshotGenerator(){
 		return this.articleElement.getDataParamScreenshotGenerator();
 	}
+
+	public GLookAndFeel getLAF() {
+	    return laf;
+    }
 }

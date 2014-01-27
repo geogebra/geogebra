@@ -1,13 +1,9 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.App;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
-import geogebra.web.gui.menubar.GeoGebraMenubarW2;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -24,7 +20,6 @@ public class GGWMenuBar extends Composite {
 	@UiField
 	HorizontalPanel ggbmenubarwrapper;
 	private GeoGebraMenubarW menubar;
-	private GeoGebraMenubarW2 menubar2;
 	private boolean menubar2Showing = false;
 	private FocusPanel clickBox;
 
@@ -37,40 +32,14 @@ public class GGWMenuBar extends Composite {
 	}
 	
 	public void init(AppW app) {
-		menubar = new GeoGebraMenubarW(app);
-		menubar2 = new GeoGebraMenubarW2(app);
-		
-		clickBox = new FocusPanel();
-		clickBox.addMouseDownHandler(new MouseDownHandler(){
-
-			@Override
-            public void onMouseDown(MouseDownEvent event) {
-	            if(event.isShiftKeyDown()){
-	            	toggleMenuBar();
-	            }
-	            
-            }});
-		
-		
-		clickBox.add(menubar);
-		ggbmenubarwrapper.add(clickBox);
+		menubar = app.getLAF().getMenuBar(app);
+		ggbmenubarwrapper.add(menubar);
 	}
 
-	private void toggleMenuBar(){
-		clickBox.clear();
-		if(menubar2Showing) {
-			clickBox.add(menubar);
-		}else{
-			clickBox.add(menubar2);
-		}
-		menubar2Showing = !menubar2Showing;
-	}
+	
 	
 	
 	public GeoGebraMenubarW getMenubar(){
-		if(menubar2Showing){
-			return menubar2;
-		}
 		return menubar;
 	}
 	

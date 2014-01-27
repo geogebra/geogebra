@@ -36,7 +36,7 @@ public class AppWapplication extends AppW {
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
 	        boolean undoActive) {
-		this.articleElement = article;
+		super(article);
 		this.appFrame = geoGebraAppFrame;
 		appFrame.app = this;
 		this.objectPool = new ObjectPool();
