@@ -672,7 +672,7 @@ public class MathMLParser {
 	private final char[] rightBraces = {')','{',']'};
 
 	private HashMap<String, String> substitutions;
-	private StringBuilder result;
+	//private StringBuilder result;
 	private String strBuf;
 	private int pos;
 	private boolean wrappedEntities;
@@ -786,12 +786,12 @@ public class MathMLParser {
 			this.skipUnknownEntities = skipUnknownEntities1;
 
 			// usually the MathML input should have more characters as the output
-			result = new StringBuilder(strBuf.length());
+			StringBuilder result = new StringBuilder(strBuf.length());
 
 			pos = 0;
 			try {
 				while (strBuf.indexOf("<", pos) != -1) {
-					parseBlock(getNextTag());
+					parseBlock(getNextTag(), result);
 					skipFollowingTag();
 				}
 				// TODO besser result stutzen? -> return new StringBuilder(result) o. result.toString()
@@ -836,7 +836,7 @@ public class MathMLParser {
 	 * @param startTag startTag
 	 * @throws Exception if an error occurs while parsing
 	 */
-	void parseBlock(String startTag) throws Exception {
+	void parseBlock(String startTag, StringBuilder result) throws Exception {
 
 		String endTag = generateEndTag(startTag);
 		
@@ -913,7 +913,7 @@ public class MathMLParser {
 							// parse subblocks
 							while ((strBuf.substring(pos, blockEnd+1)).indexOf('<') != -1) {
 								nextTag = getNextTag();
-								parseBlock(nextTag);
+								parseBlock(nextTag, result);
 								skipFollowingTag();
 							}
 						}
@@ -935,7 +935,7 @@ public class MathMLParser {
 
 							// parse subblock
 							nextTag = getNextTag();
-							parseBlock(nextTag);
+							parseBlock(nextTag, result);
 
 							skipFollowingTag();
 						}
@@ -954,7 +954,7 @@ public class MathMLParser {
 					// parse subblocks of nextTag
 					while ((strBuf.substring(pos, blockEnd+1)).indexOf('<') != -1) {
 						nextTag = getNextTag();
-						parseBlock(nextTag);
+						parseBlock(nextTag, result);
 						skipFollowingTag();
 					}
 				}
@@ -1339,7 +1339,7 @@ public class MathMLParser {
 		*/
 
 
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	/**
