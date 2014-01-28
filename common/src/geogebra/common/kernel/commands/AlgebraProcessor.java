@@ -11,6 +11,7 @@ the Free Software Foundation.
  */
 package geogebra.common.kernel.commands;
 
+import geogebra.common.io.MathMLParser;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -28,6 +29,7 @@ import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoLaTeX;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
@@ -90,6 +92,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.AsyncOperation;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -441,7 +444,8 @@ public class AlgebraProcessor {
 					throws Exception {
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, null);
 	}
-	
+	private MathMLParser mathmlParserGGB;
+	private MathMLParser mathmlParserLaTeX;
 	
 	// G.Sturr 2010-7-5
 	// added 'allowErrorDialog' flag to handle the case of unquoted text
@@ -458,6 +462,9 @@ public class AlgebraProcessor {
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(final String cmd,
 			final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, final AsyncOperation callback0)
 					throws Exception {
+		if(cmd.charAt(0)=='<' && cmd.startsWith("<math")){
+			return parseMathml(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, callback0);
+		}
 		final ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);	
@@ -646,6 +653,29 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
 		if (callback0 != null) callback0.callback(geos);
 		return geos;
+	}
+
+	private GeoElement[] parseMathml(String cmd,final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, final AsyncOperation callback0) {
+		if(mathmlParserGGB == null){
+			mathmlParserGGB = new MathMLParser(true);
+		}
+		GeoElement[] ret = null;
+		try{
+			String ggb = mathmlParserGGB.parse(cmd, false, true);
+			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, callback0);
+		}catch(Throwable t){
+			Log.warn(t.getMessage());
+		}
+		if(ret != null && ret.length != 0){
+			return ret;
+		}
+		if(mathmlParserLaTeX == null){
+			mathmlParserLaTeX = new MathMLParser(true);
+		}
+		String latex = mathmlParserLaTeX.parse(cmd, false, true);
+		GeoText arg = new GeoText(cons,latex);
+		AlgoLaTeX texAlgo = new AlgoLaTeX(cons, null,arg); 
+		return new GeoElement[]{texAlgo.getOutput(0)};
 	}
 
 	public GeoElement[] processValidExpression(boolean storeUndo, boolean allowErrorDialog, boolean throwMyError, ValidExpression ve) throws Exception{
