@@ -44,6 +44,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	/** default line 3D type */	
 	public static final int DEFAULT_LINE3D = 3100;
+	/** default intersection line 3D type */	
 	public static final int DEFAULT_LINE3D_INTERSECTION = 3150;
 	/** default segment 3D type */	
 	public static final int DEFAULT_SEGMENT3D = 3101;
