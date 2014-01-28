@@ -1,9 +1,9 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 public class DrawSurfaceGrid extends Drawable3DCurves {
 	

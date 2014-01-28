@@ -1,12 +1,12 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoQuadric3D;
 
 import java.util.ArrayList;
 

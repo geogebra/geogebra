@@ -1,11 +1,11 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramidForExtrusion;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedConicHeightConeForExtrusion;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra3D.kernel3D.AlgoForExtrusion;
-import geogebra3D.kernel3D.AlgoPolyhedronPointsPyramidForExtrusion;
-import geogebra3D.kernel3D.AlgoQuadricLimitedConicHeightConeForExtrusion;
 
 import java.util.ArrayList;
 

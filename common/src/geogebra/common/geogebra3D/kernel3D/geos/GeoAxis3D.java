@@ -1,0 +1,211 @@
+package geogebra.common.geogebra3D.kernel3D.geos;
+
+import geogebra.common.awt.GColor;
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoAxisND;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.NumberFormatAdapter;
+
+public class GeoAxis3D extends GeoLine3D implements GeoAxisND {	
+
+	private String axisLabel;
+	
+	private int type;
+	
+	// for numbers and ticks
+	private NumberFormatAdapter numberFormat;
+	private double numbersDistance;
+	private int numbersXOffset, numbersYOffset;
+	private int ticksize = 5; //TODO
+
+	public GeoAxis3D(Construction cons) {
+		super(cons);
+	}
+	
+	public int getType() {
+		return type;
+	}
+		
+	public GeoAxis3D(Construction c, int type){
+		this(c);
+		
+		this.type=type;
+		
+		switch (type) {
+		case X_AXIS_3D:
+			setCoord(Coords.O, Coords.VX);
+			label = "xAxis3D";
+			setAxisLabel("x");
+			setObjColor(GColor.RED);
+			break;
+
+		case Y_AXIS_3D:
+			setCoord(Coords.O, Coords.VY);
+			label = "yAxis3D";
+			setAxisLabel("y");
+			//setObjColor(Color.GREEN);
+			setObjColor(GColor.darkGreen);//(new geogebra.awt.GColorD(0,0.5f,0));
+			break;
+			
+		case Z_AXIS_3D:
+			setCoord(Coords.O, Coords.VZ);
+			label = "zAxis";
+			setAxisLabel("z");
+			setObjColor(GColor.BLUE);
+			break;
+		}
+		
+		setFixed(true);
+		setLabelVisible(false);		
+	}	
+
+	@Override
+	public boolean isAvailableAtConstructionStep(int step) {
+		// this method is overwritten
+		// in order to make the axes available
+		// in empty constructions too (for step == -1)
+		return true;
+	}
+
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
+
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.AXIS3D;
+	}
+		
+	@Override
+	public String toValueString(StringTemplate tpl) {
+		return label;
+	}
+		
+	/** return label of the axis (e.g. x, y, z ...)
+	 * @return label of the axis
+	 */
+	public String getAxisLabel(){
+		return axisLabel;
+	}
+
+	/** set the label of the axis (e.g. x, y, z ...)
+	 * @param label label of the axis
+	 */
+	public void setAxisLabel(String label){
+		axisLabel = label;
+	}
+
+	/**
+	 * overrides GeoElement method : this is a "constant" element, so the label is set
+	 */
+	@Override
+	public boolean isLabelSet() {
+		return true;
+	}	
+
+	public String getUnitLabel() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+
+	public int getTickStyle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public boolean getShowNumbers() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	/** update decorations (ticks, numbers, labels)
+	 * @param distance
+	 * @param numberFormat
+	 * @param xOffset 
+	 * @param yOffset 
+	 * @param labelXOffset 
+	 * @param labelYOffset 
+	 */
+	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
+			int xOffset, int yOffset,
+			int labelXOffset, int labelYOffset){
+		this.numbersDistance = distance;
+		this.numberFormat = numberFormat;
+		this.numbersXOffset = xOffset;
+		this.numbersYOffset = yOffset;
+		setLabelOffset(labelXOffset, labelYOffset);
+	}
+	
+	/**
+	 * @return distance between ticks
+	 */
+	public double getNumbersDistance(){
+		return numbersDistance;
+	}
+	
+	/**
+	 * @return number format
+	 */
+	public NumberFormatAdapter getNumberFormat(){
+		return numberFormat;
+	}
+	
+	/**
+	 * @return numbers x offset
+	 */
+	public int getNumbersXOffset(){
+		return numbersXOffset;
+	}
+	
+	/**
+	 * @return numbers y offset
+	 */
+	public int getNumbersYOffset(){
+		return numbersYOffset;
+	}
+	
+	
+	/**
+	 * @return tick size
+	 */
+	public int getTickSize(){
+		return ticksize;
+	}
+	
+	@Override
+	public Coords getDirectionInD3() {
+		return new Coords(0, 0, 1, 0);
+	}
+
+	@Override
+	public boolean isAxis() {
+		return true;
+	}
+
+	
+	@Override
+	public String getLabel(StringTemplate tpl) {
+		if (tpl.isPrintLocalizedCommandNames()) {
+			return loc.getPlain(label);
+		}
+		return label;
+
+	}
+	
+	@Override
+	public boolean isTraceable() {
+		return false;
+	}
+	
+	@Override
+	final protected void getCoordsXML(StringBuilder sb) {
+		//not needed here
+	}
+	
+
+}

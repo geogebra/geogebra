@@ -20,7 +20,9 @@ package geogebra3D;
 import geogebra.CommandLineArguments;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.euclidian3D.input3D.Input3D;
+import geogebra.common.geogebra3D.euclidian3D.Input3D;
+import geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -49,8 +51,6 @@ import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 import geogebra3D.input3D.Input3DFactory;
-import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.Kernel3D;
 import geogebra3D.util.ImageManager3D;
 
 import java.awt.Component;
@@ -224,11 +224,7 @@ public class App3D extends AppD {
 	
 	private ArrayList<EuclidianViewForPlane> euclidianViewForPlaneList;
 
-	/**
-	 * @param plane plane creator
-	 * @param panelSettings panel settings
-	 * @return create a new euclidian view for the plane
-	 */
+	@Override
 	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);

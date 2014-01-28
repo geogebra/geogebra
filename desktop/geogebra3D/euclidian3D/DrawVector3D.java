@@ -1,13 +1,13 @@
 package geogebra3D.euclidian3D;
 
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
-import geogebra3D.kernel3D.GeoVector3D;
 
 import java.util.ArrayList;
 

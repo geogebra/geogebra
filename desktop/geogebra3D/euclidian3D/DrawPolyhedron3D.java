@@ -3,6 +3,7 @@
 
 
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -10,7 +11,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
-import geogebra3D.kernel3D.GeoPolyhedron;
 
 
 

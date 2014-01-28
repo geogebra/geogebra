@@ -1,10 +1,10 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoRayND;
-import geogebra3D.kernel3D.GeoRay3D;
 
 import java.util.ArrayList;
 

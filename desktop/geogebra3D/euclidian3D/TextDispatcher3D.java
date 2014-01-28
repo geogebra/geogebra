@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.TextDispatcher;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -14,7 +15,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.util.StringUtil;
-import geogebra3D.kernel3D.GeoPoint3D;
 
 
 public class TextDispatcher3D extends TextDispatcher {

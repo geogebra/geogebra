@@ -1,5 +1,8 @@
 package geogebra3D.euclidianFor3D;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -17,9 +20,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianControllerD;
-import geogebra3D.kernel3D.AlgoJoinPoints3D;
-import geogebra3D.kernel3D.AlgoMidpoint3D;
-import geogebra3D.kernel3D.GeoPoint3D;
 
 /**
  * class for Euclidian Controller used in ggb3D

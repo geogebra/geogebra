@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
-import geogebra3D.kernel3D.GeoQuadric3DPart;
 
 /**
  * draws a quadric part

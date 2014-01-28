@@ -23,8 +23,6 @@ import geogebra3D.euclidian3D.opengl.RendererJogl;
 
 public class GeoGebra3D extends GeoGebra {
 
-	// File format versions
-	public static final String XML_FILE_FORMAT = "5.0";
 
 	static {
 		RendererJogl.initCaps();

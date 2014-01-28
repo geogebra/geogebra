@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
@@ -11,7 +12,6 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
-import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
 import java.io.IOException;

@@ -5,6 +5,8 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
+import geogebra.common.geogebra3D.kernel3D.algos.ExtrusionComputer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -12,8 +14,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.AlgoForExtrusion;
-import geogebra3D.kernel3D.ExtrusionComputer;
 
 import java.util.ArrayList;
 

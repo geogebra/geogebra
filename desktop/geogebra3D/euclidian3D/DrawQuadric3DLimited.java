@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra3D.kernel3D.GeoQuadric3DLimited;
 
 /**
  * Class for drawing quadrics.

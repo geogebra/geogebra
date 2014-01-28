@@ -3,7 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 
-import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 
 
 

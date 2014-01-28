@@ -32,7 +32,7 @@ import geogebra.common.kernel.kernelND.HasVolume;
 
 /**
  * Interface for managing all 3D methods in Kernel. <br/>
- * See Also {@link geogebra3D.kernel3D.Manager3D}.
+ * See Also {@link geogebra.common.geogebra3D.kernel3D.algos.Manager3D}.
  * 
  * @author mathieu
  * 

@@ -16,6 +16,8 @@ import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
@@ -47,6 +49,7 @@ import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
@@ -1116,7 +1119,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return 3D view
 	 */
-	public EuclidianViewInterfaceCommon getEuclidianView3D() {
+	public EuclidianView3DInterface getEuclidianView3D() {
 		return null;
 	}
 
@@ -3461,6 +3464,17 @@ public abstract class App implements UpdateSelection{
 	 */
 	public boolean isScreenshotGenerator(){
 		return false;
+	}
+	
+	
+	
+	/**
+	 * @param plane plane creator
+	 * @param panelSettings panel settings
+	 * @return create a new euclidian view for the plane
+	 */
+	public EuclidianViewForPlaneInterface createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings){
+		return null;
 	}
 
 }

@@ -13,6 +13,19 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -52,18 +65,6 @@ import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.euclidian3D.opengl.RendererGL2;
-import geogebra3D.kernel3D.GeoClippingCube3D;
-import geogebra3D.kernel3D.GeoConicSection;
-import geogebra3D.kernel3D.GeoElement3D;
-import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoPlane3DConstant;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.GeoPolyhedron;
-import geogebra3D.kernel3D.GeoQuadric3D;
-import geogebra3D.kernel3D.GeoQuadric3DLimited;
-import geogebra3D.kernel3D.GeoQuadric3DPart;
-import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
-import geogebra3D.kernel3D.Kernel3D;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -85,7 +86,7 @@ import java.util.TreeSet;
  *
  */
 @SuppressWarnings("javadoc")
-public class EuclidianView3D extends EuclidianViewND implements Printable {
+public class EuclidianView3D extends EuclidianViewND implements Printable, EuclidianView3DInterface {
 	
 	//private Kernel kernel;
 	private Kernel3D kernel3D;
@@ -170,20 +171,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//picking and hits
 	private Hits3D hits = new Hits3D(); //objects picked from openGL
 	
-	//base vectors for moving a point
-	/** origin */
-	static public Coords o = new Coords(new double[] {0.0, 0.0, 0.0,  1.0});
-	/** vx vector */
-	static public Coords vx = new Coords(new double[] {1.0, 0.0, 0.0,  0.0});
-	/** vy vector */
-	static public Coords vy = new Coords(new double[] {0.0, 1.0, 0.0,  0.0});
-	/** vz vector */
-	static public Coords vz = new Coords(new double[] {0.0, 0.0, 1.0,  0.0});
-	/** vzNeg vector */
-	static public Coords vzNeg = new Coords(new double[] {0.0, 0.0, -1.0,  0.0});
+
 	
 	/** direction of view */
-	private Coords viewDirection = vz.copyVector();
+	private Coords viewDirection = Coords.VZ.copyVector();
 	private Coords eyePosition = new Coords(4);
 
 	
@@ -350,13 +341,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		cursor3D.setIsPickable(false);
 		//cursor3D.setLabelOffset(5, -5);
 		//cursor3D.setEuclidianVisible(false);
-		cursor3D.setMoveNormalDirection(EuclidianView3D.vz);
+		cursor3D.setMoveNormalDirection(Coords.VZ);
 		//kernel3D.setSilentMode(false);
 		
 		cursorOnXOYPlane = new GeoPoint3D(kernel3D.getConstruction());
 		cursorOnXOYPlane.setCoords(0,0,0,1);
 		cursorOnXOYPlane.setIsPickable(false);
-		cursorOnXOYPlane.setMoveNormalDirection(EuclidianView3D.vz);
+		cursorOnXOYPlane.setMoveNormalDirection(Coords.VZ);
 		cursorOnXOYPlane.setRegion(xOyPlane);
 		
 		//point decorations
@@ -792,9 +783,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	}
 	
-	/**
-	 * set Matrix for view3D
-	 */	
+
 	public void updateMatrix(){
 				
 		//rotations and scaling
@@ -824,7 +813,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (projection==PROJECTION_OBLIQUE)
 			viewDirection=renderer.getObliqueOrthoDirection().copyVector();
 		else
-			viewDirection = vzNeg.copyVector();
+			viewDirection = Coords.VZm.copyVector();
 		toSceneCoords3D(viewDirection);	
 		viewDirection.normalize();
 		
@@ -857,11 +846,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return eyePosition;
 	}
 	
-	/**
-	 * sets the rotation matrix
-	 * @param a
-	 * @param b
-	 */
+
 	public void setRotXYinDegrees(double a, double b){
 		
 		//Application.debug("setRotXY: "+a+","+b);
@@ -938,12 +923,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		ZZero=val; 
 	}
 	
-	/**
-	 * sets the origin
-	 * @param x x coord
-	 * @param y y coord
-	 * @param z z coord
-	 */
+
 	public void setZeroFromXML(double x, double y, double z){
 		
 		if (GeoGebraConstants.IS_PRE_RELEASE){
@@ -993,18 +973,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 
-
-	/**
-	 * @return Returns the zmin.
-	 */
 	public double getZmin() {
 		return clippingCubeDrawable.getMinMax()[2][0];
 	}
 
 	
-	/**
-	 * @return Returns the zmax.
-	 */
 	public double getZmax() {
 		return clippingCubeDrawable.getMinMax()[2][1];
 	}
@@ -1114,10 +1087,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		pointDecorations.update();
 	}	
 	
-	/** 
-	 * tell the view that it has to be updated
-	 * 
-	 */
+
 	public void setWaitForUpdate(){
 		waitForUpdate = true;
 	}
@@ -1426,16 +1396,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		setShowAxis(AXIS_Z, flag, true);
 	}
 
-	/** sets the visibility of xOy plane
-	 * @param flag
-	 */
+
 	public void setShowPlane(boolean flag){
 		getxOyPlane().setEuclidianVisible(flag);
 	}
 		
-	/** sets the visibility of xOy plane plate
-	 * @param flag
-	 */
+
 	public void setShowPlate(boolean flag){
 		getxOyPlane().setPlateVisible(flag);
 	}
@@ -1526,10 +1492,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return useClippingCube;
 	}
 	
-	/**
-	 * sets the use of the clipping cube
-	 * @param flag flag
-	 */
+
 	public void setUseClippingCube(boolean flag){
 
 		useClippingCube = flag;
@@ -1704,10 +1667,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		setRotAnimation(spheric.get(2)*180/Math.PI,spheric.get(3)*180/Math.PI,true);
 	}
 	
-	/**
-	 * start a rotation animation to be in the vector direction, shortest way
-	 * @param vn
-	 */	
+
 	public void setClosestRotAnimation(Coords v){
 		if (v.dotproduct(getViewDirection())>0)
 			setRotAnimation(v.mul(-1));
@@ -2242,9 +2202,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			case PREVIEW_POINT_FREE:
 				// use default directions for the cross
 				t = 1/getScale();
-				getCursor3D().getDrawingMatrix().setVx(vx.mul(t));
-				getCursor3D().getDrawingMatrix().setVy(vy.mul(t));
-				getCursor3D().getDrawingMatrix().setVz(vz.mul(t));
+				getCursor3D().getDrawingMatrix().setVx(Coords.VX.mul(t));
+				getCursor3D().getDrawingMatrix().setVy(Coords.VY.mul(t));
+				getCursor3D().getDrawingMatrix().setVz(Coords.VZ.mul(t));
 				break;
 			case PREVIEW_POINT_REGION:
 				
@@ -2283,9 +2243,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			case PREVIEW_POINT_DEPENDENT:
 				//use size of intersection
 				t = getIntersectionThickness()/getScale();
-				getCursor3D().getDrawingMatrix().setVx(vx.mul(t));
-				getCursor3D().getDrawingMatrix().setVy(vy.mul(t));
-				getCursor3D().getDrawingMatrix().setVz(vz.mul(t));
+				getCursor3D().getDrawingMatrix().setVx(Coords.VX.mul(t));
+				getCursor3D().getDrawingMatrix().setVy(Coords.VY.mul(t));
+				getCursor3D().getDrawingMatrix().setVz(Coords.VZ.mul(t));
 				break;			
 			case PREVIEW_POINT_ALREADY:
 				//use size of point
@@ -2653,7 +2613,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * returns settings in XML format, read by xml handlers
 	 * @see geogebra.common.io.MyXMLHandler
-	 * @see geogebra3D.io.MyXMLHandler3D
+	 * @see geogebra.common.geogebra3D.io.MyXMLHandler3D
 	 * @return the XML description of 3D view settings
 	 */
 	@Override
@@ -2832,9 +2792,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	/**
-	 * @return the xOy plane
-	 */
+
 	public GeoPlane3D getxOyPlane()  {
 
 		return xOyPlane;
@@ -3500,6 +3458,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return false;
 	}
 	
+	@Override
+	public boolean isEuclidianView3D(){
+		return false;
+	}
 
 	@Override
 	public boolean hasForParent(GeoElement geo){

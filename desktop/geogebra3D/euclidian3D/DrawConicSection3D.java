@@ -1,10 +1,10 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.draw.DrawConicSection;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
-import geogebra3D.kernel3D.GeoConicSection;
 
 public class DrawConicSection3D extends DrawConic3D {
 

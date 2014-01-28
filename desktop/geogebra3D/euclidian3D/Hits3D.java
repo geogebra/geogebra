@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.Hits;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.Drawable3D.drawableComparator;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
-import geogebra3D.kernel3D.GeoQuadric3D;
 
 import java.util.ArrayList;
 import java.util.Iterator;

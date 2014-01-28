@@ -1,9 +1,9 @@
 package geogebra3D.euclidian3D.plots;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 /**
  * @author Andr� Eriksson

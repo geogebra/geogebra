@@ -7,6 +7,21 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS2D2D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -41,21 +56,6 @@ import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
-import geogebra3D.kernel3D.AlgoDependentVector3D;
-import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
-import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
-import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
-import geogebra3D.kernel3D.AlgoUnitVector3D;
-import geogebra3D.kernel3D.GeoConic3D;
-import geogebra3D.kernel3D.GeoConicSection;
-import geogebra3D.kernel3D.GeoCoordSys1D;
-import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.GeoPolygon3D;
-import geogebra3D.kernel3D.GeoQuadric3D;
-import geogebra3D.kernel3D.GeoQuadric3DLimited;
-import geogebra3D.kernel3D.GeoQuadric3DPart;
-import geogebra3D.kernel3D.GeoVector3D;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -432,7 +432,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 
 					//getting new position of the point
-					Coords project = movedGeoPoint3D.getCoords().projectNearLine(o, view3D.getViewDirection(), EuclidianView3D.vz);
+					Coords project = movedGeoPoint3D.getCoords().projectNearLine(o, view3D.getViewDirection(), Coords.VZ);
 
 
 					//max z value
@@ -674,7 +674,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		// update cursor 3D infos
 		if (((GeoElement) sourcePoint).isIndependent() || !((GeoElement) sourcePoint).isGeoElement3D())
-			point3D.setMoveNormalDirection(EuclidianView3D.vz);
+			point3D.setMoveNormalDirection(Coords.VZ);
 		else if (sourcePoint.hasRegion())
 			point3D.setMoveNormalDirection(sourcePoint.getRegionParameters().getNormal());
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);

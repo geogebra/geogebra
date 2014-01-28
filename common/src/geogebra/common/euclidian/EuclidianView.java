@@ -1969,6 +1969,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public boolean isDefault2D() {
 		return true;
 	}
+	
+	public boolean isEuclidianView3D(){
+		return false;
+	}
 
 	public int getViewID() {
 		switch (evNo) {
@@ -2005,12 +2009,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return getPlaneContaining();
 	}
 
-	/**
-	 * only used in EuclidianViewForPlane
-	 */
-	public void updateForPlane() {
-		// only used in EuclidianViewForPlane
-	}
 
 	public boolean hasForParent(GeoElement geo) {
 		return false;

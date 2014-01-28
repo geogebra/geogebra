@@ -20,6 +20,13 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 * @return true if this is Graphics or Graphics 2
 	 */
 	public boolean isDefault2D();
+	
+	/**
+	 * @return true if this is Graphics 3D
+	 */
+	public boolean isEuclidianView3D();
+	
+	
 	/**
 	 * @param algo algorithm
 	 * @return free input points of given algorithm

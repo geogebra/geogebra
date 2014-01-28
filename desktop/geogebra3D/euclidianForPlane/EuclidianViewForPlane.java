@@ -2,6 +2,8 @@ package geogebra3D.euclidianForPlane;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.draw.DrawAngle;
+import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -24,7 +26,6 @@ import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
-import geogebra3D.settings.EuclidianSettingsForPlane;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public class EuclidianViewForPlane extends EuclidianViewFor3D {
+public class EuclidianViewForPlane extends EuclidianViewFor3D implements EuclidianViewForPlaneInterface {
 
 	private ViewCreator plane;
 	
@@ -88,10 +89,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		this.plane = plane;
 	}
 	
-	/**
-	 * @return creator of the view
-	 * 
-	 */
+
 	public ViewCreator getPlane(){
 		return plane;
 	}
@@ -107,7 +105,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return false;
 	}
 	
-	@Override
 	public void updateForPlane(){
 		updateMatrix();
 		updateAllDrawables(true);
@@ -202,9 +199,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	private CoordMatrix4x4 planeMatrix, transformedMatrix;
 	private CoordMatrix inverseTransformedMatrix;
 	
-	/**
-	 * update the matrix transformation
-	 */
+
 	public void updateMatrix(){
 		
 		if (!plane.isDefined()){
@@ -276,9 +271,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	private int transformRotate;
 
 	
-	/**
-	 * set the transform matrix regarding view direction
-	 */
+
 	public void setTransformRegardingView(){
 		
 		Coords directionView3D = ((App3D) app).getEuclidianView3D().getViewDirection();
@@ -434,18 +427,13 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		this.id=panel.getViewId();
 	}
 	
-	/**
-	 * 
-	 * @return the id of the view
-	 */
+
 	public int getId(){
 		return id;
 	}
 	
 	
-	/**
-	 * remove the view (when creator is removed)
-	 */
+
 	public void doRemove(){
 		removeFromGuiAndKernel();
 		((App3D) app).removeEuclidianViewForPlaneFromList(this);
