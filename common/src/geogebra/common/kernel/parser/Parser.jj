@@ -1353,14 +1353,25 @@ ExpressionValue multterm():
      f = powerdivterm()
         {
           		String leftImg = "";
-          		if(ret instanceof Variable)          		{
-          		  leftImg = ret.toString(StringTemplate.defaultTemplate);          		}
-				Operation op = app.getParserFunctions().get(leftImg,1);
-              	if(op != null && kernel.lookupLabel(leftImg)==null)
-              	{
-              	  ret =	new ExpressionNode(kernel, f, op, null); 
-              	}else
-              	{
+          		boolean normal = true;
+          		if(ret instanceof Variable)          		{					leftImg = ret.toString(StringTemplate.defaultTemplate);
+					Operation op = app.getParserFunctions().get(leftImg,1);
+              		if(op != null && kernel.lookupLabel(leftImg)==null)
+              		{
+              			ret =	new ExpressionNode(kernel, f, op, null);
+              			normal = false; 
+              		}
+             	}else if(ret instanceof ExpressionNode && ((ExpressionNode)ret).getOperation()==
+             	Operation.MULTIPLY && ((ExpressionNode)ret).getRight() instanceof Variable)             	{
+             		leftImg = ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate);
+					Operation op = app.getParserFunctions().get(leftImg,1);
+					if(op != null && kernel.lookupLabel(leftImg)==null)
+              		{
+              			((ExpressionNode)ret).setRight(new ExpressionNode(kernel, f, op, null));
+              			normal = false; 
+              		}             	}
+
+              	if(normal)              	{
                		ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
              	}  
          }	
