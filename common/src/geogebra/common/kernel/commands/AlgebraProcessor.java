@@ -662,6 +662,7 @@ public class AlgebraProcessor {
 		GeoElement[] ret = null;
 		try{
 			String ggb = mathmlParserGGB.parse(cmd, false, true);
+			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, callback0);
 		}catch(Throwable t){
 			Log.warn(t.getMessage());
