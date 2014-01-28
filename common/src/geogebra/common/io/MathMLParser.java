@@ -31,7 +31,7 @@ public class MathMLParser {
 		geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
 		geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial coefficient, FIXME
 		geogebraMap.put("<msubsup>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
-		geogebraMap.put("<munderover>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
+		geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%)");// ignored for now, FIXME (subscripted variable powered)
 		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
 		geogebraMap.put("<mtable>", "{%BLOCKS%}");
 		geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
@@ -762,9 +762,10 @@ public class MathMLParser {
 	 */
 	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1) {
 
-		// I am not sure this would include new lines
-		//String strBuf1 = strBuf0.replaceAll("<!--([^d]|d)*?-->", "");
-		String strBuf1 = strBuf0.replaceAll("(?s)<!--.*?-->", "");
+		// Remove newlines first;
+		String strBuf1 = strBuf0.replace('\n', ' ').replace('\r', ' '); 
+		// now remove coments
+		strBuf1 = strBuf1.replaceAll("<!--.*?-->", "");
 
 		// Avoiding bugs due to wrong parsing (quick workarounds)
 		strBuf1 = strBuf1.replace("><", "> <");
@@ -775,9 +776,9 @@ public class MathMLParser {
 		// but also take care of the possible attributes!
 		// As the algorithm itself neglects them,
 		// this "quick" solution can do that too.
-		strBuf1 = strBuf1.replaceAll("(?s)<msqrt.*?>", "<msqrt> <mrow>");
+		strBuf1 = strBuf1.replaceAll("<msqrt.*?>", "<msqrt> <mrow>");
 		strBuf1 = strBuf1.replace("</msqrt>", "</mrow> </msqrt>");
-		strBuf1 = strBuf1.replaceAll("(?s)<mtd.*?>", "<mtd> <mrow>");
+		strBuf1 = strBuf1.replaceAll("<mtd.*?>", "<mtd> <mrow>");
 		strBuf1 = strBuf1.replace("</mtd>", "</mrow> </mtd>");
 
 		if (strBuf1 != null) {
