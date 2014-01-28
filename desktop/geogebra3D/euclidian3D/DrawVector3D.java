@@ -28,6 +28,8 @@ public class DrawVector3D extends DrawJoinPoints {
 	{
 		
 		super(view3D, (GeoElement) vector);
+		
+		setDrawMinMax(0, 1);
 	}
 	
 	
