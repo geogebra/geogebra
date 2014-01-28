@@ -2571,6 +2571,7 @@ public class Construction {
 
 		geoSetsTypeMap.clear();
 		euclidianViewCE.clear();
+		this.casDummies.clear();
 		initGeoTables();
 
 		// reinit construction step
@@ -2730,7 +2731,7 @@ public class Construction {
 	public boolean isUpdateConstructionRunning() {
 		return updateConstructionRunning;
 	}
-	private TreeSet<String> casDummies = new TreeSet<String>();
+	private final TreeSet<String> casDummies = new TreeSet<String>();
 	
 	/**
 	 * @return set of names that are used by CAS for dummies
