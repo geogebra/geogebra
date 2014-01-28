@@ -673,7 +673,7 @@ public class AlgebraProcessor {
 		if(mathmlParserLaTeX == null){
 			mathmlParserLaTeX = new MathMLParser(false);
 		}
-		String latex = mathmlParserLaTeX.parse(cmd, false, true);
+		String latex = mathmlParserLaTeX.parse(cmd, false, false);
 		GeoText arg = new GeoText(cons,latex);
 		AlgoLaTeX texAlgo = new AlgoLaTeX(cons, null,arg); 
 		return new GeoElement[]{texAlgo.getOutput(0)};
