@@ -1341,7 +1341,7 @@ public class MathMLParser {
 		if(sb.charAt(sb.length()-1)!=' '){
 			sb.append(' ');
 		}
-		return sb.toString().trim();
+		return sb.toString();
 	}
 
 	/**
