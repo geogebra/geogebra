@@ -834,6 +834,7 @@ public class MathMLParser {
 	 * </p>
 	 * 
 	 * @param startTag startTag
+	 * @param result 
 	 * @throws Exception if an error occurs while parsing
 	 */
 	void parseBlock(String startTag, StringBuilder result) throws Exception {
@@ -1337,8 +1338,9 @@ public class MathMLParser {
 		}
 		
 		*/
-
-
+		if(sb.charAt(sb.length()-1)!=' '){
+			sb.append(' ');
+		}
 		return sb.toString().trim();
 	}
 
