@@ -20,8 +20,7 @@ import geogebra.common.plugin.GeoClass;
  * @author ggb3D
  * 
  */
-public class GeoPolyLine3D extends GeoPolyLine implements
-		GeoElement3DInterface {
+public class GeoPolyLine3D extends GeoPolyLine {
 
 	private boolean defined = false;
 
@@ -350,20 +349,5 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 
 
 
-
-	public boolean hasGeoElement2D() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public GeoElement getGeoElement2D() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setGeoElement2D(GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

@@ -38,7 +38,7 @@ import geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements
-		GeoElement3DInterface, Functional2Var, Region3D, 
+		Functional2Var, Region3D, 
 		Translateable, RotateableND, MirrorableAtPlane, Transformable, Dilateable,
 		HasVolume,
 		GeoQuadric3DInterface{
@@ -485,11 +485,6 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	// /////////////////////////////////////////
 
 
-	public GeoElement getGeoElement2D() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
@@ -501,15 +496,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return new Coords(0, 0, 1, 0);
 	}
 
-	public boolean hasGeoElement2D() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
-	public void setGeoElement2D(GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
 
 	// /////////////////////////////////////////////////
 	// REGION 3D INTERFACE

@@ -123,14 +123,9 @@ import geogebra.common.kernel.geos.GeoElement;
  * @author  ggb3D
  * 
  */
-public abstract class GeoElement3D extends GeoElement implements
-		GeoElement3DInterface {
+public abstract class GeoElement3D extends GeoElement {
 
 	
-
-	
-	/** for some 3D element (like conics, polygons, etc), a 2D GeoElement is linked to (for calculation) */
-	private GeoElement geo2D = null;
 
 	
 
@@ -158,31 +153,9 @@ public abstract class GeoElement3D extends GeoElement implements
 	
 	
 	
-	// link to 2D GeoElement
-    /**
-     * return if linked to a 2D GeoElement
-     * @return has a 2D GeoElement
-     */
-    public boolean hasGeoElement2D() {
-    	return (geo2D!=null);
-    }
+
     
-    /**
-     * return the 2D GeoElement linked to
-     * @return 2D GeoElement
-     */
-    public GeoElement getGeoElement2D(){ 
-    	return geo2D; 
-    }    
-    
-    /**
-     * set the 2D GeoElement linked to
-     * @param geo a 2D GeoElement
-     */
-    public void setGeoElement2D(GeoElement geo){ 
-    	this.geo2D = geo;
-    }
-		
+   
     /** set the alpha value to alpha for openGL
      * @param alpha alpha value
      */

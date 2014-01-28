@@ -36,8 +36,7 @@ import geogebra.common.plugin.GeoClass;
  * @author ggb3D
  * 
  */
-public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
-GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
+public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys;
@@ -438,17 +437,6 @@ GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 
 
 
-	public GeoElement getGeoElement2D() {
-		return null;
-	}
-
-	public boolean hasGeoElement2D() {
-		return false;
-	}
-
-	public void setGeoElement2D(GeoElement geo) {
-
-	}
 
 	// /////////////////////////////////
 	// Path interface

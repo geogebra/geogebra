@@ -21,7 +21,7 @@ import geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoConic3D extends GeoConicND 
-implements GeoElement3DInterface, RotateableND, MirrorableAtPlane {
+implements RotateableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys;
@@ -91,20 +91,7 @@ implements GeoElement3DInterface, RotateableND, MirrorableAtPlane {
 
 	
 
-	// ///////////////////////////////////////
-	// link with GeoElement2D
-
-	public GeoElement getGeoElement2D() {
-		return null;
-	}
-
-	public boolean hasGeoElement2D() {
-		return false;
-	}
-
-	public void setGeoElement2D(GeoElement geo) {
-		// TODO ?
-	}
+	
 
 	@Override
 	public Coords getMainDirection() {

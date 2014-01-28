@@ -1,7 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
-import geogebra.common.geogebra3D.kernel3D.algos.AlgoTo2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
@@ -179,29 +178,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 
-	// Path3D interface
 
-	/**
-	 * return the 2D segment path linked to
-	 * 
-	 * @return the 2D segment path linked to
-	 */
-	/*
-	 * public Path getPath2D(){ return (Path) getGeoElement2D(); }
-	 */
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public GeoElement getGeoElement2D() {
-
-		if (!hasGeoElement2D()) {
-			AlgoTo2D algo = new AlgoTo2D(cons, this);
-			setGeoElement2D(algo.getOut());
-		}
-		return super.getGeoElement2D();
-	}
 
 	public void setTwoPointsCoords(Coords start, Coords end) {
 		this.setCoord(start, end.sub(start));

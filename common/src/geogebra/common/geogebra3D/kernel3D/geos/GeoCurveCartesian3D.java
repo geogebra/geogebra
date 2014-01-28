@@ -40,7 +40,7 @@ import geogebra.common.plugin.Operation;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		CurveEvaluable, GeoElement3DInterface, Traceable, Path,
+		CurveEvaluable, Traceable, Path,
 		RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable{
 
 
@@ -198,24 +198,14 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 
-	public GeoElement getGeoElement2D() {
-		return null;
-	}
+
 
 	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
 	
-	public boolean hasGeoElement2D() {
-		return false;
-	}
 
-
-
-	public void setGeoElement2D(GeoElement geo) {
-
-	}
 
 	@Override
 	public boolean isGeoElement3D() {

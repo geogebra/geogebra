@@ -21,7 +21,7 @@ import geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		GeoElement3DInterface, Functional2Var, SurfaceEvaluable, GeoLevelOfDetail,
+		Functional2Var, SurfaceEvaluable, GeoLevelOfDetail,
 		Traceable{
 
 
@@ -136,10 +136,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 
 
-	public GeoElement getGeoElement2D() {
-		return null;
-	}
-
 	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
@@ -150,14 +146,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return null;
 	}
 
-	public boolean hasGeoElement2D() {
-		return false;
-	}
-
-
-	public void setGeoElement2D(GeoElement geo) {
-
-	}
+	
 
 	@Override
 	public boolean isGeoElement3D() {
