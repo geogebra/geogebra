@@ -65,6 +65,7 @@ import geogebra.common.main.MyParseError;
 import geogebra.common.main.BracketsError;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import geogebra.common.main.App;
@@ -1350,8 +1351,18 @@ ExpressionValue multterm():
         }
      |
      f = powerdivterm()
-        { 
-               ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);  
+        {
+          		String leftImg = "";
+          		if(ret instanceof Variable)          		{
+          		  leftImg = ret.toString(StringTemplate.defaultTemplate);          		}
+				Operation op = app.getParserFunctions().get(leftImg,1);
+              	if(op != null && kernel.lookupLabel(leftImg)==null)
+              	{
+              	  ret =	new ExpressionNode(kernel, f, op, null); 
+              	}else
+              	{
+               		ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+             	}  
          }	
     )*
     { return ret; }  
