@@ -43,7 +43,12 @@ public class Timer extends com.google.gwt.user.client.Timer {
 	}
 
 	public void setDelay(int delay) {
-		scheduleRepeating(delay);
+		timerDelay = delay;
+		if (isGgbRunning()) {
+			// note that this will stop the current schedule
+			// and start a new one with the new delay
+			scheduleRepeating(delay);
+		}
 	}
 
 }
