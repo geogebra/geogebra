@@ -14,7 +14,6 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 
 /**
  * @author ggb3D
@@ -248,7 +247,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		//update area
 		polyhedron.setArea(l*l*areaFactor);
-		App.debug("Aire "+polyhedron.getArea());
+		//App.debug("Aire "+polyhedron.getArea());
 		
 		//update height
 		polyhedron.setOrientedHeight(l*heightFactor);
