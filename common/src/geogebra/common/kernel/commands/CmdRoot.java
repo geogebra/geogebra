@@ -42,7 +42,7 @@ public class CmdRoot extends CommandProcessor {
 				GeoFunction gf = ((GeoFunctionable) arg[0])
 						.getGeoFunction();
 				// allow functions that can be simplified to factors of polynomials
-				if (!gf.isPolynomialFunction(true))
+				if (!gf.isPolynomialFunction(true) && gf.isDefined())
 					throw argErr(app, c.getName(), arg[0]);
 				return Root(c.getLabels(), gf);
 			}
