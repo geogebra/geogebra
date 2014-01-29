@@ -25,7 +25,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	        GColor fgColor, GColor bgColor, String labelDesc, int x,
 	        int y, boolean serif) {
 
-		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false);
+		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false, true);
 
 		return new geogebra.html5.awt.GRectangleW(x, y, dim.getWidth(), dim.getHeight());
 	}

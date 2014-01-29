@@ -234,12 +234,12 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
-	        GColor fgColor, GColor bgColor, boolean useCache) {
+	        GColor fgColor, GColor bgColor, boolean useCache, boolean updateAgain) {
 
 		String latexString = latexString0; 
 
 		if (latexString == null) 
-			return null; 
+			return null;
 
 		double rotateDegree = 0; 
 
@@ -410,8 +410,9 @@ public class DrawEquationWeb extends DrawEquation {
 			        parentElement, true, el == eqstring.length(), true,
 			        rotateDegree);
 
-			// set a flag that the kernel needs a new update
-			app1.getKernel().setUpdateAgain(true);
+			if (updateAgain)
+				// set a flag that the kernel needs a new update
+				app1.getKernel().setUpdateAgain(true);
 
 		} else{
 			
