@@ -626,9 +626,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
     }
 
 	public boolean colorEquals(GColor color1, GColor color2) {
-		return color1.getRed() == color2.getRed() &&
+		
+		return  (color1 != null && color2 != null) && 
+				(color1.getRed() == color2.getRed() &&
 				color1.getGreen() == color2.getGreen() &&
-				color1.getBlue() == color2.getBlue();
+				color1.getBlue() == color2.getBlue());
 	}
 
 	public void update() {

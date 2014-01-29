@@ -69,6 +69,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
@@ -87,7 +88,7 @@ import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.SliderPanel;
 import geogebra.html5.openjdk.awt.geom.Dimension;
-import geogebra.web.gui.dialog.ImageFileInputDialog;
+import geogebra.web.gui.dialog.FileInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
@@ -2228,6 +2229,101 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label fillingMin;
 		private FlowPanel btnPanel;
 		
+		private class MyImageFileInputDialog extends FileInputDialog{
+
+			private MyImageFileInputDialog myDialog;
+			public MyImageFileInputDialog(AppW app, GeoPoint location) {
+			    super(app, location);
+				createGUI();
+		    }
+
+			protected void createGUI() {
+				super.createGUI();
+				addGgbChangeHandler(getInputWidget().getElement(), getAppW());
+			}
+
+			public native void addGgbChangeHandler(Element el, AppW appl) /*-{
+				var dialog = this;
+				appl = this;
+				el.setAttribute("accept", "image/*");
+				el.onchange = function(event) {
+					var files = this.files;
+					console.log(files);
+					if (files.length) {
+						var fileTypes = /^image.*$/;
+						for (var i = 0, j = files.length; i < j; ++i) {
+							if (!files[i].type.match(fileTypes)) {
+								continue;
+							}
+							var fileToHandle = files[i];
+							appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel.MyImageFileInputDialog::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle,
+							 dialog.@geogebra.web.gui.dialog.FileInputDialog::getNativeHideAndFocus()());				
+							break
+						}
+					}
+				};
+			}-*/;
+
+			public void onClick(ClickEvent event) {
+			    if (event.getSource() == btCancel) {
+			    	hideAndFocus();
+			    }
+		    }
+			public native boolean openFileAsImage(JavaScriptObject fileToHandle,
+			        JavaScriptObject callback) /*-{
+				console.log("openFileAsImage begin");
+		        	
+				var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
+				if (!fileToHandle.name.toLowerCase().match(imageRegEx))
+					return false;
+
+				console.log("openFileAsImage");
+				var appl = this;
+				var reader = new FileReader();
+				reader.onloadend = function(ev) {
+					if (reader.readyState === reader.DONE) {
+						var fileData = reader.result;
+						var fileName = fileToHandle.name;
+						$wnd.console.log(fileData, fileName);
+						appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel.MyImageFileInputDialog::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
+						if (callback != null){
+							callback();
+						}
+					}
+				};
+				reader.readAsDataURL(fileToHandle);
+				return true;
+			}-*/;
+			
+			public void applyImage(String fileName, String fileData) {
+				App.debug("applíííímage");
+				MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+				String zip_directory = md5e.encrypt(fileData);
+
+				String fn = fileName;
+				int index = fileName.lastIndexOf('/');
+				if (index != -1) {
+					fn = fn.substring(index + 1, fn.length()); // filename without
+				}
+				// path
+				fn = geogebra.common.util.Util.processFilename(fn);
+
+				// filename will be of form
+				// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+				fileName = zip_directory + '/' + fn;
+
+				Construction cons = getAppW().getKernel().getConstruction();
+				getAppW().getImageManager().addExternalImage(fileName,
+				        fileData);
+				GeoImage geoImage = new GeoImage(cons);
+				getAppW().getImageManager().triggerSingleImageLoading(
+				        fileName, geoImage);
+				model.applyImage(fileName);
+				App.debug("Applying " + fileName + " from dialog");
+				
+			}
+						
+		}
 
 		public FillingPanel() {
 			model = new FillingModel(getAppW(), this);
@@ -2406,32 +2502,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			btnOpenFile.addClickHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
-					ImageFileInputDialog dialog = new ImageFileInputDialog(getAppW(), null){
-						public native void addGgbChangeHandler(Element el, AppW appl)/*-{
-							var dialog = this;
-							el.setAttribute("accept", "image/*");
-							el.onchange = function(event) {
-								var file = this.files;
-								if (files.length) {
-									var fileTypes = /^image.*$/;
-									for (var i = 0, j = files.length; i < j; ++i) {
-										if (!files[i].type.match(fileTypes)) {
-											continue;
-										}
-										$wnd.console.log("adccdccccd")
-										var fileToHandle = files[i];
-										appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::getNativeHideAndFocus()());				
-										break
-									}
-								}
-							};
-						}-*/;
-						
-						
-					};
-					dialog.addGgbChangeHandler(dialog.getInputWidget().getElement(), getAppW());
-
-				}});
+					MyImageFileInputDialog dialog = new MyImageFileInputDialog(getAppW(), null);
+				}
+				});
 
 				
 			btnPanel.add(btnImage);
@@ -2441,58 +2514,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			imagePanel.add(btnPanel);
 
         }
-		public native boolean openFileAsImage(JavaScriptObject fileToHandle,
-		        JavaScriptObject callback) /*-{
-			var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
-			if (!fileToHandle.name.toLowerCase().match(imageRegEx))
-				return false;
-
-			var appl = this;
-			var reader = new FileReader();
-			reader.onloadend = function(ev) {
-				if (reader.readyState === reader.DONE) {
-					var fileData = reader.result;
-					var fileName = fileToHandle.name;
-					$wnd.console.log(fileData, fileName);
-					appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
-					if (callback != null){
-						callback();
-					}
-				}
-			};
-			reader.readAsDataURL(fileToHandle);
-			return true;
-		}-*/;
 
 
 
-		public void applyImage(String fileName, String fileData) {
-			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-			String zip_directory = md5e.encrypt(fileData);
 
-			String fn = fileName;
-			int index = fileName.lastIndexOf('/');
-			if (index != -1) {
-				fn = fn.substring(index + 1, fn.length()); // filename without
-			}
-			// path
-			fn = geogebra.common.util.Util.processFilename(fn);
 
-			// filename will be of form
-			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-			fileName = zip_directory + '/' + fn;
-
-			Construction cons = getAppW().getKernel().getConstruction();
-			getAppW().getImageManager().addExternalImage(fileName,
-			        fileName);
-			GeoImage geoImage = new GeoImage(cons);
-			getAppW().getImageManager().triggerSingleImageLoading(
-			        fileName, geoImage);
-			model.applyImage(fileName);
-			App.debug("Applying " + fileName + " from dialog");
-			
-		}
-		
 		public void setStandardFillType() {
 			opacityPanel.setVisible(false);
 			hatchFillPanel.setVisible(false);
