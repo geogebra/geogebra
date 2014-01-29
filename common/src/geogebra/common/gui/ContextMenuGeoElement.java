@@ -278,9 +278,10 @@ public abstract class ContextMenuGeoElement {
 	public void showObjectCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 
+		boolean newVisibility = !geos2.get(0).isSetEuclidianVisible();
 		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
 			GeoElement geo1 = geos2.get(i);
-			geo1.setEuclidianVisible(!geo1.isSetEuclidianVisible());
+			geo1.setEuclidianVisible(newVisibility);
 			geo1.updateRepaint();
 			
 		}
