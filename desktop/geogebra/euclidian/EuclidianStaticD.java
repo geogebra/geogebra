@@ -63,7 +63,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 				dim = app.getDrawEquation().
 						drawEquation(app, geo, tempGraphics, 0, 0,
 						elements[i], font, ((GeoText) geo).isSerifFont(),
-						fgColor, bgColor, false, true);
+						fgColor, bgColor, false, false);
 
 				int height = dim.getHeight();
 
