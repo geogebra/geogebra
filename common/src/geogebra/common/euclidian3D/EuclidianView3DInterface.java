@@ -1,4 +1,4 @@
-package geogebra.common.geogebra3D.euclidian3D;
+package geogebra.common.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;

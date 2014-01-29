@@ -1,6 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;

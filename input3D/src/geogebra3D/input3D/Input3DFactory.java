@@ -1,6 +1,6 @@
 package geogebra3D.input3D;
 
-import geogebra.common.geogebra3D.euclidian3D.Input3D;
+import geogebra.common.euclidian3D.Input3D;
 import geogebra3D.input3D.leonar3do.InputLeo3D;
 
 

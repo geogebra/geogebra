@@ -2,7 +2,7 @@ package geogebra.common.geogebra3D.io;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.io.MyXMLHandler;

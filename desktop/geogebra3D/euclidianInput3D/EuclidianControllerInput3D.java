@@ -1,7 +1,7 @@
 package geogebra3D.euclidianInput3D;
 
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.geogebra3D.euclidian3D.Input3D;
+import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;

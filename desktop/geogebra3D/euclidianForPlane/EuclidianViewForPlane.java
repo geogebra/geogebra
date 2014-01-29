@@ -2,7 +2,7 @@ package geogebra3D.euclidianForPlane;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.draw.DrawAngle;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;

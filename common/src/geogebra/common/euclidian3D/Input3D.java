@@ -1,4 +1,4 @@
-package geogebra.common.geogebra3D.euclidian3D;
+package geogebra.common.euclidian3D;
 
 
 /**

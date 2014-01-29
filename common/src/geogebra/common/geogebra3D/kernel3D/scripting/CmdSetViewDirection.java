@@ -1,6 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.scripting;
 
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Command;

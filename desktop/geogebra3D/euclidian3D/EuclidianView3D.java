@@ -13,7 +13,7 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;

@@ -1,6 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;

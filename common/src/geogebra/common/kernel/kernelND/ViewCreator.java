@@ -1,6 +1,6 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 
 /**
  * Geo that can create a new view (e.g. planes, polygons)

@@ -1,7 +1,7 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;

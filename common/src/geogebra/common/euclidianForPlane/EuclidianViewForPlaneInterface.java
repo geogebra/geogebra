@@ -1,4 +1,4 @@
-package geogebra.common.geogebra3D.euclidianForPlane;
+package geogebra.common.euclidianForPlane;
 
 import geogebra.common.kernel.kernelND.ViewCreator;
 
