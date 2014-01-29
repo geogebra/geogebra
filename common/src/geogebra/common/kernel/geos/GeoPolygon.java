@@ -528,6 +528,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 
+	private ArrayList<GeoPoint> pointsArray;
 
 	@Override
 	public void set(GeoElement geo) {
@@ -540,23 +541,39 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			return;
 		}
 
-		int l = 0;
-		if (getPoints() != null){
-			l = getPoints().length;
+		
+		if (pointsArray == null){
+			pointsArray = new ArrayList<GeoPoint>();
 		}
 
+
+		int polyLength = poly.getPoints().length;
+
+		// augment array size if array < polyLength
+		for (int i = pointsArray.size() ; i < polyLength ; i++){
+			pointsArray.add(new GeoPoint(cons));
+		}
+
+		// set last points undefined if array > polyLength
+		for (int i = polyLength ; i < pointsArray.size() ; i++){
+			pointsArray.get(i).setUndefined();
+		}					
+
 		// make sure both arrays have same size
-		if (l != poly.getPoints().length) {
-			GeoPoint[] tempPoints = new GeoPoint[poly.getPointsLength()];
-			for (int i = 0; i < tempPoints.length; i++) {
-				tempPoints[i] = i < l ? getPoint(i) : new GeoPoint(cons);//newGeoPoint();
+		if (getPoints() == null || getPoints().length != polyLength){
+			// copy usable array part
+			GeoPoint[] tempPoints = new GeoPoint[polyLength];
+			for (int i = 0; i < polyLength; i++) {
+				tempPoints[i] = pointsArray.get(i);
 			}
 			setPoints2D(tempPoints);
 		}
 
+		// set values
 		for (int i = 0; i < getPoints().length; i++) {
 			getPoint(i).set(poly.getPoint(i).toGeoElement());
 		}
+		
 
 		setCoordSysAndPoints3D(poly);
 		updateSegments();

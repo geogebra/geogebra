@@ -235,7 +235,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	}
 
 	
-	private ArrayList<GeoPoint3D> pointsArray;
+	private ArrayList<GeoPoint3D> points3DArray;
 
 	@Override
 	public void setCoordSysAndPoints3D(GeoPolygon poly) {
@@ -247,27 +247,27 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		coordSys.set(poly.getCoordSys());
 		
 		// set 3D points
-		if (pointsArray == null){
-			pointsArray = new ArrayList<GeoPoint3D>();
+		if (points3DArray == null){
+			points3DArray = new ArrayList<GeoPoint3D>();
 		}
 		
 		// adjust size
-		for (int i = pointsArray.size(); i < points2D.length; i++) {
-			pointsArray.add(new GeoPoint3D(cons));
+		for (int i = points3DArray.size(); i < points2D.length; i++) {
+			points3DArray.add(new GeoPoint3D(cons));
 		}
 		
 		// set values
 		points = new GeoPointND[points2D.length];
 		for (int i = 0; i < points2D.length; i++) {
 			Coords v = super.getPoint3D(i);
-			GeoPoint3D point = pointsArray.get(i);
+			GeoPoint3D point = points3DArray.get(i);
 			point.setCoords(coordSys.getPoint(v.getX(),v.getY()));
 			points[i] = point;
 		}
 		
 		// set last points undefined
-		for (int i = points2D.length; i < pointsArray.size(); i++) {
-			pointsArray.get(i).setUndefined();
+		for (int i = points2D.length; i < points3DArray.size(); i++) {
+			points3DArray.get(i).setUndefined();
 		}
 		
 
