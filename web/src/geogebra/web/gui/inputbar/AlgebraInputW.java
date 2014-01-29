@@ -6,7 +6,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
@@ -332,6 +331,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 								  
 				} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V && keyCode != GWTKeycodes.KEY_X) { 
 					app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab 
+					if (keyCode == GWTKeycodes.KEY_ESCAPE) inputField.setText(null);
 				}
 				inputField.setIsSuggestionJustHappened(false);
 	}
