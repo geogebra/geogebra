@@ -465,7 +465,7 @@ public class AlgebraProcessor {
 		if(cmd.charAt(0)=='<' && cmd.startsWith("<math")){
 			return parseMathml(cmd, storeUndo, allowErrorDialog, throwMyError, autoCreateSliders, callback0);
 		}
-		final ValidExpression ve;
+		ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);	
 
@@ -572,6 +572,7 @@ public class AlgebraProcessor {
 						if (callback0 != null){
 							
 							final FunctionVariable fvX2 = fvX;
+							final ValidExpression ve2 = ve;
 							
 							callback = new AsyncOperation(){
 								
@@ -583,11 +584,11 @@ public class AlgebraProcessor {
 									//TODO: need we to catch the Exception here,
 									//which can throw the processAlgebraInputCommandNoExceptionHandling function? 
 									if (dialogResult[0] == "0"){
-										insertStarIfNeeded(undefinedVariables, ve, fvX2);
-										replaceUndefinedVariables(ve);
+										insertStarIfNeeded(undefinedVariables, ve2, fvX2);
+										replaceUndefinedVariables(ve2);
 										try {
-											addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX2);
-											geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
+											ValidExpression ve3 = addBracketsIfNeeded(cmd, ve2, undefinedVariables, fvX2);
+											geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve3);
 										} catch (Exception ee) {
 											AlgebraProcessor.this.app.showError(ee.getMessage());
 											return;
@@ -622,7 +623,7 @@ public class AlgebraProcessor {
 			// Step 7:
 			// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
 			// #3605
-			addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX);
+			ve = addBracketsIfNeeded(cmd, ve, undefinedVariables, fvX);
 			
 		} catch (Exception e) {
 
@@ -761,7 +762,7 @@ public class AlgebraProcessor {
 	
 	// reparse and replace sinx -> sin(x) (shouldn't be necessary but bug with autocreation for y=m x + c)
 	// #3605
-	public void addBracketsIfNeeded(String cmd, ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX) throws ParseException{
+	public ValidExpression addBracketsIfNeeded(String cmd, ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX) throws ParseException{
 		ve = parser.parseGeoGebraExpression(cmd);	
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -769,6 +770,8 @@ public class AlgebraProcessor {
 		if (undefinedVariables.size() > 0) {
 			wrapXinparentheses(ve, undefinedVariables, fvX, new ArrayList<String>());
 		}
+		
+		return ve;
 	}
 	
 	private void wrapXinparentheses(ValidExpression ve, TreeSet<String> undefinedVariables, FunctionVariable fvX, ArrayList<String> toRemove) {
