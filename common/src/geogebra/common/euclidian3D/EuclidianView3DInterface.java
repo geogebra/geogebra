@@ -109,8 +109,12 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 	 * 
 	 */
 	public void setWaitForUpdate();
-	
-	
+
+	/**
+	 * set if y axis is up (and not z axis)
+	 * @param flag flag
+	 */
+	public void setYAxisIsUp(boolean flag);	
 	
 	
 	
