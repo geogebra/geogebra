@@ -1,5 +1,11 @@
 package geogebra.common.geogebra3D.archimedean.support;
 
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.geom.ArchiBuilder;
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.geom.Facet;
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.geom.Surface;
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.utils.ObjectList;
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.utils.OrderedTriple;
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.utils.Quick3X3Matrix;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -9,13 +15,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import com.quantimegroup.solutions.archimedean.geom.ArchiBuilder;
-import com.quantimegroup.solutions.archimedean.geom.Facet;
-import com.quantimegroup.solutions.archimedean.geom.Surface;
-import com.quantimegroup.solutions.archimedean.utils.ObjectList;
-import com.quantimegroup.solutions.archimedean.utils.OrderedTriple;
-import com.quantimegroup.solutions.archimedean.utils.Quick3X3Matrix;
 
 /**
  * Represents an Archimedean Solid. Contains an array of vertices and an array

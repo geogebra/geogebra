@@ -1,8 +1,7 @@
 package geogebra.common.geogebra3D.archimedean.support;
 
+import geogebra.common.geogebra3D.archimedean.com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 import geogebra.common.kernel.commands.Commands;
-
-import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
 /**
  * Factory for creating Archimedean solids.
