@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -304,8 +307,11 @@ public class ToolBarW extends MenuBar {
 		        && !((ModeToggleMenu.MyJToggleButton)item).isTriangleHighlighted()) {
 			((ModeToggleMenu) item.getSubMenu()).selectMenuItem(item);
 			app.setMode(Integer.parseInt(item.getElement().getAttribute("mode")));
-		} else
+		} else if ((DOM.eventGetType(event) == Event.ONKEYDOWN) && (Event.getCurrentEvent().getKeyCode()==KeyCodes.KEY_ESCAPE)){
+			app.setMoveMode();
+		} else {
 			super.onBrowserEvent(event);
+		}
 	}
 
 	
