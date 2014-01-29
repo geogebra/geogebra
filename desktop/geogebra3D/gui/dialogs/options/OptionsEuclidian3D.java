@@ -38,6 +38,8 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	private AxisPanel3D zAxisPanel;
 	
 	private JCheckBox cbUseClipping, cbShowClipping;
+	
+	private JCheckBox cbYAxisIsUp;	
 
 	private JRadioButton radioClippingSmall, radioClippingMedium, radioClippingLarge;
 
@@ -58,10 +60,19 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	}
 	
 	
-	
+	@Override
+	protected void initAxesOptionsPanel() {
+		// y axis is up
+		cbYAxisIsUp = new JCheckBox(app.getPlain("YAxisIsUp")); 	
+
+		super.initAxesOptionsPanel();
+		
+		axesOptionsPanel.add(LayoutUtil.flowPanel(cbYAxisIsUp));
+	}
 	
 	@Override
 	protected JPanel buildBasicPanel() {
+		
 
 		//-------------------------------------
 		// clipping options panel
@@ -137,7 +148,12 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	public void updateGUI() {
 		super.updateGUI();
 
-		//basic panel
+		// y axis is up
+		cbYAxisIsUp.removeActionListener(this);
+		cbYAxisIsUp.setSelected(((EuclidianView3D) view).getYAxisIsUp());
+		cbYAxisIsUp.addActionListener(this);
+		
+		//clipping panel
 		cbUseClipping.removeActionListener(this);
 		cbUseClipping.setSelected(((EuclidianView3D) view).useClippingCube());
 		cbUseClipping.addActionListener(this);
@@ -364,7 +380,10 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 		
 		zAxisPanel.setLabels();
 		
-		//basic tab
+		//y axis is up
+		cbYAxisIsUp.setText(app.getPlain("YAxisIsUp"));
+		
+		//clipping tab
 		clippingOptionsPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Clipping")));
 		cbUseClipping.setText(app.getPlain("UseClipping"));
@@ -397,7 +416,9 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	@Override
 	protected void doActionPerformed(Object source) {	
 			
-		if (source == cbUseClipping) {
+		if (source == cbYAxisIsUp) {
+			((EuclidianView3D) view).setYAxisIsUp(cbYAxisIsUp.isSelected());
+		}else if (source == cbUseClipping) {
 			((EuclidianView3D) view).setUseClippingCube(cbUseClipping.isSelected());			
 		}else if (source == cbShowClipping) {
 				((EuclidianView3D) view).setShowClippingCube(cbShowClipping.isSelected());		

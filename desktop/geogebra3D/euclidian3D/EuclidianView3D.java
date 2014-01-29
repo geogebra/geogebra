@@ -695,12 +695,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		return yAxisIsUp;
 	}
 	
-	/**
-	 * set if y axis is up (and not z axis)
-	 * @param flag flag
-	 */
+
 	public void setYAxisIsUp(boolean flag){
 		yAxisIsUp = flag;
+		updateMatrix();
+		setViewChanged();
+		setWaitForUpdate();
+
 	}
 
 	
@@ -2703,6 +2704,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		sb.append(bgColor.getBlue());
 		sb.append("\"/>\n");
 		
+		// y axis is up
+		if (getYAxisIsUp()){
+			sb.append("\t<yAxisIsUp val=\"true\"/>\n");
+		}
 		
 		// clipping cube
 		sb.append("\t<clipping use=\"");

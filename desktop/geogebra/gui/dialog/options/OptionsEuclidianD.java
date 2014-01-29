@@ -83,8 +83,15 @@ public class OptionsEuclidianD extends
 	// GUI containers
 	protected AxisPanel xAxisPanel, yAxisPanel;
 	protected JTabbedPane tabbedPane;
-	private JPanel dimPanel, stylePanel, typePanel, axesOptionsPanel, consProtocolPanel,
-			miscPanel, selectViewPanel;
+	private JPanel dimPanel, stylePanel, typePanel;
+
+	protected JPanel axesOptionsPanel;
+
+	private JPanel consProtocolPanel;
+
+	private JPanel miscPanel;
+
+	private JPanel selectViewPanel;
 
 	// GUI elements
 	private JButton btBackgroundColor;
@@ -268,7 +275,10 @@ public class OptionsEuclidianD extends
 				tfAxesRatioX, new JLabel(" : "), tfAxesRatioY, cbLockRatio));
 	}
 
-	private void initAxesOptionsPanel() {
+	/**
+	 * init axes options panel
+	 */
+	protected void initAxesOptionsPanel() {
 
 		// show axes checkbox
 		cbShowAxes = new JCheckBox(app.getPlain("ShowAxes"));
