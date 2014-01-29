@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
@@ -130,7 +131,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         setEfficientDependencies(input, efficientInput);
     }
     
-    public void modifyInputPoints(GeoPoint A, GeoPoint B){
+    public void modifyInputPoints(GeoPointND A, GeoPointND B){
  
     	//same points : return
     	if ((P==A && Q==B) || (Q==A && P==B))
@@ -139,8 +140,8 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     	for (int i=0;i<input.length;i++)
     		input[i].removeAlgorithm(this);
     	
-    	P=A;
-    	Q=B;   	
+    	P=(GeoPoint) A;
+    	Q=(GeoPoint) B;   	
     	s.setPoints(P, Q);
     	setInputOutput(); 
     	

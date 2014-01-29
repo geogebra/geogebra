@@ -24,8 +24,8 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -147,7 +147,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param p polygon
 	 * 			
 	 */
-	public void setCoordSys(GeoPolygon p) {
+	public void setCoordSysAndPoints3D(GeoPolygon p) {
 		//3D only
 	}
 
@@ -380,6 +380,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			s.setLabel(lowerCaseLabel);
 		}
 	}
+	
+	private ArrayList<GeoSegmentND> segmentsArray;
 
 	/**
 	 * Updates all segments of this polygon for its point array. Note that the
@@ -389,60 +391,55 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	private void updateSegments() {
 		if (points == null)
 			return;
-
-		GeoSegmentND[] oldSegments = segments;
-		segments = new GeoSegmentND[getPointsLength()]; // new segments
-
-		if (oldSegments != null) {
-			// reuse or remove old segments
-			for (int i = 0; i < oldSegments.length; i++) {
-				if (i < segments.length
-						&& oldSegments[i].getStartPointAsGeoElement() == points[i]
-								&& oldSegments[i].getEndPointAsGeoElement() == points[(i + 1)
-								                                                      % getPointsLength()]) {
-					// reuse old segment
-					segments[i] = oldSegments[i];
-				} else {
-					// remove old segment
-					// ((AlgoJoinPointsSegment)
-					// oldSegments[i].getParentAlgorithm()).removeSegmentOnly();
-					removeSegment(oldSegments[i]);
-				}
-			}
+		
+		// make sure the polygon is defined to get correct euclidian visibility
+		setDefined();
+		
+		boolean euclidianVisible;
+		
+		// check array and euclidian visibility
+		if (segmentsArray == null){
+			segmentsArray = new ArrayList<GeoSegmentND>();
+			euclidianVisible = isEuclidianVisible();
+		}else{
+			euclidianVisible = segmentsArray.get(0).isEuclidianVisible();
+		}
+		
+		segments = new GeoSegmentND[getPointsLength()];
+		
+		// set first values
+		for (int i = 0; i < segmentsArray.size() && i < points.length; i++) {
+			GeoPointND startPoint = points[i];
+			GeoPointND endPoint = points[(i + 1)  % getPointsLength()];	
+			GeoSegmentND segment = segmentsArray.get(i);
+			AlgoJoinPointsSegmentInterface algo = (AlgoJoinPointsSegmentInterface) segment.getParentAlgorithm();
+			algo.modifyInputPoints(startPoint, endPoint);
+			algo.compute();
+			segments[i] = segment;
+			segment.setEuclidianVisible(euclidianVisible);
 		}
 
-		// make sure segments created visible if appropriate
-		setDefined();
 
-		// create missing segments
-		for (int i = 0; i < segments.length; i++) {
+		// adjust size
+		for (int i = segmentsArray.size(); i < points.length; i++) {
 			GeoPointND startPoint = points[i];
 			GeoPointND endPoint = points[(i + 1) % getPointsLength()];
-
-			if (segments[i] == null) {
-				segments[i] = createSegment(
-						startPoint,
-						endPoint,
-						(i == 0 ? isEuclidianVisible() : segments[0]
-								.isEuclidianVisible()));
-			}
+			GeoSegmentND segment = createSegment(startPoint, endPoint, euclidianVisible);
+			segmentsArray.add(segment);
+			segments[i] = segment;
 		}
+
+
+
+		// set last segments undefined
+		for (int i = points.length; i < segmentsArray.size(); i++) {
+			segmentsArray.get(i).setUndefined();
+		}
+		
+		
+		
 	}
 
-	/**
-	 * remove an old segment
-	 * 
-	 * @param oldSegment
-	 *            the old segment
-	 */
-	public void removeSegment(GeoSegmentND oldSegment) {
-		if(oldSegment==null)
-			return;
-		AlgoElement parentAlgo = ((GeoSegment) oldSegment).getParentAlgorithm();
-		// if this polygon is Polygon[<list of points>], we don't do anything
-		if (parentAlgo instanceof AlgoJoinPointsSegment)
-			((AlgoJoinPointsSegment) parentAlgo).removeSegmentOnly();
-	}
 
 	/**
 	 * return a segment joining startPoint and endPoint
@@ -534,6 +531,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	@Override
 	public void set(GeoElement geo) {
+		
 		GeoPolygon poly = (GeoPolygon) geo;
 		area = poly.area;
 
@@ -560,7 +558,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			getPoint(i).set(poly.getPoint(i).toGeoElement());
 		}
 
-		setCoordSys(poly);
+		setCoordSysAndPoints3D(poly);
 		updateSegments();
 		defined = poly.defined;
 
@@ -610,7 +608,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * 
 	 * @return points of this polygon
 	 */
-	public GeoPointND[] getPointsND() {
+	final public GeoPointND[] getPointsND() {
 
 		return points;
 	}

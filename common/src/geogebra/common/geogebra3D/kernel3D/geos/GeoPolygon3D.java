@@ -2,7 +2,6 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
-import geogebra.common.geogebra3D.kernel3D.algos.AlgoVertexPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -11,7 +10,6 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -25,6 +23,8 @@ import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+
+import java.util.ArrayList;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
@@ -234,13 +234,43 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		}
 	}
 
+	
+	private ArrayList<GeoPoint3D> pointsArray;
 
 	@Override
-	public void setCoordSys(GeoPolygon p) {
+	public void setCoordSysAndPoints3D(GeoPolygon poly) {
+		
+		// set coord sys
 		if (coordSys == null) {
 			coordSys = new CoordSys(2);
 		}
-		coordSys.set(p.getCoordSys());
+		coordSys.set(poly.getCoordSys());
+		
+		// set 3D points
+		if (pointsArray == null){
+			pointsArray = new ArrayList<GeoPoint3D>();
+		}
+		
+		// adjust size
+		for (int i = pointsArray.size(); i < points2D.length; i++) {
+			pointsArray.add(new GeoPoint3D(cons));
+		}
+		
+		// set values
+		points = new GeoPointND[points2D.length];
+		for (int i = 0; i < points2D.length; i++) {
+			Coords v = super.getPoint3D(i);
+			GeoPoint3D point = pointsArray.get(i);
+			point.setCoords(coordSys.getPoint(v.getX(),v.getY()));
+			points[i] = point;
+		}
+		
+		// set last points undefined
+		for (int i = points2D.length; i < pointsArray.size(); i++) {
+			pointsArray.get(i).setUndefined();
+		}
+		
+
 	}
 
 	/**
@@ -878,40 +908,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	}	
 	
 	
-	
-	
-	
-	private AlgoVertexPolygon algoVertex;
-	
-	private GeoPointND[] algoVertexPoints;
-
-
-	@Override
-	final public GeoPointND[] getPointsND() {
-		
-		 GeoPointND[] ret = super.getPointsND();
-
-		if (ret == null){
-			if (algoVertex == null){
-				algoVertex = new AlgoVertexPolygon3D(getConstruction(), this);			
-			}
-
-			if (algoVertexPoints == null || algoVertexPoints.length != algoVertex.getVertex().length){
-				GeoElement[] output = algoVertex.getVertex();
-				algoVertexPoints = new GeoPointND[output.length];
-				for (int i = 0 ; i < output.length ; i++){
-					algoVertexPoints[i] = (GeoPointND) output[i];
-				}
-			}
-			
-			return algoVertexPoints;
-			
-		}
-	
-
-		return ret;
-	}
-
 	
 	
 

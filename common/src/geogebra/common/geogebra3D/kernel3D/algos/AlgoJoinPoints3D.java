@@ -181,11 +181,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D implements AlgoJoinPointsSeg
         }
     }  
     
-    /**
-     * modify input points
-     * @param A first point
-     * @param B second point
-     */
+
     public void modifyInputPoints(GeoPointND A, GeoPointND B){
     	
     	//same points : return

@@ -170,9 +170,14 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		brush.start(8);
 		brush.setThickness(poly.getLineThickness(),(float) getView3D().getScale());
 		
-		for (GeoSegmentND seg: poly.getSegmentsLinked()){
-			drawSegment(brush, seg);
-		}
+		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()){
+			// draw segments for polygons that have no label
+			if (p.isEuclidianVisible() && !p.isLabelSet()){
+				for (GeoSegmentND seg: p.getSegments()){
+					drawSegment(brush, seg);
+				}
+			}
+		}				
 		for (GeoSegmentND seg: poly.getSegments()){
 			drawSegment(brush, seg);
 		}

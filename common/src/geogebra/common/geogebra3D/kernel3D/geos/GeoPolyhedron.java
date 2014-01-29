@@ -422,6 +422,7 @@ HasHeight
 		ConstructionElementCycle key = ConstructionElementCycle
 				.SegmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
+		
 
 		// check if this segment is not already created
 		if (segmentsIndex.containsKey(key)){
@@ -435,6 +436,7 @@ HasHeight
 			//App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
 		}
+		
 
 		//App.error("new segment : "+key);
 
@@ -483,6 +485,7 @@ HasHeight
 				.SegmentDescription(segment.getStartPointAsGeoElement(),
 						segment.getEndPointAsGeoElement());
 
+		//App.debug("linked : "+key);
 		segmentsLinked.put(key, segment);
 	}
 
