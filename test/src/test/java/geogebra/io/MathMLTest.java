@@ -42,6 +42,11 @@ public class MathMLTest {
 		"<math style=\"font-size: 8pt\" display=\"block\"> <mrow><mi>n</mi><mo>!</mo></mrow> </math>",
 		// greek letters
 		"<math style=\"font-size: 8pt\" display=\"block\"> <mrow><mi>&alpha;</mi><mo>+</mo><mi>&beta;</mi><mo>+</mo><mi>&gamma;</mi></mrow> </math>",
+		
+		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mstyle displaystyle=\"true\"><mi> sin </mi>  <mfenced>  <mrow>        <mi> x </mi>      </mrow>    </mfenced>  </mstyle></math>",
+		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\">  <mstyle displaystyle=\"true\">    <munderover>      <mrow>        <mo> &#x222B;<!--integral--> </mo>      </mrow>      <mrow>        <mn> 0 </mn>      </mrow>      <mrow>        <mn> 1 </mn>      </mrow>    </munderover>    <msup>      <mrow>        <mi> x </mi>      </mrow>      <mrow>        <mn> 2 </mn>      </mrow>    </msup>  </mstyle></math>",
+		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\">  <mstyle displaystyle=\"true\">    <munderover>      <mrow>        <mo> &#x2211;<!--n-ary summation--> </mo>      </mrow>      <mrow>        <mi> k </mi>        <mo> = </mo>        <mn> 1 </mn>      </mrow>      <mrow>        <mn> 3 </mn>      </mrow>    </munderover>    <mi> k </mi>  </mstyle></math>",
+		"<math xmlns=\"http://www.w3.org/1998/Math/MathML\">   <mstyle displaystyle=\"true\">     <msubsup>       <mrow>         <mi> x </mi>       </mrow>       <mrow>         <mn> 1 </mn>       </mrow>       <mrow>         <mn> 2 </mn>       </mrow>     </msubsup>   </mstyle> </math>"
 	};
 	/**
 	 * just for running test-cases

@@ -26,12 +26,12 @@ public class MathMLParser {
 		// Tags:
 		geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
 		geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
-		geogebraMap.put("<msub>", "%BLOCK1%");// ignored for now, FIXME
+		geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");// TODO _{1} -> _1 at the end of parsing
 		geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
 		geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
 		geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial coefficient, FIXME
-		geogebraMap.put("<msubsup>", "%BLOCK1%");// ignored for now, FIXME (subscripted variable powered)
-		geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%)");// ignored for now, FIXME (subscripted variable powered)
+		geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)");// ignored for now, FIXME (subscripted variable powered)
+		geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,");// ignored for now, FIXME (subscripted variable powered)
 		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
 		geogebraMap.put("<mtable>", "{%BLOCKS%}");
 		geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
@@ -685,6 +685,7 @@ public class MathMLParser {
 	private StringBuilder tagBuf = new StringBuilder(200);  // used by readNextTag() & getBlockEnd()
 	private StringBuilder entity = new StringBuilder(32); // used by replaceEntities()
 	private String entitySubst = ""; // used by replaceEntities()
+	private boolean closeBracketNext = false;
 
 
 	/**
@@ -792,7 +793,7 @@ public class MathMLParser {
 			pos = 0;
 			try {
 				while (strBuf.indexOf("<", pos) != -1) {
-					parseBlock(getNextTag(), result);
+					parseBlock(getNextTag(), result, true);
 					skipFollowingTag();
 				}
 				// TODO besser result stutzen? -> return new StringBuilder(result) o. result.toString()
@@ -835,11 +836,13 @@ public class MathMLParser {
 	 * </p>
 	 * 
 	 * @param startTag startTag
-	 * @param result 
+	 * @param result builder to which we append the string
+	 * @param appendSpace whether space shoud be appended after the block content
 	 * @throws Exception if an error occurs while parsing
 	 */
-	void parseBlock(String startTag, StringBuilder result) throws Exception {
-
+	void parseBlock(String startTag, StringBuilder result, boolean appendSpace) throws Exception {
+		boolean closeBracketNow = this.closeBracketNext;
+		this.closeBracketNext = false;
 		String endTag = generateEndTag(startTag);
 		
 		//System.out.println(startTag+ " "+endTag);
@@ -865,6 +868,9 @@ public class MathMLParser {
 				if (inside) {
 					blockContent = strBuf.substring(pos, blockEnd+1);
 					result.append(parseBlockContent(blockContent));
+					if(appendSpace){
+						result.append(' ');
+					}
 					pos = pos + blockContent.length();
 					blockContent = null;
 				}
@@ -915,8 +921,11 @@ public class MathMLParser {
 							// parse subblocks
 							while ((strBuf.substring(pos, blockEnd+1)).indexOf('<') != -1) {
 								nextTag = getNextTag();
-								parseBlock(nextTag, result);
+								parseBlock(nextTag, result, true);
 								skipFollowingTag();
+							}
+							if(!appendSpace){
+								result.setLength(result.length()-1);
 							}
 						}
 						else {
@@ -937,7 +946,7 @@ public class MathMLParser {
 
 							// parse subblock
 							nextTag = getNextTag();
-							parseBlock(nextTag, result);
+							parseBlock(nextTag, result, false);
 
 							skipFollowingTag();
 						}
@@ -950,16 +959,25 @@ public class MathMLParser {
 					}
 
 					pos = blockEnd + endTag.length();
+					if(substitutions.get(startTag).endsWith(",")){
+						this.closeBracketNext  = true;
+					}
 				}
 				else {
 
 					// parse subblocks of nextTag
 					while ((strBuf.substring(pos, blockEnd+1)).indexOf('<') != -1) {
 						nextTag = getNextTag();
-						parseBlock(nextTag, result);
+						parseBlock(nextTag, result, true);
 						skipFollowingTag();
 					}
+					if(!appendSpace){
+						result.setLength(result.length()-1);
+					}
 				}
+			}
+			if(closeBracketNow){
+				result.append(")");
 			}
 		}
 		//System.out.print(pos);
@@ -1339,10 +1357,7 @@ public class MathMLParser {
 		}
 		
 		*/
-		if(sb.charAt(sb.length()-1)!=' '){
-			sb.append(' ');
-		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	/**
