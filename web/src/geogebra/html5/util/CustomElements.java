@@ -1,6 +1,5 @@
 package geogebra.html5.util;
 
-import geogebra.common.GeoGebraConstants;
 
 /**
  * @author gabor
@@ -20,7 +19,7 @@ public final class CustomElements {
 	 * Register the <geogebra-web /> element in the DOM
 	 */
 	public static void registerGeoGebraWebElement() {
-		register(GeoGebraConstants.WEB_CUSTOM_HTML_ELEMENT_NAME);
+		//register(GeoGebraConstants.WEB_CUSTOM_HTML_ELEMENT_NAME);
 	}
 
 	private static native boolean checkSupport() /*-{

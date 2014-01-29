@@ -79,7 +79,6 @@ public class Browser {
 	
 	private static native boolean doCheckFloat64()/*-{
 		var floatSupport = 'undefined' !== typeof Float64Array;
-		$wnd.console.log("FLOAT: "+floatSupport);
 		return 'undefined' !== typeof Float64Array;
 	}-*/;
 
