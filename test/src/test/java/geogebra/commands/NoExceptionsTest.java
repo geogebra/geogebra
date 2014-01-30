@@ -100,6 +100,8 @@ public class NoExceptionsTest {
 		t("object=(1,1)");
 		t("listSpline={(2,3),(1,4),(2,5),(3,1)}");
 		t("degree=4");
+		t("P=(2,3)");
+		t("c:circle[P,2]");
 	}
 	public static int syntaxes;
 	@Before
@@ -475,6 +477,7 @@ public class NoExceptionsTest {
 	public void cmdCurvature() {
 		t("Curvature[ Pt1, curve1 ]");
 		t("Curvature[ Pt1, f1 ]");
+		t("Curvature[ Pt1, c ]");
 	}
 
 	@Test

@@ -3,6 +3,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -19,6 +20,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	private GeoPoint A; // input
 	private GeoCurveCartesian f;
     private GeoNumeric K; //output
+    private GeoConic gc=null;
     
     public AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f){
     	this(cons, A, f);
@@ -31,6 +33,16 @@ public class AlgoCurvatureCurve extends AlgoElement {
     	}    	
     }
     
+    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoConic f){
+    	this(cons, A, f);
+    	
+    	if (label != null) {
+    	    K.setLabel(label);
+    	}else{
+    		// if we don't have a label we could try k
+    	    K.setLabel("k"); 
+    	}    	
+    }
     public AlgoCurvatureCurve(Construction cons, GeoPoint A, GeoCurveCartesian f) {
         super(cons);
         this.f = f;
@@ -41,6 +53,16 @@ public class AlgoCurvatureCurve extends AlgoElement {
         compute();
     }
  
+    public AlgoCurvatureCurve(Construction cons, GeoPoint A, GeoConic gc) {
+        super(cons);
+        f=new GeoCurveCartesian(cons);
+        this.gc=gc;
+        this.A = A;
+        K = new GeoNumeric(cons);             
+		        
+        setInputOutput();
+        compute();
+    }
     @Override
 	public Commands getClassName() {
         return Commands.Curvature;
@@ -51,6 +73,10 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = A;
+        if (gc!=null){
+        	gc.toGeoCurveCartesian(f);
+        	input[1] = gc;
+        } else
         input[1] = f;
        
         super.setOutputLength(1);
@@ -64,7 +90,10 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
     @Override
 	public final void compute() {
-    	if (f.isDefined()) {	    	
+    	if (f.isDefined()) {	
+    		if (gc!=null){
+    			gc.toGeoCurveCartesian(f);
+    		}
 	    	double t = f.getClosestParameter(A, f.getMinParameter());	    		        
 	        K.setValue( f.evaluateCurvature(t) );
     	} else {

@@ -3324,7 +3324,7 @@ Region3D, GeoDirectionND
 			evX = new ExpressionNode(kernel, 
 					new ExpressionNode(kernel,fv,Operation.COS,null),
 					Operation.MULTIPLY,
-					new MyDouble(kernel,halfAxes[0]));
+					new MyDouble(kernel,-halfAxes[0]));
 			evY = new ExpressionNode(kernel, 
 					new ExpressionNode(kernel,fv,Operation.SIN,null),
 					Operation.MULTIPLY,
