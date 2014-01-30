@@ -182,9 +182,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 				// bottom polygon is a set() polygon, so force augment its points and segments length
 				GeoPolygon polygon = getBottom();
 				int nOld = polygon.getPointsLength();
-				polygon.setPointsAndSegmentsLength(n);
+				if (nOld < n){
+					polygon.setPointsAndSegmentsLength(n);
+					updateOutput(n);
+					polygon.setPointsAndSegmentsLength(nOld);
+				}
 				updateOutput(n);
-				polygon.setPointsAndSegmentsLength(nOld);
 			}
 	
 			

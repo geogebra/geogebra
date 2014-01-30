@@ -93,8 +93,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			polyhedron.addPointToCurrentFace(topPoint);//apex
 			polyhedron.endCurrentFace();
 		}
-		
-		polyhedron.setCurrentFaceIsLastFace();
 
 		polyhedron.setType(GeoPolyhedron.TYPE_PYRAMID);
 		
