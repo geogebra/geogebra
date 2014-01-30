@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
@@ -89,6 +90,11 @@ public class AlgoListElement extends AlgoElement {
 			// saved in XML from 4.0.18.0
 			element = cons.getOutputGeo();
 		}
+		
+		if (element.isGeoPolygon()){ // ensure type will not be sticked to e.g. "triangle"
+			((GeoPolygon) element).setNotFixedPointsLength(true);
+		}
+		
 		setInputOutput();
 		compute();
 	}

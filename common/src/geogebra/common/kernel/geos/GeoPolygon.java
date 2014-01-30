@@ -536,6 +536,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		
 		GeoPolygon poly = (GeoPolygon) geo;
 		area = poly.area;
+		
+		if (!notFixedPointsLength){ // maybe already set by AlgoListElement
+			notFixedPointsLength = poly.notFixedPointsLength;
+		}
 
 		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1], j], i, 0, 300] 
 		if (poly.getPoints() == null) { 
