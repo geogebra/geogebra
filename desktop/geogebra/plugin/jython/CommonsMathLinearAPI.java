@@ -6,8 +6,10 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.SingularValueDecomposition;
-import org.apache.commons.math.linear.SingularValueDecompositionImpl;
+
+// TODO: not in webapache
+//import org.apache.commons.math.linear.SingularValueDecomposition;
+//import org.apache.commons.math.linear.SingularValueDecompositionImpl;
 
 /**
  * API for obfuscation-proof interaction between Python and apache.commons.math.linear
@@ -26,8 +28,8 @@ public class CommonsMathLinearAPI {
 	public static final Class<RealMatrix> RealMatrixClass = RealMatrix.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<Array2DRowRealMatrix> Array2DRowRealMatrixClass = Array2DRowRealMatrix.class;
-	@SuppressWarnings("javadoc")
-	public static final Class<SingularValueDecompositionImpl> SingularValueDecompositionImplClass = SingularValueDecompositionImpl.class;
+	//@SuppressWarnings("javadoc")
+	//public static final Class<SingularValueDecompositionImpl> SingularValueDecompositionImplClass = SingularValueDecompositionImpl.class;
 	
 	@SuppressWarnings("javadoc")
 	public static final Class<MathRuntimeException> MathRuntimeExceptionClass = MathRuntimeException.class;
@@ -83,9 +85,9 @@ public class CommonsMathLinearAPI {
 	 * @param mat the matrix to be decomposed
 	 * @return newly created SingularValueDecompositionImpl for mat
 	 */
-	public static final SingularValueDecompositionImpl newSingularValueDecompositionImpl(RealMatrix mat) {
-		return new SingularValueDecompositionImpl(mat);
-	}
+	//public static final SingularValueDecompositionImpl newSingularValueDecompositionImpl(RealMatrix mat) {
+	//	return new SingularValueDecompositionImpl(mat);
+	//}
 	
 	/* Real Vector operations */
 	
@@ -312,9 +314,9 @@ public class CommonsMathLinearAPI {
 	 * @param dec the decomposition
 	 * @return the solver for dec
 	 */
-	public static final DecompositionSolver getSolver(SingularValueDecomposition dec) {
-		return dec.getSolver();
-	}
+	//public static final DecompositionSolver getSolver(SingularValueDecomposition dec) {
+	//	return dec.getSolver();
+	//}
 	
 	/* Decomposition Solver */
 	
