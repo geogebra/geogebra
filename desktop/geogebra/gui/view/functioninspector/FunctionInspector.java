@@ -1294,15 +1294,14 @@ public class FunctionInspector implements View, MouseListener,
 		pointTabGeoList.add(oscCircle);
 
 		// derivative
-		AlgoDerivative deriv = new AlgoDerivative(cons, f);
+		AlgoDerivative deriv = new AlgoDerivative(cons, f, true);
 		cons.removeFromConstructionList(deriv);
 		derivative = (GeoFunction) deriv.getGeoElements()[0];
 		derivative.setEuclidianVisible(false);
 		hiddenGeoList.add(derivative);
 
 		// 2nd derivative
-		AlgoDerivative deriv2 = new AlgoDerivative(cons, f, null, new MyDouble(
-				kernel, 2.0));
+		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true);
 		cons.removeFromConstructionList(deriv2);
 		derivative2 = (GeoFunction) deriv2.getGeoElements()[0];
 		derivative2.setEuclidianVisible(false);

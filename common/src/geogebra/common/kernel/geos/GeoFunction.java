@@ -389,11 +389,11 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * @param n
 	 *            order of derivative
 	 */
-	public void setDerivative(CasEvaluableFunction fd, int n) {
+	public void setDerivative(CasEvaluableFunction fd, int n, boolean fast) {
 		GeoFunction f = (GeoFunction) fd;
 
 		if (f.isDefined()) {
-			fun = f.fun.getDerivative(n);
+			fun = f.fun.getDerivative(n, fast);
 			
 			checkDefined();
 			
@@ -520,7 +520,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		// if (getParentAlgorithm() instanceof AlgoFunctionFreehand)
 		// derivGeoFun.setUndefined();
 		// else
-		derivGeoFun.setDerivative(this, order);
+		derivGeoFun.setDerivative(this, order, false);
 
 		return derivGeoFun;
 	}
@@ -1032,8 +1032,8 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * @author Victor Franco Espino, Markus Hohenwarter
 	 */
 	public double evaluateCurvature(double x) {
-		Function f1 = fun.getDerivative(1);
-		Function f2 = fun.getDerivative(2);
+		Function f1 = fun.getDerivative(1, true);
+		Function f2 = fun.getDerivative(2, true);
 		if (f1 == null || f2 == null)
 			return Double.NaN;
 

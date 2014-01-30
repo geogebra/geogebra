@@ -404,7 +404,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	final public LinkedList<PolyFunction> getSymbolicPolynomialDerivativeFactors(
 			int n, boolean rootFindingSimplification) {
-		Function deriv = getDerivative(n);
+		Function deriv = getDerivative(n, false);
 		if (deriv == null)
 			return null;
 
@@ -773,7 +773,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		if (geoDeriv == null)
 			geoDeriv = new GeoFunction(kernel.getConstruction());
 
-		Function deriv = getDerivative(n);
+		Function deriv = getDerivative(n, false);
 		geoDeriv.setFunction(deriv);
 		geoDeriv.setDefined(deriv != null);
 		return geoDeriv;
@@ -788,8 +788,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            order
 	 * @return derivative
 	 */
-	final public Function getDerivative(int n) {
-		return getDerivative(n, true);
+	final public Function getDerivative(int n, boolean fast) {
+		return getDerivative(n, true, fast);
 	}
 
 	/**
@@ -800,17 +800,18 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            order
 	 * @return derivative
 	 */
-	final public Function getDerivativeNoFractions(int n) {
-		return getDerivative(n, false);
+	final public Function getDerivativeNoFractions(int n, boolean fast) {
+		return getDerivative(n, false, fast);
 	}
 
 	/**
 	 * 
 	 * @param n derivative order
 	 * @param keepFractions true for 123/100, false for 1.23 in coefficients
+	 * @param fast if true -> use fast non-CAS derivatives
 	 * @return n-th derivative
 	 */
-	final Function getDerivative(int n, boolean keepFractions) {
+	final Function getDerivative(int n, boolean keepFractions, boolean fast) {
 		
 		
 		 // check if it's a polynomial
@@ -824,7 +825,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			 return polyDeriv.getFunction(kernel, getFunctionVariable());
 		}
 		 
-		 if (!kernel.useCASforDerivatives()) {
+		 if (fast || !kernel.useCASforDerivatives()) {
 			 
 			 return getDerivativeNoCAS(n);
 			 
@@ -951,7 +952,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @return real root function
 	 */
 	final public RealRootDerivFunction getRealRootDerivFunction() {
-		Function deriv = getDerivativeNoFractions(1);
+		Function deriv = getDerivativeNoFractions(1, false);
 		if (deriv == null) {
 			return null;
 		}

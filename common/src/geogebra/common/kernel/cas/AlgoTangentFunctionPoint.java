@@ -15,6 +15,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.commands.Commands;
@@ -26,7 +27,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 /**
  * Algorithm for tangent of function
  */
-public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo implements TangentAlgo {
+public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo {
 
 	private GeoPoint P; // input
 	private GeoLine tangent; // output
@@ -34,6 +35,7 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo implements Ta
 	private GeoPoint T;
 	private boolean pointOnFunction;
 	private GeoFunction deriv;
+	private AlgoDerivative algo;
 
 	/**
 	 * @param cons construction
@@ -73,7 +75,11 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo implements Ta
 			T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
 
-		refreshCASResults();
+		// derivative of f
+		// use fast non-CAS derivative
+		algo = new AlgoDerivative(cons, f, true);
+		deriv = (GeoFunction) algo.getResult();
+		cons.removeFromConstructionList(algo);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -163,14 +169,6 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo implements Ta
 		return loc.getPlain("TangentToAatB", f.getLabel(tpl),
 				"x = x(" + P.getLabel(tpl) + ")");
 
-	}
-
-	@Override
-	public void refreshCASResults() {
-		// derivative of f
-		algoCAS = new AlgoDerivative(cons, f);
-		deriv = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
-		cons.removeFromConstructionList(algoCAS);
 	}
 
 	// TODO Consider locusequability

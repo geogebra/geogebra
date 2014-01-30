@@ -13,6 +13,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.commands.Commands;
@@ -28,13 +29,15 @@ import geogebra.common.kernel.geos.GeoPoint;
  *         tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
  */
 
-public class AlgoTangentCurve extends AlgoUsingTempCASalgo implements TangentAlgo {
+public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
 	private GeoPoint P; // input
 	private GeoCurveCartesian f, df; // input f
 	private GeoLine tangent; // output
 	private GeoPoint T;
 	private boolean pointOnCurve;
+	private AlgoDerivative algo;
+	private Construction cons;
 
 	/**
 	 * @param cons construction
@@ -45,6 +48,7 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo implements TangentAlg
 	public AlgoTangentCurve(Construction cons, String label, GeoPoint P,
 			GeoCurveCartesian f) {
 		super(cons);
+		this.cons = cons;
 		tangent = new GeoLine(cons);
 		this.P = P;
 		initialize(f);
@@ -73,7 +77,10 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo implements TangentAlg
 			T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
 
-		refreshCASResults();
+		// First derivative of curve f
+		algo = new AlgoDerivative(cons, f, true);
+		this.df = (GeoCurveCartesian) algo.getResult();
+		cons.removeFromConstructionList(algo);
 	}
 
 	@Override
@@ -151,14 +158,6 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo implements TangentAlg
 
 		if (!pointOnCurve)
 			T.setCoords(feval[0], feval[1], 1.0);
-	}
-
-	@Override
-	public void refreshCASResults() {
-		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, f);
-		this.df = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
-		cons.removeFromConstructionList(algoCAS);
 	}
 
 	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {

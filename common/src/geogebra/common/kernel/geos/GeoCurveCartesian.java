@@ -265,8 +265,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public void setDerivative(GeoCurveCartesian curve, int n) {
 		if (curve.isDefined()) {
-			setFun(0, curve.getFunExpanded(0).getDerivative(n));
-			setFun(1, curve.getFunExpanded(1).getDerivative(n));
+			setFun(0, curve.getFunExpanded(0).getDerivative(n, true));
+			setFun(1, curve.getFunExpanded(1).getDerivative(n, true));
 			this.isDefined = !(getFun(0) == null || getFun(1) == null);
 			if (this.isDefined)
 				setInterval(curve.startParam, curve.endParam);
@@ -842,10 +842,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public double evaluateCurvature(double t) {
 		Function f1X, f1Y, f2X, f2Y;
-		f1X = getFun(0).getDerivative(1);
-		f1Y = getFun(1).getDerivative(1);
-		f2X = getFun(0).getDerivative(2);
-		f2Y = getFun(1).getDerivative(2);
+		f1X = getFun(0).getDerivative(1, true);
+		f1Y = getFun(1).getDerivative(1, true);
+		f2X = getFun(0).getDerivative(2, true);
+		f2Y = getFun(1).getDerivative(2, true);
 
 		if (f1X == null || f1Y == null || f2X == null || f2Y == null)
 			return Double.NaN;

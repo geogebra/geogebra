@@ -38,6 +38,10 @@ public class AlgoDerivative extends AlgoCasBase {
 
 	private GeoNumeric var;
     private NumberValue order;
+    
+    // true -> non-CAS version (faster, used by eg AlgoTangentXXX)
+	private boolean fast = false;
+	
     /**
 	 * @param cons construction
 	 * @param label label for output
@@ -52,7 +56,7 @@ public class AlgoDerivative extends AlgoCasBase {
         GeoNumeric var, 
         NumberValue order) 
     {
-        this(cons, f, var, order);
+        this(cons, f, var, order, false);
         g.toGeoElement().setLabel(label);
     }
     /**
@@ -60,7 +64,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param f function
 	 */
     public AlgoDerivative(Construction cons,  CasEvaluableFunction f) {
-        this(cons, f, null, null);      
+        this(cons, f, null, null, false);      
     }
     /**
 	 * @param cons construction
@@ -68,16 +72,21 @@ public class AlgoDerivative extends AlgoCasBase {
      * @param var variable (may be null)
      * @param order derivative order (may be null)
 	 */
-    public AlgoDerivative(Construction cons,  CasEvaluableFunction f, GeoNumeric var, NumberValue order) {
+    public AlgoDerivative(Construction cons,  CasEvaluableFunction f, GeoNumeric var, NumberValue order, boolean fast) {
             super(cons, f, Commands.Derivative);
             this.var = var;
             this.order = order;
+            this.fast = fast;
  
             setInputOutput(); // for AlgoElement    
             compute();            
      }
 
-    // for AlgoElement
+    public AlgoDerivative(Construction cons, CasEvaluableFunction f, boolean fast) {
+		this(cons, f, null, null, fast);
+    }
+    
+	// for AlgoElement
     @Override
 	protected void setInputOutput() {
         int length = 1;
@@ -106,7 +115,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		if (f instanceof GeoFunction) {
 			
 			Function inFun = ((GeoFunction)f).getFunction();
-			if (!kernel.useCASforDerivatives()) {
+			if (fast || !kernel.useCASforDerivatives()) {
 				
 				// fast general non-CAS method, output form not so nice
 				inFun = inFun.getDerivativeNoCAS(orderInt);

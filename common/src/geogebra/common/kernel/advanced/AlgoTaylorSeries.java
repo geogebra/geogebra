@@ -137,7 +137,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 			}
 
 			for (int k = 1; k <= order; k++) {
-				Function deriv = f.getFunction().getDerivative(k);
+				Function deriv = f.getFunction().getDerivative(k, true);
 				if (deriv == null) {
 					g.setUndefined();
 					return;

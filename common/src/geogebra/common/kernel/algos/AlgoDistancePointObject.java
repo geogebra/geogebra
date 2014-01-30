@@ -174,7 +174,7 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 		}
 		// non polynomial case
 		FunctionVariable fVar = function.getFunctionVariable();
-		Function deriv = function.getDerivative(1);
+		Function deriv = function.getDerivative(1, true);
 		// replace derivatives' function variable with functions'
 		// we need this, so our new function created below, can be evaluated
 		deriv.traverse(Traversing.Replacer.getReplacer(deriv.getFunctionVariable(), fVar));
