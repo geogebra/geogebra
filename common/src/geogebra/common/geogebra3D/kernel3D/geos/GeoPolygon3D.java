@@ -246,11 +246,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		}
 		coordSys.set(poly.getCoordSys());
 		
-		// set 3D points
-		if (points3DArray == null){
-			points3DArray = new ArrayList<GeoPoint3D>();
-		}
-		
+		// set 3D points		
 		setPoints3DLength();
 
 		// set values		
@@ -272,6 +268,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	 * set 3D points length to match 2D points length
 	 */
 	public void setPoints3DLength(){
+		
+		if (points3DArray == null){
+			points3DArray = new ArrayList<GeoPoint3D>();
+		}
 		
 		// adjust size
 		for (int i = points3DArray.size(); i < points2D.length; i++) {

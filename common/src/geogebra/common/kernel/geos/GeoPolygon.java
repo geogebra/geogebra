@@ -547,10 +547,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		}
 
 		
-		if (pointsArray == null){
-			pointsArray = new ArrayList<GeoPoint>();
-		}
-
 
 		int polyLength = poly.getPoints().length;
 
@@ -586,6 +582,12 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param polyLength length
 	 */
 	protected void setPointsLength(int polyLength){
+		
+		if (pointsArray == null){
+			pointsArray = new ArrayList<GeoPoint>();
+		}
+
+
 		// augment array size if array < polyLength
 		for (int i = pointsArray.size() ; i < polyLength ; i++){
 			pointsArray.add(new GeoPoint(cons));
