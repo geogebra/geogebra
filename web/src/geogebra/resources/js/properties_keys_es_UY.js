@@ -2612,7 +2612,7 @@ __GGB__keysVar.es_UY.plain = {
     "Text": "Texto",
     "TextAfterConstruction": "Texto debajo de la construcci\xf3n",
     "TextBeforeConstruction": "Texto previo a la construcci\xf3n",
-    "TextField": "CampoDeTexto",
+    "TextField": "CajaDeEntrada",
     "TextfieldLength": "Longitud de la casilla de entrada",
     "ThanksForSigningIn": "\xa1Gracias por conectarse a GeoGebraTube!",
     "Thickness": "Grosor de trazo",
