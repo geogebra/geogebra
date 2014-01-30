@@ -14,7 +14,6 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
@@ -141,7 +140,8 @@ public class ANOVATable extends BasicStatTable {
 		// check if we have enough categories
 		if (categoryData.size() < 2) {
 			throw MathRuntimeException.createIllegalArgumentException(
-					LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
+					//LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
+					"two or more categories required, got {0}",
 					categoryData.size());
 		}
 
@@ -150,7 +150,8 @@ public class ANOVATable extends BasicStatTable {
 			if (array.length <= 1) {
 				throw MathRuntimeException
 						.createIllegalArgumentException(
-								LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
+								//LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
+								"two or more values required in each category, one has {0}",
 								array.length);
 			}
 		}
