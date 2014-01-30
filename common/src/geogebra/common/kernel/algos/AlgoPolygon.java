@@ -167,7 +167,7 @@ public class AlgoPolygon extends AlgoElement {
     	for (int i=0; i < size; i++) {    		
     		points[i] = (GeoPoint) pointList.get(i);
     	}
-    	poly.setPoints(points);
+    	poly.setPointsAndSegments(points);
     	
     	if (oldPointsLength != points.length)
     		setOutput();    	
