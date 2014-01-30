@@ -7134,4 +7134,28 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean evaluatesTo3DVector(){
 		return false;
 	}
+	
+	
+	
+	//////////////////////////////
+	// specific input protection
+	/////////////////////////////
+	
+	private boolean canBeRemovedAsInput = true;
+	
+	/**
+	 * set this can (not) be removed when input of algo
+	 * @param flag flag
+	 */
+	public void setCanBeRemovedAsInput(boolean flag){
+		canBeRemovedAsInput = flag;
+	}
+	
+	/**
+	 * 
+	 * @return true if can be removed as input of algo
+	 */
+	public boolean canBeRemovedAsInput(){
+		return canBeRemovedAsInput;
+	}
 }

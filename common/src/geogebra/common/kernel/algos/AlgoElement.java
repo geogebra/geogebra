@@ -759,7 +759,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
-			if(!protectedInput && !input[i].isLabelSet() &&!input[i].isGeoCasCell())
+			if(!protectedInput && input[i].canBeRemovedAsInput() && !input[i].isLabelSet() &&!input[i].isGeoCasCell())
 				input[i].remove();
 			input[i].removeAlgorithm(this);
 		}

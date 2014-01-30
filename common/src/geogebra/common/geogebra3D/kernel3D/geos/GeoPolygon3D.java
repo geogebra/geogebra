@@ -251,27 +251,52 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 			points3DArray = new ArrayList<GeoPoint3D>();
 		}
 		
-		// adjust size
-		for (int i = points3DArray.size(); i < points2D.length; i++) {
-			points3DArray.add(new GeoPoint3D(cons));
-		}
-		
-		// set values
-		points = new GeoPointND[points2D.length];
+		setPoints3DLength();
+
+		// set values		
 		for (int i = 0; i < points2D.length; i++) {
 			Coords v = super.getPoint3D(i);
 			GeoPoint3D point = points3DArray.get(i);
 			point.setCoords(coordSys.getPoint(v.getX(),v.getY()));
-			points[i] = point;
 		}
-		
+
 		// set last points undefined
 		for (int i = points2D.length; i < points3DArray.size(); i++) {
 			points3DArray.get(i).setUndefined();
 		}
-		
+
 
 	}
+	
+	/**
+	 * set 3D points length to match 2D points length
+	 */
+	public void setPoints3DLength(){
+		
+		// adjust size
+		for (int i = points3DArray.size(); i < points2D.length; i++) {
+			GeoPoint3D point = new GeoPoint3D(cons);
+			points3DArray.add(point);
+			point.setCanBeRemovedAsInput(false);
+		}
+		
+		// set array
+		points = new GeoPointND[points2D.length];
+		for (int i = 0; i < points2D.length; i++) {
+			points[i] = points3DArray.get(i);
+		}
+		
+	}
+		
+	
+	@Override
+	public void setPointsAndSegmentsLength(int polyLength){
+		setPointsLength(polyLength);
+		setPoints3DLength();
+		updateSegments();
+	}
+		
+	
 
 	/**
 	 * check that all points are on coord sys, and calc their 2D coords

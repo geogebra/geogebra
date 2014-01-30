@@ -388,7 +388,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * point array may be changed: this method makes sure that segments are
 	 * reused if possible.
 	 */
-	private void updateSegments() {
+	protected void updateSegments() {
 		if (points == null)
 			return;
 		
@@ -425,6 +425,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			GeoPointND startPoint = points[i];
 			GeoPointND endPoint = points[(i + 1) % getPointsLength()];
 			GeoSegmentND segment = createSegment(startPoint, endPoint, euclidianVisible);
+			segment.getParentAlgorithm().setProtectedInput(true); // avoid remove by other algos
 			segmentsArray.add(segment);
 			segments[i] = segment;
 		}
@@ -549,6 +550,38 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		int polyLength = poly.getPoints().length;
 
+		setPointsLength(polyLength);
+
+		// set values
+		for (int i = 0; i < getPoints().length; i++) {
+			getPoint(i).set(poly.getPoint(i).toGeoElement());
+		}
+		
+
+		setCoordSysAndPoints3D(poly);
+		updateSegments();
+		defined = poly.defined;
+
+		if (poly.hasChangeableCoordParentNumbers())
+			setChangeableCoordParent(poly.changeableCoordParent.getNumber(),poly.changeableCoordParent.getDirector());
+		updateRegionCS();
+	}
+	
+	/**
+	 * set points and segments length to arbitrary value (create new points and segments)
+	 * @param polyLength length
+	 */
+	public void setPointsAndSegmentsLength(int polyLength){
+		setPointsLength(polyLength);
+		updateSegments();
+	}
+
+
+	/**
+	 * set points length to arbitrary value (create new points)
+	 * @param polyLength length
+	 */
+	protected void setPointsLength(int polyLength){
 		// augment array size if array < polyLength
 		for (int i = pointsArray.size() ; i < polyLength ; i++){
 			pointsArray.add(new GeoPoint(cons));
@@ -568,22 +601,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			}
 			setPoints2D(tempPoints);
 		}
-
-		// set values
-		for (int i = 0; i < getPoints().length; i++) {
-			getPoint(i).set(poly.getPoint(i).toGeoElement());
-		}
-		
-
-		setCoordSysAndPoints3D(poly);
-		updateSegments();
-		defined = poly.defined;
-
-		if (poly.hasChangeableCoordParentNumbers())
-			setChangeableCoordParent(poly.changeableCoordParent.getNumber(),poly.changeableCoordParent.getDirector());
-		updateRegionCS();
 	}
-
 
 
 
