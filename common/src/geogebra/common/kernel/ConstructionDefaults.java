@@ -684,6 +684,21 @@ public class ConstructionDefaults {
 	 *            If the visual styles should be reset
 	 */
 	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
+		setDefaultVisualStyles(geo, isReset, true);
+	}
+	
+	/**
+	 * Sets default color for given geo. Note: this is mostly kept for downward
+	 * compatibility.
+	 * 
+	 * @param geo
+	 *            The element which needs new default visual styles
+	 * @param isReset
+	 *            If the visual styles should be reset
+	 * @param setEuclidianVisible 
+	 *            If eucldianVisible should be set
+	 */
+	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset, boolean setEuclidianVisible) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		// int type = DEFAULT_LINE;
@@ -694,7 +709,7 @@ public class ConstructionDefaults {
 		App app = cons.getApplication();
 
 		if (defaultGeo != null) {
-			if (geo.isGeoNumeric()){ // don't affect euclidianVisible for slider/angle
+			if (!setEuclidianVisible || geo.isGeoNumeric()){ // don't affect euclidianVisible for slider/angle
 				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo, isReset);
 			}else{
 				geo.setAllVisualProperties(defaultGeo, isReset);

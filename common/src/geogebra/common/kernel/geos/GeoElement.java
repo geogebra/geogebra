@@ -843,12 +843,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Set visual style from defaults
 	 */
-	public void setConstructionDefaults() {
-		
+	final public void setConstructionDefaults() {
+		setConstructionDefaults(true);
+	}
+	
+	/**
+	 * Set visual style from defaults
+	 * @param setEuclidianVisible 
+	 *            If eucldianVisible should be set
+	 */
+	final public void setConstructionDefaults(boolean setEuclidianVisible) {
+
 		if (useVisualDefaults) {
 			final ConstructionDefaults consDef = cons.getConstructionDefaults();
 			if (consDef != null) {
-				consDef.setDefaultVisualStyles(this, false);
+				consDef.setDefaultVisualStyles(this, false, setEuclidianVisible);
 			}
 		}
 	}

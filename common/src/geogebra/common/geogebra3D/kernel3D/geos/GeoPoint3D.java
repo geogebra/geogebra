@@ -1095,7 +1095,17 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
 		if (algorithm != null)
-			setConstructionDefaults(); // set colors to dependent colors
+			setConstructionDefaults(setEuclidianVisibleBySetParentAlgorithm); // set colors to dependent colors
+	}
+	
+	
+	private boolean setEuclidianVisibleBySetParentAlgorithm = true;
+	
+	/**
+	 * if the point has a parent algorithm, we may don't want its visibility to be changed
+	 */
+	public void dontSetEuclidianVisibleBySetParentAlgorithm(){
+		setEuclidianVisibleBySetParentAlgorithm = false;
 	}
 
 	@Override
@@ -1654,5 +1664,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		return incident;
 	}
+	
 
 }

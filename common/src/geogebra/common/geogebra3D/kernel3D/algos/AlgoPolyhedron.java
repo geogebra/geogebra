@@ -75,8 +75,11 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 					visible = isFirstInputPointVisible();
 					labelVisible = isFirstInputPointLabelVisible();
 				}
-
+				
 				p.setEuclidianVisible(visible);
+				if (!visible){ // if not visible, we don't want setParentAlgorithm() to change it
+					p.dontSetEuclidianVisibleBySetParentAlgorithm();
+				}
 				p.setLabelVisible(labelVisible);
 				
 				return p;
