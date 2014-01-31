@@ -544,6 +544,9 @@ public class CASTableD extends JTable implements CASTable {
 	 * @return CAS cell on given row
 	 */
 	public GeoCasCell getGeoCasCell(int row) {
+		if(row < 0 || row > tableModel.getRowCount()-1){
+			return null;
+		}
 		Object cell = tableModel.getValueAt(row, COL_CAS_CELLS);
 		return cell instanceof GeoCasCell ? (GeoCasCell) cell : null;
 	}
