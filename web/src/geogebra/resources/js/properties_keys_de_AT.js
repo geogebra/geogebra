@@ -1753,7 +1753,7 @@ __GGB__keysVar.de_AT.menu = {
     "Settings": "Einstellungen",
     "Settings_ResetDefault": "Standardeinstellungen wiederherstellen",
     "Settings_Save": "Einstellungen speichern",
-    "Share": "Ver\xf6ffentlichen",
+    "Share": "Teilen",
     "ShareDialogDescription": "Via E-Mail senden, auf GeoGebraTube oder anderen Plattformen hochladen.",
     "ShareDialogTitle": "Konstruktion ver\xf6ffentlichen",
     "Show": "Anzeigen",

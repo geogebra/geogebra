@@ -669,7 +669,7 @@ __GGB__keysVar.tr.command = {
     "RandomPolynomial_Syntax": "[ <Derece>, <Katsay\u0131lar i\xe7in minimum>, <Katsay\u0131lar i\xe7in maksimum> ]",
     "RandomPolynomial_SyntaxCAS": "[ <Derece>, <Minimum for Coefficients>, <Maximum for Coefficients> ]\n[ <De\u011fi\u015fken>, <Derece>, <Minimum for Coefficients>, <Maximum for Coefficients> ]",
     "RandomUniform": "RastgeleTekD\xfcze",
-    "RandomUniform_Syntax": "[ <Min>, <Max> ]",
+    "RandomUniform_Syntax": "[ <Enk\xfc\xe7\xfck>, <Enb\xfcy\xfck> ]\n[ <Enk\xfc\xe7\xfck>, <Enb\xfcy\xfck>, <\xd6rnek Say\u0131s\u0131> ]",
     "Rationalize": "RasyonelYap",
     "Rationalize_SyntaxCAS": "[ <Say\u0131> ]",
     "Ray": "I\u015f\u0131n",
