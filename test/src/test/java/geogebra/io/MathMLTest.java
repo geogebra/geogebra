@@ -1,5 +1,7 @@
 package geogebra.io;
 
+import org.junit.Test;
+
 import geogebra.common.io.MathMLParser;
 
 public class MathMLTest {
@@ -53,11 +55,23 @@ public class MathMLTest {
 	 * 
 	 * @param args args
 	 */
-	public static void main(String[] args){
+	@Test
+	public void testGeoGebra(){
 
-		boolean geogebraSyntax0 = true; // change this to true for testing GeoGebra syntax (work in progress)
+		MathMLParser mathmlParser = new MathMLParser(true);
 
-		MathMLParser mathmlParser = new MathMLParser(geogebraSyntax0);
+		for (int i = 0; i < mathmlTest.length ; i++) {
+			String s = mathmlTest[i];
+
+			String latex = mathmlParser.parse(s, false, false);
+
+			System.out.println(latex);
+		}
+	}
+	@Test
+	public void testLaTeX(){
+
+		MathMLParser mathmlParser = new MathMLParser(false);
 
 		for (int i = 0; i < mathmlTest.length ; i++) {
 			String s = mathmlTest[i];
