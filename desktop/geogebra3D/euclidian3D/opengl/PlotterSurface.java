@@ -194,6 +194,21 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
+	public void drawQuadNoTexture(Coords p1, Coords p2, Coords p3, Coords p4){
+		
+		manager.startGeometry(Manager.QUAD_STRIP);
+		
+		manager.texture(0,0);
+		
+		manager.vertex(p1);
+		manager.vertex(p2);
+		manager.vertex(p4);
+		manager.vertex(p3);
+		manager.endGeometry();
+	}
+	
+	
+	
 	
 	/**
 	 * 

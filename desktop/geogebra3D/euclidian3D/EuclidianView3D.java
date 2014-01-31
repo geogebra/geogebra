@@ -600,7 +600,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch(geoFun.getVarNumber()){
 				case 2:
-					d = new DrawSurface3D(this, geoFun);
+					d = new DrawSurface3DOld(this, geoFun);
 					break;
 				/*
 				case 3:
@@ -611,7 +611,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 				break;	
 								
 			case SURFACECARTESIAN3D:	
-				d = new DrawSurface3D(this, (GeoSurfaceCartesian3D) geo);
+				d = new DrawSurface3DOld(this, (GeoSurfaceCartesian3D) geo);
+				//d = new DrawSurface3D(this, (GeoSurfaceCartesian3D) geo);
 				break;	
 				
 			case TEXT:
