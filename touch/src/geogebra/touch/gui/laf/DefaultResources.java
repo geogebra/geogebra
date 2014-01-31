@@ -186,6 +186,8 @@ public interface DefaultResources extends ClientBundle {
 	@Source("icons/png/stylingbar/stylingbar_graphicsview_show_or_hide_the_grid.png")
 	ImageResource show_or_hide_the_grid();
 
+	@Source("icons/png/iOS7/stylingbar_graphicsview_standardview.png")
+	ImageResource standardView();
 	
 	// New Styles
 	@Source("icons/png/subToolbarArrow.png")

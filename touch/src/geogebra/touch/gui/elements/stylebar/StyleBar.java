@@ -48,7 +48,7 @@ public class StyleBar extends FlowPanel {
 	 * 
 	 */
 	private enum StyleBarEntry {
-		Axes, Grid, Color, LineStyle, CaptionStyle;
+		Axes, Grid, StandardtView, Color, LineStyle, CaptionStyle;
 	}
 
 	private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel()
@@ -243,6 +243,10 @@ public class StyleBar extends FlowPanel {
 				this.buttons.put(StyleBarEntry.LineStyle, b);
 				break;
 			case ToolBar:
+				break;
+			case StandardView:
+				b = this.createStyleBarButton("standardView", lafIcons.standardView());
+				this.buttons.put(StyleBarEntry.StandardtView, b);
 				break;
 			default:
 				break;

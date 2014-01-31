@@ -19,7 +19,7 @@ public enum StyleBarDefaultSettings {
 			GeoGebraColorConstants.BROWN, new OptionType[] {
 					OptionType.Color,	OptionType.CaptionStyle, OptionType.LineStyle }), 
 	Move(
-			null, new OptionType[] { OptionType.Axes,OptionType.Grid }), 
+			null, new OptionType[] { OptionType.Axes,OptionType.Grid, OptionType.StandardView }), 
 	Angle(
 			GeoGebraColorConstants.DARKGREEN, new OptionType[] {
 					OptionType.Color,	OptionType.CaptionStyle, OptionType.LineStyle });
