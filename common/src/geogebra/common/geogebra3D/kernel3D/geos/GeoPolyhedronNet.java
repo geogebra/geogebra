@@ -2,6 +2,8 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Net for a polyhedron
@@ -48,6 +50,32 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
+	}
+	
+	
+	
+	private OutputHandler<GeoPolygon3D> algoParentPolygons;
+	
+	/**
+	 * 
+	 * @param algoParentPolygons algoParent output polygons
+	 */
+	public void setAlgoParentPolygons(OutputHandler<GeoPolygon3D> algoParentPolygons){
+		this.algoParentPolygons = algoParentPolygons;
+	}
+
+	
+	@Override
+	public GeoPolygon3D createPolygon(GeoPointND[] points, int index) {
+		
+		if (algoParentPolygons != null && index < algoParentPolygons.size()){ // reuse algoParent output			
+			GeoPolygon3D polygon = algoParentPolygons.getElement(index);
+			polygon.modifyInputPoints(points); 
+
+			return polygon;
+		}
+
+		return super.createPolygon(points, index);
 	}
 }
 
