@@ -819,6 +819,10 @@ public interface Traversing {
 					}
 					if(geo instanceof GeoCasCell){
 						ValidExpression ve = ((GeoCasCell)geo).getOutputValidExpression();
+						//related to #4126 -- maybe not needed though
+						if(((GeoCasCell)geo).getInputVE().isKeepInputUsed()){
+							ve = expand((GeoCasCell)geo).wrap();
+						}
 						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar)ve.unwrap()).getExpression():ve.wrap();
 						en2 = en2.traverse(this).wrap();
 						en2 = en2.getCopy(geo.getKernel());
@@ -879,6 +883,10 @@ public interface Traversing {
 				if(geo!=null)
 					return expand(geo);
 			}else if(ev instanceof GeoCasCell){
+				//expanding the cell here is necessary #4126
+				if(((GeoCasCell)ev).getInputVE().isKeepInputUsed()){
+					return expand((GeoCasCell)ev);
+				}
 				return ((GeoCasCell)ev).getOutputValidExpression().wrap().getCopy(ev.getKernel());
 			}else if(ev instanceof FunctionNVar) {
 				variables =  ((FunctionNVar)ev).fVars;
