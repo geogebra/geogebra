@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 
 /**
  * @author ggb3D
@@ -149,10 +150,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		if (labels==null || labels.length <= 1 || isOldFileVersion())
 			polyhedron.initLabels(labels);
 		else{
-			polyhedron.setAllLabelsAreSet(true);
 			augmentOutputSize(labels.length);
-			for (int i=0; i<labels.length; i++)
+			for (int i=0; i<labels.length; i++){
 				getOutput(i).setLabel(labels[i]);
+				App.debug(labels[i]);
+			}
+			polyhedron.setAllLabelsAreSet(true);
 		}
 		
 	}
