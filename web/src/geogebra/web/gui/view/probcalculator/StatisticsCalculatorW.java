@@ -564,6 +564,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addKeyUpHandler(this);
 			fldSampleStat1[i].addFocusHandler(this);
+			fldSampleStat1[i].getTextBox().setTabIndex(i);
 		}
 
 		lblSampleStat2 = new Label[3];
@@ -578,6 +579,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyUpHandler(this);
 			fldSampleStat2[i].addFocusHandler(this);
+			fldSampleStat2[i].getTextBox().setTabIndex(fldSampleStat1.length + i);
 		}	    
 	    
     }
@@ -754,7 +756,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
 		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) && 
-				value != null && !value.equals("") && value.charAt(value.length() - 1) != '.') {
+				value != null && !value.equals("") && value.charAt(value.length() - 1) != '.' && !value.equals("-")) {
 			doTextFieldActionPerformed();
 		}
     }

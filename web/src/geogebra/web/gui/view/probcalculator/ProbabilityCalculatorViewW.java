@@ -335,6 +335,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    	fldParameterArray[i].addKeyUpHandler(this);
 	    	fldParameterArray[i].addFocusHandler(this);
 	    	fldParameterArray[i].addBlurHandler(this);
+	    	fldParameterArray[i].getTextBox().setTabIndex(i);
 	    }
 	    
 	    comboProbType = new ListBox();
@@ -351,18 +352,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	    fldLow.addKeyUpHandler(this);
 	    fldLow.addFocusHandler(this);
 	    fldLow.addBlurHandler(this);
+	    fldLow.getTextBox().setTabIndex(maxParameterCount);
 	    
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(6);
 	    fldHigh.addKeyUpHandler(this);
 	    fldHigh.addFocusHandler(this);
 	    fldHigh.addBlurHandler(this);
+	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 	    
 	    fldResult = new AutoCompleteTextFieldW(app);
 	    fldResult.setColumns(6);
 	    fldResult.addKeyUpHandler(this);
 	    fldResult.addFocusHandler(this);
 	    fldResult.addBlurHandler(this);
+	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
 	    
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
@@ -815,7 +819,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			return;
 		try {
 			String inputText = source.getText().trim();
-			if (!inputText.equals("") && !(inputText.charAt(inputText.length() -1) == '.')) {
+			if (!inputText.equals("") && !(inputText.charAt(inputText.length() -1) == '.') && !inputText.equals("-")) {
 			// Double value = Double.parseDouble(source.getText());
 
 				// allow input such as sqrt(2)
