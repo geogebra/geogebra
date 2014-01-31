@@ -7,6 +7,11 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPoints;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -14,6 +19,7 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -44,8 +50,8 @@ import java.util.TreeSet;
 public class GeoPolyhedron extends GeoElement3D 
 implements HasSegments, HasVolume, Traceable, 
 RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
-HasHeight
-{// implements Path {
+HasHeight, Path
+{
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
@@ -1170,46 +1176,6 @@ HasHeight
 		return new Coords(4); // TODO
 	}
 
-	// /////////////////////////////////////////
-	// Path Interface
-
-	/*
-	 * public void pointChanged(GeoPointND PI) { // TODO Auto-generated method
-	 * stub
-	 * 
-	 * }
-	 * 
-	 * 
-	 * public void pathChanged(GeoPointND PI) { // TODO Auto-generated method
-	 * stub
-	 * 
-	 * }
-	 * 
-	 * 
-	 * public boolean isOnPath(GeoPointND PI, double eps) { // TODO
-	 * Auto-generated method stub return false; }
-	 * 
-	 * 
-	 * public double getMinParameter() { // TODO Auto-generated method stub
-	 * return 0; }
-	 * 
-	 * 
-	 * public double getMaxParameter() { // TODO Auto-generated method stub
-	 * return 0; }
-	 * 
-	 * 
-	 * public boolean isClosedPath() { // TODO Auto-generated method stub return
-	 * false; }
-	 * 
-	 * 
-	 * public PathMover createPathMover() { // TODO Auto-generated method stub
-	 * return null; }
-	 */
-
-	@Override
-	public boolean isPath() {
-		return false;
-	}
 
 	@Override
 	public void remove() {
@@ -1536,5 +1502,175 @@ HasHeight
 
 	}
 
+	
+	// /////////////////////////////////
+	// Path interface
+	
+	@Override
+	public boolean isPath() {
+		return true;
+	}
+
+	public PathMover createPathMover() {
+		return new PathMoverGeneric(this);
+	}
+
+	public double getMaxParameter() {
+		return segmentsLinked.size() + segments.size();
+	}
+
+	public double getMinParameter() {
+		return 0;
+	}
+
+	public boolean isClosedPath() {
+		return true;
+	}
+
+	public void pathChanged(GeoPointND PI) {
+
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters(PI)){
+			pointChanged(PI);
+			return;
+		}
+
+		// TODO remove that
+		if (!(PI instanceof GeoPoint3D))
+			return;
+
+		GeoPoint3D P = (GeoPoint3D) PI;
+
+		PathParameter pp = P.getPathParameter();
+
+		// remember old parameter
+		double oldT = pp.getT();
+
+
+		// find the segment where the point lies
+		int index = (int) pp.getT() ;
+		GeoSegmentND seg;
+		if (index < segmentsLinked.size()){
+			seg = (GeoSegmentND) segmentsLinked.values().toArray()[index];
+		}else{
+			seg = (GeoSegmentND) segments.values().toArray()[index - segmentsLinked.size()];
+		}
+
+		// sets the path parameter for the segment, calc the new position of the
+		// point
+		pp.setT(pp.getT() - index);
+		seg.pathChanged(P);
+		
+		//App.debug(seg+" , "+oldT);
+
+		// recall the old parameter
+		pp.setT(oldT);
+	}
+
+	public void pointChanged(GeoPointND PI) {
+
+		// TODO remove that
+		if (!(PI instanceof GeoPoint3D))
+			return;
+
+		GeoPoint3D P = (GeoPoint3D) PI;
+
+		Coords coordsOld = P.getInhomCoords();
+
+		// prevent from region bad coords calculations
+		Region region = P.getRegion();
+		P.setRegion(null);
+
+		double minDist = Double.POSITIVE_INFINITY;
+		Coords res = null;
+		double param = 0;
+
+		
+
+		// find closest point on each segment
+		PathParameter pp = P.getPathParameter();
+		int i = 0;
+		for (GeoSegmentND segment : segmentsLinked.values()) {
+
+			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
+
+			if(segment.isDefined()){
+				segment.pointChanged(P);
+			}
+
+			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
+			// double dist = 0;
+			if (P.getWillingCoords() != null && P.getWillingDirection() != null) {
+				dist = P.getInhomCoords().distLine(P.getWillingCoords(),
+						P.getWillingDirection());
+			} else {
+				dist = P.getInhomCoords().sub(coordsOld).squareNorm();
+			}
+
+			if (dist < minDist) {
+				minDist = dist;
+				// remember closest point
+				res = P.getInhomCoords();
+				param = i + pp.getT();
+				// Application.debug(i);
+			}
+			
+			i++;
+		}
+		
+		for (GeoSegmentND segment : segments.values()) {
+
+			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
+
+			if(segment.isDefined()){
+				segment.pointChanged(P);
+			}
+
+			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
+			// double dist = 0;
+			if (P.getWillingCoords() != null && P.getWillingDirection() != null) {
+				dist = P.getInhomCoords().distLine(P.getWillingCoords(),
+						P.getWillingDirection());
+			} else {
+				dist = P.getInhomCoords().sub(coordsOld).squareNorm();
+			}
+
+			if (dist < minDist) {
+				minDist = dist;
+				// remember closest point
+				res = P.getInhomCoords();
+				param = i + pp.getT();
+				// Application.debug(i);
+			}
+			
+			i++;
+		}
+
+
+		P.setCoords(res, false);
+		pp.setT(param);
+
+		P.setRegion(region);
+	}
+
+
+	public boolean isOnPath(GeoPointND PI, double eps) {
+
+		GeoPoint P = (GeoPoint) PI;
+
+		if (P.getPath() == this)
+			return true;
+
+		// check if P is on one of the segments
+		for (GeoSegmentND segment : segmentsLinked.values()) {
+			if (segment.isDefined() && segment.isOnPath(P, eps))
+				return true;
+		}
+		for (GeoSegmentND segment : segments.values()) {
+			if (segment.isDefined() && segment.isOnPath(P, eps))
+				return true;
+		}
+		return false;
+	}
 
 }
