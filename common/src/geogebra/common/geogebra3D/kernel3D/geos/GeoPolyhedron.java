@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Traceable;
@@ -783,7 +784,11 @@ HasHeight, Path
 	@Override
 	public void setEuclidianVisible(boolean visible) {
 
-		super.setEuclidianVisible(visible);
+		super.setEuclidianVisible(visible);		
+		
+		if (cons.isFileLoading())
+			return;
+
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setEuclidianVisible(visible, false);
@@ -804,8 +809,12 @@ HasHeight, Path
 
 	@Override
 	public void setObjColor(GColor color) {
+		
+		super.setObjColor(color);		
+		
+		if (cons.isFileLoading())
+			return;
 
-		super.setObjColor(color);
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setObjColor(color);
@@ -829,12 +838,76 @@ HasHeight, Path
 
 		getKernel().notifyRepaint();
 	}
+	
+	@Override
+	public void removeColorFunction() {
+		super.removeColorFunction();		
+		
+		if (polygons == null || cons.isFileLoading()){
+			return;
+		}
+		
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.removeColorFunction();
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.removeColorFunction();
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.removeColorFunction();
+			segment.updateVisualStyle();
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((GeoElement) segment).removeColorFunction();
+			segment.updateVisualStyle();
+		}
+
+		getKernel().notifyRepaint();
+	}
+	
+	@Override
+	public void setColorFunction(final GeoList col){
+		
+		super.setColorFunction(col);
+		
+		if (polygons == null || cons.isFileLoading()){
+			return;
+		}
+		
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setColorFunction(col);
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.setColorFunction(col);
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.setColorFunction(col);
+			segment.updateVisualStyle();
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((GeoElement) segment).setColorFunction(col);
+			segment.updateVisualStyle();
+		}
+
+		getKernel().notifyRepaint();
+		
+	}
 
 	@Override
 	public void setLineType(int type) {
 		super.setLineType(type);
 
-		if (polygons == null)
+		if (polygons == null  || cons.isFileLoading())
 			return;
 
 		for (GeoPolygon3D polygon : polygons.values()) {
@@ -863,7 +936,7 @@ HasHeight, Path
 	public void setLineTypeHidden(int type) {
 		super.setLineTypeHidden(type);
 
-		if (polygons == null)
+		if (polygons == null || cons.isFileLoading())
 			return;
 
 		for (GeoPolygon3D polygon : polygons.values()) {
@@ -892,7 +965,7 @@ HasHeight, Path
 	public void setLineThickness(int th) {
 		super.setLineThickness(th);
 
-		if (polygons == null)
+		if (polygons == null || cons.isFileLoading())
 			return;
 
 		for (GeoPolygon3D polygon : polygons.values()) {
@@ -920,6 +993,9 @@ HasHeight, Path
 	public void setAlphaValue(float alpha) {
 
 		super.setAlphaValue(alpha);
+		
+		if (cons.isFileLoading())
+			return;
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setAlphaValue(alpha);
@@ -935,32 +1011,6 @@ HasHeight, Path
 
 	}
 
-	/*
-	 * public void update() {
-	 * 
-	 * for (GeoPolygon3D polygon : polygons.values()){ polygon.update(); }
-	 * 
-	 * for (GeoSegment3D segment : segments.values()){ segment.update(); }
-	 * 
-	 * 
-	 * }
-	 */
-
-	/*
-	 * update the polygons and the segments from their parent algorithms
-	 * 
-	 * public void updatePolygonsAndSegmentsFromParentAlgorithms() {
-	 * 
-	 * for (GeoPolygon3D polygon : polygons.values()){
-	 * //polygon.updateCoordSysAndPoints2D();
-	 * polygon.getParentAlgorithm().update(); }
-	 * 
-	 * for (GeoSegment3D segment : segments.values()){
-	 * segment.getParentAlgorithm().update(); }
-	 * 
-	 * 
-	 * }
-	 */
 
 	@Override
 	public GeoElement copy() {

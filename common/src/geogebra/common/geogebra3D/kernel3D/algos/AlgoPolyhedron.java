@@ -8,8 +8,6 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
@@ -208,39 +206,6 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	
 
 	
-	
-	/*
-    @Override
-	public void update() {
-    	
-        // compute output from input
-        compute();
-        
-        //polyhedron
-        polyhedron.update();
-        
-
-    }
-    
-  */
-    
-	
-	
-	
-	@Override
-	protected void getOutputXML(StringBuilder sb){
-		super.getOutputXML(sb);
-		
-		//append XML for polygon and segments linked once more, to avoid override of specific properties		
-		for (GeoPolygon polygon : polyhedron.getPolygonsLinked())
-			polygon.getXML(false, sb);
-		for (GeoSegmentND segment : polyhedron.getSegmentsLinked()){
-			if (segment.isLabelSet()){
-				((GeoElement) segment).getXML(false, sb);
-			}
-		}
-		
-	}
 	
 	
 	
