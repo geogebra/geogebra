@@ -5,7 +5,9 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
@@ -232,7 +234,8 @@ public class DrawEquationWeb extends DrawEquation {
 		        el == eqstring.length(), true, 0);
 	}
 
-	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
+	@Override
+    public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        GColor fgColor, GColor bgColor, boolean useCache, boolean updateAgain) {
 
@@ -276,8 +279,16 @@ public class DrawEquationWeb extends DrawEquation {
 		int fontSize = g2.getFont().getSize();
 		int fontSize2 = font.getSize();
 
-		boolean shouldPaintBackground = true;
+		boolean shouldPaintBackground = bgColor != null;
 
+		View view = ((GGraphics2DW) g2).getView();
+		if (view != null && view instanceof EuclidianView) {
+			if (((EuclidianView) view).getBackgroundCommon() == bgColor) {
+				shouldPaintBackground = false;
+			}
+		}		
+		
+		/*
 		if (bgColor == null)
 			shouldPaintBackground = false;
 		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) && !geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
@@ -297,6 +308,7 @@ public class DrawEquationWeb extends DrawEquation {
 		else if ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
 				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
 			shouldPaintBackground = false;
+		 */
 
 		if (geo.isGeoText() && ((GeoText)geo).isMathML()) {
 			// assume that the script is loaded; it is part of resources

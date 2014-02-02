@@ -19,6 +19,7 @@ import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gawt.BufferedImage;
@@ -53,6 +54,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	GPaint currentPaint = new GColorW(255,255,255,255);
 	private JsArrayNumber jsarrn;
 	
+	private View view;
+	
 	/**
 	 * the pixel ratio of the canvas.
 	 */
@@ -71,6 +74,22 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		//TODO put this back in
 		//devicePixelRatio = checkPixelRatio(canvas.getElement());
 		
+	}
+	
+	/**
+	 * @param view
+	 *            The view associated with this instance of GGraphics2DW
+	 */
+	public void setView(View view) {
+		this.view = view;
+	}
+
+	/**
+	 * @return The view associated with this instance of GGraphics2DW, null if
+	 *         no view has been set
+	 */
+	public View getView() {
+		return view;
 	}
 	
 	private native int checkPixelRatio(Element canvas) /*-{

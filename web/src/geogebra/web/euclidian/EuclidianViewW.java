@@ -101,11 +101,12 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, int evNo) {
+		
 	    Canvas canvas = euclidianViewPanel.getCanvas();
 		setEvNo(evNo, canvas);
-	    
-
-		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);
+	 
+		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);	
+		g2p.setView(this);
 
 		updateFonts();
 		initView(true);
