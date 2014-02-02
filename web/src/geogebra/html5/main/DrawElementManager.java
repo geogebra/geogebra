@@ -10,6 +10,8 @@ import java.util.Iterator;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Utility class for DrawEquationWeb. Maintains a map of elements created by
@@ -47,12 +49,14 @@ public class DrawElementManager {
 		elementMapCollection = new HashMap<GGraphics2DW, HashMap<String, ElementRecord>>();
 
 		// Create a dummy parent element for a canvas with no parent.
-		// The dummy parent is a document fragment that provides a safe place
-		// to attach temporary elements not intended for display.
-
 		Canvas dummyCanvas = Canvas.createIfSupported();
-		dummyParent = newDocumentFragment();
+		dummyParent = DOM.createDiv();
+		dummyParent.addClassName("dummyParent");
+		dummyParent.getStyle().setVisibility(Style.Visibility.HIDDEN);
+		dummyParent.getStyle().setZIndex(-1);
 		dummyParent.appendChild(dummyCanvas.getElement());
+
+		RootPanel.get().getElement().appendChild(dummyParent);
 
 		// Create a dummy graphics environment to act as a key in the
 		// elementMapCollection for all cases that use the dummyParent for
@@ -77,7 +81,7 @@ public class DrawElementManager {
 
 		HashMap<String, ElementRecord> elementMap = elementMapCollection
 		        .get(dummyCheck(g2));
-	
+
 		if (elementMap == null) {
 			return null;
 		}
@@ -110,16 +114,18 @@ public class DrawElementManager {
 	 * @param g2
 	 * @param elem
 	 * @param stringID
-	 * @param age 
+	 * @param age
 	 */
-	public void registerElement(GGraphics2DW g2, Element elem, String stringID, int age) {
-		
-		getElementMap(dummyCheck(g2)).put(stringID, new ElementRecord(elem, age));
+	public void registerElement(GGraphics2DW g2, Element elem, String stringID,
+	        int age) {
+
+		getElementMap(dummyCheck(g2)).put(stringID,
+		        new ElementRecord(elem, age));
 		// debugMapCollection();
 	}
 
 	private GGraphics2DW dummyCheck(GGraphics2DW g2) {
-		if (g2.getCanvas().getParent() == null) {
+		if (g2.getCanvas().getElement().getParentElement() == null) {
 			return dummyG2;
 		}
 		return g2;
@@ -136,6 +142,8 @@ public class DrawElementManager {
 	/**
 	 * Clears all elements from a given EuclidianView by either hiding them or
 	 * removing them if they have been unused for a long enough time.
+	 * 
+	 * Note: This also clears temporary elements attached to the dummyParent
 	 * 
 	 * @param ev
 	 */
@@ -171,13 +179,15 @@ public class DrawElementManager {
 				elementMap.remove(keyString);
 			} else {
 				elementMap.get(keyString).age++;
-				elem.getStyle().setVisibility(Style.Visibility.HIDDEN);
+				elem.getStyle().setDisplay(Style.Display.NONE);
 			}
 		}
 	}
 
 	/**
 	 * Removes all elements associated with a EuclidianView.
+	 * 
+	 * Note: This also removes temporary elements attached to the dummyParent
 	 * 
 	 * @param ev
 	 */
@@ -225,7 +235,7 @@ public class DrawElementManager {
 			// App.debug("getting dummy parent");
 			return dummyParent;
 		}
-		return g2.getCanvas().getParent().getElement();
+		return g2.getCanvas().getCanvasElement().getParentElement();
 	}
 
 	// =================================================================

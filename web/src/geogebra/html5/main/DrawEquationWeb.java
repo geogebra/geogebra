@@ -370,7 +370,7 @@ public class DrawEquationWeb extends DrawEquation {
 		*/
 
 		
-		boolean isVisible = ((GGraphics2DW)g2).getCanvas().getParent() != null;
+		boolean hasActualParent = ((GGraphics2DW)g2).getCanvas().isAttached() ;
 		
 		
 		// Set relative font size
@@ -420,7 +420,7 @@ public class DrawEquationWeb extends DrawEquation {
 			elementManager.setElementAge((GGraphics2DW) g2, eqstringid, 0);		
 		}
 
-		if (isVisible) {
+		if (hasActualParent) {
 
 			// set position
 			ih.getStyle().setLeft(x, Style.Unit.PX);
@@ -434,12 +434,10 @@ public class DrawEquationWeb extends DrawEquation {
 			        .setBackgroundColor(GColor.getColorString(bgColor));
 
 			if (fgColor != null)
-				ih.getStyle().setColor(GColor.getColorString(fgColor));
-
-			ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
+				ih.getStyle().setColor(GColor.getColorString(fgColor));		
 		}
 		
-		
+		ih.getStyle().setDisplay(Style.Display.INLINE);
 
 		// get the dimensions 
 		GDimension ret = null;
@@ -453,7 +451,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 			GDimension corr = computeCorrection(ret, ret0, rotateDegree);
 
-			if (isVisible) {
+			if (hasActualParent) {
 				// if it's not visible, leave at its previous place to prevent lag
 				ih.getStyle().setLeft(x - corr.getWidth(), Style.Unit.PX);
 				ih.getStyle().setTop(y - corr.getHeight(), Style.Unit.PX);
@@ -932,3 +930,4 @@ public class DrawEquationWeb extends DrawEquation {
 		return new GDimensionW((int)dimLeftCorr, (int)dimTopCorr);
 	}
 }
+
