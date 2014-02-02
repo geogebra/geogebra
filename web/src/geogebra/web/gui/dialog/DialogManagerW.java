@@ -7,6 +7,7 @@ import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
+import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -26,10 +27,10 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.util.WindowReference;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooserW;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
+import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
@@ -333,15 +334,14 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		return googleFileChooser;
 	}
 
-	AlertDialog alertDialog = null;
-
-	public AlertDialog getAlertDialog() {
-
-		if (alertDialog == null) {
-			alertDialog = new AlertDialog(app);
-		}
-		return alertDialog;
-
+	
+	/**
+	 * Shows alert dialog.
+	 * @param text Alert message
+	 */
+	public void showAlertDialog(String text) {		
+		GOptionPaneW.INSTANCE.showConfirmDialog(app, text, "",
+		        GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE, null);
 	}
 
 	private WindowReference signInDialog = null;
