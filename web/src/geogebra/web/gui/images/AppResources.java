@@ -325,6 +325,17 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/nav_pause.png")
 	ImageResource nav_pause();
 
+	@Source("geogebra/web/gui/images/dialog-error-32px.png")
+	ImageResource dialog_error();
+	
+	@Source("geogebra/web/gui/images/dialog-info-32px.png")
+	ImageResource dialog_info();
+	
+	@Source("geogebra/web/gui/images/dialog-question-32px.png")
+	ImageResource dialog_question();
+	
+	@Source("geogebra/web/gui/images/dialog-warning-32px.png")
+	ImageResource dialog_warning();
 	
 	@Source("geogebra/web/gui/images/options_btn.png")
 	ImageResource options_btn();

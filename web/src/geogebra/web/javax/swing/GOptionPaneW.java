@@ -53,10 +53,10 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	private static FocusWidget caller;
 
 	/**
-	 * Singleton instance of GOptionPaneW. Provides entry point for all calls
-	 * to show a dialog or access getters/setters.
+	 * Singleton instance of GOptionPaneW. Provides entry point for all calls to
+	 * show a dialog or access getters/setters.
 	 */
-	public static GOptionPane INSTANCE = new GOptionPaneW();
+	public static GOptionPaneW INSTANCE = new GOptionPaneW();
 
 	/**
 	 * A private constructor is used to force use of singleton instance.
@@ -72,7 +72,6 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		center();
 		show();
 	}
-	
 
 	protected void close() {
 
@@ -101,9 +100,9 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	public static void setCaller(FocusWidget c) {
 		caller = c;
 	}
-	
+
 	@Override
-    public void setGlassEnabled(boolean enabled){
+	public void setGlassEnabled(boolean enabled) {
 		super.setGlassEnabled(enabled);
 	}
 
@@ -177,7 +176,12 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 			buttonPanel.add(btnCancel);
 			setLabels();
 			break;
+
+		default:
+			buttonPanel.add(btnOK);
+			setLabels();
 		}
+
 	}
 
 	private void updateMessagePanel() {
@@ -220,18 +224,21 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 		switch (messageType) {
 
-		// TODO: better icons
 		case GOptionPane.ERROR_MESSAGE:
-			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			icon = new Image(AppResources.INSTANCE.dialog_error()
+			        .getSafeUri());
 			break;
 		case GOptionPane.INFORMATION_MESSAGE:
-			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			icon = new Image(AppResources.INSTANCE.dialog_info()
+			        .getSafeUri());
 			break;
 		case GOptionPane.WARNING_MESSAGE:
-			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			icon = new Image(AppResources.INSTANCE.dialog_warning()
+			        .getSafeUri());
 			break;
 		case GOptionPane.QUESTION_MESSAGE:
-			icon = new Image(AppResources.INSTANCE.geogebra32().getSafeUri());
+			icon = new Image(AppResources.INSTANCE.dialog_question()
+			        .getSafeUri());
 			break;
 		case GOptionPane.PLAIN_MESSAGE:
 			icon = null;
@@ -253,7 +260,6 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 			close();
 		}
 
-		
 		for (int i = 0; i < optionButtons.length; i++) {
 			if (source == optionButtons[i]) {
 				returnOption = i;
@@ -398,4 +404,28 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 	}
 
+	public void test(App app, int type) {
+
+		switch (type) {
+		case 1:
+			showConfirmDialog(app, "Something went wrong.",
+			        "Error Dialog", GOptionPane.OK_CANCEL_OPTION,
+			        GOptionPane.ERROR_MESSAGE, null);
+			break;
+		case 2:
+			showConfirmDialog(app, "The beer is free.", "Information Dialog",
+			        GOptionPane.OK_CANCEL_OPTION,
+			        GOptionPane.INFORMATION_MESSAGE, null);
+			break;
+		case 3:
+			showConfirmDialog(app, "Is the beer free?", "Question Dialog",
+			        GOptionPane.OK_CANCEL_OPTION, GOptionPane.QUESTION_MESSAGE,
+			        null);
+			break;
+		case 4:
+			showConfirmDialog(app, "Watch out!", "Warning Dialog",
+			        GOptionPane.OK_CANCEL_OPTION, GOptionPane.WARNING_MESSAGE,
+			        null);
+		}
+	}
 }
