@@ -2409,6 +2409,7 @@ label {
    width:18px;
    height:18px;
    display: none;
+   text-align:center;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
