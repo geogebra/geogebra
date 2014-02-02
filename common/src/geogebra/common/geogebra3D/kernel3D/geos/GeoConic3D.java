@@ -305,22 +305,6 @@ implements RotateableND, MirrorableAtPlane {
 
 
 
-	@Override
-	public void regionChanged(GeoPointND PI) {
-
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(PI)){
-			pointChangedForRegion(PI);
-			return;
-		}
-		
-		// TODO
-	}
-
-	@Override
-	public boolean isRegion() {
-		return false; // TODO
-	}
 
 	public void setIsIntersection(boolean flag) {
 		isIntersection = flag;

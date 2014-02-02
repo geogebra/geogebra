@@ -294,12 +294,7 @@ Region3D, GeoDirectionND
 	 
 	 public void pointChanged(GeoPointND P) {
 		 
-		 //Application.printStacktrace("ici");
-		 
-
 		 Coords coords = P.getCoordsInD2(getCoordSys());
-		 
-		 //Application.debug(P.getCoordsInD(3)+"\n2D:\n"+coords);
 		 
 		 PathParameter pp = P.getPathParameter();
 
@@ -308,9 +303,7 @@ Region3D, GeoDirectionND
 		 P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		 P.updateCoordsFrom2D(false,getCoordSys());
 		 P.updateCoords();
-		 
-		 //Application.debug("pp="+pp.getT()+"\ncoordsys=\n"+getCoordSys().getMatrixOrthonormal());
-		 //Application.debug("after:\n"+P.getCoordsInD(3)+"\n2D:\n"+coords+"\npp="+pp.getT());
+
 	 }
 
 		/**
@@ -3268,29 +3261,31 @@ Region3D, GeoDirectionND
 		if (rp.isOnPath())
 			pathChanged(PI);
 		else{
-			//pointChangedForRegion(P);
-			GeoPoint P=(GeoPoint)PI;
+			Coords P = new Coords(3);
 			if(P.isDefined()){
-			if(type != CONIC_PARABOLA){
-			P.x=rp.getT1()*halfAxes[0];
-			P.y=rp.getT2()*halfAxes[1];
+				if(type != CONIC_PARABOLA){
+					P.setX(rp.getT1()*halfAxes[0]);
+					P.setY(rp.getT2()*halfAxes[1]);
+				}
+				else{
+					P.setX(rp.getT1());
+					P.setY(rp.getT2()*Math.sqrt(this.p));
+
+				}
+				P.setZ(1.0);
+				coordsEVtoRW(P);
+				PI.setCoords2D(P.getX(), P.getY(), P.getZ());
+				PI.updateCoordsFrom2D(false,getCoordSys());
+
 			}
-			else{
-				P.x=rp.getT1();
-				P.y=rp.getT2()*Math.sqrt(this.p);
-				
-			}
-			P.z = 1.0;
-			coordsEVtoRW(P);
-			}
-			
+
 			//in some cases (e.g. ellipse becomes an hyperbola), point goes outside
 			if (!isInRegion(PI)){
 				moveBackToRegion(PI,rp);
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets curve to this conic
 	 * @param curve curve for storing this conic
