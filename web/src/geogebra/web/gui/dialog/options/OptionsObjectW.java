@@ -2453,18 +2453,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			String imagePath = "/geogebra/gui/images/";
 
 			imgFileNameList.add(""); // for delete
-			imgFileNameList.add(AppResources.INSTANCE.go_down().getSafeUri().asString());
-			imgFileNameList.add(AppResources.INSTANCE.go_up().getSafeUri().asString());
-			imgFileNameList.add(imagePath + "go-previous.png");
-			imgFileNameList.add(imagePath + "go-next.png");
-			imgFileNameList.add(imagePath + "nav_fastforward.png");
-			imgFileNameList.add(imagePath + "nav_rewind.png");
-			imgFileNameList.add(imagePath + "nav_skipback.png");
-			imgFileNameList.add(imagePath + "nav_skipforward.png");
-			imgFileNameList.add("/geogebra/main/nav_play.png");
-			imgFileNameList.add("/geogebra/main/nav_pause.png");
+			AppResources res = AppResources.INSTANCE;
+			imgFileNameList.add(res.go_down().getSafeUri().asString());
+			imgFileNameList.add(res.go_up().getSafeUri().asString());
+			imgFileNameList.add(res.go_previous().getSafeUri().asString());
+			imgFileNameList.add(res.go_next().getSafeUri().asString());
+			imgFileNameList.add(res.nav_fastforward().getSafeUri().asString());
+			imgFileNameList.add(res.nav_rewind().getSafeUri().asString());
+			imgFileNameList.add(res.nav_skipback().getSafeUri().asString());
+			imgFileNameList.add(res.nav_skipforward().getSafeUri().asString());
+			imgFileNameList.add(res.nav_play().getSafeUri().asString());
+			imgFileNameList.add(res.nav_pause().getSafeUri().asString());
 
-			imgFileNameList.add(imagePath + "exit.png");
+			imgFileNameList.add(res.exit().getSafeUri().asString());
 
 			ImageData[] iconArray = new ImageData[imgFileNameList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);

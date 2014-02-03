@@ -22,7 +22,7 @@ public class ImageFileInputDialog extends FileInputDialog{
 		var dialog = this;
 		el.setAttribute("accept", "image/*");
 		el.onchange = function(event) {
-			var file = this.files;
+			var files = this.files;
 			if (files.length) {
 				var fileTypes = /^image.*$/;
 				for (var i = 0, j = files.length; i < j; ++i) {
