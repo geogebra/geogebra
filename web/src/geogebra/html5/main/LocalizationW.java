@@ -149,7 +149,7 @@ public class LocalizationW extends Localization {
 		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "plain");
 		
 		if (ret == null || "".equals(ret)) {
-			App.debug("plain key not found: "+key+" "+ret);
+		//	App.debug("plain key not found: "+key+" "+ret);
 			return key;
 		}
 		
@@ -176,7 +176,7 @@ public class LocalizationW extends Localization {
 		String ret = getPropertyNative(language, crossReferencingPropertiesKeys(key), "menu");
 		
 		if (ret == null || "".equals(ret)) {
-			App.debug("menu key not found: "+key);
+			//App.debug("menu key not found: "+key);
 			return key;
 		}
 		

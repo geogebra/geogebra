@@ -2218,7 +2218,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label lblFillInverse;
 		private Label lblSymbols;
 		private ArrayList<ImageResource> iconList;
-		private PopupMenuButton btInsertUnicode;
+	//	private PopupMenuButton btInsertUnicode;
 
 		private ListBox lbFillType;
 		private CheckBox cbFillInverse;
@@ -2228,6 +2228,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private boolean hasGeoButton;
 		private Label fillingMin;
 		private FlowPanel btnPanel;
+		private AutoCompleteTextFieldW tfInsertUnicode;
 		
 		private class MyImageFileInputDialog extends FileInputDialog{
 
@@ -2352,9 +2353,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			FlowPanel panel = new FlowPanel();
 			panel.add(fillTypePanel);
 			
-			btInsertUnicode = new PopupMenuButton(getAppW());
+			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1, true);
+			tfInsertUnicode = (AutoCompleteTextFieldW) inputPanel.getTextComponent();
+			tfInsertUnicode.setShowSymbolTableIcon(true);
 			//buildInsertUnicodeButton();
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 			lblMsgSelected = new Label(loc.getMenu("Filling.CurrentSymbol")
 					+ ":");
 			lblMsgSelected.setVisible(false);
@@ -2383,7 +2386,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			distanceSlider.setPaintLabels(true);
 			FlowPanel symbolPanel = new FlowPanel(); 
 			symbolPanel.add(lblSymbols);
-			symbolPanel.add(btInsertUnicode);
+			symbolPanel.add(tfInsertUnicode);
 			symbolPanel.add(lblMsgSelected);
 			lblSelectedSymbol.setVisible(false);
 			symbolPanel.add(lblSelectedSymbol);
@@ -2443,6 +2446,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
     		angleSlider.addChangeHandler(angleAndDistanceHandler);
     		distanceSlider.addChangeHandler(angleAndDistanceHandler);
 			
+    		tfInsertUnicode.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
+					String symbolText = tfInsertUnicode.getText();
+					if (symbolText.isEmpty()) {
+						return;
+					}
+					model.applyUnicode(symbolText);
+				}	
+			});
     		setLabels();
 		}
 
@@ -2455,7 +2468,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			if (index != -1) {
 				fn = fn.substring(index + 1, fn.length()); // filename without
 			}
-			// path
 			fn = geogebra.common.util.Util.processFilename(fn);
 
 			// filename will be of form
@@ -2469,8 +2481,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			getAppW().getImageManager().triggerSingleImageLoading(
 			        fileName, geoImage);
 			model.applyImage(fileName);
-			App.debug("Applying " + fileName + " from popup");
-			
+		
 		}
 					
 
@@ -2515,7 +2526,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					if (res != null) {
 						applyImage(res.getName(), res.getSafeUri().asString());
 						App.debug("Applying " + res.getName() + " at index " + idx);
-				
 					}
 				}
 				
@@ -2550,7 +2560,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			imagePanel.setVisible(false);
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol.setVisible(false);
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 		}
 
 		public void setHatchFillType() {
@@ -2563,7 +2573,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			angleSlider.setMinorTickSpacing(5);
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol.setVisible(false);
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 		}
 
 		public void setCrossHatchedFillType() {
@@ -2577,7 +2587,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			angleSlider.setMinorTickSpacing(45);
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol.setVisible(false);
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 
 		}
 
@@ -2591,7 +2601,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			angleSlider.setMinorTickSpacing(45);
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol.setVisible(false);
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 		}
 
 		public void setSymbolFillType() {
@@ -2603,7 +2613,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			anglePanel.setVisible(false);
 			lblSymbols.setVisible(true);
 			lblSelectedSymbol.setVisible(true);
-			btInsertUnicode.setVisible(true);
+			tfInsertUnicode.setVisible(true);
 		}
 
 		public void setDottedFillType() {
@@ -2615,7 +2625,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			anglePanel.setVisible(false);
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol.setVisible(false);
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 		}
 
 		public void setImageFillType() {
@@ -2624,7 +2634,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			imagePanel.setVisible(true);
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol.setVisible(false);
-			btInsertUnicode.setVisible(false);
+			tfInsertUnicode.setVisible(false);
 			this.btnImage.setVisible(true);
 
 			// for GeoButtons only show the image file button
@@ -2709,13 +2719,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void setSymbolsVisible(boolean isVisible) {
 
 			if (isVisible) {
-				btInsertUnicode.setVisible(true);
+				tfInsertUnicode.setVisible(true);
 				lblSymbols.setVisible(true);
 				lblSelectedSymbol.setVisible(true);
 				lblMsgSelected.setVisible(true);
 			} else {
 				lblSymbols.setVisible(false);
-				btInsertUnicode.setVisible(false);
+				tfInsertUnicode.setVisible(false);
 				lblMsgSelected.setVisible(false);
 				lblSelectedSymbol.setVisible(false);
 				lblSelectedSymbol.setText("");
