@@ -558,7 +558,7 @@ __GGB__keysVar.es.command = {
     "Numerator": "Numerador",
     "Numerator_Syntax": "[ <Funci\xf3n> ]",
     "Numerator_SyntaxCAS": "[ <Expresi\xf3n> ]",
-    "Numeric": "ValorNum\xe9rico",
+    "Numeric": "ValorDecimal",
     "Numeric_SyntaxCAS": "[ <Expresi\xf3n> ]\n[ <Expresi\xf3n>, <N\xfamero de cifras significativas> ]",
     "Object": "Objeto",
     "Object_Syntax": "[ <Nombre del objeto (como texto)> ]",

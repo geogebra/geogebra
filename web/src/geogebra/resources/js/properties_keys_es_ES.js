@@ -2650,7 +2650,7 @@ __GGB__keysVar.es_ES.plain = {
     "Up": "Arriba",
     "Upload": "Subir",
     "UploadError": "Sin acceso a GeoGebraTube. Transferencia detenida. (C\xf3digo de error: %0)",
-    "UploadPrepare": "Preparando para subir archivo",
+    "UploadPrepare": "Preparando la subida del archivo",
     "UseJavaFontsForLaTeX": "Usar tipograf\xeda Java en los textos LaTeX",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",
