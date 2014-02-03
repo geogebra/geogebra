@@ -1367,8 +1367,9 @@ public abstract class ProbabilityCalcualtorView implements View, SettingListener
 					setXAxisPoints();
 				}
 			}
+			updateRounding();
 		}
-		updateRounding();
+		
 
 		// statCalculator.updateResult();
 	}
@@ -1554,9 +1555,11 @@ public abstract class ProbabilityCalcualtorView implements View, SettingListener
 
 	protected int[] generateFirstXLastXCommon() {
 		int firstXLastX [] = new int[2];
+		
 		firstXLastX[0] = (int) ((GeoNumeric) discreteValueList.get(0)).getDouble();
 		firstXLastX[1] = (int) ((GeoNumeric) discreteValueList.get(discreteValueList
 				.size() - 1)).getDouble();
+		
 		return firstXLastX;
 	}
 

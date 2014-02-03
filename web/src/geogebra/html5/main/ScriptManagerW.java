@@ -503,6 +503,10 @@ public class ScriptManagerW extends ScriptManager {
 				return ggbAPI.@geogebra.html5.main.GgbAPI::getViewProperties(I)(show);
 		};
 		
+		$wnd[ggbApplet].setFont = function(label, size, bold, italic, serif){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::setFont(Ljava/lang/String;IZZZ)(label,size,bold, italic,serif);
+		};
+		
 		
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];

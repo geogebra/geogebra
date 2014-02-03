@@ -1,6 +1,7 @@
 package geogebra.common.plugin;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
@@ -25,6 +26,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
@@ -1195,6 +1197,17 @@ public abstract class GgbAPI implements JavaScriptAPI{
     	sb.append(ev.getAbsoluteTop());
     	sb.append("}");
     	return sb.toString();
+    }
+    
+    public void setFont(String label, int size, boolean bold, boolean italic, boolean serif){
+    	GeoElement geo = kernel.lookupLabel(label);
+    	if(geo instanceof TextProperties){
+    		TextProperties text = (TextProperties) geo;
+    		text.setFontSizeMultiplier(size / (0.0 + app.getFontSize()));
+    		text.setFontStyle((bold ? GFont.BOLD : GFont.PLAIN) | (italic ? GFont.ITALIC : GFont.PLAIN));
+    		text.setSerifFont(serif);
+    		geo.updateRepaint();
+    	}
     }
 
 
