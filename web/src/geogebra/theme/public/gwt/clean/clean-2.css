@@ -1707,6 +1707,7 @@ body[dir=rtl] .undoPanel {
 [isSelected=false] .toolbar_icon:hover{
 	border: 4px solid lightsteelblue;
 	margin-top: -3px;
+	margin-bottom: -3px;
 	margin-left: 0px;
 	margin-right: 0px;
 	opacity:1.0;
@@ -1714,8 +1715,9 @@ body[dir=rtl] .undoPanel {
 }
 
 .red_triangle{
-	position: relative;
-	top: -4px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
 }
 
 .gwt-MenuBar-horizontal  .toolbar_item{
@@ -1723,6 +1725,7 @@ body[dir=rtl] .undoPanel {
 	width: 40px;
 	text-align:center;
 	vertical-align: top;
+	position:relative;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {

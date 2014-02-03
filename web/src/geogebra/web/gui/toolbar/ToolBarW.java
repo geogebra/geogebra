@@ -15,8 +15,6 @@ import java.util.Vector;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -244,7 +242,7 @@ public class ToolBarW extends MenuBar {
 			}
 		}
     }
-	
+
 	/**
 	 * @return The default definition of this toolbar with macros.
 	 */

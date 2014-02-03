@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class ModeToggleMenu extends MenuBar{
+public class ModeToggleMenu extends MenuBar {
 
 	private static final long serialVersionUID = 1L;
 	ModeToggleButtonGroup bg;
@@ -181,6 +181,10 @@ public class ModeToggleMenu extends MenuBar{
 	class MyJToggleButton extends MenuItem{
 
 		private static final long serialVersionUID = 1L;
+
+		private static final int CANVASFORTRIANGLE_WIDTH = 40;
+
+		private static final int CANVASFORTRIANGLE_HEIGHT = 16;
 		
 		Canvas canvas;
 		Canvas canvasForRedTriangle;
@@ -220,10 +224,10 @@ public class ModeToggleMenu extends MenuBar{
 		
 		private void initCanvasForRedTriangle(){
 			canvasForRedTriangle = Canvas.createIfSupported();
-			canvasForRedTriangle.setWidth("40px");
-			canvasForRedTriangle.setHeight("8px");
-			canvasForRedTriangle.setCoordinateSpaceWidth(40);
-			canvasForRedTriangle.setCoordinateSpaceHeight(8);
+			canvasForRedTriangle.setWidth(CANVASFORTRIANGLE_WIDTH + "px");
+			canvasForRedTriangle.setHeight(CANVASFORTRIANGLE_HEIGHT + "px");
+			canvasForRedTriangle.setCoordinateSpaceWidth(CANVASFORTRIANGLE_WIDTH);
+			canvasForRedTriangle.setCoordinateSpaceHeight(CANVASFORTRIANGLE_HEIGHT);
 			canvasForRedTriangle.setVisible(true);
 			canvasForRedTriangle.addStyleName("red_triangle");
 			attachNativeHandler(canvasForRedTriangle.getElement());
@@ -292,9 +296,9 @@ public class ModeToggleMenu extends MenuBar{
 			
 			context.setLineWidth(1);	
 			context.beginPath();
-			context.moveTo(32.5,1.5);
+			context.moveTo(25.5,1.5);
 			context.lineTo(39.5,1.5);
-			context.lineTo(36,6.5);
+			context.lineTo(32.5,11.5);
 			context.closePath();
 			context.stroke();
 			context.fill();	
