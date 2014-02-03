@@ -482,10 +482,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		
 		int fullWidth = width;
 		int fullHeight = height;
-		int calcWidth = width - getLayout().getRootComponent().getOffsetWidth() + ((AppW) app).getEuclidianViewpanel().getOffsetWidth();
-		int calcHeight = height - getLayout().getRootComponent().getOffsetHeight() + ((AppW) app).getEuclidianViewpanel().getOffsetHeight();		
+		int calcWidth = width;
+		int calcHeight = height;
+		if (getLayout() != null && getLayout().getRootComponent() != null) {
+			calcWidth = width - getLayout().getRootComponent().getOffsetWidth() + ((AppW) app).getEuclidianViewpanel().getOffsetWidth();
+			calcHeight = height - getLayout().getRootComponent().getOffsetHeight() + ((AppW) app).getEuclidianViewpanel().getOffsetHeight();		
 		
-		getLayout().getRootComponent().setPixelSize(fullWidth, fullHeight);
+			getLayout().getRootComponent().setPixelSize(fullWidth, fullHeight);
+		}
 		
 		((AppW) app).getEuclidianViewpanel().setPixelSize(calcWidth, calcHeight);
 
