@@ -50,6 +50,9 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	
 	@Override
 	public boolean updateResizeWeight(){
+
+		resumeRenderer();
+		
 		return true;
 	}
 	
@@ -63,9 +66,18 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 		
 		super.updatePanel();
 		
-		if (visible){ //ensure that 3D animator is running
+		resumeRenderer();
+		
+	}
+	
+	/**
+	 * ensure that 3D animator is running
+	 */
+	private void resumeRenderer(){
+		if (visible){ 
 			((App3D)app).getEuclidianView3D().getRenderer().resumeAnimator();
 		}
+
 	}
 
 }
