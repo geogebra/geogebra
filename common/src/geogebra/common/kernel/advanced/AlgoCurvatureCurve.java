@@ -55,7 +55,6 @@ public class AlgoCurvatureCurve extends AlgoElement {
  
     public AlgoCurvatureCurve(Construction cons, GeoPoint A, GeoConic gc) {
         super(cons);
-        f=new GeoCurveCartesian(cons);
         this.gc=gc;
         this.A = A;
         K = new GeoNumeric(cons);             
@@ -74,6 +73,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
         input = new GeoElement[2];
         input[0] = A;
         if (gc!=null){
+        	f=new GeoCurveCartesian(cons);
         	gc.toGeoCurveCartesian(f);
         	input[1] = gc;
         } else
@@ -92,10 +92,15 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	public final void compute() {
     	if (f.isDefined()) {	
     		if (gc!=null){
-    			gc.toGeoCurveCartesian(f);
+    			f=new GeoCurveCartesian(cons);
+    			gc.toGeoCurveCartesian(f);  			
     		}
-	    	double t = f.getClosestParameter(A, f.getMinParameter());	    		        
-	        K.setValue( f.evaluateCurvature(t) );
+    		try{
+    			double t = f.getClosestParameter(A, f.getMinParameter());	    		        
+    			K.setValue( f.evaluateCurvature(t) );
+    		}catch(Exception ex){
+    			K.setUndefined();
+    		}
     	} else {
     		K.setUndefined();
     	}
