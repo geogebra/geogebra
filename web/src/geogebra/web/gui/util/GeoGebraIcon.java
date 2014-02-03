@@ -222,16 +222,19 @@ public class GeoGebraIcon extends BasicIcons{
 		return g2.getImageData(0, 0, w, h);
     }
 
-	
 
-	public static ImageData createFileImageIcon(App app, String fileName, float alpha, GDimensionW iconSize){
+	public static ImageData createFileImageIcon(App app, String url, float alpha, GDimensionW iconSize){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 		Canvas c = getTmpCanvas(w,h);
 		c.setCoordinateSpaceWidth(w);
 		c.setCoordinateSpaceHeight(h);
-		c.getContext2d().fillText("?", 0, 0);
+		Image img = new Image(url);
+		int x = (w - img.getWidth()) / 2;
+		int y = (h - img.getHeight()) / 2;
+		
+		c.getContext2d().drawImage(ImageElement.as(img.getElement()), x, y);
 		
 		return c.getContext2d().getImageData(0, 0, w, h);
 	}
@@ -284,6 +287,11 @@ public class GeoGebraIcon extends BasicIcons{
 		g2.getCanvas().getContext2d().drawImage(rightIcons.get(url), w1, mid - h2 / 2, w2, h2);
 
 		return g2.getImageData(0, 0, w1 +  w2, h);
+    }
+
+	public static ImageData createResourceImageIcon(App app,
+            ImageResource res, float alpha, GDimensionW dim) {
+	    return createFileImageIcon(app, res.getSafeUri().asString(), alpha, dim);
     }
 
 }

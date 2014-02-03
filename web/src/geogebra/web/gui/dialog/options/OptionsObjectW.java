@@ -1810,7 +1810,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			Label label = getLabel();
 			label.setStyleName("imageCorner");
 			label.getElement().getStyle().setProperty("backgroundImage", "url(" + 
-					res.getSafeUri().asString() + ")");
+					res + ")");
 		}
 
 		@Override
@@ -1949,9 +1949,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// TODO require font phrases F.S.
 			// toggle buttons for bold and italic
 			btnBold = new ToggleButton(new Image(AppResources.INSTANCE
-					.format_text_bold().getSafeUri().asString()));
+					.format_text_bold()));
 			btnItalic = new ToggleButton(new Image(AppResources.INSTANCE
-					.format_text_italic().getSafeUri().asString()));
+					.format_text_italic()));
 			btnBold.getElement().getStyle().setWidth(18, Unit.PX);
 			btnBold.getElement().getStyle().setHeight(18, Unit.PX);
 			btnItalic.getElement().getStyle().setWidth(18, Unit.PX);
@@ -2217,7 +2217,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private PopupMenuButton btnImage;
 		private Label lblFillInverse;
 		private Label lblSymbols;
-		private ArrayList<String> imgFileNameList;
+		private ArrayList<ImageResource> iconList;
 		private PopupMenuButton btInsertUnicode;
 
 		private ListBox lbFillType;
@@ -2296,7 +2296,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}-*/;
 			
 			public void applyImage(String fileName, String fileData) {
-				App.debug("applíííímage");
 				MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 				String zip_directory = md5e.encrypt(fileData);
 
@@ -2438,7 +2437,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					model.applyAngleAndDistance(angleSlider.getValue(),
 							distanceSlider.getValue());
 
-                }};
+                }};;
+				
 
     		angleSlider.addChangeHandler(angleAndDistanceHandler);
     		distanceSlider.addChangeHandler(angleAndDistanceHandler);
@@ -2446,32 +2446,58 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
     		setLabels();
 		}
 
+		public void applyImage(String fileName, String fileData) {
+			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+			String zip_directory = md5e.encrypt(fileData);
+
+			String fn = fileName;
+			int index = fileName.lastIndexOf('/');
+			if (index != -1) {
+				fn = fn.substring(index + 1, fn.length()); // filename without
+			}
+			// path
+			fn = geogebra.common.util.Util.processFilename(fn);
+
+			// filename will be of form
+			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+			fileName = zip_directory + '/' + fn;
+
+			Construction cons = getAppW().getKernel().getConstruction();
+			getAppW().getImageManager().addExternalImage(fileName,
+			        fileData);
+			GeoImage geoImage = new GeoImage(cons);
+			getAppW().getImageManager().triggerSingleImageLoading(
+			        fileName, geoImage);
+			model.applyImage(fileName);
+			App.debug("Applying " + fileName + " from popup");
+			
+		}
+					
+
 		private void createImagePanel() {
 	        imagePanel = new FlowPanel();
 	        btnPanel = new FlowPanel();
-			imgFileNameList = new ArrayList<String>();
-			String imagePath = "/geogebra/gui/images/";
-
-			imgFileNameList.add(""); // for delete
+			iconList = new ArrayList<ImageResource>();
+			iconList.add(null); // for delete
 			AppResources res = AppResources.INSTANCE;
-			imgFileNameList.add(res.go_down().getSafeUri().asString());
-			imgFileNameList.add(res.go_up().getSafeUri().asString());
-			imgFileNameList.add(res.go_previous().getSafeUri().asString());
-			imgFileNameList.add(res.go_next().getSafeUri().asString());
-			imgFileNameList.add(res.nav_fastforward().getSafeUri().asString());
-			imgFileNameList.add(res.nav_rewind().getSafeUri().asString());
-			imgFileNameList.add(res.nav_skipback().getSafeUri().asString());
-			imgFileNameList.add(res.nav_skipforward().getSafeUri().asString());
-			imgFileNameList.add(res.nav_play().getSafeUri().asString());
-			imgFileNameList.add(res.nav_pause().getSafeUri().asString());
+			iconList.add(res.go_down());
+			iconList.add(res.go_up());
+			iconList.add(res.go_previous());
+			iconList.add(res.go_next());
+			iconList.add(res.nav_fastforward());
+			iconList.add(res.nav_rewind());
+			iconList.add(res.nav_skipback());
+			iconList.add(res.nav_skipforward());
+			iconList.add(res.nav_play());
+			iconList.add(res.nav_pause());
 
-			imgFileNameList.add(res.exit().getSafeUri().asString());
+			iconList.add(res.exit());
 
-			ImageData[] iconArray = new ImageData[imgFileNameList.size()];
+			final ImageData[] iconArray = new ImageData[iconList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
 			for (int i = 1; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
-						imgFileNameList.get(i), 1.0f, new GDimensionW(32, 32));
+				iconArray[i] = GeoGebraIcon.createResourceImageIcon(app,
+						iconList.get(i), 1.0f, new GDimensionW(32, 32));
 			}
 //			// ============================================
 //
@@ -2483,16 +2509,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				@Override
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();
-					String fileName = null;
+					ImageResource res = null;
 					int idx = getSelectedIndex();
-					if (idx == 0) {
-						fileName = "";
-					} else {
-						fileName = imgFileNameList.get(idx);
-						
+					res = iconList.get(idx);
+					if (res != null) {
+						applyImage(res.getName(), res.getSafeUri().asString());
+						App.debug("Applying " + res.getName() + " at index " + idx);
+				
 					}
-					model.applyImage(fileName);
-					App.debug("Applying " + fileName + " at index " + idx);
 				}
 				
 			};
