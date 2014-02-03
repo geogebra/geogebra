@@ -140,18 +140,29 @@ public class EquationSolver implements EquationSolverInterface {
 		double b = eqn[1];
 		double c = eqn[0];
 		int roots = 0;
+		
 		if (Math.abs(a) < eps) {
 			// The quadratic parabola has degenerated to a line.
 			if (Math.abs(b) < eps)
 				// The line has degenerated to a constant.
 				return -1;
 			res[roots++] = -c / b;
+			
+		} else if (Math.abs(b) < eps * a){ // a*x^2 + c = 0
+			double x2 = -c / a;
+			if (Kernel.isZero(x2, eps)){
+				res[roots++] = 0;
+			} else if (x2 < 0){ // no roots			
+				return 0;
+			}
+			res[roots++] = Math.sqrt(x2);
+			
 		} else {
 			// From Numerical Recipes, 5.6, Quadratic and Cubic Equations
 			double d = b * b - 4.0 * a * c;
-			if (Math.abs(d) < eps || Math.abs(d) < eps * b * b)
+			if (Math.abs(d) < eps * b * b) {
 				res[roots++] = -b / (2.0 * a);
-			else {
+			} else {
 				if (d < 0.0)
 					// If d < 0.0, then there are no roots
 					return 0;
