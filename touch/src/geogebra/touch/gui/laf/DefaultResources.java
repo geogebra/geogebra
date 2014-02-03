@@ -189,6 +189,9 @@ public interface DefaultResources extends ClientBundle {
 	@Source("icons/png/iOS7/stylingbar_graphicsview_standardview.png")
 	ImageResource standardView();
 	
+	@Source("icons/png/stylingbar/stylingbar_graphicsview_point_capturing.png")
+	ImageResource pointCapturing();
+	
 	// New Styles
 	@Source("icons/png/subToolbarArrow.png")
 	ImageResource subToolBarArrow();

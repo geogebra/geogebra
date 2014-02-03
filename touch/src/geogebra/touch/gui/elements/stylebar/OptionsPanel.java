@@ -16,6 +16,7 @@ public class OptionsPanel extends PopupPanel {
 	private ColorBar colorBar;
 	private OptionType type;
 	private PointStyleBar pointStyleBar;
+	private PointCaptureingOptionsPanel pointCaputuring;
 
 	OptionsPanel(StyleBar styleBar) {
 		this.styleBar = styleBar;
@@ -45,6 +46,7 @@ public class OptionsPanel extends PopupPanel {
 				this.styleBar.getTouchModel());
 		this.lineStyleBar = new LineStyleBar(this.styleBar.getTouchModel());
 		this.pointStyleBar = new PointStyleBar(this.styleBar.getTouchModel());
+		this.pointCaputuring = new PointCaptureingOptionsPanel(this.styleBar.getTouchModel());
 	}
 
 	OptionsPanel getOptionsPanel(OptionType optionType) {
@@ -68,9 +70,11 @@ public class OptionsPanel extends PopupPanel {
 			this.pointStyleBar.update();
 			this.optionPanel = this.pointStyleBar;
 			break;
+		case PointCaputuringType:
+			this.optionPanel = this.pointCaputuring;
+			break;
 
 		case ToolBar:
-
 		case None:
 		default:
 			break;
@@ -94,6 +98,8 @@ public class OptionsPanel extends PopupPanel {
 			return 250;
 		case PointStyle:
 			return 250;
+		case PointCaputuringType:
+			// TODO
 		case None:
 			break;
 		case ToolBar:

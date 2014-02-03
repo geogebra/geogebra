@@ -21,9 +21,6 @@ import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.StyleBarDefaultSettings;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -41,21 +38,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class StyleBar extends FlowPanel {
 
-	/**
-	 * Enum of allowed Entries to the StyleBar
-	 * 
-	 * @author Matthias Meisinger
-	 * 
-	 */
-	private enum StyleBarEntry {
-		Axes, Grid, StandardtView, Color, LineStyle, CaptionStyle;
-	}
-
 	private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 	private final HorizontalPanel contentPanel, styleButtonsPanel;
-	private final Map<StyleBarEntry, FastButton> buttons = new HashMap<StyleBarEntry, FastButton>();
 	private final FastButton showHideButton;
+	private FastButton colorButton;
 	final EuclidianViewT euclidianView;
 	final TouchModel touchModel;
 	final GuiModel guiModel;
@@ -158,7 +145,8 @@ public class StyleBar extends FlowPanel {
 			}
 		}
 
-		this.buttons.clear();
+		this.styleButtonsPanel.clear();
+		this.colorButton = null;
 
 		for (OptionType option : resource) {
 			final FastButton b;
@@ -168,7 +156,6 @@ public class StyleBar extends FlowPanel {
 				b.getElement().getStyle().setBackgroundImage("initial");
 				b.getElement().setAttribute("style", "background: " + color);
 				b.addFastClickHandler(new FastClickHandler() {
-
 					@Override
 					public void onClick() {
 						StyleBar.this
@@ -176,25 +163,23 @@ public class StyleBar extends FlowPanel {
 					}
 				});
 
-				this.buttons.put(StyleBarEntry.Color, b);
+				this.colorButton = b;
+				this.styleButtonsPanel.add(b);
 				break;
 			case LineStyle:
 				b = new StandardButton(lafIcons.properties_default());
 				b.addFastClickHandler(new FastClickHandler() {
-
 					@Override
 					public void onClick() {
 						StyleBar.this.onOptionalButtonEvent(b,
 								OptionType.LineStyle);
-
 					}
 				});
-				this.buttons.put(StyleBarEntry.LineStyle, b);
+				this.styleButtonsPanel.add(b);
 				break;
 			case CaptionStyle:
 				b = new StandardButton(ToolbarResources.INSTANCE.label());
 				b.addFastClickHandler(new FastClickHandler() {
-
 					@Override
 					public void onClick() {
 						StyleBar.this.onOptionalButtonEvent(b,
@@ -210,7 +195,7 @@ public class StyleBar extends FlowPanel {
 						|| cmd == EuclidianConstants.MODE_POINT_ON_OBJECT
 						|| cmd == EuclidianConstants.MODE_COMPLEX_NUMBER
 						|| cmd == EuclidianConstants.MODE_SLIDER) {
-					this.buttons.put(StyleBarEntry.CaptionStyle, b);
+					this.styleButtonsPanel.add(b);
 				}
 				break;
 			case Axes:
@@ -218,45 +203,48 @@ public class StyleBar extends FlowPanel {
 						lafIcons.show_or_hide_the_axes());
 				b.setActive(this.euclidianView.getShowAxis(0));
 				checkStyle(b);
-				this.buttons.put(StyleBarEntry.Axes, b);
+				this.styleButtonsPanel.add(b);
 				break;
 			case Grid:
 				b = this.createStyleBarButton("showGrid",
 						lafIcons.show_or_hide_the_grid());
 				b.setActive(this.euclidianView.getShowGrid());
 				checkStyle(b);
-				this.buttons.put(StyleBarEntry.Grid, b);
+				this.styleButtonsPanel.add(b);
 				break;
 			case None:
 				break;
 			case PointStyle:
 				b = new StandardButton(lafIcons.properties_default());
 				b.addFastClickHandler(new FastClickHandler() {
-
 					@Override
 					public void onClick() {
 						StyleBar.this.onOptionalButtonEvent(b,
 								OptionType.PointStyle);
-
 					}
 				});
-				this.buttons.put(StyleBarEntry.LineStyle, b);
+				this.styleButtonsPanel.add(b);
 				break;
 			case ToolBar:
 				break;
 			case StandardView:
 				b = this.createStyleBarButton("standardView", lafIcons.standardView());
-				this.buttons.put(StyleBarEntry.StandardtView, b);
+				this.styleButtonsPanel.add(b);
+				break;
+			case PointCaputuringType: 
+				b = new StandardButton(lafIcons.pointCapturing()); 
+				b.addFastClickHandler(new FastClickHandler() {
+					@Override
+					public void onClick() {
+						StyleBar.this.onOptionalButtonEvent(b,
+								OptionType.PointCaputuringType);
+					}
+				});
+				this.styleButtonsPanel.add(b);
 				break;
 			default:
 				break;
 		}
-		}
-
-		this.styleButtonsPanel.clear();
-
-		for (final FastButton imageButton : this.buttons.values()) {
-			this.styleButtonsPanel.add(imageButton);
 		}
 	}
 
@@ -360,12 +348,10 @@ public class StyleBar extends FlowPanel {
 	}
 
 	void updateColor(final String color) {
-
-		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
-				.setBackgroundImage("initial");
-		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
-				.setBackgroundColor(color);
-
+		if(this.colorButton != null){
+			this.colorButton.getElement().getStyle().setBackgroundImage("initial");
+			this.colorButton.getElement().getStyle().setBackgroundColor(color);
+		}
 	}
 
 	public TouchModel getTouchModel() {

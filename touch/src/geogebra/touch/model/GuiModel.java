@@ -298,6 +298,16 @@ public class GuiModel {
 		}
 	}
 
+	public void setPointCapturingMode(int i){
+		int mode;
+		if (i == 3 || i == 0){
+			mode = 3 - i; // swap 0 and 3
+		}else {
+			mode = i;
+		}
+		this.touchModel.getKernel().getApplication().getEuclidianView1().setPointCapturing(mode);
+	}
+
 	public void setOption(final SubToolBar options) {
 		this.optionsPanel = options;
 	}
