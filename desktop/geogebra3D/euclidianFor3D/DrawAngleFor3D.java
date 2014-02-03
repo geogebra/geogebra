@@ -35,16 +35,17 @@ public class DrawAngleFor3D extends DrawAngle {
 	}
 	
 	
+	
 	@Override
-	protected double getRawAngle(){
-		if (view.getCoordsForView(((AlgoAnglePoints) getGeoElement().getDrawAlgorithm()).getVn()).getZ()<0) {
-			if (getGeoElement().isGeoElement3D())
-				//3D angle: raw angle > PI
-				return 2*Math.PI-super.getRawAngle();
-			//2D angle: reverse angle
-			return -super.getRawAngle();
+	protected double getAngleStart(double start, double extent) {
+		
+		if (view.getCoordsForView(((AlgoAnglePoints) getGeoElement().getDrawAlgorithm()).getVn()).getZ()>0) {
+			return super.getAngleStart(start, extent);
 		}
-		return super.getRawAngle();
+		
+		// reverse orientation
+		return start - extent;
+		
 	}
 
 }

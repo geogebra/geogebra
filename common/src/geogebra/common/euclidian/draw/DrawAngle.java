@@ -143,11 +143,15 @@ public class DrawAngle extends Drawable implements Previewable {
 		return p.getInhomCoordsInD(3);
 	}
 	
+
 	/**
-	 * @return raw value (0 to 2pi) of angle
+	 * Used for view from plane (may be reverse oriented)
+	 * @param start initial start
+	 * @param extent angle extent
+	 * @return angle start
 	 */
-	protected double getRawAngle() {
-		return angle.getRawAngle();
+	protected double getAngleStart(double start, double extent) {
+		return start;
 	}
 
 	@Override
@@ -179,7 +183,8 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 		// Michael Borcherds 2007-11-19 BEGIN
 		// double angExt = angle.getValue();
-		double angExt = getRawAngle();
+		double angExt = angle.getRawAngle();
+		angSt = getAngleStart(angSt, angExt);
 
 		// if this angle was not allowed to become a reflex angle
 		// (i.e. greater than pi) we got (2pi - angleValue) for angExt
@@ -225,7 +230,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		show90degrees = view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 				&& angle.isEmphasizeRightAngle()
 				&& Kernel.isEqual(angExt, Kernel.PI_HALF);
-
+		
 		// set coords to screen coords of vertex
 		coords[0] = m[0];
 		coords[1] = m[1];
