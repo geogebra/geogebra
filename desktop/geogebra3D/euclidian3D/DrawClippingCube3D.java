@@ -134,7 +134,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double ymin, ymax, zmin, zmax;
 		double halfWidth = renderer.getWidth()/2;
 
-		if (getView3D().getYAxisIsUp()){
+		if (getView3D().getYAxisVertical()){
 			zmin = (renderer.getBottom())/scale+y0;
 			zmax = (renderer.getTop())/scale+y0;		
 			ymin  = -halfWidth/scale+z0;

@@ -686,19 +686,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		return undoRotationMatrix;
 	}
 	
-	private boolean yAxisIsUp = false;
+	private boolean yAxisVertical = false;
 	
 	/**
 	 * 
-	 * @return true if y axis is up (and not z axis)
+	 * @return true if y axis is vertical (and not z axis)
 	 */
-	public boolean getYAxisIsUp(){
-		return yAxisIsUp;
+	public boolean getYAxisVertical(){
+		return yAxisVertical;
 	}
 	
 
-	public void setYAxisIsUp(boolean flag){
-		yAxisIsUp = flag;
+	public void setYAxisVertical(boolean flag){
+		yAxisVertical = flag;
 		updateMatrix();
 		setViewChanged();
 		setWaitForUpdate();
@@ -710,7 +710,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		
 		CoordMatrix m1, m2;
 
-		if (yAxisIsUp){ //y axis taken for up-down direction
+		if (yAxisVertical){ //y axis taken for up-down direction
 			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)*EuclidianController3D.ANGLE_TO_DEGREES);
 			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Y_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);		
 		}else{ //z axis taken for up-down direction
@@ -2706,8 +2706,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		sb.append("\"/>\n");
 		
 		// y axis is up
-		if (getYAxisIsUp()){
-			sb.append("\t<yAxisIsUp val=\"true\"/>\n");
+		if (getYAxisVertical()){
+			sb.append("\t<yAxisVertical val=\"true\"/>\n");
 		}
 		
 		// clipping cube

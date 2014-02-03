@@ -103,7 +103,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			}
 			
 		case 'y':
-			if (eName.equals("yAxisIsUp")) {
+			if (eName.equals("yAxisVertical")) {
 				ok = handleYAxisIsUp(ev, attrs);
 				break;
 			}
@@ -245,12 +245,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	protected boolean handleYAxisIsUp(EuclidianView3DInterface ev, LinkedHashMap<String, String> attrs) {
 		try {
-			String strYAxisIsUp = attrs.get("val");
+			String strYAxisVertical = attrs.get("val");
 
 			// show the plane
-			if (strYAxisIsUp != null) {
-				boolean yAxisIsUp = parseBoolean(strYAxisIsUp);
-				ev.setYAxisIsUp(yAxisIsUp);
+			if (strYAxisVertical != null) {
+				boolean yAxisVertical = parseBoolean(strYAxisVertical);
+				ev.setYAxisVertical(yAxisVertical);
 			}
 			return true;
 		} catch (Exception e) {
