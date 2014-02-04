@@ -2505,6 +2505,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		// update sizes
 		euclidianView.updateSize();
 
+		if (hasEuclidianView2()) {
+			getEuclidianView2().updateSize();
+		}
+		
 		// update layout
 		if (updateComponentTreeUI) {
 			updateComponentTreeUI();
