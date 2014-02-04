@@ -458,7 +458,7 @@ public class ConstructionProtocolView {
 		 * View Implementation *
 		 ***********************/
 		public void add(GeoElement geo) {
-			if ((!geo.isLabelSet() && !geo.isGeoCasCell())
+			if (!geo.isLabelSet() || geo.isGeoCasCell()
 					|| (kernel.getConstruction().showOnlyBreakpoints() && !geo
 							.isConsProtocolBreakpoint()))
 				return;
