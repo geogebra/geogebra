@@ -30,7 +30,7 @@ public class ImageFileInputDialog extends FileInputDialog{
 						continue;
 					}
 					var fileToHandle = files[i];
-					appl.@geogebra.web.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.FileInputDialog::getNativeHideAndFocus()());				
+					appl.@geogebra.html5.main.AppWeb::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.FileInputDialog::getNativeHideAndFocus()());				
 					break
 				}
 			}

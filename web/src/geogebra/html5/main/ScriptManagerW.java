@@ -507,6 +507,10 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::setFont(Ljava/lang/String;IZZZ)(label,size,bold, italic,serif);
 		};
 		
+		$wnd[ggbApplet].insertImage = function(url){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::insertImage(Ljava/lang/String;)(url);
+		};
+		
 		
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];

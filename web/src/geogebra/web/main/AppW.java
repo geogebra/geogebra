@@ -10,11 +10,7 @@ import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.javax.swing.GOptionPane;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
@@ -24,7 +20,6 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
-import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
@@ -748,36 +743,7 @@ public abstract class AppW extends AppWeb {
 	
 	
 
-	/**
-	 * Opens the image file
-	 * 
-	 * @param fileToHandle
-	 * @param callback
-	 * @return returns true, if fileToHandle image file, otherwise return false.
-	 *         Note that If the function returns true, it's don't mean, that the
-	 *         file opening was successful, and the opening finished already.
-	 */
-	public native boolean openFileAsImage(JavaScriptObject fileToHandle,
-	        JavaScriptObject callback) /*-{
-		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
-		if (!fileToHandle.name.toLowerCase().match(imageRegEx))
-			return false;
-
-		var appl = this;
-		var reader = new FileReader();
-		reader.onloadend = function(ev) {
-			if (reader.readyState === reader.DONE) {
-				var fileStr = reader.result;
-				var fileName = fileToHandle.name;
-				appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr, null);
-				if (callback != null){
-					callback();
-				}
-			}
-		};
-		reader.readAsDataURL(fileToHandle);
-		return true;
-	}-*/;
+	
 
 	/**
 	 * Register file drop handlers for the canvas of this application
@@ -838,120 +804,9 @@ public abstract class AppW extends AppWeb {
 		}, false);
 	}-*/;
 
-	/**
-	 * Loads an image and puts it on the canvas (this happens on webcam input)
-	 * On drag&drop or insert from URL this would be called too, but that would
-	 * set security exceptions
-	 * 
-	 * @param url
-	 *            - the data url of the image
-	 * @param clientx
-	 *            - desired position on the canvas (x) - unused
-	 * @param clienty
-	 *            - desired position on the canvas (y) - unused
-	 */
-	public void urlDropHappened(String url, int clientx, int clienty) {
+	
 
-		// Filename is temporarily set until a better solution is found
-		// TODO: image file name should be reset after the file data is
-		// available
-
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(url);
-
-		// with dummy extension, maybe gif or jpg in real
-		String imgFileName = zip_directory + ".png";
-
-		String fn = imgFileName;
-		int index = imgFileName.lastIndexOf('/');
-		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
-		}
-		// path
-		fn = geogebra.common.util.Util.processFilename(fn);
-
-		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-		imgFileName = zip_directory + '/' + fn;
-
-		doDropHappened(imgFileName, url, null);
-	}
-
-	/**
-	 * Loads an image and puts it on the canvas (this happens by drag & drop)
-	 * 
-	 * @param imgFileName
-	 *            - the file name of the image
-	 * @param fileStr
-	 *            - the image data url
-	 * @param fileStr2
-	 *            - the image binary string
-	 * @param clientx
-	 *            - desired position on the canvas (x)
-	 * @param clienty
-	 *            - desired position on the canvas (y)
-	 */
-	public void imageDropHappened(String imgFileName, String fileStr,
-	        String fileStr2, GeoPoint loc) {
-
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(fileStr2);
-
-		String fn = imgFileName;
-		int index = imgFileName.lastIndexOf('/');
-		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
-		}
-		// path
-		fn = geogebra.common.util.Util.processFilename(fn);
-
-		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-		imgFileName = zip_directory + '/' + fn;
-
-		doDropHappened(imgFileName, fileStr, loc);
-	}
-
-	private void doDropHappened(String imgFileName, String fileStr, GeoPoint loc) {
-
-		Construction cons = getKernel().getConstruction();
-		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
-		getImageManager().addExternalImage(imgFileName,
-		        fileStr);
-		GeoImage geoImage = new GeoImage(cons);
-		getImageManager().triggerSingleImageLoading(
-		        imgFileName, geoImage);
-		geoImage.setImageFileName(imgFileName);
-
-		if (loc == null) {
-			double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
-			double cy = ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4;
-			GeoPoint gsp = new GeoPoint(cons, cx, cy, 1);
-			gsp.setLabel(null);
-			gsp.setLabelVisible(false);
-			gsp.update();
-			geoImage.setCorner(gsp, 0);
-
-			cx = ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4;
-			GeoPoint gsp2 = new GeoPoint(cons, cx, cy, 1);
-			gsp2.setLabel(null);
-			gsp2.setLabelVisible(false);
-			gsp2.update();
-			geoImage.setCorner(gsp2, 1);
-		} else {
-			geoImage.setCorner(loc, 0);
-		}
-
-		geoImage.setLabel(null);
-		GeoImage.updateInstances();
-
-		// these things are done in Desktop GuiManager.loadImage too
-		GeoElement[] geos = { geoImage };
-		getActiveEuclidianView().getEuclidianController().clearSelections();
-		getActiveEuclidianView().getEuclidianController()
-		        .memorizeJustCreatedGeos(geos);
-		setDefaultCursor();
-	}
+	
 
 
 	// ================================================

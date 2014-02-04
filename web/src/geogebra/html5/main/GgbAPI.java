@@ -671,8 +671,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		((AppWeb) app).getAppletFrame().showResetIcon(show);
     }
 	
-	
-	 
-	 
+	public void insertImage(String s){
+		((AppWeb) app).urlDropHappened(s, 0, 0);
+	}
 
 }
