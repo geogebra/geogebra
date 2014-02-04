@@ -515,9 +515,15 @@ public class TouchModel {
 					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
 			break;
 		case Locus:
-			newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
-					(GeoPoint) this.getElement(Test.GEOPOINT),
-					(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
+			if(getNumberOf(Test.GEOPOINT) >= 2){
+				newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
+						(GeoPoint) this.getElement(Test.GEOPOINT),
+						(GeoPoint) this.getElement(Test.GEOPOINT, 1)));
+			} else {
+				newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
+						(GeoPoint) this.getElement(Test.GEOPOINT),
+						(GeoNumeric) this.getElement(Test.GEONUMERIC)));
+			}
 			break;
 		case PerpendicularLine:
 			newElements.add(this.kernel.getAlgoDispatcher().OrthogonalLine(
@@ -1098,11 +1104,17 @@ public class TouchModel {
 			case VectorBetweenTwoPoints:
 			case CircleWithCenterThroughPoint:
 			case Semicircle:
-			case Locus:
 			case AngleFixed:
 				changeSelectionState(hits, Test.GEOPOINT, 1);
 				draw = getNumberOf(Test.GEOPOINT) >= 2;
 				break;
+				
+			// commands that need two points or one point and one GeoNumeric
+			case Locus:
+				selectOutOf(hits, new Test[]{Test.GEOPOINT, Test.GEONUMERIC}, new int[]{2,1});
+				draw = getNumberOf(Test.GEOPOINT) >= 2 || (getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEONUMERIC) >= 1);
+				break;
+				
 			//tools that need one point
 			case SegmentFixed:
 			case CirclePointRadius:
