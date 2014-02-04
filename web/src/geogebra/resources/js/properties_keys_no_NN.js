@@ -2670,6 +2670,7 @@ __GGB__keysVar.no_NN.plain = {
     "WindowOpened": "Vindauget er opna",
     "XMLTagANotFound": "Ugyldig fil: Fann ikkje XML-tag %0",
     "XUnits": "X-einingar (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y-einingar (cm)",
     "ZoomIn": "Forst\xf8rr",
     "ZoomOut": "Forminsk",

@@ -2670,6 +2670,7 @@ __GGB__keysVar.hi.plain = {
     "WindowOpened": "\u0935\u093f\u0902\u0921\u094b \u0916\u0941\u0932\u0940",
     "XMLTagANotFound": "\u0905\u092e\u093e\u0928\u094d\u092f \u092b\u093e\u0908\u0932: XML \u091f\u0948\u0917 %0 \u0928\u0939\u0940\u0902 \u092e\u093f\u0932\u093e",
     "XUnits": "X \u0907\u0915\u093e\u0908 (\u0938\u0947\u092e\u0940)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y \u0907\u0915\u093e\u0908 (\u0938\u0947\u092e\u0940)",
     "ZoomIn": "\u095b\u0942\u092e \u0907\u0928",
     "ZoomOut": "\u095b\u0942\u092e \u0906\u0909\u091f",

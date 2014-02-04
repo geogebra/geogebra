@@ -2670,6 +2670,7 @@ __GGB__keysVar.is.plain = {
     "WindowOpened": "Gluggi opna\xf0ur",
     "XMLTagANotFound": "Sk\xe1 bilu\xf0: XML tag %0 finnst ekki",
     "XUnits": "X einingar (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y einingar (cm)",
     "ZoomIn": "\xdeysja inn",
     "ZoomOut": "\xdeysja \xfat",

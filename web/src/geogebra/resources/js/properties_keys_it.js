@@ -2670,6 +2670,7 @@ __GGB__keysVar.it.plain = {
     "WindowOpened": "Finestra aperta",
     "XMLTagANotFound": "File non valido: tag %0 XML non trovato",
     "XUnits": "Unit\xe0 X (cm)",
+    "YAxisVertical": "asse y verticale",
     "YUnits": "Unit\xe0 Y (cm)",
     "ZoomIn": "Zoom avanti",
     "ZoomOut": "Zoom indietro",

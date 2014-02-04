@@ -2670,6 +2670,7 @@ __GGB__keysVar.cy.plain = {
     "WindowOpened": "Ffenestr wedi ei hagor",
     "XMLTagANotFound": "Ffeil annilys: wedi methu dod o hyd i'r tag XML %0",
     "XUnits": "Unedau X (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Unedau Y (cm)",
     "ZoomIn": "Chwyddo i mewn",
     "ZoomOut": "Chwyddo allan",

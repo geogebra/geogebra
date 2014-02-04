@@ -2670,6 +2670,7 @@ __GGB__keysVar.nl.plain = {
     "WindowOpened": "Venster geopend",
     "XMLTagANotFound": "Fout in bestand : XML tag %0 niet gevonden",
     "XUnits": "X eenheden (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y eenheden (cm)",
     "ZoomIn": "Inzoomen",
     "ZoomOut": "Uitzoomen",

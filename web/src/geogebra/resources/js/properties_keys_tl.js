@@ -2670,6 +2670,7 @@ __GGB__keysVar.tl.plain = {
     "WindowOpened": "Binuksan ang window",
     "XMLTagANotFound": "Hindi tamang talatag: hindi makita ang XML tag %0",
     "XUnits": "X na mga yunit (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y na mga yunit (cm)",
     "ZoomIn": "I-zoom papasok",
     "ZoomOut": "I-zoom palabas",

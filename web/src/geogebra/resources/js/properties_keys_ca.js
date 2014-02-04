@@ -2670,6 +2670,7 @@ __GGB__keysVar.ca.plain = {
     "WindowOpened": "Finestra oberta",
     "XMLTagANotFound": "Fitxer no v\xe0lid: No s'ha trobat l\u2019etiqueta XML %0",
     "XUnits": "Graduaci\xf3 eix X (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Unitats eix Y (cm)",
     "ZoomIn": "Apropa",
     "ZoomOut": "Allunya",

@@ -2670,6 +2670,7 @@ __GGB__keysVar.eo.plain = {
     "WindowOpened": "Window opened",
     "XMLTagANotFound": "Invalid file: XML tag %0 not found",
     "XUnits": "X units (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y units (cm)",
     "ZoomIn": "Zomi",
     "ZoomOut": "Malzomi",

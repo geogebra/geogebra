@@ -2670,6 +2670,7 @@ __GGB__keysVar.si.plain = {
     "WindowOpened": "\u0d9a\u0dc0\u0dd4\u0db5\u0dc0 \u0dc0\u0dd2\u0dc0\u0dd8\u0dad\u0dba",
     "XMLTagANotFound": "Invalid file: XML tag %0 not found",
     "XUnits": "X \u0dc4\u0dd3 \u0d92\u0d9a\u0d9a \u0d9c\u0dab\u0db1",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y \u0dc4\u0dd3 \u0d92\u0d9a\u0d9a \u0d9c\u0dab\u0db1",
     "ZoomIn": "\u0d9a\u0dd4\u0da9\u0dcf \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "ZoomOut": "\u0dc0\u0dd2\u0dc1\u0dcf\u0dbd \u0d9a\u0dbb\u0db1\u0dca\u0db1",

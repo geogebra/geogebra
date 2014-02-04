@@ -2670,6 +2670,7 @@ __GGB__keysVar.fi.plain = {
     "WindowOpened": "Ikkkuna avoinna",
     "XMLTagANotFound": "Ep\xe4kelpo tiedosto: XML-tagia %0 ei l\xf6ydy",
     "XUnits": "X-yksik\xf6t (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y-yksik\xf6t (cm)",
     "ZoomIn": "L\xe4henn\xe4",
     "ZoomOut": "Loitonna",

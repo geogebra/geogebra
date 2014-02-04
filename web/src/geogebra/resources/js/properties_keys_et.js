@@ -2670,6 +2670,7 @@ __GGB__keysVar.et.plain = {
     "WindowOpened": "Aken on avatud",
     "XMLTagANotFound": "Sobimatu fail: ei leia XML silti %0",
     "XUnits": "X \xfchikud (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y \xfchikud (cm)",
     "ZoomIn": "Suurenda",
     "ZoomOut": "V\xe4henda",

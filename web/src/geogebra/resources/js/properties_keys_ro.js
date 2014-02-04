@@ -2670,6 +2670,7 @@ __GGB__keysVar.ro.plain = {
     "WindowOpened": "Fereastr\u0103 deschis\u0103",
     "XMLTagANotFound": "Fi\u0219ier invalid : XML tag %0 nu a fost g\u0103sit",
     "XUnits": "X unt\u0103\u021bi(cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y unit\u0103\u021bi (cm)",
     "ZoomIn": "M\u0103rire",
     "ZoomOut": "Mic\u0219orare",

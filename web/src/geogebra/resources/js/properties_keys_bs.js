@@ -2670,6 +2670,7 @@ __GGB__keysVar.bs.plain = {
     "WindowOpened": "Prozor je otvoren",
     "XMLTagANotFound": "Neispravna datoteka: XML tag %0 nije prona\u0111en",
     "XUnits": "X jedinice(cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y jedinice(cm)",
     "ZoomIn": "Uve\u0107anje",
     "ZoomOut": "Umanjenje",

@@ -2670,6 +2670,7 @@ __GGB__keysVar.de_AT.plain = {
     "WindowOpened": "Fenster ge\xf6ffnet",
     "XMLTagANotFound": "Ung\xfcltige Datei: XML Tag %0 konnte nicht gefunden werden",
     "XUnits": "X Einheiten (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y Einheiten (cm)",
     "ZoomIn": "Vergr\xf6\xdfern",
     "ZoomOut": "Verkleinern",

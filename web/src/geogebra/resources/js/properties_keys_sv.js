@@ -2670,6 +2670,7 @@ __GGB__keysVar.sv.plain = {
     "WindowOpened": "F\xf6nstret \xf6ppnat",
     "XMLTagANotFound": "Felaktig fil: Det gick inte att hitta XML-tag %0",
     "XUnits": "X-enheter (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y-enheter (cm)",
     "ZoomIn": "Zooma in",
     "ZoomOut": "Zooma ut",

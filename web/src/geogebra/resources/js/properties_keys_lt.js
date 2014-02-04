@@ -2670,6 +2670,7 @@ __GGB__keysVar.lt.plain = {
     "WindowOpened": "langas atidarytas",
     "XMLTagANotFound": "Netinkamas dokumentas: XML %0 nerastas",
     "XUnits": "X vienetai (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y vienetai (cm)",
     "ZoomIn": "Priartinti",
     "ZoomOut": "Tolinti",

@@ -2670,6 +2670,7 @@ __GGB__keysVar.tr.plain = {
     "WindowOpened": "Pencere a\xe7\u0131ld\u0131",
     "XMLTagANotFound": "Ge\xe7ersiz dosya:%0 XML tag bulunamad\u0131",
     "XUnits": "X birim (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y birim (cm)",
     "ZoomIn": "Yak\u0131nla\u015f",
     "ZoomOut": "Uzakla\u015ft\u0131r",

@@ -2670,6 +2670,7 @@ __GGB__keysVar.lv.plain = {
     "WindowOpened": "Logs atv\u0113rts",
     "XMLTagANotFound": "Neder\u012bga datne: XML tag %0 nav atrasta",
     "XUnits": "X vien\u012bbas (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y vien\u012bbas (cm)",
     "ZoomIn": "Tuvin\u0101t",
     "ZoomOut": "T\u0101lin\u0101t",

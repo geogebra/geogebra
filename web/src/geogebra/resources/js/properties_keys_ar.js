@@ -2670,6 +2670,7 @@ __GGB__keysVar.ar.plain = {
     "WindowOpened": "\u0646\u0627\u0641\u0630\u0629 \u0645\u0641\u062a\u0648\u062d\u0629",
     "XMLTagANotFound": "\u0645\u0644\u0641 \u063a\u064a\u0631 \u0645\u0648\u062c\u0648\u062f%0",
     "XUnits": "\u0627\u0644\u0635\u0646\u062a\u0645\u062a\u0631 X \u0648\u062d\u062f\u0629",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "\u0644\u0635\u0646\u062a\u0645\u062a\u0631 Y \u0648\u062d\u062f\u0629",
     "ZoomIn": "\u062a\u0643\u0628\u064a\u0631",
     "ZoomOut": "\u062a\u0635\u063a\u064a\u0631",

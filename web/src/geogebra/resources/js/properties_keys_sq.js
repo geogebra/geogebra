@@ -2670,6 +2670,7 @@ __GGB__keysVar.sq.plain = {
     "WindowOpened": "Dritare e Hapur",
     "XMLTagANotFound": "Dokument i pavlefshem: XML %0 jo gjetur",
     "XUnits": "X Njesi(cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y Njesi(cm)",
     "ZoomIn": "Zmadhim",
     "ZoomOut": "Zvogelim",

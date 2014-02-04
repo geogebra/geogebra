@@ -2670,6 +2670,7 @@ __GGB__keysVar.gl.plain = {
     "WindowOpened": "Xanela aberta",
     "XMLTagANotFound": "Ficheiro non v\xe1lido: XML tag %0 non atopado",
     "XUnits": "X unidades (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y unidades (cm)",
     "ZoomIn": "Achegar",
     "ZoomOut": "Afastar",

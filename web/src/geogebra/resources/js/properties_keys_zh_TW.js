@@ -2670,6 +2670,7 @@ __GGB__keysVar.zh_TW.plain = {
     "WindowOpened": "\u8996\u7a97\u5df2\u958b\u555f",
     "XMLTagANotFound": "\u6a94\u6848\u4e0d\u6b63\u78ba\uff1a\u627e\u4e0d\u5230 XML \u6a19\u7c64 %0",
     "XUnits": "X \u55ae\u4f4d (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y \u55ae\u4f4d (cm)",
     "ZoomIn": "\u653e\u5927",
     "ZoomOut": "\u7e2e\u5c0f",

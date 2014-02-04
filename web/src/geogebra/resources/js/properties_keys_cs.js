@@ -2670,6 +2670,7 @@ __GGB__keysVar.cs.plain = {
     "WindowOpened": "Otev\u0159en\xe9 okno",
     "XMLTagANotFound": "Vadn\xfd soubor: XML tag %0 nenalezen",
     "XUnits": "jednotka na ose x (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "jednotka na ose y (cm)",
     "ZoomIn": "Zv\u011bt\u0161it",
     "ZoomOut": "Zmen\u0161it",

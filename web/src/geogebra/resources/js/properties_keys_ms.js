@@ -2670,6 +2670,7 @@ __GGB__keysVar.ms.plain = {
     "WindowOpened": "Tetingkap terbuka",
     "XMLTagANotFound": "Fail tidak sah: Tag XML %0 tidak dijumpai",
     "XUnits": "X unit (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y unit (cm)",
     "ZoomIn": "Zum masuk",
     "ZoomOut": "Zum keluar",

@@ -2670,6 +2670,7 @@ __GGB__keysVar.eu.plain = {
     "WindowOpened": "Leiho irekia",
     "XMLTagANotFound": "Fitxategi baliogabea: XML luzapena %0 ez da aurkitu",
     "XUnits": "X unitateak (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y unitateak (cm)",
     "ZoomIn": "Handiagotu",
     "ZoomOut": "Txikiagotu",

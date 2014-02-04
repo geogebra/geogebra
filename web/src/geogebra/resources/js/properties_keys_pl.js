@@ -2670,6 +2670,7 @@ __GGB__keysVar.pl.plain = {
     "WindowOpened": "Okno otwarte",
     "XMLTagANotFound": "Niew\u0142a\u015bciwy plik: tag XML %0 nie zosta\u0142 znaleziony",
     "XUnits": "Jednostka osi X (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Jednostka osi Y (cm)",
     "ZoomIn": "Powi\u0119ksz",
     "ZoomOut": "Pomniejsz",

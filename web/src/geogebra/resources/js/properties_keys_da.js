@@ -2670,6 +2670,7 @@ __GGB__keysVar.da.plain = {
     "WindowOpened": "Vindue \xe5bnet",
     "XMLTagANotFound": "Ulovlig fil: XML tag %0 blev ikke fundet",
     "XUnits": "X enheder (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y enheder (cm)",
     "ZoomIn": "Forst\xf8r",
     "ZoomOut": "Formindsk",

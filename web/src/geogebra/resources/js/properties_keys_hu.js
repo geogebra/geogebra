@@ -2670,6 +2670,7 @@ __GGB__keysVar.hu.plain = {
     "WindowOpened": "Ablak megnyitva",
     "XMLTagANotFound": "\xc9rv\xe9nyleten f\xe1jl: XML %0 c\xedmke nincs meg",
     "XUnits": "X egys\xe9gek (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Y egys\xe9gek (cm)",
     "ZoomIn": "K\xf6zel\xedt\xe9s",
     "ZoomOut": "T\xe1vol\xedt\xe1s",

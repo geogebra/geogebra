@@ -2670,6 +2670,7 @@ __GGB__keysVar.pt.plain = {
     "WindowOpened": "Janela aberta",
     "XMLTagANotFound": "Arquivo inv\xe1lido: marca XML %0 n\xe3o encontrada",
     "XUnits": "Unidade X (cm)",
+    "YAxisVertical": "y-axis is vertical",
     "YUnits": "Unidade Y (cm)",
     "ZoomIn": "Ampliar",
     "ZoomOut": "Reduzir",
