@@ -3669,8 +3669,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// if one of the axes is not visible, show upper left and lower right
 		// corner coords
 		if (showAxesCornerCoords) {
-			if ((getXmin() > 0) || (getXmax() < 0) || (getYmin() > 0)
-					|| (getYmax() < 0)) {
+			if (!xAxisOnscreen() || !yAxisOnscreen()) {
 				// uper left corner
 				StringBuilder sb = new StringBuilder();
 				sb.setLength(0);
