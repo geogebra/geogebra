@@ -147,15 +147,16 @@ public class EquationSolver implements EquationSolverInterface {
 				// The line has degenerated to a constant.
 				return -1;
 			res[roots++] = -c / b;
-			
+
 		} else if (Math.abs(b) < eps * a){ // a*x^2 + c = 0
 			double x2 = -c / a;
 			if (Kernel.isZero(x2, eps)){
 				res[roots++] = 0;
 			} else if (x2 < 0){ // no roots			
 				return 0;
+			}else{
+				res[roots++] = Math.sqrt(x2);
 			}
-			res[roots++] = Math.sqrt(x2);
 			
 		} else {
 			// From Numerical Recipes, 5.6, Quadratic and Cubic Equations
