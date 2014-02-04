@@ -6,7 +6,7 @@ import geogebra.html5.gui.inputfield.TextEditPanel;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * @author gabor
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  *         Creates an InputPanel for GeoGebraWeb
  * 
  */
-public class InputPanelW extends HorizontalPanel {
+public class InputPanelW extends FlowPanel {
 
 	private AppW app;
 	private boolean autoComplete;
@@ -27,8 +27,8 @@ public class InputPanelW extends HorizontalPanel {
 		super();
 		this.app = app;
 		this.autoComplete = autoComplete;
-		setHorizontalAlignment(ALIGN_CENTER);
-		setVerticalAlignment(ALIGN_MIDDLE);
+		//setHorizontalAlignment(ALIGN_CENTER);
+		//setVerticalAlignment(ALIGN_MIDDLE);
 		addStyleName("InputPanel");
 
 		textComponent = new AutoCompleteTextFieldW(columns, app);

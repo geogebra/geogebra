@@ -33,9 +33,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProperties {
 
-	private static final int BORDER_WIDTH = 2;
-	private static final int BORDER_HEIGHT = 2;
-
+	public static final int BORDER_WIDTH = 2;
+	public static final int BORDER_HEIGHT = 2;
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
 
@@ -435,11 +434,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 * sets the geogebra-web applet widht
 	 */
 	public void setWidth(int width) {
-		setWidth(width + "px");
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().resize(width, getOffsetHeight() - BORDER_HEIGHT);
+			app.getGuiManager().resize(width, getOffsetHeight());
 		} else {
-			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight() - BORDER_HEIGHT);
+			setWidth(width - BORDER_WIDTH + "px");
+			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
 
 			// maybe onResize is OK too
 			app.getEuclidianViewpanel().deferredOnResize();
@@ -452,11 +451,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 * sets the geogebra-web applet height
 	 */
 	public void setHeight(int height) {
-		setHeight(height + "px");
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().resize(getOffsetWidth() - BORDER_WIDTH, height);
+			app.getGuiManager().resize(getOffsetWidth(), height);
 		} else {
-			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth() - BORDER_WIDTH, height );
+			setHeight(height - BORDER_HEIGHT + "px");
+			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height );
 
 			// maybe onResize is OK too
 			app.getEuclidianViewpanel().deferredOnResize();

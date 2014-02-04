@@ -16,7 +16,6 @@ import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,7 +25,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -41,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * InputBar for GeoGebraWeb
  *
  */
-public class AlgebraInputW extends HorizontalPanel 
+public class AlgebraInputW extends FlowPanel 
 implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize {
 	
 	protected AppW app;
@@ -49,7 +47,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	protected InputPanelW inputPanel;
 	protected AutoCompleteTextFieldW inputField;
 	protected FlowPanel eastPanel;
-	protected HorizontalPanel innerPanel, labelPanel;
+	protected FlowPanel innerPanel, labelPanel;
 	protected ToggleButton btnHelpToggle;
 	protected PopupPanel helpPopup;
 
@@ -76,7 +74,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	private void initGUI() {
 	    clear();
 	    inputLabel = new Label();
-	    inputPanel = new InputPanelW(null,app,30,true);
+	    inputPanel = new InputPanelW(null,app,0,true);
 	    
 	    inputField = inputPanel.getTextComponent();
 	    
@@ -99,40 +97,39 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	   //in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
 	   //in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 	    
-	    labelPanel = new HorizontalPanel();
-	    labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
-	    labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
+	    labelPanel = new FlowPanel();
+	    //labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
+	    //labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
 	    labelPanel.add(inputLabel);
 		
-		// add some space between label and input panels
-		labelPanel.getElement().getStyle().setMarginRight(4, Style.Unit.PX);
+		
 
 	    // TODO: eastPanel should hold the command help button
-		eastPanel = new FlowPanel();
-		eastPanel.getElement().getStyle().setFloat(Style.Float.RIGHT);
-		if (app.showInputHelpToggle()) {
-			eastPanel.add(btnHelpToggle);
-		}
+		//eastPanel = new FlowPanel();
+		
 	    
 		// place all components in an inner panel
-	    innerPanel = new HorizontalPanel();	    
-	    innerPanel.add(labelPanel);
-	    innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
-	    innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
-	    innerPanel.add(inputPanel);
-	    innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
-	    innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
-	    setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
+	    //innerPanel = new FlowPanel();	    
+	    add(labelPanel);
+	    //innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
+	    //innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
+	    add(inputPanel);
+	    //innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
+	    //innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
+	    //setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
 
 	    // add innerPanel to wrapper (this panel)
-	    setVerticalAlignment(ALIGN_MIDDLE);
-	    add(innerPanel);
-	    add(eastPanel);
-	    setCellVerticalAlignment(this, ALIGN_MIDDLE);
+	    //setVerticalAlignment(ALIGN_MIDDLE);
+	    //add(innerPanel);
+	    //add(eastPanel);
+	    //setCellVerticalAlignment(this, ALIGN_MIDDLE);
+	    if (app.showInputHelpToggle()) {
+			add(btnHelpToggle);
+		}
 
 	    setLabels();
 	    
-	    setInputFieldWidth();
+	    //setInputFieldWidth();
 	    
     }
 	
@@ -164,14 +161,14 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 				int fieldWidth = parent.getOffsetWidth() - nonFieldWidth;
 
 				// now set the width
-				inputField.setWidth(fieldWidth);
+				//inputField.setWidth(fieldWidth);
 			}
 		});
 	}
 
 	public void onResize() {
 		if (inputField != null) {
-			setInputFieldWidth();
+			//setInputFieldWidth();
 		}
 		
 		// hide the help popup

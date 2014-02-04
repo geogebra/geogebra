@@ -1568,9 +1568,14 @@ Paddings for menuitems.
 
 .AlgebraInput {
 	background: #e7e7e7;
-	padding: 0px 20px; 
+	display: table;
 	width: 100%;
-	height: 100%;
+}
+
+.AlgebraInput > * {
+	display: table-cell;
+	vertiacal-align:middle;
+	text-align:center;
 }
 
 

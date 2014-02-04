@@ -1258,8 +1258,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setWidth(int width) {
-		textField.setWidth(width + "px");
-		super.setWidth(width + "px");
+		if (width > 0) {
+			textField.setWidth(width + "px");
+			super.setWidth(width + "px");
+		}
 	}
 
 	public String getCommand() {

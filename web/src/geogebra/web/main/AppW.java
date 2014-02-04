@@ -1624,4 +1624,9 @@ public abstract class AppW extends AppWeb {
 	public GLookAndFeel getLAF() {
 	    return laf;
     }
+
+	public void recalCulateEnvironments() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

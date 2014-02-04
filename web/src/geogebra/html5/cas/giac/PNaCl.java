@@ -49,7 +49,7 @@ public class PNaCl {
 
 	private static boolean isNaClEnabled() {
 	    //hack for now
-		return URL.getQueryParameterAsString("nacl").equals("true");
+		return URL.getQueryParameterAsString("nacl") != null && URL.getQueryParameterAsString("nacl").equals("true");
     }
 
 	private native static boolean isBrowserSupportNaCl() /*-{
