@@ -151,7 +151,7 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 	
 
 	@Override
-	final public GeoElement copy() {
+	final public GeoCoordSys1D copy() {
 		GeoCoordSys1D geo = create(cons);
 		geo.setCoord(this);
 		return geo;

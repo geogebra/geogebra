@@ -26,8 +26,8 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
-import geogebra.common.kernel.algos.AngleAlgo;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -47,7 +47,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	private boolean isVisible, labelVisible, show90degrees;
 
-	private AngleAlgo algo;
+	private AlgoAngle algo;
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private GArc2D drawArc = AwtFactory.prototype.newArc2D();
@@ -120,8 +120,8 @@ public class DrawAngle extends Drawable implements Previewable {
 	private void init() {
 		firstVec = new double[]{1,0};
 		m = new double[]{0,0};
-		if(angle.getDrawAlgorithm() instanceof AngleAlgo){
-			algo = ((AngleAlgo)angle.getDrawAlgorithm());
+		if(angle.getDrawAlgorithm() instanceof AlgoAngle){
+			algo = ((AlgoAngle)angle.getDrawAlgorithm());
 		}
 	}
 
@@ -139,8 +139,17 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param p point
 	 * @return coords of the point in view 
 	 */
-	public Coords getCoordsInView(GeoPointND p){
-		return p.getInhomCoordsInD(3);
+	final public Coords getCoordsInView(GeoPointND p){
+		return getCoordsInView(p.getInhomCoordsInD(3));
+	}
+	
+	/**
+	 * 
+	 * @param p point
+	 * @return coords of the point in view 
+	 */
+	public Coords getCoordsInView(Coords p){
+		return p;
 	}
 	
 
@@ -172,7 +181,15 @@ public class DrawAngle extends Drawable implements Previewable {
 		maxRadius = Double.POSITIVE_INFINITY;
 
 		// set vertex and first vector to determine start angle
-		isVisible &= algo != null && algo.updateDrawInfo(m, firstVec, this); 
+		if (algo == null){
+			isVisible = false;
+			return;
+		}
+		
+		if (!algo.updateDrawInfo(m, firstVec, this)){
+			isVisible = false;
+			return;
+		}
 				
 				
 		// calc start angle

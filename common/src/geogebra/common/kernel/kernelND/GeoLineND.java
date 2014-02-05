@@ -133,5 +133,11 @@ public interface GeoLineND extends GeoDirectionND{
 	 *            name
 	 */
 	public void setToParametric(String parameter);
+	
+	/**
+	 * 
+	 * @return copy
+	 */
+	public GeoLineND copy();
 
 }

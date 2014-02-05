@@ -640,6 +640,11 @@ public interface Manager3DInterface {
 			GeoPointND C);
 
 	/**
+	 * Angle named label between lines
+	 */
+	public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h);
+
+	/**
 	 * Length named label of vector v
 	 * 
 	 * @return length of the vector

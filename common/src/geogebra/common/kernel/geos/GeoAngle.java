@@ -24,7 +24,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AngleAlgo;
+import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
@@ -581,7 +581,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	@Override
 	public boolean isDrawable() {		
 		return isDrawable || (getDrawAlgorithm()!=getParentAlgorithm()) || (isIndependent() && isLabelSet()
-				|| getParentAlgorithm() instanceof AngleAlgo);		
+				|| getParentAlgorithm() instanceof AlgoAngle);		
 	}
 	
 	@Override

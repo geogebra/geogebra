@@ -14,6 +14,8 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 
@@ -125,9 +127,7 @@ public class CmdAngle extends CommandProcessor {
 			// angle between lines
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Angle(c.getLabel(),
-						(GeoLine) arg[0], (GeoLine) arg[1]) };
-				return ret;
+				return angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
 			}
 			// syntax error
 			else {
@@ -144,10 +144,9 @@ public class CmdAngle extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Angle(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2]) };
-				return ret;
+				return angle(c.getLabel(),
+						(GeoPointND) arg[0], (GeoPointND) arg[1],
+						(GeoPointND) arg[2]);
 			}
 			// fixed angle
 			else if ((ok[0] = (arg[0].isGeoPoint()))
@@ -163,4 +162,35 @@ public class CmdAngle extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	
+	
+	
+	/**
+	 * @param label label
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @param p3 third point
+	 * @return angle between 3 points
+	 */
+	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3) };
+		return ret;
+	}
+	
+	
+	/**
+	 * @param label label
+	 * @param g first line
+	 * @param h second line
+	 * @return angle between lines
+	 */
+	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h){
+		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoLine) g, (GeoLine) h) };
+		return ret;
+	}
+	
+	
+	
+	
+	
 }

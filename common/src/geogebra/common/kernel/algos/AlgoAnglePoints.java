@@ -35,14 +35,12 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author Markus
  * @version
  */
-public class AlgoAnglePoints extends AlgoElement implements
-		DrawInformationAlgo, AngleAlgo {
+public class AlgoAnglePoints extends AlgoAngle implements
+		DrawInformationAlgo {
 
 	private GeoPointND An, Bn, Cn; // input
 	private GeoAngle angle; // output
 
-	/** standard normal vector */
-	private static final Coords STANDARD_VN = new Coords(0, 0, 1, 0);
 
 	private AlgoAnglePolygon algoAnglePoly;
 
@@ -186,9 +184,7 @@ public class AlgoAnglePoints extends AlgoElement implements
 		return Cn;
 	}
 
-	public Coords getVn() {
-		return STANDARD_VN;
-	}
+
 
 	// calc angle between vectors A-B and C-B
 	// angle in range [0, pi]

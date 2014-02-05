@@ -1329,12 +1329,16 @@ public class Manager3D implements Manager3DInterface {
 	 * MEASURES (lengths, angles)
 	 ********************************************************************/
 
-	/**
-	 * Angle named label between three points
-	 */
+
 	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 		AlgoAnglePoints algo = new AlgoAnglePoints3D(cons, label, A, B, C);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+	
+	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h){
+		AlgoAngleLines3D algo = new AlgoAngleLines3D(cons, label, g, h);
 		GeoAngle angle = algo.getAngle();
 		return angle;
 	}

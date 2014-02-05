@@ -4,9 +4,8 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAnglePoints;
+import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author mathieu
@@ -30,16 +29,18 @@ public class DrawAngleFor3D extends DrawAngle {
 	}
 	
 	@Override
-	public Coords getCoordsInView(GeoPointND point){
-		return view.getCoordsForView(point.getInhomCoordsInD(3));
+	public Coords getCoordsInView(Coords point){
+		return view.getCoordsForView(point);
 	}
+	
+	
 	
 	
 	
 	@Override
 	protected double getAngleStart(double start, double extent) {
 		
-		if (view.getCoordsForView(((AlgoAnglePoints) getGeoElement().getDrawAlgorithm()).getVn()).getZ()>0) {
+		if (view.getCoordsForView(((AlgoAngle) getGeoElement().getDrawAlgorithm()).getVn()).getZ()>0) {
 			return super.getAngleStart(start, extent);
 		}
 		

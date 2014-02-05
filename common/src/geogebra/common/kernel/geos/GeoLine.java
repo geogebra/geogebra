@@ -141,7 +141,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoLine copy() {
 		return new GeoLine(this);
 	}
 

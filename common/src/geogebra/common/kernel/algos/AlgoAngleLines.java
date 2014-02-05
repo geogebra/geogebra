@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoLineND;
 
 
 /**
@@ -34,9 +35,9 @@ import geogebra.common.kernel.geos.GeoVec3D;
  * @author  Markus
  * @version 
  */
-public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo, AngleAlgo{
+public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
 
-    private GeoLine g, h; // input
+    private GeoLineND g, h; // input
     private GeoAngle angle; // output           
 
     /**
@@ -45,11 +46,11 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
      * @param g first line
      * @param h second line
      */
-    AlgoAngleLines(Construction cons,  GeoLine g, GeoLine h) {
+    AlgoAngleLines(Construction cons,  GeoLineND g, GeoLineND h) {
         super(cons);
         this.g = g;
         this.h = h;
-        angle = GeoAngle.newAngleWithDefaultInterval(cons);
+        angle = newGeoAngle(cons);
         setInputOutput(); // for AlgoElement
 
         // compute angle
@@ -57,8 +58,17 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
         
     }
     
-    AlgoAngleLines(GeoLine g, GeoLine h) {  
-    	super(g.cons, false);
+	/**
+	 * create a new GeoAngle with interval as default angle
+	 * @param cons construction
+	 * @return new GeoAngle
+	 */
+	protected GeoAngle newGeoAngle(Construction cons) {
+		return GeoAngle.newAngleWithDefaultInterval(cons);
+	}
+    
+    private AlgoAngleLines(GeoLineND g, GeoLineND h) {  
+    	super(((GeoElement) g).getConstruction(), false);
         this.g = g;
         this.h = h;
    }
@@ -71,13 +81,13 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
      * @param h second line
      */
     
-    public AlgoAngleLines(Construction cons, String label, GeoLine g, GeoLine h) {
+    public AlgoAngleLines(Construction cons, String label, GeoLineND g, GeoLineND h) {
         this(cons,g,h);
         angle.setLabel(label);
     }
     
     public AlgoAngleLines copy(){
-    	return new AlgoAngleLines((GeoLine)g.copy(),(GeoLine)h.copy());
+    	return new AlgoAngleLines(g.copy(),h.copy());
     }
 
     @Override
@@ -94,8 +104,8 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = g;
-        input[1] = h;
+        input[0] = (GeoElement) g;
+        input[1] = (GeoElement) h;
 
         setOutputLength(1);
         setOutput(0,angle);
@@ -114,7 +124,7 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
      * Returns the first line
      * @return first line
      */
-    public GeoLine getg() {
+    public GeoLineND getg() {
         return g;
     }
     
@@ -122,20 +132,20 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
      * Returns the second line
      * @return second line
      */
-    public GeoLine geth() {
+    public GeoLineND geth() {
         return h;
     }
 
     // calc angle between lines g and h
     // use normalvectors (gx, gy), (hx, hy)
     @Override
-	public final void compute() {
+	public void compute() {
      	// |v| * |w| * sin(alpha) = det(v, w)
     	// cos(alpha) = v . w / (|v| * |w|)
     	// tan(alpha) = sin(alpha) / cos(alpha)
     	// => tan(alpha) = det(v, w) / v . w    	    	
-    	double det = g.x * h.y - g.y * h.x;
-    	double prod = g.x * h.x + g.y * h.y;    	    
+    	double det = ((GeoLine) g).x * ((GeoLine) h).y - ((GeoLine) g).y * ((GeoLine) h).x;
+    	double prod = ((GeoLine) g).x * ((GeoLine) h).x + ((GeoLine) g).y * ((GeoLine) h).y;    	    
     	double value = Math.atan2(det, prod);                  	    	
         
         angle.setValue(value);
@@ -150,12 +160,12 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
     }
 
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
-		double[] n = GeoVec3D.cross(g, h).get();
+		double[] n = GeoVec3D.cross((GeoLine) g, (GeoLine) h).get();
 		m[0] = n[0] / n[2];
 		m[1] = n[1] / n[2];
 
 		// first vec
-		g.getDirection(firstVec);
+		((GeoLine) g).getDirection(firstVec);
 		return true;
 	}
 

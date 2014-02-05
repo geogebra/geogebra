@@ -28,7 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoAngleVectors extends AlgoElement implements AngleAlgo{
+public class AlgoAngleVectors extends AlgoAngle {
 
 	private GeoVector v, w; // input
     private GeoAngle angle; // output           

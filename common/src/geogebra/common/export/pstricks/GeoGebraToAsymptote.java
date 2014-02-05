@@ -619,13 +619,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // angle between two lines
         else if (algo instanceof AlgoAngleLines) {
             AlgoAngleLines la = (AlgoAngleLines) algo;
-            line = la.getg();
-            line2 = la.geth();  
             vertex = tempPoint;
-            // intersect lines to get vertex
-            m = GeoVec3D.cross(line, line2).get();
-            // first vec
-            line.getDirection(firstVec);
+            la.updateDrawInfo(m, firstVec, null);
         }
         // angle of a single vector or a single point
         else if (algo instanceof AlgoAngleVector) {         

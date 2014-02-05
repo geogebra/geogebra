@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
  * Creates all angles of a polygon.
  */
 
-public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
+public class AlgoAnglePolygon extends AlgoAngle {
 
     /**
 	 * 

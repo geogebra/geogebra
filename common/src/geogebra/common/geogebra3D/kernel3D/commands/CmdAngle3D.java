@@ -1,11 +1,10 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.MyError;
 
 public class CmdAngle3D extends CmdAngle {
 	
@@ -19,38 +18,25 @@ public class CmdAngle3D extends CmdAngle {
 	
 	
 
-	@Override
-	public GeoElement[] process(Command c) throws MyError {
-	    int n = c.getArgumentNumber();
-	    boolean[] ok = new boolean[n];
-	    GeoElement[] arg;
 
-	    switch (n) {
-	    
-	    
-	    case 3 :
-	    	arg = resArgs(c);
-	    	if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() || arg[2].isGeoElement3D()){
-	    		if ((ok[0] = (arg[0] .isGeoPoint()))
-	    				&& (ok[1] = (arg[1] .isGeoPoint()))
-	    				&& (ok[2] = (arg[2] .isGeoPoint()))) {
-	    			GeoElement[] ret =
-	    			{
-	    					kernelA.getManager3D().Angle3D(
-	    							c.getLabel(),
-	    							(GeoPointND) arg[0],
-	    							(GeoPointND) arg[1],
-	    							(GeoPointND) arg[2])};
-	    			return ret;
-	    		}
-	    	
-	    	}
-	    	
-	    	
-	    	break;
-	    }
-	    
-	    return super.process(c);
+	@Override
+	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()){
+			GeoElement[] ret = { kernelA.getManager3D().Angle3D(label, p1, p2, p3) };
+			return ret;
+		}
+
+		return super.angle(label, p1, p2, p3);
 	}
 	
+	@Override
+	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h){
+		
+		if (g.isGeoElement3D() || h.isGeoElement3D()){
+			GeoElement[] ret = { kernelA.getManager3D().Angle3D(label, g, h) };
+			return ret;
+		}
+
+		return super.angle(label, g, h);
+	}
 }
