@@ -70,6 +70,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -104,7 +106,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class FunctionInspector implements View, MouseListener,
 		ListSelectionListener, KeyListener, SpecialNumberFormatInterface,
-		ActionListener, WindowFocusListener, UpdateFonts {
+		ActionListener, WindowFocusListener, UpdateFonts, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -375,14 +377,17 @@ public class FunctionInspector implements View, MouseListener,
 		lblStep = new JLabel();
 		fldStep = new MyTextField(app);
 		fldStep.addActionListener(this);
+		fldStep.addFocusListener(this);
 		fldStep.setColumns(6);
 
 		lblInterval = new JLabel();
 		fldLow = new MyTextField(app);
 		fldLow.addActionListener(this);
+		fldLow.addFocusListener(this);
 		fldLow.setColumns(6);
 		fldHigh = new MyTextField(app);
 		fldHigh.addActionListener(this);
+		fldHigh.addFocusListener(this);
 		fldHigh.setColumns(6);
 
 		btnOscCircle = new JToggleButton(
@@ -992,6 +997,17 @@ public class FunctionInspector implements View, MouseListener,
 		}
 
 	}
+	
+	public void focusGained(FocusEvent e) {
+		if (e.getSource() instanceof MyTextField) {
+			((MyTextField) e.getSource()).selectAll();
+		}
+	}
+
+	public void focusLost(FocusEvent e) {
+		doTextFieldActionPerformed((JTextField) (e.getSource()));
+	}
+	
 
 	public void show() {
 		wrappedDialog.setVisible(true);
