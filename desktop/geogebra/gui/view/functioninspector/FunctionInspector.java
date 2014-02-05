@@ -214,8 +214,7 @@ public class FunctionInspector implements View, MouseListener,
 		// load selected function
 		this.selectedGeo = selectedGeo;
 		insertGeoElement(selectedGeo);
-		handleTabChange();
-
+		
 		isIniting = false;
 
 	}
@@ -257,7 +256,7 @@ public class FunctionInspector implements View, MouseListener,
 
 		tabPanel.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent evt) {
-				handleTabChange();
+				updateTabPanels();
 			}
 
 		});
@@ -546,7 +545,12 @@ public class FunctionInspector implements View, MouseListener,
 
 	}
 
-	private void handleTabChange() {
+	/**
+	 * Updates the tab panels and thus the entire GUI. Also updates the active EV to
+	 * hide/show temporary GeoElements associated with the FunctionInspector
+	 * (e.g. points, integral)
+	 */
+	private void updateTabPanels() {
 
 		boolean isInterval = tabPanel.getSelectedComponent() == intervalTabPanel;
 
@@ -1114,11 +1118,18 @@ public class FunctionInspector implements View, MouseListener,
 		};
 	}
 
+	/**
+	 * Sets the function to be inspected and updates the entire GUI
+	 *  
+	 * @param geo The function to be inspected
+	 */
 	public void insertGeoElement(GeoElement geo) {
 		if (geo == null || !geo.isGeoFunction()) {
 			return;
 		}
 
+		clearGeoList();
+		
 		activeEV = app.getActiveEuclidianView();
 		selectedGeo = (GeoFunction) geo;
 
@@ -1146,8 +1157,8 @@ public class FunctionInspector implements View, MouseListener,
 
 		lowPoint.updateCascade();
 		highPoint.updateCascade();
-
-		updateGUI();
+		
+		updateTabPanels();
 	}
 
 	// ====================================================
