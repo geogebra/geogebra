@@ -444,7 +444,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setColumns(int length) {
 		getTextBox().setWidth(length + "em");
-		super.setWidth(length + "em");
+		//super.setWidth(length + "em");
 	}
 
 	public String getCurrentWord() {

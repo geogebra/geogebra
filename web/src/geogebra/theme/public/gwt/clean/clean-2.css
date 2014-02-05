@@ -1273,6 +1273,7 @@ td.datePickerMonth {
 .GeoGebraAppFrame, .GeoGebraFrame,
 .GeoGebraPopup, .DialogBox, .gwt-PopupPanel, .gwt-SuggestBoxPopup {
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background: #e7e7e7;
 }
 
 .GeoGebraAppFrame *:focus,
@@ -1494,6 +1495,7 @@ Paddings for menuitems.
 
 
 .ApplicationPanel {
+	background: #ffffff;
 }
 
 .SpreadsheetEditorCell {
@@ -1574,8 +1576,20 @@ Paddings for menuitems.
 
 .AlgebraInput > * {
 	display: table-cell;
-	vertiacal-align:middle;
+	vertical-align:middle;
 	text-align:center;
+}
+
+.AlgebraInput > div:first-child {
+	text-align:right;
+	padding-right:10px;
+	width: 5%;
+}
+
+.AlgebraInput > div:last-child {
+	text-align:left;
+	padding-left:10px;
+	width: 5%;
 }
 
 
@@ -2403,13 +2417,12 @@ label {
 
 /*============ AutocompleteTextFieldW =======*/
 .AutoCompleteTextFieldW {
-	box-sizing: border-box;
 	position: relative;
+	text-align:left;
 }
 
 .AutoCompleteTextFieldW .TextField {
-	display: inline-block;
-	box-sizing: border-box;
+	display: block;
 	padding-right:50px;
 }
 
@@ -2421,14 +2434,13 @@ label {
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
-	
 	position: absolute;
-	right: 2px;
-	top: 13%;
+	right: 15px;
+	top: 3px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
-	display: inline-block;
+	display: block;
 }
 
 
