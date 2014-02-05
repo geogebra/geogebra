@@ -1384,7 +1384,7 @@ __GGB__keysVar.da.menu = {
     "FrequencyPolygon": "Kurve",
     "FrequencyTable": "Tabel",
     "FrequencyType": "Type",
-    "FunctionInspector": "Funktionsinspektor",
+    "FunctionInspector": "Funktionsunders\xf8gelse",
     "FunctionInspector_Help": "V\xe6lg en funktion",
     "Functionality": "Funktionalitet",
     "GUIFontSize": "Menu bogstavst\xf8rrelse",

@@ -2670,7 +2670,7 @@ __GGB__keysVar.fr.plain = {
     "WindowOpened": "Fen\xeatre ouverte",
     "XMLTagANotFound": "Fichier invalide : la balise XML %0 n'est pas trouv\xe9e",
     "XUnits": "Unit\xe9s X (cm)",
-    "YAxisVertical": "y-axis is vertical",
+    "YAxisVertical": "axe y'Oy vertical",
     "YUnits": "Unit\xe9s Y (cm)",
     "ZoomIn": "Agrandir",
     "ZoomOut": "R\xe9duire",
