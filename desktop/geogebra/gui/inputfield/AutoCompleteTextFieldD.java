@@ -715,7 +715,12 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		}
 		if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
 			setCaretPosition(argMatcher.end());
-			moveCaretPosition(argMatcher.start() + 1);
+			//do not select the space after , but do select space after [
+			if(text.charAt(argMatcher.start())==','){
+				moveCaretPosition(argMatcher.start() + 2);
+			}else{
+				moveCaretPosition(argMatcher.start() + 1);
+			}
 			return true;
 		}
 		return false;
