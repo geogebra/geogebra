@@ -101,6 +101,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	    //labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
 	    //labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
 	    labelPanel.add(inputLabel);
+	    labelPanel.setStyleName("AlgebraInputLabel");
 		
 		
 

@@ -182,14 +182,14 @@ public class ModeToggleMenu extends MenuBar {
 
 		private static final long serialVersionUID = 1L;
 
-		private static final int CANVASFORTRIANGLE_WIDTH = 40;
+		private static final int CANVASFORTRIANGLE_WIDTH = 10;
 
-		private static final int CANVASFORTRIANGLE_HEIGHT = 16;
+		private static final int CANVASFORTRIANGLE_HEIGHT = 5;
 		
 		Canvas canvas;
 		Canvas canvasForRedTriangle;
 		boolean popupTriangleHighlighting = false;
-		CssColor arrowColor = CssColor.make("rgba(0, 0, 0, 130)");
+		CssColor arrowColor = CssColor.make("#FFFFFF");
 
 		private ImageElement imgElement;
 
@@ -283,22 +283,25 @@ public class ModeToggleMenu extends MenuBar {
 			//red triangle for popup menu
 			//color-settings for selected and unselected arrow
 			if (popupTriangleHighlighting) {
-				context.setStrokeStyle(CssColor.make("black"));
-				context.setFillStyle(CssColor.make("red"));
+				context.setStrokeStyle(CssColor.make("#FFFFFF"));
+				context.setFillStyle(CssColor.make("#DCDCDC"));
 			} else {
 				context.setStrokeStyle(arrowColor);
 				if(selected){
-					context.setFillStyle(CssColor.make("white"));
+					context.setFillStyle(CssColor.make("#DCDCDC"));
 				}else{
-					context.setFillStyle(CssColor.make("#e7e7e7"));
+					context.setFillStyle(CssColor.make("#DCDCDC"));
 				}
 			}
 			
 			context.setLineWidth(1);	
 			context.beginPath();
-			context.moveTo(25.5,1.5);
+			/*context.moveTo(25.5,1.5);
 			context.lineTo(39.5,1.5);
-			context.lineTo(32.5,11.5);
+			context.lineTo(32.5,11.5);*/
+			context.moveTo(1,1);
+			context.lineTo(9, 1);
+			context.lineTo(4.5, 5);
 			context.closePath();
 			context.stroke();
 			context.fill();	
@@ -315,8 +318,8 @@ public class ModeToggleMenu extends MenuBar {
 			canvas = Canvas.createIfSupported();
 
 			// canvas init.
-			canvas.setWidth("32px");
-			canvas.setHeight("32px");
+			//canvas.setWidth("32px");
+			//canvas.setHeight("32px");
 			canvas.setCoordinateSpaceWidth(32);
 			canvas.setCoordinateSpaceHeight(32);
 			canvas.addStyleName("toolbar_icon");

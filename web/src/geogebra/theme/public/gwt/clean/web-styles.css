@@ -1,0 +1,2666 @@
+/**
+ * The file contains styles for GWT widgets in the Clean theme.
+ *
+ * In order to maintain cross-browser compatibility, the following syntax is
+ * used to create IE6 specific style rules:
+ *    .gwt-Widget {
+ *      property: rule applies to all browsers
+ *      -property: rule applies only to IE6 (overrides previous rule)
+ *    }
+ *    * html .gwt-Widget {
+ *      property: rule applies to all versions of IE
+ *    }
+ */
+ 
+/**
+ * The reference theme can be used to determine when this style sheet has
+ * loaded.  Create a hidden div element with absolute position, assign the style
+ * name below, and attach it to the DOM.  Use a timer to detect when the
+ * element's height and width are set to 5px.
+ */
+ 
+ body {
+ 	color: #666666;
+ }
+ 
+ input {
+ 	border: #EDEDED solid 1px;
+	background: #FFFFFF;
+	padding: 4px 5px;
+	color: #666666;
+	
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+ }
+ 
+.gwt-Reference-clean {
+  height: 5px;
+  width: 5px;
+  zoom: 1;
+}
+
+.gwt-Button {
+  margin: 0;
+  padding: 5px 7px;
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+  font-size:small;
+  background: url("images/hborder.png") repeat-x 0px -2077px;
+  border:1px solid #bbb;
+  border-bottom: 1px solid #a0a0a0;
+  border-radius: 3px;
+ -moz-border-radius: 3px;
+}
+.gwt-Button:active {
+  border: 1px inset #ccc;
+}
+.gwt-Button:hover {
+  border-color: #939393;
+}
+.gwt-Button[disabled] {
+  cursor: default;
+  color: #888;
+}
+.gwt-Button[disabled]:hover {
+  border: 1px outset #ccc;
+}
+
+.gwt-CheckBox {
+}
+.gwt-CheckBox-disabled {
+  color: #888;
+}
+
+.gwt-DecoratorPanel {
+}
+.gwt-DecoratorPanel .topCenter {
+  border-top: 1px solid #bbb;
+  line-height: 0px;
+}
+.gwt-DecoratorPanel .bottomCenter {
+  border-bottom: 1px solid #bbb;
+  line-height: 0px;
+}
+.gwt-DecoratorPanel .topCenterInner,
+.gwt-DecoratorPanel .bottomCenterInner {
+  height: 1px;
+  line-height: 0px;
+  font-size: 1px;
+}
+.gwt-DecoratorPanel .middleLeft {
+  border-left: 1px solid #bbb;
+}
+.gwt-DecoratorPanel .middleRight {
+  border-right: 1px solid #bbb;
+}
+.gwt-DecoratorPanel .middleLeftInner,
+.gwt-DecoratorPanel .middleRightInner {
+  width: 1px;
+  line-height: 1px;
+}
+.gwt-DecoratorPanel .topLeftInner,
+.gwt-DecoratorPanel .topRightInner,
+.gwt-DecoratorPanel .bottomLeftInner,
+.gwt-DecoratorPanel .bottomRightInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+  font-size: 1px;
+  overflow: hidden;
+}
+.gwt-DecoratorPanel .topLeft {
+  line-height: 0px;
+  background: url(images/circles.png) no-repeat 0px -6px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -6px;
+}
+.gwt-DecoratorPanel .topRight {
+  line-height: 0px;
+  background: url(images/circles.png) no-repeat -5px -6px;
+  -background: url(images/circles_ie6.png) no-repeat -5px -6px;
+}
+.gwt-DecoratorPanel .bottomLeft {
+  line-height: 0px;
+  background: url(images/circles.png) no-repeat 0px -11px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -11px;
+}
+.gwt-DecoratorPanel .bottomRight {
+  line-height: 0px;
+  background: url(images/circles.png) no-repeat -5px -11px;
+  -background: url(images/circles_ie6.png) no-repeat -5px -11px;
+}
+* html .gwt-DecoratorPanel .topLeftInner,
+* html .gwt-DecoratorPanel .topRightInner,
+* html .gwt-DecoratorPanel .bottomLeftInner,
+* html .gwt-DecoratorPanel .bottomRightInner {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+}
+
+.gwt-DialogBox .Caption {
+  background: #F1F1F1;
+  padding: 4px 8px 4px 4px;
+  cursor: default;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+  font-weight: bold;
+  border-bottom: 1px solid #bbbbbb;
+  border-top: 1px solid #D2D2D2;
+}
+.gwt-DialogBox .dialogContent {
+}
+.gwt-DialogBox .dialogMiddleCenter {
+  padding: 3px;
+  background: white;
+}
+.gwt-DialogBox .dialogBottomCenter {
+  background: url(images/hborder.png) repeat-x 0px -2945px;
+  -background: url(images/hborder_ie6.png) repeat-x 0px -2144px;
+}
+.gwt-DialogBox .dialogMiddleLeft {
+  background: url(images/vborder.png) repeat-y -31px 0px;
+}
+.gwt-DialogBox .dialogMiddleRight {
+  background: url(images/vborder.png) repeat-y -32px 0px;
+  -background: url(images/vborder_ie6.png) repeat-y -32px 0px;
+}
+.gwt-DialogBox .dialogTopLeftInner {
+  width: 10px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogTopRightInner {
+  width: 12px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogBottomLeftInner {
+  width: 10px;
+  height: 12px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogBottomRightInner {
+  width: 12px;
+  height: 12px;
+  zoom: 1;
+}
+.gwt-DialogBox .dialogTopLeft {
+  background: url(images/circles.png) no-repeat -20px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -20px 0px;
+}
+.gwt-DialogBox .dialogTopRight {
+  background: url(images/circles.png) no-repeat -28px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -28px 0px;
+}
+.gwt-DialogBox .dialogBottomLeft {
+  background: url(images/circles.png) no-repeat 0px -36px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -36px;
+}
+.gwt-DialogBox .dialogBottomRight {
+  background: url(images/circles.png) no-repeat -8px -36px;
+  -background: url(images/circles_ie6.png) no-repeat -8px -36px;
+}
+* html .gwt-DialogBox .dialogTopLeftInner {
+  width: 10px;
+  overflow: hidden;
+}
+* html .gwt-DialogBox .dialogTopRightInner {
+  width: 12px;
+  overflow: hidden;
+}
+* html .gwt-DialogBox .dialogBottomLeftInner {
+  width: 10px;
+  height: 12px;
+  overflow: hidden;
+}
+* html .gwt-DialogBox .dialogBottomRightInner {
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.gwt-DisclosurePanel {
+}
+.gwt-DisclosurePanel-open {
+}
+.gwt-DisclosurePanel-closed {
+}
+.gwt-DisclosurePanel .header,
+.gwt-DisclosurePanel .header a,
+.gwt-DisclosurePanel .header td {
+  text-decoration: none;  /* Remove underline from header */
+  color: black; 
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-DisclosurePanel .content {
+  border-left: 3px solid #e7e7e7;
+  padding: 4px 0px 4px 8px;
+  margin-left: 6px;
+}
+
+.gwt-FileUpload {
+}
+
+.gwt-Frame {
+  border-top: 2px solid #666;
+  border-left: 2px solid #666;
+  border-right: 2px solid #bbb;
+  border-bottom: 2px solid #bbb;
+}
+
+.gwt-HorizontalSplitPanel {
+}
+.gwt-HorizontalSplitPanel .hsplitter {
+  cursor: move;
+  border: 0px; 
+  background: #e7e7e7;
+  line-height: 0px;
+}
+.gwt-VerticalSplitPanel {
+}
+.gwt-VerticalSplitPanel .vsplitter {
+  cursor: move;
+  border: 0px; 
+  background: #e7e7e7;
+  line-height: 0px;
+}
+
+.gwt-HTML {
+  padding: 0 0px;
+}
+
+.gwt-Hyperlink {
+}
+
+.gwt-Image {
+}
+
+.gwt-Label {
+}
+
+.gwt-ListBox {
+}
+
+.gwt-MenuBar {
+  cursor: default;
+}
+.gwt-MenuBar .gwt-MenuItem {
+  cursor: default;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+}
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background: #E3E8F3;
+}
+
+
+
+/*.gwt-MenuBar-horizontal {
+  background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
+  border: 1px solid #e0e0e0;
+}*/
+
+.gwt-MenuBar-horizontal .gwt-MenuItem {
+  padding: 5px 10px;
+  vertical-align: bottom;
+  color: #000;
+  font-weight: bold;
+}
+
+.gwt-MenuBar .gwt-MenuItem-disabled, .gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
+	color: #c0c0c0;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  width: 1px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  background: white;
+  //border-left: 1px solid #ccc;
+}
+
+body[dir=ltr] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  //border-left: 1px solid #ccc;
+}
+body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  //border-right: 1px solid #ccc;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
+  width: 1px;
+  height: 1px;
+  background: white; 
+}
+.gwt-MenuBar-vertical {
+  margin-top: 0px;
+  //margin-left: 0px;
+  background: white;
+}
+body[dir=ltr] .gwt-MenuBar-vertical {
+  margin-left: 0px;
+}
+body[dir=rtl] .gwt-MenuBar-vertical {
+  margin-right: 0px;
+}
+.gwt-MenuBar-vertical table {
+  border-collapse: collapse;
+}
+.gwt-MenuBar-vertical .gwt-MenuItem {
+  padding: 2px 40px 2px 1px;
+}
+body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
+  padding: 2px 1px 2px 40px;
+}
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator {
+  padding: 2px 0px;
+}
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
+  height: 1px;
+  padding: 0px;
+  border: 0px;
+  border-top: 1px solid #ccc;
+  overflow: hidden;
+}
+.gwt-MenuBar-vertical .subMenuIcon {
+  padding-right: 4px;
+}
+body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
+  padding-left: 4px;
+}
+.gwt-MenuBar-vertical .subMenuIcon-selected {
+  background: #E3E8F3;
+}
+.gwt-MenuBarPopup {
+  margin: 0px 0px 0px 3px;
+  z-index: 100;
+}
+body[dir=rtl] .gwt-MenuBarPopup {
+  margin: 0px 3px 0px 0px;
+}
+.gwt-MenuBarPopup .menuPopupTopCenter {
+  background: url(images/hborder.png) 0px -12px repeat-x;
+}
+.gwt-MenuBarPopup .menuPopupBottomCenter {
+  background: url(images/hborder.png) 0px -13px repeat-x;
+  -background: url(images/hborder_ie6.png) 0px -13px repeat-x;
+}
+.gwt-MenuBarPopup .menuPopupMiddleLeft {
+  background: url(images/vborder.png) -12px 0px repeat-y;
+  -background: url(images/vborder_ie6.png) -12px 0px repeat-y;
+}
+.gwt-MenuBarPopup .menuPopupMiddleRight {
+  background: url(images/vborder.png) -13px 0px repeat-y;
+  -background: url(images/vborder_ie6.png) -13px 0px repeat-y;
+}
+.gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  zoom: 1;
+}
+.gwt-MenuBarPopup .menuPopupTopLeft {
+  background: url(images/corner.png) no-repeat 0px -36px;
+  -background: url(images/corner_ie6.png) no-repeat 0px -36px;
+}
+.gwt-MenuBarPopup .menuPopupTopRight {
+  background: url(images/corner.png) no-repeat -5px -36px;
+  -background: url(images/corner_ie6.png) no-repeat -5px -36px;
+}
+.gwt-MenuBarPopup .menuPopupBottomLeft {
+  background: url(images/corner.png) no-repeat 0px -41px;
+  -background: url(images/corner_ie6.png) no-repeat 0px -41px;
+}
+.gwt-MenuBarPopup .menuPopupBottomRight {
+  background: url(images/corner.png) no-repeat -5px -41px;
+  -background: url(images/corner_ie6.png) no-repeat -5px -41px;
+}
+* html .gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  overflow: hidden;
+}
+* html .gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.gwt-PasswordTextBox {
+  padding: 5px 4px;
+  border: 1px solid #ccc;
+  border-top: 1px solid #999;
+  font-size: 100%;
+}
+.gwt-PasswordTextBox-readonly {
+  color: #888;
+}
+
+.gwt-PopupPanel {
+  border: 3px solid #e7e7e7;
+  padding: 3px;
+  background: white;
+}
+
+.gwt-DecoratedPopupPanel .popupContent {
+}
+.gwt-DecoratedPopupPanel .popupMiddleCenter {
+  padding: 3px;
+  background: #f1f1f1;
+}
+.gwt-DecoratedPopupPanel .popupTopCenter {
+  background: url(images/hborder.png) 0px -2937px repeat-x;
+}
+.gwt-DecoratedPopupPanel .popupBottomCenter {
+  background:  url(images/hborder.png) repeat-x 0px -2938px;
+  -background: url(images/hborder_ie6.png) repeat-x 0px -2138px;
+}
+.gwt-DecoratedPopupPanel .popupMiddleLeft {
+  background: url(images/vborder.png) -21px 0px repeat-y;
+}
+.gwt-DecoratedPopupPanel .popupMiddleRight {
+  background: url(images/vborder.png) repeat-y -24px 0px;
+  -background: url(images/vborder_ie6.png) repeat-y -24px 0px;
+}
+.gwt-DecoratedPopupPanel .popupTopLeftInner {
+  width: 6px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupTopRightInner {
+  width: 6px;
+  height: 5px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupBottomLeftInner {
+  width: 6px;
+  height: 6px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupBottomRightInner {
+  width: 6px;
+  height: 6px;
+  zoom: 1;
+}
+.gwt-DecoratedPopupPanel .popupTopLeft {
+  background: url(images/circles.png) no-repeat 0px -16px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -16px;
+}
+.gwt-DecoratedPopupPanel .popupTopRight {
+  background: url(images/circles.png) no-repeat -6px -16px;
+  -background: url(images/circles_ie6.png) no-repeat -6px -16px;
+}
+.gwt-DecoratedPopupPanel .popupBottomLeft {
+  background: url(images/circles.png) no-repeat 0px -21px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -21px;
+}
+.gwt-DecoratedPopupPanel .popupBottomRight {
+  background: url(images/circles.png) no-repeat -6px -21px;
+  -background: url(images/circles_ie6.png) no-repeat -6px -21px;
+}
+* html .gwt-DecoratedPopupPanel .popupTopLeftInner {
+  width: 6px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-DecoratedPopupPanel .popupTopRightInner {
+  width: 6px;
+  height: 5px;
+  overflow: hidden;
+}
+* html .gwt-DecoratedPopupPanel .popupBottomLeftInner {
+  width: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+* html .gwt-DecoratedPopupPanel .popupBottomRightInner {
+  width: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}
+
+.gwt-PushButton-up,
+.gwt-PushButton-up-hovering,
+.gwt-PushButton-up-disabled,
+.gwt-PushButton-down,
+.gwt-PushButton-down-hovering,
+.gwt-PushButton-down-disabled {
+  margin: 0;
+  text-decoration: none;
+  background: url("images/hborder.png") repeat-x 0px -27px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+.gwt-PushButton-up,
+.gwt-PushButton-up-hovering,
+.gwt-PushButton-up-disabled {
+  padding: 3px 5px 3px 5px;
+}
+.gwt-PushButton-up {
+  border:1px solid #bbb;
+  border-bottom: 1px solid #a0a0a0;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-up-hovering {
+  border: 1px solid;
+  border-color: #939393;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-up-disabled {
+  border: 1px solid #bbb;
+  cursor: default;
+  opacity: .5;
+  filter: alpha(opacity=45);
+  zoom: 1;
+}
+.gwt-PushButton-down,
+.gwt-PushButton-down-hovering,
+.gwt-PushButton-down-disabled {
+  padding: 4px 4px 2px 6px;
+  outline:none;
+}
+.gwt-PushButton-down {
+  border: 1px inset #666;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-down-hovering {
+  border: 1px solid #939393;
+  border-top: 1px solid #333333;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-PushButton-down-disabled {
+  border: 1px outset #ccc;
+  cursor: default;
+  opacity: 0.5;
+  filter: alpha(opacity=45);
+  zoom: 1;
+}
+
+.gwt-RadioButton {
+}
+.gwt-RadioButton-disabled {
+  color: #888;
+}
+
+.gwt-RichTextArea {
+}
+.hasRichTextToolbar {
+  border: 0px;
+}
+.gwt-RichTextToolbar {
+  background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
+  border-bottom: 1px solid #BBBBBB;
+  padding: 3px;
+  margin: 0px;
+}
+.gwt-RichTextToolbar .gwt-PushButton-up {
+  padding: 0px 1px 0px 0px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-PushButton-up-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 1px 0px 0px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-PushButton-down {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-PushButton-down-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px; 
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-up {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 1px 0px 0px;
+  border:1px solid #bbb;
+  border-bottom: 1px solid #a0a0a0;
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-up-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 1px 0px 0px;
+  border-width: 1px;
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-down {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px;
+}
+.gwt-RichTextToolbar .gwt-ToggleButton-down-hovering {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 0px 0px 0px 1px;
+  border-width: 1px;
+}
+
+.gwt-StackPanel {
+  border-bottom: 1px solid #bbbbbb;
+}
+.gwt-StackPanel .gwt-StackPanelItem {
+  cursor: pointer;
+  cursor: hand;
+  font-weight: bold;
+  font-size: 1.3em;
+  padding: 3px;
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+}
+.gwt-StackPanel .gwt-StackPanelContent {
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: white;
+  padding: 2px 2px 10px 5px;
+}
+
+.gwt-DecoratedStackPanel {
+  border-bottom: 1px solid #bbbbbb;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelContent {
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: white;
+  padding: 2px 2px 10px 5px;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelItem {
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-DecoratedStackPanel .stackItemTopLeft,
+.gwt-DecoratedStackPanel .stackItemTopRight {
+  height: 6px;
+  width: 6px;
+  zoom: 1;
+}
+.gwt-DecoratedStackPanel .stackItemTopLeft {
+  border-left: 1px solid #bbbbbb;
+  background: #d3def6 url(images/corner.png) no-repeat 0px -49px;
+  -background: #d3def6 url(images/corner_ie6.png) no-repeat 0px -49px;
+}
+.gwt-DecoratedStackPanel .stackItemTopRight {
+  border-right: 1px solid #bbbbbb;
+  background: #d3def6 url(images/corner.png) no-repeat -6px -49px;
+  -background: #d3def6 url(images/corner_ie6.png) no-repeat -6px -49px;
+}
+.gwt-DecoratedStackPanel .stackItemTopLeftInner,
+.gwt-DecoratedStackPanel .stackItemTopRightInner {
+  width: 1px;
+  height: 1px;
+}
+* html .gwt-DecoratedStackPanel .stackItemTopLeftInner,
+* html .gwt-DecoratedStackPanel .stackItemTopRightInner {
+  width: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+.gwt-DecoratedStackPanel .stackItemTopCenter {
+  background: url(images/hborder.png) 0px -21px repeat-x;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleLeft {
+  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+  border-left: 1px solid #bbbbbb;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,
+.gwt-DecoratedStackPanel .stackItemMiddleRightInner {
+  width: 1px;
+  height: 1px;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleRight {
+  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+  border-right: 1px solid #bbbbbb;
+}
+.gwt-DecoratedStackPanel .stackItemMiddleCenter {
+  font-weight: bold;
+  font-size: 1.3em;
+  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft {
+  border: 0px;
+  background-color: white;
+}
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft,
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight {
+  background-color: white;
+}
+
+.gwt-SuggestBox {
+  padding: 4px 5px;
+  /*border: 1px solid #ccc;
+  border-top: 1px solid #999;*/
+  font-size: 100%;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+  width: 96%; /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
+}
+
+.gwt-SuggestBoxPopup {
+	-webkit-border-radius: 0px;
+	-khtml-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	padding: 10px;
+	background-color: rgba(255, 255, 255, 95);
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+}
+
+.gwt-SuggestBoxPopup .item {
+  padding: 2px 6px;
+  color: #000;
+  cursor: default;
+  font-size: 110%;
+}
+.gwt-SuggestBoxPopup .item-selected {
+  background: #D5E2FF;
+}
+.gwt-SuggestBoxPopup .suggestPopupContent {
+  background: white;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopCenter {
+  border-top: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+  border-bottom: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopCenterInner,
+.gwt-SuggestBoxPopup .suggestPopupBottomCenterInner {
+  height: 1px;
+  line-height: 1px;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
+  border-left: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleRight {
+  border-right: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeftInner,
+.gwt-SuggestBoxPopup .suggestPopupMiddleRightInner {
+  width: 1px;
+  line-height: 1px;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;  
+}
+.gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopLeft {
+  background: url(images/circles.png) no-repeat 0px -6px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -6px;
+  width:5px;
+  height:5px;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopRight {
+  background: url(images/circles.png) no-repeat -5px -6px;
+  -background: url(images/circles_ie6.png) no-repeat -5px -6px;
+  width:5px;
+  height:5px;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomLeft {
+  background: url(images/circles.png) no-repeat 0px -11px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -11px;
+  width:5px;
+  height:5px;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomRight {
+  background: url(images/circles.png) no-repeat -5px -11px;
+  -background: url(images/circles_ie6.png) no-repeat -5px -11px;
+  width:5px;
+  height:5px;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+
+.gwt-TabBar {
+  background: #ccc;
+  padding-top: 6px;
+}
+.gwt-TabBar .gwt-TabBarFirst {
+  width: 5px;  /* first tab distance from the left */
+}
+.gwt-TabBar .gwt-TabBarRest {
+}
+.gwt-TabBar .gwt-TabBarItem {
+  margin-left: 4px;
+  padding: 4px 8px 4px 8px;
+  cursor: pointer;
+  cursor: hand;
+  color: white;
+  font-weight: normal;
+  text-align: center;
+  background: #8E8E8E;
+  -moz-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+}
+.gwt-TabBar .gwt-TabBarItem-selected {
+  cursor: default;
+  background: white;
+  color: #333;
+  font-weight: bold;
+} 
+.gwt-TabBar .gwt-TabBarItem-disabled {
+  cursor: default;
+  color: #999999;
+}
+.gwt-TabPanel {
+}
+.gwt-TabPanelBottom {
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 1px 1px;
+  overflow: hidden;
+  padding: 6px;
+}
+.gwt-DecoratedTabBar {
+  background: #ccc;
+  padding-top: 6px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarFirst {
+  width: 5px;  /* first tab distance from the left */
+}
+.gwt-DecoratedTabBar .gwt-TabBarRest {
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+  border-collapse: collapse;
+  margin-left: 4px;
+}
+.gwt-DecoratedTabBar .tabTopCenter {
+  padding: 0px;
+  background: #8E8E8E;
+}
+.gwt-DecoratedTabBar .tabTopLeft,
+.gwt-DecoratedTabBar .tabTopRight {
+  padding: 0px;
+  zoom: 1;
+}
+.gwt-DecoratedTabBar .tabTopLeftInner,
+.gwt-DecoratedTabBar .tabTopRightInner {
+  width: 3px;
+  height: 3px;
+}
+.gwt-DecoratedTabBar .tabTopLeft {
+  background: url(images/circles.png) no-repeat 0px 0px;
+  -background: url(images/circles_ie6.png) no-repeat 0px 0px;
+}
+.gwt-DecoratedTabBar .tabTopRight {
+  background: url(images/circles.png) no-repeat -3px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -3px 0px;
+}
+* html .gwt-DecoratedTabBar .tabTopLeftInner,
+* html .gwt-DecoratedTabBar .tabTopRightInner {
+  width: 3px;
+  height: 3px;
+  overflow: hidden;
+}
+.gwt-DecoratedTabBar .tabMiddleLeft,
+.gwt-DecoratedTabBar .tabMiddleRight {
+  width: 3px;
+  padding: 0px;
+  background: #8E8E8E;
+}
+.gwt-DecoratedTabBar .tabMiddleLeftInner,
+.gwt-DecoratedTabBar .tabMiddleRightInner {
+  width: 1px;
+  height: 1px;
+}
+.gwt-DecoratedTabBar .tabMiddleCenter {
+  padding: 0px 5px 4px 5px;
+  cursor: pointer;
+  cursor: hand;
+  color: #fff;
+  font-weight: normal;
+  text-align: center;
+  background: #8E8E8E;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
+  background:#fff;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
+  background: url(images/circles.png) no-repeat -6px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -6px 0px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
+  background: url(images/circles.png) no-repeat -9px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -9px 0px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
+  background: #fff;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
+  cursor: default;
+  background: #fff;
+  color:#333;
+  font-weight:bold;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
+  cursor: default;
+  color: #999999;
+}
+
+.gwt-TextArea {
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-top: 1px solid #666;
+  font-size: 100%;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+}
+.gwt-TextArea-readonly {
+  color: #888;
+}
+
+.gwt-TextBox {
+  padding: 5px 4px;
+  border: 1px solid #ccc;
+  border-top: 1px solid #999;
+  font-size: small;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+}
+.gwt-TextBox-readonly {
+  color: #888;
+}
+.gwt-ToggleButton-up,
+.gwt-ToggleButton-up-hovering,
+.gwt-ToggleButton-up-disabled,
+.gwt-ToggleButton-down,
+.gwt-ToggleButton-down-hovering,
+.gwt-ToggleButton-down-disabled {
+  margin: 0;
+  text-decoration: none;
+  /*background: url("images/hborder.png") repeat-x 0px -27px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;*/
+}
+.gwt-ToggleButton-up,
+.gwt-ToggleButton-up-hovering,
+.gwt-ToggleButton-up-disabled {
+  /*padding: 3px 5px 3px 5px;*/
+}
+.gwt-ToggleButton-up {
+  /*border:1px solid #bbb;
+  border-bottom: 1px solid #a0a0a0;  */
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-up-hovering {
+  /*border: 1px solid;
+  border-color: #939393;*/
+  color: #6666FF;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-up-disabled {
+  /*border: 1px solid #bbb;*/
+  cursor: default;
+  opacity: .5;
+  zoom: 1;
+  filter: alpha(opacity=45);
+}
+.gwt-ToggleButton-down,
+.gwt-ToggleButton-down-hovering,
+.gwt-ToggleButton-down-disabled {
+  /*padding: 4px 4px 2px 6px;*/
+}
+.gwt-ToggleButton-down {
+  /*background-position: 0 -513px;
+  border: 1px inset #666;*/
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-down-hovering {
+  /*background-position: 0 -513px;
+  border: 1px inset;
+  border-color: #9cf #69e #69e #7af;*/
+  color: #6666FF;
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-ToggleButton-down-disabled {
+  /*background-position: 0 -513px;
+  border: 1px inset #ccc;*/
+  cursor: default;
+  opacity: .5;
+  zoom: 1;
+  filter: alpha(opacity=45);
+}
+
+.gwt-Tree .gwt-TreeItem {
+  padding: 1px 0px;
+  margin: 0px;
+  white-space: nowrap;
+  cursor: hand;
+  cursor: pointer;
+}
+.gwt-Tree .gwt-TreeItem-selected {
+  background: #ebeff9;
+}
+.gwt-TreeItem .gwt-RadioButton input,
+.gwt-TreeItem .gwt-CheckBox input {
+  margin-left: 0px;
+}
+* html .gwt-TreeItem .gwt-RadioButton input,
+* html .gwt-TreeItem .gwt-CheckBox input {
+  margin-left: -4px;
+}
+
+.gwt-DateBox {
+  padding: 5px 4px;
+  border: 1px solid #ccc;
+  border-top: 1px solid #999;
+  font-size: 100%;
+}
+.gwt-DateBox input {
+  width: 8em;
+}
+.dateBoxFormatError {
+  background: #ffcccc;
+}
+.dateBoxPopup {
+}
+
+.gwt-DatePicker {
+  border: 1px solid #ccc;
+  border-top:1px solid #999;
+  cursor: default;
+}
+.gwt-DatePicker td,
+.datePickerMonthSelector td:focus {
+  outline: none;
+}
+.datePickerDays {
+  width: 100%;
+  background: white;
+}
+.datePickerDay,
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+  font-size: 85%;
+  text-align: center;
+  padding: 4px;
+  outline: none;
+  font-weight:bold;
+  color:#333;
+  border-right: 1px solid #EDEDED;
+  border-bottom: 1px solid #EDEDED;
+}
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+  background: #fff;
+  padding: 0px 4px 2px;
+  cursor: default;
+  color:#666;
+  font-size:70%;
+  font-weight:normal;
+}
+.datePickerDay {
+  padding: 4px 7px;
+  cursor: hand;
+  cursor: pointer;
+}
+.datePickerDayIsWeekend {
+  background: #f7f7f7;
+}
+.datePickerDayIsFiller {
+  color: #999;
+  font-weight:normal;
+}
+.datePickerDayIsValue {
+  background: #d7dfe8;
+}
+.datePickerDayIsDisabled {
+  color: #AAAAAA;
+  font-style: italic;
+}
+.datePickerDayIsHighlighted {
+  background: #F0E68C;
+}
+.datePickerDayIsValueAndHighlighted {
+  background: #d7dfe8;
+}
+.datePickerDayIsToday {
+  padding: 3px;
+  color: #fff;
+  background: url(images/hborder.png) repeat-x 0px -2607px;
+}
+
+.datePickerMonthSelector {
+  width: 100%;
+  padding: 1px 0 5px 0;
+  background: #fff;
+}
+td.datePickerMonth {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 100%;
+  font-weight: bold;
+  color: #333;
+}
+.datePickerPreviousButton,
+.datePickerNextButton {
+  font-size: 120%;
+  line-height: 1em;
+  color: #3a6aad;
+  cursor: hand;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0px 4px;
+  outline: none;
+}
+
+.gwt-StackLayoutPanel {
+  border-bottom: 1px solid #bbbbbb;
+}
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
+  cursor: pointer;
+  cursor: hand;
+  font-weight: bold;
+  font-size: 1.3em;
+  padding: 3px;
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+}
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering {
+  background: #d3def6;
+}
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent {
+  border: 1px solid #bbbbbb;
+  border-bottom: 0px;
+  background: white;
+  padding: 2px 2px 10px 5px;
+}
+
+.gwt-TabLayoutPanel {
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+  background: #ccc;
+  padding-top: 6px;
+  padding-left: 5px;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer {
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 1px 1px;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
+  overflow: hidden;
+  padding: 6px;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+  margin-left: 4px;
+  padding: 4px 8px 4px 8px;
+  cursor: pointer;
+  cursor: hand;
+  color: white;
+  font-weight: normal;
+  text-align: center;
+  background: #8E8E8E;
+  -moz-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+  cursor: default;
+  background: white;
+  color: #333;
+  font-weight: bold;
+}
+
+.gwt-SplitLayoutPanel-HDragger {
+  background: #e7e7e7 url(images/thumb_vertical.png) center center no-repeat;
+  cursor: col-resize;
+}
+
+.gwt-SplitLayoutPanel-VDragger {
+  background: #e7e7e7 url(images/thumb_horz.png) center center no-repeat;
+  cursor: row-resize;
+}
+
+
+/*************************************************************/
+/*           GeoGebraWeb styles from here                    */
+
+
+/*============ App common styles ============*/
+.GeoGebraAppFrame, .GeoGebraFrame,
+.GeoGebraPopup, .DialogBox, .gwt-PopupPanel, .gwt-SuggestBoxPopup {
+	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.GeoGebraAppFrame *:focus,
+.GeoGebraFrame *:focus,
+.GeoGebraPopup *:focus,
+.DialogBox *:focus {
+	outline: none; /* Fixing Chrome's default outline on focus */
+}
+
+.GeoGebraAppFrame select,
+.GeoGebraFrame select,
+.GeoGebraPopup select,
+.DialogBox select {
+	border: 1px solid gray; /* Undo fixed styling of Safari dropdowns  */
+	font-size: smaller;
+}
+
+.GeoGebraPopup {
+	padding:0px;
+}
+
+.geogebraweb {
+	display:inline-block;
+	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+	 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+  }
+
+ .geogebraweb .jsloaded {
+ 	border:1px solid transparent; /* let's try to remove the black border */
+ 	position:relative;
+  }
+  
+ .geogebraweb .splash {
+  	position:absolute;
+  }
+ 
+/*not let user select the canvas*/
+.geogebraweb canvas {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.EuclidianPanel {
+	right: 0px;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+/*============ Cursors ============*/
+ .cursor_wait {
+ 	cursor:wait;
+ }
+ 
+ .cursor_default {
+ 	cursor:crosshair;
+ }
+ 
+ .cursor_hit {
+ 	cursor:default;
+ }
+ 
+ .cursor_drag {
+ 	cursor:pointer;
+ 	cursor:hand;
+ }
+ 
+ .cursor_resizeXAxis {
+ 	cursor:e-resize;
+ }
+ 
+ .cursor_resizeYAxis {
+ 	cursor:n-resize;
+ }
+ 
+ .cursor_move {
+ 	cursor:move;
+ }
+ 
+
+/*============ GeoGebraMenuBar ============*/
+
+.linktoggbtube {
+	position:absolute;
+	right:20px;
+	top:7px;
+}
+
+body[dir=rtl] .linktoggbtube {
+    right : auto;
+    left : 20px;
+}
+
+.signIn {
+	position:absolute;
+	right: 50px;
+}
+
+body[dir=rtl] .signIn {
+	position:absolute;
+	right: auto;
+	left: 50px;
+}
+
+
+/*=============== Context menu ===============*/
+
+/*
+Paddings for menuitems.
+*/
+.gwt-MenuBar-vertical .mi_no_image {
+	padding-left: 41px;
+}
+.gwt-MenuBar-vertical .mi_with_image {
+	padding-left: 21px;
+}
+
+.gPopupMenu_item {
+	white-space:nowrap;
+}
+
+
+/*=============== StyleBar ===============*/
+
+.ButtonPopupMenu div:focus {
+	border:1px solid transparent;
+}
+
+.SelectionTable a {
+	text-decoration:none;
+	color:black;
+	border-radius:none;
+    display:block;
+    padding:1px;
+	
+}
+
+.SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
+	background: #D5E2FF;
+}
+
+.SelectionTable canvas {
+	border:1px solid transparent;
+}
+
+.SelectionTable canvas.selected {
+	border: 1px solid black;
+}
+
+
+.StyleBarPanel {
+	margin: auto 0;
+}
+
+
+.StyleBarPanel, .TitleBarPanel {
+	background: url("images/hborder.png") repeat-x 0px -27px;
+	border-bottom: 1px solid lightgray;
+	width: 100%;
+}
+
+.TitleBarPanel-focus {
+	background: url("images/hborder.png") repeat-x 0px -60px;
+}
+
+
+.TitleBarPanel {
+	height: 16px;
+}
+
+.TitleBarLabel {
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.CloseButton {
+	padding: 0px;
+	margin: 0px;
+	width: 16px;
+	height: 16px;
+}
+
+.DockGlassPane, .TitleBarPanel {
+	cursor: pointer;
+	cursor: hand;
+	-moz-user-focus: ignore;
+	-moz-user-input: disabled;
+	-moz-user-select: none;
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+
+.StyleBarToggleButton {
+	margin:0;
+	padding: 0;
+}
+
+.VerticalSeparator{
+	margin: auto 0;
+	color: gray;
+}
+
+.MyToggleButton{
+	padding: 1px;
+	text-align: center;
+}
+
+
+.ApplicationPanel {
+}
+
+.SpreadsheetEditorCell {
+	
+}
+
+/**
+ * According to the CSS2 specification, width will be the greater of
+ * this width property and the computed width...
+ */
+.geogebraweb-table-spreadsheet {
+	table-layout: fixed;
+	width: 0px;
+}
+
+.geogebraweb-table-spreadsheet td{
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+	overflow: hidden;
+	padding: 2px 4px;
+	white-space: nowrap;
+}
+
+.geogebraweb-table-spreadsheet.off td{
+	border-right: 0px;
+	border-bottom: 0px;
+}
+
+.geogebraweb-table-spreadsheet td.SVheader {
+	padding-left: 0px;
+	padding-right: 0px;
+	text-align: center;
+}
+
+.geogebraweb-popup-spreadsheet {
+	z-index: 11;
+}
+
+.geogebraweb-popup-spreadsheet .gwt-MenuBar {
+	background-color: white;
+}
+
+.geogebraweb-button-spreadsheet,
+.geogebraweb-checkbox-spreadsheet,
+.geogebraweb-select-spreadsheet {
+	position: relative;
+	z-index: 10;
+}
+
+.geogebraweb-button-spreadsheet {
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.geogebraweb-checkbox-spreadsheet {
+	display: -moz-inline-box;
+	display: inline-block;
+}
+
+.geogebraweb-select-spreadsheet {
+	width: 100%;
+	height: 100%;
+}
+
+.SpreadsheetEditorCell {
+	
+}
+/* ========== AlgebraInput ============ */
+
+.AlgebraInput {
+	background-color: #F8F8F8;
+	padding: 5px 0px;
+	border-top: 1px solid #EDEDED;
+	width: 100%;
+	display: table;
+	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
+}
+
+.AlgebraInput > * {
+	display: table-cell;
+	vertical-align:  middle;
+	text-align: center;
+}
+
+.AlgebraInputLabel {
+	padding: 0px 10px;
+}
+
+.InputPanel {
+	width: 100%;
+	overflow: auto;
+}
+
+.inputHelp-toggleButton {
+	padding: 0px 10px;
+}
+
+.SymbolTablePopup {
+    padding:0px;
+}
+
+.SymbolTable {
+	
+	border-left:solid 1px lightgray;
+	border-top:solid 1px lightgray;
+	border-collapse:collapse;
+}
+
+.SymbolTable td {
+	padding: 4px;
+	border-right: solid 1px lightgray;
+	border-bottom: solid 1px lightgray;
+	
+}
+
+.SymbolTable td:hover, .SymbolTable td.focus {
+	background: #D5E2FF;
+}
+
+/*.InputPanel input.TextField {
+    display:block;
+}*/
+
+.historyList {	
+	min-width: 200px;
+	font-size: inherit;
+	border: none;
+	margin: 0px;
+}
+
+
+.inputHelpToggleButton {
+	text-decoration:none;
+	border:none;
+	background:none;
+	width:100%;
+}
+
+/*=========== ToolTip =============*/
+
+.ToolTip {
+	display: block;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	background: whitesmoke;
+	border: 1px solid lightgray;
+	box-shadow: 2px 2px 8px -1px #ccc;
+	padding: 2px 4px;
+}
+
+.toolTipHTML {
+	font-size: 80%;
+}
+
+
+/*=========== ToolBar =============*/
+
+.menubar2 {
+	outline: 0px;
+	background: lightsteelblue;
+	border-top: 1px solid steelblue;
+	border-bottom:1px solid steelblue;
+	border-left:none;
+	border-right:none;
+}
+
+.menubar2-ggbLogo {
+	font-variant: small-caps;
+	letter-spacing:1pt;
+	font-size: larger;
+	text-shadow: 1px 1px 1px black;
+}
+
+
+.undoPanel {
+	position:relative;
+	right:5px;
+	top: -55px;
+	float: right;
+	height: 0px;
+}
+
+body[dir=rtl] .undoPanel {
+	position:relative;
+	margin-left:25px;
+	top: -55px;
+	float: left;
+	height: 0px;
+}
+
+
+.undoPanel button.gwt-Button {
+	padding:2px;
+}
+
+.undoButton {
+	position: relative;
+	top: 10px;
+	right: 5px;
+	padding: 1px
+}
+
+.redoButton {
+	position: relative;
+	top: 10px;
+	right: 5px;
+	padding: 1px;
+}
+
+.toolbar_icon {
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	background-color: #FFFFFF;
+	padding: 3px;
+	width: 32px;
+	height: 32px;
+}
+
+[isSelected=true] .toolbar_icon,
+[isSelected=false] .toolbar_icon:hover {
+	border-color: #6666FF;
+}
+
+[isSelected=false] .toolbar_icon {
+	border-color: #DCDCDC;
+}
+
+.red_triangle{
+	position: relative;
+	width: 8px;
+	height: 4px;
+	top: -19px;
+	left: 18px;
+}
+
+.gwt-MenuBar-horizontal  .toolbar_item {
+	padding: 0px 10px 0px 0px;
+	text-align: center;
+	vertical-align: top;
+	position: relative;
+	width: 30px;
+	height: 40px;
+}
+
+.gwt-MenuBar-horizontal .toolbarItemSeparator {
+  width: 5px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  background: none;
+}
+
+.toolbar_menuitem img {
+	vertical-align: middle;
+	border: 1px solid lightgray;
+}
+
+.toolbar_menuitem_label {
+	position: relative;
+	vertical-align: middle;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size:80%;
+}
+
+.toolbarPanel {
+	background-color: #F8F8F8;
+	border-bottom: 1px solid #EDEDED;
+	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
+	color: #333333;
+	padding: 10px;
+	height: 41px;
+	z-index: 50;
+}
+
+.GGWToolbar table {
+	margin-right: 50px;
+}
+body[dir=rtl] .GGWToolbar table{
+	margin-right: 0px;
+	margin-left: 50px;
+}
+
+
+.captionPanel td{
+	vertical-align: middle;
+}
+
+.tdForCaptionLabel{
+	vertical-align: middle;
+}
+
+.buttonPanel {
+	margin: auto;
+}
+
+/*========= Dialogs ===========*/
+
+.Dialog-content {
+	padding:4px;
+}
+
+.DialogButtonPanel {
+	text-align: right;
+	padding-top: 16px;
+	min-width: 250px;
+}
+
+.DialogButtonPanel button{
+	margin: 3px;
+}
+
+
+.Dialog-messagePanel {
+	font-size:85%;
+}
+
+.Dialog-messagePanel td{
+	border-spacing: 6px;
+}
+
+.Dialog-messagePanel img {
+	margin:10px;
+}
+
+/*========= End Dialogs ===========*/
+
+
+
+/*========= FileChooser ===========*/
+
+.GeoGebraFileChooser .fileNamePanel {
+    width: 100%;
+    padding:5px;
+}
+
+.GeoGebraFileChooser .fileNamePanel input {
+    float:right;
+    min-width:450px;
+}
+
+.GeoGebraFileChooser .fileNamePanel .gwt-Label {
+    padding-right:10px;
+}
+
+.GeoGebraFileChooser .descriptionPanel {
+    width: 100%;
+    padding:5px;
+}
+
+.GeoGebraFileChooser .descriptionPanel textarea {
+    float:right;
+    min-width:450px;
+}
+
+.GeoGebraFileChooser .descriptionPanel .gwt-Label {
+    padding-right:10px;
+}
+
+.GeoGebraFileChooser .buttonPanel {
+    padding:5px;
+    float:right;
+}
+
+.GeoGebraFileChooser .buttonPanel button {
+    float:right;
+    margin-left:5px;
+}
+
+.GeoGebraFileChooser .buttonPanel a {
+    float:right;
+    margin-left:5px;
+}
+
+.GoogleFileDescriptors {
+	font-size:80%;
+}
+
+.GoogleFileDescriptors .fileLabel {
+	padding-right: 3px;
+	font-weight:bold;
+}
+
+.GoogleFileDescriptors .fileName {
+	text-decoration: underline;
+}
+
+.RadioButtonMenuItem {
+	font-size: 80%;
+}
+
+
+.linkDownload{
+	font: -webkit-small-control;
+}
+
+body[dir=rtl] .GeoGebraMenuBar table{
+	margin-left: auto;
+}
+
+.downloadGGB_label{
+	margin: 5px;
+}
+
+.menuTitle{
+	font-weight: bold;
+}
+
+.filesPanel {
+	width: 100%;
+	padding: 20px;
+	position: relative;
+}
+
+.filesPanel .spinner {
+	top : 50%;
+	padding-top: 150px;
+}
+
+.ggbfilelink {
+	display : block;
+	text-decoration : underline;
+	cursor : pointer;
+	padding : 2px 0 2px 20px;
+	background : white url("images/ggb-logo-16x16-white.png") no-repeat left center;
+}
+
+.ggbfilelink.selected, .ggbfilelink:hover {
+	background-color: #E3E8F3;
+}
+
+/*========= End FileChooser ===========*/
+
+/*============== CAS ============== */
+.casView table{
+	width:100%;
+	border-collapse:collapse;
+}
+
+.CAS_commentLabel{
+	color: gray;
+	width: 30px;
+}
+
+.CAS_inputPanel{
+	padding: 2px;
+	overflow: hidden;
+	height: 100%;
+}
+
+.CAS_outputPanel tr td:first-child{
+	width: 30px;
+}
+
+.cas_header {
+	width: 1px;
+}
+
+.cas_header table td{
+	text-align: center;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.CAS_substitute_editTextCell input[type="text"], .cas_sub_editTextCell select { 
+    width: 100%; 
+    box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+}
+
+/*=========== SignInDialog =============*/
+
+.signInDialog {
+	border: 1px solid  #5a5d5e;
+	border-radius:5px;
+	font-size: 12px;
+	color: #5a5d5e;
+	
+}
+
+.signInDialog .ggtFrame {
+	width: 900px;
+	height: 500px;
+}
+
+.signInDialog .gwt-Button {
+	font-size: 12px;
+	background: #fff;
+	border:1px solid #5a5d5e;
+}
+
+.signInDialog .gwt-Button:hover {
+	border:1px solid #fff;
+	color: #fff;
+	background: #5a5d5e;
+}
+
+.signInDialog .Caption, .signInDialog .signInDialogContainer, .signInDialog .dialogMiddleLeft,
+.signInDialog .dialogMiddleRight, .signInDialog .dialogBottomCenter,
+.signInDialog .dialogTopLeft, .signInDialog .dialogTopRight,
+.signInDialog .dialogBottomLeft, .signInDialog .dialogBottomRight {
+	background: #fff;
+}
+
+.signInDialog .Caption {
+	border:1px solid transparent;
+}
+
+.signInDialog .dialogTopLeft {
+	border-top-left-radius: 5px;
+}
+
+.signInDialog .dialogTopRight {
+	border-top-right-radius: 5px;
+}
+
+.signInDialog .dialogBottomLeft {
+	border-bottom-left-radius: 5px;
+}
+
+.signInDialog .dialogBottomRight {
+	border-bottom-right-radius: 5px;
+}
+
+.signInDialog .dialogMiddleCenter {
+	padding:0;
+}
+
+.signInDialog .headerPanel {
+	width: 0px;
+	position:realtive;
+}
+
+.signInDialog .headerPanel .gwt-Button {
+	position: absolute;
+	right: -5px;
+	top: -5px;
+	border-radius:50%;
+	font-weight:bold;
+}
+
+.ggtLoginPanel {
+	background-color: #fff;
+}
+
+.headerLabel {
+	border: 1px solid #5a5d5e;
+	padding:5px;
+	font-weight:bold;
+	text-align:center;
+	font-size:16px;
+	border-radius:5px;
+	background-color: rgba(153, 153, 255, .3);
+}
+
+
+/*=========== Navigation Bar =============*/
+.consProtNav{
+	position: absolute;
+	background-color: #E2E2E2;
+	width: 100%;
+	bottom: 0px;
+}
+
+.consProtNav .gwt-Label{
+	display: inline;
+}
+
+.consProtNav div{
+	display: inline-block;
+}
+
+.navbar_leftPanel{
+	text-align: center;
+	width: 45%;
+}
+
+.navbar_playPanel{
+	text-align: center;
+	width: 45%
+}
+
+.navbar_btOpenWindow{
+	position: absolute;
+	right: 20px;
+}
+
+/*=========== Navigation Bar end =============*/
+
+/*=========== Construction protocol =============*/
+.cpTable{
+	width: 100%
+}
+
+.cpScrollPanel{
+	width: 100%;
+	height: 100%;
+}
+
+/*=========== Construction protocol end =============*/
+
+
+/* ========== Text Editor ============ */
+
+.textEditor{
+	border: 1px solid lightgray;
+	width: 380px;
+	height: 100px;
+}
+
+.textEditorAdvancedPanel{
+	width: 380px;
+	height: 180px;
+}
+
+.textEditorDisclosurePanelContent{
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	font-size: 80%;
+}
+
+.textEditorDisclosurePanelHeader{
+	font-size: 80%;
+}
+
+/* ========== Text Editor end ============ */
+
+/* ========== Input Help  ============ */
+
+.inputHelp-tree{
+	border: none;
+	font-size: 85%;
+	line-height: 100%;
+	padding: 10px 4px;
+}
+
+.inputHelp-treeItem{
+	padding: 0px 8px;
+	font-weight: bold	
+}
+
+.inputHelp-leaf{
+	font-weight: normal;
+}
+
+.inputHelp-leaf:hover{
+	background: #ebeff9;
+}
+
+.inputHelp-detailPanelTitle {
+	width:100%;
+	font-size: 85%;
+	font-weight: bold;
+	padding: 1px 10px;
+	background: #ebeff9;
+	border-bottom: 1px solid lightgray;
+}
+
+.inputHelp-cmdSyntax{
+	font-size: 85%;
+	margin: 4px;
+	padding-top: 10px;
+	padding-left: 35px;
+    text-indent: -25px;
+    line-height:120%;
+	word-wrap: normal;	
+}
+
+.inputHelp-CAScmdSyntax {
+	font-style: italic;
+	color:darkred;
+}
+
+.inputHelp-headerCAS {
+	font-style: italic;
+	color:darkred;
+	text-decoration: underline;
+}
+
+.inputHelp-functionTable {
+	font-size: 85%;
+	padding: 10px;
+}
+
+.inputHelp-functionTable td{
+	padding: 0px 4px;
+    line-height:160%;
+    white-space: nowrap;
+}
+
+
+.inputHelp-toggleButton{
+	background: none;
+	text-decoration: none;
+	border: none;
+}
+
+/* ========== Input Help  end ============ */
+
+
+.elemHeadingName{
+	position:absolute;
+	left:10px;
+}
+label {
+	display:inline;
+	color:black;
+	font-weight:normal;
+}
+
+#View_2 div table {
+	width: 100%;
+}
+
+#View_2{
+	height: 100%;
+}
+.algebraPanel>div{
+	height: 100%;
+}
+.algebraSimpleP{
+	height: 100%;
+}
+
+.tb_img{
+	width:32px;
+	height:32px;
+}
+
+.objectProperties{
+	width: 100%;
+	height: 100%;
+}
+
+
+.objectPropertiesTabPanel{
+	width: 100%;
+	height: 100%;
+}
+
+
+.objectPropertiesTab{
+	width: 100%;
+	height: 100%;
+}
+
+
+.bold{
+	font-weight: bold;
+}
+
+.italic{
+	font-style: italic;
+}
+
+.CAS_boldbutton{
+	font-weight: bold;
+}
+
+.CAS_italicbutton{
+	font-style: italic;
+}
+
+.algebraOpenButton{
+	float:right;
+}
+
+#imageList {
+	width: 16px;
+	list-style-type: none; 
+	margin: 0px;
+	padding: 0px;
+	border: none;
+}
+
+#imageList img {
+	width: 16px;
+	height: 16px; 
+}
+
+#imageList li {
+	margin-top 2px;
+	margin-bottom: 2px;
+}
+
+#imageList li.selected {
+	background-color: #0000ff;
+}
+
+.loadinganimation {
+	border-color:transparent;
+}
+
+.imageCorner {
+	background-repeat: no-repeat;	
+	align: left;
+	display: inline-block; 
+	padding-left: 20px;
+}
+
+.optionsPanel {
+	display: inline-block;
+}
+
+.checkBoxPanel {
+	display: block;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	
+}
+
+.listBoxPanel {
+	display: block;
+}
+
+.listBoxPanel .gwt-Label {
+	display: inline;
+	padding-right: 2px;
+}
+
+.optionsInput {
+	display: inline-block;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	
+}
+
+.optionsInput table {
+	display: inline-table;
+}
+
+.optionsInput .gwt-Label {
+	display: inline;
+	padding-right: 2px;
+}
+
+
+.optionsSlider {
+	display: inline-block;
+}
+
+
+.optionsSlider .gwt-Label {
+	display: inline;
+	padding-left: 2px;
+	padding-right: 2px;
+	
+}
+
+.optionsInput .gwt-Label {
+	padding-left: 10px;
+}
+
+.textOptionsToolBar {
+	display: inline-block;
+	
+}
+
+.objectPropertiesTextEditor {
+	width:100%;
+	height: 100px;	
+}
+
+.colorChooserPreview {
+	display: block;
+}
+
+.colorChooserPreview  > * {
+	display: inline-block;
+}
+
+.colorChooserPreview .gwt-Label {
+	padding: 5px;
+}
+
+.textOptionsToolBar .gwt-ToggleButton {
+	display:inline-block;
+}
+
+.colorComponent {
+	display: block;
+	
+}
+
+
+.colorComponent > * {
+	display: inline-block;
+
+}
+
+.colorSlider > * {
+	display: inline-block;
+}
+
+.ColorDialog-content {
+	padding: 8px;
+}
+
+.CustomColorPreview {
+	align: center;
+}
+
+.CustomColorButton {
+	position: absolute;
+	left: 233px;
+	top: 245px;
+}
+
+.BackgroundColorPanel > * {
+	display: block;
+}
+
+/*============ AutocompleteTextFieldW =======*/
+.AutoCompleteTextFieldW {
+	box-sizing: border-box;
+	position: relative;
+}
+
+.AutoCompleteTextFieldW .TextField {
+	display: inline-block;
+	box-sizing: border-box;
+	padding-left: 5px;
+	padding-right: 50px;
+}
+
+.SymbolToggleButton {
+   width: 20px;
+   height: 20px;
+   display: none;
+   text-align: center;
+   margin-right: -10px;
+}
+
+.AutoCompleteTextFieldW .SymbolToggleButton {
+	position: absolute;
+	right: 15px;
+	top: 13%;
+}
+
+.AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
+	display: inline-block;
+}
+
+
+/*=========== Checkbox menuitem =============*/
+
+/* Stefi do you magic here :-) */
+
+.gwt-MenuBar-horizontal .GChecBoxMenuItem, .gwt-MenuBar-vertical .GChecBoxMenuItem {
+	margin: 0;
+	padding: 0;
+	vertical-align:top;
+	overflow:hidden;
+}
+
+.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected, .gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
+	background : #C0C5CF;
+}
+
+.GChecBoxMenuItem .gwt-CheckBox {
+	float:left;
+}
+
+.GChecBoxMenuItem .gwt-HTML {
+	float:right;
+}
+
+
+
+
+/*=========== Probability Calculator =============*/
+
+.ProbabilityCalculatorStyleBarW {
+}
+
+.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
+	margin: 0;
+	padding: 0;
+}
+
+#ProbCalcPanel {
+	overflow: auto;
+}
+
+.ProbCalcPanel .PlotPanelPlus {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+.ProbCalcPanel .ProbabilityTableW {
+	float: right;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+}
+
+.ProbCalcPanel .ProbabilityTableW table {
+	border-collapse: collapse;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none
+}
+
+.ProbCalcPanel .ProbabilityTableW td {
+	border: 1px solid black;
+}
+
+.ProbCalcPanel .ProbabilityTableW td.headercell {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.ProbCalcPanel .ProbabilityTableW tr:hover, .ProbCalcPanel .ProbabilityTableW tr.selected  {
+	background: #ebeff9;
+}
+
+.lblMeanSigma {
+	text-align: right;
+}
+
+.controlPanel > div {
+	margin: 5px;
+}
+
+.cbPanel .gwt-ToggleButton, cbPanel .gwt-ListBox {
+	display: inline-block;
+}
+
+.controlPanel .parameterPanel, .controlPanel .resultPanel {
+	margin-left: 20px;
+}
+
+.parameterPanel > *, .resultPanel > * {
+	display: inline-block;
+	margin:0 5px;
+	padding: 0px;
+}
+
+.parameterPanel .gwt-SuggestBox, .resultPanel .gwt-SuggestBox, .StatisticsCalculatorW .gwt-SuggestBox {
+	margin: 0px;
+	padding: 0px;
+}
+
+.intervalPanel > * {
+	display: inline-block;
+}
+
+.StatisticsCalculatorW .panelControl {
+	margin: 5px 0 5px 20px;
+}
+
+.StatisticsCalculatorW .scroller {
+	overflow: auto;
+	margin-left: 20px;
+}
+
+.StatisticsCalculatorW .panelSample2 > .gwt-Label, .StatisticsCalculatorW .panelSample2 > .AutoCompleteTextFieldW,
+.StatisticsCalculatorW .panelSample1 > .gwt-Label, .StatisticsCalculatorW .panelSample1 > .AutoCompleteTextFieldW {
+	display:inline-block;
+	margin: 2px 5px;
+}
+
+.StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
+	text-align: right;
+	max-width: 50%;
+	display: inline-block;
+}
+
+.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child, .StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
+	display:block;
+}
+
+
+
+.StatisticsCalculatorW .panelTestAndCI {
+	margin-bottom: 5px;
+}
+
+.StatisticsCalculatorW .panelTestAndCI > * {
+	display: inline-block;
+	margin: 2px 5px;
+}
+
+.StatisticsCalculatorW .panelTestAndCI .ckPooled {
+	display:block;
+}
+
+.StatisticsCalculatorW .breakafter:after {
+	display:block; padding-left:6ex; visibility:hidden;
+}
+
+.StatisticsCalculatorW .pnlCount {
+	overflow: auto;
+	text-align: right;
+	display: table;
+	border-collapse: separate;
+}
+
+.StatisticsCalculatorW .chirow {
+	display: table-row;
+}
+
+.StatisticsCalculatorW .chirow .ChiSquarePanelW {
+	display: table-cell;
+	margin: 5px;
+}
+
+.StatisticsCalculatorW .chirow .ChiSquarePanelW > * {
+	display: block;
+	text-align: center;
+}
+
+.StatisticsCalculatorW .chirow .headercell, .StatisticsCalculatorW .chirow .headercell input {
+	background: #ebeff9;
+}
+
+.StatisticsCalculatorW .chirow .headercell input:focus {
+	background: white;
+}
+
+.StatisticsCalculatorW .resultPane {
+	width: 99%;
+	min-height: 50%;
+}
+
+
+/*=========== Probability Calculator End =============*/
+
+.ggw_glabel{
+	white-space: nowrap;
+}

@@ -50,7 +50,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	//declared in uibinder xml!
 	public static int GGWVIewWrapper_WIDTH = 300;
 	public static int GGWSpreadsheetView_WIDTH = 400;
-	public static int GGWToolBar_HEIGHT = 50;
+	public static int GGWToolBar_HEIGHT = 61;
 	private static final int GGWStyleBar_HEIGHT = 65;
 	public static int GGWCommandLine_HEIGHT = 50;
 	

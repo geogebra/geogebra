@@ -68,10 +68,10 @@ body .headerSecond td {
 
 body .stylebar {
 	background-image: none;
-	background-color: #FFFFFF;
+	background-color: rgba(255, 255, 255, 95);
 	border: none;
-	opacity: 0.95;
-	filter: alpha(opacity=0.95);
+	/*opacity: 0.95;
+	filter: alpha(opacity=0.95);*/
 	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
