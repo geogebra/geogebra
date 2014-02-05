@@ -1582,14 +1582,12 @@ Paddings for menuitems.
 
 .AlgebraInput > div:first-child {
 	text-align:right;
-	padding-right:10px;
-	width: 5%;
+	padding-right:10px;;
 }
 
 .AlgebraInput > div:last-child {
 	text-align:left;
 	padding-left:10px;
-	width: 5%;
 }
 
 
@@ -1617,7 +1615,7 @@ Paddings for menuitems.
 }
 
 .InputPanel {
-    overflow:auto;
+    overflow:hidden;
 }
 
 /*.InputPanel input.TextField {
