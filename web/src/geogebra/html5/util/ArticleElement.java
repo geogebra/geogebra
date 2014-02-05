@@ -430,6 +430,13 @@ public final class ArticleElement extends Element {
 	    return this.getAttribute("data-param-laf");
     }
 
+	/**
+	 * @return wheter focus prevented (use in multiple applets)
+	 */
+	public boolean preventFocus() {
+	   return this.getAttribute("data-param-preventFocus") != null;
+    }
+
 	
 	
 	

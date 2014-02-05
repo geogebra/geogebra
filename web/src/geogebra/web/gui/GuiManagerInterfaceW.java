@@ -75,6 +75,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 	public Command getShowGridAction();
 
 	public Euclidian2DockPanelW getEuclidianView2DockPanel();
+	
+	public boolean hasProbabilityCalculator();
 
 	public void setActiveToolbarId(int toolbarID);
 

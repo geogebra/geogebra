@@ -104,7 +104,9 @@ public class AppWsimple extends AppW {
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
-		requestFocusInWindow();
+		if (!articleElement.preventFocus()) {
+			requestFocusInWindow();
+		}
 		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
     }

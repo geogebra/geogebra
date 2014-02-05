@@ -511,6 +511,10 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::insertImage(Ljava/lang/String;)(url);
 		};
 		
+		$wnd[ggbApplet].recalculateEnvironments = function(){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::recalculateEnvironments()();
+		};
+		
 		
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];

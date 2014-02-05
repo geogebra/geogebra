@@ -674,5 +674,12 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	public void insertImage(String s){
 		((AppWeb) app).urlDropHappened(s, 0, 0);
 	}
+	
+	/**
+	 * recalculates euclidianviews environments
+	 */
+	public void recalculateEnvironments() {
+		((AppWeb) app).recalculateEnvironments();
+	}
 
 }

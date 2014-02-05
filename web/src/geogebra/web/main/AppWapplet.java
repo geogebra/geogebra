@@ -282,7 +282,9 @@ public class AppWapplet extends AppW {
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
-		requestFocusInWindow();
+		if (!articleElement.preventFocus()) {
+			requestFocusInWindow();
+		}
 
 		if (isUsingFullGui()) {
 			if (needsSpreadsheetTableModel()) {

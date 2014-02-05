@@ -1074,4 +1074,11 @@ public abstract class AppWeb extends App implements SetLabels{
 		return true;
 	}-*/;
 	
+	/**
+	 * recalculates eulcidianviews environments.
+	 */
+	public void recalculateEnvironments() {
+		App.debug("Must be implemented in subclasses");
+	}
+	
 }

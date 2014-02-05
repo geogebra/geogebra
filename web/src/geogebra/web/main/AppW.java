@@ -49,6 +49,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
+import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -1535,7 +1536,7 @@ public abstract class AppW extends AppWeb {
 	}
 	
 	protected void requestFocusInWindow(){
-		if(WebStatic.panelForApplets == null){
+		if(WebStatic.panelForApplets == null && !articleElement.preventFocus()){
 			euclidianView.requestFocusInWindow();
 		}
 	}
@@ -1625,8 +1626,16 @@ public abstract class AppW extends AppWeb {
 	    return laf;
     }
 
-	public void recalCulateEnvironments() {
-	    // TODO Auto-generated method stub
-	    
+	@Override
+	public void recalculateEnvironments() {
+	    if (getEuclidianView1() != null) {
+	    	getEuclidianView1().getEuclidianController().calculateEnvironment();
+	    }
+	    if (getGuiManager() != null && getGuiManager().hasEuclidianView2()) {
+	    	((EuclidianView) getGuiManager().getEuclidianView2()).getEuclidianController().calculateEnvironment();	    	
+	    }
+	    if (getGuiManager() != null && getGuiManager().hasProbabilityCalculator()) {
+	    	((ProbabilityCalculatorViewW)getGuiManager().getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
+	    }
     }
 }

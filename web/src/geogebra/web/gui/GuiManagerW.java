@@ -471,6 +471,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		return probCalculator;
 	}
+	
+	/**
+	 * @return wheter it has probablity calculator or not
+	 */
+	public boolean hasProbablitiyCalculator() {
+		return probCalculator != null;
+	}
 
 	public void updateSpreadsheetColumnWidths() {
 		// TODO Auto-generated method stub
@@ -501,7 +508,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		// maybe onResize is good here too, but call deferredOnResize for security
 		((AppW) app).getEuclidianViewpanel().deferredOnResize();
-		((AppW) app).recalCulateEnvironments();
+		((AppW) app).recalculateEnvironments();
 	}
 
 	public ToolBarW getGeneralToolbar() {
