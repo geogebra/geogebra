@@ -150,11 +150,8 @@ public class FillingModel extends MultipleOptionsModel {
 			}
 		}
 		// set selected image to first geo image
-		//		if (hasGeoButton) {
-		//			fillListener.setFillingImage(geo0.getImageFileName());
-		//		} else {
-		//			btnImage.setSelectedIndex(0);
-		//		}
+		fillListener.setFillingImage(geo0.getImageFileName());
+		
 	}
 
 
@@ -239,6 +236,7 @@ public class FillingModel extends MultipleOptionsModel {
 				geo.setImageFileName(fileName);
 				App.debug("geo.setImageFileName(" + fileName + ")");
 			}
+			geo.setAlphaValue(fileName.isEmpty() ? 0.0f: 1.0f);
 			geo.updateRepaint();
 		}
 

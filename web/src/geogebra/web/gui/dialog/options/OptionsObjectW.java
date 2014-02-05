@@ -2218,7 +2218,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label lblFillInverse;
 		private Label lblSymbols;
 		private ArrayList<ImageResource> iconList;
-	//	private PopupMenuButton btInsertUnicode;
+		private ArrayList<String> iconNameList;
+		//	private PopupMenuButton btInsertUnicode;
 
 		private ListBox lbFillType;
 		private CheckBox cbFillInverse;
@@ -2355,9 +2356,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			
 			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1, true);
 			tfInsertUnicode = (AutoCompleteTextFieldW) inputPanel.getTextComponent();
-			tfInsertUnicode.setShowSymbolTableIcon(true);
 			//buildInsertUnicodeButton();
 			tfInsertUnicode.setVisible(false);
+			tfInsertUnicode.setStyleName("fillSymbol");
 			lblMsgSelected = new Label(loc.getMenu("Filling.CurrentSymbol")
 					+ ":");
 			lblMsgSelected.setVisible(false);
@@ -2456,10 +2457,23 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					model.applyUnicode(symbolText);
 				}	
 			});
+    		
+    		tfInsertUnicode.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						String symbolText = tfInsertUnicode.getText();
+						model.applyUnicode(symbolText);
+					}
+				}});
+
+
     		setLabels();
 		}
 
-		public void applyImage(String fileName, String fileData) {
+		protected String getImageFileName(String fileName, String fileData) {
+		
+		
 			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 			String zip_directory = md5e.encrypt(fileData);
 
@@ -2472,7 +2486,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			// filename will be of form
 			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-			fileName = zip_directory + '/' + fn;
+			return zip_directory + '/' + fn;
+		}
+
+		public void applyImage(String fileName, String fileData) {
+
+			fileName = getImageFileName(fileName, fileData);
 
 			Construction cons = getAppW().getKernel().getConstruction();
 			getAppW().getImageManager().addExternalImage(fileName,
@@ -2503,6 +2522,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			iconList.add(res.nav_pause());
 
 			iconList.add(res.exit());
+			
+			iconNameList = new ArrayList<String>();
+			for (ImageResource ir: iconList) {
+				
+				iconNameList.add(ir != null ? ir.getName() : "");
+			}
 
 			final ImageData[] iconArray = new ImageData[iconList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
@@ -2527,10 +2552,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 						applyImage(res.getName(), res.getSafeUri().asString());
 						App.debug("Applying " + res.getName() + " at index " + idx);
 					}
+					else {
+						model.applyImage("");
+					}
 				}
 				
 			};
-			btnImage.setSelectedIndex(1);
+			btnImage.setSelectedIndex(-1);
 			btnImage.setStandardButton(true);
 			btnImage.setKeepVisible(false);
 			btnOpenFile = new Button();
@@ -2614,6 +2642,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lblSymbols.setVisible(true);
 			lblSelectedSymbol.setVisible(true);
 			tfInsertUnicode.setVisible(true);
+			tfInsertUnicode.setShowSymbolTableIcon(true);
 		}
 
 		public void setDottedFillType() {
@@ -2644,15 +2673,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				lbFillType.setVisible(false);
 				this.btnImage.setVisible(true);
 			}
-		
-//		if (hasGeoButton) {
-//			int index = imgFileNameList.lastIndexOf(model.getGeoAt(0)
-//					.getImageFileName());
-//
-//			btnImage.setSelectedIndex(index > 0 ? index : 0);
-//		} else {
-//			btnImage.setSelectedIndex(0);
-//		}
+	
 		addSelectionBar();
 	}
 		
@@ -2733,12 +2754,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setFillingImage(String imageFileName) {
-//			if (imageFileName != null) {
-//				int idx = imgFileNameList.lastIndexOf(imageFileName);
-//				btnImage.setSelectedIndex(idx > 0 ? idx : 0);
-//			} else {
-//				btnImage.setSelectedIndex(-1);
-//			}
+			
+			int itemIndex = -1;
+			if (imageFileName != null) {
+				String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
+				App.debug("Filling with " + fileName);
+				
+				int idx = iconNameList.lastIndexOf(fileName);
+				itemIndex = idx > 0 ? idx : 0;
+			}
+		
+			btnImage.setSelectedIndex(itemIndex);
+		
 		}
 
 		public void setFillValue(int value) {

@@ -2385,6 +2385,9 @@ label {
 	
 }
 
+.fillSymbol {
+	width: 20px;
+}
 
 .colorComponent > * {
 	display: inline-block;
