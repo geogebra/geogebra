@@ -512,6 +512,24 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				public void onClearBackground() {
 	                model.clearBackgroundColor();
+                }
+
+				public void onBackgroundSelected() {
+					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0f);
+				}
+
+				public void onForegroundSelected() {
+					GeoElement geo0 = model.getGeoAt(0);
+					float alpha = 1.0f;
+					GColor color = null;
+					if (geo0.isFillable()) {
+						color = geo0.getFillColor();
+						alpha = geo0.getAlphaValue();
+					} else {
+						color = geo0.getObjectColor();
+					}
+					
+      				updatePreview(color, alpha);
                 }});
 
 			mainPanel = new FlowPanel();
