@@ -35,9 +35,11 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -141,7 +143,7 @@ public class ConstructionDefaults {
 
 	// polygons
 	/** default color for polygons */
-	protected static final GColor colPolygon = GeoGebraColorConstants.BROWN; // new
+	public static final GColor colPolygon = GeoGebraColorConstants.BROWN; // new
 																				// Color(153,
 																				// 51,
 																				// 0);
@@ -559,14 +561,26 @@ public class ConstructionDefaults {
 	 * @return the default type
 	 */
 	public int getDefaultType(GeoElement geo) {
+	
+		return getDefaultType(geo, geo.getGeoClassType());
+		
+	}
+	
+	/**
+	 * return the default type of the geo
+	 * 
+	 * @param geo
+	 *            a GeoElement
+	 * @param geoClass
+	 *            a GeoClass (may be different for 3D geos)
+	 * @return the default type
+	 */
+	public int getDefaultType(GeoElement geo, GeoClass geoClass) {
+		int type;
 
-		// all object types that are not specifically supported
-		// should get the default values of a line
-		int type = DEFAULT_LINE;
-
-		switch (geo.getGeoClassType()) {
+		switch (geoClass) {
 		case POINT:
-			GeoPoint p = (GeoPoint) geo;
+			GeoPointND p = (GeoPointND) geo;
 
 			if (p.getMode() == Kernel.COORD_COMPLEX) {
 				type = DEFAULT_POINT_COMPLEX;
@@ -663,6 +677,10 @@ public class ConstructionDefaults {
 			type = DEFAULT_RAY;
 			break;	
 
+		default:
+			// all object types that are not specifically supported
+			// should get the default values of a line
+			type = DEFAULT_LINE;
 		}
 
 		return type;

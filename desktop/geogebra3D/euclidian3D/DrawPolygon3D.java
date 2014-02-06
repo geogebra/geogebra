@@ -4,9 +4,9 @@
 
 
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
@@ -324,8 +324,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		setGeoElement(new GeoPolygon3D(kernel.getConstruction(),null));
 		
-		getGeoElement().setObjColor(ConstructionDefaults3D.colPolygon3D);
-		getGeoElement().setAlphaValue(ConstructionDefaults3D.DEFAULT_POLYGON3D_ALPHA);
+		getGeoElement().setObjColor(ConstructionDefaults.colPolygon);
+		getGeoElement().setAlphaValue(ConstructionDefaults.DEFAULT_POLYGON_ALPHA);
 		getGeoElement().setIsPickable(false);
 		
 		this.selectedPoints = selectedPoints;
@@ -410,7 +410,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			point = (GeoPointND) i.next();
 			sp.add(point);
 			DrawSegment3D s = new DrawSegment3D(getView3D(),sp);
-			s.getGeoElement().setObjColor(ConstructionDefaults3D.colPolygon3D);
+			s.getGeoElement().setObjColor(ConstructionDefaults.colPolygon);
 			segments.add(s);
 			getView3D().addToDrawable3DLists(s);
 		}
