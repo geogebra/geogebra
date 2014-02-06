@@ -1080,5 +1080,25 @@ public abstract class AppWeb extends App implements SetLabels{
 	public void recalculateEnvironments() {
 		App.debug("Must be implemented in subclasses");
 	}
+
+	
+	/**
+	 * @return the id of the articleelement
+	 */
+	public String getArticleId() {
+		App.debug("must be implemented in subclasses");
+	    return null;
+    }
+
+	/**
+	 * @param articleid the article id added by scriptManager
+	 * 
+	 * this methdo is called by scriptmanager after ggbOnInit
+	 */
+	public static native void appletOnLoad(String articleid) /*-{
+	    if (typeof $wnd.ggbAppletOnLoad === "function") {
+	    	$wnd.ggbAppletOnLoad(articleid);
+	    }
+    }-*/;
 	
 }

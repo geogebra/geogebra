@@ -36,6 +36,7 @@ public class ScriptManagerW extends ScriptManager {
 				} else {
 					AppWeb.ggbOnInit(param);
 				}
+				
 			
 			} else {
 				// call only if libraryJavaScript is not the default (ie do nothing)
@@ -43,10 +44,16 @@ public class ScriptManagerW extends ScriptManager {
 					app.evalJavaScript(app,"ggbOnInit();"+app.getKernel().getLibraryJavaScript(), null);			
 				
 			}
+			String articleid = ((AppWeb) app).getArticleId();
+			if (articleid != null) {
+				AppWeb.appletOnLoad(articleid);
+			}
 		}catch(Throwable t){
 			App.debug(t.getMessage());
 		}
 	}
+	
+	
 
 	@Override
     public void callJavaScript(String jsFunction, Object[] args) {

@@ -147,4 +147,9 @@ public class AppWsimple extends AppW {
     public HasAppletProperties getAppletFrame() {
 		return frame;
 	}
+	
+	@Override
+    public String getArticleId() {
+		return articleElement.getId();
+	}
 }

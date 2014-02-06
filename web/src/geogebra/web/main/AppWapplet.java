@@ -399,5 +399,10 @@ public class AppWapplet extends AppW {
 		return  frame.getElement();
 	}
 	
+	@Override
+    public String getArticleId() {
+		return articleElement.getId();
+	}
+	
 	
 }
