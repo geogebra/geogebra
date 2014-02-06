@@ -1654,7 +1654,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				}});
 
-			cbGraphicsView.addClickHandler(new ClickHandler(){
+			cbGraphicsView2.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView2(cbGraphicsView2.getValue());
