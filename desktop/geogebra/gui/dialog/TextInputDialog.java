@@ -44,6 +44,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -902,6 +903,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		editor.requestFocus();
 	}
 
+	@Override
 	public void updateFonts() {
 
 		super.updateFonts();
@@ -1149,6 +1151,11 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				return false;
 			}
 		}
+	}
+	
+	@Override
+	public void windowClosed(WindowEvent e) {
+		app.setMoveMode();
 	}
 
 }

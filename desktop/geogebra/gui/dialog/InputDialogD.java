@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,7 +48,7 @@ import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
 public class InputDialogD extends geogebra.common.gui.dialog.InputDialog implements ActionListener,
-		WindowFocusListener, VirtualKeyboardListener, UpdateFonts {
+		WindowFocusListener, VirtualKeyboardListener, UpdateFonts, WindowListener {
 
 	protected AppD app;
 	protected final LocalizationD loc;
@@ -196,6 +197,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	protected InputDialogD(JFrame frame, boolean modal,LocalizationD loc) {
 		this.loc = loc;
 		this.wrappedDialog = new JDialog(frame, modal);
+		wrappedDialog.addWindowListener(this);
 	}
 
 	// ===================================================
@@ -484,6 +486,28 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		btApply.setFont(font);
 		btProperties.setFont(font);
 		
+	}
+	public void windowOpened(WindowEvent e) {
+		//not needed
+	}
+	public void windowClosing(WindowEvent e) {
+		//not needed
+	}
+	public void windowClosed(WindowEvent e) {
+		//this one is actually useful, overriden in subclass(es)
+	}
+	public void windowIconified(WindowEvent e) {
+		//not needed
+		
+	}
+	public void windowDeiconified(WindowEvent e) {
+		//not needed
+	}
+	public void windowActivated(WindowEvent e) {
+		//not needed
+	}
+	public void windowDeactivated(WindowEvent e) {
+		//not needed
 	}
 
 
