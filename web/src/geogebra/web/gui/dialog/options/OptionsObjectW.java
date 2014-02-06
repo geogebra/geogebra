@@ -508,7 +508,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				public void onAlphaChange() {
 					applyChanges(true);
 
-				}});
+				}
+
+				public void onClearBackground() {
+	                model.clearBackgroundColor();
+                }});
 
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);

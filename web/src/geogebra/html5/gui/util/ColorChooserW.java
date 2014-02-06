@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RadioButton;
 
 public class ColorChooserW extends FlowPanel implements ICustomColor {
@@ -477,15 +478,44 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private class BackgroundColorPanel extends FlowPanel {
 		private RadioButton backgroundButton;
 		private RadioButton foregroundButton;
-		
+		private PushButton btnClearBackground;
+	
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
 			backgroundButton = new RadioButton("bg");
 			foregroundButton = new RadioButton("fg");
 			backgroundButton.setName("bgfg");
 			foregroundButton.setName("bgfg");
-			add(backgroundButton);
+			btnClearBackground = new PushButton(new Image(AppResources.INSTANCE
+					.delete_small()));
+			btnClearBackground.setStyleName("ClearBackgroundButton");
+			
+			foregroundButton.setValue(true);
+			backgroundButton.setValue(false);
+			
 			add(foregroundButton);
+			add(backgroundButton);
+			add(btnClearBackground);
+			btnClearBackground.setVisible(false);
+			foregroundButton.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					btnClearBackground.setVisible(false);
+                }});		
+			
+			backgroundButton.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					btnClearBackground.setVisible(true);
+                }});		
+			
+			
+			btnClearBackground.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                changeHandler.onClearBackground();
+	                
+                }});
 			
 		}
 		

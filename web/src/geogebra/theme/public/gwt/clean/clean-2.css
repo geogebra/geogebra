@@ -2412,6 +2412,9 @@ label {
 	top: 245px;
 }
 
+.ClearBackgroundButton {
+	width: 20px;
+}
 .BackgroundColorPanel > * {
 	display: block;
 }
