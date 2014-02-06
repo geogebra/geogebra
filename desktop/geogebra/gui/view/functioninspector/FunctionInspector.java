@@ -1272,6 +1272,7 @@ public class FunctionInspector implements View, MouseListener,
 				(GeoPoint) pointAlgo.getGeoElements()[0], null);
 		cons.removeFromConstructionList(seg1);
 		xSegment = seg1.getGeoElements()[0];
+		xSegment.setSelectionAllowed(false);
 		xSegment.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		xSegment.setLineThickness(3);
 		xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
@@ -1296,6 +1297,7 @@ public class FunctionInspector implements View, MouseListener,
 		cons.removeFromConstructionList(seg2);
 
 		ySegment = seg2.getGeoElements()[0];
+		ySegment.setSelectionAllowed(false);
 		ySegment.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		ySegment.setLineThickness(3);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
@@ -1308,6 +1310,7 @@ public class FunctionInspector implements View, MouseListener,
 				testPoint, f);
 		cons.removeFromConstructionList(tangent);
 		tangentLine = tangent.getGeoElements()[0];
+		tangentLine.setSelectionAllowed(false);
 		tangentLine.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		tangentLine.setEuclidianVisible(false);
 		pointTabGeoList.add(tangentLine);
@@ -1316,6 +1319,7 @@ public class FunctionInspector implements View, MouseListener,
 		AlgoOsculatingCircle oc = new AlgoOsculatingCircle(cons, testPoint, f);
 		cons.removeFromConstructionList(oc);
 		oscCircle = oc.getGeoElements()[0];
+		oscCircle.setSelectionAllowed(false);
 		oscCircle.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		oscCircle.setEuclidianVisible(false);
 		pointTabGeoList.add(oscCircle);
@@ -1384,6 +1388,7 @@ public class FunctionInspector implements View, MouseListener,
 		cons.removeFromConstructionList(interval);
 
 		functionInterval = interval.getGeoElements()[0];
+		functionInterval.setSelectionAllowed(false);
 		functionInterval.setEuclidianVisible(false);
 		functionInterval.setLineThickness(selectedGeo.getLineThickness() + 5);
 		functionInterval
@@ -1396,6 +1401,7 @@ public class FunctionInspector implements View, MouseListener,
 				(NumberValue) xHigh.getGeoElements()[0], null, false);
 		cons.removeFromConstructionList(inte);
 		integralGeo = inte.getGeoElements()[0];
+		integralGeo.setSelectionAllowed(false);
 		integralGeo.setEuclidianVisible(false);
 		integralGeo.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		intervalTabGeoList.add(integralGeo);
@@ -1415,6 +1421,7 @@ public class FunctionInspector implements View, MouseListener,
 				(NumberValue) xHigh.getGeoElements()[0], null, true);
 		cons.removeFromConstructionList(area);
 		areaGeo = area.getGeoElements()[0];
+		areaGeo.setSelectionAllowed(false);
 		areaGeo.setEuclidianVisible(false);
 		intervalTabGeoList.add(areaGeo);
 
