@@ -175,7 +175,7 @@ public class ParserFunctions {
 		put(1, "ln", Operation.LOG);
 		put(1, "Ln", Operation.LOG, null);
 
-		put(2, "log", Operation.LOGB, "(b,x)");
+		put(2, "log", Operation.LOGB, "( <b> , <x> )");
 		put(2, "ln", Operation.LOGB, null);
 		put(2, "Ln", Operation.LOGB, null);
 
@@ -324,7 +324,7 @@ public class ParserFunctions {
 		return stringToOp.get(size).get(s);
 	}
 	private void put(int size, String name, Operation op) {
-		put(size, name, op, "()");
+		put(size, name, op, "( <x> )");
 	}
 	private void put(int size, String name, Operation op, String arg) {
 		RESERVED_FUNCTION_NAMES.add(name);

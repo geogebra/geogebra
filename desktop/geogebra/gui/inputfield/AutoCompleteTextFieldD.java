@@ -78,7 +78,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	// Simplified to this as there are too many non-alphabetic character in
 	// parameter descriptions:
 	private static Pattern syntaxArgPattern = Pattern
-			.compile("[,\\[] *(?:<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
+			.compile("[,\\[\\(] *(?:<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
@@ -713,6 +713,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		if (find && !hasNextArgument) {
 			hasNextArgument = argMatcher.find();
 		}
+
 		if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
 			setCaretPosition(argMatcher.end());
 			//do not select the space after , but do select space after [
@@ -847,7 +848,9 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		String before = text.substring(0, curWordStart); 
 		String after = text.substring(curWordStart + curWord.length()); 
 		int bracketIndex = command.indexOf('['); 
-
+		if(bracketIndex == -1){
+			bracketIndex = command.indexOf('(');
+		}
 		if (bracketIndex > -1 && after.startsWith("[")) { 
 			// probably already have some arguments 
 			// eg user is just changing the command name 
