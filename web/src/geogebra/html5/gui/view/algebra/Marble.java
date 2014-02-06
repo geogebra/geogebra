@@ -101,7 +101,7 @@ public class Marble extends SimplePanel
 	public void setImage(String text)
 	{
 		//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
-		String html = "<img src=\"" + text + "\" style=\"margin-right: 5px;\">";
+		String html = "<img src=\"" + text + "\">";
 		this.getElement().setInnerHTML(html);
 	}
 

@@ -33,6 +33,9 @@
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	
+	font-size: 100%;
+  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
  }
  
 .gwt-Reference-clean {
@@ -462,9 +465,13 @@ body[dir=rtl] .gwt-MenuBarPopup {
 }
 
 .gwt-PopupPanel {
-  border: 3px solid #e7e7e7;
-  padding: 3px;
-  background: white;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 95);
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
 .gwt-DecoratedPopupPanel .popupContent {
@@ -773,31 +780,31 @@ body[dir=rtl] .gwt-MenuBarPopup {
   padding: 4px 5px;
   /*border: 1px solid #ccc;
   border-top: 1px solid #999;*/
-  font-size: 100%;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+  /*font-size: 100%;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
   width: 96%; /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
 }
 
 .gwt-SuggestBoxPopup {
-	-webkit-border-radius: 0px;
-	-khtml-border-radius: 0px;
-	-moz-border-radius: 0px;
-	border-radius: 0px;
-	padding: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
 	background-color: rgba(255, 255, 255, 95);
 	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
 .gwt-SuggestBoxPopup .item {
-  padding: 2px 6px;
-  color: #000;
+  padding: 5px 5px;
   cursor: default;
-  font-size: 110%;
+  /*font-size: 110%;*/
 }
 .gwt-SuggestBoxPopup .item-selected {
-  background: #D5E2FF;
+  /*background: #D5E2FF;*/
+  color: #6666FF;
 }
-.gwt-SuggestBoxPopup .suggestPopupContent {
+/*.gwt-SuggestBoxPopup .suggestPopupContent {
   background: white;
 }
 .gwt-SuggestBoxPopup .suggestPopupTopCenter {
@@ -885,7 +892,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
   width: 0px;
   height: 0px;
   overflow: hidden;
-}
+}*/
 
 .gwt-TabBar {
   background: #ccc;
@@ -1108,7 +1115,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
   cursor: pointer;
 }
 .gwt-Tree .gwt-TreeItem-selected {
-  background: #ebeff9;
+  background: #CCCCFF;
 }
 .gwt-TreeItem .gwt-RadioButton input,
 .gwt-TreeItem .gwt-CheckBox input {
@@ -1622,26 +1629,13 @@ Paddings for menuitems.
 	padding: 0px 10px;
 }
 
-.SymbolTablePopup {
-    padding:0px;
-}
-
-.SymbolTable {
-	
-	border-left:solid 1px lightgray;
-	border-top:solid 1px lightgray;
-	border-collapse:collapse;
-}
-
 .SymbolTable td {
-	padding: 4px;
-	border-right: solid 1px lightgray;
-	border-bottom: solid 1px lightgray;
-	
+	padding: 5px;
 }
 
 .SymbolTable td:hover, .SymbolTable td.focus {
-	background: #D5E2FF;
+	background: #CCCCFF;
+	color: #6666FF;
 }
 
 /*.InputPanel input.TextField {
@@ -1745,8 +1739,11 @@ body[dir=rtl] .undoPanel {
 	height: 32px;
 }
 
-[isSelected=true] .toolbar_icon,
 [isSelected=false] .toolbar_icon:hover {
+	border-color: #6666FF;
+}
+
+[isSelected=true] .toolbar_icon {
 	border-color: #6666FF;
 }
 
@@ -1799,7 +1796,7 @@ body[dir=rtl] .undoPanel {
 	color: #333333;
 	padding: 10px;
 	height: 41px;
-	z-index: 50;
+	/*z-index: 50;*/
 }
 
 .GGWToolbar table {
@@ -2228,11 +2225,31 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /* ========== Input Help  end ============ */
 
-
-.elemHeadingName{
-	position:absolute;
-	left:10px;
+.elemHeading {
+	border-bottom: 1px solid #EDEDED;
+	margin-left: -17px;
+	position: relative;
+	margin-bottom: 5px;
 }
+
+.elemHeadingName {
+	padding: 15px 30px 15px 5px;
+}
+
+.algebraOpenButton{
+	position: absolute;
+	top: 8px;
+	right: 0px;
+}
+
+.elem {
+	margin-left: -15px;
+}
+
+.marble {
+	margin-right: 10px;
+}
+
 label {
 	display:inline;
 	color:black;
@@ -2243,13 +2260,14 @@ label {
 	width: 100%;
 }
 
-#View_2{
+#View_2 {
+	height: 100%;
+	padding: 0px 10px;
+}
+.algebraPanel>div {
 	height: 100%;
 }
-.algebraPanel>div{
-	height: 100%;
-}
-.algebraSimpleP{
+.algebraSimpleP {
 	height: 100%;
 }
 
@@ -2290,10 +2308,6 @@ label {
 
 .CAS_italicbutton{
 	font-style: italic;
-}
-
-.algebraOpenButton{
-	float:right;
 }
 
 #imageList {
@@ -2459,7 +2473,6 @@ label {
    height: 20px;
    display: none;
    text-align: center;
-   margin-right: -10px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {

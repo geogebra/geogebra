@@ -247,7 +247,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/help.png")
 	ImageResource help();
 	
-	@Source("geogebra/web/gui/images/hidden.gif")
+	@Source("geogebra/web/gui/images/algebra_hidden.png")
 	ImageResource hidden();
 	
 	@Source("geogebra/web/gui/images/image-x-generic.png")
@@ -373,7 +373,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/separator.gif")
 	ImageResource separator();
 	
-	@Source("geogebra/web/gui/images/shown.gif")
+	@Source("geogebra/web/gui/images/algebra_shown.png")
 	ImageResource shown();
 	
 	@Source("geogebra/web/gui/images/spreadsheet_grid.png")
@@ -421,7 +421,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/tree.png")
 	ImageResource tree();
 	
-	@Source("geogebra/web/gui/images/triangle-down.png")
+	@Source("geogebra/web/gui/images/triangle_down.png")
 	ImageResource triangle_down();
 	
 	@Source("geogebra/web/gui/images/triangle-up.png")
