@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -34,6 +35,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	
 
+	@Override
 	protected void updateColors(){
 		updateAlpha();
 		setColorsOutlined();
@@ -43,6 +45,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 
 
@@ -58,6 +61,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 
 	// method used only if surface is not transparent
+	@Override
 	public void drawNotTransparentSurface(Renderer renderer){
 		
 		if(!isVisible()){
@@ -78,9 +82,10 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 
 	
-	
+	private Coords[] drawCoords = new Coords[3];
 	
 
+	@Override
 	protected boolean updateForItSelf(){
 
 		//update alpha value
@@ -95,19 +100,27 @@ public class DrawAngle3D extends Drawable3DCurves {
 		
 		AlgoElement algo = angle.getDrawAlgorithm();
 		
-		if (algo instanceof AlgoAnglePoints) {
+		if (algo instanceof AlgoAngle) {
 			
-			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
-			Coords center = pa.getB().getInhomCoordsInD(3);
-			Coords v1 = pa.getA().getInhomCoordsInD(3).sub(center);
+			if( !((AlgoAngle) algo).getCoordsInD3(drawCoords)){
+				setGeometryIndex(-1);
+				setSurfaceIndex(-1);
+				return true;
+			}
+			
+			
+			Coords center = drawCoords[0];
+			Coords v1 = drawCoords[1];
 			v1.calcNorm(); 
 			double l1 = v1.getNorm();
 			v1=v1.mul(1/l1);
-			Coords v2 = pa.getC().getInhomCoordsInD(3).sub(center);
+			Coords v2 = drawCoords[2];
 			v2.calcNorm(); 
 			double l2 = v2.getNorm();
 			v2=v2.mul(1/l2);
-			Coords vn = pa.getVn();
+			Coords vn = ((AlgoAngle) algo).getVn();
+			
+			
 			switch (angle.getAngleStyle()) {
 			
 			case NOTREFLEX:
@@ -125,11 +138,15 @@ public class DrawAngle3D extends Drawable3DCurves {
 			double a2 = a/2;
 			labelCenter = v1.mul(Math.cos(a2)).add(vn2.mul(Math.sin(a2)));
 
-			
+
 			//size < points distances / 2
-			double l=Math.min(l1, l2)/2;
-			if (size>l)
-				size=l;
+			if (algo instanceof AlgoAnglePoints){
+				double l=Math.min(l1, l2)/2;
+				if (size>l)
+					size=l;
+			}
+			
+
 			labelRadius=size/1.7;
 			
 			//90°
@@ -188,6 +205,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 	
 
+	@Override
 	protected void updateForView(){
 		if (getView3D().viewChangedByZoom()) //update only if zoom occurred
 			updateForItSelf();
@@ -197,17 +215,20 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 	
 	
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_1D;
 	}
 
 
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		super.addToDrawable3DLists(lists);
 		addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
 	}
 
+	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists){
 		super.removeFromDrawable3DLists(lists);
 		removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);
@@ -224,7 +245,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 	}
     
 
-    public void drawTransp(Renderer renderer){
+    @Override
+	public void drawTransp(Renderer renderer){
     	if(!isVisible()){
     		return;
     	}
@@ -242,6 +264,7 @@ public class DrawAngle3D extends Drawable3DCurves {
     
 
 
+	@Override
 	public void drawHiding(Renderer renderer){
 		if(!isVisible())
 			return;
@@ -254,22 +277,26 @@ public class DrawAngle3D extends Drawable3DCurves {
 		
 	}
 	
+	@Override
 	public Coords getLabelPosition(){
   		return labelCenter;
   	}
 	
 	
+	@Override
 	protected void updateLabel(){//TODO remove this and implement all angle cases
 		if (labelCenter!=null)
 			super.updateLabel();
 	}
 	
 
+	@Override
 	protected float getLabelOffsetX(){
 		return super.getLabelOffsetX()-3;
 	}
 	
 	
+	@Override
 	protected float getLabelOffsetY(){
 		return super.getLabelOffsetY()+5;
 	}

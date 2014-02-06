@@ -3,6 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoAngle;
 
 /**
  * Abstract class for all angle algos
@@ -29,6 +30,16 @@ public abstract class AlgoAngle extends AlgoElement{
 		super(c, addToConstructionList);
 	}
 	
+	
+	/**
+	 * create a new GeoAngle with interval as default angle
+	 * @param cons construction
+	 * @return new GeoAngle
+	 */
+	protected GeoAngle newGeoAngle(Construction cons) {
+		return GeoAngle.newAngleWithDefaultInterval(cons);
+	}
+	
 	/**
 	 * 
 	 * @return normal vector
@@ -47,5 +58,16 @@ public abstract class AlgoAngle extends AlgoElement{
 	 * @return true if visible
 	 */
 	public abstract boolean updateDrawInfo(double[]m,double[] firstVec, DrawAngle drawable);
+	
+	/**
+	 * @param drawCoords coords (center, v1, v2) for drawing
+	 */
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		drawCoords[0] = Coords.O;
+		drawCoords[1] = Coords.VX;
+		drawCoords[2] = Coords.VY;
+		
+		return true;
+	}
 
 }

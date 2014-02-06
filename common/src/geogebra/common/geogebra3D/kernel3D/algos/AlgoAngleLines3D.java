@@ -60,6 +60,7 @@ public class AlgoAngleLines3D extends AlgoAngleLines{
     	vn = v1.crossProduct4(v2).normalized();    	
     	if (!vn.isDefined()){ // parallel lines
     		getAngle().setValue(0);
+    		o = Coords.UNDEFINED; // for drawing
     		return;
     	}
    	
@@ -89,6 +90,10 @@ public class AlgoAngleLines3D extends AlgoAngleLines{
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		
 		if (drawable == null){ // TODO : this is a pgf / asymptote / pstricks call
+			return false;
+		}
+		
+		if (!o.isDefined()){
 			return false;
 		}
 		
@@ -125,7 +130,19 @@ public class AlgoAngleLines3D extends AlgoAngleLines{
     	return vn;
     }
     
-    
+	@Override
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		
+		if (!o.isDefined()){
+			return false;
+		}
+		
+		drawCoords[0] = o;
+		drawCoords[1] = v1;
+		drawCoords[2] = v2;
+		
+		return true;
+	}
 	
 	
 }

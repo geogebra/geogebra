@@ -21,7 +21,9 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -169,5 +171,21 @@ public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
 		return true;
 	}
 
+	
+	@Override
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		double[] n = GeoVec3D.cross((GeoLine) g, (GeoLine) h).get();
+		
+		if (Kernel.isZero(n[2])){
+			return false;
+		}
+
+		Coords center = new Coords(n[0] / n[2], n[1] / n[2], 0, 1);
+		drawCoords[0] = center;
+		drawCoords[1] = g.getDirectionInD3();
+		drawCoords[2] = h.getDirectionInD3();
+		
+		return true;
+	}
 	// TODO Consider locusequability
 }

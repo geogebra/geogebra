@@ -102,14 +102,7 @@ public class AlgoAnglePoints extends AlgoAngle implements
 		this.Cn = C;
 	}
 
-	/**
-	 * create a new GeoAngle with interval as default angle
-	 * @param cons construction
-	 * @return new GeoAngle
-	 */
-	protected GeoAngle newGeoAngle(Construction cons) {
-		return GeoAngle.newAngleWithDefaultInterval(cons);
-	}
+
 
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C,
 			Construction cons) {
@@ -128,6 +121,7 @@ public class AlgoAnglePoints extends AlgoAngle implements
 		this.Cn = C;
 	}
 
+	@Override
 	public AlgoAnglePoints copy() {
 		return new AlgoAnglePoints(An.copy(),
 				Bn.copy(), Cn.copy());
@@ -239,6 +233,7 @@ public class AlgoAnglePoints extends AlgoAngle implements
 				Bn.getLabel(tpl), Cn.getLabel(tpl));
 	}
 
+	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		Coords v = drawable.getCoordsInView(Bn);
 		if (!drawable.inView(v)) {
@@ -289,6 +284,17 @@ public class AlgoAnglePoints extends AlgoAngle implements
 						* secondVecScreen[1])));
 		return true;
 
+	}
+	
+	
+	@Override
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		Coords center = getB().getInhomCoordsInD(3);
+		drawCoords[0] = center;
+		drawCoords[1] = getA().getInhomCoordsInD(3).sub(center);
+		drawCoords[2] = getC().getInhomCoordsInD(3).sub(center);
+		
+		return true;
 	}
 
 	// TODO Consider locusequability

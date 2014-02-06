@@ -41,6 +41,8 @@ public class Coords extends CoordMatrix {
 	public static final Coords VZ = new Coords(0,0,1,0);
 	/** vz 3D vector, down orientation */
 	public static final Coords VZm = new Coords(0,0,-1,0);
+	/** undefined vector */
+	public static final Coords UNDEFINED = new Coords(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
 	
 	
 	
