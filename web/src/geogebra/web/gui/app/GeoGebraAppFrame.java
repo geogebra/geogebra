@@ -241,7 +241,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 
-	private AppW createApplication(ArticleElement article,
+	protected AppW createApplication(ArticleElement article,
             GeoGebraAppFrame geoGebraAppFrame) {
 		return new AppWapplication(article, geoGebraAppFrame);
     }

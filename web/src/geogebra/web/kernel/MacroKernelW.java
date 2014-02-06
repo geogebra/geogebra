@@ -7,8 +7,9 @@ public class MacroKernelW extends MacroKernel implements KernelWInterface {
 
 	public MacroKernelW(Kernel parentKernel) {
 		super(parentKernel);
-		MAX_SPREADSHEET_COLUMNS_VISIBLE = 26;//1..26
-		MAX_SPREADSHEET_ROWS_VISIBLE = 200;//1..200
+		MAX_SPREADSHEET_COLUMNS_VISIBLE = KernelW.MAX_SPREADSHEET_COLUMNS_VISIBLE_WEB;
+		MAX_SPREADSHEET_ROWS_VISIBLE = KernelW.MAX_SPREADSHEET_ROWS_VISIBLE_WEB;
+
 	}
 
 	public MacroKernel newMacroKernel() {

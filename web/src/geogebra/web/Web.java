@@ -137,7 +137,7 @@ public class Web implements EntryPoint {
 			
 			public void onSuccess() {
 				ResourcesInjector.injectResources();
-				new GeoGebraAppFrame();
+				createGeoGebraAppFrame();
 			}
 
 			public void onFailure(Throwable reason) {
@@ -146,6 +146,14 @@ public class Web implements EntryPoint {
 		});
 	    
     }
+	
+	
+	/**
+	 * create app frame
+	 */
+	protected void createGeoGebraAppFrame(){
+		new GeoGebraAppFrame();
+	}
 	
 
 	

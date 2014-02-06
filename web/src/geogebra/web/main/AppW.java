@@ -225,6 +225,15 @@ public abstract class AppW extends AppWeb {
 			// ctx.fillText("4",txm.getWidth(),37);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param this_app application
+	 * @return a kernel
+	 */
+	protected Kernel newKernel(App this_app){
+		return new KernelW(this_app);
+	}
 
 	/**
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
@@ -234,7 +243,7 @@ public abstract class AppW extends AppWeb {
 	 */
 	void initCoreObjects(final boolean undoActive, final App this_app) {
 
-		kernel = new KernelW(this_app);
+		kernel = newKernel(this_app);
 
 		// init settings
 		settings = new Settings();
