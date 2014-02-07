@@ -1647,4 +1647,17 @@ public abstract class AppW extends AppWeb {
 	    	((ProbabilityCalculatorViewW)getGuiManager().getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
 	    }
     }
+
+	
+	
+	/**
+	 * create menu item for 3D
+	 * @return null if no 3D
+	 */
+	public GCheckBoxMenuItem createMenuItemFor3D() {
+	    return null;
+    }
+	
+	
+	
 }

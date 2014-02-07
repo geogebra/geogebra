@@ -29,6 +29,13 @@ public class ViewMenuApplicationW extends ViewMenuW{
 	 * Menuitem with checkbox for show Euclidian2 view
 	 */
 	GCheckBoxMenuItem itemEuclidian2;
+	
+	/**
+	 * Menuitem with checkbox for show 3D view (maybe null)
+	 */
+	GCheckBoxMenuItem itemEuclidian3D;
+	
+	
 	GCheckBoxMenuItem itemConsprot;
 
 	public ViewMenuApplicationW(AppW application) {
@@ -152,6 +159,16 @@ public class ViewMenuApplicationW extends ViewMenuW{
 		        });
 		
 		addItem(itemEuclidian2.getMenuItem());
+		
+		
+		
+		
+		
+		itemEuclidian3D = app.createMenuItemFor3D();
+		if (itemEuclidian3D != null){
+			addItem(itemEuclidian3D.getMenuItem());
+		}
+		
 
 		
 		itemConsprot = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_constructionprotocol24()
@@ -182,6 +199,9 @@ public class ViewMenuApplicationW extends ViewMenuW{
 		itemCAS.setSelected(app.getGuiManager().showView(App.VIEW_CAS));
 		itemEuclidian.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN));
 		itemEuclidian2.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
+		if (itemEuclidian3D != null){
+			itemEuclidian3D.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D));
+		}
 		itemConsprot.setSelected(app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL));
 	}
 	
