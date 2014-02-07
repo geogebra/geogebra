@@ -515,8 +515,11 @@ namespace giac {
       add_print(s,g._FRACptr->den,contextptr);
       return s;
     }
-    if (g.type==_SYMB)
+    if (g.type==_SYMB){
+      if (g.subtype==_SPREAD__SYMB)
+	s += "=";
       return add_print_symbolic(s,*g._SYMBptr,contextptr);
+    }
 #ifdef EMCC
     const string tmp=g.print(contextptr);
 #else

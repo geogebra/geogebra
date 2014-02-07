@@ -774,7 +774,7 @@ namespace giac {
     vecteur v(1,g);
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       v=*g._VECTptr;
-    if (v.size()<2 || v[1].type!=_INT_)
+    if (v.size()<2 || !is_integral(v[1]) || v[1].type!=_INT_)
       return g;
     if (v[0].type==_STRNG)
       return string2gen(v[0]._STRNGptr->substr(0,v[1].val),false);
@@ -800,7 +800,7 @@ namespace giac {
     vecteur v(1,g);
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       v=*g._VECTptr;
-    if (v.size()<2 || v[1].type!=_INT_)
+    if (v.size()<2 || !is_integral(v[1]) || v[1].type!=_INT_)
       return g;
     if (v[0].type==_STRNG){
       string & s=*v[0]._STRNGptr;

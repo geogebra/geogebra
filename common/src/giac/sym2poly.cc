@@ -701,8 +701,20 @@ namespace giac {
     }
     // now we choose the factor of lowest degree of the factorization
     int lowest_degree=v.size(),deg;
-    factorization::const_iterator f_it=f.begin(),f_itend=f.end();
-    for (;f_it!=f_itend;++f_it){
+    factorization::const_iterator f_it,f_itend=f.end();
+    // Rewrite num if it's an ext with i, because it is rewritten by factor
+    if (num.type==_EXT && has_i(num)){
+      gen b=1;
+      for (f_it=f.begin();f_it!=f_itend;++f_it){
+	b=b*f_it->fact.coord.back().value;
+      }
+      if (b.type==_EXT){
+	gen q=evalf(b,1,contextptr)/evalf(num,1,contextptr);
+	if (is_zero(q+1,contextptr))
+	  num=b;
+      }
+    }
+    for (f_it=f.begin();f_it!=f_itend;++f_it){
       polynome irr_p(f_it->fact);
       deg=irr_p.lexsorted_degree();
       if (!deg)
@@ -937,8 +949,12 @@ namespace giac {
       if (num.type==_EXT && num._EXTptr->type==_VECT){
 	num=algebraic_EXTension(multvecteur(D,*(*num._EXTptr)._VECTptr),*(num._EXTptr+1));
       }
-      else
-	num=D*num;
+      else {
+	if (num.type==_POLY)
+	  num=D**num._POLYptr;
+	else
+	  num=D*num;
+      }
     }
     else {
       v.front()=plus_one;

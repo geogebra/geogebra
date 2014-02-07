@@ -47,6 +47,11 @@
 #define GIAC_MPZ_INIT_SIZE 128 // initial number of bits for mpz
 
 typedef double giac_double;
+#ifdef VISUALC
+inline void swap_giac_double(double & a,double & b){ double c=a; a=b; b=c; }
+#else
+#define swap_giac_double(a,b) std::swap<giac_double>(a,b)
+#endif
 // sprintf replacement
 int my_sprintf(char * s, const char * format, ...);
 #ifdef GIAC_HAS_STO_38
@@ -369,7 +374,7 @@ inline float finv(float f1){ return 1/f1; }
 #ifdef __APPLE__
 inline float fgamma(float f1){ return tgammaf(f1); }
 #else
-#ifdef __MINGW_H // FIXME gamma
+#if defined(__MINGW_H) || defined(VISUALC) // FIXME gamma, not used
 inline float fgamma(float f1){ return f1; }
 #else
 inline float fgamma(float f1){ return gammaf(f1); }

@@ -714,10 +714,14 @@ namespace giac {
     // return ratnormal(ratnormal(symb_horner(*p._VECTptr,it->second)));
   }
   gen rootof(const gen & e,GIAC_CONTEXT){
-    if (e.type!=_VECT)
+    if (e.type!=_VECT){
+      vecteur v=lidnt(e);
+      if (v.size()==1)
+	return rootof(_symb2poly(makesequence(e,v.front()),contextptr),contextptr);
       return gentypeerr(gettext("rootof"));
-    if (e._VECTptr->size()!=2)
-      return gendimerr(gettext("rootof"));
+    }
+    if (e._VECTptr->size()!=2 || e._VECTptr->back().type!=_VECT)
+      return rootof(makesequence(makevecteur(1,0),e),contextptr);
     if (has_num_coeff(e))
       return approx_rootof(e,contextptr);
     if (!lop(lvar(e),at_pow).empty())

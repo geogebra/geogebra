@@ -1677,7 +1677,7 @@ namespace giac {
     gen e1=vargs[1];
     bool newsyntax;
     if (e1.type!=_VECT){
-      newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (is_equal(e1) || s<4);
+      newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (is_equal(vargs[1]) || s<4);
     }
     else {
       if (e1._VECTptr->size()!=2)
@@ -8191,8 +8191,9 @@ namespace giac {
       eq=normal(eq,contextptr);
       vecteur res=solve(eq,*vf[1]._IDNTptr,0,contextptr);
       int s=res.size();
-      for (int i=0;i<s;++i)
+      for (int i=0;i<s;++i){
 	res[i]=symb_pnt(subst(vf[0],vf[1],res[i],false,contextptr),contextptr);
+      }
       return remove_not_in_arc(res,circle,contextptr);
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & ){
@@ -9016,9 +9017,9 @@ namespace giac {
     gen nstep=_NSTEP;
     nstep.subtype=_INT_PLOT;
 #if 0 // def GIAC_HAS_STO_38
-    res= _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(-4,4)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
+    res= _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(-12,12)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
 #else
-    res= _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(-4,4)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
+    res= _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(-12,12)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
 #endif
     return res;
   }
@@ -14539,10 +14540,15 @@ namespace giac {
       parameq=true;
       v.pop_back();
     }
-    for (int i=0;i<s;++i)
+    bool d3=false;
+    for (int i=0;i<s;++i){
+      if (!d3) d3=is3d(v[i]);
       v[i]=remove_at_pnt(v[i]);
+    }
     if (parameq){
       gen peq=_parameq(gen(makevecteur(symbolic(at_Bezier,gen(v,_GROUP__VECT)),t__IDNT_e),_SEQ__VECT),contextptr);
+      if (d3)
+	return plotparam3d(peq,makevecteur(t__IDNT_e,v__IDNT_e),-1e300,1e300,-1e300,1e300,-1e300,1e300,0,1,0,1,false,true,attributs,0.01,0.01,undef,vecteur(0),contextptr);
       return plotparam(peq,t__IDNT_e,attributs,false,-1e300,1e300,-1e300,1e300,0,1,0.01,undef,peq,contextptr);
     }
     return pnt_attrib(symbolic(at_Bezier,gen(v,_GROUP__VECT)),attributs,contextptr);

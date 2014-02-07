@@ -1409,8 +1409,13 @@ extern "C" void Sleep(unsigned int miliSecond);
   unsigned short int GIAC_PADIC=50;
   const char cas_suffixe[]=".cas";
 #if defined RTOS_THREADX || defined BESTA_OS
+#ifdef BESTA_OS
+  int LIST_SIZE_LIMIT = 10000 ;
+  int FACTORIAL_SIZE_LIMIT = 1000 ;
+#else
   int LIST_SIZE_LIMIT = 1000 ;
   int FACTORIAL_SIZE_LIMIT = 254 ;
+#endif
   int NEWTON_DEFAULT_ITERATION=40;
   int TEST_PROBAB_PRIME=25;
   int GCDHEU_MAXTRY=5;
@@ -4594,14 +4599,64 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   const char * do_not_autosimplify[]={
+    "Factor",
+    "Gcd",
+    "Int",
+    "Quo",
+    "Quorem",
+    "Rem",
+    "animate",
+    "animation",
     "autosimplify",
-    "ifactor","partfrac","cpartfrac","factor","cfactor","expand","normal",
-    "regroup","simplify","animation","animate","factoriser","factoriser_entier",
-    "factoriser_sur_C","developper","simplifier","series","taylor","curve","trace",
-    "powexpand","expexpand","lnexpand","texpand","trigexpand","lncollect","pow2exp",
-    "nodisp","evalc","Rem","Quo","Quorem","Gcd","Factor","Int",
+    "cfactor",
+    "cpartfrac",
+    "curve",
+    "developper",
+    "evalc",
+    "expand",
+    "expexpand",
+    "factor",
+    "factoriser",
+    "factoriser_entier",
+    "factoriser_sur_C",
+    "ifactor",
+    "lncollect",
+    "lnexpand",
+    "nodisp",
+    "normal",
+    "op",
+    "partfrac",
+    "pow2exp",
+    "powexpand",
+    "regroup",
+    "series",
+    "simplifier",
+    "simplify",
+    "taylor",
+    "texpand",
+    "trace",
+    "trigexpand",
     0
   };
+
+  int dichotomic_search(const char ** tab,unsigned tab_size,const char * s){
+    int beg=0,end=tab_size,cur,test;
+    // string index is always >= begin and < end
+    for (;;){
+      cur=(beg+end)/2;
+      test=strcmp(s,tab[cur]);
+      if (!test)
+	return cur;
+      if (cur==beg)
+	return -1;
+      if (test>0)
+	beg=cur;
+      else
+	end=cur;
+    }
+    return -1;
+  }
+
   gen add_autosimplify(const gen & g,GIAC_CONTEXT){
     if (g.type==_VECT)
       return apply(g,add_autosimplify,contextptr);
@@ -4613,11 +4668,16 @@ unsigned int ConvertUTF8toUTF16 (
 #else
       const char * c=unlocalize(g._SYMBptr->sommet.ptr()->s).c_str();
 #endif
+#if 1
+      if (dichotomic_search(do_not_autosimplify,sizeof(do_not_autosimplify)/sizeof(char*)-1,c)!=-1)
+	return g;
+#else
       const char ** ptr=do_not_autosimplify;
       for (;*ptr;++ptr){
 	if (!strcmp(*ptr,c))
 	  return g;
       }
+#endif
     }
     std::string s=autosimplify(contextptr);
     if (s.size()<1)

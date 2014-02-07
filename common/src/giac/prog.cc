@@ -5697,7 +5697,8 @@ namespace giac {
 	gen l31(symbolic(at_plotseq,
 		       gen(makevecteur(
 				       _cell(makevecteur(zero,vecteur(1,zero)),contextptr),
-				       symb_equal(_cell(makevecteur(plus_one,vecteur(1,zero)),contextptr),makevecteur(_cell(makevecteur(vecteur(1,plus_one),vecteur(1,zero)),contextptr),xmin,xmax)),
+				       symb_equal(_cell(makevecteur(vecteur(1,-1),vecteur(1,zero)),contextptr),makevecteur(_cell(makevecteur(vecteur(1,plus_one),vecteur(1,zero)),contextptr),xmin,xmax)),
+				       //symb_equal(_cell(makevecteur(plus_one,vecteur(1,zero)),contextptr),makevecteur(_cell(makevecteur(vecteur(1,plus_one),vecteur(1,zero)),contextptr),xmin,xmax)),
 				       9),_SEQ__VECT
 			   )
 		       )

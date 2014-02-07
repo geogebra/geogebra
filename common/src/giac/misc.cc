@@ -3292,7 +3292,7 @@ static define_unary_function_eval (__parabolic_interpolate,&_parabolic_interpola
       return vecteur(1,gensizeerr(contextptr));
     double d0=evalf_double(centres[0],1,contextptr)._DOUBLE_val,d1=evalf_double(centres[1],1,contextptr)._DOUBLE_val;
     double debut=class_min;
-    if (!with_class_min)
+    if (!with_class_min || debut<=-1e307)
       debut=d0+(d0-d1)/2;
     vecteur res;
     const_iterateur it=centres.begin(),itend=centres.end();
@@ -3501,6 +3501,15 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
 	if (is_undef(data[0]))
 	  return gensizeerr(contextptr);
 	data=mtran(data);
+	gen g=data[0][0];
+	if (g.is_symb_of_sommet(at_interval) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
+	  gen g1=g._SYMBptr->feuille._VECTptr->front();
+	  g1=evalf_double(g1,1,contextptr);
+	  gen g2=g._SYMBptr->feuille._VECTptr->back();
+	  g2=evalf_double(g2,1,contextptr);
+	  if (g1.type==_DOUBLE_ && g2.type==_DOUBLE_)
+	    return histogram(data,g1._DOUBLE_val,(g2-g1)._DOUBLE_val,attributs,contextptr);
+	}
 	return histogram(data,0.0,0.0,attributs,contextptr);
       }
       if (s==3){
@@ -3511,7 +3520,7 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
       if (s==2 && is_integral(arg1) && arg1.type==_INT_ && arg1.val>0)
 	return histogram(data,arg1.val,0.0,attributs,contextptr);
       if (s==2 && args[1].type==_VECT)
-	return _histogram(gen(makevecteur(mtran(args),class_minimum),_SEQ__VECT),contextptr);
+	return _histogram(gen(makevecteur(mtran(args),-1.1e307),_SEQ__VECT),contextptr);
       return gensizeerr(contextptr);
     }
     if (s==1 && args.front().type==_VECT)
@@ -3586,8 +3595,7 @@ static define_unary_function_eval (__histogram,&_histogram,_histogram_s);
       gen tmp=evalf_double(v[1],1,contextptr);
       if (tmp.type!=_DOUBLE_) {
 	if (ckmatrix(g)){
-	  if (!v[0]._VECTptr->front().is_symb_of_sommet(at_interval))
-	    v[0]=centres2intervalles(*v[0]._VECTptr,class_min,true,contextptr);
+	  // if (!v[0]._VECTptr->front().is_symb_of_sommet(at_interval)) v[0]=centres2intervalles(*v[0]._VECTptr,-1.1e307,true,contextptr);
 	  if (is_undef(v[0]))
 	    return gensizeerr(contextptr);
 	  g0=mtran(v);
@@ -3628,6 +3636,7 @@ static define_unary_function_eval (__histogram,&_histogram,_histogram_s);
       }
       else
 	veff.push_back(xeff(class_min,0));
+      bool interv=false;
       for (;it!=itend;++it){
 	vecteur & v = *it->_VECTptr;
 	gen tmp=evalf_double(v[k],1,contextptr);
@@ -3636,6 +3645,7 @@ static define_unary_function_eval (__histogram,&_histogram,_histogram_s);
 	// class_s = tmp._DOUBLE_val - x;
 	n = n + (x=tmp._DOUBLE_val) ;
 	if (v.front().is_symb_of_sommet(at_interval)){
+	  interv=true;
 	  tmp=v.front()._SYMBptr->feuille;
 	  if (tmp.type!=_VECT || tmp._VECTptr->size()!=2)
 	    return gensizeerr(contextptr);
@@ -3651,13 +3661,19 @@ static define_unary_function_eval (__histogram,&_histogram,_histogram_s);
       }
       sort(veff.begin(),veff.end());
       vecteur res;
+      vecteur respnt;
       vector<xeff>::const_iterator jt=veff.begin(),jtend=veff.end();
-      double cumul=0;
+      double cumul=0,oldcumul=0;
       for (;jt!=jtend;++jt){
 	cumul += jt->eff/n ;
+	if (!interv)
+	  res.push_back(gen(jt->x)+cst_i*gen(oldcumul));
 	res.push_back(gen(jt->x)+cst_i*gen(cumul));
+	oldcumul=cumul;
+	respnt.push_back(symb_pnt(gen(jt->x)+cst_i*gen(cumul),k+_POINT_WIDTH_2,contextptr));
       }
       ans.push_back(symb_pnt(gen(res,_GROUP__VECT),k,contextptr));
+      ans.push_back(respnt);
     }
     return gen(ans,_SEQ__VECT);
   }
@@ -3781,7 +3797,7 @@ static define_unary_function_eval (__plotlist,&_listplot,_plotlist_s);
       v=*v.front()._VECTptr;
     else
       v=vecteur(v.begin(),v.begin()+s);
-    if (g.type==_VECT && g.subtype==_SEQ__VECT && s==2){
+    if (g.type==_VECT && s==2 && g.subtype==_SEQ__VECT){
       if (!ckmatrix(v))
 	return gensizeerr(contextptr); 
       v=mtran(v);
@@ -4960,6 +4976,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       return false;
     }
+    if (g.type==_SYMB)
+      return has_undef_stringerr(g._SYMBptr->feuille,err);
     return false;
   }
 

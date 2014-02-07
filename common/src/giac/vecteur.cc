@@ -1994,23 +1994,32 @@ namespace giac {
   gen _proot(const gen & v,GIAC_CONTEXT){
     if ( v.type==_STRNG && v.subtype==-1) return  v;
     if (v.type!=_VECT)
-      return _proot(makesequence(v,vx_var),contextptr);
-    vecteur & w=*v._VECTptr;
+      return _proot(makesequence(v,ggb_var(v)),contextptr);
+    if (v._VECTptr->empty())
+      return v;
+    vecteur w=*v._VECTptr;
+    int digits=decimal_digits(contextptr);
+    if (v.subtype==_SEQ__VECT && w.back().type==_INT_){
+      digits=giacmax(w.back().val,14);
+      w.pop_back();
+    }
+    if (w.size()==1)
+      w.push_back(ggb_var(w[0]));
     if (w.size()==2 && w[1].type==_IDNT){
-      gen tmp=_e2r(v,contextptr);
+      gen tmp=_e2r(gen(w,_SEQ__VECT),contextptr);
       if (is_undef(tmp)) return tmp;
       if (tmp.type==_FRAC)
 	tmp=tmp._FRACptr->num;
       if (tmp.type!=_VECT)
 	return vecteur(0);
-      return _proot(tmp,contextptr);
+      w=*tmp._VECTptr;
     }
     for (unsigned i=0;i<w.size();++i){
       gen tmp=evalf(w[i],1,contextptr);
       if (tmp.type>_REAL && tmp.type!=_FLOAT_ && tmp.type!=_CPLX)
 	return gensizeerr(contextptr);
     }
-    return proot(w,epsilon(contextptr),int(decimal_digits(contextptr)*3.3));
+    return proot(w,epsilon(contextptr),int(digits*3.3));
   }
   gen symb_proot(const gen & e) {
     return symbolic(at_proot,e);
@@ -3847,7 +3856,7 @@ namespace giac {
     for (int i=0;i<n;++i){
       vector<giac_double> & mi=m[i];
       for (int j=n+i;j<twon;++j){
-	swap<giac_double>(mi[j],m[j-n][i+n]);
+	swap_giac_double(mi[j],m[j-n][i+n]);
       }
       for (int j=0;j<n;++j)
 	mi[j]=mi[perm[j]+n];
@@ -7302,9 +7311,9 @@ namespace giac {
 	tableau[i+1]=g._DOUBLE_val*rand_max2+tableau[i];
       }
       // generate n random values, count them if val=0 
-      for (unsigned i=0;i<n;++i){
+      for (unsigned i=0;int(i)<n;++i){
 	int j=dichotomy(tableau,giac_rand(contextptr));
-	if (j>=vs)
+	if (j>=int(vs))
 	  j=vs;
 	if (val.empty())
 	  ++eff[j];
@@ -11898,7 +11907,7 @@ namespace giac {
     }
     for (matrix_double::iterator it=H.begin(),itend=it+nstop;it!=itend;++it){
       giac_double * Hj=&it->front();
-      swap<giac_double>(Hj[i],Hj[m1]);
+      swap_giac_double(Hj[i],Hj[m1]);
     }
   }
 
@@ -12830,7 +12839,13 @@ namespace giac {
 	    swap(P[i],P[m+1]);
 	  for (int j=0;j<n;++j){
 	    vector< complex_double > & Hj=H[j];
+#ifdef VISUALC
+	    complex<double> cc=Hj[i];
+	    Hj[i]=Hj[m+1];
+	    Hj[m+1]=cc;
+#else
 	    swap< complex_double >(Hj[i],Hj[m+1]);
+#endif
 	  }
 	}
       }

@@ -2752,22 +2752,29 @@ namespace giac {
 	res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
     }
     vecteur sp;
-    if (evalf_double(borne_inf,1,contextptr).type==_DOUBLE_ && evalf_double(borne_sup,1,contextptr).type==_DOUBLE_){
-      gen xval=x.eval(1,contextptr);
-      if (is_greater(borne_sup,borne_inf,contextptr))
-	giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
-      else
-	giac_assume(symb_and(symb_superieur_egal(x,borne_sup),symb_inferieur_egal(x,borne_inf)),contextptr);
-      sp=protect_find_singularities(primitive,*x._IDNTptr,2,contextptr);
-      sto(xval,x,contextptr);
+    sp=lidnt(evalf(primitive,1,contextptr));
+    if (sp.size()>1){
+      *logptr(contextptr) << gettext("Unable to check if antiderivative  ")+primitive.print(contextptr)+gettext(" has singular points for definite integration in [")+borne_inf.print(contextptr)+","+borne_sup.print(contextptr)+"]" << endl ;
+      sp.clear();
     }
-    else
-      sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
-    if (is_undef(sp)){
-      *logptr(contextptr) << gettext("Unable to find singular points of antiderivative") << endl ;
-      if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
-	return undef;
-      return res;
+    else {
+      if (evalf_double(borne_inf,1,contextptr).type==_DOUBLE_ && evalf_double(borne_sup,1,contextptr).type==_DOUBLE_){
+	gen xval=x.eval(1,contextptr);
+	if (is_greater(borne_sup,borne_inf,contextptr))
+	  giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
+	else
+	  giac_assume(symb_and(symb_superieur_egal(x,borne_sup),symb_inferieur_egal(x,borne_inf)),contextptr);
+	sp=protect_find_singularities(primitive,*x._IDNTptr,2,contextptr);
+	sto(xval,x,contextptr);
+      }
+      else
+	sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
+      if (is_undef(sp)){
+	*logptr(contextptr) << gettext("Unable to find singular points of antiderivative") << endl ;
+	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	  return undef;
+	return res;
+      }
     }
     // FIXME if v depends on an integer parameter, find values in inf,sup
     int sps=sp.size();

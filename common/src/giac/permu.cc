@@ -779,6 +779,12 @@ namespace giac {
     if (ckmatrix(args) || args[0][0].type!=_VECT){
       // Hadamard bound on det(args)
       matrice & m=*args._VECTptr;
+      if (has_num_coeff(m)){
+	gen r=1.0;
+	for (unsigned i=0;i<m.size();++i)
+	  r = r*l2norm(*m[i]._VECTptr,contextptr);
+	return r;
+      }
       return sqrt(min(square_hadamard_bound(m),square_hadamard_bound(mtran(m)),contextptr),contextptr);
     }
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )

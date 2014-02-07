@@ -240,7 +240,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	if ($2.type==_SYMB) $$=$2; else $$=symbolic(at_nop,$2); 
 	$$.change_subtype(_SPREAD__SYMB); 
         const giac::context * contextptr = giac_yyget_extra(scanner);
-        spread_formula(false,contextptr); 
+       spread_formula(false,contextptr); 
 	}
 	| exp T_PLUS exp    { if ($1.is_symb_of_sommet(at_plus) && $1._SYMBptr->feuille.type==_VECT){ $1._SYMBptr->feuille._VECTptr->push_back($3); $$=$1; } else
   $$ =symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
@@ -459,15 +459,20 @@ exp	: T_NUMBER		{$$ = $1;}
                $$=$2;
            }
 	} 
-	| T_VECT_DISPATCH suite T_VECT_END { $$ = gen(*($2._VECTptr),$1.val);
+	| T_VECT_DISPATCH suite T_VECT_END { 
+        // cerr << $2 << endl;
+        $$ = gen(*($2._VECTptr),$1.val);
 	if ($2._VECTptr->size()==1 && $2._VECTptr->front().is_symb_of_sommet(at_ti_semi) ) {
-	$$=$2._VECTptr->front();
-  }
-}
+	  $$=$2._VECTptr->front();
+        }
+        // cerr << $$ << endl;
+
+        }
 	| exp T_VIRGULE exp           { 
          if ($1.type==_VECT && $1.subtype==_SEQ__VECT && !($3.type==_VECT && $2.subtype==_SEQ__VECT)){ $$=$1; $$._VECTptr->push_back($3); }
 	 else
            $$ = makesuite($1,$3); 
+
         }
 	| T_NULL { $$=gen(vecteur(0),_SEQ__VECT); }
 	| T_HELP exp {$$=symb_findhelp($2);} 

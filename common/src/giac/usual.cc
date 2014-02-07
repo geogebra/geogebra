@@ -343,24 +343,31 @@ namespace giac {
     if (e.type==_DOUBLE_){
       if (e._DOUBLE_val==0)
 	return minus_inf;
-      if (e._DOUBLE_val>0)
+      if (e._DOUBLE_val>0){
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_log(e._DOUBLE_val);
 #else
 	return std::log(e._DOUBLE_val);
 #endif
-      else
+      }
+      else {
+	if (!complex_mode(contextptr))
+	  *logptr(contextptr) << "Taking ln of negative real " << e << endl;
 #ifdef _SOFTMATH_H
 	return M_PI*cst_i+std::giac_gnuwince_log(-e._DOUBLE_val);
 #else
 	return M_PI*cst_i+std::log(-e._DOUBLE_val);
 #endif
+      }
     }
     if (e.type==_REAL){
       if (is_positive(e,contextptr))
 	return e._REALptr->log();
-      else
+      else {
+	if (!complex_mode(contextptr))
+	  *logptr(contextptr) << "Taking ln of negative real " << e << endl;
 	return (-e)._REALptr->log()+cst_pi*cst_i;
+      }
     }
     if (e.type==_CPLX){ 
       if (e.subtype){
@@ -5459,7 +5466,9 @@ namespace giac {
   gen _jacobi_symbol(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (!check_2d_vecteur(args)) return gensizeerr(contextptr);
-    int res=jacobi(args._VECTptr->front(),args._VECTptr->back());
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    a=_irem(args,contextptr);
+    int res=jacobi(a,b);
     if (res==-RAND_MAX)
       return gensizeerr(contextptr);
     return res;
@@ -5472,7 +5481,9 @@ namespace giac {
   gen _legendre_symbol(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (!check_2d_vecteur(args)) return gensizeerr(contextptr);
-    return legendre(args._VECTptr->front(),args._VECTptr->back());    
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    a=_irem(args,contextptr);
+    return legendre(a,b);
   }
   static const char _legendre_symbol_s []="legendre_symbol";
   static define_unary_function_eval (__legendre_symbol,&giac::_legendre_symbol,_legendre_symbol_s);
@@ -5852,6 +5863,8 @@ namespace giac {
   }
 
   bool need_workaround(const gen & g){
+    if (g.type==_REAL || (g.type==_CPLX && g._CPLXptr->type==_REAL && (g._CPLXptr+1)->type==_REAL))
+      return false;
     if (g.type<=_CPLX)
       return g!=0 && g/g!=1;
     if (is_inf(g) || is_undef(g))

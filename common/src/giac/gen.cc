@@ -501,7 +501,8 @@ namespace giac {
   }
 
   gen gen::change_subtype(int newsubtype){ 
-    subtype=newsubtype; return *this; 
+    subtype=newsubtype; 
+    return *this; 
   }
 
   gen change_subtype(const gen & g,int newsubtype){ 
@@ -5237,6 +5238,8 @@ namespace giac {
       }
       return false;
     }
+    if (g.type==_EXT)
+      return has_i(*g._EXTptr);
     if (g.type!=_SYMB)
       return false;
     return has_i(g._SYMBptr->feuille);
@@ -7871,10 +7874,16 @@ namespace giac {
 	return giac_float(0);
       return !is_zero(b);
     }
-    if (a.type<=_CPLX || a.type==_FLOAT_)
+    if (a.type<=_CPLX || a.type==_FLOAT_ || a.type==_FRAC){
+      if (b.type<=_CPLX || b.type==_FLOAT_ || b.type==_FRAC)
+	return !is_zero(b);
       return b;
-    if (b.type<=_CPLX || b.type==_FLOAT_)
+    }
+    if (b.type<=_CPLX || b.type==_FLOAT_ || b.type==_FRAC){
+      if (a.type<=_CPLX || a.type==_FLOAT_ || a.type==_FRAC)
+	return !is_zero(a);
       return a;
+    }
     if (a.is_symb_of_sommet(at_and)){
       if (b.is_symb_of_sommet(at_and))
 	return new_ref_symbolic(symbolic(at_and,gen(mergevecteur(*a._SYMBptr->feuille._VECTptr,*b._SYMBptr->feuille._VECTptr),_SEQ__VECT)));
@@ -9868,9 +9877,9 @@ namespace giac {
 	it=f->_VECTptr->begin();
       }
       reverse(v.begin(),v.end());
-      return new_ref_symbolic(symbolic(at_plus,gen(v,_SEQ__VECT)));
+      return gen(new_ref_symbolic(symbolic(at_plus,gen(v,_SEQ__VECT)))).change_subtype(g.subtype);
     }
-    return new_ref_symbolic(symbolic(g._SYMBptr->sommet,aplatir_plus_only(g._SYMBptr->feuille)));
+    return gen(new_ref_symbolic(symbolic(g._SYMBptr->sommet,aplatir_plus_only(g._SYMBptr->feuille)))).change_subtype(g.subtype);
   }
 
   static int protected_giac_yyparse(const string & chaine,gen & parse_result,GIAC_CONTEXT){

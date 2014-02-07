@@ -5724,7 +5724,11 @@ namespace giac {
       maxfun=maxiter.val;
     if (int(guess.size())!=n)
       return gendimerr(contextptr);
+#ifdef VISUALC
+    double x[100];
+#else
     double x[n];
+#endif
     for (int i=0;i<n;++i){
       gen tmp=evalf_double(guess[i],1,contextptr);
       if (tmp.type!=_DOUBLE_)

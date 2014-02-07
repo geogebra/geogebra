@@ -4025,6 +4025,8 @@ namespace giac {
   define_unary_function_ptr5( at_euler ,alias_at_euler,&__euler,0,true);
 
   gen pa2b2(const gen & p,GIAC_CONTEXT){
+    if (p==2)
+      return makevecteur(1,1);
     if (!is_integer(p) || (p%4)!=1 || is_greater(1,p,contextptr)) return gensizeerr(contextptr);// car p!=1 mod 4
     gen q=(p-1)/4;
     gen a=2;
