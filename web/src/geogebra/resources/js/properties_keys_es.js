@@ -1897,7 +1897,7 @@ __GGB__keysVar.es.menu = {
     "TimeExpired": "Se requiere reconexi\xf3n (la sesi\xf3n previa ha expirado)",
     "Tool": "Herramienta",
     "Tool_CreateNew": "Nueva herramienta",
-    "Tool_CreationSuccess": "Nueva herramienta \xa1creada!",
+    "Tool_CreationSuccess": "Nueva herramienta creada correctamente",
     "Tool_DeleteQuestion": "\xbfDefinitivamente se eliminan tales herramientas?",
     "Tool_Manage": "Gesti\xf3n de herramientas",
     "Tool_SelectObjects": "Objetos (a seleccionar en la construcci\xf3n o de la lista desplegable)",

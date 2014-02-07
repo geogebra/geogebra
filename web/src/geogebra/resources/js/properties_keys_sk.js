@@ -2670,7 +2670,7 @@ __GGB__keysVar.sk.plain = {
     "WindowOpened": "Okno otvoren\xe9",
     "XMLTagANotFound": "Neplatn\xfd s\xfabor: XML tag %0 nen\xe1jden\xfd",
     "XUnits": "X jednotky (cm)",
-    "YAxisVertical": "y-axis is vertical",
+    "YAxisVertical": "y-ov\xe1 os je vertik\xe1lna",
     "YUnits": "Y jednotky (cm)",
     "ZoomIn": "Zv\xe4\u010d\u0161i\u0165",
     "ZoomOut": "Men\u0161i\u0165",
