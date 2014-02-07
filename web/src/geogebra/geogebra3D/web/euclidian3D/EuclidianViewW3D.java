@@ -7,6 +7,8 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.euclidian.EuclidianViewW;
 
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * 3D view
  * @author mathieu
@@ -23,6 +25,14 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 	    super(ec, settings);
     }
 	
+	
+	
+	/**
+	 * @return panel component
+	 */
+	public Widget getComponent() {
+	    return EVPanel.getAbsolutePanel();
+    }
 	
 
 	////////////////////////////////////////////////////////////

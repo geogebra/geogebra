@@ -98,7 +98,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private SpreadsheetViewW spreadsheetView;
 	private EuclidianViewW euclidianView2;
 
-	private LayoutW layout;
+	protected LayoutW layout;
 
 	private CASViewW casView;
 
@@ -578,7 +578,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	/**
 	 * Register panels for the layout manager.
 	 */
-	protected void initLayoutPanels() {
+	protected boolean initLayoutPanels() {
 
 		// register euclidian view
 		// this is done earlier
@@ -586,7 +586,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			layout.registerPanel((DockPanelW)((AppW) app).getEuclidianViewpanel());
 		} else {
 			App.debug("This part of the code should not have been called!");
-			return;
+			return false;
 		}
 
 		// register spreadsheet view
@@ -625,6 +625,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			// register Assignment view
 			layout.registerPanel(new AssignmentDockPanel(app));
 		}*/
+		
+		return true;
 
 	}
 

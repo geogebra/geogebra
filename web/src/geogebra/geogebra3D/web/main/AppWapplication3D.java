@@ -5,8 +5,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianControllerW3D;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianViewW3D;
+import geogebra.geogebra3D.web.gui.GuiManagerW3D;
 import geogebra.geogebra3D.web.kernel3D.KernelW3D;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.main.AppWapplication;
 
@@ -56,6 +58,12 @@ public class AppWapplication3D extends AppWapplication {
 		euclidianController3D = new EuclidianControllerW3D(kernel);
 		euclidianView3D = new EuclidianViewW3D(euclidianController3D, null);
 
+	}
+	
+	
+	@Override
+    protected GuiManagerW newGuiManager() {
+		return new GuiManagerW3D(this);
 	}
 
 
