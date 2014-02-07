@@ -211,9 +211,15 @@ public class DataImport {
 
 		String decimalSeparator, groupingSeparator;
 		if (separator == null) {
-			String[] defaultSeparator = getDefaultSeparators(app);
-			decimalSeparator = defaultSeparator[0];
-			groupingSeparator = defaultSeparator[1];
+			/* 
+			 * disabled as we don't want commas when pasting from spreadsheet into other parts of GeoGebra eg input bar 
+			 * also see CopyPasteCutD.copy() 
+			 */ 
+			//String[] defaultSeparator = getDefaultSeparators(app); 
+			//decimalSeparator = defaultSeparator[0]; 
+			//groupingSeparator = defaultSeparator[1]; 
+			decimalSeparator = "."; 
+			groupingSeparator = ",";
 		} else {
 			decimalSeparator = separator[0];
 			groupingSeparator = separator[1];

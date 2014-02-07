@@ -31,8 +31,9 @@ public class CopyPasteCutD extends CopyPasteCut {
 		
 		char decimalSeparator = DataImport.getDefaultSeparators(app)[0].charAt(0);		
 		/*
-		 * disabled as we don't want commas when pasting from spreadsheet into other parts of GeoGebra eg clipboard
-		 * 
+		 * disabled as we don't want commas when pasting from spreadsheet into other parts of GeoGebra eg input bar
+		 * also see DataImport.parseExternalData() 
+		 *  
 		//boolean changeDecimalSeparator = '.' != decimalSeparator;
 		if (changeDecimalSeparator) {
 			App.debug("changing decimal separator to: "+decimalSeparator);
