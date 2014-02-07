@@ -82,6 +82,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.TextEditAdvancedPanel;
+import geogebra.html5.gui.inputfield.TextPreviewPanelW;
 import geogebra.html5.gui.util.ColorChangeHandler;
 import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
@@ -1918,7 +1919,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private GeoText orig;
 		
 		// ugly hack preventing infinite loop of update()
-		private boolean redrawFromPreview; 
+		private boolean redrawFromPreview;
+
+		private TextPreviewPanelW previewer; 
 		public TextOptionsPanel() {
 
 			model = new TextOptionsModel(app, this);
@@ -2037,6 +2040,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				editorPanel.add(advancedPanel);
 				mainPanel.add(editorPanel);
 
+				previewer = advancedPanel.getPreviewer();
+
 				btnPanel = new FlowPanel();
 				btnOk = new Button();
 				btnPanel.add(btnOk);
@@ -2062,11 +2067,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public boolean update(Object[] geos) {
-			// Ugly hack preventing infinite loop
-			if (redrawFromPreview) {
-				redrawFromPreview = false; 
-				return true;
-			} 
 			
 			getModel().setGeos(geos);
 
@@ -2178,7 +2178,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreviewPanel() {
-
+//			if (previewer == null) {
+//				return;
+//			}
+//			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
+//			        editor.getDynamicTextList(), isLatex()), isLatex());
 		}
 
 
