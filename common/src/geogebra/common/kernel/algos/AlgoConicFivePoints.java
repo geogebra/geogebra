@@ -180,6 +180,14 @@ public class AlgoConicFivePoints extends AlgoElement {
         degCone(line[2], line[3], B);
         l = evalMatrix(B, P[4]);
         m = -evalMatrix(A, P[4]);
+        // try to avoid tiny/huge value for matrix
+        double lInv = 1/l;
+        double mInv = 1/m;
+        if (!(Double.isNaN(lInv) || Double.isNaN(mInv))){
+        	l = mInv;
+        	m = lInv;
+        }
+       
         linComb(A, B, l, m, C);
         
         /***
