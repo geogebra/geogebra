@@ -1188,7 +1188,7 @@ __GGB__keysVar.es.menu = {
     "ClearSelection": "Limpia la selecci\xf3n",
     "ClearTrace": "Limpia todos los rastros",
     "Clipboard": "Portapapeles",
-    "ClipboardMessage": "Boceto \xa1exportado al Portapapeles!\nAbriendo el editor HTML, puede pegarse en Moodle u otro sistema de aprendizaje en l\xednea (LMS)",
+    "ClipboardMessage": "\xa1Se ha exportado al Portapapeles!\nAbriendo el editor HTML, puede pegarse en Moodle u otro sistema de aprendizaje en l\xednea (LMS)",
     "Close": "Cierra",
     "CloseAll": "Cierra todo",
     "CloseFile": "Cierra el archivo",
