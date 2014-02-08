@@ -279,7 +279,7 @@ public class AlgoEnvelope extends AlgoElement {
         script.append("proc mylocusdgto(list L) {" +
         		"poly p=1;" +
         		"int i; int j; int k;" +
-        		"for(i=1;i<=size(L);i++) { if(L[i][3]==\"Relevant\")" +
+        		"for(i=1;i<=size(L);i++) { if(L[i][3]<>\"Degenerate\")" +
         		" { if(size(L[i][1])>1) {p=p*((L[i][1][1])^2+(L[i][1][2])^2);}" +
         			"else {p=p*L[i][1][1];}" +
     			"} } return(p); }");
@@ -288,9 +288,9 @@ public class AlgoEnvelope extends AlgoElement {
         		"if (GG[1][2][1]<>1) { GGG=delete(GG,1); }" +
         		"else { GGG=GG; };" +
         		"string SLo=locusto(locus(GGG));" +
-        		"if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0)" +
+        		"if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0 and find(SLo,\"Special\") == 0)" +
         			"{ return(1); }" +
-        		"else { return(mylocusdgto(locusdg(GGG))); } }");
+        		"else { return(mylocusdgto(locus(GGG))); } }");
   		script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + vars).
 			append("),dp;short=0;ideal m=");
 		script.append(polys);
