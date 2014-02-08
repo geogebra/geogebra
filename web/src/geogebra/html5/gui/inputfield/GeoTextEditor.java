@@ -45,9 +45,9 @@ import com.google.gwt.user.client.ui.RichTextArea;
 public class GeoTextEditor extends RichTextArea {
 
 	private AppW app;
-	private boolean initialized = false;
-	private ArrayList<DynamicTextElement> dynamicList = null;
-	GFontW font;
+	boolean initialized = false;
+	protected ArrayList<DynamicTextElement> dynamicList = null;
+	protected GFontW font;
 	protected ITextEditPanel editPanel;
 	protected Formatter formatter;
 
@@ -71,9 +71,13 @@ public class GeoTextEditor extends RichTextArea {
 		// styles and handlers must be set after the editor has been initialized
 		addInitializeHandler(new InitializeHandler() {
 			public void onInitialize(InitializeEvent event) {
+				initialized = true;
 				setStyle();
 				addCutHandler(getBody());
 				addPasteHandler(getBody());
+				if (dynamicList != null) {
+					setDynamicText();
+				}
 			}
 		});
 
@@ -126,17 +130,6 @@ public class GeoTextEditor extends RichTextArea {
 				}
 			}
 		});
-		
-		addInitializeHandler(new InitializeHandler() {
-			
-			public void onInitialize(InitializeEvent event) {
-				initialized = true;
-				if (dynamicList != null) {
-					setDynamicText();
-				}
-			}
-		});
-		
 
 	}
 
@@ -147,7 +140,7 @@ public class GeoTextEditor extends RichTextArea {
 
 		getBody().setAttribute("style",
 		        "font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
-		
+
 		getBody().setAttribute("spellcheck", "false");
 		getBody().setAttribute("oncontextmenu", "return false");
 		getBody().setAttribute("word-wrap", "normal");
@@ -155,6 +148,9 @@ public class GeoTextEditor extends RichTextArea {
 	}
 
 	private Document getDocument() {
+		if (!initialized) {
+			return null;
+		}
 		return IFrameElement.as(getElement()).getContentDocument();
 	}
 
@@ -173,6 +169,9 @@ public class GeoTextEditor extends RichTextArea {
 	}
 
 	protected BodyElement getBody() {
+		if (getDocument() == null) {
+			return null;
+		}
 		return getDocument().getBody();
 	}
 
@@ -278,8 +277,8 @@ public class GeoTextEditor extends RichTextArea {
 		elem.setPropertyString("type", "button");
 		elem.setPropertyString("value", value);
 
-		// set style 
-		// TODO: get this to work from the css file 
+		// set style
+		// TODO: get this to work from the css file
 		elem.getStyle().clearBackgroundImage();
 		elem.getStyle().clearBackgroundColor();
 		elem.getStyle().clearTextDecoration();
@@ -340,13 +339,14 @@ public class GeoTextEditor extends RichTextArea {
 			}
 		}
 	}
+
 	public void setText(ArrayList<DynamicTextElement> list) {
 		dynamicList = list;
-		
+
 		if (initialized) {
 			setDynamicText();
 		}
-		
+
 	}
 
 	/**
@@ -370,6 +370,10 @@ public class GeoTextEditor extends RichTextArea {
 	 */
 	public ArrayList<DynamicTextElement> getDynamicTextListRecursive(
 	        ArrayList<DynamicTextElement> list, Node node) {
+
+		if (node == null) {
+			return list;
+		}
 
 		for (int i = 0; i < node.getChildCount(); i++) {
 			Node child = node.getChild(i);

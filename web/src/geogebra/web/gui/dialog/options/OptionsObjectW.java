@@ -2178,11 +2178,11 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 		public void updatePreviewPanel() {
-//			if (previewer == null) {
-//				return;
-//			}
-//			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-//			        editor.getDynamicTextList(), isLatex()), isLatex());
+			if (previewer == null) {
+				return;
+			}
+			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
+			        editor.getDynamicTextList(), isLatex()), isLatex());
 		}
 
 
@@ -3113,5 +3113,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		App.debug(fileName);
 	
 	}
+
+	public void updateIfInSelection(GeoElement geo) {
+
+		if (selection != null && selection.size() == 1
+		        && selection.contains(geo)) {
+			updateGUI();
+		}
+	}
+
 
 }

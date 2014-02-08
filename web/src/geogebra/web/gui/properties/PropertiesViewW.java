@@ -187,7 +187,7 @@ public class PropertiesViewW extends
 
 	public void update(GeoElement geo) {
 		// TODO Auto-generated method stub
-		getObjectPanel().updateGUI();
+		getObjectPanel().updateIfInSelection(geo);	
 		App.debug("update(geo)");
 	}
 

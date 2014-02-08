@@ -216,6 +216,10 @@ public class DynamicTextProcessor {
 	public String buildGeoGebraString(ArrayList<DynamicTextElement> list,
 			boolean latex) {
 
+		if (list == null || list.size() == 0) {
+			return "";
+		}
+
 		currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
 
 		StringBuilder sb = new StringBuilder();
