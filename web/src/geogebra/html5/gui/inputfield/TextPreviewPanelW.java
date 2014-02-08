@@ -33,7 +33,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 	private AppW app;
 	private EuclidianViewW ev;
-	private MyEuclidianViewPanel evPanel;
+	private MyEuclidianViewPanelForTextPreviewPanelW evPanel;
 
 	/**
 	 * @param kernel
@@ -118,9 +118,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 		return ev;
 	}
 
-	private MyEuclidianViewPanel getEVPanel() {
+	private MyEuclidianViewPanelForTextPreviewPanelW getEVPanel() {
 		if (evPanel == null) {
-			evPanel = new MyEuclidianViewPanel();
+			evPanel = new MyEuclidianViewPanelForTextPreviewPanelW();
 		}
 		return evPanel;
 	}
@@ -135,7 +135,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 */
 	private class MyEuclidianView extends EuclidianViewW {
 
-		public MyEuclidianView(MyEuclidianViewPanel panel,
+		public MyEuclidianView(MyEuclidianViewPanelForTextPreviewPanelW panel,
 		        EuclidianController ec, boolean[] showAxes, boolean showGrid,
 		        int evno, EuclidianSettings settings) {
 			super(panel, ec, showAxes, showGrid, evno, settings);
@@ -168,12 +168,12 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Panel for EuclidianView
 	 * 
 	 */
-	private class MyEuclidianViewPanel extends AbsolutePanel implements
+	private class MyEuclidianViewPanelForTextPreviewPanelW extends AbsolutePanel implements
 	        EuclidianPanelWAbstract {
 
 		private Canvas canvas;
 
-		public MyEuclidianViewPanel() {
+		public MyEuclidianViewPanelForTextPreviewPanelW() {
 			super();
 			canvas = Canvas.createIfSupported();
 			canvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);

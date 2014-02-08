@@ -101,11 +101,18 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	public EuclidianViewW(EuclidianController euclidiancontroller, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
 		
-		EVPanel = new MyEuclidianViewPanel(this);
+		EVPanel = newMyEuclidianViewPanel();
 		
 		initBaseComponents(EVPanel, euclidiancontroller, -1);
 		
 		
+	}
+	
+	/**
+	 * @return new panel
+	 */
+	protected MyEuclidianViewPanel newMyEuclidianViewPanel(){
+		return new MyEuclidianViewPanel(this);
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
@@ -508,21 +515,28 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	    }
     }
 	
-	private class MyEuclidianViewPanel extends AbsolutePanel implements
+	protected class MyEuclidianViewPanel extends AbsolutePanel implements
 			EuclidianPanelWAbstract {
 
-			private Canvas canvas;
+			protected Canvas canvas;
 			private EuclidianView ev;
 
 			public MyEuclidianViewPanel(EuclidianView ev) {
 				super();
 				this.ev = ev;
-				canvas = Canvas.createIfSupported();
+				createCanvas();
 				canvas.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 				canvas.getElement().getStyle().setZIndex(0);
 				add(canvas);
 
-}
+			}
+			
+			/**
+			 * create the canvas
+			 */
+			protected void createCanvas(){
+				canvas = Canvas.createIfSupported();
+			}
 
 			public AbsolutePanel getAbsolutePanel() {
 				return this;
