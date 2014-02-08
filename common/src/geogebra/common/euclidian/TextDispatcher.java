@@ -88,7 +88,10 @@ public class TextDispatcher {
 			} else {
 				return l10n.getPlain(type, "\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 			}
+		}else{
+			return l10n.getPlain(type, "\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 		}
+		
 		return l10n.getPlain(type,  descText.toString() );
 	}
 	
