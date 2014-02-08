@@ -299,6 +299,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		// }
 
 		updateFontSizeStyleElement();
+		
+		if(hasPropertiesView()){
+			((PropertiesViewW)getPropertiesView()).updateFonts();
+		}
 			
 	}
 	
@@ -884,8 +888,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	}
 
 	public boolean hasPropertiesView() {
-		App.debug("unimplemented");
-		return false;
+		return propertiesView != null;
 	}
 
 	public void attachPropertiesView() {

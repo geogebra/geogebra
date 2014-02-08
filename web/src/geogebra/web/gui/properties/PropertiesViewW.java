@@ -298,4 +298,8 @@ public class PropertiesViewW extends
 	public Widget getWrappedPanel() {
 	    return wrappedPanel;
     }
+	
+	public void updateFonts(){
+		getObjectPanel().updateGUI();
+	}
 }

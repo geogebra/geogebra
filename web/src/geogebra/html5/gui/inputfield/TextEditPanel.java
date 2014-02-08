@@ -110,7 +110,8 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 			app.setSelectionListenerMode(null);
 			previewer.removePreviewGeoText();
 		} else {
-			// do nothing yet
+			editor.updateFonts();
+			previewer.updateFonts();
 		}
 	}
 
@@ -348,6 +349,10 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	 */
 	public void insertTextString(String text, boolean isLatex) {
 		editor.insertTextString(text, isLatex);
+	}
+	
+	public void updateFonts(){
+		editor.updateFonts();
 	}
 
 }

@@ -63,7 +63,6 @@ public class GeoTextEditor extends RichTextArea {
 	public GeoTextEditor(AppW app, ITextEditPanel editPanel) {
 
 		this.app = app;
-		this.font = (GFontW) app.getPlainFontCommon();
 		this.editPanel = editPanel;
 
 		formatter = getFormatter();
@@ -72,7 +71,13 @@ public class GeoTextEditor extends RichTextArea {
 		addInitializeHandler(new InitializeHandler() {
 			public void onInitialize(InitializeEvent event) {
 				initialized = true;
-				setStyle();
+				updateFonts();
+
+				// set style properties that cannot be done from stylesheet
+				getBody().setAttribute("spellcheck", "false");
+				getBody().setAttribute("oncontextmenu", "return false");
+				getBody().setAttribute("word-wrap", "normal");
+
 				addCutHandler(getBody());
 				addPasteHandler(getBody());
 				if (dynamicList != null) {
@@ -133,18 +138,20 @@ public class GeoTextEditor extends RichTextArea {
 
 	}
 
-	protected void setStyle() {
+	public void updateFonts() {
 
-		String fontSize = font.getFontSize();
+		if(!initialized){
+			return;
+		}
+		
+		font = (GFontW) app.getPlainFontCommon();
+		String fontSize = app.getFontSize() + "";
 		String fontFamily = font.getFontFamily();
 
+		// note: formatter cannot be used here because pixel font-size is not supported
+
 		getBody().setAttribute("style",
-		        "font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
-
-		getBody().setAttribute("spellcheck", "false");
-		getBody().setAttribute("oncontextmenu", "return false");
-		getBody().setAttribute("word-wrap", "normal");
-
+		        "font-family:" + fontFamily + "; font-size:" + fontSize + "px");
 	}
 
 	private Document getDocument() {

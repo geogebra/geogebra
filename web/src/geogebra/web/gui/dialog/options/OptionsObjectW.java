@@ -1967,6 +1967,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					} else {
 						model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
 					}
+					updatePreview();
 				}
 			});
 
@@ -1987,6 +1988,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				public void onClick(ClickEvent event) {
 					model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
+					updatePreview();
 				}};
 
 				btnBold.addClickHandler(styleClick);
@@ -2078,6 +2080,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			getModel().updateProperties();
 			setLabels();
 			updatePreview();
+			editor.updateFonts();
 
 			return true;
 
@@ -2181,6 +2184,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			if (previewer == null) {
 				return;
 			}
+			previewer.updateFonts();
 			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
 			        editor.getDynamicTextList(), isLatex()), isLatex());
 		}
@@ -3121,6 +3125,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			updateGUI();
 		}
 	}
+
 
 
 }
