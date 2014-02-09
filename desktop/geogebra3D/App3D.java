@@ -152,10 +152,10 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes,
-			boolean showGrid) {
-		return new EuclidianViewFor3D((EuclidianControllerD)euclidianController, showAxes, showGrid,
-				1,null);
+	protected EuclidianView newEuclidianView(boolean[] showAxes1,
+			boolean showGrid1) {
+		return new EuclidianViewFor3D((EuclidianControllerD)euclidianController, showAxes1, showGrid1,
+				1, getSettings().getEuclidian(1));
 	}
 
 	@Override

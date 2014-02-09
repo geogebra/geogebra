@@ -88,7 +88,7 @@ public class CmdZoomIn extends CmdScripting {
 			evs.setXmaxObject((GeoNumeric)arg[2],false);
 			evs.setYminObject((GeoNumeric)arg[1],false);
 			evs.setYmaxObject((GeoNumeric)arg[3],true);
-			
+			app.getActiveEuclidianView().repaintView();
 			return;
 						
 		default:
