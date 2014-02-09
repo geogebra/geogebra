@@ -170,6 +170,14 @@ $sqlMax="select max(id) from revisions left join tests
 //ini_set("display_errors",1);
 if(is_object($resultMax)){
    $ok = $resultMax->fetchColumn();
+$sqlMax="select min(id) from revisions where id>'$ok'";
+$resultMax=$db->query($sqlMax); 
+//error_reporting(E_ALL);
+//ini_set("display_errors",1);
+if(is_object($resultMax)){
+   $ok = $resultMax->fetchColumn();
+
+}
 }
     // Changing " to '' in the message (no better idea)
     $message=str_replace('"',"''",$message);
