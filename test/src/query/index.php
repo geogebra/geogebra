@@ -159,11 +159,22 @@ foreach ($db->query($sql) as $name) {
     $tl=strlen($type);
     if (substr($type,$tl-5,5)=="Error")
      $type=substr($type,0,$tl-5);
-     
+    
+
+$sqlMax="select max(id) from revisions left join tests 
+	on tests.revision=revisions.id and tests.name='$n' 
+	where ifnull(message,'ok')='ok'";
+
+   $resultMax=$db->query($sqlMax); 
+//error_reporting(E_ALL);
+//ini_set("display_errors",1);
+if(is_object($resultMax)){
+   $ok = $resultMax->fetchColumn();
+}
     // Changing " to '' in the message (no better idea)
     $message=str_replace('"',"''",$message);
     
-    $content.="<a href=\"#\" title=\"$message\">$cname<br><b>$type</b></a>";
+    $content.="<div title=\"$message\"><b>$type</b> since <a href=\"https://dev.geogebra.org/trac/changeset/$ok\">$ok</a></div>";
     }
    }
   $content.="</td>";
