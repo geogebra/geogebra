@@ -67,11 +67,25 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     	
     	double c = v1.dotproduct(v2)/(l1*l2); //cosinus of the angle
     	
-    	getAngle().setValue(Math.acos(c));
+    	if (Kernel.isEqual(c, 1)){ // case where c is a bit more than 1
+    		getAngle().setValue(0);
+    	}else if (Kernel.isEqual(c, -1)){  // case where c is a bit less than -1
+    		getAngle().setValue(Math.PI);
+    	}else{
+    		getAngle().setValue(Math.acos(c));
+    	}
     	
     	//normal vector
-    	vn = v1.crossProduct4(v2).normalized();
+    	vn = v1.crossProduct4(v2);
     	
+    	if (vn.isZero()){ // v1 and v2 are dependent
+    		vn = v1.crossProduct4(Coords.VX);
+    		if (vn.isZero()){
+    			vn = v1.crossProduct4(Coords.VY);
+    		}
+    	}
+    	
+    	vn.normalize();
 
     }
 	
