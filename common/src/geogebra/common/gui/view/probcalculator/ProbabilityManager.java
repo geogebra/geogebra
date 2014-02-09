@@ -575,24 +575,59 @@ public class ProbabilityManager {
 			yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(mean);
 			break;
 
-		case PASCAL:
 		case POISSON:
+			// mode = mean = parms[0];
+			mode = parms[0]; 
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 * getDiscreteYMax(selectedDist, parms, (int) xMin,
-					(int) xMax);
+			yMax = 1.2 * probability(mode, parms, DIST.POISSON, false);
+			xMin -= 1;
+
+			break;
+			
+		case PASCAL:
+			// r = parms[0]
+			// p = parms[1]
+			// if r <= 1, mode = 0, else mode = floor(p(r-1)/(1-p)
+			mode = 0;
+			if (parms[0] > 1) {
+				mode = Math.floor(parms[1] * (parms[0] - 1) / (1 - parms[1]));
+			}
+			
+			xMin = probCalc.getDiscreteXMin();
+			xMax = probCalc.getDiscreteXMax();
+			yMin = 0;
+			yMax = 1.2 *probability(mode, parms, DIST.PASCAL, false);			
 			xMin -= 1;
 
 			break;
 
-		case BINOMIAL:
-		case HYPERGEOMETRIC:
+		case BINOMIAL:			
+			// n = parms[0]
+			// p = parms[1]
+			// mode = np
+			mode = parms[0] * parms[1];
+			
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 * getDiscreteYMax(selectedDist, parms, (int) xMin,
-					(int) xMax);
+			yMax = 1.2 * probability(mode, parms, DIST.BINOMIAL, false);
+			xMin -= 1;
+			xMax += 1;
+			break;
+
+		case HYPERGEOMETRIC:
+			// N = parms[0];
+			// k = parms[1];
+			// n = parms[2];
+			// mode = floor(n+1)(k+1)/(N+2);
+			mode = Math.floor((parms[1]+1)*(parms[2]+1)/(parms[0]+2));
+			
+			xMin = probCalc.getDiscreteXMin();
+			xMax = probCalc.getDiscreteXMax();
+			yMin = 0;
+			yMax = 1.2 * probability(mode, parms, DIST.HYPERGEOMETRIC, false);
 			xMin -= 1;
 			xMax += 1;
 			break;
@@ -791,6 +826,7 @@ public class ProbabilityManager {
 			max = Math.max(max, probability(i, parms, distType, false));
 		}
 		return max;
+	
 	}
 
 	/**
