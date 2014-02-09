@@ -1234,22 +1234,30 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean drawBefore(GeoElement other) {
 
-		if(this.typePriority() < other.typePriority()){
+		if (this.getLayer() < other.getLayer()){
 			return true;
 		}
 		
-		if(this.typePriority() > other.typePriority()){
+		if (this.getLayer() > other.getLayer()){
 			return false;
 		}
 		
-		if(this.getConstructionIndex() < other.getConstructionIndex()){
+		if (this.typePriority() < other.typePriority()){
 			return true;
 		}
 		
-		if(this.getConstructionIndex() > other.getConstructionIndex()){
+		if (this.typePriority() > other.typePriority()){
 			return false;
 		}
-		if(this.getParentAlgorithm() instanceof AlgoMacroInterface){
+		
+		if (this.getConstructionIndex() < other.getConstructionIndex()){
+			return true;
+		}
+		
+		if (this.getConstructionIndex() > other.getConstructionIndex()){
+			return false;
+		}
+		if (this.getParentAlgorithm() instanceof AlgoMacroInterface){
 			return ((AlgoMacroInterface)this.getParentAlgorithm()).drawBefore(this, other);
 		}
 		//Log.warn("Objects "+this+" and "+other+" have the same drawing priority.");
