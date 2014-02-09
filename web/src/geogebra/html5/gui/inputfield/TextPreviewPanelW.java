@@ -66,7 +66,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 */
 	@Override
 	protected void updateViewportSize(GeoText previewGeo) {
-	
+		
+		int padding = 5; // account for inset
+		
 		boolean isLatex = previewGeo.isLaTeX();
 		boolean serif = previewGeo.isSerifFont();
 		
@@ -92,8 +94,8 @@ public class TextPreviewPanelW extends TextPreviewer {
 		//App.debug("text rect: " + rect.getWidth() + " x " +
 	//	rect.getHeight());
 
-		int w = (int) rect.getWidth();
-		int h = (int) rect.getHeight();
+		int w = (int) rect.getWidth() + padding;
+		int h = (int) rect.getHeight() + padding;
 		ev.setPreferredSize(w, h);
 		evPanel.setSize(w + "px", h + "px");
 
