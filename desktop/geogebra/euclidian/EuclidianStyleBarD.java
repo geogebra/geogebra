@@ -1563,7 +1563,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
-		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.StandardView"));
+		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
 		btnPointCapture.setToolTipText(loc.getPlainTooltip("stylebar.Capture"));
 
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));

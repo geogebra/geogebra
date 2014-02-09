@@ -308,7 +308,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
-		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.StandardView"));
+		btnStandardView.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
 		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
 		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
