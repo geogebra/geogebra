@@ -251,12 +251,12 @@ public abstract class AppW extends AppWeb {
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();
-		setFontSize(12);
+		setFontSize(16);
 		initEuclidianViews();
 
 		initImageManager();
 
-		setFontSize(12);
+		setFontSize(16);
 		// setLabelDragsEnabled(false);
 
 		// make sure undo allowed
@@ -269,7 +269,7 @@ public abstract class AppW extends AppWeb {
 		setUndoActive(undoActive);
 		registerFileDropHandlers(getFrameElement());
 		afterCoreObjectsInited();
-
+		resetFonts();
 	}
 
 	
