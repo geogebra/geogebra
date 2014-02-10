@@ -33,6 +33,7 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
+import geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import geogebra.common.gui.dialog.options.model.FillingModel;
 import geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -4829,19 +4830,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	private class DecoAnglePanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
-		private Object[] geos;
+		private DecoAngleModel model;
 
 		DecoAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
+			model = new DecoAngleModel(this);
 			// deco combobox
 			DecorationAngleListRenderer renderer = new DecorationAngleListRenderer();
 			renderer.setPreferredSize(new Dimension(80, 30));
 			decoCombo = new JComboBox(GeoAngle.getDecoTypes());
 			decoCombo.setRenderer(renderer);
 			decoCombo.addActionListener(this);
+
 			decoLabel = new JLabel();
 			add(decoLabel);
 			add(decoCombo);
@@ -4853,27 +4856,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JPanel update(Object[] geos) {
 			// check geos
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos())
 				return null;
-			this.geos = geos;
+
 			decoCombo.removeActionListener(this);
 
-			// set slider value to first geo's decoration
-			AngleProperties geo0 = (AngleProperties) geos[0];
-			decoCombo.setSelectedIndex(geo0.getDecorationType());
+			model.updateProperties();
 			decoCombo.addActionListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof AngleProperties)) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -4881,20 +4872,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (source == decoCombo) {
 				AngleProperties geo;
 				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (AngleProperties) geos[i];
-					geo.setDecorationType(type);
-					// addded by Loic BEGIN
-					// check if decoration could be drawn
-					if (geo.getArcSize() < 20
-							&& (geo.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || geo
-									.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
-						geo.setArcSize(20);
-						setSliderMinValue();
-					}
-					// END
-					geo.updateRepaint();
-				}
+				model.applyChanges(type);
 			}
 		}
 
@@ -4905,6 +4883,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void setSelectedIndex(int index) {
+			decoCombo.setSelectedIndex(index);
+
+		}
+
+		public void addItem(String item) {
+		}
+
+		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
 
 		}
