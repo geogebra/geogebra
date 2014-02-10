@@ -4837,7 +4837,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		DecoAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new DecoAngleModel(this);
+			//model = new DecoAngleModel(this);
 			// deco combobox
 			DecorationAngleListRenderer renderer = new DecorationAngleListRenderer();
 			renderer.setPreferredSize(new Dimension(80, 30));
