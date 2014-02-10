@@ -397,9 +397,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		
 		boolean euclidianVisible;
 		
-		// check array and euclidian visibility
+		// check array zand euclidian visibility
 		if (segmentsArray == null){
 			segmentsArray = new ArrayList<GeoSegmentND>();
+		}
+		if(segmentsArray.size()<1){
 			euclidianVisible = isEuclidianVisible();
 		}else{
 			euclidianVisible = segmentsArray.get(0).isEuclidianVisible();
