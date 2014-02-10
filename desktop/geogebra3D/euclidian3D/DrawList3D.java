@@ -55,14 +55,25 @@ public class DrawList3D extends Drawable3DList {
     	}    
     	
     	// remove end of list
-    	for (int i=drawables.size()-1; i >= drawablePos; i--) {      		 
-    		//view3D.remove(drawables.get(i).getGeoElement());
-    		DrawableND d = drawables.remove(i);
-    		if (d.createdByDrawList()) //sets the drawable to not visible
+    	for (int i=drawables.size()-1; i >= drawablePos; i--) {     
+    		DrawableND d = drawables.get(i);
+    		if (d.createdByDrawList()) {//sets the drawable to not visible
     			d.setCreatedByDrawListVisible(false);
+    		}
+    		
     	}
     	
     	return true;
 	}
 
+
+	@Override
+	public void setCreatedByDrawListVisible(boolean flag) {
+		for (DrawableND d : drawables){
+			d.setCreatedByDrawListVisible(flag);
+		}
+
+		super.setCreatedByDrawListVisible(flag);
+		
+	}
 }
