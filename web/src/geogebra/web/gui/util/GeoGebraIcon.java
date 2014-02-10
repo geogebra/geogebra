@@ -4,10 +4,14 @@ package geogebra.web.gui.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.html5.awt.GArc2DW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
+import geogebra.html5.awt.GLine2DW;
+import geogebra.html5.awt.GeneralPath;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.openjdk.awt.geom.Polygon;
 
@@ -294,4 +298,81 @@ public class GeoGebraIcon extends BasicIcons{
 	    return createFileImageIcon(app, res.getSafeUri().asString(), alpha, dim);
     }
 
+	private static void drawTick(GLine2DW tick, double angle){
+		tick.setLine(13+37*Math.cos(angle),
+				27-37*Math.sin(angle),
+				13+43*Math.cos(angle),
+				27-43*Math.sin(angle));
+	}
+
+	public static ImageData createDecorAngleIcon(int id, GDimensionW iconSize){
+		int w = iconSize.getWidth();
+		int h = iconSize.getHeight();
+		GLine2DW tick =new GLine2DW();
+		GArc2DW arc =new GArc2DW();
+	    GeneralPath polygon = new GeneralPath(); // Michael Borcherds 2007-10-28
+		
+		
+		Canvas c = getTmpCanvas(w, h);
+		GGraphics2DW g2 = new GGraphics2DW(c);
+	//	if (getBackground()==Color.LIGHT_GRAY) g2.setColor(Color.LIGHT_GRAY); else g2.setColor(Color.WHITE); 
+//		 Michael Borcherds 2007-10-13 END
+		g2.fillRect(0,0, w, h);
+		g2.setColor(GColor.BLACK);
+		g2.drawLine(13,27, 67, 27);
+		g2.drawLine(13,27,67,3);
+		arc.setArcByCenter(13,27,40,0,24,GArc2DW.OPEN);
+		g2.draw(arc);
+		switch(id){
+			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
+				arc.setArcByCenter(13,27,35,0,24,GArc2DW.OPEN);
+				g2.draw(arc);
+			break;
+			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
+				arc.setArcByCenter(13,27,35,0,24,GArc2DW.OPEN);
+				g2.draw(arc);
+				arc.setArcByCenter(13,27,45,0,24,GArc2DW.OPEN);
+				g2.draw(arc);
+			break;
+			case GeoElement.DECORATION_ANGLE_ONE_TICK:
+				drawTick(tick, Math.toRadians(12));
+				g2.draw(tick);
+			break;
+			case GeoElement.DECORATION_ANGLE_TWO_TICKS:
+				drawTick(tick, Math.toRadians(9.6));
+				g2.draw(tick);
+				drawTick(tick, Math.toRadians(14.4));
+				g2.draw(tick);
+			break;
+			case GeoElement.DECORATION_ANGLE_THREE_TICKS:
+				drawTick(tick, Math.toRadians(12));
+				g2.draw(tick);
+				drawTick(tick, Math.toRadians(7));
+				g2.draw(tick);
+				drawTick(tick, Math.toRadians(16));
+				g2.draw(tick);
+			break;			
+//			 Michael Borcherds 2007-11-19 BEGIN
+			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
+				polygon.reset();
+			    polygon.moveTo(56,15);
+			    polygon.lineTo(48,19);
+			    polygon.lineTo(50,10);
+			    polygon.lineTo(56,15);
+			    polygon.closePath();
+				g2.fill(polygon);
+			break;
+			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
+				polygon.reset();
+			    polygon.moveTo(54,27);
+			    polygon.lineTo(48,20);
+			    polygon.lineTo(56,18);
+			    polygon.lineTo(54,27);
+			    polygon.closePath();
+				g2.fill(polygon);
+			break;
+//			 Michael Borcherds 2007-11-19 END
+		}
+		return g2.getImageData(0, 0, w, h);
+	}
 }

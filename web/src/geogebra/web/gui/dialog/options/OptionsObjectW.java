@@ -20,6 +20,8 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
+import geogebra.common.gui.dialog.options.model.DecoAngleModel;
+import geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import geogebra.common.gui.dialog.options.model.FillingModel;
 import geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -184,8 +186,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private CoordsPanel coordsPanel;
 	private LineEqnPanel lineEqnPanel;
 	private ConicEqnPanel conicEqnPanel;
+	private OptionPanel decoAnglePanel;
 
 	private List<OptionsTab> tabs;
+
 
 
 
@@ -2377,6 +2381,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	            }});
 			
 			cbFillInverse.addClickHandler(new ClickHandler(){
+				private DecoAnglePanel decoAnglePanel;
 
 				public void onClick(ClickEvent event) {
 	                model.applyFillingInverse(cbFillInverse.getValue());
@@ -2844,6 +2849,59 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
         }
 	}
 
+	private class DecoAnglePanel extends OptionPanel implements IDecoAngleListener {
+		private Label decoLabel;
+		private PopupMenuButton decoPopup;
+		private DecoAngleModel model;
+		public DecoAnglePanel() {
+			model = new DecoAngleModel(this);
+			setModel(model);
+			FlowPanel mainWidget = new FlowPanel();
+			decoLabel = new Label();
+			mainWidget.add(decoLabel);
+			final ImageData[] iconArray = new ImageData[DecoAngleModel.getDecoTypeLength()];
+			GDimensionW iconSize = new GDimensionW(80, 30);
+			for (int i = 1; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i, iconSize);
+			}
+			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1, iconSize,
+					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+				@Override
+				public void handlePopupActionEvent(){
+					super.handlePopupActionEvent();
+					int idx = getSelectedIndex();
+					model.applyChanges(idx);
+				}
+			};
+			mainWidget.add(decoPopup);
+			setWidget(mainWidget);
+			
+		}
+		public void setSelectedIndex(int index) {
+			decoPopup.setSelectedIndex(index);
+        }
+
+		public void addItem(String item) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void setSelectedItem(String item) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		@Override
+        public void setLabels() {
+			decoLabel.setText(app.getPlain("Decoration") + ":");
+			
+        }
+		public void setArcSizeMinValue() {
+	        // TODO Auto-generated method stub
+	        
+        }
+		
+	}
 	
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -2881,6 +2939,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				addSliderTab(),
 				addColorTab(),
 				addStyleTab(),
+				addDecorationTab(),
 				addPositionTab(),
 				addAdvancedTab(),
 				addAlgebraTab());
@@ -3028,6 +3087,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		return tab;
 	}
 
+	private OptionsTab addDecorationTab() {
+		OptionsTab tab = new OptionsTab("Decoraton");
+		decoAnglePanel = new DecoAnglePanel();
+		tab.addPanelList(Arrays.asList(decoAnglePanel,
+				decoAnglePanel));
+		return tab;
+	}
+	
 	private OptionsTab addAdvancedTab() {
 		OptionsTab tab = new OptionsTab("Advanced"); 
 		showConditionPanel = new ShowConditionPanel();
