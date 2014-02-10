@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Runs all test in the $REVDIR/$REVISION/war/test or in
+# the specified directory (-d ...). It can use a
+# different template than the default webtest-template.js
+# (use -t ...) and can skip analying (-a no-analyze).
+
 test -r autotest.conf && . ./autotest.conf
 
 TESTPARAMS="m=test&c=&s=0&h=0&v=1&t=1"
@@ -83,9 +89,30 @@ if [ "$SYNTAXERROR" != "" ]; then
 }
 
 MYDIR=`pwd`
-TESTFILES=`cd $REVDIR/$REVISION/war/test; ls -1 *.ggb | grep -v ^_`
+TESTDIR=$REVDIR/$REVISION/war/test
+
+while getopts ":d:a:t:" o; do
+ case "${o}" in
+  d)
+   TESTDIR=${OPTARG}
+   ;;
+  t)
+   TEMPLATE=${OPTARG}
+   ;;
+  a)
+   ACTION=${OPTARG}
+   ;;
+  esac
+ done
+shift $((OPTIND-1))
+ 
+
+TESTFILES=`cd $TESTDIR; ls -1 *.ggb | grep -v ^_`
 for i in $TESTFILES; do
  run $i
+ if [ "$ACTION" = "no-analyze" ]; then
+  continue;
+  fi
  ansi_analyze $i ggbOnInit
  RETVAL=$?
  if [ $RETVAL = 21 -o $RETVAL = 22 ]; then
