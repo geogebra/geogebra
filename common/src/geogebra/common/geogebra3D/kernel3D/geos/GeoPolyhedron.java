@@ -931,6 +931,34 @@ HasHeight, Path
 		}
 
 	}
+	
+	@Override
+	public void setLayer(int layer2) {
+		super.setLayer(layer2);
+
+		if (polygons == null || cons.isFileLoading())
+			return;
+
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setLayer(layer2);
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.setLayer(layer2);
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.setLayer(layer2);
+			segment.updateVisualStyle();
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((GeoElement) segment).setLayer(layer2);
+			segment.updateVisualStyle();
+		}
+	}
 
 	@Override
 	public void setLineTypeHidden(int type) {
