@@ -126,7 +126,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				
 				<xs:element name="font" minOccurs="0" type="fontProperties"/>
 					
-				
+				<xs:element name="angleStyle" type="intVal" minOccurs="0"/>	
 				
 				<xs:element name="forceReflexAngle" type="boolVal" minOccurs="0"/>
 				
@@ -179,7 +179,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				<xs:element name="outlyingIntersections" type="boolVal" minOccurs="0"/>
 				
 				<xs:element name="pointSize" type="doubleVal" minOccurs="0"/>
-				
+
 				<xs:element name="pointStyle" minOccurs="0">
 					<xs:complexType>
 						<xs:attribute name="val" type="pointStyles"/>
@@ -306,6 +306,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	<xs:complexType name="intVal">
 		<xs:attribute name="val" type="xs:int" use="required"/>
 	</xs:complexType>
+
+	<xs:simpleType name="specialDouble">
+                <xs:restriction base="xs:string">
+                        <xs:pattern value="Infinity|-Infinity"/>
+                </xs:restriction>
+        </xs:simpleType>
 	
 	<xs:complexType name="doubleVal">
 		<xs:attribute name="val" type="xs:double" use="required"/>
@@ -313,7 +319,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	
 	
 	<xs:simpleType name="doubleOrBool">
-		<xs:union memberTypes="xs:double xs:boolean"/>
+		<xs:union memberTypes="xs:double xs:boolean specialDouble"/>
 	</xs:simpleType>
 	<xs:complexType name="boolVal">
 		<xs:attribute name="val" type="xs:boolean" use="required"/>
