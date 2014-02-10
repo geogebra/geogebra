@@ -5,9 +5,14 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 
 public class DecoAngleModel extends NumberOptionsModel {
-	private IComboListener listener;
+	public interface IDecoAngleListener extends IComboListener {
+
+		void setArcSizeMinValue();
+		
+	}
+	private IDecoAngleListener listener;
 	
-	public DecoAngleModel(IComboListener listener) {
+	public DecoAngleModel(IDecoAngleListener listener) {
 		this.listener = listener;
 	}
 	
@@ -39,7 +44,7 @@ public class DecoAngleModel extends NumberOptionsModel {
 				&& (geo.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || geo
 						.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
 			geo.setArcSize(20);
-		//	setSliderMinValue();
+			listener.setArcSizeMinValue();
 		}
 		// END
 		geo.updateRepaint();
