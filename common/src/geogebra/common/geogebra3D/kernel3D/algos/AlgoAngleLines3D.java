@@ -81,7 +81,7 @@ public class AlgoAngleLines3D extends AlgoAngleLines{
     	
     	double c = v1.dotproduct(v2)/(l1*l2); //cosinus of the angle
     	
-    	getAngle().setValue(Math.acos(c));
+    	getAngle().setValue(AlgoAnglePoints3D.acos(c));
     	
 
     }

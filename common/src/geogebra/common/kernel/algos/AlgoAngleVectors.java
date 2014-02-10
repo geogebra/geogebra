@@ -22,26 +22,28 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoAngleVectors extends AlgoAngle {
 
-	private GeoVector v, w; // input
+	private GeoVectorND v, w; // input
     private GeoAngle angle; // output           
 
     public AlgoAngleVectors(
         Construction cons,
         String label,
-        GeoVector v,
-        GeoVector w) {
+        GeoVectorND v,
+        GeoVectorND w) {
         super(cons);
         this.v = v;
         this.w = w;
-        angle = GeoAngle.newAngleWithDefaultInterval(cons);
+        angle = newGeoAngle(cons);
         setInputOutput(); // for AlgoElement
 
         // compute angle
@@ -63,8 +65,8 @@ public class AlgoAngleVectors extends AlgoAngle {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = v;
-        input[1] = w;
+        input[0] = (GeoElement) v;
+        input[1] = (GeoElement) w;
 
         setOutputLength(1);
         setOutput(0,angle);
@@ -74,10 +76,10 @@ public class AlgoAngleVectors extends AlgoAngle {
     public GeoAngle getAngle() {
         return angle;
     }
-    public GeoVector getv() {
+    public GeoVectorND getv() {
         return v;
     }
-    public GeoVector getw() {
+    public GeoVectorND getw() {
         return w;
     }
 
@@ -85,13 +87,13 @@ public class AlgoAngleVectors extends AlgoAngle {
     // angle in range [0, 2pi) 
     // use normalvector to 
     @Override
-	public final void compute() {    	    	    	
+	public void compute() {    	    	    	
     	// |v| * |w| * sin(alpha) = det(v, w)
     	// cos(alpha) = v . w / (|v| * |w|)
     	// tan(alpha) = sin(alpha) / cos(alpha)
     	// => tan(alpha) = det(v, w) / v . w    	    	
-    	double det = v.x * w.y - v.y * w.x;
-    	double prod = v.x * w.x + v.y * w.y;    	    
+    	double det = ((GeoVector) v).x * ((GeoVector) w).y - ((GeoVector) v).y * ((GeoVector) w).x;
+    	double prod = ((GeoVector) v).x * ((GeoVector) w).x + ((GeoVector) v).y * ((GeoVector) w).y;    	    
     	double value = Math.atan2(det, prod);                  	    	
         angle.setValue(value);
     }
@@ -103,16 +105,62 @@ public class AlgoAngleVectors extends AlgoAngle {
         return loc.getPlain("AngleBetweenAB",v.getLabel(tpl),w.getLabel(tpl));
 
     }
+    
+    /**
+     * 
+     * @param vertex start point
+     * @return true if vertex is not correct center for drawing the angle
+     */
+    static final protected boolean centerIsNotDrawable(GeoPointND vertex){
+    	return vertex == null || !vertex.isDefined() || vertex.isInfinite();
+    }
+    
 
+	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		GeoPointND vertex = v.getStartPoint();
-		if (vertex != null)
-			vertex.getInhomCoords(m);
+		if (centerIsNotDrawable(vertex)){
+			return false;
+		}
+
+		
+		Coords origin = drawable.getCoordsInView(vertex);
+		if (!drawable.inView(origin)) {
+			return false;
+		}
+		
+		
+		Coords direction = drawable.getCoordsInView(v.getCoordsInD(3));
+		if (!drawable.inView(direction)) {
+			return false;
+		}
+
+		// origin
+		m[0] = origin.get()[0];
+		m[1] = origin.get()[1];		
 
 		// first vec
-		v.getInhomCoords(firstVec);
-		return vertex!=null && vertex.isDefined() && !vertex.isInfinite();
+		firstVec[0] = direction.getX();
+		firstVec[1] = direction.getY();
+		
+		return true;
+
 	}
 
+	
+	@Override
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		GeoPointND vertex = v.getStartPoint();
+		if (centerIsNotDrawable(vertex)){
+			return false;
+		}			
+			
+		drawCoords[0] = vertex.getInhomCoordsInD(3);
+		drawCoords[1] = v.getCoordsInD(3);
+		drawCoords[2] = w.getCoordsInD(3);
+		
+		return true;
+	}
+	
 	// TODO Consider locusequability
 }

@@ -5,6 +5,7 @@ import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class CmdAngle3D extends CmdAngle {
 	
@@ -38,5 +39,18 @@ public class CmdAngle3D extends CmdAngle {
 		}
 
 		return super.angle(label, g, h);
+	}
+	
+	
+	@Override
+	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w){
+		
+		if (v.isGeoElement3D() || w.isGeoElement3D()){
+			GeoElement[] ret = { kernelA.getManager3D().Angle3D(label, v, w) };
+			return ret;
+		}
+		
+		return super.angle(label, v, w);
+		
 	}
 }

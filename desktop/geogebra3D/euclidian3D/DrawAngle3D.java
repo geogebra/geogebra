@@ -79,6 +79,14 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 		
 	}
+	
+	
+	private boolean angleVisible;
+	
+    @Override
+	protected boolean isLabelVisible(){
+    	return angleVisible && super.isLabelVisible();
+    }
 
 
 	
@@ -98,6 +106,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 		double size = angle.getArcSize() / getView3D().getScale();
 		double labelRadius = 1;
 		
+		angleVisible = true;
+		
 		AlgoElement algo = angle.getDrawAlgorithm();
 		
 		if (algo instanceof AlgoAngle) {
@@ -105,6 +115,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			if( !((AlgoAngle) algo).getCoordsInD3(drawCoords)){
 				setGeometryIndex(-1);
 				setSurfaceIndex(-1);
+				angleVisible = false;
 				return true;
 			}
 			

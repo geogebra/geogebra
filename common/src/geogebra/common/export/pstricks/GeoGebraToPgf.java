@@ -47,6 +47,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
@@ -583,7 +584,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		int arcSize = geo.getArcSize();
 		AlgoElement algo = geo.getParentAlgorithm();
 		GeoPointND vertex, point;
-		GeoVector v;
+		GeoVectorND v;
 		GeoLine line, line2;
 		GeoPoint tempPoint = new GeoPoint(construction);
 		tempPoint.setCoords(0.0, 0.0, 1.0);

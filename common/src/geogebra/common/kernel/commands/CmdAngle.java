@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 
@@ -120,9 +121,7 @@ public class CmdAngle extends CommandProcessor {
 			// angle between vectors
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoVector()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Angle(c.getLabel(),
-						(GeoVector) arg[0], (GeoVector) arg[1]) };
-				return ret;
+				return angle(c.getLabel(), (GeoVectorND) arg[0], (GeoVectorND) arg[1]);
 			}
 			// angle between lines
 			else if ((ok[0] = (arg[0].isGeoLine()))
@@ -186,6 +185,18 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h){
 		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoLine) g, (GeoLine) h) };
+		return ret;
+	}
+	
+	
+	/**
+	 * @param label label
+	 * @param v first vector
+	 * @param w second vector
+	 * @return angle between vectors
+	 */
+	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w){
+		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoVector) v, (GeoVector) w) };
 		return ret;
 	}
 	

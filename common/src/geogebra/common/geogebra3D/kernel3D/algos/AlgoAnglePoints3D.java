@@ -67,25 +67,10 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     	
     	double c = v1.dotproduct(v2)/(l1*l2); //cosinus of the angle
     	
-    	if (Kernel.isEqual(c, 1)){ // case where c is a bit more than 1
-    		getAngle().setValue(0);
-    	}else if (Kernel.isEqual(c, -1)){  // case where c is a bit less than -1
-    		getAngle().setValue(Math.PI);
-    	}else{
-    		getAngle().setValue(Math.acos(c));
-    	}
+    	getAngle().setValue(acos(c));
     	
     	//normal vector
-    	vn = v1.crossProduct4(v2);
-    	
-    	if (vn.isZero()){ // v1 and v2 are dependent
-    		vn = v1.crossProduct4(Coords.VX);
-    		if (vn.isZero()){
-    			vn = v1.crossProduct4(Coords.VY);
-    		}
-    	}
-    	
-    	vn.normalize();
+    	vn = forceNormalVector(v1, v2);
 
     }
 	
@@ -102,6 +87,46 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 		drawCoords[2] = v2;
 		
 		return true;
+	}
+	
+	
+	/**
+	 * acos, values can be a bit greater than 1 (or lower than 0)
+	 * @param c cosinus of an angle
+	 * @return angle between 0 and PI
+	 */
+	protected static final double acos(double c){
+		if (Kernel.isEqual(c, 1)){ // case where c is a bit more than 1
+    		return 0;
+    	}
+
+		if (Kernel.isEqual(c, -1)){  // case where c is a bit less than -1
+    		return Math.PI;
+    	}
+    	
+		return Math.acos(c);
+    	
+	}
+
+	/**
+	 * @param v1 first vector
+	 * @param v2 second vector
+	 * @return vector normal to v1, v2
+	 */
+	protected static final Coords forceNormalVector(Coords v1, Coords v2){
+		Coords vn = v1.crossProduct4(v2);
+
+		if (vn.isZero()){ // v1 and v2 are dependent
+			vn = v1.crossProduct4(Coords.VX);
+			if (vn.isZero()){
+				vn = v1.crossProduct4(Coords.VY);
+			}
+		}
+
+		vn.normalize();
+
+		return vn;
+
 	}
     
 	
