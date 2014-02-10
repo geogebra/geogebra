@@ -127,11 +127,11 @@ public class AlgoEnvelope extends AlgoElement {
 	@Override
 	public void compute() {
 		
-		String result;
+		String result = null;
 		try {
 			result = getImplicitPoly();
 		} catch (Throwable ex) {
-			throw new CASException("Error computing implicit curve");
+			Log.warn("Error computing implicit curve");
 		}
 
 		if (result != null) {

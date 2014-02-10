@@ -183,6 +183,16 @@ public class NoExceptions3DTest {
 	@Test
 	public void cmdSetViewDirection(){
 		// TODO write test
+	}
+	
+	@Test
+	public void cmdNet(){
+		// TODO write test
+	}	
+	
+	@Test
+	public void cmdCornerThreeD(){
+		// TODO write test
 	}	
 
 }

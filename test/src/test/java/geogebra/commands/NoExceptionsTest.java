@@ -101,7 +101,7 @@ public class NoExceptionsTest {
 		t("listSpline={(2,3),(1,4),(2,5),(3,1)}");
 		t("degree=4");
 		t("P=(2,3)");
-		t("c:circle[P,2]");
+		t("c3:circle[P,2]");
 	}
 	public static int syntaxes;
 	@Before
@@ -152,7 +152,8 @@ public class NoExceptionsTest {
 		StringBuilder missing = new StringBuilder();
 		for (Commands a : Commands.values()) {
 			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name()) 
-					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_ENGLISH) {
+					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_ENGLISH
+					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_CAS) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}
@@ -477,7 +478,7 @@ public class NoExceptionsTest {
 	public void cmdCurvature() {
 		t("Curvature[ Pt1, curve1 ]");
 		t("Curvature[ Pt1, f1 ]");
-		t("Curvature[ Pt1, c ]");
+		t("Curvature[ Pt1, c3 ]");
 	}
 
 	@Test
@@ -911,6 +912,11 @@ public class NoExceptionsTest {
 	public void cmdIf() {
 		t("If[ b1, Pt1, Pt2 ]");
 		t("If[ b1,Pt3 ]");
+	}
+
+	@Test
+	public void cmdIFactor() {
+		t("IFactor[ x^4-2 ]");
 	}
 
 	@Test
@@ -1487,6 +1493,7 @@ public class NoExceptionsTest {
 	public void cmdProduct() {
 		t("Product[ list1 ]");
 		t("Product[ list1,  n1 ]");
+		t("Product[ list1,  list2 ]");
 
 	}
 	
@@ -1550,11 +1557,10 @@ public class NoExceptionsTest {
 
 	}
 
-	
-
 	@Test
 	public void cmdRandomUniform() {
 		t("RandomUniform[ n1, n4 ]");
+		t("RandomUniform[ n1, n4, n1 ]");
 	}
 
 	@Test
