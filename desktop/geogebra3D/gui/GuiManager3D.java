@@ -1,6 +1,7 @@
 package geogebra3D.gui;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
@@ -268,5 +269,20 @@ public class GuiManager3D extends GuiManagerD {
 		ViewCreator vc = (ViewCreator) geo;//getViewCreator(id);
 		vc.setEuclidianViewForPlane(((App3D)getApp()).createEuclidianViewForPlane(vc,false));
 		return ((App3D)getApp()).getPanelForPlane();
+	}
+	
+	
+	
+	@Override
+	public void setLabels() {
+		
+		super.setLabels();
+		
+		EuclidianView3DInterface view = app.getEuclidianView3D();
+		if (view != null
+				&& ((EuclidianViewND) view).hasStyleBar())
+			((EuclidianViewND) view).getStyleBar().setLabels();
+
+
 	}
 }
