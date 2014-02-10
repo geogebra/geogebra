@@ -31,11 +31,9 @@ import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.euclidian.EuclidianControllerW;
-import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
@@ -501,14 +499,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		
 		widthChanged = width - geogebraFrame.getOffsetWidth();
 		heightChanged = height - geogebraFrame.getOffsetHeight();		
-		geogebraFrame.getStyle().setWidth(fullWidth - GeoGebraFrame.BORDER_WIDTH, Unit.PX);
-		geogebraFrame.getStyle().setHeight(fullHeight - GeoGebraFrame.BORDER_HEIGHT, Unit.PX);
+//		geogebraFrame.getStyle().setWidth(fullWidth - GeoGebraFrame.BORDER_WIDTH, Unit.PX);
+//		geogebraFrame.getStyle().setHeight(fullHeight - GeoGebraFrame.BORDER_HEIGHT, Unit.PX);
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			Widget root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged, root.getOffsetHeight() + heightChanged);		
 		}
-		EuclidianPanelWAbstract epanel = ((AppW) app).getEuclidianViewpanel();
-		epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged, epanel.getOffsetHeight() + heightChanged );
+		//EuclidianPanelWAbstract epanel = ((AppW) app).getEuclidianViewpanel();
+		//epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged, epanel.getOffsetHeight() + heightChanged );
 
 		// maybe onResize is good here too, but call deferredOnResize for security
 		((AppW) app).getEuclidianViewpanel().deferredOnResize();

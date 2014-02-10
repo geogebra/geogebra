@@ -1605,9 +1605,10 @@ Paddings for menuitems.
 	background-color: #F8F8F8;
 	padding: 5px 0px;
 	border-top: 1px solid #EDEDED;
-	width: 100%;
 	display: table;
 	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
+	box-sizing: border-box;
+	width: 100%;
 }
 
 .AlgebraInput > * {
@@ -1621,7 +1622,6 @@ Paddings for menuitems.
 }
 
 .InputPanel {
-	width: 100%;
 	overflow: auto;
 }
 

@@ -3,7 +3,10 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:web="urn:import:geogebra.web.gui.toolbar">
 	<ui:style>
-		.toolbarpanel { width:100%;}
+		.toolbarpanel { 
+			width:100%;
+			box-sizing: border-box;
+		}
 	</ui:style>
 		<g:FlowPanel addStyleNames="{style.toolbarpanel}" ui:field="toolBarPanel"></g:FlowPanel>
 </ui:UiBinder> 
