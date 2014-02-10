@@ -751,12 +751,13 @@ public abstract class EuclidianController {
 				if (aFun.isPolynomialFunction(false)) {
 					point = getAlgoDispatcher().IntersectPolynomialLineSingle(null, aFun,
 							(GeoLine) b, xRW, yRW);
+				} else {
+					GeoPoint initPoint = new GeoPoint(
+							kernel.getConstruction());
+					initPoint.setCoords(xRW, yRW, 1.0);
+					point = getAlgoDispatcher().IntersectFunctionLine(null, aFun,
+							(GeoLine) b, initPoint);
 				}
-				GeoPoint initPoint = new GeoPoint(
-						kernel.getConstruction());
-				initPoint.setCoords(xRW, yRW, 1.0);
-				point = getAlgoDispatcher().IntersectFunctionLine(null, aFun,
-						(GeoLine) b, initPoint);
 			} else if (b.isGeoFunctionable()) {
 				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
 				if (aFun.isPolynomialFunction(false)
