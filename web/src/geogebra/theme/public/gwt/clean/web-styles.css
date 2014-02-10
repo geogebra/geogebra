@@ -1795,7 +1795,6 @@ body[dir=rtl] .undoPanel {
 	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
 	color: #333333;
 	padding: 10px;
-	height: 41px;
 	/*z-index: 50;*/
 }
 
