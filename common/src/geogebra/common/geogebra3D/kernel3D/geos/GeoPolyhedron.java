@@ -54,11 +54,15 @@ RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
 HasHeight, Path
 {
 
-	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
-	//public static final int TYPE_PSEUDO_PRISM = 2;
 	public static final int TYPE_PRISM = 3;
-
+	public static final int TYPE_TETRAHEDRON = 4;
+	public static final int TYPE_CUBE = 5;
+	public static final int TYPE_OCTAHEDRON = 6;
+	public static final int TYPE_DODECAHEDRON = 7;
+	public static final int TYPE_ICOSAHEDRON = 8;
+	
+	
 	int type;
 
 	/** vertices */
@@ -1057,6 +1061,18 @@ HasHeight, Path
 			return "Prism";
 		case TYPE_PYRAMID:
 			return "Pyramid";
+			
+		case TYPE_TETRAHEDRON:
+			return "Tetrahedron";
+		case TYPE_CUBE:
+			return "Cube";
+		case TYPE_OCTAHEDRON:
+			return "Octahedron";
+		case TYPE_DODECAHEDRON:
+			return "Dodecahedron";
+		case TYPE_ICOSAHEDRON:
+			return "Icosahedron";
+			
 		default:
 			return "Polyhedron";
 		}

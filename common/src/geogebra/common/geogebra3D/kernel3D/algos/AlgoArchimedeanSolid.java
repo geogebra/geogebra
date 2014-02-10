@@ -5,6 +5,7 @@ import geogebra.common.geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra.common.geogebra3D.archimedean.support.IFace;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -56,6 +57,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		this.name = name;
 		
+		
 		setVolumeAreaAndHeightFactors();
 
 
@@ -78,6 +80,25 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		// faces are oriented to the inside
 		polyhedron.setReverseNormals();
 		setOutput();
+		
+		// set polyhedron type
+		switch (name) {
+		case Tetrahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_TETRAHEDRON);
+			break;
+		case Cube:  
+			polyhedron.setType(GeoPolyhedron.TYPE_CUBE);
+			break;
+		case Octahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_OCTAHEDRON);
+			break;
+		case Dodecahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_DODECAHEDRON);
+			break;				
+		case Icosahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_ICOSAHEDRON);
+			break;
+		}
 		
 		
 		setLabels(labels);
