@@ -67,7 +67,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 	
 	private void drawPlate(Renderer renderer){
-		renderer.setLayer(getGeoElement().getLayer()-1f); //-1f for z-fighting with planes
+		renderer.setLayer(getLayer()-1f); //-1f for z-fighting with planes
 		renderer.getGeometryManager().draw(getSurfaceIndex());	
 		renderer.setLayer(0);
 	}

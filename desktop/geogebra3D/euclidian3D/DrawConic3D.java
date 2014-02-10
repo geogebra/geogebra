@@ -502,7 +502,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			//Application.debug(getGeoElement().getLayer());
-			renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
+			renderer.setLayer(getLayer()); //+0f to avoid z-fighting with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());
     		renderer.setLayer(0);
     		break;

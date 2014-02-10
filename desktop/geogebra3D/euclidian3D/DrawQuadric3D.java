@@ -34,7 +34,7 @@ implements Previewable {
 	
 	@Override
 	public void drawGeometry(Renderer renderer) {
-		renderer.setLayer(getGeoElement().getLayer());
+		renderer.setLayer(getLayer());
 		renderer.getGeometryManager().draw(getSurfaceIndex());
 		renderer.setLayer(0);
 	}

@@ -60,7 +60,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void drawGeometry(Renderer renderer) {
 
-		renderer.setLayer(getGeoElement().getLayer()); //+0f for z-fighting with planes
+		renderer.setLayer(getLayer()); //+0f for z-fighting with planes
 		renderer.getGeometryManager().draw(getGeometryIndex());	
 		renderer.setLayer(0);
 
@@ -109,7 +109,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer){
 
-		renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
+		renderer.setLayer(getLayer()); //+0f to avoid z-fighting with planes
 		renderer.getGeometryManager().draw(getSurfaceIndex());
 		renderer.setLayer(0);
 
