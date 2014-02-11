@@ -274,9 +274,10 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	 */
     public final void repaint() {
 
-    	// TODO: this is a temporary hack until the timer system can handle extended EVs
+    	// TODO: this is a temporary hack until the timer system can handle TextPreview view
+    	// (or ignore timer system because text preview only draws one geo)
     	if(getViewID() == App.VIEW_TEXT_PREVIEW){
-    		paint(g2p);
+    		doRepaint2();
     		return;
     	}
     	if (getEuclidianController().isCollectingRepaints()){

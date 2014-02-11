@@ -160,7 +160,8 @@ public class DrawElementManager {
 	 */
 	public void clearLaTeXes(GGraphics2DW g2) {
 
-		// App.debug("clearing latexs");
+		// App.debug("clearing latexs for " + viewIDString(g2);
+
 		HashMap<String, ElementRecord> elementMap = getElementMap(g2);
 
 		Iterator<String> it = elementMap.keySet().iterator();
@@ -170,7 +171,8 @@ public class DrawElementManager {
 			Element elem = elementMap.get(keyString).element;
 			int age = elementMap.get(keyString).age;
 
-			// App.debug("elem: " + elem.getInnerText() + "age: " + age);
+			// App.debug("   clearing this elem string: " + keyString +
+			// "  age: " + age);
 
 			// if old enough, remove element, otherwise increment age counter
 			// and hide the element
@@ -241,14 +243,28 @@ public class DrawElementManager {
 	// =================================================================
 	// Debug
 	// =================================================================
+
 	private void debugMapCollection() {
 
-		App.debug("element maps: ");
+		App.debug("----------------------------- ");
 		Iterator<GGraphics2DW> it = elementMapCollection.keySet().iterator();
 		while (it.hasNext()) {
 			GGraphics2DW g2 = it.next();
-			App.debug("map size: " + getElementMap(g2).size());
+			App.debug(viewIDString(g2));
+			Iterator<String> it2 = getElementMap(g2).keySet().iterator();
+			while (it2.hasNext()) {
+				String s = "   element string: " + it2.next();
+			}
 		}
+		App.debug("----------------------------- ");
+	}
+
+	private String viewIDString(GGraphics2DW g2) {
+		String s = "view ID == null";
+		if (g2.getView() != null) {
+			s = "view ID == " + g2.getView().getViewID() + "";
+		}
+		return s;
 	}
 
 }
