@@ -8,7 +8,6 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
@@ -96,7 +95,7 @@ public class LayoutD extends Layout implements SettingListener {
 	public void applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
 		if(!perspective.getId().equals("tmp")) {
-			EuclidianViewND ev = app.getActiveEuclidianView();
+			EuclidianView ev = app.getActiveEuclidianView();
 
 			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());

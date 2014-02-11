@@ -1,8 +1,8 @@
 package geogebra.gui.dialog.options;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.util.TableSymbols;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
@@ -52,7 +52,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 			private JLabel stickToEdge;
 
 			private AppD app;
-			protected EuclidianViewND view;
+			protected EuclidianView view;
 			
 			final static protected int AXIS_X = 0;
 			final static protected int AXIS_Y = 1;
@@ -62,7 +62,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 			 * @param view
 			 * @param axis
 			 */
-			public AxisPanel(AppD app, EuclidianViewND view, int axis) {
+			public AxisPanel(AppD app, EuclidianView view, int axis) {
 				
 				this.app = app;
 				this.axis = axis;			

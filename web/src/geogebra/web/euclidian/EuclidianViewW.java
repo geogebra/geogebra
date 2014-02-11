@@ -4,9 +4,9 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.javax.swing.GBox;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -336,12 +336,11 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		g2p.getCanvas().addStyleName("cursor_hit");
     }
 	
-	public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
-		if (styleBar == null) {
-			styleBar = new EuclidianStyleBarW(this);
-		}
 
-		return styleBar;
+	
+	@Override
+	protected EuclidianStyleBar newEuclidianStyleBar(){
+		return new EuclidianStyleBarW(this);
 	}
 	
 	@Override
@@ -501,13 +500,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	    App.debug("unimplemented");
     }
 
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		super.updateVisualStyle(geo);
-
-		if (styleBar!=null)
-			styleBar.updateVisualStyle(geo);
-	}
 
 	public void resetMsZoomer() {
 	    if(msZoomer!= null){

@@ -1,12 +1,13 @@
 package geogebra3D.gui;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.euclidianND.EuclidianViewND;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.ContextMenuChooseGeoD;
 import geogebra.gui.ContextMenuGeoElementD;
 import geogebra.gui.GuiManagerD;
@@ -172,7 +173,7 @@ public class GuiManager3D extends GuiManagerD {
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
 				getApp(), p.x, p.y);
-		popupMenu.getWrappedPopup().show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
+		popupMenu.getWrappedPopup().show(((EuclidianViewInterfaceDesktop) view).getJPanel(), p.x, p.y);
 	}
 	
 	
@@ -187,7 +188,7 @@ public class GuiManager3D extends GuiManagerD {
 	 */
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianViewND view,
+			ArrayList<GeoElement> geos, EuclidianView view,
 			geogebra.common.awt.GPoint p) {
 		
 		if (selectedGeos == null || selectedGeos.get(0) == null)
@@ -196,7 +197,7 @@ public class GuiManager3D extends GuiManagerD {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
 		
-		Component invoker = view.getJPanel();
+		Component invoker = ((EuclidianViewInterfaceDesktop) view).getJPanel();
 
 		Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
 				.getLocationOnScreen();
@@ -280,8 +281,8 @@ public class GuiManager3D extends GuiManagerD {
 		
 		EuclidianView3DInterface view = app.getEuclidianView3D();
 		if (view != null
-				&& ((EuclidianViewND) view).hasStyleBar())
-			((EuclidianViewND) view).getStyleBar().setLabels();
+				&& ((EuclidianView) view).hasStyleBar())
+			((EuclidianView) view).getStyleBar().setLabels();
 
 
 	}

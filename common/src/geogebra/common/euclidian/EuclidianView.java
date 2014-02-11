@@ -1776,7 +1776,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
-		update(geo);
+		update(geo);		
+		if (styleBar!=null)
+			styleBar.updateVisualStyle(geo);
 	}
 
 	final public DrawableND getDrawableFor(GeoElement geo) {
@@ -5288,5 +5290,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public int getAbsoluteLeft(){
 		return -1;
 	}
+	
+	
+	final public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
+		if (styleBar == null) {
+			styleBar = newEuclidianStyleBar();
+		}
+
+		return styleBar;
+	}
+	
+	/**
+	 * 
+	 * @return new euclidian style bar
+	 */
+	abstract protected EuclidianStyleBar newEuclidianStyleBar();
 
 }

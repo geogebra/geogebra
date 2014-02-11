@@ -29,7 +29,7 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.event.MouseEventND;
-import geogebra.euclidianND.EuclidianViewND;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.export.pstricks.PstricksFrame;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
@@ -1127,13 +1127,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * of the component invoker
 	 */
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianViewND view,
+			ArrayList<GeoElement> geos, EuclidianView view,
 			geogebra.common.awt.GPoint p) {
 		
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 		
-		Component invoker = view.getJPanel();
+		Component invoker = ((EuclidianViewInterfaceDesktop) view).getJPanel();
 		
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
@@ -1200,9 +1200,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} else {
 			
 				
-			EuclidianViewND ev = ((AppD) app).getActiveEuclidianView();
+			EuclidianView ev = ((AppD) app).getActiveEuclidianView();
 			Construction cons = ev.getApplication().getKernel().getConstruction();
-			Point mousePos = ev.getMousePosition();
+			Point mousePos = ((EuclidianViewInterfaceDesktop) ev).getMousePosition();
 			GeoPoint loc = new GeoPoint(cons);
 
 
@@ -2980,7 +2980,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint mouseLoc) {
-		showPopupMenu(selectedGeos, ((EuclidianViewND) view).getJPanel(), mouseLoc);
+		showPopupMenu(selectedGeos, ((EuclidianViewInterfaceDesktop) view).getJPanel(), mouseLoc);
 		
 	}
 	
@@ -2990,7 +2990,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint p) {
 		
-		showPopupChooseGeo(selectedGeos, geos, (EuclidianViewND) view, p);
+		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
 		
 	}
 

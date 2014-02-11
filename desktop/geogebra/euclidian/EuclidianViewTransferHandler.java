@@ -1,11 +1,12 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
-import geogebra.euclidianND.EuclidianViewND;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.data.PlotPanelEuclidianViewD;
@@ -38,7 +39,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 	private static final long serialVersionUID = 1L;
 
-	private EuclidianViewND ev;
+	private EuclidianView ev;
 	private AppD app;
 
 	static DataFlavor textReaderFlavor;
@@ -85,9 +86,9 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	 * 
 	 * @param ev euclidian view
 	 */
-	public EuclidianViewTransferHandler(EuclidianViewND ev) {
+	public EuclidianViewTransferHandler(EuclidianView ev) {
 		this.ev = ev;
-		this.app = ev.getApplication();
+		this.app = (AppD) ev.getApplication();
 	}
 
 	/**
@@ -127,7 +128,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		// give the drop target (this EV) the view focus
 		requestViewFocus();
 
-		Point mousePos = ev.getMousePosition();
+		Point mousePos = ((EuclidianViewInterfaceDesktop) ev).getMousePosition();
 
 		// ------------------------------------------
 		// Import handling is done in this order:

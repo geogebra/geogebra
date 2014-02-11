@@ -371,7 +371,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 	        GPoint mouseLoc) {
 		showDrawingPadPopup(((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
-	};
+	}
+	
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
+			geogebra.common.awt.GPoint mouseLoc) {
+		// 3D stuff
+	}
 
 	private void showDrawingPadPopup(Canvas invoker, GPoint p) {
 		// clear highlighting and selections in views

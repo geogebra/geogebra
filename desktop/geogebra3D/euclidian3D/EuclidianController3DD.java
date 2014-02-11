@@ -18,10 +18,10 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.euclidian.EuclidianControllerListeners;
-import geogebra.euclidian.EuclidianViewJPanel;
-import geogebra.euclidianND.EuclidianViewND;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.main.AppD;
 
+import java.awt.Component;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -163,7 +163,7 @@ public class EuclidianController3DD extends
 
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
-		((EuclidianViewND) view).updateSize();
+		view.updateSize();
 	}
 
 	public void componentShown(ComponentEvent e) {
@@ -187,7 +187,7 @@ public class EuclidianController3DD extends
 	}
 	
 
-	public void addListenersTo(EuclidianViewJPanel evjpanel){
+	public void addListenersTo(Component evjpanel){
 		evjpanel.addMouseMotionListener(this);
 		evjpanel.addMouseListener(this);
 		evjpanel.addMouseWheelListener(this);

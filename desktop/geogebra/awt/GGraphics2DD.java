@@ -20,7 +20,7 @@ import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.main.App;
-import geogebra.euclidianND.EuclidianViewND;
+import geogebra.euclidian.EuclidianViewD;
 
 import java.awt.AlphaComposite;
 import java.util.Map;
@@ -378,7 +378,7 @@ public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 
 	@Override
 	public void setAntialiasing() {
-		EuclidianViewND.setAntialiasing(impl);
+		EuclidianViewD.setAntialiasing(impl);
 		
 	}
 

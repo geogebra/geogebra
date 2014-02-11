@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.SelectionManager;
 import geogebra.euclidian.event.MouseEventD;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
 import geogebra.gui.layout.DockPanel;
@@ -531,7 +532,7 @@ public class App3D extends AppD {
 			return getEuclidianView3D().getRenderer().getExportImage();
 		}
 
-		return getActiveEuclidianView().getExportImage(scale);
+		return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView()).getExportImage(scale);
 	}
 	
 	/**

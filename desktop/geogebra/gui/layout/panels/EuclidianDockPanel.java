@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.main.AppD;
 
@@ -89,7 +89,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	 * this method to provide the correct euclidian view.
 	 */
 	@Override
-	public EuclidianViewND getEuclidianView() {
+	public EuclidianView getEuclidianView() {
 		return app.getEuclidianView1();
 	}
 	

@@ -1,7 +1,7 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
@@ -45,7 +45,7 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	}
 	
 	@Override
-	public EuclidianViewND getEuclidianView() {
+	public EuclidianView getEuclidianView() {
 		return app.getEuclidianView2();
 	}
 	

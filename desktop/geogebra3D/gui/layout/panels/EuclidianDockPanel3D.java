@@ -1,8 +1,8 @@
 package geogebra3D.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
@@ -44,7 +44,7 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	}
 	
 	@Override
-	public EuclidianViewND getEuclidianView() {
+	public EuclidianView getEuclidianView() {
 		return ((App3D)app).getEuclidianView3D();
 	}
 	

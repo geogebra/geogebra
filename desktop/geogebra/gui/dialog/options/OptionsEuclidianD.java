@@ -21,7 +21,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.AxesStyleListRenderer;
@@ -78,7 +77,7 @@ public class OptionsEuclidianD extends
 
 	protected AppD app;
 	private Kernel kernel;
-	protected EuclidianViewND view;
+	protected EuclidianView view;
 
 	// GUI containers
 	protected AxisPanel xAxisPanel, yAxisPanel;
@@ -141,7 +140,7 @@ public class OptionsEuclidianD extends
 	 * @param app
 	 *            parent frame
 	 */
-	public OptionsEuclidianD(AppD app, EuclidianViewND view) {
+	public OptionsEuclidianD(AppD app, EuclidianView view) {
 
 		isIniting = true;
 		this.app = app;
@@ -156,7 +155,7 @@ public class OptionsEuclidianD extends
 		isIniting = false;
 	}
 
-	public void setView(EuclidianViewND view) {
+	public void setView(EuclidianView view) {
 		this.view = view;
 		if (!isIniting) {
 			updateGUI();

@@ -3,7 +3,6 @@ package geogebra.gui;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
 import java.awt.Point;
@@ -58,7 +57,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	 * @param geos geos
 	 * @param location place to show
 	 */
-	public ContextMenuChooseGeoD(AppD app, EuclidianViewND view, 
+	public ContextMenuChooseGeoD(AppD app, EuclidianView view, 
 			ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, Point location, geogebra.common.awt.GPoint invokerLocation) {
 

@@ -23,6 +23,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
@@ -68,7 +69,7 @@ import geogebra.euclidian.DrawEquationD;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.event.MouseEventND;
-import geogebra.euclidianND.EuclidianViewND;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.export.GeoGebraTubeExportDesktop;
 import geogebra.factories.AwtFactoryD;
 import geogebra.factories.CASFactoryD;
@@ -1787,11 +1788,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public EuclidianViewND getActiveEuclidianView() {
+	public EuclidianView getActiveEuclidianView() {
 		if (getGuiManager() == null) {
 			return getEuclidianView1();
 		}
-		return (EuclidianViewND) getGuiManager().getActiveEuclidianView();
+		return getGuiManager().getActiveEuclidianView();
 	}
 
 	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
@@ -2148,7 +2149,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void copyGraphicsViewToClipboard() {
 
-		copyGraphicsViewToClipboard((EuclidianViewND) getGuiManager()
+		copyGraphicsViewToClipboard(getGuiManager()
 				.getActiveEuclidianView());
 	}
 
@@ -2162,7 +2163,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		.setContents(new StringSelection(str), null);
 	}
 
-	public void copyGraphicsViewToClipboard(final EuclidianViewND euclidianViewND) {
+	public void copyGraphicsViewToClipboard(final EuclidianView euclidianView) {
 
 		getSelectionManager().clearSelectedGeos(true, false);
 		updateSelection(false);
@@ -2172,7 +2173,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			public void run() {
 				setWaitCursor();
 
-				simpleExportToClipboard(euclidianViewND);
+				simpleExportToClipboard(euclidianView);
 
 				/*
 				 * doesn't work in Win7, XP pasting into eg Paint pasting into
@@ -2206,7 +2207,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
-	static void simpleExportToClipboard(EuclidianViewND ev) {
+	static void simpleExportToClipboard(EuclidianView ev) {
 		double scale = 2d;
 		double size = ev.getExportWidth() * ev.getExportHeight();
 
@@ -2667,7 +2668,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		// Minimal applet case: return only the center panel with the EV
-		applicationPanel.add(((EuclidianViewND) euclidianView).getJPanel(),
+		applicationPanel.add(((EuclidianViewInterfaceDesktop) euclidianView).getJPanel(),
 				BorderLayout.CENTER);
 		centerPanel.add(applicationPanel, BorderLayout.CENTER);
 		return applicationPanel;
@@ -3093,7 +3094,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		mainComp.setCursor(waitCursor);
 
 		if (euclidianView != null) {
-			getActiveEuclidianView().setCursor(waitCursor);
+			((EuclidianViewInterfaceDesktop) getActiveEuclidianView()).setCursor(waitCursor);
 		}
 
 		if (guiManager != null) {
@@ -3108,7 +3109,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
 		}
 		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
-			((EuclidianViewND) guiManager.getEuclidianView2())
+			((EuclidianViewInterfaceCommon) guiManager.getEuclidianView2())
 					.setDefaultCursor();
 		}
 

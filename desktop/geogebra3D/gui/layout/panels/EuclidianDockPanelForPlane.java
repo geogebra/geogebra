@@ -1,9 +1,9 @@
 package geogebra3D.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
@@ -74,7 +74,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	}
 	
 	@Override
-	public EuclidianViewND getEuclidianView() {
+	public EuclidianView getEuclidianView() {
 		return view;
 	}
 	

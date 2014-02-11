@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.EuclidianView;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -17,6 +18,19 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 
 	public EuclidianViewJPanel(EuclidianView view) {
 		this.view = view;
+
+		// algebra controller will take care of our key events
+		setFocusable(true);
+
+		setLayout(null);
+		setMinimumSize(new Dimension(20, 20));
+
+		// register Listener
+		((EuclidianControllerListeners) view.getEuclidianController()).addListenersTo(this);
+
+
+		// enable drop transfers
+		setTransferHandler(new EuclidianViewTransferHandler(view));
 	}
 
 	protected Color bgColor;

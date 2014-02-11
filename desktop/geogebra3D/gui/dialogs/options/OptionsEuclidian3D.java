@@ -1,8 +1,8 @@
 package geogebra3D.gui.dialogs.options;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.main.App;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.options.AxisPanel;
 import geogebra.gui.dialog.options.OptionsEuclidianD;
@@ -50,7 +50,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 	 * @param app application
 	 * @param view 3D view
 	 */
-	public OptionsEuclidian3D(AppD app, EuclidianViewND view) {
+	public OptionsEuclidian3D(AppD app, EuclidianView view) {
 		super(app, view);
 		
 
@@ -517,7 +517,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 		private static final long serialVersionUID = 1L;
 		final static protected int AXIS_Z = 2;
 
-		public AxisPanel3D(AppD app, EuclidianViewND view, int axis) {
+		public AxisPanel3D(AppD app, EuclidianView view, int axis) {
 			super(app, view, axis);
 		}
 		
