@@ -507,7 +507,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		for (String signature : casParser.getTranslationRessourceBundle()
 				.keySet()) {
 			String cmd = signature.substring(0, signature.indexOf('.'));
-			if(!"SolveCubic".equals(cmd)){
+			if(!"SolveCubic".equals(cmd) && !"Evaluate".equals(cmd)){
 				cmdSet.add(cmd);
 			}
 		}
