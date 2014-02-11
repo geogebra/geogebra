@@ -1120,7 +1120,7 @@ __GGB__keysVar.es_ES.menu = {
     "AngleUnit": "Unidad angular",
     "AngularBisector": "Bisectriz",
     "AngularBisector_Help": "Tres puntos (lateral, v\xe9rtice, lateral) o dos rectas",
-    "ApplyDefaults": "Aplica valores por defecto",
+    "ApplyDefaults": "Aplicar valores por defecto",
     "Area": "\xc1rea",
     "Area_Help": "Elige un pol\xedgono, c\xedrculo o c\xf3nica",
     "Ascending": "Ascendente",

@@ -1855,7 +1855,7 @@ __GGB__keysVar.es.menu = {
     "Symbol_AngleMeasure": "Medida angular",
     "Symbol_Assignment": "Asignaci\xf3n",
     "Symbol_BooleanEqual": "Igualdad l\xf3gica",
-    "Symbol_Cube": "cubo",
+    "Symbol_Cube": "Cubo",
     "Symbol_Degree": "Grados",
     "Symbol_DynamicReference": "Referencia din\xe1mica",
     "Symbol_ElementOf": "Elemento",
