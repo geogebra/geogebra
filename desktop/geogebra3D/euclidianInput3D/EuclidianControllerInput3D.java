@@ -9,7 +9,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra3D.awt.GPointWithZ;
-import geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Dimension;
@@ -23,7 +23,7 @@ import java.awt.Point;
  * @author mathieu
  *
  */
-public class EuclidianControllerInput3D extends EuclidianController3D {
+public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	
 	private Input3D input3D;

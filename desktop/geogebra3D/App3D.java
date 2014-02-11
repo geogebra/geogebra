@@ -18,6 +18,7 @@ the Free Software Foundation.
 package geogebra3D;
 
 import geogebra.CommandLineArguments;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
@@ -29,7 +30,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.SelectionManager;
-import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.event.MouseEventD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
@@ -40,11 +40,12 @@ import geogebra.main.AppletImplementation;
 import geogebra.main.GlobalKeyDispatcherD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
-import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
+import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
-import geogebra3D.euclidianForPlane.EuclidianControllerForPlane;
+import geogebra3D.euclidianForPlane.EuclidianControllerForPlaneD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
 import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
@@ -127,7 +128,7 @@ public class App3D extends AppD {
 			euclidianController3D = new EuclidianControllerInput3D(kernel, input3D); 
 			euclidianView3D = new EuclidianViewInput3D(euclidianController3D,null);
 		}else{
-			euclidianController3D = new EuclidianController3D(kernel); 
+			euclidianController3D = new EuclidianController3DD(kernel); 
 			euclidianView3D = new EuclidianView3D(euclidianController3D,null);
 		}
 		
@@ -147,14 +148,14 @@ public class App3D extends AppD {
 
 	
 	@Override
-	protected EuclidianControllerD newEuclidianController(Kernel kernel) {
-		return new EuclidianControllerFor3D(kernel);
+	protected EuclidianController newEuclidianController(Kernel kernel) {
+		return new EuclidianControllerFor3DD(kernel);
 	}
 
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1) {
-		return new EuclidianViewFor3D((EuclidianControllerD)euclidianController, showAxes1, showGrid1,
+		return new EuclidianViewFor3D(euclidianController, showAxes1, showGrid1,
 				1, getSettings().getEuclidian(1));
 	}
 
@@ -227,7 +228,7 @@ public class App3D extends AppD {
 	@Override
 	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
-		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);
+		EuclidianController ec = new EuclidianControllerForPlaneD(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane, 
 				getSettings().getEuclidianForPlane(((GeoElement) plane).getLabelSimple()));
 		euclidianViewForPlane.updateFonts();

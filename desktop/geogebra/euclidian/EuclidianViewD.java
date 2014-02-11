@@ -140,7 +140,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 
 		// algebra controller will take care of our key events
 
-		((EuclidianControllerD)euclidianController).setView(this);
+		euclidianController.setView(this);
 
 		attachView();
 
@@ -648,8 +648,8 @@ public class EuclidianViewD extends EuclidianViewND implements
 	}
 
 	@Override
-	public EuclidianControllerD getEuclidianController() {
-		return (EuclidianControllerD)euclidianController;
+	public EuclidianController getEuclidianController() {
+		return euclidianController;
 	}
 
 	/**

@@ -1,10 +1,10 @@
 package geogebra3D.euclidianFor3D;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoMidpoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -18,22 +18,22 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
-import geogebra.euclidian.EuclidianControllerD;
 
 /**
  * class for Euclidian Controller used in ggb3D
  * @author matthieu
  *
  */
-public class EuclidianControllerFor3D extends EuclidianControllerD {
+public abstract class EuclidianControllerFor3D extends EuclidianController {
 
 	/**
 	 * constructor
 	 * @param kernel kernel
 	 */
-	public EuclidianControllerFor3D(Kernel kernel) {
-		super(kernel);
+	public EuclidianControllerFor3D(App app) {
+		super(app);
 	}
 	
 	@Override

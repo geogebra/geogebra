@@ -3,7 +3,6 @@ package geogebra3D.euclidianForPlane;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
@@ -12,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
+public abstract class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 
-	public EuclidianControllerForPlane(Kernel kernel) {
-		super(kernel);
+	public EuclidianControllerForPlane(App app) {
+		super(app);
 	}
 	
 	

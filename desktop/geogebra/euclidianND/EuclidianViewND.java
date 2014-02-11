@@ -6,7 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianControllerListeners;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidian.EuclidianViewTransferHandler;
@@ -60,10 +60,7 @@ public abstract class EuclidianViewND extends EuclidianView{
 		evjpanel.setMinimumSize(new Dimension(20, 20));
 		
 		// register Listener
-		evjpanel.addMouseMotionListener((EuclidianControllerD)euclidianController);
-		evjpanel.addMouseListener((EuclidianControllerD)euclidianController);
-		evjpanel.addMouseWheelListener((EuclidianControllerD)euclidianController);
-		evjpanel.addComponentListener((EuclidianControllerD)euclidianController);
+		((EuclidianControllerListeners) euclidianController).addListenersTo(evjpanel);
 		
 		
 		// enable drop transfers
@@ -458,7 +455,7 @@ public abstract class EuclidianViewND extends EuclidianView{
 		return new MyZoomerD(this);
 	}
 		
-	public abstract EuclidianControllerD getEuclidianController();
+	public abstract EuclidianController getEuclidianController();
 
 
 	

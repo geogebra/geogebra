@@ -9887,4 +9887,10 @@ public abstract class EuclidianController {
 	public final PointerEventType getDefaultEventType() {
 		return this.defaultEventType;
 	}
+	
+	/**
+	 * set the view attached to this
+	 * @param view view
+	 */
+	public abstract void setView(EuclidianView view);
 }

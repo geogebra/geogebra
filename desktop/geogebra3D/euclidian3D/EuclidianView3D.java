@@ -91,7 +91,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	//private Kernel kernel;
 	private Kernel3D kernel3D;
 	protected AppD app;
-	private EuclidianController3D euclidianController3D;
+	private EuclidianController3DD euclidianController3D;
 	private Renderer renderer;
 	
 	
@@ -275,10 +275,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		
 		super(ec, settings);
 		
-		this.euclidianController3D = ec;
+		this.euclidianController3D = (EuclidianController3DD) ec;
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController3D.setView(this);
-		app = ec.getApplication();	
+		app = (AppD) ec.getApplication();	
 		
 		start();
 		
@@ -413,7 +413,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	 * @return controller
 	 */
 	@Override
-	public EuclidianController3D getEuclidianController(){
+	public EuclidianController getEuclidianController(){
 		return euclidianController3D;
 	}
 	
@@ -2454,7 +2454,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());	
 				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
 			}else if(!getEuclidianController().mouseIsOverLabel() 
-					&& getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())
+					&& ((EuclidianController3D) getEuclidianController()).cursor3DVisibleForCurrentMode(getCursor3DType())
 					){
 				renderer1.setMatrix(getCursor3D().getDrawingMatrix());
 
@@ -3040,7 +3040,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 
 		
 		// update intersection curves in controller
-		getEuclidianController().updateOwnDrawablesNow();
+		((EuclidianController3D) getEuclidianController()).updateOwnDrawablesNow();
 
 		
 	}

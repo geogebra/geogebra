@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.Drawable3D;
+import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
@@ -322,7 +323,7 @@ public class RendererGL2 extends Renderer{
 	@Override
 	public void pickIntersectionCurves(){
 
-		ArrayList<IntersectionCurve> curves = view3D.getEuclidianController().getIntersectionCurves();
+		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D.getEuclidianController()).getIntersectionCurves();
 
 		int bufSize=curves.size();
 		//IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);

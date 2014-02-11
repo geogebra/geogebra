@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianControllerListeners;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
@@ -114,9 +115,9 @@ public class TextPreviewPanelD extends TextPreviewer {
 
 	@Override
 	protected void removeEVMouseListeners() {
-		ev.removeMouseListener(ev.getEuclidianController());
-		ev.removeMouseMotionListener(ev.getEuclidianController());
-		ev.removeMouseWheelListener(ev.getEuclidianController());
+		ev.removeMouseListener((EuclidianControllerListeners) ev.getEuclidianController());
+		ev.removeMouseMotionListener((EuclidianControllerListeners) ev.getEuclidianController());
+		ev.removeMouseWheelListener((EuclidianControllerListeners) ev.getEuclidianController());
 	}
 
 	@Override

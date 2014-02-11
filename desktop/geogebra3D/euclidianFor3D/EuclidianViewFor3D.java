@@ -1,12 +1,12 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 
 import java.awt.geom.AffineTransform;
@@ -26,7 +26,7 @@ public class EuclidianViewFor3D extends EuclidianViewD {
 	 * @param evno dock panel id
 	 * @param settings euclidian settings
 	 */
-	public EuclidianViewFor3D(EuclidianControllerD ec, boolean[] showAxes,
+	public EuclidianViewFor3D(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
 		super(ec, showAxes, showGrid, evno, settings);
 

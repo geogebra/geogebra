@@ -200,7 +200,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 				extrusionComputer.getAlgo().notifyUpdateOutputPoints();
 
 				//sets the top face to be handled
-				getView3D().getEuclidianController().setHandledGeo(extrusionComputer.getAlgo().getGeoToHandle());
+				((EuclidianController3D) getView3D().getEuclidianController()).setHandledGeo(extrusionComputer.getAlgo().getGeoToHandle());
 
 
 				//ensure correct drawing of visible parts of the previewable
@@ -217,7 +217,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 	public void disposePreview() {
 		super.disposePreview();
 		
-		getView3D().getEuclidianController().setHandledGeo(null);
+		((EuclidianController3D) getView3D().getEuclidianController()).setHandledGeo(null);
 		
 		if (extrusionComputer!=null){			
 			//remove the algo
@@ -228,7 +228,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 	}
 	
 	public void createPolyhedron(){
-		getView3D().getEuclidianController().setHandledGeo(null);
+		((EuclidianController3D) getView3D().getEuclidianController()).setHandledGeo(null);
 		
 		if (extrusionComputer!=null){
 			

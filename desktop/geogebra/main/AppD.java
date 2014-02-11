@@ -21,6 +21,7 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
@@ -818,7 +819,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	protected EuclidianControllerD newEuclidianController(Kernel kernel1) {
+	protected EuclidianController newEuclidianController(Kernel kernel1) {
 		return new EuclidianControllerD(kernel1);
 	}
 

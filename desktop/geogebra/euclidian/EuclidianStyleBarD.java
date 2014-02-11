@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -94,7 +95,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	}
 
 	// ggb
-	EuclidianControllerD ec;
+	EuclidianController ec;
 	protected EuclidianViewInterfaceCommon ev;
 	protected AppD app;
 	private Construction cons;
@@ -163,7 +164,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		isIniting = true;
 
 		this.ev = ev;
-		ec = (EuclidianControllerD) ev.getEuclidianController();
+		ec = ev.getEuclidianController();
 		app = (AppD) ev.getApplication();
 		this.loc = app.getLocalization();
 		cons = app.getKernel().getConstruction();

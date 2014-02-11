@@ -1,6 +1,7 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -18,7 +19,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
@@ -50,7 +50,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D implements Euclidi
 	 * @param plane plane creating this view
 	 * @param settings euclidian settings
 	 */
-	public EuclidianViewForPlane(EuclidianControllerD ec, ViewCreator plane, EuclidianSettings settings) {
+	public EuclidianViewForPlane(EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
 		super(ec, new boolean[]{ false, false }, false, 0, settings); //TODO euclidian settings
 		
 		//initView(true);

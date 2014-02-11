@@ -3,15 +3,16 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS2D2D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
-import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
@@ -50,6 +51,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.AsyncOperation;
 import geogebra.main.AppD;
@@ -59,7 +61,6 @@ import geogebra3D.gui.dialogs.DialogManager3D;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -69,7 +70,7 @@ import java.util.Iterator;
  * @author matthieu
  *
  */
-public class EuclidianController3D extends EuclidianControllerFor3D {
+public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 
 
@@ -179,10 +180,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	/**
 	 * common constructor
-	 * @param kernel
+	 * @param app
 	 */
-	public EuclidianController3D(Kernel kernel) {
-		super(kernel);
+	public EuclidianController3D(App app) {
+		super(app);
 		
 		// inits min max
 		xMinMax = new double[2];
@@ -196,9 +197,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	 * sets the view controlled by this
 	 * @param view
 	 */
-	public void setView(EuclidianView3D view) {
-		this.view3D = view;
-		super.setView(view);
+	public void setView3D(EuclidianView view) {
+		this.view3D = (EuclidianView3D) view;
 	
 	}
 	
@@ -1691,23 +1691,12 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 	
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void wrapMousePressed(AbstractEvent e) {
 		mouseMoved = false;
 		//mousePressed = true;
-		super.mousePressed(e);
+		super.wrapMousePressed(e);
 	}
 	
-	/*
-	public void mouseReleased(MouseEvent e) {	
-		mousePressed = false;
-		super.mouseReleased(e);
-	}
-	
-	public void mouseClicked(MouseEvent e) {	
-		mousePressed = false;
-		super.mouseClicked(e);
-	}
-	*/
 	
 	/**
 	 * update mouse moved, 3D mouse values, etc.

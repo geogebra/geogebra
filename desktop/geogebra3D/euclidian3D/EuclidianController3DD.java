@@ -10,12 +10,14 @@
 
  */
 
-package geogebra.euclidian;
+package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.euclidian.EuclidianControllerListeners;
+import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
@@ -30,8 +32,8 @@ import javax.swing.ToolTipManager;
  * 
  * Created on 16. October 2001, 15:41
  */
-public class EuclidianControllerD extends
-		geogebra.common.euclidian.EuclidianController implements EuclidianControllerListeners {
+public class EuclidianController3DD extends
+		EuclidianController3D implements EuclidianControllerListeners {
 
 	// protected GeoVec2D b;
 
@@ -44,7 +46,7 @@ public class EuclidianControllerD extends
 	/***********************************************
 	 * Creates new EuclidianController
 	 **********************************************/
-	public EuclidianControllerD(Kernel kernel) {
+	public EuclidianController3DD(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
 
@@ -62,8 +64,8 @@ public class EuclidianControllerD extends
 
 	@Override
 	public void setView(EuclidianView view) {
-		// void setView(EuclidianView view) {
 		this.view = view;
+		setView3D(view);
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -183,7 +185,7 @@ public class EuclidianControllerD extends
 				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
 	
-	
+
 	public void addListenersTo(EuclidianViewJPanel evjpanel){
 		evjpanel.addMouseMotionListener(this);
 		evjpanel.addMouseListener(this);

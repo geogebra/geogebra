@@ -1,11 +1,12 @@
 package geogebra.gui.view.data;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianControllerListeners;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
@@ -55,7 +56,7 @@ import javax.swing.JPopupMenu;
 public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		ComponentListener, DragGestureListener, DragSourceListener, PlotPanelEuclidianViewInterface {
 
-	private EuclidianControllerD ec;
+	private EuclidianController ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
 
 	public PlotPanelEuclidianViewCommon commonFields;
@@ -240,13 +241,13 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 			myMouseListener = new MyMouseListener();
 		}
 		removeMouseListener(myMouseListener);
-		removeMouseListener(ec);
+		removeMouseListener((EuclidianControllerListeners) ec);
 
 		if (enableMyMouseListener) {
 			addMouseListener(myMouseListener);
 		}
 		if (enableECMouseListener) {
-			addMouseListener(ec);
+			addMouseListener((EuclidianControllerListeners) ec);
 		}
 	}
 
@@ -257,9 +258,9 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 *            default = false
 	 */
 	public void setMouseMotionEnabled(boolean enableMouseMotion) {
-		removeMouseMotionListener(ec);
+		removeMouseMotionListener((EuclidianControllerListeners) ec);
 		if (enableMouseMotion) {
-			addMouseMotionListener(ec);
+			addMouseMotionListener((EuclidianControllerListeners) ec);
 		}
 	}
 
@@ -270,9 +271,9 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 *            default = false
 	 */
 	public void setMouseWheelEnabled(boolean enableMouseWheel) {
-		removeMouseWheelListener(ec);
+		removeMouseWheelListener((EuclidianControllerListeners) ec);
 		if (enableMouseWheel) {
-			addMouseWheelListener(ec);
+			addMouseWheelListener((EuclidianControllerListeners) ec);
 		}
 	}
 

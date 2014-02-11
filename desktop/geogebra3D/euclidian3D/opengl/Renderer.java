@@ -10,6 +10,7 @@ import geogebra.main.AppD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
+import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
 
@@ -295,7 +296,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     public void display(GLAutoDrawable gLDrawable) {
     	
     	//update 3D controller
-        view3D.getEuclidianController().updateInput3D();
+    	((EuclidianController3D) view3D.getEuclidianController()).updateInput3D();
     	
     	//Application.debug("display");
 
@@ -322,7 +323,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
         }
                 
         //update 3D controller
-        view3D.getEuclidianController().update();
+        ((EuclidianController3D) view3D.getEuclidianController()).update();
         
 
         
