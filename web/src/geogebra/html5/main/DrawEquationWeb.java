@@ -56,6 +56,21 @@ public class DrawEquationWeb extends DrawEquation {
 		
 		eqstring = eqstring.replace("\\%", "%");
 
+		if (eqstring.indexOf("{\\it ") > -1) {
+			
+			//replace {\it A} by A
+			// (not \italic{A} )
+			
+			RegExp italic = RegExp.compile("(.*)\\{\\\\it (.*?)\\}(.*)");
+			
+			MatchResult matcher;
+			
+			while ((matcher = italic.exec(eqstring)) != null) {
+				
+				eqstring = matcher.getGroup(1) + " " + matcher.getGroup(2) + matcher.getGroup(3);
+			}
+		}
+
 		// make sure eg FractionText[] works (surrounds with {} which doesn't
 		// draw well in MathQuillGGB)
 		if (eqstring.length() >= 2)
@@ -91,22 +106,6 @@ public class DrawEquationWeb extends DrawEquation {
 		eqstring = eqstring.replace(" \\!", " ");
 		eqstring = eqstring.replace("\\!", " ");
 
-		if (eqstring.indexOf("{\\it ") > -1) {
-			
-			//replace {\it A} by A
-			// (not \italic{A} )
-			
-			RegExp italic = RegExp.compile("(.*)\\{\\\\it (.*?)\\}(.*)");
-			
-			MatchResult matcher;
-			
-			while ((matcher = italic.exec(eqstring)) != null) {
-				
-				eqstring = matcher.getGroup(1) + " " + matcher.getGroup(2) + matcher.getGroup(3);
-			}
-		}
-		
-			
 		// substitute every \$ with $ 
 	 	eqstring = eqstring.replace("\\$", "$"); 
 
