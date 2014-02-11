@@ -7,6 +7,8 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
+import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
+import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -46,7 +48,7 @@ public class RendererShaders extends Renderer {
 	
 	@Override
 	public void setGL(GLAutoDrawable gLDrawable){		
-		setGL2ES2(gLDrawable);
+		jogl.setGL2ES2(gLDrawable);
 	}
 	
 	
@@ -57,7 +59,7 @@ public class RendererShaders extends Renderer {
 	@Override
 	public GL getGL(){
 		
-		return getGL2ES2(); 
+		return jogl.getGL2ES2(); 
 	}
 	
 	
@@ -161,7 +163,7 @@ public class RendererShaders extends Renderer {
         // GLSL 1.3 is the minimum version that now has to be explicitly set.
         // This allows the shaders to compile using the latest
         // desktop OpenGL 3 and 4 drivers.
-        if(getGL2ES2().isGL3core()){
+        if(jogl.getGL2ES2().isGL3core()){
             System.out.println("GL3 core detected: explicit add #version 130 to shaders");
             vertexShaderString = "#version 130\n"+vertexShaderString;
             fragmentShaderString = "#version 130\n"+fragmentShaderString;
@@ -169,8 +171,8 @@ public class RendererShaders extends Renderer {
 
         // Create GPU shader handles
         // OpenGL ES retuns a index id to be stored for future reference.
-        vertShader = getGL2ES2().glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-        fragShader = getGL2ES2().glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
+        vertShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_VERTEX_SHADER);
+        fragShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
 
         //Compile the vertexShader String into a program.
         String[] vlines = new String[] { vertexShaderString };
@@ -182,19 +184,19 @@ public class RendererShaders extends Renderer {
 		
         
         int[] vlengths = new int[] { vlines[0].length() };
-        getGL2ES2().glShaderSource(vertShader, vlines.length, vlines, vlengths, 0);
-        getGL2ES2().glCompileShader(vertShader);
+        jogl.getGL2ES2().glShaderSource(vertShader, vlines.length, vlines, vlengths, 0);
+        jogl.getGL2ES2().glCompileShader(vertShader);
 
         //Check compile status.
         int[] compiled = new int[1];
-        getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_COMPILE_STATUS, compiled,0);
+        jogl.getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_COMPILE_STATUS, compiled,0);
         if(compiled[0]!=0){System.out.println("Horray! vertex shader compiled");}
         else {
             int[] logLength = new int[1];
-            getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+            jogl.getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
             byte[] log = new byte[logLength[0]];
-            getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0], (int[])null, 0, log, 0);
+            jogl.getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0], (int[])null, 0, log, 0);
 
             System.err.println("Error compiling the vertex shader: " + new String(log));
             System.exit(1);
@@ -203,18 +205,18 @@ public class RendererShaders extends Renderer {
         //Compile the fragmentShader String into a program.
         String[] flines = new String[] { fragmentShaderString };
         int[] flengths = new int[] { flines[0].length() };
-        getGL2ES2().glShaderSource(fragShader, flines.length, flines, flengths, 0);
-        getGL2ES2().glCompileShader(fragShader);
+        jogl.getGL2ES2().glShaderSource(fragShader, flines.length, flines, flengths, 0);
+        jogl.getGL2ES2().glCompileShader(fragShader);
 
         //Check compile status.
-        getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_COMPILE_STATUS, compiled,0);
+        jogl.getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_COMPILE_STATUS, compiled,0);
         if(compiled[0]!=0){System.out.println("Horray! fragment shader compiled");}
         else {
             int[] logLength = new int[1];
-            getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+            jogl.getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
             byte[] log = new byte[logLength[0]];
-            getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0], (int[])null, 0, log, 0);
+            jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0], (int[])null, 0, log, 0);
 
             System.err.println("Error compiling the fragment shader: " + new String(log));
             System.exit(1);
@@ -222,36 +224,36 @@ public class RendererShaders extends Renderer {
 
         //Each shaderProgram must have
         //one vertex shader and one fragment shader.
-        shaderProgram = getGL2ES2().glCreateProgram();
-        getGL2ES2().glAttachShader(shaderProgram, vertShader);
-        getGL2ES2().glAttachShader(shaderProgram, fragShader);
+        shaderProgram = jogl.getGL2ES2().glCreateProgram();
+        jogl.getGL2ES2().glAttachShader(shaderProgram, vertShader);
+        jogl.getGL2ES2().glAttachShader(shaderProgram, fragShader);
 
         //Associate attribute ids with the attribute names inside
         //the vertex shader.
-        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_POSITION, "attribute_Position");
-        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_COLOR, "attribute_Color");
-        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_NORMAL, "attribute_Normal");
-        getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_TEXTURE, "attribute_Texture");
+        jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_POSITION, "attribute_Position");
+        jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_COLOR, "attribute_Color");
+        jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_NORMAL, "attribute_Normal");
+        jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_TEXTURE, "attribute_Texture");
 
-        getGL2ES2().glLinkProgram(shaderProgram);
+        jogl.getGL2ES2().glLinkProgram(shaderProgram);
 
         //Get a id number to the uniform_Projection matrix
         //so that we can update it.
-        modelviewLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "modelview");
-        projectionLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "projection");
+        modelviewLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "modelview");
+        projectionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "projection");
         
-        //normalMatrixLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");        
-        lightPositionLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "lightPosition");
-        ambiantDiffuseLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
+        //normalMatrixLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");        
+        lightPositionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "lightPosition");
+        ambiantDiffuseLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
         
         //texture
-        textureTypeLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
+        textureTypeLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
                
         //color
-        colorLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "color");
+        colorLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "color");
 
         //color
-        normalLocation = getGL2ES2().glGetUniformLocation(shaderProgram, "normal");
+        normalLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normal");
 
         /* GL2ES2 also includes the intersection of GL3 core
          * GL3 core and later mandates that a "Vector Buffer Object" must
@@ -264,7 +266,7 @@ public class RendererShaders extends Renderer {
          * VBO is data buffers stored inside the graphics card memory.
          */
         vboHandles = new int[4];
-        getGL2ES2().glGenBuffers(4, vboHandles, 0);
+        jogl.getGL2ES2().glGenBuffers(4, vboHandles, 0);
         vboColors = vboHandles[GLSL_ATTRIB_COLOR];
         vboVertices = vboHandles[GLSL_ATTRIB_POSITION];
         vboNormals = vboHandles[GLSL_ATTRIB_NORMAL];
@@ -278,7 +280,7 @@ public class RendererShaders extends Renderer {
     
     private void drawTriangle(float[] vertices, float[] normals, float[] colors, float[] textureCoords){
     	
-    	//getGL2ES2().glUniform1i(getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
+    	//jogl.getGL2ES2().glUniform1i(jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
     	//getGL().glActiveTexture(GLlocal.GL_TEXTURE0);
 
     	java.nio.ByteBuffer buffer = java.nio.ByteBuffer.allocate(6);
@@ -330,19 +332,19 @@ public class RendererShaders extends Renderer {
         // VBO - vertices
  
         // Select the VBO, GPU memory data, to use for vertices
-        getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
+        jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
 
         // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
         int numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
-        getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbVertices, GL.GL_STATIC_DRAW);
+        jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbVertices, GL.GL_STATIC_DRAW);
 
         // Associate Vertex attribute 0 with the last bound VBO
-        getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION /* the vertex attribute */, 3,
+        jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION /* the vertex attribute */, 3,
                                  GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
                                  0 /* The bound VBO data offset */);
 
         // VBO
-        getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+        jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
    }
    
 
@@ -351,7 +353,7 @@ public class RendererShaders extends Renderer {
    
    private void resetOneNormalForAllVertices(){
 	   oneNormalForAllVertices = false;
-	   getGL2ES2().glUniform3f(normalLocation, 2,2,2);
+	   jogl.getGL2ES2().glUniform3f(normalLocation, 2,2,2);
    }
 
    public void loadNormalBuffer(FloatBuffer fbNormals, int length){
@@ -361,7 +363,7 @@ public class RendererShaders extends Renderer {
 	   }
 	   
 	   if (fbNormals.capacity() == 3){ // one normal for all vertices
-		   getGL2ES2().glUniform3fv(normalLocation, 1, fbNormals.array(), 0);
+		   jogl.getGL2ES2().glUniform3fv(normalLocation, 1, fbNormals.array(), 0);
 		   oneNormalForAllVertices = true;
 		   return;
 	   }
@@ -374,16 +376,16 @@ public class RendererShaders extends Renderer {
 	   }
 
 	   // Select the VBO, GPU memory data, to use for normals 
-	   getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+	   jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
 	   int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
-	   getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbNormals, GL.GL_STATIC_DRAW);
+	   jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbNormals, GL.GL_STATIC_DRAW);
 
 	   // Associate Vertex attribute 1 with the last bound VBO
-	   getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /* 3 normal values used for each vertex */,
+	   jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /* 3 normal values used for each vertex */,
 			   GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
 			   0 /* The bound VBO data offset */);
 
-	   getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+	   jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
    }
    
    
@@ -397,16 +399,16 @@ public class RendererShaders extends Renderer {
 	   setCurrentGeometryHasTexture();
 	   
        // Select the VBO, GPU memory data, to use for normals 
-       getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
+       jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
        int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
-       getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
+       jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
 
        // Associate Vertex attribute 1 with the last bound VBO
-       getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the texture attribute */, 2 /* 2 texture values used for each vertex */,
+       jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the texture attribute */, 2 /* 2 texture values used for each vertex */,
                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
                                 0 /* The bound VBO data offset */);
 
-       getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+       jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
    }
    
    public void loadColorBuffer(FloatBuffer fbColors, int length){
@@ -418,16 +420,16 @@ public class RendererShaders extends Renderer {
 	   setColor(-1, -1, -1, -1);
 	   
        // Select the VBO, GPU memory data, to use for normals 
-       getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
+       jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
        int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
-       getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbColors, GL.GL_STATIC_DRAW);
+       jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbColors, GL.GL_STATIC_DRAW);
 
        // Associate Vertex attribute 1 with the last bound VBO
-       getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR/* the color attribute */, 4 /* 4 color values used for each vertex */,
+       jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR/* the color attribute */, 4 /* 4 color values used for each vertex */,
                                 GL2ES2.GL_FLOAT, false /* normalized? */, 0 /* stride */,
                                 0 /* The bound VBO data offset */);
 
-       getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+       jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
    }
    
  
@@ -440,14 +442,14 @@ public class RendererShaders extends Renderer {
 	   /////////////////////////
 	   // draw
 
-	   getGL2ES2().glDrawArrays(type, 0, length); //Draw the vertices as triangle // 3 <=> 1 triangle
+	   jogl.getGL2ES2().glDrawArrays(type, 0, length); //Draw the vertices as triangle // 3 <=> 1 triangle
    }
 
     @Override
 	protected void draw(){
     	
     	// NOT NEEDED (default value)
-    	//getGL2ES2().glUniform1i(getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
+    	//jogl.getGL2ES2().glUniform1i(jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
     	
     	resetOneNormalForAllVertices();
      	disableTextures();
@@ -459,7 +461,7 @@ public class RendererShaders extends Renderer {
      			0,0,1,0,
      			0,0,0,1
      	};
-     	getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, m, 0);
+     	jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, m, 0);
      	enableTexturesForText();
         drawFaceToScreen();
         
@@ -616,8 +618,8 @@ public class RendererShaders extends Renderer {
         
 
         // Clear screen
-        getGL2ES2().glClearColor(0, 0, 0, 1f);  // Purple
-        getGL2ES2().glClear(GL2ES2.GL_STENCIL_BUFFER_BIT |
+        jogl.getGL2ES2().glClearColor(0, 0, 0, 1f);  // Purple
+        jogl.getGL2ES2().glClear(GL2ES2.GL_STENCIL_BUFFER_BIT |
                    GL2ES2.GL_COLOR_BUFFER_BIT   |
                    GL2ES2.GL_DEPTH_BUFFER_BIT   );
                    
@@ -640,7 +642,7 @@ public class RendererShaders extends Renderer {
 
         
         //float[] normalMatrix = view3D.getRotationMatrix().get3x3ForGL();
-        //getGL2ES2().glUniformMatrix3fv(normalMatrixLocation, 1, false, normalMatrix, 0);
+        //jogl.getGL2ES2().glUniformMatrix3fv(normalMatrixLocation, 1, false, normalMatrix, 0);
 
         
         
@@ -664,14 +666,14 @@ public class RendererShaders extends Renderer {
     	
     @Override
 	protected void useShaderProgram(){
-        getGL2ES2().glUseProgram(shaderProgram);
+        jogl.getGL2ES2().glUseProgram(shaderProgram);
     }
     
     private void drawSample(){
 
         // texture
         
-        //getGL2ES2().glUniform1i(fadingLocation, 0);
+        //jogl.getGL2ES2().glUniform1i(fadingLocation, 0);
         
         
         float[] textureCoords = { 
@@ -701,11 +703,11 @@ public class RendererShaders extends Renderer {
         
 
         float[] color = {1,0,1,1};
-        getGL2ES2().glUniform4fv(colorLocation, 1, color, 0);
+        jogl.getGL2ES2().glUniform4fv(colorLocation, 1, color, 0);
         //loadVertexBuffer(vertices);//, normals, textureCoords);
         //draw(Manager.TRIANGLES, 3);
         
-        getGL2ES2().glUniform4fv(colorLocation, 1, PER_VERTEX_COLOR, 0);
+        jogl.getGL2ES2().glUniform4fv(colorLocation, 1, PER_VERTEX_COLOR, 0);
         
         float[] vertices2 = {  0.0f,  0f, 0f,
                 l, 0, 0f,
@@ -759,12 +761,12 @@ public class RendererShaders extends Renderer {
 
     
     private void releaseVBOs(){
-    	getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow release of vertex position memory
-        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR); // Allow release of vertex color memory		
-        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL); // Allow release of vertex normal memory		
-        getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE); // Allow release of vertex texture memory		
+    	jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow release of vertex position memory
+        jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR); // Allow release of vertex color memory		
+        jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL); // Allow release of vertex normal memory		
+        jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE); // Allow release of vertex texture memory		
 
-        getGL2ES2().glDeleteBuffers(4, vboHandles, 0); // Release VBO, color and vertices, buffer GPU memory.
+        jogl.getGL2ES2().glDeleteBuffers(4, vboHandles, 0); // Release VBO, color and vertices, buffer GPU memory.
     }
     
 	public void dispose(GLAutoDrawable drawable){
@@ -772,12 +774,12 @@ public class RendererShaders extends Renderer {
 
         setGL(drawable);
         
-        getGL2ES2().glUseProgram(0);
-        getGL2ES2().glDetachShader(shaderProgram, vertShader);
-        getGL2ES2().glDeleteShader(vertShader);
-        getGL2ES2().glDetachShader(shaderProgram, fragShader);
-        getGL2ES2().glDeleteShader(fragShader);
-        getGL2ES2().glDeleteProgram(shaderProgram);
+        jogl.getGL2ES2().glUseProgram(0);
+        jogl.getGL2ES2().glDetachShader(shaderProgram, vertShader);
+        jogl.getGL2ES2().glDeleteShader(vertShader);
+        jogl.getGL2ES2().glDetachShader(shaderProgram, fragShader);
+        jogl.getGL2ES2().glDeleteShader(fragShader);
+        jogl.getGL2ES2().glDeleteProgram(shaderProgram);
         //System.exit(0);
     }
 
@@ -826,7 +828,7 @@ public class RendererShaders extends Renderer {
 
 	@Override
 	protected void setMatrixView() {
-        getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().getForGL(), 0);
+        jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().getForGL(), 0);
 	}
 
 
@@ -907,7 +909,7 @@ public class RendererShaders extends Renderer {
 	}
 	
 	private void setColor(float r, float g, float b, float a){
-		getGL2ES2().glUniform4f(colorLocation, r,g,b,a);
+		jogl.getGL2ES2().glUniform4f(colorLocation, r,g,b,a);
 	}
 
 
@@ -941,7 +943,7 @@ public class RendererShaders extends Renderer {
 
 	@Override
 	public void initMatrix() {
-		 getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().mul(getMatrix()).getForGL(), 0);		
+		 jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, view3D.getToScreenMatrix().mul(getMatrix()).getForGL(), 0);		
 	}
 
 
@@ -1181,7 +1183,7 @@ public class RendererShaders extends Renderer {
 
 	@Override
 	protected void setLightPosition(int light, float[] values){
-		getGL2ES2().glUniform4fv(lightPositionLocation, 1, values, 0);
+		jogl.getGL2ES2().glUniform4fv(lightPositionLocation, 1, values, 0);
 	}
 
 
@@ -1205,7 +1207,7 @@ public class RendererShaders extends Renderer {
 		if (light == GLlocal.GL_LIGHT0){
 			l = 0;
 		}
-		getGL2ES2().glUniform2fv(ambiantDiffuseLocation, 1, ambiantDiffuse[l], 0);
+		jogl.getGL2ES2().glUniform2fv(ambiantDiffuseLocation, 1, ambiantDiffuse[l], 0);
 	}
 
 
@@ -1302,7 +1304,7 @@ public class RendererShaders extends Renderer {
                 0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
         };
 
-        getGL2ES2().glUniformMatrix4fv(projectionLocation, 1, false, projection, 0);
+        jogl.getGL2ES2().glUniformMatrix4fv(projectionLocation, 1, false, projection, 0);
 	}
 
 
@@ -1501,7 +1503,7 @@ public class RendererShaders extends Renderer {
 	
 	private void setCurrentTextureType(int type){
 		currentTextureType = type;
-		getGL2ES2().glUniform1i(textureTypeLocation, type);
+		jogl.getGL2ES2().glUniform1i(textureTypeLocation, type);
 	}
 	
 	

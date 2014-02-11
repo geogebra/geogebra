@@ -13,11 +13,13 @@ import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
+import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
@@ -38,10 +40,11 @@ import javax.media.opengl.glu.GLUtessellator;
  * @author ggb3D
  * 
  */
-public abstract class Renderer extends RendererJogl implements GLEventListener {
+public abstract class Renderer implements GLEventListener {
 
 	
 	// openGL variables
+	protected RendererJogl jogl;
 	protected GLU glu = new GLU();
 	//private GLUT glut = new GLUT();
 	//private TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 16));
@@ -130,17 +133,18 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 	 */
 	public Renderer(EuclidianView3D view, boolean useCanvas){
 		
+		jogl = new RendererJogl();
 		
 		//canvas = view;
 		App.debug("create 3D component -- use Canvas : " + useCanvas);
-        canvas = createComponent3D(useCanvas);
+        canvas = RendererJogl.createComponent3D(useCanvas);
         
         App.debug("add gl event listener");
 	    canvas.addGLEventListener(this);
 	    
 	    
 	    App.debug("create animator");
-	    animator = createAnimator( canvas, 60 );
+	    animator = RendererJogl.createAnimator( canvas, 60 );
         //animator.setRunAsFastAsPossible(true);	  
         //animator.setRunAsFastAsPossible(false);	
 	    
@@ -156,6 +160,22 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
 		textures = new Textures(view3D.getApplication().getImageManager());	
 		
 		
+	}
+	
+	/**
+	 * 
+	 * @return GL instance
+	 */
+	protected GL getGL(){
+		return jogl.getGL();
+	}
+	
+	/**
+	 * set GL instance
+	 * @param gLDrawable GL drawable
+	 */
+	public void setGL(GLAutoDrawable gLDrawable){		
+		jogl.setGL(gLDrawable);
 	}
 	
 	
@@ -1342,7 +1362,7 @@ public abstract class Renderer extends RendererJogl implements GLEventListener {
     		
     	//Application.printStacktrace("");
 
-        setGL(drawable);
+    	setGL(drawable);
         
         
         // check openGL version

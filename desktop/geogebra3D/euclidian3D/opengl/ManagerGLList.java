@@ -50,7 +50,7 @@ public class ManagerGLList extends Manager {
 	/////////////////////////////////////////////
 
 	private int genLists(int nb){
-		return renderer.getGL2().glGenLists(nb);
+		return renderer.jogl.getGL2().glGenLists(nb);
 	}
 	
 	
@@ -63,28 +63,28 @@ public class ManagerGLList extends Manager {
 		// generates a new list
 		int ret = genLists(1);
 		
-		renderer.getGL2().glNewList(ret, GLlocal.GL_COMPILE);
+		renderer.jogl.getGL2().glNewList(ret, GLlocal.GL_COMPILE);
 		
 		return ret;
 	}
 	
 	private void newList(int index){
-		renderer.getGL2().glNewList(index, GLlocal.GL_COMPILE);
+		renderer.jogl.getGL2().glNewList(index, GLlocal.GL_COMPILE);
 	}	
 	
 	@Override
 	public void endList(){	
-		renderer.getGL2().glEndList();
+		renderer.jogl.getGL2().glEndList();
 	}
 	
 	@Override
 	public void startGeometry(int type){
-		renderer.getGL2().glBegin(type);
+		renderer.jogl.getGL2().glBegin(type);
 	}
 	
 	@Override
 	public void endGeometry(){
-		renderer.getGL2().glEnd();
+		renderer.jogl.getGL2().glEnd();
 	}
 	
 	
@@ -157,7 +157,7 @@ public class ManagerGLList extends Manager {
     @Override
 	public void endPolygons(){
     	
-	    renderer.getGL2().glEndList();
+	    renderer.jogl.getGL2().glEndList();
 	    renderer.glu.gluDeleteTess(tesselator);
     }
     
@@ -168,7 +168,7 @@ public class ManagerGLList extends Manager {
     @Override
 	public void remove(int index){
     	
-    	renderer.getGL2().glDeleteLists(index, 1);  	
+    	renderer.jogl.getGL2().glDeleteLists(index, 1);  	
     }
 	
 	
@@ -178,7 +178,7 @@ public class ManagerGLList extends Manager {
 
 	@Override
 	public void draw(int index){
-		renderer.getGL2().glCallList(index);
+		renderer.jogl.getGL2().glCallList(index);
 	}
 	
 	@Override
@@ -188,7 +188,7 @@ public class ManagerGLList extends Manager {
 	
 	@Override
 	protected void texture(float x, float y){		
-		renderer.getGL2().glTexCoord2f(x,y);	
+		renderer.jogl.getGL2().glTexCoord2f(x,y);	
 	}
 	
 
@@ -202,46 +202,46 @@ public class ManagerGLList extends Manager {
 	@Override
 	protected void normal(float x, float y, float z){
 		
-		renderer.getGL2().glNormal3f(x,y,z); 	
+		renderer.jogl.getGL2().glNormal3f(x,y,z); 	
 	}
 		
 	@Override
 	protected void vertex(float x, float y, float z){
 		
-		renderer.getGL2().glVertex3f(x,y,z); 	
+		renderer.jogl.getGL2().glVertex3f(x,y,z); 	
 	}
 	
 	@Override
 	protected void vertexInt(int x, int y, int z){
 		
-		renderer.getGL2().glVertex3i(x,y,z); 	
+		renderer.jogl.getGL2().glVertex3i(x,y,z); 	
 	}
 
 	
 	
 	@Override
 	protected void vertices(double[] vertices){
-		renderer.getGL2().glVertex3dv(vertices, 0);
+		renderer.jogl.getGL2().glVertex3dv(vertices, 0);
 	}
 	
 	@Override
 	protected void color(float r, float g, float b){
-		renderer.getGL2().glColor3f(r,g,b);
+		renderer.jogl.getGL2().glColor3f(r,g,b);
 	}
 	
 	@Override
 	protected void color(float r, float g, float b, float a){
-		renderer.getGL2().glColor4f(r,g,b,a);
+		renderer.jogl.getGL2().glColor4f(r,g,b,a);
 	}
 	
 	@Override
 	protected void lineWidth(float width){
-		renderer.getGL2().glLineWidth(width);
+		renderer.jogl.getGL2().glLineWidth(width);
 	}
 	
 	@Override
 	protected void pointSize(float size){
-		renderer.getGL2().glPointSize(size);
+		renderer.jogl.getGL2().glPointSize(size);
 	}
 	
 	

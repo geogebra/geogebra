@@ -4,9 +4,10 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
-import geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
+import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -33,33 +34,31 @@ public class RendererGL2 extends Renderer{
 
 
 
-
-
 	@Override
 	public void setClipPlane(int n, double[] equation){
-		getGL2().glClipPlane( GL_CLIP_PLANE[n] , equation, 0 );
+		jogl.getGL2().glClipPlane( GL_CLIP_PLANE[n] , equation, 0 );
 	}
 
 	@Override
 	protected void setMatrixView(){
-		getGL2().glPushMatrix();
-		getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(),0);           
+		jogl.getGL2().glPushMatrix();
+		jogl.getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(),0);           
 	}
 
 	@Override
 	protected void unsetMatrixView(){
-		getGL2().glPopMatrix();  	
+		jogl.getGL2().glPopMatrix();  	
 	}
 
 
 	@Override
 	protected void setExportImage(){
 
-		getGL2().glReadBuffer(GLlocal.GL_FRONT);
+		jogl.getGL2().glReadBuffer(GLlocal.GL_FRONT);
 		int width = right-left;
 		int height = top-bottom;
 		FloatBuffer buffer = FloatBuffer.allocate(3*width*height);
-		getGL2().glReadPixels(0, 0, width, height, GLlocal.GL_RGB, GLlocal.GL_FLOAT, buffer);
+		jogl.getGL2().glReadPixels(0, 0, width, height, GLlocal.GL_RGB, GLlocal.GL_FLOAT, buffer);
 		float[] pixels = buffer.array();
 
 		bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
@@ -80,7 +79,7 @@ public class RendererGL2 extends Renderer{
 	@Override
 	public void setColor(Coords color){
 
-		getGL2().glColor4f((float) color.getX(),
+		jogl.getGL2().glColor4f((float) color.getX(),
 				(float) color.getY(),
 				(float) color.getZ(),
 				(float) color.getW());  
@@ -89,7 +88,7 @@ public class RendererGL2 extends Renderer{
 
 	@Override
 	public void setColor(geogebra.common.awt.GColor color){
-		getGL2().glColor4f((float) color.getRed()/255,
+		jogl.getGL2().glColor4f((float) color.getRed()/255,
 				(float) color.getBlue()/255,
 				(float) color.getGreen()/255,
 				(float) color.getAlpha()/255);  
@@ -99,15 +98,15 @@ public class RendererGL2 extends Renderer{
 
 	@Override
 	public void initMatrix(){
-		getGL2().glPushMatrix();
-		getGL2().glMultMatrixd(m_drawingMatrix.get(),0);
+		jogl.getGL2().glPushMatrix();
+		jogl.getGL2().glMultMatrixd(m_drawingMatrix.get(),0);
 	}
 
 
 
 	@Override
 	public void resetMatrix(){
-		getGL2().glPopMatrix();
+		jogl.getGL2().glPopMatrix();
 	}
 
 
@@ -117,14 +116,14 @@ public class RendererGL2 extends Renderer{
 
 		initMatrix();
 		setBlending(false);
-		getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_POINT);
-		getGL2().glColor4f(0,0,0,1);
+		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_POINT);
+		jogl.getGL2().glColor4f(0,0,0,1);
 		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-		getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);
-		getGL2().glColor4f(0,0,0,1);
+		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);
+		jogl.getGL2().glColor4f(0,0,0,1);
 		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-		getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_FILL);
-		getGL2().glColor4f(1,1,1,1);
+		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_FILL);
+		jogl.getGL2().glColor4f(1,1,1,1);
 		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
 		setBlending(true);
 		resetMatrix();   	
@@ -136,7 +135,7 @@ public class RendererGL2 extends Renderer{
 		// Set Up the Selection Buffer
 		//Application.debug(bufSize);
 		IntBuffer ret = RendererJogl.newIntBuffer(bufSize);
-		getGL2().glSelectBuffer(bufSize, ret); // Tell OpenGL To Use Our Array For Selection
+		jogl.getGL2().glSelectBuffer(bufSize, ret); // Tell OpenGL To Use Our Array For Selection
 		return ret; 
 	}
 
@@ -145,15 +144,15 @@ public class RendererGL2 extends Renderer{
 
 		// The Size Of The Viewport. [0] Is <x>, [1] Is <y>, [2] Is <length>, [3] Is <width>
 		int[] viewport = new int[4];
-		getGL2().glGetIntegerv(GLlocal.GL_VIEWPORT, viewport, 0);      
+		jogl.getGL2().glGetIntegerv(GLlocal.GL_VIEWPORT, viewport, 0);      
 		Dimension dim = canvas.getSize();
 		// Puts OpenGL In Selection Mode. Nothing Will Be Drawn.  Object ID's and Extents Are Stored In The Buffer.
-		getGL2().glRenderMode(GLlocal.GL_SELECT);
-		getGL2().glInitNames(); // Initializes The Name Stack
-		getGL2().glPushName(0); // Push 0 (At Least One Entry) Onto The Stack
+		jogl.getGL2().glRenderMode(GLlocal.GL_SELECT);
+		jogl.getGL2().glInitNames(); // Initializes The Name Stack
+		jogl.getGL2().glPushName(0); // Push 0 (At Least One Entry) Onto The Stack
 
-		getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
-		getGL2().glLoadIdentity();
+		jogl.getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
+		jogl.getGL2().glLoadIdentity();
 
 
 		/* create MOUSE_PICK_WIDTH x MOUSE_PICK_WIDTH pixel picking region near cursor location */
@@ -179,11 +178,11 @@ public class RendererGL2 extends Renderer{
 
 		glu.gluPickMatrix(x, dim.height - y, MOUSE_PICK_WIDTH, MOUSE_PICK_WIDTH, viewport, 0);
 		setProjectionMatrixForPicking();
-		getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
+		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
 
-		getGL2().glDisable(GLlocal.GL_ALPHA_TEST);
-		getGL2().glDisable(GLlocal.GL_BLEND);
-		getGL2().glDisable(GLlocal.GL_LIGHTING);
+		jogl.getGL2().glDisable(GLlocal.GL_ALPHA_TEST);
+		jogl.getGL2().glDisable(GLlocal.GL_BLEND);
+		jogl.getGL2().glDisable(GLlocal.GL_LIGHTING);
 		disableTextures();
 
 
@@ -195,15 +194,15 @@ public class RendererGL2 extends Renderer{
 	@Override
 	protected void pushSceneMatrix(){
 		// set the scene matrix
-		getGL2().glPushMatrix();
-		getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(),0);
+		jogl.getGL2().glPushMatrix();
+		jogl.getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(),0);
 	}
 
 
 	@Override
 	protected void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop, int labelLoop){
 
-		int hits = getGL2().glRenderMode(GLlocal.GL_RENDER); // Switch To Render Mode, Find Out How Many
+		int hits = jogl.getGL2().glRenderMode(GLlocal.GL_RENDER); // Switch To Render Mode, Find Out How Many
 
 		int names, ptr = 0;
 		double zFar, zNear;
@@ -277,7 +276,7 @@ public class RendererGL2 extends Renderer{
 
 
 		// set off the scene matrix
-		getGL2().glPopMatrix();
+		jogl.getGL2().glPopMatrix();
 
 		// picking labels
 		int labelLoop = pickingLoop;
@@ -315,7 +314,7 @@ public class RendererGL2 extends Renderer{
 
 		waitForPick = false;
 
-		getGL2().glEnable(GLlocal.GL_LIGHTING);
+		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
 	}
 
 
@@ -347,33 +346,33 @@ public class RendererGL2 extends Renderer{
 
 
 		// set off the scene matrix
-		getGL2().glPopMatrix();
+		jogl.getGL2().glPopMatrix();
 
 		storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are passed as null        
 
-		getGL2().glEnable(GLlocal.GL_LIGHTING);
+		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
 	}   
 
 	@Override
 	public void glLoadName(int loop){
-		getGL2().glLoadName(loop);
+		jogl.getGL2().glLoadName(loop);
 	}
 
 
 
 	@Override
 	protected void setLightPosition(int light, float[] values){
-		getGL2().glLightfv(light, GLlocal.GL_POSITION, values, 0);
+		jogl.getGL2().glLightfv(light, GLlocal.GL_POSITION, values, 0);
 	}
 	
 	@Override
 	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
 
-		getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, new float[] {ambiant0, ambiant0, ambiant0, 1.0f}, 0);
-		getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, new float[] {diffuse0, diffuse0, diffuse0, 1.0f}, 0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, new float[] {ambiant0, ambiant0, ambiant0, 1.0f}, 0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, new float[] {diffuse0, diffuse0, diffuse0, 1.0f}, 0);
 		
-		getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, new float[] {ambiant1, ambiant1, ambiant1, 1.0f}, 0);
-		getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, new float[] {diffuse1, diffuse1, diffuse1, 1.0f}, 0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, new float[] {ambiant1, ambiant1, ambiant1, 1.0f}, 0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, new float[] {diffuse1, diffuse1, diffuse1, 1.0f}, 0);
 	}
 	
 	
@@ -390,33 +389,33 @@ public class RendererGL2 extends Renderer{
 
 	@Override
 	protected void setColorMaterial(){
-		getGL2().glColorMaterial(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_AMBIENT_AND_DIFFUSE);
+		jogl.getGL2().glColorMaterial(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_AMBIENT_AND_DIFFUSE);
 	}
 
 	@Override
 	protected void setLightModel(){
-		getGL2().glShadeModel(GLlocal.GL_SMOOTH);
-		getGL2().glLightModeli(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
-		getGL2().glLightModelf(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
+		jogl.getGL2().glShadeModel(GLlocal.GL_SMOOTH);
+		jogl.getGL2().glLightModeli(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
+		jogl.getGL2().glLightModelf(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
 	}
 
 
 	@Override
 	protected void setAlphaFunc(){
-        getGL2().glAlphaFunc(GLlocal.GL_NOTEQUAL, 0);//pixels with alpha=0 are not drawn
-        //getGL2().glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with alpha=0 are not drawn
+        jogl.getGL2().glAlphaFunc(GLlocal.GL_NOTEQUAL, 0);//pixels with alpha=0 are not drawn
+        //jogl.getGL2().glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with alpha=0 are not drawn
 	}
 
 	@Override
 	protected void setView(){
-		getGL2().glViewport(0,0,right-left,top-bottom);
+		jogl.getGL2().glViewport(0,0,right-left,top-bottom);
 
-		getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
-		getGL2().glLoadIdentity();
+		jogl.getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
+		jogl.getGL2().glLoadIdentity();
 
 		setProjectionMatrix();
 
-    	getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);		
+    	jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);		
 	}	
 	
 	
@@ -433,26 +432,26 @@ public class RendererGL2 extends Renderer{
 		//App.debug(w+" * "+h+" = "+(w*h));
 
 		// projection for real 2D
-		getGL2().glViewport(0,0,w,h);
+		jogl.getGL2().glViewport(0,0,w,h);
 		
-		getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
-		getGL2().glLoadIdentity();
+		jogl.getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
+		jogl.getGL2().glLoadIdentity();
 		glu.gluOrtho2D(0, w, h, 0);
 		
-		getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
-		getGL2().glLoadIdentity();
+		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
+		jogl.getGL2().glLoadIdentity();
 
 		
-		getGL2().glEnable(GLlocal.GL_STENCIL_TEST);
+		jogl.getGL2().glEnable(GLlocal.GL_STENCIL_TEST);
 
 		// draw stencil pattern
-		getGL2().glStencilMask(0xFF);
-		getGL2().glClear(GLlocal.GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
+		jogl.getGL2().glStencilMask(0xFF);
+		jogl.getGL2().glClear(GLlocal.GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
 		  
  
 
 		// no multisample here to prevent ghosts
-		getGL2().glDisable(GLlocal.GL_MULTISAMPLE);
+		jogl.getGL2().glDisable(GLlocal.GL_MULTISAMPLE);
         
 		// data for stencil : one line = 0, one line = 1, etc.
 		
@@ -478,7 +477,7 @@ public class RendererGL2 extends Renderer{
 		 */
 
 		
-		ByteBuffer data = newByteBuffer(w);
+		ByteBuffer data = RendererJogl.newByteBuffer(w);
 		byte b = 1;
 		for (int x=0; x<w; x++){
 			data.put(b);
@@ -495,18 +494,18 @@ public class RendererGL2 extends Renderer{
 		//App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
 		
 		for (int y = 0; y<h/2 ; y++){
-			getGL2().glRasterPos2i(0, 2*y+y0); 
-			getGL2().glDrawPixels(w, 1, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
+			jogl.getGL2().glRasterPos2i(0, 2*y+y0); 
+			jogl.getGL2().glDrawPixels(w, 1, GLlocal.GL_STENCIL_INDEX, GLlocal.GL_UNSIGNED_BYTE, data); 
 		}
 		
 		
 		
 		
     	// current mask for stencil test
-    	getGL2().glStencilMask(0x00);
+    	jogl.getGL2().glStencilMask(0x00);
 
     	// back to multisample
-		getGL2().glEnable(GLlocal.GL_MULTISAMPLE);
+		jogl.getGL2().glEnable(GLlocal.GL_MULTISAMPLE);
 		
 		
 		waitForSetStencilLines = false;
@@ -522,15 +521,15 @@ public class RendererGL2 extends Renderer{
 	@Override
 	protected void viewOrtho(){
 
-		getGL2().glOrtho(getLeft(),getRight(),getBottom(),getTop(), -getVisibleDepth()/2, getVisibleDepth()/2);   	
+		jogl.getGL2().glOrtho(getLeft(),getRight(),getBottom(),getTop(), -getVisibleDepth()/2, getVisibleDepth()/2);   	
 	}
 
 
 	@Override
 	protected void viewPersp(){
 
-		getGL2().glFrustum(perspLeft,perspRight,perspBottom,perspTop,perspNear,perspFar);
-		getGL2().glTranslated(0, 0, perspFocus);          	
+		jogl.getGL2().glFrustum(perspLeft,perspRight,perspBottom,perspTop,perspNear,perspFar);
+		jogl.getGL2().glTranslated(0, 0, perspFocus);          	
 	}     
 	
 	
@@ -548,8 +547,8 @@ public class RendererGL2 extends Renderer{
     		eyesep1=glassesEyeSep1;
     	}  	
    	
-       	getGL2().glFrustum(perspLeft+eyesep1,perspRight+eyesep1,perspBottom,perspTop,perspNear,perspFar);
-    	getGL2().glTranslated(eyesep, 0, perspFocus);          	
+       	jogl.getGL2().glFrustum(perspLeft+eyesep1,perspRight+eyesep1,perspBottom,perspTop,perspNear,perspFar);
+    	jogl.getGL2().glTranslated(eyesep, 0, perspFocus);          	
     }
     
     
@@ -557,7 +556,7 @@ public class RendererGL2 extends Renderer{
 	protected void viewOblique(){
     	viewOrtho();
     	
-    	getGL2().glMultMatrixd(new double[] {
+    	jogl.getGL2().glMultMatrixd(new double[] {
     			1,0,0,0,
     			0,1,0,0,
     			obliqueX,obliqueY,1,0, 
