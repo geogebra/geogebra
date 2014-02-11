@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.main.AppD;
+import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.util.ArrayList;
@@ -239,7 +239,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			Hits hits = new Hits();
 			
 			if (extrusionComputer.getComputed()==0){//if height has not been set by dragging, ask one
-				AppD app = getView3D().getApplication();
+				App app = getView3D().getApplication();
 				NumberValue num = 
 					app.getDialogManager().showNumberInputDialog(
 							//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),

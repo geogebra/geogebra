@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.EuclidianView3DD;
 
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -96,8 +97,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// set values
 			
 			// update panel values
-			panelDimension = view3D.getJPanel().getSize();
-			panelPosition = view3D.getJPanel().getLocationOnScreen();
+			panelDimension = ((EuclidianView3DD) view3D).getJPanel().getSize();
+			panelPosition = ((EuclidianView3DD) view3D).getJPanel().getLocationOnScreen();
 	
 
 			
@@ -319,7 +320,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				panelDimension.height/2 - (int) mouse3DPosition.getY(),
 				(int) mouse3DPosition.getZ());
 		
-		mouseEvent = new Mouse3DEvent(mouse3DLoc, view3D.getJPanel());
+		mouseEvent = new Mouse3DEvent(mouse3DLoc, ((EuclidianView3DD) view3D).getJPanel());
 		
 	}
 	

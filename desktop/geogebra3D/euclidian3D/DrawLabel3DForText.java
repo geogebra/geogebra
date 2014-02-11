@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.draw.DrawText;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.euclidian.EuclidianStaticD;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.awt.Graphics2D;
@@ -28,7 +29,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			return geogebra.awt.GRectangleD.getAWTRectangle(EuclidianStatic.drawMultilineLaTeX(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), geo, new geogebra.awt.GGraphics2DD(tempGraphics), new geogebra.awt.GFontD(font), 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false));
 		
-			return geogebra.awt.GRectangleD.getAWTRectangle(EuclidianStaticD.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, new geogebra.awt.GGraphics2DD(tempGraphics), false));
+			return geogebra.awt.GRectangleD.getAWTRectangle(EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, new geogebra.awt.GGraphics2DD(tempGraphics), false));
 		
 	}
 
@@ -38,7 +39,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), geo, new geogebra.awt.GGraphics2DD(g2d), new geogebra.awt.GFontD(font), 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
 		else
-			EuclidianStaticD.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, new geogebra.awt.GGraphics2DD(g2d), false);
+			EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, new geogebra.awt.GGraphics2DD(g2d), false);
 	}
 	
 

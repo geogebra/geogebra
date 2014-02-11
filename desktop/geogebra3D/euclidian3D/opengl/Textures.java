@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.util.ImageManager;
+import geogebra.common.util.AbstractImageManager;
 
 import java.nio.ByteBuffer;
 
@@ -18,7 +18,7 @@ public class Textures {
 	
 	private GL gl;
 	
-	private ImageManager imageManager;
+	private AbstractImageManager imageManager;
 	
 	///////////////////
 	//dash	
@@ -80,8 +80,8 @@ public class Textures {
 	/** default constructor
 	 * @param gl
 	 */
-	public Textures(ImageManager imageManager){
-		this.imageManager = imageManager;
+	public Textures(AbstractImageManager abstractImageManager){
+		this.imageManager = abstractImageManager;
 		
 		
 		

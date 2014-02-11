@@ -60,33 +60,12 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.Unicode;
 import geogebra.common.util.debug.Log;
-import geogebra.euclidian.EuclidianControllerListeners;
-import geogebra.euclidian.EuclidianViewD;
-import geogebra.euclidian.EuclidianViewJPanel;
-import geogebra.euclidian.MyZoomerD;
-import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
-import geogebra3D.euclidian3D.opengl.RendererGL2;
 
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -96,20 +75,17 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-
 /**
  * Class for 3D view
  * @author matthieu
  *
  */
 @SuppressWarnings("javadoc")
-public class EuclidianView3D extends EuclidianView implements EuclidianViewInterfaceDesktop, Printable, EuclidianView3DInterface {
+public abstract class EuclidianView3D extends EuclidianView implements Printable, EuclidianView3DInterface {
 	
 	//private Kernel kernel;
 	private Kernel3D kernel3D;
-	private Renderer renderer;
+	protected Renderer renderer;
 	
 	
 	
@@ -284,8 +260,6 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	/**  selection rectangle  TODO */
 	protected Rectangle selectionRectangle = new Rectangle();
 	
-	/** Java component for this view */
-	protected EuclidianViewJPanel evjpanel;
 
 	
 	/**
@@ -295,8 +269,6 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	public EuclidianView3D(EuclidianController3D ec, EuclidianSettings settings){
 		
 		super(ec, settings);
-		
-		evjpanel = new EuclidianViewJPanel(this);
 		
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
@@ -316,10 +288,13 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 
 	}
 		
-	@Override
-	public AppD getApplication() {
-		return (AppD) app;
-	}
+	
+	/**
+	 * create the panel
+	 */
+	abstract protected void createPanel();
+	
+	abstract protected Renderer createRenderer();
 	
 	private void start(){
 		
@@ -330,27 +305,16 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 		geosToBeAdded = new TreeSet<GeoElement>();
 		
 		App.debug("create gl renderer");
-		renderer = new RendererGL2(this, !app.isApplet());
-		//renderer = new RendererShaders(this); 
+		renderer = createRenderer();
 		
 		
 		renderer.setDrawable3DLists(drawable3DLists);
 		
 			
-        //JPanel canvas = this;
+        createPanel();
 		
-        Component canvas = (Component) renderer.canvas;
-		getJPanel().setLayout(new BorderLayout());
-		getJPanel().add(BorderLayout.CENTER, canvas);
-						
 		attachView();
 		
-		// register Listener
-		((EuclidianControllerListeners) getEuclidianController()).addListenersTo(canvas);
-		canvas.setFocusable(true);
-		
-				
-
 		initAxisAndPlane();
 		
 		//previewables
@@ -433,7 +397,7 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	 * @return gl renderer
 	 */
 	public Renderer getRenderer(){
-		return renderer;
+		return (Renderer) renderer;
 	}
 	
 	/**
@@ -2587,11 +2551,17 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 		
 	}
 	
+	/**
+	 * 
+	 * @return true if shift key is down
+	 */
+	abstract protected boolean getShiftDown();
+	
 	public void setDefaultCursor(){
 		//App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
 		
 		
-		if (AppD.getShiftDown()) //do nothing
+		if (getShiftDown()) //do nothing
 			return;
 		
 		if (defaultCursorWillBeHitCursor){
@@ -2613,13 +2583,14 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	}
 	
 	
-	protected void setDefault2DCursor(){
-		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}
+	/**
+	 * set 2D cursor to default
+	 */
+	abstract protected void setDefault2DCursor();
 	
 	public void setHitCursor(){
 		
-		if (AppD.getShiftDown()) //do nothing
+		if (getShiftDown()) //do nothing
 			return;
 		
 		//App.printStacktrace("setHitCursor");
@@ -3735,17 +3706,6 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	}
 
 
-	@Override
-	public void setBackground(GColor color) {
-		if (color != null){
-			this.bgColor = color;
-			if (renderer!=null){
-				renderer.setWaitForUpdateClearColor();
-			}
-			evjpanel.setBackground(geogebra.awt.GColorD.getAwtColor(bgColor));
-		}
-			
-	}
 	
 	/*
 	@Override
@@ -3843,12 +3803,7 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	}
 
 
-	@Override
-	public void setTransparentCursor() {
 
-		setCursor(getApplication().getTransparentCursor());
-
-	}
 
 
 	@Override
@@ -3986,353 +3941,6 @@ public class EuclidianView3D extends EuclidianView implements EuclidianViewInter
 	
 	
 	
-	
-	
-	//////////////////////////////
-	// EVJPANEL
-	//////////////////////////////
-	
-	
-	/**
-	 * @param cursor new cursor
-	 */
-	public void setCursor(Cursor cursor) {
-		evjpanel.setCursor(cursor);
-	}
-
-	public boolean hasFocus() {
-		return evjpanel.hasFocus();
-	}
-
-	public void repaint() {
-		this.updateBackgroundIfNecessary();
-		evjpanel.repaint();
-	}
-
-	@Override
-	public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
-		g2.drawImage(bgImage, null, 0, 0);
-	}
-	
-	@Override
-	public void add(geogebra.common.javax.swing.GBox box){
-		evjpanel.add(((geogebra.javax.swing.BoxD)box).getImpl());
-	}
-	
-	@Override
-	public void remove(geogebra.common.javax.swing.GBox box) {
-		evjpanel.remove(((geogebra.javax.swing.BoxD)box).getImpl());
-	}
-	/**
-	 * @return underlying component
-	 */
-	public JPanel getJPanel() {
-		return evjpanel;
-	}
-	/**
-	 * This view should be focused
-	 */
-	public void requestFocus() {
-		evjpanel.requestFocus();		
-	}
-
-	@Override
-	public GFont getFont() {
-		// TODO Auto-generated method stub
-		return new geogebra.awt.GFontD(evjpanel.getFont());
-	}
-	
-	
-	/**
-	 * @return mouse position
-	 */
-	public java.awt.Point getMousePosition() {
-		return evjpanel.getMousePosition();
-	}
-	/**
-	 * @see JPanel#getFontMetrics(java.awt.Font)
-	 * @param font font
-	 * @return font metrics
-	 */
-	public FontMetrics getFontMetrics(java.awt.Font font) {
-		return evjpanel.getFontMetrics(font);
-	}
-	/**
-	 * @return whethe this view is visible
-	 */
-	public boolean isShowing() {
-		return evjpanel.isShowing();
-	}
-
-	@Override
-	public boolean requestFocusInWindow() {
-		return evjpanel.requestFocusInWindow();	
-	}
-	/**
-	 * @see JPanel#setPreferredSize(Dimension)
-	 * @param preferredSize prefered size
-	 */
-	public void setPreferredSize(Dimension preferredSize) {
-		evjpanel.setPreferredSize(preferredSize);
-	}
-	
-	@Override
-	public void setPreferredSize(geogebra.common.awt.GDimension preferredSize) {
-		evjpanel.setPreferredSize(geogebra.awt.GDimensionD.getAWTDimension(preferredSize));
-	}
-	
-	/**
-	 * @see JPanel#revalidate()
-	 */
-	public void revalidate() {
-		evjpanel.revalidate();
-	}
-	
-	/**
-	 * @see JPanel#addMouseListener(MouseListener)
-	 * @param ml mouse listener
-	 */
-	public void addMouseListener(MouseListener ml) {
-		evjpanel.addMouseListener(ml);
-	}
-	
-	/**
-	 * @see JPanel#removeComponentListener(ComponentListener)
-	 * @param ml mouse listener
-	 */
-	public void removeMouseListener(MouseListener ml) {
-		evjpanel.removeMouseListener(ml);
-	}
-	
-	/**
-	 * @see JPanel#addMouseMotionListener(MouseMotionListener)
-	 * @param mml mouse motion listener
-	 */
-	public void addMouseMotionListener(MouseMotionListener mml) {
-		evjpanel.addMouseMotionListener(mml);
-	}
-	
-	/**
-	 * @see JPanel#removeMouseMotionListener(MouseMotionListener)
-	 * @param mml mouse motion listener
-	 */
-	public void removeMouseMotionListener(MouseMotionListener mml) {
-		evjpanel.removeMouseMotionListener(mml);
-	}
-	
-	/**
-	 * @see JPanel#addMouseWheelListener(MouseWheelListener)
-	 * @param mwl mouse wheel listener
-	 */
-	public void addMouseWheelListener(MouseWheelListener mwl) {
-		evjpanel.addMouseWheelListener(mwl);
-	}
-	
-	/**
-	 * @see JPanel#removeMouseWheelListener(MouseWheelListener)
-	 * @param mwl mouse wheel listener
-	 */
-	public void removeMouseWheelListener(MouseWheelListener mwl) {
-		evjpanel.removeMouseWheelListener(mwl);
-	}
-	/**
-	 * @see JPanel#dispatchEvent(AWTEvent)
-	 * @param componentEvent component event
-	 */
-	public void dispatchEvent(ComponentEvent componentEvent) {
-		evjpanel.dispatchEvent(componentEvent);
-	}
-	
-	/**
-	 * @see JPanel#setBorder(Border)
-	 * @param border new border
-	 */
-	public void setBorder(Border border) {
-		evjpanel.setBorder(border)	;
-	}
-	
-	/**
-	 * @see JPanel#addComponentListener(ComponentListener)
-	 * @param componentListener component listener
-	 */
-	public void addComponentListener(
-			ComponentListener componentListener) {
-		evjpanel.addComponentListener(componentListener);
-		
-	}
-	
-	/**
-	 * @param dimension new size
-	 */
-	public void setSize(Dimension dimension) {
-		evjpanel.setSize(dimension);
-		
-	}
-	/**
-	 * @return prefered size
-	 */
-	public Dimension getPreferredSize() {
-		return evjpanel.getPreferredSize();
-	}
-	/**
-	 * @see EuclidianViewJPanel#processMouseEventImpl(MouseEvent)
-	 * @param e mouse event
-	 */
-	protected void processMouseEvent(MouseEvent e) {
-		evjpanel.processMouseEventImpl(e);
-	}
-	
-	/**
-	 * Initializes this panel
-	 * @param repaint ignored parameter
-	 */
-	protected void initPanel(boolean repaint) {
-		// preferred size
-		evjpanel.setPreferredSize(null);
-	}
-
-
-
-	//@Override
-	public void setToolTipText(String plain) {
-		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
-				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
-		}
-	}
-	
-	
-
-	public int getWidth() {
-		return evjpanel.getWidth();
-	}
-	
-	public int getHeight() {
-		return evjpanel.getHeight();
-	}
-	
-
-	@Override
-	protected void updateSizeKeepDrawables() {
-
-		// record the old coord system
-
-		setWidth(getWidth());
-		setHeight(getHeight());
-		if ((getWidth() <= 0) || (getHeight() <= 0)) {
-			return;
-		}
-
-		// real world values
-		setXYMinMaxForUpdateSize();
-		setRealWorldBounds();
-
-		// ================================================
-		// G.Sturr 8/27/10: test: rescale on window resize
-		//
-		// reset the coord system so that our view dimensions are restored
-		// using the new scaling factors.
-
-		// setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
-
-		GraphicsConfiguration gconf = evjpanel.getGraphicsConfiguration();
-		try {
-			createImage(gconf);
-		} catch (OutOfMemoryError e) {
-			bgImage = null;
-			bgGraphics = null;
-		}
-
-		updateBackgroundImage();
-	}
-	
-	private void createImage(GraphicsConfiguration gc) {
-		if (gc != null) {
-			bgImage = new geogebra.awt.GBufferedImageD(gc.createCompatibleImage(getWidth(), getHeight()));
-			bgGraphics = bgImage.createGraphics();
-			if (antiAliasing) {
-				setAntialiasing(bgGraphics);
-			}
-		}
-	}
-	
-
-	@Override
-	public void drawActionObjects(geogebra.common.awt.GGraphics2D g2){
-		// TODO layers for Buttons and Textfields
-		// for cross-platform UI the stroke must be reset to show buttons
-		// properly, see #442
-		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
-		evjpanel.paintChildren(
-				geogebra.awt.GGraphics2DD.getAwtGraphics(g2)); // draws Buttons and Textfields
-	}
-
-
-		
-	
-	public geogebra.common.awt.GColor getBackgroundCommon() {
-		return new geogebra.awt.GColorD(evjpanel.getBackground());
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// temp image
-	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
-			BufferedImage.TYPE_INT_RGB).createGraphics();
-	/**
-	 * @return temporary graphics that is stored in this view
-	 */
-	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(getApplication().getPlainFont());
-		return g2Dtemp;
-	}
-	
-	@Override
-	final public geogebra.common.awt.GGraphics2D getTempGraphics2D(geogebra.common.awt.GFont font) {
-		g2Dtemp.setFont(geogebra.awt.GFontD.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
-								// Corner[text,n]
-		return new geogebra.awt.GGraphics2DD(g2Dtemp);
-	}
-
-
-
-	@Override
-	final public void setAntialiasing(geogebra.common.awt.GGraphics2D g2) {
-		EuclidianViewD.setAntialiasing(geogebra.awt.GGraphics2DD.getAwtGraphics(g2));
-	}
-	
-	@Override
-	final protected void setHeight(int height) {
-		//
-	}
-
-	@Override
-	final protected void setWidth(int width) {
-		//
-	}
-	
-	
-	@Override
-	final protected void setStyleBarMode(int mode) {
-		if (hasStyleBar()) {
-			getStyleBar().setMode(mode);
-		}
-	}
-	
-	
-	
-	@Override
-	protected MyZoomerD newZoomer() {
-		return new MyZoomerD(this);
-	}
 	
 	
 }

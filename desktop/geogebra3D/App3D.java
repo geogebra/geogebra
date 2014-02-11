@@ -43,6 +43,7 @@ import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.EuclidianView3DD;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
@@ -130,7 +131,7 @@ public class App3D extends AppD {
 			euclidianView3D = new EuclidianViewInput3D(euclidianController3D,null);
 		}else{
 			euclidianController3D = new EuclidianController3DD(kernel); 
-			euclidianView3D = new EuclidianView3D(euclidianController3D,null);
+			euclidianView3D = new EuclidianView3DD(euclidianController3D,null);
 		}
 		
 

@@ -8,7 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.EuclidianView3DD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
@@ -17,7 +17,7 @@ import geogebra3D.euclidian3D.opengl.Renderer;
  * @author mathieu
  *
  */
-public class EuclidianViewInput3D extends EuclidianView3D{
+public class EuclidianViewInput3D extends EuclidianView3DD{
 
 	/**
 	 * constructor

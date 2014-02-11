@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
@@ -324,7 +325,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected void updateLabel(){
 		
-		label.update(getGeoElement().getLabelDescription(), getView3D().getApplication().getPlainFont(), 
+		label.update(getGeoElement().getLabelDescription(), ((AppD) getView3D().getApplication()).getPlainFont(), 
 				getGeoElement().getObjectColor(),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());

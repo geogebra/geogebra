@@ -4,6 +4,7 @@ package geogebra3D.euclidian3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.awt.Font;
@@ -78,7 +79,7 @@ public class DrawText3D extends Drawable3DCurves {
 			//if (isLaTeX) {
 			//	//setEqnFontSize();				
 			//} else {				
-				Font textFont = getView3D().getApplication().getFontCanDisplayAwt(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
+				Font textFont = ((AppD) getView3D().getApplication()).getFontCanDisplayAwt(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
 			//}	
 				
 				return textFont;
