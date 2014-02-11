@@ -4856,6 +4856,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JPanel update(Object[] geos) {
 			// check geos
+			if (model == null)
+				return null;
 			model.setGeos(geos);
 			if (!model.checkGeos())
 				return null;
