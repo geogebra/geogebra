@@ -1,6 +1,7 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -12,7 +13,6 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 
 import java.util.ArrayList;
 

@@ -13,6 +13,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -191,6 +192,16 @@ public class EuclidianController3DD extends
 		evjpanel.addMouseListener(this);
 		evjpanel.addMouseWheelListener(this);
 		evjpanel.addComponentListener(this);
+	}
+	
+	
+	@Override
+	public boolean refreshHighlighting(Hits hits, boolean control) {
+
+		if (AppD.getShiftDown())
+			return false;
+
+		return super.refreshHighlighting(hits, control);
 	}
 
 }

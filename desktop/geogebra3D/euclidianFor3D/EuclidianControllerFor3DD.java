@@ -14,6 +14,7 @@ package geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.euclidian.EuclidianControllerListeners;

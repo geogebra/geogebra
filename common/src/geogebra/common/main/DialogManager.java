@@ -37,6 +37,8 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.AsyncOperation;
@@ -418,4 +420,55 @@ public abstract class DialogManager {
 
 	public abstract void showOpenFromGGTDialog();
 
+	/**
+	 * 
+	 * @param title
+	 * @param geoPoint
+	 */
+	public void showNumberInputDialogSpherePointRadius(String title, GeoPointND geoPoint){
+		// 3D stuff
+		
+	}
+
+	/**
+	 * for creating a cone
+	 * @param title
+	 * @param a basis center
+	 * @param b apex point
+	 */
+	public void showNumberInputDialogConeTwoPointsRadius(String title, GeoPointND a, GeoPointND b){
+		// 3D stuff
+		
+	}
+	
+	
+	/**
+	 * for creating a cylinder
+	 * @param title
+	 * @param a basis center
+	 * @param b top center
+	 */
+	public void showNumberInputDialogCylinderTwoPointsRadius(String title, GeoPointND a, GeoPointND b) {
+		// 3D stuff
+		
+	}
+	
+	/**
+	 * @param title 
+	 * @param geoPoint 
+	 * @param forAxis 
+	 * 
+	 */
+	public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
+		// 3D stuff
+		
+	}
+	
+	
+	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
+			GeoLineND[] selectedLines, GeoElement[] selGeos,
+            EuclidianController ec) {
+		// 3D stuff
+		
+	}
 }

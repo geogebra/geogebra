@@ -1,4 +1,4 @@
-package geogebra3D.euclidianFor3D;
+package geogebra.common.geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;

@@ -3057,6 +3057,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		showDrawingPadPopup(((EuclidianViewD)view).getJPanel(), mouseLoc);
 	}
 	
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
+			geogebra.common.awt.GPoint mouseLoc) {
+		// 3D stuff
+	}
+	
 	public void showPropertiesViewSliderTab(){
 		propertiesView.showSliderTab();
 	}

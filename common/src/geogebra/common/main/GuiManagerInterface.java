@@ -78,6 +78,11 @@ public interface GuiManagerInterface {
 
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc);
+	
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
+			GPoint mouseLoc);
+	
+	
 
 	public boolean hasSpreadsheetView();
 
