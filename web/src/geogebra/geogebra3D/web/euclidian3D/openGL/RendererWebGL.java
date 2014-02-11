@@ -32,18 +32,28 @@ public class RendererWebGL {
 	public RendererWebGL() {
 		  webGLCanvas = Canvas.createIfSupported();
 		  
-		  
-          webGLCanvas.setCoordinateSpaceHeight(500);
-          webGLCanvas.setCoordinateSpaceWidth(500);
           glContext = (WebGLRenderingContext) webGLCanvas.getContext("experimental-webgl");
           if(glContext == null) {
                   Window.alert("Sorry, Your Browser doesn't support WebGL!");
           }
-          glContext.viewport(0, 0, 500, 500);
-          
-          //RootPanel.get("webGL").add(webGLCanvas);
-          start();
-          
+
+          setDimension(500, 500);
+           
+	}
+	
+	
+	/**
+	 * set dimensions of the canvas
+	 * @param w width
+	 * @param h height
+	 */
+	public void setDimension(int w, int h){
+        webGLCanvas.setCoordinateSpaceWidth(w);
+        webGLCanvas.setCoordinateSpaceHeight(h);
+        glContext.viewport(0, 0, w, h);
+        
+        start();
+        
 	}
 	
 	/**

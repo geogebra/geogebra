@@ -41,7 +41,9 @@ public class EuclidianDockPanelW3D extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		return ((EuclidianViewW3D) app.getEuclidianView3D()).getComponent();
+		EuclidianViewW3D view = (EuclidianViewW3D) app.getEuclidianView3D();
+		view.setDockPanel(this);
+		return view.getComponent();
 	}
 
 	@Override
@@ -55,5 +57,6 @@ public class EuclidianDockPanelW3D extends DockPanelW {
 		return (Widget) ((EuclidianViewW3D) app.getEuclidianView3D()).getStyleBar();
 	}
 	
+
 	
 }

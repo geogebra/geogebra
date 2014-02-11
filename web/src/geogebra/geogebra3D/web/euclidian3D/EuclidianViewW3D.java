@@ -5,10 +5,13 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
+import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelW3D;
 import geogebra.web.euclidian.EuclidianViewW;
 
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -159,6 +162,20 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 	////////////////////////////////////////////////////////////
 	// MyEuclidianViewPanel
 	////////////////////////////////////////////////////////////
+	
+	/**
+	 * current dockPanel (if exists)
+	 */
+	EuclidianDockPanelW3D dockPanel = null;
+	
+	/**
+	 * 
+	 * @param dockPanel current dockPanel (if exists)
+	 */
+	public void setDockPanel(EuclidianDockPanelW3D dockPanel){
+		this.dockPanel = dockPanel;
+	}
+	
 
 	
 	@Override
@@ -171,8 +188,10 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 	 * @author mathieu
 	 *
 	 */
-	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel{
-
+	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements RequiresResize {
+		
+		private RendererWebGL renderer;
+		
 		/**
 		 * constructor
 		 * @param ev euclidian view
@@ -183,8 +202,21 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 		
 		@Override
         protected void createCanvas(){
-			RendererWebGL test = new RendererWebGL();
-			canvas = test.getGLCanvas();
+			renderer = new RendererWebGL();
+			canvas = renderer.getGLCanvas();
+		}
+		
+		@Override
+		public void onResize() {
+			super.onResize();
+			if (dockPanel != null){
+				int w = dockPanel.getComponentInteriorWidth();
+				int h = dockPanel.getComponentInteriorHeight();
+
+				App.debug("------------------ resize -----------------------");
+				App.debug("w = "+w+" , h = "+h);
+				renderer.setDimension(w, h);
+			}
 		}
 		
 	}
