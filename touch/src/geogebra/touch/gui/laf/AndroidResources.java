@@ -10,75 +10,85 @@ interface AndroidResources extends DefaultResources {
 	// Dialogs
 
 	@Override
-	@Source("icons/svg/android/arrow_go_next.svg")
+	@Source("icons/png/android/arrow_go_next.png")
 	ImageResource arrow_go_next();
 
 	@Override
-	@Source("icons/svg/android/arrow_go_previous.svg")
+	@Source("icons/png/android/arrow_go_previous.png")
 	ImageResource arrow_go_previous();
 
 	@Override
-	@Source("icons/svg/android/menu_back.svg")
+	@Source("icons/png/android/menu_back.png")
 	ImageResource back();
 
 	@Override
-	@Source("icons/svg/android/button_cancel.svg")
+	@Source("icons/png/android/button_cancel.png")
 	ImageResource dialog_cancel();
 
 	// Header
 
 	@Override
-	@Source("icons/svg/android/button_trashcan.svg")
+	@Source("icons/png/android/button_trashcan.png")
 	ImageResource dialog_trash();
 
 	@Override
-	@Source("icons/svg/android/document_edit.svg")
+	@Source("icons/png/android/document_edit.png")
 	ImageResource document_edit();
 
 	@Override
-	@Source("icons/svg/android/document-new.svg")
+	@Source("icons/png/android/document-new.png")
 	ImageResource document_new();
 
 	@Override
-	@Source("icons/svg/android/document-open.svg")
+	@Source("icons/png/android/document-open.png")
 	ImageResource document_open();
 
 	@Override
-	@Source("icons/svg/android/document-save.svg")
+	@Source("icons/png/android/document-save.png")
 	ImageResource document_save();
+	
+	// Stylingbar
+	
+	@Override
+	@Source("icons/png/android/stylingbar_graphicsview_standardview.png")
+	ImageResource standardView();
+	
+	@Override
+	@Source("icons/png/android/stylingbar_graphicsview_point_capturing.png")
+	ImageResource pointCapturing();
 
 	// GeoGebraTube View
 
 	@Override
-	@Source("icons/svg/android/document_share.svg")
+	@Source("icons/png/android/document_share.png")
 	ImageResource document_share();
 
 	@Override
-	@Source("icons/svg/android/document_viewer.svg")
+	@Source("icons/png/android/document_viewer.png")
 	ImageResource document_viewer();
 
 	@Override
-	@Source("icons/svg/android/icon_fx.svg")
+	@Source("icons/png/android/icon_fx.png")
 	ImageResource icon_fx();
 
 	@Override
-	@Source("icons/svg/android/icon_question.svg")
+	@Source("icons/png/android/icon_question.png")
 	ImageResource icon_question();
 
 	@Override
-	@Source("icons/svg/android/icon_warning.svg")
+	@Source("icons/png/android/icon_warning.png")
 	ImageResource icon_warning();
 
 	@Override
-	@Source("icons/svg/android/menu_edit_redo.svg")
+	@Source("icons/png/android/menu_edit_redo.png")
 	ImageResource redo();
 
 	@Override
-	@Source("icons/svg/android/document-open.svg")
+	@Source("icons/png/android/document-open.png")
 	ImageResource search();
 
 	@Override
-	@Source("icons/svg/android/menu_edit_undo.svg")
+	@Source("icons/png/android/menu_edit_undo.png")
 	ImageResource undo();
 
 }

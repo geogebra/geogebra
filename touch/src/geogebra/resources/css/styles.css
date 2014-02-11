@@ -248,7 +248,7 @@ input.worksheetTitle {
 
 .optionsBoxArrow {
 	left: 17px;
-	top: -13px;
+	top: -11px;
 	z-index: 10;
 	position: absolute;
 }
@@ -536,8 +536,12 @@ body .gwt-Tree .gwt-TreeItem-selected {
 }
 
 .subToolBarArrow {
-	margin-top: -8px;
+	margin-top: -5px;
 	padding-left: 23px;
+}
+
+.subToolBarArrow img {
+	height: 10px;
 }
 
 /* #####################################################################
