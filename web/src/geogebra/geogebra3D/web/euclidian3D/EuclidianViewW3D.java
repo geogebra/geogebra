@@ -5,7 +5,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelW3D;
@@ -213,8 +212,8 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 				int w = dockPanel.getComponentInteriorWidth();
 				int h = dockPanel.getComponentInteriorHeight();
 
-				App.debug("------------------ resize -----------------------");
-				App.debug("w = "+w+" , h = "+h);
+				//App.debug("------------------ resize -----------------------");
+				//App.debug("w = "+w+" , h = "+h);
 				renderer.setDimension(w, h);
 			}
 		}

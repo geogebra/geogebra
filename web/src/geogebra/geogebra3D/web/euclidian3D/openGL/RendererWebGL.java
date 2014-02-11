@@ -3,6 +3,7 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.array.Float32Array;
 import com.googlecode.gwtgl.binding.WebGLBuffer;
@@ -25,6 +26,12 @@ public class RendererWebGL {
     private WebGLProgram shaderProgram;
     private int vertexPositionAttribute;
     private WebGLBuffer vertexBuffer;
+    
+    private int width, height;
+    
+    
+    private Timer loopTimer;
+    private long lastTime, timeNow;
 
     /**
      * renderer for webGL
@@ -38,7 +45,32 @@ public class RendererWebGL {
           }
 
           setDimension(500, 500);
+          
+          
+          lastTime = 0;
+
+          loopTimer = new Timer() {
+            @Override
+            public void run() {
+              loop();
+            }
+          }; 
+          loopTimer.scheduleRepeating(10);
            
+	}
+
+	protected void loop() {
+		drawScene();
+		update();
+	}
+
+	private void update() {
+		timeNow = System.currentTimeMillis();
+		if (lastTime != 0) {
+			long elapsed = timeNow - lastTime;
+			//mesh.rotate(elapsed);
+		}
+		lastTime = timeNow; 
 	}
 	
 	
@@ -51,6 +83,9 @@ public class RendererWebGL {
         webGLCanvas.setCoordinateSpaceWidth(w);
         webGLCanvas.setCoordinateSpaceHeight(h);
         glContext.viewport(0, 0, w, h);
+        
+        width = w;
+        height = h;
         
         start();
         
@@ -121,13 +156,15 @@ public class RendererWebGL {
                          1.0f, -1.0f,  -5.0f  // third vertex
         };
         glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, Float32Array.create(vertices), WebGLRenderingContext.STATIC_DRAW);
+	
+	
 	}
 	
 	
 	
 	private void drawScene() {
         glContext.clear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-        float[] perspectiveMatrix = createPerspectiveMatrix(45, 1, 0.1f, 1000);
+        float[] perspectiveMatrix = createPerspectiveMatrix(45, (float) width/height, 0.1f, 1000);
         WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "perspectiveMatrix");
         glContext.uniformMatrix4fv(uniformLocation, false, perspectiveMatrix);
         glContext.vertexAttribPointer(vertexPositionAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
