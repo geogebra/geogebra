@@ -4,6 +4,11 @@
 # the specified directory (-d ...). It can use a
 # different template than the default webtest-template.js
 # (use -t ...) and can skip analying (-a no-analyze).
+# Also BASE can be changed (-b ...).
+# Use -r ... to change the report suffix (REPORT),
+# -s to add an extra substitution variable,
+# in this case specify -S ... for a suffix file pattern
+# and -P ... for an external program to get the substitution string.
 
 test -r autotest.conf && . ./autotest.conf
 
@@ -16,17 +21,32 @@ REVISION=`./myrevision`
 WEBTESTWARDIR=`echo $WEBTESTWARDIR | sed s/latest/$REVISION/`
 
 BASE=$WEBTESTPROTOCOL://$WEBTESTSERVER:$WEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
+BASE_CHANGED=0
 REMOTEBASE=$REMOTEWEBTESTPROTOCOL://$REMOTEWEBTESTSERVER:$REMOTEWEBTESTPORT/$WEBTESTWARDIR/$WEBTESTPAGE
 REPORT=webtest-out.json
 TIMEOUT=10000
 REPEAT=1000
 COLORS="--colors"
 COLORS="" # disabling it for easier analyzation
+# phantomjs timeouts:
+TIMEOUT_P=15 # sigterm
+TIMEOUT_P2=20 # sigkill
 
 run() {
  TEST="$1"
  PARAMS="f=$TEST&$TESTPARAMS"
  TESTURL="$BASE?$PARAMS"
+ if [ "$BASE_CHANGED" = 1 ]; then
+  # We have a different TESTURL logic. In this case the
+  # BASE must be followed by $1 as the directory (without .ggb):
+  TESTNAME=`basename $1 .ggb`
+  # TESTURL="$BASE/$TESTNAME/test_compiled0.html"
+  TESTURL="$BASE/$TESTNAME/test0.html"
+  # There will be probably SUBST_FROM, SUBST_SUFFIX and SUBST_PROGRAM variables, too.
+  if [ "$SUBST_FROM" != "" -a "$SUBST_SUFFIX" != "" -a $SUBST_PROGRAM != "" ]; then
+   SUBST_TO=`$SUBST_PROGRAM $TESTNAME.ggb-$SUBST_SUFFIX`
+   fi
+  fi
  echo "Testing URL $TESTURL" >/dev/stderr
  TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g | sed s/"\&"/"\\\\\\\\\&"/g`
  TESTNAME=`basename $1 .ggb | tr _ " "`
@@ -37,9 +57,9 @@ run() {
   fi
  cat $TEMPLATE | sed s/"\$TESTURL"/"$TESTURLSED"/g | sed s/"\$OUTPUTPNG"/"$PNGFILE"/g \
   | sed s/"\$TIMEOUT"/"$TIMEOUT"/g | sed s/"\$REPEAT"/"$REPEAT"/g \
-  | sed s/"\$EXITSTRING"/"$EXITSTRING"/g \
+  | sed s/"\$EXITSTRING"/"$EXITSTRING"/g | sed s/"\$$SUBST_FROM"/"$SUBST_TO"/g \
   > $PHANTOMJSFILE
- phantomjs $PHANTOMJSFILE > $REPORT
+ timeout -k $TIMEOUT_P2 $TIMEOUT_P phantomjs $PHANTOMJSFILE > $REPORT
  echo "Return value: $?" >/dev/stderr
  # Postprocessing:
  tail -10 $REPORT >/dev/stderr
@@ -91,7 +111,7 @@ if [ "$SYNTAXERROR" != "" ]; then
 MYDIR=`pwd`
 TESTDIR=$REVDIR/$REVISION/war/test
 
-while getopts ":d:a:t:" o; do
+while getopts ":d:a:t:b:r:s:S:P:" o; do
  case "${o}" in
   d)
    TESTDIR=${OPTARG}
@@ -102,6 +122,23 @@ while getopts ":d:a:t:" o; do
   a)
    ACTION=${OPTARG}
    ;;
+  b)
+   BASE=${OPTARG}
+   BASE_CHANGED=1
+   ;;
+  r)
+   REPORT=${OPTARG}
+   ;;
+  s)
+   SUBST_FROM=${OPTARG}
+   ;;
+  S)
+   SUBST_SUFFIX=${OPTARG}
+   ;;
+  P)
+   SUBST_PROGRAM=${OPTARG}
+   ;;
+   
   esac
  done
 shift $((OPTIND-1))
@@ -111,7 +148,7 @@ TESTFILES=`cd $TESTDIR; ls -1 *.ggb | grep -v ^_`
 for i in $TESTFILES; do
  run $i
  if [ "$ACTION" = "no-analyze" ]; then
-  continue;
+  continue 1;
   fi
  ansi_analyze $i ggbOnInit
  RETVAL=$?
