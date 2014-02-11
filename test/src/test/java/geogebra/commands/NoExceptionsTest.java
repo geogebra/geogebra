@@ -485,6 +485,7 @@ public class NoExceptionsTest {
 	public void cmdCurvatureVector() {
 		t("CurvatureVector[ Pt1, curve1 ]");
 		t("CurvatureVector[ Pt1, f1 ]");
+		t("CurvatureVector[ Pt1, c3 ]");
 	}
 
 	@Test
@@ -1336,6 +1337,7 @@ public class NoExceptionsTest {
 	public void cmdOsculatingCircle() {
 		t("OsculatingCircle[ Pt1, curve1 ]");
 		t("OsculatingCircle[ Pt1, f1 ]");
+		t("OsculatingCircle[ Pt1, c3 ]");
 	}
 
 	@Test

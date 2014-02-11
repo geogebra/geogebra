@@ -5,40 +5,42 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 
-
 /**
  * @author Victor Franco Espino
  * @version 11-02-2007
  * 
- * Calculate Curvature Vector for curve: c(t) = ((a'(t)b''(t)-a''(t)b'(t))/T^4) *
- * (-b'(t),a'(t)) T = sqrt(a'(t)^2+b'(t)^2)
+ *          Calculate Curvature Vector for curve: c(t) =
+ *          ((a'(t)b''(t)-a''(t)b'(t))/T^4) * (-b'(t),a'(t)) T =
+ *          sqrt(a'(t)^2+b'(t)^2)
  */
 
 public class AlgoCurvatureVectorCurve extends AlgoElement {
 
 	private GeoPoint A; // input
-	private GeoCurveCartesian f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)										
+	private GeoCurveCartesian f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)
 	private GeoVector v; // output
 
 	private double f1eval[] = new double[2];
 	private double f2eval[] = new double[2];
-	
-    AlgoDerivative algoCAS, algoCAS2;
 
-	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
-			GeoCurveCartesian f) {
+	AlgoDerivative algoCAS, algoCAS2;
+	private GeoConic gc;
+
+	public AlgoCurvatureVectorCurve(Construction cons, String label,
+			GeoPoint A, GeoCurveCartesian f) {
 		this(cons, A, f);
 
 		if (label != null) {
 			v.setLabel(label);
 		} else {
 			// if we don't have a label we could try c
-			v.setLabel("c");
+			v.setLabel("cv");
 		}
 	}
 
@@ -54,6 +56,13 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		} catch (CircularDefinitionException e) {
 		}
 
+		cas();
+
+		setInputOutput();
+		compute();
+	}
+
+	private void cas() {
 		// First derivative of curve f
 		algoCAS = new AlgoDerivative(cons, f);
 		cons.removeFromConstructionList(algoCAS);
@@ -63,25 +72,57 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		algoCAS2 = new AlgoDerivative(cons, f1);
 		cons.removeFromConstructionList(algoCAS2);
 		this.f2 = (GeoCurveCartesian) algoCAS2.getResult();
-		
+	}
+
+	AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint a2,
+			GeoConic geoConic) {
+		this(cons, a2, geoConic);
+		if (label != null) {
+			v.setLabel(label);
+		} else {
+			v.setLabel("cv");
+		}
+	}
+
+	public AlgoCurvatureVectorCurve(Construction cons, GeoPoint A,
+			GeoConic geoConic) {
+		super(cons);
+		this.A = A;
+		this.gc = geoConic;
+		f = new GeoCurveCartesian(cons);
+		gc.toGeoCurveCartesian(f);
+		// create new vector
+		v = new GeoVector(cons);
+		try {
+			v.setStartPoint(A);
+		} catch (CircularDefinitionException e) {
+		}
+
+		cas();
+
 		setInputOutput();
 		compute();
 	}
 
 	@Override
 	public Commands getClassName() {
-        return Commands.CurvatureVector;
-    }
+		return Commands.CurvatureVector;
+	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = A;
-		input[1] = f;
+		if (gc!=null){
+			input[1]=gc;
+		} else {
+			input[1] = f;
+		}
+		
 
-        super.setOutputLength(1);
-        super.setOutput(0, v);
+		super.setOutputLength(1);
+		super.setOutput(0, v);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -92,9 +133,13 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		try {			
+		try {
 			double t, t4, x, y, evals, tvalue;
-
+			if (gc!=null){
+				f=new GeoCurveCartesian(cons);
+				gc.toGeoCurveCartesian(f);
+				cas();
+			}
 			tvalue = f.getClosestParameter(A, f.getMinParameter());
 			f1.evaluateCurve(tvalue, f1eval);
 			f2.evaluateCurve(tvalue, f2eval);
@@ -104,27 +149,26 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 
 			x = A.inhomX + ((evals / t4) * (-f1eval[1]));
 			y = A.inhomY + ((evals / t4) * f1eval[0]);
-			
+
 			v.x = x - A.inhomX;
 			v.y = y - A.inhomY;
 			v.z = 0.0;
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			// in case something went wrong, e.g. derivatives not defined
 			v.setUndefined();
 		}
 	}
-	
+
 	@Override
 	public void remove() {
-		if(removed)
+		if (removed)
 			return;
-    	super.remove();  
-   		A.removeAlgorithm(algoCAS);
-   		f.removeAlgorithm(algoCAS);
-   		A.removeAlgorithm(algoCAS2);
-   		f.removeAlgorithm(algoCAS2);
-    }
+		super.remove();
+		A.removeAlgorithm(algoCAS);
+		f.removeAlgorithm(algoCAS);
+		A.removeAlgorithm(algoCAS2);
+		f.removeAlgorithm(algoCAS2);
+	}
 
 	// TODO Consider locusequability
 

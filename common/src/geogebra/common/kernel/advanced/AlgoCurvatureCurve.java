@@ -88,23 +88,25 @@ public class AlgoCurvatureCurve extends AlgoElement {
         return K;
     }
 
-    @Override
+	@Override
 	public final void compute() {
-    	if (f.isDefined()) {	
-    		if (gc!=null){
-    			f=new GeoCurveCartesian(cons);
-    			gc.toGeoCurveCartesian(f);  			
-    		}
-    		try{
-    			double t = f.getClosestParameter(A, f.getMinParameter());	    		        
-    			K.setValue( f.evaluateCurvature(t) );
-    		}catch(Exception ex){
-    			K.setUndefined();
-    		}
-    	} else {
-    		K.setUndefined();
-    	}
-    }
+
+		if (gc != null) {
+			f = new GeoCurveCartesian(cons);
+			gc.toGeoCurveCartesian(f);
+		}
+
+		if (f.isDefined()) {
+			try {
+				double t = f.getClosestParameter(A, f.getMinParameter());
+				K.setValue(f.evaluateCurvature(t));
+			} catch (Exception ex) {
+				K.setUndefined();
+			}
+		} else {
+			K.setUndefined();
+		}
+	}
 
 	// TODO Consider locusequability   
 }

@@ -3,6 +3,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -36,25 +37,31 @@ public class CmdCurvatureVector extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				
-				AlgoCurvatureVector algo = new AlgoCurvatureVector(cons,c.getLabel(),
-						(GeoPoint) arg[0], (GeoFunction) arg[1]);
+
+				AlgoCurvatureVector algo = new AlgoCurvatureVector(cons,
+						c.getLabel(), (GeoPoint) arg[0], (GeoFunction) arg[1]);
 
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
-				
-				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(cons,
-						c.getLabel(),
-						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]);
+
+				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(
+						cons, c.getLabel(), (GeoPoint) arg[0],
+						(GeoCurveCartesian) arg[1]);
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
+			} else if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoConic()))) {
+				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(
+						cons, c.getLabel(), (GeoPoint) arg[0],
+						(GeoConic) arg[1]);
+				GeoElement[] ret = { algo.getVector() };
+				return ret;
 			}
+			if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

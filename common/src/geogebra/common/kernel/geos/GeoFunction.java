@@ -1040,7 +1040,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		double f1eval = f1.evaluate(x);
 		double t = Math.sqrt(1 + f1eval * f1eval);
 		double t3 = t * t * t;
-		return Math.abs(f2.evaluate(x)) / t3;
+		return f2.evaluate(x) / t3;
 	}
 
 	final public RealRootFunction getRealRootFunctionX() {
