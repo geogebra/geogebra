@@ -294,10 +294,8 @@
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 .gwt-MenuBar .gwt-MenuItem-selected {
-  background: #E3E8F3;
+  background: #CCCCFF;
 }
-
-
 
 /*.gwt-MenuBar-horizontal {
   background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
@@ -1290,13 +1288,19 @@ td.datePickerMonth {
 }
 
 .gwt-SplitLayoutPanel-HDragger {
-  background: #e7e7e7 url(images/thumb_vertical.png) center center no-repeat;
-  cursor: col-resize;
+	cursor: col-resize;
+  	background: #F8F8F8 url(images/thumb_vertical2.png) center center no-repeat;
+	border-left: 1px solid #EDEDED;
+	border-right: 1px solid #EDEDED;
+	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
 }
 
 .gwt-SplitLayoutPanel-VDragger {
-  background: #e7e7e7 url(images/thumb_horz.png) center center no-repeat;
-  cursor: row-resize;
+  	cursor: row-resize;
+  	background: #F8F8F8 url(images/thumb_horz2.png) center center no-repeat;
+	border-left: 1px solid #EDEDED;
+	border-right: 1px solid #EDEDED;
+	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
 }
 
 
@@ -1662,10 +1666,17 @@ Paddings for menuitems.
 .ToolTip {
 	display: block;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	background: whitesmoke;
+	/*background: whitesmoke;
 	border: 1px solid lightgray;
 	box-shadow: 2px 2px 8px -1px #ccc;
-	padding: 2px 4px;
+	padding: 2px 4px;*/
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px 10px;
+	background-color: rgba(255, 255, 255, 95);
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
 .toolTipHTML {
@@ -1740,7 +1751,7 @@ body[dir=rtl] .undoPanel {
 }
 
 [isSelected=false] .toolbar_icon:hover {
-	border-color: #6666FF;
+	border-color: #9999FF;
 }
 
 [isSelected=true] .toolbar_icon {
@@ -1754,13 +1765,13 @@ body[dir=rtl] .undoPanel {
 .red_triangle{
 	position: relative;
 	width: 8px;
-	height: 4px;
+	height: 5px;
 	top: -19px;
 	left: 18px;
 }
 
 .gwt-MenuBar-horizontal  .toolbar_item {
-	padding: 0px 10px 0px 0px;
+	padding: 0px 5px 0px 0px;
 	text-align: center;
 	vertical-align: top;
 	position: relative;
@@ -2224,25 +2235,32 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /* ========== Input Help  end ============ */
 
+/* first td of heading table should have width: 0% */
+#View_2 div table tr > td + td {
+	width: 100%;
+}
+
+#View_2 div div > div {
+	margin-left: 0px !important;
+} 
+
 .elemHeading {
 	border-bottom: 1px solid #EDEDED;
-	margin-left: -17px;
 	position: relative;
-	margin-bottom: 5px;
+}
+
+#View_2 div table + div {
+	margin-top: 5px;
 }
 
 .elemHeadingName {
 	padding: 15px 30px 15px 5px;
 }
 
-.algebraOpenButton{
+.algebraOpenButton {
 	position: absolute;
 	top: 8px;
 	right: 0px;
-}
-
-.elem {
-	margin-left: -15px;
 }
 
 .marble {
@@ -2261,8 +2279,9 @@ label {
 
 #View_2 {
 	height: 100%;
-	padding: 0px 10px;
+	padding: 0px 12px 0px 9px;
 }
+
 .algebraPanel>div {
 	height: 100%;
 }
