@@ -34,6 +34,7 @@ import geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectLis
 import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
 import geogebra.common.gui.dialog.options.model.DecoAngleModel;
+import geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import geogebra.common.gui.dialog.options.model.FillingModel;
 import geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -4830,7 +4831,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	private class DecoAnglePanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel,
+			IDecoAngleListener {
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
 		private DecoAngleModel model;
@@ -4899,6 +4901,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
+
+		}
+
+		public void setArcSizeMinValue() {
+			setSliderMinValue();
 
 		}
 	}
