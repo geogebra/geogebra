@@ -31,7 +31,6 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
-import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
@@ -187,7 +186,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	private MyToggleButton2[] toggleBtnList;
 	private PopupMenuButton[] popupBtnList;
 	
-	private MyCJButton btnDeleteGeo;
+	//private MyCJButton btnDeleteGeo;
 	
 	private enum StyleBarMethod {NONE, UPDATE, UPDATE_STYLE};
 	
@@ -736,8 +735,8 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// ========================================
 		// delete geo button
-		btnDeleteGeo = new MyCJButton(AppResources.INSTANCE.delete_small());
-		btnDeleteGeo.addClickHandler(this);
+		// btnDeleteGeo = new MyCJButton(AppResources.INSTANCE.delete_small());
+		// btnDeleteGeo.addClickHandler(this);
 		// add(btnDeleteGeo);
 
 		// ========================================
