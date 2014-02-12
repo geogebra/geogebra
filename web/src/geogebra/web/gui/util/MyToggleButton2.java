@@ -81,8 +81,8 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	private void initButton(int height) {
 		this.buttonHeight = height;
 		setDown(false);
-		setHeight(buttonHeight + "px");
-		setWidth(buttonHeight + "px");
+		//setHeight(buttonHeight + "px");
+		//setWidth(buttonHeight + "px");
 		addStyleName("MyToggleButton");
 		addMouseOutHandler(this);
 		addMouseOverHandler(this);

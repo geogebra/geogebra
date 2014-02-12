@@ -600,7 +600,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			if (app.getSettings().getLayout().showTitleBar()
 				/* && !(isAlone && !isMaximized())*/ && !app.isApplet()
 				&& (!isOpenInFrame())) {
-				dockPanel.addNorth(theRealTitleBarPanel, 16);
+				dockPanel.addNorth(theRealTitleBarPanel, 28);
 			}
 
 			// caring for applets; where it might not be visible, except for the SV
@@ -613,7 +613,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 			if (isStyleBarVisible()) {
 				setStyleBar();
-				dockPanel.addNorth(styleBarPanel, 25);
+				dockPanel.addNorth(styleBarPanel, 45);
 				if (toglStyleBtn2.isAttached()) {
 					titleBarPanel.remove(toglStyleBtn2);
 					titleBarPanel.insert(toglStyleBtn, 2, 0, 0);

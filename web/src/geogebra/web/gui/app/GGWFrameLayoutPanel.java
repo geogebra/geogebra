@@ -14,7 +14,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	public static final int COMMAND_LINE_HEIGHT = 43;
 	public static final int MENUBAR_HEIGHT = 35;
-	public static final int TOOLBAR_HEIGHT = 61;
+	public static final int TOOLBAR_HEIGHT = 63;
 
 	public static final int MINUS_FROM_HEIGHT = COMMAND_LINE_HEIGHT + MENUBAR_HEIGHT + TOOLBAR_HEIGHT;
 

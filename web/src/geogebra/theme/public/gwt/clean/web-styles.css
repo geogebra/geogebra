@@ -1442,7 +1442,7 @@ Paddings for menuitems.
 /*=============== StyleBar ===============*/
 
 .ButtonPopupMenu div:focus {
-	border:1px solid transparent;
+	border: 1px solid transparent;
 }
 
 .SelectionTable a {
@@ -1455,7 +1455,7 @@ Paddings for menuitems.
 }
 
 .SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
-	background: #D5E2FF;
+	background: #CCCCFF;
 }
 
 .SelectionTable canvas {
@@ -1469,34 +1469,40 @@ Paddings for menuitems.
 
 .StyleBarPanel {
 	margin: auto 0;
+	margin-top: 0px;
+	height: 42px;
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
 
 .StyleBarPanel, .TitleBarPanel {
-	background: url("images/hborder.png") repeat-x 0px -27px;
-	border-bottom: 1px solid lightgray;
+	/*background: url("images/hborder.png") repeat-x 0px -27px;
+	border-bottom: 1px solid lightgray;*/
 	width: 100%;
 }
 
 .TitleBarPanel-focus {
-	background: url("images/hborder.png") repeat-x 0px -60px;
+	/*background: url("images/hborder.png") repeat-x 0px -60px;*/
+	background: #CCCCFF;
 }
 
 
 .TitleBarPanel {
-	height: 16px;
+	height: 28px;
+	background: #F8F8F8;
 }
 
 .TitleBarLabel {
-	font-size: 10px;
-	font-weight: bold;
+	/*font-size: 10px;*/
+	font-size: 100%;
+	/*font-weight: bold;*/
 }
 
 .CloseButton {
-	padding: 0px;
+	padding: 5px;
 	margin: 0px;
-	width: 16px;
-	height: 16px;
+	width: 15px;
+	height: 15px;
 }
 
 .DockGlassPane, .TitleBarPanel {
@@ -1526,9 +1532,20 @@ Paddings for menuitems.
 	color: gray;
 }
 
-.MyToggleButton{
-	padding: 1px;
+.MyToggleButton,
+.MyCanvasButton {
+	/*padding: 1px;*/
 	text-align: center;
+	
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	background-color: #FFFFFF;
+	padding: 3px;
+	width: 24px;
+	height: 24px;
 }
 
 
@@ -1805,8 +1822,8 @@ body[dir=rtl] .undoPanel {
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
 	color: #333333;
-	padding: 10px;
-	/*z-index: 50;*/
+	padding: 8px 10px 10px;
+	height: 42px;
 }
 
 .GGWToolbar table {

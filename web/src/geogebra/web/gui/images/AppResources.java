@@ -43,7 +43,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/auxiliary.png")
 	ImageResource auxiliary();
 	
-	@Source("geogebra/web/gui/images/axes.gif")
+	@Source("geogebra/web/gui/images/stylingbar_graphicsview_show_or_hide_the_axes.png")
 	ImageResource axes();
 	
 	@Source("geogebra/web/gui/images/border_all.png")
@@ -235,7 +235,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/go-up.png")
 	ImageResource go_up();
 	
-	@Source("geogebra/web/gui/images/grid.gif")
+	@Source("geogebra/web/gui/images/stylingbar_graphicsview_show_or_hide_the_grid.png")
 	ImageResource grid();
 	
 	@Source("geogebra/web/gui/images/header_column.png")
@@ -286,7 +286,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/lock.png")
 	ImageResource lock();
 	
-	@Source("geogebra/web/gui/images/magnet.gif")
+	@Source("geogebra/web/gui/images/stylingbar_graphicsview_point_capturing.png")
 	ImageResource magnet();
 	
 	@Source("geogebra/web/gui/images/magnet2.gif")
@@ -442,7 +442,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/view-cas24.png")
 	ImageResource view_cas24();
 	
-	@Source("geogebra/web/gui/images/view-close.png")
+	@Source("geogebra/web/gui/images/view_close.png")
 	ImageResource view_close();
 	
 	@Source("geogebra/web/gui/images/view-constructionprotocol24.png")
@@ -505,7 +505,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/social-twitter.png")
 	ImageResource social_twitter();
 
-	@Source("geogebra/web/gui/images/standard_view.gif")
+	@Source("geogebra/web/gui/images/stylingbar_graphicsview_standardview.png")
 	ImageResource standard_view();
 	
 	@Source("geogebra/web/gui/images/menuBarSubMenuIconLTR.gif")
