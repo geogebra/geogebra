@@ -373,4 +373,69 @@ public class GeoGebraIcon extends BasicIcons{
 		}
 		return g2.getImageData(0, 0, w, h);
 	}
+
+	public static ImageData createDecorSegmentIcon(int id, GDimensionW iconSize) {
+		int width = iconSize.getWidth();
+		int height = iconSize.getHeight();
+		
+		Canvas c = getTmpCanvas(width, height);
+		GGraphics2DW g2 = new GGraphics2DW(c);
+		
+		g2.clearRect(0, 0, width, height);
+		g2.setColor(GColor.BLACK);
+		int mid = height / 2;
+		g2.drawLine(0, mid, width, mid);
+
+		switch (id) {
+		case GeoElement.DECORATION_NONE:
+			break;
+		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
+			int quart = mid / 2;
+			int mid_width = width / 2;
+			g2.drawLine(mid_width, quart, mid_width, mid + quart);
+			break;
+		case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
+			quart = mid / 2;
+			mid_width = width / 2;
+			g2.drawLine(mid_width - 1, quart, mid_width - 1, mid + quart);
+			g2.drawLine(mid_width + 2, quart, mid_width + 2, mid + quart);
+			break;
+		case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
+			quart = mid / 2;
+			mid_width = width / 2;
+			g2.drawLine(mid_width, quart, mid_width, mid + quart);
+			g2.drawLine(mid_width + 3, quart, mid_width + 3, mid + quart);
+			g2.drawLine(mid_width - 3, quart, mid_width - 3, mid + quart);
+			break;
+		// Michael Borcherds 20071006 start
+		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
+			quart = mid / 2;
+			mid_width = width / 2;
+			g2.drawLine(mid_width, mid, mid_width - quart, mid - quart);
+			g2.drawLine(mid_width, mid, mid_width - quart, mid + quart);
+			break;
+		case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
+			quart = mid / 2;
+			mid_width = width / 2;
+			g2.drawLine(mid_width - 3, mid, mid_width - quart - 3, mid - quart);
+			g2.drawLine(mid_width - 3, mid, mid_width - quart - 3, mid + quart);
+			g2.drawLine(mid_width + 3, mid, mid_width - quart + 3, mid - quart);
+			g2.drawLine(mid_width + 3, mid, mid_width - quart + 3, mid + quart);
+			break;
+		case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
+			quart = mid / 2;
+			mid_width = width / 2;
+			g2.drawLine(mid_width, mid, mid_width - quart, mid - quart);
+			g2.drawLine(mid_width, mid, mid_width - quart, mid + quart);
+			g2.drawLine(mid_width + 6, mid, mid_width - quart + 6, mid - quart);
+			g2.drawLine(mid_width + 6, mid, mid_width - quart + 6, mid + quart);
+			g2.drawLine(mid_width - 6, mid, mid_width - quart - 6, mid - quart);
+			g2.drawLine(mid_width - 6, mid, mid_width - quart - 6, mid + quart);
+			break;
+		// Michael Borcherds 20071006 end
+		}
+
+		return g2.getImageData(0, 0, width, height);
+
+    }
 }
