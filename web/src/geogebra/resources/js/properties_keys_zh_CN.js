@@ -2201,7 +2201,7 @@ __GGB__keysVar.zh_CN.plain = {
     "DepthScaleFactor": "\u6df1\u5ea6\u6bd4\u4f8b\u56e0\u5b50",
     "DerivativeOfA": "%0 \u7684\u5bfc\u6570",
     "Description": "\u63cf\u8ff0",
-    "DiameterOfAConjugateToB": "%1 \u76f8\u5bf9\u4e8e %0 \u7684\u201c\u5f84\u7ebf\u201d",
+    "DiameterOfAConjugateToB": "%1 \u76f8\u5bf9\u4e8e %0 \u7684\u5f84\u7ebf",
     "Dimensions": "\u8303\u56f4",
     "DirectionOfA": "%0 \u7684\u65b9\u5411\u5411\u91cf",
     "Directrix": "\u51c6\u7ebf",
