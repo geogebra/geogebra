@@ -4839,7 +4839,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		DecoAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			//model = new DecoAngleModel(this);
+			model = new DecoAngleModel(this);
 			// deco combobox
 			DecorationAngleListRenderer renderer = new DecorationAngleListRenderer();
 			renderer.setPreferredSize(new Dimension(80, 30));
@@ -4857,9 +4857,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			// check geos
-			if (model == null)
-				return null;
 			model.setGeos(geos);
 			if (!model.checkGeos())
 				return null;
