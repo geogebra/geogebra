@@ -1,5 +1,7 @@
 package geogebra.touch.gui.elements;
 
+import geogebra.html5.gui.StandardButton;
+
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;

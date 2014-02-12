@@ -1,8 +1,8 @@
 package geogebra.touch.gui.euclidian;
 
+import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 
 import java.util.ArrayList;

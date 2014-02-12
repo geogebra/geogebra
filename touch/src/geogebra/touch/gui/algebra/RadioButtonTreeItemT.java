@@ -2,9 +2,9 @@ package geogebra.touch.gui.algebra;
 
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.elements.FastButton;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;

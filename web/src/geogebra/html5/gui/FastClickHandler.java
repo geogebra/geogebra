@@ -1,4 +1,4 @@
-package geogebra.touch.gui.algebra.events;
+package geogebra.html5.gui;
 
 import com.google.gwt.event.shared.EventHandler;
 

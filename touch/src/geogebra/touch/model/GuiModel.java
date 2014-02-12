@@ -5,7 +5,7 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.PointProperties;
-import geogebra.touch.gui.elements.FastButton;
+import geogebra.html5.gui.FastButton;
 import geogebra.touch.gui.elements.stylebar.OptionsPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.gui.elements.stylebar.StyleBarStatic;

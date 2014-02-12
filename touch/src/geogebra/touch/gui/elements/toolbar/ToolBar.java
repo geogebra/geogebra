@@ -1,14 +1,14 @@
 package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
-import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.elements.StandardClickButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;

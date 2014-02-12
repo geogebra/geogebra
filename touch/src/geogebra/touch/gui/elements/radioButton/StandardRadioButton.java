@@ -1,10 +1,14 @@
 package geogebra.touch.gui.elements.radioButton;
 
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.StandardButton;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
+import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.laf.LookAndFeel;
 
 public class StandardRadioButton extends StandardButton {
 
+	protected static LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
+	
 	private boolean activated = false;
 	private final StandardRadioGroup group;
 

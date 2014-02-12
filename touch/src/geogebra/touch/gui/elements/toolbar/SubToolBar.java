@@ -1,8 +1,8 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 
 import com.google.gwt.user.client.Window;

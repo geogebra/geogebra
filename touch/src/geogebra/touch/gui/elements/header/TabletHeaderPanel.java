@@ -1,9 +1,9 @@
 package geogebra.touch.gui.elements.header;
 
+import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.model.TouchModel;

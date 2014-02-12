@@ -1,7 +1,7 @@
 package geogebra.touch;
 
 import geogebra.common.main.Localization;
-import geogebra.touch.gui.ResizeListener;
+import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import com.google.gwt.event.dom.client.ClickEvent;

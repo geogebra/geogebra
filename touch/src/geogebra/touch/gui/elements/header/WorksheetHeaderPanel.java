@@ -1,13 +1,13 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements

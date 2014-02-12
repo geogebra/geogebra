@@ -1,10 +1,8 @@
-package geogebra.touch.gui.elements.ggt;
+package geogebra.html5.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.BrowseGUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +18,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private static int maxHeight() {
-		return TouchEntryPoint.getLookAndFeel().getContentWidgetHeight()
-				- TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight()
-				- BrowseGUI.CONTROLS_HEIGHT - BrowseGUI.HEADING_HEIGHT;
+		//TODO random number
+		return Window.getClientHeight() - 300;
 	}
 
 	private final FlexTable contentPanel;
@@ -142,3 +139,4 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	}
 }
+

@@ -2,15 +2,15 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.StringHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
-import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 

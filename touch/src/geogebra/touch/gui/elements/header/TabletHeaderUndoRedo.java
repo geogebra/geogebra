@@ -1,10 +1,10 @@
 package geogebra.touch.gui.elements.header;
 
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;

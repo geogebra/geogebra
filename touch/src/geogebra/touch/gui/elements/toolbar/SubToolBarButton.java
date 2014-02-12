@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
-import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.touch.utils.ToolBarCommand;
 
 /**

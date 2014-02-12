@@ -1,15 +1,12 @@
-package geogebra.touch.gui.elements.header;
-
+package geogebra.html5.gui.browser;
 import geogebra.common.main.Localization;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.BrowseGUI;
-import geogebra.touch.gui.laf.LookAndFeel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +31,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		void onSearch(String query);
 	}
 
-	private static LookAndFeel getLaf() {
-		return TouchEntryPoint.getLookAndFeel();
-	}
-
 	private Panel underline;
 	private TextBox query;
 	private final FastButton searchButton;
@@ -54,7 +47,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 			@Override
 			public void onClick() {
-				TouchEntryPoint.goBack();
+				//TouchEntryPoint.goBack();
 			}
 		});
 
@@ -92,7 +85,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.searchButton = new StandardButton(getLaf().getIcons().search());
+		this.searchButton = new StandardButton(GuiResources.INSTANCE.navPlay());
 		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -101,8 +94,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.cancelButton = new StandardButton(getLaf().getIcons()
-				.dialog_cancel());
+		this.cancelButton = new StandardButton(GuiResources.INSTANCE.navPause());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {
@@ -175,7 +167,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		}
 	}
 
-	@Override
 	public void onResize() {
 		this.setWidth(Window.getClientWidth() + "px");
 	}

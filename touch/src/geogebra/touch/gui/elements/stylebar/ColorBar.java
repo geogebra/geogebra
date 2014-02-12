@@ -3,9 +3,9 @@ package geogebra.touch.gui.elements.stylebar;
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.util.Slider;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

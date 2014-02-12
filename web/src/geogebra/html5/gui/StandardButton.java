@@ -1,13 +1,10 @@
-package geogebra.touch.gui.elements;
-
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.laf.LookAndFeel;
+package geogebra.html5.gui;
 
 import com.google.gwt.resources.client.ImageResource;
 
 public class StandardButton extends FastButton {
 
-	protected static LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
+	
 
 	private ImageResource icon;
 	private String label;

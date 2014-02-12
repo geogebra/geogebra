@@ -2,14 +2,14 @@ package geogebra.touch.gui.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.StandardButton;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardButton;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;

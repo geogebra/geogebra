@@ -1,12 +1,10 @@
-package geogebra.touch.gui.elements.ggt;
+package geogebra.html5.gui.browser;
 
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.BrowseGUI;
-import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -21,12 +19,10 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 	private HorizontalPanel filePages;
 	private Label heading = new Label();
 
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
-			.getIcons();
 	private final FastButton prevButton = new StandardButton(
-			LafIcons.arrow_go_previous());
+			GuiResources.INSTANCE.navPlay());
 	private final FastButton nextButton = new StandardButton(
-			LafIcons.arrow_go_next());
+			GuiResources.INSTANCE.navPlay());
 
 	public FileContainer(String headingName,
 			final VerticalMaterialPanel filePanel) {
@@ -108,11 +104,12 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		int contentHeight = Window.getClientHeight()
-				- TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight();
+		int contentHeight = Window.getClientHeight();
+		//		- TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight();
 		this.setHeight(contentHeight + "px");
 		this.filePanel.setHeight(contentHeight - BrowseGUI.HEADING_HEIGHT
 				- BrowseGUI.CONTROLS_HEIGHT + "px");
 		this.updateNextPrevButtons();
 	}
 }
+

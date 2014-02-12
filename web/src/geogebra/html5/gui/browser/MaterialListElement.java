@@ -1,16 +1,13 @@
-package geogebra.touch.gui.elements.ggt;
+package geogebra.html5.gui.browser;
 
 import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.Unicode;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.FileManagerT;
-import geogebra.touch.TouchApp;
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,28 +33,25 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 	private Label sharedBy;
 	private final Material material;
 	private final AppWeb app;
-	private final FileManagerT fm;
+	
 	private HorizontalPanel confirmDeletePanel;
 	private StandardButton confirm;
 	private StandardButton cancel;
 	private boolean isSelected = false;
 
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
-			.getIcons();
+	
 	private final StandardButton openButton = new StandardButton(
-			LafIcons.document_viewer());
+			GuiResources.INSTANCE.navPlay());
 	private final StandardButton editButton = new StandardButton(
-			LafIcons.document_edit());
+			GuiResources.INSTANCE.navPause());
 	private final StandardButton deleteButton = new StandardButton(
-			LafIcons.dialog_trash());
+			GuiResources.INSTANCE.navPlay());
 
 	MaterialListElement(final Material m, final AppWeb app) {
 
 		this.app = app;
 		this.material = m;
-		this.fm = ((TouchApp) app).getFileManager();
 		this.setStyleName("browserFile");
-		TouchEntryPoint.getBrowseGUI().addResizeListener(this);
 
 		this.initButtons();
 		this.initConfirmDeletePanel();
@@ -130,9 +124,7 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 					.getElement()
 					.getStyle()
 					.setBackgroundImage(
-							"url("
-									+ this.fm.getThumbnailDataUrl(this.material
-											.getURL()) + ")");
+							"url(http://www.geogebra.org/static/images/logo.png)");
 		}
 		String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
 		
@@ -219,9 +211,7 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 	}
 
 	void onEdit() {
-		this.fm.getMaterial(this.material, this.app);
-		TouchEntryPoint.allowEditing(true);
-		TouchEntryPoint.goBack();
+		/* TODO */
 	}
 
 	private void initOpenButton() {
@@ -236,20 +226,21 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 	}
 
 	void onOpen() {
-		TouchEntryPoint.showWorksheetGUI(this.material);
+		/* TODO */
 	}
 
 	private void markSelected() {
+		/* TODO*/ 
 		this.isSelected = true;
-		TouchEntryPoint.getBrowseGUI().unselectMaterials();
+		/*TouchEntryPoint.getBrowseGUI().unselectMaterials();*/
 		this.addStyleName("selected");
 		this.links.setVisible(true);
 		this.confirmDeletePanel.setVisible(false);
-		TouchEntryPoint.getBrowseGUI().rememberSelected(this);
+		/*TouchEntryPoint.getBrowseGUI().rememberSelected(this);*/
 	}
 
 	void onConfirmDelete() {
-		this.fm.delete(this.material.getURL());
+		/* TODO */
 	}
 
 	void onCancel() {

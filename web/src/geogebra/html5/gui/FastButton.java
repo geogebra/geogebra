@@ -1,6 +1,4 @@
-package geogebra.touch.gui.elements;
-
-import geogebra.touch.gui.algebra.events.FastClickHandler;
+package geogebra.html5.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +7,6 @@ import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CustomButton;
-
 /**
  * 
  * GWT Implementation influenced by Google's FastPressElement: <a

@@ -1,10 +1,10 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.html5.gui.ResizeListener;
 import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.InputField;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;

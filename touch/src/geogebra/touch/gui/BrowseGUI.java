@@ -3,6 +3,7 @@ package geogebra.touch.gui;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;

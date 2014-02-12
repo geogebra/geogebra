@@ -2,11 +2,11 @@ package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarCommand;
