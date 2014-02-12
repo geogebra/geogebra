@@ -41,7 +41,7 @@ public class SideBarMenuW extends VerticalPanel {
 	
 	
 	private void createFileMenu() {
-		fileMenu = new FileMenuW(app);
+		fileMenu = new FileMenuW(app, true);
 		//add(fileMenu);
 	}
 

@@ -8,6 +8,7 @@ import geogebra.html5.gui.browser.BrowseHeaderPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,13 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private MaterialListElement lastSelected;
 
 	// HorizontalMaterialPanel featuredMaterials;
-	private VerticalMaterialPanel localFilePanel, tubeFilePanel;
-	private FileContainer localFileContainer, tubeFileContainer;
+	private VerticalMaterialPanel tubeFilePanel;
+	private FileContainer tubeFileContainer;
 
 	private List<Material> tubeList = new ArrayList<Material>();
+	private GeoGebraAppFrame frame;
 
 	public final static int HEADING_HEIGHT = 50;
-	public final static int CONTROLS_HEIGHT = 50;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end
@@ -79,36 +80,26 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 				BrowseGUI.this.displaySearchResults(query);
 			}
 		});
+		this.setHeaderWidget(this.header);
+		this.addResizeListener(this.header);
 	}
 
 	private void addContent() {
-		initLocalFilePanel();
 		initTubeFilePanel();
 
 		final HorizontalPanel fileList = new HorizontalPanel();
-		fileList.add(this.localFileContainer);
 		fileList.add(this.tubeFileContainer);
 		this.setContentWidget(fileList);
 	}
 
 	private void initTubeFilePanel() {
-		this.tubeFilePanel = new VerticalMaterialPanel(this.app);
+		this.tubeFilePanel = new VerticalMaterialPanel(this.app, this);
 		this.tubeFileContainer = new FileContainer("GeoGebraTube",
 				this.tubeFilePanel);
 		this.tubeFileContainer.setVisible(false);
 		this.tubeFileContainer.setStyleName("tubeFilePanel");
 		this.addResizeListener(this.tubeFileContainer);
 		this.addResizeListener(this.tubeFilePanel);
-	}
-
-	private void initLocalFilePanel() {
-		this.localFilePanel = new VerticalMaterialPanel(this.app);
-		this.localFileContainer = new FileContainer(
-				this.app.getMenu("MyProfile"), this.localFilePanel);
-		this.localFileContainer.setVisible(false);
-		this.localFileContainer.addStyleName("localFilePanel");
-		this.addResizeListener(this.localFileContainer);
-		this.addResizeListener(this.localFilePanel);
 	}
 
 	void displaySearchResults(final String query) {
@@ -122,6 +113,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 						// FIXME implement Error Handling!
 						BrowseGUI.this.updateGUI();
 						exception.printStackTrace();
+						App.debug(exception.getMessage());
 					}
 
 					@Override
@@ -166,14 +158,11 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	public void setLabels() {
 		this.header.setLabels();
 		this.tubeFilePanel.setLabels();
-		this.localFilePanel.setLabels();
-		this.localFileContainer.setHeading(this.app.getMenu("MyProfile"));
 	}
 
 	void updateGUI() {
 		
 			this.tubeFilePanel.setMaterials(2, this.tubeList);
-			this.localFileContainer.setVisible(false);
 			this.tubeFileContainer.setVisible(true);
 		
 	}
@@ -204,5 +193,17 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	public void rememberSelected(final MaterialListElement materialElement) {
 		this.lastSelected = materialElement;
 	}
+
+	public void close() {
+	    if(frame != null){
+	    	frame.hideBrowser(this);
+	    }
+	    
+    }
+
+	public void setFrame(GeoGebraAppFrame geoGebraAppFrame) {
+	    this.frame = geoGebraAppFrame;
+	    
+    }
 
 }

@@ -23,6 +23,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.gui.laf.GLookAndFeel;
 import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
@@ -1634,6 +1635,10 @@ public abstract class AppW extends AppWeb {
 	 */
 	public GCheckBoxMenuItem createMenuItemFor3D() {
 	    return null;
+    }
+
+	public void showBrowser(BrowseGUI bg) {
+	    //overwritten in AppWApplication
     }
 	
 	

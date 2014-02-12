@@ -164,7 +164,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
 	}-*/;
 
 		private void createFileMenu() {
-	        fileMenu = new FileMenuW(app);
+	        fileMenu = new FileMenuW(app, false);
 			addItem(app.getMenu("File"),fileMenu);
         }
 

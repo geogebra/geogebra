@@ -47,7 +47,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 			@Override
 			public void onClick() {
-				//TouchEntryPoint.goBack();
+				browseGUI.close();
 			}
 		});
 

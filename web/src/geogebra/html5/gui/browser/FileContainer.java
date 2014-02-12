@@ -1,10 +1,6 @@
 package geogebra.html5.gui.browser;
 
-import geogebra.html5.css.GuiResources;
-import geogebra.html5.gui.FastButton;
-import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.StandardButton;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -19,17 +15,11 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 	private HorizontalPanel filePages;
 	private Label heading = new Label();
 
-	private final FastButton prevButton = new StandardButton(
-			GuiResources.INSTANCE.navPlay());
-	private final FastButton nextButton = new StandardButton(
-			GuiResources.INSTANCE.navPlay());
-
 	public FileContainer(String headingName,
 			final VerticalMaterialPanel filePanel) {
 		this.filePanel = filePanel;
 		this.addHeading(headingName);
 		this.add(filePanel);
-		this.addPageControl();
 	}
 
 	private void addHeading(String headingName) {
@@ -38,78 +28,16 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.add(this.heading);
 	}
 
-	private void addPageControl() {
-		// Panel for page controls, with next/prev buttons
-		this.fileControlPanel = new FlowPanel();
-		this.fileControlPanel.setStyleName("fileControlPanel");
-
-		this.prevButton.addStyleName("prevButton");
-		this.prevButton.addStyleName("disabled");
-		this.fileControlPanel.add(this.prevButton);
-		this.prevButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				onPrevPage();
-			}
-		});
-
-		this.filePages = new HorizontalPanel();
-		this.filePages.setStyleName("filePageControls");
-		// TODO: add number buttons here
-		this.fileControlPanel.add(this.filePages);
-
-		this.nextButton.addStyleName("nextButton");
-		this.nextButton.addStyleName("disabled");
-		this.fileControlPanel.add(this.nextButton);
-		this.nextButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				onNextPage();
-			}
-		});
-
-		this.add(this.fileControlPanel);
-	}
-
-	void onPrevPage() {
-		this.filePanel.prevPage();
-		updateNextPrevButtons();
-	}
-
-	void onNextPage() {
-		this.filePanel.nextPage();
-		updateNextPrevButtons();
-	}
-
-	private void updateNextPrevButtons() {
-		if (this.filePanel.hasNextPage()) {
-			this.nextButton.removeStyleName("disabled");
-			this.nextButton.setEnabled(true);
-		} else {
-			this.nextButton.addStyleName("disabled");
-			this.nextButton.setEnabled(false);
-		}
-		if (this.filePanel.hasPrevPage()) {
-			this.prevButton.removeStyleName("disabled");
-			this.prevButton.setEnabled(true);
-		} else {
-			this.prevButton.addStyleName("disabled");
-			this.prevButton.setEnabled(false);
-		}
-	}
-
 	public void setHeading(String headingName) {
 		this.heading.setText(headingName);
 	}
 
 	@Override
 	public void onResize() {
-		int contentHeight = Window.getClientHeight();
-		//		- TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight();
+		int contentHeight = Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT;
 		this.setHeight(contentHeight + "px");
 		this.filePanel.setHeight(contentHeight - BrowseGUI.HEADING_HEIGHT
-				- BrowseGUI.CONTROLS_HEIGHT + "px");
-		this.updateNextPrevButtons();
+				- 10 + "px");
 	}
 }
 

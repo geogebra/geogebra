@@ -8,6 +8,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.util.View;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -46,11 +48,13 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 			GuiResources.INSTANCE.navPause());
 	private final StandardButton deleteButton = new StandardButton(
 			GuiResources.INSTANCE.navPlay());
+	private BrowseGUI bg;
 
-	MaterialListElement(final Material m, final AppWeb app) {
+	MaterialListElement(final Material m, final AppWeb app, BrowseGUI bg) {
 
 		this.app = app;
 		this.material = m;
+		this.bg = bg;
 		this.setStyleName("browserFile");
 
 		this.initButtons();
@@ -212,6 +216,11 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 
 	void onEdit() {
 		/* TODO */
+		new View(RootPanel.getBodyElement(), app)
+		.processFileName("http://www.geogebratube.org/files/material-"
+				+ material.getId() + ".ggb");
+		app.setUnsaved();
+		bg.close();
 	}
 
 	private void initOpenButton() {
@@ -227,16 +236,16 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 
 	void onOpen() {
 		/* TODO */
+		onEdit();
 	}
 
 	private void markSelected() {
-		/* TODO*/ 
 		this.isSelected = true;
-		/*TouchEntryPoint.getBrowseGUI().unselectMaterials();*/
+		bg.unselectMaterials();
 		this.addStyleName("selected");
 		this.links.setVisible(true);
 		this.confirmDeletePanel.setVisible(false);
-		/*TouchEntryPoint.getBrowseGUI().rememberSelected(this);*/
+		bg.rememberSelected(this);
 	}
 
 	void onConfirmDelete() {

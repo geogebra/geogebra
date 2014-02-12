@@ -5,6 +5,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
@@ -289,7 +290,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    return ggwToolBar;
     }
 
-
 	public void setFrameLayout(){
 		frameLayout.setLayout(app);
 	}
@@ -297,4 +297,31 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public DockGlassPaneW getGlassPane(){
 		return frameLayout.getGlassPane();
 	}
+
+	private boolean[] childVisible = new boolean[0];
+	public void showBrowser(BrowseGUI bg) {
+	    int count = frameLayout.getWidgetCount();
+	    for(int i = 0; i<count;i++){
+	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
+	    	frameLayout.getWidget(i).setVisible(false);
+	    }
+	    frameLayout.add(bg);
+	    bg.setVisible(true);
+	    bg.loadFeatured();
+	    bg.setFrame(this);
+	    frameLayout.forceLayout();
+	    
+    }
+
+	public void hideBrowser(BrowseGUI bg) {
+		frameLayout.remove(bg);
+		int count = frameLayout.getWidgetCount();
+		for(int i = 0; i<count;i++){
+			if(childVisible.length > i){
+				frameLayout.getWidget(i).setVisible(childVisible[i]);
+			}
+	    }
+	    frameLayout.setLayout(app);
+	    frameLayout.forceLayout();
+    }
 }

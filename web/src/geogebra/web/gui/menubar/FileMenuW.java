@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.App;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -15,18 +15,18 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class FileMenuW extends MenuBar {
 	
 	/** Application */
-	App app;
+	AppW app;
 	private OpenMenuW openMenu;
 	private MenuItem uploadToGGT;
 	
 	/**
 	 * @param app application
 	 */
-	public FileMenuW(App app) {
+	public FileMenuW(AppW app, boolean useOpenScreen) {
 	    super(true);
 	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
-	    initActions();
+	    initActions(useOpenScreen);
 		update();
 	}
 
@@ -35,7 +35,7 @@ public class FileMenuW extends MenuBar {
 	    
     }
 
-	private void initActions() {
+	private void initActions(boolean useOpenScreen) {
 
 		// this is enabled always
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
@@ -48,8 +48,17 @@ public class FileMenuW extends MenuBar {
 		});
 
 	    openMenu = new OpenMenuW(app);
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
-	   
+	    if(useOpenScreen){
+	    	addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
+	    		
+				public void execute() {
+					BrowseGUI bg = new BrowseGUI(app);
+					app.showBrowser(bg);
+				}
+			});	
+	    }else{
+	    	addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
+	    }
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
 		
