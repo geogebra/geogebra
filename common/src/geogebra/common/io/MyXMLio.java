@@ -34,10 +34,6 @@ public abstract class MyXMLio {
 
 	/** library JavaScript available to objects with JavaScript scripts */
 	final public static String JAVASCRIPT_FILE = "geogebra_javascript.js";
-	/** library Python script available to objects with Python scripts */
-	final public static String PYTHON_FILE = "geogebra_python.py";
-	/** library LOGO script available to objects with LOGO scripts */
-	final public static String LOGO_FILE = "geogebra_logo.logo";
 
 	/** All xml output is zipped. The created zip archive *may* contain
 	* an entry named XML_FILE_THUMBNAIL for the construction */

@@ -17,7 +17,6 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
@@ -1206,27 +1205,6 @@ public abstract class AppW extends AppWeb {
 	}
 
 	
-
-	// ============================================
-	// SCRIPTS
-	// ============================================
-
-	@Override
-	public void evalPythonScript(App app, String string, String arg) {
-		debug("Python scripting not supported");
-
-	}
-
-	@Override
-	public PythonBridge getPythonBridge() {
-		// not available in web
-		return null;
-	}
-
-	// =======================================
-	// KEYBOARD
-	// =======================================
-
 
 	// ============================================
 	// FONTS

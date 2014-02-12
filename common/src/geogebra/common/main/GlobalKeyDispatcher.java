@@ -500,13 +500,13 @@ public abstract class GlobalKeyDispatcher {
 
 			case Y:
 				if (isShiftDown) {
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(
-										App.VIEW_PYTHON),
-										App.VIEW_PYTHON);
-						consumed = true;
-					}
+					//if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					//	app.getGuiManager().setShowView(
+					//			!app.getGuiManager().showView(
+					//					App.VIEW_PYTHON),
+					//					App.VIEW_PYTHON);
+					//	consumed = true;
+					//}
 				} else if (app.getGuiManager() != null) {
 					// needed for detached views and MacOS
 					// Cmd + Y: Redo

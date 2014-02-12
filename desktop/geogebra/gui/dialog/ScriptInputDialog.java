@@ -226,11 +226,6 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 			scriptStr = "geogebra";
 			break;
 
-		case PYTHON:
-			App.debug("TODO");
-			scriptStr = "javascript";// python";
-			break;
-
 		case JAVASCRIPT:
 			scriptStr = "javascript";
 			break;

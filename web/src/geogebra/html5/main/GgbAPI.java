@@ -209,7 +209,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	String constructionXml = getApplication().getXML();
     	String macroXml = getApplication().getMacroXMLorEmpty();
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
-    	String geogebra_python = getKernel().getLibraryPythonScript();
 
     	writeConstructionImages(getConstruction(),"",archiveContent);
 
@@ -226,10 +225,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	}
 
     	archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
-
-    	if (!geogebra_python.equals("")) {
-    		archiveContent.put(MyXMLio.PYTHON_FILE, geogebra_python);
-    	}
 
     	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
     	getKernel().setSaving(isSaving);

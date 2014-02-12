@@ -26,7 +26,6 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.Log.LogDestination;
 import geogebra.html5.euclidian.EuclidianViewWeb;
@@ -187,12 +186,6 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public void evalJavaScript(final App app, final String script,
-			final String arg) {
-
-	}
-
-	@Override
-	public void evalPythonScript(final App app, final String string,
 			final String arg) {
 
 	}
@@ -363,11 +356,6 @@ public class TouchApp extends AppWeb {
 	@Override
 	public GFont getPlainFontCommon() {
 		return new geogebra.html5.awt.GFontW("normal");
-	}
-
-	@Override
-	public PythonBridge getPythonBridge() {
-		return null;
 	}
 
 	@Override

@@ -280,9 +280,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case App.VIEW_EUCLIDIAN2:
 			// handled elsewhere
 			break;
-		case App.VIEW_PYTHON:
-			App.debug("TODO: how to attach Python view?");
-			break;
 		default: 
 			App.error("Error attaching VIEW: "+viewId);
 		}
@@ -377,9 +374,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
 			App.debug("TODO: should we detach EV1/2?");
-			break;
-		case App.VIEW_PYTHON:
-			App.debug("TODO: how to detach Python view?");
 			break;
 		case App.VIEW_EUCLIDIAN3D:
 			App.debug("TODO: should we detach EV3D?");

@@ -92,7 +92,6 @@ import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPID;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManagerD;
-import geogebra.plugin.jython.PythonBridgeD;
 import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
 import geogebra.util.FrameCollector;
@@ -225,7 +224,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			"jlatexmath.jar", // LaTeX
 			"jlm_greek.jar", // Greek Unicode codeblock (for LaTeX texts)
 			"jlm_cyrillic.jar", // Cyrillic Unicode codeblock (for LaTeX texts)
-			"geogebra_usb.jar", "jython.jar", "geogebra_properties.jar",
+			"geogebra_usb.jar", "geogebra_properties.jar",
 			// 5.0 specific JARs :
 			"OpenGeoProver.jar"
 			// GEOGEBRA_3D_JAR_NAME, "jogl.all.jar" and "gluegen-rt.jar" and maybe others
@@ -352,8 +351,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private GgbAPID ggbapi = null;
 	private PluginManager pluginmanager = null;
-
-	private PythonBridgeD pythonBridge = null;
 
 	private SpreadsheetTableModelD tableModel;
 	
@@ -498,13 +495,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		
 		// init euclidian view
 		initEuclidianViews();
-
-		// create Python Bridge
-		if (!isApplet) {
-			pythonBridge = new PythonBridgeD(this);
-		}
-		//else
-		//	pythonBridge = new AppletPythonBridge(this);
 
 		// load file on startup and set fonts
 		// set flag to avoid multiple calls of setLabels() and
@@ -4151,46 +4141,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public PythonBridgeD getPythonBridge() {
-		if (!pythonBridge.isReady()) {
-			pythonBridge.init();
-		}
-		return pythonBridge;
-	}
-	
-	/**
-	 * 
-	 * @return whether Python is enabled (eg false for Applets)
-	 */
-	public boolean isPythonEnabled() {
-		return pythonBridge != null;
-	}
-
-	public String getCurrentPythonScript() {
-		String script = null;
-		if (pythonBridge.isReady()) {
-			script = pythonBridge.getCurrentPythonScript();
-		}
-		if (script == null) {
-			return kernel.getLibraryPythonScript();
-		}
-		return script;
-	}
-
-	/*
-	 * public String getCurrentLogoScript() { String script =
-	 * pythonBridge.getCurrentLogoScript(); if (script == null) { return
-	 * kernel.getLibraryLogoScript(); } }
-	 */
-
-	public boolean isPythonWindowVisible() {
-		if (!pythonBridge.isReady()) {
-			return false;
-		}
-		return getPythonBridge().isWindowVisible();
-	}
-
-	@Override
 	public ScriptManagerD getScriptManager() {
 		if (scriptManager == null) {
 			scriptManager = new ScriptManagerD(this);
@@ -4494,15 +4444,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void callAppletJavaScript(String string, Object[] args) {
 		getApplet().callJavaScript(string, args);
-	}
-
-	@Override
-	public void evalPythonScript(App app, String pythonScript, String arg) {
-		String script = arg != null ? "arg=" + arg + ";" + pythonScript
-				: pythonScript;
-		App.debug(script);
-		getPythonBridge().eval(script);
-
 	}
 
 	@Override

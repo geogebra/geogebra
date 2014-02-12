@@ -1807,30 +1807,11 @@ public class Kernel {
 	}
 	/** default global JavaScript */
 	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
-	/** default global Python script*/
-	final public static String defaultLibraryPythonScript = "";
-	/** default global Logo script */
-	final public static String defaultLibraryLogoScript = "";
 	
 	private String libraryJavaScript = defaultLibraryJavaScript;
-	private String libraryPythonScript = defaultLibraryPythonScript;
-	private String libraryLogoScript = defaultLibraryLogoScript;
 	/** Resets global JavaSrcript to default value */
 	public void resetLibraryJavaScript() {
 		setLibraryJavaScript(defaultLibraryJavaScript);
-	}
-	/** Resets global Python script to default value */
-	public void resetLibraryPythonScript() {
-		setLibraryPythonScript(defaultLibraryPythonScript);
-	}
-	/** Sets global Python script
-	 * @param script new Python script */
-	public void setLibraryPythonScript(String script) {
-		libraryPythonScript = script;
-	}
-	
-	public void setLibraryLogoScript(String script) {
-		libraryLogoScript = script;
 	}
 	
 	public void setLibraryJavaScript(String str) {
@@ -1851,13 +1832,6 @@ public class Kernel {
 		return libraryJavaScript;
 	}
 
-	public String getLibraryPythonScript() {
-		return libraryPythonScript;
-	}
-	
-	public String getLibraryLogoScript() {
-		return libraryLogoScript;
-	}
 	/** return all points of the current construction */
 	public TreeSet<GeoElement> getPointSet() {
 		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
@@ -2278,7 +2252,7 @@ public class Kernel {
 			// This needs to happen *before* cons.clearConstruction() is called
 			// as clearConstruction calls notifyClearView which triggers the
 			// updating of the Python Script
-			resetLibraryPythonScript();
+			//resetLibraryPythonScript();
 		}
 		if(this.ggbCAS != null){
 			this.ggbCAS.getCurrentCAS().clearResult();

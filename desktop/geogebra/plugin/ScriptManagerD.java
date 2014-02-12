@@ -50,12 +50,7 @@ public class ScriptManagerD extends ScriptManager {
 		} catch (Exception e) {
 			App.debug("Error calling ggbOnInit(): "+e.getMessage());
 		}
-		
-		// Python
-		String libraryPythonScript = app.getKernel().getLibraryPythonScript();
-		if (!libraryPythonScript.equals(Kernel.defaultLibraryPythonScript)) {
-			((AppD)app).getPythonBridge().execScript();
-		}
+
 
 	}
 	

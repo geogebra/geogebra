@@ -85,8 +85,7 @@ public class ViewButtonBar extends JToolBar {
 				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 
 				if (panel.getViewId() != App.VIEW_PROPERTIES 
-						&& panel.getViewId() != App.VIEW_ASSIGNMENT
-						&& panel.getViewId() != App.VIEW_PYTHON) 
+						&& panel.getViewId() != App.VIEW_ASSIGNMENT) 
 					add(btn);
 		}
 		

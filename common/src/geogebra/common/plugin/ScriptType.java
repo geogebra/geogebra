@@ -3,7 +3,6 @@ package geogebra.common.plugin;
 import geogebra.common.main.App;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.JsScript;
-import geogebra.common.plugin.script.PythonScript;
 import geogebra.common.plugin.script.Script;
 
 import java.util.HashMap;
@@ -29,15 +28,6 @@ public enum ScriptType {
 		@Override
 		public Script newScript(App app, String text) {
 			return new JsScript(app, text);
-		}
-	},
-	/**
-	 * PythonScript
-	 */
-	PYTHON("Python", "python") {
-		@Override
-		public Script newScript(App app, String text) {
-			return new PythonScript(app, text);
 		}
 	};
 

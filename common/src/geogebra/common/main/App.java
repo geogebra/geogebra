@@ -61,7 +61,6 @@ import geogebra.common.plugin.GeoScriptRunner;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.ScriptType;
-import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
@@ -154,7 +153,7 @@ public abstract class App implements UpdateSelection{
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
 	/** id for Python view */
-	public static final int VIEW_PYTHON = 16384;
+	//public static final int VIEW_PYTHON = 16384;
 	private boolean showResetIcon = false;
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
@@ -2184,8 +2183,6 @@ public abstract class App implements UpdateSelection{
 	 */
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
-	public abstract void evalPythonScript(App app, String string, String arg);
-
 	public abstract void callAppletJavaScript(String string, Object[] args);
 
 	/**
@@ -2560,11 +2557,6 @@ public abstract class App implements UpdateSelection{
 
 	public abstract void reset();
 
-	public abstract PythonBridge getPythonBridge();
-
-	// public abstract String getCurrentPythonScript();
-
-	
 
 	/**
 	 * @return selection listener

@@ -126,7 +126,6 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		boolean xmlFound = false;
 		boolean macroXMLfound = false;
 		boolean javaScriptFound = false;
-		boolean pythonFound = false;
 		boolean ggbHandler = false;
 		
 		// get all entries from the zip archive
@@ -152,12 +151,6 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 				// load JavaScript
 				kernel.setLibraryJavaScript(Util.loadIntoString(zip));
 				javaScriptFound= true;
-			} else if (name.equals(PYTHON_FILE)) {
-				// load Python Script
-				kernel.setLibraryPythonScript(Util.loadIntoString(zip));
-				pythonFound= true;
-			} else if (name.equals(LOGO_FILE)) {
-				kernel.setLibraryLogoScript(Util.loadIntoString(zip));
 			}
 			else {
 				// try to load image
@@ -202,8 +195,6 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		}
 		if(!javaScriptFound && !isGGTfile)
 			kernel.resetLibraryJavaScript();
-		if(!pythonFound && !isGGTfile)
-			kernel.resetLibraryPythonScript();
 		if (!(macroXMLfound || xmlFound))
 			throw new Exception("No XML data found in file.");
 	}
@@ -416,21 +407,7 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 			osw.write(kernel.getLibraryJavaScript());
 			osw.flush();
 			zip.closeEntry();
-			
-			if (((AppD) app).isPythonEnabled()) {
-				// Do the same with Python file
-				zip.putNextEntry(new ZipEntry(PYTHON_FILE));
-				osw.write(((AppD) app).getCurrentPythonScript());
-				osw.flush();
-				zip.closeEntry();
-			}
-			
-			// And with Logo file
-			/*zip.putNextEntry(new ZipEntry(LOGO_FILE));
-			osw.write(((Application) app).getCurrentLogoScript());
-			osw.flush();
-			zip.closeEntry();
-			*/
+
 			// write XML file for construction
 			zip.putNextEntry(new ZipEntry(XML_FILE));
 			osw.write(getFullXML());
