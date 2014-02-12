@@ -4,6 +4,7 @@ import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.GeoElement;
 
 public class AngleArcSizeModel extends OptionsModel {
+	public static final Integer MIN_VALUE = 20;
 	private ISliderListener listener;
 	public AngleArcSizeModel(ISliderListener listener) {
 		this.listener = listener;

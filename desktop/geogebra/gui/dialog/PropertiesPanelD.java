@@ -3335,7 +3335,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// added by Loic BEGIN
 		public void setMinValue() {
-			slider.setValue(20);
+			slider.setValue(AngleArcSizeModel.MIN_VALUE);
 		}
 
 		// END

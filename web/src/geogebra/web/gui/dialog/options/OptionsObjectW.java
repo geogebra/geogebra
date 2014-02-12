@@ -1199,6 +1199,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		public void setMinValue() {
+			slider.setValue(AngleArcSizeModel.MIN_VALUE);
+		}
+		
 		public void setValue(int value) {
 			slider.setValue(value);
 
@@ -2899,8 +2903,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			
         }
 		public void setArcSizeMinValue() {
-	        // TODO Auto-generated method stub
-	        
+	        angleArcSizePanel.setMinValue();
         }
 		
 	}
