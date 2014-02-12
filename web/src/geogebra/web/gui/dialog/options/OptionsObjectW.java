@@ -2861,7 +2861,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainWidget.add(decoLabel);
 			final ImageData[] iconArray = new ImageData[DecoAngleModel.getDecoTypeLength()];
 			GDimensionW iconSize = new GDimensionW(80, 30);
-			for (int i = 1; i < iconArray.length; i++) {
+			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i, iconSize);
 			}
 			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1, iconSize,
@@ -2871,8 +2871,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
 					model.applyChanges(idx);
+					
 				}
 			};
+			decoPopup.setKeepVisible(false);
 			mainWidget.add(decoPopup);
 			setWidget(mainWidget);
 			

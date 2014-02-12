@@ -315,9 +315,7 @@ public class GeoGebraIcon extends BasicIcons{
 		
 		Canvas c = getTmpCanvas(w, h);
 		GGraphics2DW g2 = new GGraphics2DW(c);
-	//	if (getBackground()==Color.LIGHT_GRAY) g2.setColor(Color.LIGHT_GRAY); else g2.setColor(Color.WHITE); 
-//		 Michael Borcherds 2007-10-13 END
-		g2.fillRect(0,0, w, h);
+		g2.clearRect(0,0, w, h);
 		g2.setColor(GColor.BLACK);
 		g2.drawLine(13,27, 67, 27);
 		g2.drawLine(13,27,67,3);
