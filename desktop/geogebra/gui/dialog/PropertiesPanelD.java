@@ -35,6 +35,7 @@ import geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import geogebra.common.gui.dialog.options.model.CoordsModel;
 import geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
+import geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import geogebra.common.gui.dialog.options.model.FillingModel;
 import geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import geogebra.common.gui.dialog.options.model.FixCheckboxModel;
@@ -4751,14 +4752,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Loic
 	 */
 	private class DecoSegmentPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel, IComboListener {
 		private static final long serialVersionUID = 1L;
+		private DecoSegmentModel model;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
-		private Object[] geos;
 
 		DecoSegmentPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
+			model = new DecoSegmentModel(this);
 			// deco combobox
 			DecorationListRenderer renderer = new DecorationListRenderer();
 			renderer.setPreferredSize(new Dimension(130,
@@ -4777,29 +4779,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
-			this.geos = geos;
+			}
+
 			decoCombo.removeActionListener(this);
 
-			// set slider value to first geo's thickness
-			GeoSegment geo0 = (GeoSegment) geos[0];
-			decoCombo.setSelectedIndex(geo0.decorationType);
+			model.updateProperties();
 
 			decoCombo.addActionListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoSegment)) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -4807,14 +4797,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (source == decoCombo) {
 				GeoSegment geo;
 				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoSegment) geos[i];
-					// Michael Borcherds 2007-11-20 BEGIN
-					// geo.decorationType = type;
-					geo.setDecorationType(type);
-					// Michael Borcherds 2007-11-20 END
-					geo.updateRepaint();
-				}
+				model.applyChanges(type);
 			}
 		}
 
@@ -4826,6 +4809,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
+
+		}
+
+		public void setSelectedIndex(int index) {
+			decoCombo.setSelectedIndex(index);
+		}
+
+		public void addItem(String item) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void setSelectedItem(String item) {
 
 		}
 	}
