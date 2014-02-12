@@ -37,7 +37,8 @@ public class MathMLParser {
 		geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
 		geogebraMap.put("<mtd>", "%BLOCK1%, ");
 
-
+		geogebraMap.put("&#x222B;","ggbMathmlIntegral");
+		geogebraMap.put("&#x2211;","ggbMathmlSum");
 		// Entities
 		geogebraMap.put("&dot;", "* ");
 		geogebraMap.put("&sdot;", "* ");
