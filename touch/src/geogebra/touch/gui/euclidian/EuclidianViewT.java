@@ -100,11 +100,6 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
-	public EuclidianStyleBar getStyleBar() {
-		return null;
-	}
-
-	@Override
 	public boolean hasFocus() {
 		return false;
 	}
@@ -223,5 +218,11 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	public boolean hitAnimationButton(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	protected EuclidianStyleBar newEuclidianStyleBar() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

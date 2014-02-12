@@ -627,4 +627,11 @@ class GuiManagerT extends GuiManager {
 		this.caller_APP = TOUCH;
 	}
 
+	@Override
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
+			GPoint mouseLoc) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
