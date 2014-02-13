@@ -3151,7 +3151,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private OptionsTab addDecorationTab() {
-		OptionsTab tab = new OptionsTab("Decoraton");
+		OptionsTab tab = new OptionsTab("Decoration");
 		decoAnglePanel = new DecoAnglePanel();
 		decoSegmentPanel = new DecoSegmentPanel();
 		tab.addPanelList(Arrays.asList(decoAnglePanel,
