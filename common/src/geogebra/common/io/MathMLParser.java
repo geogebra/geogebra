@@ -972,7 +972,8 @@ public class MathMLParser {
 						parseBlock(nextTag, result, true);
 						skipFollowingTag();
 					}
-					if(!appendSpace){
+					//make sure we don't output "x _{1}" but don't remove any non-space character
+					if(!appendSpace && result.charAt(result.length()-1)==' '){
 						result.setLength(result.length()-1);
 					}
 				}
