@@ -11,6 +11,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -95,6 +96,7 @@ public class TouchModel {
 	private GPoint eventCoordinates = new GPoint(0, 0);
 	private String oldRedefineText;
 	private final App app;
+	private Point2D lastPositon;
 
 	public TouchModel(final Kernel k) {
 		this.kernel = k;
@@ -484,6 +486,16 @@ public class TouchModel {
 		final ArrayList<GeoElementND> newElements = new ArrayList<GeoElementND>();
 
 		switch (this.command) {
+		case Copy:
+			GeoElement original = this.selectedElements.get(0);
+			GeoElement copy = original.deepCopyGeo();
+			copy.setLabel(copy.getFreeLabel(original.getLabelSimple()));
+			
+			deselect(this.selectedElements.get(0));
+			select(copy);
+			GeoElement.moveObjects(this.selectedElements, new Coords(pointRW.getX() - this.lastPositon.getX(), pointRW.getY() - this.lastPositon.getY()) , null, null);
+			newElements.add(copy);
+			break;
 		case LineThroughTwoPoints:
 			newElements.add(this.kernel.getAlgoDispatcher().Line(null,
 					(GeoPoint) this.getElement(Test.GEOPOINT),
@@ -1097,6 +1109,21 @@ public class TouchModel {
 	
 				break;
 	
+			//special command: copy, needs any object
+			case Copy:
+				if(this.selectedElements.size() > 0){
+					draw = true;
+				} else {
+					// the copy method of GeoPolygon and GeoPolyLine returns a GeoNumber
+					hits.removeAllPolygons();
+					remove(hits, Test.GEOPOLYLINE);
+					
+					GeoElement copyGeo = hits.getFirstHit(Test.GEOELEMENT);
+					select(copyGeo);
+					this.lastPositon = pointRW;
+				}
+			break;
+
 			// commands that need two points
 			case LineThroughTwoPoints:
 			case SegmentBetweenTwoPoints:
@@ -1236,7 +1263,7 @@ public class TouchModel {
 					// to prevent problems when
 					// selecting the sides of the
 					// polygon
-					hits.removePolygons();
+					hits.removeAllPolygons();
 					hits.remove(this.selectedElements.get(this.selectedElements
 							.size() - 1));
 					if (selectOutOf(hits, classes, 2)) {
@@ -1385,6 +1412,14 @@ public class TouchModel {
 		if (this.commandFinished || this.command == ToolBarCommand.Select
 				|| this.command == ToolBarCommand.Move_Mobile) {
 			this.guiModel.updateStyleBar();
+		}
+	}
+
+	private static void remove(Hits hits, Test testClass) {
+		for (int i = hits.size() - 1 ; i >= 0 ; i-- ) {
+			GeoElement geo = hits.get(i);
+			if (testClass.check(geo))
+				hits.remove(i);
 		}
 	}
 

@@ -15,7 +15,8 @@ public enum ToolBarMenu {
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
 			ToolBarCommand.Move_Mobile,
 			// TODO: ToolBarCommand.Select,
-			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject }),
+			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject, 
+			ToolBarCommand.Copy}),
 
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
 			ToolBarCommand.NewPoint, ToolBarCommand.PointOnObject,

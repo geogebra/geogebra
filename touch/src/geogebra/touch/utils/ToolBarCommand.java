@@ -178,8 +178,10 @@ public enum ToolBarCommand {
 	SegmentFixed(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
 						toolIcons().segment_with_given_length_from_point(), StyleBarDefaultSettings.Line),
 	AngleFixed(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
-									toolIcons().angle_fixed(), StyleBarDefaultSettings.Line);
-
+									toolIcons().angle_fixed(), StyleBarDefaultSettings.Line),
+	// TODO add new EuclidianConstant for copy
+	Copy(EuclidianConstants.MODE_COPY_VISUAL_STYLE, toolIcons().translate_object_by_vector(), null);
+	
 	private static ToolbarResources toolIcons() {
 		return ToolbarResources.INSTANCE;
 	}
