@@ -4,30 +4,25 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
-import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.io.IOException;
 
 /**
  * Class that manage all geometry objects
  * 
- * @author ggb3D
+ * @author mathieu
  *
  */
 abstract public class Manager {
 	
-	/** direct rendering */
-	static final int TYPE_GLLIST = 1;
-	
-	/** geometries types */
-	static final int TRIANGLE_STRIP = GLlocal.GL_TRIANGLE_STRIP;
-	static final int TRIANGLE_FAN = GLlocal.GL_TRIANGLE_FAN;
-	static final int QUAD_STRIP = GLlocal.GL_QUAD_STRIP;
-	static final int QUADS = GLlocal.GL_QUADS;
-	static final int TRIANGLES = GLlocal.GL_TRIANGLES;
-
-	/** color factor for highlighting */
-	//private float colorFactor;
+	public static enum Type{
+		TRIANGLE_STRIP,
+		TRIANGLE_FAN,
+		QUAD_STRIP,
+		QUADS,
+		TRIANGLES,
+		LINE_LOOP
+	}
 	
 	
 	
@@ -58,7 +53,7 @@ abstract public class Manager {
 	private float textureStart, textureEnd;
 	
 	/** create a manager for geometries
-	 * @param renderer 
+	 * @param renderer openGL renderer
 	 * @param view3D 3D view
 	 */
 	public Manager(Renderer renderer, EuclidianView3D view3D){
@@ -156,7 +151,7 @@ abstract public class Manager {
 	abstract public void endList();
 
 	
-	abstract public void startGeometry(int type);
+	abstract public void startGeometry(Type type);
 	
 	
 	abstract public void endGeometry();
@@ -182,7 +177,7 @@ abstract public class Manager {
 	 * @param reverse vertex order has to be reversed
 	 */
 	final public void drawPolygonConvex(Coords n, Coords[] v, boolean reverse){
-		startGeometry(Manager.TRIANGLE_FAN);
+		startGeometry(Type.TRIANGLE_FAN);
 		
 	   	//set texture
 		setDummyTexture();
@@ -218,7 +213,7 @@ abstract public class Manager {
 	 * @param triFan indices
 	 */
 	final public void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan){
-		startGeometry(Manager.TRIANGLE_FAN);
+		startGeometry(Type.TRIANGLE_FAN);
 
     	//set texture
 		setDummyTexture();

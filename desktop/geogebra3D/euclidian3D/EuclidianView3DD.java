@@ -12,6 +12,7 @@ import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererGL2;
 
 import java.awt.AWTEvent;
@@ -59,7 +60,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	protected void createPanel(){
 		evjpanel = new EuclidianViewJPanel(this);
 
-        Component canvas = (Component) renderer.canvas;
+        Component canvas = (Component) ((RendererD) renderer).canvas;
 		getJPanel().setLayout(new BorderLayout());
 		getJPanel().add(BorderLayout.CENTER, canvas);
 		

@@ -28,7 +28,7 @@ import javax.media.opengl.GLAutoDrawable;
  * @author mathieu
  *
  */
-public class RendererShaders extends Renderer {
+public class RendererShaders extends RendererD {
 	
 	final static private int GLSL_ATTRIB_POSITION = 0; 
 	final static private int GLSL_ATTRIB_COLOR = 1; 
@@ -315,7 +315,7 @@ public class RendererShaders extends Renderer {
 		array.clear(); for (int i = 0; i < 3 * 2; i++){ array.add(textureCoords[i]); }
 		loadTextureBuffer(ManagerShaders.floatBuffer(array), 3);	
 		
-		draw(GLlocal.GL_TRIANGLES, 3);
+		draw(Manager.Type.TRIANGLES, 3);
 		
 		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D,  0);
 		getTextures().removeTexture(texture);
@@ -437,12 +437,12 @@ public class RendererShaders extends Renderer {
 
   
    
-   public void draw(int type, int length){  
+   public void draw(Manager.Type type, int length){  
 
 	   /////////////////////////
 	   // draw
 
-	   jogl.getGL2ES2().glDrawArrays(type, 0, length); //Draw the vertices as triangle // 3 <=> 1 triangle
+	   jogl.getGL2ES2().glDrawArrays(ManagerD.getGLType(type), 0, length); 
    }
 
     @Override

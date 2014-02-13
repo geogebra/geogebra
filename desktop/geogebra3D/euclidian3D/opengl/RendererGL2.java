@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author mathieu
  *
  */
-public class RendererGL2 extends Renderer{
+public class RendererGL2 extends RendererD{
 
 	/**
 	 * Constructor

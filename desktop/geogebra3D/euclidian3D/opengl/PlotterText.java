@@ -1,6 +1,5 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 
 /*
@@ -45,7 +44,7 @@ public class PlotterText {
 	 */
 	public void rectangle(int x, int y, int z, int width, int height){
 		
-		manager.startGeometry(Manager.QUADS);
+		manager.startGeometry(Manager.Type.QUADS);
 		manager.texture(0, 0);
 		manager.vertexInt(x,y,z); 
 		manager.texture(1, 0);
@@ -61,7 +60,7 @@ public class PlotterText {
 	
 	public void rectangleBounds(int x, int y, int z, int width, int height){
 
-		manager.startGeometry(GLlocal.GL_LINE_LOOP);
+		manager.startGeometry(Manager.Type.LINE_LOOP);
 		manager.vertexInt(x,y,z); 
 		manager.vertexInt(x+width,y,z); 
 		manager.vertexInt(x+width,y+height,z); 

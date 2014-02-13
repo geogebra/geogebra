@@ -160,7 +160,7 @@ public class PlotterSurface {
 	}
 	
 	public void drawTriangle(Coords p1, Coords p2, Coords p3){
-		manager.startGeometry(Manager.TRIANGLE_STRIP);
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);	
@@ -181,7 +181,7 @@ public class PlotterSurface {
 	 */
 	public void drawQuad(Coords p1, Coords p2, Coords p3, Coords p4){
 		
-		manager.startGeometry(Manager.QUAD_STRIP);
+		manager.startGeometry(Manager.Type.QUAD_STRIP);
 		
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);	
@@ -196,7 +196,7 @@ public class PlotterSurface {
 	
 	public void drawQuadNoTexture(Coords p1, Coords p2, Coords p3, Coords p4){
 		
-		manager.startGeometry(Manager.QUAD_STRIP);
+		manager.startGeometry(Manager.Type.QUAD_STRIP);
 		
 		manager.texture(0,0);
 		
@@ -255,7 +255,7 @@ public class PlotterSurface {
 	 */
 	public void drawSphere(Coords center, double radius, int longitude, double longitudeStart, int longitudeLength){
 
-		manager.startGeometry(Manager.TRIANGLES);
+		manager.startGeometry(Manager.Type.TRIANGLES);
 		
 		//set texture to (0,0)
 		manager.texture(0,0);
@@ -488,7 +488,7 @@ public class PlotterSurface {
 	 * draw part of the surface
 	 */
 	public void draw(){
-		manager.startGeometry(Manager.QUADS);
+		manager.startGeometry(Manager.Type.QUADS);
 		
 		
 		du = (uMax-uMin)/uNb;
@@ -523,7 +523,7 @@ public class PlotterSurface {
 
 	
 	public void drawSphere(int size, Coords center, double radius){
-		manager.startGeometry(Manager.QUADS);
+		manager.startGeometry(Manager.Type.QUADS);
 		
 		Coords n;
 		
@@ -596,7 +596,7 @@ public class PlotterSurface {
 		FloatBuffer b1 = tree.getVertices();
 		FloatBuffer b2 = tree.getNormals();
 		int cnt = tree.getTriangleCount();
-		manager.startGeometry(Manager.TRIANGLES);
+		manager.startGeometry(Manager.Type.TRIANGLES);
 		
 		/*TODO use fading texture
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
@@ -624,7 +624,7 @@ public class PlotterSurface {
 		FloatBuffer b2 = mc.getNormals();
 		int cnt = mc.getVisibleChunks();
 
-		manager.startGeometry(Manager.TRIANGLES);
+		manager.startGeometry(Manager.Type.TRIANGLES);
 		manager.texture(0, 0);
 
 		float[] f = new float[9]; float[] n = new float[9];
@@ -663,7 +663,7 @@ public class PlotterSurface {
 	 * @param radius
 	 */
 	public void disc(Coords center, Coords v1, Coords v2, double radius){
-		manager.startGeometry(Manager.TRIANGLE_FAN);
+		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
 		int longitude = 60;
 		
@@ -703,7 +703,7 @@ public class PlotterSurface {
 	 * @param l2 
 	 */
 	public void parallelogram(Coords center, Coords v1, Coords v2, double l1, double l2){
-		manager.startGeometry(Manager.QUADS);
+		manager.startGeometry(Manager.Type.QUADS);
 
 		manager.texture(0, 0);
 		manager.normal(v1.crossProduct(v2));
@@ -746,7 +746,7 @@ public class PlotterSurface {
 	 * @param fromEllipseCenter says if the surface is drawn from center of the ellipse
 	 */
 	public void ellipsePart(Coords center, Coords v1, Coords v2, double a, double b, double start, double extent, boolean fromEllipseCenter){
-		manager.startGeometry(Manager.TRIANGLE_FAN);
+		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 		
 		int longitude = 60;
 		
@@ -807,7 +807,7 @@ public class PlotterSurface {
 			double tMin, double tMax){
 
 
-		manager.startGeometry(Manager.TRIANGLE_FAN);
+		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 		
 		manager.texture(0, 0);
     	manager.normal(v1.crossProduct(v2));
@@ -864,7 +864,7 @@ public class PlotterSurface {
 			double tMin, double tMax){
 
 
-		manager.startGeometry(Manager.TRIANGLE_FAN);
+		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 		
 		manager.texture(0, 0);
     	manager.normal(v1.crossProduct(v2));
@@ -923,7 +923,7 @@ public class PlotterSurface {
 	}
 	
 	public void drawTriangle(FloatBuffer d){
-		manager.startGeometry(Manager.TRIANGLE_STRIP);
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);	

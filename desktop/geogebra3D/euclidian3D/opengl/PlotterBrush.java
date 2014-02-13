@@ -232,7 +232,7 @@ public class PlotterBrush implements PathPlotter {
 	public void join(){
 		
 		// draw curve part
-		manager.startGeometry(Manager.QUAD_STRIP);
+		manager.startGeometry(Manager.Type.QUAD_STRIP);
 		//manager.startGeometry(Manager.TRIANGLE_STRIP);
     	float dt = (float) 1/latitude;
     	float da = (float) (2*Math.PI *dt) ; 
@@ -806,7 +806,7 @@ public class PlotterBrush implements PathPlotter {
 		float[] f = new float[3]; float[] n = new float[3];
 		b1.rewind(); b2.rewind();
 		for(int i = 0; i < cnt; i++) {
-			manager.startGeometry(Manager.TRIANGLE_STRIP);
+			manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 			
 			for(int j = 0; j < vps; j++){
 				b1.get(f);b2.get(n);
@@ -830,7 +830,7 @@ public class PlotterBrush implements PathPlotter {
 		float[] f = new float[3];
 		b1.rewind();
 		for(int i = 0; i < cnt; i++) {
-			manager.startGeometry(Manager.TRIANGLE_STRIP);
+			manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 			
 			for(int j = 0; j < vps; j++){
 				b1.get(f);

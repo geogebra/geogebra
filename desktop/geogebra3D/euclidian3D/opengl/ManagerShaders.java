@@ -22,7 +22,7 @@ import javax.media.opengl.glu.GLUtessellator;
  * @author ggb3D
  *
  */
-public class ManagerShaders extends Manager {
+public class ManagerShaders extends ManagerD {
 	
 	// GL 
 	private GLUtessellator tesselator;
@@ -113,7 +113,7 @@ public class ManagerShaders extends Manager {
 		/**
 		 * type of primitives
 		 */
-		private int type;
+		private Type type;
 		
 		private FloatBuffer v, n, t, c;
 		
@@ -124,7 +124,7 @@ public class ManagerShaders extends Manager {
 		 * Start a new geometry
 		 * @param type of primitives
 		 */
-		public Geometry(int type){
+		public Geometry(Type type){
 			this.type = type;
 		}
 		
@@ -132,7 +132,7 @@ public class ManagerShaders extends Manager {
 		 * 
 		 * @return type of primitives
 		 */
-		public int getType(){
+		public Type getType(){
 			return type;
 		}
 		
@@ -244,7 +244,7 @@ public class ManagerShaders extends Manager {
 		 * start a new geometry
 		 * @param type type of primitives
 		 */
-		public void startGeometry(int type){
+		public void startGeometry(Type type){
 			currentGeometry = new Geometry(type);
 			add(currentGeometry);
 		}
@@ -321,7 +321,7 @@ public class ManagerShaders extends Manager {
 
 	
 	@Override
-	public void startGeometry(int type){
+	public void startGeometry(Type type){
 		currentGeometriesSet.startGeometry(type);
 		vertices.clear();
 		normals.clear();
@@ -357,7 +357,7 @@ public class ManagerShaders extends Manager {
     @Override
 	public void drawPolygon(Coords n, Coords[] v){
     	
-    	startGeometry(Manager.TRIANGLES);
+    	startGeometry(Manager.Type.TRIANGLES);
     	
     	// set normal
     	normal(n);
@@ -435,7 +435,7 @@ public class ManagerShaders extends Manager {
 				printToObjFile("\n##########################\n\no "+geo.getLabelSimple()+"\n");
 				
 				switch(geometry.getType()){
-				case Manager.QUADS:										
+				case QUADS:										
 					
 					//vertices
 					FloatBuffer fb = geometry.getVertices();
@@ -474,7 +474,7 @@ public class ManagerShaders extends Manager {
 					printToObjFile("\n##########################\n\n");
 					break;
 					
-				case Manager.QUAD_STRIP:										
+				case QUAD_STRIP:										
 					
 					//vertices
 					fb = geometry.getVertices();
@@ -603,7 +603,7 @@ public class ManagerShaders extends Manager {
 	public void rectangle(int x, int y, int z, int width, int height){
 		
 		currentGeometriesSet = new GeometriesSet();
-		startGeometry(Manager.QUADS);
+		startGeometry(Manager.Type.QUADS);
 		texture(0, 0);
 		vertexInt(x,y,z); 
 		texture(1, 0);

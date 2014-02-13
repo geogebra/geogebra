@@ -6,22 +6,18 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
-import geogebra.main.AppD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
-import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 
@@ -40,26 +36,18 @@ import javax.media.opengl.glu.GLUtessellator;
  * @author ggb3D
  * 
  */
-public abstract class Renderer implements GLEventListener {
+public abstract class Renderer {
 
 	
 	// openGL variables
 	protected RendererJogl jogl;
 	protected GLU glu = new GLU();
-	//private GLUT glut = new GLUT();
-	//private TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 16));
 	/** default text scale factor */
 	private static final float DEFAULT_TEXT_SCALE_FACTOR = 0.8f;
 
-	/** matrix changing Y-direction to Z-direction */
-	//private double[] matrixYtoZ = {1,0,0,0, 0,0,1,0, 0,1,0,0, 0,0,0,1}; 
 	
-	/** canvas usable for a JPanel */
-	//public GLCanvas canvas;
-	public Component3D canvas;
 
 	
-	private Animator animator;
 	
 	/** for polygon tesselation */
 	private GLUtessellator tobj;
@@ -90,7 +78,7 @@ public abstract class Renderer implements GLEventListener {
 
 	///////////////////
 	//textures
-	private Textures textures;
+	protected Textures textures;
 
 	
 	///////////////////
@@ -131,26 +119,8 @@ public abstract class Renderer implements GLEventListener {
 	 * creates a renderer linked to an {@link EuclidianView3D} 
 	 * @param view the {@link EuclidianView3D} linked to 
 	 */
-	public Renderer(EuclidianView3D view, boolean useCanvas){
+	public Renderer(EuclidianView3D view){
 		
-		jogl = new RendererJogl();
-		
-		//canvas = view;
-		App.debug("create 3D component -- use Canvas : " + useCanvas);
-        canvas = RendererJogl.createComponent3D(useCanvas);
-        
-        App.debug("add gl event listener");
-	    canvas.addGLEventListener(this);
-	    
-	    
-	    App.debug("create animator");
-	    animator = RendererJogl.createAnimator( canvas, 60 );
-        //animator.setRunAsFastAsPossible(true);	  
-        //animator.setRunAsFastAsPossible(false);	
-	    
-
-	    App.debug("start animator");
-        animator.start();
         
 
         //link to 3D view
@@ -190,10 +160,7 @@ public abstract class Renderer implements GLEventListener {
 	/**
 	 * re-calc the display immediately
 	 */
-	public void display(){
-	
-		canvas.display();
-	}		
+	abstract public void display();
 	
 	/** sets if openGL culling is done or not
 	 * @param flag
@@ -299,204 +266,7 @@ public abstract class Renderer implements GLEventListener {
 		setLight(GLlocal.GL_LIGHT0);
 	}
 	
-	/**
-	 * 
-	 * openGL method called when the display is to be computed.
-	 * <p>
-	 * First, it calls {@link #doPick()} if a picking is to be done.
-	 * Then, for each {@link Drawable3D}, it calls:
-	 * <ul>
-	 * <li> {@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden parts (dashed segments, lines, ...) </li>
-	 * <li> {@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw transparent objects (planes, spheres, ...) </li>
-	 * <li> {@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw in the z-buffer objects that hides others (planes, spheres, ...) </li>
-	 * <li> {@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw transparent objects for a better alpha-blending </li>
-	 * <li> {@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not hidden parts (dash-less segments, lines, ...) </li>
-	 * </ul>
-	 */
-    public void display(GLAutoDrawable gLDrawable) {
-    	
-    	//update 3D controller
-    	((EuclidianController3D) view3D.getEuclidianController()).updateInput3D();
-    	
-    	//Application.debug("display");
 
-    	//double displayTime = System.currentTimeMillis();
-        
-        setGL(gLDrawable);         
-        
-        useShaderProgram();
-        
-        //picking        
-        if(waitForPick){
-        	doPick();        	
-        }
-        	
-        
-        //clip planes
-        if (waitForUpdateClipPlanes){
-        	//Application.debug(enableClipPlanes);
-        	if (enableClipPlanes)
-        		enableClipPlanes();
-        	else
-        		disableClipPlanes();
-        	waitForUpdateClipPlanes=false;
-        }
-                
-        //update 3D controller
-        ((EuclidianController3D) view3D.getEuclidianController()).update();
-        
-
-        
-        // update 3D view
-        view3D.update();
-        view3D.updateOwnDrawablesNow();
-        
-        // update 3D drawables
-        drawable3DLists.updateAll();
-
-    	// say that 3D view changed has been performed
-        view3D.resetViewChanged();
-       
-
-        
-        if (waitForSetStencilLines){
-        	setStencilLines();
-        }
-        
-        if (waitForDisableStencilLines){
-        	disableStencilLines();
-        }
-
-        
-        if (waitForUpdateClearColor) {
-        	updateClearColor();
-        	waitForUpdateClearColor=false;
-        }
-        
-        //clear color buffer
-        getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
-        
-        
-        if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
- 
-        	//setStencilLines();
-
-
-        	getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
-
-
-        	//left eye
-        	if (view3D.isPolarized()){
-        		// draw where stencil's value is 0
-        		getGL().glStencilFunc(GLlocal.GL_EQUAL, 0, 0xFF);
-        	}
-
-        	eye=EYE_LEFT;
-        	setColorMask();
-        	setView();
-        	draw(); 
-        	
-
-        	//right eye
-           	if (view3D.isPolarized()){
-        		// draw where stencil's value is 1
-        		getGL().glStencilFunc(GLlocal.GL_EQUAL, 1, 0xFF);
-        	}
-           	
-        	eye=EYE_RIGHT;
-        	setColorMask();
-        	getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT); //clear depth buffer
-        	setView();
-        	draw(); 
-        	
-        } else {  
-        	getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
-        	setView();
-        	draw(); 
-        }
-        
-        // prepare correct color mask for next clear
-    	getGL().glColorMask(true,true,true,true);
-        
-            
-        if (needExportImage) {
-        	setExportImage();
-        	needExportImage=false;
-        	//notify();
-        }
-        
-        switch (exportType) {
-        case ANIMATEDGIF:
-        	App.debug("Exporting frame: "+export_i);
-        	
-        	
-        	setExportImage();
-			if (bi == null) {
-				App.error("image null");
-			} else {
-				gifEncoder.addFrame(bi);
-			}
-			
-			export_val += export_step;
-			
-			if (export_val > export_max + 0.00000001 || export_val < export_min - 0.00000001) {
-				export_val -= 2 * export_step;
-				export_step *= -1;
-			}
-			
-			
-			export_i++;
-			
-			if (export_i>=export_n) {
-				exportType = ExportType.NONE;
-				gifEncoder.finish();
-
-				App.debug("GIF export finished");
-				
-			} else {
-				export_num.setValue(export_val);
-				export_num.updateRepaint();
-			}
-			break;
-			
-        case CLIPBOARD:
-			exportType = ExportType.NONE;
-        	App.debug("Exporting to clipboard");
-        	
-        	setExportImage();
-        	
-			if (bi == null) {
-				App.error("image null");
-			} else {
-				geogebra.gui.util.ImageSelection imgSel = new geogebra.gui.util.ImageSelection(
-						bi);
-				Toolkit.getDefaultToolkit().getSystemClipboard()
-						.setContents(imgSel, null);
-			}
-			
-      	
-        	break;
-        case UPLOAD_TO_GEOGEBRATUBE:
-			exportType = ExportType.NONE;
-        	App.debug("Uploading to GeoGebraTube");
-        	
-        	setExportImage();
-        	
-			if (bi == null) {
-				App.error("image null");
-			} else {
-				
-				view3D.getApplication().uploadToGeoGebraTube();
-				
-			}
-			
-      	
-        	break;
-
-        }
-        
-        
-    }
 
 
     /**
@@ -557,7 +327,7 @@ public abstract class Renderer implements GLEventListener {
     protected static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
     
     protected boolean enableClipPlanes;
-    private boolean waitForUpdateClipPlanes=false;
+    protected boolean waitForUpdateClipPlanes=false;
     
     /**
      * sets if clip planes have to be enabled
@@ -787,7 +557,7 @@ public abstract class Renderer implements GLEventListener {
     // EXPORT IMAGE
     //////////////////////////////////////     
     
-    private boolean needExportImage=false;
+    protected boolean needExportImage=false;
     
     /**
      * says that an export image is needed, and call immediate display
@@ -812,25 +582,7 @@ public abstract class Renderer implements GLEventListener {
     	return bi;
     }   
     
-    /**
-     * openGL method called when the canvas is reshaped.
-     */
-    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-    	
-    	setGL(drawable);   
-    	
-        setView(x,y,w,h);
-        view3D.reset();
-
-    }
-
-    /**
-     * openGL method called when the display change.
-     * empty method
-     */
-    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
-        boolean deviceChanged) {
-    }    
+  
       
     
     ///////////////////////////////////////////////////
@@ -1291,13 +1043,13 @@ public abstract class Renderer implements GLEventListener {
     //////////////////////////////////
     // clear color
     
-    private boolean waitForUpdateClearColor = false;
+    protected boolean waitForUpdateClearColor = false;
     
     public void setWaitForUpdateClearColor(){
     	waitForUpdateClearColor = true;
     }
     
-    private void updateClearColor(){
+    protected void updateClearColor(){
 
     	GColor c = view3D.getBackground();
     	float r,g,b;
@@ -1339,106 +1091,7 @@ public abstract class Renderer implements GLEventListener {
      */
     abstract protected Manager createManager();
     
-    /** Called by the drawable immediately after the OpenGL context is
-     * initialized for the first time. Can be used to perform one-time OpenGL
-     * initialization such as setup of lights and display lists.
-     * @param drawable The GLAutoDrawable object.
-     */
-    public void init(GLAutoDrawable drawable) {
-    	
-    	// reset picking
-    	oldGeoToPickSize = -1;
-    	
-    	// start init
-    	App.debug("\n"+RendererJogl.getGLInfos(drawable)); 
-        
-        // JOGL2 only, don't commit
-        //App.debug("GL GLSL: "+gl2.hasGLSL()+", has-compiler: "+gl2.isFunctionAvailable("glCompileShader")+", version "+(gl2.hasGLSL() ? gl2.glGetString(GL2ES2.GL_SHADING_LANGUAGE_VERSION) : "none")); 
-        //App.debug("GL Profile: "+gl2.getGLProfile()); 
-        //App.debug("GL:" + gl2 + ", " + gl2.getContext().getGLVersion()); 
-        
-        // doesn't seem to work on JOGL1 or 2
-        //App.debug("GL FBO: basic "+ gl2.hasBasicFBOSupport()+", full "+gl2.hasFullFBOSupport()); 
-    		
-    	//Application.printStacktrace("");
-
-    	setGL(drawable);
-        
-        
-        // check openGL version
-        final String version = getGL().glGetString(GLlocal.GL_VERSION);
-       
-        
-        // Check For VBO support
-        final boolean VBOsupported = getGL().isFunctionAvailable("glGenBuffersARB") &&
-                getGL().isFunctionAvailable("glBindBufferARB") &&
-                getGL().isFunctionAvailable("glBufferDataARB") &&
-                getGL().isFunctionAvailable("glDeleteBuffersARB");
-        
-        AppD.debug("openGL version : "+version
-        		+", vbo supported : "+VBOsupported);
-        
-
-        initShaders();
-               
-        
-        geometryManager = createManager();
-                    
-        
-        
-        //GL_LIGHT0 & GL_LIGHT1
-        float ambiant0 = 0.5f;
-        float diffuse0 = 1f-ambiant0; 
-        
-        float ambiant1 = 0.4f;
-        float diffuse1=0.7f;//1f-ambiant;
-        
-        setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
-                
-        
-        
-        
-        //material and light
-        setColorMaterial();
-        getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
-        
-        
-        
-        //setLight(GLlocal.GL_LIGHT0);        
-        setLightModel();        
-        getGL().glEnable(GLlocal.GL_LIGHTING);
-        
-   
-        //common enabling
-        getGL().glEnable(GLlocal.GL_DEPTH_TEST);
-        getGL().glDepthFunc(GLlocal.GL_LEQUAL); //less or equal for transparency
-		getGL().glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
-        
-        //blending
-        getGL().glBlendFunc(GLlocal.GL_SRC_ALPHA, GLlocal.GL_ONE_MINUS_SRC_ALPHA);
-        getGL().glEnable(GLlocal.GL_BLEND);	
-        updateClearColor();
-               
-        setAlphaFunc();
-        
-               
-        //normal anti-scaling
-        getGL().glEnable(GLlocal.GL_NORMALIZE);
-        
-        //textures
-        textures.init(getGL());
-       
-        //reset euclidian view
-        view3D.reset();       
-        
-        //reset picking buffer
-        needsNewPickingBuffer = true;
-        
-       	// ensure that animation is on (needed when undocking/docking 3D view)
-        resumeAnimator();        
-
-    }  
+ 
     
     
     abstract protected void setColorMaterial();
@@ -1451,9 +1104,7 @@ public abstract class Renderer implements GLEventListener {
     /**
      * ensure that animation is on (needed when undocking/docking 3D view)
      */
-    public void resumeAnimator(){
-    	animator.resume();
-    }
+    abstract public void resumeAnimator();
     
     //projection mode
     
@@ -1528,13 +1179,13 @@ public abstract class Renderer implements GLEventListener {
 	 */
 	abstract protected void setView();
 	
-	private boolean waitForDisableStencilLines = false;
+	protected boolean waitForDisableStencilLines = false;
 	
 	public void setWaitForDisableStencilLines(){
 		waitForDisableStencilLines = true;
 	}
 	
-	private void disableStencilLines(){
+	protected void disableStencilLines(){
 		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
 		waitForDisableStencilLines = false;
 	}
@@ -1699,15 +1350,15 @@ public abstract class Renderer implements GLEventListener {
     protected double obliqueX;
 	protected double obliqueY;
     private Coords obliqueOrthoDirection; //direction "orthogonal" to the screen (i.e. not visible)
-	private ExportType exportType = ExportType.NONE;
-	private int export_n;
-	private double export_val;
-	private double export_min;
-	private double export_max;
-	private double export_step;
-	private FrameCollector gifEncoder;
-	private int export_i;
-	private GeoNumeric export_num;
+	protected ExportType exportType = ExportType.NONE;
+	protected int export_n;
+	protected double export_val;
+	protected double export_min;
+	protected double export_max;
+	protected double export_step;
+	protected FrameCollector gifEncoder;
+	protected int export_i;
+	protected GeoNumeric export_num;
     
     public void updateProjectionObliqueValues(){
     	double angle = Math.toRadians(view3D.getProjectionObliqueAngle());
@@ -1730,7 +1381,7 @@ public abstract class Renderer implements GLEventListener {
      * @param h height
      * 
      */
-    private void setView(int x, int y, int w, int h){
+    protected void setView(int x, int y, int w, int h){
     	left=x-w/2;
     	bottom=y-h/2;
     	right=left+w;
@@ -1807,8 +1458,5 @@ public abstract class Renderer implements GLEventListener {
 	}
 	
 	
-	public void dispose(GLAutoDrawable arg0) {
-		// NOTHING TO DO HERE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE VERSIONS	
-	}
 	
 }

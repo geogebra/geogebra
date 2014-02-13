@@ -18,7 +18,7 @@ import javax.media.opengl.glu.GLUtessellator;
  * @author ggb3D
  *
  */
-public class ManagerGLList extends Manager {
+public class ManagerGLList extends ManagerD {
 	
 	// GL 
 	private GLUtessellator tesselator;
@@ -78,8 +78,8 @@ public class ManagerGLList extends Manager {
 	}
 	
 	@Override
-	public void startGeometry(int type){
-		renderer.jogl.getGL2().glBegin(type);
+	public void startGeometry(Type type){
+		renderer.jogl.getGL2().glBegin(getGLType(type));
 	}
 	
 	@Override
