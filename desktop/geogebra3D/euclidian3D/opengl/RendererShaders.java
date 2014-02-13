@@ -40,9 +40,10 @@ public class RendererShaders extends RendererD {
 	/**
 	 * constructor
 	 * @param view 3D view
+	 * @param useCanvas says if we want a canvas
 	 */
-	public RendererShaders(EuclidianView3D view){
-		super(view,false);
+	public RendererShaders(EuclidianView3D view, boolean useCanvas){
+		super(view,useCanvas);
 	}
 
 	

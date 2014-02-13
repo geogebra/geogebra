@@ -76,7 +76,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	@Override
 	protected Renderer createRenderer(){
 		return new RendererGL2(this, !app.isApplet());
-		//return new RendererShaders(this); 
+		//return new RendererShaders(this, !app.isApplet()); 
 	}
 	
 	
