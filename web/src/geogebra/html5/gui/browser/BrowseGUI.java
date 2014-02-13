@@ -13,6 +13,7 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.Request;
@@ -20,7 +21,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
  * GeoGebraTube Search and Browse GUI
@@ -86,20 +86,16 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 
 	private void addContent() {
 		initTubeFilePanel();
-
-		final HorizontalPanel fileList = new HorizontalPanel();
-		fileList.add(this.tubeFileContainer);
-		this.setContentWidget(fileList);
+		this.setContentWidget(this.tubeFileContainer);
 	}
 
 	private void initTubeFilePanel() {
 		this.tubeFilePanel = new VerticalMaterialPanel(this.app, this);
 		this.tubeFileContainer = new FileContainer("GeoGebraTube",
-				this.tubeFilePanel);
+				this.tubeFilePanel, this);
 		this.tubeFileContainer.setVisible(false);
 		this.tubeFileContainer.setStyleName("tubeFilePanel");
 		this.addResizeListener(this.tubeFileContainer);
-		this.addResizeListener(this.tubeFilePanel);
 	}
 
 	void displaySearchResults(final String query) {
@@ -205,5 +201,11 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	    this.frame = geoGebraAppFrame;
 	    
     }
+	
+	public void openFileAsGgb(JavaScriptObject fileToHandle,
+	        JavaScriptObject callback){
+		app.openFileAsGgb(fileToHandle, callback);
+		close();
+	}
 
 }

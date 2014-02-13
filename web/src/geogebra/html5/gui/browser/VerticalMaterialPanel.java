@@ -1,7 +1,6 @@
 package geogebra.html5.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
+public class VerticalMaterialPanel extends FlowPanel {
 
 	private static int maxHeight() {
 		//TODO random number
@@ -103,16 +102,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		}
 		// }
 
-	}
-
-	@Override
-	public void onResize() {
-		this.updateWidth();
-		this.updateHeight();
-	}
-
-	private void updateWidth() {
-		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
 	}
 
 	public void invalidate(final String changedName) {
