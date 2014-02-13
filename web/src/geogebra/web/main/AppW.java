@@ -1640,6 +1640,11 @@ public abstract class AppW extends AppWeb {
 	public void showBrowser(BrowseGUI bg) {
 	    //overwritten in AppWApplication
     }
+
+	public void updateViewSizes() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 	
 	

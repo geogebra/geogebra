@@ -13,11 +13,13 @@ public class SideBarMenuW extends VerticalPanel {
 	private HelpMenuW helpMenu;
 	private OptionsMenuW optionsMenu;
 	private EditMenuW editMenu;
+	private PerspectivesMenuW perspectivesMenu;
 
 	public SideBarMenuW(AppW app) {
 
 		this.app = app;
 		createFileMenu();
+		createPerspectivesMenu();
 		createEditMenu();
 		createViewMenu();
 		createOptionsMenu();
@@ -25,6 +27,7 @@ public class SideBarMenuW extends VerticalPanel {
 		
 		StackPanel sp = new StackPanel();
 		sp.add(fileMenu, setHTML("File"), true);
+		sp.add(perspectivesMenu, setHTML("Perspectives"), true);
 		sp.add(editMenu, setHTML("Edit"), true);
 		sp.add(viewMenu, setHTML("View"), true);
 		sp.add(optionsMenu, setHTML("Options"), true);
@@ -42,6 +45,11 @@ public class SideBarMenuW extends VerticalPanel {
 	
 	private void createFileMenu() {
 		fileMenu = new FileMenuW(app, true);
+		//add(fileMenu);
+	}
+
+	private void createPerspectivesMenu() {
+		perspectivesMenu = new PerspectivesMenuW(app);
 		//add(fileMenu);
 	}
 

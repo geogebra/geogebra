@@ -65,7 +65,7 @@ public class LayoutW extends Layout implements SettingListener {
 	
 	/*Many of this not implemented yet, later we can make it togehter*/
 	@Override
-    protected void applyPerspective(Perspective perspective) {
+    public void applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
 				if(!perspective.getId().equals("tmp")) {
 					EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();

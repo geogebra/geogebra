@@ -156,6 +156,16 @@ public class AppWapplication extends AppW {
 
 		// this is needed otherwise the coordinate system of EV would not be OK
 		// put in a deferred call because of drag & dropping files
+		updateViewSizes();
+
+		this.getEuclidianViewpanel().updateNavigationBar();
+		setDefaultCursor();
+		GeoGebraProfiler.getInstance().profileEnd();
+		((GGWToolBar)this.getToolbar()).updateToolbarPanel();
+	}
+
+	@Override
+	public void updateViewSizes() {
 		getEuclidianViewpanel().deferredOnResize();
 		if (hasEuclidianView2()) {
 			getGuiManager().getEuclidianView2DockPanel().deferredOnResize();
@@ -166,12 +176,7 @@ public class AppWapplication extends AppW {
 				sp.deferredOnResize();
 			}
 		}
-
-		this.getEuclidianViewpanel().updateNavigationBar();
-		setDefaultCursor();
-		GeoGebraProfiler.getInstance().profileEnd();
-		((GGWToolBar)this.getToolbar()).updateToolbarPanel();
-	}
+    }
 
 	@Override
 	public boolean menubarRestricted() {
