@@ -219,8 +219,13 @@ public class AlgoSlopeField extends AlgoElement {
 
 					if (num.isDefined() && den.isDefined()) {
 						// quotient function like x / y
-						double numD = num.evaluate(input1);
-						double denD = den.evaluate(input1);
+
+						// make sure eg SlopeField[(2 - y) / 2] works
+						boolean numfuncOfJustY = num instanceof GeoFunction && ((GeoFunction)num).isFunctionOfY();
+						boolean denfuncOfJustY = den instanceof GeoFunction && ((GeoFunction)den).isFunctionOfY();
+
+						double numD = numfuncOfJustY ? ((GeoFunction)num).evaluate(input1[1]) : num.evaluate(input1);
+						double denD = denfuncOfJustY ? ((GeoFunction)den).evaluate(input1[1]) : den.evaluate(input1);
 
 						if (Kernel.isZero(denD)) {
 							if (Kernel.isZero(numD)) {
