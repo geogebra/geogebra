@@ -36,7 +36,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 		this.contentPanel = new FlexTable();
 		this.app = app;
 		this.add(this.contentPanel);
-		this.contentPanel.setWidth("100%");
+		//this.contentPanel.setWidth("100%");
 		this.bg = bg;
 	}
 

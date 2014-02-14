@@ -2,7 +2,6 @@ package geogebra.html5.gui.browser;
 import geogebra.common.main.Localization;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
@@ -85,7 +84,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.searchButton = new StandardButton(GuiResources.INSTANCE.navPlay());
+		this.searchButton = new StandardButton(BrowseResources.INSTANCE.search());
 		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -94,7 +93,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.cancelButton = new StandardButton(GuiResources.INSTANCE.navPause());
+		this.cancelButton = new StandardButton(BrowseResources.INSTANCE.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {

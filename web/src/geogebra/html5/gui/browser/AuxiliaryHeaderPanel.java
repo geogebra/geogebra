@@ -1,7 +1,6 @@
 package geogebra.html5.gui.browser;
 
 import geogebra.common.main.Localization;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -30,7 +29,7 @@ class AuxiliaryHeaderPanel extends HorizontalPanel {
 	AuxiliaryHeaderPanel(final Localization loc) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
-		this.backButton = new StandardButton(GuiResources.INSTANCE.navPlay(), loc.getMenu("Back"));
+		this.backButton = new StandardButton(BrowseResources.INSTANCE.back(), loc.getMenu("Back"));
 		this.backButton.addStyleName("backButton");
 
 		this.backPanel = new FlowPanel();

@@ -3,7 +3,6 @@ package geogebra.html5.gui.browser;
 import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.Unicode;
-import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
@@ -43,11 +42,11 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 
 	
 	private final StandardButton openButton = new StandardButton(
-			GuiResources.INSTANCE.navPlay());
+			BrowseResources.INSTANCE.document_viewer());
 	private final StandardButton editButton = new StandardButton(
-			GuiResources.INSTANCE.navPause());
+			BrowseResources.INSTANCE.document_edit());
 	private final StandardButton deleteButton = new StandardButton(
-			GuiResources.INSTANCE.navPlay());
+			BrowseResources.INSTANCE.dialog_cancel());
 	private BrowseGUI bg;
 
 	MaterialListElement(final Material m, final AppWeb app, BrowseGUI bg) {
@@ -235,10 +234,13 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 	}
 
 	void onOpen() {
-		/* TODO */
-		onEdit();
+		openTubeWindow(material.getId());
 	}
 
+	private native void openTubeWindow(int id)/*-{
+		$wnd.open("http://www.geogebratube.org/material/show/id/"+id);
+	}-*/;
+	
 	private void markSelected() {
 		this.isSelected = true;
 		bg.unselectMaterials();

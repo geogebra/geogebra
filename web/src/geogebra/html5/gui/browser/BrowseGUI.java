@@ -204,7 +204,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	
 	public void openFileAsGgb(JavaScriptObject fileToHandle,
 	        JavaScriptObject callback){
-		app.openFileAsGgb(fileToHandle, callback);
+		app.openFileAsGgb(fileToHandle, callback);		
 		close();
 	}
 
