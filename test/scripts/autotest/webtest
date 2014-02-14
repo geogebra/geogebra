@@ -104,7 +104,7 @@ REMOTEURL="$REMOTEBASE?f=$1&$TESTPARAMS"
 SYNTAXERROR=`cat $JSONFILENAME | grep SyntaxError`
 if [ "$SYNTAXERROR" != "" ]; then
  echo "$SYNTAXERROR for test $1 ($REMOTEURL)"
- exit 23
+ # exit 23 # Not as critical as it seems
  fi
 }
 
