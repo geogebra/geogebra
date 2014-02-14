@@ -614,7 +614,7 @@ __GGB__keysVar.es_UY.command = {
     "PointIn": "PuntoEn",
     "PointIn_Syntax": "[ <Regi\xf3n> ]",
     "PointList": "ListaPuntos",
-    "PointList_Syntax": "[ <Lista> ]",
+    "PointList_Syntax": "[ <Lista de listas de pares de coordenadas> ]",
     "Poisson": "Poisson",
     "Poisson_Syntax": "[ <Media> ]\n[ <Media>, <Acumulada o no (true/false)> ]\n[ <Media>, <Valor>, <Acumulada o no (true/false)> ]",
     "Poisson_SyntaxCAS": "[ <Media>, <Valor>, <Acumulada o no (true/false)> ]",
