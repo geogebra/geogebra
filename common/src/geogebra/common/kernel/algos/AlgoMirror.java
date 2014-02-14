@@ -21,7 +21,9 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
@@ -49,7 +51,7 @@ import geogebra.common.util.MyMath;
  * @author  Markus
  * @version 
  */
-public class AlgoMirror extends AlgoTransformation {
+public class AlgoMirror extends AlgoTransformation implements RestrictionAlgoForLocusEquation {
 
     protected Mirrorable out;   
     protected GeoElement inGeo;
@@ -395,5 +397,13 @@ public class AlgoMirror extends AlgoTransformation {
 		return !Kernel.isGreater(dist, arc.halfAxes[0]);
 	}
 
-	// TODO Consider locusequability
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
+	
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+		return LocusEquation.eqnMirror(geo, this, scope);
+	}
+    
 }

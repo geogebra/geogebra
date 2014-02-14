@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
 import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoMidpointSegment;
+import geogebra.common.kernel.algos.AlgoMirror;
 import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -41,6 +42,7 @@ import geogebra.common.kernel.locusequ.elements.EquationLineBisectorSegment;
 import geogebra.common.kernel.locusequ.elements.EquationLinePointLine;
 import geogebra.common.kernel.locusequ.elements.EquationMidpointRestriction;
 import geogebra.common.kernel.locusequ.elements.EquationMidpointSegmentRestriction;
+import geogebra.common.kernel.locusequ.elements.EquationMirrorRestriction;
 import geogebra.common.kernel.locusequ.elements.EquationOrthoLinePointLine;
 import geogebra.common.kernel.locusequ.elements.EquationParabolaPointLine;
 import geogebra.common.kernel.locusequ.elements.EquationPointOnPathRestriction;
@@ -426,6 +428,20 @@ public class LocusEquation {
 
 	}
 
+	/**
+	 * @param geo result
+	 * @param algo algorithm
+	 * @param scope scope
+	 * @return equation element
+	 */
+	public static EquationElementInterface eqnMirror(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
+		return new EquationMirrorRestriction(geo, (AlgoMirror) algo,
+				(EquationScope) scope);
+
+	}
+
+	
 	/**
 	 * @param geo
 	 *            result
