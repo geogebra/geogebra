@@ -14,6 +14,7 @@ import geogebra3D.euclidian3D.Hits3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
@@ -127,7 +128,7 @@ public abstract class Renderer {
 		this.view3D=view;
 		
 		//textures
-		textures = new Textures(view3D.getApplication().getImageManager());	
+		textures = new Textures(this, view3D.getApplication().getImageManager());	
 		
 		
 	}
@@ -1458,5 +1459,52 @@ public abstract class Renderer {
 	}
 	
 	
+	/**
+	 * enable GL textures 2D
+	 */
+	abstract public void enableTextures2D();
+	
+	/**
+	 * disable GL textures 2D
+	 */
+	abstract public void disableTextures2D();
+	
+	/**
+	 * generate textures
+	 * @param number texture length
+	 * @param index indices
+	 */
+	abstract public void genTextures2D(int number, int[] index);
+	
+	/**
+	 * bind the texture
+	 * @param index texture index
+	 */
+	abstract public void bindTexture(int index);
+	
+	
+	/**
+	 * remove a texture
+	 * @param index texture index
+	 */
+	abstract public void removeTexture(int index);
+	
+	/** 
+	 * @param sizeX
+	 * @param sizeY
+	 * @param buf
+	 */
+	abstract public void textureImage2D(int sizeX, int sizeY, ByteBuffer buf);
+	
+	/**
+	 * set texture linear parameters
+	 */
+	abstract public void setTextureLinear();
+      
+	
+	/**
+	 * set texture nearest parameters
+	 */
+	abstract public void setTextureNearest();
 	
 }

@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.euclidian.plot.PathPlotter;
 import geogebra.common.kernel.Kernel;
@@ -10,7 +11,6 @@ import geogebra3D.euclidian3D.plots.CurveMesh;
 import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.euclidian3D.plots.MarchingCubes;
 
-import java.awt.Color;
 import java.nio.FloatBuffer;
 
 /**
@@ -878,7 +878,7 @@ public class PlotterBrush implements PathPlotter {
 	 * @param color
 	 * @param alpha
 	 */
-	public void setColor(Color color, float alpha){
+	public void setColor(GColor color, float alpha){
 		this.red = color.getRed()/255f;
 		this.green = color.getGreen()/255f;
 		this.blue = color.getBlue()/255f;
@@ -889,7 +889,7 @@ public class PlotterBrush implements PathPlotter {
 	/** sets the current color (alpha set to 1)
 	 * @param color
 	 */
-	public void setColor(Color color){
+	public void setColor(GColor color){
 		setColor(color,1);
 	}
 	

@@ -2,12 +2,6 @@ package geogebra3D.euclidian3D.opengl;
 
 
 
-/*
-import com.sun.opengl.util.texture.Texture;
-import com.sun.opengl.util.texture.TextureCoords;
-import com.sun.opengl.util.texture.TextureData;
-import com.sun.opengl.util.texture.TextureIO;
-*/
 
 /**
  * Class that manages text rendering

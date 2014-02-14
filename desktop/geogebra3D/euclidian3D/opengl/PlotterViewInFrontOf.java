@@ -1,8 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Matrix.Coords;
-
-import java.awt.Color;
 
 /**
  * Class that describes the geometry of buttons for 3D view
@@ -39,7 +38,7 @@ public class PlotterViewInFrontOf {
 		//brush.setAffineTexture(0.5f, 0.125f);
 
 		brush.start(16);
-		brush.setColor(Color.GRAY,0.5f);
+		brush.setColor(GColor.GRAY,0.5f);
 		//brush.setThickness(thickness);//re sets the thickness
 		brush.segment(new Coords(0, 0, start, 1),new Coords(0,0,end, 1));
 		index[0] =brush.end();

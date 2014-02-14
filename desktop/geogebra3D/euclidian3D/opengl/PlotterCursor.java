@@ -1,8 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Matrix.Coords;
-
-import java.awt.Color;
 
 
 
@@ -82,7 +81,7 @@ public class PlotterCursor {
 		
 		//xy
 		brush.start(8);
-		brush.setColor(Color.GRAY);
+		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);//re sets the thickness
 		brush.segment(new Coords(size_start_move, 0, 0, 1),new Coords(size_move, 0, 0, 1));
 		brush.setThickness(thickness3);//re sets the thickness
@@ -96,7 +95,7 @@ public class PlotterCursor {
 
 		//z
 		brush.start(8);
-		brush.setColor(Color.GRAY);
+		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);//re sets the thickness
 		brush.segment(new Coords(0, 0, size_start_move, 1),new Coords(0, 0, size_move, 1));
 		brush.setThickness(thickness3);//re sets the thickness

@@ -5,8 +5,6 @@ import geogebra.common.util.AbstractImageManager;
 
 import java.nio.ByteBuffer;
 
-import javax.media.opengl.GL;
-
 
 
 /**
@@ -16,7 +14,7 @@ import javax.media.opengl.GL;
  */
 public class Textures {
 	
-	private GL gl;
+	//private GL gl;
 	
 	private AbstractImageManager imageManager;
 	
@@ -75,30 +73,27 @@ public class Textures {
 
 	
 	
-	
+	private Renderer renderer;
 
 	/** default constructor
 	 * @param gl
 	 */
-	public Textures(AbstractImageManager abstractImageManager){
+	public Textures(Renderer renderer, AbstractImageManager abstractImageManager){
+		
+		this.renderer = renderer;
 		this.imageManager = abstractImageManager;
-		
-		
 		
 	}
 	
-	public void init(GL gl){
-		this.gl = gl;
+	public void init(){
 		
-
-
-		gl.glEnable(GL.GL_TEXTURE_2D);
 		
+		renderer.enableTextures2D();
 		
 		
 
 		texturesIndex = new int[TEXTURES_NUMBER];
-		gl.glGenTextures(TEXTURES_NUMBER, texturesIndex, 0);
+		renderer.genTextures2D(TEXTURES_NUMBER, texturesIndex);
 
 		// dash textures
 		for(int i=0; i<DASH_NUMBER; i++)
@@ -108,7 +103,7 @@ public class Textures {
 		initFadingTexture(texturesIndex[FADING]);
 
 		
-		gl.glDisable(GL.GL_TEXTURE_2D);
+		renderer.disableTextures2D();
 
 	}
 	
@@ -139,7 +134,7 @@ public class Textures {
 	 */
 	public void setTextureNearest(int index){
 
-		gl.glBindTexture(GL.GL_TEXTURE_2D, index);
+		renderer.bindTexture(index);
 		setTextureNearest();
 		
 	}
@@ -149,7 +144,7 @@ public class Textures {
 	 */
 	public void setTextureLinear(int index){
 
-		gl.glBindTexture(GL.GL_TEXTURE_2D, index);
+		renderer.bindTexture(index);
 		setTextureLinear();
 		
 	}
@@ -178,14 +173,13 @@ public class Textures {
 
 		ByteBuffer buf = ByteBuffer.wrap(bytes);
 
-		gl.glBindTexture(GL.GL_TEXTURE_2D, n);
+		renderer.bindTexture(n);
 
 		
 
 
-		//TODO use gl.glTexImage1D ?
-		//gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  4, sizeX, sizeY, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buf);
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, 1, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
+		//gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, 1, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
+		renderer.textureImage2D(sizeX, 1, buf);
 
 	}
 	
@@ -283,9 +277,9 @@ public class Textures {
 
 		ByteBuffer buf = ByteBuffer.wrap(bytes);
 
-		gl.glBindTexture(GL.GL_TEXTURE_2D, index);
-		
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
+		renderer.bindTexture(index);
+
+		renderer.textureImage2D(sizeX, sizeY, buf);
 
 	}
 
@@ -348,17 +342,12 @@ public class Textures {
 	
 	
 
-	private void setTextureLinear(){
-		gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_LINEAR);
-		gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_LINEAR);
-		gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE); //prevent repeating the texture
-		gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP_TO_EDGE); //prevent repeating the texture
-
+	final private void setTextureLinear(){
+		renderer.setTextureLinear();
 	}
 
-	private void setTextureNearest(){
-		gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_NEAREST);
-		gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_NEAREST);
+	final private void setTextureNearest(){
+		renderer.setTextureNearest();
 	}
 	
 	/////////////////////////////////////////
@@ -373,8 +362,7 @@ public class Textures {
 	 * @param index
 	 */
 	public void removeTexture(int index){
-		//size, array, offset
-		gl.glDeleteTextures(1, new int[] {index}, 0);
+		renderer.removeTexture(index);
 	}
 
 	/** 
@@ -385,21 +373,16 @@ public class Textures {
 	 */
 	public int createAlphaTexture(int sizeX, int sizeY, ByteBuffer buf){
 		
-		gl.glEnable(GL.GL_TEXTURE_2D);  
+		renderer.enableTextures2D();
 		
 		int[] index = new int[1];
-     	gl.glGenTextures(1, index, 0);
-
-
+		renderer.genTextures2D(1, index);
 		
-		gl.glBindTexture(GL.GL_TEXTURE_2D, index[0]);
+     	renderer.bindTexture(index[0]);
 		
-		
-		
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
-      
+		renderer.textureImage2D(sizeX, sizeY, buf);
         
-        gl.glDisable(GL.GL_TEXTURE_2D);
+        renderer.disableTextures2D();
         
         return index[0];
 	}

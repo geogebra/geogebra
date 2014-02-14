@@ -8,7 +8,9 @@ import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.Toolkit;
+import java.nio.ByteBuffer;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
@@ -363,7 +365,7 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
         getGL().glEnable(GLlocal.GL_NORMALIZE);
         
         //textures
-        textures.init(getGL());
+        textures.init();
        
         //reset euclidian view
         view3D.reset();       
@@ -398,5 +400,53 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     }  
 	
 	
+    @Override
+	public void enableTextures2D(){
+    	getGL().glEnable(GL.GL_TEXTURE_2D);
+    }
+    
+    
+    @Override
+	public void disableTextures2D(){
+    	getGL().glDisable(GL.GL_TEXTURE_2D);
+    }
+    
+    @Override
+	public void genTextures2D(int number, int[] index){
+    	getGL().glGenTextures(number, index, 0);
+    }
+    
+    @Override
+	public void bindTexture(int index){
+    	getGL().glBindTexture(GL.GL_TEXTURE_2D, index);
+    }
+    
+    @Override
+	public void removeTexture(int index){
+    	getGL().glDeleteTextures(1, new int[] {index}, 0);
+    }
+    
+    @Override
+	public void textureImage2D(int sizeX, int sizeY, ByteBuffer buf){
+    	getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
+		 
+    }
+    
+    public void setTextureLinear(){
+    	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_LINEAR);
+    	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_LINEAR);
+    	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE); //prevent repeating the texture
+    	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP_TO_EDGE); //prevent repeating the texture
+
+	}
+    
+    
+	public void setTextureNearest(){
+		getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_NEAREST);
+		getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_NEAREST);
+	}
+
+    
+    
 
 }
