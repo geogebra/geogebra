@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import geogebra.common.kernel.Matrix.Coords;
@@ -14,8 +15,6 @@ import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
-import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -569,9 +568,8 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * draw in .obj format through renderer
 	 * @param renderer renderer
-	 * @throws IOException exception if write failed
 	 */
-	public void drawInObjFormat(Renderer renderer) throws IOException{
+	public void drawInObjFormat(Renderer renderer) {
 		// default : do nothing 
 	}
 	
@@ -979,7 +977,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	protected void setColors(double alpha, Coords color, Coords colorHighlighted){
-		Color c = geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor());
+		GColor c = getGeoElement().getObjectColor();
 		color.set(new Coords((double) c.getRed()/255, (double) c.getGreen()/255, (double) c.getBlue()/255,alpha));
 
 		

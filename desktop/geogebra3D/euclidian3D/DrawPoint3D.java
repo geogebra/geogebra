@@ -11,7 +11,6 @@ import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.awt.Graphics2D;
-import java.io.IOException;
 
 
 
@@ -60,7 +59,7 @@ implements Previewable, Functional2Var{
 	}
 
 	@Override
-	public void drawInObjFormat(Renderer renderer) throws IOException{
+	public void drawInObjFormat(Renderer renderer){
 		if(isVisible()){
 			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),getGeometryIndex());
 		}

@@ -8,7 +8,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -77,7 +76,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	
 
 	@Override
-	public void drawInObjFormat(Renderer renderer) throws IOException{
+	public void drawInObjFormat(Renderer renderer) {
 		if(isVisible()){
 			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),getGeometryIndex());
 		}

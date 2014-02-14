@@ -6,8 +6,6 @@ import geogebra.common.main.App;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
-import java.io.IOException;
-
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 
@@ -182,7 +180,7 @@ public class ManagerGLList extends ManagerD {
 	}
 	
 	@Override
-	public void drawInObjFormat(GeoElement geo, int index) throws IOException{
+	public void drawInObjFormat(GeoElement geo, int index){
 		App.error(".obj format not possible with this manager");
 	}
 	
