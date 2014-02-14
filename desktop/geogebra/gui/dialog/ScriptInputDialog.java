@@ -11,15 +11,13 @@ the Free Software Foundation.
  */
 package geogebra.gui.dialog;
 
-import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.options.model.ScriptInputModel;
+import geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.ScriptType;
-import geogebra.common.plugin.script.Script;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.main.AppD;
 
@@ -41,13 +39,9 @@ import javax.swing.event.DocumentListener;
  * 
  * @author hohenwarter
  */
-public class ScriptInputDialog extends InputDialogD implements DocumentListener {
-
-	private GeoElement geo;
-	private boolean global = false;
-	// private boolean javaScript = false;
-	private ScriptType scriptType = ScriptType.GGBSCRIPT;
-	private boolean updateScript = false;
+public class ScriptInputDialog extends InputDialogD implements
+		IScriptInputListener, DocumentListener {
+	private ScriptInputModel model;
 	private JComboBox languageSelector;
 
 	/**
@@ -63,11 +57,9 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 	 */
 	public ScriptInputDialog(AppD app, String title, GeoButton button,
 			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
-		super(app.getFrame(), false,app.getLocalization());
+		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;
-
-		this.updateScript = updateScript;
-		inputHandler = new TextInputHandler();
+		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
 
 		createGUI(title, "", false, cols, rows, true, false, false, false,
 				DialogType.GeoGebraEditor);
@@ -82,12 +74,12 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 		}
 		languageSelector.addActionListener(this);
 
-		setGeo(button);
+		model.setGeo(button);
 
 		if (forceJavaScript) {
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
-			setScriptType(ScriptType.JAVASCRIPT);
+			model.setScriptType(ScriptType.JAVASCRIPT);
 		}
 		btPanel.add(languageSelector, 0);
 
@@ -98,48 +90,6 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 		centerOnScreen();
 
 		inputPanel.getTextComponent().getDocument().addDocumentListener(this);
-	}
-
-	public void setGeo(GeoElement geo) {
-
-		handlingDocumentEventOff = true;
-
-		if (global) {
-			setGlobal();
-			handlingDocumentEventOff = false;
-			return;
-		}
-		this.geo = geo;
-
-		if (geo != null) {
-			Script script = geo.getScript(
-					updateScript ? EventType.UPDATE : EventType.CLICK);
-			// Default to an empty Ggb script
-			if (script == null) {
-				script = app.createScript(ScriptType.GGBSCRIPT, "", false);
-			}
-			// App.debug(script.getText());
-			inputPanel.setText(script.getText());
-			setScriptType(script.getType());
-		}
-
-		handlingDocumentEventOff = false;
-	}
-
-	/**
-	 * edit global javascript
-	 */
-	public void setGlobal() {
-
-		boolean currentHandlingDocumentEventOff = handlingDocumentEventOff;
-		handlingDocumentEventOff = true;
-
-		geo = null;
-		global = true;
-
-		inputPanel.setText(app.getKernel().getLibraryJavaScript());
-
-		handlingDocumentEventOff = currentHandlingDocumentEventOff;
 	}
 
 	/**
@@ -175,7 +125,7 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 
 	private boolean processInput() {
 		inputText = inputPanel.getText();
-		return inputHandler.processInput(inputText);
+		return model.processInput(inputText);
 	}
 
 	@Override
@@ -191,17 +141,17 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 					setVisible(!finished);
 				} else {
 					// text input field embedded in properties window
-					setGeo(getGeo());
+					model.setGeo(model.getGeo());
 				}
 			} else if (source == btCancel) {
 				if (wrappedDialog.isShowing())
 					setVisible(false);
 				else {
-					setGeo(getGeo());
+					model.setGeo(model.getGeo());
 				}
 			} else if (source == languageSelector) {
 				// setJSMode(languageSelector.getSelectedIndex()==1);
-				setScriptType(ScriptType.values()[languageSelector
+				model.setScriptType(ScriptType.values()[languageSelector
 						.getSelectedIndex()]);
 			}
 		} catch (Exception ex) {
@@ -216,30 +166,6 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 	// "javascript":"geogebra");
 	// }
 
-	private void setScriptType(ScriptType scriptType) {
-		this.scriptType = scriptType;
-		String scriptStr;
-		int index = scriptType.ordinal();
-		switch (scriptType) {
-		default:
-		case GGBSCRIPT:
-			scriptStr = "geogebra";
-			break;
-
-		case JAVASCRIPT:
-			scriptStr = "javascript";
-			break;
-
-		}
-
-		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
-				.getTextComponent();
-		editor.getDocument().removeDocumentListener(this);
-		languageSelector.setSelectedIndex(index);
-		editor.setEditorKit(scriptStr);
-		editor.getDocument().addDocumentListener(this);
-	}
-
 	/**
 	 * Inserts geo into text and creates the string for a dynamic text, e.g.
 	 * "Length of a = " + a + "cm"
@@ -252,54 +178,11 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 	}
 
 	/**
-	 * @return the geo
-	 */
-	public GeoElement getGeo() {
-		return geo;
-	}
-
-	private class TextInputHandler implements InputHandler {
-
-		private Kernel kernel;
-
-		private TextInputHandler() {
-			kernel = app.getKernel();
-		}
-
-		public boolean processInput(String inputValue) {
-			if (inputValue == null)
-				return false;
-
-			if (global) {
-				app.getKernel().setLibraryJavaScript(inputValue);
-				return true;
-			}
-
-			if (getGeo() == null) {
-				setGeo(GeoButton.getNewButton(kernel.getConstruction()));
-
-			}
-
-			// change existing script
-			Script script = app.createScript(scriptType, inputValue, true);
-			if (updateScript) {
-				getGeo().setUpdateScript(script);
-				// let's suppose fixing this script removed the reason why
-				// scripts were blocked
-				app.setBlockUpdateScripts(false);
-			} else {
-				getGeo().setClickScript(script);
-			}
-			return true;
-		}
-	}
-
-	/**
 	 * apply edit modifications
 	 */
 	public void applyModifications() {
-		if (editOccurred) {
-			editOccurred = false;
+		if (model.isEditOccurred()) {
+			model.setEditOccurred(false);
 			processInput();
 		}
 	}
@@ -310,34 +193,14 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 	}
 
 	public void insertUpdate(DocumentEvent e) {
-		handleDocumentEvent();
+		model.handleDocumentEvent();
 
 	}
 
 	public void removeUpdate(DocumentEvent e) {
-		handleDocumentEvent();
+		model.handleDocumentEvent();
 
 	}
-
-	/**
-	 * used for update to avoid several updates
-	 */
-	private boolean handlingDocumentEventOff = false;
-
-	/**
-	 * false on init, become true when an edit occurs
-	 */
-	private boolean editOccurred = false;
-
-	private void handleDocumentEvent() {
-
-		if (handlingDocumentEventOff)
-			return;
-
-		editOccurred = true;
-
-	}
-
 
 	@Override
 	public void updateFonts() {
@@ -346,9 +209,34 @@ public class ScriptInputDialog extends InputDialogD implements DocumentListener 
 
 		Font font = app.getPlainFont();
 		languageSelector.setFont(font);
-		
-		
-		
+
+	}
+
+	public void setInputText(String text) {
+		inputPanel.getTextComponent().setText(text);
+
+	}
+
+	public String getInputText() {
+		return inputPanel.getTextComponent().getText();
+	}
+
+	public void setLanguageIndex(int index, String name) {
+		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
+				.getTextComponent();
+		editor.getDocument().removeDocumentListener(this);
+		languageSelector.setSelectedIndex(index);
+		editor.setEditorKit(name);
+		editor.getDocument().addDocumentListener(this);
+
+	}
+
+	public void setGeo(GeoElement button) {
+		model.setGeo(button);
+	}
+
+	public void setGlobal() {
+		model.setGlobal();
 	}
 
 }
