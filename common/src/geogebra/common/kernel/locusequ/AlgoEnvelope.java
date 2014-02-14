@@ -17,7 +17,6 @@ import geogebra.common.util.debug.Log;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -225,14 +224,17 @@ public class AlgoEnvelope extends AlgoElement {
 		 */
 		
 		Collection<? extends EquationSymbolicValue> scopeVars = scope.getAllVariables();
-		String[] scopeVarsS = new String[scopeVars.size()];
+		int varsN = scopeVars.size();
+		int[] scopeVarsI = new int[varsN];
+		
 		Iterator<?> it = scopeVars.iterator();
 		int i = 0;
 		while (it.hasNext()) {
-			scopeVarsS[i++] = it.next().toString();
+			scopeVarsI[i++] = ((EquationSymbolicValue) it.next()).getId();
 		}
-		Arrays.sort(scopeVarsS, Collections.reverseOrder());
-		// Variables to replace are in first two elements of scopeVarsS.
+		Arrays.sort(scopeVarsI);
+		String varx = "x" + scopeVarsI[varsN - 2];
+		String vary = "x" + scopeVarsI[varsN - 1];
 		
 		// Now we do the replacement for the last equation (obtained for the path):
 		String[] lastS = new String[lastT.size()];
@@ -240,17 +242,16 @@ public class AlgoEnvelope extends AlgoElement {
 		i = 0;	
 		while (it.hasNext()) {
 			 String eq = it.next().toString();
-			 eq = eq.replaceAll(scopeVarsS[1], "x");
-			 eq = eq.replaceAll(scopeVarsS[0], "y");
+			 eq = eq.replaceAll(varx, "x");
+			 eq = eq.replaceAll(vary, "y");
 			 eq = CASTranslator.convertFloatsToRationals(eq);
 			 lastS[i++] = eq;
 		}
 		// We collect the used x1,x2,... variables (their order is not relevant):
 		String vars = "";
-		int varsN = scopeVarsS.length;
-		for (i=2; i < varsN; ++i) {
-			vars += scopeVarsS[i];
-			if (i < varsN - 1) {
+		for (i=0; i < varsN - 2; ++i) {
+			vars += "x" + scopeVarsI[i];
+			if (i < varsN - 3) {
 				vars += ",";
 			}
 		}
