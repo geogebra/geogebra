@@ -41,7 +41,7 @@ public class PerspectivesMenuW extends MenuBar {
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			final int index = i;
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(), 
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), 
 				app.getMenu("Perspective."+ defaultPerspectives[i].getId()), true),true,new Command() {
 			
 			public void execute() {
