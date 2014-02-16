@@ -2,6 +2,7 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
@@ -10,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.main.App;
 
 /**
  * @author Victor Franco Espino
@@ -104,26 +106,28 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 
     @Override
 	public final void compute() {
-    	if (gc != null) {
-			f = new GeoCurveCartesian(cons);
-			gc.toGeoCurveCartesian(f);
-			
-
-			// Catch curvature and curvature vector
-			algo = new AlgoCurvatureCurve(cons, A, f);
-			cv = new AlgoCurvatureVectorCurve(cons, A, f);
-			curv = algo.getResult();
-			v = cv.getVector();
-
-			cons.removeFromConstructionList(algo);
-			cons.removeFromConstructionList(cv);
-		}
-    	// bugfix Michael Borcherds
     	// undefined unless A is a point on f
-        if (!f.isOnPath(A, Kernel.MIN_PRECISION)) {
+        if (gc == null && !f.isOnPath(A, Kernel.MIN_PRECISION)) {
         	circle.setUndefined();
         	return;
         }
+    	if (gc != null) {
+    		if(!gc.isOnPath(A, Kernel.MIN_PRECISION)){
+    			circle.setUndefined();
+            	return;    			
+    		}
+			f = new GeoCurveCartesian(cons);
+			gc.toGeoCurveCartesian(f);
+			// Catch curvature and curvature vector
+			algo.compute();
+			cv.compute();
+			curv = algo.getResult();
+			v = cv.getVector();
+			App.debug(v.toValueString(StringTemplate.defaultTemplate));
+			App.debug(curv.toValueString(StringTemplate.defaultTemplate));
+		}
+    	// bugfix Michael Borcherds
+    	
         
     	double radius = 1/Math.abs(curv.getValue());
     	double r2 = radius*radius;
@@ -131,6 +135,8 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     	double y = r2 * v.y;
     	
     	R.setCoords(A.inhomX + x, A.inhomY + y, 1.0);
+    	App.debug(R.toValueString(StringTemplate.defaultTemplate));
+    	App.debug(A.toValueString(StringTemplate.defaultTemplate));
     	circle.setCircle(R, A);	
     }
 
