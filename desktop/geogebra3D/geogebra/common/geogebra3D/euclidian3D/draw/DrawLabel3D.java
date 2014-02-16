@@ -1,6 +1,8 @@
 package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.awt.GRectangleD;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -135,7 +137,7 @@ public class DrawLabel3D {
 
 			tempGraphics.setFont(font);
 
-			Rectangle2D rectangle = getBounds();
+			GRectangle rectangle = getBounds();
 
 			int xMin = (int) rectangle.getMinX()-1;
 			int xMax = (int) rectangle.getMaxX()+1;
@@ -194,17 +196,21 @@ public class DrawLabel3D {
 	protected boolean hasIndex = false;
 	
 	
-	protected Rectangle2D getBounds(){
+	protected GRectangle getBounds(){
 		Rectangle2D rectangle = (new TextLayout(text, font, new FontRenderContext(null, false, false))).getBounds();	
+		GRectangle r = new GRectangleD();
 		if(text.contains("_")){ //text contains subscript
 			//Application.debug("yMin="+yMin+", yMax="+yMax);
 			hasIndex = true;
 			geogebra.common.awt.GPoint p = 
 				EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), text, 0, 0, false, false);
-			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
-		}else
+			r.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
+		}else{
 			hasIndex = false;
-		return rectangle;
+			r.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight());
+		}
+		
+		return r;
 	}
 	
 	protected void draw(Graphics2D g2d){
