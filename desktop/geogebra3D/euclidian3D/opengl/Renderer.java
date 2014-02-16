@@ -147,23 +147,26 @@ public abstract class Renderer {
 	 */
 	abstract public void display();
 	
-	/** sets if openGL culling is done or not
-	 * @param flag
-	 */
-	abstract public void setCulling(boolean flag);
 	
+	/**
+	 * enable culling
+	 */
 	abstract public void enableCulling();
 	
+	/**
+	 * disable culling
+	 */
 	abstract public void disableCulling();
 	
+	/**
+	 * cull front faces
+	 */
 	abstract public void setCullFaceFront();
 	
-	abstract public void setCullFaceBack();
-	
-	/** sets if openGL blending is done or not
-	 * @param flag
+	/**
+	 * cull back faces
 	 */
-	abstract public void setBlending(boolean flag);
+	abstract public void setCullFaceBack();
 	
 	/**
 	 * disable blending
@@ -181,7 +184,7 @@ public abstract class Renderer {
 
 		getTextures().loadTextureLinear(Textures.FADING);
 		
-		setCulling(false);
+		disableCulling();
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
 		
@@ -190,7 +193,7 @@ public abstract class Renderer {
 		//TODO improve this !
 		
 		
-		setCulling(true);
+		enableCulling();
 		setCullFaceFront();
 		drawable3DLists.drawTranspClosedCurved(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
@@ -223,14 +226,14 @@ public abstract class Renderer {
 
 		getTextures().loadTextureLinear(Textures.FADING);
 
-        setBlending(true);
+        enableBlending();
         
-        setCulling(false);
+        disableCulling();
         drawable3DLists.drawNotTransparentSurfaces(this);
 
        		
 		//TODO improve this !
-		setCulling(true);
+		enableCulling();
 		setCullFaceFront();
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
@@ -303,7 +306,7 @@ public abstract class Renderer {
 
     	enableAlphaTest(); 
         disableLighting();
-        setBlending(true);
+        enableBlending();;
         enableTextures();
         //getGL().glDisable(GLlocal.GL_BLEND);
         //getGL().glDepthMask(false);
@@ -741,9 +744,9 @@ public abstract class Renderer {
     public void drawViewInFrontOf(){
     	//Application.debug("ici");
     	initMatrix();
-    	setBlending(false);
+    	disableBlending();
     	geometryManager.draw(geometryManager.getViewInFrontOf().getIndex());
-    	setBlending(true);
+    	enableBlending();
 		resetMatrix();   	
     }
     

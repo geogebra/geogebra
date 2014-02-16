@@ -443,7 +443,7 @@ public class Drawable3DLists {
 	 */
 	public void drawForPickingPointsAndCurves(Renderer renderer){		
 
-		renderer.setCulling(false);
+		renderer.disableCulling();
 		
 		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_DEFAULT]);	
 		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_POINTS]);	
@@ -458,7 +458,7 @@ public class Drawable3DLists {
 		view3D.drawForPicking(renderer);
 		
 
-		renderer.setCulling(true);
+		renderer.enableCulling();
 
 	}
 
@@ -467,13 +467,13 @@ public class Drawable3DLists {
 	 */
 	public void drawForPickingSurfaces(Renderer renderer){
 
-		renderer.setCulling(false);
+		renderer.disableCulling();
 		
 		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_SURFACES]);	
 		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]);	
 		
 		
-		renderer.setCulling(true);
+		renderer.enableCulling();
 		
 		renderer.setCullFaceFront();
 		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
@@ -481,7 +481,7 @@ public class Drawable3DLists {
 		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
 
 	
-		renderer.setCulling(false);
+		renderer.disableCulling();
 		
 		if (containsClippedSurfaces()){
 			renderer.enableClipPlanesIfNeeded();
@@ -490,7 +490,7 @@ public class Drawable3DLists {
 		}
 		
 		
-		renderer.setCulling(true);
+		renderer.enableCulling();
 		
 
 	}

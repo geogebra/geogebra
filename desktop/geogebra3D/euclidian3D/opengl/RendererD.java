@@ -473,13 +473,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	
 	
 	
-	@Override
-	public void setCulling(boolean flag){
-		if (flag)
-			getGL().glEnable(GLlocal.GL_CULL_FACE);
-		else
-			getGL().glDisable(GLlocal.GL_CULL_FACE);
-	}
 	
 	
 	@Override
@@ -503,13 +496,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	}
 	
 
-	@Override
-	public void setBlending(boolean flag){
-		if (flag)
-			getGL().glEnable(GLlocal.GL_BLEND);
-		else
-			getGL().glDisable(GLlocal.GL_BLEND);
-	}
 	
 	
 	@Override

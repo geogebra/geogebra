@@ -115,7 +115,7 @@ public class RendererGL2 extends RendererD{
 		//Application.debug("ici");
 
 		initMatrix();
-		setBlending(false);
+		disableBlending();
 		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_POINT);
 		jogl.getGL2().glColor4f(0,0,0,1);
 		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
@@ -125,7 +125,7 @@ public class RendererGL2 extends RendererD{
 		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_FILL);
 		jogl.getGL2().glColor4f(1,1,1,1);
 		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-		setBlending(true);
+		enableBlending();
 		resetMatrix();   	
 	}
 
