@@ -9,7 +9,7 @@ import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
-import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

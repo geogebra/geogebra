@@ -2,19 +2,20 @@ package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.awt.GPointWithZ;
-import geogebra3D.euclidian3D.Drawable3D;
-import geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
-import geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.euclidian3D.Hits3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+
+import javax.media.opengl.glu.GLU;
 
 /**
  * Renderer using GL2
@@ -22,6 +23,10 @@ import java.util.ArrayList;
  *
  */
 public class RendererGL2 extends RendererD{
+	
+	// openGL variables
+	protected GLU glu = new GLU();
+
 
 	/**
 	 * Constructor
@@ -51,29 +56,7 @@ public class RendererGL2 extends RendererD{
 	}
 
 
-	@Override
-	protected void setExportImage(){
 
-		jogl.getGL2().glReadBuffer(GLlocal.GL_FRONT);
-		int width = right-left;
-		int height = top-bottom;
-		FloatBuffer buffer = FloatBuffer.allocate(3*width*height);
-		jogl.getGL2().glReadPixels(0, 0, width, height, GLlocal.GL_RGB, GLlocal.GL_FLOAT, buffer);
-		float[] pixels = buffer.array();
-
-		bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
-
-		int i =0;
-		for (int y=height-1; y>=0 ; y--)
-			for (int x =0 ; x<width ; x++){
-				int r = (int) (pixels[i]*255);
-				int g = (int) (pixels[i+1]*255);
-				int b = (int) (pixels[i+2]*255);
-				bi.setRGB(x, y, ( (r << 16) | (g << 8) | b));
-				i+=3;
-			}
-		bi.flush();
-	}
 
 
 	@Override
@@ -362,7 +345,11 @@ public class RendererGL2 extends RendererD{
 
 	@Override
 	protected void setLightPosition(int light, float[] values){
-		jogl.getGL2().glLightfv(light, GLlocal.GL_POSITION, values, 0);
+		int l = GLlocal.GL_LIGHT1;
+		if (light == 0){
+			l = GLlocal.GL_LIGHT0;
+		}
+		jogl.getGL2().glLightfv(l, GLlocal.GL_POSITION, values, 0);
 	}
 	
 	@Override
@@ -378,7 +365,7 @@ public class RendererGL2 extends RendererD{
 	
 	@Override
 	protected void setLight(int light){
-		if (light == GLlocal.GL_LIGHT0){
+		if (light == 0){
 			getGL().glDisable(GLlocal.GL_LIGHT1);
 			getGL().glEnable(GLlocal.GL_LIGHT0);
 		}else{

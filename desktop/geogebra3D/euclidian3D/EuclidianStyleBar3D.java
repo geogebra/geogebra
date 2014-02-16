@@ -8,6 +8,7 @@ import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Dimension;
 import java.awt.Point;

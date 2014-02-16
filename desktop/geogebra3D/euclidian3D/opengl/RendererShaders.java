@@ -5,10 +5,11 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
-import geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.euclidian3D.Hits3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -1204,11 +1205,8 @@ public class RendererShaders extends RendererD {
 
 	@Override
 	protected void setLight(int light){
-		int l = 1;
-		if (light == GLlocal.GL_LIGHT0){
-			l = 0;
-		}
-		jogl.getGL2ES2().glUniform2fv(ambiantDiffuseLocation, 1, ambiantDiffuse[l], 0);
+
+		jogl.getGL2ES2().glUniform2fv(ambiantDiffuseLocation, 1, ambiantDiffuse[light], 0);
 	}
 
 

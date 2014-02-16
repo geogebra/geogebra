@@ -1,7 +1,9 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 /**
  * openGL geometry manager for desktop

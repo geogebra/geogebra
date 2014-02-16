@@ -40,10 +40,9 @@ import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.GlobalKeyDispatcherD;
 import geogebra.util.FrameCollector;
-import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianController3DD;
-import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.EuclidianView3DD;
+import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
@@ -51,6 +50,8 @@ import geogebra3D.euclidianForPlane.EuclidianControllerForPlaneD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
 import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 import geogebra3D.input3D.Input3DFactory;
@@ -216,7 +217,7 @@ public class App3D extends AppD {
 	@Override
 	public boolean saveGeoGebraFile(File file) {
 		// TODO generate it before
-		getEuclidianView3D().getRenderer().needExportImage();
+		((RendererD) getEuclidianView3D().getRenderer()).needExportImage();
 
 		return super.saveGeoGebraFile(file);
 	}
@@ -492,7 +493,7 @@ public class App3D extends AppD {
 			return;
 		}
 		
-		getEuclidianView3D().getRenderer().startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
+		((RendererD) getEuclidianView3D().getRenderer()).startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
 	}
 	
 	@Override
@@ -530,7 +531,7 @@ public class App3D extends AppD {
 		EuclidianView3D ev3D = getEuclidianView3D();
 		
 		if (ev3D.isShowing()) {
-			return getEuclidianView3D().getRenderer().getExportImage();
+			return ((RendererD) getEuclidianView3D().getRenderer()).getExportImage();
 		}
 
 		return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView()).getExportImage(scale);

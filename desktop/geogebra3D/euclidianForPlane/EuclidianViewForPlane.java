@@ -22,9 +22,9 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
-import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 import java.util.ArrayList;

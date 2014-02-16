@@ -7,10 +7,10 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
-import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3DD;
-import geogebra3D.euclidian3D.opengl.PlotterCursor;
-import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 /**
  * EuclidianView3D with controller using 3D input

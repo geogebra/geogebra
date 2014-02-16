@@ -10,8 +10,8 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3DD;
-import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.EuclidianView3DD;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;

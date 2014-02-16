@@ -1,14 +1,19 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
-import geogebra3D.euclidian3D.Drawable3D;
-import geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -21,6 +26,8 @@ import javax.media.opengl.GLEventListener;
  */
 public abstract class RendererD extends Renderer  implements GLEventListener {
 	
+
+	protected RendererJogl jogl;
 
 	private Animator animator;
 	
@@ -543,6 +550,8 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 		getGL().glDisable(GLlocal.GL_LIGHTING);
 	}
 
+    protected static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
+    
 
 
 	 @Override
@@ -628,5 +637,83 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	}
 	
 	
+	
+	
+
+
+	protected FrameCollector gifEncoder;
+	
+	public void startAnimatedGIFExport(FrameCollector gifEncoder,
+			GeoNumeric num, int n, double val, double min, double max,
+			double step) {
+		exportType  = ExportType.ANIMATEDGIF;
+		
+		num.setValue(val);
+		num.updateRepaint();
+		export_i = 0;
+
+		
+		this.export_n = n;
+		this.export_num = num;
+		this.export_val = val;
+		this.export_min = min;
+		this.export_max = max;
+		this.export_step = step;
+		this.gifEncoder = gifEncoder;
+		
+	}
+	
+	
+	
+
+    //////////////////////////////////////
+    // EXPORT IMAGE
+    //////////////////////////////////////     
+    
+    protected boolean needExportImage=false;
+    
+    /**
+     * says that an export image is needed, and call immediate display
+     */
+    public void needExportImage(){
+    	needExportImage = true;
+    	display();  	
+    }
+    
+    protected BufferedImage bi;
+    
+    /**
+     * creates an export image (and store it in BufferedImage bi)
+     */
+	protected void setExportImage(){
+
+		jogl.getGL2().glReadBuffer(GLlocal.GL_FRONT);
+		int width = right-left;
+		int height = top-bottom;
+		FloatBuffer buffer = FloatBuffer.allocate(3*width*height);
+		jogl.getGL2().glReadPixels(0, 0, width, height, GLlocal.GL_RGB, GLlocal.GL_FLOAT, buffer);
+		float[] pixels = buffer.array();
+
+		bi = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+
+		int i =0;
+		for (int y=height-1; y>=0 ; y--)
+			for (int x =0 ; x<width ; x++){
+				int r = (int) (pixels[i]*255);
+				int g = (int) (pixels[i+1]*255);
+				int b = (int) (pixels[i+2]*255);
+				bi.setRGB(x, y, ( (r << 16) | (g << 8) | b));
+				i+=3;
+			}
+		bi.flush();
+	}
+	
+    /**
+     * @return a BufferedImage containing last export image created
+     */
+    public BufferedImage getExportImage(){
+    	App.debug("thumbnail");
+    	return bi;
+    }   
 
 }

@@ -3,7 +3,9 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

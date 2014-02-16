@@ -16,8 +16,8 @@ import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
-import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 
 import java.util.ArrayList;
 import java.util.Arrays;

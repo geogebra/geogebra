@@ -11,9 +11,11 @@ import geogebra.euclidian.MyZoomerD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
-import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererGL2;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -467,5 +469,13 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	public App3D getApplication() {
 		return (App3D) this.app;
 	}
+	
+	
+	public BufferedImage getExportImage(double scale) {
+		((RendererD) getRenderer()).needExportImage();
 
+		return ((RendererD) getRenderer()).getExportImage();
+	}
+
+	
 }
