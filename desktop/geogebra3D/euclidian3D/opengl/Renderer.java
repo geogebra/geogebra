@@ -17,8 +17,6 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 
@@ -133,21 +131,7 @@ public abstract class Renderer {
 		
 	}
 	
-	/**
-	 * 
-	 * @return GL instance
-	 */
-	protected GL getGL(){
-		return jogl.getGL();
-	}
-	
-	/**
-	 * set GL instance
-	 * @param gLDrawable GL drawable
-	 */
-	public void setGL(GLAutoDrawable gLDrawable){		
-		jogl.setGL(gLDrawable);
-	}
+
 	
 	
 	/**
@@ -166,30 +150,30 @@ public abstract class Renderer {
 	/** sets if openGL culling is done or not
 	 * @param flag
 	 */
-	public void setCulling(boolean flag){
-		if (flag)
-			getGL().glEnable(GLlocal.GL_CULL_FACE);
-		else
-			getGL().glDisable(GLlocal.GL_CULL_FACE);
-	}
+	abstract public void setCulling(boolean flag);
 	
-	public void setCullFaceFront(){
-		getGL().glCullFace(GLlocal.GL_FRONT); 
-	}
+	abstract public void enableCulling();
 	
-	public void setCullFaceBack(){
-		getGL().glCullFace(GLlocal.GL_BACK); 
-	}
+	abstract public void disableCulling();
+	
+	abstract public void setCullFaceFront();
+	
+	abstract public void setCullFaceBack();
 	
 	/** sets if openGL blending is done or not
 	 * @param flag
 	 */
-	public void setBlending(boolean flag){
-		if (flag)
-			getGL().glEnable(GLlocal.GL_BLEND);
-		else
-			getGL().glDisable(GLlocal.GL_BLEND);
-	}
+	abstract public void setBlending(boolean flag);
+	
+	/**
+	 * disable blending
+	 */
+	abstract public void disableBlending();
+	
+	/**
+	 * enable blending
+	 */
+	abstract public void enableBlending();
 	
 	protected void drawTransp(){
 
@@ -197,7 +181,7 @@ public abstract class Renderer {
 
 		getTextures().loadTextureLinear(Textures.FADING);
 		
-		getGL().glDisable(GLlocal.GL_CULL_FACE);
+		setCulling(false);
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
 		
@@ -206,15 +190,15 @@ public abstract class Renderer {
 		//TODO improve this !
 		
 		
-		getGL().glEnable(GLlocal.GL_CULL_FACE);
-		getGL().glCullFace(GLlocal.GL_FRONT); 
+		setCulling(true);
+		setCullFaceFront();
 		drawable3DLists.drawTranspClosedCurved(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); //clipped surfaces back-faces
 			disableClipPlanesIfNeeded();
 		}
-		getGL().glCullFace(GLlocal.GL_BACK); 
+		setCullFaceBack();
 		drawable3DLists.drawTranspClosedCurved(this);//draws outside parts 	
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
@@ -239,23 +223,22 @@ public abstract class Renderer {
 
 		getTextures().loadTextureLinear(Textures.FADING);
 
-        getGL().glEnable(GLlocal.GL_BLEND);
+        setBlending(true);
         
-        //getGL().glCullFace(GLlocal.GL_BACK);getGL().glEnable(GLlocal.GL_CULL_FACE);
-		getGL().glDisable(GLlocal.GL_CULL_FACE);
+        setCulling(false);
         drawable3DLists.drawNotTransparentSurfaces(this);
 
        		
 		//TODO improve this !
-		getGL().glEnable(GLlocal.GL_CULL_FACE);
-		getGL().glCullFace(GLlocal.GL_FRONT); 
+		setCulling(true);
+		setCullFaceFront();
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawNotTransparentSurfacesClipped(this); //clipped surfaces back-faces
 			disableClipPlanesIfNeeded();
 		}
-		getGL().glCullFace(GLlocal.GL_BACK); 
+		setCullFaceBack(); 
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws outside parts 	
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
@@ -283,16 +266,34 @@ public abstract class Renderer {
     /**
      * enable  multi samples (for antialiasing)
      */
-    final public void enableMultisample(){  	
-    	getGL().glEnable(GLlocal.GL_MULTISAMPLE);
-    }
-
+    abstract public void enableMultisample();
+    
     /**
      * disable textures
      */
-    final public void disableMultisample(){
-    	getGL().glDisable(GLlocal.GL_MULTISAMPLE);
-    }
+    abstract public void disableMultisample();
+    
+    /**
+     * enable alpha test : avoid z-buffer writing for transparent parts  
+     */
+    abstract public void enableAlphaTest();
+    
+    /**
+     * disable alpha test
+     */
+    abstract public void disableAlphaTest();
+   
+    /**
+     * disable lighting
+     */
+    abstract public void disableLighting();
+    
+    /**
+     * enable lighting
+     */
+    abstract public void enableLighting();
+   
+    
    
     protected void drawFaceToScreen() {
     	//draw face-to screen parts (labels, ...)
@@ -300,9 +301,9 @@ public abstract class Renderer {
         //getGL().glEnable(GLlocal.GL_CULL_FACE);
         //getGL().glCullFace(GLlocal.GL_BACK);
 
-        getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
-        getGL().glDisable(GLlocal.GL_LIGHTING);
-        getGL().glEnable(GLlocal.GL_BLEND);
+    	enableAlphaTest(); 
+        disableLighting();
+        setBlending(true);
         enableTextures();
         //getGL().glDisable(GLlocal.GL_BLEND);
         //getGL().glDepthMask(false);
@@ -339,13 +340,9 @@ public abstract class Renderer {
     	enableClipPlanes = flag;
     }
        
-    private void enableClipPlane(int n){
-    	getGL().glEnable( GL_CLIP_PLANE[n] );   	
-    }
+    abstract protected void enableClipPlane(int n);
     
-    private void disableClipPlane(int n){
-    	getGL().glDisable( GL_CLIP_PLANE[n] );   	
-    }
+    abstract protected void disableClipPlane(int n);
     
     protected void enableClipPlanes(){
     	for (int n=0; n<6; n++)
@@ -389,7 +386,37 @@ public abstract class Renderer {
      * reset to projection matrix only
      */
     abstract protected void unsetMatrixView();
+    
+    
+    /**
+     * enable depth mask (write in depth buffer)
+     */
+    abstract public void enableDepthMask();
+    
+    /**
+     * disable depth mask (write in depth buffer)
+     */
+    abstract public void disableDepthMask();
+    
+    /**
+     * enable depth test
+     */
+    abstract public void enableDepthTest();
 
+    /**
+     * disable depth test
+     */
+    abstract public void disableDepthTest();
+	 
+    /**
+     * set the color mask
+     * @param r red
+     * @param g green
+     * @param b blue
+     * @param a alpha
+     */
+    abstract public void setColorMask(boolean r, boolean g, boolean b, boolean a);
+    
     protected void draw(){
     	
         //labels
@@ -403,9 +430,9 @@ public abstract class Renderer {
 
         //drawing the cursor
         //getGL().glEnable(GLlocal.GL_BLEND);
-        getGL().glEnable(GLlocal.GL_LIGHTING);
-        getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        enableLighting();
+        disableAlphaTest();     
+        enableCulling();
         //getGL().glCullFace(GLlocal.GL_FRONT);
         view3D.drawCursor(this);
                  
@@ -415,7 +442,7 @@ public abstract class Renderer {
         
         //drawing hidden part
         //getGL().glEnable(GLlocal.GL_CULL_FACE);
-        getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
+        enableAlphaTest();
         //getGL().glDisable(GLlocal.GL_BLEND);
         drawable3DLists.drawHiddenNotTextured(this);
         enableTextures();
@@ -424,38 +451,38 @@ public abstract class Renderer {
         drawNotTransp();
         //getGL().glColorMask(true,true,true,true);
         disableTextures();
-        getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
+        disableAlphaTest();     
         
         //getGL().glEnable(GLlocal.GL_BLEND);
         //getGL().glDisable(GLlocal.GL_CULL_FACE);
                 
         //drawing transparents parts
-        getGL().glDepthMask(false);
+        disableDepthMask();
         enableTextures();
         drawTransp();      
-        getGL().glDepthMask(true);
+        enableDepthMask();
        
         //drawing labels
         disableTextures();
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        enableCulling();
         //getGL().glCullFace(GLlocal.GL_BACK);
         //getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
         //getGL().glDisable(GLlocal.GL_LIGHTING);
-        getGL().glDisable(GLlocal.GL_BLEND);
+        disableBlending();
         //drawList3D.drawLabel(this);
         //getGL().glEnable(GLlocal.GL_LIGHTING);
         //getGL().glDisable(GLlocal.GL_ALPHA_TEST);              
         
         //drawing hiding parts
-        getGL().glColorMask(false,false,false,false); //no writing in color buffer		
-        getGL().glCullFace(GLlocal.GL_FRONT); //draws inside parts    
+        setColorMask(false,false,false,false); //no writing in color buffer		
+        setCullFaceFront(); //draws inside parts    
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces back-faces
         if (drawable3DLists.containsClippedSurfaces()){
         	enableClipPlanesIfNeeded();
         	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
         	disableClipPlanesIfNeeded();
         }
-        getGL().glDisable(GLlocal.GL_CULL_FACE);
+        disableCulling();
         drawable3DLists.drawSurfacesForHiding(this); //non closed surfaces
         //getGL().glColorMask(true,true,true,true);
         setColorMask();
@@ -463,17 +490,17 @@ public abstract class Renderer {
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
         enableTextures();
-        getGL().glDepthMask(false);
-        getGL().glEnable(GLlocal.GL_BLEND);
+        disableDepthMask();
+        enableBlending();
         drawTransp();
-        getGL().glDepthMask(true);
+        enableDepthMask();
         disableTextures();
         
         //drawing hiding parts
-        getGL().glColorMask(false,false,false,false); //no writing in color buffer		
-        getGL().glDisable(GLlocal.GL_BLEND);
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
-        getGL().glCullFace(GLlocal.GL_BACK); //draws inside parts
+        setColorMask(false,false,false,false); //no writing in color buffer		
+        disableBlending();
+        enableCulling();
+        setCullFaceBack();  //draws inside parts
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces front-faces
         if (drawable3DLists.containsClippedSurfaces()){
         	enableClipPlanesIfNeeded();
@@ -485,14 +512,14 @@ public abstract class Renderer {
         //re-drawing transparents parts for better transparent effect
         //TODO improve it !
         enableTextures();
-        getGL().glDepthMask(false);
-        getGL().glEnable(GLlocal.GL_BLEND);
+        disableDepthMask();
+        enableBlending();
         drawTransp();
-        getGL().glDepthMask(true);
+        enableDepthMask();
         //getGL().glDisable(GLlocal.GL_TEXTURE_2D);
         
         //drawing not hidden parts
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
+        enableCulling();
         //getGL().glDisable(GLlocal.GL_BLEND);
         //getGL().glEnable(GLlocal.GL_TEXTURE_2D);
     	//getGL().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);getGL().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
@@ -501,8 +528,8 @@ public abstract class Renderer {
         //primitives.disableVBO(gl);
             
         //FPS
-        getGL().glDisable(GLlocal.GL_LIGHTING);
-        getGL().glDisable(GLlocal.GL_DEPTH_TEST);
+        disableLighting();
+        disableDepthTest();
 
         //drawWireFrame();       
         
@@ -510,8 +537,8 @@ public abstract class Renderer {
    	
     	//drawFPS();
         
-    	getGL().glEnable(GLlocal.GL_DEPTH_TEST);
-    	getGL().glEnable(GLlocal.GL_LIGHTING);        	
+    	enableDepthTest();
+    	enableLighting();    	
     }    
      
     /*
@@ -547,11 +574,7 @@ public abstract class Renderer {
      * set line width
      * @param width line width
      */
-    public void setLineWidth(float width){
-    	
-		getGL().glLineWidth(width);
-		
-    }
+    abstract public void setLineWidth(float width);
 
 
     //////////////////////////////////////
@@ -639,17 +662,7 @@ public abstract class Renderer {
      * sets the layer to l. Use gl.glPolygonOffset( ).
      * @param l the layer
      */
-    public void setLayer(float l){
-    	
-    	// 0<=l<10
-    	// l2-l1>=1 to see something
-    	//l=l/3f;
-       	getGL().glPolygonOffset(-l*0.05f, -l*10);
-    	
-       	//getGL().glPolygonOffset(-l*0.75f, -l*0.5f);
-       	
-       	//getGL().glPolygonOffset(-l, 0);
-    }   
+    abstract public void setLayer(float l);
     
     //drawing matrix
     
@@ -711,14 +724,14 @@ public abstract class Renderer {
     final public void drawCursor(int type){
     	
     	if (!PlotterCursor.isTypeAlready(type))
-    		getGL().glDisable(GLlocal.GL_LIGHTING);
+    		disableLighting();
     	
     	initMatrix();
     	geometryManager.draw(geometryManager.cursor.getIndex(type));
 		resetMatrix();
     	
 		if (!PlotterCursor.isTypeAlready(type))
-			getGL().glEnable(GLlocal.GL_LIGHTING);
+			enableLighting();
    	
     } 
     
@@ -1065,9 +1078,17 @@ public abstract class Renderer {
     		b = (float) c.getBlue()/255;
     	}
     	
-        getGL().glClearColor(r,g,b, 1.0f);   
+        setClearColor(r,g,b, 1.0f);   
     }
      
+    /**
+     * set clear color
+     * @param r red
+     * @param g green
+     * @param b blue
+     * @param a alpha
+     */
+    abstract public void setClearColor(float r, float g, float b, float a);
     
     //////////////////////////////////
     // initializations
@@ -1186,10 +1207,7 @@ public abstract class Renderer {
 		waitForDisableStencilLines = true;
 	}
 	
-	protected void disableStencilLines(){
-		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
-		waitForDisableStencilLines = false;
-	}
+	abstract protected void disableStencilLines();
 	
 	protected boolean waitForSetStencilLines = false;
 	
@@ -1332,16 +1350,16 @@ public abstract class Renderer {
 
     	if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES && !view3D.isPolarized()){
     		if (eye==EYE_LEFT) {
-    			getGL().glColorMask(true,false,false,true); //cyan
+    			setColorMask(true,false,false,true); //cyan
     			//getGL().glColorMask(false,true,false,true); //magenta
     			//getGL().glColorMask(false,false,false,true);
     		} else {
-    			getGL().glColorMask(false,!view3D.isGlassesShutDownGreen(),true,true); //red
+    			setColorMask(false,!view3D.isGlassesShutDownGreen(),true,true); //red
     			//getGL().glColorMask(true,false,false,true); //cyan -> green
     			//getGL().glColorMask(false,false,false,true);
     		}
     	} else {
-    		getGL().glColorMask(true,true,true,true);
+    		setColorMask(true,true,true,true);
     	}	
 
     }

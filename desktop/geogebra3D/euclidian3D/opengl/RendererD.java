@@ -432,7 +432,8 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 		 
     }
     
-    public void setTextureLinear(){
+    @Override
+	public void setTextureLinear(){
     	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_LINEAR);
     	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_LINEAR);
     	getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE); //prevent repeating the texture
@@ -441,6 +442,7 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	}
     
     
+	@Override
 	public void setTextureNearest(){
 		getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_NEAREST);
 		getGL().glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_NEAREST);
@@ -448,5 +450,197 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 
     
     
+	
+	
+	/**
+	 * 
+	 * @return GL instance
+	 */
+	protected GL getGL(){
+		return jogl.getGL();
+	}
+	
+	/**
+	 * set GL instance
+	 * @param gLDrawable GL drawable
+	 */
+	public void setGL(GLAutoDrawable gLDrawable){		
+		jogl.setGL(gLDrawable);
+	}
+	
+	
+	
+	
+	
+	
+	@Override
+	public void setCulling(boolean flag){
+		if (flag)
+			getGL().glEnable(GLlocal.GL_CULL_FACE);
+		else
+			getGL().glDisable(GLlocal.GL_CULL_FACE);
+	}
+	
+	
+	@Override
+	public void enableCulling(){
+		getGL().glEnable(GLlocal.GL_CULL_FACE);
+	}
+	
+	@Override
+	public void disableCulling(){
+		getGL().glDisable(GLlocal.GL_CULL_FACE);
+	}
+	
+	@Override
+	public void setCullFaceFront(){
+		getGL().glCullFace(GLlocal.GL_FRONT); 
+	}
+	
+	@Override
+	public void setCullFaceBack(){
+		getGL().glCullFace(GLlocal.GL_BACK); 
+	}
+	
+
+	@Override
+	public void setBlending(boolean flag){
+		if (flag)
+			getGL().glEnable(GLlocal.GL_BLEND);
+		else
+			getGL().glDisable(GLlocal.GL_BLEND);
+	}
+	
+	
+	@Override
+	public void disableBlending(){
+		getGL().glDisable(GLlocal.GL_BLEND);
+	}
+	
+	@Override
+	public void enableBlending(){
+		getGL().glEnable(GLlocal.GL_BLEND);
+	}
+	
+
+
+	@Override
+	final public void enableMultisample(){  	
+		getGL().glEnable(GLlocal.GL_MULTISAMPLE);
+	}
+
+
+	@Override
+	final public void disableMultisample(){
+		getGL().glDisable(GLlocal.GL_MULTISAMPLE);
+	}
+
+
+	@Override
+	public void enableAlphaTest(){
+		getGL().glEnable(GLlocal.GL_ALPHA_TEST);
+	}
+
+	@Override
+	public void disableAlphaTest(){
+		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
+	}
+
+	@Override
+	public void enableLighting(){
+		getGL().glEnable(GLlocal.GL_LIGHTING);
+	}
+
+
+	@Override
+	public void disableLighting(){
+		getGL().glDisable(GLlocal.GL_LIGHTING);
+	}
+
+
+
+	 @Override
+	protected void enableClipPlane(int n){
+		 getGL().glEnable( GL_CLIP_PLANE[n] );   	
+	 }
+
+	 @Override
+	 protected void disableClipPlane(int n){
+		 getGL().glDisable( GL_CLIP_PLANE[n] );   	
+	 }
+
+
+	
+	
+
+
+	 @Override
+	public void enableDepthMask(){
+		 getGL().glDepthMask(true);
+	 }
+
+
+	 @Override
+	public void disableDepthMask(){
+		 getGL().glDepthMask(false);
+	 }
+	
+	 @Override
+	public void enableDepthTest(){
+		 getGL().glEnable(GLlocal.GL_DEPTH_TEST);
+	 }
+
+
+	 @Override
+	public void disableDepthTest(){
+		 getGL().glDisable(GLlocal.GL_DEPTH_TEST);
+	 }
+	
+	 
+	 
+	
+	
+	@Override
+	public void setColorMask(boolean r, boolean g, boolean b, boolean a){
+		getGL().glColorMask(r,g,b,a);
+	}
+	
+	
+	
+	
+    @Override
+	public void setLineWidth(float width){
+    	
+		getGL().glLineWidth(width);
+		
+    }
+	
+    @Override
+	public void setLayer(float l){
+    	
+    	// 0<=l<10
+    	// l2-l1>=1 to see something
+    	//l=l/3f;
+       	getGL().glPolygonOffset(-l*0.05f, -l*10);
+    	
+       	//getGL().glPolygonOffset(-l*0.75f, -l*0.5f);
+       	
+       	//getGL().glPolygonOffset(-l, 0);
+    }   
+    
+    @Override
+	public void setClearColor(float r, float g, float b, float a){
+    	getGL().glClearColor(r,g,b, 1.0f);   
+    }
+    
+    
+    
+	@Override
+	protected void disableStencilLines(){
+		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
+		waitForDisableStencilLines = false;
+	}
+	
+	
 
 }
