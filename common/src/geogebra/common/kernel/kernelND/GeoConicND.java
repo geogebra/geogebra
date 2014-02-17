@@ -362,6 +362,7 @@ Region3D, GeoDirectionND
 			
 			case CONIC_LINE:
 			case CONIC_DOUBLE_LINE:
+				getLines();
 				lines[0].doPointChanged(P,pp);
 			break;
 			
@@ -1108,11 +1109,7 @@ Region3D, GeoDirectionND
 	
 	protected void setLines(GeoConicND co) {
 		if (co.lines != null) {
-			if (lines == null) {
-				lines = new GeoLine[2];
-				lines[0] = new GeoLine(cons);
-				lines[1] = new GeoLine(cons);
-			}
+			getLines();
 			lines[0].setCoords(co.lines[0]);
 			lines[1].setCoords(co.lines[1]);
 		}
@@ -1632,6 +1629,11 @@ Region3D, GeoDirectionND
 	 * @return lines the conic consists of
 	 */
 	final public GeoLine[] getLines() {
+		if (lines == null) {
+			lines = new GeoLine[2];
+			lines[0] = new GeoLine(cons);
+			lines[1] = new GeoLine(cons);
+		}
 		return lines;
 	}
 	/**
@@ -2479,11 +2481,7 @@ Region3D, GeoDirectionND
 		type = GeoConicNDConstants.CONIC_INTERSECTING_LINES;
 
 		// set intersecting lines
-		if (lines == null) {
-			lines = new GeoLine[2];
-			lines[0] = new GeoLine(cons);
-			lines[1] = new GeoLine(cons);
-		}
+		getLines();
 		// n = T . (-mu, 1)
 		temp1 = eigenvec[0].getX() * mu1[0];
 		temp2 = eigenvec[0].getY() * mu1[0];
@@ -2681,11 +2679,7 @@ Region3D, GeoDirectionND
 		type = GeoConicNDConstants.CONIC_DOUBLE_LINE;
 
 		// set double line
-		if (lines == null) {
-			lines = new GeoLine[2];
-			lines[0] = new GeoLine(cons);
-			lines[1] = new GeoLine(cons);
-		}
+		getLines();
 		nx = -eigenvec[0].getY();
 		ny = eigenvec[0].getX();
 		lines[0].x = nx;
@@ -2755,11 +2749,7 @@ Region3D, GeoDirectionND
 		type = GeoConicNDConstants.CONIC_PARALLEL_LINES;
 
 		// set double line
-		if (lines == null) {
-			lines = new GeoLine[2];
-			lines[0] = new GeoLine(cons);
-			lines[1] = new GeoLine(cons);
-		}
+		getLines();
 		nx = -eigenvec[0].getY();
 		ny = eigenvec[0].getX();
 		temp1 = b.getX() * nx + b.getY() * ny;
@@ -3290,7 +3280,7 @@ Region3D, GeoDirectionND
 	 * Sets curve to this conic
 	 * @param curve curve for storing this conic
 	 */
-	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
+	public void toGeoCurveCartesian(GeoCurveCartesian curve, int branch) {
 		FunctionVariable fv = new FunctionVariable(kernel,"t");
 		ExpressionNode evX=null,evY=null;
 		double min=0,max=0;
