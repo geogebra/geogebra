@@ -1,6 +1,7 @@
 package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.draw.DrawText;
@@ -9,8 +10,6 @@ import geogebra.euclidian.EuclidianStaticD;
 import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-
-import java.awt.Graphics2D;
 
 /**
  * class for drawing texts
@@ -35,12 +34,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected void draw(Graphics2D g2d){
+	final protected void draw(GGraphics2D g2d){
 		if (geo.isLaTeX())
-			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), geo, new geogebra.awt.GGraphics2DD(g2d), new geogebra.awt.GFontD(font), 
+			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), geo, g2d, new geogebra.awt.GFontD(font), 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
 		else
-			EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, new geogebra.awt.GGraphics2DD(g2d), false);
+			EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, g2d, false);
 	}
 	
 

@@ -1,23 +1,26 @@
 package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.awt.GAffineTransformD;
+import geogebra.awt.GBufferedImageD;
+import geogebra.awt.GFontD;
 import geogebra.awt.GRectangleD;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.nio.ByteBuffer;
 
 
@@ -152,34 +155,25 @@ public class DrawLabel3D {
 			yOffset2=-yMax;
 
 			//creates a 2D image
-			BufferedImage bimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2d = bimg.createGraphics();
+			GBufferedImage bimg = new GBufferedImageD(width, height, GBufferedImage.TYPE_INT_ARGB);
+			GGraphics2D g2d = bimg.createGraphics();
 
-			AffineTransform gt = new AffineTransform();
+			GAffineTransform gt = new GAffineTransformD();
 			gt.scale(1, -1d);
 			gt.translate(-xMin, -yMax); //put the baseline on the label anchor
 			g2d.transform(gt);
 
-			g2d.setColor(Color.BLACK);
-			g2d.setFont(font);
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setColor(GColor.BLACK);
+			g2d.setFont(new GFontD(font));
+			g2d.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 			draw(g2d);		
 
 			//creates the texture
-			int[] intData = ((DataBufferInt) bimg.getRaster().getDataBuffer()).getData();
+			int[] intData = bimg.getData();
 			buffer = ByteBuffer.wrap(ARGBtoAlpha(intData));
-			/*
-		if (text.contains("3d")){
-			try {
-				ImageIO.write(bimg, "png", new File("image.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-			 */
-			g2d.dispose();
+			
+			//g2d.dispose();
 
 			// update the texture
 			updateTexture();
@@ -213,9 +207,9 @@ public class DrawLabel3D {
 		return r;
 	}
 	
-	protected void draw(Graphics2D g2d){
+	protected void draw(GGraphics2D g2d){
 		if (hasIndex)
-			EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(g2d), text, 0, 0, false, false);
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text, 0, 0, false, false);
 		else
 			g2d.drawString(text, 0, 0);	
 	}

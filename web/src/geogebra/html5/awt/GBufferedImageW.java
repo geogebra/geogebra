@@ -90,4 +90,9 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 	public Canvas getCanvas() {
 		return impl.getCanvas();
 	}
+	
+	
+	public int[] getData(){ //TODO
+		return null;
+	}
 }

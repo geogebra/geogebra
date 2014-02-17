@@ -3,6 +3,8 @@ package geogebra.awt;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GGraphics2D;
 
+import java.awt.image.DataBufferInt;
+
 public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
 	public int TYPE_INT_ARGB = java.awt.image.BufferedImage.TYPE_INT_ARGB;
 	private java.awt.image.BufferedImage impl;
@@ -36,6 +38,10 @@ public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
 
 	public GBufferedImage getSubimage(int i, int j, int size, int size2) {
 		return new geogebra.awt.GBufferedImageD(impl.getSubimage(i, j, size, size2));
+	}
+	
+	public int[] getData(){
+		return ((DataBufferInt) impl.getRaster().getDataBuffer()).getData();
 	}
 
 }

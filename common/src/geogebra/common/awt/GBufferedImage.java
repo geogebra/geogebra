@@ -12,5 +12,11 @@ public interface GBufferedImage {
 	geogebra.common.awt.GGraphics2D createGraphics();
 
 	GBufferedImage getSubimage(int i, int j, int size, int size2);
+	
+	/**
+	 * 
+	 * @return ARGB pixel data
+	 */
+	public int[] getData();
 
 }
