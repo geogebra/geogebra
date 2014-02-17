@@ -3280,7 +3280,7 @@ Region3D, GeoDirectionND
 	 * Sets curve to this conic
 	 * @param curve curve for storing this conic
 	 */
-	public void toGeoCurveCartesian(GeoCurveCartesian curve, int branch) {
+	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
 		FunctionVariable fv = new FunctionVariable(kernel,"t");
 		ExpressionNode evX=null,evY=null;
 		double min=0,max=0;
