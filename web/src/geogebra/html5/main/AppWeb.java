@@ -60,6 +60,7 @@ import java.util.Map.Entry;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
@@ -219,6 +220,12 @@ public abstract class AppWeb extends App implements SetLabels{
 				$wnd[funcname](arg);
 			}
 		}-*/;
+		
+		public native void callNativeJavaScriptMultiArg(String funcname, JavaScriptObject arg) /*-{
+			if ($wnd[funcname]) {
+				$wnd[funcname](arg);
+			}
+		}-*/;
 
 		public static native void ggbOnInit() /*-{
 			if (typeof $wnd.ggbOnInit === 'function')
@@ -239,7 +246,11 @@ public abstract class AppWeb extends App implements SetLabels{
 				        + ")");
 				callNativeJavaScript(fun, args[0].toString());
 			} else {
-				debug("callAppletJavaScript() not supported for more than 1 argument");
+				JsArrayString jsStrings = (JsArrayString)JsArrayString.createArray();
+				for( Object obj : args ){
+					jsStrings.push( obj.toString() );
+				}
+				callNativeJavaScriptMultiArg(fun, jsStrings);
 			}
 
 		}
