@@ -93,6 +93,7 @@ import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.html5.gui.util.SliderPanel;
 import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.gui.dialog.FileInputDialog;
+import geogebra.web.gui.dialog.ScriptInputPanelW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
@@ -191,7 +192,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private CoordsPanel coordsPanel;
 	private LineEqnPanel lineEqnPanel;
 	private ConicEqnPanel conicEqnPanel;
-	
+
 	private List<OptionsTab> tabs;
 
 
@@ -522,8 +523,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				}
 
 				public void onClearBackground() {
-	                model.clearBackgroundColor();
-                }
+					model.clearBackgroundColor();
+				}
 
 				public void onBackgroundSelected() {
 					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0f);
@@ -539,9 +540,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					} else {
 						color = geo0.getObjectColor();
 					}
-					
-      				updatePreview(color, alpha);
-                }});
+
+					updatePreview(color, alpha);
+				}});
 
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
@@ -1208,7 +1209,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void setMinValue() {
 			slider.setValue(AngleArcSizeModel.MIN_VALUE);
 		}
-		
+
 		public void setValue(int value) {
 			slider.setValue(value);
 
@@ -1931,7 +1932,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private GeoTextEditor editor;
 		private TextEditAdvancedPanel advancedPanel;
 		private GeoText orig;
-		
+
 		// ugly hack preventing infinite loop of update()
 		private boolean redrawFromPreview;
 
@@ -2048,7 +2049,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				mainPanel.add(secondLine);
 				secondLineVisible = true;
 
-			
+
 				editorPanel = new FlowPanel();
 				editorPanel.add(editor);
 				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
@@ -2083,7 +2084,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public boolean update(Object[] geos) {
-			
+
 			getModel().setGeos(geos);
 
 			if (!getModel().checkGeos()) {
@@ -2171,7 +2172,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lbFont.setVisible(model.isTextEditable());
 			btnLatex.setVisible(model.isTextEditable());
 			btnPanel.setVisible(model.isTextEditable());
-			
+
 		}
 
 		public void updatePreview() {
@@ -2200,7 +2201,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 			previewer.updateFonts();
 			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-			        editor.getDynamicTextList(), isLatex()), isLatex());
+					editor.getDynamicTextList(), isLatex()), isLatex());
 		}
 
 
@@ -2241,7 +2242,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 	}
-	
+
 	class FillingPanel extends OptionPanel implements IFillingListener {
 		private FillingModel model;
 		private SliderPanel opacitySlider;
@@ -2250,9 +2251,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label fillingSliderTitle;
 		private Label angleSliderTitle;
 		private Label distanceSliderTitle;
-		
+
 		private FlowPanel opacityPanel, hatchFillPanel, imagePanel,
-				anglePanel, distancePanel;
+		anglePanel, distancePanel;
 		private Label lblFillType;
 		private Label lblSelectedSymbol;
 		private Label lblMsgSelected;
@@ -2275,14 +2276,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private FlowPanel btnPanel;
 		private AutoCompleteTextFieldW tfInsertUnicode;
 		private InputPanelW unicodePanel;
-		
+
 		private class MyImageFileInputDialog extends FileInputDialog{
 
 			private MyImageFileInputDialog myDialog;
 			public MyImageFileInputDialog(AppW app, GeoPoint location) {
-			    super(app, location);
+				super(app, location);
 				createGUI();
-		    }
+			}
 
 			protected void createGUI() {
 				super.createGUI();
@@ -2312,14 +2313,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}-*/;
 
 			public void onClick(ClickEvent event) {
-			    if (event.getSource() == btCancel) {
-			    	hideAndFocus();
-			    }
-		    }
+				if (event.getSource() == btCancel) {
+					hideAndFocus();
+				}
+			}
 			public native boolean openFileAsImage(JavaScriptObject fileToHandle,
-			        JavaScriptObject callback) /*-{
+					JavaScriptObject callback) /*-{
 				console.log("openFileAsImage begin");
-		        	
+
 				var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
 				if (!fileToHandle.name.toLowerCase().match(imageRegEx))
 					return false;
@@ -2341,7 +2342,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				reader.readAsDataURL(fileToHandle);
 				return true;
 			}-*/;
-			
+
 			public void applyImage(String fileName, String fileData) {
 				MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 				String zip_directory = md5e.encrypt(fileData);
@@ -2360,15 +2361,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				Construction cons = getAppW().getKernel().getConstruction();
 				getAppW().getImageManager().addExternalImage(fileName,
-				        fileData);
+						fileData);
 				GeoImage geoImage = new GeoImage(cons);
 				getAppW().getImageManager().triggerSingleImageLoading(
-				        fileName, geoImage);
+						fileName, geoImage);
 				model.applyImage(fileName);
 				App.debug("Applying " + fileName + " from dialog");
-				
+
 			}
-						
+
 		}
 
 		public FillingPanel() {
@@ -2378,28 +2379,28 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			fillTypePanel = new FlowPanel();
 			fillTypeTitle = new Label();
 			lbFillType = new ListBox();
-			
+
 			fillTypePanel.add(fillTypeTitle);
 			fillTypePanel.add(lbFillType);
-			
+
 			cbFillInverse = new CheckBox();
 			fillTypePanel.add(cbFillInverse);
 			lbFillType.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
 					model.applyFillType(lbFillType.getSelectedIndex());
-	            }});
-			
+				}});
+
 			cbFillInverse.addClickHandler(new ClickHandler(){
 				private DecoAnglePanel decoAnglePanel;
 
 				public void onClick(ClickEvent event) {
-	                model.applyFillingInverse(cbFillInverse.getValue());
-                }});
+					model.applyFillingInverse(cbFillInverse.getValue());
+				}});
 
 			FlowPanel panel = new FlowPanel();
 			panel.add(fillTypePanel);
-			
+
 			unicodePanel = new InputPanelW(null, getAppW(), 1, -1, true);
 			tfInsertUnicode = (AutoCompleteTextFieldW) unicodePanel.getTextComponent();
 			//buildInsertUnicodeButton();
@@ -2424,7 +2425,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			angleSlider.setMinorTickSpacing(5);
 			angleSlider.setPaintTicks(true);
 			angleSlider.setPaintLabels(true);
-			
+
 			distanceSlider = new SliderPanel(5, 50);
 			// distanceSlider.setPreferredSize(new Dimension(150,50));
 			distanceSlider.setMajorTickSpacing(10);
@@ -2474,52 +2475,52 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			mainWidget.add(symbolPanel);
 			setWidget(mainWidget);
-	
+
 			opacitySlider.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
 					model.applyOpacity(opacitySlider.getValue());
-                }});
-		
+				}});
+
 			ChangeHandler angleAndDistanceHandler = new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
 					model.applyAngleAndDistance(angleSlider.getValue(),
 							distanceSlider.getValue());
 
-                }};;
-				
+				}};;
 
-    		angleSlider.addChangeHandler(angleAndDistanceHandler);
-    		distanceSlider.addChangeHandler(angleAndDistanceHandler);
-			
-    		tfInsertUnicode.addFocusListener(new FocusListener(this){
-				@Override
-				protected void wrapFocusLost(){
-					String symbolText = tfInsertUnicode.getText();
-					if (symbolText.isEmpty()) {
-						return;
-					}
-					model.applyUnicode(symbolText);
-				}	
-			});
-    		
-    		tfInsertUnicode.addKeyHandler(new KeyHandler() {
 
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
+				angleSlider.addChangeHandler(angleAndDistanceHandler);
+				distanceSlider.addChangeHandler(angleAndDistanceHandler);
+
+				tfInsertUnicode.addFocusListener(new FocusListener(this){
+					@Override
+					protected void wrapFocusLost(){
 						String symbolText = tfInsertUnicode.getText();
+						if (symbolText.isEmpty()) {
+							return;
+						}
 						model.applyUnicode(symbolText);
-					}
-				}});
+					}	
+				});
+
+				tfInsertUnicode.addKeyHandler(new KeyHandler() {
+
+					public void keyReleased(KeyEvent e) {
+						if (e.isEnterKey()) {
+							String symbolText = tfInsertUnicode.getText();
+							model.applyUnicode(symbolText);
+						}
+					}});
 
 
-    		setLabels();
+				setLabels();
 		}
 
 		protected String getImageFileName(String fileName, String fileData) {
-		
-		
+
+
 			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 			String zip_directory = md5e.encrypt(fileData);
 
@@ -2541,18 +2542,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			Construction cons = getAppW().getKernel().getConstruction();
 			getAppW().getImageManager().addExternalImage(fileName,
-			        fileData);
+					fileData);
 			GeoImage geoImage = new GeoImage(cons);
 			getAppW().getImageManager().triggerSingleImageLoading(
-			        fileName, geoImage);
+					fileName, geoImage);
 			model.applyImage(fileName);
-		
+
 		}
-					
+
 
 		private void createImagePanel() {
-	        imagePanel = new FlowPanel();
-	        btnPanel = new FlowPanel();
+			imagePanel = new FlowPanel();
+			btnPanel = new FlowPanel();
 			iconList = new ArrayList<ImageResource>();
 			iconList.add(null); // for delete
 			AppResources res = AppResources.INSTANCE;
@@ -2568,10 +2569,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			iconList.add(res.nav_pause());
 
 			iconList.add(res.exit());
-			
+
 			iconNameList = new ArrayList<String>();
 			for (ImageResource ir: iconList) {
-				
+
 				iconNameList.add(ir != null ? ir.getName() : "");
 			}
 
@@ -2581,10 +2582,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				iconArray[i] = GeoGebraIcon.createResourceImageIcon(app,
 						iconList.get(i), 1.0f, new GDimensionW(32, 32));
 			}
-//			// ============================================
-//
-//			// panel for button to open external file
-//
+			//			// ============================================
+			//
+			//			// panel for button to open external file
+			//
 			btnImage = new PopupMenuButton(getAppW(), iconArray, -1, 4,
 					new GDimensionW(32, 32),
 					geogebra.common.gui.util.SelectionTable.MODE_ICON){
@@ -2602,7 +2603,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 						model.applyImage("");
 					}
 				}
-				
+
 			};
 			btnImage.setSelectedIndex(-1);
 			btnImage.setStandardButton(true);
@@ -2613,16 +2614,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				public void onClick(ClickEvent event) {
 					MyImageFileInputDialog dialog = new MyImageFileInputDialog(getAppW(), null);
 				}
-				});
+			});
 
-				
+
 			btnPanel.add(btnImage);
 			btnPanel.add(btnOpenFile);
-			
-			
+
+
 			imagePanel.add(btnPanel);
 
-        }
+		}
 
 
 
@@ -2719,15 +2720,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				lbFillType.setVisible(false);
 				this.btnImage.setVisible(true);
 			}
-	
-		addSelectionBar();
-	}
-		
+
+			addSelectionBar();
+		}
+
 
 		private void addSelectionBar() {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		@Override
 		public boolean update(Object[] geos) {
@@ -2742,30 +2743,30 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setSelectedIndex(int index) {
-	        lbFillType.setSelectedIndex(index);
-        }
+			lbFillType.setSelectedIndex(index);
+		}
 
 		public void addItem(String item) {
-	        lbFillType.addItem(item);
-        }
+			lbFillType.addItem(item);
+		}
 
 		public void updateFillTypePanel(FillType fillType) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		public void setFillInverseVisible(boolean isVisible) {
-	        cbFillInverse.setVisible(isVisible);
-        }
+			cbFillInverse.setVisible(isVisible);
+		}
 
 		public void setFillTypeVisible(boolean isVisible) {
-			  lbFillType.setVisible(isVisible);  
-        }
+			lbFillType.setVisible(isVisible);  
+		}
 
 		@Override
-        public void setLabels() {
-	        fillTypeTitle.setText(localize("Filling") + ":");
-	        cbFillInverse.setText(localize("InverseFilling"));
+		public void setLabels() {
+			fillTypeTitle.setText(localize("Filling") + ":");
+			cbFillInverse.setText(localize("InverseFilling"));
 			int idx = lbFillType.getSelectedIndex();
 			lbFillType.clear();
 			model.fillModes(loc);
@@ -2800,18 +2801,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setFillingImage(String imageFileName) {
-			
+
 			int itemIndex = -1;
 			if (imageFileName != null) {
 				String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
 				App.debug("Filling with " + fileName);
-				
+
 				int idx = iconNameList.lastIndexOf(fileName);
 				itemIndex = idx > 0 ? idx : 0;
 			}
-		
+
 			btnImage.setSelectedIndex(itemIndex);
-		
+
 		}
 
 		public void setFillValue(int value) {
@@ -2855,8 +2856,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void setFillInverseSelected(boolean value) {
-	        cbFillInverse.setValue(value);
-        }
+			cbFillInverse.setValue(value);
+		}
 	}
 
 	private class DecoAnglePanel extends OptionPanel implements IDecoAngleListener {
@@ -2881,39 +2882,39 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
 					model.applyChanges(idx);
-					
+
 				}
 			};
 			decoPopup.setKeepVisible(false);
 			mainWidget.add(decoPopup);
 			setWidget(mainWidget);
-			
+
 		}
 		public void setSelectedIndex(int index) {
 			decoPopup.setSelectedIndex(index);
-        }
+		}
 
 		public void addItem(String item) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		public void setSelectedItem(String item) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		@Override
-        public void setLabels() {
+		public void setLabels() {
 			decoLabel.setText(app.getPlain("Decoration") + ":");
-			
-        }
+
+		}
 		public void setArcSizeMinValue() {
-	        angleArcSizePanel.setMinValue();
-        }
-		
+			angleArcSizePanel.setMinValue();
+		}
+
 	}
-	
+
 	private class DecoSegmentPanel extends OptionPanel implements IComboListener {
 		private Label decoLabel;
 		private PopupMenuButton decoPopup;
@@ -2936,36 +2937,141 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
 					model.applyChanges(idx);
-					
+
 				}
 			};
 			decoPopup.setKeepVisible(false);
 			mainWidget.add(decoPopup);
 			setWidget(mainWidget);
-			
+
 		}
 		public void setSelectedIndex(int index) {
 			decoPopup.setSelectedIndex(index);
-        }
+		}
 
 		public void addItem(String item) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		public void setSelectedItem(String item) {
-	        // TODO Auto-generated method stub
-	        
-        }
+			// TODO Auto-generated method stub
+
+		}
 
 		@Override
-        public void setLabels() {
+		public void setLabels() {
 			decoLabel.setText(app.getPlain("Decoration") + ":");
-			
-        }
-			
+
+		}
+
 	}
-	
+
+	private class ScriptEditPanel extends OptionPanel {
+
+		private static final long serialVersionUID = 1L;
+		private ScriptInputPanelW clickDialog, updateDialog, globalDialog;
+		private TabPanel tabbedPane;
+		private FlowPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
+
+		public ScriptEditPanel() {
+			int row = 35;
+			int column = 15;
+
+			tabbedPane = new TabPanel();
+
+			clickDialog = new ScriptInputPanelW(getAppW(), app.getPlain("Script"),
+					null, row, column, false, false);
+			updateDialog = new ScriptInputPanelW(getAppW(),
+					app.getPlain("JavaScript"), null, row, column, true, false);
+			globalDialog = new ScriptInputPanelW(getAppW(),
+					app.getPlain("GlobalJavaScript"), null, row, column, false,
+					true);
+			// add(td.getInputPanel(), BorderLayout.NORTH);
+			// add(td2.getInputPanel(), BorderLayout.CENTER);
+			clickScriptPanel = new FlowPanel();
+			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true));
+			clickScriptPanel
+			.add(clickDialog.getButtonPanel());
+
+			updateScriptPanel = new FlowPanel();
+			updateScriptPanel.add(
+					updateDialog.getInputPanel(row, column, true));
+			updateScriptPanel.add(updateDialog.getButtonPanel());
+
+			globalScriptPanel = new FlowPanel();
+			globalScriptPanel.add(globalDialog.getInputPanel(row, column, true));
+			globalScriptPanel.add(globalDialog.getButtonPanel());
+			tabbedPane.setStyleName("scriptTabPanel");
+			setWidget(tabbedPane);
+
+			tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
+					{			
+				public void onSelection(SelectionEvent<Integer> event) {
+					applyModifications();
+
+				}
+			});
+		}
+
+		/**
+		 * apply edit modifications
+		 */
+		public void applyModifications() {
+			clickDialog.applyModifications();
+			updateDialog.applyModifications();
+			globalDialog.applyModifications();
+		}
+
+		public void setLabels() {
+			// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
+			String ok = localize("ok");
+			String cancel = localize("cancel");
+			
+			clickDialog.setLabels(ok, cancel);
+			updateDialog.setLabels(ok, cancel);
+			globalDialog.setLabels(ok, cancel);
+		}
+
+		public boolean update(Object[] geos) {
+			if (geos.length != 1){
+				return false;
+			}
+
+			// remember selected tab
+			int idx = tabbedPane.getTabBar().getSelectedTab();
+
+			GeoElement geo = (GeoElement) geos[0];
+			clickDialog.setGeo(geo);
+			updateDialog.setGeo(geo);
+			globalDialog.setGlobal();
+			tabbedPane.clear();
+			if (geo.canHaveClickScript())
+				tabbedPane.add(clickScriptPanel, localize("OnClick"));
+			if (geo.canHaveUpdateScript())
+				tabbedPane.add(updateScriptPanel, localize("OnUpdate"));
+			tabbedPane.add(globalScriptPanel, localize("GlobalJavaScript"));
+
+			// select tab as before
+			tabbedPane.selectTab(Math.max(0,	idx));
+			return true;
+		}
+
+		private boolean checkGeos(Object[] geos) {
+			// return geos.length == 1 && geos[0] instanceof
+			// GeoJavaScriptButton;
+			return geos.length == 1;
+		}
+
+
+
+		public void updateVisualStyle(GeoElement geo) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
 		this.app = app;
@@ -3005,7 +3111,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				addDecorationTab(),
 				addPositionTab(),
 				addAdvancedTab(),
-				addAlgebraTab());
+				addAlgebraTab(),
+				addScriptTab());
 
 		for (OptionsTab tab: tabs) {
 			tab.addToTabPanel();
@@ -3150,6 +3257,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		return tab;
 	}
 
+	private OptionsTab addScriptTab() {
+		OptionsTab tab = new OptionsTab("Scripting");
+		tab.setStyleName("objectPropertiesTab");
+		ScriptEditPanel scriptEditPanel = new ScriptEditPanel();
+		tab.add(scriptEditPanel);
+		return tab;
+	}
+
 	private OptionsTab addDecorationTab() {
 		OptionsTab tab = new OptionsTab("Decoration");
 		decoAnglePanel = new DecoAnglePanel();
@@ -3158,7 +3273,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				decoSegmentPanel));
 		return tab;
 	}
-	
+
 	private OptionsTab addAdvancedTab() {
 		OptionsTab tab = new OptionsTab("Advanced"); 
 		showConditionPanel = new ShowConditionPanel();
@@ -3244,16 +3359,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	public void selectTab(int index) {
 		tabPanel.selectTab(index);	    
 	}
-	
+
 	public void openFileAsImage(String fileName) {
 		App.debug(fileName);
-	
+
 	}
 
 	public void updateIfInSelection(GeoElement geo) {
 
 		if (selection != null && selection.size() == 1
-		        && selection.contains(geo)) {
+				&& selection.contains(geo)) {
 			updateGUI();
 		}
 	}

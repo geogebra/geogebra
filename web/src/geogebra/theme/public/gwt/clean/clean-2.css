@@ -2247,6 +2247,10 @@ label {
 	height: 100%;
 }
 
+.scriptTabPanel{
+	width: 100%;
+	height: 100%;
+}
 
 .bold{
 	font-weight: bold;
