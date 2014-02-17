@@ -16,11 +16,9 @@ import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
 
@@ -70,7 +68,7 @@ public class DrawLabel3D {
     
 	
     /** temp graphics used for calculate bounds */
-    protected Graphics2D tempGraphics = (new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)).createGraphics();
+    protected GGraphics2D tempGraphics = (new GBufferedImageD(1, 1, GBufferedImage.TYPE_INT_ARGB)).createGraphics();
 	
     
 	
@@ -138,7 +136,7 @@ public class DrawLabel3D {
 			this.text = text;
 			this.font = font;
 
-			tempGraphics.setFont(font);
+			tempGraphics.setFont(new GFontD(font));
 
 			GRectangle rectangle = getBounds();
 
@@ -197,7 +195,7 @@ public class DrawLabel3D {
 			//Application.debug("yMin="+yMin+", yMax="+yMax);
 			hasIndex = true;
 			geogebra.common.awt.GPoint p = 
-				EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), text, 0, 0, false, false);
+				EuclidianStatic.drawIndexedString(view.getApplication(), tempGraphics, text, 0, 0, false, false);
 			r.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
 		}else{
 			hasIndex = false;
