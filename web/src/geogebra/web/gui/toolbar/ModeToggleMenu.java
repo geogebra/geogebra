@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -197,6 +201,7 @@ public class ModeToggleMenu extends MenuBar {
 			super("", true, menu);
 			initCanvasForRedTriangle();
 			this.addNativeToolTipHandler(this.getElement(), this);
+			this.addNativeMenuHandler(this.getElement(), this);
 		}
 
 		// prevent gwt menubar hover styling
@@ -206,6 +211,8 @@ public class ModeToggleMenu extends MenuBar {
 		 }
 		 
 		String toolTipText;
+
+		private boolean keepDown = false;
 		public void setToolTipText(String string) {
 			toolTipText = string;
         }
@@ -239,15 +246,48 @@ public class ModeToggleMenu extends MenuBar {
 		}
 
 		private native void addNativeToolTipHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
-		element.addEventListener("mouseout",function() {
-			bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::hideToolTip()();
-		});
-		element.addEventListener("mouseover",function() {
-			bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::showToolTip()();
-		});
-		
-		
+			element.addEventListener("mouseout",function() {
+				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::hideToolTip()();
+			});
+			element.addEventListener("mouseover",function() {
+				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::showToolTip()();
+			});	
 		}-*/;
+		
+		private native void addNativeMenuHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
+			element.addEventListener("touchstart",function() {
+				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchStart()();
+			});
+			element.addEventListener("touchend",function() {
+				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchEnd()();
+			});
+			element.addEventListener("mousedown",function() {
+				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchStart()();
+			});
+			element.addEventListener("mouseup",function() {
+				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchEnd()();
+			});
+	}-*/;
+		
+		private void onTouchStart(){
+			keepDown  = true;
+			Timer longPressTimer = new Timer(){
+				@Override
+                public void run() {
+					if (keepDown) openSubmenu();
+                }
+			};
+			longPressTimer.schedule(3000);
+		}
+		
+		private void onTouchEnd(){
+			keepDown = false;
+		}
+		
+		public void openSubmenu() {
+			toolbar.onBrowserEvent(Event.as(Document.get().createKeyDownEvent(false, false, false,
+	                false, KeyCodes.KEY_ENTER)));
+		}
 		
 		private native void addNativeHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
 			element.addEventListener("mouseout",function() {

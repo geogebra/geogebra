@@ -300,8 +300,11 @@ public class ToolBarW extends MenuBar {
 	@Override
 	public void onBrowserEvent(Event event) {
 		MenuItem item = findItem(DOM.eventGetTarget(event));
-
-		if ((DOM.eventGetType(event) == Event.ONCLICK) && (item != null)
+		
+		if ((DOM.eventGetType(event) == Event.ONKEYDOWN) && (event.getKeyCode() == KeyCodes.KEY_ENTER)){
+			super.onBrowserEvent(event);
+			return;
+		} else if ((DOM.eventGetType(event) == Event.ONCLICK) && (item != null)
 		        && !((ModeToggleMenu.MyJToggleButton)item).isTriangleHighlighted()) {
 			((ModeToggleMenu) item.getSubMenu()).selectMenuItem(item);
 			app.setMode(Integer.parseInt(item.getElement().getAttribute("mode")));
