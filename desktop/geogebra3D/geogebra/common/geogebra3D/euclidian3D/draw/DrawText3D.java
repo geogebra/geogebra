@@ -1,16 +1,12 @@
 package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
 
-import geogebra.awt.GFontD;
 import geogebra.common.awt.GFont;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-
-import java.awt.Font;
 
 public class DrawText3D extends Drawable3DCurves {
 
@@ -82,10 +78,10 @@ public class DrawText3D extends Drawable3DCurves {
 			//if (isLaTeX) {
 			//	//setEqnFontSize();				
 			//} else {				
-				Font textFont = ((AppD) getView3D().getApplication()).getFontCanDisplayAwt(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
+				GFont textFont = getView3D().getApplication().getFontCanDisplay(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
 			//}	
 				
-				return new GFontD(textFont);
+				return textFont;
 	}
 	
 	//private boolean isLocationDefined;
