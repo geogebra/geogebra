@@ -6,8 +6,6 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.draw.DrawText;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.euclidian.EuclidianStaticD;
-import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
@@ -25,21 +23,23 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	@Override
 	final protected GRectangle getBounds(){
 	
-		if (geo.isLaTeX())
+		if (geo.isLaTeX()){
 			return EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, font, 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
+		}
 		
-			return EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, tempGraphics, false);
+		return EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, tempGraphics, false);
 		
 	}
 
 	@Override
 	final protected void draw(GGraphics2D g2d){
-		if (geo.isLaTeX())
+		if (geo.isLaTeX()){
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, font, 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
-		else
-			EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, g2d, false);
+		}else{
+			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, g2d, false);
+		}
 	}
 	
 

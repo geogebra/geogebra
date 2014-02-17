@@ -11,8 +11,6 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.euclidian.EuclidianStaticD;
-import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
@@ -187,7 +185,7 @@ public class DrawLabel3D {
 	
 	
 	protected GRectangle getBounds(){
-		GRectangle rectangle = EuclidianStaticD.drawMultiLineIndexedText((AppD) view.getApplication(), text, 0, 0, tempGraphics, false);
+		GRectangle rectangle = EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, tempGraphics, false);
 		if(text.contains("_")){ //text contains subscript
 			hasIndex = true;
 			geogebra.common.awt.GPoint p = 
