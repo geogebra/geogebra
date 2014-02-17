@@ -30,7 +30,7 @@ CONTRIBUTORS
   * Lucas Binter (Austria 2011-)
   * Philipp Birklbauer (Austria 2010-)
   * Giuliano Bellucci (Italy 2013-)
-  * Stefanie Bogner (Ausria 2013-)
+  * Stefanie Bogner (Austria 2013-)
   * Loic Le Coq (France 2006-)
   * Damien Desfontaines (France 2012-)
   * Darko Drakulic (Bosnia and Herzegovina 2011-)
