@@ -204,8 +204,10 @@ public class GeoConic extends GeoConicND implements
 				matrix[0] = 0;
 				matrix[1] = 0;
 				matrix[3] = 0;
+				
+				App.debug(matrix[4]+","+matrix[5]+","+matrix[2]);
 				// we update the eigenvectors etc.
-				this.setMatrix(matrix);
+				this.classifyConic(true);
 				// classification yields CONIC_DOUBLE_LINE, we want a single
 				// line
 				type = GeoConicNDConstants.CONIC_LINE;
