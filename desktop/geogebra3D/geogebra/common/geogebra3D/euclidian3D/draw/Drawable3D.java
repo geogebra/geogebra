@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -327,7 +326,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected void updateLabel(){
 		
-		label.update(getGeoElement().getLabelDescription(), ((AppD) getView3D().getApplication()).getPlainFont(), 
+		label.update(getGeoElement().getLabelDescription(), getView3D().getApplication().getPlainFontCommon(), 
 				getGeoElement().getObjectColor(),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());

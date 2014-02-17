@@ -2,10 +2,10 @@ package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.awt.GAffineTransformD;
 import geogebra.awt.GBufferedImageD;
-import geogebra.awt.GFontD;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRenderingHints;
@@ -16,7 +16,6 @@ import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
-import java.awt.Font;
 import java.nio.ByteBuffer;
 
 
@@ -30,7 +29,7 @@ public class DrawLabel3D {
 	/** text of the label */
     protected String text;    
     /** font of the label */
-    protected Font font;
+    protected GFont font;
     /** color of the label */
     private Coords backgroundColor, color;
     /** origin of the label (left-bottom corner) */
@@ -87,7 +86,7 @@ public class DrawLabel3D {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public void update(String text, Font font, GColor color,
+	public void update(String text, GFont font, GColor color,
 			Coords v, float xOffset, float yOffset){
 
 		update(text, font, null, color, v, xOffset, yOffset);
@@ -103,7 +102,7 @@ public class DrawLabel3D {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public void update(String text, Font font, GColor backgroundColor, GColor color,
+	public void update(String text, GFont font, GColor backgroundColor, GColor color,
 			Coords v, float xOffset, float yOffset){
 		
 		if (text.length()==0)
@@ -134,7 +133,7 @@ public class DrawLabel3D {
 			this.text = text;
 			this.font = font;
 
-			tempGraphics.setFont(new GFontD(font));
+			tempGraphics.setFont(font);
 
 			GRectangle rectangle = getBounds();
 
@@ -160,7 +159,7 @@ public class DrawLabel3D {
 			g2d.transform(gt);
 
 			g2d.setColor(GColor.BLACK);
-			g2d.setFont(new GFontD(font));
+			g2d.setFont(font);
 			g2d.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 			draw(g2d);		
@@ -177,8 +176,8 @@ public class DrawLabel3D {
 			//Application.debug("textureIndex = "+textureIndex);
 		}
 		
-		this.xOffset = xOffset + xOffset2;
-		this.yOffset = yOffset + yOffset2;
+		this.xOffset = xOffset;// + xOffset2;
+		this.yOffset = yOffset;// + yOffset2;
 
 
 	}
@@ -196,11 +195,11 @@ public class DrawLabel3D {
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
 		}else{
 			hasIndex = false;
-			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight());
 		}
 		
 		return rectangle;
 	}
+	
 	
 	
 	
@@ -251,10 +250,18 @@ public class DrawLabel3D {
 		
 		Coords v = view.getToScreenMatrix().mul(origin);
 		int x = (int) (v.getX()+xOffset);
-		if (anchor && xOffset<0) x-=width;
+		if (anchor && xOffset<0){ 
+			x-=width;
+		}else{
+			x+=xOffset2;
+		}
 			
 		int y = (int) (v.getY()+yOffset);
-		if (anchor && yOffset<0) y-=height;
+		if (anchor && yOffset<0){ 
+			y-=height;
+		}else{
+			y+=yOffset2;
+		}
 		
 		
 		int z = (int) v.getZ();

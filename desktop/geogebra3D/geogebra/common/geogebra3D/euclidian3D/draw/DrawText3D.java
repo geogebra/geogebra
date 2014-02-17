@@ -1,6 +1,8 @@
 package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
 
+import geogebra.awt.GFontD;
+import geogebra.common.awt.GFont;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -59,7 +61,7 @@ public class DrawText3D extends Drawable3DCurves {
 	}
 
 	
-	private Font getFont() {
+	private GFont getFont() {
 		GeoText text = (GeoText) getGeoElement();
 		
 		// text's font size is relative to the global font size
@@ -83,7 +85,7 @@ public class DrawText3D extends Drawable3DCurves {
 				Font textFont = ((AppD) getView3D().getApplication()).getFontCanDisplayAwt(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
 			//}	
 				
-				return textFont;
+				return new GFontD(textFont);
 	}
 	
 	//private boolean isLocationDefined;
