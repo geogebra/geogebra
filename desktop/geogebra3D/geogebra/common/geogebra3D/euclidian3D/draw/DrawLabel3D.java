@@ -1,7 +1,5 @@
 package geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import geogebra.awt.GAffineTransformD;
-import geogebra.awt.GBufferedImageD;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
@@ -63,7 +61,7 @@ public class DrawLabel3D {
     
 	
     /** temp graphics used for calculate bounds */
-    protected GGraphics2D tempGraphics = (new GBufferedImageD(1, 1, GBufferedImage.TYPE_INT_ARGB)).createGraphics();
+    protected GGraphics2D tempGraphics = geogebra.common.factories.AwtFactory.prototype.newBufferedImage(1, 1, GBufferedImage.TYPE_INT_ARGB).createGraphics();
 	
     
 	
@@ -148,10 +146,10 @@ public class DrawLabel3D {
 			yOffset2=-yMax;
 
 			//creates a 2D image
-			GBufferedImage bimg = new GBufferedImageD(width, height, GBufferedImage.TYPE_INT_ARGB);
+			GBufferedImage bimg = geogebra.common.factories.AwtFactory.prototype.newBufferedImage(width, height, GBufferedImage.TYPE_INT_ARGB);
 			GGraphics2D g2d = bimg.createGraphics();
 
-			GAffineTransform gt = new GAffineTransformD();
+			GAffineTransform gt = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
 			gt.scale(1, -1d);
 			gt.translate(-xMin, -yMax); //put the baseline on the label anchor
 			g2d.transform(gt);
