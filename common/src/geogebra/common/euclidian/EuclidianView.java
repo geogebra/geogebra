@@ -2547,6 +2547,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	public final void mouseEntered() {
+		setToolTipText(null);
 		hasMouse = true;
 	}
 
