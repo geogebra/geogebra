@@ -18,7 +18,6 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.euclidian.EuclidianControllerListeners;
-import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.main.AppD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 
@@ -203,6 +202,13 @@ public class EuclidianController3DD extends
 			return false;
 
 		return super.refreshHighlighting(hits, control);
+	}
+
+	
+	@Override
+	protected void updateSelectionRectangle(boolean keepScreenRatio) {
+		//TODO
+	
 	}
 
 }

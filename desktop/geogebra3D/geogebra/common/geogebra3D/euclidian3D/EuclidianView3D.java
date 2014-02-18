@@ -1366,10 +1366,6 @@ public abstract class EuclidianView3D extends EuclidianView implements Euclidian
 		return previewDrawable;
 	}
 
-	@Override
-	public geogebra.common.awt.GRectangle getSelectionRectangle() {
-		return null; //new geogebra.awt.GRectangleD(selectionRectangle);
-	}
 
 	@Override
 	public boolean getShowMouseCoords() {
