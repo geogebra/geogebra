@@ -6,6 +6,7 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
@@ -24,6 +25,7 @@ public class DrawElementManager {
 
 	// dummy element for a graphics canvas with no parent element
 	private Element dummyParent;
+	private TreeSet<String> toRemove = new TreeSet<String>();
 
 	// dummy graphics environment used as a key in elementMapCollection when a
 	// graphics canvas has no parent element
@@ -165,6 +167,7 @@ public class DrawElementManager {
 		HashMap<String, ElementRecord> elementMap = getElementMap(g2);
 
 		Iterator<String> it = elementMap.keySet().iterator();
+		toRemove.clear();
 		while (it.hasNext()) {
 
 			String keyString = it.next();
@@ -178,11 +181,15 @@ public class DrawElementManager {
 			// and hide the element
 			if (age > 5) {
 				elem.removeFromParent();
-				elementMap.remove(keyString);
+				//don't remove directly as that may confuse the iterator
+				toRemove.add(keyString);
 			} else {
 				elementMap.get(keyString).age++;
 				elem.getStyle().setDisplay(Style.Display.NONE);
 			}
+		}
+		for(String key:toRemove){
+			elementMap.remove(key);
 		}
 	}
 
