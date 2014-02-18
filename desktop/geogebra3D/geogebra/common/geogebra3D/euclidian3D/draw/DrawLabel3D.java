@@ -292,7 +292,8 @@ public class DrawLabel3D {
 		//draw text
 		renderer.setColor(color);
 		renderer.enableTextures();
-		renderer.getTextures().setTextureNearest(textureIndex);
+		//renderer.getTextures().setTextureNearest(textureIndex);
+		renderer.getTextures().setTextureLinear(textureIndex); 
 		renderer.getGeometryManager().rectangle(x, y, z, width2, height2);
 
 	}
