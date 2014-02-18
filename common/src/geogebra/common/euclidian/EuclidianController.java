@@ -3748,7 +3748,6 @@ public abstract class EuclidianController {
 	 * @param updateSelection call (or not) updateSelection()
 	 */
 	public void clearSelections(boolean repaint, boolean updateSelection) {
-
 		startCollectingMinorRepaints();
 
 		clearSelection(selectedNumbers, false);
@@ -9622,7 +9621,7 @@ public abstract class EuclidianController {
 		// Michael Borcherds 2007-10-12
 		// clearSelections();
 		if (!temporaryMode
-				&& !EuclidianView.usesSelectionRectangleAsInput(newMode)) {
+				&& !(EuclidianView.usesSelectionRectangleAsInput(newMode) && view.getSelectionRectangle()!=null)) {
 			clearSelections();
 		}
 		// Michael Borcherds 2007-10-12
