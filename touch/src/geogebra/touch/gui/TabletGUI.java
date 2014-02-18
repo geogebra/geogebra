@@ -281,6 +281,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 	@Override
 	public void updateViewSizes() {
+		// not closeAllOptions, because that would deselect the textField if the on-screen-keyboard is shown
 		this.touchModel.getGuiModel().closeOptions();
 		super.onResize();
 		for (final ResizeListener res : this.resizeListeners) {

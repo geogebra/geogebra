@@ -88,7 +88,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private static CompletionsPopup completionsPopup;
 
 	private HistoryPopupW historyPopup;
-	SuggestBox textField = null;
+	protected SuggestBox textField = null;
 
 	private DrawTextField drawTextField = null;
 

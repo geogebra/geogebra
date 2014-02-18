@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.TextDispatcher;
+import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -36,6 +37,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
@@ -84,7 +86,7 @@ public class TouchModel {
 	
 	private GeoNumeric redefineSlider, actualSlider;
 	private GeoButton redefineButton;
-	
+
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
 	private boolean controlClicked = true;
@@ -1005,7 +1007,11 @@ public class TouchModel {
 
 	public void handleEvent(final Hits hits, final GPoint point,
 			final Point2D pointRW) {
-				
+
+		if(hits.size() > 0 && hits.get(0) instanceof GeoTextField && this.euclidianView != null){
+			((DrawTextField) this.euclidianView.getDrawableND(hits.get(0))).setFocus(null);
+		}
+
 		this.kernel.setNotifyRepaintActive(false);
 
 		this.eventCoordinates = point;
@@ -2003,7 +2009,7 @@ public class TouchModel {
 
 	public void setCaptionMode(final int index) {
 		this.guiModel.setCaptionMode(index);
-		this.guiModel.closeOptions();
+		this.guiModel.closeAllOptions();
 		this.app.storeUndoInfo();
 	}
 
@@ -2014,12 +2020,12 @@ public class TouchModel {
 	 *            the new command
 	 */
 	public void setCommand(final ToolBarCommand cmd) {
-		if (this.command != null && this.command.equals(cmd)) {
-			return;
-		}
-
 		if (this.euclidianView == null) {
 			this.euclidianView = this.app.getEuclidianView1();
+		}
+
+		if (this.command != null && this.command.equals(cmd)) {
+			return;
 		}
 
 		this.resetSelection();

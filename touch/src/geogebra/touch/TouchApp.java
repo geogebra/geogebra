@@ -36,6 +36,7 @@ import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.touch.factories.SwingFactoryT;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.TabletGUI;
@@ -95,6 +96,7 @@ public class TouchApp extends AppWeb {
 		this.setLabelDragsEnabled(false);
 
 		initFactories();
+		geogebra.common.factories.SwingFactory.setPrototype(new SwingFactoryT());
 
 		infobar = new InfoBarT();
 

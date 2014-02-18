@@ -144,7 +144,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	void onCollapseToolBar() {
-		this.touchModel.getGuiModel().closeOptions();
+		this.touchModel.getGuiModel().closeAllOptions();
 		this.closeToolBar();
 		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
 	}

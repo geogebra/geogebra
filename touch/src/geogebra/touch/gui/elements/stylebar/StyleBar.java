@@ -273,7 +273,7 @@ public class StyleBar extends FlowPanel {
 
 			@Override
 			public void onClick() {
-				StyleBar.this.guiModel.closeOptions();
+				StyleBar.this.guiModel.closeAllOptions();
 				EuclidianStyleBarStatic.processSourceCommon(process, null,
 						StyleBar.this.euclidianView);
 
@@ -310,7 +310,7 @@ public class StyleBar extends FlowPanel {
 
 		if (this.styleButtonsPanel.isVisible()) {
 			// close all opened options before hiding the stylingbar
-			this.guiModel.closeOptions();
+			this.guiModel.closeAllOptions();
 			this.showHideButton.setStyleName("arrowRight");
 			// Set stylebar transparent, when closed
 			this.addStyleName("transparent");
@@ -334,7 +334,7 @@ public class StyleBar extends FlowPanel {
 
 		if (this.guiModel.getOptionTypeShown().equals(type)) {
 
-			this.guiModel.closeOptions();
+			this.guiModel.closeAllOptions();
 
 		} else {
 

@@ -2,6 +2,7 @@ package geogebra.touch.model;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.PointProperties;
@@ -38,6 +39,8 @@ public class GuiModel {
 	private PopupPanel activeDialog;
 	private HashMap<Integer, Integer> defaultGeoMap = EuclidianStyleBarStatic
 			.createDefaultMap();
+
+	public static AutoCompleteTextField activeTextField;
 
 	/**
 	 * @param model
@@ -79,7 +82,7 @@ public class GuiModel {
 	}
 
 	public void buttonClicked(final ToolBarButton tbb) {
-		closeOptions();
+		closeAllOptions();
 		setActive(tbb);
 
 		if (this.touchModel != null) {
@@ -103,6 +106,14 @@ public class GuiModel {
 			if (this.touchModel != null) {
 				this.touchModel.onOptionsClosed();
 			}
+		}
+	}
+
+	public void closeAllOptions() {
+		closeOptions();
+
+		if(activeTextField != null){
+			activeTextField.setFocus(false);
 		}
 	}
 
@@ -338,7 +349,7 @@ public class GuiModel {
 	 * TODO remove magic numbers
 	 */
 	public void showOption(final OptionsPanel panel, final FastButton button) {
-		closeOptions();
+		closeAllOptions();
 		this.optionsPanel = panel;
 		int left = button.getAbsoluteLeft();
 		if(left + panel.getWidth() > Window.getClientWidth()){

@@ -90,7 +90,7 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 	 * @param hits
 	 */
 	public void handleEvent(final Hits hits) {
-		this.model.getGuiModel().closeOptions();
+		this.model.getGuiModel().closeAllOptions();
 		if (this.model.getCommand().equals(ToolBarCommand.Slider)) {
 			// a slider cannot be placed without coordinates in the
 			// EuclicianView
@@ -104,7 +104,7 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		// make sure undo-information is stored first
 
 		OptionType activeOption = this.model.getGuiModel().getOptionTypeShown();
-		this.model.getGuiModel().closeOptions();
+		this.model.getGuiModel().closeAllOptions();
 
 		// do not handle event, if an optionPanel of the styleBar was still open
 		if (activeOption != OptionType.None

@@ -58,7 +58,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	protected void onToolBarButton() {
 		if (this.model.getCommand() == this.getCmd()
 				&& this.model.getOptionTypeShown() == OptionType.ToolBar) {
-			this.model.closeOptions();
+			this.model.closeAllOptions();
 		} else {
 			this.showOptions();
 		}
@@ -93,7 +93,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 						* ToolBarButton.BUTTON_WIDTH + 16;
 			}
 
-			this.model.closeOptions();
+			this.model.closeAllOptions();
 			this.model.setOption(this.options);
 
 			// if the width of the subtoolbar is too big, the position should

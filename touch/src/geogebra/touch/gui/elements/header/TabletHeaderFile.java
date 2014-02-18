@@ -124,7 +124,7 @@ class TabletHeaderFile extends HorizontalPanel {
 	}
 
 	protected void runOpen() {
-		this.touchModel.getGuiModel().closeOptions();
+		this.touchModel.getGuiModel().closeAllOptions();
 		runNew();
 		TouchEntryPoint.showBrowseGUI();
 	}
@@ -145,7 +145,7 @@ class TabletHeaderFile extends HorizontalPanel {
 	}
 
 	protected void onSave() {
-		this.touchModel.getGuiModel().closeOptions();
+		this.touchModel.getGuiModel().closeAllOptions();
 
 		if (this.app.isDefaultFileName()
 				&& this.app.getConstructionTitle().equals(

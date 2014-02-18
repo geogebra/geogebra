@@ -32,7 +32,7 @@ public class PointCaptureingOptionsPanel extends FlowPanel {
 				@Override
 				public void onClick(final ClickEvent event) {
 					touchModel.getGuiModel().setPointCapturingMode(index);
-					touchModel.getGuiModel().closeOptions();
+					touchModel.getGuiModel().closeAllOptions();
 				}
 			}, ClickEvent.getType());
 			this.buttonPanel.add(this.buttons[i]);
