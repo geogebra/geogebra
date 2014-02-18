@@ -13,10 +13,13 @@ import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 
 
 /**
@@ -49,6 +52,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	
 	private boolean eyeSepIsNotSet = true;
 	
+	private Robot robot;
+	private int robotX, robotY;
+	private double[] inputPosition;
+	
 	/**
 	 * constructor
 	 * @param kernel kernel
@@ -79,6 +86,15 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenHalfWidth = gd.getDisplayMode().getWidth()/2;
 		screenHalfHeight = gd.getDisplayMode().getHeight()/2;		
+		
+		// robot
+		try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
@@ -121,16 +137,16 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			
 			
 			// mouse pos
-			double[] pos = input3D.getMouse3DPosition();
-			setPositionXYOnPanel(input3D.getMouse3DPosition(), mouse3DPosition);
-			mouse3DPosition.setZ(pos[2] - view3D.getScreenZOffset());
+			inputPosition = input3D.getMouse3DPosition();
+			setPositionXYOnPanel(inputPosition, mouse3DPosition);
+			mouse3DPosition.setZ(inputPosition[2] - view3D.getScreenZOffset());
 			
 			// check if the 3D mouse is on screen
 			if((Math.abs(mouse3DPosition.getX()) < panelDimension.width/2) 
 					&& (Math.abs(mouse3DPosition.getY()) < panelDimension.height/2)
 					&& (mouse3DPosition.getZ() < view3D.getRenderer().getEyeToScreenDistance())){
 
-				((EuclidianViewInput3D) view3D).setHasMouse(true);
+				setHasMouse(true);
 				
 				updateMouse3DEvent();
 
@@ -164,13 +180,85 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				}
 			
 			}else{ // bird outside the view
-				((EuclidianViewInput3D) view3D).setHasMouse(false);
+				setHasMouse(false);
+
+				
+				if (robot != null){
+					if(inputPosition[2]<screenHalfHeight){ // check if 3D mouse is close enough
+						int x = (int) (inputPosition[0] + screenHalfWidth);
+						if (x >= 0 && x <= screenHalfWidth*2){
+							int y = (int) (screenHalfHeight - inputPosition[1]);
+							if (y >= 0 && y <= screenHalfHeight*2){
+								
+								// process mouse
+								if (robotX != x || robotY != y){
+									//App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
+									//App.debug(x+","+y);
+									robotX = x;
+									robotY = y;
+									robot.mouseMove(robotX, robotY);
+								}
+								
+								/*
+								// process right press / release
+								if (input3D.isRightPressed()){ 
+									if (wasRightReleased){
+										robot.mousePress(InputEvent.BUTTON3_MASK);
+										wasRightReleased = false;
+									}
+								}else{
+									if (!wasRightReleased){
+										robot.mouseRelease(InputEvent.BUTTON3_MASK);
+										wasRightReleased = true;
+									}
+								}
+								*/
+								
+								// process left press / release
+								if (input3D.isLeftPressed()){ 
+									if (wasLeftReleased){
+										robot.mousePress(InputEvent.BUTTON1_MASK);
+										wasLeftReleased = false;
+									}
+								}else{
+									if (!wasLeftReleased){
+										robot.mouseRelease(InputEvent.BUTTON1_MASK);
+										wasLeftReleased = true;
+									}
+								}
+								
+								
+								
+							}
+						}
+					}
+				}
+				
+
 			}
 		}
 		
 		
 	}
 
+	
+	private boolean hasMouse = false;
+	
+	private void setHasMouse(boolean flag){
+		if (flag == hasMouse){
+			return;
+		}
+		
+		hasMouse = flag;
+		
+		// reset robot position
+		if (!hasMouse){ 
+			robotX = -1; robotY = -1;
+		}
+		
+		// tell view
+		((EuclidianViewInput3D) view3D).setHasMouse(flag);
+	}
 	
 	
 	/**

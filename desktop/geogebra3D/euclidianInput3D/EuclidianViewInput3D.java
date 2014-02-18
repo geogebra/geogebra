@@ -71,7 +71,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD{
 			
 
 		// sphere for mouse cursor
-		if (getMode() == EuclidianConstants.MODE_MOVE && mouse3DScreenPosition != null){
+		if (/*getMode() == EuclidianConstants.MODE_MOVE &&*/ mouse3DScreenPosition != null){
 			renderer1.setMatrix(transparentMouseCursorMatrix);
 			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);	
 		}
