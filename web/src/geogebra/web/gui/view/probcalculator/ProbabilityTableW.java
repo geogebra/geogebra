@@ -80,7 +80,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 		//updateFonts(((AppD) app).getPlainFont());
 		
 		// need to get focus so that the table will finish resizing columns (not sure why)
-		statTable.getTable().getElement().focus();
+		//statTable.getTable().getElement().focus();
 		isIniting = false;
 	}
 	
@@ -148,7 +148,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			((ProbabilityCalculatorViewW) probCalc).setInterval(low,high);
 		}
 		else if(probCalc.getProbMode() == ProbabilityCalculatorViewW.PROB_LEFT){
-			String lowStr = (String) statTable.getTable().getValueAt(0, 0);
+			String lowStr = (String) statTable.getTable().getValueAt(1, 0);
 			String highStr = (String) statTable.getTable().getValueAt(selRow[selRow.length-1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);

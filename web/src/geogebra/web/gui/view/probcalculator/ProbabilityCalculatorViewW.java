@@ -782,7 +782,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		
 		Object source = event.getSource();
-		App.debug("valuechangeevent: " + source.toString());
+		//App.debug("valuechangeevent: " + source.toString());
 		if (source == btnCumulative) {
 			setCumulative(btnCumulative.isSelected());
 
