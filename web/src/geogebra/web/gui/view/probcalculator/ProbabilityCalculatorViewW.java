@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.probcalculator;
 
 import geogebra.common.gui.view.data.PlotSettings;
-import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -48,7 +48,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * ProbablityCalculatorView for web
  *
  */
-public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implements ChangeHandler, FocusHandler, ValueChangeHandler<Boolean>, BlurHandler, KeyUpHandler {
+public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implements ChangeHandler, FocusHandler, ValueChangeHandler<Boolean>, BlurHandler, KeyUpHandler {
 
 	/**
 	 * separator for list boxes
@@ -408,11 +408,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalcualtorView implem
 			probMode = PROB_LEFT;
 		} else {
 			if (btnIntervalLeft.getValue()) {
-				probMode = ProbabilityCalcualtorView.PROB_LEFT;
+				probMode = ProbabilityCalculatorView.PROB_LEFT;
 			} else if (btnIntervalBetween.getValue()) {
-				probMode = ProbabilityCalcualtorView.PROB_INTERVAL;
+				probMode = ProbabilityCalculatorView.PROB_INTERVAL;
 			} else if (btnIntervalRight.getValue()) {
-				probMode = ProbabilityCalcualtorView.PROB_RIGHT;
+				probMode = ProbabilityCalculatorView.PROB_RIGHT;
 			}
 		}
 		this.getPlotDimensions();

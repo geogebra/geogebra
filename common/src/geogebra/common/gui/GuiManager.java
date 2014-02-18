@@ -16,7 +16,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
-import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
@@ -483,7 +483,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 		
 		private boolean setModeFinished;
-		protected ProbabilityCalcualtorView probCalculator;
+		protected ProbabilityCalculatorView probCalculator;
 		protected int caller_APP;
 		
 		public void setMode(int mode,ModeSetter m) {

@@ -2,7 +2,7 @@ package geogebra.gui.view.probcalculator;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.data.PlotSettings;
-import geogebra.common.gui.view.probcalculator.ProbabilityCalcualtorView;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -56,7 +56,7 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class ProbabilityCalculatorViewD extends ProbabilityCalcualtorView implements
+public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implements
 		ActionListener, FocusListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;

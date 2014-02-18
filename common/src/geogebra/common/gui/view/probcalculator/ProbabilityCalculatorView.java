@@ -75,7 +75,7 @@ import java.util.TreeSet;
  * Commmon view for ProbabilityCalculator
  *
  */
-public abstract class ProbabilityCalcualtorView implements View, SettingListener {
+public abstract class ProbabilityCalculatorView implements View, SettingListener {
 	
 	/**
 	 * Application
@@ -187,7 +187,7 @@ public abstract class ProbabilityCalcualtorView implements View, SettingListener
 	protected ProbabilityManager probManager;
 
 	
-	public ProbabilityCalcualtorView(App app) {
+	public ProbabilityCalculatorView(App app) {
 		
 		isIniting = true;
 		

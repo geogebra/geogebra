@@ -57,9 +57,9 @@ public class ProbabilityManager {
 
 	private final App app;
 	private final Localization loc;
-	private ProbabilityCalcualtorView probCalc;
+	private ProbabilityCalculatorView probCalc;
 
-	public ProbabilityManager(App app, ProbabilityCalcualtorView probCalc) {
+	public ProbabilityManager(App app, ProbabilityCalculatorView probCalc) {
 
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -867,11 +867,11 @@ public class ProbabilityManager {
 	public double intervalProbability(double low, double high, DIST distType,
 			double[] parms, int probMode) {
 
-		if (probMode == ProbabilityCalcualtorView.PROB_LEFT)
+		if (probMode == ProbabilityCalculatorView.PROB_LEFT)
 
 			return probability(high, parms, distType, true);
 
-		else if (probMode == ProbabilityCalcualtorView.PROB_RIGHT) {
+		else if (probMode == ProbabilityCalculatorView.PROB_RIGHT) {
 
 			if (isDiscrete(distType)) {
 				return 1 - probability(low - 1, parms, distType, true);

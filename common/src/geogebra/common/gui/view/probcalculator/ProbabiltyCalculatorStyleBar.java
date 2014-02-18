@@ -13,7 +13,7 @@ public abstract class ProbabiltyCalculatorStyleBar {
 	protected App app;
 
 	/** probabililty calculator */
-	protected ProbabilityCalcualtorView probCalc;
+	protected ProbabilityCalculatorView probCalc;
 
 	/** icon height in pixels */
 	protected int iconHeight = 18;

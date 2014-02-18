@@ -16,7 +16,7 @@ public abstract class ProbabilityTable {
 	 */
 	protected App app;
 	protected ProbabilityManager probManager;
-	protected ProbabilityCalcualtorView probCalc;
+	protected ProbabilityCalculatorView probCalc;
 	protected String[] columnNames;
 	
 	protected DIST distType;
