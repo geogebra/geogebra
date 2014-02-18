@@ -50,6 +50,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
+		//TODO: insert sign in button instead of search field
 		this.browseGUI = browseGUI;
 		this.searchPanel = new HorizontalPanel();
 		this.searchPanel.setStyleName("searchPanel");
