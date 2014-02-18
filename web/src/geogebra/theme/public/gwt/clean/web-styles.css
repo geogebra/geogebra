@@ -1340,8 +1340,16 @@ td.datePickerMonth {
   }
 
  .geogebraweb .jsloaded {
- 	border:1px solid transparent; /* let's try to remove the black border */
+ 	border:1px solid black;
  	position:relative;
+  }
+  
+  .geogebraweb .applet-focused {
+  	border-color: #000000;
+  }
+  
+  .geogebraweb .applet-unfocused {
+    border-color: #D3D3D3;
   }
   
  .geogebraweb .splash {

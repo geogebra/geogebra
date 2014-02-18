@@ -244,17 +244,15 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 */
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = ae.getDataParamBorder();
-		if (dpBorder != null && dpBorder.equals("none")) {
-			setBorder(ae, gf, "transparent", 1);
-			return;
+		if (dpBorder != null) {
+			if (dpBorder.equals("none")) {
+				setBorder(ae, gf, "transparent", 1);
+			} else {
+				setBorder(ae, gf, dpBorder, 1);
+			}
 		}
-		
-		if (dpBorder == null || dpBorder.length() != 7 ||
-			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
-			// FIXME: This check is incomplete, do a complete check.
-			dpBorder = GeoGebraConstants.APPLET_UNFOCUSED_BORDER_COLOR;
-		}
-		setBorder(ae, gf, dpBorder, 1);
+		gf.getElement().removeClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+		gf.getElement().addClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
 	}
 
 	/**
@@ -265,11 +263,12 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	 */
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = ae.getDataParamBorder();
+		gf.getElement().removeClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+		gf.getElement().addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
 		if (dpBorder != null && dpBorder.equals("none")) {
 			setBorder(ae, gf, "transparent", 1);
 			return;
 		}
-		setBorder(ae, gf, GeoGebraConstants.APPLET_FOCUSED_BORDER_COLOR, 1);
 	}
 	
 	public void runAsyncAfterSplash() {
