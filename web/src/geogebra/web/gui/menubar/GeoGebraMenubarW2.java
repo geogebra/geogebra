@@ -64,10 +64,10 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 			menuPopup.add(dropMenu);
 			menuPopup.addAutoHidePartner(drop.getElement());
 			menuPopup.getElement().getStyle().setPadding(0, Unit.PX);
-			menuPopup.getElement().getStyle().setProperty("border-right", "1px solid gray");
-			menuPopup.getElement().getStyle().setProperty("border-bottom", "1px solid gray");
-			menuPopup.getElement().getStyle().setProperty("border-top", "none");
-			menuPopup.getElement().getStyle().setProperty("border-left", "none");
+			menuPopup.getElement().getStyle().setProperty("borderRight", "1px solid gray");
+			menuPopup.getElement().getStyle().setProperty("borderBottom", "1px solid gray");
+			menuPopup.getElement().getStyle().setProperty("borderTop", "none");
+			menuPopup.getElement().getStyle().setProperty("borderLeft", "none");
 		}
 	}
 
