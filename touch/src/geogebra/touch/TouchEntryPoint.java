@@ -181,7 +181,7 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static WorksheetGUI getWorksheetGUI() {
-		if (worksheetGUI == null) {
+		if (!hasWorksheetGUI()) {
 			worksheetGUI = new WorksheetGUI(app);
 			TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
 		}
@@ -189,7 +189,7 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static BrowseGUI getBrowseGUI() {
-		if (browseGUI == null) {
+		if (!hasBrowseGUI()) {
 			browseGUI = new BrowseGUI(app);
 			TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 		}
