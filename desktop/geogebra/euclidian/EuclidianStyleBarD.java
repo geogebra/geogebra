@@ -101,9 +101,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	private Construction cons;
 
 	// buttons and lists of buttons
-	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
+	protected ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
-	private PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize,
+	protected PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize,
 			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
 			btnPointCapture, btnDeleteSize;
 
@@ -932,7 +932,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// ========================================
 	// object color button (color for everything except text)
 
-	private void createColorButton() {
+	protected void createColorButton() {
 
 		final Dimension colorIconSize = new Dimension(20, iconHeight);
 		btnColor = new ColorPopupMenuButton(app, colorIconSize,
@@ -1015,7 +1015,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnColor.addActionListener(this);
 	}
 
-	private void createBgColorButton() {
+	protected void createBgColorButton() {
 
 		final Dimension bgColorIconSize = new Dimension(20, iconHeight);
 
@@ -1100,7 +1100,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		return geosOK;
 	}
 
-	private void createTextButtons() {
+	protected void createTextButtons() {
 
 		// ========================
 		// text color button
@@ -1263,7 +1263,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// Create TableText buttons
 	// ================================================
 
-	private void createTableTextButtons() {
+	protected void createTableTextButtons() {
 		Dimension iconDimension = new Dimension(16, iconHeight);
 
 		// ==============================
