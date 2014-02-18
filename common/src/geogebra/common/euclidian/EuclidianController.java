@@ -105,6 +105,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.common.main.SelectionManager;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -9786,7 +9787,12 @@ public abstract class EuclidianController {
 
 
 	public int getDeleteToolSize() {
-		return this.view.getSettings().getDeleteToolSize();
+		EuclidianSettings settings = this.view.getSettings();
+		if (settings != null){
+			return this.view.getSettings().getDeleteToolSize();
+		}
+		
+		return EuclidianConstants.DEFAULT_ERASER_SIZE;
 	}
 
 
