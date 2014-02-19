@@ -2979,6 +2979,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			int column = 15;
 
 			tabbedPane = new TabPanel();
+			tabbedPane.setStyleName("scriptTabPanel");
 
 			clickDialog = new ScriptInputPanelW(getAppW(), app.getPlain("Script"),
 					null, row, column, false, false);
@@ -3002,7 +3003,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			globalScriptPanel = new FlowPanel();
 			globalScriptPanel.add(globalDialog.getInputPanel(row, column, true));
 			globalScriptPanel.add(globalDialog.getButtonPanel());
-			tabbedPane.setStyleName("scriptTabPanel");
 			setWidget(tabbedPane);
 
 			tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
@@ -3012,6 +3012,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				}
 			});
+			
+			setLabels();
 		}
 
 		/**

@@ -43,6 +43,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	protected VerticalPanel messagePanel;
 
+	protected FlowPanel btPanel;
+
 	
 	public InputDialogW(boolean modal) {
 
@@ -113,7 +115,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				selectInitText, null);
     }
 
-	private void centerOnScreen() {
+	protected void centerOnScreen() {
 		wrappedPopup.center();
 	}
 
@@ -167,7 +169,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		btApply.addClickHandler(this);
 	
 		// create button panel
-		FlowPanel btPanel = new FlowPanel();
+		btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
 		btPanel.add(btOK);
 		btPanel.add(btCancel);

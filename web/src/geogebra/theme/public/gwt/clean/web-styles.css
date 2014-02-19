@@ -2502,6 +2502,17 @@ label {
 	display: block;
 }
 
+.scriptTabPanel {
+	width: 100%;
+	height: 100%;
+}
+
+.scriptTabPanel .gwt-TextArea {
+	width: 100%;
+	height: 300px;
+}
+
+
 /*============ AutocompleteTextFieldW =======*/
 .AutoCompleteTextFieldW {
 	box-sizing: border-box;
