@@ -14,12 +14,14 @@ import geogebra3D.euclidian3D.EuclidianView3DD;
 import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.AWTException;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 
 
 /**
@@ -133,133 +135,109 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				
 			}
 
-			
-			
-			
-			// mouse pos
+			// input position
 			inputPosition = input3D.getMouse3DPosition();
-			setPositionXYOnPanel(inputPosition, mouse3DPosition);
-			mouse3DPosition.setZ(inputPosition[2] - view3D.getScreenZOffset());
 			
-			// check if the 3D mouse is on screen
-			if((Math.abs(mouse3DPosition.getX()) < panelDimension.width/2) 
-					&& (Math.abs(mouse3DPosition.getY()) < panelDimension.height/2)
-					&& (mouse3DPosition.getZ() < view3D.getRenderer().getEyeToScreenDistance())){
+			// 2D cursor pos
+			if (robot != null){
+				int x = (int) (inputPosition[0] + screenHalfWidth);
+				if (x >= 0 && x <= screenHalfWidth*2){
+					int y = (int) (screenHalfHeight - inputPosition[1]);
+					if (y >= 0 && y <= screenHalfHeight*2){
 
-				setHasMouse(true);
-				
-				updateMouse3DEvent();
-
-				// mouse orientation
-				mouse3DOrientation.set(input3D.getMouse3DOrientation());
-
-
-				if (input3D.isRightPressed()){ // process right press
-					processRightPress();
-					wasRightReleased = false;
-					wasLeftReleased = true;
-				}else if (input3D.isLeftPressed()){ // process left press
-					if (wasLeftReleased){
-						startMouse3DPosition.set(mouse3DPosition);
-						wrapMousePressed(mouseEvent);
-					}else{
-						wrapMouseDragged(mouseEvent);
-					}
-					wasRightReleased = true;
-					wasLeftReleased = false;				
-				}else{ 
-					// process button release
-					if (!wasRightReleased || !wasLeftReleased){
-						wrapMouseReleased(mouseEvent);
-					}
-					
-					// process move
-					wrapMouseMoved(mouseEvent);
-					wasRightReleased = true;
-					wasLeftReleased = true;					
-				}
-			
-			}else{ // bird outside the view
-				setHasMouse(false);
-
-				
-				if (robot != null){
-					if(inputPosition[2]<screenHalfHeight){ // check if 3D mouse is close enough
-						int x = (int) (inputPosition[0] + screenHalfWidth);
-						if (x >= 0 && x <= screenHalfWidth*2){
-							int y = (int) (screenHalfHeight - inputPosition[1]);
-							if (y >= 0 && y <= screenHalfHeight*2){
-								
-								// process mouse
-								if (robotX != x || robotY != y){
-									//App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
-									//App.debug(x+","+y);
-									robotX = x;
-									robotY = y;
-									robot.mouseMove(robotX, robotY);
-								}
-								
-								/*
-								// process right press / release
-								if (input3D.isRightPressed()){ 
-									if (wasRightReleased){
-										robot.mousePress(InputEvent.BUTTON3_MASK);
-										wasRightReleased = false;
-									}
-								}else{
-									if (!wasRightReleased){
-										robot.mouseRelease(InputEvent.BUTTON3_MASK);
-										wasRightReleased = true;
-									}
-								}
-								*/
-								
-								// process left press / release
-								if (input3D.isLeftPressed()){ 
-									if (wasLeftReleased){
-										robot.mousePress(InputEvent.BUTTON1_MASK);
-										wasLeftReleased = false;
-									}
-								}else{
-									if (!wasLeftReleased){
-										robot.mouseRelease(InputEvent.BUTTON1_MASK);
-										wasLeftReleased = true;
-									}
-								}
-								
-								
-								
-							}
+						// process mouse
+						if (robotX != x || robotY != y){
+							//App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
+							//App.debug(x+","+y);
+							robotX = x;
+							robotY = y;
+							robot.mouseMove(robotX, robotY);
 						}
 					}
 				}
+			}
+			
+			// mouse pos
+			setPositionXYOnPanel(inputPosition, mouse3DPosition);
+			mouse3DPosition.setZ(inputPosition[2] - view3D.getScreenZOffset());
+			
+			
+			
+			// check if the 3D mouse is on 3D view
+			if(view3D.hasMouse()){
+				if(mouse3DPosition.getZ() < view3D.getRenderer().getEyeToScreenDistance()){
+
+					updateMouse3DEvent();
+
+					// mouse orientation
+					mouse3DOrientation.set(input3D.getMouse3DOrientation());
+
+
+					if (input3D.isRightPressed()){ // process right press
+						processRightPress();
+						wasRightReleased = false;
+						wasLeftReleased = true;
+					}else if (input3D.isLeftPressed()){ // process left press
+						if (wasLeftReleased){
+							startMouse3DPosition.set(mouse3DPosition);
+							wrapMousePressed(mouseEvent);
+						}else{
+							wrapMouseDragged(mouseEvent);
+						}
+						wasRightReleased = true;
+						wasLeftReleased = false;				
+					}else{ 
+						// process button release
+						if (!wasRightReleased || !wasLeftReleased){
+							wrapMouseReleased(mouseEvent);
+						}
+
+						// process move
+						wrapMouseMoved(mouseEvent);
+						wasRightReleased = true;
+						wasLeftReleased = true;					
+					}
+				}
 				
+			}else{ // bird outside the view
+	
+				// process right press / release
+				if (input3D.isRightPressed()){ 
+					if (wasRightReleased){
+						robot.mousePress(InputEvent.BUTTON3_MASK);
+						wasRightReleased = false;
+					}
+				}else{
+					if (!wasRightReleased){
+						robot.mouseRelease(InputEvent.BUTTON3_MASK);
+						wasRightReleased = true;
+					}
+				}
+
+
+				// process left press / release
+				if (input3D.isLeftPressed()){ 
+					if (wasLeftReleased){
+						robot.mousePress(InputEvent.BUTTON1_MASK);
+						wasLeftReleased = false;
+					}
+				}else{
+					if (!wasLeftReleased){
+						robot.mouseRelease(InputEvent.BUTTON1_MASK);
+						wasLeftReleased = true;
+					}
+				}
+								
+					
 
 			}
+						
+			
 		}
 		
 		
 	}
 
-	
-	private boolean hasMouse = false;
-	
-	private void setHasMouse(boolean flag){
-		if (flag == hasMouse){
-			return;
-		}
-		
-		hasMouse = flag;
-		
-		// reset robot position
-		if (!hasMouse){ 
-			robotX = -1; robotY = -1;
-		}
-		
-		// tell view
-		((EuclidianViewInput3D) view3D).setHasMouse(flag);
-	}
-	
 	
 	/**
 	 * 
@@ -469,4 +447,26 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		
 		return point3D;
 	}
+	
+	
+	@Override
+	public void addListenersTo(Component evjpanel){
+		// restrict to the minimum : all will be done by the 3D mouse
+		evjpanel.addComponentListener(this);
+		evjpanel.addMouseListener(this);
+	}
+	
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// nothing to do : this will be done by the 3D mouse
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// nothing to do : this will be done by the 3D mouse
+	}
+
+	
 }

@@ -183,7 +183,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnRotateView.getMySlider().setSnapToTicks(true);
 		btnRotateView.setSliderValue(5);
 		btnRotateView.addActionListener(this);
-		btnRotateView.setDownwardPopup(downwardPopup);
 		
 		
 		//========================================
@@ -200,7 +199,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnClipping.getMySlider().setSnapToTicks(true);
 		btnClipping.setSliderValue(getView().getClippingReduction());
 		btnClipping.addActionListener(this);
-		btnClipping.setDownwardPopup(downwardPopup);
 
 		
 		
@@ -244,53 +242,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		projectionIcons[3]=app.getImageIcon("stylebar_viewoblique.gif");
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
-		btnViewProjection.setDownwardPopup(downwardPopup);
 		
-		// set other buttons downward
-		btnLineStyle.setDownwardPopup(downwardPopup); 
-		btnPointStyle.setDownwardPopup(downwardPopup); 
-		btnLabelStyle.setDownwardPopup(downwardPopup);
-		btnPointCapture.setDownwardPopup(downwardPopup); 
-		btnDeleteSize.setDownwardPopup(downwardPopup);
-	}
-
-	@Override
-	protected void createColorButton(){
-		super.createColorButton();
-		btnColor.setDownwardPopup(downwardPopup); 
-	}
-	
-	@Override
-	protected void createBgColorButton(){
-		super.createBgColorButton();
-		btnBgColor.setDownwardPopup(downwardPopup); 
-	}
-	
-	@Override
-	protected void createTextButtons(){
-		super.createTextButtons();
-		btnTextColor.setDownwardPopup(downwardPopup);
-		btnTextSize.setDownwardPopup(downwardPopup);
-	}
-	
-	@Override
-	protected void createTableTextButtons(){
-		super.createTableTextButtons();
-		btnTableTextJustify.setDownwardPopup(downwardPopup); 
-		btnTableTextBracket.setDownwardPopup(downwardPopup); 
 	}
 
 
-	private boolean downwardPopup = true;
-	
-	/**
-	 * tells popup buttons if they are downward
-	 * @param flag flag
-	 */
-	public void setDownwardPopup(boolean flag){
-		downwardPopup = flag;
-	}
-	
+
+
 	private class ProjectionPopup extends PopupMenuButton {//implements ActionListener{
 		private static final long serialVersionUID = 1L;
 		public ProjectionPopup(AppD app, ImageIcon[] projectionIcons){
