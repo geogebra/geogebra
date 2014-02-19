@@ -1,60 +1,56 @@
 package geogebra.html5.gui.browser;
+
 import geogebra.common.main.Localization;
 import geogebra.common.move.operations.NetworkOperation;
+import geogebra.common.move.views.BooleanRenderable;
+import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.StandardButton;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 
-public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
-		ResizeListener {
+/**
+ * Panel for Search in GeoGebraTube
+ * 
+ * @author Stefanie Bogner
+ * 
+ */
 
-	/*public interface SearchListener {
+public class SearchPanel extends FlowPanel implements BooleanRenderable {
+	public interface SearchListener {
 		void onSearch(String query);
-	}*/
+	}
 
-	/*private Panel underline;
+	private FlowPanel searchPanel;
 	private TextBox query;
+	private Label info;
 	private final FastButton searchButton;
 	private FastButton cancelButton;
-	private final List<SearchListener> listeners;*/
+	private final List<SearchListener> listeners;
 	private BrowseGUI browseGUI;
 	private NetworkOperation op;
-	
-	private FlowPanel signInPanel;
-	private Button signInButton;
+	protected final Localization loc;
 
-	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI,
+	public SearchPanel (final Localization loc, final BrowseGUI browseGUI,
 			NetworkOperation op) {
-		super(loc);
+
 		this.browseGUI = browseGUI;
-		this.op = op;
-
-		this.backButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				browseGUI.close();
-			}
-		});
-
-		//TODO: Make sign in
-		this.signInPanel = new FlowPanel();
-		//TODO: Translate Sign in
-		this.signInButton = new Button("Sign in");
-		this.signInPanel.add(this.signInButton);
-		this.rightPanel.add(this.signInPanel);
-		
-		//TODO: Set correct text
-		this.setText("GeoGebraTube");
-		setLabels();
-		
-		//Steffi: Search is in SearchPanel now! Hope it works correctly!
-		/*this.searchPanel = new HorizontalPanel();
+		this.searchPanel = new FlowPanel();
 		this.searchPanel.setStyleName("searchPanel");
 		this.listeners = new ArrayList<SearchListener>();
+		this.loc = loc;
 
 		this.query = new TextBox();
 		this.query.addKeyDownHandler(new KeyDownHandler() {
@@ -104,82 +100,74 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		// Input Underline for Android
-		this.underline = new LayoutPanel();
-		this.underline.setStyleName("inputUnderline");
-		this.underline.addStyleName("inactive");
-
 		this.searchPanel.add(this.searchButton);
 		this.searchPanel.add(this.query);
 		this.searchPanel.add(this.cancelButton);
-
-		this.rightPanel.add(this.searchPanel);
-		this.rightPanel.add(this.underline);
+		
+		this.info = new Label();
+		
+		this.add(this.searchPanel);
+		this.add(this.info);
 
 		this.op = op;
 		op.getView().add(this);
-		setLabels();*/
+		setLabels();
 	}
 
-	/*void doSearch() {
+	void doSearch() {
 		if (!this.query.getText().equals("")) {
 			fireSearchEvent();
 		} else {
 			this.cancelButton.setVisible(false);
 		}
 		this.query.setFocus(false);
-		this.underline.removeStyleName("active");
-		this.underline.addStyleName("inactive");
-	}*/
+	}
 
-	/*void onCancel() {
+	void onCancel() {
 		this.query.setFocus(false);
 		this.query.setText("");
-		this.underline.removeStyleName("active");
-		this.underline.addStyleName("inactive");
 		this.cancelButton.setVisible(false);
 		this.browseGUI.loadFeatured();
-	}*/
+	}
 
-	/*void onFocusQuery() {
+	void onFocusQuery() {
 		this.query.setFocus(true);
 		this.cancelButton.setVisible(true);
-		this.underline.removeStyleName("inactive");
-		this.underline.addStyleName("active");
-	}*/
+	}
 
-	/*void onBlurQuery() {
+	void onBlurQuery() {
 		if (this.query.getText().equals("")) {
 			this.query.setFocus(false);
-			this.underline.removeStyleName("active");
-			this.underline.addStyleName("inactive");
 			this.cancelButton.setVisible(false);
 		}
-	}*/
+	}
 
-	/*public boolean addSearchListener(final SearchListener l) {
-		return this.listeners.add(l);
-	}*/
-
-	/*private void fireSearchEvent() {
+	private void fireSearchEvent() {
 		for (final SearchListener s : this.listeners) {
 			s.onSearch(this.query.getText());
 		}
-	}*/
-
-	public void onResize() {
-		this.setWidth(Window.getClientWidth() + "px");
 	}
 
-	/*@Override
-	public void render(boolean b) {
-		this.setText(this.loc.getMenu("Worksheets") + (b ? "" : " (Offline)"));
-
+	/*public void onResize() {
+		this.setWidth(Window.getClientWidth() + "px");
 	}*/
 
 	@Override
-	public void setLabels() {
-		super.setLabels();
-		//render(this.op.getOnline());
+	public void render(boolean b) {
+		/*this.setText("Infotext" + (b ? "" : " (Offline)"));*/
+
 	}
+
+	private void setText(String string) {
+	    info.setText(string);
+    }
+
+	public void setLabels() {
+		render(this.op.getOnline());
+	}
+
+	public boolean addSearchListener(SearchListener searchListener) {
+	    return this.listeners.add(searchListener);
+    }
+
 }

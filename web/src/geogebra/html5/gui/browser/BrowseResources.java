@@ -9,10 +9,10 @@ public interface BrowseResources extends ClientBundle {
 	
 	static BrowseResources INSTANCE = GWT.create(BrowseResources.class);
 	
-	@Source("icons/png/view_zoom.png")
+	@Source("icons/png/web/button_search.png")
 	ImageResource search();
 
-	@Source("icons/png/android/button_cancel.png")
+	@Source("icons/png/web/button_cancel.png")
 	ImageResource dialog_cancel();
 
 	@Source("icons/png/web/arrow_go_previous_purple.png")
@@ -30,7 +30,13 @@ public interface BrowseResources extends ClientBundle {
 	@Source("icons/png/web/open-from-location_googledrive.png")
 	ImageResource location_drive();
 	
+	@Source("icons/png/web/open-from-location_skydrive.png")
+	ImageResource location_skydrive();
+	
 	@Source("icons/png/web/open-from-location_local-storage.png")
 	ImageResource location_local();
+	
+	@Source("icons/png/web/arrow-submenu-left.png")
+	ImageResource arrow_submenu();
 
 }

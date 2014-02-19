@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 
 public class FileContainer extends HorizontalPanel implements ResizeListener {
 
@@ -29,12 +30,15 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 	public class MyButton extends Button{
 		public MyButton(BrowseGUI bg){
 			super();
+			this.setStyleName("button");
+			Image icon = new Image(BrowseResources.INSTANCE.location_local());
 			Element span = DOM.createElement("span");
-			span.setAttribute("style", "display:block;float:right;position:relative;");
-			span.setInnerText("+");
+			span.setAttribute("style", "cursor: pointer; position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px;");
+			span.setInnerHTML("<img src=\""+icon.getUrl()+"\"/>");
 			Element input = DOM.createElement("input");
 			input.setAttribute("type", "file");
-			input.setAttribute("style", "width:20px;height:20px;font-size:56px;opacity:0;position:absolute;left:0px");
+			input.setAttribute("style", "width: 60px; height: 60px; font-size: 56px;" +
+					"opacity: 0; position: absolute; left: 0px; top: 0px;");
 			span.appendChild(input);
 			
 			DOM.insertChild(getElement(), span, 0);
@@ -56,17 +60,32 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 	}
 	public FileContainer(String headingName,
 			final VerticalMaterialPanel filePanel, BrowseGUI bg) {
+		
 		this.filePanel = filePanel;
 		this.add(filePanel);
+		
 		this.providers = new FlowPanel();
+		
 		locationTube = new StandardButton(BrowseResources.INSTANCE.location_tube());
-		locationLocal = new StandardButton(BrowseResources.INSTANCE.location_local());
-		//MyButton local = new MyButton(bg);//StandardButton(AppResources.INSTANCE.folder());
-		//providers.add(local);
 		providers.add(locationTube);
+		
+		MyButton locationLocal = new MyButton(bg);//StandardButton(AppResources.INSTANCE.folder());
 		providers.add(locationLocal);
+		
+		//TODO: Only visible if user is logged in with google Account
+		locationDrive = new StandardButton(BrowseResources.INSTANCE.location_drive());
+		providers.add(locationDrive);
+		
+		//TODO: Only visible if user is logged in with google Account
+		locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
+		providers.add(locationSkyDrive);
+		
+		//Set Tube as the active on
+		locationTube.addStyleName("selected");
+		
 		providers.setStyleName("providers");
 		this.add(providers);
+		
 		onResize();
 	}
 
@@ -75,10 +94,8 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		int contentHeight = Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT;
 		this.setHeight(contentHeight + "px");
 		this.filePanel.setWidth(Window.getClientWidth() - 70 + "px");
-		this.filePanel.setHeight(Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT
-				- 10 + "px");
-		this.providers.setHeight(Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT
-				- 10 + "px");
+		this.filePanel.setHeight(Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT + "px");
+		this.providers.setHeight(Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT + "px");
 	}
 }
 

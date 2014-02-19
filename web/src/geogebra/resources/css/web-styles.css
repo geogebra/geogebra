@@ -45,7 +45,7 @@
 }
 
 .gwt-Button {
-  margin: 0;
+  /*margin: 0;
   padding: 5px 7px;
   text-decoration: none;
   cursor: pointer;
@@ -55,13 +55,20 @@
   border:1px solid #bbb;
   border-bottom: 1px solid #a0a0a0;
   border-radius: 3px;
- -moz-border-radius: 3px;
+ -moz-border-radius: 3px;*/
+ 
+ 	border-radius: 5px;
+ 	-moz-border-radius: 5px;
+ 	border: 1px solid #6666FF;
+ 	color: #6666FF;
+ 	background: none;
+ 	font-size: 110%;
 }
 .gwt-Button:active {
   border: 1px inset #ccc;
 }
 .gwt-Button:hover {
-  border-color: #939393;
+  /*border-color: #939393;*/
 }
 .gwt-Button[disabled] {
   cursor: default;
@@ -468,7 +475,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	padding: 5px;
-	background-color: rgba(255, 255, 255, 95);
+	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
@@ -789,7 +796,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	padding: 5px;
-	background-color: rgba(255, 255, 255, 95);
+	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
@@ -1031,11 +1038,24 @@ body[dir=rtl] .gwt-MenuBarPopup {
 }
 
 .gwt-TextBox {
-  padding: 5px 4px;
+ /* padding: 5px 4px;
   border: 1px solid #ccc;
   border-top: 1px solid #999;
   font-size: small;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
+  
+  	border: #EDEDED solid 1px;
+	background: #FFFFFF;
+	padding: 4px 5px;
+	color: #666666;
+	
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	font-size: 100%;
+  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
 .gwt-TextBox-readonly {
   color: #888;
@@ -1700,7 +1720,7 @@ Paddings for menuitems.
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	padding: 5px 10px;
-	background-color: rgba(255, 255, 255, 95);
+	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
@@ -2725,9 +2745,11 @@ label {
 	white-space: nowrap;
 }
 
-/*=========== Open screen from Touch*/
-.headerbar,
-.worksheetTitle {
+/*###################################################################################################################
+###		OPEN SCREEN FROM TOUCH
+###################################################################################################################*/
+
+.headerbar {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px 1px rgba(204,204,204,0.5);
@@ -2737,7 +2759,7 @@ label {
 }
 
 .headerFirst {
-	margin-right: 20px;
+	margin-right: 30px;
 	padding-top: 10px;
 	float: left;
 }
@@ -2757,19 +2779,22 @@ label {
 .providers {
 	width: 70px;
 	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
-	vertical-align: middle;
-	text-align: center;
-	height: 100%;
+	float: right;
 }
 
 .providers .button {
 	width: 50px;
 	height: 50px;
 	padding: 10px;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	border: none;
+	background: none;
+	position: relative;
+	cursor: pointer;
 }
 
-.providers .button.selected,
-.providers .button.button-up-hovering {
+.providers .button.selected {
 	background-image: -webkit-linear-gradient(left, #EDEDED, #FAFAFA);
     background-image: -moz-linear-gradient(left, #EDEDED, #FAFAFA);
     background-image: -ms-linear-gradient(left, #EDEDED, #FAFAFA);
@@ -2780,54 +2805,62 @@ label {
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-body .browsegui .backButton img,
-body .worksheetgui .backButton img {
+.browsegui .backButton {
+	cursor: pointer;
+}
+
+.browsegui .backButton img {
 	height: 20px;
 	width: 11px;
 }
 
-/* BrowseGUI CONTENT */
+/* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-.browsegui table {
-	border-spacing: 0px;
+.searchPanel {
+	padding: 15px;
+	positon: relative;
 }
 
-.browsegui .tubeFilePanel {
-	padding: 0px;
+.searchPanel .searchButton {
+	position: absolute;
+	top: 21px;
+	padding-left: 7px;
+	z-index: 10;
+	cursor: pointer;
 }
 
-/*.browsegui .filePanelTitle {
-	color: #999999;
-	font-size: 20px;
-	height: 35px;
-	vertical-align: middle;
-	padding: 15px 20px 0px 20px;
-}*/
-
-.browsegui .filePanel td {
-	border-spacing: 0px;
-	margin: 0px;
-	padding: 0px;
+.searchPanel input.gwt-TextBox {
+	width: 100%;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding-left: 35px;
+  	
+  	z-index: 5;
 }
 
-.browsegui .filePanel td .browserFile {
-	padding: 10px;
-	font-size: 14px;
-	color: #999999;
+.searchPanel .cancelButton {
+	z-index: 10;
+	position: absolute;
+	top: 23px;
+	right: 95px;
+	cursor: pointer;
+}
+
+.browsegui .filePanel {
+	padding-left: 15px;
+	overflow-y: scroll;
 }
 
 .browsegui .browserFile {
-	width: 100%;
-}
-.browsegui .filePageControls {
+	width: 450px;
+	height: 132px;
+	margin-right: 15px;
 	float: left;
-}
-
-.browsegui .filePageControls button {
-	background: none;
-	border: none;
-	width: 35px;
-	height: 35px;
+	position: relative;
+	color: #999999;
 }
 
 .browsegui .fileImage {
@@ -2847,11 +2880,13 @@ body .worksheetgui .backButton img {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
-.browsegui  .filePanel td .browserFile.selected {
+.browsegui .browserFile.selected,
+.browsegui .browserFile:hover {
 	color: #666666;
 }
 
-.browsegui .browserFile.selected .fileImage {
+.browsegui .browserFile.selected .fileImage,
+.browsegui .browserFile:hover .fileImage {
 	border-color: #6666FF;
 }
 
@@ -2863,7 +2898,7 @@ body .worksheetgui .backButton img {
 
 .browsegui .fileDescription {
 	float: left;
-	margin-top: 10px;
+	margin-top: 5px;
 }
 
 .browsegui .fileDescription td {
@@ -2876,32 +2911,57 @@ body .worksheetgui .backButton img {
 }
 
 .browsegui .fileLinks {
-	float: right;
+	position: absolute;
+	top: 3px;
+	right: 0px;
+	
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 }
 
-.browsegui .fileLinks td {
+.browsegui .fileLinks {
 	text-align: center;
 }
 
-.browsegui .confirmDelete {
+.fileLinks .arrowPanel {
+	position: absolute;
+	top: 5px;
+	width: 20px;
+	height: 33px;
+	left: -17px;
+}
+
+body .browsegui .fileLinks .button {
+	border: none;
+	background: none;
+	margin: 5px;
+	cursor: pointer;
+}
+
+/*.browsegui .confirmDelete {
 	height: 41px;
 	margin-top: 17px;
 	width: 100%	
-}
+}*/
 
-.browsegui .centeredContent {
+/*.browsegui .centeredContent {
 	width: 100%;
-}
+}*/
 
-.browsegui .filePageControls button.selected {
+/*.browsegui .filePageControls button.selected {
 	background: #6666FF;
 }
 
 .browsegui .browserFile td:nth-child(2) {
 	width: 100%;
-}
+}*/
 
-.browsegui .confirmDelete td {
+/*.browsegui .confirmDelete td {
 	border: 3px solid #C2C2FF;
 	border-radius: 11px;
 	background-color: #ffffff;
@@ -2911,49 +2971,37 @@ body .worksheetgui .backButton img {
 	text-align: center;
 	vertical-align: middle !important;
 	width: 50%;
-}
+}*/
 
-body .browsegui .fileLinks .button {
-	border: none;
-	background: none;
-	opacity: 0.8;
-	filter: alpha(opacity = 80);
-}
-
-.browsegui .button.delete {
+/*.browsegui .button.delete {
 	margin-top: 3px;
-}
+}*/
 
-.browsegui .fileClear {
+/*.browsegui .fileClear {
 	clear: both;
-}
+}*/
 
-.browsegui .fileControlPanel {
+/*.browsegui .fileControlPanel {
 	height: 40px;
 	margin-left: 7px;
 	margin-right: 7px;
 	padding-top: 10px;
 	color: #666666;
-}
+}*/
 
-.browsegui .fileControlPanel .button {
+/*.browsegui .fileControlPanel .button {
 	opacity: 0.6;
 	filter: alpha(opacity = 60);
-}
+}*/
 
-.browsegui .filePageControls {
+/*.browsegui .filePageControls {
 	float: left;
-}
+}*/
 
-.prevButton {
+/*.prevButton {
 	float: left;
 }
 
 .nextButton {
 	float:right;
-}
-
-.filePanel{
-	overflow-y: scroll;
-}
-
+}*/

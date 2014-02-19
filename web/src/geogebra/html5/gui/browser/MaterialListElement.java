@@ -12,10 +12,11 @@ import geogebra.html5.util.View;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,7 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends HorizontalPanel implements ResizeListener {
+public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private SimplePanel image;
 	private VerticalPanel infos;
 	private VerticalPanel links;
@@ -71,9 +72,9 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 		this.add(this.links);
 
 		// clearPanel clears flow layout (needed for styling)
-		final LayoutPanel clearPanel = new LayoutPanel();
+		/*final LayoutPanel clearPanel = new LayoutPanel();
 		clearPanel.setStyleName("fileClear");
-		this.add(clearPanel);
+		this.add(clearPanel);*/
 
 		this.markUnSelected();
 
@@ -176,6 +177,13 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 		this.links = new VerticalPanel();
 		this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.links.setStyleName("fileLinks");
+		
+		FlowPanel arrowPanel = new FlowPanel();
+		Image arrow = new Image(BrowseResources.INSTANCE.arrow_submenu());
+		arrowPanel.add(arrow);
+		arrowPanel.setStyleName("arrowPanel");
+		
+		this.links.add(arrowPanel);
 
 		this.initOpenButton();
 		this.initEditButton();

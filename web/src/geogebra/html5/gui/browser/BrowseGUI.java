@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.browser.BrowseHeaderPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -41,7 +40,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private List<Material> tubeList = new ArrayList<Material>();
 	private GeoGebraAppFrame frame;
 
-	public final static int HEADING_HEIGHT = 50;
+	public final static int HEADING_HEIGHT = 61;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end
@@ -74,12 +73,13 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 
 	private void addHeader() {
 		this.header = new BrowseHeaderPanel(app.getLocalization(),this,app.getNetworkOperation());
-		this.header.addSearchListener(new SearchListener() {
+		//Steffi: Search is in SearchPanel now!
+		/*this.header.addSearchListener(new SearchListener() {
 			@Override
 			public void onSearch(final String query) {
 				BrowseGUI.this.displaySearchResults(query);
 			}
-		});
+		});*/
 		this.setHeaderWidget(this.header);
 		this.addResizeListener(this.header);
 	}
@@ -96,6 +96,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.tubeFileContainer.setVisible(false);
 		this.tubeFileContainer.setStyleName("tubeFilePanel");
 		this.addResizeListener(this.tubeFileContainer);
+		this.addResizeListener(this.tubeFilePanel);
 	}
 
 	void displaySearchResults(final String query) {

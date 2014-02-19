@@ -1,52 +1,69 @@
 package geogebra.html5.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.browser.SearchPanel.SearchListener;
 import geogebra.html5.main.AppWeb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class VerticalMaterialPanel extends FlowPanel {
+public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private static int maxHeight() {
 		//TODO random number
 		return Window.getClientHeight() - 300;
 	}
 
-	private final FlexTable contentPanel;
+	private final FlowPanel searchContainer;
+	private SearchPanel searchPanel;
+	private final FlowPanel filePanel;
 	private final AppWeb app;
-	private int materialHeight = 140;
-	private final int columns = 2;
+	/*private int materialHeight = 140;
+	private final int columns = 2;*/
 	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
 	private int start;
 	private List<Material> materials = new ArrayList<Material>();
 	private final BrowseGUI bg;
 
 	public VerticalMaterialPanel(final AppWeb app, BrowseGUI bg) {
-		this.getElement().getStyle().setFloat(Style.Float.LEFT);
-		this.setStyleName("filePanel");
-		this.contentPanel = new FlexTable();
 		this.app = app;
-		this.add(this.contentPanel);
-		//this.contentPanel.setWidth("100%");
 		this.bg = bg;
+		this.getElement().getStyle().setFloat(Style.Float.LEFT);
+		this.setStyleName("contentPanel");
+		
+		this.searchContainer = new FlowPanel();
+		this.searchPanel = new SearchPanel(app.getLocalization(), bg, app.getNetworkOperation());
+		
+		this.searchPanel.addSearchListener(new SearchListener() {
+            @Override
+			public void onSearch(final String query) {
+				VerticalMaterialPanel.this.bg.displaySearchResults(query);
+			}
+		});
+		this.searchContainer.add(searchPanel);
+		this.add(this.searchContainer);
+		
+		this.filePanel = new FlowPanel();
+		this.filePanel.setStyleName("filePanel");
+		this.add(this.filePanel);
+		
+		//this.contentPanel.setWidth("100%");
 	}
 
-	private int pageCapacity() {
+	/*private int pageCapacity() {
 		return this.columns * (maxHeight() / this.materialHeight);
-	}
+	}*/
 
-	boolean hasNextPage() {
+	/*boolean hasNextPage() {
 		return (this.start + pageCapacity()) < this.materials.size();
-	}
+	}*/
 
 	boolean hasPrevPage() {
 		return this.start > 0;
@@ -65,13 +82,14 @@ public class VerticalMaterialPanel extends FlowPanel {
 	private void setMaterials(final List<Material> materials,
 			final int offset) {
 		
-		this.contentPanel.clear();
+		this.filePanel.clear();
 		this.start = offset;
 		this.materials = materials;
 
-		for(int i = 0; i < this.columns; i++){
-			this.contentPanel.getCellFormatter().setWidth(0, i, (100/this.columns) + "%");
-		}
+		//Steffi: changed to FlowPanel
+		//for(int i = 0; i < this.columns; i++){
+			//this.contentPanel.getCellFormatter().setWidth(0, i, (100/this.columns) + "%");
+		//}
 		
 
 		for (int i = 0; i < materials.size() - this.start; i++) {
@@ -81,13 +99,18 @@ public class VerticalMaterialPanel extends FlowPanel {
 				preview = new MaterialListElement(m, this.app, this.bg);
 				this.titlesToPreviews.put(m.getURL(), preview);
 			}
-			this.contentPanel.setWidget(i / this.columns, i % this.columns,
-					preview);
+			//Steffi: changed to FlowPanel
+			//this.contentPanel.setWidget(i / this.columns, i % this.columns,
+			//		preview);
+			this.filePanel.add(preview);
 		}
-		
+		// clearPanel clears flow layout (needed for styling)
+		/*final LayoutPanel clearPanel = new LayoutPanel();
+		clearPanel.setStyleName("fileClear");
+		this.contentPanel.add(clearPanel);*/
 	}
 
-	private void updateHeight() {
+	/*private void updateHeight() {
 		final Iterator<MaterialListElement> material = this.titlesToPreviews
 				.values().iterator();
 		if (material.hasNext()) {
@@ -102,13 +125,20 @@ public class VerticalMaterialPanel extends FlowPanel {
 		}
 		// }
 
-	}
+	}*/
 
 	public void invalidate(final String changedName) {
 		if (this.titlesToPreviews.get(changedName) != null) {
 			this.titlesToPreviews.remove(changedName);
 		}
 
+	}
+	
+	@Override
+	public void onResize() {
+		int searchContainerHeight = this.searchContainer.getOffsetHeight();
+		int contentHeight = Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT - searchContainerHeight;
+		this.filePanel.setHeight(contentHeight + "px");
 	}
 }
 
