@@ -99,6 +99,7 @@ public class TouchModel {
 	private String oldRedefineText;
 	private final App app;
 	private Point2D lastPositon;
+	private GeoElement toSelect;
 
 	public TouchModel(final Kernel k) {
 		this.kernel = k;
@@ -1359,8 +1360,12 @@ public class TouchModel {
 	
 			// special commands
 			case Move_Mobile:
-				for (final GeoElement geo : hits) {
-					select(geo);
+				if(this.toSelect != null){
+					changeSelectionState(this.toSelect);
+				} else if (hits.size() == 1) {
+					changeSelectionState(hits.get(0));
+				} else {
+					resetSelection();
 				}
 				this.changeColorAllowed = true;
 				break;
@@ -2070,6 +2075,14 @@ public class TouchModel {
 			}
 		}
 		return -1;
+	}
+
+	public GeoElement getToSelect() {
+		return this.toSelect;
+	}
+
+	public void setToSelect(GeoElement geo) {
+		this.toSelect = geo;
 	}
 
 }

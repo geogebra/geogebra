@@ -112,8 +112,6 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 			return;
 		}
 
-		this.model.getGuiModel().closeOptions();
-
 		final ToolBarCommand cmd = this.model.getCommand();
 
 		super.mouseLoc = new GPoint(x, y);
@@ -126,6 +124,7 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 			if (this.view.getHits().size() == 0) {
 				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
 				this.model.resetSelection();
+				this.model.setToSelect(null);
 			}
 		}
 
@@ -200,11 +199,7 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		} else {
 			// choose out of hits
 			geo = chooseGeo(hits, false);
-
-			if (!selGeos.contains(geo)) {
-				this.model.resetSelection();
-				this.model.select(geo);
-			}
+			this.model.setToSelect(geo);
 		}
 
 		if (geo != null && !geo.isFixed()) {
@@ -216,7 +211,9 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 			return;
 		}
 
-		handleMovedElement(geo, selGeos.size() > 1, e.getType());
+		// there will never be more than one GeoElement moved
+		// in case you want to enable that, replace false with selGeos.size() > 1
+		handleMovedElement(geo, false, e.getType());
 	}
 
 	@Override
@@ -331,6 +328,12 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 						.getTotalNumber() > 0))) {
 			GeoGebraProfiler.drags++;
 			final long time = System.currentTimeMillis();
+
+			if(this.model.getCommand() == ToolBarCommand.Move_Mobile){
+				this.model.resetSelection();
+				this.model.select(this.model.getToSelect());
+			}
+
 			if (time < this.lastMoveEvent
 					+ EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS) {
 				final boolean wasWaiting = this.waitingX >= 0;
@@ -355,10 +358,6 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		if (this.mode != this.model.getCommand().getMode()) {
 			setMode(this.model.getCommand().getMode());
 			switchPreviewableForInitNewMode(this.model.getCommand().getMode());
-		}
-
-		if (this.mode == ToolBarCommand.Move_Mobile.getMode()) {
-			this.model.resetSelection();
 		}
 
 		this.origin = new GPoint(x, y);
@@ -393,6 +392,7 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		this.tempNum = new MyDouble(this.kernel);
 	}
 
+	@Override
 	public void setView(final EuclidianView euclidianView) {
 		this.view = euclidianView;
 	}
