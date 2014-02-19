@@ -28,15 +28,7 @@
  <inherits name="com.google.gwt.i18n.CldrLocales"/>
   
    
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.    -->
-  <!--<inherits name='geogebra.theme.CleanRTL'/>-->
-  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  <!--  upBinder for GUI --> 
-  <!-- Specify the app entry point class.                         -->
+
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, gecko1_8, ie9" />

@@ -25,17 +25,7 @@
  <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
  <inherits name="com.google.gwt.i18n.CldrLocales"/>
   
-   
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.    -->
-  <!--Changed to our Own THEME, that is basically the Clean theme-->
-  <inherits name='geogebra.theme.Clean'/>
-  <!--<inherits name='geogebra.theme.CleanRTL'/>-->
-  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  <!--  upBinder for GUI -->
+
   <inherits name="com.google.gwt.uibinder.UiBinder" />
  
   <!-- Specify the app entry point class.                         -->

@@ -34,6 +34,9 @@ public class ResourcesInjector {
 		if("standard".equals(View.checkLAF())){
 			StyleInjector.inject(GuiResources.INSTANCE.style().getText());
 		}
+		if("modern".equals(View.checkLAF()) || "smart".equals(View.checkLAF())){
+			StyleInjector.inject(GuiResources.INSTANCE.modernStyle().getText());
+		}
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());
