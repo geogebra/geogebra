@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -186,22 +187,14 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		renderer1.drawCursor(PlotterCursor.TYPE_CROSS3D);
 	}
 
-	/*
-	 * @Override public void addMouseListener(MouseListener ml) {
-	 * 
-	 * }
-	 * 
-	 * @Override public void removeMouseListener(MouseListener ml) {
-	 * 
-	 * }
-	 * 
-	 * @Override public void addMouseMotionListener(MouseMotionListener mml) {
-	 * 
-	 * }
-	 * 
-	 * @Override public void removeMouseMotionListener(MouseMotionListener mml)
-	 * {
-	 * 
-	 * }
-	 */
+	@Override
+	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
+		return null;
+	}
+
+	@Override
+	public int getMousePickWidth() {
+		return Renderer.MOUSE_PICK_DEPTH;
+	}
+
 }
