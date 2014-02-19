@@ -7,6 +7,9 @@ import com.google.gwt.resources.client.ImageResource;
 public interface ToolbarResources extends ClientBundle{
 	public static final ToolbarResources INSTANCE = GWT.create(ToolbarResources.class);
 	
+	@Source("icons/png/toolbar/tools_copy_object.png")
+	ImageResource copy();
+
 	@Source("icons/png/toolbar/tools_specialline_best_fit_line.png")
 	ImageResource best_fit_line();
 
