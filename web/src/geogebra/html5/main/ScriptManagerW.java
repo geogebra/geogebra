@@ -44,12 +44,14 @@ public class ScriptManagerW extends ScriptManager {
 					app.evalJavaScript(app,"ggbOnInit();"+app.getKernel().getLibraryJavaScript(), null);			
 				
 			}
-			String articleid = ((AppWeb) app).getArticleId();
-			if (articleid != null) {
-				AppWeb.appletOnLoad(articleid);
-			}
+			
 		}catch(Throwable t){
 			App.debug(t.getMessage());
+		}
+		//set this to run always
+		String articleid = ((AppWeb) app).getArticleId();
+		if (articleid != null) {
+			AppWeb.appletOnLoad(articleid);
 		}
 	}
 	
