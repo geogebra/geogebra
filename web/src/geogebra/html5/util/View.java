@@ -1,15 +1,18 @@
 package geogebra.html5.util;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.GgbAPI;
 import geogebra.web.WebStatic;
+import geogebra.web.html5.Dom;
 
 import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 
 public class View {
 	
@@ -22,6 +25,19 @@ public class View {
 		this.app = app;
 		this.container = container;
     }
+	
+	public static String checkLAF() {
+		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		for (int i = 0; i < nodes.getLength(); i++) {
+			if("modern".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
+				return "modern";
+			}
+			if("smart".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
+				return "smart";
+			}
+		}
+		return "standard";
+	}
 
 	public Element getContainer() {
 	    return container;

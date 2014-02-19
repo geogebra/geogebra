@@ -2,6 +2,7 @@ package geogebra.html5.js;
 
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.util.View;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
@@ -14,6 +15,9 @@ import com.google.gwt.dom.client.StyleInjector;
  */
 public class ResourcesInjector {
 
+	/**
+	 * @param lafName name of the look and feel ("standard", "modern", "smart")
+	 */
 	public static void injectResources() {
 		// always need English properties available, eg Function.sin
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
@@ -27,6 +31,9 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillggbJs());
+		if("standard".equals(View.checkLAF())){
+			StyleInjector.inject(GuiResources.INSTANCE.style().getText());
+		}
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());

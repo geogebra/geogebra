@@ -79,5 +79,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/images/ggbSplash.html")
 	TextResource ggbSplashHtml();
 
+	@Source("geogebra/resources/css/clean-2.css")
+	TextResource style();
 }
 
