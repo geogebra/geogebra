@@ -18,13 +18,15 @@ public class FileMenuW extends MenuBar {
 	AppW app;
 	private OpenMenuW openMenu;
 	private MenuItem uploadToGGT;
+	Runnable onFileOpen;
 	
 	/**
 	 * @param app application
 	 */
-	public FileMenuW(AppW app, boolean useOpenScreen) {
+	public FileMenuW(AppW app, boolean useOpenScreen, Runnable onFileOpen) {
 	    super(true);
 	    this.app = app;
+	    this.onFileOpen = onFileOpen;
 	    addStyleName("GeoGebraMenuBar");
 	    initActions(useOpenScreen);
 		update();
@@ -54,6 +56,9 @@ public class FileMenuW extends MenuBar {
 				public void execute() {
 					BrowseGUI bg = new BrowseGUI(app);
 					app.showBrowser(bg);
+					if(FileMenuW.this.onFileOpen!=null){
+						FileMenuW.this.onFileOpen.run();
+					}
 				}
 			});	
 	    }else{

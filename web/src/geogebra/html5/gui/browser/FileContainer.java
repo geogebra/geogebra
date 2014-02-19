@@ -6,7 +6,6 @@ import geogebra.html5.gui.StandardButton;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -27,7 +26,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
  </form>
  */
 	
-	public class MyButton extends Button{
+	public class MyButton extends FlowPanel{
 		public MyButton(BrowseGUI bg){
 			super();
 			this.setStyleName("button");

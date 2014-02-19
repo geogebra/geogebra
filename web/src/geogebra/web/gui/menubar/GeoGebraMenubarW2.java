@@ -60,7 +60,13 @@ public class GeoGebraMenubarW2 extends GeoGebraMenubarW {
 	private void createPopupMenu() {
 		if (menuPopup == null) {
 			menuPopup = new PopupPanel(true);
-			dropMenu = new SideBarMenuW(app);
+			dropMenu = new SideBarMenuW(app,new Runnable(){
+
+				@Override
+                public void run() {
+					menuPopup.hide();
+	                
+                }});
 			menuPopup.add(dropMenu);
 			menuPopup.addAutoHidePartner(drop.getElement());
 			menuPopup.getElement().getStyle().setPadding(0, Unit.PX);

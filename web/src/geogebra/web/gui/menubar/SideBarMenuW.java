@@ -14,10 +14,12 @@ public class SideBarMenuW extends VerticalPanel {
 	private OptionsMenuW optionsMenu;
 	private EditMenuW editMenu;
 	private PerspectivesMenuW perspectivesMenu;
+	private Runnable closeCallback;
 
-	public SideBarMenuW(AppW app) {
+	public SideBarMenuW(AppW app, Runnable closeCallback) {
 
 		this.app = app;
+		this.closeCallback = closeCallback;
 		createFileMenu();
 		createPerspectivesMenu();
 		createEditMenu();
@@ -44,7 +46,7 @@ public class SideBarMenuW extends VerticalPanel {
 	
 	
 	private void createFileMenu() {
-		fileMenu = new FileMenuW(app, true);
+		fileMenu = new FileMenuW(app, true, closeCallback);
 		//add(fileMenu);
 	}
 
