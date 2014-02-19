@@ -1,11 +1,11 @@
 package geogebra.touch.gui.elements.stylebar;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.html5.gui.FastButton;
@@ -20,6 +20,8 @@ import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.StyleBarDefaultSettings;
+
+import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -53,7 +55,8 @@ public class StyleBar extends FlowPanel {
 	 * Initializes the StyleBar
 	 * 
 	 */
-	public StyleBar(final TouchModel touchModel, final EuclidianViewT view,TabletGUI gui) {
+	public StyleBar(final TouchModel touchModel, final EuclidianViewT view,
+			TabletGUI gui) {
 		this.setStyleName("stylebar");
 		this.gui = gui;
 		this.euclidianView = view;
@@ -128,20 +131,29 @@ public class StyleBar extends FlowPanel {
 
 		if (entry == StyleBarDefaultSettings.Move
 				&& this.touchModel.getTotalNumber() > 0) {
-			GeoElement geo = this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog();
-			color = geo.getObjectColor().toString();
-			if (geo instanceof GeoAxis) {
-				resource = StyleBarDefaultSettings.Move.getOptions();
-			} else if (geo instanceof GeoPointND) {
-				resource = StyleBarDefaultSettings.Point.getOptions();
-			} else if (geo instanceof GeoAngle) {
-				resource = StyleBarDefaultSettings.Angle.getOptions();
-			} else if (geo.showLineProperties()) {
-				resource = StyleBarDefaultSettings.Line.getOptions();
-			} else if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
-				resource = StyleBarDefaultSettings.Polygon.getOptions();
+			ArrayList<OptionType> list = new ArrayList<OptionType>();
+			color = this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog().getObjectColor()
+					.toString();
+
+			for (GeoElement g : this.touchModel.getSelectedGeos()) {
+				GeoElement geo = g.getGeoElementForPropertiesDialog();
+
+				if (geo instanceof GeoPointND) {
+					addToList(list, StyleBarDefaultSettings.Point.getOptions());
+				} else if (geo instanceof GeoAngle) {
+					addToList(list, StyleBarDefaultSettings.Angle.getOptions());
+				} else if (geo instanceof GeoLine && !(geo instanceof GeoAxis)) {
+					addToList(list, StyleBarDefaultSettings.Line.getOptions());
+				} else if (geo instanceof GeoPolygon) {
+					addToList(list,
+							StyleBarDefaultSettings.Polygon.getOptions());
+				}
+			}
+
+			if (list.size() > 0) {
+				// occurs e.g. if only the axes are selected
+				resource = list.toArray(new OptionType[list.size()]);
 			}
 		}
 
@@ -150,7 +162,7 @@ public class StyleBar extends FlowPanel {
 
 		for (OptionType option : resource) {
 			final FastButton b;
-			switch(option){
+			switch (option) {
 			case Color:
 				b = new StandardButton(lafIcons.color());
 				b.getElement().getStyle().setBackgroundImage("initial");
@@ -186,17 +198,7 @@ public class StyleBar extends FlowPanel {
 								OptionType.CaptionStyle);
 					}
 				});
-				// only show "label" in special cases
-				final int cmd = this.touchModel.getCommand().getMode();
-				if (cmd == EuclidianConstants.MODE_MOVE
-						|| cmd == EuclidianConstants.MODE_POINT
-						|| cmd == EuclidianConstants.MODE_INTERSECT
-						|| cmd == EuclidianConstants.MODE_MIDPOINT
-						|| cmd == EuclidianConstants.MODE_POINT_ON_OBJECT
-						|| cmd == EuclidianConstants.MODE_COMPLEX_NUMBER
-						|| cmd == EuclidianConstants.MODE_SLIDER) {
-					this.styleButtonsPanel.add(b);
-				}
+				this.styleButtonsPanel.add(b);
 				break;
 			case Axes:
 				b = this.createStyleBarButton("showAxes",
@@ -228,11 +230,12 @@ public class StyleBar extends FlowPanel {
 			case ToolBar:
 				break;
 			case StandardView:
-				b = this.createStyleBarButton("standardView", lafIcons.standardView());
+				b = this.createStyleBarButton("standardView",
+						lafIcons.standardView());
 				this.styleButtonsPanel.add(b);
 				break;
-			case PointCaputuringType: 
-				b = new StandardButton(lafIcons.pointCapturing()); 
+			case PointCaputuringType:
+				b = new StandardButton(lafIcons.pointCapturing());
 				b.addFastClickHandler(new FastClickHandler() {
 					@Override
 					public void onClick() {
@@ -244,7 +247,15 @@ public class StyleBar extends FlowPanel {
 				break;
 			default:
 				break;
+			}
 		}
+	}
+
+	private static <T> void addToList(ArrayList<T> a, T[] obj) {
+		for (T t : obj) {
+			if (!a.contains(t)) {
+				a.add(t);
+			}
 		}
 	}
 
@@ -296,7 +307,7 @@ public class StyleBar extends FlowPanel {
 
 		if (this.guiModel.getCommand().getStyleBarEntries() != null) {
 			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
-			if(this.gui.isRTL()){
+			if (this.gui.isRTL()) {
 				this.gui.getEuclidianViewPanel().adjustRightWidget();
 			}
 			this.setVisible(true);
@@ -325,7 +336,7 @@ public class StyleBar extends FlowPanel {
 
 			this.styleButtonsPanel.setVisible(true);
 		}
-		if(this.gui.isRTL()){
+		if (this.gui.isRTL()) {
 			this.gui.getEuclidianViewPanel().adjustRightWidget();
 		}
 	}
@@ -348,8 +359,9 @@ public class StyleBar extends FlowPanel {
 	}
 
 	void updateColor(final String color) {
-		if(this.colorButton != null){
-			this.colorButton.getElement().getStyle().setBackgroundImage("initial");
+		if (this.colorButton != null) {
+			this.colorButton.getElement().getStyle()
+					.setBackgroundImage("initial");
 			this.colorButton.getElement().getStyle().setBackgroundColor(color);
 		}
 	}

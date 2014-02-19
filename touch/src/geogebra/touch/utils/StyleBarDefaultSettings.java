@@ -6,13 +6,13 @@ import geogebra.common.main.GeoGebraColorConstants;
 public enum StyleBarDefaultSettings {
 
 	Point(GColor.blue, new OptionType[] { OptionType.Color,
-			OptionType.PointStyle, OptionType.CaptionStyle }),
+			OptionType.CaptionStyle, OptionType.PointStyle }),
 
 	PointOnObject(GeoGebraColorConstants.LIGHTBLUE, new OptionType[] {
-			OptionType.Color, OptionType.PointStyle, OptionType.CaptionStyle }),
+			OptionType.Color, OptionType.CaptionStyle, OptionType.PointStyle }),
 
 	DependentPoints(GColor.darkGray, new OptionType[] { OptionType.Color,
-			OptionType.PointStyle, OptionType.CaptionStyle }),
+			OptionType.CaptionStyle, OptionType.PointStyle }),
 
 	Line(GColor.black, new OptionType[] { OptionType.Color,
 			OptionType.CaptionStyle, OptionType.LineStyle }),

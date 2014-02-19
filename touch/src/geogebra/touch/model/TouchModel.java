@@ -2033,6 +2033,8 @@ public class TouchModel {
 			return;
 		}
 
+		this.toSelect = null;
+
 		this.resetSelection();
 		this.command = cmd;
 		this.createPreviewObject(false);

@@ -97,6 +97,8 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 			return;
 		}
 
+		this.model.setToSelect(null);
+
 		this.model.handleEvent(hits, null, null);
 	}
 
