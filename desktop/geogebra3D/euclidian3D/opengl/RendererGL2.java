@@ -1,14 +1,14 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.Hits3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 
 import java.awt.Dimension;
 import java.nio.ByteBuffer;
@@ -27,6 +27,9 @@ public class RendererGL2 extends RendererD {
 
 	// openGL variables
 	protected GLU glu = new GLU();
+	
+
+	protected IntBuffer selectBuffer;
 
 	/**
 	 * Constructor
@@ -99,8 +102,7 @@ public class RendererGL2 extends RendererD {
 		resetMatrix();
 	}
 
-	@Override
-	protected IntBuffer createSelectBufferForPicking(int bufSize) {
+	private IntBuffer createSelectBufferForPicking(int bufSize) {
 		// Set Up the Selection Buffer
 		// Application.debug(bufSize);
 		IntBuffer ret = RendererJogl.newIntBuffer(bufSize);
@@ -174,6 +176,18 @@ public class RendererGL2 extends RendererD {
 		// set the scene matrix
 		jogl.getGL2().glPushMatrix();
 		jogl.getGL2().glLoadMatrixd(view3D.getToScreenMatrix().get(), 0);
+	}
+	
+	/**
+	 * returns the depth between 0 and 2, in double format, from an integer
+	 * offset lowest is depth, nearest is the object
+	 * 
+	 * @param ptr
+	 *            the integer offset
+	 * */
+	private final static float getDepth(int ptr, IntBuffer selectBuffer) {
+
+		return (float) (selectBuffer.get(ptr) & 0xffffffffL) / 0x7fffffff;
 	}
 
 	@Override

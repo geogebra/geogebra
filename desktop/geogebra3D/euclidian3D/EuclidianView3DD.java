@@ -2,6 +2,10 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.EuclidianStyleBar;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianControllerListeners;
@@ -13,9 +17,6 @@ import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererGL2;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -475,6 +476,11 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 		((RendererD) getRenderer()).needExportImage();
 
 		return ((RendererD) getRenderer()).getExportImage();
+	}
+	
+	@Override
+	protected EuclidianStyleBar newEuclidianStyleBar() {
+		return new EuclidianStyleBar3D(this);
 	}
 
 	

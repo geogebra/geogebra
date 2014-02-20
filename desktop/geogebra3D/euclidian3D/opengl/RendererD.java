@@ -1,14 +1,14 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -434,8 +434,8 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     }
     
     @Override
-	public void textureImage2D(int sizeX, int sizeY, ByteBuffer buf){
-    	getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
+	public void textureImage2D(int sizeX, int sizeY, byte[] buf){
+    	getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, ByteBuffer.wrap(buf));
 		 
     }
     

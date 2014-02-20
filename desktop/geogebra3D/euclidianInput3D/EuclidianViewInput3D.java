@@ -2,6 +2,9 @@ package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -9,9 +12,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianView3DD;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 /**
  * EuclidianView3D with controller using 3D input

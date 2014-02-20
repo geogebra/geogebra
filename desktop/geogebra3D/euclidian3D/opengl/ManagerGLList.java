@@ -1,11 +1,11 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;

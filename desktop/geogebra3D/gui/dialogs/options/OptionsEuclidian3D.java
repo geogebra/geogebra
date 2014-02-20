@@ -1,6 +1,7 @@
 package geogebra3D.gui.dialogs.options;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
@@ -9,7 +10,6 @@ import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.main.AppD;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

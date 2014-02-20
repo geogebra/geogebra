@@ -2,6 +2,7 @@ package geogebra3D.euclidianInput3D;
 
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -11,7 +12,6 @@ import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.AWTException;
 import java.awt.Component;

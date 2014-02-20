@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
@@ -8,7 +9,6 @@ import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Dimension;
 import java.awt.Point;

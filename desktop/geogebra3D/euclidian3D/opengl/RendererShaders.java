@@ -3,13 +3,13 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.Hits3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,7 +17,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import javax.media.opengl.GL;
@@ -285,16 +284,14 @@ public class RendererShaders extends RendererD {
     	//jogl.getGL2ES2().glUniform1i(jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
     	//getGL().glActiveTexture(GLlocal.GL_TEXTURE0);
 
-    	java.nio.ByteBuffer buffer = java.nio.ByteBuffer.allocate(6);
-    	/*
-    	for (int i = 0; i < 6; i++){
-    		buffer.put((byte) 127);
-    	}*/
-       	buffer.put((byte) 255);buffer.put((byte) 255);buffer.put((byte) 255);
-       	buffer.put((byte) 0);buffer.put((byte) 0);buffer.put((byte) 0);
+
+       	
+       	byte[] bytes = new byte[]{
+       			(byte) 255, (byte) 255, (byte) 255, 
+       			(byte) 0, (byte) 0, (byte) 0
+       	};
            	
-    	buffer.rewind();
-    	int texture = getTextures().createAlphaTexture(2, 2, buffer);
+    	int texture = getTextures().createAlphaTexture(2, 2, bytes);
     	
 
     	getGL().glEnable(GLlocal.GL_TEXTURE_2D);  
@@ -1013,12 +1010,6 @@ public class RendererShaders extends RendererD {
 
 
 
-
-	@Override
-	protected IntBuffer createSelectBufferForPicking(int bufSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

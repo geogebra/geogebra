@@ -15,11 +15,11 @@ package geogebra3D.euclidian3D;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.euclidian.EuclidianControllerListeners;
 import geogebra.main.AppD;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 
 import java.awt.Component;
 import java.awt.event.ComponentEvent;

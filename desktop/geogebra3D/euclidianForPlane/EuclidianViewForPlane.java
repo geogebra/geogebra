@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -24,7 +25,6 @@ import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 
 import java.util.ArrayList;

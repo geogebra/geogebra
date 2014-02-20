@@ -1,13 +1,13 @@
 package geogebra3D.gui.dialogs;
 
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.gui.dialog.InputDialogRotate;
 import geogebra.main.AppD;
-import geogebra3D.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 
 public class InputDialogRotateAxis extends InputDialogRotate {
 
