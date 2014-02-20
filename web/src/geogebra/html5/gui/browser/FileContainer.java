@@ -77,7 +77,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		
 		//TODO: Only visible if user is logged in with google Account
 		locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
-		providers.add(locationSkyDrive);
+		//providers.add(locationSkyDrive);
 		
 		//Set Tube as the active on
 		locationTube.addStyleName("selected");

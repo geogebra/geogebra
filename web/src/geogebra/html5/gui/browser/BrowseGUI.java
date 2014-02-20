@@ -72,14 +72,8 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	}
 
 	private void addHeader() {
-		this.header = new BrowseHeaderPanel(app.getLocalization(),this,app.getNetworkOperation());
-		//Steffi: Search is in SearchPanel now!
-		/*this.header.addSearchListener(new SearchListener() {
-			@Override
-			public void onSearch(final String query) {
-				BrowseGUI.this.displaySearchResults(query);
-			}
-		});*/
+		this.header = new BrowseHeaderPanel(app, this,app.getNetworkOperation());
+		
 		this.setHeaderWidget(this.header);
 		this.addResizeListener(this.header);
 	}
