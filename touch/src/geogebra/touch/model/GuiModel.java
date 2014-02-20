@@ -183,14 +183,25 @@ public class GuiModel {
 		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
 				.getCommand().getMode()))) {
 			// Commands that have a default GeoElement
-			getDefaultGeo(this.touchModel.getCommand().getMode()).setLabelMode(
-					i - 1);
+			GeoElement geo = getDefaultGeo(this.touchModel.getCommand().getMode());
+			if(i == 0){
+				geo.setLabelVisible(false);
+			} else {
+				geo.setLabelVisible(true);
+				geo.setLabelMode(i - 1);
+			}
 		} else if (this.touchModel.getCommand().getMode() == 0) {
 			// Move
 			ConstructionDefaults cd = this.touchModel.getKernel()
 					.getConstruction().getConstructionDefaults();
 			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
-				cd.getDefaultGeo(cd.getDefaultType(geo)).setLabelMode(i - 1);
+				GeoElement g = cd.getDefaultGeo(cd.getDefaultType(geo));
+				if(i == 0){
+					g.setLabelVisible(false);
+				} else {
+					g.setLabelVisible(true);
+					g.setLabelMode(i - 1);
+				}
 			}
 		}
 

@@ -106,6 +106,8 @@ public class TouchApp extends AppWeb {
 
 		this.setFontSize(15);
 
+		this.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC);
+
 		if ("true".equals(RootPanel.getBodyElement().getAttribute(
 				"data-param-showLogging"))) {
 			Log.logger = new GeoGebraLogger();
@@ -207,7 +209,7 @@ public class TouchApp extends AppWeb {
 		setDefaultConstructionTitle();
 
 		this.settings.beginBatch();
-		this.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
+		this.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC);
 		getEuclidianView1().reset();
 		getEuclidianView1().setBackground(GColor.WHITE);
 		getEuclidianView1().setShowAxes(true, true);
