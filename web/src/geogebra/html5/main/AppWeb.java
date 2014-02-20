@@ -28,8 +28,6 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.events.NativeEventAttacher;
-import geogebra.common.move.events.OfflineEventPool;
-import geogebra.common.move.events.OnlineEventPool;
 import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.OfflineView;
@@ -806,9 +804,9 @@ public abstract class AppWeb extends App implements SetLabels{
 			};
 			
 			networkOperation = new NetworkOperation(network);
-			OfflineEventPool offlineEventPool = new OfflineEventPool(networkOperation);	
+			BaseEventPool offlineEventPool = new BaseEventPool(networkOperation, false);	
 			attacher.attach("offline", offlineEventPool);
-			OnlineEventPool onlineEventPool = new OnlineEventPool(networkOperation);	
+			BaseEventPool onlineEventPool = new BaseEventPool(networkOperation, true);	
 			attacher.attach("online", onlineEventPool);
 			OfflineView ov = new OfflineView();
 			networkOperation.setView(ov);

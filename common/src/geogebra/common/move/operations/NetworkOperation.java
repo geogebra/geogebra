@@ -39,7 +39,8 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	 * Sets the online state of the app (used from events)
 	 */
 	public void setOnline(boolean online) {
-		this.online = online;		
+		this.online = online;
+		((OfflineView) view).render(false);
 	}
 	
 	

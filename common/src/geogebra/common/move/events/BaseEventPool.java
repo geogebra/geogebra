@@ -1,50 +1,34 @@
 package geogebra.common.move.events;
 
-import geogebra.common.move.operations.BaseOperation;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import geogebra.common.move.operations.NetworkOperation;
 
 /**
  * @author gabor
  * Host for the Common event handling
  */
-public abstract class BaseEventPool {
-	
-	/**
-	 * list of events
-	 */
-	protected ArrayList<BaseEvent> eventList = null;
+public class BaseEventPool {
+
 	/**
 	 * operation of the given event
 	 */
-	protected BaseOperation operation = null;
+	protected NetworkOperation operation = null;
+	private boolean online;
 	
 	/**
 	 * Instantiates the Event handling Code
-	 * @param operation Operation for the given eventPool
+	 * @param op Operation for the given eventPool
+	 * @param online whether this should send online or offline events
 	 */
-	public BaseEventPool(BaseOperation op) {
+	public BaseEventPool(NetworkOperation op, boolean online) {
+		this.online = online;
 		operation = op;
 	}
 	
 	/**
 	 * run over the events, and triggers them.
 	 */
-	public void trigger() {
-		if (eventList != null) {
-			Iterator<BaseEvent> events = eventList.iterator();
-			while (events.hasNext()) {
-				events.next().trigger();
-			}
-		}
+	public void trigger(){
+		operation.setOnline(this.online);
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }
