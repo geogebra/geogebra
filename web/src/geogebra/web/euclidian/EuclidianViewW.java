@@ -5,7 +5,6 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
@@ -27,7 +26,6 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -45,8 +43,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianViewWeb {
@@ -507,58 +503,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	    }
     }
 	
-	protected class MyEuclidianViewPanel extends AbsolutePanel implements
-			EuclidianPanelWAbstract {
-
-			protected Canvas canvas;
-			private EuclidianView ev;
-
-			public MyEuclidianViewPanel(EuclidianView ev) {
-				super();
-				this.ev = ev;
-				createCanvas();
-				canvas.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-				canvas.getElement().getStyle().setZIndex(0);
-				add(canvas);
-
-			}
-			
-			/**
-			 * create the canvas
-			 */
-			protected void createCanvas(){
-				canvas = Canvas.createIfSupported();
-			}
-
-			public AbsolutePanel getAbsolutePanel() {
-				return this;
-			}
-
-			public Panel getEuclidianPanel() {
-				return this;
-			}
-
-			public Canvas getCanvas() {
-				return canvas;
-			}
-
-			public EuclidianView getEuclidianView() {
-
-				return ev;
-			}
-
-			public void onResize() {
-				//	ev.setCoordinateSpaceSizeDirectly(100, 100);
-			}
-
-			public void deferredOnResize() {
-			}
-
-			public void updateNavigationBar() {
-				// TODO Auto-generated method stub
-
-			}
-
-	}
+	
 	
 }

@@ -1,14 +1,22 @@
 package geogebra.geogebra3D.web.euclidian3D;
 
-import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GGraphics2D;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian3D.EuclidianView3DInterface;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
-import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.euclidian.MyZoomer;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.javax.swing.GBox;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelW3D;
-import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.euclidian.EuclidianPanelWAbstract;
+import geogebra.web.euclidian.MyEuclidianViewPanel;
 
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -18,15 +26,18 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mathieu
  *
  */
-public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DInterface{
+public class EuclidianViewW3D extends EuclidianView3D {
+	
+	protected EuclidianPanelWAbstract EVPanel;
 
 	/**
 	 * constructor
 	 * @param ec euclidian controller
 	 * @param settings euclidian settings
 	 */
-	public EuclidianViewW3D(EuclidianController ec, EuclidianSettings settings) {
+	public EuclidianViewW3D(EuclidianController3D ec, EuclidianSettings settings) {
 	    super(ec, settings);
+	    
     }
 	
 	
@@ -38,120 +49,6 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 	    return EVPanel.getAbsolutePanel();
     }
 	
-	
-
-	////////////////////////////////////////////////////////////
-	// EuclidianView3DInterface
-	////////////////////////////////////////////////////////////
-
-	@Override
-    public void setClosestRotAnimation(Coords v) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public double getZmin() {
-	    // TODO Auto-generated method stub
-	    return -2;
-    }
-
-	@Override
-    public double getZmax() {
-	    // TODO Auto-generated method stub
-	    return 2;
-    }
-
-	@Override
-    public GeoPlane3D getxOyPlane() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public void setUseClippingCube(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setShowClippingCube(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setClippingReduction(int value) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setProjection(int projection) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setShowGrid(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setShowPlane(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setShowPlate(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setScale(double val) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setRotXYinDegrees(double a, double b) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setZeroFromXML(double x, double y, double z) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void updateMatrix() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setViewChanged() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setWaitForUpdate() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setYAxisVertical(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	
 	
 	
@@ -177,7 +74,6 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 	
 
 	
-	@Override
     protected MyEuclidianViewPanel newMyEuclidianViewPanel(){
 		return new MyEuclidianViewPanel3D(this);
 	}
@@ -219,6 +115,226 @@ public class EuclidianViewW3D extends EuclidianViewW implements EuclidianView3DI
 		}
 		
 	}
+
+	public void repaint() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	public GColor getBackgroundCommon() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+
+
+	public void setToolTipText(String plainTooltip) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	public boolean hasFocus() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+
+	public void requestFocus() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	public int getWidth() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+
+
+	public int getHeight() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+
+
+	public boolean isShowing() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+
+	@Override
+    protected void createPanel() {
+		EVPanel = newMyEuclidianViewPanel();
+    }
+
+
+
+	@Override
+    protected Renderer createRenderer() {
+	    return new RendererW(this);
+    }
+
+
+
+	@Override
+    protected boolean getShiftDown() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+
+	@Override
+    protected void setDefault2DCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+
+
+	@Override
+    public GFont getFont() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+
+
+	@Override
+    protected void setHeight(int h) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected void setWidth(int h) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected void setStyleBarMode(int mode) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected void updateSizeKeepDrawables() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public boolean requestFocusInWindow() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+
+	@Override
+    public void paintBackground(GGraphics2D g2) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected void drawActionObjects(GGraphics2D g) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected void setAntialiasing(GGraphics2D g2) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public void setBackground(GColor bgColor) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public void setPreferredSize(GDimension preferredSize) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected MyZoomer newZoomer() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+
+
+	@Override
+    public void add(GBox box) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public void remove(GBox box) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public void setTransparentCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    protected EuclidianStyleBar newEuclidianStyleBar() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 	
 }
