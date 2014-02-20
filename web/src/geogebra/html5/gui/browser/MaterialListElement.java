@@ -41,13 +41,14 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private StandardButton cancel;
 	private boolean isSelected = false;
 
-	
+	//TODO: Translate Insert Worksheet and Edit
 	private final StandardButton openButton = new StandardButton(
-			BrowseResources.INSTANCE.document_viewer());
+			BrowseResources.INSTANCE.document_viewer(), "Insert Worksheet");
 	private final StandardButton editButton = new StandardButton(
-			BrowseResources.INSTANCE.document_edit());
-	private final StandardButton deleteButton = new StandardButton(
-			BrowseResources.INSTANCE.dialog_cancel());
+			BrowseResources.INSTANCE.document_edit(), "Edit");
+	//Steffi: Delete not needed here
+	/*private final StandardButton deleteButton = new StandardButton(
+			BrowseResources.INSTANCE.dialog_cancel());*/
 	private BrowseGUI bg;
 
 	MaterialListElement(final Material m, final AppWeb app, BrowseGUI bg) {
@@ -58,7 +59,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.setStyleName("browserFile");
 
 		this.initButtons();
-		this.initConfirmDeletePanel();
+		/*this.initConfirmDeletePanel();*/
 		this.initMaterialInfos();
 
 		final VerticalPanel centeredContent = new VerticalPanel();
@@ -137,7 +138,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.infos.add(this.date);
 	}
 
-	private void initConfirmDeletePanel() {
+	/*private void initConfirmDeletePanel() {
 		this.confirm = new StandardButton(this.app.getLocalization().getPlain(
 				"Delete"));
 		this.confirm.addStyleName("confirmButton");
@@ -167,7 +168,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.confirmDeletePanel.add(this.cancel);
 		this.confirmDeletePanel.setStyleName("confirmDelete");
 		this.confirmDeletePanel.setVisible(false);
-	}
+	}*/
 
 	public String getMaterialTitle() {
 		return this.material.getTitle();
@@ -185,15 +186,16 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		
 		this.links.add(arrowPanel);
 
-		this.initOpenButton();
 		this.initEditButton();
+		this.initOpenButton();
 		// remote material should not have this visible
-		if (this.isLocalFile()) {
+		/*if (this.isLocalFile()) {
 			this.initDeleteButton();
-		}
+		}*/
 	}
 
-	private void initDeleteButton() {
+	// Steffi: Delete not needed here
+	/*private void initDeleteButton() {
 
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
@@ -204,12 +206,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				onDelete();
 			}
 		});
-	}
+	}*/
 
-	void onDelete() {
+	/*void onDelete() {
 		this.confirmDeletePanel.setVisible(true);
 		this.links.setVisible(false);
-	}
+	}*/
 
 	private void initEditButton() {
 		this.links.add(this.editButton);
@@ -254,7 +256,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		bg.unselectMaterials();
 		this.addStyleName("selected");
 		this.links.setVisible(true);
-		this.confirmDeletePanel.setVisible(false);
+		//this.confirmDeletePanel.setVisible(false);
 		bg.rememberSelected(this);
 	}
 
@@ -264,14 +266,14 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	void onCancel() {
 		this.links.setVisible(true);
-		this.confirmDeletePanel.setVisible(false);
+		/*this.confirmDeletePanel.setVisible(false);*/
 	}
 
 	public void markUnSelected() {
 		this.isSelected = false;
 		this.removeStyleName("selected");
 		this.links.setVisible(false);
-		this.confirmDeletePanel.setVisible(false);
+		/*this.confirmDeletePanel.setVisible(false);*/
 	}
 
 	void setLabels() {

@@ -4,9 +4,7 @@ import geogebra.common.main.Localization;
 import geogebra.html5.gui.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Common superclass for worksheet and browse GUIs
@@ -18,8 +16,8 @@ class AuxiliaryHeaderPanel extends FlowPanel {
 
 	protected final StandardButton backButton;
 	private FlowPanel backPanel;
-	protected HorizontalPanel searchPanel;
-	protected VerticalPanel rightPanel;
+	/*protected HorizontalPanel searchPanel;*/
+	protected FlowPanel rightPanel;
 	private final Label headerText;
 
 	protected final Localization loc;
@@ -34,7 +32,7 @@ class AuxiliaryHeaderPanel extends FlowPanel {
 		this.backPanel.setStyleName("headerFirst");
 		this.backPanel.add(this.backButton);
 
-		this.rightPanel = new VerticalPanel();
+		this.rightPanel = new FlowPanel();
 		this.rightPanel.setStyleName("headerSecond");
 
 		//this.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);

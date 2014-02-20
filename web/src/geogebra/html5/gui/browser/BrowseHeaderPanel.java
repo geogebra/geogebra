@@ -7,6 +7,8 @@ import geogebra.html5.gui.ResizeListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		ResizeListener {
@@ -25,6 +27,12 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	
 	private FlowPanel signInPanel;
 	private Button signInButton;
+	
+	private FlowPanel profilePanel;
+	private Image profileImage;
+	private Label userName;
+	private FlowPanel userPanel;
+	private Image optionsArrow;
 
 	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI,
 			NetworkOperation op) {
@@ -42,10 +50,32 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 		//TODO: Make sign in
 		this.signInPanel = new FlowPanel();
+		
+		//TODO: Insert in rightPanel if NOT SIGNED IN
 		//TODO: Translate Sign in
 		this.signInButton = new Button("Sign in");
 		this.signInPanel.add(this.signInButton);
-		this.rightPanel.add(this.signInPanel);
+		//this.rightPanel.add(this.signInPanel);
+		
+		//TODO: Insert in rightPanel if SIGNED IN
+		this.profilePanel = new FlowPanel();
+		this.profilePanel.setStyleName("profilePanel");
+		this.userPanel = new FlowPanel();
+		this.userPanel.setStyleName("userPanel");
+		this.userName = new Label("Steffi");
+		this.optionsArrow = new Image(BrowseResources.INSTANCE.arrow_options());
+		this.optionsArrow.setStyleName("optionsArrow");
+		this.userPanel.add(this.userName);
+		this.userPanel.add(this.optionsArrow);
+		this.profilePanel.add(this.userPanel);
+		
+		this.profileImage = new Image(BrowseResources.INSTANCE.user_image());
+		this.profileImage.setStyleName("profileImage");
+		this.profilePanel.add(this.profileImage);
+		
+		this.rightPanel.add(this.profilePanel);
+		
+		this.add(this.rightPanel);
 		
 		//TODO: Set correct text
 		this.setText("GeoGebraTube");

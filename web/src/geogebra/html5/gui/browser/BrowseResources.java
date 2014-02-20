@@ -38,5 +38,11 @@ public interface BrowseResources extends ClientBundle {
 	
 	@Source("icons/png/web/arrow-submenu-left.png")
 	ImageResource arrow_submenu();
+	
+	@Source("icons/png/web/profile-options-arrow.png")
+	ImageResource arrow_options();
+	
+	@Source("icons/png/web/user-profile-image.png")
+	ImageResource user_image();
 
 }
