@@ -1024,7 +1024,7 @@ __GGB__keysVar.es_UY.command = {
 
 __GGB__keysVar.es_UY.error = {
     "AngleMustBeConstant": "Cada \xe1ngulo debe ser constante.",
-    "AppletWindowClosing": "Para salir de GeoGebra, se debe cerrar ls ventana del navegador",
+    "AppletWindowClosing": "Para salir de GeoGebra, debe cerrarse ls ventana del navegador",
     "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
     "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito",
     "AssignmentToFixed": "Los objetos fijos no pueden modificarse",
