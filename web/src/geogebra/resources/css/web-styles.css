@@ -2308,13 +2308,13 @@ body[dir=rtl] .GeoGebraMenuBar table{
 }
 
 .elemHeadingName {
-	padding: 15px 30px 15px 5px;
+	padding: 10px 10px 10px 23px;
 }
 
 .algebraOpenButton {
 	position: absolute;
-	top: 8px;
-	right: 0px;
+	top: 12px;
+	left: 0px;
 }
 
 .marble {

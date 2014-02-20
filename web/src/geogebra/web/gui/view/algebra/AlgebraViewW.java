@@ -422,8 +422,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			        "inline-block");
 		} else {
 			ti.setWidget(new GroupHeader(
-					this.app.getSelectionManager(), ti, ob.toString(),GuiResources.INSTANCE.algebra_down().getSafeUri(),
-					GuiResources.INSTANCE.algebra_left().getSafeUri()));
+					this.app.getSelectionManager(), ti, ob.toString(),GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
+					GuiResources.INSTANCE.algebra_tree_closed().getSafeUri()));
 		}
 	}	
 

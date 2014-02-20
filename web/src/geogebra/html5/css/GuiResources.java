@@ -27,11 +27,11 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/images/spacer.png")
 	ImageResource spacer();
 	
-	@Source("geogebra/resources/images/arrow_dockbar_triangle_down.png")
-	ImageResource algebra_down();
+	@Source("icons/png/web/algebra-view-tree-open.png")
+	ImageResource algebra_tree_open();
 	
-	@Source("geogebra/resources/images/arrow_dockbar_triangle_left.png")
-	ImageResource algebra_left();
+	@Source("icons/png/web/algebra-view-tree-closed.png")
+	ImageResource algebra_tree_closed();
 	
 	@Source("geogebra/resources/images/triangle-down.png")
 	ImageResource triangle_down();

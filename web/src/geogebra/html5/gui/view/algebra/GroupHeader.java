@@ -17,8 +17,8 @@ public class GroupHeader extends FlowPanel{
 		
 		this.setStyleName("elemHeading");
 		
-		this.add(il = new GroupNameLabel(selection,parent,strlab));
 		add(new OpenButton(showUrl,hiddenUrl,parent));
+		this.add(il = new GroupNameLabel(selection,parent,strlab));
 	}
 	
 	public class OpenButton extends SimplePanel
