@@ -1,6 +1,6 @@
 package geogebra.geogebra3D.web.gui;
 
-import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelW3D;
+import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -9,13 +9,13 @@ import geogebra.web.main.AppW;
  * @author mathieu
  *
  */
-public class GuiManagerW3D extends GuiManagerW {
+public class GuiManager3DW extends GuiManagerW {
 
 	/**
 	 * constructor
 	 * @param app application
 	 */
-	public GuiManagerW3D(AppW app) {
+	public GuiManager3DW(AppW app) {
 	    super(app);
     }
 
@@ -24,7 +24,7 @@ public class GuiManagerW3D extends GuiManagerW {
     protected boolean initLayoutPanels() {
 
 		if (super.initLayoutPanels()){
-			layout.registerPanel(new EuclidianDockPanelW3D((AppW) app));
+			layout.registerPanel(new EuclidianDockPanel3DW((AppW) app));
 			return true;
 		}
 		

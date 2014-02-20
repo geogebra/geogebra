@@ -60,7 +60,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
-public class EuclidianControllerW3D extends EuclidianController3D implements MouseDownHandler, MouseUpHandler, 
+public class EuclidianController3DW extends EuclidianController3D implements MouseDownHandler, MouseUpHandler, 
 MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, TouchStartHandler, TouchEndHandler, 
 TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets, IsEuclidianController {
 
@@ -162,7 +162,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 	}
 	
-	public EuclidianControllerW3D(Kernel kernel) {
+	public EuclidianController3DW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
 

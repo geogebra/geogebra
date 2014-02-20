@@ -14,7 +14,7 @@ import geogebra.common.javax.swing.GBox;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
-import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelW3D;
+import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
 
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mathieu
  *
  */
-public class EuclidianViewW3D extends EuclidianView3D {
+public class EuclidianView3DW extends EuclidianView3D {
 	
 	protected EuclidianPanelWAbstract EVPanel;
 
@@ -35,7 +35,7 @@ public class EuclidianViewW3D extends EuclidianView3D {
 	 * @param ec euclidian controller
 	 * @param settings euclidian settings
 	 */
-	public EuclidianViewW3D(EuclidianController3D ec, EuclidianSettings settings) {
+	public EuclidianView3DW(EuclidianController3D ec, EuclidianSettings settings) {
 	    super(ec, settings);
 	    
     }
@@ -62,13 +62,13 @@ public class EuclidianViewW3D extends EuclidianView3D {
 	/**
 	 * current dockPanel (if exists)
 	 */
-	EuclidianDockPanelW3D dockPanel = null;
+	EuclidianDockPanel3DW dockPanel = null;
 	
 	/**
 	 * 
 	 * @param dockPanel current dockPanel (if exists)
 	 */
-	public void setDockPanel(EuclidianDockPanelW3D dockPanel){
+	public void setDockPanel(EuclidianDockPanel3DW dockPanel){
 		this.dockPanel = dockPanel;
 	}
 	

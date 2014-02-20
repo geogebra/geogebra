@@ -3,10 +3,10 @@ package geogebra.geogebra3D.web.main;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.geogebra3D.web.euclidian3D.EuclidianControllerW3D;
-import geogebra.geogebra3D.web.euclidian3D.EuclidianViewW3D;
-import geogebra.geogebra3D.web.gui.GuiManagerW3D;
-import geogebra.geogebra3D.web.kernel3D.KernelW3D;
+import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
+import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
+import geogebra.geogebra3D.web.gui.GuiManager3DW;
+import geogebra.geogebra3D.web.kernel3D.Kernel3DW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -25,8 +25,8 @@ import com.google.gwt.user.client.Command;
 public class AppWapplication3D extends AppWapplication {
 	
 	
-	private EuclidianViewW3D euclidianView3D;
-	private EuclidianControllerW3D euclidianController3D;
+	private EuclidianView3DW euclidianView3D;
+	private EuclidianController3DW euclidianController3D;
 
 	/**
 	 * constructor
@@ -41,7 +41,7 @@ public class AppWapplication3D extends AppWapplication {
 	
 	@Override
     protected Kernel newKernel(App this_app){
-		return new KernelW3D(this_app);
+		return new Kernel3DW(this_app);
 	}
 	
 
@@ -60,15 +60,15 @@ public class AppWapplication3D extends AppWapplication {
     public void initEuclidianViews() {
 
 		super.initEuclidianViews();
-		euclidianController3D = new EuclidianControllerW3D(kernel);
-		euclidianView3D = new EuclidianViewW3D(euclidianController3D, null);
+		euclidianController3D = new EuclidianController3DW(kernel);
+		euclidianView3D = new EuclidianView3DW(euclidianController3D, null);
 
 	}
 	
 	
 	@Override
     protected GuiManagerW newGuiManager() {
-		return new GuiManagerW3D(this);
+		return new GuiManager3DW(this);
 	}
 
 

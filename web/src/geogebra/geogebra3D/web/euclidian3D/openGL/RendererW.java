@@ -5,7 +5,7 @@ import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.geogebra3D.web.euclidian3D.EuclidianViewW3D;
+import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 
 /**
  * class for web openGL renderer
@@ -18,7 +18,7 @@ public class RendererW extends Renderer{
 	 * constructor
 	 * @param view 3D view
 	 */
-	public RendererW(EuclidianViewW3D view) {
+	public RendererW(EuclidianView3DW view) {
 	    super(view);
 
     }

@@ -9,14 +9,14 @@ import geogebra.web.kernel.KernelW;
  * @author mathieu
  *
  */
-public class KernelW3D extends Kernel3D{
+public class Kernel3DW extends Kernel3D{
 
 
 	/**
 	 * constructor
 	 * @param app application
 	 */
-	public KernelW3D(App app) {
+	public Kernel3DW(App app) {
 	    super(app);
 		MAX_SPREADSHEET_COLUMNS_VISIBLE = KernelW.MAX_SPREADSHEET_COLUMNS_VISIBLE_WEB;
 		MAX_SPREADSHEET_ROWS_VISIBLE = KernelW.MAX_SPREADSHEET_ROWS_VISIBLE_WEB;

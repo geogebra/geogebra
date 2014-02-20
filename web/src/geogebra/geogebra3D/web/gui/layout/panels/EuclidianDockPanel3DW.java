@@ -2,13 +2,13 @@ package geogebra.geogebra3D.web.gui.layout.panels;
 
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
-import geogebra.geogebra3D.web.euclidian3D.EuclidianViewW3D;
+import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianDockPanelW3D extends DockPanelW {
+public class EuclidianDockPanel3DW extends DockPanelW {
 
 	/**
 	 * default width of this panel
@@ -22,7 +22,7 @@ public class EuclidianDockPanelW3D extends DockPanelW {
 	 * @param app application
 	 * 
 	 */
-	public EuclidianDockPanelW3D(App app) {
+	public EuclidianDockPanel3DW(App app) {
 		super(
 				App.VIEW_EUCLIDIAN3D,	// view id 
 				"GraphicsView3D", 				// view title
@@ -41,7 +41,7 @@ public class EuclidianDockPanelW3D extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		EuclidianViewW3D view = (EuclidianViewW3D) app.getEuclidianView3D();
+		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.setDockPanel(this);
 		return view.getComponent();
 	}
@@ -54,7 +54,7 @@ public class EuclidianDockPanelW3D extends DockPanelW {
 	
 	@Override
 	protected Widget loadStyleBar() {
-		return (Widget) ((EuclidianViewW3D) app.getEuclidianView3D()).getStyleBar();
+		return (Widget) ((EuclidianView3DW) app.getEuclidianView3D()).getStyleBar();
 	}
 	
 
