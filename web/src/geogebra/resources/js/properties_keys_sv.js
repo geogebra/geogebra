@@ -2006,6 +2006,7 @@ __GGB__keysVar.sv.menu = {
     "ZoomIn_Help": "Klicka p\xe5 ritomr\xe5det f\xf6r att zooma in (anv\xe4nd mushjulet)",
     "ZoomOut": "Zooma ut",
     "ZoomOut_Help": "Klicka p\xe5 ritomr\xe5det f\xf6r att zooma ut (anv\xe4nd mushjulet)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Av",
     "on": "P\xe5",
 }

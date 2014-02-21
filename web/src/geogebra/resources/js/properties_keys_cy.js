@@ -2006,6 +2006,7 @@ __GGB__keysVar.cy.menu = {
     "ZoomIn_Help": "Cliciwch yn y wedd graffeg i chwyddo i mewn (olwyn y lygoden)",
     "ZoomOut": "Chwyddo allan",
     "ZoomOut_Help": "Clicio yn y wedd graffeg i chwyddo allan (olwyn y lygoden)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Diffodd",
     "on": "Ymlaen",
 }

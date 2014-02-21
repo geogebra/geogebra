@@ -2006,6 +2006,7 @@ __GGB__keysVar.sq.menu = {
     "ZoomIn_Help": "Kliko ne panelen e vizatimit per te bere zmadhim(me rrulin e miut)",
     "ZoomOut": "Zvogelo",
     "ZoomOut_Help": "Kliko ne panelen e vizatimit per te bere zvogelim(rruli i miut)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "JoAktiv",
     "on": "Aktiv",
 }

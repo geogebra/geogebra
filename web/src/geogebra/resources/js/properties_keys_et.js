@@ -2006,6 +2006,7 @@ __GGB__keysVar.et.menu = {
     "ZoomIn_Help": "Kl\xf5psake graafikavaatel (hiire kerimisnupp)",
     "ZoomOut": "V\xe4henda",
     "ZoomOut_Help": "Kl\xf5psake graafikavaatel (hiire kerimisnupp)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "V\xe4ljas",
     "on": "Sees",
 }

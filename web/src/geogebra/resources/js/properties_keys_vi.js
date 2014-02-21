@@ -2006,6 +2006,7 @@ __GGB__keysVar.vi.menu = {
     "ZoomIn_Help": "Ch\u1ecdn v\u1ecb tr\xed tr\xean v\xf9ng l\xe0m vi\u1ec7c \u0111\u1ec3 ph\xf3ng to",
     "ZoomOut": "Thu nh\u1ecf",
     "ZoomOut_Help": "Ch\u1ecdn v\u1ecb tr\xed tr\xean v\xf9ng l\xe0m vi\u1ec7c \u0111\u1ec3 thu nh\u1ecf",
+    "insert_worksheet": "Insert Worksheet",
     "off": "T\u1eaft",
     "on": "B\u1eadt",
 }

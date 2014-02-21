@@ -2006,6 +2006,7 @@ __GGB__keysVar.ms.menu = {
     "ZoomIn_Help": "Klik pada Paparan Grafik untuk zum masuk (Roda Tetikus)",
     "ZoomOut": "Zum Keluar",
     "ZoomOut_Help": "Klik pada Paparan Grafik untuk zum keluar (Roda Tetikus)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Padam",
     "on": "Pasang",
 }

@@ -2006,6 +2006,7 @@ __GGB__keysVar.sk.menu = {
     "ZoomIn_Help": "Kliknut\xedm na n\xe1kres\u0148u alebo ot\xe1\u010dan\xedm kolieska my\u0161i dozadu sa obraz zv\xe4\u010d\u0161uje.",
     "ZoomOut": "Zmen\u0161enie",
     "ZoomOut_Help": "Kliknut\xedm na n\xe1kres\u0148u alebo ot\xe1\u010dan\xedm kolieska my\u0161i dopredu sa obraz zmen\u0161uje.",
+    "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
     "off": "vypnut\xe9",
     "on": "zapnut\xe9",
 }

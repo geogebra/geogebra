@@ -2006,6 +2006,7 @@ __GGB__keysVar.nl.menu = {
     "ZoomIn_Help": "Klik in tekenvenster om in te zoomen (muiswiel)",
     "ZoomOut": "Uitzoomen",
     "ZoomOut_Help": "Klik in tekenvenster om uit te zoomen (muiswiel)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Uit",
     "on": "Aan",
 }

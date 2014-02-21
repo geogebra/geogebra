@@ -2006,6 +2006,7 @@ __GGB__keysVar.is.menu = {
     "ZoomIn_Help": "Smelli\xf0 \xe1 teiknibor\xf0 til a\xf0 \xfeysja inn (m\xfasarhj\xf3l)",
     "ZoomOut": "\xdeysja \xfat",
     "ZoomOut_Help": "Smelli\xf0 \xe1 teiknibor\xf0 til a\xf0 \xfeysja \xfat (m\xfasarhj\xf3l)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "af",
     "on": "\xe1",
 }

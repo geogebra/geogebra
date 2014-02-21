@@ -2006,6 +2006,7 @@ __GGB__keysVar.ca.menu = {
     "ZoomIn_Help": "Feu clic a la zona gr\xe0fica per apropar (o feu servir la roda del ratol\xed)",
     "ZoomOut": "Allunya",
     "ZoomOut_Help": "Feu clic a la zona gr\xe0fica per allunyar (o feu servir la roda del ratol\xed)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Inactiu",
     "on": "actiu",
 }

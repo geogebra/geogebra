@@ -2006,6 +2006,7 @@ __GGB__keysVar.fr.menu = {
     "ZoomIn_Help": "Cliquer dans Graphique pour agrandir (Raccourci=Molette de la souris)",
     "ZoomOut": "R\xe9duction",
     "ZoomOut_Help": "Cliquer dans Graphique pour r\xe9duire (Raccourci=Molette de la souris)",
+    "insert_worksheet": "Ins\xe9rer Feuille de travail",
     "off": "D\xe9sactiv\xe9e",
     "on": "Activ\xe9e",
 }

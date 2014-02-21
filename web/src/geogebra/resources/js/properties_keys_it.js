@@ -2006,6 +2006,7 @@ __GGB__keysVar.it.menu = {
     "ZoomIn_Help": "Fare clic sulla Vista Grafica per ingrandire (rotellina del mouse)",
     "ZoomOut": "Zoom indietro",
     "ZoomOut_Help": "Fare clic sulla Vista Grafica per rimpicciolire (rotellina del mouse)",
+    "insert_worksheet": "Inserisci il foglio di lavoro",
     "off": "Non attiva",
     "on": "Attiva",
 }

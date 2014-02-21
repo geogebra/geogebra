@@ -2006,6 +2006,7 @@ __GGB__keysVar.cs.menu = {
     "ZoomIn_Help": "Kliknout na n\xe1kresnu (u\u017e\xedt kole\u010dko my\u0161i)",
     "ZoomOut": "Zmen\u0161it",
     "ZoomOut_Help": "Kliknout na n\xe1kresnu (u\u017e\xedt kole\u010dko my\u0161i)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "vypnuto",
     "on": "zapnuto",
 }

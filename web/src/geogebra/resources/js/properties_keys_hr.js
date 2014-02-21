@@ -2006,6 +2006,7 @@ __GGB__keysVar.hr.menu = {
     "ZoomIn_Help": "Kliknite na grafi\u010dki prikaz ili okre\u0107ite kota\u010di\u0107 mi\u0161a",
     "ZoomOut": "Smanjenje",
     "ZoomOut_Help": "Kliknite na grafi\u010dki prikaz ili okre\u0107ite kota\u010di\u0107 mi\u0161a",
+    "insert_worksheet": "Insert Worksheet",
     "off": "isklju\u010deno",
     "on": "uklju\u010deno",
 }

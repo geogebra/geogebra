@@ -2006,6 +2006,7 @@ __GGB__keysVar.tl.menu = {
     "ZoomIn_Help": "I-click ang Graphics View para mag zoom in (Mouse Wheel)",
     "ZoomOut": "Zoom Out",
     "ZoomOut_Help": "I-click ang Graphics View para mag zoom out (Mouse Wheel)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Off",
     "on": "On",
 }

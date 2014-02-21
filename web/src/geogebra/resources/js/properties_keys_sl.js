@@ -2006,6 +2006,7 @@ __GGB__keysVar.sl.menu = {
     "ZoomIn_Help": "Klikni na risalni povr\u0161ini za pove\u010danje (mi\u0161kin kole\u0161\u010dek)",
     "ZoomOut": "Pomanj\u0161aj",
     "ZoomOut_Help": "Klikni na risalni povr\u0161ini za pomanj\u0161anje (mi\u0161kin kole\u0161\u010dek)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Izklju\u010deno",
     "on": "Vklju\u010deno",
 }

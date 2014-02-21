@@ -2006,6 +2006,7 @@ __GGB__keysVar.ko.menu = {
     "ZoomIn_Help": "\ud06c\uac8c\ubcf4\uae30 \uc704\ud558\uc5ec \uae30\ud558\ucc3d\uc744 \ud074\ub9ad\ud558\uc138\uc694 (\ub9c8\uc6b0\uc2a4 \ud720)",
     "ZoomOut": "\uc791\uac8c\ubcf4\uae30",
     "ZoomOut_Help": "\uc791\uac8c\ubcf4\uae30 \uc704\ud558\uc5ec \uae30\ud558\ucc3d\uc744 \ud074\ub9ad\ud558\uc138\uc694 (\ub9c8\uc6b0\uc2a4 \ud720)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "\uc0ac\uc6a9\uc548\ud568",
     "on": "\uc0ac\uc6a9",
 }

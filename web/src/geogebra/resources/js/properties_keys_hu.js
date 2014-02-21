@@ -2006,6 +2006,7 @@ __GGB__keysVar.hu.menu = {
     "ZoomIn_Help": "Rajzlapon kattint\xe1s a nagy\xedt\xe1shoz (eg\xe9r g\xf6rg\u0151)",
     "ZoomOut": "Kicsiny\xedt\xe9s",
     "ZoomOut_Help": "Rajzlapon kattint\xe1s a kicsiny\xedt\xe9shez (eg\xe9r g\xf6rg\u0151)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Ki",
     "on": "Be",
 }

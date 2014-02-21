@@ -2006,6 +2006,7 @@ __GGB__keysVar.tr.menu = {
     "ZoomIn_Help": "Yak\u0131nla\u015ft\u0131rmak i\xe7in \xe7izim tahtas\u0131na t\u0131klay\u0131n (Fare tekerle\u011fi)",
     "ZoomOut": "Uzakla\u015ft\u0131r",
     "ZoomOut_Help": "Uzakla\u015ft\u0131rmak i\xe7in \xe7izim tahtas\u0131na t\u0131klay\u0131n (Fare tekerle\u011fi)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Kapal\u0131",
     "on": "A\xe7\u0131k",
 }

@@ -2006,6 +2006,7 @@ __GGB__keysVar.da.menu = {
     "ZoomIn_Help": "Klik p\xe5 tegnefladen for at zoome ind (musens hjul)",
     "ZoomOut": "Formindsk",
     "ZoomOut_Help": "Klik p\xe5 tegnefladen for at zoome ud (musens hjul)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "fra",
     "on": "til",
 }

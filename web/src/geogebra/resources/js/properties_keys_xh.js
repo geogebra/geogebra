@@ -2006,6 +2006,7 @@ __GGB__keysVar.xh.menu = {
     "ZoomIn_Help": "Cofa kuMbonoWomfanekiso ukusondeza umfanekiso kwi (Ivili leMawusi)",
     "ZoomOut": "Nciphisa",
     "ZoomOut_Help": "Klikha kwiGraphics View ukuyenza ibencinci (iVili leMouse)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Icimile",
     "on": "Ilaytile",
 }

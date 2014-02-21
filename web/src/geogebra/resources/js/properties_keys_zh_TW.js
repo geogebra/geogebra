@@ -2006,6 +2006,7 @@ __GGB__keysVar.zh_TW.menu = {
     "ZoomIn_Help": "\u6309\u4e00\u4e0b\u7e6a\u5716\u5340\u5373\u53ef\u653e\u5927\uff08\u6216\u7528\u6ed1\u9f20\u6efe\u8f2a\uff09",
     "ZoomOut": "\u7e2e\u5c0f",
     "ZoomOut_Help": "\u6309\u4e00\u4e0b\u7e6a\u5716\u5340\u5373\u53ef\u7e2e\u5c0f\uff08\u6216\u7528\u6ed1\u9f20\u6efe\u8f2a\uff09",
+    "insert_worksheet": "Insert Worksheet",
     "off": "\u95dc\u9589",
     "on": "\u555f\u52d5",
 }

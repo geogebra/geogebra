@@ -1023,15 +1023,15 @@ __GGB__keysVar.es_UY.command = {
  ***********************************************/
 
 __GGB__keysVar.es_UY.error = {
-    "AngleMustBeConstant": "Cada \xe1ngulo debe ser constante.",
-    "AppletWindowClosing": "Para salir de GeoGebra, debe cerrarse ls ventana del navegador",
+    "AngleMustBeConstant": "Cada \xe1ngulo debe ser constante",
+    "AppletWindowClosing": "Para salir de GeoGebra, debe cerrarse la ventana del navegador",
     "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
     "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito",
     "AssignmentToFixed": "Los objetos fijos no pueden modificarse",
-    "CAS_GeneralErrorMessage": "Para superar el error surgido, debiera replantearse la entrada",
+    "CAS_GeneralErrorMessage": "El error surgido requiere replantear la entrada",
     "CAS_InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias",
-    "CAS_SelectionStructureError": "Debe replantearse la estructura de lo seleccionado",
-    "CAS_TimeoutError": "Se cancel\xf3 el c\xe1lculo por demorar demasiado",
+    "CAS_SelectionStructureError": "Debe revisarse la estructura de lo seleccionado",
+    "CAS_TimeoutError": "Dada la demora, se cancel\xf3 el c\xe1lculo",
     "CAS_VariableIsDynamicReference": "Es err\xf3nea la asignaci\xf3n por referencia din\xe1mica",
     "CannotUnsnap": "No se puede pasar a vista completa de la aplicaci\xf3n",
     "ChangeDependent": "Los objetos dependientes no pueden modificarse",
@@ -2006,6 +2006,7 @@ __GGB__keysVar.es_UY.menu = {
     "ZoomIn_Help": "Clic en Vista gr\xe1fica para acercar (rueda de rat\xf3n)",
     "ZoomOut": "Zoom de alejamiento",
     "ZoomOut_Help": "Clic en Vista gr\xe1fica para alejar (rueda de rat\xf3n)",
+    "insert_worksheet": "Inserta Hoja Din\xe1mica",
     "off": "Inactiva",
     "on": "Activa",
 }

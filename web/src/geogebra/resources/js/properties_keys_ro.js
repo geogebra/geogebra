@@ -2006,6 +2006,7 @@ __GGB__keysVar.ro.menu = {
     "ZoomIn_Help": "Click pe surafa\u0163a de desen pentru apropierea imaginii (roti\u0163\u0103 mouse)",
     "ZoomOut": "\xcendep\u0103rtare imagine",
     "ZoomOut_Help": "Click pe surafa\u0163a de desen pentru \xeendep\u0103rtarea imaginii (roti\u0163\u0103 mouse)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Oprit",
     "on": "Pornit",
 }

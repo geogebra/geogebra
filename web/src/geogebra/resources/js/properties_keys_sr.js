@@ -2006,6 +2006,7 @@ __GGB__keysVar.sr.menu = {
     "ZoomIn_Help": "Kliknite na povr\u0161inu za crtanje da pove\u0107ate prikaz (kuglica mi\u0161a)",
     "ZoomOut": "Smanjenje",
     "ZoomOut_Help": "Kliknite na povr\u0161inu za crtanje da smanjite prikaz (kuglica mi\u0161a)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Isklju\u010deno",
     "on": "Uklju\u010deno",
 }

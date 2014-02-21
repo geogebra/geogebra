@@ -2006,6 +2006,7 @@ __GGB__keysVar.eu.menu = {
     "ZoomIn_Help": "Egin klik Ikuspegi Grafikoan handiagotzeko (saguaren gurpila)",
     "ZoomOut": "Txikiagotu",
     "ZoomOut_Help": "Egin klik Ikuspegi Grafikoan txikiagotzeko (saguaren gurpila)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Desgaitua",
     "on": "Gaitua",
 }

@@ -2006,6 +2006,7 @@ __GGB__keysVar.in.menu = {
     "ZoomIn_Help": "Klik pada tampilan grafik untuk memperbesar (Mouse Wheel)",
     "ZoomOut": "Perkecil",
     "ZoomOut_Help": "Klik pada tampilan grafik untuk memerkecil (Mouse Wheel)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Mati",
     "on": "Hidup",
 }

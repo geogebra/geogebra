@@ -2006,6 +2006,7 @@ __GGB__keysVar.fi.menu = {
     "ZoomIn_Help": "N\xe4p\xe4yt\xe4 piirtoaluetta l\xe4hent\xe4\xe4ksesi (hiiren py\xf6r\xe4ll\xe4)",
     "ZoomOut": "Loitonna",
     "ZoomOut_Help": "N\xe4p\xe4yt\xe4 piirtoaluetta loitontaaksesi (hiiren py\xf6r\xe4ll\xe4)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "pois",
     "on": "k\xe4ytt\xf6\xf6n",
 }

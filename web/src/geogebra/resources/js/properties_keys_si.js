@@ -2006,6 +2006,7 @@ __GGB__keysVar.si.menu = {
     "ZoomIn_Help": "Click on the Graphics View to zoom in (Mouse Wheel)",
     "ZoomOut": "\u0dc0\u0dd2\u0dc1\u0dcf\u0dbd \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "ZoomOut_Help": "Click on the Graphics View to zoom out (Mouse Wheel)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "\u0d9a\u0dca\u200d\u0dbb\u0dd2\u0dba\u0dcf \u0dc0\u0dd2\u0dbb\u0dc4\u0dd2\u0dad \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "on": "\u0d9a\u0dca\u200d\u0dbb\u0dd2\u0dba\u0dcf\u0dad\u0dca\u0db8\u0d9a \u0d9a\u0dbb\u0db1\u0dca\u0db1",
 }

@@ -2006,6 +2006,7 @@ __GGB__keysVar.pt.menu = {
     "ZoomIn_Help": "Clique na \xe1rea de trabalho para ampli\xe1-la (Roda do Mouse)",
     "ZoomOut": "Reduzir",
     "ZoomOut_Help": "Clique na \xe1rea de trabalho para reduz\xed-la (Roda do Mouse)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Desabilitar",
     "on": "Habilitar",
 }

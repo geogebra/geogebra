@@ -2006,6 +2006,7 @@ __GGB__keysVar.pl.menu = {
     "ZoomIn_Help": "Aby przybli\u017cy\u0107, kliknij w obszar roboczy (u\u017cyj k\xf3\u0142ko myszy)",
     "ZoomOut": "Oddal",
     "ZoomOut_Help": "Aby oddali\u0107, kliknij w obszar roboczy (u\u017cyj k\xf3\u0142ko myszy)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Wy\u0142\u0105cz",
     "on": "W\u0142\u0105cz",
 }

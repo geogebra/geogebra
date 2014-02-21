@@ -2006,6 +2006,7 @@ __GGB__keysVar.lv.menu = {
     "ZoomIn_Help": "Uzspied uz grafisk\u0101 skata, lai palielin\u0101tu(peles riten\u012btis)",
     "ZoomOut": "Samazin\u0101t",
     "ZoomOut_Help": "Uzspied uz grafisk\u0101 skata, lai samazin\u0101tu(peles riten\u012btis)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Izsl\u0113gts",
     "on": "Iesl\u0113gts",
 }

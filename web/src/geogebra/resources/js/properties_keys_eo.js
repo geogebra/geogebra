@@ -2006,6 +2006,7 @@ __GGB__keysVar.eo.menu = {
     "ZoomIn_Help": "Click on the Graphics View to zoom in (Mouse Wheel)",
     "ZoomOut": "Malzomi",
     "ZoomOut_Help": "Click on the Graphics View to zoom out (Mouse Wheel)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Off",
     "on": "On",
 }

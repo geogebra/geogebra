@@ -2006,6 +2006,7 @@ __GGB__keysVar.lt.menu = {
     "ZoomIn_Help": "Spragtelkite grafiniame lange nor\u0117dami priartinti (sukite pel\u0117s ratuk\u0105)",
     "ZoomOut": "Tolinti",
     "ZoomOut_Help": "Spragtelkite grafiniame lange nor\u0117dami tolinti (sukite pel\u0117s ratuk\u0105)",
+    "insert_worksheet": "Insert Worksheet",
     "off": "I\u0161jungti",
     "on": "\u012ejungti",
 }

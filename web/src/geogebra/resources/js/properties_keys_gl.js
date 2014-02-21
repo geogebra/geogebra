@@ -2006,6 +2006,7 @@ __GGB__keysVar.gl.menu = {
     "ZoomIn_Help": "Premer na vista gr\xe1fica para ampliala [roda do rato]",
     "ZoomOut": "Afastar",
     "ZoomOut_Help": "Premer na vista gr\xe1fica para reducila [roda do rato]",
+    "insert_worksheet": "Insert Worksheet",
     "off": "Desactivado",
     "on": "Activado",
 }
