@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
@@ -11,13 +12,33 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.javax.swing.GBox;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
+import geogebra.web.main.AppW;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.GestureChangeEvent;
+import com.google.gwt.event.dom.client.GestureEndEvent;
+import com.google.gwt.event.dom.client.GestureStartEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.TouchCancelEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,6 +50,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianView3DW extends EuclidianView3D {
 	
 	protected EuclidianPanelWAbstract EVPanel;
+	
+	private AppW app = (AppW) super.app;
+	public boolean isInFocus = false;
 
 	/**
 	 * constructor
@@ -38,9 +62,115 @@ public class EuclidianView3DW extends EuclidianView3D {
 	public EuclidianView3DW(EuclidianController3D ec, EuclidianSettings settings) {
 	    super(ec, settings);
 	    
+	    initBaseComponents(EVPanel, ec);
+	    
     }
 	
 	
+	public geogebra.html5.awt.GGraphics2DW g2p = null;
+
+	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
+            EuclidianController euclidiancontroller) {
+		
+	    Canvas canvas = euclidianViewPanel.getCanvas();
+		setEvNo(canvas);
+	 
+		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);	
+		g2p.setView(this);
+
+		updateFonts();
+		initView(true);
+		attachView();
+	
+		((EuclidianController3DW)euclidiancontroller).setView(this);
+		
+
+		if(this.getViewID() != App.VIEW_TEXT_PREVIEW){
+			registerKeyHandlers(canvas);
+			registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianController3DW) euclidiancontroller);
+		}
+		
+		canvas.addBlurHandler(new BlurHandler() {
+			public void onBlur(BlurEvent be) {
+				focusLost();
+			}
+		});
+		
+		canvas.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent fe) {
+				focusGained();
+			}
+		});
+		
+		/*
+		if ((evNo == 1) || (evNo == 2)) {
+			EuclidianSettings es = this.app.getSettings().getEuclidian(evNo);
+			settingsChanged(es);
+			es.addListener(this);
+		}
+		*/
+    }
+	
+	
+	private void setEvNo( Canvas canvas) {
+
+		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN3D);
+		this.evNo = 3;
+	}
+	
+	private void registerKeyHandlers(Canvas canvas){
+		
+		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+		
+	}
+	
+	
+
+	private void registerMouseTouchGestureHandlers(EuclidianPanelWAbstract euclidianViewPanel, EuclidianController3DW euclidiancontroller){
+		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
+		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		
+		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+		
+		/*
+		if(Browser.supportsPointerEvents()){
+			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
+			MsZoomer.attachTo(evPanel.getElement(),msZoomer);
+			return;
+		}
+		*/
+		
+		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
+		
+	}
+	
+	
+	public void focusLost() {
+		if (isInFocus) {
+			this.isInFocus = false;
+			this.app.focusLost();
+		}
+	}
+
+	public void focusGained() {
+		if (!isInFocus && !App.isFullAppGui()) {
+			this.isInFocus = true;
+			this.app.focusGained();
+		}
+	}
+
 	
 	/**
 	 * @return panel component

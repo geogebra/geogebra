@@ -91,5 +91,16 @@ public class AppWapplication3D extends AppWapplication {
 		return itemEuclidian3D;
 	}
 	
+	
+	@Override
+	public void recalculateEnvironments() {
+		
+		super.recalculateEnvironments();
+		
+	    if (getEuclidianView3D() != null) {
+	    	getEuclidianView3D().getEuclidianController().calculateEnvironment();
+	    }
+    }
+	
 
 }
