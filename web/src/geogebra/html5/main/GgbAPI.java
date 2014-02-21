@@ -7,8 +7,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
+import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.View;
 
 import java.util.ArrayList;
@@ -185,6 +187,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		StoreString storeString = new StoreString();
     	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	JavaScriptObject jso = prepareToEntrySet(archiveContent);
+    	if (Browser.webWorkerSupported) {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());
+    	}
 		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
 		return storeString.getResult();
 
@@ -397,7 +402,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		
 			function init(callback, onerror) {
 				that.size = text.length;
+				$wnd.console.log("init");
 				callback();
+				$wnd.console.log("inited");
 			}
 		
 			function readUint8Array(index, length, callback, onerror) {
