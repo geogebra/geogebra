@@ -16,7 +16,7 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 	
 	EuclidianView view;
 
-	public EuclidianViewJPanel(EuclidianView view) {
+	public EuclidianViewJPanel(EuclidianView view, boolean addListeners) {
 		this.view = view;
 
 		// algebra controller will take care of our key events
@@ -26,12 +26,21 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 		setMinimumSize(new Dimension(20, 20));
 
 		// register Listener
-		((EuclidianControllerListeners) view.getEuclidianController()).addListenersTo(this);
-
+		if (addListeners){
+			((EuclidianControllerListeners) view.getEuclidianController()).addListenersTo(this);
+		}
 
 		// enable drop transfers
 		setTransferHandler(new EuclidianViewTransferHandler(view));
 	}
+	
+	public EuclidianViewJPanel(EuclidianView view) {
+		
+		this(view, true);
+	
+	}
+
+	
 
 	protected Color bgColor;
 

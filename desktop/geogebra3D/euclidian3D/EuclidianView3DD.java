@@ -59,11 +59,13 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 		
 	}
 	
+	private Component canvas;
+	
 	@Override
 	protected void createPanel(){
 		evjpanel = new EuclidianViewJPanel(this);
 
-        Component canvas = (Component) ((RendererD) renderer).canvas;
+        canvas = (Component) ((RendererD) renderer).canvas;
 		getJPanel().setLayout(new BorderLayout());
 		getJPanel().add(BorderLayout.CENTER, canvas);
 		
@@ -212,7 +214,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 * @param ml mouse listener
 	 */
 	public void addMouseListener(MouseListener ml) {
-		evjpanel.addMouseListener(ml);
+		canvas.addMouseListener(ml);
 	}
 	
 	/**
@@ -220,7 +222,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 * @param ml mouse listener
 	 */
 	public void removeMouseListener(MouseListener ml) {
-		evjpanel.removeMouseListener(ml);
+		canvas.removeMouseListener(ml);
 	}
 	
 	/**
@@ -228,7 +230,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 * @param mml mouse motion listener
 	 */
 	public void addMouseMotionListener(MouseMotionListener mml) {
-		evjpanel.addMouseMotionListener(mml);
+		canvas.addMouseMotionListener(mml);
 	}
 	
 	/**
@@ -236,7 +238,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 * @param mml mouse motion listener
 	 */
 	public void removeMouseMotionListener(MouseMotionListener mml) {
-		evjpanel.removeMouseMotionListener(mml);
+		canvas.removeMouseMotionListener(mml);
 	}
 	
 	/**
@@ -244,7 +246,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 * @param mwl mouse wheel listener
 	 */
 	public void addMouseWheelListener(MouseWheelListener mwl) {
-		evjpanel.addMouseWheelListener(mwl);
+		canvas.addMouseWheelListener(mwl);
 	}
 	
 	/**
@@ -252,7 +254,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 * @param mwl mouse wheel listener
 	 */
 	public void removeMouseWheelListener(MouseWheelListener mwl) {
-		evjpanel.removeMouseWheelListener(mwl);
+		canvas.removeMouseWheelListener(mwl);
 	}
 	/**
 	 * @see JPanel#dispatchEvent(AWTEvent)
@@ -276,7 +278,7 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	 */
 	public void addComponentListener(
 			ComponentListener componentListener) {
-		evjpanel.addComponentListener(componentListener);
+		canvas.addComponentListener(componentListener);
 		
 	}
 	

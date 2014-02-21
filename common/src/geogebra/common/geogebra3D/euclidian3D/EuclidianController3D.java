@@ -1948,9 +1948,8 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		default:
-			changedKernel = super.switchModeForProcessMode(hits, isControlDown,
+			return super.switchModeForProcessMode(hits, isControlDown,
 					callback);
-			break;
 		}
 
 		memorizeJustCreatedGeosAfterProcessMode(ret);
