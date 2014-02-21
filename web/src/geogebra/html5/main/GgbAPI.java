@@ -362,13 +362,12 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     
 	private native void getNativeBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,String workerUrls, boolean sync) /*-{
 
-		if (workerUrls === "false" || synchronous) {
-			    	$wnd.zip.useWebWorkers = false;
-			    	$wnd.zip.synchronous = sync;
-			    } else {
-		    		$wnd.zip.workerScriptsPath = workerUrls;
-			    }
-
+		if (workerUrls === "false" || sync) {
+			$wnd.zip.useWebWorkers = false;
+			$wnd.zip.synchronous = sync;
+		} else {
+			$wnd.zip.workerScriptsPath = workerUrls;
+		}
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -444,7 +443,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 					var ind = item.fileName.lastIndexOf('.');
 					@geogebra.common.main.App::debug(Ljava/lang/String;)(item.fileName);
 					if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
-					//if (item.fileName.indexOf(".png") > -1) {
+					
 							@geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped" + item.fileName);
 							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
 					} else {
