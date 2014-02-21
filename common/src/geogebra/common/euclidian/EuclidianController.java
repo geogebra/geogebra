@@ -9567,6 +9567,9 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+			if(this.view.getEuclidianViewNo()==1 && app.hasEuclidianView2()){
+				return previewDrawable;
+			}
 			// select all hidden objects
 			Iterator<GeoElement> it = kernel.getConstruction()
 					.getGeoSetConstructionOrder().iterator();
