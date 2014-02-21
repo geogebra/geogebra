@@ -34,9 +34,8 @@ public class InsertImageMenuW extends MenuBar {
 		
 		if (((AppW) app).getLAF().isSmart()) {
 			this.addStyleName("subMenuLeftSide");
+			addSubmenuArrow();
 		}
-		
-		addSubmenuArrow();
 		
 		initActions();
 	}
