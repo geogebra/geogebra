@@ -241,6 +241,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 				//App.debug("------------------ resize -----------------------");
 				//App.debug("w = "+w+" , h = "+h);
 				renderer.setDimension(w, h);
+				getEuclidianController().calculateEnvironment();
 			}
 		}
 		

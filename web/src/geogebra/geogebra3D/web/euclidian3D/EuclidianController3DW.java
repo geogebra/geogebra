@@ -96,7 +96,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	private float getEnvWidthScale() {
-		EuclidianViewW v  = (EuclidianViewW) view;
+		EuclidianView3DW v  = (EuclidianView3DW) view;
 		if (v.g2p.getOffsetWidth() != 0) {
 			return v.g2p.getCoordinateSpaceWidth() / v.g2p.getOffsetWidth();
 		}
@@ -104,7 +104,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 	
 	private float getEnvHeightScale() {
-		EuclidianViewW v = (EuclidianViewW) view;
+		EuclidianView3DW v = (EuclidianView3DW) view;
 		if (v.g2p.getOffsetHeight() != 0) {
 			return v.g2p.getCoordinateSpaceHeight() / v.g2p.getOffsetHeight();
 		}
@@ -114,7 +114,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private int getEnvXoffset(){
 		//return EuclidianViewXOffset;
 		//the former solution doesn't update on scrolling
-		return Math.round((((EuclidianViewW) view).getAbsoluteLeft() - Window.getScrollLeft()));
+		return Math.round((((EuclidianView3DW) view).getAbsoluteLeft() - Window.getScrollLeft()));
 				
 	}
 	
@@ -128,7 +128,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private int getEnvYoffset(){
 		//return EuclidianViewYOffset;
 		//the former solution doesn't update on scrolling
-		return ((EuclidianViewW) view).getAbsoluteTop() - Window.getScrollTop();
+		return ((EuclidianView3DW) view).getAbsoluteTop() - Window.getScrollTop();
 	}
 	
 	
