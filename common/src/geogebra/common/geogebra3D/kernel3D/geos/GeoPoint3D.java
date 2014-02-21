@@ -54,7 +54,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.kernel.kernelND.RotateableND;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
@@ -73,7 +72,7 @@ RotateableND, Transformable,
 Traceable, MirrorableAtPlane, Dilateable{
 
 	private boolean isInfinite, isDefined;
-	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+	private int pointSize;
 
 	// mouse moving
 	private Coords willingCoords = null; // = new Ggb3DVector( new double[]
@@ -136,7 +135,10 @@ Traceable, MirrorableAtPlane, Dilateable{
 	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
-		if (geo instanceof PointProperties) {
+		if (geo.isGeoPoint()) {
+			setPointSize(((GeoPointND) geo).getPointSize());
+			setPointStyle(((GeoPointND) geo).getPointStyle());
+		} else if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
 			setPointStyle(((PointProperties) geo).getPointStyle());
 		}
