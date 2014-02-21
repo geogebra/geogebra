@@ -832,7 +832,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	public void setRotXYinDegrees(double a, double b) {
 
-		// Application.debug("setRotXY: "+a+","+b);
+		//App.debug("setRotXY: "+a+","+b);
 		if (Double.isNaN(a) || Double.isNaN(b)) {
 			App.printStacktrace("NaN values for setRotXYinDegrees");
 			return;

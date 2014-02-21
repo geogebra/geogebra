@@ -183,8 +183,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		tempNum = new MyDouble(kernel);
 	}
 	
-	public  void setView(EuclidianView view) {
+	@Override
+    public  void setView(EuclidianView view) {
 		this.view = view;
+		setView3D(view);
 	}
 
 	public void onGestureChange(GestureChangeEvent event) {
