@@ -1049,7 +1049,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		}
 
 		public boolean processInput(String inputValue) {
-			if (inputValue == null || editGeo.isFixed())
+			if (inputValue == null || (editGeo != null && editGeo.isFixed()))
 				return false;
 
 			// no quotes?
