@@ -263,8 +263,8 @@ public class DrawLabel3D {
 		
 
 		if (forPicking){
-			renderer.getGeometryManager().rectangle(x, y, z, width, height);
-			
+			renderer.getGeometryManager().rectangle(x + pickingX, y + pickingY, z, pickingW, pickingH);
+
 		}else{
 
 			//draw background
@@ -341,17 +341,40 @@ public class DrawLabel3D {
     	
      	//get alpha channel and extends to 2^n dimensions
 		byte[] bytes = new byte[w*h];
+		byte b;
 		int bytesIndex = 0;
 		int pixIndex = 0;
+		int xmin = w, xmax = 0, ymin = h, ymax = 0;
 		for (int y = 0; y < height; y++){
 			for (int x = 0; x < width; x++){
-				bytes[bytesIndex] = 
-					(byte) (pix[pixIndex] >> ALPHA_SHIFT);
+				b = (byte) (pix[pixIndex] >> ALPHA_SHIFT);
+				if (b != 0){
+					if (x < xmin){
+						xmin = x;
+					}
+					if (x > xmax){
+						xmax = x;
+					}
+					if (y < ymin){
+						ymin = y;
+					}
+					if (y > ymax){
+						ymax = y;
+					}
+
+				}
+				bytes[bytesIndex] = b;
 				bytesIndex++;
 				pixIndex++;
 			}
 			bytesIndex+=w-width;
 		}
+		
+		// values for picking (ignore transparent bytes)
+		pickingX = xmin;
+		pickingY = ymin;
+		pickingW = xmax - xmin + 1;
+		pickingH = ymax - ymin + 1;
 		
 		//update width and height
 		width2=w;
@@ -359,6 +382,8 @@ public class DrawLabel3D {
 		
 		return bytes;
     }
+    
+    private int pickingX, pickingY, pickingW, pickingH;
     
 
     /**
