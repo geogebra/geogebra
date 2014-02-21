@@ -262,4 +262,9 @@ public class AppWapplication extends AppW {
     public void showBrowser(BrowseGUI bg) {
 	    appFrame.showBrowser(bg);
     }
+	
+	@Override
+	public void toggleMenu(){
+		appFrame.toggleMenu();
+	}
 }

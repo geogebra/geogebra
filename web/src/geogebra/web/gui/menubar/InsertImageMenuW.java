@@ -1,12 +1,15 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
@@ -28,8 +31,23 @@ public class InsertImageMenuW extends MenuBar {
 		super(true);
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
+		
+		if (((AppW) app).getLAF().isSmart()) {
+			this.addStyleName("subMenuLeftSide");
+		}
+		
+		addSubmenuArrow();
+		
 		initActions();
 	}
+
+	private void addSubmenuArrow() {
+		FlowPanel arrowSubmenu = new FlowPanel();
+		arrowSubmenu.addStyleName("arrowSubmenu");
+		Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_right());
+		arrowSubmenu.add(arrow);
+	    this.getElement().appendChild(arrowSubmenu.getElement());
+    }
 
 	private void initActions() {
 

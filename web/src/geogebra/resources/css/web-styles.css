@@ -485,6 +485,11 @@ body[dir=rtl] .gwt-MenuBarPopup {
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 }
 
+.gwt-PopupPanel.loadinganimation {
+	background-color: none;
+	box-shadow: none;
+}
+
 .gwt-DecoratedPopupPanel .popupContent {
 }
 .gwt-DecoratedPopupPanel .popupMiddleCenter {
@@ -696,24 +701,22 @@ body[dir=rtl] .gwt-MenuBarPopup {
   border-width: 1px;
 }
 
-.gwt-StackPanel {
-  border-bottom: 1px solid #bbbbbb;
-}
 .gwt-StackPanel .gwt-StackPanelItem {
-  cursor: pointer;
-  cursor: hand;
-  font-weight: bold;
-  font-size: 1.3em;
-  padding: 3px;
-  border: 1px solid #bbbbbb;
-  border-bottom: 0px;
-  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+	cursor: pointer;
+	cursor: hand;
+	font-size: 100%;
+	padding: 7px 5px;
+	border-bottom: 1px solid #EFEFEF;
+	background: #F8F8F8;
 }
+
+.gwt-StackPanel .gwt-StackPanelItem img {
+	float: left;
+	margin-right: 10px;
+}
+
 .gwt-StackPanel .gwt-StackPanelContent {
-  border: 1px solid #bbbbbb;
-  border-bottom: 0px;
-  background: white;
-  padding: 2px 2px 10px 5px;
+	background: #FFFFFF;
 }
 
 .gwt-DecoratedStackPanel {
@@ -1433,7 +1436,7 @@ td.datePickerMonth {
 
 /*============ GeoGebraMenuBar ============*/
 
-.linktoggbtube {
+/*.linktoggbtube {
 	position:absolute;
 	right:20px;
 	top:7px;
@@ -1453,8 +1456,64 @@ body[dir=rtl] .signIn {
 	position:absolute;
 	right: auto;
 	left: 50px;
+}*/
+
+.menubarSMART {
+	margin-left: 2px;
+	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+	overflow-y: auto;
 }
 
+.menubarSMART .menuPanel {
+	width: 100%;
+}
+
+.GeoGebraMenuBar > table {
+	margin-top: 5px;
+	margin-bottom: 8px;
+	width: 100%;
+}
+
+.GeoGebraMenuBar .gwt-MenuItem {
+	padding: 3px 5px 3px 35px;
+	position: relative;
+	display: block;
+}
+
+.GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 3px;
+	left: 5px;
+}
+
+/* Submenus just for SMART */
+
+.GeoGebraMenuBar.subMenuLeftSide {
+    right: 220px;
+    top: -10px;
+    position: absolute;
+    z-index: 1000;
+    
+    -webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+}
+
+.GeoGebraMenuBar.subMenuLeftSide .gwt-MenuItem {
+	padding: 3px 10px;
+}
+
+.GeoGebraMenuBar.subMenuLeftSide .arrowSubmenu {
+	position: absolute;
+	top: 5px;
+	right: -15px;
+}
 
 /*=============== Context menu ===============*/
 
@@ -1857,11 +1916,13 @@ body[dir=rtl] .undoPanel {
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	color: #333333;
 	padding: 8px 10px 10px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-.GO1IGV1CFI {
+/*.GO1IGV1CFI {
 	box-sizing: initial !important;
-}
+}*/
 
 .GGWToolbar table {
 	margin-right: 50px;
@@ -1882,6 +1943,21 @@ body[dir=rtl] .GGWToolbar table{
 
 .buttonPanel {
 	margin: auto;
+}
+
+.toolBPanel {
+	float: left;
+}
+
+.smartButtonPanel {
+	float: right;
+	margin: 8px 0px;
+}
+
+.smartButtonPanel .button{
+	margin: 0px 5px 0px 10px;
+	cursor: pointer;
+	float: left;
 }
 
 /*========= Dialogs ===========*/
@@ -2236,7 +2312,7 @@ body[dir=rtl] .GeoGebraMenuBar table{
 }
 
 .inputHelp-leaf:hover{
-	background: #ebeff9;
+	background: #CCCCFF;
 }
 
 .inputHelp-detailPanelTitle {
@@ -2244,7 +2320,6 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	font-size: 85%;
 	font-weight: bold;
 	padding: 1px 10px;
-	background: #ebeff9;
 	border-bottom: 1px solid lightgray;
 }
 

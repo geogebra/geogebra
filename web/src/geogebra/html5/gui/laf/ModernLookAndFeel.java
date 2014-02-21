@@ -8,5 +8,4 @@ public class ModernLookAndFeel extends GLookAndFeel{
 	public GeoGebraMenubarW getMenuBar(AppW app) {
 	    return new GeoGebraMenubarW2(app);
     }
-	
 }

@@ -325,4 +325,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    frameLayout.setLayout(app);
 	    frameLayout.forceLayout();
     }
+
+	public void toggleMenu() {
+	    frameLayout.toggleMenu();
+    }
+	
 }

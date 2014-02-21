@@ -2,10 +2,10 @@ package geogebra.web.gui.menubar;
 
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.StackPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SideBarMenuW extends VerticalPanel {
+public class SideBarMenuW extends FlowPanel {
 
 	AppW app;
 	private ViewMenuW viewMenu;
@@ -27,10 +27,10 @@ public class SideBarMenuW extends VerticalPanel {
 		createOptionsMenu();
 		createHelpMenu();
 		
-		StackPanel sp = new StackPanel();
+		StackPanel sp = new StackPanel();		
 		sp.add(fileMenu, setHTML("File"), true);
-		sp.add(perspectivesMenu, setHTML("Perspectives"), true);
 		sp.add(editMenu, setHTML("Edit"), true);
+		sp.add(perspectivesMenu, setHTML("Perspectives"), true);
 		sp.add(viewMenu, setHTML("View"), true);
 		sp.add(optionsMenu, setHTML("Options"), true);
 		sp.add(helpMenu, setHTML("Help"), true);

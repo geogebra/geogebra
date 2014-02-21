@@ -84,5 +84,57 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/css/web-styles.css")
 	TextResource modernStyle();
+	
+	//SMART TOOLBAR: Open menu and open search
+	@Source("icons/png/web/menu-button-open-search.png")
+	ImageResource button_open_search();
+	
+	@Source("icons/png/web/menu-button-open-menu.png")
+	ImageResource button_open_menu();
+	
+	//SMART MENUBAR: Icons
+	@Source("icons/png/web/menu_icons/menu-file.png")
+	ImageResource menu_icon_file();
+	
+	@Source("icons/png/web/menu_icons/menu-file-new.png")
+	ImageResource menu_icon_file_new();
+	
+	@Source("icons/png/web/menu_icons/menu-file-open.png")
+	ImageResource menu_icon_file_open();
+	
+	@Source("icons/png/web/menu_icons/menu-file-share.png")
+	ImageResource menu_icon_file_share();
+	
+	@Source("icons/png/web/menu_icons/menu-edit.png")
+	ImageResource menu_icon_edit();
+	
+	@Source("icons/png/web/menu_icons/menu-view.png")
+	ImageResource menu_icon_view();
+	
+	@Source("icons/png/web/menu_icons/menu-help.png")
+	ImageResource menu_icon_help();
+	
+	@Source("icons/png/web/menu_icons/menu-options.png")
+	ImageResource menu_icon_options();
+	
+	@Source("icons/png/web/menu_icons/menu-perspectives-algebra.png")
+	ImageResource menu_icon_perspectives_algebra();
+	
+	@Source("icons/png/web/menu_icons/menu-perspectives-basic-geometry.png")
+	ImageResource menu_icon_perspectives_basic_geometry();
+	
+	@Source("icons/png/web/menu_icons/menu-perspectives-geometry.png")
+	ImageResource menu_icon_perspectives_geometry();
+	
+	@Source("icons/png/web/menu_icons/menu-perspectives-spreadsheet.png")
+	ImageResource menu_icon_perspectives_spreadsheet();
+	
+	@Source("icons/png/web/menu_icons/menu-perspectives-cas.png")
+	ImageResource menu_icon_perspectives_cas();
+	
+	//SUBMENUS
+	@Source("icons/png/web/arrow-submenu-right.png")
+	ImageResource arrow_submenu_right();
+	
 }
 

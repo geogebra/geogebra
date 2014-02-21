@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 
 
-public class GeoGebraMenubarW extends MenuBar implements EventRenderable {
+public class GeoGebraMenubarW extends MenuBar implements EventRenderable, GeoGebraMenuW {
 	
 	
 		/**

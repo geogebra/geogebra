@@ -14,6 +14,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	public static final int COMMAND_LINE_HEIGHT = 43;
 	public static final int MENUBAR_HEIGHT = 35;
+	public static final int MENUBAR_WIDTH_MAX = 204;
+	private int MENUBAR_WIDTH = 204;
+	private boolean menuClosed = false;
 	public static final int TOOLBAR_HEIGHT = 63;
 
 	public static final int MINUS_FROM_HEIGHT = COMMAND_LINE_HEIGHT + MENUBAR_HEIGHT + TOOLBAR_HEIGHT;
@@ -42,7 +45,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		
 		dockPanel.clear();
 
-		dockPanel.addNorth(getMenuBar(), MENUBAR_HEIGHT);
+		if(!app.getLAF().isSmart()) {
+			dockPanel.addNorth(getMenuBar(), MENUBAR_HEIGHT);
+		}
 		
 		// if(app.showToolBar()){
 		dockPanel.addNorth(getToolBar(), TOOLBAR_HEIGHT);
@@ -51,6 +56,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			dockPanel.addNorth(getCommandLine(), COMMAND_LINE_HEIGHT);
 		} else {
 			dockPanel.addSouth(getCommandLine(), COMMAND_LINE_HEIGHT);
+		}
+		
+		if(app.getLAF().isSmart()) {
+			dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
 		}
 
 		if (app.getGuiManager().getLayout().getRootComponent() != null) {
@@ -103,7 +112,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		}
 		return ggwMenuBar;
 	}
-
 	
 	public EuclidianDockPanelW getGGWGraphicsView() {
 		return ggwGraphicView;
@@ -112,6 +120,23 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	
 	public DockGlassPaneW getGlassPane() {
 		return glassPane;
+	}
+	
+	public void toggleMenu() {
+		
+		if (this.menuClosed) {
+			//open menu
+			this.MENUBAR_WIDTH = MENUBAR_WIDTH_MAX;
+			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
+			this.dockPanel.forceLayout();
+			this.menuClosed = false;
+		} else {
+			//close menu
+			this.MENUBAR_WIDTH = 0;
+			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
+			this.dockPanel.forceLayout();
+			this.menuClosed = true;
+		}
 	}
 
 }

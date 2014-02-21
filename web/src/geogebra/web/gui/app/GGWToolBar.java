@@ -3,6 +3,11 @@ package geogebra.web.gui.app;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.browser.BrowseGUI;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
@@ -46,6 +51,8 @@ public class GGWToolBar extends Composite {
 	FlowPanel toolBPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
+	
+	private FlowPanel smartButtonPanel;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -83,12 +90,18 @@ public class GGWToolBar extends Composite {
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 		toolBarPanel.addStyleName("toolbarPanel");
+		toolBPanel.setStyleName("toolBPanel");
 		
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init(app1);
 		addToolbar(toolBar);
 		if(app1.getLAF().undoRedoSupported()){
 			addUndoPanel();
+		}
+		
+		//Adds the Open and Options Button for SMART
+		if(app1.getLAF().isSmart()) {
+			this.addSmartButtonPanel();
 		}
 	}
 
@@ -130,6 +143,35 @@ public class GGWToolBar extends Composite {
 		undoPanel.add(undoButton);
 		undoPanel.add(redoButton);
 		toolBarPanel.add(undoPanel);	
+	}
+	
+	//SMART Open and Options Button
+	private void addSmartButtonPanel(){
+		this.smartButtonPanel = new FlowPanel();
+		this.smartButtonPanel.setStyleName("smartButtonPanel");
+		
+		StandardButton openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());
+		openMenuButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+            public void onClick() {
+	            GGWToolBar.this.app.toggleMenu();
+            }	
+		});
+		
+		StandardButton openSearchButton = new StandardButton(GuiResources.INSTANCE.button_open_search());
+		openSearchButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+            public void onClick() {
+				// TODO: Zbynek please check if this is ok - Steffi
+				BrowseGUI bg = new BrowseGUI((AppWeb) app);
+				((AppW) app).showBrowser(bg);
+            }
+		});
+		
+		this.smartButtonPanel.add(openSearchButton);
+		this.smartButtonPanel.add(openMenuButton);
+		
+		toolBarPanel.add(smartButtonPanel);	
 	}
 	
 	/**

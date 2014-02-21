@@ -1,17 +1,31 @@
 package geogebra.html5.gui.laf;
 
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
-import geogebra.web.gui.menubar.GeoGebraMenubarW2;
+import geogebra.web.gui.menubar.GeoGebraMenuW;
+import geogebra.web.gui.menubar.GeoGebraMenubarSMART;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.Window;
+
+/**
+ * @author geogebra
+ * Look and Feel for SMART
+ *
+ */
 public class SmartLookAndFeel extends GLookAndFeel{
 	@Override
-    public GeoGebraMenubarW getMenuBar(AppW app) {
-	    return new GeoGebraMenubarW2(app);
+    public GeoGebraMenuW getMenuBar(AppW app) {
+		GeoGebraMenubarSMART menubar = new GeoGebraMenubarSMART(app);
+		Window.addWindowResizeListener(menubar);
+		return menubar;
     }
 	
 	@Override
     public boolean undoRedoSupported() {
 	    return false;
     }
+	
+	@Override
+    public boolean isSmart() {
+		return true;
+	}
 }

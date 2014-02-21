@@ -3468,5 +3468,13 @@ public abstract class App implements UpdateSelection{
 	public EuclidianViewForPlaneInterface createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings){
 		return null;
 	}
+	
+	
+	/**
+	 * Will be overwritten in AppWapplication to toggle the menu for SMART
+	 */
+	public void toggleMenu() {
+		
+	}
 
 }

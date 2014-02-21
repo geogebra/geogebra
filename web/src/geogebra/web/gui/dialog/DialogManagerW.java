@@ -268,6 +268,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		} else {
 			googleFileDescriptors.setFileName(driveBase64FileName);
 			googleFileDescriptors.setDescription(driveBase64description);
+			
+			//Steffi: In SMART the getSignIn()-Method returns NULL
 			MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getSignIn();
 			final int top = lg.getElement().getOffsetTop();
 			final int left = lg.getElement().getOffsetLeft();
