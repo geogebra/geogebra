@@ -131,7 +131,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	private MyToggleButton[] toggleBtnList;
 
 	// fields for setting/unsetting default geos
-	private HashMap<Integer, Integer> defaultGeoMap;
+	protected HashMap<Integer, Integer> defaultGeoMap;
 	private ArrayList<GeoElement> defaultGeos;
 	private GeoElement oldDefaultGeo;
 
@@ -170,7 +170,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
-		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
+		createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
 
 		// toolbar display settings
@@ -196,6 +196,14 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
+	}
+	
+	
+	/**
+	 * create default map between default geos and modes
+	 */
+	protected void createDefaultMap(){
+		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
 	}
 
 	public int getMode() {

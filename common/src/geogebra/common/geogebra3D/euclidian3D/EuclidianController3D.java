@@ -1872,7 +1872,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			}
 			break;
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			changedKernel = (threePoints(hits, mode) != null);
+			ret = threePoints(hits, mode);
 			break;
 		case EuclidianConstants.MODE_PLANE:
 			changedKernel = planeContaining(hits);

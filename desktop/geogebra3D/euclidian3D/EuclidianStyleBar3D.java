@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
@@ -51,6 +52,42 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	 */
 	public EuclidianStyleBar3D(EuclidianView3D ev) {
 		super(ev);
+	}
+	
+	
+	@Override
+	protected void createDefaultMap(){
+		
+		super.createDefaultMap();
+		
+		// planes
+		defaultGeoMap.put(EuclidianConstants.MODE_PLANE_THREE_POINTS,
+				ConstructionDefaults3D.DEFAULT_PLANE3D);
+		defaultGeoMap.put(EuclidianConstants.MODE_PLANE,
+				ConstructionDefaults3D.DEFAULT_PLANE3D);
+		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_PLANE,
+				ConstructionDefaults3D.DEFAULT_PLANE3D);
+		defaultGeoMap.put(EuclidianConstants.MODE_PARALLEL_PLANE,
+				ConstructionDefaults3D.DEFAULT_PLANE3D);
+		
+		// spheres
+		defaultGeoMap.put(EuclidianConstants.MODE_SPHERE_POINT_RADIUS,
+				ConstructionDefaults3D.DEFAULT_QUADRIC);
+		defaultGeoMap.put(EuclidianConstants.MODE_SPHERE_TWO_POINTS,
+				ConstructionDefaults3D.DEFAULT_QUADRIC);
+		
+		// cylinders, cones
+		defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
+				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+		defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
+				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+		defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
+				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+		defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
+				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+
+
+		
 	}
 	
 	@Override
