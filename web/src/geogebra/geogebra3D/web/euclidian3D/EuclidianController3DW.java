@@ -19,7 +19,6 @@ import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
-import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
@@ -337,14 +336,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int x = event.getClientX() + Window.getScrollLeft();
 		int y = event.getClientY() + Window.getScrollTop(); // why scrollLeft & scrollTop; see ticket #4049
 
-		int ex = ((EuclidianViewW) view).getAbsoluteLeft();
-		int ey = ((EuclidianViewW) view).getAbsoluteTop();
-		int eWidth = ((EuclidianViewW) view).getWidth();
-		int eHeight = ((EuclidianViewW) view).getHeight();
+		int ex = ((EuclidianView3DW) view).getAbsoluteLeft();
+		int ey = ((EuclidianView3DW) view).getAbsoluteTop();
+		int eWidth = ((EuclidianView3DW) view).getWidth();
+		int eHeight = ((EuclidianView3DW) view).getHeight();
 		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
 			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
-		((EuclidianViewW) view).resetMsZoomer();
+		//((EuclidianView3DW) view).resetMsZoomer();
 		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
@@ -538,6 +537,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public int getEvID() {
 	    return view.getEuclidianViewNo();
     }
+	
+
+	@Override
+	protected void updateSelectionRectangle(boolean keepScreenRatio) {
+		//TODO
+	
+	}
 
 }
 
