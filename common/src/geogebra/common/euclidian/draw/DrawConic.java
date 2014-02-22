@@ -420,7 +420,7 @@ public class DrawConic extends Drawable implements Previewable {
 		point.setLabelColor(conic.getLabelColor());
 		point.setPointSize(conic.lineThickness);
 
-		drawPoint.update(coords);
+		drawPoint.update(coords, false);
 	}
 	
 	/**
