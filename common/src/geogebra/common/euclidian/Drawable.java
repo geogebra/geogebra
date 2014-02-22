@@ -605,8 +605,4 @@ public abstract class Drawable extends DrawableND {
 	public void resetHatch() {
 		this.hatchPaint = null;
 	}
-
-	public void updateVisualStyle() {
-		update();
-	}
 }

@@ -1776,11 +1776,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
-		Object d = DrawableMap.get(geo);
-		if (d != null) {
-			((Drawable) d).resetHatch();
-			((Drawable) d).updateVisualStyle();
-		}		
+		update(geo);		
 		if (styleBar!=null)
 			styleBar.updateVisualStyle(geo);
 	}
@@ -2551,7 +2547,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	public final void mouseEntered() {
-		setToolTipText(null);
 		hasMouse = true;
 	}
 

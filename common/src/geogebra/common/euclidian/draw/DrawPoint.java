@@ -103,17 +103,10 @@ public final class DrawPoint extends Drawable {
 	}
 	
 		
+
+
 	@Override
 	final public void update() {
-		update(false);
-	}
-	
-	@Override
-	final public void updateVisualStyle() {
-		update(true);
-	}
-
-	final private void update(boolean style) {
 
 		if (gp != null)
 			gp.reset(); // stop trace being left when (filled diamond) point
@@ -142,14 +135,14 @@ public final class DrawPoint extends Drawable {
 			return;
 
 		
-		update(coords1, style);
+		update(coords1);
 	}
 	
 	/**
 	 * update regarding coords values
 	 * @param coords1 (x,y) real world coords
 	 */
-	final public void update(double[] coords1, boolean style){
+	final public void update(double[] coords1){
 
 		isVisible = true;
 		labelVisible = geo.isLabelVisible();
@@ -308,7 +301,7 @@ public final class DrawPoint extends Drawable {
 		if (P.getTrace()) {
 			isTracing = true;
 			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null && (style || geo.getShowObjectCondition() == null))
+			if (g2 != null)
 				drawTrace(g2);
 		} else {
 			if (isTracing) {
