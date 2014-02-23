@@ -1,7 +1,7 @@
 package geogebra.common.plugin;
 
+import geogebra.common.kernel.ClientView;
 import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author arno
  * 
  */
-public class EventDispatcher implements View {
+public class EventDispatcher implements ClientView {
 
 	private App app;
 	private ArrayList<EventListener> listeners = new ArrayList<EventListener>();
@@ -82,10 +82,14 @@ public class EventDispatcher implements View {
 	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
-		if (!geo.isLabelSet()) {
+		if ( (null != geo) && (!geo.isLabelSet()) ) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo));
+	}
+	
+	public void dispatchBulkEvent( EventType evtType, ArrayList<GeoElement> geos){
+		dispatchEvent(new Event(evtType, null, null, geos));
 	}
 
 	/*
@@ -167,6 +171,38 @@ public class EventDispatcher implements View {
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void renameUpdatesComplete() {
+		dispatchEvent(EventType.RENAME_COMPLETE, null);
+	}
+
+	public void addingPolygon() {
+		dispatchEvent(EventType.ADD_POLYGON, null);
+	}
+
+	public void addPolygonComplete(GeoElement polygon) {
+		dispatchEvent(EventType.ADD_POLYGON_COMPLETE, polygon);
+	}
+
+	public void movingGeos() {
+		dispatchEvent(EventType.MOVING_GEOS, null);
+	}
+
+	public void movedGeos(ArrayList<GeoElement> elms) {
+		dispatchBulkEvent(EventType.MOVED_GEOS, elms);
+	}
+
+	public void deleteGeos(ArrayList<GeoElement> elms) {
+		dispatchBulkEvent(EventType.DELETE_GEOS, elms);
+	}
+
+	public void pasteElms() {
+		dispatchEvent(EventType.PASTE_ELMS, null);
+	}
+
+	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms) {
+		dispatchEvent(EventType.PASTE_ELMS_COMPLETE, null);		
 	}
 
 }

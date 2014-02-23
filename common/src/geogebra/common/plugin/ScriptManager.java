@@ -23,6 +23,8 @@ public abstract class ScriptManager implements EventListener{
 	protected ArrayList<String>	updateListeners  = new ArrayList<String>();
 	protected ArrayList<String>	clickListeners  = new ArrayList<String>();
 	protected ArrayList<String>	clearListeners  = new ArrayList<String>();
+	protected ArrayList<String> clientListeners = new ArrayList<String>();
+	
 	
 	
 	public ScriptManager(App app) {
@@ -61,7 +63,17 @@ public abstract class ScriptManager implements EventListener{
 		case RENAME:
 			callListeners(renameListeners, evt);
 			break;
-		// TODO case CLEAR
+		case RENAME_COMPLETE:
+		case ADD_POLYGON:
+		case ADD_POLYGON_COMPLETE:
+		case MOVING_GEOS:
+		case MOVED_GEOS:
+		case PASTE_ELMS:
+		case PASTE_ELMS_COMPLETE:
+		case DELETE_GEOS:
+			callClientListeners(clientListeners, evt);
+			break;
+			// TODO case CLEAR
 		default:
 			App.debug("Unknown event type");
 		}
@@ -87,7 +99,32 @@ public abstract class ScriptManager implements EventListener{
 		}
 		Object[] args = getArguments(evt);
 		for (String listener : listeners) {
+			for( Object obj : args ){
+				System.out.println("Arg: " + obj.toString() );
+			}
 			callJavaScript(listener, args);
+		}
+	}
+	
+	private void callClientListeners(List<String> listeners, Event evt){
+		if( listeners.isEmpty()){
+			return;
+		}
+		
+		ArrayList<String> args = new ArrayList<String>();
+		args.add(evt.type.getName());
+		if( evt.targets != null ){
+			for( GeoElement geo: evt.targets){
+				args.add(geo.getLabelSimple());
+			}
+		}else if( evt.target != null){
+			args.add(evt.target.getLabelSimple());
+		}else{
+			args.add("");
+		}
+		
+		for( String listener : listeners ){
+			callJavaScript(listener, args.toArray());
 		}
 	}
 	
@@ -143,6 +180,10 @@ public abstract class ScriptManager implements EventListener{
 
 		if (clearListeners != null) {
 			clearListeners.clear();
+		}
+		
+		if(clientListeners != null ) {
+			clientListeners.clear();
 		}
 	}
 	
@@ -287,6 +328,19 @@ public abstract class ScriptManager implements EventListener{
 		if (clickListeners != null) {
 			clickListeners.remove(JSFunctionName);
 		}	
+	}
+	
+	/**
+	 * Registers a JS function to be notified of client events. 
+	 */
+	public synchronized void registerClientListener(String JSFunctionName) {
+		registerGlobalListener(clientListeners,JSFunctionName,"registerClientListener");
+	}
+	
+	public synchronized void unregisterClientListener(String JSFunctionName) {
+		if( clientListeners != null ){
+			clientListeners.remove(JSFunctionName);
+		}
 	}
 	
 	/**

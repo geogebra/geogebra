@@ -523,6 +523,9 @@ public interface JavaScriptAPI {
 	 */
 	public void unregisterClickListener(String JSFunctionName);
 	
+	public void registerClientListener(String JSFunctionName);
+	public void unregisterClientListener(String JSFunctionName);
+	
 	/**
 	 * Registers a JavaScript Click listener for an object. Whenever the object with 
 	 * the given name changes, a JavaScript function named JSFunctionName 

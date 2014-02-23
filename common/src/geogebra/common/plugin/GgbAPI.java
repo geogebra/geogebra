@@ -690,6 +690,14 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	public synchronized void unregisterClickListener(String JSFunctionName) {
 		app.getScriptManager().unregisterClickListener(JSFunctionName);
 	}
+	
+	public void registerClientListener(String JSFunctionName){
+		app.getScriptManager().registerClientListener(JSFunctionName);
+	}
+	
+	public void unregisterClientListener(String JSFunctionName){
+		app.getScriptManager().unregisterClientListener(JSFunctionName);
+	}
 
 	public synchronized void registerObjectClickListener(String objName, String JSFunctionName) {
 		app.getScriptManager().registerObjectClickListener(objName, JSFunctionName);

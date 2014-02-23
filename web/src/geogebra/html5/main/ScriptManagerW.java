@@ -439,6 +439,14 @@ public class ScriptManagerW extends ScriptManager {
 		$wnd[ggbApplet].unregisterUpdateListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPI::unregisterUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
+		
+		$wnd[ggbApplet].registerClientListener = function(JSFunctionName) {
+			ggbAPI.@geogebra.html5.main.GgbAPI::registerClientListener(Ljava/lang/String;)(JSFunctionName);
+		};
+		
+		$wnd[ggbApplet].unregisterClientListener = function(JSFunctionName) {
+			ggbAPI.@geogebra.html5.main.GgbAPI::unregisterClientListener(Ljava/lang/String;)(JSFunctionName);
+		};
 
 		$wnd[ggbApplet].registerObjectUpdateListener = function(objname, JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPI::registerObjectUpdateListener(Ljava/lang/String;Ljava/lang/String;)(objname, JSFunctionName);

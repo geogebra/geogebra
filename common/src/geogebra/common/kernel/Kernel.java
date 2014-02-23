@@ -136,6 +136,9 @@ public class Kernel {
 	protected View[] views = new View[20];
 	/** Number of attached views*/
 	protected int viewCnt = 0;
+	protected boolean addingPolygon = false;
+	protected GeoElement newPolygon;
+	protected ArrayList<GeoElement> deleteList;
 	protected ArrayList<UserAwarenessListener> userAwarenessListeners;
 	/** Construction */
 	protected Construction cons;
@@ -296,6 +299,7 @@ public class Kernel {
 		nf = FormatFactory.prototype.getNumberFormat(2);
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
+		this.deleteList = new ArrayList<GeoElement>();
 	}
 
 	/**
@@ -3140,6 +3144,7 @@ public class Kernel {
 	}
 
 	private ArrayList<AlgoElement> renameListenerAlgos;
+	private boolean updatingObjects = false;
 
 	private void notifyRenameListenerAlgos() {
 		// #4073 command Object[] registers rename listeners 
@@ -3170,6 +3175,12 @@ public class Kernel {
 
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
+			if( addingPolygon && geo.labelSet ){
+				if( geo.getXMLtypeString().equalsIgnoreCase("Polygon")){
+					this.newPolygon = geo;
+				}
+					
+			}
 			for (int i = 0; i < viewCnt; ++i) {
 				if ((views[i].getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
@@ -3180,9 +3191,43 @@ public class Kernel {
 
 		notifyRenameListenerAlgos();
 	}
+	
+	public final void addingPolygon(){
+		if (notifyViewsActive) {
+			this.addingPolygon = true;
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).addingPolygon();
+				}
+			}
+		}
+	}
+	
+	public final void notifyPolygonAdded(){
+		if (notifyViewsActive) {
+
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).addPolygonComplete(this.newPolygon);
+				}
+			}
+		}
+	}
+	
+	public final void notifyRemoveGroup(){
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).deleteGeos(deleteList);
+				}
+			}
+		}
+		this.deleteList.clear();
+	}
 
 	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
+			this.deleteList.add(geo);
 			for (int i = 0; i < viewCnt; ++i) {
 				if ((views[i].getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
@@ -3192,6 +3237,26 @@ public class Kernel {
 		}
 
 		notifyRenameListenerAlgos();
+	}
+	
+	public final void movingGeoSet(){
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).movingGeos();
+				}
+			}
+		}
+	}
+	
+	public final void movedGeoSet( ArrayList<GeoElement> elmSet ){
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).movedGeos(elmSet);
+				}
+			}
+		}
 	}
 
 	public final void notifyUpdate(GeoElement geo) {
@@ -3252,9 +3317,39 @@ public class Kernel {
 		notifyRenameListenerAlgos();
 	}
 	
+	public final void notifyRenameUpdatesComplete(){
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).renameUpdatesComplete();
+				}
+			}
+		}
+	}
+	
 	public void notifyPerspectiveChanged( String perspectiveId ){
 		for( UserAwarenessListener listener : this.userAwarenessListeners ){
 			listener.perspectiveChanged(perspectiveId);
+		}
+	}
+	
+	public void notifyPaste() {
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).pasteElms();
+				}
+			}
+		}
+	}
+
+	public void notifyPasteComplete() {
+		if (notifyViewsActive) {
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] instanceof ClientView) {
+					((ClientView) views[i]).pasteElmsComplete(app.getSelectionManager().getSelectedGeos());
+				}
+			}
 		}
 	}
 

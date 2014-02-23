@@ -298,7 +298,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		/**
 		 * @return value for XML
 		 */
-		int getValue(){
+		public int getValue(){
 			return value;
 		}
 		
@@ -1731,6 +1731,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			updateRepaint();
 		} else {
 			remove();
+			kernel.notifyRemoveGroup();
 		}
 
 	}
@@ -2899,6 +2900,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		kernel.notifyRename(this); // tell views
 		updateCascade();
+		kernel.notifyRenameUpdatesComplete();
 	}
 
 	/**
@@ -3234,7 +3236,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	@Override
 	public void remove() {
-		
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
 			algoParent.remove(this);

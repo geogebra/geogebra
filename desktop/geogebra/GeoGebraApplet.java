@@ -692,4 +692,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().evalGeoGebraCAS(cmdString);
 	}
 
+	public void registerClientListener(String JSFunctionName) {
+		getAppletImplementation().registerClientListener(JSFunctionName);
+	}
+
+	public void unregisterClientListener(String JSFunctionName) {
+		getAppletImplementation().unregisterClientListener(JSFunctionName);
+	}
+
 }

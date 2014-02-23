@@ -2102,7 +2102,11 @@ public abstract class EuclidianController {
 					&& hits.contains(selectedPoints.get(0));
 			if (finished) {
 				// build polygon
-				return polygon();
+				this.kernel.addingPolygon();
+				GeoElement[] elms = polygon();
+				//return polygon();
+				this.kernel.notifyPolygonAdded();
+				return elms;
 				// kernel.Polygon(null, getSelectedPoints());
 			}
 		}
@@ -4466,7 +4470,11 @@ public abstract class EuclidianController {
 	 * @return regular polygon
 	 */
 	public GeoElement[] regularPolygon(GeoPointND geoPoint1, GeoPointND geoPoint2, GeoNumberValue value){
-		return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
+		this.kernel.addingPolygon();
+		GeoElement[] elms = kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
+		this.kernel.notifyPolygonAdded();
+		return elms;
+		//return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, value);
 	}
 	
 	protected final GeoElement[] angle(Hits hits) {
@@ -6303,8 +6311,10 @@ public abstract class EuclidianController {
 	
 		// we don't specify screen coords for translation as all objects are
 		// Transformables
+		kernel.movingGeoSet();
 		GeoElement.moveObjects(translateableGeos, translationVec, new Coords(
 				xRW, yRW, 0), null);
+		kernel.movedGeoSet(translateableGeos);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
@@ -6340,7 +6350,6 @@ public abstract class EuclidianController {
 		// move all selected geos
 		GeoElement.moveObjects(removeParentsOfView(getAppSelectedGeos()),
 				translationVec, new Coords(xRW, yRW, 0), null);
-	
 		if (repaint) {
 			kernel.notifyRepaint();
 		}

@@ -1502,4 +1502,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 		
 	}
 
+	public void registerClientListener(String JSFunctionName) {
+		ggbApi.registerClientListener(JSFunctionName);
+	}
+
+	public void unregisterClientListener(String JSFunctionName) {
+		ggbApi.unregisterClientListener(JSFunctionName);
+	}
+
 }

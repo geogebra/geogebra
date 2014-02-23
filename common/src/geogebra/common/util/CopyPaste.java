@@ -697,6 +697,8 @@ public class CopyPaste {
 		if (!app.getActiveEuclidianView().getEuclidianController().mayPaste())
 			return;
 
+		app.getKernel().notifyPaste();
+		
 		copyObject2 = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
 
@@ -746,6 +748,8 @@ public class CopyPaste {
 		app.getActiveEuclidianView().getEuclidianController()
 				.setPastePreviewSelected();
 		app.setMode(EuclidianConstants.MODE_MOVE);
+		
+		app.getKernel().notifyPasteComplete();
 	}
 
 	/**
