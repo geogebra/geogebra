@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.euclidian.EuclidianControllerWeb;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.event.PointerEvent;
@@ -39,10 +40,8 @@ import com.google.gwt.user.client.Timer;
  * @see geogebra.common.euclidian.EuclidianController EuclidianController
  * 
  */
-public class TouchController extends EuclidianController implements
+public class TouchController extends EuclidianControllerWeb implements
 		IsEuclidianController {
-
-	public static final int MIN_DIST = 30;
 
 	/**
 	 * Maximum time in ms between touch move was stopped (finger not moving, but
@@ -56,9 +55,6 @@ public class TouchController extends EuclidianController implements
 	private int waitingY;
 	private PointerEventType waitingType;
 	private long lastMoveEvent;
-	private boolean zoomY = false;
-	private boolean zoomX = false;
-	private double scale = 0;
 
 	private final Timer repaintTimer = new Timer() {
 		@Override
@@ -449,42 +445,5 @@ public class TouchController extends EuclidianController implements
 
 	public void handleAlgebraHeaderClicked(ArrayList<GeoElement> list) {
 		this.model.handleAlgebraHeaderClicked(list);
-	}
-
-	@Override
-	public void twoTouchStart(double x1, double y1, double x2, double y2) {
-		this.zoomY = this.view.toRealWorldCoordX(x1 + MIN_DIST) >= 0
-				&& this.view.toRealWorldCoordX(x1 - MIN_DIST) <= 0
-				&& this.view.toRealWorldCoordX(x2 + MIN_DIST) >= 0
-				&& this.view.toRealWorldCoordX(x2 - MIN_DIST) <= 0;
-		this.zoomX = this.view.toRealWorldCoordY(y1 + MIN_DIST) <= 0
-				&& this.view.toRealWorldCoordY(y1 - MIN_DIST) >= 0
-				&& this.view.toRealWorldCoordY(y2 + MIN_DIST) <= 0
-				&& this.view.toRealWorldCoordY(y2 - MIN_DIST) >= 0;
-
-		if (this.zoomY) {
-			this.oldDistance = y1 - y2;
-			this.scale = this.view.getYscale();
-		} else if (this.zoomX) {
-			this.oldDistance = x1 - x2;
-			this.scale = this.view.getXscale();
-		} else {
-			super.twoTouchStart(x1, y1, x2, y2);
-		}
-	}
-
-	@Override
-	public void twoTouchMove(double x1, double y1, double x2, double y2) {
-		if (this.zoomY) {
-			double newRatio = this.scale * (y1 - y2) / this.oldDistance;
-			this.view.setCoordSystem(this.view.getXZero(),
-					this.view.getYZero(), this.view.getXscale(), newRatio);
-		} else if (this.zoomX) {
-			double newRatio = this.scale * (x1 - x2) / this.oldDistance;
-			this.view.setCoordSystem(this.view.getXZero(),
-					this.view.getYZero(), newRatio, this.view.getYscale());
-		} else {
-			super.twoTouchMove(x1, y1, x2, y2);
-		}
 	}
 }

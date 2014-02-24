@@ -1569,16 +1569,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// look for axis
 		if (hits.getImageCount() == 0) {
 			// x axis hit
-			if (showAxes[0] && (Math.abs(getYAxisCrossingPixel() - p.y) < 3)) {
+			if (showAxes[0] && (Math.abs(getYAxisCrossingPixel() - p.y) < hitThreshold)) {
 				// handle positive axis only
-				if (!positiveAxes[0] || (getXAxisCrossingPixel() < p.x - 3)) {
+				if (!positiveAxes[0] || (getXAxisCrossingPixel() < p.x - hitThreshold)) {
 					hits.add(kernel.getXAxis());
 				}
 			}
 			// y axis hit
-			if (showAxes[1] && (Math.abs(getXAxisCrossingPixel() - p.x) < 3)) {
+			if (showAxes[1] && (Math.abs(getXAxisCrossingPixel() - p.x) < hitThreshold)) {
 				// handle positive axis only
-				if (!positiveAxes[1] || (getYAxisCrossingPixel() > p.y - 3)) {
+				if (!positiveAxes[1] || (getYAxisCrossingPixel() > p.y - hitThreshold)) {
 					hits.add(kernel.getYAxis());
 				}
 			}
