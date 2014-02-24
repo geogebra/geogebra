@@ -10,7 +10,6 @@
 	<property name="workspace.dir" location="../"/>
 	
 	<property name="jogl" value="2"/>
-	<property name="jogl1.dir" value="${src.dir}/../jogl1"/>
 	<property name="jogl2.dir" value="${src.dir}/../jogl2"/>
 	<!--property environment="env"/-->
 
