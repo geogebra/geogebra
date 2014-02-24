@@ -1492,6 +1492,7 @@ body[dir=rtl] .signIn {
 
 .GeoGebraMenuBar.subMenuLeftSide {
     right: 220px;
+    white-space:nowrap;
     top: -10px;
     position: absolute;
     z-index: 1000;

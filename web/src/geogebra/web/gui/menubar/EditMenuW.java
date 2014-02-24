@@ -18,7 +18,7 @@ public class EditMenuW extends MenuBar {
 	/**
 	 * Application instance
 	 */
-	final App app;
+	final AppW app;
 	final SelectionManager selection;
 
 	InsertImageMenuW iim;
@@ -27,7 +27,7 @@ public class EditMenuW extends MenuBar {
 	 * Constructs the "Edit" menu
 	 * @param app Application instance
 	 */
-	public EditMenuW(App app) {
+	public EditMenuW(AppW app) {
 
 		super(true);
 		this.app = app;

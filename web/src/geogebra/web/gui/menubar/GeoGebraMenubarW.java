@@ -11,6 +11,7 @@ import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 
@@ -18,6 +19,8 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -356,4 +359,14 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable, GeoGeb
 			
         }
 		
+		public static void addSubmenuArrow(AppW app,MenuBar w) {
+			if (app.getLAF().isSmart()) {
+				w.addStyleName("subMenuLeftSide");
+				FlowPanel arrowSubmenu = new FlowPanel();
+				arrowSubmenu.addStyleName("arrowSubmenu");
+				Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_right());
+				arrowSubmenu.add(arrow);
+			    w.getElement().appendChild(arrowSubmenu.getElement());
+			}
+	    }
 }

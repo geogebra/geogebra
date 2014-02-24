@@ -3,7 +3,6 @@ package geogebra.web.gui.menubar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
@@ -22,8 +21,8 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionListener{
 	
-	private static App app;
-	static Kernel kernel;
+	private AppW app;
+	private Kernel kernel;
 	private static int currentZoom = 1;
 	
 	private LanguageMenuW languageMenu;
@@ -32,7 +31,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	 * Constructs the "Option" menu
 	 * @param app Application instance
 	 */
-	public OptionsMenuW(App app) {
+	public OptionsMenuW(AppW app) {
 		super(true);
 	    this.app = app;
 	    kernel = app.getKernel();

@@ -2,7 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
-import geogebra.common.main.App;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -23,17 +23,18 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	private String[] texts;
 	String[] commands;
 	MyActionListener listener;
-	private App app;
+	private AppW app;
 
 	/**
 	 * Creates a RadioButtonMenuBarW instance
 	 * @param application Application instance
 	 */
-	public RadioButtonMenuBarW(App application) {
+	public RadioButtonMenuBarW(AppW application) {
 		super(true);
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();
 		app = application;
+		GeoGebraMenubarW.addSubmenuArrow(app, this);
 	}
 
 	private MenuItem addItem(String text, Command com, boolean selected) {
