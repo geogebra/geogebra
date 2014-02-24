@@ -2592,6 +2592,8 @@ label {
 
 .ProbCalcPanel .ProbabilityTableW {
 	float: right;
+	width: 100px;
+	height: 300px;
 	margin: 0;
 	padding: 0;
 	overflow: auto;

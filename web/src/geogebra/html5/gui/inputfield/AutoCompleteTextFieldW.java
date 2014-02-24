@@ -104,6 +104,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 */
 	private boolean isEqualsRequired = false;
 
+
+	/**
+	 * Flag to determine if Tab key should behave like usual or disabled.
+	 */
+	private boolean tabEnabled = false;
+	
 	/**
 	 * Pattern to find an argument description as found in the syntax
 	 * information of a command.
@@ -782,6 +788,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void onKeyDown(KeyDownEvent e) {
+		if (!isTabEnabled()) {
+			return;
+		}
 		int keyCode = e.getNativeKeyCode();
 		if (keyCode == GWTKeycodes.KEY_TAB) {
 			e.preventDefault();
@@ -1303,5 +1312,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
             BlurHandler handler) {
 	    getTextBox().addBlurHandler(handler);
 
+    }
+
+	public boolean isTabEnabled() {
+	    return tabEnabled;
+    }
+
+	public void setTabEnabled(boolean tabEnabled) {
+	    this.tabEnabled = tabEnabled;
     }
 }

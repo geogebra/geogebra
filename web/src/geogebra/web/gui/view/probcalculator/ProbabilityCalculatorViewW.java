@@ -335,7 +335,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    	fldParameterArray[i].addKeyUpHandler(this);
 	    	fldParameterArray[i].addFocusHandler(this);
 	    	fldParameterArray[i].addBlurHandler(this);
-	    	fldParameterArray[i].getTextBox().setTabIndex(i);
+	    	fldParameterArray[i].getTextBox().setTabIndex(i + 1);
 	    }
 	    
 	    comboProbType = new ListBox();
@@ -764,7 +764,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		
 		@Override
         public void onResize() { 
-			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 30;
+			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() -  50;
 			if (width > 0) { 
 				plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 				plotPanel.repaintView();

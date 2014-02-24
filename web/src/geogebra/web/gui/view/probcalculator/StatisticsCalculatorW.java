@@ -68,6 +68,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	private FlowPanel panelTestAndCI;
 	private ChiSquarePanelW panelChiSquare;
 	private FlowPanel scroller;
+	private int tabIndex;
 
 	public StatisticsCalculatorW(App app) {
 		super(app);
@@ -488,7 +489,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   panelControl.add(cbProcedure);
     }
 
+	private void addNextTabIndex(AutoCompleteTextFieldW field) {
+		field.getTextField().setTabIndex(tabIndex);
+		tabIndex++;
+	
+	}
 	private void createGUIElements() {
+		tabIndex = 1; // 0 as first tabindex does not work.
 	    resultPane = new RichTextArea();
 	    resultPane.addStyleName("resultPane");
 	    resultPane.setEnabled(false);
@@ -539,19 +546,25 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addKeyUpHandler(this);
 		fldNullHyp.addFocusHandler(this);
-
+		addNextTabIndex(fldNullHyp);
+		
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addKeyUpHandler(this);
 		fldConfLevel.addFocusHandler(this);
 
+		addNextTabIndex(fldConfLevel);
+		
 		lblSigma = new Label();
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addKeyUpHandler(this);
 		fldSigma.addFocusHandler(this);
-
+		
+		addNextTabIndex(fldSigma);
+		
+		
 		lblSampleStat1 = new Label[3];
 		for (int i = 0; i < lblSampleStat1.length; i++) {
 			lblSampleStat1[i] = new Label();
@@ -564,7 +577,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addKeyUpHandler(this);
 			fldSampleStat1[i].addFocusHandler(this);
-			fldSampleStat1[i].getTextBox().setTabIndex(i);
+			addNextTabIndex(fldSampleStat1[i]);
 		}
 
 		lblSampleStat2 = new Label[3];
@@ -579,7 +592,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyUpHandler(this);
 			fldSampleStat2[i].addFocusHandler(this);
-			fldSampleStat2[i].getTextBox().setTabIndex(fldSampleStat1.length + i);
+			addNextTabIndex(fldSampleStat2[i]);
+
 		}	    
 	    
     }
