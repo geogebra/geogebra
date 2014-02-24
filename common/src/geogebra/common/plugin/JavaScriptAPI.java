@@ -57,8 +57,6 @@ public interface JavaScriptAPI {
 	public boolean evalCommand(String cmdString);
 
 	public String evalCommandCAS(String cmdString);
-	
-	public String evalGeoGebraCAS(String cmdString);
 
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's 
@@ -176,12 +174,7 @@ public interface JavaScriptAPI {
 	 * Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.
 	 */
 	public void setLabelStyle(String objName, int style);
-	
-	/**
-	 * Shows or hides the label of the object with the given name in the geometry window.
-	 */
-	public void setLabelMode(String objName, boolean visible);
-	
+
 	/**
 	 * Sets the line thickness of the object with the given name.
 	 */

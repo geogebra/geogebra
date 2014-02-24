@@ -227,18 +227,15 @@ public class AppD extends App implements KeyEventDispatcher {
 			"geogebra_usb.jar", "geogebra_properties.jar",
 			// 5.0 specific JARs :
 			"OpenGeoProver.jar"
-			// GEOGEBRA_3D_JAR_NAME, "jogl.all.jar" and "gluegen-rt.jar" and maybe others
-			// will be required for 3D View support
-	
+	// GEOGEBRA_3D_JAR_NAME, "jogl.all.jar" and "gluegen-rt.jar" and maybe
+	// others
+	// will be required for 3D View support
+
 	};
 
 	// ==============================================================
 	// LOCALE fields
 	// ==============================================================
-
-	
-
-	
 
 	// ==============================================================
 	// FILE fields
@@ -277,10 +274,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	// RESOURCE fields
 	// ==============================================================
 
-	private ResourceBundle   
-			rbcommandEnglish,   
-			rbmenuEnglish, rbsettings;
-	
+	private ResourceBundle rbcommandEnglish, rbmenuEnglish, rbsettings;
+
 	private final LocalizationD loc;
 
 	private static final String RB_SETTINGS = "/geogebra/export/settings";
@@ -313,7 +308,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	private DockBarInterface dockBar;
 	private boolean showDockBar = true;
 	private boolean isDockBarEast = true;
-	
+
 	protected boolean showAlgebraView = true;
 
 	/**
@@ -353,9 +348,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	private PluginManager pluginmanager = null;
 
 	private SpreadsheetTableModelD tableModel;
-	
+
 	private AuthenticationModelD authenticationModel;
-	
 
 	// ==============================================================
 	// MISC FLAGS
@@ -365,12 +359,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private boolean allowToolTips = true;
 
-	private boolean isErrorDialogsActive = true;
-
 	protected boolean isErrorDialogShowing = false;
 
 	public boolean macsandbox = false;
-	
+
 	/*************************************************************
 	 * Construct application within JFrame
 	 * 
@@ -415,7 +407,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	protected AppD(CommandLineArguments args, JFrame frame,
-			AppletImplementation appletImpl, Container comp, boolean undoActive,LocalizationD loc) {
+			AppletImplementation appletImpl, Container comp,
+			boolean undoActive, LocalizationD loc) {
 		this.loc = loc;
 		loc.setApp(this);
 		this.args = args;
@@ -492,7 +485,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// init settings
 		settings = new Settings();
-		
+
 		// init euclidian view
 		initEuclidianViews();
 
@@ -526,11 +519,12 @@ public class AppD extends App implements KeyEventDispatcher {
 		handleOptionArgsEarly(args); // for --regressionFile=...
 
 		// here we initialize SingularWS
-		// for a better approach see [22746] --- but it would break file loading at the moment
+		// for a better approach see [22746] --- but it would break file loading
+		// at the moment
 		initializeSingularWSD();
 
 		toolbarPosition = SwingConstants.NORTH;
-		
+
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI
@@ -552,7 +546,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			if (!fileLoaded && !ggtloading) {
 				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 			}
-			
+
 			if (MAC_OS) {
 				String path = System.getProperty("user.home") + "/Documents";
 				if (currentPath == null) {
@@ -567,9 +561,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
 		}
-		
-		if (needsSpreadsheetTableModel){
-			//if tableModel==null, will create one
+
+		if (needsSpreadsheetTableModel) {
+			// if tableModel==null, will create one
 			getSpreadsheetTableModel();
 		}
 
@@ -606,14 +600,14 @@ public class AppD extends App implements KeyEventDispatcher {
 			setCASVersionString(getPlain("CASInitializing"));
 
 		}
-		
+
 		if (!isApplet()) {
 			// user authentication handling
 			initSignInEventFlow();
 		}
-		//GiacD giac = new GiacD();
-		//App.debug(giac.evalCAS("factor(x^4-1)"));
-		
+		// GiacD giac = new GiacD();
+		// App.debug(giac.evalCAS("factor(x^4-1)"));
+
 	}
 
 	// **************************************************************************
@@ -771,7 +765,8 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ ProverSettings.freePointsNeverCollinear
 							+ "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
 							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
-							+ ProverSettings.useFixCoordinatesProve + ProverSettings.useFixCoordinatesProveDetails 
+							+ ProverSettings.useFixCoordinatesProve
+							+ ProverSettings.useFixCoordinatesProveDetails
 							+ "] (Botana only)\n"
 							+ "      transcext:BOOLEAN\tuse polynomial ring with coeffs from a transcendental extension for Prove ["
 							+ ProverSettings.transcext
@@ -798,7 +793,8 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "]\n"
 							+ "      caching:BOOLEAN\tset server side caching ["
 							+ SingularWSSettings.getCachingText()
-							+ "]\n" + "  Example: singularWS=timeout:3\n");
+							+ "]\n"
+							+ "  Example: singularWS=timeout:3\n");
 			System.exit(0);
 		}
 		// help debug applets
@@ -914,20 +910,21 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (args.containsArg("forceFont")) {
 			String fontName = args.getStringValue("forceFont");
-			
+
 			if (fontName.startsWith("\"") && fontName.endsWith("\"")) {
 				fontName = fontName.substring(1, fontName.length() - 1);
 			}
-			
+
 			fontName = fontName.replaceAll(" ", "");
-			
-			GraphicsEnvironment graphicsEnvironment =
-                    GraphicsEnvironment.getLocalGraphicsEnvironment();
-			String[] allFonts = graphicsEnvironment.getAvailableFontFamilyNames();
-			
+
+			GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
+			String[] allFonts = graphicsEnvironment
+					.getAvailableFontFamilyNames();
+
 			boolean found = false;
-			
-			for (String s: allFonts) {
+
+			for (String s : allFonts) {
 				App.debug(s);
 				if (s.replaceAll(" ", "").equals(fontName)) {
 					found = true;
@@ -935,17 +932,17 @@ public class AppD extends App implements KeyEventDispatcher {
 					break;
 				}
 			}
-			
+
 			if (found) {
 				App.debug("forcing font to be:" + fontName);
 				FontManagerD.forcedFontName = fontName;
 				resetFonts();
-				
+
 				// resetFonts() doesn't seem to work
 				// hack
-				setFontSize(getFontSize()+2);
-				setFontSize(getFontSize()-2);
-				
+				setFontSize(getFontSize() + 2);
+				setFontSize(getFontSize() - 2);
+
 			} else {
 				App.debug("can't force font to be " + fontName + " (not found)");
 			}
@@ -960,9 +957,9 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		boolean macSandbox = args.getBooleanValue("macSandbox", false);
 		if (macSandbox) {
-			this.macsandbox  = true;
+			this.macsandbox = true;
 		}
-		
+
 		setVersionCheckAllowed(args.getStringValue("versionCheckAllow"));
 
 	}
@@ -1043,8 +1040,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 		if ("usefixcoords".equalsIgnoreCase(str[0])) {
-			int fixcoordsP = Integer.valueOf(str[1].substring(0,1));
-			int fixcoordsPD = Integer.valueOf(str[1].substring(1,2));
+			int fixcoordsP = Integer.valueOf(str[1].substring(0, 1));
+			int fixcoordsPD = Integer.valueOf(str[1].substring(1, 2));
 
 			if (fixcoordsP < 0 || fixcoordsP > 4)
 				Log.error("Improper value for usefixcoords for Prove, using default instead");
@@ -1055,7 +1052,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				Log.error("Improper value for usefixcoords for ProveDetails, using default instead");
 			else
 				ProverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
-				
+
 			return;
 		}
 		if ("transcext".equalsIgnoreCase(str[0])) {
@@ -1063,7 +1060,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 		if ("captionalgebra".equalsIgnoreCase(str[0])) {
-			ProverSettings.captionAlgebra = Boolean.valueOf(str[1]).booleanValue();
+			ProverSettings.captionAlgebra = Boolean.valueOf(str[1])
+					.booleanValue();
 			return;
 		}
 		Log.warn("Prover option not recognized: ".concat(option));
@@ -1304,22 +1302,22 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		return fileName.substring(0, dotPos);
 	}
-	
+
 	@Override
-	public void createNewWindow(){
+	public void createNewWindow() {
 		GeoGebraFrame.createNewWindow(args.getGlobalArguments());
 	}
-	
+
 	@Override
 	public void fileNew() {
-		
+
 		// clear all
 		// triggers the "do you want to save" dialog
 		// so must be called first
-		if (!clearConstruction()) {			
+		if (!clearConstruction()) {
 			return;
 		}
-		
+
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
 			getGuiManager().clearInputbar();
@@ -1369,9 +1367,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean addMacroXML(String xml) {
 		boolean ok = true;
 		try {
-			getXMLio().processXMLString("<geogebra format=\""
-					+ GeoGebraConstants.XML_FILE_FORMAT + "\">" + xml
-					+ "</geogebra>", false, true);
+			getXMLio().processXMLString(
+					"<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
+							+ "\">" + xml + "</geogebra>", false, true);
 		} catch (MyError err) {
 			err.printStackTrace();
 			showError(err);
@@ -1419,9 +1417,9 @@ public class AppD extends App implements KeyEventDispatcher {
 			if (i > 0) { // load in new Window
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						
-						geogebra.gui.app.GeoGebraFrame
-						.createNewWindow(args.getGlobalArguments().add(key, fileArgument));
+
+						geogebra.gui.app.GeoGebraFrame.createNewWindow(args
+								.getGlobalArguments().add(key, fileArgument));
 					}
 				});
 			} else {
@@ -1499,10 +1497,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean loadBase64File(final File file) {
 		if (!file.exists()) {
 			// show file not found message
-			JOptionPane.showConfirmDialog(getMainComponent(),
-					getLocalization().getError("FileNotFound") + ":\n" + file.getAbsolutePath(),
-					getLocalization().getError("Error"), JOptionPane.DEFAULT_OPTION,
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showConfirmDialog(getMainComponent(), getLocalization()
+					.getError("FileNotFound") + ":\n" + file.getAbsolutePath(),
+					getLocalization().getError("Error"),
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
@@ -1519,7 +1517,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			// characters
 		} catch (Exception e) {
 			setDefaultCursor();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n" + file);
+			showError(getLocalization().getError("LoadFileFailed") + ":\n"
+					+ file);
 			e.printStackTrace();
 			return false;
 
@@ -1945,10 +1944,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public GImageIcon wrapGetModeIcon(int mode){
+	public GImageIcon wrapGetModeIcon(int mode) {
 		return new geogebra.javax.swing.GImageIconD(getModeIcon(mode));
 	}
-	
+
 	public ImageIcon getModeIcon(int mode) {
 		ImageIcon icon;
 
@@ -2139,18 +2138,17 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void copyGraphicsViewToClipboard() {
 
-		copyGraphicsViewToClipboard(getGuiManager()
-				.getActiveEuclidianView());
+		copyGraphicsViewToClipboard(getGuiManager().getActiveEuclidianView());
 	}
 
 	@Override
 	public void copyBase64ToClipboard() {
-		
+
 		// don't include preview bitmap
 		String str = getGgbApi().getBase64(false);
 
 		Toolkit.getDefaultToolkit().getSystemClipboard()
-		.setContents(new StringSelection(str), null);
+				.setContents(new StringSelection(str), null);
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView euclidianView) {
@@ -2213,7 +2211,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				img);
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(imgSel, null);
-		}
+	}
 
 	private static Rectangle screenSize = null;
 
@@ -2277,8 +2275,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc;
 	}
 
-	
-
 	@Override
 	public void setTooltipLanguage(String s) {
 
@@ -2291,9 +2287,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 	}
-
-	
-	
 
 	@Override
 	public int getTooltipTimeout() {
@@ -2374,7 +2367,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		getLocalization().updateLanguageFlags(locale.getLanguage());
 
 	}
-	
+
 	/**
 	 * @return current locale
 	 */
@@ -2382,12 +2375,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc.getLocale();
 	}
 
-	
 	final public String getEnglishCommand(String key) {
 
 		if (rbcommandEnglish == null) {
-			rbcommandEnglish = MyResourceBundle.createBundle(LocalizationD.RB_COMMAND,
-					Locale.ENGLISH);
+			rbcommandEnglish = MyResourceBundle.createBundle(
+					LocalizationD.RB_COMMAND, Locale.ENGLISH);
 		}
 
 		try {
@@ -2400,8 +2392,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	final public String getEnglishMenu(String key) {
 
 		if (rbmenuEnglish == null) {
-			rbmenuEnglish = MyResourceBundle.createBundle(LocalizationD.RB_MENU,
-					Locale.ENGLISH);
+			rbmenuEnglish = MyResourceBundle.createBundle(
+					LocalizationD.RB_MENU, Locale.ENGLISH);
 		}
 		try {
 			return rbmenuEnglish.getString(key);
@@ -2409,10 +2401,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			return key;
 		}
 	}
-
-	
-
-	
 
 	/**
 	 * Gets particular setting for HTML export
@@ -2432,8 +2420,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			return null;
 		}
 	}
-
-	
 
 	/**
 	 * Shows localized help message
@@ -2484,7 +2470,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		Container cp;
 		if (isApplet) {
 			cp = appletImpl.getJApplet().getContentPane();
-		} else if ( (frame != null) && (frame == mainComp) ) {
+		} else if ((frame != null) && (frame == mainComp)) {
 			cp = frame.getContentPane();
 		} else {
 			cp = (Container) mainComp;
@@ -2501,7 +2487,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (hasEuclidianView2()) {
 			getEuclidianView2().updateSize();
 		}
-		
+
 		// update layout
 		if (updateComponentTreeUI) {
 			updateComponentTreeUI();
@@ -2546,7 +2532,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected void updateComponentTreeUI() {
 		if (isApplet()) {
 			SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-		} else if ( (frame != null) && (frame == mainComp) ) {
+		} else if ((frame != null) && (frame == mainComp)) {
 			SwingUtilities.updateComponentTreeUI(frame);
 		} else if (mainComp != null) {
 			SwingUtilities.updateComponentTreeUI(mainComp);
@@ -2634,9 +2620,11 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (showDockBar && !isApplet()) {
 				if (dockBar.isEastOrientation())
-					applicationPanel.add((Component) dockBar, getLocalization().borderEast());
+					applicationPanel.add((Component) dockBar, getLocalization()
+							.borderEast());
 				else {
-					applicationPanel.add((Component) dockBar, getLocalization().borderWest());
+					applicationPanel.add((Component) dockBar, getLocalization()
+							.borderWest());
 				}
 			}
 
@@ -2658,7 +2646,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		// Minimal applet case: return only the center panel with the EV
-		applicationPanel.add(((EuclidianViewInterfaceDesktop) euclidianView).getJPanel(),
+		applicationPanel.add(
+				((EuclidianViewInterfaceDesktop) euclidianView).getJPanel(),
 				BorderLayout.CENTER);
 		centerPanel.add(applicationPanel, BorderLayout.CENTER);
 		return applicationPanel;
@@ -2723,8 +2712,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			AppD2.initToolbar(this, toolbarPosition, showToolBarHelp,
 					northPanel, eastPanel, southPanel, westPanel);
 		}
-		
-		if (frame != null && frame.getContentPane() != null) { 
+
+		if (frame != null && frame.getContentPane() != null) {
 			frame.getContentPane().validate();
 		}
 
@@ -2958,22 +2947,23 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean isDockBarEast() {
 		return isDockBarEast;
 	}
-	
+
 	public void setDockBarEast(boolean isDockBarEast) {
 		this.isDockBarEast = isDockBarEast;
-		if(getDockBar() != null){
+		if (getDockBar() != null) {
 			dockBar.setEastOrientation(isDockBarEast);
 		}
 	}
-	
+
 	/**
-	 * Set show dockBar with GUI update 
+	 * Set show dockBar with GUI update
+	 * 
 	 * @param showDockBar
 	 */
 	public void setShowDockBar(boolean showDockBar) {
 		setShowDockBar(showDockBar, true);
 	}
-	
+
 	public void setShowDockBar(boolean showDockBar, boolean update) {
 		this.showDockBar = showDockBar;
 		if (update) {
@@ -3038,7 +3028,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	final public Font getPlainFont() {
 		return fontManager.getPlainFont(false);
 	}
-	
+
 	@Override
 	final public geogebra.common.awt.GFont getPlainFontCommon() {
 		return new geogebra.awt.GFontD(fontManager.getPlainFont(true));
@@ -3084,7 +3074,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		mainComp.setCursor(waitCursor);
 
 		if (euclidianView != null) {
-			((EuclidianViewInterfaceDesktop) getActiveEuclidianView()).setCursor(waitCursor);
+			((EuclidianViewInterfaceDesktop) getActiveEuclidianView())
+					.setCursor(waitCursor);
 		}
 
 		if (guiManager != null) {
@@ -3218,17 +3209,17 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public boolean clearConstruction() {
 		if (isSaved() || saveCurrentFile()) {
-			
+
 			kernel.clearConstruction(true);
 
 			kernel.initUndoInfo();
 			resetMaxLayerUsed();
 			setCurrentFile(null);
 			setMoveMode();
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -3268,8 +3259,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return getGuiManager().saveCurrentFile();
 	}
 
-	
-	
 	// **************************************************************************
 	// SAVE / LOAD
 	// **************************************************************************
@@ -3286,12 +3275,15 @@ public class AppD extends App implements KeyEventDispatcher {
 			 * missing file was loaded through the command line, which causes
 			 * some nasty rendering problems.
 			 */
-			JOptionPane.showConfirmDialog(null, getLocalization().getError("FileNotFound")
-					+ ":\n" + file.getAbsolutePath(), getLocalization().getError("Error"),
-					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showConfirmDialog(
+					null,
+					getLocalization().getError("FileNotFound") + ":\n"
+							+ file.getAbsolutePath(), getLocalization()
+							.getError("Error"), JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		
+
 		kernel.notifyOpeningFile(file.getName());
 
 		setWaitCursor();
@@ -3343,7 +3335,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		} catch (Exception e) {
 			setCurrentFile(null);
 			e.printStackTrace();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n" + file);
+			showError(getLocalization().getError("LoadFileFailed") + ":\n"
+					+ file);
 			return false;
 		} finally {
 			initing = false;
@@ -3447,31 +3440,33 @@ public class AppD extends App implements KeyEventDispatcher {
 			BufferedInputStream bis = new BufferedInputStream(is);
 
 			bis = new BufferedInputStream(is);
-			
+
 			if (bis.markSupported()) {
 				bis.mark(Integer.MAX_VALUE);
-				BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(bis));
 				String str = reader.readLine();
-					
-				// check if .ggb file is actually a base64 file from 4.2 Chrome App
+
+				// check if .ggb file is actually a base64 file from 4.2 Chrome
+				// App
 				if (str != null && str.startsWith("UEs")) {
-					
+
 					StringBuilder sb = new StringBuilder(str);
 					sb.append("\n");
-					
-					while ((str = reader.readLine()) != null) { 
-						sb.append(str + "\n" );
-					} 
-	
+
+					while ((str = reader.readLine()) != null) {
+						sb.append(str + "\n");
+					}
+
 					reader.close();
 					is.close();
 					bis.close();
-		
+
 					byte[] zipFile = Base64.decode(sb.toString());
-	
+
 					return loadXML(zipFile);
 				}
-				
+
 				bis.reset();
 			}
 
@@ -3559,8 +3554,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-
-
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -3615,21 +3608,22 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	protected int getWindowWidth(){
+	protected int getWindowWidth() {
 		if ((frame != null) && (frame.getWidth() > 0)) {
 			return frame.getWidth();
 		} else {
 			return 800;
 		}
 	}
-	
-	protected int getWindowHeight(){
+
+	protected int getWindowHeight() {
 		if ((frame != null) && (frame.getHeight() > 0)) {
 			return frame.getHeight();
 		} else {
 			return 600;
 		}
 	}
+
 	/*
 	 * final public void clearAll() { // load preferences
 	 * GeoGebraPreferences.loadXMLPreferences(this); updateContentPane(); //
@@ -3904,10 +3898,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	public static boolean isControlDown(InputEvent e) {
 
 		return isControlDown(e.isMetaDown(), e.isControlDown());
-		
+
 	}
-	
-	public static final boolean isControlDown(boolean isMetaDown, boolean isControlDown) {
+
+	public static final boolean isControlDown(boolean isMetaDown,
+			boolean isControlDown) {
 
 		/*
 		 * debug("isMetaDown = "+e.isMetaDown()); debug("isControlDown =
@@ -3977,7 +3972,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// return e.isMetaDown();
 
 	}
-	
 
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
 
@@ -4012,14 +4006,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	// ERROR HANDLING
 	// **************************************************************************
 
-	public final boolean isErrorDialogsActive() {
-		return isErrorDialogsActive;
-	}
-
-	public final void setErrorDialogsActive(boolean isErrorDialogsActive) {
-		this.isErrorDialogsActive = isErrorDialogsActive;
-	}
-
 	@Override
 	public void showError(String key) {
 		showErrorDialog(getLocalization().getError(key));
@@ -4040,7 +4026,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		Object[] options = { getPlain("OK"), getPlain("ShowOnlineHelp") };
 		int n = JOptionPane.showOptionDialog(mainComp, message,
-				getPlain("ApplicationName") + " - " + getLocalization().getError("Error"),
+				getPlain("ApplicationName") + " - "
+						+ getLocalization().getError("Error"),
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, // do
 																				// not
 																				// use
@@ -4064,10 +4051,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	@Override
 	public void showErrorDialog(final String msg) {
-		if (!isErrorDialogsActive) {
+		if (!isErrorDialogsActive()) {
 			return;
 		}
-		
+
 		// don't remove, useful
 		App.printStacktrace("");
 
@@ -4368,31 +4355,18 @@ public class AppD extends App implements KeyEventDispatcher {
 		return soundManager;
 	}
 
-	
-	
-	/*public void checkCommands(HashMap<String, CommandProcessor> map) {
-		initTranslatedCommands();
-
-		if (rbcommand == null) {
-			return; // eg applet with no properties jar
-		}
-
-		Enumeration<String> e = rbcommand.getKeys();
-		while (e.hasMoreElements()) {
-			String s = e.nextElement();
-			if (!s.contains(syntaxStr) && (map.get(s) == null)) {
-				boolean write = true;
-				try {
-					rbcommand.getString(s + syntaxStr);
-				} catch (Exception ex) {
-					write = false;
-				}
-				if (write) {
-					debug("checkCommands: " + s);
-				}
-			}
-		}
-	}*/
+	/*
+	 * public void checkCommands(HashMap<String, CommandProcessor> map) {
+	 * initTranslatedCommands();
+	 * 
+	 * if (rbcommand == null) { return; // eg applet with no properties jar }
+	 * 
+	 * Enumeration<String> e = rbcommand.getKeys(); while (e.hasMoreElements())
+	 * { String s = e.nextElement(); if (!s.contains(syntaxStr) && (map.get(s)
+	 * == null)) { boolean write = true; try { rbcommand.getString(s +
+	 * syntaxStr); } catch (Exception ex) { write = false; } if (write) {
+	 * debug("checkCommands: " + s); } } } }
+	 */
 
 	@Override
 	public void setScrollToShow(boolean b) {
@@ -4411,9 +4385,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return drawEquation;
 	}
 
-	
-	
-	
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = "" + UUID.randomUUID();
@@ -4450,8 +4421,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean showView(int view) {
 		return getGuiManager().showView(view);
 	}
-
-	
 
 	@Override
 	public void evalJavaScript(App app, String script, String arg) {
@@ -4539,8 +4508,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return tableModel;
 	}
 
-
-
 	@Override
 	public boolean isRightClick(AbstractEvent e) {
 		return isRightClick(geogebra.euclidian.event.MouseEventD.getEvent(e));
@@ -4585,15 +4552,15 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	/**
-	 * Whether we are using Java 6
-	 * (Java 5: no longer supported, Java 7+: can't use clipboard on OSX) 
+	 * Whether we are using Java 6 (Java 5: no longer supported, Java 7+: can't
+	 * use clipboard on OSX)
 	 * 
 	 * @return whether we are using Java 6
 	 */
 	public boolean isJava6() {
 		return System.getProperty("java.version").startsWith("1.6.");
 	}
-	
+
 	// don't pull these up to common, use the non static methods isWindows(),
 	// isMacOS(), isWindowsVistaOrLater() instead
 	private static String OS = System.getProperty("os.name").toLowerCase(
@@ -4657,7 +4624,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
 	}
-	
+
 	@Override
 	public String getCountryFromGeoIP() throws Exception {
 		URL u = new URL("http://www.geogebra.org/geoip/");
@@ -4667,8 +4634,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
 		return in.readLine(); // the last line will never get a "\n" on its end
 	}
-
-	
 
 	/**
 	 * 
@@ -4832,21 +4797,23 @@ public class AppD extends App implements KeyEventDispatcher {
 				setComponentOrientation(menu.getMenuComponent(i));
 			}
 		} else if (c instanceof JTextField) {
-			((JTextField) c)
-					.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
-							: SwingConstants.LEFT);
+			((JTextField) c).setHorizontalAlignment(rtl ? SwingConstants.RIGHT
+					: SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
-			if (!(renderer instanceof DashListRenderer || renderer instanceof AxesStyleListRenderer || renderer instanceof PointStyleListRenderer)){
-				//if we didn't load GUI yet, assume there is no tool creation dialog
-				if (getGuiManager() == null || !getGuiManager().belongsToToolCreator(renderer)){
+			if (!(renderer instanceof DashListRenderer
+					|| renderer instanceof AxesStyleListRenderer || renderer instanceof PointStyleListRenderer)) {
+				// if we didn't load GUI yet, assume there is no tool creation
+				// dialog
+				if (getGuiManager() == null
+						|| !getGuiManager().belongsToToolCreator(renderer)) {
 					renderer = new DefaultListCellRenderer();
 					cb.setRenderer(renderer);
 				}
 				((JLabel) renderer)
-				.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
-						: SwingConstants.LEFT);
+						.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
+								: SwingConstants.LEFT);
 			}
 		} else if (c instanceof Container) {
 			Container container = (Container) c;
@@ -4907,28 +4874,27 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 	}
-	
-	
-
 
 	// **************************************************************************
 	// ConstructionProtocol
 	// **************************************************************************
 
-	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
-		for (int i = 0 ; i < n ; i++) {
-			
+	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num,
+			int n, double val, double min, double max, double step) {
+		for (int i = 0; i < n; i++) {
+
 			// avoid values like 14.399999999999968
 			val = Kernel.checkDecimalFraction(val);
-			
+
 			num.setValue(val);
 			num.updateRepaint();
 
-			Image img = ((EuclidianViewD) getActiveEuclidianView()).getExportImage(1);
+			Image img = ((EuclidianViewD) getActiveEuclidianView())
+					.getExportImage(1);
 			if (img == null) {
 				Log.error("image null");
 			} else {
-				gifEncoder.addFrame((BufferedImage)img);
+				gifEncoder.addFrame((BufferedImage) img);
 			}
 
 			val += step;
@@ -4939,7 +4905,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 
 		}
-		
+
 		gifEncoder.finish();
 
 	}
@@ -4975,33 +4941,34 @@ public class AppD extends App implements KeyEventDispatcher {
 	public String cubicSwitch(AlgoCubicSwitchParams kw) {
 		return getAlgoCubicSwitch().getEquation(kw);
 	}
-	
 
-	/** 
-	 * Initializes the sign in Operation and tries to login in the user with the stored token 
+	/**
+	 * Initializes the sign in Operation and tries to login in the user with the
+	 * stored token
 	 */
 	protected void initSignInEventFlow() {
-		
+
 		// Inizialize the login operation
 		loginOperation = new LoginOperationD();
-		
+
 		// Try to login the stored user
 		loginOperation.performTokenLogin();
 	}
-	
+
 	public void initOpenFromGGTEventFlow() {
 		if (openFromGGTOperation == null) {
 			openFromGGTOperation = new OpenFromGGTOperation(this);
 		}
 	}
-	
+
 	public OpenFromGGTOperation getOpenFromGGTOperation() {
 		return openFromGGTOperation;
 	}
 
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel kernel2) {
-		return new CommandDispatcher(kernel2){};
+		return new CommandDispatcher(kernel2) {
+		};
 	}
 
 	/**

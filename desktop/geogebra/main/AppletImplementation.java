@@ -102,8 +102,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 			public void componentResized(ComponentEvent e) {
 
 				Component c = e.getComponent();
-				App.debug("Applet resized to: " + c.getWidth()
-						+ ", " + c.getHeight());
+				App.debug("Applet resized to: " + c.getWidth() + ", "
+						+ c.getHeight());
 
 				if (allowRescaling && (app != null) && !app.runningInFrame
 						&& app.onlyGraphicsViewShowing()) {
@@ -215,7 +215,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			}
 		}
 		App.debug("loading " + fileStr);
-		
+
 		// showToolBar = "true" or parameter is not available
 		showToolBar = "true".equals(applet.getParameter("showToolBar"));
 
@@ -356,12 +356,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * @return If the applet parameters indicate that the GUI is necessary.
 	 */
 	public boolean needsGui() {
-		return showAlgebraInput || showToolBar || showMenuBar || enableRightClick;
+		return showAlgebraInput || showToolBar || showMenuBar
+				|| enableRightClick;
 	}
 
 	public void initGUI() {
 		JPanel myContenPane;
-
 
 		// show interactive drawing pad
 		// TODO use Appication methods (F.S.)
@@ -371,12 +371,10 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// border around applet panel
 		myContenPane.setBorder(BorderFactory.createLineBorder(borderColor));
 
-
 		// replace applet's content pane
 		Container cp = applet.getContentPane();
 
-		App.debug("Initial size = " + cp.getWidth() + ", "
-				+ cp.getHeight());
+		App.debug("Initial size = " + cp.getWidth() + ", " + cp.getHeight());
 		// Application.debug("EuclidianView size = "+app.getEuclidianView().getPreferredSize().getWidth()+", "+app.getEuclidianView().getPreferredSize().getHeight());
 
 		width = cp.getWidth();
@@ -490,8 +488,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBackground(Color.white);
-		JLabel label = new JLabel("GeoGebra "
-				+ app.getPlain("WindowOpened") + "...");
+		JLabel label = new JLabel("GeoGebra " + app.getPlain("WindowOpened")
+				+ "...");
 		label.setFont(app.getPlainFont());
 		p.add(label, BorderLayout.CENTER);
 		cp.add(p);
@@ -499,7 +497,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// initialize the GeoGebra frame's UIG
 		initGeoGebraFrame();
 		applet.validate();
-
 
 		// show frame
 		wnd.setVisible(true);
@@ -541,7 +538,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 				wnd.setVisible(false); // hide frame
 
 				reinitGUI();
-
 
 				applet.setCursor(Cursor.getDefaultCursor());
 			}
@@ -678,7 +674,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
 	 */
-	public synchronized boolean evalCommand(final String cmdString, final boolean waitForResult) {
+	public synchronized boolean evalCommand(final String cmdString,
+			final boolean waitForResult) {
 		// waitForCAS();
 
 		// avoid security problems calling from JavaScript
@@ -699,35 +696,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// return success
 		return ret.getBoolean();
 	}
-
-	/**
-	 * Evaluates the given string as if it was entered into GeoGebra CAS's input
-	 * text field.
-	 * 
-	 * @return evaluation result in GeoGebraCAS syntax
-	 */
-	public synchronized String evalGeoGebraCAS(String cmdString) {
-		return evalGeoGebraCAS(cmdString, false);
-	}
-
-	/**
-	 * Evaluates the given string as if it was entered into the GeoGebraCAS
-	 * input text field.
-	 * 
-	 * @param debugOutput
-	 *            states whether debugging information should be printed to the
-	 *            console
-	 * @return evaluation result in GeoGebraCAS syntax
-	 */
-	public synchronized String evalGeoGebraCAS(final String cmdString,
-			final boolean debugOutput) {
-		// avoid security problems calling from JavaScript
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-			public String run() {
-				return ggbApi.evalGeoGebraCAS(cmdString, debugOutput);
-			}
-		});
-	}// evalGeoGebraCAS(String)
 
 	/**
 	 * Evaluates the given string using the MathPiper CAS.
@@ -898,8 +866,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 						myStrURL = applet.getCodeBase() + myStrURL;
 					}
 					URL ggbURL = new URL(myStrURL);
-					app.loadXML(ggbURL, lowerCase
-							.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
+					app.loadXML(ggbURL,
+							lowerCase.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
 					reinitGUI();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -994,26 +962,18 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	/**
-	 * Shows or hides the label of the object with the given name in the
-	 * geometry window.
-	 */
-	public synchronized void setLabelMode(String objName, boolean visible) {
-		ggbApi.setLabelMode(objName, visible);
-	}
-
-	/**
 	 * Sets the color of the object with the given name.
 	 */
 	public synchronized void setColor(String objName, int red, int green,
 			int blue) {
 		ggbApi.setColor(objName, red, green, blue);
 	}
-	
+
 	public synchronized void setCorner(String objName, double x, double y,
 			int index) {
 		ggbApi.setCorner(objName, x, y, index);
 	}
-	
+
 	public synchronized void setCorner(String objName, double x, double y) {
 		ggbApi.setCorner(objName, x, y);
 	}
@@ -1324,13 +1284,11 @@ public class AppletImplementation implements AppletImplementationInterface {
 				browserWindow = JSObject.getWindow(applet);
 
 				if (browserWindow == null) {
-					App
-							.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet");
+					App.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet");
 				}
 
 			} catch (Exception e) {
-				App
-						.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
+				App.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
 			}
 		}
 	}
@@ -1345,15 +1303,15 @@ public class AppletImplementation implements AppletImplementationInterface {
 				App.debug("callJavaScript: " + jsFunction);
 				return browserWindow.call(jsFunction, args);
 			}
-			
+
 			App.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
-							+ jsFunction);
+					+ jsFunction);
 		} catch (Exception e) {
 			System.err.println("Warning: Error calling JavaScript function '"
 					+ jsFunction + "' (" + e.getLocalizedMessage() + ")");
 			// e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -1444,12 +1402,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	public void uploadToGeoGebraTube() {
 		app.uploadToGeoGebraTube();
-		
+
 	}
 
 	public void setPenColor(int red, int green, int blue) {
 		ggbApi.setPenColor(red, green, blue);
-		
+
 	}
 
 	public void setPenSize(int size) {
@@ -1465,18 +1423,19 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	public void setListValue(String objName, int index, double x) {
-		ggbApi.setListValue(objName, index, x); 		
+		ggbApi.setListValue(objName, index, x);
 	}
 
 	public double getListValue(String objName, int index) {
-		return ggbApi.getListValue(objName, index); 
+		return ggbApi.getListValue(objName, index);
 	}
 
 	/**
 	 * evaluates a JavaScript command which should return an array eg ["hello"]
-	 * the String is then returned by this method 
+	 * the String is then returned by this method
 	 * 
-	 * @param exp JavaScript expression
+	 * @param exp
+	 *            JavaScript expression
 	 * @return result from JavaScript call as String
 	 */
 	public String evalJS(String exp) {
@@ -1484,22 +1443,22 @@ public class AppletImplementation implements AppletImplementationInterface {
 		JSObject window = JSObject.getWindow(applet);
 
 		// get an object from JavaScript and retrieve its contents
-		Object ob =  window.eval(exp);
-		
+		Object ob = window.eval(exp);
+
 		if (ob == null) {
 			return null;
 		}
-		
+
 		if (ob instanceof JSObject) {
-			return ((JSObject)ob).getSlot(0).toString();
+			return ((JSObject) ob).getSlot(0).toString();
 		}
-		
+
 		return ob.toString();
 	}
 
 	public void registerStoreUndoListener(String objName) {
 		ggbApi.registerStoreUndoListener(objName);
-		
+
 	}
 
 	public void registerClientListener(String JSFunctionName) {

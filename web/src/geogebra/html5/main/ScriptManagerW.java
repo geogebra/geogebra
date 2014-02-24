@@ -85,6 +85,12 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		$wnd[ggbApplet].getBase64 = function(param1, param2) {
+			if(param2 === false){
+				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64(Z)(false);
+			}
+			if(param2 === true){
+				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64(Z)(true);
+			}
 			if(param2){
 				return ggbAPI.@geogebra.html5.main.GgbAPI::getBase64(ZLcom/google/gwt/core/client/JavaScriptObject;)(param1, param2);
 			}else if(param1){
@@ -113,10 +119,6 @@ public class ScriptManagerW extends ScriptManager {
 
 		$wnd[ggbApplet].evalCommand = function(cmdString) {
 			return ggbAPI.@geogebra.html5.main.GgbAPI::evalCommand(Ljava/lang/String;)(cmdString);
-		};
-		
-		$wnd[ggbApplet].evalGeoGebraCAS = function(cmdString) {
-			return ggbAPI.@geogebra.html5.main.GgbAPI::evalGeoGebraCAS(Ljava/lang/String;)(cmdString);
 		};
 
 		$wnd[ggbApplet].evalCommandCAS = function(cmdString) {
@@ -166,7 +168,7 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setVisible(Ljava/lang/String;Z)(objName,visible);
 		};
 
-		$wnd[ggbApplet].getVisible = function(objName) {
+		$wnd[ggbApplet].getVisible = function(objName, view) {
 			return ggbAPI.@geogebra.html5.main.GgbAPI::getVisible(Ljava/lang/String;)(objName);
 		};
 
@@ -192,10 +194,6 @@ public class ScriptManagerW extends ScriptManager {
 
 		$wnd[ggbApplet].setLabelStyle = function(objName, style) {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setLabelStyle(Ljava/lang/String;I)(objName,style);
-		};
-
-		$wnd[ggbApplet].setLabelMode = function(objName, visible) {
-			ggbAPI.@geogebra.html5.main.GgbAPI::setLabelMode(Ljava/lang/String;Z)(objName,visible);
 		};
 
 		$wnd[ggbApplet].setColor = function(objName, red, green, blue) {
@@ -299,6 +297,10 @@ public class ScriptManagerW extends ScriptManager {
 		
 		$wnd[ggbApplet].getListValue = function(objName, index) {
 			return ggbAPI.@geogebra.html5.main.GgbAPI::getListValue(Ljava/lang/String;I)(objName, index);
+		};
+		
+		$wnd[ggbApplet].setListValue = function(objName, index, value) {
+			return ggbAPI.@geogebra.html5.main.GgbAPI::setListValue(Ljava/lang/String;ID)(objName, index, value);
 		};
 
 		$wnd[ggbApplet].getDefinitionString = function(objName) {
@@ -520,16 +522,24 @@ public class ScriptManagerW extends ScriptManager {
 				return ggbAPI.@geogebra.html5.main.GgbAPI::getViewProperties(I)(show);
 		};
 		
-		$wnd[ggbApplet].setFont = function(label, size, bold, italic, serif){ 
+		$wnd[ggbApplet].setFont = function(label, size, bold, italic, serif){
 				ggbAPI.@geogebra.html5.main.GgbAPI::setFont(Ljava/lang/String;IZZZ)(label,size,bold, italic,serif);
 		};
 		
-		$wnd[ggbApplet].insertImage = function(url){ 
+		$wnd[ggbApplet].insertImage = function(url){
 				ggbAPI.@geogebra.html5.main.GgbAPI::insertImage(Ljava/lang/String;)(url);
 		};
 		
-		$wnd[ggbApplet].recalculateEnvironments = function(){ 
+		$wnd[ggbApplet].recalculateEnvironments = function(){
 				ggbAPI.@geogebra.html5.main.GgbAPI::recalculateEnvironments()();
+		};
+		
+		$wnd[ggbApplet].isIndependent = function(label){
+				ggbAPI.@geogebra.html5.main.GgbAPI::isIndependent(Ljava/lang/String;)(label);
+		};
+		
+		$wnd[ggbApplet].isMoveable = function(label){
+				ggbAPI.@geogebra.html5.main.GgbAPI::isMoveable(Ljava/lang/String;)(label);
 		};
 		
 		

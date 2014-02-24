@@ -3208,6 +3208,7 @@ public abstract class App implements UpdateSelection{
 	protected boolean needsSpreadsheetTableModel = false;
 	protected boolean showConstProtNavigationNeedsUpdate = false;
 	protected boolean showConsProtNavigation = false;
+	private boolean isErrorDialogsActive;
 
 	public void setNeedsSpreadsheetTableModel(){
 		needsSpreadsheetTableModel = true;
@@ -3475,6 +3476,14 @@ public abstract class App implements UpdateSelection{
 	 */
 	public void toggleMenu() {
 		
+	}
+
+	public final boolean isErrorDialogsActive() {
+		return isErrorDialogsActive;
+	}
+
+	public final void setErrorDialogsActive(boolean isErrorDialogsActive) {
+		this.isErrorDialogsActive = isErrorDialogsActive;
 	}
 
 }

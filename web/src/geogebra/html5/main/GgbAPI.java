@@ -57,8 +57,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	
     public void setErrorDialogsActive(boolean flag) {
-	    // TODO Auto-generated method stub
-	    
+	    app.setErrorDialogsActive(flag);
     }
 
     public void reset() {

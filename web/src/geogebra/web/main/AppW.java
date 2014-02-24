@@ -867,7 +867,9 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void showErrorDialog(final String msg) {
-		App.printStacktrace("");
+		if (!isErrorDialogsActive()) {
+			return;
+		}
 
 		String title = getLocalization().getPlain("ApplicationName") + " - "
 		        + getLocalization().getError("Error");
