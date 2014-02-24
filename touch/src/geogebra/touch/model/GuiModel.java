@@ -1,6 +1,7 @@
 package geogebra.touch.model;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -48,6 +49,9 @@ public class GuiModel {
 	 */
 	GuiModel(final TouchModel model) {
 		this.touchModel = model;
+
+		// default: do not show caption for lines
+		getDefaultGeo(EuclidianConstants.MODE_JOIN).setLabelVisible(false);
 	}
 
 	public int getDefaultType() {

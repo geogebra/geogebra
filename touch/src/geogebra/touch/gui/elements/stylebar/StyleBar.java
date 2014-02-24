@@ -50,6 +50,8 @@ public class StyleBar extends FlowPanel {
 	final GuiModel guiModel;
 	private OptionsPanel optionsPanel;
 	private final TabletGUI gui;
+	private ImageResource pointStyleImage;
+	private ImageResource lineStyleImage;
 
 	/**
 	 * Initializes the StyleBar
@@ -179,7 +181,10 @@ public class StyleBar extends FlowPanel {
 				this.styleButtonsPanel.add(b);
 				break;
 			case LineStyle:
-				b = new StandardButton(lafIcons.properties_default());
+				if(this.lineStyleImage == null){
+					this.lineStyleImage = lafIcons.line_solid();
+				}
+				b = new StandardButton(this.lineStyleImage);
 				b.addFastClickHandler(new FastClickHandler() {
 					@Override
 					public void onClick() {
@@ -217,7 +222,10 @@ public class StyleBar extends FlowPanel {
 			case None:
 				break;
 			case PointStyle:
-				b = new StandardButton(lafIcons.properties_default());
+				if (this.pointStyleImage == null) {
+					this.pointStyleImage = lafIcons.point_full();
+				}
+				b = new StandardButton(this.pointStyleImage);
 				b.addFastClickHandler(new FastClickHandler() {
 					@Override
 					public void onClick() {
@@ -368,5 +376,19 @@ public class StyleBar extends FlowPanel {
 
 	public TouchModel getTouchModel() {
 		return this.touchModel;
+	}
+
+	public void setPointStyleImage(FastButton fastButton) {
+		if (fastButton instanceof StandardButton) {
+			this.pointStyleImage = ((StandardButton) fastButton).getIcon();
+			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+		}
+	}
+
+	public void setLineStyle(FastButton fastButton) {
+		if (fastButton instanceof StandardButton) {
+			this.lineStyleImage = ((StandardButton) fastButton).getIcon();
+			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+		}
 	}
 }

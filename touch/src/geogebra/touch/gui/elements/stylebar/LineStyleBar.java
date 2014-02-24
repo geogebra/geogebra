@@ -33,10 +33,10 @@ class LineStyleBar extends FlowPanel {
 	private Slider slider = new Slider();
 	TouchModel touchModel;
 
-	LineStyleBar(final TouchModel model) {
+	LineStyleBar(final StyleBar styleBar) {
 		this.addStyleName("lineStyleBar");
 
-		this.touchModel = model;
+		this.touchModel = styleBar.getTouchModel();
 
 		this.buttonPanel = new FlowPanel();
 		this.buttonPanel.setStyleName("styleBarButtonPanel");
@@ -48,6 +48,7 @@ class LineStyleBar extends FlowPanel {
 
 				@Override
 				public void onClick() {
+					styleBar.setLineStyle(lineStyle[index]);
 					StyleBarStatic.applyLineStyle(
 							LineStyleBar.this.touchModel.getSelectedGeos(),
 							index);

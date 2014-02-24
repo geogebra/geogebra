@@ -31,17 +31,17 @@ class PointStyleBar extends FlowPanel {
 			new StandardButton(LafIcons.point_up()),
 			new StandardButton(LafIcons.point_down()),
 			new StandardButton(LafIcons.point_right()),
-			new StandardButton(LafIcons.point_left())};
+			new StandardButton(LafIcons.point_left()) };
 
 	FastButton activeButton;
 	private FlowPanel buttonPanel;
 	private Slider slider = new Slider();
 	TouchModel touchModel;
 
-	PointStyleBar(final TouchModel model) {
+	PointStyleBar(final StyleBar styleBar) {
 		this.addStyleName("lineStyleBar");
 
-		this.touchModel = model;
+		this.touchModel = styleBar.getTouchModel();
 
 		this.buttonPanel = new FlowPanel();
 		this.buttonPanel.setStyleName("styleBarButtonPanel");
@@ -53,6 +53,7 @@ class PointStyleBar extends FlowPanel {
 
 				@Override
 				public void onClick() {
+					styleBar.setPointStyleImage(pointStyle[index]);
 					StyleBarStatic.applyPointStyle(
 							PointStyleBar.this.touchModel.getSelectedGeos(),
 							index);
@@ -80,7 +81,8 @@ class PointStyleBar extends FlowPanel {
 		update();
 
 		if (this.touchModel.lastSelected() instanceof PointProperties) {
-			PointProperties pt = (PointProperties) this.touchModel.lastSelected();
+			PointProperties pt = (PointProperties) this.touchModel
+					.lastSelected();
 			this.slider.setValue(Integer.valueOf(pt.getPointSize()));
 		}
 
@@ -100,12 +102,14 @@ class PointStyleBar extends FlowPanel {
 
 	void update() {
 		if (this.touchModel.getGuiModel().getDefaultGeo() instanceof PointProperties) {
-			this.slider.setValue(Integer.valueOf(((PointProperties)this.touchModel.getGuiModel()
-					.getDefaultGeo()).getPointSize()));
+			this.slider.setValue(Integer
+					.valueOf(((PointProperties) this.touchModel.getGuiModel()
+							.getDefaultGeo()).getPointSize()));
 		} else if (this.touchModel.lastSelected() instanceof PointProperties) {
-			this.slider.setValue(Integer.valueOf(((PointProperties)this.touchModel.lastSelected())
-					.getPointSize()));
-		} 
+			this.slider.setValue(Integer
+					.valueOf(((PointProperties) this.touchModel.lastSelected())
+							.getPointSize()));
+		}
 
 		// set to -1, in case not GeoElement with pointstyle is selected
 		int style = this.touchModel.getPointStyle();
@@ -114,7 +118,7 @@ class PointStyleBar extends FlowPanel {
 			GeoElement geo = this.touchModel.getGuiModel().getDefaultGeo();
 			if (geo instanceof PointProperties) {
 				// get default style for the actual tool
-				style = ((PointProperties)geo).getPointStyle();
+				style = ((PointProperties) geo).getPointStyle();
 			}
 		}
 

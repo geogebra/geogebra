@@ -44,9 +44,10 @@ public class OptionsPanel extends PopupPanel {
 		this.captionBar = new CaptionBar(this.styleBar.getTouchModel());
 		this.colorBar = new ColorBar(this.styleBar,
 				this.styleBar.getTouchModel());
-		this.lineStyleBar = new LineStyleBar(this.styleBar.getTouchModel());
-		this.pointStyleBar = new PointStyleBar(this.styleBar.getTouchModel());
-		this.pointCaputuring = new PointCaptureingOptionsPanel(this.styleBar.getTouchModel());
+		this.lineStyleBar = new LineStyleBar(this.styleBar);
+		this.pointStyleBar = new PointStyleBar(this.styleBar);
+		this.pointCaputuring = new PointCaptureingOptionsPanel(
+				this.styleBar.getTouchModel());
 	}
 
 	OptionsPanel getOptionsPanel(OptionType optionType) {
