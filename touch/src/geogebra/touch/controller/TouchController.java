@@ -39,7 +39,11 @@ import com.google.gwt.user.client.Timer;
  * @see geogebra.common.euclidian.EuclidianController EuclidianController
  * 
  */
-public class TouchController extends EuclidianController implements IsEuclidianController {
+public class TouchController extends EuclidianController implements
+		IsEuclidianController {
+
+	public static final int MIN_DIST = 30;
+
 	/**
 	 * Maximum time in ms between touch move was stopped (finger not moving, but
 	 * still down) and event is handled
@@ -52,6 +56,9 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 	private int waitingY;
 	private PointerEventType waitingType;
 	private long lastMoveEvent;
+	private boolean zoomY = false;
+	private boolean zoomX = false;
+	private double scale = 0;
 
 	private final Timer repaintTimer = new Timer() {
 		@Override
@@ -214,7 +221,8 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 		}
 
 		// there will never be more than one GeoElement moved
-		// in case you want to enable that, replace false with selGeos.size() > 1
+		// in case you want to enable that, replace false with selGeos.size() >
+		// 1
 		handleMovedElement(geo, false, e.getType());
 	}
 
@@ -331,7 +339,7 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 			GeoGebraProfiler.drags++;
 			final long time = System.currentTimeMillis();
 
-			if(this.model.getCommand() == ToolBarCommand.Move_Mobile){
+			if (this.model.getCommand() == ToolBarCommand.Move_Mobile) {
 				this.model.resetSelection();
 				this.model.select(this.model.getToSelect());
 			}
@@ -402,12 +410,13 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 	void touchMoveIfWaiting() {
 		if (this.waitingX > 0) {
 			GeoGebraProfiler.moveEventsIgnored--;
-			touchMoveNow(this.waitingX, this.waitingY,
-					this.waitingType, System.currentTimeMillis());
+			touchMoveNow(this.waitingX, this.waitingY, this.waitingType,
+					System.currentTimeMillis());
 		}
 	}
 
-	private void touchMoveNow(final int x, final int y, final PointerEventType type, final long time) {
+	private void touchMoveNow(final int x, final int y,
+			final PointerEventType type, final long time) {
 		this.waitingX = -1;
 		this.waitingY = -1;
 		this.lastMoveEvent = time;
@@ -440,5 +449,42 @@ public class TouchController extends EuclidianController implements IsEuclidianC
 
 	public void handleAlgebraHeaderClicked(ArrayList<GeoElement> list) {
 		this.model.handleAlgebraHeaderClicked(list);
+	}
+
+	@Override
+	public void twoTouchStart(double x1, double y1, double x2, double y2) {
+		this.zoomY = this.view.toRealWorldCoordX(x1 + MIN_DIST) >= 0
+				&& this.view.toRealWorldCoordX(x1 - MIN_DIST) <= 0
+				&& this.view.toRealWorldCoordX(x2 + MIN_DIST) >= 0
+				&& this.view.toRealWorldCoordX(x2 - MIN_DIST) <= 0;
+		this.zoomX = this.view.toRealWorldCoordY(y1 + MIN_DIST) <= 0
+				&& this.view.toRealWorldCoordY(y1 - MIN_DIST) >= 0
+				&& this.view.toRealWorldCoordY(y2 + MIN_DIST) <= 0
+				&& this.view.toRealWorldCoordY(y2 - MIN_DIST) >= 0;
+
+		if (this.zoomY) {
+			this.oldDistance = y1 - y2;
+			this.scale = this.view.getYscale();
+		} else if (this.zoomX) {
+			this.oldDistance = x1 - x2;
+			this.scale = this.view.getXscale();
+		} else {
+			super.twoTouchStart(x1, y1, x2, y2);
+		}
+	}
+
+	@Override
+	public void twoTouchMove(double x1, double y1, double x2, double y2) {
+		if (this.zoomY) {
+			double newRatio = this.scale * (y1 - y2) / this.oldDistance;
+			this.view.setCoordSystem(this.view.getXZero(),
+					this.view.getYZero(), this.view.getXscale(), newRatio);
+		} else if (this.zoomX) {
+			double newRatio = this.scale * (x1 - x2) / this.oldDistance;
+			this.view.setCoordSystem(this.view.getXZero(),
+					this.view.getYZero(), newRatio, this.view.getYscale());
+		} else {
+			super.twoTouchMove(x1, y1, x2, y2);
+		}
 	}
 }

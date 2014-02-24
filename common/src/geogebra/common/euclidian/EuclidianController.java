@@ -9860,7 +9860,7 @@ public abstract class EuclidianController {
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
 	}
 	
-	private double oldDistance;
+	protected double oldDistance;
 
 	private PointerEventType defaultEventType = PointerEventType.MOUSE;
 	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
