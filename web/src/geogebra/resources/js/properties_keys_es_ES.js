@@ -2006,7 +2006,7 @@ __GGB__keysVar.es_ES.menu = {
     "ZoomIn_Help": "Haz clic en la Vista Gr\xe1fica para acercarla (o usa la rueda del rat\xf3n)",
     "ZoomOut": "Alejar",
     "ZoomOut_Help": "Haz clic en la Vista Gr\xe1fica para alejarla (o usa la rueda del rat\xf3n)",
-    "insert_worksheet": "Inserta Hoja Din\xe1mica",
+    "insert_worksheet": "Insertar Actividad",
     "off": "Apagar",
     "on": "Activar",
 }

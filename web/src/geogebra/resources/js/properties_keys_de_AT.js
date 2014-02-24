@@ -2006,7 +2006,7 @@ __GGB__keysVar.de_AT.menu = {
     "ZoomIn_Help": "Klicke auf das Zeichenblatt um zu vergr\xf6\xdfern (Mausrad)",
     "ZoomOut": "Verkleinere",
     "ZoomOut_Help": "Klicke auf das Zeichenblatt um zu verkleinern (Mausrad)",
-    "insert_worksheet": "Insert Worksheet",
+    "insert_worksheet": "Arbeitsblatt einf\xfcgen",
     "off": "Aus",
     "on": "An",
 }
