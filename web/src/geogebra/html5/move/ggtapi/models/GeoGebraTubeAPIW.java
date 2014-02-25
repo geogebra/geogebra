@@ -21,7 +21,7 @@ import com.google.gwt.json.client.JSONValue;
  * @author Matthias Meisinger
  * 
  */
-public class GeoGebraTubeAPIW extends geogebra.common.move.ggtapi.models.GeoGebraTubeAPI
+public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 {
 	private RequestBuilder requestBuilder;
 

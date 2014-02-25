@@ -30,6 +30,9 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 	}
 
 	public void setLoggedInFromGoogleDrive(boolean loggedInFrom) {
+		if(storage == null){
+			return ;
+		}
 		if (loggedInFrom) {
 			storage.setItem(GGT_GOOGLE_KEY_NAME, "true");
 		} else {
@@ -39,6 +42,9 @@ public class GoogleDriveModelW extends AuthenticationModelW {
     }
 	
 	public boolean lastLoggedInFromGoogleDrive() {
+		if(storage == null){
+			return false;
+		}
 		return "true".equals(storage.getItem(GGT_GOOGLE_KEY_NAME));
 	}
 

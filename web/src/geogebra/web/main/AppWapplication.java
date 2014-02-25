@@ -16,6 +16,7 @@ import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
 
@@ -62,7 +63,24 @@ public class AppWapplication extends AppW {
 
 		// initing = true;
 		removeDefaultContextMenu();
+		
+		String token = Location.getParameter("token");
+	    if(token != null && !"".equals(token)){
+	    	App.debug("Token received"+token);
+	    	BrowseGUI bg = new BrowseGUI(this);
+			this.showBrowser(bg);
+			this.getLoginOperation().performTokenLogin(token, false);
+			nativeLoggedIn();
+	    }else{
+	    	App.debug("URL has no token"+Location.getHref());
+	    }
 	}
+
+	private native void nativeLoggedIn() /*-{
+		if(typeof ggbOnLoggedIn == "function"){
+			ggbOnLoggedIn();
+		}
+    }-*/;
 
 	/*************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb with undo enabled

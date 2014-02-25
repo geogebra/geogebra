@@ -1,6 +1,7 @@
 package geogebra.html5.gui.browser;
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -43,6 +44,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private Image optionsArrow;
 	private LogInOperation login;
 	private App app;
+	private FlowPanel optionsPanel;
 
 	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI,
 			NetworkOperation op) {
@@ -90,7 +92,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		   if (login.isLoggedIn()) {
 			   onLogin(true, login.getModel().getLoggedInUser());
 		   }else{
-			   onLogut();
+			   onLogout();
 		   }
 		   
 		   if (!op.getOnline()) {
@@ -101,7 +103,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 
 
-	private void onLogut() {
+	private void onLogout() {
 		if(this.signInButton == null){
 			this.signInButton = new Button(loc.getMenu("SignIn"));
 			this.signInButton.addClickHandler(new ClickHandler(){
@@ -111,6 +113,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
                 }});
 			this.signInPanel.add(this.signInButton);
 		}
+		this.rightPanel.clear();
 		this.rightPanel.add(this.signInPanel);
 	    
     }
@@ -140,6 +143,28 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			this.userPanel.add(this.userName);
 			this.userPanel.add(this.optionsArrow);
 			this.profilePanel.add(this.userPanel);
+			
+			this.optionsPanel = new FlowPanel();
+			Label logoutButton = new Label(app.getPlain("SignOut"));
+			optionsPanel.add(logoutButton);
+			
+			logoutButton.addClickHandler(new ClickHandler(){
+
+				@Override
+                public void onClick(ClickEvent event) {
+	                app.getLoginOperation().performLogOut();
+	                
+                }});
+			optionsPanel.add(logoutButton);
+			userPanel.add(optionsPanel);
+			optionsPanel.setVisible(false);
+			userName.addClickHandler(new ClickHandler(){
+
+				@Override
+                public void onClick(ClickEvent event) {
+	                optionsPanel.setVisible(!optionsPanel.isVisible());
+	                
+                }});
 		}
 		this.rightPanel.clear();
 		this.userName.setText(user.getUserName());
@@ -171,6 +196,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	    if(event instanceof LoginEvent){
 	    	this.onLogin(((LoginEvent)event).isSuccessful(), ((LoginEvent)event).getUser());
 	    }
-	    
+	    if(event instanceof LogOutEvent){
+	    	this.onLogout();
+	    }
     }
 }

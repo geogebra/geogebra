@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
@@ -1308,10 +1309,28 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    
     }
 
+	public String getLoginURL(String languageCode) {
+		String module = GWT.getModuleBaseForStaticFiles();
+		return "http://www.geogebratube.org/user/login" 
+				+ "/caller/web/"
+				+"/expiration/600/"
+				+"/clientinfo/smart"
+				+"/?lang="+languageCode
+				+"&url="+module.substring(0, module.lastIndexOf('/',module.length()-3))+"/app.html";
+	}
+	
 	public void login() {
-	    app.getDialogManager().showLogInDialog();
+		if(((AppW)app).getLAF().isSmart()){
+			gotoURL(getLoginURL(app.getLocalization().getLanguage()));
+		}else{
+			app.getDialogManager().showLogInDialog();
+		}
     }
 
+	private native void gotoURL(String s)/*-{
+		$wnd.location.replace(s);
+	}-*/;
+	
 	public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
