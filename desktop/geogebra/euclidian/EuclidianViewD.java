@@ -67,8 +67,9 @@ import javax.swing.border.Border;
  * 
  * @author Markus Hohenwarter
  */
-public class EuclidianViewD extends EuclidianView implements EuclidianViewInterfaceDesktop, Printable {
-	
+public class EuclidianViewD extends EuclidianView implements
+		EuclidianViewInterfaceDesktop, Printable {
+
 	/**
 	 * Rendering hints for the graphics
 	 */
@@ -87,36 +88,37 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 	}
 
-
 	// temp
 	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
 	// public static final int DRAW_MODE_BACKGROUND_IMAGE = 1;
 
 	/** reset image in applets */
-	protected Image resetImage; 
-	/** play image for animations*/
+	protected Image resetImage;
+	/** play image for animations */
 	protected Image playImage;
 	/** pause image for animations */
 	protected Image pauseImage;
 
-
 	// public Graphics2D lastGraphics2D;
 	/** default mouse cursor */
 	protected Cursor defaultCursor;
-	
+
 	/** Java component for this view */
 	protected EuclidianViewJPanel evjpanel;
-
 
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
 	// EVNO_GENERAL for others
 
 	/**
-	 * @param ec controller
-	 * @param showAxes whether to show x-axis and y-axis
-	 * @param showGrid whether to show grid
-	 * @param settings settings
+	 * @param ec
+	 *            controller
+	 * @param showAxes
+	 *            whether to show x-axis and y-axis
+	 * @param showGrid
+	 *            whether to show grid
+	 * @param settings
+	 *            settings
 	 */
 	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, EuclidianSettings settings) {
@@ -134,7 +136,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	 *            whether grid should be shown
 	 * @param evno
 	 *            number of this view
-	 * @param settings euclidian settings
+	 * @param settings
+	 *            euclidian settings
 	 */
 	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
@@ -146,13 +149,9 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		evNo = evno;
 		setApplication(ec.getApplication());
 
-
 		setShowAxis(0, showAxes[0], false);
 		setShowAxis(1, showAxes[1], false);
 		this.showGrid = showGrid;
-
-		
-
 
 		// algebra controller will take care of our key events
 
@@ -160,22 +159,20 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 
 		attachView();
 
-		
 		initView(false);
 
 		// updateRightAngleStyle(app.getLocale());
 
-
 		EuclidianSettings es = null;
-		if (settings!=null){
+		if (settings != null) {
 			es = settings;
-		// settings from XML for EV1, EV2
-		// not for eg probability calculator
-		}else if ((evNo == 1) || (evNo == 2)) {
+			// settings from XML for EV1, EV2
+			// not for eg probability calculator
+		} else if ((evNo == 1) || (evNo == 2)) {
 			es = getApplication().getSettings().getEuclidian(evNo);
 		}
-		
-		if (es!=null){
+
+		if (es != null) {
 			settingsChanged(es);
 			es.addListener(this);
 		}
@@ -198,8 +195,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	}
 
 	public void setDragCursor() {
-		
-		if(getMode() == EuclidianConstants.MODE_TRANSLATEVIEW){
+
+		if (getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
 			setGrabbingCursor();
 		}
 
@@ -240,10 +237,10 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	 * Set the cursor to grabbing hand
 	 */
 	public void setGrabbingCursor() {
-		setCursor(getCursorForImage(getApplication()
-				.getInternalImage("cursor_grabbing.gif")));
+		setCursor(getCursorForImage(getApplication().getInternalImage(
+				"cursor_grabbing.gif")));
 	}
-	
+
 	public void setHitCursor() {
 		if (defaultCursor == null) {
 			setCursor(Cursor.getDefaultCursor());
@@ -285,7 +282,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	}
 
 	/**
-	 * @param image image file
+	 * @param image
+	 *            image file
 	 * @return cursor created from image
 	 */
 	protected Cursor getCursorForImage(Image image) {
@@ -300,143 +298,144 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		if (!d.equals(new Dimension(0, 0)) && (colors != 0)) {
 			// load cursor image
 			try {
-					// Create custom cursor from the image
-					Cursor cursor = tk.createCustomCursor(image,
+				// Create custom cursor from the image
+				Cursor cursor = tk.createCustomCursor(image,
 						new java.awt.Point(16, 16), "custom cursor");
-					return cursor;
-				} catch (Exception exc) {
-					// Catch exceptions so that we don't try to set a null
-					// cursor
-					App
-							.debug("Unable to create custom cursor.");
+				return cursor;
+			} catch (Exception exc) {
+				// Catch exceptions so that we don't try to set a null
+				// cursor
+				App.debug("Unable to create custom cursor.");
 			}
-			
+
 		}
 		return null;
 	}
 
 	@Override
-	public void setDefRenderingHints(geogebra.common.awt.GGraphics2D g2){
+	public void setDefRenderingHints(geogebra.common.awt.GGraphics2D g2) {
 		g2.setRenderingHints(defRenderingHints);
 	}
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0) {
 			return (NO_SUCH_PAGE);
-		} 
-			Graphics2D g2d = (Graphics2D) g;
-			AffineTransform oldTransform = g2d.getTransform();
+		}
+		Graphics2D g2d = (Graphics2D) g;
+		AffineTransform oldTransform = g2d.getTransform();
 
-			g2d.translate(pageFormat.getImageableX(),
-					pageFormat.getImageableY());
+		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-			// construction title
-			int y = 0;
-			Construction cons = kernel.getConstruction();
-			String title = cons.getTitle();
-			if (!title.equals("")) {
-				GFont titleFont = getApplication().getBoldFontCommon().deriveFont(GFont.BOLD,
-						getApplication().getBoldFont().getSize() + 2);
-				g2d.setFont(geogebra.awt.GFontD.getAwtFont(titleFont));
-				g2d.setColor(Color.black);
-				// Font fn = g2d.getFont();
-				FontMetrics fm = g2d.getFontMetrics();
-				y += fm.getAscent();
-				g2d.drawString(title, 0, y);
+		// construction title
+		int y = 0;
+		Construction cons = kernel.getConstruction();
+		String title = cons.getTitle();
+		if (!title.equals("")) {
+			GFont titleFont = getApplication().getBoldFontCommon().deriveFont(
+					GFont.BOLD, getApplication().getBoldFont().getSize() + 2);
+			g2d.setFont(geogebra.awt.GFontD.getAwtFont(titleFont));
+			g2d.setColor(Color.black);
+			// Font fn = g2d.getFont();
+			FontMetrics fm = g2d.getFontMetrics();
+			y += fm.getAscent();
+			g2d.drawString(title, 0, y);
+		}
+
+		// construction author and date
+		String author = cons.getAuthor();
+		String date = cons.getDate();
+		String line = null;
+		if (!author.equals("")) {
+			line = author;
+		}
+		if (!date.equals("")) {
+			if (line == null) {
+				line = date;
+			} else {
+				line = line + " - " + date;
+			}
+		}
+
+		// scale string:
+		// Scale in cm: 1:1 (x), 1:2 (y)
+		String scaleString = null;
+		if (getApplication().isPrintScaleString()) {
+			StringBuilder sb = new StringBuilder(getApplication().getPlain(
+					"ScaleInCentimeter"));
+			if (printingScale <= 1) {
+				sb.append(": 1:");
+				sb.append(printScaleNF.format(1 / printingScale));
+			} else {
+				sb.append(": ");
+				sb.append(printScaleNF.format(printingScale));
+				sb.append(":1");
 			}
 
-			// construction author and date
-			String author = cons.getAuthor();
-			String date = cons.getDate();
-			String line = null;
-			if (!author.equals("")) {
-				line = author;
-			}
-			if (!date.equals("")) {
-				if (line == null) {
-					line = date;
+			// add yAxis scale too?
+			if (getScaleRatio() != 1.0) {
+				sb.append(" (x), ");
+				double yPrintScale = (printingScale * getYscale())
+						/ getXscale();
+				if (yPrintScale < 1) {
+					sb.append("1:");
+					sb.append(printScaleNF.format(1 / yPrintScale));
 				} else {
-					line = line + " - " + date;
-				}
-			}
-
-			// scale string:
-			// Scale in cm: 1:1 (x), 1:2 (y)
-			String scaleString = null;
-			if (getApplication().isPrintScaleString()) {
-				StringBuilder sb = new StringBuilder(
-						getApplication().getPlain("ScaleInCentimeter"));
-				if (printingScale <= 1) {
-					sb.append(": 1:");
-					sb.append(printScaleNF.format(1 / printingScale));
-				} else {
-					sb.append(": ");
-					sb.append(printScaleNF.format(printingScale));
+					sb.append(printScaleNF.format(yPrintScale));
 					sb.append(":1");
 				}
-
-				// add yAxis scale too?
-				if (getScaleRatio() != 1.0) {
-					sb.append(" (x), ");
-					double yPrintScale = (printingScale * getYscale()) / getXscale();
-					if (yPrintScale < 1) {
-						sb.append("1:");
-						sb.append(printScaleNF.format(1 / yPrintScale));
-					} else {
-						sb.append(printScaleNF.format(yPrintScale));
-						sb.append(":1");
-					}
-					sb.append(" (y)");
-				}
-				scaleString = sb.toString();
+				sb.append(" (y)");
 			}
+			scaleString = sb.toString();
+		}
 
-			if (scaleString != null) {
-				if (line == null) {
-					line = scaleString;
-				} else {
-					line = line + " - " + scaleString;
-				}
+		if (scaleString != null) {
+			if (line == null) {
+				line = scaleString;
+			} else {
+				line = line + " - " + scaleString;
 			}
+		}
 
-			if (line != null) {
-				g2d.setFont(getApplication().getPlainFont());
-				g2d.setColor(Color.black);
-				// Font fn = g2d.getFont();
-				FontMetrics fm = g2d.getFontMetrics();
-				y += fm.getHeight();
-				g2d.drawString(line, 0, y);
-			}
-			if (y > 0) {
-				g2d.translate(0, y + 20); // space between title and drawing
-			}
+		if (line != null) {
+			g2d.setFont(getApplication().getPlainFont());
+			g2d.setColor(Color.black);
+			// Font fn = g2d.getFont();
+			FontMetrics fm = g2d.getFontMetrics();
+			y += fm.getHeight();
+			g2d.drawString(line, 0, y);
+		}
+		if (y > 0) {
+			g2d.translate(0, y + 20); // space between title and drawing
+		}
 
-			double scale = (PRINTER_PIXEL_PER_CM / getXscale()) * printingScale;
-			exportPaint(g2d, scale);
+		double scale = (PRINTER_PIXEL_PER_CM / getXscale()) * printingScale;
+		exportPaint(g2d, scale);
 
-			// clear page margins at bottom and right
-			double pagewidth = pageFormat.getWidth();
-			double pageheight = pageFormat.getHeight();
-			double xmargin = pageFormat.getImageableX();
-			double ymargin = pageFormat.getImageableY();
+		// clear page margins at bottom and right
+		double pagewidth = pageFormat.getWidth();
+		double pageheight = pageFormat.getHeight();
+		double xmargin = pageFormat.getImageableX();
+		double ymargin = pageFormat.getImageableY();
 
-			g2d.setTransform(oldTransform);
-			g2d.setClip(null);
-			g2d.setPaint(Color.white);
+		g2d.setTransform(oldTransform);
+		g2d.setClip(null);
+		g2d.setPaint(Color.white);
 
-			Rectangle2D.Double rect = new Rectangle2D.Double();
-			rect.setFrame(0, pageheight - ymargin, pagewidth, ymargin);
-			g2d.fill(rect);
-			rect.setFrame(pagewidth - xmargin, 0, xmargin, pageheight);
-			g2d.fill(rect);
+		Rectangle2D.Double rect = new Rectangle2D.Double();
+		rect.setFrame(0, pageheight - ymargin, pagewidth, ymargin);
+		g2d.fill(rect);
+		rect.setFrame(pagewidth - xmargin, 0, xmargin, pageheight);
+		g2d.fill(rect);
 
-			return (PAGE_EXISTS);
-		
+		return (PAGE_EXISTS);
+
 	}
 
 	/**
-	 * @param g2d graphics
-	 * @param scale  ratio of desired size and current size of the graphics
+	 * @param g2d
+	 *            graphics
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
 	 */
 	public void exportPaint(Graphics2D g2d, double scale) {
 		exportPaint(new GGraphics2DD(g2d), scale, false);
@@ -455,7 +454,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	 *            set to false, no traces are drawn.
 	 * 
 	 */
-	public void exportPaint(geogebra.common.awt.GGraphics2D g2d, double scale, boolean transparency) {
+	public void exportPaint(geogebra.common.awt.GGraphics2D g2d, double scale,
+			boolean transparency) {
 		getApplication().exporting = true;
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
@@ -463,21 +463,23 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	}
 
 	/**
-	 * @param g2d target graphics object
-	 * @param scale ratio of desired size and current size of the graphics
+	 * @param g2d
+	 *            target graphics object
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
 	 */
 	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale) {
 		exportPaintPre(g2d, scale, false);
 	}
 
-	private void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
-			boolean transparency) {
+	private void exportPaintPre(geogebra.common.awt.GGraphics2D g2d,
+			double scale, boolean transparency) {
 		g2d.scale(scale, scale);
 
 		// clipping on selection rectangle
 		if (getSelectionRectangle() != null) {
 			GRectangle rect = getSelectionRectangle();
-			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
+			g2d.setClip(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
 			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
 		} else {
@@ -517,7 +519,12 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-				GGraphics2DD.getAwtGraphics(g2d).drawImage(GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0, getJPanel());
+				GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(
+						RenderingHints.KEY_RENDERING,
+						RenderingHints.VALUE_RENDER_QUALITY);
+				GGraphics2DD.getAwtGraphics(g2d).drawImage(
+						GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0,
+						getJPanel());
 			}
 		} else {
 			// just clear the background if transparency is disabled (clear =
@@ -525,7 +532,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 			drawBackground(g2d, !transparency);
 		}
 
-		GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(RenderingHints.KEY_RENDERING,
+		GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(
+				RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_QUALITY);
 
 		setAntialiasing(g2d);
@@ -534,19 +542,24 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	/**
 	 * Returns image of drawing pad sized according to the given scale factor.
 	 * 
-	 * @param scale  ratio of desired size and current size of the graphics
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
 	 * @return image of drawing pad sized according to the given scale factor.
-	 * @throws OutOfMemoryError if the requested image is too big
+	 * @throws OutOfMemoryError
+	 *             if the requested image is too big
 	 */
 	public BufferedImage getExportImage(double scale) throws OutOfMemoryError {
 		return getExportImage(scale, false);
 	}
 
 	/**
-	 * @param scale  ratio of desired size and current size of the graphics
-	 * @param transparency true for transparent image
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
+	 * @param transparency
+	 *            true for transparent image
 	 * @return image
-	 * @throws OutOfMemoryError if the requested image is too big
+	 * @throws OutOfMemoryError
+	 *             if the requested image is too big
 	 */
 	public BufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
@@ -557,15 +570,17 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		img.flush();
 		return img;
 	}
+
 	/**
 	 * @param width
-	 * pixel width
+	 *            pixel width
 	 * @param height
-	 * pixel height
+	 *            pixel height
 	 * @param transparency
-	 * true for transparent
+	 *            true for transparent
 	 * @return image
-	 * @throws OutOfMemoryError if the requested image is too big
+	 * @throws OutOfMemoryError
+	 *             if the requested image is too big
 	 */
 	protected BufferedImage createBufferedImage(int width, int height,
 			boolean transparency) throws OutOfMemoryError {
@@ -591,19 +606,16 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 
 	}
 
-	
-
-
-
-
 	@Override
-	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
+	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g) {
 		// need to use getApplet().width rather than width so that
-					// it works with applet rescaling
-					int w = getApplication().onlyGraphicsViewShowing() ? getApplication().getApplet().width
-							: getWidth() + 2;
-					GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
+		// it works with applet rescaling
+		int w = getApplication().onlyGraphicsViewShowing() ? getApplication()
+				.getApplet().width : getWidth() + 2;
+		GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2,
+				null);
 	}
+
 	private Image getResetImage() {
 		if (resetImage == null) {
 			resetImage = getApplication().getRefreshViewImage();
@@ -625,7 +637,6 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		return pauseImage;
 	}
 
-	
 	@Override
 	final protected void drawAnimationButtons(geogebra.common.awt.GGraphics2D g2) {
 
@@ -644,7 +655,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 			g2.setColor(geogebra.common.awt.GColor.lightGray);
 		}
 
-		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
+		g2.setStroke(geogebra.common.euclidian.EuclidianStatic
+				.getDefaultStroke());
 
 		// draw pause or play button
 		g2.drawRect(x - 2, y - 2, 18, 18);
@@ -672,15 +684,17 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	 */
 	@Override
 	public geogebra.common.awt.GGraphics2D getGraphicsForPen() {
-			return new GGraphics2DD((Graphics2D) evjpanel.getGraphics());
+		return new GGraphics2DD((Graphics2D) evjpanel.getGraphics());
 
 	}
 
 	@Override
-	protected void doDrawPoints(GeoImage gi, List<geogebra.common.awt.GPoint> penPoints2, geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
+	protected void doDrawPoints(GeoImage gi,
+			List<geogebra.common.awt.GPoint> penPoints2,
+			geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
 		PolyBezier pb = new PolyBezier(penPoints2);
 		BufferedImage penImage2 = GBufferedImageD.getAwtBufferedImage(gi
-						.getFillImage());
+				.getFillImage());
 		boolean giNeedsInit = false;
 		if (penImage2 == null) {
 			giNeedsInit = true;
@@ -690,8 +704,8 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 			GraphicsDevice gs = ge.getDefaultScreenDevice();
 
 			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			penImage2 = gc.createCompatibleImage(Math.max(300,getWidth()),
-					Math.max(getHeight(),200), Transparency.BITMASK);
+			penImage2 = gc.createCompatibleImage(Math.max(300, getWidth()),
+					Math.max(getHeight(), 200), Transparency.BITMASK);
 		}
 		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
 
@@ -699,49 +713,49 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
 
-		g2d.setStroke(GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * penSize, (penPoints2
-					.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
-							: penLineStyle)));
+		g2d.setStroke(GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(
+				2 * penSize,
+				(penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
+						: penLineStyle)));
 		g2d.setColor(GColorD.getAwtColor(penColor));
 
 		g2d.draw(pb.gp);
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
 		app.refreshViews(); // clear trace
-		//TODO -- did we need the following line?
-		//ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
+		// TODO -- did we need the following line?
+		// ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
 
 		if (giNeedsInit) {
-			String fileName = ((AppD)app).createImage(penImage2, "penimage.png");
+			String fileName = ((AppD) app).createImage(penImage2,
+					"penimage.png");
 			// Application.debug(fileName);
 			GeoImage geoImage = null;
-			//if (gi == null)
-			//	geoImage = new GeoImage(app.getKernel().getConstruction());
-			//else
+			// if (gi == null)
+			// geoImage = new GeoImage(app.getKernel().getConstruction());
+			// else
 			geoImage = gi;
 			geoImage.setImageFileName(fileName);
 			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			GeoPoint corner = (new GeoPoint(
-					app.getKernel().getConstruction(), null,
-					ev.toRealWorldCoordX(0),
-					ev.toRealWorldCoordY(penImage2.getHeight()),
-					1.0));
-			GeoPoint corner2 = (new GeoPoint(app.getKernel()
-					.getConstruction(), null, ev.toRealWorldCoordX(penImage2.getWidth()), ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
+			GeoPoint corner = (new GeoPoint(app.getKernel().getConstruction(),
+					null, ev.toRealWorldCoordX(0),
+					ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
+			GeoPoint corner2 = (new GeoPoint(app.getKernel().getConstruction(),
+					null, ev.toRealWorldCoordX(penImage2.getWidth()),
+					ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
 			corner.setLabelVisible(false);
 			corner2.setLabelVisible(false);
 			corner.update();
 			corner2.update();
-			//if (gi == null)
-			//	geoImage.setLabel(null);
+			// if (gi == null)
+			// geoImage.setLabel(null);
 			geoImage.setCorner(corner, 0);
 			geoImage.setCorner(corner2, 1);
 
 			// need 3 corner points if axes ratio isn't 1:1
 			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
 				GeoPoint corner4 = (new GeoPoint(app.getKernel()
-						.getConstruction(), null,
-						ev.toRealWorldCoordX(0),
+						.getConstruction(), null, ev.toRealWorldCoordX(0),
 						ev.toRealWorldCoordY(0), 1.0));
 				corner4.setLabelVisible(false);
 				corner4.update();
@@ -763,27 +777,21 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	@Override
 	public void setBoldAxes(boolean bold) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public AppD getApplication() {
 		return (AppD) super.getApplication();
 	}
-	
-	
 
-	//////////////////////////////
+	// ////////////////////////////
 	// EVJPANEL
-	//////////////////////////////
-	
-	
+	// ////////////////////////////
+
 	/**
-	 * @param cursor new cursor
+	 * @param cursor
+	 *            new cursor
 	 */
 	public void setCursor(Cursor cursor) {
 		evjpanel.setCursor(cursor);
@@ -802,27 +810,29 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
 		g2.drawImage(bgImage, null, 0, 0);
 	}
-	
+
 	@Override
-	public void add(geogebra.common.javax.swing.GBox box){
-		evjpanel.add(((geogebra.javax.swing.BoxD)box).getImpl());
+	public void add(geogebra.common.javax.swing.GBox box) {
+		evjpanel.add(((geogebra.javax.swing.BoxD) box).getImpl());
 	}
-	
+
 	@Override
 	public void remove(geogebra.common.javax.swing.GBox box) {
-		evjpanel.remove(((geogebra.javax.swing.BoxD)box).getImpl());
+		evjpanel.remove(((geogebra.javax.swing.BoxD) box).getImpl());
 	}
+
 	/**
 	 * @return underlying component
 	 */
 	public JPanel getJPanel() {
 		return evjpanel;
 	}
+
 	/**
 	 * This view should be focused
 	 */
 	public void requestFocus() {
-		evjpanel.requestFocus();		
+		evjpanel.requestFocus();
 	}
 
 	@Override
@@ -830,22 +840,24 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		// TODO Auto-generated method stub
 		return new geogebra.awt.GFontD(evjpanel.getFont());
 	}
-	
-	
+
 	/**
 	 * @return mouse position
 	 */
 	public java.awt.Point getMousePosition() {
 		return evjpanel.getMousePosition();
 	}
+
 	/**
 	 * @see JPanel#getFontMetrics(java.awt.Font)
-	 * @param font font
+	 * @param font
+	 *            font
 	 * @return font metrics
 	 */
 	public FontMetrics getFontMetrics(java.awt.Font font) {
 		return evjpanel.getFontMetrics(font);
 	}
+
 	/**
 	 * @return whethe this view is visible
 	 */
@@ -855,151 +867,164 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 
 	@Override
 	public boolean requestFocusInWindow() {
-		return evjpanel.requestFocusInWindow();	
+		return evjpanel.requestFocusInWindow();
 	}
+
 	/**
 	 * @see JPanel#setPreferredSize(Dimension)
-	 * @param preferredSize prefered size
+	 * @param preferredSize
+	 *            prefered size
 	 */
 	public void setPreferredSize(Dimension preferredSize) {
 		evjpanel.setPreferredSize(preferredSize);
 	}
-	
+
 	@Override
 	public void setPreferredSize(geogebra.common.awt.GDimension preferredSize) {
-		evjpanel.setPreferredSize(geogebra.awt.GDimensionD.getAWTDimension(preferredSize));
+		evjpanel.setPreferredSize(geogebra.awt.GDimensionD
+				.getAWTDimension(preferredSize));
 	}
-	
+
 	/**
 	 * @see JPanel#revalidate()
 	 */
 	public void revalidate() {
 		evjpanel.revalidate();
 	}
-	
+
 	/**
 	 * @see JPanel#addMouseListener(MouseListener)
-	 * @param ml mouse listener
+	 * @param ml
+	 *            mouse listener
 	 */
 	public void addMouseListener(MouseListener ml) {
 		evjpanel.addMouseListener(ml);
 	}
-	
+
 	/**
 	 * @see JPanel#removeComponentListener(ComponentListener)
-	 * @param ml mouse listener
+	 * @param ml
+	 *            mouse listener
 	 */
 	public void removeMouseListener(MouseListener ml) {
 		evjpanel.removeMouseListener(ml);
 	}
-	
+
 	/**
 	 * @see JPanel#addMouseMotionListener(MouseMotionListener)
-	 * @param mml mouse motion listener
+	 * @param mml
+	 *            mouse motion listener
 	 */
 	public void addMouseMotionListener(MouseMotionListener mml) {
 		evjpanel.addMouseMotionListener(mml);
 	}
-	
+
 	/**
 	 * @see JPanel#removeMouseMotionListener(MouseMotionListener)
-	 * @param mml mouse motion listener
+	 * @param mml
+	 *            mouse motion listener
 	 */
 	public void removeMouseMotionListener(MouseMotionListener mml) {
 		evjpanel.removeMouseMotionListener(mml);
 	}
-	
+
 	/**
 	 * @see JPanel#addMouseWheelListener(MouseWheelListener)
-	 * @param mwl mouse wheel listener
+	 * @param mwl
+	 *            mouse wheel listener
 	 */
 	public void addMouseWheelListener(MouseWheelListener mwl) {
 		evjpanel.addMouseWheelListener(mwl);
 	}
-	
+
 	/**
 	 * @see JPanel#removeMouseWheelListener(MouseWheelListener)
-	 * @param mwl mouse wheel listener
+	 * @param mwl
+	 *            mouse wheel listener
 	 */
 	public void removeMouseWheelListener(MouseWheelListener mwl) {
 		evjpanel.removeMouseWheelListener(mwl);
 	}
+
 	/**
 	 * @see JPanel#dispatchEvent(AWTEvent)
-	 * @param componentEvent component event
+	 * @param componentEvent
+	 *            component event
 	 */
 	public void dispatchEvent(ComponentEvent componentEvent) {
 		evjpanel.dispatchEvent(componentEvent);
 	}
-	
+
 	/**
 	 * @see JPanel#setBorder(Border)
-	 * @param border new border
+	 * @param border
+	 *            new border
 	 */
 	public void setBorder(Border border) {
-		evjpanel.setBorder(border)	;
+		evjpanel.setBorder(border);
 	}
-	
+
 	/**
 	 * @see JPanel#addComponentListener(ComponentListener)
-	 * @param componentListener component listener
+	 * @param componentListener
+	 *            component listener
 	 */
-	public void addComponentListener(
-			ComponentListener componentListener) {
+	public void addComponentListener(ComponentListener componentListener) {
 		evjpanel.addComponentListener(componentListener);
-		
+
 	}
-	
+
 	/**
-	 * @param dimension new size
+	 * @param dimension
+	 *            new size
 	 */
 	public void setSize(Dimension dimension) {
 		evjpanel.setSize(dimension);
-		
+
 	}
+
 	/**
 	 * @return prefered size
 	 */
 	public Dimension getPreferredSize() {
 		return evjpanel.getPreferredSize();
 	}
+
 	/**
 	 * @see EuclidianViewJPanel#processMouseEventImpl(MouseEvent)
-	 * @param e mouse event
+	 * @param e
+	 *            mouse event
 	 */
 	protected void processMouseEvent(MouseEvent e) {
 		evjpanel.processMouseEventImpl(e);
 	}
-	
+
 	/**
 	 * Initializes this panel
-	 * @param repaint ignored parameter
+	 * 
+	 * @param repaint
+	 *            ignored parameter
 	 */
 	protected void initPanel(boolean repaint) {
 		// preferred size
 		evjpanel.setPreferredSize(null);
 	}
 
-
-
-	//@Override
+	// @Override
 	public void setToolTipText(String plain) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
 			evjpanel.setToolTipText(plain);
 		}
 	}
-	
-	
 
 	public int getWidth() {
 		return evjpanel.getWidth();
 	}
-	
+
 	public int getHeight() {
 		return evjpanel.getHeight();
 	}
-	
 
 	@Override
 	protected void updateSizeKeepDrawables() {
@@ -1034,28 +1059,30 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 
 		updateBackgroundImage();
 	}
-	
+
 	private void createImage(GraphicsConfiguration gc) {
 		if (gc != null) {
-			bgImage = new geogebra.awt.GBufferedImageD(gc.createCompatibleImage(getWidth(), getHeight()));
+			bgImage = new geogebra.awt.GBufferedImageD(
+					gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
 			if (antiAliasing) {
 				setAntialiasing(bgGraphics);
 			}
 		}
 	}
-	
 
 	@Override
-	public void drawActionObjects(geogebra.common.awt.GGraphics2D g2){
+	public void drawActionObjects(geogebra.common.awt.GGraphics2D g2) {
 		// TODO layers for Buttons and Textfields
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
-		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
-		evjpanel.paintChildren(
-				geogebra.awt.GGraphics2DD.getAwtGraphics(g2)); // draws Buttons and Textfields
+		g2.setStroke(geogebra.common.euclidian.EuclidianStatic
+				.getDefaultStroke());
+		evjpanel.paintChildren(geogebra.awt.GGraphics2DD.getAwtGraphics(g2)); // draws
+																				// Buttons
+																				// and
+																				// Textfields
 	}
-
 
 	public void clearView() {
 		evjpanel.removeAll(); // remove hotEqns
@@ -1064,8 +1091,7 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
 	}
-		
-	
+
 	public geogebra.common.awt.GColor getBackgroundCommon() {
 		return new geogebra.awt.GColorD(evjpanel.getBackground());
 	}
@@ -1074,19 +1100,11 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	public void setBackground(geogebra.common.awt.GColor bgColor) {
 		evjpanel.setBackground(geogebra.awt.GColorD.getAwtColor(bgColor));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	// temp image
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
+
 	/**
 	 * @return temporary graphics that is stored in this view
 	 */
@@ -1094,19 +1112,23 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 		g2Dtemp.setFont(getApplication().getPlainFont());
 		return g2Dtemp;
 	}
-	
+
 	@Override
-	final public geogebra.common.awt.GGraphics2D getTempGraphics2D(geogebra.common.awt.GFont font) {
-		g2Dtemp.setFont(geogebra.awt.GFontD.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
-								// Corner[text,n]
+	final public geogebra.common.awt.GGraphics2D getTempGraphics2D(
+			geogebra.common.awt.GFont font) {
+		g2Dtemp.setFont(geogebra.awt.GFontD.getAwtFont(font)); // Michael
+																// Borcherds
+																// 2008-06-11
+																// bugfix for
+		// Corner[text,n]
 		return new geogebra.awt.GGraphics2DD(g2Dtemp);
 	}
 
-
 	/**
-	 * Sets antialiasing of given graphics to ON
-	 * (both for text and drawings)
-	 * @param g2 graphics
+	 * Sets antialiasing of given graphics to ON (both for text and drawings)
+	 * 
+	 * @param g2
+	 *            graphics
 	 */
 	final public static void setAntialiasing(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -1119,7 +1141,7 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	final public void setAntialiasing(geogebra.common.awt.GGraphics2D g2) {
 		setAntialiasing(geogebra.awt.GGraphics2DD.getAwtGraphics(g2));
 	}
-	
+
 	@Override
 	final protected void setHeight(int height) {
 		//
@@ -1129,28 +1151,25 @@ public class EuclidianViewD extends EuclidianView implements EuclidianViewInterf
 	final protected void setWidth(int width) {
 		//
 	}
-	
-	
+
 	@Override
 	final protected void setStyleBarMode(int mode) {
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return new euclidian style bar
 	 */
-	protected EuclidianStyleBarD newEuclidianStyleBar(){
+	protected EuclidianStyleBarD newEuclidianStyleBar() {
 		return new EuclidianStyleBarD(this);
 	}
-	
-	
+
 	@Override
 	protected MyZoomerD newZoomer() {
 		return new MyZoomerD(this);
 	}
-	
 
 }
