@@ -76,7 +76,7 @@
   
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
-  <public path="resources" />
+  <public path="pub" />
   
   <!-- Compile only one permutation -->
   <collapse-all-properties />

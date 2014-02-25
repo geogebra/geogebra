@@ -45,10 +45,10 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/js/zipjs/zip-3.js")
 	TextResource zipJs();
 	
-	@Source("geogebra/resources/js/zipjs/deflate.js")
+	@Source("geogebra/pub/js/zipjs/deflate.js")
 	TextResource deflateJs();
 
-	@Source("geogebra/resources/js/zipjs/inflate.js")
+	@Source("geogebra/pub/js/zipjs/inflate.js")
 	TextResource inflateJs();
 	
 	@Source("geogebra/resources/js/zipjs/base64.js")
@@ -67,11 +67,8 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/js/mathquillggb.js")
 	TextResource mathquillggbJs();
 
-	@Source("geogebra/resources/js/properties_keys_en.js")
+	@Source("geogebra/pub/js/properties_keys_en.js")
 	TextResource propertiesKeysJS();
-
-	@Source("geogebra/resources/js/properties_keys_en_GB.js")
-	TextResource propertiesKeysJSenGB();
 	
 	@Source("geogebra/resources/images/spinner.html")
 	TextResource ggbSpinnerHtml();
