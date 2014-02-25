@@ -78,9 +78,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -1316,7 +1318,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 				+"/expiration/600/"
 				+"/clientinfo/smart"
 				+"/?lang="+languageCode
-				+"&url="+module.substring(0, module.lastIndexOf('/',module.length()-3))+"/app.html";
+				+"&url="+URL.encode(Location.getHref());
 	}
 	
 	public void login() {
