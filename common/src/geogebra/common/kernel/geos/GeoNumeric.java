@@ -467,8 +467,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString == null)
+		if (sbToString == null) {
 			return null;
+		}
+		
+		// #4186
+		if (tpl.getStringType() == StringType.GIAC) { 
+			return toValueString(tpl); 
+		} 
+		
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
