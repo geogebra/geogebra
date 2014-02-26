@@ -25,6 +25,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.gui.laf.GLookAndFeel;
+import geogebra.html5.gui.laf.ModernLookAndFeel;
 import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
@@ -127,7 +128,7 @@ public abstract class AppW extends AppWeb {
 		if("smart".equals(ae.getDataParamLAF())){
 			this.laf = new SmartLookAndFeel();
 		}else if("modern".equals(ae.getDataParamLAF())){
-			this.laf = new SmartLookAndFeel();
+			this.laf = new ModernLookAndFeel();
 		}else{
 			this.laf = new GLookAndFeel();
 		}
