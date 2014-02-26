@@ -61,6 +61,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/css/mathquillggb.css")
 	TextResource mathquillggbCss();
 	
+	@Source("geogebra/resources/default-preferences.xml")
+	TextResource preferencesXML();
+	
 	@Source("geogebra/resources/js/jquery-1.7.2.min.js")
 	TextResource jQueryJs();
 

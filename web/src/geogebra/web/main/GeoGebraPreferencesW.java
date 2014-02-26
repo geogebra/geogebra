@@ -2,12 +2,8 @@ package geogebra.web.main;
 
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
+import geogebra.html5.css.GuiResources;
 
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.storage.client.Storage;
 
 public class GeoGebraPreferencesW extends GeoGebraPreferences {
@@ -22,35 +18,18 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	}
 
 	public void clearPreferences() {
-		// TODO Auto-generated method stub
-		//App.debug("unimplemented method");
+		Storage stockStore = null;
+		stockStore = Storage.getLocalStorageIfSupported();
+		if(stockStore!=null){
+			stockStore.removeItem(XML_USER_PREFERENCES);
+	       	stockStore.removeItem(XML_DEFAULT_OBJECT_PREFERENCES);
+		}
 
 	}
 
 	public void loadXMLPreferences(final App app) {
 
-		try {
-			new RequestBuilder(RequestBuilder.GET,
-			        "web/default-preferences.xml").sendRequest("",
-			        new RequestCallback() {
-
-				        public void onResponseReceived(Request request,
-				                Response response) {
-					        if (200 == response.getStatusCode()) {
-						        app.setXML(response.getText(), false);
-					        }
-
-				        }
-
-				        public void onError(Request request, Throwable exception) {
-					        App.error(exception.getMessage());
-
-				        }
-
-			        });
-		} catch (RequestException e) {
-			App.error(e.getMessage());
-		}
+		app.setXML(GuiResources.INSTANCE.preferencesXML().getText(), false);
 	}
 	
 	public void saveXMLPreferences(App app) {
