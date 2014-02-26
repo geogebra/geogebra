@@ -3,6 +3,8 @@ package geogebra.web.gui.menubar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
+import geogebra.html5.gui.LanguageGUI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
@@ -113,6 +115,19 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	}
 	
 	private void addLanguageMenu() {
+		if(app.getLAF().isSmart()){
+			App.debug("smart menu");
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+			        .empty().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
+
+						@Override
+	                    public void execute() {
+							LanguageGUI bg = new LanguageGUI(app);
+							app.showBrowser(bg);
+		                    
+	                    }});
+			return;
+		}
 		languageMenu = new LanguageMenuW(app);
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("Language"), true), true, languageMenu);

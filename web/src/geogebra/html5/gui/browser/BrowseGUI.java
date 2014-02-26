@@ -3,6 +3,7 @@ package geogebra.html5.gui.browser;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -19,13 +20,12 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HeaderPanel;
 
 /**
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
+public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
@@ -38,7 +38,6 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private FileContainer tubeFileContainer;
 
 	private List<Material> tubeList = new ArrayList<Material>();
-	private GeoGebraAppFrame frame;
 
 	public final static int HEADING_HEIGHT = 61;
 
@@ -185,15 +184,11 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.lastSelected = materialElement;
 	}
 
-	public void close() {
-	    if(frame != null){
-	    	frame.hideBrowser(this);
-	    }
-	    
-    }
+	
 
-	public void setFrame(GeoGebraAppFrame geoGebraAppFrame) {
-	    this.frame = geoGebraAppFrame;
+	public void setFrame(GeoGebraAppFrame frame) {
+		this.loadFeatured();
+	    super.setFrame(frame);
 	    
     }
 	

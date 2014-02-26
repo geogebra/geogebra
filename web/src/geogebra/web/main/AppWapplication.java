@@ -3,6 +3,7 @@ package geogebra.web.main;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.move.ggtapi.models.AuthenticationModelW;
 import geogebra.html5.util.ArticleElement;
@@ -277,7 +278,7 @@ public class AppWapplication extends AppW {
 	}
     
 	@Override
-    public void showBrowser(BrowseGUI bg) {
+    public void showBrowser(MyHeaderPanel bg) {
 	    appFrame.showBrowser(bg);
     }
 	

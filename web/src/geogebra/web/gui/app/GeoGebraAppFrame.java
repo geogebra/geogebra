@@ -5,7 +5,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
-import geogebra.html5.gui.browser.BrowseGUI;
+import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
@@ -299,7 +299,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 	private boolean[] childVisible = new boolean[0];
-	public void showBrowser(BrowseGUI bg) {
+	public void showBrowser(MyHeaderPanel bg) {
 	    int count = frameLayout.getWidgetCount();
 	    childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
@@ -308,13 +308,12 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    }
 	    frameLayout.add(bg);
 	    bg.setVisible(true);
-	    bg.loadFeatured();
 	    bg.setFrame(this);
 	    frameLayout.forceLayout();
 	    
     }
 
-	public void hideBrowser(BrowseGUI bg) {
+	public void hideBrowser(MyHeaderPanel bg) {
 		frameLayout.remove(bg);
 		int count = frameLayout.getWidgetCount();
 		for(int i = 0; i<count;i++){

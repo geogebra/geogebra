@@ -8,7 +8,7 @@ import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.AuxiliaryHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,7 +31,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private final FastButton searchButton;
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;*/
-	private BrowseGUI browseGUI;
 	private NetworkOperation op;
 	
 	private FlowPanel signInPanel;
@@ -48,19 +47,12 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI,
 			NetworkOperation op) {
-		super(app.getLocalization());
-		this.browseGUI = browseGUI;
+		super(app.getLocalization(), browseGUI);
 		this.op = op;
 		this.app = app;
 		this.login = app.getLoginOperation();
 
-		this.backButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				browseGUI.close();
-			}
-		});
+		
 
 		//TODO: Make sign in
 		this.signInPanel = new FlowPanel();

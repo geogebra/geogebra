@@ -1,7 +1,7 @@
-package geogebra.html5.gui.browser;
+package geogebra.html5.gui;
 
 import geogebra.common.main.Localization;
-import geogebra.html5.gui.StandardButton;
+import geogebra.html5.gui.browser.BrowseResources;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
  * @author Zbynek
  * 
  */
-class AuxiliaryHeaderPanel extends FlowPanel {
+public class AuxiliaryHeaderPanel extends FlowPanel {
 
 	protected final StandardButton backButton;
 	private FlowPanel backPanel;
@@ -22,7 +22,7 @@ class AuxiliaryHeaderPanel extends FlowPanel {
 
 	protected final Localization loc;
 
-	AuxiliaryHeaderPanel(final Localization loc) {
+	protected AuxiliaryHeaderPanel(final Localization loc, final MyHeaderPanel gui) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
 		this.backButton = new StandardButton(BrowseResources.INSTANCE.back());
@@ -43,7 +43,13 @@ class AuxiliaryHeaderPanel extends FlowPanel {
 		this.headerText = new Label("");
 		this.headerText.addStyleName("locationTitle");
 		this.add(this.headerText);
+		this.backButton.addFastClickHandler(new FastClickHandler() {
 
+			@Override
+			public void onClick() {
+				gui.close();
+			}
+		});
 		//this.add(this.rightPanel);
 	}
 
