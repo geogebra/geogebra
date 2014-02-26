@@ -23,6 +23,4 @@
     <when-type-is class="geogebra.common.kernel.parser.ParseException"/>
   </replace-with>
   
-  <public path="common/main/xml" />
-  
 </module>
