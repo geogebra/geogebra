@@ -48,7 +48,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BasicStatTable extends JPanel implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
-	
+
 	protected AppD app;
 	private Construction cons;
 	protected DataAnalysisViewD daView;
@@ -60,16 +60,17 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 	/*************************************************
 	 * Construct the panel
-	 * @param app 
-	 * @param statDialog 
-	 * @param mode 
+	 * 
+	 * @param app
+	 * @param statDialog
+	 * @param mode
 	 */
 	public BasicStatTable(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		this.cons = app.getKernel().getConstruction();
 		this.daView = statDialog;
-		
+
 		this.setLayout(new BorderLayout());
 		initStatTable();
 		updateFonts(app.getPlainFont());
@@ -138,8 +139,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 				if (daView.getController().isValidData() && stat != Stat.NULL) {
 					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
 					if (algo != null) {
-						cons.removeFromConstructionList(
-								algo);
+						cons.removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
 						model.setValueAt(daView.format(value), row, 0);
@@ -253,7 +253,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		case SXY:
 			return app.getMenu("Sxy");
 		case RSQUARE:
-			return app.getMenu("RSquare");
+			return app.getMenu("RSquare.Short");
 		case SSE:
 			return app.getMenu("SumSquaredErrors.short");
 		default:
@@ -410,8 +410,6 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 			return null;
 		}
 	}
-
-	
 
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);
