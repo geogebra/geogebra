@@ -1720,7 +1720,7 @@ body[dir=rtl] .undoPanel {
 }
 
 
-[isSelected=true] .toolbar_icon{
+[isselected=true] .toolbar_icon{
 	border: 3px solid steelblue;
 	margin-top: -2px;
 	opacity:1.0;
@@ -1780,7 +1780,62 @@ body[dir=rtl] .undoPanel {
 
 .toolbarPanel{
 	line-height: 0;
+	position: relative;
+	z-index: 60px;
+	background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
+	border: 1px solid #e0e0e0;
 }
+
+.toolbar_mainItem{
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+.toolbar_mainItem li{
+	/*float: left;*/
+	list-style-type:none;
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+}
+
+.toolbar_mainItem li ul{
+	visibility: hidden;
+	position: absolute;
+	z-index: 1;
+	padding: 0;
+}
+
+.toolbar_mainItem li ul li{
+	/*float: none;*/
+	display: block;
+	width: auto;
+	height: auto;
+}
+
+.toolbar_mainItem li ul li div{
+	display: inline-block;
+}
+
+/*
+.toolbar_mainItem li:hover ul{
+	visibility: visible;
+}
+*/
+
+/*
+.toolbar_icon_image{
+	border: 1px solid lightsteelblue;
+	margin-top: 0px;
+	opacity:.9;
+	width: 32px;
+	height: 32px;
+	-webkit-touch-callout: none;
+	touch-callout:none;
+    -webkit-user-select: none; 
+}
+*/
 
 .GGWToolbar{
 	height: 55px;
@@ -2662,5 +2717,5 @@ label {
 /*UGLY HACKS! */
 
 .ggbdockpanelhack > div {
-	overflow: auto !important;
+	overflow: visible !important;
 }
