@@ -182,8 +182,8 @@ public final class DrawText extends Drawable {
 						bg != null ? bg : view.getBackgroundCommon());
 			} else {
 				g2.setPaint(geo.getObjectColor());
-				g2.setFont(textFont);
-				drawMultilineText(g2);
+				//g2.setFont(textFont);
+				drawMultilineText(g2, textFont);
 			}
 
 			// draw label rectangle
