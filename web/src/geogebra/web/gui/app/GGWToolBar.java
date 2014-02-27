@@ -567,15 +567,16 @@ public class GGWToolBar extends Composite {
 //		int ret = -1;
 //		for (ToolBarW toolbar : toolbars) {
 //			int tmp = toolbar.setMode(mode);
+//			App.debug("tmp: " + tmp);
 //
 //			// this will be the actual mode set
 //			if (getViewId(toolbar) == activeToolbar) {
 //				ret = tmp;
 //			}
 //		}
-
-//		updateHelpText();
-
+//
+////		updateHelpText();
+//
 //		return ret;
 		return toolbars.get(0).setMode(mode);
     }

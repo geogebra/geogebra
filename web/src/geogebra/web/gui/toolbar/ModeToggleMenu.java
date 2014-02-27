@@ -1,96 +1,223 @@
 package geogebra.web.gui.toolbar;
 
-import geogebra.common.awt.GColor;
-import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.common.main.App;
+import geogebra.html5.gui.util.ListItem;
+import geogebra.html5.gui.util.UnorderedList;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.GestureEndEvent;
+import com.google.gwt.event.dom.client.GestureEndHandler;
+import com.google.gwt.event.dom.client.LoseCaptureEvent;
+import com.google.gwt.event.dom.client.LoseCaptureHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
-public class ModeToggleMenu extends MenuBar {
+
+public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
+TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 
 	private static final long serialVersionUID = 1L;
-	ModeToggleButtonGroup bg;
-	//private MyJToggleButton tbutton, mouseOverButton;
-	private MyJToggleButton tbutton;
-	private ArrayList<MenuItem> menuItemList;
 
-//	private ActionListener popupMenuItemListener;
+	FlowPanel tbutton;
+	UnorderedList itemList;
+
 	private AppW app;
-	int size;
-	ToolBarW toolbar;
-	private AbsolutePanel imagePanel;
 
-	final static GColor bgColor = GColor.white;
+	private ToolBarW toolbar;
 
-	public ModeToggleMenu(AppW app, ToolBarW toolbar,
-			ModeToggleButtonGroup bg) {
-		super(true);
-		setFocusOnHoverEnabled(false);
-		this.app = app;
-		this.bg = bg;
-		this.toolbar = toolbar;
-		tbutton = new MyJToggleButton(this);
-		tbutton.getElement().setAttribute("isSelected", "false");
-		tbutton.addStyleName("toolbar_item");
+	boolean keepDown;
 
+	private Vector<Integer> menu;
+	
+	
+//	public ModeToggleMenu(AppW app, ToolBarW toolbar,
+//			ModeToggleButtonGroup bg) {
+//		
+//	}
+
+	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW handler) {
+		super();
+		this.app = appl;
+		this.toolbar = handler;
+		this.menu = menu1;
+		this.addStyleName("toolbar_item");
 		
+		buildGui();
 		
-//		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
-//		addItem(tbutton);
+	}
+	
+	public void buildGui(){
+		tbutton = new FlowPanel();
+		tbutton.addStyleName("toolbar_button");
+		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()));
+		toolbarImg.addStyleName("toolbar_icon");
+		tbutton.add(toolbarImg);
+		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");
+		
+		addDomHandlers(tbutton);
+		this.add(tbutton);
+		
+		itemList = new UnorderedList();
+		
+		for (int k = 0; k < menu.size(); k++) {
+			final int addMode = menu.get(k).intValue();
+			if (addMode < 0) {	//TODO
+//				// separator within menu:
+//				tm.addSeparator();
+			} else { // standard case: add mode
+				// check mode
+				if (!"".equals(app.getToolName(addMode))) {
+					ListItem subLi = new ListItem();
+					Image modeImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
+					//modeImage.getElement().setId("img_"+addMode);
+					Label lb = new Label(app.getToolName(addMode));
+					subLi.add(modeImage);
+					subLi.add(lb);
+					//subLi.getElement().setId(addMode+"");
+					subLi.getElement().setAttribute("mode", addMode+"");
+					addDomHandlers(subLi);
+					itemList.add(subLi);
+				}
+			}
+		}
 
-		menuItemList = new ArrayList<MenuItem>();
-		//popupMenuItemListener = new MenuItemListener();
-		size = 0;
+		this.add(itemList);	
 	}
 
-	public int getToolsCount() {
-		return size;
+//	public Image getButton(){
+//		return tbutton;
+//	}
+
+	public UnorderedList getItemList(){
+		return itemList;
 	}
 
+	
+	public void addDomHandlers(Widget w){
+//		this.addDomHandler(this, MouseMoveEvent.getType());
+//		this.addDomHandler(this, MouseOverEvent.getType());
+//		this.addDomHandler(this, MouseOutEvent.getType());
+		App.debug("addDomHandlers - " + w.toString());
+		w.addDomHandler(this, MouseDownEvent.getType());
+		w.addDomHandler(this, MouseUpEvent.getType());
+		w.addDomHandler(this, TouchStartEvent.getType());
+		w.addDomHandler(this, TouchEndEvent.getType());
+//		this.addDomHandler(this, TouchMoveEvent.getType());
+		w.addDomHandler(this, GestureEndEvent.getType());
+		w.addDomHandler(this, LoseCaptureEvent.getType());
+	}
+	
+//	private native void addNativeHandlers(Element element, ModeToggleMenu m)/*-{
+//		element.addEventListener("touchstart",function(e) {
+//			e.preventDefault();
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchStart(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+//		});
+//		element.addEventListener("touchend",function() {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchEnd(Lcom/google/gwt/dom/client/Element;)(element);
+//		});
+//		element.addEventListener("mousedown",function(e) {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchStart(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+//		});
+//		element.addEventListener("mouseup",function() {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchEnd(Lcom/google/gwt/dom/client/Element;)(element);
+//		});
+//		element.addEventListener("click",function() {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onClick(Lcom/google/gwt/dom/client/Element;)(element);
+//		});
+//		element.addEventListener("touchleave",function(e) {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+//		});
+//		
+//		element.addEventListener("touchcancel",function() {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e)
+//		});
+//		element.addEventListener("touchenter",function() {
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+//		});		
+//	}-*/;
+	
+	public void onTouchLeave(JavaScriptObject e){
+		Window.alert("TOUCHLEAVE");
+	}
+
+	public void onTouchCancel(Element element){
+		Window.alert("TOUCHcancel");
+	}
+
+	public void onTouchEnter(Element element){
+		Window.alert("TOUCHenter");
+	}
+	
+	public void onTouchStart(JavaScriptObject e){
+		App.debug("start" + e.toSource());
+	}
+	
+	public void onTouchEnd(Element element){
+		App.debug("end");
+		App.debug(element.toString());
+		app.setMode(Integer.parseInt(element.getAttribute("mode")));
+		itemList.getElement().getStyle().setProperty("visibility", "hidden");
+	}
+
+	public void onClick(Element element){
+		App.debug("click");
+	}
+	
+	public void openMenu(){
+		itemList.getElement().getStyle().setProperty("visibility", "visible");
+	}
+	
 	public boolean selectMode(int mode) {
+		App.debug("select mode --- " +mode);
 		String modeText = mode + "";
 
-		for (int i = 0; i < size; i++) {
-			MenuItem mi = menuItemList.get(i);
+		for (int i = 0; i < this.getItemList().getWidgetCount(); i++) {
+			Widget mi = this.getItemList().getWidget(i);
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
-				selectMenuItem(mi);
+				selectItem(mi);
 				return true;
 			}
 		}
 		tbutton.getElement().setAttribute("isSelected", "false");
+		App.debug("tbutton selected <-false: " + tbutton.toString());
 		return false;
 	}
 
+	
 	public int getFirstMode() {
-		if (menuItemList == null || menuItemList.size() == 0) {
+		if (itemList.getWidgetCount() == 0){
 			return -1;
 		}
-		MenuItem mi = menuItemList.get(0);
-		return Integer.parseInt(mi.getElement().getAttribute("mode"));
+		
+		int firstmode = Integer.parseInt(itemList.getWidget(0).getElement().getAttribute("mode"));
+		App.debug("firstmode: " + firstmode);
+		return firstmode;
 	}
-
-	/*
-	 * This method has the same functionality as the 
-	 * geogebra.gui.toolbar.ModeToggleMenu.selectItem(JMenuItem mi)
-	 */
-	void selectMenuItem(MenuItem mi) {
+	
+	void selectItem(Widget mi) {
+		
+		App.debug("selectItem!!!");
+		
 		final String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals(true)
@@ -98,317 +225,109 @@ public class ModeToggleMenu extends MenuBar {
 			return;
 		}
 		
-
-		
-//		tbutton.setIcon(mi.getIcon());
-//		tbutton.setText(app.getToolName(Integer.parseInt(miMode)));
+		App.debug("tbutton new mode: " + miMode);
 		tbutton.getElement().setAttribute("mode",miMode);
-		//tbutton.setHTML(GGWToolBar.getImageHtml(Integer.parseInt(miMode)));
-		tbutton.updateCanvas(Integer.parseInt(miMode));
-//		tbutton.setText(miMode);
+		tbutton.clear();
+		Image buttonImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)));
+		buttonImage.addStyleName("toolbar_icon");
+		tbutton.add(buttonImage);
+//		tbutton.getElement().setInnerHTML(new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)))+"");
+		toolbar.update();
 		
 		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenu mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
+				App.debug("tbutton selected <-false: " + tbutton.toString());
 				mtm.tbutton.getElement().setAttribute("isSelected","false");
 			}
 		}
 		tbutton.getElement().setAttribute("isSelected","true");
-		tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
-		
-		// tbutton.requestFocus();*/
-		
-	}
-
-	public void addMode(int mode) {
-		// add menu item to popup menu
-		Command tempCommand = null;
-		MenuItem mi = new MenuItem(app.getToolName(mode), tempCommand);
-		//mi.setFont(app.getPlainFont());
-		//mi.setBackground(bgColor);
-
-		// tool name as text
-		//mi.setText(app.getToolName(mode));
-
-		//Icon icon = app.getModeIcon(mode);
-		String actionText = Integer.toString(mode);
-		//mi.setIcon(icon);
-		mi.getElement().setAttribute("mode", actionText);
-		//mi.setStyleName("toolbar_menuitem");
-		//mi.addActionListener(popupMenuItemListener);
-
-		//popMenu.add(mi);
-		menuItemList.add(mi);
-		size++;
-
-		if (size == 1) {
-			// init tbutton
-			tbutton.getElement().setAttribute("mode", actionText);
-			//tbutton.setHTML(getImagePanelHtml(mode));
-			tbutton.getElement().appendChild(tbutton.getCanvas(mode).getElement());
-			
-			this.getElement().setAttribute("mode", actionText);
-			//this.setTitle(app.getToolName(mode));
-			// tooltip: tool name and tool help
-			tbutton.setToolTipText(app.getToolTooltipHTML(mode));
-			//tbutton.setText(app.getToolName(mode));
-		} else if (size == 2){
-			tbutton.getElement().appendChild(tbutton.getCanvasForRedTriangle().getElement());
-		}
+		App.debug("tbutton selected <-true: " + tbutton.toString());
+		//toolbar.update(); //TODO remove later
+		//tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
+		setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
 	}
 	
+	public void setToolTipText(String string){
+		App.debug("TODO setTooltiptext");
+	}
+	
+	public void addSeparator(){
+		//TODO
+	}
+	
+	public void addItem(){
+		
+	}
 
+	@Override
+    public void onTouchEnd(TouchEndEvent event) {
+		onEnd(event);
+    }
+	
+	public void onEnd(DomEvent event){
+		boolean istbutton = event.getSource() == tbutton;
+		
+		App.debug("istbutton: " + istbutton);
+		keepDown = false;
+		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
+		itemList.getElement().getStyle().setProperty("visibility", "hidden");
+		
+	}
 
+	@Override
+    public void onTouchStart(TouchStartEvent event) {
+	    if (event.getSource() == tbutton){
+	    	onStart(event);
+	    }
+	    
+    }
+
+	@Override
+    public void onMouseUp(MouseUpEvent event) {
+		onEnd(event);
+    }
+
+	@Override
+    public void onMouseDown(MouseDownEvent event) {
+	    if (event.getSource() == tbutton){
+	    	onStart(event);
+	    }    
+    }
 	
 	/**
-	 * Sets tbutton field.
-	 * @param button the new value of tbutton
+	 * Handles the touchstart and mousedown events on main tools.
+	 * @param event
 	 */
-//	public void setButton(MenuItem button){
-//		tbutton = button;
-//	}
-	
-	/**
-	 * Gets tbutton field.
-	 * @return with tbutton
-	 */
-	public MyJToggleButton getButton(){
-		return tbutton;		
-	}
-	
-
-	public void setMode(int mode) {
-		app.setMode(mode);
-	}
-
-	class MyJToggleButton extends MenuItem{
-
-		private static final long serialVersionUID = 1L;
-
-		private static final int CANVASFORTRIANGLE_WIDTH = 10;
-
-		private static final int CANVASFORTRIANGLE_HEIGHT = 5;
+	public void onStart(DomEvent event){	
+		event.preventDefault();
+		final Element element = event.getRelativeElement();
+		keepDown = true;
+		toolbar.closeAllSubmenu();
 		
-		Canvas canvas;
-		Canvas canvasForRedTriangle;
-		boolean popupTriangleHighlighting = false;
-		CssColor arrowColor = CssColor.make("#FFFFFF");
-
-		private ImageElement imgElement;
-
-		MyJToggleButton(ModeToggleMenu menu) {
-			super("", true, menu);
-			initCanvasForRedTriangle();
-			this.addNativeToolTipHandler(this.getElement(), this);
-			this.addNativeMenuHandler(this.getElement(), this);
-		}
-
-		// prevent gwt menubar hover styling
-		 @Override
-        protected void setSelectionStyle(boolean selected) {
-			 // do nothing
-		 }
-		 
-		String toolTipText;
-
-		private boolean keepDown = false;
-		public void setToolTipText(String string) {
-			toolTipText = string;
-        }
-		
-		public void showToolTip(){
-			if (toolbar.hasPopupOpen()) return;
-			
-			ToolTipManagerW.sharedInstance().setEnableDelay(false);
-			ToolTipManagerW.sharedInstance().showToolTip(this.getElement(), toolTipText);
-			ToolTipManagerW.sharedInstance().setEnableDelay(true);
-		}
-		
-		public void hideToolTip(){
-			ToolTipManagerW.sharedInstance().hideToolTip();
-		}
-		
-		private void initCanvasForRedTriangle(){
-			canvasForRedTriangle = Canvas.createIfSupported();
-			canvasForRedTriangle.setWidth(CANVASFORTRIANGLE_WIDTH + "px");
-			canvasForRedTriangle.setHeight(CANVASFORTRIANGLE_HEIGHT + "px");
-			canvasForRedTriangle.setCoordinateSpaceWidth(CANVASFORTRIANGLE_WIDTH);
-			canvasForRedTriangle.setCoordinateSpaceHeight(CANVASFORTRIANGLE_HEIGHT);
-			canvasForRedTriangle.setVisible(true);
-			canvasForRedTriangle.addStyleName("red_triangle");
-			attachNativeHandler(canvasForRedTriangle.getElement());
-			
-		}
-		
-		public void attachNativeHandler(Element element) {
-			addNativeHandler(element, this);
-		}
-
-		private native void addNativeToolTipHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
-			element.addEventListener("mouseout",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::hideToolTip()();
-			});
-			element.addEventListener("mouseover",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::showToolTip()();
-			});	
-		}-*/;
-		
-		private native void addNativeMenuHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
-			element.addEventListener("touchstart",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchStart()();
-			});
-			element.addEventListener("touchend",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchEnd()();
-			});
-			element.addEventListener("mousedown",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchStart()();
-			});
-			element.addEventListener("mouseup",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::onTouchEnd()();
-			});
-	}-*/;
-		
-		private void onTouchStart(){
-			keepDown  = true;
-			Timer longPressTimer = new Timer(){
-				@Override
-                public void run() {
-					if (keepDown) openSubmenu();
-                }
-			};
-			longPressTimer.schedule(3000);
-		}
-		
-		private void onTouchEnd(){
-			keepDown = false;
-		}
-		
-		public void openSubmenu() {
-			toolbar.onBrowserEvent(Event.as(Document.get().createKeyDownEvent(false, false, false,
-	                false, KeyCodes.KEY_ENTER)));
-		}
-		
-		private native void addNativeHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
-			element.addEventListener("mouseout",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::triangleMouseOut()();
-			});
-			element.addEventListener("mouseover",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::triangleMouseOver()();
-			});
-			
-			
-		}-*/;
-		
-		public void triangleMouseOver(){
-			popupTriangleHighlighting = true;
-			drawRedTriangle(true);
-		}
-		
-		public void triangleMouseOut(){
-			popupTriangleHighlighting = false;
-			drawRedTriangle(false);
-		}
-		
-		Canvas getCanvasForRedTriangle(){
-			drawRedTriangle(false);
-			return canvasForRedTriangle;
-		}
-	
-		private void drawRedTriangle(boolean selected){
-			
-			Context2d context = canvasForRedTriangle.getContext2d();
-			context.clearRect(0, 0, canvasForRedTriangle.getOffsetWidth(), canvasForRedTriangle.getOffsetHeight());
-
-			//red triangle for popup menu
-			//color-settings for selected and unselected arrow
-			if (popupTriangleHighlighting) {
-				context.setStrokeStyle(CssColor.make("#FFFFFF"));
-				context.setFillStyle(CssColor.make("#DCDCDC"));
-			} else {
-				context.setStrokeStyle(arrowColor);
-				if(selected){
-					context.setFillStyle(CssColor.make("#DCDCDC"));
-				}else{
-					context.setFillStyle(CssColor.make("#DCDCDC"));
+		Timer longPressTimer = new Timer(){
+			@Override
+            public void run() {
+				App.debug("keepdown: " + keepDown);
+				if (keepDown){
+					element.getNextSiblingElement().getStyle().setProperty("visibility","visible");
+					keepDown = false;
 				}
-			}
-			
-			context.setLineWidth(1);	
-			context.beginPath();
-			/*context.moveTo(25.5,1.5);
-			context.lineTo(39.5,1.5);
-			context.lineTo(32.5,11.5);*/
-			context.moveTo(1,1);
-			context.lineTo(9, 1);
-			context.lineTo(4.5, 5);
-			context.closePath();
-			context.stroke();
-			context.fill();	
-			
-		}
-		
-		public boolean isTriangleHighlighted(){
-			return popupTriangleHighlighting;
-		}
-		
-		
-		Canvas getCanvas(int mode){
-			
-			canvas = Canvas.createIfSupported();
-
-			// canvas init.
-			//canvas.setWidth("32px");
-			//canvas.setHeight("32px");
-			canvas.setCoordinateSpaceWidth(32);
-			canvas.setCoordinateSpaceHeight(32);
-			canvas.addStyleName("toolbar_icon");
-		
-			updateCanvas(mode);
-			
-			canvas.setVisible(true);
-			return canvas;
-			
-		}
-		
-		private void updateCanvas(int mode) {
-			final Image image = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
-			ImageElement imageElement = (ImageElement) image.getElement().cast();
-			imgElement = imageElement;
-			attachNativeLoadHandler(imageElement);
-		}
-		
-
-		/**
-		 * @param img
-		 */
-		public void attachNativeLoadHandler(ImageElement img) {
-			addNativeLoadHandler(img,this);
-		}
-
-		private native void addNativeLoadHandler(ImageElement img, ModeToggleMenu.MyJToggleButton bt) /*-{
-			img.addEventListener("load",function() {
-				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::drawOnCanvas(Lcom/google/gwt/dom/client/ImageElement;Z)(img, false);
-			});
-		}-*/;
-		
-		/**
-		 * @param imageElement - TODO: remove
-		 * @param selected
-		 */
-		public void drawOnCanvas(ImageElement imageElement, boolean selected) {
-
-			Context2d context = canvas.getContext2d();
-			context.setFillStyle("rgba(255,255,255,1)");
-			context.fillRect(0, 0, 32, 32);
-			context.drawImage(imageElement, 0, 0, 32, 32);
-
-		}
-		
-		public void drawOnCanvas(boolean selected){
-			drawOnCanvas(imgElement, selected);
-		}
-
+            }
+		};
+		longPressTimer.schedule(2000); 		
 	}
 
+	@Override
+    public void onGestureEnd(GestureEndEvent event) {
+	    Window.alert("gesture end");
+	    
+    }
+
+	@Override
+    public void onLoseCapture(LoseCaptureEvent event) {
+	    Window.alert("losecapturehandler");
+    }
+	
 }
