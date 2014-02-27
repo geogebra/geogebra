@@ -368,11 +368,12 @@ public abstract class EuclidianStatic {
 	 * @param yLabel y-coord
 	 * @param g2 graphics
 	 * @param serif true for serif font
+	 * @param textFont 
 	 * @return border of resulting text drawing
 	 */
 	public final static geogebra.common.awt.GRectangle drawMultiLineText(App app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.GGraphics2D g2,
-			boolean serif) {
+			boolean serif, GFont textFont) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
 		float lineSpread = fontSize * 1.5f;
@@ -389,6 +390,10 @@ public abstract class EuclidianStatic {
 		int length = labelDesc.length();
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
+				
+				 // iOS (bug?) - bold text needs font setting for each line 
+				g2.setFont(textFont);
+				
 				// end of line reached: draw this line
 				g2.drawString(labelDesc.substring(lineBegin, i), xLabel, yLabel
 						+ lines * lineSpread);
@@ -404,6 +409,10 @@ public abstract class EuclidianStatic {
 		}
 
 		float ypos = yLabel + lines * lineSpread;
+		
+		// iOS (bug?) - bold text needs font setting for each line 
+		g2.setFont(textFont);
+		
 		g2.drawString(labelDesc.substring(lineBegin), xLabel, ypos);
 
 		int width = (int) textWidth(labelDesc.substring(lineBegin), font, frc);

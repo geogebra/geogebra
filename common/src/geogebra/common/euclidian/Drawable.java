@@ -326,7 +326,7 @@ public abstract class Drawable extends DrawableND {
 
 			labelRectangle.setBounds(EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif()));
+					isSerif(), textFont));
 		} else {
 			int lines = 0;
 			int fontSize = g2.getFont().getSize();

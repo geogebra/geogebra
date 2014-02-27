@@ -28,7 +28,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
 		}
 		
-		return EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, tempGraphics, false);
+		return EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, tempGraphics, false, tempGraphics.getFont());
 		
 	}
 
@@ -38,7 +38,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, font, 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
 		}else{
-			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, g2d, false);
+			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, g2d, false, g2d.getFont());
 		}
 	}
 	
