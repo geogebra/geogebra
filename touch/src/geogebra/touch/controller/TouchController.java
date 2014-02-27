@@ -69,6 +69,7 @@ public class TouchController extends EuclidianControllerWeb implements
 		this.model = touchModel;
 		this.mode = -1;
 		this.off = new ZeroOffset();
+		this.moveAxesAllowed = false;
 	}
 
 	public void reset() {
@@ -126,7 +127,10 @@ public class TouchController extends EuclidianControllerWeb implements
 
 		if (cmd == ToolBarCommand.Move_Mobile) {
 			this.view.setHits(this.mouseLoc, type);
-			if (this.view.getHits().size() == 0) {
+			Hits h = this.view.getHits();
+			int max = h.hasXAxis() ? 1 : 0;
+			max += h.hasYAxis() ? 1 : 0;
+			if (h.size() == max) {
 				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
 				this.model.resetSelection();
 				this.model.setToSelect(null);

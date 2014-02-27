@@ -8363,7 +8363,7 @@ public abstract class EuclidianController {
 		 */
 	
 		moveMode = MOVE_VIEW;
-		if (!hits.isEmpty() && !view.isLockedAxesRatio() && view.isZoomable()) {
+		if (!hits.isEmpty() && moveAxesPossible()) {
 			for (Object hit : hits) {
 				if (hit == kernel.getXAxis()) {
 					moveMode = MOVE_X_AXIS;
@@ -8389,6 +8389,10 @@ public abstract class EuclidianController {
 	
 	}
 	
+	protected boolean moveAxesPossible(){
+		return !view.isLockedAxesRatio() && view.isZoomable();
+	}
+
 	protected void setDragCursorIfMoveView(){
 		if (moveMode == MOVE_VIEW) {
 			view.setDragCursor();

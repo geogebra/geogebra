@@ -63,6 +63,12 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
+	public void setShowAxesRatio(boolean b) {
+		//never show axes ratio (prevents move!)
+		super.setShowAxesRatio(false);
+	}
+
+	@Override
 	public void add(final GBox box) {
 		this.panel.addBox(GBoxW.getImpl(box), (int) box.getBounds().getX(),
 				(int) box.getBounds().getY());
