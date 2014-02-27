@@ -89,7 +89,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 		} else {
 			
 			rect = EuclidianStatic.drawMultiLineText(app,
-			        previewGeo.getTextString(), 0, 0, ev.g2p, serif);
+			        previewGeo.getTextString(), 0, 0, ev.g2p, serif, textFont);
 		}
 		//App.debug("text rect: " + rect.getWidth() + " x " +
 	//	rect.getHeight());
