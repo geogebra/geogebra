@@ -241,7 +241,13 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			text.setLaTeX(true, false);
 			
 		} else {
-			text.setUndefined();
+
+			// if the number is undefined, display a "?"
+			text.setTextString("?");
+			text.setLaTeX(true, false);
+
+			// old behaviour
+			//text.setUndefined();
 		}			
 	}
     
@@ -251,7 +257,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			denom= -denom;
 			numer= -numer;
 		}
-		
+
+    	// maybe we can simplify
+    	int gcdiv = (int) Kernel.gcd(Math.abs(numer), denom);
+    	if (gcdiv != 1) {
+    		denom = denom/gcdiv;
+    		numer = numer/gcdiv;
+    	}
+
 		if (denom == 1) { // integer
 			DrawEquation.appendNumber(sb, tpl, kernel.format(numer,tpl));
 		} else if (denom == 0) { // 1 / 0 or -1 / 0
