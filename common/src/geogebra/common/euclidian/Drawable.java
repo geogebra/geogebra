@@ -314,8 +314,9 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * @param g2 graphics
+	 * @param textFont 
 	 */
-	protected final void drawMultilineText(GGraphics2D g2) {
+	protected final void drawMultilineText(GGraphics2D g2, GFont textFont) {
 
 		if (labelDesc == null)
 			return;
@@ -344,6 +345,9 @@ public abstract class Drawable extends DrawableND {
 			for (int i = 0; i < length - 1; i++) {
 				if (labelDesc.charAt(i) == '\n') {
 					// end of line reached: draw this line
+					
+					// iOS (bug?) - bold text needs font setting for each line
+					g2.setFont(textFont);					
 					GPoint p = EuclidianStatic.drawIndexedString(
 							view.getApplication(), g2,
 							labelDesc.substring(lineBegin, i), xLabel, yLabel
@@ -358,6 +362,9 @@ public abstract class Drawable extends DrawableND {
 			}
 
 			float ypos = yLabel + lines * lineSpread;
+			
+			// iOS (bug?) - bold text needs font setting for each line
+			g2.setFont(textFont);
 			GPoint p = EuclidianStatic
 					.drawIndexedString(view.getApplication(), g2,
 							labelDesc.substring(lineBegin), xLabel, ypos,

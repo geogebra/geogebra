@@ -140,7 +140,7 @@ public final class DrawText extends Drawable {
 						geo.getObjectColor(),
 						view.getBackgroundCommon());
 			else
-				drawMultilineText(view.getTempGraphics2D(textFont));
+				drawMultilineText(view.getTempGraphics2D(textFont), textFont);
 
 			// update corners for Corner[] command
 			double xRW = view.toRealWorldCoordX(labelRectangle.getX());
@@ -166,7 +166,7 @@ public final class DrawText extends Drawable {
 							textFont, geo
 									.getObjectColor(), view.getBackgroundCommon());
 				} else {
-					drawMultilineText(view.getTempGraphics2D(textFont));
+					drawMultilineText(view.getTempGraphics2D(textFont), textFont);
 				}
 				g2.setStroke(objStroke);
 				g2.setPaint(bg);
