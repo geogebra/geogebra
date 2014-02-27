@@ -267,10 +267,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
     }
 	
 	public void onEnd(DomEvent event){
-		boolean istbutton = event.getSource() == tbutton;
-		
-		App.debug("istbutton: " + istbutton);
 		keepDown = false;
+		if (event.getSource() == tbutton && "true".equals(event.getRelativeElement().getAttribute("isSelected"))){
+			itemList.getElement().getStyle().setProperty("visibility", "visible");
+			return;
+		}
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
 		itemList.getElement().getStyle().setProperty("visibility", "hidden");
 		
