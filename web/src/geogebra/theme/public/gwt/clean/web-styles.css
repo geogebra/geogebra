@@ -2970,3 +2970,11 @@ body .browsegui .fileLinks .button {
 	overflow-y: scroll;
 }
 
+
+
+/*UGLY HACKS! */
+
+.ggbdockpanelhack > div {
+	overflow: auto !important;
+}
+

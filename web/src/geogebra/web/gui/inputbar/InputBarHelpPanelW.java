@@ -107,6 +107,7 @@ public class InputBarHelpPanelW extends VerticalPanel {
 		// put the detail panel and index tree side by side in a
 		// SplitLayoutPanel
 		sp = new SplitLayoutPanel();
+		sp.addStyleName("ggbdockpanelhack");
 		sp.addEast(treeScroller, 250);
 		sp.add(new ScrollPanel(detailPanel));
 

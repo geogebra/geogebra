@@ -10,6 +10,7 @@ import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
 import geogebra.html5.util.debug.GeoGebraLogger;
+import geogebra.web.gui.app.docklayout.MyDockLayoutPanel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.Dom;
@@ -26,10 +27,8 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -41,9 +40,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class GeoGebraAppFrame extends ResizeComposite {
-
-	//interface Binder extends UiBinder<DockLayoutPanel, GeoGebraAppFrame> { }
-	//private static final Binder binder = GWT.create(Binder.class);
 	
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
@@ -55,11 +51,11 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	private static final int GGWStyleBar_HEIGHT = 65;
 	public static int GGWCommandLine_HEIGHT = 50;
 	
-	@UiField GGWToolBar ggwToolBar;
-	@UiField GGWCommandLine ggwCommandLine;
-	@UiField GGWMenuBar ggwMenuBar;
+	private GGWToolBar ggwToolBar;
+	private GGWCommandLine ggwCommandLine;
+	private GGWMenuBar ggwMenuBar;
 
-	DockLayoutPanel outer = null;
+	MyDockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
 

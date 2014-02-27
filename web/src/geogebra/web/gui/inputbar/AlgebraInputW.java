@@ -54,7 +54,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	/**
 	 * Creates AlgebraInput for Web
 	 */
-	AlgebraInputW() {
+	public AlgebraInputW() {
 		super();	
 	}
 	

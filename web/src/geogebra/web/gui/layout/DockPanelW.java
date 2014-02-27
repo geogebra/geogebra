@@ -664,6 +664,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public class MyDockLayoutPanel extends DockLayoutPanel{
 	public MyDockLayoutPanel(Unit unit) {
 	        super(unit);
+			addStyleName("ggbdockpanelhack");
         }		
 	
 	@Override

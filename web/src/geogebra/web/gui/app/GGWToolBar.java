@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -27,12 +25,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite {
-
-	private static GGWToolBarUiBinder uiBinder = GWT
-	        .create(GGWToolBarUiBinder.class);
-
-	interface GGWToolBarUiBinder extends UiBinder<FlowPanel, GGWToolBar> {
-	}
 
 	static private MyIconResourceBundle myIconResourceBundle = GWT
 	        .create(MyIconResourceBundle.class);
@@ -45,7 +37,6 @@ public class GGWToolBar extends Composite {
 	App app;
 	static private ToolBarW toolBar;
 	//panel which contains the toolbar and undo-redo buttons.
-	@UiField
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
 	FlowPanel toolBPanel;
@@ -58,7 +49,9 @@ public class GGWToolBar extends Composite {
 	 * Create a new GGWToolBar object
 	 */
 	public GGWToolBar() {
-		initWidget(uiBinder.createAndBindUi(this));
+		toolBarPanel = new FlowPanel();
+		toolBarPanel.addStyleName("ggbtoolbarpanel");
+		initWidget(toolBarPanel);
 	}
 
 	public boolean isInited() {

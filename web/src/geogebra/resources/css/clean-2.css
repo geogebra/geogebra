@@ -1369,6 +1369,10 @@ td.datePickerMonth {
 
 /*============ GeoGebraMenuBar ============*/
 
+.ggbmenubarwrapper {
+	width: 100%;
+}
+
 .linktoggbtube {
 	position:absolute;
 	right:20px;
@@ -2652,4 +2656,11 @@ label {
 
 .ggw_glabel{
 	white-space: nowrap;
+}
+
+
+/*UGLY HACKS! */
+
+.ggbdockpanelhack > div {
+	overflow: auto !important;
 }

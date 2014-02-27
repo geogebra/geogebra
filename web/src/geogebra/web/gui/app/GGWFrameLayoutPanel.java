@@ -70,9 +70,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		onResize();
 	}
 
+	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
 	class MyDockPanelLayout extends DockLayoutPanel {
 		public MyDockPanelLayout(Unit unit) {
 			super(unit);
+			addStyleName("ggbdockpanelhack");
 		}
 
 		public double getCenterWidth() {
