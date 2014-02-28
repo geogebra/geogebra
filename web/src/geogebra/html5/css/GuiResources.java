@@ -85,6 +85,13 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/css/web-styles.css")
 	TextResource modernStyle();
 	
+	// TOOLBAR
+	@Source("icons/png/web/toolbar-further-tools-icon.png")
+	ImageResource toolbar_further_tools();
+	
+	@Source("icons/png/web/toolbar-further-tools-icon-active.png")
+	ImageResource toolbar_further_tools_active();
+	
 	//SMART TOOLBAR: Open menu and open search
 	@Source("icons/png/web/menu-button-open-search.png")
 	ImageResource button_open_search();
@@ -135,6 +142,13 @@ public interface GuiResources extends ClientBundle {
 	//SUBMENUS
 	@Source("icons/png/web/arrow-submenu-right.png")
 	ImageResource arrow_submenu_right();
+	
+	//ALGEBRA INPUT
+	@Source("icons/png/web/arrow_dockbar_triangle_left.png")
+	ImageResource input_help_left();
+	
+	@Source("icons/png/web/arrow_dockbar_triangle_up.png")
+	ImageResource input_help_up();
 	
 }
 

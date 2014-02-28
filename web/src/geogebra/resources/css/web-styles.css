@@ -19,6 +19,10 @@
  * element's height and width are set to 5px.
  */
  
+ .ggbdockpanelhack div {
+ 	overflow: visible !important;
+ }
+ 
  body {
  	color: #666666;
  }
@@ -1757,6 +1761,12 @@ Paddings for menuitems.
 	width: 90%;
 }
 
+.InputPanel .TextField {
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
 .inputHelp-toggleButton {
 	padding: 0px 10px;
 }
@@ -1936,6 +1946,13 @@ body[dir=rtl] .toolbar_mainItem {
 	position: absolute;
 	bottom: -2px;
 	right: -2px;
+}
+
+.toolbar_submenu {
+	position: absolute;
+	z-index: 500;
+	bottom: 0px;
+	left: 0px;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
@@ -2646,7 +2663,7 @@ label {
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
 	right: 15px;
-	top: 13%;
+	top: 16%;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
@@ -2928,11 +2945,11 @@ label {
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.browsegui .backButton {
+.backButton {
 	cursor: pointer;
 }
 
-.browsegui .backButton img {
+.backButton img {
 	height: 20px;
 	width: 11px;
 }

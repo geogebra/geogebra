@@ -20,12 +20,14 @@ public class LanguageGUI extends MyHeaderPanel {
 
 	public LanguageGUI(AppW app) {
 		this.app = app;
+		this.setStyleName("languageGUI");
 		addHeader();
 		addContent();
 	}
 
 	private void addContent() {
 		FlowPanel fp = new FlowPanel();
+		fp.setStyleName("contentPanel");
 		for (Language l : Language.values()) {
 
 			StringBuilder sb = new StringBuilder();

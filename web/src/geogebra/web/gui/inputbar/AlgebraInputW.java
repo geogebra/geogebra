@@ -9,8 +9,8 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
@@ -86,10 +86,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	    
 	    //AG updateFonts()
 	    
-		btnHelpToggle = new ToggleButton(new Image(AppResources.INSTANCE
-		        .inputhelp_left_20x20().getSafeUri().asString()), new Image(
-		        AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri()
-		                .asString()));
+		btnHelpToggle = new ToggleButton(
+				new Image(GuiResources.INSTANCE.input_help_left().getSafeUri().asString()),
+				//new Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()), 
+				new Image(GuiResources.INSTANCE.input_help_up().getSafeUri().asString()));
+		        //new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
 	   btnHelpToggle.addStyleName("inputHelp-toggleButton");
 	    
 	    btnHelpToggle.addClickHandler(this);
