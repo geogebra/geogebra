@@ -74,16 +74,22 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");
 		
-		FlowPanel furtherToolsArrowPanel = new FlowPanel();
-		furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
-		furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
-		tbutton.add(furtherToolsArrowPanel);		
+//		FlowPanel furtherToolsArrowPanel = new FlowPanel();
+//		furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
+//		furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
+//		tbutton.add(furtherToolsArrowPanel);		
 		
 		addDomHandlers(tbutton);
 		this.add(tbutton);
 		
 		//Adding submenus if needed.
-		if (menu.size()>1){		
+		if (menu.size()>1){
+			
+			FlowPanel furtherToolsArrowPanel = new FlowPanel();
+			furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
+			furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
+			tbutton.add(furtherToolsArrowPanel);
+			
 			submenu = new FlowPanel();
 			this.add(submenu);
 			submenu.setStyleName("toolbar_submenu");
@@ -252,8 +258,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	
 	void selectItem(Widget mi) {
 		
-		App.debug("selectItem!!!");
-		
 		final String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals(true)
@@ -261,7 +265,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 			return;
 		}
 		
-		App.debug("tbutton new mode: " + miMode);
 		tbutton.getElement().setAttribute("mode",miMode);
 		tbutton.clear();
 		Image buttonImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)));
@@ -302,10 +305,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	
 	public void addSeparator(){
 		//TODO
-	}
-	
-	public void addItem(){
-		
 	}
 
 	@Override
