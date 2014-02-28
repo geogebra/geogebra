@@ -205,6 +205,8 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	
 	public boolean selectMode(int mode) {
 		String modeText = mode + "";
+		
+		App.debug("mtm.selectMode:" + mode);
 
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 ){
@@ -231,11 +233,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 
 	
 	public int getFirstMode() {
-		if (itemList.getWidgetCount() == 0){
+		if (menu.size() == 0){
 			return -1;
 		}
 		
-		int firstmode = Integer.parseInt(itemList.getWidget(0).getElement().getAttribute("mode"));
+		int firstmode = menu.get(0);
 		return firstmode;
 	}
 	
@@ -342,7 +344,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	 */
 	public void onStart(DomEvent event){	
 		event.preventDefault();
-		//final Element element = event.getRelativeElement();
 		final ModeToggleMenu tm = this;
 		keepDown = true;
 		toolbar.closeAllSubmenu();
@@ -350,9 +351,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		Timer longPressTimer = new Timer(){
 			@Override
             public void run() {
-				App.debug("keepdown: " + keepDown);
 				if (keepDown){
-					//tm.getElement().getStyle().setProperty("isSelected", "true");
 					tm.showMenu();
 					keepDown = false;
 				}

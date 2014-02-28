@@ -35,7 +35,7 @@ public class ToolBarW extends FlowPanel{
 	 */
 	private DockPanel dockPanel;
 
-	private ArrayList<ModeToggleMenu> modeToggleMenus = new ArrayList<ModeToggleMenu>();
+	private ArrayList<ModeToggleMenu> modeToggleMenus;
 	boolean keepDown;
 	private UnorderedList menuList;
 
@@ -92,19 +92,19 @@ public class ToolBarW extends FlowPanel{
 	
 		menuList = new UnorderedList();
 		menuList.getElement().addClassName("toolbar_mainItem");
+		modeToggleMenus = new ArrayList<ModeToggleMenu>();
 		addCustomModesToToolbar(menuList);
 		
 		this.clear();
 		this.add(menuList);
 
 		setMode(app.getMode());
-		
+//		update();
 	}
 	
 	//TODO: this function is just a temporary hack! Don't regenate the toolbar.
 	public void update(){
 		this.clear();
-		UnorderedList newMenuList = new UnorderedList();
 		int count = menuList.getWidgetCount();
 		menuList.clear();
 		for(int i=0; i<count; i++){
