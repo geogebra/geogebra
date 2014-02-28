@@ -82,43 +82,47 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		addDomHandlers(tbutton);
 		this.add(tbutton);
 		
-		submenu = new FlowPanel();
-		this.add(submenu);
-		submenu.setStyleName("toolbar_submenu");
+		//Adding submenus if needed.
+		if (menu.size()>1){		
+			submenu = new FlowPanel();
+			this.add(submenu);
+			submenu.setStyleName("toolbar_submenu");
+			
+			submenuArrow = new FlowPanel();
+			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_up());
+			submenuArrow.add(arrow);
+			submenuArrow.setStyleName("submenuArrow");
+			submenu.add(submenuArrow);
+			
+			itemList = new UnorderedList();
+			itemList.setStyleName("submenuContent");
 		
-		submenuArrow = new FlowPanel();
-		Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_up());
-		submenuArrow.add(arrow);
-		submenuArrow.setStyleName("submenuArrow");
-		submenu.add(submenuArrow);
-		
-		itemList = new UnorderedList();
-		itemList.setStyleName("submenuContent");
-		
-		hideMenu();
-		
-		for (int k = 0; k < menu.size(); k++) {
-			final int addMode = menu.get(k).intValue();
-			if (addMode < 0) {	//TODO
-//				// separator within menu:
-//				tm.addSeparator();
-			} else { // standard case: add mode
-				// check mode
-				if (!"".equals(app.getToolName(addMode))) {
-					ListItem subLi = new ListItem();
-					Image modeImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
-					//modeImage.getElement().setId("img_"+addMode);
-					Label lb = new Label(app.getToolName(addMode));
-					subLi.add(modeImage);
-					subLi.add(lb);
-					//subLi.getElement().setId(addMode+"");
-					subLi.getElement().setAttribute("mode", addMode+"");
-					addDomHandlers(subLi);
-					itemList.add(subLi);
+			for (int k = 0; k < menu.size(); k++) {
+				final int addMode = menu.get(k).intValue();
+				if (addMode < 0) {	//TODO
+	//				// separator within menu:
+	//				tm.addSeparator();
+				} else { // standard case: add mode
+					// check mode
+					if (!"".equals(app.getToolName(addMode))) {
+						ListItem subLi = new ListItem();
+						Image modeImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
+						//modeImage.getElement().setId("img_"+addMode);
+						Label lb = new Label(app.getToolName(addMode));
+						subLi.add(modeImage);
+						subLi.add(lb);
+						//subLi.getElement().setId(addMode+"");
+						subLi.getElement().setAttribute("mode", addMode+"");
+						addDomHandlers(subLi);
+						itemList.add(subLi);
+					}
 				}
 			}
+			this.submenu.add(itemList);
+		
+		
+			hideMenu();
 		}
-		this.submenu.add(itemList);	
 	}
 
 //	public Image getButton(){
@@ -134,7 +138,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 //		this.addDomHandler(this, MouseMoveEvent.getType());
 //		this.addDomHandler(this, MouseOverEvent.getType());
 //		this.addDomHandler(this, MouseOutEvent.getType());
-		App.debug("addDomHandlers - " + w.toString());
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
@@ -201,17 +204,29 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 //	}
 	
 	public void showMenu(){
+		if (submenu == null) return;
 		submenu.getElement().getStyle().setProperty("visibility", "visible");
 	}
 	
 	public void hideMenu(){
+		if (submenu == null) return;
 		submenu.getElement().getStyle().setProperty("visibility", "hidden");
 	}
 	
 	public boolean selectMode(int mode) {
-		App.debug("select mode --- " +mode);
 		String modeText = mode + "";
 
+		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
+		if (menu.size() == 1 ){
+			if (menu.get(0) == mode){
+				this.setCssToSelected();
+				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
+								//remove, if it won't be updated without this.
+				return true;
+			}
+			return false;
+		}
+		
 		for (int i = 0; i < this.getItemList().getWidgetCount(); i++) {
 			Widget mi = this.getItemList().getWidget(i);
 			// found item for mode?
@@ -221,7 +236,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 			}
 		}
 		tbutton.getElement().setAttribute("isSelected", "false");
-		App.debug("tbutton selected <-false: " + tbutton.toString());
 		return false;
 	}
 
@@ -261,20 +275,25 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		
 //		tbutton.getElement().setInnerHTML(new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)))+"");
 		toolbar.update();
+
+		setCssToSelected();
 		
+		//toolbar.update(); //TODO remove later
+		//tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
+		setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
+	}
+	
+	
+	private void setCssToSelected(){
+		App.debug("setCssToSelected");
 		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenu mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
-				App.debug("tbutton selected <-false: " + tbutton.toString());
 				mtm.tbutton.getElement().setAttribute("isSelected","false");
 			}
 		}
 		tbutton.getElement().setAttribute("isSelected","true");
-		App.debug("tbutton selected <-true: " + tbutton.toString());
-		//toolbar.update(); //TODO remove later
-		//tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
-		setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
 	}
 	
 	public void setToolTipText(String string){
