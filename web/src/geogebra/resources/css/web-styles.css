@@ -23,7 +23,7 @@
  	color: #666666;
  }
  
- input {
+ input[type="text"] {
  	border: #EDEDED solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
@@ -316,10 +316,10 @@
 }*/
 
 .gwt-MenuBar-horizontal .gwt-MenuItem {
-  padding: 5px 10px;
-  vertical-align: bottom;
-  color: #000;
-  font-weight: bold;
+  /*padding: 5px 10px;*/
+  /*vertical-align: bottom;*/
+  /*color: #000;*/
+  /*font-weight: bold;*/
 }
 
 .gwt-MenuBar .gwt-MenuItem-disabled, .gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
@@ -332,14 +332,14 @@
   margin: 0px;
   border: 0px;
   background: white;
-  //border-left: 1px solid #ccc;
+  /*border-left: 1px solid #ccc;*/
 }
 
 body[dir=ltr] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  //border-left: 1px solid #ccc;
+  /*border-left: 1px solid #ccc;*/
 }
 body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  //border-right: 1px solid #ccc;
+  /*border-right: 1px solid #ccc;*/
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
@@ -349,7 +349,7 @@ body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
 }
 .gwt-MenuBar-vertical {
   margin-top: 0px;
-  //margin-left: 0px;
+  /*margin-left: 0px;*/
   background: white;
 }
 body[dir=ltr] .gwt-MenuBar-vertical {
@@ -374,7 +374,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
   height: 1px;
   padding: 0px;
   border: 0px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #EFEFEF;
   overflow: hidden;
 }
 .gwt-MenuBar-vertical .subMenuIcon {
@@ -390,7 +390,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   margin: 0px 0px 0px 3px;
   z-index: 100;
 }
-body[dir=rtl] .gwt-MenuBarPopup {
+/*body[dir=rtl] .gwt-MenuBarPopup {
   margin: 0px 3px 0px 0px;
 }
 .gwt-MenuBarPopup .menuPopupTopCenter {
@@ -463,7 +463,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
   width: 8px;
   height: 8px;
   overflow: hidden;
-}
+}*/
 
 .gwt-PasswordTextBox {
   padding: 5px 4px;
@@ -1458,6 +1458,10 @@ body[dir=rtl] .signIn {
 	left: 50px;
 }*/
 
+.ggbmenubarwrapper {
+	width: 100%;
+}
+
 .menubarSMART {
 	margin-left: 2px;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
@@ -1514,6 +1518,18 @@ body[dir=rtl] .signIn {
 	position: absolute;
 	top: 5px;
 	right: -15px;
+}
+
+.GeoGebraMenuBar.subMenuLeftSide > table {
+	margin: 0px;
+}
+
+.GeoGebraMenuBar.subMenuLeftSide input[type="radio"] {
+	margin: 0px 5px 0px 0px;
+}
+
+.GeoGebraMenuBar.subMenuLeftSide .RadioButtonMenuItem label {
+	color: #666666;
 }
 
 /*=============== Context menu ===============*/
@@ -1738,6 +1754,7 @@ Paddings for menuitems.
 
 .InputPanel {
 	overflow: auto;
+	width: 90%;
 }
 
 .inputHelp-toggleButton {
@@ -1797,7 +1814,7 @@ Paddings for menuitems.
 
 /*=========== ToolBar =============*/
 
-.menubar2 {
+/*.menubar2 {
 	outline: 0px;
 	background: lightsteelblue;
 	border-top: 1px solid steelblue;
@@ -1847,9 +1864,43 @@ body[dir=rtl] .undoPanel {
 	top: 10px;
 	right: 5px;
 	padding: 1px;
+}*/
+
+.toolbarPanel {
+	background-color: #F8F8F8;
+	border-bottom: 1px solid #EDEDED;
+	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+	color: #333333;
+	padding: 10px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-.toolbar_icon {
+.toolbarPanel ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+.toolbar_mainItem {
+	margin-right: 50px;
+}
+body[dir=rtl] .toolbar_mainItem {
+	margin-right: 0px;
+	margin-left: 50px;
+}
+
+.toolbar_item {
+	margin: 0px 5px 0px 0px;
+	text-align: center;
+	position: relative;
+	width: 40px;
+	height: 40px;
+	display: block;
+	float: left;
+	list-style-type: none;
+}
+
+.toolbar_button {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -1861,19 +1912,19 @@ body[dir=rtl] .undoPanel {
 	height: 32px;
 }
 
-[isSelected=false] .toolbar_icon:hover {
+[isSelected=false] .toolbar_button:hover {
 	border-color: #9999FF;
 }
 
-[isSelected=true] .toolbar_icon {
+[isSelected=true] .toolbar_button {
 	border-color: #6666FF;
 }
 
-[isSelected=false] .toolbar_icon {
+[isSelected=false] .toolbar_button {
 	border-color: #DCDCDC;
 }
 
-.red_triangle{
+.red_triangle {
 	position: relative;
 	width: 8px;
 	height: 5px;
@@ -1881,13 +1932,10 @@ body[dir=rtl] .undoPanel {
 	left: 18px;
 }
 
-.gwt-MenuBar-horizontal  .toolbar_item {
-	padding: 0px 5px 0px 0px;
-	text-align: center;
-	vertical-align: top;
-	position: relative;
-	width: 30px;
-	height: 40px;
+.furterToolsTriangle {
+	position: absolute;
+	bottom: -2px;
+	right: -2px;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
@@ -1898,11 +1946,6 @@ body[dir=rtl] .undoPanel {
   background: none;
 }
 
-.toolbar_menuitem img {
-	vertical-align: middle;
-	border: 1px solid lightgray;
-}
-
 .toolbar_menuitem_label {
 	position: relative;
 	vertical-align: middle;
@@ -1911,30 +1954,7 @@ body[dir=rtl] .undoPanel {
 	font-size:80%;
 }
 
-.toolbarPanel {
-	background-color: #F8F8F8;
-	border-bottom: 1px solid #EDEDED;
-	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	color: #333333;
-	padding: 8px 10px 10px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-/*.GO1IGV1CFI {
-	box-sizing: initial !important;
-}*/
-
-.GGWToolbar table {
-	margin-right: 50px;
-}
-body[dir=rtl] .GGWToolbar table{
-	margin-right: 0px;
-	margin-left: 50px;
-}
-
-
-.captionPanel td{
+.captionPanel td {
 	vertical-align: middle;
 }
 
@@ -1952,7 +1972,7 @@ body[dir=rtl] .GGWToolbar table{
 
 .smartButtonPanel {
 	float: right;
-	margin: 8px 0px;
+	margin: 6px 0px;
 }
 
 .smartButtonPanel .button{
@@ -2052,16 +2072,16 @@ body[dir=rtl] .GGWToolbar table{
 	text-decoration: underline;
 }
 
-.RadioButtonMenuItem {
+/*.RadioButtonMenuItem {
 	font-size: 80%;
-}
+}*/
 
 
 .linkDownload{
 	font: -webkit-small-control;
 }
 
-body[dir=rtl] .GeoGebraMenuBar table{
+body[dir=rtl] .GeoGebraMenuBar table {
 	margin-left: auto;
 }
 
@@ -2646,7 +2666,7 @@ label {
 }
 
 .gwt-MenuBar-horizontal .GChecBoxMenuItem.selected, .gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
-	background : #C0C5CF;
+	background : #CCCCFF;
 }
 
 .GChecBoxMenuItem .gwt-CheckBox {
@@ -2836,7 +2856,7 @@ label {
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	color: #666666;
-	padding: 15px 15px 0px 15px;
+	padding: 10px 15px 0px 15px;
 	height: 61px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -2846,7 +2866,7 @@ label {
 
 .headerFirst {
 	margin-right: 30px;
-	padding-top: 5px;
+	padding-top: 10px;
 	float: left;
 }
 
@@ -2854,7 +2874,7 @@ label {
 	font-size: 150%;
 	color: #6666FF;
 	float: left;
-	padding-top: 5px;
+	padding-top: 10px;
 }
 
 .headerSecond {
@@ -2869,7 +2889,7 @@ label {
 .profilePanel .userPanel {
 	position: relative;
 	float: left;
-	margin: 5px 15px 0px 0px;
+	margin: 10px 15px 0px 0px;
 	padding: 0px 10px 5px 0px;
 }
 
@@ -3120,3 +3140,24 @@ label {
 .nextButton {
 	float:right;
 }*/
+
+/*#####################################################################################
+###        LANGUAGE GUI
+#####################################################################################*/
+
+.languageGUI .contentPanel {
+	padding: 15px 20px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.languageGUI .contentPanel .gwt-Label {
+	float: left;
+	width: 350px;
+	line-height: 30px;
+	cursor: pointer;
+}
+
+.languageGUI .contentPanel .gwt-Label:hover {
+	color: #6666FF;
+}
