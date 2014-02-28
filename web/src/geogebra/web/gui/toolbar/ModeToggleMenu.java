@@ -10,7 +10,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureEndHandler;
@@ -296,13 +295,14 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
     }
 	
 	public void onEnd(DomEvent event){
-		keepDown = false;
 		if (event.getSource() == tbutton && "true".equals(event.getRelativeElement().getAttribute("isSelected"))){
 			showMenu();
+			keepDown = false;
 			return;
 		}
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
-		hideMenu();
+		if(event.getSource() != tbutton || keepDown) hideMenu();
+		keepDown = false;
 		
 	}
 
@@ -332,7 +332,8 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	 */
 	public void onStart(DomEvent event){	
 		event.preventDefault();
-		final Element element = event.getRelativeElement();
+		//final Element element = event.getRelativeElement();
+		final ModeToggleMenu tm = this;
 		keepDown = true;
 		toolbar.closeAllSubmenu();
 		
@@ -341,7 +342,8 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
             public void run() {
 				App.debug("keepdown: " + keepDown);
 				if (keepDown){
-					element.getNextSiblingElement().getStyle().setProperty("visibility","visible");
+					//tm.getElement().getStyle().setProperty("isSelected", "true");
+					tm.showMenu();
 					keepDown = false;
 				}
             }
