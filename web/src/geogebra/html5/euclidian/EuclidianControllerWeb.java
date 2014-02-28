@@ -5,12 +5,23 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.html5.event.PointerEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
 
+import java.util.ArrayList;
+
 public abstract class EuclidianControllerWeb extends EuclidianController {
+
+	/**
+	 * different modes of a multitouch-event
+	 */
+	protected enum scaleMode {
+		zoomX, zoomY, circle, view;
+	}
 
 	/**
 	 * threshold for moving in case of a multitouch-event (pixel)
@@ -18,14 +29,34 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	protected final static int MIN_MOVE = 5;
 
 	/**
-	 * true if the actual multitouch-zoom is a scaling of the axes
+	 * the mode of the actual multitouch-event
 	 */
-	protected boolean zoomX = false, zoomY = false;
+	protected scaleMode multitouchMode;
 
 	/**
 	 * actual scale of the axes (has to be saved during multitouch)
 	 */
 	protected double scale;
+
+	/**
+	 * circle which's size is changed
+	 */
+	protected GeoConic scaleCircle;
+
+	/**
+	 * midpoint of scaleCircle: [0] ... x-coordinate [1] ... y-coordinate
+	 */
+	protected double[] midpoint;
+
+	/**
+	 * x-coordinates of the points that define scaleCircle
+	 */
+	protected double[] originalPointX;
+
+	/**
+	 * y-coordinates of the points that define scaleCircle
+	 */
+	protected double[] originalPointY;
 
 	/**
 	 * coordinates of the center of the multitouch-event
@@ -48,21 +79,41 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		view.setHits(new GPoint((int) x2, (int) y2), PointerEventType.TOUCH);
 		Hits hits2 = view.getHits();
 
-		this.zoomY = hits1.hasYAxis() && hits2.hasYAxis();
-		this.zoomX = hits1.hasXAxis() && hits2.hasXAxis();
-
 		oldCenterX = (int) (x1 + x2) / 2;
 		oldCenterY = (int) (y1 + y2) / 2;
 
-		if (this.zoomY) {
+		if (hits1.hasYAxis() && hits2.hasYAxis()) {
+			this.multitouchMode = scaleMode.zoomY;
 			this.oldDistance = y1 - y2;
 			this.scale = this.view.getYscale();
-		} else if (this.zoomX) {
+		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
+			this.multitouchMode = scaleMode.zoomX;
 			this.oldDistance = x1 - x2;
 			this.scale = this.view.getXscale();
-		} else {
+		} else if (hits1.size() > 0
+		        && hits2.size() > 0
+		        && hits1.get(0) == hits2.get(0)
+		        && hits1.get(0) instanceof GeoConic
+		        && ((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
+		                .size() == 3) {
+			this.multitouchMode = scaleMode.circle;
 			super.twoTouchStart(x1, y1, x2, y2);
+			this.scaleCircle = (GeoConic) hits1.get(0);
 
+			midpoint = new double[] { scaleCircle.getMidpoint().getX(),
+			        scaleCircle.getMidpoint().getY() };
+
+			this.originalPointX = new double[3];
+			this.originalPointY = new double[3];
+			ArrayList<GeoPointND> points = scaleCircle
+			        .getFreeInputPoints(this.view);
+			for (int i = 0; i < 3; i++) {
+				this.originalPointX[i] = points.get(i).getCoords().getX();
+				this.originalPointY[i] = points.get(i).getCoords().getY();
+			}
+		} else {
+			this.multitouchMode = scaleMode.view;
+			super.twoTouchStart(x1, y1, x2, y2);
 			touchStart(oldCenterX, oldCenterY);
 		}
 	}
@@ -74,15 +125,34 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		int y1 = (int) y1d;
 		int y2 = (int) y2d;
 
-		if (this.zoomY) {
-			double newRatio = this.scale * (y1 - y2) / this.oldDistance;
+		switch (this.multitouchMode) {
+		case zoomY:
+			double newRatioY = this.scale * (y1 - y2) / this.oldDistance;
 			this.view.setCoordSystem(this.view.getXZero(),
-			        this.view.getYZero(), this.view.getXscale(), newRatio);
-		} else if (this.zoomX) {
-			double newRatio = this.scale * (x1 - x2) / this.oldDistance;
+			        this.view.getYZero(), this.view.getXscale(), newRatioY);
+			break;
+		case zoomX:
+			double newRatioX = this.scale * (x1 - x2) / this.oldDistance;
 			this.view.setCoordSystem(this.view.getXZero(),
-			        this.view.getYZero(), newRatio, this.view.getYscale());
-		} else {
+			        this.view.getYZero(), newRatioX, this.view.getYscale());
+			break;
+		case circle:
+			double dist = MyMath.length(x1 - x2, y1 - y2);
+			this.scale = dist / this.oldDistance;
+			int i = 0;
+
+			for (GeoPointND p : scaleCircle.getFreeInputPoints(this.view)) {
+				double newX = midpoint[0] + (originalPointX[i] - midpoint[0])
+				        * scale;
+				double newY = midpoint[1] + (originalPointY[i] - midpoint[1])
+				        * scale;
+				p.setCoords(newX, newY, 1.0);
+				i++;
+			}
+			scaleCircle.getFreeInputPoints(this.view).get(0).updateCascade();
+			kernel.notifyRepaint();
+			break;
+		default:
 			// pinch
 			super.twoTouchMove(x1, y1, x2, y2);
 
