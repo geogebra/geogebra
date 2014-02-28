@@ -19,7 +19,7 @@
  * element's height and width are set to 5px.
  */
  
- .ggbdockpanelhack div {
+ .ggbdockpanelhack > div {
  	overflow: visible !important;
  }
  
@@ -1922,27 +1922,28 @@ body[dir=rtl] .toolbar_mainItem {
 	height: 32px;
 }
 
-[isSelected=false] .toolbar_button:hover {
+.toolbar_button:hover[isSelected=false] {
 	border-color: #9999FF;
 }
 
-[isSelected=true] .toolbar_button {
-	border-color: #6666FF;
+.toolbar_button[isSelected=true] {
+	border: 2px solid #6666FF;
+	padding: 2px;
 }
 
-[isSelected=false] .toolbar_button {
+.toolbar_button[isSelected=false] {
 	border-color: #DCDCDC;
 }
 
-.red_triangle {
+/*.red_triangle {
 	position: relative;
 	width: 8px;
 	height: 5px;
 	top: -19px;
 	left: 18px;
-}
+}*/
 
-.furterToolsTriangle {
+.furtherToolsTriangle {
 	position: absolute;
 	bottom: -2px;
 	right: -2px;
@@ -1976,6 +1977,22 @@ body[dir=rtl] .toolbar_mainItem {
 .toolbar_submenu .submenuContent li {
 	white-space: nowrap;
 	list-style-type: none;
+	height: 32px;
+	padding: 5px 0px;
+	text-align: left;
+	cursor: pointer;
+}
+
+.toolbar_submenu .submenuContent li:hover {
+	color: #6666FF;
+}
+
+.toolbar_submenu .submenuContent img {
+	float: left;
+}
+
+.toolbar_submenu .submenuContent .gwt-Label {
+	padding: 7px 10px 0 40px;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {

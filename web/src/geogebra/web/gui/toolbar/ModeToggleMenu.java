@@ -76,6 +76,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");
 		
+		FlowPanel furtherToolsArrowPanel = new FlowPanel();
+		furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
+		furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
+		tbutton.add(furtherToolsArrowPanel);		
+		
 		addDomHandlers(tbutton);
 		this.add(tbutton);
 		
@@ -246,6 +251,12 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		Image buttonImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)));
 		buttonImage.addStyleName("toolbar_icon");
 		tbutton.add(buttonImage);
+		
+		FlowPanel furtherToolsArrowPanel = new FlowPanel();
+		furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
+		furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
+		tbutton.add(furtherToolsArrowPanel);
+		
 //		tbutton.getElement().setInnerHTML(new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)))+"");
 		toolbar.update();
 		
