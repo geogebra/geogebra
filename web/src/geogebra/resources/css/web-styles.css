@@ -1595,6 +1595,10 @@ Paddings for menuitems.
 	width: 100%;
 }
 
+.StyleBar {
+	margin-top: 3px;
+}
+
 .TitleBarPanel-focus {
 	/*background: url("images/hborder.png") repeat-x 0px -60px;*/
 	background: #CCCCFF;

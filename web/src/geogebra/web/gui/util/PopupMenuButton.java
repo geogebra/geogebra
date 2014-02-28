@@ -4,9 +4,9 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.Slider;
 import geogebra.web.euclidian.EuclidianStyleBarW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.AppW;
 
@@ -342,9 +342,11 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 		// add a down_triangle image to the left of the icon
 		if (icon != null) {
-			super.setIcon(GeoGebraIcon.joinIcons(icon, AppResources.INSTANCE.triangle_down()));
+			//super.setIcon(GeoGebraIcon.joinIcons(icon, AppResources.INSTANCE.triangle_down()));
+			super.setIcon(GeoGebraIcon.joinIcons(icon, GuiResources.INSTANCE.toolbar_further_tools()));
 		} else {
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.triangle_down(), this);
+			//AppResourcesConverter.setIcon(AppResources.INSTANCE.triangle_down(), this);
+			AppResourcesConverter.setIcon(GuiResources.INSTANCE.toolbar_further_tools(), this);
 			//must be done in callback super.setIcon(AppResources.INSTANCE.triangle_down());
 		}
 	}

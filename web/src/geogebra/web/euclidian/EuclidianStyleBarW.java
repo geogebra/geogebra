@@ -65,7 +65,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	private GeoElement oldDefaultGeo;
 
 	// flags and constants
-	protected int iconHeight = 18;
+	protected int iconHeight = 24;
 	//private Dimension iconDimension = new Dimension(16, iconHeight);
 	public int mode = -1;
 	private boolean isIniting;
