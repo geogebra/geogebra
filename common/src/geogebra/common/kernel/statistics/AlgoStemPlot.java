@@ -438,6 +438,18 @@ public class AlgoStemPlot extends AlgoElement {
 		body.append(" \\\\ "); // newline in LaTeX ie \\
 
 		//==========================================
+		// create LaTeX for the key
+		StringBuffer key = new StringBuffer();
+		key.setLength(0);
+		key.append(" \\ggbtable{ \\ggbtrl{ \\ggbtdl{ \\text{ ");
+
+		// calculate the key string,  avoid eg 31.0
+		String keyCode =  (multUnit >= 1) ? ""+ 31 *(int)multUnit : "" + 31.0 * multUnit ;
+		key.append(loc.getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
+		key.append(" } } } } ");
+		key.append(" \\\\ "); // newline in LaTeX ie \\
+
+		//==========================================
 		// create the stemplot LaTeX
 
 		sb.setLength(0);
@@ -448,9 +460,7 @@ public class AlgoStemPlot extends AlgoElement {
 		sb.append(body);
 		if(outlierIndex[1] < data.length)
 			sb.append(high);
-
-		// TODO: implementation!		
-		//sb.append(key);
+		sb.append(key);
 
 		sb.append('}');
 	}
