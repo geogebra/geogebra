@@ -52,6 +52,9 @@ public class GuiModel {
 
 		// default: do not show caption for lines
 		getDefaultGeo(EuclidianConstants.MODE_JOIN).setLabelVisible(false);
+		getDefaultGeo(EuclidianConstants.MODE_CIRCLE_TWO_POINTS)
+				.setLabelVisible(false);
+		getDefaultGeo(EuclidianConstants.MODE_VECTOR).setLabelVisible(false);
 	}
 
 	public int getDefaultType() {
@@ -116,7 +119,7 @@ public class GuiModel {
 	public void closeAllOptions() {
 		closeOptions();
 
-		if(activeTextField != null){
+		if (activeTextField != null) {
 			activeTextField.setFocus(false);
 		}
 	}
@@ -187,8 +190,9 @@ public class GuiModel {
 		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
 				.getCommand().getMode()))) {
 			// Commands that have a default GeoElement
-			GeoElement geo = getDefaultGeo(this.touchModel.getCommand().getMode());
-			if(i == 0){
+			GeoElement geo = getDefaultGeo(this.touchModel.getCommand()
+					.getMode());
+			if (i == 0) {
 				geo.setLabelVisible(false);
 			} else {
 				geo.setLabelVisible(true);
@@ -200,7 +204,7 @@ public class GuiModel {
 					.getConstruction().getConstructionDefaults();
 			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
 				GeoElement g = cd.getDefaultGeo(cd.getDefaultType(geo));
-				if(i == 0){
+				if (i == 0) {
 					g.setLabelVisible(false);
 				} else {
 					g.setLabelVisible(true);
@@ -270,26 +274,27 @@ public class GuiModel {
 		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
 				.getCommand().getMode()))) {
 			// Commands that have a default GeoElement
-			GeoElement geo = getDefaultGeo(this.touchModel.getCommand().getMode());
-			if(geo instanceof PointProperties){
-				((PointProperties)geo).setPointStyle(index);
+			GeoElement geo = getDefaultGeo(this.touchModel.getCommand()
+					.getMode());
+			if (geo instanceof PointProperties) {
+				((PointProperties) geo).setPointStyle(index);
 			}
-		} 
+		}
 	}
-	
+
 	public void setPointSize(final int index) {
 
 		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
 				.getCommand().getMode()))) {
 			// Commands that have a default GeoElement
-			GeoElement geo = getDefaultGeo(this.touchModel.getCommand().getMode());
-			if(geo instanceof PointProperties){
-				((PointProperties)geo).setPointSize(index);
+			GeoElement geo = getDefaultGeo(this.touchModel.getCommand()
+					.getMode());
+			if (geo instanceof PointProperties) {
+				((PointProperties) geo).setPointSize(index);
 			}
-		} 
+		}
 	}
 
-	
 	public void setLineStyle(final int index) {
 		final int lineStyle = EuclidianStyleBarStatic.lineStyleArray[index]
 				.intValue();
@@ -324,14 +329,15 @@ public class GuiModel {
 		}
 	}
 
-	public void setPointCapturingMode(int i){
+	public void setPointCapturingMode(int i) {
 		int mode;
-		if (i == 3 || i == 0){
+		if (i == 3 || i == 0) {
 			mode = 3 - i; // swap 0 and 3
-		}else {
+		} else {
 			mode = i;
 		}
-		this.touchModel.getKernel().getApplication().getEuclidianView1().setPointCapturing(mode);
+		this.touchModel.getKernel().getApplication().getEuclidianView1()
+				.setPointCapturing(mode);
 	}
 
 	public void setOption(final SubToolBar options) {
@@ -360,14 +366,13 @@ public class GuiModel {
 	 *            the OptionsPanel to be shown
 	 * @param button
 	 *            the button that was clicked, null in case of a Dialog
-	 *            (OptionsType.Dialog)
-	 * TODO remove magic numbers
+	 *            (OptionsType.Dialog) TODO remove magic numbers
 	 */
 	public void showOption(final OptionsPanel panel, final FastButton button) {
 		closeAllOptions();
 		this.optionsPanel = panel;
 		int left = button.getAbsoluteLeft();
-		if(left + panel.getWidth() > Window.getClientWidth()){
+		if (left + panel.getWidth() > Window.getClientWidth()) {
 			left = button.getAbsoluteLeft() - panel.getWidth() + 20 + 17;
 		}
 		this.optionsPanel.setPopupPosition(left, button.getAbsoluteTop() + 54);

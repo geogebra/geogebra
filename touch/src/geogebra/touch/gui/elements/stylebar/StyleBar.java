@@ -4,9 +4,11 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
@@ -145,7 +147,8 @@ public class StyleBar extends FlowPanel {
 					addToList(list, StyleBarDefaultSettings.Point.getOptions());
 				} else if (geo instanceof GeoAngle) {
 					addToList(list, StyleBarDefaultSettings.Angle.getOptions());
-				} else if (geo instanceof GeoLine && !(geo instanceof GeoAxis)) {
+				} else if ((geo instanceof GeoLine && !(geo instanceof GeoAxis))
+						|| geo instanceof GeoConic || geo instanceof GeoVector) {
 					addToList(list, StyleBarDefaultSettings.Line.getOptions());
 				} else if (geo instanceof GeoPolygon) {
 					addToList(list,
@@ -181,7 +184,7 @@ public class StyleBar extends FlowPanel {
 				this.styleButtonsPanel.add(b);
 				break;
 			case LineStyle:
-				if(this.lineStyleImage == null){
+				if (this.lineStyleImage == null) {
 					this.lineStyleImage = lafIcons.line_solid();
 				}
 				b = new StandardButton(this.lineStyleImage);
