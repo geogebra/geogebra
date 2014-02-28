@@ -54,7 +54,8 @@ import javax.swing.JPopupMenu;
  * 
  */
 public class PlotPanelEuclidianViewD extends EuclidianViewD implements
-		ComponentListener, DragGestureListener, DragSourceListener, PlotPanelEuclidianViewInterface {
+		ComponentListener, DragGestureListener, DragSourceListener,
+		PlotPanelEuclidianViewInterface {
 
 	private EuclidianController ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
@@ -87,16 +88,18 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * Construct the panel
 	 */
 	public PlotPanelEuclidianViewD(Kernel kernel, AbstractAction exportAction) {
-		super(new PlotPanelEuclidianControllerD(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
-				null);
+		super(new PlotPanelEuclidianControllerD(kernel),
+				PlotPanelEuclidianViewCommon.showAxes,
+				PlotPanelEuclidianViewCommon.showGrid, null);
+
+		this.exportToEVAction = exportAction;
 
 		// set fields
 		if (commonFields == null) {
 			setCommonFields();
 		}
-		
+
 		plotPanelEV = this;
-		
 
 		// create cursors for DnD
 		grabCursor = getCursorForImage(getApplication().getImageIcon(
@@ -128,22 +131,21 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		enableDnD();
 
 	}
-	
+
 	private void setCommonFields() {
 		// set fields
-				commonFields = new PlotPanelEuclidianViewCommon(
-						false);	
-				commonFields.setPlotSettings(new PlotSettings());
+		commonFields = new PlotPanelEuclidianViewCommon(false);
+		commonFields.setPlotSettings(new PlotSettings());
 
-				setViewId(kernel);
-				
-				this.ec = this.getEuclidianController();
+		setViewId(kernel);
+
+		this.ec = this.getEuclidianController();
 	}
 
 	public void setViewId(Kernel kernel) {
 		// get viewID from GuiManager
-		commonFields.setViewID(((GuiManagerD) kernel.getApplication().getGuiManager())
-				.assignPlotPanelID(this));
+		commonFields.setViewID(((GuiManagerD) kernel.getApplication()
+				.getGuiManager()).assignPlotPanelID(this));
 	}
 
 	/*********** End Constructor **********************/
@@ -174,7 +176,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	public void updateSize() {
 		commonFields.updateSize(this);
 	}
-	
+
 	@Override
 	public void updateSizeKeepDrawables() {
 		super.updateSizeKeepDrawables();
@@ -429,7 +431,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 					public void run() {
 						getApplication().setWaitCursor();
 						try {
-							getApplication().getSelectionManager().clearSelectedGeos(true,false);
+							getApplication().getSelectionManager()
+									.clearSelectedGeos(true, false);
 							getApplication().updateSelection(false);
 
 							// use reflection for
@@ -462,7 +465,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			getApplication().getSelectionManager().clearSelectedGeos(true,false);
+			getApplication().getSelectionManager().clearSelectedGeos(true,
+					false);
 			getApplication().updateSelection(false);
 
 			Thread runner = new Thread() {
@@ -565,8 +569,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	}
 
 	public double getPixelOffset() {
-		return (30 * getApplication().getSmallFont()
-				.getSize()) / 12.0;
+		return (30 * getApplication().getSmallFont().getSize()) / 12.0;
 	}
 
 }
