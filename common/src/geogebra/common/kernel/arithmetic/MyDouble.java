@@ -311,6 +311,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param c result*/
 	final public static void pow(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
+		
+		// Infinity ^ 0 -> NaN
+		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
+		if (Kernel.isZero(b.val) && (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
+			c.set(Double.NaN);
+			return;
+		}
+
 		c.set(Math.pow(a.val, b.val));
 	}
 	/** c = -pow(-a,b) 
@@ -319,6 +327,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param c result*/
 	final public static void powDoubleSgnChange(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
+		
+		// Infinity ^ 0 -> NaN
+		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
+		if (Kernel.isZero(b.val) && (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
+			c.set(Double.NaN);
+			return;
+		}
+
 		c.set(-Math.pow(-a.val, b.val));
 	}
 	/**
