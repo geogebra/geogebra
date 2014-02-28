@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
@@ -20,7 +21,7 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * different modes of a multitouch-event
 	 */
 	protected enum scaleMode {
-		zoomX, zoomY, circle, view;
+		zoomX, zoomY, circle3Points, circle2Points, view;
 	}
 
 	/**
@@ -39,22 +40,22 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	protected double scale;
 
 	/**
-	 * circle which's size is changed
+	 * conic which's size is changed
 	 */
-	protected GeoConic scaleCircle;
+	protected GeoConic scaleConic;
 
 	/**
-	 * midpoint of scaleCircle: [0] ... x-coordinate [1] ... y-coordinate
+	 * midpoint of scaleConic: [0] ... x-coordinate [1] ... y-coordinate
 	 */
 	protected double[] midpoint;
 
 	/**
-	 * x-coordinates of the points that define scaleCircle
+	 * x-coordinates of the points that define scaleConic
 	 */
 	protected double[] originalPointX;
 
 	/**
-	 * y-coordinates of the points that define scaleCircle
+	 * y-coordinates of the points that define scaleConic
 	 */
 	protected double[] originalPointY;
 
@@ -75,7 +76,12 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		view.setHits(new GPoint((int) x1, (int) y1), PointerEventType.TOUCH);
-		Hits hits1 = view.getHits();
+		// needs to be copied, because the reference is changed in the next step
+		Hits hits1 = new Hits();
+		for (GeoElement geo : view.getHits()) {
+			hits1.add(geo);
+		}
+
 		view.setHits(new GPoint((int) x2, (int) y2), PointerEventType.TOUCH);
 		Hits hits2 = view.getHits();
 
@@ -94,20 +100,29 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		        && hits2.size() > 0
 		        && hits1.get(0) == hits2.get(0)
 		        && hits1.get(0) instanceof GeoConic
-		        && ((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
-		                .size() == 3) {
-			this.multitouchMode = scaleMode.circle;
+		        // isClosedPath: true for circle and ellipse
+		        && ((GeoConic) hits1.get(0)).isClosedPath()
+		        && (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
+		                .size() == 3 || ((GeoConic) hits1.get(0))
+		                .getFreeInputPoints(this.view).size() == 2)) {
+
+			if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view).size() == 3) {
+				this.multitouchMode = scaleMode.circle3Points;
+			} else {
+				this.multitouchMode = scaleMode.circle2Points;
+			}
 			super.twoTouchStart(x1, y1, x2, y2);
-			this.scaleCircle = (GeoConic) hits1.get(0);
+			this.scaleConic = (GeoConic) hits1.get(0); // TODO: select
+			                                           // scaleConic
 
-			midpoint = new double[] { scaleCircle.getMidpoint().getX(),
-			        scaleCircle.getMidpoint().getY() };
+			midpoint = new double[] { scaleConic.getMidpoint().getX(),
+			        scaleConic.getMidpoint().getY() };
 
-			this.originalPointX = new double[3];
-			this.originalPointY = new double[3];
-			ArrayList<GeoPointND> points = scaleCircle
+			ArrayList<GeoPointND> points = scaleConic
 			        .getFreeInputPoints(this.view);
-			for (int i = 0; i < 3; i++) {
+			this.originalPointX = new double[points.size()];
+			this.originalPointY = new double[points.size()];
+			for (int i = 0; i < points.size(); i++) {
 				this.originalPointX[i] = points.get(i).getCoords().getX();
 				this.originalPointY[i] = points.get(i).getCoords().getY();
 			}
@@ -136,20 +151,34 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			this.view.setCoordSystem(this.view.getXZero(),
 			        this.view.getYZero(), newRatioX, this.view.getYscale());
 			break;
-		case circle:
+		case circle3Points:
 			double dist = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = dist / this.oldDistance;
 			int i = 0;
 
-			for (GeoPointND p : scaleCircle.getFreeInputPoints(this.view)) {
+			for (GeoPointND p : scaleConic.getFreeInputPoints(this.view)) {
 				double newX = midpoint[0] + (originalPointX[i] - midpoint[0])
 				        * scale;
 				double newY = midpoint[1] + (originalPointY[i] - midpoint[1])
 				        * scale;
 				p.setCoords(newX, newY, 1.0);
+				p.updateCascade();
 				i++;
 			}
-			scaleCircle.getFreeInputPoints(this.view).get(0).updateCascade();
+			kernel.notifyRepaint();
+			break;
+		case circle2Points:
+			double dist2P = MyMath.length(x1 - x2, y1 - y2);
+			this.scale = dist2P / this.oldDistance;
+
+			// index 0 is the midpoint, index 1 is the point on the circle
+			GeoPointND p = scaleConic.getFreeInputPoints(this.view).get(1);
+			double newX = midpoint[0] + (originalPointX[1] - midpoint[0])
+			        * scale;
+			double newY = midpoint[1] + (originalPointY[1] - midpoint[1])
+			        * scale;
+			p.setCoords(newX, newY, 1.0);
+			p.updateCascade();
 			kernel.notifyRepaint();
 			break;
 		default:
