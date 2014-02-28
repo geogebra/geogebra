@@ -48,17 +48,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	boolean keepDown;
 
 	private Vector<Integer> menu;
-	
-	
-//	public ModeToggleMenu(AppW app, ToolBarW toolbar,
-//			ModeToggleButtonGroup bg) {
-//		
-//	}
 
-	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW handler) {
+	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb) {
 		super();
 		this.app = appl;
-		this.toolbar = handler;
+		this.toolbar = tb;
 		this.menu = menu1;
 		this.addStyleName("toolbar_item");
 		
@@ -72,12 +66,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()));
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
-		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");
-		
-//		FlowPanel furtherToolsArrowPanel = new FlowPanel();
-//		furtherToolsArrowPanel.add(new Image(GuiResources.INSTANCE.toolbar_further_tools()));
-//		furtherToolsArrowPanel.setStyleName("furtherToolsTriangle");
-//		tbutton.add(furtherToolsArrowPanel);		
+		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
 		
 		addDomHandlers(tbutton);
 		this.add(tbutton);
@@ -131,12 +120,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		}
 	}
 
-//	public Image getButton(){
-//		return tbutton;
-//	}
-
 	public UnorderedList getItemList(){
-		//Changes by Steffi: return FlowPanel submenu instead of list
 		return itemList;
 	}
 	
@@ -227,7 +211,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 			if (menu.get(0) == mode){
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
-								//remove, if it won't be updated without this.
+								//remove, if it will be updated without this.
 				return true;
 			}
 			return false;
@@ -241,7 +225,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 				return true;
 			}
 		}
-		tbutton.getElement().setAttribute("isSelected", "false");
+//		tbutton.getElement().setAttribute("isSelected", "false");
 		return false;
 	}
 
@@ -252,7 +236,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		}
 		
 		int firstmode = Integer.parseInt(itemList.getWidget(0).getElement().getAttribute("mode"));
-		App.debug("firstmode: " + firstmode);
 		return firstmode;
 	}
 	
@@ -288,7 +271,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	
 	
 	private void setCssToSelected(){
-		App.debug("setCssToSelected");
 		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenu mtm = modeToggleMenus.get(i);
@@ -316,8 +298,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	 * Check if the bottom half of the button has clicked.
 	 */
 	private boolean isBottomHalfClicked(DomEvent event){
-		App.debug("getClienty: " + event.getNativeEvent().getClientY());
-		App.debug("top: " +tbutton.getAbsoluteTop());
 		return (event.getNativeEvent().getClientY() - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
 	}
 	

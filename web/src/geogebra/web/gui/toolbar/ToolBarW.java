@@ -13,9 +13,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
@@ -48,10 +45,7 @@ public class ToolBarW extends FlowPanel{
 	 * After instantiate the ToolBar, call init(Application app) as well.
 	 */
 	public ToolBarW() {
-		App.debug("ToolBarW");
-		//this.setHeight("55px");  //toolbar's height
 		this.addStyleName("GGWToolbar");
-		this.getElement().setId("GGWToolBar");
 	}
 
 	/**
@@ -77,7 +71,6 @@ public class ToolBarW extends FlowPanel{
 	 * @param app1 application
 	 */
 	public void init(AppW app1){
-		App.debug("ToolBarW.init");
 		this.app = app1;
 	}
 
@@ -120,59 +113,6 @@ public class ToolBarW extends FlowPanel{
 		this.add(menuList);
 	}
 	
-//	public void addDomHandlers(Widget w){
-////		this.addDomHandler(this, MouseMoveEvent.getType());
-////		this.addDomHandler(this, MouseOverEvent.getType());
-////		this.addDomHandler(this, MouseOutEvent.getType());
-//		App.debug("addDomHandlers - " + w.toString());
-//		w.addDomHandler(this, MouseDownEvent.getType());
-//		w.addDomHandler(this, MouseUpEvent.getType());
-//		w.addDomHandler(this, TouchStartEvent.getType());
-//		w.addDomHandler(this, TouchEndEvent.getType());
-////		this.addDomHandler(this, TouchMoveEvent.getType());
-//	}
-	
-//	private native void addNativeHandlers(Element element, ToolBarW tb)/*-{
-//		element.addEventListener("touchstart",function() {
-//			tb.@geogebra.web.gui.toolbar.ToolBarW::onTouchStart(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("touchend",function() {
-//			tb.@geogebra.web.gui.toolbar.ToolBarW::onTouchEnd(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("mousedown",function() {
-//			tb.@geogebra.web.gui.toolbar.ToolBarW::onTouchStart(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("mouseup",function() {
-//			tb.@geogebra.web.gui.toolbar.ToolBarW::onTouchEnd(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("click",function() {
-//			tb.@geogebra.web.gui.toolbar.ToolBarW::onClick(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//	}-*/;
-//	
-//	public void onTouchStart(final Element element){
-//		App.debug("start" + element.getTagName());
-//		keepDown  = true;
-//		Timer longPressTimer = new Timer(){
-//			@Override
-//            public void run() {
-//				App.debug("run");
-//				App.debug(element.getElementsByTagName("ul").getItem(0)+"");
-//				if (keepDown) element.getElementsByTagName("ul").getItem(0).getStyle().setProperty("visibility","visible");
-//            }
-//		};
-//		longPressTimer.schedule(2000);
-//	}
-//
-//	public void onTouchEnd(Element element){
-//		App.debug("end");
-//		keepDown = false;
-//	}
-//
-//	public void onClick(Element element){
-//		App.debug("click");
-//	}
-	
 	public ArrayList<ModeToggleMenu> getModeToggleMenus(){
 		return modeToggleMenus;
 	}
@@ -185,7 +125,6 @@ public class ToolBarW extends FlowPanel{
 	 * @return actual mode number selected (might be different if it's not available)
 	 */
 	public int setMode(int newMode) {
-		App.debug("ToolBarW.setMode: " +newMode);
 		boolean success = false;
 		int tmpMode = newMode;
 		// there is no special icon/button for the selection listener mode, use
@@ -221,7 +160,6 @@ public class ToolBarW extends FlowPanel{
 	 * @return currently selected mode
 	 */
 	public int getSelectedMode() {
-		App.debug("ToolBarW.getSelectedMode");
 		return mode;
 	}
 	
@@ -229,7 +167,6 @@ public class ToolBarW extends FlowPanel{
 	 * @return first mode in this toolbar
 	 */
 	public int getFirstMode() {
-		App.debug("ToolBarW.getFirstMode");
 		if (modeToggleMenus == null || modeToggleMenus.size() == 0) {
 			return -1;
 		}
@@ -279,7 +216,6 @@ public class ToolBarW extends FlowPanel{
 			
 			ModeToggleMenu mtm = new ModeToggleMenu(app, menu, this);
 			modeToggleMenus.add(mtm);
-			//addDomHandlers(mtm);
 			mainUl.add(mtm);
 		}
     }
@@ -288,7 +224,6 @@ public class ToolBarW extends FlowPanel{
 	 * @return The default definition of this toolbar with macros.
 	 */
 	public String getDefaultToolbarString() {
-		App.debug("ToolBarW.getDefaultToolbarString");
 		if (dockPanel != null) {
 			return dockPanel.getDefaultToolbarString();
 		}
@@ -302,7 +237,6 @@ public class ToolBarW extends FlowPanel{
 	 * @return All tools as a toolbar definition string
 	 */
 	public static String getAllTools(AppW app) {
-		App.debug("ToolBarW.getAllTools");
 		StringBuilder sb = new StringBuilder();
 	
 		sb.append(geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(true, true));
@@ -337,60 +271,15 @@ public class ToolBarW extends FlowPanel{
 	}
 
 	public void setActiveView(Integer viewID) {
-		App.debug("ToolBarW.setActiveView");
 	    activeView = viewID;
     }
 
 	public int getActiveView() {
-		App.debug("ToolBarW.getActiveView");
 		return activeView;
 	}
 	
 	public boolean hasPopupOpen(){
-		//return (getSelectedItem() != null);
-		App.debug("ToolBarW.hasPopupOpen() changed, tooltip doesn't work because of this");
 		return false;
-	}
-	
-	public void onEnd(){
-		keepDown = false;
-	}
-
-//	@Override
-//    public void onMouseDown(MouseDownEvent event) {
-//		App.debug("onmousedown");
-//	    onStart(event);
-//    }
-//
-//	@Override
-//    public void onTouchEnd(TouchEndEvent event) {
-//		App.debug("keepdown<-false");
-//		keepDown = false;
-//	    
-//    }
-//
-//	@Override
-//    public void onTouchStart(TouchStartEvent event) {
-//		onStart(event);
-//    }
-	
-	public void onStart(DomEvent event){
-		//Window.alert("start!!!!");
-		event.preventDefault();
-		final Element element = event.getRelativeElement();
-		keepDown = true;
-		for(int i=0; i<modeToggleMenus.size(); i++){
-			modeToggleMenus.get(i).getItemList().getElement().getStyle().setProperty("visibility","hidden");
-		}
-		
-		Timer longPressTimer = new Timer(){
-			@Override
-            public void run() {
-				App.debug("keepdown: " + keepDown);
-				if (keepDown) element.getNextSiblingElement().getStyle().setProperty("visibility","visible");
-            }
-		};
-		longPressTimer.schedule(2000); 		
 	}
 
 	public void closeAllSubmenu() {
