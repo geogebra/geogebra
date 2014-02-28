@@ -10,7 +10,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -97,6 +96,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		itemList = new UnorderedList();
 		itemList.setStyleName("submenuContent");
 		
+		hideMenu();
 		
 		for (int k = 0; k < menu.size(); k++) {
 			final int addMode = menu.get(k).intValue();
@@ -130,7 +130,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		//Changes by Steffi: return FlowPanel submenu instead of list
 		return itemList;
 	}
-
 	
 	public void addDomHandlers(Widget w){
 //		this.addDomHandler(this, MouseMoveEvent.getType());
@@ -175,35 +174,39 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 //		});		
 //	}-*/;
 	
-	public void onTouchLeave(JavaScriptObject e){
-		Window.alert("TOUCHLEAVE");
-	}
-
-	public void onTouchCancel(Element element){
-		Window.alert("TOUCHcancel");
-	}
-
-	public void onTouchEnter(Element element){
-		Window.alert("TOUCHenter");
+//	public void onTouchLeave(JavaScriptObject e){
+//		Window.alert("TOUCHLEAVE");
+//	}
+//
+//	public void onTouchCancel(Element element){
+//		Window.alert("TOUCHcancel");
+//	}
+//
+//	public void onTouchEnter(Element element){
+//		Window.alert("TOUCHenter");
+//	}
+//	
+//	public void onTouchStart(JavaScriptObject e){
+//		App.debug("start" + e.toSource());
+//	}
+//	
+//	public void onTouchEnd(Element element){
+//		App.debug("end");
+//		App.debug(element.toString());
+//		app.setMode(Integer.parseInt(element.getAttribute("mode")));
+//		itemList.getElement().getStyle().setProperty("visibility", "hidden");
+//	}
+//
+//	public void onClick(Element element){
+//		App.debug("click");
+//	}
+	
+	public void showMenu(){
+		submenu.getElement().getStyle().setProperty("visibility", "visible");
 	}
 	
-	public void onTouchStart(JavaScriptObject e){
-		App.debug("start" + e.toSource());
-	}
-	
-	public void onTouchEnd(Element element){
-		App.debug("end");
-		App.debug(element.toString());
-		app.setMode(Integer.parseInt(element.getAttribute("mode")));
-		itemList.getElement().getStyle().setProperty("visibility", "hidden");
-	}
-
-	public void onClick(Element element){
-		App.debug("click");
-	}
-	
-	public void openMenu(){
-		itemList.getElement().getStyle().setProperty("visibility", "visible");
+	public void hideMenu(){
+		submenu.getElement().getStyle().setProperty("visibility", "hidden");
 	}
 	
 	public boolean selectMode(int mode) {
@@ -295,11 +298,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	public void onEnd(DomEvent event){
 		keepDown = false;
 		if (event.getSource() == tbutton && "true".equals(event.getRelativeElement().getAttribute("isSelected"))){
-			itemList.getElement().getStyle().setProperty("visibility", "visible");
+			showMenu();
 			return;
 		}
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
-		itemList.getElement().getStyle().setProperty("visibility", "hidden");
+		hideMenu();
 		
 	}
 

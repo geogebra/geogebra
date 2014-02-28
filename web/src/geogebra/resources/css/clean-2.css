@@ -1801,7 +1801,6 @@ body[dir=rtl] .undoPanel {
 }
 
 .toolbar_mainItem li ul{
-	visibility: hidden;
 	position: absolute;
 	z-index: 1;
 	padding: 0;

@@ -15,22 +15,6 @@ import java.util.Vector;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -42,9 +26,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * Toolbar for GeoGebraWeb
  *
  */
-public class ToolBarW extends FlowPanel implements MouseDownHandler, MouseUpHandler, 
-MouseMoveHandler, MouseOutHandler, MouseOverHandler, TouchStartHandler, TouchEndHandler, 
-TouchMoveHandler{
+public class ToolBarW extends FlowPanel{
 	
 	private AppW app;
 	private int mode;
@@ -369,34 +351,28 @@ TouchMoveHandler{
 		App.debug("ToolBarW.hasPopupOpen() changed, tooltip doesn't work because of this");
 		return false;
 	}
-
-	@Override
-    public void onMouseUp(MouseUpEvent event) {
-		App.debug("onmouseup2");
-		keepDown = false;
-    }
 	
 	public void onEnd(){
 		keepDown = false;
 	}
 
-	@Override
-    public void onMouseDown(MouseDownEvent event) {
-		App.debug("onmousedown");
-	    onStart(event);
-    }
-
-	@Override
-    public void onTouchEnd(TouchEndEvent event) {
-		App.debug("keepdown<-false");
-		keepDown = false;
-	    
-    }
-
-	@Override
-    public void onTouchStart(TouchStartEvent event) {
-		onStart(event);
-    }
+//	@Override
+//    public void onMouseDown(MouseDownEvent event) {
+//		App.debug("onmousedown");
+//	    onStart(event);
+//    }
+//
+//	@Override
+//    public void onTouchEnd(TouchEndEvent event) {
+//		App.debug("keepdown<-false");
+//		keepDown = false;
+//	    
+//    }
+//
+//	@Override
+//    public void onTouchStart(TouchStartEvent event) {
+//		onStart(event);
+//    }
 	
 	public void onStart(DomEvent event){
 		//Window.alert("start!!!!");
@@ -417,33 +393,9 @@ TouchMoveHandler{
 		longPressTimer.schedule(2000); 		
 	}
 
-	@Override
-    public void onMouseOver(MouseOverEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void onMouseOut(MouseOutEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void onMouseMove(MouseMoveEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void onTouchMove(TouchMoveEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	public void closeAllSubmenu() {
 		for(int i=0; i<modeToggleMenus.size(); i++){
-			modeToggleMenus.get(i).getItemList().getElement().getStyle().setProperty("visibility","hidden");
+			modeToggleMenus.get(i).hideMenu();
 		}
     }
 }
