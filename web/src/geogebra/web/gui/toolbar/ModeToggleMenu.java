@@ -312,11 +312,23 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		onEnd(event);
     }
 	
+	/**
+	 * Check if the bottom half of the button has clicked.
+	 */
+	private boolean isBottomHalfClicked(DomEvent event){
+		App.debug("getClienty: " + event.getNativeEvent().getClientY());
+		App.debug("top: " +tbutton.getAbsoluteTop());
+		return (event.getNativeEvent().getClientY() - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
+	}
+	
 	public void onEnd(DomEvent event){
-		if (event.getSource() == tbutton && "true".equals(event.getRelativeElement().getAttribute("isSelected"))){
-			showMenu();
-			keepDown = false;
-			return;
+		if (event.getSource() == tbutton){
+			if("true".equals(event.getRelativeElement().getAttribute("isSelected"))
+					|| isBottomHalfClicked(event)){
+				showMenu();
+				keepDown = false;
+				return;
+			}
 		}
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
 		if(event.getSource() != tbutton || keepDown) hideMenu();
