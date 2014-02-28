@@ -1,6 +1,7 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.web.gui.app.GGWToolBar;
@@ -38,8 +39,8 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	private static final long serialVersionUID = 1L;
 
 	FlowPanel tbutton;
-	//FlowPanel submenu;
-	//FlowPanel submenuArrow;
+	FlowPanel submenu;
+	FlowPanel submenuArrow;
 	UnorderedList itemList;
 
 	private AppW app;
@@ -78,15 +79,18 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		addDomHandlers(tbutton);
 		this.add(tbutton);
 		
-		/*submenu = new FlowPanel();
+		submenu = new FlowPanel();
+		this.add(submenu);
 		submenu.setStyleName("toolbar_submenu");
 		
 		submenuArrow = new FlowPanel();
+		Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_up());
+		submenuArrow.add(arrow);
 		submenuArrow.setStyleName("submenuArrow");
-		submenu.add(submenuArrow);*/
+		submenu.add(submenuArrow);
 		
 		itemList = new UnorderedList();
-		//itemList.setStyleName("submenuContent");
+		itemList.setStyleName("submenuContent");
 		
 		
 		for (int k = 0; k < menu.size(); k++) {
@@ -110,9 +114,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 				}
 			}
 		}
-		//this.submenu.add(itemList);
-
-		this.add(itemList);	
+		this.submenu.add(itemList);	
 	}
 
 //	public Image getButton(){

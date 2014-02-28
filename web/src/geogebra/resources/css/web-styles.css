@@ -1951,8 +1951,31 @@ body[dir=rtl] .toolbar_mainItem {
 .toolbar_submenu {
 	position: absolute;
 	z-index: 500;
-	bottom: 0px;
-	left: 0px;
+}
+
+.toolbar_submenu .submenuArrow {
+	position: absolute;
+	z-index: 600;
+	left: 4px;
+}
+
+.toolbar_submenu .submenuContent {
+	position: absolute;
+	top: 15px;
+	z-index: 500;
+	
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+}
+
+.toolbar_submenu .submenuContent li {
+	white-space: nowrap;
+	list-style-type: none;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {

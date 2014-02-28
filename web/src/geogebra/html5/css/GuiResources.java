@@ -143,6 +143,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/arrow-submenu-right.png")
 	ImageResource arrow_submenu_right();
 	
+	@Source("icons/png/web/arrow-submenu-up.png")
+	ImageResource arrow_submenu_up();
+	
 	//ALGEBRA INPUT
 	@Source("icons/png/web/arrow_dockbar_triangle_left.png")
 	ImageResource input_help_left();
