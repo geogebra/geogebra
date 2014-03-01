@@ -1372,7 +1372,8 @@ ExpressionValue multterm():
              	{
              		leftImg = ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate);
 					Operation op = app.getParserFunctions().get(leftImg,1);
-					if(op != null && kernel.lookupLabel(leftImg)==null)
+					if(op != null && kernel.lookupLabel(leftImg)==null
+			&& !"x".equals(leftImg) && !"y".equals(leftImg) && !"z".equals(leftImg) )
               		{
               			((ExpressionNode)ret).setRight(new ExpressionNode(kernel, f, op, null));
               			normal = false; 
