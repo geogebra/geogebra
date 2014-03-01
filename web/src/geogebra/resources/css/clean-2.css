@@ -2497,7 +2497,10 @@ label {
 
 .AutoCompleteTextFieldW .TextField {
 	display: block;
-	padding-right:50px;
+}
+
+.AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
+	padding-right: 50px;	
 }
 
 .SymbolToggleButton {

@@ -77,6 +77,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	    inputPanel = new InputPanelW(null,app,0,true);
 	    
 	    inputField = inputPanel.getTextComponent();
+	    inputField.requestToShowSymbolButton();
 	    
 	    inputField.getTextBox().addKeyUpHandler(this);
 	    inputField.getTextBox().addFocusHandler(this);

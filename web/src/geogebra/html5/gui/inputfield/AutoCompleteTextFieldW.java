@@ -70,6 +70,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
         ValueChangeHandler<String>, SelectionHandler<Suggestion>,
         VirtualKeyboardListener {
 
+	private static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 	private AppWeb app;
 	private Localization loc;
 	private StringBuilder curWord;
@@ -109,6 +110,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * Flag to determine if Tab key should behave like usual or disabled.
 	 */
 	private boolean tabEnabled = false;
+	private int columns = 0;
 	
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -175,6 +177,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			}
 		};
 		showSymbolButton.getElement().setId(id + "_SymbolButton");
+		showSymbolButton.getElement().setAttribute("data-visible", "false");
 		//showSymbolButton.getElement().setAttribute("style", "display: none");
 		showSymbolButton.setText(Unicode.alpha + "");
 		showSymbolButton.addStyleName("SymbolToggleButton");
@@ -423,10 +426,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setForeground(GColor color) {
 		drawTextField.getLabel().setForeground(color);
+		textField.getElement().getStyle().setColor(GColor.getColorString(color));
 	}
 
 	public void setBackground(GColor color) {
-		textField.getElement().getStyle().setBackgroundColor(color.toString());
+		textField.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
 	}
 
 	public void setFocusable(boolean b) {
@@ -448,8 +452,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	}
 
-	public void setColumns(int length) {
-		getTextBox().setWidth(length + "em");
+	public void setColumns(int columns) {
+		this.columns  = columns;
+		if (showSymbolButton != null && this.columns > SHOW_SYMBOLBUTTON_MINLENGTH) {
+			prepareShowSymbolButton();
+		}
+		getTextBox().setWidth(columns + "em");
 		//super.setWidth(length + "em");
 	}
 
@@ -1112,14 +1120,16 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 */
 	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
 		this.showSymbolTableIcon = showSymbolTableIcon;
-
+		
 		// temp
 		// TODO: don't fix the popup button here, but it should appear if mouse
 		// clicked into the textfield.
-		if ((showSymbolTableIcon) && app.isAllowedSymbolTables()) {
+		if ((showSymbolTableIcon) && app.isAllowedSymbolTables() && this.columns > SHOW_SYMBOLBUTTON_MINLENGTH) {
 			showSymbolButton.getElement().addClassName("shown");
+			showSymbolButton.getElement().setAttribute("data-persist", "true");
 		} else {
 			showSymbolButton.getElement().removeClassName("shown");
+			showSymbolButton.getElement().removeAttribute("data-persist");
 		}
 	}
 
@@ -1203,11 +1213,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			String id = ((Widget) source).getElement().getId();
 			if (id != null) {
 				Element element = Document.get().getElementById(id + "_SymbolButton");
-				if (element != null) {
+				if (element != null && "true".equals(element.getAttribute("data-visible"))) {
 					if (show) {
 						element.addClassName("shown");
 					} else {
-						element.removeClassName("shown");
+						if (!"true".equals(element.getAttribute("data-persist"))) {
+							element.removeClassName("shown");
+						}
 					}
 				}
 			}
@@ -1320,5 +1332,18 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setTabEnabled(boolean tabEnabled) {
 	    this.tabEnabled = tabEnabled;
+    }
+	
+	/**
+	 * use this, if no explicit length set, but symbolbutton must be shown.
+	 */
+	public void requestToShowSymbolButton() {
+		this.columns = SHOW_SYMBOLBUTTON_MINLENGTH + 1;
+		prepareShowSymbolButton();
+	}
+
+	private void prepareShowSymbolButton() {
+	    showSymbolButton.getElement().setAttribute("data-visible", "true");
+		addStyleName("SymbolCanBeShown");
     }
 }
