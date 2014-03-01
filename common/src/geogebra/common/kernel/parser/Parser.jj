@@ -93,7 +93,8 @@ public class Parser implements ParserInterface{
          loc = app.getLocalization();
     }
 
-    public Kernel getKernel()     {
+    public Kernel getKernel() 
+    {
       return kernel;
     }
     
@@ -541,7 +542,8 @@ ValidExpression buildCASExpression() :
 {         
         // CAS function
        // f(a) := a^2 + 3a
-     (        LOOKAHEAD(2147483647)   
+     (
+        LOOKAHEAD(2147483647)   
         ve = casFunction()
     |     
 /*       // h: X = (3,2) + t (5,a)
@@ -756,7 +758,8 @@ Parametric parametric():
     Token lhs = null;    
 }
 {    
-    (      lhs = < LABEL >
+    (
+      lhs = < LABEL >
       < EQUAL >
     ) P = multterm()
     ( 
@@ -1354,24 +1357,30 @@ ExpressionValue multterm():
         {
           		String leftImg = "";
           		boolean normal = true;
-          		if(ret instanceof Variable)          		{					leftImg = ret.toString(StringTemplate.defaultTemplate);
+          		if(ret instanceof Variable)
+          		{
+					leftImg = ret.toString(StringTemplate.defaultTemplate);
 					Operation op = app.getParserFunctions().get(leftImg,1);
-              		if(op != null && kernel.lookupLabel(leftImg)==null)
+              		if(op != null && kernel.lookupLabel(leftImg)==null
+				&& !"x".equals(leftImg) && !"y".equals(leftImg) && !"z".equals(leftImg))
               		{
               			ret =	new ExpressionNode(kernel, f, op, null);
               			normal = false; 
               		}
              	}else if(ret instanceof ExpressionNode && ((ExpressionNode)ret).getOperation()==
-             	Operation.MULTIPLY && ((ExpressionNode)ret).getRight() instanceof Variable)             	{
+             	Operation.MULTIPLY && ((ExpressionNode)ret).getRight() instanceof Variable)
+             	{
              		leftImg = ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate);
 					Operation op = app.getParserFunctions().get(leftImg,1);
 					if(op != null && kernel.lookupLabel(leftImg)==null)
               		{
               			((ExpressionNode)ret).setRight(new ExpressionNode(kernel, f, op, null));
               			normal = false; 
-              		}             	}
+              		}
+             	}
 
-              	if(normal)              	{
+              	if(normal)
+              	{
                		ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
              	}  
          }	
@@ -1639,8 +1648,10 @@ ExpressionValue enelement():
     // parenthesis
     LOOKAHEAD(2147483647)
     "("  ev = expressionOrEquation()  ")" 
-        { ev = ev.unwrap(); if(ev instanceof ExpressionNode)        {
-          ((ExpressionNode)ev).setBrackets(true);        }
+        { ev = ev.unwrap(); if(ev instanceof ExpressionNode)
+        {
+          ((ExpressionNode)ev).setBrackets(true);
+        }
         return ev; }       	           
 |
     // cartesian vector  (x, y) or (x|y)
@@ -2026,7 +2037,9 @@ ExpressionNode numberFunction():
 	      		geo = kernel.lookupLabel(funcName);    
 	      		cell = kernel.lookupCasCellLabel(funcName);
 				
-	      		if (cell==null && (geo == null || !(geo.isGeoFunction() || geo.isGeoCurveCartesian())))	{	      		    while (index >=0 && c.image.charAt(index) == '\''){	      		      	order++; 
+	      		if (cell==null && (geo == null || !(geo.isGeoFunction() || geo.isGeoCurveCartesian())))	{
+	      		    while (index >=0 && c.image.charAt(index) == '\''){
+	      		      	order++; 
 	      		    	index--;
 	      		   }
 	      			    	
@@ -2036,7 +2049,8 @@ ExpressionNode numberFunction():
 		      			cell = kernel.lookupCasCellLabel(label);	      			
 		      			// stop if f' is defined but f is not defined, see #1444
 		      			if (cell!=null ||
-		      			(geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {		      					break;
+		      			(geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {
+		      					break;
 		      			}
 		      				
 		      			order--;
@@ -2079,9 +2093,13 @@ ExpressionNode numberFunction():
 	      		
 	      }
 	      if(cell!=null && geo==null)	{
-			  	if(((GeoCasCell)cell).getFunctionVariables().length <2)			  	{			  	  
+			  	if(((GeoCasCell)cell).getFunctionVariables().length <2)
+			  	{
+			  	  
 	      		return new ExpressionNode(kernel, cell, Operation.FUNCTION, myList.getListElement(0));
-	      }else	      {				return new ExpressionNode(kernel, cell, Operation.FUNCTION_NVAR, myList);
+	      }else
+	      {
+				return new ExpressionNode(kernel, cell, Operation.FUNCTION_NVAR, myList);
 	      } 
 	      		
 	      }
