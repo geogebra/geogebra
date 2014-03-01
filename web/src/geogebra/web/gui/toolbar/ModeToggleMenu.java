@@ -2,6 +2,7 @@ package geogebra.web.gui.toolbar;
 
 import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.web.gui.app.GGWToolBar;
@@ -10,6 +11,7 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureEndHandler;
@@ -49,6 +51,8 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 
 	private Vector<Integer> menu;
 
+	private String toolTipText;
+
 	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb) {
 		super();
 		this.app = appl;
@@ -67,9 +71,10 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
-		
 		addDomHandlers(tbutton);
 		this.add(tbutton);
+		addNativeToolTipHandler(tbutton.getElement(), this);
+		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
 		
 		//Adding submenus if needed.
 		if (menu.size()>1){
@@ -283,10 +288,6 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		tbutton.getElement().setAttribute("isSelected","true");
 	}
 	
-	public void setToolTipText(String string){
-		App.debug("TODO setTooltiptext");
-	}
-	
 	public void addSeparator(){
 		//TODO
 	}
@@ -371,4 +372,33 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	    Window.alert("losecapturehandler");
     }
 	
+	public void setToolTipText(String string) {
+		toolTipText = string;
+    }
+	
+	public void showToolTip(){
+		if (toolbar.hasPopupOpen()) return;
+		
+		ToolTipManagerW.sharedInstance().setEnableDelay(false);
+		ToolTipManagerW.sharedInstance().showToolTip(this.getElement(), toolTipText);
+		ToolTipManagerW.sharedInstance().setEnableDelay(true);
+	}
+	
+	public void hideToolTip(){
+		ToolTipManagerW.sharedInstance().hideToolTip();
+	}
+	
+	public boolean isSubmenuOpen(){
+		if (submenu==null) return false;
+		return (submenu.getElement().getStyle().getProperty("visibility") == "visible");
+	}
+	
+	private native void addNativeToolTipHandler(Element element, ModeToggleMenu mtm) /*-{
+		element.addEventListener("mouseout",function() {
+			mtm.@geogebra.web.gui.toolbar.ModeToggleMenu::hideToolTip()();
+		});
+		element.addEventListener("mouseover",function() {
+			mtm.@geogebra.web.gui.toolbar.ModeToggleMenu::showToolTip()();
+		});
+	}-*/;
 }

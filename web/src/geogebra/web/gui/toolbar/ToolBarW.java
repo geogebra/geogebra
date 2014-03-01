@@ -279,6 +279,11 @@ public class ToolBarW extends FlowPanel{
 	}
 	
 	public boolean hasPopupOpen(){
+		for(int i=0; i<this.modeToggleMenus.size(); i++){
+			if (this.modeToggleMenus.get(i).isSubmenuOpen()){
+				return true;
+			}
+		}
 		return false;
 	}
 
