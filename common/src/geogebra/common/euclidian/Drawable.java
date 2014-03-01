@@ -329,7 +329,7 @@ public abstract class Drawable extends DrawableND {
 					isSerif(), textFont));
 		} else {
 			int lines = 0;
-			int fontSize = g2.getFont().getSize();
+			int fontSize = textFont.getSize();
 			float lineSpread = fontSize * 1.5f;
 
 			int xoffset = 0, yoffset = 0;
