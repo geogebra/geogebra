@@ -14,7 +14,7 @@ include_once("html.inc");
 $lastrev=$_GET['lastrev'];
 $firstrev=$_GET['firstrev'];
 
-$openonly=$_GET['openonly'];
+$openonly= $_GET['openonly'];
 $orderbyid=$_GET['orderbyid'];
 
 function add_options($override) {
@@ -111,12 +111,16 @@ if ($orderbyid=="-1")
 foreach ($db->query($sql) as $name) {
  $n=$name['id'];
  $nformatted=str_replace("_"," ",$n);
+
  $content.="<tr><td>$nformatted</td>";
+ $lastCell = "";
+ $colspan = 0;
  foreach ($revs as $rev) {
-  $content.="<td ";
-  $sql2="SELECT * from tests where name='$n' and revision='$rev'";
-  $result=$db->query($sql2);
-  $sql2count=str_replace("SELECT * ","SELECT count(*) ",$sql2);
+  $colspan++;
+  $cell = "<td colspan=\"%%\"";
+  $sql2 = "SELECT * from tests where name='$n' and revision='$rev'";
+  $result = $db->query($sql2);
+  $sql2count = str_replace("SELECT * ","SELECT count(*) ",$sql2);
   $resultno=$db->query($sql2count);
   $numrows=$resultno->fetchColumn();
   if ($numrows==0) {
@@ -124,20 +128,31 @@ foreach ($db->query($sql) as $name) {
    $sql3count="SELECT COUNT(*) from tests where name='$n' and revision<'$rev'";
    $resultno=$db->query($sql3count);
    $numrows=$resultno->fetchColumn();
-   if ($numrows>=1)
-    $content.="class=\"ok\">";
-   else
-    $content.="class=\"unknown\">";
+   if ($numrows>=1){
+   $sqlMax="select max(id) from revisions left join tests 
+        on tests.revision=revisions.id and tests.name='$n' 
+        where revisions.id <= '$rev' and ifnull(message,'ok')!='ok'";
+
+    $resultMax=$db->query($sqlMax); 
+    if(is_object($resultMax)){
+     $ok = $resultMax->fetchColumn();
+    }
+    $cell .= "class=\"ok\">";
+    $cell.=" last bug <a href=\"?lastrev=$ok".
+        (isset($_GET["openonly"]) && $_GET["openonly"] ?"&openonly=1":"")."\">$ok</a>";
+    
+   }else
+    $cell .= "class=\"unknown\">";
    }
   else {
    foreach ($result as $row) {
     $error=$row['error'];
     if ($error==1) {
-     $content.="class=\"error\">";
+     $cell .= "class=\"error\">";
      $errors[$rev]++;
      }
     else {
-     $content.="class=\"failure\">";
+     $cell .= "class=\"failure\">";
      $failures[$rev]++;
      }
     $cn=$row['classname'];
@@ -145,25 +160,11 @@ foreach ($db->query($sql) as $name) {
     $message=$row['message'];
 
     // Creating class name (by trimming a bit)
-    $cname="";
-    for ($i=strlen($cn); $i>=0 && $cn[$i]!="."; --$i)
-     $cname=$cn[$i].$cname;
-    $cnl=strlen($cname);
-    if (substr($cname,$cnl-4,4)=="Test")
-     $cname=substr($cname,0,$cnl-4);
 
-    // Creating type (plus trimming)
-    $type="";
-    for ($i=strlen($t); $i>=0 && $t[$i]!="."; --$i)
-     $type=$t[$i].$type;
-    $tl=strlen($type);
-    if (substr($type,$tl-5,5)=="Error")
-     $type=substr($type,0,$tl-5);
-    
 
 $sqlMax="select max(id) from revisions left join tests 
 	on tests.revision=revisions.id and tests.name='$n' 
-	where ifnull(message,'ok')='ok'";
+	where revisions.id <= '$rev' and ifnull(message,'ok')='ok'";
 
    $resultMax=$db->query($sqlMax); 
 //error_reporting(E_ALL);
@@ -182,11 +183,18 @@ if(is_object($resultMax)){
     // Changing " to '' in the message (no better idea)
     $message=str_replace('"',"''",$message);
     
-    $content.="<div title=\"$message\"><b>$type</b> since <a href=\"https://dev.geogebra.org/trac/changeset/$ok\">$ok</a></div>";
+    $cell.="<div title=\"$message\">".strtr(substr($message,0,300),array("Expected:"=>"<b>Exp.:</b>","got:"=>"<br><b>Got:</b>"))." <a href=\"?lastrev=$ok".
+	(isset($_GET["openonly"]) && $_GET["openonly"] ?"&openonly=1":"")."\">$ok</a></div>";
     }
    }
-  $content.="</td>";
+  $cell .= "</td>";
+  if($lastCell != $cell){
+	$content .= str_replace("%%",$colspan,$lastCell);
+	$colspan = 0;
   }
+  $lastCell = $cell;
+  }
+ $content .= str_replace("%%",$colspan + 1,$lastCell);
  $content.="</tr>";
  }
 
