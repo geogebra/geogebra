@@ -2006,7 +2006,7 @@ __GGB__keysVar.pt_PT.menu = {
     "ZoomIn_Help": "Clique na Folha Gr\xe1fica ou use a \"roda\" do rato",
     "ZoomOut": "Reduzir",
     "ZoomOut_Help": "Clique na Folha Gr\xe1fica ou use a \"roda\" do rato",
-    "insert_worksheet": "Insert Worksheet",
+    "insert_worksheet": "Inserir Folha de C\xe1lculo",
     "off": "Desativada",
     "on": "Ativada",
 }
