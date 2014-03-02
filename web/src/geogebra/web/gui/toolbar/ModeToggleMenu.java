@@ -1,6 +1,5 @@
 package geogebra.web.gui.toolbar;
 
-import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ListItem;
@@ -19,6 +18,8 @@ import com.google.gwt.event.dom.client.LoseCaptureEvent;
 import com.google.gwt.event.dom.client.LoseCaptureHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -34,7 +35,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
-TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
+TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler,
+MouseOutHandler{
 
 	private static final long serialVersionUID = 1L;
 
@@ -72,6 +74,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
 		addDomHandlers(tbutton);
+		tbutton.addDomHandler(this, MouseOutEvent.getType());
 		this.add(tbutton);
 		addNativeToolTipHandler(tbutton.getElement(), this);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
@@ -199,8 +202,14 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 //	}
 	
 	public void showMenu(){
-		if (submenu == null) return;
-		submenu.getElement().getStyle().setProperty("visibility", "visible");
+		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
+		for(int i=0; i< modeToggleMenus.size(); i++){
+			if (modeToggleMenus.get(i).submenu != submenu){
+				modeToggleMenus.get(i).hideMenu();
+			} else if (submenu != null){
+				submenu.getElement().getStyle().setProperty("visibility", "visible");
+			}
+		}
 	}
 	
 	public void hideMenu(){
@@ -210,12 +219,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 	
 	public boolean selectMode(int mode) {
 		String modeText = mode + "";
-		
-		App.debug("mtm.selectMode:" + mode);
 
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 ){
 			if (menu.get(0) == mode){
+				
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -312,6 +320,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 				keepDown = false;
 				return;
 			}
+			
+			// At one click close the other buttons' submenu, but don't close
+			// own submenu, otherwise there would be problems, if the submenu opened
+			// because of a long-press
+			if (!isSubmenuOpen()) toolbar.closeAllSubmenu();
 		}
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
 		if(event.getSource() != tbutton || keepDown) hideMenu();
@@ -347,7 +360,7 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 		event.preventDefault();
 		final ModeToggleMenu tm = this;
 		keepDown = true;
-		toolbar.closeAllSubmenu();
+		//toolbar.closeAllSubmenu();
 		
 		Timer longPressTimer = new Timer(){
 			@Override
@@ -401,4 +414,11 @@ TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler{
 			mtm.@geogebra.web.gui.toolbar.ModeToggleMenu::showToolTip()();
 		});
 	}-*/;
+
+	@Override
+    public void onMouseOut(MouseOutEvent event) {
+		// Avoid opening submenu, if a user presses a button for a while,
+		// then move on an another button without mouseup. 
+		keepDown=false;
+    }
 }
