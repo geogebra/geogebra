@@ -1735,10 +1735,10 @@ body[dir=rtl] .undoPanel {
 
 [isSelected=false] .toolbar_icon:hover{
 	border: 4px solid lightsteelblue;
-	margin-top: -3px;
-	margin-bottom: -3px;
-	margin-left: 0px;
-	margin-right: 0px;
+	margin-top: -2px;
+	margin-bottom: -2px;
+	margin-left: -2px;
+	margin-right: -2px;
 	opacity:1.0;
 	
 }
@@ -1749,20 +1749,8 @@ body[dir=rtl] .undoPanel {
 	left: 0px;
 }
 
-.gwt-MenuBar-horizontal  .toolbar_item, .toolbar_button{
-	padding: 8px 1px;
-	width: 40px;
-	text-align:center;
-	vertical-align: top;
-	position:relative;
-}
-
-.gwt-MenuBar-horizontal .toolbarItemSeparator {
-  width: 5px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  background: none;
+.toolbar_button {
+	position: absolute;
 }
 
 .toolbar_menuitem img{
@@ -1792,29 +1780,38 @@ body[dir=rtl] .undoPanel {
 	margin: 0;
 }
 
-.toolbar_mainItem li{
-	/*float: left;*/
+.toolbar_mainItem li {
 	list-style-type:none;
 	height: 40px;
 	width: 40px;
 	display: inline-block;
 }
 
-.toolbar_mainItem li ul{
+.toolbar_mainItem li .toolbar_submenu {
 	position: absolute;
+	top: 50px;
 	z-index: 1;
 	padding: 0;
 	background-color: white;
+	display: none;
 }
 
-.toolbar_mainItem li ul li{
-	/*float: none;*/
+.toolbar_submenu .submenuContent {
+	margin: 0;
+	padding: 0;
+}
+
+.toolbar_mainItem .toolbar_submenu.visible {
+	display: block;
+}
+
+.toolbar_mainItem .toolbar_submenu li {
 	display: block;
 	width: auto;
 	height: auto;
 }
 
-.toolbar_mainItem li ul li div{
+.toolbar_mainItem .toolbar_submenu li > *{
 	display: inline-block;
 }
 
@@ -1841,10 +1838,12 @@ body[dir=rtl] .undoPanel {
 	height: 55px;
 }
 
-.GGWToolbar table, .GGWToolbar ul{
+.GGWToolbar ul{
 	margin-right: 66px;
+	padding: 5px;
 }
-body[dir=rtl] .GGWToolbar table, body[dir=rtl] .GGWToolbar ul{
+
+body[dir=rtl] .GGWToolbar ul{
 	margin-right: 0px;
 	margin-left: 66px;
 }

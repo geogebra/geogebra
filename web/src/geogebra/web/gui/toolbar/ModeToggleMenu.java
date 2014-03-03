@@ -207,14 +207,14 @@ MouseOutHandler{
 			if (modeToggleMenus.get(i).submenu != submenu){
 				modeToggleMenus.get(i).hideMenu();
 			} else if (submenu != null){
-				submenu.getElement().getStyle().setProperty("visibility", "visible");
+				submenu.addStyleName("visible");
 			}
 		}
 	}
 	
 	public void hideMenu(){
 		if (submenu == null) return;
-		submenu.getElement().getStyle().setProperty("visibility", "hidden");
+		submenu.removeStyleName("visible");;
 	}
 	
 	public boolean selectMode(int mode) {
@@ -403,7 +403,7 @@ MouseOutHandler{
 	
 	public boolean isSubmenuOpen(){
 		if (submenu==null) return false;
-		return (submenu.getElement().getStyle().getProperty("visibility") == "visible");
+		return (submenu.getElement().hasClassName("visible"));
 	}
 	
 	private native void addNativeToolTipHandler(Element element, ModeToggleMenu mtm) /*-{

@@ -1956,6 +1956,11 @@ body[dir=rtl] .toolbar_mainItem {
 .toolbar_submenu {
 	position: absolute;
 	z-index: 500;
+	display: none;
+}
+
+.toolbar_submenu.visible {
+	display:block;
 }
 
 .toolbar_submenu .submenuArrow {
