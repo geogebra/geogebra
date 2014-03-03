@@ -13,6 +13,11 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
@@ -23,7 +28,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * Toolbar for GeoGebraWeb
  *
  */
-public class ToolBarW extends FlowPanel{
+public class ToolBarW extends FlowPanel implements ClickHandler{
 	
 	private AppW app;
 	private int mode;
@@ -46,6 +51,8 @@ public class ToolBarW extends FlowPanel{
 	 */
 	public ToolBarW() {
 		this.addStyleName("GGWToolbar");
+		this.addOutsideClickHandler(this, Document.get().getDocumentElement());
+		this.addDomHandler(this, ClickEvent.getType());
 	}
 
 	/**
@@ -73,7 +80,18 @@ public class ToolBarW extends FlowPanel{
 	public void init(AppW app1){
 		this.app = app1;
 	}
-
+	
+	private native void addOutsideClickHandler(ToolBarW toolbar, Element element)/*-{
+		element.addEventListener("click",function(e) {
+			toolbar.@geogebra.web.gui.toolbar.ToolBarW::closeAllSubmenuAtLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+		});
+	}-*/;
+	
+	private void closeAllSubmenuAtLeave(JavaScriptObject e){
+		App.debug("leave...");
+		closeAllSubmenu();
+	}
+	
 	/**
 	 * @return The dock panel associated with this toolbar or null if this is
 	 *         the general toolbar.
@@ -291,5 +309,10 @@ public class ToolBarW extends FlowPanel{
 		for(int i=0; i<modeToggleMenus.size(); i++){
 			modeToggleMenus.get(i).hideMenu();
 		}
+    }
+
+
+	public void onClick(ClickEvent event) {
+	    event.stopPropagation();
     }
 }
