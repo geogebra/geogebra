@@ -41,6 +41,9 @@ public class AppWapplication extends AppW {
 	        boolean undoActive) {
 		super(article);
 		this.appFrame = geoGebraAppFrame;
+		if(this.getLAF().isSmart()){
+			appFrame.getElement().addClassName("zoomed");
+		}
 		appFrame.app = this;
 		this.objectPool = new ObjectPool();
 		createAppSplash();

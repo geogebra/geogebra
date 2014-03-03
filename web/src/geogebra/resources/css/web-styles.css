@@ -3275,3 +3275,12 @@ PROVIDERS
 .languageGUI .contentPanel .gwt-Label:hover {
 	color: #6666FF;
 }
+
+.zoomed{
+	-webkit-transform:scale(0.8,0.8);
+	width:125%;
+	height:125%;
+	-webkit-transform-origin:0% 0%;
+	transform-origin:0% 0%;
+
+}
