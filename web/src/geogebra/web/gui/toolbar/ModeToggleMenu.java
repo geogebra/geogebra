@@ -139,7 +139,9 @@ MouseOutHandler{
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
-		w.addDomHandler(this, TouchEndEvent.getType());
+		if(!app.getLAF().isSmart()){//TODO may need android detection etc.
+			w.addDomHandler(this, TouchEndEvent.getType());
+		}
 //		this.addDomHandler(this, TouchMoveEvent.getType());
 		w.addDomHandler(this, GestureEndEvent.getType());
 		w.addDomHandler(this, LoseCaptureEvent.getType());
