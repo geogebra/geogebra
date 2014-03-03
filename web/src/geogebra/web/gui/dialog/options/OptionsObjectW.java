@@ -3027,8 +3027,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		public void setLabels() {
 			// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
-			String ok = localize("ok");
-			String cancel = localize("cancel");
+			String ok = localize("OK");
+			String cancel = localize("Cancel");
 			
 			clickDialog.setLabels(ok, cancel);
 			updateDialog.setLabels(ok, cancel);
