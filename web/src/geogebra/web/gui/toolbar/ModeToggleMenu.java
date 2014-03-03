@@ -371,7 +371,7 @@ MouseOutHandler{
 				}
             }
 		};
-		longPressTimer.schedule(2000); 		
+		longPressTimer.schedule(1000); 		
 	}
 
 	@Override
