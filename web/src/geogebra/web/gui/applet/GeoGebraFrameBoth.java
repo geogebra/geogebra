@@ -1,7 +1,5 @@
 package geogebra.web.gui.applet;
 
-import geogebra.common.main.App;
-import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
@@ -11,8 +9,6 @@ import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -51,59 +47,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 			}else{
 				WebStatic.panelForApplets.add(inst);
 			}
-		}
-	}
-
-
-	public void runAsyncAfterSplash() {
-		final GeoGebraFrameBoth inst = this;
-		final ArticleElement articleElement = ae;
-
-		if (ae.getDataParamGuiOff()) {
-
-			GWT.runAsync(new RunAsyncCallback() {
-
-				public void onSuccess() {
-					ResourcesInjector.injectResources();
-
-					inst.app = inst.createApplicationSimple(articleElement, inst);
-
-					inst.app.setCustomToolBar();
-					//useDataParamBorder(articleElement, inst);
-					//inst.add(inst.app.buildApplicationPanel());
-					inst.app.buildApplicationPanel();
-				    // need to call setLabels here
-					// to print DockPanels' titles
-					inst.app.setLabels();
-				}
-			
-				public void onFailure(Throwable reason) {
-					App.debug("Async load failed");
-				}
-			});
-
-		} else {
-
-			GWT.runAsync(new RunAsyncCallback() {
-
-				public void onSuccess() {
-					ResourcesInjector.injectResources();
-
-					inst.app = inst.createApplication(articleElement, inst);
-
-					inst.app.setCustomToolBar();
-					//useDataParamBorder(articleElement, inst);
-				    //inst.add(inst.app.buildApplicationPanel());
-					inst.app.buildApplicationPanel();
-					    // need to call setLabels here
-					// to print DockPanels' titles
-					inst.app.setLabels();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("Async load failed");
-				}
-			});
 		}
 	}
 	
