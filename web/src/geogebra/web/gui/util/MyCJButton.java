@@ -286,7 +286,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 *            toolTip string
 	 */
 	public void setToolTipText(String toolTipText) {
-		App.printStacktrace("setting tool tip: " + toolTipText );
 		this.toolTipText = toolTipText;
 	}
 
