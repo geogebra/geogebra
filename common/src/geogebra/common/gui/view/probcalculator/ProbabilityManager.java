@@ -577,7 +577,7 @@ public class ProbabilityManager {
 
 		case POISSON:
 			// mode = mean = parms[0];
-			mode = parms[0]; 
+			mode = Math.floor(parms[0]); 
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
@@ -607,7 +607,7 @@ public class ProbabilityManager {
 			// n = parms[0]
 			// p = parms[1]
 			// mode = np
-			mode = parms[0] * parms[1];
+			mode = Math.floor((parms[0]+1) * parms[1]);
 			
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
