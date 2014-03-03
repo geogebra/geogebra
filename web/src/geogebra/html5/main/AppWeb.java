@@ -59,6 +59,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
@@ -827,17 +828,17 @@ public abstract class AppWeb extends App implements SetLabels{
 		if (kimberlingw != null) {
 			return kimberlingw;
 		}
-		//commented out to get not too much files for Smart
-	    //GWT.runAsync(new RunAsyncCallback() {
-		//	public void onSuccess() {
+		
+	    GWT.runAsync(new RunAsyncCallback() {
+			public void onSuccess() {
 				kimberlingw = new AlgoKimberlingWeights();
 				setKimberlingWeightFunction(kimberlingw);
 				kernel.updateConstruction();
-		//	}
-		//	public void onFailure(Throwable reason) {
-		//		App.debug("AlgoKimberlingWeights loading failure");
-		//	}
-		//});
+			}
+			public void onFailure(Throwable reason) {
+				App.debug("AlgoKimberlingWeights loading failure");
+			}
+		});
 		return kimberlingw;
 	}
 
@@ -864,17 +865,17 @@ public abstract class AppWeb extends App implements SetLabels{
 		if (cubicw != null) {
 			return cubicw;
 		}
-		//Commented out to get not too much files for Smart
-	    //GWT.runAsync(new RunAsyncCallback() {
-		//	public void onSuccess() {
+		
+	    GWT.runAsync(new RunAsyncCallback() {
+	    	public void onSuccess() {
 				cubicw = new AlgoCubicSwitch();
 				setCubicSwitchFunction(cubicw);
 				kernel.updateConstruction();
-		//	}
-		//	public void onFailure(Throwable reason) {
-		//		App.debug("AlgoKimberlingWeights loading failure");
-		//	}
-		//});
+			}
+			public void onFailure(Throwable reason) {
+				App.debug("AlgoKimberlingWeights loading failure");
+			}
+		});
 		return cubicw;
 	}
 

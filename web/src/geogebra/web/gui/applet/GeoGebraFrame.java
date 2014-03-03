@@ -14,8 +14,6 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -275,9 +273,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 		final GeoGebraFrame inst = this;
 		final ArticleElement articleElement = ae;
 
-		GWT.runAsync(new RunAsyncCallback() {
+		//GWT.runAsync(new RunAsyncCallback() {
 
-			public void onSuccess() {
+		//	public void onSuccess() {
 				ResourcesInjector.injectResources();
 
 				// More testing is needed how can we use
@@ -294,12 +292,12 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 				    // need to call setLabels here
 				// to print DockPanels' titles
 				inst.app.setLabels();
-			}
+		//	}
 			
-			public void onFailure(Throwable reason) {
-				App.debug("Async load failed");
-			}
-		});
+		//	public void onFailure(Throwable reason) {
+		//		App.debug("Async load failed");
+		//	}
+		//});
 	}
 
 	public static void finishAsyncLoading(ArticleElement articleElement,

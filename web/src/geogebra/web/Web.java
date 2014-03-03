@@ -4,7 +4,6 @@ package geogebra.web;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
-import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
@@ -18,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -100,50 +97,50 @@ public class Web implements EntryPoint {
 	}
 
 	private void loadExtensionAsync() {
-		GWT.runAsync(new RunAsyncCallback() {
+		//GWT.runAsync(new RunAsyncCallback() {
 			
-			public void onSuccess() {
+		//	public void onSuccess() {
 				ResourcesInjector.injectResources();
 				 exportArticleTagRenderer();
 				    //export other methods if needed
 				    //call the registered methods if any
 				    GGW_ext_webReady();
-			}
+		//	}
 			
-			public void onFailure(Throwable reason) {
+		//	public void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
 				
-			}
-		});
+		//	}
+		//});
 	   
     }
 
 	public static void loadAppletAsync() {
-	    GWT.runAsync(new RunAsyncCallback() {
+	    //GWT.runAsync(new RunAsyncCallback() {
 			
-			public void onSuccess() {
+			//public void onSuccess() {
 				startGeoGebra(getGeoGebraMobileTags());
-			}
+			//}
 			
-			public void onFailure(Throwable reason) {
+			//ublic void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
 				
-			}
-		});
+			//}
+		//});
     }
 
 	private void loadAppAsync() {
-	    GWT.runAsync(new RunAsyncCallback() {
+	    //GWT.runAsync(new RunAsyncCallback() {
 			
-			public void onSuccess() {
+		//	public void onSuccess() {
 				ResourcesInjector.injectResources();
 				createGeoGebraAppFrame();
-			}
+		//	}
 
-			public void onFailure(Throwable reason) {
-				Log.debug(reason);
-			}
-		});
+		//	public void onFailure(Throwable reason) {
+		//		Log.debug(reason);
+		//	}
+		//});
 	    
     }
 	
