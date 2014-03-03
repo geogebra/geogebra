@@ -3357,7 +3357,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public boolean isEuclidianView3D() {
-		return false;
+		return true;
 	}
 
 	@Override
