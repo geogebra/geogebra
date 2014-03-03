@@ -42,6 +42,10 @@
   	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
  }
  
+ .clear {
+ 	clear: both;
+ }
+ 
 .gwt-Reference-clean {
   height: 5px;
   width: 5px;
@@ -1819,6 +1823,7 @@ Paddings for menuitems.
 	padding: 5px 10px;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+	z-index: 1000;
 }
 
 .toolTipHTML {
@@ -1944,7 +1949,6 @@ body[dir=rtl] .toolbar_mainItem {
 	width: 8px;
 	height: 5px;
 	top: -19px;
-	left: 18px;
 }*/
 
 .furtherToolsTriangle {
@@ -2948,6 +2952,10 @@ label {
 	margin-left: 10px;
 }
 
+.signInButton {
+	margin-top: 4px;
+}
+
 .profilePanel {
 	cursor: pointer;
 }
@@ -2964,6 +2972,48 @@ label {
 	right: 0px;
 	bottom: 0px;
 }
+
+.profileOptionsPanel {
+	position: absolute;
+	z-index: 500;
+}
+
+.profileOptionsPanel .arrow {
+	position: absolute;
+	z-index: 600;
+	left: 4px;
+}
+
+.profileOptionsPanel .profileOptionsContent {
+	position: absolute;
+	top: 15px;
+	z-index: 500;
+	
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+}
+
+.profileOptionsContent .logoutButton {
+	margin: 20px 10px 10px;
+}
+
+.backButton {
+	cursor: pointer;
+}
+
+.backButton img {
+	height: 20px;
+	width: 11px;
+}
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++
+PROVIDERS
++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 .providers {
 	width: 70px;
@@ -2994,14 +3044,6 @@ label {
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.backButton {
-	cursor: pointer;
-}
-
-.backButton img {
-	height: 20px;
-	width: 11px;
-}
 
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -3210,6 +3252,10 @@ label {
 /*#####################################################################################
 ###        LANGUAGE GUI
 #####################################################################################*/
+
+.languageGUI > div {
+	overflow: auto !important;
+}
 
 .languageGUI .contentPanel {
 	padding: 15px 20px;

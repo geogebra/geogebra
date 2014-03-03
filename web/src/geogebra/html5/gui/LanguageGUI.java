@@ -86,6 +86,11 @@ public class LanguageGUI extends MyHeaderPanel {
 				}
 			}
 		}
+		
+		FlowPanel clear = new FlowPanel();
+		clear.setStyleName("clear");
+		fp.add(clear);
+		
 		this.setContentWidget(fp);
 	}
 

@@ -8,6 +8,7 @@ import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.AuxiliaryHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 
@@ -43,7 +44,10 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private Image optionsArrow;
 	private LogInOperation login;
 	private App app;
+	
 	private FlowPanel optionsPanel;
+	private FlowPanel arrowPanel;
+	private FlowPanel optionsPanelContent;
 
 	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI,
 			NetworkOperation op) {
@@ -98,6 +102,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private void onLogout() {
 		if(this.signInButton == null){
 			this.signInButton = new Button(loc.getMenu("SignIn"));
+			this.signInButton.addStyleName("signInButton");
 			this.signInButton.addClickHandler(new ClickHandler(){
 				@Override
                 public void onClick(ClickEvent event) {
@@ -137,8 +142,21 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			this.profilePanel.add(this.userPanel);
 			
 			this.optionsPanel = new FlowPanel();
-			Label logoutButton = new Label(app.getPlain("SignOut"));
-			optionsPanel.add(logoutButton);
+			this.optionsPanel.setStyleName("profileOptionsPanel");
+			
+			arrowPanel = new FlowPanel();
+			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_up());
+			arrowPanel.add(arrow);
+			arrowPanel.setStyleName("arrow");
+			optionsPanel.add(arrowPanel);
+			
+			optionsPanelContent = new FlowPanel();
+			optionsPanelContent.setStyleName("profileOptionsContent");
+			optionsPanel.add(optionsPanelContent);
+			
+			Button logoutButton = new Button(app.getPlain("SignOut"));
+			logoutButton.addStyleName("logoutButton");
+			optionsPanelContent.add(logoutButton);
 			
 			logoutButton.addClickHandler(new ClickHandler(){
 
@@ -147,7 +165,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	                app.getLoginOperation().performLogOut();
 	                
                 }});
-			optionsPanel.add(logoutButton);
+			
 			userPanel.add(optionsPanel);
 			optionsPanel.setVisible(false);
 			userName.addClickHandler(new ClickHandler(){
