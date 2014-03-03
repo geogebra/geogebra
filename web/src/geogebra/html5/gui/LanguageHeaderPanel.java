@@ -7,7 +7,12 @@ public class LanguageHeaderPanel extends AuxiliaryHeaderPanel {
 
 	LanguageHeaderPanel(Localization loc, MyHeaderPanel gui) {
 	    super(loc, gui);
-	    // TODO Auto-generated constructor stub
+	    setLabels();
     }
+	
+	@Override
+    public void setLabels(){
+		this.setText(loc.getMenu("Language"));
+	}
 
 }

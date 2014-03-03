@@ -76,7 +76,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Wi
 	
 	private String setHTML(ImageResource img, String s){
 		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
-		return  "<img src=\""+img.getSafeUri().asString()+"\" /><span>" + s + "</span>";
+		return  "<img src=\""+img.getSafeUri().asString()+"\" /><span>" + app.getMenu(s) + "</span>";
 	}
 	
 	

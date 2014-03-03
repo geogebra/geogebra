@@ -119,5 +119,11 @@ public class LanguageGUI extends MyHeaderPanel {
 		// this.addResizeListener(this.header);
 
 	}
+	
+	public void setLabels(){
+		if(this.header!=null){
+			this.header.setLabels();
+		}
+	}
 
 }
