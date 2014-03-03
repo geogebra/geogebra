@@ -118,22 +118,28 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 
 	public void loadFeatured() {
 		this.lastQuery = null;
-		GeoGebraTubeAPIW.getInstance(
-				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
-				.getFeaturedMaterials(new RequestCallback() {
-					@Override
-					public void onError(final Request request,
-							final Throwable exception) {
-						BrowseGUI.this.updateGUI();
-					}
+		RequestCallback rc = new RequestCallback() {
+			@Override
+			public void onError(final Request request,
+					final Throwable exception) {
+				BrowseGUI.this.updateGUI();
+			}
 
-					@Override
-					public void onResponseReceived(final Request request,
-							final Response response) {
-						onSearchResults(response);
-						updateViewSizes();
-					}
-				});
+			@Override
+			public void onResponseReceived(final Request request,
+					final Response response) {
+				onSearchResults(response);
+				updateViewSizes();
+			}
+		};
+		GeoGebraTubeAPIW api = GeoGebraTubeAPIW.getInstance(
+				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url);
+		
+		if(app.getLoginOperation().isLoggedIn()){
+			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);
+		}else{
+			api.getFeaturedMaterials(rc);
+		}
 	}
 
 	void onSearchResults(final Response response) {

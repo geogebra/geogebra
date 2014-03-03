@@ -68,9 +68,9 @@ public class AppWapplication extends AppW {
 		String token = Location.getParameter("token");
 	    if(token != null && !"".equals(token)){
 	    	App.debug("Token received"+token);
+	    	this.getLoginOperation().performTokenLogin(token, false);
 	    	BrowseGUI bg = new BrowseGUI(this);
 			this.showBrowser(bg);
-			this.getLoginOperation().performTokenLogin(token, false);
 			nativeLoggedIn();
 	    }else{
 	    	App.debug("URL has no token"+Location.getHref());

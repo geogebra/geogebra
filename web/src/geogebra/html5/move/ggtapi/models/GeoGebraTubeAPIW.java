@@ -51,7 +51,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 */
 	public void getFeaturedMaterials(RequestCallback callback)
 	{
-		performRequest(new MaterialRequest().toJSONString(), callback);
+		performRequest(MaterialRequest.forFeatured().toJSONString(), callback);
 	}
 
 	// /**
@@ -70,11 +70,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * 
 	 * @param ID
 	 */
-	public void getItem(String ID, RequestCallback callback)
+	/*public void getItem(String ID, RequestCallback callback)
 	{
 		// TODO add ID fetching of a specific material!
 		performRequest(new MaterialRequest().toJSONString(), callback);
-	}
+	}*/
 	
 	/**
 	 * Logs in an user to GeoGebraTube
@@ -254,5 +254,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	@Override
     public boolean isAvailable() {
 	    return true;
+    }
+
+	public void getUsersMaterials(int userId, RequestCallback rc) {
+		performRequest(MaterialRequest.forUser(userId).toJSONString(), rc);
     }
 }

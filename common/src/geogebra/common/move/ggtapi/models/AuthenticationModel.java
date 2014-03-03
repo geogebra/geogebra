@@ -92,6 +92,16 @@ public abstract class AuthenticationModel extends BaseModel {
 	}
 	
 	/**
+	 * @return the Username of the currently logged in user or null if no user is logged in
+	 */
+	public int getUserId() {
+		if (loggedInUser != null) {
+			return loggedInUser.getUserId();
+		}
+		return -1;
+	}
+	
+	/**
 	 * @return The currently logged in user or null if no user is logged in
 	 */
 	public GeoGebraTubeUser getLoggedInUser() {

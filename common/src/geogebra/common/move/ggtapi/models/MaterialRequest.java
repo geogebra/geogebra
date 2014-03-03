@@ -29,7 +29,7 @@ public class MaterialRequest implements Request
 
 	public enum Filters
 	{
-		id, title, search, type, description, timestamp, author, language, featured, likes;
+		id, title, search, type, description, timestamp, author, author_url, language, featured, likes;
 	}
 
 	public enum Order
@@ -69,11 +69,7 @@ public class MaterialRequest implements Request
 	 */
 	public MaterialRequest()
 	{
-		this.filters = new Filters[] { Filters.featured, Filters.type };
-		this.filterMap.put(Filters.type, "ggb");
-		this.filterMap.put(Filters.featured, "true");
-		this.by = Order.timestamp;
-		this.type = Type.desc;
+		
 	}
 
 	/**
@@ -150,5 +146,24 @@ public class MaterialRequest implements Request
 		this.requestJSON.put("request", this.apiJSON);
 		App.debug(this.requestJSON.toString());
 		return this.requestJSON.toString();
+	}
+
+	public static MaterialRequest forUser(int userId) {
+		MaterialRequest req = new MaterialRequest();
+		req.filters = new Filters[] { Filters.author_url };
+		req.filterMap.put(Filters.type, "ggb");
+		req.filterMap.put(Filters.author_url, userId+"");
+		req.by = Order.timestamp;
+		return req;
+	}
+
+	public static MaterialRequest forFeatured() {
+		MaterialRequest req = new MaterialRequest();
+		req.filters = new Filters[] { Filters.featured, Filters.type };
+		req.filterMap.put(Filters.type, "ggb");
+		req.filterMap.put(Filters.featured, "true");
+		req.by = Order.timestamp;
+		req.type = Type.desc;
+		return req;
 	}
 }
