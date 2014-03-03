@@ -496,12 +496,18 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public int touchEventX(int clientX) {
-	   return clientX - style.getxOffset();
-    }
+		if(((AppW)app).getLAF().isSmart()){
+			return mouseEventX(clientX);
+		}
+		return clientX - style.getxOffset();
+	}
 
 	public int touchEventY(int clientY) {
-	    return clientY - style.getyOffset();
-    }
+		if(((AppW)app).getLAF().isSmart()){
+			return mouseEventY(clientY);
+		}
+		return clientY - style.getyOffset();
+	}
 
 	/**
 	 * @return the multiplier that must be used to multiply the native event coordinates
