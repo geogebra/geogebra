@@ -20,6 +20,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -36,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
 TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler,
-MouseOutHandler{
+MouseOutHandler, MouseOverHandler{
 
 	private static final long serialVersionUID = 1L;
 
@@ -117,6 +119,9 @@ MouseOutHandler{
 						//subLi.getElement().setId(addMode+"");
 						subLi.getElement().setAttribute("mode", addMode+"");
 						addDomHandlers(subLi);
+						subLi.addDomHandler(this, MouseOverEvent.getType());
+						subLi.addDomHandler(this, MouseOutEvent.getType());
+						addNativeTouchHandlers(this, subLi.getElement());
 						itemList.add(subLi);
 					}
 				}
@@ -392,6 +397,7 @@ MouseOutHandler{
     }
 	
 	public void showToolTip(){
+		
 		if (toolbar.hasPopupOpen()) return;
 		
 		ToolTipManagerW.sharedInstance().setEnableDelay(false);
@@ -418,9 +424,45 @@ MouseOutHandler{
 	}-*/;
 
 	@Override
+	public void onMouseOver(MouseOverEvent event) {
+		//submenu's menuitem will be highlighted
+		setHovered(event.getRelativeElement(), true);
+	    
+	}
+	
+	@Override
     public void onMouseOut(MouseOutEvent event) {
 		// Avoid opening submenu, if a user presses a button for a while,
 		// then move on an another button without mouseup. 
-		keepDown=false;
+		if(event.getSource() == tbutton){
+			keepDown=false;
+			return;
+		}
+		//submenu's menuitem won't be highlighted
+		setHovered(event.getRelativeElement(), false);
     }
+
+
+	private native void addNativeTouchHandlers(ModeToggleMenu mtm, Element element) /*-{
+		element.addEventListener("touchenter",function() {
+			//alert("touchenter");
+			m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,true);
+		});
+		element.addEventListener("touchleave",function() {
+			//alert("touchleave");
+			m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
+		});
+		//element.addEventListener("touchmove",function() {
+			//alert("touchmove");
+			//m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
+		//});
+	}-*/; 
+
+	private void setHovered(Element el, boolean hovered){
+		if (hovered){
+			el.addClassName("hovered");
+		} else {
+			el.removeClassName("hovered");
+		}
+	}
 }
