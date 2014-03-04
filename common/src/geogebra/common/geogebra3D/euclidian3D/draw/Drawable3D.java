@@ -181,15 +181,13 @@ public abstract class Drawable3D extends DrawableND {
 	
 	//constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1, regarding to picking order
 	/** default value for picking order */
-	static final public int DRAW_PICK_ORDER_MAX = 4;
+	static final public int DRAW_PICK_ORDER_MAX = 3;
 	/** picking order value for 0-Dimensional objects (points) */
 	static final public int DRAW_PICK_ORDER_0D = 0; 
 	/** picking order value for 1-Dimensional objects (lines, segments, ...) */
 	static final public int DRAW_PICK_ORDER_1D = 1; 
 	/** picking order value for 2-Dimensional objects (polygons, planes, ...) */
-	static final public int DRAW_PICK_ORDER_2D = 2; 	
-	/** picking order value for lists */
-	static final public int DRAW_PICK_ORDER_LIST = 3; 
+	static final public int DRAW_PICK_ORDER_2D = 2; 
 	
 	
 	
@@ -642,9 +640,18 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return the drawable that is really picked (e.g. parent list)
 	 */
 	protected Drawable3D getDrawablePicked(){
+		return getDrawablePicked(this);
+	}
+	
+	/**
+	 * 
+	 * @param drawableSource drawable at source of picking 
+	 * @return the drawable that is really picked (e.g. parent list)
+	 */
+	protected Drawable3D getDrawablePicked(Drawable3D drawableSource){
 		
 		if (createdByDrawList()){//if it is part of a DrawList3D, the list is picked
-			return ((Drawable3D) getDrawListCreator()).getDrawablePicked();
+			return ((Drawable3D) getDrawListCreator()).getDrawablePicked(drawableSource);
 		}
 		
 		return this;
@@ -741,14 +748,15 @@ public abstract class Drawable3D extends DrawableND {
 	public int comparePickingTo(Drawable3D d, boolean checkPickOrder){
 		
 		/*
-		App.debug("\ncheckPickOrder="+checkPickOrder
-				+"\nzMin= "+(this.zPickMin)
-				+" | zMax= "+(this.zPickMax)
-				+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+") "+this+"\n"
-				+"zMin= "+(d.zPickMin)
-				+" | zMax= "+(d.zPickMax)
-				+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+") "+d+"\n");
-		 */
+		App.debug("\ncheckPickOrder="+checkPickOrder+"\n"
+				+"zPickNear= "+(this.zPickNear)
+				+" | zPickFar= "+(this.zPickFar)
+				+" ("+this.getGeoElement()+") "+this+"\n"
+				+"zPickFar= "+(d.zPickNear)
+				+" | zPickFar= "+(d.zPickFar)
+				+" ("+d.getGeoElement()+") "+d+"\n");
+		*/
+		 
 		
 		
 		//check if one is transparent and the other not -- ONLY FOR DIFFERENT PICK ORDERS
@@ -876,11 +884,6 @@ public abstract class Drawable3D extends DrawableND {
 	/** Comparator for Drawable3Ds */
 	static final public class drawableComparator implements Comparator<Drawable3D>{
 		public int compare(Drawable3D d1, Drawable3D d2) {
-			/*
-			Drawable3D d1 = (Drawable3D) arg1;
-			Drawable3D d2 = (Drawable3D) arg2;
-			*/
-			
 						
 			return d1.comparePickingTo(d2,false);
 

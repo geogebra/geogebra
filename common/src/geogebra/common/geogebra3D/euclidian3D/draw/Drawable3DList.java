@@ -102,11 +102,6 @@ public abstract class Drawable3DList extends Drawable3D {
 	public boolean drawLabelForPicking(Renderer renderer){
 		return false;
 	}
-	
-	@Override
-	public int getPickOrder() {
-		return DRAW_PICK_ORDER_LIST;
-	}
 
 
 
@@ -167,8 +162,29 @@ public abstract class Drawable3DList extends Drawable3D {
 		}
 	}
 	
+	
+
+	@Override
+	protected Drawable3D getDrawablePicked(Drawable3D drawableSource){
+		
+		pickOrder = drawableSource.getPickOrder();
+		pickingType = drawableSource.getPickingType();
+		
+		return super.getDrawablePicked(drawableSource);
+	}
+	
+
+	private int pickOrder = DRAW_PICK_ORDER_MAX;
+	
+	@Override
+	public int getPickOrder() {
+		return pickOrder;
+	}
+	
+	private PickingType pickingType = PickingType.POINT_OR_CURVE;
+
 	@Override
 	public PickingType getPickingType(){
-		return getDrawablePicked().getPickingType();
+		return pickingType;
 	}
 }
