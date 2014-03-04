@@ -1409,14 +1409,14 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 * get point and plane; create line through point parallel to plane
 	 * 
 	 * @param hits
-	 * @return true if a plane has been created
+	 * @return plane created
 	 */
-	final protected boolean parallelPlane(Hits hits) {
+	final protected GeoElement[] parallelPlane(Hits hits) {
 
 		// Application.debug(hits.toString());
 
 		if (hits.isEmpty())
-			return false;
+			return null;
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
 		if (!hitPoint) {
@@ -1429,11 +1429,13 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoCoordSys2D[] cs = getselectedCS2D();// TODO
 				// create new plane
-				getKernel().getManager3D().Plane3D(null, points[0], cs[0]);
-				return true;
+				return new GeoElement[] {
+						(GeoElement) getKernel().getManager3D().Plane3D(null, points[0], cs[0])
+				};
 			}
 		}
-		return false;
+		
+		return null;
 	}
 
 	/**
@@ -1893,7 +1895,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			changedKernel = parallelPlane(hits);
+			ret = parallelPlane(hits);
 			break;
 
 		case EuclidianConstants.MODE_EXTRUSION:
