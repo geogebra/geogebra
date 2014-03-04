@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<manifest>
+	<name>GeoGebra</name>
+	<version>1.0.0</version>
+	<id>org.geogebra.addon</id>
+	<description>Addon for adding stuff from GeoGebraTube.org.</description>
+	<contact>
+		<email></email>
+		<phone></phone>
+		<address></address>
+	</contact>
+	<authors>
+		<author>International GeoGebra Institute</author>
+	</authors>
+	<company>International GeoGebra Institute</company>
+	<minimum-version>2.0.0</minimum-version>
+    <access-level>restricted</access-level>
+</manifest>

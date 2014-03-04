@@ -102,14 +102,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		        rootLayoutPanel.getOffsetHeight());
 	}
 	
-	public static void setCloseMessage(final App appl) {
-		// popup when the user wants to exit accidentally
-        Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            public void onWindowClosing(ClosingEvent event) {
-            	event.setMessage(appl.getPlain("CloseApplicationLoseUnsavedData"));
-            }
-        });
-	}
+	
 	
 	public static void removeCloseMessage(){
 		Window.addWindowClosingHandler(new Window.ClosingHandler() {
@@ -184,8 +177,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		ch = Window.getClientHeight() ;
 		
 		app = createApplication(article,this);
-
-		setCloseMessage(app);
+		app.getLAF().setCloseMessage(app.getLocalization());
 
 //		((AppW)app).initializeLanguage();
 

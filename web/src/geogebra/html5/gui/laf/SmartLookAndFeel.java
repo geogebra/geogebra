@@ -1,5 +1,6 @@
 package geogebra.html5.gui.laf;
 
+import geogebra.common.main.App;
 import geogebra.web.gui.menubar.GeoGebraMenuW;
 import geogebra.web.gui.menubar.GeoGebraMenubarSMART;
 import geogebra.web.main.AppW;
@@ -27,5 +28,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	@Override
     public boolean isSmart() {
 		return true;
+	}
+	
+	public void setCloseMessage(final App appl) {
+		//no message on smart board
 	}
 }
