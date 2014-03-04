@@ -20,9 +20,10 @@ public class GeoConicSection extends GeoConic3D implements GeoConicSectionInterf
 
 	/**
 	 * @param c construction
+	 * @param isIntersection says if this is an intersection curve
 	 */
-	public GeoConicSection(Construction c) {
-		super(c);
+	public GeoConicSection(Construction c, boolean isIntersection) {
+		super(c, isIntersection);
 		
 		paramStart = new double[2];
 		paramEnd = new double[2];

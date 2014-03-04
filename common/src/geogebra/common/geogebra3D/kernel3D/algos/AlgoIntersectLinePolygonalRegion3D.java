@@ -67,8 +67,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 					aS.setCoords(0, 0, 0, 1);
 					GeoPoint3D aE = new GeoPoint3D(cons);
 					aE.setCoords(0, 0, 0, 1);
-					GeoSegment3D a=new GeoSegment3D(cons, aS, aE);
-					a.setIsIntersection(true);
+					GeoSegment3D a=new GeoSegment3D(cons, aS, aE, true);
 					a.setParentAlgorithm(AlgoIntersectLinePolygonalRegion3D.this);
 					return a;
 				}

@@ -23,8 +23,12 @@ public class GeoLine3D extends GeoCoordSys1D {
 		super(c, O, I);
 	}
 
-    public GeoLine3D(Construction c) {
-		super(c);
+	public GeoLine3D(Construction c) {
+		this(c, false);
+	}
+	
+	public GeoLine3D(Construction c, boolean isIntersection) {
+		super(c, isIntersection);
 	}
 
 	public GeoLine3D(Construction c, Coords o, Coords v) {

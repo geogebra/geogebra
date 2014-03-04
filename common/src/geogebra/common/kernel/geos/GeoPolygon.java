@@ -113,6 +113,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
 	}
+	
+	protected boolean isIntersection;
 
 	/**
 	 * Creates new GeoPolygon
@@ -121,8 +123,20 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 *            construction
 	 */
 	public GeoPolygon(Construction cons) {
+		this(cons, false);
+	}
+
+	/**
+	 * Creates new GeoPolygon
+	 * 
+	 * @param cons
+	 *            construction
+	 */
+	public GeoPolygon(Construction cons, boolean isIntersection) {
 		super(cons);
 
+		this.isIntersection = isIntersection;
+		
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/

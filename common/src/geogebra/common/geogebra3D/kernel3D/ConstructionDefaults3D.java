@@ -6,6 +6,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
@@ -27,16 +28,11 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	// DEFAULT GeoElement types	
 	
 
-	/** default intersection line 3D type */	
-	public static final int DEFAULT_LINE3D_INTERSECTION = 3150;
-	/** default segment 3D type */	
-	public static final int DEFAULT_SEGMENT3D_INTERSECTION = 3151;
-	/** default ray 3D type */	
-	public static final int DEFAULT_RAY3D_INTERSECTION = 3152;
+	/** default intersection curve 3D type */	
+	public static final int DEFAULT_INTERSECTION_CURVE = 3150;
 	/** default axis 3D type */	
 	public static final int DEFAULT_AXIS3D = 3103;
 
-	public static final int DEFAULT_CONIC3D_INTERSECTION = 3155;
 	/** default curve 3D type */	
 	public static final int DEFAULT_CURVECARTESIAN3D = 3106;
 		
@@ -85,7 +81,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	// intersection
 	
 	public static final GColor colIntersectionCurve = GColor.orange;
-	public static final GColor colIntersectionLine = GColor.red;
 	
 	
 	// axes TODO use gui
@@ -108,25 +103,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		super.createDefaultGeoElements();
 		
 		// line intersection
-		GeoLine3D lineIntersection = new GeoLine3D(cons);
-		//line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		lineIntersection.setLocalVariableLabel("Line3D" + strIntersection);
-		lineIntersection.setObjColor(colIntersectionLine);
-		defaultGeoElements.put(DEFAULT_LINE3D_INTERSECTION, lineIntersection);		
-		
-		// segment intersection
-		GeoSegment3D segmentIntersection = new GeoSegment3D(cons);
-		//segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		segmentIntersection.setLocalVariableLabel("Segment3D" + strIntersection);
-		lineIntersection.setObjColor(colIntersectionLine);
-		defaultGeoElements.put(DEFAULT_SEGMENT3D_INTERSECTION, segmentIntersection);		
-
-		// ray intersection
-		GeoRay3D rayIntersection = new GeoRay3D(cons);
-		//ray.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		rayIntersection.setLocalVariableLabel("Ray3D" + strIntersection);
-		lineIntersection.setObjColor(colIntersectionLine);
-		defaultGeoElements.put(DEFAULT_RAY3D_INTERSECTION, rayIntersection);		
+		GeoConic3D intersectionCurve = new GeoConic3D(cons);
+		intersectionCurve.setLocalVariableLabel("Intersection curve");
+		intersectionCurve.setObjColor(colIntersectionCurve);
+		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);
+		defaultGeoElements.put(DEFAULT_INTERSECTION_CURVE, intersectionCurve);		
+			
 		
 		
 		// axis
@@ -136,11 +118,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_AXIS3D, axis);		
 		
 		
-		// conic intersection
-		GeoConic3D conicIntersection = new GeoConic3D(cons);	
-		conicIntersection.setLocalVariableLabel("Conic3D" + strIntersection);
-		conicIntersection.setObjColor(colIntersectionCurve);
-		defaultGeoElements.put(DEFAULT_CONIC3D_INTERSECTION, conicIntersection);
 		
 		
 		// curve
@@ -193,6 +170,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 	}
+	
+	
 		
 	@Override
 	public int getDefaultType(GeoElement geo){
@@ -205,18 +184,21 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return getDefaultType(geo, GeoClass.ANGLE);
 			
 		case LINE3D: 
-			if (((GeoLine3D)geo).isIntersection())
-				return DEFAULT_LINE3D_INTERSECTION;
+			if (((GeoLine3D)geo).isIntersection()){
+				return DEFAULT_INTERSECTION_CURVE;
+			}
 			return getDefaultType(geo, GeoClass.LINE);
 			
 		case SEGMENT3D: 
-			if (((GeoSegment3D)geo).isIntersection())
-				return DEFAULT_SEGMENT3D_INTERSECTION;
+			if (((GeoSegment3D)geo).isIntersection()){
+				return DEFAULT_INTERSECTION_CURVE;
+			}
 			return getDefaultType(geo, GeoClass.SEGMENT);
 			
 		case RAY3D: 
-			if (((GeoRay3D)geo).isIntersection())
-				return DEFAULT_RAY3D_INTERSECTION;
+			if (((GeoRay3D)geo).isIntersection()){
+				return DEFAULT_INTERSECTION_CURVE;
+			}
 			return getDefaultType(geo, GeoClass.RAY);
 			
 		case AXIS3D: 
@@ -226,8 +208,10 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return getDefaultType(geo, GeoClass.VECTOR);
 			
 		case CONIC3D: 
-			if (((GeoConic3D)geo).isIntersection())
-				return DEFAULT_CONIC3D_INTERSECTION;
+		case CONICSECTION:
+			if (((GeoConic3D)geo).isIntersection()){
+				return DEFAULT_INTERSECTION_CURVE;
+			}
 			return getDefaultType(geo, GeoClass.CONIC);
 			
 		case CURVECARTESIAN3D: 
@@ -237,6 +221,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return DEFAULT_PLANE3D;
 			
 		case POLYGON3D: 
+			if (((GeoPolygon3D)geo).isIntersection()){
+				return DEFAULT_INTERSECTION_CURVE;
+			}
 			return getDefaultType(geo, GeoClass.POLYGON);	
 			
 		case POLYHEDRON:

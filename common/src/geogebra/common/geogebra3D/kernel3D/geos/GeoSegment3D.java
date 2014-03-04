@@ -53,7 +53,22 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 *            end point
 	 */
 	public GeoSegment3D(Construction c, GeoPointND p1, GeoPointND p2) {
-		super(c, p1, p2);
+		this(c, p1, p2, false);
+	}
+	
+	/**
+	 * creates a segment linking p1 to p2
+	 * 
+	 * @param c
+	 *            construction
+	 * @param p1
+	 *            start point
+	 * @param p2
+	 *            end point
+	 * @param isIntersection if this is an intersection curve
+	 */
+	public GeoSegment3D(Construction c, GeoPointND p1, GeoPointND p2, boolean isIntersection) {
+		super(c, p1, p2, isIntersection);
 	}
 
 	/**

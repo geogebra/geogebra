@@ -242,8 +242,6 @@ public class ConstructionDefaults {
 	protected String strFree = " (free)";
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
-	/** suffix for default intersection */
-	protected String strIntersection = " (intersection)";
 
 	/**
 	 * Resets and reiniates default elements TODO question: do we need not from

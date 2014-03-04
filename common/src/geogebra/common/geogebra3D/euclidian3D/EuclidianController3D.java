@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
@@ -18,6 +17,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
+import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
@@ -1306,7 +1306,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 *            hits
 	 * @return true if a plane has been created
 	 */
-	final protected boolean planeContaining(Hits hits0) {
+	final protected GeoElement[] planeContaining(Hits hits0) {
 
 		// keep only one type between points/lines/2D coord sys
 		Hits hits = hits0.keepFirsts(Test.GEOPOINTND, Test.GEOLINEND,
@@ -1315,7 +1315,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 		// App.debug("\n=================\n"+hits0+"\n====\n"+hits+"\n=================\n");
 
 		if (hits.isEmpty())
-			return false;
+			return null;
 
 		// first try with polygon, conic, etc.
 		if (selPoints() == 0 && selLines() == 0) {
@@ -1324,8 +1324,10 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 		if (selCS2D() == 1) {
 			GeoCoordSys2D[] cs = getSelectedCS2D();
-			getKernel().getManager3D().Plane3D(null, cs[0]);
-			return true;
+			GeoElement[] ret = new GeoElement[]{
+					(GeoElement) getKernel().getManager3D().Plane3D(null, cs[0])
+			};
+			return ret;	
 		}
 
 		// then try with points
@@ -1333,9 +1335,11 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 		if (selPoints() == 3) { // 3 points
 			GeoPointND[] points = getSelectedPointsND();
-			getKernel().getManager3D().Plane3D(null, points[0], points[1],
-					points[2]);
-			return true;
+			GeoElement[] ret = new GeoElement[]{
+					getKernel().getManager3D().Plane3D(null, points[0], points[1],
+							points[2])
+			};
+			return ret;	
 
 		} else if (selPoints() == 1) { // try point & line
 			// only one line allowed
@@ -1345,8 +1349,10 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new plane
-				getKernel().getManager3D().Plane3D(null, points[0], lines[0]);
-				return true;
+				GeoElement[] ret = new GeoElement[]{
+						(GeoElement) getKernel().getManager3D().Plane3D(null, points[0], lines[0])
+				};
+				return ret;
 			}
 
 		} else if (selPoints() == 0) { // maybe two lines
@@ -1354,12 +1360,15 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			if (selLines() == 2) {
 				// plane containing two lines
 				GeoLineND[] lines = getSelectedLinesND();
-				getKernel().getManager3D().Plane3D(null, lines[0], lines[1]);
-				return true;
+				GeoElement[] ret = new GeoElement[]{
+						getKernel().getManager3D().Plane3D(null, lines[0], lines[1])
+				};
+				return ret;		
 			}
 		}
+			
+		return null;
 
-		return false;
 	}
 
 	/**
@@ -1865,7 +1874,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 		switch (mode) {
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
-			changedKernel = intersectionCurve(hits);
+			ret = intersectionCurve(hits);
 			if (changedKernel) { // remove current intersection curve
 				intersectionCurveList.remove(resultedIntersectionCurve);
 				view3D.setPreview(null);
@@ -1875,11 +1884,11 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			ret = threePoints(hits, mode);
 			break;
 		case EuclidianConstants.MODE_PLANE:
-			changedKernel = planeContaining(hits);
+			ret = planeContaining(hits);
 			break;
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			changedKernel = (orthogonalPlane(hits) != null);
+			ret = orthogonalPlane(hits);
 			break;
 
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
@@ -1972,7 +1981,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 		switch (mode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			((Hits3D) hits).removePolygonsIfNotOnlyCS2D();
+			hits.removePolygonsIfNotOnlyCS2D();
 			break;
 		case EuclidianConstants.MODE_TETRAHEDRON:
 		case EuclidianConstants.MODE_CUBE:
@@ -2422,16 +2431,16 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 * @param hits
 	 * @return true if a curve is created
 	 */
-	private boolean intersectionCurve(Hits hits) {
+	private GeoElement[] intersectionCurve(Hits hits) {
 
 		if (hits == null) {
 			resultedGeo = null;
-			return false;
+			return null;
 		}
 
 		if (hits.isEmpty()) {
 			resultedGeo = null;
-			return false;
+			return null;
 		}
 
 		// add selected geo into consideration
@@ -2477,8 +2486,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			addSelectedCS2D(goodHits, 2, true);
 			addSelectedQuadric(goodHits, 2, true);
 		} else {
-			Hits firstSurface = ((Hits3D) hits)
-					.getFirstSurfaceBefore(selectedGeos);
+			Hits firstSurface = hits.getFirstSurfaceBefore(selectedGeos);
 			addSelectedCS2D(firstSurface, 2, false);
 			addSelectedQuadric(firstSurface, 2, false);
 		}
@@ -2513,7 +2521,10 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoElement[] ret = new GeoElement[1];
 				ret[0] = getKernel().getManager3D().IntersectPlanes(null,
 						cs2Ds[0], cs2Ds[1]);
-				return ret[0].isDefined();
+				if (ret[0].isDefined()){
+					return ret;
+				}
+				return null;
 			} else if (foundP && foundNp) {
 				GeoElement[] ret;
 				GeoPlane3D A = (GeoPlane3D) cs2Ds[npIndex];
@@ -2521,7 +2532,10 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				if (B.getMetasLength() == 1) {
 					ret = getKernel().getManager3D().IntersectRegion(
 							new String[] { null }, A, B.getMetas()[0], null);
-					return ret[0].isDefined();
+					if (ret[0].isDefined()){
+						return ret;
+					}
+					return null;
 				}
 				// else
 				ret = getKernel().getManager3D().IntersectPath(
@@ -2530,9 +2544,9 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 					// create also intersect points
 					getKernel().getManager3D().IntersectionPoint(
 							new String[] { null }, A, B);
-					return true;
+					return ret;
 				}
-				return false;
+				return null;
 			}
 		}
 
@@ -2546,28 +2560,34 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoElement[] ret = { kernel.getManager3D()
 						.IntersectQuadricLimited(null, (GeoPlaneND) plane, ql) };
 				if (!ret[0].isDefined()) {
-					return false;
+					return null;
 				}
 				// also compute corner points
 				kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
-				return true;
+				return ret;
 			}
 			// else
 			GeoElement[] ret = { kernel.getManager3D().Intersect(null,
 					(GeoPlaneND) plane, quad) };
-			return ret[0].isDefined();
+			if(ret[0].isDefined()){
+				return ret;
+			}
+			return null;
 
 			// quadric-quadric : intersection circles
 		} else if (selQuadric() >= 2) {
 			GeoQuadric3D[] quads = getSelectedQuadric();
 			GeoElement[] ret = kernel.getManager3D().IntersectAsCircle(null,
 					quads[0], quads[1]);
-			return ret[0].isDefined();
+			if(ret[0].isDefined()){
+				return ret;
+			}
+			return null;
 		}
 
 		// //////////////////////////////////////
 
-		return false;
+		return null;
 	}
 
 	public boolean createIntersectionCurve(GeoElement A, GeoElement B) {
@@ -2722,7 +2742,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			GeoElement intersection, Drawable3D d) {
 		intersection.setLineThickness(3);
 		intersection.setIsPickable(false);
-		intersection.setObjColor(GColor.YELLOW);
+		intersection.setObjColor(ConstructionDefaults3D.colIntersectionCurve);
 		intersectionCurveList.add(new IntersectionCurve(A, B, intersection,
 				true, d));
 	}

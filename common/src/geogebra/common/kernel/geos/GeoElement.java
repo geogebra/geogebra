@@ -867,6 +867,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param color new color for this object
 	 */
 	public void setObjColor(final GColor color) {
+		
 		isColorSet = true;
 
 		objColor = color;
@@ -1471,6 +1472,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo source geo
 	 */
 	protected void setColorVisualStyle(final GeoElement geo){
+		
 		objColor = geo.objColor;
 		selColor = geo.selColor;
 		labelColor = geo.labelColor;

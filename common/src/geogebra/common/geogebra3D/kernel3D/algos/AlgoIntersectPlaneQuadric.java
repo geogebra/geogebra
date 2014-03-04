@@ -75,9 +75,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
     	conic = newConic(cons);
 
-    	conic.setIsIntersection(true); //should be called before setDependencies (in setInputOutput)
-  
-    	//end
+     	//end
     	end();
     	
     	//compute();
@@ -100,7 +98,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
      * @return new conic for intersection
      */
     protected GeoConic3D newConic(Construction cons){
-    	return new GeoConic3D(cons);
+    	return new GeoConic3D(cons, true);
     }
     
 

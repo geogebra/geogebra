@@ -83,14 +83,27 @@ Traceable{
 	/** variable string */
 	protected static final char[] VAR_STRING = {'x','y','z'};
 	
-	
+
+	protected boolean isIntersection;
+
 	/** default constructor
 	 * @param c construction
 	 * @param dimension dimension of the space (2D or 3D)
 	 */
 	public GeoQuadricND(Construction c, int dimension) {
+
+		this(c, dimension, false);
+	}
+
+	/** default constructor
+	 * @param c construction
+	 * @param dimension dimension of the space (2D or 3D)
+	 * @param isIntersection  if this is an intersection curve
+	 */
+	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
 		super(c);
 		
+		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/

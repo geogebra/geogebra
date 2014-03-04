@@ -77,11 +77,9 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
     	this.quadric1 = quadric1;
     	this.quadric2 = quadric2;
 
-    	circle = new GeoConic3D(cons);
+    	circle = new GeoConic3D(cons, true);
     	circle.setCoordSys(new CoordSys(2));
 
-    	circle.setIsIntersection(true); //should be called before setDependencies (in setInputOutput)
-  
     	setInputOutput(new GeoElement[] {quadric1,quadric2}, new GeoElement[] {circle});
     	
     	compute();

@@ -83,7 +83,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 	}
 
 	public GeoPolygon3D(Construction cons) {
-		super(cons);
+		this(cons, false);
+	}
+
+	public GeoPolygon3D(Construction cons, boolean isIntersection) {
+		super(cons, isIntersection);
+	}
+	
+	/**
+	 * 
+	 * @return true if is an intersection curve
+	 */
+	public boolean isIntersection() {
+		return isIntersection;
 	}
 
 	// ///////////////////////////////////////

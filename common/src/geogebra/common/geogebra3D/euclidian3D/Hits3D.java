@@ -8,7 +8,6 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
@@ -75,8 +74,7 @@ public class Hits3D extends Hits {
 	
 	private ArrayList<Drawable3D> drawables3D = new ArrayList<Drawable3D>();
 
-	/** number of coord sys 2D */
-	private int cs2DCount;
+
 	/** number of quadrics 2D */
 	private int QuadCount;
 	
@@ -90,7 +88,6 @@ public class Hits3D extends Hits {
 			hitSet[i] = new TreeSetOfDrawable3D(new Drawable3D.drawableComparator());
 		
 		// init counters
-		cs2DCount = 0;
 		QuadCount = 0;
 	}
 	
@@ -101,7 +98,6 @@ public class Hits3D extends Hits {
 
 		Hits3D ret = (Hits3D) super.clone();
 		ret.topHits = this.topHits.clone();
-		ret.cs2DCount = cs2DCount;
 		ret.QuadCount = QuadCount;
 		
 		// TreeSets are not cloned because they are only used when the hits are constructed
@@ -123,10 +119,7 @@ public class Hits3D extends Hits {
 			return false;
 		}
 		
-		if (geo instanceof GeoCoordSys2D) {
-			cs2DCount++;
-			//Application.debug("cs2DCount="+cs2DCount+"/"+(size()+1));
-		}
+
 		if (geo instanceof GeoQuadric3D) {
 			QuadCount++;
 		}
@@ -332,29 +325,6 @@ public class Hits3D extends Hits {
 	
 	
 	
-	/**
-	 * remove all polygons, if hits are not all instance of GeoCoordSys2D
-	 */
-	public void removePolygonsIfNotOnlyCS2D(){
-		
-		//String s = "cs2DCount="+cs2DCount+"/"+(size());
-		
-		if (size() - cs2DCount > 0) {
-			removePolygons();
-			//s+="\n"+toString();
-			/*
-			for (int i = 0; i < size(); ) {
-				GeoElement geo = (GeoElement) get(i);
-				
-				if (geo instanceof GeoCoordSys2D)
-					remove(i);
-				else
-					i++;
-			}
-			*/
-			//Application.debug(s+"\n"+toString());
-		}
-	}
 	
 	
 	/**
@@ -386,26 +356,7 @@ public class Hits3D extends Hits {
 		return new Hits3D();
 	}	
 	
-	/**
-	 * WARNING : only GeoCoordSys2D and GeoQuadric3D implemented yet
-	 * @param ignoredGeos geos that are ignored
-	 * @return hits containing first surface (not included in ignoredGeos)
-	 */
-	public Hits getFirstSurfaceBefore(ArrayList<GeoElement> ignoredGeos){
-		Hits ret = new Hits();
-		for (int i = 0; i < size(); i++){
-			GeoElement geo = get(i);
-			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3D){
-				if (!ignoredGeos.contains(geo)){
-					ret.add(geo);
-					return ret;
-				}
-			}
-		}
-		
-		
-		return ret;
-	}
+
 	
 
 }

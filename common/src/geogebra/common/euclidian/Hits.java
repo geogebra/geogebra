@@ -22,7 +22,9 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasVolume;
 
@@ -44,6 +46,9 @@ public class Hits extends ArrayList<GeoElement> {
 	private int listCount;
 	private int polyCount;
 	private int imageCount;
+	/** number of coord sys 2D */
+	private int cs2DCount;
+	
 	private boolean hasXAxis, hasYAxis;
 
 	/** init the hits */
@@ -52,6 +57,7 @@ public class Hits extends ArrayList<GeoElement> {
 		listCount = 0;
 		polyCount = 0;
 		imageCount = 0;
+		cs2DCount = 0;
 		hasXAxis = false;
 		hasYAxis = false;
 	}
@@ -69,6 +75,8 @@ public class Hits extends ArrayList<GeoElement> {
 		ret.imageCount = this.imageCount;
 		ret.hasXAxis = this.hasXAxis;
 		ret.hasYAxis = this.hasYAxis;
+		
+		ret.cs2DCount = cs2DCount;
 		
 		return ret;
 	} 
@@ -88,6 +96,12 @@ public class Hits extends ArrayList<GeoElement> {
 		if (!geo.isSelectionAllowed() && !(geo instanceof GeoList)){
 			return false;
 		}
+		
+		if (geo instanceof GeoCoordSys2D) {
+			cs2DCount++;
+		}
+
+		
 		if (geo.isGeoList()) {
 			listCount++;
 		} else if (geo.isGeoImage()) {
@@ -872,4 +886,51 @@ public class Hits extends ArrayList<GeoElement> {
 		
 		return result;
 	}
+	
+	
+	/**
+	 * WARNING : only GeoCoordSys2D and GeoQuadric3DInterface implemented yet
+	 * @param ignoredGeos geos that are ignored
+	 * @return hits containing first surface (not included in ignoredGeos)
+	 */
+	final public Hits getFirstSurfaceBefore(ArrayList<GeoElement> ignoredGeos){
+		Hits ret = new Hits();
+		for (int i = 0; i < size(); i++){
+			GeoElement geo = get(i);
+			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3DInterface){
+				if (!ignoredGeos.contains(geo)){
+					ret.add(geo);
+					return ret;
+				}
+			}
+		}
+		
+		
+		return ret;
+	}
+	
+	/**
+	 * remove all polygons, if hits are not all instance of GeoCoordSys2D
+	 */
+	public void removePolygonsIfNotOnlyCS2D(){
+		
+		//String s = "cs2DCount="+cs2DCount+"/"+(size());
+		
+		if (size() - cs2DCount > 0) {
+			removePolygons();
+			//s+="\n"+toString();
+			/*
+			for (int i = 0; i < size(); ) {
+				GeoElement geo = (GeoElement) get(i);
+				
+				if (geo instanceof GeoCoordSys2D)
+					remove(i);
+				else
+					i++;
+			}
+			*/
+			//Application.debug(s+"\n"+toString());
+		}
+	}
+	
 }

@@ -180,18 +180,27 @@ Region3D, GeoDirectionND
 		 eigenMatrix2D.setVx(getEigenvec(0));
 		 eigenMatrix2D.setVy(getEigenvec(1));
 	 }
-	 */
+	  */
 
-	/** default constructor
-	 * @param c construction
-	 * @param dimension dimension
-	 */
-	public GeoConicND(Construction c, int dimension) {
-		super(c, dimension);
-		toStringMode = EQUATION_IMPLICIT;
-	}
+	 /** default constructor
+	  * @param c construction
+	  * @param dimension dimension
+	  */
+	 public GeoConicND(Construction c, int dimension) {
+		 this(c, dimension, false);
+	 }
 
-	
+	 /** default constructor
+	  * @param c construction
+	  * @param dimension dimension
+	  * @param isIntersection  if this is an intersection curve
+	  */
+	 public GeoConicND(Construction c, int dimension, boolean isIntersection) {
+		 super(c, dimension, isIntersection);
+		 toStringMode = EQUATION_IMPLICIT;
+
+	 }
+
 	
 	
 	/**

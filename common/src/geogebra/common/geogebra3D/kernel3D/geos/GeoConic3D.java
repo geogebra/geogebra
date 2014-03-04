@@ -27,7 +27,6 @@ implements RotateableND, MirrorableAtPlane {
 	private CoordSys coordSys;
 
 
-	private boolean isIntersection = false;
 
 	/**
 	 * Creates an empty 3D conic with 2D coord sys
@@ -54,7 +53,16 @@ implements RotateableND, MirrorableAtPlane {
 	 *            construction
 	 */
 	public GeoConic3D(Construction c) {
-		super(c, 2);
+		this(c, false);
+	}
+
+	/**
+	 * 
+	 * @param c construction
+	 * @param isIntersection if this is an intersection curve
+	 */
+	public GeoConic3D(Construction c, boolean isIntersection) {
+		super(c, 2, isIntersection);
 	}
 
 	// ///////////////////////////////////////
@@ -306,10 +314,12 @@ implements RotateableND, MirrorableAtPlane {
 
 
 
-	public void setIsIntersection(boolean flag) {
-		isIntersection = flag;
-	}
 
+
+	/**
+	 * 
+	 * @return true if is an intersection curve
+	 */
 	public boolean isIntersection() {
 		return isIntersection;
 	}

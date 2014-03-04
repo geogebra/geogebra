@@ -924,7 +924,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		outputPolygons = new OutputHandler<GeoPolygon3D>(
 				new elementFactory<GeoPolygon3D>() {
 					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons);
+						GeoPolygon3D p = new GeoPolygon3D(cons, true);
 						p.setParentAlgorithm(AlgoIntersectRegionPlanePolyhedron.this);
 						if (outputPolygons.size()>0)
 							p.setAllVisualProperties(outputPolygons.getElement(0), false);

@@ -38,10 +38,16 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 
 	protected GeoPointND endPoint;
 
-	private boolean isIntersection = false;
+	private boolean isIntersection;
 
 	public GeoCoordSys1D(Construction c){
+		this(c, false);
+	}
+	
+	public GeoCoordSys1D(Construction c, boolean isIntersection){
 		super(c);
+		
+		this.isIntersection = isIntersection;
 		
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -58,10 +64,14 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 	
 	
 	public GeoCoordSys1D(Construction c, GeoPointND O, GeoPointND I){
-		this(c);
+		this(c, O, I, false);
+	}
+
+	public GeoCoordSys1D(Construction c, GeoPointND O, GeoPointND I, boolean isIntersection){
+		this(c, isIntersection);
 		setCoord(O,I);
 	}	
-	
+
 	
 	
 	@Override
@@ -440,10 +450,10 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 	
 	
 	
-	public void setIsIntersection(boolean flag) {
-		isIntersection = flag;
-	}
-	
+	/**
+	 * 
+	 * @return true if is an intersection curve
+	 */
 	public boolean isIntersection() {
 		return isIntersection;
 	}
