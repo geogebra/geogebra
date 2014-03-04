@@ -35,7 +35,6 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 	private OptionsMenuW optionsMenu;
 	private EditMenuW editMenu;
 	private PerspectivesMenuW perspectivesMenu;
-	private Runnable closeCallback;
 
 	/**
 	 * Constructs the menubar
@@ -46,7 +45,6 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 	public GeoGebraMenubarSMART(AppW app) {
 		this.addStyleName("menubarSMART");
 		this.app = app;
-		this.closeCallback = closeCallback;
 		init();
 	}
 
@@ -81,7 +79,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 	
 	
 	private void createFileMenu() {
-		fileMenu = new FileMenuW(app, true, closeCallback);
+		fileMenu = new FileMenuW(app, true, null);
 	}
 
 	private void createPerspectivesMenu() {
@@ -105,7 +103,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 		optionsMenu = new OptionsMenuW(app);
 	}
 
-	public EditMenuW getEditMenu() {
+	private EditMenuW getEditMenu() {
 	    return editMenu;
     }
 
@@ -126,258 +124,10 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
     public MenuItem getSignIn() {
 		return null;
     }
-	
-	public static void setMenuSelected(MenuItem m, boolean visible) {
-		if (visible) {
-			m.addStyleName("checked");
-		} else {
-			m.removeStyleName("checked");
-		}
-	}
 
 	public void onResize(ResizeEvent e) {
 		int menuHeight = (int) (app.getHeight() - GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT - GGWFrameLayoutPanel.TOOLBAR_HEIGHT);
 	    this.setHeight(menuHeight + "px");
     }
-
-	/*MenuItem drop = null;
-	FlowPanel menuPanel;
-	SideBarMenuW dropMenu;
-
-	private void initMenuPanel() {
-		menuPanel = new FlowPanel();
-		dropMenu = new SideBarMenuW(app, new Runnable(){
-			@Override
-            public void run() {
-				//do nothing
-            }});
-		this.dropMenu.addStyleName("menuPanel");
-		menuPanel.add(dropMenu);
-		this.menuPanel.setVisible(true);
-	}
-
-	private void init() {
-		this.clearItems();
-		this.initMenuPanel();
-		this.getElement().appendChild(this.menuPanel.getElement());
-		
-		
-		
-		
-		
-		this.clearItems();
-
-		drop = addItem("\u2630", true, new Command() {
-			
-
-			@Override
-            public void execute() {
-				if (menuPanel == null) {
-					initMenuPanel();
-				}
-				if (menuPanel.isVisible()) {
-					menuPanel.setVisible(false);
-				} else {
-					menuPanel.setVisible(true);
-				}
-			}
-		});
-		*/
-		
-
-		// DropDownMenuW dropDownMenu = new DropDownMenuW(app);
-		// MenuItem drop = addItem("\u2630", dropDownMenu);
-		//drop.getElement().getStyle().setFontSize(120, Unit.PCT);
-
-		/*MenuItem ggb = addItem("GeoGebra", true, new Command() {
-			@Override
-            public void execute() {
-				// do nothing
-			}
-		});
-		ggb.getElement().getStyle().setPaddingLeft(20, Unit.PX);
-		ggb.getElement().getStyle().setColor("white");
-		ggb.addStyleName("menubar2-ggbLogo");
-		addItem(ggb);*/
-
-		/*if (!app.menubarRestricted()) {
-			createSignIn();
-		}
-		
-	}*/
-
-//	private native String getNativeEmailSet() /*-{
-//		if ($wnd.GGW_appengine) {
-//			return $wnd.GGW_appengine.USER_EMAIL;
-//		} else
-//			return "";
-//	}-*/;
-
-	//private void createWindowMenu() {
-		//WindowMenuW windowMenu = new WindowMenuW(app);
-		//addItem(app.getMenu("Window"), windowMenu);
-	//}
-
-	/*
-	 * public MenuItem addItem(String name, MenuBar submenu){ String
-	 * fontsizeString = app.getGUIFontSize() + "px";
-	 * submenu.getElement().getStyle().setProperty("font-size", fontsizeString);
-	 * return super.addItem(name, submenu); }
-	 */
-
-	/**
-	 * Gives back an html source of an enabled menuitem.
-	 * 
-	 * @param url
-	 *            an icon's url
-	 * @param text
-	 *            menuitem's text
-	 * @return html source of a menuitem
-	 */
-//	public static String getMenuBarHtml(String url, String text) {
-//		// TODO: Resize images for this real size, if it is good.
-//		text = text.replace("\"", "'");
-//		return "<img width=\"24\" height=\"24\" alt=\"" + text + "\" src=\""
-//		        + url + "\" />" + " " + text;
-//	}
-
-	/**
-	 * Gives back an html source of a disabled menuitem.
-	 * 
-	 * @param url
-	 *            an icon's url
-	 * @param text
-	 *            menuitem's text
-	 * @return html source of a menuitem
-	 */
-	// public static String getMenuBarHtmlGrayout(String url,String text) {
-	// //TODO: Resize images for this real size, if it is good.
-	// text = text.replace("\"", "'");
-	// return
-	// "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
-	// "<span style=\"color:gray;\">"+text+"</span>";
-	// }
-
-	/**
-	 * Gives back an html source of a menuitem.
-	 * 
-	 * @param url
-	 *            an icon's url
-	 * @param text
-	 *            menuitem's text
-	 * @param enabled
-	 *            true if the menuitem is enabled
-	 * @return html source of a menuitem
-	 */
-//	public static String getMenuBarHtml(String url, String text, Boolean enabled) {
-//		// TODO: Resize images for this real size, if it is good.
-//
-//		String text2 = text.replace("\"", "'");
-//		String text3 = (enabled) ? text2 : "<span style=\"color:gray;\">"
-//		        + text2 + "</span>";
-//		return "<img class=\"GeoGebraMenuImage\" alt=\"" + text2 + "\" src=\""
-//		        + url + "\" />" + " " + text3;
-//
-//	}
-
-	/**
-	 * Update the "Edit" menu
-	 */
-
-	/*@Override
-    public void updateSelection() {
-		if(dropMenu!=null){
-			dropMenu.getEditMenu().initActions();
-		}
-	}*/
-
-//	public static void setMenuSelected(MenuItem m, boolean visible) {
-//		if (visible) {
-//			m.addStyleName("checked");
-//		} else {
-//			m.removeStyleName("checked");
-//		}
-//	}
-
-	/*@Override
-    public MenuItem getSignIn() {
-		return signIn;
-	}
-
-	@Override
-    public void success(JSONObject response) {
-		renderSignedInState();
-	}
-
-	@Override
-    public void fail(JSONObject resonse) {
-		renderSignInState();
-	}
-
-	private void renderSignInState() {
-		if (signedInMenu != null) {
-			signedInMenu.setVisible(false);
-		}
-		signIn.setVisible(true);
-	}*/
-
-//	private void renderSignedInState() {
-//		if (signedInMenu == null) {
-//			/*createSignedInMenu();*/
-//		} else {
-//			signedIn.refreshstate();
-//		}
-//		signedInMenu.setVisible(true);
-//		signIn.setVisible(false);
-//	}
-
-	/*@Override
-    public void render() {
-		renderSignInState();
-	}*/
-
-	/*@Override
-    public void updateFonts() {
-		String fontsizeString = app.getGUIFontSize() + "px";
-		int imagesize = Math.round(app.getGUIFontSize() * 4 / 3);
-		int toolbariconSize = 2 * app.getGUIFontSize();
-		// until we have no enough place for the big icons in the toolbar, don't
-		// enable to increase too much the size of icons.
-		if (toolbariconSize > 45)
-			toolbariconSize = 45;
-
-		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu{font-size: "
-		        + fontsizeString
-		        + " !important}"
-		        + ".GeoGebraMenuImage{height: "
-		        + imagesize
-		        + "px; width: "
-		        + imagesize
-		        + "px;}"
-		        + ".GeoGebraMenuBar input[type=\"checkbox\"], .GeogebraMenuBar input[type=\"radio\"], "
-		        + ".GeoGebraPopupMenu input[type=\"checkbox\"], .GeogebraPopupMenu input[type=\"radio\"] "
-		        + "{height: " + fontsizeString + "; width: " + fontsizeString
-		        + ";}" + ".toolbar_menuitem{font-size: " + fontsizeString
-		        + ";}" + ".toolbar_menuitem img{width: " + toolbariconSize
-		        + "px;}";
-
-		// Create a new style element for font size changes, and remove the old
-		// ones, if already exist.
-		// Then add the new element for all GeoGebraWeb applets or application.
-		NodeList<Element> fontsizeElements = Dom
-		        .getElementsByClassName("GGWFontsize");
-		for (int i = 0; i < fontsizeElements.getLength(); i++) {
-			fontsizeElements.getItem(i).removeFromParent();
-		}
-		Element fontsizeElement = DOM.createElement("style");
-		fontsizeElement.addClassName("GGWFontsize");
-		fontsizeElement.setInnerText(innerText);
-		NodeList<Element> geogebrawebElements = Dom
-		        .getElementsByClassName("geogebraweb");
-		for (int i = 0; i < geogebrawebElements.getLength(); i++) {
-			geogebrawebElements.getItem(i).appendChild(fontsizeElement);
-		}
-
-	}*/
 
 }
