@@ -124,20 +124,20 @@ SymbolicParametersBotanaAlgo {
 	 * @param c construction
 	 */
 	public GeoPoint(Construction c) {
-		super(c);
-		setConstructionDefaults();
-		setAnimationType(ANIMATION_INCREASING);
-		setUndefined();
-
+		this(c, false);
 	}
 
 	/**
 	 * @param c construction
-	 * @param isTurtle dummy param
+	 * @param isHelper if is helper point, then don't set construction defaults, etc.
 	 */
-	protected GeoPoint(Construction c, boolean isTurtle) {
-		super(c);
-
+	public GeoPoint(Construction c, boolean isHelper) {
+		super(c);	
+		if (!isHelper){
+			setConstructionDefaults();
+			setAnimationType(ANIMATION_INCREASING);
+		}
+		setUndefined();
 	}
 
 	/**

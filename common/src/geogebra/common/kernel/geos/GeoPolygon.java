@@ -490,6 +490,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		// refresh color to ensure segments have same color as polygon:
 		segment.setObjColor(getObjectColor());
 		segment.setLineThickness(getLineThickness());
+		segment.setLineType(getLineType());
 		segment.setEuclidianVisible(euclidianVisible);
 
 		if (condShowObject != null) {

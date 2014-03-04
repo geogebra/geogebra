@@ -236,7 +236,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 
 		points2D = new GeoPoint[points.length];
 		for (int i = 0; i < points.length; i++) {
-			points2D[i] = new GeoPoint(getConstruction());
+			points2D[i] = new GeoPoint(getConstruction(), true);
 		}
 
 		// if there's no coord sys, create it with points

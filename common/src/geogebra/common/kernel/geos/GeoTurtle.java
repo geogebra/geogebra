@@ -81,7 +81,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @param c construction
 	 */
 	public GeoTurtle(Construction c) {
-		super(c,true);
+		super(c);
 		cmdList = new ArrayList<Command>();
 		
 		// TODO: put this in default construction?
