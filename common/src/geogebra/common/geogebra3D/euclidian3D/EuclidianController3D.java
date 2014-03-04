@@ -1213,25 +1213,26 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 * get axis and point create circle with axis and through the point
 	 * 
 	 * @param hits
-	 * @return true if circle created
+	 * @return circle created
 	 * 
 	 */
-	final protected boolean circleAxisPoint(Hits hits) {
+	final protected GeoElement[] circleAxisPoint(Hits hits) {
 		if (hits.isEmpty())
-			return false;
+			return null;
 
-		addSelectedPoint(hits, 1, false);
-		addSelectedLine(hits, 1, false);
+		if (addSelectedPoint(hits, 1, false) == 0){ // add line only if no point to avoid dummy circle
+			addSelectedLine(hits, 1, false);
+		}
 
 		if (selPoints() == 1 && selLines() == 1) {
-			getKernel().getManager3D().Circle3D(null, getSelectedLinesND()[0],
-					getSelectedPointsND()[0]);
-
-			return true;
+			return new GeoElement[] {
+					getKernel().getManager3D().Circle3D(null, getSelectedLinesND()[0],
+							getSelectedPointsND()[0])
+			};
 
 		}
 
-		return false;
+		return null;
 
 	}
 
@@ -1937,7 +1938,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
-			changedKernel = circleAxisPoint(hits);
+			ret = circleAxisPoint(hits);
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:

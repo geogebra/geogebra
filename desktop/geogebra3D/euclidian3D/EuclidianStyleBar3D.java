@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
@@ -60,10 +61,16 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		super.createDefaultMap();
 		
+		// conics
+		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_AXIS_POINT,
+				ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
+				ConstructionDefaults.DEFAULT_CONIC);
 		
+		// intersection curve
 		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECTION_CURVE,
-				ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);
-		 
+				ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);	 
+
 		
 		// planes
 		defaultGeoMap.put(EuclidianConstants.MODE_PLANE_THREE_POINTS,
