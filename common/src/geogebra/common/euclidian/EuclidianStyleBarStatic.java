@@ -503,7 +503,7 @@ public class EuclidianStyleBarStatic {
 		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT_FIXED,
 				ConstructionDefaults.DEFAULT_SEGMENT);
 		defaultGeoMap.put(EuclidianConstants.MODE_RAY,
-				ConstructionDefaults.DEFAULT_LINE);
+				ConstructionDefaults.DEFAULT_RAY);
 		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR,
 				ConstructionDefaults.DEFAULT_VECTOR);
 		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_FROM_POINT,
