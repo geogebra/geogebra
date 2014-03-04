@@ -1917,7 +1917,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			changedKernel = (circleOrSphere2(hits, mode) != null);
+			ret = circleOrSphere2(hits, mode);
 			break;
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			changedKernel = spherePointRadius(hits);
