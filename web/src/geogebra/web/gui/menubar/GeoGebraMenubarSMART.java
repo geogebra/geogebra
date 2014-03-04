@@ -1,13 +1,12 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.StackPanel;
@@ -18,7 +17,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, WindowResizeListener {
+public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, ResizeHandler {
 	
 	/**
 	 * Appw app
@@ -71,7 +70,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Wi
 
 	    this.add(menuPanel);
 	    
-	    onWindowResized(0, 0);
+	    onResize(null);
 	}
 	
 	private String setHTML(ImageResource img, String s){
@@ -136,11 +135,8 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Wi
 		}
 	}
 
-	@Deprecated
-    @Override
-	public void onWindowResized(int width, int height) {
-		App.debug("resize");
-		int menuHeight = Window.getClientHeight() - GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT - GGWFrameLayoutPanel.TOOLBAR_HEIGHT;
+	public void onResize(ResizeEvent e) {
+		int menuHeight = (int) (app.getHeight() - GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT - GGWFrameLayoutPanel.TOOLBAR_HEIGHT);
 	    this.setHeight(menuHeight + "px");
     }
 

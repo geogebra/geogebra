@@ -14,7 +14,6 @@ import geogebra.html5.gui.ResizeListener;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -183,7 +182,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		
 	}
 	public void onResize() {
-		this.setWidth(Window.getClientWidth() + "px");
+		//this.setWidth(Window.getClientWidth() + "px");
 	}
 
 	@Override

@@ -11,15 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
-
-	private static int maxHeight() {
-		//TODO random number
-		return Window.getClientHeight() - 300;
-	}
 
 	private final FlowPanel searchContainer;
 	private SearchPanel searchPanel;
@@ -137,7 +131,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	@Override
 	public void onResize() {
 		int searchContainerHeight = this.searchContainer.getOffsetHeight();
-		int contentHeight = Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT - searchContainerHeight;
+		int contentHeight = bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT - searchContainerHeight;
 		this.filePanel.setHeight(contentHeight + "px");
 	}
 }

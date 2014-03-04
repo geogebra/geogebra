@@ -316,8 +316,8 @@ MouseOutHandler{
 	
 	public void onEnd(DomEvent event){
 		if (event.getSource() == tbutton){
-			if("true".equals(event.getRelativeElement().getAttribute("isSelected"))
-					|| isBottomHalfClicked(event)){
+			if(("true".equals(event.getRelativeElement().getAttribute("isSelected"))
+					|| isBottomHalfClicked(event)) && !isSubmenuOpen()){
 				showMenu();
 				keepDown = false;
 				return;

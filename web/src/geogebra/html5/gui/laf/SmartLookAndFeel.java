@@ -15,7 +15,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	@Override
     public GeoGebraMenuW getMenuBar(AppW app) {
 		GeoGebraMenubarSMART menubar = new GeoGebraMenubarSMART(app);
-		Window.addWindowResizeListener(menubar);
+		Window.addResizeHandler(menubar);
 		return menubar;
     }
 	

@@ -11,7 +11,6 @@ import geogebra.html5.util.View;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -287,7 +286,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		if (Window.getClientWidth() < 780) {
+		if (bg.getOffsetWidth() < 780) {
 			this.image.addStyleName("scaleImage");
 		}
 		else {

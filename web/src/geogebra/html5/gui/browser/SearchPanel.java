@@ -148,10 +148,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		}
 	}
 
-	/*public void onResize() {
-		this.setWidth(Window.getClientWidth() + "px");
-	}*/
-
 	@Override
 	public void render(boolean b) {
 		/*this.setText("Infotext" + (b ? "" : " (Offline)"));*/

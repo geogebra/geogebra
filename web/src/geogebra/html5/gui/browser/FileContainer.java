@@ -5,7 +5,6 @@ import geogebra.html5.gui.StandardButton;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -18,13 +17,14 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 	private FlowPanel providers;
 	private StandardButton locationTube;
 	private StandardButton locationDrive;
-	private StandardButton locationSkyDrive;
-	private StandardButton locationLocal;
+	/*private StandardButton locationSkyDrive;
+	private StandardButton locationLocal;*/
 /*
  <form id="fileform" name="fileform" method='post' enctype='multipart/form-data'>
  	<span style="display:block;float:right;position:relative;">+<input name="file01" onchange="document.getElementById('fileform').submit()" type="file" style="width:20px;height:20px;font-size:118px;opacity:0;position:absolute;left:0px"></span>
  </form>
  */
+	private BrowseGUI bg;
 	
 	public class MyButton extends FlowPanel{
 		public MyButton(BrowseGUI bg){
@@ -62,6 +62,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		
 		this.filePanel = filePanel;
 		this.add(filePanel);
+		this.bg = bg;
 		
 		this.providers = new FlowPanel();
 		
@@ -76,7 +77,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		providers.add(locationDrive);
 		
 		//TODO: Only visible if user is logged in with google Account
-		locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
+		//locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
 		//providers.add(locationSkyDrive);
 		
 		//Set Tube as the active on
@@ -90,11 +91,11 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		int contentHeight = Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT;
+		int contentHeight = bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT;
 		this.setHeight(contentHeight + "px");
-		this.filePanel.setWidth(Window.getClientWidth() - 70 + "px");
-		this.filePanel.setHeight(Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT + "px");
-		this.providers.setHeight(Window.getClientHeight() - BrowseGUI.HEADING_HEIGHT + "px");
+		this.filePanel.setWidth(bg.getOffsetWidth() - 70 + "px");
+		this.filePanel.setHeight(bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT + "px");
+		this.providers.setHeight(bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT + "px");
 	}
 }
 
