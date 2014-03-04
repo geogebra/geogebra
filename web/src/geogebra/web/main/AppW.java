@@ -6,7 +6,6 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -1220,11 +1219,6 @@ public abstract class AppW extends AppWeb {
 		return new geogebra.html5.awt.GFontW("normal");
 	}
 
-	@Override
-	public geogebra.common.awt.GFont getFontCommon(boolean b, int i, int size) {
-		return AwtFactory.prototype.newFont(b ? "Serif" : "SansSerif", i, size);
-	}
-	
 	@Override
 	public FontManager getFontManager() {
 		return fontManager;

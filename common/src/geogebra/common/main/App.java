@@ -15,6 +15,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
@@ -1918,8 +1919,7 @@ public abstract class App implements UpdateSelection{
 	 * @return font with given parameters
 	 */
 	public GFont getFontCommon(boolean serif, int style, int size) {
-		// TODO Auto-generated method stub
-		return null;
+		return AwtFactory.prototype.newFont(serif ? "Serif" : "SansSerif", style, size); 
 	}
 
 	public abstract GFont getPlainFontCommon();
