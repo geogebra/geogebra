@@ -146,7 +146,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public Coords getMainDirection() {
-		return null;
+		return Coords.VZ; //TODO
 	}
 
 	

@@ -493,7 +493,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	@Override
 	public Coords getMainDirection() {
 		// TODO create with parameter coord where is looked at
-		return new Coords(0, 0, 1, 0);
+		return Coords.VZ;
 	}
 
 	
