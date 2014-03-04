@@ -490,7 +490,7 @@ public class EuclidianStyleBarStatic {
 		defaultGeoMap.put(EuclidianConstants.MODE_COMPLEX_NUMBER,
 				ConstructionDefaults.DEFAULT_POINT_FREE);
 		defaultGeoMap.put(EuclidianConstants.MODE_POINT_ON_OBJECT,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
+				ConstructionDefaults.DEFAULT_POINT_IN_REGION);
 		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECT,
 				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
 		defaultGeoMap.put(EuclidianConstants.MODE_MIDPOINT,
