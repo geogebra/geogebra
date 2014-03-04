@@ -17,10 +17,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
@@ -80,8 +78,7 @@ public class AlgoZip extends AlgoElement {
 		varCount = vars.length;
 
 		expressionParentAlgo = expression.getParentAlgorithm();
-		expIsFunctionOrCurve = expression.isGeoFunction()
-				|| expression.isGeoCurveCartesian();
+		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
 
 		list = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
@@ -281,21 +278,10 @@ public class AlgoZip extends AlgoElement {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement.isGeoFunction()) {
-				GeoFunction f = (GeoFunction) listElement;
+			if (listElement instanceof CasEvaluableFunction) {
+				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
 				for (int i = 0; i < varCount; i++)
 					f.replaceChildrenByValues(vars[i]);
-			}
-			else if (listElement.isGeoFunctionNVar()) {
-				GeoFunctionNVar f = (GeoFunctionNVar) listElement;
-				for (int i = 0; i < varCount; i++)
-					f.replaceChildrenByValues(vars[i]);
-			}
-			// GeoCurve
-			else if (listElement.isGeoCurveCartesian()) {
-				GeoCurveCartesian curve = (GeoCurveCartesian) listElement;
-				for (int i = 0; i < varCount; i++)
-					curve.replaceChildrenByValues(vars[i]);
 			}
 		}
 

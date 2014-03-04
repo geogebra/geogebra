@@ -23,13 +23,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.main.App;
 
 /**
@@ -115,10 +113,7 @@ public class AlgoSequence extends AlgoElement {
 			var_step_geo = var_step.toGeoElement();
 
 		expressionParentAlgo = expression.getParentAlgorithm();
-		expIsFunctionOrCurve = expression.isGeoFunction()
-				|| expression.isGeoCurveCartesian()
-				|| expression.isGeoFunctionNVar()
-				|| expression.isGeoFunctionBoolean();
+		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
 		isSimple = false;
 		// Application.debug("expression: " + expression);
 		// Application.debug("  parent algo: " +
@@ -395,20 +390,9 @@ public class AlgoSequence extends AlgoElement {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement.isGeoFunction()
-					|| listElement.isGeoFunctionBoolean()) {
-				GeoFunction f = (GeoFunction) listElement;
+			if (listElement instanceof CasEvaluableFunction) {
+				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
 				f.replaceChildrenByValues(var);
-			}
-			// GeoCurve
-			else if (listElement.isGeoCurveCartesian()) {
-				GeoCurveCartesianND curve = (GeoCurveCartesianND) listElement;
-				curve.replaceChildrenByValues(var);
-			}
-
-			else if (listElement.isGeoFunctionNVar()) {
-				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
-				fnv.replaceChildrenByValues(var);
 			}
 		}
 

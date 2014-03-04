@@ -1,11 +1,14 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacro;
-import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional2Var;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
@@ -22,7 +25,7 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		Functional2Var, SurfaceEvaluable, GeoLevelOfDetail,
-		Traceable{
+		Traceable, CasEvaluableFunction{
 
 
 	/**
@@ -91,7 +94,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	public void set(GeoElement geo) {
 		GeoSurfaceCartesian3D geoSurface = (GeoSurfaceCartesian3D) geo;
 
-		fun = new Function[3];
+		fun = new FunctionNVar[3];
 		for (int i = 0; i < 3; i++) {
 			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
 			// Application.debug(fun[i].toString());
@@ -218,6 +221,31 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	public boolean getTrace() {
 		return trace;
+	}
+
+	@Override
+	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
+			boolean symbolic, MyArbitraryConstant arbconst) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getVarString(StringTemplate tpl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FunctionVariable[] getFunctionVariables() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void clearCasEvalMap(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

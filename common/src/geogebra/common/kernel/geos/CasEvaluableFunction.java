@@ -57,4 +57,5 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 * @param string key for which value should be deleted
 	 */
 	public void clearCasEvalMap(String string);
+	public void replaceChildrenByValues(GeoElement var);
 }
