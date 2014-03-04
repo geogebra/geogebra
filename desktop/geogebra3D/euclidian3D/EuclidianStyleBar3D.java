@@ -60,6 +60,11 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		super.createDefaultMap();
 		
+		
+		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECTION_CURVE,
+				ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);
+		 
+		
 		// planes
 		defaultGeoMap.put(EuclidianConstants.MODE_PLANE_THREE_POINTS,
 				ConstructionDefaults3D.DEFAULT_PLANE3D);
