@@ -101,6 +101,7 @@ MouseOutHandler, MouseOverHandler{
 			
 			itemList = new UnorderedList();
 			itemList.setStyleName("submenuContent");
+			//addNativeTouchHandlers(this, toolbar.getElement());
 		
 			for (int k = 0; k < menu.size(); k++) {
 				final int addMode = menu.get(k).intValue();
@@ -316,7 +317,13 @@ MouseOutHandler, MouseOverHandler{
 	 * Check if the bottom half of the button has clicked.
 	 */
 	private boolean isBottomHalfClicked(DomEvent event){
-		return (event.getNativeEvent().getClientY() - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
+		int clickYPos;
+//		if (event instanceof TouchEvent){
+//			clickYPos = event.getNativeEvent().getChangedTouches().get(0).getClientY();
+//		} else {
+			clickYPos = event.getNativeEvent().getClientY();
+//		}
+		return (clickYPos - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
 	}
 	
 	public void onEnd(DomEvent event){
@@ -444,18 +451,22 @@ MouseOutHandler, MouseOverHandler{
 
 
 	private native void addNativeTouchHandlers(ModeToggleMenu mtm, Element element) /*-{
-		element.addEventListener("touchenter",function() {
-			//alert("touchenter");
-			m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,true);
-		});
-		element.addEventListener("touchleave",function() {
-			//alert("touchleave");
-			m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
-		});
-		//element.addEventListener("touchmove",function() {
-			//alert("touchmove");
-			//m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
-		//});
+//		element.addEventListener("touchenter",function() {
+//			alert("touchenter");
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,true);
+//		});
+//		element.addEventListener("touchleave",function() {
+//			alert("touchleave");
+//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
+//		});
+//		element.addEventListener("touchmove",function() {
+//			alert("touchmove");
+//			//m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
+//		});
+//		element.addEventListener("touchdown",function() {
+//			alert("touchdown");
+//			//m.@geogebra.web.gui.toolbar.ModeToggleMenu::setHovered(Lcom/google/gwt/dom/client/Element;Z)(element,false);
+//		});
 	}-*/; 
 
 	private void setHovered(Element el, boolean hovered){
