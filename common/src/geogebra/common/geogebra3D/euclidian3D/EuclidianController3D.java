@@ -1089,9 +1089,9 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 *            name of the solid
 	 * @return true if solid created
 	 */
-	final protected boolean archimedeanSolid(Hits hits, Commands name) {
+	final protected GeoElement[] archimedeanSolid(Hits hits, Commands name) {
 		if (hits.isEmpty())
-			return false;
+			return null;
 
 		if (addSelectedPoint(hits, 2, false) == 0) {
 			// select a direction only if no point is selected
@@ -1120,12 +1120,13 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 						en).getVector3D();
 			}
 
-			kernel.getManager3D().ArchimedeanSolid(null, points[0], points[1],
-					direction, name);
+			return new GeoElement[] {
+					kernel.getManager3D().ArchimedeanSolid(null, points[0], points[1],
+							direction, name)[0]
+			};
 
-			return true;
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -1442,15 +1443,12 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 * get basis and height; create prism/cylinder
 	 * 
 	 * @param hits
-	 * @return true if a prism has been created
+	 * @return prism created
 	 */
-	final protected boolean extrusionOrConify(Hits hits) {
-
-		// App.printStacktrace(hits);
-		// App.error(""+selNumberValues());
+	final protected GeoElement[] extrusionOrConify(Hits hits) {
 
 		if (hits.isEmpty())
-			return false;
+			return null;
 
 		int basisAdded = addSelectedPolygon(hits, 1, false);
 		basisAdded += addSelectedConic(hits, 1, false);
@@ -1460,38 +1458,35 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			addSelectedNumberValue(hits, 1, false);
 		}
 
-		/*
-		 * s+="\nAprès=\n"; for (int i=0;i<selectedPolygons.size();i++)
-		 * s+=selectedPolygons.get(i)+"\n"; s+="\nNumeric=\n"; for (int
-		 * i=0;i<selectedNumberValues.size();i++)
-		 * s+=selectedNumberValues.get(i)+"\n";
-		 * 
-		 * if (!selectionPreview) Application.debug(s);
-		 */
 
 		if (selNumberValues() == 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] basis = getSelectedPolygons();
 				NumberValue[] height = getSelectedNumberValues();
-				if (mode == EuclidianConstants.MODE_EXTRUSION)
-					getKernel().getManager3D().Prism(null, basis[0], height[0]);
-				else
-					getKernel().getManager3D().Pyramid(null, basis[0],
-							height[0]);
-				return true;
+				if (mode == EuclidianConstants.MODE_EXTRUSION){
+					return new GeoElement[] { // return only the prism							
+							getKernel().getManager3D().Prism(null, basis[0], height[0])[0]
+					};
+				}
+
+				return new GeoElement[] { // return only the pyramid
+						getKernel().getManager3D().Pyramid(null, basis[0], height[0])[0]
+				};
+
 			} else if (selConics() == 1) {
 				GeoConicND[] basis = getSelectedConicsND();
 				NumberValue[] height = getSelectedNumberValues();
-				if (mode == EuclidianConstants.MODE_EXTRUSION)
-					getKernel().getManager3D().CylinderLimited(null, basis[0],
-							height[0]);
-				else
-					getKernel().getManager3D().ConeLimited(null, basis[0],
-							height[0]);
-				return true;
+				if (mode == EuclidianConstants.MODE_EXTRUSION){
+					return new GeoElement[] { // return only the cylinder
+							getKernel().getManager3D().CylinderLimited(null, basis[0], height[0])[0]
+					};
+				}
+				return new GeoElement[] { // return only the cone
+						getKernel().getManager3D().ConeLimited(null, basis[0], height[0])[0]
+				};
 			}
 		}
-		return false;
+		return null;
 	}
 
 	private GeoPointND[] pyramidBasis = null;
@@ -1501,14 +1496,14 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 * 
 	 * @param hits
 	 *            hits
-	 * @return true if a prism has been created
+	 * @return pyramid/prism created
 	 */
-	final protected boolean pyramidOrPrism(Hits hits) {
+	final protected GeoElement[] pyramidOrPrism(Hits hits) {
 
 		// if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
 
 		if (hits.isEmpty())
-			return false;
+			return null;
 
 		if (pyramidBasis == null) { // try to find/create a polygon
 
@@ -1526,12 +1521,12 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 						((DrawPolygon3D) view3D.getPreviewDrawable())
 								.freezePreview();
 						pyramidBasis = getSelectedPointsND();
-						return false;
+						return null;
 					}
 				}
 
 				addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false);
-				return false; // no polygon
+				return null; // no polygon
 			}
 
 			// there is 1 polygon, look for top point
@@ -1544,14 +1539,14 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				// create new pyramid or prism
 				switch (mode) {
 				case EuclidianConstants.MODE_PYRAMID:
-					getKernel().getManager3D().Pyramid(null, basis[0],
-							points[0]);
-					break;
+					return new GeoElement[] {
+							getKernel().getManager3D().Pyramid(null, basis[0], points[0])[0]
+					};
 				case EuclidianConstants.MODE_PRISM:
-					getKernel().getManager3D().Prism(null, basis[0], points[0]);
-					break;
+					return new GeoElement[] {
+							getKernel().getManager3D().Prism(null, basis[0], points[0])[0]
+					};
 				}
-				return true;
 			}
 
 		} else { // there are points for basis
@@ -1567,20 +1562,22 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 				// create new pyramid or prism
 				switch (mode) {
 				case EuclidianConstants.MODE_PYRAMID:
-					getKernel().getManager3D().Pyramid(null, points);
-					break;
+					pyramidBasis = null;
+					return new GeoElement[] {
+							getKernel().getManager3D().Pyramid(null, points)[0]
+					};
 				case EuclidianConstants.MODE_PRISM:
-					getKernel().getManager3D().Prism(null, points);
-					break;
+					pyramidBasis = null;
+					return new GeoElement[] {
+							getKernel().getManager3D().Prism(null, points)[0]
+					};
 				}
-				pyramidBasis = null;
-				return true;
 			}
 
-			return false;
+			return null;
 		}
 
-		return false;
+		return null;
 
 	}
 
@@ -1900,20 +1897,20 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
-			changedKernel = extrusionOrConify(hits);
+			ret = extrusionOrConify(hits);
 			break;
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
-			changedKernel = archimedeanSolid(hits, Commands.Tetrahedron);
+			ret = archimedeanSolid(hits, Commands.Tetrahedron);
 			break;
 
 		case EuclidianConstants.MODE_CUBE:
-			changedKernel = archimedeanSolid(hits, Commands.Cube);
+			ret = archimedeanSolid(hits, Commands.Cube);
 			break;
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			changedKernel = pyramidOrPrism(hits);
+			ret = pyramidOrPrism(hits);
 			break;
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:

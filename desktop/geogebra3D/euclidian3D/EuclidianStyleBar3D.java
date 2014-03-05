@@ -90,13 +90,24 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		// cylinders, cones
 		defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
-				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
-				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
-				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
-				ConstructionDefaults3D.DEFAULT_QUADRIC_LIMITED);
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+		
+		// polyhedrons
+		defaultGeoMap.put(EuclidianConstants.MODE_PYRAMID,
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+		defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+		defaultGeoMap.put(EuclidianConstants.MODE_TETRAHEDRON,
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+		defaultGeoMap.put(EuclidianConstants.MODE_CUBE,
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+		
 
 
 		

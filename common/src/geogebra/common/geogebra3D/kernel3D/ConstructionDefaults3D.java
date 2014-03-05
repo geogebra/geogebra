@@ -39,14 +39,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default plane 3D type */	
 	public static final int DEFAULT_PLANE3D = 3200;
 	
-	/** default polyhedron type */
+	/** default polyhedron type (also used for limited quadrics) */
 	public static final int DEFAULT_POLYHEDRON = 3300;
 	/** default quadric type */
 	public static final int DEFAULT_QUADRIC = 3301;
 	/** default function 2 var type */
 	public static final int DEFAULT_FUNCTION_NVAR = 3302;
-	/** default quadric type */
-	public static final int DEFAULT_QUADRIC_LIMITED = 3303;
 
 	/** default surface type */
 	public static final int DEFAULT_SURFACECARTESIAN3D = 3304;
@@ -75,8 +73,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	private static final GColor colPolyhedron = colPolygon;//new Color(153, 51, 0);
 
 	
-	/** default alpha for quadrics*/
-	public static final float DEFAULT_QUADRIC_LIMITED_ALPHA = 0.5f;
+	/** default alpha for polyhedrons and limited quadrics*/
+	public static final float DEFAULT_POLYHEDRON_ALPHA = 0.4f;
 	
 	// intersection
 	
@@ -143,7 +141,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoPolyhedron polyhedron = new GeoPolyhedron(cons);	
 		polyhedron.setLocalVariableLabel("Polyhedron");
 		polyhedron.setObjColor(colPolyhedron);
-		polyhedron.setAlphaValue(DEFAULT_POLYGON_ALPHA);
+		polyhedron.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
 		
 		// quadric
@@ -152,14 +150,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		quadric.setObjColor(colQuadric);
 		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
-		
-		// limited quadric
-		GeoQuadric3D limitedQuadric = new GeoQuadric3D(cons);	
-		limitedQuadric.setLocalVariableLabel("QuadricLimited");
-		limitedQuadric.setObjColor(colPolyhedron);
-		limitedQuadric.setAlphaValue(DEFAULT_QUADRIC_LIMITED_ALPHA);
-		defaultGeoElements.put(DEFAULT_QUADRIC_LIMITED, limitedQuadric);
-
 		
 		
 	
@@ -227,14 +217,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return getDefaultType(geo, GeoClass.POLYGON);	
 			
 		case POLYHEDRON:
+		case QUADRIC_LIMITED:
 			return DEFAULT_POLYHEDRON;
 			
 		case QUADRIC:
 		case QUADRIC_PART:
 			return DEFAULT_QUADRIC;
-			
-		case QUADRIC_LIMITED:
-			return DEFAULT_QUADRIC_LIMITED;
 			
 		case SURFACECARTESIAN3D:
 			return DEFAULT_SURFACECARTESIAN3D;	

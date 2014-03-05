@@ -360,8 +360,11 @@ HasHeight, Path
 		cons.removeFromConstructionList(algo);
 
 		GeoPolygon3D polygon = (GeoPolygon3D) algo.getPoly();
-		// refresh color to ensure segments have same color as polygon:
+		// refresh color to ensure polygons have same color as polyhedron:
 		polygon.setObjColor(getObjectColor());
+		polygon.setAlphaValue(getAlphaValue());
+		polygon.setLineThickness(getLineThickness());
+		polygon.setLineType(getLineType());
 
 		// force init labels called to avoid polygon to draw edges
 		polygon.setInitLabelsCalled(true);
@@ -442,8 +445,10 @@ HasHeight, Path
 		cons.removeFromConstructionList(algoSegment);
 
 		segment = (GeoSegment3D) algoSegment.getCS();
-		// refresh color to ensure segments have same color as polygon:
+		// refresh color to ensure segments have same color as polyhedron:
 		segment.setObjColor(getObjectColor());
+		segment.setLineThickness(getLineThickness());
+		segment.setLineType(getLineType());
 
 		Long index = new Long(segmentsIndexMax);
 		segmentsIndex.put(key, index);
