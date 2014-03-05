@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.GeoGebraCasInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
@@ -1167,5 +1168,42 @@ public abstract class GgbAPI implements JavaScriptAPI{
     	}
     }
 
-
+    /** 
+    	 	         * Evaluates the given string as if it was entered into GeoGebra CAS's input 
+    	 	         * text field. 
+    	 	         * @param cmdString CAS command 
+    	 	         *  
+    	 	         * @return evaluation result in GeoGebraCAS syntax 
+    	 	         */ 
+    	 	        public synchronized String evalGeoGebraCAS(String cmdString) { 
+    	 	                return evalGeoGebraCAS(cmdString, false); 
+    	 	        } 
+    	 	 
+    	 	        /** 
+    	 	         * Evaluates the given string as if it was entered into GeoGebra CAS's input 
+    	 	         * text field. 
+    	 	         * @param cmdString command string 
+    	 	         *  
+    	 	         * @param debugOutput 
+    	 	         *            states whether debugging information should be printed to the 
+    	 	         *            console 
+    	 	         * @return evaluation result in GeoGebraCAS syntax 
+    	 	         */ 
+    	 	        public synchronized String evalGeoGebraCAS(String cmdString, 
+    	 	                        boolean debugOutput) { 
+    	 	                String ret = ""; 
+    	 	                GeoGebraCasInterface ggbcas = kernel.getGeoGebraCAS(); 
+    	 	                try { 
+    	 	                        //TODO -- allow  to parametrize this 
+    	 	                        ret = ggbcas.evaluateGeoGebraCAS(cmdString, null, StringTemplate.numericDefault); 
+    	 	                } catch (Throwable t) { 
+    	 	                        App.debug(t.toString()); 
+    	 	                }// try-catch 
+    	 	 
+    	 	                // useful for debugging JavaScript 
+    	 	                if (debugOutput) 
+    	 	                        App.debug("evalGeoGebraCAS\n input:" + cmdString 
+    	 	                                        + "\n" + "output: " + ret); 
+    	 	                return ret; 
+    	 	        }
 }

@@ -671,6 +671,35 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	/**
+	 * Evaluates the given string as if it was entered into GeoGebra CAS's input
+	 * text field.
+	 * 
+	 * @return evaluation result in GeoGebraCAS syntax
+	 */
+	public synchronized String evalGeoGebraCAS(String cmdString) {
+		return evalGeoGebraCAS(cmdString, false);
+	}
+
+	/**
+	 * Evaluates the given string as if it was entered into the GeoGebraCAS
+	 * input text field.
+	 * 
+	 * @param debugOutput
+	 *            states whether debugging information should be printed to the
+	 *            console
+	 * @return evaluation result in GeoGebraCAS syntax
+	 */
+	public synchronized String evalGeoGebraCAS(final String cmdString,
+			final boolean debugOutput) {
+		// avoid security problems calling from JavaScript
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			public String run() {
+				return ggbApi.evalGeoGebraCAS(cmdString, debugOutput);
+			}
+		});
+	}
+
+	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
 	 */

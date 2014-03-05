@@ -124,6 +124,10 @@ public class ScriptManagerW extends ScriptManager {
 		$wnd[ggbApplet].evalCommandCAS = function(cmdString) {
 			return ggbAPI.@geogebra.html5.main.GgbAPI::evalCommandCAS(Ljava/lang/String;)(cmdString);
 		};
+		
+		$wnd[ggbApplet].evalGeoGebraCAS = function(cmdString) { 
+	 		return ggbAPI.@geogebra.html5.main.GgbAPI::evalGeoGebraCAS(Ljava/lang/String;)(cmdString); 
+	 	};
 
 		$wnd[ggbApplet].setFixed = function(objName, flag) {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setFixed(Ljava/lang/String;Z)(objName,flag);

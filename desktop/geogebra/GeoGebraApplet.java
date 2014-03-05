@@ -259,6 +259,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().evalCommandCAS(cmdString);
 	}
 
+	public synchronized String evalGeoGebraCAS(final String cmdString) {
+		return getAppletImplementation().evalGeoGebraCAS(cmdString);
+	}
+
 	public synchronized boolean evalCommand(final String cmdString,
 			boolean waitForResult) {
 
