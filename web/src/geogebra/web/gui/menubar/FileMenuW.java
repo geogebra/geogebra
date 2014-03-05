@@ -48,7 +48,7 @@ public class FileMenuW extends MenuBar {
 				app.setDefaultCursor();
 			}
 		});
-
+		if(!app.getLAF().isSmart()){
 	    openMenu = new OpenMenuW(app);
 	    if(useOpenScreen){
 	    	addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
@@ -71,7 +71,7 @@ public class FileMenuW extends MenuBar {
 				app.getGuiManager().save();
 			}
 		});			
-			
+		}
 
 		// this is enabled always
 	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
@@ -80,14 +80,14 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 	    
-	    ((AppW) app).getNetworkOperation().getView().add(new BooleanRenderable() {
+	    app.getNetworkOperation().getView().add(new BooleanRenderable() {
 			
 			public void render(boolean b) {
 				renderNetworkOperation(b);
 			}
 		});
 	    
-	    if (!((AppW) app).getNetworkOperation().getOnline()) {
+	    if (!app.getNetworkOperation().getOnline()) {
 	    	renderNetworkOperation(false);    	
 	    }
 	    
