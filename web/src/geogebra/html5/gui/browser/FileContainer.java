@@ -2,6 +2,7 @@ package geogebra.html5.gui.browser;
 
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
+import geogebra.html5.main.AppWeb;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -19,12 +20,9 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 	private StandardButton locationDrive;
 	/*private StandardButton locationSkyDrive;
 	private StandardButton locationLocal;*/
-/*
- <form id="fileform" name="fileform" method='post' enctype='multipart/form-data'>
- 	<span style="display:block;float:right;position:relative;">+<input name="file01" onchange="document.getElementById('fileform').submit()" type="file" style="width:20px;height:20px;font-size:118px;opacity:0;position:absolute;left:0px"></span>
- </form>
- */
+
 	private BrowseGUI bg;
+	private AppWeb app;
 	
 	public class MyButton extends FlowPanel{
 		public MyButton(BrowseGUI bg){
@@ -58,9 +56,10 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		}-*/;
 	}
 	public FileContainer(String headingName,
-			final VerticalMaterialPanel filePanel, BrowseGUI bg) {
+			final VerticalMaterialPanel filePanel, BrowseGUI bg, AppWeb app) {
 		
 		this.filePanel = filePanel;
+		this.app = app;
 		this.add(filePanel);
 		this.bg = bg;
 		
@@ -91,11 +90,12 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		int contentHeight = bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT;
+		
+		int contentHeight = (int) (app.getHeight() - BrowseGUI.HEADING_HEIGHT);
 		this.setHeight(contentHeight + "px");
-		this.filePanel.setWidth(bg.getOffsetWidth() - 70 + "px");
-		this.filePanel.setHeight(bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT + "px");
-		this.providers.setHeight(bg.getOffsetHeight() - BrowseGUI.HEADING_HEIGHT + "px");
+		this.filePanel.setWidth((int) app.getWidth() - 70 + "px");
+		this.filePanel.setHeight(contentHeight + "px");
+		this.providers.setHeight(contentHeight + "px");
 	}
 }
 
