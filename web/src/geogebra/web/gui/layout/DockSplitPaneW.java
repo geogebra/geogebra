@@ -612,7 +612,10 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 		if (app.getArticleElement().getScaleX() != 1.0 ||
 				app.getArticleElement().getScaleY() != 1.0) {
-			freezeSplitters();
+			if(!app.getLAF().isSmart()){
+				//for SMART we need the scale to be 0.8 and freezing splitters breaks everything
+				freezeSplitters();
+			}
 		}
     }
 	
