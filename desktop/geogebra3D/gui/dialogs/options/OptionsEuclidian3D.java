@@ -410,7 +410,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 
 		projectionLabel[3].setText(app.getPlain("Oblique") + ":");
 		tfObliqueAngleLabel.setText(app.getPlain("Angle") + ":");
-		tfObliqueFactorLabel.setText(app.getPlain("Factor") + ":");
+		tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
 
 		projectionButtons.setSelected(((EuclidianView3D) view).getProjection());
 	}
