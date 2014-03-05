@@ -337,7 +337,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		super.setLabels();
 		btnShowPlane.setToolTipText(loc.getPlainTooltip("stylebar.xOyPlane"));
 		btnRotateView.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		btnViewDefault.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
+		btnViewDefault.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefaultRotate"));
 		btnViewXY.setToolTipText(loc.getPlainTooltip("stylebar.ViewXY"));
 		btnViewXZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewXZ"));
 		btnViewYZ.setToolTipText(loc.getPlainTooltip("stylebar.ViewYZ"));
