@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -50,7 +51,8 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 		rbClockWise = new RadioButton(id, app.getPlain("clockwise"));
 		rbCounterClockWise.setValue(true);
 
-		VerticalPanel rbPanel = new VerticalPanel();
+		HorizontalPanel rbPanel = new HorizontalPanel();
+		rbPanel.setStyleName("DialogRbPanel");
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
 		

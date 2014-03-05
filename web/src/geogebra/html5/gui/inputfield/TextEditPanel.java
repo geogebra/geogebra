@@ -9,6 +9,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Unicode;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -76,7 +77,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		advancedPanel = new TextEditAdvancedPanel(app, this);
 		previewer = advancedPanel.getPreviewer();
 		
-		disclosurePanel = new DisclosurePanel(loc.getMenu("Advanced"));
+		disclosurePanel = new DisclosurePanel(GuiResources.INSTANCE.triangle_down(), GuiResources.INSTANCE.triangle_right(), loc.getMenu("Advanced"));
 		disclosurePanel.setContent(advancedPanel);
 		disclosurePanel. getContent().removeStyleName("content");
 		disclosurePanel.getContent().addStyleName(

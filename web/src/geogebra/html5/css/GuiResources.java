@@ -33,8 +33,8 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/algebra-view-tree-closed.png")
 	ImageResource algebra_tree_closed();
 	
-	@Source("geogebra/resources/images/triangle-down.png")
-	ImageResource triangle_down();
+	/*@Source("geogebra/resources/images/triangle-down.png")
+	ImageResource triangle_down();*/
 
 	@Source("geogebra/resources/images/splash-ggb4.svg")
 	TextResource ggb4Splash();
@@ -85,12 +85,17 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/css/web-styles.css")
 	TextResource modernStyle();
 	
+	
+	
 	// TOOLBAR
+	// Little triangles for tools with submenu
 	@Source("icons/png/web/toolbar-further-tools-icon.png")
 	ImageResource toolbar_further_tools();
 	
 	@Source("icons/png/web/toolbar-further-tools-icon-active.png")
 	ImageResource toolbar_further_tools_active();
+	
+	
 	
 	//SMART TOOLBAR: Open menu and open search
 	@Source("icons/png/web/menu-button-open-search.png")
@@ -99,7 +104,17 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu-button-open-menu.png")
 	ImageResource button_open_menu();
 	
-	//SMART MENUBAR: Icons
+	
+	
+	//SMART MENUBAR
+	
+	@Source("icons/png/web/menuBarSubMenuIconRTL.png")
+	ImageResource menuBarSubMenuIconRTL();
+	
+	@Source("icons/png/web/menuBarSubMenuIconLTR.png")
+	ImageResource menuBarSubMenuIconLTR();
+	
+	//Icons
 	@Source("icons/png/web/menu_icons/menu-file.png")
 	ImageResource menu_icon_file();
 	
@@ -139,12 +154,18 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-perspectives-cas.png")
 	ImageResource menu_icon_perspectives_cas();
 	
+	
+	
+	
 	//SUBMENUS
 	@Source("icons/png/web/arrow-submenu-right.png")
 	ImageResource arrow_submenu_right();
 	
 	@Source("icons/png/web/arrow-submenu-up.png")
 	ImageResource arrow_submenu_up();
+	
+	
+	
 	
 	//ALGEBRA INPUT
 	@Source("icons/png/web/arrow_dockbar_triangle_left.png")
@@ -153,5 +174,13 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/arrow_dockbar_triangle_up.png")
 	ImageResource input_help_up();
 	
+	
+	
+	//DIALOGS
+	@Source("icons/png/web/triangle_right.png")
+	ImageResource triangle_right();
+	
+	@Source("icons/png/web/triangle_down.png")
+	ImageResource triangle_down();
 }
 

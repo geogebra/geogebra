@@ -19,6 +19,8 @@
  * element's height and width are set to 5px.
  */
  
+ /*hack for toolbar submenu, that is isn't hidden by 
+ dockpanel standard div styling (overflow:hidden) */
  .ggbdockpanelhack > div {
  	overflow: visible !important;
  }
@@ -42,6 +44,12 @@
   	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
  }
  
+ hr {
+ 	height: 0px;
+ 	border: none;
+ 	border-bottom: 1px solid #DCDCDC;
+ }
+ 
  .clear {
  	clear: both;
  }
@@ -50,6 +58,10 @@
   height: 5px;
   width: 5px;
   zoom: 1;
+}
+
+.gwt-FileUpload {
+	margin-bottom: 10px;
 }
 
 .gwt-Button {
@@ -164,87 +176,10 @@
   overflow: hidden;
 }
 
-.gwt-DialogBox .Caption {
-  background: #F1F1F1;
-  padding: 4px 8px 4px 4px;
-  cursor: default;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-  font-weight: bold;
-  border-bottom: 1px solid #bbbbbb;
-  border-top: 1px solid #D2D2D2;
-}
-.gwt-DialogBox .dialogContent {
-}
-.gwt-DialogBox .dialogMiddleCenter {
-  padding: 3px;
-  background: white;
-}
-.gwt-DialogBox .dialogBottomCenter {
-  background: url(images/hborder.png) repeat-x 0px -2945px;
-  -background: url(images/hborder_ie6.png) repeat-x 0px -2144px;
-}
-.gwt-DialogBox .dialogMiddleLeft {
-  background: url(images/vborder.png) repeat-y -31px 0px;
-}
-.gwt-DialogBox .dialogMiddleRight {
-  background: url(images/vborder.png) repeat-y -32px 0px;
-  -background: url(images/vborder_ie6.png) repeat-y -32px 0px;
-}
-.gwt-DialogBox .dialogTopLeftInner {
-  width: 10px;
-  height: 8px;
-  zoom: 1;
-}
-.gwt-DialogBox .dialogTopRightInner {
-  width: 12px;
-  zoom: 1;
-}
-.gwt-DialogBox .dialogBottomLeftInner {
-  width: 10px;
-  height: 12px;
-  zoom: 1;
-}
-.gwt-DialogBox .dialogBottomRightInner {
-  width: 12px;
-  height: 12px;
-  zoom: 1;
-}
-.gwt-DialogBox .dialogTopLeft {
-  background: url(images/circles.png) no-repeat -20px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -20px 0px;
-}
-.gwt-DialogBox .dialogTopRight {
-  background: url(images/circles.png) no-repeat -28px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -28px 0px;
-}
-.gwt-DialogBox .dialogBottomLeft {
-  background: url(images/circles.png) no-repeat 0px -36px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -36px;
-}
-.gwt-DialogBox .dialogBottomRight {
-  background: url(images/circles.png) no-repeat -8px -36px;
-  -background: url(images/circles_ie6.png) no-repeat -8px -36px;
-}
-* html .gwt-DialogBox .dialogTopLeftInner {
-  width: 10px;
-  overflow: hidden;
-}
-* html .gwt-DialogBox .dialogTopRightInner {
-  width: 12px;
-  overflow: hidden;
-}
-* html .gwt-DialogBox .dialogBottomLeftInner {
-  width: 10px;
-  height: 12px;
-  overflow: hidden;
-}
-* html .gwt-DialogBox .dialogBottomRightInner {
-  width: 12px;
-  height: 12px;
-  overflow: hidden;
-}
+
 
 .gwt-DisclosurePanel {
+	margin-top: 5px;
 }
 .gwt-DisclosurePanel-open {
 }
@@ -253,10 +188,10 @@
 .gwt-DisclosurePanel .header,
 .gwt-DisclosurePanel .header a,
 .gwt-DisclosurePanel .header td {
-  text-decoration: none;  /* Remove underline from header */
-  color: black; 
-  cursor: pointer;
-  cursor: hand;
+  	text-decoration: none;  /* Remove underline from header */
+  	cursor: pointer;
+  	cursor: hand;
+  	color: #666666;
 }
 .gwt-DisclosurePanel .content {
   border-left: 3px solid #e7e7e7;
@@ -494,8 +429,9 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-PopupPanel.loadinganimation {
-	background-color: none;
+	background-color: rgba(255, 255, 255, 0);
 	box-shadow: none;
+	border-color: transparent;
 }
 
 .gwt-DecoratedPopupPanel .popupContent {
@@ -1289,40 +1225,53 @@ td.datePickerMonth {
   padding: 2px 2px 10px 5px;
 }
 
+
+
 .gwt-TabLayoutPanel {
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
-  background: #ccc;
-  padding-top: 6px;
-  padding-left: 5px;
+  /*background: #DCDCDC;
+  padding-top: 5px;
+  padding-left: 5px;*/
+  border-bottom: 1px solid #DCDCDC;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer {
-  border-color: #ccc;
-  border-style: solid;
-  border-width: 0px 1px 1px;
+  border: 1px solid #DCDCDC;
+  border-top: none;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
   overflow: hidden;
-  padding: 6px;
+  padding: 5px;
+  background-color: #FFFFFF;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
-  margin-left: 4px;
-  padding: 4px 8px 4px 8px;
-  cursor: pointer;
-  cursor: hand;
-  color: white;
-  font-weight: normal;
-  text-align: center;
-  background: #8E8E8E;
-  -moz-border-radius: 3px 3px 0px 0px;
-  border-radius: 3px 3px 0px 0px;
+	margin-right: 4px;
+	padding: 4px 8px;
+	height: 30px;
+	cursor: pointer;
+	cursor: hand;
+	font-weight: normal;
+	text-align: center;
+	background: #FFFFFF;
+	-moz-border-radius: 3px 3px 0px 0px;
+	border-radius: 3px 3px 0px 0px;
+	border: 1px solid #DCDCDC;
+	position: relative;
+	bottom: -1px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
+	height: 15px;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
-  cursor: default;
-  background: white;
-  color: #333;
-  font-weight: bold;
+	cursor: default;
+	background: white;
+	color: #6666FF;
+	border-bottom: 1px solid white;
 }
+
+
 
 .gwt-SplitLayoutPanel-HDragger {
 	cursor: col-resize;
@@ -1363,11 +1312,12 @@ td.datePickerMonth {
 .GeoGebraPopup select,
 .DialogBox select {
 	border: 1px solid gray; /* Undo fixed styling of Safari dropdowns  */
-	font-size: smaller;
+	/*font-size: smaller;*/
+	color: #666666;
 }
 
 .GeoGebraPopup {
-	padding:0px;
+	padding: 0px;
 }
 
 .geogebraweb {
@@ -1474,6 +1424,7 @@ body[dir=rtl] .signIn {
 	margin-left: 2px;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	overflow-y: auto;
+	background-color: #F8F8F8;
 }
 
 .menubarSMART .menuPanel {
@@ -2055,27 +2006,61 @@ body[dir=rtl] .toolbar_mainItem {
 
 /*========= Dialogs ===========*/
 
-.Dialog-content {
-	padding:4px;
+.gwt-DialogBox .Caption {
+  	cursor: default;
+  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+  	font-size: 110%;
+  
+  	padding: 10px;
+	text-align: center;
+	color: #333333;
+	border-bottom: 1px solid #CCCCCC;
+	
+	background-image: linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+	color-stop(0, rgb(140, 150, 170) ),
+	color-stop(1, rgb(247, 247, 247) ) ) );
+}
+
+.dialogContent,
+.GeoGebraPopup {
+	color: #666666;
+	background-color: #F8F8F8;
+	padding: 0px;
+	background-image: none;
+	border: none;
+	-webkit-border-radius: 0px;
+	-khtml-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	padding: 10px 10px 10px 10px;
+}
+
+.Dialog-messagePanel {
+	font-size:85%;
+	margin-bottom: 10px;
+}
+
+.DialogRbPanel {
+	margin-top: 10px;
+}
+
+.DialogRbPanel td {
+	padding-right: 20px;
 }
 
 .DialogButtonPanel {
 	text-align: right;
-	padding-top: 16px;
+	padding-top: 10px;
 	min-width: 250px;
 }
 
 .DialogButtonPanel button{
-	margin: 3px;
-}
-
-
-.Dialog-messagePanel {
-	font-size:85%;
-}
-
-.Dialog-messagePanel td{
-	border-spacing: 6px;
+	margin-left: 5px;
 }
 
 .Dialog-messagePanel img {
@@ -2362,8 +2347,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 
 /* ========== Text Editor ============ */
 
-.textEditor{
-	border: 1px solid lightgray;
+.textEditor {
+	border: 1px solid #DCDCDC;
+	background-color: #FFFFFF;
 	width: 380px;
 	height: 100px;
 }
@@ -2491,7 +2477,7 @@ body[dir=rtl] .GeoGebraMenuBar table {
 
 label {
 	display:inline;
-	color:black;
+	/*color:black;*/
 	font-weight:normal;
 }
 
@@ -2570,10 +2556,6 @@ label {
 
 #imageList li.selected {
 	background-color: #0000ff;
-}
-
-.loadinganimation {
-	border-color:transparent;
 }
 
 .imageCorner {
@@ -3276,11 +3258,16 @@ PROVIDERS
 	color: #6666FF;
 }
 
-.zoomed{
+/*#####################################################################################
+###       ZOOM
+#####################################################################################*/
+
+.zoomed {
 	-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
 	width:125%;
 	height:125%;
 	-webkit-transform-origin:0% 0%;
+	-moz-transform-origin: 0% 0%;
 	transform-origin:0% 0%;
-
 }

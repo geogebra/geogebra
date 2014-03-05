@@ -508,11 +508,12 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/stylingbar_graphicsview_standardview.png")
 	ImageResource standard_view();
 	
-	@Source("geogebra/web/gui/images/menuBarSubMenuIconLTR.gif")
+	// now in GUI Resources
+	/*@Source("geogebra/web/gui/images/menuBarSubMenuIconLTR.gif")
 	ImageResource menuBarSubMenuIconLTR();
 
 	@Source("geogebra/web/gui/images/menuBarSubMenuIconRTL.gif")
-	ImageResource menuBarSubMenuIconRTL();
+	ImageResource menuBarSubMenuIconRTL();*/
 
 	@Source("icons/png30x30/stylingbar_point-full.png")
 	ImageResource point_full();

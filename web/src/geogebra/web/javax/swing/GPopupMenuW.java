@@ -1,8 +1,8 @@
 package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.euclidian.EuclidianControllerW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
@@ -166,7 +166,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	}
 	
 	private ImageResource getSubMenuIcon(boolean isRTL){
-		return isRTL ? AppResources.INSTANCE.menuBarSubMenuIconRTL() : AppResources.INSTANCE.menuBarSubMenuIconLTR();
+		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL() : GuiResources.INSTANCE.menuBarSubMenuIconLTR();
 	}
 	
 //	public void addItem(final MenuItem item) {
