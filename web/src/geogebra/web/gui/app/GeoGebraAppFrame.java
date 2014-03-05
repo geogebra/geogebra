@@ -22,6 +22,8 @@ import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -178,7 +180,13 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		
 		app = createApplication(article,this);
 		app.getLAF().setCloseMessage(app.getLocalization());
+		this.addDomHandler(new ClickHandler(){
 
+			@Override
+            public void onClick(ClickEvent event) {
+	            app.closePopups();
+	            
+            }},ClickEvent.getType());
 //		((AppW)app).initializeLanguage();
 
 		//Debugging purposes

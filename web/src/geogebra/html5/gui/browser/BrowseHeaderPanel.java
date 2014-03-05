@@ -11,6 +11,7 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.AuxiliaryHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -167,13 +168,13 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			
 			userPanel.add(optionsPanel);
 			optionsPanel.setVisible(false);
-			userName.addClickHandler(new ClickHandler(){
-
+			
+			profilePanel.addDomHandler(new ClickHandler(){
 				@Override
                 public void onClick(ClickEvent event) {
-	                optionsPanel.setVisible(!optionsPanel.isVisible());
-	                
-                }});
+					((AppW)app).togglePopup(optionsPanel);
+					event.stopPropagation();
+                }},ClickEvent.getType());
 		}
 		this.rightPanel.clear();
 		this.userName.setText(user.getUserName());

@@ -1648,5 +1648,22 @@ public abstract class AppW extends AppWeb {
 	    // TODO Auto-generated method stub
 	    
     }
-	
+
+	private ArrayList<Widget> popups = new ArrayList<Widget>();
+	public void togglePopup(Widget widget) {
+		if(!widget.isVisible()){
+			widget.setVisible(true);
+			popups.add(widget);
+		}else{
+			widget.setVisible(false);
+			popups.remove(widget);
+		}
+    }
+
+	public void closePopups(){
+		for(Widget widget:popups){
+			widget.setVisible(false);
+		}
+		popups.clear();
+	}
 }

@@ -73,7 +73,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 		
 		//TODO: Only visible if user is logged in with google Account
 		locationDrive = new StandardButton(BrowseResources.INSTANCE.location_drive());
-		providers.add(locationDrive);
+		//providers.add(locationDrive);
 		
 		//TODO: Only visible if user is logged in with google Account
 		//locationSkyDrive = new StandardButton(BrowseResources.INSTANCE.location_skydrive());
