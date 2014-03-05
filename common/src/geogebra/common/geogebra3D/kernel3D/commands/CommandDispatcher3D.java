@@ -187,7 +187,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdFunction2Var(kernel);
 
 			case Surface:
-			case SurfaceCartesian:
 				return new CmdSurfaceCartesian3D(kernel);
 
 			case Angle:
