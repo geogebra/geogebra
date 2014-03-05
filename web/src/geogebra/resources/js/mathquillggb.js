@@ -112,19 +112,6 @@ function bind(cons /*, args... */) {
   };
 }
 
-/**
- * a development-only debug method.  This definition and all
- * calls to `pray` will be stripped from the minified
- * build of MathQuillGGB.
- *
- * This function must be called by name to be removed
- * at compile time.  Do not define another function
- * with the same name, and only call this function by
- * name.
- */
-function pray(message, cond) {
-  if (!cond) throw new Error('prayer failed: '+message);
-}
 var P = (function(prototype, ownProperty, undefined) {
   // helper functions that also help minification
   function isObject(o) { return typeof o === 'object'; }
@@ -483,8 +470,6 @@ var Parser = P(function(_, _super, Parser) {
 
   // -*- primitive combinators -*- //
   _.or = function(alternative) {
-    pray('or is passed a parser', alternative instanceof Parser);
-
     var self = this;
 
     return Parser(function(stream, onSuccess, onFailure) {
@@ -504,7 +489,6 @@ var Parser = P(function(_, _super, Parser) {
 
       function success(newStream, result) {
         var nextParser = (next instanceof Parser ? next : next(result));
-        pray('a parser is returned', nextParser instanceof Parser);
         return nextParser._(newStream, onSuccess, onFailure);
       }
     });
@@ -607,8 +591,6 @@ var Parser = P(function(_, _super, Parser) {
   };
 
   var regex = this.regex = function(re) {
-    pray('regexp parser is anchored', re.toString().charAt(1) === '^');
-
     var expected = 'expected '+re;
 
     return Parser(function(stream, onSuccess, onFailure) {
@@ -674,10 +656,6 @@ var Parser = P(function(_, _super, Parser) {
 // and (-L) === R, and (-R) === L.
 var L = -1;
 var R = 1;
-
-function prayDirection(dir) {
-  pray('a direction was passed', dir === L || dir === R);
-}
 
 // directionalizable versions of common jQuery traversals
 function jQinsertAdjacent(dir, el, target) {
@@ -759,7 +737,6 @@ var Node = P(function(_) {
   };
 
   _.createDir = function(dir, cursor) {
-    prayDirection(dir);
     var node = this;
     node.jQize();
     jQinsertAdjacent(dir, node.jQ, cursor.jQ);
@@ -834,16 +811,9 @@ var Node = P(function(_) {
 var Fragment = P(function(_) {
   //_.text = function() { return ''; };// dummy default (maybe for bugfix)
   _.init = function(first, last) {
-    pray('no half-empty fragments', !first === !last);
-
     this.ends = {};
 
     if (!first) return;
-
-    pray('first node is passed to Fragment', first instanceof Node);
-    pray('last node is passed to Fragment', last instanceof Node);
-    pray('first and last have the same parent',
-         first.parent === last.parent);
 
     this.ends[L] = first;
     this.ends[R] = last;
@@ -852,28 +822,7 @@ var Fragment = P(function(_) {
   };
   _.jQ = $();
 
-  function prayWellFormed(parent, prev, next) {
-    pray('a parent is always present', parent);
-    pray('prev is properly set up', (function() {
-      // either it's empty and next is the first child (possibly empty)
-      if (!prev) return parent.ch[L] === next;
-
-      // or it's there and its next and parent are properly set up
-      return prev[R] === next && prev.parent === parent;
-    })());
-
-    pray('next is properly set up', (function() {
-      // either it's empty and prev is the last child (possibly empty)
-      if (!next) return parent.ch[R] === prev;
-
-      // or it's there and its next and parent are properly set up
-      return next[L] === prev && next.parent === parent;
-    })());
-  }
-
   _.adopt = function(parent, prev, next) {
-    prayWellFormed(parent, prev, next);
-
     var self = this;
     self.disowned = false;
 
@@ -919,9 +868,6 @@ var Fragment = P(function(_) {
 
     var last = self.ends[R]
     var parent = first.parent;
-
-    prayWellFormed(parent, first[L], first);
-    prayWellFormed(parent, last, last[R]);
 
     if (first[L]) {
       first[L][R] = last[R];
@@ -972,10 +918,6 @@ var Fragment = P(function(_) {
   // There must exist an LCA, i.e., A and B must be in the same tree, and A
   // and B must not be the same Point.
   this.between = function(A, B) {
-    pray('A and B are not the same Point',
-      A.parent !== B.parent || A[L] !== B[L] || A[R] !== B[R]
-    );
-
     var ancA = A; // an ancestor of A
     var ancB = B; // an ancestor of B
     var ancMapA = {}; // a map from the id of each ancestor of A visited
@@ -1007,8 +949,6 @@ var Fragment = P(function(_) {
     // the only way for this condition to fail is if A and B are in separate
     // trees, which should be impossible, but infinite loops must never happen,
     // even under error conditions.
-
-    pray('A and B are in the same tree', ancA.parent || ancB.parent);
 
     // Now we have two either Nodes or Points, guaranteed to have a common
     // parent and guaranteed that if both are Points, they are not the same,
@@ -1261,8 +1201,6 @@ var MathCommand = P(MathElement, function(_, _super) {
     var cmdId = ' mathquillggb-command-id=' + cmd.id;
     var tokens = cmd.htmlTemplate.match(/<[^<>]+>|[^<>]+/g);
 
-    pray('no unmatched angle brackets', tokens.join('') === this.htmlTemplate);
-
     // add cmdId to all top-level tags
     for (var i = 0, token = tokens[0]; token; i += 1, token = tokens[i]) {
       // top-level self-closing tags
@@ -1271,15 +1209,12 @@ var MathCommand = P(MathElement, function(_, _super) {
       }
       // top-level open tags
       else if (token.charAt(0) === '<') {
-        pray('not an unmatched top-level close tag', token.charAt(1) !== '/');
-
         tokens[i] = token.slice(0,-1) + cmdId + '>';
 
         // skip matching top-level close tag and all tag pairs in between
         var nesting = 1;
         do {
           i += 1, token = tokens[i];
-          pray('no missing close tags', token);
           // close tags
           if (token.slice(0,2) === '</') {
             nesting -= 1;
@@ -2173,9 +2108,6 @@ var SupSub = P(MathCommand, function(_, _super) {
   };
   _.finalizeTree = function() {
     //TODO: use inheritance
-    pray('SupSub is only _ and ^',
-      this.ctrlSeq === '^' || this.ctrlSeq === '_'
-    );
 
     if (this.ctrlSeq === '_') {
       this.downInto = this.ch[L];
@@ -3820,7 +3752,6 @@ var TextPiece = P(Node, function(_, _super) {
     this.dom.insertData(0, text);
   };
   _.appendTextInDir = function(text, dir) {
-    prayDirection(dir);
     if (dir === R) this.appendText(text);
     else this.prependText(text);
   };
@@ -3830,8 +3761,6 @@ var TextPiece = P(Node, function(_, _super) {
   }
 
   _.moveTowards = function(dir, cursor) {
-    prayDirection(dir);
-
     var ch = endChar(-dir, this.text2)
 
     var from = this[-dir];
@@ -4087,7 +4016,6 @@ var Cursor = P(Point, function(_) {
     oldParent.blur();
   };
   _.insertAdjacent = function(dir, el) {
-    prayDirection(dir);
     this.withDirInsertAt(dir, el.parent, el[dir], el);
     this.parent.jQ.addClass('hasCursor');
     jQinsertAdjacent(dir, this.jQ, jQgetExtreme(dir, el.jQ));
@@ -4097,7 +4025,6 @@ var Cursor = P(Point, function(_) {
   _.insertAfter = function(el) { return this.insertAdjacent(R, el); };
 
   _.appendDir = function(dir, el) {
-    prayDirection(dir);
     this.withDirInsertAt(dir, el, 0, el.ch[dir]);
 
     // never insert before textarea
@@ -4116,8 +4043,6 @@ var Cursor = P(Point, function(_) {
   _.appendTo = function(el) { return this.appendDir(R, el); };
 
   _.escapeDir = function(dir, key, e) {
-    prayDirection(dir);
-
     // always prevent default of Spacebar, but only prevent default of Tab if
     // not in the root editable
     if (key === 'Spacebar' || this.parent !== this.root) {
@@ -4134,8 +4059,6 @@ var Cursor = P(Point, function(_) {
   };
 
   _.moveDirWithin = function(dir, block) {
-    prayDirection(dir);
-
     if (this[dir]) this[dir].moveTowards(dir, this);
     else if (this.parent !== block) this.parent.moveOutOf(dir, this);
   };
@@ -4146,8 +4069,6 @@ var Cursor = P(Point, function(_) {
     return this.moveDirWithin(R, block);
   };
   _.moveDir = function(dir) {
-    prayDirection(dir);
-
     clearUpDownCache(this);
 
     if (this.selection)  {
@@ -4227,7 +4148,6 @@ var Cursor = P(Point, function(_) {
       nodeId = targetParent.attr(mqBlockId) || targetParent.attr(mqCmdId);
     }
     var node = nodeId ? Node.byId[nodeId] : cursor.root;
-    pray('nodeId is the id of some Node that exists', node);
 
     // target could've been selection span, so get node from target before
     // clearing selection
@@ -4361,7 +4281,6 @@ var Cursor = P(Point, function(_) {
       gramp[R].respace();
   };
   _.deleteDir = function(dir) {
-    prayDirection(dir);
     clearUpDownCache(this);
     this.show();
 
@@ -4396,7 +4315,6 @@ var Cursor = P(Point, function(_) {
   };
   _.selectDir = function(dir) {
     var self = this;
-    prayDirection(dir);
     clearUpDownCache(this);
 
     if (self[dir]) {
