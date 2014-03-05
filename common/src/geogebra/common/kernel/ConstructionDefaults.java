@@ -424,6 +424,7 @@ public class ConstructionDefaults {
 		angle.setSliderFixed(true);
 		angle.setObjColor(colAngle);
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
+		angle.setDrawable(true,false);
 		angle.setArcSize(angleSize);
 		/*
 		 * we have to set min/max/increment/speed here because
