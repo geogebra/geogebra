@@ -1135,9 +1135,9 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 	 *            geos hitted
 	 * @return net of a polyhedron
 	 */
-	final protected boolean polyhedronNet(Hits hits) {
+	final protected GeoElement[] polyhedronNet(Hits hits) {
 		if (hits.isEmpty())
-			return false;
+			return null;
 
 		addSelectedGeo(hits.getPolyhedronsIncludingMetaHits(), 1, false);
 
@@ -1154,13 +1154,13 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			slider.setEuclidianVisible(false);
 			slider.update();
 
-			kernel.getManager3D().PolyhedronNet(null, polyhedron, slider, null,
-					null); // no bottom face, no pivot segments
-			return true;
-
+			return new GeoElement[] {
+					kernel.getManager3D().PolyhedronNet(null, polyhedron, slider, null,
+							null)[0] // no bottom face, no pivot segments
+			};
 		}
 
-		return false;
+		return null;
 
 	}
 
@@ -1929,7 +1929,7 @@ public abstract class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		case EuclidianConstants.MODE_NET:
-			changedKernel = polyhedronNet(hits);
+			ret = polyhedronNet(hits);
 			break;
 
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:

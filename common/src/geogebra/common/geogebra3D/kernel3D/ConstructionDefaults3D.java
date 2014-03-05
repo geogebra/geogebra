@@ -8,6 +8,7 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
@@ -49,6 +50,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default surface type */
 	public static final int DEFAULT_SURFACECARTESIAN3D = 3304;
 	
+	/** default net type */
+	public static final int DEFAULT_NET = 3305;
+
 	
 	// DEFAULT COLORs
 	
@@ -143,7 +147,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polyhedron.setObjColor(colPolyhedron);
 		polyhedron.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
-		
+
+		// polyhedron
+		GeoPolyhedronNet polyhedronNet = new GeoPolyhedronNet(cons);	
+		polyhedronNet.setLocalVariableLabel("Net");
+		polyhedronNet.setObjColor(colPolyhedron);
+		polyhedronNet.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
+		defaultGeoElements.put(DEFAULT_NET, polyhedronNet);
+
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);	
 		quadric.setLocalVariableLabel("Quadric");
@@ -219,6 +230,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		case POLYHEDRON:
 		case QUADRIC_LIMITED:
 			return DEFAULT_POLYHEDRON;
+			
+		case NET:
+			return DEFAULT_NET;
 			
 		case QUADRIC:
 		case QUADRIC_PART:

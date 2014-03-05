@@ -108,6 +108,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		defaultGeoMap.put(EuclidianConstants.MODE_CUBE,
 				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
 		
+		// net
+		defaultGeoMap.put(EuclidianConstants.MODE_NET,
+				ConstructionDefaults3D.DEFAULT_NET);
+		
 
 
 		

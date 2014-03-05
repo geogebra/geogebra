@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * Net for a polyhedron
@@ -76,6 +77,11 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		}
 
 		return super.createPolygon(points, index);
+	}
+	
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.NET;
 	}
 }
 
