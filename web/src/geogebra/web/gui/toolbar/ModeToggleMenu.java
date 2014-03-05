@@ -26,8 +26,10 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -318,11 +320,11 @@ MouseOutHandler, MouseOverHandler{
 	 */
 	private boolean isBottomHalfClicked(DomEvent event){
 		int clickYPos;
-//		if (event instanceof TouchEvent){
-//			clickYPos = event.getNativeEvent().getChangedTouches().get(0).getClientY();
-//		} else {
+		if (event instanceof TouchEvent){
+			clickYPos = event.getNativeEvent().getChangedTouches().get(0).getPageY();
+		} else {
 			clickYPos = event.getNativeEvent().getClientY();
-//		}
+		}
 		return (clickYPos - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
 	}
 	
