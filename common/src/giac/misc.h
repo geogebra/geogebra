@@ -93,6 +93,7 @@ namespace giac {
   gen _textinput(const gen & args,GIAC_CONTEXT);
   gen _primpart(const gen & g,GIAC_CONTEXT);
   gen _content(const gen & g,GIAC_CONTEXT);
+  gen _icontent(const gen & g,GIAC_CONTEXT);
   gen _coeff(const gen & g,GIAC_CONTEXT);
   gen _chrem(const gen & g,GIAC_CONTEXT);
   gen _genpoly(const gen & g,GIAC_CONTEXT);

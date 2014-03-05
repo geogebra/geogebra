@@ -237,6 +237,7 @@ namespace giac {
   extern gen * rpn_ans() ;
   gen _Ans(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Ans;
+  bool is_Ans(const gen & g);
   gen _EXPORT(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_EXPORT;
   gen _VIEWS(const gen & args,GIAC_CONTEXT);

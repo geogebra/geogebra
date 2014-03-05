@@ -970,6 +970,8 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=2 )
       return gentypeerr();
     gm=g._VECTptr->front();
+    if (is_Ans(gm))
+      gm=eval(gm,1,contextptr);
     if (gm.type==_IDNT){
       return sto(delrowscols(eval(g,eval_level(contextptr),contextptr),isrow,contextptr),gm,contextptr);
     }
@@ -1018,13 +1020,15 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=2 || g._VECTptr->back().type!=_INT_ )
       return gentypeerr();
     s=g._VECTptr->back().val;
-    if (s<=0)
+    if (s<=0 || double(s)*s>LIST_SIZE_LIMIT)
       return gendimerr();
     --s;
     gen x=g._VECTptr->front();
     matrice m;
     m.reserve(s+1);
     for (int i=0;i<=s;++i){
+      if (ctrl_c || interrupted)
+	return gensizeerr(gettext("Stopped by user interruption."));
       vecteur v(s+1);
       v[i]=x;
       if (i<s)
@@ -1041,7 +1045,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v;
     if (g.type!=_VECT)
-      return gentypeerr();
+      return _companion(makesequence(g,vx_var),contextptr); // gentypeerr();
     if (g.subtype==_SEQ__VECT && g._VECTptr->size()==2){
       gen P=g._VECTptr->front();
       gen x=g._VECTptr->back();
@@ -2067,7 +2071,10 @@ namespace giac {
     if (has_num_coeff(m))
       m=*evalf(m,1,contextptr)._VECTptr;
     matrice P,Pinv,D;
+    bool b=complex_mode(contextptr);
+    complex_mode(true,contextptr);
     egv(m,P,D,contextptr,true,false,false);
+    complex_mode(b,contextptr);
     Pinv=minv(P,contextptr);
     if (is_undef(Pinv))
       return Pinv;

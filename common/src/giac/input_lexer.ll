@@ -74,6 +74,7 @@
 #include "ezgcd.h"
 #include "tex.h"
 #include "risch.h"
+#include "permu.h"
 #include "input_parser.h"    
 
 #if defined(RTOS_THREADX) || defined(__MINGW_H)
@@ -578,6 +579,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_mod"                  index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
   /* "MOD"                   index_status(yyextra)=0; return T_MOD; */
 "^"                     index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;
+"^*"                     index_status(yyextra)=0; (*yylval)=gen(at_trn,1); return T_FACTORIAL;
 "pow"		         (*yylval) = gen(at_pow,2); index_status(yyextra)=0; return T_UNARY_OP;
 "**"                     index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;
 ".^"                     index_status(yyextra)=0; (*yylval)=gen(at_pointpow,2); return T_POW;

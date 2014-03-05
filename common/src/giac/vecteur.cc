@@ -1904,8 +1904,9 @@ namespace giac {
       gen prefact=accurate_evalf(plus_one,nbits);
       gen oldval,newval,newr,fprimer;
       oldval=horner(cur_v,r);
-      for (;j<SOLVER_MAX_ITERATE*vsize;j++){
-	if (!(j%vsize)){
+      int vsize2=vsize*(1+nbits/48);
+      for (;j<SOLVER_MAX_ITERATE*vsize2;j++){
+	if (!(j%vsize2)){
 	  if (is_zero(im(r,context0),context0))
 	    r=r*accurate_evalf(gen(1.,1e-2),nbits);
 	  // random restart
@@ -4317,6 +4318,8 @@ namespace giac {
   }
 
   static gen untrunc1(const gen & g){
+    if (g.type==_FRAC)
+      return fraction(untrunc1(g._FRACptr->num),untrunc1(g._FRACptr->den));
     return g.type==_POLY?g._POLYptr->untrunc1():g;
   }
 
@@ -9793,6 +9796,13 @@ namespace giac {
 	for (unsigned i=0;i<w.size();++i)
 	  ww[i]=r2e(w[i],lv,contextptr);
 	v=solve(horner(ww,tmpx),tmpx,complex_mode(contextptr),contextptr); 
+	if (v.size()!=w.size()-1){
+	  gen m0num=evalf(m0,1,contextptr);
+	  if (m0num.type==_VECT && lidnt(m0num).empty()){
+	    *logptr(contextptr) << gettext("Unable to find exact eigenvalues. Trying approx") << endl;
+	    return egv(*m0num._VECTptr,p,d,contextptr,jordan,false,eigenvalues_only);
+	  }
+	}
 	// compute new lv and update v and m_adj accordingly
 	cur_lv=alg_lvar(v);
 	alg_lvar(cur_m_adj,cur_lv);
@@ -10886,6 +10896,10 @@ namespace giac {
       x=v[2];
     gen p1(_e2r(makesequence(v[0],x),contextptr));
     gen p2(_e2r(makesequence(v[1],x),contextptr));
+    if (p1.type==_FRAC)
+      p1=inv(p1._FRACptr->den,contextptr)*p1._FRACptr->num;
+    if (p2.type==_FRAC)
+      p2=inv(p2._FRACptr->den,contextptr)*p2._FRACptr->num;
     if (p1.type!=_VECT || p2.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur & v1 =*p1._VECTptr;

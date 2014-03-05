@@ -352,8 +352,15 @@ exp	: T_NUMBER		{$$ = $1;}
 	  v.insert(v.begin(),symb_sto(symb_at($4,kk,contextptr),$2));
 	  $$=symbolic(*$1._FUNCptr,makevecteur(symb_sto(xcas_mode(contextptr)!=0,kk),symb_inferieur_strict(kk,symb_size($4)+(xcas_mode(contextptr)!=0)),symb_sto(symb_plus(kk,plus_one),kk),symb_bloc(v))); 
           */
-          if ($7.type==_INT_ && $7.val && $7.val!=2 && $7.val!=9) giac_yyerror(scanner,"missing loop end delimiter");
-          $$=symbolic(*$1._FUNCptr,makevecteur(1,symbolic(*$1._FUNCptr,makevecteur($2,$4)),1,symb_bloc($6)));
+          if ($7.type==_INT_ && $7.val && $7.val!=2 && $7.val!=9)
+	    giac_yyerror(scanner,"missing loop end delimiter");
+          if ($4.is_symb_of_sommet(at_interval) &&	$4._SYMBptr->feuille.type==_VECT 
+             && $4._SYMBptr->feuille._VECTptr->size()==2 &&
+	     $4._SYMBptr->feuille._VECTptr->front().type==_INT_ && 
+	     $4._SYMBptr->feuille._VECTptr->back().type==_INT_ )
+            $$=symbolic(*$1._FUNCptr,makevecteur(symb_sto($4._SYMBptr->feuille._VECTptr->front(),$2),symb_inferieur_egal($2,$4._SYMBptr->feuille._VECTptr->back()),symb_sto(symb_plus($2,1),$2),symb_bloc($6)));
+          else 
+            $$=symbolic(*$1._FUNCptr,makevecteur(1,symbolic(*$1._FUNCptr,makevecteur($2,$4)),1,symb_bloc($6)));
 	  }
 	| T_FOR symbol from T_TO exp step loop38_do prg_suite T_BLOC_END { 
           if ($9.type==_INT_ && $9.val && $9.val!=2 && $9.val!=9) giac_yyerror(scanner,"missing loop end delimiter");

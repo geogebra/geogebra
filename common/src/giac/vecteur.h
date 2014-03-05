@@ -347,6 +347,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_det_minor ;
   matrice sylvester(const vecteur & v1,const vecteur & v2);
   gen _sylvester(const gen & a,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_sylvester ;
 
   gen _hessenberg(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_hessenberg ;

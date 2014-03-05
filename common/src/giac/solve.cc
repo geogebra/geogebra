@@ -1099,9 +1099,11 @@ namespace giac {
 
   // works for continuous functions only
   static vecteur solve_inequation(const gen & e0,const identificateur & x,int direction,GIAC_CONTEXT){
-    if (has_num_coeff(e0))
-      return vecteur(1,gensizeerr(gettext("Unable to solve inequations with approx coeffs ")+e0.print(contextptr)));
     gen e=e0;
+    if (has_num_coeff(e0)){
+      *logptr(contextptr) << gettext("Unable to solve inequations with approx coeffs ") << endl;
+      e=exact(e0,contextptr);
+    }    
     gen a1=e._SYMBptr->feuille[0];
     gen a2=e._SYMBptr->feuille[1];
     vecteur w=lop(lvarx(makevecteur(a1,a2),x),at_pow);
@@ -1665,6 +1667,8 @@ namespace giac {
       for (int i=0;i<s;++i){
 	gen lsvar=ls[3*i+2];
 	gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
+	if (equalposcomp(substin,lsvar))
+	  continue;
 	substin.push_back(lsvar);
 	gen tmp("c__"+print_INT_(i),contextptr);
 	if (!(ls[3*i+1].val %2))
@@ -2959,7 +2963,7 @@ namespace giac {
       v.insert(v.begin()+2,gguess);
       ++s;
     }
-    if (s>=3)
+    if (s>=3 && (v[2].type!=_INT_ || v[2].subtype!=_INT_SOLVER))
       gguess=v[2];
     if (is_equal(gguess))
       return gensizeerr(contextptr);

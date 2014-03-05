@@ -1027,8 +1027,7 @@ namespace giac {
   define_unary_function_ptr5( at_ABS ,alias_at_ABS,&__ABS,0,T_UNARY_OP_38);
 
   gen _ARG38(const gen & g,GIAC_CONTEXT){
-    if (angle_radian(contextptr)==0)
-      return arg(evalf2bcd(g,1,contextptr),contextptr);
+    // if (angle_radian(contextptr)==0) return arg(evalf2bcd(g,1,contextptr),contextptr);
     return arg(g,contextptr);
   }
   static const char _ARG38_s[]="ARG";
@@ -1055,9 +1054,15 @@ namespace giac {
   static define_unary_function_eval (__CEILING,(const gen_op_context)giac::_ceil,_CEILING_s);
   define_unary_function_ptr5( at_CEILING ,alias_at_CEILING,&__CEILING,0,T_UNARY_OP_38);
 
-  gen fPart(const gen & g,GIAC_CONTEXT);
+  gen FP(const gen & g,GIAC_CONTEXT){
+    if (is_undef(g))
+      return g;
+    if (is_equal(g))
+      return apply_to_equal(g,FP,contextptr);
+    return g-_INT(g,contextptr);
+  }
   static const char _FRAC_s[]="FP";
-  static define_unary_function_eval (__FRAC,&giac::fPart,_FRAC_s);
+  static define_unary_function_eval (__FRAC,&giac::FP,_FRAC_s);
   define_unary_function_ptr5( at_FRAC ,alias_at_FRAC,&__FRAC,0,T_UNARY_OP_38);
 
   static const char _MAX_s[]="MAX";
@@ -1260,10 +1265,19 @@ namespace giac {
   static define_unary_function_eval (__ATANH,&giac::atanh,_ATANH_s);
   define_unary_function_ptr5( at_ATANH ,alias_at_ATANH,&__ATANH,0,T_UNARY_OP_38);
 
+  bool is_Ans(const gen & g){
+    if (g.type==_FUNC && *g._FUNCptr==at_Ans)
+      return true;
+    if (g.type==_SYMB && g._SYMBptr->sommet==at_Ans)
+      return true;
+    return false;
+  }
   /* matrices */
   gen _ADDROW(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
+    if (!v.empty() && is_Ans(v[0]))
+      v[0]=eval(v[0],1,contextptr);
     if (!v.empty() && v[0].type==_IDNT){
       gen v0=v[0];
       gen g=eval(args,eval_level(contextptr),contextptr);
@@ -1272,8 +1286,12 @@ namespace giac {
 	return is_undef(tmp)?tmp:sto(tmp,v0,contextptr);
       }
     }
+    if (v.size()!=3)
+      return gentypeerr(contextptr);
+    v[1]=eval(v[1],1,contextptr);
+    v[2]=eval(v[2],1,contextptr);
     v[2]=_floor(v[2],contextptr);
-    if (v.size()!=3 || !ckmatrix(v[0]) || v[1].type!=_VECT || v[2].type!=_INT_)
+    if (!ckmatrix(v[0]) || v[1].type!=_VECT || v[2].type!=_INT_)
       return gentypeerr(contextptr);
     vecteur & w = *v[0]._VECTptr;
     if (w.front()._VECTptr->size()!=v[1]._VECTptr->size())
@@ -1296,6 +1314,8 @@ namespace giac {
   gen _ADDCOL(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
+    if (!v.empty() && is_Ans(v[0]))
+      v[0]=eval(v[0],1,contextptr);
     if (!v.empty() && v[0].type==_IDNT){
       gen v0=v[0];
       gen g=eval(args,eval_level(contextptr),contextptr);
@@ -1324,6 +1344,8 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=3)
       return gensizeerr(contextptr);
     vecteur v =*g._VECTptr;
+    v[1]=eval(v[1],1,contextptr);
+    v[2]=eval(v[2],1,contextptr);
     swapgen(v[0],v[1]);
     return _mRow(gen(v,_SEQ__VECT),contextptr);
   }
@@ -1336,6 +1358,9 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=4)
       return gensizeerr(contextptr);
     vecteur v =*g._VECTptr;
+    v[1]=eval(v[1],1,contextptr);
+    v[2]=eval(v[2],1,contextptr);
+    v[3]=eval(v[3],1,contextptr);
     swapgen(v[0],v[1]);
     return _mRowAdd(gen(v,_SEQ__VECT),contextptr);
   }
@@ -1346,6 +1371,8 @@ namespace giac {
   gen _SWAPCOL(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
+    if (!v.empty() && is_Ans(v[0]))
+      v[0]=eval(v[0],1,contextptr);
     if (!v.empty() && v[0].type==_IDNT){
       gen v0=v[0];
       gen g=eval(args,eval_level(contextptr),contextptr);
@@ -1354,6 +1381,8 @@ namespace giac {
     }
     if (v.size()!=3 || !ckmatrix(v[0]))
       return gensizeerr(contextptr);
+    v[1]=eval(v[1],1,contextptr);
+    v[2]=eval(v[2],1,contextptr);
     matrice m;
     mtran(*v[0]._VECTptr,m);
     gen res=_rowSwap(makesequence(m,v[1],v[2]),contextptr);
@@ -1407,6 +1436,12 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
     int s=v.size();
+    if (s==1){
+      v[0]=_floor(v[0],contextptr);
+      if (v[0].type!=_INT_)
+	return gentypeerr(contextptr);
+      return vranm(v[0].val,0,contextptr);
+    }
     if (s<2)
       return gensizeerr(contextptr);
     gen name=v[0];
@@ -1434,8 +1469,9 @@ namespace giac {
     if (s==3)
       return _REDIM(gen(makevecteur(v[0],makevecteur(v[1],v[2])),_SEQ__VECT),contextptr);
     gen name=v[0];
-    if (s!=2 || (name.type!=_IDNT && !name.is_symb_of_sommet(at_double_deux_points)))
+    if (s!=2)
       return gensizeerr(contextptr);
+    bool unnamed= name.type!=_IDNT && !name.is_symb_of_sommet(at_double_deux_points);
     v=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
     if (v[0].type!=_VECT)
       return gentypeerr(contextptr);
@@ -1468,6 +1504,8 @@ namespace giac {
 	aplatir(*v[0]._VECTptr,w);
     }
     argv.push_back(w);
+    if (unnamed)
+      return _matrix(gen(argv,_SEQ__VECT),contextptr);
     return sto(_matrix(gen(argv,_SEQ__VECT),contextptr),name,contextptr);
   }
   static const char _REDIM_s[]="REDIM";
@@ -1479,8 +1517,9 @@ namespace giac {
     vecteur v(gen2vecteur(args));
     int s=v.size();
     gen name=v[0];
-    if (s!=3 || (name.type!=_IDNT && !name.is_symb_of_sommet(at_double_deux_points)))
+    if (s!=3)
       return gensizeerr(contextptr);
+    bool unnamed= name.type!=_IDNT && !name.is_symb_of_sommet(at_double_deux_points);
     v=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
     if (v[0].type!=_VECT || v[2].type!=_VECT)
       return gentypeerr(contextptr);
@@ -1512,6 +1551,8 @@ namespace giac {
 	  }
 	}
 	std_matrix_gen2matrice(target,w0);
+	if (unnamed)
+	  return gen(w0,_MATRIX__VECT);
 	return sto(gen(w0,_MATRIX__VECT),name,contextptr);
       }
       aplatir(*v[0]._VECTptr,w0);
@@ -1537,7 +1578,13 @@ namespace giac {
     for (;i<w0s && j<w2s;++j,++i){
       w0[i]=w2[j];
     }
-    if (!c) return sto(gen(w0,v[0].subtype),name,contextptr);
+    if (!c){
+      if (unnamed)
+	return gen(w0,v[0].subtype);
+      return sto(gen(w0,v[0].subtype),name,contextptr);
+    }
+    if (unnamed)
+      return _matrix(gen(makevecteur(l,c,w0),_SEQ__VECT),contextptr);
     return sto(_matrix(gen(makevecteur(l,c,w0),_SEQ__VECT),contextptr),name,contextptr);
   }
   static const char _REPLACE_s[]="REPLACE";
@@ -1691,6 +1738,8 @@ namespace giac {
 
   gen _INT(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_CPLX)
+      return _INT(*g._CPLXptr,contextptr)+cst_i*_INT(*(g._CPLXptr+1),contextptr);
     if (is_positive(g,contextptr))
       return _floor(g,contextptr);
     else
@@ -2036,8 +2085,12 @@ namespace giac {
     return _svd(gen(makevecteur(args,-2),_SEQ__VECT),contextptr);
   }
   static const char _SVL_s[]="SVL";
-  static define_unary_function_eval (__SVL,&giac::_SVL,_SVL_s); // FIXME
+  static define_unary_function_eval (__SVL,&giac::_SVL,_SVL_s); 
   define_unary_function_ptr5( at_SVL ,alias_at_SVL,&__SVL,0,T_UNARY_OP_38);
+
+  static const char _svl_s[]="svl";
+  static define_unary_function_eval (__svl,&giac::_SVL,_svl_s); 
+  define_unary_function_ptr5( at_svl ,alias_at_svl,&__svl,0,T_UNARY_OP);
 
   gen _SPECRAD(const gen & args0,GIAC_CONTEXT){
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
@@ -2077,40 +2130,55 @@ namespace giac {
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
     // COND(matrix,2) L2norm condition number
     // otherwise COLNORM(args0)*COLNORM(inv(args0))
-    if (args0.type==_VECT && args0._VECTptr->size()==2 && args0._VECTptr->back()==2){
-      gen args=args0._VECTptr->front();
-      if (!ckmatrix(args))
-	return gentypeerr(contextptr);
-      gen g=_SVL(args,contextptr);
-      if (is_undef(g)) return g;
-      if (g.type!=_VECT)
-	return undef;
-      vecteur & v =*g._VECTptr;
-      int s=v.size();
-      gen mina(plus_inf),maxa(0);
-      for (int i=0;i<s;++i){
-	gen tmp=abs(v[i],contextptr);
-	if (ck_is_strictly_greater(mina,tmp,contextptr))
-	  mina=tmp;
-	if (ck_is_strictly_greater(tmp,maxa,contextptr))
-	  maxa=tmp;
+    if (args0.type==_VECT && args0._VECTptr->size()==2){ 
+      if (args0._VECTptr->back()==1)
+	return _COND(args0._VECTptr->front(),contextptr);
+      if (args0._VECTptr->back()==2){
+	gen args=args0._VECTptr->front();
+	if (!ckmatrix(args))
+	  return gentypeerr(contextptr);
+	gen g=_SVL(args,contextptr);
+	if (is_undef(g)) return g;
+	if (g.type!=_VECT)
+	  return undef;
+	vecteur & v =*g._VECTptr;
+	int s=v.size();
+	gen mina(plus_inf),maxa(0);
+	for (int i=0;i<s;++i){
+	  gen tmp=abs(v[i],contextptr);
+	  if (ck_is_strictly_greater(mina,tmp,contextptr))
+	    mina=tmp;
+	  if (ck_is_strictly_greater(tmp,maxa,contextptr))
+	    maxa=tmp;
+	}
+	return maxa/mina;
       }
-      return maxa/mina;
+      if (is_inf(args0._VECTptr->back())){
+	gen args=evalf(args0._VECTptr->front(),1,contextptr);
+	if (!is_squarematrix(args))
+	  return gensizeerr(contextptr);
+	gen invargs=inv(args,contextptr);
+	if (is_undef(invargs))
+	  return undef;
+	return _rowNorm(args,contextptr)*_rowNorm(invargs,contextptr);
+      }
     }
-    else {
-      gen args=evalf(args0,1,contextptr);
-      if (!is_squarematrix(args))
-	return gensizeerr(contextptr);
-      gen invargs=inv(args,contextptr);
-      if (is_undef(invargs))
-	return undef;
-      return _colNorm(args,contextptr)*_colNorm(invargs,contextptr);
-      // return _colNorm(args,contextptr)*_rowNorm(args,contextptr)/abs(_det(args,contextptr),contextptr);
-    }
+    gen args=evalf(args0,1,contextptr);
+    if (!is_squarematrix(args))
+      return gensizeerr(contextptr);
+    gen invargs=inv(args,contextptr);
+    if (is_undef(invargs))
+      return undef;
+    return _colNorm(args,contextptr)*_colNorm(invargs,contextptr);
+    // return _colNorm(args,contextptr)*_rowNorm(args,contextptr)/abs(_det(args,contextptr),contextptr);
   }
   static const char _COND_s[]="COND";
   static define_unary_function_eval (__COND,&giac::_COND,_COND_s); // FIXME
   define_unary_function_ptr5( at_COND ,alias_at_COND,&__COND,0,T_UNARY_OP_38);
+
+  static const char _cond_s[]="cond";
+  static define_unary_function_eval (__cond,&giac::_COND,_cond_s); // FIXME
+  define_unary_function_ptr5( at_cond ,alias_at_cond,&__cond,0,T_UNARY_OP);
 
   gen _SCHUR(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -2132,6 +2200,10 @@ namespace giac {
   static const char _SCHUR_s[]="SCHUR";
   static define_unary_function_eval (__SCHUR,&giac::_SCHUR,_SCHUR_s); // FIXME
   define_unary_function_ptr5( at_SCHUR ,alias_at_SCHUR,&__SCHUR,0,T_UNARY_OP_38);
+
+  static const char _schur_s[]="schur";
+  static define_unary_function_eval (__schur,&giac::_SCHUR,_schur_s); // FIXME
+  define_unary_function_ptr5( at_schur ,alias_at_schur,&__schur,0,T_UNARY_OP);
 
   gen _LQ(const gen & args0,GIAC_CONTEXT){
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;

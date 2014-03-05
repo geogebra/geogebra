@@ -34,7 +34,7 @@
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   
-
+  bool is_analytic(const gen & g);
   bool taylor(const gen & f_x,const gen & x,const gen & lim_point,int ordre,vecteur & v,GIAC_CONTEXT);
   // The remainder term in sparse_poly1 is the term defined with coeff==undef
   // This term must be the last term in the std::vector<monome>

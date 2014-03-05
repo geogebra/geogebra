@@ -865,7 +865,8 @@ namespace giac {
 	return (s-1)/2;
     }
 #ifdef NO_STDEXCEPT
-    if (lvar(g)!=vecteur(1,x))
+    vecteur lvarg(lvar(g));
+    if (!lvarg.empty() && lvarg!=vecteur(1,x))
       return -2;
 #endif
     int res=0,dontcare,global_sign=1;

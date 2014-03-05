@@ -3273,7 +3273,10 @@ namespace giac {
       f=subst(f,x,tanx,false,contextptr)*(1+pow(tanx,2));
       a=atan(a,contextptr);
       b=atan(b,contextptr);
-      return intnum(makesequence(f,x,a,b),romberg_method,contextptr);
+      gen res=intnum(makesequence(f,x,a,b),romberg_method,contextptr);
+      if (angle_radian(contextptr)==0)
+	res=deg2rad_d*res; 
+      return res;
     }
     a=a.evalf(1,contextptr);
     b=b.evalf(1,contextptr);

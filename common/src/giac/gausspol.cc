@@ -4657,6 +4657,8 @@ namespace giac {
     factorization::const_iterator it=fsqff.begin(),itend=fsqff.end();
     for (;it!=itend;++it){
       polynome pcur=it->fact;
+      gen tmp1(1); lcmdeno(pcur,tmp1);
+      pcur=tmp1*pcur;
       // normalize leading term
       if (pcur.coord.front().value.type==_EXT){
 	gen pcur0=inv_EXT(pcur.coord.front().value),num,den;

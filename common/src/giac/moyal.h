@@ -41,6 +41,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_Airy_Bi ;
 
   double randNorm(GIAC_CONTEXT);
+  void randnorm2(double & r1,double & r2,GIAC_CONTEXT);
   gen _randNorm(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_randNorm ;
   extern const unary_function_ptr * const  at_randnormald ;

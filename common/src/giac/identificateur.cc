@@ -652,6 +652,34 @@ namespace giac {
     id_name = ptr->s ;
   }
 
+#ifdef GIAC_HAS_STO_38
+  identificateur::identificateur(const char * s, bool StringIsNowYours){
+    if (strchr(s,' ')){
+      ref_count=0;
+      string S(s);
+      // #ifdef GIAC_HAS_STO_38
+      for (unsigned i=0;i<S.size();++i){
+	if (S[i]==' '){
+	  S[i]='_';
+	}
+      }
+      // #endif
+      *this=identificateur(S);
+      return;
+    }
+    int_string_shortint_bool * ptr = new int_string_shortint_bool;
+    ptr->i=1;
+    ptr->b=0;
+    ptr->s=s;
+    ptr->s_dynalloc= StringIsNowYours;
+    ref_count = &ptr->i ;
+    value = NULL;
+    quoted = &ptr->b ;
+    localvalue = 0;
+    id_name = ptr->s ;
+  }
+#endif
+
   identificateur::identificateur(const char * s,const gen & e){
     if (strchr(s,' ')){
       ref_count=0;

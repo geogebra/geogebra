@@ -1470,7 +1470,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   volatile bool ctrl_c=false,interrupted=false;
 #ifdef GIAC_HAS_STO_38
   double powlog2float=1e4;
-  int MPZ_MAXLOG2=8000; // max 2^8000 about 1K
+  int MPZ_MAXLOG2=8600; // max 2^8600 about 1K
 #else
   double powlog2float=1e8;
   int MPZ_MAXLOG2=80000000; // 100 millions bits
@@ -4612,6 +4612,7 @@ unsigned int ConvertUTF8toUTF16 (
     "cpartfrac",
     "curve",
     "developper",
+    "element",
     "evalc",
     "expand",
     "expexpand",

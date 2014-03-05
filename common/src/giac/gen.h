@@ -299,6 +299,17 @@ namespace giac {
     mpf_t sup;
 #endif
 #endif
+    real_interval(){
+#ifdef HAVE_LIBMPFI
+      mpfi_init_set_fr(infsup,inf);
+#else
+#ifdef HAVE_LIBMPFR
+      mpfr_init_set(sup,inf,GMP_RNDN); 
+#else
+      mpf_init_set(sup,inf); 
+#endif
+#endif
+    }
     real_interval(const real_object & r):real_object(r) { 
 #ifdef HAVE_LIBMPFI
       mpfi_init_set_fr(infsup,r.inf);
@@ -342,6 +353,12 @@ namespace giac {
     virtual real_interval operator - (const real_interval & g) const ;
     virtual real_object operator -() const;
     virtual real_object inv() const;
+  };
+  struct ref_real_interval {
+    volatile int ref_count;
+    real_interval r; // assumes that storage of real_object inside real_interval is first
+    ref_real_interval():ref_count(1) {}
+    ref_real_interval(const real_interval & R):ref_count(1),r(R) {}
   };
   std::string print_binary(const real_object & r);
   gen read_binary(const std::string & s,unsigned int precision);
@@ -564,6 +581,7 @@ namespace giac {
     gen (ref_symbolic * sptr);
     gen (const gen_user & g);
     gen (const real_object & g);
+    gen (const real_interval & g);
     // Pls do not use this constructor unless you know exactly what you do
     gen (Tref_tensor<gen> * pptr);
     gen (const polynome & p);
@@ -1049,6 +1067,7 @@ namespace giac {
     volatile int ref_count;
     gen_user * u;
     ref_gen_user(const gen_user & U):ref_count(1),u(U.memory_alloc()) {}
+    ~ref_gen_user() {delete u;}
   };
 
   std::string print_the_type(int val,GIAC_CONTEXT);
@@ -1177,6 +1196,9 @@ namespace giac {
     identificateur();
     explicit identificateur(const std::string & s);
     explicit identificateur(const char * s);
+#ifdef GIAC_HAS_STO_38
+    explicit identificateur(const char * s, bool StringIsNowYours); // creates identifier. if StringIsNowYours, then the string will be freed when id is destroyed...
+#endif
     explicit identificateur(const char * s,const gen & e);
     identificateur(const std::string & s,const gen & e);
     identificateur(const identificateur & s);

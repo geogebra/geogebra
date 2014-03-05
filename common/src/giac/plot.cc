@@ -4925,7 +4925,7 @@ namespace giac {
 
   gen _aire(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type==_VECT && !args._VECTptr->empty() && args._VECTptr->front().is_symb_of_sommet(at_pnt)){
+    if (args.type==_VECT && !args._VECTptr->empty() && args._VECTptr->front().is_symb_of_sommet(at_pnt) && args._VECTptr->back().is_symb_of_sommet(at_pnt)){
       gen res=0;
       for (unsigned i=0;i<args._VECTptr->size();++i)
 	res += _aire((*args._VECTptr)[i],contextptr);
@@ -4946,12 +4946,18 @@ namespace giac {
 	return normal(((*g._SYMBptr->feuille._VECTptr)[2]-(*g._SYMBptr->feuille._VECTptr)[1])*(rayon*conj(rayon,contextptr))/2,contextptr);
       return cst_pi*normal(rayon*conj(rayon,contextptr),contextptr);
     }
-    if (g.type!=_VECT || g.subtype==_POINT__VECT)
+    if (g.type!=_VECT || g.subtype==_POINT__VECT || g._VECTptr->empty())
       return 0; // so that a single point has area 0
     vecteur v=*g._VECTptr;
     int s=v.size();
+    v[0]=remove_at_pnt(v[0]);
+    if (s==3 && v[0].is_symb_of_sommet(at_curve)){
+      v[1]=symb_interval(v[1],v[2]);
+      v.pop_back();
+      --s;
+    }
     // search for a numeric integration method
-    if (s==2 && v[1].is_symb_of_sommet(at_equal)){
+    if (s==2 && (v[1].is_symb_of_sommet(at_equal) || v[1].is_symb_of_sommet(at_interval)) ){
       gen f(v[0]),x(vx_var),tmp(v[1]),a,b;
       if (tmp.is_symb_of_sommet(at_equal) && tmp._SYMBptr->feuille.type==_VECT && tmp._SYMBptr->feuille._VECTptr->size()==2){
 	x=tmp._SYMBptr->feuille[0];
@@ -4960,9 +4966,24 @@ namespace giac {
       if (tmp.is_symb_of_sommet(at_interval) && tmp._SYMBptr->feuille.type==_VECT && tmp._SYMBptr->feuille._VECTptr->size()==2){
 	a=tmp._SYMBptr->feuille[0];
 	b=tmp._SYMBptr->feuille[1];
+	if (f.is_symb_of_sommet(at_curve)){
+	  f=f._SYMBptr->feuille;
+	  if (f.type!=_VECT || f._VECTptr->empty())
+	    return gensizeerr();
+	  f=f._VECTptr->front();
+	  if (f.type==_VECT && f._VECTptr->size()>1){
+	    gen r,i; 
+	    reim(f._VECTptr->front(),r,i,contextptr);
+	    x=(*f._VECTptr)[1];
+	    f=i*derive(r,x,contextptr);
+	    return _integrate(gen(makevecteur(f,x,a,b),_SEQ__VECT),contextptr);
+	  }
+	}
 	return _integrate(gen(makevecteur(f,x,a,b),_SEQ__VECT),contextptr);
       }
     }
+    if (v[0].is_symb_of_sommet(at_curve))
+      return gensizeerr(contextptr);
     if (s>3){
       for (int i=0;i<s;++i){
 	if (v[i].type==_INT_ && v[i].subtype==_INT_SOLVER){
@@ -5675,13 +5696,16 @@ namespace giac {
 	fg=fg._VECTptr->front();
 	if (fg.type==_VECT && fg._VECTptr->size()>3){
 	  vecteur & fgv=*fg._VECTptr;
-	  m=fgv[0];
-	  if (fgv.size()>6 && !is_undef(fgv[6]))
-	    m=fgv[6];
-	  m=subst(m,fgv[1],gen_t,false,contextptr); 
 	  if (!tminmax_defined){
 	    tmin=fgv[2]; tmax=fgv[3];
 	  }
+	  m=fgv[0];
+	  if (fgv.size()>6 && !is_undef(fgv[6])){
+	    tmin=-1e307;
+	    tmax=1e307;
+	    m=fgv[6];
+	  }
+	  m=subst(m,fgv[1],gen_t,false,contextptr); 
 	  // Check for a conic: parametrization with cos(t)/sin(t) or cosh(t)/sinh(t)
 	  vecteur lv; 
 	  rlvarx(m,gen_t,lv);
@@ -5821,6 +5845,7 @@ namespace giac {
       vecteur w;
       // x must eval to a parametric element of an object
       gen tt=x.eval(1,contextptr),N;
+      // cout << history_in(contextptr) << endl << history_out(contextptr) << endl;
       if (tt.type==_IDNT){
 	// search back in history if tt is a parameter
 	const_iterateur it0=history_out(contextptr).begin()-1,itend=history_out(contextptr).end(),it;
@@ -6291,6 +6316,12 @@ namespace giac {
       gen g=(*b._SYMBptr->feuille._VECTptr)[1];
       if (f.type==_VECT && !f._VECTptr->empty()){
 	vecteur fv=*f._VECTptr;
+	if (fv.size()==7){
+	  fv[6]=func(elem,fv[6],contextptr);
+	  fv[5]=rationalparam2equation(fv[6],t__IDNT_e,x__IDNT_e,y__IDNT_e,contextptr);
+	}
+	if (fv.size()==6)
+	  fv.pop_back();
 	fv[0]=func(elem,fv[0],contextptr);
 	if (fv.size()>4)
 	  fv[4]=apply3d(elem,fv[4],contextptr,func);
@@ -6481,6 +6512,13 @@ namespace giac {
       gen bf1=bf._VECTptr->front(),bf2=(*bf._VECTptr)[1];
       if (bf1.type==_VECT && !bf1._VECTptr->empty()){
 	vecteur bf1v=*bf1._VECTptr;
+	if (bf1v.size()==7) {
+	  bf1v[6]=symetrie_droite(w,v[0],bf1v[6],contextptr);
+	  // recompute cartesian equation
+	  bf1v[5]=rationalparam2equation(bf1v[6],t__IDNT_e,x__IDNT_e,y__IDNT_e,contextptr);
+	}
+	if (bf1v.size()==6)
+	  bf1v.pop_back();
 	bf1v[0]=symetrie_droite(w,v[0],bf1v[0],contextptr);
 	bf1=gen(bf1v,bf1.subtype);
       }
@@ -7816,7 +7854,7 @@ namespace giac {
   static define_unary_function_eval (__parameq,&giac::_parameq,_parameq_s);
   define_unary_function_ptr5( at_parameq ,alias_at_parameq,&__parameq,0,true);
 
-  static gen rationalparam2equation(const gen & at_orig,const gen & t_orig,const gen &x,const gen & y,GIAC_CONTEXT){
+  gen rationalparam2equation(const gen & at_orig,const gen & t_orig,const gen &x,const gen & y,GIAC_CONTEXT){
     gen anum,aden,ax,ay;
     gen at=at_orig;
     gen t=t_orig;
@@ -8538,8 +8576,9 @@ namespace giac {
 	  if (t.type==_SYMB && equalposcomp(plot_sommets,t._SYMBptr->sommet))
 	    return gensizeerr(contextptr);
 	  gen OA=t-centre;
-	  gen rayonb2(normal(abs_norm2(OA,contextptr)-rayon*conj(rayon,contextptr),contextptr));
-	  if (is_zero(rayonb2)){
+	  gen rayon2=rayon*conj(rayon,contextptr);
+	  gen rayonb2(normal(abs_norm2(OA,contextptr)-rayon2,contextptr));
+	  if (is_zero(rayonb2/rayon2)){
 	    if (OA.type==_VECT)
 	      result.push_back(_plan(makesequence(OA,t),contextptr));
 	    else
@@ -8550,7 +8589,7 @@ namespace giac {
 	    continue;
 	  if (OA.type==_VECT)
 	    return gensizeerr(contextptr);
-	  vecteur v=inter2cercles_or_spheres(centre,rayon*conj(rayon,contextptr),t,rayonb2,true,contextptr); // inter(_cercle(makevecteur(symb_pnt(t,contextptr),sqrt(rayonb2)),contextptr),curve,contextptr);
+	  vecteur v=inter2cercles_or_spheres(centre,rayon2,t,rayonb2,true,contextptr); // inter(_cercle(makevecteur(symb_pnt(t,contextptr),sqrt(rayonb2)),contextptr),curve,contextptr);
 	  if (!v.empty()){
 	    if (is_undef(v.front()))
 	      return v.front();
@@ -8559,7 +8598,7 @@ namespace giac {
 	  }
 	}
 	else {
-	  t=centre+rayon*exp(cst_i*t,contextptr);
+	  t=centre+abs(rayon,contextptr)*exp(cst_i*t,contextptr);
 	  result.push_back(_perpendiculaire(makesequence(t,t,centre),contextptr));
 	}
 	continue;
@@ -8612,7 +8651,11 @@ namespace giac {
       if ( (curve.type!=_SYMB) || (curve._SYMBptr->sommet!=at_curve))
 	return gensizeerr(contextptr);
       vecteur v=*curve._SYMBptr->feuille._VECTptr->front()._VECTptr;
-      gen direction(derive(v[0],*v[1]._IDNTptr,contextptr));
+      gen direction;
+      if (v.size()>6 && !is_undef(v[6]))
+	direction=derive(v[6],*v[1]._IDNTptr,contextptr);
+      else
+	direction=derive(v[0],*v[1]._IDNTptr,contextptr);
       if (is_undef(direction))
 	return direction;
       if ( (t.type==_SYMB) && (t._SYMBptr->sommet==at_pnt)){

@@ -351,7 +351,7 @@ namespace giac {
 #endif
       }
       else {
-	if (!complex_mode(contextptr))
+	if (0 && !complex_mode(contextptr))
 	  *logptr(contextptr) << "Taking ln of negative real " << e << endl;
 #ifdef _SOFTMATH_H
 	return M_PI*cst_i+std::giac_gnuwince_log(-e._DOUBLE_val);
@@ -364,7 +364,7 @@ namespace giac {
       if (is_positive(e,contextptr))
 	return e._REALptr->log();
       else {
-	if (!complex_mode(contextptr))
+	if (0 && !complex_mode(contextptr))
 	  *logptr(contextptr) << "Taking ln of negative real " << e << endl;
 	return (-e)._REALptr->log()+cst_pi*cst_i;
       }
@@ -1842,19 +1842,20 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,asin(b,contextptr)),_SEQ__VECT));
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg))
       return -asin(e._SYMBptr->feuille,contextptr);
+    gen cste=angle_radian(contextptr)?cst_pi:180;
     if (e.is_symb_of_sommet(at_cos))
-      e=symbolic(at_sin,cst_pi_over_2-e._SYMBptr->feuille);
+      e=symbolic(at_sin,cste/2-e._SYMBptr->feuille);
     if (e.is_symb_of_sommet(at_sin) && has_evalf(e._SYMBptr->feuille,a,1,contextptr)){
       // asin(sin(a))==a-2*k*pi or pi-a-2*k*pi
-      gen n=_round(a/cst_pi,contextptr);
-      b=a-n*cst_pi; // in [-pi/2,pi/2]
+      gen n=_round(a/cste,contextptr);
+      b=a-n*cste; // in [-pi/2,pi/2]
       if (n.type==_INT_ && n.val%2==0)
-	return e._SYMBptr->feuille-n*cst_pi;
-      return n*cst_pi-e._SYMBptr->feuille;
+	return e._SYMBptr->feuille-n*cste;
+      return n*cste-e._SYMBptr->feuille;
     }
     if (e.is_symb_of_sommet(at_sin)){
       a=e._SYMBptr->feuille;
-      return a-_round(a/cst_pi,contextptr)*cst_pi;
+      return a-_round(a/cste,contextptr)*cste;
     }
     if ( (e.type==_INT_) && (e.val<0) )
       return -asin(-e,contextptr);
@@ -2872,8 +2873,12 @@ namespace giac {
 	  }
 	}
 	if (!done) {// store b globally
-	  if (contains(lidnt(a),b))
-	    *logptr(contextptr) << b.print(contextptr)+gettext(": recursive definition") << endl;
+	  if (contains(lidnt(a),b)){
+	    if (a.is_symb_of_sommet(at_when) || a.is_symb_of_sommet(at_ifte) || a.is_symb_of_sommet(at_program))
+	      *logptr(contextptr) << b.print(contextptr)+gettext(": recursive definition") << endl;
+	    else
+	      return gensizeerr(b.print(contextptr)+gettext(": recursive definition"));
+	  }
 	  sym_tab * symtabptr=contextptr->globalcontextptr?contextptr->globalcontextptr->tabptr:contextptr->tabptr;
 	  sym_tab::iterator it=symtabptr->find(b._IDNTptr->id_name),itend=symtabptr->end();
 	  if (it!=itend){ 
@@ -2893,8 +2898,12 @@ namespace giac {
 #endif
 	return ans;
       } // end if (contextptr)
-      if (contains(lidnt(a),b))
-	*logptr(contextptr) << b.print(contextptr)+gettext(": recursive definition") << endl;
+      if (contains(lidnt(a),b)){
+	if (a.is_symb_of_sommet(at_when) || a.is_symb_of_sommet(at_ifte) || a.is_symb_of_sommet(at_program))
+	  *logptr(contextptr) << b.print(contextptr)+gettext(": recursive definition") << endl;
+	else
+	  return gensizeerr(b.print(contextptr)+gettext(": recursive definition"));
+      }
       if (b._IDNTptr->localvalue && !b._IDNTptr->localvalue->empty() && (b.subtype!=_GLOBAL__EVAL))
 	b._IDNTptr->localvalue->back()=aa;
       else {
@@ -4361,7 +4370,7 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return sommetstr+('('+gen2string(feuille,format,contextptr)+')');
     vecteur & v=*feuille._VECTptr;
-    if (xcas_mode(contextptr) > 0){
+    if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)==38){
       gen indice;
       if (v.back().type==_VECT)
 	indice=v.back()+vecteur(v.size(),plus_one);
@@ -4381,7 +4390,7 @@ namespace giac {
     return printasat_(feuille,sommetstr,1,contextptr);
   }
   symbolic symb_at(const gen & a,const gen & b,GIAC_CONTEXT){
-    if (xcas_mode(contextptr)){
+    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       gen bb;
       if (b.type==_VECT)
 	bb=b-vecteur(b._VECTptr->size(),plus_one);

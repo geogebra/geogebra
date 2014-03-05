@@ -77,6 +77,7 @@ namespace giac {
   gen _SortD(const gen & g,GIAC_CONTEXT);
   gen _int(const gen & g,GIAC_CONTEXT);
   gen _iPart(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_iPart;
   gen _Fill(const gen & g,GIAC_CONTEXT);
   gen _mRow(const gen & g,GIAC_CONTEXT);
   gen _mRowAdd(const gen & g,GIAC_CONTEXT);

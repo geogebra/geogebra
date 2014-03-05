@@ -3421,8 +3421,11 @@ namespace giac {
     if (s<2)
       return symb_dollar(args);
     gen a=vargs.front(),b=vargs[1],b1=eval(b,eval_level(contextptr),contextptr);
-    if (b1.type==_INT_ && b1.val>=0)
+    if (b1.type==_INT_ && b1.val>=0){
+      if (b1.val>LIST_SIZE_LIMIT)
+	return gendimerr(contextptr);
       return gen(vecteur(b1.val,eval(a,eval_level(contextptr),contextptr)),_SEQ__VECT);
+    }
     gen var,intervalle,step=1;
     if ( (b.type==_SYMB) && (is_equal(b) || b._SYMBptr->sommet==at_same ) ){
       var=b._SYMBptr->feuille._VECTptr->front();
@@ -3459,6 +3462,8 @@ namespace giac {
       gen debut=c,fin=d;
       bool reverse=ck_is_greater(debut,fin,contextptr);
       step=abs(step,contextptr);
+      if (is_positive(abs(fin-debut,contextptr)-LIST_SIZE_LIMIT*step,contextptr))
+	return gendimerr(contextptr);
       step=eval(reverse?-step:step,eval_level(contextptr),contextptr);
       vecteur res;
       for (;;debut+=step){
@@ -6721,8 +6726,11 @@ namespace giac {
   static define_unary_function_eval (__simplifier,&_simplify,_simplifier_s);
   define_unary_function_ptr5( at_simplifier ,alias_at_simplifier,&__simplifier,0,true);
 
+  gen _regroup(const gen &g,GIAC_CONTEXT){
+    return _simplifier(g,contextptr);
+  }
   static const char _regrouper_s []="regroup";
-  static define_unary_function_eval (__regrouper,&_simplifier,_regrouper_s);
+  static define_unary_function_eval (__regrouper,&_regroup,_regrouper_s);
   define_unary_function_ptr5( at_regrouper ,alias_at_regrouper,&__regrouper,0,true);
 
   gen find_or_make_symbol(const string & s,bool check38,GIAC_CONTEXT){
@@ -8023,8 +8031,10 @@ namespace giac {
       const unary_function_user * ptr=dynamic_cast<const unary_function_user *>(ptr0);
       if (!ptr)
 	return zero;
-      if (ptr->f==v[1])
+      if (ptr->f==v[1]){
+	// if (v[2].type==_INT_ && v[2].subtype==_INT_MUPADOPERATOR && v[2].val==_DELETE_OPERATOR) user_operator_list.erase(it); // does not work...
 	return plus_one;
+      }
       return zero;
     }
     if (v[2].type==_INT_){ 

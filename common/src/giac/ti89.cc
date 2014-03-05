@@ -1066,14 +1066,15 @@ namespace giac {
     if (g.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
+    int subt=abs_calc_mode(contextptr)==38?_LIST__VECT:0;
     if (!ckmatrix(v))
-      return g;
+      return gen(v,subt);
     vecteur res;
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       res=mergevecteur(res,*it->_VECTptr);
     }
-    return res;
+    return gen(res,subt);
   }
   static const char _mat2list_s[]="mat2list";
   static define_unary_function_eval (__mat2list,&_mat2list,_mat2list_s);
@@ -1260,7 +1261,15 @@ namespace giac {
 
   gen _iPart(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return evalf(_floor(g,contextptr),eval_level(contextptr),contextptr);
+    if (is_positive(g,contextptr))
+      return evalf(_floor(g,contextptr),eval_level(contextptr),contextptr);
+    if (is_positive(-g,contextptr))
+      return -evalf(_floor(-g,contextptr),eval_level(contextptr),contextptr);
+    if (g.type==_CPLX)
+      return _iPart(re(g,contextptr),contextptr)+cst_i*_iPart(im(g,contextptr),contextptr);
+    if (g.type==_VECT)
+      return apply(g,_iPart,contextptr);
+    return symbolic(at_iPart,g);
   }
   static const char _iPart_s[]="iPart";
   static define_unary_function_eval (__iPart,&_iPart,_iPart_s);
@@ -1292,7 +1301,9 @@ namespace giac {
   gen _mRow(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
-    if (!v.empty() && v[1].type==_IDNT){
+    if (v.size()>1 && is_Ans(v[1]))
+      v[1]=eval(v[1],1,contextptr);
+    if (v.size()>1 && v[1].type==_IDNT){
       gen v1=v[1];
       gen args=eval(g,eval_level(contextptr),contextptr);
       if (ckmatrix(args[1]))
@@ -1316,7 +1327,9 @@ namespace giac {
   gen _mRowAdd(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
-    if (!v.empty() && v[1].type==_IDNT){
+    if (v.size()>1 && is_Ans(v[1]))
+      v[1]=eval(v[1],1,contextptr);
+    if (v.size()>1 && v[1].type==_IDNT){
       gen v1=v[1];
       gen args=eval(g,eval_level(contextptr),contextptr);
       if (ckmatrix(args[1]))
@@ -1344,6 +1357,8 @@ namespace giac {
   gen _rowAdd(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
+    if (!v.empty() && is_Ans(v[0]))
+      v[0]=eval(v[0],1,contextptr);
     if (!v.empty() && v[0].type==_IDNT){
       gen v0=v[0];
       gen args=eval(g,eval_level(contextptr),contextptr);
@@ -1372,6 +1387,8 @@ namespace giac {
   gen _rowSwap(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
+    if (!v.empty() && is_Ans(v[0]))
+      v[0]=eval(v[0],1,contextptr);
     if (!v.empty() && v[0].type==_IDNT){
       gen v0=v[0];
       gen args=eval(g,eval_level(contextptr),contextptr);
@@ -2142,9 +2159,9 @@ namespace giac {
       return g;
     if (is_equal(g))
       return apply_to_equal(g,fPart,contextptr);
-    if (is_strictly_positive(-g,contextptr))
-      return -fPart(-g,contextptr);
-    return g-_floor(g,contextptr);
+    // if (is_strictly_positive(-g,contextptr)) return -fPart(-g,contextptr);
+    // return g-_floor(g,contextptr);
+    return g-_INT(g,contextptr);
   }
   static const char _fPart_s[]="fPart";
   static define_unary_function_eval (__fPart,&fPart,_fPart_s);

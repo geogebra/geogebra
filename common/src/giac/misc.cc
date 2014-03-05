@@ -1355,10 +1355,13 @@ namespace giac {
     if (g.type!=_VECT)
       return abs(g,contextptr);
     vecteur v;
+    if (g._VECTptr->size()==2 && g._VECTptr->front().type==_VECT && g._VECTptr->back()==at_vector){
+      aplatir(*g._VECTptr->front()._VECTptr,v);
+      return l2norm(v,contextptr);      
+    }
     if (ckmatrix(g))
-      aplatir(*g._VECTptr,v);
-    else
-      v=*g._VECTptr;
+      return _max(_SVL(g,contextptr),contextptr);
+    v==*g._VECTptr;
     return l2norm(v,contextptr);
   }
   static const char _l2norm_s []="l2norm";
@@ -1575,11 +1578,70 @@ namespace giac {
       g=vector2vecteur(*g._VECTptr);
     if (g.type!=_VECT)
       return linfnorm(g,contextptr);
+    if (g._VECTptr->size()==2 && g._VECTptr->front().type==_VECT && g._VECTptr->back()==at_vector){
+      vecteur v;
+      aplatir(*g._VECTptr->front()._VECTptr,v);
+      return l1norm(v,contextptr);      
+    }
+    if (ckmatrix(g))
+      return _rowNorm(mtran(*g._VECTptr),contextptr);
     return l1norm(*g._VECTptr,contextptr);
   }
   static const char _l1norm_s []="l1norm";
   static define_unary_function_eval (__l1norm,&_l1norm,_l1norm_s);
   define_unary_function_ptr5( at_l1norm ,alias_at_l1norm,&__l1norm,0,true);
+
+  gen _linfnorm(const gen & g0,GIAC_CONTEXT){
+    if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
+    gen g=remove_at_pnt(g0);
+    if (g.type==_VECT && g.subtype==_VECTOR__VECT)
+      g=vector2vecteur(*g._VECTptr);
+    if (g.type!=_VECT)
+      return linfnorm(g,contextptr);
+    if (g._VECTptr->size()==2 && g._VECTptr->front().type==_VECT && g._VECTptr->back()==at_vector){
+      vecteur v;
+      aplatir(*g._VECTptr->front()._VECTptr,v);
+      return linfnorm(v,contextptr);      
+    }
+    if (ckmatrix(g))
+      return _rowNorm(g,contextptr);
+    return linfnorm(*g._VECTptr,contextptr);
+  }
+  static const char _linfnorm_s []="linfnorm";
+  static define_unary_function_eval (__linfnorm,&_linfnorm,_linfnorm_s);
+  define_unary_function_ptr5( at_linfnorm ,alias_at_linfnorm,&__linfnorm,0,true);
+
+  gen _frobenius_norm(const gen & g0,GIAC_CONTEXT){
+    if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
+    gen g=remove_at_pnt(g0);
+    if (g.type==_VECT && g.subtype==_VECTOR__VECT)
+      g=vector2vecteur(*g._VECTptr);
+    vecteur v;
+    if (ckmatrix(g))
+      aplatir(*g._VECTptr,v);
+    else
+      v=*g._VECTptr;
+    return l2norm(v,contextptr);
+  }
+  static const char _frobenius_norm_s []="frobenius_norm";
+  static define_unary_function_eval (__frobenius_norm,&_frobenius_norm,_frobenius_norm_s);
+  define_unary_function_ptr5( at_frobenius_norm ,alias_at_frobenius_norm,&__frobenius_norm,0,true);
+
+  gen _matrix_norm(const gen & g0,GIAC_CONTEXT){
+    if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
+    if (g0.type!=_VECT || g0._VECTptr->empty())
+      return gentypeerr(contextptr);
+    if (g0._VECTptr->back()==1)
+      return _l1norm(g0._VECTptr->front(),contextptr);
+    if (g0._VECTptr->back()==2)
+      return _l2norm(g0._VECTptr->front(),contextptr);
+    if (is_inf(g0._VECTptr->back()))
+      return _linfnorm(g0._VECTptr->front(),contextptr);
+    return _frobenius_norm(g0,contextptr);
+  }
+  static const char _matrix_norm_s []="matrix_norm";
+  static define_unary_function_eval (__matrix_norm,&_matrix_norm,_matrix_norm_s);
+  define_unary_function_ptr5( at_matrix_norm ,alias_at_matrix_norm,&__matrix_norm,0,true);
 
   gen _dotprod(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1726,8 +1788,12 @@ namespace giac {
 	  return r2e(inv(f.den,contextptr),l,contextptr);
 	if (service==-3)
 	  return r2e(f.num,l,contextptr);
+	if (service==-4)
+	  return is_integer(f.num)?f.num:plus_one;
 	return gensizeerr(contextptr);
       }
+      if (service==-4)
+	return Tcontent(*f.num._POLYptr);
       polynome & p_aplati=*f.num._POLYptr;
       polynome p=splitmultivarpoly(p_aplati,innerdim); 
       vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
@@ -1781,6 +1847,8 @@ namespace giac {
 	return plus_one;
       case -3:
 	return f;
+      case -4:
+	return (is_integer(f)?f:plus_one)/(is_integer(deno)?deno:plus_one);
       default:
 	if (service>0)
 	  return zero;
@@ -1793,8 +1861,11 @@ namespace giac {
       return f/deno;
     case -2:
       return symb_horner(*f._VECTptr/_lgcd(f,contextptr),x);
-    case -3:
+    case -3: 
       return _lgcd(f,contextptr)/deno;
+    case -4:
+      f=_lgcd(f,contextptr);
+      return _icontent(makesequence(f,lvar(f)),contextptr)/(is_integer(deno)?deno:plus_one);
     }
     vecteur & w=*f._VECTptr;
     int ss=w.size();
@@ -1818,8 +1889,12 @@ namespace giac {
   static define_unary_function_eval (__content,&_content,_content_s);
   define_unary_function_ptr5( at_content ,alias_at_content,&__content,0,true);
 
+  gen _icontent(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    return primpartcontent(g,-4,contextptr);
+  }
   static const char _icontent_s []="icontent";
-  static define_unary_function_eval (__icontent,&_content,_icontent_s);
+  static define_unary_function_eval (__icontent,&_icontent,_icontent_s);
   define_unary_function_ptr5( at_icontent ,alias_at_icontent,&__icontent,0,true);
 
   gen _coeff(const gen & g,GIAC_CONTEXT){

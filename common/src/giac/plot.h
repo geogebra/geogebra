@@ -259,6 +259,8 @@ namespace giac {
 #endif
   int gnuplot_show_pnt(const symbolic & e,GIAC_CONTEXT);
 
+  gen rationalparam2equation(const gen & at_orig,const gen & t_orig,const gen &x,const gen & y,GIAC_CONTEXT);
+
   // return parametrization for a parametric curve and translate
   // ellipsis/hyperbola to a rational parametrization
   // m will contain the complex depending on gen_t 

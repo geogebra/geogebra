@@ -410,6 +410,26 @@ namespace giac {
     double d=giac_rand(contextptr)/(rand_max2+1.0);
     return std::sqrt(-2*std::log(u))*std::cos(2*M_PI*d);
   }
+  void randnorm2(double & r1,double & r2,GIAC_CONTEXT){
+    /*
+    double d=rand()/(rand_max2+1.0);
+    d=2*d-1;
+    identificateur x(" x");
+    return newton(erf(x)-d,x,d);
+    */
+    for (;;){
+      double u=giac_rand(contextptr)/(rand_max2+1.0);
+      double v=giac_rand(contextptr)/(rand_max2+1.0);
+      double w=u*u+v*v;
+      if (w>0 && w<=1){
+	w=std::sqrt(-2*std::log(w)/w);
+	r1=u*w;
+	r2=v*w;
+	return;
+      }
+    }
+  }
+
   gen _randNorm(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->empty())
@@ -1147,7 +1167,7 @@ namespace giac {
     if (s==2)
       return poisson_cdf(v[0],v[1],contextptr);
     if (s==3)
-      return poisson_cdf(v[0],v[2],contextptr)-poisson_cdf(v[0],v[1],contextptr);
+      return poisson_cdf(v[0],v[2],contextptr)-poisson_cdf(v[0],v[1]-1,contextptr);
     return gensizeerr(contextptr);
   }
   static const char _poisson_cdf_s []="poisson_cdf";
@@ -3153,8 +3173,15 @@ namespace giac {
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
   // 12 geometric, 13 uniformd, 14 exponentiald
   int is_distribution(const gen & args){
-    if (args.type==_SYMB && args._SYMBptr->sommet!=at_exp)
-      return is_distribution(args._SYMBptr->sommet) ;
+    if (args.type==_SYMB && args._SYMBptr->sommet!=at_exp){
+      int res=is_distribution(args._SYMBptr->sommet) ;
+      if (!res)
+	return res;
+      int s=distrib_nargs(res);
+      if (s!=gen2vecteur(args._SYMBptr->feuille).size())
+	return 0;
+      return res;
+    }
     if (args.type==_FUNC){
       if (args==at_normald || args==at_NORMALD)
 	return 1;

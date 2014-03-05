@@ -3646,7 +3646,12 @@ namespace giac {
   vecteur ifactors(const gen & n0,GIAC_CONTEXT){
     gen n(n0);
     vecteur f=pfacprem(n,false,contextptr);
-    return mergevecteur(f,ifactors1(n,contextptr));
+    if (is_undef(f))
+      return f;
+    vecteur g=ifactors1(n,contextptr);
+    if (is_undef(g))
+      return g;
+    return mergevecteur(f,g);
   }
 
   vecteur ifactors(const gen & r,const gen & i,const gen & ri,GIAC_CONTEXT){

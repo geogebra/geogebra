@@ -111,6 +111,7 @@ namespace giac {
   gen _legendre(const gen & args,GIAC_CONTEXT);
   gen _curl(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_curl;
+  extern const unary_function_ptr * const  at_trn;
 
   gen _permu2mat(const gen & args,GIAC_CONTEXT); // permutation vector -> matrix
 

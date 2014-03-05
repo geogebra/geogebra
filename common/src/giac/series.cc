@@ -1919,6 +1919,71 @@ namespace giac {
     return e;
   }
 
+  bool is_analytic(const gen & g){
+    if (g.type==_VECT){
+      const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+      for (;it!=itend;++it){
+	if (!is_analytic(*it))
+	  return false;
+      }
+    }
+    if (g.type!=_SYMB)
+      return true;
+    if (equalposcomp(analytic_sommets,g._SYMBptr->sommet))
+      return is_analytic(g._SYMBptr->feuille);
+    return false;
+  }
+
+  static gen unidirectional_limit(const gen & e0,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
+    gen e_copy=e0;
+    // Unidirectional limit, rewrite first (if needed)
+    if (is_inf(lim_point)){
+      if (lim_point==minus_inf)
+	e_copy=subst(e_copy,x,-x,false,contextptr);
+    }
+    else {
+      if (direction>0)
+	e_copy=subst(e_copy,x,lim_point+inv(x,contextptr),false,contextptr);
+      else
+	e_copy=subst(e_copy,x,lim_point-inv(x,contextptr),false,contextptr);
+    }
+    gen coeff,mrv_var,exponent;
+    sparse_poly1 p;
+    if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false))
+      return gensizeerr(contextptr);
+    if (ck_is_strictly_positive(exponent,contextptr))
+      return 0;
+    if (is_zero(exponent))
+      return check_bounded(coeff)?bounded_function(contextptr):coeff;
+    // check sign of coeff, if coeff depends on x first find equivalent
+    gen essai=subst(coeff,x,plus_inf,false,contextptr);
+    if (is_undef(essai) || is_zero(essai) || (essai==unsigned_inf)){
+      while (contains(coeff,x)){
+	e_copy=coeff;
+	if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false))
+	  return gensizeerr(contextptr);
+      }
+      essai=coeff;
+    }
+    gen s=0;
+    if (calc_mode(contextptr)!=1 || !has_i(p)) // should do it only up to order 0 terms
+      s=sign(essai,contextptr); 
+    if (s==plus_one)
+      return plus_inf;
+    if (s==minus_one)
+      return minus_inf;
+    // ? FIXME: if essai=cos(<pi,-1>)+i*sin(<pi,-1>) unsigned_inf better
+    // limit((-2)^n,n,inf)
+    return check_bounded(essai)?undef:unsigned_inf;
+    /* 
+    essai=eval(subst(essai,sincosinf,vecteur(sincosinf.size(),undef)));
+    if (is_undef(essai))
+      return undef;
+    else
+      return unsigned_inf;
+    */
+  }
+
   static gen in_limit(const gen & e0,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
     if (direction==-2)
       return gensizeerr(contextptr);
@@ -2005,7 +2070,19 @@ namespace giac {
       e_copy=subst(e_copy,tan_tab,tan2sincos_tab,true,contextptr);
       e_copy=subst(e_copy,exp_tab,exp2sincos_tab,true,contextptr);
     }
-    if (!direction) { // supposed to be analytic, series expansion only
+    if (!direction) { 
+      if (!is_analytic(e_copy)){
+	gen g1=unidirectional_limit(e_copy,x,lim_point,1,contextptr);
+	if (is_undef(g1))
+	  return g1;
+	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
+	if (is_undef(g2))
+	  return g2;
+	if (g1==g2)
+	  return g1;
+	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
+      }
+      // supposed to be analytic, series expansion only
       sparse_poly1 p;
       p.push_back(monome(undef,0));
       double ordre=mrv_begin_order;
@@ -2034,52 +2111,7 @@ namespace giac {
       }
       return gensizeerr(gettext("Series internal bug"));
     }
-    // Unidirectional limit, rewrite first (if needed)
-    if (is_inf(lim_point)){
-      if (lim_point==minus_inf)
-	e_copy=subst(e_copy,x,-x,false,contextptr);
-    }
-    else {
-      if (direction>0)
-	e_copy=subst(e_copy,x,lim_point+inv(x,contextptr),false,contextptr);
-      else
-	e_copy=subst(e_copy,x,lim_point-inv(x,contextptr),false,contextptr);
-    }
-    gen coeff,mrv_var,exponent;
-    sparse_poly1 p;
-    if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false))
-      return gensizeerr(contextptr);
-    if (ck_is_strictly_positive(exponent,contextptr))
-      return 0;
-    if (is_zero(exponent))
-      return check_bounded(coeff)?bounded_function(contextptr):coeff;
-    // check sign of coeff, if coeff depends on x first find equivalent
-    gen essai=subst(coeff,x,plus_inf,false,contextptr);
-    if (is_undef(essai) || is_zero(essai) || (essai==unsigned_inf)){
-      while (contains(coeff,x)){
-	e_copy=coeff;
-	if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false))
-	  return gensizeerr(contextptr);
-      }
-      essai=coeff;
-    }
-    gen s=0;
-    if (calc_mode(contextptr)!=1 || !has_i(p)) // should do it only up to order 0 terms
-      s=sign(essai,contextptr); 
-    if (s==plus_one)
-      return plus_inf;
-    if (s==minus_one)
-      return minus_inf;
-    // ? FIXME: if essai=cos(<pi,-1>)+i*sin(<pi,-1>) unsigned_inf better
-    // limit((-2)^n,n,inf)
-    return check_bounded(essai)?undef:unsigned_inf;
-    /* 
-    essai=eval(subst(essai,sincosinf,vecteur(sincosinf.size(),undef)));
-    if (is_undef(essai))
-      return undef;
-    else
-      return unsigned_inf;
-    */
+    return unidirectional_limit(e_copy,x,lim_point,direction,contextptr);
   }
   
   // return plus_inf if a > b (at x=+infinity), !0 if a#b, 0 if a < b
