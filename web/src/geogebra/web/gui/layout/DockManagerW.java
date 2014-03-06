@@ -1459,15 +1459,6 @@ public class DockManagerW extends DockManager {
 	}
 	
 	/**
-	 * Update the toolbars of all dock panels.
-	 */
-	public void updateToolbars() {
-		for(DockPanelW panel : dockPanels) {
-			panel.updateToolbar();
-		}
-	}
-	
-	/**
 	 * Change the toolbar mode for all toolbars in external frames.
 	 * 
 	 * @param mode

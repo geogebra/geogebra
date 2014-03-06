@@ -1449,7 +1449,7 @@ Paddings for menuitems.
 
 .StyleBarPanel {
 	background: url("images/hborder.png") repeat-x 0px -27px;
-	border-bottom: 1px solid lightgray;
+	/*border-bottom: 1px solid lightgray;*/
 	/*width: 100%;*/
 }
 
@@ -1459,9 +1459,13 @@ Paddings for menuitems.
 
 
 .TitleBarPanel {
+	background-color: #ffffff;
 	left: auto !important;
 	bottom: auto !important;
 	z-index: 1;
+	border-width: 0px 0px 1px 1px;
+	border-style: solid;
+	border-color: #bbb;
 }
 
 .TitleBarPanel .toggleStyleBar {

@@ -52,8 +52,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract    class DockPanelW extends ResizeComposite implements
 		geogebra.common.gui.layout.DockPanel, DockComponent, MouseDownHandler {
-	private static final long serialVersionUID = 1L;
-
 	protected DockManagerW dockManager;
 	
 	protected AppW app;
@@ -97,12 +95,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * Style bar component.
 	 */
 	private Widget styleBar;
-
-	/**
-	 * Panel to contain a toggle button within the stylebar panel.
-	 */
-	//private JPanel styleBarButtonPanel;
-
 	/**
 	 * If the style bar is visible.
 	 */
@@ -119,74 +111,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	protected int embeddedSize = 150;
 
-	/**
-	 * The panel at the top where the title and the close button is displayed
-	 * normally.
-	 */
-	//protected JPanel titlePanel;
-
-	/**
-	 * The label with the view title.
-	 */
-	//protected JLabel titleLabel;
-
-	/**
-	 * The panel which holds all buttons.
-	 */
-	//protected JPanel buttonPanel;
-
-	/**
-	 * The close button.
-	 */
-	protected PushButton closeButton;
-
-	/**
-	 * Button which opens the panel in a new window.
-	 */
-	//private JButton windowButton;
-
-	/**
-	 * A button which brings the panel back to the main window.
-	 */
-	//private JButton unwindowButton, unwindowButton2;
-
-	/**
-	 * Button used to show / hide the style bar in the titlePanel.
-	 */
-	//private JButton toggleStyleBarButton;
-
-	/**
-	 * Button used to show / hide the style bar when title panel is invisible.
-	 */
-	//private JButton toggleStyleBarButton2;
-
-	/**
-	 * Button to maximize/unmaximize a panel.
-	 */
-	//private JButton maximizeButton;
-
+	
 	/**
 	 * Panel for the styling bar if one is available.
 	 */
 	private FlowPanel styleBarPanel;
 
-	/**
-	 * Panel used for the toolbar if this dock panel has one.
-	 */
-	//private JPanel toolbarPanel;
-
-	/**
-	 * Toolbar container which is used if this dock panel is opened in its own
-	 * frame.
-	 */
-	//private ToolbarContainer toolbarContainer;
-
-	/**
-	 * Toolbar associated with this dock panel or null if this panel has no
-	 * toolbar.
-	 */
-	//private ToolBarW toolbar;
-
+	
 	/**
 	 * Toolbar definition string associated with this panel or null if this
 	 * panel has no toolbar. Always contains the string of the perspective
@@ -200,12 +131,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * and won't change.
 	 */
 	private String defaultToolbarString;
-
-	/**
-	 * The window which holds this DockPanel if the DockPanel is opened in an
-	 * additional window. The window may become either a JFrame or JDialog.
-	 */
-	//protected Window frame = null;
 
 	/**
 	 * The component used for this view.
@@ -237,21 +162,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	private boolean isHidden;
 
 	/**
-	 * Flag to determine if a dialog is newly created
-	 */
-	private boolean isNewDialog = true;
-
-	/**
 	 * Flag to determine if the frame field will be created as a JDialog (true)
 	 * or as a JFram (false). Default is false.
 	 */
 	private boolean isDialog = false;
-
-	/**
-	 * After injectResources is called, setLabels is called,
-	 * and afterwards, titleBarLabel can be set
-	 */
-	private boolean titleBarLabelCanSet = false;
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -269,10 +183,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
-	/**
-	 * If the view needs a menu bar when undocked, its is kept here
-	 */
-	//private JMenuBar menubar;
 
 	/**
 	 * @return true if this dock panel frame will be created as a JDialog. If
@@ -345,10 +255,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		this.hasStyleBar = hasStyleBar;
 		this.isAlone = false;
 		
-		//buildGUI();
-		
-		//this.setMinimumSize(new Dimension(100, 100));
-		//setLayout(new BorderLayout());
 	}
 
 	/**
@@ -402,34 +308,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	protected void focusLost() {
 	}
 
-	/**
-	 * create the focus panel (composed of titleLabel, and, for
-	 * EuclidianDockPanels, focus icon)
-	 * 
-	 * @return the focus panel
-	 */
-	/*protected JComponent createFocusPanel() {
-		titleLabel = new JLabel(app.getPlain(title));
-		titleLabel.setFont(app.getPlainFont());
-		titleLabel.setForeground(Color.darkGray);
-
-		JPanel p = new JPanel(new FlowLayout(app.flowLeft(), 2, 1));
-
-		if (app.isRightToLeftReadingOrder()) {
-			p.add(titleLabel);
-			p.add(Box.createHorizontalStrut(2));
-			if (this.hasStyleBar) {
-				p.add(this.toggleStyleBarButton);
-			}
-		} else {
-			if (this.hasStyleBar) {
-				p.add(this.toggleStyleBarButton);
-			}
-			p.add(Box.createHorizontalStrut(2));
-			p.add(titleLabel);
-		}
-		return p;
-	}*/
+	
 
 	/**
 	 * Bind this view to a dock manager. Also initializes the whole GUI as just
@@ -451,7 +330,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	PushButton toglStyleBtn;
 
 	PushButton toglStyleBtn2;
-	//AbsolutePanel titleBarPanel;
 	FlowPanel titleBarPanel;
 	
 	Label titleBarLabel;
@@ -497,28 +375,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarPanel = new FlowPanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
-		
-		//titleBarPanel = new AbsolutePanel();
-		//titleBarPanel.setStyleName("TitleBarPanel");
-		//titleBarPanel.addStyleName("cursor_drag");
-
-		//theRealTitleBarPanel.add(titleBarPanel);
 
 		ToolTipManagerW.sharedInstance().registerWidget(titleBarPanel, toolTipHandler, false, true);
 		
 		toggleStyleBarButton = new PushButton(new Image(AppResources.INSTANCE.triangle_right()));
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
-		
-		
-		//closeButton = new PushButton(new Image(AppResources.INSTANCE.view_close()));
-		//closeButton.setStyleName("CloseButton");
-		//closeButton.setFocusPainted(false);
-
-		//ClickHandler clickHandler = new ClickHandler() {
-		//	public void onClick(ClickEvent event) {
-		//		closePanel(true);
-		//	}
-		//};
 		
 		ClickHandler toggleStyleBarHandler = new ClickHandler() {
 			
@@ -536,60 +397,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
 
-		//closeButton.addClickHandler(clickHandler);
-
 		titleBarPanel.add(toggleStyleBarButton);
 		
 		titleBarPanel.add(styleBarPanel);
-		//theRealTitleBarPanel.setCellWidth(closeButton, "16px");
-
-		//titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
-
-		//Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
-		//toglStyleBtn = new PushButton(img);
-		//Image img2 = new Image(AppResources.INSTANCE.triangle_right().getSafeUri());
-		//toglStyleBtn2 = new PushButton(img2);
-
-		//ClickHandler ch1 = new ClickHandler() {
-		//	public void onClick(ClickEvent event) {
-		//		showStyleBar = false;
-		//		titleBarPanel.remove(toglStyleBtn);
-		//		titleBarPanel.insert(toglStyleBtn2, 2, 0, 0);
-		//		setLayout(true);
-		//	}
-		//};
-
-		//ClickHandler ch2 = new ClickHandler() {
-		//	public void onClick(ClickEvent event) {
-		//		showStyleBar = true;
-		//		titleBarPanel.remove(toglStyleBtn2);
-		//		titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
-		//		setLayout(true);
-		//	}
-		//};
-
-		//toglStyleBtn.setSize("16px", "8px");
-		//toglStyleBtn.setStyleName("StyleBarToggleButton");
-		//toglStyleBtn.addClickHandler(ch1);
-
-		//toglStyleBtn2.setSize("16px", "8px");
-		//toglStyleBtn2.setStyleName("none");
-		//toglStyleBtn2.addClickHandler(ch2);
-
-		// toglStyleBtn used to belong to styleBarPanel
-		//styleBarPanel.add(toglStyleBtn, 2, 0);
-		// but titleBarPanel should always be visible, like in Desktop
-
-		//titleBarPanel.add(toglStyleBtn2, 2, 0);
-
-		//if (App.isFullAppGui() || titleBarLabelCanSet) {
-			//titleBarLabel = new Label(getPlainTitle());
-			//titleBarLabel = new Label("");
-		//} else {
-		//	titleBarLabel = new Label("");
-		//}
-		//titleBarLabel.addStyleName("TitleBarLabel");
-		//titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
+		
 
 		if (setlayout) {
 			setLayout(false);
@@ -598,9 +409,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	public void setLabels() {
 		if (titleBarLabel != null) {
-			titleBarLabelCanSet = true;
-			// don't show title bar text
-			//titleBarLabel.setText(getPlainTitle());
 		}
 	}
 
@@ -624,30 +432,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 				dockPanel.addNorth(titleBarPanel, 0);
 			}
 
-			// caring for applets; where it might not be visible, except for the SV
-			// theRealTitleBarPanel.setVisible(app.getSettings().getLayout().showTitleBar()
-			//		&& !(isAlone && !isMaximized()) && !app.isApplet()
-			//		&& (!isOpenInFrame()));
-
-			// not sure what does the Desktop version want to achieve with this
-			// setShowStyleBar(isStyleBarVisible());
-
+			
 			if (isStyleBarVisible()) {
 				setStyleBar();
-				//dockPanel.addNorth(styleBarPanel, 45);
-				//if (toglStyleBtn2.isAttached()) {
-					//titleBarPanel.remove(toglStyleBtn2);
-					//titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
-				//}
 				updateStyleBarVisibility();
 			}
-			if(styleBar instanceof StyleBarW)
+			if(styleBar instanceof StyleBarW) {
 				((StyleBarW)styleBar).setOpen(showStyleBar);
-
-			// not needed here
-			// updateStyleBarVisibility();
-
-			updateTitleBarIfNecessary(); // for adding/removing close X sign
+			}
 			updateStyleBarVisibility();
 		}
 
@@ -702,66 +494,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	
 	}
-	
-	/*private void createButtons() {
-
-		// button to show/hide styling bar and the title panel buttons
-		toggleStyleBarButton = new JButton();
-		toggleStyleBarButton.addActionListener(this);
-		toggleStyleBarButton.setFocusPainted(false);
-		toggleStyleBarButton.setBorderPainted(false);
-		toggleStyleBarButton.setContentAreaFilled(false);
-		toggleStyleBarButton.setPreferredSize(new Dimension(12, 12));
-		toggleStyleBarButton.setRolloverEnabled(true);
-
-		// button to show/hide styling bar if the title panel is invisible
-		toggleStyleBarButton2 = new JButton();
-		toggleStyleBarButton2.setFocusPainted(false);
-		toggleStyleBarButton2.setBorderPainted(false);
-		toggleStyleBarButton2.setContentAreaFilled(false);
-		toggleStyleBarButton2.setPreferredSize(new Dimension(12, 12));
-		toggleStyleBarButton2.addActionListener(this);
-		toggleStyleBarButton2.setRolloverEnabled(true);
-
-		updateToggleStyleBarButtons();
-
-		// button to insert the view in the main window
-		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
-		unwindowButton.addActionListener(this);
-		unwindowButton.setFocusPainted(false);
-		unwindowButton.setContentAreaFilled(false);
-		unwindowButton.setBorderPainted(false);
-		unwindowButton.setPreferredSize(new Dimension(16, 16));
-
-		// button to insert the view in the main window
-		unwindowButton2 = new JButton(app.getImageIcon("view-unwindow.png"));
-		unwindowButton2.addActionListener(this);
-		unwindowButton2.setFocusPainted(false);
-		unwindowButton2.setContentAreaFilled(false);
-		unwindowButton2.setBorderPainted(false);
-		unwindowButton2.setPreferredSize(new Dimension(16, 16));
-
-		// button to display the view in a separate window
-		windowButton = new JButton(app.getImageIcon("view-window.png"));
-		windowButton.addActionListener(this);
-		windowButton.setFocusPainted(false);
-		windowButton.setContentAreaFilled(false);
-		windowButton.setBorderPainted(false);
-		windowButton.setPreferredSize(new Dimension(16, 16));
-
-		// button to close the view
-		closeButton = new JButton(app.getImageIcon("view-close.png"));
-		closeButton.addActionListener(this);
-		closeButton.setFocusPainted(false);
-		closeButton.setPreferredSize(new Dimension(16, 16));
-
-		// button to toggle maximize/normal state
-		maximizeButton = new JButton(app.getImageIcon("view-maximize.png"));
-		maximizeButton.addActionListener(this);
-		maximizeButton.setFocusPainted(false);
-		maximizeButton.setPreferredSize(new Dimension(16, 16));
-
-	}*/
 
 	/**
 	 * 
@@ -795,139 +527,24 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		}
 	};
         
-        
-		
-	
-	/**
-	 * Create a frame for this DockPanel. The frame will either be a JFrame or a
-	 * JDialog depending on the isDialog flag.
-	 */
-	/*public void createFrame() {
-
-		if (isDialog) {
-			frame = new JDialog(app.getFrame(), false);
-		} else {
-			frame = new JFrame(getPlainTitle());
-			// needs the higher res as used by Windows 7 for the Toolbar
-			((JFrame) frame).setIconImage(app
-					.getInternalImage("geogebra64.png"));
-		}
-
-		frame.addWindowListener(this);
-
-		frame.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent event) {
-				setFrameBounds(event.getComponent().getBounds());
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent event) {
-				setFrameBounds(event.getComponent().getBounds());
-			}
-		});
-
-		if (isDialog) {
-			(((JDialog) frame).getContentPane()).add(this);
-		} else {
-			(((JFrame) frame).getContentPane()).add(this);
-			menubar = loadMenuBar();
-			if (menubar != null) {
-				((JFrame) frame).setJMenuBar(menubar);
-			}
-		}
-
-		// TODO multimonitor supported?
-		Rectangle screenSize = GraphicsEnvironment
-				.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-
-		// Use the previous dimension of this view
-		Rectangle windowBounds = getFrameBounds();
-
-		// resize window if necessary
-		if (windowBounds.width > screenSize.width)
-			windowBounds.width = screenSize.width - 50;
-		if (windowBounds.height > screenSize.height)
-			windowBounds.height = windowBounds.height - 50;
-
-		// center window if necessary
-		if (isNewDialog) {
-			// frame.pack();
-			frame.setSize(windowBounds.getSize());
-			frame.setLocationRelativeTo(app.getMainComponent());
-			isNewDialog = false;
-		} else if (windowBounds.x + windowBounds.width > screenSize.width
-				|| windowBounds.y + windowBounds.height > screenSize.height) {
-			frame.setLocationRelativeTo(null);
-
-		} else {
-			frame.setLocation(windowBounds.getLocation());
-		}
-		setOpenInFrame(true);
-
-		frame.setSize(windowBounds.getSize());
-		frame.setVisible(true);
-
-		// make titlebar visible if necessary
-		updatePanel();
-
-		frame.repaint();
-	}*/
-
-	/**
-	 * Remove the frame.
-	 */
-	/*public void removeFrame() {
-		frame.removeAll();
-		frame.setVisible(false);
-		frame = null;
-	}*/
-
 	/**
 	 * Update all elements in the title bar.
 	 */
 	public void updateTitleBar() {
 
-		// instead of this:
-		// buildGUIIfNecessary();
-
-		// it is enough to do this:
 		if (componentPanel == null)
 			return;
 
-		closeButton.setVisible(!isAlone() && !app.isApplet());
-
-		/*
-		// The view is in the main window
-		if (frame == null) {
-			closeButton.setVisible(!isMaximized());
-			windowButton.setVisible(false); // !isMaximized());
-			unwindowButton.setVisible(false);
-			unwindowButton2.setVisible(false);
-			maximizeButton.setVisible(isMaximized());
-			titleLabel.setVisible(true);
-
-		} else {
-			closeButton.setVisible(false);
-			unwindowButton.setVisible(true);
-			unwindowButton2.setVisible(true);
-			windowButton.setVisible(false);
-			maximizeButton.setVisible(false);
-			titleLabel.setVisible(false);
-
-		}
-		*/
-
-		/*
-		if (isMaximized()) {
-			maximizeButton.setIcon(app.getImageIcon("view-unmaximize.png"));
-		} else {
-			maximizeButton.setIcon(app.getImageIcon("view-maximize.png"));
-		}
-*/
+		
 		
 		updateLabels();
 	}
+	
+	
+
+	public void updateLabels() {
+	    App.debug("why is it here");
+    }
 
 	/**
 	 * A panel is 'alone' if no other panel is visible in the main frame. In
@@ -986,131 +603,20 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	}
 
 	/**
-	 * 
-	 */
-	protected void updateTitleBarIfNecessary() {
-		buildGUIIfNecessary(true);
-		if (titleBarPanel.isVisible() && titleBarPanel.isAttached()) {
-			//updateTitleBar();
-		}
-	}
-
-	/*protected JMenuBar loadMenuBar() {
-		return null;
-	}*/
-
-	/**
-	 * Update the toolbar of this dock panel if it's open in its own toolbar
-	 * container.
-	 */
-	public void updateToolbar() {
-		if (isVisible() && isOpenInFrame() && hasToolbar()) {
-		//	if (app != null && app.getGuiManager() != null &&
-		//		app.getGuiManager().getToolbarPanel() != null)
-		//	app.getGuiManager().getToolbarPanel().updateToolbarPanel();
-		}
-	}
-
-	/**
-	 * Change the toolbar mode for panels open in a separate frame.
-	 * 
-	 * @param mode
-	 */
-	/*public void setToolbarMode(int mode) {
-		if (isVisible() && isOpenInFrame() && hasToolbar()) {
-			toolbarContainer.setMode(mode);
-		}
-	}*/
-
-	/**
 	 * Update the toolbar GUI.
 	 */
 	public void buildToolbarGui() {
-	//	if (toolbarContainer != null) {
-		//	toolbarContainer.buildGui();
-		//	toolbarContainer.updateHelpText();
-
-		//	if (isVisible() && isOpenInFrame()) {
-		//		frame.validate();
-		//	}
-		//}
+			App.debug("TODO why is it here....");
 	}
 
-	/**
-	 * Update all labels of this DockPanel. Called while initializing and if the
-	 * language was changed.
-	 */
-	public void updateLabels() {
 
-		//closeButton.setToolTipText(app.getMenuTooltip("Close"));
-
-		/*
-		windowButton.setToolTipText(app.getPlainTooltip("ViewOpenExtraWindow"));
-		unwindowButton.setToolTipText(app
-				.getPlainTooltip("ViewCloseExtraWindow"));
-		unwindowButton2.setToolTipText(app
-				.getPlainTooltip("ViewCloseExtraWindow"));
-		toggleStyleBarButton.setToolTipText(app
-				.getPlainTooltip("ToggleStyleBar"));
-		toggleStyleBarButton2.setToolTipText(app
-				.getPlainTooltip("ToggleStyleBar"));
-
-		if (frame == null) {
-			titleLabel.setText(getPlainTitle());
-		} else {
-			updateTitle();
-		}
-		*/
-	}
 
 	/**
 	 * Update fonts.
 	 */
 	public void updateFonts() {
-		if (hasFocus && dockManager.hasFullFocusSystem()) {
-			//titleLabel.setFont(app.getBoldFont());
-		} else {
-			//titleLabel.setFont(app.getPlainFont());
-		}
+		App.debug("Why is it here....");
 	}
-
-	/**
-	 * Update the title of the frame. This is necessary if the language changed
-	 * or if the title of the main window changed (e.g. because the file was
-	 * saved under a different name).
-	 */
-	/*public void updateTitle() {
-		if (isOpenInFrame()) {
-			StringBuilder windowTitle = new StringBuilder();
-			windowTitle.append(getPlainTitle());
-
-			if (app.getCurrentFile() != null) {
-				windowTitle.append(" - ");
-				windowTitle.append(app.getCurrentFile().getName());
-			} else {
-				if (GeoGebraFrame.getInstanceCount() > 1) {
-					int nr = ((GeoGebraFrame) app.getFrame())
-							.getInstanceNumber();
-					windowTitle.append(" - (");
-					windowTitle.append(nr + 1);
-					windowTitle.append(")");
-				}
-			}
-
-			if (isDialog) {
-				((JDialog) frame).setTitle(windowTitle.toString());
-			} else {
-				((JFrame) frame).setTitle(windowTitle.toString());
-			}
-		}
-	}*/
-
-	/**
-	 * Close this panel permanently.
-	 */
-	/*public void closePanel() {
-		closePanel(true);
-	}*/
 
 	/**
 	 * Close this panel.
@@ -1121,59 +627,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		dockManager.closePanel(this, isPermanent);
 	}
 
-	/**
-	 * Display this panel in an external window.
-	 */
-	/*protected void windowPanel() {
-
-		// try to hide the panel
-		if (dockManager.hide(this, false)) {
-
-			// move the toolbar from the main window to the panel
-			if (hasToolbar()) {
-				if (toolbarContainer == null) {
-					toolbarContainer = new ToolbarContainer(app, false);
-				}
-
-				toolbarContainer.addToolbar(toolbar);
-				toolbarContainer.buildGui();
-				toolbarContainer.setActiveToolbar(getViewId());
-				toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
-
-				ToolbarContainer mainContainer = ((GuiManagerD) app
-						.getGuiManager()).getToolbarPanel();
-				mainContainer.removeToolbar(toolbar);
-				mainContainer.updateToolbarPanel();
-			}
-
-			setVisible(true);
-			createFrame();
-		}
-	}*/
-
-	/**
-	 * Display this panel in the main window.
-	 */
-	/*protected void unwindowPanel() {
-		// hide the frame
-		dockManager.hide(this, false);
-
-		// don't display this panel in a frame the next time
-		setOpenInFrame(false);
-
-		// show the panel in the main window
-		dockManager.show(this);
-
-		// as this view already *had* focus and will retain focus
-		// DockManager::show()
-		// won't be able to update the active toolbar
-		if (hasToolbar()) {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
-					.setActiveToolbar(toolbar);
-		}
-
-	}*/
-
 	/** loads the styleBar and puts it into the stylBarPanel */
 	private void setStyleBar() {
 		if (styleBar == null) {
@@ -1182,14 +635,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			styleBarPanel.add(styleBar);
 		}
 	}
-
-	/**
-	 * Toggle the style bar.
-	 */
-	/*public void toggleStyleBar() {
-		setShowStyleBar(!showStyleBar);
-		updateStyleBarVisibility();
-	}*/
 
 	/**
 	 * Update the style bar visibility.
@@ -1202,63 +647,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		buildGUIIfNecessary(true);
 
 		styleBarPanel.setVisible(isStyleBarVisible());
-		//TODO updateToggleStyleBarButtons();
-		//updateTitleBar();
-
 		if (isStyleBarVisible()) {
 			setStyleBar();
 			styleBar.setVisible(showStyleBar);
-			//TODO styleBarButtonPanel.setVisible(!titlePanel.isVisible());
 		}
 	}
-
-	/**
-	 * One of the buttons was pressed.
-	 */
-	/*public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == closeButton) {
-			closePanel(false);
-		} else if (e.getSource() == windowButton) {
-			windowPanel();
-		} else if (e.getSource() == unwindowButton
-				|| e.getSource() == unwindowButton2) {
-			unwindowPanel();
-		} else if (e.getSource() == toggleStyleBarButton
-				|| e.getSource() == toggleStyleBarButton2) {
-			toggleStyleBar();
-
-		} else if (e.getSource() == maximizeButton) {
-			toggleMaximize();
-		}
-	}*/
-
-	/**
-	 * Hide the view if the window was closed or if the close button was
-	 * pressed.
-	 */
-	/*public void windowClosing(WindowEvent e) {
-		closePanel(false);
-	}*/
-
-	/**
-	 * Start dragging if the mouse was pressed while it was on the title panel.
-	 * Or toggle the stylebar on double-click.
-	 */
-	/*public void mousePressed(MouseEvent arg0) {
-
-		// double-click opens the stylebar and shows the button panel
-		if (arg0.getClickCount() == 2) {
-			// toggleStyleBar();
-			toggleMaximize();
-		}
-
-		// otherwise start drag if the view is in the main window
-		else {
-			if (frame == null) {
-				dockManager.drag(this);
-			}
-		}
-	}*/
 
 	/**
 	 * @return The parent DockSplitPane or null.
@@ -1336,13 +729,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	}
 
 	/**
-	 * @return If this DockPanel is in an extra frame / window.
-	 */
-	/*public boolean isInFrame() {
-		return frame != null;
-	}*/
-
-	/**
 	 * If this view should open in a frame. Has no immediate effect.
 	 * 
 	 * @param openInFrame
@@ -1370,25 +756,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
 	}
-
-	/*private void updateToggleStyleBarButtons() {
-		if (toggleStyleBarButton != null) {
-			if (showStyleBar) {
-				toggleStyleBarButton.setIcon(app
-						.getImageIcon("triangle-down.png"));
-				// toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-down-rollover.png"));
-			} else {
-				toggleStyleBarButton.setIcon(app
-						.getImageIcon("triangle-right.png"));
-				// toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-right-rollover.png"));
-			}
-		}
-		if (toggleStyleBarButton2 != null) {
-			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
-			// toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
-		}
-	}*/
-
 	/**
 	 * @return If the style bar should be visible.
 	 */
@@ -1550,17 +917,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	protected void setActiveToolBar() {
 		App.debug("unimplemented");
-		/*if (hasToolbar()) {
-			app.getGuiManager().getToolbarPanel()
-					.setActiveToolbar(toolbar);
-		} else {
-			app.getGuiManager().getToolbarPanel()
-					.setActiveToolbar(-1);
-		}
-		// switching the view may cause shrinking of help panel,
-		// we need an update here
-		app.getGuiManager().getToolbarPanel().validate();
-		app.getGuiManager().getToolbarPanel().updateHelpText();*/
 	}
 
 	/**
@@ -1574,15 +930,15 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		
 		App.debug(this.getPlainTitle() + " title is bold? " + titleIsBold());
 		
-		// if (dockManager.hasFullFocusSystem()) {
+	
 		if (titleIsBold()) {
 			titleBarPanel.addStyleName("TitleBarPanel-focus");
-			//titleBarPanel.addStyleName("TitleBarPanel-focus");
+			
 		} else {
 			titleBarPanel.removeStyleName("TitleBarPanel-focus");
-			//titleBarPanel.removeStyleName("TitleBarPanel-focus");
+			
 		}
-		// }
+	
 	}
 
 	/**
@@ -1630,13 +986,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public char getMenuShortcut() {
 		return menuShortcut;
 	}
-
-	/**
-	 * @return The toolbar associated with this panel.
-	 */
-	/*public Toolbar getToolbar() {
-		return toolbar;
-	}*/
 
 	/**
 	 * @return If this panel has a toolbar.
@@ -1691,89 +1040,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		sb.append("]");
 		return sb.toString();
 	}
-
-	/**
-	 * Helper class to compare dock panels for sorting in the menu.
-	 * 
-	 * @author Florian Sonner
-	 *//*TODO
-	public static class MenuOrderComparator implements Comparator<DockPanelW> {
-		public int compare(DockPanelW a, DockPanelW b) {
-			return a.getMenuOrder() - b.getMenuOrder();
-		}
-	}*/
-
-	/*public void windowClosed(WindowEvent e) {
-	}
-
-	public void windowActivated(WindowEvent e) {
-	}
-
-	public void windowDeactivated(WindowEvent e) {
-	}
-
-	public void windowDeiconified(WindowEvent e) {
-	}
-
-	public void windowIconified(WindowEvent e) {
-	}
-
-	public void windowOpened(WindowEvent e) {
-	}
-
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
-	}*/
-
-	/**
-	 * UI for the buttons in the title panel. Used for Mac as the normal buttons
-	 * are not displayed correctly as they are too small.
-	 * 
-	 * @author Florian Sonner
-	 */
-	/*private static class TitleBarButtonUI extends BasicButtonUI {
-		@Override
-		public void paint(Graphics g, JComponent component) {
-			JButton button = (JButton) component;
-
-			// TODO implement drawing...
-
-			super.paint(g, component);
-		}
-	}*/
-
-	/*public class MyButtonHider extends MouseAdapter {
-
-		public void mouseEntered(MouseEvent e) {
-			// App.debug("entered, not jpanel");
-			if (e.getSource() != titlePanel) {
-				e.consume();
-			} else if (!windowButton.isVisible()
-					&& (!isAlone() && !isInFrame() && !isMaximized())) {
-				windowButton.setVisible(true);
-			}
-
-			// make sure tooltips from Tool Bar don't get in the way
-			setToolTipText("");
-		}
-
-		public void mouseExited(MouseEvent e) {
-			// App.debug("exited:");
-			if (!titlePanel.getVisibleRect().contains(e.getPoint())) {
-				windowButton.setVisible(false);
-			}
-		}
-
-	}*/
-
 	/**
 	 * @return true if the layout has been maximized
 	 */
