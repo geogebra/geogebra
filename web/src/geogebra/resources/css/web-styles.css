@@ -1537,21 +1537,15 @@ Paddings for menuitems.
 
 
 .StyleBarPanel {
-	margin: auto 0;
+	/*margin: auto 0;
 	margin-top: 0px;
 	height: 42px;
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-}
-
-
-.StyleBarPanel, .TitleBarPanel {
-	/*background: url("images/hborder.png") repeat-x 0px -27px;
-	border-bottom: 1px solid lightgray;*/
-	width: 100%;
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);*/
+	display: inline-block;
 }
 
 .StyleBar {
-	margin-top: 3px;
+	/*margin-top: 3px;*/
 }
 
 .TitleBarPanel-focus {
@@ -1561,8 +1555,20 @@ Paddings for menuitems.
 
 
 .TitleBarPanel {
-	height: 28px;
 	background: #F8F8F8;
+	z-index:1;
+	left: auto !important;
+	bottom: auto !important;
+	border-style: solid;
+	border-width: 0px 0px 1px 1px;
+	border-color: #DCDCDC;
+	border-bottom-left-radius: 5px;
+	background-color: #ffffff;
+}
+
+.TitleBarPanel .toggleStyleBar {
+	border: 1px solid transparent;
+	display: inline-block;
 }
 
 .TitleBarLabel {

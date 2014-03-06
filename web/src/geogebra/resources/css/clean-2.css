@@ -1442,14 +1442,15 @@ Paddings for menuitems.
 
 
 .StyleBarPanel {
-	margin: auto 0;
+	/*margin: auto 0;*/
+	display: inline-block;
 }
 
 
-.StyleBarPanel, .TitleBarPanel {
+.StyleBarPanel {
 	background: url("images/hborder.png") repeat-x 0px -27px;
 	border-bottom: 1px solid lightgray;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 .TitleBarPanel-focus {
@@ -1458,7 +1459,14 @@ Paddings for menuitems.
 
 
 .TitleBarPanel {
-	height: 16px;
+	left: auto !important;
+	bottom: auto !important;
+	z-index: 1;
+}
+
+.TitleBarPanel .toggleStyleBar {
+	border: 1px solid transparent;
+	display: inline-block;
 }
 
 .TitleBarLabel {

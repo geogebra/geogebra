@@ -21,10 +21,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -170,7 +168,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * Panel for the styling bar if one is available.
 	 */
-	private AbsolutePanel styleBarPanel;
+	private FlowPanel styleBarPanel;
 
 	/**
 	 * Panel used for the toolbar if this dock panel has one.
@@ -453,12 +451,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	PushButton toglStyleBtn;
 
 	PushButton toglStyleBtn2;
-	AbsolutePanel titleBarPanel;
-	HorizontalPanel theRealTitleBarPanel;
+	//AbsolutePanel titleBarPanel;
+	FlowPanel titleBarPanel;
 	
 	Label titleBarLabel;
 
 	private VerticalPanel componentPanel;
+
+	private PushButton toggleStyleBarButton;
 	
 	public int getHeight(){
 		return dockPanel.getOffsetHeight();	
@@ -491,84 +491,102 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		// method has already been called
 		componentPanel = new VerticalPanel();
 
-		styleBarPanel = new AbsolutePanel();	
+		styleBarPanel = new FlowPanel();	
 		styleBarPanel.setStyleName("StyleBarPanel");
 
-		theRealTitleBarPanel = new HorizontalPanel();
-		theRealTitleBarPanel.setStyleName("TitleBarPanel");
-		theRealTitleBarPanel.addStyleName("cursor_drag");
-		
-		titleBarPanel = new AbsolutePanel();
+		titleBarPanel = new FlowPanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
+		
+		//titleBarPanel = new AbsolutePanel();
+		//titleBarPanel.setStyleName("TitleBarPanel");
+		//titleBarPanel.addStyleName("cursor_drag");
 
-		theRealTitleBarPanel.add(titleBarPanel);
+		//theRealTitleBarPanel.add(titleBarPanel);
 
-		ToolTipManagerW.sharedInstance().registerWidget(theRealTitleBarPanel, toolTipHandler, false, true);
+		ToolTipManagerW.sharedInstance().registerWidget(titleBarPanel, toolTipHandler, false, true);
+		
+		toggleStyleBarButton = new PushButton(new Image(AppResources.INSTANCE.triangle_right()));
+		toggleStyleBarButton.addStyleName("toggleStyleBar");
 		
 		
-		closeButton = new PushButton(new Image(AppResources.INSTANCE.view_close()));
-		closeButton.setStyleName("CloseButton");
+		//closeButton = new PushButton(new Image(AppResources.INSTANCE.view_close()));
+		//closeButton.setStyleName("CloseButton");
 		//closeButton.setFocusPainted(false);
 
-		ClickHandler clickHandler = new ClickHandler() {
+		//ClickHandler clickHandler = new ClickHandler() {
+		//	public void onClick(ClickEvent event) {
+		//		closePanel(true);
+		//	}
+		//};
+		
+		ClickHandler toggleStyleBarHandler = new ClickHandler() {
+			
 			public void onClick(ClickEvent event) {
-				closePanel(true);
+				if (showStyleBar) {
+					showStyleBar = false;
+				} else {
+					showStyleBar = true;
+				}
+				updateStyleBarVisibility();
 			}
 		};
+		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
 
-		closeButton.addClickHandler(clickHandler);
+		//closeButton.addClickHandler(clickHandler);
 
-		theRealTitleBarPanel.add(closeButton);
-		theRealTitleBarPanel.setCellWidth(closeButton, "16px");
+		titleBarPanel.add(toggleStyleBarButton);
+		
+		titleBarPanel.add(styleBarPanel);
+		//theRealTitleBarPanel.setCellWidth(closeButton, "16px");
 
-		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
+		//titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
 
-		Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
-		toglStyleBtn = new PushButton(img);
-		Image img2 = new Image(AppResources.INSTANCE.triangle_right().getSafeUri());
-		toglStyleBtn2 = new PushButton(img2);
+		//Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
+		//toglStyleBtn = new PushButton(img);
+		//Image img2 = new Image(AppResources.INSTANCE.triangle_right().getSafeUri());
+		//toglStyleBtn2 = new PushButton(img2);
 
-		ClickHandler ch1 = new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				showStyleBar = false;
-				titleBarPanel.remove(toglStyleBtn);
-				titleBarPanel.insert(toglStyleBtn2, 2, 0, 0);
-				setLayout(true);
-			}
-		};
+		//ClickHandler ch1 = new ClickHandler() {
+		//	public void onClick(ClickEvent event) {
+		//		showStyleBar = false;
+		//		titleBarPanel.remove(toglStyleBtn);
+		//		titleBarPanel.insert(toglStyleBtn2, 2, 0, 0);
+		//		setLayout(true);
+		//	}
+		//};
 
-		ClickHandler ch2 = new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				showStyleBar = true;
-				titleBarPanel.remove(toglStyleBtn2);
-				titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
-				setLayout(true);
-			}
-		};
+		//ClickHandler ch2 = new ClickHandler() {
+		//	public void onClick(ClickEvent event) {
+		//		showStyleBar = true;
+		//		titleBarPanel.remove(toglStyleBtn2);
+		//		titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
+		//		setLayout(true);
+		//	}
+		//};
 
-		toglStyleBtn.setSize("16px", "8px");
-		toglStyleBtn.setStyleName("StyleBarToggleButton");
-		toglStyleBtn.addClickHandler(ch1);
+		//toglStyleBtn.setSize("16px", "8px");
+		//toglStyleBtn.setStyleName("StyleBarToggleButton");
+		//toglStyleBtn.addClickHandler(ch1);
 
-		toglStyleBtn2.setSize("16px", "8px");
-		toglStyleBtn2.setStyleName("none");
-		toglStyleBtn2.addClickHandler(ch2);
+		//toglStyleBtn2.setSize("16px", "8px");
+		//toglStyleBtn2.setStyleName("none");
+		//toglStyleBtn2.addClickHandler(ch2);
 
 		// toglStyleBtn used to belong to styleBarPanel
 		//styleBarPanel.add(toglStyleBtn, 2, 0);
 		// but titleBarPanel should always be visible, like in Desktop
 
-		titleBarPanel.add(toglStyleBtn2, 2, 0);
+		//titleBarPanel.add(toglStyleBtn2, 2, 0);
 
-		if (App.isFullAppGui() || titleBarLabelCanSet) {
+		//if (App.isFullAppGui() || titleBarLabelCanSet) {
 			//titleBarLabel = new Label(getPlainTitle());
-			titleBarLabel = new Label("");
-		} else {
-			titleBarLabel = new Label("");
-		}
-		titleBarLabel.addStyleName("TitleBarLabel");
-		titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
+			//titleBarLabel = new Label("");
+		//} else {
+		//	titleBarLabel = new Label("");
+		//}
+		//titleBarLabel.addStyleName("TitleBarLabel");
+		//titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
 
 		if (setlayout) {
 			setLayout(false);
@@ -600,7 +618,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			if (app.getSettings().getLayout().showTitleBar()
 				/* && !(isAlone && !isMaximized())*/ && !app.isApplet()
 				&& (!isOpenInFrame())) {
-				dockPanel.addNorth(theRealTitleBarPanel, 28);
+				dockPanel.addNorth(titleBarPanel, 0);
 			}
 
 			// caring for applets; where it might not be visible, except for the SV
@@ -613,11 +631,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 			if (isStyleBarVisible()) {
 				setStyleBar();
-				dockPanel.addNorth(styleBarPanel, 45);
-				if (toglStyleBtn2.isAttached()) {
-					titleBarPanel.remove(toglStyleBtn2);
-					titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
-				}
+				//dockPanel.addNorth(styleBarPanel, 45);
+				//if (toglStyleBtn2.isAttached()) {
+					//titleBarPanel.remove(toglStyleBtn2);
+					//titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
+				//}
+				updateStyleBarVisibility();
 			}
 			if(styleBar instanceof StyleBarW)
 				((StyleBarW)styleBar).setOpen(showStyleBar);
@@ -626,6 +645,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			// updateStyleBarVisibility();
 
 			updateTitleBarIfNecessary(); // for adding/removing close X sign
+			updateStyleBarVisibility();
 		}
 
 		if (component != null) {
@@ -967,8 +987,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	protected void updateTitleBarIfNecessary() {
 		buildGUIIfNecessary(true);
-		if (theRealTitleBarPanel.isVisible() && theRealTitleBarPanel.isAttached()) {
-			updateTitleBar();
+		if (titleBarPanel.isVisible() && titleBarPanel.isAttached()) {
+			//updateTitleBar();
 		}
 	}
 
@@ -1156,7 +1176,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (styleBar == null) {
 			buildGUIIfNecessary(false);
 			styleBar = loadStyleBar();
-			styleBarPanel.add(styleBar, 2, 0);
+			styleBarPanel.add(styleBar);
 		}
 	}
 
@@ -1180,7 +1200,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		styleBarPanel.setVisible(isStyleBarVisible());
 		//TODO updateToggleStyleBarButtons();
-		updateTitleBar();
+		//updateTitleBar();
 
 		if (isStyleBarVisible()) {
 			setStyleBar();
@@ -1553,11 +1573,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		
 		// if (dockManager.hasFullFocusSystem()) {
 		if (titleIsBold()) {
-			theRealTitleBarPanel.addStyleName("TitleBarPanel-focus");
 			titleBarPanel.addStyleName("TitleBarPanel-focus");
+			//titleBarPanel.addStyleName("TitleBarPanel-focus");
 		} else {
-			theRealTitleBarPanel.removeStyleName("TitleBarPanel-focus");
 			titleBarPanel.removeStyleName("TitleBarPanel-focus");
+			//titleBarPanel.removeStyleName("TitleBarPanel-focus");
 		}
 		// }
 	}
