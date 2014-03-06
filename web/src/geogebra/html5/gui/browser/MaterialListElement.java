@@ -8,6 +8,7 @@ import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -41,17 +42,17 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private boolean isSelected = false;
 
 	//TODO: Translate Insert Worksheet and Edit
-	private final StandardButton openButton = new StandardButton(
-			BrowseResources.INSTANCE.document_viewer(), "Insert Worksheet");
-	private final StandardButton editButton = new StandardButton(
-			BrowseResources.INSTANCE.document_edit(), "Edit");
+	private final StandardButton openButton, editButton;
 	//Steffi: Delete not needed here
 	/*private final StandardButton deleteButton = new StandardButton(
 			BrowseResources.INSTANCE.dialog_cancel());*/
 	private BrowseGUI bg;
 
 	MaterialListElement(final Material m, final AppWeb app, BrowseGUI bg) {
-
+		openButton = new StandardButton(
+				BrowseResources.INSTANCE.document_viewer(), app.getMenu("insert_worksheet"));
+		editButton = new StandardButton(
+				BrowseResources.INSTANCE.document_edit(), app.getMenu("Edit"));
 		this.app = app;
 		this.material = m;
 		this.bg = bg;
@@ -65,9 +66,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		centeredContent.setStyleName("centeredContent");
 		centeredContent.add(this.infos);
 
-		if (this.isLocalFile()) {
-			centeredContent.add(this.confirmDeletePanel);
-		}
 		this.add(centeredContent);
 		this.add(this.links);
 
@@ -90,11 +88,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	void materialSelected() {
 		if (this.isSelected) {
-			if (this.isLocalFile()) {
 				onEdit();
-			} else {
-				onOpen();
-			}
 		} else {
 			this.markSelected();
 		}
@@ -111,7 +105,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.infos.add(this.title);
 
 		this.add(this.image);
-		if (!this.isLocalFile()) {
+		
 			this.image
 					.getElement()
 					.getStyle()
@@ -123,13 +117,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			this.sharedBy.setStyleName("sharedPanel");
 			this.infos.add(this.sharedBy);
 
-		} else {
-			this.image
-					.getElement()
-					.getStyle()
-					.setBackgroundImage(
-							"url(http://www.geogebra.org/static/images/logo.png)");
-		}
+		
 		String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
 		
 		this.date = new Label(CmdGetTime.buildLocalizedDate(format, this.material.getDate(),
@@ -186,11 +174,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.links.add(arrowPanel);
 
 		this.initEditButton();
-		this.initOpenButton();
-		// remote material should not have this visible
-		/*if (this.isLocalFile()) {
-			this.initDeleteButton();
-		}*/
+		if(((AppW) app).getLAF().isSmart()){
+			this.initWorksheetButton();
+		}else{
+			this.initOpenButton();
+		}
 	}
 
 	// Steffi: Delete not needed here
@@ -241,6 +229,18 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 			}
 		});
 	}
+	
+	private void initWorksheetButton() {
+		this.links.add(this.openButton);
+		this.openButton.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				onEdit();
+				//TODO
+			}
+		});
+	}
 
 	void onOpen() {
 		openTubeWindow(material.getId());
@@ -278,10 +278,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	void setLabels() {
 		this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA",
 				this.material.getAuthor()));
-	}
-
-	private boolean isLocalFile() {
-		return this.material.getId() <= 0;
 	}
 
 	@Override

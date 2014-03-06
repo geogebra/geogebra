@@ -1099,6 +1099,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			return;
 		}
 		dragLabel.setVisible(drag);
+		this.toggleStyleBarButton.setVisible(!drag);
 		if(drag){
 			this.styleBarPanel.setVisible(false);
 		}else{

@@ -129,19 +129,23 @@ public abstract class FastButton extends CustomButton {
 		switch (DOM.eventGetType(event)) {
 		case Event.ONTOUCHSTART: {
 			onTouchStart(event);
+			event.stopPropagation();
 			break;
 		}
 		case Event.ONTOUCHEND: {
 			onTouchEnd(event);
+			event.stopPropagation();
 			break;
 		}
 		case Event.ONTOUCHMOVE: {
 			onTouchMove(event);
+			event.stopPropagation();
 			break;
 		}
 		case Event.ONMOUSEUP: {
 			// because Event.ONCLICK always came twice on desktop browsers oO
 			onClick(event);
+			event.stopPropagation();
 			break;
 		}
 		default: {
