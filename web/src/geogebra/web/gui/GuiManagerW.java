@@ -693,6 +693,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			return;
 		getAlgebraView();
 		algebraView.setShowAuxiliaryObjects(flag);
+		app.getSettings().getAlgebra().setShowAuxiliaryObjects(flag);
 	}
 
 	public AlgebraViewW getAlgebraView() {

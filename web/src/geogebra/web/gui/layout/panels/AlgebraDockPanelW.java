@@ -21,7 +21,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 				App.VIEW_ALGEBRA,	// view id 
 				"AlgebraWindow", 			// view title phrase
 				null,						// toolbar string
-				false,						// style bar?
+				true,						// style bar?
 				2, 							// menu order
 				'A'							// menu shortcut
 			);		
