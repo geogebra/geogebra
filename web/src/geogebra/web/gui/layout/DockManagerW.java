@@ -1714,6 +1714,12 @@ public class DockManagerW extends DockManager {
 	public void addShowDockPanelListener(ShowDockPanelListener l){
 		showDockPanelListener.add(l);
 	}
+
+	public void enableDragging(boolean drag) {
+		for (int i = 0; i < getPanels().length; i++) {
+			getPanels()[i].enableDragging(drag);
+		}
+    }
 	
 	
 }

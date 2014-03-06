@@ -89,4 +89,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
 	public void setActiveView(int evID);
+
+	public boolean isDraggingViews();
+
+	public void setDraggingViews(boolean b);
 }

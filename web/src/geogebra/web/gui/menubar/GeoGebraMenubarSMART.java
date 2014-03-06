@@ -56,7 +56,13 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 		this.createOptionsMenu();
 		this.createHelpMenu();
 		
-		this.menuPanel = new StackPanel();
+		this.menuPanel = new StackPanel(){
+			@Override
+            public void showStack(int index) {
+		        super.showStack(index);
+		        app.getGuiManager().setDraggingViews(index == 3 || index == 2);
+		    }
+		};
 		this.menuPanel.addStyleName("menuPanel");
 		
 		this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
@@ -65,7 +71,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
-
+		
 	    this.add(menuPanel);
 	    
 	    onResize(null);

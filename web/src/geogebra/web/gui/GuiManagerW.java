@@ -107,6 +107,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	
 	private String strCustomToolbarDefinition;
+	private boolean draggingViews;
 	
 	
 	public GuiManagerW(AppW app) {
@@ -1469,5 +1470,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			return;
 		}
 		layout.getDockManager().setFocusedPanel(evID);
+	}
+
+	@Override
+    public boolean isDraggingViews() {
+	    return draggingViews;
+    }
+	
+	public void setDraggingViews(boolean draggingViews){
+		this.draggingViews = draggingViews;
+		if(layout != null){
+			layout.getDockManager().enableDragging(draggingViews);
+		}
 	}
 }

@@ -334,6 +334,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	FlowPanel titleBarPanel;
 	
 	Label titleBarLabel;
+	Label dragLabel;
 
 	private VerticalPanel componentPanel;
 
@@ -397,10 +398,15 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			}
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
+		
+		dragLabel = new Label("DRAG ME");
+		dragLabel.addDomHandler(this,MouseDownEvent.getType());
+		dragLabel.setVisible(false);
 
 		titleBarPanel.add(toggleStyleBarButton);
 		
 		titleBarPanel.add(styleBarPanel);
+		titleBarPanel.add(dragLabel);
 		
 
 		if (setlayout) {
@@ -1088,7 +1094,21 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	public abstract void showView(boolean b);
 
-
+	public void enableDragging(boolean drag){
+		if(dragLabel==null){
+			return;
+		}
+		dragLabel.setVisible(drag);
+		if(drag){
+			this.styleBarPanel.setVisible(false);
+		}else{
+			updateStyleBarVisibility();
+			if(styleBar instanceof StyleBarW){
+				((StyleBarW)styleBar).setOpen(showStyleBar);
+			}
+		}
+	}
+	
 	public void onMouseDown(MouseDownEvent event) {
 
 		// No, we don't need this, but do nothing instead if building GUI is necessary
@@ -1097,15 +1117,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (componentPanel == null)
 			return;
 
-		if (this.toglStyleBtn2.isAttached()) {
-			if (event.getRelativeX(this.toglStyleBtn2.getElement()) > 20) {
-				dockManager.drag(this);
-			}
-		} else if (this.toglStyleBtn.isAttached()) {
-			if (event.getRelativeX(this.toglStyleBtn.getElement()) > 20) {
-				dockManager.drag(this);
-			}
-		}
+		dockManager.drag(this);
     }
 
 	public GDimension getEstimatedSize() {

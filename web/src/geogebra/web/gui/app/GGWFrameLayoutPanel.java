@@ -42,7 +42,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	}
 
 	public void setLayout(AppW app) {
-		
+		glassPane.setArticleElement(app.getArticleElement());
 		dockPanel.clear();
 
 		if(!app.getLAF().isSmart()) {

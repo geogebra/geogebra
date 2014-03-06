@@ -2,6 +2,7 @@ package geogebra.web.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.util.ArticleElement;
 
 import java.util.ArrayList;
 
@@ -46,11 +47,12 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 	private com.google.gwt.event.shared.HandlerRegistration reg2;
 
+	private ArticleElement ae;
+
 	/**********************************************
 	 * Constructs a DockGlassPane
 	 */
 	public DockGlassPaneW() {
-
 		setVisible(false);
 		setStyleName("DockGlassPane");
 
@@ -70,6 +72,10 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 		this.getElement().getStyle().setZIndex(5000);
 
+	}
+	
+	public void setArticleElement(ArticleElement ae){
+		this.ae = ae; 
 	}
 
 	public void attach(DockManagerW dockManager) {
@@ -192,8 +198,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		if (update) {
 			DockPanelW target = dndState.getTarget();
 
-			x2 = target.getAbsoluteLeft();
-			y2 = target.getAbsoluteTop();
+			x2 = (int) (target.getAbsoluteLeft() / ae.getScaleX());
+			y2 = (int) (target.getAbsoluteTop() / ae.getScaleY());
 			w = target.getOffsetWidth();
 			h = target.getOffsetHeight();
 
@@ -219,8 +225,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 						DockSplitPaneW splitPane = (DockSplitPaneW) target
 						        .getParent();
-						x2 = splitPane.getAbsoluteLeft();
-						y2 = splitPane.getAbsoluteTop();
+						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
+						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 
 						w *= maxDist / 2;
 						h = splitPane.getOffsetHeight();
@@ -237,8 +243,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 						DockSplitPaneW splitPane = (DockSplitPaneW) target
 						        .getParent();
-						x2 = splitPane.getAbsoluteLeft();
-						y2 = splitPane.getAbsoluteTop();
+						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
+						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 
 						x2 += w * (1 - maxDist / 2);
 						w *= maxDist / 2;
@@ -274,8 +280,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 						DockSplitPaneW splitPane = (DockSplitPaneW) target
 						        .getParent();
-						x2 = splitPane.getAbsoluteLeft();
-						y2 = splitPane.getAbsoluteTop();
+						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
+						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 						h *= maxDist / 2;
 						w = splitPane.getOffsetWidth();
 
@@ -292,8 +298,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 						DockSplitPaneW splitPane = (DockSplitPaneW) target
 						        .getParent();
-						x2 = splitPane.getAbsoluteLeft();
-						y2 = splitPane.getAbsoluteTop();
+						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
+						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 						y2 += h * (1 - maxDist / 2);
 						h *= maxDist / 2;
 						w = splitPane.getOffsetWidth();
@@ -323,8 +329,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 			// nothing changed
 			if (target == dndState.getSource() && !dndState.isRegionOut()) {
-				x2 = target.getAbsoluteLeft();
-				y2 = target.getAbsoluteTop();
+				x2 = (int) (target.getAbsoluteLeft() / ae.getScaleX());
+				y2 = (int) (target.getAbsoluteTop() / ae.getScaleY());
 				w = target.getOffsetWidth();
 				h = target.getOffsetHeight();
 
