@@ -409,27 +409,13 @@
   color: HighlightText;
   border-color: HighlightText;
 }
-.mathquillggb-rendered-math .selection .matrixed,
-.mathquillggb-editable .selection .matrixed {
-  background: #39F !important;
-}
-.mathquillggb-rendered-math .selection .matrixed-container,
-.mathquillggb-editable .selection .matrixed-container {
-  filter: progid:DXImageTransform.Microsoft.Chroma(color='#3399FF') !important;
-}
 .mathquillggb-rendered-math .selection.blur,
 .mathquillggb-editable .selection.blur,
 .mathquillggb-rendered-math .selection.blur .non-leaf,
-.mathquillggb-editable .selection.blur .non-leaf,
-.mathquillggb-rendered-math .selection.blur .matrixed,
-.mathquillggb-editable .selection.blur .matrixed {
+.mathquillggb-editable .selection.blur .non-leaf {
   background: #D4D4D4 /*!important*/;
   color: black;
   border-color: black;
-}
-.mathquillggb-rendered-math .selection.blur .matrixed-container,
-.mathquillggb-editable .selection.blur .matrixed-container {
-  filter: progid:DXImageTransform.Microsoft.Chroma(color='#D4D4D4') !important;
 }
 .mathquillggb-editable .textarea,
 .mathquillggb-rendered-math .textarea {
@@ -447,13 +433,4 @@
   user-select: text;
   position: absolute;
   clip: rect(1em 1em 1em 1em);
-}
-.mathquillggb-rendered-math .matrixed {
-  background: white;
-  display: -moz-inline-box;
-  display: inline-block;
-}
-.mathquillggb-rendered-math .matrixed-container {
-  filter: progid:DXImageTransform.Microsoft.Chroma(color='white');
-  margin-top: -0.1em;
 }
