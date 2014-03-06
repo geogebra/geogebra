@@ -31,6 +31,7 @@ import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.ViewCreator;
+import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
 import geogebra.euclidian.event.MouseEventD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
@@ -352,14 +353,14 @@ public class App3D extends AppD {
 	@Override
 	public void addToEuclidianView(GeoElement geo) {
 		super.addToEuclidianView(geo);
-		geo.addView(AppD.VIEW_EUCLIDIAN3D);
+		geo.addView(App.VIEW_EUCLIDIAN3D);
 		getEuclidianView3D().add(geo);
 	}
 
 	@Override
 	public void removeFromEuclidianView(GeoElement geo) {
 		super.removeFromEuclidianView(geo);
-		geo.removeView(AppD.VIEW_EUCLIDIAN3D);
+		geo.removeView(App.VIEW_EUCLIDIAN3D);
 		getEuclidianView3D().remove(geo);
 	}
 
