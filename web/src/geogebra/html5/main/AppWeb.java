@@ -48,6 +48,7 @@ import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.View;
+import geogebra.web.gui.GuiManagerInterfaceW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1112,4 +1113,11 @@ public abstract class AppWeb extends App implements SetLabels{
 	    }
     }-*/;
 	
+	@Override
+    public void setActiveView(int evID){
+		if (getGuiManager() instanceof GuiManagerInterfaceW) {
+			((GuiManagerInterfaceW)getGuiManager()).setActiveView(evID);
+		}
+	}
+
 }

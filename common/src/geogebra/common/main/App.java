@@ -1473,11 +1473,8 @@ public abstract class App implements UpdateSelection{
 	 * @param evID
 	 *            view id
 	 */
-	public void setActiveView(int evID) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public abstract void setActiveView(int evID);
+	
 	public void refreshViews() {
 		getEuclidianView1().updateBackground();
 		if (hasEuclidianView2()) {

@@ -1461,4 +1461,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		}
 		return 0;
 	}
+
+	@Override
+    public void setActiveView(int evID) {
+		if (layout == null || layout.getDockManager() == null){
+			return;
+		}
+		layout.getDockManager().setFocusedPanel(evID);
+	}
 }

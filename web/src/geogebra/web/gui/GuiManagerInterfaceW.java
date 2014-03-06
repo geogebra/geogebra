@@ -87,4 +87,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 	public void setToolBarDefinition(String toolBarDefinition);
 
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation();
+
+	public void setActiveView(int evID);
 }
