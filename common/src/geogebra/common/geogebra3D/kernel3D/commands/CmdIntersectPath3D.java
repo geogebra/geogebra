@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.advanced.CmdIntersectPath;
@@ -70,22 +71,23 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 						(GeoPolygon) arg[0]);
 
 			// Plane - Polyhedron
-			/*
-    	if (
-    			(ok[0] = (arg[0] .isGeoPlane()))
-    			&& (ok[1] = (arg[1].isGeoPolyhedron())))
-    		return kernelA.getManager3D().IntersectPath(
-    				c.getLabels(),
-    				(GeoPlane3D) arg[0],
-    				(GeoPolyhedron) arg[1]);
-    	else if (
-    			(ok[1] = (arg[1] .isGeoPlane()))
-    			&& (ok[0] = (arg[0].isGeoPolyhedron())))
-    		return kernelA.getManager3D().IntersectPath(
-    				c.getLabels(),
-    				(GeoPlane3D) arg[1],
-    				(GeoPolyhedron) arg[0]);
-			 */
+			if (
+					(ok[0] = (arg[0] .isGeoPlane()))
+					&& (ok[1] = (arg[1] .isGeoPolyhedron())))
+				return kernelA.getManager3D().IntersectRegion(
+						c.getLabels(),
+						(GeoPlane3D) arg[0],
+						(GeoPolyhedron) arg[1], 
+						c.getOutputSizes());
+			else if (
+					(ok[1] = (arg[1] .isGeoPlane()))
+					&& (ok[0] = (arg[0] .isGeoPolyhedron())))
+				return kernelA.getManager3D().IntersectRegion(
+						c.getLabels(),
+						(GeoPlane3D) arg[1],
+						(GeoPolyhedron) arg[0],
+						c.getOutputSizes());
+
 
 			//intersection plane/plane
 			if ((ok[0] = (arg[0].isGeoPlane())) && (ok[0] = (arg[1].isGeoPlane()))){

@@ -41,7 +41,7 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 	
 	@Override
 	public Commands getClassName() {
-		return Commands.IntersectRegion;
+		return Commands.IntersectPath;
 	}
 
 	// TODO Consider locusequability

@@ -46,7 +46,6 @@ import geogebra.common.kernel.advanced.CmdIncircle;
 import geogebra.common.kernel.advanced.CmdIndexOf;
 import geogebra.common.kernel.advanced.CmdInsert;
 import geogebra.common.kernel.advanced.CmdIntersectPath;
-import geogebra.common.kernel.advanced.CmdIntersectRegion;
 import geogebra.common.kernel.advanced.CmdIntersection;
 import geogebra.common.kernel.advanced.CmdInvert;
 import geogebra.common.kernel.advanced.CmdIsInRegion;
@@ -102,9 +101,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case Factors:
 			return new CmdFactors(kernel);
 		case IntersectPath:
+		case IntersectRegion: // deprecated
 			return new CmdIntersectPath(kernel);
-		case IntersectRegion:
-			return new CmdIntersectRegion(kernel);
 		case Direction:
 			return new CmdDirection(kernel);
 		case TaylorPolynomial:

@@ -71,6 +71,14 @@ public class CmdIntersectPath extends CommandProcessor {
 						(GeoLine) arg[1],
 						(GeoConic) arg[0]);
 			 */
+			
+			// Polygon - Polygon
+			
+			if ((ok[0]=arg[0].isGeoPolygon()) && arg[1].isGeoPolygon() ) {
+				GeoElement[] ret =  getAlgoDispatcher().IntersectPolygons(c.getLabels(),
+				(GeoPolygon) arg[0], (GeoPolygon)arg[1] ) ;
+				return ret;
+			}
 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 

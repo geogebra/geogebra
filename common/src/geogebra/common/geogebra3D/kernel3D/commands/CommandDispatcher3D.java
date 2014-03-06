@@ -142,14 +142,13 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdIntersect3D(kernel);
 								
 			case IntersectPath:
-			case IntersectionPaths: // should not exist
+			case IntersectionPaths: // deprecated
+			case IntersectRegion: // deprecated
 				return new CmdIntersectPath3D(kernel);				
 				
 			case IntersectCircle:
 				return new CmdIntersectCircle(kernel);				
-				
-			case IntersectRegion:
-				return new CmdIntersectRegion3D(kernel);				
+						
 				
 			case Intersection:
 				return new CmdIntersect3D(kernel);

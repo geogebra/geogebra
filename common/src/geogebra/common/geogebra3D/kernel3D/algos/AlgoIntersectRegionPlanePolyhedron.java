@@ -909,7 +909,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
     
 	@Override
 	public final Commands getClassName() {
-        return Commands.IntersectRegion;
+        return Commands.IntersectPath;
     }
 	
 	
