@@ -101,7 +101,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			}
 
 			
-			//intersection plane/limited quadric (has to be done before plane/quadric)
+			//intersection plane/limited quadric
 			if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[0] = (arg[1] instanceof GeoQuadric3DLimited))){
 				GeoElement[] ret =
 					{

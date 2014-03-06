@@ -70,8 +70,9 @@ public class CmdIntersectRegion3D extends CmdIntersectRegion {
 			return ret;
 		}
 			 */
+			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
-			return super.process(c);
 
 		default :
 			return super.process(c);

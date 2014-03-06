@@ -198,7 +198,7 @@ public  GeoElement[] process(Command c) throws MyError {
         		}
         		
         		
-    			//intersection plane/limited quadric (has to be done before plane/quadric)
+    			//intersection plane/limited quadric 
     			if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadric3DLimited)){
     				GeoElement[] ret =
     					{
@@ -217,6 +217,8 @@ public  GeoElement[] process(Command c) throws MyError {
     				return ret;
     			}
         		
+    			
+    			// plane / quadric
            		if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
         			GeoElement[] ret =
         			{
