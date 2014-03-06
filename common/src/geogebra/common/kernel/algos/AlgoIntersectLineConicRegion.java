@@ -18,17 +18,14 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -40,7 +37,6 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {    
 
 	private GeoLine[] lines ; //output
-	private int numberOfPoints;
 	private int numberOfLineParts;
 	private int numberOfOutputLines;
 	String labelPrefixForLines;
@@ -48,12 +44,10 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	private Double tMin, tMax;
 	//private GeoPoint[] outputPoints;
 	private boolean currentPartIsInRegion;
-	private GeoPoint[] outputPoints;
-	private GeoLine[] outputLines;
 	
 	@Override
 	public Commands getClassName() {
-		return Commands.IntersectionPaths;
+		return Commands.IntersectPath;
 	}
 
     @Override
@@ -64,7 +58,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
     public AlgoIntersectLineConicRegion(Construction cons, String[] labels, GeoLine g, GeoConic c) {
         super(cons, g, c);
         
-        //setLabels(labels);
+        GeoElement.setLabels(labels, getIntersectionLines());
     }
     
     @Override
@@ -78,8 +72,6 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         tMin = g.getMinParameter();
         tMax = g.getMaxParameter();
         
-        GColor BLUE_VIOLET= geogebra.common.factories.AwtFactory.prototype.newColor(153,0,255);
-        int THICK_LINE_WITHIN_LINE = 4;
         
         //TODO: this initialization of input assumes the type 
         // of the line and the conic
@@ -99,18 +91,14 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
         for (int i = 0; i<4; i++) {
         	setOutputDependencies(lines[i]);
-           	lines[i].setLineThickness(THICK_LINE_WITHIN_LINE); 
-            lines[i].setObjColor(BLUE_VIOLET);
         }
         
-        //paramSet.add(tMin);
-        //paramSet.add(tMax);
     }
 
 	public GeoLine[] getIntersectionLines() {
 		GeoLine[] ret = new GeoLine[numberOfOutputLines];
 		for (int i = 0; i<numberOfOutputLines; i++){
-			ret[i] = (GeoLine) super.getOutput(numberOfPoints + i);
+			ret[i] = (GeoLine) super.getOutput(i);
 		}
 		return ret;
 	}
@@ -127,11 +115,6 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	public void compute() {
         super.compute();
         
-        numberOfPoints=0;
-        for (int i = 0; i<P.length; i++) {
-        	if (P[i].isDefined())
-        		numberOfPoints++;
-        }
         
         //build lines
         numberOfOutputLines = 0;
@@ -305,40 +288,31 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
         refreshOutput();
         
-        setLabelsForPointsAndLines();
+        //setLabelsForPointsAndLines();
 
         
 	}
+	
+	/*
     private void setLabelsForPointsAndLines() {
-        GeoElement.setLabels(new String[] {null}, outputPoints);
-        
         
         if ( (labelPrefixForLines==null || "".equals(labelPrefixForLines)) &&
-        		numberOfPoints!=0 && numberOfOutputLines!=0)
+        		numberOfOutputLines!=0)
     				labelPrefixForLines = ((GeoElement)P[0]).getFreeLabel(P[0].getLabel(StringTemplate.defaultTemplate).toLowerCase());
         
        
-        GeoElement.setLabels(labelPrefixForLines,outputLines);
+        GeoElement.setLabels(labelPrefixForLines,lines);
 	}
+	*/
 
 	@Override
 	protected void refreshOutput() {
-        super.setOutputLength(numberOfPoints + numberOfOutputLines);
-        outputPoints =  new GeoPoint[numberOfPoints];
-        outputLines =  new GeoLine[numberOfOutputLines];
+        super.setOutputLength(numberOfOutputLines);
         
-        int index=0;
-        for (int i = 0; i<P.length; i++) {
-        	if (P[i].isDefined()) {
-        		super.setOutput(index, P[i]);
-        		outputPoints[index]=P[i];
-        		index++;
-        	}
-        }
+        int index = 0;
         for (int i = 0; i<lines.length; i++) {
         	if (lines[i].isDefined()) {
         		super.setOutput(index, lines[i]);
-        		outputLines[index-numberOfPoints]=lines[i];
         		index++;
         	}
         }

@@ -432,8 +432,6 @@ public interface Manager3DInterface {
 	public GeoElement[] IntersectionPoint(String[] labels, GeoPlaneND p,
 			GeoElement s);
 
-	public GeoElement[] IntersectionSegment(String[] labels, GeoPlaneND p,
-			GeoSurfaceFinite s);
 
 	/**
 	 * Calculate the intersection of plane and quadric

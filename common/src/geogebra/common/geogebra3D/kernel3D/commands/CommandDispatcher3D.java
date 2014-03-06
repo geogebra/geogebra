@@ -142,6 +142,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdIntersect3D(kernel);
 								
 			case IntersectPath:
+			case IntersectionPaths: // should not exist
 				return new CmdIntersectPath3D(kernel);				
 				
 			case IntersectCircle:
@@ -152,11 +153,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case Intersection:
 				return new CmdIntersect3D(kernel);
-				// case IntersectionPaths: return new
-				// CmdIntersectionPaths(kernel);
-			case IntersectionPaths:
-				return new CmdIntersectionPaths3D(kernel);
-
+	
 			case Sphere:
 				return new CmdSphere3D(kernel);
 

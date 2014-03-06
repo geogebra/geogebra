@@ -1,9 +1,11 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoIntersectLineConicRegion;
 import geogebra.common.kernel.algos.AlgoIntersectPathLinePolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -53,26 +55,22 @@ public class CmdIntersectPath extends CommandProcessor {
 								(GeoPolygon) arg[0]);
 				return ret;
 			}
-			
-			
+
 			// Line - Conic
-			/*
 			else if (
 					(ok[0] = (arg[0] .isGeoLine()))
 					&& (ok[1] = (arg[1] .isGeoConic())))
-				return intersectPathLineConic(
+				return intersectLineConicRegion(
 						c.getLabels(),
 						(GeoLine) arg[0],
 						(GeoConic) arg[1]);
 			else if (
 					(ok[0] = (arg[0] .isGeoConic()))
 					&& (ok[1] = (arg[1] .isGeoLine())))
-				return intersectPathLineConic(
+				return intersectLineConicRegion(
 						c.getLabels(),
 						(GeoLine) arg[1],
 						(GeoConic) arg[0]);
-
-			 */
 
 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
@@ -82,11 +80,11 @@ public class CmdIntersectPath extends CommandProcessor {
 		}
 	}
 
-	/*
+	/**
 	 * IntersectLineConic yields intersection points named label1, label2 of
 	 * line g and conic c and intersection lines named in lowcase of the label
-	 *
-	final private GeoLine[] intersectPathLineConic(String[] labels, GeoLine g,
+	 */
+	final private GeoLine[] intersectLineConicRegion(String[] labels, GeoLine g,
 			GeoConic c) {
 		AlgoIntersectLineConicRegion algo = new AlgoIntersectLineConicRegion(
 				cons, labels, g, c);
@@ -95,7 +93,6 @@ public class CmdIntersectPath extends CommandProcessor {
 
 		return lines;
 	}
-	*/
 	
 
 	/**
