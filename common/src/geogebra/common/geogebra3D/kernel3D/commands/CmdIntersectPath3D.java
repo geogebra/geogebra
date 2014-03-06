@@ -88,7 +88,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			 */
 
 			//intersection plane/plane
-			if (arg[0].isGeoPlane() && arg[1].isGeoPlane()){
+			if ((ok[0] = (arg[0].isGeoPlane())) && (ok[0] = (arg[1].isGeoPlane()))){
 
 				GeoElement[] ret =
 					{
@@ -102,7 +102,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 
 			
 			//intersection plane/limited quadric (has to be done before plane/quadric)
-			if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadric3DLimited)){
+			if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[0] = (arg[1] instanceof GeoQuadric3DLimited))){
 				GeoElement[] ret =
 					{
 						kernelA.getManager3D().IntersectQuadricLimited(
@@ -110,7 +110,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 								(GeoPlaneND) arg[0],
 								(GeoQuadric3DLimited) arg[1])};
 				return ret;
-			}else if ((arg[0] instanceof GeoQuadric3DLimited) && (arg[1] instanceof GeoPlaneND)){
+			}else if ((ok[0] = (arg[0] instanceof GeoQuadric3DLimited)) && (ok[0] = (arg[1] instanceof GeoPlaneND))){
 				GeoElement[] ret =
 					{
 						kernelA.getManager3D().IntersectQuadricLimited(
@@ -122,7 +122,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			
 
 			//intersection plane/quadric
-			if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
+			if ((ok[0] = (arg[0] instanceof GeoPlaneND)) && (ok[1] = (arg[1] instanceof GeoQuadricND))){
 				GeoElement[] ret =
 					{
 						kernelA.getManager3D().Intersect(
@@ -139,8 +139,8 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 								(GeoQuadricND) arg[0])};
 				return ret;
 			}
-
-			return super.process(c);
+			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default :
 			return super.process(c);
