@@ -529,6 +529,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 					showStyleBar = true;
 				}
 				updateStyleBarVisibility();
+				if(styleBar instanceof StyleBarW){
+					((StyleBarW)styleBar).setOpen(showStyleBar);
+				}
 			}
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
