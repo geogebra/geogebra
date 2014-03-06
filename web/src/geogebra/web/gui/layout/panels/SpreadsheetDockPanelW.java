@@ -42,6 +42,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	protected Widget loadComponent() {
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
+			wrapview.addStyleName("SpreadsheetWrapView");
 			sview = app.getGuiManager().getSpreadsheetView();
 			wrapview.add(sview);
 		}

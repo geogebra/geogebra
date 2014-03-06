@@ -10,6 +10,7 @@ import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
+import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -641,7 +642,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateStyleBarVisibility() {
 
-		if (!isVisible())
+		if (!isVisible()) 
 			return;
 
 		buildGUIIfNecessary(true);
@@ -650,6 +651,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (isStyleBarVisible()) {
 			setStyleBar();
 			styleBar.setVisible(showStyleBar);
+			if (styleBar instanceof SpreadsheetStyleBarW) {	
+				dockPanel.setWidgetSize(titleBarPanel, 50);		
+			}
+		} else if (styleBar instanceof SpreadsheetStyleBarW) {
+			dockPanel.setWidgetSize(titleBarPanel, 0);
 		}
 	}
 

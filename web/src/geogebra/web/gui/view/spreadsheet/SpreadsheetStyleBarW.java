@@ -76,6 +76,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		setLabels();
 
 		updateStyleBar();
+		addStyleName("SpreadsheetStyleBar");
 	}
 
 	private void createButtons() {
