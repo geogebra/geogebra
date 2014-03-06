@@ -56,7 +56,7 @@ import java.util.TreeSet;
  * @author Markus Hohenwarter
  */
 
-public class GeoCasCell extends GeoElement implements VarString {
+public class GeoCasCell extends GeoElement implements VarString, TextProperties {
 
 	/**
 	 * Symbol for static reference
@@ -2541,6 +2541,60 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int getPrintDecimals() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getPrintFigures() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setPrintDecimals(int printDecimals, boolean update) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPrintFigures(int printFigures, boolean update) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSerifFont() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setSerifFont(boolean serifFont) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean useSignificantFigures() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean justFontSize() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isLaTeXTextCommand() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }
