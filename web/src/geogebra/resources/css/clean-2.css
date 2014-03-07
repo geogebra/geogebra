@@ -2329,6 +2329,11 @@ label {
 	height: 100%;
 }
 
+.scriptArea {
+	width: 100%;
+	height: 400px;
+}
+
 .bold{
 	font-weight: bold;
 }

@@ -122,7 +122,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		ButtonDialog dialog = new ButtonDialog(((AppW) app), x, y, textfield);
+		ButtonDialogW dialog = new ButtonDialogW(((AppW) app), x, y, textfield);
 		dialog.setVisible(true);
 		return true;
 	}

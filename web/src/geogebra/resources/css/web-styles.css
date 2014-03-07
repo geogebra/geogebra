@@ -2697,6 +2697,16 @@ label {
 	display: block;
 }
 
+.scriptArea {
+	width: 100%;
+	height: 400px;
+}
+
+.scriptTabPanel {
+	width: 100%;
+	height: 100%;
+}
+
 /*============ AutocompleteTextFieldW =======*/
 .AutoCompleteTextFieldW {
 	box-sizing: border-box;

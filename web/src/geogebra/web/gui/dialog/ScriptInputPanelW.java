@@ -15,6 +15,7 @@ import geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.ScriptType;
+import geogebra.web.gui.util.ScriptArea;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -24,7 +25,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextArea;
 
 /**
  * Input dialog for GeoText objects with additional option to set a
@@ -37,7 +37,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	private ScriptInputModel model;
 	private ListBox languageSelector;
 	private FlowPanel inputPanel;
-	private TextArea textArea;
+	private ScriptArea textArea;
 	private AppW app;
 	private FlowPanel btPanel;
 	private Button btOk;
@@ -61,7 +61,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
 
 		inputPanel = new FlowPanel();
-		textArea = new TextArea();
+		textArea = new ScriptArea();
 		inputPanel.add(textArea);
 		// init dialog using text
 
@@ -195,6 +195,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 //		Font font = app.getPlainFont();
 //		languageSelector.setFont(font);
+		
 
 	}
 
