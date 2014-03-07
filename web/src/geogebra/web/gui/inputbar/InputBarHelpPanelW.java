@@ -158,8 +158,8 @@ public class InputBarHelpPanelW extends VerticalPanel {
 	 */
 	public void updateGUI() {
 
-		int h = AppW.getRootComponent(app).getOffsetHeight() - 60;
-		int w = Math.min(700, AppW.getRootComponent(app).getOffsetWidth() - 60);
+		int h = (int) (AppW.getRootComponent(app).getOffsetHeight()*app.getArticleElement().getScaleX() - 60);
+		int w = (int) Math.min(700, AppW.getRootComponent(app).getOffsetWidth()*app.getArticleElement().getScaleX() - 60);
 		sp.setPixelSize(w, h);
 	}
 

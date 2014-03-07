@@ -16,6 +16,7 @@ import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -369,10 +370,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			helpPopup.setPopupPositionAndShow(new PositionCallback() {
 				public void setPosition(int offsetWidth, int offsetHeight) {
 
-					int left = (getAbsoluteLeft() + getOffsetWidth() - offsetWidth);
-					int top = (getAbsoluteTop() - offsetHeight);
-
-					helpPopup.setPopupPosition(left, top);
+					
+					helpPopup.getElement().getStyle().setProperty("left", "auto");
+					helpPopup.getElement().getStyle().setProperty("top", "auto");
+					helpPopup.getElement().getStyle().setRight(0, Unit.PX);
+					helpPopup.getElement().getStyle().setBottom(getOffsetHeight()*app.getArticleElement().getScaleX(), Unit.PX);
 					helpPopup.show();
 				}
 			});
