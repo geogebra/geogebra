@@ -70,11 +70,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * 
 	 * @param ID
 	 */
-	/*public void getItem(String ID, RequestCallback callback)
+	public void getItem(int id, RequestCallback callback)
 	{
 		// TODO add ID fetching of a specific material!
-		performRequest(new MaterialRequest().toJSONString(), callback);
-	}*/
+		performRequest(new MaterialRequest(id).toJSONString(), callback);
+	}
 	
 	/**
 	 * Logs in an user to GeoGebraTube
@@ -105,7 +105,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * @return the resulting List of Materials
 	 * @throws RequestException
 	 */
-	private void performRequest(String requestString, RequestCallback callback)
+	protected void performRequest(String requestString, RequestCallback callback)
 	{
 		try
 		{
