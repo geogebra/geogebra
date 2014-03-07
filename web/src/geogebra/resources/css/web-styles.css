@@ -525,14 +525,14 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 .gwt-PushButton-down-disabled {
   margin: 0;
   text-decoration: none;
-  background: url("images/hborder.png") repeat-x 0px -27px;
+  /*background: url("images/hborder.png") repeat-x 0px -27px;*/
   border-radius: 2px;
   -moz-border-radius: 2px;
 }
 .gwt-PushButton-up,
 .gwt-PushButton-up-hovering,
 .gwt-PushButton-up-disabled {
-  padding: 3px 5px 3px 5px;
+  /*padding: 3px 5px 3px 5px;*/
 }
 .gwt-PushButton-up {
   border:1px solid #bbb;
@@ -556,11 +556,11 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 .gwt-PushButton-down,
 .gwt-PushButton-down-hovering,
 .gwt-PushButton-down-disabled {
-  padding: 4px 4px 2px 6px;
+  /*padding: 4px 4px 2px 6px;*/
   outline:none;
 }
 .gwt-PushButton-down {
-  border: 1px inset #666;
+  /*border: 1px inset #666;*/
   cursor: pointer;
   cursor: hand;
 }
@@ -852,133 +852,6 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   overflow: hidden;
 }*/
 
-.gwt-TabBar {
-  background: #ccc;
-  padding-top: 6px;
-}
-.gwt-TabBar .gwt-TabBarFirst {
-  width: 5px;  /* first tab distance from the left */
-}
-.gwt-TabBar .gwt-TabBarRest {
-}
-.gwt-TabBar .gwt-TabBarItem {
-  margin-left: 4px;
-  padding: 4px 8px 4px 8px;
-  cursor: pointer;
-  cursor: hand;
-  color: white;
-  font-weight: normal;
-  text-align: center;
-  background: #8E8E8E;
-  -moz-border-radius: 3px 3px 0px 0px;
-  border-radius: 3px 3px 0px 0px;
-}
-.gwt-TabBar .gwt-TabBarItem-selected {
-  cursor: default;
-  background: white;
-  color: #333;
-  font-weight: bold;
-} 
-.gwt-TabBar .gwt-TabBarItem-disabled {
-  cursor: default;
-  color: #999999;
-}
-.gwt-TabPanel {
-}
-.gwt-TabPanelBottom {
-  border-color: #ccc;
-  border-style: solid;
-  border-width: 0px 1px 1px;
-  overflow: hidden;
-  padding: 6px;
-}
-.gwt-DecoratedTabBar {
-  background: #ccc;
-  padding-top: 6px;
-}
-.gwt-DecoratedTabBar .gwt-TabBarFirst {
-  width: 5px;  /* first tab distance from the left */
-}
-.gwt-DecoratedTabBar .gwt-TabBarRest {
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem {
-  border-collapse: collapse;
-  margin-left: 4px;
-}
-.gwt-DecoratedTabBar .tabTopCenter {
-  padding: 0px;
-  background: #8E8E8E;
-}
-.gwt-DecoratedTabBar .tabTopLeft,
-.gwt-DecoratedTabBar .tabTopRight {
-  padding: 0px;
-  zoom: 1;
-}
-.gwt-DecoratedTabBar .tabTopLeftInner,
-.gwt-DecoratedTabBar .tabTopRightInner {
-  width: 3px;
-  height: 3px;
-}
-.gwt-DecoratedTabBar .tabTopLeft {
-  background: url(images/circles.png) no-repeat 0px 0px;
-  -background: url(images/circles_ie6.png) no-repeat 0px 0px;
-}
-.gwt-DecoratedTabBar .tabTopRight {
-  background: url(images/circles.png) no-repeat -3px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -3px 0px;
-}
-* html .gwt-DecoratedTabBar .tabTopLeftInner,
-* html .gwt-DecoratedTabBar .tabTopRightInner {
-  width: 3px;
-  height: 3px;
-  overflow: hidden;
-}
-.gwt-DecoratedTabBar .tabMiddleLeft,
-.gwt-DecoratedTabBar .tabMiddleRight {
-  width: 3px;
-  padding: 0px;
-  background: #8E8E8E;
-}
-.gwt-DecoratedTabBar .tabMiddleLeftInner,
-.gwt-DecoratedTabBar .tabMiddleRightInner {
-  width: 1px;
-  height: 1px;
-}
-.gwt-DecoratedTabBar .tabMiddleCenter {
-  padding: 0px 5px 4px 5px;
-  cursor: pointer;
-  cursor: hand;
-  color: #fff;
-  font-weight: normal;
-  text-align: center;
-  background: #8E8E8E;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-  background:#fff;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
-  background: url(images/circles.png) no-repeat -6px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -6px 0px;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
-  background: url(images/circles.png) no-repeat -9px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -9px 0px;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
-  background: #fff;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
-  cursor: default;
-  background: #fff;
-  color:#333;
-  font-weight:bold;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
-  cursor: default;
-  color: #999999;
-}
-
 .gwt-TextArea {
   padding: 4px;
   border: 1px solid #ccc;
@@ -1229,7 +1102,8 @@ td.datePickerMonth {
 
 .gwt-TabLayoutPanel {
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
+.gwt-TabBar {
   /*background: #DCDCDC;
   padding-top: 5px;
   padding-left: 5px;*/
@@ -1239,12 +1113,8 @@ td.datePickerMonth {
   border: 1px solid #DCDCDC;
   border-top: none;
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
-  overflow: hidden;
-  padding: 5px;
-  background-color: #FFFFFF;
-}
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
+.gwt-TabBar .gwt-TabBarItem {
 	margin-right: 4px;
 	padding: 4px 8px;
 	height: 30px;
@@ -1264,11 +1134,155 @@ td.datePickerMonth {
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
 	height: 15px;
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
+.gwt-TabBar .gwt-TabBarItem-selected {
 	cursor: default;
 	background: white;
 	color: #6666FF;
 	border-bottom: 1px solid white;
+}
+
+.gwt-TabBar .gwt-TabBarItem-disabled {
+  cursor: default;
+  color: #DCDCDC;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
+.gwt-TabPanelBottom {
+  overflow: hidden;
+  padding: 5px;
+  background-color: #FFFFFF;
+}
+
+
+/*.gwt-TabBar {
+  background: #ccc;
+  padding-top: 6px;
+}*/
+.gwt-TabBar .gwt-TabBarFirst {
+  /*width: 5px;*/ /* first tab distance from the left */
+}
+/*.gwt-TabBar .gwt-TabBarRest {
+}*/
+/*.gwt-TabBar .gwt-TabBarItem {
+  margin-left: 4px;
+  padding: 4px 8px 4px 8px;
+  cursor: pointer;
+  cursor: hand;
+  color: white;
+  font-weight: normal;
+  text-align: center;
+  background: #8E8E8E;
+  -moz-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+}*/
+/*.gwt-TabBar .gwt-TabBarItem-selected {
+  cursor: default;
+  background: white;
+  color: #333;
+  font-weight: bold;
+}*/
+/*.gwt-TabBar .gwt-TabBarItem-disabled {
+  cursor: default;
+  color: #DCDCDC;
+}*/
+/*.gwt-TabPanel {
+}
+.gwt-TabPanelBottom {
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 1px 1px;
+  overflow: hidden;
+  padding: 6px;
+}*/
+
+
+
+.gwt-DecoratedTabBar {
+  background: #ccc;
+  padding-top: 6px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarFirst {
+  width: 5px;  /* first tab distance from the left */
+}
+.gwt-DecoratedTabBar .gwt-TabBarRest {
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+  border-collapse: collapse;
+  margin-left: 4px;
+}
+.gwt-DecoratedTabBar .tabTopCenter {
+  padding: 0px;
+  background: #8E8E8E;
+}
+.gwt-DecoratedTabBar .tabTopLeft,
+.gwt-DecoratedTabBar .tabTopRight {
+  padding: 0px;
+  zoom: 1;
+}
+.gwt-DecoratedTabBar .tabTopLeftInner,
+.gwt-DecoratedTabBar .tabTopRightInner {
+  width: 3px;
+  height: 3px;
+}
+.gwt-DecoratedTabBar .tabTopLeft {
+  background: url(images/circles.png) no-repeat 0px 0px;
+  -background: url(images/circles_ie6.png) no-repeat 0px 0px;
+}
+.gwt-DecoratedTabBar .tabTopRight {
+  background: url(images/circles.png) no-repeat -3px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -3px 0px;
+}
+* html .gwt-DecoratedTabBar .tabTopLeftInner,
+* html .gwt-DecoratedTabBar .tabTopRightInner {
+  width: 3px;
+  height: 3px;
+  overflow: hidden;
+}
+.gwt-DecoratedTabBar .tabMiddleLeft,
+.gwt-DecoratedTabBar .tabMiddleRight {
+  width: 3px;
+  padding: 0px;
+  background: #8E8E8E;
+}
+.gwt-DecoratedTabBar .tabMiddleLeftInner,
+.gwt-DecoratedTabBar .tabMiddleRightInner {
+  width: 1px;
+  height: 1px;
+}
+.gwt-DecoratedTabBar .tabMiddleCenter {
+  padding: 0px 5px 4px 5px;
+  cursor: pointer;
+  cursor: hand;
+  color: #fff;
+  font-weight: normal;
+  text-align: center;
+  background: #8E8E8E;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
+  background:#fff;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
+  background: url(images/circles.png) no-repeat -6px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -6px 0px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
+  background: url(images/circles.png) no-repeat -9px 0px;
+  -background: url(images/circles_ie6.png) no-repeat -9px 0px;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
+  background: #fff;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
+  cursor: default;
+  background: #fff;
+  color:#333;
+  font-weight:bold;
+}
+.gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
+  cursor: default;
+  color: #999999;
 }
 
 
@@ -1535,46 +1549,44 @@ Paddings for menuitems.
 	border: 1px solid black;
 }
 
+.TitleBarPanel {
+	z-index:1;
+	left: auto !important;
+	bottom: auto !important;
+	height: 32px;
+	padding: 5px;
+	border-bottom-left-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+}
+
+.TitleBarPanel-focus {
+	/*background: url("images/hborder.png") repeat-x 0px -60px;*/
+	/*background: #CCCCFF;*/
+}
+
+.TitleBarPanel .toggleStyleBar {
+	float: left;
+	border: none;
+}
+
+.TitleBarLabel {
+	/*font-size: 10px;*/
+	/*font-size: 100%;*/
+	/*font-weight: bold;*/
+}
 
 .StyleBarPanel {
 	/*margin: auto 0;
 	margin-top: 0px;
 	height: 42px;
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);*/
-	display: inline-block;
+	/*display: inline-block;*/
+	padding-left: 31px;
+	margin-top: -1px;
 }
 
 .StyleBar {
-	/*margin-top: 3px;*/
-}
-
-.TitleBarPanel-focus {
-	/*background: url("images/hborder.png") repeat-x 0px -60px;*/
-	background: #CCCCFF;
-}
-
-
-.TitleBarPanel {
-	background: #F8F8F8;
-	z-index:1;
-	left: auto !important;
-	bottom: auto !important;
-	border-style: solid;
-	border-width: 0px 0px 1px 1px;
-	border-color: #DCDCDC;
-	border-bottom-left-radius: 5px;
-	background-color: #ffffff;
-}
-
-.TitleBarPanel .toggleStyleBar {
-	border: 1px solid transparent;
-	display: inline-block;
-}
-
-.TitleBarLabel {
-	/*font-size: 10px;*/
-	font-size: 100%;
-	/*font-weight: bold;*/
 }
 
 .CloseButton {
@@ -1601,10 +1613,10 @@ Paddings for menuitems.
 }
 
 
-.StyleBarToggleButton {
+/*.StyleBarToggleButton {
 	margin:0;
 	padding: 0;
-}
+}*/
 
 .VerticalSeparator{
 	margin: auto 0;
@@ -1625,6 +1637,7 @@ Paddings for menuitems.
 	padding: 3px;
 	width: 24px;
 	height: 24px;
+	margin-left: 4px;
 }
 
 
@@ -2032,8 +2045,8 @@ body[dir=rtl] .toolbar_mainItem {
 	color-stop(1, rgb(247, 247, 247) ) ) );
 }
 
-.dialogContent,
-.GeoGebraPopup {
+.dialogContent/*,
+.GeoGebraPopup*/ {
 	color: #666666;
 	background-color: #F8F8F8;
 	padding: 0px;
@@ -2047,7 +2060,7 @@ body[dir=rtl] .toolbar_mainItem {
 }
 
 .Dialog-messagePanel {
-	font-size:85%;
+	/*font-size:85%;*/
 	margin-bottom: 10px;
 }
 
@@ -2373,7 +2386,8 @@ body[dir=rtl] .GeoGebraMenuBar table {
 }
 
 .textEditorDisclosurePanelHeader{
-	font-size: 80%;
+	/*font-size: 80%;*/
+	margin-bottom: 3px;
 }
 
 /* ========== Text Editor end ============ */
@@ -3277,3 +3291,11 @@ PROVIDERS
 	-moz-transform-origin: 0% 0%;
 	transform-origin:0% 0%;
 }
+
+/*.gwt-DialogBox,
+.gwt-PopupPanel {
+	-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
+	width:125%;
+	height:125%;
+}*/
