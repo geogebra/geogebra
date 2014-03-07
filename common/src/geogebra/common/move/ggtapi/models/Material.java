@@ -73,6 +73,7 @@ public class Material implements Comparable<Material>
 	private String instructionsPre;
 	private String instructionsPost;
 	private boolean showMenu, showToolbar, showInputbar, showResetIcon, shiftDragZoom;
+	private String base64;
 
 	public Material(int id, MaterialType type)
 	{
@@ -349,23 +350,31 @@ public class Material implements Comparable<Material>
 		this.instructionsPost = instructionsPost;
 	}
 
-	public String getShiftDragZoom() {
-		return this.shiftDragZoom+"";
+	public boolean getShiftDragZoom() {
+		return this.shiftDragZoom;
 	}
 
-	public String getShowMenu() {
-		return this.showMenu+"";
+	public boolean getShowMenu() {
+		return this.showMenu;
 	}
 
-	public String getShowToolbar() {
-		return this.showToolbar+"";
+	public boolean getShowToolbar() {
+		return this.showToolbar;
 	}
 	
-	public String getShowInputbar() {
-		return this.showInputbar+"";
+	public boolean getShowInputbar() {
+		return this.showInputbar;
 	}
 
-	public String getShowResetIcon() {
-		return this.showResetIcon+"";
+	public boolean getShowResetIcon() {
+		return this.showResetIcon;
+	}
+	
+	public void setBase64(String base64){
+		this.base64 = base64;
+	}
+
+	public String getBase64() {
+		return this.base64;
 	}
 }

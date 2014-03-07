@@ -70,4 +70,6 @@ public abstract class GeoGebraTubeAPI {
 	 * @return boolean if available
 	 */
 	abstract public boolean isAvailable();
+	
+	
 }

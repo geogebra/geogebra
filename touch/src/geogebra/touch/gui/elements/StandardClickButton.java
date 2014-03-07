@@ -25,6 +25,7 @@ public class StandardClickButton extends StandardButton {
 		// ignore every event except for clickEvents
 		if (DOM.eventGetType(event) == Event.ONCLICK) {
 			fireFastClickEvent();
+			event.stopPropagation();
 		}
 	}
 }

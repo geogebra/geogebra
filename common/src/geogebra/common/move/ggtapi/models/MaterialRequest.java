@@ -24,7 +24,7 @@ public class MaterialRequest implements Request
 	public enum Fields
 	{
 		id, title, type, description, timestamp, author, author_url, url, url_direct, language, thumbnail, featured, likes,
-		width, height, instructions_pre, instructions_post;
+		width, height, instructions_pre, instructions_post, ggbBase64;
 	}
 
 	public enum Filters
@@ -45,7 +45,10 @@ public class MaterialRequest implements Request
 	private static final String api = "1.0.0";
 	private Task task = Task.fetch;
 
-	private Fields[] fields = Fields.values();
+	private Fields[] fields = new Fields[]{Fields.id, Fields.title, Fields.type, Fields.timestamp, 
+			Fields.author, Fields.author_url, Fields.url, Fields.url_direct, 
+			Fields.thumbnail, Fields.featured, Fields.likes,
+			};
 	private Filters[] filters = { Filters.search };
 	private Map<Filters,String> filterMap = new HashMap<Filters,String>();
 	private Order by = Order.relevance;
@@ -99,6 +102,8 @@ public class MaterialRequest implements Request
 	 */
 	public MaterialRequest(int id)
 	{
+		this.fields = Fields.values();
+		this.by = Order.id;
 		this.filters = new Filters[] { Filters.id };
 		this.filterMap.put(Filters.type, "ggb");
 		this.filterMap.put(Filters.id, id+"");
