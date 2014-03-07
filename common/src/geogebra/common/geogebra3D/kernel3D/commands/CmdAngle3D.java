@@ -1,13 +1,16 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleConic3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleElement3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePoint3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleVector3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -76,5 +79,17 @@ public class CmdAngle3D extends CmdAngle {
 		}
 
 		return super.anglePointOrVector(label, v);
+	}
+	
+	@Override
+	protected GeoElement[] angle(String label, GeoConicND c){
+		
+		if (c.isGeoElement3D()){
+			AlgoAngleElement3D algo = new AlgoAngleConic3D(cons, label, (GeoConic3D) c);
+			GeoElement[] ret = { algo.getAngle() };
+			return ret;
+		}
+
+		return super.angle(label, c);
 	}
 }

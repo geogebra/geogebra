@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -98,12 +99,7 @@ public class CmdAngle extends CommandProcessor {
 			// angle of conic or polygon
 			else {
 				if (arg[0].isGeoConic()) {
-					
-					AlgoAngleConic algo = new AlgoAngleConic(cons, c.getLabel(),
-							(GeoConic) arg[0]);
-
-					GeoElement[] ret = { algo.getAngle() };
-					return ret;
+					return angle(c.getLabel(), (GeoConicND) arg[0]);
 				} else if (arg[0].isGeoPolygon()) {
 					return getAlgoDispatcher().Angles(c.getLabels(), (GeoPolygon) arg[0]);
 				}
@@ -207,6 +203,17 @@ public class CmdAngle extends CommandProcessor {
 		return ret;
 	}
 	
+	
+	/**
+	 * @param label label
+	 * @param c conic
+	 * @return angle between Ox and conic first eigen vector
+	 */
+	protected GeoElement[] angle(String label, GeoConicND c){
+		AlgoAngleConic algo = new AlgoAngleConic(cons, label, (GeoConic) c);
+		GeoElement[] ret = { algo.getAngle() };
+		return ret;
+	}
 	
 	
 	

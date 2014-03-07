@@ -19,8 +19,10 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
@@ -32,7 +34,7 @@ import geogebra.common.kernel.geos.GeoElement;
  * @author  Markus
  * @version 
  */
-public class AlgoAngleConic extends AlgoElement {
+public class AlgoAngleConic extends AlgoAngle {
 
     private GeoConic c; // input
     private GeoAngle angle; // output                  
@@ -86,6 +88,26 @@ public class AlgoAngleConic extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
     	return loc.getPlain("AngleOfA",c.getLabel(tpl));
     }
+
+	@Override
+	public boolean updateDrawInfo(double[] m, double[] firstVec,
+			DrawAngle drawable) {
+		
+		m[0] = c.b.getX();
+		m[1] = c.b.getY();
+		firstVec[0] = 1;
+		firstVec[1] = 0;
+		
+		return true;
+	}
+	
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		drawCoords[0] = c.getMidpoint3D();
+		drawCoords[1] = Coords.VX;
+		drawCoords[2] = c.getEigenvec3D(0);
+		
+		return true;
+	}
 
 	// TODO Consider locusequability
 }
