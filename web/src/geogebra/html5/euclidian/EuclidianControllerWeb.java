@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
@@ -226,10 +227,11 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			        this.kernel.getConstruction(), this.scale
 			                * this.originalRadius);
 
-			this.scaleConic.removeOrSetUndefinedIfHasFixedDescendent();
-			this.scaleConic = this.kernel.getAlgoDispatcher().Circle(null,
-			        center, newRadius);
-
+			scaleConic.setParentAlgorithm(new AlgoCirclePointRadius(this.kernel
+			        .getConstruction(), center, newRadius));
+			scaleConic.setCircle(center, newRadius.getDouble());
+			scaleConic.updateCascade();
+			kernel.notifyUpdate(scaleConic);
 			this.kernel.notifyRepaint();
 			break;
 		default:
