@@ -12,80 +12,41 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 
-public class AlgoAngleVector extends AlgoAngle {
+public class AlgoAngleVector extends AlgoAngleVectorND {
 
-    private GeoVec3D vec; // input
-    private GeoAngle angle; // output          
     
-    private double [] coords = new double[2];
+    private double [] coords;
 
     public AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
-        super(cons);
-        this.vec = vec;
-        
-        angle = GeoAngle.newAngleWithDefaultInterval(cons);
-        setInputOutput(); // for AlgoElement                
-        compute();
-        angle.setLabel(label);
+        super(cons, label, vec);
     }
 
-    @Override
-	public Commands getClassName() {
-        return Commands.Angle;
-    }
-
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ANGLE;
-    }
-    
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = vec;
-
-        setOutputLength(1);
-        setOutput(0,angle);
-        setDependencies(); // done by AlgoElement
-    }
-
-    public GeoAngle getAngle() {
-        return angle;
-    }
     
     public GeoVec3D getVec3D() {
-    	return vec;
+    	return (GeoVec3D) vec;
     }
         
     @Override
 	public final void compute() {  
-    	vec.getInhomCoords(coords);
+    	if (coords == null){
+    		coords = new double[2];
+    	}
+    	((GeoVec3D) vec).getInhomCoords(coords);
         angle.setValue(
         		Math.atan2(coords[1], coords[0])
 			);
     }
 
-    @Override
-	public final String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("AngleOfA",vec.getLabel(tpl));
-
-    }
 
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		if(vec.isGeoVector()){
@@ -97,6 +58,28 @@ public class AlgoAngleVector extends AlgoAngle {
 		m[0]=0;
 		m[1]=0;	
 		return vec.isDefined();		
+	}
+	
+	
+	@Override
+	public boolean getCoordsInD3(Coords[] drawCoords){
+		
+		if(vec.isGeoVector()){
+			GeoPointND vertex = ((GeoVector)vec).getStartPoint();
+			if (centerIsNotDrawable(vertex)){
+				return false;
+			}
+			drawCoords[0] = vertex.getInhomCoordsInD(3);
+			drawCoords[2] = ((GeoVector)vec).getCoordsInD(3);
+		}else{
+			drawCoords[0] = Coords.O;
+			drawCoords[2] = ((GeoPoint)vec).getCoordsInD(3);
+			drawCoords[2].setW(0);
+		}		
+			
+		drawCoords[1] = Coords.VX;
+		
+		return true;
 	}
 
 	// TODO Consider locusequability

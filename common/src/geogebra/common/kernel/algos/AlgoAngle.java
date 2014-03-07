@@ -4,6 +4,7 @@ import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Abstract class for all angle algos
@@ -69,5 +70,14 @@ public abstract class AlgoAngle extends AlgoElement{
 		
 		return true;
 	}
+	
+    /**
+     * 
+     * @param vertex start point
+     * @return true if vertex is not correct center for drawing the angle
+     */
+    static final protected boolean centerIsNotDrawable(GeoPointND vertex){
+    	return vertex == null || !vertex.isDefined() || vertex.isInfinite();
+    }
 
 }

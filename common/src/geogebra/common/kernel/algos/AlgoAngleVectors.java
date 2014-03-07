@@ -106,14 +106,7 @@ public class AlgoAngleVectors extends AlgoAngle {
 
     }
     
-    /**
-     * 
-     * @param vertex start point
-     * @return true if vertex is not correct center for drawing the angle
-     */
-    static final protected boolean centerIsNotDrawable(GeoPointND vertex){
-    	return vertex == null || !vertex.isDefined() || vertex.isInfinite();
-    }
+
     
 
 	@Override

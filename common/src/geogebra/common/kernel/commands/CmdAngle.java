@@ -93,11 +93,7 @@ public class CmdAngle extends CommandProcessor {
 			// angle from number
 			else if (arg[0].isGeoPoint() || arg[0].isGeoVector()) {
 				
-				AlgoAngleVector algo = new AlgoAngleVector(cons, c.getLabel(),
-						(GeoVec3D) arg[0]);
-
-				GeoElement[] ret = { algo.getAngle() };
-				return ret;
+				return anglePointOrVector(c.getLabel(), arg[0]);
 			}
 			// angle of conic or polygon
 			else {
@@ -197,6 +193,17 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w){
 		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoVector) v, (GeoVector) w) };
+		return ret;
+	}
+	
+	/**
+	 * @param label label
+	 * @param v vector or point
+	 * @return angle between Ox and vector/point
+	 */
+	protected GeoElement[] anglePointOrVector(String label, GeoElement v){
+		AlgoAngleVector algo = new AlgoAngleVector(cons, label, (GeoVec3D) v);
+		GeoElement[] ret = { algo.getAngle() };
 		return ret;
 	}
 	

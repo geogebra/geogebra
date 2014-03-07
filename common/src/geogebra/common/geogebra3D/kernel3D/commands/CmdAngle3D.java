@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleVector3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -52,5 +53,18 @@ public class CmdAngle3D extends CmdAngle {
 		
 		return super.angle(label, v, w);
 		
+	}
+	
+	
+	@Override
+	protected GeoElement[] anglePointOrVector(String label, GeoElement v){
+		
+		if (v.isGeoElement3D()){
+			AlgoAngleVector3D algo = new AlgoAngleVector3D(cons, label, v);
+			GeoElement[] ret = { algo.getAngle() };
+			return ret;
+		}
+
+		return super.anglePointOrVector(label, v);
 	}
 }
