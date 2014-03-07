@@ -30,7 +30,7 @@ public class FileContainer extends HorizontalPanel implements ResizeListener {
 			this.setStyleName("button");
 			Image icon = new Image(BrowseResources.INSTANCE.location_local());
 			Element span = DOM.createElement("span");
-			span.setAttribute("style", "position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px;");
+			span.setAttribute("style", "position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px; overflow: hidden;");
 			span.setInnerHTML("<img src=\""+icon.getUrl()+"\"/>");
 			Element input = DOM.createElement("input");
 			input.setAttribute("type", "file");
