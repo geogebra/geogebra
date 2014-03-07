@@ -134,7 +134,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_DISTANCE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_AREA);
-		sb.append(" ");
+		sb.append("  ");
 		sb.append(EuclidianConstants.MODE_SLOPE);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_CREATE_LIST);
@@ -186,9 +186,11 @@ public class ToolBar {
 		// objects with actions
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SLIDER);
-		if(showAllMenu && !html5){
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+		if(showAllMenu) {
+			if (!html5){
+				sb.append(" ");
+				sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+				}
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
 		}
