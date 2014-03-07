@@ -519,7 +519,9 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   z-index: 10;
 }
 
-.gwt-PushButton-up,
+
+
+/*.gwt-PushButton-up,
 .gwt-PushButton-up-hovering,
 .gwt-PushButton-up-disabled,
 .gwt-PushButton-down,
@@ -527,16 +529,15 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 .gwt-PushButton-down-disabled {
   margin: 0;
   text-decoration: none;
-  /*background: url("images/hborder.png") repeat-x 0px -27px;*/
   border-radius: 2px;
   -moz-border-radius: 2px;
-}
+}*/
 .gwt-PushButton-up,
 .gwt-PushButton-up-hovering,
 .gwt-PushButton-up-disabled {
   /*padding: 3px 5px 3px 5px;*/
 }
-.gwt-PushButton-up {
+/*.gwt-PushButton-up {
   border:1px solid #bbb;
   border-bottom: 1px solid #a0a0a0;
   cursor: pointer;
@@ -554,19 +555,19 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   opacity: .5;
   filter: alpha(opacity=45);
   zoom: 1;
-}
+}*/
 .gwt-PushButton-down,
 .gwt-PushButton-down-hovering,
 .gwt-PushButton-down-disabled {
   /*padding: 4px 4px 2px 6px;*/
-  outline:none;
+  /*outline:none;*/
 }
 .gwt-PushButton-down {
   /*border: 1px inset #666;*/
-  cursor: pointer;
-  cursor: hand;
+  /*cursor: pointer;
+  cursor: hand;*/
 }
-.gwt-PushButton-down-hovering {
+/*.gwt-PushButton-down-hovering {
   border: 1px solid #939393;
   border-top: 1px solid #333333;
   cursor: pointer;
@@ -578,7 +579,8 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   opacity: 0.5;
   filter: alpha(opacity=45);
   zoom: 1;
-}
+}*/
+
 
 .gwt-RadioButton {
 }
@@ -1112,9 +1114,6 @@ td.datePickerMonth {
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
 .gwt-TabBar {
-  /*background: #DCDCDC;
-  padding-top: 5px;
-  padding-left: 5px;*/
   border-bottom: 1px solid #DCDCDC;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
@@ -1147,17 +1146,8 @@ td.datePickerMonth {
 }
 
 .gwt-TabBar .gwt-TabBarItem-disabled {
-	/*cursor: default;
-	color: #DCDCDC;
-	border-color: #F4F4F4;
-	border-bottom-color: #DCDCDC;*/
 	display: none;
 }
-/*.gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer,
-.gwt-TabPanelBottom {
-  border: 1px solid #DCDCDC;
-  border-top: none;
-}*/
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
 .gwt-TabPanelBottom {
 	overflow: hidden;
@@ -1166,52 +1156,10 @@ td.datePickerMonth {
 	border: 1px solid #DCDCDC;
   	border-top: none;
 }
-
 .gwt-TabBar .gwt-TabBarFirst,
 .gwt-TabBar .gwt-TabBarRest {
 	width: 0px;
 }
-
-/*.gwt-TabBar {
-  background: #ccc;
-  padding-top: 6px;
-}*/
-.gwt-TabBar .gwt-TabBarFirst {
-  /*width: 5px;*/ /* first tab distance from the left */
-}
-/*.gwt-TabBar .gwt-TabBarRest {
-}*/
-/*.gwt-TabBar .gwt-TabBarItem {
-  margin-left: 4px;
-  padding: 4px 8px 4px 8px;
-  cursor: pointer;
-  cursor: hand;
-  color: white;
-  font-weight: normal;
-  text-align: center;
-  background: #8E8E8E;
-  -moz-border-radius: 3px 3px 0px 0px;
-  border-radius: 3px 3px 0px 0px;
-}*/
-/*.gwt-TabBar .gwt-TabBarItem-selected {
-  cursor: default;
-  background: white;
-  color: #333;
-  font-weight: bold;
-}*/
-/*.gwt-TabBar .gwt-TabBarItem-disabled {
-  cursor: default;
-  color: #DCDCDC;
-}*/
-/*.gwt-TabPanel {
-}
-.gwt-TabPanelBottom {
-  border-color: #ccc;
-  border-style: solid;
-  border-width: 0px 1px 1px;
-  overflow: hidden;
-  padding: 6px;
-}*/
 
 
 
@@ -3352,6 +3300,7 @@ PROVIDERS
 	/*padding: 8px 8px 8px 0px;*/
 	border-radius: 0px;
 	-moz-border-radius: 0px;
+	padding: 0px;
 }
 
 .objectProperties {
