@@ -405,7 +405,7 @@ __GGB__keysVar.it.command = {
     "IntegralBetween_Syntax": "[ <Funzione>, <Funzione>, <Valore x iniziale>, <Valore x finale> ]\n[ <Funzione>, <Funzione>, <Valore x iniziale>, <Valore x finale>, <Booleano Valutazione> ]",
     "IntegralBetween_SyntaxCAS": "[ <Funzione>, <Funzione>, <Valore x iniziale>, <Valore x finale> ]\n[ <Funzione>, <Funzione>, <Variabile>, <Valore iniziale>, <Valore finale> ]",
     "Intersect": "Intersezione",
-    "Intersect_Syntax": "[ <Oggetto>, <Oggetto> ]\n[ <Oggetto>, <Oggetto>, <Numero del punto di intersezione> ]\n[ <Oggetto>, <Oggetto>, <Punto iniziale> ]\n[ <Funzione>, <Funzione>, <Valore x iniziale>, <Valore x finale> ]",
+    "Intersect_Syntax": "[ <Oggetto>, <Oggetto> ]\n[ <Oggetto>, <Oggetto>, <Numero del punto di intersezione> ]\n[ <Oggetto>, <Oggetto>, <Punto iniziale> ]\n[ <Funzione>, <Funzione>, <Valore x iniziale>, <Valore x finale> ]\n[ <Curva1>, <Curva2>, <Parametro1>, <Parametro2> ]",
     "Intersect_SyntaxCAS": "[ <Funzione>, <Funzione> ]",
     "IntersectPath": "IntersecaCammini",
     "IntersectPath_Syntax": "[ <Retta>, <Poligono> ]\n[ <Retta>, <Conica> ]",

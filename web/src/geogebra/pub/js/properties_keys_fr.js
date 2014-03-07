@@ -405,7 +405,7 @@ __GGB__keysVar.fr.command = {
     "IntegralBetween_Syntax": "[ <Fonction>, <Fonction>, <x min>, <x max> ]\n[ <Fonction>, <Fonction>, <x min>, <x max>, <true|false Calcul> ]",
     "IntegralBetween_SyntaxCAS": "[ <Fonction>, <Fonction>, <x min>, <x max> ]\n[ <Fonction>, <Fonction>, <Variable>, <de>, <\xe0> ]",
     "Intersect": "Intersection",
-    "Intersect_Syntax": "[ <Objet>, <Objet> ]\n[ <Objet>, <Objet>, <Num\xe9ro> ]\n[ <Objet>, <Objet>, <Point Initial> ]\n[ <Fonction>, <Fonction>, <x min>, <x max> ]",
+    "Intersect_Syntax": "[ <Objet>, <Objet> ]\n[ <Objet>, <Objet>, <Num\xe9ro> ]\n[ <Objet>, <Objet>, <Point Initial> ]\n[ <Fonction>, <Fonction>, <x min>, <x max> ]\n[ <Courbe 1>, <Courbe 2>, <Param\xe8tre 1>, <Param\xe8tre 2> ]",
     "Intersect_SyntaxCAS": "[ <Fonction>, <Fonction> ]",
     "IntersectPath": "IntersectionChemins",
     "IntersectPath_Syntax": "[ <Ligne>, <Polygone> ]\n[ <Ligne>, <Conique> ]",
