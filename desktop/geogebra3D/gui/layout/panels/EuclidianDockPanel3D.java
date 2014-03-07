@@ -8,6 +8,7 @@ import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.EuclidianView3DD;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -80,5 +81,12 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 		}
 
 	}
+	
+	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-graphics3D24.png");
+	}
+	
 
 }
