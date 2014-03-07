@@ -29,7 +29,11 @@
  	color: #666666;
  }
  
- input[type="text"] {
+ input[type="text"],
+ .gwt-TextBox,
+ select,
+ textarea,
+ .gwt-TextArea {
  	border: #EDEDED solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
@@ -39,10 +43,17 @@
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	
 	font-size: 100%;
   	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
  }
+ 
+ .gwt-TextBox-readonly,
+ .gwt-TextArea-readonly {
+  color: #CCC;
+}
  
  hr {
  	height: 0px;
@@ -65,18 +76,6 @@
 }
 
 .gwt-Button {
-  /*margin: 0;
-  padding: 5px 7px;
-  text-decoration: none;
-  cursor: pointer;
-  cursor: hand;
-  font-size:small;
-  background: url("images/hborder.png") repeat-x 0px -2077px;
-  border:1px solid #bbb;
-  border-bottom: 1px solid #a0a0a0;
-  border-radius: 3px;
- -moz-border-radius: 3px;*/
- 
  	border-radius: 5px;
  	-moz-border-radius: 5px;
  	border: 1px solid #6666FF;
@@ -86,13 +85,14 @@
  	padding: 4px 15px;
  	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px rgba(204, 204, 204, 0.5);
  	cursor: pointer;
+ 	cursor: hand;
+ 	margin-left: 5px;
 }
 .gwt-Button:active {
   	border: 1px inset #6666FF;
   	background-color: rgba(204, 204, 255, 0.2);
 }
 .gwt-Button:hover {
-  	/*border-color: #939393;*/
   	background-color: rgba(204, 204, 255, 0.2);
 }
 .gwt-Button[disabled] {
@@ -100,9 +100,9 @@
   	color: #EDEDED;
   	border-color: #EDEDED;
 }
-.gwt-Button[disabled]:hover {
+/*.gwt-Button[disabled]:hover {
   	border: 1px outset #EDEDED;
-}
+}*/
 
 .gwt-CheckBox {
 }
@@ -426,6 +426,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	padding: 5px;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+	z-index: 20;
 }
 
 .gwt-PopupPanel.loadinganimation {
@@ -515,6 +516,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   background-color: #000;
   opacity: 0.3;
   filter: alpha(opacity=30);
+  z-index: 10;
 }
 
 .gwt-PushButton-up,
@@ -740,7 +742,8 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   border-top: 1px solid #999;*/
   /*font-size: 100%;
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
-  width: 96%; /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
+  /*width: 96%;*/ /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
+  width: 100%; /* I think 100% works also fine */
 }
 
 .gwt-SuggestBoxPopup {
@@ -852,16 +855,17 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   overflow: hidden;
 }*/
 
-.gwt-TextArea {
+/*.gwt-TextArea {
   padding: 4px;
   border: 1px solid #ccc;
   border-top: 1px solid #666;
   font-size: 100%;
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}
-.gwt-TextArea-readonly {
+}*/
+
+/*.gwt-TextArea-readonly {
   color: #888;
-}
+}*/
 
 .gwt-TextBox {
  /* padding: 5px 4px;
@@ -870,7 +874,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   font-size: small;
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
   
-  	border: #EDEDED solid 1px;
+  	/*border: #EDEDED solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
 	color: #666666;
@@ -881,11 +885,13 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	border-radius: 5px;
 	
 	font-size: 100%;
-  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
 }
-.gwt-TextBox-readonly {
+/*.gwt-TextBox-readonly {
   color: #888;
-}
+}*/
+
+
 .gwt-ToggleButton-up,
 .gwt-ToggleButton-up-hovering,
 .gwt-ToggleButton-up-disabled,
@@ -913,6 +919,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   /*border: 1px solid;
   border-color: #939393;*/
   color: #6666FF;
+  border-color: #CCCCFF;
   cursor: pointer;
   cursor: hand;
 }
@@ -1101,6 +1108,7 @@ td.datePickerMonth {
 
 
 .gwt-TabLayoutPanel {
+	background-color: #F8F8F8;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
 .gwt-TabBar {
@@ -1108,10 +1116,6 @@ td.datePickerMonth {
   padding-top: 5px;
   padding-left: 5px;*/
   border-bottom: 1px solid #DCDCDC;
-}
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer {
-  border: 1px solid #DCDCDC;
-  border-top: none;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
 .gwt-TabBar .gwt-TabBarItem {
@@ -1143,17 +1147,30 @@ td.datePickerMonth {
 }
 
 .gwt-TabBar .gwt-TabBarItem-disabled {
-  cursor: default;
-  color: #DCDCDC;
+	/*cursor: default;
+	color: #DCDCDC;
+	border-color: #F4F4F4;
+	border-bottom-color: #DCDCDC;*/
+	display: none;
 }
-
+/*.gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer,
+.gwt-TabPanelBottom {
+  border: 1px solid #DCDCDC;
+  border-top: none;
+}*/
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
 .gwt-TabPanelBottom {
-  overflow: hidden;
-  padding: 5px;
-  background-color: #FFFFFF;
+	overflow: hidden;
+	padding: 5px;
+	background-color: #FFFFFF;
+	border: 1px solid #DCDCDC;
+  	border-top: none;
 }
 
+.gwt-TabBar .gwt-TabBarFirst,
+.gwt-TabBar .gwt-TabBarRest {
+	width: 0px;
+}
 
 /*.gwt-TabBar {
   background: #ccc;
@@ -1304,6 +1321,8 @@ td.datePickerMonth {
 }
 
 
+
+
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
 
@@ -1325,14 +1344,14 @@ td.datePickerMonth {
 .GeoGebraFrame select,
 .GeoGebraPopup select,
 .DialogBox select {
-	border: 1px solid gray; /* Undo fixed styling of Safari dropdowns  */
+	/*border: 1px solid gray;*/ /* Undo fixed styling of Safari dropdowns  */
 	/*font-size: smaller;*/
-	color: #666666;
+	/*color: #666666;*/
 }
 
-.GeoGebraPopup {
+/*.GeoGebraPopup {
 	padding: 0px;
-}
+}*/
 
 .geogebraweb {
 	display:inline-block;
@@ -1375,7 +1394,9 @@ td.datePickerMonth {
 	bottom: 0px;
 }
 
-/*============ Cursors ============*/
+/*#####################################################################################
+###      CURSORS
+#####################################################################################*/
  .cursor_wait {
  	cursor:wait;
  }
@@ -1406,7 +1427,9 @@ td.datePickerMonth {
  }
  
 
-/*============ GeoGebraMenuBar ============*/
+/*#####################################################################################
+###       GEOGEBRA MENUBAR
+#####################################################################################*/
 
 /*.linktoggbtube {
 	position:absolute;
@@ -1505,7 +1528,9 @@ body[dir=rtl] .signIn {
 	color: #666666;
 }
 
-/*=============== Context menu ===============*/
+/*#####################################################################################
+###       CONTEXT MENU
+#####################################################################################*/
 
 /*
 Paddings for menuitems.
@@ -1522,7 +1547,9 @@ Paddings for menuitems.
 }
 
 
-/*=============== StyleBar ===============*/
+/*#####################################################################################
+###       STYLEBAR
+#####################################################################################*/
 
 .ButtonPopupMenu div:focus {
 	border: 1px solid transparent;
@@ -1639,7 +1666,9 @@ Paddings for menuitems.
 	height: 24px;
 	margin-left: 4px;
 }
-
+.MyToggleButton.selected {
+	border-color: #6666FF;
+}
 
 .ApplicationPanel {
 }
@@ -1712,7 +1741,10 @@ Paddings for menuitems.
 .SpreadsheetEditorCell {
 	
 }
-/* ========== AlgebraInput ============ */
+
+/*#####################################################################################
+###       ALGEBRA INPUT
+#####################################################################################*/
 
 .AlgebraInput {
 	background-color: #F8F8F8;
@@ -1779,7 +1811,9 @@ Paddings for menuitems.
 	width:100%;
 }
 
-/*=========== ToolTip =============*/
+/*#####################################################################################
+###       TOOLTIP
+#####################################################################################*/
 
 .ToolTip {
 	display: block;
@@ -1803,7 +1837,9 @@ Paddings for menuitems.
 }
 
 
-/*=========== ToolBar =============*/
+/*#####################################################################################
+###       TOOLBAR
+#####################################################################################*/
 
 /*.menubar2 {
 	outline: 0px;
@@ -1861,7 +1897,6 @@ body[dir=rtl] .undoPanel {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	color: #333333;
 	padding: 10px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -2023,7 +2058,13 @@ body[dir=rtl] .toolbar_mainItem {
 	float: left;
 }
 
-/*========= Dialogs ===========*/
+/*#####################################################################################
+###       DIALOGS
+#####################################################################################*/
+
+.DialogBox {
+	z-index: 15;
+}
 
 .gwt-DialogBox .Caption {
   	cursor: default;
@@ -2045,8 +2086,7 @@ body[dir=rtl] .toolbar_mainItem {
 	color-stop(1, rgb(247, 247, 247) ) ) );
 }
 
-.dialogContent/*,
-.GeoGebraPopup*/ {
+.dialogContent {
 	color: #666666;
 	background-color: #F8F8F8;
 	padding: 0px;
@@ -2194,7 +2234,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 
 /*========= End FileChooser ===========*/
 
-/*============== CAS ============== */
+/*#####################################################################################
+###       CAS
+#####################################################################################*/
 .casView table{
 	width:100%;
 	border-collapse:collapse;
@@ -2232,7 +2274,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
     -webkit-box-sizing: border-box; 
 }
 
-/*=========== SignInDialog =============*/
+/*#####################################################################################
+###       SIGN IN DIALOG
+#####################################################################################*/
 
 .signInDialog {
 	border: 1px solid  #5a5d5e;
@@ -2318,7 +2362,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 }
 
 
-/*=========== Navigation Bar =============*/
+/*#####################################################################################
+###       NAVIGATION BAR
+#####################################################################################*/
 .consProtNav{
 	position: absolute;
 	background-color: #E2E2E2;
@@ -2351,7 +2397,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 
 /*=========== Navigation Bar end =============*/
 
-/*=========== Construction protocol =============*/
+/*#####################################################################################
+###       CONSTRUCTION PROTOCOL
+#####################################################################################*/
 .cpTable{
 	width: 100%
 }
@@ -2364,7 +2412,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 /*=========== Construction protocol end =============*/
 
 
-/* ========== Text Editor ============ */
+/*#####################################################################################
+###       TEXT EDITOR
+#####################################################################################*/
 
 .textEditor {
 	border: 1px solid #DCDCDC;
@@ -2392,7 +2442,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 
 /* ========== Text Editor end ============ */
 
-/* ========== Input Help  ============ */
+/*#####################################################################################
+###      INPUT HELP
+#####################################################################################*/
 
 .inputHelp-tree{
 	border: none;
@@ -2522,23 +2574,6 @@ label {
 	height:32px;
 }
 
-.objectProperties{
-	width: 100%;
-	height: 100%;
-}
-
-
-.objectPropertiesTabPanel{
-	width: 100%;
-	height: 100%;
-}
-
-
-.objectPropertiesTab{
-	width: 100%;
-	height: 100%;
-}
-
 
 .bold{
 	font-weight: bold;
@@ -2591,9 +2626,8 @@ label {
 
 .checkBoxPanel {
 	display: block;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .listBoxPanel {
@@ -2666,13 +2700,17 @@ label {
 
 .colorComponent {
 	display: block;
-	
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
-
 
 .colorComponent > * {
 	display: inline-block;
 
+}
+
+.colorSlider {
+	margin-right: 10px;
 }
 
 .colorSlider > * {
@@ -2716,6 +2754,7 @@ label {
 .AutoCompleteTextFieldW .TextField {
 	display: inline-block;
 	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	padding-left: 5px;
 	padding-right: 50px;
 }
@@ -2764,7 +2803,9 @@ label {
 
 
 
-/*=========== Probability Calculator =============*/
+/*#####################################################################################
+###       PROPABILITY CALCULATOR
+#####################################################################################*/
 
 .ProbabilityCalculatorStyleBarW {
 }
@@ -3293,19 +3334,54 @@ PROVIDERS
 #####################################################################################*/
 
 .zoomed {
-	-webkit-transform:scale(0.8,0.8);
+	/*-webkit-transform:scale(0.8,0.8);
 	-moz-transform: scale(0.8,0.8);
 	width:125%;
 	height:125%;
 	-webkit-transform-origin:0% 0%;
 	-moz-transform-origin: 0% 0%;
-	transform-origin:0% 0%;
+	transform-origin:0% 0%;*/
 }
 
-/*.gwt-DialogBox,
-.gwt-PopupPanel {
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
-	width:125%;
-	height:125%;
-}*/
+/*#####################################################################################
+###       OBJECT PROPERTIES
+#####################################################################################*/
+
+.PropertiesViewW {
+	background-color: #F8F8F8;
+	/*padding: 8px 8px 8px 0px;*/
+	border-radius: 0px;
+	-moz-border-radius: 0px;
+}
+
+.objectProperties {
+	/*width: 100%;
+	height: 100%;*/
+}
+.objectPropertiesTabPanel {
+	width: 100%;
+	height: 100%;
+	display: block !important; /*display: none has hidden other tabs, I don't know why???*/
+}
+.objectPropertiesTabPanel table {
+	width: 100%;
+	/*height: 100%;*/
+}
+.objectPropertiesTab {
+	/*width: 100%;
+	height: 100%;*/
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 5px;
+}
+
+.objectPropertiesTab .AutoCompleteTextFieldW .TextField {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.objectPropertiesTab .gwt-CheckBox {
+	margin-right: 10px;
+}
+
+.objectProbertiesTab input
