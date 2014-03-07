@@ -1361,7 +1361,7 @@ namespace giac {
     }
     if (ckmatrix(g))
       return _max(_SVL(g,contextptr),contextptr);
-    v==*g._VECTptr;
+    v=*g._VECTptr;
     return l2norm(v,contextptr);
   }
   static const char _l2norm_s []="l2norm";
