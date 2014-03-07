@@ -20,14 +20,11 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleVectorND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -35,9 +32,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  mathieu
  * @version 
  */
-public class AlgoAngleElement3D extends AlgoAngleVectorND{
+public abstract class AlgoAngleElement3D extends AlgoAngleVectorND{
 	
-	private Coords vn, o, v2;
+	private Coords vn, v2;
 
 	public AlgoAngleElement3D(Construction cons, String label, GeoElement vec) {
 		super(cons, label, vec);
@@ -48,17 +45,18 @@ public class AlgoAngleElement3D extends AlgoAngleVectorND{
 	final protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle3D(cons);
     }
+    
+    protected abstract Coords getVectorCoords();
+	
+	protected abstract Coords getOrigin();
+	
+	protected abstract void setOrigin();
 	
     @Override
 	public final void compute() {
     	
     	// vectors directions
-    	if (vec.isGeoVector()){
-    		v2 = ((GeoVector3D) vec).getCoordsInD(3).copyVector();
-    	}else{
-    		v2 = ((GeoPoint3D) vec).getCoordsInD(3).copyVector();
-    		v2.setW(0);
-    	}
+    	v2 = getVectorCoords();
     	
    	
     	// calc angle  
@@ -75,16 +73,7 @@ public class AlgoAngleElement3D extends AlgoAngleVectorND{
    	
     	
     	// start point
-    	if (vec.isGeoVector()){
-    		GeoPointND start = ((GeoVector3D) vec).getStartPoint();
-    		if (centerIsNotDrawable(start)){ 
-        		o = Coords.UNDEFINED; 
-        	}else{
-        		o = start.getInhomCoordsInD(3);
-        	}
-    	}else{
-    		o = Coords.O;
-    	}
+    	setOrigin();
 
     }
 	
@@ -97,11 +86,11 @@ public class AlgoAngleElement3D extends AlgoAngleVectorND{
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords){
 		
-		if (!o.isDefined()){
+		if (!getOrigin().isDefined()){
 			return false;
 		}
 		
-		drawCoords[0] = o;
+		drawCoords[0] = getOrigin();
 		drawCoords[1] = Coords.VX;
 		drawCoords[2] = v2;
 		
@@ -113,10 +102,10 @@ public class AlgoAngleElement3D extends AlgoAngleVectorND{
 	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 
 		if (vec.isGeoVector()){
-			if (!o.isDefined()){
+			if (!getOrigin().isDefined()){
 				return false;
 			}
-			if (!drawable.inView(o)) {
+			if (!drawable.inView(getOrigin())) {
 				return false;
 			}
 		}
@@ -127,8 +116,8 @@ public class AlgoAngleElement3D extends AlgoAngleVectorND{
 		}
 
 		// origin
-		m[0] = o.get()[0];
-		m[1] = o.get()[1];		
+		m[0] = getOrigin().get()[0];
+		m[1] = getOrigin().get()[1];		
 
 		// first vec
 		firstVec[0] = 1;
