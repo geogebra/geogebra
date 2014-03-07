@@ -35,11 +35,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  mathieu
  * @version 
  */
-public class AlgoAngleVector3D extends AlgoAngleVectorND{
+public class AlgoAngleElement3D extends AlgoAngleVectorND{
 	
 	private Coords vn, o, v2;
 
-	public AlgoAngleVector3D(Construction cons, String label, GeoElement vec) {
+	public AlgoAngleElement3D(Construction cons, String label, GeoElement vec) {
 		super(cons, label, vec);
 	}
 	
