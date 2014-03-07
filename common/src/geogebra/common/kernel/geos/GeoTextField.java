@@ -422,6 +422,15 @@ public class GeoTextField extends GeoButton {
 		bgColor = AwtFactory.prototype.newColor(red, green, blue);
 	}
 
+	@Override 
+	public boolean isFixed() { 
 
+		// make sure dragging on touch gives focus to TextField 
+		if (kernel.getApplication().isHTML5Applet()) { 
+			return false; 
+		} 
+
+		return super.isFixed(); 
+	}
 
 }
