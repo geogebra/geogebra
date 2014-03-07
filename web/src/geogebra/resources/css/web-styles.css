@@ -735,7 +735,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-SuggestBox {
-  padding: 4px 5px;
+  padding: 2px;
   /*border: 1px solid #ccc;
   border-top: 1px solid #999;*/
   /*font-size: 100%;

@@ -211,10 +211,16 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	
 	public void setComputedWidth(int width) {
 		this.computedWidth = width;
+		if (this.app != null) {
+			this.app.setAppletWidth(width);
+		}
 	}
 
 	public void setComputedHeight(int height) {
 		this.computedHeight = height;
+		if (this.app != null) {
+			this.app.setAppletHeight(height);
+		}
 	}
 
 	public int getComputedWidth() {

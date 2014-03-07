@@ -751,7 +751,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
 }
 
 .gwt-SuggestBox {
-  padding: 5px 4px;
+  padding: 2px;
   border: 1px solid #ccc;
   border-top: 1px solid #999;
   font-size: 100%;
@@ -2520,16 +2520,14 @@ label {
 }
 
 .SymbolToggleButton {
-   width:18px;
-   height:18px;
    display: none;
    text-align:center;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
-	right: 15px;
-	top: 3px;
+	right: 0px;
+	top: 0px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
