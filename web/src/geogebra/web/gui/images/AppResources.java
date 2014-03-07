@@ -427,8 +427,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/arrow_dockbar_triangle_up.png")
 	ImageResource triangle_up();
 	
-	@Source("geogebra/web/gui/images/arrow_dockbar_triangle_right.png")
-	ImageResource triangle_right();
+	/*@Source("geogebra/web/gui/images/arrow_dockbar_triangle_right.png")
+	ImageResource triangle_right();*/
 	
 	@Source("geogebra/web/gui/images/users.png")
 	ImageResource users();

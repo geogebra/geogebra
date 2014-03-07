@@ -168,10 +168,10 @@ public interface GuiResources extends ClientBundle {
 	
 	
 	//ALGEBRA INPUT
-	@Source("icons/png/web/arrow_dockbar_triangle_left.png")
+	@Source("icons/png/web/dockbar_triangle_left.png")
 	ImageResource input_help_left();
 	
-	@Source("icons/png/web/arrow_dockbar_triangle_up.png")
+	@Source("icons/png/web/dockbar_triangle_up.png")
 	ImageResource input_help_up();
 	
 	
@@ -182,5 +182,20 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/triangle_down.png")
 	ImageResource triangle_down();
+	
+	
+	
+	//STYLEBAR
+	@Source("icons/png/web/dockbar_triangle_left.png")
+	ImageResource dockbar_triangle_left();
+	
+	@Source("icons/png/web/dockbar_triangle_right.png")
+	ImageResource dockbar_triangle_right();
+	
+	@Source("icons/png/web/dockbar_drag.png")
+	ImageResource dockbar_drag();
+	
+	@Source("icons/png/web/dockbar_close.png")
+	ImageResource dockbar_close();
 }
 
