@@ -3,7 +3,6 @@ package geogebra.web.gui.util;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
-import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GArc2DW;
@@ -14,6 +13,7 @@ import geogebra.html5.awt.GLine2DW;
 import geogebra.html5.awt.GeneralPath;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.openjdk.awt.geom.Polygon;
+import geogebra.web.gui.images.StyleBarResources;
 
 import java.util.HashMap;
 
@@ -36,39 +36,37 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @param bgColor
 	 * @return Canvas with icon drawn
 	 */
-	public static ImageData createLineStyleIcon(int dashStyle, int thickness, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
-		int h = iconSize.getHeight();
-		int w = iconSize.getWidth();
-
-		Canvas c = getTmpCanvas(w, h);
-	    GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
-
-		if(bgColor != null){
-			g2.setPaint(bgColor);
-			g2.fillRect(0, 0, w, h);
+	public static ImageOrText createLineStyleIcon(int dashStyle, int thickness, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
+		ImageOrText ret = new ImageOrText();
+		if(dashStyle >= lineStyleIcons.length){
+			return new ImageOrText();
 		}
-
-		// draw dashed line
-		g2.setPaint(fgColor);
-		g2.setStroke(EuclidianStatic.getStroke(thickness, dashStyle));
-		//g2.getCanvas().getContext2d().setLineWidth(thickness);
-		int mid = h / 2;
-		g2.drawLine(4, mid, w - 4, mid);
-
-		return g2.getImageData(0, 0, w, h);
+		ret.url = lineStyleIcons[dashStyle].getSafeUri().asString();
+		return ret;
     }
 	
-	public static ImageData createEmptyIcon(int width, int height){
+	public static ImageOrText createEmptyIcon(int width, int height){
 
-		Canvas image =	getTmpCanvas(width, height);
-		image.setWidth(width+"px");
-		image.setHeight(height+"px");
-		image.setCoordinateSpaceHeight(height);
-		image.setCoordinateSpaceWidth(width);
-		return image.getContext2d().getImageData(0, 0, width, height);
+		return new ImageOrText();//TODO
 	}
-
+	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
+	private static ImageResource[] pointStyleIcons =  {
+		(LafIcons.point_full()),
+		(LafIcons.point_cross_diag()),
+		(LafIcons.point_empty()),
+		(LafIcons.point_cross()),
+		(LafIcons.point_diamond()),
+		(LafIcons.point_diamond_empty()),
+		(LafIcons.point_up()),
+		(LafIcons.point_down()),
+		(LafIcons.point_right()),
+		(LafIcons.point_left())};
+	private static ImageResource[] lineStyleIcons = {
+		(LafIcons.line_solid()),
+		(LafIcons.line_dashed_long()),
+		(LafIcons.line_dashed_short()),
+		(LafIcons.line_dotted()),
+		(LafIcons.line_dash_dot()) };
 	/**
 	 * @param pointStyle
 	 * @param pointSize
@@ -77,82 +75,36 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @param bgColor
 	 * @return
 	 */
-	public static ImageData createPointStyleIcon(int pointStyle, int pointSize, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
-		GeoGebraIcon g = new GeoGebraIcon();
-		PointStyleImage image = new PointStyleImage(iconSize, pointStyle, pointSize,  fgColor,  bgColor);
-		return image.getCanvas().getContext2d().getImageData(0, 0, image.getCanvas().getCanvasElement().getWidth(), image.getCanvas().getCanvasElement().getHeight());
+	public static ImageOrText createPointStyleIcon(int pointStyle, int pointSize, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
+		ImageOrText ret = new ImageOrText();
+		ret.url = pointStyleIcons[pointStyle].getSafeUri().asString();
+		return ret;
+    
     }
 	
-	public static ImageData createColorSwatchIcon(float alpha, GDimensionW iconSize, GColor fgColor, GColor bgColor){
-
-		int h = iconSize.getHeight();
-		int w = iconSize.getWidth();
-		int offset = 2;
-		float thickness = 3;
-
-		// if fgColor is null then make it a transparent white
-		if(fgColor == null)
-			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,255);
-		
-		Canvas c = getTmpCanvas(w,h);
-		GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
-
-		--h;
-		--w;
-
-		if(bgColor != null){
-			g2.setPaint(bgColor);
-			g2.fillRect(0, 0, w, h);
-		}
-
-		// interior fill color using alpha level
-
+	public static ImageOrText createColorSwatchIcon(float alpha, GDimensionW iconSize, GColor fgColor, GColor bgColor){
+		ImageOrText ret = new ImageOrText();
 		float[] rgb = new float[3];
-		fgColor.getRGBColorComponents(rgb);
-		g2.setPaint(geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
-		g2.fillRect(offset, offset, w-2*offset, h-2*offset);
-		
-		g2.setPaint(fgColor);
-		g2.getCanvas().getContext2d().setLineWidth(thickness);
-		g2.drawRect(offset, offset, w-2*offset, h-2*offset);
-
-		return g2.getImageData(0, 0, iconSize.getWidth(), iconSize.getHeight());
+		if(fgColor!=null){
+			fgColor.getRGBColorComponents(rgb);
+			ret.fgColor = geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha);
+		}
+		if(bgColor!=null){
+			bgColor.getRGBColorComponents(rgb);
+			ret.bgColor = geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha);
+		}
+		return ret;
 	}
 
-	public static ImageData createTextSymbolIcon(String symbol,GFontW font, GDimensionW iconSize, GColor fgColor, GColor bgColor){
-
-		int h = iconSize.getHeight();
-		int w = iconSize.getWidth();
-
-		Canvas c = getTmpCanvas(w, h);
-		GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
-
-		if(bgColor != null)
-			g2.setBackground(bgColor);
-
-		g2.setColor (fgColor);
-		g2.setFont (new GFontW (font.getFontFamily()));
-
-		//fm = g2.getFontMetrics ();
-		int symbolWidth = (int) g2.getCanvas().getContext2d().measureText(symbol).getWidth();
-		//int ascent = fm.getMaxAscent ();
-		//int descent= fm.getMaxDescent ();
-		int msg_x = w/2 - symbolWidth/2;
-		int msg_y = h/2; //- descent/2 + ascent/2;
-
-		g2.drawString (symbol, msg_x, msg_y-2);
-		g2.fillRect(1, h-5, w-1, 3);
-
-		/*ImageIcon ic = new ImageIcon(image);
-		//ensureIconSize(ic, iconSize);
-
-		return ic;*/
-		return g2.getImageData(0, 0, w, h);
+	public static ImageOrText createTextSymbolIcon(String symbol,GFontW font, GDimensionW iconSize, GColor fgColor, GColor bgColor){
+		ImageOrText ret = new ImageOrText();
+		ret.text = symbol;
+		ret.fgColor = fgColor;
+		ret.bgColor = bgColor;
+		return ret;
 	}
 	
-	public static ImageData createNullSymbolIcon(int width, int height){
+	public static ImageOrText createNullSymbolIcon(int width, int height){
 
 		Canvas c = getTmpCanvas(width, height);
 
@@ -165,7 +117,7 @@ public class GeoGebraIcon extends BasicIcons{
 		int k = 7;
 		g2.drawLine(k, k, width-k, height-k);
 		g2.drawLine(k, height-k, width-k, k );
-		return g2.getImageData(0, 0, width, height);
+		return new ImageOrText();
 	}
 
 	public static ImageData createDownTriangleIcon() {
@@ -227,20 +179,11 @@ public class GeoGebraIcon extends BasicIcons{
     }
 
 
-	public static ImageData createFileImageIcon(App app, String url, float alpha, GDimensionW iconSize){
+	public static ImageOrText createFileImageIcon(App app, String url, float alpha, GDimensionW iconSize){
 
-		int h = iconSize.getHeight();
-		int w = iconSize.getWidth();
-		Canvas c = getTmpCanvas(w,h);
-		c.setCoordinateSpaceWidth(w);
-		c.setCoordinateSpaceHeight(h);
-		Image img = new Image(url);
-		int x = (w - img.getWidth()) / 2;
-		int y = (h - img.getHeight()) / 2;
-		
-		c.getContext2d().drawImage(ImageElement.as(img.getElement()), x, y);
-		
-		return c.getContext2d().getImageData(0, 0, w, h);
+		ImageOrText ret = new ImageOrText();
+		ret.url = url;
+		return ret;
 	}
 	
 	public static ImageData ensureIconSize(ImageData icon, GDimensionW iconSize){
@@ -293,9 +236,11 @@ public class GeoGebraIcon extends BasicIcons{
 		return g2.getImageData(0, 0, w1 +  w2, h);
     }
 
-	public static ImageData createResourceImageIcon(App app,
+	public static ImageOrText createResourceImageIcon(App app,
             ImageResource res, float alpha, GDimensionW dim) {
-	    return createFileImageIcon(app, res.getSafeUri().asString(), alpha, dim);
+		ImageOrText ret = new ImageOrText();
+		ret.url = res.getSafeUri().asString();
+	    return ret;
     }
 
 	private static void drawTick(GLine2DW tick, double angle){
@@ -305,7 +250,7 @@ public class GeoGebraIcon extends BasicIcons{
 				27-43*Math.sin(angle));
 	}
 
-	public static ImageData createDecorAngleIcon(int id, GDimensionW iconSize){
+	public static ImageOrText createDecorAngleIcon(int id, GDimensionW iconSize){
 		int w = iconSize.getWidth();
 		int h = iconSize.getHeight();
 		GLine2DW tick =new GLine2DW();
@@ -371,10 +316,12 @@ public class GeoGebraIcon extends BasicIcons{
 			break;
 //			 Michael Borcherds 2007-11-19 END
 		}
-		return g2.getImageData(0, 0, w, h);
+		//TODO
+		ImageOrText ret = new ImageOrText();
+		return ret;
 	}
 
-	public static ImageData createDecorSegmentIcon(int id, GDimensionW iconSize) {
+	public static ImageOrText createDecorSegmentIcon(int id, GDimensionW iconSize) {
 		int width = iconSize.getWidth();
 		int height = iconSize.getHeight();
 		
@@ -435,7 +382,13 @@ public class GeoGebraIcon extends BasicIcons{
 		// Michael Borcherds 20071006 end
 		}
 
-		return g2.getImageData(0, 0, width, height);
+		return new ImageOrText();
 
+    }
+
+	public static ImageOrText createStringIcon(String string) {
+	    ImageOrText ret = new ImageOrText();
+	    ret.text = string;
+	    return ret;
     }
 }

@@ -3,15 +3,12 @@ package geogebra.web.gui.util;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.awt.GFontW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.util.Slider;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,7 +23,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	private geogebra.common.gui.util.SelectionTable mode;
-	private Object[] data;	
+	private ImageOrText[] data;	
 	private AppW app;
 	private PopupMenuButton thisButton;
 	private ButtonPopupMenu myPopup;
@@ -115,7 +112,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(AppW app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode){
+	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows, Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 	
@@ -129,7 +126,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(AppW app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, 
+	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows, Integer columns, GDimensionW iconSize, 
 			geogebra.common.gui.util.SelectionTable mode, final boolean hasTable, boolean hasSlider){
 		super(); 
 		this.app = app;
@@ -284,42 +281,15 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 
 
-		public ImageData getButtonIcon(){
-
-			ImageData icon = this.getIcon();
-			if(isFixedIcon) return icon;
-
-
-			// draw the icon for the current table selection
-			if(hasTable){
-				switch (mode){
-
-				case MODE_TEXT:
-					// Strings are converted to icons. We don't use setText so that the button size can be controlled
-					// regardless of the layout manager.
-
-					icon = GeoGebraIcon.createStringIcon((String)data[getSelectedIndex()], (GFontW) app.getPlainFontCommon(), 
-							false, false, true, iconSize, GColorW.BLACK, null);
-
-					break;
-
-				case MODE_ICON:
-				case MODE_LATEX:
-					icon  = myTable.getSelectedValue();
-					break;
-
-				default:
-					icon = myTable.getDataIcon(data[getSelectedIndex()]);
-				}
-			}
-			return icon;
-	}
+		public ImageOrText getButtonIcon(){
+			return data[getSelectedIndex()];
+		}
 		
 	/**
 	 * Append a downward triangle image to the right hand side of an input icon.
 	 */
 	@Override
-	public void setIcon(ImageData icon) {
+	public void setIcon(ImageOrText icon) {
 
 		if (isFixedIcon) {			
 			super.setIcon(icon);
@@ -328,7 +298,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 		if (iconSize == null) {
 			if (icon != null) {
-				iconSize = new GDimensionW(icon.getWidth(), icon.getHeight());
+				//TODO
+				//iconSize = new GDimensionW(icon.getWidth(), icon.getHeight());
 			} else {
 				iconSize = new GDimensionW(1,1);
 			}
@@ -337,13 +308,14 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if (icon == null) {
 			//icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
 		} else {
-			icon = GeoGebraIcon.ensureIconSize(icon, iconSize);
+			//icon = GeoGebraIcon.ensureIconSize(icon, iconSize);
 		}
 
 		// add a down_triangle image to the left of the icon
 		if (icon != null) {
-			//super.setIcon(GeoGebraIcon.joinIcons(icon, AppResources.INSTANCE.triangle_down()));
-			super.setIcon(GeoGebraIcon.joinIcons(icon, GuiResources.INSTANCE.toolbar_further_tools()));
+			super.setIcon(icon);
+			//TODO triangle
+			//super.setIcon(GeoGebraIcon.joinIcons(icon, GuiResources.INSTANCE.toolbar_further_tools()));
 		} else {
 			//AppResourcesConverter.setIcon(AppResources.INSTANCE.triangle_down(), this);
 			AppResourcesConverter.setIcon(GuiResources.INSTANCE.toolbar_further_tools(), this);
@@ -352,7 +324,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 
 
-	public void setFixedIcon(ImageData icon){
+	public void setFixedIcon(ImageOrText icon){
 		isFixedIcon = true;
 		setIcon(icon);
 	}
@@ -467,8 +439,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		myTable.setToolTipArray(toolTipArray);
 	}
 
-	public void setText(String text) {
-	    Context2d ctx = button.getContext2d();
+	/*public void setText(String text) {
+	    /*Context2d ctx = button.getContext2d();
 	    double textWidth = ctx.measureText(text).getWidth();
 	    int origWidth = ctx.getCanvas().getWidth();
 	    int origHeight = ctx.getCanvas().getHeight();
@@ -477,7 +449,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	    ctx.putImageData(data1, 0, 0);
 	    ctx.fillText(text, origWidth + TEXT_OFFSET, buttonHeight / 2);
 	    
-    }
+    }*/
 
 	public void setPopupMenu(MenuBar menu) {
 	    myPopup.getPanel().add(menu);

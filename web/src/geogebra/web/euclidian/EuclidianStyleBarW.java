@@ -31,6 +31,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
@@ -40,7 +41,6 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -85,7 +85,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	private class EuclidianLineStylePopup extends LineStylePopup implements ILineStyleListener {
 		private LineStyleModel model;
 		
-		public EuclidianLineStylePopup(AppW app, Object[] data, Integer rows,
+		public EuclidianLineStylePopup(AppW app, ImageOrText[] data, Integer rows,
                 Integer columns, GDimensionW iconSize, SelectionTable mode,
                 boolean hasTable, boolean hasSlider) {
 	        super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
@@ -606,13 +606,13 @@ public class EuclidianStyleBarW extends StyleBarW
 		// ========================================
 		// mode button
 		
-		ImageResource [] modeArray = new ImageResource [] {
+		ImageOrText [] modeArray = ImageOrText.convert(new ImageResource [] {
 				AppResources.INSTANCE.cursor_arrow(),
 				AppResources.INSTANCE.application_graphics(),
 				AppResources.INSTANCE.delete_small(),
 				AppResources.INSTANCE.mode_point_16(),
 				AppResources.INSTANCE.mode_copyvisualstyle_16()
-		};
+		});
 		
 		btnMode = new PopupMenuButton((AppW) ev.getApplication(),
 				modeArray, -1, 1, new GDimensionW(20, iconHeight),
@@ -774,13 +774,13 @@ public class EuclidianStyleBarW extends StyleBarW
 		// ========================================
 		// caption style button
 
-		String[] captionArray = new String[] { app.getPlain("stylebar.Hidden"), // index
+		ImageOrText[] captionArray = ImageOrText.convert(new String[] { app.getPlain("stylebar.Hidden"), // index
 																				// 4
 				app.getPlain("Name"), // index 0
 				app.getPlain("NameAndValue"), // index 1
 				app.getPlain("Value"), // index 2
 				app.getPlain("Caption") // index 3
-		};
+		});
 
 		btnLabelStyle = new PopupMenuButton((AppW) app, captionArray, -1, 1,
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
@@ -836,7 +836,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 			@Override
-			public ImageData getButtonIcon() {
+			public ImageOrText getButtonIcon() {
 				return this.getIcon();
 			}
 		};
@@ -851,9 +851,9 @@ public class EuclidianStyleBarW extends StyleBarW
 		// ========================================
 		// point capture button
 
-		String[] strPointCapturing = { app.getMenu("Labeling.automatic"),
+		ImageOrText[] strPointCapturing = ImageOrText.convert(new String[]{ app.getMenu("Labeling.automatic"),
 				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
-				app.getMenu("off") };
+				app.getMenu("off") });
 
 		btnPointCapture = new PopupMenuButton((AppW) app, strPointCapturing, -1, 1, 
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
@@ -866,7 +866,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 			@Override
-			public ImageData getButtonIcon() {
+			public ImageOrText getButtonIcon() {
 				return this.getIcon();
 			}
 
@@ -1085,7 +1085,7 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 			@Override
-			public ImageData getButtonIcon() {
+			public ImageOrText getButtonIcon() {
 				return GeoGebraIcon.createTextSymbolIcon("A",
 						(GFontW) app.getPlainFontCommon(), textColorIconSize,
 						getSelectedColor(),
@@ -1154,7 +1154,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		// ========================================
 		// text size button
 
-		String[] textSizeArray = app.getLocalization().getFontSizeStrings();
+		ImageOrText[] textSizeArray = ImageOrText.convert(app.getLocalization().getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButton((AppW) app, textSizeArray, -1, 1,
 				new GDimensionW(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {

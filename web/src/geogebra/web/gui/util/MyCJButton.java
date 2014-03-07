@@ -7,10 +7,11 @@ import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
@@ -23,9 +24,9 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -51,11 +52,9 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	
 	protected static int TEXT_OFFSET = 3;
 	
-	protected Canvas button;
-	Context2d ctx = null;
+	protected Label button;
 	private Canvas tempCanvas = null;
 	private Context2d tempContext = null;
-	ImageData icon = null;
 	/**
 	 * button width
 	 */
@@ -70,6 +69,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	private boolean isEnabled;
 	private String toolTipText;
 	private boolean loadHandlerAllowed = false;
+	private ImageOrText icon;
 	
 	/**
 	 * 
@@ -77,23 +77,16 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 * 
 	 * @param icon as imageResource
 	 */
-	public MyCJButton(ImageResource icon) {
-		this(new Image(icon.getSafeUri()));
-    }
-
+	
 	public MyCJButton(final Image image) {
-		button = Canvas.createIfSupported();
+		button = new Label("");
 		button.setWidth(buttonWidth+"px");
 		button.setHeight(buttonHeight+"px");
-		button.setCoordinateSpaceHeight(buttonWidth);
-		button.setCoordinateSpaceWidth(buttonHeight);
-		ctx = button.getContext2d();
-		ctx.setFillStyle(DEFAULT_BACKGROUND_STYLE);
-		ctx.fillRect(0, 0, buttonWidth, buttonHeight);
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
 		button.addMouseOverHandler(this);
 		button.addMouseOutHandler(this);
+		
 		loadHandlerAllowed = true;
 		image.addLoadHandler(new LoadHandler() {
 			
@@ -102,10 +95,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 				if (!loadHandlerAllowed)
 					return;
 
-				ctx.clearRect(0, 0, buttonWidth, buttonHeight);
-				ctx.setFillStyle("white");
-				ctx.fillRect(0, 0, buttonWidth, buttonHeight);
-				getImageDataForIcon(image);
+				button.getElement().getStyle().setBackgroundImage(image.getUrl());
 			}
 		});
 		RootPanel.get().add(image);
@@ -113,6 +103,10 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		setStyleName("MyCanvasButton");
 		isEnabled = true;
     }
+	
+	public void setText(String text){
+		button.setText("BT"+text);
+	}
 
 	/**
 	 *  Creates a CanvasButton with empty image
@@ -136,15 +130,12 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	}
 	
 	private void setDownState(boolean downState) {
-	   int drawX = (buttonWidth / 2) - (icon.getWidth() /2 );
-	   int drawY = (buttonHeight / 2) - (icon.getHeight() / 2);
-	   ctx.clearRect(0, 0, buttonWidth, buttonHeight);
-	   ctx.setFillStyle(backgroundStyle);
-	   ctx.fillRect(0, 0, buttonWidth, buttonHeight);
-	   ctx.putImageData(icon, drawX, drawY);
-	   if (downState) {
-		   ctx.setStrokeStyle(borderStyle);
-		   ctx.strokeRect(0, 0, buttonWidth, buttonHeight);
+	   //TODO less visible
+	   if(downState){
+		   button.getElement().getStyle().setBorderWidth(2, Unit.PX);
+		   button.getElement().getStyle().setBorderColor("red");
+	   }else{
+		   button.getElement().getStyle().setBorderWidth(0, Unit.PX);
 	   }
     }
 
@@ -191,16 +182,20 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	    return tempContext;
     }
 
-	public void setIcon(ImageData ir) {
+	public void setIcon(ImageOrText icon) {
+		this.icon = icon;
 		loadHandlerAllowed = false;
-		icon = ir;
+		/*icon = ir;
 		buttonWidth = ir.getWidth();
 		buttonHeight = ir.getHeight();
 		button.setWidth(buttonWidth + "px");
-		button.setHeight(buttonHeight + "px");
-		button.setCoordinateSpaceWidth(buttonWidth);
-		button.setCoordinateSpaceHeight(buttonHeight);
+		button.setHeight(buttonHeight + "px");*/
+		icon.applyToLabel(button);
 		setDownState(false);
+	}
+	
+	public ImageOrText getIcon(){
+		return this.icon;
 	}
 
 	/*AG tmppublic void setIcon(CanvasElement ce) {
@@ -222,26 +217,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	    return button;
     }
 
-	public ImageData getIcon() {
-	    return icon;
-    }
-
-	/**
-	 * @param image gets the image data from the image
-	 */
-	void getImageDataForIcon(final Image image) {
-	    int imgWidth = image.getWidth();
-	    int imgHeight = image.getHeight();
-	    Canvas tempC = Canvas.createIfSupported();
-	    tempC.setWidth(imgWidth+"px");
-	    tempC.setHeight(imgHeight+"px");
-	    tempC.setCoordinateSpaceWidth(imgWidth);
-	    tempC.setCoordinateSpaceHeight(imgHeight);
-	    Context2d tempContext = tempC.getContext2d();
-	    tempContext.drawImage(ImageElement.as(image.getElement()), 0, 0);
-	    icon = tempContext.getImageData(0, 0, imgWidth, imgHeight);
-    }
-	
 	protected boolean isEnabled() {
 		return isEnabled ;
 	}
@@ -259,19 +234,19 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	}
 	
 	protected void addBlurHandler(BlurHandler handler) {
-		button.addBlurHandler(handler);
+		button.addDomHandler(handler,BlurEvent.getType());
 	}
 	
 	protected void addFocusHandler(FocusHandler handler) {
-		button.addFocusHandler(handler);
+		button.addDomHandler(handler,FocusEvent.getType());
 	}
 	
 	protected int getWidth() {
-		return button.getCanvasElement().getWidth();
+		return button.getOffsetWidth();
 	}
 	
 	protected int getHeight() {
-		return button.getCanvasElement().getHeight();
+		return button.getOffsetHeight();
 	}
 	
 	public void addActionListener(ClickHandler handler) {

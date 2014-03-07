@@ -42,9 +42,10 @@ public class AppWapplication extends AppW {
 		super(article);
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
-			appFrame.getElement().addClassName("zoomed");
-			article.setAttribute("data-scalex", "0.8");
-			article.setAttribute("data-scaley", "0.8");
+			//RootPanel.getBodyElement().getStyle().setProperty("zoom", "0.5");
+			//appFrame.getElement().addClassName("zoomed");
+			//article.setAttribute("data-scalex", "0.5");
+			//article.setAttribute("data-scaley", "0.5");
 		}
 		appFrame.app = this;
 		this.objectPool = new ObjectPool();

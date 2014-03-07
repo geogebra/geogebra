@@ -2,7 +2,6 @@ package geogebra.web.gui.util;
 
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -155,7 +154,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 		this.setFocus(false);
 	}
 
-	public void setIcon(ImageData icon) {
+	public void setIcon(ImageOrText data) {
 	    // TODO Auto-generated method stub
 	    
     }

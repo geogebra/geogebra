@@ -4,12 +4,11 @@ import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
-
-import com.google.gwt.canvas.dom.client.ImageData;
 
 public class LineStylePopup extends PopupMenuButton  {
 
@@ -18,17 +17,17 @@ public class LineStylePopup extends PopupMenuButton  {
 	private static HashMap<Integer, Integer> lineStyleMap;
 	private static int mode;
 	private static GDimensionW lineStyleIconSize;
-	private static ImageData [] lineStyleIcons = null;
+	private static ImageOrText [] lineStyleIcons = null;
 	public static void fillData(int iconHeight) {
 		
 		setLineStyleIconSize(new GDimensionW(80, iconHeight));
 		
 		Integer styleCount = LineStyleModel.getStyleCount();
-		setLineStyleIcons(new ImageData[styleCount]);
+		setLineStyleIcons(new ImageOrText[styleCount]);
 		
 		for (int i = 0; i < styleCount; i++)
 			getLineStyleIcons()[i] = GeoGebraIcon.createLineStyleIcon(
-					LineStyleModel.getStyleAt(i), 2, getLineStyleIconSize(), geogebra.common.awt.GColor.BLACK, null);
+					i, 2, getLineStyleIconSize(), geogebra.common.awt.GColor.BLACK, null);
 		
 		lineStyleMap = new HashMap<Integer, Integer>();
 		
@@ -48,7 +47,7 @@ public class LineStylePopup extends PopupMenuButton  {
 
 	private GDimensionW iconSize;
 
-	public LineStylePopup(AppW app, Object[] data, Integer rows,
+	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, GDimensionW iconSize, SelectionTable mode,
 			boolean hasTable, boolean hasSlider) {
 		super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
@@ -63,7 +62,7 @@ public class LineStylePopup extends PopupMenuButton  {
 
 
 	@Override
-	public ImageData getButtonIcon() {
+	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
 			return GeoGebraIcon.createLineStyleIcon(
 					LineStyleModel.getStyleAt(getSelectedIndex()),
@@ -87,10 +86,10 @@ public class LineStylePopup extends PopupMenuButton  {
 	public static void setLineStyleIconSize(GDimensionW lineStyleIconSize) {
 	    LineStylePopup.lineStyleIconSize = lineStyleIconSize;
     }
-	public static ImageData [] getLineStyleIcons() {
+	public static ImageOrText [] getLineStyleIcons() {
 		return lineStyleIcons;
     }
-	public static void setLineStyleIcons(ImageData [] lineStyleIcons) {
+	public static void setLineStyleIcons(ImageOrText [] lineStyleIcons) {
 	    LineStylePopup.lineStyleIcons = lineStyleIcons;
     }
 	public static int getMode() {

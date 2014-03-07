@@ -10,12 +10,11 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
-
-import com.google.gwt.canvas.dom.client.ImageData;
 
 public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
@@ -34,7 +33,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
 
 		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
-		ImageData[] pointStyleIcons = new ImageData[EuclidianStyleBarStatic.pointStyleArray.length];
+		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianStyleBarStatic.pointStyleArray.length];
 		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
 					EuclidianStyleBarStatic.pointStyleArray[i], 4, pointStyleIconSize, geogebra.common.awt.GColor.BLACK,
@@ -47,7 +46,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
 	private GDimensionW iconSize;
 
-	public PointStylePopup(AppW app, Object[] data, Integer rows,
+	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
             Integer columns, GDimensionW iconSize, SelectionTable mode,
             boolean hasTable, boolean hasSlider, PointStyleModel model) {
 	    super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
@@ -96,7 +95,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	}
 	
 	@Override
-	public ImageData getButtonIcon() {
+	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
 			return GeoGebraIcon.createPointStyleIcon(
 					EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],

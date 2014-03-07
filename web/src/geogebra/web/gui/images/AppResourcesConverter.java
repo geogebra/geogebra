@@ -1,6 +1,7 @@
 package geogebra.web.gui.images;
 
 import geogebra.web.gui.util.HasSetIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.SelectionTable;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -68,23 +69,15 @@ public class AppResourcesConverter {
 
 	private static void checkIfCanCallCallback() {
 		if (waitingForConvert == 0) {
-			sT.populateModelCallback(converted);
+			//sT.populateModelCallback(converted); TODO
 		}
 	}
  
 	public static void setIcon(final ImageResource ir, final HasSetIcon button) {
-	    Canvas c = getTmpCanvas(ir.getWidth(),ir.getHeight());
-	    final Context2d ctx = c.getContext2d();
-	    final Image img = new Image(ir.getSafeUri());
-	    img.addLoadHandler(new LoadHandler() {
-			
-			public void onLoad(LoadEvent event) {
-				ctx.drawImage(ImageElement.as(img.getElement()), 0, 0, ir.getWidth(), ir.getHeight());
-				button.setIcon(ctx.getImageData(0, 0, ir.getWidth(), ir.getHeight()));
-			}
-		});
-	   img.setVisible(false);
-	   RootPanel.get().add(img);
+	    ImageOrText img = new ImageOrText();
+	    img.url = ir.getSafeUri().asString();
+	    button.setIcon(img);
+	   
     }
 
 	private static Canvas getTmpCanvas(int width, int height) {

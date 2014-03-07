@@ -4,12 +4,12 @@ import geogebra.common.awt.GColor;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
@@ -68,8 +68,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	}
 
 	@Override
-	public ImageData getButtonIcon() {
-		ImageData icon = super.getButtonIcon();
+	public ImageOrText getButtonIcon() {
+		ImageOrText icon = super.getButtonIcon();
 		if (icon == null) {
 			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
 		}
@@ -131,8 +131,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return toolTipArray;
 	}
 
-	private static ImageData[] getColorSwatchIcons(geogebra.common.awt.GColor[] colorArray, float alpha, GDimensionW iconSize, int colorSetType){
-		ImageData[] a = new ImageData[colorArray.length];
+	private static ImageOrText[] getColorSwatchIcons(geogebra.common.awt.GColor[] colorArray, float alpha, GDimensionW iconSize, int colorSetType){
+		ImageOrText[] a = new ImageOrText[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
 			if(colorArray[i] != null) {
 				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, colorArray[i] , null);
@@ -142,9 +142,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return a;
 	}
 
-	private static  ImageData[] createDummyIcons( GDimensionW iconSize){
+	private static  ImageOrText[] createDummyIcons( GDimensionW iconSize){
 
-		ImageData[] a = new ImageData[27];
+		ImageOrText[] a = new ImageOrText[27];
 		for(int i = 0; i < 27; i++) {
 			a[i] = GeoGebraIcon.createEmptyIcon(iconSize.getWidth(), iconSize.getHeight());
 		}

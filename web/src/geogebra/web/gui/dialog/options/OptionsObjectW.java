@@ -101,6 +101,7 @@ import geogebra.web.gui.properties.ListBoxPanel;
 import geogebra.web.gui.properties.OptionPanel;
 import geogebra.web.gui.properties.SliderPanelW;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -113,7 +114,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -2576,7 +2576,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				iconNameList.add(ir != null ? ir.getName() : "");
 			}
 
-			final ImageData[] iconArray = new ImageData[iconList.size()];
+			final ImageOrText[] iconArray = new ImageOrText[iconList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
 			for (int i = 1; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createResourceImageIcon(app,
@@ -2870,7 +2870,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			FlowPanel mainWidget = new FlowPanel();
 			decoLabel = new Label();
 			mainWidget.add(decoLabel);
-			final ImageData[] iconArray = new ImageData[DecoAngleModel.getDecoTypeLength()];
+			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
 			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i, iconSize);
@@ -2925,7 +2925,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			FlowPanel mainWidget = new FlowPanel();
 			decoLabel = new Label();
 			mainWidget.add(decoLabel);
-			final ImageData[] iconArray = new ImageData[DecoSegmentModel.getDecoTypeLength()];
+			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel.getDecoTypeLength()];
 			GDimensionW iconSize = new GDimensionW(130,	app.getGUIFontSize() + 6);
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i, iconSize);

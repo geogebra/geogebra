@@ -3,17 +3,13 @@ package geogebra.web.gui.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -34,7 +30,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 		this.alpha = alpha;
 	}
 	
-	public SelectionTable(AppW app, Object[] data, Integer rows,
+	public SelectionTable(AppW app, ImageOrText[] data, Integer rows,
             Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode) {
 		super();
 		this.app = app;	
@@ -77,7 +73,7 @@ public class SelectionTable extends Grid implements ClickHandler {
     }
 
 	public void setSliderValue(int value) {
-		this.sliderValue = sliderValue;
+		this.sliderValue = value;
     }
 
 	public void setSelectedIndex(Integer index) {
@@ -171,6 +167,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	
 	boolean useColorSwatchBorder = false;
 	private boolean isIniting = true;
+	private ImageOrText[] values;
 	public void setUseColorSwatchBorder(boolean useColorSwatchBorder) {
 		this.useColorSwatchBorder = useColorSwatchBorder;
 		setCellDimensions();
@@ -222,17 +219,14 @@ public class SelectionTable extends Grid implements ClickHandler {
 	    return 50;
     }
 
-	public void populateModel(Object[] data) {
+	public void populateModel(ImageOrText[] data) {
+		values = data;
 	  	if (data.length > 0) {
-			if (data[0] instanceof ImageResource) {
-				AppResourcesConverter.convertImageResourceToImageData(data, this);
-			} else {
-				populateModelCallback(data);
-			}
+			populateModelCallback(data);
 	  	}
     }
 
-	public void populateModelCallback(Object[] data) {
+	public void populateModelCallback(ImageOrText[] data) {
 	    int r=0;
 	    int c=0;
 	    if (isIniting ) {
@@ -247,10 +241,9 @@ public class SelectionTable extends Grid implements ClickHandler {
 			isIniting = false;
 	    } else {
 	    	for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
-				if (getWidget(r, c) instanceof Canvas) {
-					Canvas canvas = (Canvas) getWidget(r, c);
-					canvas.getContext2d().putImageData((ImageData) data[i], 0, 0);
-					
+				if (getWidget(r, c) instanceof Label) {
+					data[i].applyToLabel((Label) getWidget(r, c));
+
 					++c;
 					if(c == this.numColumns){
 						c = 0;
@@ -261,34 +254,20 @@ public class SelectionTable extends Grid implements ClickHandler {
 	    }
     }
 
-	private Widget createWidget(Object object) {
+	private Widget createWidget(ImageOrText object) {
 		Widget w = null;
-		Context2d ctx = null;
-		int width = 0;
-		int height = 0;
 		switch (mode) {
 		case MODE_TEXT:
-			if (object instanceof String) {
-				w = new Anchor((String)object);
+			if (object.text != null) {
+				w = new Anchor(object.text);
 			} else {
 				App.debug("Problem in SelectionTable.createWidget (String wanted)");
 			}
 			break;
 		case MODE_ICON:
 		case MODE_IMAGE: //fall through
-			if (!(object instanceof ImageData)) {
-				App.debug("Problem in SelectionTable.createWidget (ImageData wanted)");
-				return w;
-			}
-			w = Canvas.createIfSupported();
-			width = ((ImageData)object).getWidth();
-			height = ((ImageData)object).getHeight();
-			((Canvas)w).setWidth(width+"px");
-			((Canvas)w).setHeight(height+"px");
-			((Canvas)w).setCoordinateSpaceWidth(width);
-			((Canvas)w).setCoordinateSpaceHeight(height);
-			ctx = ((Canvas) w).getContext2d();
-			ctx.putImageData((ImageData) object,0, 0);
+			w = new Label();
+			object.applyToLabel((Label)w);
 			break;
 		case MODE_LATEX:
 			App.debug("SelectionTable mode latex");
@@ -308,16 +287,17 @@ public class SelectionTable extends Grid implements ClickHandler {
 	   }
     }
 
-	public ImageData getSelectedValue() {
+	public ImageOrText getSelectedValue() {
 		if(getSelectedRow() != -1 && getSelectedColumn() != -1)
 			return getValueAt(getSelectedRow(), getSelectedColumn());
 		return null;
     }
 
-	private ImageData getValueAt(int row, int column) {
-		Canvas c = (Canvas) getWidget(row, column);
-		Context2d ctx = c.getContext2d();
-	    return ctx.getImageData(0, 0, c.getCoordinateSpaceWidth(), c.getCoordinateSpaceHeight());
+	private ImageOrText getValueAt(int row, int column) {
+		if(values == null || values.length <= row * this.numColumns + column){
+			return null;
+		}
+		return values[row * this.numColumns + column];
     }
 
 	public void repaint() {
@@ -330,9 +310,9 @@ public class SelectionTable extends Grid implements ClickHandler {
 	    
     }
 	
-	public ImageData getDataIcon(Object value){
+	public ImageOrText getDataIcon(Object value){
 
-		ImageData icon = null;
+		ImageOrText icon = null;
 		if(value == null) return 
 		GeoGebraIcon.createEmptyIcon(1, 1);
 		//GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true, false, true, iconSize , Color.GRAY, null);
@@ -345,7 +325,9 @@ public class SelectionTable extends Grid implements ClickHandler {
 
 		case MODE_ICON:
 		case MODE_LATEX:
-			icon = (ImageData) value;
+			if(icon instanceof ImageOrText){
+				icon = (ImageOrText) value;
+			}
 			break;
 
 		}
