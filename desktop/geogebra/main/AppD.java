@@ -4552,13 +4552,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	/**
-	 * Whether we are using Java 6 (Java 5: no longer supported, Java 7+: can't
-	 * use clipboard on OSX)
+	 * Whether we are using Java 7 (can't use clipboard on OSX)
 	 * 
-	 * @return whether we are using Java 6
+	 * @return whether we are using Java 7
 	 */
-	public boolean isJava6() {
-		return System.getProperty("java.version").startsWith("1.6.");
+	public boolean isJava7() {
+		return System.getProperty("java.version").startsWith("1.7.");
 	}
 
 	// don't pull these up to common, use the non static methods isWindows(),

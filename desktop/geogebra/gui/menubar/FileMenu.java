@@ -143,8 +143,8 @@ class FileMenu extends BaseMenu implements EventRenderable {
 			
 			mi = submenu.add(exportAnimationAction);
 	
-			// Graphical clipboard is not working under Mac when Java is >= 7: 
-			if (!app.isMacOS() || app.isJava6()) {
+			// Graphical clipboard is not working under Mac when Java == 7: 
+			if (!app.isMacOS() || !app.isJava7()) {
 				mi = submenu.add(drawingPadToClipboardAction);
 				setMenuShortCutShiftAccelerator(mi, 'C');
 			}
