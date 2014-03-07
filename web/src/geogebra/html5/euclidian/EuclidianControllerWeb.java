@@ -5,8 +5,12 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
@@ -21,7 +25,31 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 * different modes of a multitouch-event
 	 */
 	protected enum scaleMode {
-		zoomX, zoomY, circle3Points, circle2Points, view;
+		/**
+		 * scale x-axis (two TouchStartEvents on the x-axis)
+		 */
+		zoomX,
+		/**
+		 * scale y-axis (two TouchStartEvents on the y-axis)
+		 */
+		zoomY,
+		/**
+		 * scale a circle or ellipsis with three points or an ellipsis with 5
+		 * points
+		 */
+		circle3Points,
+		/**
+		 * scale a circle with 2 points
+		 */
+		circle2Points,
+		/**
+		 * scale a circle given with midpoint and a number-input as radius
+		 */
+		circleRadius,
+		/**
+		 * zooming
+		 */
+		view;
 	}
 
 	/**
@@ -69,6 +97,8 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	 */
 	protected boolean moveAxesAllowed = true;
 
+	private double originalRadius;
+
 	public EuclidianControllerWeb(App app) {
 		super(app);
 	}
@@ -103,17 +133,23 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		        // isClosedPath: true for circle and ellipse
 		        && ((GeoConic) hits1.get(0)).isClosedPath()
 		        && (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
-		                .size() == 3 || ((GeoConic) hits1.get(0))
-		                .getFreeInputPoints(this.view).size() == 2)) {
+		                .size() >= 2 || (hits1.get(0).getParentAlgorithm().input[1]
+		                .isIndependent() && !(hits1.get(0).getParentAlgorithm().input[1].labelSet)))) {
+			this.scaleConic = (GeoConic) hits1.get(0);
+			// TODO: select scaleConic
 
-			if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view).size() == 3) {
+			if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view).size() >= 3) {
 				this.multitouchMode = scaleMode.circle3Points;
-			} else {
+			} else if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
+			        .size() == 2) {
 				this.multitouchMode = scaleMode.circle2Points;
+			} else {
+				this.multitouchMode = scaleMode.circleRadius;
+				AlgoElement algo = scaleConic.getParentAlgorithm();
+				NumberValue radius = (NumberValue) algo.input[1];
+				this.originalRadius = radius.getDouble();
 			}
 			super.twoTouchStart(x1, y1, x2, y2);
-			this.scaleConic = (GeoConic) hits1.get(0); // TODO: select
-			                                           // scaleConic
 
 			midpoint = new double[] { scaleConic.getMidpoint().getX(),
 			        scaleConic.getMidpoint().getY() };
@@ -180,6 +216,21 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			p.setCoords(newX, newY, 1.0);
 			p.updateCascade();
 			kernel.notifyRepaint();
+			break;
+		case circleRadius:
+			double distR = MyMath.length(x1 - x2, y1 - y2);
+			this.scale = distR / this.oldDistance;
+
+			GeoPoint center = (GeoPoint) this.scaleConic.getParentAlgorithm().input[0];
+			GeoNumeric newRadius = new GeoNumeric(
+			        this.kernel.getConstruction(), this.scale
+			                * this.originalRadius);
+
+			this.scaleConic.removeOrSetUndefinedIfHasFixedDescendent();
+			this.scaleConic = this.kernel.getAlgoDispatcher().Circle(null,
+			        center, newRadius);
+
+			this.kernel.notifyRepaint();
 			break;
 		default:
 			// pinch
