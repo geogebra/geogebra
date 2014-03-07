@@ -4,6 +4,7 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.LanguageGUI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.Dom;
@@ -117,8 +118,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	private void addLanguageMenu() {
 		if(app.getLAF().isSmart()){
 			App.debug("smart menu");
-			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-			        .empty().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
+			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
 
 						@Override
 	                    public void execute() {
@@ -129,8 +129,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 			return;
 		}
 		languageMenu = new LanguageMenuW(app);
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .empty().getSafeUri().asString(), app.getMenu("Language"), true), true, languageMenu);
+		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, languageMenu);
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
@@ -176,8 +175,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	
 	private void addSaveSettingsMenu(){
 		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-				.document_save().getSafeUri().asString(), app.getMenu("Settings.Save"), true),
+		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Settings.Save"), true),
 		        true, new Command() {
 			        public void execute() {
 			        	GeoGebraPreferencesW.getPref().saveXMLPreferences(app);

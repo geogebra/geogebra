@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
@@ -28,7 +29,7 @@ public class HelpMenuW extends MenuBar {
 	    //});
 	    
 	    // Help
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.help().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
 	    		app.getMenu("Help"), true),true,new Command() {
 			public void execute() {
 				app.getGuiManager().openHelp(App.WIKI_MANUAL);
@@ -45,7 +46,7 @@ public class HelpMenuW extends MenuBar {
 	    });
 	    
 	    // GeoGebraTube (no translation, deliberate)
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file().getSafeUri().asString(),
 	    		"GeoGebraTube", true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "?lang="+app.getLocalization().getLanguage(), "_blank","");
@@ -64,7 +65,7 @@ public class HelpMenuW extends MenuBar {
 	    
 	    addSeparator();
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.info().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
 	    		app.getMenu("AboutLicense"), true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +

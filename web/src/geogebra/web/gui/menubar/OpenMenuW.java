@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
@@ -38,7 +39,7 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 
 	private void initActions() {
 		
-		 addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open"), true), true, new Command() {
+		 addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true), true, new Command() {
 				
 				public void execute() {
 		    		GgbFileInputDialog dialog = new GgbFileInputDialog((AppW) app, null);

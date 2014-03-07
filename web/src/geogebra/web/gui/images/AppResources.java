@@ -118,11 +118,11 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/delete_small.gif")
 	ImageResource delete_small();
 	
-	@Source("geogebra/web/gui/images/document-new.png")
-	ImageResource document_new();
+	/*@Source("geogebra/web/gui/images/document-new.png")
+	ImageResource document_new();*/
 	
-	@Source("geogebra/web/gui/images/document-open.png")
-	ImageResource document_open();
+	/*@Source("geogebra/web/gui/images/document-open.png")
+	ImageResource document_open();*/
 	
 	@Source("geogebra/web/gui/images/document-print-preview.png")
 	ImageResource document_print_preview();
@@ -133,8 +133,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/document-properties.png")
 	ImageResource document_properties();
 	
-	@Source("geogebra/web/gui/images/document-save.png")
-	ImageResource document_save();
+	/*@Source("geogebra/web/gui/images/document-save.png")
+	ImageResource document_save();*/
 	
 	@Source("geogebra/web/gui/images/edit-clear.png")
 	ImageResource edit_clear();
@@ -166,8 +166,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/exit.png")
 	ImageResource exit();
 	
-	@Source("geogebra/web/gui/images/export_small.png")
-	ImageResource export_small();
+	/*@Source("geogebra/web/gui/images/export_small.png")
+	ImageResource export_small();*/
 	
 	@Source("geogebra/web/gui/images/export-html.png")
 	ImageResource export_html();

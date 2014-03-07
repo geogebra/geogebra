@@ -1,8 +1,8 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.browser.BrowseGUI;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
@@ -40,7 +40,7 @@ public class FileMenuW extends MenuBar {
 	private void initActions(boolean useOpenScreen) {
 
 		// this is enabled always
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
+		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
 
 			public void execute() {
 				app.setWaitCursor();
@@ -48,11 +48,12 @@ public class FileMenuW extends MenuBar {
 				app.setDefaultCursor();
 			}
 		});
-		if(!app.getLAF().isSmart()){
-	    openMenu = new OpenMenuW(app);
-	    if(useOpenScreen){
-	    	addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
-	    		
+
+		// open menu is always visible in menu
+		openMenu = new OpenMenuW(app);
+		if(useOpenScreen) {
+			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
+    		
 				public void execute() {
 					BrowseGUI bg = new BrowseGUI(app);
 					app.showBrowser(bg);
@@ -61,20 +62,21 @@ public class FileMenuW extends MenuBar {
 					}
 				}
 			});	
-	    }else{
-	    	addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
-	    }
+		} else{
+			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
+		}
 		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
+		if(!app.getLAF().isSmart()) {
+			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
 		
-			public void execute() {
-				app.getGuiManager().save();
-			}
-		});			
+				public void execute() {
+					app.getGuiManager().save();
+				}
+			});			
 		}
 
 		// this is enabled always
-	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
+	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
 	    	public void execute() {
 	    		app.uploadToGeoGebraTube();
 	    	}

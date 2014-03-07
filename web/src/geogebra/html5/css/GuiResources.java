@@ -124,20 +124,44 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-file-open.png")
 	ImageResource menu_icon_file_open();
 	
+	@Source("icons/png/web/menu_icons/menu-file-save.png")
+	ImageResource menu_icon_file_save();
+	
 	@Source("icons/png/web/menu_icons/menu-file-share.png")
 	ImageResource menu_icon_file_share();
 	
 	@Source("icons/png/web/menu_icons/menu-edit.png")
 	ImageResource menu_icon_edit();
 	
+	@Source("icons/png/web/menu_icons/menu-edit-undo.png")
+	ImageResource menu_icon_edit_undo();
+	
+	@Source("icons/png/web/menu_icons/menu-edit-redo.png")
+	ImageResource menu_icon_edit_redo();
+	
+	@Source("icons/png/web/menu_icons/menu-edit-copy.png")
+	ImageResource menu_icon_edit_copy();
+	
+	@Source("icons/png/web/menu_icons/menu-edit-paste.png")
+	ImageResource menu_icon_edit_paste();
+	
 	@Source("icons/png/web/menu_icons/menu-view.png")
 	ImageResource menu_icon_view();
 	
-	@Source("icons/png/web/menu_icons/menu-help.png")
-	ImageResource menu_icon_help();
-	
 	@Source("icons/png/web/menu_icons/menu-options.png")
 	ImageResource menu_icon_options();
+	
+	@Source("icons/png/web/menu_icons/menu-options-point-capturing.png")
+	ImageResource menu_icon_options_point_capturing();
+	
+	@Source("icons/png/web/menu_icons/menu-options-labeling.png")
+	ImageResource menu_icon_options_labeling();
+	
+	@Source("icons/png/web/menu_icons/menu-options-font-size.png")
+	ImageResource menu_icon_options_font_size();
+	
+	@Source("icons/png/web/menu_icons/menu-options-language.png")
+	ImageResource menu_icon_options_language();
 	
 	@Source("icons/png/web/menu_icons/menu-perspectives-algebra.png")
 	ImageResource menu_icon_perspectives_algebra();
@@ -154,7 +178,11 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-perspectives-cas.png")
 	ImageResource menu_icon_perspectives_cas();
 	
+	@Source("icons/png/web/menu_icons/menu-help.png")
+	ImageResource menu_icon_help();
 	
+	@Source("icons/png/web/menu_icons/menu-help-about.png")
+	ImageResource menu_icon_help_about();
 	
 	
 	//SUBMENUS
