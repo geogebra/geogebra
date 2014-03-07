@@ -43,6 +43,7 @@ public class FillingModel extends MultipleOptionsModel {
 	private FillType fillType;
 	private App app;
 	private Kernel kernel;
+	private boolean hasGeoButton;
 	public FillingModel(App app, IFillingListener listener) {
 		super(listener);
 		this.app = app;
@@ -438,7 +439,7 @@ public class FillingModel extends MultipleOptionsModel {
 	@Override
 	public boolean checkGeos() {
 		boolean geosOK = true;
-		boolean hasGeoButton = false;
+		hasGeoButton = false;
 		getFillingListener().setFillInverseVisible(true);
 		getFillingListener().setFillTypeVisible(true);
 		for (int i = 0; i < getGeosLength(); i++) {
@@ -451,7 +452,8 @@ public class FillingModel extends MultipleOptionsModel {
 
 				getFillingListener().setFillInverseVisible(false);
 			}
-			if (!geo.isFillable()) {
+			if (!geo.isFillable() || hasGeoButton) {
+				App.debug("It has button");
 				geosOK = false;
 				break;
 			}
@@ -462,6 +464,8 @@ public class FillingModel extends MultipleOptionsModel {
 				getFillingListener().setFillTypeVisible(false);
 			}
 		}
+		
+		App.debug("geos is " + (geosOK ? "OK" : "Not OK"));
 		return geosOK;
 	}
 
@@ -475,7 +479,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 	public boolean hasGeoButton() {
 		// its function must be clarified.
-		return false;
+		return hasGeoButton;
 	}
 
 	public FillType getFillType() {

@@ -2730,17 +2730,17 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
-		@Override
-		public boolean update(Object[] geos) {
-			getModel().setGeos(geos);
-
-			if (!getModel().checkGeos()) {
-				return false;
-			}
-			model.updateProperties();
-
-			return true;
-		}
+//		@Override
+//		public boolean update(Object[] geos) {
+//			getModel().setGeos(geos);
+//
+//			if (!getModel().checkGeos()) {
+//				return false;
+//			}
+//			model.updateProperties();
+//
+//			return true;
+//		}
 
 		public void setSelectedIndex(int index) {
 			lbFillType.setSelectedIndex(index);
