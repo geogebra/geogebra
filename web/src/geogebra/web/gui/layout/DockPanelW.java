@@ -7,6 +7,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.StyleBarW;
@@ -167,6 +168,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * or as a JFram (false). Default is false.
 	 */
 	private boolean isDialog = false;
+	
+	/**
+	 * Images for Stylingbar
+	 */
+	private Image triangleRight = new Image(GuiResources.INSTANCE.dockbar_triangle_right());
+	private Image triangleLeft = new Image(GuiResources.INSTANCE.dockbar_triangle_left());
+	private Image dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+	private Image closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -334,7 +343,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	FlowPanel titleBarPanel;
 	
 	Label titleBarLabel;
-	Label dragLabel;
+	private PushButton dragButton;
 
 	private VerticalPanel componentPanel;
 
@@ -380,7 +389,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		ToolTipManagerW.sharedInstance().registerWidget(titleBarPanel, toolTipHandler, false, true);
 		
-		toggleStyleBarButton = new PushButton(new Image(AppResources.INSTANCE.triangle_right()));
+		toggleStyleBarButton = new PushButton(triangleRight);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 		
 		ClickHandler toggleStyleBarHandler = new ClickHandler() {
@@ -388,8 +397,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			public void onClick(ClickEvent event) {
 				if (showStyleBar) {
 					showStyleBar = false;
+					toggleStyleBarButton.getElement().removeAllChildren();
+					toggleStyleBarButton.getElement().appendChild(triangleRight.getElement());
 				} else {
 					showStyleBar = true;
+					toggleStyleBarButton.getElement().removeAllChildren();
+					toggleStyleBarButton.getElement().appendChild(triangleLeft.getElement());
 				}
 				updateStyleBarVisibility();
 				if(styleBar instanceof StyleBarW){
@@ -399,14 +412,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
 		
-		dragLabel = new Label("DRAG ME");
-		dragLabel.addDomHandler(this,MouseDownEvent.getType());
-		dragLabel.setVisible(false);
+		dragButton = new PushButton(dragIcon);
+		dragButton.addDomHandler(this,MouseDownEvent.getType());
+		dragButton.setVisible(false);
 
 		titleBarPanel.add(toggleStyleBarButton);
 		
 		titleBarPanel.add(styleBarPanel);
-		titleBarPanel.add(dragLabel);
+		titleBarPanel.add(dragButton);
 		
 
 		if (setlayout) {
@@ -1095,10 +1108,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public abstract void showView(boolean b);
 
 	public void enableDragging(boolean drag){
-		if(dragLabel==null){
+		if(dragButton==null){
 			return;
 		}
-		dragLabel.setVisible(drag);
+		dragButton.setVisible(drag);
 		this.toggleStyleBarButton.setVisible(!drag);
 		if(drag){
 			this.styleBarPanel.setVisible(false);
