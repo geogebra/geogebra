@@ -4559,7 +4559,7 @@ namespace giac {
       det=smod(det,pi_p)*factdet;
       if (rref_or_det_or_lu==1){
 	if (proba<proba_epsilon(contextptr))
-	  *logptr(contextptr) << gettext("Probabilistic algorithm for determinant (run proba_epsilon:=0 for a deterministic answer, this is slower). Error probability is less than ") << proba << endl;
+	  *logptr(contextptr) << gettext("Probabilistic algorithm for determinant\n(run proba_epsilon:=0 for a deterministic answer, this is slower).\nError probability is less than ") << proba << endl;
 	return 1;
       }
       h2=h20;

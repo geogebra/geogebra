@@ -4455,7 +4455,14 @@ namespace giac {
 	gen & f =it->_SYMBptr->feuille;
 	if (f.type==_VECT && f._VECTptr->size()==2){
 	  vecteur & w=*f._VECTptr;
-	  m[w.front()]=w.back();
+	  gen bb=w.front();
+	  if ((xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)){
+	    if (bb.type==_VECT)
+	      bb=bb-vecteur(bb._VECTptr->size(),plus_one);
+	    else
+	      bb=bb-plus_one;
+	  }
+	  m[bb]=w.back();
 	}
       }
     }

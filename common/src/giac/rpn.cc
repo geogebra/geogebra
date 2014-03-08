@@ -2461,11 +2461,11 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT || args._VECTptr->size()!=4)
       return gentypeerr(contextptr);
-    vecteur v = *args._VECTptr;
+    vecteur v = plotpreprocess(args,contextptr);
     gen v0=v[0];
     gen v1=v[1];
-    v[2]=eval(v[2],eval_level(contextptr),contextptr);
-    v[3]=eval(v[3],eval_level(contextptr),contextptr);
+    // v[2]=eval(v[2],eval_level(contextptr),contextptr);
+    // v[3]=eval(v[3],eval_level(contextptr),contextptr);
     if (v[3].type!=_INT_)
       return gentypeerr(contextptr);
     int n=v[3].val;

@@ -3688,7 +3688,9 @@ namespace giac {
     else {
       if (b.type!=_VECT){
 	res=0;
-#ifndef NO_STDEXCEPT
+#ifdef NO_STDEXCEPT
+	return gensizeerr(gettext("Bad mod:")+b.print(context0));
+#else
 	setsizeerr(gettext("Bad mod:")+b.print(context0));
 #endif
       }
@@ -10214,11 +10216,18 @@ namespace giac {
     return new_ref_symbolic(symbolic(at_array,res));
   }
 
-  static string printmap(const gen_map & m){
+  static string printmap(const gen_map & m,GIAC_CONTEXT){
     string s("table(\n");
     gen_map::const_iterator it=m.begin(),itend=m.end();
     for (;it!=itend;){
-      s += it->first.print(context0)+ " = " + it->second.print(context0);
+      gen bb=it->first;
+      if (bb.type!=_STRNG && (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)){
+	if (bb.type==_VECT)
+	  bb=bb+vecteur(bb._VECTptr->size(),plus_one);
+	else
+	  bb=bb+plus_one;
+      }
+      s += bb.print(contextptr)+ " = " + it->second.print(contextptr);
       ++it;
       if (it!=itend)
 	s += ',';
@@ -11517,7 +11526,7 @@ namespace giac {
       if (subtype==1)
 	return maptoarray(*_MAPptr,contextptr).print(contextptr);
       else
-	return printmap(*_MAPptr);
+	return printmap(*_MAPptr,contextptr);
     case _EQW:
       return print_EQW(*_EQWptr);
     case _POINTER_:

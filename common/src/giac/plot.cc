@@ -3731,6 +3731,8 @@ namespace giac {
     else
       nd=cst_i*ef;
     gen gn=v[s-1];
+    if (!is_integral(gn))
+      return gensizeerr(contextptr);  
     int n=gn.val;
     if (gn.type!=_INT_ || absint(n)<2)
       return gensizeerr(contextptr);  
@@ -5444,22 +5446,33 @@ namespace giac {
     if (geo_obj.type==_VECT){
       vecteur ligne=*geo_obj._VECTptr;
       if (ligne.size()<2) return gensizeerr(gettext("plot.cc/parameter2point"));
-      if (t.type!=_VECT){
+      if (t.type!=_VECT && ligne.size()==2){
 	if ( (geo_obj.subtype==_GROUP__VECT || geo_obj.subtype==_HALFLINE__VECT) && is_positive(-t,contextptr))
 	  t=0;
 	if (geo_obj.subtype==_GROUP__VECT && is_greater(t,1,contextptr))
 	  t=1;
 	return symb_pnt(ligne[0]+t*(ligne[1]-ligne[0]),attribut,contextptr);
       }
-      vecteur param=*t._VECTptr;
-      if (param.size()<2) return gensizeerr(gettext("plot.cc/parameter2point"));
-      if (param[0].type!=_INT_) return gensizeerr(gettext("plot.cc/parameter2point"));
-      int n=param[0].val;
-      if (n<0)
-	n=0;
-      if (n>=signed(ligne.size())-1)
-	return symb_pnt(ligne.back(),attribut,contextptr);
-      return symb_pnt(ligne[n]+param[1]*(ligne[n+1]-ligne[n]),attribut,contextptr);
+      int n; 
+      if (t.type==_VECT)
+      {
+        vecteur param=*t._VECTptr;
+        if (param.size()<2) return gensizeerr(gettext("plot.cc/parameter2point"));
+        if (param[0].type!=_INT_) 
+        { 
+          if (param[0].type!=_DOUBLE_) return gensizeerr(gettext("plot.cc/parameter2point"));
+          n= (int)param[0].DOUBLE_val();
+        } else n=param[0].val;
+        t= param[1];
+      } else {
+        t= t.evalf2double(1, contextptr);
+        if (t.type!=_DOUBLE_) return gensizeerr(gettext("plot.cc/parameter2point"));
+        n= (int)(t.DOUBLE_val());
+        t= t-n;
+      }
+      if (n<0) return symb_pnt(ligne.front(),attribut,contextptr);
+      if (n>=signed(ligne.size())-1) return symb_pnt(ligne.back(),attribut,contextptr);
+      return symb_pnt(ligne[n]+t*(ligne[n+1]-ligne[n]),attribut,contextptr);
     }
     if ( (geo_obj.type==_SYMB) && (geo_obj._SYMBptr->sommet==at_cercle)){
       gen centre,rayon;
@@ -5743,6 +5756,10 @@ namespace giac {
 	else
 	  return false;
       }
+    }
+    if (geo_obj.type==_VECT && geo_obj._VECTptr->size()>2){
+      tmin=0;
+      tmax=int(geo_obj._VECTptr->size()-1);
     }
     if (geo_obj.type==_VECT && geo_obj._VECTptr->size()==2){
       m=geo_obj._VECTptr->front()+gen_t*(geo_obj._VECTptr->back()-geo_obj._VECTptr->front());

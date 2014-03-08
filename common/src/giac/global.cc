@@ -3390,7 +3390,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	pthread_mutex_unlock(mutexptr(contextptr));
 	// double tt=double(tp.v[4].val)/CLOCKS_PER_SEC;
 	if (tt>0.4)
-	  (*logptr(contextptr)) << gettext("Evaluation time: ") << tt << endl;
+	  (*logptr(contextptr)) << gettext("\nEvaluation time: ") << tt << endl;
 	if (f)
 	  f(arg_callback,param_callback);
 	else

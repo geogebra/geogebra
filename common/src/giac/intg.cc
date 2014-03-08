@@ -4088,6 +4088,7 @@ namespace giac {
       // test must be done twice for example for sum(sin(k),k,1,0)
       if (is_zero(v[2]-v[3]-1))
 	return zero;
+      bool numeval=!is_integer(v[2]) || !is_integer(v[3]);
       if (is_integral(v[2])){
 	while (is_exactly_zero(subst(v[0],v[1],v[2],false,contextptr))){
 	  if (v[2]==v[3])
@@ -4105,13 +4106,13 @@ namespace giac {
       if (is_zero(v[2]-v[3]-1))
 	return zero;
       if (is_positive(v[2]-v[3]-1,contextptr))
-	return -_sum(gen(makevecteur(v[0],v[1],v[3]+1,v[2]-1),_SEQ__VECT),contextptr);
+	return -_sum(gen(makevecteur(v[0],v[1],v[3]+(numeval?gen(1.0):plus_one),v[2]-1),_SEQ__VECT),contextptr);
       if (is_strictly_positive(-v[2],contextptr) && is_positive(-v[3],contextptr)){
 	gen tmp=quotesubst(v[0],v[1],-v[1],contextptr);
-	return _sum(gen(makevecteur(tmp,v[1],-v[3],-v[2]),args.subtype),contextptr);
+	return _sum(gen(makevecteur(tmp,v[1],-v[3],(numeval?evalf_double(-v[2],1,contextptr):-v[2])),args.subtype),contextptr);
       }
       if (v[2].type==_INT_ && v[3].type==_INT_ && absint(v[3].val-v[2].val)<max_sum_add(contextptr))
-	return ratnormal(seqprod(v,2,contextptr));
+	return numeval?evalf(seqprod(v,2,contextptr),1,contextptr):ratnormal(seqprod(v,2,contextptr));
     }
     const_iterateur it=v.begin(),itend=v.end();
     gen f=*it;
