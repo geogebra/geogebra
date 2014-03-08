@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoTransferFunction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -53,13 +54,9 @@ public class CmdNyquist extends CommandProcessor {
 			if (!arg[1].isGeoList()) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			if (arg[2].isGeoNumeric()) {
-				int omega = (int) arg[2].evaluateDouble();
-				if (Double.isNaN(omega)) {
-					throw argErr(app, c.getVariableName(2), arg[2]);
-				}
+			if (arg[2] instanceof GeoNumberValue) {
 				algo = new AlgoTransferFunction(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], omega);
+						(GeoList) arg[0], (GeoList) arg[1], (GeoNumberValue) arg[2]);
 				ret = new GeoElement[1];
 				ret[0] = algo.getResult();
 				return ret;
