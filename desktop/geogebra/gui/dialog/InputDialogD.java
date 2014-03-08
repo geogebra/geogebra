@@ -196,7 +196,14 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	 */
 	protected InputDialogD(JFrame frame, boolean modal,LocalizationD loc) {
 		this.loc = loc;
-		this.wrappedDialog = new JDialog(frame, modal);
+		this.wrappedDialog = new JDialog(frame, modal) {
+			@Override
+			public void setVisible(boolean b) {
+				super.setVisible(b);
+				handleDialogVisibilityChange(b);
+			}
+		};
+
 		wrappedDialog.addWindowListener(this);
 	}
 
@@ -508,6 +515,10 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	}
 	public void windowDeactivated(WindowEvent e) {
 		//not needed
+	}
+
+	public void handleDialogVisibilityChange(boolean isVisible) {
+		// to be overridden by subclasses
 	}
 
 

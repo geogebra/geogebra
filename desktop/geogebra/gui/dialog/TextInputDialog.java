@@ -808,16 +808,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		}
 	}
 
-	@Override
-	public void setVisible(boolean isVisible) {
-		if (!isVisible) {
-			if (textPreviewer != null) {
-				textPreviewer.removePreviewGeoText();
-			}
-		}
-		super.setVisible(isVisible);
-	}
-
+	
 	private class MyKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -1157,5 +1148,15 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 	public void windowClosed(WindowEvent e) {
 		app.setMoveMode();
 	}
+	
+	public void handleDialogVisibilityChange(boolean isVisible) {
+		App.debug("calling set visible: " + isVisible);
+		if (!isVisible) {
+			if (textPreviewer != null) {
+				textPreviewer.removePreviewGeoText();
+			}
+		}
+	}
+
 
 }
