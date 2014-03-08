@@ -6,10 +6,12 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePoint3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -91,5 +93,14 @@ public class CmdAngle3D extends CmdAngle {
 		}
 
 		return super.angle(label, c);
+	}
+	
+	protected GeoElement[] angle(String[] labels, GeoPolygon p){
+		
+		if (p.isGeoElement3D()){
+			return kernelA.getManager3D().Angles3D(labels, (GeoPolygon3D) p);
+		}
+		
+		return super.angle(labels, p);
 	}
 }

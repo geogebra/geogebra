@@ -41,6 +41,10 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 		super(cons, label, A, B, C);
 	}
 	
+	AlgoAnglePoints3D(Construction cons) {
+		super(cons);
+	}
+	
 	
     @Override
 	final protected GeoAngle newGeoAngle(Construction cons){
@@ -128,7 +132,22 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 		return vn;
 
 	}
+	
+	private AlgoAnglePoints3D(GeoPointND A, GeoPointND B, GeoPointND C, Coords center, Coords v1, Coords v2, Coords vn) {
+		super(A,B,C);
+		this.center = center;
+		this.v1 = v1;
+		this.v2 = v2;
+		this.vn = vn;
+	}
     
+	
+	@Override
+	public AlgoAnglePoints copy() {
+		return new AlgoAnglePoints3D(
+				getA().copy(), getB().copy(), getC().copy(), 
+				center.copyVector(), v1.copyVector(), v2.copyVector(), vn.copyVector());
+	}
 	
 	
 }

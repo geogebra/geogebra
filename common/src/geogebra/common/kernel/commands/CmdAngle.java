@@ -101,7 +101,7 @@ public class CmdAngle extends CommandProcessor {
 				if (arg[0].isGeoConic()) {
 					return angle(c.getLabel(), (GeoConicND) arg[0]);
 				} else if (arg[0].isGeoPolygon()) {
-					return getAlgoDispatcher().Angles(c.getLabels(), (GeoPolygon) arg[0]);
+					return angle(c.getLabels(), (GeoPolygon) arg[0]);
 				}
 			}
 
@@ -215,7 +215,14 @@ public class CmdAngle extends CommandProcessor {
 		return ret;
 	}
 	
-	
+	/**
+	 * @param labels label
+	 * @param p polygon
+	 * @return angles of the polygon
+	 */
+	protected GeoElement[] angle(String[] labels, GeoPolygon p){
+		return getAlgoDispatcher().Angles(labels, p);
+	}
 	
 	
 }

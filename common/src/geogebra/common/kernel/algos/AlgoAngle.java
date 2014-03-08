@@ -62,14 +62,9 @@ public abstract class AlgoAngle extends AlgoElement{
 	
 	/**
 	 * @param drawCoords coords (center, v1, v2) for drawing
+	 * @return true if visible
 	 */
-	public boolean getCoordsInD3(Coords[] drawCoords){
-		drawCoords[0] = Coords.O;
-		drawCoords[1] = Coords.VX;
-		drawCoords[2] = Coords.VY;
-		
-		return true;
-	}
+	public abstract boolean getCoordsInD3(Coords[] drawCoords);
 	
     /**
      * 
