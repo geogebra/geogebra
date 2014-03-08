@@ -11385,6 +11385,13 @@ namespace giac {
       add_print(s,f._FRACptr->den,contextptr);
       return s;
     }
+    if (calc_mode(contextptr)==1 && f._FRACptr->den.type==_CPLX){
+      gen n=f._FRACptr->num,d=f._FRACptr->den,dr,di;
+      reim(d,dr,di,contextptr);
+      n=n*gen(dr,-di);
+      d=dr*dr+di*di;
+      return print_FRAC(fraction(n,d),contextptr);
+    }
     return _FRAC2_SYMB(f).print(contextptr);
   }
 
