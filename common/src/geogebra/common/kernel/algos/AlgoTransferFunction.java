@@ -5,7 +5,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoTransferFunction;
 
 /**
@@ -18,7 +18,7 @@ public class AlgoTransferFunction extends AlgoElement {
 
 	private GeoTransferFunction gcf;
 
-	private int omegaStart;
+	private GeoNumberValue omegaStart;
 	private GeoList num;
 	private GeoList den;
 
@@ -40,43 +40,46 @@ public class AlgoTransferFunction extends AlgoElement {
 	 *            step for calculus of function
 	 */
 	public AlgoTransferFunction(Construction c, String label, GeoList num,
-			GeoList den, int omegaStart) {
+			GeoList den, GeoNumberValue omegaStart) {
 		super(c);
-		if (omegaStart <= 0) {
-			this.omegaStart = 10;
-		} else {
-			this.omegaStart = omegaStart;
-		}
-		gcf = new GeoTransferFunction(c, label, num, den, this.omegaStart);
+		this.omegaStart = omegaStart;
+		
+		gcf = new GeoTransferFunction(c, label, num, den, (int) this.omegaStart.getDouble());
 		this.function = gcf.getGeoFunction();
 		this.num = num;
-		this.den = den;
-		compute();
+		this.den = den;		
 		setInputOutput();
+		compute();
+		gcf.setLabel(label);
 	}
 
 	public AlgoTransferFunction(Construction c, String label, GeoList num,
 			GeoList den) {
 		super(c);
 		gcf = new GeoTransferFunction(c, label, num, den, 10);
-		this.function = gcf.getGeoFunction();
-		this.omegaStart = 10;
+		this.function = gcf.getGeoFunction();		
 		this.num = num;
 		this.den = den;
-		compute();
 		setInputOutput();
+		compute();
+		gcf.setLabel(label);
 	}
 
 	@Override
 	protected void setInputOutput() {
 
-		super.setOutputLength(1);
+		setOnlyOutput(gcf);
 
-		input = new GeoElement[3];
+		if(omegaStart != null){
+			input = new GeoElement[3];
+			input[2] = omegaStart.toGeoElement();
+		}
+		else{
+			input = new GeoElement[2];
+		}
 		input[0] = num;
 		input[1] = den;
-		input[2] = new GeoNumeric(cons, omegaStart);
-		super.setOutput(0, gcf);
+
 		setDependencies(); // done by AlgoElement
 	}
 
