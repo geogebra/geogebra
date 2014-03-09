@@ -6,6 +6,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -71,8 +73,8 @@ public class GeoTransferFunction extends GeoElement {
 		if (num.getElementType().equals(GeoClass.NUMERIC) && den.getElementType().equals(GeoClass.NUMERIC)){
 			omegaStart = omega;
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
-			String strFunc = createFunction(num, den);
-			GeoFunction f = ap.evaluateToFunction(strFunc, true);
+			Function strFunc = createFunction(num, den);
+			GeoFunction f = new GeoFunction(c, strFunc);
 			geoFunction = new GeoFunction(f);
 			originalFunction = geoFunction.getFunction();
 			parser = kernel.getParser();
@@ -91,59 +93,22 @@ public class GeoTransferFunction extends GeoElement {
 	}
 
 	
-	private static String createFunction(GeoList num, GeoList den) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("G(s)=");
-		sb.append(createPolynom(num));
-		sb.append("/");
-		sb.append(createPolynom(den));
-		return sb.toString();
+	private Function createFunction(GeoList num, GeoList den) {
+		FunctionVariable s= new FunctionVariable(kernel,"s");
+		return new Function(createPolynom(num, s).divide(createPolynom(den,s)),s);
+		
 	}
 
-	private static String createPolynom(GeoList values) {
-		double value;
-		ArrayList<Integer> exp=new ArrayList<Integer>();
-		String s="";
-		int size = values.size();		
-		for (int i = 0; i < size; i++) {
-			value=((GeoNumberValue) values.get(i)).getDouble();
-			if (value>0){
-				exp.add(size - i - 1);
-				if (value==1){
-					s+="+§s^°";
-				} else {
-					s+="+"+value+"s^°";
-				}
-			} else {
-				if (value<0){
-					exp.add(size - i - 1);
-					if (value==-1){
-						s+="-§s^°";
-					} else {
-						s+=value+"s^°";
-					}
-				} 
-			}
+	private static ExpressionNode createPolynom(GeoList values, FunctionVariable s) {
+
+		ExpressionNode exs = s.wrap();
+		int size = values.size();
+		ExpressionNode ret =  ((GeoNumberValue)values.get(values.size()-1)).getNumber().wrap();
+		for (int i = 1; i < size; i++) {
+			MyDouble coeff = ((GeoNumberValue)values.get(values.size()-1-i)).getNumber();
+			ret = exs.power(i).multiply(coeff).plus(ret); 
 		}
-		int j=0;
-		for (int i = 0; i < size; i++) {
-			if (s.indexOf('°')!=-1){
-				s=s.replaceFirst("°", ""+exp.get(j).intValue());
-				j++;
-			}			
-		}
-		s=s.replaceFirst("s\\^1", "s");	
-		s=s.replaceFirst("s\\^0", "§");
-		s=s.replaceAll("§§", "1");
-		s=s.replaceAll("§", "");
-		if (s.charAt(s.length()-1)=='+' || s.charAt(s.length()-1)=='-'){
-			s=s.substring(0,s.length()-1);
-		}
-		if (s.charAt(0)=='+'){
-			s=s.substring(1);
-		}
-		s="("+s+")";
-		return s;
+		return ret;
 	}
 
 
@@ -274,7 +239,9 @@ public class GeoTransferFunction extends GeoElement {
 			if (Kernel.isEqual(x, 0, Kernel.MIN_PRECISION)) {
 				return (new Coords(originalFunction.evaluate(0), 0, 1));
 			}
-			exp = parser.parseExpression("i*" + x);
+			GeoVec2D xi = new GeoVec2D(kernel,0,x);
+			xi.setMode(Kernel.COORD_COMPLEX);
+			exp = xi.wrap();
 			currentFunction = new Function(originalFunction, kernel);
 			t = VariableReplacer.getReplacer(currentFunction
 					.getVarString(StringTemplate.defaultTemplate), exp);
@@ -282,10 +249,8 @@ public class GeoTransferFunction extends GeoElement {
 			v = (GeoVec2D) currentFunction.evaluateComplex().getExpression()
 					.evaluate(StringTemplate.defaultTemplate);
 			return new Coords(v.getX(), v.getY(), 1);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			setUndefined();
-		} catch (ClassCastException e) {
 			setUndefined();
 		}
 		return null;
