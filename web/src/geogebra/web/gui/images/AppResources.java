@@ -40,11 +40,11 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/aux_folder.gif")
 	ImageResource aux_folder();
 	
-	@Source("geogebra/web/gui/images/auxiliary.png")
-	ImageResource auxiliary();
+	/*@Source("geogebra/web/gui/images/auxiliary.png")
+	ImageResource auxiliary();*/
 	
-	@Source("geogebra/web/gui/images/stylingbar_graphicsview_show_or_hide_the_axes.png")
-	ImageResource axes();
+	/*@Source("geogebra/web/gui/images/stylingbar_graphicsview_show_or_hide_the_axes.png")
+	ImageResource axes();*/
 	
 	@Source("geogebra/web/gui/images/border_all.png")
 	ImageResource border_all();
@@ -235,8 +235,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/go-up.png")
 	ImageResource go_up();
 	
-	@Source("geogebra/web/gui/images/stylingbar_graphicsview_show_or_hide_the_grid.png")
-	ImageResource grid();
+	/*@Source("geogebra/web/gui/images/stylingbar_graphicsview_show_or_hide_the_grid.png")
+	ImageResource grid();*/
 	
 	@Source("geogebra/web/gui/images/header_column.png")
 	ImageResource header_column();
@@ -286,8 +286,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/lock.png")
 	ImageResource lock();
 	
-	@Source("geogebra/web/gui/images/stylingbar_graphicsview_point_capturing.png")
-	ImageResource magnet();
+	/*@Source("geogebra/web/gui/images/stylingbar_graphicsview_point_capturing.png")
+	ImageResource magnet();*/
 	
 	@Source("geogebra/web/gui/images/magnet2.gif")
 	ImageResource magnet2();
@@ -505,8 +505,8 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/social-twitter.png")
 	ImageResource social_twitter();
 
-	@Source("geogebra/web/gui/images/stylingbar_graphicsview_standardview.png")
-	ImageResource standard_view();
+	/*@Source("geogebra/web/gui/images/stylingbar_graphicsview_standardview.png")
+	ImageResource standard_view();*/
 	
 	// now in GUI Resources
 	/*@Source("geogebra/web/gui/images/menuBarSubMenuIconLTR.gif")
@@ -515,7 +515,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/menuBarSubMenuIconRTL.gif")
 	ImageResource menuBarSubMenuIconRTL();*/
 
-	@Source("icons/png30x30/stylingbar_point-full.png")
+	/*@Source("icons/png30x30/stylingbar_point-full.png")
 	ImageResource point_full();
 	
 	@Source("icons/png30x30/stylingbar_point-empty.png")
@@ -543,7 +543,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	ImageResource point_left();
 	
 	@Source("icons/png30x30/stylingbar_point-right.png")
-	ImageResource point_right();
+	ImageResource point_right();*/
 
 	@Source("icons/png16x16/interval-left.png")
 	ImageResource interval_left();

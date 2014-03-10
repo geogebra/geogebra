@@ -7,6 +7,7 @@ import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppW;
@@ -227,7 +228,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 		if (app.getGuiManager() == null)
 			return;
 		
-		String htmlString = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes"));
+		String htmlString = GeoGebraMenubarW.getMenuBarHtml(StyleBarResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowAxesAction());
 		
 	    ((AppW)app).setShowAxesSelected(cbShowAxes);
@@ -235,7 +236,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 	    
 	    
 //	    MenuItem cbShowGrid = addAction(((AppW)app).getGuiManager().getShowGridAction(), GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid")), app.getMenu("Grid"));
-		htmlString = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid"));
+		htmlString = GeoGebraMenubarW.getMenuBarHtml(StyleBarResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowGridAction());
 
 	    ((AppW)app).setShowGridSelected(cbShowGrid);

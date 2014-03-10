@@ -4,7 +4,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
@@ -17,7 +17,7 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 	private AppW app;
 	public AlgebraStyleBarW(AppW app){
 		this.app = app;
-		auxiliary = new MyToggleButton2(AppResources.INSTANCE.auxiliary());
+		auxiliary = new MyToggleButton2(StyleBarResources.INSTANCE.auxiliary());
 		auxiliary.setDown(app.showAuxiliaryObjects());
 		auxiliary.addValueChangeHandler(this);
 		add(auxiliary);

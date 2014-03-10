@@ -108,6 +108,11 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	 */
 	public void setSelected(boolean isSelected) {
 		setDown(isSelected);
+		if(isSelected) {
+			this.addStyleName("selected");
+		} else {
+			this.removeStyleName("selected");
+		}
 	}
 
 	/**

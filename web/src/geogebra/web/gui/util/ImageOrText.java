@@ -28,10 +28,9 @@ public class ImageOrText {
     }
 
 	public void applyToLabel(Label button) {
-		button.setPixelSize(32,32);
+		//button.setPixelSize(32,32);
 		if(this.url != null){
 			button.getElement().getStyle().setBackgroundImage("url("+this.url+")");
-			button.getElement().getStyle().setProperty("backgroundRepeat", "no-repeat");
 		}
 		if(this.text != null){
 			button.setText(this.text);

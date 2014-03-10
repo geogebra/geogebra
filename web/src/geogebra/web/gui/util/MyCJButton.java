@@ -7,7 +7,6 @@ import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,17 +37,17 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class MyCJButton extends Composite implements MouseDownHandler,
         MouseUpHandler, MouseOutHandler, MouseOverHandler, HasSetIcon {	
 	
-	public static final String DEFAULT_BACKGROUND_STYLE = "white";
-	private static final String DEFAULT_BORDER_STYLE = "gray";
+	//public static final String DEFAULT_BACKGROUND_STYLE = "white";
+	//private static final String DEFAULT_BORDER_STYLE = "gray";
 	
 	/**
 	 *  Default button width for CanvasButtons
 	 */
-	public static int DEFAULT_BUTTON_WIDTH = 20;
+	//public static int DEFAULT_BUTTON_WIDTH = 20;
 	/**
 	 * Default button height for CanvasButtons
 	 */
-	public static int DEFAULT_BUTTON_HEIGHT = 20;
+	//public static int DEFAULT_BUTTON_HEIGHT = 20;
 	
 	protected static int TEXT_OFFSET = 3;
 	
@@ -58,18 +57,19 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	/**
 	 * button width
 	 */
-	protected int buttonWidth = DEFAULT_BUTTON_WIDTH;
+	//protected int buttonWidth = DEFAULT_BUTTON_WIDTH;
 	/**
 	 * button height
 	 */
-	protected int buttonHeight = DEFAULT_BUTTON_HEIGHT;
+	//protected int buttonHeight = DEFAULT_BUTTON_HEIGHT;
 	
-	protected String backgroundStyle = DEFAULT_BACKGROUND_STYLE;
-	protected String borderStyle = DEFAULT_BORDER_STYLE;
+	//protected String backgroundStyle = DEFAULT_BACKGROUND_STYLE;
+	//protected String borderStyle = DEFAULT_BORDER_STYLE;
 	private boolean isEnabled;
 	private String toolTipText;
 	private boolean loadHandlerAllowed = false;
 	private ImageOrText icon;
+	private Label buttonContent;
 	
 	/**
 	 * 
@@ -80,8 +80,12 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	
 	public MyCJButton(final Image image) {
 		button = new Label("");
-		button.setWidth(buttonWidth+"px");
-		button.setHeight(buttonHeight+"px");
+		buttonContent = new Label("");
+		buttonContent.setStyleName("buttonContent");
+		button.getElement().appendChild(buttonContent.getElement());
+		
+		//button.setWidth(buttonWidth+"px");
+		//button.setHeight(buttonHeight+"px");
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
 		button.addMouseOverHandler(this);
@@ -95,7 +99,8 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 				if (!loadHandlerAllowed)
 					return;
 
-				button.getElement().getStyle().setBackgroundImage(image.getUrl());
+				//button.getElement().getStyle().setBackgroundImage(image.getUrl());
+				buttonContent.getElement().getStyle().setBackgroundImage(image.getUrl());
 			}
 		});
 		RootPanel.get().add(image);
@@ -103,6 +108,10 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		setStyleName("MyCanvasButton");
 		isEnabled = true;
     }
+	
+	public Label getButtonContent() {
+		return buttonContent;
+	}
 	
 	public void setText(String text){
 		button.setText("BT"+text);
@@ -114,8 +123,8 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	public MyCJButton() {
 		this(new Image() {
 			{
-				setWidth(DEFAULT_BUTTON_WIDTH+"px");
-				setHeight(DEFAULT_BUTTON_HEIGHT+"px");
+				//setWidth(DEFAULT_BUTTON_WIDTH+"px");
+				//setHeight(DEFAULT_BUTTON_HEIGHT+"px");
 				setUrl(AppResources.INSTANCE.empty().getSafeUri());
 			}
 		});
@@ -132,10 +141,12 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	private void setDownState(boolean downState) {
 	   //TODO less visible
 	   if(downState){
-		   button.getElement().getStyle().setBorderWidth(2, Unit.PX);
-		   button.getElement().getStyle().setBorderColor("red");
+		   //button.getElement().getStyle().setBorderWidth(2, Unit.PX);
+		   //button.getElement().getStyle().setBorderColor("red");
+		   this.addStyleName("selected");
 	   }else{
-		   button.getElement().getStyle().setBorderWidth(0, Unit.PX);
+		   //button.getElement().getStyle().setBorderWidth(0, Unit.PX);
+		   this.removeStyleName("selected");
 	   }
     }
 
@@ -190,7 +201,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		buttonHeight = ir.getHeight();
 		button.setWidth(buttonWidth + "px");
 		button.setHeight(buttonHeight + "px");*/
-		icon.applyToLabel(button);
+		icon.applyToLabel(buttonContent);
 		setDownState(false);
 	}
 	

@@ -7,48 +7,72 @@ import com.google.gwt.resources.client.ImageResource;
 public interface StyleBarResources extends ClientBundle {
 	StyleBarResources INSTANCE = GWT.create(StyleBarResources.class);
 	
-	@Source("icons/png/stylingbar/stylingbar_line-dash-dot.png")
+	//EUCLIDIAN STYLEBAR:
+	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_axes.png")
+	ImageResource axes();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_grid.png")
+	ImageResource grid();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_standardview.png")
+	ImageResource standard_view();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_point_capturing.png")
+	ImageResource magnet();
+	
+	//LINES
+	
+	@Source("icons/png/web/stylingbar/stylingbar_line-dash-dot.png")
 	ImageResource line_dash_dot();
 	
-	@Source("icons/png/stylingbar/stylingbar_line-dashed-long.png")
+	@Source("icons/png/web/stylingbar/stylingbar_line-dashed-long.png")
 	ImageResource line_dashed_long();
 
-	@Source("icons/png/stylingbar/stylingbar_line-dashed-short.png")
+	@Source("icons/png/web/stylingbar/stylingbar_line-dashed-short.png")
 	ImageResource line_dashed_short();
 
-	@Source("icons/png/stylingbar/stylingbar_line-dotted.png")
+	@Source("icons/png/web/stylingbar/stylingbar_line-dotted.png")
 	ImageResource line_dotted();
 
-	@Source("icons/png/stylingbar/stylingbar_line-solid.png")
+	@Source("icons/png/web/stylingbar/stylingbar_line-solid.png")
 	ImageResource line_solid();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-full.png")
+	//POINTS
+	
+	@Source("icons/png/web/stylingbar/stylingbar_point-full.png")
 	ImageResource point_full();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-empty.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-empty.png")
 	ImageResource point_empty();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-cross.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-cross.png")
 	ImageResource point_cross();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-cross-diag.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-cross-diag.png")
 	ImageResource point_cross_diag();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-diamond-full.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-diamond-full.png")
 	ImageResource point_diamond();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-diamond-empty.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-diamond-empty.png")
 	ImageResource point_diamond_empty();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-up.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-up.png")
 	ImageResource point_up();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-down.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-down.png")
 	ImageResource point_down();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-left.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-left.png")
 	ImageResource point_left();
 	
-	@Source("icons/png/stylingbar/stylingbar_point-right.png")
+	@Source("icons/png/web/stylingbar/stylingbar_point-right.png")
 	ImageResource point_right();
+	
+	
+	
+	//ALGEBRA STYLEBAR
+	@Source("icons/png/web/stylingbar/stylingbar_algebraview_auxiliary_objects.png")
+	ImageResource auxiliary();
 }

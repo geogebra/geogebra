@@ -3,6 +3,7 @@ package geogebra.web.gui.view.algebra;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -49,7 +50,7 @@ public class AlgebraContextMenuW implements AttachedToDOM{
 		};     
 		
 		GCheckBoxMenuItem cbShowAuxiliary = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(
-				AppResources.INSTANCE.auxiliary().getSafeUri().asString(), app.getPlain("AuxiliaryObject")), showAuxiliaryAction);
+				StyleBarResources.INSTANCE.auxiliary().getSafeUri().asString(), app.getPlain("AuxiliaryObject")), showAuxiliaryAction);
 		
 		cbShowAuxiliary.setSelected(app.showAuxiliaryObjects());
 		

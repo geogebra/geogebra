@@ -13,7 +13,6 @@ public abstract class StyleBarW extends HorizontalPanel {
 	 */
 	public StyleBarW() {
 		setStyleName("StyleBar");
-		setSpacing(2);
 	}
 
 	

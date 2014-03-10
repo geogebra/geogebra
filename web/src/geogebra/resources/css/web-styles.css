@@ -1494,6 +1494,15 @@ Paddings for menuitems.
 	white-space:nowrap;
 }
 
+.gPopupMenu_item .gwt-HTML {
+	margin-top: 2px;
+}
+
+.gPopupMenu_item .gwt-HTML img {
+	margin-top: 1px;
+	vertical-align: top;
+}
+
 
 /*#####################################################################################
 ###       STYLEBAR
@@ -1503,7 +1512,7 @@ Paddings for menuitems.
 	border: 1px solid transparent;
 }
 
-.SelectionTable a {
+/*.SelectionTable a {
 	text-decoration:none;
 	color:black;
 	border-radius:none;
@@ -1522,7 +1531,7 @@ Paddings for menuitems.
 
 .SelectionTable canvas.selected {
 	border: 1px solid black;
-}
+}*/
 
 .TitleBarPanel {
 	z-index:1;
@@ -1558,7 +1567,6 @@ Paddings for menuitems.
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);*/
 	/*display: inline-block;*/
 	padding-left: 31px;
-	margin-top: -1px;
 }
 
 .StyleBar {
@@ -1600,7 +1608,6 @@ Paddings for menuitems.
 
 .MyToggleButton,
 .MyCanvasButton {
-	/*padding: 1px;*/
 	text-align: center;
 	
 	-webkit-border-radius: 5px;
@@ -1614,8 +1621,37 @@ Paddings for menuitems.
 	height: 24px;
 	margin-left: 4px;
 }
-.MyToggleButton.selected {
+
+.MyToggleButton.selected,
+.MyCanvasButton.selected {
 	border-color: #6666FF;
+}
+
+.MyCanvasButton .buttonContent,
+.SelectionTable .gwt-Label {
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 24px;
+	height: 24px;
+}
+
+.SelectionTable a {
+	text-decoration: none;
+	color: #666666;
+	border-radius: none;
+    display: block;
+    padding: 1px;
+}
+
+.SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
+	background: #CCCCFF;
+}
+
+input[type="range"] {
+	width: 100%;
+	margin: 0px;
+	padding: 5px 0px;
+	display: block;
 }
 
 .ApplicationPanel {

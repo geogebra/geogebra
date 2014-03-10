@@ -29,6 +29,7 @@ import geogebra.html5.gui.util.PointStylePopup;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
+import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
@@ -669,23 +670,17 @@ public class EuclidianStyleBarW extends StyleBarW
 		
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButtonForEV(
-			AppResources.INSTANCE.axes(),
-			iconHeight);
+		btnShowAxes = new MyToggleButtonForEV(StyleBarResources.INSTANCE.axes(), iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.addValueChangeHandler(this);
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButtonForEV(
-			AppResources.INSTANCE.grid(),
-			iconHeight);
+		btnShowGrid = new MyToggleButtonForEV(StyleBarResources.INSTANCE.grid(), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addValueChangeHandler(this);
 
-		btnStandardView = new MyToggleButtonForEV(
-			AppResources.INSTANCE.standard_view(),
-			iconHeight);
+		btnStandardView = new MyToggleButtonForEV(StyleBarResources.INSTANCE.standard_view(), iconHeight);
 		btnStandardView.addValueChangeHandler(this);
 
 		// ========================================
@@ -722,8 +717,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// ========================================
 		// eraser button
-		btnPenEraser = new MyToggleButton2(AppResources.INSTANCE.delete_small(),
-				iconHeight) {
+		btnPenEraser = new MyToggleButton2(AppResources.INSTANCE.delete_small(), iconHeight) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -873,7 +867,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		}; 
 
 		//it is not needed, must be an Image preloaded like others. 
-		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet(); 
+		ImageResource ptCaptureIcon = StyleBarResources.INSTANCE.magnet();
 		btnPointCapture.setIconSize(new GDimensionW(ptCaptureIcon.getWidth(), 
 				iconHeight)); 
 		//must be done in callback btnPointCapture.setIcon(ptCaptureIcon); 

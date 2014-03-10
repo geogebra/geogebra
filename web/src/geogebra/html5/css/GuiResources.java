@@ -145,6 +145,12 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-edit-paste.png")
 	ImageResource menu_icon_edit_paste();
 	
+	@Source("icons/png/web/menu_icons/menu-perspectives.png")
+	ImageResource menu_icon_perspectives();
+	
+	@Source("icons/png/web/menu_icons/menu-perspectives-algebra.png")
+	ImageResource menu_icon_perspectives_algebra();
+	
 	@Source("icons/png/web/menu_icons/menu-view.png")
 	ImageResource menu_icon_view();
 	
@@ -162,9 +168,6 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/menu_icons/menu-options-language.png")
 	ImageResource menu_icon_options_language();
-	
-	@Source("icons/png/web/menu_icons/menu-perspectives-algebra.png")
-	ImageResource menu_icon_perspectives_algebra();
 	
 	@Source("icons/png/web/menu_icons/menu-perspectives-basic-geometry.png")
 	ImageResource menu_icon_perspectives_basic_geometry();
