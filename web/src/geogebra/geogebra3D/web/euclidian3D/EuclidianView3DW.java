@@ -17,6 +17,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
+import geogebra.html5.javax.swing.GBoxW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.MyEuclidianViewPanel;
 import geogebra.web.main.AppW;
@@ -62,7 +63,9 @@ public class EuclidianView3DW extends EuclidianView3D {
 	public EuclidianView3DW(EuclidianController3D ec, EuclidianSettings settings) {
 	    super(ec, settings);
 	    
-	    initBaseComponents(EVPanel, ec);
+	    initBaseComponents(EVPanel, ec);    
+
+		initView(true);
 	    
     }
 	
@@ -91,13 +94,15 @@ public class EuclidianView3DW extends EuclidianView3D {
 		}
 		
 		canvas.addBlurHandler(new BlurHandler() {
-			public void onBlur(BlurEvent be) {
+			@Override
+            public void onBlur(BlurEvent be) {
 				focusLost();
 			}
 		});
 		
 		canvas.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent fe) {
+			@Override
+            public void onFocus(FocusEvent fe) {
 				focusGained();
 			}
 		});
@@ -247,56 +252,32 @@ public class EuclidianView3DW extends EuclidianView3D {
 		
 	}
 
-	public void repaint() {
+	@Override
+    public void repaint() {
 	    // TODO Auto-generated method stub
 	    
     }
 
 
 
-	public GColor getBackgroundCommon() {
+	@Override
+    public GColor getBackgroundCommon() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
 
 
 
-	public void setToolTipText(String plainTooltip) {
+	@Override
+    public void setToolTipText(String plainTooltip) {
 	    // TODO Auto-generated method stub
 	    
     }
 
 
 
-	public boolean hasFocus() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-
-
-	public void requestFocus() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-
-
-	public int getWidth() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-
-
-	public int getHeight() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-
-
-	public boolean isShowing() {
+	@Override
+    public boolean hasFocus() {
 	    // TODO Auto-generated method stub
 	    return false;
     }
@@ -304,8 +285,42 @@ public class EuclidianView3DW extends EuclidianView3D {
 
 
 	@Override
+    public void requestFocus() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+	@Override
+    public int getWidth() {
+		return this.g2p.getCoordinateSpaceWidth();
+    }
+
+
+
+	@Override
+    public int getHeight() {
+		return this.g2p.getCoordinateSpaceHeight();
+    }
+
+
+
+	@Override
+    public final boolean isShowing() {
+	  	return
+	  			g2p != null &&
+	  			g2p.getCanvas() != null &&
+	  			g2p.getCanvas().isAttached() &&
+	  			g2p.getCanvas().isVisible();
+    }
+
+
+
+	@Override
     protected void createPanel() {
 		EVPanel = newMyEuclidianViewPanel();
+		
     }
 
 
@@ -351,7 +366,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 
 	@Override
     protected void setHeight(int h) {
-	    // TODO Auto-generated method stub
+		//TODO: not clear what should we do
 	    
     }
 
@@ -359,7 +374,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 
 	@Override
     protected void setWidth(int h) {
-	    // TODO Auto-generated method stub
+		//TODO: not clear what should we do
 	    
     }
 
@@ -415,17 +430,22 @@ public class EuclidianView3DW extends EuclidianView3D {
 
 	@Override
     public void setBackground(GColor bgColor) {
-	    // TODO Auto-generated method stub
-	    
+		if (bgColor != null){
+			this.bgColor = bgColor;
+			if (renderer!=null){
+				renderer.setWaitForUpdateClearColor();
+			}
+		}	    
     }
 
 
 
 	@Override
     public void setPreferredSize(GDimension preferredSize) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	    g2p.setPreferredSize(preferredSize);
+	    updateSize();
+	    setReIniting(false);
+	}
 
 
 
@@ -439,16 +459,19 @@ public class EuclidianView3DW extends EuclidianView3D {
 
 	@Override
     public void add(GBox box) {
-	    // TODO Auto-generated method stub
-	    
+		if (EVPanel != null)
+			EVPanel.getAbsolutePanel().add(
+	    		GBoxW.getImpl(box),
+	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
     }
 
 
 
 	@Override
     public void remove(GBox box) {
-	    // TODO Auto-generated method stub
-	    
+		if (EVPanel != null)
+			EVPanel.getAbsolutePanel().remove(
+	    		GBoxW.getImpl(box));
     }
 
 
@@ -466,6 +489,17 @@ public class EuclidianView3DW extends EuclidianView3D {
 	    // TODO Auto-generated method stub
 	    return null;
     }
+	
+	
+	@Override
+    public int getAbsoluteTop() {
+		return g2p.getAbsoluteTop();
+	}
+	
+	@Override
+    public int getAbsoluteLeft() {
+		return g2p.getAbsoluteLeft();
+	}
 
 	
 }

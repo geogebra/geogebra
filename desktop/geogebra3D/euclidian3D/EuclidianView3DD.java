@@ -56,7 +56,8 @@ public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewIn
 	public EuclidianView3DD(EuclidianController3D ec, EuclidianSettings settings){
 
 		super(ec, settings);
-		
+
+		initView(false);
 	}
 	
 	private Component canvas;

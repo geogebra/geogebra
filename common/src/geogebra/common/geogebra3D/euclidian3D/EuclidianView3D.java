@@ -284,7 +284,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		start();
 
-		initView(false);
 	}
 
 	@Override

@@ -86,6 +86,14 @@ public class PointerEvent extends AbstractEvent {
 	public boolean isRightClick() {
 		return this.right;
 	}
+	
+	/**
+	 * set is (or isn't) right click
+	 * @param flag value
+	 */
+    public void setIsRightClick(boolean flag){
+		this.right = flag;
+	}
 
 	@Override
 	public boolean isShiftDown() {

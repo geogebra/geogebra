@@ -65,7 +65,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	private long lastMoveEvent = 0;
 	private AbstractEvent waitingTouchMove = null;
-	private AbstractEvent waitingMouseMove = null;
+	private PointerEvent waitingMouseMove = null;
 	
 	public EnvironmentStyleW style; 
 	
@@ -298,6 +298,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 	
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
+	private static boolean DRAGMODE_IS_RIGHT_CLICK = false;
 	private int deltaSum = 0;
 
 	public void onMouseWheel(MouseWheelEvent event) {
@@ -355,7 +356,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return;
 		}
 		
-		AbstractEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
+		PointerEvent e = PointerEvent.wrapEvent(event.getNativeEvent(),this);
 		event.preventDefault();
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
@@ -375,11 +376,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		onMouseMoveNow(e,time);
 	}
 
-	public void onMouseMoveNow(AbstractEvent event,long time) {
+	public void onMouseMoveNow(PointerEvent event,long time) {
 		this.lastMoveEvent = time;
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
 			 wrapMouseMoved(event);
 		 } else {
+			 event.setIsRightClick(DRAGMODE_IS_RIGHT_CLICK);
 			 wrapMouseDragged(event);
 		 }
 		 event.release();
@@ -433,6 +435,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
+			DRAGMODE_IS_RIGHT_CLICK = e.isRightClick();
 		}
 		
 		wrapMousePressed(e);
