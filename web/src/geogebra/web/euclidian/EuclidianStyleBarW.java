@@ -689,7 +689,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		LineStylePopup.setMode(mode);
 		EuclidianLineStylePopup.fillData(iconHeight);
-		btnLineStyle = new EuclidianLineStylePopup((AppW) app, LineStylePopup.getLineStyleIcons(), -1, 1,
+		btnLineStyle = new EuclidianLineStylePopup((AppW) app, LineStylePopup.getLineStyleIcons(), -1, 5,
 				 geogebra.common.gui.util.SelectionTable.MODE_ICON,
 				true, true);
 
