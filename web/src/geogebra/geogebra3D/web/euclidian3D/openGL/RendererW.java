@@ -35,7 +35,6 @@ public class RendererW extends Renderer{
     
     
     private Timer loopTimer;
-    private long lastTime, timeNow;
 
 
 	/**
@@ -55,12 +54,11 @@ public class RendererW extends Renderer{
     	setView(0, 0, 500, 500);
 
 
-    	lastTime = 0;
 
     	loopTimer = new Timer() {
     		@Override
     		public void run() {
-    			loop();
+    			drawScene();
     		}
     	}; 
     	loopTimer.scheduleRepeating(10);
@@ -68,19 +66,7 @@ public class RendererW extends Renderer{
 
     }
     
-	protected void loop() {
-		drawScene();
-		update();
-	}
 
-	private void update() {
-		timeNow = System.currentTimeMillis();
-		if (lastTime != 0) {
-			long elapsed = timeNow - lastTime;
-			//mesh.rotate(elapsed);
-		}
-		lastTime = timeNow; 
-	}
 
 	
 	
@@ -174,7 +160,7 @@ public class RendererW extends Renderer{
 	
 	
 	
-	private void drawScene() {
+	void drawScene() {
 
         glContext.clear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
          
@@ -185,30 +171,6 @@ public class RendererW extends Renderer{
         glContext.vertexAttribPointer(vertexPositionAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
         glContext.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 3);
 	}
-	
-	
-	private float[] createPerspectiveMatrix(int fieldOfViewVertical, float aspectRatio, float minimumClearance, float maximumClearance) {
-        float top    = minimumClearance * (float)Math.tan(fieldOfViewVertical * Math.PI / 360.0);
-        float bottom = -top;
-        float left   = bottom * aspectRatio;
-        float right  = top * aspectRatio;
-
-        float X = 2*minimumClearance/(right-left);
-        float Y = 2*minimumClearance/(top-bottom);
-        float A = (right+left)/(right-left);
-        float B = (top+bottom)/(top-bottom);
-        float C = -(maximumClearance+minimumClearance)/(maximumClearance-minimumClearance);
-        float D = -2*maximumClearance*minimumClearance/(maximumClearance-minimumClearance);
-
-        return new float[]{     X, 0.0f, A, 0.0f,
-                                                0.0f, Y, B, 0.0f,
-                                                0.0f, 0.0f, C, -1.0f,
-                                                0.0f, 0.0f, D, 0.0f};
-	};
-	
-	
-	
-	
 	
 	
 	
