@@ -15,7 +15,6 @@ import geogebra.common.javax.swing.GBox;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
-import geogebra.geogebra3D.web.euclidian3D.openGL.RendererWebGL;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
@@ -220,7 +219,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 	 */
 	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements RequiresResize {
 		
-		private RendererWebGL renderer;
+		private RendererW renderer;
 		
 		/**
 		 * constructor
@@ -232,7 +231,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 		
 		@Override
         protected void createCanvas(){
-			renderer = new RendererWebGL();
+			renderer = (RendererW) getRenderer();
 			canvas = renderer.getGLCanvas();
 		}
 		
