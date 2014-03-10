@@ -931,7 +931,12 @@ public class Kernel {
 		}
 		StringType casPrintForm = tpl.getStringType();
 		switch (casPrintForm) {
-		// number formatting for XML string output
+		
+			// to avoid 1/3 = 0
+		case PGF:
+			return Double.toString(x);
+			
+			// number formatting for XML string output
 		case GEOGEBRA_XML:
 			if (isLongInteger) {
 				return Long.toString(rounded);
