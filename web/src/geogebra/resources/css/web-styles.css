@@ -266,7 +266,7 @@
 }
 
 .gwt-MenuBar .gwt-MenuItem-disabled, .gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
-	color: #c0c0c0;
+	color: #DCDCDC;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
@@ -1649,8 +1649,7 @@ Paddings for menuitems.
 }
 
 .SelectionTable .gwt-Label.borderButton {
-	border: 4px solid;
-	
+	border: 1px solid;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -1670,10 +1669,9 @@ Paddings for menuitems.
 }
 
 input[type="range"] {
-	width: 100%;
+	/*width: 100%;*/
 	margin: 0px;
 	padding: 5px 0px;
-	display: block;
 }
 
 .ApplicationPanel {
@@ -3336,20 +3334,6 @@ PROVIDERS
 }
 
 /*#####################################################################################
-###       ZOOM
-#####################################################################################*/
-
-.zoomed {
-	/*-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
-	width:125%;
-	height:125%;
-	-webkit-transform-origin:0% 0%;
-	-moz-transform-origin: 0% 0%;
-	transform-origin:0% 0%;*/
-}
-
-/*#####################################################################################
 ###       OBJECT PROPERTIES
 #####################################################################################*/
 
@@ -3391,4 +3375,30 @@ PROVIDERS
 	margin-right: 10px;
 }
 
-.objectProbertiesTab input
+.objectProbertiesTab input {
+	
+}
+
+/*#####################################################################################
+###       ZOOM
+#####################################################################################*/
+
+.zoomed {
+	/*-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
+	width:125%;
+	height:125%;
+	-webkit-transform-origin:0% 0%;
+	-moz-transform-origin: 0% 0%;
+	transform-origin:0% 0%;*/
+}
+
+html {
+	/*-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
+	width:125%;
+	height:125%;
+	-webkit-transform-origin:0% 0%;
+	-moz-transform-origin: 0% 0%;
+	transform-origin:0% 0%;*/
+}

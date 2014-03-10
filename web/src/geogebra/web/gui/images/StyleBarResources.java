@@ -70,6 +70,11 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_point-right.png")
 	ImageResource point_right();
 	
+	//TEXT
+	
+	@Source("icons/png/web/stylingbar/stylingbar_text_font_size.png")
+	ImageResource font_size();
+	
 	
 	
 	//ALGEBRA STYLEBAR

@@ -670,6 +670,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		// show axes button
 		btnShowAxes = new MyToggleButtonForEV(StyleBarResources.INSTANCE.axes(), iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
+		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
 		// ========================================
@@ -1041,7 +1042,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	private void createTextButtons() {
 		// ========================
 		// text color button
-		final GDimensionW textColorIconSize = new GDimensionW(20, iconHeight);
+		final GDimensionW textColorIconSize = new GDimensionW(24, iconHeight);
 
 		btnTextColor = new ColorPopupMenuButton((AppW) app, textColorIconSize,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
@@ -1171,6 +1172,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnTextSize.addActionListener(this);
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
+		btnTextSize.setIcon(GeoGebraIcon.createResourceImageIcon(app, StyleBarResources.INSTANCE.font_size(), 1, null));
 
 	}
 	

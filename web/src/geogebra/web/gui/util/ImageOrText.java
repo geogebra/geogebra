@@ -34,13 +34,13 @@ public class ImageOrText {
 		}
 		if(this.text != null){
 			button.setText(this.text);
+			//button.getElement().getStyle().setColor(GColor.getColorString(this.fgColor)); -> Exception?
 		}
 		if(this.fgColor != null){
 			button.getElement().getStyle().setBorderColor("rgba("+this.fgColor.getRed() +
 					", "+this.fgColor.getGreen()+", "+this.fgColor.getBlue()+", 1)");
 			button.getElement().addClassName("borderButton");
 			button.getElement().getStyle().setBackgroundColor(GColor.getColorString(this.fgColor));
-
 		}
 		if(this.bgColor != null){
 			button.getElement().getStyle().setBackgroundColor(GColor.getColorString(this.bgColor));
