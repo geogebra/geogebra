@@ -2443,6 +2443,7 @@ __GGB__keysVar.ca.plain = {
     "Name_textfield": "CampEntradaSortida",
     "Name_turtle": "tortuga",
     "NameAndValue": "Nom i valor",
+    "Net": "Net",
     "NewExpression": "Expressi\xf3 nova",
     "NewNameForA": "Nou nom per a %0",
     "NewerVersionA": "Est\xe0 disponible una versi\xf3 nova de GeoGebra.\nVoleu descarregar GeoGebra %0 ara ?",

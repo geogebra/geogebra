@@ -2443,6 +2443,7 @@ __GGB__keysVar.nl.plain = {
     "Name_textfield": "tekstveld",
     "Name_turtle": "Turtel",
     "NameAndValue": "Naam & waarde",
+    "Net": "Net",
     "NewExpression": "Nieuwe uitdrukking",
     "NewNameForA": "Nieuwe naam voor %0",
     "NewerVersionA": "Een recentere versie van GeoGebra is beschikbaar.\nWil jij de nieuwste versie van GeoGebra %0 nu downloaden?",

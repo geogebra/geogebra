@@ -2443,6 +2443,7 @@ __GGB__keysVar.tr.plain = {
     "Name_textfield": "MetinAlan\u0131",
     "Name_turtle": "kaplumba\u011fa",
     "NameAndValue": "Ad\u0131 & De\u011fer",
+    "Net": "Net",
     "NewExpression": "Yeni ifade",
     "NewNameForA": "%0 i\xe7in Yeni Ad",
     "NewerVersionA": "Yeni bir GeoGebra s\xfcr\xfcm\xfc mevcut.\n\u015eimdi GeoGebra %0 edinmek ister misiniz?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.zh_CN.plain = {
     "Name_textfield": "\u8f93\u5165\u6846",
     "Name_turtle": "\u6d77\u9f9f",
     "NameAndValue": "\u540d\u79f0\u4e0e\u6570\u503c",
+    "Net": "Net",
     "NewExpression": "\u65b0\u8868\u8fbe\u5f0f",
     "NewNameForA": "%0 \u7684\u65b0\u540d\u79f0",
     "NewerVersionA": "GeoGebra\u76ee\u524d\u6709\u65b0\u7684\u7248\u672c. \u73b0\u5728\u662f\u5426\u66f4\u65b0\u4e3aGeoGebra %0?",

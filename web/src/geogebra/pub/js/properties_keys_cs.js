@@ -2443,6 +2443,7 @@ __GGB__keysVar.cs.plain = {
     "Name_textfield": "pole",
     "Name_turtle": "zelva",
     "NameAndValue": "N\xe1zev & Hodnota",
+    "Net": "Net",
     "NewExpression": "Nov\xe9 v\xfdrazy",
     "NewNameForA": "Nov\xfd n\xe1zev pro %0",
     "NewerVersionA": "Nov\u011bj\u0161\xed verze GeoGebry je ji\u017e dostupn\xe1.\nChcete nyn\xed p\u0159ej\xedt na GeoGebru %0?",

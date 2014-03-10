@@ -2443,6 +2443,7 @@ __GGB__keysVar.is.plain = {
     "Name_textfield": "textareitur",
     "Name_turtle": "turtle",
     "NameAndValue": "Nafn og gildi",
+    "Net": "Net",
     "NewExpression": "N\xfd st\xe6\xf0a",
     "NewNameForA": "N\xfdtt nafn \xe1 %0",
     "NewerVersionA": "N\xfdrri \xfatg\xe1fa af GeoGebru er f\xe1anleg. Viltu hala ni\xf0ur GeoGebra %0 n\xfana?",

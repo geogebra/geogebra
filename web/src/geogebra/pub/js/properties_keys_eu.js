@@ -2443,6 +2443,7 @@ __GGB__keysVar.eu.plain = {
     "Name_textfield": "testueremua",
     "Name_turtle": "Dortoka",
     "NameAndValue": "Izena eta Balioa",
+    "Net": "Net",
     "NewExpression": "Adierazpen berria",
     "NewNameForA": "%0-(r)en izen berria",
     "NewerVersionA": "Geogebraren bertsio berriago bat eskuragarri duzu.\nHartu nahi duzu GeoGebra %0 orain?",

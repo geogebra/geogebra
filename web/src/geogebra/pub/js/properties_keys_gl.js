@@ -2443,6 +2443,7 @@ __GGB__keysVar.gl.plain = {
     "Name_textfield": "campoDeTexto",
     "Name_turtle": "tartaruga",
     "NameAndValue": "Nome e valor",
+    "Net": "Net",
     "NewExpression": "Nova expresi\xf3n",
     "NewNameForA": "Novo nome para %0",
     "NewerVersionA": "Disponse dunha versi\xf3n m\xe1is recente de GeoGebra.\nDesexa instalar agora GeoGebra %0?",

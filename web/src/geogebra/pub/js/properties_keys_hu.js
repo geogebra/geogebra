@@ -2443,6 +2443,7 @@ __GGB__keysVar.hu.plain = {
     "Name_textfield": "beviteliMez\u0151",
     "Name_turtle": "tekn\u0151c",
     "NameAndValue": "N\xe9v & \xe9rt\xe9k",
+    "Net": "Net",
     "NewExpression": "\xdaj kifejez\xe9s",
     "NewNameForA": "\xdaj n\xe9v %0-nak/-nek",
     "NewerVersionA": "A GeoGebra \xfajabb verzi\xf3ja \xe9rhet\u0151 el.\nSzeretn\xe9d most a GeoGebra %0-t haszn\xe1lni?",

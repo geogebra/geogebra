@@ -2443,6 +2443,7 @@ __GGB__keysVar.ja.plain = {
     "Name_textfield": "\u5165\u529b\u30dc\u30c3\u30af\u30b9",
     "Name_turtle": "turtle",
     "NameAndValue": "\u540d\u524d\u3068\u5024",
+    "Net": "Net",
     "NewExpression": "\u65b0\u898f\u306e\u6570\u5f0f",
     "NewNameForA": "%0 \u306e\u65b0\u898f\u306e\u540d\u524d",
     "NewerVersionA": "\u3088\u308a\u65b0\u3057\u3044\u30d0\u30fc\u30b8\u30e7\u30f3\u306e GeoGebra \u304c\u5229\u7528\u53ef\u80fd\u3067\u3059\u3002GeoGebra %0 \u3092\u4eca\u53d6\u5f97\u3057\u307e\u3059\u304b\uff1f",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.la.plain = {
     "Name_textfield": "inputBox",
     "Name_turtle": "turtle",
     "NameAndValue": "Name & Value",
+    "Net": "Net",
     "NewExpression": "New expression",
     "NewNameForA": "New name for %0",
     "NewerVersionA": "A newer version of GeoGebra is available.\nWould you like to get GeoGebra %0 now?",

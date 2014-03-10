@@ -2443,6 +2443,7 @@ __GGB__keysVar.et.plain = {
     "Name_textfield": "tekstiv\xe4li",
     "Name_turtle": "turtle",
     "NameAndValue": "T\xe4his ja v\xe4\xe4rtus",
+    "Net": "Net",
     "NewExpression": "Uus avaldis",
     "NewNameForA": "Objekti %0 uus t\xe4his",
     "NewerVersionA": "Eksisteerib GeoGebra uuem versioon.\nKas soovite n\xfc\xfcd hakata kasutama GeoGebra %0?",

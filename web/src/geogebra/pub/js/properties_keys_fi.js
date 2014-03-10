@@ -2443,6 +2443,7 @@ __GGB__keysVar.fi.plain = {
     "Name_textfield": "tekstikentt\xe4",
     "Name_turtle": "turtle",
     "NameAndValue": "Nimi ja arvo",
+    "Net": "Net",
     "NewExpression": "Uusi ilmaisu",
     "NewNameForA": "%0:n uusi nimi",
     "NewerVersionA": "GeoGebran uusi versio saatavilla.\nHaluatko ladata GeoGebra %0 nyt?",

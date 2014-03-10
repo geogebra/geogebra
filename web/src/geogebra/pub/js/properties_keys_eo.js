@@ -2443,6 +2443,7 @@ __GGB__keysVar.eo.plain = {
     "Name_textfield": "inputBox",
     "Name_turtle": "testudo",
     "NameAndValue": "Nomo kaj valoro",
+    "Net": "Net",
     "NewExpression": "Nova esprimo",
     "NewNameForA": "New name for %0",
     "NewerVersionA": "A newer version of GeoGebra is available.\nWould you like to get GeoGebra %0 now?",

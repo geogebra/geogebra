@@ -2443,6 +2443,7 @@ __GGB__keysVar.it.plain = {
     "Name_textfield": "campoInserimento",
     "Name_turtle": "tartaruga",
     "NameAndValue": "Nome e Valore",
+    "Net": "Sviluppo piano",
     "NewExpression": "Nuova espressione",
     "NewNameForA": "Nuovo nome di %0",
     "NewerVersionA": "\xc8 disponibile una nuova versione di GeoGebra.\nScaricare GeoGebra %0 ora?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.no_NB.plain = {
     "Name_textfield": "tekstfelt",
     "Name_turtle": "skilpadde",
     "NameAndValue": "Navn og verdi",
+    "Net": "Net",
     "NewExpression": "Nytt uttrykk",
     "NewNameForA": "Nytt navn for %0",
     "NewerVersionA": "En nyere versjon av GeoGebra er tilgjengelig.\nVil du hente GeoGebra %0 n\xe5?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.ms.plain = {
     "Name_textfield": "KotakInput",
     "Name_turtle": "turtle",
     "NameAndValue": "Nama & Nilai",
+    "Net": "Net",
     "NewExpression": "Ungkapan baru",
     "NewNameForA": "Nama baru untuk %0",
     "NewerVersionA": "Versi GeoGebra yang lebih baru wujud.\nInginkah anda memperolehi GeoGebra %0 sekarang?",

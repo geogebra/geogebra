@@ -2443,6 +2443,7 @@ __GGB__keysVar.in.plain = {
     "Name_textfield": "kotakmasukan",
     "Name_turtle": "kuraKura",
     "NameAndValue": "Nama & Nilai",
+    "Net": "Net",
     "NewExpression": "Ekspresi Baru",
     "NewNameForA": "Nama baru untuk %0",
     "NewerVersionA": "Versi terbaru GeoGebra telah tersedia.\nAnda ingin mendapatkan GeoGebra %0 sekarang?",

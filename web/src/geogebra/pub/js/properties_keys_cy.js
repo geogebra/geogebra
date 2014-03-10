@@ -2443,6 +2443,7 @@ __GGB__keysVar.cy.plain = {
     "Name_textfield": "BlwchMewnbwn",
     "Name_turtle": "turtle",
     "NameAndValue": "Enw a gwerth",
+    "Net": "Net",
     "NewExpression": "Mynegiad newydd",
     "NewNameForA": "Enw newydd ar %0",
     "NewerVersionA": "Mae fersiwn diweddarach o GeoGebra ar gael.\nA fynnwch chi lawrlwytho GeoGebra %0 nawr?",

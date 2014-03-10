@@ -2443,6 +2443,7 @@ __GGB__keysVar.bs.plain = {
     "Name_textfield": "tpolje",
     "Name_turtle": "kornja\u010da",
     "NameAndValue": "Ime&Vrijednost",
+    "Net": "Net",
     "NewExpression": "Novi izraz",
     "NewNameForA": "Novo ime za %0",
     "NewerVersionA": "Najnovija verzija GeoGebre je dostupna.\n\u017delite li preuzeti GeoGebra %0?",

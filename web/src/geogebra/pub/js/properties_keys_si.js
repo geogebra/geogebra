@@ -2443,6 +2443,7 @@ __GGB__keysVar.si.plain = {
     "Name_textfield": "inputBox",
     "Name_turtle": "turtle",
     "NameAndValue": "\u0db1\u0dcf\u0db8\u0dba \u0dc3\u0dc4 \u0d85\u0d9c\u0dba",
+    "Net": "Net",
     "NewExpression": "New expression",
     "NewNameForA": "%0 \u0dc3\u0daf\u0dc4\u0dcf \u0db1\u0dc0 \u0db1\u0dcf\u0db8\u0dba\u0d9a\u0dca",
     "NewerVersionA": "A newer version of GeoGebra is available.\nWould you like to get GeoGebra %0 now?",

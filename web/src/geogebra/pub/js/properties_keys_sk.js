@@ -2443,6 +2443,7 @@ __GGB__keysVar.sk.plain = {
     "Name_textfield": "textov\xe9Pole",
     "Name_turtle": "korytna\u010dka",
     "NameAndValue": "Pomenovanie a hodnota",
+    "Net": "Net",
     "NewExpression": "nov\xfd v\xfdraz",
     "NewNameForA": "Pomenovanie pre %0",
     "NewerVersionA": "Je dostupn\xe1 nov\u0161ia verzia GeoGebry.\nChcete dosta\u0165 teraz GeoGebru %0 ?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.sq.plain = {
     "Name_textfield": "KutiInputi",
     "Name_turtle": "breshke",
     "NameAndValue": "Emer dhe Vlere",
+    "Net": "Net",
     "NewExpression": "Shprehje e re",
     "NewNameForA": "Emer i Ri per %0",
     "NewerVersionA": "Nje version i ri i GjeoGjebres eshte ne dispozicion.\nA do deshironit te mmerrni GjeoGjebra %0 tani?",

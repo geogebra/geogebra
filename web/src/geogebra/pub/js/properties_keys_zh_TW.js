@@ -2443,6 +2443,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Name_textfield": "inputBox",
     "Name_turtle": "turtle",
     "NameAndValue": "\u540d\u7a31\u8207\u6578\u503c",
+    "Net": "Net",
     "NewExpression": "\u65b0\u6578\u5b78\u5f0f",
     "NewNameForA": "%0 \u7684\u65b0\u540d\u7a31",
     "NewerVersionA": "GeoGebra\u76ee\u524d\u6709\u65b0\u7684\u7248\u672c\n\u662f\u5426\u66f4\u65b0\u70baGeoGebra %0?",

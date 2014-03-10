@@ -2443,6 +2443,7 @@ __GGB__keysVar.sv.plain = {
     "Name_textfield": "Inmatningsf\xe4lt",
     "Name_turtle": "turtle",
     "NameAndValue": "Namn och V\xe4rde",
+    "Net": "Net",
     "NewExpression": "Nytt uttryck",
     "NewNameForA": "Nytt namn f\xf6r %0",
     "NewerVersionA": "En nyare version av GeoGebra \xe4r tillg\xe4nglig. \nVill du h\xe4mta GeoGebra %0 nu?",

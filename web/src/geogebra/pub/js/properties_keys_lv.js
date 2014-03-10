@@ -2443,6 +2443,7 @@ __GGB__keysVar.lv.plain = {
     "Name_textfield": "ievadesLauks",
     "Name_turtle": "turtle",
     "NameAndValue": "Nosaukums & V\u0113rt\u012bba",
+    "Net": "Net",
     "NewExpression": "Jauna izteiksme",
     "NewNameForA": "Jauns nosaukums priek\u0161 %0",
     "NewerVersionA": "Ir pieejama jaun\u0101ka GeoGebras versija\nVai Tu v\u0113lies lejupl\u0101d\u0113t GeoGebru %0 tagad?",

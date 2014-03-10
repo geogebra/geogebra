@@ -2443,6 +2443,7 @@ __GGB__keysVar.lt.plain = {
     "Name_textfield": "tekstolaukas",
     "Name_turtle": "v\u0117\u017eliukas",
     "NameAndValue": "Pavadinimas ir vert\u0117",
+    "Net": "Net",
     "NewExpression": "Nauja i\u0161rai\u0161ka",
     "NewNameForA": "%0 naujas pavadinimas",
     "NewerVersionA": "I\u0161leista nauja Geogebra versija.\nAr norite \u012fra\u0161yti GeoGebra %0 dabar?",

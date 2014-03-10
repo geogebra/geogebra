@@ -2443,6 +2443,7 @@ __GGB__keysVar.xh.plain = {
     "Name_textfield": "inputBox",
     "Name_turtle": "turtle",
     "NameAndValue": "Igama & Ixabiso",
+    "Net": "Net",
     "NewExpression": "iSiqwengaSesibalo esitsha",
     "NewNameForA": "iGama ilitsha lika %0",
     "NewerVersionA": "Isiqendu esitsha sikaJiyoJebra siyafumaneka.\nIngaba uyamfuna u JiyoJebra %0 ngoku?",

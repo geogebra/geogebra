@@ -2443,6 +2443,7 @@ __GGB__keysVar.vi.plain = {
     "Name_textfield": "HopChonDauVao",
     "Name_turtle": "turtle",
     "NameAndValue": "T\xean & Gi\xe1 tr\u1ecb",
+    "Net": "Net",
     "NewExpression": "Bi\u1ec3u th\u1ee9c m\u1edbi",
     "NewNameForA": "T\xean m\u1edbi c\u1ee7a %0",
     "NewerVersionA": "\u0110\xe3 c\xf3 phi\xean b\u1ea3n m\u1edbi h\u01a1n c\u1ee7a GeoGebra.\nB\u1ea1n c\xf3 mu\u1ed1n c\u1eadp nh\u1eadt GeoGebra %0 b\xe2y gi\u1edd kh\xf4ng?",

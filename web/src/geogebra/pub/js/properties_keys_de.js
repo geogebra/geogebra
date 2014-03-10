@@ -2443,6 +2443,7 @@ __GGB__keysVar.de.plain = {
     "Name_textfield": "Textfeld",
     "Name_turtle": "Schildkr\xf6te",
     "NameAndValue": "Name & Wert",
+    "Net": "Net",
     "NewExpression": "Neuer Ausdruck",
     "NewNameForA": "Neuer Name f\xfcr %0",
     "NewerVersionA": "Es ist eine neue Version von GeoGebra verf\xfcgbar.\nWollen Sie jetzt mit GeoGebra %0 arbeiten?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.ro.plain = {
     "Name_textfield": "c\u0103su\u021b\u0103Input",
     "Name_turtle": "turtle",
     "NameAndValue": "Nume \u015fi valoare",
+    "Net": "Net",
     "NewExpression": "Expresie nou\u0103",
     "NewNameForA": "Nume nou pentru %0",
     "NewerVersionA": "Exist\u0103 o nou\u0103 versiune de GeoGebra disponibil\u0103.\nDori\u021bi s\u0103 desc\u0103rca\u021bi GeoGebra %0 acum?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.tl.plain = {
     "Name_textfield": "inputBox",
     "Name_turtle": "pawikan",
     "NameAndValue": "Pangalan & Halaga",
+    "Net": "Net",
     "NewExpression": "Bagong ekspresyon",
     "NewNameForA": "Bagong pangalan para sa %0",
     "NewerVersionA": "Mayroon nang mas bagong bersyon ng GeoGebra.\nGusto mo na bang makuha ang GeoGebra %0?",

@@ -2443,6 +2443,7 @@ __GGB__keysVar.es_ES.plain = {
     "Name_textfield": "CajaDeEntrada",
     "Name_turtle": "tortuga",
     "NameAndValue": "Nombre y valor",
+    "Net": "Despliegue",
     "NewExpression": "Expresi\xf3n nueva",
     "NewNameForA": "Nuevo nombre para %0",
     "NewerVersionA": "Se dispone de una versi\xf3n m\xe1s reciente de GeoGebra.\n\xbfDeseas descargar ahora GeoGebra %0?",

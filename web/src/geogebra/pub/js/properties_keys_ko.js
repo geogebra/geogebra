@@ -2443,6 +2443,7 @@ __GGB__keysVar.ko.plain = {
     "Name_textfield": "\uc785\ub825\uc0c1\uc790",
     "Name_turtle": "\uac70\ubd81\uc774",
     "NameAndValue": "\uc774\ub984\uacfc \uac12",
+    "Net": "Net",
     "NewExpression": "\uc0c8\ub85c\uc6b4 \uc2dd",
     "NewNameForA": "%0 \uc5d0 \ub300\ud55c \uc0c8\ub85c\uc6b4 \uc774\ub984",
     "NewerVersionA": "\uc0c8\ub85c\uc6b4 \uc9c0\uc624\uc9c0\ube0c\ub77c \ubc84\uc804\uc774 \uc0ac\uc6a9 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uc9c0\uc624\uc9c0\ube0c\ub77c %0 \uc744(\ub97c) \ub2e4\uc6b4\ub85c\ub4dc \ubc1b\uc73c\uc2dc\uaca0\uc2b5\ub2c8\uae4c?",
