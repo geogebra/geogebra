@@ -5,6 +5,7 @@ import geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.GCheckBoxMenuItem;
 import geogebra.web.gui.menubar.GRadioButtonMenuItem;
 import geogebra.web.gui.util.MyToggleButton2;
@@ -127,7 +128,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()), false);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 		
-		btnGrid = new MyToggleButton2(AppResources.INSTANCE.grid());
+		btnGrid = new MyToggleButton2(StyleBarResources.INSTANCE.grid());
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
 		btnGrid.addClickHandler(new ClickHandler() {
 			
