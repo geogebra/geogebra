@@ -1627,12 +1627,34 @@ Paddings for menuitems.
 	border-color: #6666FF;
 }
 
-.MyCanvasButton .buttonContent,
+.MyCanvasButton .buttonContent {
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 24px;
+	height: 24px;
+}
+
 .SelectionTable .gwt-Label {
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 24px;
 	height: 24px;
+	text-align: center;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	padding: 3px;
+}
+
+.SelectionTable .gwt-Label.borderButton {
+	border: 4px solid;
+	
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .SelectionTable a {
