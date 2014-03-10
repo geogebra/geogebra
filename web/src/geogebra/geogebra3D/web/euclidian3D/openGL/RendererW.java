@@ -163,9 +163,9 @@ public class RendererW extends Renderer{
         vertexBuffer = glContext.createBuffer();
         glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
         float[] vertices = new float[]{
-                         0.0f,  1.0f,  -5.0f, // first vertex
-                        -1.0f, -1.0f,  -5.0f, // second vertex
-                         1.0f, -1.0f,  -5.0f  // third vertex
+                         0.0f,  0.0f,  0.0f, // first vertex
+                         1.0f,  0.0f,  0.0f, // second vertex
+                         0.0f,  1.0f,  0.0f  // third vertex
         };
         glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, Float32Array.create(vertices), WebGLRenderingContext.STATIC_DRAW);
 	

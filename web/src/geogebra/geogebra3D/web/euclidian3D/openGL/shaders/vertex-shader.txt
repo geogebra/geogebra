@@ -1,6 +1,7 @@
 attribute vec3 vertexPosition;
-uniform mat4 perspectiveMatrix;
+uniform mat4 projection;
+uniform mat4 modelview;
 void main(void)
 {
-  gl_Position = perspectiveMatrix * vec4(vertexPosition, 1.0);
+  gl_Position = projection * modelview * vec4(vertexPosition, 1.0);
 }
