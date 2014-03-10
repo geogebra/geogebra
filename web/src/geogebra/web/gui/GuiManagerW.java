@@ -1272,6 +1272,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	private ConstructionProtocolViewW constructionProtocolView;
 
+	private boolean oldDraggingViews;
+
 	public int getActiveToolbarId() {
 		return toolbarID;
 	}
@@ -1477,10 +1479,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    return draggingViews;
     }
 	
-	public void setDraggingViews(boolean draggingViews){
+	public void setDraggingViews(boolean draggingViews, boolean temporary){
+		if(!temporary){
+			this.oldDraggingViews = draggingViews;
+		}
 		this.draggingViews = draggingViews;
 		if(layout != null){
 			layout.getDockManager().enableDragging(draggingViews);
 		}
+	}
+	
+	public void refreshDraggingViews(){
+		layout.getDockManager().enableDragging(oldDraggingViews);
 	}
 }

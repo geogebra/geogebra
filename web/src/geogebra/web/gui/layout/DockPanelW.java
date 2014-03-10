@@ -421,6 +421,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarPanel.add(styleBarPanel);
 		titleBarPanel.add(dragButton);
 		
+		if(app.getGuiManager().isDraggingViews()){
+			enableDragging(true);
+		}
 
 		if (setlayout) {
 			setLayout(false);

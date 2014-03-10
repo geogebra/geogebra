@@ -60,7 +60,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 			@Override
             public void showStack(int index) {
 		        super.showStack(index);
-		        app.getGuiManager().setDraggingViews(index == 3 || index == 2);
+		        app.getGuiManager().setDraggingViews(index == 3 || index == 2, false);
 		    }
 		};
 		this.menuPanel.addStyleName("menuPanel");

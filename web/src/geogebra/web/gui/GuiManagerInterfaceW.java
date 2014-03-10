@@ -92,5 +92,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 
 	public boolean isDraggingViews();
 
-	public void setDraggingViews(boolean b);
+	public void setDraggingViews(boolean b, boolean temporary);
+
+	public void refreshDraggingViews();
 }

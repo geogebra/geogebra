@@ -124,7 +124,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		return glassPane;
 	}
 	
-	public void toggleMenu() {
+	public boolean toggleMenu() {
 		
 		if (this.menuClosed) {
 			//open menu
@@ -138,7 +138,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
 			this.dockPanel.forceLayout();
 			this.menuClosed = true;
+			return false;
 		}
+		return !menuClosed;
 	}
 
 }

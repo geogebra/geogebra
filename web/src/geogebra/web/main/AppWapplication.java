@@ -289,6 +289,12 @@ public class AppWapplication extends AppW {
 	
 	@Override
 	public void toggleMenu(){
-		appFrame.toggleMenu();
+		boolean menuOpen = appFrame.toggleMenu();
+		if(!menuOpen && this.getGuiManager()!=null){
+			this.getGuiManager().setDraggingViews(false, true);
+		}
+		if(menuOpen){
+			this.getGuiManager().refreshDraggingViews();
+		}
 	}
 }
