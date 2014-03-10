@@ -1358,7 +1358,7 @@ public abstract class Renderer {
 	 *            height
 	 * 
 	 */
-	protected void setView(int x, int y, int w, int h) {
+	public void setView(int x, int y, int w, int h) {
 		left = x - w / 2;
 		bottom = y - h / 2;
 		right = left + w;

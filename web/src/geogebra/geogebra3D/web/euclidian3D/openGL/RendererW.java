@@ -32,7 +32,6 @@ public class RendererW extends Renderer{
     private int vertexPositionAttribute;
     private WebGLBuffer vertexBuffer;
     
-    private int width, height;
     
     
     private Timer loopTimer;
@@ -53,7 +52,7 @@ public class RendererW extends Renderer{
     		Window.alert("Sorry, Your Browser doesn't support WebGL!");
     	}
 
-    	setDimension(500, 500);
+    	setView(0, 0, 500, 500);
 
 
     	lastTime = 0;
@@ -85,18 +84,14 @@ public class RendererW extends Renderer{
 
 	
 	
-	/**
-	 * set dimensions of the canvas
-	 * @param w width
-	 * @param h height
-	 */
-	public void setDimension(int w, int h){
-        webGLCanvas.setCoordinateSpaceWidth(w);
+
+	@Override
+    public void setView(int x, int y, int w, int h) {        
+		webGLCanvas.setCoordinateSpaceWidth(w);
         webGLCanvas.setCoordinateSpaceHeight(h);
         glContext.viewport(0, 0, w, h);
         
-        width = w;
-        height = h;
+        super.setView(x, y, w, h);
         
         start();
         
@@ -130,7 +125,8 @@ public class RendererW extends Renderer{
 	/**
 	 * init shaders
 	 */
-	public void initShaders() {
+	@Override
+    public void initShaders() {
         WebGLShader fragmentShader = getShader(WebGLRenderingContext.FRAGMENT_SHADER, Shaders.INSTANCE.fragmentShader().getText());
         WebGLShader vertexShader = getShader(WebGLRenderingContext.VERTEX_SHADER, Shaders.INSTANCE.vertexShader().getText());
 
@@ -179,10 +175,13 @@ public class RendererW extends Renderer{
 	
 	
 	private void drawScene() {
+
         glContext.clear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-        float[] perspectiveMatrix = createPerspectiveMatrix(45, (float) width/height, 0.1f, 1000);
-        WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "perspectiveMatrix");
-        glContext.uniformMatrix4fv(uniformLocation, false, perspectiveMatrix);
+         
+       	setView();
+    	
+        WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "modelview");
+        glContext.uniformMatrix4fv(uniformLocation, false, view3D.getToScreenMatrix().getForGL());        
         glContext.vertexAttribPointer(vertexPositionAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
         glContext.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 3);
 	}
@@ -508,10 +507,19 @@ public class RendererW extends Renderer{
     }
 
 	@Override
-    protected void setView() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void setView() {
+		
+		float[] projection = {
+                2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
+                0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
+                0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
+                0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
+        };
+
+        WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "projection");
+        glContext.uniformMatrix4fv(uniformLocation, false, projection);        
+
+	}
 
 	@Override
     protected void disableStencilLines() {
