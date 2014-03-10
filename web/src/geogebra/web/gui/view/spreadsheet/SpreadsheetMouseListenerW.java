@@ -13,7 +13,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.awt.GRectangle2DW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
@@ -49,7 +48,7 @@ public class SpreadsheetMouseListenerW implements
 	private RelativeCopy relativeCopy;
 
 	private boolean mouseIsDown = false;
-	private boolean editEnabled;
+	private final boolean editEnabled = true;
 
 	/*************************************************
 	 * Constructor
@@ -64,20 +63,22 @@ public class SpreadsheetMouseListenerW implements
 		this.editor = table.editor;
 
 		this.relativeCopy = new RelativeCopy(kernel);
-		this.editEnabled = checkIfEditEnabled();
 	}
 
-	private boolean checkIfEditEnabled() {
-		ArticleElement geogebraweb = app.getArticleElement();
-	    return (geogebraweb.getScaleX() == 1 && geogebraweb.getScaleY() == 1);
-    }
-
-	public static int getAbsoluteX(MouseEvent e) {
-		return e.getClientX() + Window.getScrollLeft();
+	public static int getAbsoluteX(MouseEvent e, AppW app) {
+		return (int) ((e.getClientX() + Window.getScrollLeft()) / 1.0);
+	}
+	
+	public int getAbsoluteX(MouseEvent e) {
+		return getAbsoluteX(e, app);
 	}
 
-	public static int getAbsoluteY(MouseEvent e) {
-		return e.getClientY() + Window.getScrollTop();
+	public static int getAbsoluteY(MouseEvent e, AppW app) {
+		return (int) ((e.getClientY() + Window.getScrollTop()) / 1.0);
+	}
+
+	public int getAbsoluteY(MouseEvent e) {
+		return getAbsoluteY(e, app);
 	}
 
 	public void onDoubleClick(DoubleClickEvent e) {

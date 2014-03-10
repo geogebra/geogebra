@@ -87,8 +87,8 @@ public class SpreadsheetColumnControllerW implements
 		isMouseDown = true;
 		e.preventDefault();
 
-		int x = SpreadsheetMouseListenerW.getAbsoluteX(e);
-		int y = SpreadsheetMouseListenerW.getAbsoluteY(e);
+		int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
+		int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
 		boolean metaDown = e.isControlKeyDown();// || e.isMetaKeyDown();//AppW.isControlDown(e);
 		boolean shiftDown = e.isShiftKeyDown();
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);//AppW.isRightClick(e);
@@ -169,7 +169,7 @@ public class SpreadsheetColumnControllerW implements
 				return;
 			}
 
-			GPoint p = table.getIndexFromPixel(SpreadsheetMouseListenerW.getAbsoluteX(e), SpreadsheetMouseListenerW.getAbsoluteY(e));
+			GPoint p = table.getIndexFromPixel(SpreadsheetMouseListenerW.getAbsoluteX(e, app), SpreadsheetMouseListenerW.getAbsoluteY(e, app));
 			if (p == null) {
 				return;
 			}
@@ -199,8 +199,8 @@ public class SpreadsheetColumnControllerW implements
 			//?//	return;
 			//?//}
 
-			int x = SpreadsheetMouseListenerW.getAbsoluteX(e);
-			int y = SpreadsheetMouseListenerW.getAbsoluteY(e);
+			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
+			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point == null) {
 				return;
@@ -295,8 +295,8 @@ public class SpreadsheetColumnControllerW implements
 			if (isResizing) {
 				return;
 			}
-			int x = SpreadsheetMouseListenerW.getAbsoluteX(e);
-			int y = SpreadsheetMouseListenerW.getAbsoluteY(e);
+			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
+			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				int column = point.getX();

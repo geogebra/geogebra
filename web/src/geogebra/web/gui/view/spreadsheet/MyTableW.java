@@ -1073,12 +1073,16 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		Element wt = this.getCellFormatter().getElement(row, column);
-
+		int offx = this.getAbsoluteLeft();
+		int offy = this.getAbsoluteTop();
+		int left = (int) ((wt.getAbsoluteLeft()-offx) / app.getArticleElement().getScaleX())+offx;
+		int top = (int) ((wt.getAbsoluteTop()-offy) / app.getArticleElement().getScaleY())+offy;
+		App.debug(left+"x"+top);
 		if (min) {
-			return new GPoint(wt.getAbsoluteLeft(), wt.getAbsoluteTop());
+			return new GPoint(left, top);
 		}
-		return new GPoint(wt.getAbsoluteLeft() + wt.getOffsetWidth(),
-		        wt.getAbsoluteTop() + wt.getOffsetHeight());
+		return new GPoint(left + wt.getOffsetWidth(),
+		        top + wt.getOffsetHeight());
 	}
 
 	protected GPoint getMinSelectionPixel() {

@@ -276,8 +276,8 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 		boolean shiftPressed = e.isShiftKeyDown();
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 
-		int x = SpreadsheetMouseListenerW.getAbsoluteX(e);
-		int y = SpreadsheetMouseListenerW.getAbsoluteY(e);
+		int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
+		int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
 
 		//?//if (!view.hasViewFocus())
 		//?//	((LayoutW) app.getGuiManager().getLayout()).getDockManager()
@@ -335,7 +335,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 			if (!app.letShowPopupMenu())
 				return;
 
-			GPoint p = table.getIndexFromPixel(SpreadsheetMouseListenerW.getAbsoluteX(e), SpreadsheetMouseListenerW.getAbsoluteY(e));
+			GPoint p = table.getIndexFromPixel(SpreadsheetMouseListenerW.getAbsoluteX(e, app), SpreadsheetMouseListenerW.getAbsoluteY(e, app));
 			if (p == null)
 				return;
 
@@ -393,8 +393,8 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler
 
 			// G.STURR 2010-1-9
 			// On mouse drag either resize or select a row
-			int x = SpreadsheetMouseListenerW.getAbsoluteX(e);
-			int y = SpreadsheetMouseListenerW.getAbsoluteY(e);
+			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
+			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
 			if (resizingRow >= 0) {
 				// resize row
 				int newHeight = y - mouseYOffset;
