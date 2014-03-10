@@ -1016,5 +1016,16 @@ public class PropertiesViewD extends
 		
 		return dockPanel.isVisible();
 	}
+	
+	
+	/**
+	 * @param geo
+	 *            GeoText to be updated
+	 */
+	public void updateTextEditor(GeoElement geo) {
+		if (objectPanel != null) {
+			((OptionsObjectD) objectPanel).updateTextEditor(geo);
+		}
+	}
 
 }

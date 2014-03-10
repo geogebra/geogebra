@@ -332,5 +332,12 @@ public class OptionsObjectD extends
 	public void setSelected(boolean flag){
 		isSelected = flag;
 	}
+	
+	/**
+	 * @param geo GeoText to be updated
+	 */
+	public void updateTextEditor(GeoElement geo){
+		propPanel.updateTextEditor(geo);;
+	}
 
 } // PropertiesDialog

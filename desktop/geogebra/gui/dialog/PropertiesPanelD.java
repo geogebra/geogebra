@@ -380,6 +380,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			scriptEditPanel.applyModifications();
 	}
 
+	/**
+	 * @param geo GeoText to be updated
+	 */
+	public void updateTextEditor(GeoElement geo){
+		GeoElement[] geos = {geo};
+		textEditPanel.update(geos);
+	}
+	
 	public void showSliderTab() {
 		tabs.setSelectedIndex(1);
 	}

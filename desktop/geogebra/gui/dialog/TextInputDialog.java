@@ -32,6 +32,7 @@ import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbolsLaTeX;
+import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -1155,6 +1156,11 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 			if (textPreviewer != null) {
 				textPreviewer.removePreviewGeoText();
 			}
+			
+		// update the PropertiesView text editor
+		if(app.getGuiManager().hasPropertiesView()){
+			((PropertiesViewD)app.getGuiManager().getPropertiesView()).updateTextEditor(editGeo);
+		}
 		}
 	}
 
