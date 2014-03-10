@@ -226,7 +226,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		
 		Log.debug("TEST: " + this.createSingularScript(translatedRestrictions));
 
-		// Falling back to use Reduce/Cali or Giac:
+		// Falling back to Giac:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		script = cas.getCurrentCAS().createLocusEquationScript( 
 				convertFloatsToRationals(CASTranslator.constructRestrictions(translatedRestrictions)),
@@ -275,6 +275,8 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 					append("),dp;").
 					append("short=0;ideal I=" + convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 					append(";def Gp=grobcov(I);list l=" + SingularWebService.getLocusCommand() + "(Gp);").
+					// If Gp is an empty list, then there is no locus, so that we return 0=-1.
+					append("if(size(l)==0){print(\"1,1,1\");exit;}").
 					append("poly pp=1; int i; for (i=1; i<=size(l); i++) { pp=pp*l[i][1][1]; }").
 					append("string s=string(pp);int sl=size(s);string pg=\"poly p=\"+s[2,sl-2];").
 					append("ring rr=0,(x,y),dp;execute(pg);").
