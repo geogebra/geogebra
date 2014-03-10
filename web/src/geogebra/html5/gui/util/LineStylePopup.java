@@ -16,18 +16,16 @@ public class LineStylePopup extends PopupMenuButton  {
 
 	private static HashMap<Integer, Integer> lineStyleMap;
 	private static int mode;
-	private static GDimensionW lineStyleIconSize;
 	private static ImageOrText [] lineStyleIcons = null;
 	public static void fillData(int iconHeight) {
 		
-		setLineStyleIconSize(new GDimensionW(80, iconHeight));
 		
 		Integer styleCount = LineStyleModel.getStyleCount();
 		setLineStyleIcons(new ImageOrText[styleCount]);
 		
 		for (int i = 0; i < styleCount; i++)
 			getLineStyleIcons()[i] = GeoGebraIcon.createLineStyleIcon(
-					i, 2, getLineStyleIconSize(), geogebra.common.awt.GColor.BLACK, null);
+					i, 2,  geogebra.common.awt.GColor.BLACK, null);
 		
 		lineStyleMap = new HashMap<Integer, Integer>();
 		
@@ -41,17 +39,14 @@ public class LineStylePopup extends PopupMenuButton  {
 		LineStylePopup.setMode(mode);
 		fillData(iconHeight);
 		return new LineStylePopup((AppW) app, getLineStyleIcons(), -1, 1,
-				getLineStyleIconSize(), geogebra.common.gui.util.SelectionTable.MODE_ICON,
+				 geogebra.common.gui.util.SelectionTable.MODE_ICON,
 				true, hasSlider);
 	}
 
-	private GDimensionW iconSize;
-
 	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, GDimensionW iconSize, SelectionTable mode,
+			Integer columns, SelectionTable mode,
 			boolean hasTable, boolean hasSlider) {
-		super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
-		this.iconSize = iconSize;
+		super(app, data, rows, columns, new GDimensionW(32,32), mode, hasTable, hasSlider);
 
 	}
 
@@ -65,14 +60,13 @@ public class LineStylePopup extends PopupMenuButton  {
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
 			return GeoGebraIcon.createLineStyleIcon(
-					LineStyleModel.getStyleAt(getSelectedIndex()),
-					this.getSliderValue(), iconSize,
+					getSelectedIndex(),
+					this.getSliderValue(), 
 					geogebra.common.awt.GColor.BLACK, null);
 
 		}
 
-		return GeoGebraIcon.createEmptyIcon(iconSize.getWidth(),
-				iconSize.getHeight());
+		return GeoGebraIcon.createEmptyIcon(32,32);
 	}
 
 	@Override 
@@ -80,12 +74,7 @@ public class LineStylePopup extends PopupMenuButton  {
 		int val = super.getSliderValue();
 		return val == -1 ? DEFAULT_SIZE : val;
 	}
-	public static GDimensionW getLineStyleIconSize() {
-	    return lineStyleIconSize;
-    }
-	public static void setLineStyleIconSize(GDimensionW lineStyleIconSize) {
-	    LineStylePopup.lineStyleIconSize = lineStyleIconSize;
-    }
+	
 	public static ImageOrText [] getLineStyleIcons() {
 		return lineStyleIcons;
     }

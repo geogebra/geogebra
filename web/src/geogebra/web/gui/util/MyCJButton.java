@@ -196,11 +196,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	public void setIcon(ImageOrText icon) {
 		this.icon = icon;
 		loadHandlerAllowed = false;
-		/*icon = ir;
-		buttonWidth = ir.getWidth();
-		buttonHeight = ir.getHeight();
-		button.setWidth(buttonWidth + "px");
-		button.setHeight(buttonHeight + "px");*/
 		icon.applyToLabel(buttonContent);
 		setDownState(false);
 	}

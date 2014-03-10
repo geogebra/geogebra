@@ -87,9 +87,9 @@ public class EuclidianStyleBarW extends StyleBarW
 		private LineStyleModel model;
 		
 		public EuclidianLineStylePopup(AppW app, ImageOrText[] data, Integer rows,
-                Integer columns, GDimensionW iconSize, SelectionTable mode,
+                Integer columns, SelectionTable mode,
                 boolean hasTable, boolean hasSlider) {
-	        super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
+	        super(app, data, rows, columns, mode, hasTable, hasSlider);
 	        model = new LineStyleModel(this);
 	        this.setKeepVisible(false);
 	        getMySlider().addChangeHandler(new ChangeHandler(){
@@ -110,9 +110,8 @@ public class EuclidianStyleBarW extends StyleBarW
 			}
 
 			boolean geosOK = model.checkGeos(); 
-
 			this.setVisible(geosOK);
-
+			
 			if (geosOK) {
 				setFgColor((GColorW) geogebra.common.awt.GColor.black);
 				model.updateProperties();
@@ -120,7 +119,6 @@ public class EuclidianStyleBarW extends StyleBarW
 				if (hasSlider()) {
 					setSliderValue(geo0.getLineThickness());
 				}
-
 				selectLineType(geo0.getLineType());
 				
 			}
@@ -692,7 +690,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		LineStylePopup.setMode(mode);
 		EuclidianLineStylePopup.fillData(iconHeight);
 		btnLineStyle = new EuclidianLineStylePopup((AppW) app, LineStylePopup.getLineStyleIcons(), -1, 1,
-				LineStylePopup.getLineStyleIconSize(), geogebra.common.gui.util.SelectionTable.MODE_ICON,
+				 geogebra.common.gui.util.SelectionTable.MODE_ICON,
 				true, true);
 
 		btnLineStyle.getMySlider().setMinimum(1);

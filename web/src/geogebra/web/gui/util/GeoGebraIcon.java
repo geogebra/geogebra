@@ -36,7 +36,7 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @param bgColor
 	 * @return Canvas with icon drawn
 	 */
-	public static ImageOrText createLineStyleIcon(int dashStyle, int thickness, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
+	public static ImageOrText createLineStyleIcon(int dashStyle, int thickness, GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		if(dashStyle >= lineStyleIcons.length){
 			return new ImageOrText();
