@@ -16,9 +16,8 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -42,7 +41,7 @@ public class PropertiesViewW extends
 
 		private PropertiesStyleBarW styleBar;
 
-		private MyTabLayoutPanel mainPanel;
+		private VerticalPanel mainPanel;
 
 	public PropertiesViewW(AppW app) {
 		super(app);
@@ -62,7 +61,7 @@ public class PropertiesViewW extends
 //		getStyleBar();
 		//add(getStyleBar(), BorderLayout.NORTH);
 
-		mainPanel = new MyTabLayoutPanel(30, Unit.PX);
+		mainPanel = new VerticalPanel();
 		mainPanel.add(((OptionPanelW) objectPanel).getWrappedPanel());
 		wrappedPanel.add(mainPanel);
 
@@ -302,24 +301,5 @@ public class PropertiesViewW extends
 	
 	public void updateFonts(){
 		getObjectPanel().updateGUI();
-	}
-	
-	private class MyTabLayoutPanel extends TabLayoutPanel {
-
-		public MyTabLayoutPanel(int splitterSize, Unit px) {
-	        super(splitterSize, px);
-        }
-		
-		@Override
-        public void onResize() { 
-			int width = mainPanel.getOffsetWidth() -  50;
-			if (width > 0) { 
-				/*plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
-				plotPanel.repaintView();
-				plotPanel.getEuclidianController().calculateEnvironment();
-				controlPanel.setWidth(width + "px");*/
-			}
-		}
-		
 	}
 }
