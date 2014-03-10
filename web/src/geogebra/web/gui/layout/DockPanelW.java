@@ -343,7 +343,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	FlowPanel titleBarPanel;
 	
 	Label titleBarLabel;
-	private PushButton dragButton;
+	private PushButton dragButton, closeButton;
 
 	private VerticalPanel componentPanel;
 
@@ -415,11 +415,22 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		dragButton = new PushButton(dragIcon);
 		dragButton.addDomHandler(this,MouseDownEvent.getType());
 		dragButton.setVisible(false);
+		
+		closeButton = new PushButton(closeIcon);
+		closeButton.setVisible(isStyleBarEmpty());
+		closeButton.addClickHandler(new ClickHandler(){
+
+			@Override
+            public void onClick(ClickEvent event) {
+	            app.getGuiManager().setShowView(false, DockPanelW.this.id);
+	            
+            }});
 
 		titleBarPanel.add(toggleStyleBarButton);
 		
 		titleBarPanel.add(styleBarPanel);
 		titleBarPanel.add(dragButton);
+		titleBarPanel.add(closeButton);
 		
 		if(app.getGuiManager().isDraggingViews()){
 			enableDragging(true);
@@ -1115,6 +1126,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			return;
 		}
 		dragButton.setVisible(drag);
+		closeButton.setVisible(drag || isStyleBarEmpty());
 		this.toggleStyleBarButton.setVisible(!drag);
 		if(drag){
 			this.styleBarPanel.setVisible(false);
@@ -1126,6 +1138,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		}
 	}
 	
+	public boolean isStyleBarEmpty() {
+	    return false;
+    }
+
+
 	public void onMouseDown(MouseDownEvent event) {
 
 		// No, we don't need this, but do nothing instead if building GUI is necessary

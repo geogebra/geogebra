@@ -66,4 +66,9 @@ public class PropertiesDockPanelW extends DockPanelW {
 			view.repaintView();
 		}
 	}
+	
+	@Override
+	public boolean isStyleBarEmpty(){
+		return true;
+	}
 }
