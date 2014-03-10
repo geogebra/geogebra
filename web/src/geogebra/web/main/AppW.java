@@ -48,6 +48,7 @@ import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
@@ -79,7 +80,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends AppWeb {
@@ -1514,7 +1514,7 @@ public abstract class AppW extends AppWeb {
 
 		// update layout
 		if (updateComponentTreeUI) {
-			((SplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
+			((ZoomSplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
 			//updateComponentTreeUI();
 		}
 

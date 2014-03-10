@@ -57,18 +57,18 @@ import com.google.gwt.user.client.ui.Widget;
  * {@example com.google.gwt.examples.SplitLayoutPanelExample}
  * </p>
  */
-public class MySplitLayoutPanel extends DockLayoutPanel {
+public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
   class HSplitter extends Splitter {
-    public HSplitter(Widget target, boolean reverse) {
-      super(target, reverse);
+    public HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
+      super(target, reverse, splitPanel);
       getElement().getStyle().setPropertyPx("width", splitterSize);
       setStyleName("gwt-SplitLayoutPanel-HDragger");
     }
 
     @Override
     protected int getAbsolutePosition() {
-      return getAbsoluteLeft();
+      return (int) (getAbsoluteLeft() * getZoom());
     }
 
     @Override
@@ -78,12 +78,12 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     protected int getEventPosition(Event event) {
-      return event.getClientX();
+      return (int) (event.getClientX() * getZoom());
     }
 
     @Override
     protected int getTargetPosition() {
-      return target.getAbsoluteLeft();
+      return (int) (target.getAbsoluteLeft() * getZoom());
     }
 
     @Override
@@ -107,13 +107,20 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
     private boolean toggleDisplayAllowed = false;
     private double lastClick = 0;
 
-    public Splitter(Widget target, boolean reverse) {
+	private ZoomSplitLayoutPanel splitPanel;
+
+    public Splitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       this.target = target;
       this.reverse = reverse;
+      this.splitPanel = splitPanel;
 
       setElement(Document.get().createDivElement());
       sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
           | Event.ONDBLCLICK);
+    }
+
+    public double getZoom(){
+    	return this.splitPanel.zoom;
     }
 
     @Override
@@ -266,15 +273,15 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
   }
 
   class VSplitter extends Splitter {
-    public VSplitter(Widget target, boolean reverse) {
-      super(target, reverse);
+    public VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
+      super(target, reverse, splitPanel);
       getElement().getStyle().setPropertyPx("height", splitterSize);
       setStyleName("gwt-SplitLayoutPanel-VDragger");
     }
 
     @Override
     protected int getAbsolutePosition() {
-      return getAbsoluteTop();
+      return (int) (getAbsoluteTop() * getZoom());
     }
 
     @Override
@@ -284,12 +291,12 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     protected int getEventPosition(Event event) {
-      return event.getClientY();
+      return (int) (event.getClientY() * getZoom());
     }
 
     @Override
     protected int getTargetPosition() {
-      return target.getAbsoluteTop();
+      return (int) (target.getAbsoluteTop() * getZoom());
     }
 
     @Override
@@ -308,13 +315,14 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
   private static Element glassElem = null;
 
   private final int splitterSize;
+  private double zoom;
 
   /**
    * Construct a new {@link SplitLayoutPanel} with the default splitter size of
    * 8px.
    */
-  public MySplitLayoutPanel() {
-    this(DEFAULT_SPLITTER_SIZE);
+  public ZoomSplitLayoutPanel(double zoom) {
+    this(DEFAULT_SPLITTER_SIZE, zoom);
   }
 
   /**
@@ -323,11 +331,11 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
    *
    * @param splitterSize the size of the splitter in pixels
    */
-  public MySplitLayoutPanel(int splitterSize) {
+  public ZoomSplitLayoutPanel(int splitterSize, double zoom) {
     super(Unit.PX);
     this.splitterSize = splitterSize;
     setStyleName("gwt-SplitLayoutPanel");
-
+    this.zoom = zoom;
     if (glassElem == null) {
       glassElem = Document.get().createDivElement();
       glassElem.getStyle().setPosition(Position.ABSOLUTE);
@@ -470,16 +478,16 @@ public class MySplitLayoutPanel extends DockLayoutPanel {
     Splitter splitter = null;
     switch (getResolvedDirection(layout.direction)) {
       case WEST:
-        splitter = new HSplitter(widget, false);
+        splitter = new HSplitter(widget, false, this);
         break;
       case EAST:
-        splitter = new HSplitter(widget, true);
+        splitter = new HSplitter(widget, true, this);
         break;
       case NORTH:
-        splitter = new VSplitter(widget, false);
+        splitter = new VSplitter(widget, false, this);
         break;
       case SOUTH:
-        splitter = new VSplitter(widget, true);
+        splitter = new VSplitter(widget, true, this);
         break;
       default:
         assert false : "Unexpected direction";

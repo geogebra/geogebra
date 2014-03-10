@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -16,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Florian Sonner, adapted by G.Sturr for web
  */
-public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
+public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponent {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,7 +81,7 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 	 * @param newOrientation
 	 */
 	public DockSplitPaneW(int newOrientation, AppW app) {
-
+		super(app.getArticleElement().getScaleX());
 		this.app = app;
 		setOrientation(newOrientation);
 		setResizeWeight(0.5);
