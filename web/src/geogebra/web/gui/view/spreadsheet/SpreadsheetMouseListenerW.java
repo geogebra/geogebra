@@ -66,7 +66,7 @@ public class SpreadsheetMouseListenerW implements
 	}
 
 	public static int getAbsoluteX(MouseEvent e, AppW app) {
-		return (int) ((e.getClientX() + Window.getScrollLeft()) / 1.0);
+		return (int) ((e.getClientX() + Window.getScrollLeft()) / app.getArticleElement().getScaleX());
 	}
 	
 	public int getAbsoluteX(MouseEvent e) {
@@ -74,7 +74,7 @@ public class SpreadsheetMouseListenerW implements
 	}
 
 	public static int getAbsoluteY(MouseEvent e, AppW app) {
-		return (int) ((e.getClientY() + Window.getScrollTop()) / 1.0);
+		return (int) ((e.getClientY() + Window.getScrollTop()) / app.getArticleElement().getScaleY());
 	}
 
 	public int getAbsoluteY(MouseEvent e) {

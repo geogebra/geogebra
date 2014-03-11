@@ -39,16 +39,27 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		this.kernel = kernel;
 
 		App.setCASVersionString("Giac/JS");
-
+		App.debug("starting CAS");
+		if(externalCAS()){
+			App.debug("switching to external");
+			CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+			this.jsLoaded = true;
+		}else 
 		// asynchronous initialization, runs update as callback
 		//try NaCl first
 		if (geogebra.html5.cas.giac.PNaCl.isEnabled()) {
-			geogebra.html5.cas.giac.PNaCl.get().initialize();;
+			geogebra.html5.cas.giac.PNaCl.get().initialize();
 		} else if(Browser.isFloat64supported() && !kernel.getApplication().isScreenshotGenerator()){
 			initialize();
 		}
+		
+		
 	}
 	
+	private native boolean externalCAS() /*-{
+	    return typeof $wnd.evalGeoGebraCASExternal == 'function';
+    }-*/;
+
 	@Override
 	public String evaluateCAS(String exp) {
 		if(!jsLoaded){
@@ -100,7 +111,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}
 
 	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
-		
+		if (typeof $wnd.evalGeoGebraCASExternal === 'function'){
+			return $wnd.evalGeoGebraCASExternal(s);
+		}
 		if (typeof Float64Array === 'undefined') {
 			$wnd.console.log("Typed arrays not supported, Giac won't work");
 			return "?";
