@@ -34,7 +34,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private Label title, date;
 	private Label sharedBy;
 	private final Material material;
-	private final AppWeb app;
+	private final AppW app;
 	
 	private HorizontalPanel confirmDeletePanel;
 	private StandardButton confirm;
@@ -50,10 +50,10 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 	MaterialListElement(final Material m, final AppWeb app, BrowseGUI bg) {
 		openButton = new StandardButton(
-				BrowseResources.INSTANCE.document_viewer(), app.getMenu("insert_worksheet"));
+				BrowseResources.INSTANCE.document_viewer(), "");
 		editButton = new StandardButton(
-				BrowseResources.INSTANCE.document_edit(), app.getMenu("Edit"));
-		this.app = app;
+				BrowseResources.INSTANCE.document_edit(), "");
+		this.app = (AppW) app;
 		this.material = m;
 		this.bg = bg;
 		this.setStyleName("browserFile");
@@ -84,6 +84,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 			}
 		}, ClickEvent.getType());
+		setLabels();
 	}
 
 	void materialSelected() {
@@ -174,11 +175,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.links.add(arrowPanel);
 
 		this.initEditButton();
-		if(((AppW) app).getLAF().isSmart()){
-			this.initWorksheetButton();
-		}else{
-			this.initOpenButton();
-		}
+		this.initOpenButton();
 	}
 
 	// Steffi: Delete not needed here
@@ -230,25 +227,11 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		});
 	}
 	
-	private void initWorksheetButton() {
-		this.links.add(this.openButton);
-		this.openButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				onEdit();
-				//TODO
-			}
-		});
-	}
-
 	void onOpen() {
-		openTubeWindow(material.getId());
+		app.getLAF().open(material.getId());
 	}
 
-	private native void openTubeWindow(int id)/*-{
-		$wnd.open("http://www.geogebratube.org/material/show/id/"+id);
-	}-*/;
+	
 	
 	private void markSelected() {
 		this.isSelected = true;
@@ -276,8 +259,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	void setLabels() {
-		this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA",
-				this.material.getAuthor()));
+		if(app.getLAF().isSmart()){
+			this.openButton.setText(app.getMenu("insert_worksheet"));
+		}else{
+			this.openButton.setText(app.getMenu("View"));
+		}
+		this.editButton.setText(app.getMenu("Edit"));
 	}
 
 	@Override

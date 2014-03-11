@@ -102,7 +102,7 @@ public class JSONparserGGT {
 		material.setShowInputbar(getBoolean(obj, "inputbar", false));
 		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
 		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
-		material.setBase64(getString(obj, "base64"));
+		material.setBase64(getString(obj, "ggbBase64"));
 		return material;
 	}
 

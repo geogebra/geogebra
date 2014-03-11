@@ -31,4 +31,12 @@ public class GLookAndFeel {
         });
 	}
 
+	public void open(int id) {
+	    openTubeWindow(id);
+    }
+	
+	private native void openTubeWindow(int id)/*-{
+		$wnd.open("http://www.geogebratube.org/material/show/id/"+id);
+	}-*/;
+
 }

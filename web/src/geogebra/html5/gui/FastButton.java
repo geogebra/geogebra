@@ -57,7 +57,7 @@ public abstract class FastButton extends CustomButton {
 		// I am not going to sink Mouse events since
 		// I don't think we will gain anything
 
-		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS); // Event.TOUCHEVENTS adds
+		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS ); // Event.TOUCHEVENTS adds
 														// all (Start, End,
 														// Cancel, Change)
 
@@ -145,6 +145,10 @@ public abstract class FastButton extends CustomButton {
 		case Event.ONMOUSEUP: {
 			// because Event.ONCLICK always came twice on desktop browsers oO
 			onClick(event);
+			event.stopPropagation();
+			break;
+		}
+		case Event.ONMOUSEDOWN: {
 			event.stopPropagation();
 			break;
 		}
