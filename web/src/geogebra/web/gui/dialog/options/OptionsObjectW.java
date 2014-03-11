@@ -3341,14 +3341,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 		if (geos != null && geos.length != 0) {
-			tabPanel.setVisible(true);
+			wrappedPanel.setVisible(true);
 			for (OptionsTab tab: tabs) {
 				tab.update(geos);
 			}
 
 
 		} else {
-			tabPanel.setVisible(false);
+			wrappedPanel.setVisible(false);
 			App.debug("No geos");
 		}
 
