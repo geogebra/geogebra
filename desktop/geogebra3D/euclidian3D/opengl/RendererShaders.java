@@ -5,7 +5,10 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.awt.GColor;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
+import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
@@ -16,8 +19,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -28,7 +29,7 @@ import javax.media.opengl.GLAutoDrawable;
  * @author mathieu
  *
  */
-public class RendererShaders extends RendererD {
+public class RendererShaders extends RendererD implements RendererShadersInterface {
 	
 	final static private int GLSL_ATTRIB_POSITION = 0; 
 	final static private int GLSL_ATTRIB_COLOR = 1; 
@@ -278,7 +279,7 @@ public class RendererShaders extends RendererD {
  
     }
 
-    
+    /*
     private void drawTriangle(float[] vertices, float[] normals, float[] colors, float[] textureCoords){
     	
     	//jogl.getGL2ES2().glUniform1i(jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
@@ -320,11 +321,11 @@ public class RendererShaders extends RendererD {
 		getTextures().removeTexture(texture);
         
     }
+    */
     
     
     
-    
-   public void loadVertexBuffer(FloatBuffer fbVertices, int length){
+   public void loadVertexBuffer(GLBuffer fbVertices, int length){
      	
     	
     	/////////////////////////////////////
@@ -335,7 +336,7 @@ public class RendererShaders extends RendererD {
 
         // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
         int numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
-        jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbVertices, GL.GL_STATIC_DRAW);
+        glBufferData(numBytes, fbVertices);
 
         // Associate Vertex attribute 0 with the last bound VBO
         jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION /* the vertex attribute */, 3,
@@ -354,8 +355,19 @@ public class RendererShaders extends RendererD {
 	   oneNormalForAllVertices = false;
 	   jogl.getGL2ES2().glUniform3f(normalLocation, 2,2,2);
    }
+   
+   /**
+    * push buffer data
+    * @param numBytes data size
+    * @param array buffer array
+    */
+   protected void glBufferData(int numBytes, GLBuffer fb){
+	   jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, ((GLBufferD) fb).getBuffer(), GL.GL_STATIC_DRAW);
 
-   public void loadNormalBuffer(FloatBuffer fbNormals, int length){
+   }
+
+
+   public void loadNormalBuffer(GLBuffer fbNormals, int length){
 
 	   if (fbNormals == null){ // no normals
 		   return;
@@ -377,7 +389,7 @@ public class RendererShaders extends RendererD {
 	   // Select the VBO, GPU memory data, to use for normals 
 	   jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
 	   int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
-	   jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbNormals, GL.GL_STATIC_DRAW);
+	   glBufferData(numBytes, fbNormals);
 
 	   // Associate Vertex attribute 1 with the last bound VBO
 	   jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /* 3 normal values used for each vertex */,
@@ -388,7 +400,7 @@ public class RendererShaders extends RendererD {
    }
    
    
-   public void loadTextureBuffer(FloatBuffer fbTextures, int length){
+   public void loadTextureBuffer(GLBuffer fbTextures, int length){
 
 	   if (fbTextures == null){		
 		   setCurrentGeometryHasNoTexture();
@@ -400,7 +412,7 @@ public class RendererShaders extends RendererD {
        // Select the VBO, GPU memory data, to use for normals 
        jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
        int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
-       jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbTextures, GL.GL_STATIC_DRAW);
+       glBufferData(numBytes, fbTextures);
 
        // Associate Vertex attribute 1 with the last bound VBO
        jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /* the texture attribute */, 2 /* 2 texture values used for each vertex */,
@@ -410,7 +422,7 @@ public class RendererShaders extends RendererD {
        jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
    }
    
-   public void loadColorBuffer(FloatBuffer fbColors, int length){
+   public void loadColorBuffer(GLBuffer fbColors, int length){
 
 	   if (fbColors == null){
 		   return;
@@ -421,7 +433,7 @@ public class RendererShaders extends RendererD {
        // Select the VBO, GPU memory data, to use for normals 
        jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
        int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
-       jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, fbColors, GL.GL_STATIC_DRAW);
+       glBufferData(numBytes, fbColors);
 
        // Associate Vertex attribute 1 with the last bound VBO
        jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR/* the color attribute */, 4 /* 4 color values used for each vertex */,
@@ -468,7 +480,7 @@ public class RendererShaders extends RendererD {
         setMatrixView(); 
  
         setLightPosition();     
-        setLight(GLlocal.GL_LIGHT0);
+        setLight(0);
 
         //drawing the cursor
         getGL().glEnable(GLlocal.GL_LIGHTING);
@@ -579,7 +591,7 @@ public class RendererShaders extends RendererD {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("geogebra3D/test.obj"));
 			writer.write("######## CREATED WITH GEOGEBRA ########");
 			
-			((ManagerShaders) getGeometryManager()).startObjFile(writer);
+			((ManagerShadersObj) getGeometryManager()).startObjFile(writer);
 			
 	    	App.debug("=== Creating .OBJ === ");
 	    	drawable3DLists.drawInObjFormat(this);
@@ -668,6 +680,7 @@ public class RendererShaders extends RendererD {
         jogl.getGL2ES2().glUseProgram(shaderProgram);
     }
     
+    /*
     private void drawSample(){
 
         // texture
@@ -757,7 +770,7 @@ public class RendererShaders extends RendererD {
        drawTriangle(vertices3, normals4, colors3, textureCoords);
 
     }
-
+*/
     
     private void releaseVBOs(){
     	jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow release of vertex position memory
@@ -1214,7 +1227,7 @@ public class RendererShaders extends RendererD {
 
 	@Override
 	protected void setColorMaterial() {
-		// TODO Auto-generated method stub
+		getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
 		
 	}
 
@@ -1505,7 +1518,9 @@ public class RendererShaders extends RendererD {
 		return texturesEnabled;
 	}
 
-    
+    public void setLineWidth(int width){
+    	getGL().glLineWidth(width);
+    }   
 
 
 }

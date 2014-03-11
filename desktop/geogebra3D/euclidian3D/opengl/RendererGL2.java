@@ -395,6 +395,7 @@ public class RendererGL2 extends RendererD {
 	protected void setColorMaterial() {
 		jogl.getGL2().glColorMaterial(GLlocal.GL_FRONT_AND_BACK,
 				GLlocal.GL_AMBIENT_AND_DIFFUSE);
+		getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
 	}
 
 	@Override
@@ -566,5 +567,10 @@ public class RendererGL2 extends RendererD {
 	final public void disableTextures() {
 		getGL().glDisable(GLlocal.GL_TEXTURE_2D);
 	}
+	
+    @Override
+	public void setLineWidth(int width){
+    	jogl.getGL2().glLineWidth(width);
+    }   
 
 }

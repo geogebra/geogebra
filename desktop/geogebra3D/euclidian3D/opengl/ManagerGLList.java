@@ -3,8 +3,6 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import javax.media.opengl.glu.GLU;
@@ -180,11 +178,7 @@ public class ManagerGLList extends ManagerD {
 		renderer.jogl.getGL2().glCallList(index);
 	}
 	
-	@Override
-	public void drawInObjFormat(GeoElement geo, int index){
-		App.error(".obj format not possible with this manager");
-	}
-	
+
 	@Override
 	protected void texture(float x, float y){		
 		renderer.jogl.getGL2().glTexCoord2f(x,y);	
@@ -233,10 +227,6 @@ public class ManagerGLList extends ManagerD {
 		renderer.jogl.getGL2().glColor4f(r,g,b,a);
 	}
 	
-	@Override
-	protected void lineWidth(float width){
-		renderer.jogl.getGL2().glLineWidth(width);
-	}
 	
 	@Override
 	protected void pointSize(float size){

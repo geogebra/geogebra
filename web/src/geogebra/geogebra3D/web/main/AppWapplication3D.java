@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
+import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
 import geogebra.geogebra3D.web.kernel3D.Kernel3DW;
 import geogebra.html5.util.ArticleElement;
@@ -101,6 +102,14 @@ public class AppWapplication3D extends AppWapplication {
 	    	getEuclidianView3D().getEuclidianController().calculateEnvironment();
 	    }
     }
+	
+	
+	@Override
+    protected void initFactories(){
+		
+		super.initFactories();
+		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryW();
+	}
 	
 
 }

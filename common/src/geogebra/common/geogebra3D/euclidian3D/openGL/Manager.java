@@ -4,6 +4,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 
 /**
  * Class that manage all geometry objects
@@ -244,7 +245,14 @@ abstract public class Manager {
 	
 	abstract public void draw(int index);
 	
-	abstract public void drawInObjFormat(GeoElement geo, int index);
+	/**
+	 * draw  in object format
+	 * @param geo geo
+	 * @param index index
+	 */
+	public void drawInObjFormat(GeoElement geo, int index){
+		App.error(".obj format not possible with this manager");
+	}
 	
 	abstract public void remove(int index);
 
@@ -320,7 +328,9 @@ abstract public class Manager {
 	 * set the line width (for GL_LINE rendering)
 	 * @param width width
 	 */
-	abstract protected void lineWidth(float width);
+	final protected void lineWidth(float width){
+		getRenderer().setLineWidth(width);
+	}
 	
 	/**
 	 * set the point size (for GL_POINT rendering)

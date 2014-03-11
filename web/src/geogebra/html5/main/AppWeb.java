@@ -145,7 +145,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	    return SwingFactory.getPrototype();
     }
 	
-	protected static void initFactories()
+	protected void initFactories()
 	{
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.html5.factories.FormatFactoryW();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.html5.factories.AwtFactoryW();

@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -116,6 +117,143 @@ public abstract class Renderer {
 	 * re-calc the display immediately
 	 */
 	abstract public void display();
+	
+
+	/**
+	 * 
+	 */
+	protected void updateViewAndDrawables(){
+
+        view3D.update();
+        view3D.updateOwnDrawablesNow();
+        
+        // update 3D drawables
+        drawable3DLists.updateAll();
+
+    	// say that 3D view changed has been performed
+        view3D.resetViewChanged();
+	}
+
+	/**
+	 * draw the scene
+	 */
+	protected void drawScene(){
+    	
+    	//update 3D controller
+    	((EuclidianController3D) view3D.getEuclidianController()).updateInput3D();
+    	       
+        useShaderProgram();
+        
+        //picking        
+        if(waitForPick){
+        	doPick();        	
+        }
+        	
+        
+        //clip planes
+        if (waitForUpdateClipPlanes){
+        	//Application.debug(enableClipPlanes);
+        	if (enableClipPlanes)
+        		enableClipPlanes();
+        	else
+        		disableClipPlanes();
+        	waitForUpdateClipPlanes=false;
+        }
+                
+        //update 3D controller
+        ((EuclidianController3D) view3D.getEuclidianController()).update();
+        
+
+        
+        // update 3D view and drawables
+        updateViewAndDrawables();
+
+        
+        if (waitForSetStencilLines){
+        	setStencilLines();
+        }
+        
+        if (waitForDisableStencilLines){
+        	disableStencilLines();
+        }
+
+        
+        if (waitForUpdateClearColor) {
+        	updateClearColor();
+        	waitForUpdateClearColor=false;
+        }
+        
+        //clear color buffer
+        clearColorBuffer();
+        
+        
+        if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
+ 
+        	//setStencilLines();
+
+
+        	clearDepthBuffer();
+
+
+        	//left eye
+        	if (view3D.isPolarized()){
+        		// draw where stencil's value is 0
+        		setStencilFunc(0);
+        	}
+
+        	eye=EYE_LEFT;
+        	setColorMask();
+        	setView();
+        	draw(); 
+        	
+
+        	//right eye
+           	if (view3D.isPolarized()){
+        		// draw where stencil's value is 1
+           		setStencilFunc(1);
+        	}
+           	
+        	eye=EYE_RIGHT;
+        	setColorMask();
+        	clearDepthBuffer(); //clear depth buffer
+        	setView();
+        	draw(); 
+        	
+        } else {  
+        	clearDepthBuffer();
+        	setView();
+        	draw(); 
+        }
+        
+        // prepare correct color mask for next clear
+    	setColorMask(true,true,true,true);
+    	
+    	
+    	exportImage();
+    }
+    
+
+    /**
+     * clear color buffer
+     */
+    abstract protected void clearColorBuffer();
+
+
+    /**
+     * clear depth buffer
+     */
+    abstract protected void clearDepthBuffer();
+
+    /**
+    * set value for the stencil function (equal to value)
+    * @param value stencil value
+    */
+   abstract protected void setStencilFunc(int value);
+   
+   /**
+    * do export image if needed
+    */
+   abstract protected void exportImage();
 
 	/**
 	 * enable culling
@@ -1462,4 +1600,86 @@ public abstract class Renderer {
 	 */
 	abstract public void setTextureNearest();
 
+	
+    protected void init(){      
+
+        initShaders();
+               
+        
+        geometryManager = createManager();
+                    
+        
+        
+        //GL_LIGHT0 & GL_LIGHT1
+        float ambiant0 = 0.5f;
+        float diffuse0 = 1f-ambiant0; 
+        
+        float ambiant1 = 0.4f;
+        float diffuse1=0.7f;//1f-ambiant;
+        
+        setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
+                
+        
+        
+        
+        //material and light
+        setColorMaterial();
+        
+        
+        //setLight(GLlocal.GL_LIGHT0);        
+        setLightModel();        
+        enableLighting();
+        
+   
+        //common enabling
+        enableDepthTest();
+        setDepthFunc();
+		enablePolygonOffsetFill();
+        enableCulling();
+        
+        //blending
+        setBlendFunc();
+        enableBlending();
+        updateClearColor();
+               
+        setAlphaFunc();
+        
+               
+        //normal anti-scaling
+        enableNormalNormalized();
+        
+        //textures
+        textures.init();
+       
+        //reset euclidian view
+        view3D.reset();       
+        
+        //reset picking buffer
+        needsNewPickingBuffer = true;
+        
+       	// ensure that animation is on (needed when undocking/docking 3D view)
+        resumeAnimator();        
+
+    }  
+    
+    /**
+     * set the depth function
+     */
+    abstract protected void setDepthFunc();
+    
+    /**
+     * enable polygon offset fill
+     */
+    abstract protected void enablePolygonOffsetFill();
+    
+    
+    /**
+     * set the blend function
+     */
+    abstract protected void setBlendFunc();
+
+    /**
+     * enables normalization for normals
+     */
+    abstract protected void enableNormalNormalized();
 }

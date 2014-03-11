@@ -688,7 +688,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel());
 	}
 
-	private static void initFactories() {
+	/**
+	 * init factories
+	 */
+	protected void initFactories() {
 		geogebra.common.factories.AwtFactory.prototype = new AwtFactoryD();
 		geogebra.common.factories.FormatFactory.prototype = new FormatFactoryD();
 		geogebra.common.factories.LaTeXFactory.prototype = new LaTeXFactoryD();

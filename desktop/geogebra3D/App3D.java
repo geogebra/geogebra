@@ -45,6 +45,7 @@ import geogebra.main.GlobalKeyDispatcherD;
 import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
+import geogebra3D.euclidian3D.opengl.GLFactoryD;
 import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
@@ -523,6 +524,7 @@ public class App3D extends AppD {
 		GeoGebraFrame3D.createNewWindow3D(null);
 	}
 	
+	@Override
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 		
@@ -541,6 +543,7 @@ public class App3D extends AppD {
 	/**
 	 * only for 3D really. Overridden in App3D
 	 */
+	@Override
 	public void uploadToGeoGebraTubeOnCallback() {
 		
 		EuclidianView3D ev3D = getEuclidianView3D();
@@ -554,6 +557,14 @@ public class App3D extends AppD {
 		
 	}
 
+	
+	@Override
+	protected void initFactories() {
+		super.initFactories();
+		
+		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryD();
+		
+	}
 
 
 	

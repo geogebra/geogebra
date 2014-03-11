@@ -2,8 +2,12 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
@@ -23,7 +27,7 @@ import com.googlecode.gwtgl.binding.WebGLUniformLocation;
  * @author mathieu
  *
  */
-public class RendererW extends Renderer{
+public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	private WebGLRenderingContext glContext;
 	
@@ -50,23 +54,24 @@ public class RendererW extends Renderer{
     	if(glContext == null) {
     		Window.alert("Sorry, Your Browser doesn't support WebGL!");
     	}
-
-    	setView(0, 0, 500, 500);
-
-
-
-    	loopTimer = new Timer() {
-    		@Override
-    		public void run() {
-    			drawScene();
-    		}
-    	}; 
-    	loopTimer.scheduleRepeating(10);
-
-
+    	
+    	//setView(0, 0, 500, 500);
+    	
     }
     
+    
+    
+    @Override
+    protected void init(){ 
+    	
+    	super.init();
 
+		glContext.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glContext.clearDepth(1.0f);
+		glContext.enable(WebGLRenderingContext.DEPTH_TEST);
+		glContext.depthFunc(WebGLRenderingContext.LEQUAL);
+		initBuffers();
+    }
 
 	
 	
@@ -96,18 +101,26 @@ public class RendererW extends Renderer{
 		return webGLCanvas;
 	}
 	
-	
-	private void start() {
-        initShaders();
-        glContext.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glContext.clearDepth(1.0f);
-        glContext.enable(WebGLRenderingContext.DEPTH_TEST);
-        glContext.depthFunc(WebGLRenderingContext.LEQUAL);
-        initBuffers();
 
-        drawScene();
+	private void start() {
+
+		init();
+		
+		loopTimer = new Timer() {
+			@Override
+			public void run() {
+				drawScene();
+			}
+		}; 
+		loopTimer.scheduleRepeating(10);
+
 	}
 	
+	@Override
+    protected void updateViewAndDrawables(){
+		// to remove
+	}
+
 	/**
 	 * init shaders
 	 */
@@ -160,21 +173,39 @@ public class RendererW extends Renderer{
 	
 	
 	
-	void drawScene() {
+	@Override
+    protected void draw() {
 
-        glContext.clear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-         
-       	setView();
+       	//setView();
     	
-        WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "modelview");
-        glContext.uniformMatrix4fv(uniformLocation, false, view3D.getToScreenMatrix().getForGL());        
+		setMatrixView();
+        //WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "modelview");
+        //glContext.uniformMatrix4fv(uniformLocation, false, view3D.getToScreenMatrix().getForGL()); 
+		
         glContext.vertexAttribPointer(vertexPositionAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
         glContext.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 3);
 	}
 	
 	
 	
-	
+
+
+
+	@Override
+    protected void clearColorBuffer() {
+		glContext.clear(WebGLRenderingContext.COLOR_BUFFER_BIT);	    
+    }
+
+
+
+
+
+
+	@Override
+    protected void clearDepthBuffer() {
+		glContext.clear(WebGLRenderingContext.DEPTH_BUFFER_BIT);	    
+    }
+
 	
 	
 	
@@ -183,7 +214,7 @@ public class RendererW extends Renderer{
 
 	@Override
     protected Manager createManager() {
-	    return new ManagerW(this, view3D);
+	    return new ManagerShaders(this, view3D);
     }
 	
 	
@@ -305,8 +336,8 @@ public class RendererW extends Renderer{
 
 	@Override
     protected void setMatrixView() {
-	    // TODO Auto-generated method stub
-	    
+		WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "modelview");
+		 glContext.uniformMatrix4fv(uniformLocation, false, view3D.getToScreenMatrix().getForGL());     
     }
 
 	@Override
@@ -563,6 +594,165 @@ public class RendererW extends Renderer{
 
 	@Override
     public void setTextureNearest() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+
+	@Override
+    protected void setStencilFunc(int value) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+	@Override
+    protected void exportImage() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+	public void loadColorBuffer(GLBuffer fbColors, int length) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	public boolean areTexturesEnabled() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+
+
+
+
+
+
+	public void draw(Type type, int length) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	@Override
+    protected void setDepthFunc() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	@Override
+    protected void enablePolygonOffsetFill() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	@Override
+    protected void setBlendFunc() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+
+
+
+
+
+
+	@Override
+    protected void enableNormalNormalized() {
 	    // TODO Auto-generated method stub
 	    
     }
