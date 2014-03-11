@@ -62,7 +62,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     
     
     @Override
-    protected void init(){ 
+    public void init(){ 
     	
     	super.init();
 
@@ -104,8 +104,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	private void start() {
 
-		init();
-		
 		loopTimer = new Timer() {
 			@Override
 			public void run() {
@@ -116,10 +114,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	}
 	
+	/*
 	@Override
     protected void updateViewAndDrawables(){
 		// to remove
 	}
+	*/
 
 	/**
 	 * init shaders

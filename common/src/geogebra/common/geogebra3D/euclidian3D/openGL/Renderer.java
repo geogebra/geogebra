@@ -1600,8 +1600,10 @@ public abstract class Renderer {
 	 */
 	abstract public void setTextureNearest();
 
-	
-    protected void init(){      
+	/**
+	 * init the renderer
+	 */
+    public void init(){      
 
         initShaders();
                

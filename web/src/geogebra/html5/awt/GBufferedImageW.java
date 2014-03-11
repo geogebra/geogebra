@@ -93,6 +93,6 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 	
 	
 	public int[] getData(){ //TODO
-		return null;
+		return new int[impl.getWidth()*impl.getHeight()];
 	}
 }
