@@ -1,12 +1,11 @@
 package geogebra.touch.gui;
 
-import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
@@ -21,9 +20,6 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -125,19 +121,17 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.localList = this.fm.search(query);
 		GeoGebraTubeAPIW.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
-				query, new RequestCallback() {
+				query, new MaterialCallback() {
 					@Override
-					public void onError(final Request request,
-							final Throwable exception) {
+					public void onError(final Throwable exception) {
 						// FIXME implement Error Handling!
 						BrowseGUI.this.updateGUI();
 						exception.printStackTrace();
 					}
 
 					@Override
-					public void onResponseReceived(final Request request,
-							final Response response) {
-						App.debug(response.getText());
+					public void onLoaded(
+							final List<Material> response) {
 						onSearchResults(response);
 						updateViewSizes();
 					}
@@ -149,24 +143,23 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.localList = this.fm.getAllFiles();
 		GeoGebraTubeAPIW.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
-				.getFeaturedMaterials(new RequestCallback() {
+				.getFeaturedMaterials(new MaterialCallback() {
 					@Override
-					public void onError(final Request request,
+					public void onError(
 							final Throwable exception) {
 						BrowseGUI.this.updateGUI();
 					}
 
 					@Override
-					public void onResponseReceived(final Request request,
-							final Response response) {
+					public void onLoaded(final List<Material> response) {
 						onSearchResults(response);
 						updateViewSizes();
 					}
 				});
 	}
 
-	void onSearchResults(final Response response) {
-		this.tubeList = JSONparserGGT.parseResponse(response.getText());
+	void onSearchResults(final List<Material> response) {
+		this.tubeList = response;
 		this.updateGUI();
 	}
 

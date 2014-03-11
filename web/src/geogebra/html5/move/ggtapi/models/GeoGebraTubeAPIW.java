@@ -5,10 +5,13 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.common.util.HttpRequest;
+import geogebra.html5.util.ggtapi.JSONparserGGT;
 
+import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -39,7 +42,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 *          maximum Number of returned materials
 	 * @return List<Item> Search Results in a List of materials
 	 */
-	public void search(String query, RequestCallback callback)
+	public void search(String query, MaterialCallback callback)
 	{
 		performRequest(new MaterialRequest(query).toJSONString(), callback);
 	}
@@ -49,7 +52,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * 
 	 * @return List of materials
 	 */
-	public void getFeaturedMaterials(RequestCallback callback)
+	public void getFeaturedMaterials(MaterialCallback callback)
 	{
 		performRequest(MaterialRequest.forFeatured().toJSONString(), callback);
 	}
@@ -70,7 +73,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 * 
 	 * @param ID
 	 */
-	public void getItem(int id, RequestCallback callback)
+	public void getItem(int id, MaterialCallback callback)
 	{
 		// TODO add ID fetching of a specific material!
 		performRequest(new MaterialRequest(id).toJSONString(), callback);
@@ -109,6 +112,33 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	{
 		try
 		{
+			this.requestBuilder.sendRequest(requestString, callback);
+		}
+		catch (RequestException e)
+		{
+			// TODO Handle the error!
+			e.printStackTrace();
+		}
+	}
+	
+	protected void performRequest(String requestString, final MaterialCallback cb)
+	{
+		try
+		{
+			RequestCallback callback = new RequestCallback(){
+
+				@Override
+                public void onResponseReceived(Request request,
+                        Response response) {
+	                cb.onLoaded(JSONparserGGT.parseResponse(response.getText()));
+	                
+                }
+
+				@Override
+                public void onError(Request request, Throwable exception) {
+	                cb.onError(exception);
+	                
+                }};
 			this.requestBuilder.sendRequest(requestString, callback);
 		}
 		catch (RequestException e)
@@ -256,7 +286,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	    return true;
     }
 
-	public void getUsersMaterials(int userId, RequestCallback rc) {
+	public void getUsersMaterials(int userId, MaterialCallback rc) {
 		performRequest(MaterialRequest.forUser(userId).toJSONString(), rc);
     }
 }

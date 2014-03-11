@@ -7,7 +7,7 @@ import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
-import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 
 import java.util.ArrayList;
@@ -16,9 +16,6 @@ import java.util.List;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -96,10 +93,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 		this.lastQuery = query;
 		GeoGebraTubeAPIW.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
-				query, new RequestCallback() {
+				query, new MaterialCallback() {
 					@Override
-					public void onError(final Request request,
-							final Throwable exception) {
+					public void onError(final Throwable exception) {
 						// FIXME implement Error Handling!
 						BrowseGUI.this.updateGUI();
 						exception.printStackTrace();
@@ -107,9 +103,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 					}
 
 					@Override
-					public void onResponseReceived(final Request request,
-							final Response response) {
-						App.debug(response.getText());
+					public void onLoaded(final List<Material> response) {
 						onSearchResults(response);
 						updateViewSizes();
 					}
@@ -118,16 +112,15 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 
 	public void loadFeatured() {
 		this.lastQuery = null;
-		RequestCallback rc = new RequestCallback() {
+		MaterialCallback rc = new MaterialCallback() {
 			@Override
-			public void onError(final Request request,
+			public void onError(
 					final Throwable exception) {
 				BrowseGUI.this.updateGUI();
 			}
 
 			@Override
-			public void onResponseReceived(final Request request,
-					final Response response) {
+			public void onLoaded(final List<Material> response) {
 				onSearchResults(response);
 				updateViewSizes();
 			}
@@ -142,8 +135,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 		}
 	}
 
-	void onSearchResults(final Response response) {
-		this.tubeList = JSONparserGGT.parseResponse(response.getText());
+	void onSearchResults(final List<Material> response) {
+		this.tubeList = response;
 		this.updateGUI();
 	}
 
