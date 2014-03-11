@@ -1,5 +1,6 @@
 web
 webSimple
+web3d
 _*.ggb
 ggbloadworker
 mpreducejs
