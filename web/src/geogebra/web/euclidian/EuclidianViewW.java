@@ -194,6 +194,15 @@ public class EuclidianViewW extends EuclidianViewWeb {
 			return;
 		}
 		
+		if(app.getLAF().isSmart()){
+			SmartTouchHandler sh = new SmartTouchHandler(euclidiancontroller);
+			evPanel.addDomHandler(sh, TouchStartEvent.getType());
+			evPanel.addDomHandler(sh, TouchEndEvent.getType());
+			evPanel.addDomHandler(sh, TouchMoveEvent.getType());
+			evPanel.addDomHandler(sh, TouchCancelEvent.getType());
+			return;
+		}
+		
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());

@@ -232,14 +232,21 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
-			AbstractEvent first = PointerEvent.wrapEvent(event.getTouches().get(0),this);
-			AbstractEvent second = PointerEvent.wrapEvent(event.getTouches().get(1),this);
-			this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
-			first.release();
-			second.release();
+			twoTouchMove(targets.get(0),targets.get(1));
 		}
 	}
 	
+	void twoTouchMove(Touch touch, Touch touch2) {
+		AbstractEvent first = PointerEvent.wrapEvent(touch,this);
+		AbstractEvent second = PointerEvent.wrapEvent(touch2,this);
+		this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
+		first.release();
+		second.release();
+	    
+    }
+
+
+
 	private static double distance(final AbstractEvent t1, final AbstractEvent t2) {
 		return Math.sqrt(Math.pow(t1.getX() - t2.getX(), 2)
 				+ Math.pow(t1.getY() - t2.getY(), 2));
@@ -283,17 +290,30 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			e.release();
 		}
 		else if(targets.length() == 2){
-			AbstractEvent first = PointerEvent.wrapEvent(event.getTouches().get(0),this);
-			AbstractEvent second = PointerEvent.wrapEvent(event.getTouches().get(1),this);
-			this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
-			first.release();
-			second.release();
+			twoTouchStart(targets.get(0),targets.get(1));
 		}
+		preventTouchIfNeeded(event);
+	}
+	
+	void preventTouchIfNeeded(TouchStartEvent event) {
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
-	}
-	
+    }
+
+
+
+	void twoTouchStart(Touch touch, Touch touch2) {
+		AbstractEvent first = PointerEvent.wrapEvent(touch,this);
+		AbstractEvent second = PointerEvent.wrapEvent(touch2,this);
+		this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
+		first.release();
+		second.release();
+    }
+
+
+
+
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 	private int deltaSum = 0;
 
