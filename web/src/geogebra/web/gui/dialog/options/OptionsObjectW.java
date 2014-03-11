@@ -3127,6 +3127,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				app.setDefaultCursor();
 			}
 		});
+		tabPanel.setVisible(false);
 		updateGUI();
 		selectTab(0);
 

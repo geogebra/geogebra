@@ -1,7 +1,7 @@
 package geogebra.web.gui.properties;
 
-import geogebra.common.main.OptionType;
 import geogebra.common.main.App;
+import geogebra.common.main.OptionType;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
@@ -106,7 +106,7 @@ public class PropertiesStyleBarW extends
 			}
 		}
 		
-		this.wrappedPanel.add(toolbar);
+		this.getWrappedPanel().add(toolbar);
 	    
     }
 
@@ -117,7 +117,11 @@ public class PropertiesStyleBarW extends
 	    menu.clearItems();
 	    
 	    for (final OptionType type : OptionType.values()) {
-	    	final MenuItem mi = new PropertiesButton(getMenuHtml(type));
+	    	String typeHtml = getMenuHtml(type);
+	    	if (typeHtml == null) {
+	    		continue;
+	    	}
+	    	final MenuItem mi = new PropertiesButton(typeHtml);
 	    	mi.setCommand( 
 	    			new Command() {
 						
@@ -137,7 +141,8 @@ public class PropertiesStyleBarW extends
     }
 
 	private String getMenuHtml(OptionType type) {
-	    return GeoGebraMenubarW.getMenuBarHtml(getTypeIcon(type), propertiesView.getTypeString(type));
+		String typeString = propertiesView.getTypeString(type);
+	    return typeString != null ? GeoGebraMenubarW.getMenuBarHtml(getTypeIcon(type), typeString): null; 
     }
 	
 	private void setIcon(OptionType type, PopupMenuButton btn) {
@@ -182,4 +187,12 @@ public class PropertiesStyleBarW extends
 		}
 		return null;
     }
+
+
+
+	public PopupPanel getWrappedPanel() {
+	    return wrappedPanel;
+    }
+
+
 }

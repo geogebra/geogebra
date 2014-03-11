@@ -16,6 +16,8 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,15 +44,18 @@ public class PropertiesViewW extends
 		private PropertiesStyleBarW styleBar;
 
 		private VerticalPanel mainPanel;
+		private Label notImplemented;
+
+		private FlowPanel contentsPanel;
 
 	public PropertiesViewW(AppW app) {
 		super(app);
 	    this.wrappedPanel = new PopupPanel();
-	    
 	    app.setPropertiesView(this);
 	    
 	    app.setWaitCursor();   
-	    getOptionPanel(OptionType.OBJECTS);
+	    
+	    notImplemented = new Label("Not implemented");
 	    
 	    initGUI();
     }
@@ -59,12 +64,14 @@ public class PropertiesViewW extends
 
 		wrappedPanel.addStyleName("PropertiesViewW");
 //		getStyleBar();
-		//add(getStyleBar(), BorderLayout.NORTH);
 
 		mainPanel = new VerticalPanel();
-		mainPanel.add(((OptionPanelW) objectPanel).getWrappedPanel());
-		wrappedPanel.add(mainPanel);
+		mainPanel.add(getStyleBar().getWrappedPanel());
+		contentsPanel = new FlowPanel();
+		mainPanel.add(contentsPanel);
+	    wrappedPanel.add(mainPanel);
 
+	    setOptionPanel(OptionType.OBJECTS);
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
 		
@@ -178,7 +185,9 @@ public class PropertiesViewW extends
 	public void remove(GeoElement geo) {
 		// TODO Auto-generated method stub
 		App.debug("remove(geo)");
-	}
+	}	
+	
+
 
 	public void rename(GeoElement geo) {
 		// TODO Auto-generated method stub
@@ -210,7 +219,7 @@ public class PropertiesViewW extends
 	}
 
 	public void clearView() {
-		// TODO Auto-generated method stub
+		// TODO Auto-4generated method stub
 
 	}
 
@@ -238,8 +247,12 @@ public class PropertiesViewW extends
 
 	@Override
 	public void setOptionPanel(OptionType type) {
+		contentsPanel.clear();
+		OptionPanelW optionPanel = getOptionPanel(type);
+	    Widget wPanel = optionPanel.getWrappedPanel();
+	    notImplemented.setText(getTypeString(type) + " - Not implemented");
+	    contentsPanel.add(wPanel != null ? wPanel: notImplemented);
 		
-	
 	}
 	
 	@Override
