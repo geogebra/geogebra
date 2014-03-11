@@ -88,9 +88,9 @@ public interface GuiManagerInterface {
 
 	public void attachSpreadsheetView();
 
-	public void setShowView(boolean b, int viewSpreadsheet);
+	public void setShowView(boolean b, int viewID);
 	
-	public void setShowView(boolean b, int viewSpreadsheet, boolean isPermanent);
+	public void setShowView(boolean b, int viewID, boolean isPermanent);
 
 	public boolean showView(int viewSpreadsheet);
 
