@@ -427,6 +427,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 				(app).getActiveEuclidianView().requestFocus();
 			}
 		}
+		((AppW)app).closePopups();
 		
 		//toolbarPanel.validate();
 		//toolbarPanel.updateHelpText();
@@ -1416,6 +1417,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	   } else {
 		   ((AppWapplet) app).attachMenubar();
 	   }
+	   ((AppW)app).closePopups();
     }
 
 	public void showToolBar(boolean show) {
@@ -1424,7 +1426,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	   } else {
 		   ((AppWapplet) app).attachToolbar();
 	   }
-	    
+	   ((AppW)app).closePopups();
     }
 
 	/**
@@ -1438,6 +1440,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    } else {
 	    	((AppWapplet) app).attachAlgebraInput();
 	    }
+	    ((AppW)app).closePopups();
     }
 
 	@Override

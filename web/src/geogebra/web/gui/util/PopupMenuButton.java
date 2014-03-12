@@ -146,11 +146,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		//		BorderFactory.createEmptyBorder(3,3,3,3)));
 
 
-
+		final AppW app2 = app;
 		// add a mouse listener to our button that triggers the popup		
 		addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
+				event.stopPropagation();
 				if(!thisButton.isEnabled()) {
 					return;
 				}
@@ -178,8 +179,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 							EuclidianStyleBarW.CURRENT_POP_UP.hide();
 						}
 						EuclidianStyleBarW.CURRENT_POP_UP = myPopup;
+						
 					}
-
+					app2.registerPopup(myPopup);
 					myPopup.showRelativeTo(getWidget());
 					myPopup.getFocusPanel().getElement().focus();
 				//}

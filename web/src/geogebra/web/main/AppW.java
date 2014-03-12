@@ -1650,6 +1650,9 @@ public abstract class AppW extends AppWeb {
     }
 
 	private ArrayList<Widget> popups = new ArrayList<Widget>();
+	public void registerPopup(Widget widget) {
+		popups.add(widget);
+	}
 	public void togglePopup(Widget widget) {
 		if(!widget.isVisible()){
 			widget.setVisible(true);
@@ -1661,6 +1664,7 @@ public abstract class AppW extends AppWeb {
     }
 
 	public void closePopups(){
+		App.debug("closing popups:"+popups.size());
 		for(Widget widget:popups){
 			widget.setVisible(false);
 		}
