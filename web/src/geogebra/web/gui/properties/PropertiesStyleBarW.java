@@ -105,8 +105,9 @@ public class PropertiesStyleBarW extends
 				toolbar.addSeparator();
 			}
 		}
-		
-		this.getWrappedPanel().add(toolbar);
+		if(!((AppW) app).getLAF().isSmart()){
+			this.getWrappedPanel().add(toolbar);
+		}
 	    
     }
 
