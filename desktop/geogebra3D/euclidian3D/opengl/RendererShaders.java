@@ -2,14 +2,12 @@
 
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -325,7 +323,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     
     
     
-   public void loadVertexBuffer(GLBuffer fbVertices, int length){
+   @Override
+public void loadVertexBuffer(GLBuffer fbVertices, int length){
      	
     	
     	/////////////////////////////////////
@@ -367,7 +366,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
    }
 
 
-   public void loadNormalBuffer(GLBuffer fbNormals, int length){
+   @Override
+public void loadNormalBuffer(GLBuffer fbNormals, int length){
 
 	   if (fbNormals == null){ // no normals
 		   return;
@@ -400,7 +400,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
    }
    
    
-   public void loadTextureBuffer(GLBuffer fbTextures, int length){
+   @Override
+public void loadTextureBuffer(GLBuffer fbTextures, int length){
 
 	   if (fbTextures == null){		
 		   setCurrentGeometryHasNoTexture();
@@ -422,7 +423,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
        jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
    }
    
-   public void loadColorBuffer(GLBuffer fbColors, int length){
+   @Override
+public void loadColorBuffer(GLBuffer fbColors, int length){
 
 	   if (fbColors == null){
 		   return;
@@ -448,7 +450,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
   
    
-   public void draw(Manager.Type type, int length){  
+   @Override
+public void draw(Manager.Type type, int length){  
 
 	   /////////////////////////
 	   // draw
@@ -781,6 +784,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         jogl.getGL2ES2().glDeleteBuffers(4, vboHandles, 0); // Release VBO, color and vertices, buffer GPU memory.
     }
     
+	@Override
 	public void dispose(GLAutoDrawable drawable){
         System.out.println("cleanup, remember to release shaders");
 
@@ -909,31 +913,12 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 
-	@Override
-	public void setColor(Coords color) {
-		setColor(
-				(float) color.getX(),
-				(float) color.getY(),
-				(float) color.getZ(),
-				(float) color.getW()
-		);
-		
-	}
 	
-	private void setColor(float r, float g, float b, float a){
+	@Override
+	protected void setColor(float r, float g, float b, float a){
 		jogl.getGL2ES2().glUniform4f(colorLocation, r,g,b,a);
 	}
 
-
-	@Override
-	public void setColor(GColor color) {
-		setColor(
-				color.getRed() / 255f,
-				color.getGreen() / 255f,
-				color.getBlue() / 255f,
-				color.getAlpha() / 255f
-		);
-	}
 
 
 
@@ -1514,11 +1499,13 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	/**
 	 * @return true if textures are enabled
 	 */
+	@Override
 	public boolean areTexturesEnabled(){
 		return texturesEnabled;
 	}
 
-    public void setLineWidth(int width){
+    @Override
+	public void setLineWidth(int width){
     	getGL().glLineWidth(width);
     }   
 

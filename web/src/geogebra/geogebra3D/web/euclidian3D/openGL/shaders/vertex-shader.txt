@@ -1,7 +1,63 @@
-attribute vec3 vertexPosition;
-uniform mat4 projection;
-uniform mat4 modelview;
+precision mediump float;
+
+//in -- unifrom
+uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
+uniform mat4    projection;  
+//uniform mat3	normalMatrix; // no need since light position is model view system based
+uniform vec4	lightPosition;
+uniform vec2	ambiantDiffuse;
+uniform vec4	color;
+uniform vec3	normal;
+
+//in -- attributes
+attribute vec3  attribute_Position;  
+attribute vec3  attribute_Normal;  
+attribute vec4  attribute_Color;  
+attribute vec2	attribute_Texture;   
+
+
+//out
+varying vec4    varying_Color;  
+varying vec2	coordTexture;
+
 void main(void)
 {
-  gl_Position = projection * modelview * vec4(vertexPosition, 1.0);
+   
+  
+  // position
+  gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
+  
+  
+  
+  // color with light
+  vec3 n;
+  //if (normal.x == 2){ // then use per-vertex normal
+  	n = attribute_Normal;
+  //}else{
+  //	n = normal;
+  //}
+  //lightPosition = vec4(1.0, 0.0, 1.0, 0.0);
+  //float factor = dot(n, lightPosition);
+  vec3 lp = vec3(1.0, 0.0, 1.0);
+  float factor = dot(n, lp);
+  if(factor < 0.0){
+    factor = 0.0;
+  }
+  float ambiant = 0.5;//ambiantDiffuse[0];
+  float diffuse = 0.5;//ambiantDiffuse[1];
+  vec4 c;
+  //if (color[0] < 0){ // then use per-vertex-color
+  //	c = attribute_Color;
+  //}else{ // use per-object-color
+  	c = color;
+  //}
+  
+  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
+  varying_Color.a = c.a;
+  
+      
+      
+  // texture
+  //coordTexture = attribute_Texture;
+  
 }

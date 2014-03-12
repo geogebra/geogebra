@@ -1,4 +1,16 @@
+precision mediump float;
+
+// uniform
+uniform int textureType;
+
+uniform sampler2D Texture0;
+
+// in (incomming varying data to the frament shader sent from the vertex shader)
+varying   vec4    varying_Color;  
+varying   vec2	  coordTexture;  
+
 void main(void)
 {
-  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  gl_FragColor = varying_Color;
+  //gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }

@@ -710,16 +710,51 @@ public abstract class Renderer {
 	//
 	// ///////////////////////////////////////////////////
 
+
+	
 	/**
-	 * sets the material used by the pencil
+	 * sets the color
 	 * 
 	 * @param color
 	 *            (r,g,b,a) vector
 	 * 
 	 */
-	abstract public void setColor(Coords color);
+	final public void setColor(Coords color) {
+		setColor(
+				(float) color.getX(),
+				(float) color.getY(),
+				(float) color.getZ(),
+				(float) color.getW()
+		);
+		
+	}
+	
 
-	abstract public void setColor(geogebra.common.awt.GColor color);
+	/**
+	 * sets the color
+	 * 
+	 * @param color
+	 *            (r,g,b,a) 	 
+	 */
+	final public void setColor(GColor color) {
+		setColor(
+				color.getRed() / 255f,
+				color.getGreen() / 255f,
+				color.getBlue() / 255f,
+				color.getAlpha() / 255f
+		);
+	}
+
+	/**
+	 * sets the color
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @param a alpha
+	 *  
+	 */
+	abstract protected void setColor(float r, float g, float b, float a);
+
 
 	// arrows
 

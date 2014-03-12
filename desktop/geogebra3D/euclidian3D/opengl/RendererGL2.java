@@ -6,7 +6,6 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -57,19 +56,11 @@ public class RendererGL2 extends RendererD {
 		jogl.getGL2().glPopMatrix();
 	}
 
-	@Override
-	public void setColor(Coords color) {
 
-		jogl.getGL2().glColor4f((float) color.getX(), (float) color.getY(),
-				(float) color.getZ(), (float) color.getW());
-
-	}
 
 	@Override
-	public void setColor(geogebra.common.awt.GColor color) {
-		jogl.getGL2().glColor4f((float) color.getRed() / 255,
-				(float) color.getBlue() / 255, (float) color.getGreen() / 255,
-				(float) color.getAlpha() / 255);
+	public void setColor(float r, float g, float b, float a) {
+		jogl.getGL2().glColor4f(r,g,b,a);
 	}
 
 	@Override

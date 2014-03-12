@@ -1,21 +1,21 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
+
+import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.googlecode.gwtgl.array.Float32Array;
 import com.googlecode.gwtgl.binding.WebGLBuffer;
 import com.googlecode.gwtgl.binding.WebGLProgram;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
@@ -33,13 +33,22 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	private Canvas webGLCanvas;
     private WebGLProgram shaderProgram;
-    private int vertexPositionAttribute;
-    private WebGLBuffer vertexBuffer;
+    private int vertexPositionAttribute, colorAttribute, normalAttribute, textureAttribute;
     
     
     
     private Timer loopTimer;
+    
+    // location values for shader fields
+    private WebGLUniformLocation modelviewLocation, projectionLocation; // matrices
+    private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation; // light
+    private WebGLUniformLocation textureTypeLocation; // textures
+    private WebGLUniformLocation colorLocation; // color
+    private WebGLUniformLocation normalLocation; // one normal for all vertices
+    
+    private WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords;
 
+    
 
 	/**
 	 * constructor
@@ -55,7 +64,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     		Window.alert("Sorry, Your Browser doesn't support WebGL!");
     	}
     	
-    	//setView(0, 0, 500, 500);
     	
     }
     
@@ -70,7 +78,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		glContext.clearDepth(1.0f);
 		glContext.enable(WebGLRenderingContext.DEPTH_TEST);
 		glContext.depthFunc(WebGLRenderingContext.LEQUAL);
-		initBuffers();
     }
 
 	
@@ -139,9 +146,38 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         }
 
         glContext.useProgram(shaderProgram);
+        
+        
+        // attributes
+        vertexPositionAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Position");
+        colorAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Color");
+        normalAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Normal");
+        textureAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Texture");
+        
+        
+        // uniform location
+        modelviewLocation = glContext.getUniformLocation(shaderProgram, "modelview");
+        projectionLocation = glContext.getUniformLocation(shaderProgram, "projection");
+        
+        lightPositionLocation = glContext.getUniformLocation(shaderProgram, "lightPosition");
+        ambiantDiffuseLocation = glContext.getUniformLocation(shaderProgram, "ambiantDiffuse");
+        
+        //texture
+        textureTypeLocation = glContext.getUniformLocation(shaderProgram, "textureType");
+               
+        //color
+        colorLocation = glContext.getUniformLocation(shaderProgram, "color");
 
-        vertexPositionAttribute = glContext.getAttribLocation(shaderProgram, "vertexPosition");
-        glContext.enableVertexAttribArray(vertexPositionAttribute);
+        //color
+        normalLocation = glContext.getUniformLocation(shaderProgram, "normal");
+
+        
+        // VBOs
+        vboColors = glContext.createBuffer();
+        vboVertices = glContext.createBuffer();
+        vboNormals = glContext.createBuffer();
+        vboTextureCoords = glContext.createBuffer();
+ 
 	}
 	
 	private WebGLShader getShader(int type, String source) {
@@ -157,33 +193,102 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         return shader;
 	}
 	
-	
-	private void initBuffers() {
-        vertexBuffer = glContext.createBuffer();
-        glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
-        float[] vertices = new float[]{
-                         0.0f,  0.0f,  0.0f, // first vertex
-                         1.0f,  0.0f,  0.0f, // second vertex
-                         0.0f,  1.0f,  0.0f  // third vertex
-        };
-        glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, Float32Array.create(vertices), WebGLRenderingContext.STATIC_DRAW);
+
 	
 	
-	}
+	private void drawTriangle(float[] vertices, float[] normals, float[] textureCoords){
+  
+       	/*
+       	byte[] bytes = new byte[]{
+       			(byte) 255, (byte) 255, (byte) 255, 
+       			(byte) 0, (byte) 0, (byte) 0
+       	};
+           	
+    	int texture = getTextures().createAlphaTexture(2, 2, bytes);
+    	
+
+    	enableTextures2D();
+    	getTextures().setTextureLinear(texture);
+    	*/
+    	
+    	
+    	ArrayList<Float> array = new ArrayList<Float>();
+    	
+    	for (int i = 0; i < 3 * 3; i++){ array.add(vertices[i]); }
+    	loadVertexBuffer(GLFactory.prototype.newBuffer(array), 3);
+
+    	if (normals != null){
+    		array.clear(); for (int i = 0; i < 3 * 3; i++){ array.add(normals[i]); }
+    		loadNormalBuffer(GLFactory.prototype.newBuffer(array), 3);
+    	}
+
+    	if (textureCoords != null){
+    		array.clear(); for (int i = 0; i < 3 * 2; i++){ array.add(textureCoords[i]); }
+    		loadTextureBuffer(GLFactory.prototype.newBuffer(array), 3);	
+    	}
+
+		draw(Manager.Type.TRIANGLES, 3);
+		
+		/*
+		bindTexture(0);
+		getTextures().removeTexture(texture);
+		*/
+        
+    }
 	
 	
 	
 	@Override
     protected void draw() {
 
-       	//setView();
     	
 		setMatrixView();
-        //WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "modelview");
-        //glContext.uniformMatrix4fv(uniformLocation, false, view3D.getToScreenMatrix().getForGL()); 
 		
-        glContext.vertexAttribPointer(vertexPositionAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
-        glContext.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 3);
+		float[] vertices = {
+				0f, 0f, 0f,
+				1f, 0f, 0f,
+				0f, 1f, 0f
+		};
+		
+		float[] normals = {
+				0f, 0f, 1f,
+				0f, 0f, 1f,
+				0f, 0f, 1f
+		};
+		
+		setColor(1f, 0f, 0f, 1f);
+		drawTriangle(vertices, normals, null);
+		
+		vertices = new float[] {
+				0f, 0f, 0f,
+				0f, 1f, 0f,
+				0f, 0f, 1f
+		};
+		
+		normals = new float[] {
+				1f, 0f, 0f,
+				1f, 0f, 0f,
+				1f, 0f, 0f
+		};
+		
+		setColor(0f, 1f, 0f, 1f);
+		drawTriangle(vertices, normals, null);
+		
+		vertices = new float[] {
+				0f, 0f, 0f,
+				0f, 0f, 1f,
+				1f, 0f, 0f
+		};
+		
+		normals = new float[] {
+				0f, 1f, 0f,
+				0f, 1f, 0f,
+				0f, 1f, 0f
+		};
+		
+		setColor(0f, 0f, 1f, 1f);
+		drawTriangle(vertices, normals, null);
+		
 	}
 	
 	
@@ -336,8 +441,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void setMatrixView() {
-		WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "modelview");
-		 glContext.uniformMatrix4fv(uniformLocation, false, view3D.getToScreenMatrix().getForGL());     
+		
+		 glContext.uniformMatrix4fv(modelviewLocation, false, view3D.getToScreenMatrix().getForGL());     
     }
 
 	@Override
@@ -383,16 +488,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
 
 	@Override
-    public void setColor(Coords color) {
-	    // TODO Auto-generated method stub
-	    
+    public void setColor(float r, float g, float b, float a) {
+		glContext.uniform4f(colorLocation, r,g,b,a);
     }
 
-	@Override
-    public void setColor(GColor color) {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     public void setLayer(float l) {
@@ -470,8 +569,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void setClearColor(float r, float g, float b, float a) {
-	    // TODO Auto-generated method stub
-	    
+		glContext.clearColor(r, g, b ,a);	    
     }
 
 
@@ -509,8 +607,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
                 0.0f, 0.0f, -1f/getVisibleDepth(), 1.0f,
         };
 
-        WebGLUniformLocation uniformLocation = glContext.getUniformLocation(shaderProgram, "projection");
-        glContext.uniformMatrix4fv(uniformLocation, false, projection);        
+        glContext.uniformMatrix4fv(projectionLocation, false, projection);        
 
 	}
 
@@ -653,7 +750,21 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
-	    // TODO Auto-generated method stub
+		
+    	/////////////////////////////////////
+        // VBO - normals
+ 
+        // Select the VBO, GPU memory data
+        glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboNormals);
+        
+        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
+        glBufferData(fbNormals);
+        
+        // Associate attribute
+        glContext.vertexAttribPointer(normalAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
+  
+        // VBO
+        glContext.enableVertexAttribArray(normalAttribute);
 	    
     }
 
@@ -672,12 +783,31 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
-
+	private void glBufferData(GLBuffer fb){
+        glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, ((GLBufferW) fb).getBuffer(), WebGLRenderingContext.STATIC_DRAW);
+		
+	}
 
 
 
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
-	    // TODO Auto-generated method stub
+        
+
+    	/////////////////////////////////////
+        // VBO - vertices
+ 
+        // Select the VBO, GPU memory data, to use for vertices
+        glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboVertices);
+        
+        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
+        glBufferData(fbVertices);
+        
+        // Associate Vertex attribute 0 with the last bound VBO
+        glContext.vertexAttribPointer(vertexPositionAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0);
+  
+        // VBO
+        glContext.enableVertexAttribArray(vertexPositionAttribute);
+        
 	    
     }
 
@@ -701,12 +831,30 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	public void draw(Type type, int length) {
-	    // TODO Auto-generated method stub
+		glContext.drawArrays(getGLType(type), 0, length);
 	    
     }
 
 
-
+	/**
+	 * 
+	 * @param type Manager type
+	 * @return GL type
+	 */
+	protected static int getGLType(Type type){
+		switch(type){
+		case TRIANGLE_STRIP : 
+			return WebGLRenderingContext.TRIANGLE_STRIP;
+		case TRIANGLE_FAN : 
+			return WebGLRenderingContext.TRIANGLE_FAN;
+		case TRIANGLES : 
+			return WebGLRenderingContext.TRIANGLES;
+		case LINE_LOOP : 
+			return WebGLRenderingContext.LINE_LOOP;
+		}
+		
+		return 0;
+	}
 
 
 
