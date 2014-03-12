@@ -266,9 +266,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 		if(isIniting) return;
 
-		setIcon(getButtonIcon());
-
 		if(hasTable){
+			setIcon(getButtonIcon());
 			myTable.repaint();
 		}
 
