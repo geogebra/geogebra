@@ -34,7 +34,9 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();
 		app = application;
-		GeoGebraMenubarW.addSubmenuArrow(app, this);
+		if(arrow){
+			GeoGebraMenubarW.addSubmenuArrow(app, this);
+		}
 	}
 
 	private MenuItem addItem(String text, Command com, boolean selected) {
