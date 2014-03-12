@@ -106,6 +106,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		createGUI();
 		
 		this.setGlassEnabled(true);
+		this.setVisible(true);
 
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;
 		Object [] geos = { selGeo };
@@ -115,7 +116,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	private void createGUI() {
 		//setTitle(app.getPlain("Slider"));
 		//setResizable(false);
-		this.getCaption().setText(app.getPlain("Slider"));
+		this.getCaption().setText(app.getMenu("Slider"));
 
 		//Create components to be displayed
 		//mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);		

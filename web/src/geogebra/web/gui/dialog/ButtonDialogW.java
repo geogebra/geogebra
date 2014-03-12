@@ -17,14 +17,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ButtonDialogW extends DialogBox implements ClickHandler{
 
 	private AutoCompleteTextFieldW tfCaption; 
-	private HorizontalPanel btPanel;
+	private FlowPanel btPanel;
 	private ButtonDialogModel model;
 	private Button btApply, btCancel;
 	private FlowPanel optionPane;
@@ -39,13 +39,22 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 		model = new ButtonDialogModel(app, x, y, textField);
 		addStyleName("GeoGebraPopup");
 		createGUI();	
+		this.setGlassEnabled(true);
+		this.setVisible(true);
 		center();
 	}
 
 	private void createGUI() {
-
+		if (model.isTextField()) {
+			this.getCaption().setText(app.getMenu("TextFieldAction"));
+		}
+		else {
+			this.getCaption().setText(app.getMenu("ButtonAction"));
+		}
+		
 		// create caption panel
 		Label captionLabel = new Label(app.getMenu("Button.Caption")+":");
+		
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
@@ -54,12 +63,12 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 			atf.setAutoComplete(false);
 		}
 		
-		HorizontalPanel captionPanel = new HorizontalPanel();
+		VerticalPanel captionPanel = new VerticalPanel();
 		captionPanel.add(captionLabel);
 		captionPanel.add(ip);
 		captionPanel.addStyleName("captionPanel");
-		captionLabel.getElement().getParentElement().addClassName("tdForCaptionLabel");
-		captionLabel.getElement().getParentElement().setAttribute("style","vertical-align: middle");
+		//captionLabel.getElement().getParentElement().addClassName("tdForCaptionLabel");
+		//captionLabel.getElement().getParentElement().setAttribute("style","vertical-align: middle");
 				
 		// combo box to link GeoElement to TextField
 //		comboModel = new DefaultComboBoxModel();
@@ -121,7 +130,7 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 		scriptPanel.add(scriptLabel);
 		scriptPanel.add(tfScript);
 
-		HorizontalPanel linkedPanel = new HorizontalPanel();
+		VerticalPanel linkedPanel = new VerticalPanel();
 		Label linkedLabel = new Label(app.getPlain("LinkedObject")+":");
 		linkedPanel.add(linkedLabel);
 		linkedPanel.add(cbAdd);
@@ -133,10 +142,10 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().setAttribute("action","Cancel");
 		btCancel.addClickHandler(this);
-		btPanel = new HorizontalPanel();
+		btPanel = new FlowPanel();
 		btPanel.add(btApply);
 		btPanel.add(btCancel);
-		btPanel.addStyleName("buttonPanel");
+		btPanel.addStyleName("DialogButtonPanel");
 			
 		optionPane = new FlowPanel();
 		
@@ -153,8 +162,8 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 		optionPane.add(btPanel);	
 		//Make this dialog display it.	
 		setWidget(optionPane);
-		//this.addStyleName("ButtonDialog");
-		this.getElement().getElementsByTagName("table").getItem(0).setAttribute("cellpadding", "5px");
+		this.addStyleName("buttonDialog");
+		//this.getElement().getElementsByTagName("table").getItem(0).setAttribute("cellpadding", "5px");
     }
 
 	public void onClick(ClickEvent event) {
