@@ -553,14 +553,21 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * @return toolTip text as HTML string with image and title
 	 */
 	protected String getToolTip() {
-		
-		Image img = new Image(getIcon());
-		img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
-		img.getElement().getStyle().setMarginRight(4, Unit.PX);
-		
 		FlowPanel p = new FlowPanel();
-		p.add(img);
-		p.add(new InlineLabel(app.getPlain(title)));
+		String caption;
+		if(!this.isStyleBarEmpty()){
+			Image img = new Image(getIcon());
+			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
+			img.getElement().getStyle().setMarginRight(4, Unit.PX);
+			p.add(img);
+			caption = app.getPlain(title);
+		}else{
+			caption = app.getMenu("Close");
+		}
+		
+		
+		p.add(new InlineLabel(caption));
+		
 		
 		return p.getElement().getInnerHTML();
 	}
@@ -1004,14 +1011,6 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public int getViewId() {
 		return id;
-	}
-
-	/**
-	 * @return The title of this view. The String returned has to be the key of
-	 *         a value in plain.properties
-	 */
-	public String getViewTitle() {
-		return title;
 	}
 
 	/**
