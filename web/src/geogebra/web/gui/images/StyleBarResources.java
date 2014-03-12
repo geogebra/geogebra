@@ -21,6 +21,16 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_point_capturing.png")
 	ImageResource magnet();
 	
+	//DELETE STYLEBAR
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_small.png")
+	ImageResource stylingbar_delete_small();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_middle.png")
+	ImageResource stylingbar_delete_middle();
+	
+	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_big.png")
+	ImageResource stylingbar_delete_big();
+	
 	//LINES
 	
 	@Source("icons/png/web/stylingbar/stylingbar_line-dash-dot.png")
@@ -80,4 +90,5 @@ public interface StyleBarResources extends ClientBundle {
 	//ALGEBRA STYLEBAR
 	@Source("icons/png/web/stylingbar/stylingbar_algebraview_auxiliary_objects.png")
 	ImageResource auxiliary();
+	
 }
