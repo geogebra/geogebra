@@ -272,7 +272,7 @@ public class TimerSystemW {
 			return;
 
 		if (view == euclidianView1 || view == euclidianView2 || view == plotPanelEuclidianView) {
-			//euclidianTimed = false; TODO: Gabor don't understands, why is it here, but ruins the drawing of plotPanelEuclidianView, so Gabor got it out.
+			euclidianTimed = false; //guys, don't comment me out, I'm quite important line of code (without me EV keeps repainting if not necessary and algebra stops repainting completely) 
 			euclidianLatest = new Date();
 		} else if (view == algebraView) {
 			algebraTimed = false;
