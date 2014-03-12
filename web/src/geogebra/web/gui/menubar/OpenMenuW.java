@@ -61,14 +61,17 @@ public class OpenMenuW extends MenuBar implements EventRenderable {
 			});
 		    
 		
-		
-		((AppW) app).getGoogleDriveOperation().getView().add(this);
+		if(((AppW) app).getGoogleDriveOperation() != null){
+			((AppW) app).getGoogleDriveOperation().getView().add(this);
+			//TODO ignore google drive until the user tries to open it
+			enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
+		}
 		
 		if (!((AppW) app).getNetworkOperation().getOnline()) {
 			renderNetworkOperation(false);
 		}
 		
-		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
+		
 	}
 
 	private ScheduledCommand getOpenFromGeoGebraTubeCommand() {

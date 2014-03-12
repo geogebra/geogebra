@@ -50,7 +50,6 @@ public class FileMenuW extends MenuBar {
 		});
 
 		// open menu is always visible in menu
-		openMenu = new OpenMenuW(app);
 		if(useOpenScreen) {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
     		
@@ -63,6 +62,7 @@ public class FileMenuW extends MenuBar {
 				}
 			});	
 		} else{
+			openMenu = new OpenMenuW(app);
 			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
 		}
 		
