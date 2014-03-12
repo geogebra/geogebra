@@ -454,7 +454,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	public void setColumns(int columns) {
 		this.columns  = columns;
-		if (showSymbolButton != null && this.columns > SHOW_SYMBOLBUTTON_MINLENGTH) {
+		if (showSymbolButton != null && (this.columns > SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
 			prepareShowSymbolButton();
 		}
 		getTextBox().setWidth(columns + "em");

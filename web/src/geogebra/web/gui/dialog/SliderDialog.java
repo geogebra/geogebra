@@ -19,7 +19,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.properties.SliderPanelW;
-import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -150,9 +149,10 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		nameLabel = new Label(app.getPlain("Name"));
 		nameWidget.add(nameLabel);
 		
-		InputPanelW inputPanel = new InputPanelW(null, app, -1, false);
-		tfLabel = inputPanel.getTextComponent();
-		tfLabel.setAutoComplete(false);
+		tfLabel = new AutoCompleteTextFieldW(-1, app);
+		//tfLabel.setAutoComplete(false);
+		tfLabel.setShowSymbolTableIcon(true);
+		updateLabelField(number, false);
 		nameWidget.add(tfLabel);
 		
 		contentWidget.add(sliderPanel.getWidget());
@@ -170,6 +170,11 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		bottomWidget.add(btApply);
 		bottomWidget.add(btCancel);
 	}
+
+	private void updateLabelField(GeoElement geo, boolean isInteger) {
+		String def = geo.isAngle() ? " = 45\u00B0" : " = 1";
+		tfLabel.setText(geo.getDefaultLabel(isInteger) + def); // =45°
+    }
 
 	/**
 	 * Sets the geoResult name and value: this is temporarily just a default label
@@ -239,11 +244,15 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			number.setAnimationStep(1);
 			number.setIntervalMin(1);
 			number.setIntervalMax(30);
+			updateLabelField(number, true);
 		} else if (vc.getSource() == rbNumber) {
 			GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
 			number.setAnimationStep(num.getAnimationStep());
 			number.setIntervalMin(num.getIntervalMin());
 			number.setIntervalMax(num.getIntervalMax());
+			updateLabelField(number, false);
+		} else {
+			updateLabelField(angle, false);
 		}
 		GeoElement [] geos = { selGeo };
 
