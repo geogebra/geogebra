@@ -56,7 +56,7 @@ precision mediump int;    // GLSL ES section 4.5.2
 uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
 uniform mat4    projection;  
 //uniform mat3	normalMatrix; // no need since light position is model view system based
-uniform vec4	lightPosition;
+uniform vec3	lightPosition;
 uniform vec2	ambiantDiffuse;
 uniform vec4	color;
 uniform vec3	normal;

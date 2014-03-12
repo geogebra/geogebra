@@ -243,6 +243,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
     	
 		setMatrixView();
+        setLightPosition();     
+        setLight(0);
+        
+        
+        
+        
 		
 		float[] vertices = {
 				0f, 0f, 0f,
@@ -367,11 +373,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    
     }
 
-	@Override
-    protected void setLight(int light) {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     public void enableTextures() {
@@ -556,16 +557,28 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void setLightPosition(int light, float[] values) {
-	    // TODO Auto-generated method stub
-	    
+		glContext.uniform3fv(lightPositionLocation, values);	    
     }
+	
+	private float[][] ambiantDiffuse;
+	
+	@Override
+	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0, float ambiant1, float diffuse1){
+       
+		ambiantDiffuse = new float[][] {
+				{ambiant0, diffuse0},
+				{ambiant1, diffuse1}
+		};
+        
+	}
+
+
 
 	@Override
-    protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
-            float ambiant1, float diffuse1) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void setLight(int light){
+
+		glContext.uniform2fv(ambiantDiffuseLocation, ambiantDiffuse[light]);
+	}
 
 	@Override
     public void setClearColor(float r, float g, float b, float a) {

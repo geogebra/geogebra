@@ -1122,7 +1122,7 @@ public abstract class Renderer {
 	// LIGHTS
 	// ////////////////////////////////
 
-	private float[] light0Position = { 1f, 0f, 1f, 0f };
+	private float[] light0Position = { 1f, 0f, 1f };
 
 	protected void setLightPosition() {
 		setLightPosition(0, light0Position);

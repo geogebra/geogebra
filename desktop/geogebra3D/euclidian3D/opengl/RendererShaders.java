@@ -1174,7 +1174,7 @@ public void draw(Manager.Type type, int length){
 
 	@Override
 	protected void setLightPosition(int light, float[] values){
-		jogl.getGL2ES2().glUniform4fv(lightPositionLocation, 1, values, 0);
+		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
 	}
 
 

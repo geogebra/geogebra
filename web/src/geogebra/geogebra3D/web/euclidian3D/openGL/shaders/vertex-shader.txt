@@ -4,7 +4,7 @@ precision mediump float;
 uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
 uniform mat4    projection;  
 //uniform mat3	normalMatrix; // no need since light position is model view system based
-uniform vec4	lightPosition;
+uniform vec3	lightPosition;
 uniform vec2	ambiantDiffuse;
 uniform vec4	color;
 uniform vec3	normal;
@@ -36,15 +36,12 @@ void main(void)
   //}else{
   //	n = normal;
   //}
-  //lightPosition = vec4(1.0, 0.0, 1.0, 0.0);
-  //float factor = dot(n, lightPosition);
-  vec3 lp = vec3(1.0, 0.0, 1.0);
-  float factor = dot(n, lp);
+  float factor = dot(n, lightPosition);
   if(factor < 0.0){
     factor = 0.0;
   }
-  float ambiant = 0.5;//ambiantDiffuse[0];
-  float diffuse = 0.5;//ambiantDiffuse[1];
+  float ambiant = ambiantDiffuse[0];
+  float diffuse = ambiantDiffuse[1];
   vec4 c;
   //if (color[0] < 0){ // then use per-vertex-color
   //	c = attribute_Color;
