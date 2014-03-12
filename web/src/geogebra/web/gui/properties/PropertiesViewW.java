@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class PropertiesViewW extends
         geogebra.common.gui.view.properties.PropertiesView {
 	
-	private PopupPanel wrappedPanel;
+	private FlowPanel wrappedPanel;
 	
 	// option panels
 		private OptionsDefaultsW defaultsPanel;
@@ -50,7 +49,7 @@ public class PropertiesViewW extends
 
 	public PropertiesViewW(AppW app) {
 		super(app);
-	    this.wrappedPanel = new PopupPanel();
+	    this.wrappedPanel = new FlowPanel();
 	    app.setPropertiesView(this);
 	    
 	    app.setWaitCursor();   
