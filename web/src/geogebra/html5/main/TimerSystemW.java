@@ -18,14 +18,14 @@ public class TimerSystemW {
 
 	AppWeb application;
 
-	boolean euclidian1Timed = false;
+	boolean euclidianTimed = false;
 	boolean algebraTimed = false;
 	boolean spreadsheetTimed = false;
 
-	private Date euclidian1Latest = null;//new Date();
+	private Date euclidianLatest = null;//new Date();
 	Date algebraLatest = null;//new Date();
 	Date spreadsheetLatest = null;//new Date();
-	private long euclidian1Sum = 0;
+	private long euclidianSum = 0;
 	long algebraSum = 0;
 	long spreadsheetSum = 0;
 
@@ -35,36 +35,46 @@ public class TimerSystemW {
 	EuclidianViewWeb euclidianView1 = null;
 	EuclidianViewWeb euclidianView2 = null;
 	EuclidianViewWeb plotPanelEuclidianView = null;
+	EuclidianViewWeb lastRepaintedEuclidianView = null;
+	
 	AlgebraViewWeb algebraView = null;
 	SpreadsheetViewWeb spreadsheetView = null;
 
 	public TimerSystemW(AppWeb app) {
 		application = app;
 		euclidianView1 = application.getEuclidianView1();
-		if (application.hasEuclidianView2EitherShowingOrNot())
+		if (application.hasEuclidianView2EitherShowingOrNot()) {
 			euclidianView2 = (EuclidianViewWeb)application.getEuclidianView2();
+		}
 		if (application.getViewManager() != null) {
-			if (application.getViewManager().hasAlgebraView())
+			if (application.getViewManager().hasAlgebraView()) {
 				algebraView = (AlgebraViewWeb) application.getAlgebraView();
-			if (application.getViewManager().hasSpreadsheetView())
+			}
+			if (application.getViewManager().hasSpreadsheetView()) {
 				spreadsheetView = application.getViewManager().getSpreadsheetView();
+			}
+			if (application.getViewManager().hasPlotPanelEuclidianView()) {
+				plotPanelEuclidianView = application.getViewManager().getPlotPanelEuclidanView();
+			}
 		}
 	}
 
 	// one timer for more views, use the minimum FPS of the views for timing
 	private Timer repaintTimer = new Timer() {
-		public void run() {
+		@Override
+        public void run() {
 
 			// ideally, the goal is like "E E"A "E E"S "E E"A "E E"S "E E"A "E E"S
 			// where the euclidian views use at least as much time as the others
 
 			// repaint the EV every time it comes here
-			if (euclidian1Timed) {
+			if (euclidianTimed) {
 				euclidianView1.doRepaint();
 
 				// quick insertion, may be optimized later too
-				if (euclidianView2 != null)
+				if (euclidianView2 != null) {
 					euclidianView2.doRepaint();
+				}
 				
 				if (plotPanelEuclidianView != null) {
 					plotPanelEuclidianView.doRepaint();
@@ -126,14 +136,15 @@ public class TimerSystemW {
 			// some timed variables were set to false, check if it's necessary
 			// to continue here - the timer is executing at commonMillis rate,
 			// except if everything is done
-			if (repaintTimed())
+			if (repaintTimed()) {
 				repaintTimer.schedule(commonMillis());
+			}
 		}
 	};
 	
 
 	public boolean repaintTimed() {
-		return euclidian1Timed || algebraTimed || spreadsheetTimed;
+		return euclidianTimed || algebraTimed || spreadsheetTimed;
 	}
 
 	public int commonMillis() {
@@ -144,8 +155,9 @@ public class TimerSystemW {
 
 		if (view == null)
 			return;
-		else if (view == euclidianView1 || view == euclidianView2 || view == plotPanelEuclidianView)
+		else if (view == euclidianView1 || view == euclidianView2 || view == plotPanelEuclidianView) {
 			euclidianRepaint();
+		}
 		else if (view == algebraView)
 			algebraRepaint();
 		else if (view == spreadsheetView)
@@ -153,8 +165,9 @@ public class TimerSystemW {
 		else {
 			if (view.getViewID() == App.VIEW_EUCLIDIAN) {
 				euclidianView1 = application.getEuclidianView1();
-				if (view == euclidianView1)
+				if (view == euclidianView1) {
 					euclidianRepaint();
+				}
 			} else if (view.getViewID() == App.VIEW_EUCLIDIAN2) {
 				if (application.hasEuclidianView2EitherShowingOrNot()) {
 					euclidianView2 = (EuclidianViewWeb)application.getEuclidianView2();
@@ -182,25 +195,26 @@ public class TimerSystemW {
 
 	public void euclidianRepaint() {
 
-		if (euclidianView1 == null)
+		if (euclidianView1 == null && euclidianView2 == null && plotPanelEuclidianView == null)
 			return;
 
 		if (repaintTimed()) {
-			if (!euclidian1Timed)
-				euclidian1Timed = true;
+			if (!euclidianTimed) {
+				euclidianTimed = true;
+			}
 			return;
 		}
 
 		long millis = euclidianMillis;
-		if (euclidian1Sum > euclidianMillis) millis = euclidian1Sum;
+		if (euclidianSum > euclidianMillis) millis = euclidianSum;
 
-		if (euclidian1Latest != null)
-		if ((millis = new Date().getTime() - euclidian1Latest.getTime() - millis) < 0) {
-			euclidian1Timed = true;
+		if (euclidianLatest != null)
+		if ((millis = new Date().getTime() - euclidianLatest.getTime() - millis) < 0) {
+			euclidianTimed = true;
 			repaintTimer.schedule((int)-millis);
 			return;
 		}
-		euclidian1Timed = true;
+		euclidianTimed = true;
 		repaintTimer.schedule(0);//euclidianView1.doRepaint();
 	}
 
@@ -257,9 +271,9 @@ public class TimerSystemW {
 		if (view == null)
 			return;
 
-		if (view == euclidianView1) {
-			euclidian1Timed = false;
-			euclidian1Latest = new Date();
+		if (view == euclidianView1 || view == euclidianView2 || view == plotPanelEuclidianView) {
+			//euclidianTimed = false; TODO: Gabor don't understands, why is it here, but ruins the drawing of plotPanelEuclidianView, so Gabor got it out.
+			euclidianLatest = new Date();
 		} else if (view == algebraView) {
 			algebraTimed = false;
 			algebraLatest = new Date();
@@ -274,12 +288,14 @@ public class TimerSystemW {
 		if (view == null)
 			return;
 
-		if (view == euclidianView1 && euclidian1Latest!=null) {
-			euclidian1Sum = new Date().getTime() - euclidian1Latest.getTime();
-			nextrepainttime -= euclidian1Sum;
-		} else if (view == algebraView)
+		if ((view == euclidianView1 || view == euclidianView2 || view == plotPanelEuclidianView) && euclidianLatest != null) {
+			euclidianSum = new Date().getTime() - euclidianLatest.getTime();
+			nextrepainttime -= euclidianSum;
+		} else if (view == algebraView) {
 			nextrepainttime = algebraSum = new Date().getTime() - algebraLatest.getTime();
-		else if (view == spreadsheetView)
+		}
+		else if (view == spreadsheetView) {
 			nextrepainttime = spreadsheetSum = new Date().getTime() - spreadsheetLatest.getTime();
+		}
 	}
 }

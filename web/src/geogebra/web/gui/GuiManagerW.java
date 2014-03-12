@@ -24,6 +24,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.main.AppWeb;
 import geogebra.web.cas.view.CASTableW;
@@ -488,6 +489,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	 */
 	public boolean hasProbablitiyCalculator() {
 		return probCalculator != null;
+	}
+	
+	public boolean hasPlotPanelEuclidianView() {
+		return hasProbablitiyCalculator();
 	}
 
 	public void updateSpreadsheetColumnWidths() {
@@ -1492,4 +1497,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public void refreshDraggingViews(){
 		layout.getDockManager().enableDragging(oldDraggingViews);
 	}
+
+	public EuclidianViewWeb getPlotPanelEuclidanView() {
+	    return (EuclidianViewWeb) probCalculator.plotPanel;
+    }
 }
