@@ -29,7 +29,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 * Creates a RadioButtonMenuBarW instance
 	 * @param application Application instance
 	 */
-	public RadioButtonMenuBarW(AppW application) {
+	public RadioButtonMenuBarW(AppW application, boolean arrow) {
 		super(true);
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();

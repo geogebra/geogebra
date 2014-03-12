@@ -20,8 +20,8 @@ import geogebra.web.main.AppW;
 public class FactoryW extends Factory{
 
 	@Override
-    public RadioButtonMenuBar newRadioButtonMenuBar(App app) {
-	    return new geogebra.web.gui.menubar.RadioButtonMenuBarW((AppW)app);
+    public RadioButtonMenuBar newRadioButtonMenuBar(App app, boolean arrow) {
+	    return new geogebra.web.gui.menubar.RadioButtonMenuBarW((AppW)app, arrow);
     }
 
 	@Override

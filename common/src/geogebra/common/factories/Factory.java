@@ -15,7 +15,7 @@ import geogebra.common.main.App;
 public abstract class Factory {
 	private static Factory prototype;
 	
-	public abstract RadioButtonMenuBar newRadioButtonMenuBar(App app);
+	public abstract RadioButtonMenuBar newRadioButtonMenuBar(App app, boolean arrow);
 	public abstract GOptionPane newGOptionPane();
 	public abstract RelationPane newRelationPane();
 	public abstract TextInputDialog newTextInputDialog(App app, String title, GeoText editGeo,

@@ -94,13 +94,17 @@ public class OptionsMenu {
 			app.setUnsaved();
 		}			
     }
+	
+	private RadioButtonMenuBar newSubmenu(){
+		return app.getFactory().newRadioButtonMenuBar(app, true);
+	}
 
 	/**
 	 * Adds the "Algebra description" menu for the menu given in parameter 
 	 * @param menu "Algebra description menu will be added for this
 	 */
 	public void addAlgebraDescriptionMenu(MenuInterface menu){	
-		menuAlgebraStyle = app.getFactory().newRadioButtonMenuBar(app);
+		menuAlgebraStyle = newSubmenu();
 		
 		String[] strDescription = { app.getPlain("Value"), 
 				app.getPlain("Definition"), 
@@ -158,7 +162,7 @@ public class OptionsMenu {
 	}
 	
 	public void addDecimalPlacesMenu(MenuInterface menu){
-		menuDecimalPlaces = app.getFactory().newRadioButtonMenuBar(app);
+		menuDecimalPlaces = newSubmenu();
 
 		/*
 		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
@@ -178,7 +182,7 @@ public class OptionsMenu {
 	
 	
 	public void addLabelingMenu(MenuInterface menu){	
-		menuLabeling = app.getFactory().newRadioButtonMenuBar(app);
+		menuLabeling = newSubmenu();
 		
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
 				"Labeling.pointsOnly" };
@@ -206,7 +210,7 @@ public class OptionsMenu {
 	final private static int [] capturingMenuOrder = { EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, EuclidianStyleConstants.POINT_CAPTURING_ON, EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, EuclidianStyleConstants.POINT_CAPTURING_OFF };
 
 	public void addPointCapturingMenu(MenuInterface menu){		
-		menuPointCapturing = app.getFactory().newRadioButtonMenuBar(app);
+		menuPointCapturing = newSubmenu();
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
 				app.getMenu("FixedToGrid"), app.getMenu("off") };
 		String[] strPointCapturingAC = { capturingMenuOrder[0]+" PointCapturing",
@@ -236,7 +240,7 @@ public class OptionsMenu {
 	}
 
 	public void addFontSizeMenu(MenuInterface menu){
-		RadioButtonMenuBar submenu = app.getFactory().newRadioButtonMenuBar(app);
+		RadioButtonMenuBar submenu = newSubmenu();
 		
 		//String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt", "24 pt",
 		//		"28 pt", "32 pt" };

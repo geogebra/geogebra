@@ -15,10 +15,10 @@ import geogebra.common.main.App;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 
-public class FactoryD extends Factory{
+public class FactoryD extends Factory {
 
 	@Override
-	public RadioButtonMenuBar newRadioButtonMenuBar(App app) {
+	public RadioButtonMenuBar newRadioButtonMenuBar(App app, boolean arrow) {
 		return new geogebra.gui.menubar.RadioButtonMenuBarD(app);
 	}
 
@@ -31,13 +31,13 @@ public class FactoryD extends Factory{
 	public RelationPane newRelationPane() {
 		return new geogebra.javax.swing.RelationPaneD();
 	}
-	
+
 	@Override
 	public TextInputDialog newTextInputDialog(App app, String title,
 			GeoText editGeo, GeoPointND startPoint, int cols, int rows,
 			boolean isTextMode) {
-		return new geogebra.gui.dialog.TextInputDialog(app, title, editGeo, startPoint, cols,
-		        rows, isTextMode);
+		return new geogebra.gui.dialog.TextInputDialog(app, title, editGeo,
+				startPoint, cols, rows, isTextMode);
 	}
 
 	@Override
@@ -49,9 +49,9 @@ public class FactoryD extends Factory{
 	public InputDialog newInputDialog(App app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			GeoElement geo) {
-	    return new InputDialogD((AppD)app, message, title,
-	    		initString, autoComplete, handler, geo);
+		return new InputDialogD((AppD) app, message, title, initString,
+				autoComplete, handler, geo);
 
 	}
-	
+
 }

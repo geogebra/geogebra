@@ -301,6 +301,7 @@ public class Material implements Comparable<Material>
 		putString(ret,"title", title);
 		putString(ret,"id", id+"");
 		putString(ret,"likes", likes+"");
+		putString(ret,"ggbBase64", base64);
 		return ret;
 	}
 
