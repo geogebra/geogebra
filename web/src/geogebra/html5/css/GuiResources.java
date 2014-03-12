@@ -145,6 +145,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-edit-paste.png")
 	ImageResource menu_icon_edit_paste();
 	
+	@Source("icons/png/web/menu_icons/menu-edit-delete.png")
+	ImageResource menu_icon_edit_delete();
+	
 	@Source("icons/png/web/menu_icons/menu-perspectives.png")
 	ImageResource menu_icon_perspectives();
 	

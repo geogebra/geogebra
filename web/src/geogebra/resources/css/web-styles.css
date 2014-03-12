@@ -1547,6 +1547,9 @@ body[dir=rtl] .signIn {
 	top: 5px;
 	right: -15px;
 }
+/*.gwt-PopupPanel .popupContent .subMenuLeftSide .arrowSubmenu {
+	display: none;
+}*/
 
 .GeoGebraMenuBar.subMenuLeftSide>table {
 	margin: 0px;
@@ -2180,7 +2183,8 @@ body[dir=rtl] .toolbar_mainItem {
 	width: 100%;
 }
 
-.dialogContent input,.dialogContent select {
+.dialogContent input[type="text"],
+.dialogContent select {
 	margin-top: 5px;
 	margin-bottom: 10px;
 	width: 100%;
@@ -2859,7 +2863,7 @@ label {
 	-moz-box-sizing: border-box;
 	padding-left: 5px;
 	padding-right: 40px;
-	width: 100% !important;
+	/*width: 100% !important;*/
 }
 
 .SymbolToggleButton {
@@ -2978,11 +2982,12 @@ label {
 	padding: 0px;
 }
 
-.parameterPanel .gwt-SuggestBox,.resultPanel .gwt-SuggestBox,.StatisticsCalculatorW .gwt-SuggestBox
-	{
+/*.parameterPanel .gwt-SuggestBox,
+.resultPanel .gwt-SuggestBox,
+.StatisticsCalculatorW .gwt-SuggestBox {
 	margin: 0px;
 	padding: 0px;
-}
+}*/
 
 .intervalPanel>* {
 	display: inline-block;
@@ -3454,12 +3459,19 @@ PROVIDERS
 	margin-bottom: 10px;
 }
 
-.objectPropertiesTab .gwt-CheckBox {
+.objectPropertiesTab .gwt-CheckBox,
+.ObjectPropertiesTab .gwt-Label {
 	margin-right: 10px;
 }
 
-.objectProbertiesTab input {
-	
+.ObjectPropertiesTab input,
+.objectPropertiesTab input,
+.ObjectPropertiesTab select,
+.objectPropertiesTab select,
+.ObjectPropertiesTab textarea,
+.objectPropertiesTab textarea {
+	margin-top: 5px;
+	margin-bottom: 10px;
 }
 
 /*#####################################################################################

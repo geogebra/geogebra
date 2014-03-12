@@ -207,8 +207,7 @@ public class EditMenuW extends MenuBar {
 		//Delete menu
 		if (layer != -1 || justCreated){
 			addSeparator();
-			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-			        .edit_copy().getSafeUri().asString(),
+			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_delete().getSafeUri().asString(),
 			        app.getMenu("Delete"), true), true, new Command() {
 				public void execute() {
 					app.deleteSelectedObjects();
