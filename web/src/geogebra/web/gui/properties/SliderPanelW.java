@@ -66,6 +66,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		model.setIncludeRandom(includeRandom); 
 
 		intervalPanel = new FlowPanel();
+		intervalPanel.setStyleName("sliderIntervalPanel");
 		sliderPanel = new FlowPanel();
 		animationPanel = new FlowPanel();
 
@@ -118,7 +119,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			}});
 
 
-		tfWidth = new AutoCompleteTextFieldW(4, app);
+		tfWidth = new AutoCompleteTextFieldW(8, app);
 		tfWidth.addKeyHandler(new KeyHandler(){
 
 			public void keyReleased(KeyEvent e) {
@@ -143,6 +144,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		intervalPanel.add(maxPanel);
 
 		FlowPanel widthPanel = new FlowPanel();
+		widthPanel.setStyleName("sliderWidthPanel");
 		widthPanel.add(widthLabel);
 		widthPanel.add(tfWidth);
 		widthPanel.add(widthUnitLabel);

@@ -317,7 +317,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
   height: 1px;
   padding: 0px;
   border: 0px;
-  border-top: 1px solid #EFEFEF;
+  border-top: 1px solid #E0E0E0;
   overflow: hidden;
 }
 .gwt-MenuBar-vertical .subMenuIcon {
@@ -654,8 +654,8 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 	font-size: 100%;
 	padding: 7px 5px;
-	border-bottom: 1px solid #EFEFEF;
-	background: #F8F8F8;
+	border-bottom: 1px solid #E0E0E0;
+	background: #F5F5F5;
 }
 
 .gwt-StackPanel .gwt-StackPanelItem img {
@@ -1110,7 +1110,7 @@ td.datePickerMonth {
 
 
 .gwt-TabLayoutPanel {
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
 .gwt-TabBar {
@@ -1254,7 +1254,7 @@ td.datePickerMonth {
 
 .gwt-SplitLayoutPanel-HDragger {
 	cursor: col-resize;
-  	background: #F8F8F8 url(images/thumb_vertical2.png) center center no-repeat;
+  	background: #F5F5F5 url(images/thumb_vertical2.png) center center no-repeat;
 	border-left: 1px solid #EDEDED;
 	border-right: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
@@ -1262,7 +1262,7 @@ td.datePickerMonth {
 
 .gwt-SplitLayoutPanel-VDragger {
   	cursor: row-resize;
-  	background: #F8F8F8 url(images/thumb_horz2.png) center center no-repeat;
+  	background: #F5F5F5 url(images/thumb_horz2.png) center center no-repeat;
 	border-left: 1px solid #EDEDED;
 	border-right: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
@@ -1409,7 +1409,7 @@ body[dir=rtl] .signIn {
 	margin-left: 2px;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	overflow-y: auto;
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 }
 
 .menubarSMART .menuPanel {
@@ -1751,7 +1751,7 @@ input[type="range"] {
 #####################################################################################*/
 
 .AlgebraInput {
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 	padding: 5px 0px;
 	border-top: 1px solid #EDEDED;
 	display: table;
@@ -1898,7 +1898,7 @@ body[dir=rtl] .undoPanel {
 }*/
 
 .toolbarPanel {
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	padding: 10px;
@@ -2066,7 +2066,8 @@ body[dir=rtl] .toolbar_mainItem {
 ###       DIALOGS
 #####################################################################################*/
 
-.DialogBox {
+.DialogBox,
+.gwt-DialogBox {
 	z-index: 15;
 }
 
@@ -2092,7 +2093,7 @@ body[dir=rtl] .toolbar_mainItem {
 
 .dialogContent {
 	color: #666666;
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 	padding: 0px;
 	background-image: none;
 	border: none;
@@ -2103,9 +2104,39 @@ body[dir=rtl] .toolbar_mainItem {
 	padding: 10px 10px 10px 10px;
 }
 
+.dialogContent table {
+	width: 100%;
+}
+
+.dialogContent input,
+.dialogContent select {
+	margin-top: 5px;
+}
+
+.dialogContent .gwt-CheckBox {
+	margin-right: 10px;
+}
+
+.dialogContent .sliderIntervalPanel div,
+.dialogContent .sliderWidthPanel div {
+	margin-right: 10px;
+	display: inline-block;
+}
+
+.dialogContent .sliderIntervalPanel .gwt-Label {
+	display: block;
+}
+
+.dialogContent .sliderWidthPanel .gwt-Label {
+	padding-top: 7px;
+}
+
 .Dialog-messagePanel {
-	/*font-size:85%;*/
 	margin-bottom: 10px;
+}
+
+.Dialog-messagePanel img {
+	margin:10px;
 }
 
 .DialogRbPanel {
@@ -2116,6 +2147,16 @@ body[dir=rtl] .toolbar_mainItem {
 	padding-right: 20px;
 }
 
+.dialogContent .sliderPanelWidget {
+	/*min-height: 170px;*/
+	min-width: 300px;
+	margin-top: 10px;
+}
+
+.sliderDialog .dialogContent .gwt-TabPanelBottom {
+	min-height: 150px;
+}
+
 .DialogButtonPanel {
 	text-align: right;
 	padding-top: 10px;
@@ -2124,10 +2165,6 @@ body[dir=rtl] .toolbar_mainItem {
 
 .DialogButtonPanel button{
 	margin-left: 5px;
-}
-
-.Dialog-messagePanel img {
-	margin:10px;
 }
 
 /*========= End Dialogs ===========*/
@@ -2760,7 +2797,7 @@ label {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	padding-left: 5px;
-	padding-right: 50px;
+	padding-right: 40px;
 }
 
 .SymbolToggleButton {
@@ -2772,8 +2809,8 @@ label {
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
-	right: 15px;
-	top: 16%;
+	right: 0px;
+	top: 11px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
@@ -2797,7 +2834,7 @@ label {
 }
 
 .GChecBoxMenuItem .gwt-CheckBox {
-	float:left;
+	float: left;
 }
 
 .GChecBoxMenuItem .gwt-HTML {
@@ -2981,7 +3018,7 @@ label {
 ###################################################################################################################*/
 
 .headerbar {
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	color: #666666;
@@ -3338,7 +3375,7 @@ PROVIDERS
 #####################################################################################*/
 
 .PropertiesViewW {
-	background-color: #F8F8F8;
+	background-color: #F5F5F5;
 	/*padding: 8px 8px 8px 0px;*/
 	border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -3393,12 +3430,34 @@ PROVIDERS
 	transform-origin:0% 0%;
 }
 
-html {
-	/*-webkit-transform:scale(0.8,0.8);
+.gwt-DialogBox {
+	-webkit-transform-origin:50% 50%;
+	-moz-transform-origin: 50% 50%;
+	transform-origin:50% 50%;
+	-webkit-transform:scale(0.8,0.8);
 	-moz-transform: scale(0.8,0.8);
-	width:125%;
-	height:125%;
-	-webkit-transform-origin:0% 0%;
-	-moz-transform-origin: 0% 0%;
-	transform-origin:0% 0%;*/
+}
+
+.gwt-PopupPanel {
+	-webkit-transform-origin: 100% 0%;
+	-moz-transform-origin: 100% 0%;
+	transform-origin: 100% 0%;
+	-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
+}
+
+.gwt-MenuBarPopup {
+	-webkit-transform-origin: 50% 0%;
+	-moz-transform-origin: 50% 0%;
+	transform-origin: 50% 0%;
+	-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
+}
+
+.gwt-SuggestBoxPopup {
+	-webkit-transform:scale(0.8,0.8);
+	-moz-transform: scale(0.8,0.8);
+	-webkit-transform-origin:0% 100%;
+	-moz-transform-origin: 0% 100%;
+	transform-origin:0% 100%;
 }

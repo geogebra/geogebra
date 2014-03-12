@@ -33,6 +33,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -53,9 +54,10 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	private SliderPanelW sliderPanel;
 	
 	private VerticalPanel mainWidget;
-	private HorizontalPanel topWidget;
-	private HorizontalPanel bottomWidget;
-	private VerticalPanel leftWidget, rightWidget;
+	private VerticalPanel contentWidget;
+	private FlowPanel bottomWidget;
+	private HorizontalPanel radioButtonWidget;
+	private VerticalPanel nameWidget;
 	
 	private AppW app;
 	//private SliderPanel sliderPanel;
@@ -73,7 +75,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	public SliderDialog(AppW app, int x, int y) {
 		super(false, true);
 		//super(app.getFrame(), false);
-		this.app = app;		
+		this.app = app;
+		this.addStyleName("sliderDialog");
 		//addWindowListener(this);
 		
 		// create temp geos that may be returned as result
@@ -101,6 +104,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		setWidget(mainWidget = new VerticalPanel());
 		addStyleName("GeoGebraPopup");
 		createGUI();
+		
+		this.setGlassEnabled(true);
 
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;
 		Object [] geos = { selGeo };
@@ -110,14 +115,17 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	private void createGUI() {
 		//setTitle(app.getPlain("Slider"));
 		//setResizable(false);
+		this.getCaption().setText(app.getPlain("Slider"));
 
 		//Create components to be displayed
-		mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);		
-		mainWidget.add(topWidget = new HorizontalPanel());
-		mainWidget.add(bottomWidget = new HorizontalPanel());
+		//mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);		
+		mainWidget.add(contentWidget = new VerticalPanel());
+		mainWidget.add(bottomWidget = new FlowPanel());
+		bottomWidget.setStyleName("DialogButtonPanel");
 
-		topWidget.add(leftWidget = new VerticalPanel());
-		topWidget.add(rightWidget = new VerticalPanel());
+		contentWidget.add(nameWidget = new VerticalPanel());
+		contentWidget.add(radioButtonWidget = new HorizontalPanel());
+		radioButtonWidget.setStyleName("DialogRbPanel");
 
 		// radio buttons for number or angle
 		String id = DOM.createUniqueId();
@@ -129,23 +137,24 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		rbInteger = new RadioButton(id, app.getPlain("Integer"));
 		rbInteger.addValueChangeHandler(this);
 
-		leftWidget.add(rbNumber);
-		leftWidget.add(rbAngle);
-		leftWidget.add(rbInteger);			
+		radioButtonWidget.add(rbNumber);
+		radioButtonWidget.add(rbAngle);
+		radioButtonWidget.add(rbInteger);			
 
 		sliderPanel = new SliderPanelW(app, true, true);
-		rightWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
+		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		
 //		FlowPanel namePanel = new FlowPanel();
 		nameLabel = new Label(app.getPlain("Name"));
-		rightWidget.add(nameLabel);
+		nameWidget.add(nameLabel);
 		
 		InputPanelW inputPanel = new InputPanelW(null, app, -1, false);
 		tfLabel = inputPanel.getTextComponent();
 		tfLabel.setAutoComplete(false);
-		rightWidget.add(tfLabel);
+		nameWidget.add(tfLabel);
 		
-		rightWidget.add(sliderPanel.getWidget());
+		contentWidget.add(sliderPanel.getWidget());
 
 
 		// buttons
@@ -157,7 +166,6 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		btCancel.addClickHandler(this);
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		bottomWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		bottomWidget.add(btApply);
 		bottomWidget.add(btCancel);
 	}
