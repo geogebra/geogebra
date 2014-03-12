@@ -3205,7 +3205,7 @@ public abstract class App implements UpdateSelection{
 	protected boolean needsSpreadsheetTableModel = false;
 	protected boolean showConstProtNavigationNeedsUpdate = false;
 	protected boolean showConsProtNavigation = false;
-	private boolean isErrorDialogsActive;
+	private boolean isErrorDialogsActive = true;
 
 	public void setNeedsSpreadsheetTableModel(){
 		needsSpreadsheetTableModel = true;
