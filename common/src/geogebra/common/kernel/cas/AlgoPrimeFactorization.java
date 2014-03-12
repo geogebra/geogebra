@@ -63,7 +63,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 
     @Override
 	public Commands getClassName() {
-		return Commands.PrimeFactors;
+		return Commands.Factors;
 	}
 
     @Override
