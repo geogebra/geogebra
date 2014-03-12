@@ -352,6 +352,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	private void setHelpPopup(){
 		if (helpPopup == null) {
 			helpPopup = new PopupPanel();
+			helpPopup.addStyleName("helpPopup");
 			helpPopup.setAutoHideEnabled(false);
 			helpPopup.add(app.getGuiManager().getInputHelpPanel());
 			helpPopup.addStyleName("GeoGebraPopup");

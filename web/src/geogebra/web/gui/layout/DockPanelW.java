@@ -343,7 +343,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	FlowPanel titleBarPanel;
 	
 	Label titleBarLabel;
-	private PushButton dragButton, closeButton;
+	private PushButton closeButton;
+	private FlowPanel dragPanel;
 
 	private VerticalPanel componentPanel;
 
@@ -391,9 +392,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if(!this.isStyleBarEmpty()){
 			addToggleButton();
 		}
-		dragButton = new PushButton(dragIcon);
-		dragButton.addDomHandler(this,MouseDownEvent.getType());
-		dragButton.setVisible(false);
+		dragPanel = new FlowPanel();
+		dragPanel.setStyleName("dragPanel");
+		dragPanel.addDomHandler(this,MouseDownEvent.getType());
+		dragPanel.setVisible(false);
+		dragPanel.add(dragIcon);
 		
 		closeButton = new PushButton(closeIcon);
 		closeButton.setVisible(isStyleBarEmpty());
@@ -408,7 +411,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		
 		
 		titleBarPanel.add(styleBarPanel);
-		titleBarPanel.add(dragButton);
+		titleBarPanel.add(dragPanel);
 		if(this.isStyleBarEmpty()){
 			titleBarPanel.add(closeButton);
 		}
@@ -1130,10 +1133,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	public abstract void showView(boolean b);
 
 	public void enableDragging(boolean drag){
-		if(dragButton==null){
+		if(dragPanel==null){
 			return;
 		}
-		dragButton.setVisible(drag);
+		dragPanel.setVisible(drag);
 		if(this.toggleStyleBarButton != null){
 			this.toggleStyleBarButton.setVisible(!drag);
 		}

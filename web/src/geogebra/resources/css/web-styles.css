@@ -11,64 +11,55 @@
  *      property: rule applies to all versions of IE
  *    }
  */
- 
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
  * name below, and attach it to the DOM.  Use a timer to detect when the
  * element's height and width are set to 5px.
  */
- 
- /*hack for toolbar submenu, that is isn't hidden by 
+/*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
- .ggbdockpanelhack > div {
- 	overflow: visible !important;
- }
- 
- body {
- 	color: #666666;
- }
- 
- input[type="text"],
- .gwt-TextBox,
- select,
- textarea,
- .gwt-TextArea {
- 	border: #EDEDED solid 1px;
+.ggbdockpanelhack>div {
+	overflow: visible !important;
+}
+
+body {
+	color: #666666;
+}
+
+input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea {
+	border: #EDEDED solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
 	color: #666666;
-	
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	
 	font-size: 100%;
-  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
- }
- 
- .gwt-TextBox-readonly,
- .gwt-TextArea-readonly {
-  color: #CCC;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
- 
- hr {
- 	height: 0px;
- 	border: none;
- 	border-bottom: 1px solid #DCDCDC;
- }
- 
- .clear {
- 	clear: both;
- }
- 
+
+.gwt-TextBox-readonly,.gwt-TextArea-readonly {
+	color: #CCC;
+}
+
+hr {
+	height: 0px;
+	border: none;
+	border-bottom: 1px solid #DCDCDC;
+}
+
+.clear {
+	clear: both;
+}
+
 .gwt-Reference-clean {
-  height: 5px;
-  width: 5px;
-  zoom: 1;
+	height: 5px;
+	width: 5px;
+	zoom: 1;
 }
 
 .gwt-FileUpload {
@@ -76,262 +67,304 @@
 }
 
 .gwt-Button {
- 	border-radius: 5px;
- 	-moz-border-radius: 5px;
- 	border: 1px solid #6666FF;
- 	color: #6666FF;
- 	background: none;
- 	font-size: 110%;
- 	padding: 4px 15px;
- 	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px rgba(204, 204, 204, 0.5);
- 	cursor: pointer;
- 	cursor: hand;
- 	margin-left: 5px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	border: 1px solid #6666FF;
+	color: #6666FF;
+	background: none;
+	font-size: 110%;
+	padding: 4px 15px;
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
+		rgba(204, 204, 204, 0.5);
+	cursor: pointer;
+	cursor: hand;
+	margin-left: 5px;
 }
+
 .gwt-Button:active {
-  	border: 1px inset #6666FF;
-  	background-color: rgba(204, 204, 255, 0.2);
+	border: 1px inset #6666FF;
+	background-color: rgba(204, 204, 255, 0.2);
 }
+
 .gwt-Button:hover {
-  	background-color: rgba(204, 204, 255, 0.2);
+	background-color: rgba(204, 204, 255, 0.2);
 }
+
 .gwt-Button[disabled] {
-  	cursor: default;
-  	color: #EDEDED;
-  	border-color: #EDEDED;
+	cursor: default;
+	color: #EDEDED;
+	border-color: #EDEDED;
 }
 /*.gwt-Button[disabled]:hover {
   	border: 1px outset #EDEDED;
 }*/
-
 .gwt-CheckBox {
+	
 }
+
 .gwt-CheckBox-disabled {
-  color: #888;
+	color: #888;
 }
 
 .gwt-DecoratorPanel {
+	
 }
+
 .gwt-DecoratorPanel .topCenter {
-  border-top: 1px solid #bbb;
-  line-height: 0px;
+	border-top: 1px solid #bbb;
+	line-height: 0px;
 }
+
 .gwt-DecoratorPanel .bottomCenter {
-  border-bottom: 1px solid #bbb;
-  line-height: 0px;
+	border-bottom: 1px solid #bbb;
+	line-height: 0px;
 }
-.gwt-DecoratorPanel .topCenterInner,
-.gwt-DecoratorPanel .bottomCenterInner {
-  height: 1px;
-  line-height: 0px;
-  font-size: 1px;
+
+.gwt-DecoratorPanel .topCenterInner,.gwt-DecoratorPanel .bottomCenterInner
+	{
+	height: 1px;
+	line-height: 0px;
+	font-size: 1px;
 }
+
 .gwt-DecoratorPanel .middleLeft {
-  border-left: 1px solid #bbb;
+	border-left: 1px solid #bbb;
 }
+
 .gwt-DecoratorPanel .middleRight {
-  border-right: 1px solid #bbb;
+	border-right: 1px solid #bbb;
 }
-.gwt-DecoratorPanel .middleLeftInner,
-.gwt-DecoratorPanel .middleRightInner {
-  width: 1px;
-  line-height: 1px;
+
+.gwt-DecoratorPanel .middleLeftInner,.gwt-DecoratorPanel .middleRightInner
+	{
+	width: 1px;
+	line-height: 1px;
 }
-.gwt-DecoratorPanel .topLeftInner,
-.gwt-DecoratorPanel .topRightInner,
-.gwt-DecoratorPanel .bottomLeftInner,
-.gwt-DecoratorPanel .bottomRightInner {
-  width: 5px;
-  height: 5px;
-  zoom: 1;
-  font-size: 1px;
-  overflow: hidden;
+
+.gwt-DecoratorPanel .topLeftInner,.gwt-DecoratorPanel .topRightInner,.gwt-DecoratorPanel .bottomLeftInner,.gwt-DecoratorPanel .bottomRightInner
+	{
+	width: 5px;
+	height: 5px;
+	zoom: 1;
+	font-size: 1px;
+	overflow: hidden;
 }
+
 .gwt-DecoratorPanel .topLeft {
-  line-height: 0px;
-  background: url(images/circles.png) no-repeat 0px -6px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -6px;
+	line-height: 0px;
+	background: url(images/circles.png) no-repeat 0px -6px;
+	-background: url(images/circles_ie6.png) no-repeat 0px -6px;
 }
+
 .gwt-DecoratorPanel .topRight {
-  line-height: 0px;
-  background: url(images/circles.png) no-repeat -5px -6px;
-  -background: url(images/circles_ie6.png) no-repeat -5px -6px;
+	line-height: 0px;
+	background: url(images/circles.png) no-repeat -5px -6px;
+	-background: url(images/circles_ie6.png) no-repeat -5px -6px;
 }
+
 .gwt-DecoratorPanel .bottomLeft {
-  line-height: 0px;
-  background: url(images/circles.png) no-repeat 0px -11px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -11px;
+	line-height: 0px;
+	background: url(images/circles.png) no-repeat 0px -11px;
+	-background: url(images/circles_ie6.png) no-repeat 0px -11px;
 }
+
 .gwt-DecoratorPanel .bottomRight {
-  line-height: 0px;
-  background: url(images/circles.png) no-repeat -5px -11px;
-  -background: url(images/circles_ie6.png) no-repeat -5px -11px;
-}
-* html .gwt-DecoratorPanel .topLeftInner,
-* html .gwt-DecoratorPanel .topRightInner,
-* html .gwt-DecoratorPanel .bottomLeftInner,
-* html .gwt-DecoratorPanel .bottomRightInner {
-  width: 5px;
-  height: 5px;
-  overflow: hidden;
+	line-height: 0px;
+	background: url(images/circles.png) no-repeat -5px -11px;
+	-background: url(images/circles_ie6.png) no-repeat -5px -11px;
 }
 
-
+* html .gwt-DecoratorPanel .topLeftInner,* html .gwt-DecoratorPanel .topRightInner,* html .gwt-DecoratorPanel .bottomLeftInner,* html .gwt-DecoratorPanel .bottomRightInner
+	{
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
 
 .gwt-DisclosurePanel {
 	margin-top: 5px;
 }
+
 .gwt-DisclosurePanel-open {
+	
 }
+
 .gwt-DisclosurePanel-closed {
+	
 }
-.gwt-DisclosurePanel .header,
-.gwt-DisclosurePanel .header a,
-.gwt-DisclosurePanel .header td {
-  	text-decoration: none;  /* Remove underline from header */
-  	cursor: pointer;
-  	cursor: hand;
-  	color: #666666;
+
+.gwt-DisclosurePanel .header,.gwt-DisclosurePanel .header a,.gwt-DisclosurePanel .header td
+	{
+	text-decoration: none; /* Remove underline from header */
+	cursor: pointer;
+	cursor: hand;
+	color: #666666;
 }
+
 .gwt-DisclosurePanel .content {
-  border-left: 3px solid #e7e7e7;
-  padding: 4px 0px 4px 8px;
-  margin-left: 6px;
+	border-left: 3px solid #e7e7e7;
+	padding: 4px 0px 4px 8px;
+	margin-left: 6px;
 }
 
 .gwt-FileUpload {
+	
 }
 
 .gwt-Frame {
-  border-top: 2px solid #666;
-  border-left: 2px solid #666;
-  border-right: 2px solid #bbb;
-  border-bottom: 2px solid #bbb;
+	border-top: 2px solid #666;
+	border-left: 2px solid #666;
+	border-right: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
 }
 
 .gwt-HorizontalSplitPanel {
+	
 }
+
 .gwt-HorizontalSplitPanel .hsplitter {
-  cursor: move;
-  border: 0px; 
-  background: #e7e7e7;
-  line-height: 0px;
+	cursor: move;
+	border: 0px;
+	background: #e7e7e7;
+	line-height: 0px;
 }
+
 .gwt-VerticalSplitPanel {
+	
 }
+
 .gwt-VerticalSplitPanel .vsplitter {
-  cursor: move;
-  border: 0px; 
-  background: #e7e7e7;
-  line-height: 0px;
+	cursor: move;
+	border: 0px;
+	background: #e7e7e7;
+	line-height: 0px;
 }
 
 .gwt-HTML {
-  padding: 0 0px;
+	padding: 0 0px;
 }
 
 .gwt-Hyperlink {
+	
 }
 
 .gwt-Image {
+	
 }
 
 .gwt-Label {
+	
 }
 
 .gwt-ListBox {
+	
 }
 
 .gwt-MenuBar {
-  cursor: default;
+	cursor: default;
 }
+
 .gwt-MenuBar .gwt-MenuItem {
-  cursor: default;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	cursor: default;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }
+
 .gwt-MenuBar .gwt-MenuItem-selected {
-  background: #CCCCFF;
+	background: #CCCCFF;
 }
 
 /*.gwt-MenuBar-horizontal {
   background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
   border: 1px solid #e0e0e0;
 }*/
-
-.gwt-MenuBar-horizontal .gwt-MenuItem {
-  /*padding: 5px 10px;*/
-  /*vertical-align: bottom;*/
-  /*color: #000;*/
-  /*font-weight: bold;*/
+.gwt-MenuBar-horizontal .gwt-MenuItem { /*padding: 5px 10px;*/
+	/*vertical-align: bottom;*/ /*color: #000;*/ /*font-weight: bold;*/
+	
 }
 
-.gwt-MenuBar .gwt-MenuItem-disabled, .gwt-MenuBar-horizontal .gwt-MenuItem-disabled {
+.gwt-MenuBar .gwt-MenuItem-disabled,.gwt-MenuBar-horizontal .gwt-MenuItem-disabled
+	{
 	color: #DCDCDC;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  width: 1px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  background: white;
-  /*border-left: 1px solid #ccc;*/
+	width: 1px;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	background: white;
+	/*border-left: 1px solid #ccc;*/
 }
 
 body[dir=ltr] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  /*border-left: 1px solid #ccc;*/
+	/*border-left: 1px solid #ccc;*/
+	
 }
+
 body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-  /*border-right: 1px solid #ccc;*/
+	/*border-right: 1px solid #ccc;*/
+	
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
-  width: 1px;
-  height: 1px;
-  background: white; 
+	width: 1px;
+	height: 1px;
+	background: white;
 }
+
 .gwt-MenuBar-vertical {
-  margin-top: 0px;
-  /*margin-left: 0px;*/
-  background: white;
+	margin-top: 0px;
+	/*margin-left: 0px;*/
+	background: white;
 }
+
 body[dir=ltr] .gwt-MenuBar-vertical {
-  margin-left: 0px;
+	margin-left: 0px;
 }
+
 body[dir=rtl] .gwt-MenuBar-vertical {
-  margin-right: 0px;
+	margin-right: 0px;
 }
+
 .gwt-MenuBar-vertical table {
-  border-collapse: collapse;
+	border-collapse: collapse;
 }
+
 .gwt-MenuBar-vertical .gwt-MenuItem {
-  padding: 2px 40px 2px 1px;
+	padding: 2px 40px 2px 1px;
 }
+
 body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
-  padding: 2px 1px 2px 40px;
+	padding: 2px 1px 2px 40px;
 }
+
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator {
-  padding: 2px 0px;
+	padding: 2px 0px;
 }
+
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
-  height: 1px;
-  padding: 0px;
-  border: 0px;
-  border-top: 1px solid #E0E0E0;
-  overflow: hidden;
+	height: 1px;
+	padding: 0px;
+	border: 0px;
+	border-top: 1px solid #E0E0E0;
+	overflow: hidden;
 }
+
 .gwt-MenuBar-vertical .subMenuIcon {
-  padding-right: 4px;
+	padding-right: 4px;
 }
+
 body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
-  padding-left: 4px;
+	padding-left: 4px;
 }
+
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-  background: #CCCCFF;
+	background: #CCCCFF;
 }
+
 .gwt-MenuBarPopup {
-  margin: 0px 0px 0px 3px;
-  z-index: 100;
+	margin: 0px 0px 0px 3px;
+	z-index: 100;
 }
 /*body[dir=rtl] .gwt-MenuBarPopup {
   margin: 0px 3px 0px 0px;
@@ -407,15 +440,15 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   height: 8px;
   overflow: hidden;
 }*/
-
 .gwt-PasswordTextBox {
-  padding: 5px 4px;
-  border: 1px solid #ccc;
-  border-top: 1px solid #999;
-  font-size: 100%;
+	padding: 5px 4px;
+	border: 1px solid #ccc;
+	border-top: 1px solid #999;
+	font-size: 100%;
 }
+
 .gwt-PasswordTextBox-readonly {
-  color: #888;
+	color: #888;
 }
 
 .gwt-PopupPanel {
@@ -436,90 +469,106 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-DecoratedPopupPanel .popupContent {
+	
 }
+
 .gwt-DecoratedPopupPanel .popupMiddleCenter {
-  padding: 3px;
-  background: #f1f1f1;
+	padding: 3px;
+	background: #f1f1f1;
 }
+
 .gwt-DecoratedPopupPanel .popupTopCenter {
-  background: url(images/hborder.png) 0px -2937px repeat-x;
+	background: url(images/hborder.png) 0px -2937px repeat-x;
 }
+
 .gwt-DecoratedPopupPanel .popupBottomCenter {
-  background:  url(images/hborder.png) repeat-x 0px -2938px;
-  -background: url(images/hborder_ie6.png) repeat-x 0px -2138px;
+	background: url(images/hborder.png) repeat-x 0px -2938px;
+	-background: url(images/hborder_ie6.png) repeat-x 0px -2138px;
 }
+
 .gwt-DecoratedPopupPanel .popupMiddleLeft {
-  background: url(images/vborder.png) -21px 0px repeat-y;
+	background: url(images/vborder.png) -21px 0px repeat-y;
 }
+
 .gwt-DecoratedPopupPanel .popupMiddleRight {
-  background: url(images/vborder.png) repeat-y -24px 0px;
-  -background: url(images/vborder_ie6.png) repeat-y -24px 0px;
+	background: url(images/vborder.png) repeat-y -24px 0px;
+	-background: url(images/vborder_ie6.png) repeat-y -24px 0px;
 }
+
 .gwt-DecoratedPopupPanel .popupTopLeftInner {
-  width: 6px;
-  height: 5px;
-  zoom: 1;
+	width: 6px;
+	height: 5px;
+	zoom: 1;
 }
+
 .gwt-DecoratedPopupPanel .popupTopRightInner {
-  width: 6px;
-  height: 5px;
-  zoom: 1;
+	width: 6px;
+	height: 5px;
+	zoom: 1;
 }
+
 .gwt-DecoratedPopupPanel .popupBottomLeftInner {
-  width: 6px;
-  height: 6px;
-  zoom: 1;
+	width: 6px;
+	height: 6px;
+	zoom: 1;
 }
+
 .gwt-DecoratedPopupPanel .popupBottomRightInner {
-  width: 6px;
-  height: 6px;
-  zoom: 1;
+	width: 6px;
+	height: 6px;
+	zoom: 1;
 }
+
 .gwt-DecoratedPopupPanel .popupTopLeft {
-  background: url(images/circles.png) no-repeat 0px -16px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -16px;
+	background: url(images/circles.png) no-repeat 0px -16px;
+	-background: url(images/circles_ie6.png) no-repeat 0px -16px;
 }
+
 .gwt-DecoratedPopupPanel .popupTopRight {
-  background: url(images/circles.png) no-repeat -6px -16px;
-  -background: url(images/circles_ie6.png) no-repeat -6px -16px;
+	background: url(images/circles.png) no-repeat -6px -16px;
+	-background: url(images/circles_ie6.png) no-repeat -6px -16px;
 }
+
 .gwt-DecoratedPopupPanel .popupBottomLeft {
-  background: url(images/circles.png) no-repeat 0px -21px;
-  -background: url(images/circles_ie6.png) no-repeat 0px -21px;
+	background: url(images/circles.png) no-repeat 0px -21px;
+	-background: url(images/circles_ie6.png) no-repeat 0px -21px;
 }
+
 .gwt-DecoratedPopupPanel .popupBottomRight {
-  background: url(images/circles.png) no-repeat -6px -21px;
-  -background: url(images/circles_ie6.png) no-repeat -6px -21px;
+	background: url(images/circles.png) no-repeat -6px -21px;
+	-background: url(images/circles_ie6.png) no-repeat -6px -21px;
 }
+
 * html .gwt-DecoratedPopupPanel .popupTopLeftInner {
-  width: 6px;
-  height: 5px;
-  overflow: hidden;
+	width: 6px;
+	height: 5px;
+	overflow: hidden;
 }
+
 * html .gwt-DecoratedPopupPanel .popupTopRightInner {
-  width: 6px;
-  height: 5px;
-  overflow: hidden;
+	width: 6px;
+	height: 5px;
+	overflow: hidden;
 }
+
 * html .gwt-DecoratedPopupPanel .popupBottomLeftInner {
-  width: 6px;
-  height: 6px;
-  overflow: hidden;
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
 }
+
 * html .gwt-DecoratedPopupPanel .popupBottomRightInner {
-  width: 6px;
-  height: 6px;
-  overflow: hidden;
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
 }
 
 .gwt-PopupPanelGlass {
-  background-color: #000;
-  opacity: 0.3;
-  filter: alpha(opacity=30);
-  z-index: 10;
+	background-color: #000;
+	opacity: 0.3;
+	filter: alpha(opacity = 30);
+	z-index: 10;
 }
-
-
 
 /*.gwt-PushButton-up,
 .gwt-PushButton-up-hovering,
@@ -532,10 +581,9 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   border-radius: 2px;
   -moz-border-radius: 2px;
 }*/
-.gwt-PushButton-up,
-.gwt-PushButton-up-hovering,
-.gwt-PushButton-up-disabled {
-  /*padding: 3px 5px 3px 5px;*/
+.gwt-PushButton-up,.gwt-PushButton-up-hovering,.gwt-PushButton-up-disabled
+	{ /*padding: 3px 5px 3px 5px;*/
+	
 }
 /*.gwt-PushButton-up {
   border:1px solid #bbb;
@@ -556,16 +604,14 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   filter: alpha(opacity=45);
   zoom: 1;
 }*/
-.gwt-PushButton-down,
-.gwt-PushButton-down-hovering,
-.gwt-PushButton-down-disabled {
-  /*padding: 4px 4px 2px 6px;*/
-  /*outline:none;*/
+.gwt-PushButton-down,.gwt-PushButton-down-hovering,.gwt-PushButton-down-disabled
+	{ /*padding: 4px 4px 2px 6px;*/ /*outline:none;*/
+	
 }
-.gwt-PushButton-down {
-  /*border: 1px inset #666;*/
-  /*cursor: pointer;
+
+.gwt-PushButton-down { /*border: 1px inset #666;*/ /*cursor: pointer;
   cursor: hand;*/
+	
 }
 /*.gwt-PushButton-down-hovering {
   border: 1px solid #939393;
@@ -580,73 +626,84 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   filter: alpha(opacity=45);
   zoom: 1;
 }*/
-
-
 .gwt-RadioButton {
+	
 }
+
 .gwt-RadioButton-disabled {
-  color: #888;
+	color: #888;
 }
 
 .gwt-RichTextArea {
+	
 }
+
 .hasRichTextToolbar {
-  border: 0px;
+	border: 0px;
 }
+
 .gwt-RichTextToolbar {
-  background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
-  border-bottom: 1px solid #BBBBBB;
-  padding: 3px;
-  margin: 0px;
+	background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 3px;
+	margin: 0px;
 }
+
 .gwt-RichTextToolbar .gwt-PushButton-up {
-  padding: 0px 1px 0px 0px;
-  margin-right: 4px;
-  margin-bottom: 4px;
-  border-width: 1px; 
+	padding: 0px 1px 0px 0px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	border-width: 1px;
 }
+
 .gwt-RichTextToolbar .gwt-PushButton-up-hovering {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 1px 0px 0px;
-  border-width: 1px; 
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 1px 0px 0px;
+	border-width: 1px;
 }
+
 .gwt-RichTextToolbar .gwt-PushButton-down {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 0px 0px 1px;
-  border-width: 1px; 
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 0px 0px 1px;
+	border-width: 1px;
 }
+
 .gwt-RichTextToolbar .gwt-PushButton-down-hovering {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 0px 0px 1px;
-  border-width: 1px; 
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 0px 0px 1px;
+	border-width: 1px;
 }
+
 .gwt-RichTextToolbar .gwt-ToggleButton-up {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 1px 0px 0px;
-  border:1px solid #bbb;
-  border-bottom: 1px solid #a0a0a0;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 1px 0px 0px;
+	border: 1px solid #bbb;
+	border-bottom: 1px solid #a0a0a0;
 }
+
 .gwt-RichTextToolbar .gwt-ToggleButton-up-hovering {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 1px 0px 0px;
-  border-width: 1px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 1px 0px 0px;
+	border-width: 1px;
 }
+
 .gwt-RichTextToolbar .gwt-ToggleButton-down {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 0px 0px 1px;
-  border-width: 1px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 0px 0px 1px;
+	border-width: 1px;
 }
+
 .gwt-RichTextToolbar .gwt-ToggleButton-down-hovering {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 0px 0px 1px;
-  border-width: 1px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 0px 0px 0px 1px;
+	border-width: 1px;
 }
 
 .gwt-StackPanel .gwt-StackPanelItem {
@@ -668,84 +725,98 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-DecoratedStackPanel {
-  border-bottom: 1px solid #bbbbbb;
+	border-bottom: 1px solid #bbbbbb;
 }
+
 .gwt-DecoratedStackPanel .gwt-StackPanelContent {
-  border: 1px solid #bbbbbb;
-  border-bottom: 0px;
-  background: white;
-  padding: 2px 2px 10px 5px;
+	border: 1px solid #bbbbbb;
+	border-bottom: 0px;
+	background: white;
+	padding: 2px 2px 10px 5px;
 }
+
 .gwt-DecoratedStackPanel .gwt-StackPanelItem {
-  cursor: pointer;
-  cursor: hand;
+	cursor: pointer;
+	cursor: hand;
 }
-.gwt-DecoratedStackPanel .stackItemTopLeft,
-.gwt-DecoratedStackPanel .stackItemTopRight {
-  height: 6px;
-  width: 6px;
-  zoom: 1;
+
+.gwt-DecoratedStackPanel .stackItemTopLeft,.gwt-DecoratedStackPanel .stackItemTopRight
+	{
+	height: 6px;
+	width: 6px;
+	zoom: 1;
 }
+
 .gwt-DecoratedStackPanel .stackItemTopLeft {
-  border-left: 1px solid #bbbbbb;
-  background: #d3def6 url(images/corner.png) no-repeat 0px -49px;
-  -background: #d3def6 url(images/corner_ie6.png) no-repeat 0px -49px;
+	border-left: 1px solid #bbbbbb;
+	background: #d3def6 url(images/corner.png) no-repeat 0px -49px;
+	-background: #d3def6 url(images/corner_ie6.png) no-repeat 0px -49px;
 }
+
 .gwt-DecoratedStackPanel .stackItemTopRight {
-  border-right: 1px solid #bbbbbb;
-  background: #d3def6 url(images/corner.png) no-repeat -6px -49px;
-  -background: #d3def6 url(images/corner_ie6.png) no-repeat -6px -49px;
+	border-right: 1px solid #bbbbbb;
+	background: #d3def6 url(images/corner.png) no-repeat -6px -49px;
+	-background: #d3def6 url(images/corner_ie6.png) no-repeat -6px -49px;
 }
-.gwt-DecoratedStackPanel .stackItemTopLeftInner,
-.gwt-DecoratedStackPanel .stackItemTopRightInner {
-  width: 1px;
-  height: 1px;
+
+.gwt-DecoratedStackPanel .stackItemTopLeftInner,.gwt-DecoratedStackPanel .stackItemTopRightInner
+	{
+	width: 1px;
+	height: 1px;
 }
-* html .gwt-DecoratedStackPanel .stackItemTopLeftInner,
-* html .gwt-DecoratedStackPanel .stackItemTopRightInner {
-  width: 6px;
-  height: 6px;
-  overflow: hidden;
+
+* html .gwt-DecoratedStackPanel .stackItemTopLeftInner,* html .gwt-DecoratedStackPanel .stackItemTopRightInner
+	{
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
 }
+
 .gwt-DecoratedStackPanel .stackItemTopCenter {
-  background: url(images/hborder.png) 0px -21px repeat-x;
+	background: url(images/hborder.png) 0px -21px repeat-x;
 }
+
 .gwt-DecoratedStackPanel .stackItemMiddleLeft {
-  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
-  border-left: 1px solid #bbbbbb;
+	background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+	border-left: 1px solid #bbbbbb;
 }
-.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,
-.gwt-DecoratedStackPanel .stackItemMiddleRightInner {
-  width: 1px;
-  height: 1px;
+
+.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,.gwt-DecoratedStackPanel .stackItemMiddleRightInner
+	{
+	width: 1px;
+	height: 1px;
 }
+
 .gwt-DecoratedStackPanel .stackItemMiddleRight {
-  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
-  border-right: 1px solid #bbbbbb;
+	background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+	border-right: 1px solid #bbbbbb;
 }
+
 .gwt-DecoratedStackPanel .stackItemMiddleCenter {
-  font-weight: bold;
-  font-size: 1.3em;
-  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+	font-weight: bold;
+	font-size: 1.3em;
+	background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 }
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft {
-  border: 0px;
-  background-color: white;
+
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft
+	{
+	border: 0px;
+	background-color: white;
 }
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft,
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight {
-  background-color: white;
+
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft,.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight
+	{
+	background-color: white;
 }
 
 .gwt-SuggestBox {
-  padding: 2px;
-  /*border: 1px solid #ccc;
-  border-top: 1px solid #999;*/
-  /*font-size: 100%;
+	padding: 2px;
+	/*border: 1px solid #ccc;
+  border-top: 1px solid #999;*/ /*font-size: 100%;
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
-  /*width: 96%;*/ /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
-  width: 100%; /* I think 100% works also fine */
+	/*width: 96%;*/
+	/* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
+	width: 100%; /* I think 100% works also fine */
 }
 
 .gwt-SuggestBoxPopup {
@@ -759,13 +830,13 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-SuggestBoxPopup .item {
-  padding: 5px 5px;
-  cursor: default;
-  /*font-size: 110%;*/
+	padding: 5px 5px;
+	cursor: default;
+	/*font-size: 110%;*/
 }
-.gwt-SuggestBoxPopup .item-selected {
-  /*background: #D5E2FF;*/
-  color: #6666FF;
+
+.gwt-SuggestBoxPopup .item-selected { /*background: #D5E2FF;*/
+	color: #6666FF;
 }
 /*.gwt-SuggestBoxPopup .suggestPopupContent {
   background: white;
@@ -856,7 +927,6 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   height: 0px;
   overflow: hidden;
 }*/
-
 /*.gwt-TextArea {
   padding: 4px;
   border: 1px solid #ccc;
@@ -864,19 +934,15 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   font-size: 100%;
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 }*/
-
 /*.gwt-TextArea-readonly {
   color: #888;
 }*/
-
-.gwt-TextBox {
- /* padding: 5px 4px;
+.gwt-TextBox { /* padding: 5px 4px;
   border: 1px solid #ccc;
   border-top: 1px solid #999;
   font-size: small;
   font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
-  
-  	/*border: #EDEDED solid 1px;
+	/*border: #EDEDED solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
 	color: #666666;
@@ -888,236 +954,247 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	
 	font-size: 100%;
   	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
+	
 }
 /*.gwt-TextBox-readonly {
   color: #888;
 }*/
-
-
-.gwt-ToggleButton-up,
-.gwt-ToggleButton-up-hovering,
-.gwt-ToggleButton-up-disabled,
-.gwt-ToggleButton-down,
-.gwt-ToggleButton-down-hovering,
-.gwt-ToggleButton-down-disabled {
-  margin: 0;
-  text-decoration: none;
-  /*background: url("images/hborder.png") repeat-x 0px -27px;
+.gwt-ToggleButton-up,.gwt-ToggleButton-up-hovering,.gwt-ToggleButton-up-disabled,.gwt-ToggleButton-down,.gwt-ToggleButton-down-hovering,.gwt-ToggleButton-down-disabled
+	{
+	margin: 0;
+	text-decoration: none;
+	/*background: url("images/hborder.png") repeat-x 0px -27px;
   -moz-border-radius: 2px;
   border-radius: 2px;*/
 }
-.gwt-ToggleButton-up,
-.gwt-ToggleButton-up-hovering,
-.gwt-ToggleButton-up-disabled {
-  /*padding: 3px 5px 3px 5px;*/
+
+.gwt-ToggleButton-up,.gwt-ToggleButton-up-hovering,.gwt-ToggleButton-up-disabled
+	{ /*padding: 3px 5px 3px 5px;*/
+	
 }
-.gwt-ToggleButton-up {
-  /*border:1px solid #bbb;
+
+.gwt-ToggleButton-up { /*border:1px solid #bbb;
   border-bottom: 1px solid #a0a0a0;  */
-  cursor: pointer;
-  cursor: hand;
+	cursor: pointer;
+	cursor: hand;
 }
-.gwt-ToggleButton-up-hovering {
-  /*border: 1px solid;
+
+.gwt-ToggleButton-up-hovering { /*border: 1px solid;
   border-color: #939393;*/
-  color: #6666FF;
-  border-color: #CCCCFF;
-  cursor: pointer;
-  cursor: hand;
+	color: #6666FF;
+	border-color: #CCCCFF;
+	cursor: pointer;
+	cursor: hand;
 }
-.gwt-ToggleButton-up-disabled {
-  /*border: 1px solid #bbb;*/
-  cursor: default;
-  opacity: .5;
-  zoom: 1;
-  filter: alpha(opacity=45);
+
+.gwt-ToggleButton-up-disabled { /*border: 1px solid #bbb;*/
+	cursor: default;
+	opacity: .5;
+	zoom: 1;
+	filter: alpha(opacity = 45);
 }
-.gwt-ToggleButton-down,
-.gwt-ToggleButton-down-hovering,
-.gwt-ToggleButton-down-disabled {
-  /*padding: 4px 4px 2px 6px;*/
+
+.gwt-ToggleButton-down,.gwt-ToggleButton-down-hovering,.gwt-ToggleButton-down-disabled
+	{ /*padding: 4px 4px 2px 6px;*/
+	
 }
-.gwt-ToggleButton-down {
-  /*background-position: 0 -513px;
+
+.gwt-ToggleButton-down { /*background-position: 0 -513px;
   border: 1px inset #666;*/
-  cursor: pointer;
-  cursor: hand;
+	cursor: pointer;
+	cursor: hand;
 }
-.gwt-ToggleButton-down-hovering {
-  /*background-position: 0 -513px;
+
+.gwt-ToggleButton-down-hovering { /*background-position: 0 -513px;
   border: 1px inset;
   border-color: #9cf #69e #69e #7af;*/
-  color: #6666FF;
-  cursor: pointer;
-  cursor: hand;
+	color: #6666FF;
+	cursor: pointer;
+	cursor: hand;
 }
-.gwt-ToggleButton-down-disabled {
-  /*background-position: 0 -513px;
+
+.gwt-ToggleButton-down-disabled { /*background-position: 0 -513px;
   border: 1px inset #ccc;*/
-  cursor: default;
-  opacity: .5;
-  zoom: 1;
-  filter: alpha(opacity=45);
+	cursor: default;
+	opacity: .5;
+	zoom: 1;
+	filter: alpha(opacity = 45);
 }
 
 .gwt-Tree .gwt-TreeItem {
-  padding: 1px 0px;
-  margin: 0px;
-  white-space: nowrap;
-  cursor: hand;
-  cursor: pointer;
+	padding: 1px 0px;
+	margin: 0px;
+	white-space: nowrap;
+	cursor: hand;
+	cursor: pointer;
 }
+
 .gwt-Tree .gwt-TreeItem-selected {
-  background: #CCCCFF;
+	background: #CCCCFF;
 }
-.gwt-TreeItem .gwt-RadioButton input,
-.gwt-TreeItem .gwt-CheckBox input {
-  margin-left: 0px;
+
+.gwt-TreeItem .gwt-RadioButton input,.gwt-TreeItem .gwt-CheckBox input {
+	margin-left: 0px;
 }
-* html .gwt-TreeItem .gwt-RadioButton input,
-* html .gwt-TreeItem .gwt-CheckBox input {
-  margin-left: -4px;
+
+* html .gwt-TreeItem .gwt-RadioButton input,* html .gwt-TreeItem .gwt-CheckBox input
+	{
+	margin-left: -4px;
 }
 
 .gwt-DateBox {
-  padding: 5px 4px;
-  border: 1px solid #ccc;
-  border-top: 1px solid #999;
-  font-size: 100%;
+	padding: 5px 4px;
+	border: 1px solid #ccc;
+	border-top: 1px solid #999;
+	font-size: 100%;
 }
+
 .gwt-DateBox input {
-  width: 8em;
+	width: 8em;
 }
+
 .dateBoxFormatError {
-  background: #ffcccc;
+	background: #ffcccc;
 }
+
 .dateBoxPopup {
+	
 }
 
 .gwt-DatePicker {
-  border: 1px solid #ccc;
-  border-top:1px solid #999;
-  cursor: default;
+	border: 1px solid #ccc;
+	border-top: 1px solid #999;
+	cursor: default;
 }
-.gwt-DatePicker td,
-.datePickerMonthSelector td:focus {
-  outline: none;
+
+.gwt-DatePicker td,.datePickerMonthSelector td:focus {
+	outline: none;
 }
+
 .datePickerDays {
-  width: 100%;
-  background: white;
+	width: 100%;
+	background: white;
 }
-.datePickerDay,
-.datePickerWeekdayLabel,
-.datePickerWeekendLabel {
-  font-size: 85%;
-  text-align: center;
-  padding: 4px;
-  outline: none;
-  font-weight:bold;
-  color:#333;
-  border-right: 1px solid #EDEDED;
-  border-bottom: 1px solid #EDEDED;
+
+.datePickerDay,.datePickerWeekdayLabel,.datePickerWeekendLabel {
+	font-size: 85%;
+	text-align: center;
+	padding: 4px;
+	outline: none;
+	font-weight: bold;
+	color: #333;
+	border-right: 1px solid #EDEDED;
+	border-bottom: 1px solid #EDEDED;
 }
-.datePickerWeekdayLabel,
-.datePickerWeekendLabel {
-  background: #fff;
-  padding: 0px 4px 2px;
-  cursor: default;
-  color:#666;
-  font-size:70%;
-  font-weight:normal;
+
+.datePickerWeekdayLabel,.datePickerWeekendLabel {
+	background: #fff;
+	padding: 0px 4px 2px;
+	cursor: default;
+	color: #666;
+	font-size: 70%;
+	font-weight: normal;
 }
+
 .datePickerDay {
-  padding: 4px 7px;
-  cursor: hand;
-  cursor: pointer;
+	padding: 4px 7px;
+	cursor: hand;
+	cursor: pointer;
 }
+
 .datePickerDayIsWeekend {
-  background: #f7f7f7;
+	background: #f7f7f7;
 }
+
 .datePickerDayIsFiller {
-  color: #999;
-  font-weight:normal;
+	color: #999;
+	font-weight: normal;
 }
+
 .datePickerDayIsValue {
-  background: #d7dfe8;
+	background: #d7dfe8;
 }
+
 .datePickerDayIsDisabled {
-  color: #AAAAAA;
-  font-style: italic;
+	color: #AAAAAA;
+	font-style: italic;
 }
+
 .datePickerDayIsHighlighted {
-  background: #F0E68C;
+	background: #F0E68C;
 }
+
 .datePickerDayIsValueAndHighlighted {
-  background: #d7dfe8;
+	background: #d7dfe8;
 }
+
 .datePickerDayIsToday {
-  padding: 3px;
-  color: #fff;
-  background: url(images/hborder.png) repeat-x 0px -2607px;
+	padding: 3px;
+	color: #fff;
+	background: url(images/hborder.png) repeat-x 0px -2607px;
 }
 
 .datePickerMonthSelector {
-  width: 100%;
-  padding: 1px 0 5px 0;
-  background: #fff;
+	width: 100%;
+	padding: 1px 0 5px 0;
+	background: #fff;
 }
+
 td.datePickerMonth {
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  font-size: 100%;
-  font-weight: bold;
-  color: #333;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	font-size: 100%;
+	font-weight: bold;
+	color: #333;
 }
-.datePickerPreviousButton,
-.datePickerNextButton {
-  font-size: 120%;
-  line-height: 1em;
-  color: #3a6aad;
-  cursor: hand;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 0px 4px;
-  outline: none;
+
+.datePickerPreviousButton,.datePickerNextButton {
+	font-size: 120%;
+	line-height: 1em;
+	color: #3a6aad;
+	cursor: hand;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 0px 4px;
+	outline: none;
 }
 
 .gwt-StackLayoutPanel {
-  border-bottom: 1px solid #bbbbbb;
+	border-bottom: 1px solid #bbbbbb;
 }
+
 .gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
-  cursor: pointer;
-  cursor: hand;
-  font-weight: bold;
-  font-size: 1.3em;
-  padding: 3px;
-  border: 1px solid #bbbbbb;
-  border-bottom: 0px;
-  background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
+	cursor: pointer;
+	cursor: hand;
+	font-weight: bold;
+	font-size: 1.3em;
+	padding: 3px;
+	border: 1px solid #bbbbbb;
+	border-bottom: 0px;
+	background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 }
+
 .gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering {
-  background: #d3def6;
+	background: #d3def6;
 }
+
 .gwt-StackLayoutPanel .gwt-StackLayoutPanelContent {
-  border: 1px solid #bbbbbb;
-  border-bottom: 0px;
-  background: white;
-  padding: 2px 2px 10px 5px;
+	border: 1px solid #bbbbbb;
+	border-bottom: 0px;
+	background: white;
+	padding: 2px 2px 10px 5px;
 }
-
-
 
 .gwt-TabLayoutPanel {
 	background-color: #F0F0F0;
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
-.gwt-TabBar {
-  border-bottom: 1px solid #DCDCDC;
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,.gwt-TabBar {
+	border-bottom: 1px solid #DCDCDC;
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
-.gwt-TabBar .gwt-TabBarItem {
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,.gwt-TabBar .gwt-TabBarItem {
 	margin-right: 4px;
 	padding: 4px 8px;
 	height: 30px;
@@ -1134,11 +1211,13 @@ td.datePickerMonth {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
+
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
 	height: 15px;
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
-.gwt-TabBar .gwt-TabBarItem-selected {
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,.gwt-TabBar .gwt-TabBarItem-selected
+	{
 	cursor: default;
 	background: white;
 	color: #6666FF;
@@ -1148,182 +1227,192 @@ td.datePickerMonth {
 .gwt-TabBar .gwt-TabBarItem-disabled {
 	display: none;
 }
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
-.gwt-TabPanelBottom {
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,.gwt-TabPanelBottom {
 	overflow: hidden;
 	padding: 5px;
 	background-color: #FFFFFF;
 	border: 1px solid #DCDCDC;
-  	border-top: none;
+	border-top: none;
 }
-.gwt-TabBar .gwt-TabBarFirst,
-.gwt-TabBar .gwt-TabBarRest {
+
+.gwt-TabBar .gwt-TabBarFirst,.gwt-TabBar .gwt-TabBarRest {
 	width: 0px;
 }
 
-
-
 .gwt-DecoratedTabBar {
-  background: #ccc;
-  padding-top: 6px;
+	background: #ccc;
+	padding-top: 6px;
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarFirst {
-  width: 5px;  /* first tab distance from the left */
+	width: 5px; /* first tab distance from the left */
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarRest {
+	
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarItem {
-  border-collapse: collapse;
-  margin-left: 4px;
+	border-collapse: collapse;
+	margin-left: 4px;
 }
+
 .gwt-DecoratedTabBar .tabTopCenter {
-  padding: 0px;
-  background: #8E8E8E;
+	padding: 0px;
+	background: #8E8E8E;
 }
-.gwt-DecoratedTabBar .tabTopLeft,
-.gwt-DecoratedTabBar .tabTopRight {
-  padding: 0px;
-  zoom: 1;
+
+.gwt-DecoratedTabBar .tabTopLeft,.gwt-DecoratedTabBar .tabTopRight {
+	padding: 0px;
+	zoom: 1;
 }
-.gwt-DecoratedTabBar .tabTopLeftInner,
-.gwt-DecoratedTabBar .tabTopRightInner {
-  width: 3px;
-  height: 3px;
+
+.gwt-DecoratedTabBar .tabTopLeftInner,.gwt-DecoratedTabBar .tabTopRightInner
+	{
+	width: 3px;
+	height: 3px;
 }
+
 .gwt-DecoratedTabBar .tabTopLeft {
-  background: url(images/circles.png) no-repeat 0px 0px;
-  -background: url(images/circles_ie6.png) no-repeat 0px 0px;
+	background: url(images/circles.png) no-repeat 0px 0px;
+	-background: url(images/circles_ie6.png) no-repeat 0px 0px;
 }
+
 .gwt-DecoratedTabBar .tabTopRight {
-  background: url(images/circles.png) no-repeat -3px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -3px 0px;
+	background: url(images/circles.png) no-repeat -3px 0px;
+	-background: url(images/circles_ie6.png) no-repeat -3px 0px;
 }
-* html .gwt-DecoratedTabBar .tabTopLeftInner,
-* html .gwt-DecoratedTabBar .tabTopRightInner {
-  width: 3px;
-  height: 3px;
-  overflow: hidden;
+
+* html .gwt-DecoratedTabBar .tabTopLeftInner,* html .gwt-DecoratedTabBar .tabTopRightInner
+	{
+	width: 3px;
+	height: 3px;
+	overflow: hidden;
 }
-.gwt-DecoratedTabBar .tabMiddleLeft,
-.gwt-DecoratedTabBar .tabMiddleRight {
-  width: 3px;
-  padding: 0px;
-  background: #8E8E8E;
+
+.gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight
+	{
+	width: 3px;
+	padding: 0px;
+	background: #8E8E8E;
 }
-.gwt-DecoratedTabBar .tabMiddleLeftInner,
-.gwt-DecoratedTabBar .tabMiddleRightInner {
-  width: 1px;
-  height: 1px;
+
+.gwt-DecoratedTabBar .tabMiddleLeftInner,.gwt-DecoratedTabBar .tabMiddleRightInner
+	{
+	width: 1px;
+	height: 1px;
 }
+
 .gwt-DecoratedTabBar .tabMiddleCenter {
-  padding: 0px 5px 4px 5px;
-  cursor: pointer;
-  cursor: hand;
-  color: #fff;
-  font-weight: normal;
-  text-align: center;
-  background: #8E8E8E;
+	padding: 0px 5px 4px 5px;
+	cursor: pointer;
+	cursor: hand;
+	color: #fff;
+	font-weight: normal;
+	text-align: center;
+	background: #8E8E8E;
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-  background:#fff;
+	background: #fff;
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
-  background: url(images/circles.png) no-repeat -6px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -6px 0px;
+	background: url(images/circles.png) no-repeat -6px 0px;
+	-background: url(images/circles_ie6.png) no-repeat -6px 0px;
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
-  background: url(images/circles.png) no-repeat -9px 0px;
-  -background: url(images/circles_ie6.png) no-repeat -9px 0px;
+	background: url(images/circles.png) no-repeat -9px 0px;
+	-background: url(images/circles_ie6.png) no-repeat -9px 0px;
 }
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
-  background: #fff;
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight
+	{
+	background: #fff;
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
-  cursor: default;
-  background: #fff;
-  color:#333;
-  font-weight:bold;
+	cursor: default;
+	background: #fff;
+	color: #333;
+	font-weight: bold;
 }
+
 .gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
-  cursor: default;
-  color: #999999;
+	cursor: default;
+	color: #999999;
 }
-
-
 
 .gwt-SplitLayoutPanel-HDragger {
 	cursor: col-resize;
-  	background: #F0F0F0 url(images/thumb_vertical2.png) center center no-repeat;
+	background: #F0F0F0 url(images/thumb_vertical2.png) center center
+		no-repeat;
 	border-left: 1px solid #EDEDED;
 	border-right: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 }
 
 .gwt-SplitLayoutPanel-VDragger {
-  	cursor: row-resize;
-  	background: #F0F0F0 url(images/thumb_horz2.png) center center no-repeat;
+	cursor: row-resize;
+	background: #F0F0F0 url(images/thumb_horz2.png) center center no-repeat;
 	border-left: 1px solid #EDEDED;
 	border-right: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 }
 
-
-
-
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
-
-
 /*============ App common styles ============*/
-.GeoGebraAppFrame, .GeoGebraFrame,
-.GeoGebraPopup, .DialogBox, .gwt-PopupPanel, .gwt-SuggestBoxPopup {
-	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup
+	{
+	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype",
+		Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad,
+		"DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma,
+		Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.GeoGebraAppFrame *:focus,
-.GeoGebraFrame *:focus,
-.GeoGebraPopup *:focus,
-.DialogBox *:focus {
+.GeoGebraAppFrame *:focus,.GeoGebraFrame *:focus,.GeoGebraPopup *:focus,.DialogBox *:focus
+	{
 	outline: none; /* Fixing Chrome's default outline on focus */
 }
 
-.GeoGebraAppFrame select,
-.GeoGebraFrame select,
-.GeoGebraPopup select,
-.DialogBox select {
-	/*border: 1px solid gray;*/ /* Undo fixed styling of Safari dropdowns  */
-	/*font-size: smaller;*/
+.GeoGebraAppFrame select,.GeoGebraFrame select,.GeoGebraPopup select,.DialogBox select
+	{ /*border: 1px solid gray;*/
+	/* Undo fixed styling of Safari dropdowns  */ /*font-size: smaller;*/
 	/*color: #666666;*/
+	
 }
 
 /*.GeoGebraPopup {
 	padding: 0px;
 }*/
-
 .geogebraweb {
-	display:inline-block;
-	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
-	 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
-  }
+	display: inline-block;
+	-ms-touch-action: none;
+	/* Direct all pointer events to JavaScript code. */
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+}
 
- .geogebraweb .jsloaded {
- 	border:1px solid black;
- 	position:relative;
-  }
-  
-  .geogebraweb .applet-focused {
-  	border-color: #000000;
-  }
-  
-  .geogebraweb .applet-unfocused {
-    border-color: #D3D3D3;
-  }
-  
- .geogebraweb .splash {
-  	position:absolute;
-  }
- 
+.geogebraweb .jsloaded {
+	border: 1px solid black;
+	position: relative;
+}
+
+.geogebraweb .applet-focused {
+	border-color: #000000;
+}
+
+.geogebraweb .applet-unfocused {
+	border-color: #D3D3D3;
+}
+
+.geogebraweb .splash {
+	position: absolute;
+}
+
 /*not let user select the canvas*/
 .geogebraweb canvas {
 	-webkit-touch-callout: none;
@@ -1345,40 +1434,38 @@ td.datePickerMonth {
 /*#####################################################################################
 ###      CURSORS
 #####################################################################################*/
- .cursor_wait {
- 	cursor:wait;
- }
- 
- .cursor_default {
- 	cursor:crosshair;
- }
- 
- .cursor_hit {
- 	cursor:default;
- }
- 
- .cursor_drag {
- 	cursor:pointer;
- 	cursor:hand;
- }
- 
- .cursor_resizeXAxis {
- 	cursor:e-resize;
- }
- 
- .cursor_resizeYAxis {
- 	cursor:n-resize;
- }
- 
- .cursor_move {
- 	cursor:move;
- }
- 
+.cursor_wait {
+	cursor: wait;
+}
+
+.cursor_default {
+	cursor: crosshair;
+}
+
+.cursor_hit {
+	cursor: default;
+}
+
+.cursor_drag {
+	cursor: pointer;
+	cursor: hand;
+}
+
+.cursor_resizeXAxis {
+	cursor: e-resize;
+}
+
+.cursor_resizeYAxis {
+	cursor: n-resize;
+}
+
+.cursor_move {
+	cursor: move;
+}
 
 /*#####################################################################################
 ###       GEOGEBRA MENUBAR
 #####################################################################################*/
-
 /*.linktoggbtube {
 	position:absolute;
 	right:20px;
@@ -1400,7 +1487,6 @@ body[dir=rtl] .signIn {
 	right: auto;
 	left: 50px;
 }*/
-
 .ggbmenubarwrapper {
 	width: 100%;
 }
@@ -1416,7 +1502,7 @@ body[dir=rtl] .signIn {
 	width: 100%;
 }
 
-.GeoGebraMenuBar > table {
+.GeoGebraMenuBar>table {
 	margin-top: 5px;
 	margin-bottom: 8px;
 	width: 100%;
@@ -1437,15 +1523,13 @@ body[dir=rtl] .signIn {
 }
 
 /* Submenus just for SMART */
-
 .GeoGebraMenuBar.subMenuLeftSide {
-    right: 220px;
-    white-space:nowrap;
-    top: -10px;
-    position: absolute;
-    z-index: 1000;
-    
-    -webkit-border-radius: 10px;
+	right: 220px;
+	white-space: nowrap;
+	top: -10px;
+	position: absolute;
+	z-index: 1000;
+	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -1464,7 +1548,7 @@ body[dir=rtl] .signIn {
 	right: -15px;
 }
 
-.GeoGebraMenuBar.subMenuLeftSide > table {
+.GeoGebraMenuBar.subMenuLeftSide>table {
 	margin: 0px;
 }
 
@@ -1479,19 +1563,19 @@ body[dir=rtl] .signIn {
 /*#####################################################################################
 ###       CONTEXT MENU
 #####################################################################################*/
-
 /*
 Paddings for menuitems.
 */
 .gwt-MenuBar-vertical .mi_no_image {
 	padding-left: 41px;
 }
+
 .gwt-MenuBar-vertical .mi_with_image {
 	padding-left: 21px;
 }
 
 .gPopupMenu_item {
-	white-space:nowrap;
+	white-space: nowrap;
 }
 
 .gPopupMenu_item .gwt-HTML {
@@ -1503,11 +1587,9 @@ Paddings for menuitems.
 	vertical-align: top;
 }
 
-
 /*#####################################################################################
 ###       STYLEBAR
 #####################################################################################*/
-
 .ButtonPopupMenu div:focus {
 	border: 1px solid transparent;
 }
@@ -1532,9 +1614,8 @@ Paddings for menuitems.
 .SelectionTable canvas.selected {
 	border: 1px solid black;
 }*/
-
 .TitleBarPanel {
-	z-index:1;
+	z-index: 1;
 	left: auto !important;
 	bottom: auto !important;
 	height: 32px;
@@ -1547,6 +1628,7 @@ Paddings for menuitems.
 .TitleBarPanel-focus {
 	/*background: url("images/hborder.png") repeat-x 0px -60px;*/
 	/*background: #CCCCFF;*/
+	
 }
 
 .TitleBarPanel .toggleStyleBar {
@@ -1554,14 +1636,16 @@ Paddings for menuitems.
 	border: none;
 }
 
-.TitleBarLabel {
-	/*font-size: 10px;*/
-	/*font-size: 100%;*/
-	/*font-weight: bold;*/
+.TitleBarPanel .dragPanel {
+	padding-top: 1px;
 }
 
-.StyleBarPanel {
-	/*margin: auto 0;
+.TitleBarLabel { /*font-size: 10px;*/ /*font-size: 100%;*/
+	/*font-weight: bold;*/
+	
+}
+
+.StyleBarPanel { /*margin: auto 0;
 	margin-top: 0px;
 	height: 42px;
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);*/
@@ -1570,6 +1654,7 @@ Paddings for menuitems.
 }
 
 .StyleBar {
+	
 }
 
 .CloseButton {
@@ -1579,13 +1664,13 @@ Paddings for menuitems.
 	height: 15px;
 }
 
-.DockGlassPane, .TitleBarPanel {
+.DockGlassPane,
+.TitleBarPanel {
 	cursor: pointer;
 	cursor: hand;
 	-moz-user-focus: ignore;
 	-moz-user-input: disabled;
 	-moz-user-select: none;
-	
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -1595,21 +1680,17 @@ Paddings for menuitems.
 	user-select: none;
 }
 
-
 /*.StyleBarToggleButton {
 	margin:0;
 	padding: 0;
 }*/
-
-.VerticalSeparator{
+.VerticalSeparator {
 	margin: auto 0;
 	color: gray;
 }
 
-.MyToggleButton,
-.MyCanvasButton {
+.MyToggleButton,.MyCanvasButton {
 	text-align: center;
-	
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -1622,8 +1703,7 @@ Paddings for menuitems.
 	margin-left: 4px;
 }
 
-.MyToggleButton.selected,
-.MyCanvasButton.selected {
+.MyToggleButton.selected,.MyCanvasButton.selected {
 	border-color: #6666FF;
 }
 
@@ -1660,21 +1740,22 @@ Paddings for menuitems.
 	text-decoration: none;
 	color: #666666;
 	border-radius: none;
-    display: block;
-    padding: 1px;
+	display: block;
+	padding: 1px;
 }
 
-.SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
+.SelectionTable a:hover,.SelectionTable a:focus,.SelectionTable canvas:hover,.SelectionTable canvas:focus
+	{
 	background: #CCCCFF;
 }
 
-input[type="range"] {
-	/*width: 100%;*/
+input[type="range"] { /*width: 100%;*/
 	margin: 0px;
 	padding: 5px 0px;
 }
 
 .ApplicationPanel {
+	
 }
 
 .SpreadsheetEditorCell {
@@ -1690,7 +1771,7 @@ input[type="range"] {
 	width: 0px;
 }
 
-.geogebraweb-table-spreadsheet td{
+.geogebraweb-table-spreadsheet td {
 	border-right: 1px solid gray;
 	border-bottom: 1px solid gray;
 	overflow: hidden;
@@ -1698,7 +1779,7 @@ input[type="range"] {
 	white-space: nowrap;
 }
 
-.geogebraweb-table-spreadsheet.off td{
+.geogebraweb-table-spreadsheet.off td {
 	border-right: 0px;
 	border-bottom: 0px;
 }
@@ -1717,9 +1798,8 @@ input[type="range"] {
 	background-color: white;
 }
 
-.geogebraweb-button-spreadsheet,
-.geogebraweb-checkbox-spreadsheet,
-.geogebraweb-select-spreadsheet {
+.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet
+	{
 	position: relative;
 	z-index: 10;
 }
@@ -1749,7 +1829,6 @@ input[type="range"] {
 /*#####################################################################################
 ###       ALGEBRA INPUT
 #####################################################################################*/
-
 .AlgebraInput {
 	background-color: #F0F0F0;
 	padding: 5px 0px;
@@ -1762,9 +1841,9 @@ input[type="range"] {
 	-moz-box-sizing: border-box;
 }
 
-.AlgebraInput > * {
+.AlgebraInput>* {
 	display: table-cell;
-	vertical-align:  middle;
+	vertical-align: middle;
 	text-align: center;
 }
 
@@ -1791,7 +1870,7 @@ input[type="range"] {
 	padding: 5px;
 }
 
-.SymbolTable td:hover, .SymbolTable td.focus {
+.SymbolTable td:hover,.SymbolTable td.focus {
 	background: #CCCCFF;
 	color: #6666FF;
 }
@@ -1799,26 +1878,23 @@ input[type="range"] {
 /*.InputPanel input.TextField {
     display:block;
 }*/
-
-.historyList {	
+.historyList {
 	min-width: 200px;
 	font-size: inherit;
 	border: none;
 	margin: 0px;
 }
 
-
 .inputHelpToggleButton {
-	text-decoration:none;
-	border:none;
-	background:none;
-	width:100%;
+	text-decoration: none;
+	border: none;
+	background: none;
+	width: 100%;
 }
 
 /*#####################################################################################
 ###       TOOLTIP
 #####################################################################################*/
-
 .ToolTip {
 	display: block;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
@@ -1840,11 +1916,9 @@ input[type="range"] {
 	font-size: 80%;
 }
 
-
 /*#####################################################################################
 ###       TOOLBAR
 #####################################################################################*/
-
 /*.menubar2 {
 	outline: 0px;
 	background: lightsteelblue;
@@ -1896,7 +1970,6 @@ body[dir=rtl] .undoPanel {
 	right: 5px;
 	padding: 1px;
 }*/
-
 .toolbarPanel {
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #EDEDED;
@@ -1914,6 +1987,7 @@ body[dir=rtl] .undoPanel {
 .toolbar_mainItem {
 	margin-right: 50px;
 }
+
 body[dir=rtl] .toolbar_mainItem {
 	margin-right: 0px;
 	margin-left: 50px;
@@ -1961,7 +2035,6 @@ body[dir=rtl] .toolbar_mainItem {
 	height: 5px;
 	top: -19px;
 }*/
-
 .furtherToolsTriangle {
 	position: absolute;
 	bottom: -2px;
@@ -1975,7 +2048,7 @@ body[dir=rtl] .toolbar_mainItem {
 }
 
 .toolbar_submenu.visible {
-	display:block;
+	display: block;
 }
 
 .toolbar_submenu .submenuArrow {
@@ -1988,7 +2061,6 @@ body[dir=rtl] .toolbar_mainItem {
 	position: absolute;
 	top: 15px;
 	z-index: 500;
-	
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -2020,11 +2092,11 @@ body[dir=rtl] .toolbar_mainItem {
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
-  width: 5px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  background: none;
+	width: 5px;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	background: none;
 }
 
 .toolbar_menuitem_label {
@@ -2032,14 +2104,14 @@ body[dir=rtl] .toolbar_mainItem {
 	vertical-align: middle;
 	margin-left: 5px;
 	margin-right: 5px;
-	font-size:80%;
+	font-size: 80%;
 }
 
 .captionPanel td {
 	vertical-align: middle;
 }
 
-.tdForCaptionLabel{
+.tdForCaptionLabel {
 	vertical-align: middle;
 }
 
@@ -2056,7 +2128,7 @@ body[dir=rtl] .toolbar_mainItem {
 	margin: 6px 0px;
 }
 
-.smartButtonPanel .button{
+.smartButtonPanel .button {
 	margin: 0px 5px 0px 10px;
 	cursor: pointer;
 	float: left;
@@ -2065,30 +2137,30 @@ body[dir=rtl] .toolbar_mainItem {
 /*#####################################################################################
 ###       DIALOGS
 #####################################################################################*/
-
-.DialogBox,
-.gwt-DialogBox {
+.DialogBox,.gwt-DialogBox {
 	z-index: 15;
 }
 
 .gwt-DialogBox .Caption {
-  	cursor: default;
-  	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-  	font-size: 110%;
-  
-  	padding: 10px;
+	cursor: default;
+	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	font-size: 110%;
+	padding: 10px;
 	text-align: center;
 	color: #333333;
 	border-bottom: 1px solid #CCCCCC;
-	
-	background-image: linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
-	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
-	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
-	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%, rgb(247, 247, 247) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom,
-	color-stop(0, rgb(140, 150, 170) ),
-	color-stop(1, rgb(247, 247, 247) ) ) );
+	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(247, 247, 247) 100% );
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(247, 247, 247) 100% );
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(247, 247, 247) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(247, 247, 247) 100% );
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(247, 247, 247) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(140,
+		150, 170) ), color-stop(1, rgb(247, 247, 247) ) ) );
 }
 
 .dialogContent {
@@ -2108,12 +2180,12 @@ body[dir=rtl] .toolbar_mainItem {
 	width: 100%;
 }
 
-.dialogContent input,
-.dialogContent select {
+.dialogContent input,.dialogContent select {
 	margin-top: 5px;
 	margin-bottom: 10px;
 	width: 100%;
 }
+
 .dialogContent textarea {
 	margin-top: 5px;
 }
@@ -2127,7 +2199,7 @@ body[dir=rtl] .toolbar_mainItem {
 }
 
 .Dialog-messagePanel img {
-	margin:10px;
+	margin: 10px;
 }
 
 .DialogRbPanel {
@@ -2144,14 +2216,13 @@ body[dir=rtl] .toolbar_mainItem {
 	min-width: 250px;
 }
 
-.DialogButtonPanel button{
+.DialogButtonPanel button {
 	margin-left: 5px;
 }
 
 /*-------- SLIDER DIALOG ------------------------*/
-
-.dialogContent .sliderIntervalPanel div,
-.dialogContent .sliderWidthPanel div {
+.dialogContent .sliderIntervalPanel div,.dialogContent .sliderWidthPanel div
+	{
 	margin-right: 10px;
 	display: inline-block;
 }
@@ -2184,61 +2255,57 @@ body[dir=rtl] .toolbar_mainItem {
 }
 
 /*========= End Dialogs ===========*/
-
-
-
 /*========= FileChooser ===========*/
-
 .GeoGebraFileChooser .fileNamePanel {
-    width: 100%;
-    padding:5px;
+	width: 100%;
+	padding: 5px;
 }
 
 .GeoGebraFileChooser .fileNamePanel input {
-    float:right;
-    min-width:450px;
+	float: right;
+	min-width: 450px;
 }
 
 .GeoGebraFileChooser .fileNamePanel .gwt-Label {
-    padding-right:10px;
+	padding-right: 10px;
 }
 
 .GeoGebraFileChooser .descriptionPanel {
-    width: 100%;
-    padding:5px;
+	width: 100%;
+	padding: 5px;
 }
 
 .GeoGebraFileChooser .descriptionPanel textarea {
-    float:right;
-    min-width:450px;
+	float: right;
+	min-width: 450px;
 }
 
 .GeoGebraFileChooser .descriptionPanel .gwt-Label {
-    padding-right:10px;
+	padding-right: 10px;
 }
 
 .GeoGebraFileChooser .buttonPanel {
-    padding:5px;
-    float:right;
+	padding: 5px;
+	float: right;
 }
 
 .GeoGebraFileChooser .buttonPanel button {
-    float:right;
-    margin-left:5px;
+	float: right;
+	margin-left: 5px;
 }
 
 .GeoGebraFileChooser .buttonPanel a {
-    float:right;
-    margin-left:5px;
+	float: right;
+	margin-left: 5px;
 }
 
 .GoogleFileDescriptors {
-	font-size:80%;
+	font-size: 80%;
 }
 
 .GoogleFileDescriptors .fileLabel {
 	padding-right: 3px;
-	font-weight:bold;
+	font-weight: bold;
 }
 
 .GoogleFileDescriptors .fileName {
@@ -2248,9 +2315,7 @@ body[dir=rtl] .toolbar_mainItem {
 /*.RadioButtonMenuItem {
 	font-size: 80%;
 }*/
-
-
-.linkDownload{
+.linkDownload {
 	font: -webkit-small-control;
 }
 
@@ -2258,11 +2323,11 @@ body[dir=rtl] .GeoGebraMenuBar table {
 	margin-left: auto;
 }
 
-.downloadGGB_label{
+.downloadGGB_label {
 	margin: 5px;
 }
 
-.menuTitle{
+.menuTitle {
 	font-weight: bold;
 }
 
@@ -2273,44 +2338,44 @@ body[dir=rtl] .GeoGebraMenuBar table {
 }
 
 .filesPanel .spinner {
-	top : 50%;
+	top: 50%;
 	padding-top: 150px;
 }
 
 .ggbfilelink {
-	display : block;
-	text-decoration : underline;
-	cursor : pointer;
-	padding : 2px 0 2px 20px;
-	background : white url("images/ggb-logo-16x16-white.png") no-repeat left center;
+	display: block;
+	text-decoration: underline;
+	cursor: pointer;
+	padding: 2px 0 2px 20px;
+	background: white url("images/ggb-logo-16x16-white.png") no-repeat left
+		center;
 }
 
-.ggbfilelink.selected, .ggbfilelink:hover {
+.ggbfilelink.selected,.ggbfilelink:hover {
 	background-color: #E3E8F3;
 }
 
 /*========= End FileChooser ===========*/
-
 /*#####################################################################################
 ###       CAS
 #####################################################################################*/
-.casView table{
-	width:100%;
-	border-collapse:collapse;
+.casView table {
+	width: 100%;
+	border-collapse: collapse;
 }
 
-.CAS_commentLabel{
+.CAS_commentLabel {
 	color: gray;
 	width: 30px;
 }
 
-.CAS_inputPanel{
+.CAS_inputPanel {
 	padding: 2px;
 	overflow: hidden;
 	height: 100%;
 }
 
-.CAS_outputPanel tr td:first-child{
+.CAS_outputPanel tr td:first-child {
 	width: 30px;
 }
 
@@ -2318,29 +2383,28 @@ body[dir=rtl] .GeoGebraMenuBar table {
 	width: 1px;
 }
 
-.cas_header table td{
+.cas_header table td {
 	text-align: center;
 	padding-left: 5px;
 	padding-right: 5px;
 }
 
-.CAS_substitute_editTextCell input[type="text"], .cas_sub_editTextCell select { 
-    width: 100%; 
-    box-sizing: border-box; 
-    -moz-box-sizing: border-box; 
-    -webkit-box-sizing: border-box; 
+.CAS_substitute_editTextCell input[type="text"],.cas_sub_editTextCell select
+	{
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 /*#####################################################################################
 ###       SIGN IN DIALOG
 #####################################################################################*/
-
 .signInDialog {
-	border: 1px solid  #5a5d5e;
-	border-radius:5px;
+	border: 1px solid #5a5d5e;
+	border-radius: 5px;
 	font-size: 12px;
 	color: #5a5d5e;
-	
 }
 
 .signInDialog .ggtFrame {
@@ -2351,24 +2415,22 @@ body[dir=rtl] .GeoGebraMenuBar table {
 .signInDialog .gwt-Button {
 	font-size: 12px;
 	background: #fff;
-	border:1px solid #5a5d5e;
+	border: 1px solid #5a5d5e;
 }
 
 .signInDialog .gwt-Button:hover {
-	border:1px solid #fff;
+	border: 1px solid #fff;
 	color: #fff;
 	background: #5a5d5e;
 }
 
-.signInDialog .Caption, .signInDialog .signInDialogContainer, .signInDialog .dialogMiddleLeft,
-.signInDialog .dialogMiddleRight, .signInDialog .dialogBottomCenter,
-.signInDialog .dialogTopLeft, .signInDialog .dialogTopRight,
-.signInDialog .dialogBottomLeft, .signInDialog .dialogBottomRight {
+.signInDialog .Caption,.signInDialog .signInDialogContainer,.signInDialog .dialogMiddleLeft,.signInDialog .dialogMiddleRight,.signInDialog .dialogBottomCenter,.signInDialog .dialogTopLeft,.signInDialog .dialogTopRight,.signInDialog .dialogBottomLeft,.signInDialog .dialogBottomRight
+	{
 	background: #fff;
 }
 
 .signInDialog .Caption {
-	border:1px solid transparent;
+	border: 1px solid transparent;
 }
 
 .signInDialog .dialogTopLeft {
@@ -2388,20 +2450,20 @@ body[dir=rtl] .GeoGebraMenuBar table {
 }
 
 .signInDialog .dialogMiddleCenter {
-	padding:0;
+	padding: 0;
 }
 
 .signInDialog .headerPanel {
 	width: 0px;
-	position:realtive;
+	position: realtive;
 }
 
 .signInDialog .headerPanel .gwt-Button {
 	position: absolute;
 	right: -5px;
 	top: -5px;
-	border-radius:50%;
-	font-weight:bold;
+	border-radius: 50%;
+	font-weight: bold;
 }
 
 .ggtLoginPanel {
@@ -2410,69 +2472,64 @@ body[dir=rtl] .GeoGebraMenuBar table {
 
 .headerLabel {
 	border: 1px solid #5a5d5e;
-	padding:5px;
-	font-weight:bold;
-	text-align:center;
-	font-size:16px;
-	border-radius:5px;
+	padding: 5px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 5px;
 	background-color: rgba(153, 153, 255, .3);
 }
-
 
 /*#####################################################################################
 ###       NAVIGATION BAR
 #####################################################################################*/
-.consProtNav{
+.consProtNav {
 	position: absolute;
 	background-color: #E2E2E2;
 	width: 100%;
 	bottom: 0px;
 }
 
-.consProtNav .gwt-Label{
+.consProtNav .gwt-Label {
 	display: inline;
 }
 
-.consProtNav div{
+.consProtNav div {
 	display: inline-block;
 }
 
-.navbar_leftPanel{
+.navbar_leftPanel {
 	text-align: center;
 	width: 45%;
 }
 
-.navbar_playPanel{
+.navbar_playPanel {
 	text-align: center;
 	width: 45%
 }
 
-.navbar_btOpenWindow{
+.navbar_btOpenWindow {
 	position: absolute;
 	right: 20px;
 }
 
 /*=========== Navigation Bar end =============*/
-
 /*#####################################################################################
 ###       CONSTRUCTION PROTOCOL
 #####################################################################################*/
-.cpTable{
+.cpTable {
 	width: 100%
 }
 
-.cpScrollPanel{
+.cpScrollPanel {
 	width: 100%;
 	height: 100%;
 }
 
 /*=========== Construction protocol end =============*/
-
-
 /*#####################################################################################
 ###       TEXT EDITOR
 #####################################################################################*/
-
 .textEditor {
 	border: 1px solid #DCDCDC;
 	background-color: #FFFFFF;
@@ -2480,75 +2537,72 @@ body[dir=rtl] .GeoGebraMenuBar table {
 	height: 100px;
 }
 
-.textEditorAdvancedPanel{
+.textEditorAdvancedPanel {
 	width: 380px;
 	height: 180px;
 }
 
-.textEditorDisclosurePanelContent{
+.textEditorDisclosurePanelContent {
 	margin: 0px;
 	padding: 0px;
 	border: none;
 	font-size: 80%;
 }
 
-.textEditorDisclosurePanelHeader{
-	/*font-size: 80%;*/
+.textEditorDisclosurePanelHeader { /*font-size: 80%;*/
 	margin-bottom: 3px;
 }
 
 /* ========== Text Editor end ============ */
-
 /*#####################################################################################
 ###      INPUT HELP
 #####################################################################################*/
-
-.inputHelp-tree{
+.inputHelp-tree {
 	border: none;
 	font-size: 85%;
 	line-height: 100%;
 	padding: 10px 4px;
 }
 
-.inputHelp-treeItem{
+.inputHelp-treeItem {
 	padding: 0px 8px;
-	font-weight: bold	
+	font-weight: bold
 }
 
-.inputHelp-leaf{
+.inputHelp-leaf {
 	font-weight: normal;
 }
 
-.inputHelp-leaf:hover{
+.inputHelp-leaf:hover {
 	background: #CCCCFF;
 }
 
 .inputHelp-detailPanelTitle {
-	width:100%;
+	width: 100%;
 	font-size: 85%;
 	font-weight: bold;
 	padding: 1px 10px;
 	border-bottom: 1px solid lightgray;
 }
 
-.inputHelp-cmdSyntax{
+.inputHelp-cmdSyntax {
 	font-size: 85%;
 	margin: 4px;
 	padding-top: 10px;
 	padding-left: 35px;
-    text-indent: -25px;
-    line-height:120%;
-	word-wrap: normal;	
+	text-indent: -25px;
+	line-height: 120%;
+	word-wrap: normal;
 }
 
 .inputHelp-CAScmdSyntax {
 	font-style: italic;
-	color:darkred;
+	color: darkred;
 }
 
 .inputHelp-headerCAS {
 	font-style: italic;
-	color:darkred;
+	color: darkred;
 	text-decoration: underline;
 }
 
@@ -2557,36 +2611,34 @@ body[dir=rtl] .GeoGebraMenuBar table {
 	padding: 10px;
 }
 
-.inputHelp-functionTable td{
+.inputHelp-functionTable td {
 	padding: 0px 4px;
-    line-height:160%;
-    white-space: nowrap;
+	line-height: 160%;
+	white-space: nowrap;
 }
 
-
-.inputHelp-toggleButton{
+.inputHelp-toggleButton {
 	background: none;
 	text-decoration: none;
 	border: none;
 }
 
 /* ========== Input Help  end ============ */
-
 /* first td of heading table should have width: 0% */
-#View_2 div table tr > td + td {
+#View_2 div table tr>td+td {
 	width: 100%;
 }
 
-#View_2 div div > div {
+#View_2 div div>div {
 	margin-left: 0px !important;
-} 
+}
 
 .elemHeading {
 	border-bottom: 1px solid #EDEDED;
 	position: relative;
 }
 
-#View_2 div table + div {
+#View_2 div table+div {
 	margin-top: 5px;
 }
 
@@ -2605,9 +2657,9 @@ body[dir=rtl] .GeoGebraMenuBar table {
 }
 
 label {
-	display:inline;
+	display: inline;
 	/*color:black;*/
-	font-weight:normal;
+	font-weight: normal;
 }
 
 #View_2 div table {
@@ -2622,35 +2674,35 @@ label {
 .algebraPanel>div {
 	height: 100%;
 }
+
 .algebraSimpleP {
 	height: 100%;
 }
 
-.tb_img{
-	width:32px;
-	height:32px;
+.tb_img {
+	width: 32px;
+	height: 32px;
 }
 
-
-.bold{
+.bold {
 	font-weight: bold;
 }
 
-.italic{
+.italic {
 	font-style: italic;
 }
 
-.CAS_boldbutton{
+.CAS_boldbutton {
 	font-weight: bold;
 }
 
-.CAS_italicbutton{
+.CAS_italicbutton {
 	font-style: italic;
 }
 
 #imageList {
 	width: 16px;
-	list-style-type: none; 
+	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
 	border: none;
@@ -2658,11 +2710,10 @@ label {
 
 #imageList img {
 	width: 16px;
-	height: 16px; 
+	height: 16px;
 }
 
-#imageList li {
-	margin-top 2px;
+#imageList li {margin-top 2px;
 	margin-bottom: 2px;
 }
 
@@ -2671,9 +2722,9 @@ label {
 }
 
 .imageCorner {
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
 	align: left;
-	display: inline-block; 
+	display: inline-block;
 	padding-left: 20px;
 }
 
@@ -2700,7 +2751,6 @@ label {
 	display: inline-block;
 	padding-top: 2px;
 	padding-bottom: 2px;
-	
 }
 
 .optionsInput table {
@@ -2712,17 +2762,14 @@ label {
 	padding-right: 2px;
 }
 
-
 .optionsSlider {
 	display: inline-block;
 }
-
 
 .optionsSlider .gwt-Label {
 	display: inline;
 	padding-left: 2px;
 	padding-right: 2px;
-	
 }
 
 .optionsInput .gwt-Label {
@@ -2731,19 +2778,18 @@ label {
 
 .textOptionsToolBar {
 	display: inline-block;
-	
 }
 
 .objectPropertiesTextEditor {
-	width:100%;
-	height: 100px;	
+	width: 100%;
+	height: 100px;
 }
 
 .colorChooserPreview {
 	display: block;
 }
 
-.colorChooserPreview  > * {
+.colorChooserPreview>* {
 	display: inline-block;
 }
 
@@ -2752,7 +2798,7 @@ label {
 }
 
 .textOptionsToolBar .gwt-ToggleButton {
-	display:inline-block;
+	display: inline-block;
 }
 
 .colorComponent {
@@ -2761,16 +2807,15 @@ label {
 	margin-bottom: 5px;
 }
 
-.colorComponent > * {
+.colorComponent>* {
 	display: inline-block;
-
 }
 
 .colorSlider {
 	margin-right: 10px;
 }
 
-.colorSlider > * {
+.colorSlider>* {
 	display: inline-block;
 }
 
@@ -2788,7 +2833,7 @@ label {
 	top: 245px;
 }
 
-.BackgroundColorPanel > * {
+.BackgroundColorPanel>* {
 	display: block;
 }
 
@@ -2818,10 +2863,10 @@ label {
 }
 
 .SymbolToggleButton {
-   width: 20px;
-   height: 20px;
-   display: none;
-   text-align: center;
+	width: 20px;
+	height: 20px;
+	display: none;
+	text-align: center;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
@@ -2830,24 +2875,24 @@ label {
 	top: 11px;
 }
 
-.AutoCompleteTextFieldW .SymbolToggleButton.shown, .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused {
+.AutoCompleteTextFieldW .SymbolToggleButton.shown,.AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused
+	{
 	display: inline-block;
 }
 
-
 /*=========== Checkbox menuitem =============*/
-
 /* Stefi do you magic here :-) */
-
-.gwt-MenuBar-horizontal .GChecBoxMenuItem, .gwt-MenuBar-vertical .GChecBoxMenuItem {
+.gwt-MenuBar-horizontal .GChecBoxMenuItem,.gwt-MenuBar-vertical .GChecBoxMenuItem
+	{
 	margin: 0;
 	padding: 0;
-	vertical-align:top;
-	overflow:hidden;
+	vertical-align: top;
+	overflow: hidden;
 }
 
-.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected, .gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
-	background : #CCCCFF;
+.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,.gwt-MenuBar-vertical .GChecBoxMenuItem.selected
+	{
+	background: #CCCCFF;
 }
 
 .GChecBoxMenuItem .gwt-CheckBox {
@@ -2855,17 +2900,14 @@ label {
 }
 
 .GChecBoxMenuItem .gwt-HTML {
-	float:right;
+	float: right;
 }
-
-
-
 
 /*#####################################################################################
 ###       PROPABILITY CALCULATOR
 #####################################################################################*/
-
 .ProbabilityCalculatorStyleBarW {
+	
 }
 
 .ProbabilityCalculatorStyleBarW .gwt-MenuItem {
@@ -2888,7 +2930,6 @@ label {
 	margin: 0;
 	padding: 0;
 	overflow: auto;
-
 }
 
 .ProbCalcPanel .ProbabilityTableW table {
@@ -2910,7 +2951,8 @@ label {
 	font-style: italic;
 }
 
-.ProbCalcPanel .ProbabilityTableW tr:hover, .ProbCalcPanel .ProbabilityTableW tr.selected  {
+.ProbCalcPanel .ProbabilityTableW tr:hover,.ProbCalcPanel .ProbabilityTableW tr.selected
+	{
 	background: #ebeff9;
 }
 
@@ -2918,30 +2960,31 @@ label {
 	text-align: right;
 }
 
-.controlPanel > div {
+.controlPanel>div {
 	margin: 5px;
 }
 
-.cbPanel .gwt-ToggleButton, cbPanel .gwt-ListBox {
+.cbPanel .gwt-ToggleButton,cbPanel .gwt-ListBox {
 	display: inline-block;
 }
 
-.controlPanel .parameterPanel, .controlPanel .resultPanel {
+.controlPanel .parameterPanel,.controlPanel .resultPanel {
 	margin-left: 20px;
 }
 
-.parameterPanel > *, .resultPanel > * {
+.parameterPanel>*,.resultPanel>* {
 	display: inline-block;
-	margin:0 5px;
+	margin: 0 5px;
 	padding: 0px;
 }
 
-.parameterPanel .gwt-SuggestBox, .resultPanel .gwt-SuggestBox, .StatisticsCalculatorW .gwt-SuggestBox {
+.parameterPanel .gwt-SuggestBox,.resultPanel .gwt-SuggestBox,.StatisticsCalculatorW .gwt-SuggestBox
+	{
 	margin: 0px;
 	padding: 0px;
 }
 
-.intervalPanel > * {
+.intervalPanel>* {
 	display: inline-block;
 }
 
@@ -2954,39 +2997,41 @@ label {
 	margin-left: 20px;
 }
 
-.StatisticsCalculatorW .panelSample2 > .gwt-Label, .StatisticsCalculatorW .panelSample2 > .AutoCompleteTextFieldW,
-.StatisticsCalculatorW .panelSample1 > .gwt-Label, .StatisticsCalculatorW .panelSample1 > .AutoCompleteTextFieldW {
-	display:inline-block;
+.StatisticsCalculatorW .panelSample2>.gwt-Label,.StatisticsCalculatorW .panelSample2>.AutoCompleteTextFieldW,.StatisticsCalculatorW .panelSample1>.gwt-Label,.StatisticsCalculatorW .panelSample1>.AutoCompleteTextFieldW
+	{
+	display: inline-block;
 	margin: 2px 5px;
 }
 
-.StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
+.StatisticsCalculatorW .panelSample1,.StatisticsCalculatorW .panelSample2
+	{
 	text-align: right;
 	max-width: 50%;
 	display: inline-block;
 }
 
-.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child, .StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
-	display:block;
+.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child
+	{
+	display: block;
 }
-
-
 
 .StatisticsCalculatorW .panelTestAndCI {
 	margin-bottom: 5px;
 }
 
-.StatisticsCalculatorW .panelTestAndCI > * {
+.StatisticsCalculatorW .panelTestAndCI>* {
 	display: inline-block;
 	margin: 2px 5px;
 }
 
 .StatisticsCalculatorW .panelTestAndCI .ckPooled {
-	display:block;
+	display: block;
 }
 
 .StatisticsCalculatorW .breakafter:after {
-	display:block; padding-left:6ex; visibility:hidden;
+	display: block;
+	padding-left: 6ex;
+	visibility: hidden;
 }
 
 .StatisticsCalculatorW .pnlCount {
@@ -3005,12 +3050,13 @@ label {
 	margin: 5px;
 }
 
-.StatisticsCalculatorW .chirow .ChiSquarePanelW > * {
+.StatisticsCalculatorW .chirow .ChiSquarePanelW>* {
 	display: block;
 	text-align: center;
 }
 
-.StatisticsCalculatorW .chirow .headercell, .StatisticsCalculatorW .chirow .headercell input {
+.StatisticsCalculatorW .chirow .headercell,.StatisticsCalculatorW .chirow .headercell input
+	{
 	background: #ebeff9;
 }
 
@@ -3023,10 +3069,8 @@ label {
 	min-height: 50%;
 }
 
-
 /*=========== Probability Calculator End =============*/
-
-.ggw_glabel{
+.ggw_glabel {
 	white-space: nowrap;
 	margin-right: 10px;
 }
@@ -3034,7 +3078,6 @@ label {
 /*###################################################################################################################
 ###		OPEN SCREEN FROM TOUCH
 ###################################################################################################################*/
-
 .headerbar {
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #EDEDED;
@@ -3102,7 +3145,6 @@ label {
 	position: absolute;
 	top: 15px;
 	z-index: 500;
-	
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -3128,7 +3170,6 @@ label {
 /*+++++++++++++++++++++++++++++++++++++++++++++++
 PROVIDERS
 +++++++++++++++++++++++++++++++++++++++++++++++*/
-
 .providers {
 	width: 70px;
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
@@ -3149,18 +3190,18 @@ PROVIDERS
 
 .providers .button.selected {
 	background-image: -webkit-linear-gradient(left, #EDEDED, #FAFAFA);
-    background-image: -moz-linear-gradient(left, #EDEDED, #FAFAFA);
-    background-image: -ms-linear-gradient(left, #EDEDED, #FAFAFA);
-    background-image: -o-linear-gradient(left, #EDEDED, #FAFAFA);
-    background-image: linear-gradient(left, #EDEDED, #FAFAFA);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#EDEDED', endColorstr='#FAFAFA');
-    zoom: 1;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	background-image: -moz-linear-gradient(left, #EDEDED, #FAFAFA);
+	background-image: -ms-linear-gradient(left, #EDEDED, #FAFAFA);
+	background-image: -o-linear-gradient(left, #EDEDED, #FAFAFA);
+	background-image: linear-gradient(left, #EDEDED, #FAFAFA);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,
+		startColorstr='#EDEDED', endColorstr='#FAFAFA' );
+	zoom: 1;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+		rgba(0, 0, 0, 0.05);
 }
 
-
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
 .searchPanel {
 	padding: 15px;
 	positon: relative;
@@ -3182,8 +3223,7 @@ PROVIDERS
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	padding-left: 35px;
-  	
-  	z-index: 5;
+	z-index: 5;
 }
 
 .searchPanel .cancelButton {
@@ -3213,25 +3253,23 @@ PROVIDERS
 	height: 112px;
 	overflow: hidden;
 	margin-right: 10px;
-	
 	float: left;
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-color: #FFFFFF;
-	
 	border-radius: 5px;
 	border: 1px solid #CCCCCC;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+		rgba(0, 0, 0, 0.05);
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
-.browsegui .browserFile.selected,
-.browsegui .browserFile:hover {
+.browsegui .browserFile.selected,.browsegui .browserFile:hover {
 	color: #666666;
 }
 
-.browsegui .browserFile.selected .fileImage,
-.browsegui .browserFile:hover .fileImage {
+.browsegui .browserFile.selected .fileImage,.browsegui .browserFile:hover .fileImage
+	{
 	border-color: #6666FF;
 }
 
@@ -3259,7 +3297,6 @@ PROVIDERS
 	position: absolute;
 	top: 3px;
 	right: 0px;
-	
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -3305,11 +3342,9 @@ PROVIDERS
 	margin-top: 17px;
 	width: 100%	
 }*/
-
 /*.browsegui .centeredContent {
 	width: 100%;
 }*/
-
 /*.browsegui .filePageControls button.selected {
 	background: #6666FF;
 }
@@ -3317,7 +3352,6 @@ PROVIDERS
 .browsegui .browserFile td:nth-child(2) {
 	width: 100%;
 }*/
-
 /*.browsegui .confirmDelete td {
 	border: 3px solid #C2C2FF;
 	border-radius: 11px;
@@ -3329,15 +3363,12 @@ PROVIDERS
 	vertical-align: middle !important;
 	width: 50%;
 }*/
-
 /*.browsegui .button.delete {
 	margin-top: 3px;
 }*/
-
 /*.browsegui .fileClear {
 	clear: both;
 }*/
-
 /*.browsegui .fileControlPanel {
 	height: 40px;
 	margin-left: 7px;
@@ -3345,16 +3376,13 @@ PROVIDERS
 	padding-top: 10px;
 	color: #666666;
 }*/
-
 /*.browsegui .fileControlPanel .button {
 	opacity: 0.6;
 	filter: alpha(opacity = 60);
 }*/
-
 /*.browsegui .filePageControls {
 	float: left;
 }*/
-
 /*.prevButton {
 	float: left;
 }
@@ -3362,12 +3390,10 @@ PROVIDERS
 .nextButton {
 	float:right;
 }*/
-
 /*#####################################################################################
 ###        LANGUAGE GUI
 #####################################################################################*/
-
-.languageGUI > div {
+.languageGUI>div {
 	overflow: auto !important;
 }
 
@@ -3391,7 +3417,6 @@ PROVIDERS
 /*#####################################################################################
 ###       OBJECT PROPERTIES
 #####################################################################################*/
-
 .PropertiesViewW {
 	background-color: #F0F0F0;
 	/*padding: 8px 8px 8px 0px;*/
@@ -3400,21 +3425,24 @@ PROVIDERS
 	padding: 0px;
 }
 
-.objectProperties {
-	/*width: 100%;
+.objectProperties { /*width: 100%;
 	height: 100%;*/
+	
 }
+
 .objectPropertiesTabPanel {
 	width: 100%;
 	height: 100%;
-	display: block !important; /*display: none has hidden other tabs, I don't know why???*/
+	display: block !important;
+	/*display: none has hidden other tabs, I don't know why???*/
 }
+
 .objectPropertiesTabPanel table {
 	width: 100%;
 	/*height: 100%;*/
 }
-.objectPropertiesTab {
-	/*width: 100%;
+
+.objectPropertiesTab { /*width: 100%;
 	height: 100%;*/
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -3437,52 +3465,63 @@ PROVIDERS
 /*#####################################################################################
 ###       ZOOM
 #####################################################################################*/
-
 .zoomed {
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
-	width:125%;
-	height:125%;
-	-webkit-transform-origin:0% 0%;
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
+	width: 125%;
+	height: 125%;
+	-webkit-transform-origin: 0% 0%;
 	-moz-transform-origin: 0% 0%;
-	transform-origin:0% 0%;
+	transform-origin: 0% 0%;
 }
 
 .gwt-DialogBox {
-	-webkit-transform-origin:50% 50%;
+	-webkit-transform-origin: 50% 50%;
 	-moz-transform-origin: 50% 50%;
-	transform-origin:50% 50%;
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
+	transform-origin: 50% 50%;
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
 }
 
 .gwt-PopupPanel {
 	-webkit-transform-origin: 100% 0%;
 	-moz-transform-origin: 100% 0%;
 	transform-origin: 100% 0%;
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
 }
+
 .gwt-PopupPanel.SymbolTablePopup {
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
-	-webkit-transform-origin:0% 0%;
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
+	-webkit-transform-origin: 0% 0%;
 	-moz-transform-origin: 0% 0%;
-	transform-origin:0% 0%;
+	transform-origin: 0% 0%;
+}
+.gwt-PopupPanel.helpPopup {
+	-webkit-transform-origin: 100% 100%;
+	-moz-transform-origin: 100% 100%;
+	transform-origin: 100% 100%;
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
+}
+.gwt-PopupPanel.PropertiesViewW {
+	-webkit-transform: scale(1, 1);
+	-moz-transform: scale(1, 1);
 }
 
 .gwt-MenuBarPopup {
-	-webkit-transform-origin: 50% 0%;
-	-moz-transform-origin: 50% 0%;
-	transform-origin: 50% 0%;
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
+	-webkit-transform-origin: 100% 0%;
+	-moz-transform-origin: 100% 0%;
+	transform-origin: 100% 0%;
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
 }
 
 .gwt-SuggestBoxPopup {
-	-webkit-transform:scale(0.8,0.8);
-	-moz-transform: scale(0.8,0.8);
-	-webkit-transform-origin:0% 100%;
+	-webkit-transform: scale(0.8, 0.8);
+	-moz-transform: scale(0.8, 0.8);
+	-webkit-transform-origin: 0% 100%;
 	-moz-transform-origin: 0% 100%;
-	transform-origin:0% 100%;
+	transform-origin: 0% 100%;
 }
