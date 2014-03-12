@@ -40,7 +40,7 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	 */
 	public void setOnline(boolean online) {
 		this.online = online;
-		((OfflineView) view).render(false);
+		((OfflineView) view).render(online);
 	}
 	
 	
