@@ -388,7 +388,41 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarPanel.addStyleName("cursor_drag");
 
 		ToolTipManagerW.sharedInstance().registerWidget(titleBarPanel, toolTipHandler, false, true);
+		if(!this.isStyleBarEmpty()){
+			addToggleButton();
+		}
+		dragButton = new PushButton(dragIcon);
+		dragButton.addDomHandler(this,MouseDownEvent.getType());
+		dragButton.setVisible(false);
 		
+		closeButton = new PushButton(closeIcon);
+		closeButton.setVisible(isStyleBarEmpty());
+		closeButton.addClickHandler(new ClickHandler(){
+
+			@Override
+            public void onClick(ClickEvent event) {
+	            app.getGuiManager().setShowView(false, DockPanelW.this.id);
+	            
+            }});
+
+		
+		
+		titleBarPanel.add(styleBarPanel);
+		titleBarPanel.add(dragButton);
+		if(this.isStyleBarEmpty()){
+			titleBarPanel.add(closeButton);
+		}
+		
+		if(app.getGuiManager().isDraggingViews()){
+			enableDragging(true);
+		}
+
+		if (setlayout) {
+			setLayout(false);
+		}
+	}
+
+	private void addToggleButton() {
 		toggleStyleBarButton = new PushButton(triangleRight);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 		
@@ -411,35 +445,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			}
 		};
 		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
-		
-		dragButton = new PushButton(dragIcon);
-		dragButton.addDomHandler(this,MouseDownEvent.getType());
-		dragButton.setVisible(false);
-		
-		closeButton = new PushButton(closeIcon);
-		closeButton.setVisible(isStyleBarEmpty());
-		closeButton.addClickHandler(new ClickHandler(){
-
-			@Override
-            public void onClick(ClickEvent event) {
-	            app.getGuiManager().setShowView(false, DockPanelW.this.id);
-	            
-            }});
-
 		titleBarPanel.add(toggleStyleBarButton);
-		
-		titleBarPanel.add(styleBarPanel);
-		titleBarPanel.add(dragButton);
-		titleBarPanel.add(closeButton);
-		
-		if(app.getGuiManager().isDraggingViews()){
-			enableDragging(true);
-		}
+    }
 
-		if (setlayout) {
-			setLayout(false);
-		}
-	}
 
 	public void setLabels() {
 		if (titleBarLabel != null) {
@@ -1126,8 +1134,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			return;
 		}
 		dragButton.setVisible(drag);
-		closeButton.setVisible(drag || isStyleBarEmpty());
-		this.toggleStyleBarButton.setVisible(!drag);
+		if(this.toggleStyleBarButton != null){
+			this.toggleStyleBarButton.setVisible(!drag);
+		}
 		if(drag){
 			this.styleBarPanel.setVisible(false);
 		}else{

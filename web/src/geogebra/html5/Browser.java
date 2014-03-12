@@ -22,6 +22,10 @@ public class Browser {
 		}
 		return false;
 	}-*/;
+	
+	public native static boolean externalCAS() /*-{
+		return typeof $wnd.evalGeoGebraCASExternal == 'function';
+	}-*/;
 
 	public static  boolean checkWorkerSupport(String workerpath){
 		if("touch".equals(GWT.getModuleName())){

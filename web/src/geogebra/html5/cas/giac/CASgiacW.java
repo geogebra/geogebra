@@ -40,7 +40,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 
 		App.setCASVersionString("Giac/JS");
 		App.debug("starting CAS");
-		if(externalCAS()){
+		if(Browser.externalCAS()){
 			App.debug("switching to external");
 			CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			this.jsLoaded = true;
@@ -55,10 +55,6 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		
 		
 	}
-	
-	private native boolean externalCAS() /*-{
-	    return typeof $wnd.evalGeoGebraCASExternal == 'function';
-    }-*/;
 
 	@Override
 	public String evaluateCAS(String exp) {
