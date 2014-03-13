@@ -31,7 +31,7 @@ public class AlgoIsPrime extends AlgoElement {
 	@Override
 	public void compute() {
 		double n = Math.round(number.getDouble());
-    	
+    	result.setDefined();
     	if (n == 1) {
     		result.setValue(false);
     		return;
@@ -42,7 +42,7 @@ public class AlgoIsPrime extends AlgoElement {
     		return;
     	}
     	result.setValue(true);
-       	for (int i = 2; i <= n / i; i++) {
+		for (int i = 2; i <= n / i; i++) {
 			if (n % i == 0) {
 				result.setValue(false);
 				return;
