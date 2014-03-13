@@ -382,10 +382,10 @@ public final class ArticleElement extends Element {
 	 */
 	public float getScaleX() {
 		//no instance fields in subclasses of Element, so no way to asign it to a simple field
-		if ("".equals(this.getAttribute("data-scaley"))) {
-			this.setAttribute("data-scaley", String.valueOf(getEnvScaleY()));
+		if ("".equals(this.getAttribute("data-scalex"))) {
+			this.setAttribute("data-scalex", String.valueOf(getEnvScaleX()));
 		}
-		return Float.parseFloat(this.getAttribute("data-scaley"));
+		return Float.parseFloat(this.getAttribute("data-scalex"));
 	}
 	
 	/**
@@ -394,10 +394,10 @@ public final class ArticleElement extends Element {
 	 */
 	public float getScaleY() {
 		//no instance fields in subclasses of Element, so no way to asign it to a simple field
-		if ("".equals(this.getAttribute("data-scalex"))) {
-			this.setAttribute("data-scalex", String.valueOf(getEnvScaleY()));
+		if ("".equals(this.getAttribute("data-scaley"))) {
+			this.setAttribute("data-scaley", String.valueOf(getEnvScaleY()));
 		}
-		return Float.parseFloat(this.getAttribute("data-scalex"));
+		return Float.parseFloat(this.getAttribute("data-scaley"));
 	}
 
 	/**
