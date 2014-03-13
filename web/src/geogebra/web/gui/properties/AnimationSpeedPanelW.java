@@ -56,6 +56,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 					doActionPerformed();
 			}	
 		});
+        tfAnimSpeed.requestToShowSymbolButton();
 
 	}
 	
