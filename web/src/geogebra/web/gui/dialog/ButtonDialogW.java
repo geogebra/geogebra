@@ -76,7 +76,7 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 									getGeoSetNameDescriptionOrder();			
 		
 		final ListBox cbAdd = new ListBox();
-		
+		cbAdd.addItem("");
 		
 		if (model.isTextField()) {
 			// lists for combo boxes to select input and output objects
@@ -98,7 +98,11 @@ public class ButtonDialogW extends DialogBox implements ClickHandler{
 				cbAdd.addClickHandler(new ClickHandler(){
 
 					public void onClick(ClickEvent event) {
-						GeoElement geo = getGeo(cbAdd.getItemText(cbAdd.getSelectedIndex()));
+						String text = cbAdd.getItemText(cbAdd.getSelectedIndex());
+						if("".equals(text.trim())){
+							model.setLinkedGeo(null);
+						}
+						GeoElement geo = getGeo(text);
 						if (geo==null) return;
 						model.setLinkedGeo(geo);
                     }
