@@ -566,7 +566,7 @@ public abstract class AppW extends AppWeb {
 		        + AppW.geoIPLanguage + ", closest Language from GeoIP: "
 		        + closestlangcodetoGeoIP);
 
-		if (Language.isEnabledInGWT(closestlangcodetoGeoIP)) {
+		
 
 			App.debug("Language is enabeled!!!");
 
@@ -591,7 +591,7 @@ public abstract class AppW extends AppWeb {
 
 			}
 
-		}
+		
 
 	}
 

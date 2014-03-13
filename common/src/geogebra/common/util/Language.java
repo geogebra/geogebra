@@ -154,7 +154,6 @@ public enum Language {
 	public String flagName;
 	// used to determine whether to put in release versions
 	public  boolean fullyTranslated;
-	public boolean enableInGWT;
 	/**
 	 * test characters to get a font that can display the correct symbols for
 	 * each language Also used to register the fonts so that JLaTeXMath can
@@ -172,7 +171,6 @@ public enum Language {
 		this.countries = countries;
 		this.flagName = null;
 		this.fullyTranslated = fullyTranslated;
-		this.enableInGWT = true;//enableInGWT;
 		this.testChar = testChar;
 		
 	}
@@ -183,7 +181,6 @@ public enum Language {
 		this.countries = null;
 		this.flagName = flagName;
 		this.fullyTranslated = fullyTranslated;
-		this.enableInGWT = enableInGWT;
 		this.testChar = testChar;
 		
 	}
@@ -282,12 +279,6 @@ public enum Language {
 		App.error("language not found: "+ggbLangCode);
 		
 		return null;
-	}
-	
-	public static boolean isEnabledInGWT(String ggbLangCode) {
-		
-		
-		return true;
 	}
 	/**
 	 * 

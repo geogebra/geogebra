@@ -32,65 +32,62 @@ public class LanguageGUI extends MyHeaderPanel {
 
 			StringBuilder sb = new StringBuilder();
 
-			if (l.enableInGWT) {
+			String text = l.name;
 
-				String text = l.name;
+			if (text != null) {
 
-				if (text != null) {
-
-					char ch = text.toUpperCase().charAt(0);
-					if (ch == Unicode.LeftToRightMark
-					        || ch == Unicode.RightToLeftMark) {
-						ch = text.charAt(1);
-					} else {
-						// make sure brackets are correct in Arabic, ie not )US)
-						sb.setLength(0);
-						sb.append(Unicode.LeftToRightMark);
-						sb.append(text);
-						sb.append(Unicode.LeftToRightMark);
-						text = sb.toString();
-					}
-
-					Label label = new Label(text);
-					final Language current = l;
-					label.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-							boolean newDirRTL = Localization
-							        .rightToLeftReadingOrder(current.localeGWT);
-							if (newDirRTL) {
-								setCookies(LOCALE_PARAMETER, "ar");
-							} else {
-								setCookies(LOCALE_PARAMETER, "en");
-							}
-
-							app.setUnsaved();
-
-							// On changing language from LTR/RTL the page will
-							// reload.
-							// The current workspace will be saved, and load
-							// back after page reloading.
-							// Otherwise only the language will change, and the
-							// setting related with language.
-							if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
-								JavaScriptObject callback = saveBase64ToLocalStorage();
-								app.getGgbApi().getBase64(false, callback);
-							} else {
-								app.setLanguage(current.localeGWT);
-							}
-							LanguageGUI.this.close();
-						}
-					});
-					fp.add(label);
+				char ch = text.toUpperCase().charAt(0);
+				if (ch == Unicode.LeftToRightMark
+				        || ch == Unicode.RightToLeftMark) {
+					ch = text.charAt(1);
+				} else {
+					// make sure brackets are correct in Arabic, ie not )US)
+					sb.setLength(0);
+					sb.append(Unicode.LeftToRightMark);
+					sb.append(text);
+					sb.append(Unicode.LeftToRightMark);
+					text = sb.toString();
 				}
+
+				Label label = new Label(text);
+				final Language current = l;
+				label.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						boolean newDirRTL = Localization
+						        .rightToLeftReadingOrder(current.localeGWT);
+						if (newDirRTL) {
+							setCookies(LOCALE_PARAMETER, "ar");
+						} else {
+							setCookies(LOCALE_PARAMETER, "en");
+						}
+
+						app.setUnsaved();
+
+						// On changing language from LTR/RTL the page will
+						// reload.
+						// The current workspace will be saved, and load
+						// back after page reloading.
+						// Otherwise only the language will change, and the
+						// setting related with language.
+						if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
+							JavaScriptObject callback = saveBase64ToLocalStorage();
+							app.getGgbApi().getBase64(false, callback);
+						} else {
+							app.setLanguage(current.localeGWT);
+						}
+						LanguageGUI.this.close();
+					}
+				});
+				fp.add(label);
 			}
 		}
-		
+
 		FlowPanel clear = new FlowPanel();
 		clear.setStyleName("clear");
 		fp.add(clear);
-		
+
 		this.setContentWidget(fp);
 	}
 
@@ -124,9 +121,9 @@ public class LanguageGUI extends MyHeaderPanel {
 		// this.addResizeListener(this.header);
 
 	}
-	
-	public void setLabels(){
-		if(this.header!=null){
+
+	public void setLabels() {
+		if (this.header != null) {
 			this.header.setLabels();
 		}
 	}
