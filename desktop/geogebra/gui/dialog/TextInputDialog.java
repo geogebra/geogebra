@@ -86,7 +86,8 @@ import javax.swing.undo.UndoManager;
  * 
  * @author hohenwarter
  */
-public class TextInputDialog extends InputDialogD implements DocumentListener, geogebra.common.gui.dialog.TextInputDialog {
+public class TextInputDialog extends InputDialogD implements DocumentListener,
+		geogebra.common.gui.dialog.TextInputDialog {
 
 	// editor and preview panels
 	private DynamicTextInputPane editor;
@@ -136,8 +137,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 	public TextInputDialog(App app2, String title, GeoText editGeo,
 			GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
 
-		super(((AppD)app2).getFrame(), false,((AppD)app2).getLocalization());
-		this.app = (AppD)app2;
+		super(((AppD) app2).getFrame(), false, ((AppD) app2).getLocalization());
+		this.app = (AppD) app2;
 		this.startPoint = startPoint;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
@@ -357,7 +358,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				-1, 8));
 		btInsertUnicode.addPopupMenuItem(createMenuItem(
 				TableSymbols.handPointers, -1, 6));
-		
+
 		app.setComponentOrientation(menu);
 
 	}
@@ -571,7 +572,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 
 	public JToolBar createRecentSymbolTable() {
 
-		recentSymbolList = ((GuiManagerD) app.getGuiManager()).getRecentSymbolList();
+		recentSymbolList = ((GuiManagerD) app.getGuiManager())
+				.getRecentSymbolList();
 
 		recentSymbolTable = new SelectionTable(app, recentSymbolList.toArray(),
 				1, recentSymbolList.size(), new Dimension(24, 24),
@@ -794,11 +796,11 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 						editor.buildGeoGebraString(isLaTeX), isLaTeX);
 
 				// use of $ deprecated (doesn't work in HTML5)
-				//if (isLaTeX && inputPanel.getText().length() == 0) {
-				//	insertString("$  $");
-				//	setRelativeCaretPosition(-2);
-				//}
-				
+				// if (isLaTeX && inputPanel.getText().length() == 0) {
+				// insertString("$  $");
+				// setRelativeCaretPosition(-2);
+				// }
+
 				editOccurred = true;
 
 			}
@@ -809,7 +811,6 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		}
 	}
 
-	
 	private class MyKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -901,29 +902,24 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		super.updateFonts();
 
 		Font font = app.getPlainFont();
-		
-		if (isBtnInsertLatexLoaded){
+
+		if (isBtnInsertLatexLoaded) {
 			buildInsertLaTeXButton();
 			btInsertLaTeX.setVisible(cbLaTeX.isSelected());
 		}
-		
-		btInsertLaTeX.setFont(font);
-		
 
+		btInsertLaTeX.setFont(font);
 
 		btInsertUnicode.setFont(font);
 		buildInsertUnicodeButton();
-
 
 		btInsertGeo.setFont(font);
 		geoList.setFont(font);
 
 		cbLaTeX.setFont(font);
 
-		
 		previewHeader.setFont(font);
 		textPreviewer.updateFonts();
-
 
 	}
 
@@ -1041,8 +1037,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 		}
 
 		public boolean processInput(String inputValue) {
-			if (inputValue == null || (editGeo != null && editGeo.isFixed()) 
-					|| !editGeo.isInConstructionList())
+			if (inputValue == null || (editGeo != null && editGeo.isFixed())
+					|| (editGeo != null && editGeo.isInConstructionList()))
 				return false;
 
 			// no quotes?
@@ -1120,7 +1116,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				GeoText newText = (GeoText) kernel.getAlgebraProcessor()
 						.changeGeoElement(editGeo, inputValue, true, true);
 
-				//update editGeo
+				// update editGeo
 				editGeo = newText;
 
 				// make sure newText is using correct LaTeX setting
@@ -1134,7 +1130,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				app.doAfterRedefine(newText);
 
 				// make redefined text selected
-				//app.addSelectedGeo(newText);
+				// app.addSelectedGeo(newText);
 				return true;
 			} catch (Exception e) {
 				app.showError("ReplaceFailed");
@@ -1145,25 +1141,25 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 			}
 		}
 	}
-	
+
 	@Override
 	public void windowClosed(WindowEvent e) {
 		app.setMoveMode();
 	}
-	
+
 	public void handleDialogVisibilityChange(boolean isVisible) {
 		App.debug("calling set visible: " + isVisible);
 		if (!isVisible) {
 			if (textPreviewer != null) {
 				textPreviewer.removePreviewGeoText();
 			}
-			
-		// update the PropertiesView text editor
-		if(app.getGuiManager().hasPropertiesView()){
-			((PropertiesViewD)app.getGuiManager().getPropertiesView()).updateTextEditor(editGeo);
-		}
+
+			// update the PropertiesView text editor
+			if (app.getGuiManager().hasPropertiesView()) {
+				((PropertiesViewD) app.getGuiManager().getPropertiesView())
+						.updateTextEditor(editGeo);
+			}
 		}
 	}
-
 
 }
