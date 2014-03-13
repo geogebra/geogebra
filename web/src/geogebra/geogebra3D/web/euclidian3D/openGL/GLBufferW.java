@@ -8,12 +8,15 @@ import com.googlecode.gwtgl.array.Float32Array;
 
 /**
  * buffers for openGL
- * @author matthieu
+ * @author mathieu
  *
  */
 public class GLBufferW implements GLBuffer {
 	
 	 private Float32Array impl;
+	 
+	 private float[] values; 
+	 private int index;
 	
 	/**
 	 * constructor from float array
@@ -21,33 +24,32 @@ public class GLBufferW implements GLBuffer {
 	 */
 	public GLBufferW(ArrayList<Float> array){
 		
-		float[] values = new float[array.size()];
-		int i = 0;
+		values = new float[array.size()];
+		index = 0;
 		for (float v : array){
-			values[i] = v;
-			i++;
+			values[index] = v;
+			index++;
 		}
 		impl = Float32Array.create(values);
+		index = 0;
 	}
 
 	public Float get() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    Float ret = values[index];
+	    index++;
+	    return ret;
     }
 
 	public void rewind() {
-	    // TODO Auto-generated method stub
-	    
+	    index = 0;
     }
 
 	public int capacity() {
-	    // TODO Auto-generated method stub
 	    return impl.getLength();
     }
 
 	public float[] array() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return values;
     }
 	
 	/**

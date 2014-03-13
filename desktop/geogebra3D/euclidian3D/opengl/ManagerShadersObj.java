@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.geos.GeoElement;
@@ -54,6 +53,7 @@ public class ManagerShadersObj extends ManagerShaders {
 					printToObjFile("\n##########################\n\no "+geo.getLabelSimple()+"\n");
 
 					switch(geometry.getType()){
+					/*
 					case QUADS:										
 
 						//vertices
@@ -65,19 +65,6 @@ public class ManagerShadersObj extends ManagerShaders {
 							}
 						}
 						fb.rewind();
-
-						/*
-					//normals
-					printToObjFile("\n");
-					fb = geometry.getNormals();
-					for (int i = 0; i < geometry.getLength(); i++){
-						printToObjFile("\nvn");
-						for (int j = 0; j < 3; j++){
-							printToObjFile(" "+fb.get());
-						}
-					}
-					fb.rewind();
-						 */
 
 						//faces
 						printToObjFile("\n");
@@ -92,50 +79,7 @@ public class ManagerShadersObj extends ManagerShaders {
 
 						printToObjFile("\n##########################\n\n");
 						break;
-
-					case QUAD_STRIP:										
-
-						//vertices
-						fb = geometry.getVertices();
-						for (int i = 0; i < geometry.getLength(); i++){
-							printToObjFile("\nv");
-							for (int j = 0; j < 3; j++){
-								printToObjFile(" "+fb.get());
-							}
-						}
-						fb.rewind();
-
-						/*
-					//normals
-					printToObjFile("\n");
-					fb = geometry.getNormals();
-					for (int i = 0; i < geometry.getLength(); i++){
-						printToObjFile("\nvn");
-						for (int j = 0; j < 3; j++){
-							printToObjFile(" "+fb.get());
-						}
-					}
-					fb.rewind();
-						 */
-
-						//faces
-						printToObjFile("\n");
-						for (int i = 0; i < geometry.getLength()/2 - 1; i++){
-							printToObjFile("\nf");
-							printToObjFile(" "
-									+ (objCurrentIndex+1) + " "
-									+ (objCurrentIndex+2) + " "
-									+ (objCurrentIndex+4) + " "
-									+ (objCurrentIndex+3)
-									);
-
-							objCurrentIndex += 2;
-						}
-
-						objCurrentIndex += 2; // last shift
-						printToObjFile("\n##########################\n\n");
-						break;
-
+*/
 					default:
 						App.error("geometry type not handled : "+geometry.getType());
 						break;

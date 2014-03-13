@@ -227,8 +227,7 @@ public class PlotterBrush implements PathPlotter {
 	public void join(){
 		
 		// draw curve part
-		manager.startGeometry(Manager.Type.QUAD_STRIP);
-		//manager.startGeometry(Manager.TRIANGLE_STRIP);
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
     	float dt = (float) 1/latitude;
     	float da = (float) (2*Math.PI *dt) ; 
     	float u, v;    	
@@ -236,7 +235,6 @@ public class PlotterBrush implements PathPlotter {
     		u = (float) Math.sin ( i * da ); 
     		v = (float) Math.cos ( i * da ); 
     		setTextureY(i*dt);
-    		//Application.debug("i="+i);
     		draw(start,u, v, 0); //bottom of the tube rule
     		draw(end,u, v, 1); //top of the tube rule
     	}

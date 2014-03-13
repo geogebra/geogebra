@@ -429,10 +429,11 @@ public void loadColorBuffer(GLBuffer fbColors, int length){
 	   if (fbColors == null){
 		   return;
 	   }
-	   
+
+	   // prevent use of global color
 	   setColor(-1, -1, -1, -1);
-	   
-       // Select the VBO, GPU memory data, to use for normals 
+
+	   // Select the VBO, GPU memory data, to use for normals 
        jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
        int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
        glBufferData(numBytes, fbColors);
@@ -449,9 +450,9 @@ public void loadColorBuffer(GLBuffer fbColors, int length){
    
 
   
-   
+
    @Override
-public void draw(Manager.Type type, int length){  
+   public void draw(Manager.Type type, int length){  
 
 	   /////////////////////////
 	   // draw
@@ -459,132 +460,28 @@ public void draw(Manager.Type type, int length){
 	   jogl.getGL2ES2().glDrawArrays(ManagerD.getGLType(type), 0, length); 
    }
 
-    @Override
-	protected void draw(){
-    	
-    	// NOT NEEDED (default value)
-    	//jogl.getGL2ES2().glUniform1i(jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "Texture0"), 0);
-    	
-    	resetOneNormalForAllVertices();
-     	disableTextures();
-    	
-        //labels
-     	float[] m = new float[]{
-     			1,0,0,0,
-     			0,1,0,0,
-     			0,0,1,0,
-     			0,0,0,1
-     	};
-     	jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, m, 0);
-     	enableTexturesForText();
-        drawFaceToScreen();
-        
-        //init drawing matrix to view3D toScreen matrix
-        setMatrixView(); 
- 
-        setLightPosition();     
-        setLight(0);
+   private static final float[] MODEL_VIEW_IDENTITY = {
+	   1,0,0,0,
+	   0,1,0,0,
+	   0,0,1,0,
+	   0,0,0,1
+   };
+   
+   private final void setModelViewIdentity(){
+	   jogl.getGL2ES2().glUniformMatrix4fv(modelviewLocation, 1, false, MODEL_VIEW_IDENTITY, 0);
+   }
 
-        //drawing the cursor
-        getGL().glEnable(GLlocal.GL_LIGHTING);
-        getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
-        
-        
-        
-        disableTextures();
-        view3D.drawCursor(this);
-                 
-        
-        
-        //drawing hidden part     
-        getGL().glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts 
-        drawable3DLists.drawHiddenNotTextured(this);
-        enableDash();
-        drawable3DLists.drawHiddenTextured(this);
-        
-        enableFading();
-        drawNotTransp();
-        //disableTextures();
-        getGL().glDisable(GLlocal.GL_ALPHA_TEST);       
-        
-                
-        //drawing transparents parts
-        getGL().glDepthMask(false);
-        enableFading();
-        drawTransp();      
-        getGL().glDepthMask(true);
-       
-        
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
-        getGL().glDisable(GLlocal.GL_BLEND);        
-        
-        //drawing hiding parts
-        getGL().glColorMask(false,false,false,false); //no writing in color buffer		
-        getGL().glCullFace(GLlocal.GL_FRONT); //draws inside parts    
-        disableTextures();
-        drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces back-faces
-        if (drawable3DLists.containsClippedSurfaces()){
-        	enableClipPlanesIfNeeded();
-        	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
-        	disableClipPlanesIfNeeded();
-        }
-        
-        getGL().glDisable(GLlocal.GL_CULL_FACE);      
-        drawable3DLists.drawSurfacesForHiding(this); //non closed surfaces
-        setColorMask();
+   @Override
+   protected void draw(){
 
-        //re-drawing transparents parts for better transparent effect
-        //TODO improve it !
-        getGL().glDepthMask(false);
-        getGL().glEnable(GLlocal.GL_BLEND);
-        enableFading();
-        drawTransp();
-        getGL().glDepthMask(true);
-        disableTextures();
-        
-        //drawing hiding parts
-        getGL().glColorMask(false,false,false,false); //no writing in color buffer		
-        getGL().glDisable(GLlocal.GL_BLEND);
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
-        getGL().glCullFace(GLlocal.GL_BACK); //draws inside parts
-        drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces front-faces
-        if (drawable3DLists.containsClippedSurfaces()){
-        	enableClipPlanesIfNeeded();
-        	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
-        	disableClipPlanesIfNeeded();
-        }
-        setColorMask();        
-        
-        //re-drawing transparents parts for better transparent effect
-        //TODO improve it !
-        getGL().glDepthMask(false);
-        getGL().glEnable(GLlocal.GL_BLEND);
-        enableFading();
-        drawTransp();
-        getGL().glDepthMask(true);
-        
-        //drawing not hidden parts
-        disableTextures();
-        getGL().glEnable(GLlocal.GL_CULL_FACE);
-        drawable3DLists.draw(this);        
-        
-            
-        //FPS
-        getGL().glDisable(GLlocal.GL_LIGHTING);
-        getGL().glDisable(GLlocal.GL_DEPTH_TEST);
- 
-        
-        unsetMatrixView();  
-   	
-        
-    	getGL().glEnable(GLlocal.GL_DEPTH_TEST);
-    	getGL().glEnable(GLlocal.GL_LIGHTING);    
-    	
-        
-    	//if (!objDone){ doObj(); objDone = true;}
-    	
-    }    
+	   resetOneNormalForAllVertices();
+	   disableTextures();
+
+	   setModelViewIdentity();
+	   enableTexturesForText();
+	   
+	   super.draw();
+   }    
     
     
     private boolean objDone = false;
@@ -1460,18 +1357,16 @@ public void draw(Manager.Type type, int length){
 		}
 	}
 
-	/**
-	 * enable fading (e.g. for planes)
-	 */
-	final public void enableFading(){  
+
+	@Override
+	public void enableFading(){  
 		enableTextures();
 		setCurrentTextureType(TEXTURE_TYPE_FADING);
 	}
 	
-	/**
-	 * enable fading (e.g. for planes)
-	 */
-	final public void enableDash(){  
+
+	@Override
+	public void enableDash(){  
 		enableTextures();
 		setCurrentTextureType(TEXTURE_TYPE_DASH);
 	}

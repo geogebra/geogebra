@@ -47,6 +47,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private WebGLUniformLocation normalLocation; // one normal for all vertices
     
     private WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords;
+    
+    
+    final static private int TEXTURE_TYPE_NONE = 0;
+    final static private int TEXTURE_TYPE_FADING = 1;
+    final static private int TEXTURE_TYPE_TEXT = 2;
+    final static private int TEXTURE_TYPE_DASH = 4;
 
     
 
@@ -68,19 +74,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
     
     
-    
-    @Override
-    public void init(){ 
-    	
-    	super.init();
-
-		glContext.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glContext.clearDepth(1.0f);
-		glContext.enable(WebGLRenderingContext.DEPTH_TEST);
-		glContext.depthFunc(WebGLRenderingContext.LEQUAL);
-    }
-
-	
 	
 
 	@Override
@@ -121,12 +114,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	}
 	
-	/*
-	@Override
-    protected void updateViewAndDrawables(){
-		// to remove
-	}
-	*/
 
 	/**
 	 * init shaders
@@ -235,9 +222,35 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		*/
         
     }
+
+
+	private static final float[] MODEL_VIEW_IDENTITY = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	private final void setModelViewIdentity(){
+		glContext.uniformMatrix4fv(modelviewLocation, false, MODEL_VIEW_IDENTITY);     
+	}
+
+	@Override
+	protected void draw(){
+		
+		textureAttributeEnabled = false;
+
+		resetOneNormalForAllVertices();
+		disableTextures();
+
+		setModelViewIdentity();
+		enableTexturesForText();
+
+		super.draw();
+	}  
+
 	
-	
-	
+	/*
 	@Override
     protected void draw() {
 
@@ -296,7 +309,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		drawTriangle(vertices, normals, null);
 		
 	}
-	
+	*/
 	
 	
 
@@ -339,52 +352,40 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void enableCulling() {
-	    // TODO Auto-generated method stub
+		glContext.enable(WebGLRenderingContext.CULL_FACE);
 	    
     }
 
 	@Override
     public void disableCulling() {
-	    // TODO Auto-generated method stub
+		glContext.disable(WebGLRenderingContext.CULL_FACE);
 	    
     }
 
 	@Override
-    public void setCullFaceFront() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setCullFaceFront() {
+		glContext.cullFace(WebGLRenderingContext.FRONT);
+
+	}
 
 	@Override
-    public void setCullFaceBack() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setCullFaceBack() {
+		glContext.cullFace(WebGLRenderingContext.BACK);
+
+	}
 
 	@Override
     public void disableBlending() {
-	    // TODO Auto-generated method stub
+		glContext.disable(WebGLRenderingContext.BLEND);
 	    
     }
 
 	@Override
     public void enableBlending() {
-	    // TODO Auto-generated method stub
+		glContext.enable(WebGLRenderingContext.BLEND);
 	    
     }
 
-
-	@Override
-    public void enableTextures() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void disableTextures() {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     public void enableMultisample() {
@@ -400,26 +401,22 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void enableAlphaTest() {
-	    // TODO Auto-generated method stub
-	    
+	    // done by shader
     }
 
 	@Override
     public void disableAlphaTest() {
-	    // TODO Auto-generated method stub
-	    
+		// done by shader
     }
 
 	@Override
     public void disableLighting() {
-	    // TODO Auto-generated method stub
-	    
+		// done by shader
     }
 
 	@Override
     public void enableLighting() {
-	    // TODO Auto-generated method stub
-	    
+		// done by shader
     }
 
 	@Override
@@ -453,32 +450,33 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
 
 	@Override
-    public void enableDepthMask() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void enableDepthMask() {
+		glContext.depthMask(true);
+
+	}
 
 	@Override
-    public void disableDepthMask() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void disableDepthMask() {
+		glContext.depthMask(false);
+
+	}
 
 	@Override
-    public void enableDepthTest() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void enableDepthTest() {
+		glContext.enable(WebGLRenderingContext.DEPTH_TEST);
+
+	}
 
 	@Override
-    public void disableDepthTest() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void disableDepthTest() {
+		glContext.disable(WebGLRenderingContext.DEPTH_TEST);
+
+	}
 
 	@Override
-    public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
-	    // TODO Auto-generated method stub
+	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
+
+		glContext.colorMask(r, g, b, a);
 	    
     }
 
@@ -501,16 +499,16 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
 
 	@Override
-    public void initMatrix() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void initMatrix() {
+		glContext.uniformMatrix4fv(modelviewLocation, false, view3D.getToScreenMatrix().mul(getMatrix()).getForGL());		
+	}
+
+
 
 	@Override
-    public void resetMatrix() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void resetMatrix() {
+		setMatrixView();
+	}
 
 	@Override
     public void drawMouseCursor() {
@@ -600,7 +598,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void setAlphaFunc() {
-	    // TODO Auto-generated method stub
+	    // done by shader
 	    
     }
 
@@ -679,34 +677,45 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
 
 	@Override
-    public void bindTexture(int index) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void removeTexture(int index) {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+
 
 	@Override
-    public void textureImage2D(int sizeX, int sizeY, byte[] buf) {
+    public void bindTexture(int index) {
 	    // TODO Auto-generated method stub
+		//glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
 	    
     }
 
-	@Override
-    public void setTextureLinear() {
-	    // TODO Auto-generated method stub
-	    
+    @Override
+	public void textureImage2D(int sizeX, int sizeY, byte[] buf){
+    	// TODO
+    	//glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, WebGLRenderingContext.UNSIGNED_BYTE, getImage(Resources.INSTANCE.texture()).getElement());
+        
     }
-
+    
+    @Override
+	public void setTextureLinear(){
+    	/*
+    	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MAG_FILTER, WebGLRenderingContext.LINEAR);
+    	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MIN_FILTER, WebGLRenderingContext.LINEAR);
+    	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_WRAP_S, WebGLRenderingContext.CLAMP_TO_EDGE); //prevent repeating the texture
+    	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_WRAP_T, WebGLRenderingContext.CLAMP_TO_EDGE); //prevent repeating the texture
+    	 */
+	}
+    
+    
 	@Override
-    public void setTextureNearest() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setTextureNearest(){
+		/*
+		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MAG_FILTER, WebGLRenderingContext.NEAREST);
+		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MIN_FILTER, WebGLRenderingContext.NEAREST);
+		*/
+	}
 
 
 
@@ -751,8 +760,32 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
-	    // TODO Auto-generated method stub
-	    
+		
+		//glContext.disableVertexAttribArray(colorAttribute);
+
+		/*
+		if (fbColors == null){
+			return;
+		}
+
+		// prevent use of global color
+		setColor(-1, -1, -1, -1);
+
+	   	/////////////////////////////////////
+        // VBO - colors
+ 
+        // Select the VBO, GPU memory data
+        glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboColors);
+        
+        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
+        glBufferData(fbColors);
+        
+        // Associate attribute
+        glContext.vertexAttribPointer(colorAttribute, 4, WebGLRenderingContext.FLOAT, false, 0, 0);
+  
+        // VBO
+        glContext.enableVertexAttribArray(colorAttribute);	  
+        */  
     }
 
 
@@ -760,10 +793,35 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
+	private boolean oneNormalForAllVertices;
 
+	private void resetOneNormalForAllVertices(){
+		oneNormalForAllVertices = false;
+		glContext.uniform3f(normalLocation, 2,2,2);
+	}
 
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 		
+		//glContext.disableVertexAttribArray(normalAttribute);
+
+		/*
+		if (fbNormals == null){ // no normals
+			return;
+		}
+
+		if (fbNormals.capacity() == 3){ // one normal for all vertices
+			glContext.uniform3fv(normalLocation, fbNormals.array());
+			oneNormalForAllVertices = true;
+			return;
+		}
+
+		/////////////////////////////////////
+		// VBO - normals
+
+		if(oneNormalForAllVertices){
+			resetOneNormalForAllVertices();
+		}
+
     	/////////////////////////////////////
         // VBO - normals
  
@@ -778,7 +836,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
   
         // VBO
         glContext.enableVertexAttribArray(normalAttribute);
-	    
+	    */
     }
 
 
@@ -786,19 +844,43 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
+	private boolean textureAttributeEnabled = false;
 
 
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
-	    // TODO Auto-generated method stub
-	    
-    }
+		
+
+		if (fbTextures == null){		
+			setCurrentGeometryHasNoTexture();
+			return;
+		}
+
+		setCurrentGeometryHasTexture();
+
+    	/////////////////////////////////////
+        // VBO - texture
+ 
+        // Select the VBO, GPU memory data
+        glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboTextureCoords);
+        
+        // transfer data to VBO, this perform the copy of data from CPU -> GPU memory
+        glBufferData(fbTextures);
+        
+        // Associate attribute
+        glContext.vertexAttribPointer(textureAttribute, 2, WebGLRenderingContext.FLOAT, false, 0, 0);
+  
+        // VBO
+        glContext.enableVertexAttribArray(textureAttribute);
+        textureAttributeEnabled = true;
+        
+
+	}
 
 
 
 
 	private void glBufferData(GLBuffer fb){
         glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER, ((GLBufferW) fb).getBuffer(), WebGLRenderingContext.STATIC_DRAW);
-		
 	}
 
 
@@ -806,6 +888,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
         
 
+		
     	/////////////////////////////////////
         // VBO - vertices
  
@@ -828,13 +911,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
-
-
-
-	public boolean areTexturesEnabled() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
 
 
 
@@ -866,7 +942,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 			return WebGLRenderingContext.LINE_LOOP;
 		}
 		
-		return 0;
+		return WebGLRenderingContext.TRIANGLES;
 	}
 
 
@@ -875,8 +951,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void setDepthFunc() {
-	    // TODO Auto-generated method stub
-	    
+		glContext.depthFunc(WebGLRenderingContext.LEQUAL);
     }
 
 
@@ -901,8 +976,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void setBlendFunc() {
-	    // TODO Auto-generated method stub
-	    
+		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);    
     }
 
 
@@ -917,5 +991,96 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	
+	
+	
+	
+	
+	
+	
+
+	private boolean texturesEnabled;
+
+	@Override
+	final public void enableTextures(){  
+		texturesEnabled = true;
+		setCurrentGeometryHasNoTexture(); // let first geometry init textures
+	}
+
+
+	@Override
+	final public void disableTextures(){
+		texturesEnabled = false;
+		setCurrentTextureType(TEXTURE_TYPE_NONE);
+		if(textureAttributeEnabled){
+			glContext.disableVertexAttribArray(textureAttribute);
+			textureAttributeEnabled = false;
+		}
+	}
+
+	
+	
+	/**
+	 * tells that current geometry has a texture
+	 */
+	final public void setCurrentGeometryHasTexture(){
+		if (areTexturesEnabled() && currentTextureType == TEXTURE_TYPE_NONE){
+			setCurrentTextureType(oldTextureType);
+		}
+	}
+
+	/**
+	 * tells that current geometry has no texture
+	 */
+	final public void setCurrentGeometryHasNoTexture(){
+		if (areTexturesEnabled() && currentTextureType != TEXTURE_TYPE_NONE){
+			oldTextureType = currentTextureType;
+			setCurrentTextureType(TEXTURE_TYPE_NONE);
+			
+		}
+	}
+
+
+	@Override
+	public void enableFading(){  
+		enableTextures();
+		setCurrentTextureType(TEXTURE_TYPE_FADING);
+	}
+	
+
+	@Override
+	public void enableDash(){  
+		enableTextures();
+		setCurrentTextureType(TEXTURE_TYPE_DASH);
+	}
+
+	
+	/**
+	 * enable text textures 
+	 */
+	final public void enableTexturesForText(){  
+		enableTextures();
+		setCurrentTextureType(TEXTURE_TYPE_TEXT);
+	}
+
+	
+	private int currentTextureType = TEXTURE_TYPE_NONE;
+	private int oldTextureType = TEXTURE_TYPE_NONE;
+	
+	private void setCurrentTextureType(int type){
+		currentTextureType = type;
+		glContext.uniform1i(textureTypeLocation, type);
+	}
+	
+	
+	
+	/**
+	 * @return true if textures are enabled
+	 */
+	@Override
+	public boolean areTexturesEnabled(){
+		return texturesEnabled;
+	}
 
 }

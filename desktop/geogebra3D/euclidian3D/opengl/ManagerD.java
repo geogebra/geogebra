@@ -42,10 +42,6 @@ public abstract class ManagerD extends Manager{
 			return GLlocal.GL_TRIANGLE_STRIP;
 		case TRIANGLE_FAN : 
 			return GLlocal.GL_TRIANGLE_FAN;
-		case QUAD_STRIP : 
-			return GLlocal.GL_QUAD_STRIP;
-		case QUADS : 
-			return GLlocal.GL_QUADS;
 		case TRIANGLES : 
 			return GLlocal.GL_TRIANGLES;
 		case LINE_LOOP : 

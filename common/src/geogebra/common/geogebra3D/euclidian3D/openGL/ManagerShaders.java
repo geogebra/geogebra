@@ -441,7 +441,7 @@ public class ManagerShaders extends Manager {
 	public void rectangle(int x, int y, int z, int width, int height){
 		
 		currentGeometriesSet = new GeometriesSet();
-		startGeometry(Manager.Type.QUADS);
+		startGeometry(Manager.Type.TRIANGLE_FAN);
 		texture(0, 0);
 		vertexInt(x,y,z); 
 		texture(1, 0);

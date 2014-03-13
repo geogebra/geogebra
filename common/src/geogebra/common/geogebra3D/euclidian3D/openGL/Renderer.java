@@ -548,52 +548,36 @@ public abstract class Renderer {
 		setLightPosition();
 		setLight(0);
 
+		
 		// drawing the cursor
-		// getGL().glEnable(GLlocal.GL_BLEND);
 		enableLighting();
 		disableAlphaTest();
 		enableCulling();
-		// getGL().glCullFace(GLlocal.GL_FRONT);
 		view3D.drawCursor(this);
 
-		// drawWireFrame();
-
-		// primitives.enableVBO(gl);
 
 		// drawing hidden part
-		// getGL().glEnable(GLlocal.GL_CULL_FACE);
 		enableAlphaTest();
-		// getGL().glDisable(GLlocal.GL_BLEND);
+		disableTextures();
 		drawable3DLists.drawHiddenNotTextured(this);
-		enableTextures();
-		// getGL().glColorMask(false,false,false,false); //no writing in color
-		// buffer
+		enableDash();
 		drawable3DLists.drawHiddenTextured(this);
+		enableFading(); // from RendererShaders -- check when enable textures if already done
 		drawNotTransp();
-		// getGL().glColorMask(true,true,true,true);
 		disableTextures();
 		disableAlphaTest();
 
-		// getGL().glEnable(GLlocal.GL_BLEND);
-		// getGL().glDisable(GLlocal.GL_CULL_FACE);
-
+	
 		// drawing transparents parts
 		disableDepthMask();
-		enableTextures();
+		enableFading();
 		drawTransp();
 		enableDepthMask();
 
 		// drawing labels
 		disableTextures();
 		enableCulling();
-		// getGL().glCullFace(GLlocal.GL_BACK);
-		// getGL().glEnable(GLlocal.GL_ALPHA_TEST); //avoid z-buffer writing for
-		// transparent parts
-		// getGL().glDisable(GLlocal.GL_LIGHTING);
 		disableBlending();
-		// drawList3D.drawLabel(this);
-		// getGL().glEnable(GLlocal.GL_LIGHTING);
-		// getGL().glDisable(GLlocal.GL_ALPHA_TEST);
 
 		// drawing hiding parts
 		setColorMask(false, false, false, false); // no writing in color buffer
@@ -614,7 +598,7 @@ public abstract class Renderer {
 
 		// re-drawing transparents parts for better transparent effect
 		// TODO improve it !
-		enableTextures();
+		enableFading();
 		disableDepthMask();
 		enableBlending();
 		drawTransp();
@@ -644,15 +628,10 @@ public abstract class Renderer {
 		enableBlending();
 		drawTransp();
 		enableDepthMask();
-		// getGL().glDisable(GLlocal.GL_TEXTURE_2D);
 
 		// drawing not hidden parts
+		disableTextures(); // added from RendererShaders
 		enableCulling();
-		// getGL().glDisable(GLlocal.GL_BLEND);
-		// getGL().glEnable(GLlocal.GL_TEXTURE_2D);
-		// getGL().glPolygonMode(GLlocal.GL_FRONT,
-		// GLlocal.GL_LINE);getGL().glPolygonMode(GLlocal.GL_BACK,
-		// GLlocal.GL_LINE);
 		drawable3DLists.draw(this);
 
 		// primitives.disableVBO(gl);
@@ -1719,4 +1698,15 @@ public abstract class Renderer {
      * enables normalization for normals
      */
     abstract protected void enableNormalNormalized();
+    
+    
+	/**
+	 * enable fading (e.g. for planes)
+	 */
+	abstract public void enableFading();
+	
+	/**
+	 * enable fading (e.g. for planes)
+	 */
+	abstract public void enableDash(); 
 }

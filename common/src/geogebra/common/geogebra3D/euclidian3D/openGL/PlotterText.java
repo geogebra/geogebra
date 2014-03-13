@@ -38,15 +38,22 @@ public class PlotterText {
 	 */
 	public void rectangle(int x, int y, int z, int width, int height){
 		
-		manager.startGeometry(Manager.Type.QUADS);
+		manager.startGeometry(Manager.Type.TRIANGLES);
+		
 		manager.texture(0, 0);
 		manager.vertexInt(x,y,z); 
 		manager.texture(1, 0);
 		manager.vertexInt(x+width,y,z); 
 		manager.texture(1, 1);
 		manager.vertexInt(x+width,y+height,z); 
+		
+		manager.texture(0, 0);
+		manager.vertexInt(x,y,z); 
+		manager.texture(1, 1);
+		manager.vertexInt(x+width,y+height,z); 
 		manager.texture(0, 1);
-		manager.vertexInt(x,y+height,z); 	
+		manager.vertexInt(x,y+height,z); 			
+		
 		manager.endGeometry();
 		
 	}

@@ -14,11 +14,9 @@ import geogebra.common.main.App;
  */
 abstract public class Manager {
 	
-	public static enum Type{
+	public static enum Type{ // quads and quad strips are not supported in gwtgl
 		TRIANGLE_STRIP,
 		TRIANGLE_FAN,
-		QUAD_STRIP,
-		QUADS,
 		TRIANGLES,
 		LINE_LOOP
 	}

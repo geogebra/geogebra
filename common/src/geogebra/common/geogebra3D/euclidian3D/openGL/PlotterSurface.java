@@ -180,7 +180,7 @@ public class PlotterSurface {
 	 */
 	public void drawQuad(Coords p1, Coords p2, Coords p3, Coords p4){
 		
-		manager.startGeometry(Manager.Type.QUAD_STRIP);
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);	
@@ -195,7 +195,7 @@ public class PlotterSurface {
 	
 	public void drawQuadNoTexture(Coords p1, Coords p2, Coords p3, Coords p4){
 		
-		manager.startGeometry(Manager.Type.QUAD_STRIP);
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		
 		manager.texture(0,0);
 		
@@ -487,7 +487,7 @@ public class PlotterSurface {
 	 * draw part of the surface
 	 */
 	public void draw(){
-		manager.startGeometry(Manager.Type.QUADS);
+		manager.startGeometry(Manager.Type.TRIANGLES);
 		
 		
 		du = (uMax-uMin)/uNb;
@@ -522,9 +522,22 @@ public class PlotterSurface {
 
 	
 	public void drawSphere(int size, Coords center, double radius){
-		manager.startGeometry(Manager.Type.QUADS);
+		manager.startGeometry(Manager.Type.TRIANGLES);
 		
-		Coords n;
+
+		/*
+		drawNV(Coords.VZ,Coords.O);
+		drawNV(Coords.VZ,new Coords(1,0,0,0));
+		drawNV(Coords.VZ,new Coords(1,1,0,0));
+		
+		
+		drawNV(Coords.VZ,Coords.O);
+		drawNV(Coords.VZ,new Coords(1,1,0,0));
+		drawNV(Coords.VZ,new Coords(0,1,0,0));
+		*/
+		
+		
+		Coords n1, n2, n3, n4, v1, v2, v3, v4;
 		
 		int longitude=6;
 		size+=3;
@@ -535,23 +548,51 @@ public class PlotterSurface {
 		//longitude=2;
 		
 		int latitude=longitude/2;
+		
+		//App.debug("radius = "+radius+", latitude = "+latitude+", longitude = "+longitude); 
+
 
 		for (int ui=0; ui<longitude; ui++){
 			
 			for (int vi=-latitude; vi<latitude; vi++){			
 				
-				n=sphericalCoords(ui,vi,longitude,latitude);
-				drawNV(n,center.add(n.mul(radius)));
-				n=sphericalCoords(ui+1,vi,longitude,latitude);
-				drawNV(n,center.add(n.mul(radius)));
-				n=sphericalCoords(ui+1,vi+1,longitude,latitude);
-				drawNV(n,center.add(n.mul(radius)));
-				n=sphericalCoords(ui,vi+1,longitude,latitude);
-				drawNV(n,center.add(n.mul(radius)));
+				
+				n1=sphericalCoords(ui,vi,longitude,latitude);
+				n2=sphericalCoords(ui+1,vi,longitude,latitude);
+				n3=sphericalCoords(ui+1,vi+1,longitude,latitude);
+				n4=sphericalCoords(ui,vi+1,longitude,latitude);
+				v1=center.add(n1.mul(radius));
+				v2=center.add(n2.mul(radius));
+				v3=center.add(n3.mul(radius));
+				v4=center.add(n4.mul(radius));
 	
+				drawNV(n1,v1);
+				drawNV(n2,v2);
+				drawNV(n3,v3);
+				
+				drawNV(n1,v1);
+				drawNV(n3,v3);
+				drawNV(n4,v4);
+				
+				
+				/*
+				drawNV(Coords.VZ,Coords.O);
+				drawNV(Coords.VZ,new Coords(1,0,0,0));
+				drawNV(Coords.VZ,new Coords(1,1,0,0));
+				
+				
+				drawNV(Coords.VZ,Coords.O);
+				drawNV(Coords.VZ,new Coords(1,1,0,0));
+				drawNV(Coords.VZ,new Coords(0,1,0,0));
+
+				 */
+				
+
 			}
 			
 		}
+		
+		
 		
 		manager.endGeometry();
 	}
@@ -667,17 +708,22 @@ public class PlotterSurface {
 	 * @param l2 
 	 */
 	public void parallelogram(Coords center, Coords v1, Coords v2, double l1, double l2){
-		manager.startGeometry(Manager.Type.QUADS);
+		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
 		manager.texture(0, 0);
 		manager.normal(v1.crossProduct(v2));
+
+		Coords c2 = center.add(v1.mul(l1));
+		Coords c3 = c2.add(v2.mul(l2));
+		Coords c4 = center.add(v2.mul(l2));
+		
 		manager.vertex(center);  
 		//manager.texture(1, 0);//TODO ?
-		manager.vertex(center.add(v1.mul(l1)));  
+		manager.vertex(c2);  
 		//manager.texture(1, 1);
-		manager.vertex(center.add(v1.mul(l1)).add(v2.mul(l2)));  
+		manager.vertex(c3);  
 		//manager.texture(0, 1);
-		manager.vertex(center.add(v2.mul(l2)));      	           	
+		manager.vertex(c4);      	           	
 
 		manager.endGeometry();
 	}
@@ -908,6 +954,9 @@ public class PlotterSurface {
 
 		drawTNV(ui, vi);
 		drawTNV(ui+1, vi);
+		drawTNV(ui+1, vi+1);
+			
+		drawTNV(ui, vi);
 		drawTNV(ui+1, vi+1);
 		drawTNV(ui, vi+1);
 		

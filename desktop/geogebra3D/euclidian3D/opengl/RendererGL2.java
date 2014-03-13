@@ -563,5 +563,19 @@ public class RendererGL2 extends RendererD {
 	public void setLineWidth(int width){
     	jogl.getGL2().glLineWidth(width);
     }   
+    
+    
+    
+	@Override
+	public void enableFading(){  
+		enableTextures();
+	}
+	
+
+	@Override
+	public void enableDash(){  
+		enableTextures();
+	}
+	
 
 }
