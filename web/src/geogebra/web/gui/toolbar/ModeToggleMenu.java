@@ -1,5 +1,6 @@
 package geogebra.web.gui.toolbar;
 
+import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ListItem;
@@ -14,6 +15,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureEndHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.LoseCaptureEvent;
 import com.google.gwt.event.dom.client.LoseCaptureHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -29,10 +32,10 @@ import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -79,6 +82,8 @@ MouseOutHandler, MouseOverHandler{
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
 		addDomHandlers(tbutton);
 		tbutton.addDomHandler(this, MouseOutEvent.getType());
+		tbutton.addDomHandler(toolbar, KeyUpEvent.getType());
+		tbutton.getElement().setTabIndex(0);
 		this.add(tbutton);
 		addNativeToolTipHandler(tbutton.getElement(), this);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
@@ -328,10 +333,15 @@ MouseOutHandler, MouseOverHandler{
 		return (clickYPos - tbutton.getAbsoluteTop() > tbutton.getOffsetHeight() / 2);
 	}
 	
-	public void onEnd(DomEvent event){
-		if (event.getSource() == tbutton){
+	public void onEnd(DomEvent<?> event){
+		App.debug("onEnd");
+		this.setFocus(true);
+		boolean enterPressed = (event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER;
+		if ((event.getSource() == tbutton)|| enterPressed){
+//		if (event.getSource() == tbutton){
 			if(("true".equals(event.getRelativeElement().getAttribute("isSelected"))
-					|| isBottomHalfClicked(event)) && !isSubmenuOpen()){
+					|| isBottomHalfClicked(event)) && !isSubmenuOpen()
+					|| enterPressed){
 				showMenu();
 				keepDown = false;
 				return;
@@ -345,6 +355,7 @@ MouseOutHandler, MouseOverHandler{
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
 		if(event.getSource() != tbutton || keepDown) hideMenu();
 		keepDown = false;
+		this.setFocus(true);
 		
 	}
 

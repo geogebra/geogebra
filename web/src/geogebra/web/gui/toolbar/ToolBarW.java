@@ -18,6 +18,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
@@ -28,7 +31,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * Toolbar for GeoGebraWeb
  *
  */
-public class ToolBarW extends FlowPanel implements ClickHandler{
+public class ToolBarW extends FlowPanel implements ClickHandler, KeyUpHandler{
 	
 	private AppW app;
 	private int mode;
@@ -53,6 +56,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 		this.addStyleName("GGWToolbar");
 		this.addOutsideClickHandler(this, Document.get().getDocumentElement());
 		this.addDomHandler(this, ClickEvent.getType());
+		//this.addDomHandler(this, KeyUpEvent.getType());
 	}
 
 	/**
@@ -97,7 +101,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	 *         the general toolbar.
 	 */
 	public DockPanel getDockPanel() {
-		App.debug("ToolBarW.getDockPanel");
 		return dockPanel;
 	}
 
@@ -105,7 +108,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	 * Creates a toolbar using the current strToolBarDefinition.
 	 */
 	public void buildGui() {
-		App.debug("ToolBarW.buildGui");
 		mode = -1;
 	
 		menuList = new UnorderedList();
@@ -206,7 +208,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	 */
 	//private void addCustomModesToToolbar(ModeToggleButtonGroup bg) {
 	private void addCustomModesToToolbar(UnorderedList mainUl) {
-		App.debug("ToolBarW.addCustomModesToToolbar");
 		Vector<ToolbarItem> toolbarVec;
 		
 		try {
@@ -233,6 +234,9 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 			Vector<Integer> menu = ob.getMenu();
 			
 			ModeToggleMenu mtm = new ModeToggleMenu(app, menu, this);
+			mtm.addDomHandler(this, KeyUpEvent.getType());
+			mtm.setTabIndex(i+1);
+			
 			modeToggleMenus.add(mtm);
 			mainUl.add(mtm);
 		}
@@ -314,5 +318,15 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 
 	public void onClick(ClickEvent event) {
 	    event.stopPropagation();
+    }
+
+	public void onKeyUp(KeyUpEvent event) {
+		App.debug("key up: "+event.getNativeKeyCode());
+		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+			if (event.getSource() instanceof ModeToggleMenu){
+				((ModeToggleMenu)(event.getSource())).onEnd(event);
+			}
+		}
+	    
     }
 }
