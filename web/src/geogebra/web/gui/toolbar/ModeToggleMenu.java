@@ -13,13 +13,9 @@ import java.util.Vector;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.GestureEndEvent;
-import com.google.gwt.event.dom.client.GestureEndHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.LoseCaptureEvent;
-import com.google.gwt.event.dom.client.LoseCaptureHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -34,7 +30,6 @@ import com.google.gwt.event.dom.client.TouchEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -42,8 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
-TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler,
-MouseOutHandler, MouseOverHandler, KeyUpHandler{
+TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler{
 
 	private static final long serialVersionUID = 1L;
 
@@ -145,75 +139,13 @@ MouseOutHandler, MouseOverHandler, KeyUpHandler{
 	}
 	
 	public void addDomHandlers(Widget w){
-//		this.addDomHandler(this, MouseMoveEvent.getType());
-//		this.addDomHandler(this, MouseOverEvent.getType());
-//		this.addDomHandler(this, MouseOutEvent.getType());
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
 		if(!app.getLAF().isSmart()){//TODO may need android detection etc.
 			w.addDomHandler(this, TouchEndEvent.getType());
 		}
-//		this.addDomHandler(this, TouchMoveEvent.getType());
-		w.addDomHandler(this, GestureEndEvent.getType());
-		w.addDomHandler(this, LoseCaptureEvent.getType());
 	}
-	
-//	private native void addNativeHandlers(Element element, ModeToggleMenu m)/*-{
-//		element.addEventListener("touchstart",function(e) {
-//			e.preventDefault();
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchStart(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-//		});
-//		element.addEventListener("touchend",function() {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchEnd(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("mousedown",function(e) {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchStart(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-//		});
-//		element.addEventListener("mouseup",function() {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchEnd(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("click",function() {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onClick(Lcom/google/gwt/dom/client/Element;)(element);
-//		});
-//		element.addEventListener("touchleave",function(e) {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-//		});
-//		
-//		element.addEventListener("touchcancel",function() {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e)
-//		});
-//		element.addEventListener("touchenter",function() {
-//			m.@geogebra.web.gui.toolbar.ModeToggleMenu::onTouchLeave(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-//		});		
-//	}-*/;
-	
-//	public void onTouchLeave(JavaScriptObject e){
-//		Window.alert("TOUCHLEAVE");
-//	}
-//
-//	public void onTouchCancel(Element element){
-//		Window.alert("TOUCHcancel");
-//	}
-//
-//	public void onTouchEnter(Element element){
-//		Window.alert("TOUCHenter");
-//	}
-//	
-//	public void onTouchStart(JavaScriptObject e){
-//		App.debug("start" + e.toSource());
-//	}
-//	
-//	public void onTouchEnd(Element element){
-//		App.debug("end");
-//		App.debug(element.toString());
-//		app.setMode(Integer.parseInt(element.getAttribute("mode")));
-//		itemList.getElement().getStyle().setProperty("visibility", "hidden");
-//	}
-//
-//	public void onClick(Element element){
-//		App.debug("click");
-//	}
 	
 	public void showMenu(){
 		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
@@ -406,17 +338,6 @@ MouseOutHandler, MouseOverHandler, KeyUpHandler{
 		};
 		longPressTimer.schedule(1000); 		
 	}
-
-	@Override
-    public void onGestureEnd(GestureEndEvent event) {
-	    Window.alert("gesture end");
-	    
-    }
-
-	@Override
-    public void onLoseCapture(LoseCaptureEvent event) {
-	    Window.alert("losecapturehandler");
-    }
 	
 	public void setToolTipText(String string) {
 		toolTipText = string;

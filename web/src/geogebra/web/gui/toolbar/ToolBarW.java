@@ -18,9 +18,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
@@ -318,21 +315,5 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	    event.stopPropagation();
     }
 
-/*
-	public void onKeyUp(KeyUpEvent event) {
-		App.debug("source: "+event.getSource());
-		App.debug("native source: "+event.getNativeEvent().getEventTarget());
-		App.debug("relative element: "+event.getRelativeElement().toString());
-//		App.debug("native source2: "+event.);
-		
-		App.debug("key up: "+event.getNativeKeyCode());
-		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-			if (event.getSource() instanceof ModeToggleMenu){
-				((ModeToggleMenu)(event.getSource())).onEnd(event);
-			}
-		}
-	    
-    }
-*/
 }
 
