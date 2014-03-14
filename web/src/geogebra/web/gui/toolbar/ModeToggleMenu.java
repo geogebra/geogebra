@@ -397,6 +397,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
+		App.debug("onkeyup");
 		int keyCode = event.getNativeKeyCode();
 	
 		switch (keyCode){
@@ -404,11 +405,18 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			onEnd(event);
 			break;
 		case KeyCodes.KEY_RIGHT:
+		case KeyCodes.KEY_LEFT:
 			if (event.getSource() == tbutton){
 				ModeToggleMenu mtm = (ModeToggleMenu) tbutton.getParent();
 				int indexOfButton = toolbar.getModeToggleMenus().indexOf(mtm);
-				if (indexOfButton < toolbar.getModeToggleMenus().size()-1){
-					switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton+1));
+				if (keyCode == KeyCodes.KEY_RIGHT){
+					indexOfButton++;
+				} else {
+					indexOfButton--;
+				}				
+				
+				if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
+					switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton));
 				}
 			}
 			break;
