@@ -3,6 +3,8 @@ package geogebra.html5.main;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
+import geogebra.web.gui.GuiManagerW;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -66,12 +68,11 @@ public class GlobalKeyDispatcherW extends
 
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
-		//AbstractApplication.debug("onkeyup");
 		if (InFocus) {
 			event.preventDefault();
 		}
 		event.stopPropagation();
-		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
+		//now it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
 		dispatchEvent(event);
     }
 
@@ -161,8 +162,20 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
     protected boolean handleEnter() {
-	    App.debug("unimplemented");
-	    return false;
+		if (((AppW) app).isUsingFullGui()
+				&& ((GuiManagerW) app.getGuiManager()).noMenusOpen()) {
+			if (app.showAlgebraInput()){
+//					&& !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
+//							.hasFocus()) {
+
+				((GuiManagerW) app.getGuiManager()).getAlgebraInput()
+						.requestFocus();
+
+				return true;
+			}
+		}
+
+		return false;
     }
 
 	@Override

@@ -336,6 +336,10 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 				}
 				inputField.setIsSuggestionJustHappened(false);
 	}
+	
+	public void requestFocus(){
+		inputField.requestFocus();
+	}
 
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
