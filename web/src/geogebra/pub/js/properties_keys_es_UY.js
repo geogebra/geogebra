@@ -2594,7 +2594,7 @@ __GGB__keysVar.es_UY.plain = {
     "ShowxAxis": "Muestra EjeX",
     "ShowyAxis": "Muestra EjeY",
     "ShowzAxis": "Muestra eje z",
-    "ShutDownGreen": "Omitir el Canal verde",
+    "ShutDownGreen": "Omitir el canal verde",
     "Shutter": "Shutter",
     "SignInInProgress": "Conectar a",
     "SignInSuccessful": "\xa1Conexi\xf3n concretada!",
