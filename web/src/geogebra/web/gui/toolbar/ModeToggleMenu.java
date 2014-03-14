@@ -404,18 +404,15 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			break;
 		case KeyCodes.KEY_RIGHT:
 		case KeyCodes.KEY_LEFT:
-			if (event.getSource() == tbutton){
-				ModeToggleMenu mtm = (ModeToggleMenu) tbutton.getParent();
-				int indexOfButton = toolbar.getModeToggleMenus().indexOf(mtm);
-				if (keyCode == KeyCodes.KEY_RIGHT){
-					indexOfButton++;
-				} else {
-					indexOfButton--;
-				}				
-				
-				if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
-					switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton));
-				}
+			int indexOfButton = toolbar.getModeToggleMenus().indexOf(this);
+			if (keyCode == KeyCodes.KEY_RIGHT){
+				indexOfButton++;
+			} else {
+				indexOfButton--;
+			}				
+			
+			if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
+				switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton));
 			}
 			break;
 		case KeyCodes.KEY_DOWN:
