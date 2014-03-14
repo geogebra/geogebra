@@ -8,6 +8,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
+import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
 
@@ -123,23 +124,43 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         WebGLShader fragmentShader = getShader(WebGLRenderingContext.FRAGMENT_SHADER, Shaders.INSTANCE.fragmentShader().getText());
         WebGLShader vertexShader = getShader(WebGLRenderingContext.VERTEX_SHADER, Shaders.INSTANCE.vertexShader().getText());
 
+        // create shader program
         shaderProgram = glContext.createProgram();
+        
+        // attach shaders
         glContext.attachShader(shaderProgram, vertexShader);
         glContext.attachShader(shaderProgram, fragmentShader);
+        
+        // bind attributes location
+        glContext.bindAttribLocation(shaderProgram, 0, "attribute_Position");
+        glContext.bindAttribLocation(shaderProgram, 1, "attribute_Normal");
+        glContext.bindAttribLocation(shaderProgram, 2, "attribute_Color");
+        glContext.bindAttribLocation(shaderProgram, 3, "attribute_Texture");
+
+        // link the program
         glContext.linkProgram(shaderProgram);
 
         if (!glContext.getProgramParameterb(shaderProgram, WebGLRenderingContext.LINK_STATUS)) {
                 throw new RuntimeException("Could not initialise shaders");
-        }
-
+        }       
+         
+        // use the program
         glContext.useProgram(shaderProgram);
+        
         
         
         // attributes
         vertexPositionAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Position");
-        colorAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Color");
-        normalAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Normal");
+        //normalAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Normal");
+        //colorAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Color");
+        normalAttribute = 1;
+        colorAttribute = 2;
         textureAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Texture");
+
+        App.debug("vertexPositionAttribute="+vertexPositionAttribute+","
+        		+"colorAttribute="+colorAttribute+","
+        		+"normalAttribute="+normalAttribute+","
+        		+"textureAttribute="+textureAttribute);
         
         
         // uniform location
@@ -238,8 +259,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
 	protected void draw(){
 		
-		textureAttributeEnabled = false;
-
+		colorAttributeEnabled = false;
+		
 		resetOneNormalForAllVertices();
 		disableTextures();
 
@@ -758,13 +779,20 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
-
+	private boolean colorAttributeEnabled = false;
+	
+	
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
 		
-		//glContext.disableVertexAttribArray(colorAttribute);
-
+		//if (colorAttributeEnabled){
+			glContext.disableVertexAttribArray(colorAttribute);
+		//}
+		
 		/*
 		if (fbColors == null){
+			if (colorAttributeEnabled){
+				glContext.disableVertexAttribArray(colorAttribute);
+			}
 			return;
 		}
 
@@ -785,7 +813,9 @@ public class RendererW extends Renderer implements RendererShadersInterface{
   
         // VBO
         glContext.enableVertexAttribArray(colorAttribute);	  
-        */  
+        colorAttributeEnabled = true;
+        
+        */
     }
 
 
@@ -844,14 +874,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
-	private boolean textureAttributeEnabled = false;
-
-
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 		
 
 		if (fbTextures == null){		
 			setCurrentGeometryHasNoTexture();
+			glContext.disableVertexAttribArray(textureAttribute);
 			return;
 		}
 
@@ -871,7 +899,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
   
         // VBO
         glContext.enableVertexAttribArray(textureAttribute);
-        textureAttributeEnabled = true;
         
 
 	}
@@ -1013,13 +1040,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	final public void disableTextures(){
 		texturesEnabled = false;
 		setCurrentTextureType(TEXTURE_TYPE_NONE);
-		if(textureAttributeEnabled){
-			glContext.disableVertexAttribArray(textureAttribute);
-			textureAttributeEnabled = false;
-		}
+		glContext.disableVertexAttribArray(textureAttribute);
 	}
 
-	
+
 	
 	/**
 	 * tells that current geometry has a texture
