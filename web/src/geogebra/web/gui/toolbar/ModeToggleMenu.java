@@ -422,6 +422,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				} else {
 					hideToolTip();
 					showMenu();
+					this.itemList.getWidget(0).getElement().focus();
 				}
 			} else {
 				Element nextSiblingElement = event.getRelativeElement().getNextSiblingElement();
