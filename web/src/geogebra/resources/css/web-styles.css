@@ -1365,12 +1365,18 @@ td.datePickerMonth {
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
 /*============ App common styles ============*/
-.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup
+.GeoGebraAppFrame,.GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup, .ToolTip
 	{
 	font: 100%/120% geogebra-sans-serif, Frutiger, "Frutiger Linotype",
 		Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad,
 		"DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma,
 		Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 .GeoGebraAppFrame *:focus,.GeoGebraFrame *:focus,.GeoGebraPopup *:focus,.DialogBox *:focus

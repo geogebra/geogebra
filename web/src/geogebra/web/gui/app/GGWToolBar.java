@@ -51,6 +51,8 @@ public class GGWToolBar extends Composite {
 	public GGWToolBar() {
 		toolBarPanel = new FlowPanel();
 		toolBarPanel.addStyleName("ggbtoolbarpanel");
+		//this makes it draggable on SMART board
+		toolBarPanel.addStyleName("smart-nb-draggable");
 		initWidget(toolBarPanel);
 	}
 
