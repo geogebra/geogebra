@@ -122,6 +122,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 						addDomHandlers(subLi);
 						subLi.addDomHandler(this, MouseOverEvent.getType());
 						subLi.addDomHandler(this, MouseOutEvent.getType());
+						subLi.addDomHandler(this, KeyUpEvent.getType());
 						itemList.add(subLi);
 					}
 				}
@@ -266,9 +267,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public void onEnd(DomEvent<?> event){
 		tbutton.getElement().focus();
 		if (event.getSource() == tbutton){
-			
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
-				App.debug("keepDown: " +keepDown);
 				if(isSubmenuOpen()){
 					hideMenu();
 				} else {
@@ -397,7 +396,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
-		App.debug("onkeyup");
 		int keyCode = event.getNativeKeyCode();
 	
 		switch (keyCode){
@@ -418,6 +416,32 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
 					switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton));
 				}
+			}
+			break;
+		case KeyCodes.KEY_DOWN:
+			if (event.getSource() == tbutton){
+				if(isSubmenuOpen()){
+					this.itemList.getWidget(0).getElement().focus();
+				} else {
+					showMenu();
+				}
+			} else {
+				Element nextSiblingElement = event.getRelativeElement().getNextSiblingElement();
+				if (nextSiblingElement != null){
+					nextSiblingElement.focus();
+				} else event.getRelativeElement().getParentElement().getFirstChildElement().focus();
+			}
+			break;
+		case KeyCodes.KEY_UP:
+			if (event.getSource() instanceof ListItem){
+				Element previousSiblingElement = event.getRelativeElement().getPreviousSiblingElement();
+				if (previousSiblingElement != null){
+					previousSiblingElement.focus();
+				} else {
+					UnorderedList parentUL = (UnorderedList)((ListItem)(event.getSource())).getParent(); 
+					parentUL.getWidget(parentUL.getWidgetCount()-1).getElement().focus();
+				}
+				
 			}
 			break;
 		}
