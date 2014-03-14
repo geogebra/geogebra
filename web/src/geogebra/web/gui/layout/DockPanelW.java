@@ -703,10 +703,26 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			setStyleBar();
 			styleBar.setVisible(showStyleBar && !app.getGuiManager().isDraggingViews());
 			if (styleBar instanceof SpreadsheetStyleBarW) {	
-				dockPanel.setWidgetSize(titleBarPanel, 50);		
+				dockPanel.clear();
+				dockPanel.addNorth(titleBarPanel, 50);
+				if (component != null)
+					dockPanel.add(component);
+				else
+					dockPanel.add(componentPanel);
+
+				// this doesn't work
+				//dockPanel.setWidgetSize(titleBarPanel, 50);		
 			}
 		} else if (styleBar instanceof SpreadsheetStyleBarW) {
-			dockPanel.setWidgetSize(titleBarPanel, 0);
+			dockPanel.clear();
+			dockPanel.addNorth(titleBarPanel, 0);
+			if (component != null)
+				dockPanel.add(component);
+			else
+				dockPanel.add(componentPanel);
+
+			// this doesn't work
+			//dockPanel.setWidgetSize(titleBarPanel, 0);
 		}
 	}
 
