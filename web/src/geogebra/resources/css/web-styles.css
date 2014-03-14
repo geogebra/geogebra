@@ -2088,8 +2088,13 @@ body[dir=rtl] .toolbar_mainItem {
 	cursor: pointer;
 }
 
-.toolbar_submenu .submenuContent li:hover {
+.toolbar_submenu .submenuContent li:hover,
+.toolbar_submenu .submenuContent li:focus {
 	color: #6666FF;
+}
+
+.toolbar_button:focus{
+	border: 1px solid #6666FF;
 }
 
 .toolbar_submenu .submenuContent img {
