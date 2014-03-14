@@ -1,6 +1,5 @@
 package geogebra.web.gui.toolbar;
 
-import geogebra.common.main.App;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ListItem;
@@ -400,6 +399,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 		switch (keyCode){
 		case KeyCodes.KEY_ENTER:
+			if (event.getSource() == tbutton) hideToolTip();
 			onEnd(event);
 			break;
 		case KeyCodes.KEY_RIGHT:
@@ -423,6 +423,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				if(isSubmenuOpen()){
 					this.itemList.getWidget(0).getElement().focus();
 				} else {
+					hideToolTip();
 					showMenu();
 				}
 			} else {
