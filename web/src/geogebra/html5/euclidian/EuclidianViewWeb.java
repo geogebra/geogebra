@@ -276,7 +276,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 
     	// TODO: this is a temporary hack until the timer system can handle TextPreview view
     	// (or ignore timer system because text preview only draws one geo)
-    	if(getViewID() == App.VIEW_TEXT_PREVIEW || getViewID() == App.VIEW_PLOT_PANEL){
+    	if(getViewID() == App.VIEW_TEXT_PREVIEW || getViewID() < 0){
     		doRepaint();
     		return;
     	}
