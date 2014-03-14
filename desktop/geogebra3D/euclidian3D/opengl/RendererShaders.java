@@ -322,10 +322,9 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     */
     
     
-    
-   @Override
-public void loadVertexBuffer(GLBuffer fbVertices, int length){
-     	
+
+    public void loadVertexBuffer(GLBuffer fbVertices, int length){
+
     	
     	/////////////////////////////////////
         // VBO - vertices
@@ -366,8 +365,7 @@ public void loadVertexBuffer(GLBuffer fbVertices, int length){
    }
 
 
-   @Override
-public void loadNormalBuffer(GLBuffer fbNormals, int length){
+   public void loadNormalBuffer(GLBuffer fbNormals, int length){
 
 	   if (fbNormals == null){ // no normals
 		   return;
@@ -400,8 +398,7 @@ public void loadNormalBuffer(GLBuffer fbNormals, int length){
    }
    
    
-   @Override
-public void loadTextureBuffer(GLBuffer fbTextures, int length){
+   public void loadTextureBuffer(GLBuffer fbTextures, int length){
 
 	   if (fbTextures == null){		
 		   setCurrentGeometryHasNoTexture();
@@ -423,8 +420,7 @@ public void loadTextureBuffer(GLBuffer fbTextures, int length){
        jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
    }
    
-   @Override
-public void loadColorBuffer(GLBuffer fbColors, int length){
+   public void loadColorBuffer(GLBuffer fbColors, int length){
 
 	   if (fbColors == null){
 		   return;
@@ -451,7 +447,6 @@ public void loadColorBuffer(GLBuffer fbColors, int length){
 
   
 
-   @Override
    public void draw(Manager.Type type, int length){  
 
 	   /////////////////////////
@@ -1391,10 +1386,6 @@ public void loadColorBuffer(GLBuffer fbColors, int length){
 	
 	
 	
-	/**
-	 * @return true if textures are enabled
-	 */
-	@Override
 	public boolean areTexturesEnabled(){
 		return texturesEnabled;
 	}

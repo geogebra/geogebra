@@ -91,7 +91,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	 * <li> {@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not hidden parts (dash-less segments, lines, ...) </li>
 	 * </ul>
 	 */
-    @Override
 	public void display(GLAutoDrawable gLDrawable) {
     	
         setGL(gLDrawable);         
@@ -202,8 +201,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     }
     
     
-
-	@Override
 	public void dispose(GLAutoDrawable arg0) {
 		// NOTHING TO DO HERE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE VERSIONS	
 	}
@@ -214,7 +211,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
      * initialization such as setup of lights and display lists.
      * @param drawable The GLAutoDrawable object.
      */
-    @Override
 	public void init(GLAutoDrawable drawable) {
     	
     	// reset picking
@@ -271,7 +267,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     /**
      * openGL method called when the canvas is reshaped.
      */
-    @Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
     	
     	setGL(drawable);   
