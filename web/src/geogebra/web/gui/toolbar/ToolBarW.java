@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * Toolbar for GeoGebraWeb
  *
  */
-public class ToolBarW extends FlowPanel implements ClickHandler, KeyUpHandler{
+public class ToolBarW extends FlowPanel implements ClickHandler{
 	
 	private AppW app;
 	private int mode;
@@ -56,7 +56,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler, KeyUpHandler{
 		this.addStyleName("GGWToolbar");
 		this.addOutsideClickHandler(this, Document.get().getDocumentElement());
 		this.addDomHandler(this, ClickEvent.getType());
-		//this.addDomHandler(this, KeyUpEvent.getType());
 	}
 
 	/**
@@ -234,7 +233,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler, KeyUpHandler{
 			Vector<Integer> menu = ob.getMenu();
 			
 			ModeToggleMenu mtm = new ModeToggleMenu(app, menu, this);
-			mtm.addDomHandler(this, KeyUpEvent.getType());
 			mtm.setTabIndex(i+1);
 			
 			modeToggleMenus.add(mtm);
@@ -320,7 +318,13 @@ public class ToolBarW extends FlowPanel implements ClickHandler, KeyUpHandler{
 	    event.stopPropagation();
     }
 
+/*
 	public void onKeyUp(KeyUpEvent event) {
+		App.debug("source: "+event.getSource());
+		App.debug("native source: "+event.getNativeEvent().getEventTarget());
+		App.debug("relative element: "+event.getRelativeElement().toString());
+//		App.debug("native source2: "+event.);
+		
 		App.debug("key up: "+event.getNativeKeyCode());
 		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
 			if (event.getSource() instanceof ModeToggleMenu){
@@ -329,4 +333,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler, KeyUpHandler{
 		}
 	    
     }
+*/
 }
+

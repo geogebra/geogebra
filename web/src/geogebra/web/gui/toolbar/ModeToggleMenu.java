@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureEndHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.LoseCaptureEvent;
 import com.google.gwt.event.dom.client.LoseCaptureHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -35,7 +36,6 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,7 +43,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
 TouchStartHandler, TouchEndHandler, GestureEndHandler, LoseCaptureHandler,
-MouseOutHandler, MouseOverHandler{
+MouseOutHandler, MouseOverHandler, KeyUpHandler{
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,6 @@ MouseOutHandler, MouseOverHandler{
 		this.toolbar = tb;
 		this.menu = menu1;
 		this.addStyleName("toolbar_item");
-		
 		buildGui();
 		
 	}
@@ -82,7 +81,7 @@ MouseOutHandler, MouseOverHandler{
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
 		addDomHandlers(tbutton);
 		tbutton.addDomHandler(this, MouseOutEvent.getType());
-		tbutton.addDomHandler(toolbar, KeyUpEvent.getType());
+		tbutton.addDomHandler(this, KeyUpEvent.getType());
 		tbutton.getElement().setTabIndex(0);
 		this.add(tbutton);
 		addNativeToolTipHandler(tbutton.getElement(), this);
@@ -229,7 +228,7 @@ MouseOutHandler, MouseOverHandler{
 	
 	public void hideMenu(){
 		if (submenu == null) return;
-		submenu.removeStyleName("visible");;
+		submenu.removeStyleName("visible");
 	}
 	
 	public boolean selectMode(int mode) {
@@ -334,14 +333,20 @@ MouseOutHandler, MouseOverHandler{
 	}
 	
 	public void onEnd(DomEvent<?> event){
-		App.debug("onEnd");
-		this.setFocus(true);
-		boolean enterPressed = (event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER;
-		if ((event.getSource() == tbutton)|| enterPressed){
-//		if (event.getSource() == tbutton){
+		tbutton.getElement().focus();
+		if (event.getSource() == tbutton){
+			
+			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
+				App.debug("keepDown: " +keepDown);
+				if(isSubmenuOpen()){
+					hideMenu();
+				} else {
+					showMenu();
+				}
+				return;
+			}
 			if(("true".equals(event.getRelativeElement().getAttribute("isSelected"))
-					|| isBottomHalfClicked(event)) && !isSubmenuOpen()
-					|| enterPressed){
+					|| isBottomHalfClicked(event)) && !isSubmenuOpen()){
 				showMenu();
 				keepDown = false;
 				return;
@@ -355,7 +360,7 @@ MouseOutHandler, MouseOverHandler{
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
 		if(event.getSource() != tbutton || keepDown) hideMenu();
 		keepDown = false;
-		this.setFocus(true);
+		tbutton.getElement().focus();
 		
 	}
 
@@ -385,6 +390,7 @@ MouseOutHandler, MouseOverHandler{
 	 */
 	public void onStart(DomEvent event){	
 		event.preventDefault();
+		this.setFocus(true);
 		final ModeToggleMenu tm = this;
 		keepDown = true;
 		//toolbar.closeAllSubmenu();
@@ -487,6 +493,33 @@ MouseOutHandler, MouseOverHandler{
 			el.addClassName("hovered");
 		} else {
 			el.removeClassName("hovered");
+		}
+	}
+
+	public void onKeyUp(KeyUpEvent event) {
+		int keyCode = event.getNativeKeyCode();
+	
+		switch (keyCode){
+		case KeyCodes.KEY_ENTER:
+			onEnd(event);
+			break;
+		case KeyCodes.KEY_RIGHT:
+			if (event.getSource() == tbutton){
+				ModeToggleMenu mtm = (ModeToggleMenu) tbutton.getParent();
+				int indexOfButton = toolbar.getModeToggleMenus().indexOf(mtm);
+				if (indexOfButton < toolbar.getModeToggleMenus().size()-1){
+					switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton+1));
+				}
+			}
+			break;
+		}
+    }
+	
+	private void switchToMainItem(ModeToggleMenu mtm2){
+		mtm2.tbutton.getElement().focus();
+		if(isSubmenuOpen()){
+			hideMenu();
+			mtm2.showMenu();
 		}
 	}
 }
