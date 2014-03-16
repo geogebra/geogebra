@@ -106,6 +106,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public GeoPoint3D(Construction c) {
 		super(c, 4);
 		setDrawingMatrix(CoordMatrix4x4.Identity());
+		setCartesian3D();
 		setUndefined();
 	}
 
