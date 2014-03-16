@@ -149,17 +149,15 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         
         
         
-        // attributes
+        // attributes : note that vertex shader must use it, otherwise getAttribLocation will return -1 (undefined)
         vertexPositionAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Position");
-        //normalAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Normal");
-        //colorAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Color");
-        normalAttribute = 1;
-        colorAttribute = 2;
+        normalAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Normal");
+        colorAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Color");
         textureAttribute = glContext.getAttribLocation(shaderProgram, "attribute_Texture");
 
         App.debug("vertexPositionAttribute="+vertexPositionAttribute+","
-        		+"colorAttribute="+colorAttribute+","
         		+"normalAttribute="+normalAttribute+","
+        		+"colorAttribute="+colorAttribute+","
         		+"textureAttribute="+textureAttribute);
         
         
@@ -258,8 +256,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	protected void draw(){
-		
-		colorAttributeEnabled = false;
 		
 		resetOneNormalForAllVertices();
 		disableTextures();
@@ -779,20 +775,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
-	private boolean colorAttributeEnabled = false;
-	
 	
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
-		
-		//if (colorAttributeEnabled){
-			glContext.disableVertexAttribArray(colorAttribute);
-		//}
-		
-		/*
+
+
 		if (fbColors == null){
-			if (colorAttributeEnabled){
-				glContext.disableVertexAttribArray(colorAttribute);
-			}
+			glContext.disableVertexAttribArray(colorAttribute);
 			return;
 		}
 
@@ -813,9 +801,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
   
         // VBO
         glContext.enableVertexAttribArray(colorAttribute);	  
-        colorAttributeEnabled = true;
         
-        */
+        
     }
 
 
@@ -831,11 +818,9 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	}
 
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
-		
-		//glContext.disableVertexAttribArray(normalAttribute);
 
-		/*
 		if (fbNormals == null){ // no normals
+			glContext.disableVertexAttribArray(normalAttribute);
 			return;
 		}
 
@@ -866,7 +851,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
   
         // VBO
         glContext.enableVertexAttribArray(normalAttribute);
-	    */
+        
     }
 
 

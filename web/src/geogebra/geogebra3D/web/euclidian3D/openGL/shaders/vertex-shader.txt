@@ -26,7 +26,7 @@ void main(void)
   gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
   
   
-  /*
+  
   // color with light
   vec3 n;
   if (normal.x > 1.5){ // then use per-vertex normal
@@ -49,9 +49,9 @@ void main(void)
   
   varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
   varying_Color.a = c.a;
-  */
   
-  varying_Color = color;
+  
+  //varying_Color = color;
       
   // texture
   coordTexture = attribute_Texture;
