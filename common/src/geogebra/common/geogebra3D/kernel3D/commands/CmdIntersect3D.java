@@ -3,7 +3,9 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 
 
+import geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
@@ -158,29 +160,31 @@ public  GeoElement[] process(Command c) throws MyError {
         							(GeoPolygon) arg[1]);
         		
         		 
-        		//intersection line/planar objects : only if surface is treated as its outline
+        		//intersection line/planar objects 
         		else if ((arg[0] instanceof GeoLineND && arg[1] instanceof GeoCoordSys2D)
         				||(arg[1] instanceof GeoLineND && arg[0] instanceof GeoCoordSys2D)){
         			
-        			GeoElement[] ret =
-        			{
-        					kernelA.getManager3D().Intersect(
-        							c.getLabel(),
-        							arg[0],
-        							arg[1])};
-        			return ret;
+        			GeoPoint3D point = (GeoPoint3D) kernelA.getManager3D().Intersect(
+							c.getLabel(),
+							arg[0],
+							arg[1]);
+        			
+        			((Kernel3D) kernelA).setStringMode(point);
+        			
+        			return new GeoElement[] {point};
 
 
         		//intersection line/line
         		}else if (arg[0] instanceof GeoLineND && arg[1] instanceof GeoLineND){
 
-        			GeoElement[] ret =
-        			{
-        					kernelA.getManager3D().Intersect(
-        							c.getLabel(),
-        							arg[0],
-        							arg[1])};
-        			return ret;
+        			GeoPoint3D point = (GeoPoint3D) kernelA.getManager3D().Intersect(
+							c.getLabel(),
+							arg[0],
+							arg[1]);
+        			
+        			((Kernel3D) kernelA).setStringMode(point);
+        			
+        			return new GeoElement[] {point};
 
         		}
         		

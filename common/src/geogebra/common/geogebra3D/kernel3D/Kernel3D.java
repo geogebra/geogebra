@@ -542,6 +542,26 @@ public class Kernel3D extends Kernel {
 	protected AlgoDispatcher newAlgoDispatcher(){
 		return new AlgoDispatcher3D(cons);
 	}
+	
+	
+	/**
+	 * set correct string mode regarding active euclidian view
+	 * @param point point
+	 */
+	public void setStringMode(GeoPoint3D point){
+		
+		if(cons.isFileLoading()){
+			// nothing to do : string mode will be set from the XML
+			return;
+		}
+		
+		if (app.getActiveEuclidianView().isEuclidianView3D()){
+			point.setCartesian3D();
+		}else{
+			point.setCartesian();
+		}
+		point.update();
+	}
 
 
 }

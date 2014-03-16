@@ -774,18 +774,8 @@ public class Manager3D implements Manager3DInterface {
 			// algo = new AlgoIntersectCS2D2D(cons,label, (GeoCoordSys2D) cs1,
 			// (GeoCoordSys2D) cs2);
 		}
-		
-		GeoPoint3D p = (GeoPoint3D) algo.getIntersection();
 
-		// ensure string mode
-		if (kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()){
-			p.setCartesian3D();
-		}else{
-			p.setCartesian();
-		}
-		p.update();
-
-		return p;
+		return algo.getIntersection();
 	}
 
 	public GeoElement[] IntersectionPoint(String[] labels, GeoLineND g,
