@@ -364,8 +364,8 @@ public class EuclidianSettings extends AbstractSettings {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
 		} else {
+			changed = !axisLabel.equals(axesLabels[axis]);
 			axesLabels[axis] = axisLabel;
-			changed = !axesLabels[axis].equals(axisLabel);
 		}
 
 		if (changed) {
