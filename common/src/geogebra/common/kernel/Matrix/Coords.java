@@ -1147,5 +1147,19 @@ public class Coords extends CoordMatrix {
 	
 	
 		
+
+	/**
+	 * assume this is equal to (x,y,z,w)
+	 * @return true if define a defined point
+	 */
+	public boolean isPointDefined(){
+		
+		if (Kernel.isZero(getW())){
+			return false;
+		}
+		
+		return isDefined();
+	}
+
 	
 }

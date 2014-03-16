@@ -680,7 +680,8 @@ public class CoordMatrix {
 
 		return result;
 	}
-
+	
+	
 	/** @return false if at least one value is infinite */
 	public boolean isFinite() {
 

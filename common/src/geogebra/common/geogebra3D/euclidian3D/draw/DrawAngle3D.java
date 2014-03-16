@@ -4,6 +4,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePlanes;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngle;
@@ -119,18 +120,28 @@ public class DrawAngle3D extends Drawable3DCurves {
 				angleVisible = false;
 				return true;
 			}
+
+			Coords vn = ((AlgoAngle) algo).getVn();
 			
-			
-			Coords center = drawCoords[0];
+			Coords center;
+			if (algo instanceof AlgoAnglePlanes){ // draw angle at center of the screen
+				center = drawCoords[0];
+				double[] minmax = getView3D().getIntervalClipped(
+						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY}, center, vn);
+				center = center.add(vn.mul((minmax[0]+minmax[1])/2));
+			}else{
+				center = drawCoords[0];
+			}
+
 			Coords v1 = drawCoords[1];
 			v1.calcNorm(); 
 			double l1 = v1.getNorm();
 			v1=v1.mul(1/l1);
+			
 			Coords v2 = drawCoords[2];
 			v2.calcNorm(); 
 			double l2 = v2.getNorm();
 			v2=v2.mul(1/l2);
-			Coords vn = ((AlgoAngle) algo).getVn();
 			
 			
 			switch (angle.getAngleStyle()) {
@@ -215,12 +226,17 @@ public class DrawAngle3D extends Drawable3DCurves {
 	}
 	
 	
-	
+
 
 	@Override
 	protected void updateForView(){
-		if (getView3D().viewChangedByZoom()) //update only if zoom occurred
+		if (getView3D().viewChangedByZoom() //update only if zoom occurred
+				||
+				((GeoAngle) getGeoElement()).getParentAlgorithm() instanceof AlgoAnglePlanes){
 			updateForItSelf();
+			setLabelWaitForUpdate();
+		}
+
 
 
 	}

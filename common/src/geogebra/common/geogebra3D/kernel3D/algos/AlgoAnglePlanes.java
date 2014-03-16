@@ -23,35 +23,32 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoLineND;
 
 
 /**
  *
  * @author  mathieu
  */
-public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlgo{
+public class AlgoAnglePlanes extends AlgoAngle  implements DrawInformationAlgo{
 
-    private GeoLineND g; // input
-    private GeoPlane3D p; // input
+    private GeoPlane3D p, q; // input
     private GeoAngle angle; // output           
 
     /**
      * Creates new unlabeled angle between line and plane
      * @param cons construction
-     * @param g line
      * @param p plane
+     * @param q plane
      */
-    AlgoAngleLinePlane(Construction cons,  GeoLineND g, GeoPlane3D p) {
+    AlgoAnglePlanes(Construction cons, GeoPlane3D p, GeoPlane3D q) {
         super(cons);
-        this.g = g;
         this.p = p;
+        this.q = q;
         angle = newGeoAngle(cons);
         setInputOutput(); // for AlgoElement
 
@@ -66,10 +63,10 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
     }
     
     
-    private AlgoAngleLinePlane(GeoLineND g, GeoPlane3D p) {  
-    	super(((GeoElement) g).getConstruction(), false);
-        this.g = g;
+    private AlgoAnglePlanes(GeoPlane3D p, GeoPlane3D q) {  
+    	super(p.getConstruction(), false);
         this.p = p;
+        this.q = q;
    }
    
     
@@ -81,13 +78,13 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
      * @param p plane
      */
     
-    public AlgoAngleLinePlane(Construction cons, String label, GeoLineND g, GeoPlane3D p) {
-        this(cons,g,p);
+    public AlgoAnglePlanes(Construction cons, String label, GeoPlane3D p, GeoPlane3D q) {
+        this(cons,p,q);
         angle.setLabel(label);
     }
     
-    public AlgoAngleLinePlane copy(){
-    	return new AlgoAngleLinePlane(g.copy(),p.copy());
+    public AlgoAnglePlanes copy(){
+    	return new AlgoAnglePlanes(p.copy(),q.copy());
     }
 
 
@@ -97,8 +94,8 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = (GeoElement) g;
-        input[1] = p;
+        input[0] = p;
+        input[1] = q;
 
         setOutputLength(1);
         setOutput(0,angle);
@@ -119,7 +116,7 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("AngleBetweenAB",g.getLabel(tpl),p.getLabel(tpl));
+        return loc.getPlain("AngleBetweenAB",p.getLabel(tpl),q.getLabel(tpl));
 
     }
 
@@ -130,82 +127,38 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
     @Override
 	public final void compute() {
     	
-    	// line origin and direction
-    	Coords o2 = g.getStartInhomCoords();
-    	v2 = g.getDirectionInD3();   
     	
-    	// plane matrix
-    	CoordMatrix4x4 pMat = p.getCoordSys().getMatrixOrthonormal();
-    	
-    	// project line origin on the plane
-    	o = o2.projectPlaneThruV(pMat, v2)[0];
-    	if (!o.isDefined()){ // line parallel to plane
-    		getAngle().setValue(0);
-    		return;
-    	}
-    	
-    	// project line direction on the plane
-    	Coords vx = pMat.getVx();
-    	Coords vy = pMat.getVy();
-    	v1 = vx.mul(v2.dotproduct(vx)).add(vy.mul(v2.dotproduct(vy)));
-    	if (v1.isZero()){ // line orthogonal to plane
-    		getAngle().setValue(Math.PI/2);
-    		v1 = vx;
-    		vn = vy.mul(-1);
-    		return;  		
-    	}
-    	
-    	
-    	v1.calcNorm();
-    	double l1 = v1.getNorm();
-    	v2.calcNorm();
-    	double l2 = v2.getNorm();  	
-    	
-    	double c = v1.dotproduct(v2)/(l1*l2); //cosinus of the angle
-    	
-    	getAngle().setValue(AlgoAnglePoints3D.acos(c));
-    
+    	Coords vn1 = p.getDirectionInD3();
+       	Coords vn2 = q.getDirectionInD3();
+       	
+       	
+		vn = vn1.crossProduct4(vn2).normalize();		
+      	 		
 
-    	vn = v2.crossProduct4(v1).normalize();
-    	
+		// compute origin
+		if (vn.isZero()){ // parallel planes
+       		getAngle().setValue(0);
+       		o = Coords.UNDEFINED;
+       		return;
+		}
+
+       	getAngle().setValue(AlgoAnglePoints3D.acos(vn1.dotproduct(vn2)));
+       	
+		v2 = vn1.crossProduct4(vn);
+		v1 = vn2.crossProduct4(vn);
+
+		// projection of first plane origin on second plane
+		// direction orthogonal to v and colinear to first plane
+		o = p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
+				q.getCoordSys().getMatrixOrthonormal(),
+				v2
+				)[0];
+       	
     }
     
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
-		
-		if (drawable == null){ // TODO : this is a pgf / asymptote / pstricks call
-			return false;
-		}
-		
-		if (!o.isDefined()){
-			return false;
-		}
-		
-		Coords ov = drawable.getCoordsInView(o);
-		if (!drawable.inView(ov)) {
-			return false;
-		}
-		
-		m[0] = ov.get()[0];
-		m[1] = ov.get()[1];
-		
-		
-		
-		Coords v1v = drawable.getCoordsInView(v2);
-		if (!drawable.inView(v1v)) {
-			return false;
-		}
-		
-		Coords v2v = drawable.getCoordsInView(v1);
-		if (!drawable.inView(v2v)) {
-			return false;
-		}
-
-		firstVec[0] = v1v.get()[0];
-		firstVec[1] = v1v.get()[1];
-		
-		
-		return true;
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {		
+		return false;
 	}
 	
 
