@@ -2,13 +2,16 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleConic3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleElement3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleLinePlane;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePoint3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoAngleVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -26,7 +29,23 @@ public class CmdAngle3D extends CmdAngle {
 		super(kernel);
 	}
 
-	
+	@Override
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
+		
+		// angle between line and plane
+		if ((ok[0] = (arg[0].isGeoLine()))
+				&& (ok[1] = (arg[1].isGeoPlane()))) {
+			AlgoAngleLinePlane algo = new AlgoAngleLinePlane(cons, c.getLabel(), (GeoLineND) arg[0], (GeoPlane3D) arg[1]);
+			return new GeoElement[] {algo.getAngle()};
+		}
+		if ((ok[1] = (arg[1].isGeoLine()))
+				&& (ok[0] = (arg[0].isGeoPlane()))) {
+			AlgoAngleLinePlane algo = new AlgoAngleLinePlane(cons, c.getLabel(), (GeoLineND) arg[1], (GeoPlane3D) arg[0]);
+			return new GeoElement[] {algo.getAngle()};
+		}
+
+		return null;
+	}
 	
 
 
@@ -95,6 +114,7 @@ public class CmdAngle3D extends CmdAngle {
 		return super.angle(label, c);
 	}
 	
+	@Override
 	protected GeoElement[] angle(String[] labels, GeoPolygon p){
 		
 		if (p.isGeoElement3D()){

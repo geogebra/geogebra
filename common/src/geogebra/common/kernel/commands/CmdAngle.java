@@ -109,24 +109,19 @@ public class CmdAngle extends CommandProcessor {
 
 		case 2:
 			arg = resArgs(c);
+			
+			GeoElement[] ret = process2(c, arg, ok);
+			
+			if (ret != null){
+				return ret;
+			}
 
-			// angle between vectors
-			if ((ok[0] = (arg[0].isGeoVector()))
-					&& (ok[1] = (arg[1].isGeoVector()))) {
-				return angle(c.getLabel(), (GeoVectorND) arg[0], (GeoVectorND) arg[1]);
-			}
-			// angle between lines
-			else if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoLine()))) {
-				return angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
-			}
 			// syntax error
-			else {
-				if (ok[0] && !ok[1]) {
-					throw argErr(app, c.getName(), arg[1]);
-				}
-				throw argErr(app, c.getName(), arg[0]);
+			if (ok[0] && !ok[1]) {
+				throw argErr(app, c.getName(), arg[1]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
+
 
 		case 3:
 			arg = resArgs(c);
@@ -154,6 +149,29 @@ public class CmdAngle extends CommandProcessor {
 		}
 	}
 	
+	/**
+	 * process angle when 2 arguments
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok ok array
+	 * @return result (if one)
+	 */
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
+		
+		// angle between vectors
+		if ((ok[0] = (arg[0].isGeoVector()))
+				&& (ok[1] = (arg[1].isGeoVector()))) {
+			return angle(c.getLabel(), (GeoVectorND) arg[0], (GeoVectorND) arg[1]);
+		}
+		
+		// angle between lines
+		if ((ok[0] = (arg[0].isGeoLine()))
+				&& (ok[1] = (arg[1].isGeoLine()))) {
+			return angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
+		}
+
+		return null;
+	}
 	
 	
 	/**

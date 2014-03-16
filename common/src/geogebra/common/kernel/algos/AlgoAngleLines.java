@@ -18,13 +18,11 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -92,15 +90,7 @@ public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
     	return new AlgoAngleLines(g.copy(),h.copy());
     }
 
-    @Override
-	public Commands getClassName() {
-        return Commands.Angle;
-    }
 
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ANGLE;
-    }
     
     // for AlgoElement
     @Override

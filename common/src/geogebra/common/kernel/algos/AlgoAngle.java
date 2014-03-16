@@ -1,8 +1,10 @@
 package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -40,6 +42,16 @@ public abstract class AlgoAngle extends AlgoElement{
 	protected GeoAngle newGeoAngle(Construction cons) {
 		return GeoAngle.newAngleWithDefaultInterval(cons);
 	}
+	
+    @Override
+	final public Commands getClassName() {
+        return Commands.Angle;
+    }
+    
+    @Override
+	final public int getRelatedModeID() {
+    	return EuclidianConstants.MODE_ANGLE;
+    }
 	
 	/**
 	 * 

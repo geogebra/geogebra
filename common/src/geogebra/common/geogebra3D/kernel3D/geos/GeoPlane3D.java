@@ -297,7 +297,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoPlane3D copy() {
 		GeoPlane3D p = new GeoPlane3D(cons);
 
 		// TODO move this elsewhere
