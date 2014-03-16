@@ -1038,7 +1038,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 
 		public boolean processInput(String inputValue) {
 			if (inputValue == null || (editGeo != null && editGeo.isFixed())
-					|| (editGeo != null && !editGeo.isInConstructionList()))
+					|| (editGeo != null && !editGeo.isLabelSet()))
 				return false;
 
 			// no quotes?
