@@ -1486,7 +1486,6 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void setPreferredSize(geogebra.common.awt.GDimension size) {
-		App.printStacktrace(size.getWidth()+" X" + size.getHeight());
 		preferredSize = size;
 	}
 

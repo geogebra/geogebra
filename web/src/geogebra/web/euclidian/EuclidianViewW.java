@@ -221,6 +221,8 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	protected boolean unitAxesRatio;
 
+	private Object preferredSize;
+
 	static public MyBasicStrokeW getDefaultStroke() {
 		return standardStroke;
 	}
@@ -390,6 +392,10 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
   public void setPreferredSize(GDimension preferredSize) {
+	if(this.preferredSize!= null && this.preferredSize.equals(preferredSize)){
+		return;
+	}
+	this.preferredSize = preferredSize;
     g2p.setPreferredSize(preferredSize);
     updateSize();
     setReIniting(false);
