@@ -75,7 +75,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		addDomHandlers(tbutton);
 		tbutton.addDomHandler(this, MouseOutEvent.getType());
 		tbutton.addDomHandler(this, KeyUpEvent.getType());
-		tbutton.getElement().setTabIndex(0);
 		this.add(tbutton);
 		addNativeToolTipHandler(tbutton.getElement(), this);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
@@ -131,6 +130,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		
 			hideMenu();
 		}
+	}
+	
+	public void setButtonTabIndex(int index){
+		tbutton.getElement().setTabIndex(index);
 	}
 
 	public UnorderedList getItemList(){

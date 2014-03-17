@@ -1,7 +1,5 @@
 package geogebra.html5.gui.util;
 
-import geogebra.common.main.App;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -12,7 +10,7 @@ public class ListItem extends ComplexPanel{
 	public ListItem(){
 		Element el = Document.get().createLIElement();
 		setElement(el);
-		el.setTabIndex(0);		
+		el.setTabIndex(-1);		
 	}
 	
 	@Override
@@ -29,9 +27,5 @@ public class ListItem extends ComplexPanel{
 		}
 		
         
-    }
-
-	public void setTabIndex(int index) {
-		getElement().setTabIndex(index);
     }
 }
