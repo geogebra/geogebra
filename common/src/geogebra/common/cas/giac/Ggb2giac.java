@@ -128,7 +128,7 @@ public class Ggb2giac {
 
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
-				"%0[%1 - 1,%2 - 1]");
+				"(%0)[%1 - 1,%2 - 1]");
 
 		// used in regular mode
 		// Giac doesn't auto-simplify
