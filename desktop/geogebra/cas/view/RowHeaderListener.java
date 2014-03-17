@@ -108,7 +108,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 				rowHeader.setSelectedIndex(releasedRow);
 			}
 			if(rowHeader.getSelectedIndices().length>0){
-				RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader, table);
+				RowHeaderPopupMenuD popupMenu = new RowHeaderPopupMenuD(rowHeader, table);
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}

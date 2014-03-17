@@ -19,7 +19,7 @@ import javax.swing.JPopupMenu;
  * Popup menu for row headers
  * 
  */
-public class RowHeaderPopupMenu extends
+public class RowHeaderPopupMenuD extends
 		geogebra.common.cas.view.RowHeaderPopupMenu implements ActionListener {
 
 	private static final long serialVersionUID = -592258674730774706L;
@@ -37,7 +37,7 @@ public class RowHeaderPopupMenu extends
 	 * @param table
 	 *            CAS table
 	 */
-	public RowHeaderPopupMenu(JList rowHeader, CASTableD table) {
+	public RowHeaderPopupMenuD(JList rowHeader, CASTableD table) {
 		rowHeaderPopupMenu = new JPopupMenu();
 		this.rowHeader = rowHeader;
 		this.table = table;
