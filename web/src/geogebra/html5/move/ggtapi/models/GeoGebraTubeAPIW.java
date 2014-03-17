@@ -1,5 +1,6 @@
 package geogebra.html5.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.LoginRequest;
@@ -27,10 +28,12 @@ import com.google.gwt.json.client.JSONValue;
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 {
 	private RequestBuilder requestBuilder;
+	private ClientInfo client;
 
-	private GeoGebraTubeAPIW(String url)
+	public GeoGebraTubeAPIW(String url, ClientInfo client)
 	{
 		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
+		this.client = client;
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 */
 	public void search(String query, MaterialCallback callback)
 	{
-		performRequest(new MaterialRequest(query).toJSONString(), callback);
+		performRequest(new MaterialRequest(query, client).toJSONString(), callback);
 	}
 
 	/**
@@ -54,7 +57,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	 */
 	public void getFeaturedMaterials(MaterialCallback callback)
 	{
-		performRequest(MaterialRequest.forFeatured().toJSONString(), callback);
+		performRequest(MaterialRequest.forFeatured(client).toJSONString(), callback);
 	}
 
 	// /**
@@ -76,7 +79,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 	public void getItem(int id, MaterialCallback callback)
 	{
 		// TODO add ID fetching of a specific material!
-		performRequest(new MaterialRequest(id).toJSONString(), callback);
+		performRequest(new MaterialRequest(id, client).toJSONString(), callback);
 	}
 	
 	/**
@@ -146,20 +149,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
 			// TODO Handle the error!
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Get Singleton GeogebraTubeAPI
-	 * @param url Depends on Touch and Web for now. Later must be changed.
-	 * 
-	 * @return GeogebraTubeAPI singleton
-	 */
-	public static GeoGebraTubeAPIW getInstance(String url) {
-		if (instance == null)
-		{
-			instance = new GeoGebraTubeAPIW(url);
-		}
-		return (GeoGebraTubeAPIW) instance;
 	}
 
 	@Override
@@ -287,6 +276,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPI
     }
 
 	public void getUsersMaterials(int userId, MaterialCallback rc) {
-		performRequest(MaterialRequest.forUser(userId).toJSONString(), rc);
+		performRequest(MaterialRequest.forUser(userId, client).toJSONString(), rc);
     }
 }

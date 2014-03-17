@@ -2,7 +2,6 @@ package geogebra.html5.gui.laf;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
-import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
@@ -47,8 +46,8 @@ public class SmartLookAndFeel extends GLookAndFeel{
     }
 
 	@Override
-    public void open(int id) {
-	    GeoGebraTubeAPIW.getInstance(GeoGebraTubeAPI.url).getItem(id, new MaterialCallback(){
+    public void open(int id, AppW app) {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(id, new MaterialCallback(){
 
 			@Override
             public void onLoaded(List<Material> parseResponse) {
@@ -64,4 +63,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
        });
     }
 	
+	public String getType() {
+	    return "smart";
+    }
 }

@@ -8,7 +8,6 @@ import geogebra.common.move.ggtapi.models.json.JSONString;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests
  * 
@@ -66,13 +65,15 @@ public class MaterialRequest implements Request
 
 	private JSONObject orderJSON = new JSONObject();
 	private JSONObject limitJSON = new JSONObject();
-
+	private final AuthenticationModel model;
+	private final ClientInfo client;
 	/**
 	 * Constructor for a Featured Materials Request
 	 */
-	public MaterialRequest()
+	public MaterialRequest(ClientInfo client)
 	{
-		
+		this.client = client;
+		this.model = client.getModel();
 	}
 
 	/**
@@ -80,8 +81,9 @@ public class MaterialRequest implements Request
 	 * 
 	 * @param query search term or #id
 	 */
-	public MaterialRequest(String query)
+	public MaterialRequest(String query, ClientInfo client)
 	{
+		this(client);
 		this.filterMap.put(Filters.type, "ggb");
 		if(query!=null && query.startsWith("#")){
 			this.filters = new Filters[] { Filters.id };
@@ -100,8 +102,9 @@ public class MaterialRequest implements Request
 	 * @param filters
 	 * @param by
 	 */
-	public MaterialRequest(int id)
+	public MaterialRequest(int id, ClientInfo client)
 	{
+		this(client);
 		this.fields = Fields.values();
 		this.by = Order.id;
 		this.filters = new Filters[] { Filters.id };
@@ -146,15 +149,28 @@ public class MaterialRequest implements Request
 		this.taskJSON.put("filters", this.filtersJSON);
 		this.taskJSON.put("order", this.orderJSON);
 		this.taskJSON.put("limit", this.limitJSON);
-
+		if(this.model != null && model.getLoginToken()!=null){
+			JSONObject login = new JSONObject();
+			login.put("-token", model.getLoginToken());
+			this.apiJSON.put("login", login);
+		}
+		if(this.client != null){
+			JSONObject clientJSON = new JSONObject();
+			clientJSON.put("-id", client.getId());
+			clientJSON.put("-width", client.getWidth()+"");
+			clientJSON.put("-height", client.getHeight()+"");
+			clientJSON.put("-type", client.getType());
+			clientJSON.put("-language", client.getLanguage());
+			this.apiJSON.put("client", clientJSON);
+		}
 		this.apiJSON.put("task", this.taskJSON);
 		this.requestJSON.put("request", this.apiJSON);
 		App.debug(this.requestJSON.toString());
 		return this.requestJSON.toString();
 	}
 
-	public static MaterialRequest forUser(int userId) {
-		MaterialRequest req = new MaterialRequest();
+	public static MaterialRequest forUser(int userId, ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.author_url };
 		req.filterMap.put(Filters.type, "ggb");
 		req.filterMap.put(Filters.author_url, userId+"");
@@ -162,8 +178,8 @@ public class MaterialRequest implements Request
 		return req;
 	}
 
-	public static MaterialRequest forFeatured() {
-		MaterialRequest req = new MaterialRequest();
+	public static MaterialRequest forFeatured(ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
 		req.filterMap.put(Filters.type, "ggb");
 		req.filterMap.put(Filters.featured, "true");

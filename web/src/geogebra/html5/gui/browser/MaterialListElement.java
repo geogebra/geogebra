@@ -228,7 +228,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	void onOpen() {
-		app.getLAF().open(material.getId());
+		app.getLAF().open(material.getId(), app);
 	}
 
 	

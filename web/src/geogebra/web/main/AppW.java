@@ -17,6 +17,7 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
@@ -163,7 +164,7 @@ public abstract class AppW extends AppWeb {
 	protected void initSignInEventFlow() {
 		
 		// Initialize the signIn operation
-		loginOperation = new LoginOperationW();
+		loginOperation = new LoginOperationW(this);
 		if (getNetworkOperation().getOnline()) {
 			initGoogleDriveEventFlow();
 			loginOperation.performTokenLogin();
@@ -1485,6 +1486,7 @@ public abstract class AppW extends AppWeb {
 
 	@Override
 	public void setPreferredSize(geogebra.common.awt.GDimension size) {
+		App.printStacktrace(size.getWidth()+" X" + size.getHeight());
 		preferredSize = size;
 	}
 
@@ -1670,4 +1672,17 @@ public abstract class AppW extends AppWeb {
 		}
 		popups.clear();
 	}
+
+	public ClientInfo getClientInfo() {
+		ClientInfo clientInfo = new ClientInfo();
+		clientInfo.setModel(getLoginOperation().getModel());
+		clientInfo.setLanguage(getLocalization().getLanguage());
+		clientInfo.setWidth((int)getWidth());
+		clientInfo.setHeight((int)getHeight());
+		clientInfo.setType(getLAF().getType());
+		clientInfo.setId(getArticleElement().getDataClientID());
+		
+
+	    return clientInfo;
+    }
 }

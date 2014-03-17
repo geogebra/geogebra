@@ -91,8 +91,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 
 	void displaySearchResults(final String query) {
 		this.lastQuery = query;
-		GeoGebraTubeAPIW.getInstance(
-				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
+		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
 				query, new MaterialCallback() {
 					@Override
 					public void onError(final Throwable exception) {
@@ -125,8 +124,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable {
 				updateViewSizes();
 			}
 		};
-		GeoGebraTubeAPIW api = GeoGebraTubeAPIW.getInstance(
-				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url);
+		GeoGebraTubeAPIW api = (GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI();
 		
 		if(app.getLoginOperation().isLoggedIn()){
 			api.getUsersMaterials(app.getLoginOperation().getModel().getUserId(), rc);

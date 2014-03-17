@@ -28,6 +28,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.events.NativeEventAttacher;
+import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.OfflineView;
@@ -1119,5 +1120,13 @@ public abstract class AppWeb extends App implements SetLabels{
 			((GuiManagerInterfaceW)getGuiManager()).setActiveView(evID);
 		}
 	}
+	public ClientInfo getClientInfo() {
+		ClientInfo clientInfo = new ClientInfo();
+		clientInfo.setModel(getLoginOperation().getModel());
+		clientInfo.setLanguage(getLocalization().getLanguage());
+		clientInfo.setWidth((int)getWidth());
+		clientInfo.setHeight((int)getHeight());
 
+	    return clientInfo;
+    }
 }

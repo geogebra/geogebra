@@ -437,6 +437,10 @@ public final class ArticleElement extends Element {
 	   return this.getAttribute("data-param-preventFocus") != null;
     }
 
+	public String getDataClientID() {
+	    return this.getAttribute("data-param-clientid");
+    }
+
 	
 	
 	
