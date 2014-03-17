@@ -1395,5 +1395,10 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     	getGL().glLineWidth(width);
     }   
 
+    
+	@Override
+	protected float[] getLightPosition(){
+		return LIGHT_POSITION_D;
+	}
 
 }

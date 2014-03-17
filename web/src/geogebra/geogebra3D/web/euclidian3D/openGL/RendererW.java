@@ -1091,5 +1091,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	public boolean areTexturesEnabled(){
 		return texturesEnabled;
 	}
+	
+	@Override
+	protected float[] getLightPosition(){
+		return LIGHT_POSITION_W;
+	}
 
 }

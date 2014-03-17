@@ -1101,12 +1101,19 @@ public abstract class Renderer {
 	// LIGHTS
 	// ////////////////////////////////
 
-	private float[] light0Position = { 1f, 0f, 1f };
+	static final protected float[] LIGHT_POSITION_W = { 1f, 0f, 1f };
+	static final protected float[] LIGHT_POSITION_D = { 1f, 0f, 1f, 0f };
 
 	protected void setLightPosition() {
-		setLightPosition(0, light0Position);
-		setLightPosition(1, light0Position);
+		setLightPosition(0, getLightPosition());
+		setLightPosition(1, getLightPosition());
 	}
+	
+	/**
+	 * 
+	 * @return light position
+	 */
+	abstract protected float[] getLightPosition();
 
 	/**
 	 * set light position

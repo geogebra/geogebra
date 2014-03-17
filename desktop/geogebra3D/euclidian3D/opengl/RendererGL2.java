@@ -577,5 +577,10 @@ public class RendererGL2 extends RendererD {
 		enableTextures();
 	}
 	
+	
+	@Override
+	protected float[] getLightPosition(){
+		return LIGHT_POSITION_D;
+	}
 
 }
