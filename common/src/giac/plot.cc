@@ -3707,8 +3707,6 @@ namespace giac {
   // Args= Center A, point B, number of vertices
   gen _isopolygone(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    gen errcode=checkanglemode(contextptr);
-    if (is_undef(errcode)) return errcode;
     if ( (args.type!=_VECT) || (args._VECTptr->size()<3))
       return symbolic(at_isopolygone,args);
     vecteur & v=*args._VECTptr;
@@ -3736,6 +3734,8 @@ namespace giac {
     int n=gn.val;
     if (gn.type!=_INT_ || absint(n)<2)
       return gensizeerr(contextptr);  
+    bool b=angle_radian(contextptr);
+    angle_radian(true,contextptr);
     if (n>0){
       context tmp;
       gen c;
@@ -3759,6 +3759,7 @@ namespace giac {
       w.push_back(e+ef*cos(2*i*cst_pi/n,contextptr)+nd*sin(2*i*cst_pi/n,contextptr));
     }
     w.push_back(f);
+    angle_radian(b,contextptr);
     gen res=pnt_attrib(gen(w,_GROUP__VECT),attributs,contextptr);
     return res;
   }

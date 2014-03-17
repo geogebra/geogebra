@@ -3121,6 +3121,12 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_collect(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_collect,contextptr);
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2){
+      vecteur v(args._VECTptr->begin()+1,args._VECTptr->end());
+      res=_symb2poly(args,contextptr);
+      res=_poly2symb(gen(mergevecteur(vecteur(1,res),v),_SEQ__VECT),contextptr);
+      return res;
+    }
     res=factorcollect(args,false,contextptr);
     return res;
   }

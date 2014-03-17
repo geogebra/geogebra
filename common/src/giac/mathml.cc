@@ -194,19 +194,25 @@ namespace giac {
   }
 
   static bool needs_times(gen g,GIAC_CONTEXT){
-    if (eval(g,eval_level(contextptr),contextptr).is_constant())
+    //F.H: sqrt(2) est constant mais pas besoin de x.
+    //if (eval(g,eval_level(contextptr),contextptr).is_constant())
+    gen gg=eval(g,eval_level(contextptr),contextptr);
+    if( (gg.type==_INT_)||(gg.type==_ZINT) || (gg.type==_REAL) || (gg.type==_DOUBLE_) )
       return true;
-    else {
-      if (g.type==_SYMB) {
+    /* F.H: a quoi cela sert il de mettre un x dans tous ces cas?
+       else {
+       
+	 if (g.type==_SYMB) {
 	symbolic symb = *(g._SYMBptr);
 	if ( !strcmp(symb.sommet.ptr()->print(contextptr),"/") )
 	  return true;
       }
-    }
+      }*/
     return false;
   }
 
   static string prod_vect2mathml(const vecteur & v,GIAC_CONTEXT){
+    bool isprecINT = false;
     if (v.empty())
       return "<mn>1</mn>";
     vecteur::const_iterator it=v.begin(),itend=v.end();
@@ -217,21 +223,34 @@ namespace giac {
       else if (it->type==_CPLX){
 	if  (!is_zero(re(*it,contextptr)) && !is_zero(im(*it,contextptr)))
 	  s += "<mo>(</mo>"+gen2mathml(*it,contextptr)+"<mo>)</mo>";
+      }
+      else if ( isprecINT && (it->type==_SYMB) &&  (it->_SYMBptr->sommet==at_pow) ) {
+	  symbolic mys = *(it->_SYMBptr);
+	  if(!((mys.feuille._VECTptr->back()==plus_one_half))){
+	     if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
+	        if  (is_positive(mys.feuille._VECTptr->front(),contextptr))
+	          s += "<mo>&times;</mo>";// F.H: 2*2^n et 22^n, 2*2^(1/7)  mais pas 2*sqrt(2). 
+	     }
+	  } 
+
+	 s += gen2mathml(*it,contextptr);
+      }
     else{
 
         s += gen2mathml(*it,contextptr);
 
-    }
+       }
+      if(  (it->type==_INT_)||(it->type==_ZINT) || (it->type==_REAL) || (it->type==_DOUBLE_) ){
+	isprecINT=true;
       }
-      else 
-{	s += gen2mathml(*it,contextptr);
-
+      else{
+	isprecINT=false;
       }
       ++it;
       if (it==itend)
 	return s;
-      else if (needs_times(*it,contextptr))
-    s += "<mo>&times;</mo>";
+      else if ((needs_times(*it,contextptr))&& isprecINT)
+	s += "<mo>&times;</mo>";
     }
   }
 
@@ -239,6 +258,7 @@ namespace giac {
     if (v.empty())
       return "<mn>1</mn>";
     vecteur::const_iterator it=v.begin(),itend=v.end();
+    bool isprecINT = false;
     if (v.size()==1)
       return gen2mathml(*it,contextptr);
     string s;
@@ -251,13 +271,31 @@ namespace giac {
 	else
 	  s += gen2mathml(*it,contextptr);
       }
+      else if ( isprecINT && (it->type==_SYMB) &&  (it->_SYMBptr->sommet==at_pow)  ) {
+	  symbolic mys = *(it->_SYMBptr);
+	   if(!((mys.feuille._VECTptr->back()==plus_one_half))){
+	     if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
+	       if  (is_positive(mys.feuille._VECTptr->front(),contextptr))
+		 s += "<mo>&times;</mo>";//F.H 2*2^n  ou 2*2^(1/7)  != 22^(1/3)
+	     } 
+	   }
+
+	 s += gen2mathml(*it,contextptr);
+      }
       else 
 	s += gen2mathml(*it,contextptr);
+
+      if(  (it->type==_INT_)||(it->type==_ZINT) || (it->type==_REAL) || (it->type==_DOUBLE_) ){
+	isprecINT=true;
+      }
+      else{
+	isprecINT=false;
+      }
       ++it;
       if (it==itend)
 	return s;
-      else if (needs_times(*it,contextptr))
-	s += "<mo>*</mo>";  
+      else if ((needs_times(*it,contextptr)) && isprecINT)
+	s +="<mo>&times;</mo>";
     }
   }
 
@@ -910,10 +948,11 @@ namespace giac {
 	  + string("</mrow></mfrac>");
       }
       if (mys.sommet==at_pow) {
-          return "<msup><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)
-        +"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></msup>";
 
-      }
+	 return "<msup><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)+"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></msup>";
+      
+
+	 }
       return string(provisoire_mbox_begin) +mys.sommet.ptr()->print(contextptr)+ string(provisoire_mbox_end)
 	+ "<mrow><mo>(</mo>" + gen2mathml(mys.feuille,contextptr) +"<mo>)</mo></mrow>" ;
     }
@@ -953,7 +992,8 @@ namespace giac {
 	else {
 	  if (!den.empty()){
 	    s += "<mfrac><mrow>"+prod_vect2mathml_no_bra(num,contextptr)+"</mrow><mrow>"+prod_vect2mathml_no_bra(den,contextptr)
-	      +"</mrow></mfrac><mo>*</mo>"; // A revoir ?  //"} \\* ";
+	      +"</mrow></mfrac>";
+	    s+="<mo>&times;</mo>"; // A revoir ?  F.H: est ce que le seul cas utile est '1/y*(-33)' sinon un espace pour couper les barres de fractions serait plus joli
 	    num.clear();
 	    den.clear();
 	  }
@@ -977,7 +1017,7 @@ namespace giac {
       string s_bra="<msup><mfenced open=\"(\" close=\")\"><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)
     +"</mrow></mfenced><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)
 	+"</mrow></msup>";
-      string s_no_bra= "<msup><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr) 
+      string s_no_bra= "<msup><mrow> "+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr) 
 	+"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></msup>";
       if (mys.feuille._VECTptr->front().type==_SYMB){
 
@@ -995,6 +1035,12 @@ namespace giac {
 	return s_bra;
       else if (mys.feuille._VECTptr->front().type==_CPLX){
           if  (is_zero(im(mys.feuille._VECTptr->front(),contextptr))) return s_no_bra;
+          else return s_bra;
+      }
+      //fred 2*(-1)^n
+      //_REAL et _DOUBLE_ inutiles (-1.5)^n passe en exp
+      else if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
+	if  (is_positive(mys.feuille._VECTptr->front(),contextptr)) return s_no_bra;
           else return s_bra;
       }
       else

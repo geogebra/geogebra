@@ -6867,7 +6867,7 @@ namespace giac {
   gen operator !(const gen & a){
     switch (a.type){
     case _INT_: case _ZINT: case _CPLX: case _DOUBLE_: case _FLOAT_:
-      return (is_zero(a,context0));
+      return change_subtype(is_zero(a,context0),_INT_BOOLEAN);
     default:
       return symb_not(a);
     }
@@ -7942,23 +7942,23 @@ namespace giac {
 	return 0.0;
       if (b.type==_FLOAT_)
 	return giac_float(0);
-      return !is_zero(a);
+      return change_subtype(!is_zero(a),_INT_BOOLEAN);
     }
     if (is_zero(b,context0)){
       if (a.type==_DOUBLE_ )
 	return 0.0;
       if (a.type==_FLOAT_)
 	return giac_float(0);
-      return !is_zero(b);
+      return change_subtype(!is_zero(b),_INT_BOOLEAN);
     }
     if (a.type<=_CPLX || a.type==_FLOAT_ || a.type==_FRAC){
       if (b.type<=_CPLX || b.type==_FLOAT_ || b.type==_FRAC)
-	return !is_zero(b);
+	return change_subtype(!is_zero(b),_INT_BOOLEAN);
       return b;
     }
     if (b.type<=_CPLX || b.type==_FLOAT_ || b.type==_FRAC){
       if (a.type<=_CPLX || a.type==_FLOAT_ || a.type==_FRAC)
-	return !is_zero(a);
+	return change_subtype(!is_zero(a),_INT_BOOLEAN);
       return a;
     }
     if (a.is_symb_of_sommet(at_and)){
@@ -7979,14 +7979,14 @@ namespace giac {
       return 1.0;
     if ( (a.type==_FLOAT_) || (b.type==_FLOAT_) )
       return giac_float(1);
-    return plus_one;
+    return change_subtype(plus_one,_INT_BOOLEAN);
   }
 
   gen operator || (const gen & a,const gen & b){
     if (is_zero(a,context0))
-      return !is_zero(b);
+      return change_subtype(!is_zero(b),_INT_BOOLEAN);
     if (is_zero(b,context0))
-      return !is_zero(a);
+      return change_subtype(!is_zero(a),_INT_BOOLEAN);
     if (a.is_symb_of_sommet(at_ou)){
       if (b.is_symb_of_sommet(at_ou))
 	return new_ref_symbolic(symbolic(at_ou,gen(mergevecteur(*a._SYMBptr->feuille._VECTptr,*b._SYMBptr->feuille._VECTptr),_SEQ__VECT)));
@@ -8005,7 +8005,7 @@ namespace giac {
       return 1.0;
     if ( (a.type==_FLOAT_) || (b.type==_FLOAT_) )
       return giac_float(1);
-    return plus_one;
+    return change_subtype(plus_one,_INT_BOOLEAN);
   }
 
   gen collect(const gen & g,GIAC_CONTEXT){

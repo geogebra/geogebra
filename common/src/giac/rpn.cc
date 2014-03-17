@@ -1353,6 +1353,10 @@ namespace giac {
   static define_unary_function_eval_quoted (__SCALE,&giac::_SCALE,_SCALE_s);
   define_unary_function_ptr5( at_SCALE ,alias_at_SCALE,&__SCALE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
+  static const char _scale_s[]="scale";
+  static define_unary_function_eval_quoted (__scale,&giac::_SCALE,_scale_s);
+  define_unary_function_ptr5( at_scale ,alias_at_scale,&__scale,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+
   gen _SCALEADD(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=4)
@@ -1367,6 +1371,10 @@ namespace giac {
   static const char _SCALEADD_s[]="SCALEADD";
   static define_unary_function_eval_quoted (__SCALEADD,&giac::_SCALEADD,_SCALEADD_s);
   define_unary_function_ptr5( at_SCALEADD ,alias_at_SCALEADD,&__SCALEADD,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+
+  static const char _scaleadd_s[]="scaleadd";
+  static define_unary_function_eval_quoted (__scaleadd,&giac::_SCALEADD,_scaleadd_s);
+  define_unary_function_ptr5( at_scaleadd ,alias_at_scaleadd,&__scaleadd,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _SWAPCOL(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -1395,6 +1403,14 @@ namespace giac {
   static const char _SWAPCOL_s[]="SWAPCOL";
   static define_unary_function_eval_quoted (__SWAPCOL,&giac::_SWAPCOL,_SWAPCOL_s);
   define_unary_function_ptr5( at_SWAPCOL ,alias_at_SWAPCOL,&__SWAPCOL,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+
+  static const char _colswap_s[]="colswap";
+  static define_unary_function_eval (__colswap,&_SWAPCOL,_colswap_s);
+  define_unary_function_ptr5( at_colswap ,alias_at_colswap,&__colswap,0,true);
+
+  static const char _swapcol_s[]="swapcol";
+  static define_unary_function_eval (__swapcol,&_SWAPCOL,_swapcol_s);
+  define_unary_function_ptr5( at_swapcol ,alias_at_swapcol,&__swapcol,0,true);
 
   static const char _DELCOL_s[]="DELCOL";
   static define_unary_function_eval_quoted (__DELCOL,&giac::_delcols,_DELCOL_s);
@@ -1512,6 +1528,10 @@ namespace giac {
   static define_unary_function_eval_quoted (__REDIM,&giac::_REDIM,_REDIM_s);
   define_unary_function_ptr5( at_REDIM ,alias_at_REDIM,&__REDIM,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
+  static const char _redim_s[]="redim";
+  static define_unary_function_eval_quoted (__redim,&giac::_REDIM,_redim_s);
+  define_unary_function_ptr5( at_redim ,alias_at_redim,&__redim,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+
   gen _REPLACE(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
@@ -1590,6 +1610,10 @@ namespace giac {
   static const char _REPLACE_s[]="REPLACE";
   static define_unary_function_eval_quoted (__REPLACE,&giac::_REPLACE,_REPLACE_s);
   define_unary_function_ptr5( at_REPLACE ,alias_at_REPLACE,&__REPLACE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+
+  static const char _replace_s[]="replace";
+  static define_unary_function_eval_quoted (__replace,&giac::_REPLACE,_replace_s);
+  define_unary_function_ptr5( at_replace ,alias_at_replace,&__replace,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _COLNORM_s[]="COLNORM";
   static define_unary_function_eval (__COLNORM,&giac::_colNorm,_COLNORM_s);

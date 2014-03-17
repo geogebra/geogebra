@@ -3708,12 +3708,19 @@ namespace giac {
     }
     gen sum(operator_plus(a,b,contextptr));
     for (;it!=itend;++it){
-      if (sum.type==_SYMB && sum._SYMBptr->sommet==at_plus && sum._SYMBptr->feuille.type==_VECT && sum._SYMBptr->feuille._VECTptr->size()>1){
+      if (sum.type==_SYMB && sum._SYMBptr->sommet==at_plus && sum._SYMBptr->feuille.type==_VECT && sum._SYMBptr->feuille._VECTptr->size()>1 ){
 	// Add remaining elements to the symbolic sum, check float/inf/undef
 	// FIXME should crunch if it->type is _DOUBLE_/_FLOAT_/_REAL e.g. for 1+sqrt(2)+sqrt(3.0)
 	ref_vecteur * vptr=new ref_vecteur(*sum._SYMBptr->feuille._VECTptr);
 	vptr->v.reserve(vptr->v.size()+(itend-it));
 	for (;it!=itend;++it){
+	  if (it->type==_SYMB && it->_SYMBptr->sommet==at_plus && it->_SYMBptr->feuille.type==_VECT){
+	    iterateur jt=it->_SYMBptr->feuille._VECTptr->begin(),jtend=it->_SYMBptr->feuille._VECTptr->end();
+	    for (;jt!=jtend;++jt){
+	      vptr->v.push_back(*jt);
+	    }
+	    continue;
+	  }
 	  if (it->type==_USER && vptr->v.front().type==_USER){
 	    vptr->v.front()=operator_plus(vptr->v.front(),*it,contextptr);
 	    continue;
@@ -5621,6 +5628,8 @@ namespace giac {
     gen res=ichinrem2(v[0],v[1]);
     for (int i=2;i<s;++i)
       res=ichinrem2(res,v[i]);
+    if (res.type==_VECT && res._VECTptr->size()==2 && is_integer(res._VECTptr->front()) && is_integer(res._VECTptr->back()))
+      res._VECTptr->front()=_irem(makesequence(res._VECTptr->front()+res._VECTptr->back(),res._VECTptr->back()),contextptr);
     return res;
   }
   static const char _ichinrem_s []="ichinrem";

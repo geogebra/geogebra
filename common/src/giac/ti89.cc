@@ -679,6 +679,31 @@ namespace giac {
   gen _arcLen(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
+    if (!v.empty() && v.front().is_symb_of_sommet(at_pnt)){
+      if (v.size()==1)
+	return _perimetre(g,contextptr);
+      if (v.size()!=3)
+	return gensizeerr(contextptr);
+      gen g=remove_at_pnt(v[0]);
+      if (g.is_symb_of_sommet(at_cercle)){
+	gen centre,rayon;
+	if (!centre_rayon(g,centre,rayon,true,contextptr))
+	  return gensizeerr(contextptr); // don't care about radius
+	return (v[2]-v[1])*rayon;
+      }
+      if (g.is_symb_of_sommet(at_curve) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>1){
+	g=(*g._SYMBptr->feuille._VECTptr)[0];
+	if (g.type==_VECT && g._VECTptr->size()>2){
+	  gen f=g._VECTptr->front();
+	  gen x=(*g._VECTptr)[1];
+	  gen fprime=derive(f,x,contextptr);
+	  if (is_undef(fprime)) return fprime;
+	  fprime=abs(fprime,contextptr);
+	  return _integrate(gen(makevecteur(fprime,x,v[1],v[2]),_SEQ__VECT),contextptr);
+	}
+      }
+      return gensizeerr(contextptr);
+    }
     if (v.size()==3)
       v.insert(v.begin()+1,ggb_var(v.front()));
     if (v.size()!=4 || v[1].type!=_IDNT)
@@ -1413,6 +1438,14 @@ namespace giac {
   static const char _rowSwap_s[]="rowSwap";
   static define_unary_function_eval (__rowSwap,&_rowSwap,_rowSwap_s);
   define_unary_function_ptr5( at_rowSwap ,alias_at_rowSwap,&__rowSwap,0,true);
+
+  static const char _rowswap_s[]="rowswap";
+  static define_unary_function_eval (__rowswap,&_rowSwap,_rowswap_s);
+  define_unary_function_ptr5( at_rowswap ,alias_at_rowswap,&__rowswap,0,true);
+
+  static const char _swaprow_s[]="swaprow";
+  static define_unary_function_eval (__swaprow,&_rowSwap,_swaprow_s);
+  define_unary_function_ptr5( at_swaprow ,alias_at_swaprow,&__swaprow,0,true);
 
   gen _LU(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

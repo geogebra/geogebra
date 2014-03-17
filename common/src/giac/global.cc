@@ -4629,6 +4629,7 @@ unsigned int ConvertUTF8toUTF16 (
     "partfrac",
     "pow2exp",
     "powexpand",
+    "propfrac",
     "regroup",
     "series",
     "simplifier",

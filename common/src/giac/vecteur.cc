@@ -1175,11 +1175,14 @@ namespace giac {
   }
 
   vecteur mergevecteur(const vecteur & a,const vecteur & b){
-    vecteur v(a);
     int as=a.size();
     int bs=b.size();
+    vecteur v;
     v.reserve(as+bs);
-    vecteur::const_iterator it=b.begin(),itend=b.end();
+    vecteur::const_iterator it=a.begin(),itend=a.end();
+    for (;it!=itend;++it)
+      v.push_back(*it);
+    it=b.begin();itend=b.end();
     for (;it!=itend;++it)
       v.push_back(*it);
     return v;
@@ -8451,6 +8454,7 @@ namespace giac {
     reim(x,xr,xi,contextptr);
     reim(y,yr,yi,contextptr);
     x = sqrt(xr*xr+xi*xi,contextptr);
+    if (x==0) return;
     // gen xy = gen(xr/x,-xi/x); y=y*xy;
     y = gen((yr*xr+yi*xi)/x,(yi*xr-yr*xi)/x); 
     reim(y,yr,yi,contextptr);
@@ -12542,6 +12546,7 @@ namespace giac {
     else 
       x=H[n1][n1]-l1,y=H[n1+1][n1];
     giac_double xy=std::sqrt(x*x+y*y),tmp1;
+    if (xy==0) return;
     // normalize 
     x = x/xy; y = y/xy;
     // apply Q on H and P: line operations on H and P
