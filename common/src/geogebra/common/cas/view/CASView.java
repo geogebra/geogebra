@@ -315,7 +315,31 @@ public abstract class CASView implements View{
 		
 		return undoNeeded;
 	}
-	/**
+
+	/** 
+	 * returns latex from selected cells 
+	 * @param selRows selected rows 
+	 * @return LaTeX for cells, separated by \\ 
+	 */ 
+	public String getLaTeXfromCells(int[] selRows) { 
+
+		StringBuilder ret = new StringBuilder(); 
+
+		for (int i= 0 ; i < selRows.length; i++) { 
+			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]); 
+			if (casCell != null) { 
+				ret.append(casCell.getLaTeXOutput()); 
+
+				// LaTeX linebreak 
+				ret.append(" \\\\ "); 
+
+			} 
+		} 
+
+		return ret.toString(); 
+	} 
+ 	
+ 	/**
 	 * @return input handler
 	 */
 	public CASInputHandler getInputHandler() {
