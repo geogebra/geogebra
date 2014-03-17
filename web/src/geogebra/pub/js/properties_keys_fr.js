@@ -2568,7 +2568,7 @@ __GGB__keysVar.fr.plain = {
     "SemicircleThroughAandB": "Demi-cercle d\xe9fini par %0 et %1",
     "SharedByA": "Partag\xe9 par : %0",
     "Show": "Afficher",
-    "ShowAas2DView": "Afficher %0 comme vue 2D",
+    "ShowAas2DView": "Cr\xe9er une vue 2D de %0",
     "ShowAllObjects": "Recadrer",
     "ShowAutomatically": "Afficher automatiquement",
     "ShowAxes": "Afficher axes",
