@@ -1328,6 +1328,13 @@ public class Manager3D implements Manager3DInterface {
 		return angle;
 	}
 	
+	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
+			GeoPointND C, GeoDirectionND orientation) {
+		AlgoAnglePoints algo = new AlgoAnglePoints3DOrientation(cons, label, A, B, C, orientation);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+	
 	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h){
 		AlgoAngleLines3D algo = new AlgoAngleLines3D(cons, label, g, h);
 		GeoAngle angle = algo.getAngle();

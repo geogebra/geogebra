@@ -40,7 +40,7 @@ public class DrawAngleFor3D extends DrawAngle {
 	@Override
 	protected double getAngleStart(double start, double extent) {
 		
-		if (view.getCoordsForView(((AlgoAngle) getGeoElement().getDrawAlgorithm()).getVn()).getZ()>0) {
+		if (((AlgoAngle) getGeoElement().getDrawAlgorithm()).getVn().dotproduct(view.getDirectionCoords()) > 0) {
 			return super.getAngleStart(start, extent);
 		}
 		

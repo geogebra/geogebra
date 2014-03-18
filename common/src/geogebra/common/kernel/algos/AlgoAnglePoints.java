@@ -26,6 +26,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -43,32 +44,54 @@ public class AlgoAnglePoints extends AlgoAngle implements
 	private AlgoAnglePolygon algoAnglePoly;
 
 	transient private double bx, by, vx, vy, wx, wy;
-
+	
 	public AlgoAnglePoints(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
-		this(cons, A, B, C);
+		this(cons, label, A, B, C, null);
+	}
+
+	public AlgoAnglePoints(Construction cons, String label, GeoPointND A,
+			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
+		this(cons, A, B, C, orientation);
 		angle.setLabel(label);
 	}
 
 	AlgoAnglePoints(Construction cons, AlgoAnglePolygon algoAnglePoly,
 			GeoPointND A, GeoPointND B, GeoPointND C) {
-		this(cons, A, B, C);
+		this(cons, A, B, C, null);
 		this.algoAnglePoly = algoAnglePoly;
 	}
 
-
-
 	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
+		
+		this(cons, A, B, C, null);
+	}
+
+	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
+			GeoPointND C, GeoDirectionND orientation) {
 		super(cons);
-		this.An = A;
-		this.Bn = B;
-		this.Cn = C;
+		setInput(A, B, C, orientation);
 		angle = newGeoAngle(cons);
 		setInputOutput(); // for AlgoElement
 
 		// compute angle
 		compute();
+	}
+	
+	/**
+	 * set input
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @param orientation orientation (can be null)
+	 */
+	protected void setInput(GeoPointND A, GeoPointND B,
+			GeoPointND C, GeoDirectionND orientation){
+
+		this.An = A;
+		this.Bn = B;
+		this.Cn = C;
 	}
 	
 	/**
@@ -210,7 +233,7 @@ public class AlgoAnglePoints extends AlgoAngle implements
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation

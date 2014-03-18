@@ -43,6 +43,20 @@ public class CmdAngle extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
+		
+		return process(c,n,ok);
+	}
+
+	/**
+	 * 
+	 * @param c command
+	 * @param n arguments length
+	 * @param ok ok check
+	 * @return result
+	 * @throws MyError argument / length error
+	 */
+	protected GeoElement[] process(Command c, int n, boolean ok[]) throws MyError {
+
 		GeoElement[] arg;
 
 		switch (n) {

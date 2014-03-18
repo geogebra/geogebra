@@ -2010,6 +2010,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public GeoDirectionND getDirection() {
 		return getPlaneContaining();
 	}
+	
+	/**
+	 * 
+	 * @return main direction coords
+	 */
+	public Coords getDirectionCoords(){
+		return Coords.VZ;
+	}
 
 
 	public boolean hasForParent(GeoElement geo) {

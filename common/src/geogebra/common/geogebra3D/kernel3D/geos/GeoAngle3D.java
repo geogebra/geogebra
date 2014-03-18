@@ -8,7 +8,7 @@ final public class GeoAngle3D extends GeoAngle {
 
 	public GeoAngle3D(Construction c) {
 		super(c);
-		//setAngleStyle(ANGLE_ISNOTREFLEX);
+		hasOrientation = false;
 	}
 	
 	@Override
@@ -16,9 +16,20 @@ final public class GeoAngle3D extends GeoAngle {
 		return GeoClass.ANGLE3D;
 	}
 	
+	private boolean hasOrientation;
+	
+	
 	@Override
 	final public boolean hasOrientation(){
-		return false; //no specific orientation
+		return hasOrientation; //no specific orientation
+	}
+	
+	/**
+	 * set if it has orientation
+	 * @param flag flag
+	 */
+	public void setHasOrientation(boolean flag){
+		hasOrientation = flag;
 	}
 
 }

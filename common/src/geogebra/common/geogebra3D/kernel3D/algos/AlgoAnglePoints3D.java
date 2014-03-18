@@ -24,21 +24,25 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
  *
  * @author  mathieu
- * @version 
  */
 public class AlgoAnglePoints3D extends AlgoAnglePoints{
 	
-	private Coords vn;
 
 	AlgoAnglePoints3D(Construction cons, String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		super(cons, label, A, B, C);
+		this(cons, label, A, B, C, null);
+	}
+	
+	AlgoAnglePoints3D(Construction cons, String label, GeoPointND A, GeoPointND B,
+			GeoPointND C, GeoDirectionND orientation) {
+		super(cons, label, A, B, C, orientation);
 	}
 	
 	AlgoAnglePoints3D(Construction cons) {
@@ -47,14 +51,17 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 	
 	
     @Override
-	final protected GeoAngle newGeoAngle(Construction cons){
+	protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle3D(cons);
     }
     
     private Coords center, v1, v2;
+    
+	protected Coords vn;
+
 	
     @Override
-	public final void compute() {
+	public void compute() {
     	center = getB().getInhomCoordsInD(3);
     	v1 = getA().getInhomCoordsInD(3).sub(center);
     	v2 = getC().getInhomCoordsInD(3).sub(center);

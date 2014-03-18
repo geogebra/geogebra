@@ -142,6 +142,9 @@ SymbolicParametersBotanaAlgo {
         return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
 
     }
+    
+    
+    
 
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
