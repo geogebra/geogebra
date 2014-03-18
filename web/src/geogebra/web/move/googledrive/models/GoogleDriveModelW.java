@@ -15,17 +15,19 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 	public static String GGT_GOOGLE_KEY_NAME = "ggt_google";
 	
 	public GoogleDriveModelW() {
-	    super();
+	    super(null);
     }
 	
-	public String getUserName() {
+	@Override
+    public String getUserName() {
 		return null;
     }
 	
 	/**
 	 * @return that the user is logged in
 	 */
-	public boolean isLoggedIn() {
+	@Override
+    public boolean isLoggedIn() {
 		return false;
 	}
 

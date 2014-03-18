@@ -71,6 +71,7 @@ public abstract class ScriptManager implements EventListener{
 		case PASTE_ELMS:
 		case PASTE_ELMS_COMPLETE:
 		case DELETE_GEOS:
+		case LOGIN:
 			callClientListeners(clientListeners, evt);
 			break;
 			// TODO case CLEAR
@@ -121,6 +122,9 @@ public abstract class ScriptManager implements EventListener{
 			args.add(evt.target.getLabelSimple());
 		}else{
 			args.add("");
+		}
+		if(evt.argument != null){
+			args.add(evt.argument);
 		}
 		
 		for( String listener : listeners ){

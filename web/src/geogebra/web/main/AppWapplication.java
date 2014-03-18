@@ -59,14 +59,15 @@ public class AppWapplication extends AppW {
 		infobar = new InfoBarW(this);
 
 		initCommonObjects();
-		// user authentication handling
-		initSignInEventFlow();
+		
+		
 
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		this.canvas = euclidianViewPanel.getCanvas();
 
 		initCoreObjects(undoActive, this);
-
+		// user authentication handling
+		initSignInEventFlow();
 		// initing = true;
 		removeDefaultContextMenu();
 		

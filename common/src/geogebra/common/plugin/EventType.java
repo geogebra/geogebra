@@ -14,7 +14,8 @@ public enum EventType {
 	MOVED_GEOS("movedGeos"),
 	PASTE_ELMS("pasteElms"),
 	PASTE_ELMS_COMPLETE("pasteElmsComplete"),
-	DELETE_GEOS("deleteGeos");
+	DELETE_GEOS("deleteGeos"),
+	LOGIN("login");
 	
 	private String eventName;
 
