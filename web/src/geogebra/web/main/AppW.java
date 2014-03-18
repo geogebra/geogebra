@@ -270,8 +270,7 @@ public abstract class AppW extends AppWeb {
 
 		setUndoActive(undoActive);
 		registerFileDropHandlers(getFrameElement());
-		afterCoreObjectsInited();
-		resetFonts();
+		
 	}
 
 	

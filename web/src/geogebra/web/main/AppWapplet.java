@@ -81,6 +81,8 @@ public class AppWapplet extends AppW {
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
 		initCoreObjects(undoActive, this);
+		afterCoreObjectsInited();
+		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 

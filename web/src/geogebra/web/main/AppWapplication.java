@@ -68,6 +68,8 @@ public class AppWapplication extends AppW {
 		initCoreObjects(undoActive, this);
 		// user authentication handling
 		initSignInEventFlow();
+		afterCoreObjectsInited();
+		resetFonts();
 		// initing = true;
 		removeDefaultContextMenu();
 		
