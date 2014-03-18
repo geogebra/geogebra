@@ -599,6 +599,8 @@ public class GGWToolBar extends Composite {
 		// FocusWidget.onAttach())
 		// but we don't want to select openSearchButton with tab, so tabindex will
 		// be set back to -1 after attach all time.
-		this.openSearchButton.setTabIndex(-1);
+		if(this.openSearchButton != null){
+			this.openSearchButton.setTabIndex(-1);
+		}
 	}
 }
