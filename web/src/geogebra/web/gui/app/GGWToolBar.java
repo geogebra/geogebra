@@ -44,6 +44,7 @@ public class GGWToolBar extends Composite {
 	private Integer activeToolbar = -1;
 	
 	private FlowPanel smartButtonPanel;
+	private StandardButton openSearchButton;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -153,7 +154,7 @@ public class GGWToolBar extends Composite {
             }	
 		});
 		
-		StandardButton openSearchButton = new StandardButton(GuiResources.INSTANCE.button_open_search());
+		openSearchButton = new StandardButton(GuiResources.INSTANCE.button_open_search());
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
@@ -590,5 +591,14 @@ public class GGWToolBar extends Composite {
 	private static int getViewId(ToolBarW toolbar) {
 		return (toolbar.getDockPanel() != null ? toolbar.getDockPanel()
 				.getViewId() : -1);
+	}
+	
+	protected void onAttach(){
+		super.onAttach();
+		// gwt sets openSearcButton's tabindex to 0 at onAttach (see
+		// FocusWidget.onAttach())
+		// but we don't want to select openSearchButton with tab, so tabindex will
+		// be set back to -1 after attach all time.
+		this.openSearchButton.setTabIndex(-1);
 	}
 }
