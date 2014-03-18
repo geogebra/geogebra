@@ -1004,7 +1004,7 @@ public abstract class AppW extends AppWeb {
 	public boolean showAlgebraInput() {
 		App.debug("showAlgebraInput: implementation needed"); // TODO
 		                                                      // Auto-generated
-		return false;
+		return showAlgebraInput;
 	}
 
 	@Override
