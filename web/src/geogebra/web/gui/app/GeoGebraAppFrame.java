@@ -296,6 +296,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	private boolean[] childVisible = new boolean[0];
 	public void showBrowser(MyHeaderPanel bg) {
+		App.printStacktrace("");
 	    int count = frameLayout.getWidgetCount();
 	    childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
@@ -319,6 +320,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    }
 	    frameLayout.setLayout(app);
 	    frameLayout.forceLayout();
+	    app.updateViewSizes();
+	    
     }
 
 	public boolean toggleMenu() {
