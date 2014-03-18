@@ -3548,3 +3548,7 @@ PROVIDERS
 	-moz-transform-origin: 0% 100%;
 	transform-origin: 0% 100%;
 }
+
+.AppFrameParent{
+	border:2px #808080 solid;
+}

@@ -12,6 +12,7 @@ import geogebra.web.main.AppW;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 /**
  * @author geogebra
@@ -43,6 +44,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	@Override
     public void setCloseMessage(Localization loc) {
 	    //no close message for SMART
+		RootLayoutPanel.get().getElement().addClassName("AppFrameParent");
     }
 
 	@Override
