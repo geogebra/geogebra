@@ -1,4 +1,3 @@
-
 package geogebra.web.gui.dialog.options;
 
 import geogebra.common.awt.GColor;

@@ -2506,9 +2506,9 @@ label {
 }
 
 .CustomColorButton {
-	position: absolute;
-	left: 233px;
-	top: 245px;
+	position: relative;
+	left: 223px;
+	top: 0px;
 }
 
 .ClearBackgroundButton {
