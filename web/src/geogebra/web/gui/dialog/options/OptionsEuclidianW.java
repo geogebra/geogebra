@@ -1,5 +1,6 @@
 package geogebra.web.gui.dialog.options;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.common.main.App;
@@ -16,10 +17,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 
 	private AppW app;
 	private TabPanel tabPanel;
+	private EuclidianView view;
 	private class EuclidianTab extends FlowPanel{};
 	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
 		this.app = app;
+		this.view = (EuclidianView) activeEuclidianView;
 		initGUI();
     }
 
@@ -43,14 +46,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 	private void addXAxisTab() {
 		EuclidianTab tab = new EuclidianTab();
 		tab.setStyleName("propertiesTab");
-		tab.add(new Label("X axis"));
+		tab.add(new AxisPanel(app, view,0));
 		tabPanel.add(tab, "x");
 	}
 	
 	private void addYAxisTab() {
 		EuclidianTab tab = new EuclidianTab();
 		tab.setStyleName("propertiesTab");
-		tab.add(new Label("Y axis"));
+		tab.add(new AxisPanel(app, view, 1));
 		tabPanel.add(tab, "y");
 	}
 	
