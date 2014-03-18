@@ -353,7 +353,7 @@ public class Manager3D implements Manager3DInterface {
 		
 		//when xOy plane as direction, check if it's only 2D objects, then return 2D line
 		if (direction==((Construction3D) cons).getXOYPlane() && (point instanceof GeoPoint) && (line instanceof GeoLine)){
-			AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLineXOYPlane(cons, label, (GeoPoint) point, (GeoLine) line);
+			AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons, label, (GeoPoint) point, (GeoLine) line);
 			return algo.getLine();
 		}
 		

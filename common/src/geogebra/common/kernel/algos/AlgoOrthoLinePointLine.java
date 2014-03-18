@@ -254,4 +254,29 @@ SymbolicParametersBotanaAlgo {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnOrthoLinePointLine(geo, this, scope);
 	}
+
+
+	@Override
+	protected int getInputLength(){
+
+		if(kernel.isSaving() 
+				|| cons.getXOYPlane() == null
+				|| !kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()){ // saving mode, or 2D
+			return super.getInputLength();
+		}
+
+		return super.getInputLength() + 1; // add "xOyPlane"
+	}
+	
+	@Override
+	public GeoElement getInput(int i) {
+		
+		if (i == 2){
+			return (GeoElement) cons.getXOYPlane();
+		}
+		
+		return input[i];
+	}
+	
+	
 }

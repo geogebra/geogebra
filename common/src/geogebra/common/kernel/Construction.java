@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoAxisND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.prover.AlgoProve;
@@ -2840,6 +2841,14 @@ public class Construction {
 	 */
 	public boolean isAllowUnboundedAngles() {
 		return this.allowUnboundedAngles;
+	}
+	
+	/**
+	 * 
+	 * @return xOy plane (if 3D)
+	 */
+	public GeoPlaneND getXOYPlane(){
+		return null;
 	}
 
 }

@@ -644,6 +644,16 @@ public abstract class AlgoElement extends ConstructionElement implements
 	final public GeoElement[] getInput() {
 		return input;
 	}
+	
+	
+	/**
+	 * Note : maybe overridden for xOy plane additionnal input
+	 * @param i index
+	 * @return i-th input
+	 */
+	public GeoElement getInput(int i) {
+		return input[i];
+	}
 
 	public GeoElement[] getInputForUpdateSetPropagation() {
 		return input;
@@ -1108,16 +1118,16 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sbAE.append(cmdname);
 		}
 
-		int length = input.length;
+		int length = getInputLength();
 
 		sbAE.append(tpl.leftSquareBracket());
 		// input legth is 0 for ConstructionStep[]
 		if (length > 0) {
-			sbAE.append(input[0].getLabel(tpl)); 
+			sbAE.append(getInput(0).getLabel(tpl)); 
 		}
 		for (int i = 1; i < length; ++i) {
 			sbAE.append(", ");
-			appendCheckVector(sbAE, input[i], tpl);
+			appendCheckVector(sbAE, getInput(i), tpl);
 		}
 		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
@@ -1368,17 +1378,18 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// add input information
 		if (input != null) {
 			sb.append("\t<input");
-			for (int i = 0; i < getInputLengthForXML(); i++) {
+			for (int i = 0; i < getInputLength(); i++) {
 				sb.append(" a");
 				sb.append(i);
 				// attribute name is input No.
 				sb.append("=\"");
 
-				String cmd = StringUtil.encodeXML(input[i].getLabel(tpl));
+				GeoElement inputGeo = getInput(i);
+				String cmd = StringUtil.encodeXML(inputGeo.getLabel(tpl));
 
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
-				if (input[i].isGeoVector() && !input[i].isLabelSet()
+				if (inputGeo.isGeoVector() && !inputGeo.isLabelSet()
 						&& !cmd.startsWith("Vector[")) {
 					// add Vector[ ] command around argument
 					// to make sure that this really becomes a vector again
@@ -1408,9 +1419,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 	
 	/**
 	 * 
-	 * @return input length for XML
+	 * @return input length
 	 */
-	protected int getInputLengthForXML(){
+	protected int getInputLength(){
 		return input.length;
 	}
 	
