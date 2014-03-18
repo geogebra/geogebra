@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -153,6 +156,13 @@ public class GGWToolBar extends Composite {
 	            GGWToolBar.this.app.toggleMenu();
             }	
 		});
+		openMenuButton.addDomHandler(new KeyUpHandler(){
+			public void onKeyUp(KeyUpEvent event) {
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+	            	GGWToolBar.this.app.toggleMenu();
+	            }
+            }
+		}, KeyUpEvent.getType());
 		
 		openSearchButton = new StandardButton(GuiResources.INSTANCE.button_open_search());
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
