@@ -100,7 +100,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         	((MenuItem) yaxisMenu).setEnabled(false);
         }
         
-        //addMiProperties();
+        addMiProperties();
                
     }
 	
@@ -115,7 +115,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 				showOptionsDialog();
 			}
 		});
-	    miProperties.setEnabled(false); //TMP AG
+	    miProperties.setEnabled(true); //TMP AG
 	    wrappedPopup.addItem(miProperties);
     }
 

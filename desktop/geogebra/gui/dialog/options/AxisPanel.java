@@ -2,6 +2,8 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.dialog.options.model.AxisModel;
+import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.inputfield.MyTextField;
@@ -24,17 +26,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class AxisPanel extends JPanel implements ActionListener, ItemListener,
-		FocusListener, SetLabels {
+		FocusListener, SetLabels, IAxisModelListener {
 
-	/**
-			 * 
-			 */
 	private static final long serialVersionUID = 1L;
 
-	public static final String PI_STR = "\u03c0";
-	public static final String DEGREE_STR = "\u00b0";
+	private AxisModel model;
 
-	protected int axis;
 	protected JCheckBox cbShowAxis, cbAxisNumber, cbManualTicks,
 			cbPositiveAxis, cbDrawAtBorder;
 	protected NumberComboBox ncbTickDist;
@@ -54,9 +51,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	private AppD app;
 	protected EuclidianView view;
 
-	final static protected int AXIS_X = 0;
-	final static protected int AXIS_Y = 1;
-
 	/******************************************************
 	 * @param app
 	 * @param view
@@ -65,11 +59,12 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	public AxisPanel(AppD app, EuclidianView view, int axis) {
 
 		this.app = app;
-		this.axis = axis;
 		this.view = view;
+		model = new AxisModel(app, view, axis, this);
+
 		setLayout(new FullWidthLayout());
 
-		String strAxisEn = getString();
+		String strAxisEn = model.getAxisName();
 		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
 
 		// show axis
@@ -90,15 +85,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		// ticks
 		axisTicks = new JLabel(app.getPlain("AxisTicks") + ":");
 		cbTickStyle = new JComboBox();
-		char big = '|';
-		char small = '\'';
-		cbTickStyle.addItem(" " + big + "  " + small + "  " + big + "  "
-				+ small + "  " + big); // major and minor ticks
-		cbTickStyle.addItem(" " + big + "     " + big + "     " + big); // major
-																		// ticks
-																		// only
-		// must be " " not ""
-		cbTickStyle.addItem(" "); // no ticks
+
+		model.fillTicksCombo();
+
 		cbTickStyle.addActionListener(this);
 		cbTickStyle.setEditable(false);
 		JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks, cbTickStyle);
@@ -125,13 +114,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		axisUnitLabel = new JLabel(app.getPlain("AxisUnitLabel") + ":");
 		cbUnitLabel = new JComboBox();
 		cbUnitLabel.setEditable(true);
-		cbUnitLabel.addItem(null);
-		cbUnitLabel.addItem(DEGREE_STR); // degrees
-		cbUnitLabel.addItem(PI_STR); // pi
-		cbUnitLabel.addItem("mm");
-		cbUnitLabel.addItem("cm");
-		cbUnitLabel.addItem("m");
-		cbUnitLabel.addItem("km");
+		model.fillUnitLabel();
 		cbUnitLabel.addActionListener(this);
 
 		JPanel labelPanel = LayoutUtil.flowPanel(axisLabel, cbAxisLabel,
@@ -143,6 +126,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		crossAt = new JLabel(app.getPlain("CrossAt") + ":");
 		cbDrawAtBorder = new JCheckBox();
 		cbDrawAtBorder.addActionListener(this);
+		stickToEdge = new JLabel(app.getPlain("StickToEdge"));
 		stickToEdge = new JLabel(app.getPlain("StickToEdge"));
 
 		JPanel crossPanel = LayoutUtil.flowPanel(crossAt, tfCross,
@@ -160,10 +144,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		updatePanel();
 	}
 
-	protected String getString() {
-		return (axis == AXIS_X) ? "xAxis" : "yAxis";
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
@@ -171,122 +151,45 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	private void doActionPerformed(Object source) {
 
 		if (source == cbShowAxis) {
-			if (app.getEuclidianView1() == view)
-				app.getSettings().getEuclidian(1)
-						.setShowAxis(axis, cbShowAxis.isSelected());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setShowAxis(axis, cbShowAxis.isSelected(), true);
-			else if (app.getEuclidianView2() == view)
-				app.getSettings().getEuclidian(2)
-						.setShowAxis(axis, cbShowAxis.isSelected());
-			else
-				view.setShowAxis(axis, cbShowAxis.isSelected(), true);
+			model.showAxis(cbShowAxis.isSelected());
 		}
 
 		else if (source == cbAxisNumber) {
-			boolean[] show = view.getShowAxesNumbers();
-			show[axis] = cbAxisNumber.isSelected();
-			view.setShowAxesNumbers(show);
+			model.showAxisNumbers(cbAxisNumber.isSelected());
 		}
 
 		else if (source == cbManualTicks) {
-
-			if (app.getEuclidianView1() == view)
-				app.getSettings()
-						.getEuclidian(1)
-						.setAutomaticAxesNumberingDistance(
-								!cbManualTicks.isSelected(), axis, true);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setAutomaticAxesNumberingDistance(
-						!cbManualTicks.isSelected(), axis);
-			else if (app.getEuclidianView2() == view)
-				app.getSettings()
-						.getEuclidian(2)
-						.setAutomaticAxesNumberingDistance(
-								!cbManualTicks.isSelected(), axis, true);
-			else
-				view.setAutomaticAxesNumberingDistance(
-						!cbManualTicks.isSelected(), axis);
+			model.applyTickDistance(cbManualTicks.isSelected());
 		}
 
 		else if (source == cbUnitLabel) {
+
 			Object ob = cbUnitLabel.getSelectedItem();
 			String text = (ob == null) ? null : ob.toString().trim();
-			String[] labels = view.getAxesUnitLabels();
-			labels[axis] = text;
-			view.setAxesUnitLabels(labels);
+			model.applyUnitLabel(text);
 		}
 
 		else if (source == cbAxisLabel) {
 			Object ob = cbAxisLabel.getSelectedItem();
 			String text = (ob == null) ? null : ob.toString().trim();
-			if (app.getEuclidianView1() == view)
-				app.getSettings().getEuclidian(1).setAxisLabel(axis, text);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setAxisLabel(axis, text);
-			else if (app.getEuclidianView2() == view)
-				app.getSettings().getEuclidian(2).setAxisLabel(axis, text);
-			else
-				view.setAxisLabel(axis, text);
+			model.applyAxisLabel(text);
 		}
 
 		else if (source == cbTickStyle) {
 			int type = cbTickStyle.getSelectedIndex();
-			int[] styles = view.getAxesTickStyles();
-			styles[axis] = type;
-
-			if (app.getEuclidianView1() == view)
-				app.getSettings().getEuclidian(1).setAxisTickStyle(axis, type);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setAxesTickStyles(styles);
-			else if (app.getEuclidianView2() == view)
-				app.getSettings().getEuclidian(2).setAxisTickStyle(axis, type);
-			else
-				view.setAxesTickStyles(styles);
+			model.applyTickStyle(type);
 		}
 
 		else if (source == tfCross) {
-			String str = tfCross.getText();
-			if ("".equals(str))
-				str = "0";
-			double cross = parseDouble(str);
-			if (!(Double.isInfinite(cross) || Double.isNaN(cross))) {
-				double[] ac = view.getAxesCross();
-				ac[axis] = cross;
-
-				if (app.getEuclidianView1() == view)
-					app.getSettings().getEuclidian(1).setAxisCross(axis, cross);
-				else if (!app.hasEuclidianView2EitherShowingOrNot())
-					view.setAxesCross(ac);
-				else if (app.getEuclidianView2() == view)
-					app.getSettings().getEuclidian(2).setAxisCross(axis, cross);
-				else
-					view.setAxesCross(ac);
-			}
-
-			tfCross.setText("" + view.getAxesCross()[axis]);
+			model.applyCrossing(tfCross.getText());
 		}
 
 		else if (source == cbPositiveAxis) {
-			if (view == app.getEuclidianView1())
-				app.getSettings().getEuclidian(1)
-						.setPositiveAxis(axis, cbPositiveAxis.isSelected());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setPositiveAxis(axis, cbPositiveAxis.isSelected());
-			else if (view == app.getEuclidianView2())
-				app.getSettings().getEuclidian(2)
-						.setPositiveAxis(axis, cbPositiveAxis.isSelected());
-			else
-				view.setPositiveAxis(axis, cbPositiveAxis.isSelected());
+			model.applyPositiveAxis(cbPositiveAxis.isSelected());
 		} else if (source == cbDrawAtBorder) {
-			boolean[] border = view.getDrawBorderAxes();
-			border[axis] = cbDrawAtBorder.isSelected();
-			view.setDrawBorderAxes(border);
-			if (!cbDrawAtBorder.isSelected())
-				view.setAxisCross(axis, 0.0);
+			model.applyDrawAtBorder(cbDrawAtBorder.isSelected());
 		}
 
-		view.updateBackground();
 		updatePanel();
 	}
 
@@ -296,19 +199,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 			return;
 		Object source = e.getSource();
 		if (source == ncbTickDist) {
-			double val = ncbTickDist.getValue();
-			if (val > 0) {
-				if (app.getEuclidianView1() == view)
-					app.getSettings().getEuclidian(1)
-							.setAxesNumberingDistance(val, axis);
-				else if (!app.hasEuclidianView2EitherShowingOrNot())
-					view.setAxesNumberingDistance(val, axis);
-				else if (app.getEuclidianView2() == view)
-					app.getSettings().getEuclidian(2)
-							.setAxesNumberingDistance(val, axis);
-				else
-					view.setAxesNumberingDistance(val, axis);
-			}
+			model.applyTickDistance(ncbTickDist.getValue());
 		}
 
 		view.updateBackground();
@@ -316,6 +207,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	}
 
 	public void updatePanel() {
+		int axis = model.getAxis();
 		cbAxisNumber.removeActionListener(this);
 		cbAxisNumber.setSelected(view.getShowAxesNumbers()[axis]);
 		cbAxisNumber.addActionListener(this);
@@ -385,7 +277,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	}
 
 	public void setLabels() {
-		String strAxisEn = getString();
+		String strAxisEn = model.getAxisName();
 		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
 		this.setBorder(LayoutUtil.titleBorder(null));
 		cbShowAxis.setText(app.getPlain("Show" + strAxisEn));
@@ -404,6 +296,10 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		if (text == null || text.equals(""))
 			return Double.NaN;
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
+	}
+
+	protected String getString() {
+		return model.getAxisName();
 	}
 
 	public void updateFont() {
@@ -430,4 +326,19 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		tfCross.setFont(font);
 	}
 
+	public void addTickItem(String item) {
+		cbTickStyle.addItem(item);
+	}
+
+	public void addUnitLabelItem(String item) {
+		cbUnitLabel.addItem(item);
+	}
+
+	public void setCrossText(String text) {
+		tfCross.setText(text);
+	}
+
+	public AxisModel getModel() {
+		return model;
+	}
 }

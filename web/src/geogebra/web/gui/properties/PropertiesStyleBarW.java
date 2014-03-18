@@ -11,9 +11,9 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author gabor
@@ -25,7 +25,7 @@ public class PropertiesStyleBarW extends
 
 	private PropertiesViewW propertiesView;
 	private App app;
-	private PopupPanel wrappedPanel;
+	private FlowPanel wrappedPanel;
 	private PopupMenuButton btnOption;
 	private MenuBar menu;
 	private HashMap<OptionType, MenuItem> buttonMap;
@@ -34,13 +34,13 @@ public class PropertiesStyleBarW extends
 		this.propertiesView = propertiesView;
 		this.app = app;
 		
-		this.wrappedPanel = new PopupPanel();
+		this.wrappedPanel = new FlowPanel();
 		this.btnOption = new PopupMenuButton((AppW) app);
 		buildMenu();
 		btnOption.setPopupMenu(menu);
 		btnOption.setKeepVisible(true);
 		btnOption.setStandardButton(true);
-		
+		wrappedPanel.setStyleName("propertiesStyleBar");
 		/*AGbtnOption.setHorizontalTextPosition(SwingConstants.RIGHT);
 		Dimension d = btnOption.getPreferredSize();
 		d.width = menu.getPreferredSize().width;
@@ -59,7 +59,7 @@ public class PropertiesStyleBarW extends
 		setIcon(propertiesView
 				.getSelectedOptionType(),btnOption);
 		btnOption.setText(propertiesView.getTypeString(propertiesView.getSelectedOptionType())
-				+ downTriangle);
+				+ downTriangle);		
 		
 		//TODO: get it in css
 		buttonMap.get(seltype).addStyleName("selected");
@@ -142,7 +142,7 @@ public class PropertiesStyleBarW extends
     }
 
 	private String getMenuHtml(OptionType type) {
-		String typeString = propertiesView.getTypeString(type);
+		String typeString = "";//propertiesView.getTypeString(type);
 	    return typeString != null ? GeoGebraMenubarW.getMenuBarHtml(getTypeIcon(type), typeString): null; 
     }
 	
@@ -191,7 +191,7 @@ public class PropertiesStyleBarW extends
 
 
 
-	public PopupPanel getWrappedPanel() {
+	public FlowPanel getWrappedPanel() {
 	    return wrappedPanel;
     }
 

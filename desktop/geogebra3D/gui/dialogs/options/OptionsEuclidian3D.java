@@ -559,7 +559,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 
 		@Override
 		protected String getString() {
-			if (axis == AXIS_Z) {
+			if (getModel().getAxis() == AXIS_Z) {
 				return "zAxis";
 			}
 			return super.getString();
@@ -573,4 +573,5 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 				.getGuiManager())).showColorChooser(((EuclidianView3D) view)
 				.getBackground())));
 	}
+
 }

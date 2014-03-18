@@ -93,7 +93,7 @@ public abstract class PropertiesView implements View {
 		case ADVANCED:
 			return loc.getPlain("PreferencesOfA", app.getMenu("Advanced"));
 		case OBJECTS:
-			// return app.getMenu("Objects");
+		// return app.getMenu("Objects");
 			return objectPanel == null ? app.getMenu("Objects") : objectPanel.getSelectionDescription();
 		case LAYOUT:
 			return loc.getPlain("PreferencesOfA", app.getMenu("Layout"));

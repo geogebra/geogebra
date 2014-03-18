@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -42,12 +41,13 @@ public class PropertiesViewW extends
 
 		private PropertiesStyleBarW styleBar;
 
-		private VerticalPanel mainPanel;
+		private FlowPanel mainPanel;
 		private Label notImplemented;
 
 		private FlowPanel contentsPanel;
+		private OptionType optionType;
 
-	public PropertiesViewW(AppW app) {
+		public PropertiesViewW(AppW app) {
 		super(app);
 	    this.wrappedPanel = new FlowPanel();
 	    app.setPropertiesView(this);
@@ -55,7 +55,7 @@ public class PropertiesViewW extends
 	    app.setWaitCursor();   
 	    
 	    notImplemented = new Label("Not implemented");
-	    
+	    optionType = OptionType.EUCLIDIAN;
 	    initGUI();
     }
 	
@@ -64,15 +64,16 @@ public class PropertiesViewW extends
 		wrappedPanel.addStyleName("PropertiesViewW");
 //		getStyleBar();
 
-		mainPanel = new VerticalPanel();
+		mainPanel = new FlowPanel();
 		if(!((AppW) app).getLAF().isSmart()){
 			mainPanel.add(getStyleBar().getWrappedPanel());
 		}
 		contentsPanel = new FlowPanel();
+		wrappedPanel.addStyleName("propertiesView");
 		mainPanel.add(contentsPanel);
 	    wrappedPanel.add(mainPanel);
 
-	    setOptionPanel(OptionType.OBJECTS);
+	    setOptionPanel(optionType);
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
 		
@@ -248,6 +249,7 @@ public class PropertiesViewW extends
 
 	@Override
 	public void setOptionPanel(OptionType type) {
+		optionType = type;
 		contentsPanel.clear();
 		OptionPanelW optionPanel = getOptionPanel(type);
 	    Widget wPanel = optionPanel.getWrappedPanel();

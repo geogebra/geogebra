@@ -9,9 +9,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW {
 
+	private AppW app;
+
 	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
-	    // TODO Auto-generated constructor stub
+		this.app = app;
+		initGUI();
+    }
+
+	private void initGUI() {
+	    app.setDefaultCursor();
     }
 
 	public void setLabels() {

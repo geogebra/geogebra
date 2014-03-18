@@ -219,7 +219,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			this.titleId = title;
 			hasAdded = false;
 			panels = new ArrayList<OptionPanel>();
-			setStyleName("ObjectPropertiesTab");
+			setStyleName("propertiesTab");
 		}
 
 		public void add(OptionPanel panel) {
@@ -3090,7 +3090,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private void initGUI() {
 		wrappedPanel = new FlowPanel();
-		wrappedPanel.setStyleName("objectProperties");
+		wrappedPanel.setStyleName("propertiesPanel");
 		tabPanel = new TabPanel();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
@@ -3100,7 +3100,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			}
 				});
-		tabPanel.setStyleName("objectPropertiesTabPanel");
+		tabPanel.setStyleName("propertiesTabPanel");
 
 		createBasicTab();
 
@@ -3127,8 +3127,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				app.setDefaultCursor();
 			}
 		});
-		tabPanel.setVisible(false);
-		updateGUI();
+		wrappedPanel.setVisible(false);
 		selectTab(0);
 
 	}
@@ -3136,7 +3135,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private void createBasicTab() {
 		basicTab = new OptionsTab("Properties.Basic");
 
-		basicTab.setStyleName("objectPropertiesTab");
+		basicTab.setStyleName("propertiesTab");
 
 		namePanel = new NamePanel();   
 		if (!isDefaults) {
@@ -3213,7 +3212,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addTextTab() {
 		OptionsTab tab = new OptionsTab("Text");
-		tab.setStyleName("objectPropertiesTab");
+		tab.setStyleName("propertiesTab");
 		TextOptionsPanel textOptionsPanel = new TextOptionsPanel();
 		tab.add(textOptionsPanel);
 		return tab;
@@ -3221,7 +3220,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addSliderTab() {
 		OptionsTab tab = new OptionsTab("Slider");
-		tab.setStyleName("objectPropertiesTab");
+		tab.setStyleName("propertiesTab");
 		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
 		return tab;
@@ -3229,7 +3228,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addColorTab() {
 		OptionsTab tab = new OptionsTab("Color");
-		tab.setStyleName("objectPropertiesTab");
+		tab.setStyleName("propertiesTab");
 		colorPanel = new ColorPanel();
 		tab.add(colorPanel);
 		return tab;
@@ -3262,7 +3261,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addScriptTab() {
 		OptionsTab tab = new OptionsTab("Scripting");
-		tab.setStyleName("objectPropertiesTab");
+		tab.setStyleName("propertiesTab");
 		ScriptEditPanel scriptEditPanel = new ScriptEditPanel();
 		tab.add(scriptEditPanel);
 		return tab;
