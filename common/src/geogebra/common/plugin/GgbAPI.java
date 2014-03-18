@@ -1206,4 +1206,11 @@ public abstract class GgbAPI implements JavaScriptAPI{
     	 	                                        + "\n" + "output: " + ret); 
     	 	                return ret; 
     	 	        }
+    /**
+     * Performs login
+     * @param token login token
+     */
+    public void login(String token){
+    	app.getLoginOperation().performTokenLogin(token, false);
+    }
 }

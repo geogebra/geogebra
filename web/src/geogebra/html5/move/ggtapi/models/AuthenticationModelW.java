@@ -55,7 +55,7 @@ public class AuthenticationModelW extends AuthenticationModel {
 		this.authToken = null;
 		if(this.app!=null){
 			ensureInited();
-			this.app.dispatchEvent(new Event(EventType.LOGIN,null,null));
+			this.app.dispatchEvent(new Event(EventType.LOGIN,null,""));
 		}
 		if(storage == null){
 			return;
