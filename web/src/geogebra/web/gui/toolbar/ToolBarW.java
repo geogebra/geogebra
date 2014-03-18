@@ -202,7 +202,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	 * and "||" adds a separator before starting a new menu.
 	 * 
 	 */
-	//private void addCustomModesToToolbar(ModeToggleButtonGroup bg) {
 	private void addCustomModesToToolbar(UnorderedList mainUl) {
 		Vector<ToolbarItem> toolbarVec;
 		
