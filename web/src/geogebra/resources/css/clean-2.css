@@ -2404,6 +2404,10 @@ label {
 	display: inline-block;
 }
 
+.numberInput {
+	width: 48px;
+}
+
 .checkBoxPanel {
 	display: block;
 	padding-top: 2px;

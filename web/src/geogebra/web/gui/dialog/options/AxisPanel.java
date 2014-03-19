@@ -42,17 +42,23 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	private Label axisUnitLabel;
 
-	private Label stickToEdge;
-
 	private AppW app;
 	protected EuclidianView view;
 	private class NumberComboBox extends ListBox {
 		private static final String PI_STRING = "\u03c0";
+
 		public NumberComboBox() {		
 			addItem("1"); //pi
 			addItem(PI_STRING); //pi
 			addItem(PI_STRING + "/2"); //pi/2
 		}
+		
+		public double getValue() {
+			final String text = getItemText(getSelectedIndex()).toString().trim();
+			if (text.equals("")) return Double.NaN;
+			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);			
+		}
+
 	};
 	
 	/******************************************************
@@ -119,13 +125,24 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbManualTicks.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
-				model.applyTickDistance(cbManualTicks.getValue());
+				boolean isTickDistanceOn = cbManualTicks.getValue(); 
+				model.applyTickDistance(isTickDistanceOn);
+				ncbTickDist.setEnabled(isTickDistanceOn);
+				if (isTickDistanceOn) {
+					model.applyTickDistance(ncbTickDist.getValue());
+				}
 
 			}});
 
 
 		ncbTickDist = new NumberComboBox();
 
+		ncbTickDist.addChangeHandler(new ChangeHandler(){
+
+			public void onChange(ChangeEvent event) {
+				model.applyTickDistance(ncbTickDist.getValue());
+
+            }});
 		FlowPanel distancePanel = new FlowPanel();
 		distancePanel.add(cbManualTicks);
 		distancePanel.add(ncbTickDist);
@@ -190,22 +207,28 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		});
 
 		crossAt = new Label(app.getPlain("CrossAt") + ":");
-		cbDrawAtBorder = new CheckBox();
+		cbDrawAtBorder = new CheckBox(app.getPlain("StickToEdge"));
 		cbDrawAtBorder.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
 				model.applyDrawAtBorder(cbDrawAtBorder.getValue());
 			}});
 
-		stickToEdge = new Label(app.getPlain("StickToEdge"));
-		stickToEdge = new Label(app.getPlain("StickToEdge"));
 
 		FlowPanel crossPanel = new FlowPanel();
 		crossPanel.add(crossAt); 
 		crossPanel.add(tfCross);
 		crossPanel.add(cbDrawAtBorder); 
-		crossPanel.add(stickToEdge);
 
+		cbShowAxis.setStyleName("checkBoxPanel");
+		cbAxisNumber.setStyleName("checkBoxPanel");
+		cbPositiveAxis.setStyleName("checkBoxPanel");
+		distancePanel.setStyleName("listBoxPanel");
+		showTicksPanel.setStyleName("listBoxPanel");
+		labelPanel.setStyleName("listBoxPanel");
+		tfCross.setStyleName("numberInput");
+		crossPanel.setStyleName("checkBoxPanel");
+		
 		// add all panels
 		add(cbShowAxis);
 		add(cbAxisNumber);
@@ -227,7 +250,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbManualTicks
 		.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
 //		ncbTickDist.setSelectedIndex(axis);
-//		ncbTickDist.setEnabled(cbManualTicks.getValue());
+		ncbTickDist.setEnabled(cbManualTicks.getValue());
 
 
 		lbAxisLabel.setSelectedIndex(axis);
@@ -264,7 +287,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		axisLabel.setText(app.getPlain("AxisLabel") + ":");
 		axisUnitLabel.setText(app.getPlain("AxisUnitLabel") + ":");
 		crossAt.setText(app.getPlain("CrossAt") + ":");
-		stickToEdge.setText(app.getPlain("StickToEdge"));
+		cbDrawAtBorder.setText(app.getPlain("StickToEdge"));
 
 	}
 
