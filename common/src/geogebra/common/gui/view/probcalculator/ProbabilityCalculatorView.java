@@ -185,6 +185,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	protected PlotSettings plotSettings;
 	
 	protected ProbabilityManager probManager;
+	protected GeoFunction pdfCurve;
 
 	
 	public ProbabilityCalculatorView(App app) {
@@ -537,8 +538,11 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			// ====================================================
 
 			// create density curve
-			densityCurve = buildDensityCurveExpression(selectedDist);
-
+			densityCurve = buildDensityCurveExpression(selectedDist ,isCumulative);
+			if(isCumulative && (selectedDist == DIST.F || selectedDist == DIST.EXPONENTIAL)){
+				pdfCurve = buildDensityCurveExpression(selectedDist ,false);
+				cons.removeFromConstructionList(pdfCurve);
+			}
 			densityCurve.setObjColor(COLOR_PDF);
 			densityCurve.setLineThickness(thicknessCurve);
 			densityCurve.setFixed(true);
@@ -802,7 +806,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	protected double[] getPlotDimensions() {
 
 		return probManager.getPlotDimensions(selectedDist, parameters,
-				densityCurve, isCumulative);
+				pdfCurve == null ? densityCurve : pdfCurve, isCumulative);
 
 	}
 
@@ -1639,7 +1643,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	 * @param parms
 	 * @return
 	 */
-	private GeoFunction buildDensityCurveExpression(DIST type) {
+	private GeoFunction buildDensityCurveExpression(DIST type, boolean cumulative) {
 
 		MyDouble param1 = null, param2 = null;
 
@@ -1651,47 +1655,37 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		}
 
 		AlgoDistributionDF ret = null;
-
+		GeoBoolean cumulativeGeo = new GeoBoolean(cons, cumulative);
 		switch (type) {
 		case NORMAL:
-			ret = new AlgoNormalDF(cons, param1, param2, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoNormalDF(cons, param1, param2, cumulativeGeo);
 			break;
 		case STUDENT:
-			ret = new AlgoTDistributionDF(cons, param1, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoTDistributionDF(cons, param1, cumulativeGeo);
 			break;
 		case CHISQUARE:
-			ret = new AlgoChiSquaredDF(cons, param1, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoChiSquaredDF(cons, param1, cumulativeGeo);
 			break;
 		case F:
-			ret = new AlgoFDistributionDF(cons, param1, param2, new GeoBoolean(
-					cons, isCumulative));
+			ret = new AlgoFDistributionDF(cons, param1, param2, cumulativeGeo);
 			break;
 		case CAUCHY:
-			ret = new AlgoCauchyDF(cons, param1, param2, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoCauchyDF(cons, param1, param2, cumulativeGeo);
 			break;
 		case EXPONENTIAL:
-			ret = new AlgoExponentialDF(cons, param1, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoExponentialDF(cons, param1, cumulativeGeo);
 			break;
 		case GAMMA:
-			ret = new AlgoGammaDF(cons, param1, param2, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoGammaDF(cons, param1, param2, cumulativeGeo);
 			break;
 		case WEIBULL:
-			ret = new AlgoWeibullDF(cons, param1, param2, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoWeibullDF(cons, param1, param2, cumulativeGeo);
 			break;
 		case LOGNORMAL:
-			ret = new AlgoLogNormalDF(cons, param1, param2, new GeoBoolean(
-					cons, isCumulative));
+			ret = new AlgoLogNormalDF(cons, param1, param2, cumulativeGeo);
 			break;
 		case LOGISTIC:
-			ret = new AlgoLogisticDF(cons, param1, param2, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoLogisticDF(cons, param1, param2, cumulativeGeo);
 			break;
 
 		case BINOMIAL:
