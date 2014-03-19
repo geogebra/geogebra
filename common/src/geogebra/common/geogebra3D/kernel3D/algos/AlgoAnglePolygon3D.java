@@ -29,24 +29,28 @@ import geogebra.common.kernel.geos.GeoAngle;
 /**
  *
  * @author  mathieu
- * @version 
  */
 public class AlgoAnglePolygon3D extends AlgoAnglePolygon{
 
 
+	/**
+	 * @param cons construction
+	 * @param labels labels
+	 * @param poly polygon
+	 */
 	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon3D poly) {
 		super(cons, labels, poly);
 	}
 	
     @Override
-	protected AlgoAnglePoints newAlgoAnglePoints(Construction cons){
-    	return new AlgoAnglePoints3D(cons);
+	protected AlgoAnglePoints newAlgoAnglePoints(Construction cons1){
+    	return new AlgoAnglePoints3DOrientation(cons1, getPolygon());
     }
 	
 	
     @Override
-	final protected GeoAngle newGeoAngle(Construction cons){
-    	return new GeoAngle3D(cons);
+	final protected GeoAngle newGeoAngle(Construction cons1){
+    	return GeoAngle3D.newAngle3DWithDefaultInterval(cons1);
     }
 
 	

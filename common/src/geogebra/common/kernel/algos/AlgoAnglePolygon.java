@@ -45,8 +45,8 @@ public class AlgoAnglePolygon extends AlgoAngle {
     
     AlgoAnglePolygon(Construction cons, GeoPolygon p) {
 		super(cons);
-		algoAngle = newAlgoAnglePoints(cons);
 		this.poly = p;
+		algoAngle = newAlgoAnglePoints(cons);
 		outputAngles=createOutputPoints();
 		setInputOutput(); // for AlgoElement
 		compute();

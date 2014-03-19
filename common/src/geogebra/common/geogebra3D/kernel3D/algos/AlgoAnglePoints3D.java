@@ -51,8 +51,8 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 	
 	
     @Override
-	protected GeoAngle newGeoAngle(Construction cons){
-    	return new GeoAngle3D(cons);
+	protected GeoAngle newGeoAngle(Construction cons1){
+    	return new GeoAngle3D(cons1);
     }
     
     private Coords center, v1, v2;

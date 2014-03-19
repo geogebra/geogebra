@@ -21,6 +21,11 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D{
 		super(cons, label, A, B, C, orientation);
 	}
 	
+	public AlgoAnglePoints3DOrientation(Construction cons, GeoDirectionND orientation) {
+		super(cons);
+		this.orientation = orientation;
+	}
+
 	@Override
 	protected void setInput(GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation){
@@ -30,10 +35,8 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D{
 	}
 	
 	@Override
-	protected GeoAngle newGeoAngle(Construction cons) {
-		GeoAngle ret = super.newGeoAngle(cons);
-		((GeoAngle3D) ret).setHasOrientation(true);
-		return ret;
+	protected GeoAngle newGeoAngle(Construction cons1) {
+		return GeoAngle3D.newAngle3DWithDefaultInterval(cons1);
 	}
 	
 	@Override
