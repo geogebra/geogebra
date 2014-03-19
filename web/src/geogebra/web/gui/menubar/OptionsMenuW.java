@@ -35,7 +35,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 	 * @param app Application instance
 	 */
 	public OptionsMenuW(AppW app) {
-		super(true);
+		super(true, new MenuResources());
 	    this.app = app;
 	    kernel = app.getKernel();
 	    addStyleName("GeoGebraMenuBar");
