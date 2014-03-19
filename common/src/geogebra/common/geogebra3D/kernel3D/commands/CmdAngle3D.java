@@ -83,6 +83,11 @@ public class CmdAngle3D extends CmdAngle {
 		// angle of polygon, oriented
 		if ((ok[0] = (arg[0].isGeoPolygon()))
 				&& (ok[1] = (arg[1] instanceof GeoDirectionND))) {
+			
+			if (!arg[0].isGeoElement3D() && arg[1] == cons.getXOYPlane()){ // ignore xOy plane to orient 2D polygon
+				return angle(c.getLabels(), (GeoPolygon) arg[0]);
+			}
+			
 			GeoElement[] ret = kernelA.getManager3D().Angles3D(c.getLabels(),
 					(GeoPolygon) arg[0],
 					(GeoDirectionND) arg[1]);
