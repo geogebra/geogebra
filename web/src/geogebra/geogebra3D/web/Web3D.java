@@ -6,6 +6,7 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.geogebra3D.web.gui.app.GeoGebraAppFrame3D;
+import geogebra.geogebra3D.web.main.AppWapplet3D;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
@@ -174,7 +175,7 @@ public class Web3D extends Web {
 		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(){
 			@Override
 			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr){
-				return new AppWapplet(ae, fr);
+				return new AppWapplet3D(ae, fr);
 			}
 		});
 	}
@@ -223,7 +224,7 @@ public class Web3D extends Web {
 		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(){
 			@Override
 			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr){
-				return new AppWapplet(ae, fr);
+				return new AppWapplet3D(ae, fr);
 			}
 		});
 	   
