@@ -26,16 +26,35 @@ import geogebra.common.kernel.geos.GeoElement;
 /**
  * Compute the ends of a limited quadric
  *
- * @author  matthieu
- * @version 
+ * @author  mathieu
  */
 public class AlgoQuadricEnds extends AlgoElement3D {
 
  
     private GeoQuadric3DLimited quadric; // input
-    private GeoConic3D section1, section2; // output       
+    private GeoConic3D[] sections; // output       
     private CoordSys coordsys1, coordsys2;
 
+    /**
+     * 
+     * @param labels labels
+     * @param cons construction
+     * @param quadric quadric
+     */
+    public AlgoQuadricEnds(Construction cons, String[] labels, GeoQuadric3DLimited quadric) {
+
+    	this(cons,quadric);
+    	
+    	if (labels == null){
+    		sections[0].setLabel(null);
+    		sections[1].setLabel(null);
+    	}else if (labels.length == 1){
+    			GeoElement.setLabels(labels[0], sections);		
+    	}else{
+    		GeoElement.setLabels(labels, sections);
+    	}
+    }
+    
     /**
      * 
      * @param cons construction
@@ -45,16 +64,19 @@ public class AlgoQuadricEnds extends AlgoElement3D {
         super(cons);
         
         this.quadric = quadric;
-        section1 = new GeoConic3D(cons);
+        
+        sections = new GeoConic3D[2];
+        
+        sections[0] = new GeoConic3D(cons);
         coordsys1 = new CoordSys(2);
-		section1.setCoordSys(coordsys1);
-		section1.setIsEndOfQuadric(true);
-        section2 = new GeoConic3D(cons);
+		sections[0].setCoordSys(coordsys1);
+		sections[0].setIsEndOfQuadric(true);
+        sections[1] = new GeoConic3D(cons);
         coordsys2 = new CoordSys(2);
-		section2.setCoordSys(coordsys2);
-		section2.setIsEndOfQuadric(true);
+		sections[1].setCoordSys(coordsys2);
+		sections[1].setIsEndOfQuadric(true);
 		
-		setInputOutput(new GeoElement[] {quadric},  new GeoElement[] {section1, section2});
+		setInputOutput(new GeoElement[] {quadric},  sections);
 
 		compute();
 
@@ -62,13 +84,16 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 
     public GeoConic3D getSection1() {
-        return section1;
+        return sections[0];
     }
   
     public GeoConic3D getSection2() {
-        return section2;
+        return sections[1];
     }
-
+    
+    public GeoConic3D[] getSections() {
+    	return sections;
+    }
 
     
     @Override
@@ -76,13 +101,13 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     	
     	
     	if (!quadric.isDefined()){
-    		section1.setUndefined();
-    		section2.setUndefined();
+    		sections[0].setUndefined();
+    		sections[1].setUndefined();
     		return;
     	}
 
-    	section1.setDefined();
-    	section2.setDefined();
+    	sections[0].setDefined();
+    	sections[1].setDefined();
     	
     	CoordMatrix qm = quadric.getSymetricMatrix();
     	CoordMatrix pm = new CoordMatrix(4,3);
@@ -105,7 +130,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
        	coordsys1.addVector(v[1].mul(-1)); //orientation out of the quadric
        	coordsys1.makeOrthoMatrix(false, false);
         	
-    	section1.setMatrix(cm);
+       	sections[0].setMatrix(cm);
     	
     	//section2
     	pm.setOrigin(o2);
@@ -119,12 +144,12 @@ public class AlgoQuadricEnds extends AlgoElement3D {
        	coordsys2.addVector(v[1]);
        	coordsys2.makeOrthoMatrix(false, false);
         	
-    	section2.setMatrix(cm);
+       	sections[1].setMatrix(cm);
     	
     	
     	//areas
-    	section1.calcArea();
-    	section2.calcArea();
+    	sections[0].calcArea();
+    	sections[1].calcArea();
 
     }
     

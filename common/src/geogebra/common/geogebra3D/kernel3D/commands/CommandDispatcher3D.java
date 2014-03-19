@@ -178,7 +178,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdBottom(kernel);
 			case Top:
 				return new CmdTop(kernel);
-
+			case Ends:
+				return new CmdEnds(kernel);
+				
 			case Function:
 				return new CmdFunction2Var(kernel);
 
