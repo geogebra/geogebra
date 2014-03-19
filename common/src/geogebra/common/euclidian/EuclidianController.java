@@ -20,7 +20,7 @@ import geogebra.common.euclidian.draw.DrawConicPart;
 import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.factories.AwtFactory;
+import geogebra.common.euclidian.modes.ModeDelete;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -30,7 +30,6 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -39,12 +38,10 @@ import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoPolarLine;
-import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
-import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -71,7 +68,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPenStroke;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
@@ -146,6 +142,8 @@ public abstract class EuclidianController {
 			}
 		}
 	}
+
+	private ModeDelete deleteMode;
 
 	protected double xTemp;
 
@@ -350,6 +348,13 @@ public abstract class EuclidianController {
 	private long lastMouseRelease;
 	
 	int index;
+	
+	ModeDelete getDeleteMode(){
+		if(deleteMode == null && view != null){
+			deleteMode = new ModeDelete(view);
+		}
+		return deleteMode;
+	}
 		
 	public EuclidianController(App app){
 		this.app = app;
@@ -797,7 +802,7 @@ public abstract class EuclidianController {
 	/***************************************************************************
 	 * helper functions for selection sets
 	 **************************************************************************/
-	protected final GeoElement[] getSelectedGeos() {
+	public final GeoElement[] getSelectedGeos() {
 		GeoElement[] ret = new GeoElement[selectedGeos.size()];
 		int i = 0;
 		Iterator<GeoElement> it = selectedGeos.iterator();
@@ -1678,7 +1683,7 @@ public abstract class EuclidianController {
 				return count;
 			}
 
-	protected final int selGeos() {
+	public final int selGeos() {
 		return selectedGeos.size();
 	}
 
@@ -1773,7 +1778,7 @@ public abstract class EuclidianController {
 						addMore, hits.size() == 1);
 			}
 
-	protected final int addSelectedGeo(Hits hits, int max, boolean addMoreThanOneAllowed) {
+	public final int addSelectedGeo(Hits hits, int max, boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedGeos, Test.GEOELEMENT);
 	}
@@ -3050,22 +3055,9 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final boolean delete(Hits hits) {
-		if (hits.isEmpty()) {
-			return false;
-		}
 	
-		addSelectedGeo(hits, 1, false);
-		if (selGeos() == 1) {
-			// delete this object
-			GeoElement[] geos = getSelectedGeos();
-			geos[0].removeOrSetUndefinedIfHasFixedDescendent();
-			return true;
-		}
-		return false;
-	}
 	
-	protected boolean deleteAll(Hits hits) {
+	public boolean deleteAll(Hits hits) {
 		if (hits.isEmpty()) {
 			return false;
 		}
@@ -5430,7 +5422,7 @@ public abstract class EuclidianController {
 	
 		// delete selected object
 		case EuclidianConstants.MODE_DELETE:
-			changedKernel = delete(hits.getTopHits());
+			changedKernel = getDeleteMode().process(hits.getTopHits(), isControlDown);
 			break;
 	
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
@@ -7528,7 +7520,7 @@ public abstract class EuclidianController {
 			draggingBeyondThreshold = true;
 		}
 		if (draggingBeyondThreshold && mode == EuclidianConstants.MODE_DELETE) {
-			handleMouseDraggedForDelete(event,getDeleteToolSize(),false);
+			getDeleteMode().handleMouseDraggedForDelete(event,getDeleteToolSize(),false);
 			stopCollectingMinorRepaints();
 			kernel.notifyRepaint();
 			return;
@@ -8160,87 +8152,7 @@ public abstract class EuclidianController {
 	 * @param deleteSize size of the delete tool, e.g. getDeleteToolSize()
 	 * @param onlyStrokes if set only strokes will be deleted nothing else
 	 */
-	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize, boolean onlyStrokes){
-		if (e!=null){
-			int eventX=e.getX();
-			int eventY=e.getY();
-			//hide cursor, the new "cursor" is the deletion rectangle
-			view.setTransparentCursor();
-
-			GRectangle rect=AwtFactory.prototype.newRectangle(eventX-deleteSize/2,
-					eventY-deleteSize/2,deleteSize,deleteSize);
-			view.setDeletionRectangle(rect);
-			view.setIntersectionHits(rect);
-			Hits h=view.getHits();
-			Iterator<GeoElement> it=h.iterator();
-
-			AlgorithmSet as=null;
-			while(it.hasNext()){
-				GeoElement geo=it.next();
-				if (geo instanceof GeoPenStroke){
-					GeoPenStroke gps=(GeoPenStroke) geo;
-					
-					//we need two arrays for the case that AlgoAttachCopyToView is involved
-					//the original points (dataPoints) are saved, but will be translated 
-					//and everything by the algorithm so that the GeoPenStroke-output
-					//holds the points which are really drawn (and should be used for
-					//hit detection).
-					
-					GeoPoint[] realPoints=(GeoPoint[]) gps.getPoints();
-					GeoPoint[] dataPoints;
-
-					if (geo.getParentAlgorithm()!=null && (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView)){
-						AlgoElement ae=geo.getParentAlgorithm();
-						for (int i=0;i<ae.getInput().length;i++){
-							if (ae.getInput()[i] instanceof GeoPenStroke){
-								gps=(GeoPenStroke) ae.getInput()[i];
-							}
-						}
-					}
-					if (gps.getParentAlgorithm()!=null && gps.getParentAlgorithm() instanceof AlgoPolyLine){
-						dataPoints=((AlgoPolyLine)gps.getParentAlgorithm()).getPoints();
-					}else{
-						dataPoints=(GeoPoint[]) gps.getPoints();
-					}
-
-					// find out if this stroke is still visible
-					// after removing points
-					boolean hasVisibleLine=false; 
-					boolean lastWasVisible=false;
-					if (realPoints.length==dataPoints.length){
-						for (int i=0;i<dataPoints.length;i++){
-							GeoPoint p=realPoints[i];
-							if (p.isDefined()&&
-									Math.max(Math.abs(eventX-view.toScreenCoordXd(p.inhomX)),
-									Math.abs(eventY-view.toScreenCoordYd(p.inhomY)))<=deleteSize/2){
-								dataPoints[i].setUndefined();
-								if (as==null){
-									as=dataPoints[i].getAlgoUpdateSet();
-								}else{
-									as.addAll(dataPoints[i].getAlgoUpdateSet());
-								}
-							}
-							if (lastWasVisible&&dataPoints[i].isDefined()){ 
-								hasVisibleLine=true;
-							}
-							lastWasVisible=dataPoints[i].isDefined();
-						}
-					}else{
-						App.debug("Can't delete points on stroke. Different number of in and output points.");
-					}
-					if (hasVisibleLine){ //still something visible, don't delete
-						it.remove(); //remove this Stroke from hits
-					}
-				}else if (onlyStrokes){
-					it.remove(); 
-				}
-			}
-			deleteAll(h);
-			if (as!=null)
-				as.updateAll();
-			kernel.notifyRepaint();
-		}
-	}
+	
 
 	private static boolean penMode(int mode2) {
 		switch (mode2) {
@@ -8571,6 +8483,8 @@ public abstract class EuclidianController {
 			mousePressedTranslatedView(type);
 	
 			break;
+		case EuclidianConstants.MODE_DELETE:
+			getDeleteMode().mousePressed(type);
 	
 		default:
 			moveMode = MOVE_NONE;

@@ -233,7 +233,7 @@ public class EuclidianPen {
 	public void handleMouseDraggedForPenMode(AbstractEvent e){
 		view.setTransparentCursor();
 		if (isErasingEvent(e)) {
-			view.getEuclidianController().handleMouseDraggedForDelete(e,eraserSize,true);
+			view.getEuclidianController().getDeleteMode().handleMouseDraggedForDelete(e,eraserSize,true);
 		} else {
 			handleMousePressedForPenMode(e, null);
 		}

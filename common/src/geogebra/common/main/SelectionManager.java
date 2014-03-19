@@ -244,6 +244,22 @@ public class SelectionManager {
 		updateSelection();
 	}
 	
+	final public boolean hasPredecessors() {
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			TreeSet<GeoElement> tree = geo.getAllPredecessors();
+			Iterator<GeoElement> it2 = tree.iterator();
+			while (it2.hasNext()) {
+				geo = it2.next();
+				if (geo.isLabelSet()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Selects descendants of all visible objects
 	 */
@@ -262,6 +278,22 @@ public class SelectionManager {
 		}
 		kernel.notifyRepaint();
 		updateSelection();
+	}
+	
+	final public boolean hasDescendants() {
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			TreeSet<GeoElement> tree = geo.getAllChildren();
+			Iterator<GeoElement> it2 = tree.iterator();
+			while (it2.hasNext()) {
+				geo = it2.next();
+				if (geo.isLabelSet()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
