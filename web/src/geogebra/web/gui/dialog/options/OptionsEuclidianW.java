@@ -11,6 +11,8 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -27,6 +29,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 	private BasicTab basicTab;
 	private class EuclidianTab extends FlowPanel{};
 	private class BasicTab extends EuclidianTab {
+		private Label dimTitle;
 		private Label[] dimLabel;
 		private AutoCompleteTextFieldW tfMinX;
 		private AutoCompleteTextFieldW tfMaxX;
@@ -38,13 +41,24 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 		private Label axesRatioLabel;
 		private FlowPanel dimPanel;
 		private ToggleButton cbLockRatio;
+		private CheckBox cbShowAxes;
+		private CheckBox cbBoldAxes;
+		private Label colorLabel;
+		private Button btAxesColor;
+		private Label lineStyle;
+		private FlowPanel axesOptionsPanel;
+		private AutoCompleteTextFieldW axesOptionTitle;
+		private Label axesOptionsTitle;
 
 		public BasicTab() {
 			addDimensionPanel();
+			addAxesOptionsPanel();
+			addConsProtocolPanel();
+			addMiscPanel();
 		}
 
-		
 		private void addDimensionPanel() {
+			dimTitle = new Label("");
 			dimLabel = new Label[4]; // "Xmin", "Xmax" etc.
 			for (int i = 0; i < 4; i++) {
 				dimLabel[i] = new Label("");
@@ -62,14 +76,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			//tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		//	tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 			
-			cbLockRatio = new ToggleButton(new Image(AppResources.INSTANCE.lock().getSafeUri().toString()));
+			cbLockRatio = new ToggleButton(new Image(AppResources.INSTANCE.lock()));
 			cbLockRatio.setValue(view.isLockedAxesRatio());
 			cbLockRatio.setEnabled(view.isZoomable());
 		
 			axesRatioLabel = new Label("");
 
 			dimPanel = new FlowPanel();
-
+			add(dimTitle);
 			dimPanel.add(LayoutUtil.panelRow(dimLabel[0], tfMinX, dimLabel[1],
 					tfMaxX));
 			
@@ -84,13 +98,65 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			add(dimPanel);
         }
 		
+		private void addAxesOptionsPanel() {
+
+			axesOptionsTitle = new Label();
+			// show axes checkbox
+			cbShowAxes = new CheckBox(app.getPlain("ShowAxes"));
+
+			// show bold checkbox
+			cbBoldAxes = new CheckBox(app.getPlain("Bold"));
+
+			// axes color
+			colorLabel = new Label(app.getPlain("Color") + ":");
+
+			btAxesColor = new Button("\u2588");
+			
+			// axes style
+			lineStyle = new Label(app.getPlain("LineStyle") + ":");
+		
+//			AxesStyleListRenderer renderer = new AxesStyleListRenderer();
+//			cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
+//			cbAxesStyle.setRenderer(renderer);
+//			cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
+//			cbAxesStyle.setEditable(false);
+
+			// axes options panel
+			axesOptionsPanel = new FlowPanel();
+			axesOptionsPanel.add(axesOptionsTitle);
+			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
+					 cbBoldAxes));
+			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
+					 lineStyle));
+			add(axesOptionsPanel);
+		}
+
+		private void addConsProtocolPanel() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		private void addMiscPanel() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
 		public void setLabels() {
+			dimTitle.setText(app.getPlain("Dimensions"));
+			
 			dimLabel[0].setText(app.getPlain("xmin") + ":");
 			dimLabel[1].setText(app.getPlain("xmax") + ":");
 			dimLabel[2].setText(app.getPlain("ymin") + ":");
 			dimLabel[3].setText(app.getPlain("ymax") + ":");
 			axesRatioLabel.setText(app.getPlain("xAxis") + " : "
 					+ app.getPlain("yAxis"));
+			
+			axesOptionsTitle.setText(app.getPlain("Axes"));
+			cbShowAxes.setText(app.getPlain("ShowAxes"));
+			cbBoldAxes.setText(app.getPlain("Bold"));
+			colorLabel.setText(app.getPlain("Color") + ":");
+			lineStyle.setText(app.getPlain("LineStyle") + ":");
+
 		}
 	}
 	public OptionsEuclidianW(AppW app,
