@@ -4,7 +4,6 @@ import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.WebStatic;
 import geogebra.web.main.AppW;
-import geogebra.web.main.AppWapplet;
 import geogebra.web.main.AppWsimple;
 
 import java.util.ArrayList;
@@ -14,12 +13,15 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class GeoGebraFrameBoth extends GeoGebraFrame {
 
-	public GeoGebraFrameBoth() {
+	private AppletFactory factory;
+
+	public GeoGebraFrameBoth(AppletFactory factory) {
 		super();
+		this.factory = factory;
 	}
 
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
-		AppW app = new AppWapplet(ae, gf);
+		AppW app = factory.getApplet(ae, gf);
 		WebStatic.lastApp = app;
 		return app;
 	}
@@ -35,10 +37,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	 * @param geoGebraMobileTags
 	 *          list of &lt;article&gt; elements of the web page
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
+	public static void main(ArrayList<ArticleElement> geoGebraMobileTags, AppletFactory factory) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrame inst = new GeoGebraFrameBoth();
+			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory);
 			inst.ae = articleElement;
 			GeoGebraLogger.startLogger(inst.ae);
 			inst.createSplash(articleElement);	
@@ -53,7 +55,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 	/**
 	 * @param el html element to render into
 	 */
-	public static void renderArticleElement(Element el) {
-		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth());
+	public static void renderArticleElement(Element el, AppletFactory factory) {
+		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(factory));
 	}
 }

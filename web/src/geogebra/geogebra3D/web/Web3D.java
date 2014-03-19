@@ -12,7 +12,11 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
 import geogebra.web.Web;
+import geogebra.web.gui.applet.AppletFactory;
+import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.html5.Dom;
+import geogebra.web.main.AppWapplet;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -155,18 +159,25 @@ public class Web3D extends Web {
 
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
     }-*/;
 	
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	 	$wnd.renderGGBElement = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
 	
-	
+	public static void renderArticleElement(Element el){
+		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(){
+			@Override
+			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr){
+				return new AppWapplet(ae, fr);
+			}
+		});
+	}
 	/*
 	 * This method should never be called. Only copyed to external javascript files,
 	 * if we like to use GeoGebraWeb as an library, and call its methods depending on
@@ -209,7 +220,12 @@ public class Web3D extends Web {
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags);
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(){
+			@Override
+			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr){
+				return new AppWapplet(ae, fr);
+			}
+		});
 	   
     }
 

@@ -11,6 +11,8 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.applet.AppletFactory;
+import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.html5.Dom;
 
 import java.util.ArrayList;
@@ -155,17 +157,20 @@ public class Web implements EntryPoint {
 
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
     }-*/;
 	
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.web.gui.applet.GeoGebraFrameBoth::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
+	 	$wnd.renderGGBElement = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;));
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
 	
+	public static void renderArticleElement(Element el){
+		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory());
+	}
 	
 	/*
 	 * This method should never be called. Only copyed to external javascript files,
@@ -209,7 +214,7 @@ public class Web implements EntryPoint {
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags);
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory());
 	   
     }
 
