@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -58,7 +59,7 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D{
     	
     	super.compute();
     	
-    	if (!getAngle().isDefined()){
+    	if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())){
     		return;
     	}
     	

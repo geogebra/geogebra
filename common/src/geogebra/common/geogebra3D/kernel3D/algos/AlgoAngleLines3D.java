@@ -25,6 +25,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
 
@@ -35,20 +36,27 @@ import geogebra.common.kernel.kernelND.GeoLineND;
  */
 public class AlgoAngleLines3D extends AlgoAngleLines{
 	
-	private Coords vn, o, v1, v2;
+	protected Coords vn;
+	private Coords o;
+	private Coords v1;
+	private Coords v2;
 
+	AlgoAngleLines3D(Construction cons, String label, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
+		super(cons, label, g, h, orientation);
+	}
+	
 	AlgoAngleLines3D(Construction cons, String label, GeoLineND g, GeoLineND h) {
-		super(cons, label, g, h);
+		this(cons, label, g, h, null);
 	}
 	
 	
     @Override
-	final protected GeoAngle newGeoAngle(Construction cons){
+	protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle3D(cons);
     }
 	
     @Override
-	public final void compute() {
+	public void compute() {
     	
     	// lines origins and directions
     	Coords o1 = getg().getStartInhomCoords();

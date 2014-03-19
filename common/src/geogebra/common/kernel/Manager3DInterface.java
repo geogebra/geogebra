@@ -652,6 +652,11 @@ public interface Manager3DInterface {
 	public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h);
 	
 	/**
+	 * Angle named label between lines, oriented
+	 */
+	public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h, GeoDirectionND orientation);
+	
+	/**
 	 * Angle named label between vectors
 	 */
 	public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w);

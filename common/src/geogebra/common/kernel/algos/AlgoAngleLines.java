@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
 
@@ -40,16 +41,17 @@ public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
     private GeoLineND g, h; // input
     private GeoAngle angle; // output           
 
+    
     /**
      * Creates new unlabeled angle between lines algo
      * @param cons construction
      * @param g first line
      * @param h second line
+     * @param orientation orientation (for 3D)
      */
-    AlgoAngleLines(Construction cons,  GeoLineND g, GeoLineND h) {
+    AlgoAngleLines(Construction cons,  GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
         super(cons);
-        this.g = g;
-        this.h = h;
+        setInput(g,h,orientation);
         angle = newGeoAngle(cons);
         setInputOutput(); // for AlgoElement
 
@@ -58,14 +60,18 @@ public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
         
     }
     
-	/**
-	 * create a new GeoAngle with interval as default angle
-	 * @param cons construction
-	 * @return new GeoAngle
-	 */
-	protected GeoAngle newGeoAngle(Construction cons) {
-		return GeoAngle.newAngleWithDefaultInterval(cons);
-	}
+    /**
+     * set input
+     * @param g first line
+     * @param h second line
+     * @param orientation orientation
+     */
+    protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation){
+    	 this.g = g;
+         this.h = h;
+    }
+    
+
     
     private AlgoAngleLines(GeoLineND g, GeoLineND h) {  
     	super(((GeoElement) g).getConstruction(), false);
@@ -82,7 +88,21 @@ public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
      */
     
     public AlgoAngleLines(Construction cons, String label, GeoLineND g, GeoLineND h) {
-        this(cons,g,h);
+        this(cons, label, g, h, null);
+    }
+    
+    
+    /**
+     * Creates new labeled angle between lines algo
+     * @param cons construction
+     * @param label angle label
+     * @param g first line
+     * @param h second line
+     * @param orientation orientation (for 3D)
+     */
+    
+    public AlgoAngleLines(Construction cons, String label, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
+        this(cons,g,h,orientation);
         angle.setLabel(label);
     }
     
@@ -144,7 +164,7 @@ public class AlgoAngleLines extends AlgoAngle  implements DrawInformationAlgo{
     }
 
     @Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return loc.getPlain("AngleBetweenAB",g.getLabel(tpl),h.getLabel(tpl));

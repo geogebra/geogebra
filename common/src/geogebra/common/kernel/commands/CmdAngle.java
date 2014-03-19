@@ -139,24 +139,16 @@ public class CmdAngle extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c);
+			
+			ret = process3(c, arg, ok);
+			
+			if (ret != null){
+				return ret;
+			}
 
-			// angle between three points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				return angle(c.getLabel(),
-						(GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2]);
-			}
-			// fixed angle
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				return getAlgoDispatcher().Angle(c.getLabels(), (GeoPoint) arg[0],
-						(GeoPoint) arg[1], (GeoNumberValue) arg[2], true);
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
-			}
+			// syntax error
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -183,6 +175,35 @@ public class CmdAngle extends CommandProcessor {
 				&& (ok[1] = (arg[1].isGeoLine()))) {
 			return angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
 		}
+
+		return null;
+	}
+	
+	/**
+	 * process angle when 3 arguments
+	 * @param c command
+	 * @param arg arguments
+	 * @param ok ok array
+	 * @return result (if one)
+	 */
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok){
+
+		// angle between three points
+		if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoPoint()))
+				&& (ok[2] = (arg[2].isGeoPoint()))) {
+			return angle(c.getLabel(),
+					(GeoPointND) arg[0], (GeoPointND) arg[1],
+					(GeoPointND) arg[2]);
+		}
+		
+		// fixed angle
+		if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoPoint()))
+				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			return getAlgoDispatcher().Angle(c.getLabels(), (GeoPoint) arg[0],
+					(GeoPoint) arg[1], (GeoNumberValue) arg[2], true);
+		} 
 
 		return null;
 	}
