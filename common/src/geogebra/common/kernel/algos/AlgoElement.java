@@ -1118,7 +1118,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sbAE.append(cmdname);
 		}
 
-		int length = getInputLength();
+		int length = getInputLengthForCommandDescription();
 
 		sbAE.append(tpl.leftSquareBracket());
 		// input legth is 0 for ConstructionStep[]
@@ -1378,7 +1378,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// add input information
 		if (input != null) {
 			sb.append("\t<input");
-			for (int i = 0; i < getInputLength(); i++) {
+			for (int i = 0; i < getInputLengthForXML(); i++) {
 				sb.append(" a");
 				sb.append(i);
 				// attribute name is input No.
@@ -1421,9 +1421,26 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @return input length
 	 */
-	protected int getInputLength(){
+	final protected int getInputLength(){
 		return input.length;
 	}
+	
+	/**
+	 * 
+	 * @return input length for XML (undo/redo/replace)
+	 */
+	protected int getInputLengthForXML(){
+		return getInputLength();
+	}
+
+	/**
+	 * 
+	 * @return input length for command description
+	 */
+	protected int getInputLengthForCommandDescription(){
+		return getInputLength();
+	}
+
 	
 	/**
 	 * get XML for command output

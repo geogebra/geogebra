@@ -260,15 +260,26 @@ SymbolicParametersBotanaAlgo {
 
 
 	@Override
-	protected int getInputLength(){
+	protected int getInputLengthForXML(){
+
+		if(kernel.isSaving() 
+				|| cons.getXOYPlane() == null){ // saving mode, or 2D
+			return super.getInputLengthForXML();
+		}
+
+		return super.getInputLengthForXML() + 1; // add "xOyPlane"
+	}
+	
+	@Override
+	protected int getInputLengthForCommandDescription(){
 
 		if(kernel.isSaving() 
 				|| cons.getXOYPlane() == null
-				|| !kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()){ // saving mode, or 2D
-			return super.getInputLength();
+				|| kernel.getApplication().getActiveEuclidianView().isDefault2D()){ // saving mode, or 2D
+			return super.getInputLengthForCommandDescription();
 		}
 
-		return super.getInputLength() + 1; // add "xOyPlane"
+		return super.getInputLengthForCommandDescription() + 1; // add "xOyPlane"
 	}
 	
 	@Override
