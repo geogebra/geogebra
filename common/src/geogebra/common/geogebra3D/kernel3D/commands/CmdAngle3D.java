@@ -43,6 +43,16 @@ public class CmdAngle3D extends CmdAngle {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))
 					&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+				
+				if (!arg[0].isGeoElement3D() 
+						&& !arg[1].isGeoElement3D() 
+						&& !arg[2].isGeoElement3D() 
+						&& arg[3] == cons.getXOYPlane()){ // ignore xOy plane to orient 2D
+					return angle(c.getLabel(),
+							(GeoPointND) arg[0], (GeoPointND) arg[1],
+							(GeoPointND) arg[2]);
+				}
+				
 				GeoElement[] ret = { kernelA.getManager3D().Angle3D(c.getLabel(),
 						(GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2],
@@ -105,6 +115,11 @@ public class CmdAngle3D extends CmdAngle {
 		if ((ok[0] = (arg[0].isGeoLine()))
 				&& (ok[1] = (arg[1].isGeoLine()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+			
+			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D() && arg[2] == cons.getXOYPlane()){ // ignore xOy plane for 2D
+				return super.angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
+			}
+			
 			GeoElement[] ret = { kernelA.getManager3D().Angle3D(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1], (GeoDirectionND) arg[2]) };
 			return ret;
 		}
