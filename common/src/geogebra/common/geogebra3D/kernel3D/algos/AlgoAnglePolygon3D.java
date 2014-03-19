@@ -19,11 +19,12 @@ the Free Software Foundation.
 package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoAnglePolygon;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 
 
 /**
@@ -38,8 +39,18 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygon{
 	 * @param labels labels
 	 * @param poly polygon
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon3D poly) {
-		super(cons, labels, poly);
+	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly) {
+		this(cons, labels, poly, null);
+	}
+	
+	/**
+	 * @param cons construction
+	 * @param labels labels
+	 * @param poly polygon
+	 * @param orientation orientation
+	 */
+	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly, GeoDirectionND orientation) {
+		super(cons, labels, poly, orientation);
 	}
 	
     @Override

@@ -1,6 +1,5 @@
 package geogebra.common.kernel;
 
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -663,7 +662,15 @@ public interface Manager3DInterface {
 	 * @param poly
 	 * @return angles for the polygon
 	 */
-	public GeoElement[] Angles3D(String[] labels, GeoPolygon3D poly);
+	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly);
+	
+	/**
+	 * 
+	 * @param labels
+	 * @param poly
+	 * @return angles for the polygon, oriented
+	 */
+	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly, GeoDirectionND orientation);
 
 	/**
 	 * Length named label of vector v

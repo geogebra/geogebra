@@ -19,6 +19,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 
 
 /**
@@ -31,26 +32,39 @@ public class AlgoAnglePolygon extends AlgoAngle {
 	 * 
 	 */
 	public static final long serialVersionUID = 1L;
-	private GeoPolygon poly; // input          
+	protected GeoPolygon poly; // input          
     protected OutputHandler<GeoElement> outputAngles;
     private AlgoAnglePoints algoAngle;
 
-    public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {        
-        this(cons, poly);
+    public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {      
+    	this(cons, labels, poly, null);
+    }
+    
+    public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly, GeoDirectionND orientation) {        
+        this(cons, poly, orientation);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
 		 
         update();
     }
     
-    AlgoAnglePolygon(Construction cons, GeoPolygon p) {
+    AlgoAnglePolygon(Construction cons, GeoPolygon p, GeoDirectionND orientation) {
 		super(cons);
-		this.poly = p;
+		setPolyAndOrientation(p, orientation);
 		algoAngle = newAlgoAnglePoints(cons);
 		outputAngles=createOutputPoints();
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
+    
+    /**
+     * set polygon and orientation
+     * @param p polygon
+     * @param orientation orientation
+     */
+    protected void setPolyAndOrientation(GeoPolygon p, GeoDirectionND orientation){
+    	this.poly = p;
+    }
     
     /**
      * 
@@ -125,7 +139,7 @@ public class AlgoAnglePolygon extends AlgoAngle {
     }
 
    @Override
-final public String toString(StringTemplate tpl) {
+   public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return loc.getPlain("AngleOfA",poly.getLabel(tpl));

@@ -8,7 +8,6 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
@@ -1347,8 +1346,14 @@ public class Manager3D implements Manager3DInterface {
 		return angle;
 	}
 	
-	final public GeoElement[] Angles3D(String[] labels, GeoPolygon3D poly) {
+	final public GeoElement[] Angles3D(String[] labels, GeoPolygon poly) {
 		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3D(cons, labels, poly);
+		GeoElement[] angles = algo.getAngles();
+		return angles;
+	}
+	
+	final public GeoElement[] Angles3D(String[] labels, GeoPolygon poly, GeoDirectionND orientation) {
+		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3DOrientation(cons, labels, poly, orientation);
 		GeoElement[] angles = algo.getAngles();
 		return angles;
 	}

@@ -79,6 +79,15 @@ public class CmdAngle3D extends CmdAngle {
 			AlgoAnglePlanes algo = new AlgoAnglePlanes(cons, c.getLabel(), (GeoPlane3D) arg[0], (GeoPlane3D) arg[1]);
 			return new GeoElement[] {algo.getAngle()};
 		}
+		
+		// angle of polygon, oriented
+		if ((ok[0] = (arg[0].isGeoPolygon()))
+				&& (ok[1] = (arg[1] instanceof GeoDirectionND))) {
+			GeoElement[] ret = kernelA.getManager3D().Angles3D(c.getLabels(),
+					(GeoPolygon) arg[0],
+					(GeoDirectionND) arg[1]);
+			return ret;
+		}
 
 		return null;
 	}
