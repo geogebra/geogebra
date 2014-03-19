@@ -829,7 +829,7 @@ __GGB__keysVar.fr.command = {
     "Simplify_Syntax": "[ <Fonction> ]\n[ <Texte> ]",
     "Simplify_SyntaxCAS": "[ <Fonction> ]",
     "Slider": "Curseur",
-    "Slider_Syntax": "[ <Min>, <Max>, <Incr\xe9ment>, <Vitesse>, <Largeur>, <EstUnAngle>, <Horizontal>, <Anim\xe9>, <Al\xe9atoire> ]",
+    "Slider_Syntax": "[ <Min>, <Max>, <Incr\xe9ment>, <Vitesse>, <Longueur>, <EstUnAngle>, <Horizontal>, <Anim\xe9>, <Al\xe9atoire> ]",
     "Slope": "Pente",
     "Slope_Syntax": "[ <Ligne> ]",
     "SlopeField": "ChampVecteurs",

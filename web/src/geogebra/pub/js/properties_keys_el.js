@@ -813,7 +813,7 @@ __GGB__keysVar.el.command = {
     "ShowAxes_Syntax": "[ ]\n[ <Boolean> ]\n[ <\u038c\u03c8\u03b7>, <Boolean> ]",
     "ShowGrid": "\u0394\u03b5\u03af\u03be\u03b5\u03a0\u03bb\u03ad\u03b3\u03bc\u03b1",
     "ShowGrid_Syntax": "[ ]\n[ <Boolean> ]\n[ <\u038c\u03c8\u03b7>, <Boolean> ]",
-    "ShowLabel": "\u0394\u03b5\u03af\u03be\u03b5\u0395\u03c4\u03c4\u03b9\u03ba\u03ad\u03c4\u03b1",
+    "ShowLabel": "\u0394\u03b5\u03af\u03be\u03b5\u0395\u03c4\u03b9\u03ba\u03ad\u03c4\u03b1",
     "ShowLabel_Syntax": "[ <\u0391\u03bd\u03c4\u03b9\u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03bf>, <Boolean> ]",
     "ShowLayer": "\u0394\u03b5\u03af\u03be\u03b5\u03a3\u03c4\u03c1\u03ce\u03c3\u03b7",
     "ShowLayer_Syntax": "[ <\u0391\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2> ]",
