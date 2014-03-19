@@ -93,8 +93,13 @@ public class Hits extends ArrayList<GeoElement> {
 	@Override
 	public boolean add(GeoElement geo) {
 
-		if (!geo.isSelectionAllowed() && !(geo instanceof GeoList)){
-			return false;
+		if (!geo.isSelectionAllowed()){
+
+			// #3771  
+			if (!(geo instanceof GeoList && ((GeoList)geo).drawAsComboBox())) { 
+				return false;                            
+			} 
+
 		}
 		
 		if (geo instanceof GeoCoordSys2D) {
