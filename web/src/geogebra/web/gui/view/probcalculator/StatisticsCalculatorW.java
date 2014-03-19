@@ -88,6 +88,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		
 		//prepare result panel
 		FlowPanel resultPanel = new FlowPanel();
+		resultPanel.setStyleName("resultPanel");
 		resultPanel.add(lblResult);
 		resultPanel.add(resultPane);
 		

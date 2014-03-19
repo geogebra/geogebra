@@ -231,5 +231,31 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/dockbar_close.png")
 	ImageResource dockbar_close();
+	
+	
+	//PROPABILITY CALCULATOR
+	@Source("icons/png/web/probability_calculator_cumulative_distribution.png")
+	ImageResource cumulative_distribution();
+	
+	@Source("icons/png/web/probability_calculator_export.png")
+	ImageResource export();
+	
+	@Source("icons/png/web/probability_calculator_interval_between.png")
+	ImageResource interval_between();
+	
+	@Source("icons/png/web/probability_calculator_interval_left.png")
+	ImageResource interval_left();
+	
+	@Source("icons/png/web/probability_calculator_interval_right.png")
+	ImageResource interval_right();
+	
+	@Source("icons/png/web/probability_calculator_line_graph.png")
+	ImageResource line_graph();
+	
+	@Source("icons/png/web/probability_calculator_normal_overlay.png")
+	ImageResource normal_overlay();
+	
+	@Source("icons/png/web/probability_calculator_step_graph.png")
+	ImageResource step_graph();
 }
 

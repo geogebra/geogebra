@@ -28,7 +28,7 @@ body {
 }
 
 input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea {
-	border: #EDEDED solid 1px;
+	border: #DCDCDC solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
 	color: #666666;
@@ -40,6 +40,7 @@ input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea {
 	-moz-box-sizing: border-box;
 	font-size: 100%;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
 
 .gwt-TextBox-readonly,.gwt-TextArea-readonly {
@@ -54,6 +55,8 @@ hr {
 
 .clear {
 	clear: both;
+	margin: 0px;
+	padding: 0px;
 }
 
 .gwt-Reference-clean {
@@ -312,10 +315,8 @@ body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
 	background: white;
 }
 
-.gwt-MenuBar-vertical {
+/*.gwt-MenuBar-vertical {
 	margin-top: 0px;
-	/*margin-left: 0px;*/
-	background: white;
 }
 
 body[dir=ltr] .gwt-MenuBar-vertical {
@@ -324,7 +325,7 @@ body[dir=ltr] .gwt-MenuBar-vertical {
 
 body[dir=rtl] .gwt-MenuBar-vertical {
 	margin-right: 0px;
-}
+}*/
 
 .gwt-MenuBar-vertical table {
 	border-collapse: collapse;
@@ -459,7 +460,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	padding: 5px;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	z-index: 20;
+	z-index: 500;
 }
 
 .gwt-PopupPanel.loadinganimation {
@@ -567,7 +568,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	background-color: #000;
 	opacity: 0.3;
 	filter: alpha(opacity = 30);
-	z-index: 10;
+	z-index: 100;
 }
 
 /*.gwt-PushButton-up,
@@ -712,7 +713,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	font-size: 100%;
 	padding: 7px 5px;
 	border-bottom: 1px solid #E0E0E0;
-	background: #F0F0F0;
+	background: #F8F8F8;
 }
 
 .gwt-StackPanel .gwt-StackPanelItem img {
@@ -959,67 +960,41 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 /*.gwt-TextBox-readonly {
   color: #888;
 }*/
-.gwt-ToggleButton-up,.gwt-ToggleButton-up-hovering,.gwt-ToggleButton-up-disabled,.gwt-ToggleButton-down,.gwt-ToggleButton-down-hovering,.gwt-ToggleButton-down-disabled
-	{
-	margin: 0;
-	text-decoration: none;
-	/*background: url("images/hborder.png") repeat-x 0px -27px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;*/
+
+
+.gwt-ToggleButton-up,
+.gwt-ToggleButton-up-hovering,
+.gwt-ToggleButton-up-disabled,
+.gwt-ToggleButton-down,
+.gwt-ToggleButton-down-hovering,
+.gwt-ToggleButton-down-disabled {
+	/*margin: 0;
+	text-decoration: none;*/
 }
 
-.gwt-ToggleButton-up,.gwt-ToggleButton-up-hovering,.gwt-ToggleButton-up-disabled
-	{ /*padding: 3px 5px 3px 5px;*/
-	
-}
-
-.gwt-ToggleButton-up { /*border:1px solid #bbb;
-  border-bottom: 1px solid #a0a0a0;  */
+.MyToggleButton.gwt-ToggleButton-down,
+.MyToggleButton.gwt-ToggleButton-down-hovering {
+  	color: #6666FF;
+  	border-color: #6666FF;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.gwt-ToggleButton-up-hovering { /*border: 1px solid;
-  border-color: #939393;*/
+.MyToggleButton.gwt-ToggleButton-up-hovering {
 	color: #6666FF;
 	border-color: #CCCCFF;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.gwt-ToggleButton-up-disabled { /*border: 1px solid #bbb;*/
+.MyToggleButton.gwt-ToggleButton-up-disabled,
+.MyToggleButton.gwt-ToggleButton-down-disabled {
 	cursor: default;
 	opacity: .5;
 	zoom: 1;
 	filter: alpha(opacity = 45);
 }
 
-.gwt-ToggleButton-down,.gwt-ToggleButton-down-hovering,.gwt-ToggleButton-down-disabled
-	{ /*padding: 4px 4px 2px 6px;*/
-	
-}
-
-.gwt-ToggleButton-down { /*background-position: 0 -513px;
-  border: 1px inset #666;*/
-	cursor: pointer;
-	cursor: hand;
-}
-
-.gwt-ToggleButton-down-hovering { /*background-position: 0 -513px;
-  border: 1px inset;
-  border-color: #9cf #69e #69e #7af;*/
-	color: #6666FF;
-	cursor: pointer;
-	cursor: hand;
-}
-
-.gwt-ToggleButton-down-disabled { /*background-position: 0 -513px;
-  border: 1px inset #ccc;*/
-	cursor: default;
-	opacity: .5;
-	zoom: 1;
-	filter: alpha(opacity = 45);
-}
 
 .gwt-Tree .gwt-TreeItem {
 	padding: 1px 0px;
@@ -1187,14 +1162,22 @@ td.datePickerMonth {
 }
 
 .gwt-TabLayoutPanel {
-	background-color: #F0F0F0;
+	background-color: #F8F8F8;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,.gwt-TabBar {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,
+.gwt-TabBar {
 	border-bottom: 1px solid #DCDCDC;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,.gwt-TabBar .gwt-TabBarItem {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
+.gwt-TabBar .gwt-TabBarItem {
+	position: relative;
+	bottom: -1px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab .gwt-Label,
+.gwt-TabBar .gwt-TabBarItem .gwt-Label {
 	margin-right: 4px;
 	padding: 4px 8px;
 	height: 30px;
@@ -1206,8 +1189,6 @@ td.datePickerMonth {
 	-moz-border-radius: 3px 3px 0px 0px;
 	border-radius: 3px 3px 0px 0px;
 	border: 1px solid #DCDCDC;
-	position: relative;
-	bottom: -1px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
@@ -1216,8 +1197,8 @@ td.datePickerMonth {
 	height: 15px;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,.gwt-TabBar .gwt-TabBarItem-selected
-	{
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected .gwt-Label,
+.gwt-TabBar .gwt-TabBarItem-selected .gwt-Label	{
 	cursor: default;
 	background: white;
 	color: #6666FF;
@@ -1228,8 +1209,9 @@ td.datePickerMonth {
 	display: none;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,.gwt-TabPanelBottom {
-	overflow: hidden;
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
+.gwt-TabPanelBottom {
+	overflow: auto;
 	padding: 5px;
 	background-color: #FFFFFF;
 	border: 1px solid #DCDCDC;
@@ -1347,18 +1329,21 @@ td.datePickerMonth {
 
 .gwt-SplitLayoutPanel-HDragger {
 	cursor: col-resize;
-	background: #F0F0F0 url(images/thumb_vertical2.png) center center
-		no-repeat;
-	border-left: 1px solid #EDEDED;
-	border-right: 1px solid #EDEDED;
+	background: #F8F8F8;
+	border-left: 1px solid #DCDCDC;
+	border-right: 1px solid #DCDCDC;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 }
 
 .gwt-SplitLayoutPanel-VDragger {
 	cursor: row-resize;
-	background: #F0F0F0 url(images/thumb_horz2.png) center center no-repeat;
-	border-left: 1px solid #EDEDED;
-	border-right: 1px solid #EDEDED;
+	background: #F8F8F8;
+	border-top: 1px solid #DCDCDC;
+	border-bottom: 1px solid #DCDCDC;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 }
 
@@ -1501,7 +1486,7 @@ body[dir=rtl] .signIn {
 	margin-left: 2px;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	overflow-y: auto;
-	background-color: #F0F0F0;
+	background-color: #F8F8F8;
 }
 
 .menubarSMART .menuPanel {
@@ -1534,7 +1519,7 @@ body[dir=rtl] .signIn {
 	white-space: nowrap;
 	top: -10px;
 	position: absolute;
-	z-index: 1000;
+	z-index: 600;
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -1839,15 +1824,16 @@ input[type="range"] { /*width: 100%;*/
 ###       ALGEBRA INPUT
 #####################################################################################*/
 .AlgebraInput {
-	background-color: #F0F0F0;
+	background-color: #F8F8F8;
 	padding: 5px 0px;
-	border-top: 1px solid #EDEDED;
+	border-top: 1px solid #DCDCDC;
 	display: table;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 	-moz-box-sizing: border-box;
+	z-index: 50;
 }
 
 .AlgebraInput>* {
@@ -1979,13 +1965,15 @@ body[dir=rtl] .undoPanel {
 	right: 5px;
 	padding: 1px;
 }*/
+
 .toolbarPanel {
-	background-color: #F0F0F0;
-	border-bottom: 1px solid #EDEDED;
+	background-color: #F8F8F8;
+	border-bottom: 1px solid #DCDCDC;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	padding: 10px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	z-index: 100;
 }
 
 .toolbarPanel ul {
@@ -2052,7 +2040,7 @@ body[dir=rtl] .toolbar_mainItem {
 
 .toolbar_submenu {
 	position: absolute;
-	z-index: 500;
+	z-index: 200;
 	display: none;
 }
 
@@ -2062,14 +2050,14 @@ body[dir=rtl] .toolbar_mainItem {
 
 .toolbar_submenu .submenuArrow {
 	position: absolute;
-	z-index: 600;
+	z-index: 300;
 	left: 4px;
 }
 
 .toolbar_submenu .submenuContent {
 	position: absolute;
 	top: 15px;
-	z-index: 500;
+	z-index: 250;
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -2152,7 +2140,7 @@ body[dir=rtl] .toolbar_mainItem {
 ###       DIALOGS
 #####################################################################################*/
 .DialogBox,.gwt-DialogBox {
-	z-index: 15;
+	z-index: 200;
 }
 
 .gwt-DialogBox .Caption {
@@ -2179,7 +2167,7 @@ body[dir=rtl] .toolbar_mainItem {
 
 .dialogContent {
 	color: #666666;
-	background-color: #F0F0F0;
+	background-color: #F8F8F8;
 	padding: 0px;
 	background-image: none;
 	border: none;
@@ -2873,8 +2861,12 @@ label {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	padding-left: 5px;
-	padding-right: 40px;
+	padding-right: 5px;
 	/*width: 100% !important;*/
+}
+
+.AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
+	padding-right: 40px;
 }
 
 .SymbolToggleButton {
@@ -2887,7 +2879,8 @@ label {
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
 	right: 10px;
-	top: 11px;
+	top: 50%;
+	margin-top: -0.66em;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,.AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused
@@ -2937,6 +2930,7 @@ label {
 .ProbCalcPanel .PlotPanelPlus {
 	float: left;
 	margin: 0;
+	margin-top: 6px;
 	padding: 0;
 }
 
@@ -2958,36 +2952,53 @@ label {
 }
 
 .ProbCalcPanel .ProbabilityTableW td {
-	border: 1px solid black;
+	border: 1px solid #DCDCDC;
+	padding: 2px;
 }
 
 .ProbCalcPanel .ProbabilityTableW td.headercell {
 	font-weight: bold;
-	font-style: italic;
 }
 
-.ProbCalcPanel .ProbabilityTableW tr:hover,.ProbCalcPanel .ProbabilityTableW tr.selected
-	{
-	background: #ebeff9;
+.ProbCalcPanel .ProbabilityTableW tr:hover,.ProbCalcPanel .ProbabilityTableW tr.selected {
+	background: #CCCCFF;
 }
 
 .lblMeanSigma {
-	text-align: right;
+	padding: 5px;
 }
 
-.controlPanel>div {
-	margin: 5px;
+.controlPanel {
+	float: left;
+}
+.controlPanel > div {
+	padding: 5px 0px;
+	margin-right: 30px;
+	float: left;
+	white-space: nowrap;
 }
 
-.cbPanel .gwt-ToggleButton,cbPanel .gwt-ListBox {
+.controlPanel > div.clear {
+	padding: 0px;
+	margin: 0px;
+}
+
+.cbPanel .gwt-ToggleButton,
+.cbPanel .gwt-ListBox {
 	display: inline-block;
+	margin-right: 10px;
+}
+.cbPanel .gwt-ToggleButton {
+	float: left;
 }
 
-.controlPanel .parameterPanel,.controlPanel .resultPanel {
+/*.controlPanel .parameterPanel,
+.controlPanel .resultPanel {
 	margin-left: 20px;
-}
+}*/
 
-.parameterPanel>*,.resultPanel>* {
+.parameterPanel > *,
+.resultPanel > * {
 	display: inline-block;
 	margin: 0 5px;
 	padding: 0px;
@@ -3000,33 +3011,37 @@ label {
 	padding: 0px;
 }*/
 
-.intervalPanel>* {
+.intervalPanel > * {
 	display: inline-block;
 }
 
 .StatisticsCalculatorW .panelControl {
-	margin: 5px 0 5px 20px;
+	margin: 5px 0 5px 0px;
 }
 
 .StatisticsCalculatorW .scroller {
 	overflow: auto;
-	margin-left: 20px;
 }
 
-.StatisticsCalculatorW .panelSample2>.gwt-Label,.StatisticsCalculatorW .panelSample2>.AutoCompleteTextFieldW,.StatisticsCalculatorW .panelSample1>.gwt-Label,.StatisticsCalculatorW .panelSample1>.AutoCompleteTextFieldW
-	{
+.StatisticsCalculatorW .panelSample2>.gwt-Label,
+.StatisticsCalculatorW .panelSample2>.AutoCompleteTextFieldW,
+.StatisticsCalculatorW .panelSample1>.gwt-Label,
+.StatisticsCalculatorW .panelSample1>.AutoCompleteTextFieldW {
 	display: inline-block;
 	margin: 2px 5px;
 }
 
-.StatisticsCalculatorW .panelSample1,.StatisticsCalculatorW .panelSample2
-	{
-	text-align: right;
+.StatisticsCalculatorW .panelSample1,
+.StatisticsCalculatorW .panelSample2 {
+	text-align: center;
 	max-width: 50%;
+	margin-right: 20px;
 	display: inline-block;
+	margin-top: 10px;
 }
 
-.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child
+.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,
+.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child
 	{
 	display: block;
 }
@@ -3071,7 +3086,8 @@ label {
 	text-align: center;
 }
 
-.StatisticsCalculatorW .chirow .headercell,.StatisticsCalculatorW .chirow .headercell input
+.StatisticsCalculatorW .chirow .headercell,
+.StatisticsCalculatorW .chirow .headercell input
 	{
 	background: #ebeff9;
 }
@@ -3081,8 +3097,13 @@ label {
 }
 
 .StatisticsCalculatorW .resultPane {
-	width: 99%;
+	width: 98%;
 	min-height: 50%;
+	border: 1px solid #DCDCDC;
+	margin-top: 5px;
+}
+.StatisticsCalculatorW .resultPanel {
+	margin-top: 10px;
 }
 
 /*=========== Probability Calculator End =============*/
@@ -3095,7 +3116,7 @@ label {
 ###		OPEN SCREEN FROM TOUCH
 ###################################################################################################################*/
 .headerbar {
-	background-color: #F0F0F0;
+	background-color: #F8F8F8;
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 	color: #666666;
@@ -3104,7 +3125,7 @@ label {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: relative;
-	z-index: 10;
+	z-index: 100;
 }
 
 .headerFirst {
@@ -3148,19 +3169,19 @@ label {
 
 .profileOptionsPanel {
 	position: absolute;
-	z-index: 500;
+	z-index: 200;
 }
 
 .profileOptionsPanel .arrow {
 	position: absolute;
-	z-index: 600;
+	z-index: 300;
 	left: 4px;
 }
 
 .profileOptionsPanel .profileOptionsContent {
 	position: absolute;
 	top: 15px;
-	z-index: 500;
+	z-index: 200;
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -3434,7 +3455,7 @@ PROVIDERS
 ###       OBJECT PROPERTIES
 #####################################################################################*/
 .PropertiesViewW {
-	background-color: #F0F0F0;
+	background-color: #F8F8F8;
 	/*padding: 8px 8px 8px 0px;*/
 	border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -3488,7 +3509,7 @@ PROVIDERS
 /*#####################################################################################
 ###       ZOOM
 #####################################################################################*/
-.zoomed {
+/*.zoomed {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 	width: 125%;
@@ -3547,8 +3568,8 @@ PROVIDERS
 	-webkit-transform-origin: 0% 100%;
 	-moz-transform-origin: 0% 100%;
 	transform-origin: 0% 100%;
-}
+}*/
 
 .AppFrameParent{
-	border:2px #808080 solid;
+	border: 1px #DCDCDC solid;
 }

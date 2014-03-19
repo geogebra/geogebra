@@ -9,11 +9,11 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
 import geogebra.web.main.AppW;
@@ -221,6 +221,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		mainSplitPane.addStyleName("mainSplitPanel");
 		mainSplitPane.add(plotSplitPane);
 		mainSplitPane.add(controlPanel);
+		mainSplitPane.add(new ClearPanel());
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
 		probCalcPanel.getElement().setId("ProbCalcPanel");
@@ -243,8 +244,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    
 	    plotPanelPlus = new FlowPanel();
 	    plotPanelPlus.addStyleName("PlotPanelPlus");
-	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
 	    plotPanelPlus.add(lblMeanSigma);
+	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
 	    
 	    //table panel
 	    table  = new ProbabilityTableW(app, this);
@@ -286,17 +287,25 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		resultPanel.add(lblBetween);
 		resultPanel.add(fldHigh);
 		resultPanel.add(lblEndProbOf);
-		resultPanel.add(fldResult);	
+		resultPanel.add(fldResult);
 		
 		controlPanel = new FlowPanel();
 		controlPanel.addStyleName("controlPanel");
 		//controlPanel.add(btnCumulative);
 		controlPanel.add(cbPanel);
 		controlPanel.add(parameterPanel);
+		controlPanel.add(new ClearPanel());
 		controlPanel.add(tb);
 		controlPanel.add(resultPanel);
-			
+		controlPanel.add(new ClearPanel());
     }
+	
+	private class ClearPanel extends FlowPanel {
+		public ClearPanel() {
+			super();
+			this.setStyleName("clear");
+        }
+	}
 
 	private void createGUIElements() {
 		setLabelArrays();
@@ -306,13 +315,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    
 	    lblDist = new Label();
 	    
-	    btnCumulative = new MyToggleButton2(AppResources.INSTANCE.cumulative_distribution());
+	    btnCumulative = new MyToggleButton2(GuiResources.INSTANCE.cumulative_distribution());
 	    
-	    btnIntervalLeft = new MyToggleButton2(AppResources.INSTANCE.interval_left());
+	    btnIntervalLeft = new MyToggleButton2(GuiResources.INSTANCE.interval_left());
 	    
-	    btnIntervalBetween = new MyToggleButton2(AppResources.INSTANCE.interval_between());
+	    btnIntervalBetween = new MyToggleButton2(GuiResources.INSTANCE.interval_between());
 	    
-	    btnIntervalRight = new MyToggleButton2(AppResources.INSTANCE.interval_right());
+	    btnIntervalRight = new MyToggleButton2(GuiResources.INSTANCE.interval_right());
 	    
 	    btnCumulative.addValueChangeHandler(this);
 	    btnIntervalLeft.addValueChangeHandler(this);
@@ -331,7 +340,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    for (int i = 0; i < maxParameterCount; i++) {
 	    	lblParameterArray[i] = new Label();
 	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
-	    	fldParameterArray[i].setColumns(5);
+	    	fldParameterArray[i].setColumns(4);
 	    	fldParameterArray[i].addKeyUpHandler(this);
 	    	fldParameterArray[i].addFocusHandler(this);
 	    	fldParameterArray[i].addBlurHandler(this);
@@ -348,14 +357,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    lblEndProbOf = new Label();
 	    
 	    fldLow = new AutoCompleteTextFieldW(app);
-	    fldLow.setColumns(5);
+	    fldLow.setColumns(4);
 	    fldLow.addKeyUpHandler(this);
 	    fldLow.addFocusHandler(this);
 	    fldLow.addBlurHandler(this);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
 	    
 	    fldHigh = new AutoCompleteTextFieldW(app);
-	    fldHigh.setColumns(6);
+	    fldHigh.setColumns(4);
 	    fldHigh.addKeyUpHandler(this);
 	    fldHigh.addFocusHandler(this);
 	    fldHigh.addBlurHandler(this);
