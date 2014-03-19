@@ -51,7 +51,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	boolean keepDown;
 
-	private Vector<Integer> menu;
+	private final Vector<Integer> menu;
 
 	private String toolTipText;
 
@@ -224,9 +224,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		
 //		tbutton.getElement().setInnerHTML(new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)))+"");
 		toolbar.update();
-
 		setCssToSelected();
-		
+
 		//toolbar.update(); //TODO remove later
 		//tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
 		setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
@@ -257,6 +256,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * Check if the bottom half of the button has clicked.
 	 */
 	private boolean isBottomHalfClicked(DomEvent event){
+		if(menu.size() < 2){
+			return false;
+		}
 		int clickYPos;
 		if (event instanceof TouchEvent){
 			clickYPos = event.getNativeEvent().getChangedTouches().get(0).getPageY();
