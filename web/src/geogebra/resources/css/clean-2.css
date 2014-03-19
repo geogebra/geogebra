@@ -2475,6 +2475,11 @@ label {
 	display: inline-block;
 }
 
+.panelRow > * {
+	display: inline-block;
+	padding: 5px;
+}
+
 .colorChooserPreview .gwt-Label {
 	padding: 5px;
 }

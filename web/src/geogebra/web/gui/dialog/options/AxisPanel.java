@@ -149,7 +149,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		// axis and unit label
 		lbAxisLabel = new ListBox();
-		lbAxisLabel.addItem(null);
+		lbAxisLabel.addItem("");
 		lbAxisLabel.addItem(axis == 0 ? "x" : "y");
 		String[] greeks = TableSymbols.greekLowerCase;
 		for (int i = 0; i < greeks.length; i++) {
@@ -330,8 +330,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	}
 
 	public void addUnitLabelItem(String item) {
-		lbUnitLabel.addItem(item);
-	}
+		lbUnitLabel.addItem(item == null ? "": item);
+	} 
 
 	public void setCrossText(String text) {
 		tfCross.setText(text);
