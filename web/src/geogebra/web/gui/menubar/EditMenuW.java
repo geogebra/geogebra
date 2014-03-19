@@ -55,10 +55,11 @@ public class EditMenuW extends MenuBar {
 		
 		if(!app.getLAF().isSmart()){
 			addUndoRedo();
+			// separator
+			addSeparator();
 		}
 
-		// separator
-		addSeparator();
+		
 			
 		// copy menu
 		if (!selection.getSelectedGeos().isEmpty())
@@ -98,15 +99,15 @@ public class EditMenuW extends MenuBar {
 					        // do nothing
 				        }
 			        });
-
+		if(!app.getLAF().isSmart()){
 		// copy graphics view menu
-		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_copy().getSafeUri().asString(), app.getMenu("CopyImage"), true),
+			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_copy().getSafeUri().asString(), app.getMenu("CopyImage"), true),
 		        true, new Command() {
 			        public void execute() {
 				        app.copyEVtoClipboard();
 			        }
 		        });
-
+		}
 		// separator
 		addSeparator();
 
@@ -148,7 +149,7 @@ public class EditMenuW extends MenuBar {
 			});
 		
 		//select current layer menu
-		if(selection.getSelectedLayer() >= 0){
+		if(selection.getSelectedLayer() >= 0 && app.getMaxLayerUsed()>0){
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectCurrentLayer"), true), true, new Command() {
 				public void execute() {
@@ -159,7 +160,7 @@ public class EditMenuW extends MenuBar {
 			});			
 		}
 		
-		if(haveSelection){
+		if(selection.hasDescendants()){
 			//select descendants menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectDescendants"), true), true, new Command() {
@@ -167,7 +168,9 @@ public class EditMenuW extends MenuBar {
 					selection.selectAllDescendants();
 				}
 			});
+		}
 		
+		if(selection.hasPredecessors()){
 			//select ancestors menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectAncestors"), true), true, new Command() {
@@ -176,8 +179,9 @@ public class EditMenuW extends MenuBar {
 				}
 			});
 			
+		}
 			addSeparator();
-			
+		if(haveSelection){
 			//invert selection menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("InvertSelection"), true), true, new Command() {
