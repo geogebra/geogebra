@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.SelectionManager;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
@@ -161,7 +162,7 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	private PopupMenuButton btnPointCapture;
 
-	private PopupMenuButton btnDeleteSize;
+	private MyToggleButton2[] btnDeleteSizes=new MyToggleButton2[3];
 
 	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowGrid,
 	btnShowAxes, btnStandardView;
@@ -555,11 +556,9 @@ public class EuclidianStyleBarW extends StyleBarW
 		addBtnRotateView();
 		// add(btnPenDelete);
 		
-		if (btnDeleteSize.isVisible()){
-			addSeparator();
+		for(int i=0;i<3;i++){
+			add(btnDeleteSizes[i]);
 		}
-		
-		add(btnDeleteSize);
 	}
 	
 	protected void addBtnRotateView() {
@@ -585,13 +584,13 @@ public class EuclidianStyleBarW extends StyleBarW
 		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, btnShowGrid,
 				btnShowAxes, btnStandardView, btnBold, btnItalic, btnDelete, btnLabel,
 				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
-				btnTableTextLinesH };
+				btnTableTextLinesH, btnDeleteSizes[0],btnDeleteSizes[1],btnDeleteSizes[2] };
 	}
 	
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
 		        btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
-		        btnTableTextBracket, btnLabelStyle, btnDeleteSize, btnPointCapture
+		        btnTableTextBracket, btnLabelStyle, btnPointCapture
 		         };
 	}
 
@@ -877,26 +876,19 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// =====================================================
 		// Delete Size Button
-
-		btnDeleteSize= new PopupMenuButton((AppW)app, null, 0, 0, new GDimensionW(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON, false, true){
-
-			@Override
-            public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(mode==EuclidianConstants.MODE_DELETE);
-            }
-			
-		};
-		btnDeleteSize.getMySlider().setMinimum(10);
-		btnDeleteSize.getMySlider().setValue(EuclidianConstants.DEFAULT_ERASER_SIZE);
-		btnDeleteSize.getMySlider().setMaximum(100);
-		btnDeleteSize.getMySlider().setMajorTickSpacing(20);
-		btnDeleteSize.getMySlider().setMinorTickSpacing(5);
-		btnDeleteSize.getMySlider().setPaintTicks(true);
-		btnDeleteSize.addActionListener(this);
-		btnDeleteSize.addPopupHandler(this);
-		ImageResource deleteSizeIcon = AppResources.INSTANCE.delete_small();
-		AppResourcesConverter.setIcon(deleteSizeIcon, btnDeleteSize);
+		
+		for(int i=0; i<3; i++){
+			btnDeleteSizes[i]= new MyToggleButton2(AppResources.INSTANCE.delete_small()){
+	
+				@Override
+	            public void update(Object[] geos) {
+					// always show this button unless in pen mode
+					this.setVisible(mode==EuclidianConstants.MODE_DELETE);
+	            }
+				
+			};
+			btnDeleteSizes[i].addValueChangeHandler(this);
+		}
 	}
 
 	// ========================================
@@ -1345,11 +1337,22 @@ public class EuclidianStyleBarW extends StyleBarW
 			EuclidianStyleBarStatic.applyTableTextFormat(targetGeos, btnTableTextJustify.getSelectedIndex(), btnTableTextLinesH.isSelected(), btnTableTextLinesV.isSelected(), btnTableTextBracket.getSelectedIndex(), app);
 		}
 
-		else if (source == btnDeleteSize){
-			ev.getSettings().setDeleteToolSize(btnDeleteSize.getSliderValue());
+		else {
+			for(int i=0;i < 3; i++){ 
+				if(source == btnDeleteSizes[i]){
+					setDelSize(i);
+				}
+			}
 		}
 	}
 	
+	private void setDelSize(int s){
+		ev.getSettings().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
+		for(int i =0; i<3;i++){
+			btnDeleteSizes[0].setDown(i == s);
+			btnDeleteSizes[0].setEnabled(i != s);
+		}
+	}
 	// ==============================================
 		// Apply Styles
 		// ==============================================
