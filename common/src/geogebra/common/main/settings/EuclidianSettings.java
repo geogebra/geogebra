@@ -16,6 +16,8 @@ import geogebra.common.util.Unicode;
  * is determined in {@link Settings}.
  */
 public class EuclidianSettings extends AbstractSettings {
+	public static final int[] DELETE_SIZES = {20, 40, 80};
+
 	/**
 	 * Color of the euclidian view's background.
 	 */
