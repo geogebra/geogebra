@@ -1834,10 +1834,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 					sb.append("simplify(surd(");
 					sb.append(leftStr);
 					sb.append(',');
-					sb.append(enR.getRight().toString(this));
+					//#4186: make sure we send value string to CAS
+					sb.append(valueForm ? enR.getRight().toValueString(this) : enR.getRight().toString(this));
 					sb.append(")");
 					sb.append("^(");
-					sb.append(enR.getLeft().toString(this));
+					sb.append(valueForm ? enR.getLeft().toValueString(this) : enR.getLeft().toString(this));
 					sb.append("))");
 
 				} else {
