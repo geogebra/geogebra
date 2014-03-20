@@ -9,6 +9,7 @@ import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
@@ -215,10 +216,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}});
 
 
-		FlowPanel crossPanel = new FlowPanel();
-		crossPanel.add(crossAt); 
-		crossPanel.add(tfCross);
-		crossPanel.add(cbDrawAtBorder); 
+		FlowPanel crossPanel = LayoutUtil.panelRow(crossAt, tfCross, cbDrawAtBorder);
 
 		cbShowAxis.setStyleName("checkBoxPanel");
 		cbAxisNumber.setStyleName("checkBoxPanel");
@@ -227,7 +225,6 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		showTicksPanel.setStyleName("listBoxPanel");
 		labelPanel.setStyleName("listBoxPanel");
 		tfCross.setStyleName("numberInput");
-		crossPanel.setStyleName("checkBoxPanel");
 		
 		// add all panels
 		add(cbShowAxis);

@@ -1,16 +1,25 @@
 package geogebra.web.gui.dialog.options;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -21,11 +30,13 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
-public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW {
+public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
+	IEuclidianOptionsListener {
 
 	private AppW app;
 	private TabPanel tabPanel;
 	private EuclidianView view;
+	private EuclidianOptionsModel model;
 	private BasicTab basicTab;
 	private class EuclidianTab extends FlowPanel{};
 	private class BasicTab extends EuclidianTab {
@@ -57,6 +68,53 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			addMiscPanel();
 		}
 
+		private void addMinMaxHandler(final AutoCompleteTextFieldW tf, final MinMaxType type) {
+
+			tf.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						model.applyMinMax(tf.getText(), type);
+					}
+				}});
+
+			tf.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
+					model.applyMinMax(tf.getText(), type);
+				}	
+			});
+
+		}
+		protected double parseDouble(String text) {
+			if (text == null || text.equals(""))
+				return Double.NaN;
+			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
+		}
+		
+		private void addAxesRatioHandler(final AutoCompleteTextFieldW tf) {
+	
+			tf.addKeyHandler(new KeyHandler() {
+
+				public void keyReleased(KeyEvent e) {
+					if (e.isEnterKey()) {
+						final double xval = parseDouble(tfAxesRatioX.getText());
+						final double yval = parseDouble(tfAxesRatioY.getText());
+						model.applyAxesRatio(xval, yval);
+					}
+				}});
+
+			tf.addFocusListener(new FocusListener(this){
+				@Override
+				protected void wrapFocusLost(){
+					final double xval = parseDouble(tfAxesRatioX.getText());
+					final double yval = parseDouble(tfAxesRatioY.getText());
+					model.applyAxesRatio(xval, yval);
+				}	
+			});
+
+		}
+		
 		private void addDimensionPanel() {
 			dimTitle = new Label("");
 			dimLabel = new Label[4]; // "Xmin", "Xmax" etc.
@@ -96,7 +154,17 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 					tfAxesRatioY, cbLockRatio));
 			
 			add(dimPanel);
-        }
+			
+			addMinMaxHandler(tfMinX, MinMaxType.minX);
+			addMinMaxHandler(tfMaxX, MinMaxType.maxX);
+
+			addMinMaxHandler(tfMinY, MinMaxType.minY);
+			addMinMaxHandler(tfMaxY, MinMaxType.maxY);
+			
+			addAxesRatioHandler(tfAxesRatioX);
+			addAxesRatioHandler(tfAxesRatioY);
+			
+		}
 		
 		private void addAxesOptionsPanel() {
 
@@ -128,6 +196,32 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 					 cbBoldAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
 					 lineStyle));
+			cbShowAxes.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					model.showAxes(cbShowAxes.getValue());
+
+                }});
+			
+			cbBoldAxes.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					model.applyBoldAxes(cbBoldAxes.getValue(), cbShowAxes.getValue());
+
+                }});
+			
+			cbLockRatio.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					if (cbLockRatio.getValue()) {
+						model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
+								/ parseDouble(tfAxesRatioY.getText()));
+					} else {
+						model.applyLockRatio(null);
+					}
+
+                }});
+			
 			add(axesOptionsPanel);
 		}
 
@@ -137,7 +231,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
         }
 
 		private void addMiscPanel() {
-	        // TODO Auto-generated method stub
+	        // TODO Auto-generated method s0tub
 	        
         }
 
@@ -158,11 +252,25 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			lineStyle.setText(app.getPlain("LineStyle") + ":");
 
 		}
+
+		public void enableAxesRatio(boolean value) {
+			tfAxesRatioX.getTextBox().setEnabled(value);
+			tfAxesRatioY.getTextBox().setEnabled(value);
+		}
+
+		public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
+			tfMinX.setText(minX);
+			tfMaxX.setText(maxX);
+			tfMinY.setText(minY);
+			tfMaxY.setText(maxY);
+
+		}
 	}
 	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
 		this.app = app;
 		this.view = (EuclidianView) activeEuclidianView;
+		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
     }
 
@@ -246,4 +354,21 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 		tf.setStyleName("numberInput");
 		return tf;
 	}
+	
+	public GColor getEuclidianBackground(int viewNumber) {
+		return null;
+//		return new GColorW(
+//				((GuiManagerW) (app.getGuiManager()))
+//						.showColorChooser(app.getSettings()
+//								.getEuclidian(viewNumber).getBackground()));
+	}
+
+	public void enableAxesRatio(boolean value) {
+		basicTab.enableAxesRatio(value);
+	}		
+
+	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
+		basicTab.setMinMaxText(minX, maxX, minY, maxY);
+	}
 }
+
