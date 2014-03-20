@@ -1288,13 +1288,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) right).getLeft().toString(this));
+				sb.append(expToString(((ExpressionNode) right).getLeft(), valueForm));
 				sb.append(')');
 				sb.append(op((ExpressionNode) right, reverse));
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) right).getRight().toString(this));
+				sb.append(expToString(((ExpressionNode) right).getRight(), valueForm));
 				sb.append(')');
 			} else if (right instanceof MySpecialDouble && left instanceof ExpressionNode && ((ExpressionNode) left).getOperation().isInequality()) {
 				// eg 3(x<4)
@@ -1304,13 +1304,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append('(');
 				sb.append(rightStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) left).getLeft().toString(this));
+				sb.append(expToString(((ExpressionNode) left).getLeft(), valueForm));
 				sb.append(')');
 				sb.append(op((ExpressionNode) left, reverse));
 				sb.append('(');
 				sb.append(rightStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) left).getRight().toString(this));
+				sb.append(expToString(((ExpressionNode) left).getRight(), valueForm));
 				sb.append(')');
 			} else if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
 				sb.append("-(");
@@ -1330,6 +1330,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		return sb.toString();
 
+	}
+	
+	private String expToString(ExpressionValue v, boolean valueMode){
+		return valueMode ? v.toValueString(this) : v.toString(this);
 	}
 	
 	private static String op(ExpressionNode right, boolean reverse) {
@@ -1835,10 +1839,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 					sb.append(leftStr);
 					sb.append(',');
 					//#4186: make sure we send value string to CAS
-					sb.append(valueForm ? enR.getRight().toValueString(this) : enR.getRight().toString(this));
+					sb.append(expToString(enR.getRight(), valueForm));
 					sb.append(")");
 					sb.append("^(");
-					sb.append(valueForm ? enR.getLeft().toValueString(this) : enR.getLeft().toString(this));
+					sb.append(expToString(enR.getLeft(), valueForm));
 					sb.append("))");
 
 				} else {
