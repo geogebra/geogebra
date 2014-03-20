@@ -15,8 +15,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
-import geogebra.html5.event.PointerEvent;
-import geogebra.web.euclidian.event.ZeroOffset;
 
 import java.util.ArrayList;
 
@@ -166,7 +164,6 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 		} else {
 			this.multitouchMode = scaleMode.view;
 			super.twoTouchStart(x1, y1, x2, y2);
-			touchStart(oldCenterX, oldCenterY);
 		}
 	}
 
@@ -242,16 +239,9 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 			int centerY = (y1 + y2) / 2;
 
 			if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > MIN_MOVE) {
-				int m = this.mode;
-				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
-				boolean allowed = moveAxesAllowed; // in case it was changed
-				moveAxesAllowed = false;
-
-				touchStart(oldCenterX, oldCenterY);
-				touchMove(centerX, centerY);
-
-				mode = m;
-				moveAxesAllowed = allowed;
+				view.rememberOrigins();
+				view.setCoordSystemFromMouseMove(centerX - oldCenterX, centerY
+				        - oldCenterY, EuclidianConstants.MODE_TRANSLATEVIEW);
 
 				oldCenterX = centerX;
 				oldCenterY = centerY;
@@ -262,32 +252,5 @@ public abstract class EuclidianControllerWeb extends EuclidianController {
 	@Override
 	protected boolean moveAxesPossible() {
 		return super.moveAxesPossible() && this.moveAxesAllowed;
-	}
-
-	/**
-	 * simulates a TouchStartEvent
-	 * 
-	 * @param x
-	 *            x-coordinate of the simulated event
-	 * @param y
-	 *            y-coordinate of the simulated event
-	 */
-	protected void touchStart(int x, int y) {
-		super.mouseLoc = new GPoint(x, y);
-		switchModeForMousePressed(new PointerEvent(x, y,
-		        PointerEventType.TOUCH, new ZeroOffset()));
-	}
-
-	/**
-	 * simulates a TouchMoveEvent
-	 * 
-	 * @param x
-	 *            x-coordinate of the simulated event
-	 * @param y
-	 *            y-coordinate of the simulated event
-	 */
-	protected void touchMove(int x, int y) {
-		wrapMouseDragged(new PointerEvent(x, y, PointerEventType.TOUCH,
-		        new ZeroOffset()));
 	}
 }

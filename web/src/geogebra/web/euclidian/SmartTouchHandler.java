@@ -31,6 +31,10 @@ public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler, To
 	    	ec.twoTouchMove(t1, t2);
 	    	
 	    }else if(touches.length() ==1 && t2 ==null){
+	    	if(t1 == null){
+	    		// no TouchStart since the last TouchEnd
+	    		return;
+	    	}
 	    	t1 = touches.get(0);
 	    	ec.onTouchMove(event);
 	    	
@@ -52,7 +56,6 @@ public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler, To
     }
 
 	private double distance(Touch touch1, Touch touch2) {
-	    
 	    return MyMath.length(touch1.getClientX()-touch2.getClientX(),touch1.getClientY()-touch2.getClientY());
     }
 
