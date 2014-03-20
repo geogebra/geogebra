@@ -39,11 +39,22 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 	
 	@Override
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C){
-		if (((GeoElement) A).isGeoElement3D() || ((GeoElement) B).isGeoElement3D() || ((GeoElement) C).isGeoElement3D()) {			
-			return kernel.getManager3D().Angle3D(null, A, B, C);
+		
+		GeoDirectionND orientation = view.getDirection();
+		
+		if (((GeoElement) A).isGeoElement3D() || ((GeoElement) B).isGeoElement3D() || ((GeoElement) C).isGeoElement3D()) { // at least one 3D geo		
+			if (orientation == kernel.getSpace()){ // space is default orientation for 3D objects
+				return kernel.getManager3D().Angle3D(null, A, B, C);
+			}
+			return kernel.getManager3D().Angle3D(null, A, B, C, orientation); // use view orientation
+			
 		}
 			
-		return kernel.getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
+		// 2D geos
+		if (orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return super.createAngle(A, B, C);
+		}
+		return kernel.getManager3D().Angle3D(null, A, B, C, orientation); // use view orientation
 		
 	}
 	
