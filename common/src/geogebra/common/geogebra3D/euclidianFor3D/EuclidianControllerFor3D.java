@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -55,6 +56,26 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 			return super.createAngle(A, B, C);
 		}
 		return kernel.getManager3D().Angle3D(null, A, B, C, orientation); // use view orientation
+		
+	}
+	
+	@Override
+	protected GeoElement[] createAngles(GeoPolygon p){
+		
+		GeoDirectionND orientation = view.getDirection();
+		
+		if (p.isGeoElement3D()){ // 3D polygon
+			if (orientation == kernel.getSpace()){ // space is default orientation for 3D objects
+				return kernel.getManager3D().Angles3D(null, p);
+			}
+			return kernel.getManager3D().Angles3D(null, p, orientation); // use view orientation
+		}
+
+		// 2D polygon
+		if (orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return super.createAngles(p);
+		}
+		return kernel.getManager3D().Angles3D(null, p, orientation); // use view orientation
 		
 	}
 	

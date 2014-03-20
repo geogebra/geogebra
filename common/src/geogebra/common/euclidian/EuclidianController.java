@@ -4512,7 +4512,7 @@ public abstract class EuclidianController {
 		} else if (polyFound && (selGeos() == 1)) {
 			checkZooming(); 
 			
-			angles = getAlgoDispatcher().Angles(null, (GeoPolygon) getSelectedGeos()[0]);
+			angles = createAngles((GeoPolygon) getSelectedGeos()[0]);
 		}
 	
 		if (angle != null) {
@@ -4548,6 +4548,11 @@ public abstract class EuclidianController {
 	
 	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h){
 		return getAlgoDispatcher().createLineAngle((GeoLine) g, (GeoLine) h);
+	}
+
+	
+	protected GeoElement[] createAngles(GeoPolygon p){
+		return getAlgoDispatcher().Angles(null, p);
 	}
 
 	private TextDispatcher textDispatcher;
