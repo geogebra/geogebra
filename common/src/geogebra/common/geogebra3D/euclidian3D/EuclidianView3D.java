@@ -79,6 +79,7 @@ import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -3786,4 +3787,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return 3;
 	}
 
+	@Override
+	public GeoDirectionND getDirection() {
+		return kernel.getSpace();
+	}
+	
 }

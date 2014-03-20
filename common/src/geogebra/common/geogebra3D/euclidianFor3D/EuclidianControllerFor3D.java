@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -44,6 +45,26 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 			
 		return kernel.getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 		
+	}
+	
+	@Override
+	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h){
+		
+		GeoDirectionND orientation = view.getDirection();
+		
+		if (g.isGeoElement3D() || h.isGeoElement3D()){ // at least one 3D geo
+			if (orientation == kernel.getSpace()){ // space is default orientation for 3D objects
+				return kernel.getManager3D().createLineAngle(g, h);
+			}
+			return kernel.getManager3D().createLineAngle(g, h, orientation); // use view orientation
+		}
+
+		// 2D geos
+		if (orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return super.createLineAngle(g, h);
+		}
+		return kernel.getManager3D().createLineAngle(g, h, orientation); // use view orientation
+
 	}
 	
 	@Override
@@ -200,7 +221,7 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 
 	@Override
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
-		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, view.getDirection())};		
+		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null, point, line, view.getDirection())};		
 
 	}
 

@@ -1346,6 +1346,74 @@ public class Manager3D implements Manager3DInterface {
 		return angle;
 	}
 	
+	
+	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2) {
+		GeoAngle angle = null;
+		
+		// did we get two segments?
+		if ((line1 instanceof GeoSegmentND)
+				&& (line2 instanceof GeoSegmentND)) {
+			// check if the segments have one point in common
+			GeoSegmentND a = (GeoSegmentND) line1;
+			GeoSegmentND b = (GeoSegmentND) line2;
+			// get endpoints
+			GeoPointND a1 = a.getStartPoint();
+			GeoPointND a2 = a.getEndPoint();
+			GeoPointND b1 = b.getStartPoint();
+			GeoPointND b2 = b.getEndPoint();
+	
+			if (a1 == b1) {
+				angle = Angle3D(null, a2, a1, b2);
+			} else if (a1 == b2) {
+				angle = Angle3D(null, a2, a1, b1);
+			} else if (a2 == b1) {
+				angle = Angle3D(null, a1, a2, b2);
+			} else if (a2 == b2) {
+				angle = Angle3D(null, a1, a2, b1);
+			}
+		}
+	
+		if (angle == null) {
+			angle = Angle3D(null, line1, line2);
+		}
+	
+		return angle;
+	}
+	
+	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2, GeoDirectionND orientation) {
+		GeoAngle angle = null;
+		
+		// did we get two segments?
+		if ((line1 instanceof GeoSegmentND)
+				&& (line2 instanceof GeoSegmentND)) {
+			// check if the segments have one point in common
+			GeoSegmentND a = (GeoSegmentND) line1;
+			GeoSegmentND b = (GeoSegmentND) line2;
+			// get endpoints
+			GeoPointND a1 = a.getStartPoint();
+			GeoPointND a2 = a.getEndPoint();
+			GeoPointND b1 = b.getStartPoint();
+			GeoPointND b2 = b.getEndPoint();
+	
+			if (a1 == b1) {
+				angle = Angle3D(null, a2, a1, b2, orientation);
+			} else if (a1 == b2) {
+				angle = Angle3D(null, a2, a1, b1, orientation);
+			} else if (a2 == b1) {
+				angle = Angle3D(null, a1, a2, b2, orientation);
+			} else if (a2 == b2) {
+				angle = Angle3D(null, a1, a2, b1, orientation);
+			}
+		}
+	
+		if (angle == null) {
+			angle = Angle3D(null, line1, line2, orientation);
+		}
+	
+		return angle;
+	}
+	
+	
 	final public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w){
 		AlgoAngleVectors3D algo = new AlgoAngleVectors3D(cons, label, v, w);
 		GeoAngle angle = algo.getAngle();

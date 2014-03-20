@@ -263,7 +263,7 @@ SymbolicParametersBotanaAlgo {
 	protected int getInputLengthForXML(){
 
 		if(kernel.isSaving() 
-				|| cons.getXOYPlane() == null){ // saving mode, or 2D
+				|| kernel.getXOYPlane() == null){ // saving mode, or 2D
 			return super.getInputLengthForXML();
 		}
 
@@ -274,7 +274,7 @@ SymbolicParametersBotanaAlgo {
 	protected int getInputLengthForCommandDescription(){
 
 		if(kernel.isSaving() 
-				|| cons.getXOYPlane() == null
+				|| kernel.getXOYPlane() == null
 				|| kernel.getApplication().getActiveEuclidianView().isDefault2D()){ // saving mode, or 2D
 			return super.getInputLengthForCommandDescription();
 		}
@@ -286,7 +286,7 @@ SymbolicParametersBotanaAlgo {
 	public GeoElement getInput(int i) {
 		
 		if (i == 2){
-			return (GeoElement) cons.getXOYPlane();
+			return (GeoElement) kernel.getXOYPlane();
 		}
 		
 		return input[i];

@@ -57,6 +57,10 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D{
     	
     	super.compute();
     	
+    	if (orientation == kernel.getSpace()){ // no orientation with space
+    		return;
+    	}
+    	
     	if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())){
     		return;
     	}

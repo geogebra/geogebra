@@ -4505,10 +4505,10 @@ public abstract class EuclidianController {
 			
 			angle = getAlgoDispatcher().Angle(null, vecs[0], vecs[1]);
 		} else if (selLines() == 2) {
-			GeoLine[] lines = getSelectedLines();
+			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
 			
-			angle = getAlgoDispatcher().createLineAngle(lines[0], lines[1]);
+			angle = createLineAngle(lines[0], lines[1]);
 		} else if (polyFound && (selGeos() == 1)) {
 			checkZooming(); 
 			
@@ -4543,6 +4543,11 @@ public abstract class EuclidianController {
 		} else {
 			return null;
 		}
+	}
+	
+	
+	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h){
+		return getAlgoDispatcher().createLineAngle((GeoLine) g, (GeoLine) h);
 	}
 
 	private TextDispatcher textDispatcher;

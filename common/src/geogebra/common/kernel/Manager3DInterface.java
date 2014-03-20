@@ -657,6 +657,23 @@ public interface Manager3DInterface {
 	public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h, GeoDirectionND orientation);
 	
 	/**
+	 * create angle checking start/end points
+	 * @param line1
+	 * @param line2
+	 * @return angle
+	 */
+	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2);
+	
+	/**
+	 * create (oriented) angle checking start/end points
+	 * @param line1
+	 * @param line2
+	 * @param orientation
+	 * @return angle
+	 */
+	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2, GeoDirectionND orientation);
+	
+	/**
 	 * Angle named label between vectors
 	 */
 	public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w);
