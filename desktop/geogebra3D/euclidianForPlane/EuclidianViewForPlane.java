@@ -381,9 +381,14 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D implements Euclidi
 		return plane;
 	}
 	
+
+	
+	
+
 	@Override
-	public Coords getDirectionCoords(){
-		return getDirection().getDirectionInD3();
+	public boolean goToZPlus(Coords v){
+		double dot = v.dotproduct(getDirection().getDirectionInD3());
+		return (dot > 0) ^ (transformMirror == -1);
 	}
 	
 	/**
