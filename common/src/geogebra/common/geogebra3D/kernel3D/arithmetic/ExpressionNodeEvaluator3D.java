@@ -1,9 +1,7 @@
 package geogebra.common.geogebra3D.kernel3D.arithmetic;
 
 import geogebra.common.geogebra3D.kernel3D.geos.Geo3DVec;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -30,30 +28,10 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	}
 
 	@Override
-	public ExpressionValue evaluate(ExpressionNode expressionNode,StringTemplate tpl) {
-
-		Kernel kernel = expressionNode.getKernel();
-		boolean leaf = expressionNode.leaf;
-		ExpressionValue left = expressionNode.getLeft();
-		ExpressionValue right = expressionNode.getRight();
-		Operation operation = expressionNode.getOperation();
-		// Application app = expressionNode.app;
-		// boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
-
-		if (leaf)
-			return left.evaluate(tpl); // for wrapping ExpressionValues as
-									// ValidExpression
-
-		// Application.debug(operation+"");
-
-		ExpressionValue lt, rt;
+	public ExpressionValue handleOp(Operation op, ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX){ // right tree
 		MyDouble num;
-
-		lt = left.evaluate(tpl); // left tree
-		rt = right.evaluate(tpl); // right tree
-
-		switch (operation) {
-
+		switch (op) {
 		/*
 		 * ARITHMETIC operations
 		 */
@@ -119,7 +97,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			// 3D vector * 3D Vector (inner/dot product)
 			else if (lt instanceof Vector3DValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
-				num = new MyDouble(kernel);
+				num = new MyDouble(lt.getKernel());
 				Geo3DVec.inner(vec3D,
 						(Geo3DVec) ((Vector3DValue) rt).get3DVec(), num);
 				return num;
@@ -159,8 +137,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 				return vec3D;
 			}
 		}
-
-		return super.evaluate(expressionNode,tpl);
+		
+		return super.handleOp(op, lt, rt, left, right, tpl, holdsLaTeX);
 
 	}
 

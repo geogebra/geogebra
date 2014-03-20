@@ -75,8 +75,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (special != null)
 			return special;
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
-		return operation.handle(this, lt, rt, left, right, tpl, holdsLaTeXtext);
-
+		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
+	}
+	
+	protected ExpressionValue handleOp(Operation op, ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX){
+		return op.handle(this, lt, rt, left, right, tpl, holdsLaTeX);
 	}
 
 	private static ExpressionValue handleSpecial(ExpressionValue lt,
