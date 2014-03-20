@@ -4500,10 +4500,9 @@ public abstract class EuclidianController {
 			GeoPointND[] points = getSelectedPointsND();
 			angle = createAngle(points[0], points[1], points[2]);
 		} else if (selVectors() == 2) {
-			GeoVector[] vecs = getSelectedVectors();
+			GeoVectorND[] vecs = getSelectedVectorsND();
 			checkZooming(); 
-			
-			angle = getAlgoDispatcher().Angle(null, vecs[0], vecs[1]);
+			angle = createAngle(vecs[0], vecs[1]);
 		} else if (selLines() == 2) {
 			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
@@ -4553,6 +4552,10 @@ public abstract class EuclidianController {
 	
 	protected GeoElement[] createAngles(GeoPolygon p){
 		return getAlgoDispatcher().Angles(null, p);
+	}
+
+	protected GeoAngle createAngle(GeoVectorND v1, GeoVectorND v2){
+		return getAlgoDispatcher().Angle(null, (GeoVector) v1, (GeoVector) v2);
 	}
 
 	private TextDispatcher textDispatcher;

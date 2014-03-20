@@ -123,6 +123,19 @@ public class CmdAngle3D extends CmdAngle {
 			GeoElement[] ret = { kernelA.getManager3D().Angle3D(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1], (GeoDirectionND) arg[2]) };
 			return ret;
 		}
+		
+		// angle between vectors, oriented
+		if ((ok[0] = (arg[0].isGeoVector()))
+				&& (ok[1] = (arg[1].isGeoVector()))
+				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+			
+			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D() && arg[2] == kernelA.getXOYPlane()){ // ignore xOy plane for 2D
+				return angle(c.getLabel(), (GeoVectorND) arg[0], (GeoVectorND) arg[1]);
+			}
+			
+			GeoElement[] ret = { kernelA.getManager3D().Angle3D(c.getLabel(), (GeoVectorND) arg[0], (GeoVectorND) arg[1], (GeoDirectionND) arg[2]) };
+			return ret;
+		}
 
 		return super.process3(c, arg, ok);
 	}

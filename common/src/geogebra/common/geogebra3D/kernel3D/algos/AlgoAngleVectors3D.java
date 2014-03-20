@@ -23,6 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -34,20 +35,27 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
  */
 public class AlgoAngleVectors3D extends AlgoAngleVectors{
 	
-	private Coords vn, o, v1, v2;
+	protected Coords vn;
+	private Coords o;
+	private Coords v1;
+	private Coords v2;
 
 	AlgoAngleVectors3D(Construction cons, String label, GeoVectorND v, GeoVectorND w) {
-		super(cons, label, v, w);
+		this(cons, label, v, w, null);
+	}
+	
+	AlgoAngleVectors3D(Construction cons, String label, GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
+		super(cons, label, v, w, orientation);
 	}
 	
 	
     @Override
-	final protected GeoAngle newGeoAngle(Construction cons){
+	protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle3D(cons);
     }
 	
     @Override
-	public final void compute() {
+	public void compute() {
     	
     	// vectors directions
     	v1 = getv().getCoordsInD(3);

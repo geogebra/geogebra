@@ -1420,6 +1420,12 @@ public class Manager3D implements Manager3DInterface {
 		return angle;
 	}
 	
+	final public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w, GeoDirectionND orientation){
+		AlgoAngleVectors3D algo = new AlgoAngleVectors3DOrientation(cons, label, v, w, orientation);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+	
 	final public GeoElement[] Angles3D(String[] labels, GeoPolygon poly) {
 		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3D(cons, labels, poly);
 		GeoElement[] angles = algo.getAngles();

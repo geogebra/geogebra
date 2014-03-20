@@ -80,6 +80,26 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 	}
 	
 	@Override
+	protected GeoAngle createAngle(GeoVectorND v1, GeoVectorND v2){
+		
+		GeoDirectionND orientation = view.getDirection();
+		
+		if (v1.isGeoElement3D() || v2.isGeoElement3D()){ // at least one 3D geo	
+			if (orientation == kernel.getSpace()){ // space is default orientation for 3D objects
+				return kernel.getManager3D().Angle3D(null, v1, v2);
+			}
+			return kernel.getManager3D().Angle3D(null, v1, v2, orientation); // use view orientation
+		}
+
+		// 2D polygon
+		if (orientation == kernel.getXOYPlane()){ // xOy plane is default orientation for 2D objects
+			return super.createAngle(v1, v2);
+		}
+		return kernel.getManager3D().Angle3D(null, v1, v2, orientation); // use view orientation
+
+	}
+	
+	@Override
 	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h){
 		
 		GeoDirectionND orientation = view.getDirection();

@@ -25,6 +25,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -34,13 +35,21 @@ public class AlgoAngleVectors extends AlgoAngle {
     private GeoAngle angle; // output           
 
     public AlgoAngleVectors(
+            Construction cons,
+            String label,
+            GeoVectorND v,
+            GeoVectorND w) {
+    	
+    	this(cons, label, v, w, null);
+    }
+    
+    public AlgoAngleVectors(
         Construction cons,
         String label,
         GeoVectorND v,
-        GeoVectorND w) {
+        GeoVectorND w, GeoDirectionND orientation) {
         super(cons);
-        this.v = v;
-        this.w = w;
+        setInput(v, w, orientation);
         angle = newGeoAngle(cons);
         setInputOutput(); // for AlgoElement
 
@@ -61,6 +70,17 @@ public class AlgoAngleVectors extends AlgoAngle {
         setOutput(0,angle);
         setDependencies(); // done by AlgoElement
     }
+    
+	/**
+	 * set inputs
+	 * @param v first vector
+	 * @param w second vector
+	 * @param orientation orientation
+	 */
+	protected void setInput(GeoVectorND v, GeoVectorND w, GeoDirectionND orientation){
+		this.v = v;
+		this.w = w;
+	}
 
     public GeoAngle getAngle() {
         return angle;
@@ -88,7 +108,7 @@ public class AlgoAngleVectors extends AlgoAngle {
     }
 
     @Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return loc.getPlain("AngleBetweenAB",v.getLabel(tpl),w.getLabel(tpl));
