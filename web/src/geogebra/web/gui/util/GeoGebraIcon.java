@@ -386,6 +386,10 @@ public class GeoGebraIcon extends BasicIcons{
 
     }
 
+	public static ImageOrText createAxesStyleIcon(int id, GDimensionW iconSize) {
+		return new ImageOrText();
+
+	}
 	public static ImageOrText createStringIcon(String string) {
 	    ImageOrText ret = new ImageOrText();
 	    ret.text = string;

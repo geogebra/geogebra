@@ -17,6 +17,8 @@ public class EuclidianOptionsModel {
 		void setMinMaxText(String minX, String maxX, String minY,
 				String maxY);
 
+		void addTooltipItem(String item);
+
 	}
 	public enum MinMaxType {
 		minX,
@@ -331,6 +333,14 @@ public class EuclidianOptionsModel {
 					&& !view.isLockedAxesRatio()));
 
 			view.updateBounds(true);
+		}
+	}
+
+	public void fillTooltipCombo() {
+		String[] tooltipItems = new String[] { app.getPlain("On"),
+				app.getPlain("Automatic"), app.getPlain("Off") };
+		for (String item: tooltipItems) {
+			listener.addTooltipItem(item);
 		}
 	}
 }

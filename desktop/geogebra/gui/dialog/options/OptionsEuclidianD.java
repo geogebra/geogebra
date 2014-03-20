@@ -346,8 +346,8 @@ public class OptionsEuclidianD extends
 
 		// show tooltips
 		tooltips = new JLabel(app.getPlain("Tooltips") + ":");
-		cbTooltips = new JComboBox(new String[] { app.getPlain("On"),
-				app.getPlain("Automatic"), app.getPlain("Off") });
+		cbTooltips = new JComboBox();
+		model.fillTooltipCombo();
 		cbTooltips.addActionListener(this);
 
 		miscPanel = new JPanel();
@@ -717,13 +717,7 @@ public class OptionsEuclidianD extends
 
 		int index = cbTooltips.getSelectedIndex();
 		cbTooltips.removeActionListener(this);
-		cbTooltips.removeAllItems();// = new JComboBox(new String[] {
-									// app.getPlain("On"),
-									// app.getPlain("Automatic"),
-									// app.getPlain("Off") });
-		cbTooltips.addItem(app.getPlain("On"));
-		cbTooltips.addItem(app.getPlain("Automatic"));
-		cbTooltips.addItem(app.getPlain("Off"));
+		model.fillTooltipCombo();
 		cbTooltips.setSelectedIndex(index);
 		cbTooltips.addActionListener(this);
 
@@ -1108,5 +1102,9 @@ public class OptionsEuclidianD extends
 		tfMinY.setText(minY);
 		tfMaxY.setText(maxY);
 
+	}
+
+	public void addTooltipItem(String item) {
+		cbTooltips.addItem(item);
 	}
 }

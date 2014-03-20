@@ -6,18 +6,26 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
+import geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import geogebra.common.main.App;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
+import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -25,6 +33,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -38,6 +47,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private EuclidianView view;
 	private EuclidianOptionsModel model;
 	private BasicTab basicTab;
+	private ListBox lbTooltips;
 	private class EuclidianTab extends FlowPanel{};
 	private class BasicTab extends EuclidianTab {
 		private Label dimTitle;
@@ -60,6 +70,17 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private FlowPanel axesOptionsPanel;
 		private AutoCompleteTextFieldW axesOptionTitle;
 		private Label axesOptionsTitle;
+		private PopupMenuButton axesStylePopup;
+		private Label backgroundColorLabel;
+		private Button btBackgroundColor;
+		private CheckBox cbShowMouseCoords;
+		private Label tooltips;
+		private Label miscTitle;
+		private Label consProtocolTitle;
+		private FlowPanel consProtocolPanel;
+		private CheckBox cbShowNavbar;
+		private CheckBox cbNavPlay;
+		private CheckBox cbOpenConsProtocol;
 
 		public BasicTab() {
 			addDimensionPanel();
@@ -92,24 +113,26 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 		}
 		
+		private void applyAxesRatio() {
+	
+			model.applyAxesRatio(parseDouble(tfAxesRatioX.getText()),
+					parseDouble(tfAxesRatioY.getText()));
+		}
 		private void addAxesRatioHandler(final AutoCompleteTextFieldW tf) {
 	
 			tf.addKeyHandler(new KeyHandler() {
 
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						final double xval = parseDouble(tfAxesRatioX.getText());
-						final double yval = parseDouble(tfAxesRatioY.getText());
-						model.applyAxesRatio(xval, yval);
+						applyAxesRatio();
 					}
 				}});
 
 			tf.addFocusListener(new FocusListener(this){
 				@Override
 				protected void wrapFocusLost(){
-					final double xval = parseDouble(tfAxesRatioX.getText());
-					final double yval = parseDouble(tfAxesRatioY.getText());
-					model.applyAxesRatio(xval, yval);
+					applyAxesRatio();
+					
 				}	
 			});
 
@@ -131,8 +154,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			tfAxesRatioX = getTextField();
 			tfAxesRatioY = getTextField();
-			//tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
-		//	tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
+			
+			enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 			
 			cbLockRatio = new ToggleButton(new Image(AppResources.INSTANCE.lock()));
 			cbLockRatio.setValue(view.isLockedAxesRatio());
@@ -182,12 +205,23 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			// axes style
 			lineStyle = new Label(app.getPlain("LineStyle") + ":");
-		
-//			AxesStyleListRenderer renderer = new AxesStyleListRenderer();
-//			cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
-//			cbAxesStyle.setRenderer(renderer);
-//			cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
-//			cbAxesStyle.setEditable(false);
+			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
+			GDimensionW iconSize = new GDimensionW(80, 30);
+			for (int i = 0; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i, iconSize);
+			}
+			
+			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1, iconSize,
+					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+				@Override
+				public void handlePopupActionEvent(){
+					super.handlePopupActionEvent();
+					int idx = getSelectedIndex();
+					model.appyAxesStyle(idx);;
+
+				}
+			};
+			axesStylePopup.setKeepVisible(false);		
 
 			// axes options panel
 			axesOptionsPanel = new FlowPanel();
@@ -195,7 +229,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
 					 cbBoldAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
-					 lineStyle));
+					 lineStyle, axesStylePopup));
 			cbShowAxes.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
@@ -225,15 +259,98 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(axesOptionsPanel);
 		}
 
+		private void toggleConsProtButton() {
+			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
+					.getGuiManager().getConstructionProtocolNavigation();
+			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
+			app.setUnsaved();
+			updateGUI();
+		}
+		
 		private void addConsProtocolPanel() {
-	        // TODO Auto-generated method stub
-	        
+			consProtocolTitle = new Label();
+			consProtocolPanel = new FlowPanel();
+		
+			cbShowNavbar = new CheckBox();
+			
+			consProtocolPanel.add(cbShowNavbar);
+
+			cbNavPlay = new CheckBox();
+			consProtocolPanel.add(cbNavPlay);
+
+			cbOpenConsProtocol = new CheckBox();
+			consProtocolPanel.add(cbOpenConsProtocol);
+
+			cbShowNavbar.setStyleName("checkBoxPanel");
+			cbNavPlay.setStyleName("checkBoxPanel");
+			cbOpenConsProtocol.setStyleName("checkBoxPanel");
+
+			add(consProtocolTitle);
+			add(consProtocolPanel);
+			
+			cbShowNavbar.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					app.toggleShowConstructionProtocolNavigation();
+                }});
+			
+			cbNavPlay.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					toggleConsProtButton();
+				}});
+			
+			cbOpenConsProtocol.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					toggleConsProtButton();
+				}});
+			
+						
+			
         }
 
 		private void addMiscPanel() {
-	        // TODO Auto-generated method s0tub
-	        
-        }
+			miscTitle = new Label();
+			// background color panel
+			backgroundColorLabel = new Label(app.getPlain("BackgroundColor") + ":");
+	
+			btBackgroundColor = new Button("\u2588");
+
+			// show mouse coords
+			cbShowMouseCoords = new CheckBox();
+
+			// show tooltips
+			tooltips = new Label(app.getPlain("Tooltips") + ":");
+			lbTooltips = new ListBox();
+			model.fillTooltipCombo();
+			
+			FlowPanel miscPanel = new FlowPanel();
+			miscPanel.add(miscTitle);
+			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
+			miscPanel.add(LayoutUtil.panelRow(tooltips, lbTooltips));
+			miscPanel.add(LayoutUtil.panelRow(cbShowMouseCoords));
+			add(miscPanel);
+    
+			btBackgroundColor.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.applyBackgroundColor();
+                }});
+
+			cbShowMouseCoords.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.applyMouseCoords(cbShowMouseCoords.getValue());
+                }});
+			
+			lbTooltips.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+	                model.applyTooltipMode(lbTooltips.getSelectedIndex());
+                }});
+			
+		}
 
 		public void setLabels() {
 			dimTitle.setText(app.getPlain("Dimensions"));
@@ -251,6 +368,22 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			colorLabel.setText(app.getPlain("Color") + ":");
 			lineStyle.setText(app.getPlain("LineStyle") + ":");
 
+			miscTitle.setText(app.getPlain("Miscellaneous"));
+			lbTooltips.clear();
+			backgroundColorLabel.setText(app.getPlain("BackgroundColor") + ":");
+			int index = lbTooltips.getSelectedIndex();
+			model.fillTooltipCombo();
+			lbTooltips.setSelectedIndex(index);
+			cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
+			
+			consProtocolTitle.setText(app
+				.getPlain("ConstructionProtocolNavigation"));
+			
+			cbShowNavbar.setText(app.getPlain("Show"));
+			cbNavPlay.setText(app.getPlain("PlayButton"));
+			cbOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
+
+			
 		}
 
 		public void enableAxesRatio(boolean value) {
@@ -370,5 +503,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
 		basicTab.setMinMaxText(minX, maxX, minY, maxY);
 	}
+
+	public void addTooltipItem(String item) {
+	    lbTooltips.addItem(item);
+    }
 }
 
