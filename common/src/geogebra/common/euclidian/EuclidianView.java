@@ -2009,12 +2009,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return getPlaneContaining();
 	}
 	
+
+	
 	/**
 	 * 
-	 * @return main direction coords
+	 * @param v vector
+	 * @return true if v is oriented to z+ direction
 	 */
-	public Coords getDirectionCoords(){
-		return Coords.VZ;
+	public boolean goToZPlus(Coords v){
+		return v.getZ() > 0;
 	}
 
 
