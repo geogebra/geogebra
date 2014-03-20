@@ -193,7 +193,6 @@ public abstract class AnimationManager {
 			return;
 
 		long startTime = System.currentTimeMillis();
-
 		// clear list of geos that need to be updated
 		changedGeos.clear();
 
@@ -205,19 +204,21 @@ public abstract class AnimationManager {
 			if (changed)
 				changedGeos.add(anim);
 		}
-
 		// do we need to update anything?
 		if (changedGeos.size() > 0) {
 			// efficiently update all changed GeoElements
 			GeoElement.updateCascade(changedGeos, getTempSet(), false);
-
 			// repaint views
 			kernel.notifyRepaint();
-
 			// check frame rate
 			long compTime = System.currentTimeMillis() - startTime;
+			if(kernel.getApplication().getEuclidianView1()!=null){
+				compTime += kernel.getApplication().getEuclidianView1().getLastRepaintTime();
+			}
+			if(kernel.getApplication().hasEuclidianView2()){
+				compTime += kernel.getApplication().getEuclidianView2().getLastRepaintTime();
+			}
 			adaptFrameRate(compTime);
-
 			// System.out.println("UPDATE compTime: " + compTime +
 			// ", frameRate: " + frameRate);
 		}

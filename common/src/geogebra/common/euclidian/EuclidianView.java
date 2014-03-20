@@ -5312,4 +5312,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 */
 	abstract protected EuclidianStyleBar newEuclidianStyleBar();
 
+	public long getLastRepaintTime() {
+		return 0;
+	}
+
 }

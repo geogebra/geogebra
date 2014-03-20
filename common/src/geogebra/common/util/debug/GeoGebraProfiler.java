@@ -68,7 +68,7 @@ public abstract class GeoGebraProfiler {
 
 	public static void addRepaint(long l) {
 		repaints++;
-		repaintTime += (System.currentTimeMillis() - l);
+		repaintTime += l;
 		if (repaints % 100 == 0)
 		{
 			App.debug("Repaint: " + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);

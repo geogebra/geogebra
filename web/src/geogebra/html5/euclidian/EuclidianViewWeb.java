@@ -43,6 +43,8 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	};
 
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+
+	private long lastRepaint;
 	
 	public EuclidianViewWeb(EuclidianController ec, EuclidianSettings settings) {
 	    super(ec, settings);
@@ -137,7 +139,8 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
 		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
-		GeoGebraProfiler.addRepaint(l);
+		lastRepaint = System.currentTimeMillis() - l;
+		GeoGebraProfiler.addRepaint(lastRepaint);
 		
 	}
 	
@@ -401,5 +404,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	/*public int getMaxProblemBisections() {
 		return MAX_PROBLEM_BISECTIONS;
 	}*/
-
+	public long getLastRepaintTime() {
+		return lastRepaint;
+	}
 }
