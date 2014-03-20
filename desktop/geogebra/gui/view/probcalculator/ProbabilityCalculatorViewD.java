@@ -56,16 +56,12 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implements
-		ActionListener, FocusListener, ChangeListener {
+public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
+		implements ActionListener, FocusListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 
-	
-	
 	private ProbabiltyCalculatorStyleBarD styleBar;
-
-	
 
 	// GUI elements
 	private JComboBox comboDistribution, comboProbType;
@@ -82,16 +78,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 	// GUI layout panels
 	private JPanel controlPanel, distPanel, probPanel, tablePanel;
 	private JSplitPane mainSplitPane, plotSplitPane;
-	
-	
-	
 
-	
-
-	
-	
 	private JToggleButton btnExport;
-	
+
 	private JPanel wrapperPanel;
 
 	private JLabel lblMeanSigma;
@@ -112,7 +101,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 	 */
 	public ProbabilityCalculatorViewD(AppD app) {
 		super(app);
-		
+
 		wrapperPanel = new JPanel();
 
 		createGUIElements();
@@ -124,7 +113,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab(loc.getMenu("Distribution"), probCalcPanel);
-		tabbedPane.addTab(loc.getMenu("Statistics"), ((StatisticsCalculatorD) statCalculator).getWrappedPanel());
+		tabbedPane.addTab(loc.getMenu("Statistics"),
+				((StatisticsCalculatorD) statCalculator).getWrappedPanel());
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
@@ -133,9 +123,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 				}
 			}
 		});
-		
-		
-		
+
 		wrapperPanel.setLayout(new BorderLayout());
 		wrapperPanel.add(tabbedPane, BorderLayout.CENTER);
 
@@ -145,13 +133,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		settingsChanged(app.getSettings().getProbCalcSettings());
 
 		// TODO for testing only, remove later
-		//tabbedPane.setSelectedIndex(1);
+		// tabbedPane.setSelectedIndex(1);
 
 	}
 
 	/**************** end constructor ****************/
-
-	
 
 	/**
 	 * @return The style bar for this view.
@@ -195,10 +181,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 
 	}
 
-	
-
-	
-
 	public boolean isDistributionTabOpen() {
 		return tabbedPane.getSelectedIndex() == 0;
 	}
@@ -221,7 +203,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 					exportToEVAction);
 			((PlotPanelEuclidianViewD) plotPanel).setMouseEnabled(true, true);
 			((PlotPanelEuclidianViewD) plotPanel).setMouseMotionEnabled(true);
-			((EuclidianViewInterfaceDesktop) plotPanel).setBorder(BorderFactory.createEmptyBorder());
+			((EuclidianViewInterfaceDesktop) plotPanel).setBorder(BorderFactory
+					.createEmptyBorder());
 
 			// plot label panel
 			JPanel plotLabelPanel = LayoutUtil.flowPanelRight(0, 0, 0,
@@ -231,15 +214,19 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 			plotLabelPanel.setBackground(Color.white);
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
-			plotPanelPlus.add(((EuclidianViewInterfaceDesktop) plotPanel).getJPanel(), BorderLayout.CENTER);
+			plotPanelPlus.add(
+					((EuclidianViewInterfaceDesktop) plotPanel).getJPanel(),
+					BorderLayout.CENTER);
 			plotPanelPlus.add(plotLabelPanel, BorderLayout.SOUTH);
 
 			// table panel
 			table = new ProbabilityTableD((AppD) app, this);
-			((ProbabilityTableD) table).getWrappedPanel().setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
-					SystemColor.controlShadow));
+			((ProbabilityTableD) table).getWrappedPanel().setBorder(
+					BorderFactory.createMatteBorder(0, 1, 0, 0,
+							SystemColor.controlShadow));
 			tablePanel = new JPanel(new BorderLayout());
-			tablePanel.add(((ProbabilityTableD) table).getWrappedPanel(), BorderLayout.CENTER);
+			tablePanel.add(((ProbabilityTableD) table).getWrappedPanel(),
+					BorderLayout.CENTER);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -393,7 +380,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		p.add(LayoutUtil.flowPanel(2, 0, 0, btnCumulative, cbPanel),
 				((LocalizationD) loc).borderWest());
 		p.add(LayoutUtil.flowPanelRight(0, 0, 0, lblMeanSigma,
-				Box.createHorizontalStrut(10)), ((LocalizationD) loc).borderEast());
+				Box.createHorizontalStrut(10)),
+				((LocalizationD) loc).borderEast());
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -404,12 +392,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 				lblBetween, fldHigh, lblEndProbOf, fldResult));
 
 	}
-
-	
-
-	
-
-	
 
 	// =================================================
 	// Event Handlers
@@ -482,7 +464,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		}
 
 		else if (source == btnExport) {
-			JPopupMenu menu = ((PlotPanelEuclidianViewD) plotPanel).getContextMenu();
+			JPopupMenu menu = ((PlotPanelEuclidianViewD) plotPanel)
+					.getContextMenu();
 			menu.show(btnExport,
 					-menu.getPreferredSize().width + btnExport.getWidth(),
 					btnExport.getHeight());
@@ -647,8 +630,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 
 	}
 
-	
-
 	private void updateProbabilityType() {
 
 		if (isIniting)
@@ -776,6 +757,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		} else {
 			addRemoveTable(false);
 			densityCurve.update();
+			if (pdfCurve != null) {
+				pdfCurve.update();
+			}
 			if (hasIntegral)
 				integral.update();
 		}
@@ -789,10 +773,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		if (!probmanagerIsDiscrete())
 			return;
 		int[] firstXLastX = generateFirstXLastXCommon();
-		((ProbabilityTableD) table).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
+		((ProbabilityTableD) table).setTable(selectedDist, parameters,
+				firstXLastX[0], firstXLastX[1]);
 	}
-
-	
 
 	protected void updatePrintFormat(int printDecimals, int printFigures) {
 		this.printDecimals = printDecimals;
@@ -843,9 +826,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		lblMeanSigma.setText(meanSigmaStr);
 	}
 
-	
-
-
 	public void setLabels() {
 
 		tabbedPane.setTitleAt(0, loc.getMenu("Distribution"));
@@ -878,8 +858,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 
 	}
-
-	
 
 	private void setProbabilityComboBoxMenu() {
 
@@ -923,11 +901,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 
 	}
 
-	
-	
-	
-	
-
 	// ============================================================
 	// Sliders
 	// ============================================================
@@ -958,12 +931,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		((PlotPanelEuclidianViewD) plotPanel).commonFields.updateSettings(((PlotPanelEuclidianViewD) plotPanel), plotSettings);
+		((PlotPanelEuclidianViewD) plotPanel).commonFields.updateSettings(
+				((PlotPanelEuclidianViewD) plotPanel), plotSettings);
 	}
-
-
-
-	
 
 	// ============================================================
 	// Export
@@ -985,11 +955,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 			Integer euclidianViewID = (Integer) this
 					.getValue("euclidianViewID");
 
-		
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = ((AppD) app).getShiftDown() ? app.getEuclidianView2()
-						.getViewID() : app.getEuclidianView1().getViewID();
+				euclidianViewID = ((AppD) app).getShiftDown() ? app
+						.getEuclidianView2().getViewID() : app
+						.getEuclidianView1().getViewID();
 			}
 
 			// do the export
@@ -999,8 +969,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 			this.putValue("euclidianViewID", null);
 		}
 	};
-
-	
 
 	public PlotPanelEuclidianViewD getPlotPanel() {
 		return (PlotPanelEuclidianViewD) plotPanel;
@@ -1024,7 +992,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView implem
 			this.setMargin(new Insets(0, 0, 0, 0));
 		}
 	}
-	
+
 	public JPanel getWrapperPanel() {
 		return wrapperPanel;
 	}
