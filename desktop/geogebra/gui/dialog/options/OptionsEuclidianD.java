@@ -12,12 +12,15 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
+import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
@@ -68,7 +71,8 @@ import javax.swing.border.Border;
  */
 public class OptionsEuclidianD extends
 		geogebra.common.gui.dialog.options.OptionsEuclidian implements
-		OptionPanelD, ActionListener, FocusListener, ItemListener, SetLabels {
+		OptionPanelD, ActionListener, FocusListener, ItemListener, SetLabels,
+		IEuclidianOptionsListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,6 +81,7 @@ public class OptionsEuclidianD extends
 
 	protected AppD app;
 	private Kernel kernel;
+	private EuclidianOptionsModel model;
 	protected EuclidianView view;
 
 	// GUI containers
@@ -146,7 +151,7 @@ public class OptionsEuclidianD extends
 		this.app = app;
 		kernel = app.getKernel();
 		this.view = view;
-		
+		model = new EuclidianOptionsModel(app, view, this);
 		view.setOptionPanel(this);
 
 		wrappedPanel = new JPanel();
@@ -176,10 +181,9 @@ public class OptionsEuclidianD extends
 		nfAxesRatio.setMaximumFractionDigits(5);
 		nfAxesRatio.setGroupingUsed(false);
 
-
 		// init cons protocol panel
 		initConsProtocolPanel();
-		
+
 		// create panels for the axes
 		initAxisPanels();
 
@@ -214,10 +218,10 @@ public class OptionsEuclidianD extends
 		addAxisTabs();
 		tabbedPane.addTab("", new JScrollPane(buildGridPanel()));
 	}
-	
-	protected void addAxisTabs(){
+
+	protected void addAxisTabs() {
 		tabbedPane.addTab("", new JScrollPane(xAxisPanel));
-		tabbedPane.addTab("", new JScrollPane(yAxisPanel));		
+		tabbedPane.addTab("", new JScrollPane(yAxisPanel));
 	}
 
 	protected void initAxisPanels() {
@@ -295,31 +299,26 @@ public class OptionsEuclidianD extends
 		lineStyle = new JLabel(app.getPlain("LineStyle") + ":");
 		lineStyle.setLabelFor(cbAxesStyle);
 
-		
-		
-		
 		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
 		cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
 		cbAxesStyle.setRenderer(renderer);
 		cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
-		//cbAxesStyle.setBackground(getBackground());
-		
-		
-		//cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold line
-		//cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
-																	// arrow
-		
-		/*
-		 * 			
-		 * PointStyleListRenderer renderer = new PointStyleListRenderer();
-			renderer.setPreferredSize(new Dimension(18, 18));
-			cbStyle = new JComboBox(EuclidianViewD.getPointStyles());
-			cbStyle.setRenderer(renderer);
-			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE + 1);
-			cbStyle.setBackground(getBackground());
-			cbStyle.addActionListener(this);
-			add(cbStyle);
+		// cbAxesStyle.setBackground(getBackground());
 
+		// cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold
+		// line
+		// cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
+		// arrow
+
+		/*
+		 * 
+		 * PointStyleListRenderer renderer = new PointStyleListRenderer();
+		 * renderer.setPreferredSize(new Dimension(18, 18)); cbStyle = new
+		 * JComboBox(EuclidianViewD.getPointStyles());
+		 * cbStyle.setRenderer(renderer);
+		 * cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE +
+		 * 1); cbStyle.setBackground(getBackground());
+		 * cbStyle.addActionListener(this); add(cbStyle);
 		 */
 		cbAxesStyle.setEditable(false);
 
@@ -327,7 +326,8 @@ public class OptionsEuclidianD extends
 		axesOptionsPanel = new JPanel();
 		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel,
 				BoxLayout.Y_AXIS));
-		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes, Box.createHorizontalStrut(20), cbBoldAxes));
+		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes,
+				Box.createHorizontalStrut(20), cbBoldAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
 				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
 	}
@@ -352,8 +352,7 @@ public class OptionsEuclidianD extends
 
 		miscPanel = new JPanel();
 		miscPanel.setLayout(new BoxLayout(miscPanel, BoxLayout.Y_AXIS));
-		miscPanel
-				.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
+		miscPanel.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
 		miscPanel.add(LayoutUtil.flowPanel(tooltips, cbTooltips));
 		miscPanel.add(LayoutUtil.flowPanel(cbShowMouseCoords));
 
@@ -369,7 +368,7 @@ public class OptionsEuclidianD extends
 		basicPanel.setLayout(new FullWidthLayout());
 		basicPanel.add(dimPanel);
 		basicPanel.add(axesOptionsPanel);
-		basicPanel.add(consProtocolPanel);		
+		basicPanel.add(consProtocolPanel);
 		basicPanel.add(miscPanel);
 
 		return basicPanel;
@@ -447,8 +446,7 @@ public class OptionsEuclidianD extends
 		stylePanel.setLayout(new BoxLayout(stylePanel, BoxLayout.Y_AXIS));
 
 		stylePanel.add(LayoutUtil.flowPanel(cbGridStyle));
-		stylePanel
-				.add(LayoutUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
+		stylePanel.add(LayoutUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
 
 	}
 
@@ -491,16 +489,14 @@ public class OptionsEuclidianD extends
 		tfMaxY.addActionListener(this);
 
 	}
-	
 
 	@Override
-	final public void updateBounds(){
-		
-		if(!isSelected)
+	final public void updateBounds() {
+
+		if (!isSelected)
 			return;
-		
+
 		updateMinMax();
-		
 
 		tfAxesRatioX.removeActionListener(this);
 		tfAxesRatioY.removeActionListener(this);
@@ -515,7 +511,7 @@ public class OptionsEuclidianD extends
 		}
 		tfAxesRatioX.addActionListener(this);
 		tfAxesRatioY.addActionListener(this);
-		
+
 	}
 
 	public void updateGUI() {
@@ -572,13 +568,13 @@ public class OptionsEuclidianD extends
 
 		cbAxesStyle.removeActionListener(this);
 		// need style with bold removed for menu
-		for (int i = 0 ; i < EuclidianStyleConstants.lineStyleOptions.length ; i++) {
+		for (int i = 0; i < EuclidianStyleConstants.lineStyleOptions.length; i++) {
 			if (view.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
 				cbAxesStyle.setSelectedIndex(i);
 				break;
 			}
 		}
-		
+
 		cbAxesStyle.addActionListener(this);
 
 		cbGridStyle.removeActionListener(this);
@@ -633,12 +629,10 @@ public class OptionsEuclidianD extends
 		ncbGridTickY.addItemListener(this);
 		cbGridTickAngle.addItemListener(this);
 
-
 		xAxisPanel.updatePanel();
 		yAxisPanel.updatePanel();
-		
 
-		//cons protocol panel
+		// cons protocol panel
 		ckShowNavbar.setSelected(app.showConsProtNavigation());
 		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
 				.isConsProtNavigationPlayButtonVisible());
@@ -662,8 +656,7 @@ public class OptionsEuclidianD extends
 		cbGridType.addActionListener(this);
 
 		cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
-		stylePanel
-				.setBorder(LayoutUtil.titleBorder(app.getPlain("LineStyle")));
+		stylePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("LineStyle")));
 
 		// color
 		lblColor.setText(app.getPlain("Color") + ":");
@@ -690,7 +683,6 @@ public class OptionsEuclidianD extends
 		// axis
 		xAxisPanel.setLabels();
 		yAxisPanel.setLabels();
-		
 
 		// construction protocol panel
 		consProtocolPanel.setBorder(LayoutUtil.titleBorder(app
@@ -710,7 +702,7 @@ public class OptionsEuclidianD extends
 		tabbedPane.setTitleAt(1, app.getPlain("xAxis"));
 		tabbedPane.setTitleAt(2, app.getPlain("yAxis"));
 		tabbedPane.setTitleAt(3, app.getMenu("Grid"));
-		
+
 		app.setComponentOrientation(tabbedPane);
 	}
 
@@ -736,8 +728,7 @@ public class OptionsEuclidianD extends
 		cbTooltips.addActionListener(this);
 
 		dimPanel.setBorder(LayoutUtil.titleBorder(app.getPlain("Dimensions")));
-		axesOptionsPanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("Axes")));
+		axesOptionsPanel.setBorder(LayoutUtil.titleBorder(app.getMenu("Axes")));
 		miscPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Miscellaneous")));
 
@@ -748,300 +739,87 @@ public class OptionsEuclidianD extends
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
-	
-	/**
-	 * acts when the background color button is hitted
-	 */
-	protected void actionBtBackgroundColor(){
-		if (view == app.getEuclidianView1()) {
-			app.getSettings()
-					.getEuclidian(1)
-					.setBackground(
-							new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
-									.showColorChooser(
-											app.getSettings()
-													.getEuclidian(1)
-													.getBackground())));
-		} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-			view.setBackground(view.getBackgroundCommon());
-		} else if (view == app.getEuclidianView2()) {
-			app.getSettings()
-					.getEuclidian(2)
-					.setBackground(
-							new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager()))
-									.showColorChooser(
-											app.getSettings()
-													.getEuclidian(2)
-													.getBackground())));
-		} else {
-			view.setBackground(view.getBackgroundCommon());
-		}
+
+	protected void actionBtBackgroundColor() {
+		model.applyBackgroundColor();
 	}
 
 	protected void doActionPerformed(Object source) {
 		if (source == btBackgroundColor) {
 			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
-			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(((GuiManagerD)app.getGuiManager()).showColorChooser(view.getAxesColor()));
-			if (view == app.getEuclidianView1()) {
-				app.getSettings().getEuclidian(1).setAxesColor(col);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setAxesColor(col);
-			} else if (view == app.getEuclidianView2()) {
-				app.getSettings().getEuclidian(2).setAxesColor(col);
-			} else {
-				view.setAxesColor(col);
-			}
-		} else if (source == btGridColor) {
-			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(((GuiManagerD)(app.getGuiManager())).showColorChooser(view.getGridColor()));
-			if (view == app.getEuclidianView1()) {
-				app.getSettings().getEuclidian(1).setGridColor(col);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setGridColor(col);
-			} else if (view == app.getEuclidianView2()) {
-				app.getSettings().getEuclidian(2).setGridColor(col);
-			} else {
-				view.setGridColor(col);
-			}
-		} else if (source == cbTooltips) {
-			int ind = cbTooltips.getSelectedIndex();
-			if (ind == 0) {
-				ind = EuclidianStyleConstants.TOOLTIPS_ON;
-			} else if (ind == 1) {
-				ind = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
-			} else if (ind == 2) {
-				ind = EuclidianStyleConstants.TOOLTIPS_OFF;
-			}
-			if (view instanceof EuclidianViewD) {
-				if (view == app.getEuclidianView1()) {
-					app.getSettings().getEuclidian(1).setAllowToolTips(ind);
-				} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-					((EuclidianView) view).setAllowToolTips(ind);
-				} else if (view == app.getEuclidianView2()) {
-					app.getSettings().getEuclidian(2).setAllowToolTips(ind);
-				} else {
-					((EuclidianView) view).setAllowToolTips(ind);
-				}
-			}
-		} else if (source == cbShowAxes) {
-			if (app.getEuclidianView1() == view) {
-				app.getSettings()
-						.getEuclidian(1)
-						.setShowAxes(cbShowAxes.isSelected(),
-								cbShowAxes.isSelected());
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setShowAxes(cbShowAxes.isSelected(), true);
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings()
-						.getEuclidian(2)
-						.setShowAxes(cbShowAxes.isSelected(),
-								cbShowAxes.isSelected());
-			} else {
-				view.setShowAxes(cbShowAxes.isSelected(), true);
-			}
-		} else if (source == cbBoldAxes) {
-			if (app.getEuclidianView1() == view) {
-				app.getSettings()
-						.getEuclidian(1)
-						.setBoldAxes(cbBoldAxes.isSelected());
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setShowAxes(cbShowAxes.isSelected(), true);
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings()
-						.getEuclidian(2)
-						.setBoldAxes(cbBoldAxes.isSelected());
-			} else {
-				view.setBoldAxes(cbBoldAxes.isSelected());
-			}
-		} else if (source == cbShowGrid) {
-			if (app.getEuclidianView1() == view) {
-				app.getSettings().getEuclidian(1)
-						.showGrid(cbShowGrid.isSelected());
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.showGrid(cbShowGrid.isSelected());
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings().getEuclidian(2)
-						.showGrid(cbShowGrid.isSelected());
-			} else {
-				view.showGrid(cbShowGrid.isSelected());
-			}
-		} else if (source == cbBoldGrid) {
-			if (app.getEuclidianView1() == view) {
-				app.getSettings().getEuclidian(1)
-						.setGridIsBold(cbBoldGrid.isSelected());
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setGridIsBold(cbBoldGrid.isSelected());
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings().getEuclidian(2)
-						.setGridIsBold(cbBoldGrid.isSelected());
-			} else {
-				view.setGridIsBold(cbBoldGrid.isSelected());
-			}
-		} else if (source == cbShowMouseCoords) {
-			if (view == app.getEuclidianView1()) {
-				app.getSettings()
-						.getEuclidian(1)
-						.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			} else if (view == app.getEuclidianView2()) {
-				app.getSettings()
-						.getEuclidian(2)
-						.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			} else {
-				view.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			}
-		} else if (source == cbGridType) {
-			if (app.getEuclidianView1() == view) {
-				app.getSettings().getEuclidian(1)
-						.setGridType(cbGridType.getSelectedIndex());
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setGridType(cbGridType.getSelectedIndex());
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings().getEuclidian(2)
-						.setGridType(cbGridType.getSelectedIndex());
-			} else {
-				view.setGridType(cbGridType.getSelectedIndex());
-			}
-		} else if (source == cbAxesStyle) {
-			
-			int style = ((Integer)cbAxesStyle.getSelectedItem()).intValue()
-					// make sure bold checkbox doesn't change
-					+ (cbBoldAxes.isSelected() ? EuclidianStyleConstants.AXES_BOLD : 0);
-			
-			if (view == app.getEuclidianView1()) {
-				app.getSettings().getEuclidian(1)
-						.setAxesLineStyle(style);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setAxesLineStyle(style);
-			} else if (view == app.getEuclidianView2()) {
-				app.getSettings().getEuclidian(2)
-						.setAxesLineStyle(style);
-			} else {
-				view.setAxesLineStyle(style);
-			}
-		} else if (source == cbGridStyle) {
-			int type = ((Integer) cbGridStyle.getSelectedItem()).intValue();
+			model.applyAxesColor(new geogebra.awt.GColorD(((GuiManagerD) app
+					.getGuiManager()).showColorChooser(view.getAxesColor())));
 
-			if (app.getEuclidianView1() == view) {
-				app.getSettings().getEuclidian(1).setGridLineStyle(type);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setGridLineStyle(type);
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings().getEuclidian(2).setGridLineStyle(type);
-			} else {
-				view.setGridLineStyle(type);
-			}
+		} else if (source == btGridColor) {
+			model.applyGridColor(new geogebra.awt.GColorD(((GuiManagerD) (app
+					.getGuiManager())).showColorChooser(view.getGridColor())));
+
+		} else if (source == cbTooltips) {
+			model.applyTooltipMode(cbTooltips.getSelectedIndex());
+
+		} else if (source == cbShowAxes) {
+			model.showAxes(cbShowAxes.isSelected());
+
+		} else if (source == cbBoldAxes) {
+			model.applyBoldAxes(cbBoldAxes.isSelected(),
+					cbShowAxes.isSelected());
+
+		} else if (source == cbShowGrid) {
+			model.showGrid(cbShowGrid.isSelected());
+
+		} else if (source == cbBoldGrid) {
+			model.applyBoldGrid(cbBoldGrid.isSelected());
+
+		} else if (source == cbShowMouseCoords) {
+			model.applyMouseCoords(cbShowMouseCoords.isSelected());
+
+		} else if (source == cbGridType) {
+			model.appyGridType(cbGridType.getSelectedIndex());
+
+		} else if (source == cbAxesStyle) {
+
+			model.appyAxesStyle(((Integer) cbAxesStyle.getSelectedItem())
+					.intValue()
+			// make sure bold checkbox doesn't change
+					+ (cbBoldAxes.isSelected() ? EuclidianStyleConstants.AXES_BOLD
+							: 0));
+
+		} else if (source == cbGridStyle) {
+			model.appyGridStyle(((Integer) cbGridStyle.getSelectedItem())
+					.intValue());
+
 		} else if (source == cbGridManualTick) {
-			if (app.getEuclidianView1() == view) {
-				app.getSettings()
-						.getEuclidian(1)
-						.setAutomaticGridDistance(
-								!cbGridManualTick.isSelected(), true);
-			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setAutomaticGridDistance(!cbGridManualTick.isSelected());
-			} else if (app.getEuclidianView2() == view) {
-				app.getSettings()
-						.getEuclidian(2)
-						.setAutomaticGridDistance(
-								!cbGridManualTick.isSelected(), true);
-			} else {
-				view.setAutomaticGridDistance(!cbGridManualTick.isSelected());
-			}
+			model.appyGridManualTick(cbGridManualTick.isSelected());
+
 		} else if (source == tfAxesRatioX || source == tfAxesRatioY) {
 			double xval = parseDouble(tfAxesRatioX.getText());
 			double yval = parseDouble(tfAxesRatioY.getText());
-			if (!(Double.isInfinite(xval) || Double.isNaN(xval)
-					|| Double.isInfinite(yval) || Double.isNaN(yval))) {
-				// ratio = xval / yval
-				// xscale / yscale = ratio
-				// => yscale = xscale * xval/yval
-				view.setCoordSystem(view.getXZero(), view.getYZero(),
-						view.getXscale(), view.getXscale() * xval / yval);
-			}
+			model.applyAxesRatio(xval, yval);
+
 		} else if (source == cbLockRatio) {
 			if (cbLockRatio.isSelected()) {
-				view.setLockedAxesRatio(parseDouble(tfAxesRatioX.getText())
+				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 						/ parseDouble(tfAxesRatioY.getText()));
-			} else
-				view.setLockedAxesRatio(null);
-			tfAxesRatioX.setEnabled(view.isZoomable()
-					&& !view.isLockedAxesRatio());
-			tfAxesRatioY.setEnabled(view.isZoomable()
-					&& !view.isLockedAxesRatio());
+			} else {
+				model.applyLockRatio(null);
+			}
 
 		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY
 				|| source == tfMinY) {
 
-			NumberValue minMax = kernel.getAlgebraProcessor()
-					.evaluateToNumeric(((JTextField) source).getText(), false);
-			// not parsed to number => return all
-			if (minMax == null) {
-				tfMinX.setText(view.getXminObject().getLabel(
-						StringTemplate.editTemplate));
-				tfMaxX.setText(view.getXmaxObject().getLabel(
-						StringTemplate.editTemplate));
-				tfMinY.setText(view.getYminObject().getLabel(
-						StringTemplate.editTemplate));
-				tfMaxY.setText(view.getYmaxObject().getLabel(
-						StringTemplate.editTemplate));
-			} else {
-				if (source == tfMinX) {
-					if (view == app.getEuclidianView1()) {
-						app.getSettings().getEuclidian(1)
-								.setXminObject(minMax, true);
-					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-						view.setXminObject(minMax);
-					} else if (view == app.getEuclidianView2()) {
-						app.getSettings().getEuclidian(2)
-								.setXminObject(minMax, true);
-					} else {
-						view.setXminObject(minMax);
-					}
-				} else if (source == tfMaxX) {
-					if (view == app.getEuclidianView1()) {
-						app.getSettings().getEuclidian(1)
-								.setXmaxObject(minMax, true);
-					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-						view.setXmaxObject(minMax);
-					} else if (view == app.getEuclidianView2()) {
-						app.getSettings().getEuclidian(2)
-								.setXmaxObject(minMax, true);
-					} else {
-						view.setXmaxObject(minMax);
-					}
-				} else if (source == tfMinY) {
-					if (view == app.getEuclidianView1()) {
-						app.getSettings().getEuclidian(1)
-								.setYminObject(minMax, true);
-					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-						view.setYminObject(minMax);
-					} else if (view == app.getEuclidianView2()) {
-						app.getSettings().getEuclidian(2)
-								.setYminObject(minMax, true);
-					} else {
-						view.setYminObject(minMax);
-					}
-				} else if (source == tfMaxY) {
-					if (view == app.getEuclidianView1()) {
-						app.getSettings().getEuclidian(1)
-								.setYmaxObject(minMax, true);
-					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-						view.setYmaxObject(minMax);
-					} else if (view == app.getEuclidianView2()) {
-						app.getSettings().getEuclidian(2)
-								.setYmaxObject(minMax, true);
-					} else {
-						view.setYmaxObject(minMax);
-					}
-				}
-				view.setXminObject(view.getXminObject());
-				tfAxesRatioX.setEnabled(view.isZoomable()
-						&& !view.isLockedAxesRatio());
-				tfAxesRatioY.setEnabled(view.isZoomable()
-						&& !view.isLockedAxesRatio());
-				view.updateBounds(true);
+			String text = ((JTextField) source).getText();
+			MinMaxType type = null;
+			if (source == tfMinX) {
+				type = MinMaxType.minX;
+			} else if (source == tfMaxX) {
+				type = MinMaxType.maxX;
+			} else if (source == tfMinY) {
+				type = MinMaxType.minY;
+			} else if (source == tfMaxY) {
+				type = MinMaxType.maxY;
 			}
+			model.applyMinMax(text, type);
 		}
 
 		view.updateBackground();
@@ -1053,7 +831,7 @@ public class OptionsEuclidianD extends
 		if (index == 0)
 			setView(app.getEuclidianView1());
 		else
-			setView(((GuiManagerD)(app.getGuiManager())).getEuclidianView2());
+			setView(((GuiManagerD) (app.getGuiManager())).getEuclidianView2());
 
 	}
 
@@ -1166,8 +944,6 @@ public class OptionsEuclidianD extends
 		// override this method to make the properties view apply modifications
 		// when panel changes
 	}
-	
-	
 
 	public void updateFont() {
 
@@ -1177,7 +953,9 @@ public class OptionsEuclidianD extends
 
 	/**
 	 * update font
-	 * @param font font
+	 * 
+	 * @param font
+	 *            font
 	 */
 	protected void updateFont(Font font) {
 
@@ -1192,14 +970,13 @@ public class OptionsEuclidianD extends
 		lblColor.setFont(font);
 		cbBoldGrid.setFont(font);
 
-
 		cbShowGrid.setFont(font);
 
 		// tab titles
 		tabbedPane.setFont(font);
 
 		// window dimension panel
-		for (int i=0; i<4; i++)
+		for (int i = 0; i < 4; i++)
 			dimLabel[i].setFont(font);
 		axesRatioLabel.setFont(font);
 
@@ -1223,41 +1000,34 @@ public class OptionsEuclidianD extends
 		// axis
 		xAxisPanel.updateFont();
 		yAxisPanel.updateFont();
-		
-		
-		cbAxesStyle.setFont(font); 
-		cbGridType.setFont(font); 
-		cbGridStyle.setFont(font); 
-		cbGridTickAngle.setFont(font); 
-		cbTooltips.setFont(font); 
-		
-		
-		tfAxesRatioX.setFont(font); 
-		tfAxesRatioY.setFont(font);
 
+		cbAxesStyle.setFont(font);
+		cbGridType.setFont(font);
+		cbGridStyle.setFont(font);
+		cbGridTickAngle.setFont(font);
+		cbTooltips.setFont(font);
+
+		tfAxesRatioX.setFont(font);
+		tfAxesRatioY.setFont(font);
 
 		tfMinX.setFont(font);
 		tfMaxX.setFont(font);
 		tfMinY.setFont(font);
 		tfMaxY.setFont(font);
-		
 
 		// construction protocol panel
 		consProtocolPanel.setFont(font);
 		ckShowNavbar.setFont(font);
 		ckNavPlay.setFont(font);
 		ckOpenConsProtocol.setFont(font);
-		
+
 	}
 
-	
 	private boolean isSelected = false;
-	
-	public void setSelected(boolean flag){
+
+	public void setSelected(boolean flag) {
 		isSelected = flag;
 	}
-	
-	
 
 	/**
 	 * Initialize the construction protocol panel.
@@ -1283,7 +1053,6 @@ public class OptionsEuclidianD extends
 		consProtocolPanel.add(LayoutUtil.flowPanel(tab, ckOpenConsProtocol));
 
 	}
-	
 
 	Action showConsProtNavigationAction = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
@@ -1297,7 +1066,8 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getGuiManager().getConstructionProtocolNavigation();
+			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app
+					.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
@@ -1310,7 +1080,8 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getGuiManager().getConstructionProtocolNavigation();
+			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app
+					.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
@@ -1318,5 +1089,24 @@ public class OptionsEuclidianD extends
 			updateGUI();
 		}
 	};
-	
+
+	public GColor getEuclidianBackground(int viewNumber) {
+		return new geogebra.awt.GColorD(
+				((GuiManagerD) (app.getGuiManager()))
+						.showColorChooser(app.getSettings()
+								.getEuclidian(viewNumber).getBackground()));
+	}
+
+	public void enableAxesRatio(boolean value) {
+		tfAxesRatioX.setEnabled(value);
+		tfAxesRatioY.setEnabled(value);
+	}
+
+	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
+		tfMinX.setText(minX);
+		tfMaxX.setText(maxX);
+		tfMinY.setText(minY);
+		tfMaxY.setText(maxY);
+
+	}
 }
