@@ -53,5 +53,13 @@ public class DrawImplicitPoly extends DrawLocus {
 	public GeoImplicitPoly getPoly() {
 		return implicitPoly;
 	}
+	
+	@Override
+	public boolean hit(int x, int y, int hitThreshold){
+		if(implicitPoly.getDeg()==0){
+			return false;
+		}
+		return super.hit(x, y, hitThreshold);
+	}
 
 }

@@ -612,4 +612,8 @@ public abstract class Drawable extends DrawableND {
 	public void resetHatch() {
 		this.hatchPaint = null;
 	}
+	
+	public boolean isEuclidianVisible(){
+		return geo.isEuclidianVisible();
+	}
 }

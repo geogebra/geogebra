@@ -187,7 +187,7 @@ public class DrawLocus extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
 		if (t == null)
 			return false; // hasn't been drawn yet (hidden)

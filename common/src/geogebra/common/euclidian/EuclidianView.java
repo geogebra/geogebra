@@ -26,6 +26,7 @@ import geogebra.common.euclidian.draw.DrawPolyLine;
 import geogebra.common.euclidian.draw.DrawPolygon;
 import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
+import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawVector;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.factories.AwtFactory;
@@ -46,7 +47,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -1531,10 +1531,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y)) {
+			if ((d instanceof DrawTextField) && (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
-					if(geo instanceof GeoTextField) return true;
+					return true;
 				}
 			}
 		}
@@ -1558,11 +1558,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.hit(p.x, p.y, hitThreshold) || d.hitLabel(p.x, p.y)) {
+			if (d.isEuclidianVisible() && (d.hit(p.x, p.y, hitThreshold) || d.hitLabel(p.x, p.y))) {
 				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible()) {
-					hits.add(geo);
-				}
+				hits.add(geo);
 			}
 		}
 		
@@ -1619,7 +1617,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		while (it.hasNext()) {
 			Drawable d2 = it.next();
 
-			if (d2.hit(p.x, p.y, app.getCapturingThreshold(type)) && d2 instanceof DrawButton) {
+			if (d2 instanceof DrawButton && d2.hit(p.x, p.y, app.getCapturingThreshold(type))) {
 				if (d == null
 						|| d2.getGeoElement().getLayer() >= d.getGeoElement()
 								.getLayer())
