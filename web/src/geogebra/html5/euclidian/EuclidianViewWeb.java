@@ -133,13 +133,13 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	public final void doRepaint2()
 	{
 		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
-		long l = System.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
 		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
-		lastRepaint = System.currentTimeMillis() - l;
+		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
 		
 	}
