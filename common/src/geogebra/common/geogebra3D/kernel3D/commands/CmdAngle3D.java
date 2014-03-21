@@ -15,6 +15,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -213,5 +214,16 @@ public class CmdAngle3D extends CmdAngle {
 		}
 		
 		return super.angle(labels, p);
+	}
+	
+	
+	@Override
+	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumberValue a){
+		
+		if (p1.isGeoElement3D() || p2.isGeoElement3D()){
+			return kernelA.getManager3D().Angle(labels, p1, p2, a, kernelA.getXOYPlane(), true);
+		}
+		
+		return super.angle(labels, p1, p2, a);
 	}
 }

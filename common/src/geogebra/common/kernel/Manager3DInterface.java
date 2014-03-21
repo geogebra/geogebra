@@ -693,6 +693,15 @@ public interface Manager3DInterface {
 	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly);
 	
 	/**
+	 * Creates a new point C by rotating B around A using angle alpha and a new
+	 * angle BAC (for positive orientation) resp. angle CAB (for negative
+	 * orientation). The labels[0] is for the angle, labels[1] for the new point
+	 */
+	public GeoElement[] Angle(String[] labels, GeoPointND B, GeoPointND A,
+			GeoNumberValue alpha, 
+			GeoDirectionND orientation, boolean posOrientation);
+	
+	/**
 	 * 
 	 * @param labels
 	 * @param poly

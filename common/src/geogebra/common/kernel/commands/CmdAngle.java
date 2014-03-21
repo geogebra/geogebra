@@ -201,11 +201,23 @@ public class CmdAngle extends CommandProcessor {
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[1] = (arg[1].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-			return getAlgoDispatcher().Angle(c.getLabels(), (GeoPoint) arg[0],
-					(GeoPoint) arg[1], (GeoNumberValue) arg[2], true);
+			return angle(c.getLabels(), (GeoPointND) arg[0],
+					(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
 		} 
 
 		return null;
+	}
+	
+	/**
+	 * fixed angle
+	 * @param labels labels
+	 * @param p1 point to rotate
+	 * @param p2 center
+	 * @param a angle
+	 * @return angle and rotated point
+	 */
+	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumberValue a){
+		return getAlgoDispatcher().Angle(labels, (GeoPoint) p1, (GeoPoint) p2, a, true);
 	}
 	
 	

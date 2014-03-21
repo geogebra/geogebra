@@ -1334,6 +1334,39 @@ public class Manager3D implements Manager3DInterface {
 		return angle;
 	}
 	
+	
+	final public GeoElement[] Angle(String[] labels, GeoPointND B, GeoPointND A,
+			GeoNumberValue alpha, GeoDirectionND orientation, boolean posOrientation) {
+		// this is actually a macro
+		String pointLabel = null, angleLabel = null;
+		if (labels != null) {
+			switch (labels.length) {
+			case 2:
+				pointLabel = labels[1];
+
+			case 1:
+				angleLabel = labels[0];
+
+			default:
+			}
+		}
+
+		// rotate B around A using angle alpha
+		GeoPointND C = (GeoPointND) Rotate3D(pointLabel, (GeoElement) B, alpha, A, orientation)[0];
+
+		// create angle according to orientation
+		GeoAngle angle;
+		if (posOrientation) {
+			angle = Angle3D(angleLabel, B, A, C, orientation);
+		} else {
+			angle = Angle3D(angleLabel, C, A, B, orientation);
+		}
+
+		// return angle and new point
+		GeoElement[] ret = { angle, (GeoElement) C };
+		return ret;
+	}
+	
 	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h){
 		AlgoAngleLines3D algo = new AlgoAngleLines3D(cons, label, g, h);
 		GeoAngle angle = algo.getAngle();
