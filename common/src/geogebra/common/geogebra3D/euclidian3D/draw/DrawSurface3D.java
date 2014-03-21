@@ -111,35 +111,37 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	{
 		//test if this quad may be drawn or must be splitted
 		//index delta
-		long iDelta = (TR.iu-TL.iu)/2;
-		//index of the five new points T,L,C,R,B
-		//  TL....iT....TR
-		//  .      .     .
-		//  .      .     .
-		//  iL    iC    iR
-		//  .      .     .
-		//  .      .     .
-		//  BL....iB....BR
-		CoordsIndex iT = new CoordsIndex(TL.iu+iDelta, TL.iv);
-		CoordsIndex iL = new CoordsIndex(TL.iu, TL.iv+iDelta);
-		CoordsIndex iC = new CoordsIndex(TL.iu+iDelta, TL.iv+iDelta);
-		CoordsIndex iR = new CoordsIndex(TR.iu, TR.iv+iDelta);
-		CoordsIndex iB = new CoordsIndex(BL.iu+iDelta, BL.iv);
-		Coords fiT = surfaceGeo.evaluatePoint(uMin+iT.iu*uDelta/MAX_SPLIT, vMin+iT.iv*vDelta/MAX_SPLIT);
-		Coords fiL = surfaceGeo.evaluatePoint(uMin+iL.iu*uDelta/MAX_SPLIT, vMin+iL.iv*vDelta/MAX_SPLIT);
-		Coords fiC = surfaceGeo.evaluatePoint(uMin+iC.iu*uDelta/MAX_SPLIT, vMin+iC.iv*vDelta/MAX_SPLIT);
-		Coords fiR = surfaceGeo.evaluatePoint(uMin+iR.iu*uDelta/MAX_SPLIT, vMin+iR.iv*vDelta/MAX_SPLIT);
-		Coords fiB = surfaceGeo.evaluatePoint(uMin+iB.iu*uDelta/MAX_SPLIT, vMin+iB.iv*vDelta/MAX_SPLIT);
+		long iDelta = (TR.iu-TL.iu);
+		
 		Coords v1 = mesh.get(TL).sub(mesh.get(BL));
 		Coords v2 = mesh.get(TL).sub(mesh.get(TR));
 		//this split test is temporary
-		if ((iDelta>=1)&&((iDelta<=16)||(Math.abs(v1.dotproduct(v2))>0.1))){
+		if ((iDelta>=2)&&((iDelta>=16)||(Math.abs(v1.dotproduct(v2))>0.0001))){
 			//split
+			//index of the five new points T,L,C,R,B
+			//  TL....iT....TR
+			//  .      .     .
+			//  .      .     .
+			//  iL    iC    iR
+			//  .      .     .
+			//  .      .     .
+			//  BL....iB....BR
+			iDelta /= 2;
+			CoordsIndex iT = new CoordsIndex(TL.iu+iDelta, TL.iv);
+			CoordsIndex iL = new CoordsIndex(TL.iu, TL.iv+iDelta);
+			CoordsIndex iC = new CoordsIndex(TL.iu+iDelta, TL.iv+iDelta);
+			CoordsIndex iR = new CoordsIndex(TR.iu, TR.iv+iDelta);
+			CoordsIndex iB = new CoordsIndex(BL.iu+iDelta, BL.iv);
+			Coords fiT = surfaceGeo.evaluatePoint(uMin+iT.iu*uDelta/MAX_SPLIT, vMin+iT.iv*vDelta/MAX_SPLIT);
+			Coords fiL = surfaceGeo.evaluatePoint(uMin+iL.iu*uDelta/MAX_SPLIT, vMin+iL.iv*vDelta/MAX_SPLIT);
+			Coords fiC = surfaceGeo.evaluatePoint(uMin+iC.iu*uDelta/MAX_SPLIT, vMin+iC.iv*vDelta/MAX_SPLIT);
+			Coords fiR = surfaceGeo.evaluatePoint(uMin+iR.iu*uDelta/MAX_SPLIT, vMin+iR.iv*vDelta/MAX_SPLIT);
+			Coords fiB = surfaceGeo.evaluatePoint(uMin+iB.iu*uDelta/MAX_SPLIT, vMin+iB.iv*vDelta/MAX_SPLIT);
 			mesh.put(iT, fiT);
-			mesh.put(iL, surfaceGeo.evaluatePoint(uMin+iL.iu*uDelta/MAX_SPLIT, vMin+iL.iv*vDelta/MAX_SPLIT));
-			mesh.put(iC, surfaceGeo.evaluatePoint(uMin+iC.iu*uDelta/MAX_SPLIT, vMin+iC.iv*vDelta/MAX_SPLIT));
-			mesh.put(iR, surfaceGeo.evaluatePoint(uMin+iR.iu*uDelta/MAX_SPLIT, vMin+iR.iv*vDelta/MAX_SPLIT));
-			mesh.put(iB, surfaceGeo.evaluatePoint(uMin+iB.iu*uDelta/MAX_SPLIT, vMin+iB.iv*vDelta/MAX_SPLIT));
+			mesh.put(iL, fiL);
+			mesh.put(iC, fiC);
+			mesh.put(iR, fiR);
+			mesh.put(iB, fiB);
 			
 			//square TL
 			splitOrDraw(surface,TL,iT,iL,iC,uMin,uDelta,vMin,vDelta);
