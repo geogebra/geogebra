@@ -1069,7 +1069,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	protected void setLightPosition(float[] values){
 		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
-		jogl.getGL2ES2().glUniform3fv(viewDirectionLocation, 1, view3D.getViewDirection().getForGL(), 0);
+		jogl.getGL2ES2().glUniform3fv(viewDirectionLocation, 1, view3D.getViewDirection().get3ForGL(), 0);
 	}
 
 

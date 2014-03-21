@@ -1160,6 +1160,22 @@ public class Coords extends CoordMatrix {
 		
 		return isDefined();
 	}
+	
+	
+	/**
+	 * 
+	 * @return 3 floats array
+	 */
+	public float[] get3ForGL(){
+		float[] ret = new float[3];
+		
+		for (int i = 0 ; i < 3 ; i++){
+			ret[i] = (float) val[i];
+		}
+		
+		return ret;
+		
+	}
 
 	
 }
