@@ -39,6 +39,12 @@ public class StandardButton extends FastButton {
 
 		this.getElement().setInnerHTML(html);
 	}
+	
+	@Override
+    public void setText(String text){
+		this.label = text;
+		setIconAndLabel(this.icon, text);
+	}
 
 	@Override
 	public void onHoldPressDownStyle() {
