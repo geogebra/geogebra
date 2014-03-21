@@ -387,6 +387,92 @@ public class GeoGebraIcon extends BasicIcons{
     }
 
 	public static ImageOrText createAxesStyleIcon(int id, GDimensionW iconSize) {
+		int WIDTH = 32;
+//		int HEIGHT = 24;
+//		int arrowSize = 5;
+//		int filledArrowLength = 10;
+//		GLine2DW tempLine = new GLine2DW();
+//		GeneralPath gp = new GeneralPath();
+//
+//		
+//		int width = iconSize.getWidth();
+//		int height = iconSize.getHeight();
+//		
+//		Canvas c = getTmpCanvas(width, height);
+//		GGraphics2DW g2 = new GGraphics2DW(c);
+//		
+//		g2.clearRect(0, 0, width, height);
+//		g2.setColor(GColor.BLACK);
+//
+//		// paint cell background
+////		if (getBackground() == Color.LIGHT_GRAY) {
+////			g2.setPaint(Color.LIGHT_GRAY);
+////		} else {
+////			g2.setPaint(Color.WHITE);
+////		}
+//		g2.fillRect(0, 0, width, height);
+//		
+//		g2.setPaint(GColor.BLACK);
+//		
+////		g2.setStroke(borderStroke);
+//		switch (id) {
+//		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+//
+//			// left arrow
+//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+//			g2.draw(tempLine);
+//
+//			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2 + arrowSize);
+//			g2.draw(tempLine);
+//
+//			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2 - arrowSize);
+//			g2.draw(tempLine);
+//
+//			// fall through
+//		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
+//		default:
+//
+//			// right-arrow 
+//
+//			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2 + arrowSize);
+//			g2.draw(tempLine);
+//
+//			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2 - arrowSize);
+//			g2.draw(tempLine);
+//			 // fall through
+//		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
+//			// just a line
+//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+//			g2.draw(tempLine);
+//			break;
+//		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+//
+//			// left arrow (filled)
+//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+//			g2.draw(tempLine);
+//
+//			gp.reset();
+//			gp.moveTo(0, HEIGHT / 2);
+//			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 + arrowSize);
+//			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 - arrowSize);
+//			
+//			g2.fill(gp);
+//
+//			// fall through
+//		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
+//
+//			// right-arrow (filled)
+//			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+//			g2.draw(tempLine);
+//
+//			gp.reset();
+//			gp.moveTo(WIDTH, HEIGHT / 2);
+//			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 + arrowSize);
+//			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 - arrowSize);
+//			
+//			g2.fill(gp);
+//
+//		}
 		return new ImageOrText();
 
 	}

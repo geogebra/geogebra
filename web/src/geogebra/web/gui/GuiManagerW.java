@@ -1504,4 +1504,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public EuclidianViewWeb getPlotPanelEuclidanView() {
 	    return (EuclidianViewWeb) probCalculator.plotPanel;
     }
+	
+	public boolean isConsProtNavigationPlayButtonVisible() {
+		return getConstructionProtocolNavigation().isPlayButtonVisible();		
+	}
+
+	public boolean isConsProtNavigationProtButtonVisible() {
+		return getConstructionProtocolNavigation().isConsProtButtonVisible();		
+	}
+
+
 }

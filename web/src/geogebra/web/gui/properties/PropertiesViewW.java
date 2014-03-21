@@ -65,9 +65,9 @@ public class PropertiesViewW extends
 //		getStyleBar();
 
 		mainPanel = new FlowPanel();
-		if(!((AppW) app).getLAF().isSmart()){
-			mainPanel.add(getStyleBar().getWrappedPanel());
-		}
+	//	if(!((AppW) app).getLAF().isSmart()){
+		mainPanel.add(getStyleBar().getWrappedPanel());
+	//	}
 		contentsPanel = new FlowPanel();
 		wrappedPanel.addStyleName("propertiesView");
 		mainPanel.add(contentsPanel);

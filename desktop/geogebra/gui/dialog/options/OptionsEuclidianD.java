@@ -23,7 +23,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.AxesStyleListRenderer;
@@ -514,133 +513,65 @@ public class OptionsEuclidianD extends
 
 	}
 
-	public void updateGUI() {
-
-		btBackgroundColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
-				.getBackgroundCommon()));
-		btAxesColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
-				.getAxesColor()));
-		btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
-				.getGridColor()));
-
+	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
+		btAxesColor.setForeground(geogebra.awt.GColorD.getAwtColor(color));
 		cbShowAxes.removeActionListener(this);
-		cbShowAxes.setSelected(view.getShowXaxis() && view.getShowYaxis());
+		cbShowAxes.setSelected(isShown);
 		cbShowAxes.addActionListener(this);
 
 		cbBoldAxes.removeActionListener(this);
-		cbBoldAxes.setSelected(view.areAxesBold());
+		cbBoldAxes.setSelected(isBold);
 		cbBoldAxes.addActionListener(this);
 
+	}
+
+	public void updateGrid(GColor color, boolean isShown, boolean isBold,
+			int gridType) {
+		btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(color));
+
 		cbShowGrid.removeActionListener(this);
-		cbShowGrid.setSelected(view.getShowGrid());
+		cbShowGrid.setSelected(isShown);
 		cbShowGrid.addActionListener(this);
 
-		if (view instanceof EuclidianViewD) {
-			cbTooltips.removeActionListener(this);
-			int ind = ((EuclidianView) view).getAllowToolTips();
-			if (ind == EuclidianStyleConstants.TOOLTIPS_ON)
-				cbTooltips.setSelectedIndex(0);
-			else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)
-				cbTooltips.setSelectedIndex(1);
-			else if (ind == EuclidianStyleConstants.TOOLTIPS_OFF)
-				cbTooltips.setSelectedIndex(2);
-			cbTooltips.addActionListener(this);
-		}
-
-		// Michael Borcherds 2008-04-11
 		cbBoldGrid.removeActionListener(this);
-		cbBoldGrid.setSelected(view.getGridIsBold());
+		cbBoldGrid.setSelected(isBold);
 		cbBoldGrid.addActionListener(this);
 
-		cbShowMouseCoords.removeActionListener(this);
-		cbShowMouseCoords.setSelected(view.getAllowShowMouseCoords());
-		cbShowMouseCoords.addActionListener(this);
-
-		tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
-		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
-		cbLockRatio.setEnabled(view.isZoomable());
-
-		updateBounds();
-
 		cbGridType.removeActionListener(this);
-		cbGridType.setSelectedIndex(view.getGridType());
+		cbGridType.setSelectedIndex(gridType);
 		cbGridType.addActionListener(this);
 
+	}
+
+	public void updateGUI() {
+		btBackgroundColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
+				.getBackgroundCommon()));
+		cbTooltips.removeActionListener(this);
 		cbAxesStyle.removeActionListener(this);
-		// need style with bold removed for menu
-		for (int i = 0; i < EuclidianStyleConstants.lineStyleOptions.length; i++) {
-			if (view.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
-				cbAxesStyle.setSelectedIndex(i);
-				break;
-			}
-		}
-
-		cbAxesStyle.addActionListener(this);
-
 		cbGridStyle.removeActionListener(this);
-		int type = view.getGridLineStyle();
-		for (int i = 0; i < cbGridStyle.getItemCount(); i++) {
-			if (type == ((Integer) cbGridStyle.getItemAt(i)).intValue()) {
-				cbGridStyle.setSelectedIndex(i);
-				break;
-			}
-		}
+
+		model.updateProperties();
+
 		cbGridStyle.addActionListener(this);
-
-		cbGridManualTick.removeActionListener(this);
-		boolean autoGrid = view.isAutomaticGridDistance();
-		cbGridManualTick.setSelected(!autoGrid);
-		cbGridManualTick.addActionListener(this);
-
-		ncbGridTickX.removeItemListener(this);
-		ncbGridTickY.removeItemListener(this);
-		cbGridTickAngle.removeItemListener(this);
-		double[] gridTicks = view.getGridDistances();
-
-		if (view.getGridType() != EuclidianView.GRID_POLAR) {
-
-			ncbGridTickY.setVisible(true);
-			gridLabel2.setVisible(true);
-			cbGridTickAngle.setVisible(false);
-			gridLabel3.setVisible(false);
-
-			ncbGridTickX.setValue(gridTicks[0]);
-			ncbGridTickY.setValue(gridTicks[1]);
-			gridLabel1.setText("x:");
-
-		} else {
-			ncbGridTickY.setVisible(false);
-			gridLabel2.setVisible(false);
-			cbGridTickAngle.setVisible(true);
-			gridLabel3.setVisible(true);
-
-			ncbGridTickX.setValue(gridTicks[0]);
-			int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
-			if (val == 5)
-				val = 4; // handle Pi/2 problem
-			cbGridTickAngle.setSelectedIndex(val);
-			gridLabel1.setText("r:");
-		}
-
-		ncbGridTickX.setEnabled(!autoGrid);
-		ncbGridTickY.setEnabled(!autoGrid);
-		cbGridTickAngle.setEnabled(!autoGrid);
-		ncbGridTickX.addItemListener(this);
-		ncbGridTickY.addItemListener(this);
-		cbGridTickAngle.addItemListener(this);
+		cbAxesStyle.addActionListener(this);
+		cbTooltips.addActionListener(this);
 
 		xAxisPanel.updatePanel();
 		yAxisPanel.updatePanel();
 
+	}
+
+	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
-		ckShowNavbar.setSelected(app.showConsProtNavigation());
+		ckShowNavbar.setSelected(isVisible);
 		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
 				.isConsProtNavigationPlayButtonVisible());
 		ckOpenConsProtocol.setSelected(((GuiManagerD) app.getGuiManager())
 				.isConsProtNavigationProtButtonVisible());
 
-		ckNavPlay.setEnabled(app.showConsProtNavigation());
-		ckOpenConsProtocol.setEnabled(app.showConsProtNavigation());
+		ckNavPlay.setEnabled(isVisible);
+		ckOpenConsProtocol.setEnabled(isVisible);
+
 	}
 
 	public void setLabels() {
@@ -1106,5 +1037,71 @@ public class OptionsEuclidianD extends
 
 	public void addTooltipItem(String item) {
 		cbTooltips.addItem(item);
+	}
+
+	public void selectTooltipType(int index) {
+		cbTooltips.setSelectedIndex(index);
+	}
+
+	public void showMouseCoords(boolean value) {
+		cbShowMouseCoords.removeActionListener(this);
+		cbShowMouseCoords.setSelected(value);
+		cbShowMouseCoords.addActionListener(this);
+	}
+
+	public void selectAxesStyle(int index) {
+		cbAxesStyle.removeActionListener(this);
+		cbAxesStyle.setSelectedIndex(index);
+		cbAxesStyle.addActionListener(this);
+
+	}
+
+	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
+			int gridType) {
+		ncbGridTickX.removeItemListener(this);
+		ncbGridTickY.removeItemListener(this);
+		cbGridTickAngle.removeItemListener(this);
+
+		if (gridType != EuclidianView.GRID_POLAR) {
+
+			ncbGridTickY.setVisible(true);
+			gridLabel2.setVisible(true);
+			cbGridTickAngle.setVisible(false);
+			gridLabel3.setVisible(false);
+
+			ncbGridTickX.setValue(gridTicks[0]);
+			ncbGridTickY.setValue(gridTicks[1]);
+			gridLabel1.setText("x:");
+
+		} else {
+			ncbGridTickY.setVisible(false);
+			gridLabel2.setVisible(false);
+			cbGridTickAngle.setVisible(true);
+			gridLabel3.setVisible(true);
+
+			ncbGridTickX.setValue(gridTicks[0]);
+			int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
+			if (val == 5)
+				val = 4; // handle Pi/2 problem
+			cbGridTickAngle.setSelectedIndex(val);
+			gridLabel1.setText("r:");
+		}
+
+		ncbGridTickX.setEnabled(!isAutoGrid);
+		ncbGridTickY.setEnabled(!isAutoGrid);
+		cbGridTickAngle.setEnabled(!isAutoGrid);
+		ncbGridTickX.addItemListener(this);
+		ncbGridTickY.addItemListener(this);
+		cbGridTickAngle.addItemListener(this);
+
+	}
+
+	public void enableLock(boolean value) {
+		cbLockRatio.setSelected(value);
+	}
+
+	public void selectGridStyle(int style) {
+		// TODO Auto-generated method stub
+
 	}
 }

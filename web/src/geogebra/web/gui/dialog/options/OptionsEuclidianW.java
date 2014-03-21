@@ -6,16 +6,17 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
-import geogebra.common.gui.dialog.options.model.DecoAngleModel;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
@@ -61,7 +62,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		private Label axesRatioLabel;
 		private FlowPanel dimPanel;
-		private ToggleButton cbLockRatio;
+		private ToggleButton tbLockRatio;
 		private CheckBox cbShowAxes;
 		private CheckBox cbBoldAxes;
 		private Label colorLabel;
@@ -81,6 +82,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private CheckBox cbShowNavbar;
 		private CheckBox cbNavPlay;
 		private CheckBox cbOpenConsProtocol;
+		private CheckBox cbShowGrid;
+		private CheckBox cbBoldGrid;
 
 		public BasicTab() {
 			addDimensionPanel();
@@ -157,9 +160,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 			
-			cbLockRatio = new ToggleButton(new Image(AppResources.INSTANCE.lock()));
-			cbLockRatio.setValue(view.isLockedAxesRatio());
-			cbLockRatio.setEnabled(view.isZoomable());
+			tbLockRatio = new ToggleButton(new Image(AppResources.INSTANCE.lock()));
+			tbLockRatio.setValue(view.isLockedAxesRatio());
+			tbLockRatio.setEnabled(view.isZoomable());
 		
 			axesRatioLabel = new Label("");
 
@@ -174,7 +177,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			dimPanel.add(LayoutUtil.panelRow(axesRatioLabel));
 			dimPanel.add(LayoutUtil.panelRow(tfAxesRatioX, new Label(" : "),
-					tfAxesRatioY, cbLockRatio));
+					tfAxesRatioY, tbLockRatio));
 			
 			add(dimPanel);
 			
@@ -205,10 +208,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			// axes style
 			lineStyle = new Label(app.getPlain("LineStyle") + ":");
-			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
+			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i, iconSize);
+				iconArray[i] = GeoGebraIcon.createAxesStyleIcon(i, iconSize);
 			}
 			
 			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1, iconSize,
@@ -217,7 +220,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
-					model.appyAxesStyle(idx);;
+					model.appyAxesStyle(idx);
 
 				}
 			};
@@ -244,10 +247,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
                 }});
 			
-			cbLockRatio.addClickHandler(new ClickHandler() {
+			tbLockRatio.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
-					if (cbLockRatio.getValue()) {
+					if (tbLockRatio.getValue()) {
 						model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 								/ parseDouble(tfAxesRatioY.getText()));
 					} else {
@@ -398,7 +401,79 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			tfMaxY.setText(maxY);
 
 		}
+		public void updateAxes(GColor color, boolean isShown, boolean isBold) {
+
+//			btAxesColor.setForeground(new GColorW(view.getAxesColor()));
+			cbShowAxes.setValue(view.getShowXaxis() && view.getShowYaxis());
+			cbBoldAxes.setValue(view.areAxesBold());
+		
+		}
+
+		public void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType) {
+		//	btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
+		//			.getGridColor()));
+
+			cbShowGrid.setValue(view.getShowGrid());
+			cbBoldGrid.setValue(view.getGridIsBold());
+	    }
+		
+		public void updateConsProtocolPanel(boolean isVisible) {
+			// cons protocol panel
+			cbShowNavbar.setValue(isVisible);
+			cbNavPlay.setEnabled(((GuiManagerW) app.getGuiManager()).isConsProtNavigationPlayButtonVisible());
+			cbOpenConsProtocol.setValue(((GuiManagerW) app.getGuiManager())
+					.isConsProtNavigationProtButtonVisible());
+
+			cbNavPlay.setEnabled(isVisible);
+			cbOpenConsProtocol.setEnabled(isVisible);
+
+		}
+
+		public void showMouseCoords(boolean value) {
+	        cbShowMouseCoords.setValue(value);
+        }
+
+		public void selectAxesStyle(int index) {
+	        axesStylePopup.setSelectedIndex(index);
+        }
+
+		public void enabeLock(boolean value) {
+	        tbLockRatio.setValue(value);
+        }
+
+		final protected void updateMinMax() {
+			view.updateBoundObjects();
+			
+			setMinMaxText(view.getXminObject().getLabel(
+					StringTemplate.editTemplate),
+					view.getXmaxObject().getLabel(
+					StringTemplate.editTemplate),
+					view.getYminObject().getLabel(
+					StringTemplate.editTemplate),
+					view.getYmaxObject().getLabel(
+					StringTemplate.editTemplate));
+
+		}
+
+		public void updateBounds() {
+
+			updateMinMax();
+
+			double xscale = view.getXscale();
+			double yscale = view.getYscale();
+			if (xscale >= yscale) {
+				tfAxesRatioX.setText("1");
+				tfAxesRatioY.setText("" + xscale / yscale);
+			} else {
+				tfAxesRatioX.setText("" + yscale / xscale);
+				tfAxesRatioY.setText("1");
+			}
+
+        }
+
 	}
+	
+	
 	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
 		this.app = app;
@@ -413,7 +488,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		addXAxisTab();
 		addYAxisTab();
 		addGridTab();
-		setLabels();
+		updateGUI();
 	    tabPanel.selectTab(0);
 		app.setDefaultCursor();
     }
@@ -466,15 +541,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     }
 
 	public void updateGUI() {
-	    App.debug("updateGUI");
-	    
+	    model.updateProperties();	    
 	    setLabels();
     }
 
 	@Override
     public void updateBounds() {
-		App.debug("updateBounds");
-	    
+	    basicTab.updateBounds();
     }
 
 	public Widget getWrappedPanel() {
@@ -506,6 +579,45 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void addTooltipItem(String item) {
 	    lbTooltips.addItem(item);
+    }
+
+	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
+		basicTab.updateAxes(color, isShown, isBold);
+	}
+	
+	public void selectTooltipType(int index) {
+		lbTooltips.setSelectedIndex(index);
+	}
+
+	public void updateConsProtocolPanel(boolean isVisible) {
+	    basicTab.updateConsProtocolPanel(isVisible);
+    }
+
+	public void updateGrid(GColor color, boolean isShown, boolean isBold,
+            int gridType) {
+	
+    }
+
+	public void showMouseCoords(boolean value) {
+		basicTab.showMouseCoords(value);
+    }
+
+	public void selectAxesStyle(int index) {
+	    basicTab.selectAxesStyle(index);
+    }
+
+	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
+            int gridType) {
+
+    }
+
+	public void enableLock(boolean value) {
+		basicTab.enabeLock(value);
+	}
+
+	public void selectGridStyle(int style) {
+	    // TODO Auto-generated method stub
+	    
     }
 }
 

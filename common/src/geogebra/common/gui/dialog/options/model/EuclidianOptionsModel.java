@@ -19,6 +19,26 @@ public class EuclidianOptionsModel {
 
 		void addTooltipItem(String item);
 
+		void updateAxes(GColor color, boolean isShown, boolean isBold);
+
+		void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType);
+
+		void selectTooltipType(int index);
+
+		void updateConsProtocolPanel(boolean isVisible);
+
+		void updateBounds();
+
+		void showMouseCoords(boolean value);
+
+		void selectAxesStyle(int index);
+
+		void updateGridTicks(boolean isAutoGrid,
+				double[] gridTicks, int gridType);
+
+		void enableLock(boolean zoomable);
+
+		void selectGridStyle(int style);
 	}
 	public enum MinMaxType {
 		minX,
@@ -26,6 +46,8 @@ public class EuclidianOptionsModel {
 		minY,
 		maxY
 	}	
+
+	public static final int MAX_AXES_STYLE_COUNT = 5;
 
 	private App app;
 	private EuclidianView view;
@@ -343,4 +365,55 @@ public class EuclidianOptionsModel {
 			listener.addTooltipItem(item);
 		}
 	}
+	
+	public void updateProperties() {
+
+		listener.updateAxes(view.getAxesColor(), view.getShowXaxis() && view.getShowYaxis(),
+				view.areAxesBold());
+		
+		listener.updateGrid(view.getGridColor(), view.getShowGrid(), view.getGridIsBold(),
+				view.getGridType());
+		
+		if (view instanceof EuclidianView) {
+			int ind = ((EuclidianView) view).getAllowToolTips();
+			int idx = -1;
+			
+			if (ind == EuclidianStyleConstants.TOOLTIPS_ON) {
+				idx = 0;
+			} else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC) {
+				idx = 1;
+			} else if (ind == EuclidianStyleConstants.TOOLTIPS_OFF) {
+				idx = 2;
+			}
+			
+			listener.selectTooltipType(idx);
+		}
+
+		listener.showMouseCoords(view.getAllowShowMouseCoords());
+
+		listener.enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
+		listener.enableLock(view.isZoomable());
+		listener.updateBounds();
+
+		// need style with bold removed for menu
+		for (int i = 0; i < EuclidianStyleConstants.lineStyleOptions.length; i++) {
+			if (view.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
+				listener.selectAxesStyle(i);
+				break;
+			}
+		}
+
+		listener.selectGridStyle(view.getGridLineStyle());
+
+		listener.updateGridTicks(view.isAutomaticGridDistance(),
+				view.getGridDistances(), view.getGridType());
+
+		// cons protocol panel
+		listener.updateConsProtocolPanel(app.showConsProtNavigation());
+	}
+
+	public static int getAxesStyleLength() {
+		return MAX_AXES_STYLE_COUNT;
+	}
 }
+
