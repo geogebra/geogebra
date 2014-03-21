@@ -346,42 +346,8 @@ public class Textures {
 		renderer.setTextureNearest();
 	}
 	
-	/////////////////////////////////////////
-	// IMAGE TEXTURES
-	/////////////////////////////////////////
-	
-	
-	
-	
-	/**
-	 * removes the texture
-	 * @param index
-	 */
-	public void removeTexture(int index){
-		renderer.removeTexture(index);
-	}
 
-	/** 
-	 * @param sizeX
-	 * @param sizeY
-	 * @param buf
-	 * @return a texture for alpha channel
-	 */
-	public int createAlphaTexture(int sizeX, int sizeY, byte[] buf){
-		
-		renderer.enableTextures2D();
-		
-		int[] index = new int[1];
-		renderer.genTextures2D(1, index);
-		
-     	renderer.bindTexture(index[0]);
-		
-		renderer.textureImage2D(sizeX, sizeY, buf);
-        
-        renderer.disableTextures2D();
-        
-        return index[0];
-	}
+
 	
 
 }

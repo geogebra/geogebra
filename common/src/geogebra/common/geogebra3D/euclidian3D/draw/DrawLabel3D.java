@@ -302,14 +302,9 @@ public class DrawLabel3D {
 	 */
     public void updateTexture() {
     	
-    	
-    	if (textureIndex!=0 && !waitForReset){
-    		view.getRenderer().getTextures().removeTexture(textureIndex);
-    		textureIndex = 0;
-    	}
-    	
-    	
-    	textureIndex = view.getRenderer().getTextures().createAlphaTexture(
+    	textureIndex = view.getRenderer().createAlphaTexture(
+    			textureIndex,
+    			waitForReset,
     			width2, height2, 
     			buffer);
     	

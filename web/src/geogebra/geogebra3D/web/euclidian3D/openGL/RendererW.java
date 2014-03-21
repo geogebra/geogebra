@@ -678,16 +678,22 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	
+	
+	
+	
+	
 
 	@Override
     public void enableTextures2D() {
-	    // TODO Auto-generated method stub
+		glContext.enable(WebGLRenderingContext.TEXTURE_2D);
 	    
     }
 
 	@Override
     public void disableTextures2D() {
-	    // TODO Auto-generated method stub
+		glContext.disable(WebGLRenderingContext.TEXTURE_2D);
 	    
     }
 
@@ -697,19 +703,29 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	    
     }
 
-	@Override
-    public void removeTexture(int index) {
-	    // TODO Auto-generated method stub
-	    
-    }
 	
+	
+	@Override
+    public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
+		
+		enableTextures2D();
+		
+		int[] index = new int[1];
+		genTextures2D(1, index);
+		
+     	bindTexture(index[0]);
+		
+		textureImage2D(sizeX, sizeY, buf);
+        
+        disableTextures2D();
+        
+        return index[0];
+	}
 
 
 	@Override
     public void bindTexture(int index) {
-	    // TODO Auto-generated method stub
-		//glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
-	    
+		//glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, index);	    
     }
 
     @Override
@@ -721,21 +737,21 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     
     @Override
 	public void setTextureLinear(){
-    	/*
+    	
     	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MAG_FILTER, WebGLRenderingContext.LINEAR);
     	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MIN_FILTER, WebGLRenderingContext.LINEAR);
     	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_WRAP_S, WebGLRenderingContext.CLAMP_TO_EDGE); //prevent repeating the texture
     	glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_WRAP_T, WebGLRenderingContext.CLAMP_TO_EDGE); //prevent repeating the texture
-    	 */
+    	 
 	}
     
     
 	@Override
 	public void setTextureNearest(){
-		/*
+		
 		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MAG_FILTER, WebGLRenderingContext.NEAREST);
 		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D, WebGLRenderingContext.TEXTURE_MIN_FILTER, WebGLRenderingContext.NEAREST);
-		*/
+		
 	}
 
 

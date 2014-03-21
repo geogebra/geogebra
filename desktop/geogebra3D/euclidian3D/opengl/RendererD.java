@@ -306,10 +306,34 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     	getGL().glBindTexture(GL.GL_TEXTURE_2D, index);
     }
     
-    @Override
+    /**
+     * remove texture at index
+     * @param index texture index
+     */
 	public void removeTexture(int index){
     	getGL().glDeleteTextures(1, new int[] {index}, 0);
     }
+    
+	@Override
+	public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
+		
+		if (textureIndex != 0 && !waitForReset){
+			removeTexture(textureIndex);
+		}
+		
+		enableTextures2D();
+		
+		int[] index = new int[1];
+		genTextures2D(1, index);
+		
+     	bindTexture(index[0]);
+		
+		textureImage2D(sizeX, sizeY, buf);
+        
+        disableTextures2D();
+        
+        return index[0];
+	}
     
     @Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf){

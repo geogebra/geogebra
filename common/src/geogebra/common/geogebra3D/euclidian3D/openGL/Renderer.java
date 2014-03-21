@@ -1593,13 +1593,17 @@ public abstract class Renderer {
 	 */
 	abstract public void bindTexture(int index);
 
-	/**
-	 * remove a texture
-	 * 
-	 * @param index
-	 *            texture index
+	
+	
+	/** 
+	 * @param textureIndex texture index
+	 * @param waitForReset wait for reset
+	 * @param sizeX
+	 * @param sizeY
+	 * @param buf
+	 * @return a texture for alpha channel
 	 */
-	abstract public void removeTexture(int index);
+	abstract public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf);
 
 	/**
 	 * @param sizeX
