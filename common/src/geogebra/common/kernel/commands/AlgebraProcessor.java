@@ -99,6 +99,9 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements 
  * @author Markus
@@ -663,6 +666,13 @@ public class AlgebraProcessor {
 		GeoElement[] ret = null;
 		try{
 			String ggb = mathmlParserGGB.parse(cmd, false, true);
+			RegExp assignment = RegExp
+					.compile("^(\\w+) \\(x\\)=(.*)$");
+			MatchResult lhs = assignment
+					.exec(ggb);
+			if(lhs!=null){
+				ggb = lhs.getGroup(1)+"(x)="+lhs.getGroup(2);
+			}
 			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo, false, throwMyError, false, callback0);
 		}catch(Throwable t){
