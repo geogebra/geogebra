@@ -43,6 +43,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     // location values for shader fields
     private WebGLUniformLocation modelviewLocation, projectionLocation; // matrices
     private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation; // light
+    private WebGLUniformLocation viewDirectionLocation; //view direction
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
@@ -167,6 +168,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         
         lightPositionLocation = glContext.getUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = glContext.getUniformLocation(shaderProgram, "ambiantDiffuse");
+        viewDirectionLocation = glContext.getUniformLocation(shaderProgram, "viewDirection");
+     
         
         //texture
         textureTypeLocation = glContext.getUniformLocation(shaderProgram, "textureType");
@@ -573,6 +576,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
     protected void setLightPosition(float[] values) {
 		glContext.uniform3fv(lightPositionLocation, values);	    
+		glContext.uniform3fv(viewDirectionLocation, view3D.getViewDirection().get3ForGL());	    
     }
 	
 	private float[][] ambiantDiffuse;
