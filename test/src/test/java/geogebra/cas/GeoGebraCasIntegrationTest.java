@@ -2846,7 +2846,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariableVC_2 () {
-    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), k]", "{k = -sqrt(a), k = sqrt(a)}");
+    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), k]", "{k = sqrt(a), k = -sqrt(a)}");
   }
 
   @Test
