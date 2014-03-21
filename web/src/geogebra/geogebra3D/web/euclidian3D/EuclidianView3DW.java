@@ -487,8 +487,7 @@ public class EuclidianView3DW extends EuclidianView3D {
 
 	@Override
     protected EuclidianStyleBar newEuclidianStyleBar() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return new EuclidianStyleBar3DW(this);
     }
 	
 	
