@@ -45,8 +45,8 @@ public class AlgoDiv extends AlgoTwoNumFunction {
 	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
 
-    		double numerator = a.getDouble();
-    		double denominator = b.getDouble();
+    		double numerator = Kernel.checkInteger(a.getDouble());
+    		double denominator = Kernel.checkInteger(b.getDouble());
     		
     		if (Math.abs(numerator) > MyDouble.LARGEST_INTEGER || Math.abs(denominator) > MyDouble.LARGEST_INTEGER) {
     			num.setUndefined();
