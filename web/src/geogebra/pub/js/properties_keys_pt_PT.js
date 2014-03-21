@@ -1915,7 +1915,6 @@ __GGB__keysVar.pt_PT.menu = {
     "Total": "Total",
     "Trace": "Tra\xe7o Ativo ou Desativo",
     "Trace_Help": "Selecione o objeto para ativar ou desativar o tra\xe7o",
-    "TraceCopy": "Copiar Tra\xe7o",
     "TraceToList": "Tra\xe7o para Lista",
     "TraceToSpreadsheet": "Tra\xe7o para a Folha de C\xe1lculo",
     "TraceToSpreadsheet_Help": "Di\xe1logo para registar o tra\xe7o na Folha de C\xe1lculo",

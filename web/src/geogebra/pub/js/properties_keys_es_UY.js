@@ -1915,7 +1915,6 @@ __GGB__keysVar.es_UY.menu = {
     "Total": "Total",
     "Trace": "Activa rastro S\xed / No",
     "Trace_Help": "Objeto cuyo rastro se mostrar\xe1 / ocultar\xe1",
-    "TraceCopy": "Copia trazo",
     "TraceToList": "Trazo a lista",
     "TraceToSpreadsheet": "Rastro a Hoja de c\xe1lculo",
     "TraceToSpreadsheet_Help": "Caja de di\xe1logo para rastrear objetos en hoja de c\xe1lculo",

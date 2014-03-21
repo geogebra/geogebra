@@ -1915,7 +1915,6 @@ __GGB__keysVar.sl.menu = {
     "Total": "Skupaj",
     "Trace": "Sled vklju\u010dena/izklju\u010dena",
     "Trace_Help": "Izberi objekt, za katerega \u017eeli\u0161 prikazati/skriti sled",
-    "TraceCopy": "Kopija sledi",
     "TraceToList": "Sled v seznam",
     "TraceToSpreadsheet": "Sled v tabelo",
     "TraceToSpreadsheet_Help": "Sledenje objektu in zapis v tabelo",

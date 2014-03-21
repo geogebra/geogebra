@@ -1915,7 +1915,6 @@ __GGB__keysVar.gl.menu = {
     "Total": "Total",
     "Trace": "Activar rastro Si / Non",
     "Trace_Help": "Escoller o obxecto para amosar / agochar o seu rastro",
-    "TraceCopy": "Copia rastro",
     "TraceToList": "Rastro a lista",
     "TraceToSpreadsheet": "Trazo na folla de c\xe1lculo",
     "TraceToSpreadsheet_Help": "Cadro de di\xe1logo para facer o seguimento de obxectos \xe1 folla de c\xe1lculo",

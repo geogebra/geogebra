@@ -1915,7 +1915,6 @@ __GGB__keysVar.eu.menu = {
     "Total": "Totala",
     "Trace": "Arrastoa gaitua Bai / Ez",
     "Trace_Help": "Hautatu objektua bere arrastoa erakusteko / ezkutatzeko",
-    "TraceCopy": "Kopiatu Arrastoa",
     "TraceToList": "Arrastoa Zerrendara",
     "TraceToSpreadsheet": "Arrastoa Kalkulu-Orrira",
     "TraceToSpreadsheet_Help": "Elkarrizketa-Koadroa objektuen arrastoak kalkulu-orrira kopiatzeko",

@@ -1915,7 +1915,6 @@ __GGB__keysVar.bg.menu = {
     "Total": "\u0422\u043e\u0442\u0430\u043b",
     "Trace": "\u0421\u043b\u0435\u0434\u0430 \u0412\u043a\u043b\u044e\u0447\u0435\u043d\u043e/\u0418\u0437\u043a\u043b\u044e\u0447\u0435\u043d\u043e",
     "Trace_Help": "\u0418\u0437\u0431\u0435\u0440\u0438 \u043e\u0431\u0435\u043a\u0442 \u0437\u0430 \u0434\u0430 \u043f\u043e\u043a\u0430\u0436\u0435\u0448/\u0441\u043a\u0440\u0438\u0435\u0448 \u043d\u0435\u0433\u043e\u0432\u0430\u0442\u0430 \u0441\u043b\u0435\u0434\u0430",
-    "TraceCopy": "Trace Copy",
     "TraceToList": "Trace to List",
     "TraceToSpreadsheet": "Trace to spreadsheet",
     "TraceToSpreadsheet_Help": "Dialog for tracing objects to the spreadsheet",

@@ -1915,7 +1915,6 @@ __GGB__keysVar.sq.menu = {
     "Total": "Total",
     "Trace": "Gjurme",
     "Trace_Help": "Zgjidh objekt per te shfaqur\\fshehur gjurmen e tij",
-    "TraceCopy": "Kopje Gjurme",
     "TraceToList": "Gjurme ne Liste",
     "TraceToSpreadsheet": "Gjurme ne Flete-Pune",
     "TraceToSpreadsheet_Help": "Kuti spjeguese per gjurmimin e objekteve ne flete-pune",

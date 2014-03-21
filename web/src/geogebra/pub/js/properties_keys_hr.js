@@ -1915,7 +1915,6 @@ __GGB__keysVar.hr.menu = {
     "Total": "Potpun",
     "Trace": "Uklju\u010di / isklju\u010di trag",
     "Trace_Help": "Odaberite objekt za uklj. / isklj. traga",
-    "TraceCopy": "Kopiraj trag",
     "TraceToList": "Bilje\u017ei u listu",
     "TraceToSpreadsheet": "Bilje\u017ei u tablicu",
     "TraceToSpreadsheet_Help": "Dijalog okvir za bilje\u017eenje objekata u prora\u010dunsku tablicu",

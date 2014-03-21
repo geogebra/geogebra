@@ -1915,7 +1915,6 @@ __GGB__keysVar.sr.menu = {
     "Total": "Ukupno",
     "Trace": "Trag uklju\u010den/isklju\u010den",
     "Trace_Help": "Izaberite objekat da biste prikazali / sakrili njegov trag",
-    "TraceCopy": "Kopiraj trag",
     "TraceToList": "Pra\u0107enje u listi",
     "TraceToSpreadsheet": "Pra\u0107enje u tabeli",
     "TraceToSpreadsheet_Help": "Prozor za pra\u0107enje objekata u tabeli",

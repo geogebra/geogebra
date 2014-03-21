@@ -1915,7 +1915,6 @@ __GGB__keysVar.tr.menu = {
     "Total": "Toplam",
     "Trace": "\u0130z B\u0131rakma a\xe7\u0131k/kapal\u0131",
     "Trace_Help": "\u0130zlerini g\xf6stermek/saklamak i\xe7in nesne se\xe7in",
-    "TraceCopy": "Kopyay\u0131 izle",
     "TraceToList": "Listeye \u0130zle",
     "TraceToSpreadsheet": "Hesap \xc7izelgesine \u0130zle",
     "TraceToSpreadsheet_Help": "Nesneleri hesap \xe7izelgesine izleme diyalo\u011fu",

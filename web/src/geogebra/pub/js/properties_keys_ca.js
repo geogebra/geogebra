@@ -1915,7 +1915,6 @@ __GGB__keysVar.ca.menu = {
     "Total": "total",
     "Trace": "Tra\xe7 activat / desactivat",
     "Trace_Help": "Seleccioneu un objecte per mostrar / amagar el seu tra\xe7",
-    "TraceCopy": "C\xf2pia del tra\xe7",
     "TraceToList": "Rastreja a la llista",
     "TraceToSpreadsheet": "Rastreja el full de c\xe0lcul",
     "TraceToSpreadsheet_Help": "Quadre de di\xe0leg per fer el seguiment d\u2019objectes al full de c\xe0lcul",

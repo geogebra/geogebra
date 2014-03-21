@@ -1915,7 +1915,6 @@ __GGB__keysVar.lt.menu = {
     "Total": "I\u0161 viso",
     "Trace": "P\u0117dsakas \u012fjungtas / i\u0161jungtas",
     "Trace_Help": "Pasirinkite objekta nor\u0117dami \u012fjungti / i\u0161jungti jo p\u0117dsak\u0105",
-    "TraceCopy": "Sekti kopij\u0105",
     "TraceToList": "Sekti iki s\u0105ra\u0161o",
     "TraceToSpreadsheet": "Sekti \u012f skai\u010diuokl\u0119",
     "TraceToSpreadsheet_Help": "Laukas objekt\u0173 sekimui \u012f skai\u010diuokl\u0119",

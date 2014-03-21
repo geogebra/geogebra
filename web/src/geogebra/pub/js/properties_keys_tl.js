@@ -1915,7 +1915,6 @@ __GGB__keysVar.tl.menu = {
     "Total": "Total",
     "Trace": "Trace On / Off",
     "Trace_Help": "Pumil ng object na ipapakita / itatago ang trace",
-    "TraceCopy": "Trace Copy",
     "TraceToList": "Trace to List",
     "TraceToSpreadsheet": "Trace to spreadsheet",
     "TraceToSpreadsheet_Help": "Dialog para sa pagtrace ng object papuntang spreadsheet",

@@ -1915,7 +1915,6 @@ __GGB__keysVar.pt.menu = {
     "Total": "Total",
     "Trace": "Rastro Habilitado / Desabilitado",
     "Trace_Help": "Selecione o objeto para exibir ou esconder o seu rastro",
-    "TraceCopy": "Copiar Rastro",
     "TraceToList": "Rastrear para Lista",
     "TraceToSpreadsheet": "Rastrear para Planilha",
     "TraceToSpreadsheet_Help": "Janela de Di\xe1logo para rastrear objetos para a planilha",

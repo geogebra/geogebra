@@ -1915,7 +1915,6 @@ __GGB__keysVar.hu.menu = {
     "Total": "Teljes",
     "Trace": "Nyomvonal ki / be",
     "Trace_Help": "Alakzat kijel\xf6l\xe9se nyomvonal\xe1nak mutat\xe1s\xe1hoz / elrejt\xe9s\xe9hez",
-    "TraceCopy": "Nyomvonal m\xe1sol\xe1sa (pontonk\xe9nt)",
     "TraceToList": "Nyomvonal m\xe1sol\xe1sa koordin\xe1t\xe1nk\xe9nt",
     "TraceToSpreadsheet": "Nyomvonal t\xe1bl\xe1zatba illeszt\xe9se",
     "TraceToSpreadsheet_Help": "P\xe1rbesz\xe9dablak nyomvonal t\xe1bl\xe1zatba illeszt\xe9s\xe9hez",

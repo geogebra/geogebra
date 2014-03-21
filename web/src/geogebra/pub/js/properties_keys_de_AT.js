@@ -1915,7 +1915,6 @@ __GGB__keysVar.de_AT.menu = {
     "Total": "Total",
     "Trace": "Spur an / aus",
     "Trace_Help": "W\xe4hle ein Objekt, um dessen Spur anzuzeigen oder auszublenden",
-    "TraceCopy": "Spurwerte als Punkt kopieren",
     "TraceToList": "Spurwerte in Liste schreiben",
     "TraceToSpreadsheet": "Spurwerte in Tabelle einf\xfcgen",
     "TraceToSpreadsheet_Help": "Dialog f\xfcr das Einf\xfcgen der Spurwerte in die Tabelle",

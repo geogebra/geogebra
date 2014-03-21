@@ -1915,7 +1915,6 @@ __GGB__keysVar.cs.menu = {
     "Total": "Celkem",
     "Trace": "Stopa zapnuta -> Stopa vypnuta",
     "Trace_Help": "Objekt upevnit / uvolnit",
-    "TraceCopy": "Kopie trasy",
     "TraceToList": "Trasa seznamu",
     "TraceToSpreadsheet": "Trasov\xe1n\xed do tabulky",
     "TraceToSpreadsheet_Help": "Dialog pro trasov\xe1n\xed objekt\u016f do tabulky",

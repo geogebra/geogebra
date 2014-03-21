@@ -1915,7 +1915,6 @@ __GGB__keysVar.nl.menu = {
     "Total": "Totaal",
     "Trace": "Spoor aan/uit",
     "Trace_Help": "Selecteer object om spoor aan/uit te schakelen",
-    "TraceCopy": "Spoor kopie",
     "TraceToList": "Spoor naar lijst",
     "TraceToSpreadsheet": "Spoor naar rekenblad",
     "TraceToSpreadsheet_Help": "Dialoogvenster voor spoor objecten naar rekenblad",

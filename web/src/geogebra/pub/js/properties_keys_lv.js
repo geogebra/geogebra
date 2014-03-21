@@ -1915,7 +1915,6 @@ __GGB__keysVar.lv.menu = {
     "Total": "Kop\u0101",
     "Trace": "Tras\u0113\u0161ana Iesl\u0113gta / Izsl\u0113gta",
     "Trace_Help": "Izv\u0113lieties objektu, lai par\u0101d\u012btu/pasl\u0113ptu t\u0101 p\u0113das",
-    "TraceCopy": "Kop\u0113t p\u0113das",
     "TraceToList": "Pierakst\u012bt p\u0113das",
     "TraceToSpreadsheet": "Izz\u012bm\u0113t izkl\u0101jlap\u0101",
     "TraceToSpreadsheet_Help": "Skatieteis dialoglodzi\u0146\u0101, lai izsekotu objektus izkl\u0101jlap\u0101",

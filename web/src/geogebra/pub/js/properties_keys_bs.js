@@ -1915,7 +1915,6 @@ __GGB__keysVar.bs.menu = {
     "Total": "Total",
     "Trace": "Trag uklju\u010den/isklju\u010den",
     "Trace_Help": "Ozna\u010dite figuru kojoj \u017eelite prikazati trag",
-    "TraceCopy": "Kopiraj trag",
     "TraceToList": "Trag do liste",
     "TraceToSpreadsheet": "Trag u tabelu",
     "TraceToSpreadsheet_Help": "Dijalog za unos traga figure u tabelu",

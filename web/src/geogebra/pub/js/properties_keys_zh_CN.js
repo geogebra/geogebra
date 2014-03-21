@@ -1915,7 +1915,6 @@ __GGB__keysVar.zh_CN.menu = {
     "Total": "\u603b\u6570",
     "Trace": "\u5f00\u542f / \u5173\u95ed\u8ffd\u8e2a",
     "Trace_Help": "\u9009\u62e9\u5bf9\u8c61, \u663e\u793a\u6216\u9690\u85cf\u5176\u8e2a\u8ff9",
-    "TraceCopy": "\u751f\u6210\u5b9e\u4f53\u5bf9\u8c61",
     "TraceToList": "\u8bb0\u5f55\u81f3\u96c6\u5408",
     "TraceToSpreadsheet": "\u8bb0\u5f55\u8f68\u8ff9\u81f3\u5de5\u4f5c\u8868",
     "TraceToSpreadsheet_Help": "\u8bb0\u5f55\u8f68\u8ff9\u81f3\u5de5\u4f5c\u8868\u7684\u5bf9\u8bdd\u6846",

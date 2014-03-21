@@ -1915,7 +1915,6 @@ __GGB__keysVar.ro.menu = {
     "Total": "Total",
     "Trace": "Urm\u0103 Activ\u0103 / Inactiv\u0103",
     "Trace_Help": "Selecta\u0163i obiectul a c\u0103rui urm\u0103 se arat\u0103 / se ascunde",
-    "TraceCopy": "Urm\u0103rire copie",
     "TraceToList": "Urm\u0103rire \xeen list\u0103",
     "TraceToSpreadsheet": "Urm\u0103rir \xeen foaia de calcul",
     "TraceToSpreadsheet_Help": "Dialog pentru urm\u0103rire obiecte \xeen foaia de calcul",

@@ -1915,7 +1915,6 @@ __GGB__keysVar.sk.menu = {
     "Total": "\xdapln\xe1",
     "Trace": "Stopa zap./vyp.",
     "Trace_Help": "Vyber objekt na uk\xe1zanie/ukrytie jeho stopy",
-    "TraceCopy": "K\xf3pia stopy",
     "TraceToList": "Stopa do zoznamu",
     "TraceToSpreadsheet": "Stopa do tabu\u013eky",
     "TraceToSpreadsheet_Help": "Dial\xf3g pre vlo\u017eenie stopy objektov do tabu\u013eky",

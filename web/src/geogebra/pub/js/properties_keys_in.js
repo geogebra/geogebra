@@ -1915,7 +1915,6 @@ __GGB__keysVar.in.menu = {
     "Total": "Total",
     "Trace": "Jejak Hidup/Mati",
     "Trace_Help": "Pilih objek untuk menampilkan / menyembunyikan jejaknya",
-    "TraceCopy": "Salinan Jejak",
     "TraceToList": "Jejak ke Daftar",
     "TraceToSpreadsheet": "Jejak ke spreadsheet",
     "TraceToSpreadsheet_Help": "Dialog untuk jejak obje ke spreadsheet",

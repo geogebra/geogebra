@@ -1915,7 +1915,6 @@ __GGB__keysVar.da.menu = {
     "Total": "Total",
     "Trace": "Sporing on/off",
     "Trace_Help": "V\xe6lg objekt for at vise eller skjule sporet",
-    "TraceCopy": "Kopier spor",
     "TraceToList": "Liste med spor",
     "TraceToSpreadsheet": "Spor i regneark",
     "TraceToSpreadsheet_Help": "Dialog om at spore objekter ind i regneark.",

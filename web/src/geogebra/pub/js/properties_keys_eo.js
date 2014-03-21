@@ -1915,7 +1915,6 @@ __GGB__keysVar.eo.menu = {
     "Total": "Total",
     "Trace": "Trace On / Off",
     "Trace_Help": "Select object to show / hide its trace",
-    "TraceCopy": "Kopii spuron",
     "TraceToList": "Listo el spuro",
     "TraceToSpreadsheet": "Trace to spreadsheet",
     "TraceToSpreadsheet_Help": "Dialog for tracing objects to the spreadsheet",

@@ -1915,7 +1915,6 @@ __GGB__keysVar.vi.menu = {
     "Total": "T\u1ed5ng s\u1ed1",
     "Trace": "M\u1edf / t\u1eaft d\u1ea5u v\u1ebft",
     "Trace_Help": "Ch\u1ecdn \u0111\u1ed1i t\u01b0\u1ee3ng mu\u1ed1n hi\u1ec3n th\u1ecb / t\u1eaft d\u1ea5u v\u1ebft c\u1ee7a \u0111\u1ed1i t\u01b0\u1ee3ng \u0111\xf3",
-    "TraceCopy": "Sao ch\xe9p d\u1ea5u v\u1ebft",
     "TraceToList": "D\u1ea5u v\u1ebft sang danh s\xe1ch",
     "TraceToSpreadsheet": "D\u1ea5u v\u1ebft sang b\u1ea3ng t\xednh",
     "TraceToSpreadsheet_Help": "Chuy\u1ec3n c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng \u0111\u1ec3 l\u1ea1i v\u1ebft sang b\u1ea3ng t\xednh",

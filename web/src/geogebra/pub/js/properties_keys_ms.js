@@ -1915,7 +1915,6 @@ __GGB__keysVar.ms.menu = {
     "Total": "Jumlah",
     "Trace": "Pasang / Padam Surih",
     "Trace_Help": "Pilih objek untuk tunjuk / sembunyi surihannya",
-    "TraceCopy": "Salin Surih",
     "TraceToList": "Surih ke Senarai",
     "TraceToSpreadsheet": "Surih ke Hamparan Kerja",
     "TraceToSpreadsheet_Help": "Dialog untuk menyurih objek-objek ke hamparan kerja",
