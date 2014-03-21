@@ -35,6 +35,9 @@ public class CmdSetCaption extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				geo.setCaption(((GeoText) arg[1]).getTextString());
+				
+				geo.setLabelMode(GeoElement.LABEL_CAPTION);
+				
 				geo.updateRepaint();
 
 				
