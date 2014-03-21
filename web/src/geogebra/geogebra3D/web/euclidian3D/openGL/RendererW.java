@@ -571,7 +571,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     }
 
 	@Override
-    protected void setLightPosition(int light, float[] values) {
+    protected void setLightPosition(float[] values) {
 		glContext.uniform3fv(lightPositionLocation, values);	    
     }
 	

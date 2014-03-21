@@ -1105,8 +1105,7 @@ public abstract class Renderer {
 	static final protected float[] LIGHT_POSITION_D = { 1f, 0f, 1f, 0f };
 
 	protected void setLightPosition() {
-		setLightPosition(0, getLightPosition());
-		setLightPosition(1, getLightPosition());
+		setLightPosition(getLightPosition());
 	}
 	
 	/**
@@ -1118,12 +1117,10 @@ public abstract class Renderer {
 	/**
 	 * set light position
 	 * 
-	 * @param light
-	 *            light
 	 * @param values
 	 *            attribute values
 	 */
-	abstract protected void setLightPosition(int light, float[] values);
+	abstract protected void setLightPosition(float[] values);
 
 	/**
 	 * set light ambiant and diffuse values (white lights)

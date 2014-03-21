@@ -93,6 +93,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     // location values for shader fields
     private int modelviewLocation, projectionLocation; // matrices
     private int lightPositionLocation, ambiantDiffuseLocation; // light
+    private int viewDirectionLocation; //view direction
     private int textureTypeLocation; // textures
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
@@ -245,7 +246,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         //normalMatrixLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");        
         lightPositionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
-        
+        viewDirectionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "viewDirection");
+       
         //texture
         textureTypeLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
                
@@ -1065,8 +1067,9 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 	@Override
-	protected void setLightPosition(int light, float[] values){
+	protected void setLightPosition(float[] values){
 		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
+		jogl.getGL2ES2().glUniform3fv(viewDirectionLocation, 1, view3D.getViewDirection().getForGL(), 0);
 	}
 
 

@@ -348,12 +348,9 @@ public class RendererGL2 extends RendererD {
 	}
 
 	@Override
-	protected void setLightPosition(int light, float[] values) {
-		int l = GLlocal.GL_LIGHT1;
-		if (light == 0) {
-			l = GLlocal.GL_LIGHT0;
-		}
-		jogl.getGL2().glLightfv(l, GLlocal.GL_POSITION, values, 0);
+	protected void setLightPosition(float[] values) {
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, values, 0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, values, 0);
 	}
 
 	@Override
