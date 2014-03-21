@@ -1,5 +1,7 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL;
 
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
@@ -11,6 +13,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
+import geogebra.html5.awt.GBufferedImageW;
 
 import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ import com.googlecode.gwtgl.binding.WebGLBuffer;
 import com.googlecode.gwtgl.binding.WebGLProgram;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 import com.googlecode.gwtgl.binding.WebGLShader;
+import com.googlecode.gwtgl.binding.WebGLTexture;
 import com.googlecode.gwtgl.binding.WebGLUniformLocation;
 
 /**
@@ -699,39 +703,67 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void genTextures2D(int number, int[] index) {
-	    // TODO Auto-generated method stub
+
+		int size = texturesArray.size();
+		for (int i = 0; i < number; i++){ // add new textures
+			index[i] = size + i;
+			texturesArray.add(glContext.createTexture());
+		}
 	    
     }
 
+	
+	private ArrayList<WebGLTexture> texturesArray = new ArrayList<WebGLTexture>();
+	
 	
 	
 	@Override
     public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
 		
-		enableTextures2D();
+		WebGLTexture texture;
 		
-		int[] index = new int[1];
-		genTextures2D(1, index);
+		if (textureIndex == -1){
+			textureIndex = texturesArray.size();
+			texture = glContext.createTexture();
+			texturesArray.add(texture);
+		}else{
+			texture = texturesArray.get(textureIndex);
+		}
+		//enableTextures2D();
 		
-     	bindTexture(index[0]);
+		//int[] index = new int[1];
+		//genTextures2D(1, index);
 		
-		textureImage2D(sizeX, sizeY, buf);
+		GBufferedImageW image = new GBufferedImageW(16, 16, 0);
+		GGraphics2D g2d = image.createGraphics();
+		g2d.setColor(GColor.BLACK);
+		g2d.drawLine(textureIndex % 16, 0, (15 - textureIndex) % 16, 15);
+		
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
+     	//bindTexture(index[0]);
+		
+		//textureImage2D(sizeX, sizeY, buf);
+		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, 
+				WebGLRenderingContext.UNSIGNED_BYTE, image.getImageElement());
         
-        disableTextures2D();
         
-        return index[0];
+        //disableTextures2D();
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
+        
+        return textureIndex;
 	}
 
 
 	@Override
     public void bindTexture(int index) {
-		//glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, index);	    
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texturesArray.get(index));   
     }
 
     @Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf){
-    	// TODO
-    	//glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, WebGLRenderingContext.UNSIGNED_BYTE, getImage(Resources.INSTANCE.texture()).getElement());
+    	GBufferedImageW image = new GBufferedImageW(16, 16, 0);
+    	glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.ALPHA, WebGLRenderingContext.ALPHA, 
+    			WebGLRenderingContext.UNSIGNED_BYTE, image.getImageElement());
         
     }
     

@@ -45,7 +45,7 @@ public class DrawLabel3D {
     /** buffer containing the texture */
     private byte[] buffer;
     /** index of the texture used for this label */
-    private int textureIndex;
+    private int textureIndex = -1;
     
     /** current view where this label is drawn */
 	protected EuclidianView3D view;
@@ -240,7 +240,7 @@ public class DrawLabel3D {
 		if (!isVisible)
     		return;
 		
-		if (textureIndex==0)
+		if (textureIndex == -1)
     		return;
 		
 		Coords v = view.getToScreenMatrix().mul(origin);
