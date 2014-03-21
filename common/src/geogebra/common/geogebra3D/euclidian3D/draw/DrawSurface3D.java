@@ -22,7 +22,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 	
-	private static final long MAX_SPLIT = 4;
+	private static final long MAX_SPLIT = 128;
 
 	private TreeMap<CoordsIndex, Coords> mesh;
 
@@ -78,30 +78,85 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		double uMax = surfaceGeo.getMaxParameter(0);
 		double vMin = surfaceGeo.getMinParameter(1);
 		double vMax = surfaceGeo.getMaxParameter(1);
+		double uDelta = uMax-uMin;
+		double vDelta = vMax-vMin;
 
 		Coords p1 = surfaceGeo.evaluatePoint(uMin, vMin);
 		Coords p2 = surfaceGeo.evaluatePoint(uMax, vMin);
 		Coords p3 = surfaceGeo.evaluatePoint(uMin, vMax);
 		Coords p4 = surfaceGeo.evaluatePoint(uMax, vMax);
-		
-		mesh.put(new CoordsIndex(0, 0), p1);
-		mesh.put(new CoordsIndex(0, 0), p1);
-		mesh.put(new CoordsIndex(0, 0), p1);
-		mesh.put(new CoordsIndex(0, 0), p1);
-		
-		
-		
-		
+		CoordsIndex i1 = new CoordsIndex(0, 0);
+		CoordsIndex i2 = new CoordsIndex(MAX_SPLIT,0);
+		CoordsIndex i3 = new CoordsIndex(0, MAX_SPLIT);
+		CoordsIndex i4 = new CoordsIndex(MAX_SPLIT, MAX_SPLIT);
+		mesh.put(i1, p1);
+		mesh.put(i2, p2);
+		mesh.put(i3, p3);
+		mesh.put(i4, p4);
 		
 		surface.start();
 		
-		surface.drawQuadNoTexture(p1,p3,p4,p2);
+		splitOrDraw(surface,i1,i2,i3,i4,uMin,uDelta,vMin,vDelta);
+		//surface.drawQuadNoTexture(p1,p2,p4,p3);
 
 		setSurfaceIndex(surface.end());
 
 		return true;
 	}
 
+	/*
+	 * 
+	 */
+	private void splitOrDraw(PlotterSurface surface, CoordsIndex TL, CoordsIndex TR, CoordsIndex BL, CoordsIndex BR, double uMin, double uDelta, double vMin, double vDelta )
+	{
+		//test if this quad may be drawn or must be splitted
+		//index delta
+		long iDelta = (TR.iu-TL.iu)/2;
+		//index of the five new points T,L,C,R,B
+		//  TL....iT....TR
+		//  .      .     .
+		//  .      .     .
+		//  iL    iC    iR
+		//  .      .     .
+		//  .      .     .
+		//  BL....iB....BR
+		CoordsIndex iT = new CoordsIndex(TL.iu+iDelta, TL.iv);
+		CoordsIndex iL = new CoordsIndex(TL.iu, TL.iv+iDelta);
+		CoordsIndex iC = new CoordsIndex(TL.iu+iDelta, TL.iv+iDelta);
+		CoordsIndex iR = new CoordsIndex(TR.iu, TR.iv+iDelta);
+		CoordsIndex iB = new CoordsIndex(BL.iu+iDelta, BL.iv);
+		Coords fiT = surfaceGeo.evaluatePoint(uMin+iT.iu*uDelta/MAX_SPLIT, vMin+iT.iv*vDelta/MAX_SPLIT);
+		Coords fiL = surfaceGeo.evaluatePoint(uMin+iL.iu*uDelta/MAX_SPLIT, vMin+iL.iv*vDelta/MAX_SPLIT);
+		Coords fiC = surfaceGeo.evaluatePoint(uMin+iC.iu*uDelta/MAX_SPLIT, vMin+iC.iv*vDelta/MAX_SPLIT);
+		Coords fiR = surfaceGeo.evaluatePoint(uMin+iR.iu*uDelta/MAX_SPLIT, vMin+iR.iv*vDelta/MAX_SPLIT);
+		Coords fiB = surfaceGeo.evaluatePoint(uMin+iB.iu*uDelta/MAX_SPLIT, vMin+iB.iv*vDelta/MAX_SPLIT);
+		Coords v1 = mesh.get(TL).sub(mesh.get(BL));
+		Coords v2 = mesh.get(TL).sub(mesh.get(TR));
+		//this split test is temporary
+		if ((iDelta>=1)&&((iDelta<=16)||(Math.abs(v1.dotproduct(v2))>0.1))){
+			//split
+			mesh.put(iT, fiT);
+			mesh.put(iL, surfaceGeo.evaluatePoint(uMin+iL.iu*uDelta/MAX_SPLIT, vMin+iL.iv*vDelta/MAX_SPLIT));
+			mesh.put(iC, surfaceGeo.evaluatePoint(uMin+iC.iu*uDelta/MAX_SPLIT, vMin+iC.iv*vDelta/MAX_SPLIT));
+			mesh.put(iR, surfaceGeo.evaluatePoint(uMin+iR.iu*uDelta/MAX_SPLIT, vMin+iR.iv*vDelta/MAX_SPLIT));
+			mesh.put(iB, surfaceGeo.evaluatePoint(uMin+iB.iu*uDelta/MAX_SPLIT, vMin+iB.iv*vDelta/MAX_SPLIT));
+			
+			//square TL
+			splitOrDraw(surface,TL,iT,iL,iC,uMin,uDelta,vMin,vDelta);
+			//square TR
+			splitOrDraw(surface,iT,TR,iC,iR,uMin,uDelta,vMin,vDelta);
+			//square BL
+			splitOrDraw(surface,iL,iC,BL,iB,uMin,uDelta,vMin,vDelta);
+			//square BR
+			splitOrDraw(surface,iC,iR,iB,BR,uMin,uDelta,vMin,vDelta);
+		}
+		else {
+			//draw
+			surface.drawQuad(mesh.get(TL),mesh.get(TR),mesh.get(BR),mesh.get(BL));
+		}
+		
+	}
+	
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChanged()){
@@ -142,7 +197,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	
 	class CoordsIndex {
 
-		private long iu, iv ;
+		protected long iu, iv ;
 		
 		public CoordsIndex(long iu, long iv){
 			this.iu = iu;
