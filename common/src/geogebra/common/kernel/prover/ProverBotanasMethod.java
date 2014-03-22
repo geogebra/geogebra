@@ -407,7 +407,10 @@ public class ProverBotanasMethod {
 						
 						List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
 						double bestScore = Double.POSITIVE_INFINITY;
+						int ndgI = 0;
 						while (ndgSet.hasNext()) {
+							ndgI++;
+							App.debug("Considering NDG " + ndgI + "...");
 							List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
 							double score = 0.0;
 							// All NDGs must be translatable into human readable
@@ -466,9 +469,16 @@ public class ProverBotanasMethod {
 							// consequence of others, then it should be
 							// eliminated.
 							if (readable && score < bestScore) {
+								App.debug("Found a better NDG score (" + score + ") than " + bestScore);
 								bestScore = score;
 								bestNdgSet = ndgcl;
 								found = true;
+							} else {
+								if (readable) {
+									App.debug("Not better than previous NDG score (" + bestScore + "), this is " + score);
+								} else {
+									App.debug("...unreadable");
+								}
 							}
 						}
 						if (found) {

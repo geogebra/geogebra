@@ -1011,7 +1011,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		
 		String elimResult, elimProgram;
-		App.debug(variables.size() + " variables, " + dependentVariables.size() + " dependent variables");
+		App.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 
