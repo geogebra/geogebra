@@ -119,7 +119,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		double rapport = Math.abs(d2/d1-1);
 		
 		//this split test is temporary
-		if ((iDelta>=2)&&((iDelta>=32)||(rapport>1.e-12))){
+		if ((iDelta>=2)&&((iDelta>=8)||(rapport>1.e-12))){
 			//split
 			//index of the five new points T,L,C,R,B
 			//  TL....iT....TR
