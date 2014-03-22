@@ -42,8 +42,6 @@ public class DrawLabel3D {
     /** width and height of the texture */
     private int height2, width2;
     
-    /** buffer containing the texture */
-    private byte[] buffer;
     /** index of the texture used for this label */
     private int textureIndex = -1;
     
@@ -55,8 +53,6 @@ public class DrawLabel3D {
 	
 	
 
-	/** shift for getting alpha value */
-    private static final int ALPHA_SHIFT = 24;
     
 	
     /** temp graphics used for calculate bounds */
@@ -160,6 +156,8 @@ public class DrawLabel3D {
 			draw(g2d);		
 
 			//creates the texture
+			view.getRenderer().createAlphaTexture(this, bimg);
+			/*
 			int[] intData = bimg.getData();
 			buffer = ARGBtoAlpha(intData);
 			
@@ -167,6 +165,8 @@ public class DrawLabel3D {
 
 			// update the texture
 			updateTexture();
+			*/
+			
 			waitForReset = false;
 			//Application.debug("textureIndex = "+textureIndex);
 		}
@@ -212,6 +212,16 @@ public class DrawLabel3D {
 	public void setWaitForReset(){
 		waitForReset = true;
 	}
+	
+	/**
+	 * 
+	 * @return true if this wait for reset
+	 */
+	public boolean waitForReset(){
+		return waitForReset;
+	}
+
+	
 	
 	/**
 	 * sets the anchor
@@ -298,19 +308,21 @@ public class DrawLabel3D {
 	}
 
 	/**
-	 * update the texture
-	 */
-    public void updateTexture() {
-    	
-    	textureIndex = view.getRenderer().createAlphaTexture(
-    			textureIndex,
-    			waitForReset,
-    			width2, height2, 
-    			buffer);
-    	
+     * set texture index
+     * @param i index
+     */
+    public void setTextureIndex(int i){
+    	textureIndex = i;
     }
 	
-
+    /**
+     * @return texture indexl
+     * 
+     */
+    public int getTextureIndex(){
+    	return textureIndex;
+    }
+    
 	/** 
 	 * sets the visibility of the label
 	 * @param flag
@@ -319,80 +331,62 @@ public class DrawLabel3D {
 		isVisible = flag;
 	}
 	
-	
-	
-	
-    /** get alpha channel of the array ARGB description
-     * @param pix
-     * @return the alpha channel of the array ARGB description
-     */
-    protected byte[] ARGBtoAlpha(int[] pix) {
-    	
-    	//calculates 2^n dimensions
-    	int w = firstPowerOfTwoGreaterThan(width);
-    	int h = firstPowerOfTwoGreaterThan(height);
-    	
-    	//Application.debug("width="+width+",height="+height+"--w="+w+",h="+h);
-    	
-     	//get alpha channel and extends to 2^n dimensions
-		byte[] bytes = new byte[w*h];
-		byte b;
-		int bytesIndex = 0;
-		int pixIndex = 0;
-		int xmin = w, xmax = 0, ymin = h, ymax = 0;
-		for (int y = 0; y < height; y++){
-			for (int x = 0; x < width; x++){
-				b = (byte) (pix[pixIndex] >> ALPHA_SHIFT);
-				if (b != 0){
-					if (x < xmin){
-						xmin = x;
-					}
-					if (x > xmax){
-						xmax = x;
-					}
-					if (y < ymin){
-						ymin = y;
-					}
-					if (y > ymax){
-						ymax = y;
-					}
+	/**
+	 * 
+	 * @return label width
+	 */
+	public int getWidth(){
+		return width;
+	}
 
-				}
-				bytes[bytesIndex] = b;
-				bytesIndex++;
-				pixIndex++;
-			}
-			bytesIndex+=w-width;
-		}
-		
-		// values for picking (ignore transparent bytes)
-		pickingX = xmin;
-		pickingY = ymin;
-		pickingW = xmax - xmin + 1;
-		pickingH = ymax - ymin + 1;
-		
-		//update width and height
+	/**
+	 * 
+	 * @return label height
+	 */
+	public int getHeight(){
+		return height;
+	}
+	
+	/**
+	 * 
+	 * @return label width for texture (power of 2)
+	 */
+	public int getWidthPowerOfTwo(){
+		return width2;
+	}
+
+	/**
+	 * 
+	 * @return label height for texture (power of 2)
+	 */
+	public int getHeightPowerOfTwo(){
+		return height2;
+	}
+	
+	/**
+	 * set dimension for picking
+	 * @param x bottom-left x position
+	 * @param y bottom-left y position
+	 * @param w width
+	 * @param h height
+	 */
+	public void setPickingDimension(int x, int y, int w, int h){
+		pickingX = x;
+		pickingY = y;
+		pickingW = w;
+		pickingH = h;
+	}
+	
+	/**
+	 * set power of 2 width and height
+	 * @param w width
+	 * @param h height
+	 */
+	public void setDimensionPowerOfTwo(int w, int h){
 		width2=w;
 		height2=h;
-		
-		return bytes;
-    }
-    
+	}
+	
     private int pickingX, pickingY, pickingW, pickingH;
-    
-
-    /**
-     * 
-     * @param val
-     * @return first power of 2 greater than val
-     */
-    static final private int firstPowerOfTwoGreaterThan(int val){
-    	
-    	int ret = 1;
-    	while(ret<val)
-    		ret*=2;   	
-    	return ret;
-    	
-    }
 
 }

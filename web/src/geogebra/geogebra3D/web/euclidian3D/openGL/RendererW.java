@@ -1,8 +1,10 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL;
 
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -691,13 +693,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void enableTextures2D() {
-		glContext.enable(WebGLRenderingContext.TEXTURE_2D);
+		//glContext.enable(WebGLRenderingContext.TEXTURE_2D);
 	    
     }
 
 	@Override
     public void disableTextures2D() {
-		glContext.disable(WebGLRenderingContext.TEXTURE_2D);
+		//glContext.disable(WebGLRenderingContext.TEXTURE_2D);
 	    
     }
 
@@ -715,10 +717,25 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	private ArrayList<WebGLTexture> texturesArray = new ArrayList<WebGLTexture>();
 	
+    @Override
+	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg){
+    	
+		// values for picking (ignore transparent bytes)
+		label.setPickingDimension(0, 0, label.getWidth(), label.getHeight());
+		
+		//update width and height
+		label.setDimensionPowerOfTwo(firstPowerOfTwoGreaterThan(label.getWidth()), firstPowerOfTwoGreaterThan(label.getHeight()));
+		
+		label.setTextureIndex(createAlphaTexture(
+				label.getTextureIndex(), 
+				label.waitForReset(), 
+				label.getWidthPowerOfTwo(), 
+				label.getHeightPowerOfTwo(), null));
+		
+	}
 	
 	
-	@Override
-    public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
+    private int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
 		
 		WebGLTexture texture;
 		
@@ -734,10 +751,16 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		//int[] index = new int[1];
 		//genTextures2D(1, index);
 		
-		GBufferedImageW image = new GBufferedImageW(16, 16, 0);
+		GBufferedImageW image = new GBufferedImageW(sizeX, sizeY, 0);
 		GGraphics2D g2d = image.createGraphics();
 		g2d.setColor(GColor.BLACK);
-		g2d.drawLine(textureIndex % 16, 0, (15 - textureIndex) % 16, 15);
+		/*
+		g2d.drawLine(0, 0, sizeX - 1 , 0); 
+		g2d.drawLine(sizeX - 1 , 0, sizeX - 1 , sizeY - 1); 
+		g2d.drawLine(sizeX - 1 , sizeY - 1, 0, sizeY - 1); 
+		g2d.drawLine(0, sizeY - 1, 0, 0); 
+		*/
+		g2d.drawLine((sizeX - 1) * (textureIndex % 2), 0, (sizeX - 1) * (1 - (textureIndex % 2)), sizeY - 1);
 		
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
      	//bindTexture(index[0]);

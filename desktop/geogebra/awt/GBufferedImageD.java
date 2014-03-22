@@ -40,6 +40,10 @@ public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
 		return new geogebra.awt.GBufferedImageD(impl.getSubimage(i, j, size, size2));
 	}
 	
+	/**
+	 * 
+	 * @return ARGB pixel data
+	 */
 	public int[] getData(){
 		return ((DataBufferInt) impl.getRaster().getDataBuffer()).getData();
 	}

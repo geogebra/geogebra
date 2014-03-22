@@ -1,10 +1,12 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DLists;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -1594,17 +1596,28 @@ public abstract class Renderer {
 	abstract public void bindTexture(int index);
 
 	
-	
-	/** 
-	 * @param textureIndex texture index
-	 * @param waitForReset wait for reset
-	 * @param sizeX
-	 * @param sizeY
-	 * @param buf
-	 * @return a texture for alpha channel
+	/**
+	 * create alpha texture for label from image
+	 * @param label label
+	 * @param bimg buffered image
 	 */
-	abstract public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf);
+	abstract public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg);
 
+	
+    /**
+     * 
+     * @param val
+     * @return first power of 2 greater than val
+     */
+    static final protected int firstPowerOfTwoGreaterThan(int val){
+    	
+    	int ret = 1;
+    	while(ret<val)
+    		ret*=2;   	
+    	return ret;
+    	
+    }
+    
 	/**
 	 * @param sizeX
 	 * @param sizeY

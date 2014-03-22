@@ -1,6 +1,9 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.awt.GBufferedImageD;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -313,9 +316,86 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 	public void removeTexture(int index){
     	getGL().glDeleteTextures(1, new int[] {index}, 0);
     }
+	
+    @Override
+	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg){
+		
+		byte[] buffer = ARGBtoAlpha(label, ((GBufferedImageD) bimg).getData());
+		
+		label.setTextureIndex(createAlphaTexture(
+				label.getTextureIndex(), 
+				label.waitForReset(), 
+				label.getWidthPowerOfTwo(), 
+				label.getHeightPowerOfTwo(), buffer));
+		
+	}
+	
+
     
-	@Override
-	public int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
+    /** shift for getting alpha value */
+    private static final int ALPHA_SHIFT = 24;
+    
+    /** get alpha channel of the array ARGB description
+     * @param pix
+     * @return the alpha channel of the array ARGB description
+     */
+	private static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
+    	
+    	//calculates 2^n dimensions
+    	int w = firstPowerOfTwoGreaterThan(label.getWidth());
+    	int h = firstPowerOfTwoGreaterThan(label.getHeight());
+    	
+    	//Application.debug("width="+width+",height="+height+"--w="+w+",h="+h);
+    	
+     	//get alpha channel and extends to 2^n dimensions
+		byte[] bytes = new byte[w*h];
+		byte b;
+		int bytesIndex = 0;
+		int pixIndex = 0;
+		int xmin = w, xmax = 0, ymin = h, ymax = 0;
+		for (int y = 0; y < label.getHeight(); y++){
+			for (int x = 0; x < label.getWidth(); x++){
+				b = (byte) (pix[pixIndex] >> ALPHA_SHIFT);
+				if (b != 0){
+					if (x < xmin){
+						xmin = x;
+					}
+					if (x > xmax){
+						xmax = x;
+					}
+					if (y < ymin){
+						ymin = y;
+					}
+					if (y > ymax){
+						ymax = y;
+					}
+
+				}
+				bytes[bytesIndex] = b;
+				bytesIndex++;
+				pixIndex++;
+			}
+			bytesIndex+=w-label.getWidth();
+		}
+		
+		// values for picking (ignore transparent bytes)
+		label.setPickingDimension(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
+		
+		//update width and height
+		label.setDimensionPowerOfTwo(w, h);
+		
+		return bytes;
+    }
+
+	/** 
+	 * @param textureIndex texture index
+	 * @param waitForReset wait for reset
+	 * @param sizeX
+	 * @param sizeY
+	 * @param buf
+	 * @return a texture for alpha channel
+	 */
+	private int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
 		
 		if (textureIndex != 0 && !waitForReset){
 			removeTexture(textureIndex);

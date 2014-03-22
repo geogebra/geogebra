@@ -13,10 +13,5 @@ public interface GBufferedImage {
 
 	GBufferedImage getSubimage(int i, int j, int size, int size2);
 	
-	/**
-	 * 
-	 * @return ARGB pixel data
-	 */
-	public int[] getData();
 
 }
