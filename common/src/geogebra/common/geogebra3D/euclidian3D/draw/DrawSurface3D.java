@@ -22,7 +22,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 	
-	private static final long MAX_SPLIT = 128;
+	private static final long MAX_SPLIT = 256;
 
 	private TreeMap<CoordsIndex, Coords> mesh;
 
@@ -113,10 +113,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		//index delta
 		long iDelta = (TR.iu-TL.iu);
 		
-		Coords v1 = mesh.get(TL).sub(mesh.get(BL));
-		Coords v2 = mesh.get(TL).sub(mesh.get(TR));
+		double d1 = mesh.get(TL).distance(mesh.get(BR));
+		Coords centerValue = surfaceGeo.evaluatePoint(uMin+(TL.iu+iDelta/2)*uDelta/MAX_SPLIT, vMin+(TL.iv+iDelta/2)*vDelta/MAX_SPLIT);
+		double d2 = mesh.get(TL).distance(centerValue)+centerValue.distance(mesh.get(BR));
+		double rapport = Math.abs(d2/d1-1);
+		
 		//this split test is temporary
-		if ((iDelta>=2)&&((iDelta>=16)||(Math.abs(v1.dotproduct(v2))>0.0001))){
+		if ((iDelta>=2)&&((iDelta>=32)||(rapport>1.e-12))){
 			//split
 			//index of the five new points T,L,C,R,B
 			//  TL....iT....TR
