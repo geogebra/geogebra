@@ -800,7 +800,7 @@ __GGB__keysVar.es_UY.command = {
     "SetTrace": "Rastro",
     "SetTrace_Syntax": "[ <Objeto>, <Deja rastro o no (true/false)> ]",
     "SetValue": "Valor",
-    "SetValue_Syntax": "[ <Valor l\xf3gico>, <true/false (o 1/0)> ]\n[ <Objeto>, <Objeto> ]\n[ <Lista>, <N\xfamero>, <Objeto> ]",
+    "SetValue_Syntax": "[ <Valor l\xf3gico>, <true/false (\xf3 1/0)> ]\n[ <Objeto>, <Objeto> ]\n[ <Lista>, <N\xfamero>, <Objeto> ]",
     "SetViewDirection": "Direcci\xf3nVista",
     "SetViewDirection_Syntax": "[ <Direcci\xf3n> ]",
     "SetVisibleInView": "Visibilidad",
