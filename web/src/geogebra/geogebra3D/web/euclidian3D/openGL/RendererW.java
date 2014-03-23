@@ -1,7 +1,6 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.awt.GBufferedImage;
-import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
@@ -730,12 +729,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 				label.getTextureIndex(), 
 				label.waitForReset(), 
 				label.getWidthPowerOfTwo(), 
-				label.getHeightPowerOfTwo(), null));
+				label.getHeightPowerOfTwo(), bimg));
 		
 	}
 	
 	
-    private int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf){
+    private int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX, int sizeY, GBufferedImage bimg){
 		
 		WebGLTexture texture;
 		
@@ -753,14 +752,15 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		
 		GBufferedImageW image = new GBufferedImageW(sizeX, sizeY, 0);
 		GGraphics2D g2d = image.createGraphics();
-		g2d.setColor(GColor.BLACK);
+		//g2d.setColor(GColor.BLACK);
 		/*
 		g2d.drawLine(0, 0, sizeX - 1 , 0); 
 		g2d.drawLine(sizeX - 1 , 0, sizeX - 1 , sizeY - 1); 
 		g2d.drawLine(sizeX - 1 , sizeY - 1, 0, sizeY - 1); 
 		g2d.drawLine(0, sizeY - 1, 0, 0); 
 		*/
-		g2d.drawLine((sizeX - 1) * (textureIndex % 2), 0, (sizeX - 1) * (1 - (textureIndex % 2)), sizeY - 1);
+		//g2d.drawLine((sizeX - 1) * (textureIndex % 2), 0, (sizeX - 1) * (1 - (textureIndex % 2)), sizeY - 1);
+		g2d.drawImage(bimg, 0, 0);
 		
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
      	//bindTexture(index[0]);
