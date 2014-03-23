@@ -9961,8 +9961,11 @@ namespace giac {
   matrice megv(const matrice & e,GIAC_CONTEXT){
     matrice m;
     vecteur d;
+    bool b=complex_mode(contextptr);
+    complex_mode(true,contextptr);
     if (!egv(e,m,d,contextptr,false,false,false))
       *logptr(contextptr) << gettext("Low accuracy or not diagonalizable at some eigenvalue. Try jordan if the matrix is exact.") << endl;
+    complex_mode(b,contextptr);
     return m;
   }
 

@@ -392,10 +392,10 @@ namespace giac {
       tmpmult=1;
       lcmdeno(np,tmpmult);
       lcmdeno(dp,tmpmult);
-      if (tmpmult.type==_POLY)
-	tmpmult=polynome(monomial<gen>(tmpmult,index_t(pptr->t.dim)));
       n=np*tmpmult;
       d=dp*tmpmult;
+      // moved 18/3/2014 for simplify(acos2atan(acos(sqrt(1-x^2))+acos(x))) 
+      if (tmpmult.type==_POLY) tmpmult=polynome(monomial<gen>(tmpmult,index_t(pptr->t.dim)));
       if (is_one(tmpmult))
 	return g;
       return fraction(g,tmpmult); // g*tmpmult;

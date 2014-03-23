@@ -1412,6 +1412,10 @@ namespace giac {
   static define_unary_function_eval (__swapcol,&_SWAPCOL,_swapcol_s);
   define_unary_function_ptr5( at_swapcol ,alias_at_swapcol,&__swapcol,0,true);
 
+  static const char _colSwap_s[]="colSwap";
+  static define_unary_function_eval (__colSwap,&_SWAPCOL,_colSwap_s);
+  define_unary_function_ptr5( at_colSwap ,alias_at_colSwap,&__colSwap,0,true);
+
   static const char _DELCOL_s[]="DELCOL";
   static define_unary_function_eval_quoted (__DELCOL,&giac::_delcols,_DELCOL_s);
   define_unary_function_ptr5( at_DELCOL ,alias_at_DELCOL,&__DELCOL,_QUOTE_ARGUMENTS,T_UNARY_OP_38);

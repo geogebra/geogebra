@@ -5044,6 +5044,8 @@ namespace giac {
       gen centre,rayon;
       if (!centre_rayon(g,centre,rayon,true,contextptr))
 	return gensizeerr(contextptr);
+      if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>=3)
+	return recursive_normal(((*g._SYMBptr->feuille._VECTptr)[2]-(*g._SYMBptr->feuille._VECTptr)[1])*rayon,contextptr);	
       return recursive_normal(cst_two_pi*rayon,contextptr);
     }
     if (g.type!=_VECT)
@@ -8915,7 +8917,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     gen theta=vx_var;
 #else
-    gen theta=t__IDNT_e;
+    gen theta=identificateur("t"); // t__IDNT_e;
 #endif
     if (!angle_radian(contextptr))
       theta=gen(180)/cst_pi*theta;
@@ -8939,7 +8941,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #else
-    return _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(theta,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #endif
   }
   static const char _ellipse_s []="ellipse";
@@ -8987,7 +8989,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     gen theta=vx_var;
 #else
-    gen theta=t__IDNT_e;
+    gen theta=identificateur("t"); // t__IDNT_e;
 #endif
     if (n.type==_VECT){
       n=n-O;
@@ -9012,7 +9014,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
 #else
-    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(t__IDNT_e,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(t__IDNT_e,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
+    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(theta,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(theta,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
 #endif
   }
   static const char _hyperbole_s []="hyperbola";
@@ -9062,7 +9064,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     gen theta=vx_var;
 #else
-    gen theta=t__IDNT_e;
+    gen theta=identificateur("t"); // t__IDNT_e;
 #endif
     if (eitheta.type==_VECT){
       res=O+(F-O)/(4*c*abs_norm(F-O,contextptr))*pow(theta,2)+eitheta*theta;
@@ -9080,7 +9082,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     res= _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(-12,12)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
 #else
-    res= _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(-12,12)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
+    res= _paramplot(gen(makevecteur(res,symb_equal(theta,symb_interval(-12,12)),symb_equal(nstep,60),symb_equal(ustep,0.15),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
 #endif
     return res;
   }

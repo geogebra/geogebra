@@ -395,7 +395,7 @@ namespace giac {
     gen l=v.front(),i=v.back();
     int ii=0;
     if (i.type==_INT_ )
-      ii=i.val-(xcas_mode(contextptr)!=0);
+      ii=i.val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
     if (l.type==_STRNG){
       string res;
       string & s=*l._STRNGptr;

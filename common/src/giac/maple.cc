@@ -575,7 +575,12 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr();
     int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
-    gen res=_tran(g._VECTptr->front(),contextptr)[g._VECTptr->back()-shift];
+    gen indice=g._VECTptr->back();
+    if (indice.is_symb_of_sommet(at_interval) && indice._SYMBptr->feuille.type==_VECT)
+      indice=symbolic(at_interval,indice._SYMBptr->feuille-gen(shift)*vecteur(indice._SYMBptr->feuille._VECTptr->size(),1));
+    else
+      indice -= shift;
+    gen res=_tran(g._VECTptr->front(),contextptr)[indice];
     if (ckmatrix(res))
       return gen(*res._VECTptr,_SEQ__VECT);
     else

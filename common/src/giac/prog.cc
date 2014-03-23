@@ -409,6 +409,10 @@ namespace giac {
       return "// Invalid program";
     vecteur & v =*f._VECTptr;
     vecteur vars=rm_checktype(gen2vecteur(v[0])),res1,res2(1,undef),res3,res4;
+    for (unsigned i=0;i<vars.size();++i){
+      if (equalposcomp(vars,vars[i])!=i+1)
+	res += gettext("// Warning, duplicate argument name: ")+vars[i].print(contextptr)+'\n';
+    }
     gen prog=v.back();
     check_local_assign(prog,vars,res1,res2,res3,res4,true,contextptr);
     int rs=res2.size();
@@ -419,7 +423,7 @@ namespace giac {
       }
     }
     if (!res1.empty()){
-      res=gettext("// Warning, assignation is :=, check these lines: ");
+      res += gettext("// Warning, assignation is :=, check these lines: ");
       const_iterateur it=res1.begin(),itend=res1.end();
       for (;it!=itend;++it){
 	res += it->print(contextptr);
@@ -3521,6 +3525,9 @@ namespace giac {
     if ( (debut_i.type!=_INT_) || (fin_i.type!=_INT_) || (debut_j.type!=_INT_) || (fin_j.type!=_INT_) )
       return gensizeerr(gettext("Boundaries not integer"));
     int di=debut_i.val,fi=fin_i.val,dj=debut_j.val,fj=fin_j.val;
+    if (abs_calc_mode(contextptr)==38 || xcas_mode(contextptr)){
+      ++di; ++fi; ++dj; ++fj;
+    }
     int stepi=1,stepj=1;
     if (di>fi)
       stepi=-1;

@@ -1522,7 +1522,7 @@ namespace giac {
 	ans=1;
 	const_iterateur it=feuille._VECTptr->begin(),itend=feuille._VECTptr->end();
 	for (;it!=itend;++it){
-	  ans=ans*it->evalf(level,contextptr);
+	  ans=operator_times(ans,it->evalf(level,contextptr),contextptr);
 	}
       }
       if (!last.empty())

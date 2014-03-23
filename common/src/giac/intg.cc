@@ -2016,6 +2016,17 @@ namespace giac {
     *logptr(contextptr) << gettext("Temporary replacing surd/NTHROOT by fractional powers") << endl;
   }
 
+  bool is_elementary(const vecteur & v,const gen & x){
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (*it==x)
+	continue;
+      if (!it->is_symb_of_sommet(at_exp) && (!it->is_symb_of_sommet(at_ln)) )
+	return false;
+    }
+    return true;
+  }
+
   gen integrate_id_rem(const gen & e_orig,const gen & gen_x,gen & remains_to_integrate,GIAC_CONTEXT,int intmode){
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate id_rem ") << e_orig << endl;
@@ -2330,8 +2341,8 @@ namespace giac {
 	return gen_x*e-tmpres;
       }
     }
-
-    if (detect_inv_trigln(e,rvar,gen_x,res,remains_to_integrate,false,contextptr))
+    // additional check on e for f:= x*(x + 1)*(2*x*(x - (2*x**3 + 2*x**2 + x + 1)*log(x + 1))*exp(3*x**2) + (x**2*exp(2*x**2) - log(x + 1)**2)**2)/((x + 1)*log(x + 1)**2 - (x**3 + x**2)*exp(2*x**2))**2
+    if (!is_elementary(rvar,gen_x) && detect_inv_trigln(e,rvar,gen_x,res,remains_to_integrate,false,contextptr))
       return res;
 
     // rewrite inv(exp)
@@ -4088,7 +4099,7 @@ namespace giac {
       // test must be done twice for example for sum(sin(k),k,1,0)
       if (is_zero(v[2]-v[3]-1))
 	return zero;
-      bool numeval=!is_integer(v[2]) || !is_integer(v[3]);
+      bool numeval=!is_integer(v[2]) || !is_integer(v[3]) || approx_mode(contextptr);
       if (is_integral(v[2])){
 	while (is_exactly_zero(subst(v[0],v[1],v[2],false,contextptr))){
 	  if (v[2]==v[3])

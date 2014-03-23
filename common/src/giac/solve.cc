@@ -685,7 +685,11 @@ namespace giac {
       const_iterateur it=vtmp.begin(),itend=vtmp.end();
       for (;it!=itend;++it){
 	bool negatif=is_strictly_positive(-*it,contextptr);
-	gen tmp=pow((negatif?-*it:*it),invdeg,contextptr);
+	gen tmp;
+	if (deg==2) 
+	  tmp=sqrt((negatif?-*it:*it),contextptr);
+	else
+	  tmp=pow((negatif?-*it:*it),invdeg,contextptr);
 	if (complexmode){
 	  const_iterateur jt,jtend;
 	  if (!negatif){
@@ -2128,7 +2132,15 @@ namespace giac {
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
 	gen a1=arg1._SYMBptr->feuille[0];
 	gen a2=arg1._SYMBptr->feuille[1];
-	vecteur w=lop(lvarx(makevecteur(a1,a2),v.back()),at_pow);
+	if (a2==0 && a1.is_symb_of_sommet(at_plus) && a1._SYMBptr->feuille._VECTptr->size()==2){
+	  a2=-a1._SYMBptr->feuille._VECTptr->back();
+	  a1=a1._SYMBptr->feuille._VECTptr->front();
+	}
+	vecteur lv=lvarx(makevecteur(a1,a2),v.back());
+	vecteur w=lop(lv,at_pow);
+	if (a2.type!=_VECT && a2!=0 && w.size()>1)
+	  arg1=lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr);
+	w=lop(lv,at_exp);
 	if (a2.type!=_VECT && a2!=0 && w.size()>1)
 	  arg1=lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr);
       }
@@ -5707,7 +5719,16 @@ namespace giac {
   // So if you want to input a constraint j such as x[i] <= MAX, set:
   // con[j] = MAX - x[i]
   gen fmin_cobyla(const gen & f,const vecteur & constraints,const vecteur & variables,const vecteur & guess,const gen & eps0,const gen & maxiter0,GIAC_CONTEXT){
-    vecteur con(constraints);
+    vecteur con;
+    const_iterateur ct=constraints.begin(),ctend=constraints.end();
+    for (;ct!=ctend;++ct){
+      if (ct->type!=_SYMB || ct->_SYMBptr->feuille.type!=_VECT || ct->_SYMBptr->feuille._VECTptr->size()!=2 || ct->_SYMBptr->sommet!=at_equal){
+	con.push_back(*ct);
+	continue;
+      }
+      con.push_back(ct->_SYMBptr->feuille._VECTptr->back()-ct->_SYMBptr->feuille._VECTptr->front());
+      con.push_back(ct->_SYMBptr->feuille._VECTptr->front()-ct->_SYMBptr->feuille._VECTptr->back());
+    }
     iterateur it=con.begin(),itend=con.end();
     for (;it!=itend;++it){
       if (it->type!=_SYMB || it->_SYMBptr->feuille.type!=_VECT || it->_SYMBptr->feuille._VECTptr->size()!=2)
@@ -5719,7 +5740,7 @@ namespace giac {
     }
     gen fcv=makevecteur(f,con,variables);
     gen_context gc={fcv,contextptr};
-    int n=variables.size(),m=constraints.size(),message(3),maxfun(1000);
+    int n=variables.size(),m=con.size(),message(3),maxfun(1000);
     gen maxiter(maxiter0);
     gen eps0d=evalf_double(eps0,1,contextptr);
     if (is_greater(1,maxiter,contextptr) || is_greater(eps0d,1,contextptr))

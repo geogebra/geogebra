@@ -676,7 +676,7 @@ namespace giac {
   static define_unary_function_eval (__taylor,&_taylor,_taylor_s);
   define_unary_function_ptr5( at_taylor ,alias_at_taylor,&__taylor,0,true);
 
-  gen _arcLen(const gen & g,GIAC_CONTEXT){
+  gen arclen(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
     if (!v.empty() && v.front().is_symb_of_sommet(at_pnt)){
@@ -715,6 +715,13 @@ namespace giac {
     else
       fprime=sqrt(normal(sq(fprime)+1,contextptr),contextptr);
     return _integrate(gen(makevecteur(fprime,v[1],v[2],v[3]),_SEQ__VECT),contextptr);
+  }
+  gen _arcLen(const gen & g,GIAC_CONTEXT){
+    bool b=complex_variables(contextptr);
+    complex_variables(false,contextptr);
+    gen res=arclen(g,contextptr);
+    complex_variables(b,contextptr);
+    return res;
   }
   static const char _arcLen_s[]="arcLen";
   static define_unary_function_eval (__arcLen,&_arcLen,_arcLen_s);
@@ -2192,6 +2199,8 @@ namespace giac {
       return g;
     if (is_equal(g))
       return apply_to_equal(g,fPart,contextptr);
+    if (g.type==_VECT)
+      return apply(g,fPart,contextptr);
     // if (is_strictly_positive(-g,contextptr)) return -fPart(-g,contextptr);
     // return g-_floor(g,contextptr);
     return g-_INT(g,contextptr);

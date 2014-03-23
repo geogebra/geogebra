@@ -223,29 +223,32 @@ namespace giac {
       else if (it->type==_CPLX){
 	if  (!is_zero(re(*it,contextptr)) && !is_zero(im(*it,contextptr)))
 	  s += "<mo>(</mo>"+gen2mathml(*it,contextptr)+"<mo>)</mo>";
-      }
-      else if ( isprecINT && (it->type==_SYMB) &&  (it->_SYMBptr->sommet==at_pow) ) {
-	  symbolic mys = *(it->_SYMBptr);
-	  if(!((mys.feuille._VECTptr->back()==plus_one_half))){
-	     if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
-	        if  (is_positive(mys.feuille._VECTptr->front(),contextptr))
-	          s += "<mo>&times;</mo>";// F.H: 2*2^n et 22^n, 2*2^(1/7)  mais pas 2*sqrt(2). 
-	     }
-	  } 
+	else{
 
 	 s += gen2mathml(*it,contextptr);
+	}
       }
-    else{
+      else{
+	if ( isprecINT && (it->type==_SYMB) &&  (it->_SYMBptr->sommet==at_pow) ) {
+	    symbolic mys = *(it->_SYMBptr);
+	    if(!((mys.feuille._VECTptr->back()==plus_one_half))){
+	      if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
+	        if  (is_positive(mys.feuille._VECTptr->front(),contextptr))
+	          s += "<mo>&times;</mo>";// F.H: 2*2^n et 22^n, 2*2^(1/7)  mais pas 2*sqrt(2). 
+	      }
+	    } 
+	}
+	s += gen2mathml(*it,contextptr);
+	
+      }
 
-        s += gen2mathml(*it,contextptr);
-
-       }
       if(  (it->type==_INT_)||(it->type==_ZINT) || (it->type==_REAL) || (it->type==_DOUBLE_) ){
 	isprecINT=true;
       }
       else{
 	isprecINT=false;
       }
+
       ++it;
       if (it==itend)
 	return s;
@@ -253,7 +256,7 @@ namespace giac {
 	s += "<mo>&times;</mo>";
     }
   }
-
+  
   static string prod_vect2mathml_no_bra(const vecteur & v,GIAC_CONTEXT){
     if (v.empty())
       return "<mn>1</mn>";
@@ -1037,7 +1040,7 @@ namespace giac {
           if  (is_zero(im(mys.feuille._VECTptr->front(),contextptr))) return s_no_bra;
           else return s_bra;
       }
-      //fred 2*(-1)^n
+      //F.H 2*(-1)^n
       //_REAL et _DOUBLE_ inutiles (-1.5)^n passe en exp
       else if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
 	if  (is_positive(mys.feuille._VECTptr->front(),contextptr)) return s_no_bra;
