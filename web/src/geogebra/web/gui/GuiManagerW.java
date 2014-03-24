@@ -1292,7 +1292,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		setToolBarDefinition(layout.getDockManager().getPanel(toolbarID).getToolbarString());
 
 
-		if (this.toolbarID != toolbarID) {
+		if (this.toolbarID != toolbarID && toolbarPanel != null) {
 			toolbarPanel.setActiveToolbar(new Integer(toolbarID));
 			updateToolbar();			
 		}
