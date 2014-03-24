@@ -405,7 +405,7 @@ __GGB__keysVar.zh_CN.command = {
     "IntegralBetween_Syntax": "[ <\u51fd\u6570>, <\u51fd\u65702>, <x-\u8d77\u59cb\u503c>, <x-\u7ec8\u6b62\u503c> ]\n[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u8d77\u59cb\u503c>, <x-\u7ec8\u6b62\u503c>, <\u662f\u5426\u7ed9\u51fa\u79ef\u5206\u503c?> ]",
     "IntegralBetween_SyntaxCAS": "[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u521d\u59cb\u503c>, <x-\u7ec8\u6b62\u503c> ]\n[ <\u51fd\u65701>, <\u51fd\u65702>, <\u53d8\u91cf>, <\u521d\u59cb\u503c>, <\u7ec8\u6b62\u503c> ]",
     "Intersect": "\u76f8\u4ea4",
-    "Intersect_Syntax": "[ <\u5bf9\u8c611>, <\u5bf9\u8c612> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612>, <\u4ea4\u70b9\u6307\u9488> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612>, <\u8d77\u70b9> ]\n[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u8d77\u59cb\u503c>, <x-\u7ec8\u6b62\u503c> ]",
+    "Intersect_Syntax": "[ <\u5bf9\u8c611>, <\u5bf9\u8c612> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612>, <\u4ea4\u70b9\u6307\u9488> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612>, <\u8d77\u70b9> ]\n[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u8d77\u59cb\u503c>, <x-\u7ec8\u6b62\u503c> ]\n[ <\u66f2\u7ebf1>, <\u66f2\u7ebf2>, <\u53c2\u65701>, <\u53c2\u65702> ]",
     "Intersect_SyntaxCAS": "[ <\u51fd\u65701>, <\u51fd\u65702> ]",
     "IntersectPath": "\u4ea4\u53c9\u8def\u5f84",
     "IntersectPath_Syntax": "[ <\u7ebf>, <\u591a\u8fb9\u5f62> ]\n[ <\u7ebf>, <\u5706\u9525\u66f2\u7ebf> ]",
