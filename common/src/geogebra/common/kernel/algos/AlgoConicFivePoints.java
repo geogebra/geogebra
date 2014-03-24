@@ -45,7 +45,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     private boolean criticalCase; // true when 5 points is on a parabola
     
     private double[][] A, B, C;
-    private double l, m;
+    private double e1, e2;
     private GeoVec3D[] line;
     private int i, j;
 
@@ -178,17 +178,19 @@ public class AlgoConicFivePoints extends AlgoElement {
         //                           B = line[2] u line[3]
         degCone(line[0], line[1], A);
         degCone(line[2], line[3], B);
-        l = evalMatrix(B, P[4]);
-        m = -evalMatrix(A, P[4]);
-        // try to avoid tiny/huge value for matrix
-        double lInv = 1/l;
-        double mInv = 1/m;
-        if (!(Double.isNaN(lInv) || Double.isNaN(mInv))){
-        	l = mInv;
-        	m = lInv;
+        e1 = evalMatrix(B, P[4]);
+        e2 = -evalMatrix(A, P[4]);
+        
+        // try to avoid tiny/huge value for matrix 
+        if (!Kernel.isZero(e1) && !Kernel.isZero(e2)) {
+        	
+        		double tmp = e1;
+        	
+                e1 = 1 / e2;
+                e2 = 1 / tmp;
         }
        
-        linComb(A, B, l, m, C);
+        linComb(A, B, e1, e2, C);
         
         /***
          * Perturbation method to estimate the error of "detS" of the conic
