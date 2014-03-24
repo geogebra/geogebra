@@ -143,6 +143,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		private void addDimensionPanel() {
 			dimTitle = new Label("");
+			dimTitle.setStyleName("panelTitle");
 			dimLabel = new Label[4]; // "Xmin", "Xmax" etc.
 			for (int i = 0; i < 4; i++) {
 				dimLabel[i] = new Label("");
@@ -195,6 +196,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void addAxesOptionsPanel() {
 
 			axesOptionsTitle = new Label();
+			axesOptionsTitle.setStyleName("panelTitle");
 			// show axes checkbox
 			cbShowAxes = new CheckBox(app.getPlain("ShowAxes"));
 
@@ -272,6 +274,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		private void addConsProtocolPanel() {
 			consProtocolTitle = new Label();
+			consProtocolTitle.setStyleName("panelTitle");
 			consProtocolPanel = new FlowPanel();
 		
 			cbShowNavbar = new CheckBox();
@@ -315,6 +318,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		private void addMiscPanel() {
 			miscTitle = new Label();
+			miscTitle.setStyleName("panelTitle");
 			// background color panel
 			backgroundColorLabel = new Label(app.getPlain("BackgroundColor") + ":");
 	
