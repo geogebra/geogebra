@@ -607,7 +607,7 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
     
     @Override
 	public void setClearColor(float r, float g, float b, float a){
-    	getGL().glClearColor(r,g,b, 1.0f);   
+    	getGL().glClearColor(r,g,b,a);   
     }
     
     
