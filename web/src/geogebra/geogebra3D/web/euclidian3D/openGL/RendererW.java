@@ -519,7 +519,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void setLayer(float l) {
-	    // TODO Auto-generated method stub
+		
+		glContext.polygonOffset(-l*0.05f, -l*10);
 	    
     }
 
@@ -606,14 +607,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     public void setClearColor(float r, float g, float b, float a) {
-		glContext.clearColor(r, g, b ,a);	    
+		glContext.clearColor(r, g, b, a);	    
     }
 
 
 	@Override
     protected void setColorMaterial() {
-	    // TODO Auto-generated method stub
-	    
+		//glContext.enable(WebGLRenderingContext.COLOR_MATERIAL);
     }
 
 	@Override
@@ -752,14 +752,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		
 		GBufferedImageW image = new GBufferedImageW(sizeX, sizeY, 0);
 		GGraphics2D g2d = image.createGraphics();
-		//g2d.setColor(GColor.BLACK);
-		/*
-		g2d.drawLine(0, 0, sizeX - 1 , 0); 
-		g2d.drawLine(sizeX - 1 , 0, sizeX - 1 , sizeY - 1); 
-		g2d.drawLine(sizeX - 1 , sizeY - 1, 0, sizeY - 1); 
-		g2d.drawLine(0, sizeY - 1, 0, 0); 
-		*/
-		//g2d.drawLine((sizeX - 1) * (textureIndex % 2), 0, (sizeX - 1) * (1 - (textureIndex % 2)), sizeY - 1);
 		g2d.drawImage(bimg, 0, 0);
 		
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
@@ -1050,8 +1042,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void enablePolygonOffsetFill() {
-	    // TODO Auto-generated method stub
-	    
+		glContext.enable(WebGLRenderingContext.POLYGON_OFFSET_FILL);
     }
 
 
@@ -1076,7 +1067,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
     protected void enableNormalNormalized() {
 	    // TODO Auto-generated method stub
-	    
     }
 	
 	
