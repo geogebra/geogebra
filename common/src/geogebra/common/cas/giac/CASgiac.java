@@ -396,18 +396,22 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 		
 		StringBuilder script = new StringBuilder();
+		
+		String eliminateCommand = "eliminate([" + constructRestrictions + "],[" + varsToEliminate + "])";
 
-		return script.append("[").append(myeliminate+",[aa:=myeliminate([").
-				append(constructRestrictions).
-				append("],[").
-				append(varsToEliminate).
-				append("])],").
+		return script.append("[").
+				append(myeliminate+",[aa:=my").
+				append(eliminateCommand).
+				append("],").
+				// myeliminate() may be inaccurate, see https://dev.geogebra.org/trac/ticket/4221
+				// Consider to do this hack also for createEliminateFactorizedScript().
+				append("[if (size(aa)==0) {aa:=" + eliminateCommand + "}],").
 				// Creating a matrix from the output to satisfy Sergio:
 				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],").
 				append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);").
 				append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];").
 				append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;").
-				append("cc:=append(cc,ee); od; od],cc][8]")
+				append("cc:=append(cc,ee); od; od],cc][9]")
 				// See CASTranslator.createSingularScript for more details.
 
 				.toString();
