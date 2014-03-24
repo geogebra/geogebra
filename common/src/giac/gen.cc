@@ -5601,6 +5601,12 @@ namespace giac {
 	return gensizeerr(contextptr);
       if (is_one(base) && !is_inf(exponent))
 	return base;
+      if (exponent.is_symb_of_sommet(at_prod) && exponent._SYMBptr->feuille.type==_VECT && exponent._SYMBptr->feuille._VECTptr->size()==2){
+	gen e1=exponent._SYMBptr->feuille._VECTptr->front();
+	gen e2=exponent._SYMBptr->feuille._VECTptr->back();
+	if (e1.is_symb_of_sommet(at_ln) && e2.is_symb_of_sommet(at_inv) && e2._SYMBptr->feuille.is_symb_of_sommet(at_ln) && base==e2._SYMBptr->feuille._SYMBptr->feuille)
+	  return e1._SYMBptr->feuille;
+      }
       if (is_squarematrix(base)){ 
 	if ((exponent.type==_REAL || exponent.type==_DOUBLE_ || exponent.type==_FLOAT_))
 	  return matpow(*base._VECTptr,exponent,contextptr);
