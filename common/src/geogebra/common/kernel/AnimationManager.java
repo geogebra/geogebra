@@ -197,8 +197,10 @@ public abstract class AnimationManager {
 		changedGeos.clear();
 
 		// perform animation step for all animatedGeos
+		// go right to left to ensure removing geos animated once does not kill this #4193
 		int size = animatedGeos.size();
-		for (int i = 0; i < size; i++) {
+
+		for (int i = size -1; i >= 0; i--) {
 			Animatable anim = (Animatable) animatedGeos.get(i);
 			boolean changed = anim.doAnimationStep(frameRate);
 			if (changed)
