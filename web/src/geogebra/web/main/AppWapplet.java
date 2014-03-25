@@ -227,6 +227,8 @@ public class AppWapplet extends AppW {
 	}
 
 	private GGWToolBar ggwToolBar = null;
+	private int spWidth;
+	private int spHeight;
 
 	public void attachToolbar() {
 		GGWMenuBar menubar = getObjectPool().getGgwMenubar();
@@ -406,5 +408,20 @@ public class AppWapplet extends AppW {
 		return articleElement.getId();
 	}
 	
+	@Override
+    public void updateCenterPanel(boolean b){
+		
+		//int left = this.oldSplitLayoutPanel.getAbsoluteLeft();
+		//int top = this.oldSplitLayoutPanel.getAbsoluteLeft();
+		buildApplicationPanel();
+		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
+		
+		//TODO
+		
+ 	}
 	
+	public void persistWidthAndHeight(){
+		spWidth = this.oldSplitLayoutPanel.getOffsetWidth();
+		spHeight = this.oldSplitLayoutPanel.getOffsetHeight();
+	}
 }

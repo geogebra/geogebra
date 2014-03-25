@@ -721,6 +721,7 @@ public class DockManagerW extends DockManager {
 		if(panel.isOpenInFrame()) {
 			//panel.createFrame();
 		} else {
+			app.persistWidthAndHeight();
 			// Transform the definition into an array of integers
 			String[] def = panel.getEmbeddedDef().split(",");
 			int[] locations = new int[def.length];

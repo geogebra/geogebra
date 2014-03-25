@@ -1683,4 +1683,9 @@ public abstract class AppW extends AppWeb {
 
 	    return clientInfo;
     }
+
+	public void persistWidthAndHeight() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

@@ -177,7 +177,7 @@ public class GeoGebraMenubarW extends MenuBar implements EventRenderable, GeoGeb
 		}
 		
 		private void createViewMenu() {
-			viewMenu = (app.isApplet())? new ViewMenuW(app) : new ViewMenuApplicationW(app);
+			viewMenu = new ViewMenuApplicationW(app);
 			addItem(app.getMenu("View"), viewMenu);
 		}
 		
