@@ -1063,7 +1063,7 @@ public class DockManagerW extends DockManager {
 				} else if (opposite instanceof DockSplitPaneW) {
 					((DockSplitPaneW)opposite).onResize();
 				}
-			} else {
+			} else if(opposite !=null) {
 				if (opposite.getParent() instanceof DockSplitPaneW) {
 					((DockSplitPaneW)opposite.getParent()).deferredOnResize();
 				} else if (opposite instanceof DockSplitPaneW) {
