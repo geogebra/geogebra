@@ -1008,7 +1008,7 @@ public class DockManagerW extends DockManager {
 			DockSplitPaneW parent = panel.getParentSplitPane();
 			int parentOffsetWidth = parent.getOffsetWidth();
 			int parentOffsetHeight = parent.getOffsetHeight();
-
+			app.persistWidthAndHeight();
 			// Save settings
 			if(parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
 				panel.setEmbeddedSize(panel.getOffsetWidth());
