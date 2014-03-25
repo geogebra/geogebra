@@ -24,6 +24,7 @@ import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -415,7 +416,8 @@ public class AppWapplet extends AppW {
 		//int top = this.oldSplitLayoutPanel.getAbsoluteLeft();
 		buildApplicationPanel();
 		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
-		
+		//we need relative position to make sure the menubar / toolbar are not hiddn
+		this.oldSplitLayoutPanel.getElement().getStyle().setPosition(Position.RELATIVE);
 		//TODO
 		
  	}
