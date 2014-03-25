@@ -1688,4 +1688,11 @@ public abstract class AppW extends AppWeb {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	public boolean isShowToolbar() {
+		if(this.articleElement == null){
+			return false;
+		}
+	    return this.articleElement.getDataParamShowToolBar() || this.articleElement.getDataParamApp();
+    }
 }
