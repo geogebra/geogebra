@@ -260,6 +260,9 @@ public class PropertiesViewW extends
 	
 	@Override
 	public void mousePressedForPropertiesView() {
+		if (objectPanel == null) {
+			return;
+		}
 		objectPanel.forgetGeoAdded();
     }
 

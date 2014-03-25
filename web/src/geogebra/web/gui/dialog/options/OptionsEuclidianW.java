@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
@@ -20,6 +21,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
+import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -48,8 +50,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private EuclidianView view;
 	private EuclidianOptionsModel model;
 	private BasicTab basicTab;
+	private AxisTab xAxisTab;
+	private AxisTab yAxisTab;
+	private GridTab gridTab;
 	private ListBox lbTooltips;
-	private class EuclidianTab extends FlowPanel{};
+	private abstract class EuclidianTab extends FlowPanel implements SetLabels 
+	{};
+	
 	private class BasicTab extends EuclidianTab {
 		private Label dimTitle;
 		private Label[] dimLabel;
@@ -90,6 +97,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			addAxesOptionsPanel();
 			addConsProtocolPanel();
 			addMiscPanel();
+			setStyleName("propertiesTab");
 		}
 
 		private void addMinMaxHandler(final AutoCompleteTextFieldW tf, final MinMaxType type) {
@@ -477,6 +485,139 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	}
 	
+	private class AxisTab extends EuclidianTab {
+		private AxisPanel axisPanel;
+		
+		public AxisTab(int axis) {
+			axisPanel = new AxisPanel(app, view, axis);
+			setStyleName("propertiesTab");
+			add(axisPanel);
+		}
+		
+		public void setLabels() {
+	        axisPanel.setLabels();
+        }
+		
+	}
+		
+	private class GridTab extends EuclidianTab {
+		private CheckBox cbShowGrid;
+		private ListBox lbGridType;
+		private CheckBox cbGridManualTick;
+		private NumberListBox ncbGridTickX;
+		private NumberListBox ncbGridTickY;
+		private ListBox lbGridTickAngle;
+		private Label gridLabel1;
+		private Label gridLabel2;
+		private Label gridLabel3;
+		public GridTab() {
+			setStyleName("propertiesTab");
+			cbShowGrid = new CheckBox();
+			cbShowGrid.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.showGrid(cbShowGrid.getValue());
+                }});
+			add(cbShowGrid);
+			initGridTypePanel();
+		}
+		
+		private void initGridTypePanel() {
+
+			// grid type combo box
+			lbGridType = new ListBox();
+			
+			lbGridType.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+	                model.appyGridType(lbGridType.getSelectedIndex());
+                }});
+			// tick intervals
+
+			cbGridManualTick = new CheckBox(app.getPlain("TickDistance") + ":");
+			cbGridManualTick.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	                model.appyGridManualTick(cbGridManualTick.getValue());
+	                view.updateBackground();
+	        		updateGUI();
+	        	}});
+			
+			ncbGridTickX = new NumberListBox(app);
+			ncbGridTickY = new NumberListBox(app);
+			ncbGridTickX.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyGridTicks(ncbGridTickX.getValue(), 0);
+					view.updateBackground();
+					updateGUI();
+				}});
+			
+			ncbGridTickY.addChangeHandler(new ChangeHandler(){
+
+				public void onChange(ChangeEvent event) {
+					model.applyGridTicks(ncbGridTickY.getValue(), 1);
+					view.updateBackground();
+					updateGUI();
+					}});
+
+			// checkbox for grid labels
+			lbGridTickAngle = new ListBox();
+		
+			
+			// grid labels
+			gridLabel1 = new Label("x:");
+			gridLabel2 = new Label("y:");
+			gridLabel3 = new Label("\u03B8" + ":"); // Theta
+		
+			FlowPanel tickPanel = LayoutUtil.panelRow(cbGridManualTick, gridLabel1,
+					ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
+					lbGridTickAngle);
+			
+			add(tickPanel);
+			
+			FlowPanel typePanel = new FlowPanel();
+			typePanel.add(lbGridType);
+			typePanel.add(cbGridManualTick);
+			typePanel.add(LayoutUtil.panelRow(
+					gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
+					lbGridTickAngle));
+
+			lbGridTickAngle.addChangeHandler(new ChangeHandler(){
+				public void onChange(ChangeEvent event) {
+					model.applyGridTickAngle(lbGridTickAngle.getSelectedIndex());
+				}
+			});
+			
+			lbGridType.addChangeHandler(new ChangeHandler(){
+				public void onChange(ChangeEvent event) {
+					model.appyGridType(lbGridType.getSelectedIndex());
+
+				}
+			});
+			add(typePanel);
+		}
+
+		public void setLabels() {
+	        cbShowGrid.setText(app.getPlain("ShowGrid"));
+	        int idx = lbGridType.getSelectedIndex();
+	        lbGridType.clear();
+	        model.fillGridTypeCombo();
+	        lbGridType.setSelectedIndex(idx);
+	        
+	        idx = lbGridTickAngle.getSelectedIndex();
+	        model.fillAngleOptions();
+	        lbGridTickAngle.setSelectedIndex(idx);
+		}
+
+		public void addGridTypeItem(String item) {
+	        lbGridType.addItem(item);
+        }
+
+		public void addAngleOptionItem(String item) {
+	       lbGridTickAngle.addItem(item);
+        }
+	}
 	
 	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
@@ -499,29 +640,22 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	private void addBasicTab() {
 		basicTab = new BasicTab();
-		basicTab.setStyleName("propertiesTab");
 		tabPanel.add(basicTab, "basic");
 	}
 	
 	private void addXAxisTab() {
-		EuclidianTab tab = new EuclidianTab();
-		tab.setStyleName("propertiesTab");
-		tab.add(new AxisPanel(app, view,0));
-		tabPanel.add(tab, "x");
+		xAxisTab = new AxisTab(EuclidianOptionsModel.X_AXIS);
+		tabPanel.add(xAxisTab, "x");
 	}
 	
 	private void addYAxisTab() {
-		EuclidianTab tab = new EuclidianTab();
-		tab.setStyleName("propertiesTab");
-		tab.add(new AxisPanel(app, view, 1));
-		tabPanel.add(tab, "y");
+		yAxisTab = new AxisTab(EuclidianOptionsModel.Y_AXIS);
+		tabPanel.add(yAxisTab, "y");
 	}
 	
 	private void addGridTab() {
-		EuclidianTab tab = new EuclidianTab();
-		tab.setStyleName("propertiesTab");
-		tab.add(new Label("grid"));
-		tabPanel.add(tab, "grid");
+		gridTab = new GridTab();
+		tabPanel.add(gridTab, "grid");
 	}
 	
 	public void setLabels() {
@@ -530,7 +664,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    tabBar.setTabText(1, app.getPlain("xAxis"));
 	    tabBar.setTabText(2, app.getPlain("yAxis"));
 	    tabBar.setTabText(3, app.getPlain("Grid"));
-	    basicTab.setLabels();    
+	    
+	    basicTab.setLabels();
+	    xAxisTab.setLabels();
+	    yAxisTab.setLabels();
+	    gridTab.setLabels();
+	    
     }
 
 	public void setView(EuclidianViewWeb euclidianView1) {
@@ -622,6 +761,21 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	public void selectGridStyle(int style) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	public void addGridTypeItem(String item) {
+		if (gridTab == null) {
+			return;
+		}
+		
+		gridTab.addGridTypeItem(item);
+    }
+
+	public void addAngleOptionItem(String item) {
+		if (gridTab == null) {
+			return;
+		}
+	    gridTab.addAngleOptionItem(item);
     }
 }
 

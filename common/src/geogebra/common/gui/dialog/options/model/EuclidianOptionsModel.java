@@ -6,6 +6,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.Unicode;
 
 public class EuclidianOptionsModel {
 	public interface IEuclidianOptionsListener  {
@@ -18,6 +19,8 @@ public class EuclidianOptionsModel {
 				String maxY);
 
 		void addTooltipItem(String item);
+
+		void addGridTypeItem(String item);
 
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
 
@@ -39,6 +42,8 @@ public class EuclidianOptionsModel {
 		void enableLock(boolean zoomable);
 
 		void selectGridStyle(int style);
+
+		void addAngleOptionItem(String item);
 	}
 	public enum MinMaxType {
 		minX,
@@ -48,6 +53,9 @@ public class EuclidianOptionsModel {
 	}	
 
 	public static final int MAX_AXES_STYLE_COUNT = 5;
+
+	public static final int X_AXIS = 0;
+	public static final int Y_AXIS = 1;
 
 	private App app;
 	private EuclidianView view;
@@ -415,5 +423,46 @@ public class EuclidianOptionsModel {
 	public static int getAxesStyleLength() {
 		return MAX_AXES_STYLE_COUNT;
 	}
+
+	public void fillGridTypeCombo() {
+		String[] gridTypes = new String[3];
+		gridTypes[EuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
+		gridTypes[EuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
+		gridTypes[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
+		for (String item: gridTypes) {
+			listener.addGridTypeItem(item);
+		}
+	}
+	
+	public void fillAngleOptions() {
+		String[] angleOptions = { Unicode.PI_STRING + "/12",
+			Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
+			Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2", };
+		for (String item: angleOptions) {
+			listener.addAngleOptionItem(item);
+		};
+	}
+
+	public void applyGridTicks(double value, int idx) {
+		if (value > 0) {
+			double[] ticks = view.getGridDistances();
+			ticks[idx] = value;
+			view.setGridDistances(ticks);
+		}
+
+	}
+
+	public void applyGridTickAngle(int value) {
+		if (value >= 0) {
+			double[] ticks = view.getGridDistances();
+			// val = 4 gives 5*PI/12, skip this and go to 6*Pi/2 = Pi/2
+			if (value == 4)
+				value = 5;
+			ticks[2] = (value + 1) * Math.PI / 12;
+			view.setGridDistances(ticks);
+		}
+
+	}
+				
 }
 

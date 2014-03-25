@@ -10,6 +10,7 @@ import geogebra.common.gui.util.TableSymbols;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
@@ -31,7 +32,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks,
 	cbPositiveAxis, cbDrawAtBorder;
 
-	protected NumberComboBox ncbTickDist;
+	protected NumberListBox ncbTickDist;
 	protected ListBox lbTickStyle, lbAxisLabel, lbUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
 
@@ -45,22 +46,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	private AppW app;
 	protected EuclidianView view;
-	private class NumberComboBox extends ListBox {
-		private static final String PI_STRING = "\u03c0";
-
-		public NumberComboBox() {		
-			addItem("1"); //pi
-			addItem(PI_STRING); //pi
-			addItem(PI_STRING + "/2"); //pi/2
-		}
-		
-		public double getValue() {
-			final String text = getItemText(getSelectedIndex()).toString().trim();
-			if (text.equals("")) return Double.NaN;
-			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);			
-		}
-
-	};
+	
 	
 	/******************************************************
 	 * @param app
@@ -136,7 +122,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}});
 
 
-		ncbTickDist = new NumberComboBox();
+		ncbTickDist = new NumberListBox(app);
 
 		ncbTickDist.addChangeHandler(new ChangeHandler(){
 

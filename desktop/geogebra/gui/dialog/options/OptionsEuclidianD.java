@@ -22,7 +22,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.AxesStyleListRenderer;
@@ -376,11 +375,8 @@ public class OptionsEuclidianD extends
 	private void initGridTypePanel() {
 
 		// grid type combo box
-		String[] gridTypeLabel = new String[3];
-		gridTypeLabel[EuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
-		gridTypeLabel[EuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
-		gridTypeLabel[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
-		cbGridType = new JComboBox(gridTypeLabel);
+		cbGridType = new JComboBox();
+		model.fillGridTypeCombo();
 		cbGridType.addActionListener(this);
 
 		// tick intervals
@@ -393,13 +389,9 @@ public class OptionsEuclidianD extends
 		ncbGridTickX.addItemListener(this);
 		ncbGridTickY.addItemListener(this);
 
-		// angleStep intervals for polar grid lines
-		String[] angleOptions = { Unicode.PI_STRING + "/12",
-				Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
-				Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2", };
-
 		// checkbox for grid labels
-		cbGridTickAngle = new JComboBox(angleOptions);
+		cbGridTickAngle = new JComboBox();
+		model.fillAngleOptions();
 		cbGridTickAngle.addItemListener(this);
 
 		// grid labels
@@ -580,9 +572,7 @@ public class OptionsEuclidianD extends
 		int index = cbGridType.getSelectedIndex();
 		cbGridType.removeActionListener(this);
 		cbGridType.removeAllItems();
-		cbGridType.addItem(app.getMenu("Cartesian"));
-		cbGridType.addItem(app.getMenu("Isometric"));
-		cbGridType.addItem(app.getMenu("Polar"));
+		model.fillGridTypeCombo();
 		cbGridType.setSelectedIndex(index);
 		cbGridType.addActionListener(this);
 
@@ -772,33 +762,15 @@ public class OptionsEuclidianD extends
 			return;
 
 		if (source == ncbGridTickX) {
-			double val = ncbGridTickX.getValue();
-			if (val > 0) {
-				double[] ticks = view.getGridDistances();
-				ticks[0] = val;
-				view.setGridDistances(ticks);
-			}
+			model.applyGridTicks(ncbGridTickX.getValue(), 0);
 		}
 
 		else if (source == ncbGridTickY) {
-			double val = ncbGridTickY.getValue();
-			if (val > 0) {
-				double[] ticks = view.getGridDistances();
-				ticks[1] = val;
-				view.setGridDistances(ticks);
-			}
+			model.applyGridTicks(ncbGridTickY.getValue(), 1);
 		}
 
 		else if (source == cbGridTickAngle) {
-			double val = cbGridTickAngle.getSelectedIndex();
-			if (val >= 0) {
-				double[] ticks = view.getGridDistances();
-				// val = 4 gives 5*PI/12, skip this and go to 6*Pi/2 = Pi/2
-				if (val == 4)
-					val = 5;
-				ticks[2] = (val + 1) * Math.PI / 12;
-				view.setGridDistances(ticks);
-			}
+			model.applyGridTickAngle(cbGridTickAngle.getSelectedIndex());
 		}
 
 		view.updateBackground();
@@ -1104,4 +1076,13 @@ public class OptionsEuclidianD extends
 		// TODO Auto-generated method stub
 
 	}
+
+	public void addGridTypeItem(String item) {
+		cbGridType.addItem(item);
+	}
+
+	public void addAngleOptionItem(String item) {
+		cbGridTickAngle.addItem(item);
+	}
+
 }
