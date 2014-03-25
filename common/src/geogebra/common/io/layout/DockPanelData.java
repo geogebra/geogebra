@@ -226,4 +226,13 @@ public class DockPanelData {
 	public Object clone() {
 		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame, showStyleBar, frameBounds, embeddedDef, embeddedSize, plane);
 	}
+
+	public void setVisible(boolean b) {
+		isVisible = b;
+	}
+
+	public void setLocation(String s) {
+		this.embeddedDef = s;
+		
+	}
 }

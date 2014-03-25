@@ -10,6 +10,7 @@ import geogebra.common.kernel.scripting.CmdLineStyle;
 import geogebra.common.kernel.scripting.CmdPan;
 import geogebra.common.kernel.scripting.CmdParseToFunction;
 import geogebra.common.kernel.scripting.CmdParseToNumber;
+import geogebra.common.kernel.scripting.CmdPerspective;
 import geogebra.common.kernel.scripting.CmdPlaySound;
 import geogebra.common.kernel.scripting.CmdRelation;
 import geogebra.common.kernel.scripting.CmdRename;
@@ -133,6 +134,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 						return new CmdParseToFunction(kernel);
 					case StartAnimation:
 						return new CmdStartAnimation(kernel);
+					case Perspective:
+						return new CmdPerspective(kernel);
 					case Delete:
 						return new CmdDelete(kernel);
 					case Slider:
