@@ -76,6 +76,7 @@ public class CmdPerspective extends CmdScripting {
 			Perspective ps =  new Perspective("Custom", spData, dpData, defToolbar, true, false, true, true, true, false);
 			try{
 			app.getGuiManager().getLayout().applyPerspective(ps);
+			app.updateViewSizes();
 			}catch(Exception e){
 				e.printStackTrace();
 			}

@@ -3482,5 +3482,13 @@ public abstract class App implements UpdateSelection{
 	public final void setErrorDialogsActive(boolean isErrorDialogsActive) {
 		this.isErrorDialogsActive = isErrorDialogsActive;
 	}
+	/**
+	 * Recompute coord systems in EV and spreadsheet
+	 * Only needed in web, overwritten in AppW
+	 */ 
+	 public void updateViewSizes() {
+	 
+		
+	}
 
 }
