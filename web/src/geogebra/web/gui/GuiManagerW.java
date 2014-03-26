@@ -1154,8 +1154,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (algebraInput != null)
 			algebraInput.setLabels();
 
-		if (GGWToolBar.getToolBar() != null) {
-			GGWToolBar.getToolBar().buildGui();
+		if (ggwToolBar != null && ggwToolBar.getToolBar() != null) {
+			ggwToolBar.getToolBar().buildGui();
 		}
 
 		if (((AppW) app).getObjectPool().getGgwMenubar() != null &&
@@ -1279,6 +1279,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	private ConstructionProtocolViewW constructionProtocolView;
 
 	private boolean oldDraggingViews;
+
+	private GGWToolBar ggwToolBar;
 
 	public int getActiveToolbarId() {
 		return toolbarID;
@@ -1512,6 +1514,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	public boolean isConsProtNavigationProtButtonVisible() {
 		return getConstructionProtocolNavigation().isConsProtButtonVisible();		
 	}
+
+	@Override
+    public void registerToolbar(GGWToolBar ggwToolBar) {
+	    this.ggwToolBar = ggwToolBar;
+    }
 
 
 }

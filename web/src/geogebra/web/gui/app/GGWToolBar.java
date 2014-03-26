@@ -8,6 +8,7 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
@@ -38,7 +39,7 @@ public class GGWToolBar extends Composite {
 
 	private ArrayList<ToolBarW> toolbars;
 	App app;
-	static private ToolBarW toolBar;
+	private ToolBarW toolBar;
 	//panel which contains the toolbar and undo-redo buttons.
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
@@ -47,7 +48,7 @@ public class GGWToolBar extends Composite {
 	private Integer activeToolbar = -1;
 	
 	private FlowPanel smartButtonPanel;
-	private StandardButton openSearchButton;
+	private StandardButton openSearchButton, openMenuButton;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -84,7 +85,8 @@ public class GGWToolBar extends Composite {
 		this.inited = true;
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
-		toolBar = new ToolBarW();
+		toolBar = new ToolBarW(this);
+		((GuiManagerInterfaceW)app.getGuiManager()).registerToolbar(this);
 		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
@@ -149,7 +151,7 @@ public class GGWToolBar extends Composite {
 		this.smartButtonPanel = new FlowPanel();
 		this.smartButtonPanel.setStyleName("smartButtonPanel");
 		
-		StandardButton openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());
+		openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
@@ -565,7 +567,7 @@ public class GGWToolBar extends Composite {
 	/**
 	 * @return tool bar
 	 */
-	public static ToolBarW getToolBar(){
+	public ToolBarW getToolBar(){
 		return toolBar;
 	}
 	
@@ -612,5 +614,15 @@ public class GGWToolBar extends Composite {
 		if(this.openSearchButton != null){
 			this.openSearchButton.setTabIndex(-1);
 		}
+		if(this.openMenuButton != null){
+			this.openMenuButton.setTabIndex(-1);
+		}
 	}
+
+	public void selectMenuButton() {
+		if(this.openMenuButton != null){
+			this.openMenuButton.setFocus(true);
+		}
+	    
+    }
 }

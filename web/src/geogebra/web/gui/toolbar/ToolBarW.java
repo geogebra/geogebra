@@ -8,6 +8,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.UnorderedList;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -43,13 +44,15 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	private ArrayList<ModeToggleMenu> modeToggleMenus;
 	boolean keepDown;
 	private UnorderedList menuList;
+	private GGWToolBar tb;
 
 	/**
 	 * Creates general toolbar.
 	 * There is no app parameter here, because of UiBinder.
 	 * After instantiate the ToolBar, call init(Application app) as well.
 	 */
-	public ToolBarW() {
+	public ToolBarW(GGWToolBar tb) {
+		this.tb = tb;
 		this.addStyleName("GGWToolbar");
 		this.addOutsideClickHandler(this, Document.get().getDocumentElement());
 		this.addDomHandler(this, ClickEvent.getType());
@@ -314,6 +317,11 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 
 	public void onClick(ClickEvent event) {
 	    event.stopPropagation();
+    }
+
+	public void selectMenuBotton() {
+	    tb.selectMenuButton();
+	    
     }
 
 }

@@ -418,6 +418,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			
 			if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
 				switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton));
+			}else{
+				toolbar.selectMenuBotton();
 			}
 			break;
 		case KeyCodes.KEY_DOWN:
