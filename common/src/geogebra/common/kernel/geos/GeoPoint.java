@@ -46,6 +46,7 @@ import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
@@ -1238,6 +1239,19 @@ SymbolicParametersBotanaAlgo {
 	 * @param sbBuildValueString string builder
 	 */
 	public static final void buildValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
+		if(tpl.hasType(StringType.GIAC)){
+		
+			
+				sbBuildValueString.append("point(");
+				sbBuildValueString.append(kernel.format(x, tpl));
+				sbBuildValueString.append(',');
+				sbBuildValueString.append(kernel.format(y, tpl));
+				sbBuildValueString.append(',');
+				sbBuildValueString.append(kernel.format(z, tpl));
+				sbBuildValueString.append(")");
+			
+			return;
+		}
 		sbBuildValueString.append('(');
 		sbBuildValueString.append(kernel.format(x, tpl));
 		String separator;
@@ -1248,6 +1262,9 @@ SymbolicParametersBotanaAlgo {
 
 		default:
 			separator = Character.toString(kernel.getLocalization().unicodeComma);
+		}
+		if(tpl.hasCASType()){
+			separator = ",";
 		}
 
 		sbBuildValueString.append(separator);
