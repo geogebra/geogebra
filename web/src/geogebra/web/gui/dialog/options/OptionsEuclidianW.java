@@ -17,12 +17,15 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.main.AppW;
@@ -216,6 +219,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			btAxesColor = new Button("\u2588");
 			
+			btAxesColor.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+	              ((DialogManagerW)app.getDialogManager()).showColorChooserDialog();
+                }});
+			
 			// axes style
 			lineStyle = new Label(app.getPlain("LineStyle") + ":");
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
@@ -350,7 +359,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btBackgroundColor.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-	                model.applyBackgroundColor();
+		              ((DialogManagerW)app.getDialogManager()).showColorChooserDialog();
+//	                model.applyBackgroundColor();
                 }});
 
 			cbShowMouseCoords.addClickHandler(new ClickHandler(){
@@ -501,6 +511,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 		
 	private class GridTab extends EuclidianTab {
+		private static final int iconHeight = 24;
 		private CheckBox cbShowGrid;
 		private ListBox lbGridType;
 		private CheckBox cbGridManualTick;
@@ -510,6 +521,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label gridLabel1;
 		private Label gridLabel2;
 		private Label gridLabel3;
+		LineStylePopup btnGridStyle;
+		private Label lblColor;
+		private CheckBox cbBoldGrid;
+		private Button btGridColor;
 		public GridTab() {
 			setStyleName("propertiesTab");
 			cbShowGrid = new CheckBox();
@@ -520,6 +535,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
                 }});
 			add(cbShowGrid);
 			initGridTypePanel();
+			initGridStylePanel();
 		}
 		
 		private void initGridTypePanel() {
@@ -531,16 +547,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				public void onChange(ChangeEvent event) {
 	                model.appyGridType(lbGridType.getSelectedIndex());
+					updateView();
                 }});
 			// tick intervals
 
-			cbGridManualTick = new CheckBox(app.getPlain("TickDistance") + ":");
+			cbGridManualTick = new CheckBox();
 			cbGridManualTick.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
 	                model.appyGridManualTick(cbGridManualTick.getValue());
-	                view.updateBackground();
-	        		updateGUI();
+					updateView();
 	        	}});
 			
 			ncbGridTickX = new NumberListBox(app);
@@ -549,16 +565,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				public void onChange(ChangeEvent event) {
 					model.applyGridTicks(ncbGridTickX.getValue(), 0);
-					view.updateBackground();
-					updateGUI();
+					updateView();
 				}});
 			
 			ncbGridTickY.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
 					model.applyGridTicks(ncbGridTickY.getValue(), 1);
-					view.updateBackground();
-					updateGUI();
+					updateView();
 					}});
 
 			// checkbox for grid labels
@@ -586,17 +600,67 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbGridTickAngle.addChangeHandler(new ChangeHandler(){
 				public void onChange(ChangeEvent event) {
 					model.applyGridTickAngle(lbGridTickAngle.getSelectedIndex());
+					updateView();
 				}
 			});
 			
 			lbGridType.addChangeHandler(new ChangeHandler(){
 				public void onChange(ChangeEvent event) {
 					model.appyGridType(lbGridType.getSelectedIndex());
-
+					updateView();					
 				}
 			});
 			add(typePanel);
 		}
+
+		protected void updateView() {
+			view.updateBackground();
+			updateGUI();
+        }
+
+		private void initGridStylePanel() {
+
+			// line style
+			btnGridStyle = LineStylePopup.create(app, iconHeight, -1, false);
+			//			slider.setSnapToTicks(true);
+			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
+
+				public void fireActionPerformed(Object actionButton) {
+					model.appyGridStyle(btnGridStyle.getSelectedIndex());
+
+				}});
+			btnGridStyle.setKeepVisible(false);
+
+			// color
+			lblColor = new Label();
+			btGridColor = new Button("\u2588");
+			btGridColor.addClickHandler(new ClickHandler() {
+				
+				public void onClick(ClickEvent event) {
+	              app.getDialogManager().showColorChooserDialog();
+				// Just for dummy.
+//					model.applyGridColor(GColor.BLUE);
+				}
+			});
+			// bold
+			cbBoldGrid = new CheckBox();
+			cbBoldGrid.addClickHandler(new ClickHandler() {
+				
+				public void onClick(ClickEvent event) {
+					model.applyBoldGrid(cbBoldGrid.getValue());
+					updateView();
+				}
+			});
+
+			// style panel
+			FlowPanel stylePanel = new FlowPanel();
+
+			stylePanel.add(LayoutUtil.panelRow(btnGridStyle));
+			stylePanel.add(LayoutUtil.panelRow(lblColor, btGridColor, cbBoldGrid));
+			
+			add(stylePanel);
+		}
+
 
 		public void setLabels() {
 	        cbShowGrid.setText(app.getPlain("ShowGrid"));
@@ -608,6 +672,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	        idx = lbGridTickAngle.getSelectedIndex();
 	        model.fillAngleOptions();
 	        lbGridTickAngle.setSelectedIndex(idx);
+			cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
+			lblColor.setText(app.getPlain("Color") + ":");
+			cbBoldGrid.setText(app.getMenu("Bold"));
 		}
 
 		public void addGridTypeItem(String item) {
@@ -617,6 +684,51 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void addAngleOptionItem(String item) {
 	       lbGridTickAngle.addItem(item);
         }
+		
+
+		public void update(GColor color, boolean isShown, boolean isBold,
+				int gridType) {
+		//	btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(color));
+
+			cbShowGrid.setValue(isShown);
+			cbBoldGrid.setValue(isBold);
+			lbGridType.setSelectedIndex(gridType);
+			
+		}
+		
+		public void updateTicks(boolean isAutoGrid, double[] gridTicks,
+				int gridType) {
+	
+			if (gridType != EuclidianView.GRID_POLAR) {
+
+				ncbGridTickY.setVisible(true);
+				gridLabel2.setVisible(true);
+				lbGridTickAngle.setVisible(false);
+				gridLabel3.setVisible(false);
+
+				ncbGridTickX.setValue(gridTicks[0]);
+				ncbGridTickY.setValue(gridTicks[1]);
+				gridLabel1.setText("x:");
+
+			} else {
+				ncbGridTickY.setVisible(false);
+				gridLabel2.setVisible(false);
+				lbGridTickAngle.setVisible(true);
+				gridLabel3.setVisible(true);
+
+				ncbGridTickX.setValue(gridTicks[0]);
+				int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
+				if (val == 5)
+					val = 4; // handle Pi/2 problem
+				lbGridTickAngle.setSelectedIndex(val);
+				gridLabel1.setText("r:");
+			}
+
+			ncbGridTickX.setEnabled(!isAutoGrid);
+			ncbGridTickY.setEnabled(!isAutoGrid);
+			lbGridTickAngle.setEnabled(!isAutoGrid);
+		}
+
 	}
 	
 	public OptionsEuclidianW(AppW app,
@@ -738,7 +850,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void updateGrid(GColor color, boolean isShown, boolean isBold,
             int gridType) {
-	
+		gridTab.update(color, isShown, isBold, gridType);
     }
 
 	public void showMouseCoords(boolean value) {
@@ -751,7 +863,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
             int gridType) {
-
+		gridTab.updateTicks(isAutoGrid, gridTicks, gridType);
     }
 
 	public void enableLock(boolean value) {

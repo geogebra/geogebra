@@ -196,4 +196,9 @@ public class ColorObjectModel extends OptionsModel {
 		result +=  " (" + StringUtil.toHtmlColor(color) + ")";
 		return result;
 	}
+	
+	public static String getColorAsString(App app, GColor color) {
+		ColorObjectModel.app = app;
+		return getColorAsString(color);
+	}
 }

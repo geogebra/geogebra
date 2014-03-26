@@ -443,6 +443,13 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		//	dataSourceDialog.setLabels();
 		
 	}
+	
+	public void showColorChooserDialog() {
+		App.debug("Showing Color Chooser");
+		ColorChooserDialog dialog = new ColorChooserDialog((AppW)app, false, true);
+		dialog.center();
+	}
+	
 	/**
 	 * Creates a new, custom color .
 	 * @param origColor The original color for initial purposes and preview.

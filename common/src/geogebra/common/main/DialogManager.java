@@ -471,4 +471,7 @@ public abstract class DialogManager {
 		// 3D stuff
 		
 	}
+	
+	public void showColorChooserDialog() {}
+
 }

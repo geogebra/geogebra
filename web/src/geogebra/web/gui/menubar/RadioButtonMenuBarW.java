@@ -81,5 +81,13 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	public int getItemCount() {
 		return getItems().size();
 	}
+
+	public void setEnabled(boolean value) {
+	    for (RadioButton button: radioButtons) {
+	    	if (button != null) {
+	    		button.setEnabled(value);
+	    	}
+	    }
+    }
 	
 }

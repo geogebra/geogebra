@@ -8,4 +8,5 @@ public interface RadioButtonMenuBar extends MenuInterface{
 	public void setSelected(int pos);
 
 	public int getItemCount();
+	public void setEnabled(boolean value);
 }

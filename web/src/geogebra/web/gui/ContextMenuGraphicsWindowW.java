@@ -97,7 +97,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         }
         
         if(ev.isLockedAxesRatio()){
-        	((MenuItem) yaxisMenu).setEnabled(false);
+        	yaxisMenu.setEnabled(false);
         }
         
         addMiProperties();

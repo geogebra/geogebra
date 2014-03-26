@@ -19,5 +19,15 @@ public class NumberListBox extends ListBox {
 		if (text.equals("")) return Double.NaN;
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);			
 	}
+	
+	public void setValue(Double value) {
+		String valStr = value.toString();
+		for (int idx = 0; idx < getItemCount(); idx++) {
+			if (getItemText(idx).equals(valStr)) {
+				setSelectedIndex(idx);
+				break;
+			}
+		}
+	}
 
 }

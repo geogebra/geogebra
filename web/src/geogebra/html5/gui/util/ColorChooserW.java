@@ -405,7 +405,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			if (color == null) {
 				return;
 			}
-			rgb.setText(ColorObjectModel.getColorAsString(color));
+			rgb.setText(ColorObjectModel.getColorAsString(app, color));
 			ctx.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 			
 			String htmlColor = StringUtil.toHtmlColor(color);
