@@ -3223,7 +3223,7 @@ public abstract class App implements UpdateSelection{
 		this.appletHeight = height;
 	}
 
-	public int getAppletWidth() {
+	public final int getAppletWidth() {
 		return appletWidth;
 	}
 
@@ -3490,5 +3490,8 @@ public abstract class App implements UpdateSelection{
 	 
 		
 	}
+	
+	public void persistWidthAndHeight() {
 
+	}
 }

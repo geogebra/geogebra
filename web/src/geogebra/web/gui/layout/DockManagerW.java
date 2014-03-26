@@ -10,7 +10,6 @@ import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;
-import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -351,37 +350,10 @@ public class DockManagerW extends DockManager {
 				
 				// Now find the correct applet window dimensions and resize the rootPane.
 				
-				// window width can be get almost exactly
-				windowWidth = app.getAppletWidth() - 2; // 2: border
-
-				// if it is not 0, there will be some scaling later
-				if (windowWidth <= 0) {
-					windowWidth = spw.get(rootPane);
-
-					// empirical hack to make room for the toolbar always
-					if (app.showToolBar() && windowWidth < 598)
-						windowWidth = 598; // 2: border
-					// maybe this has to be put outside the "if"?
-				}
-				// note that data-param settings now override GGB XML!
+				windowWidth = app.getWidthForSplitPanel(spw.get(rootPane));
 
 				// this is applet window height 
-				windowHeight = app.getAppletHeight() - 2; // 2: border
-				// but we want to know the available height for the rootPane
-				// so we either use the above as a heuristic,
-				// or we should substract the height(s) of
-				// toolbar, menubar, and input bar;
-				// heuristics come from GeoGebraAppFrame
-				if (app.showAlgebraInput())
-					windowHeight -= GeoGebraAppFrame.GGWCommandLine_HEIGHT;
-				if (app.showToolBar())
-					windowHeight -= GeoGebraAppFrame.GGWToolBar_HEIGHT;
-				if (app.showMenuBar())
-					windowHeight -= 35;// empirical observation
-				// menubar height might be there too,
-				// but hope it is not there for now (heuristics)
-				if (windowHeight <= 0)
-					windowHeight = sph.get(rootPane);
+				windowHeight = app.getHeightForSplitPanel(sph.get(rootPane));
 
 				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);

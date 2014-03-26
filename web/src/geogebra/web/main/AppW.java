@@ -46,6 +46,7 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
@@ -1684,15 +1685,45 @@ public abstract class AppW extends AppWeb {
 	    return clientInfo;
     }
 
-	public void persistWidthAndHeight() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	public boolean isShowToolbar() {
 		if(this.articleElement == null){
 			return false;
 		}
 	    return this.articleElement.getDataParamShowToolBar() || this.articleElement.getDataParamApp();
+    }
+
+	public int getWidthForSplitPanel(int fallback) {
+		int ret = getAppletWidth() - 2; // 2: border
+
+		// if it is not 0, there will be some scaling later
+		if (ret <= 0) {
+			ret = fallback;
+
+			// empirical hack to make room for the toolbar always
+			if (showToolBar() && ret < 598)
+				ret = 598; // 2: border
+			// maybe this has to be put outside the "if"?
+		}
+	    return ret;
+    }
+
+	public int getHeightForSplitPanel(int fallback) {
+		int windowHeight = getAppletHeight() - 2; // 2: border
+		// but we want to know the available height for the rootPane
+		// so we either use the above as a heuristic,
+		// or we should substract the height(s) of
+		// toolbar, menubar, and input bar;
+		// heuristics come from GeoGebraAppFrame
+		if (showAlgebraInput())
+			windowHeight -= GeoGebraFrame.GGWCommandLine_HEIGHT;
+		if (showToolBar())
+			windowHeight -= GeoGebraFrame.GGWToolBar_HEIGHT;
+		if (showMenuBar())
+			windowHeight -= 35;// empirical observation
+		// menubar height might be there too,
+		// but hope it is not there for now (heuristics)
+		if (windowHeight <= 0)
+			windowHeight = fallback;
+		return windowHeight;
     }
 }

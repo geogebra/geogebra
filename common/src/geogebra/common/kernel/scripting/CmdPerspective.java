@@ -7,9 +7,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 
 public class CmdPerspective extends CmdScripting {
-	
-	public static boolean RUNNING = false;
-
 	public CmdPerspective(Kernel kernel) {
 		super(kernel);
 	}
@@ -21,17 +18,12 @@ public class CmdPerspective extends CmdScripting {
 			throw this.argNumErr(app, c.getName(),args.length);
 		}
 		if(args[0] instanceof GeoText){
-			
-			
 			String code  = ((GeoText)args[0]).getTextString();
-			RUNNING = true;
 			app.getGgbApi().openViews(code);
 			return;
 		}
+
 		throw this.argErr(app, c.getName(),args[0]);
-		
-		
-		
 	}
 
 	

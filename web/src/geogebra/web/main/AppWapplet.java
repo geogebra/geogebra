@@ -422,8 +422,23 @@ public class AppWapplet extends AppW {
 		
  	}
 	
-	public void persistWidthAndHeight(){
+	@Override
+    public void persistWidthAndHeight(){
 		spWidth = this.oldSplitLayoutPanel.getOffsetWidth();
 		spHeight = this.oldSplitLayoutPanel.getOffsetHeight();
 	}
+	
+	public int getWidthForSplitPanel(int fallback) {
+		if(spWidth > 0){
+			return spWidth;
+		}
+		return super.getWidthForSplitPanel(fallback);
+    }
+
+	public int getHeightForSplitPanel(int fallback) {
+		if(spHeight > 0){
+			return spHeight;
+		}
+		return super.getHeightForSplitPanel(fallback);
+    }
 }
