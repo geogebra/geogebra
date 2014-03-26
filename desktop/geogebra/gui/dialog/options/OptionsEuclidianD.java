@@ -1085,4 +1085,9 @@ public class OptionsEuclidianD extends
 		cbGridTickAngle.addItem(item);
 	}
 
+	public void updateBackgroundColor(GColor color) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

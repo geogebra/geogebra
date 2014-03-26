@@ -24,6 +24,8 @@ public class EuclidianOptionsModel {
 
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
 
+		void updateBackgroundColor(GColor color);
+		
 		void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType);
 
 		void selectTooltipType(int index);
@@ -392,6 +394,8 @@ public class EuclidianOptionsModel {
 		
 		listener.updateGrid(view.getGridColor(), view.getShowGrid(), view.getGridIsBold(),
 				view.getGridType());
+		
+		listener.updateBackgroundColor(getBackgroundColor());
 		
 		if (view instanceof EuclidianView) {
 			int ind = ((EuclidianView) view).getAllowToolTips();

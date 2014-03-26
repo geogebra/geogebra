@@ -13,6 +13,7 @@ import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidian
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.event.FocusListener;
@@ -232,7 +233,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					
 					public void onColorChange(GColor color) {
 						model.applyAxesColor(color);
-						
+						updateAxesColorButton(color);
 					}
 					
 					public void onClearBackground() {
@@ -404,6 +405,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 									viewIdx = 2;
 								}	
 								model.applyBackgroundColor(viewIdx, color);
+								updateBackgroundColorButton(color);
 							}
 							
 							public void onClearBackground() {
@@ -490,16 +492,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 //			btAxesColor.setForeground(new GColorW(view.getAxesColor()));
 			cbShowAxes.setValue(view.getShowXaxis() && view.getShowYaxis());
 			cbBoldAxes.setValue(view.areAxesBold());
+			updateAxesColorButton(color);
+		}
+		
+		public void updateAxesColorButton(GColor color) {
+			btAxesColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
 		
 		}
 
-		public void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType) {
-		//	btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
-		//			.getGridColor()));
+		public void updateBackgroundColorButton(GColor color) {
+			btBackgroundColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
+		
+		}
 
-			cbShowGrid.setValue(view.getShowGrid());
-			cbBoldGrid.setValue(view.getGridIsBold());
-	    }
 		
 		public void updateConsProtocolPanel(boolean isVisible) {
 			// cons protocol panel
@@ -709,6 +714,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						
 						public void onColorChange(GColor color) {
 							model.applyGridColor(color);
+							updateColorButton(color);
 						}
 						
 						public void onClearBackground() {
@@ -776,14 +782,18 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		public void update(GColor color, boolean isShown, boolean isBold,
 				int gridType) {
-		//	btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(color));
 
 			cbShowGrid.setValue(isShown);
 			cbBoldGrid.setValue(isBold);
 			lbGridType.setSelectedIndex(gridType);
-			
+			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
+			updateColorButton(color);
 		}
 		
+		public void updateColorButton(GColor color) {
+			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
+		
+		}		
 		public void updateTicks(boolean isAutoGrid, double[] gridTicks,
 				int gridType) {
 	
@@ -816,7 +826,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickY.setEnabled(!isAutoGrid);
 			lbGridTickAngle.setEnabled(!isAutoGrid);
 		}
-
+	
 	}
 	
 	public OptionsEuclidianW(AppW app,
@@ -922,6 +932,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
 		basicTab.updateAxes(color, isShown, isBold);
+	}
+
+	public void updateBackgroundColor(GColor color) {
+		basicTab.updateBackgroundColorButton(color);
 	}
 	
 	public void selectTooltipType(int index) {
