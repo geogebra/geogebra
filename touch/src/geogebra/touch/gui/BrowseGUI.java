@@ -119,8 +119,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	void displaySearchResults(final String query) {
 		this.lastQuery = query;
 		this.localList = this.fm.search(query);
-		GeoGebraTubeAPIW.getInstance(
-				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
+		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
 				query, new MaterialCallback() {
 					@Override
 					public void onError(final Throwable exception) {
@@ -141,8 +140,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	public void loadFeatured() {
 		this.lastQuery = null;
 		this.localList = this.fm.getAllFiles();
-		GeoGebraTubeAPIW.getInstance(
-				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
+		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI())
 				.getFeaturedMaterials(new MaterialCallback() {
 					@Override
 					public void onError(
