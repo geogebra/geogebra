@@ -84,6 +84,17 @@ public class EuclidianOptionsModel {
 		}	
 	}
 
+	public void applyBackgroundColor(int viewIdx, GColor color) {
+		if (viewIdx == 1 || viewIdx == 2) {
+			app.getSettings()
+			.getEuclidian(viewIdx)
+			.setBackground(color);
+		} else {
+			view.setBackground(view.getBackgroundCommon());
+			
+		}
+	}
+	
 	public void applyAxesColor(GColor col) {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1).setAxesColor(col);

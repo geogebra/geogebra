@@ -395,8 +395,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 							}
 							
 							public void onColorChange(GColor color) {
-								
-								model.applyBackgroundColor();
+								int viewIdx = -1;
+								if (view == app.getEuclidianView1()) {
+									viewIdx = 1; 
+								} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+									viewIdx = 0;
+								} else if (view == app.getEuclidianView2()) {
+									viewIdx = 2;
+								}	
+								model.applyBackgroundColor(viewIdx, color);
 							}
 							
 							public void onClearBackground() {
@@ -898,11 +905,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	public GColor getEuclidianBackground(int viewNumber) {
-		return null;
-//		return new GColorW(
-//				((GuiManagerW) (app.getGuiManager()))
-//						.showColorChooser(app.getSettings()
-//								.getEuclidian(viewNumber).getBackground()));
+		return app.getSettings().getEuclidian(viewNumber).getBackground();
 	}
 
 	public void enableAxesRatio(boolean value) {
