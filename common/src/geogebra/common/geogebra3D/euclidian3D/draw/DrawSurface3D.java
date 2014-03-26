@@ -7,7 +7,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 
-import java.util.Comparator;
 import java.util.TreeMap;
 
 /**
@@ -22,9 +21,23 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 
-	private static final long MAX_SPLIT = 1024;
+	private static final long MAX_SPLIT = 2048;
+	private static final long MIN_SPLIT = 256;
+	private static final double MAX_CENTER_QUAD_DISTANCE = 1.e-2;
+	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-1;
 
-	private TreeMap<CoordsIndex, Coords> mesh;
+	private TreeMap<Long, TreeMap<Long,Coords>> mesh;
+	
+	private void putInMesh(Long iu, Long iv, Coords z){
+		TreeMap<Long,Coords> meshv = mesh.get(iu);
+		if (meshv == null) {meshv = new TreeMap<Long,Coords>();}
+		meshv.put(iv, z);
+		mesh.put(iu,meshv);
+	}
+	
+	private Coords getFromMesh(Long iu, Long iv){
+		return (mesh.get(iu)).get(iv);
+	}
 
 	/**
 	 * common constructor
@@ -35,7 +48,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public DrawSurface3D(EuclidianView3D a_view3d, SurfaceEvaluable surface) {
 		super(a_view3d, (GeoElement) surface);
 		this.surfaceGeo = surface;
-		this.mesh = new TreeMap<CoordsIndex, Coords>(new CompareUthenV());
+		this.mesh = new TreeMap<Long, TreeMap<Long,Coords>>();
 
 	}
 
@@ -85,18 +98,18 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Coords p2 = surfaceGeo.evaluatePoint(uMax, vMin);
 		Coords p3 = surfaceGeo.evaluatePoint(uMin, vMax);
 		Coords p4 = surfaceGeo.evaluatePoint(uMax, vMax);
-		CoordsIndex i1 = new CoordsIndex(0, 0);
-		CoordsIndex i2 = new CoordsIndex(MAX_SPLIT,0);
-		CoordsIndex i3 = new CoordsIndex(0, MAX_SPLIT);
-		CoordsIndex i4 = new CoordsIndex(MAX_SPLIT, MAX_SPLIT);
-		mesh.put(i1, p1);
-		mesh.put(i2, p2);
-		mesh.put(i3, p3);
-		mesh.put(i4, p4);
+		//CoordsIndex i1 = new CoordsIndex(0, 0);
+		//CoordsIndex i2 = new CoordsIndex(MAX_SPLIT,0);
+		//CoordsIndex i3 = new CoordsIndex(0, MAX_SPLIT);
+		//CoordsIndex i4 = new CoordsIndex(MAX_SPLIT, MAX_SPLIT);
+		putInMesh((long)0,(long)0, p1);
+		putInMesh(MAX_SPLIT,(long)0, p2);
+		putInMesh((long)0, MAX_SPLIT, p3);
+		putInMesh(MAX_SPLIT, MAX_SPLIT, p4);
 
 		surface.start();
 
-		splitOrDraw(surface,i1,i2,i3,i4,uMin,uDelta,vMin,vDelta);
+		splitOrDraw(surface,0,0,MAX_SPLIT,0,0, MAX_SPLIT,MAX_SPLIT, MAX_SPLIT,uMin,uDelta,vMin,vDelta,MAX_SPLIT);
 		
 		setSurfaceIndex(surface.end());
 
@@ -106,27 +119,29 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/*
 	 * 
 	 */
-	private void splitOrDraw(PlotterSurface surface, CoordsIndex TL, CoordsIndex TR, CoordsIndex BL, CoordsIndex BR, double uMin, double uDelta, double vMin, double vDelta )
+	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, long TRu, long TRv, long BLu, long BLv, long BRu, long BRv, double uMin, double uDelta, double vMin, double vDelta,long iDelta )
 	{
 		//test if this quad may be drawn or must be splitted
 		//index delta
-		long iDelta = (TR.iu-TL.iu)/2;
+		iDelta /=2;
+		Coords pTL = getFromMesh(TLu,TLv);
+		Coords pBR = getFromMesh(BRu,BRv);
+		Coords pTR = getFromMesh(TRu,TRv);
+		Coords pBL = getFromMesh(BLu,BLv);
 		if (iDelta>=2){
-			CoordsIndex iC = new CoordsIndex(TL.iu+iDelta, TL.iv+iDelta);
-			Coords fiC = surfaceGeo.evaluatePoint(uMin+iC.iu*uDelta/MAX_SPLIT, vMin+iC.iv*vDelta/MAX_SPLIT);
-			mesh.put(iC, fiC);
-			Coords pTL = mesh.get(TL);
-			Coords pBR = mesh.get(BR);
-			Coords pTR = mesh.get(TR);
-			Coords pBL = mesh.get(BL);
-			double d1 = Math.max(pTL.distance(pBR),pTR.distance(pBL));
+			long Cu = TLu+iDelta;
+			long Cv = TLv+iDelta;
+			Coords fiC = surfaceGeo.evaluatePoint(uMin+Cu*uDelta/MAX_SPLIT, vMin+Cv*vDelta/MAX_SPLIT);
+			putInMesh(Cu,Cv, fiC);
+			double diagLength = Math.max(pTL.distance(pBR),pTR.distance(pBL));
 			
 			Coords centerValue = (pTL.add(pBR)).mul(0.5);
-			double d2 = fiC.distance(centerValue);
-			double rapport = d2;
+			double centerDistance = fiC.distance(centerValue);
 
 			//this split test is temporary
-			if ((iDelta>=256)||((d1>1.e-1*(uDelta))||(rapport>1.e-2)))
+			if ((iDelta>=MIN_SPLIT)||
+				!(diagLength<MAX_DIAGONAL_QUAD_LENGTH*(uDelta))||
+				!(centerDistance<MAX_CENTER_QUAD_DISTANCE))
 			{
 				//split
 				//index of the five new points T,L,C,R,B
@@ -137,37 +152,41 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				//  .      .     .
 				//  .      .     .
 				//  BL....iB....BR
-				CoordsIndex iT = new CoordsIndex(TL.iu+iDelta, TL.iv);
-				CoordsIndex iL = new CoordsIndex(TL.iu, TL.iv+iDelta);
-				CoordsIndex iR = new CoordsIndex(TR.iu, TR.iv+iDelta);
-				CoordsIndex iB = new CoordsIndex(BL.iu+iDelta, BL.iv);
-				Coords fiT = surfaceGeo.evaluatePoint(uMin+iT.iu*uDelta/MAX_SPLIT, vMin+iT.iv*vDelta/MAX_SPLIT);
-				Coords fiL = surfaceGeo.evaluatePoint(uMin+iL.iu*uDelta/MAX_SPLIT, vMin+iL.iv*vDelta/MAX_SPLIT);
-				Coords fiR = surfaceGeo.evaluatePoint(uMin+iR.iu*uDelta/MAX_SPLIT, vMin+iR.iv*vDelta/MAX_SPLIT);
-				Coords fiB = surfaceGeo.evaluatePoint(uMin+iB.iu*uDelta/MAX_SPLIT, vMin+iB.iv*vDelta/MAX_SPLIT);
-				mesh.put(iT, fiT);
-				mesh.put(iL, fiL);
-				mesh.put(iR, fiR);
-				mesh.put(iB, fiB);
+				long Tu = TLu+iDelta;
+				long Tv = TLv;
+				long Lu = TLu;
+				long Lv = TLv+iDelta;
+				long Ru = TRu;
+				long Rv = TRv+iDelta;
+				long Bu = BLu+iDelta;
+				long Bv = BLv;
+				Coords fiT = surfaceGeo.evaluatePoint(uMin+Tu*uDelta/MAX_SPLIT, vMin+Tv*vDelta/MAX_SPLIT);
+				Coords fiL = surfaceGeo.evaluatePoint(uMin+Lu*uDelta/MAX_SPLIT, vMin+Lv*vDelta/MAX_SPLIT);
+				Coords fiR = surfaceGeo.evaluatePoint(uMin+Ru*uDelta/MAX_SPLIT, vMin+Rv*vDelta/MAX_SPLIT);
+				Coords fiB = surfaceGeo.evaluatePoint(uMin+Bu*uDelta/MAX_SPLIT, vMin+Bv*vDelta/MAX_SPLIT);
+				putInMesh(Tu,Tv, fiT);
+				putInMesh(Lu,Lv, fiL);
+				putInMesh(Ru,Rv, fiR);
+				putInMesh(Bu,Bv, fiB);
 
 				//square TL
-				splitOrDraw(surface,TL,iT,iL,iC,uMin,uDelta,vMin,vDelta);
+				splitOrDraw(surface,TLu,TLv,Tu,Tv,Lu,Lv,Cu,Cv,uMin,uDelta,vMin,vDelta,iDelta);
 				//square TR
-				splitOrDraw(surface,iT,TR,iC,iR,uMin,uDelta,vMin,vDelta);
+				splitOrDraw(surface,Tu,Tv,TRu,TRv,Cu,Cv,Ru,Rv,uMin,uDelta,vMin,vDelta,iDelta);
 				//square BL
-				splitOrDraw(surface,iL,iC,BL,iB,uMin,uDelta,vMin,vDelta);
+				splitOrDraw(surface,Lu,Lv,Cu,Cv,BLu,BLv,Bu,Bv,uMin,uDelta,vMin,vDelta,iDelta);
 				//square BR
-				splitOrDraw(surface,iC,iR,iB,BR,uMin,uDelta,vMin,vDelta);
+				splitOrDraw(surface,Cu,Cv,Ru,Rv,Bu,Bv,BRu,BRv,uMin,uDelta,vMin,vDelta,iDelta);
 
 			}
 			else {
 				//draw
-				surface.drawQuadNoTexture(mesh.get(TL),mesh.get(TR),mesh.get(BR),mesh.get(BL));
+				surface.drawQuadNoTexture(pTL,pTR,pBR,pBL);
 			}
 		}
 		else {
 			//draw
-			surface.drawQuadNoTexture(mesh.get(TL),mesh.get(TR),mesh.get(BR),mesh.get(BL));
+			surface.drawQuadNoTexture(pTL,pTR,pBR,pBL);
 		}
 	}
 
@@ -208,7 +227,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 
-
+/*
 	class CoordsIndex {
 
 		protected long iu, iv ;
@@ -243,5 +262,5 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 	}
-
+*/
 }
