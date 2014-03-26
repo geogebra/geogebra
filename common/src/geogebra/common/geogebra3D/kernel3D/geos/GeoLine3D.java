@@ -35,7 +35,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		super(c,o,v);
 	}
 
-	final void setStartPoint(GeoPointND P) {        	
+	public final void setStartPoint(GeoPointND P) {        	
     	startPoint = P;	    	
     }
     	

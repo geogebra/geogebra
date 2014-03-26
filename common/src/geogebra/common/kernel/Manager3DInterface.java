@@ -823,5 +823,9 @@ public interface Manager3DInterface {
 	public GeoConicPartND CircumcircleSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C);
 	
-	
+	/**
+	 * Angular bisectors of lines g, h
+	 */
+	public GeoElement[] AngularBisector3D(String[] labels, GeoLineND g, GeoLineND h);
+
 }

@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.main.MyError;
 
 /**
@@ -36,8 +37,8 @@ public class CmdAngularBisector extends CommandProcessor {
 			// angular bisector of 2 lines
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				return getAlgoDispatcher().AngularBisector(c.getLabels(), (GeoLine) arg[0],
-						(GeoLine) arg[1]);
+				return angularBisector(c.getLabels(), (GeoLineND) arg[0],
+						(GeoLineND) arg[1]);
 			}
 			if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);
@@ -67,5 +68,18 @@ public class CmdAngularBisector extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+
+	/**
+	 * 
+	 * @param labels labels
+	 * @param g first line
+	 * @param h second line
+	 * @return angular bisector for two lines
+	 */
+	protected GeoElement[] angularBisector(String[] labels, GeoLineND g, GeoLineND h){
+
+		return getAlgoDispatcher().AngularBisector(labels, (GeoLine) g, (GeoLine) h);
 	}
 }

@@ -2774,12 +2774,16 @@ public abstract class EuclidianController {
 			return ret;
 		} else if (selLines() == 2) {
 			// fetch the two lines
-			GeoLine[] lines = getSelectedLines();
+			GeoLineND[] lines = getSelectedLinesND();
 			checkZooming(); 
 			
-			return getAlgoDispatcher().AngularBisector(null, lines[0], lines[1]);
+			return angularBisector(lines[0], lines[1]);
 		}
 		return null;
+	}
+	
+	protected GeoElement[] angularBisector(GeoLineND g, GeoLineND h){
+		return getAlgoDispatcher().AngularBisector(null, (GeoLine) g, (GeoLine) h);
 	}
 
 	protected final GeoElement[] threePoints(Hits hits, int threePointsMode) {

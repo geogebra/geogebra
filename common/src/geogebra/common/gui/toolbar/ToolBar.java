@@ -264,8 +264,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_PARALLEL);
 		// sb.append(" ");
 		// sb.append(EuclidianView.MODE_LINE_BISECTOR);
-		// sb.append(" ");
-		// sb.append(EuclidianView.MODE_ANGULAR_BISECTOR);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
 		// sb.append(" , ");
 		// sb.append(EuclidianView.MODE_TANGENTS);
 		// sb.append(" ");
@@ -414,6 +414,8 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_ORTHOGONAL);
 		sb.append( " ");
 		sb.append( EuclidianConstants.MODE_PARALLEL);
+		sb.append( " ");
+		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
 		sb.append( " | ");
 		
 		//polygons

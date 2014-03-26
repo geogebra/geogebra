@@ -1616,4 +1616,11 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getConicPart();
 	}
 
+
+	final public GeoElement[] AngularBisector3D(String[] labels, GeoLineND g, GeoLineND h) {
+		AlgoAngularBisectorLines3D algo = new AlgoAngularBisectorLines3D(cons,
+				labels, g, h);
+		GeoLine3D[] lines = algo.getLines();
+		return lines;
+	}
 }

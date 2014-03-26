@@ -78,6 +78,11 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case OrthogonalLine:
 				return new CmdOrthogonalLine3D(kernel);
 				
+
+			case AngleBisector:
+			case AngularBisector:
+				return new CmdAngularBisector3D(kernel);
+				
 			case OrthogonalVector:
 				return new CmdOrthogonalVector3D(kernel);
 
