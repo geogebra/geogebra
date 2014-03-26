@@ -272,8 +272,172 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		enableTexturesForText();
 
 		super.draw();
+		
+		
+		/*
+		
+		///////////////////////////////////
+		
+		// labels
+				//drawFaceToScreen();
+
+				// init drawing matrix to view3D toScreen matrix
+				setMatrixView();
+
+				setLightPosition();
+				setLight(0);
+
+				
+				// drawing the cursor
+				enableLighting();
+				disableAlphaTest();
+				enableCulling();
+				//view3D.drawCursor(this);
+
+
+				// drawing hidden part
+				enableAlphaTest();
+				disableTextures();
+				//drawable3DLists.drawHiddenNotTextured(this);
+				enableDash();
+				//drawable3DLists.drawHiddenTextured(this);
+				enableFading(); // from RendererShaders -- check when enable textures if already done
+				//drawNotTransp();
+				disableTextures();
+				disableAlphaTest();
+
+			
+				// drawing transparents parts
+				disableDepthMask();
+				enableFading();
+			enableBlending();
+			drawTransp();
+				enableDepthMask();
+
+				// drawing labels
+				disableTextures();
+				enableCulling();
+				disableBlending();
+
+				// drawing hiding parts
+				setColorMask(false, false, false, false); // no writing in color buffer
+				
+				setCullFaceFront(); // draws inside parts
+				
+//				drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
+//																	// back-faces
+//				if (drawable3DLists.containsClippedSurfaces()) {
+//					enableClipPlanesIfNeeded();
+//					drawable3DLists.drawClippedSurfacesForHiding(this); // clipped
+//																		// surfaces
+//																		// back-faces
+//					disableClipPlanesIfNeeded();
+//				}
+				
+				disableCulling();
+				//drawable3DLists.drawSurfacesForHiding(this); // non closed surfaces
+				
+				// getGL().glColorMask(true,true,true,true);
+				setColorMask();
+
+				// re-drawing transparents parts for better transparent effect
+				// TODO improve it !
+				enableFading();
+				disableDepthMask();
+				enableBlending();
+			//drawTransp();
+				enableDepthMask();
+				disableTextures();
+
+				// drawing hiding parts
+				setColorMask(false, false, false, false); // no writing in color buffer
+				disableBlending();
+				enableCulling();
+				setCullFaceBack(); // draws inside parts
+				
+//				drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
+//																	// front-faces
+//				if (drawable3DLists.containsClippedSurfaces()) {
+//					enableClipPlanesIfNeeded();
+//					drawable3DLists.drawClippedSurfacesForHiding(this); // clipped
+//																		// surfaces
+//																		// back-faces
+//					disableClipPlanesIfNeeded();
+//				}
+				
+				setColorMask();
+
+				// re-drawing transparents parts for better transparent effect
+				// TODO improve it !
+				enableTextures();
+				disableDepthMask();
+				enableBlending();
+			//drawTransp();
+				enableDepthMask();
+
+				// drawing not hidden parts
+				disableTextures(); // added from RendererShaders
+				enableCulling();
+				//drawable3DLists.draw(this);
+
+				// primitives.disableVBO(gl);
+
+				// FPS
+				disableLighting();
+				disableDepthTest();
+
+				// drawWireFrame();
+
+				unsetMatrixView();
+
+				// drawFPS();
+
+				enableDepthTest();
+				enableLighting();
+				*/
 	}  
 
+	/*
+	protected void drawTransp() {
+
+		setLight(1);
+
+		getTextures().loadTextureLinear(Textures.FADING);
+
+		disableCulling();
+		drawable3DLists.drawTransp(this);
+		//drawable3DLists.drawTranspClosedNotCurved(this);
+
+		// TODO fix it
+		// getGL().glDisable(GLlocal.GL_TEXTURE_2D);
+		// TODO improve this !
+
+		enableCulling();
+		setCullFaceFront();
+		
+//		drawable3DLists.drawTranspClosedCurved(this);// draws inside parts
+//		if (drawable3DLists.containsClippedSurfaces()) {
+//			enableClipPlanesIfNeeded();
+//			drawable3DLists.drawTranspClipped(this); // clipped surfaces
+//														// back-faces
+//			disableClipPlanesIfNeeded();
+//		}
+		
+		setCullFaceBack();
+		
+//		drawable3DLists.drawTranspClosedCurved(this);// draws outside parts
+//		if (drawable3DLists.containsClippedSurfaces()) {
+//			enableClipPlanesIfNeeded();
+//			drawable3DLists.drawTranspClipped(this); // clipped surfaces
+//														// back-faces
+//			disableClipPlanesIfNeeded();
+//		}
+		
+
+		setLight(0);
+
+	}
+*/
 	
 	/*
 	@Override
@@ -1051,10 +1215,16 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 
-
 	@Override
     protected void setBlendFunc() {
-		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);    
+		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA); 
+		//glContext.blendFunc(WebGLRenderingContext.ONE, WebGLRenderingContext.ZERO); 
+		/*
+		glContext.blendEquationSeparate(WebGLRenderingContext.FUNC_ADD, WebGLRenderingContext.FUNC_ADD);
+		glContext.blendFuncSeparate(
+				WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA,
+				WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
+				*/
     }
 
 

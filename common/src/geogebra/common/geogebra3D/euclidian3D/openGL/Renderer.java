@@ -576,7 +576,7 @@ public abstract class Renderer {
 		drawTransp();
 		enableDepthMask();
 
-		// drawing labels
+
 		disableTextures();
 		enableCulling();
 		disableBlending();
