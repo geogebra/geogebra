@@ -163,7 +163,9 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
         		bisector[0].setUndefined();
         		bisector[1].setUndefined();
         	}else{
+        		v1 = v1.copyVector();
         		v1.normalize();
+        		v2 = v2.copyVector();
         		v2.normalize();
         		bisector[0].setCoord(points[0],v1.add(v2));
         		bisector[1].setCoord(points[0],v1.sub(v2));
