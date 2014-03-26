@@ -1162,4 +1162,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		return LIGHT_POSITION_W;
 	}
 
+
+
+
+	@Override
+    public void setDashTexture(int index) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

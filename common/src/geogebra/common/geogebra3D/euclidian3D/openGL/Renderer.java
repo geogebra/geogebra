@@ -632,7 +632,8 @@ public abstract class Renderer {
 		enableDepthMask();
 
 		// drawing not hidden parts
-		disableTextures(); // added from RendererShaders
+		enableDash();
+		//disableTextures(); // added from RendererShaders
 		enableCulling();
 		drawable3DLists.draw(this);
 
@@ -1730,4 +1731,7 @@ public abstract class Renderer {
 	 * enable fading (e.g. for planes)
 	 */
 	abstract public void enableDash(); 
+	
+	abstract public void setDashTexture(int index);
+	
 }

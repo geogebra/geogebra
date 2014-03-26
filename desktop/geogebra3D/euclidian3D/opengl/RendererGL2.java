@@ -553,7 +553,9 @@ public class RendererGL2 extends RendererD {
 
 	@Override
 	final public void disableTextures() {
+		//bindTexture(-1);
 		getGL().glDisable(GLlocal.GL_TEXTURE_2D);
+		
 	}
 	
     @Override
@@ -578,6 +580,13 @@ public class RendererGL2 extends RendererD {
 	@Override
 	protected float[] getLightPosition(){
 		return LIGHT_POSITION_D;
+	}
+	
+	
+	@Override
+	public void setDashTexture(int index){
+		bindTexture(getTextures().getIndex(index));
+		setTextureNearest();
 	}
 
 }

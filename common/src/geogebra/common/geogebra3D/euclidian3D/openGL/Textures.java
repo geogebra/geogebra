@@ -26,7 +26,7 @@ public class Textures {
 	static public int DASH_SHORT = DASH_NONE+1;	
 	/** long dash: 2-(2), ... */
 	static public int DASH_LONG = DASH_SHORT+1;	
-	/** dotted dash: 1-(3), ... */
+	/** dotted dash: 1-(1)-1-(1)-1-(1)-1-(1), ... */
 	static public int DASH_DOTTED = DASH_LONG+1;		
 	/** dotted/dashed dash: 7-(4)-1-(4), ... */
 	static public int DASH_DOTTED_DASHED = DASH_DOTTED+1;
@@ -107,14 +107,7 @@ public class Textures {
 	
 
 	
-	/** load a template texture (nearest type)
-	 * @param index
-	 */
-	public void loadTextureNearest(int index){
-	
-		setTextureNearest(texturesIndex[index]);
 
-	}
 	
 	/** load a template texture (linear type)
 	 * @param index
@@ -127,15 +120,7 @@ public class Textures {
 	
 	
 	
-	/** sets a computed texture (nearest type)
-	 * @param index
-	 */
-	public void setTextureNearest(int index){
 
-		renderer.bindTexture(index);
-		setTextureNearest();
-		
-	}
 	
 	/** sets a computed texture (linear type)
 	 * @param index
@@ -190,23 +175,23 @@ public class Textures {
 
     	switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
-			loadTextureNearest(DASH_NONE);
+			renderer.setDashTexture(DASH_NONE);
 			break;
 			
 		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			loadTextureNearest(DASH_DOTTED);
+			renderer.setDashTexture(DASH_DOTTED);
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			loadTextureNearest(DASH_SHORT);
+			renderer.setDashTexture(DASH_SHORT);
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			loadTextureNearest(DASH_LONG);
+			renderer.setDashTexture(DASH_LONG);
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			loadTextureNearest(DASH_DOTTED_DASHED);
+			renderer.setDashTexture(DASH_DOTTED_DASHED);
 			break;
 
 		default: 
@@ -226,23 +211,23 @@ public class Textures {
 		
     	switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
-			loadTextureNearest(DASH_NONE_HIDDEN);
+			renderer.setDashTexture(DASH_NONE_HIDDEN);
 			break;
 			
 		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			loadTextureNearest(DASH_DOTTED_HIDDEN);
+			renderer.setDashTexture(DASH_DOTTED_HIDDEN);
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			loadTextureNearest(DASH_SHORT_HIDDEN);
+			renderer.setDashTexture(DASH_SHORT_HIDDEN);
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			loadTextureNearest(DASH_LONG_HIDDEN);
+			renderer.setDashTexture(DASH_LONG_HIDDEN);
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			loadTextureNearest(DASH_DOTTED_DASHED_HIDDEN);
+			renderer.setDashTexture(DASH_DOTTED_DASHED_HIDDEN);
 			break;
 
 		default: 
@@ -344,6 +329,15 @@ public class Textures {
 
 	final private void setTextureNearest(){
 		renderer.setTextureNearest();
+	}
+
+	/**
+	 * 
+	 * @param index index for creation
+	 * @return texture index
+	 */
+	public int getIndex(int index) {
+		return texturesIndex[index];
 	}
 	
 

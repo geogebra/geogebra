@@ -8,6 +8,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -1402,6 +1403,17 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	protected float[] getLightPosition(){
 		return LIGHT_POSITION_D;
+	}
+	
+	@Override
+	public void setDashTexture(int index){
+		if (index == Textures.DASH_NONE){			
+			disableTextures();
+		}else{
+			enableTextures();
+			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
+			//App.debug(""+(TEXTURE_TYPE_DASH + index));
+		}
 	}
 
 }
