@@ -11,6 +11,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
@@ -1336,9 +1337,13 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 
 	@Override
-    public void setDashTexture(int index) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setDashTexture(int index){
+		if (index == Textures.DASH_NONE){			
+			disableTextures();
+		}else{
+			enableTextures();
+			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
+		}
+	}
 
 }

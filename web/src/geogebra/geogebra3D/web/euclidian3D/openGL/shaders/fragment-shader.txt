@@ -14,8 +14,10 @@ void main (void)
 { 
 
 	if (textureType == 0){ // TEXTURE_TYPE_NONE = 0
-		gl_FragColor = varying_Color;
-	} else if (textureType == 1){ // TEXTURE_TYPE_FADING = 1
+	    gl_FragColor = varying_Color;
+	
+	
+	}else if (textureType == 1){ // TEXTURE_TYPE_FADING = 1
 		float factor;
 		float x = coordTexture.x;
 		float y = coordTexture.y;
@@ -37,13 +39,78 @@ void main (void)
 			gl_FragColor.a = textureVal.a;
 		}
 		
-	}else if (textureType == 4){ // TEXTURE_TYPE_DASH = 4;
+		
+	}else if (textureType == 5){ // TEXTURE_TYPE_DASH = 4 + DASH_SHORT = 1;
+		float x = mod(2.0 * coordTexture.x, 1.0);
+		if (x > 0.5){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	}else if (textureType == 6){ // TEXTURE_TYPE_DASH = 4 + DASH_LONG = 2;
 		float x = mod(coordTexture.x, 1.0);
 		if (x > 0.5){
 			discard; // don't write
 		}else{
 			gl_FragColor = varying_Color;
 		}	
+	}else if (textureType == 7){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED = 3;
+		float x = mod(4.0 * coordTexture.x, 1.0);
+		if (x > 0.5){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	}else if (textureType == 8){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED_DASHED = 4;
+		float x = 16.0 * mod(coordTexture.x, 1.0);
+		if ((x > 7.0 && x <= 11.0) || (x > 12.0) ){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	
+	}else if (textureType == 9){ // TEXTURE_TYPE_DASH = 4 + DASH_NONE_HIDDEN = 5;
+		float x = mod(coordTexture.x, 1.0);
+		if (x > 0.5){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	}else if (textureType == 10){ // TEXTURE_TYPE_DASH = 4 + DASH_SHORT_HIDDEN = 6;
+		float x = mod(coordTexture.x, 1.0);
+		if (x > 0.25){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	}else if (textureType == 11){ // TEXTURE_TYPE_DASH = 4 + DASH_LONG_HIDDEN = 7;
+		float x = mod(coordTexture.x, 1.0);
+		if (x > 0.25){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	}else if (textureType == 12){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED_HIDDEN = 8;
+		float x = mod(2.0 * coordTexture.x, 1.0);
+		if (x > 0.25){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	}else if (textureType == 13){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED_DASHED_HIDDEN = 9;
+		float x = 16.0 * mod(coordTexture.x, 1.0);
+		if (x <= 2.0 || (x > 5.0 && x <= 11.0) || (x > 12.0)){
+			discard; // don't write
+		}else{
+			gl_FragColor = varying_Color;
+		}	
+	
+	
+	
+	
+	}else{ // default
+	  //gl_FragColor = varying_Color;
+	  discard;
 	}
 			
 

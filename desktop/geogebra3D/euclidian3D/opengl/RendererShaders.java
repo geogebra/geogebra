@@ -1412,7 +1412,6 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 		}else{
 			enableTextures();
 			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
-			//App.debug(""+(TEXTURE_TYPE_DASH + index));
 		}
 	}
 
