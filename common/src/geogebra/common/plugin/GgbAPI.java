@@ -5,6 +5,9 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.io.layout.Perspective;
+import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.GeoGebraCasInterface;
@@ -1212,5 +1215,16 @@ public abstract class GgbAPI implements JavaScriptAPI{
      */
     public void login(String token){
     	app.getLoginOperation().performTokenLogin(token, false);
+    }
+    
+    public void openViews(String code){
+    	Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(), ToolBar.getAllToolsNoMacros(true, app.isHTML5Applet()));
+		try{
+			app.getGuiManager().getLayout().applyPerspective(ps);
+			app.updateViewSizes();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return;
     }
 }
