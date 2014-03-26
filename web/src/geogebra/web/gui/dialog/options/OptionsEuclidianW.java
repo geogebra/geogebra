@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
@@ -19,7 +20,6 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
@@ -222,7 +222,34 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btAxesColor.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-	              ((DialogManagerW)app.getDialogManager()).showColorChooserDialog();
+	              app.getDialogManager().showColorChooserDialog(model.getAxesColor(),
+	            		  new ColorChangeHandler() {
+					
+					public void onForegroundSelected() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					public void onColorChange(GColor color) {
+						model.applyAxesColor(color);
+						
+					}
+					
+					public void onClearBackground() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					public void onBackgroundSelected() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					public void onAlphaChange() {
+						// TODO Auto-generated method stub
+						
+					}
+				});
                 }});
 			
 			// axes style
@@ -359,7 +386,35 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btBackgroundColor.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-		              ((DialogManagerW)app.getDialogManager()).showColorChooserDialog();
+		              app.getDialogManager().showColorChooserDialog(model.getBackgroundColor(),
+		           		  new ColorChangeHandler() {
+							
+							public void onForegroundSelected() {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							public void onColorChange(GColor color) {
+								
+								model.applyBackgroundColor();
+							}
+							
+							public void onClearBackground() {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							public void onBackgroundSelected() {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							public void onAlphaChange() {
+								// TODO Auto-generated method stub
+								
+							}
+						});
+		                
 //	                model.applyBackgroundColor();
                 }});
 
@@ -637,9 +692,35 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btGridColor.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
-	              app.getDialogManager().showColorChooserDialog();
+	              app.getDialogManager().showColorChooserDialog(model.getGridColor(),
+	            		new ColorChangeHandler() {
+						
+						public void onForegroundSelected() {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						public void onColorChange(GColor color) {
+							model.applyGridColor(color);
+						}
+						
+						public void onClearBackground() {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						public void onBackgroundSelected() {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						public void onAlphaChange() {
+							// TODO Auto-generated method stub
+							
+						}
+					});
 				// Just for dummy.
-//					model.applyGridColor(GColor.BLUE);
+//				
 				}
 			});
 			// bold

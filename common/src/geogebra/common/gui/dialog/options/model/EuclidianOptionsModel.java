@@ -463,6 +463,18 @@ public class EuclidianOptionsModel {
 		}
 
 	}
+
+	public GColor getAxesColor() {
+		return view.getAxesColor();
+	}
+
+	public GColor getGridColor() {
+		return view.getGridColor();
+	}
+	
+	public GColor getBackgroundColor() {
+		return view.getBackgroundCommon();
+	}
 				
 }
 

@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.main;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
@@ -19,6 +20,7 @@ import geogebra.common.factories.Factory;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
+import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -472,6 +474,6 @@ public abstract class DialogManager {
 		
 	}
 	
-	public void showColorChooserDialog() {}
+	public void showColorChooserDialog(GColor originalColor, ColorChangeHandler handler) {}
 
 }

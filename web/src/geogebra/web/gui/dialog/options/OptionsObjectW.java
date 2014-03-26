@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import geogebra.common.gui.dialog.options.model.AnimatingModel;
@@ -85,7 +86,6 @@ import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.TextEditAdvancedPanel;
 import geogebra.html5.gui.inputfield.TextPreviewPanelW;
-import geogebra.html5.gui.util.ColorChangeHandler;
 import geogebra.html5.gui.util.ColorChooserW;
 import geogebra.html5.gui.util.LineStylePopup;
 import geogebra.html5.gui.util.PointStylePopup;
@@ -512,7 +512,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			colorChooserW = new ColorChooserW(app, 800, 210, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
-				public void onColorChange() {
+				public void onColorChange(GColor color) {
 					applyChanges(false);
 				}
 
@@ -559,7 +559,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasOpacity) {
-			// TODO Auto-generated method stub
 			GColor selectedBGColor = null;
 			float alpha = 1;
 			GeoElement geo0 = model.getGeoAt(0);

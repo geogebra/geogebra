@@ -1,6 +1,7 @@
 package geogebra.html5.gui.util;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
@@ -57,7 +58,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private ColorTable otherTable;
 	private ColorTable lastSource;
 	private GColor selectedColor;
-	ColorChangeHandler changeHandler;
+	private ColorChangeHandler changeHandler;
 	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
@@ -651,7 +652,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		
 		
 		if (changeHandler != null) {
-			changeHandler.onColorChange();
+			changeHandler.onColorChange(getSelectedColor());
 		}
 		
 		if (source != null) {

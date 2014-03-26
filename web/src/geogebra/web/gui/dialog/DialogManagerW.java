@@ -1,9 +1,11 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
@@ -444,9 +446,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		
 	}
 	
-	public void showColorChooserDialog() {
-		App.debug("Showing Color Chooser");
-		ColorChooserDialog dialog = new ColorChooserDialog((AppW)app, false, true);
+	public void showColorChooserDialog(GColor originalColor, ColorChangeHandler handler) {
+		ColorChooserDialog dialog = new ColorChooserDialog((AppW)app,
+				originalColor, handler);
 		dialog.center();
 	}
 	
