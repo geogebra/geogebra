@@ -1056,7 +1056,7 @@ __GGB__keysVar.es_UY.error = {
     "IllegalArgument": "Argumento ilegal",
     "IllegalArgumentNumber": "N\xfamero ilegal de argumentos",
     "IllegalAssignment": "Asignaci\xf3n ilegal",
-    "IllegalBoolean": "Operaci\xf3n l\xf3gica incorrecta",
+    "IllegalBoolean": "Operaci\xf3n L\xf3gica ilegal.",
     "IllegalComparison": "Comparaci\xf3n incorrecta",
     "IllegalComplexMultiplication": "No es posible tal multiplicaci\xf3n compleja",
     "IllegalDivision": "Divisi\xf3n ilegal",
