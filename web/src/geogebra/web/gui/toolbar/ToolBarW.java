@@ -319,10 +319,21 @@ public class ToolBarW extends FlowPanel implements ClickHandler{
 	    event.stopPropagation();
     }
 
-	public void selectMenuBotton() {
-	    tb.selectMenuButton();
+	public void selectMenuBotton(int index) {
+	    tb.selectMenuButton(index);
 	    
     }
+
+	public void selectMenu(int index){
+		tb.deselectButtons();
+		int positiveIndex = index;
+		if(index < 0){
+			positiveIndex = index + getModeToggleMenus().size();
+		}
+		ModeToggleMenu mtm2 = getModeToggleMenus().get(positiveIndex);
+	
+		mtm2.tbutton.getElement().focus();
+	}
 
 }
 

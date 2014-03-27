@@ -135,5 +135,11 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 		int menuHeight = (int) (app.getHeight() - GGWFrameLayoutPanel.COMMAND_LINE_HEIGHT - GGWFrameLayoutPanel.TOOLBAR_HEIGHT);
 	    this.setHeight(menuHeight + "px");
     }
+	
+	public void focus(){
+		if(this.fileMenu!=null){
+			this.fileMenu.focus();
+		}
+	}
 
 }

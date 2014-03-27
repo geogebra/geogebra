@@ -417,9 +417,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			}				
 			
 			if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
-				switchToMainItem(toolbar.getModeToggleMenus().get(indexOfButton));
+				selectMenu(indexOfButton);
 			}else{
-				toolbar.selectMenuBotton();
+				toolbar.selectMenuBotton(indexOfButton < 0 ? -1 : 0);
 			}
 			break;
 		case KeyCodes.KEY_DOWN:
@@ -452,8 +452,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			break;
 		}
     }
+
+	private void selectMenu(int index){
+		ModeToggleMenu mtm2 = toolbar.getModeToggleMenus().get(index);
 	
-	private void switchToMainItem(ModeToggleMenu mtm2){
 		mtm2.tbutton.getElement().focus();
 		if(isSubmenuOpen()){
 			hideMenu();

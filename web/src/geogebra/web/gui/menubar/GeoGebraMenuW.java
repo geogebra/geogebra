@@ -10,4 +10,6 @@ public interface GeoGebraMenuW {
 	public void updateMenubar();
 
 	public MenuItem getSignIn();
+
+	public void focus();
 }

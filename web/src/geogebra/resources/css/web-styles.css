@@ -3611,3 +3611,7 @@ PROVIDERS
 .AppFrameParent{
 	border: 1px #DCDCDC solid;
 }
+
+.selectedButton{
+	border:2px blue solid;
+}

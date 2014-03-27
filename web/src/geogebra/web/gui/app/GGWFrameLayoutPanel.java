@@ -131,6 +131,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			this.MENUBAR_WIDTH = MENUBAR_WIDTH_MAX;
 			this.dockPanel.setWidgetSize(ggwMenuBar, MENUBAR_WIDTH);
 			this.dockPanel.forceLayout();
+			ggwMenuBar.focus();
 			this.menuClosed = false;
 		} else {
 			//close menu

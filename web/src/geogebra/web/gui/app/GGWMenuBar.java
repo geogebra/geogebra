@@ -37,5 +37,10 @@ public class GGWMenuBar extends Composite {
 	public void removeMenus(){
 		ggbmenubarwrapper.clear();
 	}
+
+	public void focus() {
+	    menubar.focus();
+	    
+    }
 	
 }

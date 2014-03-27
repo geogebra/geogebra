@@ -163,6 +163,12 @@ public class GGWToolBar extends Composite {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
 	            	GGWToolBar.this.app.toggleMenu();
 	            }
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT){
+	            	GGWToolBar.this.selectMenuButton(0);
+	            }
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
+	            	GGWToolBar.this.toolBar.selectMenu(0);
+	            }
             }
 		}, KeyUpEvent.getType());
 		
@@ -175,6 +181,21 @@ public class GGWToolBar extends Composite {
 				((AppW) app).showBrowser(bg);
             }
 		});
+		
+		openSearchButton.addDomHandler(new KeyUpHandler(){
+			public void onKeyUp(KeyUpEvent event) {
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+	            	BrowseGUI bg = new BrowseGUI((AppWeb) app);
+					((AppW) app).showBrowser(bg);
+	            }
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
+	            	GGWToolBar.this.selectMenuButton(1);
+	            }
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT){
+	            	GGWToolBar.this.toolBar.selectMenu(-1);
+	            }
+            }
+		}, KeyUpEvent.getType());
 		
 		this.smartButtonPanel.add(openSearchButton);
 		this.smartButtonPanel.add(openMenuButton);
@@ -619,10 +640,18 @@ public class GGWToolBar extends Composite {
 		}
 	}
 
-	public void selectMenuButton() {
-		if(this.openMenuButton != null){
-			this.openMenuButton.setFocus(true);
+	public void selectMenuButton(int index) {
+		deselectButtons();
+		StandardButton focused = index == 0 ? this.openSearchButton : this.openMenuButton;
+		if(focused != null){
+			focused.setFocus(true);
+			focused.getElement().addClassName("selectedButton");
 		}
 	    
+    }
+
+	public void deselectButtons() {
+		this.openSearchButton.getElement().removeClassName("selectedButton");
+		this.openMenuButton.getElement().removeClassName("selectedButton");
     }
 }
