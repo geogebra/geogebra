@@ -7,9 +7,8 @@ import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.MenuBar;
 
-public class HelpMenuW extends MenuBar {
+public class HelpMenuW extends GMenuBar {
 	
 	private final App app;
 	

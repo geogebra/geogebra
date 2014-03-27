@@ -4,6 +4,9 @@ import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -36,6 +39,8 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 	private EditMenuW editMenu;
 	private PerspectivesMenuW perspectivesMenu;
 
+	private GMenuBar[] menus;
+
 	/**
 	 * Constructs the menubar
 	 * 
@@ -55,7 +60,37 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 		this.createViewMenu();
 		this.createOptionsMenu();
 		this.createHelpMenu();
-		
+		this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, helpMenu};
+		for(int i=0; i<menus.length; i++){
+			final int next = (i+1)%menus.length;
+			final int previous = (i-1+menus.length)%menus.length;
+			final int index = i;
+		this.menus[i].addDomHandler(new KeyDownHandler(){
+			
+			@Override
+            public void onKeyDown(KeyDownEvent event) {
+				int keyCode = event.getNativeKeyCode();
+				//First / last below are not intuitive -- note that default handler of
+				//down skipped already from last to first
+				if(keyCode == KeyCodes.KEY_DOWN){
+					if(menus[index].isFirstItemSelected()){
+						menuPanel.showStack(next);
+						menus[next].focus();
+					}
+					
+				}
+				if(keyCode == KeyCodes.KEY_UP){
+					if(menus[index].isLastItemSelected()){
+						menuPanel.showStack(previous);
+						menus[previous].focus();
+					}
+				}
+				if(keyCode == KeyCodes.KEY_ESCAPE){
+					app.toggleMenu();
+				}
+	            
+            }}, KeyDownEvent.getType());
+		}
 		this.menuPanel = new StackPanel(){
 			@Override
             public void showStack(int index) {
@@ -137,8 +172,9 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
     }
 	
 	public void focus(){
-		if(this.fileMenu!=null){
-			this.fileMenu.focus();
+		int index= Math.max(menuPanel.getSelectedIndex(),0);
+		if(this.menus[index]!=null){
+			this.menus[index].focus();
 		}
 	}
 

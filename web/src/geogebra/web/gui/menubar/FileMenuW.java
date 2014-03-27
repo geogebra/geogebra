@@ -6,13 +6,12 @@ import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends MenuBar {
+public class FileMenuW extends GMenuBar {
 	
 	/** Application */
 	AppW app;

@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 /**
  * The "Options" menu.
  */
-public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionListener{
+public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionListener{
 	
 	private AppW app;
 	private Kernel kernel;

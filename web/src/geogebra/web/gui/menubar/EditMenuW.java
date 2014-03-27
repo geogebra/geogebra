@@ -8,12 +8,11 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * The "Edit" menu.
  */
-public class EditMenuW extends MenuBar {
+public class EditMenuW extends GMenuBar {
 
 	/**
 	 * Application instance
@@ -180,8 +179,9 @@ public class EditMenuW extends MenuBar {
 			});
 			
 		}
-			addSeparator();
+			
 		if(haveSelection){
+			addSeparator();
 			//invert selection menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("InvertSelection"), true), true, new Command() {

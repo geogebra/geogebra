@@ -4,13 +4,12 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * The "View" menu for the applet.
  * For application use ViewMenuApplicationW class
  */
-public class ViewMenuW extends MenuBar {
+public class ViewMenuW extends GMenuBar {
 
 	/**
 	 * Application instance
