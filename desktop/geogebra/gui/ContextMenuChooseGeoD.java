@@ -1,6 +1,8 @@
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.AppD;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -62,6 +65,9 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 			ArrayList<GeoElement> geos, Point location, geogebra.common.awt.GPoint invokerLocation) {
 
 		super(app, selectedGeos, location);
+		
+		this.view = view;
+		this.selectedGeos = selectedGeos;
 
 		//return if just one geo, or if first geos more than one
 		if (geos.size()<2 || selectedGeos.size()>1) {
@@ -77,9 +83,8 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		
 		
 		this.loc = invokerLocation;
-		this.selectedGeos = selectedGeos;
 		this.geos = geos;
-		this.view = view;
+		
 		
 		GeoElement geoSelected = selectedGeos.get(0);
 		
@@ -197,4 +202,45 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		}
 		*/
 	}
+	
+	
+
+	@Override
+	protected void setTitle(String str) {
+		
+		AbstractAction titleAction = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+
+				if (selectedGeos.size() < 2){
+					if (view.getMode() == EuclidianConstants.MODE_MOVE){ // change selection to geo clicked
+
+						app.getSelectionManager().clearSelectedGeos(false); //repaint done next step
+						app.getSelectionManager().addSelectedGeo(geo);
+
+
+					}else{ // use geo clicked to process mode
+						Hits hits = new Hits();
+						hits.add(geo);
+						view.getEuclidianController().processMode(hits, false);
+					}
+				}
+				
+			}
+		};
+		
+		JMenuItem title = wrappedPopup.add(titleAction);	
+		title.setText(str);
+		title.setFont(((AppD) app).getBoldFont());                      
+		title.setBackground(bgColor);
+		title.setForeground(fgColor);
+		
+		title.setIcon(((AppD) app).getEmptyIcon());
+		title.setBorder(BorderFactory.createEmptyBorder(5, 0, 2, 15)); 
+		
+		
+		
+	}
+	
 }
