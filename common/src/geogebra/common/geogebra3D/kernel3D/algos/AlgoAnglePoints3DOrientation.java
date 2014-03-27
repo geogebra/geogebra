@@ -75,6 +75,22 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D{
     }
 
     @Override
+	protected void setForceNormalVector(){
+    	vn = v1.crossProduct4(v2);
+
+    	if (vn.isZero()){ // v1 and v2 are dependent
+    		if (orientation == kernel.getSpace()){ // no orientation with space
+        		vn = crossXorY(v1);
+        	}else{
+        		vn = orientation.getDirectionInD3().copyVector();
+        	}
+    	}   	
+
+		vn.normalize();
+		
+    }
+
+    @Override
 	public String toString(StringTemplate tpl) {
 
 		return loc.getPlain("AngleBetweenABCOrientedByD", getA().getLabel(tpl),

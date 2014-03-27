@@ -55,9 +55,7 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     	return new GeoAngle3D(cons1);
     }
     
-    private Coords center, v1, v2;
-    
-	protected Coords vn;
+    protected Coords center, v1, v2, vn;
 
 	
     @Override
@@ -81,8 +79,15 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     	getAngle().setValue(acos(c));
     	
     	//normal vector
-    	vn = forceNormalVector(v1, v2);
+    	setForceNormalVector();
 
+    }
+    
+    /**
+     * set normal vector (forced)
+     */
+    protected void setForceNormalVector(){
+    	vn = forceNormalVector(v1, v2);
     }
 	
 
@@ -128,16 +133,26 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 		Coords vn = v1.crossProduct4(v2);
 
 		if (vn.isZero()){ // v1 and v2 are dependent
-			vn = v1.crossProduct4(Coords.VX);
-			if (vn.isZero()){
-				vn = v1.crossProduct4(Coords.VY);
-			}
+			vn = crossXorY(v1);
 		}
 
 		vn.normalize();
 
 		return vn;
 
+	}
+	
+	/**
+	 * 
+	 * @param v1 vector
+	 * @return non zero vector orthogonal to v1 and Ox or Oy
+	 */
+	protected static final Coords crossXorY(Coords v1){
+		Coords vn = v1.crossProduct4(Coords.VX);
+		if (vn.isZero()){
+			vn = v1.crossProduct4(Coords.VY);
+		}
+		return vn;
 	}
 	
 	private AlgoAnglePoints3D(GeoPointND A, GeoPointND B, GeoPointND C, Coords center, Coords v1, Coords v2, Coords vn) {
