@@ -10,6 +10,7 @@ import geogebra.common.gui.util.TableSymbols;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
+import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -236,8 +237,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		ncbTickDist.setEnabled(cbManualTicks.getValue());
 
 
-		lbAxisLabel.setSelectedIndex(axis);
-		lbUnitLabel.setSelectedIndex(axis);
+		lbAxisLabel.setSelectedIndex(ListBoxApi.getIndexOf(view.getAxesLabels(true)[axis],
+				lbAxisLabel));
+		lbUnitLabel.setSelectedIndex(ListBoxApi.getIndexOf(view.getAxesUnitLabels()[axis],
+				lbUnitLabel));
 
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);
