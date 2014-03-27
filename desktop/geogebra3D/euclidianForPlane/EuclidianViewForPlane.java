@@ -130,6 +130,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D implements Euclidi
 		case CONIC:
 		case CONIC3D:
 		case CONICSECTION:
+		case CONICPART:
 		case ANGLE3D:
 		case TEXT:
 			return geo.isVisibleInView3D();
