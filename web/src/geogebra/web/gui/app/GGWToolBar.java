@@ -8,7 +8,6 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.BrowseGUI;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
@@ -86,7 +85,6 @@ public class GGWToolBar extends Composite {
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
 		toolBar = new ToolBarW(this);
-		((GuiManagerInterfaceW)app.getGuiManager()).registerToolbar(this);
 		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);

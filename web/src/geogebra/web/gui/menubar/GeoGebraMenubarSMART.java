@@ -87,6 +87,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 				}
 				if(keyCode == KeyCodes.KEY_ESCAPE){
 					app.toggleMenu();
+					app.getGuiManager().getToolbarPanel().selectMenuButton(-1);
 				}
 	            
             }}, KeyDownEvent.getType());
