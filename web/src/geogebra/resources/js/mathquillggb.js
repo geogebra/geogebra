@@ -2853,6 +2853,7 @@ var NonSymbolaSymbol = P(Symbol, function(_, _super) {
 LatexCmds['@'] = NonSymbolaSymbol;
 LatexCmds['&'] = LatexCmds.amp = bind(NonSymbolaSymbol, '\\&', '&amp;');
 LatexCmds['%'] = bind(NonSymbolaSymbol, '\\%', '%');
+LatexCmds['\u00a9'] = LatexCmds.copyright = bind(NonSymbolaSymbol, '\\copyright', '&copy;');
 
 //the following are all Greek to me, but this helped a lot: http://www.ams.org/STIX/ion/stixsig03.html
 
