@@ -1398,7 +1398,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return rect != null && rect.contains(shape.getBounds());
+			return rect != null && shape != null && rect.contains(shape.getBounds());
 		}
 
 		return false;
