@@ -1,8 +1,10 @@
 package geogebra.common.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -376,16 +378,25 @@ public abstract class ContextMenuGeoElement {
 
 	public void geoActionCmd(GeoElement cmdGeo, ArrayList<GeoElement> sGeos, ArrayList<GeoElement> gs,
 			EuclidianView v, GPoint l) {
-				//AbstractApplication.debug(geo.getLabelSimple());
-				app.getSelectionManager().clearSelectedGeos(false); //repaint done next step
-				app.getSelectionManager().addSelectedGeo(cmdGeo);
-				
-				// update the geo lists and show the popup again with the new selection
-				sGeos.clear();
-				sGeos.add(cmdGeo);
-				if(app.getGuiManager() != null){
-					app.getGuiManager().showPopupChooseGeo(sGeos, gs, v, l);
-				}
+
+		if (v.getMode() == EuclidianConstants.MODE_MOVE){ // change selection to geo clicked
+			//AbstractApplication.debug(geo.getLabelSimple());
+			app.getSelectionManager().clearSelectedGeos(false); //repaint done next step
+			app.getSelectionManager().addSelectedGeo(cmdGeo);
+
+			// update the geo lists and show the popup again with the new selection
+			sGeos.clear();
+			sGeos.add(cmdGeo);
+			if(app.getGuiManager() != null){
+				app.getGuiManager().showPopupChooseGeo(sGeos, gs, v, l);
 			}
+			
+		}else{ // use geo clicked to process mode
+			Hits hits = new Hits();
+			hits.add(cmdGeo);
+			v.getEuclidianController().processMode(hits, false);
+		}
+
+	}
 
 }

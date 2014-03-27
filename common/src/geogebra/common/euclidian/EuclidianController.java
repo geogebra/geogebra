@@ -5657,6 +5657,20 @@ public abstract class EuclidianController {
 		}
 	}
 
+	public final boolean processMode(Hits processHits, boolean isControlDown){
+		final Hits hits2 = processHits;
+		AsyncOperation callback = new AsyncOperation(){
+			
+			@Override
+			public void callback(Object changedKernel) {
+				if (changedKernel.equals(true)) {
+					app.storeUndoInfo();
+				}
+				endOfWrapMouseReleased(hits2, false, false, null); // type = null is not a problem since alt = false
+			}
+		};
+		return processMode(processHits, isControlDown, callback);
+	}
 	
 	public final boolean processMode(Hits processHits, boolean isControlDown, final AsyncOperation callback){
 		Hits hits = processHits;
@@ -9127,6 +9141,11 @@ public abstract class EuclidianController {
 		boolean control = app.isControlDown(event);
 		boolean alt = event.isAltDown();
 		PointerEventType type = event.getType();
+		endOfWrapMouseReleased(hits, control, alt, type);
+	}
+	
+	public void endOfWrapMouseReleased(Hits hits, boolean control, boolean alt, PointerEventType type){
+		
 		if (!hits.isEmpty()) {
 			// Application.debug("hits ="+hits);
 			view.setDefaultCursor();
