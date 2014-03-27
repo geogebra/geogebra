@@ -21,11 +21,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 
-	private static final long MAX_SPLIT = 2048;
+	private static final long MAX_SPLIT = 16384;
 	private static final long MIN_SPLIT = 256;
-	private static final double MAX_CENTER_QUAD_DISTANCE = 1.e-2;
-	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-1;
-
+	private static final double MAX_CENTER_QUAD_DISTANCE = 1.e-3;
+	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-4;
+	private double uDelta;
+	private double vDelta;
+	
 	private TreeMap<Long, TreeMap<Long,Coords>> mesh;
 	
 	private void putInMesh(Long iu, Long iv, Coords z){
@@ -38,6 +40,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private Coords getFromMesh(Long iu, Long iv){
 		return (mesh.get(iu)).get(iv);
 	}
+	
+	/** Current culling box - set to view3d.(x|y|z)(max|min) */
+	private double[] cullingBox = new double[6];
+	private double cullingBoxDelta; 
+
 
 	/**
 	 * common constructor
@@ -91,25 +98,25 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		double uMax = surfaceGeo.getMaxParameter(0);
 		double vMin = surfaceGeo.getMinParameter(1);
 		double vMax = surfaceGeo.getMaxParameter(1);
-		double uDelta = uMax-uMin;
-		double vDelta = vMax-vMin;
+		uDelta = (uMax-uMin)/MAX_SPLIT;
+		vDelta = (vMax-vMin)/MAX_SPLIT;
 
+		updateCullingBox();
+		cullingBoxDelta = (cullingBox[5]-cullingBox[4]);
+		
 		Coords p1 = surfaceGeo.evaluatePoint(uMin, vMin);
 		Coords p2 = surfaceGeo.evaluatePoint(uMax, vMin);
 		Coords p3 = surfaceGeo.evaluatePoint(uMin, vMax);
 		Coords p4 = surfaceGeo.evaluatePoint(uMax, vMax);
-		//CoordsIndex i1 = new CoordsIndex(0, 0);
-		//CoordsIndex i2 = new CoordsIndex(MAX_SPLIT,0);
-		//CoordsIndex i3 = new CoordsIndex(0, MAX_SPLIT);
-		//CoordsIndex i4 = new CoordsIndex(MAX_SPLIT, MAX_SPLIT);
+		
 		putInMesh((long)0,(long)0, p1);
 		putInMesh(MAX_SPLIT,(long)0, p2);
 		putInMesh((long)0, MAX_SPLIT, p3);
 		putInMesh(MAX_SPLIT, MAX_SPLIT, p4);
-
+		
 		surface.start();
 
-		splitOrDraw(surface,0,0,MAX_SPLIT,0,0, MAX_SPLIT,MAX_SPLIT, MAX_SPLIT,uMin,uDelta,vMin,vDelta,MAX_SPLIT);
+		splitOrDraw(surface,0,0,p1,p2,p3,p4,uMin,vMin,MAX_SPLIT);
 		
 		setSurfaceIndex(surface.end());
 
@@ -119,19 +126,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/*
 	 * 
 	 */
-	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, long TRu, long TRv, long BLu, long BLv, long BRu, long BRv, double uMin, double uDelta, double vMin, double vDelta,long iDelta )
+	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, Coords pTL, Coords pTR, Coords pBL, Coords pBR, double uMin, double vMin, long iDelta )
 	{
 		//test if this quad may be drawn or must be splitted
 		//index delta
 		iDelta /=2;
-		Coords pTL = getFromMesh(TLu,TLv);
-		Coords pBR = getFromMesh(BRu,BRv);
-		Coords pTR = getFromMesh(TRu,TRv);
-		Coords pBL = getFromMesh(BLu,BLv);
-		if (iDelta>=2){
+		if (iDelta>=1){
 			long Cu = TLu+iDelta;
 			long Cv = TLv+iDelta;
-			Coords fiC = surfaceGeo.evaluatePoint(uMin+Cu*uDelta/MAX_SPLIT, vMin+Cv*vDelta/MAX_SPLIT);
+			Coords fiC = surfaceGeo.evaluatePoint(uMin+Cu*uDelta, vMin+Cv*vDelta);
 			putInMesh(Cu,Cv, fiC);
 			double diagLength = Math.max(pTL.distance(pBR),pTR.distance(pBL));
 			
@@ -140,8 +143,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			//this split test is temporary
 			if ((iDelta>=MIN_SPLIT)||
-				!(diagLength<MAX_DIAGONAL_QUAD_LENGTH*(uDelta))||
-				!(centerDistance<MAX_CENTER_QUAD_DISTANCE))
+				(!(diagLength<MAX_DIAGONAL_QUAD_LENGTH*(cullingBoxDelta))&&
+				!(centerDistance<MAX_CENTER_QUAD_DISTANCE*(cullingBoxDelta)))&&
+				((inCullingBox(pTL))||(inCullingBox(pTR))||(inCullingBox(pBL))||(inCullingBox(pBR)))
+					)
 			{
 				//split
 				//index of the five new points T,L,C,R,B
@@ -156,27 +161,27 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				long Tv = TLv;
 				long Lu = TLu;
 				long Lv = TLv+iDelta;
-				long Ru = TRu;
-				long Rv = TRv+iDelta;
-				long Bu = BLu+iDelta;
-				long Bv = BLv;
-				Coords fiT = surfaceGeo.evaluatePoint(uMin+Tu*uDelta/MAX_SPLIT, vMin+Tv*vDelta/MAX_SPLIT);
-				Coords fiL = surfaceGeo.evaluatePoint(uMin+Lu*uDelta/MAX_SPLIT, vMin+Lv*vDelta/MAX_SPLIT);
-				Coords fiR = surfaceGeo.evaluatePoint(uMin+Ru*uDelta/MAX_SPLIT, vMin+Rv*vDelta/MAX_SPLIT);
-				Coords fiB = surfaceGeo.evaluatePoint(uMin+Bu*uDelta/MAX_SPLIT, vMin+Bv*vDelta/MAX_SPLIT);
+				long Ru = TLu+2*iDelta;
+				long Rv = Lv;
+				long Bu = Tu;
+				long Bv = TLv+2*iDelta;
+				Coords fiT = surfaceGeo.evaluatePoint(uMin+Tu*uDelta, vMin+Tv*vDelta);
+				Coords fiL = surfaceGeo.evaluatePoint(uMin+Lu*uDelta, vMin+Lv*vDelta);
+				Coords fiR = surfaceGeo.evaluatePoint(uMin+Ru*uDelta, vMin+Rv*vDelta);
+				Coords fiB = surfaceGeo.evaluatePoint(uMin+Bu*uDelta, vMin+Bv*vDelta);
 				putInMesh(Tu,Tv, fiT);
 				putInMesh(Lu,Lv, fiL);
 				putInMesh(Ru,Rv, fiR);
 				putInMesh(Bu,Bv, fiB);
 
 				//square TL
-				splitOrDraw(surface,TLu,TLv,Tu,Tv,Lu,Lv,Cu,Cv,uMin,uDelta,vMin,vDelta,iDelta);
+				splitOrDraw(surface,TLu,TLv,pTL,fiT,fiL,fiC,uMin,vMin,iDelta);
 				//square TR
-				splitOrDraw(surface,Tu,Tv,TRu,TRv,Cu,Cv,Ru,Rv,uMin,uDelta,vMin,vDelta,iDelta);
+				splitOrDraw(surface,Tu,Tv,fiT,pTR,fiC,fiR,uMin,vMin,iDelta);
 				//square BL
-				splitOrDraw(surface,Lu,Lv,Cu,Cv,BLu,BLv,Bu,Bv,uMin,uDelta,vMin,vDelta,iDelta);
+				splitOrDraw(surface,Lu,Lv,fiL,fiC,pBL,fiB,uMin,vMin,iDelta);
 				//square BR
-				splitOrDraw(surface,Cu,Cv,Ru,Rv,Bu,Bv,BRu,BRv,uMin,uDelta,vMin,vDelta,iDelta);
+				splitOrDraw(surface,Cu,Cv,fiC,fiR,fiB,pBR,uMin,vMin,iDelta);
 
 			}
 			else {
@@ -212,7 +217,32 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
 	}
 
+	
+	private boolean updateCullingBox() {
+		EuclidianView3D view = getView3D();
+		cullingBox[0] = view.getXmin();
+		cullingBox[1] = view.getXmax();
+		cullingBox[2] = view.getYmin();
+		cullingBox[3] = view.getYmax();
+		cullingBox[4] = view.getZmin();
+		cullingBox[5] = view.getZmax();
+		return true;
+	}
 
+	private boolean inCullingBox(Coords p) {
+		if ( //(p.isDefined())
+				//&& (p.isFinite())
+				//&&
+				(p.getX()>cullingBox[0])
+				&& (p.getX()<cullingBox[1])
+				&& (p.getY()>cullingBox[2])
+				&& (p.getY()<cullingBox[3])
+				&& (p.getZ()>cullingBox[4])
+				&& (p.getZ()<cullingBox[5])) {
+			return true;}
+		else {return false;}
+	}
+	
 	class Node {
 		private Coords pointPos;
 		private Node n,s,w,e;
