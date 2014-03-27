@@ -220,10 +220,16 @@ public class CmdAngle3D extends CmdAngle {
 	@Override
 	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumberValue a){
 		
-		if (p1.isGeoElement3D() || p2.isGeoElement3D()){
-			return kernelA.getManager3D().Angle(labels, p1, p2, a, kernelA.getXOYPlane(), true);
+		GeoDirectionND direction = kernelA.getApplication().getActiveEuclidianView().getDirection();
+
+		if (direction == kernelA.getXOYPlane() || direction == kernelA.getSpace()){ // use xOy plane
+			if (p1.isGeoElement3D() || p2.isGeoElement3D()){
+				return kernelA.getManager3D().Angle(labels, p1, p2, a, kernelA.getXOYPlane(), true);
+			}
+
+			return super.angle(labels, p1, p2, a);
 		}
 		
-		return super.angle(labels, p1, p2, a);
+		return kernelA.getManager3D().Angle(labels, p1, p2, a, direction, true);
 	}
 }

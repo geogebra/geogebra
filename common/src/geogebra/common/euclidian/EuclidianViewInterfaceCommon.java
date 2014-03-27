@@ -6,6 +6,7 @@ import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -755,6 +756,10 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void zoomAxesRatio(double axesratio, boolean b);
 
 	public EuclidianSettings getSettings();
+
+	public GeoDirectionND getDirection();
+	
+	
 
 
 }
