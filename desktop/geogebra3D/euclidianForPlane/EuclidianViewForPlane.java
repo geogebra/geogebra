@@ -130,9 +130,13 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D implements Euclidi
 		case CONIC:
 		case CONIC3D:
 		case CONICSECTION:
-		case ANGLE:
 		case ANGLE3D:
 		case TEXT:
+			return geo.isVisibleInView3D();
+		case ANGLE:
+			if (geo.isIndependent()){ // no slider in view for plane (for now)
+				return false; 
+			}
 			return geo.isVisibleInView3D();
 		default:
 			return false;
