@@ -193,7 +193,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			dimPanel.add(LayoutUtil.panelRow(tfAxesRatioX, new Label(" : "),
 					tfAxesRatioY, tbLockRatio));
 			
-			add(dimPanel);
+			indent(dimPanel);
 			
 			addMinMaxHandler(tfMinX, MinMaxType.minX);
 			addMinMaxHandler(tfMaxX, MinMaxType.maxX);
@@ -206,6 +206,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 		}
 		
+		private void indent(FlowPanel panel) {
+			FlowPanel indent = new FlowPanel();
+			indent.setStyleName("panelIndent");
+			indent.add(panel);
+			add(indent);
+	
+        }
+
 		private void addAxesOptionsPanel() {
 
 			axesOptionsTitle = new Label();
@@ -280,7 +288,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			// axes options panel
 			axesOptionsPanel = new FlowPanel();
-			axesOptionsPanel.add(axesOptionsTitle);
+			add(axesOptionsTitle);
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
 					 cbBoldAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
@@ -311,7 +319,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
                 }});
 			
-			add(axesOptionsPanel);
+			indent(axesOptionsPanel);
 		}
 
 		private void toggleConsProtButton() {
@@ -342,12 +350,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbOpenConsProtocol.setStyleName("checkBoxPanel");
 
 			add(consProtocolTitle);
-			add(consProtocolPanel);
+			indent(consProtocolPanel);
 			
 			cbShowNavbar.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
 					app.toggleShowConstructionProtocolNavigation();
+					cbNavPlay.setEnabled(cbShowNavbar.getValue());
+					cbOpenConsProtocol.setEnabled(cbShowNavbar.getValue());
                 }});
 			
 			cbNavPlay.addClickHandler(new ClickHandler(){
@@ -383,11 +393,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			model.fillTooltipCombo();
 			
 			FlowPanel miscPanel = new FlowPanel();
-			miscPanel.add(miscTitle);
+			add(miscTitle);
 			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
 			miscPanel.add(LayoutUtil.panelRow(tooltips, lbTooltips));
 			miscPanel.add(LayoutUtil.panelRow(cbShowMouseCoords));
-			add(miscPanel);
+			
+			indent(miscPanel);
     
 			btBackgroundColor.addClickHandler(new ClickHandler(){
 
@@ -593,6 +604,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label gridLabel1;
 		private Label gridLabel2;
 		private Label gridLabel3;
+		private Label lblGridType;
+		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
 		private CheckBox cbBoldGrid;
@@ -613,8 +626,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridTypePanel() {
 
 			// grid type combo box
+			lblGridType = new Label();
 			lbGridType = new ListBox();
-			
+			add(lblGridType);
 			lbGridType.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
@@ -682,6 +696,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					updateView();					
 				}
 			});
+			typePanel.setStyleName("panelIndent");
 			add(typePanel);
 		}
 
@@ -764,6 +779,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void setLabels() {
 	        cbShowGrid.setText(app.getPlain("ShowGrid"));
 	        int idx = lbGridType.getSelectedIndex();
+	        lblGridType.setText(app.getPlain("GridType"));
 	        lbGridType.clear();
 	        model.fillGridTypeCombo();
 	        lbGridType.setSelectedIndex(idx);

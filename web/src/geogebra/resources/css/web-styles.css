@@ -2887,6 +2887,10 @@ label {
 	height: 100%;
 }
 
+.panelIndent {
+	position: relative;
+	left: 25px;
+}
 
 /*============ AutocompleteTextFieldW =======*/
 .AutoCompleteTextFieldW {
