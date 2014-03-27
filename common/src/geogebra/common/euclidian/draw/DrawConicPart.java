@@ -75,12 +75,15 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private GeoPoint[] previewTempPoints;
 	private int previewMode, neededPrevPoints;
 
+	private boolean isPreview = false;
+	
 	/**
 	 * @param view view
 	 * @param conicPart conic part
 	 */
 	public DrawConicPart(EuclidianView view, GeoConicPartND conicPart) {
 		this.view = view;
+		isPreview = false;
 		initConicPart(conicPart);
 		update();
 	}
@@ -106,6 +109,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;
+		isPreview = true;
 
 		Construction cons = view.getKernel().getConstruction();
 		neededPrevPoints = mode == EuclidianConstants.MODE_SEMICIRCLE ? 1 : 2;
@@ -176,18 +180,29 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 		
 		// check if in view
-		Coords M = view.getCoordsForView(((GeoConicND) conicPart).getMidpoint3D());
-		if (!Kernel.isZero(M.getZ())) {// check if in view
-			isVisible = false;
-			return;
-		}
-		Coords[] ev = new Coords[2];
-		for (int j = 0; j < 2; j++) {
-			ev[j] = view.getCoordsForView(((GeoConicND) conicPart).getEigenvec3D(j));
-			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+		Coords M; 
+		if (isPreview){ // coords have been calculated in view
+			M = ((GeoConicND) conicPart).getMidpoint3D().getInhomCoords();
+		}else{
+			M = view.getCoordsForView(((GeoConicND) conicPart).getMidpoint3D());
+			if (!Kernel.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
 			}
+		}
+		
+		
+		Coords[] ev = new Coords[2];
+		for (int j = 0; j < 2; j++) {
+			if (isPreview){ // coords have been calculated in view
+				ev[j] = ((GeoConicND) conicPart).getEigenvec3D(j);
+			}else{
+				ev[j] = view.getCoordsForView(((GeoConicND) conicPart).getEigenvec3D(j));
+				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+					isVisible = false;
+					return;
+				}
+			}		
 		}
 
 		// set arc
@@ -403,11 +418,12 @@ public class DrawConicPart extends Drawable implements Previewable {
 		isVisible = conicPart != null && prevPoints.size() == neededPrevPoints;
 		if (isVisible) {
 			for (int i = 0; i < prevPoints.size(); i++) {
-				Coords c = view.getCoordsForView(((GeoPointND) prevPoints.get(i)).getCoordsInD(3));
+				Coords c = view.getCoordsForView(prevPoints.get(i).getCoordsInD(3));
+				//App.debug("\n"+c);
 				if (!Kernel.isZero(c.getZ())){
 					previewTempPoints[i].setUndefined();
 				}else{
-					previewTempPoints[i].setCoords(c, false);
+					previewTempPoints[i].setCoords(c.projectInfDim(), true);
 				}
 			}
 			previewTempPoints[0].updateCascade();
@@ -418,8 +434,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		if (isVisible) {
 			// double xRW = view.toRealWorldCoordX(x);
 			// double yRW = view.toRealWorldCoordY(y);
-			previewTempPoints[previewTempPoints.length - 1].setCoords(xRW, yRW,
-					1.0);
+			previewTempPoints[previewTempPoints.length - 1].setCoords(xRW, yRW, 1.0);
 			previewTempPoints[previewTempPoints.length - 1].updateCascade();
 			update();
 		}
