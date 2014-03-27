@@ -429,4 +429,24 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 		
 		return super.angularBisector(g,h);
 	}
+	
+	
+	@Override
+	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()){
+			return (GeoElement) kernel.getManager3D().CircumcircleArc3D(null, p1, p2, p3);
+		}
+		
+		return super.circumcircleArc(p1, p2, p3);
+	}
+	
+	
+	@Override
+	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()){
+			return (GeoElement) kernel.getManager3D().CircumcircleSector3D(null, p1, p2, p3);
+		}
+		
+		return super.circumcircleSector(p1, p2, p3);
+	}
 }

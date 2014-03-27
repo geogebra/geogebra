@@ -2836,15 +2836,13 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) points[0],
-					(GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = circumcircleArc(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) points[0],
-					(GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = circumcircleSector(points[0], points[1], points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
@@ -2866,6 +2864,14 @@ public abstract class EuclidianController {
 		}
 	
 		return ret;
+	}
+	
+	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		return getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3);
+	}
+	
+	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2, GeoPointND p3){
+		return getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3);
 	}
 
 	protected final boolean relation(Hits hits) {

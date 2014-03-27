@@ -294,18 +294,18 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_COMPASSES);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
-		/*
-		 * sb.append(" , "); sb.append(EuclidianView.MODE_SEMICIRCLE);
-		 * sb.append("  ");
-		 * sb.append(EuclidianView.MODE_CIRCLE_ARC_THREE_POINTS);
-		 * sb.append(" ");
-		 * sb.append(EuclidianView.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
-		 * sb.append(" , ");
-		 * sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
-		 * sb.append(" ");
-		 * sb.append(EuclidianView.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-		 */
-	
+		sb.append(" , "); 
+//		sb.append(EuclidianView.MODE_SEMICIRCLE);
+//		sb.append("  ");
+//		sb.append(EuclidianView.MODE_CIRCLE_ARC_THREE_POINTS);
+//		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+		sb.append(" , ");
+//		sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
+//		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+
+
 		// conics
 		/*
 		 * sb.append(" | "); sb.append(EuclidianView.MODE_ELLIPSE_THREE_POINTS);
@@ -428,6 +428,16 @@ public class ToolBar {
 		sb.append( EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION);
 		sb.append( " ");
 		sb.append( EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
+		sb.append(" , "); 
+//		sb.append(EuclidianView.MODE_SEMICIRCLE);
+//		sb.append("  ");
+//		sb.append(EuclidianView.MODE_CIRCLE_ARC_THREE_POINTS);
+//		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+		sb.append(" , ");
+//		sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
+//		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
 		sb.append( " | ");
 		
 		//intersection curve
