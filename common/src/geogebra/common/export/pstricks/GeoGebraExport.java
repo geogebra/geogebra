@@ -57,8 +57,6 @@ import geogebra.common.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.List;
-//import geogebra.export.pstricks.ExportFrame;
-//import geogebra.export.pstricks.MyGraphics;
 
 /*
  import org.mozilla.javascript.Context;
@@ -397,7 +395,7 @@ public abstract class GeoGebraExport {
 					drawGeoConic((GeoConic) g);
 					drawLabel(g, null);
 				}
-			} else if (g.isGeoFunction()) {
+			} else if (g.isGeoFunction() ) {
 				drawFunction((GeoFunction) g);
 				drawLabel(g, null);
 			} else if (g.isGeoCurveCartesian()) {
@@ -1346,7 +1344,11 @@ public abstract class GeoGebraExport {
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
 				if (Math.abs(y) < 0.001)
 					y = 0;
-				lineBuilder.append(StringUtil.format(template, xprec, yprec, x, y));
+				if (geo.getFunction().getExpression().isConditional()){
+					lineBuilder.append(StringUtil.format(template, xprec, y, x, y));
+				}else{
+					lineBuilder.append(StringUtil.format(template, xprec, yprec, x, y));
+				}
 			}
 			yprec = y;
 			xprec = x;
@@ -1413,7 +1415,8 @@ public abstract class GeoGebraExport {
 				&& !s.toLowerCase().contains("sec(")
 				&& !s.toLowerCase().contains("cot(")
 				&& !s.toLowerCase().contains("coth(")
-				&& !s.toLowerCase().contains("sech(");
+				&& !s.toLowerCase().contains("sech(")
+				&& !s.toLowerCase().contains("if");
 	}
 
 	

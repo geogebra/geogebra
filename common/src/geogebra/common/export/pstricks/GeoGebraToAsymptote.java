@@ -3512,7 +3512,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				&& !s.toLowerCase().contains("sec(")
 				&& !s.toLowerCase().contains("cot(")
 				&& !s.toLowerCase().contains("coth(")
-				&& !s.toLowerCase().contains("sech(");
+				&& !s.toLowerCase().contains("sech(")
+				&& !s.toLowerCase().contains("if");
 	}
 	@Override
 	protected void drawNyquist(GeoTransferFunction g) {

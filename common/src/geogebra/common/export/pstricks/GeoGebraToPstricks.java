@@ -514,9 +514,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		// angle between two lines
 		else if (algo instanceof AlgoAngleLines) {
-            AlgoAngleLines la = (AlgoAngleLines) algo;
-            vertex = tempPoint;
-            la.updateDrawInfo(m, firstVec, null);
+			AlgoAngleLines la = (AlgoAngleLines) algo;
+			vertex = tempPoint;
+			la.updateDrawInfo(m, firstVec, null);
 
 		}
 		// angle of a single vector or a single point
@@ -1082,6 +1082,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			} else
 				liopco += "[plotpoints=200]{";
 			line.append(liopco);
+
 			line.append(xrangemin);
 			line.append("}{");
 			line.append(xrangemax);
@@ -1131,7 +1132,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					operand = false;
 				}
 			} else {
-				if (space)
+				if (space && !name.contains("If"))
 					sb.append("*");
 				sb.append(c);
 				space = false;
@@ -1197,8 +1198,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			y1 = "0";
 		} else {
 			Coords c = pointStart.getCoords();
-            x1 = format(c.getX()/c.getZ());
-            y1 = format(c.getY()/c.getZ());
+			x1 = format(c.getX() / c.getZ());
+			y1 = format(c.getY() / c.getZ());
 		}
 		double[] coord = new double[3];
 		geo.getCoords(coord);
