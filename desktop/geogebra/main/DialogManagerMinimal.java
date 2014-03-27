@@ -9,8 +9,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
@@ -68,8 +68,8 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogAngleFixed(String menu,
-			GeoSegment[] selectedSegments, GeoPoint[] selectedPoints,
-			GeoElement[] selGeos) {
+			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
+			GeoElement[] selGeos, EuclidianController ec) {
 		// TODO Auto-generated method stub
 		
 	}

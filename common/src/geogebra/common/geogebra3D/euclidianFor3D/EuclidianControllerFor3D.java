@@ -99,6 +99,23 @@ public abstract class EuclidianControllerFor3D extends EuclidianController {
 
 	}
 	
+	
+	@Override
+	public GeoAngle createAngle(GeoPointND p1, GeoPointND p2, GeoNumberValue a, boolean clockWise) {
+		
+		GeoDirectionND direction = view.getDirection();
+		
+		if (direction == kernel.getXOYPlane() || direction == kernel.getSpace()){ // use xOy plane
+			if (p1.isGeoElement3D() || p2.isGeoElement3D()){
+				return (GeoAngle) kernel.getManager3D().Angle(null, p1, p2, a, kernel.getXOYPlane(), !clockWise)[0];
+			}
+
+			return super.createAngle(p1, p2, a, clockWise);
+		}
+		
+		return (GeoAngle) kernel.getManager3D().Angle(null, p1, p2, a, direction, !clockWise)[0];
+	}
+	
 	@Override
 	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h){
 		

@@ -1,12 +1,13 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManagerD;
@@ -24,15 +25,17 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
-	GeoSegment[] segments;
-	GeoPoint[] points;
+	GeoSegmentND[] segments;
+	GeoPointND[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
+	
+	private EuclidianController ec;
 
 	public InputDialogAngleFixed(AppD app, String title, InputHandler handler,
-			GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos,
-			Kernel kernel) {
+			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
+			Kernel kernel, EuclidianController ec) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
 				handler, false);
 
@@ -40,6 +43,8 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
+		
+		this.ec = ec;
 
 		this.inputPanel.getTextComponent().addKeyListener(this);
 
@@ -94,7 +99,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 			}
 			DialogManager.doAngleFixed(kernel, segments, points, selGeos,
 					((NumberInputHandler) inputHandler).getNum(),
-					rbClockWise.isSelected());
+					rbClockWise.isSelected(), ec);
 
 			return true;
 		}

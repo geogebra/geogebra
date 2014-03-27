@@ -3322,7 +3322,7 @@ public abstract class EuclidianController {
 			getDialogManager()
 					.showNumberInputDialogAngleFixed(
 							l10n.getMenu(getKernel().getModeText(mode)),
-							getSelectedSegments(), getSelectedPoints(), selGeos);
+							getSelectedSegmentsND(), getSelectedPointsND(), selGeos, this);
 	
 			return null;
 	
@@ -4358,6 +4358,10 @@ public abstract class EuclidianController {
 		checkZooming(); 
 		
 		return getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
+	}
+
+	public GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoNumberValue num, boolean clockWise) {
+		return (GeoAngle) getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B, num, !clockWise)[0];
 	}
 
 	

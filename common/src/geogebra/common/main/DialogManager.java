@@ -36,12 +36,12 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Unicode;
@@ -99,14 +99,14 @@ public abstract class DialogManager {
 			GeoPoint geoPoint2);
 
 	public void showNumberInputDialogAngleFixed(String menu,
-			GeoSegment[] selectedSegments, GeoPoint[] selectedPoints,
-			GeoElement[] selGeos) {
-		doAngleFixed(app.getKernel(), selectedSegments, selectedPoints, selGeos, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""), false);
+			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
+			GeoElement[] selGeos, EuclidianController ec) {
+		doAngleFixed(app.getKernel(), selectedSegments, selectedPoints, selGeos, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""), false, ec);
 		
 	}
 
-	public static void doAngleFixed(Kernel kernel, GeoSegment[] segments,
-			GeoPoint[] points, GeoElement[] selGeo2s, GeoNumberValue num, boolean clockWise) {
+	public static void doAngleFixed(Kernel kernel, GeoSegmentND[] segments,
+			GeoPointND[] points, GeoElement[] selGeo2s, GeoNumberValue num, boolean clockWise, EuclidianController ec) {
 		//GeoElement circle = kernel.Circle(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
 		//geogebra.gui.AngleInputDialog dialog = (geogebra.gui.AngleInputDialog) ob[1];
 		//String angleText = getText();
@@ -114,9 +114,11 @@ public abstract class DialogManager {
 		GeoAngle angle;
 		
 		if (points.length == 2) {
-			angle = (GeoAngle) kernel.getAlgoDispatcher().Angle(null, points[0], points[1], num, !clockWise)[0];			
+			angle = ec.createAngle(points[0], points[1], num, clockWise);
+					//(GeoAngle) kernel.getAlgoDispatcher().Angle(null, points[0], points[1], num, !clockWise)[0];			
 		} else {
-			angle = (GeoAngle) kernel.getAlgoDispatcher().Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !clockWise)[0];
+			angle = ec.createAngle(segments[0].getEndPoint(), segments[0].getStartPoint(), num, clockWise);
+					//(GeoAngle) kernel.getAlgoDispatcher().Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !clockWise)[0];
 		}			
 
 		// make sure that we show angle value

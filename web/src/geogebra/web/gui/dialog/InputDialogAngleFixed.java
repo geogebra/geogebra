@@ -1,12 +1,14 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.DialogManager;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -20,14 +22,16 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 	private static final long serialVersionUID = 1L;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
-	private GeoPoint geoPoint1;
-	GeoSegment[] segments;
-	GeoPoint[] points;
+	private GeoPointND geoPoint1;
+	GeoSegmentND[] segments;
+	GeoPointND[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
+	
+	private EuclidianController ec;
 		
-	public InputDialogAngleFixed(AppW app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+	public InputDialogAngleFixed(AppW app, String title, InputHandler handler, GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false, handler, false);
 		
 		geoPoint1 = points[0];
@@ -35,6 +39,8 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
+		
+		this.ec = ec;
 		
 	}
 
@@ -105,7 +111,7 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 			else defaultRotateAngle = "45"+"\u00b0";
 
 
-			DialogManagerW.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.getValue());
+			DialogManager.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.getValue(), ec);
 
 			return true;
 		}

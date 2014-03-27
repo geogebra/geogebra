@@ -16,9 +16,9 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.AsyncOperation;
@@ -366,12 +366,12 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 	@Override
 	public void showNumberInputDialogAngleFixed(String title,
-			GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos) {
+			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogAngleFixed(((AppD) app), title,
-				handler, segments, points, selGeos, app.getKernel());
+				handler, segments, points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 
 	}
