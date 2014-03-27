@@ -9234,22 +9234,41 @@ public abstract class EuclidianController {
 			// there are hits
 			if (selection.selectedGeosSize() > 0) {
 
-				// right click on already selected geos -> show menu for
-				// them
-				// right click on object(s) not selected -> clear
-				// selection
-				// and show menu just for new objects
-				
-				if (!hits.intersect(getAppSelectedGeos())) {
-					selection.clearSelectedGeos(false); //repaint will be done next step
-					selection.addSelectedGeos(hits, true);
-				} else {
-					//selection.addSelectedGeo(hits.get(0));
-				}
+				if (mode == EuclidianConstants.MODE_MOVE){ // only for move mode
+					
+					// right click on already selected geos -> show menu for
+					// them
+					// right click on object(s) not selected -> clear
+					// selection
+					// and show menu just for new objects
 
-				if (app.isUsingFullGui() && app.getGuiManager() != null)
-					showPopupMenuChooseGeo(getAppSelectedGeos(),hits);
-					//app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
+					if (!hits.intersect(getAppSelectedGeos())) {
+						selection.clearSelectedGeos(false); //repaint will be done next step
+						selection.addSelectedGeos(hits, true);
+					} else {
+						//selection.addSelectedGeo(hits.get(0));
+					}
+
+
+					if (app.isUsingFullGui() && app.getGuiManager() != null){
+						showPopupMenuChooseGeo(getAppSelectedGeos(),hits);
+						//app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
+					}
+					
+				} else { // other modes : want to apply tool of one of the hits (choose geo and show popup menu)		
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						
+						GeoElement geo = chooseGeo(hits, true, false);
+
+						if (geo==null)//when axis is clicked
+							showDrawingPadPopup(mouseLoc);
+						else{
+							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+							geos.add(geo);
+							showPopupMenuChooseGeo(geos,hits);
+						}
+					}
+				}
 
 			} else {
 				// no selected geos: choose geo and show popup menu				
