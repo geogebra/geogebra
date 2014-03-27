@@ -1084,7 +1084,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			geosToBeAdded.clear();
 
 			viewChangedOwnDrawables();
-			setWaitForUpdateOwnDrawables();
+			//setWaitForUpdateOwnDrawables();
 
 			waitForUpdate = false;
 		}
@@ -2837,7 +2837,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/**
 	 * tell all drawables owned by the view to be udpated
 	 */
-	public void setWaitForUpdateOwnDrawables() {
+	private void setWaitForUpdateOwnDrawables() {
 
 		xOyPlaneDrawable.setWaitForUpdate();
 
@@ -2909,21 +2909,24 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private void viewChangedOwnDrawables() {
 
-		// update clipping cube
-		double[][] minMax = clippingCubeDrawable.updateMinMax();
-		clippingCubeDrawable.setWaitForUpdate();
-
-		// update e.g. Corner[], but not in case where view changed by rotation
-		// (keep same corners)
-		if (!viewChanged() || viewChangedByTranslate() || viewChangedByZoom()) {
+		// update, but not in case where view changed by rotation
+		if (!viewChanged() || viewChangedByTranslate() || viewChangedByZoom()) {			
+			// update clipping cube
+			double[][] minMax = clippingCubeDrawable.updateMinMax();
+			clippingCubeDrawable.setWaitForUpdate();
+			
+			// update e.g. Corner[]
 			kernel.notifyEuclidianViewCE();
-		}
-
-		// update decorations and wait for update
-		for (int i = 0; i < 3; i++) {
-			axisDrawable[i].setDrawMinMaxImmediatly(minMax);
-			axisDrawable[i].updateDecorations();
-			axisDrawable[i].setWaitForUpdate();
+			
+			// xOy plane wait for update
+			xOyPlaneDrawable.setWaitForUpdate();
+			
+			// update decorations and wait for update
+			for (int i = 0; i < 3; i++) {
+				axisDrawable[i].setDrawMinMaxImmediatly(minMax);
+				axisDrawable[i].updateDecorations();
+				axisDrawable[i].setWaitForUpdate();
+			}
 		}
 
 	}
