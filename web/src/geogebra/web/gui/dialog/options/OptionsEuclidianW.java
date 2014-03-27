@@ -13,6 +13,7 @@ import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidian
 import geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
@@ -265,10 +266,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					geogebra.common.gui.util.SelectionTable.MODE_ICON){
 				@Override
 				public void handlePopupActionEvent(){
-					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
-					model.appyAxesStyle(idx);
-
+					
+					model.appyAxesStyle(EuclidianStyleConstants.lineStyleOptions[idx]
+					// make sure bold checkbox doesn't change
+							+ (cbBoldAxes.getValue() ? EuclidianStyleConstants.AXES_BOLD
+									: 0));
+					super.handlePopupActionEvent();
+					
 				}
 			};
 			axesStylePopup.setKeepVisible(false);		
@@ -693,7 +698,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
 				public void fireActionPerformed(Object actionButton) {
-					model.appyGridStyle(btnGridStyle.getSelectedIndex());
+					model.appyGridStyle(EuclidianView.getLineTypes()[btnGridStyle.getSelectedIndex()]);
 
 				}});
 			btnGridStyle.setKeepVisible(false);

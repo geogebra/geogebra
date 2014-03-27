@@ -233,7 +233,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		cbManualTicks
 		.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
-//		ncbTickDist.setSelectedIndex(axis);
+		ncbTickDist.setSelectedIndex(ListBoxApi.getIndexOf("" + view.getAxesNumberingDistances()[axis],
+				ncbTickDist));
 		ncbTickDist.setEnabled(cbManualTicks.getValue());
 
 

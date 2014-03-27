@@ -162,7 +162,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 	}
 
 
-
 	@Override
 	public void showPropertiesDialog() {
 		App.debug("SHOWWWWWWWWWWWW");

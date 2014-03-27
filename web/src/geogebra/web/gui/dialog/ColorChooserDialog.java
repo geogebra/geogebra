@@ -25,10 +25,12 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
 	private GColor selectedColor;
 	private AppW app;
 	private Label titleLabel;
+	private ColorChangeHandler handler;
 	
 	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
 		super(false, true);
 		this.app = app;
+		this.handler = handler;
 		titleLabel = new Label();
 		final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
@@ -134,5 +136,11 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
     }
 	public void setSelectedColor(GColor selectedColor) {
 	    this.selectedColor = selectedColor;
+    }
+	public ColorChangeHandler getHandler() {
+	    return handler;
+    }
+	public void setHandler(ColorChangeHandler handler) {
+	    this.handler = handler;
     }
 }
