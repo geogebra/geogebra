@@ -21,12 +21,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 
-	private static final long MAX_SPLIT = 16384;
-	private static final long MIN_SPLIT = 256;
+	private static final long MAX_SPLIT = 32768;
+	private static final long MIN_SPLIT = 512;
 	private static final double MAX_CENTER_QUAD_DISTANCE = 1.e-3;
-	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-4;
+	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-3;
 	private double uDelta;
 	private double vDelta;
+	private double limit1;
+	private double limit2;
+	private double uMin;
+	private double vMin;
 	
 	private TreeMap<Long, TreeMap<Long,Coords>> mesh;
 	
@@ -94,15 +98,17 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
 
-		double uMin = surfaceGeo.getMinParameter(0);
+		uMin = surfaceGeo.getMinParameter(0);
 		double uMax = surfaceGeo.getMaxParameter(0);
-		double vMin = surfaceGeo.getMinParameter(1);
+		vMin = surfaceGeo.getMinParameter(1);
 		double vMax = surfaceGeo.getMaxParameter(1);
 		uDelta = (uMax-uMin)/MAX_SPLIT;
 		vDelta = (vMax-vMin)/MAX_SPLIT;
 
 		updateCullingBox();
 		cullingBoxDelta = (cullingBox[5]-cullingBox[4]);
+		limit1 = cullingBoxDelta * MAX_DIAGONAL_QUAD_LENGTH;
+		limit2 = cullingBoxDelta * MAX_CENTER_QUAD_DISTANCE;
 		
 		Coords p1 = surfaceGeo.evaluatePoint(uMin, vMin);
 		Coords p2 = surfaceGeo.evaluatePoint(uMax, vMin);
@@ -116,7 +122,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		surface.start();
 
-		splitOrDraw(surface,0,0,p1,p2,p3,p4,uMin,vMin,MAX_SPLIT);
+		splitOrDraw(surface,0,0,p1,p2,p3,p4,MAX_SPLIT);
 		
 		setSurfaceIndex(surface.end());
 
@@ -126,7 +132,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/*
 	 * 
 	 */
-	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, Coords pTL, Coords pTR, Coords pBL, Coords pBR, double uMin, double vMin, long iDelta )
+	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, Coords pTL, Coords pTR, Coords pBL, Coords pBR, long iDelta )
 	{
 		//test if this quad may be drawn or must be splitted
 		//index delta
@@ -138,14 +144,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			putInMesh(Cu,Cv, fiC);
 			double diagLength = Math.max(pTL.distance(pBR),pTR.distance(pBL));
 			
-			Coords centerValue = (pTL.add(pBR)).mul(0.5);
-			double centerDistance = fiC.distance(centerValue);
+			Coords centerValue1 = (pTL.add(pBR)).mul(0.5);
+			Coords centerValue2 = (pTR.add(pBL)).mul(0.5);
+			
+			double centerDistance = Math.max(fiC.distance(centerValue1),fiC.distance(centerValue2));
 
 			//this split test is temporary
-			if ((iDelta>=MIN_SPLIT)||
-				(!(diagLength<MAX_DIAGONAL_QUAD_LENGTH*(cullingBoxDelta))&&
-				!(centerDistance<MAX_CENTER_QUAD_DISTANCE*(cullingBoxDelta)))&&
-				((inCullingBox(pTL))||(inCullingBox(pTR))||(inCullingBox(pBL))||(inCullingBox(pBR)))
+			if ((iDelta>=MIN_SPLIT)
+					||((diagLength>limit1)&&(centerDistance>limit2))
+					&&((inCullingBox(pTL))||(inCullingBox(pTR))||(inCullingBox(pBL))||(inCullingBox(pBR)))
 					)
 			{
 				//split
@@ -175,13 +182,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				putInMesh(Bu,Bv, fiB);
 
 				//square TL
-				splitOrDraw(surface,TLu,TLv,pTL,fiT,fiL,fiC,uMin,vMin,iDelta);
+				splitOrDraw(surface,TLu,TLv,pTL,fiT,fiL,fiC,iDelta);
 				//square TR
-				splitOrDraw(surface,Tu,Tv,fiT,pTR,fiC,fiR,uMin,vMin,iDelta);
+				splitOrDraw(surface,Tu,Tv,fiT,pTR,fiC,fiR,iDelta);
 				//square BL
-				splitOrDraw(surface,Lu,Lv,fiL,fiC,pBL,fiB,uMin,vMin,iDelta);
+				splitOrDraw(surface,Lu,Lv,fiL,fiC,pBL,fiB,iDelta);
 				//square BR
-				splitOrDraw(surface,Cu,Cv,fiC,fiR,fiB,pBR,uMin,vMin,iDelta);
+				splitOrDraw(surface,Cu,Cv,fiC,fiR,fiB,pBR,iDelta);
 
 			}
 			else {
