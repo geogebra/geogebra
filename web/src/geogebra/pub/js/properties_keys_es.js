@@ -1111,7 +1111,7 @@ __GGB__keysVar.es.menu = {
     "AlgebraDescriptions": "Descripciones",
     "All": "Todos",
     "AllCommands": "Todos los comandos",
-    "AllowRescaling": "Permite reescalado",
+    "AllowRescaling": "Permitir reescalado",
     "AllowTooltips": "Indicaciones (apuntes contextuales)",
     "Alpha_short": "\u03b1",
     "AlternativeHypothesis": "Hip\xf3tesis alternativa",
