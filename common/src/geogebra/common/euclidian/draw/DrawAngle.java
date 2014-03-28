@@ -162,16 +162,22 @@ public class DrawAngle extends Drawable implements Previewable {
 	protected double getAngleStart(double start, double extent) {
 		return start;
 	}
+	
+	private void setNotVisible(){
+		isVisible = false;
+		shape = null;
+		labelVisible = false;
+	}
 
 	@Override
 	final public void update() {
 		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
 			init();
+		
+		isVisible = true;
 
-		isVisible = geo.isEuclidianVisible();
-		if (!isVisible || Kernel.isZero(angle.getValue())) {
-			shape = null;
-			labelVisible = false;
+		if (!geo.isEuclidianVisible() || Kernel.isZero(angle.getValue())) {
+			setNotVisible();
 			//we may return here; the object is not offscreen, but invisible.
 			return;
 		}
@@ -182,12 +188,12 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		// set vertex and first vector to determine start angle
 		if (algo == null){
-			isVisible = false;
+			setNotVisible();
 			return;
 		}
 		
 		if (!algo.updateDrawInfo(m, firstVec, this)){
-			isVisible = false;
+			setNotVisible();
 			return;
 		}
 				
@@ -195,7 +201,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// calc start angle
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
 		if (Double.isNaN(angSt) || Double.isInfinite(angSt)) {
-			isVisible = false;
+			setNotVisible();
 			return;
 		}
 		// Michael Borcherds 2007-11-19 BEGIN
@@ -475,7 +481,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		// shape on screen?
 		if (!shape.intersects(0, 0, view.getWidth(), view.getHeight())) {
-			isVisible = false;
+			setNotVisible();
 			return;
 		}
 
@@ -664,15 +670,19 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	final public void updatePreview() {
-		isVisible = geo != null && prevPoints.size() == 2;
-		if (isVisible) {
-			for (int i = 0; i < prevPoints.size(); i++) {
-				Coords p = view.getCoordsForView(prevPoints.get(i)
-						.getInhomCoordsInD(3));
-				previewTempPoints[i].setCoords(p, true);
-			}
-			previewTempPoints[0].updateCascade();
+		
+		if(geo == null || prevPoints.size() != 2){
+			setNotVisible();
+			return;
 		}
+
+		for (int i = 0; i < prevPoints.size(); i++) {
+			Coords p = view.getCoordsForView(prevPoints.get(i)
+					.getInhomCoordsInD(3));
+			previewTempPoints[i].setCoords(p, true);
+		}
+		previewTempPoints[0].updateCascade();
+		
 	}
 
 	final public void updateMousePos(double xRW, double yRW) {
