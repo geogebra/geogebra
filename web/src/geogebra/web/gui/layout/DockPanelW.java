@@ -96,7 +96,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * Style bar component.
 	 */
-	private Widget styleBar;
+	Widget styleBar;
 	/**
 	 * If the style bar is visible.
 	 */
@@ -316,6 +316,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 *         meantime).
 	 */
 	protected void focusLost() {
+		//empty by default
 	}
 
 	
@@ -348,7 +349,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	private VerticalPanel componentPanel;
 
-	private PushButton toggleStyleBarButton;
+	PushButton toggleStyleBarButton;
 	
 	public int getHeight(){
 		return dockPanel.getOffsetHeight();	
@@ -426,21 +427,15 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	}
 
 	private void addToggleButton() {
-		toggleStyleBarButton = new PushButton(triangleRight);
+		toggleStyleBarButton = new PushButton(showStyleBar ? triangleRight : triangleLeft);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 		
 		ClickHandler toggleStyleBarHandler = new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				if (showStyleBar) {
-					showStyleBar = false;
-					toggleStyleBarButton.getElement().removeAllChildren();
-					toggleStyleBarButton.getElement().appendChild(triangleRight.getElement());
-				} else {
-					showStyleBar = true;
-					toggleStyleBarButton.getElement().removeAllChildren();
-					toggleStyleBarButton.getElement().appendChild(triangleLeft.getElement());
-				}
+				setShowStyleBar(!showStyleBar);
+				
+				
 				updateStyleBarVisibility();
 				if(styleBar instanceof StyleBarW){
 					((StyleBarW)styleBar).setOpen(showStyleBar);
@@ -828,6 +823,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
+		if(this.toggleStyleBarButton != null){
+			this.toggleStyleBarButton.getElement().removeAllChildren();
+			this.toggleStyleBarButton.getElement().appendChild(showStyleBar ? 
+					this.triangleRight.getElement() : this.triangleLeft.getElement());
+		}
 	}
 	/**
 	 * @return If the style bar should be visible.
