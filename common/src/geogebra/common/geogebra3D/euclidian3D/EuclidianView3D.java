@@ -38,6 +38,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DLimited;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DPart;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DOld;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
@@ -1097,26 +1098,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		waitForUpdate = true;
 	}
 
-	/*
-	 * public void paint(Graphics g){
-	 * 
-	 * if (!isStarted){ //Application.debug("ici"); isStarted = true; }
-	 * 
-	 * 
-	 * //update(); //setWaitForUpdate(); if (isFrozen) super.paint(g); }
-	 */
 
-	// ////////////////////////////////////
-	// toolbar and euclidianController3D
-
-	/** sets EuclidianController3D mode */
-	@Override
-	public void setMode(int mode) {
-		if (mode == getEuclidianController().getMode())
-			return;
-		getEuclidianController().setMode(mode);
-		getStyleBar().setMode(mode);
-	}
 
 	// ////////////////////////////////////
 	// picking
