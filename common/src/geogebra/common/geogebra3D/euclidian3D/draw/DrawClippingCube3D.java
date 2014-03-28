@@ -294,13 +294,15 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		setGeometryIndex(brush.end());
 
 		
-		updateEquations();
+		updateRendererClipPlanes();
 		
 		return true;
 	}
 	
-	
-	private void updateEquations(){
+	/**
+	 * update renderer clips planes
+	 */
+	public void updateRendererClipPlanes(){
 		Renderer renderer = getView3D().getRenderer();
 		CoordMatrix mInvTranspose = getView3D().getToSceneMatrixTranspose();		
 		renderer.setClipPlane(0, mInvTranspose.mul( new Coords(1,0,0,-minMax[0][0])).get());
