@@ -711,4 +711,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().unregisterClientListener(JSFunctionName);
 	}
 
+	@Override
+	public void setPerspective(String code) {
+		getAppletImplementation().setPerspective(code);
+	}
+
 }

@@ -19,7 +19,7 @@ public class CmdPerspective extends CmdScripting {
 		}
 		if(args[0] instanceof GeoText){
 			String code  = ((GeoText)args[0]).getTextString();
-			app.getGgbApi().openViews(code);
+			app.getGgbApi().setPerspective(code);
 			return;
 		}
 

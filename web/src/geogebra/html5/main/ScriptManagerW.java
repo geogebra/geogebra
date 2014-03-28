@@ -550,6 +550,10 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::isMoveable(Ljava/lang/String;)(label);
 		};
 		
+		$wnd[ggbApplet].setPerspective = function(code){
+				ggbAPI.@geogebra.html5.main.GgbAPI::setPerspective(Ljava/lang/String;)(code);
+		};
+		
 		
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];

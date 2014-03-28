@@ -560,5 +560,7 @@ public interface JavaScriptAPI {
 			int index);
 	
 	public void setCorner(String objName, double x, double y);
+	
+	public void setPerspective(String s);
 
 }

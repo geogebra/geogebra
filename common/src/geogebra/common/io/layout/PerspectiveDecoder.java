@@ -31,6 +31,9 @@ public class PerspectiveDecoder {
 		viewCodes.put("L", new DockPanelData(App.VIEW_CONSTRUCTION_PROTOCOL, null, false, false, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400));
 		viewCodes.put("D", new DockPanelData(App.VIEW_EUCLIDIAN2, null, false, false, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400));
 		viewCodes.put("T", new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400));
+		viewCodes.put("B", new DockPanelData(App.VIEW_PROBABILITY_CALCULATOR, null, false, false, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400));
+		viewCodes.put("R", new DockPanelData(App.VIEW_DATA_ANALYSIS, null, false, false, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400));
+		viewCodes.put("F", new DockPanelData(App.VIEW_FUNCTION_INSPECTOR, null, false, false, true, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400));
 	}
 	/**
 	 * 

@@ -1498,4 +1498,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi.unregisterClientListener(JSFunctionName);
 	}
 
+	@Override
+	public void setPerspective(String s) {
+		ggbApi.setPerspective(s);
+	}
+
 }

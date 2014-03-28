@@ -134,7 +134,7 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 						return new CmdParseToFunction(kernel);
 					case StartAnimation:
 						return new CmdStartAnimation(kernel);
-					case Perspective:
+					case SetPerspective:
 						return new CmdPerspective(kernel);
 					case Delete:
 						return new CmdDelete(kernel);
