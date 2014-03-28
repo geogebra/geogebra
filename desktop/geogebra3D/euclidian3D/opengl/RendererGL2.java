@@ -589,4 +589,30 @@ public class RendererGL2 extends RendererD {
 		setTextureNearest();
 	}
 
+	@Override
+	protected void drawSurfacesOutline(){
+		
+		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
+		setLineWidth(5f);
+		
+		setCullFaceFront();
+		disableLighting();
+		disableBlending();
+
+		drawable3DLists.drawTransp(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
+		drawable3DLists.drawTranspClosedCurved(this); 
+		if (drawable3DLists.containsClippedSurfaces()){ 
+			enableClipPlanesIfNeeded();
+			drawable3DLists.drawTranspClipped(this); 
+			disableClipPlanesIfNeeded(); 
+		}
+
+		enableBlending();
+		enableLighting();
+		setCullFaceBack();
+		
+		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_FILL);
+		
+	}
 }

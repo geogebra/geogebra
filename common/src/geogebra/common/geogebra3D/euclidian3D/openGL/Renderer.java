@@ -633,11 +633,13 @@ public abstract class Renderer {
 
 		// drawing not hidden parts
 		enableDash();
-		//disableTextures(); // added from RendererShaders
 		enableCulling();
 		drawable3DLists.draw(this);
 
-		// primitives.disableVBO(gl);
+		
+		// draw surface outlines
+		//drawSurfacesOutline();
+
 
 		// FPS
 		disableLighting();
@@ -652,6 +654,11 @@ public abstract class Renderer {
 		enableDepthTest();
 		enableLighting();
 	}
+	
+	/**
+	 * draw outline for surfaces
+	 */
+	abstract protected void drawSurfacesOutline();
 
 	/*
 	 * private void drawWireFrame() {

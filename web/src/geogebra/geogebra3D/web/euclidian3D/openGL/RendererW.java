@@ -1346,4 +1346,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		}
 	}
 
+	@Override
+	protected void drawSurfacesOutline(){
+		
+		// TODO
+		
+	}
 }

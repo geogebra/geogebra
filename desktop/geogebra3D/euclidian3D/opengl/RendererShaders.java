@@ -1414,5 +1414,13 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
 		}
 	}
+	
+	
+	@Override
+	protected void drawSurfacesOutline(){
+		
+		// TODO
+		
+	}
 
 }
