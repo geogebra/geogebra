@@ -2805,6 +2805,12 @@ label {
 	padding: 5px;
 }
 
+.panelRowIndent > * {
+	display: inline-block;
+	padding: 5px;
+	position: relative;
+	left: 25px;
+}
 .panelTitle {
 	font-weight: bold;
 	font-style: italic;

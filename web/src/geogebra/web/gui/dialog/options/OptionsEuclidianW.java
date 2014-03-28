@@ -21,7 +21,6 @@ import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.LineStylePopup;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
@@ -322,10 +321,18 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			indent(axesOptionsPanel);
 		}
 
-		private void toggleConsProtButton() {
+		private void togglePlayButton() {
 			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
 					.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
+			app.setUnsaved();
+			updateGUI();
+		}
+
+		private void toggleConsProtButton() {
+			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
+					.getGuiManager().getConstructionProtocolNavigation();
+			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			app.setUnsaved();
 			updateGUI();
 		}
@@ -340,15 +347,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			consProtocolPanel.add(cbShowNavbar);
 
 			cbNavPlay = new CheckBox();
-			consProtocolPanel.add(cbNavPlay);
-
+			
 			cbOpenConsProtocol = new CheckBox();
-			consProtocolPanel.add(cbOpenConsProtocol);
-
+			
 			cbShowNavbar.setStyleName("checkBoxPanel");
+			
+			FlowPanel buttons = new FlowPanel();
+			buttons.setStyleName("panelIndent");
 			cbNavPlay.setStyleName("checkBoxPanel");
 			cbOpenConsProtocol.setStyleName("checkBoxPanel");
-
+			buttons.add(cbNavPlay);
+			buttons.add(cbOpenConsProtocol);
+			consProtocolPanel.add(buttons);
+			
 			add(consProtocolTitle);
 			indent(consProtocolPanel);
 			
@@ -363,7 +374,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbNavPlay.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-					toggleConsProtButton();
+					togglePlayButton();
 				}});
 			
 			cbOpenConsProtocol.addClickHandler(new ClickHandler(){
@@ -525,9 +536,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void updateConsProtocolPanel(boolean isVisible) {
 			// cons protocol panel
 			cbShowNavbar.setValue(isVisible);
-			cbNavPlay.setEnabled(((GuiManagerW) app.getGuiManager()).isConsProtNavigationPlayButtonVisible());
-			cbOpenConsProtocol.setValue(((GuiManagerW) app.getGuiManager())
-					.isConsProtNavigationProtButtonVisible());
+			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
+					.getGuiManager().getConstructionProtocolNavigation();
+			cbNavPlay.setValue(cpn.isPlayButtonVisible());
+			cbOpenConsProtocol.setValue(cpn.isConsProtButtonVisible());
 
 			cbNavPlay.setEnabled(isVisible);
 			cbOpenConsProtocol.setEnabled(isVisible);
@@ -629,6 +641,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridType = new Label();
 			lbGridType = new ListBox();
 			add(lblGridType);
+			lblGridType.setStyleName("panelTitle");
+			
 			lbGridType.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
@@ -644,7 +658,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	                model.appyGridManualTick(cbGridManualTick.getValue());
 					updateView();
 	        	}});
-			
+			cbGridManualTick.setStyleName("checkBoxPanel");
 			ncbGridTickX = new NumberListBox(app);
 			ncbGridTickY = new NumberListBox(app);
 			ncbGridTickX.addChangeHandler(new ChangeHandler(){
@@ -673,13 +687,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			FlowPanel tickPanel = LayoutUtil.panelRow(cbGridManualTick, gridLabel1,
 					ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
 					lbGridTickAngle);
-			
 			add(tickPanel);
 			
 			FlowPanel typePanel = new FlowPanel();
 			typePanel.add(lbGridType);
 			typePanel.add(cbGridManualTick);
-			typePanel.add(LayoutUtil.panelRow(
+			typePanel.add(LayoutUtil.panelRowIndent(
 					gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
 					lbGridTickAngle));
 
@@ -708,6 +721,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridStylePanel() {
 
 			// line style
+			lblGridStyle = new Label();
+			add(lblGridStyle);
+			lblGridStyle.setStyleName("panelTitle");
 			btnGridStyle = LineStylePopup.create(app, iconHeight, -1, false);
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
@@ -769,8 +785,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// style panel
 			FlowPanel stylePanel = new FlowPanel();
 
-			stylePanel.add(LayoutUtil.panelRow(btnGridStyle));
-			stylePanel.add(LayoutUtil.panelRow(lblColor, btGridColor, cbBoldGrid));
+			stylePanel.add(LayoutUtil.panelRowIndent(btnGridStyle));
+			stylePanel.add(LayoutUtil.panelRowIndent(lblColor, btGridColor, cbBoldGrid));
 			
 			add(stylePanel);
 		}
@@ -788,6 +804,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	        model.fillAngleOptions();
 	        lbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
+			lblGridStyle.setText(app.getPlain("LineStyle"));
 			lblColor.setText(app.getPlain("Color") + ":");
 			cbBoldGrid.setText(app.getMenu("Bold"));
 		}

@@ -14,4 +14,11 @@ public class LayoutUtil {
 
 		return p;
 	}
+
+	public static FlowPanel panelRowIndent(IsWidget... widgets) {
+		FlowPanel p = panelRow(widgets);
+		p.setStyleName("panelRowIndent");
+
+		return p;
+	}
 }
