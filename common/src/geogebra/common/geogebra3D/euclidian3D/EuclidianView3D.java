@@ -2927,6 +2927,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				axisDrawable[i].updateDecorations();
 				axisDrawable[i].setWaitForUpdate();
 			}
+		}else{ // we need to update renderer clip planes, since they are in screen coordinates
+			clippingCubeDrawable.updateRendererClipPlanes();
 		}
 
 	}
