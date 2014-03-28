@@ -126,7 +126,8 @@ public class PropertiesViewW extends
 				euclidianPanel.setView(((AppW)app).getEuclidianView1());
 				euclidianPanel.showCbView(false);
 			}
-			
+
+			App.debug("euclidianPanel");
 			return euclidianPanel;
 
 		case EUCLIDIAN2:
@@ -137,7 +138,7 @@ public class PropertiesViewW extends
 				euclidianPanel2.setView(((AppW)app).getEuclidianView2());
 				euclidianPanel2.showCbView(false);
 			}
-			
+			App.debug("euclidianPanel2");
 			return euclidianPanel2;
 
 		case SPREADSHEET:

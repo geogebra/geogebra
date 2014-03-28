@@ -58,6 +58,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private AxisTab yAxisTab;
 	private GridTab gridTab;
 	private ListBox lbTooltips;
+	private boolean isIniting;
 	private abstract class EuclidianTab extends FlowPanel implements SetLabels 
 	{};
 	
@@ -111,6 +112,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.applyMinMax(tf.getText(), type);
+						updateView();
 					}
 				}});
 
@@ -118,6 +120,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				@Override
 				protected void wrapFocusLost(){
 					model.applyMinMax(tf.getText(), type);
+					updateView();
 				}	
 			});
 
@@ -132,7 +135,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 			model.applyAxesRatio(parseDouble(tfAxesRatioX.getText()),
 					parseDouble(tfAxesRatioY.getText()));
+			updateView();
 		}
+		
 		private void addAxesRatioHandler(final AutoCompleteTextFieldW tf) {
 	
 			tf.addKeyHandler(new KeyHandler() {
@@ -279,6 +284,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					// make sure bold checkbox doesn't change
 							+ (cbBoldAxes.getValue() ? EuclidianStyleConstants.AXES_BOLD
 									: 0));
+					updateView();
 					super.handlePopupActionEvent();
 					
 				}
@@ -296,14 +302,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				public void onClick(ClickEvent event) {
 					model.showAxes(cbShowAxes.getValue());
-
+					updateView();
                 }});
 			
 			cbBoldAxes.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
 					model.applyBoldAxes(cbBoldAxes.getValue(), cbShowAxes.getValue());
-
+					updateView();
                 }});
 			
 			tbLockRatio.addClickHandler(new ClickHandler() {
@@ -315,7 +321,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					} else {
 						model.applyLockRatio(null);
 					}
-
+					updateView();
                 }});
 			
 			indent(axesOptionsPanel);
@@ -713,10 +719,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(typePanel);
 		}
 
-		protected void updateView() {
-			view.updateBackground();
-			updateGUI();
-        }
 
 		private void initGridStylePanel() {
 
@@ -801,6 +803,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	        lbGridType.setSelectedIndex(idx);
 	        
 	        idx = lbGridTickAngle.getSelectedIndex();
+	        lbGridTickAngle.clear();
 	        model.fillAngleOptions();
 	        lbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
@@ -864,15 +867,21 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickY.setEnabled(!isAutoGrid);
 			lbGridTickAngle.setEnabled(!isAutoGrid);
 		}
+
+		public void selectGridStyle(int style) {
+	        btnGridStyle.selectLineType(style);
+        }
 	
 	}
 	
 	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
+		isIniting = true;
 		this.app = app;
 		this.view = (EuclidianView) activeEuclidianView;
 		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
+		isIniting = false;
     }
 
 	private void initGUI() {
@@ -921,8 +930,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     }
 
 	public void setView(EuclidianViewWeb euclidianView1) {
-	    // TODO Auto-generated method stub
-	    App.debug("setView");
+		this.view = view;
+		if (!isIniting) {
+			updateGUI();
+		}
     }
 
 	public void showCbView(boolean b) {
@@ -932,7 +943,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     }
 
 	public void updateGUI() {
-	    model.updateProperties();	    
+	    model.updateProperties();
 	    setLabels();
     }
 
@@ -1007,8 +1018,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	public void selectGridStyle(int style) {
-	    // TODO Auto-generated method stub
-	    
+		if (gridTab == null) {
+			return;
+		}
+		gridTab.selectGridStyle(style);
     }
 
 	public void addGridTypeItem(String item) {
@@ -1024,6 +1037,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			return;
 		}
 	    gridTab.addAngleOptionItem(item);
+
+	}
+	protected void updateView() {
+		view.updateBackground();
+		updateGUI();
     }
 }
 
