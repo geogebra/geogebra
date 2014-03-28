@@ -38,7 +38,6 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DLimited;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DPart;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
-import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DOld;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
