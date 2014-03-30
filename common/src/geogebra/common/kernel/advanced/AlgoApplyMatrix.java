@@ -21,6 +21,7 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.algos.AlgoTransformation;
+import geogebra.common.kernel.algos.PolygonAlgo;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
@@ -29,14 +30,16 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
+import geogebra.common.kernel.geos.GeoPolygon;
 
 /**
  * 
  * @author Markus
  * @version
  */
-public class AlgoApplyMatrix extends AlgoTransformation {
+public class AlgoApplyMatrix extends AlgoTransformation implements PolygonAlgo {
 
 	private MatrixTransformable out;
 	private GeoElement inGeo, outGeo;
@@ -198,6 +201,60 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 			super.transformLimitedConic(a, b);
 		}
 
+	}
+
+	// PolygonAlgo Interface
+	// can assume inGeo and outGeo both GeoPolygon
+	public void calcArea() {
+		
+		double oldArea = ((GeoPolygon)inGeo).getAreaWithSign();
+		
+		double a = ((NumberValue) (matrix.get(0, 0))).getDouble();
+		double b = ((NumberValue) (matrix.get(1, 0))).getDouble();
+		double c = ((NumberValue) (matrix.get(0, 1))).getDouble();
+		double d = ((NumberValue) (matrix.get(1, 1))).getDouble();
+		double determinant = (a * d) - (b * c);
+		
+		((GeoPolygon)outGeo).setArea(oldArea * determinant);
+		
+	}
+	
+	GeoPoint centroidPoint;
+
+	// PolygonAlgo Interface
+	// can assume inGeo and outGeo both GeoPolygon
+	public void calcCentroid(GeoPoint p) {
+		
+		if (centroidPoint == null) {
+			centroidPoint = new GeoPoint(cons);
+		}
+		
+		((GeoPolygon)inGeo).calcCentroid(centroidPoint);
+		
+		MyList list = matrix.getMyList();
+		double a, b, c, d, e, f, g, h, i;
+		if (list.getMatrixRows() < 3) {
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 0, 1).evaluateDouble();
+			d = MyList.getCell(list, 1, 1).evaluateDouble();
+			centroidPoint.matrixTransform(a, b, c, d);
+		} else {
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 2, 0).evaluateDouble();
+			d = MyList.getCell(list, 0, 1).evaluateDouble();
+			e = MyList.getCell(list, 1, 1).evaluateDouble();
+			f = MyList.getCell(list, 2, 1).evaluateDouble();
+			g = MyList.getCell(list, 0, 2).evaluateDouble();
+			h = MyList.getCell(list, 1, 2).evaluateDouble();
+			i = MyList.getCell(list, 2, 2).evaluateDouble();
+			centroidPoint.matrixTransform(a, b, c, d, e, f, g, h, i);
+		}
+		
+		p.setCoords(centroidPoint);
+
+		
 	}
 
 	// TODO Consider locusequability
