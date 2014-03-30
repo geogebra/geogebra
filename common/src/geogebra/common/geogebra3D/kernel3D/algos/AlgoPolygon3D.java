@@ -4,7 +4,9 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 
 /**
  * AlgoElement creating a GeoPolygon3D
@@ -86,7 +88,13 @@ public class AlgoPolygon3D extends AlgoPolygon {
     	
     }
 
-    
+	public void calcCentroid(GeoPoint p) {
+		// TODO
+    	App.debug("centroid unimplemented for 3D polys");	
+    	p.setUndefined();
+		
+	}
+
     
     
 

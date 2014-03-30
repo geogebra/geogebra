@@ -35,7 +35,7 @@ import geogebra.common.plugin.GeoClass;
  * @author  Markus Hohenwarter
  * @version 
  */
-public class AlgoPolygon extends AlgoElement {
+public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 	protected GeoPointND [] points;  // input
 	protected GeoList geoList;  // alternative input
@@ -294,14 +294,98 @@ public class AlgoPolygon extends AlgoElement {
     		updatePointArray(geoList);
     	}
     	
-        // compute area
-        poly.calcArea(); 
+    	calcArea();
         
         // update region coord sys
         poly.updateRegionCS();
+        
     }      
     
     protected StringBuilder sb;   
+
+	/**
+	 * Returns the area of a polygon given by points P, negative if clockwise
+	 * changed name from calcArea as we need the sign when calculating the
+	 * centroid Michael Borcherds 2008-01-26 TODO Does not work if polygon is
+	 * self-entrant
+	 * 
+	 * @param points2 array of points
+	 * @return directed area
+	 */
+	final static public double calcAreaWithSign(GeoPointND[] points2) {
+		if (points2 == null || points2.length < 2)
+			return Double.NaN;
+
+		int i = 0;
+		for (; i < points2.length; i++) {
+			if (points2[i].isInfinite()) {
+				return Double.NaN;
+			}
+		}
+
+		// area = 1/2 | det(P[i], P[i+1]) |
+		int last = points2.length - 1;
+		double sum = 0;
+		for (i = 0; i < last; i++) {
+			sum += GeoPoint.det((GeoPoint)points2[i],
+					(GeoPoint)points2[i + 1]);
+			
+		}
+		sum += GeoPoint.det((GeoPoint)points2[last], (GeoPoint)points2[0]);
+		return sum / 2.0; // positive (anticlockwise points) or negative
+		// (clockwise)
+	}
+
+	/**
+	 * Calculates the centroid of this polygon and writes the result to the
+	 * given point. algorithm at
+	 * http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/ TODO Does not
+	 * work if polygon is self-entrant
+	 * 
+	 * @param centroid point to store result
+	 */
+	public static void calcCentroid(GeoPoint centroid, double signedArea, GeoPointND[] points2) {
+		if (Double.isNaN(signedArea) || Double.isInfinite(signedArea)) {
+			centroid.setUndefined();
+			return;
+		}
+
+		double xsum = 0;
+		double ysum = 0;
+		double factor = 0;
+		for (int i = 0; i < points2.length ; i++) {
+			factor = pointsClosedX(i, points2) * pointsClosedY(i + 1, points2)
+					- pointsClosedX(i + 1, points2) * pointsClosedY(i, points2);
+			xsum += (pointsClosedX(i, points2) + pointsClosedX(i + 1, points2)) * factor;
+			ysum += (pointsClosedY(i, points2) + pointsClosedY(i + 1, points2)) * factor;
+		}
+		centroid.setCoords(xsum, ysum, 6.0 * signedArea); // getArea
+		// includes
+		// the +/-
+		// to
+		// compensate
+		// for
+		// clockwise/anticlockwise
+	}
+	
+	private static double pointsClosedX(int i, GeoPointND[] points2) {
+		// pretend array has last element==first element
+		if (i == points2.length) {
+			// return points[0].inhomX; else return points[i].inhomX;
+			return ((GeoPoint)points2[0]).inhomX;
+		}
+		return ((GeoPoint)points2[i]).inhomX;
+	}
+
+	private static double pointsClosedY(int i, GeoPointND[] points2) {
+		// pretend array has last element==first element
+		if (i == points2.length) {
+			// return points[0].inhomY; else return
+			// points[i].inhomY;
+			return ((GeoPoint)points2[0]).inhomY;
+		}
+		return ((GeoPoint)points2[i]).inhomY;
+	}
 
     protected void createStringBuilder(StringTemplate tpl){
     	
@@ -357,6 +441,20 @@ public class AlgoPolygon extends AlgoElement {
 	
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnPolygon(geo, this, scope);
+	}
+
+	public void calcArea() {
+    	GeoPointND[] points2d = poly.getPoints();
+
+    	// compute area
+        poly.setArea(calcAreaWithSign(points2d));
+	}
+
+	public void calcCentroid(GeoPoint p) {
+    	GeoPointND[] points2d = poly.getPoints();
+
+    	calcCentroid(p, poly.getAreaWithSign(), points2d);
+		
 	}
         	
     

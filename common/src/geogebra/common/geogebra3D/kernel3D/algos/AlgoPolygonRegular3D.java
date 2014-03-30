@@ -8,6 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -123,6 +124,11 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 		}
 		
 		return ret;
+	}
+
+	public void calcCentroid(GeoPoint p) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

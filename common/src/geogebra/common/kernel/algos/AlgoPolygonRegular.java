@@ -115,6 +115,12 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 	final protected void setDirection(GeoDirectionND direction){
 		// used only in 3D
 	}
+
+
+	public void calcCentroid(GeoPoint p) {
+		p.setCoords((GeoPoint)centerPoint);
+		
+	}
 	
 
 }

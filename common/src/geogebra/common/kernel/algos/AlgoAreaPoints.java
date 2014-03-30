@@ -22,7 +22,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPolygon;
 
 public class AlgoAreaPoints extends AlgoElement {
 
@@ -71,7 +70,7 @@ public class AlgoAreaPoints extends AlgoElement {
     // angle in range [0, pi]
     @Override
 	public final void compute() {      
-        area.setValue(GeoPolygon.calcArea(P)); 
+        area.setValue(Math.abs(AlgoPolygon.calcAreaWithSign(P))); 
     }
 
 	// TODO Consider locusequability       

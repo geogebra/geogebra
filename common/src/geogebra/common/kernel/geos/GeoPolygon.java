@@ -28,6 +28,7 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
+import geogebra.common.kernel.algos.PolygonAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -729,11 +730,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	// Michael Borcherds 2008-01-26 BEGIN
 	/**
-	 * Calculates this polygon's area . This method should only be called by its
+	 * Sets this polygon's area . This method should only be called by its
 	 * parent algorithm of type AlgoPolygon
 	 */
-	final public void calcArea() {
-		area = calcAreaWithSign(getPoints());
+	final public void setArea(double area) {
+		this.area = area;
 		defined = !(Double.isNaN(area) || Double.isInfinite(area));
 	}
 
@@ -780,100 +781,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			return MyMath.sgn(kernel, area);
 		}
 		return Double.NaN;
-	}
-
-	/**
-	 * Returns the area of a polygon given by points P
-	 * 
-	 * @param P
-	 *            vertices of polygon
-	 * @return undirected area
-	 */
-	final static public double calcArea(GeoPoint[] P) {
-		return Math.abs(calcAreaWithSign(P));
-	}
-
-	/**
-	 * Returns the area of a polygon given by points P, negative if clockwise
-	 * changed name from calcArea as we need the sign when calculating the
-	 * centroid Michael Borcherds 2008-01-26 TODO Does not work if polygon is
-	 * self-entrant
-	 * 
-	 * @param points2 array of points
-	 * @return directed area
-	 */
-	final static public double calcAreaWithSign(GeoPointND[] points2) {
-		if (points2 == null || points2.length < 2)
-			return Double.NaN;
-
-		int i = 0;
-		for (; i < points2.length; i++) {
-			if (points2[i].isInfinite()) {
-				return Double.NaN;
-			}
-		}
-
-		// area = 1/2 | det(P[i], P[i+1]) |
-		int last = points2.length - 1;
-		double sum = 0;
-		for (i = 0; i < last; i++) {
-			sum += GeoPoint.det((GeoPoint) points2[i],
-					(GeoPoint) points2[i + 1]);
-		}
-		sum += GeoPoint.det((GeoPoint) points2[last], (GeoPoint) points2[0]);
-		return sum / 2.0; // positive (anticlockwise points) or negative
-		// (clockwise)
-	}
-
-	/**
-	 * Calculates the centroid of this polygon and writes the result to the
-	 * given point. algorithm at
-	 * http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/ TODO Does not
-	 * work if polygon is self-entrant
-	 * 
-	 * @param centroid point to store result
-	 */
-	public void calcCentroid(GeoPoint centroid) {
-		if (!defined) {
-			centroid.setUndefined();
-			return;
-		}
-
-		double xsum = 0;
-		double ysum = 0;
-		double factor = 0;
-		for (int i = 0; i < getPointsLength(); i++) {
-			factor = pointsClosedX(i) * pointsClosedY(i + 1)
-					- pointsClosedX(i + 1) * pointsClosedY(i);
-			xsum += (pointsClosedX(i) + pointsClosedX(i + 1)) * factor;
-			ysum += (pointsClosedY(i) + pointsClosedY(i + 1)) * factor;
-		}
-		centroid.setCoords(xsum, ysum, 6.0 * getAreaWithSign()); // getArea
-		// includes
-		// the +/-
-		// to
-		// compensate
-		// for
-		// clockwise/anticlockwise
-	}
-
-	private double pointsClosedX(int i) {
-		// pretend array has last element==first element
-		if (i == getPointsLength()) {
-			// return points[0].inhomX; else return points[i].inhomX;
-			return getPointX(0);
-		}
-		return getPointX(i);
-	}
-
-	private double pointsClosedY(int i) {
-		// pretend array has last element==first element
-		if (i == getPointsLength()) {
-			// return points[0].inhomY; else return
-			// points[i].inhomY;
-			return getPointY(0);
-		}
-		return getPointY(i);
 	}
 
 	/**
@@ -1874,7 +1781,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).matrixTransform(a00, a01, a10, a11);
+		
 		calcArea();
+		
 		updatePathRegion();
 	}
 
@@ -1887,7 +1796,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < getPointsLength(); i++)
 			getPoint(i).dilate(r, S);
-		this.calcArea();
+
+		calcArea();
+
 		updatePathRegion();
 	}
 
@@ -1956,9 +1867,19 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a02, a10, a11,
 					a12, a20, a21, a22);
 		}
+
 		calcArea();
+
 		updatePathRegion();
 
+	}
+
+	public void calcArea() {
+		((PolygonAlgo)getParentAlgorithm()).calcArea();		
+	}
+
+	public void calcCentroid(GeoPoint p) {
+		((PolygonAlgo)getParentAlgorithm()).calcCentroid(p);		
 	}
 
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {

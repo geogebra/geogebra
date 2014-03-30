@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  * 
  * @author Markus Hohenwarter
  */
-public abstract class AlgoPolygonRegularND extends AlgoElement {
+public abstract class AlgoPolygonRegularND extends AlgoElement implements PolygonAlgo {
 	/** first input point */
 	protected final GeoPointND A; // input
 	/** second input point */
@@ -55,6 +56,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 	/** whether new point labels should be visible */
 	boolean showNewPointsLabels;
 	private boolean labelsNeedIniting;
+	private double alpha;
+	private int n;
 
 	/**
 	 * Creates a new regular polygon algorithm
@@ -315,7 +318,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		GeoPolygon poly = getPoly();
 
 		// get integer number of vertices n
-		int n = Math.max(2, nd);
+		this.n = Math.max(2, nd);
 
 		// if number of points changed, we need to update the
 		// points array and the output array
@@ -327,7 +330,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		}
 		
 
-		double alpha = Kernel.PI_2 / n; // center angle ACB
+		this.alpha = Kernel.PI_2 / n; // center angle ACB
 		double beta = (Math.PI - alpha) / 2; // base angle CBA = BAC
 
 
@@ -356,7 +359,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 		poly.setSegments(segments);
 
 		// compute area of poly
-		poly.calcArea();
+		calcArea();
 
 		// update region coordinate system
 		poly.updateRegionCSWithFirstPoints();
@@ -479,6 +482,29 @@ public abstract class AlgoPolygonRegularND extends AlgoElement {
 	
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnPolygonRegular(geo, this, scope);
+	}
+	
+	public void calcArea() {
+		
+		// more accurate method for 2D
+		if (A instanceof GeoPoint && B instanceof GeoPoint && centerPoint instanceof GeoPoint) {
+			
+			// area = 1/2 | det(P[i], P[i+1]) |
+			double area = GeoPoint.det((GeoPoint)A, (GeoPoint)B);
+            area += GeoPoint.det((GeoPoint)B, (GeoPoint)this.centerPoint);
+            area += GeoPoint.det((GeoPoint)this.centerPoint, (GeoPoint)A);
+            area = area * this.n / 2;
+            
+            getPoly().setArea(area);
+            
+            return;
+		}
+		
+		// TODO: more accurate method should be possible for 3D too
+		double radius = A.distance(centerPoint);
+				
+		// 1/2 a b sin(C)
+		getPoly().setArea(n * radius * radius * Math.sin(alpha) / 2.0) ;
 	}
 
 }
