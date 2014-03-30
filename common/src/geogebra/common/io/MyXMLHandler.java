@@ -3303,7 +3303,6 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 		case 'o':
-			App.debug("case o");
 			if ("objColor".equals(eName)) {
 				ok = handleObjColor(attrs);
 				break;
