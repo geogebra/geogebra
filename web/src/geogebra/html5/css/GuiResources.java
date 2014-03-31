@@ -257,5 +257,34 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/probability_calculator_step_graph.png")
 	ImageResource step_graph();
+	
+	
+	//OBJECT PROPERTIES
+	
+	//DECORATION
+	//ANGLES
+	@Source("icons/png/web/decoration_icons/decoration_angle_1line_32px.png")
+	ImageResource deco_angle_1line();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_2lines_32px.png")
+	ImageResource deco_angle_2lines();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_3lines_32px.png")
+	ImageResource deco_angle_3lines();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_1stroke_32px.png")
+	ImageResource deco_angle_1stroke();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_2strokes_32px.png")
+	ImageResource deco_angle_2strokes();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_3strokes_32px.png")
+	ImageResource deco_angle_3strokes();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-up_32px.png")
+	ImageResource deco_angle_arrow_up();
+	
+	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-down_32px.png")
+	ImageResource deco_angle_arrow_down();
 }
 
