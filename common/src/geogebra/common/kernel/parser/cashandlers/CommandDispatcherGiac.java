@@ -120,6 +120,7 @@ public class CommandDispatcherGiac {
 		
 		/** symbolic sum */
 		sum(Operation.SUM),
+		piecewise(Operation.IF_ELSE),
 		
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
@@ -170,6 +171,14 @@ public class CommandDispatcherGiac {
 						new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),
 						Operation.SUM,
 						new MyNumberPair(kernel,args.getItem(2),args.getItem(3))
+						);
+				
+				break;
+			case piecewise:
+				ret = new ExpressionNode(kernel,
+						new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),
+						Operation.IF_ELSE,
+						args.getItem(2)
 						);
 				
 				break;
