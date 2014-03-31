@@ -1339,6 +1339,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 				sb.append(" type=\"plane\"");
 			} else if (getOutput(0).isGeoConic()) {
 				sb.append(" type=\"conic\"");
+			} else if (getOutput(0).isGeoQuadric()) {
+				sb.append(" type=\"quadric\"");
 			} else if (getOutput(0).isGeoImplicitPoly()) {
 				sb.append(" type=\"implicitPoly\"");
 			}

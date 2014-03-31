@@ -5478,6 +5478,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isGeoPlane() {
 		return false;
 	}
+	
+	/**
+	 * @return true for quadrics
+	 */
+	public boolean isGeoQuadric() {
+		return false;
+	}
+
 	/**
 	 * @return true for loci
 	 */

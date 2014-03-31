@@ -4821,27 +4821,36 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {
-		if (!geo.isGeoConic()) {
+		if (!geo.isGeoConic() && !geo.isGeoQuadric()) {
 			System.err.println("wrong element type for <matrix>: "
 					+ geo.getClass());
 			return false;
 		}
 		try {
-			if (geo.isGeoConic()) {
-				GeoConic conic = (GeoConic) geo;
-				// set matrix and classify conic now
-				// <eigenvectors> should have been set earlier
-				double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-						StringUtil.parseDouble(attrs.get("A1")),
-						StringUtil.parseDouble(attrs.get("A2")),
-						StringUtil.parseDouble(attrs.get("A3")),
-						StringUtil.parseDouble(attrs.get("A4")),
-						StringUtil.parseDouble(attrs.get("A5")) };
-				conic.setMatrix(matrix);
-			}
+			handleMatrixConicOrQuadric(attrs);
 			return true;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+	
+	/**
+	 * handler matrix for a conic or a quadric
+	 * @param attrs attributes
+	 * @throws Exception exception
+	 */
+	protected void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs) throws Exception{
+		if (geo.isGeoConic()) {
+			GeoConic conic = (GeoConic) geo;
+			// set matrix and classify conic now
+			// <eigenvectors> should have been set earlier
+			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
+					StringUtil.parseDouble(attrs.get("A1")),
+					StringUtil.parseDouble(attrs.get("A2")),
+					StringUtil.parseDouble(attrs.get("A3")),
+					StringUtil.parseDouble(attrs.get("A4")),
+					StringUtil.parseDouble(attrs.get("A5")) };
+			conic.setMatrix(matrix);
 		}
 	}
 
@@ -5227,6 +5236,8 @@ public class MyXMLHandler implements DocHandler {
 						((Equation) ve).setForcePlane();
 					} else if (type.equals("conic")) {
 						((Equation) ve).setForceConic();
+					} else if (type.equals("quadric")) {
+						((Equation) ve).setForceQuadric();
 					} else if (type.equals("implicitPoly")) {
 						((Equation) ve).setForceImplicitPoly();
 					}

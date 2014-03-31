@@ -33,8 +33,10 @@ import geogebra.common.plugin.GeoClass;
  * 
  * @author matthieu
  * 
- *         ( A[0] A[4] A[5] A[7]) matrix = ( A[4] A[1] A[6] A[8]) ( A[5] A[6]
- *         A[2] A[9]) ( A[7] A[8] A[9] A[3])
+ *                  ( A[0] A[4] A[5] A[7]) 
+ *         matrix = ( A[4] A[1] A[6] A[8]) 
+ *                  ( A[5] A[6] A[2] A[9]) 
+ *                  ( A[7] A[8] A[9] A[3])
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements
@@ -62,6 +64,223 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		diagonal = new double[4];
 
 	}
+	
+	
+	/**
+	 * Creates new GeoQuadric3D 
+	 * 
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param coeffs
+	 *            coefficients
+	 */
+	public GeoQuadric3D(Construction c, String label, double[] coeffs) {
+
+		this(c);
+		setMatrix(coeffs);
+		setLabel(label);
+	}
+	
+	/**
+	 *  sets quadric's matrix from coefficients of equation
+	 *  from array
+	 *  @param coeffs Array of coefficients
+	 */  
+	final public void setMatrix(double[] coeffs) {
+		
+		for (int i = 0 ; i < 10 ; i++){
+			matrix[i] = coeffs[i];
+		}
+		
+		classifyQuadric();
+	}
+	
+	
+	/**
+	 * Update conic type and properties
+	 */
+	protected void classifyQuadric() {
+		classifyQuadric(false);
+	}
+	
+	private double detS;
+	
+	/**
+	 * @param degenerate true to allow classification as degenerate
+	 */
+	public void classifyQuadric(boolean degenerate) {	
+		
+		defined = degenerate || checkDefined();		
+		if (!defined)
+			return;
+		
+		// det of S lets us distinguish between
+		// parabolic and midpoint quadrics
+		// det(S) = A[0] * A[1] - A[3] * A[3]
+		detS = matrix[0]*matrix[1]*matrix[2] 
+				    - matrix[0]*matrix[6]*matrix[6]
+					- matrix[1]*matrix[5]*matrix[5] 
+					- matrix[2]*matrix[4]*matrix[4] 
+				  + 2*matrix[4]*matrix[5]*matrix[6];
+		if (Kernel.isZero(detS)) {
+			type = QUADRIC_NOT_CLASSIFIED; // TODO
+		} else {		
+			classifyMidpointQuadric(degenerate);
+		}	
+		
+		//setAffineTransform();		
+		
+	}
+	
+	private void classifyMidpointQuadric(boolean degenerate) {	
+		
+		// set midpoint
+		double x = (-matrix[1] *matrix[2] *matrix[7] + matrix[1] *matrix[5] *matrix[9] + matrix[2] *matrix[4] *matrix[8] - matrix[4] *matrix[6] *matrix[9] - matrix[5] *matrix[6] *matrix[8] + matrix[6] *matrix[6] *matrix[7])/detS;
+		double y = (-matrix[0] *matrix[2] *matrix[8] + matrix[0] *matrix[6] *matrix[9] + matrix[2] *matrix[4] *matrix[7] - matrix[4] *matrix[5] *matrix[9] + matrix[5] *matrix[5] *matrix[8] - matrix[5] *matrix[6] *matrix[7])/detS;
+		double z = (-matrix[0] *matrix[1] *matrix[9] + matrix[0] *matrix[6] *matrix[8] + matrix[1] *matrix[5] *matrix[7] + matrix[4] *matrix[4] *matrix[9] - matrix[4] *matrix[5] *matrix[8] - matrix[4] *matrix[6] *matrix[7])/detS;
+		double[] coords = {x,y,z,1};
+		setMidpoint(coords);
+		
+		//App.debug("\nmidpoint = "+x+","+y+","+z);
+		
+
+		// set eigenvalues
+		eigenval[0] = detS;
+		eigenval[1] = -matrix[0]*matrix[1]-matrix[1]*matrix[2]-matrix[2]*matrix[0] +matrix[4]*matrix[4]+matrix[5]*matrix[5]+matrix[6]*matrix[6];
+		eigenval[2] = matrix[0]+matrix[1]+matrix[2];
+		eigenval[3] = -1;
+		
+		int nRoots = cons.getKernel().getEquationSolver().solveCubic(eigenval, eigenval, Kernel.STANDARD_PRECISION);
+		
+		if (nRoots == 1){
+			eigenval[1] = eigenval[0];
+			nRoots++;
+		}
+		
+		if (nRoots == 2){
+			eigenval[2] = eigenval[1];
+		}
+		
+		//App.debug("\nnRoots = "+nRoots+"\n"+eigenval[0]+","+eigenval[1]+","+eigenval[2]);
+		
+		// degenerate ?
+		double beta = matrix[7] * x + matrix[8] * y + matrix[9] * z + matrix[3];
+		
+		//App.debug("beta = "+beta);
+
+		if (degenerate || Kernel.isZero(beta)) {
+			//TODO : degenerate
+			type = QUADRIC_NOT_CLASSIFIED;
+		}else{
+			mu[0] = -eigenval[0] / beta;
+			mu[1] = -eigenval[1] / beta;
+			mu[2] = -eigenval[2] / beta;			
+			if (detS < 0) {
+				//TODO : hyperboloid
+				type = QUADRIC_NOT_CLASSIFIED;
+			} else {
+				if (mu[0] > 0 && mu[1] > 0 && mu[2] > 0) {
+					ellipsoid();
+				} else {
+					empty();
+				}
+			}
+		}
+		
+		
+		
+		
+	}
+	
+	private void ellipsoid(){
+		
+		// sphere 
+		if (Kernel.isEqual(mu[0]/mu[1],1.0) && Kernel.isEqual(mu[0]/mu[2],1.0)) {
+
+			double r = Math.sqrt(1.0d / mu[0]);
+
+			// set halfAxes = radius	
+			for (int i=0;i<3;i++){
+				halfAxes[i] = r;
+			}
+			
+			// set type
+			type = QUADRIC_SPHERE;
+			linearEccentricity = 0.0d;
+			eccentricity = 0.0d;
+
+			volume = 4*Math.PI*getHalfAxis(0)*getHalfAxis(1)*getHalfAxis(2)/3;
+
+			// set the diagonal values
+			diagonal[0] = 1;
+			diagonal[1] = 1;
+			diagonal[2] = 1;
+			diagonal[3] = -r * r;
+			
+			// eigen matrix
+			eigenMatrix.setOrigin(getMidpoint3D());
+			for (int i = 1; i <= 3 ; i++){
+				eigenMatrix.set(i, i, getHalfAxis(i-1));
+			}
+			
+			
+		} else { // ellipsoid
+			//TODO
+			type = QUADRIC_NOT_CLASSIFIED;
+		}
+		
+	}
+	
+	
+	/**
+	 * returns false if quadric's matrix is the zero matrix
+	 * or has infinite or NaN values
+	 */
+	final private boolean checkDefined() {
+		
+		/*
+		boolean allZero = true;
+		double maxCoeffAbs = 0;		
+		
+		for (int i = 0; i < 6; i++) {
+			if (Double.isNaN(matrix[i]) || Double.isInfinite(matrix[i])) {
+				return false;
+			}
+				
+			double abs = Math.abs(matrix[i]);			
+			if (abs > Kernel.STANDARD_PRECISION) allZero = false;
+			if ((i == 0 || i == 1 || i == 3) && maxCoeffAbs < abs) { // check max only on coeffs x*x, y*y, x*y
+				maxCoeffAbs = abs;
+			}		
+		}
+		if (allZero) {
+			return false;		
+		}
+		
+		// huge or tiny coefficients?
+		double factor = 1.0;
+		if (maxCoeffAbs < MIN_COEFFICIENT_SIZE) {
+			factor = 2;
+			while (maxCoeffAbs * factor < MIN_COEFFICIENT_SIZE) factor *= 2;					
+		}		
+		else if (maxCoeffAbs > MAX_COEFFICIENT_SIZE) {			
+			factor = 0.5;
+			while (maxCoeffAbs * factor > MAX_COEFFICIENT_SIZE) factor *= 0.5;					
+		}	
+		
+		// multiply matrix with factor to avoid huge and tiny coefficients
+		if (factor != 1.0) {
+			maxCoeffAbs *= factor;
+			for (int i=0; i < 6; i++) {
+				matrix[i] *= factor;
+			}
+		}
+		*/
+		return true;
+	}
+
 
 	public GeoQuadric3D(GeoQuadric3D quadric) {
 		this(quadric.getConstruction());
@@ -939,6 +1158,54 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	final protected void singlePoint() {
 		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
 		
+	}
+	
+	
+	@Override
+	public boolean isGeoQuadric() {
+		return true;
+	}
+	
+	
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+
+		/*
+		sb.append("\t<eigenvectors ");
+		sb.append(" x0=\"" + eigenvec[0].getX() + "\"");
+		sb.append(" y0=\"" + eigenvec[0].getY() + "\"");
+		sb.append(" z0=\"1.0\"");
+		sb.append(" x1=\"" + eigenvec[1].getX() + "\"");
+		sb.append(" y1=\"" + eigenvec[1].getY() + "\"");
+		sb.append(" z1=\"1.0\"");
+		sb.append("/>\n");
+		*/
+
+		// matrix must be saved after eigenvectors
+		// as only <matrix> will cause a call to classifyConic()
+		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
+		sb.append("\t<matrix");
+		for (int i = 0; i < 10; i++)
+			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
+		sb.append("/>\n");
+
+		// implicit or specific mode
+		/*
+		switch (toStringMode) {
+			case GeoConicND.EQUATION_SPECIFIC :
+				sb.append("\t<eqnStyle style=\"specific\"/>\n");
+				break;
+
+			case GeoConicND.EQUATION_EXPLICIT :
+				sb.append("\t<eqnStyle style=\"explicit\"/>\n");
+				break;
+				
+			default :
+				sb.append("\t<eqnStyle style=\"implicit\"/>\n");
+		}
+		*/
+
 	}
 
 

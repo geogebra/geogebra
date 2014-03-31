@@ -120,10 +120,6 @@ Region3D, GeoDirectionND
 	// for classification
 	transient private double detS, length, temp, temp1, temp2, nx, ny, lambda;
 	private int index = 0;
-	/** eigenvalues */
-	private double[] eigenval = new double[3];
-	/**mu TODO better javadoc*/
-	protected double[] mu = new double[2];
 	private GeoVec2D c = new GeoVec2D(kernel);	
 	/** error DetS*/
 	public double errDetS = Kernel.STANDARD_PRECISION;

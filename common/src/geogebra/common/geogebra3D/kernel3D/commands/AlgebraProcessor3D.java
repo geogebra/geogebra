@@ -13,6 +13,7 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -100,8 +101,17 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	
 	@Override
 	protected void checkNoTermsInZ(Equation equ){
-		if (!equ.getNormalForm().isFreeOf('z'))
-			equ.setForcePlane();
+		if (!equ.getNormalForm().isFreeOf('z')){
+			switch (equ.degree()) {
+			case 1:
+				equ.setForcePlane();
+				break;
+			case 2:
+				equ.setForceQuadric();
+				break;
+			}
+		}
+			
 	}
 	
 	@Override
@@ -118,12 +128,62 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		return super.processLine(equ);
 		
 	}
+	
+	
+	@Override
+	protected GeoElement[] processConic(Equation equ) {
+		
+		if (equ.isForcedConic())
+			return super.processConic(equ);
+		
+		//check if the equ is forced plane or if the 3D view has the focus
+		if (equ.isForcedQuadric() ||
+				kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()){
+			return processQuadric(equ);
+		}
+		return super.processConic(equ);
+		
+	}
+	
+	
+	private GeoElement[] processQuadric(Equation equ) {
+		double xx = 0, yy = 0, zz = 0, xy = 0, xz = 0, yz = 0, x = 0, y = 0, z = 0, c = 0;
+		GeoElement[] ret = new GeoElement[1];
+		GeoQuadric3D quadric;
+		String label = equ.getLabel();
+		Polynomial lhs = equ.getNormalForm();
+
+		boolean isIndependent = lhs.isConstant();
+		
+
+		if (isIndependent) {
+			xx = lhs.getCoeffValue("xx");
+			yy = lhs.getCoeffValue("yy");
+			zz = lhs.getCoeffValue("zz");
+			c = lhs.getCoeffValue("");
+			xy = lhs.getCoeffValue("xy")/2;
+			xz = lhs.getCoeffValue("xz")/2;
+			yz = lhs.getCoeffValue("yz")/2;
+			x = lhs.getCoeffValue("x")/2;
+			y = lhs.getCoeffValue("y")/2;
+			z = lhs.getCoeffValue("z")/2;
+
+			double[] coeffs = { xx, yy, zz, c, xy, xz, yz, x, y, z};
+			quadric = new GeoQuadric3D(cons, label, coeffs);
+		} else {
+			//conic = DependentConic(label, equ);
+			quadric = null;
+		}
+		
+		ret[0] = quadric;
+		return ret;
+	}
 
 	/**
 	 * @param equ equation to process
 	 * @return resulting plane
 	 */
-	protected GeoElement[] processPlane(Equation equ) {
+	private GeoElement[] processPlane(Equation equ) {
 		double a = 0, b = 0, c = 0, d = 0;
 		GeoPlane3D plane = null;
 		GeoElement[] ret = new GeoElement[1];

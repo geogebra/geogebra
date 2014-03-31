@@ -91,6 +91,7 @@ public class Equation extends ValidExpression {
       
     private boolean forcePlane = false, forceLine = false;
     private boolean forceConic = false, forceImplicitPoly = false ;
+    private boolean forceQuadric = false;
  
 
     /**
@@ -111,7 +112,7 @@ public class Equation extends ValidExpression {
     /**
      * Force this to evaluate to plane
      */
-    public void setForcePlane() {
+    final public void setForcePlane() {
         // this expression should be considered as a plane, not a line
         forcePlane = true;
     }
@@ -122,6 +123,22 @@ public class Equation extends ValidExpression {
     final public boolean isForcedPlane() {
     	return forcePlane;
     }
+    
+    /**
+     * Force this to evaluate to quadric
+     */
+    final public void setForceQuadric() {
+        // this expression should be considered as a quadric, not a conic
+        forceQuadric = true;
+    }
+    
+    /**
+     * @return true if this is forced to evaluate to quadric
+     */
+    final public boolean isForcedQuadric() {
+    	return forceQuadric;
+    }
+    
     
     /**
      * @return true if this is forced to evaluate to conic

@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Construction;
@@ -14,6 +15,7 @@ import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.StringUtil;
 
 import java.util.LinkedHashMap;
 
@@ -499,6 +501,29 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return false;
 		}
 
+	}
+	
+	
+	@Override
+	protected void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs) throws Exception{
+		if (geo.isGeoQuadric()) {
+			GeoQuadric3D quadric = (GeoQuadric3D) geo;
+			// set matrix and classify conic now
+			// <eigenvectors> should have been set earlier
+			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
+					StringUtil.parseDouble(attrs.get("A1")),
+					StringUtil.parseDouble(attrs.get("A2")),
+					StringUtil.parseDouble(attrs.get("A3")),
+					StringUtil.parseDouble(attrs.get("A4")),
+					StringUtil.parseDouble(attrs.get("A5")),
+					StringUtil.parseDouble(attrs.get("A6")),
+					StringUtil.parseDouble(attrs.get("A7")),
+					StringUtil.parseDouble(attrs.get("A8")),
+					StringUtil.parseDouble(attrs.get("A9")) };
+			quadric.setMatrix(matrix);
+		}else{
+			super.handleMatrixConicOrQuadric(attrs);
+		}
 	}
 
 }

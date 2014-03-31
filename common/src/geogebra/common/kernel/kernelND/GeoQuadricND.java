@@ -34,7 +34,7 @@ Traceable{
 	
 	
 	private int dimension;	
-	private int matrixDim;
+	protected int matrixDim;
 	
 	// types    
 	
@@ -83,6 +83,12 @@ Traceable{
 	/** variable string */
 	protected static final char[] VAR_STRING = {'x','y','z'};
 	
+	/** eigenvalues */
+	protected double[] eigenval;
+	
+
+	/**mu TODO better javadoc*/
+	protected double[] mu = new double[2];
 
 	protected boolean isIntersection;
 
@@ -115,6 +121,9 @@ Traceable{
 		halfAxes = new double[dimension];
 		midpoint = new Coords(dimension+1);
 		midpoint.set(dimension+1, 1);
+		
+		eigenval = new double[dimension + 1];
+		mu = new double[dimension];
 	}
 	
 	

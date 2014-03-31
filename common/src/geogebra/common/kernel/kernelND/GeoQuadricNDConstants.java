@@ -40,4 +40,6 @@ public interface GeoQuadricNDConstants {
 	public static final int QUADRIC_CONE = 30;
 	/** type: cylinder*/
 	public static final int QUADRIC_CYLINDER = 31;
+	/** temporary type: not classified*/
+	public static final int QUADRIC_NOT_CLASSIFIED = 32;
 }
