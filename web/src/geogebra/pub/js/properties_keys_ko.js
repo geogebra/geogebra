@@ -789,6 +789,8 @@ __GGB__keysVar.ko.command = {
     "SetLineStyle_Syntax": "[ <\uc9c1\uc120>, <\uc218> ]",
     "SetLineThickness": "\uad75\uae30\uc124\uc815",
     "SetLineThickness_Syntax": "[ <\uc9c1\uc120>, <\uc218> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "\uc810\ud06c\uae30\uc124\uc815",
     "SetPointSize_Syntax": "[ <\uc810>, <\uc218> ]",
     "SetPointStyle": "\uc810\uc2a4\ud0c0\uc77c\uc124\uc815",

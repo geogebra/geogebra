@@ -789,6 +789,8 @@ __GGB__keysVar.hu.command = {
     "SetLineStyle_Syntax": "[ <Egyenes>, <Sz\xe1m> ]",
     "SetLineThickness": "VonalVastags\xe1g",
     "SetLineThickness_Syntax": "[ <Egyenes>, <Sz\xe1m> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "PontM\xe9ret",
     "SetPointSize_Syntax": "[ <Pont>, <Sz\xe1m> ]",
     "SetPointStyle": "PontSt\xedlus",

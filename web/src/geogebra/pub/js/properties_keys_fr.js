@@ -789,6 +789,8 @@ __GGB__keysVar.fr.command = {
     "SetLineStyle_Syntax": "[ <Ligne>, <Nombre> ]",
     "SetLineThickness": "SoitEpaisseurTrait",
     "SetLineThickness_Syntax": "[ <Ligne>, <Nombre> ]",
+    "SetPerspective": "SoitDispositions",
+    "SetPerspective_Syntax": "[ <Texte> ]",
     "SetPointSize": "SoitTaillePoint",
     "SetPointSize_Syntax": "[ <Point>, <Nombre> ]",
     "SetPointStyle": "SoitStylePoint",

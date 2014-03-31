@@ -789,6 +789,8 @@ __GGB__keysVar.bs.command = {
     "SetLineStyle_Syntax": "[ <Linija>, <Broj> ]",
     "SetLineThickness": "PostaviDebljinuLinije",
     "SetLineThickness_Syntax": "[ <Linija>, <Broj> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "PostaviVeli\u010dinuTa\u010dke",
     "SetPointSize_Syntax": "[ <Ta\u010dka>, <Broj> ]",
     "SetPointStyle": "PostaviIzgledTa\u010dke",

@@ -789,6 +789,8 @@ __GGB__keysVar.eo.command = {
     "SetLineStyle_Syntax": "[ <Rekto>, <Nombro> ]",
     "SetLineThickness": "SetLineThickness",
     "SetLineThickness_Syntax": "[ <Rekto>, <Nombro> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetPointSize",
     "SetPointSize_Syntax": "[ <Punkto>, <Nombro> ]",
     "SetPointStyle": "SetPointStyle",

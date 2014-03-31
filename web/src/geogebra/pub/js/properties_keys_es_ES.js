@@ -789,6 +789,8 @@ __GGB__keysVar.es_ES.command = {
     "SetLineStyle_Syntax": "[ <L\xednea>, <N\xfamero> ]",
     "SetLineThickness": "GrosorL\xednea",
     "SetLineThickness_Syntax": "[ <L\xednea>, <N\xfamero> ]",
+    "SetPerspective": "Disposici\xf3n",
+    "SetPerspective_Syntax": "[ <Texto> ]",
     "SetPointSize": "Tama\xf1oPunto",
     "SetPointSize_Syntax": "[ <Punto>, <N\xfamero> ]",
     "SetPointStyle": "EstiloPunto",

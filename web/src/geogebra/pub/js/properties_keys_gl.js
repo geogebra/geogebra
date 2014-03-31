@@ -789,6 +789,8 @@ __GGB__keysVar.gl.command = {
     "SetLineStyle_Syntax": "[ <Li\xf1a>, <N\xfamero> ]",
     "SetLineThickness": "GrosorLi\xf1a",
     "SetLineThickness_Syntax": "[ <Li\xf1a>, <N\xfamero> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "Tama\xf1oPunto",
     "SetPointSize_Syntax": "[ <Punto>, <N\xfamero> ]",
     "SetPointStyle": "EstiloPunto",

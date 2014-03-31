@@ -789,6 +789,8 @@ __GGB__keysVar.fi.command = {
     "SetLineStyle_Syntax": "[ <Objekti>, <Luku> ]",
     "SetLineThickness": "AsetaViivanPaksuus",
     "SetLineThickness_Syntax": "[ <Objekti>, <Luku> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "AsetaPisteenKoko",
     "SetPointSize_Syntax": "[ <Piste>, <Luku> ]",
     "SetPointStyle": "AsetaPisteenTyyli",

@@ -789,6 +789,8 @@ __GGB__keysVar.eu.command = {
     "SetLineStyle_Syntax": "[ <Lerroa>, <Zenbakia> ]",
     "SetLineThickness": "FinkatuLerroLodiera",
     "SetLineThickness_Syntax": "[ <Lerroa>, <Zenbakia> ]",
+    "SetPerspective": "PerspektibaFinkatu",
+    "SetPerspective_Syntax": "[ <Testua> ]",
     "SetPointSize": "FinkatuPuntuTamaina",
     "SetPointSize_Syntax": "[ <Puntua>, <Zenbakia> ]",
     "SetPointStyle": "FinkatuPuntuEstiloa",

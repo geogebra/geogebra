@@ -789,6 +789,8 @@ __GGB__keysVar.vi.command = {
     "SetLineStyle_Syntax": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <S\u1ed1> ]",
     "SetLineThickness": "ThietLapDoDayDuongThang",
     "SetLineThickness_Syntax": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <S\u1ed1> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "ThietLapKichThuocDiem",
     "SetPointSize_Syntax": "[ <\u0110i\u1ec3m>, <S\u1ed1> ]",
     "SetPointStyle": "ThietLapKieuDiem",

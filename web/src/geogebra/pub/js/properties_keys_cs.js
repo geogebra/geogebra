@@ -789,6 +789,8 @@ __GGB__keysVar.cs.command = {
     "SetLineStyle_Syntax": "[ <\u010c\xe1ra>, <\u010c\xedslo> ]",
     "SetLineThickness": "NastavitTloustkuCary",
     "SetLineThickness_Syntax": "[ <\u010c\xe1ra>, <\u010c\xedslo> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "NastavitVelikostBodu",
     "SetPointSize_Syntax": "[ <Bod>, <\u010c\xedslo> ]",
     "SetPointStyle": "NastavitStylBodu",

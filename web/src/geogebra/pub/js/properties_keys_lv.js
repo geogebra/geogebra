@@ -789,6 +789,8 @@ __GGB__keysVar.lv.command = {
     "SetLineStyle_Syntax": "[ <Taisne>, <Skaitlis> ]",
     "SetLineThickness": "TaisnesBiezums",
     "SetLineThickness_Syntax": "[ <Taisne>, <Skaitlis> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "PunktaLielums",
     "SetPointSize_Syntax": "[ <Punkts>, <Skaitlis> ]",
     "SetPointStyle": "PunktaStils",

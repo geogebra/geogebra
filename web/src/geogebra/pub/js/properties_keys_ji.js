@@ -789,6 +789,8 @@ __GGB__keysVar.ji.command = {
     "SetLineStyle_Syntax": "[ <Line>, <Number> ]",
     "SetLineThickness": "SetLineThickness",
     "SetLineThickness_Syntax": "[ <Line>, <Number> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetPointSize",
     "SetPointSize_Syntax": "[ <Point>, <Number> ]",
     "SetPointStyle": "SetPointStyle",

@@ -789,6 +789,8 @@ __GGB__keysVar.sq.command = {
     "SetLineStyle_Syntax": "[ <Vije>, <Numer> ]",
     "SetLineThickness": "VendosTrashesiVije",
     "SetLineThickness_Syntax": "[ <Vije>, <Numer> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "VendosMadhesiPike",
     "SetPointSize_Syntax": "[ <Pike>, <Numer> ]",
     "SetPointStyle": "VendosStilPike",

@@ -789,6 +789,8 @@ __GGB__keysVar.in.command = {
     "SetLineStyle_Syntax": "[ <Garis>, <Angka> ]",
     "SetLineThickness": "AturTebalGaris",
     "SetLineThickness_Syntax": "[ <Garis>, <Angka> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "AturUkuranTitik",
     "SetPointSize_Syntax": "[ <Titik>, <Angka> ]",
     "SetPointStyle": "AturFormatTitik",

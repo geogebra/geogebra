@@ -789,6 +789,8 @@ __GGB__keysVar.ca_XV.command = {
     "SetLineStyle_Syntax": "[ <L\xednia>, <Nombre> ]",
     "SetLineThickness": "DefinixGruixDeL\xednia",
     "SetLineThickness_Syntax": "[ <L\xednia>, <Nombre> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "DefinixMidaDePunt",
     "SetPointSize_Syntax": "[ <Punt>, <Nombre> ]",
     "SetPointStyle": "DefinixEstilDePunt",

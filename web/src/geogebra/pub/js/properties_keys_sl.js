@@ -789,6 +789,8 @@ __GGB__keysVar.sl.command = {
     "SetLineStyle_Syntax": "[ <objekt>, <\u0161tevilo> ]",
     "SetLineThickness": "Dolo\u010diDebelinoKrivulje",
     "SetLineThickness_Syntax": "[ <objekt>, <\u0161tevilo> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "Dolo\u010diVelikostTo\u010dke",
     "SetPointSize_Syntax": "[ <to\u010dka>, <\u0161tevilo> ]",
     "SetPointStyle": "Dolo\u010diStilTo\u010dke",

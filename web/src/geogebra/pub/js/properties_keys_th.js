@@ -789,6 +789,8 @@ __GGB__keysVar.th.command = {
     "SetLineStyle_Syntax": "[ <\u0e40\u0e2a\u0e49\u0e19>, <\u0e08\u0e33\u0e19\u0e27\u0e19> ]",
     "SetLineThickness": "\u0e01\u0e33\u0e2b\u0e19\u0e14\u0e04\u0e27\u0e32\u0e21\u0e2b\u0e19\u0e32\u0e02\u0e2d\u0e07\u0e40\u0e2a\u0e49\u0e19",
     "SetLineThickness_Syntax": "[ <\u0e40\u0e2a\u0e49\u0e19>, <\u0e08\u0e33\u0e19\u0e27\u0e19> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "\u0e01\u0e33\u0e2b\u0e19\u0e14\u0e02\u0e19\u0e32\u0e14\u0e08\u0e38\u0e14",
     "SetPointSize_Syntax": "[ <\u0e08\u0e38\u0e14>, <\u0e08\u0e33\u0e19\u0e27\u0e19> ]",
     "SetPointStyle": "\u0e01\u0e33\u0e2b\u0e19\u0e14\u0e25\u0e31\u0e01\u0e29\u0e13\u0e30\u0e08\u0e38\u0e14",

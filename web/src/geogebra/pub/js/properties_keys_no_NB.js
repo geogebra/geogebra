@@ -789,6 +789,8 @@ __GGB__keysVar.no_NB.command = {
     "SetLineStyle_Syntax": "[ <Linje>, <Tall> ]",
     "SetLineThickness": "VelgLinjetykkelse",
     "SetLineThickness_Syntax": "[ <Linje>, <Tall> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "VelgPunktst\xf8rrelse",
     "SetPointSize_Syntax": "[ <Punkt>, <Tall> ]",
     "SetPointStyle": "VelgPunktstil",

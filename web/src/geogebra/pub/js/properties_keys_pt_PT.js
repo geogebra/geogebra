@@ -789,6 +789,8 @@ __GGB__keysVar.pt_PT.command = {
     "SetLineStyle_Syntax": "[ <Reta>, <N\xfamero> ]",
     "SetLineThickness": "DefinirEspessuradeLinha",
     "SetLineThickness_Syntax": "[ <Reta>, <N\xfamero> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "DefinirTamanhodoPonto",
     "SetPointSize_Syntax": "[ <Ponto>, <N\xfamero> ]",
     "SetPointStyle": "DefinirEstilodoPonto",

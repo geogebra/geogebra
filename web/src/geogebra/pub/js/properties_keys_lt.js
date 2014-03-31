@@ -789,6 +789,8 @@ __GGB__keysVar.lt.command = {
     "SetLineStyle_Syntax": "[ <Ties\u0117>, <Skai\u010dius> ]",
     "SetLineThickness": "NustatytiTies\u0117sStor\u012f",
     "SetLineThickness_Syntax": "[ <Ties\u0117>, <Skai\u010dius> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "NustatytiTa\u0161koDyd\u012f",
     "SetPointSize_Syntax": "[ <Ta\u0161kas>, <Skai\u010dius> ]",
     "SetPointStyle": "NustatytiTa\u0161koStili\u0173",

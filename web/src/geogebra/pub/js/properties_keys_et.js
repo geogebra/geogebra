@@ -789,6 +789,8 @@ __GGB__keysVar.et.command = {
     "SetLineStyle_Syntax": "[ <Joon>, <Arv> ]",
     "SetLineThickness": "M\xe4\xe4raJooneJ\xe4medus",
     "SetLineThickness_Syntax": "[ <Joon>, <Arv> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "M\xe4\xe4raPunktiSuurus",
     "SetPointSize_Syntax": "[ <Punkt>, <Arv> ]",
     "SetPointStyle": "M\xe4\xe4raPunktiStiil",

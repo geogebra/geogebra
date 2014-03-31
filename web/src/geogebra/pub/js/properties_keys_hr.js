@@ -789,6 +789,8 @@ __GGB__keysVar.hr.command = {
     "SetLineStyle_Syntax": "[ <pravac>, <broj> ]",
     "SetLineThickness": "PostaviDebljinuCrte",
     "SetLineThickness_Syntax": "[ <pravac>, <broj> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "PostaviVeli\u010dinuTo\u010dke",
     "SetPointSize_Syntax": "[ <to\u010dka>, <broj> ]",
     "SetPointStyle": "PostaviStilTo\u010dke",

@@ -789,6 +789,8 @@ __GGB__keysVar.tr.command = {
     "SetLineStyle_Syntax": "[ <Do\u011fru>, <Say\u0131> ]",
     "SetLineThickness": "Do\u011fruKal\u0131nl\u0131kAyarla",
     "SetLineThickness_Syntax": "[ <Do\u011fru>, <Say\u0131> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "NoktaB\xfcy\xfckl\xfckAyarla",
     "SetPointSize_Syntax": "[ <Nokta>, <Say\u0131> ]",
     "SetPointStyle": "NoktaSitiliAyarla",

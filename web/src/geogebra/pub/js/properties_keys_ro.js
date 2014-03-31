@@ -789,6 +789,8 @@ __GGB__keysVar.ro.command = {
     "SetLineStyle_Syntax": "[ <Dreapt\u0103>, <Num\u0103r> ]",
     "SetLineThickness": "Seteaz\u0103GrosimeDreapt\u0103",
     "SetLineThickness_Syntax": "[ <Dreapt\u0103>, <Num\u0103r> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "Seteaz\u0103M\u0103rimePunct",
     "SetPointSize_Syntax": "[ <Punct>, <Num\u0103r> ]",
     "SetPointStyle": "Seteaz\u0103StilPunct",

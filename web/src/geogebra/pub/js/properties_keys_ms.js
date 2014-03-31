@@ -789,6 +789,8 @@ __GGB__keysVar.ms.command = {
     "SetLineStyle_Syntax": "[ <Garis>, <Nombor> ]",
     "SetLineThickness": "SetTebalGaris",
     "SetLineThickness_Syntax": "[ <Garis>, <Nombor> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetSaizTitik",
     "SetPointSize_Syntax": "[ <Titik>, <Nombor> ]",
     "SetPointStyle": "SetGayaTitik",

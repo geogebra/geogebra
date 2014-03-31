@@ -789,6 +789,8 @@ __GGB__keysVar.it.command = {
     "SetLineStyle_Syntax": "[ <Linea>, <Numero> ]",
     "SetLineThickness": "ImpSpessoreLinea",
     "SetLineThickness_Syntax": "[ <Linea>, <Numero> ]",
+    "SetPerspective": "ImpInterfaccia",
+    "SetPerspective_Syntax": "[ <Testo> ]",
     "SetPointSize": "ImpDimensionePunto",
     "SetPointSize_Syntax": "[ <Punto>, <Numero> ]",
     "SetPointStyle": "ImpStilePunto",

@@ -789,6 +789,8 @@ __GGB__keysVar.ar_TN.command = {
     "SetLineStyle_Syntax": "[ <\u0627\u0644\u062e\u0637>, <\u0639\u062f\u062f> ]",
     "SetLineThickness": "\u0633\u0645\u0643_\u0627\u0644\u062e\u0637",
     "SetLineThickness_Syntax": "[ <\u0627\u0644\u062e\u0637>, <\u0627\u0644\u0639\u062f\u062f> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "\u062d\u062c\u0645_\u0646\u0642\u0637\u0629",
     "SetPointSize_Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0639\u062f\u062f> ]",
     "SetPointStyle": "\u0646\u0645\u0637_\u0646\u0642\u0637\u0629",

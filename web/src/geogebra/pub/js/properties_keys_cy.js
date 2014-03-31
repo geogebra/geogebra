@@ -789,6 +789,8 @@ __GGB__keysVar.cy.command = {
     "SetLineStyle_Syntax": "[ <Llinell>, <Number> ]",
     "SetLineThickness": "GosodTrwchLlinell",
     "SetLineThickness_Syntax": "[ <Llinell>, <Rhif> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "GosodMaintPwynt",
     "SetPointSize_Syntax": "[ <Pwynt>, <Rhif> ]",
     "SetPointStyle": "GosodArddullPwynt",

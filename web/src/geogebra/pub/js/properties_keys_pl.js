@@ -789,6 +789,8 @@ __GGB__keysVar.pl.command = {
     "SetLineStyle_Syntax": "[ <Linia>, <Liczba> ]",
     "SetLineThickness": "UstawGrubo\u015b\u0107Linii",
     "SetLineThickness_Syntax": "[ <Linia>, <Liczba> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "UstawRozmiarPunktu",
     "SetPointSize_Syntax": "[ <Punkt>, <Liczba> ]",
     "SetPointStyle": "UstawStylPunktu",

@@ -789,6 +789,8 @@ __GGB__keysVar.ja.command = {
     "SetLineStyle_Syntax": "[ <\u76f4\u7dda>, <\u6570\u5024> ]",
     "SetLineThickness": "SetLineThickness",
     "SetLineThickness_Syntax": "[ <\u76f4\u7dda>, <\u6570\u5024> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetPointSize",
     "SetPointSize_Syntax": "[ <\u70b9>, <\u6570\u5024> ]",
     "SetPointStyle": "SetPointStyle",

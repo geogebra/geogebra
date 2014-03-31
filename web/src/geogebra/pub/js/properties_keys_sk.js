@@ -789,6 +789,8 @@ __GGB__keysVar.sk.command = {
     "SetLineStyle_Syntax": "[ <\u010ciara>, <\u010c\xedslo> ]",
     "SetLineThickness": "Nastavi\u0165Hr\xfabku\u010ciar",
     "SetLineThickness_Syntax": "[ <\u010ciara>, <\u010c\xedslo> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "Nastavi\u0165Velkos\u0165Bodu",
     "SetPointSize_Syntax": "[ <Bod>, <\u010c\xedslo> ]",
     "SetPointStyle": "Nastavi\u0165\u0160t\xfdlBodu",

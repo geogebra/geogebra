@@ -789,6 +789,8 @@ __GGB__keysVar.is.command = {
     "SetLineStyle_Syntax": "[ <L\xedna>, <Tala> ]",
     "SetLineThickness": "SetjaL\xednu\xdeykkt",
     "SetLineThickness_Syntax": "[ <L\xedna>, <Tala> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetjaPunktaSt\xe6r\xf0",
     "SetPointSize_Syntax": "[ <Punktur>, <Tala> ]",
     "SetPointStyle": "SetjaPunktaGer\xf0",

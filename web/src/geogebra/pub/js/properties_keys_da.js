@@ -789,6 +789,8 @@ __GGB__keysVar.da.command = {
     "SetLineStyle_Syntax": "[ <linje>, <tal> ]",
     "SetLineThickness": "V\xe6lgLinjeTykkelse",
     "SetLineThickness_Syntax": "[ <linje>, <tal> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "V\xe6lgPunktSt\xf8rrelse",
     "SetPointSize_Syntax": "[ <punkt>, <tal> ]",
     "SetPointStyle": "V\xe6lgPunktStil",

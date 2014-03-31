@@ -789,6 +789,8 @@ __GGB__keysVar.bg.command = {
     "SetLineStyle_Syntax": "[ <\u041f\u0440\u0430\u0432\u0430>, <\u0427\u0438\u0441\u043b\u043e> ]",
     "SetLineThickness": "SetLineThickness",
     "SetLineThickness_Syntax": "[ <\u041f\u0440\u0430\u0432\u0430>, <\u0427\u0438\u0441\u043b\u043e> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetPointSize",
     "SetPointSize_Syntax": "[ <\u0422\u043e\u0447\u043a\u0430>, <\u0427\u0438\u0441\u043b\u043e> ]",
     "SetPointStyle": "SetPointStyle",

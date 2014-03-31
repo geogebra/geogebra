@@ -789,6 +789,8 @@ __GGB__keysVar.nl_BE.command = {
     "SetLineStyle_Syntax": "[ <Rechte>, <Getal> ]",
     "SetLineThickness": "SetLineThickness",
     "SetLineThickness_Syntax": "[ <Rechte>, <Getal> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "SetPointSize",
     "SetPointSize_Syntax": "[ <Punt>, <Getal> ]",
     "SetPointStyle": "SetPointStyle",

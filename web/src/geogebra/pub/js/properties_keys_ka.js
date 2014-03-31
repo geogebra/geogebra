@@ -789,6 +789,8 @@ __GGB__keysVar.ka.command = {
     "SetLineStyle_Syntax": "[ <\u10ec\u10e0\u10e4\u10d4>, <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d8> ]",
     "SetLineThickness": "\u10d0\u10d8\u10e0\u10e9\u10d8\u10d4\u10ec\u10e0\u10e4\u10d8\u10e1\u10e1\u10d8\u10e1\u10e5\u10d4",
     "SetLineThickness_Syntax": "[ <\u10ec\u10e0\u10e4\u10d4>, <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d8> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8\u10e1\u10d6\u10dd\u10db\u10d0",
     "SetPointSize_Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8>, <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d8> ]",
     "SetPointStyle": "\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8\u10e1\u10e1\u10e2\u10d8\u10da\u10d8",

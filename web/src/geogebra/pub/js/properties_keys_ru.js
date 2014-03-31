@@ -789,6 +789,8 @@ __GGB__keysVar.ru.command = {
     "SetLineStyle_Syntax": "[ <\u041f\u0440\u044f\u043c\u0430\u044f>, <\u0427\u0438\u0441\u043b\u043e> ]",
     "SetLineThickness": "\u0412\u044b\u0431\u0440\u0430\u0442\u044c\u0422\u043e\u043b\u0449\u0438\u043d\u0443\u041b\u0438\u043d\u0438\u0438",
     "SetLineThickness_Syntax": "[ <\u041f\u0440\u044f\u043c\u0430\u044f>, <\u0427\u0438\u0441\u043b\u043e> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "\u0412\u044b\u0431\u0440\u0430\u0442\u044c\u0420\u0430\u0437\u043c\u0435\u0440\u0422\u043e\u0447\u043a\u0438",
     "SetPointSize_Syntax": "[ <\u0422\u043e\u0447\u043a\u0430>, <\u0427\u0438\u0441\u043b\u043e> ]",
     "SetPointStyle": "\u0412\u044b\u0431\u0440\u0430\u0442\u044c\u0421\u0442\u0438\u043b\u044c\u0422\u043e\u0447\u043a\u0438",

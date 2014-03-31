@@ -789,6 +789,8 @@ __GGB__keysVar.xh.command = {
     "SetLineStyle_Syntax": "[ <Line>, <Number> ]",
     "SetLineThickness": "SetLineThickness",
     "SetLineThickness_Syntax": "[ <Line>, <Number> ]",
+    "SetPerspective": "SetPerspective",
+    "SetPerspective_Syntax": "[ <Text> ]",
     "SetPointSize": "LungisaUbukhuluBechaphaza",
     "SetPointSize_Syntax": "[ <Point>, <Number> ]",
     "SetPointStyle": "LungisaUhloboLweChaphaza",
