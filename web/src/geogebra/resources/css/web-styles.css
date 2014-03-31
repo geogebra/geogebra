@@ -1176,8 +1176,8 @@ td.datePickerMonth {
 	bottom: -1px;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab .gwt-Label,
-.gwt-TabBar .gwt-TabBarItem .gwt-Label {
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,
+.gwt-TabBar .gwt-TabBarItem {
 	margin-right: 4px;
 	padding: 4px 8px;
 	height: 30px;
@@ -1197,8 +1197,8 @@ td.datePickerMonth {
 	height: 15px;
 }
 
-.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected .gwt-Label,
-.gwt-TabBar .gwt-TabBarItem-selected .gwt-Label	{
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
+.gwt-TabBar .gwt-TabBarItem-selected	{
 	cursor: default;
 	background: white;
 	color: #6666FF;
@@ -1212,7 +1212,7 @@ td.datePickerMonth {
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
 .gwt-TabPanelBottom {
 	overflow: auto;
-	padding: 5px;
+	padding: 8px;
 	background-color: #FFFFFF;
 	border: 1px solid #DCDCDC;
 	border-top: none;
@@ -1695,6 +1695,7 @@ Paddings for menuitems.
 	width: 24px;
 	height: 24px;
 	margin-left: 4px;
+	cursor: pointer;
 }
 
 .MyToggleButton.selected,.MyCanvasButton.selected {
@@ -3014,6 +3015,11 @@ label {
 
 .lblMeanSigma {
 	padding: 5px;
+	float: left;
+}
+.btnExport,
+.btnNormalOverlay {
+	float: right;
 }
 
 .controlPanel {

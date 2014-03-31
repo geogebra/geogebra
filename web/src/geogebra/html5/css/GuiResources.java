@@ -238,7 +238,7 @@ public interface GuiResources extends ClientBundle {
 	ImageResource cumulative_distribution();
 	
 	@Source("icons/png/web/probability_calculator_export.png")
-	ImageResource export();
+	ImageResource prob_calc_export();
 	
 	@Source("icons/png/web/probability_calculator_interval_between.png")
 	ImageResource interval_between();

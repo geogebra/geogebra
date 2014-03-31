@@ -3,7 +3,6 @@ package geogebra.web.gui.view.probcalculator;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.menubar.GCheckBoxMenuItem;
@@ -11,13 +10,11 @@ import geogebra.web.gui.menubar.GRadioButtonMenuItem;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.helper.SafeHtmlFactory;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -38,8 +35,8 @@ public class ProbabilityCalculatorStyleBarW extends
 	private GCheckBoxMenuItem btnStepGraph;
 	private GCheckBoxMenuItem btnBarGraph;
 	private MyToggleButton2 btnGrid;
-	private MenuItem btnExport;
-	private GCheckBoxMenuItem btnNormalOverlay;
+	//private MenuItem btnExport;
+	//private GCheckBoxMenuItem btnNormalOverlay;
 	private HandlerRegistration btnLineGraphHandler;
 	private HandlerRegistration btnStepGraphHandler;
 	private HandlerRegistration btnBarGraphHandler;
@@ -66,12 +63,12 @@ public class ProbabilityCalculatorStyleBarW extends
 	 */
 	public void setLabels() {
 		btnRounding.setText(app.getMenu("Rounding"));
-		btnExport.setTitle(app.getMenu("Export"));
+		//btnExport.setTitle(app.getMenu("Export"));
 		btnLineGraph.setTitle(app.getMenu("LineGraph"));
 
 		btnStepGraph.setTitle(app.getMenu("StepGraph"));
 		btnBarGraph.setTitle(app.getMenu("BarChart"));
-		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
+		//btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
 
 		// btnCumulative.setToolTipText(app.getMenu("Cumulative"));
 
@@ -97,12 +94,12 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_BAR);
 
-		btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
+		//btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
 
 		btnLineGraphHandler = btnLineGraph.addValueChangeHandler(this);
 		btnStepGraphHandler = btnStepGraph.addValueChangeHandler(this);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
-		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
+		//btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
     }
 
 	private void createGUI() {
@@ -141,20 +138,20 @@ public class ProbabilityCalculatorStyleBarW extends
 			}
 		});
 		
-		btnExport = new MenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.export16()));
-		btnExport.setScheduledCommand(new ScheduledCommand() {
-			
-			public void execute() {
-				
-				Window.open(((EuclidianViewW) ((ProbabilityCalculatorViewW)probCalc).plotPanel).getExportImageDataUrl(3, true),
-				        "_blank", null);
-				
-				
-			}
-		});
+//		btnExport = new MenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.export16()));
+//		btnExport.setScheduledCommand(new ScheduledCommand() {
+//			
+//			public void execute() {
+//				
+//				Window.open(((EuclidianViewW) ((ProbabilityCalculatorViewW)probCalc).plotPanel).getExportImageDataUrl(3, true),
+//				        "_blank", null);
+//				
+//				
+//			}
+//		});
 		
-		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()), false);
-		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
+//		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()), false);
+//		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
 	    
     }
 
@@ -240,10 +237,10 @@ public class ProbabilityCalculatorStyleBarW extends
 			wrappedToolbar.addItem(btnStepGraph);
 			wrappedToolbar.addItem(btnBarGraph);
 			wrappedToolbar.addSeparator();
-			wrappedToolbar.addItem(btnNormalOverlay);
+			//wrappedToolbar.addItem(btnNormalOverlay);
 
 			wrappedToolbar.addSeparator();
-			wrappedToolbar.addItem(btnExport);
+			//wrappedToolbar.addItem(btnExport);
 			// add(btnGrid); (grid doesn't work well with discrete graphs and
 			// point
 			// capturing)
@@ -299,10 +296,10 @@ public class ProbabilityCalculatorStyleBarW extends
 				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_STEP);
 		}
 
-		else if (event.getSource() == btnNormalOverlay) {
-			probCalc.setShowNormalOverlay(btnNormalOverlay.isSelected());
-			probCalc.updateAll();
-		}
+//		else if (event.getSource() == btnNormalOverlay) {
+//			probCalc.setShowNormalOverlay(btnNormalOverlay.isSelected());
+//			probCalc.updateAll();
+//		}
 	    
 	    
     }

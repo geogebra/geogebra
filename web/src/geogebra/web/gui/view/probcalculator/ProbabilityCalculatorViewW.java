@@ -10,6 +10,8 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.main.GlobalKeyDispatcherW;
@@ -26,6 +28,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -36,6 +40,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -78,6 +83,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	FlowPanel controlPanel;
 	private ScheduledCommand exportToEVAction;
 	private FlowPanel plotPanelPlus;
+	private FlowPanel plotPanelOptions;
 	private FlowPanel plotSplitPane;
 	private FlowPanel mainSplitPane;
 	private FlowPanel probCalcPanel;
@@ -86,6 +92,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
 	private boolean valueChanged;
+	private StandardButton btnExport;
+	private MyToggleButton2 btnNormalOverlay;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -156,6 +164,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 
+		btnExport.setTitle(app.getMenu("Export"));
+		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
 	}
 	
 	/**
@@ -238,13 +248,15 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		//control panel
 	    createControlPanel();
 	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
-
 	    
-
+	    plotPanelOptions = new FlowPanel();
+	    plotPanelOptions.add(lblMeanSigma);
+	    plotPanelOptions.add(btnExport);
+	    plotPanelOptions.add(btnNormalOverlay);
 	    
 	    plotPanelPlus = new FlowPanel();
 	    plotPanelPlus.addStyleName("PlotPanelPlus");
-	    plotPanelPlus.add(lblMeanSigma);
+	    plotPanelPlus.add(plotPanelOptions);
 	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
 	    
 	    //table panel
@@ -379,7 +391,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
-	    	  
+	    
+	    btnExport = new StandardButton(GuiResources.INSTANCE.prob_calc_export());
+	    btnExport.setStyleName("MyToggleButton");
+	    btnExport.addStyleName("btnExport");
+	    btnExport.addFastClickHandler(new FastClickHandler() {
+			@Override
+            public void onClick() {
+				Window.open(((EuclidianViewW) plotPanel).getExportImageDataUrl(3, true), "_blank", null);
+            }  	
+	    });
+	    
+	    btnNormalOverlay = new MyToggleButton2(GuiResources.INSTANCE.normal_overlay(), 24);
+	    btnNormalOverlay.addStyleName("btnNormalOverlay");
+	    btnNormalOverlay.addClickHandler(new ClickHandler() {
+			@Override
+            public void onClick(ClickEvent event) {
+				setShowNormalOverlay(btnNormalOverlay.isSelected());
+				updateAll();
+            }
+	    });
     }
 	
 	/**
@@ -650,6 +681,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				//btnIntervalLeft.addActionListener(this);
 				//btnIntervalBetween.addActionListener(this);
 				//btnIntervalRight.addActionListener(this);
+				
+				btnNormalOverlay.setValue(isShowNormalOverlay());
     }
 
 	public void onChange(ChangeEvent event) {
