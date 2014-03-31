@@ -183,5 +183,10 @@ public class AlgoDilate extends AlgoTransformation {
 
 	}
 
+	@Override
+	public double getAreaScaleFactor() {
+		return r.getDouble() * r.getDouble();
+	}
+
 	// TODO Consider locusequability
 }

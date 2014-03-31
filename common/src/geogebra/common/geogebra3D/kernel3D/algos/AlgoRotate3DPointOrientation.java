@@ -130,6 +130,11 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
    	
     }
 
+	@Override
+	public double getAreaScaleFactor() {
+		return 1;
+	}
+
     
     
 

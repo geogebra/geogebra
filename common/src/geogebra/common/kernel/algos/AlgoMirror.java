@@ -405,5 +405,11 @@ public class AlgoMirror extends AlgoTransformation implements RestrictionAlgoFor
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
 		return LocusEquation.eqnMirror(geo, this, scope);
 	}
+	
+	@Override
+	public double getAreaScaleFactor() {
+		return -1;
+	}
+
     
 }

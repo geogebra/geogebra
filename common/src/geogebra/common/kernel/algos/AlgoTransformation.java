@@ -134,4 +134,12 @@ public abstract class AlgoTransformation extends AlgoElement {
 			setTransformedObject(a, b);
 		}
 	}
+	
+	/**
+	 * 
+	 * used when transforming polygons
+	 * 
+	 * @return area scale factor of the transformation (-1 for reflections)
+	 */
+	public abstract double getAreaScaleFactor();
 }

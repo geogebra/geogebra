@@ -247,6 +247,11 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		
 	}
 
+	@Override
+	public double getAreaScaleFactor() {
+		return 1;
+	}
+
 	// TODO Consider locusequability
 
 }

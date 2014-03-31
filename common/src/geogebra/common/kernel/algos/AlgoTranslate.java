@@ -228,6 +228,12 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		}
 		throw new NoSymbolicParametersException();
 	}
+	
+	@Override
+	public double getAreaScaleFactor() {
+		return 1;
+	}
+
 
 	// TODO Consider locusequability
 }

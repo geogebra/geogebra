@@ -144,6 +144,12 @@ public class AlgoRotate extends AlgoTransformation {
 			return new GeoCurveCartesian(cons);
 		return super.getResultTemplate(geo);
 	}
+    
+	@Override
+	public double getAreaScaleFactor() {
+		return 1;
+	}
+
 
 	// TODO Consider locusequability
 }

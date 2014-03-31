@@ -131,6 +131,10 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
      	return EuclidianConstants.MODE_ROTATE_AROUND_LINE;
      }   
      
+	@Override
+	public double getAreaScaleFactor() {
+		return 1;
+	}
 
     
 }

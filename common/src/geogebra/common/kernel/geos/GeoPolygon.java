@@ -28,6 +28,7 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularND;
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.algos.PolygonAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1875,11 +1876,44 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void calcArea() {
-		((PolygonAlgo)getParentAlgorithm()).calcArea();		
+		
+		
+		// eg Dilate[Polygon[(0,0),(1,1),(1,0)],4]
+		if (algoParent instanceof AlgoTransformation) {
+			AlgoTransformation algo = (AlgoTransformation)algoParent;
+			
+			double sf = algo.getAreaScaleFactor();
+			
+			GeoPolygon input = (GeoPolygon) algo.getInput(0);
+			
+			setArea(input.getAreaWithSign() * sf);
+			
+			return;
+			
+		}
+
+		if (algoParent instanceof PolygonAlgo) {
+			((PolygonAlgo)algoParent).calcArea();
+		}
+		
+		// shouldn't happen
+		setArea(Double.NaN);
 	}
 
 	public void calcCentroid(GeoPoint p) {
-		((PolygonAlgo)getParentAlgorithm()).calcCentroid(p);		
+		
+		if (algoParent instanceof PolygonAlgo) {
+			((PolygonAlgo)algoParent).calcCentroid(p);
+			return;
+		}
+		
+		// just do long method
+		// could improve by transforming original centroid, but not worth doing
+		// test-case Centroid[Dilate[Polygon[(0,0),(1,1),(1,0)],4]]
+		// test-case Centroid[Polygon[(0,0),(1,1),(1,0)]]
+		AlgoPolygon.calcCentroid(p, area, points);
+		
+		
 	}
 
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {

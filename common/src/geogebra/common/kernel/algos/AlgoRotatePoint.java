@@ -145,6 +145,11 @@ public class AlgoRotatePoint extends AlgoTransformation {
 		return super.getResultTemplate(geo);
 	}
 
+	@Override
+	public double getAreaScaleFactor() {
+		return 1;
+	}
+
 	// TODO Consider locusequability
     
 }
