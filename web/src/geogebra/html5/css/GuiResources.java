@@ -261,8 +261,8 @@ public interface GuiResources extends ClientBundle {
 	
 	//OBJECT PROPERTIES
 	
-	//DECORATION
-	//ANGLES
+	//DECORATIONS
+	//ANGLE
 	@Source("icons/png/web/decoration_icons/decoration_angle_1line_32px.png")
 	ImageResource deco_angle_1line();
 	
@@ -286,5 +286,43 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("icons/png/web/decoration_icons/decoration_angle_arrow-down_32px.png")
 	ImageResource deco_angle_arrow_down();
+	
+	//SEGMENT
+	@Source("icons/png/web/decoration_icons/decoration_segment_line.png")
+	ImageResource deco_segment_none();
+	
+	@Source("icons/png/web/decoration_icons/decoration_segment_1stroke.png")
+	ImageResource deco_segment_1stroke();
+	
+	@Source("icons/png/web/decoration_icons/decoration_segment_2strokes.png")
+	ImageResource deco_segment_2strokes();
+	
+	@Source("icons/png/web/decoration_icons/decoration_segment_3strokes.png")
+	ImageResource deco_segment_3stroke();
+	
+	@Source("icons/png/web/decoration_icons/decoration_segment_1arrow.png")
+	ImageResource deco_segment_1arrow();
+	
+	@Source("icons/png/web/decoration_icons/decoration_segment_2arrows.png")
+	ImageResource deco_segment_2arrows();
+	
+	@Source("icons/png/web/decoration_icons/decoration_segment_3arrows.png")
+	ImageResource deco_segment_3arrows();
+	
+	//AXES
+	@Source("icons/png/web/decoration_icons/decoration_axes_line.png")
+	ImageResource deco_axes_none();
+	
+	@Source("icons/png/web/decoration_icons/decoration_axes_arrow.png")
+	ImageResource deco_axes_arrow();
+	
+	@Source("icons/png/web/decoration_icons/decoration_axes_arrows.png")
+	ImageResource deco_axes_arrows();
+	
+	@Source("icons/png/web/decoration_icons/decoration_axes_arrow_filled.png")
+	ImageResource deco_axes_arrow_filled();
+	
+	@Source("icons/png/web/decoration_icons/decoration_axes_arrows_filled.png")
+	ImageResource deco_axes_arrows_filled();
 }
 
