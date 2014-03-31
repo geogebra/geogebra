@@ -42,6 +42,7 @@ import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
@@ -1896,8 +1897,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			((PolygonAlgo)algoParent).calcArea();
 		}
 		
-		// shouldn't happen
-		setArea(Double.NaN);
+		App.debug(algoParent.getClass()+"");
+		
+		// eg IntersectRegion[Polygon[(1,1),(0,1),(1,0)],Polygon[(1,1),(0,1),(1,0)]]
+		// eg Union[Polygon[(1,1),(0,1),(1,0)],Polygon[(1,1),(0,1),(1,0)]]
+		setArea(AlgoPolygon.calcAreaWithSign(points));
 	}
 
 	public void calcCentroid(GeoPoint p) {
