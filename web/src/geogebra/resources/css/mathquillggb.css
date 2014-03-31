@@ -110,7 +110,7 @@
   line-height: inherit;
   margin: 0;
   padding: 0;
-  border-color: black;
+  border-color: black;/* Is this line needed? */
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -171,11 +171,11 @@
   font-family: geogebra-sans-serif, sans-serif, serif;
 }
 .mathquillggb-rendered-math .overline {
-  border-top: 1px solid black;
+  border-top: 1px solid;
   margin-top: 1px;
 }
 .mathquillggb-rendered-math .underline {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid;
   margin-bottom: 1px;
 }
 .mathquillggb-rendered-math .binary-operator {
