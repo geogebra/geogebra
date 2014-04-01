@@ -6,7 +6,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.html5.move.ggtapi.models.MaterialCallback;
 import geogebra.web.gui.menubar.GeoGebraMenuW;
-import geogebra.web.gui.menubar.GeoGebraMenubarSMART;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 public class SmartLookAndFeel extends GLookAndFeel{
 	@Override
     public GeoGebraMenuW getMenuBar(AppW app) {
-		GeoGebraMenubarSMART menubar = new GeoGebraMenubarSMART(app);
+		MainMenu menubar = new MainMenu(app);
 		Window.addResizeHandler(menubar);
 		return menubar;
     }
@@ -65,7 +65,26 @@ public class SmartLookAndFeel extends GLookAndFeel{
        });
     }
 	
-	public String getType() {
+	@Override
+    public String getType() {
 	    return "smart";
+    }
+	
+	@Override
+    public boolean isModern() {
+		return true;
+	}
+	@Override
+    public boolean copyToClipboardSupported(){
+		return false;
+	}
+	@Override
+    public String getLoginListener() {
+	    return "loginListener";
+    }
+
+	@Override
+    public String getInsertWorksheetTitle() {
+	    return "insert_worksheet";
     }
 }

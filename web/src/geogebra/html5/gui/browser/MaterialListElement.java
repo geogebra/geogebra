@@ -259,11 +259,9 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	void setLabels() {
-		if(app.getLAF().isSmart()){
-			this.openButton.setText(app.getMenu("insert_worksheet"));
-		}else{
-			this.openButton.setText(app.getMenu("View"));
-		}
+		
+		this.openButton.setText(app.getMenu(app.getLAF().getInsertWorksheetTitle()));
+		
 		this.editButton.setText(app.getMenu("Edit"));
 	}
 

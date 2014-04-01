@@ -35,7 +35,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		radioButtons = new ArrayList<RadioButton>();
 		app = application;
 		if(arrow){
-			GeoGebraMenubarW.addSubmenuArrow(app, this);
+			MainMenu.addSubmenuArrow(app, this);
 		}
 	}
 

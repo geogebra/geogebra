@@ -11,6 +11,8 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.StackPanel;
 
@@ -20,7 +22,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, ResizeHandler {
+public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler {
 	
 	/**
 	 * Appw app
@@ -47,7 +49,7 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 	 * @param app
 	 *            application
 	 */
-	public GeoGebraMenubarSMART(AppW app) {
+	public MainMenu(AppW app) {
 		this.addStyleName("menubarSMART");
 		this.app = app;
 		init();
@@ -178,5 +180,16 @@ public class GeoGebraMenubarSMART extends FlowPanel implements GeoGebraMenuW, Re
 			this.menus[index].focus();
 		}
 	}
+	
+	public static void addSubmenuArrow(AppW app,MenuBar w) {
+		if (app.getLAF().isModern()) {
+			w.addStyleName("subMenuLeftSide");
+			FlowPanel arrowSubmenu = new FlowPanel();
+			arrowSubmenu.addStyleName("arrowSubmenu");
+			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_right());
+			arrowSubmenu.add(arrow);
+		    w.getElement().appendChild(arrowSubmenu.getElement());
+		}
+    }
 
 }

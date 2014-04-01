@@ -30,7 +30,7 @@ public class InsertImageMenuW extends MenuBar {
 		addStyleName("GeoGebraMenuBar");
 		
 		
-		GeoGebraMenubarW.addSubmenuArrow(app, this);
+		MainMenu.addSubmenuArrow(app, this);
 		
 		
 		initActions();

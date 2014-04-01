@@ -608,40 +608,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 				setDividerLocationSilent(getLeftComponent().getOffsetHeight());
 			}
 		}
-
-		if (app.getArticleElement().getScaleX() != 1.0 ||
-				app.getArticleElement().getScaleY() != 1.0) {
-			if(!app.getLAF().isSmart()){
-				//for SMART we need the scale to be 0.8 and freezing splitters breaks everything
-				freezeSplitters();
-			}
-		}
     }
-	
-	private native void freezeSplitters() /*-{
-		function removeEvents(nodes) {
-			var node,
-				clone,
-				parent,
-				i,
-				l;
-			for (i = 0, l = nodes.length; i < l; i += 1) {
-				node = nodes[i];
-				clone = node.cloneNode(true);
-				parent = node.parentNode;
-				parent.replaceChild(clone, node);
-			}
-		}
-		var splitlayoutpanel = this.@geogebra.web.gui.layout.DockSplitPaneW::getElement()(),
-			vpanels = splitlayoutpanel.getElementsByClassName("gwt-SplitLayoutPanel-HDragger"),
-			hpanels = splitlayoutpanel.getElementsByClassName("gwt-SplitLayoutPanel-VDragger");
-		if(vpanels && vpanels.length) {
-			removeEvents(vpanels);
-		}
-		if (hpanels && hpanels.length) {
-			removeEvents(hpanels);
-		}
-	}-*/;
 
 	public void checkDividerIsOutside() {
 

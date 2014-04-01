@@ -19,6 +19,7 @@ import geogebra.web.helper.ObjectPool;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 
 public class AppWapplication extends AppW {
@@ -43,6 +44,7 @@ public class AppWapplication extends AppW {
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
 			appFrame.getElement().addClassName("zoomed");
+			RootPanel.getBodyElement().addClassName("zoomedBody");
 			article.setAttribute("data-scalex", "0.8");
 			article.setAttribute("data-scaley", "0.8");
 		}

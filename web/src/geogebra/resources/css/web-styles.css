@@ -3563,7 +3563,7 @@ PROVIDERS
 /*#####################################################################################
 ###       ZOOM
 #####################################################################################*/
-/*.zoomed {
+.zoomed {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 	width: 125%;
@@ -3573,7 +3573,7 @@ PROVIDERS
 	transform-origin: 0% 0%;
 }
 
-.gwt-DialogBox {
+.zoomedBody .gwt-DialogBox {
 	-webkit-transform-origin: 50% 50%;
 	-moz-transform-origin: 50% 50%;
 	transform-origin: 50% 50%;
@@ -3581,7 +3581,7 @@ PROVIDERS
 	-moz-transform: scale(0.8, 0.8);
 }
 
-.gwt-PopupPanel {
+.zoomedBody .gwt-PopupPanel {
 	-webkit-transform-origin: 100% 0%;
 	-moz-transform-origin: 100% 0%;
 	transform-origin: 100% 0%;
@@ -3589,26 +3589,26 @@ PROVIDERS
 	-moz-transform: scale(0.8, 0.8);
 }
 
-.gwt-PopupPanel.SymbolTablePopup {
+.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 	-webkit-transform-origin: 0% 0%;
 	-moz-transform-origin: 0% 0%;
 	transform-origin: 0% 0%;
 }
-.gwt-PopupPanel.helpPopup {
+.zoomedBody .gwt-PopupPanel.helpPopup {
 	-webkit-transform-origin: 100% 100%;
 	-moz-transform-origin: 100% 100%;
 	transform-origin: 100% 100%;
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 }
-.gwt-PopupPanel.PropertiesViewW {
+.zoomedBody .gwt-PopupPanel.PropertiesViewW {
 	-webkit-transform: scale(1, 1);
 	-moz-transform: scale(1, 1);
 }
 
-.gwt-MenuBarPopup {
+.zoomedBody .gwt-MenuBarPopup {
 	-webkit-transform-origin: 100% 0%;
 	-moz-transform-origin: 100% 0%;
 	transform-origin: 100% 0%;
@@ -3616,13 +3616,13 @@ PROVIDERS
 	-moz-transform: scale(0.8, 0.8);
 }
 
-.gwt-SuggestBoxPopup {
+.zoomedBody .gwt-SuggestBoxPopup {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 	-webkit-transform-origin: 0% 100%;
 	-moz-transform-origin: 0% 100%;
 	transform-origin: 0% 100%;
-}*/
+}
 
 .AppFrameParent{
 	border: 1px #DCDCDC solid;

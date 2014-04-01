@@ -45,7 +45,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		glassPane.setArticleElement(app.getArticleElement());
 		dockPanel.clear();
 
-		if(!app.getLAF().isSmart()) {
+		if(!app.getLAF().isModern()) {
 			dockPanel.addNorth(getMenuBar(), MENUBAR_HEIGHT);
 		}
 		
@@ -58,7 +58,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			dockPanel.addSouth(getCommandLine(), COMMAND_LINE_HEIGHT);
 		}
 		
-		if(app.getLAF().isSmart()) {
+		if(app.getLAF().isModern()) {
 			dockPanel.addEast(getMenuBar(), MENUBAR_WIDTH);
 		}
 

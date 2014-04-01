@@ -65,7 +65,7 @@ public class FileMenuW extends GMenuBar {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
 		}
 		
-		if(!app.getLAF().isSmart()) {
+		if(app.getLAF().undoRedoSupported()) {
 			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
 		
 				public void execute() {

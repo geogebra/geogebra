@@ -52,7 +52,7 @@ public class EditMenuW extends GMenuBar {
 
 		clearItems();
 		
-		if(!app.getLAF().isSmart()){
+		if(app.getLAF().undoRedoSupported()){
 			addUndoRedo();
 			// separator
 			addSeparator();
@@ -98,7 +98,7 @@ public class EditMenuW extends GMenuBar {
 					        // do nothing
 				        }
 			        });
-		if(!app.getLAF().isSmart()){
+		if(app.getLAF().copyToClipboardSupported()){
 		// copy graphics view menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_copy().getSafeUri().asString(), app.getMenu("CopyImage"), true),
 		        true, new Command() {

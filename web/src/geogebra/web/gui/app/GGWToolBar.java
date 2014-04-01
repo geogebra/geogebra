@@ -7,7 +7,6 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.BrowseGUI;
-import geogebra.html5.main.AppWeb;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
@@ -37,7 +36,7 @@ public class GGWToolBar extends Composite {
 	}
 
 	private ArrayList<ToolBarW> toolbars;
-	App app;
+	AppW app;
 	private ToolBarW toolBar;
 	//panel which contains the toolbar and undo-redo buttons.
 	FlowPanel toolBarPanel;
@@ -46,7 +45,7 @@ public class GGWToolBar extends Composite {
 	boolean inited = false;
 	private Integer activeToolbar = -1;
 	
-	private FlowPanel smartButtonPanel;
+	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton, openMenuButton;
 
 	/**
@@ -94,14 +93,12 @@ public class GGWToolBar extends Composite {
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init(app1);
 		addToolbar(toolBar);
-		if(app1.getLAF().undoRedoSupported()){
-			addUndoPanel();
-		}
+		
 		
 		//Adds the Open and Options Button for SMART
-		if(app1.getLAF().isSmart()) {
-			this.addSmartButtonPanel();
-		}
+		
+		addRightButtonPanel();
+		
 	}
 
 //	/**
@@ -123,6 +120,7 @@ public class GGWToolBar extends Composite {
             }
 		});
 		redoButton.setStyleName("redoButton");
+		redoButton.getElement().addClassName("button");
 		redoButton.setTitle("Redo");
 	
 		Image undoImage = new Image(AppResources.INSTANCE.edit_undo());
@@ -134,21 +132,25 @@ public class GGWToolBar extends Composite {
             }
 		});
 		undoButton.setStyleName("undoButton");
+		undoButton.getElement().addClassName("button");
 		undoButton.setTitle("Undo");
 		//toolBarPanel.add(redoButton);
 		
-		FlowPanel undoPanel = new FlowPanel();
-		undoPanel.addStyleName("undoPanel");
-		undoPanel.add(undoButton);
-		undoPanel.add(redoButton);
-		toolBarPanel.add(undoPanel);	
+		
+		rightButtonPanel.add(undoButton);
+		rightButtonPanel.add(redoButton);
+			
 	}
 	
-	//SMART Open and Options Button
-	private void addSmartButtonPanel(){
-		this.smartButtonPanel = new FlowPanel();
-		this.smartButtonPanel.setStyleName("smartButtonPanel");
-		
+	//Undo, redo, open, menu
+	private void addRightButtonPanel(){
+		this.rightButtonPanel = new FlowPanel();
+		this.rightButtonPanel.setStyleName("smartButtonPanel");
+		if(app.getLAF().undoRedoSupported()){
+			addUndoPanel();
+		}
+		if(app.getArticleElement().getDataParamShowMenuBar() || 
+				app.getArticleElement().getDataParamApp()){
 		openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -175,16 +177,16 @@ public class GGWToolBar extends Composite {
 			@Override
             public void onClick() {
 				// TODO: Zbynek please check if this is ok - Steffi
-				BrowseGUI bg = new BrowseGUI((AppWeb) app);
-				((AppW) app).showBrowser(bg);
+				BrowseGUI bg = new BrowseGUI(app);
+				app.showBrowser(bg);
             }
 		});
 		
 		openSearchButton.addDomHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-	            	BrowseGUI bg = new BrowseGUI((AppWeb) app);
-					((AppW) app).showBrowser(bg);
+	            	BrowseGUI bg = new BrowseGUI(app);
+					app.showBrowser(bg);
 	            }
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
 	            	GGWToolBar.this.selectMenuButton(1);
@@ -195,10 +197,10 @@ public class GGWToolBar extends Composite {
             }
 		}, KeyUpEvent.getType());
 		
-		this.smartButtonPanel.add(openSearchButton);
-		this.smartButtonPanel.add(openMenuButton);
-		
-		toolBarPanel.add(smartButtonPanel);	
+		this.rightButtonPanel.add(openSearchButton);
+		this.rightButtonPanel.add(openMenuButton);
+		}
+		toolBarPanel.add(rightButtonPanel);	
 	}
 	
 	/**
@@ -281,7 +283,7 @@ public class GGWToolBar extends Composite {
 					return myIconResourceBundle.mode_tool_32().getSafeUri().asString();
 				}
 				// use image as icon
-				Image img = new Image(((geogebra.html5.util.ImageManager)app.getImageManager()).getExternalImageSrc(iconName));
+				Image img = new Image(app.getImageManager().getExternalImageSrc(iconName));
 				return img.getUrl();
 			} catch (Exception e) {
 				App.debug("macro does not exist: ID = " + macroID);

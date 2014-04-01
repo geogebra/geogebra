@@ -116,7 +116,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	private void addLanguageMenu() {
-		if(app.getLAF().isSmart()){
+		if(app.getLAF().isModern()){
 			App.debug("smart menu");
 			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
 
