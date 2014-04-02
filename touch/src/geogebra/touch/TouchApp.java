@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Stack;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;
@@ -96,7 +97,8 @@ public class TouchApp extends AppWeb {
 		this.setLabelDragsEnabled(false);
 
 		initFactories();
-		geogebra.common.factories.SwingFactory.setPrototype(new SwingFactoryT());
+		geogebra.common.factories.SwingFactory
+				.setPrototype(new SwingFactoryT());
 
 		infobar = new InfoBarT();
 
@@ -467,9 +469,21 @@ public class TouchApp extends AppWeb {
 	}
 
 	public void setDefaultConstructionTitle() {
-		this.setConstructionTitle(this.fm.getDefaultConstructionTitle(this
-				.getLocalization()));
-		this.isDefaultFileName = true;
+		this.fm.getDefaultConstructionTitle(this.getLocalization(),
+				new Callback<String, String>() {
+
+					@Override
+					public void onSuccess(final String result) {
+						TouchApp.this.setConstructionTitle(result);
+						TouchApp.this.isDefaultFileName = true;
+					}
+
+					@Override
+					public void onFailure(final String reason) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	public void setFileManager(final FileManagerT fm) {
@@ -497,7 +511,7 @@ public class TouchApp extends AppWeb {
 		if (locale.contains("-")) {
 			country = locale.split("-")[1];
 		}
-		
+
 		this.setLanguage(language, country);
 	}
 
@@ -572,10 +586,10 @@ public class TouchApp extends AppWeb {
 	 */
 	void start() {
 		this.initKernel();
-		String lang = Location.getParameter("lang") != null ?
-			Location.getParameter("lang"):
-			this.getLocale();
-		this.touchGUI.initComponents(this.kernel, Localization.rightToLeftReadingOrder(lang));
+		final String lang = Location.getParameter("lang") != null ? Location
+				.getParameter("lang") : this.getLocale();
+		this.touchGUI.initComponents(this.kernel,
+				Localization.rightToLeftReadingOrder(lang));
 		super.euclidianView = this.touchGUI.getEuclidianViewPanel()
 				.getEuclidianView();
 
@@ -698,13 +712,13 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public HasAppletProperties getAppletFrame() {
-		//Sould be here something to get js api work on touch.
+		// Sould be here something to get js api work on touch.
 		return null;
 	}
 
 	@Override
-	public EuclidianViewWeb getPlotPanelEuclidianView(int viewID) {
-		//TODO: do this when ported to touch .-)
+	public EuclidianViewWeb getPlotPanelEuclidianView(final int viewID) {
+		// TODO: do this when ported to touch .-)
 		return null;
 	}
 
