@@ -208,6 +208,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			addAxesRatioHandler(tfAxesRatioX);
 			addAxesRatioHandler(tfAxesRatioY);
 			
+			tbLockRatio.addClickHandler(new ClickHandler() {
+				
+				public void onClick(ClickEvent event) {
+					if (tbLockRatio.getValue()) {
+						model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
+								/ parseDouble(tfAxesRatioY.getText()));
+					} else {
+						model.applyLockRatio(null);
+					}
+
+
+				}
+			});
 		}
 		
 		private void indent(FlowPanel panel) {
@@ -271,7 +284,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createAxesStyleIcon(i, iconSize);
+				iconArray[i] = GeoGebraIcon.createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i], iconSize);
 			}
 			
 			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1, iconSize,
@@ -312,18 +325,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					updateView();
                 }});
 			
-			tbLockRatio.addClickHandler(new ClickHandler() {
-
-				public void onClick(ClickEvent event) {
-					if (tbLockRatio.getValue()) {
-						model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
-								/ parseDouble(tfAxesRatioY.getText()));
-					} else {
-						model.applyLockRatio(null);
-					}
-					updateView();
-                }});
-			
+		
 			indent(axesOptionsPanel);
 		}
 
@@ -491,9 +493,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lineStyle.setText(app.getPlain("LineStyle") + ":");
 
 			miscTitle.setText(app.getPlain("Miscellaneous"));
-			lbTooltips.clear();
 			backgroundColorLabel.setText(app.getPlain("BackgroundColor") + ":");
 			int index = lbTooltips.getSelectedIndex();
+			lbTooltips.clear();
 			model.fillTooltipCombo();
 			lbTooltips.setSelectedIndex(index);
 			cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
@@ -511,7 +513,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void enableAxesRatio(boolean value) {
 			tfAxesRatioX.getTextBox().setEnabled(value);
 			tfAxesRatioY.getTextBox().setEnabled(value);
-		}
+	}
 
 		public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
 			tfMinX.setText(minX);
