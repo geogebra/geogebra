@@ -558,7 +558,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 		
 		$wnd[ggbApplet].getPNGBase64 = function(exportScale, transparent, dpi){
-			ggbAPI.@geogebra.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
 		}
 		
 		

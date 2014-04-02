@@ -104,7 +104,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
             double DPI) {
 	    return ((EuclidianViewWeb) app
 				.getEuclidianView1())
-				.getExportImageDataUrl(exportScale, transparent);
+				.getExportImageDataUrl(exportScale, transparent).substring("data:image/png;base64,".length());
     }
 
 	
