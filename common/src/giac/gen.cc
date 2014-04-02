@@ -5481,6 +5481,9 @@ namespace giac {
 	else
 	  return basep;
       }
+      if (u==at_pnt && exponent.type==_INT_ && exponent.val%2==0){
+	return pow(abs_norm2(remove_at_pnt(base),contextptr),exponent.val/2,contextptr);
+      }
       if (u==at_sign && exponent.type==_INT_ && !complex_mode(contextptr) && !has_i(base)){ 
 	int n=exponent.val;
 	if (n%2)
