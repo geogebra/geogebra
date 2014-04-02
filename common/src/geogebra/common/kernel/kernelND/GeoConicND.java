@@ -1246,6 +1246,11 @@ Region3D, GeoDirectionND
 			return false;		
 		}
 		
+		// eg y = a x^2 
+		if (maxCoeffAbs == 0) { 
+			return true; 
+		} 
+
 		// huge or tiny coefficients?
 		double factor = 1.0;
 		if (maxCoeffAbs < MIN_COEFFICIENT_SIZE) {
@@ -1258,7 +1263,7 @@ Region3D, GeoDirectionND
 		}	
 		
 		// multiply matrix with factor to avoid huge and tiny coefficients
-		if (factor != 1.0) {
+		if (factor != 1.0 && !Double.isInfinite(factor) && !Double.isNaN(factor)) {
 			maxCoeffAbs *= factor;
 			for (int i=0; i < 6; i++) {
 				matrix[i] *= factor;
