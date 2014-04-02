@@ -1378,7 +1378,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Fix_Help": "Selecione os objetos que pretende fixar ou libertar",
     "FixedToGrid": "Fixar \xe0 Grelha",
     "FontSize": "Tamanho das Fontes",
-    "ForegroundColor": "Cor de Fundo",
+    "ForegroundColor": "Cor do Texto",
     "Formulas": "F\xf3rmulas",
     "FrakturLetters": "Fonte Fraktur",
     "FreehandFunction": "Fun\xe7\xe3o \xe0 M\xe3o Livre",
