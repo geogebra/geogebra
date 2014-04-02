@@ -28,8 +28,6 @@ import com.googlecode.gwtphonegap.client.PhoneGap;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
-
-
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -82,7 +80,7 @@ public class TouchEntryPoint implements EntryPoint {
 									}
 								});
 			}
-			
+
 			@Override
 			public void onFailure(final Throwable reason) {
 				// App.debug(reason);
@@ -94,7 +92,6 @@ public class TouchEntryPoint implements EntryPoint {
 				Browser.checkFloat64();
 				ResourcesInjector.injectResources();
 				setLookAndFeel();
-
 				final FileManagerT fm = new FileManagerT();
 				appWidget = new TabletDeckLayoutPanel(app);
 				app.setFileManager(fm);
@@ -120,15 +117,10 @@ public class TouchEntryPoint implements EntryPoint {
 				}
 
 				this.initPhoneGap();
-
 				Window.enableScrolling(false);
 				ToolTipManagerW.setEnabled(false);
 			}
 		});
-	}
-
-	static void reloadLocalFiles(String changedName) {
-		TouchEntryPoint.getBrowseGUI().reloadLocalFiles(changedName);
 	}
 
 	static void setLookAndFeel() {
@@ -203,7 +195,7 @@ public class TouchEntryPoint implements EntryPoint {
 	static boolean hasBrowseGUI() {
 		return TouchEntryPoint.browseGUI != null;
 	}
-	
+
 	public static PhoneGap getPhoneGap() {
 		return TouchEntryPoint.phoneGap;
 	}
