@@ -86,7 +86,7 @@ public class PropertiesViewD extends
 		super(app);
 		isIniting = true;
 		this.wrappedPanel = new JPanel();
-		
+
 		app.setPropertiesView(this);
 
 		// init object properties
@@ -103,12 +103,10 @@ public class PropertiesViewD extends
 		styleBar.getBtnOption().requestFocus();
 
 		setLabels();
-		
+
 		app.setDefaultCursor();// remove this if init object properties is
 								// faster
 	}
-	
-
 
 	// ============================================
 	// GUI
@@ -230,7 +228,7 @@ public class PropertiesViewD extends
 
 		if (!isShowing())
 			return;
-		
+
 		setOptionPanelRegardingFocus(false);
 	}
 
@@ -264,7 +262,7 @@ public class PropertiesViewD extends
 	}
 
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
-		
+
 		if (stayInCurrentPanel())
 			return;
 
@@ -274,13 +272,13 @@ public class PropertiesViewD extends
 		if (viewMap.get(focusedViewId) != null) {
 			OptionType type = viewMap.get(focusedViewId);
 			if (type == OptionType.EUCLIDIAN || type == OptionType.EUCLIDIAN2) {
-				
+
 				if (app.getActiveEuclidianView().getEuclidianController()
 						.checkBoxOrTextfieldOrButtonJustHitted()) {
 					// hit check box or text field : does nothing
 					return;
-				} 
-				
+				}
+
 				// ev clicked
 				setOptionPanelWithoutCheck(type);
 				if (updateEuclidianTab) {
@@ -296,9 +294,10 @@ public class PropertiesViewD extends
 
 			} else
 				setOptionPanel(type);
-			
-			//here necessary no object is selected
-			updateObjectPanelSelection(app.getSelectionManager().getSelectedGeos());
+
+			// here necessary no object is selected
+			updateObjectPanelSelection(app.getSelectionManager()
+					.getSelectedGeos());
 		}
 
 	}
@@ -321,11 +320,11 @@ public class PropertiesViewD extends
 
 		GeoElement geo = objectPanel.consumeGeoAdded();
 
-		if (app.getSelectionManager().selectedGeosSize() > 0){
+		if (app.getSelectionManager().selectedGeosSize() > 0) {
 			// selected geo is the most important
-			updatePropertiesViewCheckConstants(app.getSelectionManager().getSelectedGeos());
-		}
-		else if (geo != null) { // last created geo
+			updatePropertiesViewCheckConstants(app.getSelectionManager()
+					.getSelectedGeos());
+		} else if (geo != null) { // last created geo
 			if (creatorMode) { // if euclidian view is e.g. in move mode, then
 								// geo was created by a script, so just show
 								// object properties
@@ -350,19 +349,21 @@ public class PropertiesViewD extends
 	 */
 	@Override
 	public void setOptionPanel(OptionType type) {
-		
-		ArrayList<GeoElement> geos = removeAllConstants(app.getSelectionManager().getSelectedGeos());
-		
+
+		ArrayList<GeoElement> geos = removeAllConstants(app
+				.getSelectionManager().getSelectedGeos());
+
 		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
-											// selected		
-			if (geos.size() == 0){
-				GeoElement geo = app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
-				if (geo==null){ 
-					//does nothing: stay in same panel
+											// selected
+			if (geos.size() == 0) {
+				GeoElement geo = app.getSelectionManager()
+						.setFirstGeoSelectedForPropertiesView();
+				if (geo == null) {
+					// does nothing: stay in same panel
 					return;
 				}
 
-				//add this first geo
+				// add this first geo
 				geos.add(geo);
 
 			}
@@ -375,31 +376,29 @@ public class PropertiesViewD extends
 	 * apply current panel modifications
 	 */
 	public void applyModifications() {
-		
+
 		if (selectedOptionPanel != null)
 			((OptionPanelD) selectedOptionPanel).applyModifications();
-		
 
 	}
-	
-	
+
 	/**
 	 * set the current panel selected/unselected
-	 * @param isVisible visible
+	 * 
+	 * @param isVisible
+	 *            visible
 	 */
 	public void setSelectedOptionPanelVisible(boolean isVisible) {
-		
+
 		if (selectedOptionPanel != null)
 			((OptionPanelD) selectedOptionPanel).setSelected(isVisible);
-		
 
 	}
-
 
 	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 
-		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting);
-		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting);
+		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
 		// App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
 		if (type == null) {
@@ -415,16 +414,15 @@ public class PropertiesViewD extends
 			styleBar.setObjectsToolTip();
 
 		}
-		
+
 		setOptionPanelWithoutCheck(type);
 	}
-	
+
 	private void setOptionPanelWithoutCheck(OptionType type) {
 
-		//App.printStacktrace("\ntype="+type);
+		// App.printStacktrace("\ntype="+type);
 
-
-		if (selectedOptionType != type && selectedOptionPanel != null){
+		if (selectedOptionType != type && selectedOptionPanel != null) {
 			((OptionPanelD) selectedOptionPanel).applyModifications();
 			((OptionPanelD) selectedOptionPanel).setSelected(false);
 		}
@@ -461,9 +459,9 @@ public class PropertiesViewD extends
 		if (defaultsPanel != null) {
 			defaultsPanel.updateGUI();
 		}
-		
+
 		updateEuclidianPanelsGUI();
-		
+
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.updateGUI();
 		}
@@ -485,11 +483,10 @@ public class PropertiesViewD extends
 
 	}
 
-
 	/**
 	 * update euclidian panels GUI
 	 */
-	public void updateEuclidianPanelsGUI(){
+	public void updateEuclidianPanelsGUI() {
 		if (euclidianPanel != null) {
 			euclidianPanel.updateGUI();
 		}
@@ -527,7 +524,7 @@ public class PropertiesViewD extends
 				euclidianPanel = new OptionsEuclidianD((AppD) app,
 						((AppD) app).getEuclidianView1());
 				euclidianPanel.setLabels();
-				//euclidianPanel.setView(((AppD) app).getEuclidianView1());
+				// euclidianPanel.setView(((AppD) app).getEuclidianView1());
 			}
 
 			return euclidianPanel;
@@ -537,7 +534,7 @@ public class PropertiesViewD extends
 				euclidianPanel2 = new OptionsEuclidianD((AppD) app,
 						((AppD) app).getEuclidianView2());
 				euclidianPanel2.setLabels();
-				//euclidianPanel2.setView(((AppD) app).getEuclidianView2());
+				// euclidianPanel2.setView(((AppD) app).getEuclidianView2());
 			}
 
 			return euclidianPanel2;
@@ -545,7 +542,8 @@ public class PropertiesViewD extends
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
-						(SpreadsheetView) app.getGuiManager().getSpreadsheetView());
+						(SpreadsheetView) app.getGuiManager()
+								.getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
@@ -650,7 +648,7 @@ public class PropertiesViewD extends
 			App.debug("already attached");
 			return;
 		}
-		
+
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
@@ -682,7 +680,7 @@ public class PropertiesViewD extends
 	public void rename(GeoElement geo) {
 		if (!isShowing())
 			return;
-		
+
 		((OptionsObjectD) objectPanel).rename(geo);
 		((OptionsObjectD) objectPanel).getTree().rename(geo);
 		updateTitleBar();
@@ -690,7 +688,7 @@ public class PropertiesViewD extends
 	}
 
 	public void update(GeoElement geo) {
-		
+
 		if (!isShowing())
 			return;
 
@@ -705,24 +703,24 @@ public class PropertiesViewD extends
 
 		if (!isShowing())
 			return;
-		
+
 		((OptionsObjectD) objectPanel).updateVisualStyle(geo);
 		((OptionsObjectD) objectPanel).getTree().updateVisualStyle(geo);
 
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
-		
+
 		if (!isShowing())
 			return;
-			
+
 		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
 		((OptionsObjectD) objectPanel).getTree().updateAuxiliaryObject(geo);
 
 	}
 
 	public void repaintView() {
-		
+
 		if (!isShowing())
 			return;
 
@@ -741,38 +739,41 @@ public class PropertiesViewD extends
 		((OptionsObjectD) objectPanel).getTree().clearView();
 
 	}
-	
+
 	private int mode = EuclidianConstants.MODE_MOVE;
 
-	public void setMode(int mode,ModeSetter m) {
-		
-		//on init, mode=-1
-		if (mode<0)
+	public void setMode(int mode, ModeSetter m) {
+
+		// on init, mode=-1
+		if (mode < 0)
 			return;
-		
-		if (mode==this.mode)
+
+		if (mode == this.mode)
 			return;
-		
-		//close undocked properties view when setting mode
-		//if propreties view covers a part of the main window
-		DockManager manager = ((LayoutD) app.getGuiManager().getLayout()).getDockManager();
+
+		// close undocked properties view when setting mode
+		// if propreties view covers a part of the main window
+		DockManager manager = ((LayoutD) app.getGuiManager().getLayout())
+				.getDockManager();
 		DockPanel panel = manager.getPanel(getViewID());
-		if (panel.isInFrame()){
+		if (panel.isInFrame()) {
 			Rectangle panelRectangle = panel.getFrameBounds();
-			Rectangle mainWindowRectangle = ((AppD) app).getMainComponent().getBounds();
-			
-			boolean outside = (panelRectangle.x > mainWindowRectangle.x+mainWindowRectangle.width)
+			Rectangle mainWindowRectangle = ((AppD) app).getMainComponent()
+					.getBounds();
+
+			boolean outside = (panelRectangle.x > mainWindowRectangle.x
+					+ mainWindowRectangle.width)
 					|| (panelRectangle.x + panelRectangle.width < mainWindowRectangle.x)
-					|| (panelRectangle.y > mainWindowRectangle.y+mainWindowRectangle.height)
-					|| (panelRectangle.y + panelRectangle.height < mainWindowRectangle.y)
-					;
+					|| (panelRectangle.y > mainWindowRectangle.y
+							+ mainWindowRectangle.height)
+					|| (panelRectangle.y + panelRectangle.height < mainWindowRectangle.y);
 
 			if (!outside)
 				manager.closePanel(panel, false);
 		}
-		
-		this.mode=mode;
-		
+
+		this.mode = mode;
+
 	}
 
 	public int getViewID() {
@@ -785,11 +786,12 @@ public class PropertiesViewD extends
 
 	@Override
 	public void updateSelection() {
-		
+
 		if (!isShowing())
 			return;
-		
-		ArrayList<GeoElement> geos = app.getSelectionManager().getSelectedGeos();
+
+		ArrayList<GeoElement> geos = app.getSelectionManager()
+				.getSelectedGeos();
 
 		if (geos.size() == 0)
 			setObjectPanel(geos);
@@ -799,7 +801,7 @@ public class PropertiesViewD extends
 
 	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
-		
+
 		if (geos.size() > 0) {
 			if (!stayInCurrentPanel())
 				setObjectPanel(geos);
@@ -814,36 +816,38 @@ public class PropertiesViewD extends
 	 * panel, unless from stylebar buttons.
 	 */
 	private boolean stayInCurrentPanel() {
-		
+
 		return selectedOptionType == OptionType.DEFAULTS
 				|| selectedOptionType == OptionType.ADVANCED
 				|| selectedOptionType == OptionType.LAYOUT;
 	}
 
-
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
 
-		if (geos.size() == 0){
+		if (geos.size() == 0) {
 			app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
 
-			GeoElement geo = app.getSelectionManager().setFirstGeoSelectedForPropertiesView();
-			if (geo==null){ 
-				//if no first geo, close properties view if object panel visible
-				if (selectedOptionType==OptionType.OBJECTS)
-					((LayoutD) app.getGuiManager().getLayout()).getDockManager().closePanel(getViewID(), false);
+			GeoElement geo = app.getSelectionManager()
+					.setFirstGeoSelectedForPropertiesView();
+			if (geo == null) {
+				// if no first geo, close properties view if object panel
+				// visible
+				if (selectedOptionType == OptionType.OBJECTS)
+					((LayoutD) app.getGuiManager().getLayout())
+							.getDockManager().closePanel(getViewID(), false);
 
-			}else if (selectedOptionType != OptionType.OBJECTS)
+			} else if (selectedOptionType != OptionType.OBJECTS)
 				setOptionPanel(OptionType.OBJECTS);
-		}else if (selectedOptionType != OptionType.OBJECTS)
+		} else if (selectedOptionType != OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
-		
-		//always update selection for object panel
+
+		// always update selection for object panel
 		updateObjectPanelSelection(geos);
 		updateTitleBar();
 		styleBar.setObjectsToolTip();
 	}
-	
-	private void updateObjectPanelSelection(ArrayList<GeoElement> geos){
+
+	private void updateObjectPanelSelection(ArrayList<GeoElement> geos) {
 		((OptionsObjectD) objectPanel).updateSelection(geos);
 		updateTitleBar();
 		styleBar.setObjectsToolTip();
@@ -873,14 +877,14 @@ public class PropertiesViewD extends
 		// check if there is constants, remove it and remember what type
 		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 
-		for (GeoElement geo: geosList) {
+		for (GeoElement geo : geosList) {
 			Construction.Constants constant = kernel.getConstruction()
 					.isConstantElement(geo);
 			if (constant == Construction.Constants.NOT) {
-				//add if not constant
+				// add if not constant
 				geos.add(geo);
-			}else{
-				//remember type
+			} else {
+				// remember type
 				if (firstConstant == Construction.Constants.NOT)
 					firstConstant = constant;
 			}
@@ -974,10 +978,8 @@ public class PropertiesViewD extends
 		Font font = ((AppD) app).getPlainFont();
 		mainPanel.setFont(font);
 
-
-		
 		if (defaultsPanel != null)
-			defaultsPanel.updateFont(); //tree + button
+			defaultsPanel.updateFont(); // tree + button
 		if (euclidianPanel != null)
 			euclidianPanel.updateFont(); //
 		if (euclidianPanel2 != null)
@@ -989,35 +991,28 @@ public class PropertiesViewD extends
 		if (advancedPanel != null)
 			advancedPanel.updateFont(); //
 		if (objectPanel != null)
-			((OptionsObjectD) objectPanel).updateFont(); //tree
+			((OptionsObjectD) objectPanel).updateFont(); // tree
 		if (layoutPanel != null)
 			layoutPanel.updateFont(); //
 
-
-		
-		//SwingUtilities.updateComponentTreeUI(mainPanel);
-		
+		// SwingUtilities.updateComponentTreeUI(mainPanel);
 
 	}
-
-
 
 	public void repaint() {
-	    App.debug("unimplemented");
+		App.debug("unimplemented");
 	}
-
-
 
 	public boolean isShowing() {
-	   
-		PropertiesDockPanel dockPanel = ((GuiManagerD) app.getGuiManager()).getPropertiesDockPanel();
-		if (dockPanel==null)
+
+		PropertiesDockPanel dockPanel = ((GuiManagerD) app.getGuiManager())
+				.getPropertiesDockPanel();
+		if (dockPanel == null)
 			return false;
-		
+
 		return dockPanel.isVisible();
 	}
-	
-	
+
 	/**
 	 * @param geo
 	 *            GeoText to be updated
@@ -1026,6 +1021,12 @@ public class PropertiesViewD extends
 		if (objectPanel != null) {
 			((OptionsObjectD) objectPanel).updateTextEditor(geo);
 		}
+	}
+
+	@Override
+	public void setOptionPanel(OptionType type, int subType) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -3343,7 +3343,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				tab.update(geos);
 			}
 
-
+			
 		} else {
 			wrappedPanel.setVisible(false);
 			App.debug("No geos");

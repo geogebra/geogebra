@@ -292,7 +292,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 		// get PropertiesView
 		PropertiesView pv = (PropertiesView) ((GuiManagerW)app.getGuiManager())
 				.getPropertiesView();
-
+		int subType = -1;
 		// select geos
 		if (geos != null) {
 			if (app.getSelectionManager().getSelectedGeos().size() == 0) {
@@ -302,12 +302,13 @@ public class DialogManagerW extends DialogManager implements EventRenderable {
 			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
 					&& geos.get(0) instanceof GeoNumeric)
 				// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
-				((GuiManagerW)app.getGuiManager()).showPropertiesViewSliderTab();
+				subType = 2;
 		}
 
 		// set properties option type
 		if (type != null) {
-			pv.setOptionPanel(type);
+			App.debug("Viewing optionsPanel subtype " + subType);
+			pv.setOptionPanel(type, subType);
 		}
 
 		// show the view

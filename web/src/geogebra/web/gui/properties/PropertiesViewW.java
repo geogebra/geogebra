@@ -73,7 +73,7 @@ public class PropertiesViewW extends
 		mainPanel.add(contentsPanel);
 	    wrappedPanel.add(mainPanel);
 
-	    setOptionPanel(optionType);
+	    setOptionPanel(optionType, 0);
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
 		
@@ -101,10 +101,12 @@ public class PropertiesViewW extends
 	 * @param type
 	 * @return
 	 */
-	public OptionPanelW getOptionPanel(OptionType type) {
+	public OptionPanelW getOptionPanel(OptionType type, int subType) {
 		
 		//AbstractApplication.printStacktrace("type :"+type);
-
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}	
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
@@ -168,16 +170,16 @@ public class PropertiesViewW extends
 			} else {
 				OptionsObjectW op =	getObjectPanel();
 				op.updateGUI();
-				op.selectTab(0);
+				op.selectTab(subType);
 			}
-			
+			App.debug("obect prop SELECTING TAB " + subType);
+			((OptionsObjectW) objectPanel).selectTab(subType);
 			return (OptionPanelW) objectPanel;
 		}
 		return null;
 	}
-
 	private OptionsObjectW getObjectPanel() {
-		return (OptionsObjectW) objectPanel;
+		return objectPanel != null ? (OptionsObjectW) objectPanel:null;
 	}
 	
 	public void add(GeoElement geo) {
@@ -198,19 +200,20 @@ public class PropertiesViewW extends
 	}
 
 	public void update(GeoElement geo) {
-		// TODO Auto-generated method stub
-		getObjectPanel().updateIfInSelection(geo);	
+		updatePropertiesGUI();
 		App.debug("update(geo)");
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 		App.debug("update visual style");
+		updatePropertiesGUI();
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
-
+		updatePropertiesGUI();
+		
 	}
 
 	public void repaintView() {
@@ -222,13 +225,12 @@ public class PropertiesViewW extends
 	}
 
 	public void clearView() {
-		// TODO Auto-4generated method stub
-
+		App.debug("Clear View");
 	}
 
 	public void setMode(int mode,ModeSetter m) {
 		// TODO Auto-generated method stub
-
+		App.debug("setting mode");
 	}
 
 	public int getViewID() {
@@ -243,16 +245,21 @@ public class PropertiesViewW extends
 
 	@Override
 	public void updateSelection() {
-		App.debug("updateSelection");// TODO Auto-generated method stub
-		getObjectPanel().updateGUI();
+	if (app.getSelectionManager().selectedGeosSize() != 0 && optionType != OptionType.OBJECTS) {
+			setOptionPanel(OptionType.OBJECTS);
+		}updatePropertiesGUI();
 	}
 
+	@Override
+    public void setOptionPanel(OptionType type) {
+		setOptionPanel(type, 0);
+    }
 
 	@Override
-	public void setOptionPanel(OptionType type) {
+	public void setOptionPanel(OptionType type, int subType) {
 		optionType = type;
 		contentsPanel.clear();
-		OptionPanelW optionPanel = getOptionPanel(type);
+		OptionPanelW optionPanel = getOptionPanel(type, subType);
 	    Widget wPanel = optionPanel.getWrappedPanel();
 	    notImplemented.setText(getTypeString(type) + " - Not implemented");
 	    contentsPanel.add(wPanel != null ? wPanel: notImplemented);
@@ -267,15 +274,40 @@ public class PropertiesViewW extends
 		objectPanel.forgetGeoAdded();
     }
 
+	
 	@Override
     public void updateSelection(ArrayList<GeoElement> geos) {
-		getObjectPanel().updateGUI();
-	   App.debug("updateSelection(geos)"); 
+		if (geos.size() != 0 && optionType != OptionType.OBJECTS) {
+			setOptionPanel(OptionType.OBJECTS);
+		}
+		updatePropertiesGUI();
+		App.debug("updateSelection(geos)"); 
+    }
+
+	private void updatePropertiesGUI() {
+		App.debug("updatePropertiesGUI");
+		   OptionsObjectW panel = getObjectPanel();
+		   if (panel != null) {
+			   panel.updateGUI();
+		   }
+		   
+//		   if (optionType == OptionType.OBJECTS)  {
+//			   App.debug("selecting tab 2");
+//			   getObjectPanel().selectTab(2);
+//		   }
+		   
+			if (styleBar != null) {
+				styleBar.updateGUI();
+			}	
+			
+		
     }
 
 	@Override
     protected void updateTitleBar() {
-	    // TODO Auto-generated method stub
+		app.debug("updateTitleBar()");
+		updatePropertiesGUI();
+		// TODO Auto-generated method stub
 	    
     }
 	
@@ -303,6 +335,7 @@ public class PropertiesViewW extends
 
 	@Override
     public void updatePropertiesView() {
+		updatePropertiesGUI();
 		App.debug("updatePropertiesView");
     }
 
@@ -320,6 +353,7 @@ public class PropertiesViewW extends
     }
 	
 	public void updateFonts(){
-		getObjectPanel().updateGUI();
+		updatePropertiesGUI();
 	}
+
 }

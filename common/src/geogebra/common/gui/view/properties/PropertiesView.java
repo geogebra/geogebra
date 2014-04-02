@@ -70,6 +70,8 @@ public abstract class PropertiesView implements View {
 	 */
 	public abstract void setOptionPanel(OptionType type);
 
+	public abstract void setOptionPanel(OptionType type, int subType);
+
 	public abstract void mousePressedForPropertiesView();
 
 	public abstract void updatePropertiesView();
@@ -184,4 +186,5 @@ public abstract class PropertiesView implements View {
 		
 	}
 
+	
 }

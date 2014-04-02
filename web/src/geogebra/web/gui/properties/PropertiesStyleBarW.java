@@ -23,6 +23,11 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class PropertiesStyleBarW extends
         geogebra.common.gui.view.properties.PropertiesStyleBar {
 
+	private static OptionType OptionTypesImpl[] = {
+		// Implemented types of the web
+		OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2
+	};
+	
 	private PropertiesViewW propertiesView;
 	private App app;
 	private FlowPanel wrappedPanel;
@@ -54,7 +59,7 @@ public class PropertiesStyleBarW extends
 	
 	
 
-	private void updateGUI() {
+	public void updateGUI() {
 		OptionType seltype = propertiesView.getSelectedOptionType();
 		setIcon(propertiesView
 				.getSelectedOptionType(),btnOption);
@@ -64,6 +69,9 @@ public class PropertiesStyleBarW extends
 		//TODO: get it in css
 		buttonMap.get(seltype).addStyleName("selected");
 		
+		buttonMap.get(OptionType.OBJECTS).setVisible(
+				app.getSelectionManager().selectedGeosSize() > 0);
+		
 		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
 				app.getGuiManager()
 						.showView(App.VIEW_EUCLIDIAN));
@@ -71,14 +79,14 @@ public class PropertiesStyleBarW extends
 		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
 				app.getGuiManager()
 						.showView(App.VIEW_EUCLIDIAN2));
-		
-		buttonMap.get(OptionType.SPREADSHEET).setVisible(
-				app.getGuiManager()
-						.showView(App.VIEW_SPREADSHEET));
-		
-		buttonMap.get(OptionType.CAS).setVisible(
-				app.getGuiManager()
-						.showView(App.VIEW_CAS));
+//	These are not implemented yet		
+//		buttonMap.get(OptionType.SPREADSHEET).setVisible(
+//				app.getGuiManager()
+//						.showView(App.VIEW_SPREADSHEET));
+//		
+//		buttonMap.get(OptionType.CAS).setVisible(
+//				app.getGuiManager()
+//						.showView(App.VIEW_CAS));
     }
 
 
@@ -89,13 +97,13 @@ public class PropertiesStyleBarW extends
 		
 		buttonMap = new HashMap<OptionType, MenuItem>();
 		
-		for (final OptionType type : OptionType.values()) {
+		for (final OptionType type : OptionTypesImpl) {
 			final PropertiesButton btn = new PropertiesButton(getMenuHtml(type));
 			btn.setTitle(propertiesView.getTypeString(type));
 			btn.setCommand(new Command() {
 				
 				public void execute() {
-					propertiesView.setOptionPanel(type);
+					propertiesView.setOptionPanel(type, 0);
 				}
 			});
 			toolbar.addItem(btn);
@@ -127,7 +135,7 @@ public class PropertiesStyleBarW extends
 	    			new Command() {
 						
 						public void execute() {
-							propertiesView.setOptionPanel(type);
+							propertiesView.setOptionPanel(type, 0);
 							buildMenu();
 							setIcon(type, btnOption);
 							btnOption.setText(mi.getText() + downTriangle);
