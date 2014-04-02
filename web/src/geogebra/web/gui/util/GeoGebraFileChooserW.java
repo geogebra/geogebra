@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.html5.main.GgbAPI;
+import geogebra.html5.main.GgbAPIW;
 import geogebra.web.main.AppW;
 import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
@@ -114,7 +114,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
 					//wont save if . exist in filename 
 					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
 					JavaScriptObject callback = ((AppW) app).getGoogleDriveOperation().getPutFileCallback(saveName, description.getText());
-					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(true, callback);
+					((geogebra.html5.main.GgbAPIW)app.getGgbApi()).getBase64(true, callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
 			}
@@ -216,7 +216,7 @@ public class GeoGebraFileChooserW extends DialogBox implements EventRenderable {
     public void show(){
 		refreshOnlineState();
 		enableGoogleDrive((((AppW) app).getGoogleDriveOperation().isLoggedIntoGoogle()));
-		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
+		((GgbAPIW) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    super.show();
 	}
 	

@@ -4,7 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.main.GgbAPI;
+import geogebra.html5.main.GgbAPIW;
 import geogebra.web.WebStatic;
 import geogebra.web.html5.Dom;
 
@@ -410,7 +410,7 @@ public class View {
 
 	private String prepareFileReading() {
 	    archiveContent = new HashMap<String, String>();
-		String workerUrls = GgbAPI.zipJSworkerURL();
+		String workerUrls = GgbAPIW.zipJSworkerURL();
 		App.debug("start unzipping"+System.currentTimeMillis());
 	    return workerUrls;
     }

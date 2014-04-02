@@ -27,9 +27,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
+public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 
-	public GgbAPI(App app) {
+	public GgbAPIW(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.algebraprocessor=kernel.getAlgebraProcessor();

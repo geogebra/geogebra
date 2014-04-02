@@ -72,7 +72,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	private DrawEquationWeb drawEquation;
 	private SoundManager soundManager;
 	private NormalizerMinimal normalizerMinimal;
-	private GgbAPI ggbapi;
+	private GgbAPIW ggbapi;
 	private final LocalizationW loc;
 	private ImageManager imageManager;
 	private HashMap<String, String> currentFile = null;
@@ -119,9 +119,9 @@ public abstract class AppWeb extends App implements SetLabels{
 	}
 	
 	@Override
-	public geogebra.html5.main.GgbAPI getGgbApi() {
+	public geogebra.html5.main.GgbAPIW getGgbApi() {
 		if (ggbapi == null) {
-			ggbapi = new geogebra.html5.main.GgbAPI(this);
+			ggbapi = new geogebra.html5.main.GgbAPIW(this);
 		}
 		return ggbapi;
 	}
