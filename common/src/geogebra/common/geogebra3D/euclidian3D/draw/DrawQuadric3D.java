@@ -197,6 +197,8 @@ implements Previewable {
 			setSurfaceIndex(surface.end());
 			break;
 
+		default:
+			setSurfaceIndex(-1);	
 		}
 		
 		

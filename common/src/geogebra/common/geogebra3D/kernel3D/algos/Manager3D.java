@@ -493,13 +493,15 @@ public class Manager3D implements Manager3DInterface {
 		return plane;
 	}
 
-	/**
-	 * Line dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees.
-	 */
+
 	final public GeoPlane3D DependentPlane3D(String label, Equation equ) {
 		AlgoDependentPlane3D algo = new AlgoDependentPlane3D(cons, label, equ);
 		return algo.getPlane();
+	}
+	
+	final public GeoQuadric3D DependentQuadric3D(String label, Equation equ){
+		AlgoDependentQuadric3D algo = new AlgoDependentQuadric3D(cons, label, equ);
+		return algo.getQuadric();
 	}
 
 	final public GeoPlane3D Plane3D(String label, GeoPointND point,

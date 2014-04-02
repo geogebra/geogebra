@@ -171,8 +171,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double[] coeffs = { xx, yy, zz, c, xy, xz, yz, x, y, z};
 			quadric = new GeoQuadric3D(cons, label, coeffs);
 		} else {
-			//conic = DependentConic(label, equ);
-			quadric = null;
+			quadric = (GeoQuadric3D) kernel.getManager3D().DependentQuadric3D(label, equ);
 		}
 		
 		ret[0] = quadric;

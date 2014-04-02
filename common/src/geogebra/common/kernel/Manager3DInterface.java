@@ -264,10 +264,16 @@ public interface Manager3DInterface {
 			double d);
 
 	/**
-	 * Line dependent on coefficients of arithmetic expressions with variables,
+	 * Plane dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
 	public GeoPlaneND DependentPlane3D(String label, Equation equ);
+
+	/**
+	 * Quadric dependent on coefficients of arithmetic expressions with variables,
+	 * represented by trees.
+	 */
+	public GeoQuadricND DependentQuadric3D(String label, Equation equ);
 
 	/**
 	 * Plane named label through point and line
