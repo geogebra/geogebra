@@ -1240,11 +1240,18 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * draw traces
 	 * @param renderer renderer
+	 * @param hidden says if its hidden outline
 	 */
-	final protected void drawTracesOutline(Renderer renderer){
+	final protected void drawTracesOutline(Renderer renderer, boolean hidden){
 
 		if (trace==null){
 			return;
+		}
+
+		if (hidden){
+			setLineTextureHidden(renderer);
+		}else{
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 		}
 
 		

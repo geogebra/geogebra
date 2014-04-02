@@ -79,7 +79,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			drawGeometry(renderer);
 		}
 
-		drawTracesOutline(renderer);
+		drawTracesOutline(renderer, false);
 
 	}
 	

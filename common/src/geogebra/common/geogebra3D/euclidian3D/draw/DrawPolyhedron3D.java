@@ -69,7 +69,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 			drawGeometry(renderer);
 		}
 
-		drawTracesOutline(renderer);
+		drawTracesOutline(renderer, false);
 
 	}
 	
