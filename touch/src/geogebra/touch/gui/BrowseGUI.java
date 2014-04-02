@@ -16,7 +16,9 @@ import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel.SearchListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -33,7 +35,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
 	private final FileManagerT fm;
-	private final AppWeb app;
+	final AppWeb app;
 	private String lastQuery;
 	private MaterialListElement lastSelected;
 
@@ -41,7 +43,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private VerticalMaterialPanel localFilePanel, tubeFilePanel;
 	private FileContainer localFileContainer, tubeFileContainer;
 
-	private List<Material> localList = new ArrayList<Material>();
+	private final Map<String, Material> localList = new HashMap<String, Material>();
 	private List<Material> tubeList = new ArrayList<Material>();
 
 	public final static int HEADING_HEIGHT = 50;
@@ -118,60 +120,62 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 
 	void displaySearchResults(final String query) {
 		this.lastQuery = query;
-		this.localList = this.fm.search(query);
-		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
-				query, new MaterialCallback() {
-					@Override
-					public void onError(final Throwable exception) {
-						// FIXME implement Error Handling!
-						BrowseGUI.this.updateGUI();
-						exception.printStackTrace();
-					}
+		this.localList.clear();
+		this.fm.search(query);
+		((GeoGebraTubeAPIW) BrowseGUI.this.app.getLoginOperation()
+				.getGeoGebraTubeAPI()).search(query, new MaterialCallback() {
+			@Override
+			public void onError(final Throwable exception) {
+				// FIXME implement Error Handling!
+				BrowseGUI.this.updateGUI();
+				exception.printStackTrace();
+			}
 
-					@Override
-					public void onLoaded(
-							final List<Material> response) {
-						onSearchResults(response);
-						updateViewSizes();
-					}
-				});
+			@Override
+			public void onLoaded(final List<Material> response) {
+				onSearchResults(response);
+				updateGUI();
+			}
+		});
+	}
+
+	public void addToLocalList(final Material mat) {
+		final String fileName = mat.getURL();
+		this.localList.put(fileName, mat);
+		updateGUI();
+	}
+
+	public void removeFromLocalList(final Material mat) {
+		this.localList.remove(mat.getURL());
+		updateGUI();
 	}
 
 	public void loadFeatured() {
 		this.lastQuery = null;
-		this.localList = this.fm.getAllFiles();
-		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI())
+		this.fm.getAllFiles();
+		// doesn't work (2.4.14)
+		((GeoGebraTubeAPIW) BrowseGUI.this.app.getLoginOperation()
+				.getGeoGebraTubeAPI())
 				.getFeaturedMaterials(new MaterialCallback() {
 					@Override
-					public void onError(
-							final Throwable exception) {
+					public void onError(final Throwable exception) {
 						BrowseGUI.this.updateGUI();
 					}
 
 					@Override
 					public void onLoaded(final List<Material> response) {
 						onSearchResults(response);
-						updateViewSizes();
 					}
 				});
 	}
 
 	void onSearchResults(final List<Material> response) {
 		this.tubeList = response;
-		this.updateGUI();
+		updateGUI();
 	}
 
 	public void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
-	}
-
-	/**
-	 * Loads the featured materials
-	 */
-	public void reloadLocalFiles(String changedName) {
-		this.localFilePanel.invalidate(changedName);
-		this.localList = this.fm.getAllFiles();
-		this.updateGUI();
 	}
 
 	public void setLabels() {
@@ -183,7 +187,8 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 
 	void updateGUI() {
 		if (this.tubeList.isEmpty()) {
-			this.localFilePanel.setMaterials(2, this.localList);
+			this.localFilePanel.setMaterials(2, new ArrayList<Material>(
+					this.localList.values()));
 			this.tubeFileContainer.setVisible(false);
 			this.localFileContainer.setVisible(true);
 		} else if (this.localList.isEmpty()) {
@@ -191,15 +196,17 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 			this.localFileContainer.setVisible(false);
 			this.tubeFileContainer.setVisible(true);
 		} else {
-			this.localFilePanel.setMaterials(1, this.localList);
+			this.localFilePanel.setMaterials(1, new ArrayList<Material>(
+					this.localList.values()));
 			this.tubeFilePanel.setMaterials(1, this.tubeList);
 			this.tubeFileContainer.setVisible(true);
 			this.localFileContainer.setVisible(true);
 		}
+		updateViewSizes();
 	}
 
 	@Override
-	public void render(boolean b) {
+	public void render(final boolean b) {
 		if (!b) {
 			this.tubeList.clear();
 			updateGUI();
@@ -208,7 +215,6 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		} else {
 			this.loadFeatured();
 		}
-
 	}
 
 	public MaterialListElement getChosenMaterial() {
@@ -224,5 +230,4 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	public void rememberSelected(final MaterialListElement materialElement) {
 		this.lastSelected = materialElement;
 	}
-
 }
