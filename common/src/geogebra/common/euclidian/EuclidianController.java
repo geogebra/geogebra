@@ -8787,7 +8787,7 @@ public abstract class EuclidianController {
 		default:
 			// STANDARD CASE
 			setAppSelectedGeos(hits, false);
-			app.updateSelection((hits != null) && (hits.size() > 0));
+			app.updateSelection((hits != null));
 	
 			// if alt pressed, create list of objects as string and copy to
 			// input bar
