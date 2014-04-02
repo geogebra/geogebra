@@ -7,7 +7,6 @@ import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.resources.client.ImageResource;
 
-
 /**
  * Merging Modes from {@link EuclidianConstants} with their icon from
  * {@link DefaultResources} to one Enum ToolBarCommand.
@@ -25,15 +24,17 @@ public enum ToolBarCommand {
 
 	// Point
 	AttachDetachPoint(EuclidianConstants.MODE_ATTACH_DETACH, toolIcons()
-			.attach_detach_point(), StyleBarDefaultSettings.Point), 
-	ComplexNumbers(EuclidianConstants.MODE_COMPLEX_NUMBER, toolIcons()
-			.complex_number(), StyleBarDefaultSettings.Point), 
-	IntersectTwoObjects(EuclidianConstants.MODE_INTERSECT, toolIcons()
-			.intersect_two_objects(), StyleBarDefaultSettings.DependentPoints), 
-	MidpointOrCenter(EuclidianConstants.MODE_MIDPOINT, toolIcons().midpoint_or_center(),
-			StyleBarDefaultSettings.DependentPoints), 
-	NewPoint(EuclidianConstants.MODE_POINT, toolIcons().new_point(),StyleBarDefaultSettings.Point), 
-	PointOnObject(EuclidianConstants.MODE_POINT_ON_OBJECT, toolIcons()
+			.attach_detach_point(), StyleBarDefaultSettings.Point), ComplexNumbers(
+			EuclidianConstants.MODE_COMPLEX_NUMBER, toolIcons()
+					.complex_number(), StyleBarDefaultSettings.Point), IntersectTwoObjects(
+			EuclidianConstants.MODE_INTERSECT, toolIcons()
+					.intersect_two_objects(),
+			StyleBarDefaultSettings.DependentPoints), MidpointOrCenter(
+			EuclidianConstants.MODE_MIDPOINT, toolIcons().midpoint_or_center(),
+			StyleBarDefaultSettings.DependentPoints), NewPoint(
+			EuclidianConstants.MODE_POINT, toolIcons().new_point(),
+			StyleBarDefaultSettings.Point), PointOnObject(
+			EuclidianConstants.MODE_POINT_ON_OBJECT, toolIcons()
 					.point_on_object(), StyleBarDefaultSettings.PointOnObject),
 
 	// Line
@@ -41,8 +42,7 @@ public enum ToolBarCommand {
 			.line_through_two_points(), StyleBarDefaultSettings.Line), PolylineBetweenPoints(
 			EuclidianConstants.MODE_POLYLINE, toolIcons()
 					.polyline_between_points(), StyleBarDefaultSettings.Line), RayThroughTwoPoints(
-			EuclidianConstants.MODE_RAY,
-			toolIcons().ray_through_two_points(),
+			EuclidianConstants.MODE_RAY, toolIcons().ray_through_two_points(),
 			StyleBarDefaultSettings.Line), SegmentBetweenTwoPoints(
 			EuclidianConstants.MODE_SEGMENT, toolIcons()
 					.segment_between_two_points(), StyleBarDefaultSettings.Line), VectorBetweenTwoPoints(
@@ -73,8 +73,8 @@ public enum ToolBarCommand {
 			StyleBarDefaultSettings.Polygon), RegularPolygon(
 			EuclidianConstants.MODE_REGULAR_POLYGON, toolIcons()
 					.regular_polygon(), StyleBarDefaultSettings.Polygon), RigidPolygon(
-			EuclidianConstants.MODE_RIGID_POLYGON, toolIcons()
-					.rigid_polygon(), StyleBarDefaultSettings.Polygon), VectorPolygon(
+			EuclidianConstants.MODE_RIGID_POLYGON, toolIcons().rigid_polygon(),
+			StyleBarDefaultSettings.Polygon), VectorPolygon(
 			EuclidianConstants.MODE_VECTOR_POLYGON, toolIcons()
 					.vector_polygon(), StyleBarDefaultSettings.Polygon),
 
@@ -91,8 +91,8 @@ public enum ToolBarCommand {
 			EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS, toolIcons()
 					.circular_sector_with_center_between_two_points(),
 			StyleBarDefaultSettings.Line), CircumCirculuarArcThroughThreePoints(
-			EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS,
-			toolIcons().circumcircular_arc_through_three_points(),
+			EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS, toolIcons()
+					.circumcircular_arc_through_three_points(),
 			StyleBarDefaultSettings.Line), CircumCircularSectorThroughThreePoints(
 			EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS,
 			toolIcons().circumcircular_sector_through_three_points(),
@@ -104,10 +104,9 @@ public enum ToolBarCommand {
 
 	// Conic Section
 	ConicThroughFivePoints(EuclidianConstants.MODE_CONIC_FIVE_POINTS,
-			toolIcons().conic_through_5_points(),
-			StyleBarDefaultSettings.Line), Ellipse(
-			EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, toolIcons()
-					.ellipse(), StyleBarDefaultSettings.Line), Hyperbola(
+			toolIcons().conic_through_5_points(), StyleBarDefaultSettings.Line), Ellipse(
+			EuclidianConstants.MODE_ELLIPSE_THREE_POINTS,
+			toolIcons().ellipse(), StyleBarDefaultSettings.Line), Hyperbola(
 			EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS, toolIcons()
 					.hyperbola(), StyleBarDefaultSettings.Line), Parabola(
 			EuclidianConstants.MODE_PARABOLA, toolIcons().parabola(),
@@ -149,10 +148,9 @@ public enum ToolBarCommand {
 	// Action Object
 	CheckBoxToShowHideObjects(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
 			toolIcons().checkbox_to_show_hide_objects(), null), InsertButton(
-			EuclidianConstants.MODE_BUTTON_ACTION, toolIcons()
-					.insert_button(), null), InsertInputBox(
-			EuclidianConstants.MODE_TEXTFIELD_ACTION, toolIcons()
-					.insert_input_box(), null), Slider(
+			EuclidianConstants.MODE_BUTTON_ACTION, toolIcons().insert_button(),
+			null), InsertInputBox(EuclidianConstants.MODE_TEXTFIELD_ACTION,
+			toolIcons().insert_input_box(), null), Slider(
 			EuclidianConstants.MODE_SLIDER, toolIcons().slider(),
 			StyleBarDefaultSettings.Line),
 
@@ -171,19 +169,30 @@ public enum ToolBarCommand {
 
 	// others
 	Move_Mobile(EuclidianConstants.MODE_MOVE, getLafIcons()
-			.arrow_cursor_finger(), StyleBarDefaultSettings.Move), 
-	Select(-1,
-			getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move), CirclePointRadius(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
-			toolIcons().circle_with_center_and_radius(), StyleBarDefaultSettings.Line),
-	SegmentFixed(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
-						toolIcons().segment_with_given_length_from_point(), StyleBarDefaultSettings.Line),
-	AngleFixed(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
-									toolIcons().angle_fixed(), StyleBarDefaultSettings.Line),
-	Copy(EuclidianConstants.MODE_COPY_VISUAL_STYLE, toolIcons().copy(), null);
+			.arrow_cursor_finger(), StyleBarDefaultSettings.Move),
+			
+//	NEW TOOL ACC - not in use yet
+//	Accelerometer(EuclidianConstants.MODE_MOVE, toolIcons().accelerometer(),
+//			StyleBarDefaultSettings.Move),
+//	end NEW TOOL ACC - not in use yet
+	Select(-1, getLafIcons().arrow_cursor_grab(), StyleBarDefaultSettings.Move), 
 	
+			
+	CirclePointRadius(
+			EuclidianConstants.MODE_CIRCLE_POINT_RADIUS, toolIcons()
+					.circle_with_center_and_radius(),
+			StyleBarDefaultSettings.Line), SegmentFixed(
+			EuclidianConstants.MODE_CIRCLE_POINT_RADIUS, toolIcons()
+					.segment_with_given_length_from_point(),
+			StyleBarDefaultSettings.Line), AngleFixed(
+			EuclidianConstants.MODE_CIRCLE_POINT_RADIUS, toolIcons()
+					.angle_fixed(), StyleBarDefaultSettings.Line), Copy(
+			EuclidianConstants.MODE_COPY_VISUAL_STYLE, toolIcons().copy(), null);
+
 	private static ToolbarResources toolIcons() {
 		return ToolbarResources.INSTANCE;
 	}
+
 	private static DefaultResources getLafIcons() {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}

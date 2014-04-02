@@ -15,8 +15,8 @@ public enum ToolBarMenu {
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
 			ToolBarCommand.Move_Mobile,
 			// TODO: ToolBarCommand.Select,
-			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject, 
-			ToolBarCommand.Copy}),
+			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject }),
+//			ToolBarCommand.Accelerometer, ToolBarCommand.Copy }), NEW TOOL ACC - not in use yet
 
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
 			ToolBarCommand.NewPoint, ToolBarCommand.PointOnObject,
@@ -27,8 +27,7 @@ public enum ToolBarMenu {
 	Line(ToolBarCommand.LineThroughTwoPoints, new ToolBarCommand[] {
 			ToolBarCommand.LineThroughTwoPoints,
 			ToolBarCommand.SegmentBetweenTwoPoints,
-			ToolBarCommand.SegmentFixed,
-			ToolBarCommand.RayThroughTwoPoints,
+			ToolBarCommand.SegmentFixed, ToolBarCommand.RayThroughTwoPoints,
 			ToolBarCommand.PolylineBetweenPoints,
 			ToolBarCommand.VectorBetweenTwoPoints,
 			ToolBarCommand.VectorFromPoint }),
@@ -47,8 +46,7 @@ public enum ToolBarMenu {
 
 	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint,
 			new ToolBarCommand[] { ToolBarCommand.CircleWithCenterThroughPoint,
-					ToolBarCommand.CirclePointRadius,
-					ToolBarCommand.Compasses,
+					ToolBarCommand.CirclePointRadius, ToolBarCommand.Compasses,
 					ToolBarCommand.CircleThroughThreePoints,
 					ToolBarCommand.Semicircle,
 					ToolBarCommand.CircularArcWithCenterBetweenTwoPoints,
@@ -60,13 +58,11 @@ public enum ToolBarMenu {
 			ToolBarCommand.Parabola, ToolBarCommand.Ellipse,
 			ToolBarCommand.Hyperbola, ToolBarCommand.ConicThroughFivePoints }),
 
-	Measurement(ToolBarCommand.Angle,
-			new ToolBarCommand[] { ToolBarCommand.Angle,
-			ToolBarCommand.AngleFixed,
-			ToolBarCommand.DistanceOrLength,
-			ToolBarCommand.Area,
+	Measurement(ToolBarCommand.Angle, new ToolBarCommand[] {
+			ToolBarCommand.Angle, ToolBarCommand.AngleFixed,
+			ToolBarCommand.DistanceOrLength, ToolBarCommand.Area,
 			ToolBarCommand.Slope,
-			// TODO: ToolBarCommand.CreateList
+	// TODO: ToolBarCommand.CreateList
 			}),
 
 	Transformation(ToolBarCommand.ReflectObjectAboutLine, new ToolBarCommand[] {
@@ -80,18 +76,17 @@ public enum ToolBarMenu {
 	SpecialObject(ToolBarCommand.Pen /* TODO: ToolBarCommand.InsertText */,
 			new ToolBarCommand[] {
 					// ToolBarCommand.InsertText,
-					ToolBarCommand.InsertImage,
-					ToolBarCommand.Pen, 
+					ToolBarCommand.InsertImage, ToolBarCommand.Pen,
 					ToolBarCommand.FreehandShape
 			// , ToolBarCommand.RelationBetweenTwoObjects
 			}),
 
 	// TODO:
-	ActionObject(ToolBarCommand.Slider,
-			new ToolBarCommand[] { ToolBarCommand.Slider,
+	ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {
+			ToolBarCommand.Slider,
 			// ToolBarCommand.CheckBoxToShowHideObjects,
-			 ToolBarCommand.InsertButton,
-			// ToolBarCommand.InsertInputBox
+			ToolBarCommand.InsertButton,
+	// ToolBarCommand.InsertInputBox
 			});
 
 	private ToolBarCommand[] entry;

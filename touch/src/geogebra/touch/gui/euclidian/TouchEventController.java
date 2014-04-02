@@ -54,7 +54,8 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		if (!TouchEventController.this.mc.isTextfieldHasFocus()) {
 			event.preventDefault();
 		}
-		//IE gives double coordinates that cannot be handled by pen => round needed
+		// IE gives double coordinates that cannot be handled by pen => round
+		// needed
 		if (!TouchEventController.this.ignoreMouseEvents) {
 			this.mc.onTouchStart(Math.round(event.getX()),
 					Math.round(event.getY()), this.mc.getDefaultEventType());
@@ -63,18 +64,21 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 
 	@Override
 	public void onMouseMove(final MouseMoveEvent event) {
-		//IE gives double coordinates that cannot be handled by pen => round needed
+		// IE gives double coordinates that cannot be handled by pen => round
+		// needed
 		if (!this.ignoreMouseEvents) {
-			this.mc.onTouchMove(Math.round(event.getX()), Math.round(event.getY()), this.mc.getDefaultEventType());
+			this.mc.onTouchMove(Math.round(event.getX()),
+					Math.round(event.getY()), this.mc.getDefaultEventType());
 		}
 	}
 
 	@Override
 	public void onMouseUp(final MouseUpEvent event) {
-		//IE gives double coordinates that cannot be handled by pen => round needed
+		// IE gives double coordinates that cannot be handled by pen => round
+		// needed
 		if (!TouchEventController.this.ignoreMouseEvents) {
-			TouchEventController.this.mc.onTouchEnd(Math.round(event.getX()), Math.round(event.getY()),
-					this.mc.getDefaultEventType());
+			TouchEventController.this.mc.onTouchEnd(Math.round(event.getX()),
+					Math.round(event.getY()), this.mc.getDefaultEventType());
 		}
 	}
 
@@ -91,20 +95,22 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 	public void onTouchEnd(final TouchEndEvent event) {
 		event.preventDefault();
 		this.mc.onTouchEnd(getX(event.getChangedTouches().get(0)),
-				this.getY(event.getChangedTouches().get(0)), PointerEventType.TOUCH);
+				this.getY(event.getChangedTouches().get(0)),
+				PointerEventType.TOUCH);
 	}
 
 	@Override
 	public void onTouchMove(final TouchMoveEvent event) {
 		event.preventDefault();
-		
+
 		if (event.getTouches().length() == 1) {
 			// proceed normally
 			this.mc.onTouchMove(getX(event.getTouches().get(0)),
-					this.getY(event.getTouches().get(0)),PointerEventType.TOUCH);
+					this.getY(event.getTouches().get(0)),
+					PointerEventType.TOUCH);
 		} else if (event.getTouches().length() == 2) {
-			Touch t1 = event.getTouches().get(0);
-			Touch t2 = event.getTouches().get(1);
+			final Touch t1 = event.getTouches().get(0);
+			final Touch t2 = event.getTouches().get(1);
 			this.mc.twoTouchMove(getX(t1), getY(t1), getX(t2), getY(t2));
 		}
 	}
@@ -118,18 +124,17 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 			}
 			this.ignoreMouseEvents = true;
 			this.mc.onTouchStart(getX(event.getTouches().get(0)),
-					this.getY(event.getTouches().get(0)),PointerEventType.TOUCH);
+					this.getY(event.getTouches().get(0)),
+					PointerEventType.TOUCH);
 		} else if (event.getTouches().length() == 2) {
-			Touch t1 = event.getTouches().get(0);
-			Touch t2 = event.getTouches().get(1);
+			final Touch t1 = event.getTouches().get(0);
+			final Touch t2 = event.getTouches().get(1);
 			this.mc.twoTouchStart(getX(t1), getY(t1), getX(t2), getY(t2));
 		}
 	}
 
 	@Override
-	public void onMouseOut(MouseOutEvent event) {
+	public void onMouseOut(final MouseOutEvent event) {
 		this.mc.onMouseExited();
-		
 	}
-
 }
