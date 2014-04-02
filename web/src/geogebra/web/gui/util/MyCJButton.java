@@ -70,6 +70,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	private boolean loadHandlerAllowed = false;
 	private ImageOrText icon;
 	private Label buttonContent;
+	private boolean imageMode = false;
 	
 	/**
 	 * 
@@ -194,6 +195,12 @@ public class MyCJButton extends Composite implements MouseDownHandler,
     }
 
 	public void setIcon(ImageOrText icon) {
+		if(this.imageMode && icon.url == null){
+			return;
+		}
+		if(icon.url != null){
+			this.imageMode = true;
+		}		
 		this.icon = icon;
 		loadHandlerAllowed = false;
 		icon.applyToLabel(buttonContent);
