@@ -832,7 +832,7 @@ namespace giac {
 	  return ;
 	}
 	*logptr(contextptr) << gettext("Warning! Algebraic extension not implemented yet for poly ") << r2sym(w,lv,contextptr) << endl;
-	w=*evalf(w,1,contextptr)._VECTptr;
+	w=*evalf(r2sym(w,lv,contextptr),1,contextptr)._VECTptr;
 	if (has_num_coeff(w)){ // FIXME: test is always true...
 #ifndef NO_STDEXCEPT
 	  try {
