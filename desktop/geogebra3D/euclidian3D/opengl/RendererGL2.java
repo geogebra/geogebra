@@ -141,9 +141,10 @@ public class RendererGL2 extends RendererD {
 				double f = eyeToScreenDistance
 						/ (eyeToScreenDistance - ((GPointWithZ) mouse).getZ() - view3D
 								.getScreenZOffset());
-				x = dim.width / 2 + f * (x + glassesEyeSep - dim.width / 2)
-						- glassesEyeSep;
-				y = dim.height / 2 + f * (y - dim.height / 2);
+				x = dim.width / 2 + f * (x + glassesEyeSep - glassesEyesSide - dim.width / 2)
+						- glassesEyeSep + glassesEyesSide;
+				y = dim.height / 2 + f * (y + glassesEyesHeight - dim.height / 2) 
+						- glassesEyesHeight;
 
 			}
 
@@ -528,9 +529,9 @@ public class RendererGL2 extends RendererD {
 			eyesep1 = glassesEyeSep1;
 		}
 
-		jogl.getGL2().glFrustum(perspLeft + eyesep1, perspRight + eyesep1,
-				perspBottom, perspTop, perspNear, perspFar);
-		jogl.getGL2().glTranslated(eyesep, 0, perspFocus);
+		jogl.getGL2().glFrustum(perspLeft + eyesep1 - glassesEyesSide1, perspRight + eyesep1 - glassesEyesSide1,
+				perspBottom - glassesEyesHeight1, perspTop - glassesEyesHeight1, perspNear, perspFar);
+		jogl.getGL2().glTranslated(eyesep - glassesEyesSide,  -glassesEyesHeight, perspFocus);
 	}
 
 	@Override

@@ -1445,12 +1445,20 @@ public abstract class Renderer {
 
 	protected double glassesEyeSep;
 	protected double glassesEyeSep1;
+	protected double glassesEyesSide;
+	protected double glassesEyesSide1;
+	protected double glassesEyesHeight;
+	protected double glassesEyesHeight1;
 
 	public void updateGlassesValues() {
 		// half eye separation
 		glassesEyeSep = -view3D.getEyeSep() / 2;
+		glassesEyesSide = view3D.getEyesSide();
+		glassesEyesHeight = view3D.getEyesHeight();
 		// eye separation for frustum
 		glassesEyeSep1 = glassesEyeSep * perspDistratio;// (1-distratio);
+		glassesEyesSide1 = glassesEyesSide * perspDistratio;
+		glassesEyesHeight1 = glassesEyesHeight * perspDistratio;
 		// Application.debug("eyesep="+eyesep+"\ne1="+e1);
 	}
 

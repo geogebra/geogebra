@@ -96,14 +96,15 @@ public class InputLeo3D implements Input3D {
 		
 			
 			
-			// glasses position
-			glassesPosition[0] = leoSocket.leftEyeX * screenHalfWidth;
-			glassesPosition[1] = leoSocket.leftEyeY * screenHalfWidth;
-			glassesPosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
 			
 			// eye separation
 			eyeSeparation = (leoSocket.leftEyeX - leoSocket.rightEyeX) * screenHalfWidth;
-			
+
+			// glasses position
+			glassesPosition[0] = leoSocket.leftEyeX * screenHalfWidth + eyeSeparation/2;
+			glassesPosition[1] = leoSocket.leftEyeY * screenHalfWidth;
+			glassesPosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
+
 			/*
 			App.debug("\nleft eye"
 					+"\nx="+leftEyePosition[0]

@@ -31,7 +31,7 @@ public interface Input3D {
 	
 	/**
 	 *  Center is center of the screen, unit is pixels
-	 * @return glasses position
+	 * @return glasses position (two eyes center)
 	 */
 	public double[] getGlassesPosition();
 	

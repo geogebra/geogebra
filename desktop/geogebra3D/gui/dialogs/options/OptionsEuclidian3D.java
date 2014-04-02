@@ -463,7 +463,7 @@ public class OptionsEuclidian3D extends OptionsEuclidianD {
 						tfGlassesEyeSep.setText("" + val);
 					}
 
-					((EuclidianView3D) view).setEyeSep(val);
+					((EuclidianView3D) view).setEyes(val, 0, 0);
 				}
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""

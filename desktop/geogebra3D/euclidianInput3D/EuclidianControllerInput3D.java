@@ -122,15 +122,18 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			
 			// eyes : set position only if we use glasses
 			if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES){
-				//App.debug(input3D.getGlassesPosition()[2]+"");
-				if (eyeSepIsNotSet){
-					view3D.setEyeSep(input3D.getEyeSeparation());
-					eyeSepIsNotSet = false;
-				}
-				
 				double[] pos = input3D.getGlassesPosition();
 				setPositionXYOnPanel(pos, glassesPosition);
 				glassesPosition.setZ(pos[2]);
+				
+				//App.debug("\n"+glassesPosition);
+
+				//App.debug(input3D.getGlassesPosition()[2]+"");
+				//if (eyeSepIsNotSet){
+					view3D.setEyes(input3D.getEyeSeparation(), glassesPosition.getX(), glassesPosition.getY());
+					//eyeSepIsNotSet = false;
+				//}
+				
 				view3D.setProjectionPerspectiveEyeDistance(glassesPosition.getZ());
 				
 			}

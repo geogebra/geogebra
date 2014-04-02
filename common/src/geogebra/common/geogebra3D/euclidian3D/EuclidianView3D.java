@@ -2316,8 +2316,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 					.getZ() + 20; // to be over
 			// App.debug("\n"+eye);
 			double eyeSep = 0;
-			if (getProjection() == PROJECTION_GLASSES)
+			if (getProjection() == PROJECTION_GLASSES){
 				eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
+			}
 
 			double x = mouseLoc.x + renderer1.getLeft() + eyeSep;
 			double y = -mouseLoc.y + renderer1.getTop();
@@ -3514,14 +3515,32 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private double eyeSep = 200;
 
-	public void setEyeSep(double val) {
-		eyeSep = val;
+	public void setEyes(double sep, double side, double height) {
+		eyeSep = sep;
+		eyesSide = side;
+		eyesHeight = height;
 		renderer.updateGlassesValues();
 	}
+	
 
 	public double getEyeSep() {
 		return eyeSep;
 	}
+	
+
+	private double eyesHeight = 0;
+	
+	public double getEyesHeight(){
+		return eyesHeight;
+	}
+	
+	private double eyesSide = 0;
+	
+	public double getEyesSide(){
+		return eyesSide;
+	}
+	
+	
 
 	public boolean isUnitAxesRatio() {
 		// TODO Auto-generated method stub
