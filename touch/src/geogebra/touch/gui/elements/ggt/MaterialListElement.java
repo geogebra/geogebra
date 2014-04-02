@@ -28,7 +28,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends HorizontalPanel implements ResizeListener {
+public class MaterialListElement extends HorizontalPanel implements
+		ResizeListener {
 	private SimplePanel image;
 	private VerticalPanel infos;
 	private VerticalPanel links;
@@ -130,14 +131,15 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 					.getElement()
 					.getStyle()
 					.setBackgroundImage(
-							"url("
-									+ this.fm.getThumbnailDataUrl(this.material
-											.getURL()) + ")");
+							"url(" + this.material.getThumbnail() + ")");
 		}
-		String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
-		
-		this.date = new Label(CmdGetTime.buildLocalizedDate(format, this.material.getDate(),
-				this.app.getLocalization()));
+
+		final String format = this.app.getLocalization()
+				.isRightToLeftReadingOrder() ? "\\Y " + Unicode.LeftToRightMark
+				+ "\\F" + Unicode.LeftToRightMark + " \\j" : "\\j \\F \\Y";
+
+		this.date = new Label(CmdGetTime.buildLocalizedDate(format,
+				this.material.getDate(), this.app.getLocalization()));
 		this.infos.add(this.date);
 	}
 
@@ -145,36 +147,29 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 		this.confirm = new StandardButton(this.app.getLocalization().getPlain(
 				"Delete"));
 		this.confirm.addStyleName("confirmButton");
-		this.confirm.addDomHandler(new ClickHandler() {
+		this.confirm.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
+			public void onClick() {
 				onConfirmDelete();
 			}
-		}, ClickEvent.getType());
-
+		});
 		this.cancel = new StandardButton(this.app.getLocalization().getPlain(
 				"Cancel"));
 		this.cancel.addStyleName("confirmCancelButton");
-		this.cancel.addDomHandler(new ClickHandler() {
+		this.cancel.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
+			public void onClick() {
 				onCancel();
 			}
-		}, ClickEvent.getType());
+		});
 
 		this.confirmDeletePanel = new HorizontalPanel();
 		this.confirmDeletePanel.add(this.confirm);
 		this.confirmDeletePanel.add(this.cancel);
 		this.confirmDeletePanel.setStyleName("confirmDelete");
 		this.confirmDeletePanel.setVisible(false);
-	}
-
-	public String getMaterialTitle() {
-		return this.material.getTitle();
 	}
 
 	private void initButtons() {
@@ -195,7 +190,7 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
 		this.deleteButton.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick() {
 				onDelete();
@@ -249,7 +244,7 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 	}
 
 	void onConfirmDelete() {
-		this.fm.delete(this.material.getURL());
+		this.fm.delete(this.material);
 	}
 
 	void onCancel() {
@@ -277,9 +272,16 @@ public class MaterialListElement extends HorizontalPanel implements ResizeListen
 	public void onResize() {
 		if (Window.getClientWidth() < 780) {
 			this.image.addStyleName("scaleImage");
-		}
-		else {
+		} else {
 			this.image.removeStyleName("scaleImage");
 		}
+	}
+
+	public String getMaterialTitle() {
+		return this.material.getTitle();
+	}
+
+	public Material getMaterial() {
+		return this.material;
 	}
 }
