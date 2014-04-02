@@ -161,7 +161,6 @@ public class InfoDialog extends DialogT {
 			this.app.setConstructionTitle(this.consTitle);
 		}
 		this.app.getFileManager().saveFile(this.app);
-		this.app.setSaved();
 		this.hide();
 		if (this.callback != null) {
 			this.callback.run();

@@ -21,20 +21,23 @@ import com.googlecode.gwtphonegap.client.camera.PictureOptions;
 
 public class ImageDialog extends DialogT {
 
-	private TouchApp app;
-	private GuiModel guiModel;
-	private VerticalPanel dialogPanel;
+	private final int PICTURE_QUALITY = 25;
+
+	private final TouchApp app;
+	private final GuiModel guiModel;
+	private final VerticalPanel dialogPanel;
 	private final Localization loc;
-	private Button cancelButton = new Button();
-	private Label title = new Label();
-	private Label description = new Label();
+	private final Button cancelButton = new Button();
+	private final Label title = new Label();
+	private final Label description = new Label();
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 
-	public ImageDialog(TouchApp app) {
+	public ImageDialog(final TouchApp app) {
 		super(true, false);
 		this.app = app;
-		this.guiModel = ((TabletGUI) this.app.getTouchGui()).getTouchModel().getGuiModel();
+		this.guiModel = ((TabletGUI) this.app.getTouchGui()).getTouchModel()
+				.getGuiModel();
 		this.loc = app.getLocalization();
 		this.dialogPanel = new VerticalPanel();
 		this.setGlassEnabled(true);
@@ -48,20 +51,20 @@ public class ImageDialog extends DialogT {
 
 	private void addTitle() {
 		this.title.setStyleName("title");
-		FlowPanel titlePanel = new FlowPanel();
+		final FlowPanel titlePanel = new FlowPanel();
 		titlePanel.add(this.title);
 		titlePanel.setStyleName("titlePanel");
 		this.dialogPanel.add(titlePanel);
 	}
 
 	private void addInsertChoice() {
-		VerticalPanel insertChoicePanel = new VerticalPanel();
+		final VerticalPanel insertChoicePanel = new VerticalPanel();
 		insertChoicePanel.setStyleName("insertChoicePanel");
-		
+
 		insertChoicePanel.add(this.description);
 
-		// TODO use/search for new icons
-		StandardButton insertFromCamera = new StandardButton(LafIcons.icon_kamera(), "Camera");
+		final StandardButton insertFromCamera = new StandardButton(
+				LafIcons.icon_kamera(), "Camera");
 		insertFromCamera.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -70,7 +73,8 @@ public class ImageDialog extends DialogT {
 			}
 		});
 
-		StandardButton insertFromGallery = new StandardButton(LafIcons.icon_gallery(), "Gallery");
+		final StandardButton insertFromGallery = new StandardButton(
+				LafIcons.icon_gallery(), "Gallery");
 		insertFromGallery.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -94,7 +98,7 @@ public class ImageDialog extends DialogT {
 			}
 		}, ClickEvent.getType());
 
-		HorizontalPanel buttonContainer = new HorizontalPanel();
+		final HorizontalPanel buttonContainer = new HorizontalPanel();
 		buttonContainer.setStyleName("buttonPanel");
 		this.cancelButton.addStyleName("last");
 		buttonContainer.add(this.cancelButton);
@@ -103,56 +107,65 @@ public class ImageDialog extends DialogT {
 	}
 
 	/**
-	 * Opens the device-camera and adds the picture (String pictureBase64) to the canvas.
+	 * Opens the device-camera and adds the picture (String pictureBase64) to
+	 * the canvas.
 	 */
 	void insertPictureFromCamera() {
 		this.hide();
-		TouchEntryPoint.getPhoneGap().getCamera().getPicture(new PictureOptions(50),
-				new PictureCallback() {
 
-			@Override
-			public void onSuccess(String pictureBase64) {
-				ImageDialog.this.pictureToCanvas(pictureBase64);
-			}
+		TouchEntryPoint
+				.getPhoneGap()
+				.getCamera()
+				.getPicture(new PictureOptions(this.PICTURE_QUALITY),
+						new PictureCallback() {
 
-			@Override
-			public void onFailure(String arg0) {
-				// TODO Auto-generated method stub
+							@Override
+							public void onSuccess(final String pictureBase64) {
+								ImageDialog.this.pictureToCanvas(pictureBase64);
 
-			}
-		});
+							}
+
+							@Override
+							public void onFailure(final String arg0) {
+								// TODO Auto-generated method stub
+
+							}
+						});
 	}
 
 	/**
-	 * opens a dialog to choose a saved picture (from Drive, Gallery or Camera-pictures)
-	 * and adds picture (String pictureBase64) to canvas.
+	 * opens a dialog to choose a saved picture (from Drive, Gallery or
+	 * Camera-pictures) and adds picture (String pictureBase64) to canvas.
 	 */
 	void insertPictureFromGallery() {
 		this.hide();
-		PictureOptions options = new PictureOptions(25);
+		final PictureOptions options = new PictureOptions(this.PICTURE_QUALITY);
 		options.setDestinationType(PictureOptions.DESTINATION_TYPE_DATA_URL);
 		options.setSourceType(PictureOptions.PICTURE_SOURCE_TYPE_PHOTO_LIBRARY);
-		TouchEntryPoint.getPhoneGap().getCamera().getPicture(options,
-				new PictureCallback() {
+		TouchEntryPoint.getPhoneGap().getCamera()
+				.getPicture(options, new PictureCallback() {
 
-			@Override
-			public void onSuccess(String pictureBase64) {
-				ImageDialog.this.pictureToCanvas(pictureBase64);
-			}
+					@Override
+					public void onSuccess(final String pictureBase64) {
+						ImageDialog.this.pictureToCanvas(pictureBase64);
+					}
 
-			@Override
-			public void onFailure(String arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
+					@Override
+					public void onFailure(final String arg0) {
+						// TODO Auto-generated method stub
+					}
+				});
 	}
 
 	/**
 	 * adds picture to canvas
-	 * @param pictureBase64 string of picture
+	 * 
+	 * @param pictureBase64
+	 *            string of picture
 	 */
-	void pictureToCanvas(String pictureBase64) {
-		((TabletGUI)this.app.getTouchGui()).getTouchModel().addPictureToCanvas("picture", pictureBase64);
+	void pictureToCanvas(final String pictureBase64) {
+		((TabletGUI) this.app.getTouchGui()).getTouchModel()
+				.addPictureToCanvas("picture", pictureBase64);
 	}
 
 	@Override
