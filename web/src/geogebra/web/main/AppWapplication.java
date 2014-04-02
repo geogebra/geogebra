@@ -48,6 +48,9 @@ public class AppWapplication extends AppW {
 			article.setAttribute("data-scalex", "0.8");
 			article.setAttribute("data-scaley", "0.8");
 		}
+		else {
+			RootPanel.getBodyElement().addClassName("application");
+		}
 		appFrame.app = this;
 		this.objectPool = new ObjectPool();
 		createAppSplash();

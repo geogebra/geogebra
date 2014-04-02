@@ -122,6 +122,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				styleBar.updateLayout();
 		   }
 	   });
+	   
+	   tabbedPane.onResize();
 	   	   
 	   setLabels();
 	   
@@ -130,7 +132,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	   
 	   
 	   isIniting = false;
-	   
     }
 	
 	public void setLabels() {
@@ -250,9 +251,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
 	    
 	    plotPanelOptions = new FlowPanel();
+	    plotPanelOptions.setStyleName("plotPanelOptions");
 	    plotPanelOptions.add(lblMeanSigma);
 	    plotPanelOptions.add(btnExport);
 	    plotPanelOptions.add(btnNormalOverlay);
+	    plotPanelOptions.add(new ClearPanel());
 	    
 	    plotPanelPlus = new FlowPanel();
 	    plotPanelPlus.addStyleName("PlotPanelPlus");
@@ -700,6 +703,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 							.getDefaultParameters(selectedDist);
 					this.setProbabilityCalculator(selectedDist, parameters,
 							isCumulative);
+					tabbedPane.onResize();
 				}
 		} else if (source == comboProbType) {
 			updateProbabilityType();
@@ -808,16 +812,24 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
         }
 		
 		@Override
-        public void onResize() { 
-			int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() -  50;
+        public void onResize() {
+			//int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 50;
+			int width = mainSplitPane.getOffsetWidth() - ((ProbabilityTableW) table).getWrappedPanel().getOffsetWidth() - 5;
 			if (width > 0) { 
 				plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
 				plotPanel.repaintView();
 				plotPanel.getEuclidianController().calculateEnvironment();
 				controlPanel.setWidth(width + "px");
+				plotPanelPlus.setWidth(width + "px");
+			}
+			
+			int height = probCalcPanel.getOffsetHeight() - 20;
+			if (height > 0) {
+				((ProbabilityTableW) table).getWrappedPanel().setPixelSize(
+						((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() + 25, height);
+				//((ProbabilityTableW) table).getWrappedPanel().setHeight(height + "px");
 			}
 		}
-		
 	}
 
 	public EuclidianViewW getPlotPanelEuclidianView() {

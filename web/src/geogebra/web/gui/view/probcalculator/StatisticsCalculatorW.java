@@ -5,7 +5,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -25,7 +24,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -37,7 +35,7 @@ import com.google.gwt.user.client.ui.TextBox;
 public class StatisticsCalculatorW extends StatisticsCalculator implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, FocusHandler, BlurHandler, KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
-	private RichTextArea resultPane;
+	private FlowPanel resultPane;
 	private Label lblResult;
 	private Label lblSampleHeader1;
 	private Label lblSampleHeader2;
@@ -411,7 +409,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   for (int i = 0; i < lblSampleStat1.length; i++) {
 			panelSample1.add(lblSampleStat1[i]);
 			panelSample1.add(fldSampleStat1[i]);
-			panelSample1.getElement().appendChild(Document.get().createBRElement());
+			panelSample1.add(new LineBreak());
+			//panelSample1.getElement().appendChild(Document.get().createBRElement());
 		}
 	   
 	   //panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
@@ -420,7 +419,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   for (int i = 0; i < lblSampleStat2.length; i++) {
 			panelSample2.add(lblSampleStat2[i]);
 			panelSample2.add(fldSampleStat2[i]);
-			panelSample2.getElement().appendChild(Document.get().createBRElement());
+			panelSample2.add(new LineBreak());
+			//panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
 	   
 	   switch (selectedProcedure) {
@@ -436,21 +436,23 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(fldNullHyp);
 				panelTestAndCI.add(lblHypParameter);
-				panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
+				//panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(lblHypParameter);
 				panelTestAndCI.add(fldNullHyp);
-				panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
+				//panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 
 			}
+			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(lblTailType);
 			panelTestAndCI.add(btnLeft); 
 			panelTestAndCI.add(btnRight);
 			panelTestAndCI.add(btnTwo);
+			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
-			panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
+			//panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 
 		case ZMEAN_CI:
@@ -462,8 +464,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 			panelTestAndCI.add(lblConfLevel);
 			panelTestAndCI.add(fldConfLevel);
+			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
-			panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
+			//panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 		}
 	   
@@ -483,6 +486,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   
 	   
     }
+	
+	private class LineBreak extends FlowPanel {
+		public LineBreak() {
+			this.setStyleName("lineBreak");
+		}
+	}
 
 	private void createControlPanel() {
 	   panelControl = new FlowPanel();
@@ -497,14 +506,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	}
 	private void createGUIElements() {
 		tabIndex = 1; // 0 as first tabindex does not work.
-	    resultPane = new RichTextArea();
+	    //resultPane = new RichTextArea();
+		resultPane = new FlowPanel();
 	    resultPane.addStyleName("resultPane");
-	    resultPane.setEnabled(false);
+	    //resultPane.setEnabled(false);
 	    
 	    s1 = new double[3];
 	    s2 = new double[3];
 	    
 	    lblResult = new Label();
+	    lblResult.addStyleName("lblHeading");
 	    
 	    lblSampleHeader1 = new Label();
 	    lblSampleHeader2 = new Label();
@@ -569,6 +580,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		lblSampleStat1 = new Label[3];
 		for (int i = 0; i < lblSampleStat1.length; i++) {
 			lblSampleStat1[i] = new Label();
+			lblSampleStat1[i].addStyleName("lblSampleStat");
 		}
 
 		fldSampleStat1 = new AutoCompleteTextFieldW[3];
@@ -584,6 +596,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		lblSampleStat2 = new Label[3];
 		for (int i = 0; i < lblSampleStat2.length; i++) {
 			lblSampleStat2[i] = new Label();
+			lblSampleStat2[i].addStyleName("lblSampleStat");
 		}
 
 		fldSampleStat2 = new AutoCompleteTextFieldW[3];
@@ -606,27 +619,27 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 		bodyText = new StringBuilder();
 		bodyText.append(statHTML.getStatString());
-		bodyText.append(getStyleForBodyText());
+		//bodyText.append(getStyleForBodyText());
 		updateResultText();
 
 		
 	}
 	
-	private String getStyleForBodyText() {
-		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
-	    return "<style>" +
-	    		"body {color:#00008B; font : 9pt verdana; margin: 4px;  }" +
-	    		"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
-						+ padding + "}" +
-	    "</style>";
-    }
+//	private String getStyleForBodyText() {
+//		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
+//	    return "<style>" +
+//	    		"body {color:#00008B; font : 9pt verdana; margin: 4px;  }" +
+//	    		"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
+//						+ padding + "}" +
+//	    "</style>";
+//    }
 
 	private void updateResultText() {
 
-		String htmlString = "<html><body>\n" + bodyText.toString()
-				+ "</body>\n";
-		resultPane.setHTML(htmlString);;
-
+//		String htmlString = "<html><body>\n" + bodyText.toString()
+//				+ "</body>\n";
+//		resultPane.setHTML(htmlString);;
+		resultPane.getElement().setInnerHTML(bodyText.toString());
 	}
 	
 	private void updateStatisticCollection() {

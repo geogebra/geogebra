@@ -78,11 +78,15 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
 	private void createControlPanel() {
 		pnlControl = new FlowPanel();
+		pnlControl.setStyleName("pnlControl");
 		pnlControl.add(lblRows);
 		pnlControl.add(cbRows);
 		pnlControl.getElement().appendChild(Document.get().createBRElement());
 		pnlControl.add(lblColumns);
 		pnlControl.add(cbColumns);
+		FlowPanel lineBreak = new FlowPanel();
+		lineBreak.setStyleName("lineBreak");
+		pnlControl.add(lineBreak);
 		pnlControl.add(ckRowPercent);
 		pnlControl.add(ckColPercent);
 		pnlControl.add(ckExpected);
@@ -131,6 +135,13 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    for (int r = 0; r < sc.rows + 1; r++) {
 	    	cell[r][0].setHeaderCell(true);
 	    	cell[r][sc.columns + 1].setMarginCell(true);
+	    }
+	    
+	    //set input cells
+	    for (int r = 1; r < sc.rows + 1; r++) {
+	    	for (int c = 1; c < sc.columns + 1; c++) {
+	    		cell[r][c].setInputCell(true);
+	    	}
 	    }
 	    
 	    //clear other corners
@@ -338,6 +349,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     	
     	private AutoCompleteTextFieldW fldInput;
     	private Label[] label;
+
+		private Boolean isInputCell = false;
     	
     	/**
     	 * Construct ChiSquareCell with given row, column
@@ -348,7 +361,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		this.column = column;
     	}
 
-    	/**
+		/**
     	 * Construct ChiSquareCell
     	 */
     	public ChiSquareCellW(StatisticsCollection sc) {
@@ -428,6 +441,11 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		this.isHeaderCell = isHeaderCell;
     		setVisualStyle();
     	}
+    	
+    	public void setInputCell(boolean isInputCell) {
+    		this.isInputCell = isInputCell;
+    		setVisualStyle();
+        }
 
     	private void setVisualStyle() {
     		fldInput.setVisible(false);
@@ -442,6 +460,9 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     			//TODO CSSfldInput.setBackground(geogebra.awt.GColorD
     					//.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
+    		} else if (isInputCell) {
+    			fldInput.setVisible(true);
+    			wrappedPanel.addStyleName("inputcell");
     		} else {
     			fldInput.setVisible(true);
     			wrappedPanel.removeStyleName("headercell");

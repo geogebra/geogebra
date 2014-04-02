@@ -23,8 +23,10 @@
 	overflow: visible !important;
 }
 
-body {
+body.application,
+article {
 	color: #666666;
+	font-size: 16px;
 }
 
 input[type="text"],.gwt-TextBox,select,textarea,.gwt-TextArea {
@@ -336,7 +338,7 @@ body[dir=rtl] .gwt-MenuBar-vertical {
 }
 
 body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
-	padding: 2px 1px 2px 40px;
+	/*padding: 2px 1px 2px 40px;*/
 }
 
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator {
@@ -356,7 +358,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
 }
 
 body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
-	padding-left: 4px;
+	/*padding-left: 4px;*/
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -1986,7 +1988,7 @@ body[dir=rtl] .undoPanel {
 	margin-right: 50px;
 }
 
-body[dir=rtl] .toolbar_mainItem {
+body.application[dir=rtl] .toolbar_mainItem {
 	margin-right: 0px;
 	margin-left: 50px;
 }
@@ -2323,7 +2325,7 @@ body[dir=rtl] .toolbar_mainItem {
 	font: -webkit-small-control;
 }
 
-body[dir=rtl] .GeoGebraMenuBar table {
+body.application[dir=rtl] .GeoGebraMenuBar table {
 	margin-left: auto;
 }
 
@@ -2987,6 +2989,7 @@ label {
 	float: right;
 	margin: 0;
 	padding: 0;
+	padding-left: 10px;
 	overflow: auto;
 }
 
@@ -3013,6 +3016,12 @@ label {
 	background: #CCCCFF;
 }
 
+.plotPanelOptions {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 .lblMeanSigma {
 	padding: 5px;
 	float: left;
@@ -3024,6 +3033,7 @@ label {
 
 .controlPanel {
 	float: left;
+	overflow: auto;
 }
 .controlPanel > div {
 	padding: 5px 0px;
@@ -3069,20 +3079,46 @@ label {
 	display: inline-block;
 }
 
+/* --------- STATISTICS CALCULATOR --------------- */
+
 .StatisticsCalculatorW .panelControl {
 	margin: 5px 0 5px 0px;
 }
 
 .StatisticsCalculatorW .scroller {
 	overflow: auto;
+	padding-bottom: 8px;
 }
 
-.StatisticsCalculatorW .panelSample2>.gwt-Label,
-.StatisticsCalculatorW .panelSample2>.AutoCompleteTextFieldW,
-.StatisticsCalculatorW .panelSample1>.gwt-Label,
-.StatisticsCalculatorW .panelSample1>.AutoCompleteTextFieldW {
+.StatisticsCalculatorW .lineBreak {
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+.StatisticsCalculatorW .gwt-RadioButton label,
+.StatisticsCalculatorW .gwt-CheckBox label {
+	margin: 0 20px 0 5px;
+}
+
+.StatisticsCalculatorW span.gwt-CheckBox {
+	margin-top: 10px;
+	min-width: 170px;
+}
+
+.StatisticsCalculatorW .lblSampleStat {
+	min-width: 80px;
+	text-align: right;
+}
+
+.StatisticsCalculatorW .gwt-Label,
+.StatisticsCalculatorW .AutoCompleteTextFieldW,
+.StatisticsCalculatorW .gwt-ListBox,
+.StatisticsCalculatorW .gwt-CheckBox,
+.StatisticsCalculatorW .gwt-RadioButton {
 	display: inline-block;
-	margin: 2px 5px;
+	margin: 3px 5px;
 }
 
 .StatisticsCalculatorW .panelSample1,
@@ -3092,38 +3128,38 @@ label {
 	margin-right: 20px;
 	display: inline-block;
 	margin-top: 10px;
+	white-space: nowrap;
 }
 
 .StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,
-.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child
-	{
+.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
 	display: block;
 }
 
-.StatisticsCalculatorW .panelTestAndCI {
-	margin-bottom: 5px;
-}
-
-.StatisticsCalculatorW .panelTestAndCI>* {
+/*.StatisticsCalculatorW .panelTestAndCI > * {
 	display: inline-block;
-	margin: 2px 5px;
+	margin: 3px 5px;
 }
 
 .StatisticsCalculatorW .panelTestAndCI .ckPooled {
 	display: block;
-}
+}*/
 
-.StatisticsCalculatorW .breakafter:after {
+/*.StatisticsCalculatorW .breakafter:after {
 	display: block;
 	padding-left: 6ex;
 	visibility: hidden;
+}*/
+
+.StatisticsCalculatorW .pnlControl .gwt-Label {
+	min-width: 80px;
 }
 
 .StatisticsCalculatorW .pnlCount {
 	overflow: auto;
 	text-align: right;
 	display: table;
-	border-collapse: separate;
+	border-collapse: collapse;
 }
 
 .StatisticsCalculatorW .chirow {
@@ -3133,17 +3169,25 @@ label {
 .StatisticsCalculatorW .chirow .ChiSquarePanelW {
 	display: table-cell;
 	margin: 5px;
+	vertical-align: middle;
 }
 
-.StatisticsCalculatorW .chirow .ChiSquarePanelW>* {
+.StatisticsCalculatorW .chirow .inputcell {
+	border: 1px solid #DCDCDC;
+}
+
+.StatisticsCalculatorW .chirow .ChiSquarePanelW > * {
 	display: block;
 	text-align: center;
 }
 
-.StatisticsCalculatorW .chirow .headercell,
-.StatisticsCalculatorW .chirow .headercell input
-	{
-	background: #ebeff9;
+.StatisticsCalculatorW .chirow input {
+	text-align: center;
+}
+
+.StatisticsCalculatorW .chirow .headercell input {
+	background: #CCCCFF;
+	border: 1px solid #6666FF;
 }
 
 .StatisticsCalculatorW .chirow .headercell input:focus {
@@ -3151,13 +3195,20 @@ label {
 }
 
 .StatisticsCalculatorW .resultPane {
-	width: 98%;
-	min-height: 50%;
-	border: 1px solid #DCDCDC;
 	margin-top: 5px;
 }
-.StatisticsCalculatorW .resultPanel {
-	margin-top: 10px;
+
+.resultPane table td {
+	padding: 3px;
+	padding-right: 40px;
+}
+
+.StatisticsCalculatorW .gwt-Label.lblHeading {
+	margin-top: 20px;
+	padding-bottom: 5px;
+	color: #6666FF;
+	display: block;
+	border-bottom: 1px solid #CCCCFF;
 }
 
 /*=========== Probability Calculator End =============*/
@@ -3573,7 +3624,7 @@ PROVIDERS
 	transform-origin: 0% 0%;
 }
 
-.zoomedBody .gwt-DialogBox {
+body.application.zoomedBody .gwt-DialogBox {
 	-webkit-transform-origin: 50% 50%;
 	-moz-transform-origin: 50% 50%;
 	transform-origin: 50% 50%;
@@ -3581,7 +3632,7 @@ PROVIDERS
 	-moz-transform: scale(0.8, 0.8);
 }
 
-.zoomedBody .gwt-PopupPanel {
+body.application.zoomedBody .gwt-PopupPanel {
 	-webkit-transform-origin: 100% 0%;
 	-moz-transform-origin: 100% 0%;
 	transform-origin: 100% 0%;
@@ -3589,26 +3640,26 @@ PROVIDERS
 	-moz-transform: scale(0.8, 0.8);
 }
 
-.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
+body.application.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 	-webkit-transform-origin: 0% 0%;
 	-moz-transform-origin: 0% 0%;
 	transform-origin: 0% 0%;
 }
-.zoomedBody .gwt-PopupPanel.helpPopup {
+body.application.zoomedBody .gwt-PopupPanel.helpPopup {
 	-webkit-transform-origin: 100% 100%;
 	-moz-transform-origin: 100% 100%;
 	transform-origin: 100% 100%;
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 }
-.zoomedBody .gwt-PopupPanel.PropertiesViewW {
+body.application.zoomedBody .gwt-PopupPanel.PropertiesViewW {
 	-webkit-transform: scale(1, 1);
 	-moz-transform: scale(1, 1);
 }
 
-.zoomedBody .gwt-MenuBarPopup {
+body.application.zoomedBody .gwt-MenuBarPopup {
 	-webkit-transform-origin: 100% 0%;
 	-moz-transform-origin: 100% 0%;
 	transform-origin: 100% 0%;
@@ -3616,7 +3667,7 @@ PROVIDERS
 	-moz-transform: scale(0.8, 0.8);
 }
 
-.zoomedBody .gwt-SuggestBoxPopup {
+body.application.zoomedBody .gwt-SuggestBoxPopup {
 	-webkit-transform: scale(0.8, 0.8);
 	-moz-transform: scale(0.8, 0.8);
 	-webkit-transform-origin: 0% 100%;
@@ -3628,6 +3679,8 @@ PROVIDERS
 	border: 1px #DCDCDC solid;
 }
 
-.selectedButton{
-	border:2px blue solid;
+.selectedButton {
+	border: 2px #6666FF solid;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
