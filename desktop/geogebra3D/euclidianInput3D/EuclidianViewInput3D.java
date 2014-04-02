@@ -98,7 +98,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public boolean isPolarized() {
-		return true;
+		return false;
 	}
 
 	@Override
