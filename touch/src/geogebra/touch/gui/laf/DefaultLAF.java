@@ -152,4 +152,9 @@ public class DefaultLAF implements LookAndFeel {
 		// assume it is centered by CSS
 		
 	}
+
+	@Override
+	public String getType() {
+		return "touch";
+	}
 }

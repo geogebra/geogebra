@@ -30,4 +30,9 @@ public class AppleLAF extends DefaultLAF {
 	public void loadRTLStyles() {
 		StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyleApple().getText());
 	}
+	
+	@Override
+	public String getType() {
+		return "ios";
+	}
 }

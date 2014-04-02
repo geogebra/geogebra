@@ -1121,16 +1121,21 @@ public abstract class AppWeb extends App implements SetLabels{
 			((GuiManagerInterfaceW)getGuiManager()).setActiveView(evID);
 		}
 	}
-	public ClientInfo getClientInfo() {
+	public final ClientInfo getClientInfo() {
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setModel(getLoginOperation().getModel());
 		clientInfo.setLanguage(getLocalization().getLanguage());
 		clientInfo.setWidth((int)getWidth());
 		clientInfo.setHeight((int)getHeight());
-
+		clientInfo.setType(getClientType());
+		clientInfo.setId(getClientID());
 	    return clientInfo;
     }
 	
+	protected abstract String getClientType();
+	
+	protected abstract String getClientID();
+
 	/** 
 	 * Initializes the user authentication 
 	 */

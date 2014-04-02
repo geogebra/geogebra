@@ -603,6 +603,7 @@ public class TouchApp extends AppWeb {
 
 		this.setDefaultConstructionTitle();
 		this.initNetworkEventFlow();
+		initSignInEventFlow();
 	}
 
 	@Override
@@ -720,6 +721,17 @@ public class TouchApp extends AppWeb {
 	public EuclidianViewWeb getPlotPanelEuclidianView(final int viewID) {
 		// TODO: do this when ported to touch .-)
 		return null;
+	}
+
+	@Override
+	protected String getClientType() {
+		return TouchEntryPoint.getLookAndFeel().getType();
+	}
+
+	@Override
+	protected String getClientID() {
+		// TODO Auto-generated method stub
+		return "geek";
 	}
 
 }

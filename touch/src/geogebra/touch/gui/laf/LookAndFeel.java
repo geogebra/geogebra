@@ -53,4 +53,6 @@ public interface LookAndFeel extends SavedStateListener {
 	public void loadRTLStyles();
 
 	public void center(Widget title);
+
+	public String getType();
 }

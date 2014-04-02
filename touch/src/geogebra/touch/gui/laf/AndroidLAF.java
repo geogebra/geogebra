@@ -34,4 +34,9 @@ public class AndroidLAF extends DefaultLAF {
 	public void loadRTLStyles() {
 		StyleInjector.injectStylesheet(DefaultResources.INSTANCE.rtlStyleAndroid().getText());
 	}
+	
+	@Override
+	public String getType() {
+		return "android";
+	}
 }

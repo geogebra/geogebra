@@ -129,4 +129,9 @@ public class WinLAF extends DefaultLAF {
 		w.getElement().getStyle().setPaddingLeft(getPaddingLeftOfDialog(), Unit.PX);
 		w.getElement().getStyle().setPaddingRight(getPaddingLeftOfDialog(), Unit.PX);
 	}
+	
+	@Override
+	public String getType() {
+		return "win";
+	}
 }
