@@ -177,6 +177,9 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		$wnd[ggbApplet].getVisible = function(objName, view) {
+			if(view){
+				return ggbAPI.@geogebra.html5.main.GgbAPIW::getVisible(Ljava/lang/String;I)(objName,view);
+			}
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getVisible(Ljava/lang/String;)(objName);
 		};
 

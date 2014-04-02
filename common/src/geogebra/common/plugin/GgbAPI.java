@@ -1228,4 +1228,17 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		}
 		return;
     }
+    
+    public boolean getVisible(String label,int view){
+    	if(view<1 || view > 2){
+    		return false;
+    	}
+    	GeoElement geo = kernel.lookupLabel(label);
+    	if(geo == null){
+    		return false;
+    	}
+    	
+    	return geo.isVisibleInView(view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2);
+    	
+    }
 }

@@ -136,6 +136,12 @@ public interface JavaScriptAPI {
 	 * returns true or false depending on whether the object is visible
 	 */
 	public boolean getVisible(String objName);
+	/**
+	 * @param objName object name
+	 * @param view graphics view ID: 1 or 2
+	 * @return whether objcet is visible in given view
+	 */
+	public boolean getVisible(String objName, int view);
 	
 	/**
 	 * Sets the layer of the object with the given name in the geometry window.

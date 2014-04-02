@@ -1503,4 +1503,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi.setPerspective(s);
 	}
 
+	@Override
+	public boolean getVisible(String objName, int view) {
+		return ggbApi.getVisible(objName, view);
+	}
+
 }

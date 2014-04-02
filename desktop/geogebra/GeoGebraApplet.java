@@ -716,4 +716,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().setPerspective(code);
 	}
 
+	@Override
+	public boolean getVisible(String objName, int view) {
+		return getAppletImplementation().getVisible(objName, view);
+	}
+
 }
