@@ -7,10 +7,8 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
@@ -29,9 +27,8 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	private final AppWeb app;
 	private int materialHeight = 140;
 	private int columns = 2;
-	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
 	private int start;
-	private List<Material> materials = new ArrayList<Material>();
+	private List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
 
 	public VerticalMaterialPanel(final AppWeb app) {
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
@@ -69,17 +66,21 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	}
 
 	public void setLabels() {
-		for (final MaterialListElement e : this.titlesToPreviews.values()) {
+		for (final MaterialListElement e : this.materials) {
 			e.setLabels();
 		}
 	}
 
-	public void setMaterials(final int cols, final List<Material> materials) {
-		this.setMaterials(cols, materials, 0);
+	public void setMaterials(final int cols, final List<Material> matList) {
+		this.materials.clear();
+		for (final Material mat : matList) {
+			this.materials.add(new MaterialListElement(mat, this.app));
+		}
+		this.setMaterials(cols, this.materials, 0);
 	}
 
-	private void setMaterials(final int cols, final List<Material> materials,
-			final int offset) {
+	private void setMaterials(final int cols,
+			final List<MaterialListElement> materials, final int offset) {
 		final boolean widthChanged = this.columns != 0 && cols != this.columns;
 		this.columns = cols;
 		this.contentPanel.clear();
@@ -94,12 +95,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		}
 
 		for (int i = 0; i < materials.size() - this.start && i < pageCapacity(); i++) {
-			final Material m = materials.get(i + this.start);
-			MaterialListElement preview = this.titlesToPreviews.get(m.getURL());
-			if (preview == null) {
-				preview = new MaterialListElement(m, this.app);
-				this.titlesToPreviews.put(m.getURL(), preview);
-			}
+			final MaterialListElement preview = materials.get(i + this.start);
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
 					preview);
 		}
@@ -109,20 +105,18 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	}
 
 	private void updateHeight() {
-		final Iterator<MaterialListElement> material = this.titlesToPreviews
-				.values().iterator();
+		final Iterator<MaterialListElement> material = this.materials
+				.iterator();
+
 		if (material.hasNext()) {
 			final MaterialListElement next = material.next();
 			if (next.getOffsetHeight() > 0) {
 				this.materialHeight = next.getOffsetHeight();
 			}
 		}
-		// if(this.materialHeight != oldMaterialHeight){
 		if (this.materials != null) {
 			this.setMaterials(this.columns, this.materials, this.start);
 		}
-		// }
-
 	}
 
 	@Override
@@ -133,12 +127,5 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private void updateWidth() {
 		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
-	}
-
-	public void invalidate(final String changedName) {
-		if (this.titlesToPreviews.get(changedName) != null) {
-			this.titlesToPreviews.remove(changedName);
-		}
-
 	}
 }
