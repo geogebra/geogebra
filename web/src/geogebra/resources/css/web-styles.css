@@ -17,6 +17,14 @@
  * name below, and attach it to the DOM.  Use a timer to detect when the
  * element's height and width are set to 5px.
  */
+ 
+ button {
+	border: none;
+	background: none;
+	padding: 0px;
+	margin: 0px;
+}
+ 
 /*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
 .ggbdockpanelhack>div {
@@ -2137,6 +2145,13 @@ body.application[dir=rtl] .toolbar_mainItem {
 	margin: 0px 5px 0px 10px;
 	cursor: pointer;
 	float: left;
+	width: 30px;
+	height: 30px;
+	padding: 2px;
+}
+
+.smartButtonPanel .selectedButton {
+	padding: 0px;
 }
 
 /*#####################################################################################
@@ -3681,6 +3696,7 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 
 .selectedButton {
 	border: 2px #6666FF solid;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }

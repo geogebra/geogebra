@@ -148,11 +148,11 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/edit-paste.png")
 	ImageResource edit_paste();
 	
-	@Source("geogebra/web/gui/images/edit-redo.png")
+	/*@Source("geogebra/web/gui/images/edit-redo.png")
 	ImageResource edit_redo();
 	
 	@Source("geogebra/web/gui/images/edit-undo.png")
-	ImageResource edit_undo();
+	ImageResource edit_undo();*/
 	
 	@Source("geogebra/web/gui/images/edit.png")
 	ImageResource edit();

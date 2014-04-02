@@ -7,7 +7,6 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.browser.BrowseGUI;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 import geogebra.web.main.AppW;
@@ -20,7 +19,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -111,28 +109,28 @@ public class GGWToolBar extends Composite {
 	//undo-redo buttons
 	private void addUndoPanel(){
 
-		Image redoImage = new Image(AppResources.INSTANCE.edit_redo());
-		Button redoButton = new Button();
-		redoButton.getElement().appendChild(redoImage.getElement());
+		//Image redoImage = new Image(GuiResources.INSTANCE.button_redo());
+		StandardButton redoButton = new StandardButton(GuiResources.INSTANCE.button_redo());
+		//redoButton.getElement().appendChild(redoImage.getElement());
 		redoButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				app.getGuiManager().redo();
             }
 		});
-		redoButton.setStyleName("redoButton");
-		redoButton.getElement().addClassName("button");
+		redoButton.addStyleName("redoButton");
+		//redoButton.getElement().addClassName("button");
 		redoButton.setTitle("Redo");
 	
-		Image undoImage = new Image(AppResources.INSTANCE.edit_undo());
-		Button undoButton = new Button();
-		undoButton.getElement().appendChild(undoImage.getElement());
+		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
+		StandardButton undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
+		//undoButton.getElement().appendChild(undoImage.getElement());
 		undoButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				app.getGuiManager().undo();
             }
 		});
-		undoButton.setStyleName("undoButton");
-		undoButton.getElement().addClassName("button");
+		undoButton.addStyleName("undoButton");
+		//undoButton.getElement().addClassName("button");
 		undoButton.setTitle("Undo");
 		//toolBarPanel.add(redoButton);
 		
