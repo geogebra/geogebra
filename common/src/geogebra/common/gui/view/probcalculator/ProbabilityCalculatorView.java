@@ -65,6 +65,7 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1748,5 +1749,23 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public String getMeanSigma() {
+		Double[] val = probManager.getDistributionMeasures(selectedDist,
+				parameters);
+
+		// mean/sigma are undefined for the Cauchy distribution
+		if (selectedDist == DIST.CAUCHY) {
+			return "";
+		}
+
+		String mean = val[0] == null ? "" : format(val[0]);
+		String sigma = val[1] == null ? "" : format(val[1]);
+
+		String meanSigmaStr = Unicode.mu + " = " + mean + "   " + Unicode.sigma
+				+ " = " + sigma;
+
+		return meanSigmaStr;
 	}
 }

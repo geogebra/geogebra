@@ -9,7 +9,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
-import geogebra.common.util.Unicode;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
@@ -764,7 +763,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				integral.update();
 		}
 
-		setMeanSigma();
+		lblMeanSigma.setText(getMeanSigma());
 		wrapperPanel.repaint();
 
 	}
@@ -796,34 +795,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		updateGUI();
 		fldHigh.addActionListener(this);
 		fldLow.addActionListener(this);
-	}
-
-	public void setMeanSigma() {
-		Double[] val = probManager.getDistributionMeasures(selectedDist,
-				parameters);
-
-		// mean/sigma are undefined for the Cauchy distribution
-		if (selectedDist == DIST.CAUCHY) {
-			lblMeanSigma.setText("");
-			return;
-		}
-
-		String distStr = distributionMap.get(selectedDist) + "(";
-		for (int i = 0; i < parameters.length; i++) {
-			distStr += format(parameters[i]);
-			if (i < parameters.length - 1) {
-				distStr += ",";
-			}
-		}
-		distStr += ")";
-
-		String mean = val[0] == null ? "" : format(val[0]);
-		String sigma = val[1] == null ? "" : format(val[1]);
-
-		String meanSigmaStr = Unicode.mu + " = " + mean + "   " + Unicode.sigma
-				+ " = " + sigma;
-
-		lblMeanSigma.setText(meanSigmaStr);
 	}
 
 	public void setLabels() {

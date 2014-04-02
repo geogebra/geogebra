@@ -7,7 +7,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
-import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.FastClickHandler;
@@ -572,34 +571,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				integral.update();
 		}
 
-		setMeanSigma();
+		lblMeanSigma.setText(getMeanSigma());
 		plotPanel.repaintView();
 		//wrapperPanel.repaint();
 
-	}
-	
-	public void setMeanSigma() {
-		Double[] val = probManager.getDistributionMeasures(selectedDist,
-				parameters);
-
-		// mean/sigma are undefined for the Cauchy distribution
-		if (selectedDist == DIST.CAUCHY) {
-			lblMeanSigma.setText("");
-			return;
-		}
-
-		for (int i = 0; i < parameters.length; i++) {
-			format(parameters[i]);
-			if (i < parameters.length - 1) {
-			}
-		}
-		String mean = val[0] == null ? "" : format(val[0]);
-		String sigma = val[1] == null ? "" : format(val[1]);
-
-		String meanSigmaStr = Unicode.mu + " = " + mean + "   " + Unicode.sigma
-				+ " = " + sigma;
-
-		lblMeanSigma.setText(meanSigmaStr);
 	}
 	
 	private void addRemoveTable(boolean showTable) {
