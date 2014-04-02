@@ -5,6 +5,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -4570,6 +4571,14 @@ public class Kernel {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].endBatchUpdate();
+			}
+		}
+	}
+
+	public void setViewsLabels() {
+		for (int i = 0; i < viewCnt; ++i) {
+			if(views[i] instanceof SetLabels){
+				((SetLabels)views[i]).setLabels();
 			}
 		}
 	}

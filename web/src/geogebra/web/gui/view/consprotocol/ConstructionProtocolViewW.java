@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.consprotocol;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -16,7 +17,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class ConstructionProtocolViewW extends ConstructionProtocolView{
+public class ConstructionProtocolViewW extends ConstructionProtocolView implements SetLabels{
 
 	private ConstructionProtocolNavigationW protNavBar;
 	public FlowPanel cpPanel;
@@ -63,7 +64,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 //				table.setText(0, k, data.columns[k].getTitle());
 //		}		
 //	}
-    
+    public void setLabels(){
+    	initGUI();
+    }
 	public void initGUI(){
 		//remove all columns if there are
 		int colCount = table.getColumnCount();

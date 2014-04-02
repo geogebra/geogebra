@@ -1,6 +1,7 @@
 package geogebra.gui.view.data;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
@@ -41,7 +42,8 @@ import javax.swing.SwingUtilities;
  * @author G. Sturr
  * 
  */
-public class DataAnalysisViewD extends JPanel implements View, Printable {
+public class DataAnalysisViewD extends JPanel implements View, Printable,
+		SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -943,15 +945,15 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 	public JPopupMenu getExportMenu() {
 		return dataDisplayPanel1.getExportMenu();
 	}
-	
+
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

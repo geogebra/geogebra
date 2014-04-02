@@ -2,6 +2,7 @@ package geogebra.common.gui.view.probcalculator;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.data.PlotSettings;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -75,7 +76,7 @@ import java.util.TreeSet;
  * Commmon view for ProbabilityCalculator
  *
  */
-public abstract class ProbabilityCalculatorView implements View, SettingListener {
+public abstract class ProbabilityCalculatorView implements View, SettingListener, SetLabels {
 	
 	/**
 	 * Application
@@ -93,11 +94,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	 * Construction
 	 */
 	protected Construction cons;
-	
-	/**
-	 * @param app Application
-	 */
-	
+
 	// colors
 	private static final GColor COLOR_PDF = GeoGebraColorConstants.DARKBLUE;
 	private static final GColor COLOR_NORMALOVERLAY = GeoGebraColorConstants.RED;

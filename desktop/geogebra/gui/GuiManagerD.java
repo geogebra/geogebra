@@ -126,11 +126,9 @@ import javax.swing.SwingUtilities;
  * separate gui jar file.
  */
 public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
-	
+
 	private final static boolean USE_COMPRESSED_VIEW = true;
 	private final static int CV_UPDATES_PER_SECOND = 3;
-
-	
 
 	protected DialogManagerD dialogManager;
 	protected DialogManagerD.Factory dialogManagerFactory;
@@ -146,26 +144,26 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private GeoGebraMenuBar menuBar;
 	private JMenuBar menuBar2;
 	private String strCustomToolbarDefinition;
-	
+
 	private ToolbarContainer toolbarPanel;
 	private boolean htmlLoaded;// see #126
 
 	private LayoutD layout;
 
-
 	private DataAnalysisViewD dataView;
-	
-	private String lastFilenameOfSaveDialog; 
-	
+
+	private String lastFilenameOfSaveDialog;
+
 	/**
-	 * Returns last filename that was used in save dialog (may be for .png, .ggb, ...)
-	 * See #665
+	 * Returns last filename that was used in save dialog (may be for .png,
+	 * .ggb, ...) See #665
+	 * 
 	 * @return last filename including extension
 	 */
-	public String getLastFileNameOfSaveDialog(){
+	public String getLastFileNameOfSaveDialog() {
 		return lastFilenameOfSaveDialog;
 	}
-	
+
 	public static DataFlavor urlFlavor, uriListFlavor;
 	static {
 		try {
@@ -242,9 +240,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				newCenterSize.width / (float) oldCenterSize.width,
 				newCenterSize.height / (float) oldCenterSize.height);
 	}
-	
-	
-	
 
 	/**
 	 * Register panels for the layout manager.
@@ -278,22 +273,21 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanel((AppD) app));
-		
+
 		/*
-		if (!app.isWebstart() || app.is3D()) {
-			// register Assignment view
-			layout.registerPanel(new AssignmentDockPanel(app));
-		}*/
+		 * if (!app.isWebstart() || app.is3D()) { // register Assignment view
+		 * layout.registerPanel(new AssignmentDockPanel(app)); }
+		 */
 
 	}
-	
+
 	private PropertiesDockPanel propertiesDockPanel = null;
-	
+
 	/**
 	 * 
 	 * @return the properties dock panel
 	 */
-	public PropertiesDockPanel getPropertiesDockPanel(){
+	public PropertiesDockPanel getPropertiesDockPanel() {
 		return propertiesDockPanel;
 	}
 
@@ -320,11 +314,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// clear custom toolbar definition
 			strCustomToolbarDefinition = null;
 
-			GeoGebraPreferencesD.getPref().loadXMLPreferences((AppD) app); // this will
+			GeoGebraPreferencesD.getPref().loadXMLPreferences((AppD) app); // this
+																			// will
 			// load the
 			// default
 			// settings
-			((AppD) app).setLanguage(((AppD) app).getMainComponent().getLocale());
+			((AppD) app).setLanguage(((AppD) app).getMainComponent()
+					.getLocale());
 			((AppD) app).updateContentPaneAndSize();
 			app.setDefaultCursor();
 			app.setUndoActive(true);
@@ -356,9 +352,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		return algebraView;
 	}
-	
-	public void applyAlgebraViewSettings(){
-		if (algebraView!=null)
+
+	public void applyAlgebraViewSettings() {
+		if (algebraView != null)
 			algebraView.applySettings();
 	}
 
@@ -373,20 +369,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		return propertiesView;
 	}
-	
-	
+
 	/**
-	 * @param appD Application
+	 * @param appD
+	 *            Application
 	 * @return new PropertiesViewD
 	 */
-	protected PropertiesViewD newPropertiesViewD(AppD appD){
+	protected PropertiesViewD newPropertiesViewD(AppD appD) {
 		return new PropertiesViewD(appD);
 	}
-	
-	public boolean hasPropertiesView(){
+
+	public boolean hasPropertiesView() {
 		return propertiesView != null;
 	}
-	
+
 	/**
 	 * 
 	 * @param algc
@@ -406,10 +402,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		return constructionProtocolView;
 	}
-	
+
 	public View getConstructionProtocolData() {
 
-		return ((ConstructionProtocolViewD) getConstructionProtocolView()).getData();
+		return ((ConstructionProtocolViewD) getConstructionProtocolView())
+				.getData();
 	}
 
 	public AssignmentView getAssignmentView() {
@@ -449,7 +446,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public boolean hasAlgebraView() {
 		if (algebraView == null)
@@ -483,7 +480,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public DataAnalysisViewD getDataAnalysisView() {
 		if (dataView == null)
-			dataView = new DataAnalysisViewD((AppD) app,DataAnalysisViewD.MODE_ONEVAR);
+			dataView = new DataAnalysisViewD((AppD) app,
+					DataAnalysisViewD.MODE_ONEVAR);
 		return dataView;
 	}
 
@@ -510,7 +508,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (spreadsheetView != null)
 			spreadsheetView.getXML(sb, asPreference);
 	}
-	
+
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		if (algebraView != null)
 			algebraView.getXML(sb, asPreference);
@@ -540,7 +538,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			sb.append(getConstructionProtocolNavigation().getPlayDelay());
 			sb.append('\"');
 			sb.append(" protButton=\"");
-			sb.append(getConstructionProtocolNavigation().isConsProtButtonVisible());
+			sb.append(getConstructionProtocolNavigation()
+					.isConsProtButtonVisible());
 			sb.append('\"');
 			sb.append(" consStep=\"");
 			sb.append(kernel.getConstructionStep());
@@ -558,8 +557,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	// ==================================
 	// End XML
-
-	
 
 	public EuclidianViewD getEuclidianView2() {
 		if (euclidianView2 == null) {
@@ -645,12 +642,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void attachConstructionProtocolView() {
 		getConstructionProtocolView();
-		((ConstructionTableData) (constructionProtocolView.getData())).attachView();
+		((ConstructionTableData) (constructionProtocolView.getData()))
+				.attachView();
 	}
 
 	public void detachConstructionProtocolView() {
 		if (constructionProtocolView != null)
-			((ConstructionTableData) (constructionProtocolView.getData())).detachView();
+			((ConstructionTableData) (constructionProtocolView.getData()))
+					.detachView();
 	}
 
 	public void attachProbabilityCalculatorView() {
@@ -670,9 +669,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void detachDataAnalysisView() {
 		getDataAnalysisView().detachView();
 	}
-	
-	
-	
+
 	public void attachAssignmentView() {
 		getAssignmentView();
 		assignmentView.attachView();
@@ -692,7 +689,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (propertiesView != null)
 			propertiesView.detachView();
 	}
-
 
 	public void setShowAuxiliaryObjects(boolean flag) {
 		if (!hasAlgebraViewShowing())
@@ -716,7 +712,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField() {
 		getAlgebraInput();
-		return geogebra.javax.swing.GTextComponentD.wrap(algebraInput.getTextField());
+		return geogebra.javax.swing.GTextComponentD.wrap(algebraInput
+				.getTextField());
 	}
 
 	/**
@@ -751,19 +748,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void updateToolbar() {
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
-			//toolbarPanel.updateToolbarPanel();
+			// toolbarPanel.updateToolbarPanel();
 			toolbarPanel.updateHelpText();
 		}
-		
+
 		if (layout != null) {
 			layout.getDockManager().updateToolbars();
 		}
 	}
 
 	public void setShowView(boolean flag, int viewId) {
-		setShowView( flag,  viewId, true);
+		setShowView(flag, viewId, true);
 	}
-	
+
 	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
 			if (!showView(viewId))
@@ -780,7 +777,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				(app).getActiveEuclidianView().requestFocus();
 			}
 		}
-		
+
 		toolbarPanel.validate();
 		toolbarPanel.updateHelpText();
 	}
@@ -799,11 +796,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public boolean isConsProtNavigationPlayButtonVisible() {
-		return getConstructionProtocolNavigation().isPlayButtonVisible();		
+		return getConstructionProtocolNavigation().isPlayButtonVisible();
 	}
 
 	public boolean isConsProtNavigationProtButtonVisible() {
-		return getConstructionProtocolNavigation().isConsProtButtonVisible();		
+		return getConstructionProtocolNavigation().isConsProtButtonVisible();
 	}
 
 	/**
@@ -885,7 +882,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD) getConstructionProtocolNavigation()).initGUI();
+		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD) getConstructionProtocolNavigation())
+				.initGUI();
 
 		if (casView != null)
 			casView.updateFonts();
@@ -898,10 +896,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (dataView != null)
 			dataView.updateFonts();
-		
+
 		if (propertiesView != null)
 			propertiesView.updateFonts();
-		
+
 		dialogManager.updateFonts();
 
 		SwingUtilities.updateComponentTreeUI(((AppD) app).getMainComponent());
@@ -914,8 +912,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if ((app).showMenuBar()) {
 			initMenubar();
-			//updateMenubar();
-			
+			// updateMenubar();
+
 			Component comp = ((AppD) app).getMainComponent();
 			if (comp instanceof JApplet)
 				((JApplet) comp).setJMenuBar(menuBar);
@@ -931,22 +929,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (algebraInput != null)
 			algebraInput.setLabels();
 
-		if (app.getEuclidianView1() != null
-				&& (app).getEuclidianView1().hasStyleBar())
-			app.getEuclidianView1().getStyleBar().setLabels();
-
-		if (hasEuclidianView2()
-				&& (app).getEuclidianView2().hasStyleBar())
-			getEuclidianView2().getStyleBar().setLabels();
-
-		if (spreadsheetView != null) {
-			spreadsheetView.setLabels();
-			spreadsheetView.getSpreadsheetStyleBar().setLabels();
-		}
-
-		if (casView != null)
-			casView.setLabels();
-
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
 			toolbarPanel.updateHelpText();
@@ -954,7 +936,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		
+
 		getConstructionProtocolNavigation().setLabels();
 
 		if (virtualKeyboard != null)
@@ -964,39 +946,27 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		dialogManager.setLabels();
 
-		if (probCalculator != null)
-			((ProbabilityCalculatorViewD) probCalculator).setLabels();
-		
-		if (dataView != null)
-			dataView.setLabels();
-
-		if (propertiesView != null)
-			propertiesView.setLabels();
-		
 		if (((AppD) app).getDockBar() != null)
 			((AppD) app).getDockBar().setLabels();
-		
-		
 
 	}
 
 	public void initMenubar() {
 		if (menuBar == null) {
 			menuBar = new GeoGebraMenuBar((AppD) app, layout);
-			
+
 			menuBar2 = new JMenuBar();
 			String country = ((AppD) app).getLocale().getCountry();
 			if (country.equals("")) {
 				// TODO: hack
 				country = ((AppD) app).getLocale().getLanguage();
 			}
-			
-			String flag = StringUtil.toLowerCase(country)+".png";
+
+			String flag = StringUtil.toLowerCase(country) + ".png";
 			JMenuItem jj = new JMenuItem(((AppD) app).getFlagIcon(flag));
 			jj.setAlignmentX(100);
 			menuBar2.add(jj, ((AppD) app).getLocalization().borderEast());
 
-			
 		}
 		// ((GeoGebraMenuBar) menuBar).setFont(app.getPlainFont());
 		menuBar.initMenubar();
@@ -1038,18 +1008,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				((JApplet) comp).setJMenuBar(menuBar);
 			else if (comp instanceof JFrame) {
 				((JFrame) comp).setJMenuBar(menuBar);
-				((JFrame) comp).validate();	
+				((JFrame) comp).validate();
 			}
-		}else{
+		} else {
 			Component comp = ((AppD) app).getMainComponent();
 			if (comp instanceof JApplet)
 				((JApplet) comp).setJMenuBar(null);
 			else if (comp instanceof JFrame) {
 				((JFrame) comp).setJMenuBar(null);
-				((JFrame) comp).validate();			}
+				((JFrame) comp).validate();
+			}
 		}
 	}
-	
+
 	public void showAboutDialog() {
 		GeoGebraMenuBar.showAboutDialog((AppD) app);
 	}
@@ -1064,12 +1035,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * Displays the Graphics View menu at the position p in the coordinate space
 	 * of euclidianView
 	 */
-	public void showDrawingPadPopup(Component invoker, geogebra.common.awt.GPoint p) {
+	public void showDrawingPadPopup(Component invoker,
+			geogebra.common.awt.GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
 
 		// menu for drawing pane context menu
-		drawingPadpopupMenu = new ContextMenuGraphicsWindowD((AppD) app, p.x, p.y);
+		drawingPadpopupMenu = new ContextMenuGraphicsWindowD((AppD) app, p.x,
+				p.y);
 		drawingPadpopupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 	}
 
@@ -1078,8 +1051,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * of euclidianView
 	 */
 	public void toggleDrawingPadPopup(Component invoker, Point p) {
-		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x, p.y);
-		if (drawingPadpopupMenu == null || !drawingPadpopupMenu.getWrappedPopup().isVisible()) {
+		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x,
+				p.y);
+		if (drawingPadpopupMenu == null
+				|| !drawingPadpopupMenu.getWrappedPopup().isVisible()) {
 			showDrawingPadPopup(invoker, loc);
 			return;
 		}
@@ -1088,14 +1063,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	ContextMenuGeoElementD popupMenu;
-	
+
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
 	 */
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			geogebra.common.awt.GPoint p) {
-		
+
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 		if (app.getKernel().isAxis(geos.get(0))) {
@@ -1113,9 +1088,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 
 	}
-	
 
-	
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
@@ -1123,12 +1096,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianView view,
 			geogebra.common.awt.GPoint p) {
-		
+
 		if (geos == null || !app.letShowPopupMenu())
 			return;
-		
+
 		Component invoker = ((EuclidianViewInterfaceDesktop) view).getJPanel();
-		
+
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
 		} else {
@@ -1138,24 +1111,24 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
 					.getLocationOnScreen();
 			screenPos.translate(p.x, p.y);
-			
-			popupMenu = new ContextMenuChooseGeoD((AppD) app, view, selectedGeos, geos, screenPos, p);
-			//popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
+
+			popupMenu = new ContextMenuChooseGeoD((AppD) app, view,
+					selectedGeos, geos, screenPos, p);
+			// popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
 			popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 		}
 
 	}
-	
-	
-	
+
 	/**
 	 * Toggles the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
 	 */
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
-		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x,p.y);
-		if (popupMenu == null || ! popupMenu.getWrappedPopup().isVisible()) {
+		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x,
+				p.y);
+		if (popupMenu == null || !popupMenu.getWrappedPopup().isVisible()) {
 			showPopupMenu(geos, invoker, loc);
 			return;
 		}
@@ -1172,8 +1145,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * 
 	 * @return whether a new image was created or not
 	 */
-	public boolean loadImage(Transferable transfer,
-			boolean fromClipboard) {
+	public boolean loadImage(Transferable transfer, boolean fromClipboard) {
 		app.setWaitCursor();
 
 		String[] fileName = null;
@@ -1185,40 +1157,34 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} else {
 			fileName = new String[1];
 			fileName[0] = getImageFromFile(); // opens file chooser dialog
-			
+
 		}
 
 		boolean ret;
 		if (fileName.length == 0 || fileName[0] == null) {
 			ret = false;
 		} else {
-			
-				
+
 			EuclidianView ev = ((AppD) app).getActiveEuclidianView();
-			Construction cons = ev.getApplication().getKernel().getConstruction();
-			Point mousePos = ((EuclidianViewInterfaceDesktop) ev).getMousePosition();
+			Construction cons = ev.getApplication().getKernel()
+					.getConstruction();
+			Point mousePos = ((EuclidianViewInterfaceDesktop) ev)
+					.getMousePosition();
 			GeoPoint loc = new GeoPoint(cons);
 
-
 			// create corner points (bottom right/left)
-			loc.setCoords(
-					ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
-					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4,
-					1.0);
+			loc.setCoords(ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
+					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
 			loc.setLabel(null);
 			loc.setLabelVisible(false);
 			loc.update();
 
 			GeoPoint loc2 = new GeoPoint(cons);
-			loc2.setCoords(
-					ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
-					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4,
-					1.0
-					);
+			loc2.setCoords(ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
+					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
 			loc2.setLabel(null);
 			loc2.setLabelVisible(false);
 			loc2.update();
-
 
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
@@ -1249,7 +1215,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser((AppD) app);
 			chooser.setColor(geogebra.awt.GColorD.getAwtColor(currentColor));
-			JDialog dialog = JColorChooser.createDialog(((AppD) app).getMainComponent(),
+			JDialog dialog = JColorChooser.createDialog(
+					((AppD) app).getMainComponent(),
 					app.getPlain("ChooseColor"), true, chooser, null, null);
 			dialog.setVisible(true);
 
@@ -1460,12 +1427,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// else
 			{
 				if (imageFile == null) {
-					
+
 					/**************************************************************
-					 * Mac OS X related code to work around JFileChooser problem on
-					 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+					 * Mac OS X related code to work around JFileChooser problem
+					 * on sandboxing. See
+					 * http://intransitione.com/blog/take-java-to-app-store/
 					 **************************************************************/
-					if (((AppD)app).macsandbox) {
+					if (((AppD) app).macsandbox) {
 
 						FileDialog fd = new FileDialog(((AppD) app).getFrame());
 						fd.setModal(true);
@@ -1479,28 +1447,32 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 								return (name.endsWith(".jpg")
 										|| name.endsWith(".jpeg")
 										|| name.endsWith(".png")
-										|| name.endsWith(".bmp")
-										|| name.endsWith(".gif"));
+										|| name.endsWith(".bmp") || name
+										.endsWith(".gif"));
 							}
 						});
 						fd.setTitle(app.getMenu("Load"));
 
 						fd.toFront();
 						fd.setVisible(true);
-						// FIXME: find a better place for this, we need to change the
-						// cursor back before NPE when file loading was unsuccessful: 
-						app.setDefaultCursor();		
+						// FIXME: find a better place for this, we need to
+						// change the
+						// cursor back before NPE when file loading was
+						// unsuccessful:
+						app.setDefaultCursor();
 
 						if (fd.getFile() != null) {
-							imageFile = new File(fd.getDirectory() + "/" + fd.getFile());
+							imageFile = new File(fd.getDirectory() + "/"
+									+ fd.getFile());
 						}
 
-						((AppD) app).setCurrentPath(new File(fd.getDirectory()));
-						
+						((AppD) app)
+								.setCurrentPath(new File(fd.getDirectory()));
+
 					} else {
-					/**************************************************************
-					 * End of Mac OS X related code.
-					 **************************************************************/
+						/**************************************************************
+						 * End of Mac OS X related code.
+						 **************************************************************/
 
 						((DialogManagerD) getDialogManager()).initFileChooser();
 						GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
@@ -1531,7 +1503,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 									GeoGebraPreferencesD
 											.getPref()
 											.saveDefaultImagePath(
-													((AppD) app).getCurrentImagePath());
+													((AppD) app)
+															.getCurrentImagePath());
 								}
 							}
 						}
@@ -1542,7 +1515,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						}
 					}
 				}
-					
+
 				// get file name
 				fileName = imageFile.getCanonicalPath();
 
@@ -1577,9 +1550,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			/**************************************************************
 			 * Mac OS X related code to work around JFileChooser problem on
-			 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+			 * sandboxing. See
+			 * http://intransitione.com/blog/take-java-to-app-store/
 			 **************************************************************/
-			if (((AppD)app).macsandbox) {
+			if (((AppD) app).macsandbox) {
 
 				FileDialog fd = new FileDialog(((AppD) app).getFrame());
 				fd.setModal(true);
@@ -1590,12 +1564,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				}
 				fd.setFilenameFilter(new FilenameFilter() {
 					public boolean accept(File dir, String name) {
-						return (name.endsWith(".txt")
-								|| name.endsWith(".csv")
-								|| name.endsWith(".dat"));
+						return (name.endsWith(".txt") || name.endsWith(".csv") || name
+								.endsWith(".dat"));
 					}
 				});
-				
+
 				fd.setTitle(app.getMenu("Load"));
 
 				fd.toFront();
@@ -1610,13 +1583,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				((AppD) app).setCurrentPath(new File(fd.getDirectory()));
 
-				
 				return dataFile;
 			}
 			/**************************************************************
 			 * End of Mac OS X related code.
 			 **************************************************************/
-				
+
 			((DialogManagerD) getDialogManager()).initFileChooser();
 			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
 					.getFileChooser();
@@ -1633,7 +1605,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.setFileFilter(fileFilter);
 
-			int returnVal = fileChooser.showOpenDialog(((AppD) app).getMainComponent());
+			int returnVal = fileChooser.showOpenDialog(((AppD) app)
+					.getMainComponent());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				dataFile = fileChooser.getSelectedFile();
 				if (dataFile != null) {
@@ -1659,9 +1632,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	// returns true for YES or NO and false for CANCEL
 	public boolean saveCurrentFile() {
-		
+
 		app.getEuclidianView1().reset();
-		if(app.hasEuclidianView2()){
+		if (app.hasEuclidianView2()) {
 			app.getEuclidianView2().reset();
 		}
 		// use null component for iconified frame
@@ -1714,7 +1687,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (!((AppD) app).getCurrentFile().canWrite()) {
 				success = saveAs();
 			} else {
-				success = ((AppD) app).saveGeoGebraFile(((AppD) app).getCurrentFile());
+				success = ((AppD) app).saveGeoGebraFile(((AppD) app)
+						.getCurrentFile());
 			}
 		} else {
 			success = saveAs();
@@ -1739,11 +1713,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		String[] fileExtensions;
 		String[] fileDescriptions;
 		fileExtensions = new String[] { AppD.FILE_EXT_GEOGEBRA };
-		fileDescriptions = new String[] { app.getPlain("ApplicationName")
-				+ " " + app.getMenu("Files") };
-		File file = showSaveDialog(
-				fileExtensions, ((AppD) app).getCurrentFile(), fileDescriptions, true,
-				false);
+		fileDescriptions = new String[] { app.getPlain("ApplicationName") + " "
+				+ app.getMenu("Files") };
+		File file = showSaveDialog(fileExtensions,
+				((AppD) app).getCurrentFile(), fileDescriptions, true, false);
 		if (file == null)
 			return false;
 
@@ -1766,8 +1739,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				promptOverwrite, dirsOnly);
 	}
 
-	public File showSaveDialog(final String[] fileExtensions, File selectedFile,
-			String[] fileDescriptions, boolean promptOverwrite, boolean dirsOnly) {
+	public File showSaveDialog(final String[] fileExtensions,
+			File selectedFile, String[] fileDescriptions,
+			boolean promptOverwrite, boolean dirsOnly) {
 		boolean done = false;
 		File file = null;
 
@@ -1777,83 +1751,67 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 		String fileExtension = fileExtensions[0];
 
-		/**************************************************************	
-	     * Mac OS X related code to work around JFileChooser problem on
+		/**************************************************************
+		 * Mac OS X related code to work around JFileChooser problem on
 		 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 		 **************************************************************/
-		if (((AppD)app).macsandbox) {
+		if (((AppD) app).macsandbox) {
 			while (!done) {
 
 				NSSavePanel panel = new NSSavePanel();
-				String result = panel.saveDialog(app.getMenu("Save"), fileExtension);
+				String result = panel.saveDialog(app.getMenu("Save"),
+						fileExtension);
 				file = new File(result);
 				done = true;
-				
+
 				/*
-				FileDialog fd = new FileDialog(((AppD) app).getFrame());
-				fd.setModal(true);
-				File currentPath = ((AppD) app).getCurrentPath();
-				fd.setMode(FileDialog.SAVE);
-				if (currentPath != null) {
-					fd.setDirectory(currentPath.toString());
-				}
-				fd.setFilenameFilter(new FilenameFilter() {
-					public boolean accept(File dir, String name) {
-						for (String s : fileExtensions) {
-							if (name.endsWith("." + s)) {
-								return true;
-							}
-						}
-						return false;
-					}
-				});
-				fd.setTitle(app.getMenu("Save"));
-				if (selectedFile == null) {
-					String str = app.getPlain("UntitledConstruction");
-					int length = str.length();
-					// Sandbox (when running the application directly from Finder)
-					// may return with a filename which is incompatible,
-					// thus we try to ensure that the filename does not contain
-					// accented letters:
-					str = Normalizer.normalize(str, Normalizer.Form.NFKD);
-					str = str.replaceAll( "[^\\x20-\\x7E]", "");
-					if (str.length() * 2 < length) {
-						// This normalization can filter out all or almost all
-						// non-Latin characters. If this happens:
-						str = "Untitled Construction"; // using the English version
-					}
-					fd.setFile(str + "." + fileExtension);
-				} else {
-					fd.setFile(selectedFile.getName());
-				}
-
-				fd.toFront();
-				fd.setVisible(true);
-				
-				if (fd.getFile() == null) {
-					// cancel pressed
-					return null;
-				}
-
-				file = new File(fd.getDirectory() + "/" + fd.getFile());
-				((AppD) app).setCurrentPath(new File(fd.getDirectory()));
-
-				// Don't add file extension since it will be disallowed on Mac in sandbox:		
-				// file = addExtension(file, fileExtension);
-				lastFilenameOfSaveDialog = file.getName();
-
-				// Don't ask overwrite question again. Mac will do it already.
-				done = true;
-				*/
+				 * FileDialog fd = new FileDialog(((AppD) app).getFrame());
+				 * fd.setModal(true); File currentPath = ((AppD)
+				 * app).getCurrentPath(); fd.setMode(FileDialog.SAVE); if
+				 * (currentPath != null) {
+				 * fd.setDirectory(currentPath.toString()); }
+				 * fd.setFilenameFilter(new FilenameFilter() { public boolean
+				 * accept(File dir, String name) { for (String s :
+				 * fileExtensions) { if (name.endsWith("." + s)) { return true;
+				 * } } return false; } }); fd.setTitle(app.getMenu("Save")); if
+				 * (selectedFile == null) { String str =
+				 * app.getPlain("UntitledConstruction"); int length =
+				 * str.length(); // Sandbox (when running the application
+				 * directly from Finder) // may return with a filename which is
+				 * incompatible, // thus we try to ensure that the filename does
+				 * not contain // accented letters: str =
+				 * Normalizer.normalize(str, Normalizer.Form.NFKD); str =
+				 * str.replaceAll( "[^\\x20-\\x7E]", ""); if (str.length() * 2 <
+				 * length) { // This normalization can filter out all or almost
+				 * all // non-Latin characters. If this happens: str =
+				 * "Untitled Construction"; // using the English version }
+				 * fd.setFile(str + "." + fileExtension); } else {
+				 * fd.setFile(selectedFile.getName()); }
+				 * 
+				 * fd.toFront(); fd.setVisible(true);
+				 * 
+				 * if (fd.getFile() == null) { // cancel pressed return null; }
+				 * 
+				 * file = new File(fd.getDirectory() + "/" + fd.getFile());
+				 * ((AppD) app).setCurrentPath(new File(fd.getDirectory()));
+				 * 
+				 * // Don't add file extension since it will be disallowed on
+				 * Mac in sandbox: // file = addExtension(file, fileExtension);
+				 * lastFilenameOfSaveDialog = file.getName();
+				 * 
+				 * // Don't ask overwrite question again. Mac will do it
+				 * already. done = true;
+				 */
 			}
 			return file;
-		}			
+		}
 		/**************************************************************
-		 * End of Mac OS X related code. 
+		 * End of Mac OS X related code.
 		 **************************************************************/
-				
+
 		((DialogManagerD) getDialogManager()).initFileChooser();
-		GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager()).getFileChooser();
+		GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
+				.getFileChooser();
 
 		fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA_SAVE);
 		fileChooser.setCurrentDirectory(((AppD) app).getCurrentPath());
@@ -1892,7 +1850,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		while (!done) {
 			// show save dialog
-			int returnVal = fileChooser.showSaveDialog(((AppD) app).getMainComponent());
+			int returnVal = fileChooser.showSaveDialog(((AppD) app)
+					.getMainComponent());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = fileChooser.getSelectedFile();
 
@@ -1984,7 +1943,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		id.setVisible(true);
 
 	}
-	
+
 	public void openFromGGT() {
 		if ((app).isSaved() || saveCurrentFile()) {
 			app.getDialogManager().showOpenFromGGTDialog();
@@ -1994,20 +1953,22 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void openFile() {
 		openFile(null);
 	}
-	
+
 	/**
-	 * Points to the given file in the file dialog popup window
-	 * and offers to choose that file --- or a different one.
+	 * Points to the given file in the file dialog popup window and offers to
+	 * choose that file --- or a different one.
+	 * 
 	 * @param file
 	 */
 	public void openFile(File file) {
 
 		if ((app).isSaved() || saveCurrentFile()) {
 			app.setWaitCursor();
-						
+
 			/**************************************************************
 			 * Mac OS X related code to work around JFileChooser problem on
-			 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+			 * sandboxing. See
+			 * http://intransitione.com/blog/take-java-to-app-store/
 			 **************************************************************/
 			if (((AppD) app).macsandbox) {
 
@@ -2089,7 +2050,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 
 			app.setDefaultCursor();
-			int returnVal = fileChooser.showOpenDialog(((AppD) app).getMainComponent());
+			int returnVal = fileChooser.showOpenDialog(((AppD) app)
+					.getMainComponent());
 
 			File[] files = null;
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -2110,12 +2072,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public synchronized void doOpenFiles(File[] files,
 			boolean allowOpeningInThisInstance) {
-		doOpenFiles(files, allowOpeningInThisInstance,
-				AppD.FILE_EXT_GEOGEBRA);
+		doOpenFiles(files, allowOpeningInThisInstance, AppD.FILE_EXT_GEOGEBRA);
 	}
 
 	public synchronized void doOpenFiles(File[] files,
-			boolean allowOpeningInThisInstance, String extension) {		
+			boolean allowOpeningInThisInstance, String extension) {
 		htmlLoaded = false;
 		// there are selected files
 		if (files != null) {
@@ -2147,19 +2108,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						// message
 						file = addExtension(removeExtension(file), extension);
 
-						JOptionPane.showConfirmDialog(
-								((AppD) app).getMainComponent(),
-								app.getLocalization().getError("FileNotFound") + ":\n"
-										+ file.getAbsolutePath(),
-								app.getLocalization().getError("Error"),
+						JOptionPane.showConfirmDialog(((AppD) app)
+								.getMainComponent(),
+								app.getLocalization().getError("FileNotFound")
+										+ ":\n" + file.getAbsolutePath(), app
+										.getLocalization().getError("Error"),
 								JOptionPane.DEFAULT_OPTION,
 								JOptionPane.WARNING_MESSAGE);
 
 					}
 				}
 
-				String ext = AppD.getExtension(file).toLowerCase(
-						Locale.US);
+				String ext = AppD.getExtension(file).toLowerCase(Locale.US);
 
 				if (file.exists()) {
 					if (AppD.FILE_EXT_GEOGEBRA_TOOL.equals(ext)) {
@@ -2245,7 +2205,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				u.getQuery(), u.getRef()).toURL();
 	}
 
-
 	/*
 	 * loads an html file with <param name="ggbBase64" value="UEsDBBQACAAI...
 	 */
@@ -2255,31 +2214,31 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return success;
 
 	}
-	
+
 	@Override
-	protected boolean loadURL_GGB(String urlString) throws Exception{
+	protected boolean loadURL_GGB(String urlString) throws Exception {
 		URL url = getEscapedUrl(urlString);
 		return ((AppD) app).loadXML(url, false);
 	}
-	
+
 	@Override
-	protected boolean loadURL_base64(String urlString) throws IOException{
+	protected boolean loadURL_base64(String urlString) throws IOException {
 		byte[] zipFile = Base64.decode(urlString);
 		return ((AppD) app).loadXML(zipFile);
 	}
-	
+
 	@Override
-	protected boolean loadFromApplet(String urlString) throws Exception{
+	protected boolean loadFromApplet(String urlString) throws Exception {
 		URL url = getEscapedUrl(urlString);
 		boolean success = ((AppD) app).loadFromHtml(url);
-	
+
 		// fallback: maybe some address like download.php?file=1234,
 		// e.g. the forum
 		if (!success) {
 			boolean isMacroFile = urlString.contains(".ggt");
 			success = ((AppD) app).loadXML(url, isMacroFile);
 		}
-		
+
 		return success;
 	}
 
@@ -2293,7 +2252,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (!app.isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (app.needsSpreadsheetTableModel())
-					(app).getSpreadsheetTableModel(); //ensure create one if not already done
+					(app).getSpreadsheetTableModel(); // ensure create one if
+														// not already done
 			}
 		} else if (isMacroFile && success) {
 			refreshCustomToolsInToolBar();
@@ -2305,39 +2265,45 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (!app.isApplet())
 			app.getScriptManager().ggbOnInit();
 	}
-	
+
 	public void refreshCustomToolsInToolBar() {
 		int macroCount = kernel.getMacroNumber();
 
-		// add the ones that have (showInToolbar == true) into the toolbar if they are not already there.
+		// add the ones that have (showInToolbar == true) into the toolbar if
+		// they are not already there.
 		StringBuilder customToolBar = new StringBuilder("");
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
-			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET+ i;
-			if (macro.isShowInToolBar() && !(getToolbarDefinition().contains(String.valueOf(macroMode))) ) {
+			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
+			if (macro.isShowInToolBar()
+					&& !(getToolbarDefinition().contains(String
+							.valueOf(macroMode)))) {
 				customToolBar.append(" " + macroMode);
 			}
 		}
-		
+
 		String toolbarDef = getToolbarDefinition().trim();
-		String last="";
-		try{
+		String last = "";
+		try {
 			// get the last tool mode number in the toolbar def string
 			String[] tools = toolbarDef.split(" ");
-			last = tools[tools.length-1];
-			int lastToolId = Integer.parseInt( last );
-		
-			if( lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET ){
-				setToolBarDefinition(toolbarDef + customToolBar.toString() );
-			} else {
-				setToolBarDefinition(toolbarDef + " ||" + customToolBar.toString()); 
-			}
-		} catch (NumberFormatException e){
-			// could not identify the last tool so just add the custom tools onto the end
-			if( last.contains("|")){
+			last = tools[tools.length - 1];
+			int lastToolId = Integer.parseInt(last);
+
+			if (lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				setToolBarDefinition(toolbarDef + customToolBar.toString());
-			}else{
-				setToolBarDefinition(toolbarDef + " ||" + customToolBar.toString());
+			} else {
+				setToolBarDefinition(toolbarDef + " ||"
+						+ customToolBar.toString());
+			}
+		} catch (NumberFormatException e) {
+			// could not identify the last tool so just add the custom tools
+			// onto the end
+			if (last.contains("|")) {
+				setToolBarDefinition(toolbarDef + customToolBar.toString());
+			} else {
+				setToolBarDefinition(toolbarDef + " ||"
+						+ customToolBar.toString());
 			}
 		}
 	}
@@ -2390,10 +2356,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		return true;
 	}
-	
+
 	@Override
-	public void updateCheckBoxesForShowConstructinProtocolNavigation(){
-		if (propertiesView!=null)
+	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
+		if (propertiesView != null)
 			propertiesView.updateEuclidianPanelsGUI();
 	}
 
@@ -2404,7 +2370,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				undoAction.setEnabled(kernel.undoPossible());
 			} else {
 				// eg --enableUndo=false
-				undoAction.setEnabled(false);				
+				undoAction.setEnabled(false);
 			}
 		}
 		if (redoAction != null) {
@@ -2412,7 +2378,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				redoAction.setEnabled(kernel.redoPossible());
 			} else {
 				// eg --enableUndo=false
-				redoAction.setEnabled(false);				
+				redoAction.setEnabled(false);
 			}
 		}
 
@@ -2463,8 +2429,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public String getToolbarDefinition() {
-		//"null" may appear in files created using some buggy versions of Touch
-		if (("null".equals(strCustomToolbarDefinition) || strCustomToolbarDefinition == null) && toolbarPanel != null)
+		// "null" may appear in files created using some buggy versions of Touch
+		if (("null".equals(strCustomToolbarDefinition) || strCustomToolbarDefinition == null)
+				&& toolbarPanel != null)
 			return getGeneralToolbar().getDefaultToolbarString();
 		return strCustomToolbarDefinition;
 	}
@@ -2489,7 +2456,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void showURLinBrowser(URL url) {
 		App.debug("opening URL:" + url);
 		if (((AppD) app).getJApplet() != null) {
-			((AppD) app).getJApplet().getAppletContext().showDocument(url, "_blank");
+			((AppD) app).getJApplet().getAppletContext()
+					.showDocument(url, "_blank");
 		} else {
 			App.debug("opening URL:" + url.toExternalForm());
 			BrowserLauncher.openURL(url.toExternalForm());
@@ -2498,18 +2466,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void openToolHelp() {
 		openToolHelp(app.getKernel().getModeText(app.getMode()));
-	
+
 	}
-	
+
 	public void openToolHelp(String page) {
-		Object[] options = { app.getPlain("ShowOnlineHelp"), app.getPlain("Cancel")  };
+		Object[] options = { app.getPlain("ShowOnlineHelp"),
+				app.getPlain("Cancel") };
 		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
 				app.getMenu(page + ".Help"), app.getMenu("ToolHelp") + " - "
 						+ app.getMenu(page), JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, ((AppD) app).getToolBarImage("mode_" + page + "_32.gif", Color.BLACK), // do not
-													// use a
-													// custom
-													// Icon
+				JOptionPane.QUESTION_MESSAGE, ((AppD) app).getToolBarImage(
+						"mode_" + page + "_32.gif", Color.BLACK), // do not
+				// use a
+				// custom
+				// Icon
 				options, // the titles of buttons
 				options[0]); // default button title
 
@@ -2525,8 +2495,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (MyError e) {
 			app.showError(e);
 		} catch (Exception e) {
-			App.debug("openHelp error: " + e.toString() + " "
-					+ e.getMessage() + " " + page + " " + type);
+			App.debug("openHelp error: " + e.toString() + " " + e.getMessage()
+					+ " " + page + " " + type);
 			app.showError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -2636,16 +2606,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		return ret;
 	}
-	
 
-
-	
 	@Override
 	public int setToolbarMode(int mode) {
 		if (toolbarPanel == null) {
 			return 0;
 		}
-		
+
 		int ret = toolbarPanel.setMode(mode);
 		layout.getDockManager().setToolbarMode(mode);
 		return ret;
@@ -2819,9 +2786,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * return handwritingRecognition.isVisible(); }
 	 */
 
-	
-
-	
 	public boolean showVirtualKeyboard() {
 		if (virtualKeyboard == null)
 			return false;
@@ -2834,7 +2798,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// Application.debug("menus open");
 			return false;
 		}
-		if (drawingPadpopupMenu != null && drawingPadpopupMenu.getWrappedPopup().isVisible()) {
+		if (drawingPadpopupMenu != null
+				&& drawingPadpopupMenu.getWrappedPopup().isVisible()) {
 			// Application.debug("menus open");
 			return false;
 		}
@@ -2900,11 +2865,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return false;
 		return true;
 	}
+
 	public void reInitHelpPanel() {
 
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanel((AppD) app);
-		else{
+		else {
 			inputHelpPanel.setLabels();
 		}
 	}
@@ -2919,29 +2885,29 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void setFocusedPanel(MouseEventND event, boolean updatePropertiesView) {
 		// determine parent panel to change focus
 		EuclidianDockPanelAbstract panel = (EuclidianDockPanelAbstract) SwingUtilities
-				.getAncestorOfClass(EuclidianDockPanelAbstract.class, event.getComponent());
+				.getAncestorOfClass(EuclidianDockPanelAbstract.class,
+						event.getComponent());
 
 		setFocusedPanel(panel, updatePropertiesView);
 
 	}
-	
+
 	public void setFocusedPanel(int viewId, boolean updatePropertiesView) {
-		setFocusedPanel(getLayout().getDockManager().getPanel(viewId),updatePropertiesView);
+		setFocusedPanel(getLayout().getDockManager().getPanel(viewId),
+				updatePropertiesView);
 
 	}
-	
-	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
-		
-		if (panel != null) {
-			getLayout().getDockManager()
-					.setFocusedPanel(panel,updatePropertiesView);
-			
 
-			
+	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
+
+		if (panel != null) {
+			getLayout().getDockManager().setFocusedPanel(panel,
+					updatePropertiesView);
+
 			// notify the properties view
-			if  (updatePropertiesView)
+			if (updatePropertiesView)
 				updatePropertiesView();
-				
+
 		}
 
 	}
@@ -2950,51 +2916,49 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (algebraInput != null)
 			algebraInput.initGUI();
 	}
-	
-	
-	public void updatePropertiesView(){
-		if(propertiesView !=null){
+
+	public void updatePropertiesView() {
+		if (propertiesView != null) {
 			propertiesView.updatePropertiesView();
 		}
 	}
-	
-	public void mouseReleasedForPropertiesView(boolean creatorMode){
-		if(propertiesView !=null){
+
+	public void mouseReleasedForPropertiesView(boolean creatorMode) {
+		if (propertiesView != null) {
 			propertiesView.mouseReleasedForPropertiesView(creatorMode);
 		}
 	}
-	
-	public void mousePressedForPropertiesView(){
-		if(propertiesView !=null){
+
+	public void mousePressedForPropertiesView() {
+		if (propertiesView != null) {
 			propertiesView.mousePressedForPropertiesView();
 		}
 	}
-	
-	
+
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint mouseLoc) {
-		showPopupMenu(selectedGeos, ((EuclidianViewInterfaceDesktop) view).getJPanel(), mouseLoc);
-		
+		showPopupMenu(selectedGeos,
+				((EuclidianViewInterfaceDesktop) view).getJPanel(), mouseLoc);
+
 	}
-	
-	
-	
+
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint p) {
-		
+
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
-		
+
 	}
 
-	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
+	public void setFocusedPanel(AbstractEvent event,
+			boolean updatePropertiesView) {
 		setFocusedPanel((MouseEventND) event, updatePropertiesView);
 	}
 
 	public void loadImage(GeoPoint loc, Object transfer, boolean fromClipboard) {
-		loadImage(loc, fromClipboard, (Transferable)transfer);
-		
+		loadImage(loc, fromClipboard, (Transferable) transfer);
+
 	}
 
 	/**
@@ -3005,7 +2969,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * 
 	 * @return whether a new image was created or not
 	 */
-	public boolean loadImage(GeoPoint loc, boolean fromClipboard, Transferable transfer) {
+	public boolean loadImage(GeoPoint loc, boolean fromClipboard,
+			Transferable transfer) {
 		app.setWaitCursor();
 
 		String[] fileName = null;
@@ -3048,37 +3013,36 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewD)view).getJPanel(), mouseLoc);
+		showDrawingPadPopup(((EuclidianViewD) view).getJPanel(), mouseLoc);
 	}
-	
+
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint mouseLoc) {
 		// 3D stuff
 	}
-	
-	public void showPropertiesViewSliderTab(){
+
+	public void showPropertiesViewSliderTab() {
 		propertiesView.showSliderTab();
 	}
 
 	public void showGraphicExport() {
-		app.getSelectionManager().clearSelectedGeos(true,false);
+		app.getSelectionManager().clearSelectedGeos(true, false);
 		app.updateSelection(false);
 
 		JDialog d = new geogebra.export.GraphicExportDialog((AppD) app);
 
-
 		d.setVisible(true);
-		
+
 	}
 
 	public void showPSTricksExport() {
 		GeoGebraToPstricks export = new GeoGebraToPstricks(app);
 		new PstricksFrame(export);
-		
+
 	}
 
 	public void showWebpageExport() {
-		app.getSelectionManager().clearSelectedGeos(true,false);
+		app.getSelectionManager().clearSelectedGeos(true, false);
 		app.updateSelection(false);
 		geogebra.export.WorksheetExportDialog d = new geogebra.export.WorksheetExportDialog(
 				(AppD) app);
@@ -3094,14 +3058,15 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return getInputHelpPanel().getMinimumSize().width;
 	}
 
-	public int getActiveToolbarId(){
-		if(toolbarPanel==null)
+	public int getActiveToolbarId() {
+		if (toolbarPanel == null)
 			return -1;
 		return toolbarPanel.getActiveToolbar();
 	}
-	
+
 	/**
 	 * Tells if the 3D View is shown in the current window
+	 * 
 	 * @return whether 3D View is switched on
 	 */
 	public boolean is3DViewShown() {
@@ -3119,7 +3084,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void clearAbsolutePanels() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {
@@ -3128,7 +3093,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			GeoGebraFrame frame = (GeoGebraFrame) ((AppD) app).getFrame();
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
-		
+
 		LocalizationD loc = ((AppD) app).getLocalization();
 
 		// Michael Borcherds 2008-05-04
@@ -3139,12 +3104,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				loc.getPlain("CreateSliders"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE,
 
-				((AppD) app).getModeIcon(EuclidianConstants.MODE_SLIDER), options, options[0]);
-		
+				((AppD) app).getModeIcon(EuclidianConstants.MODE_SLIDER),
+				options, options[0]);
+
 		return returnVal == 0;
-		
+
 	}
-	
+
 	/**
 	 * @return new EuclidianDockPanelForPlane
 	 */
@@ -3155,19 +3121,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public boolean belongsToToolCreator(ListCellRenderer renderer) {
 		return ToolCreationDialog.isMyCellRenderer(renderer);
 	}
-	
+
 	@Override
 	public geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 		if (constProtocolNavigation == null) {
-			constProtocolNavigation = new ConstructionProtocolNavigationD(this.getApp());
+			constProtocolNavigation = new ConstructionProtocolNavigationD(
+					this.getApp());
 		}
 
 		return constProtocolNavigation;
 	}
-	
+
 	public void login() {
 		app.getDialogManager().showLogInDialog();
-    }
+	}
 
 	public void logout() {
 		app.getDialogManager().showLogOutDialog();

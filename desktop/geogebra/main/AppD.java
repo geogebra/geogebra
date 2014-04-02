@@ -2523,6 +2523,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (guiManager != null) {
 			getGuiManager().setLabels();
+			kernel.setViewsLabels();
 		}
 
 		if (loc.propertiesFilesPresent()) {

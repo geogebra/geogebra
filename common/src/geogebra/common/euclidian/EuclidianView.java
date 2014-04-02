@@ -31,6 +31,7 @@ import geogebra.common.euclidian.draw.DrawVector;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.Kernel;
@@ -72,7 +73,7 @@ import java.util.TreeSet;
 /**
  * View containing graphic representation of construction elements
  */
-public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
+public abstract class EuclidianView implements EuclidianViewInterfaceCommon, SetLabels {
 	/** says if the view has the mouse */
 	protected boolean hasMouse;
 	/** View other than EV1 and EV2 **/
@@ -5319,4 +5320,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return 0;
 	}
 
+	@Override
+	public final void setLabels() {
+		if (this.styleBar != null) {
+			styleBar.setLabels();
+		}
+	}
 }

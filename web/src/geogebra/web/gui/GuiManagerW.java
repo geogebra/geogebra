@@ -1158,26 +1158,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 			toolbarPanel.getToolBar().buildGui();
 		}
 
-		if (((AppW) app).getObjectPool().getGgwMenubar() != null &&
-			((AppW) app).getObjectPool().getGgwMenubar().getMenubar() != null) {
-			((AppW) app).getObjectPool().getGgwMenubar().removeMenus();
-			((AppW) app).getObjectPool().getGgwMenubar().init((AppW) app);
-		}
-
-		if (algebraView != null) {
-			algebraView.setLabels();
-		}
-
-		if ((app.getEuclidianView1() != null)
-		        && app.getEuclidianView1().hasStyleBar()) {
-			app.getEuclidianView1().getStyleBar().setLabels();
-		}
-
-		if (hasEuclidianView2EitherShowingOrNot() &&
-			app.getEuclidianView2().hasStyleBar()) {
-			app.getEuclidianView2().getStyleBar().setLabels();
-		}
-
 		// if (!WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
 		// GeoGebraAppFrame.setCloseMessage(app);
 		// }

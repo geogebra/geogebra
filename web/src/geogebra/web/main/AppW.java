@@ -611,6 +611,7 @@ public abstract class AppW extends AppWeb {
 		}
 		// if (rbplain != null) {
 		kernel.updateLocalAxesNames();
+		kernel.setViewsLabels();
 		// }
 		updateCommandDictionary();
 	}

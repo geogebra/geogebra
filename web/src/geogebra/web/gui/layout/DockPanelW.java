@@ -447,7 +447,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
     }
 
 
-	public void setLabels() {
+	public final void setLabels() {
 		if (titleBarLabel != null) {
 		}
 	}
