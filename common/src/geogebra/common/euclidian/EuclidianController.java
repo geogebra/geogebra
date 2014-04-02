@@ -8703,7 +8703,7 @@ public abstract class EuclidianController {
 				}
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
-				setAppSelectedGeos(hits,false);
+				setAppSelectedGeos(hits, false);
 				app.updateSelection(hits.size()>0);
 			}
 
@@ -8786,7 +8786,7 @@ public abstract class EuclidianController {
 	
 		default:
 			// STANDARD CASE
-			setAppSelectedGeos(hits,false);
+			setAppSelectedGeos(hits, false);
 			app.updateSelection((hits != null) && (hits.size() > 0));
 	
 			// if alt pressed, create list of objects as string and copy to
@@ -9813,8 +9813,8 @@ public abstract class EuclidianController {
 		selection.setSelectedGeos(geos);
 	}
 	
-	protected void setAppSelectedGeos(ArrayList<GeoElement> geos,boolean b){
-		selection.setSelectedGeos(geos,b);
+	protected void setAppSelectedGeos(ArrayList<GeoElement> geos, boolean updateSelection){
+		selection.setSelectedGeos(geos, updateSelection);
 	}
 	public boolean isTextfieldHasFocus() {
 		return textfieldHasFocus;
