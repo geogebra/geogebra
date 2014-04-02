@@ -5,6 +5,7 @@ import geogebra.touch.gui.WorksheetGUI;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,10 +30,25 @@ class TabletDeckLayoutPanel extends DeckLayoutPanel {
 								.getContentPanel());
 				this.app.fileNew();
 			} else if (TouchEntryPoint.hasBrowseGUI()
-					&& current.equals(TouchEntryPoint.getBrowseGUI())
-					&& !this.app.getFileManager().hasFile(
-							this.app.getConstructionTitle())) {
-				this.app.fileNew();
+					&& current.equals(TouchEntryPoint.getBrowseGUI())) {
+				this.app.getFileManager().hasFile(
+						this.app.getConstructionTitle(),
+						new Callback<Boolean, Boolean>() {
+
+							@Override
+							public void onFailure(final Boolean hasFile) {
+								if (!hasFile) {
+									TabletDeckLayoutPanel.this.app.fileNew();
+								}
+							}
+
+							@Override
+							public void onSuccess(final Boolean result) {
+								// TODO Auto-generated method stub
+
+							}
+						});
+
 			}
 
 			// go back to the last view
