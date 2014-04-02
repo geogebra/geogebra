@@ -548,6 +548,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			break;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
+		default:
 			double[] coeffs = new double[10];
 			coeffs[0] = matrix[0]; // x²
 			coeffs[1] = matrix[1]; // y²
