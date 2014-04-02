@@ -9,6 +9,7 @@ import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.TitleChangedListener;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -129,17 +130,41 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	}
 
 	protected void onChangeTitle() {
-		if (this.fm.hasFile(this.worksheetTitle.getText())) {
-			this.infoOverrideDialog.setConsTitle(this.worksheetTitle.getText());
-			this.infoOverrideDialog.show();
-		} else if (this.worksheetTitle.getText().equals("")) {
-			this.worksheetTitle.setText(this.app.getConstructionTitle());
-			this.worksheetTitle.setFocus(false);
-		} else {
-			this.app.setConstructionTitle(this.worksheetTitle.getText());
-			this.fm.saveFile(this.app);
-			this.worksheetTitle.setFocus(false);
-		}
+		this.fm.hasFile(this.worksheetTitle.getText(),
+				new Callback<Boolean, Boolean>() {
+
+					@Override
+					public void onSuccess(final Boolean hasFile) {
+						if (hasFile) {
+							TabletHeaderPanel.this.infoOverrideDialog
+									.setConsTitle(TabletHeaderPanel.this.worksheetTitle
+											.getText());
+							TabletHeaderPanel.this.infoOverrideDialog.show();
+						} else if (TabletHeaderPanel.this.worksheetTitle
+								.getText().equals("")) {
+							TabletHeaderPanel.this.worksheetTitle
+									.setText(TabletHeaderPanel.this.app
+											.getConstructionTitle());
+							TabletHeaderPanel.this.worksheetTitle
+									.setFocus(false);
+						} else {
+							TabletHeaderPanel.this.app
+									.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle
+											.getText());
+							TabletHeaderPanel.this.fm
+									.saveFile(TabletHeaderPanel.this.app);
+							TabletHeaderPanel.this.worksheetTitle
+									.setFocus(false);
+						}
+
+					}
+
+					@Override
+					public void onFailure(final Boolean reason) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	protected void onCancel() {
