@@ -1293,9 +1293,11 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		setCurrentTextureType(TEXTURE_TYPE_FADING);
 	}
 	
+	private int currentDash = Textures.DASH_INIT;
 
 	@Override
 	public void enableDash(){  
+		currentDash = Textures.DASH_INIT;
 		enableTextures();
 		setCurrentTextureType(TEXTURE_TYPE_DASH);
 	}
@@ -1338,6 +1340,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	public void setDashTexture(int index){
+		if (currentDash == index){
+			return;
+		}
+		
+		currentDash = index;
+		
 		if (index == Textures.DASH_NONE){			
 			disableTextures();
 		}else{

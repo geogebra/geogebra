@@ -6,6 +6,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -571,8 +572,13 @@ public class RendererGL2 extends RendererD {
 	}
 	
 
+	
+	private int currentDash = Textures.DASH_INIT;
+
+
 	@Override
 	public void enableDash(){  
+		currentDash = Textures.DASH_INIT;
 		enableTextures();
 	}
 	
@@ -585,6 +591,11 @@ public class RendererGL2 extends RendererD {
 	
 	@Override
 	public void setDashTexture(int index){
+		if (currentDash == index){
+			return;
+		}
+		
+		currentDash = index;
 		bindTexture(getTextures().getIndex(index));
 		setTextureNearest();
 	}

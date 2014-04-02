@@ -51,7 +51,8 @@ public abstract class Drawable3DCurves extends Drawable3D {
 			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 			drawGeometry(renderer);
 		}
-
+		
+		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 		drawTracesOutline(renderer);
 
 	}
@@ -82,6 +83,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	public void drawHidden(Renderer renderer){
 		super.drawHidden(renderer);
 		
+		setLineTextureHidden(renderer);
 		drawTracesOutline(renderer);
 
 	}

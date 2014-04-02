@@ -21,6 +21,8 @@ public class Textures {
     /** opengl organization of the dash textures */
     private int[] texturesIndex;    
 	/** no dash. */
+	static public int DASH_INIT = -1;	
+	/** no dash. */
 	static public int DASH_NONE = 0;	
 	/** simple dash: 1-(1), ... */
 	static public int DASH_SHORT = DASH_NONE+1;	
@@ -164,7 +166,6 @@ public class Textures {
 		renderer.textureImage2D(sizeX, 1, bytes);
 
 	}
-	
 	
 
 	/**
