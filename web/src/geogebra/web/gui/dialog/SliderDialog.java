@@ -151,8 +151,6 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		nameWidget.add(nameLabel);
 		
 		tfLabel = new AutoCompleteTextFieldW(-1, app);
-		//tfLabel.setAutoComplete(false);
-		tfLabel.setShowSymbolTableIcon(true);
 		updateLabelField(number, false);
 		tfLabel.addFocusListener(new FocusListener(tfLabel));
 		tfLabel.requestToShowSymbolButton();

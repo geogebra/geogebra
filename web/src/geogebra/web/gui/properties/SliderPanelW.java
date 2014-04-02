@@ -120,7 +120,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 
 		tfWidth = new AutoCompleteTextFieldW(8, app);
-		tfWidth.setShowSymbolTableIcon(false);
+		tfWidth.removeSymbolTable();
 		tfWidth.addKeyHandler(new KeyHandler(){
 
 			public void keyReleased(KeyEvent e) {

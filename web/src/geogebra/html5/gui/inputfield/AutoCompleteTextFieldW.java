@@ -1113,6 +1113,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		return getText().indexOf(textField.getValueBox().getSelectedText());
 	}
 
+	public void removeSymbolTable(){
+		this.showSymbolButton.removeFromParent();
+	}
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
 	 * 

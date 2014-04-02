@@ -177,7 +177,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		InputPanelW input = new InputPanelW(null, (AppW) app, 1, -1, true);
 		tfCross = (AutoCompleteTextFieldW) input.getTextComponent();
 		tfCross.setAutoComplete(false);
-		tfCross.setShowSymbolTableIcon(false);
+		tfCross.removeSymbolTable();
 
 		tfCross.addKeyHandler(new KeyHandler() {
 
