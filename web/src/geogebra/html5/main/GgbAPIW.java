@@ -102,8 +102,9 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	
     public String getPNGBase64(double exportScale, boolean transparent,
             double DPI) {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return ((EuclidianViewWeb) app
+				.getEuclidianView1())
+				.getExportImageDataUrl(exportScale, transparent);
     }
 
 	

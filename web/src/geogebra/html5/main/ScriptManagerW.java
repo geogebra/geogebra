@@ -554,6 +554,10 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code);
 		};
 		
+		$wnd[ggbApplet].getPNGBase64 = function(exportScale, transparent, dpi){
+			ggbAPI.@geogebra.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
+		}
+		
 		
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];
@@ -561,15 +565,11 @@ public class ScriptManagerW extends ScriptManager {
 		// other methods from the Wiki (consider to implement here)
 		// http://wiki.geogebra.org/en/Reference:JavaScript
 		//
-		// String getPNGBase64(double exportScale, boolean transparent, double DPI)
+		// 
 		// boolean writePNGtoFile(String filename, double exportScale, boolean transparent, double DPI)
-		// boolean isIndependent(String objName)
-		// boolean isMoveable(String objName)
-		// String getBase64()
 		// void openFile(String strURL)
 		// String getIPAddress()
 		// String getHostname()
-		// void debug(String string)
 	}-*/;
 
 }
