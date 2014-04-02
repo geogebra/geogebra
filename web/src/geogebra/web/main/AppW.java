@@ -36,7 +36,6 @@ import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
-import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.html5.move.ggtapi.operations.OpenFromGGTOperationW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
@@ -159,23 +158,13 @@ public abstract class AppW extends AppWeb {
 		initNetworkEventFlow();
 	}
 	
-	/** 
-	 * Initializes the user authentication 
-	 */
-	protected void initSignInEventFlow() {
-		
-		// Initialize the signIn operation
-		loginOperation = new LoginOperationW(this);
-		if (getNetworkOperation().getOnline()) {
-			initGoogleDriveEventFlow();
-			loginOperation.performTokenLogin();
-		}
-	}
+	
 	
 	/**
 	 * initializes the google drive event flow
 	 */
-	protected void initGoogleDriveEventFlow() {
+	@Override
+    protected void initGoogleDriveEventFlow() {
 		
 		googleDriveOperation = new GoogleDriveOperationW(this);
 		

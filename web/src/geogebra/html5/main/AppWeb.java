@@ -44,6 +44,7 @@ import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.kernel.AnimationManagerW;
 import geogebra.html5.kernel.UndoManagerW;
 import geogebra.html5.kernel.commands.CommandDispatcherW;
+import geogebra.html5.move.ggtapi.operations.LoginOperationW;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
@@ -1128,5 +1129,22 @@ public abstract class AppWeb extends App implements SetLabels{
 		clientInfo.setHeight((int)getHeight());
 
 	    return clientInfo;
+    }
+	
+	/** 
+	 * Initializes the user authentication 
+	 */
+	protected void initSignInEventFlow() {
+		
+		// Initialize the signIn operation
+		loginOperation = new LoginOperationW(this);
+		if (getNetworkOperation().getOnline()) {
+			initGoogleDriveEventFlow();
+			loginOperation.performTokenLogin();
+		}
+	}
+
+	protected void initGoogleDriveEventFlow() {
+	    //overriden in AppW
     }
 }

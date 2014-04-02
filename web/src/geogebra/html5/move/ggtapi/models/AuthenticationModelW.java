@@ -4,6 +4,7 @@ package geogebra.html5.move.ggtapi.models;
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
@@ -16,12 +17,12 @@ public class AuthenticationModelW extends AuthenticationModel {
 	
 	protected Storage storage = null;
 	private String authToken = null;
-	private AppW app;
+	private AppWeb app;
 	
 	/**
 	 * creates a new login model for Web
 	 */
-	public AuthenticationModelW(AppW app) {
+	public AuthenticationModelW(AppWeb app) {
 		this.storage = Storage.getLocalStorageIfSupported();
 		this.app = app;
 	}
@@ -65,7 +66,10 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	private boolean inited = false;
 	private void ensureInited() {
-		if(inited || app.getLAF().getLoginListener() == null){
+		if(!(app instanceof AppW)){
+			return;
+		}
+		if(inited || ((AppW)app).getLAF().getLoginListener() == null){
 			return;
 		}
 		inited = true;
