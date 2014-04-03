@@ -27,58 +27,58 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PropertiesViewW extends
-        geogebra.common.gui.view.properties.PropertiesView {
-	
+geogebra.common.gui.view.properties.PropertiesView {
+
 	private FlowPanel wrappedPanel;
-	
+
 	// option panels
-		private OptionsDefaultsW defaultsPanel;
-		private OptionsEuclidianW euclidianPanel, euclidianPanel2;
-		private OptionsSpreadsheetW spreadsheetPanel;
-		private OptionsCASW casPanel;
-		private OptionsAdvancedW advancedPanel;
-		private OptionsLayoutW layoutPanel;
+	private OptionsDefaultsW defaultsPanel;
+	private OptionsEuclidianW euclidianPanel, euclidianPanel2;
+	private OptionsSpreadsheetW spreadsheetPanel;
+	private OptionsCASW casPanel;
+	private OptionsAdvancedW advancedPanel;
+	private OptionsLayoutW layoutPanel;
 
-		private PropertiesStyleBarW styleBar;
+	private PropertiesStyleBarW styleBar;
 
-		private FlowPanel mainPanel;
-		private Label notImplemented;
+	private FlowPanel mainPanel;
+	private Label notImplemented;
 
-		private FlowPanel contentsPanel;
-		private OptionType optionType;
+	private FlowPanel contentsPanel;
+	private OptionType optionType;
 
-		public PropertiesViewW(AppW app) {
+	public PropertiesViewW(AppW app) {
 		super(app);
-	    this.wrappedPanel = new FlowPanel();
-	    app.setPropertiesView(this);
-	    
-	    app.setWaitCursor();   
-	    
-	    notImplemented = new Label("Not implemented");
-	    optionType = OptionType.EUCLIDIAN;
-	    initGUI();
-    }
-	
+		this.wrappedPanel = new FlowPanel();
+		app.setPropertiesView(this);
+
+		app.setWaitCursor();   
+
+		notImplemented = new Label("Not implemented");
+		optionType = OptionType.EUCLIDIAN;
+		initGUI();
+	}
+
 	public void initGUI() {
 
 		wrappedPanel.addStyleName("PropertiesViewW");
-//		getStyleBar();
+		//		getStyleBar();
 
 		mainPanel = new FlowPanel();
-	//	if(!((AppW) app).getLAF().isSmart()){
+		//	if(!((AppW) app).getLAF().isSmart()){
 		mainPanel.add(getStyleBar().getWrappedPanel());
-	//	}
+		//	}
 		contentsPanel = new FlowPanel();
 		wrappedPanel.addStyleName("propertiesView");
 		mainPanel.add(contentsPanel);
-	    wrappedPanel.add(mainPanel);
+		wrappedPanel.add(mainPanel);
 
-	    setOptionPanel(optionType, 0);
+		setOptionPanel(optionType, 0);
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
-		
+
 	}
-	
+
 	/**
 	 * @return the style bar for this view.
 	 */
@@ -89,11 +89,11 @@ public class PropertiesViewW extends
 
 		return styleBar;
 	}
-	
+
 	protected PropertiesStyleBarW newPropertiesStyleBar() {
 		return new PropertiesStyleBarW(this, (AppW) app);
 	}
-	
+
 	/**
 	 * Returns the option panel for the given type. If the panel does not exist,
 	 * a new one is constructed
@@ -102,7 +102,7 @@ public class PropertiesViewW extends
 	 * @return
 	 */
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
-		
+
 		//AbstractApplication.printStacktrace("type :"+type);
 		if (styleBar != null) {
 			styleBar.updateGUI();
@@ -166,7 +166,7 @@ public class PropertiesViewW extends
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectW((AppW) app, false);
 				((OptionsObjectW) objectPanel).setMinimumSize(((OptionsObjectW) objectPanel).getPreferredSize());
-				
+
 			} else {
 				OptionsObjectW op =	getObjectPanel();
 				op.updateGUI();
@@ -181,7 +181,7 @@ public class PropertiesViewW extends
 	private OptionsObjectW getObjectPanel() {
 		return objectPanel != null ? (OptionsObjectW) objectPanel:null;
 	}
-	
+
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
 		App.debug("add(geo)");
@@ -191,7 +191,7 @@ public class PropertiesViewW extends
 		// TODO Auto-generated method stub
 		App.debug("remove(geo)");
 	}	
-	
+
 
 
 	public void rename(GeoElement geo) {
@@ -213,7 +213,7 @@ public class PropertiesViewW extends
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
 		updatePropertiesGUI();
-		
+
 	}
 
 	public void repaintView() {
@@ -240,91 +240,102 @@ public class PropertiesViewW extends
 
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
+		App.debug("hhhhasFooocussss");
 		return false;
 	}
 
 	@Override
 	public void updateSelection() {
-	if (app.getSelectionManager().selectedGeosSize() != 0 && optionType != OptionType.OBJECTS) {
+		if (app.getSelectionManager().selectedGeosSize() != 0 && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
-		}updatePropertiesGUI();
+		}
+		else if (app.getSelectionManager().selectedGeosSize() == 0) {
+			if (optionType != OptionType.EUCLIDIAN ||  optionType != OptionType.EUCLIDIAN2) {
+
+				setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
+						? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
+			}
+		}
+
+
+		updatePropertiesGUI();
 	}
 
 	@Override
-    public void setOptionPanel(OptionType type) {
+	public void setOptionPanel(OptionType type) {
 		setOptionPanel(type, 0);
-    }
+	}
 
 	@Override
 	public void setOptionPanel(OptionType type, int subType) {
 		optionType = type;
 		contentsPanel.clear();
 		OptionPanelW optionPanel = getOptionPanel(type, subType);
-	    Widget wPanel = optionPanel.getWrappedPanel();
-	    notImplemented.setText(getTypeString(type) + " - Not implemented");
-	    contentsPanel.add(wPanel != null ? wPanel: notImplemented);
-		
+		Widget wPanel = optionPanel.getWrappedPanel();
+		notImplemented.setText(getTypeString(type) + " - Not implemented");
+		contentsPanel.add(wPanel != null ? wPanel: notImplemented);
+
 	}
-	
+
 	@Override
 	public void mousePressedForPropertiesView() {
 		if (objectPanel == null) {
 			return;
 		}
 		objectPanel.forgetGeoAdded();
-    }
+	}
 
-	
+
 	@Override
-    public void updateSelection(ArrayList<GeoElement> geos) {
+	public void updateSelection(ArrayList<GeoElement> geos) {
 		if (geos.size() != 0 && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
 		}
 		updatePropertiesGUI();
 		App.debug("updateSelection(geos)"); 
-    }
+	}
 
 	private void updatePropertiesGUI() {
 		App.debug("updatePropertiesGUI");
-		   OptionsObjectW panel = getObjectPanel();
-		   if (panel != null) {
-			   panel.updateGUI();
-		   }
-		   
-//		   if (optionType == OptionType.OBJECTS)  {
-//			   App.debug("selecting tab 2");
-//			   getObjectPanel().selectTab(2);
-//		   }
-		   
-			if (styleBar != null) {
-				styleBar.updateGUI();
-			}	
-			
-		
-    }
+		OptionsObjectW panel = getObjectPanel();
+		if (panel != null) {
+			panel.updateGUI();
+		}
+
+		//		   if (optionType == OptionType.OBJECTS)  {
+		//			   App.debug("selecting tab 2");
+		//			   getObjectPanel().selectTab(2);
+		//		   }
+
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}	
+
+
+	}
 
 	@Override
-    protected void updateTitleBar() {
+	protected void updateTitleBar() {
 		app.debug("updateTitleBar()");
 		updatePropertiesGUI();
 		// TODO Auto-generated method stub
-	    
-    }
-	
+
+	}
+
 	@Override
 	public void attachView() {
 		if (attached){
 			App.debug("already attached");
 			return;
 		}
-		
+
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 		app.getKernel().getAnimatonManager().stopAnimation();
 		attached = true;
 	}
-	
+
 	@Override
 	public void detachView() {
 		kernel.detach(this);
@@ -334,24 +345,24 @@ public class PropertiesViewW extends
 	}
 
 	@Override
-    public void updatePropertiesView() {
+	public void updatePropertiesView() {
 		updatePropertiesGUI();
 		App.debug("updatePropertiesView");
-    }
+	}
 
 	public void repaint() {
 		App.debug("repaint");
-    }
+	}
 
 	public boolean isShowing() {
-		App.debug("unimplemented");
-	    return false;
-    }
+		App.debug("isShowing");
+		return false;
+	}
 
 	public Widget getWrappedPanel() {
-	    return wrappedPanel;
-    }
-	
+		return wrappedPanel;
+	}
+
 	public void updateFonts(){
 		updatePropertiesGUI();
 	}
