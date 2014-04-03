@@ -339,6 +339,7 @@ public class SpreadsheetView extends JPanel implements
 	}
 
 	public void repaintView() {
+		styleBar.updateStyleBar();
 		repaint();
 	}
 
@@ -1333,5 +1334,6 @@ public class SpreadsheetView extends JPanel implements
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }

@@ -270,6 +270,17 @@ public class SpreadsheetTraceManager {
 		return null;
 
 	}
+	
+	/**
+	 * 
+	 * @return first trace geo
+	 */
+	public GeoElement getFirstTraceGeo(){
+		if (traceGeoCollection.isEmpty()){
+			return null;
+		}
+		return (GeoElement) traceGeoCollection.keySet().toArray()[0];
+	}
 
 	public SpreadsheetTraceSettings getTraceSettings(GeoElement geo) {
 
@@ -845,6 +856,14 @@ public class SpreadsheetTraceManager {
 				} 
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @return true if at least one geo is traced
+	 */
+	public boolean hasGeoTraced(){
+		return !traceGeoCollection.isEmpty();
 	}
 
 }

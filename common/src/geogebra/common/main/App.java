@@ -2040,6 +2040,18 @@ public abstract class App implements UpdateSelection{
 			traceManager = new SpreadsheetTraceManager(this);
 		return traceManager;
 	}
+	
+	/**
+	 * 
+	 * @return true if at least one geo is traced
+	 */
+	final public boolean hasGeoTraced(){
+		if (traceManager == null){
+			return false;
+		}
+		
+		return traceManager.hasGeoTraced();
+	}
 
 	/**
 	 * Switch current cursor to default cursor

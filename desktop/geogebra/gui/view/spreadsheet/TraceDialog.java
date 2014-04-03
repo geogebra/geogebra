@@ -163,6 +163,10 @@ implements
 		// if the traceCell column is tracing a geo then set selectedGeo to this geo 
 		if(traceCell != null && traceManager.isTraceColumn(traceCell.getMinColumn())){
 			selectedGeo = traceManager.getTraceGeo(traceCell.getMinColumn());
+		}else{
+			if (selectedGeo == null){ // case dialog is called from stylebar
+				selectedGeo = traceManager.getFirstTraceGeo();
+			}
 		}
 		
 		//selectedGeo exists
@@ -481,7 +485,7 @@ implements
 	private StringBuilder sb = new StringBuilder();
 	
 	private void setTraceModeLabels(){
-		
+				
 		TraceModesEnum traceModes = geo.getTraceModes();
 
 		sb.setLength(0);
