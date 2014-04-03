@@ -1387,6 +1387,7 @@ public abstract class Renderer {
 	public void setNear(double val) {
 		eyeToScreenDistance = val;
 		updatePerspValues();
+		updatePerspEye();
 	}
 
 	/** distance camera-near plane */
@@ -1422,7 +1423,11 @@ public abstract class Renderer {
 		// distance camera-far plane
 		perspFar = perspNear + getVisibleDepth();
 
-		perspEye = new Coords(0, 0, -perspFocus, 1);
+	}
+	
+	
+	private void updatePerspEye() {
+		perspEye = new Coords(glassesEyesSide, glassesEyesHeight, -perspFocus, 1); // perspFocus is negative
 	}
 
 	/**
@@ -1543,10 +1548,12 @@ public abstract class Renderer {
 			break;
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
 			updatePerspValues();
+			updatePerspEye();
 			break;
 		case EuclidianView3D.PROJECTION_GLASSES:
 			updatePerspValues();
 			updateGlassesValues();
+			updatePerspEye();
 			if (view3D.isPolarized()) {
 				setWaitForSetStencilLines();
 			}
