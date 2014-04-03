@@ -2043,6 +2043,14 @@ public abstract class App implements UpdateSelection{
 	
 	/**
 	 * 
+	 * @return true if there is a trace manager
+	 */
+	final public boolean hasTraceManager(){
+		return traceManager != null;
+	}
+	
+	/**
+	 * 
 	 * @return true if at least one geo is traced
 	 */
 	final public boolean hasGeoTraced(){

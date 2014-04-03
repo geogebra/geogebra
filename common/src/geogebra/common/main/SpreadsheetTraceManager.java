@@ -248,6 +248,22 @@ public class SpreadsheetTraceManager {
 
 		return false;
 	}
+	
+	/**
+	 * 
+	 * @param column column spreadsheet
+	 * @return trace settings for the column
+	 */
+	public SpreadsheetTraceSettings getTraceSettings(int column){
+		SpreadsheetTraceSettings t;
+		for (GeoElement geo : traceGeoCollection.keySet()) {
+			t = traceGeoCollection.get(geo);
+			if (column >= t.traceColumn1 && column <= t.traceColumn2)
+				return t;
+		}
+
+		return null;
+	}
 
 	public ArrayList<GeoElement> getTraceGeoList() {
 
@@ -269,6 +285,31 @@ public class SpreadsheetTraceManager {
 
 		return null;
 
+	}
+	
+	/**
+	 * toggle trace geo in the column paused/recorded
+	 * @param column spreadsheet column
+	 */
+	public void togglePauseTraceGeo(int column){
+		
+		SpreadsheetTraceSettings t;
+		for (GeoElement geo : traceGeoCollection.keySet()) {
+			t = traceGeoCollection.get(geo);
+			if (column >= t.traceColumn1 && column <= t.traceColumn2){
+				togglePauseTraceGeo(geo, t);
+				return;
+			}
+		}
+		
+	}
+	
+	private void togglePauseTraceGeo(GeoElement geo, SpreadsheetTraceSettings t){
+		t.pause = !t.pause;
+		if (!t.pause){
+			traceToSpreadsheet(geo, t);
+		}
+		
 	}
 	
 	/**
@@ -409,6 +450,10 @@ public class SpreadsheetTraceManager {
 		sb.append(t.doTraceGeoCopy ? "true" : "false");
 		sb.append("\"");
 
+		if (t.pause){
+			sb.append(" pause=\"true\"");
+		}
+
 		sb.append("/>\n");
 
 		/*
@@ -472,7 +517,19 @@ public class SpreadsheetTraceManager {
 
 		if (!traceGeoCollection.containsKey(geo))
 			return;
+		
 		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
+		
+		if (t.pause){ // trace is paused
+			return;
+		}
+		
+		traceToSpreadsheet(geo, t);
+	}
+		
+		
+	private void traceToSpreadsheet(GeoElement geo, SpreadsheetTraceSettings t) {
+		
 		Construction cons = app.getKernel().getConstruction();
 
 		// TODO

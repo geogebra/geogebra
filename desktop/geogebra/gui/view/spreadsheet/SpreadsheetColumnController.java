@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.LocalizationD;
@@ -121,9 +122,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 					// launch trace dialog if over a trace button
 					if (point.x == this.overTraceButtonColumn) {
 						int column = point.getX();
-						table.setColumnSelectionInterval(column, column);
-						view.showTraceDialog(null,
-								table.selectedCellRanges.get(0));
+						app.getTraceManager().togglePauseTraceGeo(column);
+						view.repaintView();
 						e.consume();
 						return;
 					}
@@ -428,10 +428,10 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		private JButton btnTrace;
 		private BorderLayout layout;
 
-		private ImageIcon traceIcon = app
-				.getImageIcon("spreadsheettrace_button.gif");
-		private ImageIcon traceRollOverIcon = app
-				.getImageIcon("spreadsheettrace_hover.gif");
+		private ImageIcon pauseIcon = app
+				.getImageIcon("spreadsheettrace_pause.gif");
+		private ImageIcon recordIcon = app
+				.getImageIcon("spreadsheettrace_record.gif");
 
 		public ColumnHeaderRenderer() {
 			super(new BorderLayout());
@@ -470,19 +470,29 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 				}
 			}
 
-			if (overTraceButtonColumn == colIndex) {
-				btnTrace.setIcon(traceRollOverIcon);
-				setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet"));
-			} else
-				btnTrace.setIcon(traceIcon);
 
-			if (app.getTraceManager().isTraceColumn(colIndex)) {
-				this.add(btnTrace, loc.borderWest());
-			} else {
-				if (layout.getLayoutComponent(loc.borderWest()) != null) {
-					this.remove(layout.getLayoutComponent(loc.borderWest()));
+			
+			// add/remove trace button
+			if (app.hasTraceManager()){
+				SpreadsheetTraceSettings t = app.getTraceManager().getTraceSettings(colIndex);
+				if (t == null){ // no geo traced in this column
+					if (layout.getLayoutComponent(loc.borderWest()) != null) {
+						this.remove(layout.getLayoutComponent(loc.borderWest()));
+					}
+				}else{
+					this.add(btnTrace, loc.borderWest());
+					// set icon
+					if (t.pause){ 
+						btnTrace.setIcon(pauseIcon);
+						setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet")); // button switches back to record
+					}else{
+						btnTrace.setIcon(recordIcon);
+						setToolTipText(loc.getMenuTooltip("Pause")); // button pauses the trace
+					}
 				}
+
 			}
+
 
 			return this;
 		}
