@@ -40,6 +40,7 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
      */
 	public AlgoFactors(Construction cons, String label, GeoFunction f) {
 		super(cons);
+		cons.addCASAlgo(this);
 		this.f = f;
 
 		g = new GeoList(cons);

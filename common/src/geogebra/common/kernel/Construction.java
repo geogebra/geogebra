@@ -3,6 +3,7 @@ package geogebra.common.kernel;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.io.MyXMLio;
+import geogebra.common.kernel.algos.AlgoCasBase;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -11,6 +12,8 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
+import geogebra.common.kernel.cas.UsesCAS;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -2840,6 +2843,31 @@ public class Construction {
 	 */
 	public boolean isAllowUnboundedAngles() {
 		return this.allowUnboundedAngles;
+	}	
+
+	private ArrayList<AlgoElement> casAlgos = new ArrayList<AlgoElement>();
+	public void addCASAlgo(AlgoElement algoCasBase) {
+		casAlgos.add(algoCasBase);
+	}
+	
+	public void recomputeCASalgos(){
+		for(AlgoElement algo: casAlgos){
+			if(!algo.getOutput(0).isLabelSet()){
+				if (algo instanceof AlgoCasBase) {
+					((AlgoCasBase) algo).clearCasEvalMap("");
+					algo.compute();
+				} else if (algo instanceof AlgoUsingTempCASalgo) {
+					((AlgoUsingTempCASalgo) algo).refreshCASResults();
+					algo.compute();
+				} else if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
+					// eg Limit, LimitAbove, LimitBelow, SolveODE
+					// AlgoCasCellInterface: eg Solve[x^2]
+					algo.compute();
+				}
+				algo.getOutput(0).updateCascade();
+			}
+		}
+		casAlgos.clear();
 	}
 	
 

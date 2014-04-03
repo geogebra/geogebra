@@ -4345,7 +4345,7 @@ public class Kernel {
 	public void refreshCASCommands() {
 
 		clearCasCache();
-
+		cons.recomputeCASalgos();
 		TreeSet<GeoElement> treeset = new TreeSet<GeoElement>(getConstruction()
 				.getGeoSetWithCasCellsConstructionOrder());
 

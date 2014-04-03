@@ -60,6 +60,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 */
     public AlgoSurdText(Construction cons, String label, GeoNumberValue num, GeoList list) {
     	this(cons, num, list);
+    	cons.addCASAlgo(this);
         text.setLabel(label);
     }
 
@@ -92,6 +93,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
      */
     public AlgoSurdText(Construction cons) {
 		super(cons);
+		cons.addCASAlgo(this);
 	}
 
     @Override

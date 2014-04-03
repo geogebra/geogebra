@@ -29,6 +29,7 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	 */
 	public AlgoSolveODECas(Construction cons,  String label, CasEvaluableFunction f) {
 		super(cons);
+		cons.addCASAlgo(this);
 		this.f = f;
 		/** g is created in compute */
 		compute();
@@ -44,6 +45,7 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	 */
 	public AlgoSolveODECas(Construction cons,  String label, CasEvaluableFunction f,GeoPointND pt) {
 		super(cons);
+		cons.addCASAlgo(this);
 		this.f = f;
 		this.pt = pt;
 		/** g is created in compute */

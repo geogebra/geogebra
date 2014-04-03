@@ -46,6 +46,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	public AlgoLimit(Construction cons, String label, GeoFunction f,
 			NumberValue num) {
 		super(cons);
+		cons.addCASAlgo(this);
 		this.f = f;
 		this.num = num;
 

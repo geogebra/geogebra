@@ -61,6 +61,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
      */
     public AlgoProveDetails(Construction cons, String label, GeoElement root) {
     	super(cons);
+    	cons.addCASAlgo(this);
         this.root = root;  
         
         list = new GeoList(cons);

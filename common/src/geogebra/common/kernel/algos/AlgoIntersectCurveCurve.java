@@ -56,6 +56,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements U
 	public AlgoIntersectCurveCurve(Construction c, String[] labels, GeoCurveCartesian c1, GeoCurveCartesian c2) {
 
 		super(c);
+		cons.addCASAlgo(this);
 
 		outputPoints=createOutputPoints();
 
@@ -82,7 +83,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements U
 	public AlgoIntersectCurveCurve(Construction c, String[] labels, GeoCurveCartesian c1, GeoCurveCartesian c2, GeoNumberValue t1, GeoNumberValue t2) {
 
 		super(c);
-
+		cons.addCASAlgo(this);
 		outputPoints=createOutputPoints();
 
 		this.curve = c1;
