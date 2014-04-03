@@ -7154,8 +7154,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean showLineProperties(){
 		return isPath()
-				|| (isGeoNumeric() && (((GeoNumeric) this)
-						.isDrawable() || this.getDefaultGeoType() >=0 )) || ((this instanceof GeoFunctionNVar) && ((GeoFunctionNVar) this)
+//				|| (isGeoNumeric() && (((GeoNumeric) this)
+//						.isDrawable() 
+//				|| this.getDefaultGeoType() >=0 ))
+				|| ((this instanceof GeoFunctionNVar) && ((GeoFunctionNVar) this)
 				.isInequality());
 	}
 	
