@@ -2012,7 +2012,7 @@ __GGB__keysVar.it.menu = {
     "ZoomOut": "Zoom indietro",
     "ZoomOut_Help": "Fare clic nella Vista Grafica per rimpicciolire (rotellina del mouse)",
     "insert_worksheet": "Inserisci il foglio di lavoro",
-    "off": "Non attiva",
+    "off": "Disattiva",
     "on": "Attiva",
 }
 
@@ -2463,7 +2463,7 @@ __GGB__keysVar.it.plain = {
     "ObliqueProjection": "Proiezione obliqua",
     "ObservedCount": "Conteggio osservato",
     "Octahedron": "Ottaedro",
-    "Off": "Non attiva",
+    "Off": "Disattiva",
     "OldExpression": "Vecchia espressione",
     "OmitGreen": "Ometti il verde",
     "On": "Attiva",
@@ -2738,7 +2738,7 @@ __GGB__keysVar.it.plain = {
     "jpg": "Formato JPG",
     "max": "max",
     "min": "min",
-    "off": "Non attiva",
+    "off": "disattiva",
     "otherwise": "altrove",
     "parallel": "parallela",
     "pdf": "Portable Document Format",
