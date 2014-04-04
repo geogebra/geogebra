@@ -532,21 +532,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 		getGL().glDisable(GLlocal.GL_LIGHTING);
 	}
 
-    protected static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
-    
-
-
-	 @Override
-	protected void enableClipPlane(int n){
-		 getGL().glEnable( GL_CLIP_PLANE[n] );   	
-	 }
-
-	 @Override
-	 protected void disableClipPlane(int n){
-		 getGL().glDisable( GL_CLIP_PLANE[n] );   	
-	 }
-
-
 	
 	
 

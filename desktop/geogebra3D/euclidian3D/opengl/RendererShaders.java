@@ -98,6 +98,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     private int textureTypeLocation; // textures
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
+    private int enableClipPlanesLocation, clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable clip planes
     //private int normalMatrixLocation;
     
     final static private int TEXTURE_TYPE_NONE = 0;
@@ -257,6 +258,11 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
         //color
         normalLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normal");
+        
+        //clip planes
+        enableClipPlanesLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableClipPlanes");
+        clipPlanesMinLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "clipPlanesMin");
+        clipPlanesMaxLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "clipPlanesMax");
 
         /* GL2ES2 also includes the intersection of GL3 core
          * GL3 core and later mandates that a "Vector Buffer Object" must
@@ -709,15 +715,6 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 
-
-
-
-
-	@Override
-	public void setClipPlane(int n, double[] equation) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
@@ -1189,6 +1186,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         };
 
         jogl.getGL2ES2().glUniformMatrix4fv(projectionLocation, 1, false, projection, 0);
+        
 	}
 
 
@@ -1429,5 +1427,49 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 		// TODO
 		
 	}
+	
+	
+	@Override
+    protected void enableClipPlanes() {
+		jogl.getGL2ES2().glUniform1i(enableClipPlanesLocation, 1);
+    }
+    
+    @Override
+	protected void disableClipPlanes() {
+    	jogl.getGL2ES2().glUniform1i(enableClipPlanesLocation, 0);
+	}
+    
+    
+
+    private float[] clipPlanesMin = new float[3];
+    private float[] clipPlanesMax = new float[3];
+
+	@Override
+	public void setClipPlanes(double[][] minMax) {
+		for (int i = 0 ; i < 3 ; i++){
+			clipPlanesMin[i] = (float) minMax[i][0];
+			clipPlanesMax[i] = (float) minMax[i][1];
+		}
+		
+	}
+	
+	private void setClipPlanesToShader(){
+
+		jogl.getGL2ES2().glUniform3fv(clipPlanesMinLocation, 1, clipPlanesMin, 0);
+		jogl.getGL2ES2().glUniform3fv(clipPlanesMaxLocation, 1, clipPlanesMax, 0);
+		
+	}
+
+
+	
+	@Override
+	protected void initRenderingValues(){
+		
+		super.initRenderingValues();
+		
+		// clip planes
+		setClipPlanesToShader();
+	}
+
 
 }

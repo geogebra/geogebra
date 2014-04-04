@@ -135,6 +135,15 @@ public abstract class Renderer {
     	// say that 3D view changed has been performed
         view3D.resetViewChanged();
 	}
+	
+	
+	/**
+	 * init rendering values (clear color buffer, etc.)
+	 */
+	protected void initRenderingValues(){
+		 //clear color buffer
+        clearColorBuffer();
+	}
 
 	/**
 	 * draw the scene
@@ -185,8 +194,8 @@ public abstract class Renderer {
         	waitForUpdateClearColor=false;
         }
         
-        //clear color buffer
-        clearColorBuffer();
+        //init rendering values
+        initRenderingValues();
         
         
         if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
@@ -455,14 +464,17 @@ public abstract class Renderer {
 		enableClipPlanes = flag;
 	}
 
-	abstract protected void enableClipPlane(int n);
 
-	abstract protected void disableClipPlane(int n);
+	/**
+	 * enables clip planes
+	 */
+	abstract protected void enableClipPlanes();
 
-	protected void enableClipPlanes() {
-		for (int n = 0; n < 6; n++)
-			enableClipPlane(n);
-	}
+	/**
+	 * disables clip planes
+	 */
+	abstract protected void disableClipPlanes();
+
 
 	/**
 	 * enable clipping if needed
@@ -471,12 +483,6 @@ public abstract class Renderer {
 		if (!enableClipPlanes)
 			enableClipPlanes();
 	}
-
-	protected void disableClipPlanes() {
-		for (int n = 0; n < 6; n++)
-			disableClipPlane(n);
-	}
-
 	/**
 	 * disable clipping if needed
 	 */
@@ -485,15 +491,14 @@ public abstract class Renderer {
 			disableClipPlanes();
 	}
 
+
 	/**
-	 * sets the clip plane
+	 * sets the clip planes
 	 * 
-	 * @param n
-	 *            index of the clip plane
-	 * @param equation
-	 *            equation of the clip plane
+	 * @param minmax
+	 *            min/max for x/y/z
 	 */
-	abstract public void setClipPlane(int n, double[] equation);
+	abstract public void setClipPlanes(double[][] minMax);
 
 	/**
 	 * init drawing matrix to view3D toScreen matrix

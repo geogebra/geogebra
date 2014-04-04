@@ -609,23 +609,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		// done by shader
     }
 
-	@Override
-    protected void enableClipPlane(int n) {
-	    // TODO Auto-generated method stub
-	    
-    }
 
-	@Override
-    protected void disableClipPlane(int n) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setClipPlane(int n, double[] equation) {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     protected void setMatrixView() {
@@ -1358,6 +1342,23 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	protected void drawSurfacesOutline(){
 		
 		// TODO
+		
+	}
+	
+
+	@Override
+	public void setClipPlanes(double[][] minMax) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+    protected void enableClipPlanes() {
+    	
+    }
+    
+    @Override
+	protected void disableClipPlanes() {
 		
 	}
 }

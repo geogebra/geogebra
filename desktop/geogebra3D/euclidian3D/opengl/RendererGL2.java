@@ -7,6 +7,8 @@ import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -40,9 +42,19 @@ public class RendererGL2 extends RendererD {
 	public RendererGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas);
 	}
-
+	
 	@Override
-	public void setClipPlane(int n, double[] equation) {
+	public void setClipPlanes(double[][] minMax){
+		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();		
+		setClipPlane(0, mInvTranspose.mul( new Coords(1,0,0,-minMax[0][0])).get());
+		setClipPlane(1, mInvTranspose.mul( new Coords(-1,0,0,minMax[0][1])).get());
+		setClipPlane(2, mInvTranspose.mul( new Coords(0,1,0,-minMax[1][0])).get());
+		setClipPlane(3, mInvTranspose.mul( new Coords(0,-1,0,minMax[1][1])).get());
+		setClipPlane(4, mInvTranspose.mul( new Coords(0,0,1,-minMax[2][0])).get());
+		setClipPlane(5, mInvTranspose.mul( new Coords(0,0,-1,minMax[2][1])).get());
+	}
+
+	private void setClipPlane(int n, double[] equation) {
 		jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n], equation, 0);
 	}
 
@@ -627,4 +639,32 @@ public class RendererGL2 extends RendererD {
 		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_FILL);
 		
 	}
+	
+	
+
+    protected static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
+    
+
+    @Override
+    protected void enableClipPlanes() {
+    	for (int n = 0; n < 6; n++)
+    		enableClipPlane(n);
+    }
+    
+    @Override
+	protected void disableClipPlanes() {
+		for (int n = 0; n < 6; n++)
+			disableClipPlane(n);
+	}
+
+
+    protected void enableClipPlane(int n){
+    	getGL().glEnable( GL_CLIP_PLANE[n] );   	
+    }
+
+    protected void disableClipPlane(int n){
+    	getGL().glDisable( GL_CLIP_PLANE[n] );   	
+    }
+
+
 }

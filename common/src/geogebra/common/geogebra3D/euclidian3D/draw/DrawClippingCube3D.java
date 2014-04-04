@@ -7,7 +7,6 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
-import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 
 
@@ -303,15 +302,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * update renderer clips planes
 	 */
 	public void updateRendererClipPlanes(){
-		Renderer renderer = getView3D().getRenderer();
-		CoordMatrix mInvTranspose = getView3D().getToSceneMatrixTranspose();		
-		renderer.setClipPlane(0, mInvTranspose.mul( new Coords(1,0,0,-minMax[0][0])).get());
-		renderer.setClipPlane(1, mInvTranspose.mul( new Coords(-1,0,0,minMax[0][1])).get());
-		renderer.setClipPlane(2, mInvTranspose.mul( new Coords(0,1,0,-minMax[1][0])).get());
-		renderer.setClipPlane(3, mInvTranspose.mul( new Coords(0,-1,0,minMax[1][1])).get());
-		renderer.setClipPlane(4, mInvTranspose.mul( new Coords(0,0,1,-minMax[2][0])).get());
-		renderer.setClipPlane(5, mInvTranspose.mul( new Coords(0,0,-1,minMax[2][1])).get());
-
+		Renderer renderer = getView3D().getRenderer();	
+		renderer.setClipPlanes(minMax);
 	}
 	
 	
