@@ -9,6 +9,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -99,6 +100,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
     private int enableClipPlanesLocation, clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable clip planes
+    private int labelRenderingLocation, labelOriginLocation;
     //private int normalMatrixLocation;
     
     final static private int TEXTURE_TYPE_NONE = 0;
@@ -263,6 +265,10 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         enableClipPlanesLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableClipPlanes");
         clipPlanesMinLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "clipPlanesMin");
         clipPlanesMaxLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "clipPlanesMax");
+        
+        //label rendering
+        labelRenderingLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "labelRendering"); 
+        labelOriginLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "labelOrigin");
 
         /* GL2ES2 also includes the intersection of GL3 core
          * GL3 core and later mandates that a "Vector Buffer Object" must
@@ -1471,5 +1477,17 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 		setClipPlanesToShader();
 	}
 
+	
+	@Override
+	protected void drawFaceToScreen() {
+		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 1);
+		super.drawFaceToScreen();
+		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
+	}
+	
+	@Override
+	public void setLabelOrigin(Coords origin){
+		jogl.getGL2ES2().glUniform3f(labelOriginLocation, (float) origin.getX(), (float) origin.getY(), (float) origin.getZ());
+    }
 
 }

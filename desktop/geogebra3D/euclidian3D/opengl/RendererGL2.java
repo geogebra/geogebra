@@ -665,6 +665,12 @@ public class RendererGL2 extends RendererD {
     protected void disableClipPlane(int n){
     	getGL().glDisable( GL_CLIP_PLANE[n] );   	
     }
+    
+    
+    @Override
+	public void setLabelOrigin(Coords origin){
+    	// only used in shaders
+    }
 
 
 }

@@ -416,9 +416,18 @@ public abstract class Renderer {
 	 * enable lighting
 	 */
 	abstract public void enableLighting();
+	
+	/**
+	 * set real-world origin for label
+	 * @param origin real-world coordinates
+	 */
+	abstract public void setLabelOrigin(Coords origin);
 
+	/**
+	 * draw face-to screen parts (labels, ...)
+	 */
 	protected void drawFaceToScreen() {
-		// draw face-to screen parts (labels, ...)
+		
 		// drawing labels
 		// getGL().glEnable(GLlocal.GL_CULL_FACE);
 		// getGL().glCullFace(GLlocal.GL_BACK);

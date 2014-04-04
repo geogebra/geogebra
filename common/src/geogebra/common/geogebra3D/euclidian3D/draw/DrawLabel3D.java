@@ -253,6 +253,8 @@ public class DrawLabel3D {
 		if (textureIndex == -1)
     		return;
 		
+		renderer.setLabelOrigin(origin);
+		
 		Coords v = view.getToScreenMatrix().mul(origin);
 		int x = (int) (v.getX()+xOffset);
 		if (anchor && xOffset<0){ 

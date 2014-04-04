@@ -12,6 +12,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
@@ -1392,4 +1393,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		// clip planes
 		setClipPlanesToShader();
 	}
+	
+	
+	@Override
+	public void setLabelOrigin(Coords origin){ 
+		
+    }
 }

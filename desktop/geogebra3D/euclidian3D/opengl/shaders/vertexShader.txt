@@ -62,6 +62,9 @@ uniform vec2	ambiantDiffuse;
 uniform vec4	color;
 uniform vec3	normal;
 
+uniform int labelRendering;
+uniform vec3 labelOrigin;
+
 //in -- attributes
 attribute vec3  attribute_Position;  
 attribute vec3  attribute_Normal;  
@@ -80,7 +83,12 @@ void main(void)
   
   // position
   gl_Position = projection * modelview * vec4(attribute_Position, 1.0); 
-  realWorldCoords = attribute_Position;
+  
+  if (labelRendering == 1){ // use special origin for labels
+      realWorldCoords = labelOrigin;
+  }else{
+	  realWorldCoords = attribute_Position;
+  }
   
   // color with light
   vec3 n;
