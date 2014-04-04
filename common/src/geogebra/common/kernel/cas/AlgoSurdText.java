@@ -95,9 +95,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
      */
     public AlgoSurdText(Construction cons) {
 		super(cons);
-        if (list != null) {
-        	cons.addCASAlgo(this);
-        }
+    	// not needed, only called from SurdTextPoint
+		//cons.addCASAlgo(this);
 	}
 
     @Override
