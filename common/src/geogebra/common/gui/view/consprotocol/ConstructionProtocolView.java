@@ -1,5 +1,6 @@
 package geogebra.common.gui.view.consprotocol;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.javax.swing.table.GAbstractTableModel;
 import geogebra.common.kernel.Kernel;
@@ -319,7 +320,7 @@ public class ConstructionProtocolView {
 		//TODO App.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
 	}
 	
-	public class ConstructionTableData implements View{
+	public class ConstructionTableData implements View, SetLabels{
 
 		protected ConstructionTableData ctData = this;
 		public final ColumnData columns[] = {
@@ -338,12 +339,18 @@ public class ConstructionProtocolView {
 		protected HashMap<GeoElement, RowData> geoMap;
 		protected int columnsCount = columns.length;
 		protected boolean notifyUpdateCalled;
+		private SetLabels gui;
 
-		public ConstructionTableData() {
+		public ConstructionTableData(SetLabels gui) {
 //			ctDataImpl = new MyGAbstractTableModel();
 			rowList = new ArrayList<RowData>();
 			geoMap = new HashMap<GeoElement, RowData>();
+			this.gui = gui;
 		}
+		
+		public void setLabels(){
+	    	this.gui.setLabels();
+	    }
 		
 		@Override
 		public void startBatchUpdate() {

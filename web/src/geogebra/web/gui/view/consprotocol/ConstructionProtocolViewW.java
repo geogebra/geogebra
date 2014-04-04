@@ -27,7 +27,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		cpPanel = new FlowPanel();
 		this.app = app;
 		kernel = app.getKernel();
-		data = new ConstructionTableDataW();
+		data = new ConstructionTableDataW(this);
 		protNavBar = (ConstructionProtocolNavigationW) (app.getGuiManager().getConstructionProtocolNavigation());
 		protNavBar.register(this);
 		table = new CellTable<RowData>();
@@ -168,8 +168,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	
 	class ConstructionTableDataW extends ConstructionTableData{
 
-		public ConstructionTableDataW(){
-			super();
+		public ConstructionTableDataW(SetLabels gui){
+			super(gui);
 //			ctDataImpl = new MyGAbstractTableModel();
 		}
 		

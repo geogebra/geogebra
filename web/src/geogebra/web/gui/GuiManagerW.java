@@ -1157,24 +1157,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		if (toolbarPanel != null && toolbarPanel.getToolBar() != null) {
 			toolbarPanel.getToolBar().buildGui();
 		}
+		GGWMenuBar bar = ((AppW) app).getObjectPool().getGgwMenubar();
+		if (bar != null && bar.getMenubar() != null) {
+			bar.removeMenus();
+			bar.init((AppW) app);
+		}
 
-		// if (!WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
-		// GeoGebraAppFrame.setCloseMessage(app);
-		// }
-
-		if (constructionProtocolView != null)
-			constructionProtocolView.initGUI();
-		
 		getConstructionProtocolNavigation().setLabels();
 
 		// set the labelling of the panels
 		// titles on the top of their style bars
 		if (getLayout() != null && getLayout().getDockManager() != null) {
-			DockPanelW [] panels = getLayout().getDockManager().getPanels();
+			DockPanelW[] panels = getLayout().getDockManager().getPanels();
 			for (int i = 0; i < panels.length; i++)
 				panels[i].setLabels();
 		}
-		
+
 		((DialogManagerW) app.getDialogManager()).setLabels();
 	}
 
