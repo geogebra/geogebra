@@ -21,6 +21,7 @@ public class AxisModel {
 
 	final static protected int AXIS_X = 0;
 	final static protected int AXIS_Y = 1;
+	final static protected int AXIS_Z = 2;
 
 	/******************************************************
 	 * @param app
@@ -49,7 +50,15 @@ public class AxisModel {
 
 	}
 	public String getAxisName() {
-		return (axis == AXIS_X) ? "xAxis" : "yAxis";
+		switch (axis){
+		case AXIS_X:
+		default:
+			return "xAxis";
+		case AXIS_Y:
+			return "yAxis";
+		case AXIS_Z:	
+			return "zAxis";
+		}
 	}
 
 	public void applyTickDistance(double value) {
