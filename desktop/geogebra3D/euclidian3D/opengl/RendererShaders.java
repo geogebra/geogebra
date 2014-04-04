@@ -1487,7 +1487,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	
 	@Override
 	public void setLabelOrigin(Coords origin){
-		jogl.getGL2ES2().glUniform3f(labelOriginLocation, (float) origin.getX(), (float) origin.getY(), (float) origin.getZ());
+		jogl.getGL2ES2().glUniform3fv(labelOriginLocation, 1, origin.get3ForGL(), 0);
     }
 
 }

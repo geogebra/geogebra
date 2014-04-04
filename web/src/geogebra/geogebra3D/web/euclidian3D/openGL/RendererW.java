@@ -55,6 +55,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
     private WebGLUniformLocation enableClipPlanesLocation, clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable clip planes
+    private WebGLUniformLocation labelRenderingLocation, labelOriginLocation;
 
     
     private WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords;
@@ -193,6 +194,11 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         enableClipPlanesLocation = glContext.getUniformLocation(shaderProgram, "enableClipPlanes");
         clipPlanesMinLocation = glContext.getUniformLocation(shaderProgram, "clipPlanesMin");
         clipPlanesMaxLocation = glContext.getUniformLocation(shaderProgram, "clipPlanesMax");
+        
+        //label rendering
+        labelRenderingLocation = glContext.getUniformLocation(shaderProgram, "labelRendering"); 
+        labelOriginLocation = glContext.getUniformLocation(shaderProgram, "labelOrigin");
+
        
         // VBOs
         vboColors = glContext.createBuffer();
@@ -1395,8 +1401,18 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	}
 	
 	
+	
+
 	@Override
-	public void setLabelOrigin(Coords origin){ 
-		
+	protected void drawFaceToScreen() {
+		glContext.uniform1i(labelRenderingLocation, 1);
+		super.drawFaceToScreen();
+		glContext.uniform1i(labelRenderingLocation, 0);
+	}
+	
+	
+	@Override
+	public void setLabelOrigin(Coords origin){
+		glContext.uniform3fv(labelOriginLocation, origin.get3ForGL());
     }
 }
