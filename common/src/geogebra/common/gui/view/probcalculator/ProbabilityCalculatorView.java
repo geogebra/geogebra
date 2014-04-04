@@ -1756,12 +1756,10 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				parameters);
 
 		// mean/sigma are undefined for the Cauchy distribution
-		if (selectedDist == DIST.CAUCHY) {
-			return "";
-		}
+		// and F-distribution with certain parameters
 
-		String mean = val[0] == null ? "" : format(val[0]);
-		String sigma = val[1] == null ? "" : format(val[1]);
+		String mean = val[0] == null ? "?" : format(val[0]);
+		String sigma = val[1] == null ? "?" : format(val[1]);
 
 		String meanSigmaStr = Unicode.mu + " = " + mean + "   " + Unicode.sigma
 				+ " = " + sigma;
