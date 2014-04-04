@@ -12,7 +12,7 @@ import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplet;
 
@@ -64,7 +64,7 @@ public class AppWapplet3D extends AppWapplet{
 	@Override
 	public GCheckBoxMenuItem createMenuItemFor3D() {
 		itemEuclidian3D = 
-				new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_graphics224()
+				new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_graphics224()
 						.getSafeUri().asString(), getPlain("GraphicsView3D"), true),
 						new Command() {
 					public void execute() {

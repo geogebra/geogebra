@@ -123,7 +123,7 @@ public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler 
 	
 	
 	private void createFileMenu() {
-		fileMenu = new FileMenuW(app, true, null);
+		fileMenu = new FileMenuW(app, null);
 	}
 
 	private void createPerspectivesMenu() {
@@ -182,14 +182,33 @@ public class MainMenu extends FlowPanel implements GeoGebraMenuW, ResizeHandler 
 	}
 	
 	public static void addSubmenuArrow(AppW app,MenuBar w) {
-		if (app.getLAF().isModern()) {
+		
 			w.addStyleName("subMenuLeftSide");
 			FlowPanel arrowSubmenu = new FlowPanel();
 			arrowSubmenu.addStyleName("arrowSubmenu");
 			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_right());
 			arrowSubmenu.add(arrow);
 		    w.getElement().appendChild(arrowSubmenu.getElement());
-		}
+		
     }
+
+	public static String getMenuBarHtml(String url, String str, boolean enabled) {
+		String text2 = str.replace("\"", "'");
+		String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
+		return  "<img class=\"GeoGebraMenuImage\" alt=\""+text2+"\" src=\""+url+"\" />"+" "+ text3;
+    }
+
+	public static String getMenuBarHtml(String url, String str) {
+		String text = str.replace("\"", "'");
+		return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
+    }
+
+	public static void setMenuSelected(MenuItem m, boolean visible) {
+		if (visible) {
+			m.addStyleName("checked");
+		} else {
+			m.removeStyleName("checked");
+		}
+	}
 
 }

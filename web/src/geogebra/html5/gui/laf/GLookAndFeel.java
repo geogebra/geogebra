@@ -2,7 +2,7 @@ package geogebra.html5.gui.laf;
 
 import geogebra.common.main.Localization;
 import geogebra.web.gui.menubar.GeoGebraMenuW;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Window;
@@ -11,16 +11,15 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 public class GLookAndFeel {
 
 	public GeoGebraMenuW getMenuBar(AppW app) {
-	    return new GeoGebraMenubarW(app);
+		MainMenu menubar = new MainMenu(app);
+	    Window.addResizeHandler(menubar);
+	    return menubar;
     }
 
 	public boolean undoRedoSupported() {
 	    return true;
     }
 	
-	public boolean isModern() {
-		return false;
-	}
 	
 	public boolean isSmart() {
 		return false;

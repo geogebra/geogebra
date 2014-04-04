@@ -25,7 +25,6 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.MyHeaderPanel;
 import geogebra.html5.gui.laf.GLookAndFeel;
-import geogebra.html5.gui.laf.ModernLookAndFeel;
 import geogebra.html5.gui.laf.SmartLookAndFeel;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.io.MyXMLioW;
@@ -49,8 +48,8 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.ObjectPool;
@@ -127,8 +126,6 @@ public abstract class AppW extends AppWeb {
 		this.articleElement = ae;
 		if("smart".equals(ae.getDataParamLAF())){
 			this.laf = new SmartLookAndFeel();
-		}else if("modern".equals(ae.getDataParamLAF())){
-			this.laf = new ModernLookAndFeel();
 		}else{
 			this.laf = new GLookAndFeel();
 		}
@@ -1371,7 +1368,7 @@ public abstract class AppW extends AppWeb {
 
 		if (subMenu instanceof MenuBar) ((MenuBar)subMenu).addStyleName("GeoGebraMenuBar");
 		
-		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(iconString, name, true),
+		parentMenu.addItem(MainMenu.getMenuBarHtml(iconString, name, true),
 		        true, (MenuBar) subMenu);
 	}
 

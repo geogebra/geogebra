@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.OptionType;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
@@ -125,7 +125,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 					&& geo.getShowObjectCondition() == null
 					&& (!geo.isGeoBoolean() || geo.isIndependent())) {
 
-				cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
+				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
 
 					public void execute() {
 						for (int i = geos.size() - 1; i >= 0; i--) {
@@ -146,7 +146,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 
 			if (geo.isLabelShowable()) {
 
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), new Command() {
 					
 					public void execute() {
 						for (int i = geos.size() - 1; i >= 0; i--) {
@@ -175,7 +175,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 
 				if (showRecordToSpreadsheet) {
 
-	        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
+	        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
 
 						public void execute() {
 
@@ -213,7 +213,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 			public void execute() {
 				table.copyPasteCut.copy(column1, row1, column2, row2, false);
 			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.edit_copy().getSafeUri().asString(), app.getMenu("Copy")), app.getMenu("Copy"));
+		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit_copy().getSafeUri().asString(), app.getMenu("Copy")), app.getMenu("Copy"));
 		item.setEnabled(!isEmptySelection());
 
 
@@ -226,7 +226,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 					app.storeUndoInfo();
 				table.getView().rowHeaderRevalidate();
 			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.edit_paste().getSafeUri().asString(), app.getMenu("Paste")), app.getMenu("Paste"));
+		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit_paste().getSafeUri().asString(), app.getMenu("Paste")), app.getMenu("Paste"));
 
 
 		item = addAction(new Command() {
@@ -237,7 +237,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 				if (succ)
 					app.storeUndoInfo();
 			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.edit_cut().getSafeUri().asString(), app.getMenu("Cut")), app.getMenu("Cut"));
+		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit_cut().getSafeUri().asString(), app.getMenu("Cut")), app.getMenu("Cut"));
 		item.setEnabled(!isEmptySelection());
 
 
@@ -249,7 +249,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 				if (succ)
 					app.storeUndoInfo();
 			}
-		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
+		}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
 		item.setEnabled(!allFixed());
 
 		/* should port this later - moved to "create" submenus temporarily
@@ -319,7 +319,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 			addSeparator();
 
 	        MenuBar cMenu = new MenuBar(true);
-	        MenuItem cMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Create")), true, cMenu);
+	        MenuItem cMenuItem = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Create")), true, cMenu);
 	        cMenuItem.addStyleName("mi_with_image");
 	        addItem(cMenuItem);
 
@@ -470,7 +470,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 							// app.getDialogManager().showPropertiesDialog();
 						}
 					},
-					GeoGebraMenubarW.getMenuBarHtml(
+					MainMenu.getMenuBarHtml(
 							AppResources.INSTANCE.view_properties16().getSafeUri().asString(),
 							app.getMenu(app.getPlain("Properties")) + "..."),
 					app.getMenu(app.getPlain("Properties")) + "...");
@@ -507,7 +507,7 @@ public class SpreadsheetContextMenuW extends GPopupMenuW {
 	// setTitle (copied from gui.ContextMenuGeoElement)
 	private void setTitle(String str) {
 
-	    MenuItem title = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), str),
+	    MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 	    		true, new Command() {
 					
 					public void execute() {

@@ -69,11 +69,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public String getType() {
 	    return "smart";
     }
-	
-	@Override
-    public boolean isModern() {
-		return true;
-	}
+
 	@Override
     public boolean copyToClipboardSupported(){
 		return false;

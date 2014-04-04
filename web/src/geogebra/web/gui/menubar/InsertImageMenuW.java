@@ -40,7 +40,7 @@ public class InsertImageMenuW extends MenuBar {
 
 	private void initActions() {
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File"), true),true,new Command() {
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File"), true),true,new Command() {
 	    	public void execute() {
 	    		ImageFileInputDialog dialog = new ImageFileInputDialog((AppW) app, null);
 	    		dialog.setVisible(true);
@@ -48,14 +48,14 @@ public class InsertImageMenuW extends MenuBar {
 	    });
 
 	    /* This causes security exceptions so it will probably be removed (Canvas.toDataURL)
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("URL")),true,new Command() {
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("URL")),true,new Command() {
 	    	public void execute() {
 	    		InputDialogImageURL dialog = new InputDialogImageURL((AppW)app);
 	    		dialog.setVisible(true);
 	    	}
 	    });*/
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam"), true),true,new Command() {
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam"), true),true,new Command() {
 	    	public void execute() {
 	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (AppW) app);
 	    		dialog.setVisible(true);

@@ -28,7 +28,7 @@ public class HelpMenuW extends GMenuBar {
 	    //});
 	    
 	    // Help
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
+	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
 	    		app.getMenu("Help"), true),true,new Command() {
 			public void execute() {
 				app.getGuiManager().openHelp(App.WIKI_MANUAL);
@@ -37,7 +37,7 @@ public class HelpMenuW extends GMenuBar {
 	    });
 	    
 	    // Tutorials
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("Tutorials"), true),true,new Command() {
 			public void execute() {
 				app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
@@ -45,7 +45,7 @@ public class HelpMenuW extends GMenuBar {
 	    });
 	    
 	    // GeoGebraTube (no translation, deliberate)
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file().getSafeUri().asString(),
+	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file().getSafeUri().asString(),
 	    		"GeoGebraTube", true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "?lang="+app.getLocalization().getLanguage(), "_blank","");
@@ -55,7 +55,7 @@ public class HelpMenuW extends GMenuBar {
 	    addSeparator();
 	    
 	    // Report Bug
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("ReportBug"), true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
@@ -64,7 +64,7 @@ public class HelpMenuW extends GMenuBar {
 	    
 	    addSeparator();
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
+	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
 	    		app.getMenu("AboutLicense"), true),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +

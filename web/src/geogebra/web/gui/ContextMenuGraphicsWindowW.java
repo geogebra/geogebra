@@ -8,7 +8,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppW;
 
@@ -46,7 +46,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 				toggleShowConstructionProtocolNavigation();
             }     	
         };
-		String htmlString = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("NavigationBar"));
+		String htmlString = MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("NavigationBar"));
 		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(htmlString, showConstructionStepCommand);
 	    cbShowConstructionStep.setSelected(app.showConsProtNavigation());
 	    wrappedPopup.addItem(cbShowConstructionStep);
@@ -57,7 +57,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         
         // zoom for both axes
         MenuBar zoomMenu = new MenuBar(true);
-        MenuItem zoomMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.zoom16().getSafeUri().asString(), app.getMenu("Zoom")), true, zoomMenu);
+        MenuItem zoomMenuItem = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.zoom16().getSafeUri().asString(), app.getMenu("Zoom")), true, zoomMenu);
         zoomMenuItem.addStyleName("mi_with_image");
         wrappedPopup.addItem(zoomMenuItem);
         addZoomItems(zoomMenu);
@@ -109,7 +109,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
     }
 	
 	private void addMiProperties() {
-	    MenuItem miProperties = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("DrawingPad") + " ..."), true, new Command() {
+	    MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("DrawingPad") + " ..."), true, new Command() {
 			
 			public void execute() {
 				showOptionsDialog();
@@ -222,21 +222,21 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
     }
 
 	private void addAxesAndGridCheckBoxes() {
-//	    MenuItem cbShowAxes = addAction(((AppW)app).getGuiManager().getShowAxesAction(), GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")), app.getMenu("Axes"));
-//		SafeHtml cbHtml = SafeHtmlUtils.fromSafeConstant(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")));
+//	    MenuItem cbShowAxes = addAction(((AppW)app).getGuiManager().getShowAxesAction(), MainMenu.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")), app.getMenu("Axes"));
+//		SafeHtml cbHtml = SafeHtmlUtils.fromSafeConstant(MainMenu.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes")));
 	
 		if (app.getGuiManager() == null)
 			return;
 		
-		String htmlString = GeoGebraMenubarW.getMenuBarHtml(StyleBarResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes"));
+		String htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.axes().getSafeUri().asString(), app.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowAxesAction());
 		
 	    ((AppW)app).setShowAxesSelected(cbShowAxes);
 	    wrappedPopup.addItem(cbShowAxes);
 	    
 	    
-//	    MenuItem cbShowGrid = addAction(((AppW)app).getGuiManager().getShowGridAction(), GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid")), app.getMenu("Grid"));
-		htmlString = GeoGebraMenubarW.getMenuBarHtml(StyleBarResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid"));
+//	    MenuItem cbShowGrid = addAction(((AppW)app).getGuiManager().getShowGridAction(), MainMenu.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid")), app.getMenu("Grid"));
+		htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.grid().getSafeUri().asString(), app.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString, ((AppW)app).getGuiManager().getShowGridAction());
 
 	    ((AppW)app).setShowGridSelected(cbShowGrid);

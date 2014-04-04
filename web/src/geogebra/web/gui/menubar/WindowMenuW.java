@@ -28,7 +28,7 @@ public class WindowMenuW extends MenuBar{
 	private void initActions(){
 		clearItems();
 		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 				.empty().getSafeUri().asString(), app.getMenu("NewWindow"), true),
 		        true, new Command() {
 			        public void execute() {

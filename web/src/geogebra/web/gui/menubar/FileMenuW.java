@@ -15,19 +15,18 @@ public class FileMenuW extends GMenuBar {
 	
 	/** Application */
 	AppW app;
-	private OpenMenuW openMenu;
 	private MenuItem uploadToGGT;
 	Runnable onFileOpen;
 	
 	/**
 	 * @param app application
 	 */
-	public FileMenuW(AppW app, boolean useOpenScreen, Runnable onFileOpen) {
+	public FileMenuW(AppW app, Runnable onFileOpen) {
 	    super(true);
 	    this.app = app;
 	    this.onFileOpen = onFileOpen;
 	    addStyleName("GeoGebraMenuBar");
-	    initActions(useOpenScreen);
+	    initActions();
 		update();
 	}
 
@@ -36,10 +35,10 @@ public class FileMenuW extends GMenuBar {
 	    
     }
 
-	private void initActions(boolean useOpenScreen) {
+	private void initActions() {
 
 		// this is enabled always
-		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
 
 			public void execute() {
 				app.setWaitCursor();
@@ -49,8 +48,8 @@ public class FileMenuW extends GMenuBar {
 		});
 
 		// open menu is always visible in menu
-		if(useOpenScreen) {
-			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
+		
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getMenu("Open"), true),true,new Command() {
     		
 				public void execute() {
 					BrowseGUI bg = new BrowseGUI(app);
@@ -60,13 +59,10 @@ public class FileMenuW extends GMenuBar {
 					}
 				}
 			});	
-		} else{
-			openMenu = new OpenMenuW(app);
-			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true, openMenu);
-		}
+		
 		
 		if(app.getLAF().undoRedoSupported()) {
-			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("SaveAs"), true),true,new Command() {
 		
 				public void execute() {
 					app.getGuiManager().save();
@@ -75,7 +71,7 @@ public class FileMenuW extends GMenuBar {
 		}
 
 		// this is enabled always
-	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
+	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
 	    	public void execute() {
 	    		app.uploadToGeoGebraTube();
 	    	}
@@ -108,14 +104,6 @@ public class FileMenuW extends GMenuBar {
 			uploadToGGT.setTitle("");
 		}
     }
-
-	/**
-	 * @return Open submenu
-	 */
-	public OpenMenuW getOpenMenu() {
-	   return openMenu;
-    }
-	
 	
 
 }

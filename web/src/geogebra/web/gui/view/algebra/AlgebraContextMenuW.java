@@ -4,7 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.StyleBarResources;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
@@ -30,7 +30,7 @@ public class AlgebraContextMenuW implements AttachedToDOM{
 	 */
 	private void initItems() {
 		
-	    MenuItem title = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getPlain("AlgebraWindow")),
+	    MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getPlain("AlgebraWindow")),
 	    		true, new Command() {
 					
 					public void execute() {
@@ -49,7 +49,7 @@ public class AlgebraContextMenuW implements AttachedToDOM{
             }
 		};     
 		
-		GCheckBoxMenuItem cbShowAuxiliary = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(
+		GCheckBoxMenuItem cbShowAuxiliary = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				StyleBarResources.INSTANCE.auxiliary().getSafeUri().asString(), app.getPlain("AuxiliaryObject")), showAuxiliaryAction);
 		
 		cbShowAuxiliary.setSelected(app.showAuxiliaryObjects());

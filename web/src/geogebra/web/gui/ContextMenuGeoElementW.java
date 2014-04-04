@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
@@ -109,7 +109,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager() != null && app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
         	GCheckBoxMenuItem cbItem;
         	if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.mode_showhideobject_16().getSafeUri().asString(), app.getPlain("ShowObject")), new Command() {
 					
 					public void execute() {
 						showObjectCmd();
@@ -121,7 +121,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	}
 
         	if (geo.isLabelShowable()) {
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString(), app.getPlain("ShowLabel")), new Command() {
 					
 					public void execute() {
 						showLabelCmd();				
@@ -133,7 +133,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	
         	//  trace
         	if (geo.isTraceable()) {
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.trace_on().getSafeUri().asString(), app.getPlain("TraceOn")), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.trace_on().getSafeUri().asString(), app.getPlain("TraceOn")), new Command() {
 					
 					public void execute() {
 						traceCmd();
@@ -151,7 +151,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 				
 				if (showRecordToSpreadsheet){
-					cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
+					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.spreadsheettrace().getSafeUri().asString(), app.getMenu("RecordToSpreadsheet")), new Command() {
 						
 						public void execute() {
 							//AG not ported yet recordToSpreadSheetCmd();
@@ -164,7 +164,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	}
         	
         	if (geo.isAnimatable()) {  
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getPlain("Animating")), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getPlain("Animating")), new Command() {
 					
 					public void execute() {
 						animationCmd();	
@@ -176,7 +176,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	
         	if (app.getGuiManager() != null && app.getGuiManager().showView(App.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
 					geo.isAlgebraShowable()) {
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.aux_folder().getSafeUri().asString(), app.getPlain("AuxiliaryObject") ), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.aux_folder().getSafeUri().asString(), app.getPlain("AuxiliaryObject") ), new Command() {
 					
 					public void execute() {
 						showObjectAuxiliaryCmd();
@@ -189,7 +189,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	
         	//  fix object
         	if (geo.isFixable() && (geo.isGeoText() || geo.isGeoImage())) {
-        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),  app.getPlain("FixObject")), new Command() {
+        		cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),  app.getPlain("FixObject")), new Command() {
 					
 					public void execute() {
 						fixObjectCmd();
@@ -200,7 +200,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	} else if (geo.isGeoNumeric()){
         		final GeoNumeric num = (GeoNumeric)geo;
 				if (num.isSlider()) {   
-					cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),  app.getPlain("FixObject")), new Command() {
+					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),  app.getPlain("FixObject")), new Command() {
 						
 						public void execute() {
 							fixObjectNumericCmd(num);
@@ -224,7 +224,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 				public void execute() {
 					renameCmd();
 				}
-			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.rename().getSafeUri().asString(), app.getPlain("Rename")), app.getPlain("Rename"));
+			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.rename().getSafeUri().asString(), app.getPlain("Rename")), app.getPlain("Rename"));
 	     }
 	     
 	     if (geos.size() == 1 && geo instanceof TextValue && !geo.isTextCommand() && !geo.isFixed()) {
@@ -233,7 +233,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 				public void execute() {
 					editCmd();
 				}
-			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.edit().getSafeUri().asString(),app.getPlain("Edit")), app.getPlain("Edit"));
+			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit().getSafeUri().asString(),app.getPlain("Edit")), app.getPlain("Edit"));
 	     }
 	     
 	     // DELETE    
@@ -243,7 +243,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 				public void execute() {
 					deleteCmd();
 				}
-			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
+			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.delete_small().getSafeUri().asString(), app.getPlain("Delete")), app.getPlain("Delete"));
 	  	}
 	     
 	  	// Object properties menuitem
@@ -256,7 +256,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 				public void execute() {
 					openPropertiesDialogCmd();
 				}
-			}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("Properties")), app.getPlain("Properties"));
+			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("Properties")), app.getPlain("Properties"));
 		}	     
      
 	    
@@ -264,7 +264,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 	private void addPin() {
 		if (geo.isPinnable()) {
-			final MenuItem cbItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.pin().getSafeUri().asString(), app.getPlain("AbsoluteScreenLocation")), true, new Command() {
+			final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.pin().getSafeUri().asString(), app.getPlain("AbsoluteScreenLocation")), true, new Command() {
 				
 				public void execute() {
 					//must set emtpy because "not initialized..." error
@@ -277,7 +277,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 					pinCmd(isSelected);
 				}
 			});
-			GeoGebraMenubarW.setMenuSelected(cbItem, geo.isPinned());
+			MainMenu.setMenuSelected(cbItem, geo.isPinned());
 			addItem(cbItem);
 			cbItem.addStyleName("mi_with_image");
 		}
@@ -513,7 +513,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 
 	protected void setTitle(String str) {
-	    MenuItem title = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), str),
+	    MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 	    		true, new Command() {
 					
 					public void execute() {

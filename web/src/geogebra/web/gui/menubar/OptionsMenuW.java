@@ -28,7 +28,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private Kernel kernel;
 	private static int currentZoom = 1;
 	
-	private LanguageMenuW languageMenu;
 	private double origFontSize;
 	/**
 	 * Constructs the "Option" menu
@@ -100,7 +99,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	private void addGlobalFontSizeMenu(){
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 				.empty().getSafeUri().asString(), "font size: 32px", true),
 		        true, new Command() {
 			        public void execute() {
@@ -116,9 +115,9 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	private void addLanguageMenu() {
-		if(app.getLAF().isModern()){
+		
 			App.debug("smart menu");
-			addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
 
 						@Override
 	                    public void execute() {
@@ -127,14 +126,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		                    
 	                    }});
 			return;
-		}
-		languageMenu = new LanguageMenuW(app);
-		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, languageMenu);
+		
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
 		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("Settings.ResetDefault"), true),
 		        true, new Command() {
 			        public void execute() {
@@ -175,7 +172,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	
 	private void addSaveSettingsMenu(){
 		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Settings.Save"), true),
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Settings.Save"), true),
 		        true, new Command() {
 			        public void execute() {
 			        	GeoGebraPreferencesW.getPref().saveXMLPreferences(app);

@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
 
@@ -151,7 +151,7 @@ public class PropertiesStyleBarW extends
 
 	private String getMenuHtml(OptionType type) {
 		String typeString = "";//propertiesView.getTypeString(type);
-	    return typeString != null ? GeoGebraMenubarW.getMenuBarHtml(getTypeIcon(type), typeString): null; 
+	    return typeString != null ? MainMenu.getMenuBarHtml(getTypeIcon(type), typeString): null; 
     }
 	
 	private void setIcon(OptionType type, PopupMenuButton btn) {
