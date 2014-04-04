@@ -28,13 +28,13 @@ public class CmdZip extends CommandProcessor {
 
 		// avoid
 		// "Command Sequence not known eg Sequence[If[Element[list1,i]=="b",0,1]]
-		if (n < 3 || n % 2 == 0)
+		if (n < 3)
 			throw argNumErr(app, c.getName(), n);
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement arg = null;
 		GeoElement[] vars = new GeoElement[n / 2];
-		GeoList[] over = new GeoList[n / 2];
+		GeoList[] over = new GeoList[(n-1) / 2];
 		boolean oldval = cons.isSuppressLabelsActive();
 		try{
 			cons.setSuppressLabelCreation(true);	

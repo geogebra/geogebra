@@ -232,9 +232,15 @@ public abstract class CommandProcessor {
 			// initialize first value of local numeric variable from initPos
 
 		
-			GeoList gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
+			GeoList gl= null;
+			if(c.getArgumentNumber() > varPos+1){
+			 gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
+			}
 			
-			if (gl.size() == 0) {
+			if(gl == null){
+				num = new GeoNumeric(cons);
+			}
+			else if (gl.size() == 0) {
 				if (gl.getTypeStringForXML() != null) {
 					num = kernelA.createGeoElement(cons, gl.getTypeStringForXML());
 				} else {
@@ -251,7 +257,9 @@ public abstract class CommandProcessor {
 			// set local variable as our varPos argument
 			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
 			vars[varPos / 2] = num.toGeoElement();
-			over[varPos / 2] = gl;
+			if(gl != null){
+				over[varPos / 2] = gl;
+			}
 			// resolve all command arguments including the local variable just
 			// created
 

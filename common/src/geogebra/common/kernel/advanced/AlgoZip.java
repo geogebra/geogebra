@@ -34,6 +34,7 @@ public class AlgoZip extends AlgoElement {
 	private GeoElement expression; // input expression dependent on var
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
+	private int listCount;
 	private GeoList[] over;
 	private GeoList list; // output
 
@@ -75,6 +76,7 @@ public class AlgoZip extends AlgoElement {
 		this.expression = expression;
 		this.vars = vars;
 		this.over = over;
+		listCount = over.length;
 		varCount = vars.length;
 
 		expressionParentAlgo = expression.getParentAlgorithm();
@@ -94,11 +96,14 @@ public class AlgoZip extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[1 + 2 * varCount];
+		input = new GeoElement[1 + listCount + varCount];
 		input[0] = expression;
-		for (int i = 0; i < varCount; i++) {
+		for (int i = 0; i < listCount; i++) {
 			input[2 * i + 1] = vars[i];
 			input[2 * i + 2] = over[i];
+		}
+		if(varCount > listCount){
+			input[listCount + varCount] = vars[varCount - 1];
 		}
 		setOutputLength(1);
 		setOutput(0, list);
@@ -113,9 +118,9 @@ public class AlgoZip extends AlgoElement {
 	@Override
 	public
 	GeoElement[] getInputForUpdateSetPropagation() {
-		GeoElement[] realInput = new GeoElement[varCount + 1];
+		GeoElement[] realInput = new GeoElement[listCount + 1];
 		realInput[0] = expression;
-		for (int i = 0; i < varCount; i++) {
+		for (int i = 0; i < listCount; i++) {
 			realInput[i + 1] = over[i];
 		}
 		return realInput;
@@ -336,7 +341,7 @@ public class AlgoZip extends AlgoElement {
 
 	private int minOverSize() {
 		int min = over[0].size();
-		for (int i = 1; i < varCount; i++)
+		for (int i = 1; i < listCount; i++)
 			if (over[i].size() < min)
 				min = over[i].size();
 		return min;
@@ -348,14 +353,17 @@ public class AlgoZip extends AlgoElement {
 	 */
 	private void updateLocalVar(int index) {
 		// set local variable to given value
-		for (int i = 0; i < varCount; i++)
+		for (int i = 0; i < listCount; i++)
 			vars[i].set(over[i].get(index));
+		if(varCount > listCount){
+			((GeoNumeric)vars[varCount-1]).setValue(index + 1);
+		}
 
 		// update var's algorithms until we reach expression
 		if (expressionParentAlgo != null) {
 			// update all dependent algorithms of the local variable var
 			this.setStopUpdateCascade(true);
-			for (int i = 0; i < varCount; i++)
+			for (int i = 0; i < listCount; i++)
 				vars[i].getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
