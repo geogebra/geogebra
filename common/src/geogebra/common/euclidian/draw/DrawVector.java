@@ -167,6 +167,12 @@ public class DrawVector extends Drawable implements Previewable {
 				3 * lineThickness;
 
 		double length = MyMath.length(coordsV[0],coordsV[1]);
+		
+		// decrease arrowhead size if it's longer than the vector
+		if (length < factor) {
+			factor = length;
+		}
+		
 		if (length > 0.0) {
 			coordsV[0] = (coordsV[0] * factor) / length;
 			coordsV[1] = (coordsV[1] * factor) / length;
