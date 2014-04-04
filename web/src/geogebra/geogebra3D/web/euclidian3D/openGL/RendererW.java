@@ -53,6 +53,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
+    private WebGLUniformLocation enableClipPlanesLocation, clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable clip planes
+
     
     private WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords;
     
@@ -185,8 +187,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
         //color
         normalLocation = glContext.getUniformLocation(shaderProgram, "normal");
-
         
+        //clip planes
+        enableClipPlanesLocation = glContext.getUniformLocation(shaderProgram, "enableClipPlanes");
+        clipPlanesMinLocation = glContext.getUniformLocation(shaderProgram, "clipPlanesMin");
+        clipPlanesMaxLocation = glContext.getUniformLocation(shaderProgram, "clipPlanesMax");
+       
         // VBOs
         vboColors = glContext.createBuffer();
         vboVertices = glContext.createBuffer();
@@ -1347,18 +1353,43 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 
 	@Override
-	public void setClipPlanes(double[][] minMax) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
     protected void enableClipPlanes() {
-    	
+		glContext.uniform1i(enableClipPlanesLocation, 1);
     }
     
     @Override
 	protected void disableClipPlanes() {
+    	glContext.uniform1i(enableClipPlanesLocation, 0);
+	}
+    
+    
+
+    private float[] clipPlanesMin = new float[3];
+    private float[] clipPlanesMax = new float[3];
+
+	@Override
+	public void setClipPlanes(double[][] minMax) {
+		for (int i = 0 ; i < 3 ; i++){
+			clipPlanesMin[i] = (float) minMax[i][0];
+			clipPlanesMax[i] = (float) minMax[i][1];
+		}
 		
+	}
+	
+	private void setClipPlanesToShader(){
+
+		glContext.uniform3fv(clipPlanesMinLocation, clipPlanesMin);
+		glContext.uniform3fv(clipPlanesMaxLocation, clipPlanesMax);
+		
+	}
+    
+
+	@Override
+	protected void initRenderingValues(){
+		
+		super.initRenderingValues();
+		
+		// clip planes
+		setClipPlanesToShader();
 	}
 }
