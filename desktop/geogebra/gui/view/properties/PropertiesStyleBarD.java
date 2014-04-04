@@ -30,28 +30,27 @@ import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
-public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.PropertiesStyleBar {
+public class PropertiesStyleBarD extends
+		geogebra.common.gui.view.properties.PropertiesStyleBar {
 
 	PropertiesView propertiesView;
 	protected AppD app;
 
 	protected PopupMenuButton btnOption;
 	private JPopupMenu menu;
-	
+
 	private JToolBar toolbar;
 	private JPanel wrappedPanel;
-	
-	protected HashMap<OptionType,AbstractButton> buttonMap;
-	
+
+	protected HashMap<OptionType, AbstractButton> buttonMap;
+
 	private AbstractButton objectButton;
 
 	public PropertiesStyleBarD(PropertiesView propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
-		
-		this.wrappedPanel = new JPanel();
 
-		
+		this.wrappedPanel = new JPanel();
 
 		btnOption = new PopupMenuButton(app);
 		buildMenu();
@@ -68,27 +67,25 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		buildGUI();
 		updateGUI();
 
-		//add(btnOption);
-		//add(Box.createVerticalStrut(28));
+		// add(btnOption);
+		// add(Box.createVerticalStrut(28));
 	}
 
-	
 	void buildGUI() {
-		
+
 		toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 
-		
-		buttonMap = new HashMap<OptionType,AbstractButton>(); 
-		
+		buttonMap = new HashMap<OptionType, AbstractButton>();
+
 		ButtonGroup btnGroup = new ButtonGroup();
 		for (final OptionType type : OptionType.values()) {
 			final PropertiesButton btn = newPropertiesButton(type);
-			if (btn!=null){
+			if (btn != null) {
 				btn.setFont(app.getPlainFont());
 				btn.setToolTipText(propertiesView.getTypeString(type));
 				btn.setIcon(getTypeIcon(type));
-				btn.setPreferredSize(new Dimension(24,30));
+				btn.setPreferredSize(new Dimension(24, 30));
 				btn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						propertiesView.setOptionPanel(type);
@@ -97,44 +94,47 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 				btnGroup.add(btn);
 				toolbar.add(btn);
 				buttonMap.put(type, btn);
-				//mi.setSelected(type == propertiesView.getSelectedOptionType());
-				if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
+				// mi.setSelected(type ==
+				// propertiesView.getSelectedOptionType());
+				if (type == OptionType.OBJECTS
+						|| type == OptionType.SPREADSHEET) {
 					toolbar.addSeparator();
 				}
 			}
 		}
 		objectButton = buttonMap.get(OptionType.OBJECTS);
-		
-		//disable object button if no object
+
+		// disable object button if no object
 		if (app.getKernel().isEmpty())
 			setObjectButtonEnable(false);
-		
+
 		this.wrappedPanel.setLayout(new BorderLayout());
 		this.wrappedPanel.add(toolbar, BorderLayout.NORTH);
-	//	this.add(titlePanel, BorderLayout.SOUTH);
+		// this.add(titlePanel, BorderLayout.SOUTH);
 		this.wrappedPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow),
-				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight)));
-		//this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+				BorderFactory.createMatteBorder(0, 0, 0, 0,
+						SystemColor.controlShadow), BorderFactory
+						.createMatteBorder(0, 0, 1, 0,
+								SystemColor.controlLtHighlight)));
+		// this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
-	
-	
+
 	/**
 	 * create a new properties button if type is compatible
-	 * @param type type
+	 * 
+	 * @param type
+	 *            type
 	 * @return new properties button
 	 */
-	protected PropertiesButton newPropertiesButton(OptionType type){
-		
-		if (type==OptionType.EUCLIDIAN3D){ // used only for 3D
+	protected PropertiesButton newPropertiesButton(OptionType type) {
+
+		if (type == OptionType.EUCLIDIAN3D) { // used only for 3D
 			return null;
 		}
-		
+
 		return new PropertiesButton();
 	}
-	
-	
-	
+
 	public PopupMenuButton getBtnOption() {
 		return btnOption;
 	}
@@ -144,43 +144,41 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		OptionType seltype = propertiesView.getSelectedOptionType();
 		btnOption.setFixedIcon(getTypeIcon(propertiesView
 				.getSelectedOptionType()));
-		btnOption.setText(propertiesView.getTypeString(propertiesView.getSelectedOptionType())
-				+ downTriangle);
-		
+		btnOption.setText(propertiesView.getTypeString(propertiesView
+				.getSelectedOptionType()) + downTriangle);
+
 		buttonMap.get(seltype).setSelected(true);
-		
+
 		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
-				app.getGuiManager()
-						.showView(App.VIEW_EUCLIDIAN));
-		
+				app.getGuiManager().showView(App.VIEW_EUCLIDIAN));
+
 		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
-				app.getGuiManager()
-						.showView(App.VIEW_EUCLIDIAN2));
-		
+				app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
+
 		buttonMap.get(OptionType.SPREADSHEET).setVisible(
-				app.getGuiManager()
-						.showView(App.VIEW_SPREADSHEET));
-		
+				app.getGuiManager().showView(App.VIEW_SPREADSHEET));
+
 		buttonMap.get(OptionType.CAS).setVisible(
-				app.getGuiManager()
-						.showView(App.VIEW_CAS));
+				app.getGuiManager().showView(App.VIEW_CAS));
 	}
 
 	/**
 	 * create a new menu item if type is compatible
-	 * @param type type
+	 * 
+	 * @param type
+	 *            type
 	 * @return new menu item
-	 */	
-	protected JMenuItem newJMenuItem(OptionType type){
-		
-		if (type==OptionType.EUCLIDIAN3D){ // used only for 3D
+	 */
+	protected JMenuItem newJMenuItem(OptionType type) {
+
+		if (type == OptionType.EUCLIDIAN3D) { // used only for 3D
 			return null;
 		}
-		
+
 		return new JMenuItem();
-		
+
 	}
-	
+
 	void buildMenu() {
 
 		if (menu == null) {
@@ -190,7 +188,7 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 
 		for (final OptionType type : OptionType.values()) {
 			final JMenuItem mi = newJMenuItem(type);
-			if (mi!=null){
+			if (mi != null) {
 				mi.setFont(app.getPlainFont());
 				mi.setBackground(Color.white);
 				mi.setText(propertiesView.getTypeString(type));
@@ -204,54 +202,53 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 					}
 				});
 				menu.add(mi);
-				//mi.setSelected(type == propertiesView.getSelectedOptionType());
-				if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
+				// mi.setSelected(type ==
+				// propertiesView.getSelectedOptionType());
+				if (type == OptionType.OBJECTS
+						|| type == OptionType.SPREADSHEET) {
 					menu.addSeparator();
 				}
 			}
 		}
-		
+
 		app.setComponentOrientation(menu);
 
 	}
 
-	
-	
-	
 	/**
 	 * Update the labels of the components (e.g. if the language changed).
 	 */
 	public void setLabels() {
 
-		for (final OptionType type : OptionType.values()){
+		for (final OptionType type : OptionType.values()) {
 			AbstractButton button = buttonMap.get(type);
-			if (button!=null){
+			if (button != null) {
 				button.setToolTipText(propertiesView.getTypeString(type));
 			}
 		}
-		
 
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void setObjectsToolTip() {
-		
-		objectButton.setToolTipText(propertiesView.getTypeString(OptionType.OBJECTS));
-		
-	
+
+		objectButton.setToolTipText(propertiesView
+				.getTypeString(OptionType.OBJECTS));
+
 	}
-	
+
 	/**
 	 * sets if object button is enabled
-	 * @param flag flag
+	 * 
+	 * @param flag
+	 *            flag
 	 */
-	public void setObjectButtonEnable(boolean flag){
+	public void setObjectButtonEnable(boolean flag) {
 		objectButton.setEnabled(flag);
 	}
 
-	
 	private ImageIcon getTypeIcon(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
@@ -275,19 +272,18 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		}
 		return null;
 	}
-	
-	
+
 	protected class PropertiesButton extends JToggleButton {
 
+		// add(Box.createVerticalStrut(2
 		private static final long serialVersionUID = 1L;
-		
+
 		private JToolTip tip;
 
-		public PropertiesButton(){
+		public PropertiesButton() {
 			super();
 			this.addMouseListener(new ToolTipMouseAdapter());
 		}
-
 
 		@Override
 		public JToolTip createToolTip() {
@@ -299,15 +295,14 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		}
 
 		@Override
-		public Point getToolTipLocation(MouseEvent event){
+		public Point getToolTipLocation(MouseEvent event) {
 			Point p = new Point();
-			p.y = this.getY()- this.getHeight() - 5;
-			p.x = 0; //this.getX();
-			return  p;
+			p.y = this.getY() - this.getHeight() - 5;
+			p.x = 0; // this.getX();
+			return p;
 		}
 
 	}
-
 
 	/**
 	 * Listeners that give the tool tip a custom initial delay = 0
@@ -329,13 +324,13 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		@Override
 		public void mouseExited(MouseEvent e) {
 			ToolTipManager.sharedInstance()
-			.setInitialDelay(defaultInitialDelay);
+					.setInitialDelay(defaultInitialDelay);
 
 		}
 	}
-	
+
 	public JPanel getWrappedPanel() {
-		return wrappedPanel; 
+		return wrappedPanel;
 	}
-	
+
 }

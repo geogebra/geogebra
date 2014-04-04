@@ -390,6 +390,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	public void showSliderTab() {
+		App.debug("showSliderTab()");
 		tabs.setSelectedIndex(1);
 	}
 

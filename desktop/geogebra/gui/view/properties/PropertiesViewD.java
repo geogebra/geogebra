@@ -819,7 +819,8 @@ public class PropertiesViewD extends
 
 		return selectedOptionType == OptionType.DEFAULTS
 				|| selectedOptionType == OptionType.ADVANCED
-				|| selectedOptionType == OptionType.LAYOUT;
+				|| selectedOptionType == OptionType.LAYOUT
+				|| selectedOptionType == OptionType.OBJECTS;
 	}
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
@@ -1030,7 +1031,6 @@ public class PropertiesViewD extends
 
 	@Override
 	public void setOptionPanel(OptionType type, int subType) {
-		this.subType = subType;
 		setOptionPanel(type);
 	}
 
