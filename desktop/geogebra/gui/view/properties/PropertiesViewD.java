@@ -854,6 +854,7 @@ public class PropertiesViewD extends
 	}
 
 	private int selectedTab = 0;
+	private int subType;
 
 	private void updateSelectedTab(Construction.Constants constant) {
 		switch (constant) {
@@ -927,7 +928,11 @@ public class PropertiesViewD extends
 	}
 
 	public void showSliderTab() {
+		selectedOptionType = OptionType.EUCLIDIAN;
+		setOptionPanel(OptionType.OBJECTS);
 		((OptionsObjectD) objectPanel).showSliderTab();
+		styleBar.updateGUI();
+		updateGUI();
 	}
 
 	public boolean hasFocus() {
@@ -1025,8 +1030,8 @@ public class PropertiesViewD extends
 
 	@Override
 	public void setOptionPanel(OptionType type, int subType) {
-		// TODO Auto-generated method stub
-
+		this.subType = subType;
+		setOptionPanel(type);
 	}
 
 }
