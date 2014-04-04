@@ -381,13 +381,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	/**
-	 * @param geo GeoText to be updated
+	 * @param geo
+	 *            GeoText to be updated
 	 */
-	public void updateTextEditor(GeoElement geo){
-		GeoElement[] geos = {geo};
+	public void updateTextEditor(GeoElement geo) {
+		GeoElement[] geos = { geo };
 		textEditPanel.update(geos);
 	}
-	
+
 	public void showSliderTab() {
 		tabs.setSelectedIndex(1);
 	}
@@ -2434,8 +2435,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update(Object[] geos) {
-			if (geos.length != 1 || !checkGeos(geos))
+			if (geos.length != 1 || !checkGeos(geos)) {
+				td.reset();
 				return null;
+			}
 
 			GeoText text = (GeoText) geos[0];
 			td.setGeoText(text);

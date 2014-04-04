@@ -1162,4 +1162,9 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 		}
 	}
 
+	public void reset() {
+		this.editOccurred = false;
+
+	}
+
 }
