@@ -51,7 +51,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     
     // location values for shader fields
     private WebGLUniformLocation modelviewLocation, projectionLocation; // matrices
-    private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation; // light
+    private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private WebGLUniformLocation viewDirectionLocation; //view direction
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
@@ -183,6 +183,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         lightPositionLocation = glContext.getUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = glContext.getUniformLocation(shaderProgram, "ambiantDiffuse");
         viewDirectionLocation = glContext.getUniformLocation(shaderProgram, "viewDirection");
+        enableLightLocation = glContext.getUniformLocation(shaderProgram, "enableLight");
      
         
         //texture
@@ -616,15 +617,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		// done by shader
     }
 
-	@Override
-    public void disableLighting() {
-		// done by shader
-    }
-
-	@Override
-    public void enableLighting() {
-		// done by shader
-    }
 
 
 
@@ -1360,6 +1352,19 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		
 		// TODO
 		
+	}
+	
+	
+
+	@Override
+	public void enableLighting(){
+		glContext.uniform1i(enableLightLocation, 1);
+	}
+
+
+	@Override
+	public void disableLighting(){
+		glContext.uniform1i(enableLightLocation, 0);
 	}
 	
 

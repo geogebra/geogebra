@@ -1,10 +1,11 @@
-//in -- unifrom
+//in -- uniform
 uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
 uniform mat4    projection;  
 //uniform mat3	normalMatrix; // no need since light position is model view system based
 uniform vec3	lightPosition;
 uniform vec3	viewDirection;
 uniform vec2	ambiantDiffuse;
+uniform int		enableLight;
 uniform vec4	color;
 uniform vec3	normal;
 
@@ -35,26 +36,10 @@ void main(void)
   }else{
 	  realWorldCoords = attribute_Position;
   }
-
   
   
-  // color with light
-  vec3 n;
-  if (normal.x > 1.5){ // then use per-vertex normal
-  	n = attribute_Normal;
-  }else{
-  	n = normal;
-  }
   
-  float factor = dot(n, lightPosition);
-  if (factor * dot(n, viewDirection) > 0.0){ // check if back faced
-  	factor = 0.0;
-  }else if (factor < 0.0){
-    factor = -factor;
-  }
-  
-  float ambiant = ambiantDiffuse[0];
-  float diffuse = ambiantDiffuse[1];
+  // color
   vec4 c;
   if (color[0] < 0.0){ // then use per-vertex-color
   	c = attribute_Color;
@@ -62,11 +47,32 @@ void main(void)
   	c = color;
   }
   
-  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
-  varying_Color.a = c.a;
+  // light
+  if (enableLight == 1){// color with light
+	  vec3 n;
+	  if (normal.x > 1.5){ // then use per-vertex normal
+	  	n = attribute_Normal;
+	  }else{
+	  	n = normal;
+	  }
+	  
+	  float factor = dot(n, lightPosition);
+	  if (factor * dot(n, viewDirection) > 0.0){ // check if back faced
+	  	factor = 0.0;
+	  }else if (factor < 0.0){
+	    factor = -factor;
+	  }
+	  float ambiant = ambiantDiffuse[0];
+	  float diffuse = ambiantDiffuse[1];
+	
+	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
+	  varying_Color.a = c.a;
+	  
+  }else{ //no light
+	  varying_Color = c;
+  }
+
   
-  
-  //varying_Color = color;
       
   // texture
   coordTexture = attribute_Texture;
