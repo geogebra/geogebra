@@ -1,11 +1,13 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
@@ -671,6 +673,16 @@ public class RendererGL2 extends RendererD {
 	public void setLabelOrigin(Coords origin){
     	// only used in shaders
     }
+
+    
+    @Override
+	public void setHits(GPoint mouseLoc){
+
+    	// sets the flag and mouse location for openGL picking
+    	setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);
+    	
+    }
+
 
 
 }

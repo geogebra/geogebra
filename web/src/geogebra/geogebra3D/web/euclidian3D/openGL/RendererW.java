@@ -2,7 +2,9 @@ package geogebra.geogebra3D.web.euclidian3D.openGL;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
@@ -74,6 +76,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	 */
     public RendererW(EuclidianView3DW view) {
     	super(view);
+ 
+    	hitting = new Hitting(view3D);
 
     	webGLCanvas = Canvas.createIfSupported();
 
@@ -1415,4 +1419,19 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	public void setLabelOrigin(Coords origin){
 		glContext.uniform3fv(labelOriginLocation, origin.get3ForGL());
     }
+	
+	
+
+	private Hitting hitting;
+
+	@Override
+	public void setHits(GPoint mouseLoc){
+
+		if (mouseLoc == null){
+			return;
+		}
+
+		hitting.setHits(mouseLoc);
+
+	}
 }

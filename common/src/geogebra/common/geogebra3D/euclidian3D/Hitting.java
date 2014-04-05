@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.euclidian3D;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -18,12 +19,15 @@ public class Hitting {
 	 *  direction of the ray
 	 */
 	public Coords direction;
+	
+	private EuclidianView3D view;
 
 	/**
 	 * constructor
+	 * @param view 3D view
 	 */
-	public Hitting(){
-		// nothing to do for now
+	public Hitting(EuclidianView3D view){
+		this.view = view;
 	}
 	
 	/**
@@ -34,5 +38,26 @@ public class Hitting {
 	public void set(Coords origin, Coords direction){
 		this.origin = origin;
 		this.direction = direction;
+	}
+	
+	/**
+	 * set the hits
+	 * @param mouseLoc mouse location
+	 */
+	public void setHits(GPoint mouseLoc){
+		
+		Hits3D hits = view.getHits3D();
+		hits.init();
+
+		origin = view.getPickPoint(mouseLoc); 
+		view.toSceneCoords3D(origin); 
+		direction = view.getViewDirection();
+
+		for (int i = 0; i < 3; i++) {
+			view.getAxisDrawable(i).hitIfVisibleAndPickable(this, hits); 
+		}
+		view.getDrawList3D().hit(this, hits);
+
+		hits.sort();
 	}
 }

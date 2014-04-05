@@ -99,7 +99,7 @@ public abstract class Renderer {
 
 		// link to 3D view
 		this.view3D = view;
-
+		
 		// textures
 		textures = new Textures(this, view3D.getApplication().getImageManager());
 
@@ -1017,6 +1017,15 @@ public abstract class Renderer {
 		// on next rending, a picking will be done : see doPick()
 		waitForPick = true;
 	}
+	
+	
+
+	
+	/**
+	 * set hits for mouse location
+	 * @param mouseLoc mouse location
+	 */
+	abstract public void setHits(GPoint mouseLoc);
 
 	/*
 	 * private boolean intersectionCurvesWaitForPick = false;

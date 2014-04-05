@@ -1816,34 +1816,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param p
 	 *            point location
 	 */
-
 	public void setHits3D(GPoint p) {
-
-		// sets the flag and mouse location for openGL picking
-		renderer.setMouseLoc(p, Renderer.PICKING_MODE_LABELS);
-
+		renderer.setHits(p);
 	}
 
-	/*
-	 * public void setHits3D(GPoint mouseLoc){ if (mouseLoc == null) return;
-	 * 
-	 * if (hitting == null){ hitting = new Hitting(); }
-	 * 
-	 * hits.init();
-	 * 
-	 * Coords o = getPickPoint(mouseLoc); toSceneCoords3D(o); hitting.set(o,
-	 * getViewDirection());
-	 * 
-	 * for (int i = 0; i < 3; i++) {
-	 * axisDrawable[i].hitIfVisibleAndPickable(hitting, hits); }
-	 * drawable3DLists.hit(hitting, hits);
-	 * 
-	 * hits.sort();
-	 * 
-	 * }
-	 * 
-	 * private Hitting hitting;
-	 */
+	
+	public DrawAxis3D getAxisDrawable(int i){
+		return axisDrawable[i];
+	}
+
 
 	/**
 	 * init the hits for this view
