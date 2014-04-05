@@ -569,7 +569,13 @@ public abstract class Renderer {
 		enableLighting();
 		disableAlphaTest();
 		enableCulling();
+		if (enableClipPlanes){
+			disableClipPlanes();
+		}
 		view3D.drawCursor(this);
+		if (enableClipPlanes){
+			enableClipPlanes();
+		}
 
 
 		// drawing hidden part
