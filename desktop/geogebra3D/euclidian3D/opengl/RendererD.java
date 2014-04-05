@@ -521,17 +521,6 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
 	}
 
-	@Override
-	public void enableLighting(){
-		getGL().glEnable(GLlocal.GL_LIGHTING);
-	}
-
-
-	@Override
-	public void disableLighting(){
-		getGL().glDisable(GLlocal.GL_LIGHTING);
-	}
-
 	
 	
 

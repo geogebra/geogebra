@@ -97,7 +97,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     
     // location values for shader fields
     private int modelviewLocation, projectionLocation; // matrices
-    private int lightPositionLocation, ambiantDiffuseLocation; // light
+    private int lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private int viewDirectionLocation; //view direction
     private int textureTypeLocation; // textures
     private int colorLocation; // color
@@ -254,6 +254,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         lightPositionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "ambiantDiffuse");
         viewDirectionLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "viewDirection");
+        enableLightLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableLight");
        
         //texture
         textureTypeLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
@@ -1506,5 +1507,19 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 		hitting.setHits(mouseLoc);
 
 	}
+	
+	
+
+	@Override
+	public void enableLighting(){
+		jogl.getGL2ES2().glUniform1i(enableLightLocation, 1);
+	}
+
+
+	@Override
+	public void disableLighting(){
+		jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
+	}
+
 
 }

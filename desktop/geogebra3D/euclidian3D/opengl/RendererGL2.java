@@ -684,5 +684,16 @@ public class RendererGL2 extends RendererD {
     }
 
 
+	@Override
+	public void enableLighting(){
+		getGL().glEnable(GLlocal.GL_LIGHTING);
+	}
+
+
+	@Override
+	public void disableLighting(){
+		getGL().glDisable(GLlocal.GL_LIGHTING);
+	}
+
 
 }
