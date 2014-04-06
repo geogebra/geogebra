@@ -34,7 +34,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private ArrayList<CellRange> selectedCells;
 
 	private MyToggleButton btnFormulaBar;
-	private MyToggleButton btnLeftAlign, btnCenterAlign, btnRightAlign, btnTraceDialog;
+	private MyToggleButton btnLeftAlign, btnCenterAlign, btnRightAlign;
 	private ColorPopupMenuButton btnBgColor;
 	private MyToggleButton btnBold, btnItalic;
 	private boolean allowActionPerformed = true;
@@ -78,9 +78,6 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 		this.addSeparator();
 		add(btnBorderStyle);
-
-		this.addSeparator();
-		add(btnTraceDialog);
 
 		setLabels();
 		updateStyleBar();
@@ -153,16 +150,6 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnBorderStyle.setKeepVisible(false);
 		btnBorderStyle.setSelectedIndex(1);
 		btnBorderStyle.addActionListener(this);
-		
-		
-		btnTraceDialog = new MyToggleButton(
-				app.getImageIcon("spreadsheettrace_button.gif"), iconHeight){
-			@Override
-			protected void toggle() {
-				// no toggle for this button
-			}
-		};
-		btnTraceDialog.addActionListener(this);
 
 	}
 
@@ -188,8 +175,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic.setIcon(italicIcon);
-		
-		btnTraceDialog.setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet"));
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -242,8 +228,8 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 					.getSelectedColor());
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR,
 
-				// could simply be btnBgColor.getSelectedColor(), not sure...
-				bgCol == null ? null : new geogebra.awt.GColorD(bgCol)
+			// could simply be btnBgColor.getSelectedColor(), not sure...
+					bgCol == null ? null : new geogebra.awt.GColorD(bgCol)
 
 			);
 
@@ -281,12 +267,6 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				view.getSpreadsheetTable().setSelection(0, 0);
 			view.updateFormulaBar();
 		}
-		
-		else if (source == btnTraceDialog) {
-			view.showTraceDialog(null, table.selectedCellRanges.get(0));
-		}
-		
-		
 
 		this.requestFocus();
 		app.storeUndoInfo();
@@ -330,8 +310,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 		btnFormulaBar.setSelected(view.getShowFormulaBar());
 		allowActionPerformed = true;
-		
-		btnTraceDialog.setVisible(app.hasGeoTraced());
+
 	}
 
 	/*

@@ -24,6 +24,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
@@ -36,6 +38,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -74,7 +77,9 @@ public class SpreadsheetView extends JPanel implements
 
 	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	private TraceDialog traceDialog;
-
+	// button to launch trace dialog from upper left corner
+	private JButton btnTraceDialog;
+	
 	// fields for split panel, fileBrowser and stylebar
 	private JScrollPane spreadsheet;
 	private FileBrowserPanel fileBrowser;
@@ -172,17 +177,8 @@ public class SpreadsheetView extends JPanel implements
 		tableHeader = table.getTableHeader();
 
 		// Create and set the scrollpane corners
-		Corner upperLeftCorner = new Corner(); // use FlowLayout
-		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-				MyTableD.HEADER_GRID_COLOR));
-		upperLeftCorner.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				table.selectAll();
-			}
-		});
 		spreadsheet.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER,
-				upperLeftCorner);
+				newUpperLeftCorner());
 		spreadsheet.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER,
 				new Corner());
 		spreadsheet.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER,
@@ -205,6 +201,42 @@ public class SpreadsheetView extends JPanel implements
 			g.setColor(MyTableD.BACKGROUND_COLOR_HEADER);
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
+	}
+	
+	private Corner newUpperLeftCorner() {
+
+		Corner upperLeftCorner = new Corner(); // use FlowLayout
+
+		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
+				MyTableD.HEADER_GRID_COLOR));
+		upperLeftCorner.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				table.selectAll();
+			}
+		});
+
+		// add trace dialog button
+		btnTraceDialog = new JButton(
+				app.getImageIcon("spreadsheettrace_button.gif")) {
+		};
+		btnTraceDialog.setBorderPainted(false);
+		;
+		// invisible button unless a trace is set
+		btnTraceDialog.setVisible(false);
+		btnTraceDialog.setToolTipText(app.getLocalization().getMenuTooltip(
+				"TraceToSpreadsheet"));
+		btnTraceDialog.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				showTraceDialog(null, table.selectedCellRanges.get(0));
+			}
+		});
+
+		upperLeftCorner.setLayout(new BorderLayout());
+		upperLeftCorner.add(btnTraceDialog, BorderLayout.WEST);
+
+		return upperLeftCorner;
 	}
 
 	// ===============================================================
@@ -339,7 +371,7 @@ public class SpreadsheetView extends JPanel implements
 	}
 
 	public void repaintView() {
-		styleBar.updateStyleBar();
+		btnTraceDialog.setVisible(app.hasGeoTraced());
 		repaint();
 	}
 
@@ -672,6 +704,7 @@ public class SpreadsheetView extends JPanel implements
 		if (formulaBar != null) {
 			formulaBar.setLabels();
 		}
+		btnTraceDialog.setToolTipText(app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
 	}
 
 	public void updateFonts() {
