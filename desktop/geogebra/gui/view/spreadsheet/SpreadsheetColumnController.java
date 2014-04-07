@@ -12,6 +12,7 @@ import geogebra.main.LocalizationD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -442,12 +443,16 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			btnTrace = new JButton();
 			btnTrace.setBorderPainted(false);
+			btnTrace.setPreferredSize(new Dimension(18,18));
 
 			setOpaque(true);
 			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-					MyTableD.HEADER_GRID_COLOR));
-
+			
+			setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createMatteBorder(0, 0, 1, 1,
+							MyTableD.HEADER_GRID_COLOR), BorderFactory
+							.createEmptyBorder(0, 5, 0, 0)));
+			
 			layout = (BorderLayout) this.getLayout();
 		}
 
