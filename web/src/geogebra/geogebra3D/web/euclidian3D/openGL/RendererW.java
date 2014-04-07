@@ -282,6 +282,18 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	}
 
 	@Override
+    protected void drawScene(){
+		
+		super.drawScene();
+		 
+		// clear alpha channel to 1.0 to avoid transparency to html background
+		setColorMask(false, false, false, true);
+		clearColorBuffer();
+		setColorMask(true, true, true, true);
+
+	}
+	
+	@Override
 	protected void draw(){
 		
 		resetOneNormalForAllVertices();
@@ -1212,6 +1224,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
     protected void setBlendFunc() {
 		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA); 
+		//glContext.blendFunc(WebGLRenderingContext.ONE, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA); 
+		
 		//glContext.blendFunc(WebGLRenderingContext.ONE, WebGLRenderingContext.ZERO); 
 		/*
 		glContext.blendEquationSeparate(WebGLRenderingContext.FUNC_ADD, WebGLRenderingContext.FUNC_ADD);
@@ -1220,8 +1234,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 				WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
 				*/
     }
-
-
 
 
 
