@@ -360,6 +360,22 @@ public interface Traversing {
 					v.setName(newName);
 					
 				}
+			} else if (ev instanceof GeoElement) {
+				
+				GeoElement geo = (GeoElement) ev;
+				
+				String name = geo.getLabelSimple();
+				
+				if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
+					
+					String newName = RelativeCopy.updateCellNameWithOffset(name, dx, dy);
+									
+					// make sure new cell is autocreated if it doesn't exist already
+					// and return it
+					return ev.getKernel().getConstruction().lookupLabel(newName, true);
+					
+				}
+				
 			}
 			
 			return ev;
