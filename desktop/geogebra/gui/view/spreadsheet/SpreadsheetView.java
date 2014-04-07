@@ -207,8 +207,11 @@ public class SpreadsheetView extends JPanel implements
 
 		Corner upperLeftCorner = new Corner(); // use FlowLayout
 
-		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-				MyTableD.HEADER_GRID_COLOR));
+		upperLeftCorner.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 1, 1,
+						MyTableD.HEADER_GRID_COLOR), BorderFactory
+						.createEmptyBorder(0, 5, 0, 0)));
+
 		upperLeftCorner.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -221,6 +224,7 @@ public class SpreadsheetView extends JPanel implements
 				app.getImageIcon("spreadsheettrace_button.gif")) {
 		};
 		btnTraceDialog.setBorderPainted(false);
+		btnTraceDialog.setPreferredSize(new Dimension(18,18));
 		;
 		// invisible button unless a trace is set
 		btnTraceDialog.setVisible(false);
