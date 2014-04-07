@@ -263,7 +263,7 @@ public class PropertiesViewD extends
 
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
 
-		if (stayInCurrentPanel())
+		if (stayInCurrentPanelWithObjects())
 			return;
 
 		int focusedViewId = ((LayoutD) app.getGuiManager().getLayout())
@@ -819,8 +819,12 @@ public class PropertiesViewD extends
 
 		return selectedOptionType == OptionType.DEFAULTS
 				|| selectedOptionType == OptionType.ADVANCED
-				|| selectedOptionType == OptionType.LAYOUT
-				|| selectedOptionType == OptionType.OBJECTS;
+				|| selectedOptionType == OptionType.LAYOUT;
+	}
+
+	private boolean stayInCurrentPanelWithObjects() {
+
+		return stayInCurrentPanel() || selectedOptionType == OptionType.OBJECTS;
 	}
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
