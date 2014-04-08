@@ -1200,4 +1200,35 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		// probably won't work
 		return new GDimensionW(getOffsetWidth(), getOffsetHeight());
 	}
+	
+	
+	private int embeddedDimWidth, embeddedDimHeight;
+	
+	/**
+	 * embedded dimensions (calculated when perspective is set)
+	 * @param w width
+	 * @param h height
+	 */
+	public void setEmbeddedDim(int w, int h){
+		embeddedDimWidth = w;
+		embeddedDimHeight = h;
+	}
+	
+	/**
+	 * 
+	 * @return embedded width
+	 */
+	public int getEmbeddedDimWidth(){
+		return embeddedDimWidth;
+	}
+	
+	/**
+	 * 
+	 * @return embedded height
+	 */
+	public int getEmbeddedDimHeight(){
+		return embeddedDimHeight;
+	}
+
+	
 }

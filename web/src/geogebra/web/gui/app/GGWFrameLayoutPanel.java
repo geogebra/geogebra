@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.RequiresResize;
 public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	public static final int COMMAND_LINE_HEIGHT = 43;
-	public static final int MENUBAR_HEIGHT = 35;
+	public static final int MENUBAR_HEIGHT = 0;//35;
 	public static final int MENUBAR_WIDTH_MAX = 204;
 	private int MENUBAR_WIDTH = 0;
 	private boolean menuClosed = true;
