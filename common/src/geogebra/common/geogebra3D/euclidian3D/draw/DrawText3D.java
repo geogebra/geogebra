@@ -20,7 +20,7 @@ public class DrawText3D extends Drawable3DCurves {
 	
 	@Override
 	protected DrawLabel3D newDrawLabel3D(EuclidianView3D view3D){
-		return new DrawLabel3DForText(view3D);
+		return new DrawLabel3DForText(view3D, this);
 	}
 	
 

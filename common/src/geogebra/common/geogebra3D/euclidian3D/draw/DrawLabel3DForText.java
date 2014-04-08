@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
@@ -16,8 +17,8 @@ import geogebra.common.kernel.geos.GeoText;
  */
 public class DrawLabel3DForText extends DrawLabel3D {
 
-	public DrawLabel3DForText(EuclidianView3D view) {
-		super(view);
+	public DrawLabel3DForText(EuclidianView3D view, Drawable3D drawable) {
+		super(view, drawable);
 	}
 	
 	@Override
@@ -33,13 +34,18 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected void draw(GGraphics2D g2d){
+	final protected GBufferedImage draw(){
+		GBufferedImage bimg = createBufferedImage();
+		GGraphics2D g2d = createGraphics2D(bimg);
+
 		if (geo.isLaTeX()){
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, font, 
 					GColor.BLACK, GColor.WHITE, text, 0, 0, false);
 		}else{
 			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0, g2d, false, g2d.getFont());
 		}
+		
+		return bimg;
 	}
 	
 

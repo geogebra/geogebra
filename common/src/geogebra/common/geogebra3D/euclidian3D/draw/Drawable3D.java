@@ -229,7 +229,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	protected DrawLabel3D newDrawLabel3D(EuclidianView3D view3D){
-		return new DrawLabel3D(view3D);
+		return new DrawLabel3D(view3D, this);
 	}
 	
 	

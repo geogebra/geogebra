@@ -11,6 +11,9 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 
 
 
@@ -59,13 +62,17 @@ public class DrawLabel3D {
     protected GGraphics2D tempGraphics = geogebra.common.factories.AwtFactory.prototype.newBufferedImage(1, 1, GBufferedImage.TYPE_INT_ARGB).createGraphics();
 	
     
+    private Drawable3D drawable;
+    
 	
 	/**
 	 * common constructor
-	 * @param view
+	 * @param view 3D view
+	 * @param drawable drawable linked to this label
 	 */
-	public DrawLabel3D(EuclidianView3D view){
+	public DrawLabel3D(EuclidianView3D view, Drawable3D drawable){
 		this.view = view;
+		this.drawable = drawable;
 	}
 	
 	/**
@@ -140,32 +147,12 @@ public class DrawLabel3D {
 			xOffset2=xMin;
 			yOffset2=-yMax;
 
-			//creates a 2D image
-			GBufferedImage bimg = geogebra.common.factories.AwtFactory.prototype.newBufferedImage(width, height, GBufferedImage.TYPE_INT_ARGB);
-			GGraphics2D g2d = bimg.createGraphics();
-
-			GAffineTransform gt = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
-			gt.scale(1, -1d);
-			gt.translate(-xMin, -yMax); //put the baseline on the label anchor
-			g2d.transform(gt);
-
-			g2d.setColor(GColor.BLACK);
-			g2d.setFont(font);
-			g2d.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
-
-			draw(g2d);		
+			// creates the buffered image
+			GBufferedImage bimg = draw();		
 
 			//creates the texture
 			view.getRenderer().createAlphaTexture(this, bimg);
-			/*
-			int[] intData = bimg.getData();
-			buffer = ARGBtoAlpha(intData);
 			
-			//g2d.dispose();
-
-			// update the texture
-			updateTexture();
-			*/
 			
 			waitForReset = false;
 			//Application.debug("textureIndex = "+textureIndex);
@@ -175,6 +162,34 @@ public class DrawLabel3D {
 		this.yOffset = yOffset;// + yOffset2;
 
 
+	}
+	
+	
+	/**
+	 * create graphics2D instance from buffered image
+	 * @param bimg buffered image
+	 * @return graphics2D
+	 */
+	protected GGraphics2D createGraphics2D(GBufferedImage bimg){
+		GGraphics2D g2d = bimg.createGraphics();
+
+		GAffineTransform gt = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
+		gt.scale(1, -1d);
+		gt.translate(-xOffset2, yOffset2); //put the baseline on the label anchor
+		g2d.transform(gt);
+
+		g2d.setColor(GColor.BLACK);
+		g2d.setFont(font);
+		g2d.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
+		
+		return g2d;
+	}
+	
+	/**
+	 * @return buffered image
+	 */
+	protected GBufferedImage createBufferedImage(){
+		return geogebra.common.factories.AwtFactory.prototype.newBufferedImage(width, height, GBufferedImage.TYPE_INT_ARGB);
 	}
 	
 	protected boolean hasIndex = false;
@@ -199,11 +214,54 @@ public class DrawLabel3D {
 	
 	
 	
-	protected void draw(GGraphics2D g2d){
-		if (hasIndex)
+	/**
+	 * @return buffered image with label drawn in it
+	 */
+	protected GBufferedImage draw(){
+		
+		GBufferedImage bimg;
+		GGraphics2D g2d;
+		
+		if ((text.charAt(0)=='$') && text.endsWith("$") && text.length() > 1) {
+			boolean serif = true; // nice "x"s
+			GeoElement geo = drawable.getGeoElement();
+			if (geo.isGeoText())
+				serif = ((GeoText) geo).isSerifFont();
+			int offsetY =  10  +  view.getFontSize(); // make sure LaTeX labels don't go
+												// off bottom of screen
+			
+			height += offsetY;
+			bimg = createBufferedImage();
+			g2d = createGraphics2D(bimg);
+
+
+			App app = view.getApplication();
+			//GDimension dim = 
+			app.getDrawEquation().drawEquation(
+					geo.getKernel().getApplication(), geo, g2d, 0, - offsetY, 
+					text.substring(1, text.length() - 1), 
+					g2d.getFont(), serif, g2d.getColor(), g2d.getBackground(), 
+					true, false);
+			//App.debug(height+","+dim.getHeight());
+			/*
+			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
+					dim.getHeight());
+					*/
+			return bimg;
+		}
+		
+		
+		bimg = createBufferedImage();
+		g2d = createGraphics2D(bimg);
+
+		
+		if (hasIndex){
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text, 0, 0, false, false);
-		else
+		}else{
 			g2d.drawString(text, 0, 0);	
+		}
+		
+		return bimg;
 	}
 	
 	/**
