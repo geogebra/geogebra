@@ -2107,7 +2107,7 @@ __GGB__keysVar.pt_PT.plain = {
     "BarA": "Barra %0",
     "Bold": "Negrito",
     "Boolean": "Booleano",
-    "BoxSize": "Recorte do Tamanho da caixa",
+    "BoxSize": "Recorte do tamanho da caixa",
     "BoxSize_large": "Grande",
     "BoxSize_medium": "M\xe9dio",
     "BoxSize_small": "Pequeno",
