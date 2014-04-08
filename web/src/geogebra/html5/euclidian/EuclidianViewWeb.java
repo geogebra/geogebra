@@ -363,7 +363,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		updateBackgroundImage();
 	}
 	
-	private void createImage() {
+	public void createImage() {
 		bgImage = new geogebra.html5.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 	}

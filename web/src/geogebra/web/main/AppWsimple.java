@@ -100,7 +100,7 @@ public class AppWsimple extends AppW {
 		kernel.initUndoInfo();
 
 		getEuclidianView1().synCanvasSize();
-
+		getEuclidianView1().createImage();
 		getAppletFrame().resetAutoSize();
 
 		getEuclidianView1().doRepaint2();
