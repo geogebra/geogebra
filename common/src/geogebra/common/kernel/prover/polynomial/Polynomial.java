@@ -832,7 +832,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		else
 			ret.append(dummyVar);
 		
-		ret.append("),dp;");
+		ret.append("),rp;");
 		
 		ret.append("ideal ");
 		ret.append(idealVariable);
