@@ -834,4 +834,9 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] AngularBisector3D(String[] labels, GeoLineND g, GeoLineND h);
 
+	/**
+	 * Angular bisectors of points A, B, C
+	 */
+	public GeoElement AngularBisector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C);
+
 }

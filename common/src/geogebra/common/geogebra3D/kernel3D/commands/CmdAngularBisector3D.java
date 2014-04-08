@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CmdAngularBisector;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class CmdAngularBisector3D extends CmdAngularBisector {
 	
@@ -26,5 +27,15 @@ public class CmdAngularBisector3D extends CmdAngularBisector {
 		return super.angularBisector(labels, g, h);
 	}
 	
+	
+	@Override
+	protected GeoElement angularBisector(String label, GeoPointND A, GeoPointND B, GeoPointND C){
+
+		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()){
+			return kernelA.getManager3D().AngularBisector3D(label, A, B, C);
+		}
+
+		return super.angularBisector(label, A, B, C);
+	}
 	
 }

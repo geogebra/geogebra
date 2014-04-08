@@ -2765,12 +2765,11 @@ public abstract class EuclidianController {
 	
 		if (selPoints() == 3) {
 			// fetch the three selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPointND[] points = getSelectedPointsND();
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = getAlgoDispatcher().AngularBisector(null, points[0], points[1],
-					points[2]);
+			ret[0] = angularBisector(points[0], points[1], points[2]);
 			return ret;
 		} else if (selLines() == 2) {
 			// fetch the two lines
@@ -2785,6 +2784,11 @@ public abstract class EuclidianController {
 	protected GeoElement[] angularBisector(GeoLineND g, GeoLineND h){
 		return getAlgoDispatcher().AngularBisector(null, (GeoLine) g, (GeoLine) h);
 	}
+
+	protected GeoElement angularBisector(GeoPointND A, GeoPointND B, GeoPointND C){
+		return getAlgoDispatcher().AngularBisector(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
+	}
+
 
 	protected final GeoElement[] threePoints(Hits hits, int threePointsMode) {
 		

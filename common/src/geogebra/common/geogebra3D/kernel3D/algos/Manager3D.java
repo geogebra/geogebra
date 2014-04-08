@@ -1625,4 +1625,10 @@ public class Manager3D implements Manager3DInterface {
 		GeoLine3D[] lines = algo.getLines();
 		return lines;
 	}
+	
+	
+	final public GeoLine3D AngularBisector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C){
+		AlgoAngularBisectorPoints3D algo = new AlgoAngularBisectorPoints3D(cons, label, A, B, C);
+		return algo.getLine();
+	}
 }

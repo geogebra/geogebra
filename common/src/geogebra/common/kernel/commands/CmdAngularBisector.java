@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -52,9 +53,9 @@ public class CmdAngularBisector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().AngularBisector(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2]) };
+				GeoElement[] ret = { angularBisector(c.getLabel(),
+						(GeoPointND) arg[0], (GeoPointND) arg[1],
+						(GeoPointND) arg[2]) };
 				return ret;
 			}
 			if (!ok[0]) {
@@ -81,5 +82,19 @@ public class CmdAngularBisector extends CommandProcessor {
 	protected GeoElement[] angularBisector(String[] labels, GeoLineND g, GeoLineND h){
 
 		return getAlgoDispatcher().AngularBisector(labels, (GeoLine) g, (GeoLine) h);
+	}
+	
+	/**
+	 * @param label label
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @return angular bisector for three points
+	 */
+	protected GeoElement angularBisector(String label, GeoPointND A, GeoPointND B, GeoPointND C){
+
+		return getAlgoDispatcher().AngularBisector(label,
+				(GeoPoint) A, (GeoPoint) B,
+				(GeoPoint) C) ;
 	}
 }

@@ -43,19 +43,8 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 
     private GeoVector[] wv; // direction of bisector line bisector
     private GeoPoint3D B; // intersection point of g, h
-    /** Creates new AlgoAngularBisectorLines 
-     * @param cons 
-     * @param label 
-     * @param g 
-     * @param h */
-    AlgoAngularBisectorLines3D(
-        Construction cons,
-        String label,
-        GeoLineND g,
-        GeoLineND h) {
-        this(cons, g, h);
-        GeoElement.setLabels(label, bisector);
-    }
+
+
 
     public AlgoAngularBisectorLines3D(
         Construction cons,
