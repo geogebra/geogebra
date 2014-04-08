@@ -55,8 +55,6 @@ public interface CommandsConstants {
     /** CAS commands -- do not display this table by default */
     public static final int TABLE_CAS=18;
     
-    /** Scripting commands, 3D */
-    public static final int TABLE_SCRIPTING_3D = 19;
 
     
     /** Compatibility commands in case some English commands were renamed.
