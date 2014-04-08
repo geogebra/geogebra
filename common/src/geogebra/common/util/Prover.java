@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -226,7 +227,10 @@ public abstract class Prover {
 			cons.setSuppressLabelCreation(false);
 			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, P1, P2);
 			GeoLine line = ajp.getLine();
-			line.setEuclidianVisible(false);
+			line.setEuclidianVisible(true);
+			line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+			line.setLabelVisible(true);
+			line.updateVisualStyle();
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return line;
 		}
