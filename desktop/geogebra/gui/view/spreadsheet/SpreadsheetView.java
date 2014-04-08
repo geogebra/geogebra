@@ -225,7 +225,7 @@ public class SpreadsheetView extends JPanel implements
 		};
 		btnTraceDialog.setBorderPainted(false);
 		btnTraceDialog.setPreferredSize(new Dimension(18,18));
-		;
+		btnTraceDialog.setContentAreaFilled(false);
 		// invisible button unless a trace is set
 		btnTraceDialog.setVisible(false);
 		btnTraceDialog.setToolTipText(app.getLocalization().getMenuTooltip(

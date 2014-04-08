@@ -443,6 +443,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			btnTrace = new JButton();
 			btnTrace.setBorderPainted(false);
+			btnTrace.setContentAreaFilled(false);
 			btnTrace.setPreferredSize(new Dimension(18,18));
 
 			setOpaque(true);
