@@ -732,6 +732,14 @@ public class Hits extends ArrayList<GeoElement> {
 			getHits(Test.GEOPOINTND, false, topHitsList);
 			return topHitsList;
 		} 
+
+		// text in there?
+		if (containsGeoText(topHitsList)) {
+			getHits(Test.GEOTEXT, false, topHitsList);
+			return topHitsList;
+		} 
+				
+		
 		return clone();
 	}
 	
@@ -803,6 +811,24 @@ public class Hits extends ArrayList<GeoElement> {
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
 			if (geo.isGeoPoint()){
+				ret.add(geo);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * @param ret if the point is found, it is added into ret
+	 * @return true if contains GeoPointND
+	 */
+	final public boolean containsGeoText(Hits ret) {
+
+		GeoElement geo;
+		for (int i = 0; i < size(); i++) {
+			geo = get(i);
+			if (geo.isGeoText()){
 				ret.add(geo);
 				return true;
 			}
