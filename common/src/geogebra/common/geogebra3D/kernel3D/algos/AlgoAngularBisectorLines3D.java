@@ -41,13 +41,8 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	private GeoLineND g, h; // input    
     private GeoLine3D[] bisector; // output   
 
-    // temp
-    private double gx, gy, hx, hy, wx, wy, bx, by, lenH, lenG, length, ip;
     private GeoVector[] wv; // direction of bisector line bisector
     private GeoPoint3D B; // intersection point of g, h
-    private boolean infiniteB;
-    private int index;
-
     /** Creates new AlgoAngularBisectorLines 
      * @param cons 
      * @param label 
