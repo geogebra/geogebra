@@ -2364,11 +2364,38 @@ var HalfBracket = P(MathCommand, function(_, _super) {
   };
 
   _.redraw = function() {
-	var blockjQ = this.ch[L].jQ;
+	var block = this.ch[L].jQ;
+    var bh = block.outerHeight();
+    var fs = 0;
+    if (block.css('fontSize').length > 2) {
+      if (block.css('fontSize').substr(-2) == "px") {
+        fs = block.css('fontSize').slice(0,-2);
+      }
+    }
+    if ((fs > 0) && (bh > 0)) {
+      var height = bh/+fs;
+      scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 0.9 * height);
+      if (this.tries) {
+        delete this.tries;
+      }
+    } else if (fs > 0) {
+      if (this.tries) {
+        this.tries--;
+      } else {
+        this.tries = 20;
+      }
+      if (this.tries > 0) {
+        var thisfunction = this.redraw.bind(this);
 
-	var height = blockjQ.outerHeight()/+blockjQ.css('fontSize').slice(0,-2);
-
-	scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 0.9 * height);
+        // assume 60 FPS refresh rate; meaning refresh 
+        // in every 0.0166 seconds, or 16.6 milliseconds 
+        // 60 ms is probably good, almost in every third frame 
+        // this way "tries" is no more than 20 
+        setTimeout(thisfunction, 60); 
+      } else {
+        delete this.tries;
+      }
+    }
   };
 });
 
@@ -2411,11 +2438,38 @@ var Bracket = P(MathCommand, function(_, _super) {
     return this.ctrlSeq + this.ch[L].latex() + this.end;
   };
   _.redraw = function() {
-    var blockjQ = this.ch[L].jQ;
+	var block = this.ch[L].jQ;
+    var bh = block.outerHeight();
+    var fs = 0;
+    if (block.css('fontSize').length > 2) {
+      if (block.css('fontSize').substr(-2) == "px") {
+        fs = block.css('fontSize').slice(0,-2);
+      }
+    }
+    if ((fs > 0) && (bh > 0)) {
+      var height = bh/+fs;
+      scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 0.9 * height);
+      if (this.tries) {
+        delete this.tries;
+      }
+    } else if (fs > 0) {
+      if (this.tries) {
+        this.tries--;
+      } else {
+        this.tries = 20;
+      }
+      if (this.tries > 0) {
+        var thisfunction = this.redraw.bind(this);
 
-    var height = blockjQ.outerHeight()/+blockjQ.css('fontSize').slice(0,-2);
-
-    scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 0.9 * height);
+        // assume 60 FPS refresh rate; meaning refresh 
+        // in every 0.0166 seconds, or 16.6 milliseconds 
+        // 60 ms is probably good, almost in every third frame 
+        // this way "tries" is no more than 20 
+        setTimeout(thisfunction, 60); 
+      } else {
+        delete this.tries;
+      }
+    }
   };
 });
 
@@ -2615,12 +2669,39 @@ LatexCmds.binomial = P(MathCommand, function(_, _super) {
   ;
   _.textTemplate = ['choose(',',',')'];
   _.redraw = function() {
-    var blockjQ = this.jQ.eq(1);
+	var block = this.jQ.eq(1);
+    var bh = block.outerHeight();
+    var fs = 0;
+    if (block.css('fontSize').length > 2) {
+      if (block.css('fontSize').substr(-2) == "px") {
+        fs = block.css('fontSize').slice(0,-2);
+      }
+    }
+    if ((fs > 0) && (bh > 0)) {
+      var height = bh/+fs;
+      var parens = this.jQ.filter('.paren');
+      scale(parens, min(1 + .2*(height - 1), 1.2), 1.05*height);
+      if (this.tries) {
+        delete this.tries;
+      }
+    } else if (fs > 0) {
+      if (this.tries) {
+        this.tries--;
+      } else {
+        this.tries = 20;
+      }
+      if (this.tries > 0) {
+        var thisfunction = this.redraw.bind(this);
 
-    var height = blockjQ.outerHeight()/+blockjQ.css('fontSize').slice(0,-2);
-
-    var parens = this.jQ.filter('.paren');
-    scale(parens, min(1 + .2*(height - 1), 1.2), 1.05*height);
+        // assume 60 FPS refresh rate; meaning refresh 
+        // in every 0.0166 seconds, or 16.6 milliseconds 
+        // 60 ms is probably good, almost in every third frame 
+        // this way "tries" is no more than 20 
+        setTimeout(thisfunction, 60); 
+      } else {
+        delete this.tries;
+      }
+    }
   };
 });
 
