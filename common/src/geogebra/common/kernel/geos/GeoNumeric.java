@@ -1360,11 +1360,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean isPinnable() {
 		return isSlider();
 	}
-	
-	@Override
-	public ExpressionValue derivative(FunctionVariable fv) {
-		return new MyDouble(fv.getKernel(), 0);
-	}
 
 	@Override
 	public ExpressionValue integral(FunctionVariable fv) {

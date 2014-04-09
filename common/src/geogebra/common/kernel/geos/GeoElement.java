@@ -7050,9 +7050,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		
 	}	
-	
+	/**
+	 * Implementation for numbers, segments etc.
+	 */
 	public ExpressionValue derivative(FunctionVariable fv) {
-		return null;
+		return new MyDouble(fv.getKernel(), 0);
 	}
 	public ExpressionValue integral(FunctionVariable fv) {
 		return null;
