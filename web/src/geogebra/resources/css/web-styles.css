@@ -3700,3 +3700,9 @@ body.application.zoomedBody .gwt-SuggestBoxPopup {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
+
+.advanced-ListPopupPanel {
+	overflow: visible;
+	position: absolute;
+	background-color: white;
+}

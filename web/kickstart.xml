@@ -141,4 +141,13 @@ your workstation.
 	 <fileset dir="lib" includes="giac.js" />
 	</copy>
 	</target>
+	
+	<!-- download advanced gwt -->
+	<target name="advanved-gwt">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get src="http://dev.geogebra.org/download/lib/web/advanced-gwt-2.0.9.jar" dest="lib/advanced-gwt-2.0.9.jar"
+	    usetimestamp="true"/>
+	</target>
+	
 </project>

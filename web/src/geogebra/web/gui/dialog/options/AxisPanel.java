@@ -9,8 +9,8 @@ import geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.html5.event.FocusListener;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.ComboBoxW;
 import geogebra.html5.gui.util.LayoutUtil;
-import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.web.gui.util.NumberListBox;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -34,7 +34,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	cbPositiveAxis, cbDrawAtBorder;
 
 	protected NumberListBox ncbTickDist;
-	protected ListBox lbTickStyle, lbAxisLabel, lbUnitLabel;
+	protected ListBox lbTickStyle;
+	private ComboBoxW comboAxisLabel, comboUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
 
 	private Label crossAt;
@@ -117,60 +118,60 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 				model.applyTickDistance(isTickDistanceOn);
 				ncbTickDist.setEnabled(isTickDistanceOn);
 				if (isTickDistanceOn) {
-					model.applyTickDistance(ncbTickDist.getValue());
+					model.applyTickDistance(ncbTickDist.getDoubleValue());
 				}
 
 			}});
 
 
-		ncbTickDist = new NumberListBox(app);
+		ncbTickDist = new NumberListBox(app){
 
-		ncbTickDist.addChangeHandler(new ChangeHandler(){
+			@Override
+            protected void onValueChange(String value) {
+				model.applyTickDistance(ncbTickDist.getDoubleValue());
+           
+            }};
 
-			public void onChange(ChangeEvent event) {
-				model.applyTickDistance(ncbTickDist.getValue());
-
-            }});
 		FlowPanel distancePanel = new FlowPanel();
 		distancePanel.add(cbManualTicks);
 		distancePanel.add(ncbTickDist);
 
 		// axis and unit label
-		lbAxisLabel = new ListBox();
-		lbAxisLabel.addItem("");
-		lbAxisLabel.addItem(axis == 0 ? "x" : "y");
+		comboAxisLabel = new ComboBoxW(){
+
+			@Override
+            protected void onValueChange(String value) {
+				String text = comboAxisLabel.getValue().trim();
+				model.applyAxisLabel(text);
+            
+            }};
+            
+		comboAxisLabel.addItem("");
+		comboAxisLabel.addItem(axis == 0 ? "x" : "y");
 		String[] greeks = TableSymbols.greekLowerCase;
 		for (int i = 0; i < greeks.length; i++) {
-			lbAxisLabel.addItem(greeks[i]);
+			comboAxisLabel.addItem(greeks[i]);
 		}
-		lbAxisLabel.addChangeHandler(new ChangeHandler(){
-
-			public void onChange(ChangeEvent event) {
-				int idx = lbAxisLabel.getSelectedIndex();
-				String text = lbAxisLabel.getItemText(idx).toString().trim();
-				model.applyAxisLabel(text);
-
-			}});
+	
 
 		axisLabel = new Label(app.getPlain("AxisLabel") + ":");
 		axisUnitLabel = new Label(app.getPlain("AxisUnitLabel") + ":");
-		lbUnitLabel = new ListBox();
-		//	lbUnitLabel.setEditable(true);
-		lbUnitLabel.addChangeHandler(new ChangeHandler(){
+		comboUnitLabel = new ComboBoxW(){
 
-			public void onChange(ChangeEvent event) {
-				int idx = lbUnitLabel.getSelectedIndex();
-				String text = lbUnitLabel.getItemText(idx).toString().trim();
+			@Override
+            protected void onValueChange(String value) {
+				String text = comboUnitLabel.getValue().trim();
 				model.applyUnitLabel(text);
+          
+            }};
 
-			}});
-		model.fillUnitLabel();
+            model.fillUnitLabel();
 
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.add(axisLabel);
-		labelPanel.add(lbAxisLabel);
+		labelPanel.add(comboAxisLabel);
 		labelPanel.add(axisUnitLabel);
-		labelPanel.add(lbUnitLabel);
+		labelPanel.add(comboUnitLabel);
 
 		// cross at and stick to edge
 
@@ -233,15 +234,12 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		cbManualTicks
 		.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
-		ncbTickDist.setSelectedIndex(ListBoxApi.getIndexOf("" + view.getAxesNumberingDistances()[axis],
-				ncbTickDist));
+		ncbTickDist.setSelectedId(view.getAxesNumberingDistances()[axis]+"");
 		ncbTickDist.setEnabled(cbManualTicks.getValue());
 
 
-		lbAxisLabel.setSelectedIndex(ListBoxApi.getIndexOf(view.getAxesLabels(true)[axis],
-				lbAxisLabel));
-		lbUnitLabel.setSelectedIndex(ListBoxApi.getIndexOf(view.getAxesUnitLabels()[axis],
-				lbUnitLabel));
+		comboAxisLabel.setSelectedId(view.getAxesLabels(true)[axis]);
+		comboUnitLabel.setSelectedId(view.getAxesUnitLabels()[axis]);
 
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);
@@ -317,7 +315,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	}
 
 	public void addUnitLabelItem(String item) {
-		lbUnitLabel.addItem(item == null ? "": item);
+		comboUnitLabel.addItem(item == null ? "": item);
 	} 
 
 	public void setCrossText(String text) {

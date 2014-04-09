@@ -2757,3 +2757,9 @@ label {
 .ggbdockpanelhack > div {
 	overflow: visible !important;
 }
+
+.advanced-ListPopupPanel {
+	overflow: visible;
+	position: absolute;
+	background-color: white;
+}

@@ -667,22 +667,24 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					updateView();
 	        	}});
 			cbGridManualTick.setStyleName("checkBoxPanel");
-			ncbGridTickX = new NumberListBox(app);
-			ncbGridTickY = new NumberListBox(app);
-			ncbGridTickX.addChangeHandler(new ChangeHandler(){
+			ncbGridTickX = new NumberListBox(app){
 
-				public void onChange(ChangeEvent event) {
-					model.applyGridTicks(ncbGridTickX.getValue(), 0);
+				@Override
+                protected void onValueChange(String value) {
+					model.applyGridTicks(ncbGridTickX.getDoubleValue(), 0);
 					updateView();
-				}});
-			
-			ncbGridTickY.addChangeHandler(new ChangeHandler(){
+	                
+                }};
+	
+            ncbGridTickY = new NumberListBox(app){
 
-				public void onChange(ChangeEvent event) {
-					model.applyGridTicks(ncbGridTickY.getValue(), 1);
-					updateView();
-					}});
-
+				@Override
+                protected void onValueChange(String value) {
+					model.applyGridTicks(ncbGridTickY.getDoubleValue(), 1);
+					updateView();	                
+                }};
+                
+                
 			// checkbox for grid labels
 			lbGridTickAngle = new ListBox();
 		
@@ -847,8 +849,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				lbGridTickAngle.setVisible(false);
 				gridLabel3.setVisible(false);
 
-				ncbGridTickX.setValue(gridTicks[0]);
-				ncbGridTickY.setValue(gridTicks[1]);
+				ncbGridTickX.setDoubleValue(gridTicks[0]);
+				ncbGridTickY.setDoubleValue(gridTicks[1]);
 				gridLabel1.setText("x:");
 
 			} else {
@@ -857,7 +859,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				lbGridTickAngle.setVisible(true);
 				gridLabel3.setVisible(true);
 
-				ncbGridTickX.setValue(gridTicks[0]);
+				ncbGridTickX.setDoubleValue(gridTicks[0]);
 				int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
 				if (val == 5)
 					val = 4; // handle Pi/2 problem

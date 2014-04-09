@@ -1,29 +1,32 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.ComboBoxW;
 
-import com.google.gwt.user.client.ui.ListBox;
+import org.gwt.advanced.client.datamodel.ListDataModel;
 
-public class NumberListBox extends ListBox {
+public abstract class NumberListBox extends ComboBoxW {
 	private static final String PI_STRING = "\u03c0";
 	private App app;
+	private ListDataModel model;
 	public NumberListBox(App app) {		
 		this.app = app;
-		addItem("1"); //pi
-		addItem(PI_STRING); //pi
-		addItem(PI_STRING + "/2"); //pi/2
+		model = getModel();
+		model.add("1", "1"); //pi
+		model.add(PI_STRING, PI_STRING); //pi
+		model.add(PI_STRING + "/2", PI_STRING + "/2"); //pi/2
 	}
 
-	public double getValue() {
-		final String text = getItemText(getSelectedIndex()).toString().trim();
+	public double getDoubleValue() {
+		final String text = getValue().trim();
 		if (text.equals("")) return Double.NaN;
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);			
 	}
 	
-	public void setValue(Double value) {
+	public void setDoubleValue(Double value) {
 		String valStr = value.toString();
 		for (int idx = 0; idx < getItemCount(); idx++) {
-			if (getItemText(idx).equals(valStr)) {
+			if (getModel().get(idx).equals(valStr)) {
 				setSelectedIndex(idx);
 				break;
 			}
