@@ -20,7 +20,7 @@ your workstation.
 
 <project default="geogebraweb-developer">
 
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer"
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer, advanced-gwt"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
@@ -29,7 +29,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl, advanced-gwt"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -143,7 +143,7 @@ your workstation.
 	</target>
 	
 	<!-- download advanced gwt -->
-	<target name="advanved-gwt">
+	<target name="advanced-gwt">
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get src="http://dev.geogebra.org/download/lib/web/advanced-gwt-2.0.9.jar" dest="lib/advanced-gwt-2.0.9.jar"
