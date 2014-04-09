@@ -262,8 +262,12 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	protected void updateForView(){
 		if (getView3D().viewChanged()){
 			
-			if (!getView3D().viewChangedByTranslate() && !getView3D().viewChangedByZoom()){	//only rotation			
+			if (!getView3D().viewChangedByTranslate() && !getView3D().viewChangedByZoom()){	//only rotation		
+				boolean oldViewDirectionIsParallel = viewDirectionIsParallel;
 				checkViewDirectionIsParallel(); //done in setWaitForUpdate() too
+				if (oldViewDirectionIsParallel != viewDirectionIsParallel){ // maybe have to update the outline
+					setWaitForUpdate();
+				}
 				return;
 			}
 			
