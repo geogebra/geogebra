@@ -2,7 +2,6 @@ package geogebra.html5.js;
 
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResources;
-import geogebra.html5.util.View;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
@@ -31,12 +30,8 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillggbJs());
-		if("standard".equals(View.checkLAF())){
-			StyleInjector.inject(GuiResources.INSTANCE.style().getText());
-		}
-		if("modern".equals(View.checkLAF()) || "smart".equals(View.checkLAF())){
-			StyleInjector.inject(GuiResources.INSTANCE.modernStyle().getText());
-		}
+		StyleInjector.inject(GuiResources.INSTANCE.modernStyle().getText());
+		
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs());

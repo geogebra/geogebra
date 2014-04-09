@@ -54,6 +54,7 @@ public class GGWToolBar extends Composite {
 		toolBarPanel.addStyleName("ggbtoolbarpanel");
 		//this makes it draggable on SMART board
 		toolBarPanel.addStyleName("smart-nb-draggable");
+		toolBarPanel.setHeight("63px");
 		initWidget(toolBarPanel);
 	}
 
